@@ -1,0 +1,40 @@
+Back In Time
+
+Copyright (C) 2008 Oprea Dan <dan@le-web.org>
+
+1. About
+
+	Back In Time is a simple backup tool for GNOME Desktop, inspired from "flyback project".
+	You only need to specify 3 things:
+		- where to save backups
+		- what to backup
+		- backup frequency (manual, every hour, every day, every month)
+
+1.1. Translations
+
+	- French (fr)
+
+2. INSTALL
+
+2.1. Debian/Ubuntu
+
+	Main application:
+
+		./makedeb.sh
+		sudo dpkg -i backintime-<version>.deb
+
+	Translations:
+
+		sudo dpkg -i backintime-<language>-<version>.deb
+
+2.2. Other
+
+	Main application:
+
+		sudo ./install.sh
+
+	Translations:
+
+		./translate.sh
+		sudo ./install_locale.sh <language>
+
