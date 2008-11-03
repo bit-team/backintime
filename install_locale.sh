@@ -9,5 +9,5 @@ if [ -z $APPLANG ]; then
 fi
 
 install -d $BASEPATH/usr/share/locale/$APPLANG/LC_MESSAGES
-install --mode=644 locale/fr/LC_MESSAGES/*.mo $BASEPATH/usr/share/locale/$APPLANG/LC_MESSAGES
+install --mode=644 locale/$APPLANG/LC_MESSAGES/*.mo $BASEPATH/usr/share/locale/$APPLANG/LC_MESSAGES
 

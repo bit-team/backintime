@@ -33,10 +33,12 @@ import gtk.glade
 import gnomevfs
 import datetime
 import gettext
+import time
 
 import config
 import backup
 import settingsdialog
+from gtkapplicationinstance import *
 
 
 _=gettext.gettext
@@ -51,6 +53,7 @@ class AboutDialog:
 		self.dialog.set_copyright( 'Copyright (C) 2008 Oprea Dan' )
 		self.dialog.set_website( 'http://www.le-web.org/back-in-time/' )
 		self.dialog.set_license( config.licenseText() );
+		self.dialog.set_translator_credits( config.translationCredits() )
 
 		signals = { 
 				'on_AboutDialog_response' : self.close,
@@ -121,9 +124,10 @@ class IconNames:
 
 
 class MainWindow:
-	def __init__( self ):
-		self.backup = backup.Backup()
-		self.config = self.backup.config
+	def __init__( self, config, appInstance ):
+		self.config = config
+		self.appInstance = appInstance
+		self.backup = backup.Backup( config )
 		self.specialBackgroundColor = 'lightblue'
 
 		self.glade = gtk.glade.XML( self.config.gladeFile(), None, 'backintime' )
@@ -252,12 +256,8 @@ class MainWindow:
 
 		self.window.show()
 
-		#set window handle in pid file
-		file = open( self.config.pidFile(), 'at' )
-		file.write( ";%s" % str(self.window.window.xid) )
-		file.close()
-
 		gobject.timeout_add( 100, self.onInit )
+		gobject.timeout_add( 1000, self.raiseApplication )
 
 	def onInit( self ):
 		if not self.config.isConfigured():
@@ -303,6 +303,16 @@ class MainWindow:
 	def placesSelectFunction( self, info, store ):
 		if len( store.get_value( store.get_iter( info[0] ), 1 ) ) == 0:
 			return False
+		return True
+
+	def raiseApplication( self ):
+		raise_cmd = self.appInstance.raiseCommand()
+		if raise_cmd is None:
+			return True
+
+		print "raise cmd: " + raise_cmd
+		self.window.present_with_time( int(time.time()) )
+		self.window.present()
 		return True
 
 	def updateBackupInfo( self, forceWaitLock = False ):
@@ -721,43 +731,15 @@ if __name__ == '__main__':
 			take_snapshot()
 			sys.exit(0)
 
-	pidFile = config.Config().pidFile()
-	if os.path.isfile( pidFile ):
-		pid = 0
-		xid = 0
+	raise_cmd = ''
+	if len( sys.argv ) > 1:
+		raise_cmd = ' '.join( sys.argv[ 1 : ] )
 
-		try:
-			file = open( pidFile, 'rt' )
-			fields = file.read().split(';')
-			file.close()
-			pid = int( fields[0] )
-			xid = int( fields[1] )
-		except:
-			pass
+	cfg = config.Config()
+	appInstance = GTKApplicationInstance( cfg.baseInstanceFile(), raise_cmd )
 
-		if 0 != pid:
-			processExists = False
-			try:
-				os.kill(pid,0)
-				processExists = True 
-			except:
-				pass
-
-			if processExists:
-				if 0 != xid:
-					try:
-						window = gtk.gdk.window_foreign_new( xid )
-						window.raise_()
-					except:
-						pass
-				exit(0)
-
-	file = open( pidFile, 'wt' )
-	file.write( str(os.getpid()) )
-	file.close()
-
-	mainWindow = MainWindow()
+	mainWindow = MainWindow( cfg, appInstance )
 	gtk.main()
 
-	os.system( "rm %s" % pidFile )
+	appInstance.exitApplication()
 

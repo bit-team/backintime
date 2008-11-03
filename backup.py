@@ -29,8 +29,10 @@ _=gettext.gettext
 
 
 class Backup:
-	def __init__( self ):
-		self.config = config.Config()
+	def __init__( self, cfg = None ):
+		self.config = cfg
+		if self.config is None:
+			self.config = config.Config()
 		self.lockFile = None
 
 	def execute( self, cmd, log = None ):

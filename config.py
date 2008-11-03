@@ -30,7 +30,7 @@ gettext.textdomain( 'backintime' )
 
 class Config:
 	APP_NAME = 'Back In Time'
-	VERSION = '0.7.2'
+	VERSION = '0.7.4'
 
 	NONE = 0
 	HOUR = 10
@@ -61,6 +61,7 @@ class Config:
 
 	def __init__( self ):
 		self._APP_PATH = os.path.abspath( os.path.dirname( __file__ ) )
+		self._DOC_PATH = '/usr/share/doc/backintime'
 
 		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 		self._CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
@@ -68,7 +69,6 @@ class Config:
 
 		self._CONFIG_PATH = os.path.join( self._CONFIG_FOLDER, 'config' )
 		self._LOCK_FILE_NAME = 'lock'
-		self._PID_FILE = os.path.join( self._CONFIG_FOLDER, 'pid' )
 
 		self._BASE_BACKUP_PATH = ''
 		self._INCLUDE_FOLDERS = ''
@@ -97,14 +97,14 @@ class Config:
 	def gladeFile( self ):
 		return os.path.join( self.appPath(), 'backintime.glade' )
 
-	def pidFile( self ):
-		return self._PID_FILE
+	def baseInstanceFile( self ):
+		return os.path.join( self._CONFIG_FOLDER, 'appinstance' )
 
 	def licenseFile( self ):
-		return os.path.join( self.appPath(), 'LICENSE' )
+		return os.path.join( self._DOC_PATH, 'LICENSE' )
 
 	def licenseText( self ):
-		license = ""
+		license = ''
 		try:
 			file = open( self.licenseFile() )
 			license = file.read()
@@ -112,6 +112,19 @@ class Config:
 		except:
 			license = "GPLv2"
 		return license
+
+	def translationCreditsFile( self ):
+		return os.path.join( self._DOC_PATH, 'TRANSLATIONS' )
+
+	def translationCredits( self ):
+		retVal = None
+		try:
+			file = open( self.translationCreditsFile() )
+			retVal = file.read()
+			file.close()
+		except:
+			pass
+		return retVal
 
 	def backupName( self, date ):
 		if type( date ) is datetime.datetime:
