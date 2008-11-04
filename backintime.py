@@ -340,7 +340,7 @@ class MainWindow:
 		print "raise cmd: " + raise_cmd
 		self.window.present_with_time( int(time.time()) )
 		self.window.window.focus()
-		self.window.present()
+		#self.window.present()
 
 		if self.aboutDialog.dialog.get_property( 'visible' ):
 			return True
