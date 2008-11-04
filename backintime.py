@@ -274,18 +274,45 @@ class MainWindow:
 		gobject.timeout_add( 1000, self.updateBackupInfo )
 		return False
 
+	def getDefaultStartUpFolderAndFile( self ):
+		if len(self.config.LAST_PATH) > 0 and os.path.isdir(self.config.LAST_PATH):
+			return ( self.config.LAST_PATH, None )
+		return ( '/', None )
+
+	def getCmdStartUpFolderAndFile( self, cmd ):
+		if cmd is None:
+			if len(sys.argv) <= 1:
+				return None
+			cmd = sys.argv[1]
+
+		cmd = os.path.expanduser( cmd )
+		cmd = os.path.abspath( cmd )
+
+		if len( cmd ) > 1:
+			if os.path.isdir( cmd ):
+				return (cmd, '')
+			if os.path.isfile( cmd ):
+				return ( os.path.dirname( cmd ), cmd )
+
+		return None
+
+	def getStartUpFolderAndFile( self, cmd = None ):
+		startUpFolder = self.getCmdStartUpFolderAndFile( cmd )
+		if startUpFolder is None:
+			return self.getDefaultStartUpFolderAndFile()
+		return startUpFolder
+
 	def updateAll( self, init ):
 		#fill lists
+		selectedFile = None
 		if init:
-			self.folderPath = '/'
-			if len(self.config.LAST_PATH) > 0 and os.path.isdir(self.config.LAST_PATH):
-				self.folderPath = self.config.LAST_PATH
+			self.folderPath, selectedFile = self.getStartUpFolderAndFile()
 		self.backupPath = '/'
 		self.lastBackupList = []
 
 		self.fillPlaces()
 		self.fillTimeLine()
-		self.updateFolderView( 1 )
+		self.updateFolderView( 1, selectedFile )
 
 	def placesPixRendererFunction( self, column, renderer, model, iter, user_data ):
 		if len( model.get_value( iter, 2 ) ) == 0:
@@ -312,7 +339,39 @@ class MainWindow:
 
 		print "raise cmd: " + raise_cmd
 		self.window.present_with_time( int(time.time()) )
+		self.window.window.focus()
 		self.window.present()
+
+		if self.aboutDialog.dialog.get_property( 'visible' ):
+			return True
+
+		if self.settingsDialog.dialog.get_property( 'visible' ):
+			return True
+
+		if len( self.storeTimeLine ) <= 0:
+			return True
+
+		if not self.config.isConfigured():
+			return True
+
+		if len( raise_cmd ) == 0:
+			return True
+
+		folderAndFile = self.getCmdStartUpFolderAndFile( raise_cmd )
+		if folderAndFile is None:
+			return True
+
+		print "abc"
+		folderPath, fileName = folderAndFile
+
+		#select now
+		self.backupPath = '/'
+		self.listTimeLine.get_selection().select_iter( self.storeTimeLine.get_iter_first() )
+
+		#select the specified file
+		self.folderPath = folderPath
+		self.updateFolderView( 1, fileName )
+
 		return True
 
 	def updateBackupInfo( self, forceWaitLock = False ):
@@ -514,7 +573,6 @@ class MainWindow:
 		print cmd
 		os.system( cmd )
 
-
 	def on_btnFodlerUp_clicked( self, button ):
 		if len( self.folderPath ) <= 1:
 			return
@@ -578,7 +636,7 @@ class MainWindow:
 
 		self.updateBackupInfo( True )
 
-	def updateFolderView( self, changedFrom ): #0 - places, 1 - folder view, 2 - timeline
+	def updateFolderView( self, changedFrom, selectedFile = None ): #0 - places, 1 - folder view, 2 - timeline
 		#update backup time
 		if 2 == changedFrom:
 			iter = self.listTimeLine.get_selection().get_selected()[1]
@@ -618,7 +676,6 @@ class MainWindow:
 			allFiles.sort()
 		except:
 			pass
-
 
 		files = []
 		folders = []
@@ -667,10 +724,11 @@ class MainWindow:
 				files.append( [ file, file_size, file_date, self.iconNames.getIcon(path) ] )
 
 		#try to keep old selected file
-		selectedFile = ""
-		iter = self.listFolderView.get_selection().get_selected()[1]
-		if not iter is None:
-			selectedFile = self.storeFolderView.get_value( iter, 1 )
+		if selectedFile is None:
+			selectedFile = ''
+			iter = self.listFolderView.get_selection().get_selected()[1]
+			if not iter is None:
+				selectedFile = self.storeFolderView.get_value( iter, 1 )
 
 		#populate the list
 		self.storeFolderView.clear()
