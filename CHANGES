@@ -1,5 +1,10 @@
 Back In Time
 
+Version 0.8
+* bug fix: when the application was started a second time it raise the first application's window but not always focused
+* the application can be started with a 'path' to a folder or file as command line parameter.
+* when the application start, if it is already runnig pass it's command line to the first instance (this allow a basic integration with file-managers - see README)
+
 Version 0.7.4
 * if there is already a GUI instance running raise it
 * add Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
