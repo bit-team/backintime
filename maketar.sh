@@ -8,4 +8,11 @@ echo $PKGNAME $PKGVER
 rm *.pyc
 rm -rf locale
 
-tar cfz $PKGNAME-${PKGVER}_src.tar.gz *
+cd ..
+mkdir $PKGNAME-$PKGVER
+cp -a backintime/* $PKGNAME-$PKGVER
+
+tar cfz $PKGNAME-${PKGVER}_src.tar.gz $PKGNAME-$PKGVER
+rm -rf $PKGNAME-$PKGVER
+cd backintime
+
