@@ -27,18 +27,24 @@ Copyright (C) 2008 Oprea Dan <dan@le-web.org>
 		./makedeb.sh
 		sudo dpkg -i backintime-<version>.deb
 
-	Translations:
-
-		sudo dpkg -i backintime-<language>-<version>.deb
-
 2.2. Other
-
-	Main application:
 
 		sudo ./install.sh
 
-	Translations:
+3. Integrate with filemanager
 
-		./translate.sh
-		sudo ./install_locale.sh <language>
+3.1. Nautilus
+
+	You can make a simple Nautilus integration using nautilus-actions.
+		* Run System => Preferences => Nautilus Actions Configuration.
+		* Add a new action
+			* Menu Item & Action tab:
+				* Label: Open with Back In Time
+				* Icon: gtk-save
+				* Path: backintime
+				* Parameters: %M
+			* Conditions Tab:
+				* Appears is selection contains: Both
+		* Press OK and you will see the new actions called "Open with Back In Time" when you 
+		  right-click an item
 
