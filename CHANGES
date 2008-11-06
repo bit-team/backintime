@@ -1,9 +1,14 @@
 Back In Time
 
 Version 0.8
-* bug fix: when the application was started a second time it raise the first application's window but not always focused
+* makedeb.sh: make a single package with all languages included
+* install.sh: install all languages
+* add English man
+* add English help (docbook)
+* add help button in main toolbar
 * the application can be started with a 'path' to a folder or file as command line parameter.
 * when the application start, if it is already runnig pass it's command line to the first instance (this allow a basic integration with file-managers - see README)
+* bug fix: when the application was started a second time it raise the first application's window but not always focused
 
 Version 0.7.4
 * if there is already a GUI instance running raise it
