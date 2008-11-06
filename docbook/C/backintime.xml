@@ -1,0 +1,413 @@
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+	"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+	<!ENTITY legal SYSTEM "legal.xml">
+	<!ENTITY appname "Back In Time">
+	<!ENTITY app "<application>&appname;</application>">
+	<!ENTITY appversion "0.8">
+	<!ENTITY manrevision "0.1">
+  <!ENTITY date "November 2008">
+]>
+<!--
+      (Do not remove this comment block.)
+  Maintained by the GNOME Documentation Project
+  http://live.gnome.org/DocumentationProject
+  Template version: 3.0 beta
+  Template last modified 2006-11-21
+
+-->
+<!-- =============Document Header ============================= -->
+<article id="index" lang="C">
+  <articleinfo> 
+    <title>&app; Manual</title>
+    <abstract role="description">
+      <para>&app; is a simple backup system for GNOME desktop.</para>
+    </abstract>         
+
+    <copyright> 
+      <year>2008</year> 
+      <holder>Oprea Dan</holder> 
+    </copyright> 
+
+    <!-- An address can be added to the publisher information. -->
+    <publisher role="maintainer"> 
+      <publishername>Oprea Dan</publishername>
+    </publisher> 
+
+	<xi:include href="legal.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <!-- The file legal.xml contains link to license for the documentation, 
+        and other legal stuff such as "NO WARRANTY" statement. 
+        Please do not change any of this. -->
+
+    <authorgroup> 
+      <author> 
+    		<firstname>Oprea</firstname> 
+    		<surname>Dan</surname> 
+    		<affiliation> 
+    	  		<!-- <orgname></orgname> -->
+    	  		<!-- The email address of the author is optional and is commented out by default. 
+    			<address> <email>doc-writer2@gnome.org</email> </address> 
+    			-->
+    		</affiliation> 
+      </author> 
+    </authorgroup>
+    
+
+<!-- According to GNU FDL, revision history is mandatory if you are -->
+<!-- modifying/reusing someone else's document.  If not, you can omit it. -->
+<!-- Remember to remove the &manrevision; entity from the revision entries other
+-->
+<!-- than the current revision. -->
+<!-- The revision numbering system for GNOME manuals is as follows: -->
+<!-- * the revision number consists of two components -->
+<!-- * the first component of the revision number reflects the release version of the GNOME desktop. -->
+<!-- * the second component of the revision number is a decimal unit that is incremented with each revision of the manual. -->
+<!-- For example, if the GNOME desktop release is V2.x, the first version of the manual that -->
+<!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
+<!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
+<!-- to V3.0, and so on. -->  
+    <revhistory>
+      <revision> 
+		<revnumber>Back In Time Manual V&manrevision;</revnumber> 
+		<date>&date;</date> 
+		<revdescription> 
+	  		<para role="author">Oprea Dan
+        <!-- The email address of the author is optional and is commented out by default.  
+	    	<email>docwriter2@gnome.org</email> -->
+	  		</para>
+	  		<para role="publisher">Oprea dan</para>
+		</revdescription> 
+      </revision>
+	  <!--
+      <revision> 
+		<revnumber>Full title of previous manual.</revnumber> 
+		<date>Release date of previous manual.</date> 
+		<revdescription> 
+	  		<para role="author">Documentation Writer 1 
+	  		</para>
+	  		<para role="publisher">GNOME Documentation Project</para>
+		</revdescription> 
+      </revision> 
+	  -->
+    </revhistory> 
+
+    <releaseinfo>This manual describes version &appversion; of Back In Time.
+    </releaseinfo> 
+    <legalnotice> 
+      <title>Feedback</title> 
+      <para>To report a bug or make a suggestion regarding the &app; application or
+      this manual, send an email to:  
+      <ulink url="mailto:dan@le-web.org" type="mailto">dan@le-web.org</ulink>. 
+      </para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice> 
+  </articleinfo> 
+
+  <indexterm zone="index"> 
+    <primary>Back In Time</primary> 
+  </indexterm> 
+  <indexterm zone="index"> 
+    <primary>backintime</primary> 
+  </indexterm>
+
+<!-- ============= Document Body ============================= -->
+<!-- ============= Introduction ============================== -->
+<!-- Use the Introduction section to give a brief overview of what
+     the application is and what it does. -->
+  <sect1 id="backintime-introduction"> 
+    <title>Introduction</title> 
+    <para>&app; is a simple backup system for GNOME desktop. The backup is done by taking snapshots of 
+	a specified set of directories.</para> 
+	<para>All you have to do is configure:</para>
+    <itemizedlist> 
+      <listitem><para>where to save snapshot</para></listitem>
+      <listitem><para>what directories to backup</para></listitem>
+      <listitem><para>when backup should be done (manual, every hour, every day, every week, every month)</para></listitem>
+    </itemizedlist> 
+	<para>&app; acts as a "user mode" backup system. This means that you can backup/restore only folders 
+	you have write access to (actually you can backup read-only folders, but you can't restore them).</para>
+	<para>In order to reduce disk space, it use the following rules:</para>
+    <itemizedlist> 
+      <listitem><para>a new snapshot is created only if the last snapshot (if any) is different from the 
+	  current directories state</para></listitem>
+      <listitem><para>when a new snapshot is created, it use hard-links (if possible) for files that are 
+	  not modified</para></listitem>
+    </itemizedlist> 
+	<para>When you restore a file 'A', if it already exists on the file system it will be renamed to 
+	'A.backup.currentdate'.</para>
+  </sect1>
+
+<!-- =========== Getting Started ============================== -->
+<!-- Use the Getting Started section to describe the steps required
+     to start the application and to describe the user interface components
+     of the application. If there is other information that it is important
+     for readers to know before they start using the application, you should
+     also include this information here. 
+     If the information about how to get started is very short, you can 
+     include it in the Introduction and omit this section. -->
+
+  <sect1 id="backintime-getting-started"> 
+    <title>Getting Started</title> 
+    <para>You can start &app; in the following ways:</para> 
+    <variablelist>
+    	<varlistentry>
+    		<term><guimenu>Applications</guimenu> menu</term>
+    		<listitem>
+    		<para>Choose 
+    		<menuchoice>
+    		<guisubmenu>System Tools</guisubmenu>
+    		<guimenuitem>Back In Time</guimenuitem>
+    		</menuchoice>. </para>
+    		</listitem>
+    	</varlistentry>
+    	<varlistentry>
+    		<term>Command line</term>
+    		<listitem>
+    		<para>To start &app; from a command line, type the following command, then 
+			press <keycap>Return</keycap>:</para>
+    		<para><command>backintime [ path | --backup ]</command></para> 
+			<itemizedlist>
+				<listitem>
+    				<para>path - go directly to the specified file or directory. 
+					If the application is already running if pass the path to the running instance.</para> 
+				</listitem>
+				<listitem>
+    				<para>--backup - take a snapshot now (if needed).</para> 
+				</listitem>
+    		</itemizedlist>
+    		</listitem>
+    	</varlistentry>
+    </variablelist>
+
+    <!-- Include any descriptions of the GUI immediately after the screenshot of the main UI, -->
+    <!-- for example, the items on the menubar and on the toolbar. This section is optional. -->
+
+  </sect1>
+
+<!-- =========== Main Window ============================== -->
+  <sect1 id="backintime-mainwindow">
+  <title>Main Window</title>
+
+    <!-- ==== Figure ==== -->
+      <figure id="mainwindow-fig"> 
+	<title>Main Window</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata fileref="figures/mainwindow.png" format="PNG"/></imageobject>
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+    <!-- ==== End of Figure ==== -->
+
+  <para>The <application>Back In Time</application> main window contains the following elements:</para>
+
+  <variablelist>
+
+	<varlistentry>
+	<term>Main toolbar</term>
+	<listitem><para>Take a new snapshot now</para></listitem>
+	<listitem><para>Settings dialog</para></listitem>
+	<listitem><para>About dialog</para></listitem>
+	<listitem><para>Help</para></listitem>
+	<listitem><para>Quit</para></listitem>
+	</varlistentry>
+
+	<varlistentry>
+	<term>Files toolbar</term>
+	<listitem><para>Go to parent directory</para></listitem>
+	<listitem><para>Current path</para></listitem>
+	<listitem><para>Restore current file/directory</para></listitem>
+	</varlistentry>
+
+	<varlistentry>
+	<term>Timeline list</term>
+	<listitem>
+	<para>Navigate between 'now' and snapshots</para>
+	</listitem>
+	</varlistentry>
+
+	<varlistentry>
+	<term>Places list</term>
+	<listitem>
+	<para>Quickly navigate to special folders: home, root, bookmarks and directories to backup</para>
+	</listitem>
+	</varlistentry>
+
+	<varlistentry>
+	<term>Files list</term>
+	<listitem>
+	<para>Navigate through the file system at the moment specified in timeline list. Files can be opened 
+	using gnome file association. Keep in mind that snapshots are 'readonly'.</para>
+	</listitem>
+	</varlistentry>
+
+  </variablelist>
+
+  </sect1>
+
+<!-- ================ Settings Dialog ================================ -->
+  <sect1 id="settingsdialog"> 
+    <title>Settings Dialog</title> 
+    <para>When the application starts for the first time (not configured yet) this dialog is 
+	displayed automaticaly.</para>
+
+    <!-- ==== Figure ==== -->
+      <figure id="settingsdialog-fig"> 
+	<title>Settings Dialog</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata fileref="figures/settingsdialog.png" format="PNG"/></imageobject>
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+    <!-- ==== End of Figure ==== -->
+
+  <variablelist>
+
+	<varlistentry>
+	<term>Where to save snapshots</term>
+	<listitem><para>Self-explaining.</para></listitem>
+	</varlistentry>
+
+	<varlistentry>
+	<term>What to backup</term>
+	<listitem><para>Define the directories you want to backup. From this directories you can exclude 
+	some files/directories using exclude pattern. By default it exclude hidden (".*") and "*.backup*" files/directories.</para></listitem>
+	</varlistentry>
+
+	<varlistentry>
+	<term>Automatic backup</term>
+	<listitem>
+	<para>Values: none (default), every hour, every day, every week, every month.
+	If your backup directory is on a removable drive (ex: usb-drive) it is recommended to set automatic 
+	backup to none and take manual snapshots when the drive is plugged.</para>
+	<para>Automatic backup use cron jobs so cron must be running.</para>
+	</listitem>
+	</varlistentry>
+
+	<varlistentry>
+	<term>Remove backups</term>
+	<listitem>
+	<para>You can automatically remove snapshots older then a specific date or if the free space is 
+	less then a specified value.</para>
+	</listitem>
+	</varlistentry>
+
+  </variablelist>
+
+  </sect1>
+
+<!-- ================ Integration with Nautilus ================================ -->
+  <sect1 id="integrationwithnautilus"> 
+    <title>Integration with Nautilus</title> 
+	<para>It is not are "real" integration with Nautilus but it is simple to setup.</para>
+	<para>You need to install nautilus-actions. On Ubuntu you can install it with the command:</para>
+	<para>
+	<command>sudo apt-get install nautilus-actions</command>
+	</para>
+	<para>
+	Now just create an action from
+		<menuchoice>
+    		<guimenu>System</guimenu>
+    		<guisubmenu>Preferences</guisubmenu>
+    		<guimenuitem>Nautilus Actions Configuration</guimenuitem>
+    	</menuchoice>.
+	</para>
+	<para>1. Click Add button</para>
+    <!-- ==== Figure ==== -->
+      <figure id="nautilus-actions-step1-fig"> 
+	<title>Settings Dialog</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata fileref="figures/nautilus_actions_step1.png" format="PNG"/></imageobject>
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+    <!-- ==== End of Figure ==== -->
+	<para>2. Menu Item &amp; Action Tab</para>
+    <!-- ==== Figure ==== -->
+      <figure id="nautilus-actions-step2-fig"> 
+	<title>Settings Dialog</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata fileref="figures/nautilus_actions_step2.png" format="PNG"/></imageobject>
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+    <!-- ==== End of Figure ==== -->
+	<para>3. Conditions</para>
+    <!-- ==== Figure ==== -->
+      <figure id="nautilus-actions-step3-fig"> 
+	<title>Settings Dialog</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata fileref="figures/nautilus_actions_step3.png" format="PNG"/></imageobject>
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+    <!-- ==== End of Figure ==== -->
+	<para>4. Advanced conditions</para>
+    <!-- ==== Figure ==== -->
+      <figure id="nautilus-actions-step4-fig"> 
+	<title>Settings Dialog</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata fileref="figures/nautilus_actions_step4.png" format="PNG"/></imageobject>
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+    <!-- ==== End of Figure ==== -->
+	<para>5. Click OK button</para>
+    <!-- ==== Figure ==== -->
+      <figure id="nautilus-actions-step5-fig"> 
+	<title>Settings Dialog</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata fileref="figures/nautilus_actions_step5.png" format="PNG"/></imageobject>
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+    <!-- ==== End of Figure ==== -->
+	<para>That's it. Now from Nautilus "Right-click" the file/foder you want and click "Back In Time"</para>
+  </sect1>
+
+
+
+<!-- ============= Bugs ================================== -->
+<!-- This section is optional and is commented out by default. 
+     You can use it to describe known bugs and limitations of the 
+	  program if there are any - please be frank and list all
+     problems you know of. 
+  
+  <sect1 id="backintime-bugs">
+  <title>Known Bugs and Limitations</title>
+  <para> </para>
+ </sect1>
+-->
+
+<!-- ============= About ================================== -->
+<!-- This section contains info about the program (not docs), such as
+      author's name(s), web page, license, feedback address. This
+      section is optional: primary place for this info is "About.." box of
+      the program. However, if you do wish to include this info in the
+      manual, this is the place to put it. Alternatively, you can put this information in the title page.-->
+  <sect1 id="backintime-about"> 
+    <title>About &app;</title> 
+    <para> &app; was written by Oprea Dan
+      (<email>dan@le-web.org</email>). To find more information about
+      &app;, please visit the 
+      <ulink url="http://www.le-web.org/back-in-time/" type="http">Back In Time Web
+	page</ulink>. </para>
+    <para>
+      To report a bug or make a suggestion regarding this application or
+      this manual, sent a mail to
+      <ulink url="mailto:dan@le-web.org" type="mailto">dan@le-web.org</ulink>.
+    </para>
+
+    <para> This program is distributed under the terms of the GNU
+      General Public license version 2 as published by the Free Software
+      Foundation. A copy of this license can be found in the file
+      LICENSE included with the source code of this program. </para>
+
+  </sect1> 
+</article>
