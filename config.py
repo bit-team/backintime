@@ -74,7 +74,7 @@ class Config:
 
 		self._BASE_BACKUP_PATH = ''
 		self._INCLUDE_FOLDERS = ''
-		self._EXCLUDE_PATTERNS = '.*:*.backup*'
+		self._EXCLUDE_PATTERNS = '.*:*.backup*:*~'
 		self._AUTOMATIC_BACKUP = self.NONE
 		self._REMOVE_OLD_BACKUPS = 1
 		self._REMOVE_OLD_BACKUPS_VALUE = 10

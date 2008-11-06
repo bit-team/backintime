@@ -701,6 +701,8 @@ class MainWindow:
 				continue
 			if file[ 0 ] == '.':
 				continue
+			if file[ -1 ] == '~':
+				continue
 
 			path = os.path.join( fullPath, file )
 
