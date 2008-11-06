@@ -30,6 +30,7 @@ import gtk
 import threading
 import gobject
 import gtk.glade
+import gnome
 import gnomevfs
 import datetime
 import gettext
@@ -52,8 +53,12 @@ class AboutDialog:
 		self.dialog.set_version( config.VERSION )
 		self.dialog.set_copyright( 'Copyright (C) 2008 Oprea Dan' )
 		self.dialog.set_website( 'http://www.le-web.org/back-in-time/' )
-		self.dialog.set_license( config.licenseText() );
-		self.dialog.set_translator_credits( config.translationCredits() )
+		self.dialog.set_website_label( 'http://www.le-web.org/back-in-time/' )
+		self.dialog.set_license( config.license() )
+		authors = config.authors()
+		if not authors is None:
+			self.dialog.set_authors( authors )
+		self.dialog.set_translator_credits( config.translations() )
 
 		signals = { 
 				'on_AboutDialog_response' : self.close,
@@ -135,7 +140,9 @@ class MainWindow:
 		signals = { 
 				'on_MainWindow_destroy' : gtk.main_quit,
 				'on_MainWindow_delete_event' : self.on_close,
+				'on_MainWindow_key_release_event': self.on_key_release_event,
 				'on_btnExit_clicked' : self.on_close,
+				'on_btnHelp_clicked' : self.on_btnHelp_clicked,
 				'on_btnAbout_clicked' : self.on_btnAbout_clicked,
 				'on_btnSettings_clicked' : self.on_btnSettings_clicked,
 				'on_btnBackup_clicked' : self.on_btnBackup_clicked,
@@ -607,6 +614,16 @@ class MainWindow:
 	def on_btnAbout_clicked( self, button ):
 		self.aboutDialog.run()
 
+	def on_help( self ):
+		gnome.help_display('backintime')
+
+	def on_btnHelp_clicked( self, button ):
+		self.on_help()
+
+	def on_key_release_event( self, widget, event ):
+		if 'F1' == gtk.gdk.keyval_name( event.keyval ) and ( event.state & (gtk.gdk.CONTROL_MASK | gtk.gdk.MOD1_MASK) ) == 0:
+			self.on_help()
+
 	def on_btnSettings_clicked( self, button, ):
 		backupPath = self.config.backupBasePath()
 		includeFolders = self.config.includeFolders()
@@ -753,6 +770,10 @@ class MainWindow:
 			self.listFolderView.get_selection().select_iter( selectedIter )
 
 
+def open_url( dialog, link, user_data ):
+	os.system( "gnome-open \"%s\" &" % link )
+
+
 class GTKMainThread(threading.Thread): #used to display status icon
 	def run(self):
 		gtk.main()
@@ -795,6 +816,11 @@ if __name__ == '__main__':
 
 	cfg = config.Config()
 	appInstance = GTKApplicationInstance( cfg.baseInstanceFile(), raise_cmd )
+
+	gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
+	gnome_prog = gnome.program_init( 'backintime', cfg.VERSION, properties = gnome_props )
+
+	gtk.about_dialog_set_url_hook( open_url, None )
 
 	mainWindow = MainWindow( cfg, appInstance )
 	gtk.main()

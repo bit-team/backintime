@@ -62,6 +62,8 @@ class Config:
 	def __init__( self ):
 		self._APP_PATH = os.path.abspath( os.path.dirname( __file__ ) )
 		self._DOC_PATH = '/usr/share/doc/backintime'
+		if os.path.exists( os.path.join( self._APP_PATH, 'LICENSE' ) ):
+			self._DOC_PATH = self._APP_PATH
 
 		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 		self._CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
@@ -100,31 +102,34 @@ class Config:
 	def baseInstanceFile( self ):
 		return os.path.join( self._CONFIG_FOLDER, 'appinstance' )
 
-	def licenseFile( self ):
-		return os.path.join( self._DOC_PATH, 'LICENSE' )
-
-	def licenseText( self ):
-		license = ''
+	def getFileContent( self, path, defaultValue = None ):
+		retVal = defaultValue 
 		try:
-			file = open( self.licenseFile() )
-			license = file.read()
-			file.close()
-		except:
-			license = "GPLv2"
-		return license
-
-	def translationCreditsFile( self ):
-		return os.path.join( self._DOC_PATH, 'TRANSLATIONS' )
-
-	def translationCredits( self ):
-		retVal = None
-		try:
-			file = open( self.translationCreditsFile() )
+			file = open( path )
 			retVal = file.read()
 			file.close()
 		except:
 			pass
 		return retVal
+
+	def getLinesFileContent( self, path, defaultValue = None ):
+		retVal = defaultValue 
+		try:
+			file = open( path )
+			retVal = file.readlines()
+			file.close()
+		except:
+			pass
+		return retVal
+
+	def license( self ):
+		return self.getFileContent( os.path.join( self._DOC_PATH, 'LICENSE' ) )
+
+	def translations( self ):
+		return self.getFileContent( os.path.join( self._DOC_PATH, 'TRANSLATIONS' ) )
+
+	def authors( self ):
+		return self.getLinesFileContent( os.path.join( self._DOC_PATH, 'AUTHORS' ) )
 
 	def backupName( self, date ):
 		if type( date ) is datetime.datetime:

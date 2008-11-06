@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Thu Oct 30 11:28:32 2008 -->
+<!--Generated with glade3 3.4.5 on Wed Nov  5 13:56:16 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="title" translatable="yes">Back In Time</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="icon_name">gtk-save</property>
     <signal name="destroy" handler="on_MainWindow_destroy"/>
+    <signal name="key_release_event" handler="on_MainWindow_key_release_event"/>
     <signal name="delete_event" handler="on_MainWindow_delete_event"/>
     <child>
       <widget class="GtkVBox" id="vbox1">
@@ -52,6 +53,18 @@
                         <property name="label" translatable="yes">About</property>
                         <property name="stock_id">gtk-about</property>
                         <signal name="clicked" handler="on_btnAbout_clicked"/>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkToolButton" id="btnHelp">
+                        <property name="visible">True</property>
+                        <property name="tooltip" translatable="yes">Help</property>
+                        <property name="label" translatable="yes">Help</property>
+                        <property name="stock_id">gtk-help</property>
+                        <signal name="clicked" handler="on_btnHelp_clicked"/>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
