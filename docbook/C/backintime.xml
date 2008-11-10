@@ -4,7 +4,7 @@
 	<!ENTITY legal SYSTEM "legal.xml">
 	<!ENTITY appname "Back In Time">
 	<!ENTITY app "<application>&appname;</application>">
-	<!ENTITY appversion "0.8">
+	<!ENTITY appversion "0.8.1">
 	<!ENTITY manrevision "0.1">
   <!ENTITY date "November 2008">
 ]>
@@ -122,7 +122,7 @@
     <itemizedlist> 
       <listitem><para>where to save snapshot</para></listitem>
       <listitem><para>what directories to backup</para></listitem>
-      <listitem><para>when backup should be done (manual, every hour, every day, every week, every month)</para></listitem>
+      <listitem><para>when backup should be done (manual, every hour, every day, every week, every month, ...)</para></listitem>
     </itemizedlist> 
 	<para>&app; acts as a "user mode" backup system. This means that you can backup/restore only folders 
 	you have write access to (actually you can backup read-only folders, but you can't restore them).</para>
@@ -278,7 +278,7 @@
 	<varlistentry>
 	<term>Automatic backup</term>
 	<listitem>
-	<para>Values: none (default), every hour, every day, every week, every month.
+	<para>Values: none (default), every 5 minutes, every 10 minutes, every hour, every day, every week, every month.
 	If your backup directory is on a removable drive (ex: usb-drive) it is recommended to set automatic 
 	backup to none and take manual snapshots when the drive is plugged.</para>
 	<para>Automatic backup use cron jobs so cron must be running.</para>
@@ -316,7 +316,7 @@
 	<para>1. Click Add button</para>
     <!-- ==== Figure ==== -->
       <figure id="nautilus-actions-step1-fig"> 
-	<title>Settings Dialog</title> 
+	<title>Nautilus Integration: Step 1</title> 
 	<screenshot> 
 	  <mediaobject> 
 	    <imageobject><imagedata fileref="figures/nautilus_actions_step1.png" format="PNG"/></imageobject>
@@ -327,7 +327,7 @@
 	<para>2. Menu Item &amp; Action Tab</para>
     <!-- ==== Figure ==== -->
       <figure id="nautilus-actions-step2-fig"> 
-	<title>Settings Dialog</title> 
+	<title>Nautilus Integration: Step 2</title> 
 	<screenshot> 
 	  <mediaobject> 
 	    <imageobject><imagedata fileref="figures/nautilus_actions_step2.png" format="PNG"/></imageobject>
@@ -335,10 +335,10 @@
 	</screenshot> 
       </figure>
     <!-- ==== End of Figure ==== -->
-	<para>3. Conditions</para>
+	<para>3. Conditions Tab</para>
     <!-- ==== Figure ==== -->
       <figure id="nautilus-actions-step3-fig"> 
-	<title>Settings Dialog</title> 
+	<title>Nautilus Integration: Step 3</title> 
 	<screenshot> 
 	  <mediaobject> 
 	    <imageobject><imagedata fileref="figures/nautilus_actions_step3.png" format="PNG"/></imageobject>
@@ -346,10 +346,10 @@
 	</screenshot> 
       </figure>
     <!-- ==== End of Figure ==== -->
-	<para>4. Advanced conditions</para>
+	<para>4. Advanced conditions Tab</para>
     <!-- ==== Figure ==== -->
       <figure id="nautilus-actions-step4-fig"> 
-	<title>Settings Dialog</title> 
+	<title>Nautilus Integration: Step 4</title> 
 	<screenshot> 
 	  <mediaobject> 
 	    <imageobject><imagedata fileref="figures/nautilus_actions_step4.png" format="PNG"/></imageobject>
@@ -357,10 +357,10 @@
 	</screenshot> 
       </figure>
     <!-- ==== End of Figure ==== -->
-	<para>5. Click OK button</para>
+	<para>5. Click OK button, and you should see the new action in actions list</para>
     <!-- ==== Figure ==== -->
       <figure id="nautilus-actions-step5-fig"> 
-	<title>Settings Dialog</title> 
+	<title>Nautilus Integration: Step 5</title> 
 	<screenshot> 
 	  <mediaobject> 
 	    <imageobject><imagedata fileref="figures/nautilus_actions_step5.png" format="PNG"/></imageobject>

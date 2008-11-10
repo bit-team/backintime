@@ -30,9 +30,11 @@ gettext.textdomain( 'backintime' )
 
 class Config:
 	APP_NAME = 'Back In Time'
-	VERSION = '0.8'
+	VERSION = '0.8.1'
 
 	NONE = 0
+	_5_MIN = 2
+	_10_MIN = 4
 	HOUR = 10
 	DAY = 20
 	WEEK = 30
@@ -44,6 +46,8 @@ class Config:
 
 	AUTOMATIC_BACKUP_MODES = { 
 				NONE : _('None'), 
+				_5_MIN: _('Every 5 minutes'), 
+				_10_MIN: _('Every 10 minutes'), 
 				HOUR : _('Every Hour'), 
 				DAY : _('Every Day'), 
 				WEEK : _('Every Week'), 
@@ -331,18 +335,29 @@ class Config:
 		newCron = ""
 
 		if self.automaticBackup() == self.HOUR:
-			newCron = "@hourly"
+			newCron = 'echo "@hourly {cmd}"'
 		elif self.automaticBackup() == self.DAY:
-			newCron = "@daily"
+			newCron = 'echo "@daily {cmd}"'
 		elif self.automaticBackup() == self.WEEK:
-			newCron = "@weekly"
+			newCron = 'echo "@weekly {cmd}"'
 		elif self.automaticBackup() == self.MONTH:
-			newCron = "@monthly"
+			newCron = 'echo "@monthly {cmd}"'
+		elif self.automaticBackup() == self._5_MIN:
+			newCron = ''
+			for minute in xrange( 0, 59, 5 ):
+				if 0 != minute:
+					newCron = newCron + '; '
+				newCron = newCron + "echo \"%s * * * * {cmd}\"" % minute
+		elif self.automaticBackup() == self._10_MIN:
+			newCron = ''
+			for minute in xrange( 0, 59, 10 ):
+				if 0 != minute:
+					newCron = newCron + '; '
+				newCron = newCron + "echo \"%s * * * * {cmd}\"" % minute
 
 		if len( newCron ) > 0:
-			cmd = " nice -n 19 /usr/bin/backintime --backup"
-			newCron = newCron + cmd 
-			os.system( "( crontab -l; echo \"%s\" ) | crontab -" % newCron )
+			newCron = newCron.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup' )
+			os.system( "( crontab -l; %s ) | crontab -" % newCron )
 
 class ConfigFile:
 	def __init__( self ):
