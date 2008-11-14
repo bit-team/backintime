@@ -134,6 +134,7 @@ class MainWindow:
 		self.appInstance = appInstance
 		self.backup = backup.Backup( config )
 		self.specialBackgroundColor = 'lightblue'
+		self.popupMenu = None
 
 		self.glade = gtk.glade.XML( self.config.gladeFile(), None, 'backintime' )
 
@@ -147,10 +148,13 @@ class MainWindow:
 				'on_btnSettings_clicked' : self.on_btnSettings_clicked,
 				'on_btnBackup_clicked' : self.on_btnBackup_clicked,
 				'on_btnRestore_clicked' : self.on_btnRestore_clicked,
+				'on_btnCopy_clicked' : self.on_btnCopy_clicked,
 				'on_listPlaces_cursor_changed' : self.on_listPlaces_cursor_changed,
 				'on_listTimeLine_cursor_changed' : self.on_listTimeLine_cursor_changed,
 				'on_btnFolderUp_clicked' : self.on_btnFodlerUp_clicked,
-				'on_listFolderView_row_activated' : self.on_listFolderView_row_activated
+				'on_listFolderView_row_activated' : self.on_listFolderView_row_activated,
+				'on_listFolderView_popup_menu' : self.on_listFolderView_popup_menu,
+				'on_listFolderView_button_press_event': self.on_listFolderView_button_press_event
 			}
 
 		self.glade.signal_autoconnect( signals )
@@ -564,6 +568,89 @@ class MainWindow:
 				self.folderPath = folderPath
 				self.updateFolderView( 0 )
 
+	def on_listFolderView_button_press_event( self, list, event ):
+		if event.button != 3:
+			return
+
+		if len( self.storeFolderView ) <= 0:
+			return
+
+		path = self.listFolderView.get_path_at_pos( int( event.x ), int( event.y ) )
+		if path is None:
+			return
+		path = path[0]
+	
+		self.listFolderView.get_selection().select_path( path )
+		self.showFolderViewMenuPopup( self.listFolderView, event.button, event.time )
+
+	def on_listFolderView_popup_menu( self, list ):
+		self.showFolderViewMenuPopup( list, 1, gtk.get_current_event_time() )
+
+	def showFolderViewMenuPopup( self, list, button, time ):
+		iter = list.get_selection().get_selected()[1]
+		if iter is None:
+			return
+
+		#print "popup-menu"
+
+		if self.popupMenu is None:
+			gtk.stock_add( 
+					[ ('backintime.open', _('Open'), 0, 0, 'backintime' ),
+					  ('backintime.copy', _('Copy'), 0, 0, 'backintime' ),
+					  ('backintime.restore', _('Restore'), 0, 0, 'backintime' ) ] )
+
+		self.popupMenu = gtk.Menu()
+
+		menuItem = gtk.ImageMenuItem( 'backintime.open' )
+		menuItem.set_image( gtk.image_new_from_icon_name( self.storeFolderView.get_value( iter, 2 ), gtk.ICON_SIZE_MENU ) )
+		menuItem.connect( 'activate', self.on_listFolderView_open_item )
+		self.popupMenu.append( menuItem )
+
+		self.popupMenu.append( gtk.SeparatorMenuItem() )
+
+		menuItem = gtk.ImageMenuItem( 'backintime.copy' )
+		menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_COPY, gtk.ICON_SIZE_MENU ) )
+		menuItem.connect( 'activate', self.on_listFolderView_copy_item )
+		self.popupMenu.append( menuItem )
+
+		if len( self.backupPath ) > 1:
+			menuItem = gtk.ImageMenuItem( 'backintime.restore' )
+			menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_UNDELETE, gtk.ICON_SIZE_MENU ) )
+			menuItem.connect( 'activate', self.on_listFolderView_restore_item )
+			self.popupMenu.append( menuItem )
+
+		self.popupMenu.show_all()
+		self.popupMenu.popup( None, None, None, button, time )
+
+	def on_listFolderView_restore_item( self, widget, data = None ):
+		self.on_btnRestore_clicked( self.glade.get_widget( 'btnRestore' ) )
+
+	def on_listFolderView_copy_item( self, widget, data = None ):
+		self.on_btnCopy_clicked( self.glade.get_widget( 'btnCopy' ) )
+
+	def clipboard_get( self, clipboard, selectiondata, info, data ):
+		print selectiondata.get_targets()
+		print data
+		selectiondata.set_text( data )
+		selectiondata.set_uris( [ 'file://' + gnomevfs.escape_path_string(data) ] )
+		selectiondata.set( 'x-special/gnome-copied-files', 8, 'copy\nfile://' + gnomevfs.escape_path_string(data) );
+
+		return True
+
+	def clipboard_clear( self, clipboard, data ):
+		return True
+
+	def on_listFolderView_open_item( self, widget, data = None ):
+		iter = self.listFolderView.get_selection().get_selected()[1]
+		if iter is None:
+			return
+
+		path = self.storeFolderView.get_value( iter, 1 )
+		path = os.path.join( self.backupPath, path[ 1 : ] )
+		cmd = "gnome-open \"%s\" &" % path
+		print cmd
+		os.system( cmd )
+
 	def on_listFolderView_row_activated( self, list, path, column ):
 		iter = list.get_selection().get_selected()[1]
 		path = self.storeFolderView.get_value( iter, 1 )
@@ -576,7 +663,7 @@ class MainWindow:
 
 		#file
 		path = os.path.join( self.backupPath, path[ 1 : ] )
-		cmd = "gnome-open \"%s\"" % path
+		cmd = "gnome-open \"%s\" &" % path
 		print cmd
 		os.system( cmd )
 
@@ -599,6 +686,22 @@ class MainWindow:
 			button.set_sensitive( False )
 			gobject.timeout_add( 100, self.restore_ )
 	
+	def on_btnCopy_clicked( self, button ):
+		iter = self.listFolderView.get_selection().get_selected()[1]
+		if iter is None:
+			return
+
+		path = self.storeFolderView.get_value( iter, 1 )
+		path = os.path.join( self.backupPath, path[ 1 : ] )
+
+		targets = gtk.target_list_add_uri_targets()
+		targets = gtk.target_list_add_text_targets( targets)
+		targets.append( ( 'x-special/gnome-copied-files', 0, 0 ) )
+
+		clipboard = gtk.clipboard_get()
+		clipboard.set_with_data( targets, self.clipboard_get, self.clipboard_clear, path )
+		clipboard.store()
+
 	def restore_( self ):
 		iter = self.listFolderView.get_selection().get_selected()[1]
 		if not iter is None:
@@ -660,15 +763,6 @@ class MainWindow:
 			backupTime = self.storeTimeLine.get_value( iter, 0 )
 			self.backupPath = self.storeTimeLine.get_value( iter, 1 )
 			#self.lblTime.set_markup( "<b>%s</b>" % backupTime )
-
-		#update folderup button state
-		self.glade.get_widget( 'btnFolderUp' ).set_sensitive( len( self.folderPath ) > 1 )
-
-		#update restor button state
-		self.glade.get_widget( 'btnRestore' ).set_sensitive( len( self.backupPath ) > 1 )
-
-		#display current folder
-		self.glade.get_widget( 'editCurrentPath' ).set_text( self.folderPath )
 
 		#update selected places item
 		if 1 == changedFrom:
@@ -770,6 +864,19 @@ class MainWindow:
 			if selectedIter is None:
 				selectedIter = self.storeFolderView.get_iter_first()
 			self.listFolderView.get_selection().select_iter( selectedIter )
+
+		#update folderup button state
+		self.glade.get_widget( 'btnFolderUp' ).set_sensitive( len( self.folderPath ) > 1 )
+
+		#update restore button state
+		self.glade.get_widget( 'btnRestore' ).set_sensitive( len( self.backupPath ) > 1 and len( self.storeFolderView ) > 0 )
+
+		#update copy button state
+		self.glade.get_widget( 'btnCopy' ).set_sensitive( len( self.storeFolderView ) > 0 )
+
+		#display current folder
+		self.glade.get_widget( 'editCurrentPath' ).set_text( self.folderPath )
+
 
 
 def open_url( dialog, link, user_data ):

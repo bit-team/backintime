@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-	"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
-	<!ENTITY legal SYSTEM "legal.xml">
-	<!ENTITY appname "Back In Time">
-	<!ENTITY app "<application>&appname;</application>">
-	<!ENTITY appversion "0.8.1">
-	<!ENTITY manrevision "0.1">
-  <!ENTITY date "November 2008">
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY legal SYSTEM "legal.xml">
+<!ENTITY appname "Back In Time">
+<!ENTITY app "<application>&appname;</application>">
+<!ENTITY appversion "0.8.2">
+<!ENTITY manrevision "0.4">
+<!ENTITY date "November 2008">
 ]>
 <!--
       (Do not remove this comment block.)
@@ -34,7 +33,7 @@
       <publishername>Oprea Dan</publishername>
     </publisher> 
 
-	<xi:include href="legal.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="legal.xml"/>
     <!-- The file legal.xml contains link to license for the documentation, 
         and other legal stuff such as "NO WARRANTY" statement. 
         Please do not change any of this. -->
@@ -103,12 +102,8 @@
     </legalnotice> 
   </articleinfo> 
 
-  <indexterm zone="index"> 
-    <primary>Back In Time</primary> 
-  </indexterm> 
-  <indexterm zone="index"> 
-    <primary>backintime</primary> 
-  </indexterm>
+   
+  
 
 <!-- ============= Document Body ============================= -->
 <!-- ============= Introduction ============================== -->
@@ -217,6 +212,7 @@
 	<listitem><para>Go to parent directory</para></listitem>
 	<listitem><para>Current path</para></listitem>
 	<listitem><para>Restore current file/directory</para></listitem>
+	<listitem><para>Copy current file/directory</para></listitem>
 	</varlistentry>
 
 	<varlistentry>
@@ -238,6 +234,12 @@
 	<listitem>
 	<para>Navigate through the file system at the moment specified in timeline list. Files can be opened 
 	using gnome file association. Keep in mind that snapshots are 'readonly'.</para>
+	<para>If you "right-click" on a file or directory you will see a popup-menu</para>
+    	<itemizedlist> 
+			<listitem>Open: open the item using gnome-open</listitem>
+			<listitem>Copy: copy selected item (you can paste the file/directory into your file-manager)</listitem>
+			<listitem>Restore (only for snapshots items): restore selected file/directory</listitem>
+    	</itemizedlist> 
 	</listitem>
 	</varlistentry>
 

@@ -5,6 +5,7 @@ PKGVER=`cat control | grep "Version:" | cut -d" " -f2`
 
 echo $PKGNAME $PKGVER
 
+rm *.deb
 rm *.pyc
 rm -rf locale
 
