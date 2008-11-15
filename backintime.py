@@ -39,6 +39,7 @@ import time
 import config
 import backup
 import settingsdialog
+import snapshotsdialog
 from gtkapplicationinstance import *
 
 
@@ -149,6 +150,7 @@ class MainWindow:
 				'on_btnBackup_clicked' : self.on_btnBackup_clicked,
 				'on_btnRestore_clicked' : self.on_btnRestore_clicked,
 				'on_btnCopy_clicked' : self.on_btnCopy_clicked,
+				'on_btnSnapshots_clicked' : self.on_btnSnapshots_clicked,
 				'on_listPlaces_cursor_changed' : self.on_listPlaces_cursor_changed,
 				'on_listTimeLine_cursor_changed' : self.on_listTimeLine_cursor_changed,
 				'on_btnFolderUp_clicked' : self.on_btnFodlerUp_clicked,
@@ -264,6 +266,7 @@ class MainWindow:
 
 		self.aboutDialog = AboutDialog( self.config, self.glade )
 		self.settingsDialog = settingsdialog.SettingsDialog( self.config, self.glade )
+		self.snapshotsDialog = snapshotsdialog.SnapshotsDialog( self.config, self.glade )
 
 		self.window.show()
 
@@ -597,6 +600,7 @@ class MainWindow:
 			gtk.stock_add( 
 					[ ('backintime.open', _('Open'), 0, 0, 'backintime' ),
 					  ('backintime.copy', _('Copy'), 0, 0, 'backintime' ),
+					  ('backintime.snapshots', _('Snapshots'), 0, 0, 'backintime' ),
 					  ('backintime.restore', _('Restore'), 0, 0, 'backintime' ) ] )
 
 		self.popupMenu = gtk.Menu()
@@ -613,6 +617,11 @@ class MainWindow:
 		menuItem.connect( 'activate', self.on_listFolderView_copy_item )
 		self.popupMenu.append( menuItem )
 
+		menuItem = gtk.ImageMenuItem( 'backintime.snapshots' )
+		menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_INDEX, gtk.ICON_SIZE_MENU ) )
+		menuItem.connect( 'activate', self.on_listFolderView_snapshots_item )
+		self.popupMenu.append( menuItem )
+
 		if len( self.backupPath ) > 1:
 			menuItem = gtk.ImageMenuItem( 'backintime.restore' )
 			menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_UNDELETE, gtk.ICON_SIZE_MENU ) )
@@ -627,6 +636,9 @@ class MainWindow:
 
 	def on_listFolderView_copy_item( self, widget, data = None ):
 		self.on_btnCopy_clicked( self.glade.get_widget( 'btnCopy' ) )
+
+	def on_listFolderView_snapshots_item( self, widget, data = None ):
+		self.on_btnSnapshots_clicked( self.glade.get_widget( 'btnSnapshots' ) )
 
 	def clipboard_get( self, clipboard, selectiondata, info, data ):
 		print selectiondata.get_targets()
@@ -701,6 +713,21 @@ class MainWindow:
 		clipboard = gtk.clipboard_get()
 		clipboard.set_with_data( targets, self.clipboard_get, self.clipboard_clear, path )
 		clipboard.store()
+
+	def on_btnSnapshots_clicked( self, button ):
+		iter = self.listFolderView.get_selection().get_selected()[1]
+		if iter is None:
+			return
+
+		path = self.storeFolderView.get_value( iter, 1 )
+		path = os.path.join( self.backupPath, path[ 1 : ] )
+
+		retVal = self.snapshotsDialog.run( path, self.lastBackupList )
+		
+		#select the specified file
+		if not retVal is None:
+			self.folderPath = folderPath
+			self.updateFolderView( 1, fileName )
 
 	def restore_( self ):
 		iter = self.listFolderView.get_selection().get_selected()[1]
