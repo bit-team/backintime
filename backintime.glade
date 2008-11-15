@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Fri Nov 14 16:27:58 2008 -->
+<!--Generated with glade3 3.4.5 on Sat Nov 15 13:40:05 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="title" translatable="yes">Back In Time</property>
@@ -31,7 +31,7 @@
                         <signal name="clicked" handler="on_btnBackup_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -43,7 +43,7 @@
                         <signal name="clicked" handler="on_btnSettings_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -55,7 +55,7 @@
                         <signal name="clicked" handler="on_btnAbout_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -67,7 +67,7 @@
                         <signal name="clicked" handler="on_btnHelp_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -79,7 +79,7 @@
                         <signal name="clicked" handler="on_btnExit_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                   </widget>
@@ -159,7 +159,7 @@
                         <signal name="clicked" handler="on_btnFolderUp_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -173,10 +173,6 @@
                           </widget>
                         </child>
                       </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="homogeneous">False</property>
-                      </packing>
                     </child>
                     <child>
                       <widget class="GtkToolButton" id="btnRestore">
@@ -187,7 +183,7 @@
                         <signal name="clicked" handler="on_btnRestore_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -199,7 +195,7 @@
                         <signal name="clicked" handler="on_btnCopy_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -210,7 +206,7 @@
                         <signal name="clicked" handler="on_btnSnapshots_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                   </widget>
@@ -472,7 +468,6 @@
                               <widget class="GtkTreeView" id="listInclude">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="headers_clickable">True</property>
                               </widget>
                             </child>
                           </widget>
@@ -489,7 +484,6 @@
                               <widget class="GtkTreeView" id="listExclude">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="headers_clickable">True</property>
                               </widget>
                             </child>
                           </widget>
@@ -739,7 +733,6 @@
               <widget class="GtkTreeView" id="listSnapshots">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="headers_clickable">True</property>
               </widget>
             </child>
           </widget>
@@ -752,7 +745,7 @@
             <property name="visible">True</property>
             <property name="layout_style">GTK_BUTTONBOX_END</property>
             <child>
-              <widget class="GtkButton" id="btnGoTo">
+              <widget class="GtkButton" id="btnGoToSnapshot">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -762,11 +755,12 @@
               </widget>
             </child>
             <child>
-              <widget class="GtkButton" id="btnDiff">
+              <widget class="GtkButton" id="btnCopySnapshot">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">Diff</property>
+                <property name="label" translatable="yes">gtk-copy</property>
+                <property name="use_stock">True</property>
                 <property name="response_id">1</property>
               </widget>
               <packing>

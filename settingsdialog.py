@@ -70,7 +70,7 @@ class SettingsDialog:
 		self.storeInclude = gtk.ListStore( str, str )
 		self.listInclude.set_model( self.storeInclude )
 
-		includeFolders = config.includeFolders()
+		includeFolders = self.config.includeFolders()
 		if len( includeFolders ) > 0:
 			includeFolders = includeFolders.split( ':' )
 			for includeFolder in includeFolders:
@@ -94,7 +94,7 @@ class SettingsDialog:
 		self.storeExclude = gtk.ListStore( str, str )
 		self.listExclude.set_model( self.storeExclude )
 
-		excludePatterns = config.excludePatterns()
+		excludePatterns = self.config.excludePatterns()
 		if len( excludePatterns ) > 0:
 			excludePatterns = excludePatterns.split( ':' )
 			for excludePattern in excludePatterns:
@@ -111,7 +111,7 @@ class SettingsDialog:
 
 		index = 0
 		i = 0
-		map = config.AUTOMATIC_BACKUP_MODES
+		map = self.config.AUTOMATIC_BACKUP_MODES
 		keys = map.keys()
 		keys.sort()
 		for key in keys:
@@ -139,7 +139,7 @@ class SettingsDialog:
 
 		index = 0
 		i = 0
-		map = config.REMOVE_OLD_BACKUP_UNITS
+		map = self.config.REMOVE_OLD_BACKUP_UNITS
 		keys = map.keys()
 		keys.sort()
 		for key in keys:
@@ -171,7 +171,7 @@ class SettingsDialog:
 
 		index = 0
 		i = 0
-		map = config.MIN_FREE_SPACE_UNITS
+		map = self.config.MIN_FREE_SPACE_UNITS
 		keys = map.keys()
 		keys.sort()
 		for key in keys:
@@ -249,7 +249,7 @@ class SettingsDialog:
 
 	def show_question( self, message ):
 		dialog = gtk.MessageDialog( self.dialog, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, message )
-		dialog.set_title( config.APP_NAME )
+		dialog.set_title( self.config.APP_NAME )
 		retVal = dialog.run()
 		dialog.destroy()
 		return retVal
