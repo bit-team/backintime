@@ -46,7 +46,7 @@ class SnapshotsDialog:
 		self.dialog = self.glade.get_widget( 'SnapshotsDialog' )
 
 		signals = { 
-				#'on_cbMinFreeSpace_toggled' : self.updateMinFreeSpace,
+			'on_listSnapshots_row_activated' : self.on_listSnapshots_row_activated
 			}
 
 		self.glade.signal_autoconnect( signals )
@@ -99,6 +99,12 @@ class SnapshotsDialog:
 					nice_name = "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
 					self.storeSnapshots.append( [ nice_name, snapshot_path, path ] )
 
+	def on_listSnapshots_row_activated( self, list, path, column ):
+		iter = list.get_selection().get_selected()[1]
+		path = self.storeSnapshots.get_value( iter, 2 )
+		cmd = "gnome-open \"%s\" &" % path
+		os.system( cmd )
+ 
 	def run( self, path, snapshots, current_snapshot ):
 		self.path = path
 		self.snapshots = snapshots
