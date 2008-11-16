@@ -84,6 +84,8 @@ class MainWindow:
 		self.specialBackgroundColor = 'lightblue'
 		self.popupMenu = None
 
+		self.folderPath = None
+
 		self.glade = gtk.glade.XML( self.config.gladeFile(), None, 'backintime' )
 
 		signals = { 
@@ -307,6 +309,9 @@ class MainWindow:
 			return True
 
 		if self.settingsDialog.dialog.get_property( 'visible' ):
+			return True
+
+		if self.snapshotsDialog.dialog.get_property( 'visible' ):
 			return True
 
 		if len( self.storeTimeLine ) <= 0:
@@ -651,11 +656,16 @@ class MainWindow:
 		path = self.storeFolderView.get_value( iter, 1 )
 		path = os.path.join( self.backupPath, path[ 1 : ] )
 
-		retVal = self.snapshotsDialog.run( path, self.lastBackupList )
+		retVal = self.snapshotsDialog.run( path, self.lastBackupList, self.backupPath )
 		
 		#select the specified file
 		if not retVal is None:
-			self.folderPath = folderPath
+			return
+			startUpFolder = self.getCmdStartUpFolderAndFile( retVal[1] )
+			fileName = ''
+			if not startUpFolder is None:
+				self.folderPath = startUpFolder[0]
+				fileName = startUpFolder[1]
 			self.updateFolderView( 1, fileName )
 
 	def restore_( self ):
