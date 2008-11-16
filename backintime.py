@@ -661,12 +661,6 @@ class MainWindow:
 		#select the specified file
 		if not retVal is None:
 			return
-			startUpFolder = self.getCmdStartUpFolderAndFile( retVal[1] )
-			fileName = ''
-			if not startUpFolder is None:
-				self.folderPath = startUpFolder[0]
-				fileName = startUpFolder[1]
-			self.updateFolderView( 1, fileName )
 
 	def restore_( self ):
 		iter = self.listFolderView.get_selection().get_selected()[1]
