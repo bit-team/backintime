@@ -213,6 +213,7 @@
 	<listitem><para>Current path</para></listitem>
 	<listitem><para>Restore current file/directory</para></listitem>
 	<listitem><para>Copy current file/directory</para></listitem>
+	<listitem><para>Snapshots: show all snapshots for current the file/directory</para></listitem>
 	</varlistentry>
 
 	<varlistentry>
@@ -232,12 +233,14 @@
 	<varlistentry>
 	<term>Files list</term>
 	<listitem>
-	<para>Navigate through the file system at the moment specified in timeline list. Files can be opened 
-	using gnome file association. Keep in mind that snapshots are 'readonly'.</para>
+	<para>Navigate through the file system at the moment specified in timeline list.</para>
+	<para>If you double-click a file it will be opened using gnome file association. Keep in mind that snapshots are 'readonly'.</para>
+	<para>If you double-click a directory it will go to that directory.</para>
 	<para>If you "right-click" on a file or directory you will see a popup-menu</para>
     	<itemizedlist> 
 			<listitem>Open: open the item using gnome-open</listitem>
 			<listitem>Copy: copy selected item (you can paste the file/directory into your file-manager)</listitem>
+			<listitem>Snapshots: show all snapshots for the current file/directory</listitem>
 			<listitem>Restore (only for snapshots items): restore selected file/directory</listitem>
     	</itemizedlist> 
 	</listitem>
@@ -296,6 +299,31 @@
 	</varlistentry>
 
   </variablelist>
+
+  </sect1>
+
+<!-- ================ Snapshots Dialog ================================ -->
+  <sect1 id="snapshotsdialog"> 
+    <title>Snapshots Dialog</title> 
+    <para>Show all snapshots for a specific file or directory.</para>
+
+    <!-- ==== Figure ==== -->
+      <figure id="snapshotsdialog-fig"> 
+	<title>Snapshots Dialog</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata fileref="figures/snapshotsdialog.png" format="PNG"/></imageobject>
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+    <!-- ==== End of Figure ==== -->
+
+	<para>Double-click an item in the snapshots list to open it with gnome file associations.</para>
+	<para>When you select an item, you can:</para>
+    <itemizedlist> 
+		<listitem>jump to</listitem>
+		<listitem>copy to clipboard</listitem>
+   	</itemizedlist> 
 
   </sect1>
 

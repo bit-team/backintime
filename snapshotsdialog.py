@@ -112,24 +112,26 @@ class SnapshotsDialog:
 
 		self.update_snapshots()
 
-		retVal = None
+		returnValue = None
 		while True:
 			retVal = self.dialog.run()
-			if gtk.RESPONSE_CANCEL == retVal:
-				break
-			elif gtk.RESPONSE_OK == retVal: #go to
+			
+			if gtk.RESPONSE_OK == retVal: #go to
 				iter = self.listSnapshots.get_selection().get_selected()[1]
 				if not iter is None:
-					snapshot = self.storeSnapshots.get_value( iter, 1 )
-					retVal = snapshot
+					snapshot_path = self.storeSnapshots.get_value( iter, 1 )
+					returnValue = snapshot_path
 				break
 			elif 1 == retVal: #copy to clipboard
 				iter = self.listSnapshots.get_selection().get_selected()[1]
 				if not iter is None:
-					snapshot_path = self.storeSnapshots.get_value( iter, 2 )
-					gnomeclipboardtools.clipboard_copy_path( snapshot_path )
+					path = self.storeSnapshots.get_value( iter, 2 )
+					gnomeclipboardtools.clipboard_copy_path( path )
 				continue 
+			else:
+				#cancel, close ...
+				break
 
 		self.dialog.hide()
-		return retVal
+		return returnValue
 

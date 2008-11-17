@@ -654,13 +654,20 @@ class MainWindow:
 			return
 
 		path = self.storeFolderView.get_value( iter, 1 )
-		path = os.path.join( self.backupPath, path[ 1 : ] )
-
 		retVal = self.snapshotsDialog.run( path, self.lastBackupList, self.backupPath )
 		
 		#select the specified file
 		if not retVal is None:
-			return
+			iter = self.storeTimeLine.get_iter_first()
+			while not iter is None:
+				snapshot_path = self.storeTimeLine.get_value( iter, 1 )
+				if snapshot_path == retVal:
+					break
+				iter = self.storeTimeLine.iter_next( iter )
+
+			if not iter is None:
+				self.listTimeLine.get_selection().select_iter( iter )
+				self.updateFolderView( 2 )
 
 	def restore_( self ):
 		iter = self.listFolderView.get_selection().get_selected()[1]
