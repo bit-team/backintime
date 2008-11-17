@@ -99,6 +99,12 @@ class SnapshotsDialog:
 					nice_name = "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
 					self.storeSnapshots.append( [ nice_name, snapshot_path, path ] )
 
+		#select first item
+		if len( self.storeSnapshots ) > 0:
+			iter = self.storeSnapshots.get_iter_first()
+			if not iter is None:
+				self.listSnapshots.get_selection().select_iter( iter )
+
 	def on_listSnapshots_row_activated( self, list, path, column ):
 		iter = list.get_selection().get_selected()[1]
 		path = self.storeSnapshots.get_value( iter, 2 )
