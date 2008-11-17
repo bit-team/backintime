@@ -841,6 +841,9 @@ class MainWindow:
 		#update copy button state
 		self.glade.get_widget( 'btnCopy' ).set_sensitive( len( self.storeFolderView ) > 0 )
 
+		#update snapshots button state
+		self.glade.get_widget( 'btnSnapshots' ).set_sensitive( len( self.storeFolderView ) > 0 )
+
 		#display current folder
 		self.glade.get_widget( 'editCurrentPath' ).set_text( self.folderPath )
 
