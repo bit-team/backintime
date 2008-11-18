@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-17 09:22+0100\n"
+"POT-Creation-Date: 2008-11-18 11:54+0100\n"
 "PO-Revision-Date: 2008-10-21 13:45+0200\n"
 "Last-Translator: Oprea Dan <dan@le-web.org>\n"
 "Language-Team: French\n"
@@ -69,7 +69,7 @@ msgstr "Raccourcis"
 msgid "Backup Directories"
 msgstr "Répertoires sauvegardés"
 
-#: backintime.py:429 snapshotsdialog.py:91
+#: backintime.py:429 snapshotsdialog.py:185
 msgid "Now"
 msgstr "Maintenant"
 
@@ -97,7 +97,7 @@ msgstr "Ouvrir"
 msgid "Copy"
 msgstr "Copier"
 
-#: backintime.py:555 snapshotsdialog.py:62 backintime.glade:208
+#: backintime.py:555 snapshotsdialog.py:70 backintime.glade:208
 #: backintime.glade:209 backintime.glade:720
 msgid "Snapshots"
 msgstr "Sauvegardes"
@@ -106,7 +106,7 @@ msgstr "Sauvegardes"
 msgid "Restore"
 msgstr "Récupérer"
 
-#: backintime.py:870
+#: backintime.py:873
 msgid "Back In Time: take snapshot ..."
 msgstr "Back In Time: sauvegarde en cours ..."
 
@@ -180,6 +180,15 @@ msgstr "Le répertoire pour les sauvegardes ne peu pas être sauvegardé !"
 msgid "\"Backup directories\" can't include snapshots directory !"
 msgstr "Vous ne pouvais pas sauvegardé le répertoire pour les sauvegardes !"
 
+#: snapshotsdialog.py:138
+msgid "You can't compare a snapshot to itself"
+msgstr "Vous ne pouvais pas comparer une sauvegarde a elle-même"
+
+#: snapshotsdialog.py:145
+#, python-format
+msgid "Command not found: %s"
+msgstr "Commande non trouvé: %s"
+
 #: backintime.glade:6
 msgid "Back In Time"
 msgstr ""
@@ -224,11 +233,11 @@ msgstr "Sélectionnez un répertoire"
 msgid "<b>Where to save snapshots:</b>"
 msgstr "<b>Répertoire pour les sauvegardes</b>"
 
-#: backintime.glade:419 backintime.glade:468
+#: backintime.glade:383 backintime.glade:430
 msgid "gtk-add"
 msgstr ""
 
-#: backintime.glade:434 backintime.glade:483
+#: backintime.glade:398 backintime.glade:445
 msgid "gtk-remove"
 msgstr ""
 
@@ -244,13 +253,13 @@ msgstr "Sauvegarde automatique"
 msgid "<b>When</b>"
 msgstr "<b>Quand</b>"
 
-#: backintime.glade:591
-msgid "If free space is less then:"
-msgstr "Si l'espace libre est moins que:"
-
-#: backintime.glade:605
+#: backintime.glade:637
 msgid "Older then:"
 msgstr "Les sauvegardes sont plus vieille que:"
+
+#: backintime.glade:647
+msgid "If free space is less then:"
+msgstr "Si l'espace libre est moins que:"
 
 #: backintime.glade:664
 msgid "<b>Remove Backups</b>"
@@ -260,14 +269,34 @@ msgstr "<b>Effacer sauvegardes</b>"
 msgid "gtk-ok"
 msgstr ""
 
-#: backintime.glade:700 backintime.glade:800
+#: backintime.glade:700 backintime.glade:932
 msgid "gtk-cancel"
 msgstr ""
 
-#: backintime.glade:777
+#: backintime.glade:783
+msgid "Diff with"
+msgstr "Comparer avec"
+
+#: backintime.glade:824
+msgid "Command:"
+msgstr "Commande:"
+
+#: backintime.glade:831
+msgid "Parameters:"
+msgstr "Paramètres:"
+
+#: backintime.glade:842
+msgid "Use %1 and %2 for path parameters"
+msgstr ""
+
+#: backintime.glade:881
+msgid "Diff Options"
+msgstr "Options de comparaison"
+
+#: backintime.glade:909
 msgid "gtk-jump-to"
 msgstr ""
 
-#: backintime.glade:787
+#: backintime.glade:919
 msgid "gtk-copy"
 msgstr ""

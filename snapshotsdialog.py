@@ -46,7 +46,8 @@ class SnapshotsDialog:
 		self.dialog = self.glade.get_widget( 'SnapshotsDialog' )
 
 		signals = { 
-			'on_listSnapshots_row_activated' : self.on_listSnapshots_row_activated
+			'on_listSnapshots_row_activated' : self.on_listSnapshots_row_activated,
+			'on_btnDiffWith_clicked' : self.on_btnDiffWith_clicked
 			}
 
 		self.glade.signal_autoconnect( signals )
@@ -54,11 +55,18 @@ class SnapshotsDialog:
 		#path
 		self.editPath = self.glade.get_widget( 'editPath' )
 
+		#diff
+		self.editDiffCmd = self.glade.get_widget( 'editDiffCmd' )
+		self.editDiffCmdParams = self.glade.get_widget( 'editDiffCmdParams' )
+
+		diffCmd, diffCmdParams = config.diffCmd()
+		self.editDiffCmd.set_text( diffCmd )
+		self.editDiffCmdParams.set_text( diffCmdParams )
+
 		#setup backup folders
 		self.listSnapshots = self.glade.get_widget( 'listSnapshots' )
 
 		textRenderer = gtk.CellRendererText()
-
 		column = gtk.TreeViewColumn( _('Snapshots') )
 		column.pack_end( textRenderer, True )
 		column.add_attribute( textRenderer, 'markup', 0 )
@@ -66,6 +74,89 @@ class SnapshotsDialog:
 
 		self.storeSnapshots = gtk.ListStore( str, str, str )
 		self.listSnapshots.set_model( self.storeSnapshots )
+
+		#setup diff with combo
+		textRenderer = gtk.CellRendererText()
+		self.comboDiffWith = self.glade.get_widget( 'comboDiffWith' )
+		self.comboDiffWith.pack_start( textRenderer, True )
+		self.comboDiffWith.add_attribute( textRenderer, 'text', 0 )
+		self.comboDiffWith.set_model( self.storeSnapshots ) #use the same store
+
+	def getCmdOutput( self, cmd ):
+		retVal = ''
+
+		try:
+			pipe = os.popen( cmd )
+			retVal = pipe.read().strip()
+			pipe.close() 
+		except:
+			return ''
+
+		return retVal
+
+	def checkCmd( self, cmd ):
+		cmd = cmd.strip()
+
+		if len( cmd ) < 1:
+			return False
+
+		if os.path.isfile( cmd ):
+			return True
+
+		cmd = self.getCmdOutput( "which \"%s\"" % cmd )
+
+		if len( cmd ) < 1:
+			return False
+
+		if os.path.isfile( cmd ):
+			return True
+
+		return False
+
+	def show_error( self, message ):
+		dialog = gtk.MessageDialog( self.dialog, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, message )
+		dialog.set_title( self.config.APP_NAME )
+		retVal = dialog.run()
+		dialog.destroy()
+		return retVal
+
+	def on_btnDiffWith_clicked( self, button ):
+		if len( self.storeSnapshots ) < 1:
+			return
+
+		#get path from the list
+		iter = self.listSnapshots.get_selection().get_selected()[1]
+		if iter is None:
+			return
+		path1 = self.storeSnapshots.get_value( iter, 2 )
+
+		#get path from the combo
+		path2 = self.storeSnapshots.get_value( self.comboDiffWith.get_active_iter(), 2 )
+
+		#check if the 2 paths are different
+		if path1 == path2:
+			self.show_error( _("You can't compare a snapshot to itself") )
+			return
+
+		diffCmd = self.editDiffCmd.get_text()
+		diffCmdParams = self.editDiffCmdParams.get_text()
+
+		if not self.checkCmd( diffCmd ):
+			self.show_error( _("Command not found: %s") % diffCmd )
+			return
+
+		params = diffCmdParams
+		params = params.replace( '%1', "\"%s\"" % path1 )
+		params = params.replace( '%2', "\"%s\"" % path2 )
+
+		cmd = diffCmd + ' ' + params + ' &'
+		os.system( cmd  )
+
+		#check if the command changed
+		oldDiffCmd, oldDiffCmdParams = self.config.diffCmd()
+		if diffCmd != oldDiffCmd or diffCmdParams != oldDiffCmdParams:
+			self.config.setDiffCmd( diffCmd, diffCmdParams )
+			self.config.save()
 
 	def get_snapshot_path( self, snapshot ):
 		if len( snapshot ) <= 1:
@@ -83,13 +174,19 @@ class SnapshotsDialog:
 	
 		path = os.path.join( self.current_snapshot, self.path[ 1 : ] )	
 		isdir = os.path.isdir( path )
+
+		counter = 0
+		indexComboDiffWith = 0
 		
 		#add now
 		path = self.path
 		if os.path.exists( path ):
 			if os.path.isdir( path ) == isdir:
 				self.storeSnapshots.append( [ _('Now'), '/', path ] )
-
+				if '/' == self.current_snapshot:
+					indexComboDiffWith = counter
+				counter += 1
+				
 		#add snapshots
 		for snapshot in self.snapshots:
 			snapshot_path = self.get_snapshot_path( snapshot )
@@ -98,12 +195,22 @@ class SnapshotsDialog:
 				if os.path.isdir( path ) == isdir:
 					nice_name = "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
 					self.storeSnapshots.append( [ nice_name, snapshot_path, path ] )
+					if snapshot_path == self.current_snapshot:
+						indexComboDiffWith = counter
+					counter += 1
 
 		#select first item
 		if len( self.storeSnapshots ) > 0:
 			iter = self.storeSnapshots.get_iter_first()
 			if not iter is None:
 				self.listSnapshots.get_selection().select_iter( iter )
+			self.comboDiffWith.set_active( indexComboDiffWith )
+	
+			self.glade.get_widget( 'btnDiffWith' ).set_sensitive( True )
+			self.comboDiffWith.set_sensitive( True )
+		else:
+			self.glade.get_widget( 'btnDiffWith' ).set_sensitive( False )
+			self.comboDiffWith.set_sensitive( False )
 
 	def on_listSnapshots_row_activated( self, list, path, column ):
 		iter = list.get_selection().get_selected()[1]

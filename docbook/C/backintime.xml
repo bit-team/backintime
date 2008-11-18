@@ -3,8 +3,8 @@
 <!ENTITY legal SYSTEM "legal.xml">
 <!ENTITY appname "Back In Time">
 <!ENTITY app "<application>&appname;</application>">
-<!ENTITY appversion "0.8.6">
-<!ENTITY manrevision "0.5">
+<!ENTITY appversion "0.8.8">
+<!ENTITY manrevision "0.6">
 <!ENTITY date "November 2008">
 ]>
 <!--
@@ -318,12 +318,25 @@
       </figure>
     <!-- ==== End of Figure ==== -->
 
+    <!-- ==== Figure ==== -->
+      <figure id="snapshotsdialog-diffoptions-fig"> 
+	<title>Snapshots Dialog (diff options)</title> 
+	<screenshot> 
+	  <mediaobject> 
+	    <imageobject><imagedata fileref="figures/snapshotsdialog-diffoptions.png" format="PNG"/></imageobject>
+	  </mediaobject> 
+	</screenshot> 
+      </figure>
+    <!-- ==== End of Figure ==== -->
+
 	<para>Double-click an item in the snapshots list to open it with gnome file associations.</para>
 	<para>When you select an item, you can:</para>
     <itemizedlist> 
 		<listitem>jump to</listitem>
 		<listitem>copy to clipboard</listitem>
    	</itemizedlist> 
+	<para>You can compare two different snapshots.
+	Use diff options to change the diff command and it's parameters.</para>
 
   </sect1>
 

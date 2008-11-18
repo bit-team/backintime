@@ -30,7 +30,7 @@ gettext.textdomain( 'backintime' )
 
 class Config:
 	APP_NAME = 'Back In Time'
-	VERSION = '0.8.6'
+	VERSION = '0.8.8'
 
 	NONE = 0
 	_5_MIN = 2
@@ -94,6 +94,9 @@ class Config:
 		self.MAIN_WINDOW_HPANED1_POSITION = -1
 		self.MAIN_WINDOW_HPANED2_POSITION = -1
 		self.LAST_PATH = ''
+
+		self.DIFF_CMD = 'meld'
+		self.DIFF_CMD_PARAMS = '%1 %2'
 
 		self.load()
 
@@ -223,6 +226,13 @@ class Config:
 		
 		return datetime.date( 1, 1, 1 )
 
+	def diffCmd( self ):
+		return ( self.DIFF_CMD, self.DIFF_CMD_PARAMS )
+
+	def setDiffCmd( self, diffCmd, diffCmdParams ):
+		self.DIFF_CMD = diffCmd
+		self.DIFF_CMD_PARAMS = diffCmdParams
+
 	def minFreeSpace( self ):
 		return self._MIN_FREE_SPACE != 0 and self._MIN_FREE_SPACE_VALUE > 0
 
@@ -279,6 +289,9 @@ class Config:
 		self.MAIN_WINDOW_HPANED2_POSITION = configFile.getInt( 'MAIN_WINDOW_HPANED2_POSITION', -1 )
 		self.LAST_PATH = configFile.getString( 'LAST_PATH', '' )
 
+		self.DIFF_CMD = configFile.getString( 'DIFF_CMD', 'meld' )
+		self.DIFF_CMD_PARAMS = configFile.getString( 'DIFF_CMD_PARAMS', '%1 %2' )
+
 	def save( self ):
 		os.system( "mkdir -p \"%s\"" % self._CONFIG_FOLDER )
 		configFile = ConfigFile()
@@ -301,6 +314,9 @@ class Config:
 		configFile.setInt( 'MAIN_WINDOW_HPANED1_POSITION', self.MAIN_WINDOW_HPANED1_POSITION )
 		configFile.setInt( 'MAIN_WINDOW_HPANED2_POSITION', self.MAIN_WINDOW_HPANED2_POSITION )
 		configFile.setString( 'LAST_PATH', self.LAST_PATH )
+
+		configFile.setString( 'DIFF_CMD', self.DIFF_CMD )
+		configFile.setString( 'DIFF_CMD_PARAMS', self.DIFF_CMD_PARAMS )
 
 		configFile.save( self._CONFIG_PATH )
 
