@@ -28,6 +28,7 @@ import datetime
 import gettext
 
 import config
+import messagebox
 
 
 _=gettext.gettext
@@ -247,43 +248,29 @@ class SettingsDialog:
 	def on_cancel( self, button ):
 		self.dialog.destroy()
 
-	def show_question( self, message ):
-		dialog = gtk.MessageDialog( self.dialog, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, message )
-		dialog.set_title( self.config.APP_NAME )
-		retVal = dialog.run()
-		dialog.destroy()
-		return retVal
-
-	def show_error( self, message ):
-		dialog = gtk.MessageDialog( self.dialog, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, message )
-		dialog.set_title( self.config.APP_NAME )
-		retVal = dialog.run()
-		dialog.destroy()
-		return retVal
-
 	def validate( self ):
 		#check backup path
 		backupPath = self.fcbWhere.get_filename()
 
 		if len( backupPath ) == 0 or not os.path.isdir( backupPath ):
-			self.show_error( _('Snapshots directory can\'t be empty !') )
+			messagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be empty !') )
 			return False
 
 		if len( backupPath ) <= 1:
-			self.show_error( _('Snapshots directory can\'t be the root directory !') )
+			messagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be the root directory !') )
 			return False
 
 		backupPath2 = backupPath + "/"
 
 		#check if back folder changed
 		if len( self.config.backupBasePath() ) > 0 and self.config.backupBasePath() != backupPath:
-			if gtk.RESPONSE_YES != self.show_question( _('Are you sure you want to change snapshots directory ?') ):
+			if gtk.RESPONSE_YES != messagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots directory ?') ):
 				return False 
 
 		#check if there are some include folders
 		iter = self.storeInclude.get_iter_first()
 		if iter is None:
-			self.show_error( _('You must select at least one directory to backup !') )
+			messagebox.show_error( self.dialog, self.config, _('You must select at least one directory to backup !') )
 			return False
 
 		#check it backup and include don't overlap each other
@@ -293,14 +280,14 @@ class SettingsDialog:
 			if path == backupPath:
 				print "Path: " + path
 				print "BackupPath: " + backupPath 
-				self.show_error( _('Snapshots directory can\'t be in "Backup Directories" !') )
+				messagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be in "Backup Directories" !') )
 				return False
 			
 			if len( path ) >= len( backupPath2 ):
 				if path[ : len( backupPath2 ) ] == backupPath2:
 					print "Path: " + path
 					print "BackupPath2: " + backupPath2
-					self.show_error( _('Snapshots directory can\'t be in "Backup Directories" !') )
+					messagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be in "Backup Directories" !') )
 					return False
 			else:
 				path2 = path + "/"
@@ -308,7 +295,7 @@ class SettingsDialog:
 					if path2 == backupPath[ : len( path2 ) ]:
 						print "Path2: " + path2
 						print "BackupPath: " + backupPath 
-						self.show_error( _('"Backup directories" can\'t include snapshots directory !') )
+						messagebox.show_error( self.dialog, self.config, _('"Backup directories" can\'t include snapshots directory !') )
 						return False
 
 			iter = self.storeInclude.iter_next( iter )

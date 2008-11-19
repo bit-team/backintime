@@ -29,6 +29,7 @@ import gettext
 
 import config
 import gnomeclipboardtools 
+import messagebox
 
 
 _=gettext.gettext
@@ -113,13 +114,6 @@ class SnapshotsDialog:
 
 		return False
 
-	def show_error( self, message ):
-		dialog = gtk.MessageDialog( self.dialog, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, message )
-		dialog.set_title( self.config.APP_NAME )
-		retVal = dialog.run()
-		dialog.destroy()
-		return retVal
-
 	def on_btnDiffWith_clicked( self, button ):
 		if len( self.storeSnapshots ) < 1:
 			return
@@ -135,14 +129,14 @@ class SnapshotsDialog:
 
 		#check if the 2 paths are different
 		if path1 == path2:
-			self.show_error( _("You can't compare a snapshot to itself") )
+			messagebox.show_error( self.dialog, self.config, _("You can't compare a snapshot to itself") )
 			return
 
 		diffCmd = self.editDiffCmd.get_text()
 		diffCmdParams = self.editDiffCmdParams.get_text()
 
 		if not self.checkCmd( diffCmd ):
-			self.show_error( _("Command not found: %s") % diffCmd )
+			messagebox.show_error( self.dialog, self.config, _("Command not found: %s") % diffCmd )
 			return
 
 		params = diffCmdParams
