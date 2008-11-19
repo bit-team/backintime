@@ -20,7 +20,8 @@ import syslog
 import os
 
 def openlog():
-	syslog.openlog( "backintime (%s)" % os.getlogin() )
+	name = os.getenv( 'LOGNAME', 'unknown' )
+	syslog.openlog( "backintime (%s)" % name )
 
 def closelog():
 	syslog.closelog()

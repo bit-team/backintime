@@ -37,6 +37,7 @@ import gettext
 import time
 
 import config
+import logger
 import backup
 import settingsdialog
 import snapshotsdialog
@@ -873,7 +874,9 @@ def take_snapshot():
 		except:
 			pass
 
+	logger.openlog()
 	backup.Backup().backup()
+	logger.closelog()
 
 	if not statusIcon is None:
 		statusIcon.set_visible( False )
@@ -900,8 +903,10 @@ if __name__ == '__main__':
 
 	gtk.about_dialog_set_url_hook( open_url, None )
 
+	logger.openlog()
 	mainWindow = MainWindow( cfg, appInstance )
 	gtk.main()
+	logger.closelog()
 
 	appInstance.exitApplication()
 

@@ -23,6 +23,8 @@ import gettext
 import statvfs
 
 import config
+import logger
+import applicationinstance
 
 
 _=gettext.gettext
@@ -35,65 +37,34 @@ class Backup:
 			self.config = config.Config()
 		self.lockFile = None
 
-	def execute( self, cmd, log = None ):
-		print "Execute: %s" % cmd
-		if not log is None:
-			cmd = "%s 2>&1 >\"%s\"" % ( cmd, log )
-		os.system( cmd )
+	def execute( self, cmd ):
+		retVal = os.system( cmd )
 
-	def execute2( self, cmd, log = None ):
-		print "Execute: %s" % cmd
-		if not log is None:
-			cmd = "%s 2>&1 >\"%s\"" % ( cmd, log )
+		if retVal != 0:
+			logger.warning( "Command \"%s\" returns %s" % ( cmd, retVal ) )
+		else:
+			logger.info( "Command \"%s\" returns %s" % ( cmd, retVal ) )
 
+		return retVal
+
+	def execute2( self, cmd ):
 		pipe = os.popen( cmd, 'r' )
 		cmdOutput = pipe.read()
-		pipe.close()
+		retVal = pipe.close()
+
+		if retVal is None:
+			retVal = 0
+
+		if retVal != 0:
+			logger.warning( "Command \"%s\" returns %s" % ( cmd, retVal ) )
+		else:
+			logger.info( "Command \"%s\" returns %s" % ( cmd, retVal ) )
+
 		return cmdOutput
 
-	def log( self, message, log = None ):
-		print message
-		if not log is None:
-			os.system( "echo \"%s\" 2>&1 >\"%s\"" % ( message, log ) )
-
-	def lock( self ):
-		if not self.lockFile is None:
-			return False
-
-		lockFile = self.config.lockFile()
-		if os.path.exists( lockFile ):
-			return False
-
-		try:
-			file = os.open( lockFile, os.O_WRONLY + os.O_CREAT + os.O_EXCL )
-			os.close( file )
-		except:
-			return False
-
-		self.lockFile = lockFile
-		return True
-
-	def unlock( self, force = False ):
-		lockFile = self.lockFile
-		self.lockFile = None
-
-		if force:
-			if lockFile is None:
-				lockFile = self.config.lockFile()
-		
-		if lockFile is None:
-			return False
-
-		self.execute( "rm \"%s\"" % lockFile )
-
-		if os.path.exists( lockFile ):
-			self.lockFile = lockFile
-			return False
-
-		return True
-
 	def isBusy( self ):
-		return os.path.exists( self.config.lockFile() )
+		instance = applicationinstance.ApplicationInstance( self.config.lockFile(), False )
+		return not instance.check()
 
 	def getBackupList( self ):
 		biglist = []
@@ -115,7 +86,7 @@ class Backup:
 		list.sort( reverse = True )
 		return list
 
-	def _backup( self, backup_path, log ):
+	def _backup( self, backup_path ):
 		#check only existing paths
 		all_folders_to_backup = self.config.includeFolders().split( ':' )
 		folders_to_backup = []
@@ -133,7 +104,7 @@ class Backup:
 		#check previous backup
 		old_backup_list = self.getBackupList()
 		if len( old_backup_list ) > 0:
-			self.log( '[backup_] Compare with old backup' )
+			logger.info( "Compare with old snapshot: %s" % old_backup_list[0] )
 
 			prev_backup_path = self.config.backupPath( old_backup_list[ 0 ] )
 			changed_folders = []
@@ -151,10 +122,11 @@ class Backup:
 
 			#check if something changed
 			if len( changed_folders ) == 0:
-				print '[backup_] Nothing changed, no back needed'
+				logger.info( "Nothing changed, no back needed" )
 				return False
 		
 			#create hard links
+			logger.info( "Create hard-links" )
 			self.execute( "mkdir -p \"%s\"" % backup_path )
 			cmd = "cp -al \"%s/\"* \"%s\"" % ( prev_backup_path, backup_path )
 			self.execute( cmd )
@@ -164,22 +136,22 @@ class Backup:
 		#create new backup folder
 		self.execute( "mkdir -p \"%s\"" % backup_path )
 		if not os.path.exists( backup_path ):
-			print "[backup_] Can't create %s" % backup_path
+			logger.error( "Can't create snapshot directory: %s" % backup_path )
 			return False
 
 		#sync changed folders
-		print '[backup_] Start rsync'
 		for folder in changed_folders:
 			backup_folder_path = os.path.join( backup_path, 'backup', folder[ 1 : ] )
-			self.execute( "mkdir -p \"%s\"" % backup_folder_path, log )
+			self.execute( "mkdir -p \"%s\"" % backup_folder_path )
 			cmd = "rsync -av --delete --one-file-system " + rsync_exclude + " \"%s/\" \"%s/\"" % ( folder, backup_folder_path )
-			self.execute( cmd, log )
+			logger.info( "Call rsync for directory: %s" % folder )
+			self.execute( cmd )
 
 		#make new folder read-only
 		self.execute( "chmod -R a-w \"%s\"" % backup_path )
 		return True
 
-	def freeSpace( self, log ):
+	def freeSpace( self ):
 		#remove old backups
 		if self.config.removeOldBackups():
 			listBackups = self.getBackupList()
@@ -187,7 +159,7 @@ class Backup:
 
 			oldBackupDate = self.config.backupName( self.config.removeOldBackupsDate() )
 
-			self.log( "[freeSpace] Remove backups older then: %s" % oldBackupDate, log )
+			logger.info( "Remove backups older then: %s" % oldBackupDate )
 
 			while True:
 				if len( listBackups ) <= 1:
@@ -197,9 +169,9 @@ class Backup:
 
 				path = self.config.backupPath( listBackups[0] )
 				cmd = "chmod -R a+w \"%s\"" %  path
-				self.execute( cmd, log )
+				self.execute( cmd )
 				cmd = "rm -rf \"%s\"" % path
-				self.execute( cmd, log )
+				self.execute( cmd )
 
 				del listBackups[0]
 
@@ -207,7 +179,7 @@ class Backup:
 		if self.config.minFreeSpace():
 			minValue = self.config.minFreeSpaceValueInMb()
 
-			self.log( "[freeSpace] Min free disk space: %s Mb" % minValue, log )
+			logger.info( "Keep min free disk space: %s Mb" % minValue )
 
 			listBackups = self.getBackupList()
 			listBackups.reverse()
@@ -218,16 +190,15 @@ class Backup:
 
 				info = os.statvfs( self.config.backupBasePath() )
 				realValue = info[ statvfs.F_FRSIZE ] * info[ statvfs.F_BAVAIL ] / ( 1024 * 1024 )
-				print "Free disk space: %s Mb" % realValue
 
 				if realValue >= minValue:
 					break
 
 				path = self.config.backupPath( listBackups[0] )
 				cmd = "chmod -R a+w \"%s\"" %  path
-				self.execute( cmd, log )
+				self.execute( cmd )
 				cmd = "rm -rf \"%s\"" % path
-				self.execute( cmd, log )
+				self.execute( cmd )
 
 				del listBackups[0]
 
@@ -236,47 +207,43 @@ class Backup:
 		backup_date = datetime.datetime.today()
 
 		if not self.config.canBackup():
-			print '[backup] not configured or backup path don\'t exists'
+			logger.warning( 'Not configured or backup path don\'t exists' )
 			return False
 
-		if self.isBusy():
-			print '[backup] isBusy'
+		instance = applicationinstance.ApplicationInstance( self.config.lockFile(), False )
+		if not instance.check():
+			logger.warning( 'A backup is already running' )
 			return False
 
-		if not self.lock():
-			print '[backup] lock failed'
-			return False
+		instance.startApplication()
 		
-		print '[backup] LOCK'
+		logger.info( 'Lock' )
 
 		retVal = False
 		
 		backup_path = self.config.backupPath( backup_date )
-		backup_log_path = os.path.join( backup_path, 'log.txt' )
 
 		if os.path.exists( backup_path ):
-			print "[backup] %s already exists" % backup_path
+			logger.warning( "Snapshot path \"%s\" already exists" % backup_path )
 			retVal = True
 		else:
 			#try:
-			retVal = self._backup( backup_path, backup_log_path )
+			retVal = self._backup( backup_path )
 			#except:
 			#	retVal = False
 
 		if not retVal:
 			os.system( "rm -rf \"%s\"" % backup_path )
+			logger.warning( "No new snapshot (not needed or error)" )
 		
 		#try:
-		self.freeSpace( None )
+		self.freeSpace()
 		#except:
 		#	pass
 
 		os.system( 'sleep 2' ) #max 1 backup / second
-		self.unlock()
-		print '[backup] UNLOCK'
+
+		instance.exitApplication()
+		logger.info( 'Unlock' )
 		return retVal
-
-
-if __name__ == '__main__':
-	Backup().backup()
 
