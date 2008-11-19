@@ -426,7 +426,7 @@ class MainWindow:
 			currentSelection = self.storeTimeLine.get_value( iter, 1 )
 
 		self.storeTimeLine.clear()
-		self.storeTimeLine.append( [ _('Now'), '/' ] )
+		self.storeTimeLine.append( [ self.config.snapshotDisplayName( '/' ), '/' ] )
 
 		backupList = self.backup.getBackupList()
 		#print backupList
@@ -484,9 +484,8 @@ class MainWindow:
 		for group in groups:
 			if len( group[2] ) > 0:
 				self.storeTimeLine.append( [ "<b>%s</b>" % group[0], ''] );
-				for backupDate in group[2]:
-					nice_name = "%s-%s-%s %s:%s:%s" % ( backupDate[ 0 : 4 ], backupDate[ 4 : 6 ], backupDate[ 6 : 8 ], backupDate[ 9 : 11 ], backupDate[ 11 : 13 ], backupDate[ 13 : 15 ]  )
-					self.storeTimeLine.append( [ nice_name, os.path.join( self.config.backupPath( backupDate ), 'backup' ) ] )
+				for snapshot in group[2]:
+					self.storeTimeLine.append( [ self.config.snapshotDisplayName( snapshot ), self.config.snapshotPath( snapshot ) ] )
 
 		#select previous item
 		iter = self.storeTimeLine.get_iter_first()

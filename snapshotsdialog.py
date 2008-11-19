@@ -152,14 +152,6 @@ class SnapshotsDialog:
 			self.config.setDiffCmd( diffCmd, diffCmdParams )
 			self.config.save()
 
-	def get_snapshot_path( self, snapshot ):
-		if len( snapshot ) <= 1:
-			return '/'
-
-		snapshot_path = self.config.backupPath( snapshot )
-		path = os.path.join( snapshot_path, 'backup' )
-		return path
-
 	def update_snapshots( self ):
 		self.editPath.set_text( self.path )
 
@@ -176,19 +168,18 @@ class SnapshotsDialog:
 		path = self.path
 		if os.path.exists( path ):
 			if os.path.isdir( path ) == isdir:
-				self.storeSnapshots.append( [ _('Now'), '/', path ] )
+				self.storeSnapshots.append( [ self.config.snapshotDisplayName( '/' ), '/', path ] )
 				if '/' == self.current_snapshot:
 					indexComboDiffWith = counter
 				counter += 1
 				
 		#add snapshots
 		for snapshot in self.snapshots:
-			snapshot_path = self.get_snapshot_path( snapshot )
-			path = os.path.join( snapshot_path, self.path[ 1 : ] )
+			snapshot_path = self.config.snapshotPath( snapshot )
+			path = self.config.snapshotPathTo( snapshot, self.path )
 			if os.path.exists( path ):
 				if os.path.isdir( path ) == isdir:
-					nice_name = "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
-					self.storeSnapshots.append( [ nice_name, snapshot_path, path ] )
+					self.storeSnapshots.append( [ self.config.snapshotDisplayName( snapshot ), snapshot_path, path ] )
 					if snapshot_path == self.current_snapshot:
 						indexComboDiffWith = counter
 					counter += 1

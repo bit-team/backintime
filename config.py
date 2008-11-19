@@ -163,6 +163,27 @@ class Config:
 	def backupBasePath( self ):
 		return self._BASE_BACKUP_PATH
 
+	def snapshotPath( self, snapshot ):
+		if len( snapshot ) <= 1:
+			return '/';
+		return os.path.join( self.backupPath( snapshot ), 'backup' )
+	
+	def snapshotPathTo( self, snapshot, toPath = '/' ):
+		return os.path.join( self.snapshotPath( snapshot ), toPath[ 1 : ] )
+
+	def snapshotDisplayName( self, snapshot ):
+		if len( snapshot ) <= 1:
+			return _('Now')
+
+		retVal = "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
+		name = self.snapshotName( snapshot )
+		if len( name ) > 0:
+			retVal = retVal + ' - ' + name
+		return retVal
+
+	def snapshotName( self, snapshot ):
+		return ''
+
 	def setBackupBasePath( self, value ):
 		self._BASE_BACKUP_PATH = value
 
