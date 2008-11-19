@@ -14,6 +14,7 @@ install --mode=644 README $BASEPATH/usr/share/doc/backintime
 install --mode=644 LICENSE $BASEPATH/usr/share/doc/backintime
 install --mode=644 TRANSLATIONS $BASEPATH/usr/share/doc/backintime
 install --mode=644 AUTHORS $BASEPATH/usr/share/doc/backintime
+install --mode=644 VERSION $BASEPATH/usr/share/doc/backintime
 
 #install .desktop file(s)
 install -d $BASEPATH/usr/share/applications
