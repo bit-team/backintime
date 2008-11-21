@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Fri Nov 21 09:53:49 2008 -->
+<!--Generated with glade3 3.4.5 on Fri Nov 21 14:28:30 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="title" translatable="yes">Back In Time</property>
@@ -31,7 +31,7 @@
                         <signal name="clicked" handler="on_btnBackup_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -43,17 +43,13 @@
                         <signal name="clicked" handler="on_btnSettings_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkSeparatorToolItem" id="toolbutton1">
                         <property name="visible">True</property>
                       </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="homogeneous">False</property>
-                      </packing>
                     </child>
                     <child>
                       <widget class="GtkToolButton" id="btnAbout">
@@ -64,7 +60,7 @@
                         <signal name="clicked" handler="on_btnAbout_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -76,17 +72,13 @@
                         <signal name="clicked" handler="on_btnHelp_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkSeparatorToolItem" id="toolbutton2">
                         <property name="visible">True</property>
                       </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="homogeneous">False</property>
-                      </packing>
                     </child>
                     <child>
                       <widget class="GtkToolButton" id="btnExit">
@@ -97,7 +89,7 @@
                         <signal name="clicked" handler="on_btnExit_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                   </widget>
@@ -172,10 +164,6 @@
                       <widget class="GtkSeparatorToolItem" id="toolbutton4">
                         <property name="visible">True</property>
                       </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="homogeneous">False</property>
-                      </packing>
                     </child>
                     <child>
                       <widget class="GtkToolButton" id="btnFolderUp">
@@ -186,7 +174,7 @@
                         <signal name="clicked" handler="on_btnFolderUp_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -200,19 +188,11 @@
                           </widget>
                         </child>
                       </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="homogeneous">False</property>
-                      </packing>
                     </child>
                     <child>
                       <widget class="GtkSeparatorToolItem" id="toolbutton3">
                         <property name="visible">True</property>
                       </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="homogeneous">False</property>
-                      </packing>
                     </child>
                     <child>
                       <widget class="GtkToolButton" id="btnRestore">
@@ -223,7 +203,7 @@
                         <signal name="clicked" handler="on_btnRestore_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -235,7 +215,7 @@
                         <signal name="clicked" handler="on_btnCopy_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
@@ -247,7 +227,7 @@
                         <signal name="clicked" handler="on_btnSnapshots_clicked"/>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
                       </packing>
                     </child>
                   </widget>
@@ -500,7 +480,7 @@
                         <child>
                           <widget class="GtkScrolledWindow" id="scrolledwindow4">
                             <property name="width_request">250</property>
-                            <property name="height_request">200</property>
+                            <property name="height_request">150</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
@@ -516,7 +496,7 @@
                         <child>
                           <widget class="GtkScrolledWindow" id="scrolledwindow5">
                             <property name="width_request">250</property>
-                            <property name="height_request">200</property>
+                            <property name="height_request">150</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
@@ -644,7 +624,7 @@
                           <widget class="GtkSpinButton" id="editRemoveOldBackupValue">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="adjustment">1 1 1000 1 10 10</property>
+                            <property name="adjustment">1 1 1000 1 10 0</property>
                             <property name="numeric">True</property>
                           </widget>
                           <packing>
@@ -656,7 +636,7 @@
                           <widget class="GtkSpinButton" id="editMinFreeSpaceValue">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="adjustment">1 1 1000 1 10 10</property>
+                            <property name="adjustment">1 1 1000 1 10 0</property>
                             <property name="numeric">True</property>
                           </widget>
                           <packing>
@@ -791,7 +771,7 @@
                     <signal name="clicked" handler="on_btnCopySnapshot_clicked"/>
                   </widget>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
                   </packing>
                 </child>
                 <child>
@@ -803,7 +783,7 @@
                     <signal name="clicked" handler="on_btnRestoreSnapshot_clicked"/>
                   </widget>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
                   </packing>
                 </child>
               </widget>
