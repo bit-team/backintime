@@ -3,8 +3,8 @@
 <!ENTITY legal SYSTEM "legal.xml">
 <!ENTITY appname "Back In Time">
 <!ENTITY app "<application>&appname;</application>">
-<!ENTITY appversion "0.8.10">
-<!ENTITY manrevision "0.8.10">
+<!ENTITY appversion "0.8.10-beta">
+<!ENTITY manrevision "0.8.10-beta">
 <!ENTITY date "November 2008">
 ]>
 <!--
@@ -239,7 +239,7 @@
 	<para>If you "right-click" on a file or directory you will see a popup-menu</para>
     	<itemizedlist> 
 			<listitem>Open: open the item using gnome-open</listitem>
-			<listitem>Copy: copy selected item (you can paste the file/directory into your file-manager)</listitem>
+			<listitem>Copy: copy selected item into clipboard (you can paste the file/directory into your file-manager)</listitem>
 			<listitem>Snapshots: show all snapshots for the current file/directory</listitem>
 			<listitem>Restore (only for snapshots items): restore selected file/directory</listitem>
     	</itemizedlist> 
@@ -332,13 +332,22 @@
 	<para>Double-click an item in the snapshots list to open it with gnome file associations.</para>
 	<para>When you select an item, you can:</para>
     <itemizedlist> 
-		<listitem>jump to</listitem>
-		<listitem>copy to clipboard</listitem>
+		<listitem>Jump to: close the dialog an go to the selected snapshot in the main window</listitem>
+		<listitem>Copy the item to clipboard</listitem>
+		<listitem>Restore it (only for snapshots)</listitem>
    	</itemizedlist> 
 	<para>You can compare two different snapshots.
 	By default it use 'meld' to compare files adn directories.
 	Use diff options to change the diff command and it's parameters.</para>
 
+	<para>If you "right-click" on a snapshot you will see a popup-menu</para>
+    	<itemizedlist> 
+			<listitem>Open: open the item using gnome-open</listitem>
+			<listitem>Copy: copy selected item into clipboard (you can paste the file/directory into your file-manager)</listitem>
+			<listitem>Jump to: close the dialog an go to the selected snapshot in the main window</listitem>
+			<listitem>Restore (only for snapshots): restore selected file/directory</listitem>
+			<listitem>Diff: compare it with another snapshot</listitem>
+    	</itemizedlist> 
   </sect1>
 
 <!-- ================ Integration with Nautilus ================================ -->
