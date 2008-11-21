@@ -44,6 +44,6 @@ def __clipboard_copy_path_get( clipboard, selectiondata, info, path ):
 	selectiondata.set_uris( [ 'file://' + path2 ] )
 	selectiondata.set( 'x-special/gnome-copied-files', 8, 'copy\nfile://' + path2 );
 
-def __clipboard_copy_path_clear( self, clipboard, path ):
+def __clipboard_copy_path_clear( self, path ):
 	return
 
