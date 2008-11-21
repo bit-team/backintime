@@ -214,10 +214,20 @@ class MainWindow:
 			self.glade.get_widget('hpaned1').set_position( self.config.MAIN_WINDOW_HPANED1_POSITION )
 			self.glade.get_widget('hpaned2').set_position( self.config.MAIN_WINDOW_HPANED2_POSITION )
 
+		#prepare popup menu ids
+		gtk.stock_add( 
+				[ ('backintime.open', _('Open'), 0, 0, 'backintime' ),
+				  ('backintime.copy', _('Copy'), 0, 0, 'backintime' ),
+				  ('backintime.snapshots', _('Snapshots'), 0, 0, 'backintime' ),
+				  ('backintime.diff', _('Diff'), 0, 0, 'backintime' ),
+				  ('backintime.restore', _('Restore'), 0, 0, 'backintime' ) ] )
+
+		#create dialogs
 		self.aboutDialog = AboutDialog( self.config, self.glade )
 		self.settingsDialog = settingsdialog.SettingsDialog( self.config, self.glade )
-		self.snapshotsDialog = snapshotsdialog.SnapshotsDialog( self.config, self.glade )
+		self.snapshotsDialog = snapshotsdialog.SnapshotsDialog( self.backup, self.glade )
 
+		#show main window
 		self.window.show()
 
 		gobject.timeout_add( 100, self.onInit )
@@ -547,14 +557,6 @@ class MainWindow:
 			return
 
 		#print "popup-menu"
-
-		if self.popupMenu is None:
-			gtk.stock_add( 
-					[ ('backintime.open', _('Open'), 0, 0, 'backintime' ),
-					  ('backintime.copy', _('Copy'), 0, 0, 'backintime' ),
-					  ('backintime.snapshots', _('Snapshots'), 0, 0, 'backintime' ),
-					  ('backintime.restore', _('Restore'), 0, 0, 'backintime' ) ] )
-
 		self.popupMenu = gtk.Menu()
 
 		menuItem = gtk.ImageMenuItem( 'backintime.open' )
@@ -654,7 +656,8 @@ class MainWindow:
 			return
 
 		path = self.storeFolderView.get_value( iter, 1 )
-		retVal = self.snapshotsDialog.run( path, self.lastBackupList, self.backupPath )
+		icon_name = self.storeFolderView.get_value( iter, 2 )
+		retVal = self.snapshotsDialog.run( path, self.lastBackupList, self.backupPath, icon_name )
 		
 		#select the specified file
 		if not retVal is None:
@@ -672,14 +675,10 @@ class MainWindow:
 	def restore_( self ):
 		iter = self.listFolderView.get_selection().get_selected()[1]
 		if not iter is None:
-			backupSuffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
-			path = self.storeFolderView.get_value( iter, 1 )
-
-			cmd = "rsync -avR --backup --suffix=%s --one-file-system --chmod=+w %s/.%s %s" % ( backupSuffix, self.backupPath, path, '/' )
-			print "[restore] cmd: " + cmd
-			os.system( cmd )
+			self.backup.restore( self.backupPath, self.storeFolderView.get_value( iter, 1 ) )
 
 		self.glade.get_widget( 'btnRestore' ).set_sensitive( True )
+		return False
 
 	def on_btnAbout_clicked( self, button ):
 		self.aboutDialog.run()
