@@ -1,105 +1,111 @@
 # French translation of Back In Time.
 # Copyright (C) 2008 Oprea Dan <dan@le-web.org>
 # This file is distributed under the same license as the Back In Time package.
-# 
-# 
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-19 14:11+0100\n"
+"POT-Creation-Date: 2008-11-21 10:33+0100\n"
 "PO-Revision-Date: 2008-11-19 14:19+0100\n"
 "Last-Translator:  <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n > 1);"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: backintime.py:124 backintime.py:373
+#: backintime.py:125 backintime.py:384
 msgid "Done"
 msgstr "Terminé"
 
-#: backintime.py:132
+#: backintime.py:133
 msgid "Places"
 msgstr "Raccourcis"
 
-#: backintime.py:152
+#: backintime.py:153
 msgid "Name"
 msgstr "Nom"
 
-#: backintime.py:168
+#: backintime.py:169
 msgid "Size"
 msgstr "Taille"
 
-#: backintime.py:175
+#: backintime.py:176
 msgid "Date"
 msgstr "Date"
 
-#: backintime.py:189
+#: backintime.py:190
 msgid "Timeline"
 msgstr "Sauvegardes"
 
-#: backintime.py:361
-msgid "Working ..."
-msgstr "Sauvegarde en cours ..."
-
-#: backintime.py:375
-msgid "Done, no backup needed"
-msgstr "Terminé, pas besoin de sauvegarde"
-
-#: backintime.py:383
-msgid "Global"
-msgstr "Global"
-
-#: backintime.py:384
-msgid "Root"
-msgstr "Système de fichiers"
-
-#: backintime.py:385
-msgid "Home"
-msgstr "Dossier personnel"
-
-#: backintime.py:409
-msgid "Bookmarks"
-msgstr "Raccourcis"
-
-#: backintime.py:418 settingsdialog.py:64
-msgid "Backup Directories"
-msgstr "Répertoires sauvegardés"
-
-#: backintime.py:441
-msgid "Today"
-msgstr "Aujourd'hui"
-
-#: backintime.py:445
-msgid "Yesterday"
-msgstr "Hier"
-
-#: backintime.py:449
-msgid "This week"
-msgstr "Cette semaine"
-
-#: backintime.py:453
-msgid "Last week"
-msgstr "Semaine dernier"
-
-#: backintime.py:552
+#: backintime.py:219
 msgid "Open"
 msgstr "Ouvrir"
 
-#: backintime.py:553 backintime.glade:220 backintime.glade:221
+#: backintime.py:220 backintime.glade:232 backintime.glade:233
+#: backintime.glade:788 backintime.glade:789
 msgid "Copy"
 msgstr "Copier"
 
-#: backintime.py:554 snapshotsdialog.py:71 backintime.glade:232
-#: backintime.glade:233 backintime.glade:744
+#: backintime.py:221 snapshotsdialog.py:78 backintime.glade:244
+#: backintime.glade:245 backintime.glade:756
 msgid "Snapshots"
 msgstr "Sauvegardes"
 
-#: backintime.py:555 backintime.glade:208 backintime.glade:209
+#: backintime.py:222
+msgid "Diff"
+msgstr "Comparer"
+
+#: backintime.py:223 backintime.glade:220 backintime.glade:221
+#: backintime.glade:800
 msgid "Restore"
 msgstr "Récupérer"
+
+#: backintime.py:372
+msgid "Working ..."
+msgstr "Sauvegarde en cours ..."
+
+#: backintime.py:386
+msgid "Done, no backup needed"
+msgstr "Terminé, pas besoin de sauvegarde"
+
+#: backintime.py:394
+msgid "Global"
+msgstr "Global"
+
+#: backintime.py:395
+msgid "Root"
+msgstr "Système de fichiers"
+
+#: backintime.py:396
+msgid "Home"
+msgstr "Dossier personnel"
+
+#: backintime.py:420
+msgid "Bookmarks"
+msgstr "Raccourcis"
+
+#: backintime.py:429 settingsdialog.py:64
+msgid "Backup Directories"
+msgstr "Répertoires sauvegardés"
+
+#: backintime.py:452
+msgid "Today"
+msgstr "Aujourd'hui"
+
+#: backintime.py:456
+msgid "Yesterday"
+msgstr "Hier"
+
+#: backintime.py:460
+msgid "This week"
+msgstr "Cette semaine"
+
+#: backintime.py:464
+msgid "Last week"
+msgstr "Semaine dernier"
 
 #: backintime.py:872
 msgid "Back In Time: take snapshot ..."
@@ -179,11 +185,11 @@ msgstr "Le répertoire pour les sauvegardes ne peu pas être sauvegardé !"
 msgid "\"Backup directories\" can't include snapshots directory !"
 msgstr "Vous ne pouvais pas sauvegardé le répertoire pour les sauvegardes !"
 
-#: snapshotsdialog.py:132
+#: snapshotsdialog.py:251
 msgid "You can't compare a snapshot to itself"
 msgstr "Vous ne pouvais pas comparer une sauvegarde a elle-même"
 
-#: snapshotsdialog.py:139
+#: snapshotsdialog.py:258
 #, python-format
 msgid "Command not found: %s"
 msgstr "Commande non trouvé: %s"
@@ -200,103 +206,105 @@ msgstr "Sauvegarder maintenant"
 msgid "Backup Now"
 msgstr "Sauvegarder maintenant"
 
-#: backintime.glade:40 backintime.glade:41 backintime.glade:324
+#: backintime.glade:40 backintime.glade:41 backintime.glade:336
 msgid "Settings"
 msgstr "Préférences"
 
-#: backintime.glade:60 backintime.glade:61
+#: backintime.glade:61 backintime.glade:62
 msgid "About"
 msgstr "A propos"
 
-#: backintime.glade:72 backintime.glade:73
+#: backintime.glade:73 backintime.glade:74
 msgid "Help"
 msgstr "Aide"
 
-#: backintime.glade:92 backintime.glade:93
+#: backintime.glade:94 backintime.glade:95
 msgid "Exit"
 msgstr "Quitter"
 
-#: backintime.glade:172
+#: backintime.glade:183
 msgid "Parent Directory"
 msgstr "Répertoire parent"
 
-#: backintime.glade:173
+#: backintime.glade:184
 msgid "Up"
 msgstr "Dossier parent"
 
-#: backintime.glade:355
+#: backintime.glade:367
 msgid "Select A Folder"
 msgstr "Sélectionnez un répertoire"
 
-#: backintime.glade:363
+#: backintime.glade:375
 msgid "<b>Where to save snapshots:</b>"
 msgstr "<b>Répertoire pour les sauvegardes</b>"
 
-#: backintime.glade:443 backintime.glade:492
+#: backintime.glade:419 backintime.glade:466
 msgid "gtk-add"
 msgstr "gtk-add"
 
-#: backintime.glade:458 backintime.glade:507
+#: backintime.glade:434 backintime.glade:481
 msgid "gtk-remove"
 msgstr "gtk-remove"
 
-#: backintime.glade:531
+#: backintime.glade:543
 msgid "<b>What to backup</b>"
 msgstr "<b>Répertoires à sauvegarder</b>"
 
-#: backintime.glade:559
+#: backintime.glade:571
 msgid "Automatic backup: "
 msgstr "Sauvegarde automatique"
 
-#: backintime.glade:581
+#: backintime.glade:593
 msgid "<b>When</b>"
 msgstr "<b>Quand</b>"
 
-#: backintime.glade:615
-msgid "If free space is less then:"
-msgstr "Si l'espace libre est moins que:"
-
-#: backintime.glade:629
+#: backintime.glade:673
 msgid "Older then:"
 msgstr "Les sauvegardes sont plus vieille que:"
 
-#: backintime.glade:688
+#: backintime.glade:683
+msgid "If free space is less then:"
+msgstr "Si l'espace libre est moins que:"
+
+#: backintime.glade:700
 msgid "<b>Remove Backups</b>"
 msgstr "<b>Effacer sauvegardes</b>"
 
-#: backintime.glade:713
+#: backintime.glade:725
 msgid "gtk-ok"
 msgstr "gtk-ok"
 
-#: backintime.glade:724 backintime.glade:956
+#: backintime.glade:736 backintime.glade:994
 msgid "gtk-cancel"
 msgstr "gtk-cancel"
 
-#: backintime.glade:807
+#: backintime.glade:801
+msgid "Restrore"
+msgstr "Récupérer"
+
+#: backintime.glade:858
 msgid "Diff with"
 msgstr "Comparer avec"
 
-#: backintime.glade:870
-msgid "Use %1 and %2 for path parameters"
-msgstr "Utilizes %1 et %2 pour les deux chemins"
-
-#: backintime.glade:884
-msgid "Parameters:"
-msgstr "Paramètres:"
-
-#: backintime.glade:895
+#: backintime.glade:899
 msgid "Command:"
 msgstr "Commande:"
 
-#: backintime.glade:905
+#: backintime.glade:906
+msgid "Parameters:"
+msgstr "Paramètres:"
+
+#: backintime.glade:917
+msgid "Use %1 and %2 for path parameters"
+msgstr "Utilizes %1 et %2 pour les deux chemins"
+
+#: backintime.glade:956
 msgid "Diff Options"
 msgstr "Options de comparaison"
 
-#: backintime.glade:933
+#: backintime.glade:984
 msgid "gtk-jump-to"
 msgstr "gtk-jump-to"
 
-#: backintime.glade:943
-msgid "gtk-copy"
-msgstr "gtk-copy"
-
+#~ msgid "gtk-copy"
+#~ msgstr "gtk-copy"
