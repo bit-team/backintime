@@ -36,19 +36,26 @@ _=gettext.gettext
 
 
 class SnapshotsDialog:
-	def __init__( self, config, glade ):
-		self.config = config
+	def __init__( self, backup, glade ):
+		self.backup = backup
+		self.config = backup.config
 		self.glade = glade
 
 		self.path = None
 		self.snapshots = None
 		self.current_snapshot = None
+		self.icon_name = None
 
 		self.dialog = self.glade.get_widget( 'SnapshotsDialog' )
 
 		signals = { 
+			'on_listSnapshots_cursor_changed' : self.on_listSnapshots_cursor_changed,
 			'on_listSnapshots_row_activated' : self.on_listSnapshots_row_activated,
-			'on_btnDiffWith_clicked' : self.on_btnDiffWith_clicked
+			'on_listSnapshots_popup_menu' : self.on_listSnapshots_popup_menu,
+			'on_listSnapshots_button_press_event': self.on_listSnapshots_button_press_event,
+			'on_btnDiffWith_clicked' : self.on_btnDiffWith_clicked,
+			'on_btnCopySnapshot_clicked' : self.on_btnCopySnapshot_clicked,
+			'on_btnRestoreSnapshot_clicked' : self.on_btnRestoreSnapshot_clicked
 			}
 
 		self.glade.signal_autoconnect( signals )
@@ -60,7 +67,7 @@ class SnapshotsDialog:
 		self.editDiffCmd = self.glade.get_widget( 'editDiffCmd' )
 		self.editDiffCmdParams = self.glade.get_widget( 'editDiffCmdParams' )
 
-		diffCmd, diffCmdParams = config.diffCmd()
+		diffCmd, diffCmdParams = self.config.diffCmd()
 		self.editDiffCmd.set_text( diffCmd )
 		self.editDiffCmdParams.set_text( diffCmdParams )
 
@@ -82,6 +89,118 @@ class SnapshotsDialog:
 		self.comboDiffWith.pack_start( textRenderer, True )
 		self.comboDiffWith.add_attribute( textRenderer, 'text', 0 )
 		self.comboDiffWith.set_model( self.storeSnapshots ) #use the same store
+
+	def updateToolbar( self ):
+		if len( self.storeSnapshots ) <= 0:
+			self.glade.get_widget( 'btnCopySnapshot' ).set_sensitive( False )
+			self.glade.get_widget( 'btnRestoreSnapshot' ).set_sensitive( False )
+		else:
+			self.glade.get_widget( 'btnCopySnapshot' ).set_sensitive( True )
+
+			iter = self.listSnapshots.get_selection().get_selected()[1]
+			if iter is None:
+				self.glade.get_widget( 'btnRestoreSnapshot' ).set_sensitive( False )
+			else:
+				path = self.storeSnapshots.get_value( iter, 1 )
+				self.glade.get_widget( 'btnRestoreSnapshot' ).set_sensitive( len( path ) > 1 )
+
+	def on_btnRestoreSnapshot_clicked( self, button ):
+		iter = self.listSnapshots.get_selection().get_selected()[1]
+		if not iter is None:
+			self.glade.get_widget('btnRestoreSnapshot').set_sensitive( False )
+			gobject.timeout_add( 100, self.restore_ )
+
+	def restore_( self ):
+		iter = self.listSnapshots.get_selection().get_selected()[1]
+		if not iter is None:
+			self.backup.restore( self.storeSnapshots.get_value( iter, 1 ), self.path )
+
+		self.glade.get_widget( 'btnRestoreSnapshot' ).set_sensitive( True )
+		return False
+
+	def on_btnCopySnapshot_clicked( self, button ):
+		iter = self.listSnapshots.get_selection().get_selected()[1]
+		if not iter is None:
+			path = self.storeSnapshots.get_value( iter, 2 )
+			gnomeclipboardtools.clipboard_copy_path( path )
+ 
+	def on_listSnapshots_cursor_changed( self, list ):
+		self.updateToolbar()
+
+	def on_listSnapshots_button_press_event( self, list, event ):
+		if event.button != 3:
+			return
+
+		if len( self.storeSnapshots ) <= 0:
+			return
+
+		path = self.listSnapshots.get_path_at_pos( int( event.x ), int( event.y ) )
+		if path is None:
+			return
+		path = path[0]
+	
+		self.listSnapshots.get_selection().select_path( path )
+		self.updateToolbar()
+		self.showPopupMenu( self.listSnapshots, event.button, event.time )
+
+	def on_listSnapshots_popup_menu( self, list ):
+		self.showPopupMenu( list, 1, gtk.get_current_event_time() )
+
+	def showPopupMenu( self, list, button, time ):
+		iter = list.get_selection().get_selected()[1]
+		if iter is None:
+			return
+
+		#print "popup-menu"
+		self.popupMenu = gtk.Menu()
+
+		menuItem = gtk.ImageMenuItem( 'backintime.open' )
+		menuItem.set_image( gtk.image_new_from_icon_name( self.icon_name, gtk.ICON_SIZE_MENU ) )
+		menuItem.connect( 'activate', self.on_listSnapshots_open_item )
+		self.popupMenu.append( menuItem )
+
+		self.popupMenu.append( gtk.SeparatorMenuItem() )
+
+		menuItem = gtk.ImageMenuItem( 'backintime.copy' )
+		menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_COPY, gtk.ICON_SIZE_MENU ) )
+		menuItem.connect( 'activate', self.on_listSnapshots_copy_item )
+		self.popupMenu.append( menuItem )
+
+		menuItem = gtk.ImageMenuItem( gtk.STOCK_JUMP_TO )
+		menuItem.connect( 'activate', self.on_listSnapshots_jumpto_item )
+		self.popupMenu.append( menuItem )
+
+		path = self.storeSnapshots.get_value( iter, 1 )
+		if len( path ) > 1:
+			menuItem = gtk.ImageMenuItem( 'backintime.restore' )
+			menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_UNDELETE, gtk.ICON_SIZE_MENU ) )
+			menuItem.connect( 'activate', self.on_listSnapshots_restore_item )
+			self.popupMenu.append( menuItem )
+
+		self.popupMenu.append( gtk.SeparatorMenuItem() )
+
+		menuItem = gtk.ImageMenuItem( 'backintime.diff' )
+		#menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_COPY, gtk.ICON_SIZE_MENU ) )
+		menuItem.connect( 'activate', self.on_listSnapshots_diff_item )
+		self.popupMenu.append( menuItem )
+
+		self.popupMenu.show_all()
+		self.popupMenu.popup( None, None, None, button, time )
+
+	def on_listSnapshots_diff_item( self, widget, data = None ):
+		self.on_btnDiffWith_clicked( self.glade.get_widget( 'btnDiffWith' ) )
+
+	def on_listSnapshots_jumpto_item( self, widget, data = None ):
+		self.dialog.response( gtk.RESPONSE_OK )
+
+	def on_listSnapshots_open_item( self, widget, data = None ):
+		self.open_item()
+
+	def on_listSnapshots_restore_item( self, widget, data = None ):
+		self.on_btnRestoreSnapshot_clicked( self.glade.get_widget( 'btnRestoreSnapshot' ) )
+
+	def on_listSnapshots_copy_item( self, widget, data = None ):
+		self.on_btnCopySnapshot_clicked( self.glade.get_widget( 'btnCopySnapshot' ) )
 
 	def getCmdOutput( self, cmd ):
 		retVal = ''
@@ -197,16 +316,24 @@ class SnapshotsDialog:
 			self.glade.get_widget( 'btnDiffWith' ).set_sensitive( False )
 			self.comboDiffWith.set_sensitive( False )
 
+		self.updateToolbar()
+
 	def on_listSnapshots_row_activated( self, list, path, column ):
-		iter = list.get_selection().get_selected()[1]
+		self.open_item()
+
+	def open_item( self ):
+		iter = self.listSnapshots.get_selection().get_selected()[1]
+		if iter is None:
+			return
 		path = self.storeSnapshots.get_value( iter, 2 )
 		cmd = "gnome-open \"%s\" &" % path
 		os.system( cmd )
- 
-	def run( self, path, snapshots, current_snapshot ):
+
+	def run( self, path, snapshots, current_snapshot, icon_name ):
 		self.path = path
 		self.snapshots = snapshots
 		self.current_snapshot = current_snapshot
+		self.icon_name = icon_name
 
 		self.update_snapshots()
 
@@ -220,12 +347,6 @@ class SnapshotsDialog:
 					snapshot_path = self.storeSnapshots.get_value( iter, 1 )
 					returnValue = snapshot_path
 				break
-			elif 1 == retVal: #copy to clipboard
-				iter = self.listSnapshots.get_selection().get_selected()[1]
-				if not iter is None:
-					path = self.storeSnapshots.get_value( iter, 2 )
-					gnomeclipboardtools.clipboard_copy_path( path )
-				continue 
 			else:
 				#cancel, close ...
 				break
