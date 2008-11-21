@@ -37,6 +37,12 @@ class Backup:
 			self.config = config.Config()
 		self.lockFile = None
 
+	def restore( self, snapshot_path, path ):
+		logger.info( "Restore: %s" % path )
+		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
+		cmd = "rsync -avR --backup --suffix=%s --one-file-system --chmod=+w %s/.%s %s" % ( backup_suffix, snapshot_path, path, '/' )
+		self.execute( cmd )
+
 	def execute( self, cmd ):
 		retVal = os.system( cmd )
 
