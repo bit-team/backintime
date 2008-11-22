@@ -179,6 +179,7 @@ class MainWindow:
 		#column.set_alignment( 0.5 )
 		self.listFolderView.append_column( column )
 
+		# display name, relative path, icon_name, type (0 - directory, 1 - file), date, size 
 		self.storeFolderView = gtk.ListStore( str, str, str, int, str, str )
 		self.listFolderView.set_model( self.storeFolderView )
 
@@ -187,12 +188,13 @@ class MainWindow:
 
 		textRenderer = gtk.CellRendererText()
 
-		column = gtk.TreeViewColumn( _('Timeline'), textRenderer, markup = 0 )
+		column = gtk.TreeViewColumn( _('Timeline'), textRenderer, markup = 2 )
 		column.set_cell_data_func( textRenderer, self.placesTextRendererFunction, None )
 		#column.set_alignment( 0.5 )
 		self.listTimeLine.append_column( column )
 
-		self.storeTimeLine = gtk.ListStore( str, str )
+		#name, path, display name
+		self.storeTimeLine = gtk.ListStore( str, str, str )
 		self.listTimeLine.set_model( self.storeTimeLine )
 		self.listTimeLine.get_selection().set_select_function( self.placesSelectFunction, self.storeTimeLine )
 		self.updateTimeLine = False
@@ -226,6 +228,7 @@ class MainWindow:
 		self.aboutDialog = AboutDialog( self.config, self.glade )
 		self.settingsDialog = settingsdialog.SettingsDialog( self.config, self.glade )
 		self.snapshotsDialog = snapshotsdialog.SnapshotsDialog( self.backup, self.glade )
+		self.renameSnapshotDialog = renamesnapshotdialog.RenameSnapshotDialog( self.config, self.glade )
 
 		#show main window
 		self.window.show()
@@ -323,6 +326,9 @@ class MainWindow:
 			return True
 
 		if self.snapshotsDialog.dialog.get_property( 'visible' ):
+			return True
+
+		if self.renameSnapshotDialog.dialog.get_property( 'visible' ):
 			return True
 
 		if len( self.storeTimeLine ) <= 0:
@@ -437,7 +443,7 @@ class MainWindow:
 			currentSelection = self.storeTimeLine.get_value( iter, 1 )
 
 		self.storeTimeLine.clear()
-		self.storeTimeLine.append( [ self.config.snapshotDisplayName( '/' ), '/' ] )
+		self.storeTimeLine.append( [ '/', '/', self.config.snapshotDisplayName( '/' ) ] )
 
 		backupList = self.backup.getBackupList()
 		#print backupList
@@ -494,9 +500,9 @@ class MainWindow:
 		#fill timeline list
 		for group in groups:
 			if len( group[2] ) > 0:
-				self.storeTimeLine.append( [ "<b>%s</b>" % group[0], ''] );
+				self.storeTimeLine.append( [ '', '', "<b>%s</b>" % group[0]] );
 				for snapshot in group[2]:
-					self.storeTimeLine.append( [ self.config.snapshotDisplayName( snapshot ), self.config.snapshotPath( snapshot ) ] )
+					self.storeTimeLine.append( [ snapshot, self.config.snapshotPath( snapshot ), self.config.snapshotDisplayName( snapshot ) ] )
 
 		#select previous item
 		iter = self.storeTimeLine.get_iter_first()

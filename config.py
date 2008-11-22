@@ -171,18 +171,51 @@ class Config:
 	def snapshotPathTo( self, snapshot, toPath = '/' ):
 		return os.path.join( self.snapshotPath( snapshot ), toPath[ 1 : ] )
 
-	def snapshotDisplayName( self, snapshot ):
+	def snapshotDisplayName( self, snapshot, simple = False ):
 		if len( snapshot ) <= 1:
 			return _('Now')
 
 		retVal = "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
 		name = self.snapshotName( snapshot )
 		if len( name ) > 0:
+			if not simple:
+				name = "<b>%s</b>" % name
 			retVal = retVal + ' - ' + name
 		return retVal
 
 	def snapshotName( self, snapshot ):
-		return ''
+		if len( snapshot ) <= 1: #not a snapshot
+			return ''
+
+		path = self.backupPath( snapshot )
+		if not os.path.isdir( path ):
+			return ''
+		
+		retVal = ''
+
+		try:
+			file = open( os.path.join( path, 'name' ), 'rt' )
+			retVal = file.read()
+			file.close()
+		except:
+			pass
+
+		return retVal
+
+	def setSnapshotName( self, snapshot, name ):
+		if len( snapshot ) <= 1: #not a snapshot
+			return
+
+		path = self.backupPath( snapshot )
+		if not os.path.isdir( path ):
+			return
+
+		try:
+			file = open( os.path.join( path, 'name' ), 'wt' )
+			file.write( name )
+			file.close()
+		except:
+			pass
 
 	def setBackupBasePath( self, value ):
 		self._BASE_BACKUP_PATH = value
