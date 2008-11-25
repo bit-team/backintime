@@ -36,15 +36,15 @@ _=gettext.gettext
 
 
 class SnapshotsDialog:
-	def __init__( self, backup, glade ):
+	def __init__( self, backup, glade, path, snapshots, current_snapshot, icon_name ):
 		self.backup = backup
 		self.config = backup.config
 		self.glade = glade
 
-		self.path = None
-		self.snapshots = None
-		self.current_snapshot = None
-		self.icon_name = None
+		self.path = path
+		self.snapshots = snapshots
+		self.current_snapshot = current_snapshot
+		self.icon_name = icon_name
 
 		self.dialog = self.glade.get_widget( 'SnapshotsDialog' )
 
@@ -89,6 +89,9 @@ class SnapshotsDialog:
 		self.comboDiffWith.pack_start( textRenderer, True )
 		self.comboDiffWith.add_attribute( textRenderer, 'text', 0 )
 		self.comboDiffWith.set_model( self.storeSnapshots ) #use the same store
+
+		#update snapshots
+		self.update_snapshots()
 
 	def updateToolbar( self ):
 		if len( self.storeSnapshots ) <= 0:
@@ -329,14 +332,7 @@ class SnapshotsDialog:
 		cmd = "gnome-open \"%s\" &" % path
 		os.system( cmd )
 
-	def run( self, path, snapshots, current_snapshot, icon_name ):
-		self.path = path
-		self.snapshots = snapshots
-		self.current_snapshot = current_snapshot
-		self.icon_name = icon_name
-
-		self.update_snapshots()
-
+	def run( self ):
 		returnValue = None
 		while True:
 			retVal = self.dialog.run()

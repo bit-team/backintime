@@ -227,12 +227,6 @@ class MainWindow:
 				  ('backintime.diff', _('Diff'), 0, 0, 'backintime' ),
 				  ('backintime.restore', _('Restore'), 0, 0, 'backintime' ) ] )
 
-		#create dialogs
-		self.aboutDialog = AboutDialog( self.config, self.glade )
-		self.settingsDialog = settingsdialog.SettingsDialog( self.config, self.glade )
-		self.snapshotsDialog = snapshotsdialog.SnapshotsDialog( self.backup, self.glade )
-		self.snapshotNameDialog = snapshotnamedialog.SnapshotNameDialog( self.backup, self.glade )
-
 		#show main window
 		self.window.show()
 
@@ -241,7 +235,7 @@ class MainWindow:
 
 	def onInit( self ):
 		if not self.config.isConfigured():
-			self.settingsDialog.run()
+			settingsdialog.SettingsDialog( self.config, self.glade ).run()
 
 			if not self.config.isConfigured():
 				gtk.main_quit()
@@ -317,37 +311,27 @@ class MainWindow:
 		if raise_cmd is None:
 			return True
 
-		print "raise cmd: " + raise_cmd
+		print "Raise cmd: " + raise_cmd
 		self.window.present_with_time( int(time.time()) )
 		self.window.window.focus()
 		#self.window.present()
 
-		if self.aboutDialog.dialog.get_property( 'visible' ):
-			return True
-
-		if self.settingsDialog.dialog.get_property( 'visible' ):
-			return True
-
-		if self.snapshotsDialog.dialog.get_property( 'visible' ):
-			return True
-
-		if self.snapshotNameDialog.dialog.get_property( 'visible' ):
-			return True
-
-		if len( self.storeTimeLine ) <= 0:
-			return True
-
-		if not self.config.isConfigured():
-			return True
-
 		if len( raise_cmd ) == 0:
 			return True
+
+		print "Check if the main window is the only top level visible window"
+		for window in gtk.window_list_toplevels():
+			if window.get_property( 'visible' ):
+				if window != self.window:
+					print "Failed"
+					return True
+
+		print "OK"
 
 		folderAndFile = self.getCmdStartUpFolderAndFile( raise_cmd )
 		if folderAndFile is None:
 			return True
 
-		print "abc"
 		folderPath, fileName = folderAndFile
 
 		#select now
@@ -666,7 +650,7 @@ class MainWindow:
 
 		path = self.storeFolderView.get_value( iter, 1 )
 		icon_name = self.storeFolderView.get_value( iter, 2 )
-		retVal = self.snapshotsDialog.run( path, self.lastBackupList, self.backupPath, icon_name )
+		retVal = snapshotsdialog.SnapshotsDialog( self.backup, self.glade, path, self.lastBackupList, self.backupPath, icon_name ).run()
 		
 		#select the specified file
 		if not retVal is None:
@@ -690,7 +674,7 @@ class MainWindow:
 		return False
 
 	def on_btnAbout_clicked( self, button ):
-		self.aboutDialog.run()
+		AboutDialog( self.config, self.glade ).run()
 
 	def on_help( self ):
 		gnome.help_display('backintime')
@@ -706,7 +690,7 @@ class MainWindow:
 		backupPath = self.config.backupBasePath()
 		includeFolders = self.config.includeFolders()
 
-		self.settingsDialog.run()
+		settingsdialog.SettingsDialog( self.config, self.glade ).run()
 
 		if not self.config.isConfigured():
 			gtk.main_quit()
@@ -724,7 +708,7 @@ class MainWindow:
 			return
 
 		print "Snapshot Name: %s" % snapshot
-		if self.snapshotNameDialog.run( snapshot ):
+		if snapshotnamedialog.SnapshotNameDialog( self.backup, self.glade, snapshot ).run():
 			self.storeTimeLine.set_value( iter, 2, self.config.snapshotDisplayName( snapshot ) )
 
 	def on_btnRemoveSnapshot_clicked( self, button ):
