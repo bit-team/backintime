@@ -41,6 +41,7 @@ import logger
 import backup
 import settingsdialog
 import snapshotsdialog
+import snapshotnamedialog
 import gnomefileicons
 import gnomeclipboardtools
 from gtkapplicationinstance import *
@@ -98,6 +99,8 @@ class MainWindow:
 				'on_btnAbout_clicked' : self.on_btnAbout_clicked,
 				'on_btnSettings_clicked' : self.on_btnSettings_clicked,
 				'on_btnBackup_clicked' : self.on_btnBackup_clicked,
+				'on_btnSnapshotName_clicked' : self.on_btnSnapshotName_clicked,
+				'on_btnRemoveSnapshot_clicked' : self.on_btnRemoveSnapshot_clicked,
 				'on_btnRestore_clicked' : self.on_btnRestore_clicked,
 				'on_btnCopy_clicked' : self.on_btnCopy_clicked,
 				'on_btnSnapshots_clicked' : self.on_btnSnapshots_clicked,
@@ -228,7 +231,7 @@ class MainWindow:
 		self.aboutDialog = AboutDialog( self.config, self.glade )
 		self.settingsDialog = settingsdialog.SettingsDialog( self.config, self.glade )
 		self.snapshotsDialog = snapshotsdialog.SnapshotsDialog( self.backup, self.glade )
-		self.renameSnapshotDialog = renamesnapshotdialog.RenameSnapshotDialog( self.config, self.glade )
+		self.snapshotNameDialog = snapshotnamedialog.SnapshotNameDialog( self.backup, self.glade )
 
 		#show main window
 		self.window.show()
@@ -328,7 +331,7 @@ class MainWindow:
 		if self.snapshotsDialog.dialog.get_property( 'visible' ):
 			return True
 
-		if self.renameSnapshotDialog.dialog.get_property( 'visible' ):
+		if self.snapshotNameDialog.dialog.get_property( 'visible' ):
 			return True
 
 		if len( self.storeTimeLine ) <= 0:
@@ -711,6 +714,30 @@ class MainWindow:
 			if backupPath != self.config.backupBasePath() or includeFolders != self.config.includeFolders():
 				self.updateAll( False )
 
+	def on_btnSnapshotName_clicked( self, button ):
+		iter = self.listTimeLine.get_selection().get_selected()[1]
+		if iter is None:
+			return
+
+		snapshot = self.storeTimeLine.get_value( iter, 0 )
+		if len( snapshot ) <= 1:
+			return
+
+		print "Snapshot Name: %s" % snapshot
+		if self.snapshotNameDialog.run( snapshot ):
+			self.storeTimeLine.set_value( iter, 2, self.config.snapshotDisplayName( snapshot ) )
+
+	def on_btnRemoveSnapshot_clicked( self, button ):
+		iter = self.listTimeLine.get_selection().get_selected()[1]
+		if iter is None:
+			return
+
+		snapshot = self.storeTimeLine.get_value( iter, 0 )
+		if len( snapshot ) <= 1:
+			return
+
+		print "Remove Snapshot: %s" % snapshot
+
 	def on_btnBackup_clicked( self, button ):
 		button.set_sensitive( False )
 		self.updateTimeLine = True
@@ -842,6 +869,10 @@ class MainWindow:
 
 		#update restore button state
 		self.glade.get_widget( 'btnRestore' ).set_sensitive( len( self.backupPath ) > 1 and len( self.storeFolderView ) > 0 )
+
+		#update remove/name snapshot buttons
+		self.glade.get_widget( 'btnSnapshotName' ).set_sensitive( len( self.backupPath ) > 1 )
+		self.glade.get_widget( 'btnRemoveSnapshot' ).set_sensitive( len( self.backupPath ) > 1 )
 
 		#update copy button state
 		self.glade.get_widget( 'btnCopy' ).set_sensitive( len( self.storeFolderView ) > 0 )

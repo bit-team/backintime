@@ -192,6 +192,10 @@ class SettingsDialog:
 		self.cbMinFreeSpace.set_active( self.config.minFreeSpace() )
 		self.updateMinFreeSpace( self.cbMinFreeSpace )
 
+		#don't remove named snapshots
+		self.cbDontRemoveNamedSnapshots = self.glade.get_widget( 'cbDontRemoveNamedSnapshots' )
+		self.cbDontRemoveNamedSnapshots.set_active( self.config.dontRemoveNamedSnapshots() )
+
 	def updateRemoveOldBackups( self, button ):
 		enabled = button.get_active()
 		self.editRemoveOldBackupValue.set_sensitive( enabled )
@@ -333,6 +337,7 @@ class SettingsDialog:
 						self.cbMinFreeSpace.get_active(), 
 						int( self.editMinFreeSpaceValue.get_value() ),
 						self.storeMinFreeSpaceUnit.get_value( self.cbMinFreeSpaceUnit.get_active_iter(), 1 ) )
+		self.config.setDontRemoveNamedSnapshots( self.cbDontRemoveNamedSnapshots.get_active() )
 
 		self.config.save()
 		return True

@@ -170,15 +170,16 @@ class Backup:
 			while True:
 				if len( listBackups ) <= 1:
 					break
+
 				if listBackups[0] >= oldBackupDate:
 					break
 
-				path = self.config.backupPath( listBackups[0] )
-				cmd = "chmod -R a+w \"%s\"" %  path
-				self.execute( cmd )
-				cmd = "rm -rf \"%s\"" % path
-				self.execute( cmd )
+				if self.config.dontRemoveNamedSnapshots():
+					if len( self.config.snapshotName( listBackups[0] ) ) > 0:
+						del listBackups[0]
+						continue
 
+				self.removeSnapshot( listBackups[0] )
 				del listBackups[0]
 
 		#try to keep min free space
@@ -200,14 +201,21 @@ class Backup:
 				if realValue >= minValue:
 					break
 
-				path = self.config.backupPath( listBackups[0] )
-				cmd = "chmod -R a+w \"%s\"" %  path
-				self.execute( cmd )
-				cmd = "rm -rf \"%s\"" % path
-				self.execute( cmd )
+				if self.config.dontRemoveNamedSnapshots():
+					if len( self.config.snapshotName( listBackups[0] ) ) > 0:
+						del listBackups[0]
+						continue
 
+				self.removeSnapshot( listBackups[0] )
 				del listBackups[0]
 
+	def removeSnapshot( self, snapshot ):
+		if len( snapshot ) > 1:
+			path = self.config.backupPath( snapshot )
+			cmd = "chmod -R a+w \"%s\"" %  path
+			self.execute( cmd )
+			cmd = "rm -rf \"%s\"" % path
+			self.execute( cmd )
 
 	def backup( self ):
 		backup_date = datetime.datetime.today()

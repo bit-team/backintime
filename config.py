@@ -86,6 +86,7 @@ class Config:
 		self._MIN_FREE_SPACE = 1
 		self._MIN_FREE_SPACE_VALUE = 1
 		self._MIN_FREE_SPACE_UNIT = self.DISK_UNIT_GB
+		self._DONT_REMOVE_NAMED_SNAPSHOTS = 1
 
 		self.MAIN_WINDOW_X = -1
 		self.MAIN_WINDOW_Y = -1
@@ -210,12 +211,18 @@ class Config:
 		if not os.path.isdir( path ):
 			return
 
+		name_path = os.path.join( path, 'name' )
+
+		os.system( "chmod a+w \"%s\"" % path )
+
 		try:
-			file = open( os.path.join( path, 'name' ), 'wt' )
+			file = open( name_path, 'wt' )
 			file.write( name )
 			file.close()
 		except:
 			pass
+
+		os.system( "chmod a-w \"%s\"" % path )
 
 	def setBackupBasePath( self, value ):
 		self._BASE_BACKUP_PATH = value
@@ -241,6 +248,15 @@ class Config:
 	def setAutomaticBackup( self, value ):
 		self._AUTOMATIC_BACKUP = value
 		self.setupCron()
+
+	def dontRemoveNamedSnapshots( self ):
+		return self._DONT_REMOVE_NAMED_SNAPSHOTS != 0
+
+	def setDontRemoveNamedSnapshots( self, value ):
+		if value:
+			self._DONT_REMOVE_NAMED_SNAPSHOTS = 1
+		else:
+			self._DONT_REMOVE_NAMED_SNAPSHOTS = 0
 
 	def removeOldBackups( self ):
 		return self._REMOVE_OLD_BACKUPS != 0 and self._REMOVE_OLD_BACKUPS_VALUE > 0
@@ -334,6 +350,7 @@ class Config:
 		self._MIN_FREE_SPACE = configFile.getInt( 'MIN_FREE_SPACE', self._MIN_FREE_SPACE )
 		self._MIN_FREE_SPACE_VALUE = configFile.getInt( 'MIN_FREE_SPACE_VALUE', self._MIN_FREE_SPACE_VALUE )
 		self._MIN_FREE_SPACE_UNIT = configFile.getInt( 'MIN_FREE_SPACE_UNIT', self._MIN_FREE_SPACE_UNIT )
+		self._DONT_REMOVE_NAMED_SNAPSHOTS = configFile.getInt( 'DONT_REMOVE_NAMED_SNAPSHOTS', 1 )
 
 		self.MAIN_WINDOW_X = configFile.getInt( 'MAIN_WINDOW_X', -1 )
 		self.MAIN_WINDOW_Y = configFile.getInt( 'MAIN_WINDOW_Y', -1 )
@@ -360,6 +377,7 @@ class Config:
 		configFile.setInt( 'MIN_FREE_SPACE', self._MIN_FREE_SPACE )
 		configFile.setInt( 'MIN_FREE_SPACE_VALUE', self._MIN_FREE_SPACE_VALUE )
 		configFile.setInt( 'MIN_FREE_SPACE_UNIT', self._MIN_FREE_SPACE_UNIT )
+		configFile.setInt( 'DONT_REMOVE_NAMED_SNAPSHOTS', self._DONT_REMOVE_NAMED_SNAPSHOTS )
 
 		configFile.setInt( 'MAIN_WINDOW_X', self.MAIN_WINDOW_X )
 		configFile.setInt( 'MAIN_WINDOW_Y', self.MAIN_WINDOW_Y )
