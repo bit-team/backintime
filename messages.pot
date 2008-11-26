@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-21 12:41+0100\n"
+"POT-Creation-Date: 2008-11-26 11:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,98 +16,105 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: backintime.py:125 backintime.py:384
+#: backintime.py:129 backintime.py:378
 msgid "Done"
 msgstr ""
 
-#: backintime.py:133
+#: backintime.py:137
 msgid "Places"
 msgstr ""
 
-#: backintime.py:153
+#: backintime.py:157
 msgid "Name"
 msgstr ""
 
-#: backintime.py:169
+#: backintime.py:173
 msgid "Size"
 msgstr ""
 
-#: backintime.py:176
+#: backintime.py:180
 msgid "Date"
 msgstr ""
 
-#: backintime.py:190
+#: backintime.py:195
 msgid "Timeline"
 msgstr ""
 
-#: backintime.py:219
+#: backintime.py:225
 msgid "Open"
 msgstr ""
 
-#: backintime.py:220 backintime.glade:232 backintime.glade:233
-#: backintime.glade:788 backintime.glade:789
+#: backintime.py:226 backintime.glade:244 backintime.glade:245
+#: backintime.glade:816 backintime.glade:817
 msgid "Copy"
 msgstr ""
 
-#: backintime.py:221 snapshotsdialog.py:78 backintime.glade:244
-#: backintime.glade:245 backintime.glade:756
+#: backintime.py:227 snapshotsdialog.py:78 backintime.glade:256
+#: backintime.glade:257 backintime.glade:784
 msgid "Snapshots"
 msgstr ""
 
-#: backintime.py:222
+#: backintime.py:228
 msgid "Diff"
 msgstr ""
 
-#: backintime.py:223 backintime.glade:220 backintime.glade:221
-#: backintime.glade:800 backintime.glade:801
+#: backintime.py:229 backintime.glade:232 backintime.glade:233
+#: backintime.glade:828 backintime.glade:829
 msgid "Restore"
 msgstr ""
 
-#: backintime.py:372
+#: backintime.py:366
 msgid "Working ..."
 msgstr ""
 
-#: backintime.py:386
+#: backintime.py:380
 msgid "Done, no backup needed"
 msgstr ""
 
-#: backintime.py:394
+#: backintime.py:388
 msgid "Global"
 msgstr ""
 
-#: backintime.py:395
+#: backintime.py:389
 msgid "Root"
 msgstr ""
 
-#: backintime.py:396
+#: backintime.py:390
 msgid "Home"
 msgstr ""
 
-#: backintime.py:420
+#: backintime.py:414
 msgid "Bookmarks"
 msgstr ""
 
-#: backintime.py:429 settingsdialog.py:64
+#: backintime.py:423 settingsdialog.py:64
 msgid "Backup Directories"
 msgstr ""
 
-#: backintime.py:452
+#: backintime.py:446
 msgid "Today"
 msgstr ""
 
-#: backintime.py:456
+#: backintime.py:450
 msgid "Yesterday"
 msgstr ""
 
-#: backintime.py:460
+#: backintime.py:454
 msgid "This week"
 msgstr ""
 
-#: backintime.py:464
+#: backintime.py:458
 msgid "Last week"
 msgstr ""
 
-#: backintime.py:872
+#: backintime.py:728
+#, python-format
+msgid ""
+"Are you sure you want to remove the snapshot:\n"
+"<b>%s</b>"
+msgstr ""
+
+#: backintime.py:901
 msgid "Back In Time: take snapshot ..."
 msgstr ""
 
@@ -151,7 +158,7 @@ msgstr ""
 msgid "Year(s)"
 msgstr ""
 
-#: config.py:176
+#: config.py:177
 msgid "Now"
 msgstr ""
 
@@ -159,35 +166,35 @@ msgstr ""
 msgid "Exclude Patterns"
 msgstr ""
 
-#: settingsdialog.py:256
+#: settingsdialog.py:260
 msgid "Snapshots directory can't be empty !"
 msgstr ""
 
-#: settingsdialog.py:260
+#: settingsdialog.py:264
 msgid "Snapshots directory can't be the root directory !"
 msgstr ""
 
-#: settingsdialog.py:267
+#: settingsdialog.py:271
 msgid "Are you sure you want to change snapshots directory ?"
 msgstr ""
 
-#: settingsdialog.py:273
+#: settingsdialog.py:277
 msgid "You must select at least one directory to backup !"
 msgstr ""
 
-#: settingsdialog.py:283 settingsdialog.py:290
+#: settingsdialog.py:287 settingsdialog.py:294
 msgid "Snapshots directory can't be in \"Backup Directories\" !"
 msgstr ""
 
-#: settingsdialog.py:298
+#: settingsdialog.py:302
 msgid "\"Backup directories\" can't include snapshots directory !"
 msgstr ""
 
-#: snapshotsdialog.py:251
+#: snapshotsdialog.py:254
 msgid "You can't compare a snapshot to itself"
 msgstr ""
 
-#: snapshotsdialog.py:258
+#: snapshotsdialog.py:261
 #, python-format
 msgid "Command not found: %s"
 msgstr ""
@@ -204,98 +211,114 @@ msgstr ""
 msgid "Backup Now"
 msgstr ""
 
-#: backintime.glade:40 backintime.glade:41 backintime.glade:336
+#: backintime.glade:40 backintime.glade:41 backintime.glade:1041
+msgid "Snapshot Name"
+msgstr ""
+
+#: backintime.glade:52 backintime.glade:53
+msgid "Remove Snapshot"
+msgstr ""
+
+#: backintime.glade:69 backintime.glade:70 backintime.glade:348
 msgid "Settings"
 msgstr ""
 
-#: backintime.glade:61 backintime.glade:62
+#: backintime.glade:89 backintime.glade:90
 msgid "About"
 msgstr ""
 
-#: backintime.glade:73 backintime.glade:74
+#: backintime.glade:101 backintime.glade:102
 msgid "Help"
 msgstr ""
 
-#: backintime.glade:94 backintime.glade:95
+#: backintime.glade:118 backintime.glade:119
 msgid "Exit"
 msgstr ""
 
-#: backintime.glade:183
+#: backintime.glade:203
 msgid "Parent Directory"
 msgstr ""
 
-#: backintime.glade:184
+#: backintime.glade:204
 msgid "Up"
 msgstr ""
 
-#: backintime.glade:367
+#: backintime.glade:379
 msgid "Select A Folder"
 msgstr ""
 
-#: backintime.glade:375
+#: backintime.glade:387
 msgid "<b>Where to save snapshots:</b>"
 msgstr ""
 
-#: backintime.glade:419 backintime.glade:466
+#: backintime.glade:431 backintime.glade:478
 msgid "gtk-add"
 msgstr ""
 
-#: backintime.glade:434 backintime.glade:481
+#: backintime.glade:446 backintime.glade:493
 msgid "gtk-remove"
 msgstr ""
 
-#: backintime.glade:543
+#: backintime.glade:554
 msgid "<b>What to backup</b>"
 msgstr ""
 
-#: backintime.glade:571
+#: backintime.glade:582
 msgid "Automatic backup: "
 msgstr ""
 
-#: backintime.glade:593
+#: backintime.glade:604
 msgid "<b>When</b>"
 msgstr ""
 
-#: backintime.glade:673
+#: backintime.glade:641
+msgid "Don't remove named snapshots"
+msgstr ""
+
+#: backintime.glade:701
 msgid "Older then:"
 msgstr ""
 
-#: backintime.glade:683
+#: backintime.glade:711
 msgid "If free space is less then:"
 msgstr ""
 
-#: backintime.glade:700
+#: backintime.glade:728
 msgid "<b>Remove Backups</b>"
 msgstr ""
 
-#: backintime.glade:725
+#: backintime.glade:753
 msgid "gtk-ok"
 msgstr ""
 
-#: backintime.glade:736 backintime.glade:994
+#: backintime.glade:764 backintime.glade:1022 backintime.glade:1082
 msgid "gtk-cancel"
 msgstr ""
 
-#: backintime.glade:858
+#: backintime.glade:886
 msgid "Diff with"
 msgstr ""
 
-#: backintime.glade:899
+#: backintime.glade:927
 msgid "Command:"
 msgstr ""
 
-#: backintime.glade:906
+#: backintime.glade:934
 msgid "Parameters:"
 msgstr ""
 
-#: backintime.glade:917
+#: backintime.glade:945
 msgid "Use %1 and %2 for path parameters"
 msgstr ""
 
-#: backintime.glade:956
+#: backintime.glade:984
 msgid "Diff Options"
 msgstr ""
 
-#: backintime.glade:984
+#: backintime.glade:1012
 msgid "gtk-jump-to"
+msgstr ""
+
+#: backintime.glade:1072
+msgid "gtk-apply"
 msgstr ""
