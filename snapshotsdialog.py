@@ -73,22 +73,27 @@ class SnapshotsDialog:
 
 		#setup backup folders
 		self.listSnapshots = self.glade.get_widget( 'listSnapshots' )
+		initAll = self.listSnapshots.get_model() is None
 
-		textRenderer = gtk.CellRendererText()
-		column = gtk.TreeViewColumn( _('Snapshots') )
-		column.pack_end( textRenderer, True )
-		column.add_attribute( textRenderer, 'markup', 0 )
-		self.listSnapshots.append_column( column )
+		if initAll:
+			textRenderer = gtk.CellRendererText()
+			column = gtk.TreeViewColumn( _('Snapshots') )
+			column.pack_end( textRenderer, True )
+			column.add_attribute( textRenderer, 'markup', 0 )
+			self.listSnapshots.append_column( column )
 
-		self.storeSnapshots = gtk.ListStore( str, str, str )
-		self.listSnapshots.set_model( self.storeSnapshots )
+			self.storeSnapshots = gtk.ListStore( str, str, str )
+			self.listSnapshots.set_model( self.storeSnapshots )
+		else:
+			self.storeSnapshots = self.listSnapshots.get_model()
 
 		#setup diff with combo
-		textRenderer = gtk.CellRendererText()
 		self.comboDiffWith = self.glade.get_widget( 'comboDiffWith' )
-		self.comboDiffWith.pack_start( textRenderer, True )
-		self.comboDiffWith.add_attribute( textRenderer, 'text', 0 )
-		self.comboDiffWith.set_model( self.storeSnapshots ) #use the same store
+		if initAll:
+			textRenderer = gtk.CellRendererText()
+			self.comboDiffWith.pack_start( textRenderer, True )
+			self.comboDiffWith.add_attribute( textRenderer, 'text', 0 )
+			self.comboDiffWith.set_model( self.storeSnapshots ) #use the same store
 
 		#update snapshots
 		self.update_snapshots()
