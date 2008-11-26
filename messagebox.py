@@ -28,14 +28,16 @@ _=gettext.gettext
 
 
 def show_question( parent, config, message ):
-	dialog = gtk.MessageDialog( parent, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, message )
+	dialog = gtk.MessageDialog( parent, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO )
+	dialog.set_markup( message )
 	dialog.set_title( config.APP_NAME )
 	retVal = dialog.run()
 	dialog.destroy()
 	return retVal
 
 def show_error( parent, config, message ):
-	dialog = gtk.MessageDialog( parent, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, message )
+	dialog = gtk.MessageDialog( parent, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK )
+	dialog.set_markup( message )
 	dialog.set_title( config.APP_NAME )
 	retVal = dialog.run()
 	dialog.destroy()

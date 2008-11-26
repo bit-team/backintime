@@ -42,6 +42,7 @@ import backup
 import settingsdialog
 import snapshotsdialog
 import snapshotnamedialog
+import messagebox
 import gnomefileicons
 import gnomeclipboardtools
 from gtkapplicationinstance import *
@@ -285,7 +286,7 @@ class MainWindow:
 		self.lastBackupList = []
 
 		self.fillPlaces()
-		self.fillTimeLine()
+		self.fillTimeLine( False )
 		self.updateFolderView( 1, selectedFile )
 
 	def placesPixRendererFunction( self, column, renderer, model, iter, user_data ):
@@ -423,7 +424,7 @@ class MainWindow:
 				for folder in folders:
 					self.storePlaces.append( [ folder, folder, gtk.STOCK_SAVE ] )
 
-	def fillTimeLine( self ):
+	def fillTimeLine( self, updateFolderView = True ):
 		currentSelection = '/'
 		iter = self.listTimeLine.get_selection().get_selected()[1]
 		if not iter is None:
@@ -498,10 +499,15 @@ class MainWindow:
 				break
 			iter = self.storeTimeLine.iter_next( iter )
 
+		changed = False
 		if iter is None:
+			changed = True
 			iter = self.storeTimeLine.get_iter_first()
 
 		self.listTimeLine.get_selection().select_iter( iter )
+
+		if changed and updateFolderView:
+			self.updateFolderView( 2 )
 
 	def on_close( self, *params ):
 		self.config.MAIN_WINDOW_X, self.config.MAIN_WINDOW_Y = self.window.get_position()
@@ -707,7 +713,6 @@ class MainWindow:
 		if len( snapshot ) <= 1:
 			return
 
-		print "Snapshot Name: %s" % snapshot
 		if snapshotnamedialog.SnapshotNameDialog( self.backup, self.glade, snapshot ).run():
 			self.storeTimeLine.set_value( iter, 2, self.config.snapshotDisplayName( snapshot ) )
 
@@ -720,7 +725,10 @@ class MainWindow:
 		if len( snapshot ) <= 1:
 			return
 
-		print "Remove Snapshot: %s" % snapshot
+		if gtk.RESPONSE_YES == messagebox.show_question( self.window, self.config, _( "Are you sure you want to remove the snapshot:\n<b>%s</b>" ) % self.config.snapshotDisplayName( snapshot, True ) ):
+			print "Remove Snapshot: %s" % snapshot
+			self.backup.removeSnapshot( snapshot )
+			self.fillTimeLine()
 
 	def on_btnBackup_clicked( self, button ):
 		button.set_sensitive( False )
