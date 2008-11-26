@@ -39,6 +39,7 @@ class SnapshotNameDialog:
 		self.snapshot = snapshot
 
 		self.dialog = self.glade.get_widget( 'SnapshotNameDialog' )
+		self.dialog.set_default_response( gtk.RESPONSE_OK )
 
 		signals = { 
 			#'on_btnRestoreSnapshot_clicked' : self.on_btnRestoreSnapshot_clicked
