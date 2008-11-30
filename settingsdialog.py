@@ -118,7 +118,8 @@ class SettingsDialog:
 		if initAll:
 			self.storeBackupMode = gtk.ListStore( str, int )
 			self.cbBackupMode.set_model( self.storeBackupMode )
-
+			
+			self.cbBackupMode.clear()
 			renderer = gtk.CellRendererText()
 			self.cbBackupMode.pack_start( renderer, True )
 			self.cbBackupMode.add_attribute( renderer, 'text', 0 )
