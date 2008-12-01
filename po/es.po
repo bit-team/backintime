@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-21 14:38+0100\n"
-"PO-Revision-Date: 2008-11-21 14:40+0100\n"
+"POT-Creation-Date: 2008-12-01 09:48+0100\n"
+"PO-Revision-Date: 2008-12-01 09:50+0100\n"
 "Last-Translator: Francisco M. Garci­a Claramonte <franciscomanuel>\n"
 "Language-Team: Spanish/Spain <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Acerca de"
 msgid "Automatic backup: "
 msgstr "Copia de respaldo automática: "
 
-#: ../backintime.glade.h:7 ../backintime.desktop.in.h:1
+#: ../backintime.glade.h:7
 msgid "Back In Time"
 msgstr "Back In Time"
 
@@ -55,7 +55,7 @@ msgstr "Copia de respaldo ahora"
 msgid "Command:"
 msgstr "Orden:"
 
-#: ../backintime.glade.h:10 ../backintime.py:220
+#: ../backintime.glade.h:10 ../backintime.py:226
 msgid "Copy"
 msgstr "Copiar"
 
@@ -68,160 +68,180 @@ msgid "Diff with"
 msgstr "Cambios con"
 
 #: ../backintime.glade.h:13
+msgid "Don't remove named snapshots"
+msgstr "No eliminar instantáneas con nombre"
+
+#: ../backintime.glade.h:14
 msgid "Exit"
 msgstr "Salir"
 
-#: ../backintime.glade.h:14
+#: ../backintime.glade.h:15
 msgid "Help"
 msgstr "Ayuda"
 
-#: ../backintime.glade.h:15
+#: ../backintime.glade.h:16
 msgid "If free space is less then:"
 msgstr "Si el espacio libre es menor que:"
 
-#: ../backintime.glade.h:16
+#: ../backintime.glade.h:17
 msgid "Older then:"
 msgstr "Anterior a:"
 
-#: ../backintime.glade.h:17
+#: ../backintime.glade.h:18
 msgid "Parameters:"
 msgstr "Parámetros:"
 
-#: ../backintime.glade.h:18
+#: ../backintime.glade.h:19
 msgid "Parent Directory"
 msgstr "Directorio padre"
 
-#: ../backintime.glade.h:19 ../backintime.py:223
+#: ../backintime.glade.h:20
+msgid "Remove Snapshot"
+msgstr "Eliminar Instantánea"
+
+#: ../backintime.glade.h:21 ../backintime.py:229
 msgid "Restore"
 msgstr "Restaurar"
 
-#: ../backintime.glade.h:20
-msgid "Restrore"
-msgstr "Restaurar"
-
-#: ../backintime.glade.h:21
+#: ../backintime.glade.h:22
 msgid "Select A Folder"
 msgstr "Seleccione una carpeta"
 
-#: ../backintime.glade.h:22
+#: ../backintime.glade.h:23
 msgid "Settings"
 msgstr "Preferencias"
 
-#: ../backintime.glade.h:23 ../backintime.py:221 ../snapshotsdialog.py:78
+#: ../backintime.glade.h:24
+msgid "Snapshot Name"
+msgstr "Nombre de Instantánea"
+
+#: ../backintime.glade.h:25 ../backintime.py:227 ../snapshotsdialog.py:80
 msgid "Snapshots"
 msgstr "Instantáneas"
 
-#: ../backintime.glade.h:24
+#: ../backintime.glade.h:26
 msgid "Take snapshot"
 msgstr "Realizar instantánea"
 
-#: ../backintime.glade.h:25
+#: ../backintime.glade.h:27
 msgid "Up"
 msgstr "Arriba"
 
-#: ../backintime.glade.h:27
+#: ../backintime.glade.h:29
 #, no-c-format
 msgid "Use %1 and %2 for path parameters"
 msgstr "Utilizar %1 y %2 como rutas de parámetros"
 
-#: ../backintime.glade.h:28
+#: ../backintime.glade.h:30
 msgid "gtk-add"
 msgstr "gtk-add"
 
-#: ../backintime.glade.h:29
+#: ../backintime.glade.h:31
+msgid "gtk-apply"
+msgstr "gtk-apply"
+
+#: ../backintime.glade.h:32
 msgid "gtk-cancel"
 msgstr "gtk-cancel"
 
-#: ../backintime.glade.h:30
+#: ../backintime.glade.h:33
 msgid "gtk-jump-to"
 msgstr "gtk-jump-to"
 
-#: ../backintime.glade.h:31
+#: ../backintime.glade.h:34
 msgid "gtk-ok"
 msgstr "gtk-ok"
 
-#: ../backintime.glade.h:32
+#: ../backintime.glade.h:35
 msgid "gtk-remove"
 msgstr "gtk-remove"
 
-#: ../backintime.py:125 ../backintime.py:384
+#: ../backintime.py:129 ../backintime.py:378
 msgid "Done"
 msgstr "Hecho"
 
-#: ../backintime.py:133
+#: ../backintime.py:137
 msgid "Places"
 msgstr "Lugares"
 
-#: ../backintime.py:153
+#: ../backintime.py:157
 msgid "Name"
 msgstr "Nombre"
 
-#: ../backintime.py:169
+#: ../backintime.py:173
 msgid "Size"
 msgstr "Tamaño"
 
-#: ../backintime.py:176
+#: ../backintime.py:180
 msgid "Date"
 msgstr "Fecha"
 
-#: ../backintime.py:190
+#: ../backintime.py:195
 msgid "Timeline"
 msgstr "Linea de tiempo"
 
-#: ../backintime.py:219
+#: ../backintime.py:225
 msgid "Open"
 msgstr "Abrir"
 
-#: ../backintime.py:222
+#: ../backintime.py:228
 msgid "Diff"
 msgstr "Cambios"
 
-#: ../backintime.py:372
+#: ../backintime.py:366
 msgid "Working ..."
 msgstr "Trabajando ..."
 
-#: ../backintime.py:386
+#: ../backintime.py:380
 msgid "Done, no backup needed"
 msgstr "Hecho, no hace falta copia de respaldo"
 
 #. add global places
-#: ../backintime.py:394
+#: ../backintime.py:388
 msgid "Global"
 msgstr "Global"
 
-#: ../backintime.py:395
+#: ../backintime.py:389
 msgid "Root"
 msgstr "Raiz"
 
-#: ../backintime.py:396
+#: ../backintime.py:390
 msgid "Home"
 msgstr "Directorio Personal"
 
-#: ../backintime.py:420
+#: ../backintime.py:414
 msgid "Bookmarks"
 msgstr "Marcadores"
 
-#: ../backintime.py:429 ../settingsdialog.py:64
+#: ../backintime.py:423 ../settingsdialog.py:66
 msgid "Backup Directories"
 msgstr "Directorios de copia de respaldo"
 
-#: ../backintime.py:452
+#: ../backintime.py:446
 msgid "Today"
 msgstr "Hoy"
 
-#: ../backintime.py:456
+#: ../backintime.py:450
 msgid "Yesterday"
 msgstr "Ayer"
 
-#: ../backintime.py:460
+#: ../backintime.py:454
 msgid "This week"
 msgstr "Esta semana"
 
-#: ../backintime.py:464
+#: ../backintime.py:458
 msgid "Last week"
 msgstr "Última semana"
 
-#: ../backintime.py:872
+#: ../backintime.py:728
+#, python-format
+msgid ""
+"Are you sure you want to remove the snapshot:\n"
+"<b>%s</b>"
+msgstr "¿Está seguro de que quiere eliminar la instantánea:\n"
+"<b>%s</b>?"
+
+#: ../backintime.py:901
 msgid "Back In Time: take snapshot ..."
 msgstr "Back In Time: Realizar instantánea ..."
 
@@ -265,54 +285,51 @@ msgstr "Semana(s)"
 msgid "Year(s)"
 msgstr "Años(s)"
 
-#: ../config.py:176
+#: ../config.py:177
 msgid "Now"
 msgstr "Ahora"
 
-#: ../settingsdialog.py:88
+#: ../settingsdialog.py:94
 msgid "Exclude Patterns"
 msgstr "Excluir patrones"
 
-#: ../settingsdialog.py:256
+#: ../settingsdialog.py:276
 msgid "Snapshots directory can't be empty !"
 msgstr "¡El directorio de instantáneas no puede estar vací­o!"
 
-#: ../settingsdialog.py:260
+#: ../settingsdialog.py:280
 msgid "Snapshots directory can't be the root directory !"
 msgstr "¡El directorio de instantáneas no puede ser el directorio raiz!"
 
-#: ../settingsdialog.py:267
+#: ../settingsdialog.py:287
 msgid "Are you sure you want to change snapshots directory ?"
 msgstr "¿Está seguro de que quiere cambiar el directorio de instantáneas?"
 
-#: ../settingsdialog.py:273
+#: ../settingsdialog.py:293
 msgid "You must select at least one directory to backup !"
 msgstr "¡Debe seleccionar al menos un directorio para hacer copia de respaldo!"
 
-#: ../settingsdialog.py:283 ../settingsdialog.py:290
+#: ../settingsdialog.py:303 ../settingsdialog.py:310
 msgid "Snapshots directory can't be in \"Backup Directories\" !"
-msgstr ""
-"¡El directorio de instantáneas no puede estar en «Directorios de copia de "
+msgstr "¡El directorio de instantáneas no puede estar en «Directorios de copia de "
 "respaldo»!"
 
-#: ../settingsdialog.py:298
+#: ../settingsdialog.py:318
 msgid "\"Backup directories\" can't include snapshots directory !"
-msgstr ""
-"«Directorios de copias de respaldo» no pueden incluir el directorio de "
+msgstr "«Directorios de copias de respaldo» no pueden incluir el directorio de "
 "instantáneas!"
 
-#: ../snapshotsdialog.py:251
+#: ../snapshotsdialog.py:259
 msgid "You can't compare a snapshot to itself"
 msgstr "No puede comparar una instantánea consigo misma"
 
-#: ../snapshotsdialog.py:258
+#: ../snapshotsdialog.py:266
 #, python-format
 msgid "Command not found: %s"
 msgstr "Orden no encontrada: %s"
 
-#: ../backintime.desktop.in.h:2
-msgid "Simple backup system"
-msgstr "Sencillo sistema de copias de respaldo"
+#~ msgid "Restrore"
+#~ msgstr "Restaurar"
 
-#~ msgid "gtk-copy"
-#~ msgstr "gtk-copy"
+#~ msgid "Simple backup system"
+#~ msgstr "Sencillo sistema de copias de respaldo"
