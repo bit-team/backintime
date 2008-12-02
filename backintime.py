@@ -256,18 +256,39 @@ class MainWindow:
 
 	def getCmdStartUpFolderAndFile( self, cmd ):
 		if cmd is None:
-			if len(sys.argv) <= 1:
-				return None
-			cmd = sys.argv[1]
+			cmd = self.appInstance.raise_cmd
 
-		cmd = os.path.expanduser( cmd )
-		cmd = os.path.abspath( cmd )
+		if len( cmd ) < 1:
+			return None
 
-		if len( cmd ) > 1:
-			if os.path.isdir( cmd ):
-				return (cmd, '')
-			if os.path.isfile( cmd ):
-				return ( os.path.dirname( cmd ), cmd )
+		path = None
+		showSnapshots = False
+
+		for arg in cmd.split( '\n' ):
+			if len( arg ) < 1:
+				continue
+			if arg == '-s' or arg == '--snapshots':
+				showSnapshots = True
+				continue
+			if arg[0] == '-':
+				continue
+			if path is None:
+				path = arg
+
+		if path is None:
+			return None
+
+		if len( path ) < 1:
+			return None
+
+		path = os.path.expanduser( path )
+		path = os.path.abspath( path )
+
+		if os.path.isdir( path ):
+			return ( path, '', showSnapshots )
+
+		if os.path.isfile( path ):
+			return ( os.path.dirname( path ), path, showSnapshots )
 
 		return None
 
@@ -280,8 +301,9 @@ class MainWindow:
 	def updateAll( self, init ):
 		#fill lists
 		selectedFile = None
+		showSnapshots = False
 		if init:
-			self.folderPath, selectedFile = self.getStartUpFolderAndFile()
+			self.folderPath, selectedFile, showSnapshots = self.getStartUpFolderAndFile()
 		self.backupPath = '/'
 		self.lastBackupList = []
 
@@ -333,7 +355,7 @@ class MainWindow:
 		if folderAndFile is None:
 			return True
 
-		folderPath, fileName = folderAndFile
+		folderPath, fileName, showSnapshots = folderAndFile
 
 		#select now
 		self.backupPath = '/'
@@ -914,16 +936,45 @@ def take_snapshot():
 
 
 if __name__ == '__main__':
-	if len( sys.argv ) > 1:
-		if sys.argv[1] == '--backup':
+	cfg = config.Config()
+
+	print 'Back In Time'
+	print 'Version: ' + cfg.VERSION
+
+	for arg in sys.argv[ 1 : ]:
+		if arg == '--backup' or arg == '-b':
 			take_snapshot()
+			sys.exit(0)
+
+		if arg == '--version' or arg == '-v':
+			sys.exit(0)
+
+		if arg == '--help' or arg == '-h':
+			print 'Back In Time'
+			print 'Format: '
+			print 'backintime [[-s|--snapshots] path]'
+			print '\tStarts GUI mode'
+			print '\t\t-s, --snapshots: go directly to snapshots dialog for the specified path'
+			print '\t\tpath: go directly to the specified path'
+			print 'backintime -b|--backup'
+			print '\tTake a snapshot and exit'
+			print 'backintime -v|--version'
+			print '\tShow version and exit'
+			print 'backintime -h|--help'
+			print '\tShow this help and exit'
+			sys.exit(0)
+
+		if arg == '--snapshots' or arg == '-s':
+			continue
+
+		if arg[0] == '-':
+			print "Invalid option: %s" % arg
 			sys.exit(0)
 
 	raise_cmd = ''
 	if len( sys.argv ) > 1:
-		raise_cmd = ' '.join( sys.argv[ 1 : ] )
+		raise_cmd = '\n'.join( sys.argv[ 1 : ] )
 
-	cfg = config.Config()
 	appInstance = GTKApplicationInstance( cfg.baseInstanceFile(), raise_cmd )
 
 	gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }

@@ -31,6 +31,7 @@ class GTKApplicationInstance:
 	def __init__( self, base_control_file, raise_cmd = '' ):
 		self.pid_file = base_control_file + '.pid'
 		self.raise_file = base_control_file + '.raise'
+		self.raise_cmd = raise_cmd
 
 		#remove raise_file is already exists
 		try:
