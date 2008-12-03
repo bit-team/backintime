@@ -157,14 +157,27 @@
     		<listitem>
     		<para>To start &app; from a command line, type the following command, then 
 			press <keycap>Return</keycap>:</para>
-    		<para><command>backintime [ path | --backup ]</command></para> 
+    		<para><command>backintime [ [--snapshots] path | --backup | --version | --help ]</command></para> 
 			<itemizedlist>
 				<listitem>
     				<para>path - go directly to the specified file or directory. 
-					If the application is already running if pass the path to the running instance.</para> 
+					If the application is already running if pass the path to the running instance.
+					If the main window is not the only window (there is already a dialog) the parameter is ignored.</para> 
 				</listitem>
 				<listitem>
-    				<para>--backup - take a snapshot now (if needed).</para> 
+    				<para>-s, --snapshots - go directly to the specified file or directory and 
+					show snapshots dialog.
+					If the application is already running if pass the path to the running instance.
+					If the main window is not the only window (there is already a dialog) the parameter is ignored.</para> 
+				</listitem>
+				<listitem>
+    				<para>-b, --backup - take a snapshot now (if needed).</para> 
+				</listitem>
+				<listitem>
+    				<para>-v, --version - display the version and exit.</para> 
+				</listitem>
+				<listitem>
+    				<para>-h, --help - display a small help and exit.</para> 
 				</listitem>
     		</itemizedlist>
     		</listitem>
