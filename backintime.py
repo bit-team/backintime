@@ -285,7 +285,13 @@ class MainWindow:
 		path = os.path.abspath( path )
 
 		if os.path.isdir( path ):
-			return ( path, '', showSnapshots )
+			if len( path ) < 1:
+				showSnapshots = False
+
+			if showSnapshots:
+				return ( os.path.dirname( path ), path, True )
+			else:
+				return ( path, '', False )
 
 		if os.path.isfile( path ):
 			return ( os.path.dirname( path ), path, showSnapshots )
@@ -309,7 +315,7 @@ class MainWindow:
 
 		self.fillPlaces()
 		self.fillTimeLine( False )
-		self.updateFolderView( 1, selectedFile )
+		self.updateFolderView( 1, selectedFile, showSnapshots )
 
 	def placesPixRendererFunction( self, column, renderer, model, iter, user_data ):
 		if len( model.get_value( iter, 2 ) ) == 0:
@@ -363,7 +369,7 @@ class MainWindow:
 
 		#select the specified file
 		self.folderPath = folderPath
-		self.updateFolderView( 1, fileName )
+		self.updateFolderView( 1, fileName, showSnapshots )
 
 		return True
 
@@ -769,7 +775,7 @@ class MainWindow:
 
 		self.updateBackupInfo( True )
 
-	def updateFolderView( self, changedFrom, selectedFile = None ): #0 - places, 1 - folder view, 2 - timeline
+	def updateFolderView( self, changedFrom, selectedFile = None, showSnapshots = False ): #0 - places, 1 - folder view, 2 - timeline
 		#update backup time
 		if 2 == changedFrom:
 			iter = self.listTimeLine.get_selection().get_selected()[1]
@@ -897,7 +903,9 @@ class MainWindow:
 		#display current folder
 		self.glade.get_widget( 'editCurrentPath' ).set_text( self.folderPath )
 
-
+		#show snapshots
+		if showSnapshots:
+			self.on_btnSnapshots_clicked( None )
 
 def open_url( dialog, link, user_data ):
 	os.system( "gnome-open \"%s\" &" % link )
