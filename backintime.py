@@ -251,8 +251,8 @@ class MainWindow:
 
 	def getDefaultStartUpFolderAndFile( self ):
 		if len(self.config.LAST_PATH) > 0 and os.path.isdir(self.config.LAST_PATH):
-			return ( self.config.LAST_PATH, None )
-		return ( '/', None )
+			return ( self.config.LAST_PATH, None, False )
+		return ( '/', None, False )
 
 	def getCmdStartUpFolderAndFile( self, cmd ):
 		if cmd is None:
