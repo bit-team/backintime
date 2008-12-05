@@ -133,8 +133,8 @@ class Backup:
 		
 			#create hard links
 			logger.info( "Create hard-links" )
-			self.execute( "mkdir -p \"%s\"" % backup_path )
-			cmd = "cp -al \"%s/\"* \"%s\"" % ( prev_backup_path, backup_path )
+			self.execute( "mkdir -p \"%s/backup\"" % backup_path )
+			cmd = "cp -al \"%s/backup/\"* \"%s/backup\"" % ( prev_backup_path, backup_path )
 			self.execute( cmd )
 			cmd = "chmod -R a+w \"%s\"" % backup_path
 			self.execute( cmd )
