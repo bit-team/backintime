@@ -40,7 +40,7 @@ class Backup:
 	def restore( self, snapshot_path, path ):
 		logger.info( "Restore: %s" % path )
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
-		cmd = "rsync -avR --backup --suffix=%s --one-file-system --chmod=+w %s/.%s %s" % ( backup_suffix, snapshot_path, path, '/' )
+		cmd = "rsync -avR --copy-unsafe-links --backup --suffix=%s --one-file-system --chmod=+w %s/.%s %s" % ( backup_suffix, snapshot_path, path, '/' )
 		self.execute( cmd )
 
 	def execute( self, cmd ):
@@ -149,7 +149,7 @@ class Backup:
 		for folder in changed_folders:
 			backup_folder_path = os.path.join( backup_path, 'backup', folder[ 1 : ] )
 			self.execute( "mkdir -p \"%s\"" % backup_folder_path )
-			cmd = "rsync -av --delete --one-file-system " + rsync_exclude + " \"%s/\" \"%s/\"" % ( folder, backup_folder_path )
+			cmd = "rsync -av --copy-unsafe-links --delete --one-file-system " + rsync_exclude + " \"%s/\" \"%s/\"" % ( folder, backup_folder_path )
 			logger.info( "Call rsync for directory: %s" % folder )
 			self.execute( cmd )
 
