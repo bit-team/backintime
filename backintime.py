@@ -822,12 +822,12 @@ class MainWindow:
 			file_size = -1
 			file_date = -1
 
-			#try:
-			file_stat = os.stat( path )
-			file_size = file_stat[stat.ST_SIZE]
-			file_date = file_stat[stat.ST_MTIME]
-			#except:
-			#	pass
+			try:
+				file_stat = os.stat( path )
+				file_size = file_stat[stat.ST_SIZE]
+				file_date = file_stat[stat.ST_MTIME]
+			except:
+				pass
 
 			#format size
 			if file_size < 0:
