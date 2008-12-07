@@ -30,7 +30,7 @@ gettext.textdomain( 'backintime' )
 
 class Config:
 	APP_NAME = 'Back In Time'
-	VERSION = '0.8.14beta'
+	VERSION = '0.8.14'
 
 	NONE = 0
 	_5_MIN = 2
