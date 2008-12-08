@@ -110,7 +110,8 @@ class MainWindow:
 				'on_btnFolderUp_clicked' : self.on_btnFodlerUp_clicked,
 				'on_listFolderView_row_activated' : self.on_listFolderView_row_activated,
 				'on_listFolderView_popup_menu' : self.on_listFolderView_popup_menu,
-				'on_listFolderView_button_press_event': self.on_listFolderView_button_press_event
+				'on_listFolderView_button_press_event': self.on_listFolderView_button_press_event,
+				'on_listFolderView_drag_data_get': self.on_listFolderView_drag_data_get
 			}
 
 		self.glade.signal_autoconnect( signals )
@@ -560,6 +561,14 @@ class MainWindow:
 				self.folderPath = folderPath
 				self.updateFolderView( 0 )
 
+	def on_listFolderView_drag_data_get( self, widget, drag_context, selection_data, info, timestamp, user_param1 = None ):
+		iter = self.listFolderView.get_selection().get_selected()[1]
+		if not iter is None:
+			path = self.storeFolderView.get_value( iter, 1 )
+			path = os.path.join( self.backupPath, path[ 1 : ] )
+			path = gnomevfs.escape_path_string(path)
+			selection_data.set_uris( [ 'file://' + path ] )
+
 	def on_listFolderView_button_press_event( self, list, event ):
 		if event.button != 3:
 			return
@@ -883,6 +892,9 @@ class MainWindow:
 			if selectedIter is None:
 				selectedIter = self.storeFolderView.get_iter_first()
 			self.listFolderView.get_selection().select_iter( selectedIter )
+			self.listFolderView.drag_source_set( gtk.gdk.BUTTON1_MASK | gtk.gdk.BUTTON3_MASK, gtk.target_list_add_uri_targets(), gtk.gdk.ACTION_COPY )
+		else:
+			self.listFolderView.drag_source_unset()
 
 		#update folderup button state
 		self.glade.get_widget( 'btnFolderUp' ).set_sensitive( len( self.folderPath ) > 1 )

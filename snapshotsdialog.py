@@ -22,6 +22,7 @@ import sys
 import pygtk
 pygtk.require("2.0")
 import gtk
+import gnomevfs
 import gobject
 import gtk.glade
 import datetime
@@ -53,6 +54,7 @@ class SnapshotsDialog:
 			'on_listSnapshots_row_activated' : self.on_listSnapshots_row_activated,
 			'on_listSnapshots_popup_menu' : self.on_listSnapshots_popup_menu,
 			'on_listSnapshots_button_press_event': self.on_listSnapshots_button_press_event,
+			'on_listSnapshots_drag_data_get': self.on_listSnapshots_drag_data_get,
 			'on_btnDiffWith_clicked' : self.on_btnDiffWith_clicked,
 			'on_btnCopySnapshot_clicked' : self.on_btnCopySnapshot_clicked,
 			'on_btnRestoreSnapshot_clicked' : self.on_btnRestoreSnapshot_clicked
@@ -73,6 +75,8 @@ class SnapshotsDialog:
 
 		#setup backup folders
 		self.listSnapshots = self.glade.get_widget( 'listSnapshots' )
+		self.listSnapshots.drag_source_set( gtk.gdk.BUTTON1_MASK | gtk.gdk.BUTTON3_MASK, gtk.target_list_add_uri_targets(), gtk.gdk.ACTION_COPY )
+
 		initAll = self.listSnapshots.get_model() is None
 
 		if initAll:
@@ -132,6 +136,13 @@ class SnapshotsDialog:
 			path = self.storeSnapshots.get_value( iter, 2 )
 			gnomeclipboardtools.clipboard_copy_path( path )
  
+	def on_listSnapshots_drag_data_get( self, widget, drag_context, selection_data, info, timestamp, user_param1 = None ):
+		iter = self.listSnapshots.get_selection().get_selected()[1]
+		if not iter is None:
+			path = self.storeSnapshots.get_value( iter, 2 )
+			path = gnomevfs.escape_path_string(path)
+			selection_data.set_uris( [ 'file://' + path ] )
+
 	def on_listSnapshots_cursor_changed( self, list ):
 		self.updateToolbar()
 
