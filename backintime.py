@@ -168,6 +168,7 @@ class MainWindow:
 		#self.lblTime.set_markup( "<b>%s</b>" % "Now" )
 		#self.lblTime.show()
 		#column.set_widget( self.lblTime )
+		column.set_sort_column_id( 0 )
 		self.listFolderView.append_column( column )
 
 		textRenderer = gtk.CellRendererText()
@@ -175,6 +176,7 @@ class MainWindow:
 		column.pack_end( textRenderer, True )
 		column.add_attribute( textRenderer, 'markup', 4 )
 		#column.set_alignment( 0.5 )
+		column.set_sort_column_id( 1 )
 		self.listFolderView.append_column( column )
 
 		textRenderer = gtk.CellRendererText()
@@ -182,10 +184,16 @@ class MainWindow:
 		column.pack_end( textRenderer, True )
 		column.add_attribute( textRenderer, 'markup', 5 )
 		#column.set_alignment( 0.5 )
+		column.set_sort_column_id( 2 )
 		self.listFolderView.append_column( column )
 
-		# display name, relative path, icon_name, type (0 - directory, 1 - file), date, size 
-		self.storeFolderView = gtk.ListStore( str, str, str, int, str, str )
+		# display name, relative path, icon_name, type (0 - directory, 1 - file), size (str), date, size (int)
+		self.storeFolderView = gtk.ListStore( str, str, str, int, str, str, int )
+		self.storeFolderView.set_sort_func( 0, self.sort_folder_view_by_column, 0 ) #name
+		self.storeFolderView.set_sort_func( 1, self.sort_folder_view_by_column, 6 ) #size
+		self.storeFolderView.set_sort_func( 2, self.sort_folder_view_by_column, 5 )	#date
+		self.storeFolderView.set_sort_column_id( 0, gtk.SORT_ASCENDING )
+
 		self.listFolderView.set_model( self.storeFolderView )
 
 		#setup timeline view
@@ -234,6 +242,34 @@ class MainWindow:
 
 		gobject.timeout_add( 100, self.onInit )
 		gobject.timeout_add( 1000, self.raiseApplication )
+
+	def sort_folder_view_by_column( self, treemodel, iter1, iter2, column ):
+		if 0 == column:
+			ascending = 1
+			if self.storeFolderView.get_sort_column_id()[1] != gtk.SORT_ASCENDING:
+				ascending = -1
+
+			type1 = self.storeFolderView.get_value( iter1, 3 )
+			type2 = self.storeFolderView.get_value( iter2, 3 )
+
+			if type1 == 0 and type2 != 0:
+				return -1 * ascending
+
+			if type1 != 0 and type2 == 0:
+				return 1 * ascending
+
+		data1 = self.storeFolderView.get_value( iter1, column )
+		data2 = self.storeFolderView.get_value( iter2, column )
+
+		#print "sort_folder_view_by_column: " + str( data1 ) + " - " + str( data2 )
+
+		if data1 < data2:
+			return -1
+
+		if data1 > data2:
+			return 1
+
+		return 0
 
 	def onInit( self ):
 		if not self.config.isConfigured():
@@ -839,6 +875,10 @@ class MainWindow:
 				pass
 
 			#format size
+			file_size_int = file_size
+			if file_size_int < 0:
+				file_size_int = 0
+
 			if file_size < 0:
 				file_size = 'unknown'
 			elif file_size < 1024:
@@ -860,9 +900,9 @@ class MainWindow:
 				file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
 
 			if os.path.isdir( path ):
-				folders.append( [ file, file_size, file_date, self.iconNames.getIcon(path) ] )
+				folders.append( [ file, file_size, file_date, self.iconNames.getIcon(path), file_size_int ] )
 			else:
-				files.append( [ file, file_size, file_date, self.iconNames.getIcon(path) ] )
+				files.append( [ file, file_size, file_date, self.iconNames.getIcon(path), file_size_int ] )
 
 		#try to keep old selected file
 		if selectedFile is None:
@@ -877,13 +917,13 @@ class MainWindow:
 		selectedIter = None
 		for item in folders:
 			relPath = os.path.join( self.folderPath, item[0] )
-			newIter = self.storeFolderView.append( [ item[0], relPath, item[3], 0, item[1], item[2] ] )
+			newIter = self.storeFolderView.append( [ item[0], relPath, item[3], 0, item[1], item[2], item[4] ] )
 			if selectedFile == relPath:
 				selectedIter = newIter 
 
 		for item in files:
 			relPath = os.path.join( self.folderPath, item[0] )
-			newIter = self.storeFolderView.append( [ item[0], relPath, item[3], 1, item[1], item[2] ] )
+			newIter = self.storeFolderView.append( [ item[0], relPath, item[3], 1, item[1], item[2], item[4] ] )
 			if selectedFile == relPath:
 				selectedIter = newIter 
 
