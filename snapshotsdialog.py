@@ -84,12 +84,15 @@ class SnapshotsDialog:
 			column = gtk.TreeViewColumn( _('Snapshots') )
 			column.pack_end( textRenderer, True )
 			column.add_attribute( textRenderer, 'markup', 0 )
+			column.set_sort_column_id( 0 )
 			self.listSnapshots.append_column( column )
 
 			self.storeSnapshots = gtk.ListStore( str, str, str )
 			self.listSnapshots.set_model( self.storeSnapshots )
 		else:
 			self.storeSnapshots = self.listSnapshots.get_model()
+
+		self.storeSnapshots.set_sort_column_id( 0, gtk.SORT_DESCENDING )
 
 		#setup diff with combo
 		self.comboDiffWith = self.glade.get_widget( 'comboDiffWith' )
