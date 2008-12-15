@@ -118,13 +118,11 @@
     </itemizedlist> 
 	<para>&app; acts as a "user mode" backup system. This means that you can backup/restore only folders 
 	you have write access to (actually you can backup read-only folders, but you can't restore them).</para>
-	<para>In order to reduce disk space, it use the following rules:</para>
-    <itemizedlist> 
-      <listitem><para>a new snapshot is created only if the last snapshot (if any) is different from the 
-	  current directories state</para></listitem>
-      <listitem><para>when a new snapshot is created, it use hard-links (if possible) for files that are 
-	  not modified</para></listitem>
-    </itemizedlist> 
+	<para>A new snapshot is created only if something changed since the last snapshot
+	(new/removed/changed files or directories).</para>
+	<para>A snapshot contains all the files from the selected directories (except for exclude patterns).
+	In order to reduce disk space it use hard\-links (if possible) between snapshots for unchanged files.
+	This way a file of 10Mb, unchanged for 10 snapshots, will use only 10Mb on the disk.</para>
 	<para>When you restore a file 'A', if it already exists on the file system it will be renamed to 
 	'A.backup.currentdate'.</para>
   </sect1>
