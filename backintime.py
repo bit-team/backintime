@@ -261,6 +261,12 @@ class MainWindow:
 		data1 = self.storeFolderView.get_value( iter1, column )
 		data2 = self.storeFolderView.get_value( iter2, column )
 
+		if type(data1) is str:
+			data1 = data1.upper()
+
+		if type(data2) is str:
+			data2 = data2.upper()
+
 		#print "sort_folder_view_by_column: " + str( data1 ) + " - " + str( data2 )
 
 		if data1 < data2:
