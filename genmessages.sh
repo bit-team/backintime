@@ -1,2 +1,2 @@
 #!/bin/bash
-xgettext --output=messages.pot *.py *.glade
+xgettext --output=- *.py *.glade | msggrep -v -K -e "gtk-" > messages.pot
