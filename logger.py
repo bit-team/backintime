@@ -27,11 +27,14 @@ def closelog():
 	syslog.closelog()
 
 def error( msg ):
+	print 'ERROR: ' + msg
 	syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + msg )
 
 def warning( msg ):
+	print 'WARNING: ' + msg
 	syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + msg )
 
 def info( msg ):
+	print 'INFO: ' + msg
 	syslog.syslog( syslog.LOG_INFO, 'INFO: ' + msg )
 

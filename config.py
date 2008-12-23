@@ -72,10 +72,10 @@ class Config( configfile.ConfigFile ):
 		if os.path.exists( os.path.join( self._APP_PATH, 'LICENSE' ) ):
 			self._DOC_PATH = self._APP_PATH
 
-		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config2'
+		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 		self._LOCAL_CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
 		os.system( "mkdir -p \"%s\"" % self._LOCAL_CONFIG_FOLDER )
-		self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
+		self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
 
 		self.load( self._GLOBAL_CONFIG_PATH )
 		self.append( self._LOCAL_CONFIG_PATH )
@@ -84,10 +84,13 @@ class Config( configfile.ConfigFile ):
 		return self.get_str_value( 'snapshots.path', '' )
 
 	def get_snapshots_full_path( self ):
-		return os.path.joint( self.get_snapshots_path(), 'backintime' ) 
+		return os.path.join( self.get_snapshots_path(), 'backintime' ) 
 
 	def set_snapshots_path( self, value ):
 		self.set_str_value( 'snapshots.path', value )
+		if len( value ) > 0:
+			if os.path.isdir( value ):
+				os.system( "mkdir -p \"%s\"" % self.get_snapshots_full_path() )
 
 	def get_include_folders( self ):
 		return self.get_str_value( 'snapshots.include_folders', '' )
@@ -112,6 +115,9 @@ class Config( configfile.ConfigFile ):
 		return ( self.get_bool_value( 'snapshots.remove_old_snapshots.remove', True ),
 				 self.get_int_value( 'snapshots.remove_old_snapshots.value', 10 ),
 				 self.get_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR ) )
+	
+	def is_remove_old_snapshots_enabled( self ):
+		return self.get_bool_value( 'snapshots.remove_old_snapshots.remove', True )
 	
 	def get_remove_old_snapshots_date( self ):
 		enabled, value, unit = self.get_remove_old_snapshots()
@@ -144,6 +150,9 @@ class Config( configfile.ConfigFile ):
 				 self.get_int_value( 'snapshots.min_free_space.value', 1 ),
 				 self.get_int_value( 'snapshots.min_free_space.unit', self.DISK_UNIT_GB ) )
 	
+	def is_min_free_space_enabled( self ):
+		return self.get_bool_value( 'snapshots.min_free_space.enabled', True )
+
 	def get_min_free_space_in_mb( self ):
 		enabled, value, unit = self.get_min_free_space()
 		if not enabled:
@@ -176,10 +185,10 @@ class Config( configfile.ConfigFile ):
 		return self._DOC_PATH
 
 	def get_app_instance_file( self ):
-		return os.path.join( self._CONFIG_FOLDER, 'app.instance' )
+		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'app.lock' )
 
 	def get_take_snapshot_instance_file( self ):
-		return os.path.join( self._CONFIG_FOLDER, 'take_snapshot.instance' )
+		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'snapshot.lock' )
 
 	def get_license( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ) )
@@ -189,83 +198,6 @@ class Config( configfile.ConfigFile ):
 
 	def get_authors( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'AUTHORS' ) )
-
-	def get_snapshot_id( self, date ):
-		if type( date ) is datetime.datetime:
-			return date.strftime( '%Y%m%d-%H%M%S' )
-
-		if type( date ) is datetime.date:
-			return date.strftime( '%Y%m%d-000000' )
-
-		if type( date ) is str:
-			return date
-		
-		return ""
-
-	def get_snapshot_path( self, date ):
-		return os.path.join( self.get_snapshots_full_path(), self.get_snapshot_id( date ) )
-
-	def get_snapshot_data_path( self, snapshot_id ):
-		if len( snapshot_path ) <= 1:
-			return '/';
-		return os.path.join( self.get_snapshot_path( snapshot_id ), 'backup' )
-	
-	def get_snapshot_path_to( self, snapshot_id, toPath = '/' ):
-		return os.path.join( self.get_snapshot_data_path( snapshot_id ), toPath[ 1 : ] )
-
-	def get_snapshot_name( self, snapshot_id ):
-		if len( snapshot_id ) <= 1: #not a snapshot
-			return ''
-
-		path = self.get_snapshots_path( snapshot_id )
-		if not os.path.isdir( path ):
-			return ''
-		
-		retVal = ''
-		try:
-			file = open( os.path.join( path, 'name' ), 'rt' )
-			retVal = file.read()
-			file.close()
-		except:
-			pass
-
-		return retVal
-
-	def get_snapshot_display_name( self, snapshot_id, name_prefix = '', name_suffix = '' ):
-		if len( snapshot ) <= 1:
-			return _('Now')
-
-		retVal = "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
-		name = self.snapshotName( snapshot )
-		if len( name ) > 0:
-			if not simple:
-				name = name_prefix + name + name_suffix
-			retVal = retVal + ' - ' + name
-		return retVal
-	
-	def get_snapshot_display_name_gtk( self, snapshot_id ):
-		return self.get_snapshot_display_name( snapshot_id, '<b>', '</b>' )
-
-	def set_snapshot_name( self, snapshot_id, name ):
-		if len( snapshot_id ) <= 1: #not a snapshot
-			return
-
-		path = self.get_snapshots_path( snapshot_id )
-		if not os.path.isdir( path ):
-			return
-
-		name_path = os.path.join( path, 'name' )
-
-		os.system( "chmod a+w \"%s\"" % path )
-
-		try:
-			file = open( name_path, 'wt' )
-			file.write( name )
-			file.close()
-		except:
-			pass
-
-		os.system( "chmod a-w \"%s\"" % path )
 
 	def is_configured( self ):
 		if len( self.get_snapshots_path() ) == 0:

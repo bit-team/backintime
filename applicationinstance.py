@@ -30,7 +30,7 @@ class ApplicationInstance:
 
 		if auto_exit:
 			if self.check( True ):
-				self.startApplication()
+				self.start_application()
 
 	#check if the current application is already running, returns True if this is the application instance
 	def check( self, auto_exit = False ):
@@ -65,13 +65,13 @@ class ApplicationInstance:
 		return False
 
 	#called when the single instance starts to save it's pid
-	def startApplication( self ):
+	def start_application( self ):
 		file = open( self.pid_file, 'wt' )
 		file.write( str( os.getpid() ) )
 		file.close()
 
 	#called when the single instance exit ( remove pid file )
-	def exitApplication( self ):
+	def exit_application( self ):
 		try:
 			os.remove( self.pid_file )
 		except:
@@ -80,7 +80,7 @@ class ApplicationInstance:
 
 if __name__ == '__main__':
 	#create application instance
-	appInstance = ApplicationInstance( '/tmp/myapp.pid' )
+	app_instance = ApplicationInstance( '/tmp/myapp.pid' )
 
 	#do something here
 	print "Start MyApp"
@@ -88,5 +88,5 @@ if __name__ == '__main__':
 	print "End MyApp"
 
 	#remove pid file
-	appInstance.exitApplication()
+	app_instance.exit_application()
 
