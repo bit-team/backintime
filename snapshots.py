@@ -339,7 +339,5 @@ class Snapshots:
 if __name__ == "__main__":
 	config = config.Config()
 	snapshots = Snapshots( config )
-	print snapshots.get_snapshots_list()
-	print snapshots.take_snapshot()
-	print snapshots.get_snapshots_list()
+	snapshots.take_snapshot()
 
