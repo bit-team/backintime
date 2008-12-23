@@ -21,14 +21,17 @@ import os
 import datetime
 import gettext
 
-_=gettext.gettext
+import configfile
+import tools
 
+
+_=gettext.gettext
 
 gettext.bindtextdomain( 'backintime', '/usr/share/locale' )
 gettext.textdomain( 'backintime' )
 
 
-class Config:
+class Config( configfile.ConfigFile ):
 	APP_NAME = 'Back In Time'
 	VERSION = '0.9beta'
 
@@ -69,77 +72,128 @@ class Config:
 		if os.path.exists( os.path.join( self._APP_PATH, 'LICENSE' ) ):
 			self._DOC_PATH = self._APP_PATH
 
-		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
-		self._CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
-		os.system( "mkdir -p \"%s\"" % self._CONFIG_FOLDER )
+		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config2'
+		self._LOCAL_CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
+		os.system( "mkdir -p \"%s\"" % self._LOCAL_CONFIG_FOLDER )
 
-		self._CONFIG_PATH = os.path.join( self._CONFIG_FOLDER, 'config' )
-		self._LOCK_FILE_NAME = 'lock'
+		self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
 
-		self._BASE_BACKUP_PATH = ''
-		self._INCLUDE_FOLDERS = ''
-		self._EXCLUDE_PATTERNS = '.*:*.backup*:*~'
-		self._AUTOMATIC_BACKUP = self.NONE
-		self._REMOVE_OLD_BACKUPS = 1
-		self._REMOVE_OLD_BACKUPS_VALUE = 10
-		self._REMOVE_OLD_BACKUPS_UNIT = self.YEAR
-		self._MIN_FREE_SPACE = 1
-		self._MIN_FREE_SPACE_VALUE = 1
-		self._MIN_FREE_SPACE_UNIT = self.DISK_UNIT_GB
-		self._DONT_REMOVE_NAMED_SNAPSHOTS = 1
+		self.config_file = ConfigFile()
 
-		self.MAIN_WINDOW_X = -1
-		self.MAIN_WINDOW_Y = -1
-		self.MAIN_WINDOW_WIDTH = -1
-		self.MAIN_WINDOW_HEIGHT = -1
-		self.MAIN_WINDOW_HPANED1_POSITION = -1
-		self.MAIN_WINDOW_HPANED2_POSITION = -1
-		self.LAST_PATH = ''
+		self.load( self._GLOBAL_CONFIG_PATH )
+		self.append( self._LOCAL_CONFIG_PATH )
 
-		self.DIFF_CMD = 'meld'
-		self.DIFF_CMD_PARAMS = '%1 %2'
+	def get_snapshots_path( self ):
+		return self.get_str_value( 'snapshots.path', '' )
 
-		self.load()
+	def get_snapshots_full_path( self ):
+		return os.path.joint( self.get_snapshots_path(), 'backintime' ) 
 
-	def appPath( self ):
+	def set_snapshots_path( self, value ):
+		self.set_str_value( 'snapshots.path', value )
+
+	def get_include_folders( self ):
+		return self.get_str_value( 'snapshots.include_folders', '' )
+
+	def set_include_folders( self, value ):
+		self.set_str_value( 'snapshots.include_folders', value )
+
+	def get_exclude_patterns( self ):
+		return self.get_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~' )
+
+	def set_exclude_patterns( self, value ):
+		self.set_str_value( 'snapshots.exclude_patterns', value )
+
+	def get_automatic_backup_mode( self ):
+		return self.get_int_value( 'snapshots.automatic_backup_mode', self.NONE )
+
+	def set_automatic_backup_mode( self, value ):
+		self.set_int_value( 'snapshots.automatic_backup_mode', value )
+		self.setup_cron()
+
+	def get_remove_old_snapshots( self ):
+		return ( self.get_bool_value( 'snapshots.remove_old_snapshots.remove', True ),
+				 self.get_int_value( 'snapshots.remove_old_snapshots.value', 10 ),
+				 self.get_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR ) )
+	
+	def get_remove_old_snapshots_date( self ):
+		enabled, value, unit = self.get_remove_old_snapshots()
+		if not enabled:
+			return datetime.date( 1, 1, 1 )
+
+		if unit == self.DAY: 
+			date = datetime.date.today()
+			date = date - datetime.timedelta( days = value )
+			return date
+
+		if unit == self.WEEK:
+			date = datetime.date.today()
+			date = date - datetime.timedelta( days = 7 * value )
+			return date
+		
+		if unit == self.YEAR:
+			date = datetime.date.today()
+			return date.replace( year = date.year - value )
+		
+		return datetime.date( 1, 1, 1 )
+
+	def set_remove_old_snapshots( self, enabled, value, unit ):
+		self.set_bool_value( 'snapshots.remove_old_snapshots.remove', enabled )
+		self.set_int_value( 'snapshots.remove_old_snapshots.value', value )
+		self.set_int_value( 'snapshots.remove_old_snapshots.unit', unit )
+
+	def get_min_free_space( self ):
+		return ( self.get_bool_value( 'snapshots.min_free_space.enabled', True ),
+				 self.get_int_value( 'snapshots.min_free_space.value', 1 ),
+				 self.get_int_value( 'snapshots.min_free_space.unit', self.DISK_UNIT_GB ) )
+	
+	def get_min_free_space_in_mb( self ):
+		enabled, value, unit = self.get_min_free_space()
+		if not enabled:
+			return 0
+
+		if self.DISK_UNIT_MB == unit:
+			return value
+
+		value *= 1024 #Gb
+		if self.DISK_UNIT_GB == unit:
+			return value
+
+		return 0
+
+	def set_min_free_space( self, enabled, value, unit ):
+		self.set_bool_value( 'snapshots.min_free_space.enabled', enabled )
+		self.set_int_value( 'snapshots.min_free_space.value', value )
+		self.set_int_value( 'snapshots.min_free_space.unit', unit )
+
+	def get_dont_remove_named_snapshots( self ):
+		return self.get_bool_value( 'snapshots.dont_remove_named_snapshots', True )
+
+	def set_dont_remove_named_snapshots( self, value ):
+		self.get_bool_value( 'snapshots.dont_remove_named_snapshots', value )
+	
+	def get_app_path( self ):
 		return self._APP_PATH
 
-	def gladeFile( self ):
-		return os.path.join( self.appPath(), 'backintime.glade' )
+	def get_doc_path( self ):
+		return self._DOC_PATH
 
-	def baseInstanceFile( self ):
-		return os.path.join( self._CONFIG_FOLDER, 'appinstance' )
+	def get_app_instance_file( self ):
+		return os.path.join( self._CONFIG_FOLDER, 'app.instance' )
 
-	def getFileContent( self, path, defaultValue = None ):
-		retVal = defaultValue 
-		try:
-			file = open( path )
-			retVal = file.read()
-			file.close()
-		except:
-			pass
-		return retVal
+	def get_take_snapshot_instance_file( self ):
+		return os.path.join( self._CONFIG_FOLDER, 'take_snapshot.instance' )
 
-	def getLinesFileContent( self, path, defaultValue = None ):
-		retVal = defaultValue 
-		try:
-			file = open( path )
-			retVal = file.readlines()
-			file.close()
-		except:
-			pass
-		return retVal
+	def get_license( self ):
+		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ) )
 
-	def license( self ):
-		return self.getFileContent( os.path.join( self._DOC_PATH, 'LICENSE' ) )
+	def get_translations( self ):
+		return tools.read_file( os.path.join( self.get_doc_path(), 'TRANSLATIONS' ) )
 
-	def translations( self ):
-		return self.getFileContent( os.path.join( self._DOC_PATH, 'TRANSLATIONS' ) )
+	def get_authors( self ):
+		return tools.read_file( os.path.join( self.get_doc_path(), 'AUTHORS' ) )
 
-	def authors( self ):
-		return self.getLinesFileContent( os.path.join( self._DOC_PATH, 'AUTHORS' ) )
-
-	def backupName( self, date ):
+	def get_snapshot_id( self, date ):
 		if type( date ) is datetime.datetime:
 			return date.strftime( '%Y%m%d-%H%M%S' )
 
@@ -151,49 +205,26 @@ class Config:
 		
 		return ""
 
-	def backupPath( self, date = None ):
-		path = os.path.join( self._BASE_BACKUP_PATH, 'backintime' )
+	def get_snapshot_path( self, date ):
+		return os.path.join( self.get_snapshots_full_path(), self.get_snapshot_id( date ) )
 
-		if date is None:
-			return path
-
-		#print "[backupPath] date: %s" % date
-		#print "[backupPath] name: %s" % self.backupName( date )
-		return os.path.join( path, self.backupName( date ) )
-
-	def backupBasePath( self ):
-		return self._BASE_BACKUP_PATH
-
-	def snapshotPath( self, snapshot ):
-		if len( snapshot ) <= 1:
+	def get_snapshot_data_path( self, snapshot_id ):
+		if len( snapshot_path ) <= 1:
 			return '/';
-		return os.path.join( self.backupPath( snapshot ), 'backup' )
+		return os.path.join( self.get_snapshot_path( snapshot_id ), 'backup' )
 	
-	def snapshotPathTo( self, snapshot, toPath = '/' ):
-		return os.path.join( self.snapshotPath( snapshot ), toPath[ 1 : ] )
+	def get_snapshot_path_to( self, snapshot_id, toPath = '/' ):
+		return os.path.join( self.get_snapshot_data_path( snapshot_id ), toPath[ 1 : ] )
 
-	def snapshotDisplayName( self, snapshot, simple = False ):
-		if len( snapshot ) <= 1:
-			return _('Now')
-
-		retVal = "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
-		name = self.snapshotName( snapshot )
-		if len( name ) > 0:
-			if not simple:
-				name = "<b>%s</b>" % name
-			retVal = retVal + ' - ' + name
-		return retVal
-
-	def snapshotName( self, snapshot ):
-		if len( snapshot ) <= 1: #not a snapshot
+	def get_snapshot_name( self, snapshot_id ):
+		if len( snapshot_id ) <= 1: #not a snapshot
 			return ''
 
-		path = self.backupPath( snapshot )
+		path = self.get_snapshots_path( snapshot_id )
 		if not os.path.isdir( path ):
 			return ''
 		
 		retVal = ''
-
 		try:
 			file = open( os.path.join( path, 'name' ), 'rt' )
 			retVal = file.read()
@@ -203,11 +234,26 @@ class Config:
 
 		return retVal
 
-	def setSnapshotName( self, snapshot, name ):
-		if len( snapshot ) <= 1: #not a snapshot
+	def get_snapshot_display_name( self, snapshot_id, name_prefix = '', name_suffix = '' ):
+		if len( snapshot ) <= 1:
+			return _('Now')
+
+		retVal = "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
+		name = self.snapshotName( snapshot )
+		if len( name ) > 0:
+			if not simple:
+				name = name_prefix + name + name_suffix
+			retVal = retVal + ' - ' + name
+		return retVal
+	
+	def get_snapshot_display_name_gtk( self, snapshot_id ):
+		return self.get_snapshot_display_name( snapshot_id, '<b>', '</b>' )
+
+	def set_snapshot_name( self, snapshot_id, name ):
+		if len( snapshot_id ) <= 1: #not a snapshot
 			return
 
-		path = self.backupPath( snapshot )
+		path = self.get_snapshots_path( snapshot_id )
 		if not os.path.isdir( path ):
 			return
 
@@ -224,191 +270,23 @@ class Config:
 
 		os.system( "chmod a-w \"%s\"" % path )
 
-	def setBackupBasePath( self, value ):
-		self._BASE_BACKUP_PATH = value
-
-	def lockFile( self ):
-		return os.path.join( self.backupPath(), self._LOCK_FILE_NAME )
-
-	def includeFolders( self ):
-		return self._INCLUDE_FOLDERS
-
-	def setIncludeFolders( self, value ):
-		self._INCLUDE_FOLDERS = value
-
-	def excludePatterns( self ):
-		return self._EXCLUDE_PATTERNS
-
-	def setExcludePatterns( self, value ):
-		self._EXCLUDE_PATTERNS = value
-
-	def automaticBackup( self ):
-		return self._AUTOMATIC_BACKUP
-
-	def setAutomaticBackup( self, value ):
-		self._AUTOMATIC_BACKUP = value
-		self.setupCron()
-
-	def dontRemoveNamedSnapshots( self ):
-		return self._DONT_REMOVE_NAMED_SNAPSHOTS != 0
-
-	def setDontRemoveNamedSnapshots( self, value ):
-		if value:
-			self._DONT_REMOVE_NAMED_SNAPSHOTS = 1
-		else:
-			self._DONT_REMOVE_NAMED_SNAPSHOTS = 0
-
-	def removeOldBackups( self ):
-		return self._REMOVE_OLD_BACKUPS != 0 and self._REMOVE_OLD_BACKUPS_VALUE > 0
-
-	def removeOldBackupsValue( self ):
-		return self._REMOVE_OLD_BACKUPS_VALUE
-
-	def removeOldBackupsUnit( self ):
-		return self._REMOVE_OLD_BACKUPS_UNIT
-
-	def setRemoveOldBackups( self, enabled, value, unit ):
-		if enabled:
-			self._REMOVE_OLD_BACKUPS = 1
-		else:
-			self._REMOVE_OLD_BACKUPS = 0
-
-		self._REMOVE_OLD_BACKUPS_VALUE = value
-		self._REMOVE_OLD_BACKUPS_UNIT = unit
-
-	def removeOldBackupsDate( self ):
-		if not self.removeOldBackups():
-			return datetime.date( 1, 1, 1 )
-
-		if self._REMOVE_OLD_BACKUPS_UNIT == self.DAY: 
-			date = datetime.date.today()
-			date = date - datetime.timedelta( days = self._REMOVE_OLD_BACKUPS_VALUE )
-			return date
-
-		if self._REMOVE_OLD_BACKUPS_UNIT == self.WEEK:
-			date = datetime.date.today()
-			date = date - datetime.timedelta( days = 7 * self._REMOVE_OLD_BACKUPS_VALUE )
-			return date
-		
-		if self._REMOVE_OLD_BACKUPS_UNIT == self.YEAR:
-			date = datetime.date.today()
-			return date.replace( year = date.year - self._REMOVE_OLD_BACKUPS_VALUE )
-		
-		return datetime.date( 1, 1, 1 )
-
-	def diffCmd( self ):
-		return ( self.DIFF_CMD, self.DIFF_CMD_PARAMS )
-
-	def setDiffCmd( self, diffCmd, diffCmdParams ):
-		self.DIFF_CMD = diffCmd
-		self.DIFF_CMD_PARAMS = diffCmdParams
-
-	def minFreeSpace( self ):
-		return self._MIN_FREE_SPACE != 0 and self._MIN_FREE_SPACE_VALUE > 0
-
-	def minFreeSpaceValue( self ):
-		return self._MIN_FREE_SPACE_VALUE
-
-	def minFreeSpaceUnit( self ):
-		return self._MIN_FREE_SPACE_UNIT
-
-	def setMinFreeSpace( self, enabled, value, unit ):
-		if enabled:
-			self._MIN_FREE_SPACE = 1
-		else:
-			self._MIN_FREE_SPACE = 0
-
-		self._MIN_FREE_SPACE_VALUE = value
-		self._MIN_FREE_SPACE_UNIT = unit
-
-	def minFreeSpaceValueInMb( self ):
-		if not self.minFreeSpace():
-			return 0
-
-		value = self.minFreeSpaceValue() #Mb
-		if self._MIN_FREE_SPACE_UNIT == self.DISK_UNIT_MB:
-			return value
-
-		value *= 1024 #Gb
-		if self._MIN_FREE_SPACE_UNIT == self.DISK_UNIT_GB:
-			return value
-
-		return 0
-
-	def load( self ):
-		configFile = ConfigFile()
-		configFile.load( self._GLOBAL_CONFIG_PATH )
-		configFile.append( self._CONFIG_PATH )
-
-		self._BASE_BACKUP_PATH = configFile.getString( 'BASE_BACKUP_PATH', self._BASE_BACKUP_PATH )
-		self._INCLUDE_FOLDERS = configFile.getString( 'INCLUDE_FOLDERS', self._INCLUDE_FOLDERS )
-		self._EXCLUDE_PATTERNS = configFile.getString( 'EXCLUDE_PATTERNS', self._EXCLUDE_PATTERNS )
-		self._AUTOMATIC_BACKUP = configFile.getInt( 'AUTOMATIC_BACKUP', self._AUTOMATIC_BACKUP )
-		self._REMOVE_OLD_BACKUPS = configFile.getInt( 'REMOVE_OLD_BACKUPS', self._REMOVE_OLD_BACKUPS )
-		self._REMOVE_OLD_BACKUPS_VALUE = configFile.getInt( 'REMOVE_OLD_BACKUPS_VALUE', self._REMOVE_OLD_BACKUPS_VALUE )
-		self._REMOVE_OLD_BACKUPS_UNIT = configFile.getInt( 'REMOVE_OLD_BACKUPS_UNIT', self._REMOVE_OLD_BACKUPS_UNIT )
-		self._MIN_FREE_SPACE = configFile.getInt( 'MIN_FREE_SPACE', self._MIN_FREE_SPACE )
-		self._MIN_FREE_SPACE_VALUE = configFile.getInt( 'MIN_FREE_SPACE_VALUE', self._MIN_FREE_SPACE_VALUE )
-		self._MIN_FREE_SPACE_UNIT = configFile.getInt( 'MIN_FREE_SPACE_UNIT', self._MIN_FREE_SPACE_UNIT )
-		self._DONT_REMOVE_NAMED_SNAPSHOTS = configFile.getInt( 'DONT_REMOVE_NAMED_SNAPSHOTS', 1 )
-
-		self.MAIN_WINDOW_X = configFile.getInt( 'MAIN_WINDOW_X', -1 )
-		self.MAIN_WINDOW_Y = configFile.getInt( 'MAIN_WINDOW_Y', -1 )
-		self.MAIN_WINDOW_HEIGHT = configFile.getInt( 'MAIN_WINDOW_HEIGHT', -1 )
-		self.MAIN_WINDOW_WIDTH = configFile.getInt( 'MAIN_WINDOW_WIDTH', -1 )
-		self.MAIN_WINDOW_HPANED1_POSITION = configFile.getInt( 'MAIN_WINDOW_HPANED1_POSITION', -1 )
-		self.MAIN_WINDOW_HPANED2_POSITION = configFile.getInt( 'MAIN_WINDOW_HPANED2_POSITION', -1 )
-		self.LAST_PATH = configFile.getString( 'LAST_PATH', '' )
-
-		self.DIFF_CMD = configFile.getString( 'DIFF_CMD', 'meld' )
-		self.DIFF_CMD_PARAMS = configFile.getString( 'DIFF_CMD_PARAMS', '%1 %2' )
-
-	def save( self ):
-		os.system( "mkdir -p \"%s\"" % self._CONFIG_FOLDER )
-		configFile = ConfigFile()
-
-		configFile.setString( 'BASE_BACKUP_PATH', self._BASE_BACKUP_PATH )
-		configFile.setString( 'INCLUDE_FOLDERS', self._INCLUDE_FOLDERS )
-		configFile.setString( 'EXCLUDE_PATTERNS', self._EXCLUDE_PATTERNS )
-		configFile.setInt( 'AUTOMATIC_BACKUP', self._AUTOMATIC_BACKUP )
-		configFile.setInt( 'REMOVE_OLD_BACKUPS', self._REMOVE_OLD_BACKUPS )
-		configFile.setInt( 'REMOVE_OLD_BACKUPS_VALUE', self._REMOVE_OLD_BACKUPS_VALUE )
-		configFile.setInt( 'REMOVE_OLD_BACKUPS_UNIT', self._REMOVE_OLD_BACKUPS_UNIT )
-		configFile.setInt( 'MIN_FREE_SPACE', self._MIN_FREE_SPACE )
-		configFile.setInt( 'MIN_FREE_SPACE_VALUE', self._MIN_FREE_SPACE_VALUE )
-		configFile.setInt( 'MIN_FREE_SPACE_UNIT', self._MIN_FREE_SPACE_UNIT )
-		configFile.setInt( 'DONT_REMOVE_NAMED_SNAPSHOTS', self._DONT_REMOVE_NAMED_SNAPSHOTS )
-
-		configFile.setInt( 'MAIN_WINDOW_X', self.MAIN_WINDOW_X )
-		configFile.setInt( 'MAIN_WINDOW_Y', self.MAIN_WINDOW_Y )
-		configFile.setInt( 'MAIN_WINDOW_HEIGHT', self.MAIN_WINDOW_HEIGHT )
-		configFile.setInt( 'MAIN_WINDOW_WIDTH', self.MAIN_WINDOW_WIDTH )
-		configFile.setInt( 'MAIN_WINDOW_HPANED1_POSITION', self.MAIN_WINDOW_HPANED1_POSITION )
-		configFile.setInt( 'MAIN_WINDOW_HPANED2_POSITION', self.MAIN_WINDOW_HPANED2_POSITION )
-		configFile.setString( 'LAST_PATH', self.LAST_PATH )
-
-		configFile.setString( 'DIFF_CMD', self.DIFF_CMD )
-		configFile.setString( 'DIFF_CMD_PARAMS', self.DIFF_CMD_PARAMS )
-
-		configFile.save( self._CONFIG_PATH )
-
-	def isConfigured( self ):
-		if len( self._BASE_BACKUP_PATH ) == 0:
+	def is_configured( self ):
+		if len( self.get_snapshots_path() ) == 0:
 			return False
 
-		if len( self._INCLUDE_FOLDERS ) == 0:
+		if len( self.get_include_folders() ) == 0:
 			return False
 
 		return True
 
-	def canBackup( self ):
-		if not self.isConfigured():
+	def can_backup( self ):
+		if not self.is_configured():
 			return False
 
-		if not os.path.isdir( self._BASE_BACKUP_PATH ):
+		if not os.path.isdir( self.get_snapshots_path() ):
 			return False
 
-		path = self.backupPath()
+		path = self.get_snapshots_full_path()
 		os.system( "mkdir -p \"%s\"" % path )
 	
 		if not os.path.isdir( path ):
@@ -416,98 +294,40 @@ class Config:
 
 		return True
 
-	def setupCron( self ):
+	def setup_cron( self ):
 		#remove old cron
 		os.system( "crontab -l | grep -v backintime | crontab -" )
 
-		newCron = ""
+		cron_lines = ''
+		auto_backup_mode = self.get_automatic_backup_mode()
 
-		if self.automaticBackup() == self.HOUR:
-			newCron = 'echo "@hourly {cmd}"'
-		elif self.automaticBackup() == self.DAY:
-			newCron = 'echo "@daily {cmd}"'
-		elif self.automaticBackup() == self.WEEK:
-			newCron = 'echo "@weekly {cmd}"'
-		elif self.automaticBackup() == self.MONTH:
-			newCron = 'echo "@monthly {cmd}"'
-		elif self.automaticBackup() == self._5_MIN:
-			newCron = ''
+		if self.HOUR == auto_backup_mode:
+			cron_lines = 'echo "@hourly {cmd}"'
+		elif self.DAY == auto_backup_mode:
+			cron_lines = 'echo "@daily {cmd}"'
+		elif self.WEEK == auto_backup_mode:
+			cron_lines = 'echo "@weekly {cmd}"'
+		elif self.MONTH == auto_backup_mode:
+			cron_lines = 'echo "@monthly {cmd}"'
+		elif self._5_MIN == auto_backup_mode:
+			cron_lines = ''
 			for minute in xrange( 0, 59, 5 ):
 				if 0 != minute:
-					newCron = newCron + '; '
-				newCron = newCron + "echo \"%s * * * * {cmd}\"" % minute
-		elif self.automaticBackup() == self._10_MIN:
-			newCron = ''
+					cron_lines = cron_lines + '; '
+				cron_lines = cron_lines + "echo \"%s * * * * {cmd}\"" % minute
+		elif self._10_MIN == auto_backup_mode:
+			cron_lines = ''
 			for minute in xrange( 0, 59, 10 ):
 				if 0 != minute:
-					newCron = newCron + '; '
-				newCron = newCron + "echo \"%s * * * * {cmd}\"" % minute
+					cron_lines = cron_lines + '; '
+				cron_lines = cron_lines + "echo \"%s * * * * {cmd}\"" % minute
 
-		if len( newCron ) > 0:
-			newCron = newCron.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup' )
-			os.system( "( crontab -l; %s ) | crontab -" % newCron )
-
-class ConfigFile:
-	def __init__( self ):
-		self.dict = {}
-
-	def save( self, filename ):
-		try:
-			file = open( filename, 'w' )
-			for key, value in self.dict.items():
-				file.write( "%s=%s\n" % ( key, value ) )
-			file.close()
-		except:
-			pass
-
-	def load( self, filename ):
-		self.dict = {}
-		self.append( filename )
-
-	def append( self, filename ):
-		lines = []
-
-		try:
-			file = open( filename, 'r' )
-			lines = file.readlines()
-			file.close()
-		except:
-			pass
-
-		for line in lines:
-			items = line.split( '=' )
-			if len( items ) == 2:
-				self.dict[ items[ 0 ] ] = items[ 1 ][ : -1 ]
-
-	def getString( self, key, defaultValue = '' ):
-		try:
-			return self.dict[ key ]
-		except:
-			return defaultValue
-
-	def setString( self, key, value ):
-		self.dict[ key ] = value
-
-	def getInt( self, key, defaultValue = 0 ):
-		try:
-			return int( self.dict[ key ] )
-		except:
-			return defaultValue
-
-	def setInt( self, key, value ):
-		self.dict[ key ] = str( value )
+		if len( cron_lines ) > 0:
+			cron_lines = cron_lines.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup' )
+			os.system( "( crontab -l; %s ) | crontab -" % cron_lines )
 
 
 if __name__ == "__main__":
 	config = Config()
-	print "BASE_BACKUP_PATH = %s" % config._BASE_BACKUP_PATH
-	print "INCLUDE_FOLDERS = %s" % config._INCLUDE_FOLDERS
-	print "EXCLUDE_PATTERNS = %s" % config._EXCLUDE_PATTERNS
-	print "AUTOMATIC_BACKUP = %s" % config._AUTOMATIC_BACKUP
-	print "REMOVE_OLD_BACKUPS = %s" % config._REMOVE_OLD_BACKUPS
-	print "REMOVE_OLD_BACKUPS_VALUE = %s" % config._REMOVE_OLD_BACKUPS_VALUE
-	print "REMOVE_OLD_BACKUPS_UNIT = %s" % config._REMOVE_OLD_BACKUPS_UNIT
-	print "MIN_FREE_SPACE = %s" % config._MIN_FREE_SPACE
-	print "MIN_FREE_SPACE_VALUE = %s" % config._MIN_FREE_SPACE_VALUE
-	print "MIN_FREE_SPACE_UNIT = %s" % config._MIN_FREE_SPACE_UNIT
+	print config.dict
 
