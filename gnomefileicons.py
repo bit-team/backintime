@@ -27,7 +27,7 @@ class GnomeFileIcons:
 		self.all_icons = gtk.icon_theme_get_default().list_icons()
 		self.cache = {}
 
-	def getIcon( self, path ):
+	def get_icon( self, path ):
 		if not os.path.exists(path):
 			return gtk.STOCK_FILE
 		

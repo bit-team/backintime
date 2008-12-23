@@ -88,6 +88,9 @@ class MainWindow:
 		self.special_background_color = 'lightblue'
 		self.popup_menu = None
 
+		self.folder_path = None
+		self.snapshot_id = ''
+
 		self.glade = gtk.glade.XML( os.path.join( self.config.get_app_path(), 'gnomebackintime.glade' ), None, 'backintime' )
 
 		signals = { 
@@ -119,114 +122,111 @@ class MainWindow:
 		self.window.set_title( self.config.APP_NAME )
 
 		#icons
-		self.iconNames = gnomefileicons.GnomeFileIcons()
+		self.icon_names = gnomefileicons.GnomeFileIcons()
 
 		#fix a glade bug
 		self.glade.get_widget( 'btnCurrentPath' ).set_expand( True )
 
 		#status bar
-		self.statusBar = self.glade.get_widget( 'statusBar' )
-		self.statusBar.push( 0, _('Done') )
+		self.status_bar = self.glade.get_widget( 'statusBar' )
+		self.status_bar.push( 0, _('Done') )
 
 		#setup places view
-		self.listPlaces = self.glade.get_widget( 'listPlaces' )
+		self.list_places = self.glade.get_widget( 'listPlaces' )
 
-		pixRenderer = gtk.CellRendererPixbuf()
-		textRenderer = gtk.CellRendererText()
+		pix_renderer = gtk.CellRendererPixbuf()
+		text_renderer = gtk.CellRendererText()
 		
 		column = gtk.TreeViewColumn( _('Places') )
-		column.pack_start( pixRenderer, False )
-		column.pack_end( textRenderer, True )
-		column.add_attribute( pixRenderer, 'icon-name', 2 )
-		column.add_attribute( textRenderer, 'markup', 0 )
-		column.set_cell_data_func( pixRenderer, self.placesPixRendererFunction, None )
-		column.set_cell_data_func( textRenderer, self.placesTextRendererFunction, None )
+		column.pack_start( pix_renderer, False )
+		column.pack_end( text_renderer, True )
+		column.add_attribute( pix_renderer, 'icon-name', 2 )
+		column.add_attribute( text_renderer, 'markup', 0 )
+		column.set_cell_data_func( pix_renderer, self.places_pix_renderer_function, None )
+		column.set_cell_data_func( textRenderer, self.places_text_renderer_function, None )
 		#column.set_alignment( 0.5 )
-		self.listPlaces.append_column( column )
+		self.list_places.append_column( column )
 
-		self.storePlaces = gtk.ListStore( str, str, str )
-		self.listPlaces.set_model( self.storePlaces )
-		self.listPlaces.get_selection().set_select_function( self.placesSelectFunction, self.storePlaces )
+		#name, icon, path
+		self.store_places = gtk.ListStore( str, str, str )
+		self.list_places.set_model( self.store_places )
+		self.list_places.get_selection().set_select_function( self.places_select_function, self.store_places )
 
 		#setup folder view
-		self.listFolderView = self.glade.get_widget( 'listFolderView' )
+		self.list_folder_view = self.glade.get_widget( 'listFolderView' )
 
-		pixRenderer = gtk.CellRendererPixbuf()
-		textRenderer = gtk.CellRendererText()
+		pix_renderer = gtk.CellRendererPixbuf()
+		text_renderer = gtk.CellRendererText()
 
 		column = gtk.TreeViewColumn( _('Name') )
-		column.pack_start( pixRenderer, False )
-		column.pack_end( textRenderer, True )
-		#column.add_attribute( pixRenderer, 'stock-id', 2 )
-		column.add_attribute( pixRenderer, 'icon-name', 2 )
-		column.add_attribute( textRenderer, 'markup', 0 )
+		column.pack_start( pix_renderer, False )
+		column.pack_end( text_renderer, True )
+		column.add_attribute( pix_renderer, 'icon-name', 2 )
+		column.add_attribute( text_renderer, 'markup', 0 )
 		column.set_expand( True )
 		column.set_sizing( gtk.TREE_VIEW_COLUMN_AUTOSIZE )
-		#column.set_alignment( 0.5 )
-		#self.lblTime = gtk.Label()
-		#self.lblTime.set_markup( "<b>%s</b>" % "Now" )
-		#self.lblTime.show()
-		#column.set_widget( self.lblTime )
 		column.set_sort_column_id( 0 )
-		self.listFolderView.append_column( column )
+		self.list_folder_view.append_column( column )
 
-		textRenderer = gtk.CellRendererText()
+		text_renderer = gtk.CellRendererText()
 		column = gtk.TreeViewColumn( _('Size') )
-		column.pack_end( textRenderer, True )
-		column.add_attribute( textRenderer, 'markup', 4 )
-		#column.set_alignment( 0.5 )
+		column.pack_end( text_renderer, True )
+		column.add_attribute( text_renderer, 'markup', 4 )
 		column.set_sort_column_id( 1 )
-		self.listFolderView.append_column( column )
+		self.list_folder_view.append_column( column )
 
-		textRenderer = gtk.CellRendererText()
+		text_renderer = gtk.CellRendererText()
 		column = gtk.TreeViewColumn( _('Date') )
-		column.pack_end( textRenderer, True )
-		column.add_attribute( textRenderer, 'markup', 5 )
-		#column.set_alignment( 0.5 )
+		column.pack_end( text_renderer, True )
+		column.add_attribute( text_renderer, 'markup', 5 )
 		column.set_sort_column_id( 2 )
-		self.listFolderView.append_column( column )
+		self.list_folder_view.append_column( column )
 
 		# display name, relative path, icon_name, type (0 - directory, 1 - file), size (str), date, size (int)
-		self.storeFolderView = gtk.ListStore( str, str, str, int, str, str, int )
-		self.storeFolderView.set_sort_func( 0, self.sort_folder_view_by_column, 0 ) #name
-		self.storeFolderView.set_sort_func( 1, self.sort_folder_view_by_column, 6 ) #size
-		self.storeFolderView.set_sort_func( 2, self.sort_folder_view_by_column, 5 )	#date
-		self.storeFolderView.set_sort_column_id( 0, gtk.SORT_ASCENDING )
+		self.store_folder_view = gtk.ListStore( str, str, str, int, str, str, int )
+		self.store_folder_view.set_sort_func( 0, self.sort_folder_view_by_column, 0 ) #name
+		self.store_folder_view.set_sort_func( 1, self.sort_folder_view_by_column, 6 ) #size
+		self.store_folder_view.set_sort_func( 2, self.sort_folder_view_by_column, 5 )	#date
+		self.store_folder_view.set_sort_column_id( 0, gtk.SORT_ASCENDING )
 
-		self.listFolderView.set_model( self.storeFolderView )
+		self.list_folder_view.set_model( self.store_folder_view )
 
 		#setup timeline view
-		self.listTimeLine = self.glade.get_widget( 'listTimeLine' )
+		self.list_timeline = self.glade.get_widget( 'listTimeLine' )
 
-		textRenderer = gtk.CellRendererText()
+		text_renderer = gtk.CellRendererText()
+		column = gtk.TreeViewColumn( _('Timeline'), text_renderer, markup = 2 )
+		column.set_cell_data_func( textRenderer, self.places_text_renderer_function, None )
+		self.list_timeline.append_column( column )
 
-		column = gtk.TreeViewColumn( _('Timeline'), textRenderer, markup = 2 )
-		column.set_cell_data_func( textRenderer, self.placesTextRendererFunction, None )
-		#column.set_alignment( 0.5 )
-		self.listTimeLine.append_column( column )
-
-		#name, path, display name
-		self.storeTimeLine = gtk.ListStore( str, str, str )
-		self.listTimeLine.set_model( self.storeTimeLine )
-		self.listTimeLine.get_selection().set_select_function( self.placesSelectFunction, self.storeTimeLine )
-		self.updateTimeLine = False
+		#id, display name
+		self.store_timeLine = gtk.ListStore( str, str )
+		self.list_timeline.set_model( self.store_timeline )
+		self.list_timeline.get_selection().set_select_function( self.places_select_function, self.store_timeline )
+		self.update_timeline = False
 
 		#calculate specialBackgroundColor
-		style = self.listTimeLine.get_style()
+		style = self.list_timeline.get_style()
 		bg1 = style.bg[gtk.STATE_NORMAL]
 		bg2 = style.bg[gtk.STATE_SELECTED]
-		self.specialBackgroundColor = gtk.gdk.Color( (2 * bg1.red + bg2.red) / 3, (2 * bg1.green + bg2.green) / 3,(2 * bg1.blue + bg2.blue) / 3 ).to_string()
+		self.special_background_color = gtk.gdk.Color( (2 * bg1.red + bg2.red) / 3, (2 * bg1.green + bg2.green) / 3,(2 * bg1.blue + bg2.blue) / 3 ).to_string()
 
 		#restore size & position
-		if self.config.MAIN_WINDOW_X >= 0 and self.config.MAIN_WINDOW_Y >= 0:
-			self.window.move( self.config.MAIN_WINDOW_X, self.config.MAIN_WINDOW_Y )
+		main_window_x = self.config.getIntValue( 'gnome.main_window.x', -1 )
+		main_window_y = self.config.getIntValue( 'gnome.main_window.y', -1 )
+		if main_window_x >= 0 and main_window_y >= 0:
+			self.window.move( main_window_x, main_window_y )
 
-		if self.config.MAIN_WINDOW_WIDTH > 0 and self.config.MAIN_WINDOW_HEIGHT > 0:
-			self.window.resize( self.config.MAIN_WINDOW_WIDTH, self.config.MAIN_WINDOW_HEIGHT )
+		main_window_width = self.config.getIntValue( 'gnome.main_window.width', -1 )
+		main_window_height = self.config.getIntValue( 'gnome.main_window.height', -1 )
+		if main_window_width > 0 and main_window_height > 0:
+			self.window.resize( main_window_width, main_window_height )
 
-		if self.config.MAIN_WINDOW_HPANED1_POSITION > 0 and self.config.MAIN_WINDOW_HPANED2_POSITION > 0:
-			self.glade.get_widget('hpaned1').set_position( self.config.MAIN_WINDOW_HPANED1_POSITION )
-			self.glade.get_widget('hpaned2').set_position( self.config.MAIN_WINDOW_HPANED2_POSITION )
+		main_window_hpaned1 = self.config.getIntValue( 'gnome.main_window.hpand1', -1 )
+		main_window_hpaned2 = self.config.getIntValue( 'gnome.main_window.hpand2', -1 )
+		if main_window_hpaned1 > 0 and main_window_hpaned2 > 0:
+			self.glade.get_widget('hpaned1').set_position( main_window_hpaned1 )
+			self.glade.get_widget('hpaned2').set_position( main_window_hpaned2 )
 
 		#prepare popup menu ids
 		gtk.stock_add( 
@@ -239,17 +239,17 @@ class MainWindow:
 		#show main window
 		self.window.show()
 
-		gobject.timeout_add( 100, self.onInit )
-		gobject.timeout_add( 1000, self.raiseApplication )
+		gobject.timeout_add( 100, self.on_init )
+		gobject.timeout_add( 1000, self.raise_application )
 
 	def sort_folder_view_by_column( self, treemodel, iter1, iter2, column ):
 		if 0 == column:
 			ascending = 1
-			if self.storeFolderView.get_sort_column_id()[1] != gtk.SORT_ASCENDING:
+			if self.store_folder_view.get_sort_column_id()[1] != gtk.SORT_ASCENDING:
 				ascending = -1
 
-			type1 = self.storeFolderView.get_value( iter1, 3 )
-			type2 = self.storeFolderView.get_value( iter2, 3 )
+			type1 = self.store_folder_view.get_value( iter1, 3 )
+			type2 = self.store_folder_view.get_value( iter2, 3 )
 
 			if type1 == 0 and type2 != 0:
 				return -1 * ascending
@@ -257,8 +257,8 @@ class MainWindow:
 			if type1 != 0 and type2 == 0:
 				return 1 * ascending
 
-		data1 = self.storeFolderView.get_value( iter1, column )
-		data2 = self.storeFolderView.get_value( iter2, column )
+		data1 = self.store_folder_view.get_value( iter1, column )
+		data2 = self.store_folder_view.get_value( iter2, column )
 
 		if type(data1) is str:
 			data1 = data1.upper()
@@ -276,41 +276,42 @@ class MainWindow:
 
 		return 0
 
-	def onInit( self ):
-		if not self.config.isConfigured():
-			settingsdialog.SettingsDialog( self.config, self.glade ).run()
+	def on_init( self ):
+		if not self.config.is_configured():
+			gnomesettingsdialog.SettingsDialog( self.config, self.glade ).run()
 
-			if not self.config.isConfigured():
+			if not self.config.is_configured():
 				gtk.main_quit()
 				return False
 
-		self.updateAll( True )
+		self.update_all( True )
 
-		self.forceWaitLock = False
-		self.updateBackupInfo()
-		gobject.timeout_add( 1000, self.updateBackupInfo )
+		self.force_wait_lock = False
+		self.update_backup_info()
+		gobject.timeout_add( 1000, self.update_backup_info )
 		return False
 
-	def getDefaultStartUpFolderAndFile( self ):
-		if len(self.config.LAST_PATH) > 0 and os.path.isdir(self.config.LAST_PATH):
-			return ( self.config.LAST_PATH, None, False )
+	def get_default_startup_folder_and_file( self ):
+		last_path = self.config.getStrValue( 'gnome.last_path', '' )
+		if len(last_path) > 0 and os.path.isdir(last_path):
+			return ( self.config.last_path, None, False )
 		return ( '/', None, False )
 
-	def getCmdStartUpFolderAndFile( self, cmd ):
+	def get_cmd_startup_folder_and_file( self, cmd ):
 		if cmd is None:
-			cmd = self.appInstance.raise_cmd
+			cmd = self.app_instance.raise_cmd
 
 		if len( cmd ) < 1:
 			return None
 
 		path = None
-		showSnapshots = False
+		show_snapshots = False
 
 		for arg in cmd.split( '\n' ):
 			if len( arg ) < 1:
 				continue
 			if arg == '-s' or arg == '--snapshots':
-				showSnapshots = True
+				show_snapshots = True
 				continue
 			if arg[0] == '-':
 				continue
@@ -328,57 +329,57 @@ class MainWindow:
 
 		if os.path.isdir( path ):
 			if len( path ) < 1:
-				showSnapshots = False
+				show_snapshots = False
 
-			if showSnapshots:
+			if show_snapshots:
 				return ( os.path.dirname( path ), path, True )
 			else:
 				return ( path, '', False )
 
 		if os.path.isfile( path ):
-			return ( os.path.dirname( path ), path, showSnapshots )
+			return ( os.path.dirname( path ), path, show_snapshots )
 
 		return None
 
-	def getStartUpFolderAndFile( self, cmd = None ):
-		startUpFolder = self.getCmdStartUpFolderAndFile( cmd )
-		if startUpFolder is None:
-			return self.getDefaultStartUpFolderAndFile()
-		return startUpFolder
+	def get_startup_folder_and_file( self, cmd = None ):
+		startup_folder = self.get_cmd_startup_folder_and_file( cmd )
+		if startup_folder is None:
+			return self.get_default_startup_folder_and_file()
+		return startup_folder
 
-	def updateAll( self, init ):
+	def update_all( self, init ):
 		#fill lists
-		selectedFile = None
-		showSnapshots = False
+		selected_file = None
+		show_snapshots = False
 		if init:
-			self.folderPath, selectedFile, showSnapshots = self.getStartUpFolderAndFile()
-		self.backupPath = '/'
-		self.lastBackupList = []
+			self.folder_path, selected_file, show_snapshots = self.get_startup_folder_and_file()
+		self.snapshot_id = '/'
+		self.snapshots_list = []
 
-		self.fillPlaces()
-		self.fillTimeLine( False )
-		self.updateFolderView( 1, selectedFile, showSnapshots )
+		self.fill_places()
+		self.fill_timeline( False )
+		self.update_folder_view( 1, selected_file, show_snapshots )
 
-	def placesPixRendererFunction( self, column, renderer, model, iter, user_data ):
+	def places_pix_renderer_function( self, column, renderer, model, iter, user_data ):
 		if len( model.get_value( iter, 2 ) ) == 0:
 			renderer.set_property( 'visible', False )
 		else:
 			renderer.set_property( 'visible', True )
 
-	def placesTextRendererFunction( self, column, renderer, model, iter, user_data ):
+	def places_text_renderer_function( self, column, renderer, model, iter, user_data ):
 		if len( model.get_value( iter, 1 ) ) == 0:
 			renderer.set_property( 'cell-background-set', True )
-			renderer.set_property( 'cell-background', self.specialBackgroundColor )
+			renderer.set_property( 'cell-background', self.special_background_color )
 		else:
 			renderer.set_property( 'cell-background-set', False )
 
-	def placesSelectFunction( self, info, store ):
+	def places_select_function( self, info, store ):
 		if len( store.get_value( store.get_iter( info[0] ), 1 ) ) == 0:
 			return False
 		return True
 
-	def raiseApplication( self ):
-		raise_cmd = self.appInstance.raiseCommand()
+	def raise_application( self ):
+		raise_cmd = self.app_instance.raise_command()
 		if raise_cmd is None:
 			return True
 
@@ -399,65 +400,65 @@ class MainWindow:
 
 		print "OK"
 
-		folderAndFile = self.getCmdStartUpFolderAndFile( raise_cmd )
-		if folderAndFile is None:
+		folder_and_file = self.get_cmd_startup_folder_and_file( raise_cmd )
+		if folder_and_file is None:
 			return True
 
-		folderPath, fileName, showSnapshots = folderAndFile
+		folder_path, file_name, show_snapshots = folder_and_file
 
 		#select now
-		self.backupPath = '/'
-		self.listTimeLine.get_selection().select_iter( self.storeTimeLine.get_iter_first() )
+		self.snapshot_id = '/'
+		self.list_timeline.get_selection().select_iter( self.store_timeline.get_iter_first() )
 
 		#select the specified file
-		self.folderPath = folderPath
-		self.updateFolderView( 1, fileName, showSnapshots )
+		self.folder_path = folder_path
+		self.update_folder_view( 1, file_name, show_snapshots )
 
 		return True
 
-	def updateBackupInfo( self, forceWaitLock = False ):
+	def update_backup_info( self, force_wait_lock = False ):
 		if None is self.glade.get_widget( 'btnBackup' ):
 			return True
 
 		#print "forceWaitLock: %s" % forceWaitLock
 
-		if forceWaitLock:
-			self.forceWaitLock = True
+		if force_wait_lock:
+			self.force_wait_lock = True
 		
-		busy = self.backup.isBusy()
+		busy = self.snapshots.is_busy()
 		if busy:
-			self.forceWaitLock = False
+			self.force_wait_lock = False
 
-		fakeBusy = busy or self.forceWaitLock
-		self.glade.get_widget( 'btnBackup' ).set_sensitive( not fakeBusy )
+		fake_busy = busy or self.force_wait_lock
+		self.glade.get_widget( 'btnBackup' ).set_sensitive( not fake_busy )
 
-		if fakeBusy:
-			if not self.updateTimeLine or forceWaitLock:
-				self.statusBar.push( 0, _('Working ...') )
-				self.updateTimeLine = True
-		elif self.updateTimeLine:
-			self.updateTimeLine = False
-			lastBackupList = self.lastBackupList
+		if fake_busy:
+			if not self.update_timeline or force_wait_lock:
+				self.status_bar.push( 0, _('Working ...') )
+				self.update_timeline = True
+		elif self.update_timeline:
+			self.update_timeline = False
+			snapshots_list = self.snapshots_list
 
-			self.fillTimeLine()
+			self.fill_timeline()
 
 			#print "New backup: %s" % self.lastBackupList
 			#print "Last backup: %s" % lastBackupList
 
-			if lastBackupList != self.lastBackupList:
-				self.statusBar.push( 0, _('Done') )
+			if snapshots_list != self.snapshots_list:
+				self.status_bar.push( 0, _('Done') )
 			else:
-				self.statusBar.push( 0, _('Done, no backup needed') )
+				self.status_bar.push( 0, _('Done, no backup needed') )
 
 		return True
 
-	def fillPlaces( self ):
-		self.storePlaces.clear()
+	def fill_places( self ):
+		self.store_places.clear()
 
 		#add global places
-		self.storePlaces.append( [ "<b>%s</b>" % _('Global'), '', '' ] )
-		self.storePlaces.append( [ _('Root'), '/', gtk.STOCK_HARDDISK ] )
-		self.storePlaces.append( [ _('Home'), os.path.expanduser( '~' ), gtk.STOCK_HOME ] )
+		self.store_places.append( [ "<b>%s</b>" % _('Global'), '', '' ] )
+		self.store_places.append( [ _('Root'), '/', gtk.STOCK_HARDDISK ] )
+		self.store_places.append( [ _('Home'), os.path.expanduser( '~' ), gtk.STOCK_HOME ] )
 
 		#add bookmarks
 		rawbookmarks = ''
@@ -481,110 +482,109 @@ class MainWindow:
 						bookmarks.append( ( rawbookmark[ 7 : ], rawbookmark[ index + 1 : ] ) )
 
 		if len( bookmarks ) > 0:
-			self.storePlaces.append( [ "<b>%s</b>" % _('Bookmarks'), '', '' ] )
+			self.store_places.append( [ "<b>%s</b>" % _('Bookmarks'), '', '' ] )
 			for bookmark in bookmarks:
-				self.storePlaces.append( [ bookmark[1], bookmark[0], self.iconNames.getIcon(bookmark[0]) ] )
+				self.store_places.append( [ bookmark[1], bookmark[0], self.icon_names.get_icon(bookmark[0]) ] )
 
 		#add backup folders
-		includeFolders = self.config.includeFolders()
-		if len( includeFolders ) > 0:
-			folders = includeFolders.split( ':' )
+		include_folders = self.config.get_include_folders()
+		if len( include_folders ) > 0:
+			folders = include_folders.split( ':' )
 			if len( folders ) > 0:
-				self.storePlaces.append( [ "<b>%s</b>" % _('Backup Directories'), '', '' ] )
+				self.store_places.append( [ "<b>%s</b>" % _('Backup Directories'), '', '' ] )
 				for folder in folders:
-					self.storePlaces.append( [ folder, folder, gtk.STOCK_SAVE ] )
+					self.store_places.append( [ folder, folder, gtk.STOCK_SAVE ] )
 
-	def fillTimeLine( self, updateFolderView = True ):
-		currentSelection = '/'
-		iter = self.listTimeLine.get_selection().get_selected()[1]
+	def fill_timeline( self, update_folder_view = True ):
+		current_selection = '/'
+		iter = self.list_timeline.get_selection().get_selected()[1]
 		if not iter is None:
-			currentSelection = self.storeTimeLine.get_value( iter, 1 )
+			current_selection = self.store_timeline.get_value( iter, 0 )
 
-		self.storeTimeLine.clear()
-		self.storeTimeLine.append( [ '/', '/', self.config.snapshotDisplayName( '/' ) ] )
+		self.store_timeline.clear()
+		self.store_timeline.append( [ '/', self.snapshots.get_snapshot_display_name_gtk( '/' ) ] )
 
-		backupList = self.backup.getBackupList()
-		#print backupList
-
-		self.lastBackupList = backupList
+		self.snapshots_list = self.snapshots.get_snapshots_list() 
 
 		groups = []
 		now = datetime.date.today()
 
 		#today
 		date = now
-		groups.append( (_('Today'), self.config.backupName( date ), []) )
+		groups.append( (_('Today'), self.snapshots.get_snapshot_id( date ), []) )
 
 		#yesterday
 		date = now - datetime.timedelta( days = 1 )
-		groups.append( (_('Yesterday'), self.config.backupName( date ), []) )
+		groups.append( (_('Yesterday'), self.snapshots.get_snapshot_id( date ), []) )
 
 		#this week
 		date = now - datetime.timedelta( days = now.weekday() )
-		groups.append( (_('This week'), self.config.backupName( date ), []) )
+		groups.append( (_('This week'), self.snapshots.get_snapshot_id( date ), []) )
 
 		#last week
 		date = now - datetime.timedelta( days = now.weekday() + 7 )
-		groups.append( (_('Last week'), self.config.backupName( date ), []) )
+		groups.append( (_('Last week'), self.snapshots.get_snapshot_id( date ), []) )
 
 		#fill groups
-		for backupDate in backupList:
+		for snapshot_id in self.snapshots_list:
 			found = False
 
 			for group in groups:
-				if backupDate >= group[1]:
-					group[2].append( backupDate )
+				if snapshot_id >= group[1]:
+					group[2].append( snapshot_id )
 					found = True
 					break
 
 			if not found:
-				year = int( backupDate[ 0 : 4 ] )
-				month = int( backupDate[ 4 : 6 ] )
+				year = int( snapshot_id[ 0 : 4 ] )
+				month = int( snapshot_id[ 4 : 6 ] )
 				date = datetime.date( year, month, 1 )
 
-				groupName = ''
+				group_name = ''
 				if year == now.year:
-					groupName = date.strftime( '%B' ).capitalize()
+					group_name = date.strftime( '%B' ).capitalize()
 				else:
-					groupName = date.strftime( '%B, %Y' ).capitalize()
+					group_name = date.strftime( '%B, %Y' ).capitalize()
 
-				groups.append( ( groupName, self.config.backupName( date ), [ backupDate ]) )
-
-		#print 'Backup list:'
-		#print backupList
-		#print 'Groups:'
-		#print groups
+				groups.append( ( groupName, self.get_snapshot_id( date ), [ snapshot_id ]) )
 
 		#fill timeline list
 		for group in groups:
 			if len( group[2] ) > 0:
-				self.storeTimeLine.append( [ '', '', "<b>%s</b>" % group[0]] );
-				for snapshot in group[2]:
-					self.storeTimeLine.append( [ snapshot, self.config.snapshotPath( snapshot ), self.config.snapshotDisplayName( snapshot ) ] )
+				self.store_timeline.append( [ '', "<b>%s</b>" % group[0]] );
+				for snapshot_id in group[2]:
+					self.store_timeline.append( [ snapshot_id, self.snapshots.get_snapshot_display_name_gtk( snapshot_id ) ] )
 
 		#select previous item
-		iter = self.storeTimeLine.get_iter_first()
+		iter = self.store_timeline.get_iter_first()
 		while not iter is None:
-			if currentSelection == self.storeTimeLine.get_value( iter, 1 ):
+			if current_selection == self.store_timeline.get_value( iter, 1 ):
 				break
-			iter = self.storeTimeLine.iter_next( iter )
+			iter = self.store_timeline.iter_next( iter )
 
 		changed = False
 		if iter is None:
 			changed = True
-			iter = self.storeTimeLine.get_iter_first()
+			iter = self.store_timeline.get_iter_first()
 
-		self.listTimeLine.get_selection().select_iter( iter )
+		self.list_timeline.get_selection().select_iter( iter )
 
-		if changed and updateFolderView:
-			self.updateFolderView( 2 )
+		if changed and update_folder_view:
+			self.update_folder_view( 2 )
 
 	def on_close( self, *params ):
-		self.config.MAIN_WINDOW_X, self.config.MAIN_WINDOW_Y = self.window.get_position()
-		self.config.MAIN_WINDOW_WIDTH, self.config.MAIN_WINDOW_HEIGHT = self.window.get_size()
-		self.config.MAIN_WINDOW_HPANED1_POSITION = self.glade.get_widget('hpaned1').get_position()
-		self.config.MAIN_WINDOW_HPANED2_POSITION = self.glade.get_widget('hpaned2').get_position()
-		self.config.LAST_PATH = self.folderPath 
+		main_window_x, main_window_y = self.window.get_position()
+		main_window_width, main_window_height = self.window.get_size()
+		main_window_hpaned1 = self.glade.get_widget('hpaned1').get_position()
+		main_window_hpaned2 = self.glade.get_widget('hpaned2').get_position()
+
+		self.config.set_int_Value( 'gnome.main_window.x', main_window_x )
+		self.config.set_int_Value( 'gnome.main_window.y', main_window_y )
+		self.config.set_int_Value( 'gnome.main_window.width', main_window_width )
+		self.config.set_int_Value( 'gnome.main_window.height', main_window_height )
+		self.config.set_int_Value( 'gnome.main_window.hpaned1', main_window_hpaned1 )
+		self.config.set_int_Value( 'gnome.main_window.hpaned2', main_window_hpaned2 )
+		self.config.set_str_Value( 'gnome.last_path', self.folder_path )
 
 		self.config.save()
 		self.window.destroy()
@@ -592,21 +592,21 @@ class MainWindow:
 
 	def on_listTimeLine_cursor_changed( self, list ):
 		if list.get_selection().path_is_selected( list.get_cursor()[ 0 ] ):
-			self.updateFolderView( 2 )
+			self.update_folder_view( 2 )
 
 	def on_listPlaces_cursor_changed( self, list ):
 		if list.get_selection().path_is_selected( list.get_cursor()[ 0 ] ):
 			iter = list.get_selection().get_selected()[1]
-			folderPath = self.storePlaces.get_value( iter, 1 )
-			if folderPath != self.folderPath:
-				self.folderPath = folderPath
-				self.updateFolderView( 0 )
+			folder_path = self.store_places.get_value( iter, 1 )
+			if folder_path != self.folder_path:
+				self.folder_path = folder_path
+				self.update_folder_view( 0 )
 
 	def on_listFolderView_drag_data_get( self, widget, drag_context, selection_data, info, timestamp, user_param1 = None ):
-		iter = self.listFolderView.get_selection().get_selected()[1]
+		iter = self.list_folder_view.get_selection().get_selected()[1]
 		if not iter is None:
-			path = self.storeFolderView.get_value( iter, 1 )
-			path = os.path.join( self.backupPath, path[ 1 : ] )
+			path = self.store_folder_view.get_value( iter, 1 )
+			path = self.snapshots.get_snapshot_path_to( path )
 			path = gnomevfs.escape_path_string(path)
 			selection_data.set_uris( [ 'file://' + path ] )
 
@@ -614,19 +614,19 @@ class MainWindow:
 		if event.button != 3:
 			return
 
-		if len( self.storeFolderView ) <= 0:
+		if len( self.store_folder_view ) <= 0:
 			return
 
-		path = self.listFolderView.get_path_at_pos( int( event.x ), int( event.y ) )
+		path = self.list_folder_view.get_path_at_pos( int( event.x ), int( event.y ) )
 		if path is None:
 			return
 		path = path[0]
 	
-		self.listFolderView.get_selection().select_path( path )
-		self.showFolderViewMenuPopup( self.listFolderView, event.button, event.time )
+		self.list_folder_view.get_selection().select_path( path )
+		self.show_folder_view_menu_popup( self.list_folder_view, event.button, event.time )
 
 	def on_listFolderView_popup_menu( self, list ):
-		self.showFolderViewMenuPopup( list, 1, gtk.get_current_event_time() )
+		self.show_folder_view_menu_popup( list, 1, gtk.get_current_event_time() )
 
 	def showFolderViewMenuPopup( self, list, button, time ):
 		iter = list.get_selection().get_selected()[1]
@@ -634,33 +634,33 @@ class MainWindow:
 			return
 
 		#print "popup-menu"
-		self.popupMenu = gtk.Menu()
+		self.popup_menu = gtk.Menu()
 
-		menuItem = gtk.ImageMenuItem( 'backintime.open' )
-		menuItem.set_image( gtk.image_new_from_icon_name( self.storeFolderView.get_value( iter, 2 ), gtk.ICON_SIZE_MENU ) )
-		menuItem.connect( 'activate', self.on_listFolderView_open_item )
-		self.popupMenu.append( menuItem )
+		menu_item = gtk.ImageMenuItem( 'backintime.open' )
+		menu_item.set_image( gtk.image_new_from_icon_name( self.store_folder_view.get_value( iter, 2 ), gtk.ICON_SIZE_MENU ) )
+		menu_item.connect( 'activate', self.on_listFolderView_open_item )
+		self.popup_menu.append( menuItem )
 
-		self.popupMenu.append( gtk.SeparatorMenuItem() )
+		self.popup_menu.append( gtk.SeparatorMenuItem() )
 
-		menuItem = gtk.ImageMenuItem( 'backintime.copy' )
-		menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_COPY, gtk.ICON_SIZE_MENU ) )
-		menuItem.connect( 'activate', self.on_listFolderView_copy_item )
-		self.popupMenu.append( menuItem )
+		menu_item = gtk.ImageMenuItem( 'backintime.copy' )
+		menu_item.set_image( gtk.image_new_from_stock( gtk.STOCK_COPY, gtk.ICON_SIZE_MENU ) )
+		menu_item.connect( 'activate', self.on_listFolderView_copy_item )
+		self.popup_menu.append( menu_item )
 
-		menuItem = gtk.ImageMenuItem( 'backintime.snapshots' )
-		menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_INDEX, gtk.ICON_SIZE_MENU ) )
-		menuItem.connect( 'activate', self.on_listFolderView_snapshots_item )
-		self.popupMenu.append( menuItem )
+		menu_item = gtk.ImageMenuItem( 'backintime.snapshots' )
+		menu_item.set_image( gtk.image_new_from_stock( gtk.STOCK_INDEX, gtk.ICON_SIZE_MENU ) )
+		menu_item.connect( 'activate', self.on_listFolderView_snapshots_item )
+		self.popup_menu.append( menu_item )
 
-		if len( self.backupPath ) > 1:
-			menuItem = gtk.ImageMenuItem( 'backintime.restore' )
-			menuItem.set_image( gtk.image_new_from_stock( gtk.STOCK_UNDELETE, gtk.ICON_SIZE_MENU ) )
-			menuItem.connect( 'activate', self.on_listFolderView_restore_item )
-			self.popupMenu.append( menuItem )
+		if len( self.snapshot_id ) > 1:
+			menu_item = gtk.ImageMenuItem( 'backintime.restore' )
+			menu_item.set_image( gtk.image_new_from_stock( gtk.STOCK_UNDELETE, gtk.ICON_SIZE_MENU ) )
+			menu_item.connect( 'activate', self.on_listFolderView_restore_item )
+			self.popup_menu.append( menu_item )
 
-		self.popupMenu.show_all()
-		self.popupMenu.popup( None, None, None, button, time )
+		self.popup_menu.show_all()
+		self.popup_menu.popup( None, None, None, button, time )
 
 	def on_listFolderView_restore_item( self, widget, data = None ):
 		self.on_btnRestore_clicked( self.glade.get_widget( 'btnRestore' ) )
@@ -672,87 +672,87 @@ class MainWindow:
 		self.on_btnSnapshots_clicked( self.glade.get_widget( 'btnSnapshots' ) )
 
 	def on_listFolderView_open_item( self, widget, data = None ):
-		iter = self.listFolderView.get_selection().get_selected()[1]
+		iter = self.list_folder_view.get_selection().get_selected()[1]
 		if iter is None:
 			return
 
-		path = self.storeFolderView.get_value( iter, 1 )
-		path = os.path.join( self.backupPath, path[ 1 : ] )
+		path = self.store_folder_view.get_value( iter, 1 )
+		path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
 		cmd = "gnome-open \"%s\" &" % path
 		print cmd
 		os.system( cmd )
 
 	def on_listFolderView_row_activated( self, list, path, column ):
 		iter = list.get_selection().get_selected()[1]
-		path = self.storeFolderView.get_value( iter, 1 )
+		path = self.store_folder_view.get_value( iter, 1 )
 
 		#directory
-		if 0 == self.storeFolderView.get_value( iter, 3 ):
-			self.folderPath = path
-			self.updateFolderView( 1 )
+		if 0 == self.store_folder_view.get_value( iter, 3 ):
+			self.folder_path = path
+			self.update_folder_view( 1 )
 			return
 
 		#file
-		path = os.path.join( self.backupPath, path[ 1 : ] )
+		path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
 		cmd = "gnome-open \"%s\" &" % path
 		print cmd
 		os.system( cmd )
 
 	def on_btnFodlerUp_clicked( self, button ):
-		if len( self.folderPath ) <= 1:
+		if len( self.folder_path ) <= 1:
 			return
 
-		index = self.folderPath.rfind( '/' )
+		index = self.folder_path.rfind( '/' )
 		if index < 1:
-			parentPath = "/"
+			parent_path = "/"
 		else:
-			parentPath = self.folderPath[ : index ]
+			parent_path = self.folder_path[ : index ]
 
-		self.folderPath = parentPath
-		self.updateFolderView( 1 )
+		self.folder_path = parent_path
+		self.update_folder_view( 1 )
 
 	def on_btnRestore_clicked( self, button ):
-		iter = self.listFolderView.get_selection().get_selected()[1]
+		iter = self.list_folder_view.get_selection().get_selected()[1]
 		if not iter is None:
 			button.set_sensitive( False )
 			gobject.timeout_add( 100, self.restore_ )
 	
 	def on_btnCopy_clicked( self, button ):
-		iter = self.listFolderView.get_selection().get_selected()[1]
+		iter = self.list_folder_view.get_selection().get_selected()[1]
 		if iter is None:
 			return
 
-		path = self.storeFolderView.get_value( iter, 1 )
-		path = os.path.join( self.backupPath, path[ 1 : ] )
+		path = self.store_folder_view.get_value( iter, 1 )
+		path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
 
 		gnomeclipboardtools.clipboard_copy_path( path )
 
 	def on_btnSnapshots_clicked( self, button ):
-		iter = self.listFolderView.get_selection().get_selected()[1]
+		iter = self.list_folder_view.get_selection().get_selected()[1]
 		if iter is None:
 			return
 
-		path = self.storeFolderView.get_value( iter, 1 )
-		icon_name = self.storeFolderView.get_value( iter, 2 )
-		retVal = snapshotsdialog.SnapshotsDialog( self.backup, self.glade, path, self.lastBackupList, self.backupPath, icon_name ).run()
+		path = self.store_folder_view.get_value( iter, 1 )
+		icon_name = self.store_folder_view.get_value( iter, 2 )
+		retVal = snapshotsdialog.SnapshotsDialog( self.snapshots, self.glade, path, self.snapshots_list, self.snapshot_id, icon_name ).run()
 		
 		#select the specified file
 		if not retVal is None:
-			iter = self.storeTimeLine.get_iter_first()
+			iter = self.store_timeline.get_iter_first()
 			while not iter is None:
-				snapshot_path = self.storeTimeLine.get_value( iter, 1 )
+				snapshot_path = self.store_timeline.get_value( iter, 1 )
 				if snapshot_path == retVal:
 					break
-				iter = self.storeTimeLine.iter_next( iter )
+				iter = self.store_timeline.iter_next( iter )
 
 			if not iter is None:
-				self.listTimeLine.get_selection().select_iter( iter )
-				self.updateFolderView( 2 )
+				self.list_timeline.get_selection().select_iter( iter )
+				self.update_folder_view( 2 )
 
 	def restore_( self ):
-		iter = self.listFolderView.get_selection().get_selected()[1]
+		iter = self.list_folder_view.get_selection().get_selected()[1]
 		if not iter is None:
-			self.backup.restore( self.backupPath, self.storeFolderView.get_value( iter, 1 ) )
+			self.snapshots.restore( self.snapshot_id, self.storeFolderView.get_value( iter, 1 ) )
 
 		self.glade.get_widget( 'btnRestore' ).set_sensitive( True )
 		return False
@@ -771,42 +771,42 @@ class MainWindow:
 			self.on_help()
 
 	def on_btnSettings_clicked( self, button, ):
-		backupPath = self.config.backupBasePath()
-		includeFolders = self.config.includeFolders()
+		snapshots_path = self.config.get_snapshots_path()
+		include_folders = self.config.get_include_folders()
 
 		settingsdialog.SettingsDialog( self.config, self.glade ).run()
 
-		if not self.config.isConfigured():
+		if not self.config.is_configured():
 			gtk.main_quit()
 		else:
-			if backupPath != self.config.backupBasePath() or includeFolders != self.config.includeFolders():
-				self.updateAll( False )
+			if snapshots_path != self.config.get_snapshots_path() or include_folders != self.config.get_include_folders():
+				self.update_all( False )
 
 	def on_btnSnapshotName_clicked( self, button ):
-		iter = self.listTimeLine.get_selection().get_selected()[1]
+		iter = self.list_timeline.get_selection().get_selected()[1]
 		if iter is None:
 			return
 
-		snapshot = self.storeTimeLine.get_value( iter, 0 )
-		if len( snapshot ) <= 1:
+		snapshot_id = self.store_timeline.get_value( iter, 0 )
+		if len( snapshot_id ) <= 1:
 			return
 
-		if snapshotnamedialog.SnapshotNameDialog( self.backup, self.glade, snapshot ).run():
-			self.storeTimeLine.set_value( iter, 2, self.config.snapshotDisplayName( snapshot ) )
+		if snapshotnamedialog.SnapshotNameDialog( self.backup, self.glade, snapshot_id ).run():
+			self.storeTimeLine.set_value( iter, 2, self.config.snapshotDisplayName( snapshot_id ) )
 
 	def on_btnRemoveSnapshot_clicked( self, button ):
-		iter = self.listTimeLine.get_selection().get_selected()[1]
+		iter = self.list_timeline.get_selection().get_selected()[1]
 		if iter is None:
 			return
 
-		snapshot = self.storeTimeLine.get_value( iter, 0 )
-		if len( snapshot ) <= 1:
+		snapshot_id = self.store_timeline.get_value( iter, 0 )
+		if len( snapshot_id ) <= 1:
 			return
 
-		if gtk.RESPONSE_YES == messagebox.show_question( self.window, self.config, _( "Are you sure you want to remove the snapshot:\n<b>%s</b>" ) % self.config.snapshotDisplayName( snapshot, True ) ):
-			print "Remove Snapshot: %s" % snapshot
-			self.backup.removeSnapshot( snapshot )
-			self.fillTimeLine()
+		if gtk.RESPONSE_YES == messagebox.show_question( self.window, self.config, _( "Are you sure you want to remove the snapshot:\n<b>%s</b>" ) % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
+			print "Remove Snapshot: %s" % snapsho_id
+			self.backup.remove_snapshot( snapshot_id )
+			self.fill_timeline()
 
 	def on_btnBackup_clicked( self, button ):
 		button.set_sensitive( False )

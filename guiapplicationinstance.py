@@ -93,16 +93,16 @@ class GUIApplicationInstance:
 	#check if the application must to be raised
 	#return None if no raise needed, or a string command to raise
 	def raise_command( self ):
-		retVal = None
+		ret_val = None
 
 		try:
 			if os.path.isfile( self.raise_file ):
 				file = open( self.raise_file, 'rt' )
-				retVal = file.read()
+				ret_val = file.read()
 				file.close()
 				os.remove( self.raise_file )
 		except:
 			pass
 
-		return retVal
+		return ret_val
 

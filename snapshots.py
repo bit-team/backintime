@@ -64,6 +64,13 @@ class Snapshots:
 			return _('Now')
 		return "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
 	
+	def get_snapshot_display_name( self, snapshot_id ):
+		display_name = self.get_snapshot_display_id( snapshot_id )
+		name = self.get_snapshot_name( snapshot_id )
+		if len( name ) > 0:
+			display_name = display_name + ' - ' + name
+		return display_name
+
 	def get_snapshot_display_name_gtk( self, snapshot_id ):
 		display_name = self.get_snapshot_display_id( snapshot_id )
 		name = self.get_snapshot_name( snapshot_id )
