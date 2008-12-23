@@ -38,14 +38,15 @@ import time
 
 import config
 import logger
-import backup
-import settingsdialog
-import snapshotsdialog
-import snapshotnamedialog
-import messagebox
+import snapshots
+import guiapplicationinstance
+
+import gnomesettingsdialog
+import gnomesnapshotsdialog
+import gnomesnapshotnamedialog
+import gnomemessagebox
 import gnomefileicons
 import gnomeclipboardtools
-from gtkapplicationinstance import *
 
 
 _=gettext.gettext
@@ -60,11 +61,11 @@ class AboutDialog:
 		self.dialog.set_copyright( 'Copyright (C) 2008 Oprea Dan' )
 		self.dialog.set_website( 'http://www.le-web.org/back-in-time/' )
 		self.dialog.set_website_label( 'http://www.le-web.org/back-in-time/' )
-		self.dialog.set_license( config.license() )
-		authors = config.authors()
+		self.dialog.set_license( config.get_license() )
+		authors = config.get_authors()
 		if not authors is None:
 			self.dialog.set_authors( authors )
-		self.dialog.set_translator_credits( config.translations() )
+		self.dialog.set_translator_credits( config.get_translations() )
 
 		signals = { 
 				'on_AboutDialog_response' : self.close,
@@ -80,16 +81,14 @@ class AboutDialog:
 
 
 class MainWindow:
-	def __init__( self, config, appInstance ):
+	def __init__( self, config, app_instance ):
 		self.config = config
-		self.appInstance = appInstance
-		self.backup = backup.Backup( config )
-		self.specialBackgroundColor = 'lightblue'
-		self.popupMenu = None
+		self.app_instance = app_instance
+		self.snapshots = snapshots.Snapshots( config )
+		self.special_background_color = 'lightblue'
+		self.popup_menu = None
 
-		self.folderPath = None
-
-		self.glade = gtk.glade.XML( self.config.gladeFile(), None, 'backintime' )
+		self.glade = gtk.glade.XML( os.path.join( self.config.get_app_path(), 'gnomebackintime.glade' ), None, 'backintime' )
 
 		signals = { 
 				'on_MainWindow_destroy' : gtk.main_quit,
