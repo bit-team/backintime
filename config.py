@@ -327,4 +327,7 @@ class Config( configfile.ConfigFile ):
 if __name__ == "__main__":
 	config = Config()
 	print config.dict
+	print "snapshots path=" + config.get_snapshots_path()
+	print "include folders=" + config.get_include_folders()
+	print "explude patterns=" + config.get_exclude_patterns()
 
