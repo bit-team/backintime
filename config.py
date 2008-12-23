@@ -75,10 +75,7 @@ class Config( configfile.ConfigFile ):
 		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config2'
 		self._LOCAL_CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
 		os.system( "mkdir -p \"%s\"" % self._LOCAL_CONFIG_FOLDER )
-
 		self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
-
-		self.config_file = ConfigFile()
 
 		self.load( self._GLOBAL_CONFIG_PATH )
 		self.append( self._LOCAL_CONFIG_PATH )
