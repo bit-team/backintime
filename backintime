@@ -23,5 +23,60 @@ else
 	BACKINTIME_PATH="/usr/share/backintime/"
 fi
 
-python ${BACKINTIME_PATH}backintime.py $*
+GUI="auto"
+
+for arg in $*; do
+	case $arg in
+		--gnome) GUI="gnome";;
+		--kde4)  GUI="kde4";;
+		--kde3)  GUI="kde3";;
+		--nogui) GUI="";;
+	esac
+done
+
+#auto-detect GUI
+if [ $GUI = "auto" ]; then
+	if [ "$(pidof ksmserver)" ]; then
+		GUI="kde"
+	elif [ "$(pidof ksm4server)" ]; then
+		GUI="kde4"
+	else
+		GUI="gnome"
+	fi
+fi
+
+#check if the selected gui exists
+if [ $GUI = "kde4" ]; then
+	if [ ! -f $BACKINTIME_PATH/kde4backintime.py ]; then
+		if [ -f $BACKINTIME_PATH/kde3backintime.py ]; then
+			GUI="kde3"
+		elif [ -f $BACKINTIME_PATH/gnomebackintime.py ]; then
+			GUI="gnome"
+		else
+			GUI=""
+		fi
+	fi
+elif [ $GUI = "kde3" ]; then
+	if [ ! -f $BACKINTIME_PATH/kde3backintime.py ]; then
+		if [ -f $BACKINTIME_PATH/kde4backintime.py ]; then
+			GUI="kde4"
+		elif [ -f $BACKINTIME_PATH/gnomebackintime.py ]; then
+			GUI="gnome"
+		else
+			GUI=""
+		fi
+	fi
+elif [ $GUI = "gnome" ]; then
+	if [ ! -f $BACKINTIME_PATH/gnomebackintime.py ]; then
+		if [ -f $BACKINTIME_PATH/kde4backintime.py ]; then
+			GUI="kde4"
+		elif [ -f $BACKINTIME_PATH/kde3backintime.py ]; then
+			GUI="kde3"
+		else
+			GUI=""
+		fi
+	fi
+fi
+
+python ${BACKINTIME_PATH}${GUI}backintime.py $*
 
