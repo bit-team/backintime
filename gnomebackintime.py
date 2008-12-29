@@ -851,8 +851,8 @@ class MainWindow:
 		all_files = []
 
 		try:
-			allFiles = os.listdir( fullPath )
-			allFiles.sort()
+			all_files = os.listdir( full_path )
+			all_files.sort()
 		except:
 			pass
 
@@ -903,9 +903,9 @@ class MainWindow:
 				file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
 
 			if os.path.isdir( path ):
-				files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int ] )
+				files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 0 ] )
 			else:
-				files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int ] )
+				files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 1 ] )
 
 		#try to keep old selected file
 		if selected_file is None:
@@ -920,7 +920,7 @@ class MainWindow:
 		selected_iter = None
 		for item in files:
 			rel_path = os.path.join( self.folder_path, item[0] )
-			new_iter = self.store_folder_view.append( [ item[0], rel_path, item[3], 1, item[1], item[2], item[4] ] )
+			new_iter = self.store_folder_view.append( [ item[0], rel_path, item[3], item[5], item[1], item[2], item[4] ] )
 			if selected_file == rel_path:
 				selected_iter = new_iter 
 
