@@ -32,11 +32,11 @@ _=gettext.gettext
 
 
 class SnapshotNameDialog:
-	def __init__( self, backup, glade, snapshot ):
-		self.backup = backup
-		self.config = backup.config
+	def __init__( self, snapshots, glade, snapshot_id ):
+		self.snapshots = snapshots 
+		self.config = snapshots.config
 		self.glade = glade
-		self.snapshot = snapshot
+		self.snapshot_id = snapshot_id
 
 		self.dialog = self.glade.get_widget( 'SnapshotNameDialog' )
 
@@ -47,25 +47,25 @@ class SnapshotNameDialog:
 		self.glade.signal_autoconnect( signals )
 		
 		#name
-		self.editName = self.glade.get_widget( 'editSnapshotName' )
-		self.old_name = self.config.snapshotName( self.snapshot )
-		self.editName.set_text( self.old_name )
+		self.edit_name = self.glade.get_widget( 'editSnapshotName' )
+		self.old_name = self.snapshots.get_snapshot_name( self.snapshot_id )
+		self.edit_name.set_text( self.old_name )
 
 	def run( self ):
-		returnValue = False
+		changed = False
 		while True:
-			retVal = self.dialog.run()
+			ret_val = self.dialog.run()
 			
-			if gtk.RESPONSE_OK == retVal: #go to
-				new_name = self.editName.get_text().strip()
+			if gtk.RESPONSE_OK == ret_val: #go to
+				new_name = self.edit_name.get_text().strip()
 				if new_name != self.old_name:
-					self.config.setSnapshotName( self.snapshot, new_name )
-					returnValue = True
+					self.snapshots.set_snapshot_name( self.snapshot_id, new_name )
+					changed = True
 				break
 			else:
 				#cancel, close ...
 				break
 
 		self.dialog.hide()
-		return returnValue
+		return changed
 

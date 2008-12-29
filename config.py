@@ -80,6 +80,9 @@ class Config( configfile.ConfigFile ):
 		self.load( self._GLOBAL_CONFIG_PATH )
 		self.append( self._LOCAL_CONFIG_PATH )
 
+	def save( self ):
+		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
+
 	def get_snapshots_path( self ):
 		return self.get_str_value( 'snapshots.path', '' )
 

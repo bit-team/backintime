@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Dec  8 12:22:32 2008 -->
+<!--Generated with glade3 3.4.5 on Fri Dec 26 16:14:39 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="title" translatable="yes">Back In Time</property>
@@ -24,36 +24,36 @@
                     <property name="visible">True</property>
                     <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
                     <child>
-                      <widget class="GtkToolButton" id="btnBackup">
+                      <widget class="GtkToolButton" id="btn_backup">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Take snapshot</property>
                         <property name="label" translatable="yes">Backup Now</property>
                         <property name="stock_id">gtk-save</property>
-                        <signal name="clicked" handler="on_btnBackup_clicked"/>
+                        <signal name="clicked" handler="on_btn_backup_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnSnapshotName">
+                      <widget class="GtkToolButton" id="btn_snapshot_name">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Snapshot Name</property>
                         <property name="label" translatable="yes">Snapshot Name</property>
                         <property name="stock_id">gtk-edit</property>
-                        <signal name="clicked" handler="on_btnSnapshotName_clicked"/>
+                        <signal name="clicked" handler="on_btn_snapshot_name_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnRemoveSnapshot">
+                      <widget class="GtkToolButton" id="btn_remove_snapshot">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Remove Snapshot</property>
                         <property name="label" translatable="yes">Remove Snapshot</property>
                         <property name="stock_id">gtk-delete</property>
-                        <signal name="clicked" handler="on_btnRemoveSnapshot_clicked"/>
+                        <signal name="clicked" handler="on_btn_remove_snapshot_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
@@ -65,12 +65,12 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnSettings">
+                      <widget class="GtkToolButton" id="btn_settings">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Settings</property>
                         <property name="label" translatable="yes">Settings</property>
                         <property name="stock_id">gtk-execute</property>
-                        <signal name="clicked" handler="on_btnSettings_clicked"/>
+                        <signal name="clicked" handler="on_btn_settings_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
@@ -85,24 +85,24 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnAbout">
+                      <widget class="GtkToolButton" id="btn_about">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">About</property>
                         <property name="label" translatable="yes">About</property>
                         <property name="stock_id">gtk-about</property>
-                        <signal name="clicked" handler="on_btnAbout_clicked"/>
+                        <signal name="clicked" handler="on_btn_about_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnHelp">
+                      <widget class="GtkToolButton" id="btn_help">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Help</property>
                         <property name="label" translatable="yes">Help</property>
                         <property name="stock_id">gtk-help</property>
-                        <signal name="clicked" handler="on_btnHelp_clicked"/>
+                        <signal name="clicked" handler="on_btn_help_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
@@ -114,12 +114,12 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnExit">
+                      <widget class="GtkToolButton" id="btn_exit">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Exit</property>
                         <property name="label" translatable="yes">Exit</property>
                         <property name="stock_id">gtk-quit</property>
-                        <signal name="clicked" handler="on_btnExit_clicked"/>
+                        <signal name="clicked" handler="on_btn_exit_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
@@ -142,11 +142,11 @@
                         <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                         <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                         <child>
-                          <widget class="GtkTreeView" id="listTimeLine">
+                          <widget class="GtkTreeView" id="list_time_line">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="search_column">0</property>
-                            <signal name="cursor_changed" handler="on_listTimeLine_cursor_changed"/>
+                            <signal name="cursor_changed" handler="on_list_time_line_cursor_changed"/>
                           </widget>
                         </child>
                       </widget>
@@ -163,11 +163,11 @@
                         <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                         <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                         <child>
-                          <widget class="GtkTreeView" id="listPlaces">
+                          <widget class="GtkTreeView" id="list_places">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="search_column">0</property>
-                            <signal name="cursor_changed" handler="on_listPlaces_cursor_changed"/>
+                            <signal name="cursor_changed" handler="on_list_places_cursor_changed"/>
                           </widget>
                         </child>
                       </widget>
@@ -200,22 +200,22 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnFolderUp">
+                      <widget class="GtkToolButton" id="btn_folder_up">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Parent Directory</property>
                         <property name="label" translatable="yes">Up</property>
                         <property name="stock_id">gtk-go-up</property>
-                        <signal name="clicked" handler="on_btnFolderUp_clicked"/>
+                        <signal name="clicked" handler="on_btn_folder_up_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkToolItem" id="btnCurrentPath">
+                      <widget class="GtkToolItem" id="btn_current_path">
                         <property name="visible">True</property>
                         <child>
-                          <widget class="GtkEntry" id="editCurrentPath">
+                          <widget class="GtkEntry" id="edit_current_path">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
@@ -229,36 +229,36 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnRestore">
+                      <widget class="GtkToolButton" id="btn_restore">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Restore</property>
                         <property name="label" translatable="yes">Restore</property>
                         <property name="stock_id">gtk-undelete</property>
-                        <signal name="clicked" handler="on_btnRestore_clicked"/>
+                        <signal name="clicked" handler="on_btn_restore_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnCopy">
+                      <widget class="GtkToolButton" id="btn_copy">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Copy</property>
                         <property name="label" translatable="yes">Copy</property>
                         <property name="stock_id">gtk-copy</property>
-                        <signal name="clicked" handler="on_btnCopy_clicked"/>
+                        <signal name="clicked" handler="on_btn_copy_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkToolButton" id="btnSnapshots">
+                      <widget class="GtkToolButton" id="btn_snapshots">
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Snapshots</property>
                         <property name="label" translatable="yes">Snapshots</property>
                         <property name="stock_id">gtk-index</property>
-                        <signal name="clicked" handler="on_btnSnapshots_clicked"/>
+                        <signal name="clicked" handler="on_btn_snapshots_clicked"/>
                       </widget>
                       <packing>
                         <property name="homogeneous">True</property>
@@ -278,14 +278,14 @@
                     <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                     <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                     <child>
-                      <widget class="GtkTreeView" id="listFolderView">
+                      <widget class="GtkTreeView" id="list_folder_view">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="has_focus">True</property>
-                        <signal name="popup_menu" handler="on_listFolderView_popup_menu"/>
-                        <signal name="drag_data_get" handler="on_listFolderView_drag_data_get"/>
-                        <signal name="button_press_event" handler="on_listFolderView_button_press_event"/>
-                        <signal name="row_activated" handler="on_listFolderView_row_activated"/>
+                        <signal name="popup_menu" handler="on_list_folder_view_popup_menu"/>
+                        <signal name="drag_data_get" handler="on_list_folder_view_drag_data_get"/>
+                        <signal name="button_press_event" handler="on_list_folder_view_button_press_event"/>
+                        <signal name="row_activated" handler="on_list_folder_view_row_activated"/>
                       </widget>
                     </child>
                   </widget>
@@ -302,7 +302,7 @@
           </widget>
         </child>
         <child>
-          <widget class="GtkStatusbar" id="statusBar">
+          <widget class="GtkStatusbar" id="status_bar">
             <property name="visible">True</property>
             <property name="spacing">3</property>
           </widget>
@@ -375,7 +375,7 @@
                     <property name="top_padding">5</property>
                     <property name="left_padding">12</property>
                     <child>
-                      <widget class="GtkFileChooserButton" id="fcbWhere">
+                      <widget class="GtkFileChooserButton" id="fcb_where">
                         <property name="visible">True</property>
                         <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
                         <property name="title" translatable="yes">Select A Folder</property>
@@ -420,20 +420,20 @@
                             <property name="visible">True</property>
                             <property name="spacing">5</property>
                             <child>
-                              <widget class="GtkFileChooserButton" id="fcbInclude">
+                              <widget class="GtkFileChooserButton" id="fcb_include">
                                 <property name="visible">True</property>
                                 <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
                               </widget>
                             </child>
                             <child>
-                              <widget class="GtkButton" id="btnAddInclude">
+                              <widget class="GtkButton" id="btn_add_include">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="label" translatable="yes">gtk-add</property>
                                 <property name="use_stock">True</property>
                                 <property name="response_id">0</property>
-                                <signal name="clicked" handler="on_btnAddInclude_clicked"/>
+                                <signal name="clicked" handler="on_btn_add_include_clicked"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -441,14 +441,14 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkButton" id="btnRemoveInclude">
+                              <widget class="GtkButton" id="btn_remove_include">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="label" translatable="yes">gtk-remove</property>
                                 <property name="use_stock">True</property>
                                 <property name="response_id">0</property>
-                                <signal name="clicked" handler="on_btnRemoveInclude_clicked"/>
+                                <signal name="clicked" handler="on_btn_remove_include_clicked"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -467,20 +467,20 @@
                             <property name="visible">True</property>
                             <property name="spacing">5</property>
                             <child>
-                              <widget class="GtkEntry" id="editPattern">
+                              <widget class="GtkEntry" id="edit_pattern">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                               </widget>
                             </child>
                             <child>
-                              <widget class="GtkButton" id="btnAddExclude">
+                              <widget class="GtkButton" id="btn_add_exclude">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="label" translatable="yes">gtk-add</property>
                                 <property name="use_stock">True</property>
                                 <property name="response_id">0</property>
-                                <signal name="clicked" handler="on_btnAddExclude_clicked"/>
+                                <signal name="clicked" handler="on_btn_add_exclude_clicked"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -488,14 +488,14 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkButton" id="btnRemoveExclude">
+                              <widget class="GtkButton" id="btn_remove_exclude">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="label" translatable="yes">gtk-remove</property>
                                 <property name="use_stock">True</property>
                                 <property name="response_id">0</property>
-                                <signal name="clicked" handler="on_btnRemoveExclude_clicked"/>
+                                <signal name="clicked" handler="on_btn_remove_exclude_clicked"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -519,7 +519,7 @@
                             <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                             <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                             <child>
-                              <widget class="GtkTreeView" id="listInclude">
+                              <widget class="GtkTreeView" id="list_include">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                               </widget>
@@ -535,7 +535,7 @@
                             <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                             <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                             <child>
-                              <widget class="GtkTreeView" id="listExclude">
+                              <widget class="GtkTreeView" id="list_exclude">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                               </widget>
@@ -553,7 +553,7 @@
                 <child>
                   <widget class="GtkLabel" id="label4">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">&lt;b&gt;What to backup&lt;/b&gt;</property>
+                    <property name="label" translatable="yes">&lt;b&gt;What to save&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -581,14 +581,14 @@
                         <child>
                           <widget class="GtkLabel" id="label6">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">Automatic backup: </property>
+                            <property name="label" translatable="yes">Automatic snapshots: </property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBox" id="cbBackupMode">
+                          <widget class="GtkComboBox" id="cb_backup_mode">
                             <property name="visible">True</property>
                             <property name="items" translatable="yes"></property>
                           </widget>
@@ -637,7 +637,7 @@
                           <placeholder/>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="cbDontRemoveNamedSnapshots">
+                          <widget class="GtkCheckButton" id="cb_dont_remove_named_snapshots">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="label" translatable="yes">Don't remove named snapshots</property>
@@ -651,7 +651,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBox" id="cbMinFreeSpaceUnit">
+                          <widget class="GtkComboBox" id="cb_min_free_space_unit">
                             <property name="visible">True</property>
                           </widget>
                           <packing>
@@ -662,7 +662,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBox" id="cbRemoveOldBackupUnit">
+                          <widget class="GtkComboBox" id="cb_remove_old_backup_unit">
                             <property name="visible">True</property>
                           </widget>
                           <packing>
@@ -671,7 +671,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkSpinButton" id="editRemoveOldBackupValue">
+                          <widget class="GtkSpinButton" id="edit_remove_old_backup_value">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="adjustment">1 1 1000 1 0 0</property>
@@ -683,7 +683,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkSpinButton" id="editMinFreeSpaceValue">
+                          <widget class="GtkSpinButton" id="edit_min_free_space_value">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="adjustment">1 1 1000 1 0 0</property>
@@ -697,23 +697,23 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="cbRemoveOldBackup">
+                          <widget class="GtkCheckButton" id="cb_remove_old_backup">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="label" translatable="yes">Older then:</property>
                             <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_cbRemoveOldBackup_toggled"/>
+                            <signal name="toggled" handler="on_cb_remove_old_backup_toggled"/>
                           </widget>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="cbMinFreeSpace">
+                          <widget class="GtkCheckButton" id="cb_min_free_space">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="label" translatable="yes">If free space is less then:</property>
                             <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_cbMinFreeSpace_toggled"/>
+                            <signal name="toggled" handler="on_cb_min_free_space_toggled"/>
                           </widget>
                           <packing>
                             <property name="top_attach">1</property>
@@ -727,7 +727,7 @@
                 <child>
                   <widget class="GtkLabel" id="label1">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Remove Backups&lt;/b&gt;</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Remove Snapshots&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -748,25 +748,23 @@
           <widget class="GtkHButtonBox" id="dialog-action_area2">
             <property name="layout_style">GTK_BUTTONBOX_END</property>
             <child>
-              <widget class="GtkButton" id="btnOK">
+              <widget class="GtkButton" id="btn_ok">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="label" translatable="yes">gtk-ok</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">-5</property>
-                <signal name="clicked" handler="on_btnOK_clicked"/>
               </widget>
             </child>
             <child>
-              <widget class="GtkButton" id="btnCancel">
+              <widget class="GtkButton" id="btn_cancel">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="label" translatable="yes">gtk-cancel</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">-6</property>
-                <signal name="clicked" handler="on_btnCancel_clicked"/>
               </widget>
               <packing>
                 <property name="position">1</property>
@@ -800,7 +798,7 @@
             <property name="visible">True</property>
             <property name="spacing">2</property>
             <child>
-              <widget class="GtkEntry" id="editPath">
+              <widget class="GtkEntry" id="edit_path">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="editable">False</property>
@@ -815,24 +813,24 @@
                 <property name="visible">True</property>
                 <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
                 <child>
-                  <widget class="GtkToolButton" id="btnCopySnapshot">
+                  <widget class="GtkToolButton" id="btn_copy_snapshot">
                     <property name="visible">True</property>
                     <property name="tooltip" translatable="yes">Copy</property>
                     <property name="label" translatable="yes">Copy</property>
                     <property name="stock_id">gtk-copy</property>
-                    <signal name="clicked" handler="on_btnCopySnapshot_clicked"/>
+                    <signal name="clicked" handler="on_btn_copy_snapshot_clicked"/>
                   </widget>
                   <packing>
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkToolButton" id="btnRestoreSnapshot">
+                  <widget class="GtkToolButton" id="btn_restore_snapshot">
                     <property name="visible">True</property>
                     <property name="tooltip" translatable="yes">Restore</property>
                     <property name="label" translatable="yes">Restore</property>
                     <property name="stock_id">gtk-undelete</property>
-                    <signal name="clicked" handler="on_btnRestoreSnapshot_clicked"/>
+                    <signal name="clicked" handler="on_btn_restore_snapshot_clicked"/>
                   </widget>
                   <packing>
                     <property name="homogeneous">True</property>
@@ -853,15 +851,15 @@
                 <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                 <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                 <child>
-                  <widget class="GtkTreeView" id="listSnapshots">
+                  <widget class="GtkTreeView" id="list_snapshots">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="has_focus">True</property>
-                    <signal name="popup_menu" handler="on_listSnapshots_popup_menu"/>
-                    <signal name="drag_data_get" handler="on_listSnapshots_drag_data_get"/>
-                    <signal name="button_press_event" handler="on_listSnapshots_button_press_event"/>
-                    <signal name="row_activated" handler="on_listSnapshots_row_activated"/>
-                    <signal name="cursor_changed" handler="on_listSnapshots_cursor_changed"/>
+                    <signal name="popup_menu" handler="on_list_snapshots_popup_menu"/>
+                    <signal name="drag_data_get" handler="on_list_snapshots_drag_data_get"/>
+                    <signal name="button_press_event" handler="on_list_snapshots_button_press_event"/>
+                    <signal name="row_activated" handler="on_list_snapshots_row_activated"/>
+                    <signal name="cursor_changed" handler="on_list_snapshots_cursor_changed"/>
                   </widget>
                 </child>
               </widget>
@@ -884,20 +882,20 @@
                 <property name="visible">True</property>
                 <property name="spacing">2</property>
                 <child>
-                  <widget class="GtkButton" id="btnDiffWith">
+                  <widget class="GtkButton" id="btn_diff_with">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="label" translatable="yes">Diff with</property>
                     <property name="response_id">2</property>
-                    <signal name="clicked" handler="on_btnDiffWith_clicked"/>
+                    <signal name="clicked" handler="on_btn_diff_with_clicked"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBox" id="comboDiffWith">
+                  <widget class="GtkComboBox" id="combo_diff_with">
                     <property name="visible">True</property>
                   </widget>
                   <packing>
@@ -958,7 +956,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkEntry" id="editDiffCmd">
+                          <widget class="GtkEntry" id="edit_diff_cmd">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                           </widget>
@@ -968,7 +966,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkEntry" id="editDiffCmdParams">
+                          <widget class="GtkEntry" id="edit_diff_cmd_params">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                           </widget>
@@ -1010,7 +1008,7 @@
             <property name="visible">True</property>
             <property name="layout_style">GTK_BUTTONBOX_END</property>
             <child>
-              <widget class="GtkButton" id="btnGoToSnapshot">
+              <widget class="GtkButton" id="btn_goto_snapshot">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -1022,7 +1020,7 @@
               </widget>
             </child>
             <child>
-              <widget class="GtkButton" id="btnCancel ">
+              <widget class="GtkButton" id="btn_cancel ">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="label" translatable="yes">gtk-cancel</property>
@@ -1057,7 +1055,7 @@
         <property name="visible">True</property>
         <property name="spacing">2</property>
         <child>
-          <widget class="GtkEntry" id="editSnapshotName">
+          <widget class="GtkEntry" id="edit_snapshot_name">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="has_focus">True</property>

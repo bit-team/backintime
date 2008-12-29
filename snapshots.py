@@ -62,7 +62,7 @@ class Snapshots:
 	def get_snapshot_display_id( self, snapshot_id ):
 		if len( snapshot_id ) <= 1:
 			return _('Now')
-		return "%s-%s-%s %s:%s:%s" % ( snapshot[ 0 : 4 ], snapshot[ 4 : 6 ], snapshot[ 6 : 8 ], snapshot[ 9 : 11 ], snapshot[ 11 : 13 ], snapshot[ 13 : 15 ]  )
+		return "%s-%s-%s %s:%s:%s" % ( snapshot_id[ 0 : 4 ], snapshot_id[ 4 : 6 ], snapshot_id[ 6 : 8 ], snapshot_id[ 9 : 11 ], snapshot_id[ 11 : 13 ], snapshot_id[ 13 : 15 ]  )
 	
 	def get_snapshot_display_name( self, snapshot_id ):
 		display_name = self.get_snapshot_display_id( snapshot_id )
