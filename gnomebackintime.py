@@ -734,7 +734,7 @@ class MainWindow:
 
 		path = self.store_folder_view.get_value( iter, 1 )
 		icon_name = self.store_folder_view.get_value( iter, 2 )
-		retVal = snapshotsdialog.SnapshotsDialog( self.snapshots, self.glade, path, self.snapshots_list, self.snapshot_id, icon_name ).run()
+		retVal = gnomesnapshotsdialog.SnapshotsDialog( self.snapshots, self.glade, path, self.snapshots_list, self.snapshot_id, icon_name ).run()
 		
 		#select the specified file
 		if not retVal is None:
@@ -812,8 +812,8 @@ class MainWindow:
 		button.set_sensitive( False )
 		self.updatetime_line = True
 		
-		if self.backup.isBusy():
-			self.updateBackupInfo()
+		if self.snapshots.is_busy():
+			self.update_backup_info()
 			return
 
 		#backup.backup()
@@ -823,7 +823,7 @@ class MainWindow:
 		cmd = "nice -n 19 %s --backup &" % app
 		os.system( cmd )
 
-		self.updateBackupInfo( True )
+		self.update_backup_info( True )
 
 	def update_folder_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
 		#update backup time

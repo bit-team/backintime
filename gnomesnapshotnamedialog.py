@@ -47,7 +47,7 @@ class SnapshotNameDialog:
 		self.glade.signal_autoconnect( signals )
 		
 		#name
-		self.edit_name = self.glade.get_widget( 'editSnapshotName' )
+		self.edit_name = self.glade.get_widget( 'edit_snapshot_name' )
 		self.old_name = self.snapshots.get_snapshot_name( self.snapshot_id )
 		self.edit_name.set_text( self.old_name )
 
