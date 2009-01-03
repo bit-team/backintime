@@ -51,6 +51,7 @@ class SnapshotNameDialog:
 	def run( self, snapshot_id ):
 		old_name = self.snapshots.get_snapshot_name( snapshot_id )
 		self.edit_name.set_text( old_name )
+		self.edit_name.grab_focus()
 
 		changed = False
 		while True:
