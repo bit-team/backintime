@@ -649,7 +649,7 @@ class MainWindow:
 		menu_item = gtk.ImageMenuItem( 'backintime.open' )
 		menu_item.set_image( gtk.image_new_from_icon_name( self.store_folder_view.get_value( iter, 2 ), gtk.ICON_SIZE_MENU ) )
 		menu_item.connect( 'activate', self.on_list_folder_view_open_item )
-		self.popup_menu.append( menuItem )
+		self.popup_menu.append( menu_item )
 
 		self.popup_menu.append( gtk.SeparatorMenuItem() )
 
@@ -762,7 +762,7 @@ class MainWindow:
 	def restore_( self ):
 		iter = self.list_folder_view.get_selection().get_selected()[1]
 		if not iter is None:
-			self.snapshots.restore( self.snapshot_id, self.storeFolderView.get_value( iter, 1 ) )
+			self.snapshots.restore( self.snapshot_id, self.store_folder_view.get_value( iter, 1 ) )
 
 		self.glade.get_widget( 'btn_restore' ).set_sensitive( True )
 		return False
@@ -819,8 +819,8 @@ class MainWindow:
 			return
 
 		if gtk.RESPONSE_YES == gnomemessagebox.show_question( self.window, self.config, _( "Are you sure you want to remove the snapshot:\n<b>%s</b>" ) % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
-			print "Remove Snapshot: %s" % snapsho_id
-			self.backup.remove_snapshot( snapshot_id )
+			print "Remove Snapshot: %s" % snapshot_id
+			self.snapshots.remove_snapshot( snapshot_id )
 			self.fill_time_line()
 
 	def on_btn_backup_clicked( self, button ):

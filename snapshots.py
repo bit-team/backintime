@@ -124,7 +124,7 @@ class Snapshots:
 	def restore( self, snapshot_id, path ):
 		logger.info( "Restore: %s" % path )
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
-		cmd = "rsync -avR --copy-unsafe-links --backup --suffix=%s --one-file-system --chmod=+w %s/.%s %s" % ( backup_suffix, self.config.get_snapshot_path_to( snapshot_id ), path, '/' )
+		cmd = "rsync -avR --copy-unsafe-links --backup --suffix=%s --one-file-system --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		self._execute( cmd )
 
 	def get_snapshots_list( self, sort_reverse = True ):
