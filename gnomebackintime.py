@@ -64,7 +64,7 @@ class AboutDialog:
 		self.dialog.set_license( config.get_license() )
 		authors = config.get_authors()
 		if not authors is None:
-			self.dialog.set_authors( authors )
+			self.dialog.set_authors( authors.split('\n') )
 		self.dialog.set_translator_credits( config.get_translations() )
 
 		signals = { 
@@ -90,6 +90,11 @@ class MainWindow:
 
 		self.folder_path = None
 		self.snapshot_id = ''
+
+		self.about_dialog = None
+		self.settings_dialog = None
+		self.snapshots_dialog = None
+		self.snapshot_name_dialog = None
 
 		self.glade = gtk.glade.XML( os.path.join( self.config.get_app_path(), 'gnomebackintime.glade' ), None, 'backintime' )
 
@@ -276,9 +281,14 @@ class MainWindow:
 
 		return 0
 
+	def show_settings_dialog_( self ):
+		if self.settings_dialog is None:
+			self.settings_dialog = gnomesettingsdialog.SettingsDialog( self.config, self.glade )
+		self.settings_dialog.run()
+
 	def on_init( self ):
 		if not self.config.is_configured():
-			gnomesettingsdialog.SettingsDialog( self.config, self.glade ).run()
+			self.show_settings_dialog_()
 
 			if not self.config.is_configured():
 				gtk.main_quit()
@@ -776,7 +786,7 @@ class MainWindow:
 		snapshots_path = self.config.get_snapshots_path()
 		include_folders = self.config.get_include_folders()
 
-		settingsdialog.SettingsDialog( self.config, self.glade ).run()
+		self.show_settings_dialog_()
 
 		if not self.config.is_configured():
 			gtk.main_quit()
@@ -793,8 +803,11 @@ class MainWindow:
 		if len( snapshot_id ) <= 1:
 			return
 
-		if snapshotnamedialog.SnapshotNameDialog( self.backup, self.glade, snapshot_id ).run():
-			self.storetime_line.set_value( iter, 2, self.config.snapshotDisplayName( snapshot_id ) )
+		if self.snapshot_name_dialog is None:
+			self.snapshot_name_dialog = gnomesnapshotnamedialog.SnapshotNameDialog( self.snapshots, self.glade )
+
+		if self.snapshot_name_dialog.run( snapshot_id ):
+			self.store_time_line.set_value( iter, 0, self.snapshots.get_snapshot_display_name_gtk( snapshot_id ) )
 
 	def on_btn_remove_snapshot_clicked( self, button ):
 		iter = self.list_time_line.get_selection().get_selected()[1]

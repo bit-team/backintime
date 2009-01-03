@@ -32,11 +32,10 @@ _=gettext.gettext
 
 
 class SnapshotNameDialog:
-	def __init__( self, snapshots, glade, snapshot_id ):
+	def __init__( self, snapshots, glade ):
 		self.snapshots = snapshots 
 		self.config = snapshots.config
 		self.glade = glade
-		self.snapshot_id = snapshot_id
 
 		self.dialog = self.glade.get_widget( 'SnapshotNameDialog' )
 
@@ -48,18 +47,19 @@ class SnapshotNameDialog:
 		
 		#name
 		self.edit_name = self.glade.get_widget( 'edit_snapshot_name' )
-		self.old_name = self.snapshots.get_snapshot_name( self.snapshot_id )
-		self.edit_name.set_text( self.old_name )
 
-	def run( self ):
+	def run( self, snapshot_id ):
+		old_name = self.snapshots.get_snapshot_name( snapshot_id )
+		self.edit_name.set_text( old_name )
+
 		changed = False
 		while True:
 			ret_val = self.dialog.run()
 			
 			if gtk.RESPONSE_OK == ret_val: #go to
 				new_name = self.edit_name.get_text().strip()
-				if new_name != self.old_name:
-					self.snapshots.set_snapshot_name( self.snapshot_id, new_name )
+				if new_name != old_name:
+					self.snapshots.set_snapshot_name( snapshot_id, new_name )
 					changed = True
 				break
 			else:
