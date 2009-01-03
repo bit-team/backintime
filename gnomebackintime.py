@@ -663,13 +663,13 @@ class MainWindow:
 		self.popup_menu.popup( None, None, None, button, time )
 
 	def on_list_folder_view_restore_item( self, widget, data = None ):
-		self.on_btnRestore_clicked( self.glade.get_widget( 'btn_restore' ) )
+		self.on_btn_restore_clicked( self.glade.get_widget( 'btn_restore' ) )
 
 	def on_list_folder_view_copy_item( self, widget, data = None ):
-		self.on_btnCopy_clicked( self.glade.get_widget( 'btn_copy' ) )
+		self.on_btn_copy_clicked( self.glade.get_widget( 'btn_copy' ) )
 
 	def on_list_folder_view_snapshots_item( self, widget, data = None ):
-		self.on_btnSnapshots_clicked( self.glade.get_widget( 'btn_snapshots' ) )
+		self.on_btn_snapshots_clicked( self.glade.get_widget( 'btn_snapshots' ) )
 
 	def on_list_folder_view_open_item( self, widget, data = None ):
 		iter = self.list_folder_view.get_selection().get_selected()[1]
@@ -758,7 +758,9 @@ class MainWindow:
 		return False
 
 	def on_btn_about_clicked( self, button ):
-		AboutDialog( self.config, self.glade ).run()
+		if self.about_dialog is None:
+			self.about_dialog = AboutDialog( self.config, self.glade )
+		self.about_dialog.run()
 
 	def on_help( self ):
 		gnome.help_display('backintime')
@@ -803,7 +805,7 @@ class MainWindow:
 		if len( snapshot_id ) <= 1:
 			return
 
-		if gtk.RESPONSE_YES == messagebox.show_question( self.window, self.config, _( "Are you sure you want to remove the snapshot:\n<b>%s</b>" ) % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
+		if gtk.RESPONSE_YES == gnomemessagebox.show_question( self.window, self.config, _( "Are you sure you want to remove the snapshot:\n<b>%s</b>" ) % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
 			print "Remove Snapshot: %s" % snapsho_id
 			self.backup.remove_snapshot( snapshot_id )
 			self.fill_time_line()
@@ -829,7 +831,7 @@ class MainWindow:
 		#update backup time
 		if 2 == changed_from:
 			iter = self.list_time_line.get_selection().get_selected()[1]
-			self.snapshots_id = self.store_time_line.get_value( iter, 1 )
+			self.snapshot_id = self.store_time_line.get_value( iter, 1 )
 			#self.lblTime.set_markup( "<b>%s</b>" % backupTime )
 
 		#update selected places item

@@ -277,24 +277,24 @@ class SettingsDialog:
 		backup_path = self.fcb_where.get_filename()
 
 		if len( backup_path ) == 0 or not os.path.isdir( backup_path ):
-			messagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be empty !') )
+			gnomemessagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be empty !') )
 			return False
 
 		if len( backup_path ) <= 1:
-			messagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be the root directory !') )
+			gnomemessagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be the root directory !') )
 			return False
 
 		backup_path2 = backup_path + "/"
 
 		#check if back folder changed
 		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != backup_path:
-			if gtk.RESPONSE_YES != messagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots directory ?') ):
+			if gtk.RESPONSE_YES != gnomemessagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots directory ?') ):
 				return False 
 
 		#check if there are some include folders
 		iter = self.store_include.get_iter_first()
 		if iter is None:
-			messagebox.show_error( self.dialog, self.config, _('You must select at least one directory to backup !') )
+			gnomemessagebox.show_error( self.dialog, self.config, _('You must select at least one directory to backup !') )
 			return False
 
 		#check it backup and include don't overlap each other
@@ -304,14 +304,14 @@ class SettingsDialog:
 			if path == backup_path:
 				print "Path: " + path
 				print "BackupPath: " + backup_path 
-				messagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be in "Backup Directories" !') )
+				gnomemessagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be in "Backup Directories" !') )
 				return False
 			
 			if len( path ) >= len( backup_path2 ):
 				if path[ : len( backup_path2 ) ] == backup_path2:
 					print "Path: " + path
 					print "BackupPath2: " + backup_path2
-					messagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be in "Backup Directories" !') )
+					gnomemessagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be in "Backup Directories" !') )
 					return False
 			else:
 				path2 = path + "/"
@@ -319,7 +319,7 @@ class SettingsDialog:
 					if path2 == backup_path[ : len( path2 ) ]:
 						print "Path2: " + path2
 						print "BackupPath: " + backup_path 
-						messagebox.show_error( self.dialog, self.config, _('"Backup directories" can\'t include snapshots directory !') )
+						gnomemessagebox.show_error( self.dialog, self.config, _('"Backup directories" can\'t include snapshots directory !') )
 						return False
 
 			iter = self.store_include.iter_next( iter )
