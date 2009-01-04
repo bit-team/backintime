@@ -57,23 +57,20 @@ class SettingsDialog:
 		
 		#setup backup folders
 		self.list_include = self.glade.get_widget( 'list_include' )
-		init_all = self.list_include.get_model() is None
+		self.list_include.get_model() is None
 
-		if init_all:
-			pix_renderer = gtk.CellRendererPixbuf()
-			text_renderer = gtk.CellRendererText()
+		pix_renderer = gtk.CellRendererPixbuf()
+		text_renderer = gtk.CellRendererText()
 
-			column = gtk.TreeViewColumn( _('Backup Directories') )
-			column.pack_start( pix_renderer, False )
-			column.pack_end( text_renderer, True )
-			column.add_attribute( pix_renderer, 'stock-id', 1 )
-			column.add_attribute( text_renderer, 'markup', 0 )
-			self.list_include.append_column( column )
+		column = gtk.TreeViewColumn( _('Backup Directories') )
+		column.pack_start( pix_renderer, False )
+		column.pack_end( text_renderer, True )
+		column.add_attribute( pix_renderer, 'stock-id', 1 )
+		column.add_attribute( text_renderer, 'markup', 0 )
+		self.list_include.append_column( column )
 
-			self.store_include = gtk.ListStore( str, str )
-			self.list_include.set_model( self.store_include )
-		else:
-			self.store_include = self.list_include.get_model()
+		self.store_include = gtk.ListStore( str, str )
+		self.list_include.set_model( self.store_include )
 
 		self.store_include.clear()
 		include_folders = self.config.get_include_folders()
@@ -87,21 +84,18 @@ class SettingsDialog:
 		#setup exclude patterns
 		self.list_exclude = self.glade.get_widget( 'list_exclude' )
 
-		if init_all:
-			pix_renderer = gtk.CellRendererPixbuf()
-			text_renderer = gtk.CellRendererText()
+		pix_renderer = gtk.CellRendererPixbuf()
+		text_renderer = gtk.CellRendererText()
 
-			column = gtk.TreeViewColumn( _('Exclude Patterns') )
-			column.pack_start( pix_renderer, False )
-			column.pack_end( text_renderer, True )
-			column.add_attribute( pix_renderer, 'stock-id', 1 )
-			column.add_attribute( text_renderer, 'markup', 0 )
-			self.list_exclude.append_column( column )
+		column = gtk.TreeViewColumn( _('Exclude Patterns') )
+		column.pack_start( pix_renderer, False )
+		column.pack_end( text_renderer, True )
+		column.add_attribute( pix_renderer, 'stock-id', 1 )
+		column.add_attribute( text_renderer, 'markup', 0 )
+		self.list_exclude.append_column( column )
 
-			self.store_exclude = gtk.ListStore( str, str )
-			self.list_exclude.set_model( self.store_exclude )
-		else:
-			self.store_exclude = self.list_exclude.get_model()
+		self.store_exclude = gtk.ListStore( str, str )
+		self.list_exclude.set_model( self.store_exclude )
 
 		self.store_exclude.clear()
 		exclude_patterns = self.config.get_exclude_patterns()
@@ -115,16 +109,13 @@ class SettingsDialog:
 		#setup automatic backup mode
 		self.cb_backup_mode = self.glade.get_widget( 'cb_backup_mode' )
 
-		if init_all:
-			self.store_backup_mode = gtk.ListStore( str, int )
-			self.cb_backup_mode.set_model( self.store_backup_mode )
+		self.store_backup_mode = gtk.ListStore( str, int )
+		self.cb_backup_mode.set_model( self.store_backup_mode )
 			
-			self.cb_backup_mode.clear()
-			renderer = gtk.CellRendererText()
-			self.cb_backup_mode.pack_start( renderer, True )
-			self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
-		else:
-			self.store_backup_mode = self.cb_backup_mode.get_model()
+		self.cb_backup_mode.clear()
+		renderer = gtk.CellRendererText()
+		self.cb_backup_mode.pack_start( renderer, True )
+		self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
 
 		self.store_backup_mode.clear()
 		index = 0
@@ -148,15 +139,12 @@ class SettingsDialog:
 
 		self.cb_remove_old_backup_unit = self.glade.get_widget( 'cb_remove_old_backup_unit' )
 
-		if init_all:
-			self.store_remove_old_backup_unit = gtk.ListStore( str, int )
-			self.cb_remove_old_backup_unit.set_model( self.store_remove_old_backup_unit )
+		self.store_remove_old_backup_unit = gtk.ListStore( str, int )
+		self.cb_remove_old_backup_unit.set_model( self.store_remove_old_backup_unit )
 
-			renderer = gtk.CellRendererText()
-			self.cb_remove_old_backup_unit.pack_start( renderer, True )
-			self.cb_remove_old_backup_unit.add_attribute( renderer, 'text', 0 )
-		else:
-			self.store_remove_old_backup_unit = self.cb_remove_old_backup_unit.get_model()
+		renderer = gtk.CellRendererText()
+		self.cb_remove_old_backup_unit.pack_start( renderer, True )
+		self.cb_remove_old_backup_unit.add_attribute( renderer, 'text', 0 )
 
 		self.store_remove_old_backup_unit.clear()
 		index = 0
@@ -184,15 +172,12 @@ class SettingsDialog:
 
 		self.cb_min_free_space_unit = self.glade.get_widget( 'cb_min_free_space_unit' )
 
-		if init_all:
-			self.store_min_free_space_unit = gtk.ListStore( str, int )
-			self.cb_min_free_space_unit.set_model( self.store_min_free_space_unit )
+		self.store_min_free_space_unit = gtk.ListStore( str, int )
+		self.cb_min_free_space_unit.set_model( self.store_min_free_space_unit )
 
-			renderer = gtk.CellRendererText()
-			self.cb_min_free_space_unit.pack_start( renderer, True )
-			self.cb_min_free_space_unit.add_attribute( renderer, 'text', 0 )
-		else:
-			self.store_min_free_space_unit = self.cb_min_free_space_unit.get_model()
+		renderer = gtk.CellRendererText()
+		self.cb_min_free_space_unit.pack_start( renderer, True )
+		self.cb_min_free_space_unit.add_attribute( renderer, 'text', 0 )
 
 		self.store_min_free_space_unit.clear()
 		index = 0

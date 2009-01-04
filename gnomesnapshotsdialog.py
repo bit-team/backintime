@@ -37,7 +37,7 @@ _=gettext.gettext
 
 
 class SnapshotsDialog:
-	def __init__( self, snapshots, glade, path, snapshots_list, current_snapshot_id, icon_name ):
+	def __init__( self, snapshots, glade ):
 		self.snapshots = snapshots
 		self.config = snapshots.config
 		self.glade = glade
@@ -356,7 +356,7 @@ class SnapshotsDialog:
 		cmd = "gnome-open \"%s\" &" % path
 		os.system( cmd )
 
-	def run( self ):
+	def run( self, path, snapshots_list, current_snapshot_id, icon_name ):
 		snapshot_id = None
 		while True:
 			ret_val = self.dialog.run()
