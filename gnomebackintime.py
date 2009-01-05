@@ -744,7 +744,11 @@ class MainWindow:
 
 		path = self.store_folder_view.get_value( iter, 1 )
 		icon_name = self.store_folder_view.get_value( iter, 2 )
-		retVal = gnomesnapshotsdialog.SnapshotsDialog( self.snapshots, self.glade, path, self.snapshots_list, self.snapshot_id, icon_name ).run()
+
+		if self.snapshots_dialog is None:
+			self.snapshots_dialog = gnomesnapshotsdialog.SnapshotsDialog( self.snapshots, self.glade )
+
+		retVal = self.snapshots_dialog.run( path, self.snapshots_list, self.snapshot_id, icon_name )
 		
 		#select the specified file
 		if not retVal is None:

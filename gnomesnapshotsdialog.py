@@ -42,10 +42,10 @@ class SnapshotsDialog:
 		self.config = snapshots.config
 		self.glade = glade
 
-		self.path = path
-		self.snapshots_list = snapshots_list
-		self.current_snapshot_id = current_snapshot_id
-		self.icon_name = icon_name
+		self.path = None
+		self.snapshots_list = None
+		self.current_snapshot_id = None
+		self.icon_name = None
 
 		self.dialog = self.glade.get_widget( 'SnapshotsDialog' )
 
@@ -61,7 +61,7 @@ class SnapshotsDialog:
 			}
 
 		#path
-		self.editPath = self.glade.get_widget( 'edit_path' )
+		self.edit_path = self.glade.get_widget( 'edit_path' )
 
 		#diff
 		self.edit_diff_cmd = self.glade.get_widget( 'edit_diff_cmd' )
@@ -77,37 +77,27 @@ class SnapshotsDialog:
 		self.list_snapshots = self.glade.get_widget( 'list_snapshots' )
 		self.list_snapshots.drag_source_set( gtk.gdk.BUTTON1_MASK | gtk.gdk.BUTTON3_MASK, gtk.target_list_add_uri_targets(), gtk.gdk.ACTION_COPY )
 
-		init_all = self.list_snapshots.get_model() is None
-
-		if init_all:
-			self.glade.signal_autoconnect( signals )
+		self.glade.signal_autoconnect( signals )
 		
-		if init_all:
-			text_renderer = gtk.CellRendererText()
-			column = gtk.TreeViewColumn( _('Snapshots') )
-			column.pack_end( text_renderer, True )
-			column.add_attribute( text_renderer, 'markup', 0 )
-			column.set_sort_column_id( 0 )
-			self.list_snapshots.append_column( column )
+		text_renderer = gtk.CellRendererText()
+		column = gtk.TreeViewColumn( _('Snapshots') )
+		column.pack_end( text_renderer, True )
+		column.add_attribute( text_renderer, 'markup', 0 )
+		column.set_sort_column_id( 0 )
+		self.list_snapshots.append_column( column )
 
-			#display name, snapshot_id
-			self.store_snapshots = gtk.ListStore( str, str )
-			self.list_snapshots.set_model( self.store_snapshots )
-		else:
-			self.store_snapshots = self.list_snapshots.get_model()
+		#display name, snapshot_id
+		self.store_snapshots = gtk.ListStore( str, str )
+		self.list_snapshots.set_model( self.store_snapshots )
 
 		self.store_snapshots.set_sort_column_id( 0, gtk.SORT_DESCENDING )
 
 		#setup diff with combo
 		self.combo_diff_with = self.glade.get_widget( 'combo_diff_with' )
-		if init_all:
-			text_renderer = gtk.CellRendererText()
-			self.combo_diff_with.pack_start( text_renderer, True )
-			self.combo_diff_with.add_attribute( text_renderer, 'text', 0 )
-			self.combo_diff_with.set_model( self.store_snapshots ) #use the same store
-
-		#update snapshots
-		self.update_snapshots()
+		text_renderer = gtk.CellRendererText()
+		self.combo_diff_with.pack_start( text_renderer, True )
+		self.combo_diff_with.add_attribute( text_renderer, 'text', 0 )
+		self.combo_diff_with.set_model( self.store_snapshots ) #use the same store
 
 	def update_toolbar( self ):
 		if len( self.store_snapshots ) <= 0:
@@ -300,7 +290,7 @@ class SnapshotsDialog:
 			self.config.save()
 
 	def update_snapshots( self ):
-		self.editPath.set_text( self.path )
+		self.edit_path.set_text( self.path )
 
 		#fill snapshots
 		self.store_snapshots.clear()
@@ -343,6 +333,7 @@ class SnapshotsDialog:
 			self.glade.get_widget( 'btn_diff_with' ).set_sensitive( False )
 			self.combo_diff_with.set_sensitive( False )
 
+		self.list_snapshots.grab_focus()
 		self.update_toolbar()
 
 	def on_list_snapshots_row_activated( self, list, path, column ):
@@ -357,6 +348,12 @@ class SnapshotsDialog:
 		os.system( cmd )
 
 	def run( self, path, snapshots_list, current_snapshot_id, icon_name ):
+		self.path = path
+		self.snapshots_list = snapshots_list
+		self.current_snapshot_id = current_snapshot_id
+		self.icon_name = icon_name
+		self.update_snapshots()
+
 		snapshot_id = None
 		while True:
 			ret_val = self.dialog.run()
