@@ -52,6 +52,19 @@ class ConfigFile:
 			if len( items ) == 2:
 				self.dict[ items[ 0 ] ] = items[ 1 ][ : -1 ]
 
+	def update_alternatives( self, alternatives ):
+		#key is the old key, value is the new key 
+		changed = False
+
+		for key, value in alternatives:
+			if key in self.dict:
+				if not value in self.dict:
+					self.dict[value] = self.dict[key]
+				del self.dict[key]
+				changed = True
+
+		return changed
+
 	def get_str_value( self, key, default_value = '' ):
 		try:
 			return self.dict[ key ]
