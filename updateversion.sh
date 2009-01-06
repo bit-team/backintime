@@ -3,9 +3,14 @@
 VERSION=`cat VERSION`
 echo VERSION: $VERSION
 
-echo "Update 'control'"
-mv control control.tmp
-sed -e "s/^Version: .*$/Version: $VERSION/" control.tmp > control
+echo "Update 'control.common'"
+mv control.common control.tmp
+sed -e "s/^Version: .*$/Version: $VERSION/" control.tmp > control.common
+rm control.tmp
+
+echo "Update 'control.gnome'"
+mv control.gnome control.tmp
+sed -e "s/^Version: .*$/Version: $VERSION/" control.tmp | sed -e "s/backintime-common (= [^)]*)/backintime-common (= $VERSION)/" > control.gnome
 rm control.tmp
 
 echo "Update 'config.py'"
