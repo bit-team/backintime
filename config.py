@@ -72,10 +72,10 @@ class Config( configfile.ConfigFile ):
 		if os.path.exists( os.path.join( self._APP_PATH, 'LICENSE' ) ):
 			self._DOC_PATH = self._APP_PATH
 
-		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
+		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config2'
 		self._LOCAL_CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
 		os.system( "mkdir -p \"%s\"" % self._LOCAL_CONFIG_FOLDER )
-		self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
+		self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
 
 		self.load( self._GLOBAL_CONFIG_PATH )
 		self.append( self._LOCAL_CONFIG_PATH )
