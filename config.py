@@ -80,6 +80,40 @@ class Config( configfile.ConfigFile ):
 		self.load( self._GLOBAL_CONFIG_PATH )
 		self.append( self._LOCAL_CONFIG_PATH )
 
+		OLD_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
+		if os.path.exists( OLD_CONFIG_PATH ): 
+			#import old config
+			old_config = configfile.ConfigFile()
+			old_config.load( OLD_CONFIG_PATH )
+
+			dict = {
+				'BASE_BACKUP_PATH' : 'snapshots.path',
+				'INCLUDE_FOLDERS' : 'snapshots.include_folders',
+				'EXCLUDE_PATTERNS' : 'snapshots.exclude_patterns',
+				'AUTOMATIC_BACKUP' : 'snapshots.automatic_backup_mode',
+				'REMOVE_OLD_BACKUPS' : 'snapshots.remove_old_snapshots.enabled',
+				'REMOVE_OLD_BACKUPS_VALUE' : 'snapshots.remove_old_snapshots.value',
+				'REMOVE_OLD_BACKUPS_UNIT' : 'snapshots.remove_old_snapshots.unit',
+				'MIN_FREE_SPACE' : 'snapshots.min_free_space.enabled',
+				'MIN_FREE_SPACE_VALUE' : 'snapshots.min_free_space.value',
+				'MIN_FREE_SPACE_UNIT' : 'snapshots.min_free_space.unit',
+				'DONT_REMOVE_NAMED_SNAPSHOTS' : 'snapshots.dont_remove_named_snapshots',
+				'DIFF_CMD' : 'gnome.diff.cmd',
+				'DIFF_CMD_PARAMS' : 'gnome.diff.params',
+				'LAST_PATH' : 'gnome.last_path',
+				'MAIN_WINDOW_X' : 'gnome.main_window.x',
+				'MAIN_WINDOW_Y' : 'gnome.main_window.y',
+				'MAIN_WINDOW_WIDTH' : 'gnome.main_window.width',
+				'MAIN_WINDOW_HEIGHT' : 'gnome.main_window.height',
+				'MAIN_WINDOW_HPANED1_POSITION' : 'gnome.main_window.hpand1',
+				'MAIN_WINDOW_HPANED2_POSITION' : 'gnome.main_window.hpand2'
+			}
+
+			if self.get_if_dont_exists( dict, old_config ):
+				self.save()
+
+			os.system( "rm \"%s\"" % OLD_CONFIG_PATH )
+
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
 
@@ -115,12 +149,12 @@ class Config( configfile.ConfigFile ):
 		self.setup_cron()
 
 	def get_remove_old_snapshots( self ):
-		return ( self.get_bool_value( 'snapshots.remove_old_snapshots.remove', True ),
+		return ( self.get_bool_value( 'snapshots.remove_old_snapshots.enabled', True ),
 				 self.get_int_value( 'snapshots.remove_old_snapshots.value', 10 ),
 				 self.get_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR ) )
 	
 	def is_remove_old_snapshots_enabled( self ):
-		return self.get_bool_value( 'snapshots.remove_old_snapshots.remove', True )
+		return self.get_bool_value( 'snapshots.remove_old_snapshots.enabled', True )
 	
 	def get_remove_old_snapshots_date( self ):
 		enabled, value, unit = self.get_remove_old_snapshots()
@@ -144,7 +178,7 @@ class Config( configfile.ConfigFile ):
 		return datetime.date( 1, 1, 1 )
 
 	def set_remove_old_snapshots( self, enabled, value, unit ):
-		self.set_bool_value( 'snapshots.remove_old_snapshots.remove', enabled )
+		self.set_bool_value( 'snapshots.remove_old_snapshots.enabled', enabled )
 		self.set_int_value( 'snapshots.remove_old_snapshots.value', value )
 		self.set_int_value( 'snapshots.remove_old_snapshots.unit', unit )
 

@@ -1043,9 +1043,18 @@ if __name__ == '__main__':
 		if arg == '--snapshots' or arg == '-s':
 			continue
 
+		if arg == '--gnome':
+			continue
+
+		if arg == '--kde':
+			continue
+
+		if arg == '--kde4':
+			continue
+
 		if arg[0] == '-':
-			print "Invalid option: %s" % arg
-			sys.exit(0)
+			print "Ignore option: %s" % arg
+			continue
 
 	raise_cmd = ''
 	if len( sys.argv ) > 1:

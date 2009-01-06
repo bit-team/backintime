@@ -29,7 +29,7 @@ for arg in $*; do
 	case $arg in
 		--gnome) GUI="gnome";;
 		--kde4)  GUI="kde4";;
-		--kde3)  GUI="kde3";;
+		--kde)  GUI="kde";;
 		--nogui) GUI="";;
 	esac
 done
@@ -50,9 +50,10 @@ fi
 
 #check if the selected gui exists
 if [ $GUI = "kde4" ]; then
+#try: kde4, kde, gnome
 	if [ ! -f ${BACKINTIME_PATH}kde4backintime.py ]; then
-		if [ -f ${BACKINTIME_PATH}kde3backintime.py ]; then
-			GUI="kde3"
+		if [ -f ${BACKINTIME_PATH}kdebackintime.py ]; then
+			GUI="kde"
 		elif [ -f ${BACKINTIME_PATH}gnomebackintime.py ]; then
 			GUI="gnome"
 		else
@@ -60,7 +61,8 @@ if [ $GUI = "kde4" ]; then
 		fi
 	fi
 elif [ $GUI = "kde3" ]; then
-	if [ ! -f ${BACKINTIME_PATH}kde3backintime.py ]; then
+#try: kde, kde4, gnome
+	if [ ! -f ${BACKINTIME_PATH}kdebackintime.py ]; then
 		if [ -f ${BACKINTIME_PATH}kde4backintime.py ]; then
 			GUI="kde4"
 		elif [ -f ${BACKINTIME_PATH}gnomebackintime.py ]; then
@@ -70,11 +72,12 @@ elif [ $GUI = "kde3" ]; then
 		fi
 	fi
 elif [ $GUI = "gnome" ]; then
+#try: gnome, kde4, kde
 	if [ ! -f ${BACKINTIME_PATH}gnomebackintime.py ]; then
 		if [ -f ${BACKINTIME_PATH}kde4backintime.py ]; then
 			GUI="kde4"
-		elif [ -f ${BACKINTIME_PATH}kde3backintime.py ]; then
-			GUI="kde3"
+		elif [ -f ${BACKINTIME_PATH}kdebackintime.py ]; then
+			GUI="kde"
 		else
 			GUI=""
 		fi
