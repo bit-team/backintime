@@ -2,31 +2,25 @@
 
 BASEPATH=$1
 
-#install python & glade file(s)
+#install python
 install -d $BASEPATH/usr/share/backintime
-install --mode=644 *.py $BASEPATH/usr/share/backintime
-install --mode=644 *.glade $BASEPATH/usr/share/backintime
+install --mode=644 applicationinstance.py $BASEPATH/usr/share/backintime
+install --mode=644 backintime.py $BASEPATH/usr/share/backintime
+install --mode=644 config.py $BASEPATH/usr/share/backintime
+install --mode=644 configfile.py $BASEPATH/usr/share/backintime
+install --mode=644 guiapplicationinstance.py $BASEPATH/usr/share/backintime
+install --mode=644 logger.py $BASEPATH/usr/share/backintime
+install --mode=644 snapshots.py $BASEPATH/usr/share/backintime
+install --mode=644 tools.py $BASEPATH/usr/share/backintime
 
 #install doc file(s)
 install -d $BASEPATH/usr/share/doc/backintime
-install --mode=644 CHANGES $BASEPATH/usr/share/doc/backintime
-install --mode=644 README $BASEPATH/usr/share/doc/backintime
-install --mode=644 LICENSE $BASEPATH/usr/share/doc/backintime
-install --mode=644 TRANSLATIONS $BASEPATH/usr/share/doc/backintime
 install --mode=644 AUTHORS $BASEPATH/usr/share/doc/backintime
+install --mode=644 CHANGES $BASEPATH/usr/share/doc/backintime
+install --mode=644 LICENSE $BASEPATH/usr/share/doc/backintime
+install --mode=644 README $BASEPATH/usr/share/doc/backintime
+install --mode=644 TRANSLATIONS $BASEPATH/usr/share/doc/backintime
 install --mode=644 VERSION $BASEPATH/usr/share/doc/backintime
-
-#install .desktop file(s)
-install -d $BASEPATH/usr/share/applications
-install --mode=644 *.desktop $BASEPATH/usr/share/applications
-
-#install gnome-help file(s)
-install -d $BASEPATH/usr/share/gnome/help/backintime/C/figures
-install --mode=644 docbook/C/*.xml $BASEPATH/usr/share/gnome/help/backintime/C
-install --mode=644 docbook/C/figures/*.png $BASEPATH/usr/share/gnome/help/backintime/C/figures
-
-install -d $BASEPATH/usr/share/omf/backintime
-install --mode=644 docbook/C/*.omf $BASEPATH/usr/share/omf/backintime
 
 #install man file(s)
 install -d $BASEPATH/usr/share/man/man1
@@ -48,15 +42,6 @@ for langfile in `ls po/*.po`; do
 
 	install -d $BASEPATH/usr/share/locale/$lang/LC_MESSAGES
 	install --mode=644 locale/$lang/LC_MESSAGES/*.mo $BASEPATH/usr/share/locale/$lang/LC_MESSAGES
-
-	if [ -e docbook/$lang ]; then
-		install -d $BASEPATH/usr/share/gnome/help/backintime/$lang/figures
-		install --mode=644 docbook/$lang/*.xml $BASEPATH/usr/share/gnome/help/backintime/$lang
-		install --mode=644 docbook/$lang/figures/*.png $BASEPATH/usr/share/gnome/help/backintime/$lang/figures
-
-		install -d $BASEPATH/usr/share/omf/backintime
-		install --mode=644 docbook/C/*.omf $BASEPATH/usr/share/omf/backintime
-	fi
 
 	if [ -e man/$lang ]; then
 		install -d $BASEPATH/usr/share/man/$lang/man1
