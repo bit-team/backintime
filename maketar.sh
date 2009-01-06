@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PKGNAME=`cat control | grep "Package:" | cut -d" " -f2`
-PKGVER=`cat control | grep "Version:" | cut -d" " -f2`
+PKGNAME=backintime
+PKGVER=`cat VERSION`
 
 echo $PKGNAME $PKGVER
 

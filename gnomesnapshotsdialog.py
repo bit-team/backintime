@@ -94,7 +94,7 @@ class SnapshotsDialog:
 		self.combo_diff_with = self.glade.get_widget( 'combo_diff_with' )
 		text_renderer = gtk.CellRendererText()
 		self.combo_diff_with.pack_start( text_renderer, True )
-		self.combo_diff_with.add_attribute( text_renderer, 'text', 0 )
+		self.combo_diff_with.add_attribute( text_renderer, 'markup', 0 )
 		self.combo_diff_with.set_model( self.store_snapshots ) #use the same store
 
 	def update_toolbar( self ):
