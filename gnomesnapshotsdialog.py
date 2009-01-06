@@ -269,7 +269,7 @@ class SnapshotsDialog:
 		diff_cmd_params = self.edit_diff_cmd_params.get_text()
 
 		if not self.check_cmd( diff_cmd ):
-			gnomemessagebox.show_error( self.dialog, self.config, _("Command not found: %s") % diffCmd )
+			gnomemessagebox.show_error( self.dialog, self.config, _("Command not found: %s") % diff_cmd )
 			return
 
 		params = diff_cmd_params
@@ -283,8 +283,8 @@ class SnapshotsDialog:
 		old_diff_cmd = self.config.get_str_value( 'gnome.diff.cmd', 'meld' )
 		old_diff_cmd_params = self.config.get_str_value( 'gnome.diff.params', '%1 %2' )
 		if diff_cmd != old_diff_cmd or diff_cmd_params != old_diff_cmd_params:
-			self.config.get_str_value( 'gnome.diff.cmd', diff_cmd )
-			self.config.get_str_value( 'gnome.diff.params', diff_cmd_params )
+			self.config.set_str_value( 'gnome.diff.cmd', diff_cmd )
+			self.config.set_str_value( 'gnome.diff.params', diff_cmd_params )
 			self.config.save()
 
 	def update_snapshots( self, current_snapshot_id, snapshots_list ):
