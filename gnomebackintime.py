@@ -616,8 +616,8 @@ class MainWindow:
 		iter = self.list_folder_view.get_selection().get_selected()[1]
 		if not iter is None:
 			path = self.store_folder_view.get_value( iter, 1 )
-			path = self.snapshots.get_snapshot_path_to( path )
-			path = gnomevfs.escape_path_string(path)
+			path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
+			path = gnomevfs.escape_path_string( path )
 			selection_data.set_uris( [ 'file://' + path ] )
 
 	def on_list_folder_view_button_press_event( self, list, event ):

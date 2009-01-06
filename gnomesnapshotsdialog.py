@@ -43,8 +43,6 @@ class SnapshotsDialog:
 		self.glade = glade
 
 		self.path = None
-		self.snapshots_list = None
-		self.current_snapshot_id = None
 		self.icon_name = None
 
 		self.dialog = self.glade.get_widget( 'SnapshotsDialog' )
@@ -122,7 +120,7 @@ class SnapshotsDialog:
 	def restore_( self ):
 		iter = self.list_snapshots.get_selection().get_selected()[1]
 		if not iter is None:
-			self.backup.restore( self.store_snapshots.get_value( iter, 1 ), self.path )
+			self.snapshots.restore( self.store_snapshots.get_value( iter, 1 ), self.path )
 
 		self.glade.get_widget( 'btn_restore_snapshot' ).set_sensitive( True )
 		return False
@@ -130,7 +128,7 @@ class SnapshotsDialog:
 	def on_btn_copy_snapshot_clicked( self, button ):
 		iter = self.list_snapshots.get_selection().get_selected()[1]
 		if not iter is None:
-			path = self.store_snapshots.get_value( iter, 2 )
+			path = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
 			gnomeclipboardtools.clipboard_copy_path( path )
  
 	def on_list_snapshots_drag_data_get( self, widget, drag_context, selection_data, info, timestamp, user_param1 = None ):
@@ -156,8 +154,8 @@ class SnapshotsDialog:
 		path = path[0]
 	
 		self.list_snapshots.get_selection().select_path( path )
-		self.updateToolbar()
-		self.showPopupMenu( self.list_snapshots, event.button, event.time )
+		self.update_toolbar()
+		self.show_popup_menu( self.list_snapshots, event.button, event.time )
 
 	def on_list_snapshots_popup_menu( self, list ):
 		self.showPopupMenu( list, 1, gtk.get_current_event_time() )
@@ -289,13 +287,13 @@ class SnapshotsDialog:
 			self.config.get_str_value( 'gnome.diff.params', diff_cmd_params )
 			self.config.save()
 
-	def update_snapshots( self ):
+	def update_snapshots( self, current_snapshot_id, snapshots_list ):
 		self.edit_path.set_text( self.path )
 
 		#fill snapshots
 		self.store_snapshots.clear()
 	
-		path = self.snapshots.get_snapshot_path_to( self.current_snapshot_id, self.path )	
+		path = self.snapshots.get_snapshot_path_to( current_snapshot_id, self.path )	
 		isdir = os.path.isdir( path )
 
 		counter = 0
@@ -306,17 +304,17 @@ class SnapshotsDialog:
 		if os.path.exists( path ):
 			if os.path.isdir( path ) == isdir:
 				self.store_snapshots.append( [ self.snapshots.get_snapshot_display_name_gtk( '/' ), '/' ] )
-				if '/' == self.current_snapshot_id:
+				if '/' == current_snapshot_id:
 					indexComboDiffWith = counter
 				counter += 1
 				
 		#add snapshots
-		for snapshot in self.snapshots_list:
+		for snapshot in snapshots_list:
 			path = self.snapshots.get_snapshot_path_to( snapshot, self.path )
 			if os.path.exists( path ):
 				if os.path.isdir( path ) == isdir:
 					self.store_snapshots.append( [ self.snapshots.get_snapshot_display_name_gtk( snapshot ), snapshot ] )
-					if snapshot == self.current_snapshot_id:
+					if snapshot == current_snapshot_id:
 						index_combo_diff_with = counter
 					counter += 1
 
@@ -343,16 +341,14 @@ class SnapshotsDialog:
 		iter = self.list_snapshots.get_selection().get_selected()[1]
 		if iter is None:
 			return
-		path = self.store_snapshots.get_value( iter, 2 )
+		path = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
 		cmd = "gnome-open \"%s\" &" % path
 		os.system( cmd )
 
 	def run( self, path, snapshots_list, current_snapshot_id, icon_name ):
 		self.path = path
-		self.snapshots_list = snapshots_list
-		self.current_snapshot_id = current_snapshot_id
 		self.icon_name = icon_name
-		self.update_snapshots()
+		self.update_snapshots( current_snapshot_id, snapshots_list )
 
 		snapshot_id = None
 		while True:
