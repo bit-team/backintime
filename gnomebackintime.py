@@ -227,8 +227,8 @@ class MainWindow:
 		if main_window_width > 0 and main_window_height > 0:
 			self.window.resize( main_window_width, main_window_height )
 
-		main_window_hpaned1 = self.config.get_int_value( 'gnome.main_window.hpand1', -1 )
-		main_window_hpaned2 = self.config.get_int_value( 'gnome.main_window.hpand2', -1 )
+		main_window_hpaned1 = self.config.get_int_value( 'gnome.main_window.hpaned1', -1 )
+		main_window_hpaned2 = self.config.get_int_value( 'gnome.main_window.hpaned2', -1 )
 		if main_window_hpaned1 > 0 and main_window_hpaned2 > 0:
 			self.glade.get_widget('hpaned1').set_position( main_window_hpaned1 )
 			self.glade.get_widget('hpaned2').set_position( main_window_hpaned2 )

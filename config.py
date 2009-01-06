@@ -105,8 +105,8 @@ class Config( configfile.ConfigFile ):
 				'MAIN_WINDOW_Y' : 'gnome.main_window.y',
 				'MAIN_WINDOW_WIDTH' : 'gnome.main_window.width',
 				'MAIN_WINDOW_HEIGHT' : 'gnome.main_window.height',
-				'MAIN_WINDOW_HPANED1_POSITION' : 'gnome.main_window.hpand1',
-				'MAIN_WINDOW_HPANED2_POSITION' : 'gnome.main_window.hpand2'
+				'MAIN_WINDOW_HPANED1_POSITION' : 'gnome.main_window.hpaned1',
+				'MAIN_WINDOW_HPANED2_POSITION' : 'gnome.main_window.hpaned2'
 			}
 
 			if self.get_if_dont_exists( dict, old_config ):
