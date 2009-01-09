@@ -13,6 +13,10 @@ install --mode=644 logger.py $BASEPATH/usr/share/backintime
 install --mode=644 snapshots.py $BASEPATH/usr/share/backintime
 install --mode=644 tools.py $BASEPATH/usr/share/backintime
 
+#install copyright file
+install -d $BASEPATH/usr/share/doc/backintime-common
+install --mode=644 debian/copyright $BASEPATH/usr/share/doc/backintime-common
+
 #install doc file(s)
 install -d $BASEPATH/usr/share/doc/backintime
 install --mode=644 AUTHORS $BASEPATH/usr/share/doc/backintime
@@ -21,7 +25,6 @@ install --mode=644 LICENSE $BASEPATH/usr/share/doc/backintime
 install --mode=644 README $BASEPATH/usr/share/doc/backintime
 install --mode=644 TRANSLATIONS $BASEPATH/usr/share/doc/backintime
 install --mode=644 VERSION $BASEPATH/usr/share/doc/backintime
-install --mode=644 debian/copyright $BASEPATH/usr/share/doc/backintime
 
 #install man file(s)
 install -d $BASEPATH/usr/share/man/man1

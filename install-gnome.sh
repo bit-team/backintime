@@ -2,7 +2,7 @@
 
 BASEPATH=$1
 
-#install doc file(s)
+#install copyright file
 install -d $BASEPATH/usr/share/doc/backintime-gnome
 install --mode=644 debian/copyright $BASEPATH/usr/share/doc/backintime-gnome
 
