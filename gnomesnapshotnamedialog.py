@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008 Oprea Dan
+#    Copyright (C) 2008,2009 Oprea Dan
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by

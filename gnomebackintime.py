@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008 Oprea Dan
+#    Copyright (C) 2008,2009 Oprea Dan
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ class AboutDialog:
 		self.dialog = self.glade.get_widget( 'AboutDialog' )
 		self.dialog.set_name( config.APP_NAME )
 		self.dialog.set_version( config.VERSION )
-		self.dialog.set_copyright( 'Copyright (C) 2008 Oprea Dan' )
+		self.dialog.set_copyright( 'Copyright (C) 2008,2009 Oprea Dan' )
 		self.dialog.set_website( 'http://www.le-web.org/back-in-time/' )
 		self.dialog.set_website_label( 'http://www.le-web.org/back-in-time/' )
 		self.dialog.set_license( config.get_license() )
