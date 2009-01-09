@@ -112,6 +112,7 @@ class MainWindow:
 				'on_btn_restore_clicked' : self.on_btn_restore_clicked,
 				'on_btn_copy_clicked' : self.on_btn_copy_clicked,
 				'on_btn_snapshots_clicked' : self.on_btn_snapshots_clicked,
+				'on_btn_hidden_files_toggled' : self.on_btn_hidden_files_toggled,
 				'on_list_places_cursor_changed' : self.on_list_places_cursor_changed,
 				'on_list_time_line_cursor_changed' : self.on_list_time_line_cursor_changed,
 				'on_btn_folder_up_clicked' : self.on_btn_fodler_up_clicked,
@@ -135,6 +136,11 @@ class MainWindow:
 		#status bar
 		self.status_bar = self.glade.get_widget( 'status_bar' )
 		self.status_bar.push( 0, _('Done') )
+
+		#show hidden files
+		self.show_hidden_files = self.config.get_bool_value( 'gnome.show_hidden_files', False )
+		self.btn_hidden_files = self.glade.get_widget( 'btn_hidden_files' )
+		self.btn_hidden_files.set_active( self.show_hidden_files )
 
 		#setup places view
 		self.list_places = self.glade.get_widget( 'list_places' )
@@ -595,6 +601,7 @@ class MainWindow:
 		self.config.set_int_value( 'gnome.main_window.hpaned1', main_window_hpaned1 )
 		self.config.set_int_value( 'gnome.main_window.hpaned2', main_window_hpaned2 )
 		self.config.set_str_value( 'gnome.last_path', self.folder_path )
+		self.config.set_bool_value( 'gnome.show_hidden_files', self.show_hidden_files )
 
 		self.config.save()
 		self.window.destroy()
@@ -736,6 +743,10 @@ class MainWindow:
 		path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
 
 		gnomeclipboardtools.clipboard_copy_path( path )
+
+	def on_btn_hidden_files_toggled( self, button ):
+		self.show_hidden_files = button.get_active()
+		self.update_folder_view( 0 )
 
 	def on_btn_snapshots_clicked( self, button ):
 		iter = self.list_folder_view.get_selection().get_selected()[1]
@@ -879,10 +890,12 @@ class MainWindow:
 		for file in all_files:
 			if len( file ) == 0:
 				continue
-			if file[ 0 ] == '.':
-				continue
-			if file[ -1 ] == '~':
-				continue
+
+			if not self.show_hidden_files:
+				if file[ 0 ] == '.':
+					continue
+				if file[ -1 ] == '~':
+					continue
 
 			path = os.path.join( full_path, file )
 
