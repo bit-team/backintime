@@ -2,6 +2,10 @@
 
 BASEPATH=$1
 
+#install doc file(s)
+install -d $BASEPATH/usr/share/doc/backintime-gnome
+install --mode=644 debian/copyright $BASEPATH/usr/share/doc/backintime-gnome
+
 #install python & glade file(s)
 install -d $BASEPATH/usr/share/backintime
 install --mode=644 gnome*.py $BASEPATH/usr/share/backintime
