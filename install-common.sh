@@ -20,11 +20,11 @@ install --mode=644 debian/copyright $BASEPATH/usr/share/doc/backintime-common
 #install doc file(s)
 install -d $BASEPATH/usr/share/doc/backintime
 install --mode=644 AUTHORS $BASEPATH/usr/share/doc/backintime
-install --mode=644 CHANGES $BASEPATH/usr/share/doc/backintime
 install --mode=644 LICENSE $BASEPATH/usr/share/doc/backintime
 install --mode=644 README $BASEPATH/usr/share/doc/backintime
 install --mode=644 TRANSLATIONS $BASEPATH/usr/share/doc/backintime
 install --mode=644 VERSION $BASEPATH/usr/share/doc/backintime
+install --mode=644 CHANGES $BASEPATH/usr/share/doc/backintime
 
 #install man file(s)
 install -d $BASEPATH/usr/share/man/man1

@@ -2,6 +2,10 @@
 
 BASEPATH=$1
 
+#install application
+install -d $BASEPATH/usr/bin
+install backintime-gnome $BASEPATH/usr/bin
+
 #install copyright file
 install -d $BASEPATH/usr/share/doc/backintime-gnome
 install --mode=644 debian/copyright $BASEPATH/usr/share/doc/backintime-gnome

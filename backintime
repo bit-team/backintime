@@ -18,9 +18,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 if [ -f backintime.py ]; then
-	BACKINTIME_PATH=""
+	BACKINTIME_PATH="./"
 else
-	BACKINTIME_PATH="/usr/share/backintime/"
+	BACKINTIME_PATH="/usr/bin/"
 fi
 
 GUI="auto"
@@ -47,44 +47,38 @@ if [ $GUI = "auto" ]; then
 	echo "Autodetect GUI mode: $GUI"
 fi
 
+CMD="python ${BACKINTIME_PATH}$backintime.py"
 
 #check if the selected gui exists
 if [ $GUI = "kde4" ]; then
 #try: kde4, kde, gnome
-	if [ ! -f ${BACKINTIME_PATH}kde4backintime.py ]; then
-		if [ -f ${BACKINTIME_PATH}kdebackintime.py ]; then
-			GUI="kde"
-		elif [ -f ${BACKINTIME_PATH}gnomebackintime.py ]; then
-			GUI="gnome"
-		else
-			GUI=""
-		fi
+	if [ -f ${BACKINTIME_PATH}backintime-kde4 ]; then
+		CMD="${BACKINTIME_PATH}backintime-kde4"
+	elif [ -f ${BACKINTIME_PATH}backintime-kde ]; then
+		CMD="${BACKINTIME_PATH}backintime-kde"
+	elif [ -f ${BACKINTIME_PATH}backintime-gnome ]; then
+		CMD="${BACKINTIME_PATH}backintime-gnome"
 	fi
-elif [ $GUI = "kde3" ]; then
+elif [ $GUI = "kde" ]; then
 #try: kde, kde4, gnome
-	if [ ! -f ${BACKINTIME_PATH}kdebackintime.py ]; then
-		if [ -f ${BACKINTIME_PATH}kde4backintime.py ]; then
-			GUI="kde4"
-		elif [ -f ${BACKINTIME_PATH}gnomebackintime.py ]; then
-			GUI="gnome"
-		else
-			GUI=""
-		fi
+	if [ -f ${BACKINTIME_PATH}backintime-kde ]; then
+		CMD="${BACKINTIME_PATH}backintime-kde"
+	elif [ -f ${BACKINTIME_PATH}backintime-kde4 ]; then
+		CMD="${BACKINTIME_PATH}backintime-kde4"
+	elif [ -f ${BACKINTIME_PATH}backintime-gnome ]; then
+		CMD="${BACKINTIME_PATH}backintime-gnome"
 	fi
 elif [ $GUI = "gnome" ]; then
 #try: gnome, kde4, kde
-	if [ ! -f ${BACKINTIME_PATH}gnomebackintime.py ]; then
-		if [ -f ${BACKINTIME_PATH}kde4backintime.py ]; then
-			GUI="kde4"
-		elif [ -f ${BACKINTIME_PATH}kdebackintime.py ]; then
-			GUI="kde"
-		else
-			GUI=""
-		fi
+	if [ -f ${BACKINTIME_PATH}backintime-gnome ]; then
+		CMD="${BACKINTIME_PATH}backintime-gnome"
+	elif [ -f ${BACKINTIME_PATH}backintime-kde4 ]; then
+		CMD="${BACKINTIME_PATH}backintime-kde4"
+	elif [ -f ${BACKINTIME_PATH}backintime-kde ]; then
+		CMD="${BACKINTIME_PATH}backintime-kde"
 	fi
 fi
 
-echo "GUI mode: $GUI"
-
-python ${BACKINTIME_PATH}${GUI}backintime.py $*
+echo "CMD: $CMD"
+$CMD $*
 
