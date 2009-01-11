@@ -214,7 +214,6 @@ class Snapshots:
 		#create exclude patterns string
 		rsync_exclude = ''
 		for exclude in self.config.get_exclude_patterns().split( ':' ):
-			exclude = exclude.replace( "/", "\/" )
 			rsync_exclude += " --exclude=\"%s\"" % exclude
 
 		#check previous backup
