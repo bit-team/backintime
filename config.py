@@ -149,6 +149,10 @@ class Config( configfile.ConfigFile ):
 						print "SnapshotsPath: " + snapshots_path 
 						return ( 1, _('"Backup directories" can\'t include snapshots directory !') )
 
+		for exclude in exclude_list:
+			if exclude.find( ':' ) >= 0:
+				return ( 2, _('"Exclude pattern" can\'t contains ":" char !') )
+
 		return None
 
 	def get_snapshots_path( self ):
