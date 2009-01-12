@@ -71,13 +71,6 @@ class Snapshots:
 			display_name = display_name + ' - ' + name
 		return display_name
 
-	def get_snapshot_display_name_gtk( self, snapshot_id ):
-		display_name = self.get_snapshot_display_id( snapshot_id )
-		name = self.get_snapshot_name( snapshot_id )
-		if len( name ) > 0:
-			display_name = display_name + ' - <b>' + name + '</b>'
-		return display_name
-
 	def get_snapshot_name( self, snapshot_id ):
 		if len( snapshot_id ) <= 1: #not a snapshot
 			return ''
@@ -205,7 +198,7 @@ class Snapshots:
 		snapshot_path_to = self.get_snapshot_path_to( snapshot_id )
 
 		#check only existing paths
-		all_include_folders = self.config.get_include_folders().split( ':' )
+		all_include_folders = self.config.get_include_folders()
 		include_folders = []
 		for folder in all_include_folders:
 			if os.path.isdir( folder ):
@@ -213,7 +206,7 @@ class Snapshots:
 
 		#create exclude patterns string
 		rsync_exclude = ''
-		for exclude in self.config.get_exclude_patterns().split( ':' ):
+		for exclude in self.config.get_exclude_patterns():
 			rsync_exclude += " --exclude=\"%s\"" % exclude
 
 		#check previous backup
