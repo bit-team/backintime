@@ -36,6 +36,7 @@ import datetime
 import gettext
 import time
 
+import backintime
 import config
 import logger
 import snapshots
@@ -1029,9 +1030,7 @@ def take_snapshot( cfg ):
 
 if __name__ == '__main__':
 	cfg = config.Config()
-
-	print 'Back In Time'
-	print 'Version: ' + cfg.VERSION
+	backintime.print_version( cfg )
 
 	for arg in sys.argv[ 1 : ]:
 		if arg == '--backup' or arg == '-b':
@@ -1042,30 +1041,10 @@ if __name__ == '__main__':
 			sys.exit(0)
 
 		if arg == '--help' or arg == '-h':
-			print 'Back In Time'
-			print 'Format: '
-			print 'backintime [[-s|--snapshots] path]'
-			print '\tStarts GUI mode'
-			print '\t\t-s, --snapshots: go directly to snapshots dialog for the specified path'
-			print '\t\tpath: go directly to the specified path'
-			print 'backintime -b|--backup'
-			print '\tTake a snapshot and exit'
-			print 'backintime -v|--version'
-			print '\tShow version and exit'
-			print 'backintime -h|--help'
-			print '\tShow this help and exit'
+			backintime.print_help( cfg )
 			sys.exit(0)
 
 		if arg == '--snapshots' or arg == '-s':
-			continue
-
-		if arg == '--gnome':
-			continue
-
-		if arg == '--kde':
-			continue
-
-		if arg == '--kde4':
 			continue
 
 		if arg[0] == '-':
