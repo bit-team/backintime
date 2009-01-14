@@ -153,11 +153,13 @@ class Snapshots:
 	def take_snapshot( self ):
 		if not self.config.can_backup():
 			logger.warning( 'Not configured or backup path don\'t exists' )
+			os.system( 'sleep 2' ) #max 1 backup / second
 			return False
 
 		instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
 		if not instance.check():
 			logger.warning( 'A backup is already running' )
+			os.system( 'sleep 2' ) #max 1 backup / second
 			return False
 
 		instance.start_application()
