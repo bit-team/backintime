@@ -3,8 +3,8 @@
 <!ENTITY legal SYSTEM "legal.xml">
 <!ENTITY appname "Back In Time">
 <!ENTITY app "<application>&appname;</application>">
-<!ENTITY appversion "0.9.1beta">
-<!ENTITY manrevision "0.9.1beta">
+<!ENTITY appversion "0.9.1beta1">
+<!ENTITY manrevision "0.9.1beta1">
 <!ENTITY date "November 2008">
 ]>
 <!--
@@ -154,8 +154,11 @@
     		<listitem>
     		<para>To start &app; from a command line, type the following command, then 
 			press <keycap>Return</keycap>:</para>
-    		<para><command>backintime [ [--snapshots] path | --backup | --version | --help ]</command></para> 
+    		<para><command>backintime [--gnome] [ [--snapshots] path | --backup | --version | --help ]</command></para> 
 			<itemizedlist>
+				<listitem>
+    				<para>--gnome - use GNOME GUI</para>
+				</listitem>
 				<listitem>
     				<para>path - go directly to the specified file or directory. 
 					If the application is already running if pass the path to the running instance.
@@ -231,6 +234,7 @@
 	<term>Files toolbar</term>
 	<listitem><para>Go to parent directory</para></listitem>
 	<listitem><para>Current path</para></listitem>
+	<listitem><para>Show/Hide hidden (.*) and backup (*.~) files</para></listitem>
 	<listitem><para>Restore current file/directory</para></listitem>
 	<listitem><para>Copy current file/directory</para></listitem>
 	<listitem><para>Snapshots: show all snapshots for current the file/directory</para></listitem>

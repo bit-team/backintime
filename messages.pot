@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-06 15:07+0100\n"
+"POT-Creation-Date: 2009-01-12 16:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,141 +56,145 @@ msgstr ""
 msgid "Year(s)"
 msgstr ""
 
-#: gnomebackintime.py:137 gnomebackintime.py:459
+#: config.py:123
+msgid "Snapshots directory is not valid !"
+msgstr ""
+
+#: config.py:126
+msgid "Snapshots directory can't be the root directory !"
+msgstr ""
+
+#: config.py:129
+msgid "You must select at least one directory to backup !"
+msgstr ""
+
+#: config.py:137 config.py:143
+msgid "Snapshots directory can't be in \"Backup Directories\" !"
+msgstr ""
+
+#: config.py:150
+msgid "\"Backup directories\" can't include snapshots directory !"
+msgstr ""
+
+#: config.py:154
+msgid "\"Exclude pattern\" can't contains \":\" char !"
+msgstr ""
+
+#: gnomebackintime.py:139 gnomebackintime.py:466
 msgid "Done"
 msgstr ""
 
-#: gnomebackintime.py:145
+#: gnomebackintime.py:152
 msgid "Places"
 msgstr ""
 
-#: gnomebackintime.py:166
+#: gnomebackintime.py:173
 msgid "Name"
 msgstr ""
 
-#: gnomebackintime.py:177
+#: gnomebackintime.py:184
 msgid "Size"
 msgstr ""
 
-#: gnomebackintime.py:184
+#: gnomebackintime.py:191
 msgid "Date"
 msgstr ""
 
-#: gnomebackintime.py:203
+#: gnomebackintime.py:210
 msgid "Timeline"
 msgstr ""
 
-#: gnomebackintime.py:238
+#: gnomebackintime.py:245
 msgid "Open"
 msgstr ""
 
-#: gnomebackintime.py:239 gnomebackintime.glade:246 gnomebackintime.glade:247
-#: gnomebackintime.glade:818 gnomebackintime.glade:819
+#: gnomebackintime.py:246 gnomebackintime.glade:258 gnomebackintime.glade:259
+#: gnomebackintime.glade:830 gnomebackintime.glade:831
 msgid "Copy"
 msgstr ""
 
-#: gnomebackintime.py:240 gnomesnapshotsdialog.py:81 gnomebackintime.glade:258
-#: gnomebackintime.glade:259 gnomebackintime.glade:784
+#: gnomebackintime.py:247 gnomesnapshotsdialog.py:82 gnomebackintime.glade:270
+#: gnomebackintime.glade:271 gnomebackintime.glade:796
 msgid "Snapshots"
 msgstr ""
 
-#: gnomebackintime.py:241
+#: gnomebackintime.py:248
 msgid "Diff"
 msgstr ""
 
-#: gnomebackintime.py:242 gnomebackintime.glade:234 gnomebackintime.glade:235
-#: gnomebackintime.glade:830 gnomebackintime.glade:831
+#: gnomebackintime.py:249 gnomebackintime.glade:246 gnomebackintime.glade:247
+#: gnomebackintime.glade:842 gnomebackintime.glade:843
 msgid "Restore"
 msgstr ""
 
-#: gnomebackintime.py:447
+#: gnomebackintime.py:454
 msgid "Working ..."
 msgstr ""
 
-#: gnomebackintime.py:461
+#: gnomebackintime.py:468
 msgid "Done, no backup needed"
 msgstr ""
 
-#: gnomebackintime.py:469
+#: gnomebackintime.py:476
 msgid "Global"
 msgstr ""
 
-#: gnomebackintime.py:470
+#: gnomebackintime.py:477
 msgid "Root"
 msgstr ""
 
-#: gnomebackintime.py:471
+#: gnomebackintime.py:478
 msgid "Home"
 msgstr ""
 
-#: gnomebackintime.py:495
+#: gnomebackintime.py:502
 msgid "Bookmarks"
 msgstr ""
 
-#: gnomebackintime.py:504 gnomesettingsdialog.py:65
+#: gnomebackintime.py:510 gnomesettingsdialog.py:65
 msgid "Backup Directories"
 msgstr ""
 
-#: gnomebackintime.py:524
+#: gnomebackintime.py:530
 msgid "Today"
 msgstr ""
 
-#: gnomebackintime.py:528
+#: gnomebackintime.py:534
 msgid "Yesterday"
 msgstr ""
 
-#: gnomebackintime.py:532
+#: gnomebackintime.py:538
 msgid "This week"
 msgstr ""
 
-#: gnomebackintime.py:536
+#: gnomebackintime.py:542
 msgid "Last week"
 msgstr ""
 
-#: gnomebackintime.py:825
+#: gnomebackintime.py:839
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
 
-#: gnomebackintime.py:999
+#: gnomebackintime.py:1015
 msgid "Back In Time: take snapshot ..."
 msgstr ""
 
-#: gnomesettingsdialog.py:90
+#: gnomesettingsdialog.py:89
 msgid "Exclude Patterns"
 msgstr ""
 
-#: gnomesettingsdialog.py:265
-msgid "Snapshots directory can't be empty !"
-msgstr ""
-
-#: gnomesettingsdialog.py:269
-msgid "Snapshots directory can't be the root directory !"
-msgstr ""
-
-#: gnomesettingsdialog.py:276
+#: gnomesettingsdialog.py:285
 msgid "Are you sure you want to change snapshots directory ?"
 msgstr ""
 
-#: gnomesettingsdialog.py:282
-msgid "You must select at least one directory to backup !"
-msgstr ""
-
-#: gnomesettingsdialog.py:292 gnomesettingsdialog.py:299
-msgid "Snapshots directory can't be in \"Backup Directories\" !"
-msgstr ""
-
-#: gnomesettingsdialog.py:307
-msgid "\"Backup directories\" can't include snapshots directory !"
-msgstr ""
-
-#: gnomesnapshotsdialog.py:265
+#: gnomesnapshotsdialog.py:266
 msgid "You can't compare a snapshot to itself"
 msgstr ""
 
-#: gnomesnapshotsdialog.py:272
+#: gnomesnapshotsdialog.py:273
 #, python-format
 msgid "Command not found: %s"
 msgstr ""
@@ -199,103 +203,107 @@ msgstr ""
 msgid "Now"
 msgstr ""
 
-#: gnomebackintime.glade:6
+#: gnomebackintime.glade:6 gnomebackintime.glade:230
+msgid "Show hidden & backup files"
+msgstr ""
+
+#: gnomebackintime.glade:7
 msgid "Back In Time"
 msgstr ""
 
-#: gnomebackintime.glade:29
+#: gnomebackintime.glade:30
 msgid "Take snapshot"
 msgstr ""
 
-#: gnomebackintime.glade:30
+#: gnomebackintime.glade:31
 msgid "Backup Now"
 msgstr ""
 
-#: gnomebackintime.glade:41 gnomebackintime.glade:42
-#: gnomebackintime.glade:1045
+#: gnomebackintime.glade:42 gnomebackintime.glade:43
+#: gnomebackintime.glade:1057
 msgid "Snapshot Name"
 msgstr ""
 
-#: gnomebackintime.glade:53 gnomebackintime.glade:54
+#: gnomebackintime.glade:54 gnomebackintime.glade:55
 msgid "Remove Snapshot"
 msgstr ""
 
-#: gnomebackintime.glade:70 gnomebackintime.glade:71 gnomebackintime.glade:350
+#: gnomebackintime.glade:71 gnomebackintime.glade:72 gnomebackintime.glade:362
 msgid "Settings"
 msgstr ""
 
-#: gnomebackintime.glade:90 gnomebackintime.glade:91
+#: gnomebackintime.glade:91 gnomebackintime.glade:92
 msgid "About"
 msgstr ""
 
-#: gnomebackintime.glade:102 gnomebackintime.glade:103
+#: gnomebackintime.glade:103 gnomebackintime.glade:104
 msgid "Help"
 msgstr ""
 
-#: gnomebackintime.glade:119 gnomebackintime.glade:120
+#: gnomebackintime.glade:120 gnomebackintime.glade:121
 msgid "Exit"
 msgstr ""
 
-#: gnomebackintime.glade:205
+#: gnomebackintime.glade:206
 msgid "Parent Directory"
 msgstr ""
 
-#: gnomebackintime.glade:206
+#: gnomebackintime.glade:207
 msgid "Up"
 msgstr ""
 
-#: gnomebackintime.glade:381
+#: gnomebackintime.glade:393
 msgid "Select A Folder"
 msgstr ""
 
-#: gnomebackintime.glade:389
+#: gnomebackintime.glade:401
 msgid "<b>Where to save snapshots:</b>"
 msgstr ""
 
-#: gnomebackintime.glade:556
+#: gnomebackintime.glade:568
 msgid "<b>What to save</b>"
 msgstr ""
 
-#: gnomebackintime.glade:584
+#: gnomebackintime.glade:596
 msgid "Automatic snapshots: "
 msgstr ""
 
-#: gnomebackintime.glade:606
+#: gnomebackintime.glade:618
 msgid "<b>When</b>"
 msgstr ""
 
-#: gnomebackintime.glade:643
-msgid "Don't remove named snapshots"
-msgstr ""
-
-#: gnomebackintime.glade:703
-msgid "Older then:"
-msgstr ""
-
-#: gnomebackintime.glade:713
+#: gnomebackintime.glade:655
 msgid "If free space is less then:"
 msgstr ""
 
-#: gnomebackintime.glade:730
+#: gnomebackintime.glade:669
+msgid "Older then:"
+msgstr ""
+
+#: gnomebackintime.glade:725
+msgid "Don't remove named snapshots"
+msgstr ""
+
+#: gnomebackintime.glade:742
 msgid "<b>Remove Snapshots</b>"
 msgstr ""
 
-#: gnomebackintime.glade:889
+#: gnomebackintime.glade:901
 msgid "Diff with"
 msgstr ""
 
-#: gnomebackintime.glade:930
-msgid "Command:"
-msgstr ""
-
-#: gnomebackintime.glade:937
-msgid "Parameters:"
-msgstr ""
-
-#: gnomebackintime.glade:948
+#: gnomebackintime.glade:964
 msgid "Use %1 and %2 for path parameters"
 msgstr ""
 
-#: gnomebackintime.glade:987
+#: gnomebackintime.glade:978
+msgid "Parameters:"
+msgstr ""
+
+#: gnomebackintime.glade:989
+msgid "Command:"
+msgstr ""
+
+#: gnomebackintime.glade:999
 msgid "Diff Options"
 msgstr ""

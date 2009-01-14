@@ -1,10 +1,14 @@
 Back In Time
 
 Version 0.9.2
+* bug fix: if you add "/a" in include directories and "/a/b" in exclude patterns, "/a/b*" items
+  are not excluded
+* replace diff with rsync to check if a new snapshot is needed
+* code cleanup
 * add show hidden & backup files toggle button for files view
 * bug fix: it does not include ".*" items even if they are not excluded
   (the items was included but not showed because hidden & backup files was never displayed
-  in previous versions)
+  in files view in previous versions)
 
 Version 0.9
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)

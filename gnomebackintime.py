@@ -36,6 +36,7 @@ import datetime
 import gettext
 import time
 
+import backintime
 import config
 import logger
 import snapshots
@@ -47,6 +48,7 @@ import gnomesnapshotnamedialog
 import gnomemessagebox
 import gnomefileicons
 import gnomeclipboardtools
+import gnomesnapshotstools
 
 
 _=gettext.gettext
@@ -505,10 +507,9 @@ class MainWindow:
 		#add backup folders
 		include_folders = self.config.get_include_folders()
 		if len( include_folders ) > 0:
-			folders = include_folders.split( ':' )
-			if len( folders ) > 0:
+			if len( include_folders ) > 0:
 				self.store_places.append( [ "<b>%s</b>" % _('Backup Directories'), '', '' ] )
-				for folder in folders:
+				for folder in include_folders:
 					self.store_places.append( [ folder, folder, gtk.STOCK_SAVE ] )
 
 	def fill_time_line( self, update_folder_view = True ):
@@ -518,7 +519,7 @@ class MainWindow:
 			current_selection = self.store_time_line.get_value( iter, 1 )
 
 		self.store_time_line.clear()
-		self.store_time_line.append( [ self.snapshots.get_snapshot_display_name_gtk( '/' ), '/' ] )
+		self.store_time_line.append( [ gnomesnapshotstools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
 
 		self.snapshots_list = self.snapshots.get_snapshots_list() 
 
@@ -569,7 +570,7 @@ class MainWindow:
 			if len( group[2] ) > 0:
 				self.store_time_line.append( [ "<b>%s</b>" % group[0], '' ] );
 				for snapshot_id in group[2]:
-					self.store_time_line.append( [ self.snapshots.get_snapshot_display_name_gtk( snapshot_id ), snapshot_id ] )
+					self.store_time_line.append( [ gnomesnapshotstools.get_snapshot_display_markup( self.snapshots, snapshot_id ), snapshot_id ] )
 
 		#select previous item
 		iter = self.store_time_line.get_iter_first()
@@ -745,6 +746,9 @@ class MainWindow:
 		gnomeclipboardtools.clipboard_copy_path( path )
 
 	def on_btn_hidden_files_toggled( self, button ):
+		if self.folder_path is None:
+			return
+
 		self.show_hidden_files = button.get_active()
 		self.update_folder_view( 0 )
 
@@ -822,7 +826,7 @@ class MainWindow:
 			self.snapshot_name_dialog = gnomesnapshotnamedialog.SnapshotNameDialog( self.snapshots, self.glade )
 
 		if self.snapshot_name_dialog.run( snapshot_id ):
-			self.store_time_line.set_value( iter, 0, self.snapshots.get_snapshot_display_name_gtk( snapshot_id ) )
+			self.store_time_line.set_value( iter, 0, gnomesnapshotstools.get_snapshot_display_markup( self.snapshots, snapshot_id ) )
 
 	def on_btn_remove_snapshot_clicked( self, button ):
 		iter = self.list_time_line.get_selection().get_selected()[1]
@@ -1026,9 +1030,7 @@ def take_snapshot( cfg ):
 
 if __name__ == '__main__':
 	cfg = config.Config()
-
-	print 'Back In Time'
-	print 'Version: ' + cfg.VERSION
+	backintime.print_version( cfg )
 
 	for arg in sys.argv[ 1 : ]:
 		if arg == '--backup' or arg == '-b':
@@ -1039,30 +1041,10 @@ if __name__ == '__main__':
 			sys.exit(0)
 
 		if arg == '--help' or arg == '-h':
-			print 'Back In Time'
-			print 'Format: '
-			print 'backintime [[-s|--snapshots] path]'
-			print '\tStarts GUI mode'
-			print '\t\t-s, --snapshots: go directly to snapshots dialog for the specified path'
-			print '\t\tpath: go directly to the specified path'
-			print 'backintime -b|--backup'
-			print '\tTake a snapshot and exit'
-			print 'backintime -v|--version'
-			print '\tShow version and exit'
-			print 'backintime -h|--help'
-			print '\tShow this help and exit'
+			backintime.print_help( cfg )
 			sys.exit(0)
 
 		if arg == '--snapshots' or arg == '-s':
-			continue
-
-		if arg == '--gnome':
-			continue
-
-		if arg == '--kde':
-			continue
-
-		if arg == '--kde4':
 			continue
 
 		if arg[0] == '-':

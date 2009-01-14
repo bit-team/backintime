@@ -37,9 +37,9 @@ done
 #auto-detect GUI
 if [ $GUI = "auto" ]; then
 	if [ "$(pidof ksmserver)" ]; then
-		GUI="kde"
-	elif [ "$(pidof ksm4server)" ]; then
 		GUI="kde4"
+#	elif [ "$(pidof ksmserver)" ]; then
+#		GUI="kde"
 	else
 		GUI="gnome"
 	fi

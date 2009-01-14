@@ -75,7 +75,6 @@ class SettingsDialog:
 		self.store_include.clear()
 		include_folders = self.config.get_include_folders()
 		if len( include_folders ) > 0:
-			include_folders = include_folders.split( ':' )
 			for include_folder in include_folders:
 				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY] )
 		
@@ -100,7 +99,6 @@ class SettingsDialog:
 		self.store_exclude.clear()
 		exclude_patterns = self.config.get_exclude_patterns()
 		if len( exclude_patterns ) > 0:
-			exclude_patterns = exclude_patterns.split( ':' )
 			for exclude_pattern in exclude_patterns:
 				self.store_exclude.append( [exclude_pattern, gtk.STOCK_DELETE] )
 
@@ -258,79 +256,39 @@ class SettingsDialog:
 		self.dialog.destroy()
 
 	def validate( self ):
-		#check backup path
-		backup_path = self.fcb_where.get_filename()
+		#snapshots path
+		snapshots_path = self.fcb_where.get_filename()
 
-		if len( backup_path ) == 0 or not os.path.isdir( backup_path ):
-			gnomemessagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be empty !') )
+		#include list 
+		include_list = []
+		iter = self.store_include.get_iter_first()
+		while not iter is None:
+			include_list.append( self.store_include.get_value( iter, 0 ) )
+			iter = self.store_include.iter_next( iter )
+
+		#exclude patterns
+		exclude_list = []
+		iter = self.store_exclude.get_iter_first()
+		while not iter is None:
+			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
+			iter = self.store_exclude.iter_next( iter )
+
+		#check params
+		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
+		if not check_ret_val is None:
+			err_id, err_msg = check_ret_val
+			gnomemessagebox.show_error( self.dialog, self.config, err_msg )
 			return False
-
-		if len( backup_path ) <= 1:
-			gnomemessagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be the root directory !') )
-			return False
-
-		backup_path2 = backup_path + "/"
 
 		#check if back folder changed
-		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != backup_path:
+		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
 			if gtk.RESPONSE_YES != gnomemessagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots directory ?') ):
 				return False 
 
-		#check if there are some include folders
-		iter = self.store_include.get_iter_first()
-		if iter is None:
-			gnomemessagebox.show_error( self.dialog, self.config, _('You must select at least one directory to backup !') )
-			return False
-
-		#check it backup and include don't overlap each other
-		while not iter is None:
-			path = self.store_include.get_value( iter, 0 )
-
-			if path == backup_path:
-				print "Path: " + path
-				print "BackupPath: " + backup_path 
-				gnomemessagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be in "Backup Directories" !') )
-				return False
-			
-			if len( path ) >= len( backup_path2 ):
-				if path[ : len( backup_path2 ) ] == backup_path2:
-					print "Path: " + path
-					print "BackupPath2: " + backup_path2
-					gnomemessagebox.show_error( self.dialog, self.config, _('Snapshots directory can\'t be in "Backup Directories" !') )
-					return False
-			else:
-				path2 = path + "/"
-				if len( path2 ) < len( backup_path ):
-					if path2 == backup_path[ : len( path2 ) ]:
-						print "Path2: " + path2
-						print "BackupPath: " + backup_path 
-						gnomemessagebox.show_error( self.dialog, self.config, _('"Backup directories" can\'t include snapshots directory !') )
-						return False
-
-			iter = self.store_include.iter_next( iter )
-
 		#ok let's save to config
-		self.config.set_snapshots_path( backup_path )
-	
-		#include paths
-		include_folders = ""
-		iter = self.store_include.get_iter_first()
-		while not iter is None:
-			if len( include_folders ) > 0:
-				include_folders = include_folders + ":"
-			include_folders = include_folders + self.store_include.get_value( iter, 0 )
-			iter = self.store_include.iter_next( iter )
-		self.config.set_include_folders( include_folders )
-
-		#exclude patterns
-		exclude_patterns = ""
-		iter = self.store_exclude.get_iter_first()
-		while not iter is None:
-			if len( exclude_patterns ) > 0:
-				exclude_patterns = exclude_patterns + ":"
-			exclude_patterns = exclude_patterns + self.store_exclude.get_value( iter, 0 )
-			iter = self.store_exclude.iter_next( iter )
-		self.config.set_exclude_patterns( exclude_patterns )
+		self.config.set_snapshots_path( snapshots_path )
+		self.config.set_include_folders( include_list )
+		self.config.set_exclude_patterns( exclude_list )
 
 		#other settings
 		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )

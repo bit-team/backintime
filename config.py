@@ -33,7 +33,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFile ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.1beta'
+	VERSION = '0.9.1beta1'
 
 	NONE = 0
 	_5_MIN = 2
@@ -117,6 +117,44 @@ class Config( configfile.ConfigFile ):
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
 
+	def check_take_snapshot_params( self, snapshots_path, include_list, exclude_list ):
+		#returns None or ( ID, message ) //0 - snapshots path, 1 - include list, 2 - exclude list
+		if len( snapshots_path ) == 0 or not os.path.isdir( snapshots_path ):
+			return ( 0, _('Snapshots directory is not valid !') )
+
+		if len( snapshots_path ) <= 1:
+			return ( 0, _('Snapshots directory can\'t be the root directory !') )
+
+		if len( include_list ) <= 0:
+			return ( 1, _('You must select at least one directory to backup !') )
+
+		snapshots_path2 = snapshots_path + '/'
+
+		for path in include_list:
+			if path == snapshots_path:
+				print "Path: " + path
+				print "SnapshotsPath: " + snapshots_path 
+				return ( 1, _('Snapshots directory can\'t be in "Backup Directories" !') )
+			
+			if len( path ) >= len( snapshots_path2 ):
+				if path[ : len( snapshots_path2 ) ] == snapshots_path2:
+					print "Path: " + path
+					print "SnapshotsPath2: " + snapshots_path2
+					return ( 1, _('Snapshots directory can\'t be in "Backup Directories" !') )
+			else:
+				path2 = path + '/'
+				if len( path2 ) < len( snapshots_path ):
+					if path2 == snapshots_path[ : len( path2 ) ]:
+						print "Path2: " + path2
+						print "SnapshotsPath: " + snapshots_path 
+						return ( 1, _('"Backup directories" can\'t include snapshots directory !') )
+
+		for exclude in exclude_list:
+			if exclude.find( ':' ) >= 0:
+				return ( 2, _('"Exclude pattern" can\'t contains ":" char !') )
+
+		return None
+
 	def get_snapshots_path( self ):
 		return self.get_str_value( 'snapshots.path', '' )
 
@@ -130,16 +168,22 @@ class Config( configfile.ConfigFile ):
 				os.system( "mkdir -p \"%s\"" % self.get_snapshots_full_path() )
 
 	def get_include_folders( self ):
-		return self.get_str_value( 'snapshots.include_folders', '' )
+		value = self.get_str_value( 'snapshots.include_folders', '' )
+		if len( value ) <= 0:
+			return []
+		return value.split(':')
 
-	def set_include_folders( self, value ):
-		self.set_str_value( 'snapshots.include_folders', value )
+	def set_include_folders( self, list ):
+		self.set_str_value( 'snapshots.include_folders', ':'.join( list ) )
 
 	def get_exclude_patterns( self ):
-		return self.get_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~' )
+		value = self.get_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~' )
+		if len( value ) <= 0:
+			return []
+		return value.split(':')
 
-	def set_exclude_patterns( self, value ):
-		self.set_str_value( 'snapshots.exclude_patterns', value )
+	def set_exclude_patterns( self, list ):
+		self.set_str_value( 'snapshots.exclude_patterns', ':'.join( list ) )
 
 	def get_automatic_backup_mode( self ):
 		return self.get_int_value( 'snapshots.automatic_backup_mode', self.NONE )

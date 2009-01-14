@@ -31,6 +31,7 @@ import gettext
 import config
 import gnomeclipboardtools 
 import gnomemessagebox
+import gnomesnapshotstools
 
 
 _=gettext.gettext
@@ -303,7 +304,7 @@ class SnapshotsDialog:
 		path = self.path
 		if os.path.exists( path ):
 			if os.path.isdir( path ) == isdir:
-				self.store_snapshots.append( [ self.snapshots.get_snapshot_display_name_gtk( '/' ), '/' ] )
+				self.store_snapshots.append( [ gnomesnapshotstools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
 				if '/' == current_snapshot_id:
 					indexComboDiffWith = counter
 				counter += 1
@@ -313,7 +314,7 @@ class SnapshotsDialog:
 			path = self.snapshots.get_snapshot_path_to( snapshot, self.path )
 			if os.path.exists( path ):
 				if os.path.isdir( path ) == isdir:
-					self.store_snapshots.append( [ self.snapshots.get_snapshot_display_name_gtk( snapshot ), snapshot ] )
+					self.store_snapshots.append( [ gnomesnapshotstools.get_snapshot_display_markup( self.snapshots, snapshot ), snapshot ] )
 					if snapshot == current_snapshot_id:
 						index_combo_diff_with = counter
 					counter += 1

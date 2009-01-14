@@ -71,13 +71,6 @@ class Snapshots:
 			display_name = display_name + ' - ' + name
 		return display_name
 
-	def get_snapshot_display_name_gtk( self, snapshot_id ):
-		display_name = self.get_snapshot_display_id( snapshot_id )
-		name = self.get_snapshot_name( snapshot_id )
-		if len( name ) > 0:
-			display_name = display_name + ' - <b>' + name + '</b>'
-		return display_name
-
 	def get_snapshot_name( self, snapshot_id ):
 		if len( snapshot_id ) <= 1: #not a snapshot
 			return ''
@@ -124,7 +117,7 @@ class Snapshots:
 	def restore( self, snapshot_id, path ):
 		logger.info( "Restore: %s" % path )
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
-		cmd = "rsync -avR --copy-unsafe-links --backup --suffix=%s --one-file-system --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
+		cmd = "rsync -avR --copy-unsafe-links --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		self._execute( cmd )
 
 	def get_snapshots_list( self, sort_reverse = True ):
@@ -200,48 +193,67 @@ class Snapshots:
 		logger.info( 'Unlock' )
 		return ret_val
 
+	def _append_item_to_list( self, item, list ):
+		for list_item in list:
+			if item == list_item:
+				return
+		list.append( item )
+
 	def _take_snapshot( self, snapshot_id ):
 		snapshot_path = self.get_snapshot_path( snapshot_id )
 		snapshot_path_to = self.get_snapshot_path_to( snapshot_id )
 
 		#check only existing paths
-		all_include_folders = self.config.get_include_folders().split( ':' )
 		include_folders = []
-		for folder in all_include_folders:
+		for folder in self.config.get_include_folders():
 			if os.path.isdir( folder ):
 				include_folders.append( folder )
 
 		#create exclude patterns string
-		rsync_exclude = ''
-		for exclude in self.config.get_exclude_patterns().split( ':' ):
-			rsync_exclude += " --exclude=\"%s\"" % exclude
+		items = []
+		for exclude in self.config.get_exclude_patterns():
+			self._append_item_to_list( "--exclude=\"%s\"" % exclude, items )
+		rsync_exclude = ' '.join( items )
+
+		#create include patterns list
+		items = []
+		for include_folder in include_folders:
+			self._append_item_to_list( "--include=\"%s/**\"" % include_folder, items )
+			while True:
+				self._append_item_to_list( "--include=\"%s/\"" % include_folder, items )
+				include_folder = os.path.split( include_folder )[0]
+				if len( include_folder ) <= 1:
+					break
+		rsync_include = ' '.join( items )
+
+		#rsync prefix & suffix
+		rsync_prefix = 'rsync -a'
+		rsync_suffix = '--copy-unsafe-links --delete --delete-excluded ' + rsync_exclude + ' ' + rsync_include + ' --exclude=\"*\" / '
 
 		#check previous backup
-		changed_folders = include_folders 
 		snapshots = self.get_snapshots_list()
 
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 			logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
+			
+			prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
+			cmd = rsync_prefix + ' -i --dry-run ' + rsync_suffix + '"' + prev_snapshot_folder + '"'
+			try_cmd = self._execute_output( cmd )
+			changed = False
 
-			changed_folders = []
+			for line in try_cmd.split( '\n' ):
+				if len( line ) < 1:
+					continue
 
-			#check for changes
-			for folder in include_folders:
-				prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id, folder )
+				if line[0] != '.':
+					changed = True
+					break
 
-				if os.path.isdir( prev_snapshot_folder ):
-					cmd = "diff -qr " + rsync_exclude + " \"%s/\" \"%s/\"" % ( folder, prev_snapshot_folder )
-					if len( self._execute_output( cmd ) ) > 0:
-						changed_folders.append( folder )
-				else: #folder don't exists in backup
-					changed_folders.append( folder )
-
-			#check if something changed
-			if len( changed_folders ) == 0:
+			if not changed:
 				logger.info( "Nothing changed, no back needed" )
 				return False
-		
+
 			#create hard links
 			logger.info( "Create hard-links" )
 			self._execute( "mkdir -p \"%s\"" % snapshot_path_to )
@@ -249,20 +261,18 @@ class Snapshots:
 			self._execute( cmd )
 			cmd = "chmod -R a+w \"%s\"" % snapshot_path
 			self._execute( cmd )
+		else:
+			self._execute( "mkdir -p \"%s\"" % snapshot_path_to )
 
 		#create new backup folder
-		self._execute( "mkdir -p \"%s\"" % snapshot_path_to )
 		if not os.path.exists( snapshot_path_to ):
 			logger.error( "Can't create snapshot directory: %s" % snapshot_path_to )
 			return False
 
 		#sync changed folders
-		for folder in changed_folders:
-			snapshot_folder = self.get_snapshot_path_to( snapshot_id, folder )
-			self._execute( "mkdir -p \"%s\"" % snapshot_folder )
-			cmd = "rsync -av --copy-unsafe-links --delete --one-file-system " + rsync_exclude + " \"%s/\" \"%s/\"" % ( folder, snapshot_folder )
-			logger.info( "Call rsync for directory: %s" % folder )
-			self._execute( cmd )
+		logger.info( "Call rsync to take the snapshot" )
+		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + snapshot_path_to + '"'
+		self._execute( cmd )
 
 		#make new folder read-only
 		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
