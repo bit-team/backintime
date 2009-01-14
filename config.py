@@ -33,7 +33,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFile ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.1beta3'
+	VERSION = '0.9.1beta4'
 
 	NONE = 0
 	_5_MIN = 2
@@ -151,7 +151,7 @@ class Config( configfile.ConfigFile ):
 
 		for exclude in exclude_list:
 			if exclude.find( ':' ) >= 0:
-				return ( 2, _('"Exclude pattern" can\'t contains ":" char !') )
+				return ( 2, _('"Exclude pattern" can\'t contain ":" char !') )
 
 		return None
 
