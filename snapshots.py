@@ -117,7 +117,7 @@ class Snapshots:
 	def restore( self, snapshot_id, path ):
 		logger.info( "Restore: %s" % path )
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
-		cmd = "rsync -avR --copy-unsafe-links --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
+		cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		self._execute( cmd )
 
 	def get_snapshots_list( self, sort_reverse = True ):
@@ -230,7 +230,7 @@ class Snapshots:
 
 		#rsync prefix & suffix
 		rsync_prefix = 'rsync -a'
-		rsync_suffix = '--copy-unsafe-links --delete --delete-excluded ' + rsync_exclude + ' ' + rsync_include + ' --exclude=\"*\" / '
+		rsync_suffix = '--copy-unsafe-links --whole-file --delete --delete-excluded ' + rsync_exclude + ' ' + rsync_include + ' --exclude=\"*\" / '
 
 		#check previous backup
 		snapshots = self.get_snapshots_list()
