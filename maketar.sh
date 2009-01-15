@@ -6,6 +6,7 @@ PKGVER=`cat VERSION`
 echo $PKGNAME $PKGVER
 
 rm *~
+rm */*~
 rm *.deb
 rm *.pyc
 rm -rf locale
