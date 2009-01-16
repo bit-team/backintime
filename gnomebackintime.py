@@ -1063,7 +1063,7 @@ if __name__ == '__main__':
 	gtk.about_dialog_set_url_hook( open_url, None )
 
 	logger.openlog()
-	mainWindow = MainWindow( cfg, app_instance )
+	main_window = MainWindow( cfg, app_instance )
 	gtk.main()
 	logger.closelog()
 

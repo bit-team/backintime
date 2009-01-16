@@ -67,13 +67,16 @@ _=gettext.gettext
 #
 #	def run( self ):
 #		return self.dialog.run()
-#
-#
-#class MainWindow:
-#	def __init__( self, config, app_instance ):
-#		self.config = config
-#		self.app_instance = app_instance
-#		self.snapshots = snapshots.Snapshots( config )
+
+
+class MainWindow( QMainWindow ):
+	def __init__( self, config, app_instance ):
+		QMainWindow.__init__( self )
+
+		self.config = config
+		self.app_instance = app_instance
+		self.snapshots = snapshots.Snapshots( config )
+
 #		self.special_background_color = 'lightblue'
 #		self.popup_menu = None
 #
@@ -1016,8 +1019,10 @@ if __name__ == '__main__':
 	app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
 
 	logger.openlog()
-	#mainWindow = MainWindow( cfg, app_instance )
-	#gtk.main()
+	qt_app = QApplication(sys.argv)
+	main_window = MainWindow( cfg, app_instance )
+	main_window.show()
+	qt_app.exec_()
 	logger.closelog()
 
 	app_instance.exit_application()
