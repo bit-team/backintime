@@ -13,6 +13,11 @@ mv control.gnome control.tmp
 sed -e "s/^Version: .*$/Version: $VERSION/" control.tmp | sed -e "s/backintime-common (= [^)]*)/backintime-common (= $VERSION)/" > control.gnome
 rm control.tmp
 
+echo "Update 'control.kde4'"
+mv control.kde4 control.tmp
+sed -e "s/^Version: .*$/Version: $VERSION/" control.tmp | sed -e "s/backintime-common (= [^)]*)/backintime-common (= $VERSION)/" > control.kde4
+rm control.tmp
+
 echo "Update 'config.py'"
 mv config.py config.py.tmp
 sed -e "s/^\tVERSION = '.*'$/\tVERSION = '$VERSION'/" config.py.tmp  > config.py
