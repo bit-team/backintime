@@ -24,7 +24,6 @@ import sys
 if len( os.getenv( 'DISPLAY', '' ) ) == 0:
 	os.putenv( 'DISPLAY', ':0.0' )
 
-import pykde4
 import datetime
 import gettext
 import time
@@ -34,6 +33,9 @@ import config
 import logger
 import snapshots
 import guiapplicationinstance
+
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
 
 
 _=gettext.gettext
