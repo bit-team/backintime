@@ -1,17 +1,12 @@
-# LANGUAGE translation of PACKAGE.
-#Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
-#This file is distributed under the same license as the PACKAGE package.
-#Francisco Manuel GarcÃ­Â­a Claramonte <franciscomanuel.garcia@hispalinux.es>, 2008.
-#, fuzzy
-#Francisco Manuel Garcí­a Claramonte <franciscomanuel.garcia@hispalinux.es>, 2008.
-#Francisco M. GarcÃ­Â­a Claramonte <franciscomanuel>, 2008.
+# LANGUAGE translation of PACKAGE.Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDERThis file is distributed under the same license as the PACKAGE package.Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>, 2008.Francisco Manuel Garcí­a Claramonte <franciscomanuel.garcia@hispalinux.es>, 2008.Francisco M. Garcí­a Claramonte <franciscomanuel>, 2008., fuzzy
+# 
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-08 13:53+0100\n"
-"PO-Revision-Date: 2009-01-08 13:57+0100\n"
+"POT-Creation-Date: 2009-01-16 10:08+0100\n"
+"PO-Revision-Date: 2009-01-16 10:47+0100\n"
 "Last-Translator: Francisco M. Garci­a Claramonte <franciscomanuel>\n"
 "Language-Team: Spanish/Spain <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -58,6 +53,34 @@ msgstr "Semana(s)"
 msgid "Year(s)"
 msgstr "Años(s)"
 
+#: ../config.py:123
+msgid "Snapshots directory is not valid !"
+msgstr "¡El directorio de instantáneas no es válido!"
+
+#: ../config.py:126
+msgid "Snapshots directory can't be the root directory !"
+msgstr "¡El directorio de instantáneas no puede ser el directorio raiz!"
+
+#: ../config.py:129
+msgid "You must select at least one directory to backup !"
+msgstr "¡Debe seleccionar al menos un directorio para hacer copia de respaldo!"
+
+#: ../config.py:137 ../config.py:143
+msgid "Snapshots directory can't be in \"Backup Directories\" !"
+msgstr ""
+"¡El directorio de instantáneas no puede estar en «Directorios de copia de "
+"respaldo»!"
+
+#: ../config.py:150
+msgid "\"Backup directories\" can't include snapshots directory !"
+msgstr ""
+"«Directorios de copias de respaldo» no pueden incluir el directorio de "
+"instantáneas!"
+
+#: ../config.py:154
+msgid "\"Exclude pattern\" can't contain \":\" char !"
+msgstr "¡«El patrón de exclusión» no puede contener el caracter «:»!"
+
 #: ../gnomebackintime.glade.h:1
 msgid "<b>Remove Snapshots</b>"
 msgstr "Eliminar Instantáneas"
@@ -94,7 +117,7 @@ msgstr "Copia de respaldo ahora"
 msgid "Command:"
 msgstr "Orden:"
 
-#: ../gnomebackintime.glade.h:10 ../gnomebackintime.py:239
+#: ../gnomebackintime.glade.h:10 ../gnomebackintime.py:247
 msgid "Copy"
 msgstr "Copiar"
 
@@ -138,7 +161,7 @@ msgstr "Directorio padre"
 msgid "Remove Snapshot"
 msgstr "Eliminar Instantánea"
 
-#: ../gnomebackintime.glade.h:21 ../gnomebackintime.py:242
+#: ../gnomebackintime.glade.h:21 ../gnomebackintime.py:250
 msgid "Restore"
 msgstr "Restaurar"
 
@@ -151,129 +174,133 @@ msgid "Settings"
 msgstr "Preferencias"
 
 #: ../gnomebackintime.glade.h:24
+msgid "Show hidden & backup files"
+msgstr "Mostrar ficheros ocultos y de copia de respaldo"
+
+#: ../gnomebackintime.glade.h:25
 msgid "Snapshot Name"
 msgstr "Nombre de Instantánea"
 
-#: ../gnomebackintime.glade.h:25 ../gnomebackintime.py:240
-#: ../gnomesnapshotsdialog.py:81
+#: ../gnomebackintime.glade.h:26 ../gnomebackintime.py:248
+#: ../gnomesnapshotsdialog.py:82
 msgid "Snapshots"
 msgstr "Instantáneas"
 
-#: ../gnomebackintime.glade.h:26
+#: ../gnomebackintime.glade.h:27
 msgid "Take snapshot"
 msgstr "Realizar instantánea"
 
-#: ../gnomebackintime.glade.h:27
+#: ../gnomebackintime.glade.h:28
 msgid "Up"
 msgstr "Arriba"
 
-#: ../gnomebackintime.glade.h:29
+#: ../gnomebackintime.glade.h:30
 #, no-c-format
 msgid "Use %1 and %2 for path parameters"
 msgstr "Utilizar %1 y %2 como rutas de parámetros"
 
-#: ../gnomebackintime.glade.h:30
+#: ../gnomebackintime.glade.h:31
 msgid "gtk-add"
 msgstr "gtk-add"
 
-#: ../gnomebackintime.glade.h:31
+#: ../gnomebackintime.glade.h:32
 msgid "gtk-apply"
 msgstr "gtk-apply"
 
-#: ../gnomebackintime.glade.h:32
+#: ../gnomebackintime.glade.h:33
 msgid "gtk-cancel"
 msgstr "gtk-cancel"
 
-#: ../gnomebackintime.glade.h:33
+#: ../gnomebackintime.glade.h:34
 msgid "gtk-jump-to"
 msgstr "gtk-jump-to"
 
-#: ../gnomebackintime.glade.h:34
+#: ../gnomebackintime.glade.h:35
 msgid "gtk-ok"
 msgstr "gtk-ok"
 
-#: ../gnomebackintime.glade.h:35
+#: ../gnomebackintime.glade.h:36
 msgid "gtk-remove"
 msgstr "gtk-remove"
 
-#: ../gnomebackintime.py:137 ../gnomebackintime.py:459
+#: ../gnomebackintime.py:140 ../gnomebackintime.py:467
 msgid "Done"
 msgstr "Hecho"
 
-#: ../gnomebackintime.py:145
+#: ../gnomebackintime.py:153
 msgid "Places"
 msgstr "Lugares"
 
-#: ../gnomebackintime.py:166
+#: ../gnomebackintime.py:174
 msgid "Name"
 msgstr "Nombre"
 
-#: ../gnomebackintime.py:177
+#: ../gnomebackintime.py:185
 msgid "Size"
 msgstr "Tamaño"
 
-#: ../gnomebackintime.py:184
+#: ../gnomebackintime.py:192
 msgid "Date"
 msgstr "Fecha"
 
-#: ../gnomebackintime.py:203
+#: ../gnomebackintime.py:211
 msgid "Timeline"
 msgstr "Linea de tiempo"
 
-#: ../gnomebackintime.py:238
+#: ../gnomebackintime.py:246
 msgid "Open"
 msgstr "Abrir"
 
-#: ../gnomebackintime.py:241
+#: ../gnomebackintime.py:249
 msgid "Diff"
 msgstr "Cambios"
 
-#: ../gnomebackintime.py:447
+#: ../gnomebackintime.py:455
 msgid "Working ..."
 msgstr "Trabajando ..."
 
-#: ../gnomebackintime.py:461
+#: ../gnomebackintime.py:469
 msgid "Done, no backup needed"
 msgstr "Hecho, no hace falta copia de respaldo"
 
 #. add global places
-#: ../gnomebackintime.py:469
+#: ../gnomebackintime.py:477
 msgid "Global"
 msgstr "Global"
 
-#: ../gnomebackintime.py:470
+#: ../gnomebackintime.py:478
 msgid "Root"
 msgstr "Raiz"
 
-#: ../gnomebackintime.py:471
+#: ../gnomebackintime.py:479
 msgid "Home"
 msgstr "Directorio Personal"
 
-#: ../gnomebackintime.py:495
+#: ../gnomebackintime.py:503
 msgid "Bookmarks"
 msgstr "Marcadores"
 
-#: ../gnomebackintime.py:504 ../gnomesettingsdialog.py:65
+#: ../gnomebackintime.py:511 ../gnomesettingsdialog.py:65
 msgid "Backup Directories"
 msgstr "Directorios de copia de respaldo"
 
-#: ../gnomebackintime.py:524
+#: ../gnomebackintime.py:531
 msgid "Today"
 msgstr "Hoy"
 
-#: ../gnomebackintime.py:528
+#: ../gnomebackintime.py:535
 msgid "Yesterday"
 msgstr "Ayer"
 
-#: ../gnomebackintime.py:532
+#: ../gnomebackintime.py:539
 msgid "This week"
 msgstr "Esta semana"
 
-#: ../gnomebackintime.py:536
+#: ../gnomebackintime.py:543
 msgid "Last week"
 msgstr "Última semana"
 
-#: ../gnomebackintime.py:825
+#: ../gnomebackintime.py:840
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -282,47 +309,23 @@ msgstr ""
 "¿Está seguro de que quiere eliminar la instantánea:\n"
 "<b>%s</b>?"
 
-#: ../gnomebackintime.py:999
+#: ../gnomebackintime.py:1016
 msgid "Back In Time: take snapshot ..."
 msgstr "Back In Time: Realizar instantánea ..."
 
-#: ../gnomesettingsdialog.py:90
+#: ../gnomesettingsdialog.py:89
 msgid "Exclude Patterns"
 msgstr "Excluir patrones"
 
-#: ../gnomesettingsdialog.py:265
-msgid "Snapshots directory can't be empty !"
-msgstr "¡El directorio de instantáneas no puede estar vací­o!"
-
-#: ../gnomesettingsdialog.py:269
-msgid "Snapshots directory can't be the root directory !"
-msgstr "¡El directorio de instantáneas no puede ser el directorio raiz!"
-
-#: ../gnomesettingsdialog.py:276
+#: ../gnomesettingsdialog.py:285
 msgid "Are you sure you want to change snapshots directory ?"
 msgstr "¿Está seguro de que quiere cambiar el directorio de instantáneas?"
 
-#: ../gnomesettingsdialog.py:282
-msgid "You must select at least one directory to backup !"
-msgstr "¡Debe seleccionar al menos un directorio para hacer copia de respaldo!"
-
-#: ../gnomesettingsdialog.py:292 ../gnomesettingsdialog.py:299
-msgid "Snapshots directory can't be in \"Backup Directories\" !"
-msgstr ""
-"¡El directorio de instantáneas no puede estar en «Directorios de copia de "
-"respaldo»!"
-
-#: ../gnomesettingsdialog.py:307
-msgid "\"Backup directories\" can't include snapshots directory !"
-msgstr ""
-"«Directorios de copias de respaldo» no pueden incluir el directorio de "
-"instantáneas!"
-
-#: ../gnomesnapshotsdialog.py:265
+#: ../gnomesnapshotsdialog.py:266
 msgid "You can't compare a snapshot to itself"
 msgstr "No puede comparar una instantánea consigo misma"
 
-#: ../gnomesnapshotsdialog.py:272
+#: ../gnomesnapshotsdialog.py:273
 #, python-format
 msgid "Command not found: %s"
 msgstr "Orden no encontrada: %s"
