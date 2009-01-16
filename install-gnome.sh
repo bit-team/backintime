@@ -8,7 +8,7 @@ install backintime-gnome $BASEPATH/usr/bin
 
 #install copyright file
 install -d $BASEPATH/usr/share/doc/backintime-gnome
-install --mode=644 debian/copyright $BASEPATH/usr/share/doc/backintime-gnome
+install --mode=644 debian_specific/copyright $BASEPATH/usr/share/doc/backintime-gnome
 
 #install python & glade file(s)
 install -d $BASEPATH/usr/share/backintime

@@ -15,7 +15,7 @@ install --mode=644 tools.py $BASEPATH/usr/share/backintime
 
 #install copyright file
 install -d $BASEPATH/usr/share/doc/backintime-common
-install --mode=644 debian/copyright $BASEPATH/usr/share/doc/backintime-common
+install --mode=644 debian_specific/copyright $BASEPATH/usr/share/doc/backintime-common
 
 #install doc file(s)
 install -d $BASEPATH/usr/share/doc/backintime
