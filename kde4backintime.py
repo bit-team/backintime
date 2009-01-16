@@ -36,6 +36,11 @@ import guiapplicationinstance
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
+from PyKDE4.kdecore import *
+from PyKDE4.kdeui import *
+
+
+import kde4tools
 
 
 _=gettext.gettext
@@ -82,14 +87,44 @@ class MainWindow( QMainWindow ):
 		self.main_toolbar = QToolBar( self )
 		self.main_toolbar.setFloatable( False )
 
+		self.btn_take_snapshot = self.main_toolbar.addAction( KIcon( 'document-save' ), '' )
+		self.btn_name_snapshot = self.main_toolbar.addAction( KIcon( 'edit-rename' ), '' )
+		self.btn_remove_snapshot = self.main_toolbar.addAction( KIcon( 'edit-delete' ), '' )
+	
+		self.main_toolbar.addSeparator()
+
+		self.btn_settings = self.main_toolbar.addAction( KIcon( 'configure' ), '' )
+		self.main_toolbar.addSeparator()
+		self.btn_about = self.main_toolbar.addAction( KIcon( 'help-about' ), '' )
+		self.btn_help = self.main_toolbar.addAction( KIcon( 'help-contents' ), '' )
+		self.main_toolbar.addSeparator()
+		self.btn_quit = self.main_toolbar.addAction( KIcon( 'application-exit' ), '' )
+
 		self.files_view_toolbar = QToolBar( self )
 		self.files_view_toolbar.setFloatable( False )
 
-		self.list_time_line = QListWidget( self )
+		self.btn_folder_up = self.files_view_toolbar.addAction( KIcon( 'go-up' ), '' )
 
-		self.list_places = QListWidget( self )
+		self.edit_current_path = QLineEdit( self )
+		self.edit_current_path.setReadOnly( True )
+		self.files_view_toolbar.addWidget( self.edit_current_path )
 
-		self.list_files_view = QListWidget( self )
+		self.btn_show_hidden_files = self.files_view_toolbar.addAction( KIcon( 'list-add' ), '' )
+
+		self.files_view_toolbar.addSeparator()
+
+		self.btn_restore = self.files_view_toolbar.addAction( KIcon( 'document-revert' ), '' )
+		self.btn_copy = self.files_view_toolbar.addAction( KIcon( 'edit-copy' ), '' )
+		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
+
+		self.list_time_line = QTreeWidget( self )
+		self.list_time_line.setHeaderLabel( _('Timeline') )
+
+		self.list_places = QTreeWidget( self )
+		self.list_places.setHeaderLabel( _('Places') )
+
+		self.list_files_view = QTreeWidget( self )
+		self.list_files_view.setHeaderLabels( [_('Name'), _('Size'), _('Date')] )
 
 		self.second_splitter = QSplitter( self )
 		self.second_splitter.setOrientation( Qt.Horizontal )
@@ -120,6 +155,8 @@ class MainWindow( QMainWindow ):
 		self.main_splitter.addWidget( right_widget )
 
 		self.setCentralWidget( self.main_splitter )
+		
+		self.statusBar().showMessage( _('Done') )
 
 #		self.special_background_color = 'lightblue'
 #		self.popup_menu = None
@@ -1063,10 +1100,13 @@ if __name__ == '__main__':
 	app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
 
 	logger.openlog()
-	qt_app = QApplication(sys.argv)
+	#qt_app = QApplication(sys.argv)
+	kdeAboutData = KAboutData( 'backintime', '', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( '' ), ki18n( '' ), 'le-web.org/back-in-time', 'dab@le-web.org' )
+	KCmdLineArgs.init( sys.argv, kdeAboutData )
+	app = KApplication()
 	main_window = MainWindow( cfg, app_instance )
 	main_window.show()
-	qt_app.exec_()
+	app.exec_()
 	logger.closelog()
 
 	app_instance.exit_application()
