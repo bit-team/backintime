@@ -77,6 +77,50 @@ class MainWindow( QMainWindow ):
 		self.app_instance = app_instance
 		self.snapshots = snapshots.Snapshots( config )
 
+		self.setWindowTitle( self.config.APP_NAME )
+
+		self.main_toolbar = QToolBar( self )
+		self.main_toolbar.setFloatable( False )
+
+		self.files_view_toolbar = QToolBar( self )
+		self.files_view_toolbar.setFloatable( False )
+
+		self.list_time_line = QListWidget( self )
+
+		self.list_places = QListWidget( self )
+
+		self.list_files_view = QListWidget( self )
+
+		self.second_splitter = QSplitter( self )
+		self.second_splitter.setOrientation( Qt.Horizontal )
+		self.second_splitter.addWidget( self.list_time_line )
+		self.second_splitter.addWidget( self.list_places )
+
+		left_layout = QVBoxLayout( self )
+		left_layout.addWidget( self.main_toolbar )
+		left_layout.addWidget( self.second_splitter )
+		left, top, right, bottom = left_layout.getContentsMargins()
+		left_layout.setContentsMargins( left, top, 0, bottom )
+
+		left_widget = QWidget( self )
+		left_widget.setLayout( left_layout )
+
+		right_layout = QVBoxLayout( self )
+		right_layout.addWidget( self.files_view_toolbar )
+		right_layout.addWidget( self.list_files_view )
+		left, top, right, bottom = right_layout.getContentsMargins()
+		right_layout.setContentsMargins( 0, top, right, bottom )
+
+		right_widget = QWidget( self )
+		right_widget.setLayout( right_layout )
+
+		self.main_splitter = QSplitter( self )
+		self.main_splitter.setOrientation( Qt.Horizontal )
+		self.main_splitter.addWidget( left_widget )
+		self.main_splitter.addWidget( right_widget )
+
+		self.setCentralWidget( self.main_splitter )
+
 #		self.special_background_color = 'lightblue'
 #		self.popup_menu = None
 #
