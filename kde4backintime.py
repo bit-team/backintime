@@ -84,6 +84,7 @@ class MainWindow( QMainWindow ):
 
 		self.setWindowTitle( self.config.APP_NAME )
 
+		#self.main_toolbar = QDeskbar( self )
 		self.main_toolbar = QToolBar( self )
 		self.main_toolbar.setFloatable( False )
 
