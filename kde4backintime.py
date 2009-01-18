@@ -84,7 +84,6 @@ class MainWindow( QMainWindow ):
 
 		self.setWindowTitle( self.config.APP_NAME )
 
-		#self.main_toolbar = QDeskbar( self )
 		self.main_toolbar = QToolBar( self )
 		self.main_toolbar.setFloatable( False )
 
@@ -158,6 +157,13 @@ class MainWindow( QMainWindow ):
 		self.setCentralWidget( self.main_splitter )
 		
 		self.statusBar().showMessage( _('Done') )
+
+		self.snapshot_id = '/'
+		self.path = '/'
+
+		self.update_time_line()
+		self.update_places()
+		self.update_files_view( 0 )
 
 #		self.special_background_color = 'lightblue'
 #		self.popup_menu = None
@@ -381,62 +387,62 @@ class MainWindow( QMainWindow ):
 #		gobject.timeout_add( 1000, self.update_backup_info )
 #		return False
 #
-#	def get_default_startup_folder_and_file( self ):
-#		last_path = self.config.get_str_value( 'gnome.last_path', '' )
-#		if len(last_path) > 0 and os.path.isdir(last_path):
-#			return ( last_path, None, False )
-#		return ( '/', None, False )
-#
-#	def get_cmd_startup_folder_and_file( self, cmd ):
-#		if cmd is None:
-#			cmd = self.app_instance.raise_cmd
-#
-#		if len( cmd ) < 1:
-#			return None
-#
-#		path = None
-#		show_snapshots = False
-#
-#		for arg in cmd.split( '\n' ):
-#			if len( arg ) < 1:
-#				continue
-#			if arg == '-s' or arg == '--snapshots':
-#				show_snapshots = True
-#				continue
-#			if arg[0] == '-':
-#				continue
-#			if path is None:
-#				path = arg
-#
-#		if path is None:
-#			return None
-#
-#		if len( path ) < 1:
-#			return None
-#
-#		path = os.path.expanduser( path )
-#		path = os.path.abspath( path )
-#
-#		if os.path.isdir( path ):
-#			if len( path ) < 1:
-#				show_snapshots = False
-#
-#			if show_snapshots:
-#				return ( os.path.dirname( path ), path, True )
-#			else:
-#				return ( path, '', False )
-#
-#		if os.path.isfile( path ):
-#			return ( os.path.dirname( path ), path, show_snapshots )
-#
-#		return None
-#
-#	def get_startup_folder_and_file( self, cmd = None ):
-#		startup_folder = self.get_cmd_startup_folder_and_file( cmd )
-#		if startup_folder is None:
-#			return self.get_default_startup_folder_and_file()
-#		return startup_folder
-#
+	def get_default_startup_folder_and_file( self ):
+		last_path = self.config.get_str_value( 'gnome.last_path', '' )
+		if len(last_path) > 0 and os.path.isdir(last_path):
+			return ( last_path, None, False )
+		return ( '/', None, False )
+
+	def get_cmd_startup_folder_and_file( self, cmd ):
+		if cmd is None:
+			cmd = self.app_instance.raise_cmd
+
+		if len( cmd ) < 1:
+			return None
+
+		path = None
+		show_snapshots = False
+
+		for arg in cmd.split( '\n' ):
+			if len( arg ) < 1:
+				continue
+			if arg == '-s' or arg == '--snapshots':
+				show_snapshots = True
+				continue
+			if arg[0] == '-':
+				continue
+			if path is None:
+				path = arg
+
+		if path is None:
+			return None
+
+		if len( path ) < 1:
+			return None
+
+		path = os.path.expanduser( path )
+		path = os.path.abspath( path )
+
+		if os.path.isdir( path ):
+			if len( path ) < 1:
+				show_snapshots = False
+
+			if show_snapshots:
+				return ( os.path.dirname( path ), path, True )
+			else:
+				return ( path, '', False )
+
+		if os.path.isfile( path ):
+			return ( os.path.dirname( path ), path, show_snapshots )
+
+		return None
+
+	def get_startup_folder_and_file( self, cmd = None ):
+		startup_folder = self.get_cmd_startup_folder_and_file( cmd )
+		if startup_folder is None:
+			return self.get_default_startup_folder_and_file()
+		return startup_folder
+
 #	def update_all( self, init ):
 #		#fill lists
 #		selected_file = None
@@ -541,8 +547,29 @@ class MainWindow( QMainWindow ):
 #				self.status_bar.push( 0, _('Done, no backup needed') )
 #
 #		return True
-#
-#	def fill_places( self ):
+
+	def add_place( self, snapshot_name, snapshot_id, icon_name ):
+		item = QTreeWidgetItem( self.list_places )
+
+		if len( icon_name ) > 0:
+			item.setIcon( 0, KIcon( '' ) )
+
+		item.setText( 0, snapshot_name )
+		item.setText( 1, snapshot_id )
+
+		if len( snapshot_id ) == 0:
+			font = item.font( 0 )
+			font.setWeight( QFont.Bold )
+			item.setFont( 0, font )
+
+		self.list_places.addTopLevelItem( item )
+
+	def update_places( self ):
+		self.list_places.clear()
+		self.add_place( _('Global'), '', '' )
+		self.add_place( _('Root'), '/', '' )
+		self.add_place( _('Home'), os.path.expanduser( '~' ), '' )
+
 #		self.store_places.clear()
 #
 #		#add global places
@@ -583,8 +610,9 @@ class MainWindow( QMainWindow ):
 #				self.store_places.append( [ "<b>%s</b>" % _('Backup Directories'), '', '' ] )
 #				for folder in include_folders:
 #					self.store_places.append( [ folder, folder, gtk.STOCK_SAVE ] )
-#
-#	def fill_time_line( self, update_folder_view = True ):
+
+	def update_time_line( self ):
+		return
 #		current_selection = '/'
 #		iter = self.list_time_line.get_selection().get_selected()[1]
 #		if not iter is None:
@@ -930,8 +958,10 @@ class MainWindow( QMainWindow ):
 #		os.system( cmd )
 #
 #		self.update_backup_info( True )
-#
-#	def update_folder_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
+
+	def update_files_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
+		return
+
 #		#update backup time
 #		if 2 == changed_from:
 #			iter = self.list_time_line.get_selection().get_selected()[1]
