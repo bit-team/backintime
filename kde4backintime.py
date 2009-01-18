@@ -119,12 +119,15 @@ class MainWindow( QMainWindow ):
 
 		self.list_time_line = QTreeWidget( self )
 		self.list_time_line.setHeaderLabel( _('Timeline') )
+		self.list_time_line.setRootIsDecorated( False )
 
 		self.list_places = QTreeWidget( self )
 		self.list_places.setHeaderLabel( _('Places') )
+		self.list_places.setRootIsDecorated( False )
 
 		self.list_files_view = QTreeWidget( self )
 		self.list_files_view.setHeaderLabels( [_('Name'), _('Size'), _('Date')] )
+		self.list_files_view.setRootIsDecorated( False )
 
 		self.second_splitter = QSplitter( self )
 		self.second_splitter.setOrientation( Qt.Horizontal )
@@ -548,11 +551,38 @@ class MainWindow( QMainWindow ):
 #
 #		return True
 
-	def add_place( self, snapshot_name, snapshot_id, icon_name ):
+	def add_place( self, name, path, icon ):
 		item = QTreeWidgetItem( self.list_places )
 
-		if len( icon_name ) > 0:
-			item.setIcon( 0, KIcon( '' ) )
+		if len( icon ) > 0:
+			item.setIcon( 0, KIcon( icon ) )
+
+		item.setText( 0, name )
+		item.setText( 1, path )
+
+		if len( path ) == 0:
+			font = item.font( 0 )
+			font.setWeight( QFont.Bold )
+			item.setFont( 0, font )
+			item.setDisabled( True )
+
+		self.list_places.addTopLevelItem( item )
+
+	def update_places( self ):
+		self.list_places.clear()
+		self.add_place( _('Global'), '', '' )
+		self.add_place( _('Root'), '/', 'computer' )
+		self.add_place( _('Home'), os.path.expanduser( '~' ), 'user-home' )
+
+		#add backup folders
+		include_folders = self.config.get_include_folders()
+		if len( include_folders ) > 0:
+			self.add_place( _('Backup Directories'), '', '' )
+			for folder in include_folders:
+				self.add_place( folder, folder, 'document-save' )
+
+	def add_time_line( self, snapshot_name, snapshot_id ):
+		item = QTreeWidgetItem( self.list_places )
 
 		item.setText( 0, snapshot_name )
 		item.setText( 1, snapshot_id )
@@ -561,65 +591,17 @@ class MainWindow( QMainWindow ):
 			font = item.font( 0 )
 			font.setWeight( QFont.Bold )
 			item.setFont( 0, font )
+			item.setDisabled( True )
+		else:
+			item.setIcon( KIcon( 'document-save' ) )
 
-		self.list_places.addTopLevelItem( item )
-
-	def update_places( self ):
-		self.list_places.clear()
-		self.add_place( _('Global'), '', '' )
-		self.add_place( _('Root'), '/', '' )
-		self.add_place( _('Home'), os.path.expanduser( '~' ), '' )
-
-#		self.store_places.clear()
-#
-#		#add global places
-#		self.store_places.append( [ "<b>%s</b>" % _('Global'), '', '' ] )
-#		self.store_places.append( [ _('Root'), '/', gtk.STOCK_HARDDISK ] )
-#		self.store_places.append( [ _('Home'), os.path.expanduser( '~' ), gtk.STOCK_HOME ] )
-#
-#		#add bookmarks
-#		rawbookmarks = ''
-#		
-#		try:
-#			file = open( os.path.expanduser('~/.gtk-bookmarks') )
-#			rawbookmarks = file.read()
-#			file.close()
-#		except:
-#			pass
-#
-#		bookmarks = []
-#		for rawbookmark in rawbookmarks.split( '\n' ):
-#			if rawbookmark.startswith( 'file://' ):
-#				index = rawbookmark.rfind( ' ' )
-#				if index > 0:
-#					bookmarks.append( ( rawbookmark[ 7 : index ], rawbookmark[ index + 1 : ] ) )
-#				elif index < 0:
-#					index = rawbookmark.rfind( '/' )
-#					if index > 0:
-#						bookmarks.append( ( rawbookmark[ 7 : ], rawbookmark[ index + 1 : ] ) )
-#
-#		if len( bookmarks ) > 0:
-#			self.store_places.append( [ "<b>%s</b>" % _('Bookmarks'), '', '' ] )
-#			for bookmark in bookmarks:
-#				self.store_places.append( [ bookmark[1], bookmark[0], self.icon_names.get_icon(bookmark[0]) ] )
-#
-#		#add backup folders
-#		include_folders = self.config.get_include_folders()
-#		if len( include_folders ) > 0:
-#			if len( include_folders ) > 0:
-#				self.store_places.append( [ "<b>%s</b>" % _('Backup Directories'), '', '' ] )
-#				for folder in include_folders:
-#					self.store_places.append( [ folder, folder, gtk.STOCK_SAVE ] )
+		self.list_time_line.addTopLevelItem( item )
 
 	def update_time_line( self ):
-		return
-#		current_selection = '/'
-#		iter = self.list_time_line.get_selection().get_selected()[1]
-#		if not iter is None:
-#			current_selection = self.store_time_line.get_value( iter, 1 )
-#
-#		self.store_time_line.clear()
-#		self.store_time_line.append( [ gnomesnapshotstools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
+		current_selection = '/'
+
+		self.list_time_line.clear()
+		self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/' )
 #
 #		self.snapshots_list = self.snapshots.get_snapshots_list() 
 #
