@@ -582,7 +582,7 @@ class MainWindow( QMainWindow ):
 				self.add_place( folder, folder, 'document-save' )
 
 	def add_time_line( self, snapshot_name, snapshot_id ):
-		item = QTreeWidgetItem( self.list_places )
+		item = QTreeWidgetItem( self.list_time_line )
 
 		item.setText( 0, snapshot_name )
 		item.setText( 1, snapshot_id )
@@ -592,68 +592,69 @@ class MainWindow( QMainWindow ):
 			font.setWeight( QFont.Bold )
 			item.setFont( 0, font )
 			item.setDisabled( True )
-		else:
-			item.setIcon( KIcon( 'document-save' ) )
+		#else:
+		#	item.setIcon( 0, KIcon( 'document-save' ) )
 
 		self.list_time_line.addTopLevelItem( item )
+		print self.list_time_line.topLevelItemCount()
 
 	def update_time_line( self ):
 		current_selection = '/'
 
 		self.list_time_line.clear()
 		self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/' )
-#
-#		self.snapshots_list = self.snapshots.get_snapshots_list() 
-#
-#		groups = []
-#		now = datetime.date.today()
-#
-#		#today
-#		date = now
-#		groups.append( (_('Today'), self.snapshots.get_snapshot_id( date ), []) )
-#
-#		#yesterday
-#		date = now - datetime.timedelta( days = 1 )
-#		groups.append( (_('Yesterday'), self.snapshots.get_snapshot_id( date ), []) )
-#
-#		#this week
-#		date = now - datetime.timedelta( days = now.weekday() )
-#		groups.append( (_('This week'), self.snapshots.get_snapshot_id( date ), []) )
-#
-#		#last week
-#		date = now - datetime.timedelta( days = now.weekday() + 7 )
-#		groups.append( (_('Last week'), self.snapshots.get_snapshot_id( date ), []) )
-#
-#		#fill groups
-#		for snapshot_id in self.snapshots_list:
-#			found = False
-#
-#			for group in groups:
-#				if snapshot_id >= group[1]:
-#					group[2].append( snapshot_id )
-#					found = True
-#					break
-#
-#			if not found:
-#				year = int( snapshot_id[ 0 : 4 ] )
-#				month = int( snapshot_id[ 4 : 6 ] )
-#				date = datetime.date( year, month, 1 )
-#
-#				group_name = ''
-#				if year == now.year:
-#					group_name = date.strftime( '%B' ).capitalize()
-#				else:
-#					group_name = date.strftime( '%B, %Y' ).capitalize()
-#
-#				groups.append( ( group_name, self.snapshots.get_snapshot_id( date ), [ snapshot_id ]) )
-#
-#		#fill time_line list
-#		for group in groups:
-#			if len( group[2] ) > 0:
-#				self.store_time_line.append( [ "<b>%s</b>" % group[0], '' ] );
-#				for snapshot_id in group[2]:
-#					self.store_time_line.append( [ gnomesnapshotstools.get_snapshot_display_markup( self.snapshots, snapshot_id ), snapshot_id ] )
-#
+
+		self.snapshots_list = self.snapshots.get_snapshots_list() 
+
+		groups = []
+		now = datetime.date.today()
+
+		#today
+		date = now
+		groups.append( (_('Today'), self.snapshots.get_snapshot_id( date ), []) )
+
+		#yesterday
+		date = now - datetime.timedelta( days = 1 )
+		groups.append( (_('Yesterday'), self.snapshots.get_snapshot_id( date ), []) )
+
+		#this week
+		date = now - datetime.timedelta( days = now.weekday() )
+		groups.append( (_('This week'), self.snapshots.get_snapshot_id( date ), []) )
+
+		#last week
+		date = now - datetime.timedelta( days = now.weekday() + 7 )
+		groups.append( (_('Last week'), self.snapshots.get_snapshot_id( date ), []) )
+
+		#fill groups
+		for snapshot_id in self.snapshots_list:
+			found = False
+
+			for group in groups:
+				if snapshot_id >= group[1]:
+					group[2].append( snapshot_id )
+					found = True
+					break
+
+			if not found:
+				year = int( snapshot_id[ 0 : 4 ] )
+				month = int( snapshot_id[ 4 : 6 ] )
+				date = datetime.date( year, month, 1 )
+
+				group_name = ''
+				if year == now.year:
+					group_name = date.strftime( '%B' ).capitalize()
+				else:
+					group_name = date.strftime( '%B, %Y' ).capitalize()
+
+				groups.append( ( group_name, self.snapshots.get_snapshot_id( date ), [ snapshot_id ]) )
+
+		#fill time_line list
+		for group in groups:
+			if len( group[2] ) > 0:
+				self.add_time_line( group[0], '' );
+				for snapshot_id in group[2]:
+					self.add_time_line( self.snapshots.get_snapshot_display_name( snapshot_id ), snapshot_id )
+
 #		#select previous item
 #		iter = self.store_time_line.get_iter_first()
 #		while not iter is None:
