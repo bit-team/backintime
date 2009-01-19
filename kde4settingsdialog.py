@@ -28,6 +28,7 @@ from PyKDE4.kdecore import *
 from PyKDE4.kdeui import *
 
 import config
+import kde4tools
 
 
 _=gettext.gettext
@@ -40,6 +41,43 @@ class SettingsDialog( QDialog ):
 
 		self.setWindowTitle( _( 'Settings' ) )
 		self.setWindowIcon( KIcon( 'configure' ) )
+
+		self.main_layout = QVBoxLayout()
+		self.setLayout( self.main_layout )
+
+		self.group_box_where = QGroupBox( self )
+		self.main_layout.addWidget( self.group_box_where )
+		self.group_box_where.setTitle( _( 'Where to save snapshots' ) )
+		#kde4tools.set_font_bold( self.group_box_where )
+
+		self.group_box_what = QGroupBox( self )
+		self.main_layout.addWidget( self.group_box_what )
+		self.group_box_what.setTitle( _( 'What to save' ) )
+		#kde4tools.set_font_bold( self.group_box_what )
+
+		self.group_box_when = QGroupBox( self )
+		self.main_layout.addWidget( self.group_box_when )
+		self.group_box_when.setTitle( _( 'When' ) )
+		#kde4tools.set_font_bold( self.group_box_when )
+
+		layout = QHBoxLayout()
+		self.group_box_when.setLayout( layout )
+		layout.addWidget( QLabel( _( 'Automatic snapshots:' ), self ) )
+		self.combo_automatic_snapshots = QComboBox( self )
+		layout.addWidget( self.combo_automatic_snapshots )
+
+		self.group_box_remove = QGroupBox( self )
+		self.main_layout.addWidget( self.group_box_remove )
+		self.group_box_remove.setTitle( _( 'Remove Snapshots' ) )
+		#kde4tools.set_font_bold( self.group_box_remove )
+
+		layout = QGridLayout()
+		self.group_box_remove.setLayout( layout )
+
+		#self.cb_remove_older_then = 
+		#layout.addWidget( QLabel( _( 'Automatic snapshots:' ), self ), 0, 0 )
+		#self.combo_automatic_snapshots = QComboBox( self )
+		#layout.addWidget( self.combo_automatic_snapshots )
 
 #		signals = { 
 #				'on_btn_add_include_clicked' : self.on_add_include,
