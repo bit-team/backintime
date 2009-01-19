@@ -168,6 +168,31 @@ class MainWindow( QMainWindow ):
 		self.update_places()
 		self.update_files_view( 0 )
 
+		x = self.config.get_int_value( 'kde4.main_window.x', -1 )
+		y = self.config.get_int_value( 'kde4.main_window.y', -1 )
+		if x >= 0 and y >= 0:
+			self.move( x, y )
+
+		w = self.config.get_int_value( 'kde4.main_window.width', 800 )
+		h = self.config.get_int_value( 'kde4.main_window.height', 500 )
+		self.resize( w, h )
+
+		main_splitter_left_w = self.config.get_int_value( 'kde4.main_window.main_splitter_left_w', 400 )
+		main_splitter_right_w = self.config.get_int_value( 'kde4.main_window.main_splitter_right_w', 400 )
+		sizes = [ main_splitter_left_w, main_splitter_right_w ]
+		self.main_splitter.setSizes( sizes )
+		
+		second_splitter_left_w = self.config.get_int_value( 'kde4.main_window.second_splitter_left_w', 200 )
+		second_splitter_right_w = self.config.get_int_value( 'kde4.main_window.second_splitter_right_w', 200 )
+		sizes = [ second_splitter_left_w, second_splitter_right_w ]
+		self.second_splitter.setSizes( sizes )
+		
+		#files_view_width = self.config.get_int_value( 'kde4.main_window.files_view_width', 400 )
+		#self.list_files_view.resize( files_view_width, self.list_files_view.height() )
+
+		#time_line_width = self.config.get_int_value( 'kde4.main_window.time_line_width', 150 )
+		#self.list_time_line.resize( time_line_width, self.list_time_line.height() )
+
 #		self.special_background_color = 'lightblue'
 #		self.popup_menu = None
 #
@@ -592,11 +617,8 @@ class MainWindow( QMainWindow ):
 			font.setWeight( QFont.Bold )
 			item.setFont( 0, font )
 			item.setDisabled( True )
-		#else:
-		#	item.setIcon( 0, KIcon( 'document-save' ) )
 
 		self.list_time_line.addTopLevelItem( item )
-		print self.list_time_line.topLevelItemCount()
 
 	def update_time_line( self ):
 		current_selection = '/'
