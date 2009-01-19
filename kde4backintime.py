@@ -109,7 +109,12 @@ class MainWindow( QMainWindow ):
 		self.edit_current_path.setReadOnly( True )
 		self.files_view_toolbar.addWidget( self.edit_current_path )
 
+		#show hidden files
+		self.show_hidden_files = self.config.get_bool_value( 'kde4.show_hidden_files', False )
+
 		self.btn_show_hidden_files = self.files_view_toolbar.addAction( KIcon( 'list-add' ), '' )
+		self.btn_show_hidden_files.setCheckable( True )
+		self.btn_show_hidden_files.setChecked( self.show_hidden_files )
 
 		self.files_view_toolbar.addSeparator()
 
@@ -162,7 +167,8 @@ class MainWindow( QMainWindow ):
 		self.statusBar().showMessage( _('Done') )
 
 		self.snapshot_id = '/'
-		self.path = '/'
+		self.path = self.config.get_int_value( 'kde4.last_path', '/' )
+		self.edit_current_path.setText( self.path )
 
 		x = self.config.get_int_value( 'kde4.main_window.x', -1 )
 		y = self.config.get_int_value( 'kde4.main_window.y', -1 )
@@ -183,14 +189,18 @@ class MainWindow( QMainWindow ):
 		sizes = [ second_splitter_left_w, second_splitter_right_w ]
 		self.second_splitter.setSizes( sizes )
 
-		#show hidden files
-		self.show_hidden_files = self.config.get_bool_value( 'kde4.show_hidden_files', False )
-
 		self.update_time_line()
 		self.update_places()
-		self.update_files_view()
+		self.update_files_view( 0 )
 
 		self.list_files_view.setFocus()
+
+		QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_time_line_current_item_changed )
+		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
+		QObject.connect( self.list_files_view, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_files_view_item_activated )
+
+		QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
+		QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
 
 #		self.special_background_color = 'lightblue'
 #		self.popup_menu = None
@@ -575,6 +585,20 @@ class MainWindow( QMainWindow ):
 #
 #		return True
 
+	def on_list_places_current_item_changed( self, item, previous ):
+		if item is None:
+			return
+
+		path = str( item.text( 1 ) )
+		if len( path ) == 0:
+			return
+
+		if path == self.path:
+			return
+
+		self.path = path
+		self.update_files_view( 3 )
+
 	def add_place( self, name, path, icon ):
 		item = QTreeWidgetItem( self.list_places )
 
@@ -588,7 +612,7 @@ class MainWindow( QMainWindow ):
 			font = item.font( 0 )
 			font.setWeight( QFont.Bold )
 			item.setFont( 0, font )
-			item.setDisabled( True )
+			item.setFlags( Qt.NoItemFlags )
 
 		self.list_places.addTopLevelItem( item )
 
@@ -605,6 +629,21 @@ class MainWindow( QMainWindow ):
 			for folder in include_folders:
 				self.add_place( folder, folder, 'document-save' )
 
+	def on_list_time_line_current_item_changed( self, item, previous ):
+		if item is None:
+			return
+
+		snapshot_id = str( item.text( 1 ) ) 
+		if len( snapshot_id ) == 0:
+			#self.list_time_line.setCurrentItem( previous )
+			return
+
+		if snapshot_id == self.snapshot_id:
+			return
+
+		self.snapshot_id = snapshot_id
+		self.update_files_view( 2 )
+
 	def add_time_line( self, snapshot_name, snapshot_id ):
 		item = QTreeWidgetItem( self.list_time_line )
 
@@ -615,13 +654,11 @@ class MainWindow( QMainWindow ):
 			font = item.font( 0 )
 			font.setWeight( QFont.Bold )
 			item.setFont( 0, font )
-			item.setDisabled( True )
+			item.setFlags( Qt.NoItemFlags )
 
 		self.list_time_line.addTopLevelItem( item )
 
 	def update_time_line( self ):
-		current_selection = '/'
-
 		self.list_time_line.clear()
 		self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/' )
 
@@ -674,7 +711,12 @@ class MainWindow( QMainWindow ):
 			if len( group[2] ) > 0:
 				self.add_time_line( group[0], '' );
 				for snapshot_id in group[2]:
-					self.add_time_line( self.snapshots.get_snapshot_display_name( snapshot_id ), snapshot_id )
+					list_item = self.add_time_line( self.snapshots.get_snapshot_display_name( snapshot_id ), snapshot_id )
+					if snapshot_id == self.snapshot_id:
+						self.list_time_line.setCurrentItem( list_item )
+
+		if self.list_time_line.currentItem() is None and self.list_time_line.topLevelItemCount() > 0:
+			self.list_time_line.setCurrentItem( self.list_time_line.topLevelItem( 0 ) )
 
 #		#select previous item
 #		iter = self.store_time_line.get_iter_first()
@@ -963,6 +1005,58 @@ class MainWindow( QMainWindow ):
 #
 #		self.update_backup_info( True )
 
+	def on_btn_show_hidden_files_toggled( self, checked ):
+		self.show_hidden_files = checked
+		self.update_files_view( 1 )
+
+	def on_btn_folder_up_clicked( self ):
+		if len( self.path ) <= 1:
+			return
+
+		path = os.path.dirname( self.path )
+		if self.path == path:
+			return
+
+		self.path = path
+		self.update_files_view( 0 )
+
+	def on_list_files_view_item_activated( self, item, column ):
+		if item is None:
+			return
+
+		rel_path = os.path.join( self.path, self.files_view_get_name( item ) )
+
+		if self.files_view_get_type( item ) ==  0:
+			self.path = rel_path
+			self.update_files_view( 0 )
+		else:
+			full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, rel_path )
+			os.system( "kde-open \"%s\" &" % full_path )
+
+	def sort_by_name( self, item1, item2 ):
+		if item1[4] < item2[4]:
+			return -1
+
+		if item1[4] > item2[4]:
+			return 1
+
+		str1 = item1[0].upper()
+		str2 = item2[0].upper()
+
+		if str1 < str2:
+			return -1
+
+		if str1 > str2:
+			return 1
+
+		return 0
+
+	def files_view_get_name( self, item ):
+		return str( item.text( 0 ) )
+
+	def files_view_get_type( self, item ):
+		return int( item.text( 4 ) )
+
 	def add_files_view( self, name, size_str, date_str, size_int, type ):
 		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, os.path.join( self.path, name ) )
 		icon = KIcon( KMimeType.iconNameForUrl( KUrl( full_path ) ) )
@@ -977,28 +1071,22 @@ class MainWindow( QMainWindow ):
 		item.setText( 4, str( type ) )
 
 		self.list_files_view.addTopLevelItem( item )
+		return item
 
-	def update_files_view( self, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
-#		#update backup time
-#		if 2 == changed_from:
-#			iter = self.list_time_line.get_selection().get_selected()[1]
-#			self.snapshot_id = self.store_time_line.get_value( iter, 1 )
-#			#self.lblTime.set_markup( "<b>%s</b>" % backupTime )
-#
-#		#update selected places item
-#		if 1 == changed_from:
-#			iter = self.store_places.get_iter_first()
-#			while not iter is None:
-#				place_path = self.store_places.get_value( iter, 1 )
-#				if place_path == self.folder_path:
-#					break
-#				iter = self.store_places.iter_next( iter )
-#
-#			if iter is None:
-#				self.list_places.get_selection().unselect_all()
-#			else:
-#				self.list_places.get_selection().select_iter( iter )
-#
+	def update_files_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
+		if 0 == changed_from or 3 == changed_from:
+			selected_file = ''
+
+		if 0 == changed_from:
+			#update places
+			self.list_places.setCurrentItem( None )
+			for place_index in xrange( self.list_places.topLevelItemCount() ):
+				item = self.list_places.topLevelItem( place_index )
+				if self.path == str( item.text( 1 ) ):
+					self.list_places.setCurrentItem( item )
+					break
+
+
 		#update folder view
 		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
 		all_files = []
@@ -1010,6 +1098,7 @@ class MainWindow( QMainWindow ):
 			pass
 
 		files = []
+
 		for file in all_files:
 			if len( file ) == 0:
 				continue
@@ -1062,51 +1151,46 @@ class MainWindow( QMainWindow ):
 			else:
 				files.append( [ file, file_size, file_date, file_size_int, 1 ] )
 
-#		#try to keep old selected file
-#		if selected_file is None:
-#			selected_file = ''
-#			iter = self.list_folder_view.get_selection().get_selected()[1]
-#			if not iter is None:
-#				selected_file = self.store_folder_view.get_value( iter, 1 )
+		#try to keep old selected file
+		if selected_file is None:
+			item = self.list_files_view.currentItem()
+			if not item is None:
+				selected_file = item.text( 0 )
+			else:
+				selected_file = ''
+
+		files.sort( self.sort_by_name )
 
 		#populate the list
 		self.list_files_view.clear()
 
-#		selected_iter = None
 		for item in files:
-			#rel_path = os.path.join( self.path, item[0] )
-			self.add_files_view( item[0], item[1], item[2], item[3], item[4] )
-#			if selected_file == rel_path:
-#				selected_iter = new_iter 
-#
-#		#select old item or the first item
-#		if len( files ) > 0:
-#			if selected_iter is None:
-#				selected_iter = self.store_folder_view.get_iter_first()
-#			self.list_folder_view.get_selection().select_iter( selected_iter )
-#			self.list_folder_view.drag_source_set( gtk.gdk.BUTTON1_MASK | gtk.gdk.BUTTON3_MASK, gtk.target_list_add_uri_targets(), gtk.gdk.ACTION_COPY )
-#		else:
-#			self.list_folder_view.drag_source_unset()
-#
-#		#update folderup button state
-#		self.glade.get_widget( 'btn_folder_up' ).set_sensitive( len( self.folder_path ) > 1 )
-#
-#		#update restore button state
-#		self.glade.get_widget( 'btn_restore' ).set_sensitive( len( self.snapshot_id ) > 1 and len( self.store_folder_view ) > 0 )
-#
-#		#update remove/name snapshot buttons
-#		self.glade.get_widget( 'btn_snapshot_name' ).set_sensitive( len( self.snapshot_id ) > 1 )
-#		self.glade.get_widget( 'btn_remove_snapshot' ).set_sensitive( len( self.snapshot_id ) > 1 )
-#
-#		#update copy button state
-#		self.glade.get_widget( 'btn_copy' ).set_sensitive( len( self.store_folder_view ) > 0 )
-#
-#		#update snapshots button state
-#		self.glade.get_widget( 'btn_snapshots' ).set_sensitive( len( self.store_folder_view ) > 0 )
-#
-#		#display current folder
-#		self.glade.get_widget( 'edit_current_path' ).set_text( self.folder_path )
-#
+			list_item = self.add_files_view( item[0], item[1], item[2], item[3], item[4] )
+			if selected_file == item[0]:
+				self.list_files_view.setCurrentItem( list_item )
+
+		if self.list_files_view.currentItem() is None and len( files ) > 0:
+			self.list_files_view.setCurrentItem( self.list_files_view.topLevelItem(0) )
+
+		#show current path
+		self.edit_current_path.setText( self.path )
+
+		#update folder_up button state
+		self.btn_folder_up.setEnabled( len( self.path ) > 1 )
+
+		#update restore button state
+		self.btn_restore.setEnabled( len( self.snapshot_id ) > 1 and len( files ) > 0 )
+
+		#update remove/name snapshot buttons
+		self.btn_name_snapshot.setEnabled( len( self.snapshot_id ) > 1 )
+		self.btn_remove_snapshot.setEnabled( len( self.snapshot_id ) > 1 )
+
+		#update copy button state
+		self.btn_copy.setEnabled( len( files ) > 0 )
+
+		#update snapshots button state
+		self.btn_snapshots.setEnabled( len( files ) > 0 )
+
 #		#show snapshots
 #		if show_snapshots:
 #			self.on_btn_snapshots_clicked( None )
