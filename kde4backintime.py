@@ -167,9 +167,10 @@ class MainWindow( QMainWindow ):
 		self.statusBar().showMessage( _('Done') )
 
 		self.snapshot_id = '/'
-		self.path = self.config.get_int_value( 'kde4.last_path', '/' )
+		self.path = self.config.get_str_value( 'kde4.last_path', '/' )
 		self.edit_current_path.setText( self.path )
 
+		#restore size and position
 		x = self.config.get_int_value( 'kde4.main_window.x', -1 )
 		y = self.config.get_int_value( 'kde4.main_window.y', -1 )
 		if x >= 0 and y >= 0:
@@ -189,6 +190,15 @@ class MainWindow( QMainWindow ):
 		sizes = [ second_splitter_left_w, second_splitter_right_w ]
 		self.second_splitter.setSizes( sizes )
 
+		files_view_name_width = self.config.get_int_value( 'kde4.main_window.files_view.name_width', -1 )
+		files_view_size_width = self.config.get_int_value( 'kde4.main_window.files_view.size_width', -1 )
+		files_view_date_width = self.config.get_int_value( 'kde4.main_window.files_view.date_width', -1 )
+		if files_view_name_width > 0 and files_view_size_width > 0 and files_view_date_width > 0:
+			self.list_files_view.header().resizeSection( 0, files_view_name_width )
+			self.list_files_view.header().resizeSection( 1, files_view_size_width )
+			self.list_files_view.header().resizeSection( 2, files_view_date_width )
+
+		#populate lists
 		self.update_time_line()
 		self.update_places()
 		self.update_files_view( 0 )
@@ -199,6 +209,7 @@ class MainWindow( QMainWindow ):
 		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
 		QObject.connect( self.list_files_view, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_files_view_item_activated )
 
+		QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 		QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
 		QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
 
@@ -423,7 +434,31 @@ class MainWindow( QMainWindow ):
 #		self.update_backup_info()
 #		gobject.timeout_add( 1000, self.update_backup_info )
 #		return False
-#
+
+	def closeEvent( self, event ):
+		self.config.set_str_value( 'kde4.last_path', self.path )
+
+		self.config.set_int_value( 'kde4.main_window.x', self.x() )
+		self.config.set_int_value( 'kde4.main_window.y', self.y() )
+		self.config.set_int_value( 'kde4.main_window.width', self.width() )
+		self.config.set_int_value( 'kde4.main_window.height', self.height() )
+
+		sizes = self.main_splitter.sizes()
+		self.config.set_int_value( 'kde4.main_window.main_splitter_left_w', sizes[0] )
+		self.config.set_int_value( 'kde4.main_window.main_splitter_right_w', sizes[1] )
+	
+		sizes = self.second_splitter.sizes()
+		self.config.set_int_value( 'kde4.main_window.second_splitter_left_w', sizes[0] )
+		self.config.set_int_value( 'kde4.main_window.second_splitter_right_w', sizes[1] )
+
+		self.config.set_int_value( 'kde4.main_window.files_view.name_width', self.list_files_view.header().sectionSize( 0 ) )
+		self.config.set_int_value( 'kde4.main_window.files_view.size_width', self.list_files_view.header().sectionSize( 1 ) )
+		self.config.set_int_value( 'kde4.main_window.files_view.date_width', self.list_files_view.header().sectionSize( 2 ) )
+
+		self.config.save()
+
+		event.accept()
+
 	def get_default_startup_folder_and_file( self ):
 		last_path = self.config.get_str_value( 'gnome.last_path', '' )
 		if len(last_path) > 0 and os.path.isdir(last_path):

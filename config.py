@@ -171,7 +171,14 @@ class Config( configfile.ConfigFile ):
 		value = self.get_str_value( 'snapshots.include_folders', '' )
 		if len( value ) <= 0:
 			return []
-		return value.split(':')
+
+		paths = []
+		for path in value.split(':'):
+			path = os.path.expanduser( path )
+			path = os.path.abspath( path )
+			paths.append( path )
+
+		return paths
 
 	def set_include_folders( self, list ):
 		self.set_str_value( 'snapshots.include_folders', ':'.join( list ) )

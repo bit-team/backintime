@@ -207,9 +207,11 @@ class Snapshots:
 
 		#check only existing paths
 		include_folders = []
-		for folder in self.config.get_include_folders():
-			if os.path.isdir( folder ):
-				include_folders.append( folder )
+		for path in self.config.get_include_folders():
+			if os.path.isdir( path ):
+				path = os.path.expanduser( path )
+				path = os.path.abspath( path )
+				include_folders.append( path )
 
 		#create exclude patterns string
 		items = []
