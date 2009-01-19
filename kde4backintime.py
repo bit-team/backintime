@@ -83,6 +83,7 @@ class MainWindow( QMainWindow ):
 		self.snapshots = snapshots.Snapshots( config )
 
 		self.setWindowTitle( self.config.APP_NAME )
+		self.setWindowIcon( KIcon( 'document-save' ) )
 
 		self.main_toolbar = QToolBar( self )
 		self.main_toolbar.setFloatable( False )
@@ -166,6 +167,7 @@ class MainWindow( QMainWindow ):
 		
 		self.statusBar().showMessage( _('Done') )
 
+		self.snapshots_list = []
 		self.snapshot_id = '/'
 		self.path = self.config.get_str_value( 'kde4.last_path', '/' )
 		self.edit_current_path.setText( self.path )
@@ -209,9 +211,25 @@ class MainWindow( QMainWindow ):
 		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
 		QObject.connect( self.list_files_view, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_files_view_item_activated )
 
+		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
+		QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_about, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_help, SIGNAL('triggered()'), self.show_not_implemented )
 		QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 		QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
 		QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
+		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.show_not_implemented )
+
+		self.force_wait_lock_counter = 0
+		self.timer_update_take_snapshot = QTimer( self )
+		self.timer_update_take_snapshot.setInterval( 1000 )
+		self.timer_update_take_snapshot.setSingleShot( False )
+		QObject.connect( self.timer_update_take_snapshot, SIGNAL('timeout()'), self.update_take_snapshot )
+		self.timer_update_take_snapshot.start()
 
 #		self.special_background_color = 'lightblue'
 #		self.popup_menu = None
@@ -435,6 +453,9 @@ class MainWindow( QMainWindow ):
 #		gobject.timeout_add( 1000, self.update_backup_info )
 #		return False
 
+	def show_not_implemented( self ):
+		QMessageBox.warning( self, "Warning", "Not implemented !!!" )
+
 	def closeEvent( self, event ):
 		self.config.set_str_value( 'kde4.last_path', self.path )
 
@@ -583,42 +604,35 @@ class MainWindow( QMainWindow ):
 #		self.update_folder_view( 1, file_name, show_snapshots )
 #
 #		return True
-#
-#	def update_backup_info( self, force_wait_lock = False ):
-#		if None is self.glade.get_widget( 'btn_backup' ):
-#			return True
-#
-#		#print "forceWaitLock: %s" % forceWaitLock
-#
-#		if force_wait_lock:
-#			self.force_wait_lock = True
-#		
-#		busy = self.snapshots.is_busy()
-#		if busy:
-#			self.force_wait_lock = False
-#
-#		fake_busy = busy or self.force_wait_lock
-#		self.glade.get_widget( 'btn_backup' ).set_sensitive( not fake_busy )
-#
-#		if fake_busy:
-#			if not self.update_time_line or force_wait_lock:
-#				self.status_bar.push( 0, _('Working ...') )
-#				self.update_time_line = True
-#		elif self.update_time_line:
-#			self.update_time_line = False
-#			snapshots_list = self.snapshots_list
-#
-#			self.fill_time_line()
-#
-#			#print "New backup: %s" % self.lastBackupList
-#			#print "Last backup: %s" % lastBackupList
-#
-#			if snapshots_list != self.snapshots_list:
-#				self.status_bar.push( 0, _('Done') )
-#			else:
-#				self.status_bar.push( 0, _('Done, no backup needed') )
-#
-#		return True
+
+	def update_take_snapshot( self, force_wait_lock = False ):
+		if force_wait_lock:
+			self.force_wait_lock_counter = 10
+		
+		busy = self.snapshots.is_busy()
+		if busy:
+			self.force_wait_lock_counter = 0
+
+		if self.force_wait_lock_counter > 0:
+			self.force_wait_lock_counter = self.force_wait_lock_counter - 1
+
+		fake_busy = busy or self.force_wait_lock_counter > 0
+
+		if fake_busy:
+			if self.btn_take_snapshot.isEnabled():
+				self.btn_take_snapshot.setEnabled( False )
+				self.statusBar().showMessage( _('Working ...') )
+		elif not self.btn_take_snapshot.isEnabled():
+			self.btn_take_snapshot.setEnabled( True )
+			
+			snapshots_list = self.snapshots.get_snapshots_list()
+
+			if snapshots_list != self.snapshots_list:
+				self.snapshots_list = snapshots_list
+				self.update_time_line( False )
+			 	self.statusBar().showMessage( _('Done') )
+			else:
+				self.statusBar().showMessage( _('Done, no backup needed') )
 
 	def on_list_places_current_item_changed( self, item, previous ):
 		if item is None:
@@ -650,6 +664,7 @@ class MainWindow( QMainWindow ):
 			item.setFlags( Qt.NoItemFlags )
 
 		self.list_places.addTopLevelItem( item )
+		return item
 
 	def update_places( self ):
 		self.list_places.clear()
@@ -692,12 +707,14 @@ class MainWindow( QMainWindow ):
 			item.setFlags( Qt.NoItemFlags )
 
 		self.list_time_line.addTopLevelItem( item )
+		return item
 
-	def update_time_line( self ):
+	def update_time_line( self, get_snapshots_list = True ):
 		self.list_time_line.clear()
 		self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/' )
 
-		self.snapshots_list = self.snapshots.get_snapshots_list() 
+		if get_snapshots_list:
+			self.snapshots_list = self.snapshots.get_snapshots_list() 
 
 		groups = []
 		now = datetime.date.today()
@@ -752,6 +769,9 @@ class MainWindow( QMainWindow ):
 
 		if self.list_time_line.currentItem() is None and self.list_time_line.topLevelItemCount() > 0:
 			self.list_time_line.setCurrentItem( self.list_time_line.topLevelItem( 0 ) )
+			if self.snapshot_id != '/':
+				self.snapshot_id = '/'
+				self.update_files_view( 2 )
 
 #		#select previous item
 #		iter = self.store_time_line.get_iter_first()
@@ -1039,6 +1059,15 @@ class MainWindow( QMainWindow ):
 #		os.system( cmd )
 #
 #		self.update_backup_info( True )
+
+	def on_btn_take_snapshot_clicked( self ):
+		app = 'backintime'
+		if os.path.isfile( './backintime' ):
+			app = './backintime'
+		cmd = "nice -n 19 %s --backup &" % app
+		os.system( cmd )
+
+		self.update_take_snapshot( True )
 
 	def on_btn_show_hidden_files_toggled( self, checked ):
 		self.show_hidden_files = checked
