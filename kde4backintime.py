@@ -39,8 +39,8 @@ from PyQt4.QtCore import *
 from PyKDE4.kdecore import *
 from PyKDE4.kdeui import *
 
-
 import kde4tools
+import kde4settingsdialog
 
 
 _=gettext.gettext
@@ -214,7 +214,7 @@ class MainWindow( QMainWindow ):
 		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 		QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.show_not_implemented )
 		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.show_not_implemented )
-		QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
 		QObject.connect( self.btn_about, SIGNAL('triggered()'), self.show_not_implemented )
 		QObject.connect( self.btn_help, SIGNAL('triggered()'), self.show_not_implemented )
 		QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
@@ -1068,6 +1068,15 @@ class MainWindow( QMainWindow ):
 		os.system( cmd )
 
 		self.update_take_snapshot( True )
+
+	def on_btn_settings_clicked( self ):
+		snapshots_path = self.config.get_snapshots_path()
+		include_folders = self.config.get_include_folders()
+
+		kde4settingsdialog.SettingsDialog( self ).exec_()
+
+		if snapshots_path == self.config.get_snapshots_path() and include_folders == self.config.get_include_folders():
+		   return
 
 	def on_btn_show_hidden_files_toggled( self, checked ):
 		self.show_hidden_files = checked
