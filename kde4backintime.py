@@ -164,10 +164,6 @@ class MainWindow( QMainWindow ):
 		self.snapshot_id = '/'
 		self.path = '/'
 
-		self.update_time_line()
-		self.update_places()
-		self.update_files_view( 0 )
-
 		x = self.config.get_int_value( 'kde4.main_window.x', -1 )
 		y = self.config.get_int_value( 'kde4.main_window.y', -1 )
 		if x >= 0 and y >= 0:
@@ -186,12 +182,15 @@ class MainWindow( QMainWindow ):
 		second_splitter_right_w = self.config.get_int_value( 'kde4.main_window.second_splitter_right_w', 200 )
 		sizes = [ second_splitter_left_w, second_splitter_right_w ]
 		self.second_splitter.setSizes( sizes )
-		
-		#files_view_width = self.config.get_int_value( 'kde4.main_window.files_view_width', 400 )
-		#self.list_files_view.resize( files_view_width, self.list_files_view.height() )
 
-		#time_line_width = self.config.get_int_value( 'kde4.main_window.time_line_width', 150 )
-		#self.list_time_line.resize( time_line_width, self.list_time_line.height() )
+		#show hidden files
+		self.show_hidden_files = self.config.get_bool_value( 'kde4.show_hidden_files', False )
+
+		self.update_time_line()
+		self.update_places()
+		self.update_files_view()
+
+		self.list_files_view.setFocus()
 
 #		self.special_background_color = 'lightblue'
 #		self.popup_menu = None
@@ -964,9 +963,22 @@ class MainWindow( QMainWindow ):
 #
 #		self.update_backup_info( True )
 
-	def update_files_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
-		return
+	def add_files_view( self, name, size_str, date_str, size_int, type ):
+		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, os.path.join( self.path, name ) )
+		icon = KIcon( KMimeType.iconNameForUrl( KUrl( full_path ) ) )
 
+		item = QTreeWidgetItem( self.list_files_view )
+
+		item.setIcon( 0, icon )
+		item.setText( 0, name )
+		item.setText( 1, size_str )
+		item.setText( 2, date_str )
+		item.setText( 3, str( size_int ) )
+		item.setText( 4, str( type ) )
+
+		self.list_files_view.addTopLevelItem( item )
+
+	def update_files_view( self, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
 #		#update backup time
 #		if 2 == changed_from:
 #			iter = self.list_time_line.get_selection().get_selected()[1]
@@ -987,83 +999,83 @@ class MainWindow( QMainWindow ):
 #			else:
 #				self.list_places.get_selection().select_iter( iter )
 #
-#		#update folder view
-#		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.folder_path )
-#		all_files = []
-#
-#		try:
-#			all_files = os.listdir( full_path )
-#			all_files.sort()
-#		except:
-#			pass
-#
-#		files = []
-#		for file in all_files:
-#			if len( file ) == 0:
-#				continue
-#
-#			if not self.show_hidden_files:
-#				if file[ 0 ] == '.':
-#					continue
-#				if file[ -1 ] == '~':
-#					continue
-#
-#			path = os.path.join( full_path, file )
-#
-#			file_size = -1
-#			file_date = -1
-#
-#			try:
-#				file_stat = os.stat( path )
-#				file_size = file_stat[stat.ST_SIZE]
-#				file_date = file_stat[stat.ST_MTIME]
-#			except:
-#				pass
-#
-#			#format size
-#			file_size_int = file_size
-#			if file_size_int < 0:
-#				file_size_int = 0
-#
-#			if file_size < 0:
-#				file_size = 'unknown'
-#			elif file_size < 1024:
-#				file_size = str( file_size ) + ' bytes'
-#			elif file_size < 1024 * 1024:
-#				file_size = file_size / 1024
-#				file_size = str( file_size ) + ' KB'
-#			elif file_size < 1024 * 1024 * 1024:
-#				file_size = file_size / ( 1024 * 1024 )
-#				file_size = str( file_size ) + ' MB'
-#			else:
-#				file_size = file_size / ( 1024 * 1024 * 1024 )
-#				file_size = str( file_size ) + ' GB'
-#
-#			#format date
-#			if file_date < 0:
-#				file_date = 'unknown'
-#			else:
-#				file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
-#
-#			if os.path.isdir( path ):
-#				files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 0 ] )
-#			else:
-#				files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 1 ] )
-#
+		#update folder view
+		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
+		all_files = []
+
+		try:
+			all_files = os.listdir( full_path )
+			all_files.sort()
+		except:
+			pass
+
+		files = []
+		for file in all_files:
+			if len( file ) == 0:
+				continue
+
+			if not self.show_hidden_files:
+				if file[ 0 ] == '.':
+					continue
+				if file[ -1 ] == '~':
+					continue
+
+			path = os.path.join( full_path, file )
+
+			file_size = -1
+			file_date = -1
+
+			try:
+				file_stat = os.stat( path )
+				file_size = file_stat[stat.ST_SIZE]
+				file_date = file_stat[stat.ST_MTIME]
+			except:
+				pass
+
+			#format size
+			file_size_int = file_size
+			if file_size_int < 0:
+				file_size_int = 0
+
+			if file_size < 0:
+				file_size = 'unknown'
+			elif file_size < 1024:
+				file_size = str( file_size ) + ' bytes'
+			elif file_size < 1024 * 1024:
+				file_size = file_size / 1024
+				file_size = str( file_size ) + ' KB'
+			elif file_size < 1024 * 1024 * 1024:
+				file_size = file_size / ( 1024 * 1024 )
+				file_size = str( file_size ) + ' MB'
+			else:
+				file_size = file_size / ( 1024 * 1024 * 1024 )
+				file_size = str( file_size ) + ' GB'
+
+			#format date
+			if file_date < 0:
+				file_date = 'unknown'
+			else:
+				file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
+
+			if os.path.isdir( path ):
+				files.append( [ file, file_size, file_date, file_size_int, 0 ] )
+			else:
+				files.append( [ file, file_size, file_date, file_size_int, 1 ] )
+
 #		#try to keep old selected file
 #		if selected_file is None:
 #			selected_file = ''
 #			iter = self.list_folder_view.get_selection().get_selected()[1]
 #			if not iter is None:
 #				selected_file = self.store_folder_view.get_value( iter, 1 )
-#
-#		#populate the list
-#		self.store_folder_view.clear()
-#
+
+		#populate the list
+		self.list_files_view.clear()
+
 #		selected_iter = None
-#		for item in files:
-#			rel_path = os.path.join( self.folder_path, item[0] )
-#			new_iter = self.store_folder_view.append( [ item[0], rel_path, item[3], item[5], item[1], item[2], item[4] ] )
+		for item in files:
+			#rel_path = os.path.join( self.path, item[0] )
+			self.add_files_view( item[0], item[1], item[2], item[3], item[4] )
 #			if selected_file == rel_path:
 #				selected_iter = new_iter 
 #
@@ -1137,7 +1149,7 @@ if __name__ == '__main__':
 
 	logger.openlog()
 	#qt_app = QApplication(sys.argv)
-	kdeAboutData = KAboutData( 'backintime', '', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( '' ), ki18n( '' ), 'le-web.org/back-in-time', 'dab@le-web.org' )
+	kdeAboutData = KAboutData( 'backintime', 'backintime', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( '' ), ki18n( '' ), 'le-web.org/back-in-time', 'dab@le-web.org' )
 	KCmdLineArgs.init( sys.argv, kdeAboutData )
 	app = KApplication()
 	main_window = MainWindow( cfg, app_instance )
