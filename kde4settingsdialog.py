@@ -75,7 +75,7 @@ class SettingsDialog( QDialog ):
 
 		self.list_include = QTreeWidget( self )
 		wts_left_layout.addWidget( self.list_include )
-		self.list_include.setHeaderLabel( _('Backup Directories') )
+		self.list_include.setHeaderLabel( _('Include folders') )
 		self.list_include.setRootIsDecorated( False )
 
 		for include in self.config.get_include_folders():
@@ -86,9 +86,11 @@ class SettingsDialog( QDialog ):
 
 		self.btn_include_add = QPushButton( _( 'Add' ), self )
 		layout.addWidget( self.btn_include_add )
+		QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
 		
 		self.btn_include_remove = QPushButton( _( 'Remove' ), self )
 		layout.addWidget( self.btn_include_remove )
+		QObject.connect( self.btn_include_remove, SIGNAL('clicked()'), self.on_btn_include_remove_clicked )
 
 		#exclude patterns
 		wts_right_layout = QVBoxLayout()
@@ -96,7 +98,7 @@ class SettingsDialog( QDialog ):
 
 		self.list_exclude = QTreeWidget( self )
 		wts_right_layout.addWidget( self.list_exclude )
-		self.list_exclude.setHeaderLabel( _('Exclude Patterns') )
+		self.list_exclude.setHeaderLabel( _('Exclude patterns') )
 		self.list_exclude.setRootIsDecorated( False )
 		
 		for exclude in self.config.get_exclude_patterns():
@@ -107,9 +109,11 @@ class SettingsDialog( QDialog ):
 
 		self.btn_exclude_add = QPushButton( _( 'Add' ), self )
 		layout.addWidget( self.btn_exclude_add )
+		QObject.connect( self.btn_exclude_add, SIGNAL('clicked()'), self.on_btn_exclude_add_clicked )
 		
 		self.btn_exclude_remove = QPushButton( _( 'Remove' ), self )
 		layout.addWidget( self.btn_exclude_remove )
+		QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
 		#Automatic snapshots
 		self.group_box_when = QGroupBox( self )
@@ -138,6 +142,7 @@ class SettingsDialog( QDialog ):
 		self.cb_remove_older_then = QCheckBox( _( 'Older then:' ), self )
 		layout.addWidget( self.cb_remove_older_then, 0, 0 )
 		self.cb_remove_older_then.setChecked( enabled )
+		QObject.connect( self.cb_remove_older_then, SIGNAL('stateChanged(int)'), self.update_remove_older_than )
 
 		self.edit_remove_older_then = QSpinBox( self )
 		layout.addWidget( self.edit_remove_older_then, 0, 1 )
@@ -154,6 +159,7 @@ class SettingsDialog( QDialog ):
 		self.cb_min_free_space = QCheckBox( _( 'If free space is less then:' ), self )
 		layout.addWidget( self.cb_min_free_space, 1, 0 )
 		self.cb_min_free_space.setChecked( enabled )
+		QObject.connect( self.cb_min_free_space, SIGNAL('stateChanged(int)'), self.update_min_free_space )
 
 		self.edit_min_free_space = QSpinBox( self )
 		layout.addWidget( self.edit_min_free_space, 1, 1 )
@@ -174,7 +180,10 @@ class SettingsDialog( QDialog ):
 		self.main_layout.addWidget( button_box )
 
 		self.btn_ok = button_box.addButton( QDialogButtonBox.Ok )
+		QObject.connect( self.btn_ok, SIGNAL('clicked()'), self.accept )
+
 		self.btn_cancel = button_box.addButton( QDialogButtonBox.Cancel )
+		QObject.connect( self.btn_cancel, SIGNAL('clicked()'), self.reject )
 
 		#make titles bold
 		kde4tools.set_font_bold( self.group_box_where )
@@ -182,7 +191,20 @@ class SettingsDialog( QDialog ):
 		kde4tools.set_font_bold( self.group_box_when )
 		kde4tools.set_font_bold( self.group_box_remove )
 
+		self.update_remove_older_than()
+		self.update_min_free_space()
+
 		self.btn_ok.setDefault( True )
+
+	def update_remove_older_than( self ):
+		enabled = self.cb_remove_older_then.isChecked()
+		self.edit_remove_older_then.setEnabled( enabled )
+		self.combo_remove_older_then.setEnabled( enabled )
+
+	def update_min_free_space( self ):
+		enabled = self.cb_min_free_space.isChecked()
+		self.edit_min_free_space.setEnabled( enabled )
+		self.combo_min_free_space.setEnabled( enabled )
 
 	def add_include( self, path ):
 		item = QTreeWidgetItem( self.list_include )
@@ -425,59 +447,95 @@ class SettingsDialog( QDialog ):
 #
 #	def on_cancel( self, button ):
 #		self.dialog.destroy()
-#
-#	def validate( self ):
-#		#snapshots path
-#		snapshots_path = self.fcb_where.get_filename()
-#
-#		#include list 
-#		include_list = []
-#		iter = self.store_include.get_iter_first()
-#		while not iter is None:
-#			include_list.append( self.store_include.get_value( iter, 0 ) )
-#			iter = self.store_include.iter_next( iter )
-#
-#		#exclude patterns
-#		exclude_list = []
-#		iter = self.store_exclude.get_iter_first()
-#		while not iter is None:
-#			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
-#			iter = self.store_exclude.iter_next( iter )
-#
-#		#check params
-#		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
-#		if not check_ret_val is None:
-#			err_id, err_msg = check_ret_val
-#			gnomemessagebox.show_error( self.dialog, self.config, err_msg )
-#			return False
-#
-#		#check if back folder changed
-#		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
-#			if gtk.RESPONSE_YES != gnomemessagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots directory ?') ):
-#				return False 
-#
-#		#ok let's save to config
-#		self.config.set_snapshots_path( snapshots_path )
-#		self.config.set_include_folders( include_list )
-#		self.config.set_exclude_patterns( exclude_list )
-#
-#		#other settings
-#		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
-#		self.config.set_remove_old_snapshots( 
-#						self.cb_remove_old_backup.get_active(), 
-#						int( self.edit_remove_old_backup_value.get_value() ),
-#						self.store_remove_old_backup_unit.get_value( self.cb_remove_old_backup_unit.get_active_iter(), 1 ) )
-#		self.config.set_min_free_space( 
-#						self.cb_min_free_space.get_active(), 
-#						int( self.edit_min_free_space_value.get_value() ),
-#						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ) )
-#		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active() )
-#
-#		self.config.save()
-#		return True
+
+	def validate( self ):
+		#snapshots path
+		snapshots_path = str( self.edit_snapshots_path.text() )
+
+		#include list 
+		include_list = []
+		for index in xrange( self.list_include.topLevelItemCount() ):
+			include_list.append( str( self.list_include.topLevelItem( index ).text( 0 ) ) )
+
+		#exclude patterns
+		exclude_list = []
+		for index in xrange( self.list_exclude.topLevelItemCount() ):
+			exclude_list.append( str( self.list_exclude.topLevelItem( index ).text( 0 ) ) )
+
+		#check params
+		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
+		if not check_ret_val is None:
+			err_id, err_msg = check_ret_val
+			QMessageBox.critical( self, _( 'Error' ), err_msg )
+			return False
+
+		#check if back folder changed
+		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
+			if QMessageBox.Yes != QMessageBox.question( self, _( 'Warning' ), _('Are you sure you want to change snapshots directory ?'), QMessageBox.Yes | QMessageBox.No ):
+				return False 
+
+		#ok let's save to config
+		self.config.set_snapshots_path( snapshots_path )
+		self.config.set_include_folders( include_list )
+		self.config.set_exclude_patterns( exclude_list )
+
+		#other settings
+		self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
+		self.config.set_remove_old_snapshots( 
+						self.cb_remove_older_then.isChecked(), 
+						self.edit_remove_older_then.value(),
+						self.combo_remove_older_then.itemData( self.combo_remove_older_then.currentIndex() ).toInt()[0] )
+		self.config.set_min_free_space( 
+						self.cb_min_free_space.isChecked(), 
+						self.edit_min_free_space.value(),
+						self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ).toInt()[0] )
+		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.isChecked() )
+
+		self.config.save()
+		return True
+
+	def on_btn_exclude_remove_clicked ( self ):
+		item = self.list_exclude.currentItem()
+		if item is None:
+			return
+		self.list_exclude.removeItemWidget( item, 0 )
+	
+	def on_btn_exclude_add_clicked( self ):
+		ret_val = QInputDialog.getText( self, _( 'Exclude pattern' ), '' )
+		if not ret_val[1]:
+			return
+		
+		pattern = str( ret_val[0] ).strip()
+		if len( pattern ) == 0:
+			return
+
+		for index in xrange( self.list_exclude.topLevelItemCount() ):
+			if pattern == self.list_exclude.topLevelItem( index ):
+				return
+		self.add_exclude( pattern )
+
+	def on_btn_include_remove_clicked ( self ):
+		item = self.list_include.currentItem()
+		if item is None:
+			return
+		self.list_include.removeItemWidget( item, 0 )
+
+	def on_btn_include_add_clicked( self ):
+		path = QFileDialog.getExistingDirectory( self, _( 'Include folder' ) )
+		if len( path ) == 0 :
+			return
+
+		for index in xrange( self.list_include.topLevelItemCount() ):
+			if path == self.list_include.topLevelItem( index ):
+				return
+		self.add_include( path[ : -1 ] )
 
 	def on_btn_snapshots_path_clicked( self ):
 		path = QFileDialog.getExistingDirectory( self, _( 'Where to save snapshots' ), self.edit_snapshots_path.text() )
 		if len( path ) > 0 :
-			self.edit_snapshots_path.setText( path )
+			self.edit_snapshots_path.setText( path[ : -1 ] )
+
+	def accept( self ):
+		if self.validate():
+			QDialog.accept( self )
 
