@@ -1139,6 +1139,9 @@ class MainWindow( QMainWindow ):
 		if snapshots_path == self.config.get_snapshots_path() and include_folders == self.config.get_include_folders():
 		   return
 
+		self.update_places()
+		self.update_time_line()
+
 	def on_btn_show_hidden_files_toggled( self, checked ):
 		self.show_hidden_files = checked
 		self.update_files_view( 1 )
