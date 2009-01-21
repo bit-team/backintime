@@ -21,8 +21,8 @@ import os.path
 import stat
 import sys
 
-if len( os.getenv( 'DISPLAY', '' ) ) == 0:
-	os.putenv( 'DISPLAY', ':0.0' )
+#if len( os.getenv( 'DISPLAY', '' ) ) == 0:
+#	os.putenv( 'DISPLAY', ':0.0' )
 
 import datetime
 import gettext
@@ -1400,6 +1400,8 @@ def create_kapplication():
 
 
 if __name__ == '__main__':
+	print QApplication.desktopSettingsAware()
+
 	cfg = config.Config()
 	backintime.print_version( cfg )
 
