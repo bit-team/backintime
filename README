@@ -4,7 +4,8 @@ Copyright (C) 2008-2009 Oprea Dan <dan@le-web.org>
 
 1. About
 
-	Back In Time is a simple backup tool for GNOME Desktop, inspired from "flyback project".
+	Back In Time is a simple backup tool for Linux, inspired from "flyback project".
+	Currently there are 2 interfaces available: GNOME and KDE4.
 	You only need to specify 3 things:
 		* where to save snapshots
 		* what directories to backup
@@ -23,18 +24,27 @@ Copyright (C) 2008-2009 Oprea Dan <dan@le-web.org>
 
 2.1. Debian/Ubuntu
 
-	Main application:
+	GNOME:
 
 		./makedeb.sh
 		sudo dpkg -i backintime-common-<version>.deb
 		sudo dpkg -i backintime-gnome-<version>.deb
 
+	KDE4:
+
+		./makedeb.sh
+		sudo dpkg -i backintime-common-<version>.deb
+		sudo dpkg -i backintime-kde4-<version>.deb
+
 2.2. Other
 
-	Depends on: python, rsync
+	Common (depends on: python, rsync):
 		sudo ./install-common.sh
 
-	Depends on: python-glade2, python-gnome2, meld
+	GNOME (install common first, depends on: python-glade2, python-gnome2, meld):
+		sudo ./install-gnome.sh
+
+	KDE4 (install common first, depends on: python-kde4, kompare):
 		sudo ./install-gnome.sh
 
 3. Integrate with filemanager
