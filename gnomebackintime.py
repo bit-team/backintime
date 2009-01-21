@@ -997,35 +997,91 @@ def open_url( dialog, link, user_data ):
 
 
 class GTKMainThread(threading.Thread): #used to display status icon
+	def __init__( self ):
+		threading.Thread.__init__( self )
+		self.stop_flag = False
+
+	def start( self ):
+		self.stop_flag = False
+		threading.Thread.start( self )
+
+	def stop( self ):
+		self.stop_flag = True
+		try:
+			self.join()
+		except:
+			pass
+
 	def run(self):
-		gtk.main()
+		display = gtk.gdk.display_get_default()
+		if display is None:
+			return
 
-
-def take_snapshot( cfg ):
-	display = gtk.gdk.display_get_default()
-	status_icon =  None
-
-	if not display is None:
-		gtk.gdk.threads_init()
-		GTKMainThread().start()
+		status_icon = None
 
 		try:
 			status_icon = gtk.StatusIcon()
 			status_icon.set_from_stock( gtk.STOCK_SAVE )
 			status_icon.set_visible( True )
-			status_icon.set_tooltip(_("Back In Time: take snapshot ..."))
+			status_icon.set_tooltip(_('Back In Time: take snapshot ...'))
 		except:
 			pass
+
+		if status_icon is None:
+			return
+
+		while True:
+			gtk.main_iteration( False )
+			if self.stop_flag:
+				break
+			if not gtk.events_pending():
+				time.sleep( 0.2 )
+		
+		status_icon.set_visible( False )
+		gtk.main_iteration( False )
+
+
+def take_snapshot( cfg ):
+	gtkThread = GTKMainThread()
+	gtkThread.start()
 
 	logger.openlog()
 	snapshots.Snapshots( cfg ).take_snapshot()
 	logger.closelog()
 
-	if not status_icon is None:
-		status_icon.set_visible( False )
+	gtkThread.stop()
 
-	if not display is None:
-		gtk.main_quit()
+
+#class GTKMainThread(threading.Thread): #used to display status icon
+#	def run(self):
+#		gtk.main()
+#
+#
+#def take_snapshot( cfg ):
+#	display = gtk.gdk.display_get_default()
+#	status_icon =  None
+#
+#	if not display is None:
+#		gtk.gdk.threads_init()
+#		GTKMainThread().start()
+#
+#		try:
+#			status_icon = gtk.StatusIcon()
+#			status_icon.set_from_stock( gtk.STOCK_SAVE )
+#			status_icon.set_visible( True )
+#			status_icon.set_tooltip(_("Back In Time: take snapshot ..."))
+#		except:
+#			pass
+#
+#	logger.openlog()
+#	snapshots.Snapshots( cfg ).take_snapshot()
+#	logger.closelog()
+#
+#	if not status_icon is None:
+#		status_icon.set_visible( False )
+#
+#	if not display is None:
+#		gtk.main_quit()
 
 
 if __name__ == '__main__':
