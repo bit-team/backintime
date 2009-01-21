@@ -15,6 +15,6 @@ install -d $BASEPATH/usr/share/backintime
 install --mode=644 kde4*.py $BASEPATH/usr/share/backintime
 
 #install .desktop file(s)
-install -d $BASEPATH/usr/share/applications
-install --mode=644 backintime-kde4.desktop $BASEPATH/usr/share/applications
+install -d $BASEPATH/usr/share/applications/kde4
+install --mode=644 backintime-kde4.desktop $BASEPATH/usr/share/applications/kde4
 

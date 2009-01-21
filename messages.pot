@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-14 15:59+0100\n"
+"POT-Creation-Date: 2009-01-21 16:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,27 +80,28 @@ msgstr ""
 msgid "\"Exclude pattern\" can't contain \":\" char !"
 msgstr ""
 
-#: gnomebackintime.py:140 gnomebackintime.py:467
+#: gnomebackintime.py:140 gnomebackintime.py:470 kde4backintime.py:170
+#: kde4backintime.py:652
 msgid "Done"
 msgstr ""
 
-#: gnomebackintime.py:153
+#: gnomebackintime.py:153 kde4backintime.py:133
 msgid "Places"
 msgstr ""
 
-#: gnomebackintime.py:174
+#: gnomebackintime.py:174 kde4backintime.py:137
 msgid "Name"
 msgstr ""
 
-#: gnomebackintime.py:185
+#: gnomebackintime.py:185 kde4backintime.py:137
 msgid "Size"
 msgstr ""
 
-#: gnomebackintime.py:192
+#: gnomebackintime.py:192 kde4backintime.py:137
 msgid "Date"
 msgstr ""
 
-#: gnomebackintime.py:211
+#: gnomebackintime.py:211 kde4backintime.py:129
 msgid "Timeline"
 msgstr ""
 
@@ -127,66 +128,70 @@ msgstr ""
 msgid "Restore"
 msgstr ""
 
-#: gnomebackintime.py:455
+#: gnomebackintime.py:458 kde4backintime.py:643
 msgid "Working ..."
 msgstr ""
 
-#: gnomebackintime.py:469
+#: gnomebackintime.py:472 kde4backintime.py:654
 msgid "Done, no backup needed"
 msgstr ""
 
-#: gnomebackintime.py:477
+#: gnomebackintime.py:480 kde4backintime.py:690
 msgid "Global"
 msgstr ""
 
-#: gnomebackintime.py:478
+#: gnomebackintime.py:481 kde4backintime.py:691
 msgid "Root"
 msgstr ""
 
-#: gnomebackintime.py:479
+#: gnomebackintime.py:482 kde4backintime.py:692
 msgid "Home"
 msgstr ""
 
-#: gnomebackintime.py:503
+#: gnomebackintime.py:506
 msgid "Bookmarks"
 msgstr ""
 
-#: gnomebackintime.py:511 gnomesettingsdialog.py:65
+#: gnomebackintime.py:514 kde4backintime.py:697
 msgid "Backup Directories"
 msgstr ""
 
-#: gnomebackintime.py:531
+#: gnomebackintime.py:534 kde4backintime.py:765
 msgid "Today"
 msgstr ""
 
-#: gnomebackintime.py:535
+#: gnomebackintime.py:538 kde4backintime.py:769
 msgid "Yesterday"
 msgstr ""
 
-#: gnomebackintime.py:539
+#: gnomebackintime.py:542 kde4backintime.py:773
 msgid "This week"
 msgstr ""
 
-#: gnomebackintime.py:543
+#: gnomebackintime.py:546 kde4backintime.py:777
 msgid "Last week"
 msgstr ""
 
-#: gnomebackintime.py:840
+#: gnomebackintime.py:843
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
 
-#: gnomebackintime.py:1016
+#: gnomebackintime.py:1030 kde4backintime.py:1381
 msgid "Back In Time: take snapshot ..."
 msgstr ""
 
-#: gnomesettingsdialog.py:89
-msgid "Exclude Patterns"
+#: gnomesettingsdialog.py:65 kde4settingsdialog.py:78
+msgid "Include folders"
 msgstr ""
 
-#: gnomesettingsdialog.py:285
+#: gnomesettingsdialog.py:89 kde4settingsdialog.py:101
+msgid "Exclude patterns"
+msgstr ""
+
+#: gnomesettingsdialog.py:285 kde4settingsdialog.py:259
 msgid "Are you sure you want to change snapshots directory ?"
 msgstr ""
 
@@ -197,6 +202,83 @@ msgstr ""
 #: gnomesnapshotsdialog.py:273
 #, python-format
 msgid "Command not found: %s"
+msgstr ""
+
+#: kde4backintime.py:1124 gnomebackintime.glade:42 gnomebackintime.glade:43
+#: gnomebackintime.glade:1057
+msgid "Snapshot Name"
+msgstr ""
+
+#: kde4backintime.py:1144 kde4settingsdialog.py:259
+msgid "Warning"
+msgstr ""
+
+#: kde4backintime.py:1144
+#, python-format
+msgid ""
+"Are you sure you want to remove the snapshot:\n"
+"%s"
+msgstr ""
+
+#: kde4settingsdialog.py:42 gnomebackintime.glade:71 gnomebackintime.glade:72
+#: gnomebackintime.glade:362
+msgid "Settings"
+msgstr ""
+
+#: kde4settingsdialog.py:51 kde4settingsdialog.py:319
+msgid "Where to save snapshots"
+msgstr ""
+
+#: kde4settingsdialog.py:60
+msgid "..."
+msgstr ""
+
+#: kde4settingsdialog.py:67
+msgid "What to save"
+msgstr ""
+
+#: kde4settingsdialog.py:87 kde4settingsdialog.py:110
+msgid "Add"
+msgstr ""
+
+#: kde4settingsdialog.py:91 kde4settingsdialog.py:114
+msgid "Remove"
+msgstr ""
+
+#: kde4settingsdialog.py:121
+msgid "When"
+msgstr ""
+
+#: kde4settingsdialog.py:125
+msgid "Automatic snapshots:"
+msgstr ""
+
+#: kde4settingsdialog.py:134
+msgid "Remove Snapshots"
+msgstr ""
+
+#: kde4settingsdialog.py:142 gnomebackintime.glade:715
+msgid "Older then:"
+msgstr ""
+
+#: kde4settingsdialog.py:159 gnomebackintime.glade:725
+msgid "If free space is less then:"
+msgstr ""
+
+#: kde4settingsdialog.py:174 gnomebackintime.glade:655
+msgid "Don't remove named snapshots"
+msgstr ""
+
+#: kde4settingsdialog.py:254
+msgid "Error"
+msgstr ""
+
+#: kde4settingsdialog.py:289
+msgid "Exclude pattern"
+msgstr ""
+
+#: kde4settingsdialog.py:309
+msgid "Include folder"
 msgstr ""
 
 #: snapshots.py:64
@@ -219,17 +301,8 @@ msgstr ""
 msgid "Backup Now"
 msgstr ""
 
-#: gnomebackintime.glade:42 gnomebackintime.glade:43
-#: gnomebackintime.glade:1057
-msgid "Snapshot Name"
-msgstr ""
-
 #: gnomebackintime.glade:54 gnomebackintime.glade:55
 msgid "Remove Snapshot"
-msgstr ""
-
-#: gnomebackintime.glade:71 gnomebackintime.glade:72 gnomebackintime.glade:362
-msgid "Settings"
 msgstr ""
 
 #: gnomebackintime.glade:91 gnomebackintime.glade:92
@@ -257,7 +330,7 @@ msgid "Select A Folder"
 msgstr ""
 
 #: gnomebackintime.glade:401
-msgid "<b>Where to save snapshots:</b>"
+msgid "<b>Where to save snapshots</b>"
 msgstr ""
 
 #: gnomebackintime.glade:568
@@ -272,18 +345,6 @@ msgstr ""
 msgid "<b>When</b>"
 msgstr ""
 
-#: gnomebackintime.glade:655
-msgid "If free space is less then:"
-msgstr ""
-
-#: gnomebackintime.glade:669
-msgid "Older then:"
-msgstr ""
-
-#: gnomebackintime.glade:725
-msgid "Don't remove named snapshots"
-msgstr ""
-
 #: gnomebackintime.glade:742
 msgid "<b>Remove Snapshots</b>"
 msgstr ""
@@ -292,16 +353,16 @@ msgstr ""
 msgid "Diff with"
 msgstr ""
 
-#: gnomebackintime.glade:964
-msgid "Use %1 and %2 for path parameters"
+#: gnomebackintime.glade:942
+msgid "Command:"
 msgstr ""
 
-#: gnomebackintime.glade:978
+#: gnomebackintime.glade:949
 msgid "Parameters:"
 msgstr ""
 
-#: gnomebackintime.glade:989
-msgid "Command:"
+#: gnomebackintime.glade:960
+msgid "Use %1 and %2 for path parameters"
 msgstr ""
 
 #: gnomebackintime.glade:999

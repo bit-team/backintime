@@ -304,7 +304,7 @@ class MainWindow:
 
 		self.update_all( True )
 
-		self.force_wait_lock = False
+		self.force_wait_lock_counter = 0
 		self.update_backup_info()
 		gobject.timeout_add( 1000, self.update_backup_info )
 		return False
@@ -441,13 +441,16 @@ class MainWindow:
 		#print "forceWaitLock: %s" % forceWaitLock
 
 		if force_wait_lock:
-			self.force_wait_lock = True
+			self.force_wait_lock_counter = 10
 		
 		busy = self.snapshots.is_busy()
 		if busy:
-			self.force_wait_lock = False
+			self.force_wait_lock_counter = 0
 
-		fake_busy = busy or self.force_wait_lock
+		if self.force_wait_lock_counter > 0:
+			self.force_wait_lock_counter = self.force_wait_lock_counter - 1
+
+		fake_busy = busy or self.force_wait_lock_counter > 0
 		self.glade.get_widget( 'btn_backup' ).set_sensitive( not fake_busy )
 
 		if fake_busy:

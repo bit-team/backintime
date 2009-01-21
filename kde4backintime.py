@@ -76,11 +76,12 @@ _=gettext.gettext
 
 
 class MainWindow( QMainWindow ):
-	def __init__( self, config, app_instance ):
+	def __init__( self, config, app_instance, kapp ):
 		QMainWindow.__init__( self )
 
 		self.config = config
 		self.app_instance = app_instance
+		self.kapp = kapp
 		self.snapshots = snapshots.Snapshots( config )
 
 		self.setWindowTitle( self.config.APP_NAME )
@@ -228,6 +229,13 @@ class MainWindow( QMainWindow ):
 		QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.show_not_implemented )
 
 		self.force_wait_lock_counter = 0
+	
+		self.timer_raise_application = QTimer( self )
+		self.timer_raise_application.setInterval( 1000 )
+		self.timer_raise_application.setSingleShot( False )
+		QObject.connect( self.timer_raise_application, SIGNAL('timeout()'), self.raise_application )
+		self.timer_raise_application.start()
+
 		self.timer_update_take_snapshot = QTimer( self )
 		self.timer_update_take_snapshot.setInterval( 1000 )
 		self.timer_update_take_snapshot.setSingleShot( False )
@@ -607,6 +615,14 @@ class MainWindow( QMainWindow ):
 #		self.update_folder_view( 1, file_name, show_snapshots )
 #
 #		return True
+
+	def raise_application( self ):
+		raise_cmd = self.app_instance.raise_command()
+		if raise_cmd is None:
+			return
+		
+		print "Raise cmd: " + raise_cmd
+		self.kapp.alert( self )
 
 	def update_take_snapshot( self, force_wait_lock = False ):
 		if force_wait_lock:
@@ -1358,7 +1374,7 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 			pass
 
 	def run(self):
-		app = create_kapplication()
+		kapp = create_kapplication()
 
 		status_icon = QSystemTrayIcon()
 		status_icon.setIcon( KIcon('document-save') )
@@ -1366,13 +1382,14 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 		status_icon.show()
 
 		while True:
-			app.processEvents()
+			kapp.processEvents()
 			if self.stop_flag:
 				break
-			time.sleep( 0.2 )
+			if not kapp.hasPendingEvents():
+				time.sleep( 0.2 )
 		
 		status_icon.hide()
-		app.processEvents()
+		kapp.processEvents()
 
 
 def create_kapplication():
@@ -1412,10 +1429,10 @@ if __name__ == '__main__':
 	app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
 
 	logger.openlog()
-	app = create_kapplication()
-	main_window = MainWindow( cfg, app_instance )
+	kapp = create_kapplication()
+	main_window = MainWindow( cfg, app_instance, kapp )
 	main_window.show()
-	app.exec_()
+	kapp.exec_()
 	logger.closelog()
 
 	app_instance.exit_application()

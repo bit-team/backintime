@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in common gnome; do
+for i in common gnome kde4; do
 	PKGNAME=`cat control.$i | grep "Package:" | cut -d" " -f2`
 	PKGVER=`cat control.$i | grep "Version:" | cut -d" " -f2`
 	PKGARCH=`cat control.$i | grep "Architecture:" | cut -d" " -f2`
