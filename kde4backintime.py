@@ -207,20 +207,22 @@ class MainWindow( QMainWindow ):
 
 		self.list_files_view.setFocus()
 
+		self.update_snapshot_actions()
+
 		QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_time_line_current_item_changed )
 		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
 		QObject.connect( self.list_files_view, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_files_view_item_activated )
 
 		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
-		QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.show_not_implemented )
-		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.on_btn_name_snapshot_clicked )
+		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
 		QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
 		QObject.connect( self.btn_about, SIGNAL('triggered()'), self.show_not_implemented )
 		QObject.connect( self.btn_help, SIGNAL('triggered()'), self.show_not_implemented )
 		QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 		QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
 		QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
-		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.on_btn_restore_clicked )
 		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.show_not_implemented )
 		QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.show_not_implemented )
 
@@ -679,11 +681,25 @@ class MainWindow( QMainWindow ):
 			for folder in include_folders:
 				self.add_place( folder, folder, 'document-save' )
 
+	def update_snapshot_actions( self ):
+		enabled = False
+
+		item = self.list_time_line.currentItem()
+		if not item is None:
+			if len( self.time_line_get_snapshot_id( item ) ) > 1:
+				enabled = True
+
+		#update remove/name snapshot buttons
+		self.btn_name_snapshot.setEnabled( enabled )
+		self.btn_remove_snapshot.setEnabled( enabled )
+
 	def on_list_time_line_current_item_changed( self, item, previous ):
+		self.update_snapshot_actions()
+
 		if item is None:
 			return
 
-		snapshot_id = str( item.text( 1 ) ) 
+		snapshot_id = self.time_line_get_snapshot_id( item )
 		if len( snapshot_id ) == 0:
 			#self.list_time_line.setCurrentItem( previous )
 			return
@@ -693,6 +709,14 @@ class MainWindow( QMainWindow ):
 
 		self.snapshot_id = snapshot_id
 		self.update_files_view( 2 )
+
+	def time_line_get_snapshot_id( self, item ):
+		return str( item.text( 1 ) ) 
+
+	def time_line_update_snapshot_name( self, item ):
+		snapshot_id = self.time_line_get_snapshot_id( item )
+		if len( snapshot_id ) > 0:
+			item.setText( 0, self.snapshots.get_snapshot_display_name( snapshot_id ) )
 
 	def add_time_line( self, snapshot_name, snapshot_id ):
 		item = QTreeWidgetItem( self.list_time_line )
@@ -1069,6 +1093,43 @@ class MainWindow( QMainWindow ):
 
 		self.update_take_snapshot( True )
 
+	def on_btn_name_snapshot_clicked( self ):
+		item = self.list_time_line.currentItem()
+		if item is None:
+			return
+
+		snapshot_id = self.time_line_get_snapshot_id( item )
+		if len( snapshot_id ) <= 1:
+			return
+
+		name = self.snapshots.get_snapshot_name( snapshot_id )
+
+		ret_val = QInputDialog.getText( self, _( 'Snapshot Name' ), '', QLineEdit.Normal, name )
+		if not ret_val[1]:
+			return
+		
+		new_name = str( ret_val[0] ).strip()
+		if name == new_name:
+			return
+
+		self.snapshots.set_snapshot_name( snapshot_id, new_name )
+		self.time_line_update_snapshot_name( item )
+
+	def on_btn_remove_snapshot_clicked ( self ):
+		item = self.list_time_line.currentItem()
+		if item is None:
+			return
+
+		snapshot_id = self.time_line_get_snapshot_id( item )
+		if len( snapshot_id ) <= 1:
+			return
+
+		if QMessageBox.Yes != QMessageBox.question( self, _( 'Warning' ), _( "Are you sure you want to remove the snapshot:\n%s" ) % self.snapshots.get_snapshot_display_name( snapshot_id ), QMessageBox.Yes | QMessageBox.No ):
+			return
+
+		self.snapshots.remove_snapshot( snapshot_id )
+		self.update_time_line()
+
 	def on_btn_settings_clicked( self ):
 		snapshots_path = self.config.get_snapshots_path()
 		include_folders = self.config.get_include_folders()
@@ -1081,6 +1142,17 @@ class MainWindow( QMainWindow ):
 	def on_btn_show_hidden_files_toggled( self, checked ):
 		self.show_hidden_files = checked
 		self.update_files_view( 1 )
+
+	def on_btn_restore_clicked( self ):
+		item = self.list_files_view.currentItem()
+		if item is None:
+			return
+
+		if len( self.snapshot_id ) <= 1:
+			return
+
+		rel_path = os.path.join( self.path, self.files_view_get_name( item ) )
+		self.snapshots.restore( self.snapshot_id, rel_path )
 
 	def on_btn_folder_up_clicked( self ):
 		if len( self.path ) <= 1:
@@ -1253,10 +1325,6 @@ class MainWindow( QMainWindow ):
 
 		#update restore button state
 		self.btn_restore.setEnabled( len( self.snapshot_id ) > 1 and len( files ) > 0 )
-
-		#update remove/name snapshot buttons
-		self.btn_name_snapshot.setEnabled( len( self.snapshot_id ) > 1 )
-		self.btn_remove_snapshot.setEnabled( len( self.snapshot_id ) > 1 )
 
 		#update copy button state
 		self.btn_copy.setEnabled( len( files ) > 0 )
