@@ -41,7 +41,7 @@ def print_version( cfg ):
 	print ''
 	print 'Back In Time comes with ABSOLUTELY NO WARRANTY.'
 	print 'This is free software, and you are welcome to redistribute it under certain conditions.'
-	print 'For details see LICENSE file.'
+	print 'For more details see LICENSE file.'
 	print ''
 
 

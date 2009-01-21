@@ -27,6 +27,7 @@ if len( os.getenv( 'DISPLAY', '' ) ) == 0:
 import datetime
 import gettext
 import time
+import threading
 
 import backintime
 import config
@@ -1340,10 +1341,45 @@ class MainWindow( QMainWindow ):
 #			self.on_btn_snapshots_clicked( None )
 
 
-def take_snapshot( cfg ):
-	logger.openlog()
-	snapshots.Snapshots( cfg ).take_snapshot()
-	logger.closelog()
+class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
+	def __init__( self ):
+		threading.Thread.__init__( self )
+		self.stop_flag = False
+
+	def snapshot_begin( self ):
+		self.stop_flag = False
+		self.start()
+
+	def snapshot_end( self ):
+		self.stop_flag = True
+		try:
+			self.join()
+		except:
+			pass
+
+	def run(self):
+		app = create_kapplication()
+
+		status_icon = QSystemTrayIcon()
+		status_icon.setIcon( KIcon('document-save') )
+		status_icon.setToolTip( _('Back In Time: take snapshot ...') )
+		status_icon.show()
+
+		while True:
+			app.processEvents()
+			if self.stop_flag:
+				break
+			time.sleep( 0.2 )
+		
+		status_icon.hide()
+		app.processEvents()
+
+
+def create_kapplication():
+	kdeAboutData = KAboutData( 'backintime', 'backintime', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( '' ), ki18n( '' ), 'le-web.org/back-in-time', 'dab@le-web.org' )
+	#KCmdLineArgs.init( sys.argv, kdeAboutData )
+	KCmdLineArgs.init( [sys.argv[0]], kdeAboutData )
+	return KApplication()
 
 
 if __name__ == '__main__':
@@ -1352,7 +1388,7 @@ if __name__ == '__main__':
 
 	for arg in sys.argv[ 1 : ]:
 		if arg == '--backup' or arg == '-b':
-			take_snapshot( cfg )
+			backintime.take_snapshot( cfg, KDE4TakeSnapshotCallback() )
 			sys.exit(0)
 
 		if arg == '--version' or arg == '-v':
@@ -1376,10 +1412,7 @@ if __name__ == '__main__':
 	app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
 
 	logger.openlog()
-	#qt_app = QApplication(sys.argv)
-	kdeAboutData = KAboutData( 'backintime', 'backintime', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( '' ), ki18n( '' ), 'le-web.org/back-in-time', 'dab@le-web.org' )
-	KCmdLineArgs.init( sys.argv, kdeAboutData )
-	app = KApplication()
+	app = create_kapplication()
 	main_window = MainWindow( cfg, app_instance )
 	main_window.show()
 	app.exec_()
