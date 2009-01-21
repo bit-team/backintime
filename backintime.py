@@ -29,19 +29,24 @@ import snapshots
 _=gettext.gettext
 
 
-def take_snapshot( cfg ):
+def take_snapshot( cfg, callback = None ):
 	logger.openlog()
-	snapshots.Snapshots( cfg ).take_snapshot()
+	snapshots.Snapshots( cfg ).take_snapshot( callback )
 	logger.closelog()
 
 
 def print_version( cfg ):
 	print 'Back In Time'
 	print 'Version: ' + cfg.VERSION
+	print ''
+	print 'Back In Time comes with ABSOLUTELY NO WARRANTY.'
+	print 'This is free software, and you are welcome to redistribute it under certain conditions.'
+	print 'For details see LICENSE file.'
+	print ''
 
 
 def print_help( cfg ):
-	print 'Back In Time'
+	print ''
 	print 'Format: '
 	print 'backintime [[-s|--snapshots] path]'
 	print '\tStarts GUI mode'
@@ -53,6 +58,7 @@ def print_help( cfg ):
 	print '\tShow version and exit'
 	print 'backintime -h|--help'
 	print '\tShow this help and exit'
+	print ''
 
 
 if __name__ == '__main__':

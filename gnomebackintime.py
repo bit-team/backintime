@@ -992,20 +992,21 @@ class MainWindow:
 		if show_snapshots:
 			self.on_btn_snapshots_clicked( None )
 
+
 def open_url( dialog, link, user_data ):
 	os.system( "gnome-open \"%s\" &" % link )
 
 
-class GTKMainThread(threading.Thread): #used to display status icon
+class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status icon
 	def __init__( self ):
 		threading.Thread.__init__( self )
 		self.stop_flag = False
 
-	def start( self ):
+	def snapshot_begin( self ):
 		self.stop_flag = False
-		threading.Thread.start( self )
+		self.start()
 
-	def stop( self ):
+	def snapshot_end( self ):
 		self.stop_flag = True
 		try:
 			self.join()
@@ -1041,56 +1042,13 @@ class GTKMainThread(threading.Thread): #used to display status icon
 		gtk.main_iteration( False )
 
 
-def take_snapshot( cfg ):
-	gtkThread = GTKMainThread()
-	gtkThread.start()
-
-	logger.openlog()
-	snapshots.Snapshots( cfg ).take_snapshot()
-	logger.closelog()
-
-	gtkThread.stop()
-
-
-#class GTKMainThread(threading.Thread): #used to display status icon
-#	def run(self):
-#		gtk.main()
-#
-#
-#def take_snapshot( cfg ):
-#	display = gtk.gdk.display_get_default()
-#	status_icon =  None
-#
-#	if not display is None:
-#		gtk.gdk.threads_init()
-#		GTKMainThread().start()
-#
-#		try:
-#			status_icon = gtk.StatusIcon()
-#			status_icon.set_from_stock( gtk.STOCK_SAVE )
-#			status_icon.set_visible( True )
-#			status_icon.set_tooltip(_("Back In Time: take snapshot ..."))
-#		except:
-#			pass
-#
-#	logger.openlog()
-#	snapshots.Snapshots( cfg ).take_snapshot()
-#	logger.closelog()
-#
-#	if not status_icon is None:
-#		status_icon.set_visible( False )
-#
-#	if not display is None:
-#		gtk.main_quit()
-
-
 if __name__ == '__main__':
 	cfg = config.Config()
 	backintime.print_version( cfg )
 
 	for arg in sys.argv[ 1 : ]:
 		if arg == '--backup' or arg == '-b':
-			take_snapshot( cfg )
+			backintime.take_snapshot( cfg, GnomeTakeSnapshotCallback() )
 			sys.exit(0)
 
 		if arg == '--version' or arg == '-v':

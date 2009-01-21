@@ -150,7 +150,7 @@ class Snapshots:
 		cmd = "rm -rf \"%s\"" % path
 		self._execute( cmd )
 
-	def take_snapshot( self ):
+	def take_snapshot( self, callback = None ):
 		if not self.config.can_backup():
 			logger.warning( 'Not configured or backup path don\'t exists' )
 			os.system( 'sleep 2' ) #max 1 backup / second
@@ -163,6 +163,9 @@ class Snapshots:
 			return False
 
 		instance.start_application()
+
+		if not callback is None:
+			callback.snapshot_begin()
 		
 		logger.info( 'Lock' )
 
@@ -191,6 +194,9 @@ class Snapshots:
 
 		os.system( 'sleep 2' ) #max 1 backup / second
 
+		if not callback is None:
+			callback.snapshot_end()
+		
 		instance.exit_application()
 		logger.info( 'Unlock' )
 		return ret_val
