@@ -1004,7 +1004,7 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 	def __init__( self ):
 		threading.Thread.__init__( self )
 		self.stop_flag = False
-
+	
 	def snapshot_begin( self ):
 		self.stop_flag = False
 		self.start()
@@ -1017,22 +1017,31 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 			pass
 
 	def run(self):
+		logger.info( '[GnomeTakeSnapshotCallback.run]' )
+
+		create_gnome_app()
+
+		gtk.gdk.threads_init()
 		display = gtk.gdk.display_get_default()
+		
 		if display is None:
-			return
+			logger.info( '[GnomeTakeSnapshotCallback.run] display KO' )
 
 		status_icon = None
-
 		try:
 			status_icon = gtk.StatusIcon()
-			status_icon.set_from_stock( gtk.STOCK_SAVE )
-			status_icon.set_visible( True )
-			status_icon.set_tooltip(_('Back In Time: take snapshot ...'))
 		except:
 			pass
 
 		if status_icon is None:
+			logger.info( '[GnomeTakeSnapshotCallback.run] no status_icon' )
 			return
+		
+		status_icon.set_from_stock( gtk.STOCK_SAVE )
+		status_icon.set_visible( True )
+		status_icon.set_tooltip(_('Back In Time: take snapshot ...'))
+
+		logger.info( '[GnomeTakeSnapshotCallback.run] begin loop' )
 
 		while True:
 			gtk.main_iteration( False )
@@ -1043,6 +1052,13 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 		
 		status_icon.set_visible( False )
 		gtk.main_iteration( False )
+		
+		logger.info( '[GnomeTakeSnapshotCallback.run] end loop' )
+
+
+def create_gnome_app():
+	gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
+	return gnome.program_init( 'backintime', cfg.VERSION, properties = gnome_props )
 
 
 if __name__ == '__main__':
@@ -1074,8 +1090,7 @@ if __name__ == '__main__':
 
 	app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
 
-	gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
-	gnome_prog = gnome.program_init( 'backintime', cfg.VERSION, properties = gnome_props )
+	create_gnome_app()
 
 	gtk.about_dialog_set_url_hook( open_url, None )
 

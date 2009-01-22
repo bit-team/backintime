@@ -1374,8 +1374,13 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 			pass
 
 	def run(self):
+		logger.info( '[KDE4TakeSnapshotCallback.run]' )
+
 		if not check_x_server():
+			logger.info( '[KDE4TakeSnapshotCallback.run] no X server' )
 			return
+
+		logger.info( '[KDE4TakeSnapshotCallback.run] begin loop' )
 
 		kapp = create_kapplication()
 
@@ -1393,6 +1398,8 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 		
 		status_icon.hide()
 		kapp.processEvents()
+		
+		logger.info( '[KDE4TakeSnapshotCallback.run] end loop' )
 
 
 def create_kapplication():
