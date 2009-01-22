@@ -21,8 +21,8 @@ import os.path
 import stat
 import sys
 
-#if len( os.getenv( 'DISPLAY', '' ) ) == 0:
-#	os.putenv( 'DISPLAY', ':0.0' )
+if len( os.getenv( 'DISPLAY', '' ) ) == 0:
+	os.putenv( 'DISPLAY', ':0.0' )
 
 import datetime
 import gettext
@@ -1374,6 +1374,9 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 			pass
 
 	def run(self):
+		if not check_x_server():
+			return
+
 		kapp = create_kapplication()
 
 		status_icon = QSystemTrayIcon()
@@ -1399,9 +1402,11 @@ def create_kapplication():
 	return KApplication()
 
 
-if __name__ == '__main__':
-	print QApplication.desktopSettingsAware()
+def check_x_server():
+	return 0 == os.system( 'xdpyinfo' )
 
+
+if __name__ == '__main__':
 	cfg = config.Config()
 	backintime.print_version( cfg )
 
