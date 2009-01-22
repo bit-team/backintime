@@ -202,6 +202,13 @@ class MainWindow( QMainWindow ):
 			self.list_files_view.header().resizeSection( 1, files_view_size_width )
 			self.list_files_view.header().resizeSection( 2, files_view_date_width )
 
+		#force settingdialog if it is not configured
+		if not cfg.is_configured():
+			kde4settingsdialog.SettingsDialog( self ).exec_()
+
+		if not cfg.is_configured():
+			return
+
 		#populate lists
 		self.update_time_line()
 		self.update_places()
@@ -219,7 +226,7 @@ class MainWindow( QMainWindow ):
 		QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.on_btn_name_snapshot_clicked )
 		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
 		QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
-		QObject.connect( self.btn_about, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_btn_about_clicked )
 		QObject.connect( self.btn_help, SIGNAL('triggered()'), self.show_not_implemented )
 		QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 		QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
@@ -1159,6 +1166,10 @@ class MainWindow( QMainWindow ):
 		self.update_places()
 		self.update_time_line()
 
+	def on_btn_about_clicked( self ):
+		dlg = KAboutDialog( self )
+		dlg.exec_()
+
 	def on_btn_show_hidden_files_toggled( self, checked ):
 		self.show_hidden_files = checked
 		self.update_files_view( 1 )
@@ -1444,9 +1455,13 @@ if __name__ == '__main__':
 
 	logger.openlog()
 	kapp = create_kapplication()
+
 	main_window = MainWindow( cfg, app_instance, kapp )
-	main_window.show()
-	kapp.exec_()
+
+	if cfg.is_configured():
+		main_window.show()
+		kapp.exec_()
+
 	logger.closelog()
 
 	app_instance.exit_application()
