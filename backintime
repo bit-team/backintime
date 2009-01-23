@@ -19,8 +19,10 @@
 
 if [ -f backintime.py ]; then
 	BACKINTIME_PATH="./"
+	PYTHON_BACKINTIME_PATH=""
 else
 	BACKINTIME_PATH="/usr/bin/"
+	PYTHON_BACKINTIME_PATH="/usr/share/backintime/"
 fi
 
 GUI="auto"
@@ -50,7 +52,7 @@ if [ $GUI = "auto" ]; then
 	echo "Autodetect GUI mode: $GUI"
 fi
 
-CMD="python ${BACKINTIME_PATH}$backintime.py"
+CMD="python ${PYTHON_BACKINTIME_PATH}backintime.py"
 
 #check if the selected gui exists
 if [ $GUI = "kde4" ]; then
