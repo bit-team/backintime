@@ -40,7 +40,7 @@ done
 if [ $GUI = "auto" ]; then
 	if [ "$(pidof ksmserver)" ]; then
 		KDE_VERSION=`ksmserver --version | grep KDE:`
-		if [ "$(cut $KDE_VERSION | grep 'KDE: 4.')" ]; then
+		if [ "$(echo $KDE_VERSION | grep 'KDE: 4.')" ]; then
 			GUI="kde4"
 		else
 			GUI="kde3"
@@ -64,7 +64,7 @@ if [ $GUI = "kde4" ]; then
 	elif [ -f ${BACKINTIME_PATH}backintime-gnome ]; then
 		CMD="${BACKINTIME_PATH}backintime-gnome"
 	fi
-elif [ $GUI = "kde" ]; then
+elif [ $GUI = "kde3" ]; then
 #try: kde3, kde4, gnome
 	if [ -f ${BACKINTIME_PATH}backintime-kde3 ]; then
 		CMD="${BACKINTIME_PATH}backintime-kde3"

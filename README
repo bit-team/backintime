@@ -30,11 +30,15 @@ Copyright (C) 2008-2009 Oprea Dan <dan@le-web.org>
 		sudo dpkg -i backintime-common-<version>.deb
 		sudo dpkg -i backintime-gnome-<version>.deb
 
-	KDE4:
+	KDE4: (KDE4 >= 4.1)
 
 		./makedeb.sh
 		sudo dpkg -i backintime-common-<version>.deb
 		sudo dpkg -i backintime-kde4-<version>.deb
+
+	NOTE:
+	Ubuntu 8.04: to install KDE4 4.1 check this link:
+		http://news.softpedia.com/news/How-To-Install-KDE-4-1-On-Ubuntu-8-04-91034.shtml
 
 2.2. Other
 
@@ -44,8 +48,8 @@ Copyright (C) 2008-2009 Oprea Dan <dan@le-web.org>
 	GNOME (install common first, depends on: python-glade2, python-gnome2, meld):
 		sudo ./install-gnome.sh
 
-	KDE4 (install common first, depends on: x11-utils, python-kde4 (>= 4.1), kompare):
-		sudo ./install-gnome.sh
+	KDE4 (>= 4.1) (install common first, depends on: x11-utils, python-kde4 (>= 4.1), kompare):
+		sudo ./install-kde4.sh
 
 3. Integrate with filemanager
 
