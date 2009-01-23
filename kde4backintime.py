@@ -39,6 +39,7 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyKDE4.kdecore import *
 from PyKDE4.kdeui import *
+from PyKDE4.kio import *
 
 import kde4tools
 import kde4settingsdialog
@@ -1207,7 +1208,8 @@ class MainWindow( QMainWindow ):
 			self.update_files_view( 0 )
 		else:
 			full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, rel_path )
-			os.system( "kde-open \"%s\" &" % full_path )
+			#os.system( "kde-open \"%s\" &" % full_path )
+			self.run = KRun( KUrl( full_path ), self, True )
 
 	def sort_by_name( self, item1, item2 ):
 		if item1[4] < item2[4]:

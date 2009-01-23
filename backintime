@@ -29,7 +29,7 @@ for arg in $*; do
 	case $arg in
 		--gnome) GUI="gnome";;
 		--kde4)  GUI="kde4";;
-		--kde)  GUI="kde";;
+		--kde3)  GUI="kde3";;
 		--nogui) GUI="";;
 	esac
 done
@@ -37,9 +37,12 @@ done
 #auto-detect GUI
 if [ $GUI = "auto" ]; then
 	if [ "$(pidof ksmserver)" ]; then
-		GUI="kde4"
-#	elif [ "$(pidof ksmserver)" ]; then
-#		GUI="kde"
+		KDE_VERSION=`ksmserver --version | grep KDE:`
+		if [ "$(cut $KDE_VERSION | grep 'KDE: 4.')" ]; then
+			GUI="kde4"
+		else
+			GUI="kde3"
+		fi
 	else
 		GUI="gnome"
 	fi
@@ -51,31 +54,31 @@ CMD="python ${BACKINTIME_PATH}$backintime.py"
 
 #check if the selected gui exists
 if [ $GUI = "kde4" ]; then
-#try: kde4, kde, gnome
+#try: kde4, kde3, gnome
 	if [ -f ${BACKINTIME_PATH}backintime-kde4 ]; then
 		CMD="${BACKINTIME_PATH}backintime-kde4"
-	elif [ -f ${BACKINTIME_PATH}backintime-kde ]; then
-		CMD="${BACKINTIME_PATH}backintime-kde"
+	elif [ -f ${BACKINTIME_PATH}backintime-kde3 ]; then
+		CMD="${BACKINTIME_PATH}backintime-kde3"
 	elif [ -f ${BACKINTIME_PATH}backintime-gnome ]; then
 		CMD="${BACKINTIME_PATH}backintime-gnome"
 	fi
 elif [ $GUI = "kde" ]; then
-#try: kde, kde4, gnome
-	if [ -f ${BACKINTIME_PATH}backintime-kde ]; then
-		CMD="${BACKINTIME_PATH}backintime-kde"
+#try: kde3, kde4, gnome
+	if [ -f ${BACKINTIME_PATH}backintime-kde3 ]; then
+		CMD="${BACKINTIME_PATH}backintime-kde3"
 	elif [ -f ${BACKINTIME_PATH}backintime-kde4 ]; then
 		CMD="${BACKINTIME_PATH}backintime-kde4"
 	elif [ -f ${BACKINTIME_PATH}backintime-gnome ]; then
 		CMD="${BACKINTIME_PATH}backintime-gnome"
 	fi
 elif [ $GUI = "gnome" ]; then
-#try: gnome, kde4, kde
+#try: gnome, kde4, kde3
 	if [ -f ${BACKINTIME_PATH}backintime-gnome ]; then
 		CMD="${BACKINTIME_PATH}backintime-gnome"
 	elif [ -f ${BACKINTIME_PATH}backintime-kde4 ]; then
 		CMD="${BACKINTIME_PATH}backintime-kde4"
-	elif [ -f ${BACKINTIME_PATH}backintime-kde ]; then
-		CMD="${BACKINTIME_PATH}backintime-kde"
+	elif [ -f ${BACKINTIME_PATH}backintime-kde3 ]; then
+		CMD="${BACKINTIME_PATH}backintime-kde3"
 	fi
 fi
 
