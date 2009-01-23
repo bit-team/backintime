@@ -128,15 +128,15 @@ class MainWindow( QMainWindow ):
 		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
 
 		self.list_time_line = QTreeWidget( self )
-		self.list_time_line.setHeaderLabel( _('Timeline') )
+		self.list_time_line.setHeaderLabel( QString.fromUtf8( _('Timeline') ) )
 		self.list_time_line.setRootIsDecorated( False )
 
 		self.list_places = QTreeWidget( self )
-		self.list_places.setHeaderLabel( _('Places') )
+		self.list_places.setHeaderLabel( QString.fromUtf8( _('Places') ) )
 		self.list_places.setRootIsDecorated( False )
 
 		self.list_files_view = QTreeWidget( self )
-		self.list_files_view.setHeaderLabels( [_('Name'), _('Size'), _('Date')] )
+		self.list_files_view.setHeaderLabels( [QString.fromUtf8( _('Name') ), QString.fromUtf8( _('Size') ), QString.fromUtf8( _('Date') )] )
 		self.list_files_view.setRootIsDecorated( False )
 
 		self.second_splitter = QSplitter( self )
@@ -169,7 +169,7 @@ class MainWindow( QMainWindow ):
 
 		self.setCentralWidget( self.main_splitter )
 		
-		self.statusBar().showMessage( _('Done') )
+		self.statusBar().showMessage( QString.fromUtf8( _('Done') ) )
 
 		self.snapshots_list = []
 		self.snapshot_id = '/'
@@ -649,7 +649,7 @@ class MainWindow( QMainWindow ):
 		if fake_busy:
 			if self.btn_take_snapshot.isEnabled():
 				self.btn_take_snapshot.setEnabled( False )
-				self.statusBar().showMessage( _('Working ...') )
+				self.statusBar().showMessage( QString.fromUtf8( _('Working ...') ) )
 		elif not self.btn_take_snapshot.isEnabled():
 			self.btn_take_snapshot.setEnabled( True )
 			
@@ -658,9 +658,9 @@ class MainWindow( QMainWindow ):
 			if snapshots_list != self.snapshots_list:
 				self.snapshots_list = snapshots_list
 				self.update_time_line( False )
-			 	self.statusBar().showMessage( _('Done') )
+			 	self.statusBar().showMessage( QString.fromUtf8( _('Done') ) )
 			else:
-				self.statusBar().showMessage( _('Done, no backup needed') )
+				self.statusBar().showMessage( QString.fromUtf8( _('Done, no backup needed') ) )
 
 	def on_list_places_current_item_changed( self, item, previous ):
 		if item is None:
@@ -696,14 +696,14 @@ class MainWindow( QMainWindow ):
 
 	def update_places( self ):
 		self.list_places.clear()
-		self.add_place( _('Global'), '', '' )
-		self.add_place( _('Root'), '/', 'computer' )
-		self.add_place( _('Home'), os.path.expanduser( '~' ), 'user-home' )
+		self.add_place( QString.fromUtf8( _('Global') ), '', '' )
+		self.add_place( QString.fromUtf8( _('Root') ), '/', 'computer' )
+		self.add_place( QString.fromUtf8( _('Home') ), os.path.expanduser( '~' ), 'user-home' )
 
 		#add backup folders
 		include_folders = self.config.get_include_folders()
 		if len( include_folders ) > 0:
-			self.add_place( _('Backup Directories'), '', '' )
+			self.add_place( QString.fromUtf8( _('Backup Directories') ), '', '' )
 			for folder in include_folders:
 				self.add_place( folder, folder, 'document-save' )
 
@@ -761,7 +761,7 @@ class MainWindow( QMainWindow ):
 
 	def update_time_line( self, get_snapshots_list = True, update_files_view = False ):
 		self.list_time_line.clear()
-		self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/' )
+		self.add_time_line( QString.fromUtf8( self.snapshots.get_snapshot_display_name( '/' ) ), '/' )
 
 		if get_snapshots_list:
 			self.snapshots_list = self.snapshots.get_snapshots_list() 
@@ -771,19 +771,19 @@ class MainWindow( QMainWindow ):
 
 		#today
 		date = now
-		groups.append( (_('Today'), self.snapshots.get_snapshot_id( date ), []) )
+		groups.append( (QString.fromUtf8( _('Today') ), self.snapshots.get_snapshot_id( date ), []) )
 
 		#yesterday
 		date = now - datetime.timedelta( days = 1 )
-		groups.append( (_('Yesterday'), self.snapshots.get_snapshot_id( date ), []) )
+		groups.append( (QString.fromUtf8( _('Yesterday') ), self.snapshots.get_snapshot_id( date ), []) )
 
 		#this week
 		date = now - datetime.timedelta( days = now.weekday() )
-		groups.append( (_('This week'), self.snapshots.get_snapshot_id( date ), []) )
+		groups.append( (QString.fromUtf8( _('This week') ), self.snapshots.get_snapshot_id( date ), []) )
 
 		#last week
 		date = now - datetime.timedelta( days = now.weekday() + 7 )
-		groups.append( (_('Last week'), self.snapshots.get_snapshot_id( date ), []) )
+		groups.append( (QString.fromUtf8( _('Last week') ), self.snapshots.get_snapshot_id( date ), []) )
 
 		#fill groups
 		for snapshot_id in self.snapshots_list:
@@ -806,7 +806,7 @@ class MainWindow( QMainWindow ):
 				else:
 					group_name = date.strftime( '%B, %Y' ).capitalize()
 
-				groups.append( ( group_name, self.snapshots.get_snapshot_id( date ), [ snapshot_id ]) )
+				groups.append( ( QString.fromUtf8( group_name ), self.snapshots.get_snapshot_id( date ), [ snapshot_id ]) )
 
 		#fill time_line list
 		for group in groups:
@@ -1174,7 +1174,7 @@ class MainWindow( QMainWindow ):
 
 		if snapshots_path != self.config.get_snapshots_path():
 			self.update_time_line( True, update_files_view )
-		else:
+		elif update_files_view:
 			self.update_files_view( 2 )
 
 	def on_btn_about_clicked( self ):

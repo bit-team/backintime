@@ -39,7 +39,7 @@ class SettingsDialog( QDialog ):
 		QDialog.__init__( self, parent )
 		self.config = parent.config
 
-		self.setWindowTitle( _( 'Settings' ) )
+		self.setWindowTitle( QString.fromUtf8( _( 'Settings' ) ) )
 		self.setWindowIcon( KIcon( 'configure' ) )
 
 		self.main_layout = QVBoxLayout()
@@ -48,7 +48,7 @@ class SettingsDialog( QDialog ):
 		#where to save snapshots
 		self.group_box_where = QGroupBox( self )
 		self.main_layout.addWidget( self.group_box_where )
-		self.group_box_where.setTitle( _( 'Where to save snapshots' ) )
+		self.group_box_where.setTitle( QString.fromUtf8( _( 'Where to save snapshots' ) ) )
 
 		layout = QHBoxLayout()
 		self.group_box_where.setLayout( layout )
@@ -57,14 +57,14 @@ class SettingsDialog( QDialog ):
 		self.edit_snapshots_path.setReadOnly( True )
 		layout.addWidget( self.edit_snapshots_path )
 
-		self.btn_snapshots_path = QPushButton( _( '...' ), self )
+		self.btn_snapshots_path = QPushButton( QString.fromUtf8( _( '...' ) ), self )
 		layout.addWidget( self.btn_snapshots_path )
 		QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
 		
 		#what to save
 		self.group_box_what = QGroupBox( self )
 		self.main_layout.addWidget( self.group_box_what )
-		self.group_box_what.setTitle( _( 'What to save' ) )
+		self.group_box_what.setTitle( QString.fromUtf8( _( 'What to save' ) ) )
 
 		wts_layout = QHBoxLayout()
 		self.group_box_what.setLayout( wts_layout )
@@ -75,7 +75,7 @@ class SettingsDialog( QDialog ):
 
 		self.list_include = QTreeWidget( self )
 		wts_left_layout.addWidget( self.list_include )
-		self.list_include.setHeaderLabel( _('Include folders') )
+		self.list_include.setHeaderLabel( QString.fromUtf8( _('Include folders') ) )
 		self.list_include.setRootIsDecorated( False )
 
 		for include in self.config.get_include_folders():
@@ -84,11 +84,11 @@ class SettingsDialog( QDialog ):
 		layout = QHBoxLayout( self )
 		wts_left_layout.addLayout( layout )
 
-		self.btn_include_add = QPushButton( _( 'Add' ), self )
+		self.btn_include_add = QPushButton( QString.fromUtf8( _( 'Add' ) ), self )
 		layout.addWidget( self.btn_include_add )
 		QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
 		
-		self.btn_include_remove = QPushButton( _( 'Remove' ), self )
+		self.btn_include_remove = QPushButton( QString.fromUtf8( _( 'Remove' ) ), self )
 		layout.addWidget( self.btn_include_remove )
 		QObject.connect( self.btn_include_remove, SIGNAL('clicked()'), self.on_btn_include_remove_clicked )
 
@@ -98,7 +98,7 @@ class SettingsDialog( QDialog ):
 
 		self.list_exclude = QTreeWidget( self )
 		wts_right_layout.addWidget( self.list_exclude )
-		self.list_exclude.setHeaderLabel( _('Exclude patterns') )
+		self.list_exclude.setHeaderLabel( QString.fromUtf8( _('Exclude patterns') ) )
 		self.list_exclude.setRootIsDecorated( False )
 		
 		for exclude in self.config.get_exclude_patterns():
@@ -107,22 +107,22 @@ class SettingsDialog( QDialog ):
 		layout = QHBoxLayout( self )
 		wts_right_layout.addLayout( layout )
 
-		self.btn_exclude_add = QPushButton( _( 'Add' ), self )
+		self.btn_exclude_add = QPushButton( QString.fromUtf8( _( 'Add' ) ), self )
 		layout.addWidget( self.btn_exclude_add )
 		QObject.connect( self.btn_exclude_add, SIGNAL('clicked()'), self.on_btn_exclude_add_clicked )
 		
-		self.btn_exclude_remove = QPushButton( _( 'Remove' ), self )
+		self.btn_exclude_remove = QPushButton( QString.fromUtf8( _( 'Remove' ) ), self )
 		layout.addWidget( self.btn_exclude_remove )
 		QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
 		#Automatic snapshots
 		self.group_box_when = QGroupBox( self )
 		self.main_layout.addWidget( self.group_box_when )
-		self.group_box_when.setTitle( _( 'When' ) )
+		self.group_box_when.setTitle( QString.fromUtf8( _( 'When' ) ) )
 
 		layout = QHBoxLayout()
 		self.group_box_when.setLayout( layout )
-		layout.addWidget( QLabel( _( 'Automatic snapshots:' ), self ) )
+		layout.addWidget( QLabel( QString.fromUtf8( _( 'Automatic snapshots:' ) ), self ) )
 
 		self.combo_automatic_snapshots = QComboBox( self )
 		layout.addWidget( self.combo_automatic_snapshots )
@@ -131,7 +131,7 @@ class SettingsDialog( QDialog ):
 		#Remove snapshots
 		self.group_box_remove = QGroupBox( self )
 		self.main_layout.addWidget( self.group_box_remove )
-		self.group_box_remove.setTitle( _( 'Remove Snapshots' ) )
+		self.group_box_remove.setTitle( QString.fromUtf8( _( 'Remove Snapshots' ) ) )
 
 		layout = QGridLayout()
 		self.group_box_remove.setLayout( layout )
@@ -139,7 +139,7 @@ class SettingsDialog( QDialog ):
 		#remove old snapshots
 		enabled, value, unit = self.config.get_remove_old_snapshots()
 
-		self.cb_remove_older_then = QCheckBox( _( 'Older then:' ), self )
+		self.cb_remove_older_then = QCheckBox( QString.fromUtf8( _( 'Older then:' ) ), self )
 		layout.addWidget( self.cb_remove_older_then, 0, 0 )
 		self.cb_remove_older_then.setChecked( enabled )
 		QObject.connect( self.cb_remove_older_then, SIGNAL('stateChanged(int)'), self.update_remove_older_than )
@@ -156,7 +156,7 @@ class SettingsDialog( QDialog ):
 		#min free space
 		enabled, value, unit = self.config.get_min_free_space()
 
-		self.cb_min_free_space = QCheckBox( _( 'If free space is less then:' ), self )
+		self.cb_min_free_space = QCheckBox( QString.fromUtf8( _( 'If free space is less then:' ) ), self )
 		layout.addWidget( self.cb_min_free_space, 1, 0 )
 		self.cb_min_free_space.setChecked( enabled )
 		QObject.connect( self.cb_min_free_space, SIGNAL('stateChanged(int)'), self.update_min_free_space )
@@ -171,7 +171,7 @@ class SettingsDialog( QDialog ):
 		self.fill_combo( self.combo_min_free_space, self.config.MIN_FREE_SPACE_UNITS, unit )
 
 		#don't remove named snapshots
-		self.cb_dont_remove_named_snapshots = QCheckBox( _( 'Don\'t remove named snapshots' ), self )
+		self.cb_dont_remove_named_snapshots = QCheckBox( QString.fromUtf8( _( 'Don\'t remove named snapshots' ) ), self )
 		layout.addWidget( self.cb_dont_remove_named_snapshots, 2, 0 )
 		self.cb_dont_remove_named_snapshots.setChecked( self.config.get_dont_remove_named_snapshots() )
 
@@ -228,7 +228,7 @@ class SettingsDialog( QDialog ):
 		index = 0
 
 		for key in keys:
-			combo.addItem( QIcon(), dict[ key ], QVariant( key ) )
+			combo.addItem( QIcon(), QString.fromUtf8( dict[ key ] ), QVariant( key ) )
 			if key == default_value:
 				combo.setCurrentIndex( index )
 			index = index + 1
@@ -251,12 +251,12 @@ class SettingsDialog( QDialog ):
 		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
 		if not check_ret_val is None:
 			err_id, err_msg = check_ret_val
-			QMessageBox.critical( self, _( 'Error' ), err_msg )
+			QMessageBox.critical( self, QString.fromUtf8( _( 'Error' ) ), err_msg )
 			return False
 
 		#check if back folder changed
 		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
-			if QMessageBox.Yes != QMessageBox.question( self, _( 'Warning' ), _('Are you sure you want to change snapshots directory ?'), QMessageBox.Yes | QMessageBox.No ):
+			if QMessageBox.Yes != QMessageBox.question( self, QString.fromUtf8( _( 'Warning' ) ), QString.fromUtf8( _('Are you sure you want to change snapshots directory ?') ), QMessageBox.Yes | QMessageBox.No ):
 				return False 
 
 		#ok let's save to config
@@ -286,7 +286,7 @@ class SettingsDialog( QDialog ):
 		self.list_exclude.removeItemWidget( item, 0 )
 	
 	def on_btn_exclude_add_clicked( self ):
-		ret_val = QInputDialog.getText( self, _( 'Exclude pattern' ), '' )
+		ret_val = QInputDialog.getText( self, QString.fromUtf8( _( 'Exclude pattern' ) ), '' )
 		if not ret_val[1]:
 			return
 		
@@ -306,7 +306,7 @@ class SettingsDialog( QDialog ):
 		self.list_include.removeItemWidget( item, 0 )
 
 	def on_btn_include_add_clicked( self ):
-		path = QFileDialog.getExistingDirectory( self, _( 'Include folder' ) )
+		path = QFileDialog.getExistingDirectory( self, QString.fromUtf8( _( 'Include folder' ) ) )
 		if len( path ) == 0 :
 			return
 
@@ -316,7 +316,7 @@ class SettingsDialog( QDialog ):
 		self.add_include( self.config.prepare_path( path ) )
 
 	def on_btn_snapshots_path_clicked( self ):
-		path = QFileDialog.getExistingDirectory( self, _( 'Where to save snapshots' ), self.edit_snapshots_path.text() )
+		path = QFileDialog.getExistingDirectory( self, QString.fromUtf8( _( 'Where to save snapshots' ) ), self.edit_snapshots_path.text() )
 		if len( path ) > 0 :
 			self.edit_snapshots_path.setText( self.config.prepare_path( path ) )
 
