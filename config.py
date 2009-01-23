@@ -288,6 +288,12 @@ class Config( configfile.ConfigFile ):
 	def get_authors( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'AUTHORS' ) )
 
+	def prepare_path( self, path ):
+		if len( path ) > 1:
+			if path[ -1 ] == os.sep:
+				path = path[ : -1 ]
+		return path
+
 	def is_configured( self ):
 		if len( self.get_snapshots_path() ) == 0:
 			return False

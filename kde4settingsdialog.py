@@ -313,12 +313,12 @@ class SettingsDialog( QDialog ):
 		for index in xrange( self.list_include.topLevelItemCount() ):
 			if path == self.list_include.topLevelItem( index ):
 				return
-		self.add_include( path[ : -1 ] )
+		self.add_include( self.config.prepare_path( path ) )
 
 	def on_btn_snapshots_path_clicked( self ):
 		path = QFileDialog.getExistingDirectory( self, _( 'Where to save snapshots' ), self.edit_snapshots_path.text() )
 		if len( path ) > 0 :
-			self.edit_snapshots_path.setText( path[ : -1 ] )
+			self.edit_snapshots_path.setText( self.config.prepare_path( path ) )
 
 	def accept( self ):
 		if self.validate():

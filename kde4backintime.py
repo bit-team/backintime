@@ -759,7 +759,7 @@ class MainWindow( QMainWindow ):
 		self.list_time_line.addTopLevelItem( item )
 		return item
 
-	def update_time_line( self, get_snapshots_list = True ):
+	def update_time_line( self, get_snapshots_list = True, update_files_view = False ):
 		self.list_time_line.clear()
 		self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/' )
 
@@ -817,11 +817,13 @@ class MainWindow( QMainWindow ):
 					if snapshot_id == self.snapshot_id:
 						self.list_time_line.setCurrentItem( list_item )
 
-		if self.list_time_line.currentItem() is None and self.list_time_line.topLevelItemCount() > 0:
+		if self.list_time_line.currentItem() is None:
 			self.list_time_line.setCurrentItem( self.list_time_line.topLevelItem( 0 ) )
-			if self.snapshot_id != '/':
+			if self.snapshot_id != '/' or update_files_view:
 				self.snapshot_id = '/'
 				self.update_files_view( 2 )
+		elif update_files_view:
+			self.update_files_view( 2 )
 
 #		#select previous item
 #		iter = self.store_time_line.get_iter_first()
@@ -1162,11 +1164,18 @@ class MainWindow( QMainWindow ):
 
 		kde4settingsdialog.SettingsDialog( self ).exec_()
 
-		if snapshots_path == self.config.get_snapshots_path() and include_folders == self.config.get_include_folders():
+		update_files_view = ( include_folders != self.config.get_include_folders() )
+
+		if snapshots_path == self.config.get_snapshots_path() and not update_files_view:
 		   return
 
-		self.update_places()
-		self.update_time_line()
+		if update_files_view:
+			self.update_places()
+
+		if snapshots_path != self.config.get_snapshots_path():
+			self.update_time_line( True, update_files_view )
+		else:
+			self.update_files_view( 2 )
 
 	def on_btn_about_clicked( self ):
 		dlg = KAboutApplicationDialog( self.kaboutdata, self )
