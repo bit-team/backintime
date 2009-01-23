@@ -1460,7 +1460,7 @@ def create_kapplication():
 
 
 def check_x_server():
-	return 0 == os.system( 'xdpyinfo' )
+	return 0 == os.system( 'xdpyinfo >/dev/null 2>&1' )
 
 
 if __name__ == '__main__':
