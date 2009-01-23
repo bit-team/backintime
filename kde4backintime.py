@@ -138,6 +138,7 @@ class MainWindow( QMainWindow ):
 		self.list_files_view = QTreeWidget( self )
 		self.list_files_view.setHeaderLabels( [QString.fromUtf8( _('Name') ), QString.fromUtf8( _('Size') ), QString.fromUtf8( _('Date') )] )
 		self.list_files_view.setRootIsDecorated( False )
+		self.list_files_view.setAlternatingRowColors( True )
 
 		self.second_splitter = QSplitter( self )
 		self.second_splitter.setOrientation( Qt.Horizontal )
@@ -689,7 +690,9 @@ class MainWindow( QMainWindow ):
 			font = item.font( 0 )
 			font.setWeight( QFont.Bold )
 			item.setFont( 0, font )
-			item.setFlags( Qt.NoItemFlags )
+			#item.setFlags( Qt.NoItemFlags )
+			item.setFlags( Qt.ItemIsEnabled )
+			item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
 
 		self.list_places.addTopLevelItem( item )
 		return item
@@ -754,7 +757,9 @@ class MainWindow( QMainWindow ):
 			font = item.font( 0 )
 			font.setWeight( QFont.Bold )
 			item.setFont( 0, font )
-			item.setFlags( Qt.NoItemFlags )
+			#item.setFlags( Qt.NoItemFlags )
+			item.setFlags( Qt.ItemIsEnabled )
+			item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
 
 		self.list_time_line.addTopLevelItem( item )
 		return item
