@@ -77,12 +77,13 @@ _=gettext.gettext
 
 
 class MainWindow( QMainWindow ):
-	def __init__( self, config, app_instance, kapp ):
+	def __init__( self, config, app_instance, kapp, kaboutdata ):
 		QMainWindow.__init__( self )
 
 		self.config = config
 		self.app_instance = app_instance
 		self.kapp = kapp
+		self.kaboutdata = kaboutdata
 		self.snapshots = snapshots.Snapshots( config )
 
 		self.setWindowTitle( self.config.APP_NAME )
@@ -1168,7 +1169,7 @@ class MainWindow( QMainWindow ):
 		self.update_time_line()
 
 	def on_btn_about_clicked( self ):
-		dlg = KAboutDialog( self )
+		dlg = KAboutApplicationDialog( self.kaboutdata, self )
 		dlg.exec_()
 
 	def on_btn_show_hidden_files_toggled( self, checked ):
@@ -1395,7 +1396,7 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 
 		logger.info( '[KDE4TakeSnapshotCallback.run] begin loop' )
 
-		kapp = create_kapplication()
+		kapp, kaboutdata = create_kapplication()
 
 		status_icon = QSystemTrayIcon()
 		status_icon.setIcon( KIcon('document-save') )
@@ -1416,10 +1417,37 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 
 
 def create_kapplication():
-	kdeAboutData = KAboutData( 'backintime', 'backintime', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( '' ), ki18n( '' ), 'le-web.org/back-in-time', 'dab@le-web.org' )
-	#KCmdLineArgs.init( sys.argv, kdeAboutData )
-	KCmdLineArgs.init( [sys.argv[0]], kdeAboutData )
-	return KApplication()
+	kaboutdata = KAboutData( 'backintime', '', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( cfg.COPYRIGHT ), ki18n( '' ), 'http://le-web.org/back-in-time', 'dab@le-web.org' )
+	kaboutdata.setProgramIconName( 'document-save' )
+
+	translation_text = cfg.get_translations()
+	translators = []
+	translator_emails = []
+	for line in translation_text.split( '\n' ):
+		line = line.strip()
+		if len( line ) == 0:
+			continue
+		
+		index1 = line.find( ':' )
+		if index1 < 0:
+			continue
+
+		index2 = line.find( '<', index1 )
+		if index2 < 0:
+			continue
+
+		index3 = line.find( '>', index2 )
+		if index3 < 0:
+			continue
+
+		translators.append( line[ index1 + 1 : index2 ].strip() )
+		translator_emails.append( line[ index2 + 1 : index3 ].strip() )
+
+	kaboutdata.setTranslator( ki18n( ','.join( translators ) ), ki18n( ','.join( translator_emails ) ) )
+
+	#KCmdLineArgs.init( sys.argv, kaboutdata )
+	KCmdLineArgs.init( [sys.argv[0]], kaboutdata )
+	return ( KApplication(), kaboutdata )
 
 
 def check_x_server():
@@ -1456,9 +1484,9 @@ if __name__ == '__main__':
 	app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
 
 	logger.openlog()
-	kapp = create_kapplication()
+	kapp, kaboutdata = create_kapplication()
 
-	main_window = MainWindow( cfg, app_instance, kapp )
+	main_window = MainWindow( cfg, app_instance, kapp, kaboutdata )
 
 	if cfg.is_configured():
 		main_window.show()
