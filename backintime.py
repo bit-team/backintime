@@ -39,9 +39,9 @@ def print_version( cfg ):
 	print 'Back In Time'
 	print 'Version: ' + cfg.VERSION
 	print ''
-	print 'Back In Time comes with ABSOLUTELY NO WARRANTY.'
-	print 'This is free software, and you are welcome to redistribute it under certain conditions.'
-	print 'For more details see LICENSE file.'
+	print 'Back In Time comes with ABSOLUTELY NO WARRANTY; for details type `backintime --license\'.'
+	print 'This is free software, and you are welcome to redistribute it'
+	print 'under certain conditions; type `backintime --license\' for details.'
 	print ''
 
 
@@ -56,21 +56,29 @@ def print_help( cfg ):
 	print '\tTake a snapshot and exit'
 	print 'backintime -v|--version'
 	print '\tShow version and exit'
+	print 'backintime --license'
+	print '\tShow license and exit'
 	print 'backintime -h|--help'
 	print '\tShow this help and exit'
 	print ''
 
 
-if __name__ == '__main__':
+def start_app( callback = None ):
 	cfg = config.Config()
 	print_version( cfg )
 
 	for arg in sys.argv[ 1 : ]:
 		if arg == '--backup' or arg == '-b':
-			take_snapshot( cfg )
+			if not callback is None:
+				callback.init( cfg )
+			take_snapshot( cfg, callback )
 			sys.exit(0)
 
 		if arg == '--version' or arg == '-v':
+			sys.exit(0)
+
+		if arg == '--license':
+			print cfg.get_license()
 			sys.exit(0)
 
 		if arg == '--help' or arg == '-h':
@@ -80,9 +88,17 @@ if __name__ == '__main__':
 		if arg == '--snapshots' or arg == '-s':
 			continue
 
+		if arg == '--gnome' or arg == '--kde4' or arg == '--kde3':
+			continue
+
 		if arg[0] == '-':
 			print "Ignore option: %s" % arg
 			continue
 
-	print 'This is a non GUI application, and it only implements --backup | --help | --version'
+	return cfg
+
+
+if __name__ == '__main__':
+	cfg = start_app()
+	print 'This is a non GUI application, and it only implements --backup | --help | --version | --license'
 

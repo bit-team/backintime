@@ -1004,6 +1004,10 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 	def __init__( self ):
 		threading.Thread.__init__( self )
 		self.stop_flag = False
+		self.cfg = None
+
+	def init( self, cfg ):
+		self.cfg = cfg
 	
 	def snapshot_begin( self ):
 		self.stop_flag = False
@@ -1019,7 +1023,7 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 	def run(self):
 		logger.info( '[GnomeTakeSnapshotCallback.run]' )
 
-		create_gnome_app()
+		create_gnome_app( self.cfg )
 
 		gtk.gdk.threads_init()
 		display = gtk.gdk.display_get_default()
@@ -1056,33 +1060,13 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 		logger.info( '[GnomeTakeSnapshotCallback.run] end loop' )
 
 
-def create_gnome_app():
+def create_gnome_app( cfg ):
 	gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
 	return gnome.program_init( 'backintime', cfg.VERSION, properties = gnome_props )
 
 
 if __name__ == '__main__':
-	cfg = config.Config()
-	backintime.print_version( cfg )
-
-	for arg in sys.argv[ 1 : ]:
-		if arg == '--backup' or arg == '-b':
-			backintime.take_snapshot( cfg, GnomeTakeSnapshotCallback() )
-			sys.exit(0)
-
-		if arg == '--version' or arg == '-v':
-			sys.exit(0)
-
-		if arg == '--help' or arg == '-h':
-			backintime.print_help( cfg )
-			sys.exit(0)
-
-		if arg == '--snapshots' or arg == '-s':
-			continue
-
-		if arg[0] == '-':
-			print "Ignore option: %s" % arg
-			continue
+	cfg = backintime.start_app( GnomeTakeSnapshotCallback() )
 
 	raise_cmd = ''
 	if len( sys.argv ) > 1:
@@ -1090,7 +1074,7 @@ if __name__ == '__main__':
 
 	app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
 
-	create_gnome_app()
+	create_gnome_app( cfg )
 
 	gtk.about_dialog_set_url_hook( open_url, None )
 
