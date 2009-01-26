@@ -251,7 +251,7 @@ class SettingsDialog( QDialog ):
 		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
 		if not check_ret_val is None:
 			err_id, err_msg = check_ret_val
-			QMessageBox.critical( self, QString.fromUtf8( _( 'Error' ) ), err_msg )
+			QMessageBox.critical( self, QString.fromUtf8( _( 'Error' ) ), QString.fromUtf8( err_msg ) )
 			return False
 
 		#check if back folder changed
