@@ -114,7 +114,7 @@ class MainWindow( KMainWindow ):
 		self.second_splitter.addWidget( self.list_time_line )
 		self.second_splitter.addWidget( self.list_places )
 
-		left_layout = QVBoxLayout( self )
+		left_layout = QVBoxLayout()
 		left_layout.addWidget( self.main_toolbar )
 		left_layout.addWidget( self.second_splitter )
 		left, top, right, bottom = left_layout.getContentsMargins()
@@ -123,7 +123,7 @@ class MainWindow( KMainWindow ):
 		left_widget = QWidget( self )
 		left_widget.setLayout( left_layout )
 
-		right_layout = QVBoxLayout( self )
+		right_layout = QVBoxLayout()
 		right_layout.addWidget( self.files_view_toolbar )
 		right_layout.addWidget( self.list_files_view )
 		left, top, right, bottom = right_layout.getContentsMargins()
