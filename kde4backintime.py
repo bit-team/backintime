@@ -376,6 +376,10 @@ class MainWindow( QMainWindow ):
 			item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
 
 		self.list_places.addTopLevelItem( item )
+
+		if path == self.path:
+			self.list_places.setCurrentItem( item )
+
 		return item
 
 	def update_places( self ):
@@ -445,7 +449,7 @@ class MainWindow( QMainWindow ):
 		self.list_time_line.addTopLevelItem( item )
 		return item
 
-	def update_time_line( self, get_snapshots_list = True, update_files_view = False ):
+	def update_time_line( self, get_snapshots_list = True ):
 		self.list_time_line.clear()
 		self.add_time_line( QString.fromUtf8( self.snapshots.get_snapshot_display_name( '/' ) ), '/' )
 
@@ -505,11 +509,9 @@ class MainWindow( QMainWindow ):
 
 		if self.list_time_line.currentItem() is None:
 			self.list_time_line.setCurrentItem( self.list_time_line.topLevelItem( 0 ) )
-			if self.snapshot_id != '/' or update_files_view:
+			if self.snapshot_id != '/':
 				self.snapshot_id = '/'
 				self.update_files_view( 2 )
-		elif update_files_view:
-			self.update_files_view( 2 )
 
 	def on_btn_take_snapshot_clicked( self ):
 		app = 'backintime'
@@ -572,9 +574,7 @@ class MainWindow( QMainWindow ):
 			self.update_places()
 
 		if snapshots_path != self.config.get_snapshots_path():
-			self.update_time_line( True, update_files_view )
-		elif update_files_view:
-			self.update_files_view( 2 )
+			self.update_time_line( True )
 
 	def on_btn_about_clicked( self ):
 		dlg = KAboutApplicationDialog( self.kaboutdata, self )
