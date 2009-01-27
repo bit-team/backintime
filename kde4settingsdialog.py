@@ -26,6 +26,7 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyKDE4.kdecore import *
 from PyKDE4.kdeui import *
+from PyKDE4.kio import *
 
 import config
 import kde4tools
@@ -34,16 +35,19 @@ import kde4tools
 _=gettext.gettext
 
 
-class SettingsDialog( QDialog ):
+class SettingsDialog( KDialog ):
 	def __init__( self, parent ):
-		QDialog.__init__( self, parent )
+		KDialog.__init__( self, parent )
 		self.config = parent.config
 
-		self.setWindowTitle( QString.fromUtf8( _( 'Settings' ) ) )
 		self.setWindowIcon( KIcon( 'configure' ) )
+		self.setCaption( QString.fromUtf8( _( 'Settings' ) ) )
+		#self.setButtons( KDialog.Ok | KDialog.Cancel );	
 
+		self.main_widget = QWidget( self )
 		self.main_layout = QVBoxLayout()
-		self.setLayout( self.main_layout )
+		self.main_widget.setLayout( self.main_layout )
+		self.setMainWidget( self.main_widget )
 
 		#where to save snapshots
 		self.group_box_where = QGroupBox( self )
@@ -81,7 +85,7 @@ class SettingsDialog( QDialog ):
 		for include in self.config.get_include_folders():
 			self.add_include( include )
 		
-		layout = QHBoxLayout( self )
+		layout = QHBoxLayout()
 		wts_left_layout.addLayout( layout )
 
 		self.btn_include_add = QPushButton( QString.fromUtf8( _( 'Add' ) ), self )
@@ -104,7 +108,7 @@ class SettingsDialog( QDialog ):
 		for exclude in self.config.get_exclude_patterns():
 			self.add_exclude( exclude )
 
-		layout = QHBoxLayout( self )
+		layout = QHBoxLayout()
 		wts_right_layout.addLayout( layout )
 
 		self.btn_exclude_add = QPushButton( QString.fromUtf8( _( 'Add' ) ), self )
@@ -175,16 +179,6 @@ class SettingsDialog( QDialog ):
 		layout.addWidget( self.cb_dont_remove_named_snapshots, 2, 0 )
 		self.cb_dont_remove_named_snapshots.setChecked( self.config.get_dont_remove_named_snapshots() )
 
-		#buttons line
-		button_box = QDialogButtonBox( self )
-		self.main_layout.addWidget( button_box )
-
-		self.btn_ok = button_box.addButton( QDialogButtonBox.Ok )
-		QObject.connect( self.btn_ok, SIGNAL('clicked()'), self.accept )
-
-		self.btn_cancel = button_box.addButton( QDialogButtonBox.Cancel )
-		QObject.connect( self.btn_cancel, SIGNAL('clicked()'), self.reject )
-
 		#make titles bold
 		kde4tools.set_font_bold( self.group_box_where )
 		kde4tools.set_font_bold( self.group_box_what )
@@ -193,8 +187,6 @@ class SettingsDialog( QDialog ):
 
 		self.update_remove_older_than()
 		self.update_min_free_space()
-
-		self.btn_ok.setDefault( True )
 
 	def update_remove_older_than( self ):
 		enabled = self.cb_remove_older_then.isChecked()
@@ -251,12 +243,12 @@ class SettingsDialog( QDialog ):
 		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
 		if not check_ret_val is None:
 			err_id, err_msg = check_ret_val
-			QMessageBox.critical( self, QString.fromUtf8( _( 'Error' ) ), QString.fromUtf8( err_msg ) )
+			KMessageBox.error( self, QString.fromUtf8( err_msg ) )
 			return False
 
 		#check if back folder changed
 		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
-			if QMessageBox.Yes != QMessageBox.question( self, QString.fromUtf8( _( 'Warning' ) ), QString.fromUtf8( _('Are you sure you want to change snapshots directory ?') ), QMessageBox.Yes | QMessageBox.No ):
+			if KMessageBox.Yes != KMessageBox.warningYesNo( self, QString.fromUtf8( _('Are you sure you want to change snapshots directory ?') ) ):
 				return False 
 
 		#ok let's save to config
@@ -286,7 +278,7 @@ class SettingsDialog( QDialog ):
 		self.list_exclude.removeItemWidget( item, 0 )
 	
 	def on_btn_exclude_add_clicked( self ):
-		ret_val = QInputDialog.getText( self, QString.fromUtf8( _( 'Exclude pattern' ) ), '' )
+		ret_val = KInputDialog.getText( QString.fromUtf8( _( 'Exclude pattern' ) ), '', '', self )
 		if not ret_val[1]:
 			return
 		
@@ -306,7 +298,7 @@ class SettingsDialog( QDialog ):
 		self.list_include.removeItemWidget( item, 0 )
 
 	def on_btn_include_add_clicked( self ):
-		path = QFileDialog.getExistingDirectory( self, QString.fromUtf8( _( 'Include folder' ) ) )
+		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ) )
 		if len( path ) == 0 :
 			return
 
@@ -316,7 +308,7 @@ class SettingsDialog( QDialog ):
 		self.add_include( self.config.prepare_path( path ) )
 
 	def on_btn_snapshots_path_clicked( self ):
-		path = QFileDialog.getExistingDirectory( self, QString.fromUtf8( _( 'Where to save snapshots' ) ), self.edit_snapshots_path.text() )
+		path = str( KFileDialog.getExistingDirectory( KUrl( self.edit_snapshots_path.text() ), self, QString.fromUtf8( _( 'Where to save snapshots' ) ) ) )
 		if len( path ) > 0 :
 			self.edit_snapshots_path.setText( self.config.prepare_path( path ) )
 

@@ -48,18 +48,15 @@ import kde4settingsdialog
 _=gettext.gettext
 
 
-class MainWindow( QMainWindow ):
+class MainWindow( KMainWindow ):
 	def __init__( self, config, app_instance, kapp, kaboutdata ):
-		QMainWindow.__init__( self )
+		KMainWindow.__init__( self )
 
 		self.config = config
 		self.app_instance = app_instance
 		self.kapp = kapp
 		self.kaboutdata = kaboutdata
 		self.snapshots = snapshots.Snapshots( config )
-
-		self.setWindowTitle( self.config.APP_NAME )
-		self.setWindowIcon( KIcon( 'document-save' ) )
 
 		self.main_toolbar = QToolBar( self )
 		self.main_toolbar.setFloatable( False )
@@ -177,6 +174,8 @@ class MainWindow( QMainWindow ):
 			self.list_files_view.header().resizeSection( 1, files_view_size_width )
 			self.list_files_view.header().resizeSection( 2, files_view_date_width )
 
+		self.text_validator = QRegExpValidator( QRegExp( '.*' ), self )
+
 		#force settingdialog if it is not configured
 		if not cfg.is_configured():
 			kde4settingsdialog.SettingsDialog( self ).exec_()
@@ -225,7 +224,7 @@ class MainWindow( QMainWindow ):
 		self.timer_update_take_snapshot.start()
 
 	def show_not_implemented( self ):
-		QMessageBox.warning( self, "Warning", "Not implemented !!!" )
+		KMessageBox.error( self, "Not implemented !!!" )
 
 	def closeEvent( self, event ):
 		self.config.set_str_value( 'kde4.last_path', self.path )
@@ -533,7 +532,7 @@ class MainWindow( QMainWindow ):
 
 		name = self.snapshots.get_snapshot_name( snapshot_id )
 
-		ret_val = QInputDialog.getText( self, _( 'Snapshot Name' ), '', QLineEdit.Normal, name )
+		ret_val = KInputDialog.getText( _( 'Snapshot Name' ), '', name, self, self.text_validator )
 		if not ret_val[1]:
 			return
 		
@@ -552,8 +551,8 @@ class MainWindow( QMainWindow ):
 		snapshot_id = self.time_line_get_snapshot_id( item )
 		if len( snapshot_id ) <= 1:
 			return
-
-		if QMessageBox.Yes != QMessageBox.question( self, _( 'Warning' ), _( "Are you sure you want to remove the snapshot:\n%s" ) % self.snapshots.get_snapshot_display_name( snapshot_id ), QMessageBox.Yes | QMessageBox.No ):
+		
+		if KMessageBox.Yes != KMessageBox.warningYesNo( self, _( "Are you sure you want to remove the snapshot:\n%s" ) % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
 			return
 
 		self.snapshots.remove_snapshot( snapshot_id )
