@@ -639,14 +639,14 @@ class MainWindow( KMainWindow ):
 		self.update_files_view( 1 )
 
 	def on_btn_restore_clicked( self ):
-		item = self.list_files_view.currentItem()
-		if item is None:
-			return
-
 		if len( self.snapshot_id ) <= 1:
 			return
 
-		rel_path = os.path.join( self.path, self.files_view_get_name( item ) )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString() )
+		if len( selected_file ) <= 0:
+			return
+
+		rel_path = os.path.join( self.path, selected_file )
 		self.snapshots.restore( self.snapshot_id, rel_path )
 
 	def on_btn_folder_up_clicked( self ):
