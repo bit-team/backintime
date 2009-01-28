@@ -785,6 +785,23 @@ class MainWindow( KMainWindow ):
 		#enable files toolbar
 		self.files_view_toolbar.setEnabled( True )
 
+		#select selected_file
+		found = False
+
+		if len( self.selected_file ) > 0:
+			for index in xrange( self.list_files_view_sort_filter_proxy.rowCount() ):
+				model_index = self.list_files_view_sort_filter_proxy.index( index, 0 )
+				file_name = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString() )
+				if file_name == self.selected_file:
+					self.list_files_view.setCurrentIndex( model_index )
+					found = True
+					break
+			self.selected_file = ''
+
+		if not found and has_files:
+			self.list_files_view.setCurrentIndex( self.list_files_view_sort_filter_proxy.index( 0, 0 ) )
+
+
 class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 	def __init__( self ):
 		threading.Thread.__init__( self )
@@ -893,4 +910,4 @@ if __name__ == '__main__':
 	logger.closelog()
 
 	app_instance.exit_application()
-snapshots
+
