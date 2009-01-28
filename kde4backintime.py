@@ -62,22 +62,37 @@ class MainWindow( KMainWindow ):
 		self.main_toolbar.setFloatable( False )
 
 		self.btn_take_snapshot = self.main_toolbar.addAction( KIcon( 'document-save' ), '' )
+		self.btn_take_snapshot.setToolTip( QString.fromUtf8( _('Take snapshot') ) )
+
 		self.btn_name_snapshot = self.main_toolbar.addAction( KIcon( 'edit-rename' ), '' )
+		self.btn_name_snapshot.setToolTip( QString.fromUtf8( _('Snapshot Name') ) )
+
 		self.btn_remove_snapshot = self.main_toolbar.addAction( KIcon( 'edit-delete' ), '' )
+		self.btn_remove_snapshot.setToolTip( QString.fromUtf8( _('Remove Snapshot') ) )
 	
 		self.main_toolbar.addSeparator()
 
 		self.btn_settings = self.main_toolbar.addAction( KIcon( 'configure' ), '' )
+		self.btn_settings.setToolTip( QString.fromUtf8( _('Settings') ) )
+
 		self.main_toolbar.addSeparator()
+
 		self.btn_about = self.main_toolbar.addAction( KIcon( 'help-about' ), '' )
+		self.btn_about.setToolTip( QString.fromUtf8( _('About') ) )
+
 		self.btn_help = self.main_toolbar.addAction( KIcon( 'help-contents' ), '' )
+		self.btn_help.setToolTip( QString.fromUtf8( _('Help') ) )
+
 		self.main_toolbar.addSeparator()
+
 		self.btn_quit = self.main_toolbar.addAction( KIcon( 'application-exit' ), '' )
+		self.btn_quit.setToolTip( QString.fromUtf8( _('Exit') ) )
 
 		self.files_view_toolbar = KToolBar( self )
 		self.files_view_toolbar.setFloatable( False )
 
 		self.btn_folder_up = self.files_view_toolbar.addAction( KIcon( 'go-up' ), '' )
+		self.btn_folder_up.setToolTip( QString.fromUtf8( _('Up') ) )
 
 		self.edit_current_path = QLineEdit( self )
 		self.edit_current_path.setReadOnly( True )
@@ -89,12 +104,18 @@ class MainWindow( KMainWindow ):
 		self.btn_show_hidden_files = self.files_view_toolbar.addAction( KIcon( 'list-add' ), '' )
 		self.btn_show_hidden_files.setCheckable( True )
 		self.btn_show_hidden_files.setChecked( self.show_hidden_files )
+		self.btn_show_hidden_files.setToolTip( QString.fromUtf8( _('Show hidden files') ) )
 
 		self.files_view_toolbar.addSeparator()
 
 		self.btn_restore = self.files_view_toolbar.addAction( KIcon( 'document-revert' ), '' )
+		self.btn_restore.setToolTip( QString.fromUtf8( _('Restore') ) )
+
 		self.btn_copy = self.files_view_toolbar.addAction( KIcon( 'edit-copy' ), '' )
+		self.btn_copy.setToolTip( QString.fromUtf8( _('Copy') ) )
+
 		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
+		self.btn_snapshots.setToolTip( QString.fromUtf8( _('Snapshots') ) )
 
 		self.list_time_line = QTreeWidget( self )
 		self.list_time_line.setHeaderLabel( QString.fromUtf8( _('Timeline') ) )
