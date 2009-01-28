@@ -276,6 +276,8 @@ class MainWindow( KMainWindow ):
 		self.config.set_int_value( 'kde4.main_window.files_view.size_width', self.list_files_view.header().sectionSize( 1 ) )
 		self.config.set_int_value( 'kde4.main_window.files_view.date_width', self.list_files_view.header().sectionSize( 2 ) )
 
+		self.config.set_bool_value( 'kde4.show_hidden_files', self.show_hidden_files )
+
 		self.config.save()
 
 		event.accept()
