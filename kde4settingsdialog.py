@@ -42,7 +42,6 @@ class SettingsDialog( KDialog ):
 
 		self.setWindowIcon( KIcon( 'configure' ) )
 		self.setCaption( QString.fromUtf8( _( 'Settings' ) ) )
-		#self.setButtons( KDialog.Ok | KDialog.Cancel );	
 
 		self.main_widget = QWidget( self )
 		self.main_layout = QVBoxLayout()
@@ -57,11 +56,12 @@ class SettingsDialog( KDialog ):
 		layout = QHBoxLayout()
 		self.group_box_where.setLayout( layout )
 
-		self.edit_snapshots_path = QLineEdit( self.config.get_snapshots_path(), self )
+		self.edit_snapshots_path = KLineEdit( self.config.get_snapshots_path(), self )
 		self.edit_snapshots_path.setReadOnly( True )
 		layout.addWidget( self.edit_snapshots_path )
 
-		self.btn_snapshots_path = QPushButton( QString.fromUtf8( _( '...' ) ), self )
+		#self.btn_snapshots_path = KPushButton( QString.fromUtf8( _( '...' ) ), self )
+		self.btn_snapshots_path = KPushButton( KStandardGuiItem.open(), self )
 		layout.addWidget( self.btn_snapshots_path )
 		QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
 		
@@ -76,11 +76,14 @@ class SettingsDialog( KDialog ):
 		#include directories
 		wts_left_layout = QVBoxLayout()
 		wts_layout.addLayout( wts_left_layout )
+	
+		label = QLabel( _('Include folders'), self )
+		kde4tools.set_font_bold( label )
+		#label.setAlignment( Qt.AlignHCenter | Qt.AlignVCenter )
+		wts_left_layout.addWidget( label )
 
-		self.list_include = QTreeWidget( self )
+		self.list_include = KListWidget( self )
 		wts_left_layout.addWidget( self.list_include )
-		self.list_include.setHeaderLabel( QString.fromUtf8( _('Include folders') ) )
-		self.list_include.setRootIsDecorated( False )
 
 		for include in self.config.get_include_folders():
 			self.add_include( include )
@@ -88,11 +91,11 @@ class SettingsDialog( KDialog ):
 		layout = QHBoxLayout()
 		wts_left_layout.addLayout( layout )
 
-		self.btn_include_add = QPushButton( QString.fromUtf8( _( 'Add' ) ), self )
+		self.btn_include_add = KPushButton( KStandardGuiItem.add(), self )
 		layout.addWidget( self.btn_include_add )
 		QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
 		
-		self.btn_include_remove = QPushButton( QString.fromUtf8( _( 'Remove' ) ), self )
+		self.btn_include_remove = KPushButton( KStandardGuiItem.remove(), self )
 		layout.addWidget( self.btn_include_remove )
 		QObject.connect( self.btn_include_remove, SIGNAL('clicked()'), self.on_btn_include_remove_clicked )
 
@@ -100,10 +103,13 @@ class SettingsDialog( KDialog ):
 		wts_right_layout = QVBoxLayout()
 		wts_layout.addLayout( wts_right_layout )
 
-		self.list_exclude = QTreeWidget( self )
+		label = QLabel( _('Exclude patterns'), self )
+		kde4tools.set_font_bold( label )
+		#label.setAlignment( Qt.AlignHCenter | Qt.AlignVCenter )
+		wts_right_layout.addWidget( label )
+
+		self.list_exclude = KListWidget( self )
 		wts_right_layout.addWidget( self.list_exclude )
-		self.list_exclude.setHeaderLabel( QString.fromUtf8( _('Exclude patterns') ) )
-		self.list_exclude.setRootIsDecorated( False )
 		
 		for exclude in self.config.get_exclude_patterns():
 			self.add_exclude( exclude )
@@ -111,11 +117,11 @@ class SettingsDialog( KDialog ):
 		layout = QHBoxLayout()
 		wts_right_layout.addLayout( layout )
 
-		self.btn_exclude_add = QPushButton( QString.fromUtf8( _( 'Add' ) ), self )
+		self.btn_exclude_add = KPushButton( KStandardGuiItem.add(), self )
 		layout.addWidget( self.btn_exclude_add )
 		QObject.connect( self.btn_exclude_add, SIGNAL('clicked()'), self.on_btn_exclude_add_clicked )
 		
-		self.btn_exclude_remove = QPushButton( QString.fromUtf8( _( 'Remove' ) ), self )
+		self.btn_exclude_remove = KPushButton( KStandardGuiItem.remove(), self )
 		layout.addWidget( self.btn_exclude_remove )
 		QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
@@ -128,7 +134,7 @@ class SettingsDialog( KDialog ):
 		self.group_box_when.setLayout( layout )
 		layout.addWidget( QLabel( QString.fromUtf8( _( 'Automatic snapshots:' ) ), self ) )
 
-		self.combo_automatic_snapshots = QComboBox( self )
+		self.combo_automatic_snapshots = KComboBox( self )
 		layout.addWidget( self.combo_automatic_snapshots )
 		self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES, self.config.get_automatic_backup_mode() )
 
@@ -148,12 +154,10 @@ class SettingsDialog( KDialog ):
 		self.cb_remove_older_then.setChecked( enabled )
 		QObject.connect( self.cb_remove_older_then, SIGNAL('stateChanged(int)'), self.update_remove_older_than )
 
-		self.edit_remove_older_then = QSpinBox( self )
+		self.edit_remove_older_then = KIntSpinBox( 1, 1000, 1, value, self )
 		layout.addWidget( self.edit_remove_older_then, 0, 1 )
-		self.edit_remove_older_then.setRange( 1, 1000 )
-		self.edit_remove_older_then.setValue( value )
 
-		self.combo_remove_older_then = QComboBox( self )
+		self.combo_remove_older_then = KComboBox( self )
 		layout.addWidget( self.combo_remove_older_then, 0, 2 )
 		self.fill_combo( self.combo_remove_older_then, self.config.REMOVE_OLD_BACKUP_UNITS, unit )
 
@@ -165,12 +169,10 @@ class SettingsDialog( KDialog ):
 		self.cb_min_free_space.setChecked( enabled )
 		QObject.connect( self.cb_min_free_space, SIGNAL('stateChanged(int)'), self.update_min_free_space )
 
-		self.edit_min_free_space = QSpinBox( self )
+		self.edit_min_free_space = KIntSpinBox( 1, 1000, 1, value, self )
 		layout.addWidget( self.edit_min_free_space, 1, 1 )
-		self.edit_min_free_space.setRange( 1, 1000 )
-		self.edit_min_free_space.setValue( value )
 
-		self.combo_min_free_space = QComboBox( self )
+		self.combo_min_free_space = KComboBox( self )
 		layout.addWidget( self.combo_min_free_space, 1, 2 )
 		self.fill_combo( self.combo_min_free_space, self.config.MIN_FREE_SPACE_UNITS, unit )
 
@@ -199,20 +201,10 @@ class SettingsDialog( KDialog ):
 		self.combo_min_free_space.setEnabled( enabled )
 
 	def add_include( self, path ):
-		item = QTreeWidgetItem( self.list_include )
-		item.setIcon( 0, KIcon('folder') )
-		item.setText( 0, path )
-
-		self.list_include.addTopLevelItem( item )
-		return item
+		return QListWidgetItem( KIcon('folder'), path, self.list_include )
 
 	def add_exclude( self, pattern ):
-		item = QTreeWidgetItem( self.list_exclude )
-		item.setIcon( 0, KIcon('edit-delete') )
-		item.setText( 0, pattern )
-
-		self.list_exclude.addTopLevelItem( item )
-		return item
+		return QListWidgetItem( KIcon('edit-delete'), pattern, self.list_exclude )
 
 	def fill_combo( self, combo, dict, default_value ):
 		keys = dict.keys()
@@ -231,13 +223,13 @@ class SettingsDialog( KDialog ):
 
 		#include list 
 		include_list = []
-		for index in xrange( self.list_include.topLevelItemCount() ):
-			include_list.append( str( self.list_include.topLevelItem( index ).text( 0 ) ) )
+		for index in xrange( self.list_include.count() ):
+			include_list.append( str( self.list_include.item( index ).text() ) )
 
 		#exclude patterns
 		exclude_list = []
-		for index in xrange( self.list_exclude.topLevelItemCount() ):
-			exclude_list.append( str( self.list_exclude.topLevelItem( index ).text( 0 ) ) )
+		for index in xrange( self.list_exclude.count() ):
+			exclude_list.append( str( self.list_exclude.item( index ).text() ) )
 
 		#check params
 		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
@@ -272,10 +264,7 @@ class SettingsDialog( KDialog ):
 		return True
 
 	def on_btn_exclude_remove_clicked ( self ):
-		item = self.list_exclude.currentItem()
-		if item is None:
-			return
-		self.list_exclude.removeItemWidget( item, 0 )
+		self.list_exclude.takeItem( self.list_exclude.currentRow() )
 	
 	def on_btn_exclude_add_clicked( self ):
 		ret_val = KInputDialog.getText( QString.fromUtf8( _( 'Exclude pattern' ) ), '', '', self )
@@ -286,26 +275,27 @@ class SettingsDialog( KDialog ):
 		if len( pattern ) == 0:
 			return
 
-		for index in xrange( self.list_exclude.topLevelItemCount() ):
-			if pattern == self.list_exclude.topLevelItem( index ):
+		for index in xrange( self.list_exclude.count() ):
+			if pattern == self.list_exclude.item( index ).text():
 				return
+
 		self.add_exclude( pattern )
 
 	def on_btn_include_remove_clicked ( self ):
-		item = self.list_include.currentItem()
-		if item is None:
-			return
-		self.list_include.removeItemWidget( item, 0 )
+		self.list_include.takeItem( self.list_include.currentRow() )
 
 	def on_btn_include_add_clicked( self ):
 		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ) )
 		if len( path ) == 0 :
 			return
 
-		for index in xrange( self.list_include.topLevelItemCount() ):
-			if path == self.list_include.topLevelItem( index ):
+		path = self.config.prepare_path( path )
+
+		for index in xrange( self.list_include.count() ):
+			if path == self.list_include.item( index ).text():
 				return
-		self.add_include( self.config.prepare_path( path ) )
+
+		self.add_include( path )
 
 	def on_btn_snapshots_path_clicked( self ):
 		path = str( KFileDialog.getExistingDirectory( KUrl( self.edit_snapshots_path.text() ), self, QString.fromUtf8( _( 'Where to save snapshots' ) ) ) )

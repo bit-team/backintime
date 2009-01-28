@@ -58,7 +58,7 @@ class MainWindow( KMainWindow ):
 		self.kaboutdata = kaboutdata
 		self.snapshots = snapshots.Snapshots( config )
 
-		self.main_toolbar = QToolBar( self )
+		self.main_toolbar = KToolBar( self )
 		self.main_toolbar.setFloatable( False )
 
 		self.btn_take_snapshot = self.main_toolbar.addAction( KIcon( 'document-save' ), '' )
@@ -74,7 +74,7 @@ class MainWindow( KMainWindow ):
 		self.main_toolbar.addSeparator()
 		self.btn_quit = self.main_toolbar.addAction( KIcon( 'application-exit' ), '' )
 
-		self.files_view_toolbar = QToolBar( self )
+		self.files_view_toolbar = KToolBar( self )
 		self.files_view_toolbar.setFloatable( False )
 
 		self.btn_folder_up = self.files_view_toolbar.addAction( KIcon( 'go-up' ), '' )

@@ -20,9 +20,12 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
 
-def set_font_bold( widget ):
-	font = widget.font()
+def get_font_bold( font ):
 	font.setWeight( QFont.Bold )
-	widget.setFont( font )
+	return font
+
+
+def set_font_bold( widget ):
+	widget.setFont( get_font_bold( widget.font() ) )
 
 
