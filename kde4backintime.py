@@ -137,6 +137,7 @@ class MainWindow( KMainWindow ):
 		
 		self.list_files_view.setRootIsDecorated( False )
 		self.list_files_view.setAlternatingRowColors( True )
+		self.list_files_view.setAllColumnsShowFocus( True )
 
 		#
 		self.second_splitter = QSplitter( self )
