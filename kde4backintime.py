@@ -120,24 +120,33 @@ class MainWindow( KMainWindow ):
 
 		#list files view
 		self.list_files_view = QTreeView( self )
+		self.list_files_view.setRootIsDecorated( False )
+		self.list_files_view.setAlternatingRowColors( True )
+		self.list_files_view.setAllColumnsShowFocus( True )
+		self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
+		self.list_files_view.setItemsExpandable( False )
 
+		#self.list_files_view.header().setClickable( True )
+		self.list_files_view.header().setMovable( False )
+		#self.list_files_view.header().setSortIndicatorShown( True )
+		
 		self.list_files_view_model = KDirModel( self )
 		self.list_files_view_model.removeColumns( 3, 2 )
-		self.list_files_view.setModel( self.list_files_view_model )
+		self.list_files_view_model.dirLister().setAutoErrorHandlingEnabled( False, self )
+		self.list_files_view_model.dirLister().setAutoUpdate( False )
+		self.list_files_view_model.dirLister().setDelayedMimeTypes( False )
+		self.list_files_view_model.dirLister().setMainWindow( self )
+
+		self.list_files_view_sort_filter_proxy = KDirSortFilterProxyModel( self )
+		self.list_files_view_sort_filter_proxy.setSourceModel( self.list_files_view_model )
+
+		self.list_files_view.setModel( self.list_files_view_sort_filter_proxy )
 
 		self.list_files_view_delegate = KFileItemDelegate( self )
 		self.list_files_view.setItemDelegate( self.list_files_view_delegate )
 
 		for column_index in xrange( 3, self.list_files_view_model.columnCount() ):
 			self.list_files_view.hideColumn( column_index )
-
-		self.list_files_view.header().setClickable( True )
-		self.list_files_view.header().setMovable( False )
-		self.list_files_view.header().setSortIndicatorShown( True )
-		
-		self.list_files_view.setRootIsDecorated( False )
-		self.list_files_view.setAlternatingRowColors( True )
-		self.list_files_view.setAllColumnsShowFocus( True )
 
 		#
 		self.second_splitter = QSplitter( self )
@@ -233,6 +242,9 @@ class MainWindow( KMainWindow ):
 		if not cfg.is_configured():
 			return
 
+		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('completed()'), self.on_dir_lister_completed )
+		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('canceled()'), self.on_dir_lister_completed )
+
 		#populate lists
 		self.update_time_line()
 		self.update_places()
@@ -244,7 +256,7 @@ class MainWindow( KMainWindow ):
 
 		QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QListWidgetItem*,QListWidgetItem*)'), self.on_list_time_line_current_item_changed )
 		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QListWidgetItem*,QListWidgetItem*)'), self.on_list_places_current_item_changed )
-		QObject.connect( self.list_files_view, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_files_view_item_activated )
+		QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
 
 		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 		QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.on_btn_name_snapshot_clicked )
@@ -648,18 +660,21 @@ class MainWindow( KMainWindow ):
 		self.path = path
 		self.update_files_view( 0 )
 
-	def on_list_files_view_item_activated( self, item, column ):
-		if item is None:
+	def on_list_files_view_item_activated( self, model_index ):
+		if model_index is None:
 			return
 
-		rel_path = os.path.join( self.path, self.files_view_get_name( item ) )
+		rel_path = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString() )
+		if len( rel_path ) <= 0:
+			return
 
-		if self.files_view_get_type( item ) ==  0:
+		rel_path = os.path.join( self.path, rel_path )
+		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, rel_path )
+
+		if os.path.isdir( full_path ):
 			self.path = rel_path
 			self.update_files_view( 0 )
 		else:
-			full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, rel_path )
-			#os.system( "kde-open \"%s\" &" % full_path )
 			self.run = KRun( KUrl( full_path ), self, True )
 
 	def sort_by_name( self, item1, item2 ):
@@ -715,86 +730,17 @@ class MainWindow( KMainWindow ):
 					self.list_places.setCurrentItem( item )
 					break
 
-		self.list_files_view_model.dirLister().openUrl( KUrl( self.path ) )
-		return
+		#try to keep old selected file
+		if selected_file is None:
+			selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString() )
 
-#		#update folder view
-#		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
-#		all_files = []
-#
-#		try:
-#			all_files = os.listdir( full_path )
-#			all_files.sort()
-#		except:
-#			pass
-#
-#		files = []
-#
-#		for file in all_files:
-#			if len( file ) == 0:
-#				continue
-#
-#			if not self.show_hidden_files:
-#				if file[ 0 ] == '.':
-#					continue
-#				if file[ -1 ] == '~':
-#					continue
-#
-#			path = os.path.join( full_path, file )
-#
-#			file_size = -1
-#			file_date = -1
-#
-#			try:
-#				file_stat = os.stat( path )
-#				file_size = file_stat[stat.ST_SIZE]
-#				file_date = file_stat[stat.ST_MTIME]
-#			except:
-#				pass
-#
-#			#format size
-#			file_size_int = file_size
-#			if file_size_int < 0:
-#				file_size_int = 0
-#
-#			if file_size < 0:
-#				file_size = 'unknown'
-#			elif file_size < 1024:
-#				file_size = str( file_size ) + ' bytes'
-#			elif file_size < 1024 * 1024:
-#				file_size = file_size / 1024
-#				file_size = str( file_size ) + ' KB'
-#			elif file_size < 1024 * 1024 * 1024:
-#				file_size = file_size / ( 1024 * 1024 )
-#				file_size = str( file_size ) + ' MB'
-#			else:
-#				file_size = file_size / ( 1024 * 1024 * 1024 )
-#				file_size = str( file_size ) + ' GB'
-#
-#			#format date
-#			if file_date < 0:
-#				file_date = 'unknown'
-#			else:
-#				file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
-#
-#			if os.path.isdir( path ):
-#				files.append( [ file, file_size, file_date, file_size_int, 0 ] )
-#			else:
-#				files.append( [ file, file_size, file_date, file_size_int, 1 ] )
-#
-#		#try to keep old selected file
-#		if selected_file is None:
-#			item = self.list_files_view.currentItem()
-#			if not item is None:
-#				selected_file = item.text( 0 )
-#			else:
-#				selected_file = ''
-#
-#		files.sort( self.sort_by_name )
-#
-#		#populate the list
-#		self.list_files_view.clear()
-#
+		self.selected_file = selected_file
+	
+		#update files view
+		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
+		self.list_files_view_model.dirLister().setShowingDotFiles( self.show_hidden_files )
+		self.list_files_view_model.dirLister().openUrl( KUrl( full_path ) )
+
 #		for item in files:
 #			list_item = self.add_files_view( item[0], item[1], item[2], item[3], item[4] )
 #			if selected_file == item[0]:
@@ -809,19 +755,35 @@ class MainWindow( KMainWindow ):
 		#update folder_up button state
 		self.btn_folder_up.setEnabled( len( self.path ) > 1 )
 
-		#update restore button state
-		self.btn_restore.setEnabled( len( self.snapshot_id ) > 1 and len( files ) > 0 )
+		self.files_view_toolbar.setEnabled( False )
 
-		#update copy button state
-		self.btn_copy.setEnabled( len( files ) > 0 )
+		##update restore button state
+		#self.btn_restore.setEnabled( len( self.snapshot_id ) > 1 and len( files ) > 0 )
 
-		#update snapshots button state
-		self.btn_snapshots.setEnabled( len( files ) > 0 )
+		##update copy button state
+		#self.btn_copy.setEnabled( len( files ) > 0 )
+
+		##update snapshots button state
+		#self.btn_snapshots.setEnabled( len( files ) > 0 )
 
 #		#show snapshots
 #		if show_snapshots:
 #			self.on_btn_snapshots_clicked( None )
 
+	def on_dir_lister_completed( self ):
+		has_files = ( self.list_files_view_model.rowCount() > 0 )
+
+		#update restore button state
+		self.btn_restore.setEnabled( len( self.snapshot_id ) > 1 and has_files )
+
+		#update copy button state
+		self.btn_copy.setEnabled( has_files )
+
+		#update snapshots button state
+		self.btn_snapshots.setEnabled( has_files )
+
+		#enable files toolbar
+		self.files_view_toolbar.setEnabled( True )
 
 class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 	def __init__( self ):
