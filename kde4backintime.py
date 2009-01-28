@@ -94,14 +94,15 @@ class MainWindow( KMainWindow ):
 		self.btn_folder_up = self.files_view_toolbar.addAction( KIcon( 'go-up' ), '' )
 		self.btn_folder_up.setToolTip( QString.fromUtf8( _('Up') ) )
 
-		self.edit_current_path = QLineEdit( self )
+		self.edit_current_path = KLineEdit( self )
 		self.edit_current_path.setReadOnly( True )
 		self.files_view_toolbar.addWidget( self.edit_current_path )
 
 		#show hidden files
 		self.show_hidden_files = self.config.get_bool_value( 'kde4.show_hidden_files', False )
 
-		self.btn_show_hidden_files = self.files_view_toolbar.addAction( KIcon( 'list-add' ), '' )
+		self.btn_show_hidden_files = KToggleAction( KIcon( 'list-add' ), '', self.files_view_toolbar )
+		self.files_view_toolbar.addAction( self.btn_show_hidden_files )
 		self.btn_show_hidden_files.setCheckable( True )
 		self.btn_show_hidden_files.setChecked( self.show_hidden_files )
 		self.btn_show_hidden_files.setToolTip( QString.fromUtf8( _('Show hidden files') ) )
@@ -117,14 +118,6 @@ class MainWindow( KMainWindow ):
 		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
 		self.btn_snapshots.setToolTip( QString.fromUtf8( _('Snapshots') ) )
 
-		self.list_time_line = QTreeWidget( self )
-		self.list_time_line.setHeaderLabel( QString.fromUtf8( _('Timeline') ) )
-		self.list_time_line.setRootIsDecorated( False )
-
-		self.list_places = QTreeWidget( self )
-		self.list_places.setHeaderLabel( QString.fromUtf8( _('Places') ) )
-		self.list_places.setRootIsDecorated( False )
-
 		self.list_files_view = QTreeWidget( self )
 		self.list_files_view.setHeaderLabels( [QString.fromUtf8( _('Name') ), QString.fromUtf8( _('Size') ), QString.fromUtf8( _('Date') )] )
 		self.list_files_view.setRootIsDecorated( False )
@@ -132,8 +125,24 @@ class MainWindow( KMainWindow ):
 
 		self.second_splitter = QSplitter( self )
 		self.second_splitter.setOrientation( Qt.Horizontal )
-		self.second_splitter.addWidget( self.list_time_line )
-		self.second_splitter.addWidget( self.list_places )
+
+		widget = QWidget( self )
+		layout = QVBoxLayout( widget )
+		label = QLabel( QString.fromUtf8( _('Timeline') ), self )
+		kde4tools.set_font_bold( label )
+		layout.addWidget( label )
+		self.list_time_line = KListWidget( self )
+		layout.addWidget( self.list_time_line )
+		self.second_splitter.addWidget( widget )
+
+		widget = QWidget( self )
+		layout = QVBoxLayout( widget )
+		label = QLabel( QString.fromUtf8( _('Places') ), self )
+		kde4tools.set_font_bold( label )
+		layout.addWidget( label )
+		self.list_places = KListWidget( self )
+		layout.addWidget( self.list_places )
+		self.second_splitter.addWidget( widget )
 
 		left_layout = QVBoxLayout()
 		left_layout.addWidget( self.main_toolbar )
@@ -213,8 +222,8 @@ class MainWindow( KMainWindow ):
 
 		self.update_snapshot_actions()
 
-		QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_time_line_current_item_changed )
-		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
+		QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QListWidgetItem*,QListWidgetItem*)'), self.on_list_time_line_current_item_changed )
+		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QListWidgetItem*,QListWidgetItem*)'), self.on_list_places_current_item_changed )
 		QObject.connect( self.list_files_view, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_files_view_item_activated )
 
 		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
@@ -368,7 +377,7 @@ class MainWindow( KMainWindow ):
 		if item is None:
 			return
 
-		path = str( item.text( 1 ) )
+		path = str( item.data( Qt.UserRole ).toString() )
 		if len( path ) == 0:
 			return
 
@@ -379,23 +388,18 @@ class MainWindow( KMainWindow ):
 		self.update_files_view( 3 )
 
 	def add_place( self, name, path, icon ):
-		item = QTreeWidgetItem( self.list_places )
+		item = QListWidgetItem( name, self.list_places )
 
 		if len( icon ) > 0:
-			item.setIcon( 0, KIcon( icon ) )
+			item.setIcon( KIcon( icon ) )
 
-		item.setText( 0, name )
-		item.setText( 1, path )
+		item.setData( Qt.UserRole, QVariant( path ) )
 
 		if len( path ) == 0:
-			font = item.font( 0 )
-			font.setWeight( QFont.Bold )
-			item.setFont( 0, font )
+			kde4tools.set_font_bold( item )
 			#item.setFlags( Qt.NoItemFlags )
 			item.setFlags( Qt.ItemIsEnabled )
-			item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
-
-		self.list_places.addTopLevelItem( item )
+			item.setBackgroundColor( QColor( 196, 196, 196 ) )
 
 		if path == self.path:
 			self.list_places.setCurrentItem( item )
@@ -445,7 +449,7 @@ class MainWindow( KMainWindow ):
 		self.update_files_view( 2 )
 
 	def time_line_get_snapshot_id( self, item ):
-		return str( item.text( 1 ) ) 
+		return str( item.data( Qt.UserRole ).toString() ) 
 
 	def time_line_update_snapshot_name( self, item ):
 		snapshot_id = self.time_line_get_snapshot_id( item )
@@ -453,20 +457,16 @@ class MainWindow( KMainWindow ):
 			item.setText( 0, self.snapshots.get_snapshot_display_name( snapshot_id ) )
 
 	def add_time_line( self, snapshot_name, snapshot_id ):
-		item = QTreeWidgetItem( self.list_time_line )
+		item = QListWidgetItem( snapshot_name, self.list_time_line )
 
-		item.setText( 0, snapshot_name )
-		item.setText( 1, snapshot_id )
+		item.setData( Qt.UserRole, QVariant( snapshot_id ) )
 
 		if len( snapshot_id ) == 0:
-			font = item.font( 0 )
-			font.setWeight( QFont.Bold )
-			item.setFont( 0, font )
+			kde4tools.set_font_bold( item )
 			#item.setFlags( Qt.NoItemFlags )
 			item.setFlags( Qt.ItemIsEnabled )
-			item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
+			item.setBackgroundColor( QColor( 196, 196, 196 ) )
 
-		self.list_time_line.addTopLevelItem( item )
 		return item
 
 	def update_time_line( self, get_snapshots_list = True ):
@@ -528,7 +528,7 @@ class MainWindow( KMainWindow ):
 						self.list_time_line.setCurrentItem( list_item )
 
 		if self.list_time_line.currentItem() is None:
-			self.list_time_line.setCurrentItem( self.list_time_line.topLevelItem( 0 ) )
+			self.list_time_line.setCurrentItem( self.list_time_line.item( 0 ) )
 			if self.snapshot_id != '/':
 				self.snapshot_id = '/'
 				self.update_files_view( 2 )
@@ -687,9 +687,9 @@ class MainWindow( KMainWindow ):
 		if 0 == changed_from:
 			#update places
 			self.list_places.setCurrentItem( None )
-			for place_index in xrange( self.list_places.topLevelItemCount() ):
-				item = self.list_places.topLevelItem( place_index )
-				if self.path == str( item.text( 1 ) ):
+			for place_index in xrange( self.list_places.count() ):
+				item = self.list_places.item( place_index )
+				if self.path == str( item.data( Qt.UserRole ).toString() ):
 					self.list_places.setCurrentItem( item )
 					break
 
