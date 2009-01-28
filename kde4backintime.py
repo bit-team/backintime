@@ -118,16 +118,34 @@ class MainWindow( KMainWindow ):
 		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
 		self.btn_snapshots.setToolTip( QString.fromUtf8( _('Snapshots') ) )
 
-		self.list_files_view = QTreeWidget( self )
-		self.list_files_view.setHeaderLabels( [QString.fromUtf8( _('Name') ), QString.fromUtf8( _('Size') ), QString.fromUtf8( _('Date') )] )
+		#list files view
+		self.list_files_view = QTreeView( self )
+
+		self.list_files_view_model = KDirModel( self )
+		self.list_files_view_model.removeColumns( 3, 2 )
+		self.list_files_view.setModel( self.list_files_view_model )
+
+		self.list_files_view_delegate = KFileItemDelegate( self )
+		self.list_files_view.setItemDelegate( self.list_files_view_delegate )
+
+		for column_index in xrange( 3, self.list_files_view_model.columnCount() ):
+			self.list_files_view.hideColumn( column_index )
+
+		self.list_files_view.header().setClickable( True )
+		self.list_files_view.header().setMovable( False )
+		self.list_files_view.header().setSortIndicatorShown( True )
+		
 		self.list_files_view.setRootIsDecorated( False )
 		self.list_files_view.setAlternatingRowColors( True )
 
+		#
 		self.second_splitter = QSplitter( self )
 		self.second_splitter.setOrientation( Qt.Horizontal )
 
 		widget = QWidget( self )
 		layout = QVBoxLayout( widget )
+		left, top, right, bottom = layout.getContentsMargins()
+		layout.setContentsMargins( left, 0, 0, 0 )
 		label = QLabel( QString.fromUtf8( _('Timeline') ), self )
 		kde4tools.set_font_bold( label )
 		layout.addWidget( label )
@@ -137,6 +155,7 @@ class MainWindow( KMainWindow ):
 
 		widget = QWidget( self )
 		layout = QVBoxLayout( widget )
+		layout.setContentsMargins( 0, 0, 0, 0 )
 		label = QLabel( QString.fromUtf8( _('Places') ), self )
 		kde4tools.set_font_bold( label )
 		layout.addWidget( label )
@@ -695,91 +714,93 @@ class MainWindow( KMainWindow ):
 					self.list_places.setCurrentItem( item )
 					break
 
+		self.list_files_view_model.dirLister().openUrl( KUrl( self.path ) )
+		return
 
-		#update folder view
-		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
-		all_files = []
-
-		try:
-			all_files = os.listdir( full_path )
-			all_files.sort()
-		except:
-			pass
-
-		files = []
-
-		for file in all_files:
-			if len( file ) == 0:
-				continue
-
-			if not self.show_hidden_files:
-				if file[ 0 ] == '.':
-					continue
-				if file[ -1 ] == '~':
-					continue
-
-			path = os.path.join( full_path, file )
-
-			file_size = -1
-			file_date = -1
-
-			try:
-				file_stat = os.stat( path )
-				file_size = file_stat[stat.ST_SIZE]
-				file_date = file_stat[stat.ST_MTIME]
-			except:
-				pass
-
-			#format size
-			file_size_int = file_size
-			if file_size_int < 0:
-				file_size_int = 0
-
-			if file_size < 0:
-				file_size = 'unknown'
-			elif file_size < 1024:
-				file_size = str( file_size ) + ' bytes'
-			elif file_size < 1024 * 1024:
-				file_size = file_size / 1024
-				file_size = str( file_size ) + ' KB'
-			elif file_size < 1024 * 1024 * 1024:
-				file_size = file_size / ( 1024 * 1024 )
-				file_size = str( file_size ) + ' MB'
-			else:
-				file_size = file_size / ( 1024 * 1024 * 1024 )
-				file_size = str( file_size ) + ' GB'
-
-			#format date
-			if file_date < 0:
-				file_date = 'unknown'
-			else:
-				file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
-
-			if os.path.isdir( path ):
-				files.append( [ file, file_size, file_date, file_size_int, 0 ] )
-			else:
-				files.append( [ file, file_size, file_date, file_size_int, 1 ] )
-
-		#try to keep old selected file
-		if selected_file is None:
-			item = self.list_files_view.currentItem()
-			if not item is None:
-				selected_file = item.text( 0 )
-			else:
-				selected_file = ''
-
-		files.sort( self.sort_by_name )
-
-		#populate the list
-		self.list_files_view.clear()
-
-		for item in files:
-			list_item = self.add_files_view( item[0], item[1], item[2], item[3], item[4] )
-			if selected_file == item[0]:
-				self.list_files_view.setCurrentItem( list_item )
-
-		if self.list_files_view.currentItem() is None and len( files ) > 0:
-			self.list_files_view.setCurrentItem( self.list_files_view.topLevelItem(0) )
+#		#update folder view
+#		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
+#		all_files = []
+#
+#		try:
+#			all_files = os.listdir( full_path )
+#			all_files.sort()
+#		except:
+#			pass
+#
+#		files = []
+#
+#		for file in all_files:
+#			if len( file ) == 0:
+#				continue
+#
+#			if not self.show_hidden_files:
+#				if file[ 0 ] == '.':
+#					continue
+#				if file[ -1 ] == '~':
+#					continue
+#
+#			path = os.path.join( full_path, file )
+#
+#			file_size = -1
+#			file_date = -1
+#
+#			try:
+#				file_stat = os.stat( path )
+#				file_size = file_stat[stat.ST_SIZE]
+#				file_date = file_stat[stat.ST_MTIME]
+#			except:
+#				pass
+#
+#			#format size
+#			file_size_int = file_size
+#			if file_size_int < 0:
+#				file_size_int = 0
+#
+#			if file_size < 0:
+#				file_size = 'unknown'
+#			elif file_size < 1024:
+#				file_size = str( file_size ) + ' bytes'
+#			elif file_size < 1024 * 1024:
+#				file_size = file_size / 1024
+#				file_size = str( file_size ) + ' KB'
+#			elif file_size < 1024 * 1024 * 1024:
+#				file_size = file_size / ( 1024 * 1024 )
+#				file_size = str( file_size ) + ' MB'
+#			else:
+#				file_size = file_size / ( 1024 * 1024 * 1024 )
+#				file_size = str( file_size ) + ' GB'
+#
+#			#format date
+#			if file_date < 0:
+#				file_date = 'unknown'
+#			else:
+#				file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
+#
+#			if os.path.isdir( path ):
+#				files.append( [ file, file_size, file_date, file_size_int, 0 ] )
+#			else:
+#				files.append( [ file, file_size, file_date, file_size_int, 1 ] )
+#
+#		#try to keep old selected file
+#		if selected_file is None:
+#			item = self.list_files_view.currentItem()
+#			if not item is None:
+#				selected_file = item.text( 0 )
+#			else:
+#				selected_file = ''
+#
+#		files.sort( self.sort_by_name )
+#
+#		#populate the list
+#		self.list_files_view.clear()
+#
+#		for item in files:
+#			list_item = self.add_files_view( item[0], item[1], item[2], item[3], item[4] )
+#			if selected_file == item[0]:
+#				self.list_files_view.setCurrentItem( list_item )
+#
+#		if self.list_files_view.currentItem() is None and len( files ) > 0:
+#			self.list_files_view.setCurrentItem( self.list_files_view.topLevelItem(0) )
 
 		#show current path
 		self.edit_current_path.setText( self.path )
