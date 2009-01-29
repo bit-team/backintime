@@ -60,8 +60,8 @@ class SettingsDialog( KDialog ):
 		self.edit_snapshots_path.setReadOnly( True )
 		layout.addWidget( self.edit_snapshots_path )
 
-		#self.btn_snapshots_path = KPushButton( QString.fromUtf8( _( '...' ) ), self )
-		self.btn_snapshots_path = KPushButton( KStandardGuiItem.open(), self )
+		#self.btn_snapshots_path = KPushButton( KStandardGuiItem.open(), self )
+		self.btn_snapshots_path = KPushButton( KIcon( 'folder' ), '', self )
 		layout.addWidget( self.btn_snapshots_path )
 		QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
 		
