@@ -29,7 +29,7 @@ gzip -d $FILE.gz
 mv $FILE $FILE.tmp
 sed -e "s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION\"\3/" $FILE.tmp > $FILE
 rm $FILE.tmp
-gzip $FILE
+gzip --best $FILE
 
 echo "Update help .omf file"
 FILE=docbook/C/backintime-C.omf
