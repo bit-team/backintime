@@ -109,6 +109,7 @@ class MainWindow:
 				'on_btn_about_clicked' : self.on_btn_about_clicked,
 				'on_btn_settings_clicked' : self.on_btn_settings_clicked,
 				'on_btn_backup_clicked' : self.on_btn_backup_clicked,
+				'on_btn_update_snapshots_clicked' : self.on_btn_update_snapshots_clicked,
 				'on_btn_snapshot_name_clicked' : self.on_btn_snapshot_name_clicked,
 				'on_btn_remove_snapshot_clicked' : self.on_btn_remove_snapshot_clicked,
 				'on_btn_restore_clicked' : self.on_btn_restore_clicked,
@@ -861,6 +862,10 @@ class MainWindow:
 		os.system( cmd )
 
 		self.update_backup_info( True )
+
+	def on_btn_update_snapshots_clicked( self, button ):
+		print "ABC"
+		self.fill_time_line()
 
 	def update_folder_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
 		#update backup time
