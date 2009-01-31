@@ -64,6 +64,9 @@ class MainWindow( KMainWindow ):
 		self.btn_take_snapshot = self.main_toolbar.addAction( KIcon( 'document-save' ), '' )
 		self.btn_take_snapshot.setToolTip( QString.fromUtf8( _('Take snapshot') ) )
 
+		self.btn_update_snapshots = self.main_toolbar.addAction( KIcon( 'view-refresh' ), '' )
+		self.btn_update_snapshots.setToolTip( QString.fromUtf8( _('Update snapshots') ) )
+
 		self.btn_name_snapshot = self.main_toolbar.addAction( KIcon( 'edit-rename' ), '' )
 		self.btn_name_snapshot.setToolTip( QString.fromUtf8( _('Snapshot Name') ) )
 
@@ -259,6 +262,7 @@ class MainWindow( KMainWindow ):
 		QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
 
 		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
+		QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
 		QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.on_btn_name_snapshot_clicked )
 		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
 		QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
@@ -575,6 +579,9 @@ class MainWindow( KMainWindow ):
 		os.system( cmd )
 
 		self.update_take_snapshot( True )
+
+	def on_btn_update_snapshots_clicked( self ):
+		self.update_time_line()
 
 	def on_btn_name_snapshot_clicked( self ):
 		item = self.list_time_line.currentItem()
