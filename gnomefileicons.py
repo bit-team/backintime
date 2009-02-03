@@ -26,11 +26,57 @@ class GnomeFileIcons:
 	def __init__( self ):
 		self.all_icons = gtk.icon_theme_get_default().list_icons()
 		self.cache = {}
+		self.user_path = os.path.expanduser( '~' )
+		self.special_folders = {}
 
+		self.update_special_folder_icons()
+
+	def add_special_folder_( self, path, icon_name ):
+		if len( path ) <= 0:
+			return
+
+		if not icon_name in self.all_icons:
+			icon_name = 'folder'
+
+		self.special_folders[ path ] = icon_name
+
+	def get_special_folder_path( self, name ):
+		path = ''
+
+		try:
+			pipe = os.popen( "cat %s/.config/user-dirs.dirs | grep %s=" % ( self.user_path, name ), 'r' )
+			path = pipe.read()
+			pipe.close()
+		except:
+			pass
+
+		if len( path ) <= 0:
+			return ''
+
+		path = path[ len( name ) + 1 : ]
+		if path[ 0 ] == '"':
+			path = path[ 1 : -2 ]
+
+		path = path.replace( '$HOME', self.user_path )
+		return path
+
+	def update_special_folder_icons( self ):
+		self.special_folders = {}
+
+		#add desktop
+		self.add_special_folder_( self.get_special_folder_path( 'XDG_DESKTOP_DIR' ), 'user-desktop' )
+		
+		#add home
+		self.add_special_folder_( self.user_path, 'user-home' )
+		
 	def get_icon( self, path ):
 		if not os.path.exists(path):
 			return gtk.STOCK_FILE
-		
+
+		#check if it is a special folder
+		if path in self.special_folders:
+			return self.special_folders[path]
+
 		#get mime type
 		mime_type = gnomevfs.get_mime_type( path ).replace( '/', '-' )
 
@@ -51,7 +97,7 @@ class GnomeFileIcons:
 				return icon_name
 
 		#try folder
-		if os.path.isdir(path):
+		if os.path.isdir( path ):
 			icon_name = 'folder'
 			if icon_name in self.all_icons:
 				#print "icon: " + icon_name
