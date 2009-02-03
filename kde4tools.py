@@ -16,6 +16,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+import os
+import os.path
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
@@ -28,4 +31,36 @@ def get_font_bold( font ):
 def set_font_bold( widget ):
 	widget.setFont( get_font_bold( widget.font() ) )
 
+
+def get_cmd_output( cmd ):
+	output = ''
+
+	try:
+		pipe = os.popen( cmd )
+		output = pipe.read().strip()
+		pipe.close() 
+	except:
+		return ''
+
+	return output
+
+
+def check_cmd( cmd ):
+	cmd = cmd.strip()
+
+	if len( cmd ) < 1:
+		return False
+
+	#if os.path.isfile( cmd ):
+	#	return True
+
+	cmd = get_cmd_output( "which \"%s\"" % cmd )
+
+	if len( cmd ) < 1:
+		return False
+
+	if os.path.isfile( cmd ):
+		return True
+
+	return False
 

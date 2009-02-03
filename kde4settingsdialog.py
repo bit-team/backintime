@@ -304,5 +304,5 @@ class SettingsDialog( KDialog ):
 
 	def accept( self ):
 		if self.validate():
-			QDialog.accept( self )
+			KDialog.accept( self )
 

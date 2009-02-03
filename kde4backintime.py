@@ -43,6 +43,7 @@ from PyKDE4.kio import *
 
 import kde4tools
 import kde4settingsdialog
+import kde4snapshotsdialog
 
 
 _=gettext.gettext
@@ -273,7 +274,7 @@ class MainWindow( KMainWindow ):
 		QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
 		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.on_btn_restore_clicked )
 		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.show_not_implemented )
-		QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.on_btn_snapshots_clicked )
 
 		self.force_wait_lock_counter = 0
 	
@@ -655,6 +656,18 @@ class MainWindow( KMainWindow ):
 
 		rel_path = os.path.join( self.path, selected_file )
 		self.snapshots.restore( self.snapshot_id, rel_path )
+
+	def on_btn_snapshots_clicked( self ):
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString() )
+		if len( selected_file ) <= 0:
+			return
+
+		rel_path = os.path.join( self.path, selected_file )
+		icon = None
+		if self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex(), Qt.DecorationRole ).type() == QVariant.Icon:
+			icon = self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex(), Qt.DecorationRole )
+
+		kde4snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path, icon ).exec_()
 
 	def on_btn_folder_up_clicked( self ):
 		if len( self.path ) <= 1:
