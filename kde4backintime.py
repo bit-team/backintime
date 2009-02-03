@@ -667,7 +667,17 @@ class MainWindow( KMainWindow ):
 		if self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex(), Qt.DecorationRole ).type() == QVariant.Icon:
 			icon = self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex(), Qt.DecorationRole )
 
-		kde4snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path, icon ).exec_()
+		dlg = kde4snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path, icon )
+		if QDialog.Accepted == dlg.exec_():
+			if dlg.snapshot_id != self.snapshot_id:
+				for index in xrange( self.list_time_line.count() ):
+					item = self.list_time_line.item( index )
+					snapshot_id = self.time_line_get_snapshot_id( item )
+					if snapshot_id == dlg.snapshot_id:
+						self.snapshot_id = dlg.snapshot_id
+						self.list_time_line.setCurrentItem( item )
+						self.update_files_view( 2 )
+						break
 
 	def on_btn_folder_up_clicked( self ):
 		if len( self.path ) <= 1:

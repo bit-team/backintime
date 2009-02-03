@@ -251,4 +251,9 @@ class SnapshotsDialog( KDialog ):
 	def on_btn_diff_options_clicked( self ):
 		DiffOptionsDialog( self ).exec_()
 
+	def accept( self ):
+		snapshot_id = self.get_list_snapshot_id()
+		if len( snapshot_id ) >= 1:
+			self.snapshot_id = snapshot_id
+		KDialog.accept( self )
 
