@@ -108,7 +108,7 @@
      the application is and what it does. -->
   <sect1 id="backintime-introduction"> 
     <title>Introduction</title> 
-    <para>&app; is a simple backup system for GNOME desktop. The backup is done by taking snapshots of 
+    <para>&app; is a simple backup system for Linux (Gnome and KDE4). The backup is done by taking snapshots of 
 	a specified set of directories.</para> 
 	<para>All you have to do is configure:</para>
     <itemizedlist> 
@@ -154,10 +154,13 @@
     		<listitem>
     		<para>To start &app; from a command line, type the following command, then 
 			press <keycap>Return</keycap>:</para>
-    		<para><command>backintime [--gnome] [ [--snapshots] path | --backup | --version | --help ]</command></para> 
+    		<para><command>backintime [--gnome | --kde4] [ [--snapshots] path | --backup | --help | --version | --license]</command></para> 
 			<itemizedlist>
 				<listitem>
-    				<para>--gnome - use GNOME GUI</para>
+    				<para>--gnome - use GNOME GUI (if installed)</para>
+				</listitem>
+				<listitem>
+    				<para>--KDE4 - use KDE4 GUI (if installed)</para>
 				</listitem>
 				<listitem>
     				<para>path - go directly to the specified file or directory. 
@@ -174,10 +177,13 @@
     				<para>-b, --backup - take a snapshot now (if needed).</para> 
 				</listitem>
 				<listitem>
+    				<para>-h, --help - display a small help and exit.</para> 
+				</listitem>
+				<listitem>
     				<para>-v, --version - display the version and exit.</para> 
 				</listitem>
 				<listitem>
-    				<para>-h, --help - display a small help and exit.</para> 
+    				<para>--license - show license and exit.</para> 
 				</listitem>
     		</itemizedlist>
     		</listitem>
@@ -221,7 +227,8 @@
 
 	<varlistentry>
 	<term>Main toolbar</term>
-	<listitem><para>Take a new snapshot now</para></listitem>
+	<listitem><para>Take a new snapshot (if neccesary)</para></listitem>
+	<listitem><para>Update snapshots list</para></listitem>
 	<listitem><para>Edit selected snapshot's name</para></listitem>
 	<listitem><para>Remove selected snapshot</para></listitem>
 	<listitem><para>Settings dialog</para></listitem>

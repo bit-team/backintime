@@ -864,7 +864,6 @@ class MainWindow:
 		self.update_backup_info( True )
 
 	def on_btn_update_snapshots_clicked( self, button ):
-		print "ABC"
 		self.fill_time_line()
 
 	def update_folder_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
