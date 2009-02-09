@@ -130,9 +130,9 @@ class MainWindow( KMainWindow ):
 		self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self.list_files_view.setItemsExpandable( False )
 
-		#self.list_files_view.header().setClickable( True )
+		self.list_files_view.header().setClickable( True )
 		self.list_files_view.header().setMovable( False )
-		#self.list_files_view.header().setSortIndicatorShown( True )
+		self.list_files_view.header().setSortIndicatorShown( True )
 		
 		self.list_files_view_model = KDirModel( self )
 		self.list_files_view_model.removeColumns( 3, 2 )
@@ -151,6 +151,10 @@ class MainWindow( KMainWindow ):
 
 		for column_index in xrange( 3, self.list_files_view_model.columnCount() ):
 			self.list_files_view.hideColumn( column_index )
+
+		self.list_files_view.header().setSortIndicator( 0, Qt.AscendingOrder )
+		self.list_files_view_sort_filter_proxy.sort( self.list_files_view.header().sortIndicatorSection(), self.list_files_view.header().sortIndicatorOrder() )
+		QObject.connect( self.list_files_view.header(), SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'), self.list_files_view_sort_filter_proxy.sort )
 
 		#
 		self.second_splitter = QSplitter( self )
@@ -706,24 +710,6 @@ class MainWindow( KMainWindow ):
 			self.update_files_view( 0 )
 		else:
 			self.run = KRun( KUrl( full_path ), self, True )
-
-	def sort_by_name( self, item1, item2 ):
-		if item1[4] < item2[4]:
-			return -1
-
-		if item1[4] > item2[4]:
-			return 1
-
-		str1 = item1[0].upper()
-		str2 = item2[0].upper()
-
-		if str1 < str2:
-			return -1
-
-		if str1 > str2:
-			return 1
-
-		return 0
 
 	def files_view_get_name( self, item ):
 		return str( item.text( 0 ) )
