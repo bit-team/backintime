@@ -334,20 +334,22 @@ class Config( configfile.ConfigFile ):
 		elif self.MONTH == auto_backup_mode:
 			cron_lines = 'echo "@monthly {cmd}"'
 		elif self._5_MIN == auto_backup_mode:
-			cron_lines = ''
-			for minute in xrange( 0, 59, 5 ):
-				if 0 != minute:
-					cron_lines = cron_lines + '; '
-				cron_lines = cron_lines + "echo \"%s * * * * {cmd}\"" % minute
+			#cron_lines = ''
+			#for minute in xrange( 0, 59, 5 ):
+			#	if 0 != minute:
+			#		cron_lines = cron_lines + '; '
+			#	cron_lines = cron_lines + "echo \"%s * * * * {cmd}\"" % minute
+			cron_lines = 'echo "*/5 * * * * {cmd}"'
 		elif self._10_MIN == auto_backup_mode:
-			cron_lines = ''
-			for minute in xrange( 0, 59, 10 ):
-				if 0 != minute:
-					cron_lines = cron_lines + '; '
-				cron_lines = cron_lines + "echo \"%s * * * * {cmd}\"" % minute
+			#cron_lines = ''
+			#for minute in xrange( 0, 59, 10 ):
+			#	if 0 != minute:
+			#		cron_lines = cron_lines + '; '
+			#	cron_lines = cron_lines + "echo \"%s * * * * {cmd}\"" % minute
+			cron_lines = 'echo "*/10 * * * * {cmd}"'
 
 		if len( cron_lines ) > 0:
-			cron_lines = cron_lines.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup' )
+			cron_lines = cron_lines.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup >/dev/null 2>&1' )
 			os.system( "( crontab -l; %s ) | crontab -" % cron_lines )
 
 
