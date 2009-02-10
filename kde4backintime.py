@@ -152,7 +152,14 @@ class MainWindow( KMainWindow ):
 		for column_index in xrange( 3, self.list_files_view_model.columnCount() ):
 			self.list_files_view.hideColumn( column_index )
 
-		self.list_files_view.header().setSortIndicator( 0, Qt.AscendingOrder )
+		sort_column = self.config.get_int_value( 'kde4.main_window.files_view.sort.column', 0 )
+		sort_order = self.config.get_bool_value( 'kde4.main_window.files_view.sort.ascending', True )
+		if sort_order:
+			sort_order = Qt.AscendingOrder
+		else:
+			sort_order = Qt.DescendingOrder
+
+		self.list_files_view.header().setSortIndicator( sort_column, sort_order )
 		self.list_files_view_sort_filter_proxy.sort( self.list_files_view.header().sortIndicatorSection(), self.list_files_view.header().sortIndicatorOrder() )
 		QObject.connect( self.list_files_view.header(), SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'), self.list_files_view_sort_filter_proxy.sort )
 
@@ -319,6 +326,9 @@ class MainWindow( KMainWindow ):
 
 		self.config.set_bool_value( 'kde4.show_hidden_files', self.show_hidden_files )
 
+		self.config.set_int_value( 'kde4.main_window.files_view.sort.column', self.list_files_view.header().sortIndicatorSection() )
+		self.config.set_bool_value( 'kde4.main_window.files_view.sort.ascending', self.list_files_view.header().sortIndicatorOrder() == Qt.AscendingOrder )
+		
 		self.config.save()
 
 		event.accept()
