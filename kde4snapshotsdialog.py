@@ -79,6 +79,7 @@ class SnapshotsDialog( KDialog ):
 		self.config = parent.config
 		self.snapshots = parent.snapshots
 		self.snapshots_list = parent.snapshots_list
+		self.kapp = parent.kapp
 
 		self.snapshot_id = snapshot_id
 		self.path = path 
@@ -111,7 +112,7 @@ class SnapshotsDialog( KDialog ):
 		#toolbar copy
 		self.btn_copy = self.toolbar.addAction( KIcon( 'edit-copy' ), '' )
 		self.btn_copy.setToolTip( QString.fromUtf8( _('Copy') ) )
-		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.on_btn_copy_to_clipboard_clicked )
 
 		#snapshots list
 		self.list_snapshots = KListWidget( self )
@@ -190,9 +191,6 @@ class SnapshotsDialog( KDialog ):
 			return ''
 		return str( item.data( Qt.UserRole ).toString() )
 
-	def show_not_implemented( self ):
-		KMessageBox.error( self, "Not implemented !!!" )
-
 	def update_toolbar( self ):
 		snapshot_id = self.get_list_snapshot_id()
 
@@ -203,6 +201,14 @@ class SnapshotsDialog( KDialog ):
 		snapshot_id = self.get_list_snapshot_id()
 		if len( snapshot_id ) > 1:
 			self.snapshots.restore( snapshot_id, self.path )
+
+	def on_btn_copy_to_clipboard_clicked( self ):
+		snapshot_id = self.get_list_snapshot_id()
+		if len( snapshot_id ) < 1:
+			return
+
+		path = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
+		kde4tools.clipboard_set_path( self.kapp, path )
 
 	def on_list_snapshots_changed( self ):
 		self.update_toolbar()
