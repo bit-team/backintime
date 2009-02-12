@@ -130,6 +130,8 @@ class MainWindow( KMainWindow ):
 		self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self.list_files_view.setItemsExpandable( False )
 
+		print self.list_files_view.contextMenuPolicy()
+
 		self.list_files_view.header().setClickable( True )
 		self.list_files_view.header().setMovable( False )
 		self.list_files_view.header().setSortIndicatorShown( True )
