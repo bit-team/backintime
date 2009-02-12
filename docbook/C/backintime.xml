@@ -118,6 +118,8 @@
     </itemizedlist> 
 	<para>&app; acts as a "user mode" backup system. This means that you can backup/restore only folders 
 	you have write access to (actually you can backup read-only folders, but you can't restore them).</para>
+	<para>Unsafe links are ignored. That means that a link to a file/directory outside of include
+	directories are ignored.</para>
 	<para>A new snapshot is created only if something changed since the last snapshot (if any).</para>
 	<para>A snapshot contains all the files from the selected directories (except for exclude patterns).
 	In order to reduce disk space it use hard\-links (if possible) between snapshots for unchanged files.
