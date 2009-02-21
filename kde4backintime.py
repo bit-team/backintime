@@ -129,6 +129,8 @@ class MainWindow( KMainWindow ):
 		self.list_files_view.setAllColumnsShowFocus( True )
 		self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self.list_files_view.setItemsExpandable( False )
+		self.list_files_view.setDragEnabled( True )
+		self.list_files_view.setDragDropMode( QAbstractItemView.DragOnly )
 
 		print self.list_files_view.contextMenuPolicy()
 
