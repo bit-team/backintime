@@ -1034,6 +1034,7 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 		
 		if display is None:
 			logger.info( '[GnomeTakeSnapshotCallback.run] display KO' )
+			return
 
 		status_icon = None
 		try:
