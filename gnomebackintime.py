@@ -41,6 +41,7 @@ import config
 import logger
 import snapshots
 import guiapplicationinstance
+import tools
 
 import gnomesettingsdialog
 import gnomesnapshotsdialog
@@ -495,13 +496,13 @@ class MainWindow:
 		bookmarks = []
 		for rawbookmark in rawbookmarks.split( '\n' ):
 			if rawbookmark.startswith( 'file://' ):
-				index = rawbookmark.rfind( ' ' )
+				index = rawbookmark.find( ' ' )
 				if index > 0:
-					bookmarks.append( ( rawbookmark[ 7 : index ], rawbookmark[ index + 1 : ] ) )
+					bookmarks.append( ( gnomevfs.unescape_string_for_display( rawbookmark[ 7 : index ] ), rawbookmark[ index + 1 : ] ) )
 				elif index < 0:
 					index = rawbookmark.rfind( '/' )
 					if index > 0:
-						bookmarks.append( ( rawbookmark[ 7 : ], rawbookmark[ index + 1 : ] ) )
+						bookmarks.append( ( gnomevfs.unescape_string_for_display( rawbookmark[ 7 : ] ), gnomevfs.unescape_string_for_display( rawbookmark[ index + 1 : ] ) ) )
 
 		if len( bookmarks ) > 0:
 			self.store_places.append( [ "<b>%s</b>" % _('Bookmarks'), '', '' ] )
