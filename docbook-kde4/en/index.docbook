@@ -20,37 +20,19 @@
   <articleinfo> 
     <title>&app; Manual</title>
     <abstract role="description">
-      <para>&app; is a simple backup system for GNOME desktop.</para>
+      <para>&app; is a simple backup system for KDE4 desktop.</para>
     </abstract>         
 
     <copyright> 
-      <year>2008</year> 
+      <year>2008-2009</year> 
       <holder>Oprea Dan</holder> 
     </copyright> 
 
     <!-- An address can be added to the publisher information. -->
-    <publisher role="maintainer"> 
-      <publishername>Oprea Dan</publishername>
-    </publisher> 
-
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="legal.xml"/>
     <!-- The file legal.xml contains link to license for the documentation, 
         and other legal stuff such as "NO WARRANTY" statement. 
         Please do not change any of this. -->
-
-    <authorgroup> 
-      <author> 
-    		<firstname>Oprea</firstname> 
-    		<surname>Dan</surname> 
-    		<affiliation> 
-    	  		<!-- <orgname></orgname> -->
-    	  		<!-- The email address of the author is optional and is commented out by default. 
-    			<address> <email>doc-writer2@gnome.org</email> </address> 
-    			-->
-    		</affiliation> 
-      </author> 
-    </authorgroup>
-    
 
 <!-- According to GNU FDL, revision history is mandatory if you are -->
 <!-- modifying/reusing someone else's document.  If not, you can omit it. -->
@@ -65,30 +47,6 @@
 <!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
 <!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
 <!-- to V3.0, and so on. -->  
-    <revhistory>
-      <revision> 
-		<revnumber>Back In Time Manual V&manrevision;</revnumber> 
-		<date>&date;</date> 
-		<revdescription> 
-	  		<para role="author">Oprea Dan
-        <!-- The email address of the author is optional and is commented out by default.  
-	    	<email>docwriter2@gnome.org</email> -->
-	  		</para>
-	  		<para role="publisher">Oprea dan</para>
-		</revdescription> 
-      </revision>
-	  <!--
-      <revision> 
-		<revnumber>Full title of previous manual.</revnumber> 
-		<date>Release date of previous manual.</date> 
-		<revdescription> 
-	  		<para role="author">Documentation Writer 1 
-	  		</para>
-	  		<para role="publisher">GNOME Documentation Project</para>
-		</revdescription> 
-      </revision> 
-	  -->
-    </revhistory> 
 
     <releaseinfo>This manual describes version &appversion; of Back In Time.
     </releaseinfo> 
@@ -146,7 +104,7 @@
     		<listitem>
     		<para>Choose 
     		<menuchoice>
-    		<guisubmenu>System Tools</guisubmenu>
+    		<guisubmenu>System</guisubmenu>
     		<guimenuitem>Back In Time</guimenuitem>
     		</menuchoice>. </para>
     		</listitem>
@@ -289,7 +247,7 @@
 	<title>Settings Dialog</title> 
 	<screenshot> 
 	  <mediaobject> 
-	    <imageobject><imagedata fileref="figures/settingsdialog.png" format="PNG"/></imageobject>
+	    <imageobject><imagedata fileref="figures/settings.png" format="PNG"/></imageobject>
 	  </mediaobject> 
 	</screenshot> 
       </figure>
@@ -341,7 +299,7 @@
 	<title>Snapshots Dialog</title> 
 	<screenshot> 
 	  <mediaobject> 
-	    <imageobject><imagedata fileref="figures/snapshotsdialog.png" format="PNG"/></imageobject>
+	    <imageobject><imagedata fileref="figures/snapshots.png" format="PNG"/></imageobject>
 	  </mediaobject> 
 	</screenshot> 
       </figure>
@@ -367,87 +325,6 @@
 			<listitem>Diff: compare it with another snapshot</listitem>
     	</itemizedlist> 
   </sect1>
-
-<!-- ================ Integration with Nautilus ================================ -->
-  <sect1 id="integrationwithnautilus"> 
-    <title>Integration with Nautilus</title> 
-	<para>It is not are "real" integration with Nautilus but it is simple to setup.</para>
-	<para>You need to install nautilus-actions. On Ubuntu you can install it with the command:</para>
-	<para>
-	<command>sudo apt-get install nautilus-actions</command>
-	</para>
-	<para>
-	Now just create an action from
-		<menuchoice>
-    		<guimenu>System</guimenu>
-    		<guisubmenu>Preferences</guisubmenu>
-    		<guimenuitem>Nautilus Actions Configuration</guimenuitem>
-    	</menuchoice>.
-	</para>
-	<para>1. Click Add button</para>
-    <!-- ==== Figure ==== -->
-      <figure id="nautilus-actions-step1-fig"> 
-	<title>Nautilus Integration: Step 1</title> 
-	<screenshot> 
-	  <mediaobject> 
-	    <imageobject><imagedata fileref="figures/nautilus_actions_step1.png" format="PNG"/></imageobject>
-	  </mediaobject> 
-	</screenshot> 
-      </figure>
-    <!-- ==== End of Figure ==== -->
-	<para>2. Menu Item &amp; Action Tab</para>
-    	<itemizedlist> 
-			<listitem>%M - Open &app; directly to the specified path</listitem>
-			<listitem>--snapshots %M - Open &app; an go to SnapshotsDialog for the specifies path</listitem>
-    	</itemizedlist> 
-    <!-- ==== Figure ==== -->
-      <figure id="nautilus-actions-step2-fig"> 
-	<title>Nautilus Integration: Step 2</title> 
-	<para>You can set Action Parameters to:</para>
-	<screenshot> 
-	  <mediaobject> 
-	    <imageobject><imagedata fileref="figures/nautilus_actions_step2.png" format="PNG"/></imageobject>
-	  </mediaobject> 
-	</screenshot> 
-      </figure>
-    <!-- ==== End of Figure ==== -->
-	<para>3. Conditions Tab</para>
-    <!-- ==== Figure ==== -->
-      <figure id="nautilus-actions-step3-fig"> 
-	<title>Nautilus Integration: Step 3</title> 
-	<screenshot> 
-	  <mediaobject> 
-	    <imageobject><imagedata fileref="figures/nautilus_actions_step3.png" format="PNG"/></imageobject>
-	  </mediaobject> 
-	</screenshot> 
-      </figure>
-    <!-- ==== End of Figure ==== -->
-	<para>4. Advanced conditions Tab</para>
-    <!-- ==== Figure ==== -->
-      <figure id="nautilus-actions-step4-fig"> 
-	<title>Nautilus Integration: Step 4</title> 
-	<screenshot> 
-	  <mediaobject> 
-	    <imageobject><imagedata fileref="figures/nautilus_actions_step4.png" format="PNG"/></imageobject>
-	  </mediaobject> 
-	</screenshot> 
-      </figure>
-    <!-- ==== End of Figure ==== -->
-	<para>5. Click OK button, and you should see the new action in actions list</para>
-    <!-- ==== Figure ==== -->
-      <figure id="nautilus-actions-step5-fig"> 
-	<title>Nautilus Integration: Step 5</title> 
-	<screenshot> 
-	  <mediaobject> 
-	    <imageobject><imagedata fileref="figures/nautilus_actions_step5.png" format="PNG"/></imageobject>
-	  </mediaobject> 
-	</screenshot> 
-      </figure>
-    <!-- ==== End of Figure ==== -->
-	<para>That's it. Now from Nautilus "Right-click" the file/foder you want and click "Back In Time"</para>
-  </sect1>
-
-
 
 <!-- ============= Bugs ================================== -->
 <!-- This section is optional and is commented out by default. 

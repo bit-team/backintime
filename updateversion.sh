@@ -26,6 +26,9 @@ gzip --best $FILE
 echo "Update help .omf file"
 sed -i -e "s/^\([ \]*\)<version\([^0-9]*\)\([^\"]*\)\(.*\)$/\1<version\2$VERSION\4/" docbook/C/backintime-C.omf
 
-echo "Update help docbook file"
+echo "Update GNOME help docbook file"
 sed -i -e "s/^<!ENTITY appversion .*>$/<!ENTITY appversion \"$VERSION\">/" -e "s/^<!ENTITY manrevision .*>$/<!ENTITY manrevision \"$VERSION\">/" docbook/C/backintime.xml
+
+echo "Update KDE4 help docbook file"
+sed -i -e "s/^<!ENTITY appversion .*>$/<!ENTITY appversion \"$VERSION\">/" -e "s/^<!ENTITY manrevision .*>$/<!ENTITY manrevision \"$VERSION\">/" docbook-kde4/en/index.docbook
 

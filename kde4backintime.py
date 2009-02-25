@@ -283,7 +283,7 @@ class MainWindow( KMainWindow ):
 		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
 		QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
 		QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_btn_about_clicked )
-		QObject.connect( self.btn_help, SIGNAL('triggered()'), self.show_not_implemented )
+		QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_btn_help_clicked )
 		QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 		QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
 		QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
@@ -304,9 +304,6 @@ class MainWindow( KMainWindow ):
 		self.timer_update_take_snapshot.setSingleShot( False )
 		QObject.connect( self.timer_update_take_snapshot, SIGNAL('timeout()'), self.update_take_snapshot )
 		self.timer_update_take_snapshot.start()
-
-	def show_not_implemented( self ):
-		KMessageBox.error( self, "Not implemented !!!" )
 
 	def closeEvent( self, event ):
 		self.config.set_str_value( 'kde4.last_path', self.path )
@@ -659,6 +656,9 @@ class MainWindow( KMainWindow ):
 	def on_btn_about_clicked( self ):
 		dlg = KAboutApplicationDialog( self.kaboutdata, self )
 		dlg.exec_()
+
+	def on_btn_help_clicked( self ):
+		KRun.runCommand( "khelpcenter help:/backintime", self )
 
 	def on_btn_show_hidden_files_toggled( self, checked ):
 		self.show_hidden_files = checked

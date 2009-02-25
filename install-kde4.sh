@@ -18,3 +18,11 @@ install --mode=644 kde4*.py $BASEPATH/usr/share/backintime
 install -d $BASEPATH/usr/share/applications/kde4
 install --mode=644 backintime-kde4.desktop $BASEPATH/usr/share/applications/kde4
 
+#install language files
+for lang in en; do
+	echo KDE4 help: $lang
+	install -d $BASEPATH/usr/share/doc/kde4/HTML/$lang/backintime/figures
+	install --mode=644 docbook-kde4/$lang/*.docbook $BASEPATH/usr/share/doc/kde4/HTML/$lang/backintime
+	install --mode=644 docbook-kde4/$lang/figures/*.png $BASEPATH/usr/share/doc/kde4/HTML/$lang/backintime/figures
+done
+
