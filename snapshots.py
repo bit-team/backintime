@@ -292,24 +292,73 @@ class Snapshots:
 
 	def smart_delete_snapshots( self ):
 		#build groups
-		snapshots = self.get_snapshots_list()
-
 		groups = []
 
 		#
 		now = datetime.date.today()
 		yesterday = now - datetime.timedelta( days = 1 )
-		yesterday_id = self.snapshots.get_snapshot_id( yesterday )
+		yesterday_id = self.get_snapshot_id( yesterday )
 
 		#last week
 		date = now - datetime.timedelta( days = now.weekday() + 7 )
-		groups.append( self.snapshots.get_snapshot_id( date ), []) )
+		groups.append( ( self.get_snapshot_id( date ), [] ) )
 
 		#2 weeks ago
 		date = now - datetime.timedelta( days = now.weekday() + 14 )
-		groups.append( self.snapshots.get_snapshot_id( date ), []) )
+		groups.append( ( self.get_snapshot_id( date ), [] ) )
 
 		#all months for this year
+		for m in xrange( now.month-1, 0, -1 ):
+			date = now.replace( month = m, day = 1 )
+			groups.append( ( self.get_snapshot_id( date ), [] ) )
+
+		#fill groups
+		snapshots = self.get_snapshots_list()
+		print snapshots
+
+		for snapshot_id in snapshots:
+			#keep all item since yesterday
+			if snapshot_id >= yesterday_id:
+				continue
+
+			found = False
+			for group in groups:
+				if snapshot_id >= group[0]:
+					group[1].append( snapshot_id )
+					found = True
+					break
+
+			if not found: #new year group
+				groups.append( ( snapshot_id[ : 4 ] + "0101-000000", [ snapshot_id ] ) )
+
+		#remove items from each group
+		for group in groups:
+			print group
+
+			if len( group[1] ) <= 1: #nothing to do
+				continue
+
+			if self.config.get_dont_remove_named_snapshots():
+				#if the group contains a named snapshots keep only this snapshots
+				has_names = False
+
+				for snapshot_id in group[1]:
+					if len( self.get_snapshot_name( snapshot_id ) ) > 0:
+						has_names = True
+						break
+
+				if has_names:
+					for snapshot_id in group[1]:
+						if len( self.get_snapshot_name( snapshot_id ) ) <= 0:
+							self.remove_snapshot( snapshot_id )
+							print "[SMART] remove snapshot (not name): " + snapshot_id
+					continue
+
+			#keep only the first snapshot
+			del group[1][0]
+			for snapshot_id in group[1]:
+				self.remove_snapshot( snapshot_id )
+				print "[SMART] remove snapshot: " + snapshot_id
 
 	def _free_space( self ):
 		#remove old backups

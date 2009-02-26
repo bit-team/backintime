@@ -91,6 +91,9 @@ class MainWindow:
 		self.special_background_color = 'lightblue'
 		self.popup_menu = None
 
+		#DANNNNNNNNNNNN
+		#self.snapshots.smart_delete_snapshots()
+
 		self.folder_path = None
 		self.snapshot_id = ''
 
