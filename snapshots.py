@@ -290,6 +290,27 @@ class Snapshots:
 		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
 		return True
 
+	def smart_delete_snapshots( self ):
+		#build groups
+		snapshots = self.get_snapshots_list()
+
+		groups = []
+
+		#
+		now = datetime.date.today()
+		yesterday = now - datetime.timedelta( days = 1 )
+		yesterday_id = self.snapshots.get_snapshot_id( yesterday )
+
+		#last week
+		date = now - datetime.timedelta( days = now.weekday() + 7 )
+		groups.append( self.snapshots.get_snapshot_id( date ), []) )
+
+		#2 weeks ago
+		date = now - datetime.timedelta( days = now.weekday() + 14 )
+		groups.append( self.snapshots.get_snapshot_id( date ), []) )
+
+		#all months for this year
+
 	def _free_space( self ):
 		#remove old backups
 		if self.config.is_remove_old_snapshots_enabled():

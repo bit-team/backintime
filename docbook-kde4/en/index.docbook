@@ -220,15 +220,8 @@
 			<listitem>by size</listitem>
 			<listitem>by date</listitem>
     	</itemizedlist> 
-	<para>If you double-click a file it will be opened using gnome file association. Keep in mind that snapshots are 'readonly'.</para>
-	<para>If you double-click a directory it will go to that directory.</para>
-	<para>If you "right-click" on a file or directory you will see a popup-menu</para>
-    	<itemizedlist> 
-			<listitem>Open: open the item using gnome-open</listitem>
-			<listitem>Copy: copy selected item into clipboard (you can paste the file/directory into your file-manager)</listitem>
-			<listitem>Snapshots: show all snapshots for the current file/directory</listitem>
-			<listitem>Restore (only for snapshots items): restore selected file/directory</listitem>
-    	</itemizedlist> 
+	<para>If you click/double-click a file it will be opened using KDE4 file association. Keep in mind that snapshots are 'readonly'.</para>
+	<para>If you click/double-click a directory it will go to that directory.</para>
 	</listitem>
 	</varlistentry>
 
@@ -305,7 +298,7 @@
       </figure>
     <!-- ==== End of Figure ==== -->
 
-	<para>Double-click an item in the snapshots list to open it with gnome file associations.</para>
+	<para>Click/Double-click an item in the snapshots list to open it with KDE4 file associations.</para>
 	<para>When you select an item, you can:</para>
     <itemizedlist> 
 		<listitem>Jump to: close the dialog an go to the selected snapshot in the main window</listitem>
@@ -315,15 +308,6 @@
 	<para>You can compare two different snapshots.
 	By default it use 'meld' to compare files adn directories.
 	Use diff options to change the diff command and it's parameters.</para>
-
-	<para>If you "right-click" on a snapshot you will see a popup-menu</para>
-    	<itemizedlist> 
-			<listitem>Open: open the item using gnome-open</listitem>
-			<listitem>Copy: copy selected item into clipboard (you can paste the file/directory into your file-manager)</listitem>
-			<listitem>Jump to: close the dialog an go to the selected snapshot in the main window</listitem>
-			<listitem>Restore (only for snapshots): restore selected file/directory</listitem>
-			<listitem>Diff: compare it with another snapshot</listitem>
-    	</itemizedlist> 
   </sect1>
 
 <!-- ============= Bugs ================================== -->
