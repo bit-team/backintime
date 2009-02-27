@@ -228,19 +228,21 @@ class Snapshots:
 
 		#create include patterns list
 		items = []
+		items2 = []
 		for include_folder in include_folders:
-			self._append_item_to_list( "--include=\"%s/**\"" % include_folder, items )
+			self._append_item_to_list( "--include=\"%s/**\"" % include_folder, items2 )
 			while True:
 				self._append_item_to_list( "--include=\"%s/\"" % include_folder, items )
 				include_folder = os.path.split( include_folder )[0]
 				if len( include_folder ) <= 1:
 					break
 		rsync_include = ' '.join( items )
+		rsync_include2 = ' '.join( items2 )
 
 		#rsync prefix & suffix
 		rsync_prefix = 'rsync -a'
 		#rsync_suffix = '--copy-unsafe-links --whole-file --delete --delete-excluded ' + rsync_exclude + ' ' + rsync_include + ' --exclude=\"*\" / '
-		rsync_suffix = '--safe-links --whole-file --delete --delete-excluded ' + rsync_exclude + ' ' + rsync_include + ' --exclude=\"*\" / '
+		rsync_suffix = '--safe-links --whole-file --delete --delete-excluded ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#check previous backup
 		snapshots = self.get_snapshots_list()
