@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-01 14:30+0100\n"
+"POT-Creation-Date: 2009-03-01 22:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,13 +111,13 @@ msgstr ""
 
 #: gnomebackintime.py:249 kde4backintime.py:120 kde4snapshotsdialog.py:114
 #: gnomebackintime.glade:270 gnomebackintime.glade:271
-#: gnomebackintime.glade:870 gnomebackintime.glade:871
+#: gnomebackintime.glade:883 gnomebackintime.glade:884
 msgid "Copy"
 msgstr ""
 
 #: gnomebackintime.py:250 gnomesnapshotsdialog.py:82 kde4backintime.py:123
 #: kde4snapshotsdialog.py:89 gnomebackintime.glade:282
-#: gnomebackintime.glade:283 gnomebackintime.glade:836
+#: gnomebackintime.glade:283 gnomebackintime.glade:849
 msgid "Snapshots"
 msgstr ""
 
@@ -127,7 +127,7 @@ msgstr ""
 
 #: gnomebackintime.py:252 kde4backintime.py:117 kde4snapshotsdialog.py:109
 #: gnomebackintime.glade:258 gnomebackintime.glade:259
-#: gnomebackintime.glade:882 gnomebackintime.glade:883
+#: gnomebackintime.glade:895 gnomebackintime.glade:896
 msgid "Restore"
 msgstr ""
 
@@ -175,26 +175,47 @@ msgstr ""
 msgid "Last week"
 msgstr ""
 
-#: gnomebackintime.py:845
+#: gnomebackintime.py:831 kde4backintime.py:72 kde4backintime.py:613
+#: gnomebackintime.glade:54 gnomebackintime.glade:55
+msgid "Snapshot Name"
+msgstr ""
+
+#: gnomebackintime.py:850
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
 
-#: gnomebackintime.py:1052 kde4backintime.py:876
+#: gnomebackintime.py:1057 kde4backintime.py:876
 msgid "Back In Time: take snapshot ..."
 msgstr ""
 
-#: gnomesettingsdialog.py:65 kde4settingsdialog.py:80
+#: gnomesettingsdialog.py:67 kde4settingsdialog.py:80
 msgid "Include folders"
 msgstr ""
 
-#: gnomesettingsdialog.py:89 kde4settingsdialog.py:106
+#: gnomesettingsdialog.py:91 kde4settingsdialog.py:106
 msgid "Exclude patterns"
 msgstr ""
 
-#: gnomesettingsdialog.py:289 kde4settingsdialog.py:252
+#: gnomesettingsdialog.py:227
+msgid "Include directory"
+msgstr ""
+
+#: gnomesettingsdialog.py:262 kde4settingsdialog.py:280
+msgid "Exclude pattern"
+msgstr ""
+
+#: gnomesettingsdialog.py:269
+msgid "Exclude file"
+msgstr ""
+
+#: gnomesettingsdialog.py:278
+msgid "Exclude directory"
+msgstr ""
+
+#: gnomesettingsdialog.py:321 kde4settingsdialog.py:252
 msgid "Are you sure you want to change snapshots directory ?"
 msgstr ""
 
@@ -213,11 +234,6 @@ msgstr ""
 
 #: kde4backintime.py:69 gnomebackintime.glade:42 gnomebackintime.glade:43
 msgid "Update snapshots"
-msgstr ""
-
-#: kde4backintime.py:72 kde4backintime.py:613 gnomebackintime.glade:54
-#: gnomebackintime.glade:55 gnomebackintime.glade:1097
-msgid "Snapshot Name"
 msgstr ""
 
 #: kde4backintime.py:75 gnomebackintime.glade:66 gnomebackintime.glade:67
@@ -276,33 +292,28 @@ msgstr ""
 msgid "Remove Snapshots"
 msgstr ""
 
-#: kde4settingsdialog.py:152 gnomebackintime.glade:724
+#: kde4settingsdialog.py:152 gnomebackintime.glade:738
 msgid "Older then:"
 msgstr ""
 
-#: kde4settingsdialog.py:167 gnomebackintime.glade:734
+#: kde4settingsdialog.py:167 gnomebackintime.glade:748
 msgid "If free space is less then:"
 msgstr ""
 
-#: kde4settingsdialog.py:180 gnomebackintime.glade:664
+#: kde4settingsdialog.py:180 gnomebackintime.glade:678
 msgid "Don't remove named snapshots"
 msgstr ""
 
-#: kde4settingsdialog.py:185 gnomebackintime.glade:748
+#: kde4settingsdialog.py:185 gnomebackintime.glade:762
 msgid "Smart remove"
 msgstr ""
 
-#: kde4settingsdialog.py:189 gnomebackintime.glade:762
+#: kde4settingsdialog.py:189 gnomebackintime.glade:776
 msgid ""
 "- keep all snapshots from today and yesterday\n"
-"- keep one snapshot for the last week\n"
-"- keep one snapshot for two weeks ago\n"
+"- keep one snapshot for the last week and one for two weeks ago\n"
 "- keep one snapshot per month for all previous months of this year\n"
 "- keep one snapshot per year for all previous years"
-msgstr ""
-
-#: kde4settingsdialog.py:280
-msgid "Exclude pattern"
 msgstr ""
 
 #: kde4settingsdialog.py:298
@@ -310,19 +321,19 @@ msgid "Include folder"
 msgstr ""
 
 #: kde4snapshotsdialog.py:44 kde4snapshotsdialog.py:136
-#: gnomebackintime.glade:1039
+#: gnomebackintime.glade:1052
 msgid "Diff Options"
 msgstr ""
 
-#: kde4snapshotsdialog.py:54 gnomebackintime.glade:982
+#: kde4snapshotsdialog.py:54 gnomebackintime.glade:995
 msgid "Command:"
 msgstr ""
 
-#: kde4snapshotsdialog.py:58 gnomebackintime.glade:989
+#: kde4snapshotsdialog.py:58 gnomebackintime.glade:1002
 msgid "Parameters:"
 msgstr ""
 
-#: kde4snapshotsdialog.py:62 gnomebackintime.glade:1000
+#: kde4snapshotsdialog.py:62 gnomebackintime.glade:1013
 msgid "Use %1 and %2 for path parameters"
 msgstr ""
 
@@ -358,22 +369,34 @@ msgstr ""
 msgid "<b>Where to save snapshots</b>"
 msgstr ""
 
-#: gnomebackintime.glade:580
+#: gnomebackintime.glade:507
+msgid "Add file"
+msgstr ""
+
+#: gnomebackintime.glade:520
+msgid "Add folder"
+msgstr ""
+
+#: gnomebackintime.glade:594
 msgid "<b>What to save</b>"
 msgstr ""
 
-#: gnomebackintime.glade:608
+#: gnomebackintime.glade:622
 msgid "Automatic snapshots: "
 msgstr ""
 
-#: gnomebackintime.glade:630
+#: gnomebackintime.glade:644
 msgid "<b>When</b>"
 msgstr ""
 
-#: gnomebackintime.glade:782
+#: gnomebackintime.glade:795
 msgid "<b>Remove Snapshots</b>"
 msgstr ""
 
-#: gnomebackintime.glade:941
+#: gnomebackintime.glade:954
 msgid "Diff with"
+msgstr ""
+
+#: gnomebackintime.glade:1110
+msgid "Pattern"
 msgstr ""
