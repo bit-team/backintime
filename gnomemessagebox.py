@@ -43,3 +43,19 @@ def show_error( parent, config, message ):
 	dialog.destroy()
 	return retVal
 
+def text_input_dialog( parent, glade, title, default_value = "" ):
+	dialog = glade.get_widget( 'TextInputDialog' )
+	dialog.set_title( title )
+	dialog.set_transient_for( parent )
+
+	edit = glade.get_widget( 'edit_text' )
+	edit.set_text( default_value )
+	edit.grab_focus()
+	
+	text = None
+	if gtk.RESPONSE_OK == dialog.run():
+		text = edit.get_text()
+
+	dialog.hide()
+	return text  
+

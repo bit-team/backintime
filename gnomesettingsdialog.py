@@ -44,6 +44,8 @@ class SettingsDialog:
 				'on_btn_add_include_clicked' : self.on_add_include,
 				'on_btn_remove_include_clicked' : self.on_remove_include,
 				'on_btn_add_exclude_clicked' : self.on_add_exclude,
+				'on_btn_add_exclude_file_clicked' : self.on_add_exclude_file,
+				'on_btn_add_exclude_folder_clicked' : self.on_add_exclude_folder,
 				'on_btn_remove_exclude_clicked' : self.on_remove_exclude,
 				'on_cb_remove_old_backup_toggled' : self.update_remove_old_backups,
 				'on_cb_min_free_space_toggled' : self.update_min_free_space,
@@ -222,34 +224,64 @@ class SettingsDialog:
 		self.dialog.hide()
 
 	def on_add_include( self, button ):
-		include_folder = self.fcb_include.get_filename()
+		fcd = gtk.FileChooserDialog( _('Include directory'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
 
-		iter = self.store_include.get_iter_first()
-		while not iter is None:
-			if self.store_include.get_value( iter, 0 ) == include_folder:
-				return
-			iter = self.store_include.iter_next( iter )
+		if fcd.run() == gtk.RESPONSE_OK:
+			include_folder = fcd.get_filename()
 
-		self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY] )
+			iter = self.store_include.get_iter_first()
+			while not iter is None:
+				if self.store_include.get_value( iter, 0 ) == include_folder:
+					break
+				iter = self.store_include.iter_next( iter )
+
+			if iter is None:
+				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY] )
+
+		fcd.destroy()
 
 	def on_remove_include( self, button ):
 		store, iter = self.list_include.get_selection().get_selected()
 		if not iter is None:
 			store.remove( iter )
 
-	def on_add_exclude( self, button ):
-		exclude_pattern = self.edit_pattern.get_text().strip()
-		self.edit_pattern.set_text('')
-		if len( exclude_pattern ) == 0:
+	def add_exclude_( self, pattern ):
+		pattern = pattern.strip()
+		if len( pattern ) == 0:
 			return
 
 		iter = self.store_exclude.get_iter_first()
 		while not iter is None:
-			if self.store_exclude.get_value( iter, 0 ) == exclude_pattern:
+			if self.store_exclude.get_value( iter, 0 ) == pattern:
 				return
 			iter = self.store_exclude.iter_next( iter )
 
-		self.store_exclude.append( [exclude_pattern, gtk.STOCK_DELETE] )
+		self.store_exclude.append( [pattern, gtk.STOCK_DELETE] )
+
+	def on_add_exclude( self, button ):
+		pattern = gnomemessagebox.text_input_dialog( self.dialog, self.glade, _('Exclude pattern') )
+		if pattern is None:
+			return
+	
+		self.add_exclude_( pattern )
+
+	def on_add_exclude_file( self, button ):
+		fcd = gtk.FileChooserDialog( _('Exclude file'), self.dialog, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+
+		if fcd.run() == gtk.RESPONSE_OK:
+			pattern = fcd.get_filename()
+			self.add_exclude_( pattern )
+
+		fcd.destroy()
+
+	def on_add_exclude_folder( self, button ):
+		fcd = gtk.FileChooserDialog( _('Exclude directory'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+
+		if fcd.run() == gtk.RESPONSE_OK:
+			pattern = fcd.get_filename()
+			self.add_exclude_( pattern )
+
+		fcd.destroy()
 
 	def on_remove_exclude( self, button ):
 		store, iter = self.list_exclude.get_selection().get_selected()

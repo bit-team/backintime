@@ -827,11 +827,16 @@ class MainWindow:
 		if len( snapshot_id ) <= 1:
 			return
 
-		if self.snapshot_name_dialog is None:
-			self.snapshot_name_dialog = gnomesnapshotnamedialog.SnapshotNameDialog( self.snapshots, self.glade )
+		old_name = self.snapshots.get_snapshot_name( snapshot_id )
+		new_name = gnomemessagebox.text_input_dialog( self.window, self.glade, _('Snapshot Name'), old_name )
+		if new_name is None:
+			return
 
-		if self.snapshot_name_dialog.run( snapshot_id ):
-			self.store_time_line.set_value( iter, 0, gnomesnapshotstools.get_snapshot_display_markup( self.snapshots, snapshot_id ) )
+		if old_name == new_name:
+			return
+
+		self.snapshots.set_snapshot_name( snapshot_id, new_name )
+		self.store_time_line.set_value( iter, 0, gnomesnapshotstools.get_snapshot_display_markup( self.snapshots, snapshot_id ) )
 
 	def on_btn_remove_snapshot_clicked( self, button ):
 		iter = self.list_time_line.get_selection().get_selected()[1]

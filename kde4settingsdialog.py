@@ -186,7 +186,7 @@ class SettingsDialog( KDialog ):
 		layout.addWidget( self.cb_smart_remove, 3, 0 )
 		self.cb_smart_remove.setChecked( self.config.get_smart_remove() )
 
-		label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week\n- keep one snapshot for two weeks ago\n- keep one snapshot per month for all previous months of this year\n- keep one snapshot per year for all previous years' ) ),self )
+		label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year\n- keep one snapshot per year for all previous years' ) ),self )
 		label.setContentsMargins( 25, 0, 0, 0 )
 		layout.addWidget( label, 4, 0 )
 
