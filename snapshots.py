@@ -292,7 +292,7 @@ class Snapshots:
 		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
 		return True
 
-	def smart_delete_snapshots( self ):
+	def smart_remove( self ):
 		#build groups
 		groups = []
 
@@ -384,6 +384,10 @@ class Snapshots:
 
 				self.remove_snapshot( snapshots[0] )
 				del snapshots[0]
+
+		#smart remove
+		if self.config.get_smart_remove():
+			self.smart_remove()
 
 		#try to keep min free space
 		if self.config.is_min_free_space_enabled():

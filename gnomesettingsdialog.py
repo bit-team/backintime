@@ -199,6 +199,10 @@ class SettingsDialog:
 		self.cb_dont_remove_named_snapshots = self.glade.get_widget( 'cb_dont_remove_named_snapshots' )
 		self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots() )
 
+		#smart remove
+		self.cb_smart_remove = self.glade.get_widget( 'cb_smart_remove' )
+		self.cb_smart_remove.set_active( self.config.get_smart_remove() )
+
 	def update_remove_old_backups( self, button ):
 		enabled = button.get_active()
 		self.edit_remove_old_backup_value.set_sensitive( enabled )
@@ -301,6 +305,7 @@ class SettingsDialog:
 						int( self.edit_min_free_space_value.get_value() ),
 						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ) )
 		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active() )
+		self.config.set_smart_remove( self.cb_smart_remove.get_active() )
 
 		self.config.save()
 		return True

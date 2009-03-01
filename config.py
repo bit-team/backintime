@@ -265,7 +265,13 @@ class Config( configfile.ConfigFile ):
 		return self.get_bool_value( 'snapshots.dont_remove_named_snapshots', True )
 
 	def set_dont_remove_named_snapshots( self, value ):
-		self.get_bool_value( 'snapshots.dont_remove_named_snapshots', value )
+		self.set_bool_value( 'snapshots.dont_remove_named_snapshots', value )
+	
+	def get_smart_remove( self ):
+		return self.get_bool_value( 'snapshots.smart_remove', False )
+
+	def set_smart_remove( self, value ):
+		self.set_bool_value( 'snapshots.smart_remove', value )
 	
 	def get_app_path( self ):
 		return self._APP_PATH

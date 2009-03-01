@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Feb 28 23:48:18 2009 -->
+<!--Generated with glade3 3.4.5 on Sun Mar  1 10:09:32 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="tooltip" translatable="yes">Show hidden &amp; backup files</property>
@@ -759,14 +759,17 @@
                           <widget class="GtkLabel" id="label10">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="xpad">20</property>
-                            <property name="label" translatable="yes">( keep all snapshots from today and yesterday; keep one snapshot for the last week; keep one snapshot for two weeks ago; keep one snapshot per month for all previous months of this year; keep one snapshot per year for all previous years )</property>
-                            <property name="wrap">True</property>
+                            <property name="label" translatable="yes">- keep all snapshots from today and yesterday
+- keep one snapshot for the last week
+- keep one snapshot for two weeks ago
+- keep one snapshot per month for all previous months of this year
+- keep one snapshot per year for all previous years</property>
                           </widget>
                           <packing>
                             <property name="right_attach">3</property>
                             <property name="top_attach">4</property>
                             <property name="bottom_attach">5</property>
+                            <property name="x_padding">20</property>
                           </packing>
                         </child>
                       </widget>
