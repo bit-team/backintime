@@ -132,8 +132,6 @@ class MainWindow( KMainWindow ):
 		self.list_files_view.setDragEnabled( True )
 		self.list_files_view.setDragDropMode( QAbstractItemView.DragOnly )
 
-		print self.list_files_view.contextMenuPolicy()
-
 		self.list_files_view.header().setClickable( True )
 		self.list_files_view.header().setMovable( False )
 		self.list_files_view.header().setSortIndicatorShown( True )
