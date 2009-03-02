@@ -5,7 +5,7 @@
 <!ENTITY app "<application>&appname;</application>">
 <!ENTITY appversion "0.9.13beta1">
 <!ENTITY manrevision "0.9.13beta1">
-<!ENTITY date "November 2008">
+<!ENTITY date "Mars 2009">
 ]>
 <!--
       (Do not remove this comment block.)
@@ -305,7 +305,7 @@
 	<varlistentry>
 	<term>What to backup</term>
 	<listitem><para>Define the directories you want to backup. From this directories you can exclude 
-	some files/directories using exclude pattern. By default it exclude hidden (".*") and "*.backup*" files/directories.</para></listitem>
+	some files/directories using exclude list. By default it exclude hidden (".*") and "*.backup*" files/directories.</para></listitem>
 	</varlistentry>
 
 	<varlistentry>
@@ -324,6 +324,13 @@
 	<para>You can automatically remove snapshots older then a specific date or if the free space is 
 	less then a specified value.</para>
 	<para>By default it does not remove named snapshots.</para>
+	<para>Smart remove allow you to reduce the number of snapshots using the following rules:</para>
+    	<itemizedlist> 
+			<listitem>keep all snapshots from today and yesterday</listitem>
+			<listitem>keep one snapshot for the last week and one for two weeks ago</listitem>
+			<listitem>keep one snapshot per month for all previous months of this year</listitem>
+			<listitem>keep one snapshot per year for all previous years</listitem>
+    	</itemizedlist> 
 	</listitem>
 	</varlistentry>
 

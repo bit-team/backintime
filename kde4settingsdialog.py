@@ -75,7 +75,7 @@ class SettingsDialog( KDialog ):
 
 		#include directories
 		wts_left_layout = QVBoxLayout()
-		wts_layout.addLayout( wts_left_layout )
+		wts_layout.addLayout( wts_left_layout, 1 )
 	
 		label = QLabel( _('Include folders'), self )
 		kde4tools.set_font_bold( label )
@@ -101,7 +101,7 @@ class SettingsDialog( KDialog ):
 
 		#exclude patterns
 		wts_right_layout = QVBoxLayout()
-		wts_layout.addLayout( wts_right_layout )
+		wts_layout.addLayout( wts_right_layout, 1 )
 
 		label = QLabel( _('Exclude patterns'), self )
 		kde4tools.set_font_bold( label )
@@ -120,6 +120,16 @@ class SettingsDialog( KDialog ):
 		self.btn_exclude_add = KPushButton( KStandardGuiItem.add(), self )
 		layout.addWidget( self.btn_exclude_add )
 		QObject.connect( self.btn_exclude_add, SIGNAL('clicked()'), self.on_btn_exclude_add_clicked )
+		
+		self.btn_exclude_file = KPushButton( KStandardGuiItem.add(), self )
+		self.btn_exclude_file.setText( QString.fromUtf8( _( 'Add file' ) ) )
+		layout.addWidget( self.btn_exclude_file )
+		QObject.connect( self.btn_exclude_file, SIGNAL('clicked()'), self.on_btn_exclude_file_clicked )
+		
+		self.btn_exclude_folder = KPushButton( KStandardGuiItem.add(), self )
+		self.btn_exclude_folder.setText( QString.fromUtf8( _( 'Add folder' ) ) )
+		layout.addWidget( self.btn_exclude_folder )
+		QObject.connect( self.btn_exclude_folder, SIGNAL('clicked()'), self.on_btn_exclude_folder_clicked )
 		
 		self.btn_exclude_remove = KPushButton( KStandardGuiItem.remove(), self )
 		layout.addWidget( self.btn_exclude_remove )
@@ -275,13 +285,8 @@ class SettingsDialog( KDialog ):
 
 	def on_btn_exclude_remove_clicked ( self ):
 		self.list_exclude.takeItem( self.list_exclude.currentRow() )
-	
-	def on_btn_exclude_add_clicked( self ):
-		ret_val = KInputDialog.getText( QString.fromUtf8( _( 'Exclude pattern' ) ), '', '', self )
-		if not ret_val[1]:
-			return
-		
-		pattern = str( ret_val[0] ).strip()
+
+	def add_exclude_( self, pattern ):
 		if len( pattern ) == 0:
 			return
 
@@ -290,6 +295,21 @@ class SettingsDialog( KDialog ):
 				return
 
 		self.add_exclude( pattern )
+	
+	def on_btn_exclude_add_clicked( self ):
+		ret_val = KInputDialog.getText( QString.fromUtf8( _( 'Exclude pattern' ) ), '', '', self )
+		if not ret_val[1]:
+			return
+		
+		self.add_exclude_( str( ret_val[0] ).strip() )
+
+	def on_btn_exclude_file_clicked( self ):
+		path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ) )
+		self.add_exclude_( path )
+
+	def on_btn_exclude_folder_clicked( self ):
+		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Exclude folder' ) ) ) )
+		self.add_exclude_( path )
 
 	def on_btn_include_remove_clicked ( self ):
 		self.list_include.takeItem( self.list_include.currentRow() )
