@@ -110,11 +110,11 @@ class MainWindow( KMainWindow ):
 		self.main_splitter.addWidget( widget )
 
 		#right widget
-		widget = QWidget( self )
-		self.main_splitter.addWidget( widget )
-		right_layout = QVBoxLayout( widget )
-		left, top, right, bottom = right_layout.getContentsMargins()
-		right_layout.setContentsMargins( 0, 0, 0, right )
+		self.right_widget = QGroupBox( self )
+		self.main_splitter.addWidget( self.right_widget )
+		right_layout = QVBoxLayout( self.right_widget )
+		#left, top, right, bottom = right_layout.getContentsMargins()
+		#right_layout.setContentsMargins( 0, 0, 0, right )
 
 		#files toolbar
 		self.files_view_toolbar = KToolBar( self )
@@ -248,6 +248,9 @@ class MainWindow( KMainWindow ):
 			self.list_files_view.header().resizeSection( 2, files_view_date_width )
 
 		self.text_validator = QRegExpValidator( QRegExp( '.*' ), self )
+
+		#
+		kde4tools.set_font_bold( self.right_widget )
 
 		#force settingdialog if it is not configured
 		if not cfg.is_configured():
@@ -764,7 +767,8 @@ class MainWindow( KMainWindow ):
 					break
 
 
-		self.setPlainCaption( self.config.APP_NAME + ': ' + self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
+		#self.setPlainCaption( self.config.APP_NAME + ': ' + self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
+		self.right_widget.setTitle( self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
 
 		#try to keep old selected file
 		if selected_file is None:
