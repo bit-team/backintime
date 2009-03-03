@@ -768,7 +768,11 @@ class MainWindow( KMainWindow ):
 
 
 		#self.setPlainCaption( self.config.APP_NAME + ': ' + self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
-		self.right_widget.setTitle(  QString.fromUtf8( _( "Snapshot: %s" ) % self.snapshots.get_snapshot_display_id( self.snapshot_id ) ) )
+		text = _('Now')
+		if len( self.snapshot_id ) > 1:
+			text = _("Snapshot: %s") % self.snapshots.get_snapshot_display_id( self.snapshot_id )
+
+		self.right_widget.setTitle( QString.fromUtf8( _( text ) ) )
 
 		#try to keep old selected file
 		if selected_file is None:

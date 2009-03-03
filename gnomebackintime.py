@@ -882,7 +882,11 @@ class MainWindow:
 			self.snapshot_id = self.store_time_line.get_value( iter, 1 )
 			#self.lblTime.set_markup( "<b>%s</b>" % backupTime )
 
-		self.lbl_snapshot.set_markup( ' <b>' + _("Snapshot: %s") % self.snapshots.get_snapshot_display_id( self.snapshot_id ) + '</b> ' )
+		text = _('Now')
+		if len( self.snapshot_id ) > 1:
+			text = _("Snapshot: %s") % self.snapshots.get_snapshot_display_id( self.snapshot_id )
+
+		self.lbl_snapshot.set_markup( ' <b>' + text + '</b> ' )
 
 		#update selected places item
 		if 1 == changed_from:
