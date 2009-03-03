@@ -608,7 +608,7 @@ class MainWindow( KMainWindow ):
 
 		name = self.snapshots.get_snapshot_name( snapshot_id )
 
-		ret_val = KInputDialog.getText( _( 'Snapshot Name' ), '', name, self, self.text_validator )
+		ret_val = KInputDialog.getText( QString.fromUtf8( _( 'Snapshot Name' ) ), '', name, self, self.text_validator )
 		if not ret_val[1]:
 			return
 		
@@ -628,7 +628,7 @@ class MainWindow( KMainWindow ):
 		if len( snapshot_id ) <= 1:
 			return
 		
-		if KMessageBox.Yes != KMessageBox.warningYesNo( self, _( "Are you sure you want to remove the snapshot:\n%s" ) % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
+		if KMessageBox.Yes != KMessageBox.warningYesNo( self, QString.fromUtf8( _( "Are you sure you want to remove the snapshot:\n%s" ) % self.snapshots.get_snapshot_display_name( snapshot_id ) ) ):
 			return
 
 		self.snapshots.remove_snapshot( snapshot_id )
@@ -768,7 +768,7 @@ class MainWindow( KMainWindow ):
 
 
 		#self.setPlainCaption( self.config.APP_NAME + ': ' + self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
-		self.right_widget.setTitle( self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
+		self.right_widget.setTitle(  QString.fromUtf8( _( "Snapshot: %s" ) % self.snapshots.get_snapshot_display_id( self.snapshot_id ) ) )
 
 		#try to keep old selected file
 		if selected_file is None:
@@ -875,7 +875,7 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 
 		status_icon = QSystemTrayIcon()
 		status_icon.setIcon( KIcon('document-save') )
-		status_icon.setToolTip( _('Back In Time: take snapshot ...') )
+		status_icon.setToolTip( QString.fromUtf8( _('Back In Time: take snapshot ...') ) )
 		status_icon.show()
 
 		while True:
