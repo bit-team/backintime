@@ -766,6 +766,9 @@ class MainWindow( KMainWindow ):
 					self.list_places.setCurrentItem( item )
 					break
 
+
+		self.setPlainCaption( self.config.APP_NAME + ': ' + self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
+
 		#try to keep old selected file
 		if selected_file is None:
 			selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString() )
