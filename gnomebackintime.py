@@ -879,6 +879,8 @@ class MainWindow:
 			self.snapshot_id = self.store_time_line.get_value( iter, 1 )
 			#self.lblTime.set_markup( "<b>%s</b>" % backupTime )
 
+		self.window.set_title( self.config.APP_NAME + ': ' + self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
+
 		#update selected places item
 		if 1 == changed_from:
 			iter = self.store_places.get_iter_first()
