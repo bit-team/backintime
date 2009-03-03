@@ -59,7 +59,8 @@ class MainWindow( KMainWindow ):
 		self.kaboutdata = kaboutdata
 		self.snapshots = snapshots.Snapshots( config )
 
-		self.main_toolbar = KToolBar( self )
+		#main toolbar
+		self.main_toolbar = self.toolBar()
 		self.main_toolbar.setFloatable( False )
 
 		self.btn_take_snapshot = self.main_toolbar.addAction( KIcon( 'document-save' ), '' )
@@ -92,6 +93,30 @@ class MainWindow( KMainWindow ):
 		self.btn_quit = self.main_toolbar.addAction( KIcon( 'application-exit' ), '' )
 		self.btn_quit.setToolTip( QString.fromUtf8( _('Exit') ) )
 
+		#main splitter
+		self.main_splitter = QSplitter( self )
+		self.main_splitter.setOrientation( Qt.Horizontal )
+
+		#timeline
+		widget = QWidget( self )
+		layout = QVBoxLayout( widget )
+		left, top, right, bottom = layout.getContentsMargins()
+		layout.setContentsMargins( left, 0, 0, 0 )
+		label = QLabel( QString.fromUtf8( _('Timeline') ), self )
+		kde4tools.set_font_bold( label )
+		layout.addWidget( label )
+		self.list_time_line = KListWidget( self )
+		layout.addWidget( self.list_time_line )
+		self.main_splitter.addWidget( widget )
+
+		#right widget
+		widget = QWidget( self )
+		self.main_splitter.addWidget( widget )
+		right_layout = QVBoxLayout( widget )
+		left, top, right, bottom = right_layout.getContentsMargins()
+		right_layout.setContentsMargins( 0, 0, 0, right )
+
+		#files toolbar
 		self.files_view_toolbar = KToolBar( self )
 		self.files_view_toolbar.setFloatable( False )
 
@@ -122,8 +147,27 @@ class MainWindow( KMainWindow ):
 		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
 		self.btn_snapshots.setToolTip( QString.fromUtf8( _('Snapshots') ) )
 
+		right_layout.addWidget( self.files_view_toolbar )
+
+		#second spliter
+		self.second_splitter = QSplitter( self )
+		self.second_splitter.setOrientation( Qt.Horizontal )
+		right_layout.addWidget( self.second_splitter )
+
+		#places
+		widget = QWidget( self )
+		layout = QVBoxLayout( widget )
+		layout.setContentsMargins( 0, 0, 0, 0 )
+		label = QLabel( QString.fromUtf8( _('Places') ), self )
+		kde4tools.set_font_bold( label )
+		layout.addWidget( label )
+		self.list_places = KListWidget( self )
+		layout.addWidget( self.list_places )
+		self.second_splitter.addWidget( widget )
+
 		#list files view
 		self.list_files_view = QTreeView( self )
+		self.second_splitter.addWidget( self.list_files_view )
 		self.list_files_view.setRootIsDecorated( False )
 		self.list_files_view.setAlternatingRowColors( True )
 		self.list_files_view.setAllColumnsShowFocus( True )
@@ -166,53 +210,6 @@ class MainWindow( KMainWindow ):
 		QObject.connect( self.list_files_view.header(), SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'), self.list_files_view_sort_filter_proxy.sort )
 
 		#
-		self.second_splitter = QSplitter( self )
-		self.second_splitter.setOrientation( Qt.Horizontal )
-
-		widget = QWidget( self )
-		layout = QVBoxLayout( widget )
-		left, top, right, bottom = layout.getContentsMargins()
-		layout.setContentsMargins( left, 0, 0, 0 )
-		label = QLabel( QString.fromUtf8( _('Timeline') ), self )
-		kde4tools.set_font_bold( label )
-		layout.addWidget( label )
-		self.list_time_line = KListWidget( self )
-		layout.addWidget( self.list_time_line )
-		self.second_splitter.addWidget( widget )
-
-		widget = QWidget( self )
-		layout = QVBoxLayout( widget )
-		layout.setContentsMargins( 0, 0, 0, 0 )
-		label = QLabel( QString.fromUtf8( _('Places') ), self )
-		kde4tools.set_font_bold( label )
-		layout.addWidget( label )
-		self.list_places = KListWidget( self )
-		layout.addWidget( self.list_places )
-		self.second_splitter.addWidget( widget )
-
-		left_layout = QVBoxLayout()
-		left_layout.addWidget( self.main_toolbar )
-		left_layout.addWidget( self.second_splitter )
-		left, top, right, bottom = left_layout.getContentsMargins()
-		left_layout.setContentsMargins( left, top, 0, bottom )
-
-		left_widget = QWidget( self )
-		left_widget.setLayout( left_layout )
-
-		right_layout = QVBoxLayout()
-		right_layout.addWidget( self.files_view_toolbar )
-		right_layout.addWidget( self.list_files_view )
-		left, top, right, bottom = right_layout.getContentsMargins()
-		right_layout.setContentsMargins( 0, top, right, bottom )
-
-		right_widget = QWidget( self )
-		right_widget.setLayout( right_layout )
-
-		self.main_splitter = QSplitter( self )
-		self.main_splitter.setOrientation( Qt.Horizontal )
-		self.main_splitter.addWidget( left_widget )
-		self.main_splitter.addWidget( right_widget )
-
 		self.setCentralWidget( self.main_splitter )
 		
 		self.statusBar().showMessage( QString.fromUtf8( _('Done') ) )
