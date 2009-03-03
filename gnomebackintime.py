@@ -137,6 +137,9 @@ class MainWindow:
 		#fix a glade bug
 		self.glade.get_widget( 'btn_current_path' ).set_expand( True )
 
+		#lbl snapshot
+		self.lbl_snapshot = self.glade.get_widget( 'lbl_snapshot' )
+
 		#status bar
 		self.status_bar = self.glade.get_widget( 'status_bar' )
 		self.status_bar.push( 0, _('Done') )
@@ -879,7 +882,7 @@ class MainWindow:
 			self.snapshot_id = self.store_time_line.get_value( iter, 1 )
 			#self.lblTime.set_markup( "<b>%s</b>" % backupTime )
 
-		self.window.set_title( self.config.APP_NAME + ': ' + self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
+		self.lbl_snapshot.set_markup( ' <b>' + self.snapshots.get_snapshot_display_id( self.snapshot_id ) + '</b> ' )
 
 		#update selected places item
 		if 1 == changed_from:

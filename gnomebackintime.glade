@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Tue Mar  3 11:15:34 2009 -->
+<!--Generated with glade3 3.4.5 on Tue Mar  3 18:22:46 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="tooltip" translatable="yes">Show hidden &amp; backup files</property>
@@ -162,146 +162,163 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox6">
+              <widget class="GtkFrame" id="frame5">
                 <property name="visible">True</property>
+                <property name="border_width">3</property>
+                <property name="label_xalign">0</property>
                 <child>
-                  <widget class="GtkToolbar" id="toolbar3">
+                  <widget class="GtkVBox" id="vbox6">
                     <property name="visible">True</property>
-                    <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
+                    <property name="border_width">5</property>
                     <child>
-                      <widget class="GtkToolButton" id="btn_folder_up">
+                      <widget class="GtkToolbar" id="toolbar3">
                         <property name="visible">True</property>
-                        <property name="tooltip" translatable="yes">Parent Directory</property>
-                        <property name="label" translatable="yes">Up</property>
-                        <property name="stock_id">gtk-go-up</property>
-                        <signal name="clicked" handler="on_btn_folder_up_clicked"/>
-                      </widget>
-                      <packing>
-                        <property name="homogeneous">True</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkToolItem" id="btn_current_path">
-                        <property name="visible">True</property>
+                        <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
                         <child>
-                          <widget class="GtkEntry" id="edit_current_path">
+                          <widget class="GtkToolButton" id="btn_folder_up">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="editable">False</property>
+                            <property name="tooltip" translatable="yes">Parent Directory</property>
+                            <property name="label" translatable="yes">Up</property>
+                            <property name="stock_id">gtk-go-up</property>
+                            <signal name="clicked" handler="on_btn_folder_up_clicked"/>
+                          </widget>
+                          <packing>
+                            <property name="homogeneous">True</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkToolItem" id="btn_current_path">
+                            <property name="visible">True</property>
+                            <child>
+                              <widget class="GtkEntry" id="edit_current_path">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="editable">False</property>
+                              </widget>
+                            </child>
                           </widget>
                         </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkToggleToolButton" id="btn_hidden_files">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Show hidden &amp; backup files</property>
-                        <property name="stock_id">gtk-add</property>
-                        <signal name="toggled" handler="on_btn_hidden_files_toggled"/>
+                        <child>
+                          <widget class="GtkToggleToolButton" id="btn_hidden_files">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">Show hidden &amp; backup files</property>
+                            <property name="stock_id">gtk-add</property>
+                            <signal name="toggled" handler="on_btn_hidden_files_toggled"/>
+                          </widget>
+                          <packing>
+                            <property name="homogeneous">True</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkSeparatorToolItem" id="toolbutton3">
+                            <property name="visible">True</property>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkToolButton" id="btn_restore">
+                            <property name="visible">True</property>
+                            <property name="tooltip" translatable="yes">Restore</property>
+                            <property name="label" translatable="yes">Restore</property>
+                            <property name="stock_id">gtk-undelete</property>
+                            <signal name="clicked" handler="on_btn_restore_clicked"/>
+                          </widget>
+                          <packing>
+                            <property name="homogeneous">True</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkToolButton" id="btn_copy">
+                            <property name="visible">True</property>
+                            <property name="tooltip" translatable="yes">Copy</property>
+                            <property name="label" translatable="yes">Copy</property>
+                            <property name="stock_id">gtk-copy</property>
+                            <signal name="clicked" handler="on_btn_copy_clicked"/>
+                          </widget>
+                          <packing>
+                            <property name="homogeneous">True</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkToolButton" id="btn_snapshots">
+                            <property name="visible">True</property>
+                            <property name="tooltip" translatable="yes">Snapshots</property>
+                            <property name="label" translatable="yes">Snapshots</property>
+                            <property name="stock_id">gtk-index</property>
+                            <signal name="clicked" handler="on_btn_snapshots_clicked"/>
+                          </widget>
+                          <packing>
+                            <property name="homogeneous">True</property>
+                          </packing>
+                        </child>
                       </widget>
                       <packing>
-                        <property name="homogeneous">True</property>
+                        <property name="expand">False</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkSeparatorToolItem" id="toolbutton3">
+                      <widget class="GtkHPaned" id="hpaned2">
                         <property name="visible">True</property>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkToolButton" id="btn_restore">
-                        <property name="visible">True</property>
-                        <property name="tooltip" translatable="yes">Restore</property>
-                        <property name="label" translatable="yes">Restore</property>
-                        <property name="stock_id">gtk-undelete</property>
-                        <signal name="clicked" handler="on_btn_restore_clicked"/>
+                        <property name="can_focus">True</property>
+                        <child>
+                          <widget class="GtkScrolledWindow" id="scrolledwindow">
+                            <property name="width_request">200</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                            <child>
+                              <widget class="GtkTreeView" id="list_places">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="search_column">0</property>
+                                <signal name="cursor_changed" handler="on_list_places_cursor_changed"/>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="resize">False</property>
+                            <property name="shrink">True</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkScrolledWindow" id="scrolledwindow2">
+                            <property name="width_request">350</property>
+                            <property name="height_request">400</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                            <child>
+                              <widget class="GtkTreeView" id="list_folder_view">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="has_focus">True</property>
+                                <signal name="popup_menu" handler="on_list_folder_view_popup_menu"/>
+                                <signal name="drag_data_get" handler="on_list_folder_view_drag_data_get"/>
+                                <signal name="button_press_event" handler="on_list_folder_view_button_press_event"/>
+                                <signal name="row_activated" handler="on_list_folder_view_row_activated"/>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="resize">True</property>
+                            <property name="shrink">True</property>
+                          </packing>
+                        </child>
                       </widget>
                       <packing>
-                        <property name="homogeneous">True</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkToolButton" id="btn_copy">
-                        <property name="visible">True</property>
-                        <property name="tooltip" translatable="yes">Copy</property>
-                        <property name="label" translatable="yes">Copy</property>
-                        <property name="stock_id">gtk-copy</property>
-                        <signal name="clicked" handler="on_btn_copy_clicked"/>
-                      </widget>
-                      <packing>
-                        <property name="homogeneous">True</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkToolButton" id="btn_snapshots">
-                        <property name="visible">True</property>
-                        <property name="tooltip" translatable="yes">Snapshots</property>
-                        <property name="label" translatable="yes">Snapshots</property>
-                        <property name="stock_id">gtk-index</property>
-                        <signal name="clicked" handler="on_btn_snapshots_clicked"/>
-                      </widget>
-                      <packing>
-                        <property name="homogeneous">True</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                  </packing>
                 </child>
                 <child>
-                  <widget class="GtkHPaned" id="hpaned2">
+                  <widget class="GtkLabel" id="lbl_snapshot">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <child>
-                      <widget class="GtkScrolledWindow" id="scrolledwindow">
-                        <property name="width_request">200</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <child>
-                          <widget class="GtkTreeView" id="list_places">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="search_column">0</property>
-                            <signal name="cursor_changed" handler="on_list_places_cursor_changed"/>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="resize">False</property>
-                        <property name="shrink">True</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkScrolledWindow" id="scrolledwindow2">
-                        <property name="width_request">350</property>
-                        <property name="height_request">400</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <child>
-                          <widget class="GtkTreeView" id="list_folder_view">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="has_focus">True</property>
-                            <signal name="popup_menu" handler="on_list_folder_view_popup_menu"/>
-                            <signal name="drag_data_get" handler="on_list_folder_view_drag_data_get"/>
-                            <signal name="button_press_event" handler="on_list_folder_view_button_press_event"/>
-                            <signal name="row_activated" handler="on_list_folder_view_row_activated"/>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="resize">True</property>
-                        <property name="shrink">True</property>
-                      </packing>
-                    </child>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
-                    <property name="position">1</property>
+                    <property name="type">label_item</property>
                   </packing>
                 </child>
               </widget>
