@@ -18,7 +18,7 @@ msgstr ""
 
 #: config.py:52
 msgid "None"
-msgstr "Non"
+msgstr "Aucun"
 
 #: config.py:53
 msgid "Every 5 minutes"
@@ -42,7 +42,7 @@ msgstr "Chaque Semaine"
 
 #: config.py:58
 msgid "Every Month"
-msgstr "Chaque mois"
+msgstr "Chaque Mois"
 
 #: config.py:62
 msgid "Day(s)"
@@ -58,7 +58,7 @@ msgstr "Années"
 
 #: config.py:124
 msgid "Snapshots directory is not valid !"
-msgstr "Le répertoire pour les sauvegardes n'est pas valid !"
+msgstr "Le répertoire pour les sauvegardes n'est pas valide !"
 
 #: config.py:127
 msgid "Snapshots directory can't be the root directory !"
@@ -68,7 +68,7 @@ msgstr ""
 
 #: config.py:130
 msgid "You must select at least one directory to backup !"
-msgstr "Vous devais sélectionnes au moins un répertoire à sauvegardé !"
+msgstr "Vous devez sélectionner au moins un répertoire à sauvegarder !"
 
 #: config.py:138 config.py:144
 msgid "Snapshots directory can't be in \"Backup Directories\" !"
@@ -76,11 +76,11 @@ msgstr "Le répertoire pour les sauvegardes ne peut pas être sauvegardé !"
 
 #: config.py:151
 msgid "\"Backup directories\" can't include snapshots directory !"
-msgstr "Vous ne pouvais pas sauvegardé le répertoire pour les sauvegardes !"
+msgstr "Vous ne pouvez pas sauvegarder le répertoire pour les sauvegardes !"
 
 #: config.py:155
 msgid "\"Exclude pattern\" can't contain \":\" char !"
-msgstr "\"Exclure\" ne peut contenir le charactèr \":\" !"
+msgstr "\"Exclure\" ne peut contenir le caractère \":\" !"
 
 #: gnomebackintime.py:142 gnomebackintime.py:472 kde4backintime.py:220
 #: kde4backintime.py:426
@@ -188,7 +188,7 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
-"Est-vous sure de vouloir effacer la sauvegarde:\n"
+"Etes-vous sûr de vouloir effacer la sauvegarde:\n"
 "<b>%s</b>"
 
 #: gnomebackintime.py:1057 kde4backintime.py:876
@@ -221,16 +221,16 @@ msgstr "Exclure répertoire"
 
 #: gnomesettingsdialog.py:321 kde4settingsdialog.py:252
 msgid "Are you sure you want to change snapshots directory ?"
-msgstr "Est-vous sure de vouloir changer le répertoire pour les sauvegardes ?"
+msgstr "Etes-vous sûr de vouloir changer le répertoire pour les sauvegardes ?"
 
 #: gnomesnapshotsdialog.py:266 kde4snapshotsdialog.py:240
 msgid "You can't compare a snapshot to itself"
-msgstr "Vous ne pouvais pas comparer une sauvegarde a elle-même"
+msgstr "Vous ne pouvez pas comparer une sauvegarde à elle-même"
 
 #: gnomesnapshotsdialog.py:273 kde4snapshotsdialog.py:247
 #, python-format
 msgid "Command not found: %s"
-msgstr "Commande non trouvé: %s"
+msgstr "Commande non trouvée: %s"
 
 #: kde4backintime.py:66 gnomebackintime.glade:30
 msgid "Take snapshot"
@@ -242,7 +242,7 @@ msgstr "Rafraichir la liste des sauvegardes"
 
 #: kde4backintime.py:75 gnomebackintime.glade:66 gnomebackintime.glade:67
 msgid "Remove Snapshot"
-msgstr "Effacer sauvegarde"
+msgstr "Effacer la sauvegarde"
 
 #: kde4backintime.py:80 kde4settingsdialog.py:44 gnomebackintime.glade:83
 #: gnomebackintime.glade:84 gnomebackintime.glade:374
@@ -275,7 +275,7 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Est-vous sure de vouloir effacer la sauvegarde:\n"
+"Etes-vous sûr de vouloir effacer la sauvegarde:\n"
 "%s"
 
 #: kde4settingsdialog.py:54 kde4settingsdialog.py:311
@@ -296,19 +296,19 @@ msgstr "Sauvegarde automatique: "
 
 #: kde4settingsdialog.py:144
 msgid "Remove Snapshots"
-msgstr "Effacer sauvegarde"
+msgstr "Effacer des sauvegardes"
 
 #: kde4settingsdialog.py:152 gnomebackintime.glade:738
 msgid "Older then:"
-msgstr "Les sauvegardes sont plus vieille que:"
+msgstr "Les sauvegardes sont plus vieilles que:"
 
 #: kde4settingsdialog.py:167 gnomebackintime.glade:748
 msgid "If free space is less then:"
-msgstr "Si l'espace libre est moins que:"
+msgstr "Si l'espace libre est inférieur à:"
 
 #: kde4settingsdialog.py:180 gnomebackintime.glade:678
 msgid "Don't remove named snapshots"
-msgstr "N'efface pas les sauvegardes avec des noms"
+msgstr "Ne pas effacer les sauvegardes avec des noms"
 
 #: kde4settingsdialog.py:185 gnomebackintime.glade:762
 msgid "Smart remove"
@@ -321,11 +321,10 @@ msgid ""
 "- keep one snapshot per month for all previous months of this year\n"
 "- keep one snapshot per year for all previous years"
 msgstr ""
-"- garder toutes les sauvegardes d'aujourd'hui et de hier\n"
-"- garder une sauvegarde pour la semaine dernière et une pout il y a deux semaines\n"
-"- garder une sauvegarde pour chaque mois pour les mois antérieures de cette "
-"année\n"
-"- garder une sauvegarde pour chaque année pour les années antérieures"
+"- garder toutes les sauvegardes d'aujourd'hui et d'hier\n"
+"- garder une sauvegarde pour la semaine dernière et une pour la semaine d'avant\n"
+"- garder une sauvegarde pour chaque mois passé de l'année civile en cours\n"
+"- garder une sauvegarde pour chaque année civile passée"
 
 #: kde4settingsdialog.py:298
 msgid "Include folder"
@@ -346,7 +345,7 @@ msgstr "Paramètres:"
 
 #: kde4snapshotsdialog.py:62 gnomebackintime.glade:1013
 msgid "Use %1 and %2 for path parameters"
-msgstr "Utilizes %1 et %2 pour les deux chemins"
+msgstr "Utilise %1 et %2 pour les deux chemins"
 
 #: kde4snapshotsdialog.py:137
 msgid "Go To"
@@ -374,7 +373,7 @@ msgstr "Répertoire parent"
 
 #: gnomebackintime.glade:405
 msgid "Select A Folder"
-msgstr "Sélectionnez un répertoire"
+msgstr "Sélectionner un répertoire"
 
 #: gnomebackintime.glade:413
 msgid "<b>Where to save snapshots</b>"
@@ -402,7 +401,7 @@ msgstr "<b>Quand</b>"
 
 #: gnomebackintime.glade:795
 msgid "<b>Remove Snapshots</b>"
-msgstr "<b>Effacer sauvegarde</b>"
+msgstr "<b>Effacer des sauvegardes</b>"
 
 #: gnomebackintime.glade:954
 msgid "Diff with"
