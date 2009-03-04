@@ -766,13 +766,18 @@ class MainWindow( KMainWindow ):
 					self.list_places.setCurrentItem( item )
 					break
 
-
-		#self.setPlainCaption( self.config.APP_NAME + ': ' + self.snapshots.get_snapshot_display_id( self.snapshot_id ) )
-		text = _('Now')
+		tooltip = ''
+		text = ''
 		if len( self.snapshot_id ) > 1:
-			text = _("Snapshot: %s") % self.snapshots.get_snapshot_display_id( self.snapshot_id )
+			name = self.snapshots.get_snapshot_display_id( self.snapshot_id )
+			text = _("Snapshot: %s") % name
+			tooltip = _("View the snapshot made at %s") % name
+		else:
+			tooltip = _('View the current disk content')
+			text = _('Now')
 
 		self.right_widget.setTitle( QString.fromUtf8( _( text ) ) )
+		self.right_widget.setToolTip( QString.fromUtf8( _( tooltip ) ) )
 
 		#try to keep old selected file
 		if selected_file is None:

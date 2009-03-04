@@ -882,11 +882,18 @@ class MainWindow:
 			self.snapshot_id = self.store_time_line.get_value( iter, 1 )
 			#self.lblTime.set_markup( "<b>%s</b>" % backupTime )
 
-		text = _('Now')
+		tooltip = ''
+		text = ''
 		if len( self.snapshot_id ) > 1:
-			text = _("Snapshot: %s") % self.snapshots.get_snapshot_display_id( self.snapshot_id )
+			name = self.snapshots.get_snapshot_display_id( self.snapshot_id )
+			text = _("Snapshot: %s") % name
+			tooltip = _("View the snapshot made at %s") % name
+		else:
+			tooltip = _('View the current disk content')
+			text = _('Now')
 
 		self.lbl_snapshot.set_markup( ' <b>' + text + '</b> ' )
+		self.lbl_snapshot.set_tooltip_text( tooltip )
 
 		#update selected places item
 		if 1 == changed_from:
