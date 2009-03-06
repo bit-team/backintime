@@ -213,7 +213,7 @@ class MainWindow:
 		self.list_time_line = self.glade.get_widget( 'list_time_line' )
 
 		text_renderer = gtk.CellRendererText()
-		column = gtk.TreeViewColumn( _('Timeline'), text_renderer, markup = 0 )
+		column = gtk.TreeViewColumn( _('Snapshots'), text_renderer, markup = 0 )
 		column.set_cell_data_func( text_renderer, self.places_text_renderer_function, None )
 		self.list_time_line.append_column( column )
 

@@ -98,16 +98,11 @@ class MainWindow( KMainWindow ):
 		self.main_splitter.setOrientation( Qt.Horizontal )
 
 		#timeline
-		widget = QWidget( self )
-		layout = QVBoxLayout( widget )
-		left, top, right, bottom = layout.getContentsMargins()
-		layout.setContentsMargins( left, 0, 0, 0 )
-		label = QLabel( QString.fromUtf8( _('Timeline') ), self )
-		kde4tools.set_font_bold( label )
-		layout.addWidget( label )
-		self.list_time_line = KListWidget( self )
-		layout.addWidget( self.list_time_line )
-		self.main_splitter.addWidget( widget )
+		self.list_time_line = QTreeWidget( self )
+		self.list_time_line.setRootIsDecorated( False )
+		self.list_time_line.setEditTriggers( QAbstractItemView.NoEditTriggers )
+		self.list_time_line.setHeaderLabel( QString.fromUtf8( _('Snapshots') ) )
+		self.main_splitter.addWidget( self.list_time_line )
 
 		#right widget
 		self.right_widget = QGroupBox( self )
@@ -271,7 +266,7 @@ class MainWindow( KMainWindow ):
 
 		self.update_snapshot_actions()
 
-		QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QListWidgetItem*,QListWidgetItem*)'), self.on_list_time_line_current_item_changed )
+		QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_time_line_current_item_changed )
 		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QListWidgetItem*,QListWidgetItem*)'), self.on_list_places_current_item_changed )
 		QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
 
@@ -501,7 +496,7 @@ class MainWindow( KMainWindow ):
 		self.update_files_view( 2 )
 
 	def time_line_get_snapshot_id( self, item ):
-		return str( item.data( Qt.UserRole ).toString() ) 
+		return str( item.data( 0, Qt.UserRole ).toString() ) 
 
 	def time_line_update_snapshot_name( self, item ):
 		snapshot_id = self.time_line_get_snapshot_id( item )
@@ -509,15 +504,18 @@ class MainWindow( KMainWindow ):
 			item.setText( 0, self.snapshots.get_snapshot_display_name( snapshot_id ) )
 
 	def add_time_line( self, snapshot_name, snapshot_id ):
-		item = QListWidgetItem( snapshot_name, self.list_time_line )
+		item = QTreeWidgetItem()
+		item.setText( 0, snapshot_name )
 
-		item.setData( Qt.UserRole, QVariant( snapshot_id ) )
+		item.setData( 0, Qt.UserRole, QVariant( snapshot_id ) )
 
 		if len( snapshot_id ) == 0:
-			kde4tools.set_font_bold( item )
+			item.setFont( 0, kde4tools.get_font_bold( item.font( 0 ) ) )
 			#item.setFlags( Qt.NoItemFlags )
 			item.setFlags( Qt.ItemIsEnabled )
-			item.setBackgroundColor( QColor( 196, 196, 196 ) )
+			item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
+
+		self.list_time_line.addTopLevelItem( item )
 
 		return item
 
@@ -580,7 +578,7 @@ class MainWindow( KMainWindow ):
 						self.list_time_line.setCurrentItem( list_item )
 
 		if self.list_time_line.currentItem() is None:
-			self.list_time_line.setCurrentItem( self.list_time_line.item( 0 ) )
+			self.list_time_line.setCurrentItem( self.list_time_line.topLevelItem( 0 ) )
 			if self.snapshot_id != '/':
 				self.snapshot_id = '/'
 				self.update_files_view( 2 )
@@ -694,8 +692,8 @@ class MainWindow( KMainWindow ):
 		dlg = kde4snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path, icon )
 		if QDialog.Accepted == dlg.exec_():
 			if dlg.snapshot_id != self.snapshot_id:
-				for index in xrange( self.list_time_line.count() ):
-					item = self.list_time_line.item( index )
+				for index in xrange( self.list_time_line.topLevelItemCount() ):
+					item = self.list_time_line.topLevelItem( index )
 					snapshot_id = self.time_line_get_snapshot_id( item )
 					if snapshot_id == dlg.snapshot_id:
 						self.snapshot_id = dlg.snapshot_id
