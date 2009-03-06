@@ -150,15 +150,11 @@ class MainWindow( KMainWindow ):
 		right_layout.addWidget( self.second_splitter )
 
 		#places
-		widget = QWidget( self )
-		layout = QVBoxLayout( widget )
-		layout.setContentsMargins( 0, 0, 0, 0 )
-		label = QLabel( QString.fromUtf8( _('Places') ), self )
-		kde4tools.set_font_bold( label )
-		layout.addWidget( label )
-		self.list_places = KListWidget( self )
-		layout.addWidget( self.list_places )
-		self.second_splitter.addWidget( widget )
+		self.list_places = QTreeWidget( self )
+		self.list_places.setRootIsDecorated( False )
+		self.list_places.setEditTriggers( QAbstractItemView.NoEditTriggers )
+		self.list_places.setHeaderLabel( QString.fromUtf8( _('Places') ) )
+		self.second_splitter.addWidget( self.list_places )
 
 		#list files view
 		self.list_files_view = QTreeView( self )
@@ -267,7 +263,7 @@ class MainWindow( KMainWindow ):
 		self.update_snapshot_actions()
 
 		QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_time_line_current_item_changed )
-		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QListWidgetItem*,QListWidgetItem*)'), self.on_list_places_current_item_changed )
+		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
 		QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
 
 		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
@@ -424,7 +420,7 @@ class MainWindow( KMainWindow ):
 		if item is None:
 			return
 
-		path = str( item.data( Qt.UserRole ).toString() )
+		path = str( item.data( 0, Qt.UserRole ).toString() )
 		if len( path ) == 0:
 			return
 
@@ -435,18 +431,22 @@ class MainWindow( KMainWindow ):
 		self.update_files_view( 3 )
 
 	def add_place( self, name, path, icon ):
-		item = QListWidgetItem( name, self.list_places )
+		item = QTreeWidgetItem()
+
+		item.setText( 0, name )
 
 		if len( icon ) > 0:
-			item.setIcon( KIcon( icon ) )
+			item.setIcon( 0, KIcon( icon ) )
 
-		item.setData( Qt.UserRole, QVariant( path ) )
+		item.setData( 0, Qt.UserRole, QVariant( path ) )
 
 		if len( path ) == 0:
-			kde4tools.set_font_bold( item )
+			item.setFont( 0, kde4tools.get_font_bold( item.font( 0 ) ) )
 			#item.setFlags( Qt.NoItemFlags )
 			item.setFlags( Qt.ItemIsEnabled )
-			item.setBackgroundColor( QColor( 196, 196, 196 ) )
+			item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
+
+		self.list_places.addTopLevelItem( item )
 
 		if path == self.path:
 			self.list_places.setCurrentItem( item )
@@ -758,9 +758,9 @@ class MainWindow( KMainWindow ):
 		if 0 == changed_from:
 			#update places
 			self.list_places.setCurrentItem( None )
-			for place_index in xrange( self.list_places.count() ):
-				item = self.list_places.item( place_index )
-				if self.path == str( item.data( Qt.UserRole ).toString() ):
+			for place_index in xrange( self.list_places.topLevelItemCount() ):
+				item = self.list_places.topLevelItem( place_index )
+				if self.path == str( item.data( 0, Qt.UserRole ).toString() ):
 					self.list_places.setCurrentItem( item )
 					break
 
