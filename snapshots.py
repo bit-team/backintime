@@ -201,7 +201,7 @@ class Snapshots:
 
 		if not self.config.can_backup() and not callback is None:
 			for counter in xrange( 30, 0, -1 ):
-				self.set_take_snapshot_message( 1, _("Can't find snapshots dialog.\nIf it is on a removable drive please plug-it. Waiting %s second(s)." ) % counter )
+				self.set_take_snapshot_message( 1, _("Can't find snapshots directory.\nIf it is on a removable drive please plug it. Waiting %s second(s)." ) % counter )
 				os.system( 'sleep 1' )
 				if self.config.can_backup():
 					break
@@ -238,6 +238,12 @@ class Snapshots:
 		instance.exit_application()
 		logger.info( 'Unlock' )
 		return ret_val
+
+	def _exec_rsync_callback( self, line, user_data ):
+		self.set_take_snapshot_message( 0, _("Take snapshot (rsync: %s)") % line )
+
+	def _exec_rsync_compare_callback( self, line, user_data ):
+		self.set_take_snapshot_message( 0, _("Compare with snapshot %s (rsync: %s)") % ( user_data, line ) )
 
 	def _append_item_to_list( self, item, list ):
 		for list_item in list:
@@ -288,12 +294,13 @@ class Snapshots:
 
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
-			self.set_take_snapshot_message( 0, _("Compare with previous snapshot: %s") % self.get_snapshot_id( prev_snapshot_id ) )
+			prev_snapshot_name = self.get_snapshot_id( prev_snapshot_id )
+			self.set_take_snapshot_message( 0, _("Compare with snapshot %s") % prev_snapshot_name )
 			logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
 			
 			prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
 			cmd = rsync_prefix + ' -i --dry-run ' + rsync_suffix + '"' + prev_snapshot_folder + '"'
-			try_cmd = self._execute_output( cmd )
+			try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
 			changed = False
 
 			for line in try_cmd.split( '\n' ):
@@ -328,7 +335,7 @@ class Snapshots:
 		logger.info( "Call rsync to take the snapshot" )
 		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + snapshot_path_to + '"'
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
-		self._execute( cmd )
+		self._execute( cmd, self._exec_rsync_callback )
 
 		#make new folder read-only
 		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
@@ -407,6 +414,7 @@ class Snapshots:
 	def _free_space( self ):
 		#remove old backups
 		if self.config.is_remove_old_snapshots_enabled():
+			self.set_take_snapshot_message( 0, _('Remove old snapshots') )
 			snapshots = self.get_snapshots_list( False )
 
 			old_backup_id = self.get_snapshot_id( self.config.get_remove_old_snapshots_date() )
@@ -429,10 +437,13 @@ class Snapshots:
 
 		#smart remove
 		if self.config.get_smart_remove():
+			self.set_take_snapshot_message( 0, _('Smart remove') )
 			self.smart_remove()
 
 		#try to keep min free space
 		if self.config.is_min_free_space_enabled():
+			self.set_take_snapshot_message( 0, _('Keep min free space') )
+
 			min_free_space = self.config.get_min_free_space_in_mb()
 
 			logger.info( "Keep min free disk space: %s Mb" % min_free_space )
@@ -457,8 +468,23 @@ class Snapshots:
 				self.remove_snapshot( snapshots[0] )
 				del snapshots[0]
 
-	def _execute( self, cmd ):
-		ret_val = os.system( cmd )
+	def _execute( self, cmd, callback = None, user_data = None ):
+		ret_val = 0
+
+		if callback is None:
+			ret_val = os.system( cmd )
+		else:
+			pipe = os.popen( cmd, 'r' )
+
+			while True:
+				line = pipe.readline()
+				if len( line ) == 0:
+					break
+				callback( line.strip(), user_data )
+
+			ret_val = pipe.close()
+			if ret_val is None:
+				ret_val = 0
 
 		if ret_val != 0:
 			logger.warning( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
@@ -467,11 +493,20 @@ class Snapshots:
 
 		return ret_val
 
-	def _execute_output( self, cmd ):
-		pipe = os.popen( cmd, 'r' )
-		output = pipe.read()
-		ret_val = pipe.close()
+	def _execute_output( self, cmd, callback = None, user_data = None ):
+		output = ''
 
+		pipe = os.popen( cmd, 'r' )
+		
+		while True:
+			line = pipe.readline()
+			if len( line ) == 0:
+				break
+			output = output + line
+			if not callback is None:
+				callback( line.strip(), user_data )
+
+		ret_val = pipe.close()
 		if ret_val is None:
 			ret_val = 0
 

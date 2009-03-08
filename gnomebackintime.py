@@ -99,6 +99,7 @@ class MainWindow:
 		self.settings_dialog = None
 		self.snapshots_dialog = None
 		self.snapshot_name_dialog = None
+		self.last_take_snapshot_message = None
 
 		self.glade = gtk.glade.XML( os.path.join( self.config.get_app_path(), 'gnomebackintime.glade' ), None, 'backintime' )
 
@@ -460,10 +461,23 @@ class MainWindow:
 		self.glade.get_widget( 'btn_backup' ).set_sensitive( not fake_busy )
 
 		if fake_busy:
-			if not self.update_time_line or force_wait_lock:
-				self.status_bar.push( 0, _('Working ...') )
+			take_snapshot_message = None
+
+			if busy:
+				take_snapshot_message = self.snapshots.get_take_snapshot_message()
+
+			if take_snapshot_message is None:
+				take_snapshot_message = ( 0, _('Working...') )
+
+			if take_snapshot_message != self.last_take_snapshot_message:
+				self.last_take_snapshot_message = take_snapshot_message
+				self.status_bar.push( 0, self.last_take_snapshot_message[1] )
+
+			if not self.update_time_line:
 				self.update_time_line = True
 		elif self.update_time_line:
+			self.last_take_snapshot_message = None
+
 			self.update_time_line = False
 			snapshots_list = self.snapshots_list
 
@@ -476,6 +490,8 @@ class MainWindow:
 				self.status_bar.push( 0, _('Done') )
 			else:
 				self.status_bar.push( 0, _('Done, no backup needed') )
+		else:
+			self.last_take_snapshot_message = None
 
 		return True
 
