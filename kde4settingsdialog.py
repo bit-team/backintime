@@ -186,19 +186,19 @@ class SettingsDialog( KDialog ):
 		layout.addWidget( self.combo_min_free_space, 1, 2 )
 		self.fill_combo( self.combo_min_free_space, self.config.MIN_FREE_SPACE_UNITS, unit )
 
-		#don't remove named snapshots
-		self.cb_dont_remove_named_snapshots = QCheckBox( QString.fromUtf8( _( 'Don\'t remove named snapshots' ) ), self )
-		layout.addWidget( self.cb_dont_remove_named_snapshots, 2, 0 )
-		self.cb_dont_remove_named_snapshots.setChecked( self.config.get_dont_remove_named_snapshots() )
-
 		#smart remove
 		self.cb_smart_remove = QCheckBox( QString.fromUtf8( _( 'Smart remove' ) ), self )
-		layout.addWidget( self.cb_smart_remove, 3, 0 )
+		layout.addWidget( self.cb_smart_remove, 2, 0 )
 		self.cb_smart_remove.setChecked( self.config.get_smart_remove() )
 
 		label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year\n- keep one snapshot per year for all previous years' ) ),self )
 		label.setContentsMargins( 25, 0, 0, 0 )
-		layout.addWidget( label, 4, 0 )
+		layout.addWidget( label, 3, 0 )
+
+		#don't remove named snapshots
+		self.cb_dont_remove_named_snapshots = QCheckBox( QString.fromUtf8( _( 'Don\'t remove named snapshots' ) ), self )
+		layout.addWidget( self.cb_dont_remove_named_snapshots, 4, 0 )
+		self.cb_dont_remove_named_snapshots.setChecked( self.config.get_dont_remove_named_snapshots() )
 
 		#make titles bold
 		kde4tools.set_font_bold( self.group_box_where )

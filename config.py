@@ -282,6 +282,9 @@ class Config( configfile.ConfigFile ):
 	def get_app_instance_file( self ):
 		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'app.lock' )
 
+	def get_take_snapshot_message_file( self ):
+		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'message.txt' )
+
 	def get_take_snapshot_instance_file( self ):
 		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'snapshot.lock' )
 

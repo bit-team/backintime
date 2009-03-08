@@ -110,6 +110,33 @@ class Snapshots:
 
 		os.system( "chmod a-w \"%s\"" % path )
 
+	def get_take_snapshot_message( self ):
+		try:
+			file = open( self.config.get_take_snapshot_message_file(), 'rt' )
+			items = file.read().split( '\n' )
+			file.close()
+		except:
+			return None 
+
+		if len( items ) < 2:
+			return None
+
+		id = int( items[0] )
+		del items[0]
+		message = '\n'.join( items )
+
+		return( id, message )
+
+	def set_take_snapshot_message( self, type_id, message ):
+		data = str(type_id) + '\n' + message
+
+		try:
+			file = open( self.config.get_take_snapshot_message_file(), 'wt' )
+			items = file.write( data )
+			file.close()
+		except:
+			pass
+
 	def is_busy( self ):
 		instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
 		return not instance.check()
@@ -152,7 +179,7 @@ class Snapshots:
 		self._execute( cmd )
 
 	def take_snapshot( self, callback = None ):
-		if not self.config.can_backup():
+		if not self.config.is_configured():
 			logger.warning( 'Not configured or backup path don\'t exists' )
 			os.system( 'sleep 2' ) #max 1 backup / second
 			return False
@@ -167,33 +194,43 @@ class Snapshots:
 
 		if not callback is None:
 			callback.snapshot_begin()
-		
+
 		logger.info( 'Lock' )
+
+		self.set_take_snapshot_message( 0, _('Working...') )
+
+		if not self.config.can_backup() and not callback is None:
+			for counter in xrange( 30, 0, -1 ):
+				self.set_take_snapshot_message( 1, _("Can't find snapshots dialog.\nIf it is on a removable drive please plug-it. Waiting %s second(s)." ) % counter )
+				os.system( 'sleep 1' )
+				if self.config.can_backup():
+					break
 
 		ret_val = False
 	
-		snapshot_id = self.get_snapshot_id( datetime.datetime.today() )
-		snapshot_path = self.get_snapshot_path( snapshot_id )
+		if self.config.can_backup():
+			snapshot_id = self.get_snapshot_id( datetime.datetime.today() )
+			snapshot_path = self.get_snapshot_path( snapshot_id )
 
-		if os.path.exists( snapshot_path ):
-			logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
-			retVal = True
-		else:
+			if os.path.exists( snapshot_path ):
+				logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
+				retVal = True
+			else:
+				#try:
+				ret_val = self._take_snapshot( snapshot_id )
+				#except:
+				#	retVal = False
+
+			if not ret_val:
+				os.system( "rm -rf \"%s\"" % snapshot_path )
+				logger.warning( "No new snapshot (not needed or error)" )
+			
 			#try:
-			ret_val = self._take_snapshot( snapshot_id )
+			self._free_space()
 			#except:
-			#	retVal = False
+			#	pass
 
-		if not ret_val:
-			os.system( "rm -rf \"%s\"" % snapshot_path )
-			logger.warning( "No new snapshot (not needed or error)" )
-		
-		#try:
-		self._free_space()
-		#except:
-		#	pass
-
-		os.system( 'sleep 2' ) #max 1 backup / second
+			os.system( 'sleep 2' ) #max 1 backup / second
 
 		if not callback is None:
 			callback.snapshot_end()
@@ -209,6 +246,8 @@ class Snapshots:
 		list.append( item )
 
 	def _take_snapshot( self, snapshot_id ):
+		self.set_take_snapshot_message( 0, _('Working...') )
+
 		snapshot_path = self.get_snapshot_path( snapshot_id )
 		snapshot_path_to = self.get_snapshot_path_to( snapshot_id )
 
@@ -249,6 +288,7 @@ class Snapshots:
 
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
+			self.set_take_snapshot_message( 0, _("Compare with previous snapshot: %s") % self.get_snapshot_id( prev_snapshot_id ) )
 			logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
 			
 			prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
@@ -269,6 +309,7 @@ class Snapshots:
 				return False
 
 			#create hard links
+			self.set_take_snapshot_message( 0, _('Create hard-links') )
 			logger.info( "Create hard-links" )
 			self._execute( "mkdir -p \"%s\"" % snapshot_path_to )
 			cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), snapshot_path_to )
@@ -286,6 +327,7 @@ class Snapshots:
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
 		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + snapshot_path_to + '"'
+		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd )
 
 		#make new folder read-only
