@@ -251,6 +251,9 @@ class MainWindow( KMainWindow ):
 		if not cfg.is_configured():
 			return
 
+		if not cfg.can_backup():
+			KMessageBox.error( self, QString.fromUtf8( _('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it and then press OK') ) )
+
 		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('completed()'), self.on_dir_lister_completed )
 		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('canceled()'), self.on_dir_lister_completed )
 

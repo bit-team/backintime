@@ -1,9 +1,10 @@
 Back In Time
 
 Version 0.9.16
+* GNOME & KDE4: when the application starts and snapshots directory don't exists show a messagebox
 * give more information for take snapshot progress (to prove that is not blocked)
 * MainWindow: rename 'Timeline' column with 'Snapshots'
-* if the snapshots directory don't exists (it is on a removable drive that is not plugged)
+* when it takes a snapshot if the snapshots directory don't exists (it is on a removable drive that is not plugged)
   it will notify and wait maxmimum 30 seconds (for the drive to be plugged)
 * GNOME & KDE4: add notify if the snapshots directory don't exists
 * add Slovak translation (Tomáš Vadina <kyberdev@gmail.com>)

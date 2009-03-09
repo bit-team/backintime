@@ -309,6 +309,9 @@ class MainWindow:
 				gtk.main_quit()
 				return False
 
+		if not self.config.can_backup():
+			gnomemessagebox.show_error( self.window, self.config, _('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it and then press OK') )
+
 		self.update_all( True )
 
 		self.force_wait_lock_counter = 0
