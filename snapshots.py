@@ -246,6 +246,7 @@ class Snapshots:
 			#except:
 			#	pass
 
+			self.set_take_snapshot_message( 0, _('Working: finalizing') )
 			os.system( 'sleep 2' ) #max 1 backup / second
 
 		if not callback is None:
