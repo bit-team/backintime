@@ -140,6 +140,7 @@ class Snapshots:
 			file = open( self.config.get_take_snapshot_message_file(), 'wt' )
 			items = file.write( data )
 			file.close()
+			logger.info( "Take snapshot message: %s" % data )
 		except:
 			pass
 
@@ -224,7 +225,9 @@ class Snapshots:
 
 		ret_val = False
 	
-		if self.config.can_backup():
+		if not self.config.can_backup():
+			logger.warning( 'Can\'t find snapshots directory !' )
+		else:
 			snapshot_id = self.get_snapshot_id( datetime.datetime.today() )
 			snapshot_path = self.get_snapshot_path( snapshot_id )
 

@@ -415,7 +415,7 @@ class MainWindow( KMainWindow ):
 
 			if take_snapshot_message != self.last_take_snapshot_message:
 				self.last_take_snapshot_message = take_snapshot_message
-				self.statusBar().showMessage( QString.fromUtf8( _(self.last_take_snapshot_message[1]) ) )
+				self.statusBar().showMessage( QString.fromUtf8( _(self.last_take_snapshot_message[1].replace( '\n', ' ' )) ) )
 
 			if self.btn_take_snapshot.isEnabled():
 				self.btn_take_snapshot.setEnabled( False )

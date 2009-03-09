@@ -474,7 +474,7 @@ class MainWindow:
 
 			if take_snapshot_message != self.last_take_snapshot_message:
 				self.last_take_snapshot_message = take_snapshot_message
-				self.status_bar.push( 0, self.last_take_snapshot_message[1] )
+				self.status_bar.push( 0, self.last_take_snapshot_message[1].replace( '\n', ' ' ) )
 
 			if not self.update_time_line:
 				self.update_time_line = True
@@ -945,8 +945,6 @@ class MainWindow:
 
 			if not self.show_hidden_files:
 				if file[ 0 ] == '.':
-					continue
-				if file[ -1 ] == '~':
 					continue
 
 			path = os.path.join( full_path, file )
