@@ -206,7 +206,7 @@ class Snapshots:
 
 		if not self.config.can_backup() and not callback is None:
 			for counter in xrange( 30, 0, -1 ):
-				self.set_take_snapshot_message( 1, _("Can't find snapshots directory.\nIf it is on a removable drive please plug it. Waiting %s second(s)." ) % counter )
+				self.set_take_snapshot_message( 1, _("Working: Error ! Can't find snapshots directory.\nIf it is on a removable drive please plug it. Waiting %s second(s)." ) % counter )
 				os.system( 'sleep 1' )
 				if self.config.can_backup():
 					break
@@ -245,10 +245,10 @@ class Snapshots:
 		return ret_val
 
 	def _exec_rsync_callback( self, line, user_data ):
-		self.set_take_snapshot_message( 0, _("Take snapshot (rsync: %s)") % line )
+		self.set_take_snapshot_message( 0, _("Working: Take snapshot (rsync: %s)") % line )
 
 	def _exec_rsync_compare_callback( self, line, user_data ):
-		self.set_take_snapshot_message( 0, _("Compare with snapshot %s (rsync: %s)") % ( user_data, line ) )
+		self.set_take_snapshot_message( 0, _("Working: Compare with snapshot %s (rsync: %s)") % ( user_data, line ) )
 
 	def _append_item_to_list( self, item, list ):
 		for list_item in list:
@@ -300,7 +300,7 @@ class Snapshots:
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 			prev_snapshot_name = self.get_snapshot_id( prev_snapshot_id )
-			self.set_take_snapshot_message( 0, _("Compare with snapshot %s") % prev_snapshot_name )
+			self.set_take_snapshot_message( 0, _("Working: Compare with snapshot %s") % prev_snapshot_name )
 			logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
 			
 			prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
@@ -321,7 +321,7 @@ class Snapshots:
 				return False
 
 			#create hard links
-			self.set_take_snapshot_message( 0, _('Create hard-links') )
+			self.set_take_snapshot_message( 0, _('Working: Create hard-links') )
 			logger.info( "Create hard-links" )
 			self._execute( "mkdir -p \"%s\"" % snapshot_path_to )
 			cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), snapshot_path_to )
@@ -339,7 +339,7 @@ class Snapshots:
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
 		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + snapshot_path_to + '"'
-		self.set_take_snapshot_message( 0, _('Take snapshot') )
+		self.set_take_snapshot_message( 0, _('Working: Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
 
 		#make new folder read-only
@@ -419,7 +419,7 @@ class Snapshots:
 	def _free_space( self ):
 		#remove old backups
 		if self.config.is_remove_old_snapshots_enabled():
-			self.set_take_snapshot_message( 0, _('Remove old snapshots') )
+			self.set_take_snapshot_message( 0, _('Working: Remove old snapshots') )
 			snapshots = self.get_snapshots_list( False )
 
 			old_backup_id = self.get_snapshot_id( self.config.get_remove_old_snapshots_date() )
@@ -442,12 +442,12 @@ class Snapshots:
 
 		#smart remove
 		if self.config.get_smart_remove():
-			self.set_take_snapshot_message( 0, _('Smart remove') )
+			self.set_take_snapshot_message( 0, _('Working: Smart remove') )
 			self.smart_remove()
 
 		#try to keep min free space
 		if self.config.is_min_free_space_enabled():
-			self.set_take_snapshot_message( 0, _('Keep min free space') )
+			self.set_take_snapshot_message( 0, _('Working: Try to keep min free space') )
 
 			min_free_space = self.config.get_min_free_space_in_mb()
 
