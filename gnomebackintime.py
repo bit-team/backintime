@@ -1064,6 +1064,7 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 			pass
 
 	def show_notification( self, icon ):
+		self.notification.set_timeout( pynotify.EXPIRES_NEVER )
 		self.notification.show()
 
 	def run(self):
@@ -1090,6 +1091,7 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 
 		attach_notification = True
 		last_message = None
+		first_error = True
 
 		status_icon.set_from_stock( gtk.STOCK_SAVE )
 		status_icon.set_visible( True )
@@ -1135,7 +1137,9 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 						self.notification.update( self.cfg.APP_NAME, last_message[1], icon_name )
 						self.notification.set_urgency( urgency )
 					
-						if last_message[0] != 0:
+						if last_message[0] != 0 and first_error:
+							first_error = False
+							self.notification.set_timeout( 10000 )
 							self.notification.show()
 
 				time.sleep( 0.2 )

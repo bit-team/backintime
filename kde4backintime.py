@@ -872,6 +872,7 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 
 	def init( self, cfg ):
 		self.cfg = cfg
+		self.snapshots = snapshots.Snapshots( self.cfg )
 
 	def snapshot_begin( self ):
 		self.stop_flag = False
@@ -894,17 +895,38 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 		logger.info( '[KDE4TakeSnapshotCallback.run] begin loop' )
 
 		kapp, kaboutdata = create_kapplication( self.cfg )
+		last_message = None
 
-		status_icon = QSystemTrayIcon()
+		status_icon = KSystemTrayIcon()
 		status_icon.setIcon( KIcon('document-save') )
-		status_icon.setToolTip( QString.fromUtf8( _('Back In Time: take snapshot ...') ) )
+		#status_icon.setToolTip( QString.fromUtf8( _('Back In Time: take snapshot ...') ) )
 		status_icon.show()
+		first_error = True
 
 		while True:
 			kapp.processEvents()
+		
 			if self.stop_flag:
 				break
+
 			if not kapp.hasPendingEvents():
+				message = self.snapshots.get_take_snapshot_message()
+				if message is None and last_message is None:
+					message = ( 0, _('Working...') )
+
+				if not message is None:
+					if message != last_message:
+						last_message = message
+						status_icon.setToolTip( QString.fromUtf8( self.cfg.APP_NAME + ': ' + last_message[1] ) )
+
+						if last_message[0] != 0:
+							status_icon.setIcon( KIcon('document-save-as') )
+							if first_error:
+								first_error = False
+								status_icon.showMessage( self.cfg.APP_NAME, QString.fromUtf8( last_message[1] ), QSystemTrayIcon.Critical, 10000 )
+						else:
+							status_icon.setIcon( KIcon('document-save-as') )
+
 				time.sleep( 0.2 )
 		
 		status_icon.hide()
