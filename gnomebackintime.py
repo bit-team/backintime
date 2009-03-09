@@ -476,8 +476,6 @@ class MainWindow:
 			if not self.update_time_line:
 				self.update_time_line = True
 		elif self.update_time_line:
-			self.last_take_snapshot_message = None
-
 			self.update_time_line = False
 			snapshots_list = self.snapshots_list
 
@@ -490,7 +488,8 @@ class MainWindow:
 				self.status_bar.push( 0, _('Done') )
 			else:
 				self.status_bar.push( 0, _('Done, no backup needed') )
-		else:
+
+		if not fake_busy:
 			self.last_take_snapshot_message = None
 
 		return True

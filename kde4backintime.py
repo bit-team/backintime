@@ -58,6 +58,7 @@ class MainWindow( KMainWindow ):
 		self.kapp = kapp
 		self.kaboutdata = kaboutdata
 		self.snapshots = snapshots.Snapshots( config )
+		self.last_take_snapshot_message = None
 
 		#main toolbar
 		self.main_toolbar = self.toolBar()
@@ -401,9 +402,20 @@ class MainWindow( KMainWindow ):
 		fake_busy = busy or self.force_wait_lock_counter > 0
 
 		if fake_busy:
+			take_snapshot_message = None
+
+			if busy:
+				take_snapshot_message = self.snapshots.get_take_snapshot_message()
+
+			if take_snapshot_message is None:
+				take_snapshot_message = ( 0, _('Working...') )
+
+			if take_snapshot_message != self.last_take_snapshot_message:
+				self.last_take_snapshot_message = take_snapshot_message
+				self.statusBar().showMessage( QString.fromUtf8( _(self.last_take_snapshot_message[1]) ) )
+
 			if self.btn_take_snapshot.isEnabled():
 				self.btn_take_snapshot.setEnabled( False )
-				self.statusBar().showMessage( QString.fromUtf8( _('Working ...') ) )
 		elif not self.btn_take_snapshot.isEnabled():
 			self.btn_take_snapshot.setEnabled( True )
 			
@@ -415,6 +427,9 @@ class MainWindow( KMainWindow ):
 			 	self.statusBar().showMessage( QString.fromUtf8( _('Done') ) )
 			else:
 				self.statusBar().showMessage( QString.fromUtf8( _('Done, no backup needed') ) )
+
+		if not fake_busy:
+			self.last_take_snapshot_message = None
 
 	def on_list_places_current_item_changed( self, item, previous ):
 		if item is None:
