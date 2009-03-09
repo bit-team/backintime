@@ -939,7 +939,7 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 
 
 def create_kapplication( cfg ):
-	kaboutdata = KAboutData( 'backintime', '', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( cfg.COPYRIGHT ), ki18n( '' ), 'http://le-web.org/back-in-time', 'dab@le-web.org' )
+	kaboutdata = KAboutData( 'backintime', '', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( cfg.COPYRIGHT ), ki18n( '' ), 'http://le-web.org/back-in-time', 'dan@le-web.org' )
 	kaboutdata.setProgramIconName( 'document-save' )
 
 	translation_text = cfg.get_translations()
