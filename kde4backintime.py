@@ -928,7 +928,7 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 								first_error = False
 								status_icon.showMessage( self.cfg.APP_NAME, QString.fromUtf8( last_message[1] ), QSystemTrayIcon.Critical, 10000 )
 						else:
-							status_icon.setIcon( KIcon('document-save-as') )
+							status_icon.setIcon( KIcon('document-save') )
 
 				time.sleep( 0.2 )
 		
