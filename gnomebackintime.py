@@ -1088,7 +1088,6 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 			logger.info( '[GnomeTakeSnapshotCallback.run] no status_icon' )
 			return
 
-		firt_error = True
 		attach_notification = True
 		last_message = None
 
@@ -1129,8 +1128,6 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 							urgency = pynotify.URGENCY_CRITICAL
 							icon_name = 'dialog-error'
 							status_icon_blinking = True
-							print "ABCDEFEG"
-							print last_message
 
 						status_icon.set_blinking( status_icon_blinking )
 						status_icon.set_tooltip( self.cfg.APP_NAME + ': ' + last_message[1] )
@@ -1138,8 +1135,7 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 						self.notification.update( self.cfg.APP_NAME, last_message[1], icon_name )
 						self.notification.set_urgency( urgency )
 					
-						if last_message[0] != 0 and firt_error:
-							firt_error = False
+						if last_message[0] != 0:
 							self.notification.show()
 
 				time.sleep( 0.2 )
