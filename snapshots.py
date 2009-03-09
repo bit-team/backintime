@@ -121,7 +121,12 @@ class Snapshots:
 		if len( items ) < 2:
 			return None
 
-		id = int( items[0] )
+		id = 0
+		try:
+			id = int( items[0] )
+		except:
+			pass
+
 		del items[0]
 		message = '\n'.join( items )
 
