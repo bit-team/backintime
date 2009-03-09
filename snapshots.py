@@ -257,10 +257,10 @@ class Snapshots:
 		return ret_val
 
 	def _exec_rsync_callback( self, line, user_data ):
-		self.set_take_snapshot_message( 0, _("Working: Take snapshot (rsync: %s)") % line )
+		self.set_take_snapshot_message( 0, _("Working: Take snapshot") + " (rsync: %s)" % line )
 
 	def _exec_rsync_compare_callback( self, line, user_data ):
-		self.set_take_snapshot_message( 0, _("Working: Compare with snapshot %s (rsync: %s)") % ( user_data, line ) )
+		self.set_take_snapshot_message( 0, _("Working: Compare with snapshot %s") % user_data + " (rsync: %s)"% line )
 
 	def _append_item_to_list( self, item, list ):
 		for list_item in list:
