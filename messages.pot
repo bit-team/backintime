@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-10 11:54+0100\n"
+"POT-Creation-Date: 2009-03-10 16:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: config.py:52
 msgid "None"
@@ -249,7 +250,7 @@ msgstr ""
 msgid "Command not found: %s"
 msgstr ""
 
-#: kde4backintime.py:68 snapshots.py:263 snapshots.py:357
+#: kde4backintime.py:68 snapshots.py:266 snapshots.py:360
 #: gnomebackintime.glade:22
 msgid "Take snapshot"
 msgstr ""
@@ -330,7 +331,7 @@ msgstr ""
 msgid "If free space is less then:"
 msgstr ""
 
-#: kde4settingsdialog.py:190 snapshots.py:460 gnomebackintime.glade:700
+#: kde4settingsdialog.py:190 snapshots.py:463 gnomebackintime.glade:700
 msgid "Smart remove"
 msgstr ""
 
@@ -375,36 +376,41 @@ msgstr ""
 msgid "Go To"
 msgstr ""
 
-#: snapshots.py:221
-#, python-format
+#: snapshots.py:222
 msgid ""
 "Can't find snapshots directory.\n"
-"If it is on a removable drive please plug it.\n"
-"Waiting %s second(s)."
+"If it is on a removable drive please plug it."
 msgstr ""
 
-#: snapshots.py:252
+#: snapshots.py:224
+#, python-format
+msgid "Waiting %s second."
+msgid_plural "Waiting %s seconds."
+msgstr[0] ""
+msgstr[1] ""
+
+#: snapshots.py:255
 msgid "Finalizing"
 msgstr ""
 
-#: snapshots.py:266 snapshots.py:318
+#: snapshots.py:269 snapshots.py:321
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr ""
 
-#: snapshots.py:275
+#: snapshots.py:278
 msgid "..."
 msgstr ""
 
-#: snapshots.py:339
+#: snapshots.py:342
 msgid "Create hard-links"
 msgstr ""
 
-#: snapshots.py:437
+#: snapshots.py:440
 msgid "Remove old snapshots"
 msgstr ""
 
-#: snapshots.py:465
+#: snapshots.py:468
 msgid "Try to keep min free space"
 msgstr ""
 
