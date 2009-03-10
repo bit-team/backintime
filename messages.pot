@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-09 13:04+0100\n"
+"POT-Creation-Date: 2009-03-10 11:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -134,9 +134,8 @@ msgid ""
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
 
-#: gnomebackintime.py:473 gnomebackintime.py:1123 kde4backintime.py:414
-#: kde4backintime.py:918 snapshots.py:216 snapshots.py:272
-msgid "Working..."
+#: gnomebackintime.py:477 kde4backintime.py:418
+msgid "Working:"
 msgstr ""
 
 #: gnomebackintime.py:493 kde4backintime.py:432
@@ -209,6 +208,10 @@ msgstr ""
 msgid "Now"
 msgstr ""
 
+#: gnomebackintime.py:1121 kde4backintime.py:930
+msgid "Working..."
+msgstr ""
+
 #: gnomesettingsdialog.py:67 kde4settingsdialog.py:80
 msgid "Include folders"
 msgstr ""
@@ -246,7 +249,8 @@ msgstr ""
 msgid "Command not found: %s"
 msgstr ""
 
-#: kde4backintime.py:68 gnomebackintime.glade:22
+#: kde4backintime.py:68 snapshots.py:263 snapshots.py:357
+#: gnomebackintime.glade:22
 msgid "Take snapshot"
 msgstr ""
 
@@ -298,11 +302,11 @@ msgstr ""
 msgid "What to save"
 msgstr ""
 
-#: kde4settingsdialog.py:125 gnomebackintime.glade:513
+#: kde4settingsdialog.py:125 gnomebackintime.glade:507
 msgid "Add file"
 msgstr ""
 
-#: kde4settingsdialog.py:130 gnomebackintime.glade:526
+#: kde4settingsdialog.py:130 gnomebackintime.glade:520
 msgid "Add folder"
 msgstr ""
 
@@ -318,19 +322,19 @@ msgstr ""
 msgid "Remove Snapshots"
 msgstr ""
 
-#: kde4settingsdialog.py:162 gnomebackintime.glade:744
+#: kde4settingsdialog.py:162 gnomebackintime.glade:728
 msgid "Older then:"
 msgstr ""
 
-#: kde4settingsdialog.py:177 gnomebackintime.glade:754
+#: kde4settingsdialog.py:177 gnomebackintime.glade:714
 msgid "If free space is less then:"
 msgstr ""
 
-#: kde4settingsdialog.py:190 gnomebackintime.glade:768
+#: kde4settingsdialog.py:190 snapshots.py:460 gnomebackintime.glade:700
 msgid "Smart remove"
 msgstr ""
 
-#: kde4settingsdialog.py:194 gnomebackintime.glade:782
+#: kde4settingsdialog.py:194 gnomebackintime.glade:684
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
@@ -338,7 +342,7 @@ msgid ""
 "- keep one snapshot per year for all previous years"
 msgstr ""
 
-#: kde4settingsdialog.py:199 gnomebackintime.glade:684
+#: kde4settingsdialog.py:199 gnomebackintime.glade:784
 msgid "Don't remove named snapshots"
 msgstr ""
 
@@ -355,15 +359,15 @@ msgstr ""
 msgid "Diff Options"
 msgstr ""
 
-#: kde4snapshotsdialog.py:54 gnomebackintime.glade:1000
+#: kde4snapshotsdialog.py:54 gnomebackintime.glade:1047
 msgid "Command:"
 msgstr ""
 
-#: kde4snapshotsdialog.py:58 gnomebackintime.glade:1007
+#: kde4snapshotsdialog.py:58 gnomebackintime.glade:1036
 msgid "Parameters:"
 msgstr ""
 
-#: kde4snapshotsdialog.py:62 gnomebackintime.glade:1018
+#: kde4snapshotsdialog.py:62 gnomebackintime.glade:1022
 msgid "Use %1 and %2 for path parameters"
 msgstr ""
 
@@ -371,43 +375,40 @@ msgstr ""
 msgid "Go To"
 msgstr ""
 
-#: snapshots.py:220
+#: snapshots.py:221
 #, python-format
 msgid ""
-"Working: Error ! Can't find snapshots directory.\n"
-"If it is on a removable drive please plug it. Waiting %s second(s)."
+"Can't find snapshots directory.\n"
+"If it is on a removable drive please plug it.\n"
+"Waiting %s second(s)."
 msgstr ""
 
-#: snapshots.py:249
-msgid "Working: finalizing"
+#: snapshots.py:252
+msgid "Finalizing"
 msgstr ""
 
-#: snapshots.py:260 snapshots.py:354
-msgid "Working: Take snapshot"
-msgstr ""
-
-#: snapshots.py:263 snapshots.py:315
+#: snapshots.py:266 snapshots.py:318
 #, python-format
-msgid "Working: Compare with snapshot %s"
+msgid "Compare with snapshot %s"
 msgstr ""
 
-#: snapshots.py:336
-msgid "Working: Create hard-links"
+#: snapshots.py:275
+msgid "..."
 msgstr ""
 
-#: snapshots.py:434
-msgid "Working: Remove old snapshots"
+#: snapshots.py:339
+msgid "Create hard-links"
 msgstr ""
 
-#: snapshots.py:457
-msgid "Working: Smart remove"
+#: snapshots.py:437
+msgid "Remove old snapshots"
 msgstr ""
 
-#: snapshots.py:462
-msgid "Working: Try to keep min free space"
+#: snapshots.py:465
+msgid "Try to keep min free space"
 msgstr ""
 
-#: gnomebackintime.glade:6 gnomebackintime.glade:202
+#: gnomebackintime.glade:6
 msgid "Show hidden & backup files"
 msgstr ""
 
@@ -421,6 +422,10 @@ msgstr ""
 
 #: gnomebackintime.glade:178
 msgid "Parent Directory"
+msgstr ""
+
+#: gnomebackintime.glade:202
+msgid "Hidden files"
 msgstr ""
 
 #: gnomebackintime.glade:411
