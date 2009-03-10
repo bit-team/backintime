@@ -911,7 +911,8 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 
 		self.status_icon = KSystemTrayIcon()
 		self.status_icon.setIcon( KIcon('document-save') )
-		#self.status_icon.setToolTip( QString.fromUtf8( _('Back In Time: take snapshot ...') ) )
+		#self.status_icon.actionCollection().clear()
+		self.status_icon.setContextMenu( None )
 		self.status_icon.show()
 		self.popup = None
 		QObject.connect( self.status_icon, SIGNAL('activated(QSystemTrayIcon::ActivationReason)'), self.show_popup )
