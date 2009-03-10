@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Mar  9 16:49:50 2009 -->
+<!--Generated with glade3 3.4.5 on Tue Mar 10 17:26:28 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
-    <property name="tooltip" translatable="yes">Show hidden &amp; backup files</property>
     <property name="title" translatable="yes">Back In Time</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="icon_name">gtk-save</property>
@@ -199,6 +198,7 @@
                         <child>
                           <widget class="GtkToggleToolButton" id="btn_hidden_files">
                             <property name="visible">True</property>
+                            <property name="tooltip" translatable="yes">Show hidden &amp; backup files</property>
                             <property name="label" translatable="yes">Hidden files</property>
                             <property name="stock_id">gtk-add</property>
                             <signal name="toggled" handler="on_btn_hidden_files_toggled"/>
@@ -334,6 +334,7 @@
         <child>
           <widget class="GtkStatusbar" id="status_bar">
             <property name="visible">True</property>
+            <property name="has_tooltip">True</property>
             <property name="spacing">3</property>
           </widget>
           <packing>
