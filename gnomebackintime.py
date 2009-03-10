@@ -470,11 +470,11 @@ class MainWindow:
 				take_snapshot_message = self.snapshots.get_take_snapshot_message()
 
 			if take_snapshot_message is None:
-				take_snapshot_message = ( 0, _('Working...') )
+				take_snapshot_message = ( 0, '...' )
 
 			if take_snapshot_message != self.last_take_snapshot_message:
 				self.last_take_snapshot_message = take_snapshot_message
-				self.status_bar.push( 0, self.last_take_snapshot_message[1].replace( '\n', ' ' ) )
+				self.status_bar.push( 0, _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' ) )
 
 			if not self.update_time_line:
 				self.update_time_line = True
@@ -1133,7 +1133,7 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 							status_icon_blinking = True
 
 						status_icon.set_blinking( status_icon_blinking )
-						status_icon.set_tooltip( self.cfg.APP_NAME + ': ' + last_message[1] )
+						status_icon.set_tooltip( last_message[1] )
 
 						self.notification.update( self.cfg.APP_NAME, last_message[1], icon_name )
 						self.notification.set_urgency( urgency )
