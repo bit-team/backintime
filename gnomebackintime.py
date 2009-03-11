@@ -150,6 +150,7 @@ class MainWindow:
 		self.show_hidden_files = self.config.get_bool_value( 'gnome.show_hidden_files', False )
 		self.btn_hidden_files = self.glade.get_widget( 'btn_hidden_files' )
 		self.btn_hidden_files.set_active( self.show_hidden_files )
+		#self.btn_hidden_files.set_label( _('Hidden files') ) #!!!
 
 		#setup places view
 		self.list_places = self.glade.get_widget( 'list_places' )
