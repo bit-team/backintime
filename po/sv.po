@@ -5,14 +5,14 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: backintime-0.9.13beta2\n"
+"Project-Id-Version: backintime-0.9.15beta5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-28 21:07+0100\n"
-"PO-Revision-Date: 2009-03-04 18:48+0100\n"
+"POT-Creation-Date: 2009-03-10 16:35+0100\n"
+"PO-Revision-Date: 2009-03-10 23:07+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Swedish\n"
 "X-Poedit-Country: SWEDEN\n"
@@ -69,7 +69,8 @@ msgstr "Katalog för ögonblicksbilder kan inte vara rootkatalogen !"
 msgid "You must select at least one directory to backup !"
 msgstr "Du måste markera minst en katalog att säkerhetskopiera !"
 
-#: config.py:138 config.py:144
+#: config.py:138
+#: config.py:144
 msgid "Snapshots directory can't be in \"Backup Directories\" !"
 msgstr "Katalog för ögonblicksbilder kan inte vara i \"Kataloger för säkerhetskopior\" !"
 
@@ -81,181 +82,288 @@ msgstr "\"Kataloger för säkerhetskopior\" kan inte inkludera katalog för ögo
 msgid "\"Exclude pattern\" can't contain \":\" char !"
 msgstr "\"Exkludera mönster\" kan inte innehålla \":\" -tecken !"
 
-#: gnomebackintime.py:140 gnomebackintime.py:470 kde4backintime.py:201
-#: kde4backintime.py:406
+#: gnomebackintime.py:147
+#: gnomebackintime.py:491
+#: kde4backintime.py:207
+#: kde4backintime.py:430
 msgid "Done"
 msgstr "Färdig"
 
-#: gnomebackintime.py:153 kde4backintime.py:169
+#: gnomebackintime.py:160
+#: kde4backintime.py:157
 msgid "Places"
 msgstr "Platser"
 
-#: gnomebackintime.py:174
+#: gnomebackintime.py:181
 msgid "Name"
 msgstr "Namn"
 
-#: gnomebackintime.py:185
+#: gnomebackintime.py:192
 msgid "Size"
 msgstr "Storlek"
 
-#: gnomebackintime.py:192
+#: gnomebackintime.py:199
 msgid "Date"
 msgstr "Datum"
 
-#: gnomebackintime.py:211 kde4backintime.py:159
-msgid "Timeline"
-msgstr "Tidslinje"
-
-#: gnomebackintime.py:246
-msgid "Open"
-msgstr "Öppna"
-
-#: gnomebackintime.py:247 kde4backintime.py:116 gnomebackintime.glade:258
-#: gnomebackintime.glade:259 gnomebackintime.glade:830
-#: gnomebackintime.glade:831
-msgid "Copy"
-msgstr "Kopiera"
-
-#: gnomebackintime.py:248 gnomesnapshotsdialog.py:82 kde4backintime.py:119
-#: gnomebackintime.glade:270 gnomebackintime.glade:271
-#: gnomebackintime.glade:796
+#: gnomebackintime.py:218
+#: gnomebackintime.py:255
+#: gnomesnapshotsdialog.py:82
+#: kde4backintime.py:105
+#: kde4backintime.py:144
+#: kde4snapshotsdialog.py:89
+#: gnomebackintime.glade:242
+#: gnomebackintime.glade:243
+#: gnomebackintime.glade:855
 msgid "Snapshots"
 msgstr "Ögonblicksbilder"
 
-#: gnomebackintime.py:249
+#: gnomebackintime.py:253
+msgid "Open"
+msgstr "Öppna"
+
+#: gnomebackintime.py:254
+#: kde4backintime.py:141
+#: kde4snapshotsdialog.py:114
+#: gnomebackintime.glade:230
+#: gnomebackintime.glade:231
+#: gnomebackintime.glade:888
+#: gnomebackintime.glade:889
+msgid "Copy"
+msgstr "Kopiera"
+
+#: gnomebackintime.py:256
+#: kde4snapshotsdialog.py:127
 msgid "Diff"
 msgstr "Jämför"
 
-#: gnomebackintime.py:250 kde4backintime.py:113 gnomebackintime.glade:246
-#: gnomebackintime.glade:247 gnomebackintime.glade:842
-#: gnomebackintime.glade:843
+#: gnomebackintime.py:257
+#: kde4backintime.py:138
+#: kde4snapshotsdialog.py:109
+#: gnomebackintime.glade:218
+#: gnomebackintime.glade:219
+#: gnomebackintime.glade:900
+#: gnomebackintime.glade:901
 msgid "Restore"
 msgstr "Återställ"
 
-#: gnomebackintime.py:458 kde4backintime.py:397
-msgid "Working ..."
-msgstr "Arbetar..."
+#: gnomebackintime.py:313
+#: kde4backintime.py:255
+msgid ""
+"Can't find snapshots directory.\n"
+"If it is on a removable drive please plug it and then press OK"
+msgstr ""
+"Kan inte hitta katalog för ögonblicksbilder.\n"
+"Om den finns på en flyttbar enhet så var god sätt in enheten i datorn och tryck OK"
 
-#: gnomebackintime.py:472 kde4backintime.py:408
+#: gnomebackintime.py:477
+#: kde4backintime.py:418
+msgid "Working:"
+msgstr "Arbetar:"
+
+#: gnomebackintime.py:493
+#: kde4backintime.py:432
 msgid "Done, no backup needed"
 msgstr "Färdig, ingen säkerhetskopia behövs"
 
-#: gnomebackintime.py:480 kde4backintime.py:445
+#: gnomebackintime.py:504
+#: kde4backintime.py:476
 msgid "Global"
 msgstr "Allmänt"
 
-#: gnomebackintime.py:481 kde4backintime.py:446
+#: gnomebackintime.py:505
+#: kde4backintime.py:477
 msgid "Root"
 msgstr "Root"
 
-#: gnomebackintime.py:482 kde4backintime.py:447
+#: gnomebackintime.py:506
+#: kde4backintime.py:478
 msgid "Home"
 msgstr "Hem"
 
-#: gnomebackintime.py:506
+#: gnomebackintime.py:530
 msgid "Bookmarks"
 msgstr "Bokmärken"
 
-#: gnomebackintime.py:514 kde4backintime.py:452
+#: gnomebackintime.py:538
+#: kde4backintime.py:483
 msgid "Backup Directories"
 msgstr "Kataloger för säkerhetskopior"
 
-#: gnomebackintime.py:534 kde4backintime.py:518
+#: gnomebackintime.py:558
+#: kde4backintime.py:552
 msgid "Today"
 msgstr "Idag"
 
-#: gnomebackintime.py:538 kde4backintime.py:522
+#: gnomebackintime.py:562
+#: kde4backintime.py:556
 msgid "Yesterday"
 msgstr "Igår"
 
-#: gnomebackintime.py:542 kde4backintime.py:526
+#: gnomebackintime.py:566
+#: kde4backintime.py:560
 msgid "This week"
 msgstr "Denna vecka"
 
-#: gnomebackintime.py:546 kde4backintime.py:530
+#: gnomebackintime.py:570
+#: kde4backintime.py:564
 msgid "Last week"
 msgstr "Förra veckan"
 
-#: gnomebackintime.py:843
+#: gnomebackintime.py:853
+#: kde4backintime.py:74
+#: kde4backintime.py:627
+#: gnomebackintime.glade:46
+#: gnomebackintime.glade:47
+msgid "Snapshot Name"
+msgstr "Namn på ögonblickbild"
+
+#: gnomebackintime.py:872
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
-msgstr "Är du säker på att du vill ta bort denna ögonblicksbild:\n"
+msgstr ""
+"Är du säker på att du vill ta bort ögonblicksbilden:\n"
 "<b>%s</b>"
 
-#: gnomebackintime.py:1046 kde4backintime.py:838
-msgid "Back In Time: take snapshot ..."
-msgstr "Back In Time: ta en ögonblicksbild ..."
+#: gnomebackintime.py:908
+#: kde4backintime.py:789
+#, python-format
+msgid "Snapshot: %s"
+msgstr "Ögonblicksbilder: %s"
 
-#: gnomesettingsdialog.py:65 kde4settingsdialog.py:80
+#: gnomebackintime.py:909
+#: kde4backintime.py:790
+#, python-format
+msgid "View the snapshot made at %s"
+msgstr "Se ögonblicksbilden som skapades %s"
+
+#: gnomebackintime.py:911
+#: kde4backintime.py:792
+msgid "View the current disk content"
+msgstr "Se det aktuella diskinnehållet"
+
+#: gnomebackintime.py:912
+#: kde4backintime.py:793
+#: snapshots.py:65
+msgid "Now"
+msgstr "Nu"
+
+#: gnomebackintime.py:1121
+#: kde4backintime.py:930
+msgid "Working..."
+msgstr "Arbetar..."
+
+#: gnomesettingsdialog.py:67
+#: kde4settingsdialog.py:80
 msgid "Include folders"
 msgstr "Inkludera mappar"
 
-#: gnomesettingsdialog.py:89 kde4settingsdialog.py:106
+#: gnomesettingsdialog.py:91
+#: kde4settingsdialog.py:106
 msgid "Exclude patterns"
 msgstr "Exkludera mönster"
 
-#: gnomesettingsdialog.py:285 kde4settingsdialog.py:243
+#: gnomesettingsdialog.py:227
+msgid "Include directory"
+msgstr "Inkludera katalog"
+
+#: gnomesettingsdialog.py:262
+#: kde4settingsdialog.py:300
+msgid "Exclude pattern"
+msgstr "Exkudera mönster"
+
+#: gnomesettingsdialog.py:269
+#: kde4settingsdialog.py:307
+msgid "Exclude file"
+msgstr "Exkludera fil"
+
+#: gnomesettingsdialog.py:278
+msgid "Exclude directory"
+msgstr "Exkludera katalog"
+
+#: gnomesettingsdialog.py:321
+#: kde4settingsdialog.py:262
 msgid "Are you sure you want to change snapshots directory ?"
 msgstr "Är du säker på att du vill ändra katalogen för ögonblicksbilder ?"
 
 #: gnomesnapshotsdialog.py:266
+#: kde4snapshotsdialog.py:240
 msgid "You can't compare a snapshot to itself"
 msgstr "Du kan inte jämföra en ögonblicksbild med sig själv"
 
 #: gnomesnapshotsdialog.py:273
+#: kde4snapshotsdialog.py:247
 #, python-format
 msgid "Command not found: %s"
 msgstr "Kommando hittades inte: %s"
 
-#: kde4backintime.py:65 gnomebackintime.glade:30
+#: kde4backintime.py:68
+#: snapshots.py:266
+#: snapshots.py:360
+#: gnomebackintime.glade:22
 msgid "Take snapshot"
 msgstr "Ta en ögonblicksbild"
 
-#: kde4backintime.py:68 kde4backintime.py:590 gnomebackintime.glade:42
-#: gnomebackintime.glade:43 gnomebackintime.glade:1057
-msgid "Snapshot Name"
-msgstr "Namn på ögonblickbild"
+#: kde4backintime.py:71
+#: gnomebackintime.glade:34
+#: gnomebackintime.glade:35
+msgid "Update snapshots"
+msgstr "Uppdatera ögonblicksbilder"
 
-#: kde4backintime.py:71 gnomebackintime.glade:54 gnomebackintime.glade:55
+#: kde4backintime.py:77
+#: gnomebackintime.glade:58
+#: gnomebackintime.glade:59
 msgid "Remove Snapshot"
 msgstr "Ta bort ögonblicksbild"
 
-#: kde4backintime.py:76 kde4settingsdialog.py:44 gnomebackintime.glade:71
-#: gnomebackintime.glade:72 gnomebackintime.glade:362
+#: kde4backintime.py:82
+#: kde4settingsdialog.py:44
+#: gnomebackintime.glade:75
+#: gnomebackintime.glade:76
+#: gnomebackintime.glade:380
 msgid "Settings"
 msgstr "Inställningar"
 
-#: kde4backintime.py:81 gnomebackintime.glade:91 gnomebackintime.glade:92
+#: kde4backintime.py:87
+#: gnomebackintime.glade:95
+#: gnomebackintime.glade:96
 msgid "About"
 msgstr "Om"
 
-#: kde4backintime.py:84 gnomebackintime.glade:103 gnomebackintime.glade:104
+#: kde4backintime.py:90
+#: gnomebackintime.glade:107
+#: gnomebackintime.glade:108
 msgid "Help"
 msgstr "Hjälp"
 
-#: kde4backintime.py:89 gnomebackintime.glade:120 gnomebackintime.glade:121
+#: kde4backintime.py:95
+#: gnomebackintime.glade:124
+#: gnomebackintime.glade:125
 msgid "Exit"
 msgstr "Avsluta"
 
-#: kde4backintime.py:95 gnomebackintime.glade:207
+#: kde4backintime.py:120
+#: gnomebackintime.glade:179
 msgid "Up"
 msgstr "Upp"
 
-#: kde4backintime.py:108
+#: kde4backintime.py:133
 msgid "Show hidden files"
 msgstr "Visa dolda filer"
 
-#: kde4backintime.py:610
+#: kde4backintime.py:647
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
-msgstr "Är du säker på att du till ta bort ögonblicksbild:\n"
+msgstr ""
+"Är du säker på att du till ta bort ögonblicksbilden:\n"
 "%s"
 
-#: kde4settingsdialog.py:54 kde4settingsdialog.py:301
+#: kde4settingsdialog.py:54
+#: kde4settingsdialog.py:331
 msgid "Where to save snapshots"
 msgstr "Var ska ögonblicksbilder sparas"
 
@@ -263,43 +371,137 @@ msgstr "Var ska ögonblicksbilder sparas"
 msgid "What to save"
 msgstr "Vad ska sparas"
 
-#: kde4settingsdialog.py:131
+#: kde4settingsdialog.py:125
+#: gnomebackintime.glade:507
+msgid "Add file"
+msgstr "Lägg till fil"
+
+#: kde4settingsdialog.py:130
+#: gnomebackintime.glade:520
+msgid "Add folder"
+msgstr "Lägg till mapp"
+
+#: kde4settingsdialog.py:141
 msgid "When"
 msgstr "När"
 
-#: kde4settingsdialog.py:135
+#: kde4settingsdialog.py:145
 msgid "Automatic snapshots:"
 msgstr "Automatiska ögonblicksbilder:"
 
-#: kde4settingsdialog.py:144
+#: kde4settingsdialog.py:154
 msgid "Remove Snapshots"
 msgstr "Ta bort ögonblicksbilder"
 
-#: kde4settingsdialog.py:152 gnomebackintime.glade:715
+#: kde4settingsdialog.py:162
+#: gnomebackintime.glade:728
 msgid "Older then:"
 msgstr "Äldre än:"
 
-#: kde4settingsdialog.py:167 gnomebackintime.glade:725
+#: kde4settingsdialog.py:177
+#: gnomebackintime.glade:714
 msgid "If free space is less then:"
 msgstr "Om fritt uttrymme är mindre än:"
 
-#: kde4settingsdialog.py:180 gnomebackintime.glade:655
+#: kde4settingsdialog.py:190
+#: snapshots.py:463
+#: gnomebackintime.glade:700
+msgid "Smart remove"
+msgstr "Smart borttagning"
+
+#: kde4settingsdialog.py:194
+#: gnomebackintime.glade:684
+msgid ""
+"- keep all snapshots from today and yesterday\n"
+"- keep one snapshot for the last week and one for two weeks ago\n"
+"- keep one snapshot per month for all previous months of this year\n"
+"- keep one snapshot per year for all previous years"
+msgstr ""
+"- behåll alla ögonblicksbilder från idag och igår\n"
+"- behåll en ögonblicksbild från förra veckan och en från de två senaste veckorna\n"
+"- behåll en ögonblicksbild per månad för detta års alla tidigare månader\n"
+"- behåll en ögonblicksbild per år för alla tidigare år"
+
+#: kde4settingsdialog.py:199
+#: gnomebackintime.glade:784
 msgid "Don't remove named snapshots"
 msgstr "Ta inte bort namngivna ögonblicksbilder"
 
-#: kde4settingsdialog.py:270
-msgid "Exclude pattern"
-msgstr "Exkudera mönster"
+#: kde4settingsdialog.py:311
+msgid "Exclude folder"
+msgstr "Exkludera mapp"
 
-#: kde4settingsdialog.py:288
+#: kde4settingsdialog.py:318
 msgid "Include folder"
 msgstr "Inkludera mapp"
 
-#: snapshots.py:64
-msgid "Now"
-msgstr "Nu"
+#: kde4snapshotsdialog.py:44
+#: kde4snapshotsdialog.py:136
+#: gnomebackintime.glade:1057
+msgid "Diff Options"
+msgstr "Inställningar för jämförelse"
 
-#: gnomebackintime.glade:6 gnomebackintime.glade:230
+#: kde4snapshotsdialog.py:54
+#: gnomebackintime.glade:1047
+msgid "Command:"
+msgstr "Kommando:"
+
+#: kde4snapshotsdialog.py:58
+#: gnomebackintime.glade:1036
+msgid "Parameters:"
+msgstr "Parametrar:"
+
+#: kde4snapshotsdialog.py:62
+#: gnomebackintime.glade:1022
+msgid "Use %1 and %2 for path parameters"
+msgstr "Använd %1 och %2 för sökvägsparametrar"
+
+#: kde4snapshotsdialog.py:137
+msgid "Go To"
+msgstr "Gå till"
+
+#: snapshots.py:222
+msgid ""
+"Can't find snapshots directory.\n"
+"If it is on a removable drive please plug it."
+msgstr ""
+"Kan inte hitta katalog för ögonblicksbilder.\n"
+"Om den finns på en flyttbar enhet så var god sätt in enheten i datorn."
+
+#: snapshots.py:224
+#, python-format
+msgid "Waiting %s second."
+msgid_plural "Waiting %s seconds."
+msgstr[0] "Väntar %s sekund."
+msgstr[1] "Väntar %s sekunder."
+
+#: snapshots.py:255
+msgid "Finalizing"
+msgstr "Färdigställer"
+
+#: snapshots.py:269
+#: snapshots.py:321
+#, python-format
+msgid "Compare with snapshot %s"
+msgstr "Jämför med ögonblicksbild %s"
+
+#: snapshots.py:278
+msgid "..."
+msgstr "..."
+
+#: snapshots.py:342
+msgid "Create hard-links"
+msgstr "Skapa hårdlänkar"
+
+#: snapshots.py:440
+msgid "Remove old snapshots"
+msgstr "Ta bort gamla ögonblicksbilder"
+
+#: snapshots.py:468
+msgid "Try to keep min free space"
+msgstr "Försök att behålla minimalt fritt diskutrymme"
+
+#: gnomebackintime.glade:6
 msgid "Show hidden & backup files"
 msgstr "Visa dolda filer & säkerhetskopierade filer"
 
@@ -307,54 +509,52 @@ msgstr "Visa dolda filer & säkerhetskopierade filer"
 msgid "Back In Time"
 msgstr "Back In Time"
 
-#: gnomebackintime.glade:31
+#: gnomebackintime.glade:23
 msgid "Backup Now"
 msgstr "Säkerhetskopiera nu"
 
-#: gnomebackintime.glade:206
+#: gnomebackintime.glade:178
 msgid "Parent Directory"
 msgstr "Förälderkatalog"
 
-#: gnomebackintime.glade:393
+#: gnomebackintime.glade:202
+msgid "Hidden files"
+msgstr "Dolda filer"
+
+#: gnomebackintime.glade:411
 msgid "Select A Folder"
 msgstr "Markera en mapp"
 
-#: gnomebackintime.glade:401
+#: gnomebackintime.glade:419
 msgid "<b>Where to save snapshots</b>"
 msgstr "<b>Var ska ögonblicksbilder sparas</b>"
 
-#: gnomebackintime.glade:568
+#: gnomebackintime.glade:600
 msgid "<b>What to save</b>"
 msgstr "<b>Vad ska sparas</b>"
 
-#: gnomebackintime.glade:596
+#: gnomebackintime.glade:628
 msgid "Automatic snapshots: "
 msgstr "Automatiska ögonblicksbilder: "
 
-#: gnomebackintime.glade:618
+#: gnomebackintime.glade:650
 msgid "<b>When</b>"
 msgstr "<b>När</b>"
 
-#: gnomebackintime.glade:742
+#: gnomebackintime.glade:801
 msgid "<b>Remove Snapshots</b>"
 msgstr "<b>Ta bort ögonblicksbilder</b>"
 
-#: gnomebackintime.glade:901
+#: gnomebackintime.glade:959
 msgid "Diff with"
 msgstr "Jämför med"
 
-#: gnomebackintime.glade:942
-msgid "Command:"
-msgstr "Kommando:"
+#: gnomebackintime.glade:1115
+msgid "Pattern"
+msgstr "Mönster"
 
-#: gnomebackintime.glade:949
-msgid "Parameters:"
-msgstr "Parametrar:"
+#~ msgid "Timeline"
+#~ msgstr "Tidslinje"
+#~ msgid "Back In Time: take snapshot ..."
+#~ msgstr "Back In Time: ta en ögonblicksbild ..."
 
-#: gnomebackintime.glade:960
-msgid "Use %1 and %2 for path parameters"
-msgstr "Använd %1 och %2 för sökvägsparametrar"
-
-#: gnomebackintime.glade:999
-msgid "Diff Options"
-msgstr "Inställningar för jämförelse"
