@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.9.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-10 11:54+0100\n"
-"PO-Revision-Date: 2009-03-10 14:54+0100\n"
+"POT-Creation-Date: 2009-03-10 16:35+0100\n"
+"PO-Revision-Date: 2009-03-11 10:52+0100\n"
 "Last-Translator: Vanja Cvelbar <cvelbar@gmail.com>\n"
 "Language-Team:  <cvelbar@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -296,8 +296,8 @@ msgid "Command not found: %s"
 msgstr "Ukaza ni mogoče najti: %s"
 
 #: kde4backintime.py:68
-#: snapshots.py:263
-#: snapshots.py:357
+#: snapshots.py:266
+#: snapshots.py:360
 #: gnomebackintime.glade:22
 msgid "Take snapshot"
 msgstr "Naredi posnetek"
@@ -400,7 +400,7 @@ msgid "If free space is less then:"
 msgstr "Če je prostora manj kot:"
 
 #: kde4settingsdialog.py:190
-#: snapshots.py:460
+#: snapshots.py:463
 #: gnomebackintime.glade:700
 msgid "Smart remove"
 msgstr "Pametno odstranjevanje"
@@ -456,40 +456,46 @@ msgstr "Uporabi %1 in %2 kot vrednosti za pot"
 msgid "Go To"
 msgstr "Pojdi na"
 
-#: snapshots.py:221
-#, python-format
+#: snapshots.py:222
 msgid ""
 "Can't find snapshots directory.\n"
-"If it is on a removable drive please plug it.\n"
-"Waiting %s second(s)."
+"If it is on a removable drive please plug it."
 msgstr ""
 "Ni mogoče najti imenika posnetkov.\n"
-"Če se nahaja na odstranljivem disku ga prosim priključite.\n"
-"Čakanje %s sekund. "
+"Če se nahaja na odstranljivem disku ga prosim priključite."
 
-#: snapshots.py:252
+#: snapshots.py:224
+#, python-format
+msgid "Waiting %s second."
+msgid_plural "Waiting %s seconds."
+msgstr[0] "Čakanje %s sekund. "
+msgstr[1] "Čakanje %s sekunda. "
+msgstr[2] "Čakanje %s sekundi. "
+msgstr[3] "Čakanje %s sekunde. "
+
+#: snapshots.py:255
 msgid "Finalizing"
 msgstr "Zaključujem"
 
-#: snapshots.py:266
-#: snapshots.py:318
+#: snapshots.py:269
+#: snapshots.py:321
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "Primerjaj s posnetkom %s"
 
-#: snapshots.py:275
+#: snapshots.py:278
 msgid "..."
 msgstr "..."
 
-#: snapshots.py:339
+#: snapshots.py:342
 msgid "Create hard-links"
 msgstr "Ustvari trde povezave"
 
-#: snapshots.py:437
+#: snapshots.py:440
 msgid "Remove old snapshots"
 msgstr "Odstrani stare posnetke"
 
-#: snapshots.py:465
+#: snapshots.py:468
 msgid "Try to keep min free space"
 msgstr "Skušaj ohraniti minimalni prostor"
 
@@ -545,6 +551,14 @@ msgstr "Primerjaj z"
 msgid "Pattern"
 msgstr "Vzorec"
 
+#~ msgid ""
+#~ "Can't find snapshots directory.\n"
+#~ "If it is on a removable drive please plug it.\n"
+#~ "Waiting %s second(s)."
+#~ msgstr ""
+#~ "Ni mogoče najti imenika posnetkov.\n"
+#~ "Če se nahaja na odstranljivem disku ga prosim priključite.\n"
+#~ "Čakanje %s sekund. "
 #~ msgid "Timeline"
 #~ msgstr "Časovna os"
 #~ msgid "Back In Time: take snapshot ..."
