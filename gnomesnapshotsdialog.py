@@ -263,14 +263,14 @@ class SnapshotsDialog:
 
 		#check if the 2 paths are different
 		if path1 == path2:
-			gnomemessagebox.show_error( self.dialog, self.config, _("You can't compare a snapshot to itself") )
+			gnomemessagebox.show_error( self.dialog, self.config, _('You can\'t compare a snapshot to itself') )
 			return
 
 		diff_cmd = self.edit_diff_cmd.get_text()
 		diff_cmd_params = self.edit_diff_cmd_params.get_text()
 
 		if not self.check_cmd( diff_cmd ):
-			gnomemessagebox.show_error( self.dialog, self.config, _("Command not found: %s") % diff_cmd )
+			gnomemessagebox.show_error( self.dialog, self.config, _('Command not found: %s') % diff_cmd )
 			return
 
 		params = diff_cmd_params

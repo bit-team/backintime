@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-11 09:40+0100\n"
+"POT-Creation-Date: 2009-03-11 10:04+0100\n"
 "PO-Revision-Date: 2008-11-19 14:19+0100\n"
 "Last-Translator:  <>\n"
 "Language-Team: \n"
@@ -134,7 +134,7 @@ msgstr "Récupérer"
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it and then press OK"
-msgstr ""
+msgstr "ABC_FR"
 
 #: gnomebackintime.py:478 kde4backintime.py:418
 msgid "Working:"
@@ -195,9 +195,8 @@ msgstr ""
 "<b>%s</b>"
 
 #: gnomebackintime.py:909 kde4backintime.py:789
-#, fuzzy, python-format
 msgid "Snapshot: %s"
-msgstr "Sauvegardes"
+msgstr "Sauvegarde: %s"
 
 #: gnomebackintime.py:910 kde4backintime.py:790
 #, python-format
@@ -213,7 +212,6 @@ msgid "Now"
 msgstr "Maintenant"
 
 #: gnomebackintime.py:1122 kde4backintime.py:930
-#, fuzzy
 msgid "Working..."
 msgstr "Sauvegarde en cours..."
 
@@ -254,7 +252,7 @@ msgstr "Vous ne pouvez pas comparer une sauvegarde à elle-même"
 msgid "Command not found: %s"
 msgstr "Commande non trouvée: %s"
 
-#: kde4backintime.py:68 snapshots.py:266 snapshots.py:360
+#: kde4backintime.py:68 snapshots.py:266 snapshots.py:362
 #: gnomebackintime.glade:21
 msgid "Take snapshot"
 msgstr "Sauvegarder maintenant"
@@ -337,7 +335,7 @@ msgstr "antérieures à:"
 msgid "If free space is less then:"
 msgstr "les plus anciennes si l'espace libre est inférieur à:"
 
-#: kde4settingsdialog.py:190 snapshots.py:463 gnomebackintime.glade:701
+#: kde4settingsdialog.py:190 snapshots.py:465 gnomebackintime.glade:701
 msgid "Smart remove"
 msgstr "non incluses dans la liste ci-dessous:"
 
@@ -358,7 +356,6 @@ msgid "Don't remove named snapshots"
 msgstr "Ne pas effacer les sauvegardes avec des noms"
 
 #: kde4settingsdialog.py:311
-#, fuzzy
 msgid "Exclude folder"
 msgstr "Exclure répertoire"
 
@@ -406,25 +403,24 @@ msgstr[1] "Plus que %s secondes."
 msgid "Finalizing"
 msgstr "Finalisation de la sauvegarde"
 
-#: snapshots.py:269 snapshots.py:321
-#, fuzzy, python-format
+#: snapshots.py:269 snapshots.py:322
+#, python-format
 msgid "Compare with snapshot %s"
 msgstr "Comparer avec la sauvegarde %s"
 
-#: snapshots.py:278
+#: snapshots.py:279
 msgid "..."
 msgstr "..."
 
-#: snapshots.py:342
+#: snapshots.py:344
 msgid "Create hard-links"
 msgstr "Création des liens durs (hard-links)"
 
-#: snapshots.py:440
-#, fuzzy
+#: snapshots.py:442
 msgid "Remove old snapshots"
 msgstr "Effacement des sauvegardes obsolètes"
 
-#: snapshots.py:468
+#: snapshots.py:470
 msgid "Try to keep min free space"
 msgstr ""
 "Effacement des sauvegardes les plus anciennes pour préserver l'espace libre "
@@ -477,4 +473,3 @@ msgstr "Comparer avec"
 #: gnomebackintime.glade:1116
 msgid "Pattern"
 msgstr "Modèle"
-

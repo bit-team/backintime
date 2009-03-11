@@ -244,7 +244,7 @@ class SnapshotsDialog( KDialog ):
 		diff_params = self.config.get_str_value( 'kde4.diff.params', '%1 %2' )
 
 		if not kde4tools.check_cmd( diff_cmd ):
-			KMessageBox.error( self, QString.fromUtf8( _("Command not found: %s") % diff_cmd ) )
+			KMessageBox.error( self, QString.fromUtf8( _('Command not found: %s') % diff_cmd ) )
 			return
 
 		params = diff_params

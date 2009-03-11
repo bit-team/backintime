@@ -644,7 +644,7 @@ class MainWindow( KMainWindow ):
 		if len( snapshot_id ) <= 1:
 			return
 		
-		if KMessageBox.Yes != KMessageBox.warningYesNo( self, QString.fromUtf8( _( "Are you sure you want to remove the snapshot:\n%s" ) % self.snapshots.get_snapshot_display_name( snapshot_id ) ) ):
+		if KMessageBox.Yes != KMessageBox.warningYesNo( self, QString.fromUtf8( _('Are you sure you want to remove the snapshot:\n%s') % self.snapshots.get_snapshot_display_name( snapshot_id ) ) ):
 			return
 
 		self.snapshots.remove_snapshot( snapshot_id )
@@ -786,8 +786,8 @@ class MainWindow( KMainWindow ):
 		text = ''
 		if len( self.snapshot_id ) > 1:
 			name = self.snapshots.get_snapshot_display_id( self.snapshot_id )
-			text = _("Snapshot: %s") % name
-			tooltip = _("View the snapshot made at %s") % name
+			text = _('Snapshot: %s') % name
+			tooltip = _('View the snapshot made at %s') % name
 		else:
 			tooltip = _('View the current disk content')
 			text = _('Now')

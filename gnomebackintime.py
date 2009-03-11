@@ -870,7 +870,7 @@ class MainWindow:
 		if len( snapshot_id ) <= 1:
 			return
 
-		if gtk.RESPONSE_YES == gnomemessagebox.show_question( self.window, self.config, _( "Are you sure you want to remove the snapshot:\n<b>%s</b>" ) % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
+		if gtk.RESPONSE_YES == gnomemessagebox.show_question( self.window, self.config, _('Are you sure you want to remove the snapshot:\n<b>%s</b>') % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
 			print "Remove Snapshot: %s" % snapshot_id
 			self.snapshots.remove_snapshot( snapshot_id )
 			self.fill_time_line()
@@ -906,8 +906,8 @@ class MainWindow:
 		text = ''
 		if len( self.snapshot_id ) > 1:
 			name = self.snapshots.get_snapshot_display_id( self.snapshot_id )
-			text = _("Snapshot: %s") % name
-			tooltip = _("View the snapshot made at %s") % name
+			text = _('Snapshot: %s') % name
+			tooltip = _('View the snapshot made at %s') % name
 		else:
 			tooltip = _('View the current disk content')
 			text = _('Now')
@@ -1052,6 +1052,7 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 
 	def init( self, cfg ):
 		self.cfg = cfg
+		create_gnome_app( self.cfg )
 		self.snapshots = snapshots.Snapshots( self.cfg )
 	
 	def snapshot_begin( self ):
@@ -1071,8 +1072,6 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 
 	def run(self):
 		logger.info( '[GnomeTakeSnapshotCallback.run]' )
-
-		create_gnome_app( self.cfg )
 
 		gtk.gdk.threads_init()
 		display = gtk.gdk.display_get_default()
