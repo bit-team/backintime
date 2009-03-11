@@ -58,25 +58,25 @@ msgstr "Années"
 
 #: config.py:124
 msgid "Snapshots directory is not valid !"
-msgstr "Le répertoire pour les sauvegardes n'est pas valide !"
+msgstr "Le dossier pour les sauvegardes n'est pas valide !"
 
 #: config.py:127
 msgid "Snapshots directory can't be the root directory !"
 msgstr ""
-"Le répertoire pour les sauvegardes ne peut pas être la racine de votre "
+"Le dossier pour les sauvegardes ne peut pas être la racine de votre "
 "système de fichiers !"
 
 #: config.py:130
 msgid "You must select at least one directory to backup !"
-msgstr "Vous devez sélectionner au moins un répertoire à sauvegarder !"
+msgstr "Vous devez sélectionner au moins un dossier à sauvegarder !"
 
 #: config.py:138 config.py:144
 msgid "Snapshots directory can't be in \"Backup Directories\" !"
-msgstr "Le répertoire pour les sauvegardes ne peut pas être sauvegardé !"
+msgstr "Le dossier pour les sauvegardes ne peut pas être sauvegardé !"
 
 #: config.py:151
 msgid "\"Backup directories\" can't include snapshots directory !"
-msgstr "Vous ne pouvez pas sauvegarder le répertoire pour les sauvegardes !"
+msgstr "Vous ne pouvez pas sauvegarder le dossier pour les sauvegardes !"
 
 #: config.py:155
 msgid "\"Exclude pattern\" can't contain \":\" char !"
@@ -137,7 +137,7 @@ msgid ""
 msgstr ""
 
 #: gnomebackintime.py:478 kde4backintime.py:418
-#, fuzzy
+#, 
 msgid "Working:"
 msgstr "Sauvegarde en cours:"
 
@@ -163,7 +163,7 @@ msgstr "Raccourcis"
 
 #: gnomebackintime.py:539 kde4backintime.py:483
 msgid "Backup Directories"
-msgstr "Répertoires sauvegardés"
+msgstr "Dossiers sauvegardés"
 
 #: gnomebackintime.py:559 kde4backintime.py:552
 msgid "Today"
@@ -184,7 +184,7 @@ msgstr "La semaine dernière"
 #: gnomebackintime.py:854 kde4backintime.py:74 kde4backintime.py:627
 #: gnomebackintime.glade:45 gnomebackintime.glade:46
 msgid "Snapshot Name"
-msgstr "Renommer la sauvegarde"
+msgstr "Renommer"
 
 #: gnomebackintime.py:873
 #, python-format
@@ -196,7 +196,7 @@ msgstr ""
 "<b>%s</b>"
 
 #: gnomebackintime.py:909 kde4backintime.py:789
-#, fuzzy, python-format
+#,  python-format
 msgid "Snapshot: %s"
 msgstr "Sauvegardes"
 
@@ -214,7 +214,7 @@ msgid "Now"
 msgstr "Maintenant"
 
 #: gnomebackintime.py:1122 kde4backintime.py:930
-#, fuzzy
+#, 
 msgid "Working..."
 msgstr "Sauvegarde en cours..."
 
@@ -228,7 +228,7 @@ msgstr "Exclure"
 
 #: gnomesettingsdialog.py:227
 msgid "Include directory"
-msgstr "Inclure répertoire"
+msgstr "Inclure dossier"
 
 #: gnomesettingsdialog.py:262 kde4settingsdialog.py:300
 msgid "Exclude pattern"
@@ -240,11 +240,11 @@ msgstr "Exclure fichier"
 
 #: gnomesettingsdialog.py:278
 msgid "Exclude directory"
-msgstr "Exclure répertoire"
+msgstr "Exclure dossier"
 
 #: gnomesettingsdialog.py:321 kde4settingsdialog.py:262
 msgid "Are you sure you want to change snapshots directory ?"
-msgstr "Etes-vous sûr de vouloir changer le répertoire des sauvegardes ?"
+msgstr "Etes-vous sûr de vouloir changer le dossier des sauvegardes ?"
 
 #: gnomesnapshotsdialog.py:266 kde4snapshotsdialog.py:240
 msgid "You can't compare a snapshot to itself"
@@ -258,15 +258,15 @@ msgstr "Commande non trouvée: %s"
 #: kde4backintime.py:68 snapshots.py:266 snapshots.py:362
 #: gnomebackintime.glade:21
 msgid "Take snapshot"
-msgstr "Sauvegarder maintenant"
+msgstr "Sauvegarder"
 
 #: kde4backintime.py:71 gnomebackintime.glade:33 gnomebackintime.glade:34
 msgid "Update snapshots"
-msgstr "Rafraichir la liste des sauvegardes"
+msgstr "Actualiser"
 
 #: kde4backintime.py:77 gnomebackintime.glade:57 gnomebackintime.glade:58
 msgid "Remove Snapshot"
-msgstr "Effacer la sauvegarde"
+msgstr "Effacer"
 
 #: kde4backintime.py:82 kde4settingsdialog.py:44 gnomebackintime.glade:74
 #: gnomebackintime.glade:75 gnomebackintime.glade:381
@@ -304,11 +304,11 @@ msgstr ""
 
 #: kde4settingsdialog.py:54 kde4settingsdialog.py:331
 msgid "Where to save snapshots"
-msgstr "Répertoire pour les sauvegardes"
+msgstr "Dossier pour les sauvegardes"
 
 #: kde4settingsdialog.py:71
 msgid "What to save"
-msgstr "Répertoires à sauvegarder"
+msgstr "Dossiers à sauvegarder"
 
 #: kde4settingsdialog.py:125 gnomebackintime.glade:508
 msgid "Add file"
@@ -316,7 +316,7 @@ msgstr "Ajouter fichier"
 
 #: kde4settingsdialog.py:130 gnomebackintime.glade:521
 msgid "Add folder"
-msgstr "Ajouter répertoire"
+msgstr "Ajouter dossier"
 
 #: kde4settingsdialog.py:141
 msgid "When"
@@ -359,13 +359,13 @@ msgid "Don't remove named snapshots"
 msgstr "Ne pas effacer les sauvegardes avec des noms"
 
 #: kde4settingsdialog.py:311
-#, fuzzy
+#, 
 msgid "Exclude folder"
-msgstr "Exclure répertoire"
+msgstr "Exclure dossier"
 
 #: kde4settingsdialog.py:318
 msgid "Include folder"
-msgstr "Inclure répertoire"
+msgstr "Inclure dossier"
 
 #: kde4snapshotsdialog.py:44 kde4snapshotsdialog.py:136
 #: gnomebackintime.glade:1058
@@ -393,7 +393,7 @@ msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Impossible de trouver le répertoire des sauvegardes.\n"
+"Impossible de trouver le dossier des sauvegardes.\n"
 "S'il se situe sur un disque externe connectez celui-ci maintenant."
 
 #: snapshots.py:224
@@ -408,7 +408,7 @@ msgid "Finalizing"
 msgstr "Finalisation de la sauvegarde"
 
 #: snapshots.py:269 snapshots.py:322
-#, fuzzy, python-format
+#,  python-format
 msgid "Compare with snapshot %s"
 msgstr "Comparer avec la sauvegarde %s"
 
@@ -421,7 +421,7 @@ msgid "Create hard-links"
 msgstr "Création des liens durs (hard-links)"
 
 #: snapshots.py:442
-#, fuzzy
+#, 
 msgid "Remove old snapshots"
 msgstr "Effacement des sauvegardes obsolètes"
 
@@ -441,24 +441,24 @@ msgstr "Sauvegarder maintenant"
 
 #: gnomebackintime.glade:177
 msgid "Parent Directory"
-msgstr "Répertoire parent"
+msgstr "Dossier parent"
 
 #: gnomebackintime.glade:202
-#, fuzzy
+#, 
 msgid "Hidden files"
 msgstr "Fichiers cachés"
 
 #: gnomebackintime.glade:412
 msgid "Select A Folder"
-msgstr "Sélectionner un répertoire"
+msgstr "Sélectionner un dossier"
 
 #: gnomebackintime.glade:420
 msgid "<b>Where to save snapshots</b>"
-msgstr "<b>Répertoire pour les sauvegardes</b>"
+msgstr "<b>Dossier pour les sauvegardes</b>"
 
 #: gnomebackintime.glade:601
 msgid "<b>What to save</b>"
-msgstr "<b>Répertoires à sauvegarder</b>"
+msgstr "<b>Dossiers à sauvegarder</b>"
 
 #: gnomebackintime.glade:629
 msgid "Automatic snapshots: "
