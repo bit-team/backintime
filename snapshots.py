@@ -267,7 +267,6 @@ class Snapshots:
 
 	def _exec_rsync_compare_callback( self, line, user_data ):
 		self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % user_data + " (rsync: %s)"% line )
-		os.system( "sleep 1" )
 
 	def _append_item_to_list( self, item, list ):
 		for list_item in list:
@@ -320,7 +319,6 @@ class Snapshots:
 			prev_snapshot_id = snapshots[0]
 			prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
 			self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % prev_snapshot_name )
-			os.system( "sleep 5" )
 			logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
 			
 			prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
