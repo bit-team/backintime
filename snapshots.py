@@ -144,6 +144,9 @@ class Snapshots:
 		except:
 			pass
 
+	def clear_take_snapshot_message( self ):
+		os.system( "rm \"%s\"" % self.config.get_take_snapshot_message_file() )
+
 	def is_busy( self ):
 		instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
 		return not instance.check()
@@ -258,6 +261,7 @@ class Snapshots:
 		if not callback is None:
 			callback.snapshot_end()
 		
+		self.clear_take_snapshot_message()
 		instance.exit_application()
 		logger.info( 'Unlock' )
 		return ret_val
