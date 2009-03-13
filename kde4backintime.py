@@ -916,7 +916,7 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 		self.status_icon.show()
 		self.popup = None
 		QObject.connect( self.status_icon, SIGNAL('activated(QSystemTrayIcon::ActivationReason)'), self.show_popup )
-		first_error = True
+		first_error = self.cfg.is_notify_enabled()
 
 		while True:
 			kapp.processEvents()

@@ -219,15 +219,18 @@ class Snapshots:
 
 		self.set_take_snapshot_message( 0, '...' )
 
-		if not self.config.can_backup() and not callback is None and self.config.is_notify_enabled():
-			for counter in xrange( 30, 0, -1 ):
-				self.set_take_snapshot_message( 1, 
-						_('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it.' ) +
-						'\n' +
-						gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', counter ) % counter )
-				os.system( 'sleep 1' )
-				if self.config.can_backup():
-					break
+		if not self.config.can_backup():
+			if not callback is None and self.config.is_notify_enabled():
+				for counter in xrange( 30, 0, -1 ):
+					self.set_take_snapshot_message( 1, 
+							_('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it.' ) +
+							'\n' +
+							gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', counter ) % counter )
+					os.system( 'sleep 1' )
+					if self.config.can_backup():
+						break
+			else:
+				os.system( 'sleep 2' ) #max 1 backup / second
 
 		ret_val = False
 	

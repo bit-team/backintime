@@ -1092,7 +1092,7 @@ class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status ico
 
 		attach_notification = True
 		last_message = None
-		first_error = True
+		first_error = self.cfg.is_notify_enabled()
 
 		status_icon.set_from_stock( gtk.STOCK_SAVE )
 		status_icon.set_visible( True )

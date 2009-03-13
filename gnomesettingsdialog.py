@@ -88,7 +88,7 @@ class SettingsDialog:
 		pix_renderer = gtk.CellRendererPixbuf()
 		text_renderer = gtk.CellRendererText()
 
-		column = gtk.TreeViewColumn( _('Exclude patterns') )
+		column = gtk.TreeViewColumn( _('Patterns, files of directories') )
 		column.pack_start( pix_renderer, False )
 		column.pack_end( text_renderer, True )
 		column.add_attribute( pix_renderer, 'stock-id', 1 )
@@ -204,6 +204,10 @@ class SettingsDialog:
 		#smart remove
 		self.cb_smart_remove = self.glade.get_widget( 'cb_smart_remove' )
 		self.cb_smart_remove.set_active( self.config.get_smart_remove() )
+
+		#enable notifications
+		self.cb_enable_notifications = self.glade.get_widget( 'cb_enable_notifications' )
+		self.cb_enable_notifications.set_active( self.config.is_notify_enabled() )
 
 	def update_remove_old_backups( self, button ):
 		enabled = button.get_active()
@@ -338,6 +342,7 @@ class SettingsDialog:
 						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ) )
 		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active() )
 		self.config.set_smart_remove( self.cb_smart_remove.get_active() )
+		self.config.set_notify_enabled( self.cb_enable_notifications.get_active() )
 
 		self.config.save()
 		return True
