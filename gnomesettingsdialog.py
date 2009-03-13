@@ -88,7 +88,7 @@ class SettingsDialog:
 		pix_renderer = gtk.CellRendererPixbuf()
 		text_renderer = gtk.CellRendererText()
 
-		column = gtk.TreeViewColumn( _('Patterns, files of directories') )
+		column = gtk.TreeViewColumn( _('Patterns, files or directories') )
 		column.pack_start( pix_renderer, False )
 		column.pack_end( text_renderer, True )
 		column.add_attribute( pix_renderer, 'stock-id', 1 )
