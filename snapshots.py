@@ -219,7 +219,7 @@ class Snapshots:
 
 		self.set_take_snapshot_message( 0, '...' )
 
-		if not self.config.can_backup() and not callback is None:
+		if not self.config.can_backup() and not callback is None and self.config.is_notify_enabled():
 			for counter in xrange( 30, 0, -1 ):
 				self.set_take_snapshot_message( 1, 
 						_('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it.' ) +

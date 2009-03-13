@@ -273,6 +273,12 @@ class Config( configfile.ConfigFile ):
 	def set_smart_remove( self, value ):
 		self.set_bool_value( 'snapshots.smart_remove', value )
 	
+	def is_notify_enabled( self ):
+		return self.get_bool_value( 'snapshots.notify.enabled', True )
+
+	def set_notify_enabled( self, value ):
+		self.set_bool_value( 'snapshots.notify.enabled', value )
+
 	def get_app_path( self ):
 		return self._APP_PATH
 
