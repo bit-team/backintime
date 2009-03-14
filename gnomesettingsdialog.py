@@ -57,6 +57,19 @@ class SettingsDialog:
 		self.fcb_where = self.glade.get_widget( 'fcb_where' )
 		self.fcb_where.set_filename( self.config.get_snapshots_path() )
 		
+		#automatic backup mode store
+		self.store_backup_mode = gtk.ListStore( str, int )
+		default_automatic_backup_mode_index = 0
+		i = 0
+		map = self.config.AUTOMATIC_BACKUP_MODES
+		keys = map.keys()
+		keys.sort()
+		for key in keys:
+			self.store_backup_mode.append( [ map[ key ], key ] )
+			if key == self.config.get_automatic_backup_mode():
+				default_automatic_backup_mode_index = i
+			i = i + 1
+
 		#setup backup folders
 		self.list_include = self.glade.get_widget( 'list_include' )
 		self.list_include.get_model() is None
@@ -108,8 +121,6 @@ class SettingsDialog:
 
 		#setup automatic backup mode
 		self.cb_backup_mode = self.glade.get_widget( 'cb_backup_mode' )
-
-		self.store_backup_mode = gtk.ListStore( str, int )
 		self.cb_backup_mode.set_model( self.store_backup_mode )
 			
 		self.cb_backup_mode.clear()
@@ -117,19 +128,7 @@ class SettingsDialog:
 		self.cb_backup_mode.pack_start( renderer, True )
 		self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
 
-		self.store_backup_mode.clear()
-		index = 0
-		i = 0
-		map = self.config.AUTOMATIC_BACKUP_MODES
-		keys = map.keys()
-		keys.sort()
-		for key in keys:
-			self.store_backup_mode.append( [ map[ key ], key ] )
-			if key == self.config.get_automatic_backup_mode():
-				index = i
-			i = i + 1
-				
-		self.cb_backup_mode.set_active( index )
+		self.cb_backup_mode.set_active( default_automatic_backup_mode_index )
 
 		#setup remove old backups older then
 		enabled, value, unit = self.config.get_remove_old_snapshots()
