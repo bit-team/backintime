@@ -62,10 +62,12 @@ class SettingsDialog:
 		default_automatic_backup_mode_index = 0
 		i = 0
 		map = self.config.AUTOMATIC_BACKUP_MODES
+		self.rev_automatic_backup_modes = {}
 		keys = map.keys()
 		keys.sort()
 		for key in keys:
-			self.store_backup_mode.append( [ map[ key ], key ] )
+			self.rev_automatic_backup_modes[ map[key] ] = key
+			self.store_backup_mode.append( [ map[key], key ] )
 			if key == self.config.get_automatic_backup_mode():
 				default_automatic_backup_mode_index = i
 			i = i + 1
@@ -84,14 +86,25 @@ class SettingsDialog:
 		column.add_attribute( text_renderer, 'markup', 0 )
 		self.list_include.append_column( column )
 
-		self.store_include = gtk.ListStore( str, str )
+		column = gtk.TreeViewColumn( _('Automatic backup') )
+		combo_renderer = gtk.CellRendererCombo()
+		combo_renderer.set_property( 'editable', True )
+		combo_renderer.set_property( 'has-entry', False )
+		combo_renderer.set_property( 'model', self.store_backup_mode )
+		combo_renderer.set_property( 'text-column', 0 )
+		combo_renderer.connect( 'edited', self.on_automatic_backup_mode_changed )
+		column.pack_end( combo_renderer, True )
+		column.add_attribute( combo_renderer, 'text', 2 )
+		self.list_include.append_column( column )
+
+		self.store_include = gtk.ListStore( str, str, str, int )
 		self.list_include.set_model( self.store_include )
 
 		self.store_include.clear()
 		include_folders = self.config.get_include_folders()
 		if len( include_folders ) > 0:
 			for include_folder in include_folders:
-				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY] )
+				self.store_include.append( [include_folder[0], gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
 		
 		self.fcb_include = self.glade.get_widget( 'fcb_include' )
 
@@ -119,16 +132,16 @@ class SettingsDialog:
 
 		self.edit_pattern = self.glade.get_widget( 'edit_pattern' )
 
-		#setup automatic backup mode
-		self.cb_backup_mode = self.glade.get_widget( 'cb_backup_mode' )
-		self.cb_backup_mode.set_model( self.store_backup_mode )
-			
-		self.cb_backup_mode.clear()
-		renderer = gtk.CellRendererText()
-		self.cb_backup_mode.pack_start( renderer, True )
-		self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
+		##setup automatic backup mode
+		#self.cb_backup_mode = self.glade.get_widget( 'cb_backup_mode' )
+		#self.cb_backup_mode.set_model( self.store_backup_mode )
+		#	
+		#self.cb_backup_mode.clear()
+		#renderer = gtk.CellRendererText()
+		#self.cb_backup_mode.pack_start( renderer, True )
+		#self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
 
-		self.cb_backup_mode.set_active( default_automatic_backup_mode_index )
+		#self.cb_backup_mode.set_active( default_automatic_backup_mode_index )
 
 		#setup remove old backups older then
 		enabled, value, unit = self.config.get_remove_old_snapshots()
@@ -207,6 +220,11 @@ class SettingsDialog:
 		#enable notifications
 		self.cb_enable_notifications = self.glade.get_widget( 'cb_enable_notifications' )
 		self.cb_enable_notifications.set_active( self.config.is_notify_enabled() )
+
+	def on_automatic_backup_mode_changed( self, renderer, path, new_text ):
+		iter = self.store_include.get_iter(path)
+		self.store_include.set_value( iter, 2, new_text )
+		self.store_include.set_value( iter, 3, self.rev_automatic_backup_modes[new_text] )
 
 	def update_remove_old_backups( self, button ):
 		enabled = button.get_active()
@@ -302,7 +320,7 @@ class SettingsDialog:
 		include_list = []
 		iter = self.store_include.get_iter_first()
 		while not iter is None:
-			include_list.append( self.store_include.get_value( iter, 0 ) )
+			include_list.append( ( self.store_include.get_value( iter, 0 ), self.store_include.get_value( iter, 3 ) ) )
 			iter = self.store_include.iter_next( iter )
 
 		#exclude patterns
@@ -330,7 +348,7 @@ class SettingsDialog:
 		self.config.set_exclude_patterns( exclude_list )
 
 		#other settings
-		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
+		#self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
 		self.config.set_remove_old_snapshots( 
 						self.cb_remove_old_backup.get_active(), 
 						int( self.edit_remove_old_backup_value.get_value() ),

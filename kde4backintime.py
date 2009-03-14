@@ -482,7 +482,7 @@ class MainWindow( KMainWindow ):
 		if len( include_folders ) > 0:
 			self.add_place( QString.fromUtf8( _('Backup Directories') ), '', '' )
 			for folder in include_folders:
-				self.add_place( folder, folder, 'document-save' )
+				self.add_place( folder[0], folder[0], 'document-save' )
 
 	def update_snapshot_actions( self ):
 		enabled = False

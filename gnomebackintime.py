@@ -538,7 +538,7 @@ class MainWindow:
 			if len( include_folders ) > 0:
 				self.store_places.append( [ "<b>%s</b>" % _('Backup Directories'), '', '' ] )
 				for folder in include_folders:
-					self.store_places.append( [ folder, folder, gtk.STOCK_SAVE ] )
+					self.store_places.append( [ folder[0], folder[0], gtk.STOCK_SAVE ] )
 
 	def fill_time_line( self, update_folder_view = True ):
 		current_selection = '/'

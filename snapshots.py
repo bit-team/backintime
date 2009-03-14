@@ -289,7 +289,8 @@ class Snapshots:
 
 		#check only existing paths
 		include_folders = []
-		for path in self.config.get_include_folders():
+		for item in self.config.get_include_folders():
+			path = item[0]
 			if os.path.isdir( path ):
 				path = os.path.expanduser( path )
 				path = os.path.abspath( path )

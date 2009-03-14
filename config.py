@@ -49,7 +49,7 @@ class Config( configfile.ConfigFile ):
 	DISK_UNIT_GB = 20
 
 	AUTOMATIC_BACKUP_MODES = { 
-				NONE : _('None'), 
+				NONE : _('Disabled'), 
 				_5_MIN: _('Every 5 minutes'), 
 				_10_MIN: _('Every 10 minutes'), 
 				HOUR : _('Every Hour'), 
@@ -131,7 +131,8 @@ class Config( configfile.ConfigFile ):
 
 		snapshots_path2 = snapshots_path + '/'
 
-		for path in include_list:
+		for item in include_list:
+			path = item[0]
 			if path == snapshots_path:
 				print "Path: " + path
 				print "SnapshotsPath: " + snapshots_path 
@@ -174,15 +175,31 @@ class Config( configfile.ConfigFile ):
 			return []
 
 		paths = []
-		for path in value.split(':'):
-			path = os.path.expanduser( path )
+
+		for item in value.split(':'):
+			fields = item.split( '|' )
+
+			path = os.path.expanduser( fields[0] )
 			path = os.path.abspath( path )
-			paths.append( path )
+
+			if len( fields ) >= 2:
+				automatic_backup_mode = int( fields[1] )
+			else:
+				automatic_backup_mode = self.get_automatic_backup_mode()
+
+			paths.append( ( path, automatic_backup_mode ) )
 
 		return paths
 
 	def set_include_folders( self, list ):
-		self.set_str_value( 'snapshots.include_folders', ':'.join( list ) )
+		value = ''
+
+		for item in list:
+			if len( value ) > 0:
+				value = value + ':'
+			value = value + item[0] + '|' + str( item[1] )
+
+		self.set_str_value( 'snapshots.include_folders', value )
 
 	def get_exclude_patterns( self ):
 		value = self.get_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~' )

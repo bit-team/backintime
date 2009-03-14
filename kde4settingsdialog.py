@@ -220,7 +220,7 @@ class SettingsDialog( KDialog ):
 		self.combo_min_free_space.setEnabled( enabled )
 
 	def add_include( self, path ):
-		return QListWidgetItem( KIcon('folder'), path, self.list_include )
+		return QListWidgetItem( KIcon('folder'), path, self.list_include[0] )
 
 	def add_exclude( self, pattern ):
 		return QListWidgetItem( KIcon('edit-delete'), pattern, self.list_exclude )
