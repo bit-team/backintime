@@ -94,8 +94,10 @@ class SettingsDialog( KDialog ):
 		self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
 
 		self.popup_automatic_backup = KMenu( self )
-		for key, value in self.config.AUTOMATIC_BACKUP_MODES.items():
-			self.popup_automatic_backup.addAction( PopupAutomaticBackupAction( self.list_include, key, QString.fromUtf8( value ) ) )
+		keys = self.config.AUTOMATIC_BACKUP_MODES.keys()
+		keys.sort()
+		for key in keys:
+			self.popup_automatic_backup.addAction( PopupAutomaticBackupAction( self.list_include, key, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ key ] ) ) )
 
 		QObject.connect( self.list_include, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_include_item_activated )
 		layout.addWidget( self.list_include )
@@ -276,8 +278,9 @@ class SettingsDialog( KDialog ):
 
 		#include list 
 		include_list = []
-		for index in xrange( self.list_include.count() ):
-			include_list.append( str( self.list_include.item( index ).text() ) )
+		for index in xrange( self.list_include.topLevelItemCount() ):
+			item = self.list_include.topLevelItem( index )
+			include_list.append( [ str( item.text(0) ), item.data( 0, Qt.UserRole ).toInt()[0] ] )
 
 		#exclude patterns
 		exclude_list = []
@@ -302,7 +305,7 @@ class SettingsDialog( KDialog ):
 		self.config.set_exclude_patterns( exclude_list )
 
 		#other settings
-		self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
+		#self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
 		self.config.set_remove_old_snapshots( 
 						self.cb_remove_older_then.isChecked(), 
 						self.edit_remove_older_then.value(),
