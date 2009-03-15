@@ -217,11 +217,8 @@ class SettingsDialog( KDialog ):
 		item = QTreeWidgetItem()
 		item.setText( 0, data[0] )
 		item.setText( 1, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] ) )
-
 		item.setData( 0, Qt.UserRole, QVariant( data[1]) )
-
 		self.list_include.addTopLevelItem( item )
-
 		return item
 
 	def add_exclude( self, pattern ):
