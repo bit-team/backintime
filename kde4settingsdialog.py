@@ -35,6 +35,22 @@ import kde4tools
 _=gettext.gettext
 
 
+class PopupAutomaticBackupAction( KAction ):
+	def __init__( self, list, id, label ):
+		KAction.__init__( self, label, list )
+		self.list = list
+		self.id = id
+		self.label = label
+	
+		QObject.connect( self, SIGNAL('triggered()'), self.on_selected )
+
+	def on_selected( self ):
+		item = self.list.currentItem()
+		if not item is None:
+			item.setText( 1, QString.fromUtf8( self.label ) )
+			item.setData( 0, Qt.UserRole, QVariant( self.id ) )
+
+
 class SettingsDialog( KDialog ):
 	def __init__( self, parent ):
 		KDialog.__init__( self, parent )
@@ -45,11 +61,6 @@ class SettingsDialog( KDialog ):
 
 		self.main_widget = KTabWidget( self )
 		self.setMainWidget( self.main_widget )
-
-		#Automatic backup menu
-		self.popup_automatic_backup = KMenu( self )
-		for key, value in self.config.AUTOMATIC_BACKUP_MODES.items():
-			self.popup_automatic_backup.addAction( QString.fromUtf8( value ) )
 
 		#TAB: Destination
 		tab_widget = QWidget( self )
@@ -81,7 +92,12 @@ class SettingsDialog( KDialog ):
 		#self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
 		self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
-		QObject.connect( self.list_include, SIGNAL('itemDoubleClicked(QTreeWidgetItem*,int)'), self.on_list_include_item_double_clicked )
+
+		self.popup_automatic_backup = KMenu( self )
+		for key, value in self.config.AUTOMATIC_BACKUP_MODES.items():
+			self.popup_automatic_backup.addAction( PopupAutomaticBackupAction( self.list_include, key, QString.fromUtf8( value ) ) )
+
+		QObject.connect( self.list_include, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_include_item_activated )
 		layout.addWidget( self.list_include )
 
 		for include in self.config.get_include_folders():
@@ -210,14 +226,17 @@ class SettingsDialog( KDialog ):
 		self.update_remove_older_than()
 		self.update_min_free_space()
 
-	def on_list_include_item_double_clicked( self, item, column ):
+	def on_list_include_item_activated( self, item, column ):
 		if item is None:
 			return
 
 		if column != 1:
 			return
 
-		print self.popup_automatic_backup.popup( QCursor.pos() )
+		self.popup_automatic_backup.popup( QCursor.pos() )
+
+	def on_popup_automatic_backup( self ):
+		print "ABC"
 
 	def update_remove_older_than( self ):
 		enabled = self.cb_remove_older_then.isChecked()
@@ -337,11 +356,11 @@ class SettingsDialog( KDialog ):
 
 		path = self.config.prepare_path( path )
 
-		for index in xrange( self.list_include.count() ):
-			if path == self.list_include.item( index ).text():
+		for index in xrange( self.list_include.topLevelItemCount() ):
+			if path == self.list_include.topLevelItem( index ).text( 0 ):
 				return
 
-		self.add_include( path )
+		self.add_include( [ path, self.config.NONE ] )
 
 	def on_btn_snapshots_path_clicked( self ):
 		path = str( KFileDialog.getExistingDirectory( KUrl( self.edit_snapshots_path.text() ), self, QString.fromUtf8( _( 'Where to save snapshots' ) ) ) )
