@@ -46,6 +46,11 @@ class SettingsDialog( KDialog ):
 		self.main_widget = KTabWidget( self )
 		self.setMainWidget( self.main_widget )
 
+		#Automatic backup menu
+		self.popup_automatic_backup = KMenu( self )
+		for key, value in self.config.AUTOMATIC_BACKUP_MODES.items():
+			self.popup_automatic_backup.addAction( QString.fromUtf8( value ) )
+
 		#TAB: Destination
 		tab_widget = QWidget( self )
 		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Destination' ) ) )
@@ -206,7 +211,13 @@ class SettingsDialog( KDialog ):
 		self.update_min_free_space()
 
 	def on_list_include_item_double_clicked( self, item, column ):
-		pass
+		if item is None:
+			return
+
+		if column != 1:
+			return
+
+		print self.popup_automatic_backup.popup( QCursor.pos() )
 
 	def update_remove_older_than( self ):
 		enabled = self.cb_remove_older_then.isChecked()
