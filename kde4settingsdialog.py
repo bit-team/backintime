@@ -71,12 +71,14 @@ class SettingsDialog( KDialog ):
 		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Include' ) ) )
 		layout = QVBoxLayout( tab_widget )
 
-		self.list_include = KListWidget( self )
+		self.list_include = QTreeWidget( self )
+		self.list_include.setRootIsDecorated( False )
+		self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
+		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
 		layout.addWidget( self.list_include )
 
 		for include in self.config.get_include_folders():
-			#self.add_include( include )
-			pass
+			self.add_include( include )
 		
 		buttons_layout = QHBoxLayout()
 		layout.addLayout( buttons_layout )
@@ -187,7 +189,16 @@ class SettingsDialog( KDialog ):
 		layout.setRowStretch( 5, 2 )
 		
 		#TAB: Options
+		tab_widget = QWidget( self )
+		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Options' ) ) )
+		layout = QVBoxLayout( tab_widget )
 
+		self.cb_notify_enabled = QCheckBox( QString.fromUtf8( _( 'Enable notifications' ) ), self )
+		layout.addWidget( self.cb_notify_enabled )
+		self.cb_notify_enabled.setChecked( self.config.is_notify_enabled() )
+
+		#
+		layout.addStretch()
 
 		self.update_remove_older_than()
 		self.update_min_free_space()
@@ -202,8 +213,16 @@ class SettingsDialog( KDialog ):
 		self.edit_min_free_space.setEnabled( enabled )
 		self.combo_min_free_space.setEnabled( enabled )
 
-	def add_include( self, path ):
-		return QListWidgetItem( KIcon('folder'), path[0], self.list_include[0] )
+	def add_include( self, data ):
+		item = QTreeWidgetItem()
+		item.setText( 0, data[0] )
+		item.setText( 1, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] ) )
+
+		item.setData( 0, Qt.UserRole, QVariant( data[1]) )
+
+		self.list_include.addTopLevelItem( item )
+
+		return item
 
 	def add_exclude( self, pattern ):
 		return QListWidgetItem( KIcon('edit-delete'), pattern, self.list_exclude )
@@ -262,6 +281,7 @@ class SettingsDialog( KDialog ):
 						self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ).toInt()[0] )
 		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.isChecked() )
 		self.config.set_smart_remove( self.cb_smart_remove.isChecked() )
+		self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
 
 		self.config.save()
 		return True

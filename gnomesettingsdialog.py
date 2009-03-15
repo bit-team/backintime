@@ -257,7 +257,7 @@ class SettingsDialog:
 				iter = self.store_include.iter_next( iter )
 
 			if iter is None:
-				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY] )
+				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
 
 		fcd.destroy()
 
