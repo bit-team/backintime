@@ -73,8 +73,10 @@ class SettingsDialog( KDialog ):
 
 		self.list_include = QTreeWidget( self )
 		self.list_include.setRootIsDecorated( False )
-		self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
+		#self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
+		self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
+		QObject.connect( self.list_include, SIGNAL('itemDoubleClicked(QTreeWidgetItem*,int)'), self.on_list_include_item_double_clicked )
 		layout.addWidget( self.list_include )
 
 		for include in self.config.get_include_folders():
@@ -202,6 +204,9 @@ class SettingsDialog( KDialog ):
 
 		self.update_remove_older_than()
 		self.update_min_free_space()
+
+	def on_list_include_item_double_clicked( self, item, column ):
+		pass
 
 	def update_remove_older_than( self ):
 		enabled = self.cb_remove_older_then.isChecked()
