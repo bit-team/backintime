@@ -43,118 +43,100 @@ class SettingsDialog( KDialog ):
 		self.setWindowIcon( KIcon( 'configure' ) )
 		self.setCaption( QString.fromUtf8( _( 'Settings' ) ) )
 
-		self.main_widget = QWidget( self )
-		self.main_layout = QVBoxLayout()
-		self.main_widget.setLayout( self.main_layout )
+		self.main_widget = KTabWidget( self )
 		self.setMainWidget( self.main_widget )
 
-		#where to save snapshots
-		self.group_box_where = QGroupBox( self )
-		self.main_layout.addWidget( self.group_box_where )
-		self.group_box_where.setTitle( QString.fromUtf8( _( 'Where to save snapshots' ) ) )
+		#TAB: Destination
+		tab_widget = QWidget( self )
+		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Destination' ) ) )
+		layout = QVBoxLayout( tab_widget )
 
-		layout = QHBoxLayout()
-		self.group_box_where.setLayout( layout )
+		#where to save snapshots
+		hlayout = QHBoxLayout()
+		layout.addLayout( hlayout )
 
 		self.edit_snapshots_path = KLineEdit( self.config.get_snapshots_path(), self )
 		self.edit_snapshots_path.setReadOnly( True )
-		layout.addWidget( self.edit_snapshots_path )
+		hlayout.addWidget( self.edit_snapshots_path )
 
-		#self.btn_snapshots_path = KPushButton( KStandardGuiItem.open(), self )
 		self.btn_snapshots_path = KPushButton( KIcon( 'folder' ), '', self )
-		layout.addWidget( self.btn_snapshots_path )
+		hlayout.addWidget( self.btn_snapshots_path )
 		QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
+
+		#
+		layout.addStretch()
 		
-		#what to save
-		self.group_box_what = QGroupBox( self )
-		self.main_layout.addWidget( self.group_box_what )
-		self.group_box_what.setTitle( QString.fromUtf8( _( 'What to save' ) ) )
-
-		wts_layout = QHBoxLayout()
-		self.group_box_what.setLayout( wts_layout )
-
-		#include directories
-		wts_left_layout = QVBoxLayout()
-		wts_layout.addLayout( wts_left_layout, 1 )
-	
-		label = QLabel( _('Include folders'), self )
-		kde4tools.set_font_bold( label )
-		#label.setAlignment( Qt.AlignHCenter | Qt.AlignVCenter )
-		wts_left_layout.addWidget( label )
+		#TAB: Include
+		tab_widget = QWidget( self )
+		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Include' ) ) )
+		layout = QVBoxLayout( tab_widget )
 
 		self.list_include = KListWidget( self )
-		wts_left_layout.addWidget( self.list_include )
+		layout.addWidget( self.list_include )
 
 		for include in self.config.get_include_folders():
-			self.add_include( include )
+			#self.add_include( include )
+			pass
 		
-		layout = QHBoxLayout()
-		wts_left_layout.addLayout( layout )
+		buttons_layout = QHBoxLayout()
+		layout.addLayout( buttons_layout )
 
 		self.btn_include_add = KPushButton( KStandardGuiItem.add(), self )
-		layout.addWidget( self.btn_include_add )
+		buttons_layout.addWidget( self.btn_include_add )
 		QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
 		
 		self.btn_include_remove = KPushButton( KStandardGuiItem.remove(), self )
-		layout.addWidget( self.btn_include_remove )
+		buttons_layout.addWidget( self.btn_include_remove )
 		QObject.connect( self.btn_include_remove, SIGNAL('clicked()'), self.on_btn_include_remove_clicked )
 
-		#exclude patterns
-		wts_right_layout = QVBoxLayout()
-		wts_layout.addLayout( wts_right_layout, 1 )
-
-		label = QLabel( _('Exclude patterns'), self )
-		kde4tools.set_font_bold( label )
-		#label.setAlignment( Qt.AlignHCenter | Qt.AlignVCenter )
-		wts_right_layout.addWidget( label )
+		#TAB: exclude
+		tab_widget = QWidget( self )
+		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Exclude' ) ) )
+		layout = QVBoxLayout( tab_widget )
 
 		self.list_exclude = KListWidget( self )
-		wts_right_layout.addWidget( self.list_exclude )
+		layout.addWidget( self.list_exclude )
 		
 		for exclude in self.config.get_exclude_patterns():
 			self.add_exclude( exclude )
 
-		layout = QHBoxLayout()
-		wts_right_layout.addLayout( layout )
+		buttons_layout = QHBoxLayout()
+		layout.addLayout( buttons_layout )
 
 		self.btn_exclude_add = KPushButton( KStandardGuiItem.add(), self )
-		layout.addWidget( self.btn_exclude_add )
+		buttons_layout.addWidget( self.btn_exclude_add )
 		QObject.connect( self.btn_exclude_add, SIGNAL('clicked()'), self.on_btn_exclude_add_clicked )
 		
 		self.btn_exclude_file = KPushButton( KStandardGuiItem.add(), self )
 		self.btn_exclude_file.setText( QString.fromUtf8( _( 'Add file' ) ) )
-		layout.addWidget( self.btn_exclude_file )
+		buttons_layout.addWidget( self.btn_exclude_file )
 		QObject.connect( self.btn_exclude_file, SIGNAL('clicked()'), self.on_btn_exclude_file_clicked )
 		
 		self.btn_exclude_folder = KPushButton( KStandardGuiItem.add(), self )
 		self.btn_exclude_folder.setText( QString.fromUtf8( _( 'Add folder' ) ) )
-		layout.addWidget( self.btn_exclude_folder )
+		buttons_layout.addWidget( self.btn_exclude_folder )
 		QObject.connect( self.btn_exclude_folder, SIGNAL('clicked()'), self.on_btn_exclude_folder_clicked )
 		
 		self.btn_exclude_remove = KPushButton( KStandardGuiItem.remove(), self )
-		layout.addWidget( self.btn_exclude_remove )
+		buttons_layout.addWidget( self.btn_exclude_remove )
 		QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
-		#Automatic snapshots
-		self.group_box_when = QGroupBox( self )
-		self.main_layout.addWidget( self.group_box_when )
-		self.group_box_when.setTitle( QString.fromUtf8( _( 'When' ) ) )
+		#self.group_box_when = QGroupBox( self )
+		#self.main_layout.addWidget( self.group_box_when )
+		#self.group_box_when.setTitle( QString.fromUtf8( _( 'When' ) ) )
 
-		layout = QHBoxLayout()
-		self.group_box_when.setLayout( layout )
-		layout.addWidget( QLabel( QString.fromUtf8( _( 'Automatic snapshots:' ) ), self ) )
+		#layout = QHBoxLayout()
+		#self.group_box_when.setLayout( layout )
+		#layout.addWidget( QLabel( QString.fromUtf8( _( 'Automatic snapshots:' ) ), self ) )
 
-		self.combo_automatic_snapshots = KComboBox( self )
-		layout.addWidget( self.combo_automatic_snapshots )
-		self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES, self.config.get_automatic_backup_mode() )
+		#self.combo_automatic_snapshots = KComboBox( self )
+		#layout.addWidget( self.combo_automatic_snapshots )
+		#self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES, self.config.get_automatic_backup_mode() )
 
-		#Remove snapshots
-		self.group_box_remove = QGroupBox( self )
-		self.main_layout.addWidget( self.group_box_remove )
-		self.group_box_remove.setTitle( QString.fromUtf8( _( 'Remove Snapshots' ) ) )
-
-		layout = QGridLayout()
-		self.group_box_remove.setLayout( layout )
+		#TAB: Auto-remove
+		tab_widget = QWidget( self )
+		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Auto-remove' ) ) )
+		layout = QGridLayout( tab_widget )
 
 		#remove old snapshots
 		enabled, value, unit = self.config.get_remove_old_snapshots()
@@ -200,11 +182,12 @@ class SettingsDialog( KDialog ):
 		layout.addWidget( self.cb_dont_remove_named_snapshots, 4, 0 )
 		self.cb_dont_remove_named_snapshots.setChecked( self.config.get_dont_remove_named_snapshots() )
 
-		#make titles bold
-		kde4tools.set_font_bold( self.group_box_where )
-		kde4tools.set_font_bold( self.group_box_what )
-		kde4tools.set_font_bold( self.group_box_when )
-		kde4tools.set_font_bold( self.group_box_remove )
+		#
+		layout.addWidget( QWidget(), 5, 0 )
+		layout.setRowStretch( 5, 2 )
+		
+		#TAB: Options
+
 
 		self.update_remove_older_than()
 		self.update_min_free_space()
@@ -220,7 +203,7 @@ class SettingsDialog( KDialog ):
 		self.combo_min_free_space.setEnabled( enabled )
 
 	def add_include( self, path ):
-		return QListWidgetItem( KIcon('folder'), path, self.list_include[0] )
+		return QListWidgetItem( KIcon('folder'), path[0], self.list_include[0] )
 
 	def add_exclude( self, pattern ):
 		return QListWidgetItem( KIcon('edit-delete'), pattern, self.list_exclude )
