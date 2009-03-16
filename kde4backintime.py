@@ -605,7 +605,7 @@ class MainWindow( KMainWindow ):
 		app = 'backintime'
 		if os.path.isfile( './backintime' ):
 			app = './backintime'
-		cmd = "nice -n 19 %s --backup &" % app
+		cmd = "nice -n 19 %s --backup-now &" % app
 		os.system( cmd )
 
 		self.update_take_snapshot( True )
