@@ -232,8 +232,8 @@ class SettingsDialog( KDialog ):
 		if item is None:
 			return
 
-		if column != 1:
-			return
+		#if column != 1:
+		#	return
 
 		self.popup_automatic_backup.popup( QCursor.pos() )
 
@@ -256,10 +256,19 @@ class SettingsDialog( KDialog ):
 		item.setText( 1, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] ) )
 		item.setData( 0, Qt.UserRole, QVariant( data[1]) )
 		self.list_include.addTopLevelItem( item )
+
+		if self.list_include.currentItem() is None:
+			self.list_include.setCurrentItem( item )
+
 		return item
 
 	def add_exclude( self, pattern ):
-		return QListWidgetItem( KIcon('edit-delete'), pattern, self.list_exclude )
+		item = QListWidgetItem( KIcon('edit-delete'), pattern, self.list_exclude )
+
+		if self.list_exclude.currentItem() is None:
+			self.list_exclude.setCurrentItem( item )
+
+		return item
 
 	def fill_combo( self, combo, dict, default_value ):
 		keys = dict.keys()
@@ -324,6 +333,9 @@ class SettingsDialog( KDialog ):
 	def on_btn_exclude_remove_clicked ( self ):
 		self.list_exclude.takeItem( self.list_exclude.currentRow() )
 
+		if self.list_exclude.count() > 0:
+			self.list_exclude.setCurrentItem( self.list_exclude.item(0) )
+
 	def add_exclude_( self, pattern ):
 		if len( pattern ) == 0:
 			return
@@ -351,6 +363,9 @@ class SettingsDialog( KDialog ):
 
 	def on_btn_include_remove_clicked ( self ):
 		self.list_include.takeItem( self.list_include.currentRow() )
+
+		if self.list_include.topLevelItemCount() > 0:
+			self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
 
 	def on_btn_include_add_clicked( self ):
 		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ) )
