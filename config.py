@@ -311,6 +311,9 @@ class Config( configfile.ConfigFile ):
 	def get_take_snapshot_instance_file( self ):
 		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'snapshot.lock' )
 
+	def get_last_snapshot_info_file( self ):
+		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'last_snapshot' )
+
 	def get_license( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ) )
 

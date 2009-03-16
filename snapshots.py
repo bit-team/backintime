@@ -198,9 +198,48 @@ class Snapshots:
 		cmd = "rm -rf \"%s\"" % path
 		self._execute( cmd )
 
-	def take_snapshot( self, callback = None ):
+	def _get_last_snapshot_info( self ):
+		lines = ''
+		dict = {}
+
+		try:
+			if os.path.exists( self.config.get_last_snapshot_info_file() ):
+				file = open( self.config.get_last_snapshot_info_file(), 'rt' )
+				lines = file.read()
+				file.close()
+		except:
+			pass
+
+		lines = lines.split( '\n' )
+		for line in lines:
+			line = line.strip()
+			if len( line ) <= 0:
+				continue
+			fields = line.split( ':' )
+			if len( fields ) < 6:
+				continue
+
+			dict[ fields[0] ] = datetime.datetime( int(fields[1]), int(fields[2]), int(fields[3]), int(fields[4]), int(fields[5]) )
+
+		return dict
+
+	def _set_last_snapshot_info( self, dict ):
+		lines = []
+
+		for key, value in dict.items():
+			lines.append( "%s:%s:%s:%s:%s:%s" % ( key, value.year, value.month, value.day, value.hour, value.minute ) )
+
+		try:
+			print self.config.get_last_snapshot_info_file()
+			file = open( self.config.get_last_snapshot_info_file(), 'wt' )
+			file.write( '\n'.join( lines ) )
+			file.close()
+		except:
+			pass
+
+	def take_snapshot( self, callback = None, force = False ):
 		if not self.config.is_configured():
-			logger.warning( 'Not configured or backup path don\'t exists' )
+			logger.warning( 'Not configured' )
 			os.system( 'sleep 2' ) #max 1 backup / second
 			return False
 
@@ -211,11 +250,23 @@ class Snapshots:
 			return False
 
 		instance.start_application()
+		logger.info( 'Lock' )
+
+		now = datetime.datetime.today()
+		if not force:
+			now = now.replace( second = 0 )
+
+		include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
+
+		if len( include_folders ) <= 0:
+			logger.info( 'Nothing to do' )
+			os.system( 'sleep 2' ) #max 1 backup / second
+			instance.exit_application()
+			logger.info( 'Unlock' )
+			return False
 
 		if not callback is None:
 			callback.snapshot_begin()
-
-		logger.info( 'Lock' )
 
 		self.set_take_snapshot_message( 0, '...' )
 
@@ -237,7 +288,7 @@ class Snapshots:
 		if not self.config.can_backup():
 			logger.warning( 'Can\'t find snapshots directory !' )
 		else:
-			snapshot_id = self.get_snapshot_id( datetime.datetime.today() )
+			snapshot_id = self.get_snapshot_id( now )
 			snapshot_path = self.get_snapshot_path( snapshot_id )
 
 			if os.path.exists( snapshot_path ):
@@ -245,7 +296,7 @@ class Snapshots:
 				retVal = True
 			else:
 				#try:
-				ret_val = self._take_snapshot( snapshot_id )
+				ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
 				#except:
 				#	retVal = False
 
@@ -254,7 +305,7 @@ class Snapshots:
 				logger.warning( "No new snapshot (not needed or error)" )
 			
 			#try:
-			self._free_space()
+			self._free_space( now )
 			#except:
 			#	pass
 
@@ -281,25 +332,87 @@ class Snapshots:
 				return
 		list.append( item )
 
-	def _take_snapshot( self, snapshot_id ):
+	def _is_auto_backup_needed( self, now, last, mode ):
+		#print "now: %s, last: %s, mode: %s" % ( now, last, mode )
+
+		if self.config.NONE == mode:
+			return False
+
+		if now <= last:
+			return False
+
+		if now.year > last.year: #year changed
+			return True
+
+		if self.config.MONTH == mode: #month changed
+			return now.month > last.month
+		
+		if self.config.WEEK == mode: #weekly
+			if now.date() <= last.date():
+				return False
+			return now.isoweekday() == 7 #Sunday
+
+		if now.date() > last.date(): #day changed
+			return True
+
+		if self.config.DAY == mode:
+			return False
+
+		if now.hour > last.hour: #hour changed
+			return True
+		
+		if self.config.HOUR == mode:
+			return False
+
+		if self.config._10_MIN == mode: #every 10 minutes
+			return ( int( now.minute / 10 ) ) > ( int( last.minute / 10 ) )
+
+		if self.config._5_MIN == mode: #every 5 minutes
+			return ( int( now.minute / 5 ) ) > ( int( last.minute / 5 ) )
+
+		return False
+
+	def _get_backup_folders( self, now, force ):
+		include_folders = []
+		ignore_folders = []
+		dict = self._get_last_snapshot_info()
+
+		all_include_folders = self.config.get_include_folders()
+		
+		for item in self.config.get_include_folders():
+			path = item[0]
+			path = os.path.expanduser( path )
+			path = os.path.abspath( path )
+
+			if not os.path.isdir( path ):
+				continue
+
+			if not force and path in dict:
+				if not self._is_auto_backup_needed( now, dict[path], item[1] ):
+					ignore_folders.append( path )
+					continue
+
+			include_folders.append( path )
+
+		return ( include_folders, ignore_folders, dict )
+
+	def _take_snapshot( self, snapshot_id, now, include_folders, ignore_folders, dict, force ):
+		#print "Snapshot: %s" % snapshot_id
+		#print "\tInclude: %s" % include_folders
+		#print "\tIgnore: %s" % ignore_folders
+		#print "\tDict: %s" % dict
+
 		self.set_take_snapshot_message( 0, _('...') )
 
 		snapshot_path = self.get_snapshot_path( snapshot_id )
 		snapshot_path_to = self.get_snapshot_path_to( snapshot_id )
 
-		#check only existing paths
-		include_folders = []
-		for item in self.config.get_include_folders():
-			path = item[0]
-			if os.path.isdir( path ):
-				path = os.path.expanduser( path )
-				path = os.path.abspath( path )
-				include_folders.append( path )
-
 		#create exclude patterns string
 		items = []
 		for exclude in self.config.get_exclude_patterns():
 			self._append_item_to_list( "--exclude=\"%s\"" % exclude, items )
+		for folder in ignore_folders:
+			self._append_item_to_list( "--exclude=\"%s\"" % folder, items )
 		rsync_exclude = ' '.join( items )
 
 		#create include patterns list
@@ -317,11 +430,18 @@ class Snapshots:
 
 		#rsync prefix & suffix
 		rsync_prefix = 'rsync -a'
-		#rsync_suffix = '--copy-unsafe-links --whole-file --delete --delete-excluded ' + rsync_exclude + ' ' + rsync_include + ' --exclude=\"*\" / '
-		rsync_suffix = '--safe-links --whole-file --delete --delete-excluded ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		rsync_suffix = '--safe-links --whole-file --delete ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+
+		#update dict
+		if not force:
+			for folder in include_folders:
+				dict[ folder ] = now
+
+			self._set_last_snapshot_info( dict )
 
 		#check previous backup
 		snapshots = self.get_snapshots_list()
+		prev_snapshot_id = ''
 
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
@@ -350,8 +470,18 @@ class Snapshots:
 			self.set_take_snapshot_message( 0, _('Create hard-links') )
 			logger.info( "Create hard-links" )
 			self._execute( "mkdir -p \"%s\"" % snapshot_path_to )
-			cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), snapshot_path_to )
-			self._execute( cmd )
+
+			if force:
+				cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), snapshot_path_to )
+				self._execute( cmd )
+			else:
+				for folder in include_folders:
+					prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
+					new_path = self.get_snapshot_path_to( snapshot_id, folder )
+					self._execute( "mkdir -p \"%s\"" % new_path )
+					cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
+					self._execute( cmd )
+
 			cmd = "chmod -R a+w \"%s\"" % snapshot_path
 			self._execute( cmd )
 		else:
@@ -364,20 +494,31 @@ class Snapshots:
 
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
-		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + snapshot_path_to + '"'
+		cmd = rsync_prefix + ' -v --delete-excluded ' + rsync_suffix + '"' + snapshot_path_to + '"'
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
+
+		#copy ignored directories
+		if not force and len( prev_snapshot_id ) > 0:
+			for folder in ignore_folders:
+				prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
+				new_path = self.get_snapshot_path_to( snapshot_id, folder )
+				self._execute( "mkdir -p \"%s\"" % new_path )
+				cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
+				self._execute( cmd )
 
 		#make new folder read-only
 		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
 		return True
 
-	def smart_remove( self ):
+	def smart_remove( self, now = None ):
+		if now is None:
+			now = datetime.datetime.today()
+
 		#build groups
 		groups = []
 
 		#
-		now = datetime.date.today()
 		yesterday = now - datetime.timedelta( days = 1 )
 		yesterday_id = self.get_snapshot_id( yesterday )
 
@@ -442,7 +583,7 @@ class Snapshots:
 				self.remove_snapshot( snapshot_id )
 				print "[SMART] remove snapshot: " + snapshot_id
 
-	def _free_space( self ):
+	def _free_space( self, now ):
 		#remove old backups
 		if self.config.is_remove_old_snapshots_enabled():
 			self.set_take_snapshot_message( 0, _('Remove old snapshots') )
@@ -469,7 +610,7 @@ class Snapshots:
 		#smart remove
 		if self.config.get_smart_remove():
 			self.set_take_snapshot_message( 0, _('Smart remove') )
-			self.smart_remove()
+			self.smart_remove( now )
 
 		#try to keep min free space
 		if self.config.is_min_free_space_enabled():
