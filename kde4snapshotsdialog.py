@@ -29,6 +29,7 @@ from PyKDE4.kdeui import *
 from PyKDE4.kio import *
 
 import config
+import tools
 import kde4tools
 
 
@@ -243,7 +244,7 @@ class SnapshotsDialog( KDialog ):
 		diff_cmd = self.config.get_str_value( 'kde4.diff.cmd', 'kompare' )
 		diff_params = self.config.get_str_value( 'kde4.diff.params', '%1 %2' )
 
-		if not kde4tools.check_cmd( diff_cmd ):
+		if not tools.check_command( diff_cmd ):
 			KMessageBox.error( self, QString.fromUtf8( _('Command not found: %s') % diff_cmd ) )
 			return
 

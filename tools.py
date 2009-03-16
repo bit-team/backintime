@@ -20,24 +20,61 @@ import os.path
 import os
 
 
-def read_file( path, defaultValue = None ):
-	retVal = defaultValue 
+def read_file( path, default_value = None ):
+	ret_val = default_value 
+
 	try:
 		file = open( path )
-		retVal = file.read()
+		ret_val = file.read()
 		file.close()
 	except:
 		pass
-	return retVal
+
+	return ret_val
 
 
-def read_file_lines( path, defaultValue = None ):
-	retVal = defaultValue 
+def read_file_lines( path, default_value = None ):
+	ret_val = default_value 
+
 	try:
 		file = open( path )
-		retVal = file.readlines()
+		ret_val = file.readlines()
 		file.close()
 	except:
 		pass
-	return retVal
+
+	return ret_val
+
+
+def read_command_output( cmd ):
+	ret_val = ''
+
+	try:
+		pipe = os.popen( cmd )
+		ret_val = pipe.read().strip()
+		pipe.close() 
+	except:
+		return ''
+
+	return ret_val
+
+
+def check_command( cmd ):
+	cmd = cmd.strip()
+
+	if len( cmd ) < 1:
+		return False
+
+	if os.path.isfile( cmd ):
+		return True
+
+	cmd = read_command_output( "which \"%s\"" % cmd )
+
+	if len( cmd ) < 1:
+		return False
+
+	if os.path.isfile( cmd ):
+		return True
+
+	return False
 

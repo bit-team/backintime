@@ -29,6 +29,7 @@ import datetime
 import gettext
 
 import config
+import tools
 import gnomeclipboardtools 
 import gnomemessagebox
 import gnomesnapshotstools
@@ -217,37 +218,6 @@ class SnapshotsDialog:
 	def on_list_snapshots_copy_item( self, widget, data = None ):
 		self.on_btn_copy_snapshot_clicked( self.glade.get_widget( 'btn_copy_snapshot' ) )
 
-	def get_cmd_output( self, cmd ):
-		output = ''
-
-		try:
-			pipe = os.popen( cmd )
-			output = pipe.read().strip()
-			pipe.close() 
-		except:
-			return ''
-
-		return output
-
-	def check_cmd( self, cmd ):
-		cmd = cmd.strip()
-
-		if len( cmd ) < 1:
-			return False
-
-		if os.path.isfile( cmd ):
-			return True
-
-		cmd = self.get_cmd_output( "which \"%s\"" % cmd )
-
-		if len( cmd ) < 1:
-			return False
-
-		if os.path.isfile( cmd ):
-			return True
-
-		return False
-
 	def on_btn_diff_with_clicked( self, button ):
 		if len( self.store_snapshots ) < 1:
 			return
@@ -269,7 +239,7 @@ class SnapshotsDialog:
 		diff_cmd = self.edit_diff_cmd.get_text()
 		diff_cmd_params = self.edit_diff_cmd_params.get_text()
 
-		if not self.check_cmd( diff_cmd ):
+		if not tools.check_command( diff_cmd ):
 			gnomemessagebox.show_error( self.dialog, self.config, _('Command not found: %s') % diff_cmd )
 			return
 
