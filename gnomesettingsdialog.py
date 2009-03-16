@@ -362,5 +362,11 @@ class SettingsDialog:
 		self.config.set_notify_enabled( self.cb_enable_notifications.get_active() )
 
 		self.config.save()
+
+		msg = self.config.setup_cron()
+		if not msg is None:
+			gnomemessagebox.show_error( self.dialog, self.config, msg )
+			return False
+
 		return True
 	

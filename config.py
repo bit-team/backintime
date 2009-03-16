@@ -200,7 +200,6 @@ class Config( configfile.ConfigFile ):
 			value = value + item[0] + '|' + str( item[1] )
 
 		self.set_str_value( 'snapshots.include_folders', value )
-		self.setup_cron()
 
 	def get_exclude_patterns( self ):
 		value = self.get_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~' )
@@ -355,11 +354,6 @@ class Config( configfile.ConfigFile ):
 		return True
 
 	def setup_cron( self ):
-		#remove old cron
-		os.system( "crontab -l | grep -v backintime | crontab -" )
-
-		cron_line = ''
-		
 		#auto_backup_mode = self.get_automatic_backup_mode()
 		min_backup_mode = self.NONE
 		max_backup_mode = self.NONE
@@ -376,12 +370,20 @@ class Config( configfile.ConfigFile ):
 				elif backup_mode > max_backup_mode:
 					max_backup_mode = backup_mode
 
-		if self.NONE == min_backup_mode:
-			return #no automatic backup
-
 		print "Min automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
 		print "Max automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ max_backup_mode ]
 
+		if self.NONE == min_backup_mode:
+			return None #no automatic backup
+
+		if not tools.check_command( 'crontab' ):
+			return _( 'Can\'t find crontab.\nAre you sure cron is installed ?\nIf not you should disable all automatic backups.' )
+
+		#remove old cron
+		os.system( "crontab -l | grep -v backintime | crontab -" )
+
+		cron_line = ''
+		
 		if self._5_MIN == min_backup_mode:
 			cron_line = 'echo "*/5 * * * * {cmd}"'
 		elif self._10_MIN == min_backup_mode:
@@ -400,6 +402,8 @@ class Config( configfile.ConfigFile ):
 		if len( cron_line ) > 0:
 			cron_line = cron_line.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup >/dev/null 2>&1' )
 			os.system( "( crontab -l; %s ) | crontab -" % cron_line )
+
+		return None
 
 
 if __name__ == "__main__":

@@ -328,6 +328,12 @@ class SettingsDialog( KDialog ):
 		self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
 
 		self.config.save()
+		
+		msg = self.config.setup_cron()
+		if not msg is None:
+			KMessageBox.error( self, QString.fromUtf8( msg ) )
+			return False
+
 		return True
 
 	def on_btn_exclude_remove_clicked ( self ):
