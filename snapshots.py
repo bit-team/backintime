@@ -398,6 +398,10 @@ class Snapshots:
 
 			include_folders.append( path )
 
+		logger.info( "Include folders: %s" % include_folders )
+		logger.info( "Ignore folders: %s" % ignore_folders )
+		logger.info( "Last snapshots: %s" % dict2 )
+
 		return ( include_folders, ignore_folders, dict2 )
 
 	def _take_snapshot( self, snapshot_id, now, include_folders, ignore_folders, dict, force ):

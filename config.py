@@ -200,6 +200,7 @@ class Config( configfile.ConfigFile ):
 			value = value + item[0] + '|' + str( item[1] )
 
 		self.set_str_value( 'snapshots.include_folders', value )
+		self.setup_cron()
 
 	def get_exclude_patterns( self ):
 		value = self.get_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~' )
@@ -215,7 +216,7 @@ class Config( configfile.ConfigFile ):
 
 	def set_automatic_backup_mode( self, value ):
 		self.set_int_value( 'snapshots.automatic_backup_mode', value )
-		self.setup_cron()
+		#self.setup_cron()
 
 	def get_remove_old_snapshots( self ):
 		return ( self.get_bool_value( 'snapshots.remove_old_snapshots.enabled', True ),
@@ -357,35 +358,48 @@ class Config( configfile.ConfigFile ):
 		#remove old cron
 		os.system( "crontab -l | grep -v backintime | crontab -" )
 
-		cron_lines = ''
-		auto_backup_mode = self.get_automatic_backup_mode()
+		cron_line = ''
+		
+		#auto_backup_mode = self.get_automatic_backup_mode()
+		min_backup_mode = self.NONE
+		max_backup_mode = self.NONE
 
-		if self.HOUR == auto_backup_mode:
-			cron_lines = 'echo "@hourly {cmd}"'
-		elif self.DAY == auto_backup_mode:
-			cron_lines = 'echo "@daily {cmd}"'
-		elif self.WEEK == auto_backup_mode:
-			cron_lines = 'echo "@weekly {cmd}"'
-		elif self.MONTH == auto_backup_mode:
-			cron_lines = 'echo "@monthly {cmd}"'
-		elif self._5_MIN == auto_backup_mode:
-			#cron_lines = ''
-			#for minute in xrange( 0, 59, 5 ):
-			#	if 0 != minute:
-			#		cron_lines = cron_lines + '; '
-			#	cron_lines = cron_lines + "echo \"%s * * * * {cmd}\"" % minute
-			cron_lines = 'echo "*/5 * * * * {cmd}"'
-		elif self._10_MIN == auto_backup_mode:
-			#cron_lines = ''
-			#for minute in xrange( 0, 59, 10 ):
-			#	if 0 != minute:
-			#		cron_lines = cron_lines + '; '
-			#	cron_lines = cron_lines + "echo \"%s * * * * {cmd}\"" % minute
-			cron_lines = 'echo "*/10 * * * * {cmd}"'
+		for item in self.get_include_folders():
+			backup_mode = item[1]
 
-		if len( cron_lines ) > 0:
-			cron_lines = cron_lines.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup >/dev/null 2>&1' )
-			os.system( "( crontab -l; %s ) | crontab -" % cron_lines )
+			if self.NONE != backup_mode:
+				if self.NONE == min_backup_mode:
+					min_backup_mode = backup_mode
+					max_backup_mode = backup_mode
+				elif backup_mode < min_backup_mode:
+					min_backup_mode = backup_mode
+				elif backup_mode > max_backup_mode:
+					max_backup_mode = backup_mode
+
+		if self.NONE == min_backup_mode:
+			return #no automatic backup
+
+		print "Min automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
+		print "Max automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ max_backup_mode ]
+
+		if self._5_MIN == min_backup_mode:
+			cron_line = 'echo "*/5 * * * * {cmd}"'
+		elif self._10_MIN == min_backup_mode:
+			cron_line = 'echo "*/10 * * * * {cmd}"'
+		if self.HOUR == min_backup_mode:
+			cron_line = 'echo "@hourly {cmd}"'
+		elif self.DAY == min_backup_mode:
+			cron_line = 'echo "@daily {cmd}"'
+		elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day
+			cron_line = 'echo "@daily {cmd}"'
+		elif self.WEEK == min_backup_mode:
+			cron_line = 'echo "@weekly {cmd}"'
+		elif self.MONTH == min_backup_mode:
+			cron_line = 'echo "@monthly {cmd}"'
+
+		if len( cron_line ) > 0:
+			cron_line = cron_line.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup >/dev/null 2>&1' )
+			os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
 
 if __name__ == "__main__":
