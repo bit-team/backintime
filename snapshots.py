@@ -376,13 +376,17 @@ class Snapshots:
 		include_folders = []
 		ignore_folders = []
 		dict = self._get_last_snapshot_info()
+		dict2 = {}
 
 		all_include_folders = self.config.get_include_folders()
 		
-		for item in self.config.get_include_folders():
+		for item in all_include_folders:
 			path = item[0]
 			path = os.path.expanduser( path )
 			path = os.path.abspath( path )
+
+			if path in dict:
+				dict2[ path ] = dict[ path ]
 
 			if not os.path.isdir( path ):
 				continue
@@ -394,7 +398,7 @@ class Snapshots:
 
 			include_folders.append( path )
 
-		return ( include_folders, ignore_folders, dict )
+		return ( include_folders, ignore_folders, dict2 )
 
 	def _take_snapshot( self, snapshot_id, now, include_folders, ignore_folders, dict, force ):
 		#print "Snapshot: %s" % snapshot_id
