@@ -114,7 +114,7 @@
     		<listitem>
     		<para>To start &app; from a command line, type the following command, then 
 			press <keycap>Return</keycap>:</para>
-    		<para><command>backintime [--gnome | --kde4] [ [--snapshots] path | --backup | --help | --version | --license]</command></para> 
+    		<para><command>backintime [--gnome | --kde4] [ [--snapshots] path | --backup | --backup-now | --help | --version | --license]</command></para> 
 			<itemizedlist>
 				<listitem>
     				<para>--gnome - use GNOME GUI (if installed)</para>
@@ -134,7 +134,10 @@
 					If the main window is not the only window (there is already a dialog) the parameter is ignored.</para> 
 				</listitem>
 				<listitem>
-    				<para>-b, --backup - take a snapshot now (if needed).</para> 
+    				<para>-b, --backup - take a snapshot (if needed) depending on automatic backup rules (used for cron jobs).</para> 
+				</listitem>
+				<listitem>
+    				<para>--backup-now - take a snapshot now (if needed).</para> 
 				</listitem>
 				<listitem>
     				<para>-h, --help - display a small help and exit.</para> 

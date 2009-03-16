@@ -29,9 +29,9 @@ import snapshots
 _=gettext.gettext
 
 
-def take_snapshot( cfg, callback = None ):
+def take_snapshot( cfg, callback = None, force = True ):
 	logger.openlog()
-	snapshots.Snapshots( cfg ).take_snapshot( callback )
+	snapshots.Snapshots( cfg ).take_snapshot( callback, force )
 	logger.closelog()
 
 
@@ -71,7 +71,13 @@ def start_app( callback = None ):
 		if arg == '--backup' or arg == '-b':
 			if not callback is None:
 				callback.init( cfg )
-			take_snapshot( cfg, callback )
+			take_snapshot( cfg, callback, False )
+			sys.exit(0)
+
+		if arg == '--backup-now':
+			if not callback is None:
+				callback.init( cfg )
+			take_snapshot( cfg, callback, True )
 			sys.exit(0)
 
 		if arg == '--version' or arg == '-v':
