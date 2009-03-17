@@ -415,6 +415,9 @@ class Snapshots:
 		snapshot_path = self.get_snapshot_path( snapshot_id )
 		snapshot_path_to = self.get_snapshot_path_to( snapshot_id )
 
+		print snapshot_path
+		print self.get_snapshot_path( 'tmp_snapshot' )
+
 		#create exclude patterns string
 		items = []
 		for exclude in self.config.get_exclude_patterns():
