@@ -404,6 +404,17 @@ class Snapshots:
 
 		return ( include_folders, ignore_folders, dict2 )
 
+	def _create_directory( self, folder ):
+		self._execute( "mkdir -p \"%s\"" % folder )
+
+		if not os.path.exists( folder ):
+			logger.error( "Can't create directory: %s" % folder )
+			self.set_take_snapshot_message( 1, _('Can\'t create directory: %s') % folder )
+			os.system( 'sleep 2' ) #max 1 backup / second
+			return False
+
+		return True
+
 	def _take_snapshot( self, snapshot_id, now, include_folders, ignore_folders, dict, force ):
 		#print "Snapshot: %s" % snapshot_id
 		#print "\tInclude: %s" % include_folders
@@ -412,11 +423,22 @@ class Snapshots:
 
 		self.set_take_snapshot_message( 0, _('...') )
 
-		snapshot_path = self.get_snapshot_path( snapshot_id )
-		snapshot_path_to = self.get_snapshot_path_to( snapshot_id )
+		#snapshot_path = self.get_snapshot_path( snapshot_id )
+		#snapshot_path_to = self.get_snapshot_path_to( snapshot_id )
 
-		print snapshot_path
-		print self.get_snapshot_path( 'tmp_snapshot' )
+		new_snapshot_id = 'new_snapshot'
+		new_snapshot_path = self.get_snapshot_path( new_snapshot_id )
+
+		if os.path.exists( new_snapshot_path ):
+			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
+		
+			if os.path.exists( new_snapshot_path ):
+				logger.error( "Can't remove directory: %s" % new_snapshot_path )
+				self.set_take_snapshot_message( 1, _('Can\'t remove directory: %s') % new_snapshot_path )
+				os.system( 'sleep 2' ) #max 1 backup / second
+				return False
+
+		new_snapshot_path_to = self.get_snapshot_path_to( new_snapshot_id )
 
 		#create exclude patterns string
 		items = []
@@ -478,34 +500,37 @@ class Snapshots:
 				return False
 
 			#create hard links
+			if not self._create_directory( new_snapshot_path_to ):
+				return False
+
 			self.set_take_snapshot_message( 0, _('Create hard-links') )
 			logger.info( "Create hard-links" )
-			self._execute( "mkdir -p \"%s\"" % snapshot_path_to )
 
 			if force:
-				cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), snapshot_path_to )
+				cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
 				self._execute( cmd )
 			else:
 				for folder in include_folders:
 					prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
-					new_path = self.get_snapshot_path_to( snapshot_id, folder )
+					new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
 					self._execute( "mkdir -p \"%s\"" % new_path )
 					cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
 					self._execute( cmd )
 
-			cmd = "chmod -R a+w \"%s\"" % snapshot_path
+			cmd = "chmod -R a+w \"%s\"" % new_snapshot_path
 			self._execute( cmd )
 		else:
-			self._execute( "mkdir -p \"%s\"" % snapshot_path_to )
+			if not self._create_directory( new_snapshot_path_to ):
+				return False
 
 		#create new backup folder
-		if not os.path.exists( snapshot_path_to ):
-			logger.error( "Can't create snapshot directory: %s" % snapshot_path_to )
+		if not os.path.exists( new_snapshot_path_to ):
+			logger.error( "Can't create snapshot directory: %s" % new_snapshot_path_to )
 			return False
 
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
-		cmd = rsync_prefix + ' -v --delete-excluded ' + rsync_suffix + '"' + snapshot_path_to + '"'
+		cmd = rsync_prefix + ' -v --delete-excluded ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
 
@@ -513,10 +538,19 @@ class Snapshots:
 		if not force and len( prev_snapshot_id ) > 0:
 			for folder in ignore_folders:
 				prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
-				new_path = self.get_snapshot_path_to( snapshot_id, folder )
+				new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
 				self._execute( "mkdir -p \"%s\"" % new_path )
 				cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
 				self._execute( cmd )
+
+		#rename snapshot
+		snapshot_path = self.get_snapshot_path( snapshot_id )
+		os.system( "mv \"%s\" \"%s\"" % ( new_snapshot_path, snapshot_path ) )
+		if not os.path.exists( snapshot_path ):
+			logger.error( "Can't rename %s to %s" % ( new_snapshot_path, snapshot_path ) )
+			self.set_take_snapshot_message( 1, _('Can\'t rename %s to %s') % ( new_snapshot_path, snapshot_path ) )
+			os.system( 'sleep 2' ) #max 1 backup / second
+			return False
 
 		#make new folder read-only
 		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
