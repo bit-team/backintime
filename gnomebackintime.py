@@ -883,13 +883,7 @@ class MainWindow:
 			self.update_backup_info()
 			return
 
-		#backup.backup()
-		app = 'backintime'
-		if os.path.isfile( './backintime' ):
-			app = './backintime'
-		cmd = "nice -n 19 %s --backup-now &" % app
-		os.system( cmd )
-
+		backintime.take_snapshot_now_async()
 		self.update_backup_info( True )
 
 	def on_btn_update_snapshots_clicked( self, button ):

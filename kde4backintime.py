@@ -31,6 +31,7 @@ import threading
 
 import backintime
 import config
+import tools
 import logger
 import snapshots
 import guiapplicationinstance
@@ -602,12 +603,7 @@ class MainWindow( KMainWindow ):
 				self.update_files_view( 2 )
 
 	def on_btn_take_snapshot_clicked( self ):
-		app = 'backintime'
-		if os.path.isfile( './backintime' ):
-			app = './backintime'
-		cmd = "nice -n 19 %s --backup-now &" % app
-		os.system( cmd )
-
+		backintime.take_snapshot_now_async()
 		self.update_take_snapshot( True )
 
 	def on_btn_update_snapshots_clicked( self ):

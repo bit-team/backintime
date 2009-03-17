@@ -29,6 +29,14 @@ import snapshots
 _=gettext.gettext
 
 
+def take_snapshot_now_async():
+	app = 'backintime'
+	if os.path.isfile( './backintime' ):
+		app = './backintime'
+	cmd = "nice -n 19 %s --backup-now &" % app
+	os.system( cmd )
+
+
 def take_snapshot( cfg, callback = None, force = True ):
 	logger.openlog()
 	snapshots.Snapshots( cfg ).take_snapshot( callback, force )
