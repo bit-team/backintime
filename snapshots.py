@@ -169,21 +169,11 @@ class Snapshots:
 
 		list = []
 
-		current_snapshot = '99999999-999999'
-		try:
-			instance_file = self.config.get_take_snapshot_instance_file()
-			if os.path.exists( instance_file ):
-				ctime = os.stat( instance_file )[stat.ST_CTIME]
-				current_snapshot = self.get_snapshot_id( datetime.datetime.fromtimestamp( ctime ) )
-		except:
-			pass
-
 		for item in biglist:
 			if len( item ) != 15:
 				continue
 			if os.path.isdir( os.path.join( snapshots_path, item ) ):
-				if item < current_snapshot:
-					list.append( item )
+				list.append( item )
 
 		list.sort( reverse = sort_reverse )
 		return list
