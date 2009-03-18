@@ -164,10 +164,22 @@ class Config( configfile.ConfigFile ):
 		return os.path.join( self.get_snapshots_path(), 'backintime' ) 
 
 	def set_snapshots_path( self, value ):
-		self.set_str_value( 'snapshots.path', value )
 		if len( value ) > 0:
-			if os.path.isdir( value ):
-				os.system( "mkdir -p \"%s\"" % self.get_snapshots_full_path() )
+			if not os.path.isdir( value ):
+				return _( '%s is not a directory !' ) % value
+			else:
+				old_value = self.get_snapshots_path()
+				self.set_str_value( 'snapshots.path', value )
+				full_path = self.get_snapshots_full_path()
+				self.set_str_value( 'snapshots.path', old_value )
+
+				if not os.path.isdir( full_path ):
+					os.system( "mkdir -p \"%s\"" % full_path )
+					if not os.path.isdir( full_path ):
+						return _( 'Can\'t write to: %s\nAre you sure have write access ?' ) % value
+
+		self.set_str_value( 'snapshots.path', value )
+		return None
 
 	def get_include_folders( self ):
 		value = self.get_str_value( 'snapshots.include_folders', '' )
@@ -342,13 +354,7 @@ class Config( configfile.ConfigFile ):
 		if not self.is_configured():
 			return False
 
-		if not os.path.isdir( self.get_snapshots_path() ):
-			return False
-
-		path = self.get_snapshots_full_path()
-		os.system( "mkdir -p \"%s\"" % path )
-	
-		if not os.path.isdir( path ):
+		if not os.path.isdir( self.get_snapshots_full_path() ):
 			return False
 
 		return True
@@ -408,8 +414,5 @@ class Config( configfile.ConfigFile ):
 
 if __name__ == "__main__":
 	config = Config()
-	print config.dict
-	print "snapshots path=" + config.get_snapshots_path()
-	print "include folders=" + config.get_include_folders()
-	print "explude patterns=" + config.get_exclude_patterns()
+	print "snapshots path = %s" % config.get_snapshots_full_path()
 

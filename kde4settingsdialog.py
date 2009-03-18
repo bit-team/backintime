@@ -309,7 +309,11 @@ class SettingsDialog( KDialog ):
 				return False 
 
 		#ok let's save to config
-		self.config.set_snapshots_path( snapshots_path )
+		msg = self.config.set_snapshots_path( snapshots_path )
+		if not msg is None:
+			KMessageBox.error( self, QString.fromUtf8( msg ) )
+			return False
+
 		self.config.set_include_folders( include_list )
 		self.config.set_exclude_patterns( exclude_list )
 
