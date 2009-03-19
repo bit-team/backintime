@@ -62,14 +62,17 @@ class SettingsDialog( KDialog ):
 		self.main_widget = KTabWidget( self )
 		self.setMainWidget( self.main_widget )
 
-		#TAB: Destination
+		#TAB: General
 		tab_widget = QWidget( self )
-		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Destination' ) ) )
+		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'General' ) ) )
 		layout = QVBoxLayout( tab_widget )
 
-		#where to save snapshots
-		hlayout = QHBoxLayout()
-		layout.addLayout( hlayout )
+		#Where to save snapshots
+		group_box = QGroupBox( self )
+		group_box.setTitle( QString.fromUtf8( _( 'Where to save snapshots' ) ) )
+		layout.addWidget( group_box )
+
+		hlayout = QHBoxLayout( group_box )
 
 		self.edit_snapshots_path = KLineEdit( self.config.get_snapshots_path(), self )
 		self.edit_snapshots_path.setReadOnly( True )
@@ -78,6 +81,17 @@ class SettingsDialog( KDialog ):
 		self.btn_snapshots_path = KPushButton( KIcon( 'folder' ), '', self )
 		hlayout.addWidget( self.btn_snapshots_path )
 		QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
+
+		#Schedule
+		group_box = QGroupBox( self )
+		group_box.setTitle( QString.fromUtf8( _( 'Schedule' ) ) )
+		layout.addWidget( group_box )
+
+		hlayout = QHBoxLayout( group_box )
+
+		self.combo_automatic_snapshots = KComboBox( self )
+		hlayout.addWidget( self.combo_automatic_snapshots )
+		self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES, self.config.get_automatic_backup_mode() )
 
 		#
 		layout.addStretch()
@@ -148,18 +162,6 @@ class SettingsDialog( KDialog ):
 		buttons_layout.addWidget( self.btn_exclude_remove )
 		QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
-		#self.group_box_when = QGroupBox( self )
-		#self.main_layout.addWidget( self.group_box_when )
-		#self.group_box_when.setTitle( QString.fromUtf8( _( 'When' ) ) )
-
-		#layout = QHBoxLayout()
-		#self.group_box_when.setLayout( layout )
-		#layout.addWidget( QLabel( QString.fromUtf8( _( 'Automatic snapshots:' ) ), self ) )
-
-		#self.combo_automatic_snapshots = KComboBox( self )
-		#layout.addWidget( self.combo_automatic_snapshots )
-		#self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES, self.config.get_automatic_backup_mode() )
-
 		#TAB: Auto-remove
 		tab_widget = QWidget( self )
 		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Auto-remove' ) ) )
@@ -225,10 +227,38 @@ class SettingsDialog( KDialog ):
 		#
 		layout.addStretch()
 
+		#TAB: Expert Options
+		tab_widget = QWidget( self )
+		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Expert Options' ) ) )
+		layout = QVBoxLayout( tab_widget )
+
+		label = QLabel( QString.fromUtf8( _('Change this options only if you really know what you are doing !') ), self )
+		kde4tools.set_font_bold( label )
+		layout.addWidget( label )
+
+		self.cb_per_diretory_schedule = QCheckBox( QString.fromUtf8( _( 'Enable schedule per included directory (see Include tab; default: disabled)' ) ), self )
+		layout.addWidget( self.cb_per_diretory_schedule )
+		self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
+		QObject.connect( self.cb_per_diretory_schedule, SIGNAL('clicked()'), self.update_include_columns )
+
+		#
+		layout.addStretch()
+
+		self.update_include_columns()
+
 		self.update_remove_older_than()
 		self.update_min_free_space()
 
+	def update_include_columns( self ):
+		if self.cb_per_diretory_schedule.isChecked():
+			self.list_include.showColumn( 1 )
+		else:
+			self.list_include.hideColumn( 1 )
+
 	def on_list_include_item_activated( self, item, column ):
+		if not self.cb_per_diretory_schedule.isChecked():
+			return
+		
 		if item is None:
 			return
 
@@ -317,8 +347,10 @@ class SettingsDialog( KDialog ):
 		self.config.set_include_folders( include_list )
 		self.config.set_exclude_patterns( exclude_list )
 
-		#other settings
-		#self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
+		#schedule
+		self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
+
+		#auto-remove
 		self.config.set_remove_old_snapshots( 
 						self.cb_remove_older_then.isChecked(), 
 						self.edit_remove_older_then.value(),
@@ -329,7 +361,12 @@ class SettingsDialog( KDialog ):
 						self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ).toInt()[0] )
 		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.isChecked() )
 		self.config.set_smart_remove( self.cb_smart_remove.isChecked() )
+
+		#options
 		self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
+
+		#expert options
+		self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
 
 		self.config.save()
 		
