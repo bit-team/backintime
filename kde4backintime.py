@@ -158,9 +158,22 @@ class MainWindow( KMainWindow ):
 		self.list_places.setHeaderLabel( QString.fromUtf8( _('Shotcuts') ) )
 		self.second_splitter.addWidget( self.list_places )
 
+		#files view stacked layout
+		widget = QWidget( self )
+		self.files_view_layout = QStackedLayout( widget )
+		self.second_splitter.addWidget( widget )
+
+		#folder don't exist label
+		self.lbl_folder_dont_exists = QLabel( QString.fromUtf8( _('This directory don\'t exist\nin current snapshot !') ), self )
+		kde4tools.set_font_bold( self.lbl_folder_dont_exists )
+		self.lbl_folder_dont_exists.setFrameShadow( QFrame.Sunken )
+		self.lbl_folder_dont_exists.setFrameShape( QFrame.Panel )
+		self.lbl_folder_dont_exists.setAlignment( Qt.AlignHCenter | Qt.AlignVCenter )
+		self.files_view_layout.addWidget( self.lbl_folder_dont_exists )
+
 		#list files view
 		self.list_files_view = QTreeView( self )
-		self.second_splitter.addWidget( self.list_files_view )
+		self.files_view_layout.addWidget( self.list_files_view )
 		self.list_files_view.setRootIsDecorated( False )
 		self.list_files_view.setAlternatingRowColors( True )
 		self.list_files_view.setAllColumnsShowFocus( True )
@@ -201,6 +214,8 @@ class MainWindow( KMainWindow ):
 		self.list_files_view.header().setSortIndicator( sort_column, sort_order )
 		self.list_files_view_sort_filter_proxy.sort( self.list_files_view.header().sortIndicatorSection(), self.list_files_view.header().sortIndicatorOrder() )
 		QObject.connect( self.list_files_view.header(), SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'), self.list_files_view_sort_filter_proxy.sort )
+
+		self.files_view_layout.setCurrentWidget( self.list_files_view )
 
 		#
 		self.setCentralWidget( self.main_splitter )
@@ -799,33 +814,23 @@ class MainWindow( KMainWindow ):
 	
 		#update files view
 		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
-		self.list_files_view_model.dirLister().setShowingDotFiles( self.show_hidden_files )
-		self.list_files_view_model.dirLister().openUrl( KUrl( full_path ) )
 
-#		for item in files:
-#			list_item = self.add_files_view( item[0], item[1], item[2], item[3], item[4] )
-#			if selected_file == item[0]:
-#				self.list_files_view.setCurrentItem( list_item )
-#
-#		if self.list_files_view.currentItem() is None and len( files ) > 0:
-#			self.list_files_view.setCurrentItem( self.list_files_view.topLevelItem(0) )
+		if os.path.isdir( full_path ):
+			self.list_files_view_model.dirLister().setShowingDotFiles( self.show_hidden_files )
+			self.list_files_view_model.dirLister().openUrl( KUrl( full_path ) )
+			self.files_view_toolbar.setEnabled( False )
+			self.files_view_layout.setCurrentWidget( self.list_files_view )
+		else:
+			self.btn_restore.setEnabled( False )
+			self.btn_copy.setEnabled( False )
+			self.btn_snapshots.setEnabled( False )
+			self.files_view_layout.setCurrentWidget( self.lbl_folder_dont_exists )
 
 		#show current path
 		self.edit_current_path.setText( self.path )
 
 		#update folder_up button state
 		self.btn_folder_up.setEnabled( len( self.path ) > 1 )
-
-		self.files_view_toolbar.setEnabled( False )
-
-		##update restore button state
-		#self.btn_restore.setEnabled( len( self.snapshot_id ) > 1 and len( files ) > 0 )
-
-		##update copy button state
-		#self.btn_copy.setEnabled( len( files ) > 0 )
-
-		##update snapshots button state
-		#self.btn_snapshots.setEnabled( len( files ) > 0 )
 
 #		#show snapshots
 #		if show_snapshots:
