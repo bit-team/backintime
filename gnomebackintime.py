@@ -158,7 +158,7 @@ class MainWindow:
 		pix_renderer = gtk.CellRendererPixbuf()
 		text_renderer = gtk.CellRendererText()
 		
-		column = gtk.TreeViewColumn( _('Places') )
+		column = gtk.TreeViewColumn( _('Shortcuts') )
 		column.pack_start( pix_renderer, False )
 		column.pack_end( text_renderer, True )
 		column.add_attribute( pix_renderer, 'icon-name', 2 )

@@ -49,6 +49,7 @@ class SettingsDialog:
 				'on_btn_remove_exclude_clicked' : self.on_remove_exclude,
 				'on_cb_remove_old_backup_toggled' : self.update_remove_old_backups,
 				'on_cb_min_free_space_toggled' : self.update_min_free_space,
+				'on_cb_per_directory_schedule_toggled' : self.on_cb_per_directory_schedule_toggled,
 			}
 
 		self.glade.signal_autoconnect( signals )
@@ -72,6 +73,10 @@ class SettingsDialog:
 				default_automatic_backup_mode_index = i
 			i = i + 1
 
+		#per directory schedule
+		self.cb_per_directory_schedule = self.glade.get_widget( 'cb_per_directory_schedule' )
+		self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
+
 		#setup backup folders
 		self.list_include = self.glade.get_widget( 'list_include' )
 		self.list_include.get_model() is None
@@ -86,7 +91,7 @@ class SettingsDialog:
 		column.add_attribute( text_renderer, 'markup', 0 )
 		self.list_include.append_column( column )
 
-		column = gtk.TreeViewColumn( _('Automatic backup') )
+		column = gtk.TreeViewColumn( _('Schedule') )
 		combo_renderer = gtk.CellRendererCombo()
 		combo_renderer.set_property( 'editable', True )
 		combo_renderer.set_property( 'has-entry', False )
@@ -95,7 +100,10 @@ class SettingsDialog:
 		combo_renderer.connect( 'edited', self.on_automatic_backup_mode_changed )
 		column.pack_end( combo_renderer, True )
 		column.add_attribute( combo_renderer, 'text', 2 )
-		self.list_include.append_column( column )
+
+		self.include_schedule_column = column
+		if self.cb_per_directory_schedule.get_active():
+			self.list_include.append_column( self.include_schedule_column )
 
 		self.store_include = gtk.ListStore( str, str, str, int )
 		self.list_include.set_model( self.store_include )
@@ -132,16 +140,17 @@ class SettingsDialog:
 
 		self.edit_pattern = self.glade.get_widget( 'edit_pattern' )
 
-		##setup automatic backup mode
-		#self.cb_backup_mode = self.glade.get_widget( 'cb_backup_mode' )
-		#self.cb_backup_mode.set_model( self.store_backup_mode )
-		#	
-		#self.cb_backup_mode.clear()
-		#renderer = gtk.CellRendererText()
-		#self.cb_backup_mode.pack_start( renderer, True )
-		#self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
+		#setup automatic backup mode
+		self.cb_backup_mode = self.glade.get_widget( 'cb_backup_mode' )
+		self.cb_backup_mode.set_model( self.store_backup_mode )
 
-		#self.cb_backup_mode.set_active( default_automatic_backup_mode_index )
+		#	
+		self.cb_backup_mode.clear()
+		renderer = gtk.CellRendererText()
+		self.cb_backup_mode.pack_start( renderer, True )
+		self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
+
+		self.cb_backup_mode.set_active( default_automatic_backup_mode_index )
 
 		#setup remove old backups older then
 		enabled, value, unit = self.config.get_remove_old_snapshots()
@@ -235,6 +244,12 @@ class SettingsDialog:
 		enabled = button.get_active()
 		self.edit_min_free_space_value.set_sensitive( enabled )
 		self.cb_min_free_space_unit.set_sensitive( enabled )
+
+	def on_cb_per_directory_schedule_toggled( self, button ):
+		if button.get_active():
+			self.list_include.append_column( self.include_schedule_column )
+		else:
+			self.list_include.remove_column( self.include_schedule_column )
 
 	def run( self ):
 		while True:
@@ -351,8 +366,10 @@ class SettingsDialog:
 		self.config.set_include_folders( include_list )
 		self.config.set_exclude_patterns( exclude_list )
 
-		#other settings
-		#self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
+		#global schedule
+		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
+
+		#auto-remove snapshots
 		self.config.set_remove_old_snapshots( 
 						self.cb_remove_old_backup.get_active(), 
 						int( self.edit_remove_old_backup_value.get_value() ),
@@ -363,7 +380,12 @@ class SettingsDialog:
 						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ) )
 		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active() )
 		self.config.set_smart_remove( self.cb_smart_remove.get_active() )
+
+		#options
 		self.config.set_notify_enabled( self.cb_enable_notifications.get_active() )
+
+		#expert options
+		self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
 
 		self.config.save()
 

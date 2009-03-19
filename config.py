@@ -229,6 +229,12 @@ class Config( configfile.ConfigFile ):
 		self.set_int_value( 'snapshots.automatic_backup_mode', value )
 		#self.setup_cron()
 
+	def get_per_directory_schedule( self ):
+		return self.get_bool_value( 'snapshots.expert.per_directory_schedule', False )
+
+	def set_per_directory_schedule( self, value ):
+		return self.set_bool_value( 'snapshots.expert.per_directory_schedule', value )
+
 	def get_remove_old_snapshots( self ):
 		return ( self.get_bool_value( 'snapshots.remove_old_snapshots.enabled', True ),
 				 self.get_int_value( 'snapshots.remove_old_snapshots.value', 10 ),
@@ -364,20 +370,25 @@ class Config( configfile.ConfigFile ):
 		min_backup_mode = self.NONE
 		max_backup_mode = self.NONE
 
-		for item in self.get_include_folders():
-			backup_mode = item[1]
+		if self.get_per_directory_schedule():
+			for item in self.get_include_folders():
+				backup_mode = item[1]
 
-			if self.NONE != backup_mode:
-				if self.NONE == min_backup_mode:
-					min_backup_mode = backup_mode
-					max_backup_mode = backup_mode
-				elif backup_mode < min_backup_mode:
-					min_backup_mode = backup_mode
-				elif backup_mode > max_backup_mode:
-					max_backup_mode = backup_mode
-
-		print "Min automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
-		print "Max automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ max_backup_mode ]
+				if self.NONE != backup_mode:
+					if self.NONE == min_backup_mode:
+						min_backup_mode = backup_mode
+						max_backup_mode = backup_mode
+					elif backup_mode < min_backup_mode:
+						min_backup_mode = backup_mode
+					elif backup_mode > max_backup_mode:
+						max_backup_mode = backup_mode
+		
+			print "Min automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
+			print "Max automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ max_backup_mode ]
+		else:
+			min_backup_mode = self.get_automatic_backup_mode()
+			max_backup_mode = min_backup_mode
+			print "Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
 
 		if self.NONE == min_backup_mode:
 			return None #no automatic backup

@@ -615,8 +615,8 @@ class Snapshots:
 			#keep only the first snapshot
 			del group[1][0]
 			for snapshot_id in group[1]:
+				logger.info( "smart remove snapshot: " + snapshot_id )
 				self.remove_snapshot( snapshot_id )
-				print "[SMART] remove snapshot: " + snapshot_id
 
 	def _free_space( self, now ):
 		#remove old backups
@@ -672,6 +672,7 @@ class Snapshots:
 						del snapshots[0]
 						continue
 
+				logger.info( "free disk space: %s Mb" % free_space )
 				self.remove_snapshot( snapshots[0] )
 				del snapshots[0]
 
