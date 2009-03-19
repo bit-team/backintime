@@ -174,6 +174,8 @@ class MainWindow:
 		self.list_places.get_selection().set_select_function( self.places_select_function, self.store_places )
 
 		#setup folder view
+		self.list_folder_view_widget = self.glade.get_widget( 'list_folder_view_widget' )
+		self.list_folder_view_shadow = self.glade.get_widget( 'list_folder_view_shadow' )
 		self.list_folder_view = self.glade.get_widget( 'list_folder_view' )
 
 		pix_renderer = gtk.CellRendererPixbuf()
@@ -926,70 +928,79 @@ class MainWindow:
 		#update folder view
 		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.folder_path )
 		all_files = []
-
-		try:
-			all_files = os.listdir( full_path )
-			all_files.sort()
-		except:
-			pass
-
 		files = []
-		for file in all_files:
-			if len( file ) == 0:
-				continue
+		folder_exists = os.path.isdir( full_path )
 
-			if not self.show_hidden_files:
-				if file[ 0 ] == '.':
-					continue
-
-			path = os.path.join( full_path, file )
-
-			file_size = -1
-			file_date = -1
-
+		if folder_exists:
 			try:
-				file_stat = os.stat( path )
-				file_size = file_stat[stat.ST_SIZE]
-				file_date = file_stat[stat.ST_MTIME]
+				all_files = os.listdir( full_path )
+				all_files.sort()
 			except:
 				pass
 
-			#format size
-			file_size_int = file_size
-			if file_size_int < 0:
-				file_size_int = 0
+			files = []
+			for file in all_files:
+				if len( file ) == 0:
+					continue
 
-			if file_size < 0:
-				file_size = 'unknown'
-			elif file_size < 1024:
-				file_size = str( file_size ) + ' bytes'
-			elif file_size < 1024 * 1024:
-				file_size = file_size / 1024
-				file_size = str( file_size ) + ' KB'
-			elif file_size < 1024 * 1024 * 1024:
-				file_size = file_size / ( 1024 * 1024 )
-				file_size = str( file_size ) + ' MB'
-			else:
-				file_size = file_size / ( 1024 * 1024 * 1024 )
-				file_size = str( file_size ) + ' GB'
+				if not self.show_hidden_files:
+					if file[ 0 ] == '.':
+						continue
 
-			#format date
-			if file_date < 0:
-				file_date = 'unknown'
-			else:
-				file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
+				path = os.path.join( full_path, file )
 
-			if os.path.isdir( path ):
-				files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 0 ] )
-			else:
-				files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 1 ] )
+				file_size = -1
+				file_date = -1
 
-		#try to keep old selected file
-		if selected_file is None:
-			selected_file = ''
-			iter = self.list_folder_view.get_selection().get_selected()[1]
-			if not iter is None:
-				selected_file = self.store_folder_view.get_value( iter, 1 )
+				try:
+					file_stat = os.stat( path )
+					file_size = file_stat[stat.ST_SIZE]
+					file_date = file_stat[stat.ST_MTIME]
+				except:
+					pass
+
+				#format size
+				file_size_int = file_size
+				if file_size_int < 0:
+					file_size_int = 0
+
+				if file_size < 0:
+					file_size = 'unknown'
+				elif file_size < 1024:
+					file_size = str( file_size ) + ' bytes'
+				elif file_size < 1024 * 1024:
+					file_size = file_size / 1024
+					file_size = str( file_size ) + ' KB'
+				elif file_size < 1024 * 1024 * 1024:
+					file_size = file_size / ( 1024 * 1024 )
+					file_size = str( file_size ) + ' MB'
+				else:
+					file_size = file_size / ( 1024 * 1024 * 1024 )
+					file_size = str( file_size ) + ' GB'
+
+				#format date
+				if file_date < 0:
+					file_date = 'unknown'
+				else:
+					file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
+
+				if os.path.isdir( path ):
+					files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 0 ] )
+				else:
+					files.append( [ file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 1 ] )
+
+			#try to keep old selected file
+			if selected_file is None:
+				selected_file = ''
+				iter = self.list_folder_view.get_selection().get_selected()[1]
+				if not iter is None:
+					selected_file = self.store_folder_view.get_value( iter, 1 )
+
+			self.list_folder_view_widget.show()
+			self.list_folder_view_shadow.hide()
+		else:
+			self.list_folder_view_widget.hide()
+			self.list_folder_view_shadow.show()
 
 		#populate the list
 		self.store_folder_view.clear()

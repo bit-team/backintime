@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Thu Mar 19 11:20:14 2009 -->
+<!--Generated with glade3 3.4.5 on Thu Mar 19 12:43:47 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="title" translatable="yes">Back In Time</property>
@@ -279,23 +279,52 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkScrolledWindow" id="scrolledwindow2">
-                            <property name="width_request">350</property>
-                            <property name="height_request">400</property>
+                          <widget class="GtkHBox" id="hbox5">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                            <property name="homogeneous">True</property>
                             <child>
-                              <widget class="GtkTreeView" id="list_folder_view">
+                              <widget class="GtkScrolledWindow" id="list_folder_view_widget">
+                                <property name="width_request">350</property>
+                                <property name="height_request">400</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="has_focus">True</property>
-                                <signal name="popup_menu" handler="on_list_folder_view_popup_menu"/>
-                                <signal name="drag_data_get" handler="on_list_folder_view_drag_data_get"/>
-                                <signal name="button_press_event" handler="on_list_folder_view_button_press_event"/>
-                                <signal name="row_activated" handler="on_list_folder_view_row_activated"/>
+                                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                                <child>
+                                  <widget class="GtkTreeView" id="list_folder_view">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="has_focus">True</property>
+                                    <signal name="popup_menu" handler="on_list_folder_view_popup_menu"/>
+                                    <signal name="drag_data_get" handler="on_list_folder_view_drag_data_get"/>
+                                    <signal name="button_press_event" handler="on_list_folder_view_button_press_event"/>
+                                    <signal name="row_activated" handler="on_list_folder_view_row_activated"/>
+                                  </widget>
+                                </child>
                               </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkFrame" id="list_folder_view_shadow">
+                                <property name="label_xalign">0</property>
+                                <child>
+                                  <widget class="GtkLabel" id="label17">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">&lt;b&gt;This directory don't exist
+in current snapshot !&lt;/b&gt;</property>
+                                    <property name="use_markup">True</property>
+                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                  <packing>
+                                    <property name="type">label_item</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
                             </child>
                           </widget>
                           <packing>
@@ -687,62 +716,52 @@
                 <property name="column_spacing">5</property>
                 <property name="row_spacing">5</property>
                 <child>
-                  <widget class="GtkLabel" id="label10">
-                    <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">- keep all snapshots from today and yesterday
-- keep one snapshot for the last week and one for two weeks ago
-- keep one snapshot per month for all previous months of this year
-- keep one snapshot per year for all previous years</property>
-                  </widget>
-                  <packing>
-                    <property name="right_attach">3</property>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
-                    <property name="y_options">GTK_FILL</property>
-                    <property name="x_padding">20</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkCheckButton" id="cb_smart_remove">
+                  <widget class="GtkCheckButton" id="cb_dont_remove_named_snapshots">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Smart remove</property>
+                    <property name="label" translatable="yes">Don't remove named snapshots</property>
                     <property name="response_id">0</property>
                     <property name="draw_indicator">True</property>
                   </widget>
                   <packing>
                     <property name="right_attach">3</property>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
+                    <property name="top_attach">4</property>
+                    <property name="bottom_attach">5</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="cb_min_free_space">
+                  <widget class="GtkComboBox" id="cb_min_free_space_unit">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">If free space is less then:</property>
-                    <property name="response_id">0</property>
-                    <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="on_cb_min_free_space_toggled"/>
                   </widget>
                   <packing>
+                    <property name="left_attach">2</property>
+                    <property name="right_attach">3</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="cb_remove_old_backup">
+                  <widget class="GtkComboBox" id="cb_remove_old_backup_unit">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Older then:</property>
-                    <property name="response_id">0</property>
-                    <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="on_cb_remove_old_backup_toggled"/>
                   </widget>
                   <packing>
+                    <property name="left_attach">2</property>
+                    <property name="right_attach">3</property>
+                    <property name="y_options">GTK_FILL</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkSpinButton" id="edit_remove_old_backup_value">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="adjustment">1 1 1000 1 0 0</property>
+                    <property name="numeric">True</property>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
@@ -762,53 +781,63 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkSpinButton" id="edit_remove_old_backup_value">
+                  <widget class="GtkCheckButton" id="cb_remove_old_backup">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="adjustment">1 1 1000 1 0 0</property>
-                    <property name="numeric">True</property>
+                    <property name="label" translatable="yes">Older then:</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_cb_remove_old_backup_toggled"/>
                   </widget>
                   <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBox" id="cb_remove_old_backup_unit">
+                  <widget class="GtkCheckButton" id="cb_min_free_space">
                     <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">If free space is less then:</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_cb_min_free_space_toggled"/>
                   </widget>
                   <packing>
-                    <property name="left_attach">2</property>
-                    <property name="right_attach">3</property>
-                    <property name="y_options">GTK_FILL</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBox" id="cb_min_free_space_unit">
-                    <property name="visible">True</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">2</property>
-                    <property name="right_attach">3</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="cb_dont_remove_named_snapshots">
+                  <widget class="GtkCheckButton" id="cb_smart_remove">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Don't remove named snapshots</property>
+                    <property name="label" translatable="yes">Smart remove</property>
                     <property name="response_id">0</property>
                     <property name="draw_indicator">True</property>
                   </widget>
                   <packing>
                     <property name="right_attach">3</property>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">5</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
                     <property name="y_options">GTK_FILL</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label10">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">- keep all snapshots from today and yesterday
+- keep one snapshot for the last week and one for two weeks ago
+- keep one snapshot per month for all previous months of this year
+- keep one snapshot per year for all previous years</property>
+                  </widget>
+                  <packing>
+                    <property name="right_attach">3</property>
+                    <property name="top_attach">3</property>
+                    <property name="bottom_attach">4</property>
+                    <property name="y_options">GTK_FILL</property>
+                    <property name="x_padding">20</property>
                   </packing>
                 </child>
               </widget>
@@ -1101,25 +1130,21 @@
                           <placeholder/>
                         </child>
                         <child>
-                          <widget class="GtkEntry" id="edit_diff_cmd_params">
+                          <widget class="GtkLabel" id="label7">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Command:</property>
                           </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                          </packing>
                         </child>
                         <child>
-                          <widget class="GtkEntry" id="edit_diff_cmd">
+                          <widget class="GtkLabel" id="label8">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Parameters:</property>
                           </widget>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                           </packing>
                         </child>
                         <child>
@@ -1137,22 +1162,26 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label8">
+                          <widget class="GtkEntry" id="edit_diff_cmd">
                             <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Parameters:</property>
+                            <property name="can_focus">True</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label7">
+                          <widget class="GtkEntry" id="edit_diff_cmd_params">
                             <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Command:</property>
+                            <property name="can_focus">True</property>
                           </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
                         </child>
                       </widget>
                     </child>
