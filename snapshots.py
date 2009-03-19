@@ -242,6 +242,9 @@ class Snapshots:
 		instance.start_application()
 		logger.info( 'Lock' )
 
+		if not self.config.get_per_directory_schedule():
+			force = True
+
 		now = datetime.datetime.today()
 		if not force:
 			now = now.replace( second = 0 )
@@ -496,7 +499,7 @@ class Snapshots:
 			self.set_take_snapshot_message( 0, _('Create hard-links') )
 			logger.info( "Create hard-links" )
 
-			if force:
+			if force or len( ignore_folders ) == 0:
 				cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
 				self._execute( cmd )
 			else:
@@ -525,7 +528,7 @@ class Snapshots:
 		self._execute( cmd, self._exec_rsync_callback )
 
 		#copy ignored directories
-		if not force and len( prev_snapshot_id ) > 0:
+		if not force and len( prev_snapshot_id ) > 0 and len( ignore_folders ) > 0:
 			for folder in ignore_folders:
 				prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
 				new_path = self.get_snapshot_path_to( new_snapshot_id, folder )

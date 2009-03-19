@@ -33,7 +33,7 @@ def take_snapshot_now_async():
 	app = 'backintime'
 	if os.path.isfile( './backintime' ):
 		app = './backintime'
-	cmd = "nice -n 19 %s --backup-now &" % app
+	cmd = "nice -n 19 %s --backup &" % app
 	os.system( cmd )
 
 
@@ -79,13 +79,13 @@ def start_app( callback = None ):
 		if arg == '--backup' or arg == '-b':
 			if not callback is None:
 				callback.init( cfg )
-			take_snapshot( cfg, callback, False )
+			take_snapshot( cfg, callback, True )
 			sys.exit(0)
 
-		if arg == '--backup-now':
+		if arg == '--backup-job':
 			if not callback is None:
 				callback.init( cfg )
-			take_snapshot( cfg, callback, True )
+			take_snapshot( cfg, callback, False )
 			sys.exit(0)
 
 		if arg == '--version' or arg == '-v':

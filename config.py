@@ -417,7 +417,7 @@ class Config( configfile.ConfigFile ):
 			cron_line = 'echo "@monthly {cmd}"'
 
 		if len( cron_line ) > 0:
-			cron_line = cron_line.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup >/dev/null 2>&1' )
+			cron_line = cron_line.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup-job >/dev/null 2>&1' )
 			os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
 		return None
