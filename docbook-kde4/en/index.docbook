@@ -68,12 +68,11 @@
     <title>Introduction</title> 
     <para>&app; is a simple backup system for Linux (Gnome and KDE4). The backup is done by taking snapshots of 
 	a specified set of directories.</para> 
-	<para>All you have to do is configure:</para>
+	<para>All you have to do is:</para>
     <itemizedlist> 
-      <listitem><para>where to save snapshot</para></listitem>
-      <listitem><para>what directories to backup</para></listitem>
-      <listitem><para>for each directory you can select an automatic backup
-	  (disabled, every 5 minutes, every 10 minutes, every hour, every day, every week, every month)</para></listitem>
+      <listitem><para>configure where to save snapshots</para></listitem>
+      <listitem><para>cofigure what directories to backup</para></listitem>
+      <listitem><para>schedule automatic backup: disabled, every 5 minutes, every 10 minutes, every hour, every day, every week, every month</para></listitem>
     </itemizedlist> 
 	<para>&app; acts as a "user mode" backup system. This means that you can backup/restore only folders 
 	you have write access to (actually you can backup read-only folders, but you can't restore them).</para>
@@ -115,7 +114,7 @@
     		<listitem>
     		<para>To start &app; from a command line, type the following command, then 
 			press <keycap>Return</keycap>:</para>
-    		<para><command>backintime [--gnome | --kde4] [ [--snapshots] path | --backup | --backup-now | --help | --version | --license]</command></para> 
+    		<para><command>backintime [--gnome | --kde4] [ [--snapshots] path | --backup | --backup-job | --help | --version | --license]</command></para> 
 			<itemizedlist>
 				<listitem>
     				<para>--gnome - use GNOME GUI (if installed)</para>
@@ -135,10 +134,10 @@
 					If the main window is not the only window (there is already a dialog) the parameter is ignored.</para> 
 				</listitem>
 				<listitem>
-    				<para>-b, --backup - take a snapshot (if needed) depending on automatic backup rules (used for cron jobs).</para> 
+    				<para>-b, --backup - take a snapshot now (if needed).</para> 
 				</listitem>
 				<listitem>
-    				<para>--backup-now - take a snapshot now (if needed).</para> 
+    				<para>--backup-job - take a snapshot (if needed) depending on schedule rules (used for cron jobs).</para> 
 				</listitem>
 				<listitem>
     				<para>-h, --help - display a small help and exit.</para> 
@@ -254,6 +253,17 @@
     <!-- ==== End of Figure ==== -->
 
 	<para>Where to save snapshots.</para>
+	<para>You can schedule automatic backups:</para>
+    <itemizedlist> 
+		<listitem>disabled</listitem>
+		<listitem>every 5 minutes</listitem>
+		<listitem>every 10 minutes</listitem>
+		<listitem>every hour</listitem>
+		<listitem>every day</listitem>
+		<listitem>every week</listitem>
+		<listitem>every month</listitem>
+    </itemizedlist> 
+	<para>Automatic backup use cron jobs so cron must be running.</para>
 
 	<para></para>
 	<guimenuitem>Include</guimenuitem>
@@ -270,9 +280,6 @@
     <!-- ==== End of Figure ==== -->
 
 	<para>Define the directories you want to backup.</para>
-    <para>For each directory you can select an automatic backup
-	(disabled, every 5 minutes, every 10 minutes, every hour, every day, every week, every month).</para>
-	<para>Automatic backup use cron jobs so cron must be running.</para>
 
 	<para></para>
 	<guimenuitem>Exclude</guimenuitem>
