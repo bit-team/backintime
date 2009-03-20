@@ -56,12 +56,10 @@ class SettingsDialog:
 
 		#set current folder
 		self.fcb_where = self.glade.get_widget( 'fcb_where' )
-		self.fcb_where.set_filename( self.config.get_snapshots_path() )
 		
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
 		default_automatic_backup_mode_index = 0
-		i = 0
 		map = self.config.AUTOMATIC_BACKUP_MODES
 		self.rev_automatic_backup_modes = {}
 		keys = map.keys()
@@ -69,17 +67,12 @@ class SettingsDialog:
 		for key in keys:
 			self.rev_automatic_backup_modes[ map[key] ] = key
 			self.store_backup_mode.append( [ map[key], key ] )
-			if key == self.config.get_automatic_backup_mode():
-				default_automatic_backup_mode_index = i
-			i = i + 1
 
 		#per directory schedule
 		self.cb_per_directory_schedule = self.glade.get_widget( 'cb_per_directory_schedule' )
-		self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
 
-		#setup backup folders
+		#setup include folders
 		self.list_include = self.glade.get_widget( 'list_include' )
-		self.list_include.get_model() is None
 
 		pix_renderer = gtk.CellRendererPixbuf()
 		text_renderer = gtk.CellRendererText()
@@ -102,19 +95,9 @@ class SettingsDialog:
 		column.add_attribute( combo_renderer, 'text', 2 )
 
 		self.include_schedule_column = column
-		if self.cb_per_directory_schedule.get_active():
-			self.list_include.append_column( self.include_schedule_column )
 
 		self.store_include = gtk.ListStore( str, str, str, int )
 		self.list_include.set_model( self.store_include )
-
-		self.store_include.clear()
-		include_folders = self.config.get_include_folders()
-		if len( include_folders ) > 0:
-			for include_folder in include_folders:
-				self.store_include.append( [include_folder[0], gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
-		
-		self.fcb_include = self.glade.get_widget( 'fcb_include' )
 
 		#setup exclude patterns
 		self.list_exclude = self.glade.get_widget( 'list_exclude' )
@@ -132,32 +115,17 @@ class SettingsDialog:
 		self.store_exclude = gtk.ListStore( str, str )
 		self.list_exclude.set_model( self.store_exclude )
 
-		self.store_exclude.clear()
-		exclude_patterns = self.config.get_exclude_patterns()
-		if len( exclude_patterns ) > 0:
-			for exclude_pattern in exclude_patterns:
-				self.store_exclude.append( [exclude_pattern, gtk.STOCK_DELETE] )
-
-		self.edit_pattern = self.glade.get_widget( 'edit_pattern' )
-
 		#setup automatic backup mode
 		self.cb_backup_mode = self.glade.get_widget( 'cb_backup_mode' )
 		self.cb_backup_mode.set_model( self.store_backup_mode )
 
-		#	
 		self.cb_backup_mode.clear()
 		renderer = gtk.CellRendererText()
 		self.cb_backup_mode.pack_start( renderer, True )
 		self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
 
-		self.cb_backup_mode.set_active( default_automatic_backup_mode_index )
-
 		#setup remove old backups older then
-		enabled, value, unit = self.config.get_remove_old_snapshots()
-
 		self.edit_remove_old_backup_value = self.glade.get_widget( 'edit_remove_old_backup_value' )
-		self.edit_remove_old_backup_value.set_value( float( value ) )
-
 		self.cb_remove_old_backup_unit = self.glade.get_widget( 'cb_remove_old_backup_unit' )
 
 		self.store_remove_old_backup_unit = gtk.ListStore( str, int )
@@ -168,29 +136,16 @@ class SettingsDialog:
 		self.cb_remove_old_backup_unit.add_attribute( renderer, 'text', 0 )
 
 		self.store_remove_old_backup_unit.clear()
-		index = 0
-		i = 0
 		map = self.config.REMOVE_OLD_BACKUP_UNITS
 		keys = map.keys()
 		keys.sort()
 		for key in keys:
 			self.store_remove_old_backup_unit.append( [ map[ key ], key ] )
-			if key == unit:
-				index = i
-			i = i + 1
 				
-		self.cb_remove_old_backup_unit.set_active( index )
-
 		self.cb_remove_old_backup = self.glade.get_widget( 'cb_remove_old_backup' )
-		self.cb_remove_old_backup.set_active( enabled )
-		self.update_remove_old_backups( self.cb_remove_old_backup )
 
 		#setup min free space
-		enabled, value, unit = self.config.get_min_free_space()
-
 		self.edit_min_free_space_value = self.glade.get_widget( 'edit_min_free_space_value' )
-		self.edit_min_free_space_value.set_value( float(value) )
-
 		self.cb_min_free_space_unit = self.glade.get_widget( 'cb_min_free_space_unit' )
 
 		self.store_min_free_space_unit = gtk.ListStore( str, int )
@@ -201,22 +156,13 @@ class SettingsDialog:
 		self.cb_min_free_space_unit.add_attribute( renderer, 'text', 0 )
 
 		self.store_min_free_space_unit.clear()
-		index = 0
-		i = 0
 		map = self.config.MIN_FREE_SPACE_UNITS
 		keys = map.keys()
 		keys.sort()
 		for key in keys:
 			self.store_min_free_space_unit.append( [ map[ key ], key ] )
-			if key == unit:
-				index = i
-			i = i + 1
 				
-		self.cb_min_free_space_unit.set_active( index )
-
 		self.cb_min_free_space = self.glade.get_widget( 'cb_min_free_space' )
-		self.cb_min_free_space.set_active( enabled )
-		self.update_min_free_space( self.cb_min_free_space )
 
 		#don't remove named snapshots
 		self.cb_dont_remove_named_snapshots = self.glade.get_widget( 'cb_dont_remove_named_snapshots' )
@@ -224,10 +170,89 @@ class SettingsDialog:
 
 		#smart remove
 		self.cb_smart_remove = self.glade.get_widget( 'cb_smart_remove' )
-		self.cb_smart_remove.set_active( self.config.get_smart_remove() )
 
 		#enable notifications
 		self.cb_enable_notifications = self.glade.get_widget( 'cb_enable_notifications' )
+
+	def load_from_config( self ):
+		#set current folder
+		self.fcb_where.set_filename( self.config.get_snapshots_path() )
+		
+		#per directory schedule
+		self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
+
+		#setup include folders
+		if self.cb_per_directory_schedule.get_active():
+			self.list_include.append_column( self.include_schedule_column )
+
+		self.store_include.clear()
+		include_folders = self.config.get_include_folders()
+		if len( include_folders ) > 0:
+			for include_folder in include_folders:
+				self.store_include.append( [include_folder[0], gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
+		
+		#setup exclude patterns
+		self.store_exclude.clear()
+		exclude_patterns = self.config.get_exclude_patterns()
+		if len( exclude_patterns ) > 0:
+			for exclude_pattern in exclude_patterns:
+				self.store_exclude.append( [exclude_pattern, gtk.STOCK_DELETE] )
+
+		#setup automatic backup mode
+		i = 0
+		iter = self.store_backup_mode.get_iter_first()
+		default_mode = self.config.get_automatic_backup_mode()
+		while not iter is None:
+			if self.store_backup_mode.get_value( iter, 1 ) == default_mode:
+				self.cb_backup_mode.set_active( i )
+				break
+			iter = self.store_backup_mode.iter_next( iter )
+			i = i + 1
+
+		#setup remove old backups older then
+		enabled, value, unit = self.config.get_remove_old_snapshots()
+
+		self.edit_remove_old_backup_value.set_value( float( value ) )
+
+		self.store_remove_old_backup_unit = gtk.ListStore( str, int )
+		self.cb_remove_old_backup_unit.set_model( self.store_remove_old_backup_unit )
+
+		i = 0
+		iter = self.store_remove_old_backup_unit.get_iter_first()
+		while not iter is None:
+			if self.store_remove_old_backup_unit.get_value( iter, 1 ) == unit:
+				self.cb_remove_old_backup_unit.set_active( i )
+				break
+			iter = self.store_remove_old_backup_unit.iter_next( iter )
+			i = i + 1
+				
+		self.cb_remove_old_backup.set_active( enabled )
+		self.update_remove_old_backups( self.cb_remove_old_backup )
+
+		#setup min free space
+		enabled, value, unit = self.config.get_min_free_space()
+		
+		self.edit_min_free_space_value.set_value( float(value) )
+
+		i = 0
+		iter = self.store_min_free_space_unit.get_iter_first()
+		while not iter is None:
+			if self.store_min_free_space_unit.get_value( iter, 1 ) == unit:
+				self.cb_min_free_space_unit.set_active( i )
+				break
+			iter = self.store_min_free_space_unit.iter_next( iter )
+			i = i + 1
+
+		self.cb_min_free_space.set_active( enabled )
+		self.update_min_free_space( self.cb_min_free_space )
+
+		#don't remove named snapshots
+		self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots() )
+
+		#smart remove
+		self.cb_smart_remove.set_active( self.config.get_smart_remove() )
+
+		#enable notifications
 		self.cb_enable_notifications.set_active( self.config.is_notify_enabled() )
 
 	def on_automatic_backup_mode_changed( self, renderer, path, new_text ):
@@ -252,6 +277,8 @@ class SettingsDialog:
 			self.list_include.remove_column( self.include_schedule_column )
 
 	def run( self ):
+		self.load_from_config()
+
 		while True:
 			if gtk.RESPONSE_OK == self.dialog.run():
 				if not self.validate():
