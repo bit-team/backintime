@@ -214,9 +214,6 @@ class SettingsDialog:
 
 		self.edit_remove_old_backup_value.set_value( float( value ) )
 
-		self.store_remove_old_backup_unit = gtk.ListStore( str, int )
-		self.cb_remove_old_backup_unit.set_model( self.store_remove_old_backup_unit )
-
 		i = 0
 		iter = self.store_remove_old_backup_unit.get_iter_first()
 		while not iter is None:
