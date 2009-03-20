@@ -237,13 +237,13 @@ class MainWindow( KMainWindow ):
 		h = self.config.get_int_value( 'kde4.main_window.height', 500 )
 		self.resize( w, h )
 
-		main_splitter_left_w = self.config.get_int_value( 'kde4.main_window.main_splitter_left_w', 400 )
-		main_splitter_right_w = self.config.get_int_value( 'kde4.main_window.main_splitter_right_w', 400 )
+		main_splitter_left_w = self.config.get_int_value( 'kde4.main_window.main_splitter_left_w', 150 )
+		main_splitter_right_w = self.config.get_int_value( 'kde4.main_window.main_splitter_right_w', 450 )
 		sizes = [ main_splitter_left_w, main_splitter_right_w ]
 		self.main_splitter.setSizes( sizes )
 		
-		second_splitter_left_w = self.config.get_int_value( 'kde4.main_window.second_splitter_left_w', 200 )
-		second_splitter_right_w = self.config.get_int_value( 'kde4.main_window.second_splitter_right_w', 200 )
+		second_splitter_left_w = self.config.get_int_value( 'kde4.main_window.second_splitter_left_w', 150 )
+		second_splitter_right_w = self.config.get_int_value( 'kde4.main_window.second_splitter_right_w', 300 )
 		sizes = [ second_splitter_left_w, second_splitter_right_w ]
 		self.second_splitter.setSizes( sizes )
 

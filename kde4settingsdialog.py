@@ -409,7 +409,15 @@ class SettingsDialog( KDialog ):
 		self.add_exclude_( path )
 
 	def on_btn_include_remove_clicked ( self ):
-		self.list_include.takeItem( self.list_include.currentRow() )
+		item = self.list_include.currentItem()
+		if item is None:
+			return
+
+		index = self.list_include.indexOfTopLevelItem( item )
+		if index < 0:
+			return
+
+		self.list_include.takeTopLevelItem( index )
 
 		if self.list_include.topLevelItemCount() > 0:
 			self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
