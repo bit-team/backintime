@@ -44,7 +44,7 @@ class GnomeFileIcons:
 		path = ''
 
 		try:
-			pipe = os.popen( "cat %s/.config/user-dirs.dirs | grep %s=" % ( self.user_path, name ), 'r' )
+			pipe = os.popen( "cat %s/.config/user-dirs.dirs 2>/dev/null | grep %s=" % ( self.user_path, name ), 'r' )
 			path = pipe.read()
 			pipe.close()
 		except:
@@ -78,7 +78,8 @@ class GnomeFileIcons:
 			return self.special_folders[path]
 
 		#get mime type
-		mime_type = gnomevfs.get_mime_type( path ).replace( '/', '-' )
+		mime_type = gnomevfs.get_mime_type( path )
+		mime_type = mime_type.replace( '/', '-' )
 
 		#search in the cache
 		if mime_type in self.cache:

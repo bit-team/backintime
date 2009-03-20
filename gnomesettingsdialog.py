@@ -331,6 +331,10 @@ class SettingsDialog:
 		#snapshots path
 		snapshots_path = self.fcb_where.get_filename()
 
+		#hack
+		if snapshots_path.startswith( '//' ):
+			snapshots_path = snapshots_path[ 1 : ]
+
 		#include list 
 		include_list = []
 		iter = self.store_include.get_iter_first()

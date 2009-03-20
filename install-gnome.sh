@@ -17,7 +17,7 @@ install --mode=644 *.glade $BASEPATH/usr/share/backintime
 
 #install .desktop file(s)
 install -d $BASEPATH/usr/share/applications
-install --mode=644 backintime-gnome.desktop $BASEPATH/usr/share/applications
+install --mode=644 backintime-gnome*.desktop $BASEPATH/usr/share/applications
 
 #install gnome-help file(s)
 install -d $BASEPATH/usr/share/gnome/help/backintime/C/figures

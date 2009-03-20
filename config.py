@@ -33,7 +33,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFile ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.17alpha3'
+	VERSION = '0.9.17alpha4'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan'
 
 	NONE = 0
@@ -164,6 +164,8 @@ class Config( configfile.ConfigFile ):
 		return os.path.join( self.get_snapshots_path(), 'backintime' ) 
 
 	def set_snapshots_path( self, value ):
+		print "Snapshots path: %s" % value
+
 		if len( value ) > 0:
 			if not os.path.isdir( value ):
 				return _( '%s is not a directory !' ) % value
@@ -391,6 +393,7 @@ class Config( configfile.ConfigFile ):
 			print "Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
 
 		if self.NONE == min_backup_mode:
+			os.system( "crontab -l | grep -v backintime | crontab -" )
 			return None #no automatic backup
 
 		if not tools.check_command( 'crontab' ):

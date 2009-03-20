@@ -926,6 +926,7 @@ class MainWindow:
 				self.list_places.get_selection().select_iter( iter )
 
 		#update folder view
+		
 		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.folder_path )
 		all_files = []
 		files = []
