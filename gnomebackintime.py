@@ -68,8 +68,13 @@ class AboutDialog:
 		self.dialog.set_license( config.get_license() )
 		authors = config.get_authors()
 		if not authors is None:
-			self.dialog.set_authors( authors.split('\n') )
-		self.dialog.set_translator_credits( config.get_translations() )
+			self.dialog.set_authors( authors.split( '\n' ) )
+
+		extra_translations = _('about-translators').strip()
+		if extra_translations == 'about-translators':
+			extra_translations = ''
+
+		self.dialog.set_translator_credits( config.get_translations() + extra_translations  )
 
 		signals = { 
 				'on_AboutDialog_response' : self.close,
