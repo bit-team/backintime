@@ -155,7 +155,7 @@ class MainWindow( KMainWindow ):
 		self.list_places = QTreeWidget( self )
 		self.list_places.setRootIsDecorated( False )
 		self.list_places.setEditTriggers( QAbstractItemView.NoEditTriggers )
-		self.list_places.setHeaderLabel( QString.fromUtf8( _('Shotcuts') ) )
+		self.list_places.setHeaderLabel( QString.fromUtf8( _('Shortcuts') ) )
 		self.second_splitter.addWidget( self.list_places )
 
 		#files view stacked layout
