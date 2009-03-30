@@ -1,8 +1,9 @@
 TODO:
-* add "expert option": a command to be executed after a new snapshot was taken
+* add "expert option": cron take snapshot command template (default: "nice 19 %s >/dev/null 2>&1")
+* add "expert option": script to be called before starting take snapshot process,
+  after a new snapshot is created and after take snapshot process is done
+* add command line options to manage snapshots (list, get path, save/restore)
 * use rsync return code to check that the snapshot was really taken (no out of space, copy error ...)
-* add Save/Restore snapshot/snapshots command line (by name or "last")
-* add Save/Restore snapshot/snapshots dialog
 * Toolbars: add different texts for labels and tooltips
 * KDE4: handle command line parameters
 * KDE4: handle application raise
