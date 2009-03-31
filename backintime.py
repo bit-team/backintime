@@ -62,6 +62,8 @@ def print_help( cfg ):
 	print '\t\tpath: go directly to the specified path'
 	print 'backintime -b|--backup'
 	print '\tTake a snapshot and exit'
+	print 'backintime --backup-job'
+	print '\tUsed for cron job: take a snapshot and exit'
 	print 'backintime -v|--version'
 	print '\tShow version and exit'
 	print 'backintime --license'
