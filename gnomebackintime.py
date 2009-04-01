@@ -63,8 +63,8 @@ class AboutDialog:
 		self.dialog.set_name( config.APP_NAME )
 		self.dialog.set_version( config.VERSION )
 		self.dialog.set_copyright( 'Copyright (C) 2008-2009 Oprea Dan' )
-		self.dialog.set_website( 'http://www.le-web.org/back-in-time/' )
-		self.dialog.set_website_label( 'http://www.le-web.org/back-in-time/' )
+		self.dialog.set_website( 'http://backintime.le-web.org' )
+		self.dialog.set_website_label( 'http://backintime.le-web.org' )
 		self.dialog.set_license( config.get_license() )
 		authors = config.get_authors()
 		if not authors is None:

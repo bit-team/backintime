@@ -1,4 +1,4 @@
-# Slovak translation for backintime
+# Czech translation for backintime
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the backintime package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
@@ -6,55 +6,53 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-03-26 09:23+0100\n"
-"PO-Revision-Date: 2009-03-30 11:31+0000\n"
+"PO-Revision-Date: 2009-03-05 13:09+0000\n"
 "Last-Translator: Tomáš Vadina <Unknown>\n"
-"Language-Team: Tomáš Vadina <kyberdev@gmail.com>\n"
+"Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2009-04-01 10:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-"X-Poedit-Country: SLOVAKIA\n"
-"X-Poedit-Language: Slovak\n"
 
 #: config.py:52
 msgid "Disabled"
-msgstr "Zakázané"
+msgstr ""
 
 #: config.py:53
 msgid "Every 5 minutes"
-msgstr "Každých 5 minút"
+msgstr "Každých 5 minut"
 
 #: config.py:54
 msgid "Every 10 minutes"
-msgstr "Každých 10 minút"
+msgstr "Každých 10 minut"
 
 #: config.py:55
 msgid "Every Hour"
-msgstr "Každú hodinu"
+msgstr "Každou hodinu"
 
 #: config.py:56
 msgid "Every Day"
-msgstr "Každý deň"
+msgstr "Každý den"
 
 #: config.py:57
 msgid "Every Week"
-msgstr "Každý týždeň"
+msgstr "Každý týden"
 
 #: config.py:58
 msgid "Every Month"
-msgstr "Každý mesiac"
+msgstr "Každý měsíc"
 
 #: config.py:62
 msgid "Day(s)"
-msgstr "Dni"
+msgstr "Dny"
 
 #: config.py:63
 msgid "Week(s)"
-msgstr "Týždne"
+msgstr "Týdny"
 
 #: config.py:64
 msgid "Year(s)"
@@ -62,32 +60,32 @@ msgstr "Roky"
 
 #: config.py:124
 msgid "Snapshots directory is not valid !"
-msgstr "Neplatný priečinok snímkov !"
+msgstr ""
 
 #: config.py:127
 msgid "Snapshots directory can't be the root directory !"
-msgstr "Priečinok snímkov nemôže byť v koreňovom priečinku !"
+msgstr ""
 
 #: config.py:130
 msgid "You must select at least one directory to backup !"
-msgstr "Musíte vybrať aspoň jeden priečinok pre zálohovanie !"
+msgstr "Musíte vybrat alespoň jeden adresář pro zálohování !"
 
 #: config.py:139 config.py:145
 msgid "Snapshots directory can't be in \"Backup Directories\" !"
-msgstr "Priečinok snímkov nemôže byť v \"Priečinkoch zálohy\" !"
+msgstr ""
 
 #: config.py:152
 msgid "\"Backup directories\" can't include snapshots directory !"
-msgstr "\"Priečinky zálohy\" nemôžu obsahovať priečinok snímkov !"
+msgstr ""
 
 #: config.py:156
 msgid "\"Exclude pattern\" can't contain \":\" char !"
-msgstr "\"Vylúčiť vzor\" nemôže obsahovať znak \":\" !"
+msgstr ""
 
 #: config.py:171
 #, python-format
 msgid "%s is not a directory !"
-msgstr "%s nie je priečinok !"
+msgstr ""
 
 #: config.py:181
 #, python-format
@@ -95,8 +93,6 @@ msgid ""
 "Can't write to: %s\n"
 "Are you sure have write access ?"
 msgstr ""
-"Nemožno zapísať do: %s\n"
-"Ste si istí, že máte povolenie na zápis ?"
 
 #: config.py:400
 msgid ""
@@ -104,89 +100,84 @@ msgid ""
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
-"Nemožno nájsť crontab.\n"
-"Ste si istí, že je nainštalovaný ?\n"
-"Ak nie, mali by ste vypnúť všetky automatické zálohovania."
 
 #: gnomebackintime.py:73 kde4backintime.py:958
 msgid "about-translators"
-msgstr "o programe-prekladatelia"
+msgstr ""
 
 #: gnomebackintime.py:152 gnomebackintime.py:499 kde4backintime.py:223
 #: kde4backintime.py:446
 msgid "Done"
-msgstr "Dokončené"
+msgstr "Dokončeno"
 
 #: gnomebackintime.py:166
 msgid "Shortcuts"
-msgstr "Skratky"
+msgstr ""
 
 #: gnomebackintime.py:189
 msgid "Name"
-msgstr "Názov"
+msgstr "Název"
 
 #: gnomebackintime.py:200
 msgid "Size"
-msgstr "Veľkosť"
+msgstr "Velikost"
 
 #: gnomebackintime.py:207
 msgid "Date"
-msgstr "Dátum"
+msgstr "Datum"
 
 #: gnomebackintime.py:226 gnomebackintime.py:263 gnomesnapshotsdialog.py:83
 #: kde4backintime.py:106 kde4backintime.py:145 kde4snapshotsdialog.py:90
 #: gnomebackintime.glade:242 gnomebackintime.glade:243
 #: gnomebackintime.glade:991
 msgid "Snapshots"
-msgstr "Snímky"
+msgstr ""
 
 #: gnomebackintime.py:261
 msgid "Open"
-msgstr "Otvoriť"
+msgstr "Otevřít"
 
 #: gnomebackintime.py:262 kde4backintime.py:142 kde4snapshotsdialog.py:115
 #: gnomebackintime.glade:230 gnomebackintime.glade:231
 #: gnomebackintime.glade:1024 gnomebackintime.glade:1025
 msgid "Copy"
-msgstr "Kopírovať"
+msgstr "Kopírovat"
 
 #: gnomebackintime.py:264 kde4snapshotsdialog.py:128
 msgid "Diff"
-msgstr "Rozdiel"
+msgstr "Rozdíl"
 
 #: gnomebackintime.py:265 kde4backintime.py:139 kde4snapshotsdialog.py:110
 #: gnomebackintime.glade:218 gnomebackintime.glade:219
 #: gnomebackintime.glade:1036 gnomebackintime.glade:1037
 msgid "Restore"
-msgstr "Obnoviť"
+msgstr "Obnovit"
 
 #: gnomebackintime.py:321 kde4backintime.py:271
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
-"Nemožno nájsť priečinok snímkov.\n"
-"Ak je na vymeniteľnom disku prosím pripojte ho a stlačte OK"
 
 #: gnomebackintime.py:485 kde4backintime.py:434
 msgid "Working:"
-msgstr "Prebieha:"
+msgstr ""
 
 #: gnomebackintime.py:501 kde4backintime.py:448
 msgid "Done, no backup needed"
-msgstr "Dokončené, záloha nie je potrebná"
+msgstr "Dokončeno, záloha není potřeba"
 
 #: gnomebackintime.py:512 kde4backintime.py:492
 msgid "Global"
-msgstr "Globálne"
+msgstr "Globální"
 
 #: gnomebackintime.py:513 kde4backintime.py:493
 msgid "Root"
-msgstr "Koreňový priečinok"
+msgstr "Kořen"
 
 #: gnomebackintime.py:514 kde4backintime.py:494
 msgid "Home"
-msgstr "Domovský priečinok"
+msgstr "Domovská složka"
 
 #: gnomebackintime.py:538
 msgid "Bookmarks"
@@ -194,7 +185,7 @@ msgstr "Záložky"
 
 #: gnomebackintime.py:546 kde4backintime.py:499
 msgid "Backup Directories"
-msgstr "Priečinky zálohy"
+msgstr "Složky zálohy"
 
 #: gnomebackintime.py:566 kde4backintime.py:568
 msgid "Today"
@@ -206,16 +197,16 @@ msgstr "Včera"
 
 #: gnomebackintime.py:574 kde4backintime.py:576
 msgid "This week"
-msgstr "Tento týždeň"
+msgstr "Tento týden"
 
 #: gnomebackintime.py:578 kde4backintime.py:580
 msgid "Last week"
-msgstr "Minulý týždeň"
+msgstr "Minulý týden"
 
 #: gnomebackintime.py:861 kde4backintime.py:75 kde4backintime.py:638
 #: gnomebackintime.glade:45 gnomebackintime.glade:46
 msgid "Snapshot Name"
-msgstr "Názov snímka"
+msgstr ""
 
 #: gnomebackintime.py:880
 #, python-format
@@ -223,121 +214,117 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
-"Ste si istý, že chcete odstrániť snímok:\n"
-"<b>%s</b>"
 
 #: gnomebackintime.py:910 kde4backintime.py:800
 #, python-format
 msgid "Snapshot: %s"
-msgstr "Snímok: %s"
+msgstr ""
 
 #: gnomebackintime.py:911 kde4backintime.py:801
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "Zobraziť snímok vytvorený %s"
+msgstr ""
 
 #: gnomebackintime.py:913 kde4backintime.py:803
 msgid "View the current disk content"
-msgstr "Zobraziť aktuálny obsah disku"
+msgstr ""
 
 #: gnomebackintime.py:914 kde4backintime.py:804 snapshots.py:65
 msgid "Now"
-msgstr "Teraz"
+msgstr "Nyní"
 
 #: gnomebackintime.py:1132 kde4backintime.py:931
 msgid "Working..."
-msgstr "Prebieha..."
+msgstr ""
 
 #: gnomesettingsdialog.py:80 kde4settingsdialog.py:107
 msgid "Include folders"
-msgstr "Zahrnúť priečinky"
+msgstr "Zahrnout složky"
 
 #: gnomesettingsdialog.py:87 kde4settingsdialog.py:87
 msgid "Schedule"
-msgstr "Plánovanie"
+msgstr ""
 
 #: gnomesettingsdialog.py:108
 msgid "Patterns, files or directories"
-msgstr "Vzory, súbory alebo priečinky"
+msgstr ""
 
 #: gnomesettingsdialog.py:287
 msgid "Include directory"
-msgstr "Zahrnúť priečinok"
+msgstr ""
 
 #: gnomesettingsdialog.py:322 kde4settingsdialog.py:397
 msgid "Exclude pattern"
-msgstr "Vylúčiť vzor"
+msgstr "Vylučit vzor"
 
 #: gnomesettingsdialog.py:329 kde4settingsdialog.py:404
 msgid "Exclude file"
-msgstr "Vylúčiť súbor"
+msgstr ""
 
 #: gnomesettingsdialog.py:338
 msgid "Exclude directory"
-msgstr "Vylúčiť priečinok"
+msgstr ""
 
 #: gnomesettingsdialog.py:385 kde4settingsdialog.py:338
 msgid "Are you sure you want to change snapshots directory ?"
-msgstr "Ste si istí, že chcete zmeniť priečinok snímok ?"
+msgstr ""
 
 #: gnomesnapshotsdialog.py:236 kde4snapshotsdialog.py:241
 msgid "You can't compare a snapshot to itself"
-msgstr "Nemôžete porovnávať snímok sám"
+msgstr ""
 
 #: gnomesnapshotsdialog.py:243 kde4snapshotsdialog.py:248
 #, python-format
 msgid "Command not found: %s"
-msgstr "Príkaz nenájdený: %s"
+msgstr "Příkaz nenalezen: %s"
 
 #: kde4backintime.py:69 snapshots.py:317 snapshots.py:527
 #: gnomebackintime.glade:21
 msgid "Take snapshot"
-msgstr "Urobiť snímok"
+msgstr ""
 
 #: kde4backintime.py:72 gnomebackintime.glade:33 gnomebackintime.glade:34
 msgid "Update snapshots"
-msgstr "Aktualizovať snímky"
+msgstr ""
 
 #: kde4backintime.py:78 gnomebackintime.glade:57 gnomebackintime.glade:58
 msgid "Remove Snapshot"
-msgstr "Odstrániť snímok"
+msgstr ""
 
 #: kde4backintime.py:83 kde4settingsdialog.py:60 gnomebackintime.glade:74
 #: gnomebackintime.glade:75 gnomebackintime.glade:410
 msgid "Settings"
-msgstr "Nastavenia"
+msgstr "Nastavení"
 
 #: kde4backintime.py:88 gnomebackintime.glade:94 gnomebackintime.glade:95
 msgid "About"
-msgstr "O programe"
+msgstr "O aplikaci"
 
 #: kde4backintime.py:91 gnomebackintime.glade:106 gnomebackintime.glade:107
 msgid "Help"
-msgstr "Pomocník"
+msgstr "Nápověda"
 
 #: kde4backintime.py:96 gnomebackintime.glade:123 gnomebackintime.glade:124
 msgid "Exit"
-msgstr "Ukončiť"
+msgstr "Ukončit"
 
 #: kde4backintime.py:121 gnomebackintime.glade:178
 msgid "Up"
-msgstr "Hore"
+msgstr "Nahoru"
 
 #: kde4backintime.py:134 gnomebackintime.glade:201
 msgid "Show hidden files"
-msgstr "Ukázať skryté súbory"
+msgstr "Ukázat skryté soubory"
 
 #: kde4backintime.py:158
 msgid "Shotcuts"
-msgstr "Skratky"
+msgstr ""
 
 #: kde4backintime.py:167
 msgid ""
 "This directory don't exist\n"
 "in current snapshot !"
 msgstr ""
-"Tento priečinok neexistuje\n"
-"v aktuálnom snímku !"
 
 #: kde4backintime.py:658
 #, python-format
@@ -345,52 +332,50 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Ste si istí, že chcete odstrániť snímok:\n"
-"%s"
 
 #: kde4settingsdialog.py:67 gnomebackintime.glade:523
 msgid "General"
-msgstr "Hlavné"
+msgstr ""
 
 #: kde4settingsdialog.py:72 kde4settingsdialog.py:439
 msgid "Where to save snapshots"
-msgstr "Kam uložiť snímky"
+msgstr ""
 
 #: kde4settingsdialog.py:101 gnomebackintime.glade:599
 msgid "Include"
-msgstr "Zahrnúť"
+msgstr ""
 
 #: kde4settingsdialog.py:107
 msgid "Automatic backup"
-msgstr "Automatická záloha"
+msgstr ""
 
 #: kde4settingsdialog.py:135 gnomebackintime.glade:702
 msgid "Exclude"
-msgstr "Vylúčiť"
+msgstr ""
 
 #: kde4settingsdialog.py:152 gnomebackintime.glade:652
 msgid "Add file"
-msgstr "Pridať súbor"
+msgstr ""
 
 #: kde4settingsdialog.py:157 gnomebackintime.glade:665
 msgid "Add folder"
-msgstr "Pridať priečinok"
+msgstr ""
 
 #: kde4settingsdialog.py:167 gnomebackintime.glade:851
 msgid "Auto-remove"
-msgstr "Automatické odstránenie"
+msgstr ""
 
 #: kde4settingsdialog.py:173 gnomebackintime.glade:787
 msgid "Older then:"
-msgstr "Staršie než:"
+msgstr "Starší než:"
 
 #: kde4settingsdialog.py:188 gnomebackintime.glade:800
 msgid "If free space is less then:"
-msgstr "Ak je menej voľného miesta než:"
+msgstr "Jestli je méně volného místa než:"
 
 #: kde4settingsdialog.py:201 snapshots.py:650 gnomebackintime.glade:815
 msgid "Smart remove"
-msgstr "Rozumné odstránenie"
+msgstr ""
 
 #: kde4settingsdialog.py:205 gnomebackintime.glade:830
 msgid ""
@@ -399,168 +384,157 @@ msgid ""
 "- keep one snapshot per month for all previous months of this year\n"
 "- keep one snapshot per year for all previous years"
 msgstr ""
-"- Uchovať všetky snímky z dnes a včera\n"
-"- Uchovať snímok za posledný týždeň a raz za dva týždne\n"
-"- Uchovať snímok mesačne u všetkých predchádzajúcich mesiacoch tohto roka\n"
-"- Uchovať snímok ročne u všetkých predchádzajúcich rokov"
 
 #: kde4settingsdialog.py:210 gnomebackintime.glade:722
 msgid "Don't remove named snapshots"
-msgstr "Neodstraňovať pomenované snímky"
+msgstr ""
 
 #: kde4settingsdialog.py:220 gnomebackintime.glade:887
 msgid "Options"
-msgstr "Možnosti"
+msgstr ""
 
 #: kde4settingsdialog.py:223 gnomebackintime.glade:868
 msgid "Enable notifications"
-msgstr "Povoliť upozornenia"
+msgstr ""
 
 #: kde4settingsdialog.py:232 gnomebackintime.glade:941
 msgid "Expert Options"
-msgstr "Možnosti expertov"
+msgstr ""
 
 #: kde4settingsdialog.py:235
 msgid "Change this options only if you really know what you are doing !"
-msgstr "Zmeňte tieto možnosti iba ak naozaj viete čo robíte !"
+msgstr ""
 
 #: kde4settingsdialog.py:239 gnomebackintime.glade:915
 msgid ""
 "Enable schedule per included directory (see Include tab; default: disabled)"
 msgstr ""
-"Povoliť plánovanie každého zahrnutého priečinka (pozrite záložku Zahrnúť; "
-"prednastavené: zakázané)"
 
 #: kde4settingsdialog.py:408
 msgid "Exclude folder"
-msgstr "Vylúčiť priečinok"
+msgstr ""
 
 #: kde4settingsdialog.py:426
 msgid "Include folder"
-msgstr "Zahrnúť priečinok"
+msgstr "Zahrnout složku"
 
 #: kde4snapshotsdialog.py:45 kde4snapshotsdialog.py:137
 #: gnomebackintime.glade:1193
 msgid "Diff Options"
-msgstr "Možnosti rozdielov"
+msgstr "Možnosti Diff"
 
 #: kde4snapshotsdialog.py:55 gnomebackintime.glade:1136
 msgid "Command:"
-msgstr "Príkaz:"
+msgstr "Příkaz:"
 
 #: kde4snapshotsdialog.py:59 gnomebackintime.glade:1143
 msgid "Parameters:"
-msgstr "Parametre:"
+msgstr "Parametry:"
 
 #: kde4snapshotsdialog.py:63 gnomebackintime.glade:1154
 msgid "Use %1 and %2 for path parameters"
-msgstr "Použiť %1 a %2 parametre cesty"
+msgstr ""
 
 #: kde4snapshotsdialog.py:138
 msgid "Go To"
-msgstr "Ísť na"
+msgstr "Jet na"
 
 #: snapshots.py:270
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Nemožno nájsť priečinok snímkov.\n"
-"Ak je na vymeniteľnom disku, prosím pripojte ho."
 
 #: snapshots.py:272
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "Čakajte %s sekundu."
-msgstr[1] "Čakajte %s sekúnd."
-msgstr[2] "Čakajte %s sekúnd."
+msgstr[0] ""
+msgstr[1] ""
 
 #: snapshots.py:305
 msgid "Finalizing"
-msgstr "Dokončovanie"
+msgstr ""
 
 #: snapshots.py:320 snapshots.py:475
 #, python-format
 msgid "Compare with snapshot %s"
-msgstr "Porovnať so snímkom %s"
+msgstr ""
 
 #: snapshots.py:405
 #, python-format
 msgid "Can't create directory: %s"
-msgstr "Nemožno vytvoriť priečinok: %s"
+msgstr ""
 
 #: snapshots.py:417
 msgid "..."
-msgstr "..."
+msgstr ""
 
 #: snapshots.py:430
 #, python-format
 msgid "Can't remove directory: %s"
-msgstr "Nemožno odstrániť priečinok: %s"
+msgstr ""
 
 #: snapshots.py:499
 msgid "Create hard-links"
-msgstr "Vytvoriť hard-linky"
+msgstr ""
 
 #: snapshots.py:544
 #, python-format
 msgid "Can't rename %s to %s"
-msgstr "Nemožno premenovať %s na %s"
+msgstr ""
 
 #: snapshots.py:627
 msgid "Remove old snapshots"
-msgstr "Odstrániť staré snímky"
+msgstr ""
 
 #: snapshots.py:655
 msgid "Try to keep min free space"
-msgstr "Snažiť sa udržať minimálne voĺné miesto"
+msgstr ""
 
 #: gnomebackintime.glade:6
 msgid "Back In Time"
-msgstr "Back In Time"
+msgstr ""
 
 #: gnomebackintime.glade:22
 msgid "Backup Now"
-msgstr "Zálohovať teraz"
+msgstr "Zálohovat nyní"
 
 #: gnomebackintime.glade:177
 msgid "Parent Directory"
-msgstr "Nadradený priečinok"
+msgstr "Nadřazený adresář"
 
 #: gnomebackintime.glade:202
 msgid "Hidden files"
-msgstr "Ukázať skryté súbory"
+msgstr ""
 
 #: gnomebackintime.glade:312
 msgid ""
 "<b>This directory don't exist\n"
 "in current snapshot !</b>"
 msgstr ""
-"<b>Tento priečinok neexistuje\n"
-"v aktuálnom snímku !</b>"
 
 #: gnomebackintime.glade:445
 msgid "Select A Folder"
-msgstr "Vybrať priečinok"
+msgstr "Vybrat složku"
 
 #: gnomebackintime.glade:453
 msgid "<b>Where to save snapshots</b>"
-msgstr "<b>Kam uložiť snímky</b>"
+msgstr ""
 
 #: gnomebackintime.glade:484
 msgid "<b>Schedule</b>"
-msgstr "<b>Plánovanie</b>"
+msgstr ""
 
 #: gnomebackintime.glade:903
 msgid ""
 "<b>Change this options only if you really know what you are doing !</b>"
-msgstr "<b>Zmeňte tieto možnosti iba ak naozaj viete čo robíte !</b>"
+msgstr ""
 
 #: gnomebackintime.glade:1095
 msgid "Diff with"
-msgstr "Porovnať s"
+msgstr "Diff s"
 
 #: gnomebackintime.glade:1251
 msgid "Pattern"
-msgstr "Vzor"
+msgstr ""
