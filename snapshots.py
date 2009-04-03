@@ -558,24 +558,25 @@ class Snapshots:
 
 		#
 		yesterday = now - datetime.timedelta( days = 1 )
+		yesterday = yesterday.replace( hour = 0, minute = 0, second = 0, microsecond = 0 )
 		yesterday_id = self.get_snapshot_id( yesterday )
+		logger.info( "[smart remove] yesterday: %s" % yesterday_id )
 
 		#last week
 		date = now - datetime.timedelta( days = now.weekday() + 7 )
-		groups.append( ( self.get_snapshot_id( date ), [] ) )
+		groups.append( ( self.get_snapshot_id( date ), [], 'Last week' ) )
 
 		#2 weeks ago
 		date = now - datetime.timedelta( days = now.weekday() + 14 )
-		groups.append( ( self.get_snapshot_id( date ), [] ) )
+		groups.append( ( self.get_snapshot_id( date ), [], '2 weeks ago' ) )
 
 		#all months for this year
 		for m in xrange( now.month-1, 0, -1 ):
 			date = now.replace( month = m, day = 1 )
-			groups.append( ( self.get_snapshot_id( date ), [] ) )
+			groups.append( ( self.get_snapshot_id( date ), [], "This year, month %s" % m ) )
 
 		#fill groups
 		snapshots = self.get_snapshots_list()
-		print snapshots
 
 		for snapshot_id in snapshots:
 			#keep all item since yesterday
@@ -590,11 +591,12 @@ class Snapshots:
 					break
 
 			if not found: #new year group
-				groups.append( ( snapshot_id[ : 4 ] + "0101-000000", [ snapshot_id ] ) )
+				year = snapshot_id[ : 4 ]
+				groups.append( ( year + "0101-000000", [ snapshot_id ], "Year %s" % year ) )
 
 		#remove items from each group
 		for group in groups:
-			print group
+			logger.info( "[smart remove] group: %s, snapshots: %s" % ( group[2], group[1] ) )
 
 			if len( group[1] ) <= 1: #nothing to do
 				continue
@@ -612,13 +614,13 @@ class Snapshots:
 					for snapshot_id in group[1]:
 						if len( self.get_snapshot_name( snapshot_id ) ) <= 0:
 							self.remove_snapshot( snapshot_id )
-							print "[SMART] remove snapshot (not name): " + snapshot_id
+							logger.info( "[smart remove] remove snapshot (2): " + snapshot_id )
 					continue
 
 			#keep only the first snapshot
 			del group[1][0]
 			for snapshot_id in group[1]:
-				logger.info( "smart remove snapshot: " + snapshot_id )
+				logger.info( "[smart remove] remove snapshot: " + snapshot_id )
 				self.remove_snapshot( snapshot_id )
 
 	def _free_space( self, now ):
