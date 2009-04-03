@@ -549,16 +549,17 @@ class Snapshots:
 		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
 		return True
 
-	def smart_remove( self, now = None ):
-		if now is None:
-			now = datetime.datetime.today()
+	def smart_remove( self, now_full = None ):
+		if now_full is None:
+			now_full = datetime.datetime.today()
+
+		now = datetime.datetime( now_full.year, now_full.month, now_full.day )
 
 		#build groups
 		groups = []
 
 		#
 		yesterday = now - datetime.timedelta( days = 1 )
-		yesterday = yesterday.replace( hour = 0, minute = 0, second = 0, microsecond = 0 )
 		yesterday_id = self.get_snapshot_id( yesterday )
 		logger.info( "[smart remove] yesterday: %s" % yesterday_id )
 
@@ -596,7 +597,7 @@ class Snapshots:
 
 		#remove items from each group
 		for group in groups:
-			logger.info( "[smart remove] group: %s, snapshots: %s" % ( group[2], group[1] ) )
+			logger.info( "[smart remove] group: %s (%s), snapshots: %s" % ( group[2], group[0], group[1] ) )
 
 			if len( group[1] ) <= 1: #nothing to do
 				continue
