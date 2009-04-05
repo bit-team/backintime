@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Apr  1 10:50:35 2009 -->
+<!--Generated with glade3 3.4.5 on Sun Apr  5 06:52:48 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="title" translatable="yes">Back In Time</property>
@@ -145,6 +145,7 @@
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                 <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                <property name="shadow_type">GTK_SHADOW_IN</property>
                 <child>
                   <widget class="GtkTreeView" id="list_time_line">
                     <property name="visible">True</property>
@@ -264,6 +265,7 @@
                             <property name="can_focus">True</property>
                             <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                             <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                            <property name="shadow_type">GTK_SHADOW_IN</property>
                             <child>
                               <widget class="GtkTreeView" id="list_places">
                                 <property name="visible">True</property>
@@ -290,6 +292,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                                 <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                                <property name="shadow_type">GTK_SHADOW_IN</property>
                                 <child>
                                   <widget class="GtkTreeView" id="list_folder_view">
                                     <property name="visible">True</property>
@@ -306,6 +309,7 @@
                             <child>
                               <widget class="GtkFrame" id="list_folder_view_shadow">
                                 <property name="label_xalign">0</property>
+                                <property name="shadow_type">GTK_SHADOW_IN</property>
                                 <child>
                                   <widget class="GtkLabel" id="label17">
                                     <property name="visible">True</property>
@@ -718,62 +722,52 @@ in current snapshot !&lt;/b&gt;</property>
                 <property name="column_spacing">5</property>
                 <property name="row_spacing">5</property>
                 <child>
-                  <widget class="GtkLabel" id="label10">
-                    <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">- keep all snapshots from today and yesterday
-- keep one snapshot for the last week and one for two weeks ago
-- keep one snapshot per month for all previous months of this year
-- keep one snapshot per year for all previous years</property>
-                  </widget>
-                  <packing>
-                    <property name="right_attach">3</property>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
-                    <property name="y_options">GTK_FILL</property>
-                    <property name="x_padding">20</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkCheckButton" id="cb_smart_remove">
+                  <widget class="GtkCheckButton" id="cb_dont_remove_named_snapshots">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Smart remove</property>
+                    <property name="label" translatable="yes">Don't remove named snapshots</property>
                     <property name="response_id">0</property>
                     <property name="draw_indicator">True</property>
                   </widget>
                   <packing>
                     <property name="right_attach">3</property>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
+                    <property name="top_attach">4</property>
+                    <property name="bottom_attach">5</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="cb_min_free_space">
+                  <widget class="GtkComboBox" id="cb_min_free_space_unit">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">If free space is less then:</property>
-                    <property name="response_id">0</property>
-                    <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="on_cb_min_free_space_toggled"/>
                   </widget>
                   <packing>
+                    <property name="left_attach">2</property>
+                    <property name="right_attach">3</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="cb_remove_old_backup">
+                  <widget class="GtkComboBox" id="cb_remove_old_backup_unit">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Older then:</property>
-                    <property name="response_id">0</property>
-                    <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="on_cb_remove_old_backup_toggled"/>
                   </widget>
                   <packing>
+                    <property name="left_attach">2</property>
+                    <property name="right_attach">3</property>
+                    <property name="y_options">GTK_FILL</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkSpinButton" id="edit_remove_old_backup_value">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="adjustment">1 1 1000 1 0 0</property>
+                    <property name="numeric">True</property>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
@@ -793,53 +787,63 @@ in current snapshot !&lt;/b&gt;</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkSpinButton" id="edit_remove_old_backup_value">
+                  <widget class="GtkCheckButton" id="cb_remove_old_backup">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="adjustment">1 1 1000 1 0 0</property>
-                    <property name="numeric">True</property>
+                    <property name="label" translatable="yes">Older then:</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_cb_remove_old_backup_toggled"/>
                   </widget>
                   <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBox" id="cb_remove_old_backup_unit">
+                  <widget class="GtkCheckButton" id="cb_min_free_space">
                     <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">If free space is less then:</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_cb_min_free_space_toggled"/>
                   </widget>
                   <packing>
-                    <property name="left_attach">2</property>
-                    <property name="right_attach">3</property>
-                    <property name="y_options">GTK_FILL</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBox" id="cb_min_free_space_unit">
-                    <property name="visible">True</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">2</property>
-                    <property name="right_attach">3</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                     <property name="y_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="cb_dont_remove_named_snapshots">
+                  <widget class="GtkCheckButton" id="cb_smart_remove">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Don't remove named snapshots</property>
+                    <property name="label" translatable="yes">Smart remove</property>
                     <property name="response_id">0</property>
                     <property name="draw_indicator">True</property>
                   </widget>
                   <packing>
                     <property name="right_attach">3</property>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">5</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
                     <property name="y_options">GTK_FILL</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label10">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">- keep all snapshots from today and yesterday
+- keep one snapshot for the last week and one for two weeks ago
+- keep one snapshot per month for all previous months of this year
+- keep one snapshot per year for all previous years</property>
+                  </widget>
+                  <packing>
+                    <property name="right_attach">3</property>
+                    <property name="top_attach">3</property>
+                    <property name="bottom_attach">4</property>
+                    <property name="y_options">GTK_FILL</property>
+                    <property name="x_padding">20</property>
                   </packing>
                 </child>
               </widget>
@@ -1058,6 +1062,7 @@ in current snapshot !&lt;/b&gt;</property>
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                 <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                <property name="shadow_type">GTK_SHADOW_IN</property>
                 <child>
                   <widget class="GtkTreeView" id="list_snapshots">
                     <property name="visible">True</property>
@@ -1132,25 +1137,21 @@ in current snapshot !&lt;/b&gt;</property>
                           <placeholder/>
                         </child>
                         <child>
-                          <widget class="GtkEntry" id="edit_diff_cmd_params">
+                          <widget class="GtkLabel" id="label7">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Command:</property>
                           </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                          </packing>
                         </child>
                         <child>
-                          <widget class="GtkEntry" id="edit_diff_cmd">
+                          <widget class="GtkLabel" id="label8">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Parameters:</property>
                           </widget>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                           </packing>
                         </child>
                         <child>
@@ -1168,22 +1169,26 @@ in current snapshot !&lt;/b&gt;</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label8">
+                          <widget class="GtkEntry" id="edit_diff_cmd">
                             <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Parameters:</property>
+                            <property name="can_focus">True</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label7">
+                          <widget class="GtkEntry" id="edit_diff_cmd_params">
                             <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Command:</property>
+                            <property name="can_focus">True</property>
                           </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
                         </child>
                       </widget>
                     </child>
