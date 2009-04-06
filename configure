@@ -1,0 +1,168 @@
+#!/bin/bash
+
+common='--common'
+gnome='--auto-gnome'
+kde4='--auto-kde4'
+dest='/usr'
+
+function show_help { 
+	echo "Format: ./configure [--help] [--common|--no-common] [--gnome|--no-gnome|--auto-gnome] [--kde4|--no-kde4|--auto-kde4]"
+	echo "  --help - Show this help and exit"
+	echo "  --common|--no-common - Install / Don't install common part (default: --common)"
+	echo "  --gnome|--no-gnome|--auto-gnome - Install / Don't install GNOME part (default: --auto-gnome)"
+	echo "  --kde4|--no-kde4|--auto-kde4 - Install / Don't install KDE4 part (default: --auto-kde4)"
+	exit 0
+}
+
+for param in $*; do
+	case $param in
+		--common | --no-common) common=$param;;
+		--gnome | --auto-gnome | --no-gnome) gnome=$param;;
+		--kde4 | --auto-kde4 | --no-kde4) kde4=$param;;
+		--dest=*) dest=${param:7};;
+		--help) show_help;;
+	esac
+done
+
+if [ -e Makefile ]; then
+	rm Makefile;
+fi
+
+#check GNOME
+if [ $gnome = "--gnome" ]; then
+	if [ -z `which gnome-session` ]; then
+		echo "ERROR: Can't find GNOME !"
+		exit 1
+	fi
+fi
+
+if [ $gnome = "--auto-gnome" ]; then
+	if [ -z `which gnome-session` ]; then
+		gnome="--no-gnome"
+	else
+		gnome="--gnome"
+	fi
+fi
+
+#check KDE4
+if [ $kde4 = "--kde4" ]; then
+	if [ -z `which kdeinit4` ]; then
+		echo "ERROR: Can't find KDE4 !"
+		exit 1
+	fi
+fi
+
+if [ $kde4 = "--auto-kde4" ]; then
+	if [ -z `which kdeinit4` ]; then
+		kde4="--no-kde4"
+	else
+		kde4="--kde4"
+	fi
+fi
+
+#print config
+echo "Common: $common"
+echo "GNOME: $gnome"
+echo "KDE4: $kde4"
+
+#check languages
+mos=""
+langs=""
+for langfile in `ls po/*.po`; do
+	lang=`echo $langfile | cut -d/ -f2 | cut -d. -f1`
+	mos="po/$lang.mo $mos"
+	langs="$lang $langs"
+done
+
+#Start Makefile
+parts=""
+if [ $common = "--common" ]; then
+	parts="common $parts"
+fi
+
+if [ $gnome = "--gnome" ]; then
+	parts="gnome $parts"
+fi
+
+if [ $kde4 = "--kde4" ]; then
+	parts="kde4 $parts"
+fi
+
+echo -e "DEST=$dest" >> Makefile
+echo -e "LANGS=$langs" >> Makefile
+echo -e "SHELL=`which bash`" >> Makefile
+echo -e "" >> Makefile
+
+echo -e -n "all: " >> Makefile
+for part in $parts; do
+	echo -e -n "build$part " >> Makefile
+done
+echo -e "" >> Makefile
+echo -e "" >> Makefile
+
+echo -e -n "clean: " >> Makefile
+for part in $parts; do
+	echo -e -n "clean$part " >> Makefile
+done
+echo -e "" >> Makefile
+echo -e "" >> Makefile
+
+echo -e -n "install: " >> Makefile
+for part in $parts; do
+	echo -e -n "install$part " >> Makefile
+done
+echo -e "" >> Makefile
+echo -e "" >> Makefile
+
+#translations
+echo -e "translations: $mos" >> Makefile
+echo -e "" >> Makefile
+
+for lang in $langs; do
+	echo -e "po/$lang.mo: po/$lang.po" >> Makefile
+	echo -e "\tmsgfmt -o po/$lang.mo po/$lang.po" >> Makefile
+	echo -e "" >> Makefile
+done
+
+#common langs
+echo "installcommonlang:" >> Makefile
+for lang in $langs; do
+	echo -e "\tinstall -d \$(DEST)/share/locale/$lang/LC_MESSAGES" >> Makefile
+	echo -e "\tinstall --mode=644 po/$lang.mo \$(DEST)/share/locale/$lang/LC_MESSAGES/backintime.mo" >> Makefile
+	
+	if [ -e man/$lang ]; then
+		echo -e "\tinstall -d \$(DEST)/share/man/$lang/man1" >> Makefile
+		echo -e "install --mode=644 man/C/*.gz \$(DEST)/share/man/$lang/man1" >> Makefile
+	fi
+done
+echo -e "" >> Makefile
+
+#gnome langs
+echo "installgnomelang:" >> Makefile
+for lang in $langs; do
+	if [ -e docbook/$lang ]; then
+		echo -e "\tinstall -d \$(DEST)/share/gnome/help/backintime/$lang/figures" >> Makefile
+		echo -e "\tinstall --mode=644 docbook/$lang/*.xml \$(DEST)/share/gnome/help/backintime/$lang" >> Makefile
+		echo -e "\tinstall --mode=644 docbook/$lang/figures/*.png \$(DEST)/share/gnome/help/backintime/$lang/figures" >> Makefile
+	
+		echo -e "\tinstall -d \$(DEST)/share/omf/backintime" >> Makefile
+		echo -e "\tinstall --mode=644 docbook/C/*.omf \$(DEST)/share/omf/backintime" >> Makefile
+	fi
+done
+echo -e "" >> Makefile
+
+#kde4 lang 
+echo "installkde4lang:" >> Makefile
+for lang in en; do
+	echo -e "\tinstall -d \$(DEST)/share/doc/kde4/HTML/$lang/backintime/figures" >> Makefile
+	echo -e "\tinstall --mode=644 docbook-kde4/$lang/*.docbook \$(DEST)/share/doc/kde4/HTML/$lang/backintime" >> Makefile
+	echo -e "\tinstall --mode=644 docbook-kde4/$lang/figures/*.png \$(DEST)/share/doc/kde4/HTML/$lang/backintime/figures" >> Makefile
+done
+echo -e "" >> Makefile
+
+cat Makefile.template >> Makefile
+
+echo "All OK. Now run:"
+echo "    make"
+echo "    sudo make install"
+

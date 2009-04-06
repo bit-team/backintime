@@ -7,13 +7,15 @@ for i in common gnome kde4; do
 
 	echo $PKGNAME $PKGVER $PKGARCH
 
-	rm -rf deb
-	mkdir -p deb/DEBIAN
+	rm -rf tmp
+	mkdir -p tmp/DEBIAN
+	mkdir -p tmp/usr
 
-	cp control.$i deb/DEBIAN/control
-	sh install-$i.sh ./deb
-	dpkg --build deb/ $PKGNAME-${PKGVER}_$PKGARCH.deb
+	cp control.$i tmp/DEBIAN/control
+	bash ./configure --dest=tmp/usr --no-common --no-gnome --no-kde4 --$i
+	make
+	make install
+	dpkg --build tmp/ $PKGNAME-${PKGVER}_$PKGARCH.deb
+	rm -rf tmp
 done
-
-rm -rf deb
 

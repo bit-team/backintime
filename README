@@ -25,7 +25,7 @@ Copyright (C) 2008-2009 Oprea Dan <dan@le-web.org>
 
 2. INSTALL
 
-2.1. Debian/Ubuntu
+2.1. Ubuntu packages
 
 	GNOME:
 
@@ -43,16 +43,23 @@ Copyright (C) 2008-2009 Oprea Dan <dan@le-web.org>
 	Ubuntu 8.04: to install KDE4 4.1 check this link:
 		http://news.softpedia.com/news/How-To-Install-KDE-4-1-On-Ubuntu-8-04-91034.shtml
 
-2.2. Other
+2.2. From sources
 
-	Common (depends on: python, rsync):
-		sudo ./install-common.sh
+2.2.1. Dependencies
 
-	GNOME (install common first, depends on: python-glade2, python-gnome2, meld):
-		sudo ./install-gnome.sh
+	Common: python, rsync, cron
+	GNOME: python-glade2, python-gnome2, meld
+	KDE4: x11-utils, python-kde4 (>= 4.1), kompare
 
-	KDE4 (>= 4.1) (install common first, depends on: x11-utils, python-kde4 (>= 4.1), kompare):
-		sudo ./install-kde4.sh
+2.2.2. Build & Install
+
+	./configure
+	make
+	sudo make install
+
+2.2.3. More options
+	To get more options type:
+		./configure --help
 
 3. Integrate with filemanager
 
