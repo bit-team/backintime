@@ -74,8 +74,15 @@ class Config( configfile.ConfigFile ):
 			self._DOC_PATH = self._APP_PATH
 
 		self._GLOBAL_CONFIG_PATH = '/etc/backintime/config2'
-		self._LOCAL_CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
+
+		HOME_FOLDER = os.path.expanduser( '~' )
+		self._LOCAL_DATA_FOLDER = os.path.join( os.getenv( 'XDG_DATA_HOME', '$HOME/.local/share' ).replace( '$HOME', HOME_FOLDER ), 'backintime' )
+		self._LOCAL_CONFIG_FOLDER = os.path.join( os.getenv( 'XDG_CONFIG_HOME', '$HOME/.config' ).replace( '$HOME', HOME_FOLDER ), 'backintime' )
+
+		#self._LOCAL_CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
 		os.system( "mkdir -p \"%s\"" % self._LOCAL_CONFIG_FOLDER )
+		os.system( "mkdir -p \"%s\"" % self._LOCAL_DATA_FOLDER )
+
 		self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
 
 		self.load( self._GLOBAL_CONFIG_PATH )
@@ -323,16 +330,16 @@ class Config( configfile.ConfigFile ):
 		return self._DOC_PATH
 
 	def get_app_instance_file( self ):
-		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'app.lock' )
+		return os.path.join( self._LOCAL_DATA_FOLDER, 'app.lock' )
 
 	def get_take_snapshot_message_file( self ):
-		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'message.txt' )
+		return os.path.join( self._LOCAL_DATA_FOLDER, 'worker.message' )
 
 	def get_take_snapshot_instance_file( self ):
-		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'snapshot.lock' )
+		return os.path.join( self._LOCAL_DATA_FOLDER, 'worker.lock' )
 
 	def get_last_snapshot_info_file( self ):
-		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'last_snapshot' )
+		return os.path.join( self._LOCAL_DATA_FOLDER, 'snapshot.last' )
 
 	def get_license( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ) )

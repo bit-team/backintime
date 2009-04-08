@@ -2,6 +2,9 @@ Back In Time
 
 Version 0.9.22
 * new install system: use more common steps (./configure; make; sudo make install)
+* follow FreeDesktop directories specs:
+  $XDG_DATA_HOME (default: $HOME/.local/share) to store app.lock files
+  $XDG_CONFIG_HOME (default: $HOME/.config) to save settings
 
 Version 0.9.20
 * smart remove: fix an important bug and make it more verbose in syslog
