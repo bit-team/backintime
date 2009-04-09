@@ -228,89 +228,95 @@ class Snapshots:
 			pass
 
 	def take_snapshot( self, callback = None, force = False ):
+		ret_val = False
+		sleep = True
+
 		if not self.config.is_configured():
 			logger.warning( 'Not configured' )
-			os.system( 'sleep 2' ) #max 1 backup / second
-			return False
-
-		instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
-		if not instance.check():
-			logger.warning( 'A backup is already running' )
-			os.system( 'sleep 2' ) #max 1 backup / second
-			return False
-
-		instance.start_application()
-		logger.info( 'Lock' )
-
-		if not self.config.get_per_directory_schedule():
-			force = True
-
-		now = datetime.datetime.today()
-		if not force:
-			now = now.replace( second = 0 )
-
-		include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
-
-		if len( include_folders ) <= 0:
-			logger.info( 'Nothing to do' )
-			os.system( 'sleep 2' ) #max 1 backup / second
-			instance.exit_application()
-			logger.info( 'Unlock' )
-			return False
-
-		if not callback is None:
-			callback.snapshot_begin()
-
-		self.set_take_snapshot_message( 0, '...' )
-
-		if not self.config.can_backup():
-			if not callback is None and self.config.is_notify_enabled():
-				for counter in xrange( 30, 0, -1 ):
-					self.set_take_snapshot_message( 1, 
-							_('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it.' ) +
-							'\n' +
-							gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', counter ) % counter )
-					os.system( 'sleep 1' )
-					if self.config.can_backup():
-						break
-			else:
-				os.system( 'sleep 2' ) #max 1 backup / second
-
-		ret_val = False
-	
-		if not self.config.can_backup():
-			logger.warning( 'Can\'t find snapshots directory !' )
 		else:
-			snapshot_id = self.get_snapshot_id( now )
-			snapshot_path = self.get_snapshot_path( snapshot_id )
-
-			if os.path.exists( snapshot_path ):
-				logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
-				retVal = True
+			instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
+			if not instance.check():
+				logger.warning( 'A backup is already running' )
 			else:
-				#try:
-				ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
-				#except:
-				#	retVal = False
+				instance.start_application()
+				logger.info( 'Lock' )
 
-			if not ret_val:
-				os.system( "rm -rf \"%s\"" % snapshot_path )
-				logger.warning( "No new snapshot (not needed or error)" )
-			
-			#try:
-			self._free_space( now )
-			#except:
-			#	pass
+				if not self.config.get_per_directory_schedule():
+					force = True
 
-			self.set_take_snapshot_message( 0, _('Finalizing') )
-			os.system( 'sleep 2' ) #max 1 backup / second
+				now = datetime.datetime.today()
+				if not force:
+					now = now.replace( second = 0 )
 
-		if not callback is None:
-			callback.snapshot_end()
+				include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
+
+				if len( include_folders ) <= 0:
+					logger.info( 'Nothing to do' )
+				else:
+					if not callback is None:
+						callback.snapshot_begin()
+
+					cmd = self.config.get_autorun_take_snapshot_before()
+					if os.path.exists( cmd ):
+						self._execute( cmd )
+
+					self.set_take_snapshot_message( 0, '...' )
+
+					if not self.config.can_backup():
+						if not callback is None and self.config.is_notify_enabled():
+							for counter in xrange( 30, 0, -1 ):
+								self.set_take_snapshot_message( 1, 
+										_('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it.' ) +
+										'\n' +
+										gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', counter ) % counter )
+								os.system( 'sleep 1' )
+								if self.config.can_backup():
+									break
+
+					if not self.config.can_backup():
+						logger.warning( 'Can\'t find snapshots directory !' )
+					else:
+						snapshot_id = self.get_snapshot_id( now )
+						snapshot_path = self.get_snapshot_path( snapshot_id )
+
+						if os.path.exists( snapshot_path ):
+							logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
+						else:
+							ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
+
+						if not ret_val:
+							os.system( "rm -rf \"%s\"" % snapshot_path )
+							logger.warning( "No new snapshot (not needed or error)" )
+						
+						self._free_space( now )
+
+						self.set_take_snapshot_message( 0, _('Finalizing') )
+
+						if ret_val:
+							cmd = self.config.get_autorun_take_snapshot_new()
+							if os.path.exists( cmd ):
+								self._execute( cmd )
+
+					cmd = self.config.get_autorun_take_snapshot_after()
+					if os.path.exists( cmd ):
+						self._execute( cmd )
+
+					os.system( 'sleep 2' )
+					sleep = False
+
+					if not callback is None:
+						callback.snapshot_end()
 		
-		self.clear_take_snapshot_message()
-		instance.exit_application()
-		logger.info( 'Unlock' )
+				if sleep:
+					os.system( 'sleep 2' )
+					sleep = False
+
+				self.clear_take_snapshot_message()
+				instance.exit_application()
+				logger.info( 'Unlock' )
+
+		if sleep:
+			os.system( 'sleep 2' ) #max 1 backup / second
 		return ret_val
 
 	def _exec_rsync_callback( self, line, user_data ):

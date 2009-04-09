@@ -1,6 +1,11 @@
 Back In Time
 
 Version 0.9.22
+* expert options: $XDG_DATA_HOME/backintime/autorun/ can contain scripts to be executed
+  when it tries to take a snapshot:
+  	- takesnapshot.before - if it is configured before "take snapshot" process
+  	- takesnapshot.new - after "take snapshot" process if a new snapshot was created
+  	- takesnapshot.after - after "take snapshot" process
 * use rsync --link-dest and --chmod options to create hard-links and make snapshot read-only
   (no more extra command "cp" and "chmod")
 * follow FreeDesktop directories specs:

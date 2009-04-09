@@ -70,6 +70,14 @@ def print_help( cfg ):
 	print '\tShow license and exit'
 	print 'backintime -h|--help'
 	print '\tShow this help and exit'
+	print 'backintime --snapshots-list'
+	print '\tShow the list of snapshots IDs and exit'
+	print 'backintime --snapshots-list-path'
+	print '\tShow the paths to snapshots and exit'
+	print 'backintime --last-snapshot'
+	print '\tShow the ID of the last snapshot and exit'
+	print 'backintime --last-snapshot-path'
+	print '\tShow the path to the last snapshot and exit'
 	print ''
 
 
@@ -99,6 +107,61 @@ def start_app( callback = None ):
 
 		if arg == '--help' or arg == '-h':
 			print_help( cfg )
+			sys.exit(0)
+
+		if arg == '--snapshots-path':
+			if not cfg.is_configured():
+				print "The application is not configured !"
+			else:
+				print "SnapshotsPath: %s" % cfg.get_snapshots_full_path()
+			sys.exit(0)
+
+		if arg == '--snapshots-list':
+			if not cfg.is_configured():
+				print "The application is not configured !"
+			else:
+				list = snapshots.Snapshots( cfg ).get_snapshots_list()
+				if len( list ) <= 0:
+					print "There are no snapshots"
+				else:
+					for snapshot_id in list:
+						print "SnapshotID: %s" % snapshot_id
+			sys.exit(0)
+
+		if arg == '--snapshots-list-path':
+			if not cfg.is_configured():
+				print "The application is not configured !"
+			else:
+				s = snapshots.Snapshots( cfg )
+				list = s.get_snapshots_list()
+				if len( list ) <= 0:
+					print "There are no snapshots"
+				else:
+					for snapshot_id in list:
+						print "SnapshotPath: %s" % s.get_snapshot_path( snapshot_id )
+			sys.exit(0)
+
+		if arg == '--last-snapshot':
+			if not cfg.is_configured():
+				print "The application is not configured !"
+			else:
+				list = snapshots.Snapshots( cfg ).get_snapshots_list()
+				if len( list ) <= 0:
+					print "There are no snapshots"
+				else:
+					print "SnapshotID: %s" % list[0]
+			sys.exit(0)
+
+		if arg == '--last-snapshot-path':
+			if not cfg.is_configured():
+				print "The application is not configured !"
+			else:
+				s = snapshots.Snapshots( cfg )
+				list = s.get_snapshots_list()
+				if len( list ) <= 0:
+					print "There are no snapshots"
+				else:
+					print "SnapshotPath: %s" % s.get_snapshot_path( list[0] )
 			sys.exit(0)
 
 		if arg == '--snapshots' or arg == '-s':
