@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sun Apr  5 06:52:48 2009 -->
+<!--Generated with glade3 3.4.5 on Fri Apr 10 14:03:29 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="title" translatable="yes">Back In Time</property>
@@ -73,7 +73,7 @@
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Settings</property>
                 <property name="label" translatable="yes">Settings</property>
-                <property name="stock_id">gtk-execute</property>
+                <property name="stock_id">gtk-preferences</property>
                 <signal name="clicked" handler="on_btn_settings_clicked"/>
               </widget>
               <packing>
@@ -415,7 +415,7 @@ in current snapshot !&lt;/b&gt;</property>
     <property name="modal">True</property>
     <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
     <property name="destroy_with_parent">True</property>
-    <property name="icon_name">gtk-execute</property>
+    <property name="icon_name">gtk-preferences</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="transient_for">MainWindow</property>
     <property name="has_separator">False</property>
