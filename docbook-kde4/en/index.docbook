@@ -115,7 +115,9 @@
     		<listitem>
     		<para>To start &app; from a command line, type the following command, then 
 			press <keycap>Return</keycap>:</para>
-    		<para><command>backintime [--gnome | --kde4] [ [--snapshots] path | --backup | --backup-job | --help | --version | --license]</command></para> 
+    		<para><command>backintime [--gnome | --kde4] [ [--snapshots] path | --backup | --backup-job | 
+			--snapshots-list | --snapshots-list-path | --last-snapshot | --last-snapshot-path |
+			--help | --version | --license]</command></para> 
 			<itemizedlist>
 				<listitem>
     				<para>--gnome - use GNOME GUI (if installed)</para>
@@ -139,6 +141,21 @@
 				</listitem>
 				<listitem>
     				<para>--backup-job - take a snapshot (if needed) depending on schedule rules (used for cron jobs).</para> 
+				</listitem>
+				<listitem>
+    				<para>--snapshots-path - display the path where is saves the snapshots (if configured).</para> 
+				</listitem>
+				<listitem>
+    				<para>--snapshots-list - display the list of snapshot IDs.</para> 
+				</listitem>
+				<listitem>
+    				<para>--snapshots-list-path - display the path to snapshots.</para> 
+				</listitem>
+				<listitem>
+    				<para>--last-snapshot - display last snapshot ID.</para> 
+				</listitem>
+				<listitem>
+    				<para>--last-snapshot-path - display the path to the last snapshot.</para> 
 				</listitem>
 				<listitem>
     				<para>-h, --help - display a small help and exit.</para> 
@@ -382,6 +399,43 @@
 	<para>You can compare two different snapshots.
 	By default it use 'meld' to compare files adn directories.
 	Use diff options to change the diff command and it's parameters.</para>
+  </sect1>
+
+<!-- =========== user.callback ============================== -->
+  <sect1 id="backintime-user-callback"> 
+    <title>user.callback</title> 
+    <para>During backup process the application can call a user callback at different steps.
+	This callback is "$XDG_DATA_HOME/backintime/user.callback" (by default $XDG_DATA_HOME is ~/.config).
+	The first argument is the reason:</para> 
+	<itemizedlist>
+		<listitem>
+			<para>1 - Backup process begins.</para>
+		</listitem>
+		<listitem>
+			<para>2 - Backup process ends.</para>
+		</listitem>
+		<listitem>
+			<para>3 - A new snapshot was taken. The extra arguments are snapshot ID and snapshot path.</para>
+		</listitem>
+		<listitem>
+			<para>4 - There was an error. The second argument is the error code:</para>
+			<itemizedlist>
+				<listitem>
+					<para>1 - The application is not configured.</para>
+				</listitem>
+				<listitem>
+					<para>2 - A "take snapshot" process is already running.</para>
+				</listitem>
+				<listitem>
+					<para>3 - Can't find snapshots directory (is it on a removable drive ?).</para>
+				</listitem>
+				<listitem>
+					<para>4 - A snapshot for "now" already exist.</para>
+				</listitem>
+			</itemizedlist>
+		</listitem>
+	</itemizedlist>
+
   </sect1>
 
 <!-- ============= Bugs ================================== -->

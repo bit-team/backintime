@@ -227,16 +227,23 @@ class Snapshots:
 		except:
 			pass
 
+	def call_user_callback( self, args ):
+		cmd = self.config.get_take_snapshot_user_callback()
+		if os.path.isfile( cmd ):
+			self._execute( 'sh ' + cmd + ' ' + args )
+
 	def take_snapshot( self, callback = None, force = False ):
 		ret_val = False
 		sleep = True
 
 		if not self.config.is_configured():
 			logger.warning( 'Not configured' )
+			self.call_user_callback( '4 1' ) #not configured
 		else:
 			instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
 			if not instance.check():
 				logger.warning( 'A backup is already running' )
+				self.call_user_callback( '4 2' ) #a backup is already running
 			else:
 				instance.start_application()
 				logger.info( 'Lock' )
@@ -256,9 +263,7 @@ class Snapshots:
 					if not callback is None:
 						callback.snapshot_begin()
 
-					cmd = self.config.get_autorun_take_snapshot_before()
-					if os.path.exists( cmd ):
-						self._execute( cmd )
+					self.call_user_callback( '1' ) #take snapshot process begin
 
 					self.set_take_snapshot_message( 0, '...' )
 
@@ -275,12 +280,14 @@ class Snapshots:
 
 					if not self.config.can_backup():
 						logger.warning( 'Can\'t find snapshots directory !' )
+						self.call_user_callback( '4 3' ) #Can't find snapshots directory (is it on a removable drive ?)
 					else:
 						snapshot_id = self.get_snapshot_id( now )
 						snapshot_path = self.get_snapshot_path( snapshot_id )
 
 						if os.path.exists( snapshot_path ):
 							logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
+							self.call_user_callback( '4 4 ' + snapshot_id ) #This snapshots already exists
 						else:
 							ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
 
@@ -292,17 +299,13 @@ class Snapshots:
 
 						self.set_take_snapshot_message( 0, _('Finalizing') )
 
-						if ret_val:
-							cmd = self.config.get_autorun_take_snapshot_new()
-							if os.path.exists( cmd ):
-								self._execute( cmd )
-
-					cmd = self.config.get_autorun_take_snapshot_after()
-					if os.path.exists( cmd ):
-						self._execute( cmd )
-
 					os.system( 'sleep 2' )
 					sleep = False
+
+					if ret_val:
+						self.call_user_callback( "3 %s \"%s\"" % ( snapshot_id, snapshot_path ) ) #new snapshot
+
+					self.call_user_callback( '2' ) #take snapshot process end
 
 					if not callback is None:
 						callback.snapshot_end()
