@@ -121,7 +121,7 @@
 	<para>If you want to run it as root you need to use "su" (command line), "gksu" (Gnome) or "kdesudo" (KDE).</para>
 	<para>A new snapshot is created only if something changed since the last snapshot (if any).</para>
 	<para>A snapshot contains all the files from the selected directories (except for exclude patterns).
-	In order to reduce disk space it use hard\-links (if possible) between snapshots for unchanged files.
+	In order to reduce disk space it use hard-links (if possible) between snapshots for unchanged files.
 	This way a file of 10Mb, unchanged for 10 snapshots, will use only 10Mb on the disk.</para>
 	<para>Unsafe links are ignored. That means that a link to a file/directory outside of include
 	directories are ignored.</para>
