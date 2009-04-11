@@ -1,3 +1,6 @@
+PREFIX=/usr
+DEST=$(DESTDIR)$(PREFIX)
+
 buildcommon: translations
 
 cleancommon:

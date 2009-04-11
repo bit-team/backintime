@@ -9,12 +9,10 @@ for i in common gnome kde4; do
 
 	rm -rf tmp
 	mkdir -p tmp/DEBIAN
-	mkdir -p tmp/usr
 
 	cp control.$i tmp/DEBIAN/control
-	bash ./configure --dest=tmp/usr --no-common --no-gnome --no-kde4 --$i
-	make
-	make install
+	./configure --no-common --no-gnome --no-kde4 --$i
+	make DESTDIR=tmp install
 	dpkg --build tmp/ $PKGNAME-${PKGVER}_$PKGARCH.deb
 	rm -rf tmp
 done

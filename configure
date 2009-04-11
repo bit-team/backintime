@@ -3,7 +3,6 @@
 common='--common'
 gnome='--auto-gnome'
 kde4='--auto-kde4'
-dest='/usr'
 
 function show_help { 
 	echo "Format: ./configure [--help] [--common|--no-common] [--gnome|--no-gnome|--auto-gnome] [--kde4|--no-kde4|--auto-kde4]"
@@ -19,7 +18,6 @@ for param in $*; do
 		--common | --no-common) common=$param;;
 		--gnome | --auto-gnome | --no-gnome) gnome=$param;;
 		--kde4 | --auto-kde4 | --no-kde4) kde4=$param;;
-		--dest=*) dest=${param:7};;
 		--help) show_help;;
 	esac
 done
@@ -88,7 +86,6 @@ if [ $kde4 = "--kde4" ]; then
 	parts="kde4 $parts"
 fi
 
-echo -e "DEST=$dest" >> Makefile
 echo -e "LANGS=$langs" >> Makefile
 echo -e "SHELL=`which bash`" >> Makefile
 echo -e "" >> Makefile
