@@ -478,7 +478,8 @@ class Snapshots:
 		snapshots = self.get_snapshots_list()
 		prev_snapshot_id = ''
 
-		rsync_link_with = ''
+		#rsync_link_with = ''
+
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 			prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
@@ -504,30 +505,30 @@ class Snapshots:
 
 			#create hard links
 			
-			rsync_link_with = "--link-dest=\"%s\" " % prev_snapshot_folder
+			#rsync_link_with = "--link-dest=\"%s\" " % prev_snapshot_folder
 
-			#if not self._create_directory( new_snapshot_path_to ):
-			#	return False
-			#
-			#self.set_take_snapshot_message( 0, _('Create hard-links') )
-			#logger.info( "Create hard-links" )
-			#
-			#if force or len( ignore_folders ) == 0:
-			#	cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
-			#	self._execute( cmd )
-			#else:
-			#	for folder in include_folders:
-			#		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
-			#		new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
-			#		self._execute( "mkdir -p \"%s\"" % new_path )
-			#		cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
-			#		self._execute( cmd )
-			#
-			#cmd = "chmod -R a+w \"%s\"" % new_snapshot_path
-			#self._execute( cmd )
-		#else:
-		#	if not self._create_directory( new_snapshot_path_to ):
-		#		return False
+			if not self._create_directory( new_snapshot_path_to ):
+				return False
+			
+			self.set_take_snapshot_message( 0, _('Create hard-links') )
+			logger.info( "Create hard-links" )
+			
+			if force or len( ignore_folders ) == 0:
+				cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
+				self._execute( cmd )
+			else:
+				for folder in include_folders:
+					prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
+					new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
+					self._execute( "mkdir -p \"%s\"" % new_path )
+					cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
+					self._execute( cmd )
+			
+			cmd = "chmod -R a+w \"%s\"" % new_snapshot_path
+			self._execute( cmd )
+		else:
+			if not self._create_directory( new_snapshot_path_to ):
+				return False
 
 		#create new backup folder
 		if not self._create_directory( new_snapshot_path_to ):
@@ -536,7 +537,8 @@ class Snapshots:
 
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
-		cmd = rsync_prefix + ' -v --delete-excluded --chmod=a-w ' + rsync_link_with + rsync_suffix + '"' + new_snapshot_path_to + '"'
+		#cmd = rsync_prefix + ' -v --delete-excluded --chmod=a-w ' + rsync_link_with + rsync_suffix + '"' + new_snapshot_path_to + '"'
+		cmd = rsync_prefix + ' -v --delete-excluded ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
 
@@ -559,7 +561,7 @@ class Snapshots:
 			return False
 
 		#make new folder read-only
-		#self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
+		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
 		return True
 
 	def smart_remove( self, now_full = None ):
