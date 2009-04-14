@@ -70,6 +70,7 @@ class SettingsDialog:
 
 		#per directory schedule
 		self.cb_per_directory_schedule = self.glade.get_widget( 'cb_per_directory_schedule' )
+		self.lbl_schedule = self.glade.get_widget( 'lbl_schedule' )
 
 		#setup include folders
 		self.list_include = self.glade.get_widget( 'list_include' )
@@ -182,8 +183,7 @@ class SettingsDialog:
 		self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
 
 		#setup include folders
-		if self.cb_per_directory_schedule.get_active():
-			self.list_include.append_column( self.include_schedule_column )
+		self.update_per_directory_option()
 
 		self.store_include.clear()
 		include_folders = self.config.get_include_folders()
@@ -268,10 +268,19 @@ class SettingsDialog:
 		self.cb_min_free_space_unit.set_sensitive( enabled )
 
 	def on_cb_per_directory_schedule_toggled( self, button ):
-		if button.get_active():
-			self.list_include.append_column( self.include_schedule_column )
+		self.update_per_directory_option()
+
+	def update_per_directory_option( self ):
+		if self.cb_per_directory_schedule.get_active():
+			if self.list_include.get_column(1) == None:
+				self.list_include.append_column( self.include_schedule_column )
+			self.cb_backup_mode.hide()
+			self.lbl_schedule.hide()
 		else:
-			self.list_include.remove_column( self.include_schedule_column )
+			if self.list_include.get_column(1) != None:
+				self.list_include.remove_column( self.include_schedule_column )
+			self.lbl_schedule.show()
+			self.cb_backup_mode.show()
 
 	def run( self ):
 		self.load_from_config()

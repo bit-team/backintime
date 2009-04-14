@@ -84,6 +84,7 @@ class SettingsDialog( KDialog ):
 
 		#Schedule
 		group_box = QGroupBox( self )
+		self.global_schedule_group_box = group_box
 		group_box.setTitle( QString.fromUtf8( _( 'Schedule' ) ) )
 		layout.addWidget( group_box )
 
@@ -252,8 +253,10 @@ class SettingsDialog( KDialog ):
 	def update_include_columns( self ):
 		if self.cb_per_diretory_schedule.isChecked():
 			self.list_include.showColumn( 1 )
+			self.global_schedule_group_box.hide()
 		else:
 			self.list_include.hideColumn( 1 )
+			self.global_schedule_group_box.show()
 
 	def on_list_include_item_activated( self, item, column ):
 		if not self.cb_per_diretory_schedule.isChecked():

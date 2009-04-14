@@ -1,6 +1,8 @@
 Back In Time
 
 Version 0.9.22
+* GNOME & KDE4 SettingsDialog: if schedule automatic backups per directory is set, global schedule is hidden
+* GNOME FilesView: thread "*~" files (backup files) as hidden files
 * GNOME: use gtk-preferences icon for SettingsDialog (replace gtk-execute icon)
 * expert option: $XDG_DATA_HOME/backintime/user.callback (if exists) is called a different steps
   of a "take snapshot" process (before, after, on error, is a new snapshot was taken).

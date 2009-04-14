@@ -952,6 +952,8 @@ class MainWindow:
 				if not self.show_hidden_files:
 					if file[ 0 ] == '.':
 						continue
+					if file[ -1 ] == '~':
+						continue
 
 				path = os.path.join( full_path, file )
 
