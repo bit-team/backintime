@@ -514,14 +514,14 @@ class Snapshots:
 			logger.info( "Create hard-links" )
 			
 			if force or len( ignore_folders ) == 0:
-				cmd = "cp -al \"%s/\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
+				cmd = "cp -al \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
 				self._execute( cmd )
 			else:
 				for folder in include_folders:
 					prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
 					new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
 					self._execute( "mkdir -p \"%s\"" % new_path )
-					cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
+					cmd = "cp -alb \"%s\"* \"%s\"" % ( prev_path, new_path )
 					self._execute( cmd )
 			
 			cmd = "chmod -R a+w \"%s\"" % new_snapshot_path
@@ -531,9 +531,9 @@ class Snapshots:
 				return False
 
 		#create new backup folder
-		if not self._create_directory( new_snapshot_path_to ):
-			logger.error( "Can't create snapshot directory: %s" % new_snapshot_path_to )
-			return False
+		#if not self._create_directory( new_snapshot_path_to ):
+		#	logger.error( "Can't create snapshot directory: %s" % new_snapshot_path_to )
+		#	return False
 
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
