@@ -544,7 +544,7 @@
   <sect1 id="backintime-user-callback"> 
     <title>user.callback</title> 
     <para>During backup process the application can call a user callback at different steps.
-	This callback is "$XDG_DATA_HOME/backintime/user.callback" (by default $XDG_DATA_HOME is ~/.config).
+	This callback is "$XDG_CONFIG_HOME/backintime/user.callback" (by default $XDG_CONFIG_HOME is ~/.config).
 	The first argument is the reason:</para> 
 	<itemizedlist>
 		<listitem>
