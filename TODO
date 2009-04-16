@@ -1,5 +1,7 @@
 TODO:
 * add option to preserve permissions (snapshots will no longer be read-only)
+* add expert option to specify extra rsync arguments
+* allow include directories to mix with snapshots directory (but exlude snapshots directory)
 * refresh button should force files view update too
 * add "expert option": cron take snapshot command template (default: "nice 19 %s >/dev/null 2>&1")
 * use rsync return code to check that the snapshot was really taken (no out of space, copy error ...)
