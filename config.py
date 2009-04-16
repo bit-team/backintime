@@ -80,8 +80,8 @@ class Config( configfile.ConfigFile ):
 		self._LOCAL_CONFIG_FOLDER = os.path.join( os.getenv( 'XDG_CONFIG_HOME', '$HOME/.config' ).replace( '$HOME', HOME_FOLDER ), 'backintime' )
 
 		#self._LOCAL_CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
-		os.system( "mkdir -p \"%s\"" % self._LOCAL_CONFIG_FOLDER )
-		os.system( "mkdir -p \"%s\"" % self._LOCAL_DATA_FOLDER )
+		tools.make_dirs( self._LOCAL_CONFIG_FOLDER )
+		tools.make_dirs( self._LOCAL_DATA_FOLDER )
 
 		self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
 
@@ -183,7 +183,7 @@ class Config( configfile.ConfigFile ):
 				self.set_str_value( 'snapshots.path', old_value )
 
 				if not os.path.isdir( full_path ):
-					os.system( "mkdir -p \"%s\"" % full_path )
+					tools.make_dirs( full_path )
 					if not os.path.isdir( full_path ):
 						return _( 'Can\'t write to: %s\nAre you sure have write access ?' ) % value
 

@@ -1,9 +1,7 @@
 TODO:
+* add option to preserve permissions (snapshots will no longer be read-only)
 * refresh button should force files view update too
 * add "expert option": cron take snapshot command template (default: "nice 19 %s >/dev/null 2>&1")
-* add "expert option": script to be called before starting take snapshot process,
-  after a new snapshot is created and after take snapshot process is done
-* add command line options to manage snapshots (list, get path, save/restore)
 * use rsync return code to check that the snapshot was really taken (no out of space, copy error ...)
 * Toolbars: add different texts for labels and tooltips
 * KDE4: handle command line parameters

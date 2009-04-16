@@ -26,6 +26,7 @@ import statvfs
 import config
 import logger
 import applicationinstance
+import tools
 
 
 _=gettext.gettext
@@ -407,7 +408,7 @@ class Snapshots:
 		return ( include_folders, ignore_folders, dict2 )
 
 	def _create_directory( self, folder ):
-		self._execute( "mkdir -p \"%s\"" % folder )
+		tools.make_dirs( folder )
 
 		if not os.path.exists( folder ):
 			logger.error( "Can't create directory: %s" % folder )
@@ -520,7 +521,7 @@ class Snapshots:
 				for folder in include_folders:
 					prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
 					new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
-					self._execute( "mkdir -p \"%s\"" % new_path )
+					tools.make_dirs( new_path )
 					cmd = "cp -alb \"%s\"* \"%s\"" % ( prev_path, new_path )
 					self._execute( cmd )
 			
@@ -547,7 +548,7 @@ class Snapshots:
 			for folder in ignore_folders:
 				prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
 				new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
-				self._execute( "mkdir -p \"%s\"" % new_path )
+				tools.make_dirs( new_path )
 				cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
 				self._execute( cmd )
 

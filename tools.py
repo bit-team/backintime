@@ -79,3 +79,14 @@ def check_command( cmd ):
 	return False
 
 
+def make_dirs( path ):
+	path = path.rstrip( os.sep )
+	if len( path ) <= 0:
+		return
+
+	if not os.path.isdir( path ):
+		try:
+			os.makedirs( path )
+		except:
+			pass
+
