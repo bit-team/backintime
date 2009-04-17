@@ -465,8 +465,8 @@ class Snapshots:
 		rsync_include2 = ' '.join( items2 )
 
 		#rsync prefix & suffix
-		rsync_prefix = 'rsync -a'
-		rsync_suffix = '--copy-unsafe-links --whole-file --delete ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		rsync_prefix = 'rsync -a '
+		rsync_suffix = ' --whole-file --delete ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
 		if not force:
