@@ -156,7 +156,7 @@ class Snapshots:
 		logger.info( "Restore: %s" % path )
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 		#cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
-		cmd = "rsync -avR --safe-links --whole-file --backup --suffix=%s --chmod=+w \"%s/.%s\" %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
+		cmd = "rsync -avR --whole-file --backup --suffix=%s --chmod=+w \"%s/.%s\" %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		self._execute( cmd )
 
 	def get_snapshots_list( self, sort_reverse = True ):
@@ -466,7 +466,7 @@ class Snapshots:
 
 		#rsync prefix & suffix
 		rsync_prefix = 'rsync -a'
-		rsync_suffix = '--safe-links --whole-file --delete ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		rsync_suffix = '--copy-unsafe-links --whole-file --delete ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
 		if not force:

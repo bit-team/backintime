@@ -1,6 +1,8 @@
 Back In Time
 
 Version 0.9.22
+* remove --safe-links for restoring
+* use --copy-unsafe-links (replace --safe-links) option when taking a snapshot
 * update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 * create directory now use python os.makedirs (replace use of mkdir command)
 * KDE4: fix a crush related to QString - python string conversion
