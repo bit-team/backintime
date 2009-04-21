@@ -156,14 +156,14 @@ class SnapshotsDialog( KDialog ):
 		name = self.snapshots.get_snapshot_display_name( snapshot_id )
 
 		#add to list
-		item = QListWidgetItem( name, self.list_snapshots )
+		item = QListWidgetItem( QString.fromUtf8( name ), self.list_snapshots )
 		item.setData( Qt.UserRole, QVariant( snapshot_id ) )
 
 		if self.list_snapshots.currentItem() is None:
 			self.list_snapshots.setCurrentItem( item )
 
 		#add to combo
-		self.combo_diff.addItem( name, QVariant( snapshot_id ) )
+		self.combo_diff.addItem( QString.fromUtf8( name ), QVariant( snapshot_id ) )
 
 		if self.snapshot_id == snapshot_id:
 			self.combo_diff.setCurrentIndex( self.combo_diff.count() - 1 )
