@@ -20,7 +20,7 @@
   <articleinfo> 
     <title>&app; Manual</title>
     <abstract role="description">
-      <para>&app; is a simple backup system for GNOME desktop.</para>
+      <para>&app; is a simple backup tool for GNOME desktop.</para>
     </abstract>         
 
     <copyright> 
@@ -108,7 +108,7 @@
      the application is and what it does. -->
   <sect1 id="backintime-introduction"> 
     <title>Introduction</title> 
-    <para>&app; is a simple backup system for Linux (Gnome and KDE4). The backup is done by taking snapshots of 
+    <para>&app; is a simple backup tool for Linux (Gnome and KDE4). The backup is done by taking snapshots of 
 	a specified set of directories.</para> 
 	<para>All you have to do is:</para>
     <itemizedlist> 
@@ -116,7 +116,7 @@
       <listitem><para>cofigure what directories to backup</para></listitem>
       <listitem><para>schedule automatic backup: disabled, every 5 minutes, every 10 minutes, every hour, every day, every week, every month</para></listitem>
     </itemizedlist> 
-	<para>&app; acts as a "user mode" backup system. This means that you can backup/restore only folders 
+	<para>&app; acts as a "user mode" backup tool. This means that you can backup/restore only folders 
 	you have write access to (actually you can backup read-only folders, but you can't restore them).</para>
 	<para>If you want to run it as root you need to use "su" (command line), "gksu" (Gnome) or "kdesudo" (KDE).</para>
 	<para>A new snapshot is created only if something changed since the last snapshot (if any).</para>
