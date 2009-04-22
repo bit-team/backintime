@@ -171,7 +171,7 @@ class SettingsDialog( KDialog ):
 		#remove old snapshots
 		enabled, value, unit = self.config.get_remove_old_snapshots()
 
-		self.cb_remove_older_then = QCheckBox( QString.fromUtf8( _( 'Older then:' ) ), self )
+		self.cb_remove_older_then = QCheckBox( QString.fromUtf8( _( 'Older than:' ) ), self )
 		layout.addWidget( self.cb_remove_older_then, 0, 0 )
 		self.cb_remove_older_then.setChecked( enabled )
 		QObject.connect( self.cb_remove_older_then, SIGNAL('stateChanged(int)'), self.update_remove_older_than )
@@ -186,7 +186,7 @@ class SettingsDialog( KDialog ):
 		#min free space
 		enabled, value, unit = self.config.get_min_free_space()
 
-		self.cb_min_free_space = QCheckBox( QString.fromUtf8( _( 'If free space is less then:' ) ), self )
+		self.cb_min_free_space = QCheckBox( QString.fromUtf8( _( 'If free space is less than:' ) ), self )
 		layout.addWidget( self.cb_min_free_space, 1, 0 )
 		self.cb_min_free_space.setChecked( enabled )
 		QObject.connect( self.cb_min_free_space, SIGNAL('stateChanged(int)'), self.update_min_free_space )

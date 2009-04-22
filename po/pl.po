@@ -1,26 +1,27 @@
-# Polish translations for backintime package
-# Polskie tłumaczenia dla pakietu backintime.
-# Copyright (C) 2009 THE backintime'S COPYRIGHT HOLDER
+# Polish translation for backintime
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the backintime package.
-# Paweł Hołuj <pawel@holuj.info>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: backintime 0.9.16\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-11 10:04+0100\n"
-"PO-Revision-Date: 2009-03-16 13:57+0100\n"
-"Last-Translator: Paweł Hołuj <pawel@holuj.info>\n"
-"Language-Team: Polish\n"
+"Project-Id-Version: backintime\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-04-15 16:37+0200\n"
+"PO-Revision-Date: 2009-03-05 17:47+0000\n"
+"Last-Translator: skrzat <Unknown>\n"
+"Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2009-04-22 08:16+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #: config.py:52
-msgid "None"
-msgstr "Brak"
+msgid "Disabled"
+msgstr ""
 
 #: config.py:53
 msgid "Every 5 minutes"
@@ -48,434 +49,493 @@ msgstr "Co miesiąc"
 
 #: config.py:62
 msgid "Day(s)"
-msgstr "dni"
+msgstr "Dni"
 
 #: config.py:63
 msgid "Week(s)"
-msgstr "tygodni"
+msgstr "Tygodni"
 
 #: config.py:64
 msgid "Year(s)"
-msgstr "lat"
+msgstr "Lat"
 
-#: config.py:124
+#: config.py:131
 msgid "Snapshots directory is not valid !"
-msgstr "Katalog migawek jest niepoprawny!"
+msgstr "Nieprawidłowy katalog migawek !"
 
-#: config.py:127
+#: config.py:134
 msgid "Snapshots directory can't be the root directory !"
-msgstr "Katalog migawek nie może być katalogiem głównym (/)!"
+msgstr ""
 
-#: config.py:130
+#: config.py:137
 msgid "You must select at least one directory to backup !"
-msgstr "Musisz zaznaczyć co najmniej jeden katalog do tworzenia kopii zapasowych!"
+msgstr "Musisz wybrać przynajmniej jeden katalog do archiwizacji !"
 
-#: config.py:138 config.py:144
+#: config.py:146 config.py:152
 msgid "Snapshots directory can't be in \"Backup Directories\" !"
-msgstr "Katalog migawek nie może znajdować się w katalogach, z których tworzone są kopie zapasowe!"
+msgstr "Katalog migawek nie może być w katalogach archiwizacji !"
 
-#: config.py:151
+#: config.py:159
 msgid "\"Backup directories\" can't include snapshots directory !"
-msgstr "Katalogi, z których tworzone są kopie zapasowe nie mogą zawierać katalogu migawek!"
+msgstr "Katalogi archiwizacji nie mogą zawierać katalog migawek !"
 
-#: config.py:155
+#: config.py:163
 msgid "\"Exclude pattern\" can't contain \":\" char !"
-msgstr "Maska wykluczania nie może zawierać znaku \":\"!"
+msgstr ""
 
-#: gnomebackintime.py:147 gnomebackintime.py:492 kde4backintime.py:207
-#: kde4backintime.py:430
+#: config.py:178
+#, python-format
+msgid "%s is not a directory !"
+msgstr ""
+
+#: config.py:188
+#, python-format
+msgid ""
+"Can't write to: %s\n"
+"Are you sure have write access ?"
+msgstr ""
+
+#: config.py:410
+msgid ""
+"Can't find crontab.\n"
+"Are you sure cron is installed ?\n"
+"If not you should disable all automatic backups."
+msgstr ""
+
+#: gnomebackintime.py:73 kde4backintime.py:958
+msgid "about-translators"
+msgstr ""
+
+#: gnomebackintime.py:152 gnomebackintime.py:499 kde4backintime.py:223
+#: kde4backintime.py:446
 msgid "Done"
 msgstr "Gotowe"
 
-#: gnomebackintime.py:161 kde4backintime.py:157
-msgid "Places"
-msgstr "Miejsca"
+#: gnomebackintime.py:166 kde4backintime.py:158
+msgid "Shortcuts"
+msgstr ""
 
-#: gnomebackintime.py:182
+#: gnomebackintime.py:189
 msgid "Name"
 msgstr "Nazwa"
 
-#: gnomebackintime.py:193
+#: gnomebackintime.py:200
 msgid "Size"
 msgstr "Rozmiar"
 
-#: gnomebackintime.py:200
+#: gnomebackintime.py:207
 msgid "Date"
 msgstr "Data"
 
-#: gnomebackintime.py:219 gnomebackintime.py:256 gnomesnapshotsdialog.py:82
-#: kde4backintime.py:105 kde4backintime.py:144 kde4snapshotsdialog.py:89
-#: gnomebackintime.glade:242 gnomebackintime.glade:243
-#: gnomebackintime.glade:856
+#: gnomebackintime.py:226 gnomebackintime.py:263 gnomesnapshotsdialog.py:83
+#: kde4backintime.py:106 kde4backintime.py:145 kde4snapshotsdialog.py:90
+#: gnomebackintime.glade:243 gnomebackintime.glade:244
+#: gnomebackintime.glade:997
 msgid "Snapshots"
-msgstr ""
+msgstr "Migawki"
 
-#: gnomebackintime.py:254
+#: gnomebackintime.py:261
 msgid "Open"
+msgstr "Otwórz"
+
+#: gnomebackintime.py:262 kde4backintime.py:142 kde4snapshotsdialog.py:115
+#: gnomebackintime.glade:231 gnomebackintime.glade:232
+#: gnomebackintime.glade:1030 gnomebackintime.glade:1031
+msgid "Copy"
+msgstr "Kopiuj"
+
+#: gnomebackintime.py:264 kde4snapshotsdialog.py:128
+msgid "Diff"
 msgstr ""
 
-#: gnomebackintime.py:255 kde4backintime.py:141 kde4snapshotsdialog.py:114
-#: gnomebackintime.glade:230 gnomebackintime.glade:231
-#: gnomebackintime.glade:889 gnomebackintime.glade:890
-msgid "Copy"
-msgstr "Skopiuj"
-
-#: gnomebackintime.py:257 kde4snapshotsdialog.py:127
-msgid "Diff"
-msgstr "Porównywanie"
-
-#: gnomebackintime.py:258 kde4backintime.py:138 kde4snapshotsdialog.py:109
-#: gnomebackintime.glade:218 gnomebackintime.glade:219
-#: gnomebackintime.glade:901 gnomebackintime.glade:902
+#: gnomebackintime.py:265 kde4backintime.py:139 kde4snapshotsdialog.py:110
+#: gnomebackintime.glade:219 gnomebackintime.glade:220
+#: gnomebackintime.glade:1042 gnomebackintime.glade:1043
 msgid "Restore"
 msgstr "Przywróć"
 
-#: gnomebackintime.py:314 kde4backintime.py:255
+#: gnomebackintime.py:321 kde4backintime.py:271
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
-"Nie można odnaleźć katalogu migawek..\n"
-"Jeśli znajduje się on na dysku wymiennym, proszę je podłączyć, a następnie kliknąć OK"
 
-#: gnomebackintime.py:478 kde4backintime.py:418
+#: gnomebackintime.py:485 kde4backintime.py:434
 msgid "Working:"
-msgstr "Pracuję:"
+msgstr ""
 
-#: gnomebackintime.py:494 kde4backintime.py:432
+#: gnomebackintime.py:501 kde4backintime.py:448
 msgid "Done, no backup needed"
-msgstr "Gotowe, kopia zapasowa nie była potrzebna"
+msgstr "Gotowe, archiwizacja niepotrzebna"
 
-#: gnomebackintime.py:505 kde4backintime.py:476
+#: gnomebackintime.py:512 kde4backintime.py:492
 msgid "Global"
-msgstr "Globalne"
+msgstr ""
 
-#: gnomebackintime.py:506 kde4backintime.py:477
+#: gnomebackintime.py:513 kde4backintime.py:493
 msgid "Root"
-msgstr "System plików"
+msgstr ""
 
-#: gnomebackintime.py:507 kde4backintime.py:478
+#: gnomebackintime.py:514 kde4backintime.py:494
 msgid "Home"
-msgstr "Katalog domowy"
+msgstr ""
 
-#: gnomebackintime.py:531
+#: gnomebackintime.py:538
 msgid "Bookmarks"
 msgstr "Zakładki"
 
-#: gnomebackintime.py:539 kde4backintime.py:483
+#: gnomebackintime.py:546 kde4backintime.py:499
 msgid "Backup Directories"
-msgstr "Katalogi kopii zapasowych"
+msgstr "Katalogi archiwizacji"
 
-#: gnomebackintime.py:559 kde4backintime.py:552
+#: gnomebackintime.py:566 kde4backintime.py:568
 msgid "Today"
-msgstr "Dzisiaj"
+msgstr "Dziś"
 
-#: gnomebackintime.py:563 kde4backintime.py:556
+#: gnomebackintime.py:570 kde4backintime.py:572
 msgid "Yesterday"
 msgstr "Wczoraj"
 
-#: gnomebackintime.py:567 kde4backintime.py:560
+#: gnomebackintime.py:574 kde4backintime.py:576
 msgid "This week"
 msgstr "Ten tydzień"
 
-#: gnomebackintime.py:571 kde4backintime.py:564
+#: gnomebackintime.py:578 kde4backintime.py:580
 msgid "Last week"
-msgstr "Ostatni tydzień"
+msgstr "Poprzedni tydzień"
 
-#: gnomebackintime.py:854 kde4backintime.py:74 kde4backintime.py:627
+#: gnomebackintime.py:861 kde4backintime.py:75 kde4backintime.py:638
 #: gnomebackintime.glade:45 gnomebackintime.glade:46
 msgid "Snapshot Name"
 msgstr "Nazwa migawki"
 
-#: gnomebackintime.py:873
+#: gnomebackintime.py:880
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
-"Czy na pewno usunąć wybraną migawkę:\n"
+"Czy na pewno usunąć migawkę:\n"
 "<b>%s</b>"
 
-#: gnomebackintime.py:909 kde4backintime.py:789
+#: gnomebackintime.py:910 kde4backintime.py:800
 #, python-format
 msgid "Snapshot: %s"
-msgstr "Migawka: %s"
+msgstr ""
 
-#: gnomebackintime.py:910 kde4backintime.py:790
+#: gnomebackintime.py:911 kde4backintime.py:801
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "Przeglądaj migawki utworzone w %s"
+msgstr ""
 
-#: gnomebackintime.py:912 kde4backintime.py:792
+#: gnomebackintime.py:913 kde4backintime.py:803
 msgid "View the current disk content"
-msgstr "Przeglądaj obecną zawartość dysku"
+msgstr ""
 
-#: gnomebackintime.py:913 kde4backintime.py:793 snapshots.py:65
+#: gnomebackintime.py:914 kde4backintime.py:804 snapshots.py:65
 msgid "Now"
 msgstr "Teraz"
 
-#: gnomebackintime.py:1122 kde4backintime.py:930
+#: gnomebackintime.py:1134 kde4backintime.py:931
 msgid "Working..."
-msgstr "Pracuję..."
+msgstr ""
 
-#: gnomesettingsdialog.py:67 kde4settingsdialog.py:80
+#: gnomesettingsdialog.py:81 kde4settingsdialog.py:108
 msgid "Include folders"
-msgstr "Dołączone foldery"
+msgstr "Uwzględnij katalogi"
 
-#: gnomesettingsdialog.py:91 kde4settingsdialog.py:106
-msgid "Exclude patterns"
-msgstr "Maski wykluczania"
+#: gnomesettingsdialog.py:88 kde4settingsdialog.py:88
+msgid "Schedule"
+msgstr ""
 
-#: gnomesettingsdialog.py:227
+#: gnomesettingsdialog.py:109
+msgid "Patterns, files or directories"
+msgstr ""
+
+#: gnomesettingsdialog.py:296
 msgid "Include directory"
-msgstr "Dołączany katalog"
+msgstr ""
 
-#: gnomesettingsdialog.py:262 kde4settingsdialog.py:300
+#: gnomesettingsdialog.py:331 kde4settingsdialog.py:400
 msgid "Exclude pattern"
-msgstr "Maska wykluczania"
+msgstr ""
 
-#: gnomesettingsdialog.py:269 kde4settingsdialog.py:307
+#: gnomesettingsdialog.py:338 kde4settingsdialog.py:407
 msgid "Exclude file"
-msgstr "Wykluczany plik"
+msgstr ""
 
-#: gnomesettingsdialog.py:278
+#: gnomesettingsdialog.py:347
 msgid "Exclude directory"
-msgstr "Wykluczany katalog"
+msgstr ""
 
-#: gnomesettingsdialog.py:321 kde4settingsdialog.py:262
+#: gnomesettingsdialog.py:394 kde4settingsdialog.py:341
 msgid "Are you sure you want to change snapshots directory ?"
-msgstr "Czy na pewno zmienić katalog migawek?"
+msgstr "Czy na pewno zmienić katalog migawek ?"
 
-#: gnomesnapshotsdialog.py:266 kde4snapshotsdialog.py:240
+#: gnomesnapshotsdialog.py:236 kde4snapshotsdialog.py:241
 msgid "You can't compare a snapshot to itself"
-msgstr "Nie można porównać migawki z samą sobą"
+msgstr "Nie możesz porównywać migawki samej ze sobą"
 
-#: gnomesnapshotsdialog.py:273 kde4snapshotsdialog.py:247
+#: gnomesnapshotsdialog.py:243 kde4snapshotsdialog.py:248
 #, python-format
 msgid "Command not found: %s"
-msgstr "Polecenie nie znalezione: %s"
+msgstr "Komenda nie znaleziona: %s"
 
-#: kde4backintime.py:68 snapshots.py:266 snapshots.py:362
+#: kde4backintime.py:69 snapshots.py:326 snapshots.py:542
 #: gnomebackintime.glade:21
 msgid "Take snapshot"
-msgstr "Zrób migawkę"
+msgstr "Utwórz migawkę"
 
-#: kde4backintime.py:71 gnomebackintime.glade:33 gnomebackintime.glade:34
+#: kde4backintime.py:72 gnomebackintime.glade:33 gnomebackintime.glade:34
 msgid "Update snapshots"
 msgstr "Aktualizuj migawkę"
 
-#: kde4backintime.py:77 gnomebackintime.glade:57 gnomebackintime.glade:58
+#: kde4backintime.py:78 gnomebackintime.glade:57 gnomebackintime.glade:58
 msgid "Remove Snapshot"
 msgstr "Usuń migawkę"
 
-#: kde4backintime.py:82 kde4settingsdialog.py:44 gnomebackintime.glade:74
-#: gnomebackintime.glade:75 gnomebackintime.glade:381
+#: kde4backintime.py:83 kde4settingsdialog.py:60 gnomebackintime.glade:74
+#: gnomebackintime.glade:75 gnomebackintime.glade:414
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: kde4backintime.py:87 gnomebackintime.glade:94 gnomebackintime.glade:95
+#: kde4backintime.py:88 gnomebackintime.glade:94 gnomebackintime.glade:95
 msgid "About"
 msgstr "O programie"
 
-#: kde4backintime.py:90 gnomebackintime.glade:106 gnomebackintime.glade:107
+#: kde4backintime.py:91 gnomebackintime.glade:106 gnomebackintime.glade:107
 msgid "Help"
 msgstr "Pomoc"
 
-#: kde4backintime.py:95 gnomebackintime.glade:123 gnomebackintime.glade:124
+#: kde4backintime.py:96 gnomebackintime.glade:123 gnomebackintime.glade:124
 msgid "Exit"
-msgstr "Zakończ"
+msgstr "Wyjście"
 
-#: kde4backintime.py:120 gnomebackintime.glade:178
+#: kde4backintime.py:121 gnomebackintime.glade:179
 msgid "Up"
-msgstr "Góra"
+msgstr "Do góry"
 
-#: kde4backintime.py:133 gnomebackintime.glade:201
+#: kde4backintime.py:134 gnomebackintime.glade:202
 msgid "Show hidden files"
-msgstr "Pokazuj ukryte pliki"
+msgstr "Pokaż ukryte pliki"
 
-#: kde4backintime.py:647
+#: kde4backintime.py:167
+msgid ""
+"This directory don't exist\n"
+"in current snapshot !"
+msgstr ""
+
+#: kde4backintime.py:658
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Czy na pewno usunąć migawkę: \n"
+"Czy na pewno usunąć migawkę:\n"
 "%s"
 
-#: kde4settingsdialog.py:54 kde4settingsdialog.py:331
+#: kde4settingsdialog.py:67 gnomebackintime.glade:527
+msgid "General"
+msgstr ""
+
+#: kde4settingsdialog.py:72 kde4settingsdialog.py:442
 msgid "Where to save snapshots"
-msgstr "Gdzie zachować migawkę"
+msgstr "Gdzie zapisać migawki"
 
-#: kde4settingsdialog.py:71
-msgid "What to save"
-msgstr "Co zachować"
+#: kde4settingsdialog.py:102 gnomebackintime.glade:604
+msgid "Include"
+msgstr ""
 
-#: kde4settingsdialog.py:125 gnomebackintime.glade:508
+#: kde4settingsdialog.py:108
+msgid "Automatic backup"
+msgstr ""
+
+#: kde4settingsdialog.py:136 gnomebackintime.glade:708
+msgid "Exclude"
+msgstr ""
+
+#: kde4settingsdialog.py:153 gnomebackintime.glade:658
 msgid "Add file"
-msgstr "Dodaj plik"
+msgstr ""
 
-#: kde4settingsdialog.py:130 gnomebackintime.glade:521
+#: kde4settingsdialog.py:158 gnomebackintime.glade:671
 msgid "Add folder"
-msgstr "Dodaj folder"
+msgstr ""
 
-#: kde4settingsdialog.py:141
-msgid "When"
-msgstr "Kiedy"
+#: kde4settingsdialog.py:168 gnomebackintime.glade:857
+msgid "Auto-remove"
+msgstr ""
 
-#: kde4settingsdialog.py:145
-msgid "Automatic snapshots:"
-msgstr "Automatyczne migawki:"
+#: kde4settingsdialog.py:174 gnomebackintime.glade:793
+msgid "Older than:"
+msgstr "Starszy niż:"
 
-#: kde4settingsdialog.py:154
-msgid "Remove Snapshots"
-msgstr "Usuń miawki"
+#: kde4settingsdialog.py:189 gnomebackintime.glade:806
+msgid "If free space is less than:"
+msgstr "Gdy wolnego miejsca jest mniej niż:"
 
-#: kde4settingsdialog.py:162 gnomebackintime.glade:729
-msgid "Older then:"
-msgstr "Starsze niż: "
-
-#: kde4settingsdialog.py:177 gnomebackintime.glade:715
-msgid "If free space is less then:"
-msgstr "Jeśli wolnej przestrzeni na nośniku jest mniej niż:"
-
-#: kde4settingsdialog.py:190 snapshots.py:465 gnomebackintime.glade:701
+#: kde4settingsdialog.py:202 snapshots.py:668 gnomebackintime.glade:821
 msgid "Smart remove"
-msgstr "Inteligentne usuwanie"
+msgstr ""
 
-#: kde4settingsdialog.py:194 gnomebackintime.glade:685
+#: kde4settingsdialog.py:206 gnomebackintime.glade:836
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
 "- keep one snapshot per month for all previous months of this year\n"
 "- keep one snapshot per year for all previous years"
 msgstr ""
-"- zachowuje wszystkie migawki z dnia dzisiejszego i poprzedniego\n"
-"- zachowuje jedną migawkę z ostatniego tygodnia i jedną sprzed dwóch tygodni\n"
-"- zachowuje jedną migawkę na miesiąc z wszystkich poprzednich miesięcy bieżącego roku\n"
-"- zachowuje jedną migawkę na rok z wszystkich poprzednich lat"
 
-#: kde4settingsdialog.py:199 gnomebackintime.glade:785
+#: kde4settingsdialog.py:211 gnomebackintime.glade:728
 msgid "Don't remove named snapshots"
-msgstr "Nie usuwaj migawek ze zmienioną nazwą"
+msgstr "Nie usuwaj nazwanych migawek"
 
-#: kde4settingsdialog.py:311
+#: kde4settingsdialog.py:221 gnomebackintime.glade:893
+msgid "Options"
+msgstr ""
+
+#: kde4settingsdialog.py:224 gnomebackintime.glade:874
+msgid "Enable notifications"
+msgstr ""
+
+#: kde4settingsdialog.py:233 gnomebackintime.glade:947
+msgid "Expert Options"
+msgstr ""
+
+#: kde4settingsdialog.py:236
+msgid "Change this options only if you really know what you are doing !"
+msgstr ""
+
+#: kde4settingsdialog.py:240 gnomebackintime.glade:921
+msgid ""
+"Enable schedule per included directory (see Include tab; default: disabled)"
+msgstr ""
+
+#: kde4settingsdialog.py:411
 msgid "Exclude folder"
-msgstr "Wyklucz katalog"
+msgstr ""
 
-#: kde4settingsdialog.py:318
+#: kde4settingsdialog.py:429
 msgid "Include folder"
-msgstr "Dołącz katalog"
+msgstr "Uwzględnij katalog"
 
-#: kde4snapshotsdialog.py:44 kde4snapshotsdialog.py:136
-#: gnomebackintime.glade:1058
+#: kde4snapshotsdialog.py:45 kde4snapshotsdialog.py:137
+#: gnomebackintime.glade:1200
 msgid "Diff Options"
-msgstr "Opcje porównywania"
+msgstr ""
 
-#: kde4snapshotsdialog.py:54 gnomebackintime.glade:1048
+#: kde4snapshotsdialog.py:55 gnomebackintime.glade:1143
 msgid "Command:"
-msgstr "Polecenie:"
+msgstr "Komenda:"
 
-#: kde4snapshotsdialog.py:58 gnomebackintime.glade:1037
+#: kde4snapshotsdialog.py:59 gnomebackintime.glade:1150
 msgid "Parameters:"
-msgstr "Atrybuty:"
+msgstr "Parametry"
 
-#: kde4snapshotsdialog.py:62 gnomebackintime.glade:1023
+#: kde4snapshotsdialog.py:63 gnomebackintime.glade:1161
 msgid "Use %1 and %2 for path parameters"
-msgstr "Użyj %1 i %2 dla atrybutów ze ścieżkami"
+msgstr ""
 
-#: kde4snapshotsdialog.py:137
+#: kde4snapshotsdialog.py:138
 msgid "Go To"
 msgstr "Idź do"
 
-#: snapshots.py:222
+#: snapshots.py:274
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Nie można odnaleźć katalogu migawek..\n"
-"Jeśli znajduje się on na dysku wymiennym, proszę je podłączyć."
 
-
-#: snapshots.py:224
+#: snapshots.py:276
 #, python-format
 msgid "Waiting %s second."
-msgid_plural "Czekaj %s sekund."
-msgstr[0] "Czekaj %s sekund."
-msgstr[1] "Czekaj %s sekundę."
-msgstr[2] "Czekaj %s sekundy."
-msgstr[3] "Czekaj %s sekundy."
-msgstr[4] "Czekaj %s sekundy."
+msgid_plural "Waiting %s seconds."
+msgstr[0] ""
+msgstr[1] ""
 
-
-#: snapshots.py:255
+#: snapshots.py:300
 msgid "Finalizing"
-msgstr "Kończenie"
+msgstr ""
 
-#: snapshots.py:269 snapshots.py:322
+#: snapshots.py:329 snapshots.py:486
 #, python-format
 msgid "Compare with snapshot %s"
-msgstr "Porównaj z migawką %s"
+msgstr ""
 
-#: snapshots.py:279
+#: snapshots.py:414
+#, python-format
+msgid "Can't create directory: %s"
+msgstr ""
+
+#: snapshots.py:426
 msgid "..."
-msgstr "..."
+msgstr ""
 
-#: snapshots.py:344
+#: snapshots.py:439
+#, python-format
+msgid "Can't remove directory: %s"
+msgstr ""
+
+#: snapshots.py:513
 msgid "Create hard-links"
-msgstr "Twórz twarde dowiązania"
+msgstr ""
 
-#: snapshots.py:442
+#: snapshots.py:559
+#, python-format
+msgid "Can't rename %s to %s"
+msgstr ""
+
+#: snapshots.py:645
 msgid "Remove old snapshots"
-msgstr "Usuwaj stare migawki"
+msgstr ""
 
-#: snapshots.py:470
+#: snapshots.py:673
 msgid "Try to keep min free space"
-msgstr "Staraj się używać minimalnej przestrzeni dyskowej"
+msgstr ""
 
 #: gnomebackintime.glade:6
 msgid "Back In Time"
-msgstr "Back In Time"
+msgstr ""
 
 #: gnomebackintime.glade:22
 msgid "Backup Now"
-msgstr "Rozpocznij teraz"
+msgstr "Archiwizuj teraz"
 
-#: gnomebackintime.glade:177
+#: gnomebackintime.glade:178
 msgid "Parent Directory"
 msgstr "Katalog nadrzędny"
 
-#: gnomebackintime.glade:202
+#: gnomebackintime.glade:203
 msgid "Hidden files"
-msgstr "Ukryte pliki"
+msgstr ""
 
-#: gnomebackintime.glade:412
+#: gnomebackintime.glade:316
+msgid ""
+"<b>This directory don't exist\n"
+"in current snapshot !</b>"
+msgstr ""
+
+#: gnomebackintime.glade:449
 msgid "Select A Folder"
-msgstr "Wybierz katalog"
+msgstr "Zaznacz katalog"
 
-#: gnomebackintime.glade:420
+#: gnomebackintime.glade:457
 msgid "<b>Where to save snapshots</b>"
-msgstr "<b>Gdzie zachowywać migawki</b>"
+msgstr "<b>Gdzie zapisać migawki</b>"
 
-#: gnomebackintime.glade:601
-msgid "<b>What to save</b>"
-msgstr "<b>Co zachowywać</b>"
+#: gnomebackintime.glade:488
+msgid "<b>Schedule</b>"
+msgstr ""
 
-#: gnomebackintime.glade:629
-msgid "Automatic snapshots: "
-msgstr "Automatyczne migawki:"
+#: gnomebackintime.glade:909
+msgid ""
+"<b>Change this options only if you really know what you are doing !</b>"
+msgstr ""
 
-#: gnomebackintime.glade:651
-msgid "<b>When</b>"
-msgstr "Kiedy"
-
-#: gnomebackintime.glade:802
-msgid "<b>Remove Snapshots</b>"
-msgstr "Usuń migawki"
-
-#: gnomebackintime.glade:960
+#: gnomebackintime.glade:1102
 msgid "Diff with"
-msgstr "Porównaj z"
+msgstr ""
 
-#: gnomebackintime.glade:1116
+#: gnomebackintime.glade:1258
 msgid "Pattern"
-msgstr "Maska"
+msgstr ""

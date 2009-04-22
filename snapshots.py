@@ -647,7 +647,7 @@ class Snapshots:
 			snapshots = self.get_snapshots_list( False )
 
 			old_backup_id = self.get_snapshot_id( self.config.get_remove_old_snapshots_date() )
-			logger.info( "Remove backups older then: %s" % old_backup_id )
+			logger.info( "Remove backups older than: %s" % old_backup_id )
 
 			while True:
 				if len( snapshots ) <= 1:

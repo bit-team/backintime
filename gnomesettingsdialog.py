@@ -125,7 +125,7 @@ class SettingsDialog:
 		self.cb_backup_mode.pack_start( renderer, True )
 		self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
 
-		#setup remove old backups older then
+		#setup remove old backups older than
 		self.edit_remove_old_backup_value = self.glade.get_widget( 'edit_remove_old_backup_value' )
 		self.cb_remove_old_backup_unit = self.glade.get_widget( 'cb_remove_old_backup_unit' )
 
@@ -209,7 +209,7 @@ class SettingsDialog:
 			iter = self.store_backup_mode.iter_next( iter )
 			i = i + 1
 
-		#setup remove old backups older then
+		#setup remove old backups older than
 		enabled, value, unit = self.config.get_remove_old_snapshots()
 
 		self.edit_remove_old_backup_value.set_value( float( value ) )
