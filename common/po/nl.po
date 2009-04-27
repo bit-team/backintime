@@ -1,0 +1,557 @@
+# Dutch translation for backintime
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the backintime package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: backintime\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-04-15 16:37+0200\n"
+"PO-Revision-Date: 2009-04-19 11:36+0000\n"
+"Last-Translator: Dirk Tas <Unknown>\n"
+"Language-Team: Dutch <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2009-04-22 08:16+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: config.py:52
+msgid "Disabled"
+msgstr "Uitgeschakeld"
+
+#: config.py:53
+msgid "Every 5 minutes"
+msgstr "Elke 5 minuten"
+
+#: config.py:54
+msgid "Every 10 minutes"
+msgstr "Elke 10 minuten"
+
+#: config.py:55
+msgid "Every Hour"
+msgstr "Elk uur"
+
+#: config.py:56
+msgid "Every Day"
+msgstr "Elke dag"
+
+#: config.py:57
+msgid "Every Week"
+msgstr "Elke week"
+
+#: config.py:58
+msgid "Every Month"
+msgstr "Elke maand"
+
+#: config.py:62
+msgid "Day(s)"
+msgstr "Dag(en)"
+
+#: config.py:63
+msgid "Week(s)"
+msgstr "We(e)k(en)"
+
+#: config.py:64
+msgid "Year(s)"
+msgstr "Ja(a)r(en)"
+
+#: config.py:131
+msgid "Snapshots directory is not valid !"
+msgstr "Snapshots map is niet geldig !"
+
+#: config.py:134
+msgid "Snapshots directory can't be the root directory !"
+msgstr "Snapshots map kan niet de root map zijn !"
+
+#: config.py:137
+msgid "You must select at least one directory to backup !"
+msgstr "U moet ten minste één map hebben om te backuppen !"
+
+#: config.py:146 config.py:152
+msgid "Snapshots directory can't be in \"Backup Directories\" !"
+msgstr "De snapshot map kan zich niet bevinden in de \"Backup Mappen\" !"
+
+#: config.py:159
+msgid "\"Backup directories\" can't include snapshots directory !"
+msgstr "\"Backup mappen\" kunnen geen snapshot map bevatten !"
+
+#: config.py:163
+msgid "\"Exclude pattern\" can't contain \":\" char !"
+msgstr "\"Exclude patroon\" mag geen \":\" bevatten !"
+
+#: config.py:178
+#, python-format
+msgid "%s is not a directory !"
+msgstr "%s is geen map !"
+
+#: config.py:188
+#, python-format
+msgid ""
+"Can't write to: %s\n"
+"Are you sure have write access ?"
+msgstr ""
+"Kan niet schrijven naar: %s\n"
+"Ben u zeker dat U schrijftoegang heeft ?"
+
+#: config.py:410
+msgid ""
+"Can't find crontab.\n"
+"Are you sure cron is installed ?\n"
+"If not you should disable all automatic backups."
+msgstr ""
+"Kan crontab niet vinden.\n"
+"Ben U zeker dat cron geinstalleerd is ?\n"
+"Indien niet dat moet U automatische backups uitschakelen."
+
+#: gnomebackintime.py:73 kde4backintime.py:958
+msgid "about-translators"
+msgstr "Over de vertalers"
+
+#: gnomebackintime.py:152 gnomebackintime.py:499 kde4backintime.py:223
+#: kde4backintime.py:446
+msgid "Done"
+msgstr "Klaar"
+
+#: gnomebackintime.py:166 kde4backintime.py:158
+msgid "Shortcuts"
+msgstr "Snelkoppelingen"
+
+#: gnomebackintime.py:189
+msgid "Name"
+msgstr "Naam"
+
+#: gnomebackintime.py:200
+msgid "Size"
+msgstr "Grootte"
+
+#: gnomebackintime.py:207
+msgid "Date"
+msgstr "Datum"
+
+#: gnomebackintime.py:226 gnomebackintime.py:263 gnomesnapshotsdialog.py:83
+#: kde4backintime.py:106 kde4backintime.py:145 kde4snapshotsdialog.py:90
+#: gnomebackintime.glade:243 gnomebackintime.glade:244
+#: gnomebackintime.glade:997
+msgid "Snapshots"
+msgstr "Snapshots"
+
+#: gnomebackintime.py:261
+msgid "Open"
+msgstr "Openen"
+
+#: gnomebackintime.py:262 kde4backintime.py:142 kde4snapshotsdialog.py:115
+#: gnomebackintime.glade:231 gnomebackintime.glade:232
+#: gnomebackintime.glade:1030 gnomebackintime.glade:1031
+msgid "Copy"
+msgstr "Kopiëren"
+
+#: gnomebackintime.py:264 kde4snapshotsdialog.py:128
+msgid "Diff"
+msgstr "Verschil"
+
+#: gnomebackintime.py:265 kde4backintime.py:139 kde4snapshotsdialog.py:110
+#: gnomebackintime.glade:219 gnomebackintime.glade:220
+#: gnomebackintime.glade:1042 gnomebackintime.glade:1043
+msgid "Restore"
+msgstr "Herstellen"
+
+#: gnomebackintime.py:321 kde4backintime.py:271
+msgid ""
+"Can't find snapshots directory.\n"
+"If it is on a removable drive please plug it and then press OK"
+msgstr ""
+"Kan de snapshots map niet vinden.\n"
+"Als deze zich op een verwisselbare harddisk bevind, sluit deze aan en druk OK"
+
+#: gnomebackintime.py:485 kde4backintime.py:434
+msgid "Working:"
+msgstr "Bezig:"
+
+#: gnomebackintime.py:501 kde4backintime.py:448
+msgid "Done, no backup needed"
+msgstr "Klaar, geen backup nodig"
+
+#: gnomebackintime.py:512 kde4backintime.py:492
+msgid "Global"
+msgstr "Algemeen"
+
+#: gnomebackintime.py:513 kde4backintime.py:493
+msgid "Root"
+msgstr "Hoofdmap"
+
+#: gnomebackintime.py:514 kde4backintime.py:494
+msgid "Home"
+msgstr "Persoonlijke map"
+
+#: gnomebackintime.py:538
+msgid "Bookmarks"
+msgstr "Favorieten"
+
+#: gnomebackintime.py:546 kde4backintime.py:499
+msgid "Backup Directories"
+msgstr "Backup Mappen"
+
+#: gnomebackintime.py:566 kde4backintime.py:568
+msgid "Today"
+msgstr "Vandaag"
+
+#: gnomebackintime.py:570 kde4backintime.py:572
+msgid "Yesterday"
+msgstr "Gisteren"
+
+#: gnomebackintime.py:574 kde4backintime.py:576
+msgid "This week"
+msgstr "Deze week"
+
+#: gnomebackintime.py:578 kde4backintime.py:580
+msgid "Last week"
+msgstr "Vorige week"
+
+#: gnomebackintime.py:861 kde4backintime.py:75 kde4backintime.py:638
+#: gnomebackintime.glade:45 gnomebackintime.glade:46
+msgid "Snapshot Name"
+msgstr "Snapshot naam"
+
+#: gnomebackintime.py:880
+#, python-format
+msgid ""
+"Are you sure you want to remove the snapshot:\n"
+"<b>%s</b>"
+msgstr ""
+"Bent u zeker dat U deze snaphot wil verwijderen\n"
+"<b>%s</b>"
+
+#: gnomebackintime.py:910 kde4backintime.py:800
+#, python-format
+msgid "Snapshot: %s"
+msgstr "Snapshot: %s"
+
+#: gnomebackintime.py:911 kde4backintime.py:801
+#, python-format
+msgid "View the snapshot made at %s"
+msgstr "Bekijk de snapshot gemaakt op %s"
+
+#: gnomebackintime.py:913 kde4backintime.py:803
+msgid "View the current disk content"
+msgstr "Bekijk de huidige disk inhoud"
+
+#: gnomebackintime.py:914 kde4backintime.py:804 snapshots.py:65
+msgid "Now"
+msgstr "Nu"
+
+#: gnomebackintime.py:1134 kde4backintime.py:931
+msgid "Working..."
+msgstr "Bezig..."
+
+#: gnomesettingsdialog.py:81 kde4settingsdialog.py:108
+msgid "Include folders"
+msgstr ""
+
+#: gnomesettingsdialog.py:88 kde4settingsdialog.py:88
+msgid "Schedule"
+msgstr "Schema / Rooster"
+
+#: gnomesettingsdialog.py:109
+msgid "Patterns, files or directories"
+msgstr "Patronen, bestanden of mappen"
+
+#: gnomesettingsdialog.py:296
+msgid "Include directory"
+msgstr ""
+
+#: gnomesettingsdialog.py:331 kde4settingsdialog.py:400
+msgid "Exclude pattern"
+msgstr ""
+
+#: gnomesettingsdialog.py:338 kde4settingsdialog.py:407
+msgid "Exclude file"
+msgstr ""
+
+#: gnomesettingsdialog.py:347
+msgid "Exclude directory"
+msgstr ""
+
+#: gnomesettingsdialog.py:394 kde4settingsdialog.py:341
+msgid "Are you sure you want to change snapshots directory ?"
+msgstr "Bent U zeker dat U de snapshots map wil veranderen ?"
+
+#: gnomesnapshotsdialog.py:236 kde4snapshotsdialog.py:241
+msgid "You can't compare a snapshot to itself"
+msgstr "Kan de snapshot niet met zichzelf vergelijken"
+
+#: gnomesnapshotsdialog.py:243 kde4snapshotsdialog.py:248
+#, python-format
+msgid "Command not found: %s"
+msgstr "Opdracht niet gevonden: %s"
+
+#: kde4backintime.py:69 snapshots.py:326 snapshots.py:542
+#: gnomebackintime.glade:21
+msgid "Take snapshot"
+msgstr "Maak snapshot"
+
+#: kde4backintime.py:72 gnomebackintime.glade:33 gnomebackintime.glade:34
+msgid "Update snapshots"
+msgstr "Vernieuw snapshots"
+
+#: kde4backintime.py:78 gnomebackintime.glade:57 gnomebackintime.glade:58
+msgid "Remove Snapshot"
+msgstr "Verwijder Snapshot"
+
+#: kde4backintime.py:83 kde4settingsdialog.py:60 gnomebackintime.glade:74
+#: gnomebackintime.glade:75 gnomebackintime.glade:414
+msgid "Settings"
+msgstr "Voorkeuren"
+
+#: kde4backintime.py:88 gnomebackintime.glade:94 gnomebackintime.glade:95
+msgid "About"
+msgstr "Over"
+
+#: kde4backintime.py:91 gnomebackintime.glade:106 gnomebackintime.glade:107
+msgid "Help"
+msgstr "Hulp"
+
+#: kde4backintime.py:96 gnomebackintime.glade:123 gnomebackintime.glade:124
+msgid "Exit"
+msgstr "Afsluiten"
+
+#: kde4backintime.py:121 gnomebackintime.glade:179
+msgid "Up"
+msgstr "Omhoog"
+
+#: kde4backintime.py:134 gnomebackintime.glade:202
+msgid "Show hidden files"
+msgstr "Toon verborgen bestanden"
+
+#: kde4backintime.py:167
+msgid ""
+"This directory don't exist\n"
+"in current snapshot !"
+msgstr ""
+"Deze map bestaat niet\n"
+"in de huidige snapshot !"
+
+#: kde4backintime.py:658
+#, python-format
+msgid ""
+"Are you sure you want to remove the snapshot:\n"
+"%s"
+msgstr ""
+"Bent u zeker dat u de huidige snapshot wil verwijderen:\n"
+"%s"
+
+#: kde4settingsdialog.py:67 gnomebackintime.glade:527
+msgid "General"
+msgstr "Algemeen"
+
+#: kde4settingsdialog.py:72 kde4settingsdialog.py:442
+msgid "Where to save snapshots"
+msgstr "Waar moeten de snapshots weggeschreven worden"
+
+#: kde4settingsdialog.py:102 gnomebackintime.glade:604
+msgid "Include"
+msgstr "Opnemen"
+
+#: kde4settingsdialog.py:108
+msgid "Automatic backup"
+msgstr "Automatische backup"
+
+#: kde4settingsdialog.py:136 gnomebackintime.glade:708
+msgid "Exclude"
+msgstr "Uitsluiten"
+
+#: kde4settingsdialog.py:153 gnomebackintime.glade:658
+msgid "Add file"
+msgstr "Bestand toevoegen"
+
+#: kde4settingsdialog.py:158 gnomebackintime.glade:671
+msgid "Add folder"
+msgstr "Map toevoegen"
+
+#: kde4settingsdialog.py:168 gnomebackintime.glade:857
+msgid "Auto-remove"
+msgstr "Verwijder automatisch"
+
+#: kde4settingsdialog.py:174 gnomebackintime.glade:793
+msgid "Older than:"
+msgstr "Ouder dan:"
+
+#: kde4settingsdialog.py:189 gnomebackintime.glade:806
+msgid "If free space is less than:"
+msgstr "Als vrije ruimte kleiner is dan:"
+
+#: kde4settingsdialog.py:202 snapshots.py:668 gnomebackintime.glade:821
+msgid "Smart remove"
+msgstr "Slim verwijderen"
+
+#: kde4settingsdialog.py:206 gnomebackintime.glade:836
+msgid ""
+"- keep all snapshots from today and yesterday\n"
+"- keep one snapshot for the last week and one for two weeks ago\n"
+"- keep one snapshot per month for all previous months of this year\n"
+"- keep one snapshot per year for all previous years"
+msgstr ""
+"- Hou alle snapshots van vandaag en gisteren\n"
+"- Hou één snapshot van vorige week en één van 2 weken terug\n"
+"- Hou één snapshot per maand voor alle vorige maanden dit jaar\n"
+"- Hou één snapshot per jaar voor alle vorige jaren"
+
+#: kde4settingsdialog.py:211 gnomebackintime.glade:728
+msgid "Don't remove named snapshots"
+msgstr ""
+
+#: kde4settingsdialog.py:221 gnomebackintime.glade:893
+msgid "Options"
+msgstr "Opties"
+
+#: kde4settingsdialog.py:224 gnomebackintime.glade:874
+msgid "Enable notifications"
+msgstr "Meldingen activeren"
+
+#: kde4settingsdialog.py:233 gnomebackintime.glade:947
+msgid "Expert Options"
+msgstr "Geavanceerde opties"
+
+#: kde4settingsdialog.py:236
+msgid "Change this options only if you really know what you are doing !"
+msgstr "Verander deze opties enkel als U weet wat u doet !"
+
+#: kde4settingsdialog.py:240 gnomebackintime.glade:921
+msgid ""
+"Enable schedule per included directory (see Include tab; default: disabled)"
+msgstr ""
+
+#: kde4settingsdialog.py:411
+msgid "Exclude folder"
+msgstr ""
+
+#: kde4settingsdialog.py:429
+msgid "Include folder"
+msgstr ""
+
+#: kde4snapshotsdialog.py:45 kde4snapshotsdialog.py:137
+#: gnomebackintime.glade:1200
+msgid "Diff Options"
+msgstr "Diff-opties"
+
+#: kde4snapshotsdialog.py:55 gnomebackintime.glade:1143
+msgid "Command:"
+msgstr "Opdracht:"
+
+#: kde4snapshotsdialog.py:59 gnomebackintime.glade:1150
+msgid "Parameters:"
+msgstr "Parameters:"
+
+#: kde4snapshotsdialog.py:63 gnomebackintime.glade:1161
+msgid "Use %1 and %2 for path parameters"
+msgstr "Gebruik %1 en %2 voor pad parameters"
+
+#: kde4snapshotsdialog.py:138
+msgid "Go To"
+msgstr "Ga naar"
+
+#: snapshots.py:274
+msgid ""
+"Can't find snapshots directory.\n"
+"If it is on a removable drive please plug it."
+msgstr ""
+"Kan de snapshots map niet vinden.\n"
+"Als deze zich op een verwijderbare harddisk bevind sluit deze aan."
+
+#: snapshots.py:276
+#, python-format
+msgid "Waiting %s second."
+msgid_plural "Waiting %s seconds."
+msgstr[0] "Wacht %s seconde"
+msgstr[1] "Wacht %s seconden"
+
+#: snapshots.py:300
+msgid "Finalizing"
+msgstr "Voltooien"
+
+#: snapshots.py:329 snapshots.py:486
+#, python-format
+msgid "Compare with snapshot %s"
+msgstr "Vergelijk met snapshot %s"
+
+#: snapshots.py:414
+#, python-format
+msgid "Can't create directory: %s"
+msgstr "Kan volgende map niet maken: %s"
+
+#: snapshots.py:426
+msgid "..."
+msgstr "..."
+
+#: snapshots.py:439
+#, python-format
+msgid "Can't remove directory: %s"
+msgstr "Kan volgende map niet verwijderen: %s"
+
+#: snapshots.py:513
+msgid "Create hard-links"
+msgstr ""
+
+#: snapshots.py:559
+#, python-format
+msgid "Can't rename %s to %s"
+msgstr "Kan %s niet hernoemen tot %s"
+
+#: snapshots.py:645
+msgid "Remove old snapshots"
+msgstr "Verwijder oude snapshots"
+
+#: snapshots.py:673
+msgid "Try to keep min free space"
+msgstr "Probeer een minimum vrije ruimte te houden"
+
+#: gnomebackintime.glade:6
+msgid "Back In Time"
+msgstr "Terug in de tijd"
+
+#: gnomebackintime.glade:22
+msgid "Backup Now"
+msgstr "Nu backuppen"
+
+#: gnomebackintime.glade:178
+msgid "Parent Directory"
+msgstr "Bovenliggende map"
+
+#: gnomebackintime.glade:203
+msgid "Hidden files"
+msgstr "Verborgen bestanden"
+
+#: gnomebackintime.glade:316
+msgid ""
+"<b>This directory don't exist\n"
+"in current snapshot !</b>"
+msgstr ""
+"<b>De map bestaat niet\n"
+"in de huidige snapshot !</b>"
+
+#: gnomebackintime.glade:449
+msgid "Select A Folder"
+msgstr "Kies een map"
+
+#: gnomebackintime.glade:457
+msgid "<b>Where to save snapshots</b>"
+msgstr "<b>Waar moeten snapshots bewaard worden</b>"
+
+#: gnomebackintime.glade:488
+msgid "<b>Schedule</b>"
+msgstr "<b>Planning</b>"
+
+#: gnomebackintime.glade:909
+msgid ""
+"<b>Change this options only if you really know what you are doing !</b>"
+msgstr "<b>Veranderd deze opties alleen als U echt weet wat U doet !</b>"
+
+#: gnomebackintime.glade:1102
+msgid "Diff with"
+msgstr "Verschillend met"
+
+#: gnomebackintime.glade:1258
+msgid "Pattern"
+msgstr "Patroon"
