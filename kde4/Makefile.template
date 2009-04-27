@@ -1,0 +1,30 @@
+PREFIX=/usr
+DEST=$(DESTDIR)$(PREFIX)
+
+all:
+
+clean:
+	rm po/*.mo
+
+install:
+	#install python
+	install -d $(DEST)/share/backintime/kde4
+	install --mode=644 *.py $(DEST)/share/backintime/kde4
+	
+	#install application
+	install -d $(DEST)/bin
+	install backintime-kde4 $(DEST)/bin
+	
+	#install copyright file
+	install -d $(DEST)/share/doc/backintime-kde4
+	install --mode=644 ../common/debian_specific/copyright $(DEST)/share/doc/backintime-kde4
+	
+	#install .desktop file(s)
+	install -d $(DEST)/share/applications/kde4
+	install --mode=644 *.desktop $(DEST)/share/applications/kde4
+	
+	#install docbook
+	install -d $(DEST)/share/doc/kde4/HTML/en/backintime/figures
+	install --mode=644 docbook/en/*.docbook $(DEST)/share/doc/kde4/HTML/en/backintime
+	install --mode=644 docbook/en/figures/*.png $(DEST)/share/doc/kde4/HTML/en/backintime/figures
+

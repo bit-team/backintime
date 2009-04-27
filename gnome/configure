@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ -e Makefile ]; then
+	rm Makefile;
+fi
+
+#check GNOME
+if [ -z `which gnome-session` ]; then
+	echo "ERROR: Can't find GNOME !"
+	exit 1
+fi
+
+cp Makefile.template Makefile
+
+echo "All OK. Now run:"
+echo "    make"
+echo "    sudo make install"
+

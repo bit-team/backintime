@@ -45,21 +45,23 @@ Copyright (C) 2008-2009 Oprea Dan <dan@le-web.org>
 
 2.2. From sources
 
-2.2.1. Dependencies
+	Common (dependencies: python, rsync, cron):
+		cd common
+		./configure
+		make
+		sudo make install
 
-	Common: python, rsync, cron
-	GNOME: python-glade2, python-gnome2, meld
-	KDE4: x11-utils, python-kde4 (>= 4.1), kompare
+	GNOME (dependencies: python-glade2, python-gnome2, meld):
+		cd gnome
+		./configure
+		make
+		sudo make install
 
-2.2.2. Build & Install
-
-	./configure
-	make
-	sudo make install
-
-2.2.3. More options
-	To get more options type:
-		./configure --help
+	KDE4 (dependencies: x11-utils, python-kde4 (>= 4.1), kompare):
+		cd kde4
+		./configure
+		make
+		sudo make install
 
 3. Integrate with filemanager
 

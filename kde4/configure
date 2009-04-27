@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#check KDE4
+if [ $kde4 = "--kde4" ]; then
+	if [ -z `which kdeinit4` ]; then
+		echo "ERROR: Can't find KDE4 !"
+		exit 1
+	fi
+fi
+
+cp Makefile.template Makefile
+
+echo "All OK. Now run:"
+echo "    make"
+echo "    sudo make install"
+

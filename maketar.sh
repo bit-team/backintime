@@ -5,13 +5,13 @@ PKGVER=`cat VERSION`
 
 echo $PKGNAME $PKGVER
 
-rm Makefile
+rm */Makefile
 rm *~
 rm */*~
 rm *.deb
-rm *.pyc
+rm */*.pyc
 rm -rf tmp
-rm -rf po/*.mo
+rm -rf common/po/*.mo
 
 cd ..
 mkdir $PKGNAME-$PKGVER

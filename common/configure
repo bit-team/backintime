@@ -1,0 +1,45 @@
+#!/bin/bash
+
+if [ -e Makefile ]; then
+	rm Makefile;
+fi
+
+#check languages
+mos=""
+langs=""
+for langfile in `ls po/*.po`; do
+	lang=`echo $langfile | cut -d/ -f2 | cut -d. -f1`
+	mos="po/$lang.mo $mos"
+	langs="$lang $langs"
+done
+
+#Start Makefile
+echo -e "LANGS=$langs" >> Makefile
+echo -e "SHELL=`which bash`" >> Makefile
+echo -e "" >> Makefile
+
+#add template
+cat Makefile.template >> Makefile
+
+#translate
+echo -e "translate: $mos" >> Makefile
+echo -e "" >> Makefile
+
+for lang in $langs; do
+	echo -e "po/$lang.mo: po/$lang.po" >> Makefile
+	echo -e "\tmsgfmt -o po/$lang.mo po/$lang.po" >> Makefile
+	echo -e "" >> Makefile
+done
+
+#common langs
+echo "install_translations:" >> Makefile
+for lang in $langs; do
+	echo -e "\tinstall -d \$(DEST)/share/locale/$lang/LC_MESSAGES" >> Makefile
+	echo -e "\tinstall --mode=644 po/$lang.mo \$(DEST)/share/locale/$lang/LC_MESSAGES/backintime.mo" >> Makefile
+done
+echo -e "" >> Makefile
+
+echo "All OK. Now run:"
+echo "    make"
+echo "    sudo make install"
+
