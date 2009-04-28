@@ -18,6 +18,17 @@
 
 import os.path
 import os
+import sys
+
+
+def get_backintime_path( path ):
+	return os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), path )
+
+
+def register_backintime_path( path ):
+	path = get_backintime_path( path )
+	if not path in sys.path:
+		sys.path = [path] + sys.path
 
 
 def read_file( path, default_value = None ):
@@ -89,4 +100,14 @@ def make_dirs( path ):
 			os.makedirs( path )
 		except:
 			pass
+
+
+def process_exists( name ):
+	output = read_command_output( "ps -o pid= -C %s" % name )
+	return len( output ) > 0
+
+
+def check_x_server():
+	return 0 == os.system( 'xdpyinfo >/dev/null 2>&1' )
+
 

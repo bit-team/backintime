@@ -991,10 +991,6 @@ def create_kapplication( cfg ):
 	return ( KApplication(), kaboutdata )
 
 
-def check_x_server():
-	return 0 == os.system( 'xdpyinfo >/dev/null 2>&1' )
-
-
 if __name__ == '__main__':
 	cfg = backintime.start_app( 'backintime-kde4' )
 

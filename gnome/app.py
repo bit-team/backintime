@@ -1035,121 +1035,6 @@ def open_url( dialog, link, user_data ):
 	os.system( "gnome-open \"%s\" &" % link )
 
 
-class GnomeTakeSnapshotCallback( threading.Thread ): #used to display status icon
-	def __init__( self ):
-		threading.Thread.__init__( self )
-		self.stop_flag = False
-		self.cfg = None
-
-	def init( self, cfg ):
-		self.cfg = cfg
-		create_gnome_app( self.cfg )
-		self.snapshots = snapshots.Snapshots( self.cfg )
-	
-	def snapshot_begin( self ):
-		self.stop_flag = False
-		self.start()
-
-	def snapshot_end( self ):
-		self.stop_flag = True
-		try:
-			self.join()
-		except:
-			pass
-
-	def show_notification( self, icon ):
-		self.notification.set_timeout( pynotify.EXPIRES_NEVER )
-		self.notification.show()
-
-	def run(self):
-		logger.info( '[GnomeTakeSnapshotCallback.run]' )
-
-		gtk.gdk.threads_init()
-		display = gtk.gdk.display_get_default()
-		
-		if display is None:
-			logger.info( '[GnomeTakeSnapshotCallback.run] display KO' )
-			return
-
-		status_icon = None
-		try:
-			status_icon = gtk.StatusIcon()
-		except:
-			pass
-
-		if status_icon is None:
-			logger.info( '[GnomeTakeSnapshotCallback.run] no status_icon' )
-			return
-
-		attach_notification = True
-		last_message = None
-		first_error = self.cfg.is_notify_enabled()
-
-		status_icon.set_from_stock( gtk.STOCK_SAVE )
-		status_icon.set_visible( True )
-
-		pynotify.init( self.cfg.APP_NAME )
-		self.notification = pynotify.Notification( self.cfg.APP_NAME, '', '' )
-		self.notification.set_urgency( pynotify.URGENCY_NORMAL )
-		self.notification.set_timeout( pynotify.EXPIRES_NEVER )
-
-		status_icon.connect('activate', self.show_notification )
-
-		logger.info( '[GnomeTakeSnapshotCallback.run] begin loop' )
-
-		while True:
-			gtk.main_iteration( False )
-			if self.stop_flag:
-				break
-
-			if not gtk.events_pending():
-				if attach_notification:
-					attach_notification = False
-					self.notification.attach_to_status_icon( status_icon )
-
-				message = self.snapshots.get_take_snapshot_message()
-				if message is None and last_message is None:
-					message = ( 0, _('Working...') )
-
-				if not message is None:
-					if message != last_message:
-						last_message = message
-
-						urgency = pynotify.URGENCY_NORMAL
-						icon_name = gtk.STOCK_SAVE
-						status_icon_blinking = False
-						if last_message[0] != 0:
-							urgency = pynotify.URGENCY_CRITICAL
-							icon_name = 'dialog-error'
-							status_icon_blinking = True
-
-						status_icon.set_blinking( status_icon_blinking )
-						status_icon.set_tooltip( last_message[1] )
-
-						self.notification.update( self.cfg.APP_NAME, last_message[1], icon_name )
-						self.notification.set_urgency( urgency )
-					
-						if last_message[0] != 0 and first_error:
-							first_error = False
-							self.notification.set_timeout( 10000 )
-							self.notification.show()
-
-				time.sleep( 0.2 )
-		
-		status_icon.set_visible( False )
-		gtk.main_iteration( False )
-
-		self.notification.close()
-		pynotify.uninit()
-		
-		logger.info( '[GnomeTakeSnapshotCallback.run] end loop' )
-
-
-def create_gnome_app( cfg ):
-	gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
-	return gnome.program_init( 'backintime', cfg.VERSION, properties = gnome_props )
-
-
 if __name__ == '__main__':
 	cfg = backintime.start_app( 'backintime-gnome', ['-s', '--snapshots'] )
 
@@ -1159,7 +1044,8 @@ if __name__ == '__main__':
 
 	app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
 
-	create_gnome_app( cfg )
+	gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
+	gnome.program_init( 'backintime', cfg.VERSION, properties = gnome_props )
 
 	gtk.about_dialog_set_url_hook( open_url, None )
 

@@ -27,6 +27,7 @@ import config
 import logger
 import applicationinstance
 import tools
+import pluginmanager
 
 
 _=gettext.gettext
@@ -37,6 +38,8 @@ class Snapshots:
 		self.config = cfg
 		if self.config is None:
 			self.config = config.Config()
+
+		self.plugin_manager = pluginmanager.PluginManager()
 
 	def get_snapshot_id( self, date ):
 		if type( date ) is datetime.datetime:
@@ -228,23 +231,25 @@ class Snapshots:
 		except:
 			pass
 
-	def call_user_callback( self, args ):
-		cmd = self.config.get_take_snapshot_user_callback()
-		if os.path.isfile( cmd ):
-			self._execute( 'sh ' + cmd + ' ' + args )
+	#def call_user_callback( self, args ):
+	#	cmd = self.config.get_take_snapshot_user_callback()
+	#	if os.path.isfile( cmd ):
+	#		self._execute( 'sh ' + cmd + ' ' + args )
 
 	def take_snapshot( self, force = False ):
 		ret_val = False
 		sleep = True
 
+		self.plugin_manager.load_plugins( self )
+
 		if not self.config.is_configured():
 			logger.warning( 'Not configured' )
-			self.call_user_callback( '4 1' ) #not configured
+			self.plugin_manager.on_error( 1 ) #not configured
 		else:
 			instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
 			if not instance.check():
 				logger.warning( 'A backup is already running' )
-				self.call_user_callback( '4 2' ) #a backup is already running
+				self.plugin_manager.on_error( 2 ) #a backup is already running
 			else:
 				instance.start_application()
 				logger.info( 'Lock' )
@@ -261,12 +266,12 @@ class Snapshots:
 				if len( include_folders ) <= 0:
 					logger.info( 'Nothing to do' )
 				else:
-					self.call_user_callback( '1' ) #take snapshot process begin
+					self.plugin_manager.on_process_begins() #take snapshot process begin
 
 					self.set_take_snapshot_message( 0, '...' )
 
 					if not self.config.can_backup():
-						if not callback is None and self.config.is_notify_enabled():
+						if self.plugin_manager.has_gui_plugins() and self.config.is_notify_enabled():
 							for counter in xrange( 30, 0, -1 ):
 								self.set_take_snapshot_message( 1, 
 										_('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it.' ) +
@@ -278,14 +283,14 @@ class Snapshots:
 
 					if not self.config.can_backup():
 						logger.warning( 'Can\'t find snapshots directory !' )
-						self.call_user_callback( '4 3' ) #Can't find snapshots directory (is it on a removable drive ?)
+						self.plugin_manager.on_error( 3 ) #Can't find snapshots directory (is it on a removable drive ?)
 					else:
 						snapshot_id = self.get_snapshot_id( now )
 						snapshot_path = self.get_snapshot_path( snapshot_id )
 
 						if os.path.exists( snapshot_path ):
 							logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
-							self.call_user_callback( '4 4 ' + snapshot_id ) #This snapshots already exists
+							self.plugin_manager.on_error( 4, snapshot_id ) #This snapshots already exists
 						else:
 							ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
 
@@ -301,9 +306,9 @@ class Snapshots:
 					sleep = False
 
 					if ret_val:
-						self.call_user_callback( "3 %s \"%s\"" % ( snapshot_id, snapshot_path ) ) #new snapshot
+						self.plugin_manager.on_new_snapshot( snapshot_id, snapshot_path ) #new snapshot
 
-					self.call_user_callback( '2' ) #take snapshot process end
+					self.plugin_manager.on_process_ends() #take snapshot process end
 
 				if sleep:
 					os.system( 'sleep 2' )
@@ -315,6 +320,7 @@ class Snapshots:
 
 		if sleep:
 			os.system( 'sleep 2' ) #max 1 backup / second
+
 		return ret_val
 
 	def _exec_rsync_callback( self, line, user_data ):
