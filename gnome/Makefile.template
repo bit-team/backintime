@@ -11,6 +11,10 @@ install:
 	install --mode=644 *.py $(DEST)/share/backintime/gnome
 	install --mode=644 *.glade $(DEST)/share/backintime/gnome
 	
+	#install plugin
+	install -d $(DEST)/share/backintime/plugins
+	install --mode=644 ../plugins/gnome*.py $(DEST)/share/backintime/plugins
+	
 	#install copyright file
 	install -d $(DEST)/share/doc/backintime-gnome
 	install --mode=644 ../common/debian_specific/copyright $(DEST)/share/doc/backintime-gnome
