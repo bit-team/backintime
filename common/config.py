@@ -35,6 +35,7 @@ class Config( configfile.ConfigFile ):
 	APP_NAME = 'Back In Time'
 	VERSION = '0.9.23alpha1'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan'
+	CONFIG_VERSION = 2
 
 	NONE = 0
 	_5_MIN = 2
@@ -95,27 +96,31 @@ class Config( configfile.ConfigFile ):
 		self.load( self._GLOBAL_CONFIG_PATH )
 		self.append( self._LOCAL_CONFIG_PATH )
 
-		#remap old items
-		self.remap_key( 'BASE_BACKUP_PATH', 'snapshots.path' )
-		self.remap_key( 'INCLUDE_FOLDERS', 'snapshots.include_folders' )
-		self.remap_key( 'EXCLUDE_PATTERNS', 'snapshots.exclude_patterns' )
-		self.remap_key( 'AUTOMATIC_BACKUP', 'snapshots.automatic_backup_mode' )
-		self.remap_key( 'REMOVE_OLD_BACKUPS', 'snapshots.remove_old_snapshots.enabled' )
-		self.remap_key( 'REMOVE_OLD_BACKUPS_VALUE', 'snapshots.remove_old_snapshots.value' )
-		self.remap_key( 'REMOVE_OLD_BACKUPS_UNIT', 'snapshots.remove_old_snapshots.unit' )
-		self.remap_key( 'MIN_FREE_SPACE', 'snapshots.min_free_space.enabled' )
-		self.remap_key( 'MIN_FREE_SPACE_VALUE', 'snapshots.min_free_space.value' )
-		self.remap_key( 'MIN_FREE_SPACE_UNIT', 'snapshots.min_free_space.unit' )
-		self.remap_key( 'DONT_REMOVE_NAMED_SNAPSHOTS', 'snapshots.dont_remove_named_snapshots' )
-		self.remap_key( 'DIFF_CMD', 'gnome.diff.cmd' )
-		self.remap_key( 'DIFF_CMD_PARAMS', 'gnome.diff.params' )
-		self.remap_key( 'LAST_PATH', 'gnome.last_path' )
-		self.remap_key( 'MAIN_WINDOW_X', 'gnome.main_window.x' )
-		self.remap_key( 'MAIN_WINDOW_Y', 'gnome.main_window.y' )
-		self.remap_key( 'MAIN_WINDOW_WIDTH', 'gnome.main_window.width' )
-		self.remap_key( 'MAIN_WINDOW_HEIGHT', 'gnome.main_window.height' )
-		self.remap_key( 'MAIN_WINDOW_HPANED1_POSITION', 'gnome.main_window.hpaned1' )
-		self.remap_key( 'MAIN_WINDOW_HPANED2_POSITION', 'gnome.main_window.hpaned2' )
+		if self.get_int_value( 'config.version', 1 ) < 2:
+			#remap old items
+			self.remap_key( 'BASE_BACKUP_PATH', 'snapshots.path' )
+			self.remap_key( 'INCLUDE_FOLDERS', 'snapshots.include_folders' )
+			self.remap_key( 'EXCLUDE_PATTERNS', 'snapshots.exclude_patterns' )
+			self.remap_key( 'AUTOMATIC_BACKUP', 'snapshots.automatic_backup_mode' )
+			self.remap_key( 'REMOVE_OLD_BACKUPS', 'snapshots.remove_old_snapshots.enabled' )
+			self.remap_key( 'REMOVE_OLD_BACKUPS_VALUE', 'snapshots.remove_old_snapshots.value' )
+			self.remap_key( 'REMOVE_OLD_BACKUPS_UNIT', 'snapshots.remove_old_snapshots.unit' )
+			self.remap_key( 'MIN_FREE_SPACE', 'snapshots.min_free_space.enabled' )
+			self.remap_key( 'MIN_FREE_SPACE_VALUE', 'snapshots.min_free_space.value' )
+			self.remap_key( 'MIN_FREE_SPACE_UNIT', 'snapshots.min_free_space.unit' )
+			self.remap_key( 'DONT_REMOVE_NAMED_SNAPSHOTS', 'snapshots.dont_remove_named_snapshots' )
+			self.remap_key( 'DIFF_CMD', 'gnome.diff.cmd' )
+			self.remap_key( 'DIFF_CMD_PARAMS', 'gnome.diff.params' )
+			self.remap_key( 'LAST_PATH', 'gnome.last_path' )
+			self.remap_key( 'MAIN_WINDOW_X', 'gnome.main_window.x' )
+			self.remap_key( 'MAIN_WINDOW_Y', 'gnome.main_window.y' )
+			self.remap_key( 'MAIN_WINDOW_WIDTH', 'gnome.main_window.width' )
+			self.remap_key( 'MAIN_WINDOW_HEIGHT', 'gnome.main_window.height' )
+			self.remap_key( 'MAIN_WINDOW_HPANED1_POSITION', 'gnome.main_window.hpaned1' )
+			self.remap_key( 'MAIN_WINDOW_HPANED2_POSITION', 'gnome.main_window.hpaned2' )
+
+		if self.get_int_value( 'config.version', 1 ) < self.CONFIG_VERSION:
+			self.set_int_value( 'config.version', self.CONFIG_VERSION )
 
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
