@@ -13,6 +13,10 @@ install: build install_translations
 	install -d $(DEST)/share/backintime/common
 	install --mode=644 *.py $(DEST)/share/backintime/common
 	
+	#install plugin(s)
+	install -d $(DEST)/share/backintime/plugins
+	install --mode=644 ../plugins/usercallbackplugin.py $(DEST)/share/backintime/plugins
+	
 	#install copyright file
 	install -d $(DEST)/share/doc/backintime-common
 	install --mode=644 debian_specific/copyright $(DEST)/share/doc/backintime-common

@@ -151,7 +151,7 @@ class KDE4Plugin( pluginmanager.Plugin ):
 		if not self.systray is None:
 			self.systray.stop()
 
-	def on_error( self, code, message = None ):
+	def on_error( self, code, message ):
 		return
 
 	def on_new_snapshot( self, snapshot_id, snapshot_path ):

@@ -93,7 +93,7 @@ class PluginManager():
 			plugin.on_process_begins()
 
 	def on_process_ends( self ):
-		for plugin in self.plugins:
+		for plugin in reversed( self.plugins ):
 			plugin.on_process_ends()
 
 	def on_error( self, code, message = '' ):
