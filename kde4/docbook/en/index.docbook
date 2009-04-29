@@ -66,7 +66,7 @@
      the application is and what it does. -->
   <sect1 id="backintime-introduction"> 
     <title>Introduction</title> 
-    <para>&app; is a simple backup tool for Linux (Gnome and KDE4). The backup is done by taking snapshots of 
+    <para>&app; is a simple backup tool for Linux (this is KDE4 version). The backup is done by taking snapshots of 
 	a specified set of directories.</para> 
 	<para>All you have to do is:</para>
     <itemizedlist> 
@@ -81,8 +81,6 @@
 	<para>A snapshot contains all the files from the selected directories (except for exclude patterns).
 	In order to reduce disk space it use hard-links (if possible) between snapshots for unchanged files.
 	This way a file of 10Mb, unchanged for 10 snapshots, will use only 10Mb on the disk.</para>
-	<para>Unsafe links are ignored. That means that a link to a file/directory outside of include
-	directories are ignored.</para>
 	<para>When you restore a file 'A', if it already exists on the file system it will be renamed to 
 	'A.backup.currentdate'.</para>
   </sect1>
