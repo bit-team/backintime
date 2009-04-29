@@ -21,7 +21,7 @@ import os
 
 
 class ConfigFile:
-	def __init__( self, default_profile_name ):
+	def __init__( self, default_profile_name = '' ):
 		self.dict = {}
 		self.default_profile_name = default_profile_name
 		self.current_profile_id = '0'

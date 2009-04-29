@@ -754,7 +754,9 @@ class MainWindow:
 		iter = self.list_folder_view.get_selection().get_selected()[1]
 		if not iter is None:
 			button.set_sensitive( False )
-			gobject.timeout_add( 100, self.restore_ )
+			gnometools.run_gtk_update_loop()
+			self.snapshots.restore( self.snapshot_id, self.store_folder_view.get_value( iter, 1 ) )
+			button.set_sensitive( True )
 	
 	def on_btn_copy_clicked( self, button ):
 		iter = self.list_folder_view.get_selection().get_selected()[1]
@@ -795,14 +797,6 @@ class MainWindow:
 			if not iter is None:
 				self.list_time_line.get_selection().select_iter( iter )
 				self.update_folder_view( 2 )
-
-	def restore_( self ):
-		iter = self.list_folder_view.get_selection().get_selected()[1]
-		if not iter is None:
-			self.snapshots.restore( self.snapshot_id, self.store_folder_view.get_value( iter, 1 ) )
-
-		self.glade.get_widget( 'btn_restore' ).set_sensitive( True )
-		return False
 
 	def on_btn_about_clicked( self, button ):
 		AboutDialog( self.config, self.window ).run()

@@ -22,8 +22,11 @@ import stat
 import datetime
 import gettext
 import statvfs
+import stat
+import bz2
 
 import config
+import configfile
 import logger
 import applicationinstance
 import tools
@@ -55,6 +58,12 @@ class Snapshots:
 
 	def get_snapshot_path( self, date ):
 		return os.path.join( self.config.get_snapshots_full_path(), self.get_snapshot_id( date ) )
+
+	def get_snapshot_info_path( self, date ):
+		return os.path.join( self.get_snapshot_path( date ), 'info' )
+
+	def get_snapshot_fileinfo_path( self, date ):
+		return os.path.join( self.get_snapshot_path( date ), 'fileinfo.bz2' )
 
 	def _get_snapshot_data_path( self, snapshot_id ):
 		if len( snapshot_id ) <= 1:
@@ -104,7 +113,10 @@ class Snapshots:
 
 		name_path = os.path.join( path, 'name' )
 
-		os.system( "chmod a+w \"%s\"" % path )
+		info_file = configfile.ConfigFile()
+		info_file.load( self.get_snapshot_info_path( snapshot_id ) )
+		if info_file.get_int_value( 'snapshot_version' ) == 0:
+			os.system( "chmod a+w \"%s\"" % path )
 
 		try:
 			file = open( name_path, 'wt' )
@@ -112,8 +124,6 @@ class Snapshots:
 			file.close()
 		except:
 			pass
-
-		os.system( "chmod a-w \"%s\"" % path )
 
 	def get_take_snapshot_message( self ):
 		try:
@@ -155,12 +165,91 @@ class Snapshots:
 		instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
 		return not instance.check()
 
+	def load_file_info_dict_ver_1( self, snapshot_id ):
+		file_info_dict = {}
+
+		perms_path = self.get_snapshot_fileinfo_path( snapshot_id )
+		if not os.path.exists( perms_path ):
+			return file_info_dict
+
+		try:
+			perms_file = bz2.BZ2File( perms_path, 'r' )
+			while True:
+				line = perms_file.readline()
+				if len( line ) <= 0:
+					break
+
+				line = line[ : -1 ]
+				if len( line ) <= 0:
+					continue
+				
+				index = line.find( ' ' )
+				if index < 0:
+					continue
+
+				perms = int( line[ : index ] )
+				file = line[ index + 1 : ]
+				file_info_dict[ file ] = [ perms ]
+
+			perms_file.close()
+		except:
+			pass
+
+		return file_info_dict
+
+	def chmod( self, path, intmode ):
+		try:
+			os.chmod( path, intmode )
+		except:
+			pass
+
 	def restore( self, snapshot_id, path ):
 		logger.info( "Restore: %s" % path )
+
+		info_file = configfile.ConfigFile()
+		info_file.load( self.get_snapshot_info_path( snapshot_id ) )
+
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 		#cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
-		cmd = "rsync -avR --whole-file --backup --suffix=%s --chmod=+w \"%s/.%s\" %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
+		cmd = "rsync -avRAXE --whole-file --backup --suffix=%s " % backup_suffix
+		cmd = cmd + '--chmod=+w '
+		cmd = cmd + "\"%s.%s\" %s" % ( self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		self._execute( cmd )
+
+		#restore permissions
+		if info_file.get_int_value( 'snapshot_version' ) == 1:
+			file_info_dict = self.load_file_info_dict_ver_1( snapshot_id )
+
+			#explore items
+			snapshot_path_to = self.get_snapshot_path_to( snapshot_id, path ).rstrip( '/' )
+			root_snapshot_path_to = self.get_snapshot_path_to( snapshot_id ).rstrip( '/' )
+			all_dirs = [] #restore dir permissions after all files are done
+
+			path_items = path.strip( '/' ).split( '/' )
+			curr_path = '/'
+			for path_item in path_items:
+				curr_path = os.path.join( curr_path, path_item )
+				all_dirs.append( curr_path )
+
+			if not os.path.isfile( snapshot_path_to ):
+				print "abc"
+
+				for explore_path, dirs, files in os.walk( snapshot_path_to ):
+					for item in dirs:
+						item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
+						all_dirs.append( item_path )
+
+					for item in files:
+						item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
+						if item_path in file_info_dict:
+							self.chmod( item_path, file_info_dict[ item_path ][ 0 ] )
+
+			print all_dirs
+			all_dirs.reverse()
+			for item_path in all_dirs:
+				if item_path in file_info_dict:
+					self.chmod( item_path, file_info_dict[ item_path ][ 0 ] )
+
 
 	def get_snapshots_list( self, sort_reverse = True ):
 		biglist = []
@@ -187,7 +276,8 @@ class Snapshots:
 			return
 
 		path = self.get_snapshot_path( snapshot_id )
-		cmd = "chmod -R a+w \"%s\"" %  path
+		#cmd = "chmod -R a+w \"%s\"" %  path
+		cmd = "find \"%s\" -type d -exec chmod +w {} \;" % path
 		self._execute( cmd )
 		cmd = "rm -rf \"%s\"" % path
 		self._execute( cmd )
@@ -224,7 +314,6 @@ class Snapshots:
 			lines.append( "%s:%s:%s:%s:%s:%s" % ( key, value.year, value.month, value.day, value.hour, value.minute ) )
 
 		try:
-			print self.config.get_last_snapshot_info_file()
 			file = open( self.config.get_last_snapshot_info_file(), 'wt' )
 			file.write( '\n'.join( lines ) )
 			file.close()
@@ -433,6 +522,7 @@ class Snapshots:
 		new_snapshot_path = self.get_snapshot_path( new_snapshot_id )
 
 		if os.path.exists( new_snapshot_path ):
+			self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
 			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
 		
 			if os.path.exists( new_snapshot_path ):
@@ -465,8 +555,8 @@ class Snapshots:
 		rsync_include2 = ' '.join( items2 )
 
 		#rsync prefix & suffix
-		rsync_prefix = 'rsync -a '
-		rsync_suffix = ' --whole-file --delete ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		rsync_prefix = 'rsync -aEAX '
+		rsync_suffix = ' --chmod=a-w --whole-file --delete ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
 		if not force:
@@ -525,8 +615,8 @@ class Snapshots:
 					cmd = "cp -alb \"%s\"* \"%s\"" % ( prev_path, new_path )
 					self._execute( cmd )
 			
-			cmd = "chmod -R a+w \"%s\"" % new_snapshot_path
-			self._execute( cmd )
+			#cmd = "chmod -R a+w \"%s\"" % new_snapshot_path
+			#self._execute( cmd )
 		else:
 			if not self._create_directory( new_snapshot_path_to ):
 				return False
@@ -552,6 +642,33 @@ class Snapshots:
 				cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
 				self._execute( cmd )
 
+		#create info file
+		info_file = configfile.ConfigFile()
+		info_file.set_int_value( 'snapshot_version', 1 )
+		info_file.save( self.get_snapshot_info_path( new_snapshot_id ) )
+		info_file = None
+
+		#save permissions
+		logger.info( 'Save permissions' )
+		self.set_take_snapshot_message( 0, _('Save permission ...') )
+
+		perms_file = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' )
+		path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' )
+
+		for path, dirs, files in os.walk( path_to_explore ):
+			dirs.extend( files )
+			for item in dirs:
+				item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
+				try:
+					info = os.stat( item_path )
+					line = "%s %s\n" % ( info.st_mode, item_path )
+					perms_file.write( line )
+				except:
+					pass
+
+		perms_file.close()
+		perms_file = None
+
 		#rename snapshot
 		snapshot_path = self.get_snapshot_path( snapshot_id )
 		os.system( "mv \"%s\" \"%s\"" % ( new_snapshot_path, snapshot_path ) )
@@ -562,7 +679,8 @@ class Snapshots:
 			return False
 
 		#make new folder read-only
-		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
+		#self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
+
 		return True
 
 	def smart_remove( self, now_full = None ):

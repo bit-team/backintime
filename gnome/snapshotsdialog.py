@@ -123,16 +123,10 @@ class SnapshotsDialog:
 	def on_btn_restore_snapshot_clicked( self, button ):
 		iter = self.list_snapshots.get_selection().get_selected()[1]
 		if not iter is None:
-			self.glade.get_widget('btn_restore_snapshot').set_sensitive( False )
-			gobject.timeout_add( 100, self.restore_ )
-
-	def restore_( self ):
-		iter = self.list_snapshots.get_selection().get_selected()[1]
-		if not iter is None:
+			button.set_sensitive( False )
+			gnometools.run_gtk_update_loop()
 			self.snapshots.restore( self.store_snapshots.get_value( iter, 1 ), self.path )
-
-		self.glade.get_widget( 'btn_restore_snapshot' ).set_sensitive( True )
-		return False
+			button.set_sensitive( True )
 
 	def on_btn_copy_snapshot_clicked( self, button ):
 		iter = self.list_snapshots.get_selection().get_selected()[1]
