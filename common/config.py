@@ -323,6 +323,36 @@ class Config( configfile.ConfigFile ):
 	def set_notify_enabled( self, value ):
 		self.set_bool_value( 'snapshots.notify.enabled', value )
 
+	def get_take_snapshot_user_script( self, step ):
+		return self.get_str_value( "snapshots.take_snapshot.%s.user.script" )
+
+	def set_take_snapshot_user_script( self, step, path ):
+		self.set_str_value( "snapshots.take_snapshot.%s.user.script" % step, path )
+
+	def get_take_snapshot_user_script_before( self ):
+		return self.get_take_snapshot_user_script( 'before' )
+
+	def set_take_snapshot_user_script_before( self, path ):
+		self.set_take_snapshot_user_script( 'before', path )
+
+	def get_take_snapshot_user_script_after( self ):
+		return self.get_take_snapshot_user_script( 'after' )
+
+	def set_take_snapshot_user_script_after( self, path ):
+		self.set_take_snapshot_user_script( 'after', path )
+
+	def get_take_snapshot_user_script_new_snapshot( self ):
+		return self.get_take_snapshot_user_script( 'new_snapshot' )
+
+	def set_take_snapshot_user_script_new_snapshot( self, path ):
+		self.set_take_snapshot_user_script( 'new_snapshot', path )
+
+	def get_take_snapshot_user_script_error( self ):
+		return self.get_take_snapshot_user_script( 'error' )
+
+	def set_take_snapshot_user_script_error( self, path ):
+		self.set_take_snapshot_user_script( 'error', path )
+
 	def get_app_path( self ):
 		return self._APP_PATH
 
