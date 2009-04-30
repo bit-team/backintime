@@ -114,7 +114,13 @@ class KDE4Plugin( pluginmanager.Plugin ):
 					time.sleep( 0.2 )
 			
 			self.status_icon.hide()
+			self.status_icon.deleteLater()
+			if not self.popup is None:
+				self.popup.deleteLater()
+				self.popup = None
+			time.sleep( 0.2 )
 			kapp.processEvents()
+			kapp = None
 			
 			logger.info( '[KDE4Plugin.Systray.run] end loop' )
 
