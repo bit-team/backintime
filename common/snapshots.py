@@ -24,6 +24,8 @@ import gettext
 import statvfs
 import stat
 import bz2
+import pwd
+import grp
 
 import config
 import configfile
@@ -165,53 +167,86 @@ class Snapshots:
 		instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
 		return not instance.check()
 
-	def load_file_info_dict( self, snapshot_id, version = None ):
+	def load_fileinfo_dict( self, snapshot_id, version = None ):
 		if version is None:
 			info_file = configfile.ConfigFile()
 			info_file.load( self.get_snapshot_info_path( snapshot_id ) )
 			version = info_file.get_int_value( 'snapshot_version' )
 			info_file = None
 
-		file_info_dict = {}
+		dict = {}
 
 		if 0 == version:
 			return file_info_dict
 
-		perms_path = self.get_snapshot_fileinfo_path( snapshot_id )
-		if not os.path.exists( perms_path ):
-			return file_info_dict
+		fileinfo_path = self.get_snapshot_fileinfo_path( snapshot_id )
+		if not os.path.exists( fileinfo_path ):
+			return dict
 
+		#try:
+		fileinfo = bz2.BZ2File( fileinfo_path, 'r' )
+		while True:
+			line = fileinfo.readline()
+			if len( line ) <= 0:
+				break
+
+			line = line[ : -1 ]
+			if len( line ) <= 0:
+				continue
+		
+			index = line.find( '/' )
+			if index < 0:
+				continue
+
+			file = line[ index: ]
+			if len( file ) <= 0:
+				continue
+
+			info = line[ : index ].strip()
+			info = info.split( ' ' )
+
+			if len( info ) == 3:
+				dict[ file ] = [ int( info[0] ), info[1], info[2] ] #perms, user, group
+
+		fileinfo.close()
+		#except:
+		#	pass
+
+		return dict
+
+	def _restore_path_info( self, path, dict ):
+		if path not in dict:
+			return
+
+		info = dict[path]
+
+		#restore perms
 		try:
-			perms_file = bz2.BZ2File( perms_path, 'r' )
-			while True:
-				line = perms_file.readline()
-				if len( line ) <= 0:
-					break
-
-				line = line[ : -1 ]
-				if len( line ) <= 0:
-					continue
-				
-				if 1 == version:
-					index = line.find( ' ' )
-					if index < 0:
-						continue
-
-					perms = int( line[ : index ] )
-					file = line[ index + 1 : ]
-					file_info_dict[ file ] = [ perms ]
-
-			perms_file.close()
+			os.chmod( path, info[0] )
 		except:
 			pass
 
-		return file_info_dict
+		#restore uid/gid
+		uid = -1
+		gid = -1
 
-	def chmod( self, path, intmode ):
-		try:
-			os.chmod( path, intmode )
-		except:
-			pass
+		if info[1] != '-':
+			try:
+				uid = pwd.getpwnam( info[1] ).pw_uid
+			except:
+				pass
+
+		if info[2] != '-':
+			try:
+				gid = grp.getgrnam( info[2] ).gr_gid
+			except:
+				pass
+
+		if uid != -1 or gid != -1:
+			try:
+				os.chown( path, uid, gid )
+			except:
+				pass
 
 	def restore( self, snapshot_id, path ):
 		logger.info( "Restore: %s" % path )
@@ -227,7 +262,7 @@ class Snapshots:
 		self._execute( cmd )
 
 		#restore permissions
-		file_info_dict = self.load_file_info_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
+		file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
 		if len( file_info_dict ) > 0:
 			#explore items
 			snapshot_path_to = self.get_snapshot_path_to( snapshot_id, path ).rstrip( '/' )
@@ -248,15 +283,11 @@ class Snapshots:
 
 					for item in files:
 						item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
-						if item_path in file_info_dict:
-							self.chmod( item_path, file_info_dict[ item_path ][ 0 ] )
+						self._restore_path_info( item_path, file_info_dict )
 
-			print all_dirs
 			all_dirs.reverse()
 			for item_path in all_dirs:
-				if item_path in file_info_dict:
-					self.chmod( item_path, file_info_dict[ item_path ][ 0 ] )
-
+				self._restore_path_info( item_path, file_info_dict )
 
 	def get_snapshots_list( self, sort_reverse = True ):
 		biglist = []
@@ -513,17 +544,32 @@ class Snapshots:
 			return False
 
 		return True
+	
+	def _save_path_info_line( self, fileinfo, path, info ):
+		fileinfo.write( "%s %s %s %s\n" % ( info[0], info[1], info[2], path ) )
+
+	def _save_path_info( self, fileinfo, path ):
+		try:
+			info = os.stat( path )
+			user = '-'
+			group = '-'
+
+			try:
+				user = pwd.getpwuid( info.st_uid ).pw_name
+			except:
+				pass
+
+			try:
+				group = grp.getgrgid( info.st_gid ).gr_name
+			except:
+				pass
+
+			self._save_path_info_line( fileinfo, path, [ info.st_mode, user, group ] )
+		except:
+			pass
 
 	def _take_snapshot( self, snapshot_id, now, include_folders, ignore_folders, dict, force ):
-		#print "Snapshot: %s" % snapshot_id
-		#print "\tInclude: %s" % include_folders
-		#print "\tIgnore: %s" % ignore_folders
-		#print "\tDict: %s" % dict
-
 		self.set_take_snapshot_message( 0, _('...') )
-
-		#snapshot_path = self.get_snapshot_path( snapshot_id )
-		#snapshot_path_to = self.get_snapshot_path_to( snapshot_id )
 
 		new_snapshot_id = 'new_snapshot'
 		new_snapshot_path = self.get_snapshot_path( new_snapshot_id )
@@ -576,8 +622,6 @@ class Snapshots:
 		snapshots = self.get_snapshots_list()
 		prev_snapshot_id = ''
 
-		#rsync_link_with = ''
-
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 			prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
@@ -601,10 +645,6 @@ class Snapshots:
 				logger.info( "Nothing changed, no back needed" )
 				return False
 
-			#create hard links
-			
-			#rsync_link_with = "--link-dest=\"%s\" " % prev_snapshot_folder
-
 			if not self._create_directory( new_snapshot_path_to ):
 				return False
 			
@@ -621,21 +661,12 @@ class Snapshots:
 					tools.make_dirs( new_path )
 					cmd = "cp -alb \"%s\"* \"%s\"" % ( prev_path, new_path )
 					self._execute( cmd )
-			
-			#cmd = "chmod -R a+w \"%s\"" % new_snapshot_path
-			#self._execute( cmd )
 		else:
 			if not self._create_directory( new_snapshot_path_to ):
 				return False
 
-		#create new backup folder
-		#if not self._create_directory( new_snapshot_path_to ):
-		#	logger.error( "Can't create snapshot directory: %s" % new_snapshot_path_to )
-		#	return False
-
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
-		#cmd = rsync_prefix + ' -v --delete-excluded --chmod=a-w ' + rsync_link_with + rsync_suffix + '"' + new_snapshot_path_to + '"'
 		cmd = rsync_prefix + ' -v --delete-excluded ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
@@ -644,25 +675,20 @@ class Snapshots:
 		logger.info( 'Save permissions' )
 		self.set_take_snapshot_message( 0, _('Save permission ...') )
 
-		perms_file = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' )
+		fileinfo = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' )
 		path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' )
-		perms_dict = {}
+		fileinfo_dict = {}
 
 		for path, dirs, files in os.walk( path_to_explore ):
 			dirs.extend( files )
 			for item in dirs:
 				item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-				try:
-					info = os.stat( item_path )
-					line = "%s %s\n" % ( info.st_mode, item_path )
-					perms_file.write( line )
-					perms_dict[item_path] = [ info.st_mode ]
-				except:
-					pass
+				fileinfo_dict[item_path] = 1
+				self._save_path_info( fileinfo, item_path )
 
 		#copy ignored directories
 		if not force and len( prev_snapshot_id ) > 0 and len( ignore_folders ) > 0:
-			prev_perms_dict = self.load_file_info_dict( prev_snapshot_id )
+			prev_fileinfo_dict = self.load_fileinfo_dict( prev_snapshot_id )
 
 			for folder in ignore_folders:
 				prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
@@ -671,27 +697,24 @@ class Snapshots:
 				cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
 				self._execute( cmd )
 		
-				if len( prev_perms_dict ) > 0:
+				if len( prev_fileinfo_dict ) > 0:
 					#save permissions for all items to folder
 					item_path = '/'
 					prev_path_items = folder.strip( '/' ).split( '/' )
 					for item in items:
 						item_path = os.path.join( item_path, item )
-						if item_path not in perms_dict and item_path in prev_perms_dict:
-							line = "%s %s\n" % ( prev_perms_dict[item_path][0], item_path )
-							perms_file.write( line )
+						if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
+							self._save_path_info_line( item_path, prev_fileinfo_dict[item_path] )
 
 					#save permission for all items in folder
 					for path, dirs, files in os.walk( new_path ):
 						dirs.extend( files )
 						for item in dirs:
 							item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-							if item_path not in perms_dict and item_path in prev_perms_dict:
-								line = "%s %s\n" % ( prev_perms_dict[item_path][0], item_path )
-								perms_file.write( line )
+							if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
+								self._save_path_info_line( item_path, prev_fileinfo_dict[item_path] )
 
-		perms_file.close()
-		perms_file = None
+		fileinfo.close()
 
 		#create info file
 		info_file = configfile.ConfigFile()

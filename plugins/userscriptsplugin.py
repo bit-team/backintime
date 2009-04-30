@@ -46,7 +46,7 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
 
 	def on_error( self, code, message ):
 		code = str( code )
-		if len( message > 0 ):
+		if len( message ) > 0:
 			code = code + " \"" + message + "\""
 
 		self.notify_script( self.config.get_take_snapshot_user_script_error(), code )
