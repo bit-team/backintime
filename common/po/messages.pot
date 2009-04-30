@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-27 15:43+0200\n"
+"POT-Creation-Date: 2009-04-30 17:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,83 +17,83 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../../common/config.py:52
+#: ../../common/config.py:53
 msgid "Disabled"
 msgstr ""
 
-#: ../../common/config.py:53
+#: ../../common/config.py:54
 msgid "Every 5 minutes"
 msgstr ""
 
-#: ../../common/config.py:54
+#: ../../common/config.py:55
 msgid "Every 10 minutes"
 msgstr ""
 
-#: ../../common/config.py:55
+#: ../../common/config.py:56
 msgid "Every Hour"
 msgstr ""
 
-#: ../../common/config.py:56
+#: ../../common/config.py:57
 msgid "Every Day"
 msgstr ""
 
-#: ../../common/config.py:57
+#: ../../common/config.py:58
 msgid "Every Week"
 msgstr ""
 
-#: ../../common/config.py:58
+#: ../../common/config.py:59
 msgid "Every Month"
 msgstr ""
 
-#: ../../common/config.py:62
+#: ../../common/config.py:63
 msgid "Day(s)"
 msgstr ""
 
-#: ../../common/config.py:63
+#: ../../common/config.py:64
 msgid "Week(s)"
 msgstr ""
 
-#: ../../common/config.py:64
+#: ../../common/config.py:65
 msgid "Year(s)"
 msgstr ""
 
-#: ../../common/config.py:126
+#: ../../common/config.py:131
 msgid "Snapshots directory is not valid !"
 msgstr ""
 
-#: ../../common/config.py:129
+#: ../../common/config.py:134
 msgid "Snapshots directory can't be the root directory !"
 msgstr ""
 
-#: ../../common/config.py:132
+#: ../../common/config.py:137
 msgid "You must select at least one directory to backup !"
 msgstr ""
 
-#: ../../common/config.py:141 ../../common/config.py:147
+#: ../../common/config.py:146 ../../common/config.py:152
 msgid "Snapshots directory can't be in \"Backup Directories\" !"
 msgstr ""
 
-#: ../../common/config.py:154
+#: ../../common/config.py:159
 msgid "\"Backup directories\" can't include snapshots directory !"
 msgstr ""
 
-#: ../../common/config.py:158
+#: ../../common/config.py:163
 msgid "\"Exclude pattern\" can't contain \":\" char !"
 msgstr ""
 
-#: ../../common/config.py:173
+#: ../../common/config.py:178
 #, python-format
 msgid "%s is not a directory !"
 msgstr ""
 
-#: ../../common/config.py:183
+#: ../../common/config.py:188
 #, python-format
 msgid ""
 "Can't write to: %s\n"
 "Are you sure have write access ?"
 msgstr ""
 
-#: ../../common/config.py:405
+#: ../../common/config.py:440
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -109,74 +109,78 @@ msgstr ""
 msgid "You can't rename \"Main\" profile"
 msgstr ""
 
-#: ../../common/snapshots.py:66 ../../gnome/app.py:892 ../../kde4/app.py:806
+#: ../../common/snapshots.py:80 ../../gnome/app.py:886 ../../kde4/app.py:809
 msgid "Now"
 msgstr ""
 
-#: ../../common/snapshots.py:272
+#: ../../common/snapshots.py:404
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
 
-#: ../../common/snapshots.py:274
+#: ../../common/snapshots.py:406
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../common/snapshots.py:298
+#: ../../common/snapshots.py:430
 msgid "Finalizing"
 msgstr ""
 
-#: ../../common/snapshots.py:321 ../../common/snapshots.py:537
+#: ../../common/snapshots.py:454 ../../common/snapshots.py:671
 #: ../../kde4/app.py:71 ../../gnome/mainwindow.glade:21
 msgid "Take snapshot"
 msgstr ""
 
-#: ../../common/snapshots.py:324 ../../common/snapshots.py:481
+#: ../../common/snapshots.py:457 ../../common/snapshots.py:628
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr ""
 
-#: ../../common/snapshots.py:409
+#: ../../common/snapshots.py:542
 #, python-format
 msgid "Can't create directory: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:421
+#: ../../common/snapshots.py:572
 msgid "..."
 msgstr ""
 
-#: ../../common/snapshots.py:434
+#: ../../common/snapshots.py:583
 #, python-format
 msgid "Can't remove directory: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:508
+#: ../../common/snapshots.py:651
 msgid "Create hard-links"
 msgstr ""
 
-#: ../../common/snapshots.py:554
+#: ../../common/snapshots.py:676
+msgid "Save permission ..."
+msgstr ""
+
+#: ../../common/snapshots.py:730
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr ""
 
-#: ../../common/snapshots.py:640
+#: ../../common/snapshots.py:817
 msgid "Remove old snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:663 ../../kde4/settingsdialog.py:202
+#: ../../common/snapshots.py:840 ../../kde4/settingsdialog.py:202
 #: ../../gnome/settingsdialog.glade:414
 msgid "Smart remove"
 msgstr ""
 
-#: ../../common/snapshots.py:668
+#: ../../common/snapshots.py:845
 msgid "Try to keep min free space"
 msgstr ""
 
-#: ../../gnome/app.py:79 ../../kde4/app.py:960
+#: ../../gnome/app.py:79 ../../kde4/app.py:963
 msgid "about-translators"
 msgstr ""
 
@@ -281,34 +285,30 @@ msgstr ""
 msgid "Last week"
 msgstr ""
 
-#: ../../gnome/app.py:839 ../../kde4/app.py:77 ../../kde4/app.py:640
+#: ../../gnome/app.py:833 ../../kde4/app.py:77 ../../kde4/app.py:640
 #: ../../gnome/mainwindow.glade:45 ../../gnome/mainwindow.glade:46
 msgid "Snapshot Name"
 msgstr ""
 
-#: ../../gnome/app.py:858
+#: ../../gnome/app.py:852
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
 
-#: ../../gnome/app.py:888 ../../kde4/app.py:802
+#: ../../gnome/app.py:882 ../../kde4/app.py:805
 #, python-format
 msgid "Snapshot: %s"
 msgstr ""
 
-#: ../../gnome/app.py:889 ../../kde4/app.py:803
+#: ../../gnome/app.py:883 ../../kde4/app.py:806
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr ""
 
-#: ../../gnome/app.py:891 ../../kde4/app.py:805
+#: ../../gnome/app.py:885 ../../kde4/app.py:808
 msgid "View the current disk content"
-msgstr ""
-
-#: ../../gnome/app.py:1112 ../../kde4/app.py:933
-msgid "Working..."
 msgstr ""
 
 #: ../../gnome/settingsdialog.py:83 ../../kde4/settingsdialog.py:108
@@ -343,11 +343,11 @@ msgstr ""
 msgid "Are you sure you want to change snapshots directory ?"
 msgstr ""
 
-#: ../../gnome/snapshotsdialog.py:243 ../../kde4/snapshotsdialog.py:241
+#: ../../gnome/snapshotsdialog.py:237 ../../kde4/snapshotsdialog.py:244
 msgid "You can't compare a snapshot to itself"
 msgstr ""
 
-#: ../../gnome/snapshotsdialog.py:250 ../../kde4/snapshotsdialog.py:248
+#: ../../gnome/snapshotsdialog.py:244 ../../kde4/snapshotsdialog.py:251
 #, python-format
 msgid "Command not found: %s"
 msgstr ""
@@ -402,6 +402,11 @@ msgstr ""
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
+msgstr ""
+
+#: ../../kde4/app.py:936 ../../plugins/gnomeplugin.py:114
+#: ../../plugins/kde4plugin.py:99
+msgid "Working..."
 msgstr ""
 
 #: ../../kde4/settingsdialog.py:67 ../../gnome/settingsdialog.glade:120
