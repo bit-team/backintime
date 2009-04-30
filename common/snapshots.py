@@ -704,7 +704,7 @@ class Snapshots:
 					for item in items:
 						item_path = os.path.join( item_path, item )
 						if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
-							self._save_path_info_line( item_path, prev_fileinfo_dict[item_path] )
+							self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
 
 					#save permission for all items in folder
 					for path, dirs, files in os.walk( new_path ):
@@ -712,7 +712,7 @@ class Snapshots:
 						for item in dirs:
 							item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
 							if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
-								self._save_path_info_line( item_path, prev_fileinfo_dict[item_path] )
+								self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
 
 		fileinfo.close()
 
