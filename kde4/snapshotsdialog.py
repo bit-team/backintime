@@ -215,6 +215,9 @@ class SnapshotsDialog( KDialog ):
 		self.update_toolbar()
 
 	def on_list_snapshots_executed( self, item ):
+		if self.kapp.keyboardModifiers() and Qt.ControlModifier:
+			return
+
 		snapshot_id = self.get_list_snapshot_id()
 		if len( snapshot_id ) <= 0:
 			return

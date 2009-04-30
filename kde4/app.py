@@ -744,6 +744,9 @@ class MainWindow( KMainWindow ):
 		self.update_files_view( 0 )
 
 	def on_list_files_view_item_activated( self, model_index ):
+		if self.kapp.keyboardModifiers() and Qt.ControlModifier:
+			return
+
 		if model_index is None:
 			return
 
