@@ -21,10 +21,8 @@ import os
 
 
 class ConfigFile:
-	def __init__( self, default_profile_name = '' ):
+	def __init__( self ):
 		self.dict = {}
-		self.default_profile_name = default_profile_name
-		self.current_profile_id = '0'
 
 	def save( self, filename ):
 		try:
@@ -112,6 +110,14 @@ class ConfigFile:
 
 		for key in remove_keys:
 			del self.dict[ key ]
+
+
+class ConfigFileWithProfiles( ConfigFile ):
+	def __init__( self, default_profile_name ):
+		ConfigFile.__init__( self )
+
+		self.default_profile_name = default_profile_name
+		self.current_profile_id = '0'
 
 	def _get_profile_key_( self, key, profile_id = None ):
 		if profile_id is None:

@@ -57,6 +57,7 @@ class GnomePlugin( pluginmanager.Plugin ):
 				pass
 
 		def show_notification( self, icon ):
+			import pynotify
 			self.notification.set_timeout( pynotify.EXPIRES_NEVER )
 			self.notification.show()
 
