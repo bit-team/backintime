@@ -24,6 +24,8 @@ import tools
 
 class DriveInfo( configfile.ConfigFile ):
 	def __init__( self, path ):
+		self.configfile.ConfigFile.__init__( self )
+
 		self.path = path
 		self.load( self._get_driveinfo_file_() )
 
@@ -45,13 +47,13 @@ class DriveInfo( configfile.ConfigFile ):
 			self.save( self._get_driveinfo_file_() )
 
 	def support_hardlinks( self ):
-		self.get_bool_value( 'hardlinks', False )
+		return self.get_bool_value( 'hardlinks', False )
 		
 	def support_permissions( self ):
-		self.get_bool_value( 'permissions', False )
+		return self.get_bool_value( 'permissions', False )
 		
 	def support_usergroup( self ):
-		self.get_bool_value( 'usergroup', False )
+		return self.get_bool_value( 'usergroup', False )
 		
 	def _get_driveinfo_file_( self ):
 		return os.path.join( self.path, 'driveinfo' )
