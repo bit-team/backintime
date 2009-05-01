@@ -19,29 +19,34 @@
 import os.path
 import os
 import configfile
+import sys
 import tools
 
 
 class DriveInfo( configfile.ConfigFile ):
 	def __init__( self, path ):
-		self.configfile.ConfigFile.__init__( self )
+		configfile.ConfigFile.__init__( self )
 
 		self.path = path
 		self.load( self._get_driveinfo_file_() )
 
 		dirty = False
 
-		if not self.has_value( 'hardlinks' ):
-			self.set_bool_value( 'hardlinks', self._check_hardlinks_ )
-			dirty = True
+		if sys.platform == 'win32':
+			#there is nothing to do
+			pass
+		else:
+			if not self.has_value( 'hardlinks' ):
+				self.set_bool_value( 'hardlinks', self._check_hardlinks_() )
+				dirty = True
 
-		if not self.has_value( 'permissions' ):
-			self.set_bool_value( 'permissions', self._check_perms_ )
-			dirty = True
+			if not self.has_value( 'permissions' ):
+				self.set_bool_value( 'permissions', self._check_perms_() )
+				dirty = True
 
-		if not self.has_value( 'usergroup' ):
-			self.set_bool_value( 'usergroup', self._check_usergroup_ )
-			dirty = True
+			if not self.has_value( 'usergroup' ):
+				self.set_bool_value( 'usergroup', self._check_usergroup_() )
+				dirty = True
 
 		if dirty:
 			self.save( self._get_driveinfo_file_() )
@@ -76,18 +81,19 @@ class DriveInfo( configfile.ConfigFile ):
 		if os.path.exists( file1_path ) and os.path.exists( file2_path ):
 			try:
 				info1 = os.stat( file1_path )
-				info2 = os.stat( file1_path )
+				info2 = os.stat( file2_path )
 
 				if info1.st_size == info2.st_size:
 					ret_val = True
 			except:
 				pass
 
-		os.system( "rm _rf \"%s\"" % tmp_path )
+		os.system( "rm -rf \"%s\"" % tmp_path )
 		return ret_val
 
 	def _check_perms_for_file_( self, file_path, mode ):
 		ret_val = False
+
 		os.system( "chmod %s \"%s\"" % ( mode, file_path ) )
 		try:
 			info = "%o" % os.stat( file_path ).st_mode
@@ -120,7 +126,7 @@ class DriveInfo( configfile.ConfigFile ):
 							if self._check_perms_for_file_( file_path, '666' ):
 								ret_val = True
 
-		os.system( "rm _rf \"%s\"" % tmp_path )
+		os.system( "rm -rf \"%s\"" % tmp_path )
 		return ret_val
 
 	def _check_usergroup_( self ):
@@ -168,6 +174,6 @@ class DriveInfo( configfile.ConfigFile ):
 				except:
 					ret_val = False
 
-		os.system( "rm _rf \"%s\"" % tmp_path )
+		os.system( "rm -rf \"%s\"" % tmp_path )
 		return ret_val
 
