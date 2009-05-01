@@ -171,5 +171,3 @@ class DriveInfo( configfile.ConfigFile ):
 		os.system( "rm _rf \"%s\"" % tmp_path )
 		return ret_val
 
-DriveInfo( '.' )
-
