@@ -97,6 +97,14 @@ class MainWindow( KMainWindow ):
 		self.btn_quit = self.main_toolbar.addAction( KIcon( 'application-exit' ), '' )
 		self.btn_quit.setToolTip( QString.fromUtf8( _('Exit') ) )
 
+		self.main_toolbar.addAction( KToolBarSpacerAction( self ) )
+
+		self.main_toolbar.addSeparator()
+
+		self.btn_link = KUrlLabel( 'http://backintime.le-web.org', 'backintime.le-web.org', self )
+		QObject.connect( self.btn_link, SIGNAL('leftClickedUrl(const QString&)'), self.open_url )
+		self.main_toolbar.addWidget( self.btn_link )
+
 		#main splitter
 		self.main_splitter = QSplitter( self )
 		self.main_splitter.setOrientation( Qt.Horizontal )
@@ -686,6 +694,9 @@ class MainWindow( KMainWindow ):
 
 	def on_btn_help_clicked( self ):
 		KRun.runCommand( "khelpcenter help:/backintime", self )
+
+	def open_url( self, url ):
+		self.run = KRun( KUrl( url ), self, True )
 
 	def on_btn_show_hidden_files_toggled( self, checked ):
 		self.show_hidden_files = checked
