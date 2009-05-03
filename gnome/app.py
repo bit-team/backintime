@@ -136,6 +136,7 @@ class MainWindow:
 
 		#fix a glade bug
 		self.glade.get_widget( 'btn_current_path' ).set_expand( True )
+		self.glade.get_widget( 'tb_sep_item' ).set_expand( True )
 
 		#lbl snapshot
 		self.lbl_snapshot = self.glade.get_widget( 'lbl_snapshot' )
@@ -1042,6 +1043,7 @@ if __name__ == '__main__':
 	gnome.program_init( 'backintime', cfg.VERSION, properties = gnome_props )
 
 	gtk.about_dialog_set_url_hook( open_url, None )
+	gtk.link_button_set_uri_hook( open_url, None )
 
 	logger.openlog()
 	main_window = MainWindow( cfg, app_instance )

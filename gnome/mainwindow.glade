@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Apr 27 12:52:08 2009 -->
+<!--Generated with glade3 3.4.5 on Sun May  3 15:17:58 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="MainWindow">
     <property name="title" translatable="yes">Back In Time</property>
@@ -124,6 +124,46 @@
                 <property name="label" translatable="yes">Exit</property>
                 <property name="stock_id">gtk-quit</property>
                 <signal name="clicked" handler="on_btn_exit_clicked"/>
+              </widget>
+              <packing>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="tb_sep_item">
+                <property name="visible">True</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">True</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolbutton6">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolbutton4">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkLinkButton" id="btn_link">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="label" translatable="yes">backintime.le-web.org</property>
+                    <property name="relief">GTK_RELIEF_NONE</property>
+                    <property name="response_id">0</property>
+                    <property name="uri">http://backintime.le-web.org</property>
+                  </widget>
+                </child>
               </widget>
               <packing>
                 <property name="homogeneous">True</property>
