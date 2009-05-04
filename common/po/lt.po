@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-04-15 16:37+0200\n"
+"POT-Creation-Date: 2009-04-30 17:00+0200\n"
 "PO-Revision-Date: 2009-04-15 16:59+0000\n"
 "Last-Translator: Valdas Šulinskas <valdas@idomu.net>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
@@ -16,146 +16,219 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "(n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2009-04-22 08:16+0000\n"
+"X-Launchpad-Export-Date: 2009-05-04 11:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: config.py:52
+#: ../../common/config.py:53
 msgid "Disabled"
 msgstr "Išjungta"
 
-#: config.py:53
+#: ../../common/config.py:54
 msgid "Every 5 minutes"
 msgstr "Kas 5 minutės"
 
-#: config.py:54
+#: ../../common/config.py:55
 msgid "Every 10 minutes"
 msgstr "Kas 10 minučių"
 
-#: config.py:55
+#: ../../common/config.py:56
 msgid "Every Hour"
 msgstr "Kas valandą"
 
-#: config.py:56
+#: ../../common/config.py:57
 msgid "Every Day"
 msgstr "Kasdien"
 
-#: config.py:57
+#: ../../common/config.py:58
 msgid "Every Week"
 msgstr "Kas savaitę"
 
-#: config.py:58
+#: ../../common/config.py:59
 msgid "Every Month"
 msgstr "Kas mėnesį"
 
-#: config.py:62
+#: ../../common/config.py:63
 msgid "Day(s)"
 msgstr "Diena (os/ų)"
 
-#: config.py:63
+#: ../../common/config.py:64
 msgid "Week(s)"
 msgstr "Savaitė (ės/čių)"
 
-#: config.py:64
+#: ../../common/config.py:65
 msgid "Year(s)"
 msgstr "Metai (-ų)"
 
-#: config.py:131
+#: ../../common/config.py:131
 msgid "Snapshots directory is not valid !"
 msgstr "Momentinių kopijų katalogas yra netinkamas !"
 
-#: config.py:134
+#: ../../common/config.py:134
 msgid "Snapshots directory can't be the root directory !"
 msgstr "Momentinių kopijų katalogas negali būti root kataloge !"
 
-#: config.py:137
+#: ../../common/config.py:137
 msgid "You must select at least one directory to backup !"
 msgstr "Jūs turite parinkti nors vieną katalogą kopijos darymui !"
 
-#: config.py:146 config.py:152
+#: ../../common/config.py:146 ../../common/config.py:152
 msgid "Snapshots directory can't be in \"Backup Directories\" !"
 msgstr "Momentinių kopijų katalogas negali būtų in \"Backup Directories\" !"
 
-#: config.py:159
+#: ../../common/config.py:159
 msgid "\"Backup directories\" can't include snapshots directory !"
 msgstr ""
 "Į \"Backup directories\" nėra įtrauktos momentinių kopijų katalogas !"
 
-#: config.py:163
+#: ../../common/config.py:163
 msgid "\"Exclude pattern\" can't contain \":\" char !"
 msgstr "\"Išskyrimo šablonas\" negali turėti \":\" simbolio !"
 
-#: config.py:178
+#: ../../common/config.py:178
 #, python-format
 msgid "%s is not a directory !"
 msgstr "%s nėra katalogas !"
 
-#: config.py:188
+#: ../../common/config.py:188
 #, python-format
 msgid ""
 "Can't write to: %s\n"
 "Are you sure have write access ?"
 msgstr "Negaliu įrašyti į: %s"
 
-#: config.py:410
+#: ../../common/config.py:440
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr "Negaliu rasti crontab."
 
-#: gnomebackintime.py:73 kde4backintime.py:958
+#: ../../common/snapshots.py:80 ../../gnome/app.py:886 ../../kde4/app.py:809
+msgid "Now"
+msgstr "Dabar"
+
+#: ../../common/snapshots.py:404
+msgid ""
+"Can't find snapshots directory.\n"
+"If it is on a removable drive please plug it."
+msgstr ""
+"Negaliu rasti momentinių kopijų katalogo.\n"
+"Jei tai nešiojamas diskas, prijunkite jį."
+
+#: ../../common/snapshots.py:406
+#, python-format
+msgid "Waiting %s second."
+msgid_plural "Waiting %s seconds."
+msgstr[0] "Laukti %s sekundes."
+msgstr[1] "Laukti %s sekundžių."
+msgstr[2] "Laukti %s sekundžių."
+
+#: ../../common/snapshots.py:430
+msgid "Finalizing"
+msgstr "Baigiu"
+
+#: ../../common/snapshots.py:454 ../../common/snapshots.py:671
+#: ../../kde4/app.py:71 ../../gnome/mainwindow.glade:21
+msgid "Take snapshot"
+msgstr "Priimti momentinę kopiją"
+
+#: ../../common/snapshots.py:457 ../../common/snapshots.py:628
+#, python-format
+msgid "Compare with snapshot %s"
+msgstr "palyginti su momentine kopija %s"
+
+#: ../../common/snapshots.py:542
+#, python-format
+msgid "Can't create directory: %s"
+msgstr "Negaliu sukurti katalogo: %s"
+
+#: ../../common/snapshots.py:572
+msgid "..."
+msgstr "..."
+
+#: ../../common/snapshots.py:583
+#, python-format
+msgid "Can't remove directory: %s"
+msgstr "Negaliu pašalinti katalogo: %s"
+
+#: ../../common/snapshots.py:651
+msgid "Create hard-links"
+msgstr "Kurti hard-links"
+
+#: ../../common/snapshots.py:730
+#, python-format
+msgid "Can't rename %s to %s"
+msgstr "Negaliu pervardinti %s į %s"
+
+#: ../../common/snapshots.py:817
+msgid "Remove old snapshots"
+msgstr "Pašalinti senas momentines kopijas"
+
+#: ../../common/snapshots.py:840 ../../kde4/settingsdialog.py:202
+#: ../../gnome/settingsdialog.glade:414
+msgid "Smart remove"
+msgstr "Sumanus pašalinimas"
+
+#: ../../common/snapshots.py:845
+msgid "Try to keep min free space"
+msgstr "Bandyti"
+
+#: ../../gnome/app.py:79 ../../kde4/app.py:963
 msgid "about-translators"
 msgstr "apie-vertėjus"
 
-#: gnomebackintime.py:152 gnomebackintime.py:499 kde4backintime.py:223
-#: kde4backintime.py:446
+#: ../../gnome/app.py:145 ../../gnome/app.py:485 ../../kde4/app.py:225
+#: ../../kde4/app.py:448
 msgid "Done"
 msgstr "Atlikta"
 
-#: gnomebackintime.py:166 kde4backintime.py:158
+#: ../../gnome/app.py:159 ../../kde4/app.py:160
 msgid "Shortcuts"
 msgstr "Nuorodos"
 
-#: gnomebackintime.py:189
+#: ../../gnome/app.py:182
 msgid "Name"
 msgstr "Pavadinimas"
 
-#: gnomebackintime.py:200
+#: ../../gnome/app.py:193
 msgid "Size"
 msgstr "Dydis"
 
-#: gnomebackintime.py:207
+#: ../../gnome/app.py:200
 msgid "Date"
 msgstr "Data"
 
-#: gnomebackintime.py:226 gnomebackintime.py:263 gnomesnapshotsdialog.py:83
-#: kde4backintime.py:106 kde4backintime.py:145 kde4snapshotsdialog.py:90
-#: gnomebackintime.glade:243 gnomebackintime.glade:244
-#: gnomebackintime.glade:997
+#: ../../gnome/app.py:219 ../../gnome/app.py:256
+#: ../../gnome/snapshotsdialog.py:85 ../../kde4/app.py:108
+#: ../../kde4/app.py:147 ../../kde4/snapshotsdialog.py:90
+#: ../../gnome/mainwindow.glade:243 ../../gnome/mainwindow.glade:244
+#: ../../gnome/snapshotsdialog.glade:7
 msgid "Snapshots"
 msgstr "Momentinės kopijos"
 
-#: gnomebackintime.py:261
+#: ../../gnome/app.py:254
 msgid "Open"
 msgstr "Atverti"
 
-#: gnomebackintime.py:262 kde4backintime.py:142 kde4snapshotsdialog.py:115
-#: gnomebackintime.glade:231 gnomebackintime.glade:232
-#: gnomebackintime.glade:1030 gnomebackintime.glade:1031
+#: ../../gnome/app.py:255 ../../kde4/app.py:144
+#: ../../kde4/snapshotsdialog.py:115 ../../gnome/mainwindow.glade:231
+#: ../../gnome/mainwindow.glade:232 ../../gnome/snapshotsdialog.glade:40
+#: ../../gnome/snapshotsdialog.glade:41
 msgid "Copy"
 msgstr "Kopijuoti"
 
-#: gnomebackintime.py:264 kde4snapshotsdialog.py:128
+#: ../../gnome/app.py:257 ../../kde4/snapshotsdialog.py:128
 msgid "Diff"
 msgstr "Pasikeitimai"
 
-#: gnomebackintime.py:265 kde4backintime.py:139 kde4snapshotsdialog.py:110
-#: gnomebackintime.glade:219 gnomebackintime.glade:220
-#: gnomebackintime.glade:1042 gnomebackintime.glade:1043
+#: ../../gnome/app.py:258 ../../kde4/app.py:141
+#: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:219
+#: ../../gnome/mainwindow.glade:220 ../../gnome/snapshotsdialog.glade:52
+#: ../../gnome/snapshotsdialog.glade:53
 msgid "Restore"
 msgstr "Atstatyti"
 
-#: gnomebackintime.py:321 kde4backintime.py:271
+#: ../../gnome/app.py:274 ../../kde4/app.py:273
 msgid ""
 "Can't find snapshots directory.\n"
 "If it is on a removable drive please plug it and then press OK"
@@ -163,56 +236,56 @@ msgstr ""
 "Negaliu rasti moentinių kopijų katalogo.\n"
 "Jei jis yra nešiojamame diske, prašom jį prijungti ir paspausti OK"
 
-#: gnomebackintime.py:485 kde4backintime.py:434
+#: ../../gnome/app.py:471 ../../kde4/app.py:436
 msgid "Working:"
 msgstr "Dirbu:"
 
-#: gnomebackintime.py:501 kde4backintime.py:448
+#: ../../gnome/app.py:487 ../../kde4/app.py:450
 msgid "Done, no backup needed"
 msgstr "Atlikta, atsarginė kopija nebūtina"
 
-#: gnomebackintime.py:512 kde4backintime.py:492
+#: ../../gnome/app.py:498 ../../kde4/app.py:494
 msgid "Global"
 msgstr "Globalus"
 
-#: gnomebackintime.py:513 kde4backintime.py:493
+#: ../../gnome/app.py:499 ../../kde4/app.py:495
 msgid "Root"
 msgstr "Root"
 
-#: gnomebackintime.py:514 kde4backintime.py:494
+#: ../../gnome/app.py:500 ../../kde4/app.py:496
 msgid "Home"
 msgstr "Pradžia"
 
-#: gnomebackintime.py:538
+#: ../../gnome/app.py:524
 msgid "Bookmarks"
 msgstr "Žymės"
 
-#: gnomebackintime.py:546 kde4backintime.py:499
+#: ../../gnome/app.py:532 ../../kde4/app.py:501
 msgid "Backup Directories"
 msgstr "Atsarginių kopijų katalogai"
 
-#: gnomebackintime.py:566 kde4backintime.py:568
+#: ../../gnome/app.py:552 ../../kde4/app.py:570
 msgid "Today"
 msgstr "Šiandien"
 
-#: gnomebackintime.py:570 kde4backintime.py:572
+#: ../../gnome/app.py:556 ../../kde4/app.py:574
 msgid "Yesterday"
 msgstr "Vakar"
 
-#: gnomebackintime.py:574 kde4backintime.py:576
+#: ../../gnome/app.py:560 ../../kde4/app.py:578
 msgid "This week"
 msgstr "Šią savaitę"
 
-#: gnomebackintime.py:578 kde4backintime.py:580
+#: ../../gnome/app.py:564 ../../kde4/app.py:582
 msgid "Last week"
 msgstr "Praeitą savaitę"
 
-#: gnomebackintime.py:861 kde4backintime.py:75 kde4backintime.py:638
-#: gnomebackintime.glade:45 gnomebackintime.glade:46
+#: ../../gnome/app.py:833 ../../kde4/app.py:77 ../../kde4/app.py:640
+#: ../../gnome/mainwindow.glade:45 ../../gnome/mainwindow.glade:46
 msgid "Snapshot Name"
 msgstr "Momentinės kopijos pavadinimas"
 
-#: gnomebackintime.py:880
+#: ../../gnome/app.py:852
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -221,108 +294,101 @@ msgstr ""
 "Ar jūs tikrai norite pašalinti momentinę kopiją:\n"
 "<b>%s</b>"
 
-#: gnomebackintime.py:910 kde4backintime.py:800
+#: ../../gnome/app.py:882 ../../kde4/app.py:805
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Momentinė kopija: %s"
 
-#: gnomebackintime.py:911 kde4backintime.py:801
+#: ../../gnome/app.py:883 ../../kde4/app.py:806
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "Žiūrėti momentinę kopiją, padarytą %s"
 
-#: gnomebackintime.py:913 kde4backintime.py:803
+#: ../../gnome/app.py:885 ../../kde4/app.py:808
 msgid "View the current disk content"
 msgstr "Žiūrėti esamo disko turinį"
 
-#: gnomebackintime.py:914 kde4backintime.py:804 snapshots.py:65
-msgid "Now"
-msgstr "Dabar"
-
-#: gnomebackintime.py:1134 kde4backintime.py:931
-msgid "Working..."
-msgstr "Dirbama..."
-
-#: gnomesettingsdialog.py:81 kde4settingsdialog.py:108
+#: ../../gnome/settingsdialog.py:83 ../../kde4/settingsdialog.py:108
 msgid "Include folders"
 msgstr "Įtraukti aplankus"
 
-#: gnomesettingsdialog.py:88 kde4settingsdialog.py:88
+#: ../../gnome/settingsdialog.py:90 ../../kde4/settingsdialog.py:88
 msgid "Schedule"
 msgstr "Tvarkaraštis"
 
-#: gnomesettingsdialog.py:109
+#: ../../gnome/settingsdialog.py:111
 msgid "Patterns, files or directories"
 msgstr "Šablonai, failai ar katalogai"
 
-#: gnomesettingsdialog.py:296
+#: ../../gnome/settingsdialog.py:297
 msgid "Include directory"
 msgstr "įtraukti katalogą"
 
-#: gnomesettingsdialog.py:331 kde4settingsdialog.py:400
+#: ../../gnome/settingsdialog.py:332 ../../kde4/settingsdialog.py:400
 msgid "Exclude pattern"
 msgstr "Išskirti šabloną"
 
-#: gnomesettingsdialog.py:338 kde4settingsdialog.py:407
+#: ../../gnome/settingsdialog.py:339 ../../kde4/settingsdialog.py:407
 msgid "Exclude file"
 msgstr "Išskirti failą"
 
-#: gnomesettingsdialog.py:347
+#: ../../gnome/settingsdialog.py:348
 msgid "Exclude directory"
 msgstr "Išskirti katalogą"
 
-#: gnomesettingsdialog.py:394 kde4settingsdialog.py:341
+#: ../../gnome/settingsdialog.py:395 ../../kde4/settingsdialog.py:341
 msgid "Are you sure you want to change snapshots directory ?"
 msgstr "Ar jūs tikrai norite pakeisti momentinės kopijos  katalogą ?"
 
-#: gnomesnapshotsdialog.py:236 kde4snapshotsdialog.py:241
+#: ../../gnome/snapshotsdialog.py:237 ../../kde4/snapshotsdialog.py:244
 msgid "You can't compare a snapshot to itself"
 msgstr "Jūs negalite palyginti momentinės kopijos su ja pačia"
 
-#: gnomesnapshotsdialog.py:243 kde4snapshotsdialog.py:248
+#: ../../gnome/snapshotsdialog.py:244 ../../kde4/snapshotsdialog.py:251
 #, python-format
 msgid "Command not found: %s"
 msgstr "Komanda nerasta: %s"
 
-#: kde4backintime.py:69 snapshots.py:326 snapshots.py:542
-#: gnomebackintime.glade:21
-msgid "Take snapshot"
-msgstr "Priimti momentinę kopiją"
-
-#: kde4backintime.py:72 gnomebackintime.glade:33 gnomebackintime.glade:34
+#: ../../kde4/app.py:74 ../../gnome/mainwindow.glade:33
+#: ../../gnome/mainwindow.glade:34
 msgid "Update snapshots"
 msgstr "Atnaujinti momentines kopijas"
 
-#: kde4backintime.py:78 gnomebackintime.glade:57 gnomebackintime.glade:58
+#: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:57
+#: ../../gnome/mainwindow.glade:58
 msgid "Remove Snapshot"
 msgstr "Pašalinti momentines kopijas"
 
-#: kde4backintime.py:83 kde4settingsdialog.py:60 gnomebackintime.glade:74
-#: gnomebackintime.glade:75 gnomebackintime.glade:414
+#: ../../kde4/app.py:85 ../../kde4/settingsdialog.py:60
+#: ../../gnome/mainwindow.glade:74 ../../gnome/mainwindow.glade:75
+#: ../../gnome/settingsdialog.glade:7
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: kde4backintime.py:88 gnomebackintime.glade:94 gnomebackintime.glade:95
+#: ../../kde4/app.py:90 ../../gnome/mainwindow.glade:94
+#: ../../gnome/mainwindow.glade:95
 msgid "About"
 msgstr "Apie"
 
-#: kde4backintime.py:91 gnomebackintime.glade:106 gnomebackintime.glade:107
+#: ../../kde4/app.py:93 ../../gnome/mainwindow.glade:106
+#: ../../gnome/mainwindow.glade:107
 msgid "Help"
 msgstr "Pagalba"
 
-#: kde4backintime.py:96 gnomebackintime.glade:123 gnomebackintime.glade:124
+#: ../../kde4/app.py:98 ../../gnome/mainwindow.glade:123
+#: ../../gnome/mainwindow.glade:124
 msgid "Exit"
 msgstr "Baigti"
 
-#: kde4backintime.py:121 gnomebackintime.glade:179
+#: ../../kde4/app.py:123 ../../gnome/mainwindow.glade:179
 msgid "Up"
 msgstr "Aukštyn"
 
-#: kde4backintime.py:134 gnomebackintime.glade:202
+#: ../../kde4/app.py:136 ../../gnome/mainwindow.glade:202
 msgid "Show hidden files"
 msgstr "Rodyti paslėptus failus"
 
-#: kde4backintime.py:167
+#: ../../kde4/app.py:169
 msgid ""
 "This directory don't exist\n"
 "in current snapshot !"
@@ -330,7 +396,7 @@ msgstr ""
 "Einamoje momentinėje kopijoje\n"
 "šis katalogas neegzistuoja !"
 
-#: kde4backintime.py:658
+#: ../../kde4/app.py:660
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -339,51 +405,44 @@ msgstr ""
 "Ar jūs tikrai norite pašalinti momentinę kopiją:\n"
 "%s"
 
-#: kde4settingsdialog.py:67 gnomebackintime.glade:527
+#: ../../kde4/app.py:936 ../../plugins/gnomeplugin.py:114
+#: ../../plugins/kde4plugin.py:99
+msgid "Working..."
+msgstr "Dirbama..."
+
+#: ../../kde4/settingsdialog.py:67 ../../gnome/settingsdialog.glade:120
 msgid "General"
 msgstr "Bendri"
 
-#: kde4settingsdialog.py:72 kde4settingsdialog.py:442
+#: ../../kde4/settingsdialog.py:72 ../../kde4/settingsdialog.py:442
 msgid "Where to save snapshots"
 msgstr "Kur išsaugoti momentinę kopiją"
 
-#: kde4settingsdialog.py:102 gnomebackintime.glade:604
+#: ../../kde4/settingsdialog.py:102 ../../gnome/settingsdialog.glade:197
 msgid "Include"
 msgstr "Įtraukti"
 
-#: kde4settingsdialog.py:108
+#: ../../kde4/settingsdialog.py:108
 msgid "Automatic backup"
 msgstr "Atsarginė kopija automatiškai"
 
-#: kde4settingsdialog.py:136 gnomebackintime.glade:708
+#: ../../kde4/settingsdialog.py:136 ../../gnome/settingsdialog.glade:301
 msgid "Exclude"
 msgstr "Išskirti"
 
-#: kde4settingsdialog.py:153 gnomebackintime.glade:658
+#: ../../kde4/settingsdialog.py:153 ../../gnome/settingsdialog.glade:251
 msgid "Add file"
 msgstr "Pridėti failą"
 
-#: kde4settingsdialog.py:158 gnomebackintime.glade:671
+#: ../../kde4/settingsdialog.py:158 ../../gnome/settingsdialog.glade:264
 msgid "Add folder"
 msgstr "Pridėti aplanką"
 
-#: kde4settingsdialog.py:168 gnomebackintime.glade:857
+#: ../../kde4/settingsdialog.py:168 ../../gnome/settingsdialog.glade:450
 msgid "Auto-remove"
 msgstr "Pašalinti automatiškai"
 
-#: kde4settingsdialog.py:174 gnomebackintime.glade:793
-msgid "Older than:"
-msgstr "Senesnis nei:"
-
-#: kde4settingsdialog.py:189 gnomebackintime.glade:806
-msgid "If free space is less than:"
-msgstr "jei laisvos vietos yra mažiau nei:"
-
-#: kde4settingsdialog.py:202 snapshots.py:668 gnomebackintime.glade:821
-msgid "Smart remove"
-msgstr "Sumanus pašalinimas"
-
-#: kde4settingsdialog.py:206 gnomebackintime.glade:836
+#: ../../kde4/settingsdialog.py:206 ../../gnome/settingsdialog.glade:429
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
@@ -396,135 +455,79 @@ msgstr ""
 "mėnesiams\n"
 "- laikyti vieną momentinę kopiją per metus visiems praėjusiems metams"
 
-#: kde4settingsdialog.py:211 gnomebackintime.glade:728
+#: ../../kde4/settingsdialog.py:211 ../../gnome/settingsdialog.glade:321
 msgid "Don't remove named snapshots"
 msgstr "Nešalinti momentinių kopijų, turinčių pavadinimus"
 
-#: kde4settingsdialog.py:221 gnomebackintime.glade:893
+#: ../../kde4/settingsdialog.py:221 ../../gnome/settingsdialog.glade:486
 msgid "Options"
 msgstr "Parinktys"
 
-#: kde4settingsdialog.py:224 gnomebackintime.glade:874
+#: ../../kde4/settingsdialog.py:224 ../../gnome/settingsdialog.glade:467
 msgid "Enable notifications"
 msgstr "Įgalinti pranešimus"
 
-#: kde4settingsdialog.py:233 gnomebackintime.glade:947
+#: ../../kde4/settingsdialog.py:233 ../../gnome/settingsdialog.glade:540
 msgid "Expert Options"
 msgstr "Parinktys ekspertams"
 
-#: kde4settingsdialog.py:236
+#: ../../kde4/settingsdialog.py:236
 msgid "Change this options only if you really know what you are doing !"
 msgstr "Keiskite šią nuostatą tik jei tikrai suprantate, ką darote !"
 
-#: kde4settingsdialog.py:240 gnomebackintime.glade:921
+#: ../../kde4/settingsdialog.py:240 ../../gnome/settingsdialog.glade:514
 msgid ""
 "Enable schedule per included directory (see Include tab; default: disabled)"
 msgstr ""
 "Įjungti tvarkaraštį įtrauktiems katalogams (žiūrėti Include tab; default: "
 "disabled)"
 
-#: kde4settingsdialog.py:411
+#: ../../kde4/settingsdialog.py:411
 msgid "Exclude folder"
 msgstr "Išskirti aplanką"
 
-#: kde4settingsdialog.py:429
+#: ../../kde4/settingsdialog.py:429
 msgid "Include folder"
 msgstr "Įtraukti aplanką"
 
-#: kde4snapshotsdialog.py:45 kde4snapshotsdialog.py:137
-#: gnomebackintime.glade:1200
+#: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:137
+#: ../../gnome/snapshotsdialog.glade:210
 msgid "Diff Options"
 msgstr "Pasikeitimų parinktys"
 
-#: kde4snapshotsdialog.py:55 gnomebackintime.glade:1143
+#: ../../kde4/snapshotsdialog.py:55 ../../gnome/snapshotsdialog.glade:153
 msgid "Command:"
 msgstr "Komanda:"
 
-#: kde4snapshotsdialog.py:59 gnomebackintime.glade:1150
+#: ../../kde4/snapshotsdialog.py:59 ../../gnome/snapshotsdialog.glade:160
 msgid "Parameters:"
 msgstr "Parametrai:"
 
-#: kde4snapshotsdialog.py:63 gnomebackintime.glade:1161
+#: ../../kde4/snapshotsdialog.py:63 ../../gnome/snapshotsdialog.glade:171
 msgid "Use %1 and %2 for path parameters"
 msgstr "naudoti %1 ir %2 kaip kelio parametrus"
 
-#: kde4snapshotsdialog.py:138
+#: ../../kde4/snapshotsdialog.py:138
 msgid "Go To"
 msgstr "Eiti į"
 
-#: snapshots.py:274
-msgid ""
-"Can't find snapshots directory.\n"
-"If it is on a removable drive please plug it."
-msgstr ""
-"Negaliu rasti momentinių kopijų katalogo.\n"
-"Jei tai nešiojamas diskas, prijunkite jį."
-
-#: snapshots.py:276
-#, python-format
-msgid "Waiting %s second."
-msgid_plural "Waiting %s seconds."
-msgstr[0] "Laukti %s sekundes."
-msgstr[1] "Laukti %s sekundžių."
-msgstr[2] "Laukti %s sekundžių."
-
-#: snapshots.py:300
-msgid "Finalizing"
-msgstr "Baigiu"
-
-#: snapshots.py:329 snapshots.py:486
-#, python-format
-msgid "Compare with snapshot %s"
-msgstr "palyginti su momentine kopija %s"
-
-#: snapshots.py:414
-#, python-format
-msgid "Can't create directory: %s"
-msgstr "Negaliu sukurti katalogo: %s"
-
-#: snapshots.py:426
-msgid "..."
-msgstr "..."
-
-#: snapshots.py:439
-#, python-format
-msgid "Can't remove directory: %s"
-msgstr "Negaliu pašalinti katalogo: %s"
-
-#: snapshots.py:513
-msgid "Create hard-links"
-msgstr "Kurti hard-links"
-
-#: snapshots.py:559
-#, python-format
-msgid "Can't rename %s to %s"
-msgstr "Negaliu pervardinti %s į %s"
-
-#: snapshots.py:645
-msgid "Remove old snapshots"
-msgstr "Pašalinti senas momentines kopijas"
-
-#: snapshots.py:673
-msgid "Try to keep min free space"
-msgstr "Bandyti"
-
-#: gnomebackintime.glade:6
+#: ../../gnome/mainwindow.glade:6
 msgid "Back In Time"
 msgstr "Back In Time"
 
-#: gnomebackintime.glade:22
+#: ../../gnome/mainwindow.glade:22
 msgid "Backup Now"
 msgstr "Daryti kopiją dabar"
 
-#: gnomebackintime.glade:178
+#: ../../gnome/mainwindow.glade:178
 msgid "Parent Directory"
 msgstr "Aukštesnis aplankas"
 
-#: gnomebackintime.glade:203
+#: ../../gnome/mainwindow.glade:203
 msgid "Hidden files"
 msgstr "Paslėpti failai"
 
-#: gnomebackintime.glade:316
+#: ../../gnome/mainwindow.glade:316
 msgid ""
 "<b>This directory don't exist\n"
 "in current snapshot !</b>"
@@ -532,27 +535,48 @@ msgstr ""
 "<b>Šis katalogas neegzistuoja\n"
 "einamoje momentinėje kopijoje !</b>"
 
-#: gnomebackintime.glade:449
+#: ../../gnome/settingsdialog.glade:42
 msgid "Select A Folder"
 msgstr "Pasirinkite aplanką"
 
-#: gnomebackintime.glade:457
+#: ../../gnome/settingsdialog.glade:50
 msgid "<b>Where to save snapshots</b>"
 msgstr "<b>Kur išsaugoti momentines kopijas</b>"
 
-#: gnomebackintime.glade:488
+#: ../../gnome/settingsdialog.glade:81
 msgid "<b>Schedule</b>"
 msgstr "<b>Tvarkaraštis</b>"
 
-#: gnomebackintime.glade:909
+#: ../../gnome/settingsdialog.glade:502
 msgid ""
 "<b>Change this options only if you really know what you are doing !</b>"
 msgstr "<b>Keiskite šį nustatymą tik jei jūs tikrai žinote, ką darote !</b>"
 
-#: gnomebackintime.glade:1102
+#: ../../gnome/snapshotsdialog.glade:112
 msgid "Diff with"
 msgstr "Lyginti su"
 
-#: gnomebackintime.glade:1258
+#: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Šablonas"
+
+#: ../../common/configfile.py:162 ../../common/configfile.py:220
+#, python-format
+msgid "Profile %s already exists !"
+msgstr ""
+
+#: ../../common/configfile.py:212
+msgid "You can't rename \"Main\" profile"
+msgstr ""
+
+#: ../../common/snapshots.py:676
+msgid "Save permission ..."
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:174 ../../gnome/settingsdialog.glade:386
+msgid "Older than:"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:189 ../../gnome/settingsdialog.glade:399
+msgid "If free space is less than:"
+msgstr ""
