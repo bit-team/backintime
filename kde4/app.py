@@ -69,41 +69,49 @@ class MainWindow( KMainWindow ):
 
 		self.btn_take_snapshot = self.main_toolbar.addAction( KIcon( 'document-save' ), '' )
 		self.btn_take_snapshot.setToolTip( QString.fromUtf8( _('Take snapshot') ) )
+		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 
 		self.btn_update_snapshots = self.main_toolbar.addAction( KIcon( 'view-refresh' ), '' )
 		self.btn_update_snapshots.setToolTip( QString.fromUtf8( _('Update snapshots') ) )
+		QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
 
 		self.btn_name_snapshot = self.main_toolbar.addAction( KIcon( 'edit-rename' ), '' )
 		self.btn_name_snapshot.setToolTip( QString.fromUtf8( _('Snapshot Name') ) )
+		QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.on_btn_name_snapshot_clicked )
 
 		self.btn_remove_snapshot = self.main_toolbar.addAction( KIcon( 'edit-delete' ), '' )
 		self.btn_remove_snapshot.setToolTip( QString.fromUtf8( _('Remove Snapshot') ) )
+		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
 	
 		self.main_toolbar.addSeparator()
 
 		self.btn_settings = self.main_toolbar.addAction( KIcon( 'configure' ), '' )
 		self.btn_settings.setToolTip( QString.fromUtf8( _('Settings') ) )
+		QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
 
 		self.main_toolbar.addSeparator()
 
 		self.btn_about = self.main_toolbar.addAction( KIcon( 'help-about' ), '' )
 		self.btn_about.setToolTip( QString.fromUtf8( _('About') ) )
+		QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_btn_about_clicked )
 
 		self.btn_help = self.main_toolbar.addAction( KIcon( 'help-contents' ), '' )
 		self.btn_help.setToolTip( QString.fromUtf8( _('Help') ) )
+		QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_btn_help_clicked )
 
 		self.main_toolbar.addSeparator()
 
 		self.btn_quit = self.main_toolbar.addAction( KIcon( 'application-exit' ), '' )
 		self.btn_quit.setToolTip( QString.fromUtf8( _('Exit') ) )
+		QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 
 		self.main_toolbar.addAction( KToolBarSpacerAction( self ) )
 
 		self.main_toolbar.addSeparator()
 
-		self.btn_link = KUrlLabel( 'http://backintime.le-web.org', 'backintime.le-web.org', self )
-		QObject.connect( self.btn_link, SIGNAL('leftClickedUrl(const QString&)'), self.open_url )
-		self.main_toolbar.addWidget( self.btn_link )
+		self.btn_link = self.main_toolbar.addAction( KIcon( 'go-home' ), '' )
+		self.btn_link.setToolTip( QString.fromUtf8( 'backintime.le-web.org' ) )
+		QObject.connect( self.btn_link, SIGNAL('triggered()'), self.open_url )
 
 		#main splitter
 		self.main_splitter = QSplitter( self )
@@ -129,6 +137,7 @@ class MainWindow( KMainWindow ):
 
 		self.btn_folder_up = self.files_view_toolbar.addAction( KIcon( 'go-up' ), '' )
 		self.btn_folder_up.setToolTip( QString.fromUtf8( _('Up') ) )
+		QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
 
 		self.edit_current_path = KLineEdit( self )
 		self.edit_current_path.setReadOnly( True )
@@ -142,17 +151,21 @@ class MainWindow( KMainWindow ):
 		self.btn_show_hidden_files.setCheckable( True )
 		self.btn_show_hidden_files.setChecked( self.show_hidden_files )
 		self.btn_show_hidden_files.setToolTip( QString.fromUtf8( _('Show hidden files') ) )
+		QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
 
 		self.files_view_toolbar.addSeparator()
 
 		self.btn_restore = self.files_view_toolbar.addAction( KIcon( 'document-revert' ), '' )
 		self.btn_restore.setToolTip( QString.fromUtf8( _('Restore') ) )
+		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.on_btn_restore_clicked )
 
 		self.btn_copy = self.files_view_toolbar.addAction( KIcon( 'edit-copy' ), '' )
 		self.btn_copy.setToolTip( QString.fromUtf8( _('Copy') ) )
+		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.on_btn_copy_to_clipboard_clicked )
 
 		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
 		self.btn_snapshots.setToolTip( QString.fromUtf8( _('Snapshots') ) )
+		QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.on_btn_snapshots_clicked )
 
 		right_layout.addWidget( self.files_view_toolbar )
 
@@ -295,20 +308,6 @@ class MainWindow( KMainWindow ):
 		QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_time_line_current_item_changed )
 		QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
 		QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
-
-		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
-		QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
-		QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.on_btn_name_snapshot_clicked )
-		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
-		QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
-		QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_btn_about_clicked )
-		QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_btn_help_clicked )
-		QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
-		QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
-		QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
-		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.on_btn_restore_clicked )
-		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.on_btn_copy_to_clipboard_clicked )
-		QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.on_btn_snapshots_clicked )
 
 		self.force_wait_lock_counter = 0
 	
@@ -695,7 +694,7 @@ class MainWindow( KMainWindow ):
 	def on_btn_help_clicked( self ):
 		KRun.runCommand( "khelpcenter help:/backintime", self )
 
-	def open_url( self, url ):
+	def open_url( self, url = 'http://backintime.le-web.org' ):
 		self.run = KRun( KUrl( url ), self, True )
 
 	def on_btn_show_hidden_files_toggled( self, checked ):
