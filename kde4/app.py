@@ -248,7 +248,7 @@ class MainWindow( KMainWindow ):
 		self.snapshots_list = []
 		self.snapshot_id = '/'
 		self.path = self.config.get_str_value( 'kde4.last_path', '/' )
-		self.edit_current_path.setText( self.path )
+		self.edit_current_path.setText( QString.fromUtf8( self.path ) )
 
 		#restore size and position
 		x = self.config.get_int_value( 'kde4.main_window.x', -1 )
@@ -463,7 +463,7 @@ class MainWindow( KMainWindow ):
 		if item is None:
 			return
 
-		path = str( item.data( 0, Qt.UserRole ).toString() )
+		path = str( item.data( 0, Qt.UserRole ).toString().toUtf8() )
 		if len( path ) == 0:
 			return
 
@@ -481,7 +481,7 @@ class MainWindow( KMainWindow ):
 		if len( icon ) > 0:
 			item.setIcon( 0, KIcon( icon ) )
 
-		item.setData( 0, Qt.UserRole, QVariant( path ) )
+		item.setData( 0, Qt.UserRole, QVariant( QString.fromUtf8( path ) ) )
 
 		if len( path ) == 0:
 			item.setFont( 0, kde4tools.get_font_bold( item.font( 0 ) ) )
@@ -539,7 +539,7 @@ class MainWindow( KMainWindow ):
 		self.update_files_view( 2 )
 
 	def time_line_get_snapshot_id( self, item ):
-		return str( item.data( 0, Qt.UserRole ).toString() ) 
+		return str( item.data( 0, Qt.UserRole ).toString().toUtf8() ) 
 
 	def time_line_update_snapshot_name( self, item ):
 		snapshot_id = self.time_line_get_snapshot_id( item )
@@ -550,7 +550,7 @@ class MainWindow( KMainWindow ):
 		item = QTreeWidgetItem()
 		item.setText( 0, snapshot_name )
 
-		item.setData( 0, Qt.UserRole, QVariant( snapshot_id ) )
+		item.setData( 0, Qt.UserRole, QVariant( QString.fromUtf8( snapshot_id ) ) )
 
 		if len( snapshot_id ) == 0:
 			item.setFont( 0, kde4tools.get_font_bold( item.font( 0 ) ) )
@@ -648,7 +648,7 @@ class MainWindow( KMainWindow ):
 		if not ret_val[1]:
 			return
 		
-		new_name = str( ret_val[0] ).strip()
+		new_name = str( ret_val[0].toUtf8() ).strip()
 		if name == new_name:
 			return
 
@@ -705,7 +705,7 @@ class MainWindow( KMainWindow ):
 		if len( self.snapshot_id ) <= 1:
 			return
 
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString() )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
@@ -713,7 +713,7 @@ class MainWindow( KMainWindow ):
 		self.snapshots.restore( self.snapshot_id, rel_path )
 
 	def on_btn_copy_to_clipboard_clicked( self ):
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString() )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
@@ -721,7 +721,7 @@ class MainWindow( KMainWindow ):
 		kde4tools.clipboard_set_path( self.kapp, path )
 
 	def on_btn_snapshots_clicked( self ):
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString() )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
@@ -760,7 +760,7 @@ class MainWindow( KMainWindow ):
 		if model_index is None:
 			return
 
-		rel_path = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString() )
+		rel_path = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString().toUtf8() )
 		if len( rel_path ) <= 0:
 			return
 
@@ -774,7 +774,7 @@ class MainWindow( KMainWindow ):
 			self.run = KRun( KUrl( full_path ), self, True )
 
 	def files_view_get_name( self, item ):
-		return str( item.text( 0 ) )
+		return str( item.text( 0 ).toUtf8() )
 
 	def files_view_get_type( self, item ):
 		return int( item.text( 4 ) )
@@ -804,7 +804,7 @@ class MainWindow( KMainWindow ):
 			self.list_places.setCurrentItem( None )
 			for place_index in xrange( self.list_places.topLevelItemCount() ):
 				item = self.list_places.topLevelItem( place_index )
-				if self.path == str( item.data( 0, Qt.UserRole ).toString() ):
+				if self.path == str( item.data( 0, Qt.UserRole ).toString().toUtf8() ):
 					self.list_places.setCurrentItem( item )
 					break
 
@@ -823,7 +823,7 @@ class MainWindow( KMainWindow ):
 
 		#try to keep old selected file
 		if selected_file is None:
-			selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString() )
+			selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
 
 		self.selected_file = selected_file
 	
@@ -832,7 +832,7 @@ class MainWindow( KMainWindow ):
 
 		if os.path.isdir( full_path ):
 			self.list_files_view_model.dirLister().setShowingDotFiles( self.show_hidden_files )
-			self.list_files_view_model.dirLister().openUrl( KUrl( full_path ) )
+			self.list_files_view_model.dirLister().openUrl( KUrl( QString.fromUtf8( full_path ) ) )
 			self.files_view_toolbar.setEnabled( False )
 			self.files_view_layout.setCurrentWidget( self.list_files_view )
 		else:
@@ -842,7 +842,7 @@ class MainWindow( KMainWindow ):
 			self.files_view_layout.setCurrentWidget( self.lbl_folder_dont_exists )
 
 		#show current path
-		self.edit_current_path.setText( self.path )
+		self.edit_current_path.setText( QString.fromUtf8( self.path ) )
 
 		#update folder_up button state
 		self.btn_folder_up.setEnabled( len( self.path ) > 1 )
@@ -872,7 +872,7 @@ class MainWindow( KMainWindow ):
 		if len( self.selected_file ) > 0:
 			for index in xrange( self.list_files_view_sort_filter_proxy.rowCount() ):
 				model_index = self.list_files_view_sort_filter_proxy.index( index, 0 )
-				file_name = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString() )
+				file_name = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString().toUtf8() )
 				if file_name == self.selected_file:
 					self.list_files_view.setCurrentIndex( model_index )
 					found = True

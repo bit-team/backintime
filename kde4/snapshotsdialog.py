@@ -63,8 +63,8 @@ class DiffOptionsDialog( KDialog ):
 		self.main_layout.addWidget( QLabel( QString.fromUtf8( _( 'Use %1 and %2 for path parameters' ) ) ), 2, 1 )
 
 	def accept( self ):
-		diff_cmd = str( self.edit_command.text() )
-		diff_params = str( self.edit_params.text() )
+		diff_cmd = str( self.edit_command.text().toUtf8() )
+		diff_params = str( self.edit_params.text().toUtf8() )
 
 		if diff_cmd != self.diff_cmd or diff_params != self.diff_params:
 			self.config.set_str_value( 'kde4.diff.cmd', diff_cmd )
@@ -190,7 +190,7 @@ class SnapshotsDialog( KDialog ):
 		item = self.list_snapshots.currentItem()
 		if item is None:
 			return ''
-		return str( item.data( Qt.UserRole ).toString() )
+		return str( item.data( Qt.UserRole ).toString().toUtf8() )
 
 	def update_toolbar( self ):
 		snapshot_id = self.get_list_snapshot_id()
@@ -234,7 +234,7 @@ class SnapshotsDialog( KDialog ):
 		if combo_index < 0:
 			return
 
-		snapshot2_id = str( self.combo_diff.itemData( combo_index ).toString() )
+		snapshot2_id = str( self.combo_diff.itemData( combo_index ).toString().toUtf8() )
 
 		path1 = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
 		path2 = self.snapshots.get_snapshot_path_to( snapshot2_id, self.path )

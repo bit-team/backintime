@@ -74,7 +74,7 @@ class SettingsDialog( KDialog ):
 
 		hlayout = QHBoxLayout( group_box )
 
-		self.edit_snapshots_path = KLineEdit( self.config.get_snapshots_path(), self )
+		self.edit_snapshots_path = KLineEdit( QString.fromUtf8( self.config.get_snapshots_path() ), self )
 		self.edit_snapshots_path.setReadOnly( True )
 		hlayout.addWidget( self.edit_snapshots_path )
 
@@ -285,7 +285,7 @@ class SettingsDialog( KDialog ):
 
 	def add_include( self, data ):
 		item = QTreeWidgetItem()
-		item.setText( 0, data[0] )
+		item.setText( 0, QString.fromUtf8( data[0] ) )
 		item.setText( 1, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] ) )
 		item.setData( 0, Qt.UserRole, QVariant( data[1]) )
 		self.list_include.addTopLevelItem( item )
@@ -316,18 +316,18 @@ class SettingsDialog( KDialog ):
 
 	def validate( self ):
 		#snapshots path
-		snapshots_path = str( self.edit_snapshots_path.text() )
+		snapshots_path = str( self.edit_snapshots_path.text().toUtf8() )
 
 		#include list 
 		include_list = []
 		for index in xrange( self.list_include.topLevelItemCount() ):
 			item = self.list_include.topLevelItem( index )
-			include_list.append( [ str( item.text(0) ), item.data( 0, Qt.UserRole ).toInt()[0] ] )
+			include_list.append( [ str( item.text(0).toUtf8() ), item.data( 0, Qt.UserRole ).toInt()[0] ] )
 
 		#exclude patterns
 		exclude_list = []
 		for index in xrange( self.list_exclude.count() ):
-			exclude_list.append( str( self.list_exclude.item( index ).text() ) )
+			exclude_list.append( str( self.list_exclude.item( index ).text().toUtf8() ) )
 
 		#check params
 		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
@@ -401,14 +401,14 @@ class SettingsDialog( KDialog ):
 		if not ret_val[1]:
 			return
 		
-		self.add_exclude_( str( ret_val[0] ).strip() )
+		self.add_exclude_( str( ret_val[0].toUtf8() ).strip() )
 
 	def on_btn_exclude_file_clicked( self ):
-		path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ) )
+		path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ).toUtf8() )
 		self.add_exclude_( path )
 
 	def on_btn_exclude_folder_clicked( self ):
-		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Exclude folder' ) ) ) )
+		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Exclude folder' ) ) ).toUtf8() )
 		self.add_exclude_( path )
 
 	def on_btn_include_remove_clicked ( self ):
@@ -426,22 +426,22 @@ class SettingsDialog( KDialog ):
 			self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
 
 	def on_btn_include_add_clicked( self ):
-		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ) )
+		path = ( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ).toUtf8() )
 		if len( path ) == 0 :
 			return
 
 		path = self.config.prepare_path( path )
 
 		for index in xrange( self.list_include.topLevelItemCount() ):
-			if path == self.list_include.topLevelItem( index ).text( 0 ):
+			if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
 				return
 
 		self.add_include( [ path, self.config.NONE ] )
 
 	def on_btn_snapshots_path_clicked( self ):
-		path = str( KFileDialog.getExistingDirectory( KUrl( self.edit_snapshots_path.text() ), self, QString.fromUtf8( _( 'Where to save snapshots' ) ) ) )
+		path = str( KFileDialog.getExistingDirectory( KUrl( self.edit_snapshots_path.text() ), self, QString.fromUtf8( _( 'Where to save snapshots' ) ) ).toUtf8() )
 		if len( path ) > 0 :
-			self.edit_snapshots_path.setText( self.config.prepare_path( path ) )
+			self.edit_snapshots_path.setText( QString.fromUtf8( self.config.prepare_path( path ) ) )
 
 	def accept( self ):
 		if self.validate():
