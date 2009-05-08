@@ -873,7 +873,8 @@ class MainWindow:
 		self.update_backup_info( True )
 
 	def on_btn_update_snapshots_clicked( self, button ):
-		self.fill_time_line()
+		self.fill_time_line( False )
+		self.update_folder_view( 2 )
 
 	def update_folder_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
 		#update backup time

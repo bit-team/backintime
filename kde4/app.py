@@ -632,6 +632,7 @@ class MainWindow( KMainWindow ):
 
 	def on_btn_update_snapshots_clicked( self ):
 		self.update_time_line()
+		self.update_files_view( 2 )
 
 	def on_btn_name_snapshot_clicked( self ):
 		item = self.list_time_line.currentItem()
@@ -832,7 +833,7 @@ class MainWindow( KMainWindow ):
 
 		if os.path.isdir( full_path ):
 			self.list_files_view_model.dirLister().setShowingDotFiles( self.show_hidden_files )
-			self.list_files_view_model.dirLister().openUrl( KUrl( QString.fromUtf8( full_path ) ) )
+			self.list_files_view_model.dirLister().openUrl( KUrl( QString.fromUtf8( full_path ) ), KDirLister.Reload )
 			self.files_view_toolbar.setEnabled( False )
 			self.files_view_layout.setCurrentWidget( self.list_files_view )
 		else:

@@ -609,7 +609,8 @@ class Snapshots:
 
 		#rsync prefix & suffix
 		rsync_prefix = 'rsync -aEAX '
-		rsync_suffix = ' --chmod=Fa-w,D+w --whole-file --delete ' + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		rsync_exclude_backup_directory = " --exclude=\"%s\" " % self.config.get_snapshots_path()
+		rsync_suffix = ' --chmod=Fa-w,D+w --whole-file --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
 		if not force:

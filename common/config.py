@@ -143,24 +143,24 @@ class Config( configfile.ConfigFile ):
 			if path == snapshots_path:
 				print "Path: " + path
 				print "SnapshotsPath: " + snapshots_path 
-				return ( 1, _('Snapshots directory can\'t be in "Backup Directories" !') )
+				return ( 1, _('You can\'t include backup directory !') )
 			
 			if len( path ) >= len( snapshots_path2 ):
 				if path[ : len( snapshots_path2 ) ] == snapshots_path2:
 					print "Path: " + path
 					print "SnapshotsPath2: " + snapshots_path2
-					return ( 1, _('Snapshots directory can\'t be in "Backup Directories" !') )
-			else:
-				path2 = path + '/'
-				if len( path2 ) < len( snapshots_path ):
-					if path2 == snapshots_path[ : len( path2 ) ]:
-						print "Path2: " + path2
-						print "SnapshotsPath: " + snapshots_path 
-						return ( 1, _('"Backup directories" can\'t include snapshots directory !') )
+					return ( 1, _('You can\'t include a backup sub-directory !') )
+			#else:
+			#	path2 = path + '/'
+			#	if len( path2 ) < len( snapshots_path ):
+			#		if path2 == snapshots_path[ : len( path2 ) ]:
+			#			print "Path2: " + path2
+			#			print "SnapshotsPath: " + snapshots_path 
+			#			return ( 1, _('"Backup directories" can\'t include snapshots directory !') )
 
 		for exclude in exclude_list:
 			if exclude.find( ':' ) >= 0:
-				return ( 2, _('"Exclude pattern" can\'t contain ":" char !') )
+				return ( 2, _('Exclude patterns can\'t contain \':\' char !') )
 
 		return None
 
