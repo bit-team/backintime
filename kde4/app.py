@@ -971,7 +971,9 @@ def create_kapplication( cfg ):
 	kaboutdata.setProgramIconName( 'document-save' )
 
 	extra_translations = _('about-translators')
-	if extra_translations == 'about-translators':
+	if extra_translations is None:
+		extra_translations = ''
+	elif extra_translations == 'about-translators':
 		extra_translations = ''
 
 	translation_text = cfg.get_translations() + extra_translations

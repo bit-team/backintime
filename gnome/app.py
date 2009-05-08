@@ -77,7 +77,9 @@ class AboutDialog( gtk.AboutDialog ):
 			self.set_authors( authors.split( '\n' ) )
 
 		extra_translations = _('about-translators').strip()
-		if extra_translations == 'about-translators':
+		if extra_translations is None:
+			extra_translations = ''
+		elif extra_translations == 'about-translators':
 			extra_translations = ''
 
 		self.set_translator_credits( config.get_translations() + extra_translations  )
