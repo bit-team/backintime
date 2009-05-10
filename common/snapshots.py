@@ -314,10 +314,9 @@ class Snapshots:
 			return
 
 		path = self.get_snapshot_path( snapshot_id )
-		#cmd = "chmod -R a+w \"%s\"" %  path
-		cmd = "find \"%s\" -type d -exec chmod +w {} \;" % path
+		cmd = "chmod -R a+rwx \"%s\"" %  path
 		self._execute( cmd )
-		cmd = "rm -rf \"%s\"" % path
+		cmd = "rm -rfv \"%s\"" % path
 		self._execute( cmd )
 
 	def _get_last_snapshot_info( self ):
