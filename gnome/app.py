@@ -269,7 +269,7 @@ class MainWindow:
 		gobject.timeout_add( 1000, self.raise_application )
 
 		if not self.config.is_configured():
-			settingsdialog.SettingsDialog( self.config, self.window ).run()
+			settingsdialog.SettingsDialog( self.config, self ).run()
 
 			if not self.config.is_configured():
 				return 
@@ -822,7 +822,7 @@ class MainWindow:
 		snapshots_path = self.config.get_snapshots_path()
 		include_folders = self.config.get_include_folders()
 
-		settingsdialog.SettingsDialog( self.config, self.window ).run()
+		settingsdialog.SettingsDialog( self.config, self ).run()
 
 		if snapshots_path != self.config.get_snapshots_path() or include_folders != self.config.get_include_folders():
 			self.update_all( False )

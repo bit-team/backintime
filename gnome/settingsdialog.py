@@ -37,10 +37,11 @@ _=gettext.gettext
 class SettingsDialog:
 	def __init__( self, config, parent ):
 		self.config = config
+		self.parent = parent
 
 		self.glade = gtk.glade.XML( os.path.join( self.config.get_app_path(), 'gnome', 'settingsdialog.glade' ), None, 'backintime' )
 		self.dialog = self.glade.get_widget( 'SettingsDialog' )
-		self.dialog.set_transient_for( parent )
+		self.dialog.set_transient_for( parent.window )
 
 		signals = { 
 				'on_btn_add_include_clicked' : self.on_add_include,
@@ -58,6 +59,7 @@ class SettingsDialog:
 
 		#set current folder
 		self.fcb_where = self.glade.get_widget( 'fcb_where' )
+		self.fcb_where.set_show_hidden( self.parent.show_hidden_files )
 		
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -295,6 +297,7 @@ class SettingsDialog:
 
 	def on_add_include( self, button ):
 		fcd = gtk.FileChooserDialog( _('Include directory'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		fcd.set_show_hidden( self.parent.show_hidden_files  )
 
 		if fcd.run() == gtk.RESPONSE_OK:
 			include_folder = fcd.get_filename()
@@ -337,6 +340,7 @@ class SettingsDialog:
 
 	def on_add_exclude_file( self, button ):
 		fcd = gtk.FileChooserDialog( _('Exclude file'), self.dialog, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		fcd.set_show_hidden( self.parent.show_hidden_files  )
 
 		if fcd.run() == gtk.RESPONSE_OK:
 			pattern = fcd.get_filename()
@@ -346,6 +350,7 @@ class SettingsDialog:
 
 	def on_add_exclude_folder( self, button ):
 		fcd = gtk.FileChooserDialog( _('Exclude directory'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		fcd.set_show_hidden( self.parent.show_hidden_files  )
 
 		if fcd.run() == gtk.RESPONSE_OK:
 			pattern = fcd.get_filename()
