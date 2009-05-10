@@ -199,7 +199,7 @@ class MainWindow( KMainWindow ):
 		self.files_view_layout.addWidget( self.list_files_view )
 		self.list_files_view.setRootIsDecorated( False )
 		self.list_files_view.setAlternatingRowColors( True )
-		self.list_files_view.setAllColumnsShowFocus( True )
+		#self.list_files_view.setAllColumnsShowFocus( True )
 		self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self.list_files_view.setItemsExpandable( False )
 		self.list_files_view.setDragEnabled( True )
