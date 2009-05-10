@@ -574,7 +574,8 @@ class Snapshots:
 		new_snapshot_path = self.get_snapshot_path( new_snapshot_id )
 
 		if os.path.exists( new_snapshot_path ):
-			self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
+			#self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
+			self._execute( "chmod -R a+rwx \"%s\"" %  new_snapshot_path )
 			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
 		
 			if os.path.exists( new_snapshot_path ):
