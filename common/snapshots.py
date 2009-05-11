@@ -400,7 +400,7 @@ class Snapshots:
 						if self.plugin_manager.has_gui_plugins() and self.config.is_notify_enabled():
 							for counter in xrange( 30, 0, -1 ):
 								self.set_take_snapshot_message( 1, 
-										_('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it.' ) +
+										_('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it.' ) +
 										'\n' +
 										gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', counter ) % counter )
 								os.system( 'sleep 1' )
@@ -408,7 +408,7 @@ class Snapshots:
 									break
 
 					if not self.config.can_backup():
-						logger.warning( 'Can\'t find snapshots directory !' )
+						logger.warning( 'Can\'t find snapshots folder !' )
 						self.plugin_manager.on_error( 3 ) #Can't find snapshots directory (is it on a removable drive ?)
 					else:
 						snapshot_id = self.get_snapshot_id( now )
@@ -537,8 +537,8 @@ class Snapshots:
 		tools.make_dirs( folder )
 
 		if not os.path.exists( folder ):
-			logger.error( "Can't create directory: %s" % folder )
-			self.set_take_snapshot_message( 1, _('Can\'t create directory: %s') % folder )
+			logger.error( "Can't create folder: %s" % folder )
+			self.set_take_snapshot_message( 1, _('Can\'t create folder: %s') % folder )
 			os.system( 'sleep 2' ) #max 1 backup / second
 			return False
 
@@ -579,8 +579,8 @@ class Snapshots:
 			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
 		
 			if os.path.exists( new_snapshot_path ):
-				logger.error( "Can't remove directory: %s" % new_snapshot_path )
-				self.set_take_snapshot_message( 1, _('Can\'t remove directory: %s') % new_snapshot_path )
+				logger.error( "Can't remove folder: %s" % new_snapshot_path )
+				self.set_take_snapshot_message( 1, _('Can\'t remove folder: %s') % new_snapshot_path )
 				os.system( 'sleep 2' ) #max 1 backup / second
 				return False
 
@@ -609,7 +609,7 @@ class Snapshots:
 
 		#rsync prefix & suffix
 		rsync_prefix = 'rsync -aEAX '
-		rsync_exclude_backup_directory = " --exclude=\"%s\" " % self.config.get_snapshots_path()
+		rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" " % ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER )
 		rsync_suffix = ' --chmod=Fa-w,D+w --whole-file --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
@@ -687,7 +687,7 @@ class Snapshots:
 				fileinfo_dict[item_path] = 1
 				self._save_path_info( fileinfo, item_path )
 
-		#copy ignored directories
+		#copy ignored folders
 		if not force and len( prev_snapshot_id ) > 0 and len( ignore_folders ) > 0:
 			prev_fileinfo_dict = self.load_fileinfo_dict( prev_snapshot_id )
 

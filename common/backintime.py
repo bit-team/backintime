@@ -33,7 +33,7 @@ def take_snapshot_now_async():
 	app = 'backintime'
 	if os.path.isfile( './backintime' ):
 		app = './backintime'
-	cmd = "nice -n 19 %s --backup &" % app
+	cmd = "%s --backup &" % app
 	os.system( cmd )
 
 

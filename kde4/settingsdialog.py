@@ -237,10 +237,14 @@ class SettingsDialog( KDialog ):
 		kde4tools.set_font_bold( label )
 		layout.addWidget( label )
 
-		self.cb_per_diretory_schedule = QCheckBox( QString.fromUtf8( _( 'Enable schedule per included directory (see Include tab; default: disabled)' ) ), self )
+		self.cb_per_diretory_schedule = QCheckBox( QString.fromUtf8( _( 'Enable schedule per included folder (see Include tab; default: disabled)' ) ), self )
 		layout.addWidget( self.cb_per_diretory_schedule )
 		self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
 		QObject.connect( self.cb_per_diretory_schedule, SIGNAL('clicked()'), self.update_include_columns )
+
+		self.cb_run_nice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'nice\' as cron job (default: enabled)' ) ), self )
+		layout.addWidget( self.cb_run_nice_from_cron )
+		self.cb_run_nice_from_cron.setChecked( self.config.is_run_nice_from_cron_enabled() )
 
 		#
 		layout.addStretch()
@@ -338,7 +342,7 @@ class SettingsDialog( KDialog ):
 
 		#check if back folder changed
 		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
-			if KMessageBox.Yes != KMessageBox.warningYesNo( self, QString.fromUtf8( _('Are you sure you want to change snapshots directory ?') ) ):
+			if KMessageBox.Yes != KMessageBox.warningYesNo( self, QString.fromUtf8( _('Are you sure you want to change snapshots folder ?') ) ):
 				return False 
 
 		#ok let's save to config
@@ -370,6 +374,7 @@ class SettingsDialog( KDialog ):
 
 		#expert options
 		self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
+		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.isChecked() )
 
 		self.config.save()
 		

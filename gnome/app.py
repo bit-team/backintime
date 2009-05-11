@@ -275,7 +275,7 @@ class MainWindow:
 				return 
 
 		if not self.config.can_backup():
-			messagebox.show_error( self.window, self.config, _('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it and then press OK') )
+			messagebox.show_error( self.window, self.config, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
 		self.update_all( True )
 
@@ -533,7 +533,7 @@ class MainWindow:
 		include_folders = self.config.get_include_folders()
 		if len( include_folders ) > 0:
 			if len( include_folders ) > 0:
-				self.store_places.append( [ "<b>%s</b>" % _('Backup Directories'), '', '' ] )
+				self.store_places.append( [ "<b>%s</b>" % _('Backup folders'), '', '' ] )
 				for folder in include_folders:
 					self.store_places.append( [ folder[0], folder[0], gtk.STOCK_SAVE ] )
 

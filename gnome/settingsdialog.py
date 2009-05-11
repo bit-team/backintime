@@ -110,7 +110,7 @@ class SettingsDialog:
 		pix_renderer = gtk.CellRendererPixbuf()
 		text_renderer = gtk.CellRendererText()
 
-		column = gtk.TreeViewColumn( _('Patterns, files or directories') )
+		column = gtk.TreeViewColumn( _('Patterns, files or folders') )
 		column.pack_start( pix_renderer, False )
 		column.pack_end( text_renderer, True )
 		column.add_attribute( pix_renderer, 'stock-id', 1 )
@@ -257,6 +257,10 @@ class SettingsDialog:
 		#enable notifications
 		self.cb_enable_notifications.set_active( self.config.is_notify_enabled() )
 
+		#run 'nice' from cron
+		self.cb_run_nice_from_cron = self.glade.get_widget( 'cb_run_nice_from_cron' )
+		self.cb_run_nice_from_cron.set_active( self.config.is_run_nice_from_cron_enabled() )
+
 	def on_automatic_backup_mode_changed( self, renderer, path, new_text ):
 		iter = self.store_include.get_iter(path)
 		self.store_include.set_value( iter, 2, new_text )
@@ -296,7 +300,7 @@ class SettingsDialog:
 		self.dialog.destroy()
 
 	def on_add_include( self, button ):
-		fcd = gtk.FileChooserDialog( _('Include directory'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		fcd = gtk.FileChooserDialog( _('Include folder'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
 		fcd.set_show_hidden( self.parent.show_hidden_files  )
 
 		if fcd.run() == gtk.RESPONSE_OK:
@@ -349,7 +353,7 @@ class SettingsDialog:
 		fcd.destroy()
 
 	def on_add_exclude_folder( self, button ):
-		fcd = gtk.FileChooserDialog( _('Exclude directory'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		fcd = gtk.FileChooserDialog( _('Exclude folder'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
 		fcd.set_show_hidden( self.parent.show_hidden_files  )
 
 		if fcd.run() == gtk.RESPONSE_OK:
@@ -397,7 +401,7 @@ class SettingsDialog:
 
 		#check if back folder changed
 		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
-			if gtk.RESPONSE_YES != messagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots directory ?') ):
+			if gtk.RESPONSE_YES != messagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots folder ?') ):
 				return False 
 
 		#ok let's save to config
@@ -429,6 +433,7 @@ class SettingsDialog:
 
 		#expert options
 		self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
+		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active() )
 
 		self.config.save()
 

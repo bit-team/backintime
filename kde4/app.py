@@ -187,7 +187,7 @@ class MainWindow( KMainWindow ):
 		self.second_splitter.addWidget( widget )
 
 		#folder don't exist label
-		self.lbl_folder_dont_exists = QLabel( QString.fromUtf8( _('This directory don\'t exist\nin current snapshot !') ), self )
+		self.lbl_folder_dont_exists = QLabel( QString.fromUtf8( _('This folder don\'t exist\nin current snapshot !') ), self )
 		kde4tools.set_font_bold( self.lbl_folder_dont_exists )
 		self.lbl_folder_dont_exists.setFrameShadow( QFrame.Sunken )
 		self.lbl_folder_dont_exists.setFrameShape( QFrame.Panel )
@@ -291,7 +291,7 @@ class MainWindow( KMainWindow ):
 			return
 
 		if not cfg.can_backup():
-			KMessageBox.error( self, QString.fromUtf8( _('Can\'t find snapshots directory.\nIf it is on a removable drive please plug it and then press OK') ) )
+			KMessageBox.error( self, QString.fromUtf8( _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') ) )
 
 		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('completed()'), self.on_dir_lister_completed )
 		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('canceled()'), self.on_dir_lister_completed )
@@ -505,7 +505,7 @@ class MainWindow( KMainWindow ):
 		#add backup folders
 		include_folders = self.config.get_include_folders()
 		if len( include_folders ) > 0:
-			self.add_place( QString.fromUtf8( _('Backup Directories') ), '', '' )
+			self.add_place( QString.fromUtf8( _('Backup folders') ), '', '' )
 			for folder in include_folders:
 				self.add_place( QString.fromUtf8(folder[0]), folder[0], 'document-save' )
 

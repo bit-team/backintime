@@ -128,13 +128,13 @@ class Config( configfile.ConfigFile ):
 	def check_take_snapshot_params( self, snapshots_path, include_list, exclude_list ):
 		#returns None or ( ID, message ) //0 - snapshots path, 1 - include list, 2 - exclude list
 		if len( snapshots_path ) == 0 or not os.path.isdir( snapshots_path ):
-			return ( 0, _('Snapshots directory is not valid !') )
+			return ( 0, _('Snapshots folder is not valid !') )
 
 		if len( snapshots_path ) <= 1:
-			return ( 0, _('Snapshots directory can\'t be the root directory !') )
+			return ( 0, _('Snapshots folder can\'t be the root folder !') )
 
 		if len( include_list ) <= 0:
-			return ( 1, _('You must select at least one directory to backup !') )
+			return ( 1, _('You must select at least one folder to backup !') )
 
 		snapshots_path2 = snapshots_path + '/'
 
@@ -143,20 +143,20 @@ class Config( configfile.ConfigFile ):
 			if path == snapshots_path:
 				print "Path: " + path
 				print "SnapshotsPath: " + snapshots_path 
-				return ( 1, _('You can\'t include backup directory !') )
+				return ( 1, _('You can\'t include backup folder !') )
 			
 			if len( path ) >= len( snapshots_path2 ):
 				if path[ : len( snapshots_path2 ) ] == snapshots_path2:
 					print "Path: " + path
 					print "SnapshotsPath2: " + snapshots_path2
-					return ( 1, _('You can\'t include a backup sub-directory !') )
+					return ( 1, _('You can\'t include a backup sub-folder !') )
 			#else:
 			#	path2 = path + '/'
 			#	if len( path2 ) < len( snapshots_path ):
 			#		if path2 == snapshots_path[ : len( path2 ) ]:
 			#			print "Path2: " + path2
 			#			print "SnapshotsPath: " + snapshots_path 
-			#			return ( 1, _('"Backup directories" can\'t include snapshots directory !') )
+			#			return ( 1, _('"Backup folders" can\'t include snapshots folder !') )
 
 		for exclude in exclude_list:
 			if exclude.find( ':' ) >= 0:
@@ -175,7 +175,7 @@ class Config( configfile.ConfigFile ):
 
 		if len( value ) > 0:
 			if not os.path.isdir( value ):
-				return _( '%s is not a directory !' ) % value
+				return _( '%s is not a folder !' ) % value
 			else:
 				old_value = self.get_snapshots_path()
 				self.set_str_value( 'snapshots.path', value )
@@ -323,6 +323,12 @@ class Config( configfile.ConfigFile ):
 	def set_notify_enabled( self, value ):
 		self.set_bool_value( 'snapshots.notify.enabled', value )
 
+	def is_run_nice_from_cron_enabled( self ):
+		return self.get_bool_value( 'snapshots.cron.nice', True )
+
+	def set_run_nice_from_cron_enabled( self, value ):
+		self.set_bool_value( 'snapshots.cron.nice', value )
+
 	def get_take_snapshot_user_script( self, step ):
 		return self.get_str_value( "snapshots.take_snapshot.%s.user.script" )
 
@@ -460,7 +466,10 @@ class Config( configfile.ConfigFile ):
 			cron_line = 'echo "@monthly {cmd}"'
 
 		if len( cron_line ) > 0:
-			cron_line = cron_line.replace( '{cmd}', 'nice -n 19 /usr/bin/backintime --backup-job >/dev/null 2>&1' )
+			cmd = '/usr/bin/backintime --backup-job >/dev/null 2>&1'
+			if self.is_run_nice_from_cron_enabled():
+				cmd = 'nice -n 19 ' + cmd
+			cron_line = cron_line.replace( '{cmd}', cmd )
 			os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
 		return None

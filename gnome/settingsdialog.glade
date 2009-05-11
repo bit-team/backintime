@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Apr 27 12:51:46 2009 -->
+<!--Generated with glade3 3.4.5 on Mon May 11 09:17:16 2009 -->
 <glade-interface>
   <widget class="GtkDialog" id="SettingsDialog">
     <property name="border_width">5</property>
@@ -10,7 +10,6 @@
     <property name="destroy_with_parent">True</property>
     <property name="icon_name">gtk-preferences</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
-    <property name="transient_for">MainWindow</property>
     <property name="has_separator">False</property>
     <signal name="response" handler="on_SettingsDialog_response"/>
     <child internal-child="vbox">
@@ -511,7 +510,7 @@
                   <widget class="GtkCheckButton" id="cb_per_directory_schedule">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Enable schedule per included directory (see Include tab; default: disabled)</property>
+                    <property name="label" translatable="yes">Enable schedule per included folder (see Include tab; default: disabled)</property>
                     <property name="response_id">0</property>
                     <property name="draw_indicator">True</property>
                     <signal name="toggled" handler="on_cb_per_directory_schedule_toggled"/>
@@ -522,11 +521,24 @@
                   </packing>
                 </child>
                 <child>
+                  <widget class="GtkCheckButton" id="cb_run_nice_from_cron">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Run 'nice' as cron job (default: enabled)</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
                   <widget class="GtkLabel" id="label16">
                     <property name="visible">True</property>
                   </widget>
                   <packing>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </widget>

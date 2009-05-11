@@ -199,7 +199,7 @@
                         <child>
                           <widget class="GtkToolButton" id="btn_folder_up">
                             <property name="visible">True</property>
-                            <property name="tooltip" translatable="yes">Parent Directory</property>
+                            <property name="tooltip" translatable="yes">Parent folder</property>
                             <property name="label" translatable="yes">Up</property>
                             <property name="stock_id">gtk-go-up</property>
                             <signal name="clicked" handler="on_btn_folder_up_clicked"/>
@@ -337,7 +337,7 @@
                                 <child>
                                   <widget class="GtkLabel" id="label17">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;This directory don't exist
+                                    <property name="label" translatable="yes">&lt;b&gt;This folder don't exist
 in current snapshot !&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
                                     <property name="justify">GTK_JUSTIFY_CENTER</property>
