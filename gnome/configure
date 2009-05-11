@@ -5,9 +5,11 @@ if [ -e Makefile ]; then
 fi
 
 #check GNOME
-if [ -z `which gnome-session` ]; then
-	echo "ERROR: Can't find GNOME !"
-	exit 1
+if [ $1. != "--no-check" ]; then
+	if [ -z `which gnome-session` ]; then
+		echo "ERROR: Can't find GNOME !"
+		exit 1
+	fi
 fi
 
 cp Makefile.template Makefile
