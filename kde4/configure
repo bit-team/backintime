@@ -1,12 +1,18 @@
 #!/bin/bash
 
+CHECK="--check"
+
+for arg in $*; do
+	case $arg in
+		--check | --no-check) CHECK=$arg
+	esac
+done
+
 #check KDE4
-if [ $1. != "--no-check" ]; then
-	if [ $kde4 = "--kde4" ]; then
-		if [ -z `which kdeinit4` ]; then
-			echo "ERROR: Can't find KDE4 !"
-			exit 1
-		fi
+if [ $CHECK = "--check" ]; then
+	if [ -z `which kdeinit4` ]; then
+		echo "ERROR: Can't find KDE4 !"
+		exit 1
 	fi
 fi
 
