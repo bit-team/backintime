@@ -76,13 +76,14 @@ class AboutDialog( gtk.AboutDialog ):
 		if not authors is None:
 			self.set_authors( authors.split( '\n' ) )
 
-		extra_translations = _('about-translators').strip()
-		if extra_translations is None:
-			extra_translations = ''
-		elif extra_translations == 'about-translators':
-			extra_translations = ''
-
-		self.set_translator_credits( config.get_translations() + extra_translations  )
+		#extra_translations = _('about-translators').strip()
+		#if extra_translations is None:
+		#	extra_translations = ''
+		#elif extra_translations == 'about-translators':
+		#	extra_translations = ''
+		#
+		#self.set_translator_credits( config.get_translations() + extra_translations )
+		self.set_translator_credits( config.get_translations() )
 
 	def on_close( self, *params ):
 		self.destroy()

@@ -971,13 +971,15 @@ def create_kapplication( cfg ):
 	kaboutdata = KAboutData( 'backintime', '', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( cfg.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'dan@le-web.org' )
 	kaboutdata.setProgramIconName( 'document-save' )
 
-	extra_translations = _('about-translators')
-	if extra_translations is None:
-		extra_translations = ''
-	elif extra_translations == 'about-translators':
-		extra_translations = ''
-
-	translation_text = cfg.get_translations() + extra_translations
+	#extra_translations = _('about-translators')
+	#if extra_translations is None:
+	#	extra_translations = ''
+	#elif extra_translations == 'about-translators':
+	#	extra_translations = ''
+	#
+	#translation_text = cfg.get_translations() + extra_translations
+	translation_text = cfg.get_translations()
+	
 	translators = []
 	translator_emails = []
 	for line in translation_text.split( '\n' ):
