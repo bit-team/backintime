@@ -431,7 +431,7 @@ class SettingsDialog( KDialog ):
 			self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
 
 	def on_btn_include_add_clicked( self ):
-		path = ( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ).toUtf8() )
+		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ).toUtf8() )
 		if len( path ) == 0 :
 			return
 
