@@ -339,6 +339,10 @@ class SettingsDialog:
 		pattern = messagebox.text_input_dialog( self.dialog, self.config, _('Exclude pattern') )
 		if pattern is None:
 			return
+
+		if pattern.find( ':' ) >= 0:
+			messagebox.show_error( self.dialog, self.config, _('Exclude patterns can\'t contain \':\' char !') )
+			return
 	
 		self.add_exclude_( pattern )
 
