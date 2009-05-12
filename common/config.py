@@ -381,13 +381,13 @@ class Config( configfile.ConfigFile ):
 		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'user.callback' )
 
 	def get_license( self ):
-		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ) )
+		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )
 
 	def get_translations( self ):
-		return tools.read_file( os.path.join( self.get_doc_path(), 'TRANSLATIONS' ) )
+		return tools.read_file( os.path.join( self.get_doc_path(), 'TRANSLATIONS' ), '' )
 
 	def get_authors( self ):
-		return tools.read_file( os.path.join( self.get_doc_path(), 'AUTHORS' ) )
+		return tools.read_file( os.path.join( self.get_doc_path(), 'AUTHORS' ), '' )
 
 	def prepare_path( self, path ):
 		if len( path ) > 1:
