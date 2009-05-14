@@ -737,80 +737,88 @@ class Snapshots:
 
 		return True
 
+	def _smart_remove_keep_all_( self, snapshots, keep_snapshots, min_date ):
+		min_id = self.get_snapshot_id( min_date )
+
+		logger.info( "[smart remove] keep all >= %s" % min_id )
+
+		for snapshot_id in snapshots:
+			if snapshot_id >= min_id:
+				if snapshot_id not in keep_snapshots:
+					keep_snapshots.append( snapshot_id )
+
+		return keep_snapshots
+
+	def _smart_remove_keep_first_( self, snapshots, keep_snapshots, min_date, max_date ):
+		max_id = self.get_snapshot_id( max_date + datetime.timedelta( days = 1 ) )
+		min_id = self.get_snapshot_id( min_date )
+
+		logger.info( "[smart remove] keep first >= %s and < %s" % ( min_id, max_id ) )
+
+		for snapshot_id in snapshots:
+			if snapshot_id >= min_id and snapshot_id < max_id:
+				if snapshot_id not in keep_snapshots:
+					keep_snapshots.append( snapshot_id )
+				break
+
+		return keep_snapshots
+
 	def smart_remove( self, now_full = None ):
+		snapshots = self.get_snapshots_list()
+		if len( snapshots ) <= 1:
+			logger.info( "[smart remove] There is only one snapshots, so keep it" )
+			return
+
 		if now_full is None:
 			now_full = datetime.datetime.today()
 
 		now = datetime.datetime( now_full.year, now_full.month, now_full.day )
 
-		#build groups
-		groups = []
+		#keep the last snapshot
+		keep_snapshots = [ snapshots[0] ]
 
-		#
-		yesterday = now - datetime.timedelta( days = 1 )
-		yesterday_id = self.get_snapshot_id( yesterday )
-		logger.info( "[smart remove] yesterday: %s" % yesterday_id )
+		#keep all from today and yesterday
+		keep_snapshots = self._smart_remove_keep_all_( snapshots, keep_snapshots, now - datetime.timedelta( days = 1 ) )
 
-		#last week
-		date = now - datetime.timedelta( days = now.weekday() + 7 )
-		groups.append( ( self.get_snapshot_id( date ), [], 'Last week' ) )
+		#last week	
+		max_date = now - datetime.timedelta( days = now.weekday() + 1 )
+		min_date = max_date - datetime.timedelta( days = 6 )
+		keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
 
 		#2 weeks ago
-		date = now - datetime.timedelta( days = now.weekday() + 14 )
-		groups.append( ( self.get_snapshot_id( date ), [], '2 weeks ago' ) )
+		max_date = max_date - datetime.timedelta( days = 7 )
+		min_date = min_date - datetime.timedelta( days = 7 )
+		keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
 
-		#all months for this year
-		for m in xrange( now.month-1, 0, -1 ):
-			date = now.replace( month = m, day = 1 )
-			groups.append( ( self.get_snapshot_id( date ), [], "This year, month %s" % m ) )
+		#one per month for all months of this year
+		if now.date > 1:
+			for month in xrange( 1, now.month ):
+				#print "month: %s" % month
+				min_date = datetime.date( now.year, month, 1 )
+				max_date = datetime.date( now.year, month + 1, 1 ) - datetime.timedelta( days = 1 )
+				keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
 
-		#fill groups
-		snapshots = self.get_snapshots_list()
+		#one per year for all previous years
+		min_year = int( snapshots[ -1 ][ :4 ] )
+		for year in xrange( min_year, now.year ):
+			#print "year: %s" % year
+			min_date = datetime.date( year, 1, 1 )
+			max_date = datetime.date( year + 1, 1, 1 ) - datetime.timedelta( days = 1 )
+			keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
+
+		logger.info( "[smart remove] keep snapshots: %s" % keep_snapshots )
 
 		for snapshot_id in snapshots:
-			#keep all item since yesterday
-			if snapshot_id >= yesterday_id:
-				continue
-
-			found = False
-			for group in groups:
-				if snapshot_id >= group[0]:
-					group[1].append( snapshot_id )
-					found = True
-					break
-
-			if not found: #new year group
-				year = snapshot_id[ : 4 ]
-				groups.append( ( year + "0101-000000", [ snapshot_id ], "Year %s" % year ) )
-
-		#remove items from each group
-		for group in groups:
-			logger.info( "[smart remove] group: %s (%s), snapshots: %s" % ( group[2], group[0], group[1] ) )
-
-			if len( group[1] ) <= 1: #nothing to do
+			if snapshot_id in keep_snapshots:
 				continue
 
 			if self.config.get_dont_remove_named_snapshots():
-				#if the group contains a named snapshots keep only this snapshots
-				has_names = False
-
-				for snapshot_id in group[1]:
-					if len( self.get_snapshot_name( snapshot_id ) ) > 0:
-						has_names = True
-						break
-
-				if has_names:
-					for snapshot_id in group[1]:
-						if len( self.get_snapshot_name( snapshot_id ) ) <= 0:
-							self.remove_snapshot( snapshot_id )
-							logger.info( "[smart remove] remove snapshot (2): " + snapshot_id )
+				if len( self.get_snapshot_name( snapshot_id ) ) > 0:
+					logger.info( "[smart remove] keep snapshot: %s, it has a name" % snapshot_id )
 					continue
 
-			#keep only the first snapshot
-			del group[1][0]
-			for snapshot_id in group[1]:
-				logger.info( "[smart remove] remove snapshot: " + snapshot_id )
-				self.remove_snapshot( snapshot_id )
+			logger.info( "[smart remove] remove snapshot: %s" % snapshot_id )
+			self.remove_snapshot( snapshot_id )
 
 	def _free_space( self, now ):
 		#remove old backups
