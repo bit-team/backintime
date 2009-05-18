@@ -264,7 +264,7 @@ class Config( configfile.ConfigFile ):
 
 		if unit == self.WEEK:
 			date = datetime.date.today()
-			date = date - datetime.timedelta( days = 7 * value )
+			date = date - datetime.timedelta( days = date.weekday() + 7 * value )
 			return date
 		
 		if unit == self.YEAR:
