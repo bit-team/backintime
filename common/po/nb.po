@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-04-30 17:00+0200\n"
+"POT-Creation-Date: 2009-05-11 09:42+0200\n"
 "PO-Revision-Date: 2009-04-24 18:25+0000\n"
 "Last-Translator: Wolven <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
@@ -15,8 +15,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-05-07 07:00+0000\n"
+"X-Launchpad-Export-Date: 2009-05-19 07:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: ../../common/configfile.py:168 ../../common/configfile.py:226
+#, python-format
+msgid "Profile %s already exists !"
+msgstr ""
+
+#: ../../common/configfile.py:218
+msgid "You can't rename \"Main\" profile"
+msgstr ""
 
 #: ../../common/config.py:53
 msgid "Disabled"
@@ -59,35 +68,33 @@ msgid "Year(s)"
 msgstr "År"
 
 #: ../../common/config.py:131
-msgid "Snapshots directory is not valid !"
-msgstr "Øyeblikksbilder katalogen er ikke gyldig !"
+msgid "Snapshots folder is not valid !"
+msgstr ""
 
 #: ../../common/config.py:134
-msgid "Snapshots directory can't be the root directory !"
-msgstr "Øyeblikksbilder katalog kan ikke være root katalog !"
+msgid "Snapshots folder can't be the root folder !"
+msgstr ""
 
 #: ../../common/config.py:137
-msgid "You must select at least one directory to backup !"
-msgstr "Du må velge minst en katalog å sikkerhetskopiere !"
-
-#: ../../common/config.py:146 ../../common/config.py:152
-msgid "Snapshots directory can't be in \"Backup Directories\" !"
+msgid "You must select at least one folder to backup !"
 msgstr ""
-"Øyeblikksbilder katalogen kan ikke være i \"Sikkerhetskopi Katalogene\" !"
 
-#: ../../common/config.py:159
-msgid "\"Backup directories\" can't include snapshots directory !"
+#: ../../common/config.py:146
+msgid "You can't include backup folder !"
 msgstr ""
-"\"Sikkerhetskopi kataloger\" kan ikke inkludere øyeblikksbilde katalog !"
+
+#: ../../common/config.py:152
+msgid "You can't include a backup sub-folder !"
+msgstr ""
 
 #: ../../common/config.py:163
-msgid "\"Exclude pattern\" can't contain \":\" char !"
-msgstr "\"Utelukk mønster\" kan ikke inneholde \":\" char !"
+msgid "Exclude patterns can't contain ':' char !"
+msgstr ""
 
 #: ../../common/config.py:178
 #, python-format
-msgid "%s is not a directory !"
-msgstr "%s er ikke en katalog !"
+msgid "%s is not a folder !"
+msgstr ""
 
 #: ../../common/config.py:188
 #, python-format
@@ -98,7 +105,7 @@ msgstr ""
 "Kan ikke skrive til: %s\n"
 "Er du sikker på du har skrive tilgang?"
 
-#: ../../common/config.py:440
+#: ../../common/config.py:446
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -108,188 +115,188 @@ msgstr ""
 "Er du sikker på at cron er installert?\n"
 "Hvis ikke bør du skru av alle automatiske sikkerhetskopier."
 
-#: ../../common/snapshots.py:80 ../../gnome/app.py:886 ../../kde4/app.py:809
+#: ../../common/snapshots.py:80 ../../gnome/app.py:894 ../../kde4/app.py:820
 msgid "Now"
 msgstr "Nå"
 
-#: ../../common/snapshots.py:404
+#: ../../common/snapshots.py:403
 msgid ""
-"Can't find snapshots directory.\n"
+"Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Finner ikke øyeblikksbilde katalog.\n"
-"Om det er på en flyttbar stasjon vær snill å plugg den inn."
 
-#: ../../common/snapshots.py:406
+#: ../../common/snapshots.py:405
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Venter %s sekund."
 msgstr[1] "Venter %s sekunder."
 
-#: ../../common/snapshots.py:430
+#: ../../common/snapshots.py:429
 msgid "Finalizing"
 msgstr "Avslutter"
 
-#: ../../common/snapshots.py:454 ../../common/snapshots.py:671
+#: ../../common/snapshots.py:453 ../../common/snapshots.py:672
 #: ../../kde4/app.py:71 ../../gnome/mainwindow.glade:21
 msgid "Take snapshot"
 msgstr "Ta øyeblikksbilde"
 
-#: ../../common/snapshots.py:457 ../../common/snapshots.py:628
+#: ../../common/snapshots.py:456 ../../common/snapshots.py:629
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "Sammenlign med øyeblikksbilde %s"
 
-#: ../../common/snapshots.py:542
+#: ../../common/snapshots.py:541
 #, python-format
-msgid "Can't create directory: %s"
-msgstr "Kan ikke opprette katalog: %s"
+msgid "Can't create folder: %s"
+msgstr ""
 
-#: ../../common/snapshots.py:572
+#: ../../common/snapshots.py:571
 msgid "..."
 msgstr "…"
 
 #: ../../common/snapshots.py:583
 #, python-format
-msgid "Can't remove directory: %s"
-msgstr "Kan ikke fjerne katalog: %s"
+msgid "Can't remove folder: %s"
+msgstr ""
 
-#: ../../common/snapshots.py:651
+#: ../../common/snapshots.py:652
 msgid "Create hard-links"
 msgstr "lag ekte lenker"
 
-#: ../../common/snapshots.py:730
+#: ../../common/snapshots.py:677
+msgid "Save permission ..."
+msgstr ""
+
+#: ../../common/snapshots.py:731
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr "Kan ikke forandre navnet %s til %s"
 
-#: ../../common/snapshots.py:817
+#: ../../common/snapshots.py:818
 msgid "Remove old snapshots"
 msgstr "Slett gamle øyeblikksbilder"
 
-#: ../../common/snapshots.py:840 ../../kde4/settingsdialog.py:202
-#: ../../gnome/settingsdialog.glade:414
+#: ../../common/snapshots.py:841 ../../kde4/settingsdialog.py:202
+#: ../../gnome/settingsdialog.glade:413
 msgid "Smart remove"
 msgstr "Smart sletting"
 
-#: ../../common/snapshots.py:845
+#: ../../common/snapshots.py:846
 msgid "Try to keep min free space"
 msgstr "Forsøk å bevare min ledig plass"
 
-#: ../../gnome/app.py:79 ../../kde4/app.py:963
+#: ../../gnome/app.py:79 ../../kde4/app.py:974
 msgid "about-translators"
 msgstr "om oversettere"
 
-#: ../../gnome/app.py:145 ../../gnome/app.py:485 ../../kde4/app.py:225
-#: ../../kde4/app.py:448
+#: ../../gnome/app.py:149 ../../gnome/app.py:489 ../../kde4/app.py:246
+#: ../../kde4/app.py:455
 msgid "Done"
 msgstr "Ferdig"
 
-#: ../../gnome/app.py:159 ../../kde4/app.py:160
+#: ../../gnome/app.py:163 ../../kde4/app.py:181
 msgid "Shortcuts"
 msgstr "Snarveier"
 
-#: ../../gnome/app.py:182
+#: ../../gnome/app.py:186
 msgid "Name"
 msgstr "Navn"
 
-#: ../../gnome/app.py:193
+#: ../../gnome/app.py:197
 msgid "Size"
 msgstr "Størrelse"
 
-#: ../../gnome/app.py:200
+#: ../../gnome/app.py:204
 msgid "Date"
 msgstr "Dato"
 
-#: ../../gnome/app.py:219 ../../gnome/app.py:256
-#: ../../gnome/snapshotsdialog.py:85 ../../kde4/app.py:108
-#: ../../kde4/app.py:147 ../../kde4/snapshotsdialog.py:90
-#: ../../gnome/mainwindow.glade:243 ../../gnome/mainwindow.glade:244
+#: ../../gnome/app.py:223 ../../gnome/app.py:260
+#: ../../gnome/snapshotsdialog.py:85 ../../kde4/app.py:124
+#: ../../kde4/app.py:167 ../../kde4/snapshotsdialog.py:90
+#: ../../gnome/mainwindow.glade:267 ../../gnome/mainwindow.glade:268
 #: ../../gnome/snapshotsdialog.glade:7
 msgid "Snapshots"
 msgstr "Øyeblikksbilder"
 
-#: ../../gnome/app.py:254
+#: ../../gnome/app.py:258
 msgid "Open"
 msgstr "Åpen"
 
-#: ../../gnome/app.py:255 ../../kde4/app.py:144
-#: ../../kde4/snapshotsdialog.py:115 ../../gnome/mainwindow.glade:231
-#: ../../gnome/mainwindow.glade:232 ../../gnome/snapshotsdialog.glade:40
+#: ../../gnome/app.py:259 ../../kde4/app.py:163
+#: ../../kde4/snapshotsdialog.py:115 ../../gnome/mainwindow.glade:255
+#: ../../gnome/mainwindow.glade:256 ../../gnome/snapshotsdialog.glade:40
 #: ../../gnome/snapshotsdialog.glade:41
 msgid "Copy"
 msgstr "Kopier"
 
-#: ../../gnome/app.py:257 ../../kde4/snapshotsdialog.py:128
+#: ../../gnome/app.py:261 ../../kde4/snapshotsdialog.py:128
 msgid "Diff"
 msgstr "Diff"
 
-#: ../../gnome/app.py:258 ../../kde4/app.py:141
-#: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:219
-#: ../../gnome/mainwindow.glade:220 ../../gnome/snapshotsdialog.glade:52
+#: ../../gnome/app.py:262 ../../kde4/app.py:159
+#: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:243
+#: ../../gnome/mainwindow.glade:244 ../../gnome/snapshotsdialog.glade:52
 #: ../../gnome/snapshotsdialog.glade:53
 msgid "Restore"
 msgstr "Gjennopprett"
 
-#: ../../gnome/app.py:274 ../../kde4/app.py:273
+#: ../../gnome/app.py:278 ../../kde4/app.py:294
 msgid ""
-"Can't find snapshots directory.\n"
+"Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
-"Kan ikke finne øyeblikksbilde katalogen.\n"
-"Om den er på en flyttbar stasjon vær vennling å plugg den i og trykk OK"
 
-#: ../../gnome/app.py:471 ../../kde4/app.py:436
+#: ../../gnome/app.py:475 ../../kde4/app.py:443
 msgid "Working:"
 msgstr "Arbeider:"
 
-#: ../../gnome/app.py:487 ../../kde4/app.py:450
+#: ../../gnome/app.py:491 ../../kde4/app.py:457
 msgid "Done, no backup needed"
 msgstr "Ferdig, sikkerhetskopiering trengs ikke"
 
-#: ../../gnome/app.py:498 ../../kde4/app.py:494
+#: ../../gnome/app.py:502 ../../kde4/app.py:501
 msgid "Global"
 msgstr "Global"
 
-#: ../../gnome/app.py:499 ../../kde4/app.py:495
+#: ../../gnome/app.py:503 ../../kde4/app.py:502
 msgid "Root"
 msgstr "Rot"
 
-#: ../../gnome/app.py:500 ../../kde4/app.py:496
+#: ../../gnome/app.py:504 ../../kde4/app.py:503
 msgid "Home"
 msgstr "Hjem"
 
-#: ../../gnome/app.py:524
+#: ../../gnome/app.py:528
 msgid "Bookmarks"
 msgstr "Bokmerker"
 
-#: ../../gnome/app.py:532 ../../kde4/app.py:501
-msgid "Backup Directories"
-msgstr "Sikkerhetskopi Kataloger"
+#: ../../gnome/app.py:536 ../../kde4/app.py:508
+msgid "Backup folders"
+msgstr ""
 
-#: ../../gnome/app.py:552 ../../kde4/app.py:570
+#: ../../gnome/app.py:556 ../../kde4/app.py:577
 msgid "Today"
 msgstr "Idag"
 
-#: ../../gnome/app.py:556 ../../kde4/app.py:574
+#: ../../gnome/app.py:560 ../../kde4/app.py:581
 msgid "Yesterday"
 msgstr "Igår"
 
-#: ../../gnome/app.py:560 ../../kde4/app.py:578
+#: ../../gnome/app.py:564 ../../kde4/app.py:585
 msgid "This week"
 msgstr "Denne uken"
 
-#: ../../gnome/app.py:564 ../../kde4/app.py:582
+#: ../../gnome/app.py:568 ../../kde4/app.py:589
 msgid "Last week"
 msgstr "Forrige uke"
 
-#: ../../gnome/app.py:833 ../../kde4/app.py:77 ../../kde4/app.py:640
+#: ../../gnome/app.py:840 ../../kde4/app.py:79 ../../kde4/app.py:648
 #: ../../gnome/mainwindow.glade:45 ../../gnome/mainwindow.glade:46
 msgid "Snapshot Name"
 msgstr "Navn på øyeblikksbilde"
 
-#: ../../gnome/app.py:852
+#: ../../gnome/app.py:859
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -298,51 +305,51 @@ msgstr ""
 "Er du sikker på at du vil fjerne øyeblikksbilde:\n"
 "<b>%s</b>"
 
-#: ../../gnome/app.py:882 ../../kde4/app.py:805
+#: ../../gnome/app.py:890 ../../kde4/app.py:816
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Øyeblikksbilde: %s"
 
-#: ../../gnome/app.py:883 ../../kde4/app.py:806
+#: ../../gnome/app.py:891 ../../kde4/app.py:817
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "Se øyeblikksbilde laget den %s"
 
-#: ../../gnome/app.py:885 ../../kde4/app.py:808
+#: ../../gnome/app.py:893 ../../kde4/app.py:819
 msgid "View the current disk content"
 msgstr "Se nåværende stasjons innhold"
 
-#: ../../gnome/settingsdialog.py:83 ../../kde4/settingsdialog.py:108
+#: ../../gnome/settingsdialog.py:85 ../../kde4/settingsdialog.py:108
 msgid "Include folders"
 msgstr "Inkluder mapper"
 
-#: ../../gnome/settingsdialog.py:90 ../../kde4/settingsdialog.py:88
+#: ../../gnome/settingsdialog.py:92 ../../kde4/settingsdialog.py:88
 msgid "Schedule"
 msgstr "Timeplan"
 
-#: ../../gnome/settingsdialog.py:111
-msgid "Patterns, files or directories"
-msgstr "Mønster, filer eller kataloger"
+#: ../../gnome/settingsdialog.py:113
+msgid "Patterns, files or folders"
+msgstr ""
 
-#: ../../gnome/settingsdialog.py:297
-msgid "Include directory"
-msgstr "Inkluder katalog"
+#: ../../gnome/settingsdialog.py:303 ../../kde4/settingsdialog.py:434
+msgid "Include folder"
+msgstr "Inkludér katalog"
 
-#: ../../gnome/settingsdialog.py:332 ../../kde4/settingsdialog.py:400
+#: ../../gnome/settingsdialog.py:339 ../../kde4/settingsdialog.py:405
 msgid "Exclude pattern"
 msgstr "Utelukk mønster"
 
-#: ../../gnome/settingsdialog.py:339 ../../kde4/settingsdialog.py:407
+#: ../../gnome/settingsdialog.py:346 ../../kde4/settingsdialog.py:412
 msgid "Exclude file"
 msgstr "Ekskluder fil"
 
-#: ../../gnome/settingsdialog.py:348
-msgid "Exclude directory"
-msgstr "Ekskluder katalog"
+#: ../../gnome/settingsdialog.py:356 ../../kde4/settingsdialog.py:416
+msgid "Exclude folder"
+msgstr "Ekskludér katalog"
 
-#: ../../gnome/settingsdialog.py:395 ../../kde4/settingsdialog.py:341
-msgid "Are you sure you want to change snapshots directory ?"
-msgstr "Er du sikker på at du vil forandre øyeblikksbilde katalog ?"
+#: ../../gnome/settingsdialog.py:404 ../../kde4/settingsdialog.py:345
+msgid "Are you sure you want to change snapshots folder ?"
+msgstr ""
 
 #: ../../gnome/snapshotsdialog.py:237 ../../kde4/snapshotsdialog.py:244
 msgid "You can't compare a snapshot to itself"
@@ -353,54 +360,52 @@ msgstr "Du kan ikke sammenlikne et øyeblikksbilde med seg selv"
 msgid "Command not found: %s"
 msgstr "Kommando ikke funnet: %s"
 
-#: ../../kde4/app.py:74 ../../gnome/mainwindow.glade:33
+#: ../../kde4/app.py:75 ../../gnome/mainwindow.glade:33
 #: ../../gnome/mainwindow.glade:34
 msgid "Update snapshots"
 msgstr "Oppdater øyeblikksbilde"
 
-#: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:57
+#: ../../kde4/app.py:83 ../../gnome/mainwindow.glade:57
 #: ../../gnome/mainwindow.glade:58
 msgid "Remove Snapshot"
 msgstr "Fjern Øyeblikksbilde"
 
-#: ../../kde4/app.py:85 ../../kde4/settingsdialog.py:60
+#: ../../kde4/app.py:89 ../../kde4/settingsdialog.py:60
 #: ../../gnome/mainwindow.glade:74 ../../gnome/mainwindow.glade:75
 #: ../../gnome/settingsdialog.glade:7
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: ../../kde4/app.py:90 ../../gnome/mainwindow.glade:94
+#: ../../kde4/app.py:95 ../../gnome/mainwindow.glade:94
 #: ../../gnome/mainwindow.glade:95
 msgid "About"
 msgstr "Om"
 
-#: ../../kde4/app.py:93 ../../gnome/mainwindow.glade:106
+#: ../../kde4/app.py:99 ../../gnome/mainwindow.glade:106
 #: ../../gnome/mainwindow.glade:107
 msgid "Help"
 msgstr "Hjelp"
 
-#: ../../kde4/app.py:98 ../../gnome/mainwindow.glade:123
+#: ../../kde4/app.py:105 ../../gnome/mainwindow.glade:123
 #: ../../gnome/mainwindow.glade:124
 msgid "Exit"
 msgstr "Avslutt"
 
-#: ../../kde4/app.py:123 ../../gnome/mainwindow.glade:179
+#: ../../kde4/app.py:139 ../../gnome/mainwindow.glade:203
 msgid "Up"
 msgstr "Opp"
 
-#: ../../kde4/app.py:136 ../../gnome/mainwindow.glade:202
+#: ../../kde4/app.py:153 ../../gnome/mainwindow.glade:226
 msgid "Show hidden files"
 msgstr "Vis skjulte filer"
 
-#: ../../kde4/app.py:169
+#: ../../kde4/app.py:190
 msgid ""
-"This directory don't exist\n"
+"This folder don't exist\n"
 "in current snapshot !"
 msgstr ""
-"Denne katalogen eksisterer ikke\n"
-"i gjeldende øyeblikksbilde !"
 
-#: ../../kde4/app.py:660
+#: ../../kde4/app.py:668
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -409,20 +414,20 @@ msgstr ""
 "Er du sikker på at du vil fjerne øyeblikksbilde:\n"
 "%s"
 
-#: ../../kde4/app.py:936 ../../plugins/gnomeplugin.py:114
+#: ../../kde4/app.py:947 ../../plugins/gnomeplugin.py:115
 #: ../../plugins/kde4plugin.py:99
 msgid "Working..."
 msgstr "Arbeider …"
 
-#: ../../kde4/settingsdialog.py:67 ../../gnome/settingsdialog.glade:120
+#: ../../kde4/settingsdialog.py:67 ../../gnome/settingsdialog.glade:119
 msgid "General"
 msgstr "Generelt"
 
-#: ../../kde4/settingsdialog.py:72 ../../kde4/settingsdialog.py:442
+#: ../../kde4/settingsdialog.py:72 ../../kde4/settingsdialog.py:447
 msgid "Where to save snapshots"
 msgstr "Hvor lagre øyeblikksbilder"
 
-#: ../../kde4/settingsdialog.py:102 ../../gnome/settingsdialog.glade:197
+#: ../../kde4/settingsdialog.py:102 ../../gnome/settingsdialog.glade:196
 msgid "Include"
 msgstr "Inkludér"
 
@@ -430,23 +435,31 @@ msgstr "Inkludér"
 msgid "Automatic backup"
 msgstr "Automatisk sikkerhetskopi"
 
-#: ../../kde4/settingsdialog.py:136 ../../gnome/settingsdialog.glade:301
+#: ../../kde4/settingsdialog.py:136 ../../gnome/settingsdialog.glade:300
 msgid "Exclude"
 msgstr "Ekskludér"
 
-#: ../../kde4/settingsdialog.py:153 ../../gnome/settingsdialog.glade:251
+#: ../../kde4/settingsdialog.py:153 ../../gnome/settingsdialog.glade:250
 msgid "Add file"
 msgstr "Legg til fil"
 
-#: ../../kde4/settingsdialog.py:158 ../../gnome/settingsdialog.glade:264
+#: ../../kde4/settingsdialog.py:158 ../../gnome/settingsdialog.glade:263
 msgid "Add folder"
 msgstr "Legg til katalog"
 
-#: ../../kde4/settingsdialog.py:168 ../../gnome/settingsdialog.glade:450
+#: ../../kde4/settingsdialog.py:168 ../../gnome/settingsdialog.glade:449
 msgid "Auto-remove"
 msgstr "Fjern automatisk"
 
-#: ../../kde4/settingsdialog.py:206 ../../gnome/settingsdialog.glade:429
+#: ../../kde4/settingsdialog.py:174 ../../gnome/settingsdialog.glade:385
+msgid "Older than:"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:189 ../../gnome/settingsdialog.glade:398
+msgid "If free space is less than:"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:206 ../../gnome/settingsdialog.glade:428
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
@@ -458,19 +471,19 @@ msgstr ""
 "-behold ett øyeblikksbilde per måned for alle forgående måneder dette året\n"
 "-behold ett øyeblikksbilde per år for alle foregående år"
 
-#: ../../kde4/settingsdialog.py:211 ../../gnome/settingsdialog.glade:321
+#: ../../kde4/settingsdialog.py:211 ../../gnome/settingsdialog.glade:320
 msgid "Don't remove named snapshots"
 msgstr "Ikke fjern navngitte øyeblikksbilder"
 
-#: ../../kde4/settingsdialog.py:221 ../../gnome/settingsdialog.glade:486
+#: ../../kde4/settingsdialog.py:221 ../../gnome/settingsdialog.glade:485
 msgid "Options"
 msgstr "Alternativer"
 
-#: ../../kde4/settingsdialog.py:224 ../../gnome/settingsdialog.glade:467
+#: ../../kde4/settingsdialog.py:224 ../../gnome/settingsdialog.glade:466
 msgid "Enable notifications"
 msgstr "Slå på meldinger"
 
-#: ../../kde4/settingsdialog.py:233 ../../gnome/settingsdialog.glade:540
+#: ../../kde4/settingsdialog.py:233 ../../gnome/settingsdialog.glade:552
 msgid "Expert Options"
 msgstr "Avanserte innstillinger"
 
@@ -479,19 +492,14 @@ msgid "Change this options only if you really know what you are doing !"
 msgstr ""
 "Forandre bare denne innstillingen om du er helt sikker på hva du gjør !"
 
-#: ../../kde4/settingsdialog.py:240 ../../gnome/settingsdialog.glade:514
+#: ../../kde4/settingsdialog.py:240 ../../gnome/settingsdialog.glade:513
 msgid ""
-"Enable schedule per included directory (see Include tab; default: disabled)"
+"Enable schedule per included folder (see Include tab; default: disabled)"
 msgstr ""
-"Aktiver timeplan per inkluderte katalog (se inkluder fanen; standar: avslått)"
 
-#: ../../kde4/settingsdialog.py:411
-msgid "Exclude folder"
-msgstr "Ekskludér katalog"
-
-#: ../../kde4/settingsdialog.py:429
-msgid "Include folder"
-msgstr "Inkludér katalog"
+#: ../../kde4/settingsdialog.py:245 ../../gnome/settingsdialog.glade:527
+msgid "Run 'nice' as cron job (default: enabled)"
+msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:137
 #: ../../gnome/snapshotsdialog.glade:210
@@ -522,35 +530,33 @@ msgstr "Tilbake I Tiden"
 msgid "Backup Now"
 msgstr "Ta sikkerhetskopi nå"
 
-#: ../../gnome/mainwindow.glade:178
-msgid "Parent Directory"
-msgstr "Forelderkatalog"
+#: ../../gnome/mainwindow.glade:202
+msgid "Parent folder"
+msgstr ""
 
-#: ../../gnome/mainwindow.glade:203
+#: ../../gnome/mainwindow.glade:227
 msgid "Hidden files"
 msgstr "Skjulte filer"
 
-#: ../../gnome/mainwindow.glade:316
+#: ../../gnome/mainwindow.glade:340
 msgid ""
-"<b>This directory don't exist\n"
+"<b>This folder don't exist\n"
 "in current snapshot !</b>"
 msgstr ""
-"<b>Denne katalogen eksisterer ikke\n"
-"i gjeldende øyeblikksbilde !</b>"
 
-#: ../../gnome/settingsdialog.glade:42
+#: ../../gnome/settingsdialog.glade:41
 msgid "Select A Folder"
 msgstr "Velg en mappe"
 
-#: ../../gnome/settingsdialog.glade:50
+#: ../../gnome/settingsdialog.glade:49
 msgid "<b>Where to save snapshots</b>"
 msgstr "<b>Hvor å lagre øyeblikksbilde</b>"
 
-#: ../../gnome/settingsdialog.glade:81
+#: ../../gnome/settingsdialog.glade:80
 msgid "<b>Schedule</b>"
 msgstr "Timeplan"
 
-#: ../../gnome/settingsdialog.glade:502
+#: ../../gnome/settingsdialog.glade:501
 msgid ""
 "<b>Change this options only if you really know what you are doing !</b>"
 msgstr ""
@@ -565,23 +571,85 @@ msgstr "Diff med"
 msgid "Pattern"
 msgstr "Mønster"
 
-#: ../../common/configfile.py:162 ../../common/configfile.py:220
+#~ msgid "Backup Directories"
+#~ msgstr "Sikkerhetskopi Kataloger"
+
+#~ msgid "Snapshots directory can't be the root directory !"
+#~ msgstr "Øyeblikksbilder katalog kan ikke være root katalog !"
+
+#~ msgid "Are you sure you want to change snapshots directory ?"
+#~ msgstr "Er du sikker på at du vil forandre øyeblikksbilde katalog ?"
+
+#~ msgid "You must select at least one directory to backup !"
+#~ msgstr "Du må velge minst en katalog å sikkerhetskopiere !"
+
+#~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
+#~ msgstr ""
+#~ "Øyeblikksbilder katalogen kan ikke være i \"Sikkerhetskopi Katalogene\" !"
+
+#~ msgid "\"Backup directories\" can't include snapshots directory !"
+#~ msgstr ""
+#~ "\"Sikkerhetskopi kataloger\" kan ikke inkludere øyeblikksbilde katalog !"
+
+#~ msgid "Parent Directory"
+#~ msgstr "Forelderkatalog"
+
+#~ msgid "Snapshots directory is not valid !"
+#~ msgstr "Øyeblikksbilder katalogen er ikke gyldig !"
+
+#~ msgid "\"Exclude pattern\" can't contain \":\" char !"
+#~ msgstr "\"Utelukk mønster\" kan ikke inneholde \":\" char !"
+
 #, python-format
-msgid "Profile %s already exists !"
-msgstr ""
+#~ msgid "%s is not a directory !"
+#~ msgstr "%s er ikke en katalog !"
 
-#: ../../common/configfile.py:212
-msgid "You can't rename \"Main\" profile"
-msgstr ""
+#~ msgid ""
+#~ "Can't find snapshots directory.\n"
+#~ "If it is on a removable drive please plug it and then press OK"
+#~ msgstr ""
+#~ "Kan ikke finne øyeblikksbilde katalogen.\n"
+#~ "Om den er på en flyttbar stasjon vær vennling å plugg den i og trykk OK"
 
-#: ../../common/snapshots.py:676
-msgid "Save permission ..."
-msgstr ""
+#~ msgid "Patterns, files or directories"
+#~ msgstr "Mønster, filer eller kataloger"
 
-#: ../../kde4/settingsdialog.py:174 ../../gnome/settingsdialog.glade:386
-msgid "Older than:"
-msgstr ""
+#~ msgid "Include directory"
+#~ msgstr "Inkluder katalog"
 
-#: ../../kde4/settingsdialog.py:189 ../../gnome/settingsdialog.glade:399
-msgid "If free space is less than:"
-msgstr ""
+#~ msgid "Exclude directory"
+#~ msgstr "Ekskluder katalog"
+
+#~ msgid ""
+#~ "This directory don't exist\n"
+#~ "in current snapshot !"
+#~ msgstr ""
+#~ "Denne katalogen eksisterer ikke\n"
+#~ "i gjeldende øyeblikksbilde !"
+
+#~ msgid ""
+#~ "Enable schedule per included directory (see Include tab; default: disabled)"
+#~ msgstr ""
+#~ "Aktiver timeplan per inkluderte katalog (se inkluder fanen; standar: avslått)"
+
+#~ msgid ""
+#~ "Can't find snapshots directory.\n"
+#~ "If it is on a removable drive please plug it."
+#~ msgstr ""
+#~ "Finner ikke øyeblikksbilde katalog.\n"
+#~ "Om det er på en flyttbar stasjon vær snill å plugg den inn."
+
+#, python-format
+#~ msgid "Can't create directory: %s"
+#~ msgstr "Kan ikke opprette katalog: %s"
+
+#, python-format
+#~ msgid "Can't remove directory: %s"
+#~ msgstr "Kan ikke fjerne katalog: %s"
+
+#~ msgid ""
+#~ "<b>This directory don't exist\n"
+#~ "in current snapshot !</b>"
+#~ msgstr ""
+#~ "<b>Denne katalogen eksisterer ikke\n"
+#~ "i gjeldende øyeblikksbilde !</b>"

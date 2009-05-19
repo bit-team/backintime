@@ -7,24 +7,33 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-04-30 17:00+0200\n"
-"PO-Revision-Date: 2009-05-01 18:10+0000\n"
-"Last-Translator: Guybrush88 <Unknown>\n"
+"POT-Creation-Date: 2009-05-11 09:42+0200\n"
+"PO-Revision-Date: 2009-05-13 13:32+0000\n"
+"Last-Translator: Simone Oberti <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-05-07 07:00+0000\n"
+"X-Launchpad-Export-Date: 2009-05-19 07:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: ../../common/config.py:54
+msgid "Every 5 minutes"
+msgstr "Ogni 5 minutti"
+
+#: ../../common/configfile.py:168 ../../common/configfile.py:226
+#, python-format
+msgid "Profile %s already exists !"
+msgstr "Profilo %s già esistente !"
+
+#: ../../common/configfile.py:218
+msgid "You can't rename \"Main\" profile"
+msgstr "Non è possibile rinominare il profilo \"Main\""
 
 #: ../../common/config.py:53
 msgid "Disabled"
 msgstr "Disabilitato"
-
-#: ../../common/config.py:54
-msgid "Every 5 minutes"
-msgstr ""
 
 #: ../../common/config.py:55
 msgid "Every 10 minutes"
@@ -59,33 +68,33 @@ msgid "Year(s)"
 msgstr "Anno(i)"
 
 #: ../../common/config.py:131
-msgid "Snapshots directory is not valid !"
-msgstr "Cartella istantanee non valida !"
+msgid "Snapshots folder is not valid !"
+msgstr "Il archivio degli Snapshots non e valido"
 
 #: ../../common/config.py:134
-msgid "Snapshots directory can't be the root directory !"
-msgstr "La cartella root non può essere la cartella istantanee !"
+msgid "Snapshots folder can't be the root folder !"
+msgstr "Il archivio degli Snapshots non po essere il archivio root"
 
 #: ../../common/config.py:137
-msgid "You must select at least one directory to backup !"
-msgstr "Selezionare almeno una cartella di backup !"
+msgid "You must select at least one folder to backup !"
+msgstr "Devi scegliere almeno uno archivio per il backup"
 
-#: ../../common/config.py:146 ../../common/config.py:152
-msgid "Snapshots directory can't be in \"Backup Directories\" !"
-msgstr "La cartella istantanee non può essere nelle «cartelle backup» !"
+#: ../../common/config.py:146
+msgid "You can't include backup folder !"
+msgstr "Impossibile includere la cartella di backup !"
 
-#: ../../common/config.py:159
-msgid "\"Backup directories\" can't include snapshots directory !"
-msgstr "Le «cartelle backup» non possono incluedere la cartella istantanee!"
+#: ../../common/config.py:152
+msgid "You can't include a backup sub-folder !"
+msgstr "Impossibile includere una sottocartella di backup !"
 
 #: ../../common/config.py:163
-msgid "\"Exclude pattern\" can't contain \":\" char !"
-msgstr "«Modello escluso» non può contenere il carattere «:» !"
+msgid "Exclude patterns can't contain ':' char !"
+msgstr "Escludi i modelli che non contengono il carattere \":\" !"
 
 #: ../../common/config.py:178
 #, python-format
-msgid "%s is not a directory !"
-msgstr "%s non è una directory !"
+msgid "%s is not a folder !"
+msgstr "%s non è una cartella !"
 
 #: ../../common/config.py:188
 #, python-format
@@ -96,7 +105,7 @@ msgstr ""
 "Non posso scrivere: %s\n"
 "Hai l'accesso in scrittura ?"
 
-#: ../../common/config.py:440
+#: ../../common/config.py:446
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -106,188 +115,192 @@ msgstr ""
 "Con è installato ?\n"
 "Se non lo è, disattivare tutti i backup automatici."
 
-#: ../../common/snapshots.py:80 ../../gnome/app.py:886 ../../kde4/app.py:809
+#: ../../common/snapshots.py:80 ../../gnome/app.py:894 ../../kde4/app.py:820
 msgid "Now"
 msgstr "Adesso"
 
-#: ../../common/snapshots.py:404
+#: ../../common/snapshots.py:403
 msgid ""
-"Can't find snapshots directory.\n"
+"Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Impossibile trovare la directory delle istantanee.\n"
-"Se è in un dispositivo removibile, collegalo."
+"Impossibile trovare la cartella delle istantanee.\n"
+"Se si tratta di un disco rimovibile, collegarlo."
 
-#: ../../common/snapshots.py:406
+#: ../../common/snapshots.py:405
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Aspetta %s secondo."
 msgstr[1] "Aspetta %s secondi."
 
-#: ../../common/snapshots.py:430
+#: ../../common/snapshots.py:429
 msgid "Finalizing"
 msgstr "Finalizzazione"
 
-#: ../../common/snapshots.py:454 ../../common/snapshots.py:671
+#: ../../common/snapshots.py:453 ../../common/snapshots.py:672
 #: ../../kde4/app.py:71 ../../gnome/mainwindow.glade:21
 msgid "Take snapshot"
 msgstr "Prendi istantanea"
 
-#: ../../common/snapshots.py:457 ../../common/snapshots.py:628
+#: ../../common/snapshots.py:456 ../../common/snapshots.py:629
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "Confronta con l'istantanea %s"
 
-#: ../../common/snapshots.py:542
+#: ../../common/snapshots.py:541
 #, python-format
-msgid "Can't create directory: %s"
-msgstr "Non posso creare la directory: %s"
+msgid "Can't create folder: %s"
+msgstr "Impossibile creare la cartella: %s"
 
-#: ../../common/snapshots.py:572
+#: ../../common/snapshots.py:571
 msgid "..."
 msgstr "..."
 
 #: ../../common/snapshots.py:583
 #, python-format
-msgid "Can't remove directory: %s"
-msgstr "Non posso rimuovere la directory: %s"
+msgid "Can't remove folder: %s"
+msgstr "Impossibile eliminare la cartella: %s"
 
-#: ../../common/snapshots.py:651
+#: ../../common/snapshots.py:652
 msgid "Create hard-links"
 msgstr "Crea hard-links"
 
-#: ../../common/snapshots.py:730
+#: ../../common/snapshots.py:677
+msgid "Save permission ..."
+msgstr ""
+
+#: ../../common/snapshots.py:731
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr "Non posso rinonimare %s a %s"
 
-#: ../../common/snapshots.py:817
+#: ../../common/snapshots.py:818
 msgid "Remove old snapshots"
 msgstr "Rimuovi vecchie istantanee"
 
-#: ../../common/snapshots.py:840 ../../kde4/settingsdialog.py:202
-#: ../../gnome/settingsdialog.glade:414
+#: ../../common/snapshots.py:841 ../../kde4/settingsdialog.py:202
+#: ../../gnome/settingsdialog.glade:413
 msgid "Smart remove"
 msgstr "Rimozione comoda"
 
-#: ../../common/snapshots.py:845
+#: ../../common/snapshots.py:846
 msgid "Try to keep min free space"
 msgstr "Prova a tenere il minor spazio libero"
 
-#: ../../gnome/app.py:79 ../../kde4/app.py:963
+#: ../../gnome/app.py:79 ../../kde4/app.py:974
 msgid "about-translators"
 msgstr "informazioni-traduttori"
 
-#: ../../gnome/app.py:145 ../../gnome/app.py:485 ../../kde4/app.py:225
-#: ../../kde4/app.py:448
+#: ../../gnome/app.py:149 ../../gnome/app.py:489 ../../kde4/app.py:246
+#: ../../kde4/app.py:455
 msgid "Done"
 msgstr "Fatto"
 
-#: ../../gnome/app.py:159 ../../kde4/app.py:160
+#: ../../gnome/app.py:163 ../../kde4/app.py:181
 msgid "Shortcuts"
 msgstr "Collegamenti"
 
-#: ../../gnome/app.py:182
+#: ../../gnome/app.py:186
 msgid "Name"
 msgstr "Nome"
 
-#: ../../gnome/app.py:193
+#: ../../gnome/app.py:197
 msgid "Size"
 msgstr "Dimensione"
 
-#: ../../gnome/app.py:200
+#: ../../gnome/app.py:204
 msgid "Date"
 msgstr "Data"
 
-#: ../../gnome/app.py:219 ../../gnome/app.py:256
-#: ../../gnome/snapshotsdialog.py:85 ../../kde4/app.py:108
-#: ../../kde4/app.py:147 ../../kde4/snapshotsdialog.py:90
-#: ../../gnome/mainwindow.glade:243 ../../gnome/mainwindow.glade:244
+#: ../../gnome/app.py:223 ../../gnome/app.py:260
+#: ../../gnome/snapshotsdialog.py:85 ../../kde4/app.py:124
+#: ../../kde4/app.py:167 ../../kde4/snapshotsdialog.py:90
+#: ../../gnome/mainwindow.glade:267 ../../gnome/mainwindow.glade:268
 #: ../../gnome/snapshotsdialog.glade:7
 msgid "Snapshots"
 msgstr "Istantanee"
 
-#: ../../gnome/app.py:254
+#: ../../gnome/app.py:258
 msgid "Open"
 msgstr "Aperto"
 
-#: ../../gnome/app.py:255 ../../kde4/app.py:144
-#: ../../kde4/snapshotsdialog.py:115 ../../gnome/mainwindow.glade:231
-#: ../../gnome/mainwindow.glade:232 ../../gnome/snapshotsdialog.glade:40
+#: ../../gnome/app.py:259 ../../kde4/app.py:163
+#: ../../kde4/snapshotsdialog.py:115 ../../gnome/mainwindow.glade:255
+#: ../../gnome/mainwindow.glade:256 ../../gnome/snapshotsdialog.glade:40
 #: ../../gnome/snapshotsdialog.glade:41
 msgid "Copy"
 msgstr "Copia"
 
-#: ../../gnome/app.py:257 ../../kde4/snapshotsdialog.py:128
+#: ../../gnome/app.py:261 ../../kde4/snapshotsdialog.py:128
 msgid "Diff"
 msgstr "Diff"
 
-#: ../../gnome/app.py:258 ../../kde4/app.py:141
-#: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:219
-#: ../../gnome/mainwindow.glade:220 ../../gnome/snapshotsdialog.glade:52
+#: ../../gnome/app.py:262 ../../kde4/app.py:159
+#: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:243
+#: ../../gnome/mainwindow.glade:244 ../../gnome/snapshotsdialog.glade:52
 #: ../../gnome/snapshotsdialog.glade:53
 msgid "Restore"
 msgstr "Ripristina"
 
-#: ../../gnome/app.py:274 ../../kde4/app.py:273
+#: ../../gnome/app.py:278 ../../kde4/app.py:294
 msgid ""
-"Can't find snapshots directory.\n"
+"Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
-"Impossibile trovare la directory delle istantanee.\n"
-"Se è in un dispositivo removibile, collegalo e premi OK"
+"Impossibile trovare la cartella delle istantanee.\n"
+"Se si tratta di un disco rimovibile, collegarlo e premere OK"
 
-#: ../../gnome/app.py:471 ../../kde4/app.py:436
+#: ../../gnome/app.py:475 ../../kde4/app.py:443
 msgid "Working:"
 msgstr "Lavoro in corso:"
 
-#: ../../gnome/app.py:487 ../../kde4/app.py:450
+#: ../../gnome/app.py:491 ../../kde4/app.py:457
 msgid "Done, no backup needed"
 msgstr "Fatto, nessun backup necessario"
 
-#: ../../gnome/app.py:498 ../../kde4/app.py:494
+#: ../../gnome/app.py:502 ../../kde4/app.py:501
 msgid "Global"
 msgstr "Globale"
 
-#: ../../gnome/app.py:499 ../../kde4/app.py:495
+#: ../../gnome/app.py:503 ../../kde4/app.py:502
 msgid "Root"
 msgstr "Root"
 
-#: ../../gnome/app.py:500 ../../kde4/app.py:496
+#: ../../gnome/app.py:504 ../../kde4/app.py:503
 msgid "Home"
 msgstr "Home"
 
-#: ../../gnome/app.py:524
+#: ../../gnome/app.py:528
 msgid "Bookmarks"
 msgstr "Segnalibri"
 
-#: ../../gnome/app.py:532 ../../kde4/app.py:501
-msgid "Backup Directories"
-msgstr "Cartelle backup"
+#: ../../gnome/app.py:536 ../../kde4/app.py:508
+msgid "Backup folders"
+msgstr "Cartelle di backup"
 
-#: ../../gnome/app.py:552 ../../kde4/app.py:570
+#: ../../gnome/app.py:556 ../../kde4/app.py:577
 msgid "Today"
 msgstr "Oggi"
 
-#: ../../gnome/app.py:556 ../../kde4/app.py:574
+#: ../../gnome/app.py:560 ../../kde4/app.py:581
 msgid "Yesterday"
 msgstr "Ieri"
 
-#: ../../gnome/app.py:560 ../../kde4/app.py:578
+#: ../../gnome/app.py:564 ../../kde4/app.py:585
 msgid "This week"
 msgstr "Questa settimana"
 
-#: ../../gnome/app.py:564 ../../kde4/app.py:582
+#: ../../gnome/app.py:568 ../../kde4/app.py:589
 msgid "Last week"
 msgstr "Scorsa settimana"
 
-#: ../../gnome/app.py:833 ../../kde4/app.py:77 ../../kde4/app.py:640
+#: ../../gnome/app.py:840 ../../kde4/app.py:79 ../../kde4/app.py:648
 #: ../../gnome/mainwindow.glade:45 ../../gnome/mainwindow.glade:46
 msgid "Snapshot Name"
 msgstr "Nome istantanea"
 
-#: ../../gnome/app.py:852
+#: ../../gnome/app.py:859
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -296,51 +309,51 @@ msgstr ""
 "Sicuro di voler rimuovere l'istantanea:\n"
 "<b>%s</b>"
 
-#: ../../gnome/app.py:882 ../../kde4/app.py:805
+#: ../../gnome/app.py:890 ../../kde4/app.py:816
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Istantanea: %s"
 
-#: ../../gnome/app.py:883 ../../kde4/app.py:806
+#: ../../gnome/app.py:891 ../../kde4/app.py:817
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "Visualizza l'istantanea fatta a %s"
 
-#: ../../gnome/app.py:885 ../../kde4/app.py:808
+#: ../../gnome/app.py:893 ../../kde4/app.py:819
 msgid "View the current disk content"
 msgstr "Visualizza il contenuto corrente del disco"
 
-#: ../../gnome/settingsdialog.py:83 ../../kde4/settingsdialog.py:108
+#: ../../gnome/settingsdialog.py:85 ../../kde4/settingsdialog.py:108
 msgid "Include folders"
 msgstr "Cartelle incluse"
 
-#: ../../gnome/settingsdialog.py:90 ../../kde4/settingsdialog.py:88
+#: ../../gnome/settingsdialog.py:92 ../../kde4/settingsdialog.py:88
 msgid "Schedule"
 msgstr "Pianifica"
 
-#: ../../gnome/settingsdialog.py:111
-msgid "Patterns, files or directories"
-msgstr "Modelli, file o directory"
+#: ../../gnome/settingsdialog.py:113
+msgid "Patterns, files or folders"
+msgstr "Modelli, file o cartelle"
 
-#: ../../gnome/settingsdialog.py:297
-msgid "Include directory"
-msgstr "Directory incluse"
+#: ../../gnome/settingsdialog.py:303 ../../kde4/settingsdialog.py:434
+msgid "Include folder"
+msgstr "Cartella inclusa"
 
-#: ../../gnome/settingsdialog.py:332 ../../kde4/settingsdialog.py:400
+#: ../../gnome/settingsdialog.py:339 ../../kde4/settingsdialog.py:405
 msgid "Exclude pattern"
 msgstr "Modello escluso"
 
-#: ../../gnome/settingsdialog.py:339 ../../kde4/settingsdialog.py:407
+#: ../../gnome/settingsdialog.py:346 ../../kde4/settingsdialog.py:412
 msgid "Exclude file"
 msgstr "File esclusi"
 
-#: ../../gnome/settingsdialog.py:348
-msgid "Exclude directory"
-msgstr "Directory escluse"
+#: ../../gnome/settingsdialog.py:356 ../../kde4/settingsdialog.py:416
+msgid "Exclude folder"
+msgstr "Cartelle Escluse"
 
-#: ../../gnome/settingsdialog.py:395 ../../kde4/settingsdialog.py:341
-msgid "Are you sure you want to change snapshots directory ?"
-msgstr "Vuoi davvero cambiare la cartella istantanee?"
+#: ../../gnome/settingsdialog.py:404 ../../kde4/settingsdialog.py:345
+msgid "Are you sure you want to change snapshots folder ?"
+msgstr "Si è sicuri di voler cambiare la cartella delle istantanee?"
 
 #: ../../gnome/snapshotsdialog.py:237 ../../kde4/snapshotsdialog.py:244
 msgid "You can't compare a snapshot to itself"
@@ -351,54 +364,54 @@ msgstr "Non è possibile confrontare un'istantanea con se stessa"
 msgid "Command not found: %s"
 msgstr "Comando non trovato: %s"
 
-#: ../../kde4/app.py:74 ../../gnome/mainwindow.glade:33
+#: ../../kde4/app.py:75 ../../gnome/mainwindow.glade:33
 #: ../../gnome/mainwindow.glade:34
 msgid "Update snapshots"
 msgstr "Aggiorna istantanee"
 
-#: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:57
+#: ../../kde4/app.py:83 ../../gnome/mainwindow.glade:57
 #: ../../gnome/mainwindow.glade:58
 msgid "Remove Snapshot"
 msgstr "Rimuovi istantanea"
 
-#: ../../kde4/app.py:85 ../../kde4/settingsdialog.py:60
+#: ../../kde4/app.py:89 ../../kde4/settingsdialog.py:60
 #: ../../gnome/mainwindow.glade:74 ../../gnome/mainwindow.glade:75
 #: ../../gnome/settingsdialog.glade:7
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: ../../kde4/app.py:90 ../../gnome/mainwindow.glade:94
+#: ../../kde4/app.py:95 ../../gnome/mainwindow.glade:94
 #: ../../gnome/mainwindow.glade:95
 msgid "About"
 msgstr "Informazioni"
 
-#: ../../kde4/app.py:93 ../../gnome/mainwindow.glade:106
+#: ../../kde4/app.py:99 ../../gnome/mainwindow.glade:106
 #: ../../gnome/mainwindow.glade:107
 msgid "Help"
 msgstr "Aiuto"
 
-#: ../../kde4/app.py:98 ../../gnome/mainwindow.glade:123
+#: ../../kde4/app.py:105 ../../gnome/mainwindow.glade:123
 #: ../../gnome/mainwindow.glade:124
 msgid "Exit"
 msgstr "Esci"
 
-#: ../../kde4/app.py:123 ../../gnome/mainwindow.glade:179
+#: ../../kde4/app.py:139 ../../gnome/mainwindow.glade:203
 msgid "Up"
 msgstr "Su"
 
-#: ../../kde4/app.py:136 ../../gnome/mainwindow.glade:202
+#: ../../kde4/app.py:153 ../../gnome/mainwindow.glade:226
 msgid "Show hidden files"
 msgstr "Mostrare file nascosti"
 
-#: ../../kde4/app.py:169
+#: ../../kde4/app.py:190
 msgid ""
-"This directory don't exist\n"
+"This folder don't exist\n"
 "in current snapshot !"
 msgstr ""
-"Questa directory non esiste\n"
-"in questa istantanea !"
+"Questa cartella non esiste\n"
+"nell'istantanea corrente !"
 
-#: ../../kde4/app.py:660
+#: ../../kde4/app.py:668
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -407,20 +420,20 @@ msgstr ""
 "Voi rimuovere veramente l'istantanea:\n"
 "%s"
 
-#: ../../kde4/app.py:936 ../../plugins/gnomeplugin.py:114
+#: ../../kde4/app.py:947 ../../plugins/gnomeplugin.py:115
 #: ../../plugins/kde4plugin.py:99
 msgid "Working..."
 msgstr "Lavoro in corso..."
 
-#: ../../kde4/settingsdialog.py:67 ../../gnome/settingsdialog.glade:120
+#: ../../kde4/settingsdialog.py:67 ../../gnome/settingsdialog.glade:119
 msgid "General"
 msgstr "Generale"
 
-#: ../../kde4/settingsdialog.py:72 ../../kde4/settingsdialog.py:442
+#: ../../kde4/settingsdialog.py:72 ../../kde4/settingsdialog.py:447
 msgid "Where to save snapshots"
 msgstr "Salvare le istantanee in"
 
-#: ../../kde4/settingsdialog.py:102 ../../gnome/settingsdialog.glade:197
+#: ../../kde4/settingsdialog.py:102 ../../gnome/settingsdialog.glade:196
 msgid "Include"
 msgstr "Includi"
 
@@ -428,23 +441,31 @@ msgstr "Includi"
 msgid "Automatic backup"
 msgstr "Backup Automatico"
 
-#: ../../kde4/settingsdialog.py:136 ../../gnome/settingsdialog.glade:301
+#: ../../kde4/settingsdialog.py:136 ../../gnome/settingsdialog.glade:300
 msgid "Exclude"
 msgstr "Escludi"
 
-#: ../../kde4/settingsdialog.py:153 ../../gnome/settingsdialog.glade:251
+#: ../../kde4/settingsdialog.py:153 ../../gnome/settingsdialog.glade:250
 msgid "Add file"
 msgstr "Aggiungi file"
 
-#: ../../kde4/settingsdialog.py:158 ../../gnome/settingsdialog.glade:264
+#: ../../kde4/settingsdialog.py:158 ../../gnome/settingsdialog.glade:263
 msgid "Add folder"
 msgstr "Aggiungi cartella"
 
-#: ../../kde4/settingsdialog.py:168 ../../gnome/settingsdialog.glade:450
+#: ../../kde4/settingsdialog.py:168 ../../gnome/settingsdialog.glade:449
 msgid "Auto-remove"
 msgstr "Rimozione automatica"
 
-#: ../../kde4/settingsdialog.py:206 ../../gnome/settingsdialog.glade:429
+#: ../../kde4/settingsdialog.py:174 ../../gnome/settingsdialog.glade:385
+msgid "Older than:"
+msgstr "Più vecchi di:"
+
+#: ../../kde4/settingsdialog.py:189 ../../gnome/settingsdialog.glade:398
+msgid "If free space is less than:"
+msgstr "Se lo spazio libero è minore di:"
+
+#: ../../kde4/settingsdialog.py:206 ../../gnome/settingsdialog.glade:428
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
@@ -458,19 +479,19 @@ msgstr ""
 "quest'anno\n"
 "- mantenere una istantanea per anno per tutti gli anni precedenti"
 
-#: ../../kde4/settingsdialog.py:211 ../../gnome/settingsdialog.glade:321
+#: ../../kde4/settingsdialog.py:211 ../../gnome/settingsdialog.glade:320
 msgid "Don't remove named snapshots"
 msgstr "Non rimuovere istantanee rinominate"
 
-#: ../../kde4/settingsdialog.py:221 ../../gnome/settingsdialog.glade:486
+#: ../../kde4/settingsdialog.py:221 ../../gnome/settingsdialog.glade:485
 msgid "Options"
 msgstr "Opzioni"
 
-#: ../../kde4/settingsdialog.py:224 ../../gnome/settingsdialog.glade:467
+#: ../../kde4/settingsdialog.py:224 ../../gnome/settingsdialog.glade:466
 msgid "Enable notifications"
 msgstr "Attivare le notifiche"
 
-#: ../../kde4/settingsdialog.py:233 ../../gnome/settingsdialog.glade:540
+#: ../../kde4/settingsdialog.py:233 ../../gnome/settingsdialog.glade:552
 msgid "Expert Options"
 msgstr "Opzioni per esperti"
 
@@ -478,20 +499,16 @@ msgstr "Opzioni per esperti"
 msgid "Change this options only if you really know what you are doing !"
 msgstr "Cambia questa opzione solo se sai cosa stai facendo !"
 
-#: ../../kde4/settingsdialog.py:240 ../../gnome/settingsdialog.glade:514
+#: ../../kde4/settingsdialog.py:240 ../../gnome/settingsdialog.glade:513
 msgid ""
-"Enable schedule per included directory (see Include tab; default: disabled)"
+"Enable schedule per included folder (see Include tab; default: disabled)"
 msgstr ""
-"Abilitare la pianificazione per le directory incluse(vedi scheda Inclusioni, "
-"predefinito: Disattivato)"
+"Abilitare la pianificazione per la cartella inclusa (vedere tab Includi; "
+"predefinito: disabilitato)"
 
-#: ../../kde4/settingsdialog.py:411
-msgid "Exclude folder"
-msgstr "Cartelle Escluse"
-
-#: ../../kde4/settingsdialog.py:429
-msgid "Include folder"
-msgstr "Cartella inclusa"
+#: ../../kde4/settingsdialog.py:245 ../../gnome/settingsdialog.glade:527
+msgid "Run 'nice' as cron job (default: enabled)"
+msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:137
 #: ../../gnome/snapshotsdialog.glade:210
@@ -522,35 +539,35 @@ msgstr "Back in Time"
 msgid "Backup Now"
 msgstr "Backup adesso"
 
-#: ../../gnome/mainwindow.glade:178
-msgid "Parent Directory"
-msgstr "Livello superiore"
+#: ../../gnome/mainwindow.glade:202
+msgid "Parent folder"
+msgstr ""
 
-#: ../../gnome/mainwindow.glade:203
+#: ../../gnome/mainwindow.glade:227
 msgid "Hidden files"
 msgstr "File Nascosti"
 
-#: ../../gnome/mainwindow.glade:316
+#: ../../gnome/mainwindow.glade:340
 msgid ""
-"<b>This directory don't exist\n"
+"<b>This folder don't exist\n"
 "in current snapshot !</b>"
 msgstr ""
 "<b>Questa cartella non esiste\n"
-"nell'istantanea corrente !</b>"
+"nell'istantanea corrente ! </b>"
 
-#: ../../gnome/settingsdialog.glade:42
+#: ../../gnome/settingsdialog.glade:41
 msgid "Select A Folder"
 msgstr "Selezionare una cartella"
 
-#: ../../gnome/settingsdialog.glade:50
+#: ../../gnome/settingsdialog.glade:49
 msgid "<b>Where to save snapshots</b>"
 msgstr "<b>Salvare le istantanee in</b>"
 
-#: ../../gnome/settingsdialog.glade:81
+#: ../../gnome/settingsdialog.glade:80
 msgid "<b>Schedule</b>"
 msgstr "<b>Pianifica</b>"
 
-#: ../../gnome/settingsdialog.glade:502
+#: ../../gnome/settingsdialog.glade:501
 msgid ""
 "<b>Change this options only if you really know what you are doing !</b>"
 msgstr "<b>Cambia queste opzioni solo se sai cosa stai facendo !</b>"
@@ -563,23 +580,84 @@ msgstr "Diff con"
 msgid "Pattern"
 msgstr "Modello"
 
-#: ../../common/configfile.py:162 ../../common/configfile.py:220
+#~ msgid "Backup Directories"
+#~ msgstr "Cartelle backup"
+
+#~ msgid "Snapshots directory can't be the root directory !"
+#~ msgstr "La cartella root non può essere la cartella istantanee !"
+
+#~ msgid "Are you sure you want to change snapshots directory ?"
+#~ msgstr "Vuoi davvero cambiare la cartella istantanee?"
+
+#~ msgid "You must select at least one directory to backup !"
+#~ msgstr "Selezionare almeno una cartella di backup !"
+
+#~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
+#~ msgstr "La cartella istantanee non può essere nelle «cartelle backup» !"
+
+#~ msgid "\"Backup directories\" can't include snapshots directory !"
+#~ msgstr "Le «cartelle backup» non possono incluedere la cartella istantanee!"
+
+#~ msgid "Parent Directory"
+#~ msgstr "Livello superiore"
+
+#~ msgid "Snapshots directory is not valid !"
+#~ msgstr "Cartella istantanee non valida !"
+
+#~ msgid "\"Exclude pattern\" can't contain \":\" char !"
+#~ msgstr "«Modello escluso» non può contenere il carattere «:» !"
+
 #, python-format
-msgid "Profile %s already exists !"
-msgstr ""
+#~ msgid "%s is not a directory !"
+#~ msgstr "%s non è una directory !"
 
-#: ../../common/configfile.py:212
-msgid "You can't rename \"Main\" profile"
-msgstr ""
+#~ msgid ""
+#~ "Can't find snapshots directory.\n"
+#~ "If it is on a removable drive please plug it and then press OK"
+#~ msgstr ""
+#~ "Impossibile trovare la directory delle istantanee.\n"
+#~ "Se è in un dispositivo removibile, collegalo e premi OK"
 
-#: ../../common/snapshots.py:676
-msgid "Save permission ..."
-msgstr ""
+#~ msgid "Patterns, files or directories"
+#~ msgstr "Modelli, file o directory"
 
-#: ../../kde4/settingsdialog.py:174 ../../gnome/settingsdialog.glade:386
-msgid "Older than:"
-msgstr ""
+#~ msgid "Include directory"
+#~ msgstr "Directory incluse"
 
-#: ../../kde4/settingsdialog.py:189 ../../gnome/settingsdialog.glade:399
-msgid "If free space is less than:"
-msgstr ""
+#~ msgid "Exclude directory"
+#~ msgstr "Directory escluse"
+
+#~ msgid ""
+#~ "This directory don't exist\n"
+#~ "in current snapshot !"
+#~ msgstr ""
+#~ "Questa directory non esiste\n"
+#~ "in questa istantanea !"
+
+#~ msgid ""
+#~ "Enable schedule per included directory (see Include tab; default: disabled)"
+#~ msgstr ""
+#~ "Abilitare la pianificazione per le directory incluse(vedi scheda Inclusioni, "
+#~ "predefinito: Disattivato)"
+
+#~ msgid ""
+#~ "Can't find snapshots directory.\n"
+#~ "If it is on a removable drive please plug it."
+#~ msgstr ""
+#~ "Impossibile trovare la directory delle istantanee.\n"
+#~ "Se è in un dispositivo removibile, collegalo."
+
+#, python-format
+#~ msgid "Can't create directory: %s"
+#~ msgstr "Non posso creare la directory: %s"
+
+#, python-format
+#~ msgid "Can't remove directory: %s"
+#~ msgstr "Non posso rimuovere la directory: %s"
+
+#~ msgid ""
+#~ "<b>This directory don't exist\n"
+#~ "in current snapshot !</b>"
+#~ msgstr ""
+#~ "<b>Questa cartella non esiste\n"
+#~ "nell'istantanea corrente !</b>"

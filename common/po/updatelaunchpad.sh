@@ -9,7 +9,8 @@ tar xfz $TRANSLATIONFILE -C tmp
 
 for popath in `find tmp -name \*.po`; do
 	#echo $popath
-	lang=`basename $popath | cut -d- -f4`
+	#lang=`basename $popath | cut -d- -f4`
+	lang=`basename $popath | cut -d- -f2`
 	#echo $lang
 
 	ignore="0"
