@@ -58,7 +58,7 @@ class GnomePlugin( pluginmanager.Plugin ):
 
 		def show_notification( self, icon ):
 			import pynotify
-			self.notification.set_timeout( pynotify.EXPIRES_NEVER )
+			#self.notification.set_timeout( pynotify.EXPIRES_NEVER )
 			self.notification.show()
 
 		def run( self ):
@@ -92,9 +92,9 @@ class GnomePlugin( pluginmanager.Plugin ):
 			status_icon.set_visible( True )
 
 			pynotify.init( self.config.APP_NAME )
-			self.notification = pynotify.Notification( self.config.APP_NAME, '', '' )
-			self.notification.set_urgency( pynotify.URGENCY_NORMAL )
-			self.notification.set_timeout( pynotify.EXPIRES_NEVER )
+			self.notification = pynotify.Notification( self.config.APP_NAME, '' )
+			#self.notification.set_urgency( pynotify.URGENCY_NORMAL )
+			#self.notification.set_timeout( pynotify.EXPIRES_NEVER )
 
 			status_icon.connect('activate', self.show_notification )
 
