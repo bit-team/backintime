@@ -208,6 +208,7 @@
                 </child>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -216,11 +217,13 @@
                 <property name="visible">True</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </widget>
           <packing>
+            <property name="expand">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -468,6 +471,9 @@ in current snapshot !&lt;/b&gt;</property>
           <packing>
             <property name="position">2</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
         <child>
           <widget class="GtkStatusbar" id="status_bar">

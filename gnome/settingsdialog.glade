@@ -1,21 +1,112 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon May 11 09:17:16 2009 -->
+<?xml version="1.0"?>
 <glade-interface>
+  <!-- interface-requires gtk+ 2.16 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkDialog" id="SettingsDialog">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Settings</property>
     <property name="modal">True</property>
-    <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
+    <property name="window_position">center-on-parent</property>
     <property name="destroy_with_parent">True</property>
     <property name="icon_name">gtk-preferences</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
     <signal name="response" handler="on_SettingsDialog_response"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
         <property name="spacing">2</property>
+        <child>
+          <widget class="GtkHBox" id="hbox5">
+            <property name="visible">True</property>
+            <property name="spacing">5</property>
+            <child>
+              <widget class="GtkLabel" id="label2">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Profile:</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkComboBox" id="combo_profiles">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkHBox" id="hbox6">
+                <property name="visible">True</property>
+                <property name="spacing">5</property>
+                <property name="homogeneous">True</property>
+                <child>
+                  <widget class="GtkButton" id="btn_edit_profile">
+                    <property name="label" translatable="yes">gtk-edit</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_stock">True</property>
+                    <signal name="clicked" handler="on_btn_edit_profile_clicked"/>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="btn_add_profile">
+                    <property name="label" translatable="yes">gtk-new</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_stock">True</property>
+                    <signal name="clicked" handler="on_btn_add_profile_clicked"/>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="btn_remove_profile">
+                    <property name="label" translatable="yes">gtk-delete</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_stock">True</property>
+                    <signal name="clicked" handler="on_btn_remove_profile_clicked"/>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">5</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkHSeparator" id="hseparator1">
+            <property name="visible">True</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
         <child>
           <widget class="GtkNotebook" id="notebook1">
             <property name="visible">True</property>
@@ -29,16 +120,43 @@
                   <widget class="GtkFrame" id="frame1">
                     <property name="visible">True</property>
                     <property name="label_xalign">0</property>
-                    <property name="shadow_type">GTK_SHADOW_NONE</property>
+                    <property name="shadow_type">none</property>
                     <child>
                       <widget class="GtkAlignment" id="alignment1">
                         <property name="visible">True</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <widget class="GtkFileChooserButton" id="fcb_where">
+                          <widget class="GtkHBox" id="hbox4">
                             <property name="visible">True</property>
-                            <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
-                            <property name="title" translatable="yes">Select A Folder</property>
+                            <child>
+                              <widget class="GtkEntry" id="edit_where">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="editable">False</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                              </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkButton" id="btn_where">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <signal name="clicked" handler="on_btn_where_clicked"/>
+                                <child>
+                                  <widget class="GtkImage" id="image1">
+                                    <property name="visible">True</property>
+                                    <property name="stock">gtk-directory</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -56,13 +174,14 @@
                   </widget>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkFrame" id="frame2">
                     <property name="visible">True</property>
                     <property name="label_xalign">0</property>
-                    <property name="shadow_type">GTK_SHADOW_NONE</property>
+                    <property name="shadow_type">none</property>
                     <child>
                       <widget class="GtkAlignment" id="alignment2">
                         <property name="visible">True</property>
@@ -101,6 +220,7 @@
                       </widget>
                       <packing>
                         <property name="expand">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -119,8 +239,8 @@
                 <property name="label" translatable="yes">General</property>
               </widget>
               <packing>
-                <property name="type">tab</property>
                 <property name="tab_fill">False</property>
+                <property name="type">tab</property>
               </packing>
             </child>
             <child>
@@ -134,9 +254,9 @@
                     <property name="height_request">250</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                    <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                    <property name="shadow_type">GTK_SHADOW_IN</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">automatic</property>
+                    <property name="shadow_type">in</property>
                     <child>
                       <widget class="GtkTreeView" id="list_include">
                         <property name="visible">True</property>
@@ -144,6 +264,9 @@
                       </widget>
                     </child>
                   </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="GtkHBox" id="hbox2">
@@ -152,26 +275,25 @@
                     <property name="homogeneous">True</property>
                     <child>
                       <widget class="GtkButton" id="btn_add_include">
+                        <property name="label" translatable="yes">gtk-add</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="label" translatable="yes">gtk-add</property>
                         <property name="use_stock">True</property>
-                        <property name="response_id">0</property>
                         <signal name="clicked" handler="on_btn_add_include_clicked"/>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkButton" id="btn_remove_include">
+                        <property name="label" translatable="yes">gtk-remove</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="label" translatable="yes">gtk-remove</property>
                         <property name="use_stock">True</property>
-                        <property name="response_id">0</property>
                         <signal name="clicked" handler="on_btn_remove_include_clicked"/>
                       </widget>
                       <packing>
@@ -196,9 +318,9 @@
                 <property name="label" translatable="yes">Include</property>
               </widget>
               <packing>
-                <property name="type">tab</property>
                 <property name="position">1</property>
                 <property name="tab_fill">False</property>
+                <property name="type">tab</property>
               </packing>
             </child>
             <child>
@@ -212,9 +334,9 @@
                     <property name="height_request">120</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                    <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                    <property name="shadow_type">GTK_SHADOW_IN</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">automatic</property>
+                    <property name="shadow_type">in</property>
                     <child>
                       <widget class="GtkTreeView" id="list_exclude">
                         <property name="visible">True</property>
@@ -222,6 +344,9 @@
                       </widget>
                     </child>
                   </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="GtkHBox" id="hbox3">
@@ -230,25 +355,24 @@
                     <property name="homogeneous">True</property>
                     <child>
                       <widget class="GtkButton" id="btn_add_exclude">
+                        <property name="label" translatable="yes">gtk-add</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="label" translatable="yes">gtk-add</property>
                         <property name="use_stock">True</property>
-                        <property name="response_id">0</property>
                         <signal name="clicked" handler="on_btn_add_exclude_clicked"/>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkButton" id="btn_add_exclude_file">
+                        <property name="label" translatable="yes">Add file</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="label" translatable="yes">Add file</property>
-                        <property name="response_id">0</property>
                         <signal name="clicked" handler="on_btn_add_exclude_file_clicked"/>
                       </widget>
                       <packing>
@@ -257,11 +381,10 @@
                     </child>
                     <child>
                       <widget class="GtkButton" id="btn_add_exclude_folder">
+                        <property name="label" translatable="yes">Add folder</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="label" translatable="yes">Add folder</property>
-                        <property name="response_id">0</property>
                         <signal name="clicked" handler="on_btn_add_exclude_folder_clicked"/>
                       </widget>
                       <packing>
@@ -270,12 +393,11 @@
                     </child>
                     <child>
                       <widget class="GtkButton" id="btn_remove_exclude">
+                        <property name="label" translatable="yes">gtk-remove</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="label" translatable="yes">gtk-remove</property>
                         <property name="use_stock">True</property>
-                        <property name="response_id">0</property>
                         <signal name="clicked" handler="on_btn_remove_exclude_clicked"/>
                       </widget>
                       <packing>
@@ -300,9 +422,9 @@
                 <property name="label" translatable="yes">Exclude</property>
               </widget>
               <packing>
-                <property name="type">tab</property>
                 <property name="position">2</property>
                 <property name="tab_fill">False</property>
+                <property name="type">tab</property>
               </packing>
             </child>
             <child>
@@ -315,10 +437,10 @@
                 <property name="row_spacing">5</property>
                 <child>
                   <widget class="GtkCheckButton" id="cb_dont_remove_named_snapshots">
+                    <property name="label" translatable="yes">Don't remove named snapshots</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Don't remove named snapshots</property>
-                    <property name="response_id">0</property>
+                    <property name="receives_default">False</property>
                     <property name="draw_indicator">True</property>
                   </widget>
                   <packing>
@@ -380,10 +502,10 @@
                 </child>
                 <child>
                   <widget class="GtkCheckButton" id="cb_remove_old_backup">
+                    <property name="label" translatable="yes">Older than:</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Older than:</property>
-                    <property name="response_id">0</property>
+                    <property name="receives_default">False</property>
                     <property name="draw_indicator">True</property>
                     <signal name="toggled" handler="on_cb_remove_old_backup_toggled"/>
                   </widget>
@@ -393,10 +515,10 @@
                 </child>
                 <child>
                   <widget class="GtkCheckButton" id="cb_min_free_space">
+                    <property name="label" translatable="yes">If free space is less than:</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">If free space is less than:</property>
-                    <property name="response_id">0</property>
+                    <property name="receives_default">False</property>
                     <property name="draw_indicator">True</property>
                     <signal name="toggled" handler="on_cb_min_free_space_toggled"/>
                   </widget>
@@ -408,10 +530,10 @@
                 </child>
                 <child>
                   <widget class="GtkCheckButton" id="cb_smart_remove">
+                    <property name="label" translatable="yes">Smart remove</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Smart remove</property>
-                    <property name="response_id">0</property>
+                    <property name="receives_default">False</property>
                     <property name="draw_indicator">True</property>
                   </widget>
                   <packing>
@@ -449,9 +571,9 @@
                 <property name="label" translatable="yes">Auto-remove</property>
               </widget>
               <packing>
-                <property name="type">tab</property>
                 <property name="position">3</property>
                 <property name="tab_fill">False</property>
+                <property name="type">tab</property>
               </packing>
             </child>
             <child>
@@ -461,14 +583,15 @@
                 <property name="spacing">5</property>
                 <child>
                   <widget class="GtkCheckButton" id="cb_enable_notifications">
+                    <property name="label" translatable="yes">Enable notifications</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Enable notifications</property>
-                    <property name="response_id">0</property>
+                    <property name="receives_default">False</property>
                     <property name="draw_indicator">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -485,9 +608,9 @@
                 <property name="label" translatable="yes">Options</property>
               </widget>
               <packing>
-                <property name="type">tab</property>
                 <property name="position">4</property>
                 <property name="tab_fill">False</property>
+                <property name="type">tab</property>
               </packing>
             </child>
             <child>
@@ -504,14 +627,15 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="padding">10</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkCheckButton" id="cb_per_directory_schedule">
+                    <property name="label" translatable="yes">Enable schedule per included folder (see Include tab; default: disabled)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Enable schedule per included folder (see Include tab; default: disabled)</property>
-                    <property name="response_id">0</property>
+                    <property name="receives_default">False</property>
                     <property name="draw_indicator">True</property>
                     <signal name="toggled" handler="on_cb_per_directory_schedule_toggled"/>
                   </widget>
@@ -522,10 +646,10 @@
                 </child>
                 <child>
                   <widget class="GtkCheckButton" id="cb_run_nice_from_cron">
+                    <property name="label" translatable="yes">Run 'nice' as cron job (default: enabled)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Run 'nice' as cron job (default: enabled)</property>
-                    <property name="response_id">0</property>
+                    <property name="receives_default">False</property>
                     <property name="draw_indicator">True</property>
                   </widget>
                   <packing>
@@ -552,46 +676,54 @@
                 <property name="label" translatable="yes">Expert Options</property>
               </widget>
               <packing>
-                <property name="type">tab</property>
                 <property name="position">5</property>
                 <property name="tab_fill">False</property>
+                <property name="type">tab</property>
               </packing>
             </child>
           </widget>
           <packing>
-            <property name="position">1</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area2">
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <property name="layout_style">end</property>
             <child>
               <widget class="GtkButton" id="btn_ok">
+                <property name="label" translatable="yes">gtk-ok</property>
+                <property name="response_id">-5</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">gtk-ok</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">-5</property>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkButton" id="btn_cancel">
+                <property name="label" translatable="yes">gtk-cancel</property>
+                <property name="response_id">-6</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="label" translatable="yes">gtk-cancel</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">-6</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </widget>

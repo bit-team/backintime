@@ -58,8 +58,8 @@ class SettingsDialog:
 		self.glade.signal_autoconnect( signals )
 
 		#set current folder
-		self.fcb_where = self.glade.get_widget( 'fcb_where' )
-		self.fcb_where.set_show_hidden( self.parent.show_hidden_files )
+		#self.fcb_where = self.glade.get_widget( 'fcb_where' )
+		#self.fcb_where.set_show_hidden( self.parent.show_hidden_files )
 		
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -182,7 +182,7 @@ class SettingsDialog:
 		#LOAD FROM CONFIG
 
 		#set current folder
-		self.fcb_where.set_filename( self.config.get_snapshots_path() )
+		#self.fcb_where.set_filename( self.config.get_snapshots_path() )
 		
 		#per directory schedule
 		self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
