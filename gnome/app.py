@@ -127,7 +127,8 @@ class MainWindow:
 				'on_list_folder_view_row_activated' : self.on_list_folder_view_row_activated,
 				'on_list_folder_view_popup_menu' : self.on_list_folder_view_popup_menu,
 				'on_list_folder_view_button_press_event': self.on_list_folder_view_button_press_event,
-				'on_list_folder_view_drag_data_get': self.on_list_folder_view_drag_data_get
+				'on_list_folder_view_drag_data_get': self.on_list_folder_view_drag_data_get,
+				'on_combo_profiles_changed': self.on_combo_profiles_changed,
 			}
 
 		self.glade.signal_autoconnect( signals )
@@ -141,6 +142,21 @@ class MainWindow:
 		#fix a glade bug
 		self.glade.get_widget( 'btn_current_path' ).set_expand( True )
 		#self.glade.get_widget( 'tb_sep_item' ).set_expand( True )
+
+		#profiles
+		self.disable_combo_changed = True
+
+		self.store_profiles = gtk.ListStore( int )
+		
+		self.combo_profiles = self.glade.get_widget( 'combo_profiles' )
+
+		text_renderer = gtk.CellRendererText()
+		self.combo_profiles.pack_start( text_renderer, True )
+		self.combo_profiles.add_attribute( text_renderer, 'text', 0 )
+
+		self.combo_profiles.set_model( self.store_profiles )
+		
+		self.disable_combo_changed = False
 
 		#lbl snapshot
 		self.lbl_snapshot = self.glade.get_widget( 'lbl_snapshot' )
@@ -278,10 +294,15 @@ class MainWindow:
 		if not self.config.can_backup():
 			messagebox.show_error( self.window, self.config, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
-		self.update_all( True )
-
+		self.update_profiles()
 		self.update_backup_info()
 		gobject.timeout_add( 1000, self.update_backup_info )
+
+	def on_combo_profiles_changed( self, *params ):
+		return
+
+	def update_profiles( self ):
+		self.update_all( True )
 
 	def sort_folder_view_by_column( self, treemodel, iter1, iter2, column ):
 		if 0 == column:

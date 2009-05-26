@@ -177,6 +177,7 @@
                     <child>
                       <widget class="GtkComboBox" id="combo_profiles">
                         <property name="visible">True</property>
+                        <signal name="changed" handler="on_combo_profiles_changed"/>
                       </widget>
                       <packing>
                         <property name="pack_type">end</property>
