@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon May  4 15:00:20 2009 -->
+<?xml version="1.0"?>
 <glade-interface>
+  <!-- interface-requires gtk+ 2.16 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="MainWindow">
     <property name="title" translatable="yes">Back In Time</property>
-    <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="window_position">center</property>
     <property name="icon_name">gtk-save</property>
     <signal name="destroy" handler="on_MainWindow_destroy"/>
     <signal name="key_release_event" handler="on_MainWindow_key_release_event"/>
@@ -24,6 +24,7 @@
                 <signal name="clicked" handler="on_btn_backup_clicked"/>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
@@ -36,6 +37,7 @@
                 <signal name="clicked" handler="on_btn_update_snapshots_clicked"/>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
@@ -48,6 +50,7 @@
                 <signal name="clicked" handler="on_btn_snapshot_name_clicked"/>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
@@ -60,6 +63,7 @@
                 <signal name="clicked" handler="on_btn_remove_snapshot_clicked"/>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
@@ -67,6 +71,9 @@
               <widget class="GtkSeparatorToolItem" id="toolbutton1">
                 <property name="visible">True</property>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkToolButton" id="btn_settings">
@@ -77,6 +84,7 @@
                 <signal name="clicked" handler="on_btn_settings_clicked"/>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
@@ -85,6 +93,7 @@
                 <property name="visible">True</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
@@ -97,6 +106,7 @@
                 <signal name="clicked" handler="on_btn_about_clicked"/>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
@@ -109,6 +119,7 @@
                 <signal name="clicked" handler="on_btn_help_clicked"/>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
@@ -116,6 +127,9 @@
               <widget class="GtkSeparatorToolItem" id="toolbutton2">
                 <property name="visible">True</property>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkToolButton" id="btn_exit">
@@ -126,36 +140,88 @@
                 <signal name="clicked" handler="on_btn_exit_clicked"/>
               </widget>
               <packing>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkToolItem" id="tb_sep_item">
-                <property name="visible">True</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </widget>
-              <packing>
-                <property name="expand">True</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkToolButton" id="btn_link">
-                <property name="visible">True</property>
-                <property name="tooltip">backintime.le-web.org</property>
-                <property name="label">backintime.le-web.org</property>
-                <property name="stock_id">gtk-home</property>
-                <signal name="clicked" handler="on_btn_link_clicked"/>
-              </widget>
-              <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkVBox" id="vbox2">
+            <property name="visible">True</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <widget class="GtkHBox" id="hbox1">
+                <property name="visible">True</property>
+                <property name="border_width">2</property>
+                <property name="spacing">5</property>
+                <child>
+                  <widget class="GtkHBox" id="hbox2">
+                    <property name="visible">True</property>
+                    <child>
+                      <widget class="GtkLabel" id="label1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Profile:</property>
+                        <property name="single_line_mode">True</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="padding">5</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkComboBox" id="combo_profiles">
+                        <property name="visible">True</property>
+                      </widget>
+                      <packing>
+                        <property name="pack_type">end</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <widget class="GtkLinkButton" id="linkbutton1">
+                    <property name="label">backintime.le-web.org</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <property name="xalign">1</property>
+                    <property name="uri">http://backintime.le-web.org</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkHSeparator" id="hseparator1">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
@@ -167,9 +233,9 @@
                 <property name="width_request">200</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                <property name="shadow_type">GTK_SHADOW_IN</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="shadow_type">in</property>
                 <child>
                   <widget class="GtkTreeView" id="list_time_line">
                     <property name="visible">True</property>
@@ -205,6 +271,7 @@
                             <signal name="clicked" handler="on_btn_folder_up_clicked"/>
                           </widget>
                           <packing>
+                            <property name="expand">False</property>
                             <property name="homogeneous">True</property>
                           </packing>
                         </child>
@@ -219,6 +286,9 @@
                               </widget>
                             </child>
                           </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                          </packing>
                         </child>
                         <child>
                           <widget class="GtkToggleToolButton" id="btn_hidden_files">
@@ -229,6 +299,7 @@
                             <signal name="toggled" handler="on_btn_hidden_files_toggled"/>
                           </widget>
                           <packing>
+                            <property name="expand">False</property>
                             <property name="homogeneous">True</property>
                           </packing>
                         </child>
@@ -236,6 +307,9 @@
                           <widget class="GtkSeparatorToolItem" id="toolbutton3">
                             <property name="visible">True</property>
                           </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                          </packing>
                         </child>
                         <child>
                           <widget class="GtkToolButton" id="btn_restore">
@@ -246,6 +320,7 @@
                             <signal name="clicked" handler="on_btn_restore_clicked"/>
                           </widget>
                           <packing>
+                            <property name="expand">False</property>
                             <property name="homogeneous">True</property>
                           </packing>
                         </child>
@@ -258,6 +333,7 @@
                             <signal name="clicked" handler="on_btn_copy_clicked"/>
                           </widget>
                           <packing>
+                            <property name="expand">False</property>
                             <property name="homogeneous">True</property>
                           </packing>
                         </child>
@@ -270,12 +346,14 @@
                             <signal name="clicked" handler="on_btn_snapshots_clicked"/>
                           </widget>
                           <packing>
+                            <property name="expand">False</property>
                             <property name="homogeneous">True</property>
                           </packing>
                         </child>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -287,9 +365,9 @@
                             <property name="width_request">200</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="shadow_type">GTK_SHADOW_IN</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">automatic</property>
+                            <property name="shadow_type">in</property>
                             <child>
                               <widget class="GtkTreeView" id="list_places">
                                 <property name="visible">True</property>
@@ -314,33 +392,36 @@
                                 <property name="height_request">400</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="shadow_type">GTK_SHADOW_IN</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="shadow_type">in</property>
                                 <child>
                                   <widget class="GtkTreeView" id="list_folder_view">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="has_focus">True</property>
-                                    <signal name="popup_menu" handler="on_list_folder_view_popup_menu"/>
-                                    <signal name="drag_data_get" handler="on_list_folder_view_drag_data_get"/>
                                     <signal name="button_press_event" handler="on_list_folder_view_button_press_event"/>
                                     <signal name="row_activated" handler="on_list_folder_view_row_activated"/>
+                                    <signal name="popup_menu" handler="on_list_folder_view_popup_menu"/>
+                                    <signal name="drag_data_get" handler="on_list_folder_view_drag_data_get"/>
                                   </widget>
                                 </child>
                               </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                             <child>
                               <widget class="GtkFrame" id="list_folder_view_shadow">
                                 <property name="label_xalign">0</property>
-                                <property name="shadow_type">GTK_SHADOW_IN</property>
+                                <property name="shadow_type">in</property>
                                 <child>
                                   <widget class="GtkLabel" id="label17">
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">&lt;b&gt;This folder don't exist
 in current snapshot !&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify">center</property>
                                   </widget>
                                 </child>
                                 <child>
@@ -385,7 +466,7 @@ in current snapshot !&lt;/b&gt;</property>
             </child>
           </widget>
           <packing>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -396,7 +477,8 @@ in current snapshot !&lt;/b&gt;</property>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="position">2</property>
+            <property name="pack_type">end</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </widget>

@@ -140,7 +140,7 @@ class MainWindow:
 
 		#fix a glade bug
 		self.glade.get_widget( 'btn_current_path' ).set_expand( True )
-		self.glade.get_widget( 'tb_sep_item' ).set_expand( True )
+		#self.glade.get_widget( 'tb_sep_item' ).set_expand( True )
 
 		#lbl snapshot
 		self.lbl_snapshot = self.glade.get_widget( 'lbl_snapshot' )
