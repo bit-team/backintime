@@ -21,6 +21,9 @@ import os.path
 import pluginmanager
 import tools
 import logger
+import gettext
+
+_=gettext.gettext
 
 
 class UserScriptsPlugin( pluginmanager.Plugin ):

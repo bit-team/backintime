@@ -53,27 +53,30 @@ def print_version( cfg, app_name ):
 	print ''
 
 
-def print_help( cfg, app_name ):
-	print app_name + ' -b|--backup'
-	print '\tTake a snapshot'
-	print app_name + ' --backup-job'
-	print '\tUsed for cron job: take a snapshot'
-	print app_name + ' --snapshots-path'
-	print '\tShow the path where is saves the snapshots'
-	print app_name + ' --snapshots-list'
-	print '\tShow the list of snapshots IDs'
-	print app_name + ' --snapshots-list-path'
-	print '\tShow the paths to snapshots'
-	print app_name + ' --last-snapshot'
-	print '\tShow the ID of the last snapshot'
-	print app_name + ' --last-snapshot-path'
-	print '\tShow the path to the last snapshot'
-	print app_name + ' -v|--version'
-	print '\tShow version'
-	print app_name + ' --license'
-	print '\tShow license'
-	print app_name + ' -h|--help'
-	print '\tShow this help'
+def print_help( cfg ):
+	print 'Options'
+	print '--profile <profile name>'
+	print '\tSelect profile (use it before other options)'
+	print '-b | --backup'
+	print '\tTake a snapshot (and exit)'
+	print '--backup-job'
+	print '\tUsed for cron job: take a snapshot (and exit)'
+	print '--snapshots-path'
+	print '\tShow the path where is saves the snapshots (and exit)'
+	print '--snapshots-list'
+	print '\tShow the list of snapshots IDs (and exit)'
+	print '--snapshots-list-path'
+	print '\tShow the paths to snapshots (and exit)'
+	print '--last-snapshot'
+	print '\tShow the ID of the last snapshot (and exit)'
+	print '--last-snapshot-path'
+	print '\tShow the path to the last snapshot (and exit)'
+	print '-v | --version'
+	print '\tShow version (and exit)'
+	print '--license'
+	print '\tShow license (and exit)'
+	print '-h | --help'
+	print '\tShow this help (and exit)'
 	print ''
 
 
@@ -81,7 +84,25 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 	cfg = config.Config()
 	print_version( cfg, app_name )
 
+	skip = False
+	index = 0
+
+	print sys.argv
+
 	for arg in sys.argv[ 1 : ]:
+		index = index + 1
+
+		if skip:
+			skip = False
+			continue
+
+		if arg == '--profile':
+			if not cfg.set_current_profile_by_name( sys.argv[index + 1] ):
+				print "Profile not found: %s" % sys.argv[index + 1]
+				sys.exit(0)
+			skip = True
+			continue
+
 		if arg == '--backup' or arg == '-b':
 			take_snapshot( cfg, True )
 			sys.exit(0)
@@ -98,7 +119,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 			sys.exit(0)
 
 		if arg == '--help' or arg == '-h':
-			print_help( cfg, app_name )
+			print_help( cfg )
 			sys.exit(0)
 
 		if arg == '--snapshots-path':

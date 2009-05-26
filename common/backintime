@@ -23,5 +23,5 @@ else
 	APP_PATH="/usr/share/backintime/common"
 fi
 
-python $APP_PATH/backintime.py $*
+python $APP_PATH/backintime.py "$@"
 

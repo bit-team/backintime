@@ -22,7 +22,9 @@ import tools
 import logger
 import threading
 import time
+import gettext
 
+_=gettext.gettext
 
 if len( os.getenv( 'DISPLAY', '' ) ) == 0:
 	os.putenv( 'DISPLAY', ':0.0' )

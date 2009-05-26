@@ -23,5 +23,5 @@ else
 	APP_PATH="/usr/share/backintime/gnome"
 fi
 
-python ${APP_PATH}/app.py $*
+python ${APP_PATH}/app.py "$@"
 

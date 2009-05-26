@@ -31,11 +31,11 @@ gettext.bindtextdomain( 'backintime', '/usr/share/locale' )
 gettext.textdomain( 'backintime' )
 
 
-class Config( configfile.ConfigFile ):
+class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
 	VERSION = '0.9.27beta1'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan'
-	CONFIG_VERSION = 2
+	CONFIG_VERSION = 3
 
 	NONE = 0
 	_5_MIN = 2
@@ -69,6 +69,8 @@ class Config( configfile.ConfigFile ):
 
 
 	def __init__( self ):
+		configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
+
 		self._APP_PATH =  os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) )
 		self._DOC_PATH = '/usr/share/doc/backintime'
 		if os.path.exists( os.path.join( self._APP_PATH, 'LICENSE' ) ):
@@ -118,80 +120,99 @@ class Config( configfile.ConfigFile ):
 			self.remap_key( 'MAIN_WINDOW_HEIGHT', 'gnome.main_window.height' )
 			self.remap_key( 'MAIN_WINDOW_HPANED1_POSITION', 'gnome.main_window.hpaned1' )
 			self.remap_key( 'MAIN_WINDOW_HPANED2_POSITION', 'gnome.main_window.hpaned2' )
+			self.set_int_value( 'config.version', 2 )
 
-		if self.get_int_value( 'config.version', 1 ) < self.CONFIG_VERSION:
-			self.set_int_value( 'config.version', self.CONFIG_VERSION )
+		if self.get_int_value( 'config.version', 1 ) < 3:
+			self.remap_key( 'snapshots.path', 'profile1.snapshots.path' )
+			self.remap_key( 'snapshots.include_folders', 'profile1.snapshots.include_folders' )
+			self.remap_key( 'snapshots.exclude_patterns', 'profile1.snapshots.exclude_patterns' )
+			self.remap_key( 'snapshots.automatic_backup_mode', 'profile1.snapshots.automatic_backup_mode' )
+			self.remap_key( 'snapshots.remove_old_snapshots.enabled', 'profile1.snapshots.remove_old_snapshots.enabled' )
+			self.remap_key( 'snapshots.remove_old_snapshots.value', 'profile1.snapshots.remove_old_snapshots.value' )
+			self.remap_key( 'snapshots.remove_old_snapshots.unit', 'profile1.snapshots.remove_old_snapshots.unit' )
+			self.remap_key( 'snapshots.min_free_space.enabled', 'profile1.snapshots.min_free_space.enabled' )
+			self.remap_key( 'snapshots.min_free_space.value', 'profile1.snapshots.min_free_space.value' )
+			self.remap_key( 'snapshots.min_free_space.unit', 'profile1.snapshots.min_free_space.unit' )
+			self.remap_key( 'snapshots.dont_remove_named_snapshots', 'profile1.snapshots.dont_remove_named_snapshots' )
+			self.set_int_value( 'config.version', 3 )
 
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
 
-	def check_take_snapshot_params( self, snapshots_path, include_list, exclude_list ):
-		#returns None or ( ID, message ) //0 - snapshots path, 1 - include list, 2 - exclude list
-		if len( snapshots_path ) == 0 or not os.path.isdir( snapshots_path ):
-			return ( 0, _('Snapshots folder is not valid !') )
+	def check_config( self ):
+		profiles = self.get_profiles()
 
-		if len( snapshots_path ) <= 1:
-			return ( 0, _('Snapshots folder can\'t be the root folder !') )
+		checked_profiles = []
 
-		if len( include_list ) <= 0:
-			return ( 1, _('You must select at least one folder to backup !') )
+		for profile_id in profiles:
+			profile_name = self.get_profile_name( profile_id )
+			snapshots_path = self.get_snapshots_path( profile_id )
 
-		snapshots_path2 = snapshots_path + '/'
+			#check snapshots path
+			if len( snapshots_path ) <= 0:
+				self.notify_error( _('Profile: %s') % profile_name + '\n' + _('Snapshots folder is not valid !') )
+				return False
 
-		for item in include_list:
-			path = item[0]
-			if path == snapshots_path:
-				print "Path: " + path
-				print "SnapshotsPath: " + snapshots_path 
-				return ( 1, _('You can\'t include backup folder !') )
+			for other_profile in checked_profiles:
+				if snapshots_path == self.get_snapshots_path( other_profile[0] ):
+					self.notify_error( _('Profiles %s and %s have the same snapshots path !') % ( profile_name, other_profile[1] ) )
+					return False
+
+			#if not os.path.isdir( snapshots_path ):
+			#	return ( 0, _('Snapshots folder is not valid !') )
+
+			#if len( self.get_snapshots_path( profile_id ) ) <= 1:
+			#	return ( 0, _('Snapshots folder can\'t be the root folder !') )
+
+			#check include
+			include_list = self.get_include_folders( profile_id )
+			if len( include_list ) <= 0:
+				self.notify_error( _('Profile: %s') % profile_name + '\n' + _('You must select at least one folder to backup !') )
+				return False
+
+			snapshots_path2 = snapshots_path + '/'
+
+			for item in include_list:
+				path = item[0]
+				if path == snapshots_path:
+					self.notify_error( _('Profile: %s') % profile_name + '\n' + _('You can\'t include backup folder !') )
+					return False
 			
-			if len( path ) >= len( snapshots_path2 ):
-				if path[ : len( snapshots_path2 ) ] == snapshots_path2:
-					print "Path: " + path
-					print "SnapshotsPath2: " + snapshots_path2
-					return ( 1, _('You can\'t include a backup sub-folder !') )
-			#else:
-			#	path2 = path + '/'
-			#	if len( path2 ) < len( snapshots_path ):
-			#		if path2 == snapshots_path[ : len( path2 ) ]:
-			#			print "Path2: " + path2
-			#			print "SnapshotsPath: " + snapshots_path 
-			#			return ( 1, _('"Backup folders" can\'t include snapshots folder !') )
+				if len( path ) >= len( snapshots_path2 ):
+					if path[ : len( snapshots_path2 ) ] == snapshots_path2:
+						self.notify_error( _('Profile: %s') % profile_name + '\n' + _('You can\'t include a backup sub-folder !') )
+						return False
 
-		for exclude in exclude_list:
-			if exclude.find( ':' ) >= 0:
-				return ( 2, _('Exclude patterns can\'t contain \':\' char !') )
+			checked_profiles.append( ( profile_id, profile_name ) )
 
-		return None
+		return True
 
-	def get_snapshots_path( self ):
-		return self.get_str_value( 'snapshots.path', '' )
+	def get_snapshots_path( self, profile_id = None ):
+		return self.get_profile_str_value( 'snapshots.path', '', profile_id )
 
-	def get_snapshots_full_path( self ):
-		return os.path.join( self.get_snapshots_path(), 'backintime' ) 
+	def get_snapshots_full_path( self, profile_id = None ):
+		return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' ) 
 
-	def set_snapshots_path( self, value ):
-		print "Snapshots path: %s" % value
+	def set_snapshots_path( self, value, profile_id = None ):
+		if len( value ) <= 0:
+			return False
 
-		if len( value ) > 0:
-			if not os.path.isdir( value ):
-				return _( '%s is not a folder !' ) % value
-			else:
-				old_value = self.get_snapshots_path()
-				self.set_str_value( 'snapshots.path', value )
-				full_path = self.get_snapshots_full_path()
-				self.set_str_value( 'snapshots.path', old_value )
+		if not os.path.isdir( value ):
+			self.notify_error( _( '%s is not a folder !' ) )
+			return False
 
-				if not os.path.isdir( full_path ):
-					tools.make_dirs( full_path )
-					if not os.path.isdir( full_path ):
-						return _( 'Can\'t write to: %s\nAre you sure have write access ?' ) % value
+		full_path = os.path.join( value, 'backintime' ) 
+		if not os.path.isdir( full_path ):
+			tools.make_dirs( full_path )
+			if not os.path.isdir( full_path ):
+				self.notify_error( _( 'Can\'t write to: %s\nAre you sure have write access ?' ) )
+				return False
 
-		self.set_str_value( 'snapshots.path', value )
-		return None
+		self.set_profile_str_value( 'snapshots.path', value, profile_id )
+		return True
 
-	def get_include_folders( self ):
-		value = self.get_str_value( 'snapshots.include_folders', '' )
+	def get_include_folders( self, profile_id = None ):
+		value = self.get_profile_str_value( 'snapshots.include_folders', '', profile_id )
 		if len( value ) <= 0:
 			return []
 
@@ -212,7 +233,7 @@ class Config( configfile.ConfigFile ):
 
 		return paths
 
-	def set_include_folders( self, list ):
+	def set_include_folders( self, list, profile_id = None ):
 		value = ''
 
 		for item in list:
@@ -220,40 +241,39 @@ class Config( configfile.ConfigFile ):
 				value = value + ':'
 			value = value + item[0] + '|' + str( item[1] )
 
-		self.set_str_value( 'snapshots.include_folders', value )
+		self.set_profile_str_value( 'snapshots.include_folders', value, profile_id )
 
-	def get_exclude_patterns( self ):
-		value = self.get_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~' )
+	def get_exclude_patterns( self, profile_id = None ):
+		value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~', profile_id )
 		if len( value ) <= 0:
 			return []
 		return value.split(':')
 
-	def set_exclude_patterns( self, list ):
-		self.set_str_value( 'snapshots.exclude_patterns', ':'.join( list ) )
+	def set_exclude_patterns( self, list, profile_id = None ):
+		self.set_profile_str_value( 'snapshots.exclude_patterns', ':'.join( list ), profile_id )
 
-	def get_automatic_backup_mode( self ):
-		return self.get_int_value( 'snapshots.automatic_backup_mode', self.NONE )
+	def get_automatic_backup_mode( self, profile_id = None ):
+		return self.get_profile_int_value( 'snapshots.automatic_backup_mode', self.NONE, profile_id )
 
-	def set_automatic_backup_mode( self, value ):
-		self.set_int_value( 'snapshots.automatic_backup_mode', value )
-		#self.setup_cron()
+	def set_automatic_backup_mode( self, value, profile_id = None ):
+		self.set_profile_int_value( 'snapshots.automatic_backup_mode', value, profile_id )
 
-	def get_per_directory_schedule( self ):
-		return self.get_bool_value( 'snapshots.expert.per_directory_schedule', False )
+	def get_per_directory_schedule( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.expert.per_directory_schedule', False, profile_id )
 
-	def set_per_directory_schedule( self, value ):
-		return self.set_bool_value( 'snapshots.expert.per_directory_schedule', value )
+	def set_per_directory_schedule( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.expert.per_directory_schedule', value, profile_id )
 
-	def get_remove_old_snapshots( self ):
-		return ( self.get_bool_value( 'snapshots.remove_old_snapshots.enabled', True ),
-				 self.get_int_value( 'snapshots.remove_old_snapshots.value', 10 ),
-				 self.get_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR ) )
+	def get_remove_old_snapshots( self, profile_id = None ):
+		return ( self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id ),
+				 self.get_profile_int_value( 'snapshots.remove_old_snapshots.value', 10, profile_id ),
+				 self.get_profile_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR, profile_id ) )
 	
-	def is_remove_old_snapshots_enabled( self ):
-		return self.get_bool_value( 'snapshots.remove_old_snapshots.enabled', True )
+	def is_remove_old_snapshots_enabled( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id )
 	
-	def get_remove_old_snapshots_date( self ):
-		enabled, value, unit = self.get_remove_old_snapshots()
+	def get_remove_old_snapshots_date( self, profile_id = None ):
+		enabled, value, unit = self.get_remove_old_snapshots( profile_id )
 		if not enabled:
 			return datetime.date( 1, 1, 1 )
 
@@ -273,21 +293,21 @@ class Config( configfile.ConfigFile ):
 		
 		return datetime.date( 1, 1, 1 )
 
-	def set_remove_old_snapshots( self, enabled, value, unit ):
-		self.set_bool_value( 'snapshots.remove_old_snapshots.enabled', enabled )
-		self.set_int_value( 'snapshots.remove_old_snapshots.value', value )
-		self.set_int_value( 'snapshots.remove_old_snapshots.unit', unit )
+	def set_remove_old_snapshots( self, enabled, value, unit, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', enabled, profile_id )
+		self.set_profile_int_value( 'snapshots.remove_old_snapshots.value', value, profile_id )
+		self.set_profile_int_value( 'snapshots.remove_old_snapshots.unit', unit, profile_id )
 
-	def get_min_free_space( self ):
-		return ( self.get_bool_value( 'snapshots.min_free_space.enabled', True ),
-				 self.get_int_value( 'snapshots.min_free_space.value', 1 ),
-				 self.get_int_value( 'snapshots.min_free_space.unit', self.DISK_UNIT_GB ) )
+	def get_min_free_space( self, profile_id = None ):
+		return ( self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id ),
+				 self.get_profile_int_value( 'snapshots.min_free_space.value', 1, profile_id ),
+				 self.get_profile_int_value( 'snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id ) )
 	
-	def is_min_free_space_enabled( self ):
-		return self.get_bool_value( 'snapshots.min_free_space.enabled', True )
+	def is_min_free_space_enabled( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id )
 
-	def get_min_free_space_in_mb( self ):
-		enabled, value, unit = self.get_min_free_space()
+	def get_min_free_space_in_mb( self, profile_id = None ):
+		enabled, value, unit = self.get_min_free_space( profile_id )
 		if not enabled:
 			return 0
 
@@ -300,64 +320,64 @@ class Config( configfile.ConfigFile ):
 
 		return 0
 
-	def set_min_free_space( self, enabled, value, unit ):
-		self.set_bool_value( 'snapshots.min_free_space.enabled', enabled )
-		self.set_int_value( 'snapshots.min_free_space.value', value )
-		self.set_int_value( 'snapshots.min_free_space.unit', unit )
+	def set_min_free_space( self, enabled, value, unit, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.min_free_space.enabled', enabled, profile_id )
+		self.set_profile_int_value( 'snapshots.min_free_space.value', value, profile_id )
+		self.set_profile_int_value( 'snapshots.min_free_space.unit', unit, profile_id )
 
-	def get_dont_remove_named_snapshots( self ):
-		return self.get_bool_value( 'snapshots.dont_remove_named_snapshots', True )
+	def get_dont_remove_named_snapshots( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.dont_remove_named_snapshots', True, profile_id )
 
-	def set_dont_remove_named_snapshots( self, value ):
-		self.set_bool_value( 'snapshots.dont_remove_named_snapshots', value )
+	def set_dont_remove_named_snapshots( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.dont_remove_named_snapshots', value, profile_id )
 	
-	def get_smart_remove( self ):
-		return self.get_bool_value( 'snapshots.smart_remove', False )
+	def get_smart_remove( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.smart_remove', False, profile_id )
 
-	def set_smart_remove( self, value ):
-		self.set_bool_value( 'snapshots.smart_remove', value )
+	def set_smart_remove( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.smart_remove', value, profile_id )
 	
-	def is_notify_enabled( self ):
-		return self.get_bool_value( 'snapshots.notify.enabled', True )
+	def is_notify_enabled( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.notify.enabled', True, profile_id )
 
-	def set_notify_enabled( self, value ):
-		self.set_bool_value( 'snapshots.notify.enabled', value )
+	def set_notify_enabled( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.notify.enabled', value, profile_id )
 
-	def is_run_nice_from_cron_enabled( self ):
-		return self.get_bool_value( 'snapshots.cron.nice', True )
+	def is_run_nice_from_cron_enabled( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.cron.nice', True, profile_id )
 
-	def set_run_nice_from_cron_enabled( self, value ):
-		self.set_bool_value( 'snapshots.cron.nice', value )
+	def set_run_nice_from_cron_enabled( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.cron.nice', value, profile_id )
 
-	def get_take_snapshot_user_script( self, step ):
-		return self.get_str_value( "snapshots.take_snapshot.%s.user.script" )
+	def get_take_snapshot_user_script( self, step, profile_id = None ):
+		return self.get_str_value( "snapshots.take_snapshot.%s.user.script" % step, profile_id )
 
-	def set_take_snapshot_user_script( self, step, path ):
-		self.set_str_value( "snapshots.take_snapshot.%s.user.script" % step, path )
+	def set_take_snapshot_user_script( self, step, path, profile_id = None ):
+		self.set_str_value( "snapshots.take_snapshot.%s.user.script" % step, path, profile_id )
 
-	def get_take_snapshot_user_script_before( self ):
-		return self.get_take_snapshot_user_script( 'before' )
+	def get_take_snapshot_user_script_before( self, profile_id = None ):
+		return self.get_take_snapshot_user_script( 'before', profile_id )
 
-	def set_take_snapshot_user_script_before( self, path ):
-		self.set_take_snapshot_user_script( 'before', path )
+	def set_take_snapshot_user_script_before( self, path, profile_id = None ):
+		self.set_take_snapshot_user_script( 'before', path, profile_id )
 
-	def get_take_snapshot_user_script_after( self ):
-		return self.get_take_snapshot_user_script( 'after' )
+	def get_take_snapshot_user_script_after( self, profile_id = None ):
+		return self.get_take_snapshot_user_script( 'after', profile_id )
 
-	def set_take_snapshot_user_script_after( self, path ):
-		self.set_take_snapshot_user_script( 'after', path )
+	def set_take_snapshot_user_script_after( self, path, profile_id = None ):
+		self.set_take_snapshot_user_script( 'after', path, profile_id )
 
-	def get_take_snapshot_user_script_new_snapshot( self ):
-		return self.get_take_snapshot_user_script( 'new_snapshot' )
+	def get_take_snapshot_user_script_new_snapshot( self, profile_id = None ):
+		return self.get_take_snapshot_user_script( 'new_snapshot', profile_id = None )
 
-	def set_take_snapshot_user_script_new_snapshot( self, path ):
-		self.set_take_snapshot_user_script( 'new_snapshot', path )
+	def set_take_snapshot_user_script_new_snapshot( self, path, profile_id = None ):
+		self.set_take_snapshot_user_script( 'new_snapshot', path, profile_id )
 
-	def get_take_snapshot_user_script_error( self ):
-		return self.get_take_snapshot_user_script( 'error' )
+	def get_take_snapshot_user_script_error( self, profile_id = None ):
+		return self.get_take_snapshot_user_script( 'error', profile_id )
 
-	def set_take_snapshot_user_script_error( self, path ):
-		self.set_take_snapshot_user_script( 'error', path )
+	def set_take_snapshot_user_script_error( self, path, profile_id = None ):
+		self.set_take_snapshot_user_script( 'error', path, profile_id )
 
 	def get_app_path( self ):
 		return self._APP_PATH
@@ -368,17 +388,24 @@ class Config( configfile.ConfigFile ):
 	def get_app_instance_file( self ):
 		return os.path.join( self._LOCAL_DATA_FOLDER, 'app.lock' )
 
-	def get_take_snapshot_message_file( self ):
-		return os.path.join( self._LOCAL_DATA_FOLDER, 'worker.message' )
+	def __get_file_id__( self, profile_id = None ):
+		if profile_id is None:
+			profile_id = self.get_current_profile()
+		if profile_id == '1':
+			return ''
+		return profile_id
 
-	def get_take_snapshot_instance_file( self ):
-		return os.path.join( self._LOCAL_DATA_FOLDER, 'worker.lock' )
+	def get_take_snapshot_message_file( self, profile_id = None ):
+		return os.path.join( self._LOCAL_DATA_FOLDER, "worker%s.message" % self.__get_file_id__( profile_id ) )
 
-	def get_last_snapshot_info_file( self ):
-		return os.path.join( self._LOCAL_DATA_FOLDER, 'snapshot.last' )
+	def get_take_snapshot_instance_file( self, profile_id = None ):
+		return os.path.join( self._LOCAL_DATA_FOLDER, "worker%s.lock" % self.__get_file_id__( profile_id ) )
 
-	def get_take_snapshot_user_callback( self ):
-		return os.path.join( self._LOCAL_CONFIG_FOLDER, 'user.callback' )
+	def get_last_snapshot_info_file( self, profile_id = None ):
+		return os.path.join( self._LOCAL_DATA_FOLDER, "snapshot%s.last" % self.__get_file_id__( profile_id ) )
+
+	def get_take_snapshot_user_callback( self, profile_id = None ):
+		return os.path.join( self._LOCAL_CONFIG_FOLDER, "user%s.callback" % self.__get_file_id__( profile_id ) )
 
 	def get_license( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )
@@ -395,84 +422,87 @@ class Config( configfile.ConfigFile ):
 				path = path[ : -1 ]
 		return path
 
-	def is_configured( self ):
-		if len( self.get_snapshots_path() ) == 0:
+	def is_configured( self, profile_id = None ):
+		if len( self.get_snapshots_path( profile_id ) ) == 0:
 			return False
 
-		if len( self.get_include_folders() ) == 0:
+		if len( self.get_include_folders( profile_id ) ) == 0:
 			return False
 
 		return True
 
-	def can_backup( self ):
-		if not self.is_configured():
+	def can_backup( self, profile_id = None ):
+		if not self.is_configured( profile_id ):
 			return False
 
-		if not os.path.isdir( self.get_snapshots_full_path() ):
+		if not os.path.isdir( self.get_snapshots_full_path( profile_id ) ):
 			return False
 
 		return True
 
 	def setup_cron( self ):
-		#auto_backup_mode = self.get_automatic_backup_mode()
-		min_backup_mode = self.NONE
-		max_backup_mode = self.NONE
-
-		if self.get_per_directory_schedule():
-			for item in self.get_include_folders():
-				backup_mode = item[1]
-
-				if self.NONE != backup_mode:
-					if self.NONE == min_backup_mode:
-						min_backup_mode = backup_mode
-						max_backup_mode = backup_mode
-					elif backup_mode < min_backup_mode:
-						min_backup_mode = backup_mode
-					elif backup_mode > max_backup_mode:
-						max_backup_mode = backup_mode
-		
-			print "Min automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
-			print "Max automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ max_backup_mode ]
-		else:
-			min_backup_mode = self.get_automatic_backup_mode()
-			max_backup_mode = min_backup_mode
-			print "Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
-
-		if self.NONE == min_backup_mode:
-			os.system( "crontab -l | grep -v backintime | crontab -" )
-			return None #no automatic backup
-
-		if not tools.check_command( 'crontab' ):
-			return _( 'Can\'t find crontab.\nAre you sure cron is installed ?\nIf not you should disable all automatic backups.' )
-
-		#remove old cron
 		os.system( "crontab -l | grep -v backintime | crontab -" )
 
-		cron_line = ''
+		profiles = self.get_profiles()
 		
-		if self._5_MIN == min_backup_mode:
-			cron_line = 'echo "*/5 * * * * {cmd}"'
-		elif self._10_MIN == min_backup_mode:
-			cron_line = 'echo "*/10 * * * * {cmd}"'
-		if self.HOUR == min_backup_mode:
-			cron_line = 'echo "@hourly {cmd}"'
-		elif self.DAY == min_backup_mode:
-			cron_line = 'echo "@daily {cmd}"'
-		elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day
-			cron_line = 'echo "@daily {cmd}"'
-		elif self.WEEK == min_backup_mode:
-			cron_line = 'echo "@weekly {cmd}"'
-		elif self.MONTH == min_backup_mode:
-			cron_line = 'echo "@monthly {cmd}"'
+		for profile_id in profiles:
+			profile_name = self.get_profile_name( profile_id )
+			print "Profile: %s" % profile_name
+			min_backup_mode = self.NONE
+			max_backup_mode = self.NONE
 
-		if len( cron_line ) > 0:
-			cmd = '/usr/bin/backintime --backup-job >/dev/null 2>&1'
-			if self.is_run_nice_from_cron_enabled():
-				cmd = 'nice -n 19 ' + cmd
-			cron_line = cron_line.replace( '{cmd}', cmd )
-			os.system( "( crontab -l; %s ) | crontab -" % cron_line )
+			if self.get_per_directory_schedule( profile_id ):
+				for item in self.get_include_folders( profile_id ):
+					backup_mode = item[1]
 
-		return None
+					if self.NONE != backup_mode:
+						if self.NONE == min_backup_mode:
+							min_backup_mode = backup_mode
+							max_backup_mode = backup_mode
+						elif backup_mode < min_backup_mode:
+							min_backup_mode = backup_mode
+						elif backup_mode > max_backup_mode:
+							max_backup_mode = backup_mode
+		
+				print "Min automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
+				print "Max automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ max_backup_mode ]
+			else:
+				min_backup_mode = self.get_automatic_backup_mode( profile_id )
+				max_backup_mode = min_backup_mode
+				print "Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
+
+			if self.NONE == min_backup_mode:
+				continue
+
+			if not tools.check_command( 'crontab' ):
+				self.notify_error( _( 'Can\'t find crontab.\nAre you sure cron is installed ?\nIf not you should disable all automatic backups.' ) )
+				return False
+
+			cron_line = ''
+			
+			if self._5_MIN == min_backup_mode:
+				cron_line = 'echo "*/5 * * * * {cmd}"'
+			elif self._10_MIN == min_backup_mode:
+				cron_line = 'echo "*/10 * * * * {cmd}"'
+			if self.HOUR == min_backup_mode:
+				cron_line = 'echo "@hourly {cmd}"'
+			elif self.DAY == min_backup_mode:
+				cron_line = 'echo "@daily {cmd}"'
+			elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day
+				cron_line = 'echo "@daily {cmd}"'
+			elif self.WEEK == min_backup_mode:
+				cron_line = 'echo "@weekly {cmd}"'
+			elif self.MONTH == min_backup_mode:
+				cron_line = 'echo "@monthly {cmd}"'
+
+			if len( cron_line ) > 0:
+				cmd = "/usr/bin/backintime --profile \"%s\" --backup-job >/dev/null 2>&1" % profile_name
+				if self.is_run_nice_from_cron_enabled( profile_id ):
+					cmd = 'nice -n 19 ' + cmd
+				cron_line = cron_line.replace( '{cmd}', cmd )
+				os.system( "( crontab -l; %s ) | crontab -" % cron_line )
+
+		return True
 
 
 if __name__ == "__main__":

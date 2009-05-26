@@ -23,6 +23,9 @@ import tools
 import logger
 import threading
 import time
+import gettext
+
+_=gettext.gettext
 
 
 if len( os.getenv( 'DISPLAY', '' ) ) == 0:

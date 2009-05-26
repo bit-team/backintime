@@ -18,11 +18,37 @@
 
 import os.path
 import os
+import gettext
+
+
+_=gettext.gettext
 
 
 class ConfigFile:
 	def __init__( self ):
 		self.dict = {}
+		self.error_handler = None
+		self.question_handler = None
+
+	def set_error_handler( self, handler ):
+		self.error_handler = handler
+
+	def set_question_handler( self, handler ):
+		self.question_handler = handler
+
+	def clear_handlers( self ):
+		self.error_handler = None
+		self.question_handler = None
+
+	def notify_error( self, message ):
+		if self.error_handler is None:
+			return
+		self.error_handler( message )
+
+	def ask_question( self, message ):
+		if self.question_handler is None:
+			return False
+		return self.question_handler( message )
 
 	def save( self, filename ):
 		try:
@@ -113,16 +139,192 @@ class ConfigFile:
 
 
 class ConfigFileWithProfiles( ConfigFile ):
-	def __init__( self, default_profile_name ):
+	def __init__( self, default_profile_name = '' ):
 		ConfigFile.__init__( self )
 
 		self.default_profile_name = default_profile_name
-		self.current_profile_id = '0'
+		self.current_profile_id = '1'
+
+	def load( self, filename ):
+		self.current_profile_id = '1'
+		ConfigFile.load( self, filename )
+
+	def append( self, filename ):
+		ConfigFile.append( self, filename )
+
+		found = False
+		profiles = self.get_profiles()
+		for profile_id in profiles:
+			if profile_id == self.current_profile_id:
+				found = True
+				break
+
+		if not found and len( profiles ) > 0:
+			self.current_profile_id = profiles[0]
+
+		if self.get_int_value( 'profiles.version' ) <= 0:
+			rename_keys = []
+
+			for key in self.dict.iterkeys():
+				if key.startswith( 'profile.0.' ):
+					rename_keys.append( key )
+
+			for old_key in rename_keys:
+				new_key = 'profile1.' + old_key[ 10 :  ]
+				self.dict[ new_key ] = self.dict[ old_key ]
+				del self.dict[ old_key ]
+
+		if self.get_int_value( 'profiles.version' ) != 1:
+			self.set_int_value( 'profiles.version', 1 )
+
+	def get_profiles( self ):
+		return self.get_str_value( 'profiles', '1' ).split(':')
+
+	def get_profiles_sorted_by_name( self ):
+		profiles_unsorted = self.get_profiles()
+		if len( profiles_unsorted ) <= 1:
+			return profiles_unsorted
+
+		profiles_dict = {}
+
+		for profile_id in profiles_unsorted:
+			profiles_dict[ self.get_profile_name( profile_id ).upper() ] = profile_id
+
+		keys = profiles_dict.keys()
+		keys.sort()
+
+		profiles_sorted = []
+		for key in keys:
+			profiles_sorted.append( profiles_dict[key] )
+
+		return profiles_sorted
+
+	def get_current_profile( self ):
+		return self.current_profile_id
+
+	def set_current_profile( self, profile_id ):
+		profiles = self.get_profiles()
+
+		for id in profiles:
+			if id == profile_id:
+				self.current_profile_id = profile_id
+				return True
+
+		return False
+
+	def set_current_profile_by_name( self, name ):
+		profiles = self.get_profiles()
+
+		for profile_id in profiles:
+			if self.get_profile_name( profile_id ) == name:
+				self.current_profile_id = profile_id
+				return True
+
+		return False
+
+	def profile_exists( self, profile_id ):
+		profiles = self.get_profiles()
+
+		for id in profiles:
+			if id == profile_id:
+				return True
+
+		return False
+
+	def profile_exists_by_name( self, name ):
+		profiles = self.get_profiles()
+
+		for profile_id in profiles:
+			if self.get_profile_name( profile_id ) == name:
+				return True
+
+		return False
+
+	def get_profile_name( self, profile_id = None ):
+		return self.get_profile_str_value( 'name', self.default_profile_name, profile_id )
+
+	def add_profile( self, name ):
+		profiles = self.get_profiles()
+
+		for profile_id in profiles:
+			if self.get_profile_name( profile_id ) == name:
+				self.notify_error( _('Profile "%s" already exists !') % name )
+				return False
+
+		new_id = 1
+		while True:
+			ok = True
+
+			for profile in profiles:
+				if profile == str(new_id):
+					ok = False
+					break
+
+			if ok:
+				break
+
+			new_id = new_id + 1
+
+		new_id = str( new_id )
+
+		profiles.append( new_id )
+		self.set_str_value( 'profiles', ':'.join(profiles) )
+
+		self.current_profile_id = new_id
+		self.set_profile_str_value( 'name', name, new_id )
+		return True
+
+	def remove_profile( self, profile_id = None ):
+		if profile_id == None:
+			profile_id = self.current_profile_id
+
+		profiles = self.get_profiles()
+		if len( profiles ) <= 1:
+			self.notify_error( _('You can\'t remove the last profile !') )
+			return False
+
+		found = False
+		index = 0
+		for profile in profiles:
+			if profile == profile_id:
+				self.remove_keys_starts_with( self._get_profile_key_( '', profile_id ) )
+				del profiles[index]
+				self.set_str_value( 'profiles', ':'.join( profiles ) )
+				found = True
+				break
+			index = index + 1
+
+		if not found:
+			return False
+
+		if self.current_profile_id == profile_id:
+			profiles = self.get_profiles()
+			if len( profiles ) > 0:
+				self.current_profile_id = profiles[0]
+			else:
+				self.current_profile_id = '1'
+
+		return True
+
+	def set_profile_name( self, name, profile_id = None ):
+		if profile_id == None:
+			profile_id = self.current_profile_id
+
+		profiles = self.get_profiles()
+
+		for profile in profiles:
+			if self.get_profile_name( profile ) == name:
+				if profile[0] != profile_id:
+					self.notify_error(  _('Profile "%s" already exists !') % name )
+					return False
+
+		self.set_profile_str_value( 'name', name, profile_id )
+		return True
 
 	def _get_profile_key_( self, key, profile_id = None ):
 		if profile_id is None:
 			profile_id = self.current_profile_id
-		return 'profile.' + profile_id + '.' + key
+		return 'profile' + profile_id + '.' + key
 
 	def remove_profile_key( self, key, profile_id = None ):
 		self.remove_key( self._get_profile_key_( key, profile_id ) )
@@ -150,80 +352,4 @@ class ConfigFileWithProfiles( ConfigFile ):
 
 	def set_profile_bool_value( self, key, value, profile_id = None ):
 		self.set_bool_value( self._get_profile_key_( key, profile_id ), value )
-
-	def get_current_profile( self ):
-		return self.current_profile_id
-
-	def get_profiles( self ):
-		return self.get_str_value( 'profiles', '0' ).split(':')
-
-	def get_profile_name( self, profile_id = None ):
-		return self.get_profile_str_value( 'profile_name', self.default_profile_name, profile_id )
-
-	def add_profile( self, name ):
-		profiles = self.get_profiles()
-
-		for profile in profiles:
-			if self.get_profile_name( profile ) == name:
-				return _('Profile %s already exists !') % name
-
-		new_id = 1
-		while True:
-			ok = True
-
-			for profile in profiles:
-				if profile == str(new_id):
-					ok = False
-					break
-
-			if ok:
-				break
-
-			new_id = new_id + 1
-
-		new_id = str( new_id )
-
-		self.profiles.append( new_id )
-		self.set_str_value( 'profiles', profiles.join(':') )
-
-		self.current_profile_id = new_id
-		self.set_profile_str_value( 'profile_name', name, new_id )
-		return None
-
-	def remove_profile( self, profile_id = None ):
-		if profile_id == None:
-			profile_id = self.current_profile_id
-
-		if profile_id == '0':
-			return
-
-		profiles = self.get_profiles()
-		index = 0
-		for profile in profiles:
-			if profile == profile_id:
-				self.remove_keys_starts_with( self._get_profile_key_( '', profile_id ) )
-				del profiles[index]
-				self.set_str_value( 'profiles', profiles.join(':') )
-				break
-			index = index + 1
-
-		if self.current_profile == profile_id:
-			self.current_profile = '0'
-
-	def rename_profile( self, name, profile_id = None ):
-		if profile_id == None:
-			profile_id = self.current_profile_id
-
-		if profile_id == 0:
-			return _('You can\'t rename "Main" profile')
-
-		profiles = self.get_profiles()
-
-		for profile in profiles:
-			if self.get_profile_name( profile ) == name:
-				if profile[0] == profile_id:
-					return None #
-				return _('Profile %s already exists !') % name
-
-		return None
 
