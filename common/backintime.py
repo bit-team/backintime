@@ -87,8 +87,6 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 	skip = False
 	index = 0
 
-	print sys.argv
-
 	for arg in sys.argv[ 1 : ]:
 		index = index + 1
 
