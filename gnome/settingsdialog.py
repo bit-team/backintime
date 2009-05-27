@@ -53,13 +53,30 @@ class SettingsDialog:
 				'on_cb_remove_old_backup_toggled' : self.update_remove_old_backups,
 				'on_cb_min_free_space_toggled' : self.update_min_free_space,
 				'on_cb_per_directory_schedule_toggled' : self.on_cb_per_directory_schedule_toggled,
+				'on_combo_profiles_changed': self.on_combo_profiles_changed,
 			}
 
 		self.glade.signal_autoconnect( signals )
 
+		#profiles
+		self.disable_combo_changed = True
+
+		self.store_profiles = gtk.ListStore( str, str )
+		
+		self.combo_profiles = self.glade.get_widget( 'combo_profiles' )
+
+		text_renderer = gtk.CellRendererText()
+		self.combo_profiles.pack_start( text_renderer, True )
+		self.combo_profiles.add_attribute( text_renderer, 'text', 0 )
+
+		self.combo_profiles.set_model( self.store_profiles )
+		
+		self.disable_combo_changed = False
+
 		#set current folder
 		#self.fcb_where = self.glade.get_widget( 'fcb_where' )
 		#self.fcb_where.set_show_hidden( self.parent.show_hidden_files )
+		self.edit_where = self.glade.get_widget( 'edit_where' )
 		
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -179,10 +196,50 @@ class SettingsDialog:
 		#enable notifications
 		self.cb_enable_notifications = self.glade.get_widget( 'cb_enable_notifications' )
 
-		#LOAD FROM CONFIG
+		self.update_profiles()
 
+	def on_automatic_backup_mode_changed( self, renderer, path, new_text ):
+		iter = self.store_include.get_iter(path)
+		self.store_include.set_value( iter, 2, new_text )
+		self.store_include.set_value( iter, 3, self.rev_automatic_backup_modes[new_text] )
+
+	def on_combo_profiles_changed( self, *params ):
+		if self.disable_combo_changed:
+			return
+
+		iter = self.combo_profiles.get_active_iter()
+		if iter is None:
+			return
+
+		profile_id = self.store_profiles.get_value( iter, 1 )
+		if profile_id != self.config.get_current_profile():
+			self.save_profile()
+			self.config.set_current_profile( profile_id )
+
+		self.update_profile()
+
+	def update_profiles( self ):
+		self.disable_combo_changed = True
+
+		profiles = self.config.get_profiles_sorted_by_name()
+
+		select_iter = None
+		self.store_profiles.clear()
+
+		for profile_id in profiles:
+			iter = self.store_profiles.append( [ self.config.get_profile_name( profile_id ), profile_id ] )
+			if profile_id == self.config.get_current_profile():
+				select_iter = iter
+
+		self.disable_combo_changed = False
+
+		if not select_iter is None:
+			self.combo_profiles.set_active_iter( select_iter )
+
+	def update_profile( self ):
 		#set current folder
 		#self.fcb_where.set_filename( self.config.get_snapshots_path() )
+		self.edit_where.set_text( self.config.get_snapshots_path() )
 		
 		#per directory schedule
 		self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -261,18 +318,78 @@ class SettingsDialog:
 		self.cb_run_nice_from_cron = self.glade.get_widget( 'cb_run_nice_from_cron' )
 		self.cb_run_nice_from_cron.set_active( self.config.is_run_nice_from_cron_enabled() )
 
-	def on_automatic_backup_mode_changed( self, renderer, path, new_text ):
-		iter = self.store_include.get_iter(path)
-		self.store_include.set_value( iter, 2, new_text )
-		self.store_include.set_value( iter, 3, self.rev_automatic_backup_modes[new_text] )
+	def save_profile( self ):
+		#snapshots path
+		snapshots_path = self.fcb_where.get_filename()
+
+		#hack
+		if snapshots_path.startswith( '//' ):
+			snapshots_path = snapshots_path[ 1 : ]
+
+		#include list 
+		include_list = []
+		iter = self.store_include.get_iter_first()
+		while not iter is None:
+			include_list.append( ( self.store_include.get_value( iter, 0 ), self.store_include.get_value( iter, 3 ) ) )
+			iter = self.store_include.iter_next( iter )
+
+		#exclude patterns
+		exclude_list = []
+		iter = self.store_exclude.get_iter_first()
+		while not iter is None:
+			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
+			iter = self.store_exclude.iter_next( iter )
+
+		#check params
+		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
+		if not check_ret_val is None:
+			err_id, err_msg = check_ret_val
+			messagebox.show_error( self.dialog, self.config, err_msg )
+			return False
+
+		#check if back folder changed
+		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
+			if gtk.RESPONSE_YES != messagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots folder ?') ):
+				return False 
+
+		#ok let's save to config
+		msg = self.config.set_snapshots_path( snapshots_path )
+		if not msg is None:
+			messagebox.show_error( self.dialog, self.config, msg )
+			return False
+
+		self.config.set_include_folders( include_list )
+		self.config.set_exclude_patterns( exclude_list )
+
+		#global schedule
+		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
+
+		#auto-remove snapshots
+		self.config.set_remove_old_snapshots( 
+						self.cb_remove_old_backup.get_active(), 
+						int( self.edit_remove_old_backup_value.get_value() ),
+						self.store_remove_old_backup_unit.get_value( self.cb_remove_old_backup_unit.get_active_iter(), 1 ) )
+		self.config.set_min_free_space( 
+						self.cb_min_free_space.get_active(), 
+						int( self.edit_min_free_space_value.get_value() ),
+						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ) )
+		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active() )
+		self.config.set_smart_remove( self.cb_smart_remove.get_active() )
+
+		#options
+		self.config.set_notify_enabled( self.cb_enable_notifications.get_active() )
+
+		#expert options
+		self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
+		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active() )
 
 	def update_remove_old_backups( self, button ):
-		enabled = button.get_active()
+		enabled = self.cb_remove_old_backup.get_active()
 		self.edit_remove_old_backup_value.set_sensitive( enabled )
 		self.cb_remove_old_backup_unit.set_sensitive( enabled )
 
 	def update_min_free_space( self, button ):
-		enabled = button.get_active()
+		enabled = self.cb_min_free_space.get_active()
 		self.edit_min_free_space_value.set_sensitive( enabled )
 		self.cb_min_free_space_unit.set_sensitive( enabled )
 
@@ -375,69 +492,6 @@ class SettingsDialog:
 		self.dialog.destroy()
 
 	def validate( self ):
-		#snapshots path
-		snapshots_path = self.fcb_where.get_filename()
-
-		#hack
-		if snapshots_path.startswith( '//' ):
-			snapshots_path = snapshots_path[ 1 : ]
-
-		#include list 
-		include_list = []
-		iter = self.store_include.get_iter_first()
-		while not iter is None:
-			include_list.append( ( self.store_include.get_value( iter, 0 ), self.store_include.get_value( iter, 3 ) ) )
-			iter = self.store_include.iter_next( iter )
-
-		#exclude patterns
-		exclude_list = []
-		iter = self.store_exclude.get_iter_first()
-		while not iter is None:
-			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
-			iter = self.store_exclude.iter_next( iter )
-
-		#check params
-		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
-		if not check_ret_val is None:
-			err_id, err_msg = check_ret_val
-			messagebox.show_error( self.dialog, self.config, err_msg )
-			return False
-
-		#check if back folder changed
-		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
-			if gtk.RESPONSE_YES != messagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots folder ?') ):
-				return False 
-
-		#ok let's save to config
-		msg = self.config.set_snapshots_path( snapshots_path )
-		if not msg is None:
-			messagebox.show_error( self.dialog, self.config, msg )
-			return False
-
-		self.config.set_include_folders( include_list )
-		self.config.set_exclude_patterns( exclude_list )
-
-		#global schedule
-		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
-
-		#auto-remove snapshots
-		self.config.set_remove_old_snapshots( 
-						self.cb_remove_old_backup.get_active(), 
-						int( self.edit_remove_old_backup_value.get_value() ),
-						self.store_remove_old_backup_unit.get_value( self.cb_remove_old_backup_unit.get_active_iter(), 1 ) )
-		self.config.set_min_free_space( 
-						self.cb_min_free_space.get_active(), 
-						int( self.edit_min_free_space_value.get_value() ),
-						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ) )
-		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active() )
-		self.config.set_smart_remove( self.cb_smart_remove.get_active() )
-
-		#options
-		self.config.set_notify_enabled( self.cb_enable_notifications.get_active() )
-
-		#expert options
-		self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
-		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active() )
 
 		self.config.save()
 

@@ -145,6 +145,7 @@ class MainWindow:
 
 		#profiles
 		self.disable_combo_changed = True
+		self.first_update_all = True
 
 		self.store_profiles = gtk.ListStore( str, str )
 		
@@ -299,7 +300,12 @@ class MainWindow:
 		gobject.timeout_add( 1000, self.update_backup_info )
 
 	def on_combo_profiles_changed( self, *params ):
-		return
+		if self.disable_combo_changed:
+			return
+
+		first_update_all = self.first_update_all
+		self.first_update_all = False
+		self.update_all( first_update_all )
 
 	def update_profiles( self ):
 		self.disable_combo_changed = True
