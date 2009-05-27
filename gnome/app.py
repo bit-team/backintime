@@ -146,7 +146,7 @@ class MainWindow:
 		#profiles
 		self.disable_combo_changed = True
 
-		self.store_profiles = gtk.ListStore( int )
+		self.store_profiles = gtk.ListStore( str, str )
 		
 		self.combo_profiles = self.glade.get_widget( 'combo_profiles' )
 
@@ -302,7 +302,25 @@ class MainWindow:
 		return
 
 	def update_profiles( self ):
-		self.update_all( True )
+		self.disable_combo_changed = True
+
+		profiles = self.config.get_profiles_sorted_by_name()
+
+		select_iter = None
+		self.store_profiles.clear()
+
+		for profile_id in profiles:
+			iter = self.store_profiles.append( [ self.config.get_profile_name( profile_id ), profile_id ] )
+			if profile_id == self.config.get_current_profile():
+				select_iter = iter
+			
+
+		self.disable_combo_changed = False
+
+		if not select_iter is None:
+			self.combo_profiles.set_active_iter( select_iter )
+
+		#self.update_all( True )
 
 	def sort_folder_view_by_column( self, treemodel, iter1, iter2, column ):
 		if 0 == column:
