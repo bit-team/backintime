@@ -19,6 +19,7 @@
 import os
 import os.path
 import sys
+import copy
 import pygtk
 pygtk.require("2.0")
 import gtk
@@ -44,6 +45,9 @@ class SettingsDialog:
 		self.dialog.set_transient_for( parent.window )
 
 		signals = { 
+				'on_btn_add_profile_clicked' : self.on_add_profile,
+				'on_btn_edit_profile_clicked' : self.on_edit_profile,
+				'on_btn_remove_profile_clicked' : self.on_remove_profile,
 				'on_btn_add_include_clicked' : self.on_add_include,
 				'on_btn_remove_include_clicked' : self.on_remove_include,
 				'on_btn_add_exclude_clicked' : self.on_add_exclude,
@@ -59,6 +63,11 @@ class SettingsDialog:
 		self.glade.signal_autoconnect( signals )
 
 		#profiles
+		self.btn_edit_profile = self.glade.get_widget( 'btn_edit_profile' )
+		self.btn_add_profile = self.glade.get_widget( 'btn_add_profile' )
+		self.btn_remove_profile = self.glade.get_widget( 'btn_remove_profile' )
+		self.combo_profiles = self.glade.get_widget( 'combo_profiles' )
+
 		self.disable_combo_changed = True
 
 		self.store_profiles = gtk.ListStore( str, str )
@@ -198,6 +207,12 @@ class SettingsDialog:
 
 		self.update_profiles()
 
+	def error_handler( self, message ):
+		messagebox.show_error( self.dialog, self.config, message )
+
+	def question_handler( self, message ):
+		return gtk.RESPONSE_YES == messagebox.show_question( self.dialog, self.config, message )
+
 	def on_automatic_backup_mode_changed( self, renderer, path, new_text ):
 		iter = self.store_include.get_iter(path)
 		self.store_include.set_value( iter, 2, new_text )
@@ -237,6 +252,13 @@ class SettingsDialog:
 			self.combo_profiles.set_active_iter( select_iter )
 
 	def update_profile( self ):
+		if self.config.get_current_profile() == '1':
+			self.btn_edit_profile.set_sensitive( False )
+			self.btn_remove_profile.set_sensitive( False )
+		else:
+			self.btn_edit_profile.set_sensitive( True )
+			self.btn_remove_profile.set_sensitive( True )
+
 		#set current folder
 		#self.fcb_where.set_filename( self.config.get_snapshots_path() )
 		self.edit_where.set_text( self.config.get_snapshots_path() )
@@ -320,7 +342,7 @@ class SettingsDialog:
 
 	def save_profile( self ):
 		#snapshots path
-		snapshots_path = self.fcb_where.get_filename()
+		snapshots_path = self.edit_where.get_text()
 
 		#hack
 		if snapshots_path.startswith( '//' ):
@@ -340,23 +362,16 @@ class SettingsDialog:
 			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
 			iter = self.store_exclude.iter_next( iter )
 
-		#check params
-		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
-		if not check_ret_val is None:
-			err_id, err_msg = check_ret_val
-			messagebox.show_error( self.dialog, self.config, err_msg )
-			return False
-
 		#check if back folder changed
-		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
-			if gtk.RESPONSE_YES != messagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots folder ?') ):
-				return False 
+		#if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
+		#	if gtk.RESPONSE_YES != messagebox.show_question( self.dialog, self.config, _('Are you sure you want to change snapshots folder ?') ):
+		#		return False 
 
 		#ok let's save to config
-		msg = self.config.set_snapshots_path( snapshots_path )
-		if not msg is None:
-			messagebox.show_error( self.dialog, self.config, msg )
-			return False
+		self.config.set_snapshots_path( snapshots_path )
+		#if not msg is None:
+		#	messagebox.show_error( self.dialog, self.config, msg )
+		#	return False
 
 		self.config.set_include_folders( include_list )
 		self.config.set_exclude_patterns( exclude_list )
@@ -409,12 +424,34 @@ class SettingsDialog:
 			self.cb_backup_mode.show()
 
 	def run( self ):
+		self.config.set_question_handler( self.question_handler )
+		self.config.set_error_handler( self.error_handler )
+
+		self.config_copy_dict = copy.copy( self.config.dict )
+		self.current_profile_org = self.config.get_current_profile()
+
 		while True:
 			if gtk.RESPONSE_OK == self.dialog.run():
 				if not self.validate():
 					continue
+			else:
+				self.config.dict = self.config_copy_dict
+
 			break
+
+		self.config.set_current_profile( self.current_profile_org )
+		self.config.clear_handlers()
+
 		self.dialog.destroy()
+
+	def on_add_profile( self, button ):
+		return
+
+	def on_edit_profile( self, button ):
+		return
+
+	def on_remove_profile( self, button ):
+		return
 
 	def on_add_include( self, button ):
 		fcd = gtk.FileChooserDialog( _('Include folder'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
@@ -492,13 +529,14 @@ class SettingsDialog:
 		self.dialog.destroy()
 
 	def validate( self ):
+		self.save_profile()
 
-		self.config.save()
-
-		msg = self.config.setup_cron()
-		if not msg is None:
-			messagebox.show_error( self.dialog, self.config, msg )
+		if not self.config.check_config():
 			return False
 
+		if not self.config.setup_cron():
+			return False
+
+		self.config.save()
 		return True
 	

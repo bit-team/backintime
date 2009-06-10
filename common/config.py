@@ -496,7 +496,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 				cron_line = 'echo "@monthly {cmd}"'
 
 			if len( cron_line ) > 0:
-				cmd = "/usr/bin/backintime --profile \"%s\" --backup-job >/dev/null 2>&1" % profile_name
+				cmd = "/usr/bin/backintime --profile \\\"%s\\\" --backup-job >/dev/null 2>&1" % profile_name
 				if self.is_run_nice_from_cron_enabled( profile_id ):
 					cmd = 'nice -n 19 ' + cmd
 				cron_line = cron_line.replace( '{cmd}', cmd )
