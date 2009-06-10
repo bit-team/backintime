@@ -30,6 +30,7 @@ import gettext
 
 import config
 import messagebox
+import tools
 
 
 _=gettext.gettext
@@ -58,6 +59,7 @@ class SettingsDialog:
 				'on_cb_min_free_space_toggled' : self.update_min_free_space,
 				'on_cb_per_directory_schedule_toggled' : self.on_cb_per_directory_schedule_toggled,
 				'on_combo_profiles_changed': self.on_combo_profiles_changed,
+				'on_btn_where_clicked': self.on_btn_where_clicked,
 			}
 
 		self.glade.signal_autoconnect( signals )
@@ -217,6 +219,23 @@ class SettingsDialog:
 		iter = self.store_include.get_iter(path)
 		self.store_include.set_value( iter, 2, new_text )
 		self.store_include.set_value( iter, 3, self.rev_automatic_backup_modes[new_text] )
+
+	def on_btn_where_clicked( self, button ):
+		path = self.edit_where.get_text()
+
+		fcd = gtk.FileChooserDialog( _('Snapshots folder'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		if len( path ) > 0:
+			fcd.set_filename( path )
+
+		if fcd.run() == gtk.RESPONSE_OK:
+			new_path = tools.prepare_path( fcd.get_filename() )
+			fcd.destroy()
+			if len( path ) > 0 and new_path != path:
+				if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
+					return
+			self.edit_where.set_text( new_path )
+		else:
+			fcd.destroy()
 
 	def on_combo_profiles_changed( self, *params ):
 		if self.disable_combo_changed:
@@ -478,7 +497,7 @@ class SettingsDialog:
 		fcd.set_show_hidden( self.parent.show_hidden_files  )
 
 		if fcd.run() == gtk.RESPONSE_OK:
-			include_folder = fcd.get_filename()
+			include_folder = tools.prepare_path( fcd.get_filename() )
 
 			iter = self.store_include.get_iter_first()
 			while not iter is None:
@@ -525,7 +544,7 @@ class SettingsDialog:
 		fcd.set_show_hidden( self.parent.show_hidden_files  )
 
 		if fcd.run() == gtk.RESPONSE_OK:
-			pattern = fcd.get_filename()
+			pattern = tools.prepare_path( fcd.get_filename() )
 			self.add_exclude_( pattern )
 
 		fcd.destroy()
@@ -535,7 +554,7 @@ class SettingsDialog:
 		fcd.set_show_hidden( self.parent.show_hidden_files  )
 
 		if fcd.run() == gtk.RESPONSE_OK:
-			pattern = fcd.get_filename()
+			pattern = tools.prepare_path( fcd.get_filename() )
 			self.add_exclude_( pattern )
 
 		fcd.destroy()

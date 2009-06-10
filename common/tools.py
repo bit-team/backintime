@@ -111,3 +111,9 @@ def check_x_server():
 	return 0 == os.system( 'xdpyinfo >/dev/null 2>&1' )
 
 
+def prepare_path( path ):
+	path = path.strip( "/" )
+	path = os.sep + path
+	return path
+
+
