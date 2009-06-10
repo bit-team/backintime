@@ -445,13 +445,33 @@ class SettingsDialog:
 		self.dialog.destroy()
 
 	def on_add_profile( self, button ):
-		return
+		name = messagebox.text_input_dialog( self.dialog, self.config, _('New profile'), None )
+		if name is None:
+			return
+		if len( name ) <= 0:
+			return
+
+		if not self.config.add_profile( name ):
+			return
+
+		self.update_profiles()
 
 	def on_edit_profile( self, button ):
-		return
+		name = messagebox.text_input_dialog( self.dialog, self.config, _('Rename profile'), None )
+		if name is None:
+			return
+		if len( name ) <= 0:
+			return
+
+		if not self.config.set_profile_name( name ):
+			return
+
+		self.update_profiles()
 
 	def on_remove_profile( self, button ):
-		return
+		if gtk.RESPONSE_YES == messagebox.show_question( self.dialog, self.config, _('Are you sure you want to delete the profile "%s" ?') % self.config.get_profile_name() ):
+			self.config.remove_profile()
+			self.update_profiles()
 
 	def on_add_include( self, button ):
 		fcd = gtk.FileChooserDialog( _('Include folder'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )

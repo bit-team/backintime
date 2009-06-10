@@ -53,12 +53,17 @@ def text_input_dialog( parent, config, title, default_value = '' ):
 	dialog.set_transient_for( parent )
 
 	edit = glade.get_widget( 'edit_text' )
-	edit.set_text( default_value )
+
+	if not default_value is None:
+		edit.set_text( default_value )
+
 	edit.grab_focus()
 	
 	text = None
 	if gtk.RESPONSE_OK == dialog.run():
 		text = edit.get_text()
+	else:
+		text = default_value
 
 	dialog.destroy()
 	return text  
