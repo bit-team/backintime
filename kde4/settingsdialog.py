@@ -264,7 +264,23 @@ class SettingsDialog( KDialog ):
 		#
 		layout.addStretch()
 
+		self.update_profiles()
+
+	def update_profiles( self ):
 		self.update_profile()
+		current_profile_id = self.config.get_current_profile()
+
+		self.disable_profile_changed = True
+
+		self.combo_profiles.clear()
+			
+		profiles = self.config.get_profiles_sorted_by_name()
+		for profile_id in profiles:
+			self.combo_profiles.addItem( QString.fromUtf8( self.config.get_profile_name( profile_id ) ), QVariant( QString.fromUtf8( profile_id ) ) )
+			if profile_id == current_profile_id:
+				self.combo_profiles.setCurrentIndex( self.combo_profiles.count() - 1 )
+
+		self.disable_profile_changed = False
 
 	def update_profile( self ):
 		if self.config.get_current_profile() == '1':
