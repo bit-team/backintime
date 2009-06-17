@@ -303,7 +303,17 @@ class MainWindow:
 		if self.disable_combo_changed:
 			return
 
+		iter = self.combo_profiles.get_active_iter()
+		if iter is None:
+			return
+
 		first_update_all = self.first_update_all
+
+		profile_id = self.store_profiles.get_value( iter, 1 )
+		if not first_update_all and profile_id == self.config.get_current_profile():
+			return
+
+		self.config.set_current_profile( profile_id )
 		self.first_update_all = False
 		self.update_all( first_update_all )
 
@@ -915,7 +925,7 @@ class MainWindow:
 			self.update_backup_info()
 			return
 
-		backintime.take_snapshot_now_async()
+		backintime.take_snapshot_now_async( self.config )
 		self.update_backup_info( True )
 
 	def on_btn_update_snapshots_clicked( self, button ):

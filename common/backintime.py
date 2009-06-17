@@ -29,8 +29,9 @@ import snapshots
 _=gettext.gettext
 
 
-def take_snapshot_now_async():
-	os.system( 'backintime --backup &' )
+def take_snapshot_now_async( cfg ):
+	cmd = "backintime --profile \"%s\" --backup &" % cfg.get_profile_name()
+	os.system( cmd )
 
 
 def take_snapshot( cfg, force = True ):

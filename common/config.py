@@ -150,12 +150,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 			#check snapshots path
 			if len( snapshots_path ) <= 0:
-				self.notify_error( _('Profile: %s') % profile_name + '\n' + _('Snapshots folder is not valid !') )
+				self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('Snapshots folder is not valid !') )
 				return False
 
 			for other_profile in checked_profiles:
 				if snapshots_path == self.get_snapshots_path( other_profile[0] ):
-					self.notify_error( _('Profiles %s and %s have the same snapshots path !') % ( profile_name, other_profile[1] ) )
+					self.notify_error( _('Profiles "%s" and "%s" have the same snapshots path !') % ( profile_name, other_profile[1] ) )
 					return False
 
 			#if not os.path.isdir( snapshots_path ):
@@ -167,7 +167,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			#check include
 			include_list = self.get_include_folders( profile_id )
 			if len( include_list ) <= 0:
-				self.notify_error( _('Profile: %s') % profile_name + '\n' + _('You must select at least one folder to backup !') )
+				self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('You must select at least one folder to backup !') )
 				return False
 
 			snapshots_path2 = snapshots_path + '/'
@@ -175,12 +175,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 			for item in include_list:
 				path = item[0]
 				if path == snapshots_path:
-					self.notify_error( _('Profile: %s') % profile_name + '\n' + _('You can\'t include backup folder !') )
+					self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('You can\'t include backup folder !') )
 					return False
 			
 				if len( path ) >= len( snapshots_path2 ):
 					if path[ : len( snapshots_path2 ) ] == snapshots_path2:
-						self.notify_error( _('Profile: %s') % profile_name + '\n' + _('You can\'t include a backup sub-folder !') )
+						self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('You can\'t include a backup sub-folder !') )
 						return False
 
 			checked_profiles.append( ( profile_id, profile_name ) )

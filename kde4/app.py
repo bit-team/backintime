@@ -627,7 +627,7 @@ class MainWindow( KMainWindow ):
 				self.update_files_view( 2 )
 
 	def on_btn_take_snapshot_clicked( self ):
-		backintime.take_snapshot_now_async()
+		backintime.take_snapshot_now_async( self.config )
 		self.update_take_snapshot( True )
 
 	def on_btn_update_snapshots_clicked( self ):
