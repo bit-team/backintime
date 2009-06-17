@@ -109,9 +109,27 @@ class MainWindow( KMainWindow ):
 
 		self.main_toolbar.addSeparator()
 
-		self.btn_link = self.main_toolbar.addAction( KIcon( 'go-home' ), '' )
-		self.btn_link.setToolTip( QString.fromUtf8( 'backintime.le-web.org' ) )
-		QObject.connect( self.btn_link, SIGNAL('triggered()'), self.open_url )
+		#self.btn_link = self.main_toolbar.addAction( KIcon( 'go-home' ), '' )
+		#self.btn_link.setToolTip( QString.fromUtf8( 'backintime.le-web.org' ) )
+		#QObject.connect( self.btn_link, SIGNAL('triggered()'), self.open_url )
+
+		#profiles
+		self.profiles_toolbar = KToolBar( QString('Profile toolbar'), self, Qt.TopToolBarArea, True )
+
+		self.profiles_toolbar.addWidget( QLabel( QString.fromUtf8( _('Profile:') ), self ) )
+
+		self.first_update_all = True
+		self.disable_profile_changed = True
+		self.combo_profiles = KComboBox( self )
+		self.profiles_toolbar.addWidget( self.combo_profiles )
+		self.combo_profiles.setMinimumWidth( 250 )
+		self.disable_profile_changed = False
+
+		self.profiles_toolbar.addAction( KToolBarSpacerAction( self ) )
+
+		url_label = KUrlLabel( QString.fromUtf8( 'http://backintime.le-web.org' ), QString.fromUtf8( 'backintime.le-web.org' ), self )
+		self.profiles_toolbar.addWidget( url_label )
+		QObject.connect( url_label, SIGNAL('leftClickedUrl()'), self.open_url )
 
 		#main splitter
 		self.main_splitter = QSplitter( self )

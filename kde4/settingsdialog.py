@@ -59,12 +59,38 @@ class SettingsDialog( KDialog ):
 		self.setWindowIcon( KIcon( 'configure' ) )
 		self.setCaption( QString.fromUtf8( _( 'Settings' ) ) )
 
-		self.main_widget = KTabWidget( self )
+		self.main_widget = QWidget( self )
+		self.main_layout = QVBoxLayout( self.main_widget )
 		self.setMainWidget( self.main_widget )
+
+		#profiles
+		layout = QHBoxLayout()
+		self.main_layout.addLayout( layout )
+
+		layout.addWidget( QLabel( QString.fromUtf8( _('Profile:') ), self ) )
+
+		self.first_update_all = True
+		self.disable_profile_changed = True
+		self.combo_profiles = KComboBox( self )
+		layout.addWidget( self.combo_profiles, 1 )
+		self.disable_profile_changed = False
+
+		self.btn_edit_profile = KPushButton( KIcon( 'edit-rename' ), QString.fromUtf8( _('Edit') ), self )
+		layout.addWidget( self.btn_edit_profile )
+
+		self.btn_add_profile = KPushButton( KStandardGuiItem.add(), self )
+		layout.addWidget( self.btn_add_profile )
+
+		self.btn_remove_profile = KPushButton( KStandardGuiItem.remove(), self )
+		layout.addWidget( self.btn_remove_profile )
+
+		#TABs
+		self.tabs_widget = KTabWidget( self )
+		self.main_layout.addWidget( self.tabs_widget )
 
 		#TAB: General
 		tab_widget = QWidget( self )
-		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'General' ) ) )
+		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'General' ) ) )
 		layout = QVBoxLayout( tab_widget )
 
 		#Where to save snapshots
@@ -99,7 +125,7 @@ class SettingsDialog( KDialog ):
 		
 		#TAB: Include
 		tab_widget = QWidget( self )
-		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Include' ) ) )
+		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Include' ) ) )
 		layout = QVBoxLayout( tab_widget )
 
 		self.list_include = QTreeWidget( self )
@@ -133,7 +159,7 @@ class SettingsDialog( KDialog ):
 
 		#TAB: exclude
 		tab_widget = QWidget( self )
-		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Exclude' ) ) )
+		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Exclude' ) ) )
 		layout = QVBoxLayout( tab_widget )
 
 		self.list_exclude = KListWidget( self )
@@ -165,7 +191,7 @@ class SettingsDialog( KDialog ):
 
 		#TAB: Auto-remove
 		tab_widget = QWidget( self )
-		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Auto-remove' ) ) )
+		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Auto-remove' ) ) )
 		layout = QGridLayout( tab_widget )
 
 		#remove old snapshots
@@ -218,7 +244,7 @@ class SettingsDialog( KDialog ):
 		
 		#TAB: Options
 		tab_widget = QWidget( self )
-		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Options' ) ) )
+		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Options' ) ) )
 		layout = QVBoxLayout( tab_widget )
 
 		self.cb_notify_enabled = QCheckBox( QString.fromUtf8( _( 'Enable notifications' ) ), self )
@@ -230,7 +256,7 @@ class SettingsDialog( KDialog ):
 
 		#TAB: Expert Options
 		tab_widget = QWidget( self )
-		self.main_widget.addTab( tab_widget, QString.fromUtf8( _( 'Expert Options' ) ) )
+		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Expert Options' ) ) )
 		layout = QVBoxLayout( tab_widget )
 
 		label = QLabel( QString.fromUtf8( _('Change this options only if you really know what you are doing !') ), self )
