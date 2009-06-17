@@ -30,11 +30,7 @@ _=gettext.gettext
 
 
 def take_snapshot_now_async():
-	app = 'backintime'
-	if os.path.isfile( './backintime' ):
-		app = './backintime'
-	cmd = "%s --backup &" % app
-	os.system( cmd )
+	os.system( 'backintime --backup &' )
 
 
 def take_snapshot( cfg, force = True ):
