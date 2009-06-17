@@ -21,6 +21,7 @@ import os.path
 import sys
 import datetime
 import gettext
+import copy
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -54,7 +55,10 @@ class PopupAutomaticBackupAction( KAction ):
 class SettingsDialog( KDialog ):
 	def __init__( self, parent ):
 		KDialog.__init__( self, parent )
+
 		self.config = parent.config
+		self.config_copy_dict = copy.copy( self.config.dict )
+		self.current_profile_org = self.config.get_current_profile()
 
 		self.setWindowIcon( KIcon( 'configure' ) )
 		self.setCaption( QString.fromUtf8( _( 'Settings' ) ) )
@@ -100,7 +104,7 @@ class SettingsDialog( KDialog ):
 
 		hlayout = QHBoxLayout( group_box )
 
-		self.edit_snapshots_path = KLineEdit( QString.fromUtf8( self.config.get_snapshots_path() ), self )
+		self.edit_snapshots_path = KLineEdit( self )
 		self.edit_snapshots_path.setReadOnly( True )
 		hlayout.addWidget( self.edit_snapshots_path )
 
@@ -118,7 +122,7 @@ class SettingsDialog( KDialog ):
 
 		self.combo_automatic_snapshots = KComboBox( self )
 		hlayout.addWidget( self.combo_automatic_snapshots )
-		self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES, self.config.get_automatic_backup_mode() )
+		self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES )
 
 		#
 		layout.addStretch()
@@ -143,9 +147,6 @@ class SettingsDialog( KDialog ):
 		QObject.connect( self.list_include, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_include_item_activated )
 		layout.addWidget( self.list_include )
 
-		for include in self.config.get_include_folders():
-			self.add_include( include )
-		
 		buttons_layout = QHBoxLayout()
 		layout.addLayout( buttons_layout )
 
@@ -157,7 +158,7 @@ class SettingsDialog( KDialog ):
 		buttons_layout.addWidget( self.btn_include_remove )
 		QObject.connect( self.btn_include_remove, SIGNAL('clicked()'), self.on_btn_include_remove_clicked )
 
-		#TAB: exclude
+		#TAB: Exclude
 		tab_widget = QWidget( self )
 		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Exclude' ) ) )
 		layout = QVBoxLayout( tab_widget )
@@ -165,9 +166,6 @@ class SettingsDialog( KDialog ):
 		self.list_exclude = KListWidget( self )
 		layout.addWidget( self.list_exclude )
 		
-		for exclude in self.config.get_exclude_patterns():
-			self.add_exclude( exclude )
-
 		buttons_layout = QHBoxLayout()
 		layout.addLayout( buttons_layout )
 
@@ -195,39 +193,34 @@ class SettingsDialog( KDialog ):
 		layout = QGridLayout( tab_widget )
 
 		#remove old snapshots
-		enabled, value, unit = self.config.get_remove_old_snapshots()
-
 		self.cb_remove_older_then = QCheckBox( QString.fromUtf8( _( 'Older than:' ) ), self )
 		layout.addWidget( self.cb_remove_older_then, 0, 0 )
-		self.cb_remove_older_then.setChecked( enabled )
 		QObject.connect( self.cb_remove_older_then, SIGNAL('stateChanged(int)'), self.update_remove_older_than )
 
-		self.edit_remove_older_then = KIntSpinBox( 1, 1000, 1, value, self )
+		self.edit_remove_older_then = KIntSpinBox( 1, 1000, 1, 1, self )
 		layout.addWidget( self.edit_remove_older_then, 0, 1 )
 
 		self.combo_remove_older_then = KComboBox( self )
 		layout.addWidget( self.combo_remove_older_then, 0, 2 )
-		self.fill_combo( self.combo_remove_older_then, self.config.REMOVE_OLD_BACKUP_UNITS, unit )
+		self.fill_combo( self.combo_remove_older_then, self.config.REMOVE_OLD_BACKUP_UNITS )
 
 		#min free space
 		enabled, value, unit = self.config.get_min_free_space()
 
 		self.cb_min_free_space = QCheckBox( QString.fromUtf8( _( 'If free space is less than:' ) ), self )
 		layout.addWidget( self.cb_min_free_space, 1, 0 )
-		self.cb_min_free_space.setChecked( enabled )
 		QObject.connect( self.cb_min_free_space, SIGNAL('stateChanged(int)'), self.update_min_free_space )
 
-		self.edit_min_free_space = KIntSpinBox( 1, 1000, 1, value, self )
+		self.edit_min_free_space = KIntSpinBox( 1, 1000, 1, 1, self )
 		layout.addWidget( self.edit_min_free_space, 1, 1 )
 
 		self.combo_min_free_space = KComboBox( self )
 		layout.addWidget( self.combo_min_free_space, 1, 2 )
-		self.fill_combo( self.combo_min_free_space, self.config.MIN_FREE_SPACE_UNITS, unit )
+		self.fill_combo( self.combo_min_free_space, self.config.MIN_FREE_SPACE_UNITS )
 
 		#smart remove
 		self.cb_smart_remove = QCheckBox( QString.fromUtf8( _( 'Smart remove' ) ), self )
 		layout.addWidget( self.cb_smart_remove, 2, 0 )
-		self.cb_smart_remove.setChecked( self.config.get_smart_remove() )
 
 		label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year\n- keep one snapshot per year for all previous years' ) ),self )
 		label.setContentsMargins( 25, 0, 0, 0 )
@@ -236,7 +229,6 @@ class SettingsDialog( KDialog ):
 		#don't remove named snapshots
 		self.cb_dont_remove_named_snapshots = QCheckBox( QString.fromUtf8( _( 'Don\'t remove named snapshots' ) ), self )
 		layout.addWidget( self.cb_dont_remove_named_snapshots, 4, 0 )
-		self.cb_dont_remove_named_snapshots.setChecked( self.config.get_dont_remove_named_snapshots() )
 
 		#
 		layout.addWidget( QWidget(), 5, 0 )
@@ -249,7 +241,6 @@ class SettingsDialog( KDialog ):
 
 		self.cb_notify_enabled = QCheckBox( QString.fromUtf8( _( 'Enable notifications' ) ), self )
 		layout.addWidget( self.cb_notify_enabled )
-		self.cb_notify_enabled.setChecked( self.config.is_notify_enabled() )
 
 		#
 		layout.addStretch()
@@ -265,20 +256,90 @@ class SettingsDialog( KDialog ):
 
 		self.cb_per_diretory_schedule = QCheckBox( QString.fromUtf8( _( 'Enable schedule per included folder (see Include tab; default: disabled)' ) ), self )
 		layout.addWidget( self.cb_per_diretory_schedule )
-		self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
 		QObject.connect( self.cb_per_diretory_schedule, SIGNAL('clicked()'), self.update_include_columns )
 
 		self.cb_run_nice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'nice\' as cron job (default: enabled)' ) ), self )
 		layout.addWidget( self.cb_run_nice_from_cron )
-		self.cb_run_nice_from_cron.setChecked( self.config.is_run_nice_from_cron_enabled() )
 
 		#
 		layout.addStretch()
 
-		self.update_include_columns()
+		self.update_profile()
 
+	def update_profile( self ):
+		if self.config.get_current_profile() == '1':
+			self.btn_edit_profile.setEnabled( False )
+			self.btn_remove_profile.setEnabled( False )
+		else:
+			self.btn_edit_profile.setEnabled( True )
+			self.btn_remove_profile.setEnabled( True )
+
+		#TAB: General
+		self.edit_snapshots_path.setText( QString.fromUtf8( self.config.get_snapshots_path() ) )
+		self.set_combo_value( self.combo_automatic_snapshots, self.config.get_automatic_backup_mode() )
+
+		#TAB: Include
+		self.list_include.clear()
+
+		for include in self.config.get_include_folders():
+			self.add_include( include )
+
+		#TAB: Exclude
+		self.list_exclude.clear()
+	
+		for exclude in self.config.get_exclude_patterns():
+			self.add_exclude( exclude )
+
+		#TAB: Auto-remove
+
+		#remove old snapshots
+		enabled, value, unit = self.config.get_remove_old_snapshots()
+		self.cb_remove_older_then.setChecked( enabled )
+		self.edit_remove_older_then.setValue( value )
+		self.set_combo_value( self.combo_remove_older_then, unit )
+
+		#min free space
+		enabled, value, unit = self.config.get_min_free_space()
+		self.cb_min_free_space.setChecked( enabled )
+		self.edit_min_free_space.setValue( value )
+		self.set_combo_value( self.combo_min_free_space, unit )
+
+		#smart remove
+		self.cb_smart_remove.setChecked( self.config.get_smart_remove() )
+
+		#don't remove named snapshots
+		self.cb_dont_remove_named_snapshots.setChecked( self.config.get_dont_remove_named_snapshots() )
+
+		#TAB: Options
+		self.cb_notify_enabled.setChecked( self.config.is_notify_enabled() )
+
+		#TAB: Expert Options
+		self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
+		self.cb_run_nice_from_cron.setChecked( self.config.is_run_nice_from_cron_enabled() )
+
+		#update
+		self.update_include_columns()
 		self.update_remove_older_than()
 		self.update_min_free_space()
+
+	def error_handler( self, message ):
+		KMessageBox.error( self, QString.fromUtf8( message ) )
+
+	def question_handler( self, message ):
+		return KMessageBox.Yes == KMessageBox.warningYesNo( self, QString.fromUtf8( message ) )
+
+	def exec_( self ):
+		self.config.set_question_handler( self.question_handler )
+		self.config.set_error_handler( self.error_handler )
+		ret_val = KDialog.exec_( self )
+		self.config.clear_handlers()
+
+		if ret_val != QDialog.Accepted:
+			self.config.dict = self.config_copy_dict
+			
+		self.config.set_current_profile( self.current_profile_org )
+
+		return ret_val
 
 	def update_include_columns( self ):
 		if self.cb_per_diretory_schedule.isChecked():
@@ -333,16 +394,18 @@ class SettingsDialog( KDialog ):
 
 		return item
 
-	def fill_combo( self, combo, dict, default_value ):
+	def fill_combo( self, combo, dict ):
 		keys = dict.keys()
 		keys.sort()
-		index = 0
 
 		for key in keys:
 			combo.addItem( QIcon(), QString.fromUtf8( dict[ key ] ), QVariant( key ) )
-			if key == default_value:
-				combo.setCurrentIndex( index )
-			index = index + 1
+
+	def set_combo_value( self, combo, value ):
+		for i in xrange( combo.count() ):
+			if value == combo.itemData( i ).toInt():
+				combo.setCurrentIndex( i )
+				break
 
 	def validate( self ):
 		#snapshots path
