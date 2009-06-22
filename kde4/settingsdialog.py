@@ -77,6 +77,7 @@ class SettingsDialog( KDialog ):
 		self.disable_profile_changed = True
 		self.combo_profiles = KComboBox( self )
 		layout.addWidget( self.combo_profiles, 1 )
+		QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.current_profile_changed )
 		self.disable_profile_changed = False
 
 		self.btn_edit_profile = KPushButton( KIcon( 'edit-rename' ), QString.fromUtf8( _('Edit') ), self )
@@ -266,6 +267,19 @@ class SettingsDialog( KDialog ):
 
 		self.update_profiles()
 
+	def current_profile_changed( self, index ):
+		if self.disable_profile_changed:
+			return
+
+		profile_id = str( self.combo_profiles.itemData( index ).toString().toUtf8() )
+		if len( profile_id ) <= 0:
+			return
+		
+		if profile_id != self.config.get_current_profile():
+			self.save_profile()
+			self.config.set_current_profile( profile_id )
+			self.update_profile()
+
 	def update_profiles( self ):
 		self.update_profile()
 		current_profile_id = self.config.get_current_profile()
@@ -338,6 +352,47 @@ class SettingsDialog( KDialog ):
 		self.update_remove_older_than()
 		self.update_min_free_space()
 
+	def save_profile( self ):
+		#snapshots path
+		self.config.set_snapshots_path( str( self.edit_snapshots_path.text().toUtf8() ) )
+		
+		#include list 
+		include_list = []
+		for index in xrange( self.list_include.topLevelItemCount() ):
+			item = self.list_include.topLevelItem( index )
+			include_list.append( [ str( item.text(0).toUtf8() ), item.data( 0, Qt.UserRole ).toInt()[0] ] )
+		
+		self.config.set_include_folders( include_list )
+
+		#exclude patterns
+		exclude_list = []
+		for index in xrange( self.list_exclude.count() ):
+			exclude_list.append( str( self.list_exclude.item( index ).text().toUtf8() ) )
+
+		self.config.set_exclude_patterns( exclude_list )
+
+		#schedule
+		self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
+
+		#auto-remove
+		self.config.set_remove_old_snapshots( 
+						self.cb_remove_older_then.isChecked(), 
+						self.edit_remove_older_then.value(),
+						self.combo_remove_older_then.itemData( self.combo_remove_older_then.currentIndex() ).toInt()[0] )
+		self.config.set_min_free_space( 
+						self.cb_min_free_space.isChecked(), 
+						self.edit_min_free_space.value(),
+						self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ).toInt()[0] )
+		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.isChecked() )
+		self.config.set_smart_remove( self.cb_smart_remove.isChecked() )
+
+		#options
+		self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
+
+		#expert options
+		self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
+		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.isChecked() )
+
 	def error_handler( self, message ):
 		KMessageBox.error( self, QString.fromUtf8( message ) )
 
@@ -350,7 +405,7 @@ class SettingsDialog( KDialog ):
 		ret_val = KDialog.exec_( self )
 		self.config.clear_handlers()
 
-		if ret_val != QDialog.Accepted:
+		if ret_val == QDialog.Accepted:
 			self.config.dict = self.config_copy_dict
 			
 		self.config.set_current_profile( self.current_profile_org )
@@ -424,70 +479,15 @@ class SettingsDialog( KDialog ):
 				break
 
 	def validate( self ):
-		#snapshots path
-		snapshots_path = str( self.edit_snapshots_path.text().toUtf8() )
+		self.save_profile()
 
-		#include list 
-		include_list = []
-		for index in xrange( self.list_include.topLevelItemCount() ):
-			item = self.list_include.topLevelItem( index )
-			include_list.append( [ str( item.text(0).toUtf8() ), item.data( 0, Qt.UserRole ).toInt()[0] ] )
-
-		#exclude patterns
-		exclude_list = []
-		for index in xrange( self.list_exclude.count() ):
-			exclude_list.append( str( self.list_exclude.item( index ).text().toUtf8() ) )
-
-		#check params
-		check_ret_val = self.config.check_take_snapshot_params( snapshots_path, include_list, exclude_list )
-		if not check_ret_val is None:
-			err_id, err_msg = check_ret_val
-			KMessageBox.error( self, QString.fromUtf8( err_msg ) )
+		if not self.config.check_config():
 			return False
 
-		#check if back folder changed
-		if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
-			if KMessageBox.Yes != KMessageBox.warningYesNo( self, QString.fromUtf8( _('Are you sure you want to change snapshots folder ?') ) ):
-				return False 
-
-		#ok let's save to config
-		msg = self.config.set_snapshots_path( snapshots_path )
-		if not msg is None:
-			KMessageBox.error( self, QString.fromUtf8( msg ) )
+		if not self.config.setup_cron():
 			return False
-
-		self.config.set_include_folders( include_list )
-		self.config.set_exclude_patterns( exclude_list )
-
-		#schedule
-		self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
-
-		#auto-remove
-		self.config.set_remove_old_snapshots( 
-						self.cb_remove_older_then.isChecked(), 
-						self.edit_remove_older_then.value(),
-						self.combo_remove_older_then.itemData( self.combo_remove_older_then.currentIndex() ).toInt()[0] )
-		self.config.set_min_free_space( 
-						self.cb_min_free_space.isChecked(), 
-						self.edit_min_free_space.value(),
-						self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ).toInt()[0] )
-		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.isChecked() )
-		self.config.set_smart_remove( self.cb_smart_remove.isChecked() )
-
-		#options
-		self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
-
-		#expert options
-		self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
-		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.isChecked() )
 
 		self.config.save()
-		
-		msg = self.config.setup_cron()
-		if not msg is None:
-			KMessageBox.error( self, QString.fromUtf8( msg ) )
-			return False
-
 		return True
 
 	def on_btn_exclude_remove_clicked ( self ):
@@ -558,8 +558,13 @@ class SettingsDialog( KDialog ):
 		self.add_include( [ path, self.config.NONE ] )
 
 	def on_btn_snapshots_path_clicked( self ):
+		old_path = str( self.edit_snapshots_path.text().toUtf8() )
+
 		path = str( KFileDialog.getExistingDirectory( KUrl( self.edit_snapshots_path.text() ), self, QString.fromUtf8( _( 'Where to save snapshots' ) ) ).toUtf8() )
 		if len( path ) > 0 :
+			if len( old_path ) > 0 and old_path != path:
+				if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
+					return
 			self.edit_snapshots_path.setText( QString.fromUtf8( self.config.prepare_path( path ) ) )
 
 	def accept( self ):
