@@ -81,12 +81,15 @@ class SettingsDialog( KDialog ):
 		self.disable_profile_changed = False
 
 		self.btn_edit_profile = KPushButton( KIcon( 'edit-rename' ), QString.fromUtf8( _('Edit') ), self )
+		QObject.connect( self.btn_edit_profile, SIGNAL('clicked()'), self.edit_profile )
 		layout.addWidget( self.btn_edit_profile )
 
 		self.btn_add_profile = KPushButton( KStandardGuiItem.add(), self )
+		QObject.connect( self.btn_add_profile, SIGNAL('clicked()'), self.add_profile )
 		layout.addWidget( self.btn_add_profile )
 
 		self.btn_remove_profile = KPushButton( KStandardGuiItem.remove(), self )
+		QObject.connect( self.btn_remove_profile, SIGNAL('clicked()'), self.remove_profile )
 		layout.addWidget( self.btn_remove_profile )
 
 		#TABs
@@ -267,6 +270,39 @@ class SettingsDialog( KDialog ):
 
 		self.update_profiles()
 
+	def add_profile( self ):
+		ret_val = KInputDialog.getText( QString.fromUtf8( _( 'New profile' ) ), '', '', self )
+		if not ret_val[1]:
+			return
+
+		name = str( ret_val[0].toUtf8() ).strip()
+		if len( name ) <= 0:
+			return
+
+		if not self.config.add_profile( name ):
+			return
+
+		self.update_profiles()
+
+	def edit_profile( self ):
+		ret_val = KInputDialog.getText( QString.fromUtf8( _( 'Rename profile' ) ), '', '', self )
+		if not ret_val[1]:
+			return
+
+		name = str( ret_val[0].toUtf8() ).strip()
+		if len( name ) <= 0:
+			return
+
+		if not self.config.set_profile_name( name ):
+			return
+
+		self.update_profiles()
+
+	def remove_profile( self ):
+		if self.question_handler( _('Are you sure you want to delete the profile "%s" ?') % self.config.get_profile_name() ):
+			self.config.remove_profile()
+			self.update_profiles()
+
 	def current_profile_changed( self, index ):
 		if self.disable_profile_changed:
 			return
@@ -405,7 +441,7 @@ class SettingsDialog( KDialog ):
 		ret_val = KDialog.exec_( self )
 		self.config.clear_handlers()
 
-		if ret_val == QDialog.Accepted:
+		if ret_val != QDialog.Accepted:
 			self.config.dict = self.config_copy_dict
 			
 		self.config.set_current_profile( self.current_profile_org )
