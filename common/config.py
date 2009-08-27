@@ -349,6 +349,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_run_nice_from_cron_enabled( self, value, profile_id = None ):
 		self.set_profile_bool_value( 'snapshots.cron.nice', value, profile_id )
 
+	def is_no_on_battery_enabled( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.no_on_battery', False, profile_id )
+
+	def set_no_on_battery_enabled( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.no_on_battery', value, profile_id )
+
 	def get_take_snapshot_user_script( self, step, profile_id = None ):
 		return self.get_str_value( "snapshots.take_snapshot.%s.user.script" % step, profile_id )
 

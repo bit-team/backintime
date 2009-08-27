@@ -371,12 +371,18 @@ class Snapshots:
 		if not self.config.is_configured():
 			logger.warning( 'Not configured' )
 			self.plugin_manager.on_error( 1 ) #not configured
+		elif self.config.is_no_on_battery_enabled() and tools.on_battery():
+			logger.info( 'Deferring backup while on battery' )
+			logger.warning( 'Backup not performed' )
 		else:
 			instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
 			if not instance.check():
 				logger.warning( 'A backup is already running' )
 				self.plugin_manager.on_error( 2 ) #a backup is already running
 			else:
+				if self.config.is_no_on_battery_enabled () and not tools.power_status_available():
+					logger.warning( 'Backups disabled on battery but power status is not available' )
+								
 				instance.start_application()
 				logger.info( 'Lock' )
 
