@@ -16,6 +16,13 @@ if [ $CHECK = "--check" ]; then
 	fi
 fi
 
+#check for kdesudo (if not use kdesu)
+if [ -z `which kdesudo` ]; then
+	mv backintime-kde4-root.desktop.kdesudo backintime-kde4-root.desktop
+else
+	mv backintime-kde4-root.desktop.kdesu backintime-kde4-root.desktop
+fi
+
 cp Makefile.template Makefile
 
 echo "All OK. Now run:"
