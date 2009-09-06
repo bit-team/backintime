@@ -22,6 +22,8 @@ import pluginmanager
 import tools
 import logger
 import gettext
+from subprocess import Popen
+from subprocess import PIPE
 
 _=gettext.gettext
 
@@ -39,7 +41,17 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
 
 	def notify_callback( self, args = '' ):
 		logger.info( "[UserCallbackPlugin.notify_callback] %s" % args )
-		os.system( "sh \"%s\" %s" % ( self.callback, args ) )
+		try:
+			callback = Popen( [self.callback, args], stdout=PIPE, stderr=PIPE )
+			output = callback.communicate()
+			if output[0]:
+				logger.info( "[UserCallbackPlugin.notify_callback callback output] %s" % output[0] )
+			if callback.returncode != 0:
+				logger.error( "[UserCallbackPlugin.notify_callback callback error] %s" % output[1] )
+				exit()
+		except OSError:
+			logger.error( "[UserCallbackPlugin.notify_callback] Exception when trying to run user callback" )
+			exit()
 
 	def on_process_begins( self ):
 		self.notify_callback( '1' )
