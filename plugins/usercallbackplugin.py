@@ -42,7 +42,7 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
 	def notify_callback( self, args = '' ):
 		logger.info( "[UserCallbackPlugin.notify_callback] %s" % args )
 		try:
-			callback = Popen( [self.callback, args], stdout=PIPE, stderr=PIPE )
+			callback = Popen( "\"%s\" %s" % ( self.callback, args ), shell=True, stdout=PIPE, stderr=PIPE )
 			output = callback.communicate()
 			if output[0]:
 				logger.info( "[UserCallbackPlugin.notify_callback callback output] %s" % output[0] )
