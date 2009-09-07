@@ -46,12 +46,12 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
 			output = callback.communicate()
 			if output[0]:
 				logger.info( "[UserCallbackPlugin.notify_callback callback output] %s" % output[0] )
-			if callback.returncode != 0:
+			if output[1]:
 				logger.error( "[UserCallbackPlugin.notify_callback callback error] %s" % output[1] )
+			if callback.returncode != 0:
 				exit()
 		except OSError:
 			logger.error( "[UserCallbackPlugin.notify_callback] Exception when trying to run user callback" )
-			exit()
 
 	def on_process_begins( self ):
 		self.notify_callback( '1' )
