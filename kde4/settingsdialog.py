@@ -556,7 +556,7 @@ class SettingsDialog( KDialog ):
 			KMessageBox.error( self, QString.fromUtf8( _('Exclude patterns can\'t contain \':\' char !') ) )
 			return
 	
-		self.add_exclude_(  )
+		self.add_exclude_( pattern )
 
 	def on_btn_exclude_file_clicked( self ):
 		path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ).toUtf8() )
