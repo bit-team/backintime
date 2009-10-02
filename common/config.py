@@ -243,8 +243,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		self.set_profile_str_value( 'snapshots.include_folders', value, profile_id )
 
+	# Sets the default exclude patterns: caches, thumbnails, trashbins, and backups 
 	def get_exclude_patterns( self, profile_id = None ):
-		value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~', profile_id )
+		value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id )
 		if len( value ) <= 0:
 			return []
 		return value.split(':')
