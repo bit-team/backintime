@@ -225,8 +225,8 @@ class MainWindow:
 		column.set_sort_column_id( 2 )
 		self.list_folder_view.append_column( column )
 
-		# display name, relative path, icon_name, type (0 - directory, 1 - file), size (str), date, size (int)
-		self.store_folder_view = gtk.ListStore( str, str, str, int, str, str, int )
+		# display name, relative path, icon_name, type (0 - directory, 1 - file), size (str), date, size (float)
+		self.store_folder_view = gtk.ListStore( str, str, str, int, str, str, float )
 		self.store_folder_view.set_sort_func( 0, self.sort_folder_view_by_column, 0 ) #name
 		self.store_folder_view.set_sort_func( 1, self.sort_folder_view_by_column, 6 ) #size
 		self.store_folder_view.set_sort_func( 2, self.sort_folder_view_by_column, 5 )	#date
