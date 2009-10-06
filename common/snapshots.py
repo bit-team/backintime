@@ -314,7 +314,8 @@ class Snapshots:
 			return
 
 		path = self.get_snapshot_path( snapshot_id )
-		cmd = "chmod -R a+rwx \"%s\"" %  path
+		#cmd = "chmod -R a+rwx \"%s\"" %  path
+		cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path #Debian patch
 		self._execute( cmd )
 		cmd = "rm -rfv \"%s\"" % path
 		self._execute( cmd )
@@ -575,7 +576,8 @@ class Snapshots:
 
 		if os.path.exists( new_snapshot_path ):
 			#self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
-			self._execute( "chmod -R a+rwx \"%s\"" %  new_snapshot_path )
+			#self._execute( "chmod -R a+rwx \"%s\"" %  new_snapshot_path )
+			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
 		
 			if os.path.exists( new_snapshot_path ):
