@@ -1052,6 +1052,7 @@ class MainWindow:
 		selected_iter = None
 		for item in files:
 			rel_path = os.path.join( self.folder_path, item[0] )
+			item[0] = item[0].replace( '&' , '&amp;' )
 			new_iter = self.store_folder_view.append( [ item[0], rel_path, item[3], item[5], item[1], item[2], item[4] ] )
 			if selected_file == rel_path:
 				selected_iter = new_iter 
