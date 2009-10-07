@@ -31,40 +31,47 @@ _=gettext.gettext
 
 
 def show_question( parent, config, message ):
-	dialog = gtk.MessageDialog( parent, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO )
-	dialog.set_markup( message )
-	dialog.set_title( config.APP_NAME )
-	retVal = dialog.run()
-	dialog.destroy()
-	return retVal
+    dialog = gtk.MessageDialog( parent, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO )
+    dialog.set_markup( message )
+    dialog.set_title( config.APP_NAME )
+    retVal = dialog.run()
+    dialog.destroy()
+    return retVal
 
 def show_error( parent, config, message ):
-	dialog = gtk.MessageDialog( parent, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK )
-	dialog.set_markup( message )
-	dialog.set_title( config.APP_NAME )
-	retVal = dialog.run()
-	dialog.destroy()
-	return retVal
+    dialog = gtk.MessageDialog( parent, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK )
+    dialog.set_markup( message )
+    dialog.set_title( config.APP_NAME )
+    retVal = dialog.run()
+    dialog.destroy()
+    return retVal
 
 def text_input_dialog( parent, config, title, default_value = '' ):
-	glade = gtk.glade.XML( os.path.join( config.get_app_path(), 'gnome', 'textinputdialog.glade' ), None, 'backintime' )
-	dialog = glade.get_widget( 'TextInputDialog' )
-	dialog.set_title( title )
-	dialog.set_transient_for( parent )
+    
+    builder = gtk.Builder()
 
-	edit = glade.get_widget( 'edit_text' )
+    glade_file = os.path.join(config.get_app_path(), 'gnome',
+            'textinputdialog.glade')
 
-	if not default_value is None:
-		edit.set_text( default_value )
+    builder.add_from_file(glade_file)
 
-	edit.grab_focus()
-	
-	text = None
-	if gtk.RESPONSE_OK == dialog.run():
-		text = edit.get_text()
-	else:
-		text = default_value
+    dialog = builder.get_object( 'TextInputDialog' )
+    dialog.set_title( title )
+    dialog.set_transient_for( parent )
+    
+    edit = builder.get_object( 'edit_text' )
 
-	dialog.destroy()
-	return text  
+    if not default_value is None:
+        edit.set_text( default_value )
+
+    edit.grab_focus()
+    
+    text = None
+    if gtk.RESPONSE_OK == dialog.run():
+        text = edit.get_text()
+    else:
+        text = default_value
+
+    dialog.destroy()
+    return text  
 
