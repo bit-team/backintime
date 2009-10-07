@@ -217,6 +217,12 @@ class SettingsDialog(object):
         #enable notifications
         self.cb_enable_notifications = get( 'cb_enable_notifications' )
 
+	#don't run when on battery
+ 	self.cb_no_on_battery = get( 'cb_no_on_battery' )
+	if not tools.power_status_available ():
+		self.cb_no_on_battery.set_sensitive( False )
+		self.cb_no_on_battery.set_tooltip_text( 'Power status not available from system' )
+
         self.update_profiles()
 
     def error_handler( self, message ):
@@ -368,6 +374,9 @@ class SettingsDialog(object):
         #run 'nice' from cron
         self.cb_run_nice_from_cron = self.builder.get_object('cb_run_nice_from_cron')
         self.cb_run_nice_from_cron.set_active(self.config.is_run_nice_from_cron_enabled())
+        
+	#don't run when on battery
+	self.cb_no_on_battery.set_active( self.config.is_no_on_battery_enabled() )
 
     def save_profile( self ):
         #snapshots path
@@ -426,6 +435,7 @@ class SettingsDialog(object):
         #expert options
         self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
         self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active() )
+        self.config.set_set_no_on_battery_enabled( self.cb_no_on_battery.get_active() )
 
     def update_remove_old_backups( self, button ):
         enabled = self.cb_remove_old_backup.get_active()

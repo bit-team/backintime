@@ -646,11 +646,25 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkCheckButton" id="cb_no_on_battery">
+                    <property name="label" translatable="yes">Disable snapshots when on battery</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkLabel" id="label16">
                     <property name="visible">True</property>
                   </object>
                   <packing>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>

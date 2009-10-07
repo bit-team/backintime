@@ -235,8 +235,8 @@ class MainWindow(object):
         column.set_sort_column_id( 2 )
         self.list_folder_view.append_column( column )
 
-        # display name, relative path, icon_name, type (0 - directory, 1 - file), size (str), date, size (int)
-        self.store_folder_view = gtk.ListStore( str, str, str, int, str, str, int )
+        # display name, relative path, icon_name, type (0 - directory, 1 - file), size (str), date, size (float)
+        self.store_folder_view = gtk.ListStore( str, str, str, int, str, str, float )
         self.store_folder_view.set_sort_func( 0, self.sort_folder_view_by_column, 0 ) #name
         self.store_folder_view.set_sort_func( 1, self.sort_folder_view_by_column, 6 ) #size
         self.store_folder_view.set_sort_func( 2, self.sort_folder_view_by_column, 5 )   #date
@@ -1062,6 +1062,7 @@ class MainWindow(object):
         selected_iter = None
         for item in files:
             rel_path = os.path.join( self.folder_path, item[0] )
+            item[0] = item[0].replace( '&' , '&amp;' )
             new_iter = self.store_folder_view.append( [ item[0], rel_path, item[3], item[5], item[1], item[2], item[4] ] )
             if selected_file == rel_path:
                 selected_iter = new_iter 
