@@ -779,7 +779,7 @@ class MainWindow( KMainWindow ):
 		if model_index is None:
 			return
 
-		rel_path = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString().toUtf8() )
+		rel_path = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString().toAscii() )
 		if len( rel_path ) <= 0:
 			return
 
