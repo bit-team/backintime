@@ -19,7 +19,12 @@
 import os.path
 import os
 import sys
+import subprocess
 
+
+ON_AC = 0
+ON_BATTERY = 1
+POWER_ERROR = 255
 
 def get_backintime_path( path ):
 	return os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), path )
@@ -116,4 +121,23 @@ def prepare_path( path ):
 	path = os.sep + path
 	return path
 
+
+def power_status_available():
+	"""Uses the on_ac_power command to detect if the the system is able
+	to return the power status."""
+	try:
+		rt = subprocess.call( 'on_ac_power' )
+		if rt == ON_AC or rt == ON_BATTERY:
+			return True
+	except:
+		pass
+	return False
+
+
+def on_battery():
+	"""Checks if the system is on battery power."""
+	if power_status_available ():
+		return subprocess.call ( 'on_ac_power' ) == ON_BATTERY
+	else:
+		return False
 
