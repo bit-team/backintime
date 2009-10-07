@@ -435,7 +435,7 @@ class SettingsDialog(object):
         #expert options
         self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
         self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active() )
-        self.config.set_set_no_on_battery_enabled( self.cb_no_on_battery.get_active() )
+        self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active() )
 
     def update_remove_old_backups( self, button ):
         enabled = self.cb_remove_old_backup.get_active()
