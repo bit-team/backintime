@@ -35,6 +35,8 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
 		return True
 
 	def notify_script( self, path, args = '' ):
+		if path == None:
+			return
 		if len( path ) <= 0:
 			return
 
