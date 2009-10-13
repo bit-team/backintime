@@ -142,6 +142,7 @@ class MainWindow:
 		#fix a glade bug
 		self.glade.get_widget( 'btn_current_path' ).set_expand( True )
 		#self.glade.get_widget( 'tb_sep_item' ).set_expand( True )
+		self.glade.get_widget( 'mtb_separator1' ).set_expand( True )
 
 		#profiles
 		self.disable_combo_changed = True

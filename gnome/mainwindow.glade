@@ -12,6 +12,7 @@
     <child>
       <widget class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkToolbar" id="toolbar1">
             <property name="visible">True</property>
@@ -153,89 +154,59 @@
                 <property name="homogeneous">True</property>
               </packing>
             </child>
+            <child>
+              <widget class="GtkToolItem" id="mtb_separator1">
+                <property name="visible">True</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">True</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolItem" id="toolbutton6">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkComboBox" id="combo_profiles">
+                    <property name="visible">True</property>
+                    <signal name="changed" handler="on_combo_profiles_changed"/>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolbutton9">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="btn_website">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Website</property>
+                <property name="label" translatable="yes">Website</property>
+                <property name="stock_id">gtk-home</property>
+                <signal name="clicked" handler="on_btn_website_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
           </widget>
           <packing>
             <property name="expand">False</property>
             <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkVBox" id="vbox2">
-            <property name="visible">True</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">2</property>
-            <child>
-              <widget class="GtkHBox" id="hbox1">
-                <property name="visible">True</property>
-                <property name="spacing">5</property>
-                <child>
-                  <widget class="GtkHBox" id="hbox2">
-                    <property name="visible">True</property>
-                    <child>
-                      <widget class="GtkLabel" id="label1">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Profile:</property>
-                        <property name="single_line_mode">True</property>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="padding">5</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkComboBox" id="combo_profiles">
-                        <property name="visible">True</property>
-                        <signal name="changed" handler="on_combo_profiles_changed"/>
-                      </widget>
-                      <packing>
-                        <property name="pack_type">end</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <widget class="GtkLinkButton" id="linkbutton1">
-                    <property name="label">backintime.le-web.org</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">1</property>
-                    <property name="uri">http://backintime.le-web.org</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkHSeparator" id="hseparator1">
-                <property name="visible">True</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="expand">False</property>
-            <property name="padding">2</property>
-            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -273,12 +244,14 @@
                   <widget class="GtkVBox" id="vbox6">
                     <property name="visible">True</property>
                     <property name="border_width">5</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkToolbar" id="toolbar3">
                         <property name="visible">True</property>
                         <child>
                           <widget class="GtkToolButton" id="btn_folder_up">
                             <property name="visible">True</property>
+                            <property name="has_tooltip">True</property>
                             <property name="tooltip" translatable="yes">Parent folder</property>
                             <property name="label" translatable="yes">Up</property>
                             <property name="stock_id">gtk-go-up</property>
@@ -297,6 +270,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="editable">False</property>
+                                <property name="invisible_char">&#x2022;</property>
                               </widget>
                             </child>
                           </widget>
@@ -307,6 +281,7 @@
                         <child>
                           <widget class="GtkToggleToolButton" id="btn_hidden_files">
                             <property name="visible">True</property>
+                            <property name="has_tooltip">True</property>
                             <property name="tooltip" translatable="yes">Show hidden files</property>
                             <property name="label" translatable="yes">Hidden files</property>
                             <property name="stock_id">gtk-add</property>
@@ -328,6 +303,7 @@
                         <child>
                           <widget class="GtkToolButton" id="btn_restore">
                             <property name="visible">True</property>
+                            <property name="has_tooltip">True</property>
                             <property name="tooltip" translatable="yes">Restore</property>
                             <property name="label" translatable="yes">Restore</property>
                             <property name="stock_id">gtk-undelete</property>
@@ -341,6 +317,7 @@
                         <child>
                           <widget class="GtkToolButton" id="btn_copy">
                             <property name="visible">True</property>
+                            <property name="has_tooltip">True</property>
                             <property name="tooltip" translatable="yes">Copy</property>
                             <property name="label" translatable="yes">Copy</property>
                             <property name="stock_id">gtk-copy</property>
@@ -354,6 +331,7 @@
                         <child>
                           <widget class="GtkToolButton" id="btn_snapshots">
                             <property name="visible">True</property>
+                            <property name="has_tooltip">True</property>
                             <property name="tooltip" translatable="yes">Snapshots</property>
                             <property name="label" translatable="yes">Snapshots</property>
                             <property name="stock_id">gtk-index</property>
@@ -413,7 +391,6 @@
                                   <widget class="GtkTreeView" id="list_folder_view">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="has_focus">True</property>
                                     <signal name="button_press_event" handler="on_list_folder_view_button_press_event"/>
                                     <signal name="row_activated" handler="on_list_folder_view_row_activated"/>
                                     <signal name="popup_menu" handler="on_list_folder_view_popup_menu"/>
@@ -465,7 +442,6 @@ in current snapshot !&lt;/b&gt;</property>
                 <child>
                   <widget class="GtkLabel" id="lbl_snapshot">
                     <property name="visible">True</property>
-                    <property name="has_tooltip">True</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -480,19 +456,18 @@ in current snapshot !&lt;/b&gt;</property>
             </child>
           </widget>
           <packing>
-            <property name="position">3</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
           <widget class="GtkStatusbar" id="status_bar">
             <property name="visible">True</property>
-            <property name="has_tooltip">True</property>
             <property name="spacing">5</property>
           </widget>
           <packing>
             <property name="expand">False</property>
             <property name="pack_type">end</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </widget>
