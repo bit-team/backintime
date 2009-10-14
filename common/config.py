@@ -194,6 +194,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' ) 
 
 	def set_snapshots_path( self, value, profile_id = None ):
+		"""Sets the snapshot path to value, initializes, and checks it"""
 		if len( value ) <= 0:
 			return False
 
@@ -201,13 +202,22 @@ class Config( configfile.ConfigFileWithProfiles ):
 			self.notify_error( _( '%s is not a folder !' ) )
 			return False
 
+		#Initialize the snapshots folder
 		full_path = os.path.join( value, 'backintime' ) 
 		if not os.path.isdir( full_path ):
 			tools.make_dirs( full_path )
 			if not os.path.isdir( full_path ):
-				self.notify_error( _( 'Can\'t write to: %s\nAre you sure have write access ?' ) )
+				self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % value ) )
 				return False
-
+		
+		#Test write access for the folder
+		check_path = os.path.join( full_path, 'check' )
+		tools.make_dirs( check_path )
+		if not os.path.isdir( check_path ):
+			self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % full_path ) )
+			return False
+		
+		os.rmdir( check_path )
 		self.set_profile_str_value( 'snapshots.path', value, profile_id )
 		return True
 

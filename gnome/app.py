@@ -310,7 +310,7 @@ class MainWindow(object):
         gobject.timeout_add( 1000, self.update_backup_info )
 
     def on_combo_profiles_changed( self, *params ):
-        if self.disable_combo_changed:
+    	if self.disable_combo_changed:
             return
 
         iter = self.combo_profiles.get_active_iter()
@@ -328,10 +328,11 @@ class MainWindow(object):
         self.update_all( first_update_all )
 
     def update_profiles( self ):
+    	"""Populates the profile list"""
         self.disable_combo_changed = True
 
         profiles = self.config.get_profiles_sorted_by_name()
-
+		
         select_iter = None
         self.store_profiles.clear()
 
@@ -892,6 +893,7 @@ class MainWindow(object):
 
         if snapshots_path != self.config.get_snapshots_path() or include_folders != self.config.get_include_folders():
             self.update_all( False )
+        self.update_profiles()
 
     def on_btn_snapshot_name_clicked( self, button ):
         iter = self.list_time_line.get_selection().get_selected()[1]
