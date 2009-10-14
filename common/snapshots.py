@@ -660,23 +660,27 @@ class Snapshots:
 			self.set_take_snapshot_message( 0, _('Create hard-links') )
 			logger.info( "Create hard-links" )
 			
-			if force or len( ignore_folders ) == 0:
-				cmd = "cp -al \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
-				self._execute( cmd )
-			else:
-				for folder in include_folders:
-					prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
-					new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
-					tools.make_dirs( new_path )
-					cmd = "cp -alb \"%s\"* \"%s\"" % ( prev_path, new_path )
-					self._execute( cmd )
+			# When schedule per included folders is enabled this did not work (cp -alb iso cp -al?)
+			# This resulted in a complete rsync for the whole snapshot consuming time and space
+			# The ignored folders were copied afterwards. To solve this, the whole last snapshot is now hardlinked
+			# and rsync is called only for the folders that should be synced (without --delete-excluded).  
+			#if force or len( ignore_folders ) == 0:
+			cmd = "cp -al \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
+			self._execute( cmd )
+			#else:
+			#	for folder in include_folders:
+			#		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
+			#		new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
+			#		tools.make_dirs( new_path )
+			#		cmd = "cp -alb \"%s\"* \"%s\"" % ( prev_path, new_path )
+			#		self._execute( cmd )
 		else:
 			if not self._create_directory( new_snapshot_path_to ):
 				return False
 
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
-		cmd = rsync_prefix + ' -v --delete-excluded ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
+		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + new_snapshot_path_to + '"' # do not delete the excluded, as we will miss the hardlinks with files or folders that are scheduled for a later time
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
 
@@ -695,33 +699,34 @@ class Snapshots:
 				fileinfo_dict[item_path] = 1
 				self._save_path_info( fileinfo, item_path )
 
-		#copy ignored folders
-		if not force and len( prev_snapshot_id ) > 0 and len( ignore_folders ) > 0:
-			prev_fileinfo_dict = self.load_fileinfo_dict( prev_snapshot_id )
+		# We now copy on forehand, so copying afterwards is not necessary anymore
+		##copy ignored folders
+		#if not force and len( prev_snapshot_id ) > 0 and len( ignore_folders ) > 0:
+		#	prev_fileinfo_dict = self.load_fileinfo_dict( prev_snapshot_id )
+		#
+		#	for folder in ignore_folders:
+		#		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
+		#		new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
+		#		tools.make_dirs( new_path )
+		#		cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
+		#		self._execute( cmd )
+		#
+		#		if len( prev_fileinfo_dict ) > 0:
+		#			#save permissions for all items to folder
+		#			item_path = '/'
+		#			prev_path_items = folder.strip( '/' ).split( '/' )
+		#			for item in items:
+		#				item_path = os.path.join( item_path, item )
+		#				if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
+		#					self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
 
-			for folder in ignore_folders:
-				prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
-				new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
-				tools.make_dirs( new_path )
-				cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
-				self._execute( cmd )
-		
-				if len( prev_fileinfo_dict ) > 0:
-					#save permissions for all items to folder
-					item_path = '/'
-					prev_path_items = folder.strip( '/' ).split( '/' )
-					for item in items:
-						item_path = os.path.join( item_path, item )
-						if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
-							self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
-
-					#save permission for all items in folder
-					for path, dirs, files in os.walk( new_path ):
-						dirs.extend( files )
-						for item in dirs:
-							item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-							if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
-								self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
+		#			#save permission for all items in folder
+		#			for path, dirs, files in os.walk( new_path ):
+		#				dirs.extend( files )
+		#				for item in dirs:
+		#					item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
+		#					if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
+		#						self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
 
 		fileinfo.close()
 
