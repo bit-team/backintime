@@ -30,6 +30,7 @@ from PyKDE4.kdeui import *
 from PyKDE4.kio import *
 
 import config
+import tools
 import kde4tools
 
 
@@ -265,6 +266,12 @@ class SettingsDialog( KDialog ):
 		self.cb_run_nice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'nice\' as cron job (default: enabled)' ) ), self )
 		layout.addWidget( self.cb_run_nice_from_cron )
 
+		self.cb_no_on_battery = QCheckBox( QString.fromUtf8( _( 'Disable snapshots when on battery' ) ), self )
+		if not tools.power_status_available ():
+			self.cb_no_on_battery.setEnabled ( False )
+			self.cb_no_on_battery.setToolTip ( QString.fromUtf8 ( _( 'Power status not available from system' ) ) )
+		layout.addWidget( self.cb_no_on_battery )
+
 		#
 		layout.addStretch()
 
@@ -382,6 +389,7 @@ class SettingsDialog( KDialog ):
 		#TAB: Expert Options
 		self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
 		self.cb_run_nice_from_cron.setChecked( self.config.is_run_nice_from_cron_enabled() )
+		self.cb_no_on_battery.setChecked( self.config.is_no_on_battery_enabled() )
 
 		#update
 		self.update_include_columns()
@@ -428,6 +436,7 @@ class SettingsDialog( KDialog ):
 		#expert options
 		self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
 		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.isChecked() )
+		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.isChecked() )
 
 	def error_handler( self, message ):
 		KMessageBox.error( self, QString.fromUtf8( message ) )
@@ -556,7 +565,7 @@ class SettingsDialog( KDialog ):
 			KMessageBox.error( self, QString.fromUtf8( _('Exclude patterns can\'t contain \':\' char !') ) )
 			return
 	
-		self.add_exclude_(  )
+		self.add_exclude_( pattern )
 
 	def on_btn_exclude_file_clicked( self ):
 		path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ).toUtf8() )

@@ -243,8 +243,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		self.set_profile_str_value( 'snapshots.include_folders', value, profile_id )
 
+	# Sets the default exclude patterns: caches, thumbnails, trashbins, and backups 
 	def get_exclude_patterns( self, profile_id = None ):
-		value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.*:*.backup*:*~', profile_id )
+		value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id )
 		if len( value ) <= 0:
 			return []
 		return value.split(':')
@@ -349,11 +350,17 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_run_nice_from_cron_enabled( self, value, profile_id = None ):
 		self.set_profile_bool_value( 'snapshots.cron.nice', value, profile_id )
 
+	def is_no_on_battery_enabled( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.no_on_battery', False, profile_id )
+
+	def set_no_on_battery_enabled( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.no_on_battery', value, profile_id )
+
 	def get_take_snapshot_user_script( self, step, profile_id = None ):
-		return self.get_str_value( "snapshots.take_snapshot.%s.user.script" % step, profile_id )
+		return self.get_profile_str_value ( "snapshots.take_snapshot.%s.user.script" % step, '', profile_id )
 
 	def set_take_snapshot_user_script( self, step, path, profile_id = None ):
-		self.set_str_value( "snapshots.take_snapshot.%s.user.script" % step, path, profile_id )
+		self.set_profile_str_value( "snapshots.take_snapshot.%s.user.script" % step, path, profile_id )
 
 	def get_take_snapshot_user_script_before( self, profile_id = None ):
 		return self.get_take_snapshot_user_script( 'before', profile_id )
@@ -485,15 +492,15 @@ class Config( configfile.ConfigFileWithProfiles ):
 			elif self._10_MIN == min_backup_mode:
 				cron_line = 'echo "*/10 * * * * {cmd}"'
 			if self.HOUR == min_backup_mode:
-				cron_line = 'echo "@hourly {cmd}"'
+				cron_line = 'echo "0 * * * * {cmd}"'
 			elif self.DAY == min_backup_mode:
-				cron_line = 'echo "@daily {cmd}"'
+				cron_line = 'echo "0 0 * * * {cmd}"'
 			elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day
-				cron_line = 'echo "@daily {cmd}"'
+				cron_line = 'echo "0 0 * * * {cmd}"'
 			elif self.WEEK == min_backup_mode:
-				cron_line = 'echo "@weekly {cmd}"'
+				cron_line = 'echo "0 0 * * 0 {cmd}"'
 			elif self.MONTH == min_backup_mode:
-				cron_line = 'echo "@monthly {cmd}"'
+				cron_line = 'echo "0 0 1 * * {cmd}"'
 
 			if len( cron_line ) > 0:
 				cmd = "/usr/bin/backintime --profile \\\"%s\\\" --backup-job >/dev/null 2>&1" % profile_name
