@@ -152,9 +152,9 @@ class MainWindow(object):
         #fix a glade bug
         self.builder.get_object( 'btn_current_path' ).set_expand( True )
         #self.builder.get_object( 'tb_sep_item' ).set_expand( True )
-		self.builder.get_object( 'mtb_separator1' ).set_expand( True )
+	self.builder.get_object( 'mtb_separator1' ).set_expand( True )
         
-		#profiles
+	#profiles
         self.disable_combo_changed = True
         self.first_update_all = True
 
