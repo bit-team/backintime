@@ -119,7 +119,6 @@ class MainWindow(object):
                 'on_MainWindow_delete_event' : self.on_close,
                 'on_MainWindow_key_release_event': self.on_key_release_event,
                 'on_btn_exit_clicked' : self.on_close,
-                'on_btn_link_clicked' : self.on_btn_link_clicked,
                 'on_btn_help_clicked' : self.on_btn_help_clicked,
                 'on_btn_about_clicked' : self.on_btn_about_clicked,
                 'on_btn_settings_clicked' : self.on_btn_settings_clicked,
@@ -139,6 +138,7 @@ class MainWindow(object):
                 'on_list_folder_view_button_press_event': self.on_list_folder_view_button_press_event,
                 'on_list_folder_view_drag_data_get': self.on_list_folder_view_drag_data_get,
                 'on_combo_profiles_changed': self.on_combo_profiles_changed,
+		'on_btn_website_clicked': self.on_btn_website_clicked,
             }
 
         builder.connect_signals(signals)
@@ -878,7 +878,7 @@ class MainWindow(object):
     def on_btn_help_clicked( self, button ):
         self.on_help()
 
-    def on_btn_link_clicked( self, button ):
+    def on_btn_website_clicked( self, button ):
         os.system( "gnome-open http://backintime.le-web.org &" )
 
     def on_key_release_event( self, widget, event ):
