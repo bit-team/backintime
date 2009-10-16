@@ -112,11 +112,10 @@ class MainWindow( KMainWindow ):
 		self.main_toolbar.addWidget( QLabel( QString.fromUtf8( _('Profile:') ), self ) )
 
 		self.first_update_all = True
-		self.disable_profile_changed = True
+		self.disable_profile_changed = False
 		self.combo_profiles = KComboBox( self )
 		self.main_toolbar.addWidget( self.combo_profiles )
 		self.combo_profiles.setMinimumWidth( 250 )
-		self.disable_profile_changed = False
 
 		self.main_toolbar.addSeparator()
 
@@ -308,9 +307,11 @@ class MainWindow( KMainWindow ):
 		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('canceled()'), self.on_dir_lister_completed )
 
 		#populate lists
-		self.update_time_line()
-		self.update_places()
-		self.update_files_view( 0 )
+		self.update_profiles()
+		QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.on_profile_changed )
+		#self.update_time_line()
+		#self.update_places()
+		#self.update_files_view( 0 )
 
 		self.list_files_view.setFocus()
 
@@ -362,6 +363,44 @@ class MainWindow( KMainWindow ):
 		self.config.save()
 
 		event.accept()
+
+	def update_profiles( self ):
+		if self.disable_profile_changed:
+			return
+
+		self.disable_profile_changed = True
+
+		self.combo_profiles.clear()
+
+		index = 0
+		profiles = self.config.get_profiles_sorted_by_name()
+
+		for profile_id in profiles:
+			if profile_id == self.config.get_current_profile():
+				index = self.combo_profiles.count()
+			self.combo_profiles.addItem( QString.fromUtf8( self.config.get_profile_name( profile_id ) ), QVariant( QString.fromUtf8( profile_id ) ) )
+
+		self.combo_profiles.setCurrentIndex( index )
+		self.update_profile()
+
+		self.disable_profile_changed = False
+
+	def update_profile( self ):
+		self.update_time_line()
+		self.update_places()
+		self.update_files_view( 0 )
+
+	def on_profile_changed( self, index ):
+		if self.disable_profile_changed:
+			return
+
+		profile_id = str( self.combo_profiles.itemData( index ).toString().toUtf8() )
+		if len( profile_id ) <= 0:
+			return
+		
+		if profile_id != self.config.get_current_profile():
+			self.config.set_current_profile( profile_id )
+			self.update_profile()
 
 	def get_default_startup_folder_and_file( self ):
 		last_path = self.config.get_str_value( 'gnome.last_path', '' )
@@ -683,21 +722,8 @@ class MainWindow( KMainWindow ):
 		self.update_time_line()
 
 	def on_btn_settings_clicked( self ):
-		snapshots_path = self.config.get_snapshots_path()
-		include_folders = self.config.get_include_folders()
-
-		settingsdialog.SettingsDialog( self ).exec_()
-
-		update_files_view = ( include_folders != self.config.get_include_folders() )
-
-		if snapshots_path == self.config.get_snapshots_path() and not update_files_view:
-		   return
-
-		if update_files_view:
-			self.update_places()
-
-		if snapshots_path != self.config.get_snapshots_path():
-			self.update_time_line( True )
+		if QDialog.Accepted == settingsdialog.SettingsDialog( self ).exec_():
+			self.update_profiles()
 
 	def on_btn_about_clicked( self ):
 		dlg = KAboutApplicationDialog( self.kaboutdata, self )
