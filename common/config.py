@@ -507,13 +507,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 			if self.HOUR == min_backup_mode:
 				cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
 			elif self.DAY == min_backup_mode:
-				cron_line = 'echo "{msg}\n0 0 * * * {cmd}"'
+				cron_line = 'echo "{msg}\n15 15 * * * {cmd}"'
 			elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day
-				cron_line = 'echo "{msg}\n0 0 * * * {cmd}"'
+				cron_line = 'echo "{msg}\n15 15 * * * {cmd}"'
 			elif self.WEEK == min_backup_mode:
-				cron_line = 'echo "{msg}\n0 0 * * 0 {cmd}"'
+				cron_line = 'echo "{msg}\n15 15 * * 0 {cmd}"'
 			elif self.MONTH == min_backup_mode:
-				cron_line = 'echo "{msg}\n0 0 1 * * {cmd}"'
+				cron_line = 'echo "{msg}\n15 15 1 * * {cmd}"'
 
 			if len( cron_line ) > 0:
 				cmd = "/usr/bin/backintime --profile \\\"%s\\\" --backup-job >/dev/null 2>&1" % profile_name
