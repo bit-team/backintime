@@ -26,6 +26,7 @@ import stat
 import bz2
 import pwd
 import grp
+import socket
 
 import config
 import configfile
@@ -731,8 +732,16 @@ class Snapshots:
 		fileinfo.close()
 
 		#create info file
+		logger.info( "Create info file" ) 
+		machine = socket.gethostname()
+		user = os.environ['LOGNAME']
+		profile_id = self.config.get_current_profile()
 		info_file = configfile.ConfigFile()
-		info_file.set_int_value( 'snapshot_version', 1 )
+		info_file.set_int_value( 'snapshot_version', 2 )
+		info_file.set_str_value( 'snapshot_date', snapshot_id )
+		info_file.set_str_value( 'snapshot_machine', machine )
+		info_file.set_str_value( 'snapshot_user', user )
+		info_file.set_int_value( 'snapshot_profile_id', profile_id )
 		info_file.save( self.get_snapshot_info_path( new_snapshot_id ) )
 		info_file = None
 
