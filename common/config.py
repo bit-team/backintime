@@ -458,8 +458,21 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return True
 
 	def setup_cron( self ):
-		os.system( "crontab -l | grep -v backintime | crontab -" )
-
+		system_entry_message = "#Back In Time system entry, this will be edited by the gui:"
+		
+		"""We have to check if the system_entry_message is in use,
+		if not then the entries are most likely from Back in Time 0.9.26
+		or earlier."""
+		if os.system( "crontab -l | grep '%s' > /dev/null" % system_entry_message ) != 0:
+			"""Then the system entry message has not yet been used in this crontab
+			therefore we assume all entries are system entries and clear them all.
+			This is the old behaviour"""
+			print "Clearing all backintime entries"
+			os.system( "crontab -l | grep -v backintime | crontab -" )
+		
+		print "Clearing system backintime entries"
+		os.system( "crontab -l | grep -Pv '(?s)%s.*?backintime' | crontab -" % system_entry_message )
+		
 		profiles = self.get_profiles()
 		
 		for profile_id in profiles:
@@ -498,25 +511,26 @@ class Config( configfile.ConfigFileWithProfiles ):
 			cron_line = ''
 			
 			if self._5_MIN == min_backup_mode:
-				cron_line = 'echo "*/5 * * * * {cmd}"'
+				cron_line = 'echo "{msg}\n*/5 * * * * {cmd}"'
 			elif self._10_MIN == min_backup_mode:
-				cron_line = 'echo "*/10 * * * * {cmd}"'
+				cron_line = 'echo "{msg}\n*/10 * * * * {cmd}"'
 			if self.HOUR == min_backup_mode:
-				cron_line = 'echo "0 * * * * {cmd}"'
+				cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
 			elif self.DAY == min_backup_mode:
-				cron_line = 'echo "0 0 * * * {cmd}"'
+				cron_line = 'echo "{msg}\n15 15 * * * {cmd}"'
 			elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day
-				cron_line = 'echo "0 0 * * * {cmd}"'
+				cron_line = 'echo "{msg}\n15 15 * * * {cmd}"'
 			elif self.WEEK == min_backup_mode:
-				cron_line = 'echo "0 0 * * 0 {cmd}"'
+				cron_line = 'echo "{msg}\n15 15 * * 0 {cmd}"'
 			elif self.MONTH == min_backup_mode:
-				cron_line = 'echo "0 0 1 * * {cmd}"'
+				cron_line = 'echo "{msg}\n15 15 1 * * {cmd}"'
 
 			if len( cron_line ) > 0:
 				cmd = "/usr/bin/backintime --profile \\\"%s\\\" --backup-job >/dev/null 2>&1" % profile_name
 				if self.is_run_nice_from_cron_enabled( profile_id ):
 					cmd = 'nice -n 19 ' + cmd
 				cron_line = cron_line.replace( '{cmd}', cmd )
+				cron_line = cron_line.replace( '{msg}', system_entry_message )
 				os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
 		return True
