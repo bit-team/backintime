@@ -20,6 +20,7 @@ import os.path
 import os
 import datetime
 import gettext
+import socket
 
 import configfile
 import tools
@@ -35,7 +36,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
 	VERSION = '0.9.99beta1'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan'
-	CONFIG_VERSION = 3
+	CONFIG_VERSION = 4
 
 	NONE = 0
 	_5_MIN = 2
@@ -135,6 +136,21 @@ class Config( configfile.ConfigFileWithProfiles ):
 			self.remap_key( 'snapshots.min_free_space.unit', 'profile1.snapshots.min_free_space.unit' )
 			self.remap_key( 'snapshots.dont_remove_named_snapshots', 'profile1.snapshots.dont_remove_named_snapshots' )
 			self.set_int_value( 'config.version', 3 )
+			
+		if self.get_int_value( 'config.version', 1 ) < 4:
+			# version 4 uses as path backintime/machine/user_profile_id
+			# but must be able to read old paths
+			profiles = self.get_profiles()
+			self.set_bool_value( 'update.other_folders', True )
+			print "update other folders"
+						
+			for profile_id in profiles:
+				old_folder = self.get_snapshots_path( profile_id )
+				other_folder = os.path.join( old_folder, 'backintime' )
+				other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
+				self.set_str_value( other_folder_key, other_folder )
+							
+			self.set_int_value( 'config.version', 4 )
 
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
@@ -203,7 +219,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return False
 
 		#Initialize the snapshots folder
-		full_path = os.path.join( value, 'backintime' ) 
+		logger.info( "Create info file" ) 
+		machine = socket.gethostname()
+		user = os.environ['LOGNAME']
+		user_profile_id = user + str( profile_id ) 
+		full_path = os.path.join( value, 'backintime', machine, user_profile_id ) 
 		if not os.path.isdir( full_path ):
 			tools.make_dirs( full_path )
 			if not os.path.isdir( full_path ):
@@ -221,6 +241,24 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_str_value( 'snapshots.path', value, profile_id )
 		return True
 
+	def get_other_folders_paths( self, profile_id = None ):
+		'''Returns the other snapshots folders paths as a list'''
+		value = self.get_profile_str_value( 'snapshots.other_folders', '', profile_id )
+		if len( value ) <= 0:
+			return []
+			
+		paths = []
+
+		for item in value.split(':'):
+			fields = item.split( '|' )
+
+			path = os.path.expanduser( item )
+			path = os.path.abspath( path )
+
+			paths.append( ( path ) )
+
+		return paths
+	
 	def get_include_folders( self, profile_id = None ):
 		value = self.get_profile_str_value( 'snapshots.include_folders', '', profile_id )
 		if len( value ) <= 0:
@@ -534,7 +572,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 				os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
 		return True
-
+	
+	def get_update_other_folders( self ):
+		return self.get_bool_value( 'update.other_folders', False )
+		
+	def set_update_other_folders( self, value ):
+		self.set_bool_value( 'update.other_folers', value )
 
 if __name__ == "__main__":
 	config = Config()

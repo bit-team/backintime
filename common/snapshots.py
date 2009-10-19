@@ -290,23 +290,41 @@ class Snapshots:
 			for item_path in all_dirs:
 				self._restore_path_info( item_path, file_info_dict )
 
+
 	def get_snapshots_list( self, sort_reverse = True ):
 		biglist = []
 		snapshots_path = self.config.get_snapshots_full_path()
-
+		snapshots_other_paths = self.config.get_other_folders_paths()
+		
 		try:
 			biglist = os.listdir( snapshots_path )
 		except:
 			pass
-
+			
 		list = []
 
 		for item in biglist:
 			if len( item ) != 15:
 				continue
 			if os.path.isdir( os.path.join( snapshots_path, item ) ):
-				list.append( item )
+				a = ( item, snapshots_path )
+				list.append( a )
 
+				
+		if len( snapshots_other_paths ) > 0:	
+			for folder in snapshots_other_paths:
+				try:
+					folderlist = os.listdir( snapshots_path )
+				except:
+					pass
+				
+				for member in folderlist:
+					if len( member ) != 15:
+						continue
+					if os.path.isdir( os.path.join( folder, member ) ):
+						a = ( member, folder )
+						list.append( a )
+		
 		list.sort( reverse = sort_reverse )
 		return list
 

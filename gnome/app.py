@@ -614,7 +614,10 @@ class MainWindow(object):
         self.store_time_line.clear()
         self.store_time_line.append( [ gnometools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
 
-        self.snapshots_list = self.snapshots.get_snapshots_list() 
+        self.snapshots_list_complete = self.snapshots.get_snapshots_list()
+        self.snapshots_list = []
+        for item in  self.snapshots_list_complete:
+        	self.snapshots_list.append( item[0] )
 
         groups = []
         now = datetime.date.today()
@@ -1123,6 +1126,17 @@ if __name__ == '__main__':
 
     logger.openlog()
     main_window = MainWindow( cfg, app_instance )
+    if cfg.get_update_other_folders() == True:
+    	profiles = cfg.get_profiles()
+    	
+    	for profile_id in profiles:
+    		old_folder = os.path.join( cfg.get_snapshots_path( profile_id ), 'backintime' )
+    		new_folder = cfg.get_snapshots_full_path( profile_id )
+    		latest_snapshot = tools.get_snapshots_list_in_folder( old_folder )
+    		latest_snapshot[0].copy_snapshot( old_folder, new_folder )
+    	
+    	cfg.set_update_other_folders( False )	
+    		
     if cfg.is_configured():
         gtk.main()
     logger.closelog()
