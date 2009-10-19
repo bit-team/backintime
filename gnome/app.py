@@ -1133,7 +1133,7 @@ if __name__ == '__main__':
     		old_folder = os.path.join( cfg.get_snapshots_path( profile_id ), 'backintime' )
     		new_folder = cfg.get_snapshots_full_path( profile_id )
     		latest_snapshot = tools.get_snapshots_list_in_folder( old_folder )
-    		latest_snapshot[0].copy_snapshot( old_folder, new_folder )
+    		#latest_snapshot[0].copy_snapshot( old_folder, new_folder )
     	
     	cfg.set_update_other_folders( False )	
     		

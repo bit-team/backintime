@@ -149,6 +149,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 				other_folder = os.path.join( old_folder, 'backintime' )
 				other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
 				self.set_str_value( other_folder_key, other_folder )
+				self.set_snapshots_path( old_folder, profile_id )
 							
 			self.set_int_value( 'config.version', 4 )
 
@@ -207,7 +208,10 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return self.get_profile_str_value( 'snapshots.path', '', profile_id )
 
 	def get_snapshots_full_path( self, profile_id = None ):
-		return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' ) 
+		machine = socket.gethostname()
+		user = os.environ['LOGNAME']
+		user_profile_id = user + str( profile_id ) 
+		return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user_profile_id ) 
 
 	def set_snapshots_path( self, value, profile_id = None ):
 		"""Sets the snapshot path to value, initializes, and checks it"""
@@ -219,7 +223,6 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return False
 
 		#Initialize the snapshots folder
-		logger.info( "Create info file" ) 
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
 		user_profile_id = user + str( profile_id ) 
@@ -577,7 +580,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return self.get_bool_value( 'update.other_folders', False )
 		
 	def set_update_other_folders( self, value ):
-		self.set_bool_value( 'update.other_folers', value )
+		self.set_bool_value( 'update.other_folders', value )
 
 if __name__ == "__main__":
 	config = Config()

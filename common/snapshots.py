@@ -313,6 +313,7 @@ class Snapshots:
 				
 		if len( snapshots_other_paths ) > 0:	
 			for folder in snapshots_other_paths:
+				folderlist = []
 				try:
 					folderlist = os.listdir( snapshots_path )
 				except:
