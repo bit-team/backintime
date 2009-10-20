@@ -62,17 +62,20 @@ class Snapshots:
 		return ""
 
 	def get_snapshot_path( self, date ):
-		path = os.path.join( self.config.get_snapshots_full_path(), self.get_snapshot_id( date ) )
+		profile_id = self.config.get_current_profile()
+		path = os.path.join( self.config.get_snapshots_full_path( profile_id ), self.get_snapshot_id( date ) )
 		if os.path.exists( path ):
 			print path
 			return path
 		other_folders = self.config.get_other_folders_paths()
 		for folder in other_folders:
 			print folder
-			path = os.path.join( folder, self.get_snapshot_id( date ) )
-			if os.path.exists( path ):
-				print path
-				return path 
+			path_other = os.path.join( folder, self.get_snapshot_id( date ) )
+			if os.path.exists( path_other ):
+				print path_other
+				return path_other
+		print path
+		return path
 
 	def get_snapshot_info_path( self, date ):
 		return os.path.join( self.get_snapshot_path( date ), 'info' )
@@ -375,6 +378,11 @@ class Snapshots:
 		cmd = "rm -rfv \"%s\"" % path
 		self._execute( cmd )
 
+	def copy_snapshot( snapshot_id, new_folder ):
+		current.path = self.get_snapshot_path( snapshot_id )
+		cmd = "cp -al \"%s\"* \"%s\"" % ( current_path, new_folder )
+		self._execute( cmd )
+	
 	def _get_last_snapshot_info( self ):
 		lines = ''
 		dict = {}
@@ -450,15 +458,17 @@ class Snapshots:
 					now = now.replace( second = 0 )
 
 				include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
-
+				
 				if len( include_folders ) <= 0:
 					logger.info( 'Nothing to do' )
 				else:
 					self.plugin_manager.on_process_begins() #take snapshot process begin
-
+					logger.info( "on process begins" )
 					self.set_take_snapshot_message( 0, '...' )
-
-					if not self.config.can_backup():
+					profile_id = self.config.get_current_profile()
+					logger.info( "Profile_id: %s" % profile_id )
+					
+					if not self.config.can_backup( profile_id ):
 						if self.plugin_manager.has_gui_plugins() and self.config.is_notify_enabled():
 							for counter in xrange( 30, 0, -1 ):
 								self.set_take_snapshot_message( 1, 
@@ -469,12 +479,13 @@ class Snapshots:
 								if self.config.can_backup():
 									break
 
-					if not self.config.can_backup():
+					if not self.config.can_backup( profile_id ):
 						logger.warning( 'Can\'t find snapshots folder !' )
 						self.plugin_manager.on_error( 3 ) #Can't find snapshots directory (is it on a removable drive ?)
 					else:
 						snapshot_id = self.get_snapshot_id( now )
 						snapshot_path = self.get_snapshot_path( snapshot_id )
+						logger.info ( " %s, %s " %( snapshot_id,snapshot_path ) )
 
 						if os.path.exists( snapshot_path ):
 							logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
@@ -684,6 +695,7 @@ class Snapshots:
 			self._set_last_snapshot_info( dict )
 
 		#check previous backup
+		#snapshots = self.get_snapshots_and_other_list() -> should only contain the personal snapshots
 		snapshots = self.get_snapshots_list()
 		prev_snapshot_id = ''
 
@@ -792,7 +804,7 @@ class Snapshots:
 		user = os.environ['LOGNAME']
 		profile_id = self.config.get_current_profile()
 		info_file = configfile.ConfigFile()
-		info_file.set_int_value( 'snapshot_version', SNAPSHOT_VERSION )
+		info_file.set_int_value( 'snapshot_version', self.SNAPSHOT_VERSION )
 		info_file.set_str_value( 'snapshot_date', snapshot_id )
 		info_file.set_str_value( 'snapshot_machine', machine )
 		info_file.set_str_value( 'snapshot_user', user )
