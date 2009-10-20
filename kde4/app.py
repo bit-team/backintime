@@ -67,6 +67,14 @@ class MainWindow( KMainWindow ):
 		self.main_toolbar = self.toolBar()
 		self.main_toolbar.setFloatable( False )
 
+		#profiles
+		#self.main_toolbar.addWidget( QLabel( QString.fromUtf8( _('Profile:') ), self ) )
+		self.first_update_all = True
+		self.disable_profile_changed = False
+		self.combo_profiles = KComboBox( self )
+		self.combo_profiles_action = self.main_toolbar.addWidget( self.combo_profiles )
+		#self.combo_profiles.setMinimumWidth( 250 )
+
 		self.btn_take_snapshot = self.main_toolbar.addAction( KIcon( 'document-save' ), '' )
 		self.btn_take_snapshot.setToolTip( QString.fromUtf8( _('Take snapshot') ) )
 		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
@@ -105,17 +113,7 @@ class MainWindow( KMainWindow ):
 		self.btn_quit.setToolTip( QString.fromUtf8( _('Exit') ) )
 		QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 
-		self.main_toolbar.addSeparator()
 		self.main_toolbar.addAction( KToolBarSpacerAction( self ) )
-
-		#profiles
-		self.main_toolbar.addWidget( QLabel( QString.fromUtf8( _('Profile:') ), self ) )
-
-		self.first_update_all = True
-		self.disable_profile_changed = False
-		self.combo_profiles = KComboBox( self )
-		self.main_toolbar.addWidget( self.combo_profiles )
-		self.combo_profiles.setMinimumWidth( 250 )
 
 		self.main_toolbar.addSeparator()
 
@@ -381,6 +379,8 @@ class MainWindow( KMainWindow ):
 			self.combo_profiles.addItem( QString.fromUtf8( self.config.get_profile_name( profile_id ) ), QVariant( QString.fromUtf8( profile_id ) ) )
 
 		self.combo_profiles.setCurrentIndex( index )
+		self.combo_profiles_action.setVisible( len( profiles ) > 1 )
+
 		self.update_profile()
 
 		self.disable_profile_changed = False
