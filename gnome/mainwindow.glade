@@ -17,6 +17,21 @@
           <object class="GtkToolbar" id="toolbar1">
             <property name="visible">True</property>
             <child>
+              <object class="GtkToolItem" id="tb_profiles">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkComboBox" id="combo_profiles">
+                    <property name="visible">True</property>
+                    <signal name="changed" handler="on_combo_profiles_changed"/>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkToolButton" id="btn_backup">
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">Take snapshot</property>
@@ -146,15 +161,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSeparatorToolItem" id="toolbutton8">
-                <property name="visible">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-          	<child>
               <object class="GtkToolItem" id="mtb_separator1">
                 <property name="visible">True</property>
                 <child>
@@ -167,22 +173,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolItem" id="toolbutton6">
-                <property name="visible">True</property>
-                <child>
-                  <object class="GtkComboBox" id="combo_profiles">
-                    <property name="visible">True</property>
-                    <signal name="changed" handler="on_combo_profiles_changed"/>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSeparatorToolItem" id="toolbutton9">
+              <object class="GtkSeparatorToolItem" id="toolbutton4">
                 <property name="visible">True</property>
               </object>
               <packing>
@@ -331,7 +322,7 @@
                         <child>
                           <object class="GtkToolButton" id="btn_snapshots">
                             <property name="visible">True</property>
-                          <property name="has_tooltip">True</property>
+                            <property name="has_tooltip">True</property>
                             <property name="tooltip_text" translatable="yes">Snapshots</property>
                             <property name="label" translatable="yes">Snapshots</property>
                             <property name="stock_id">gtk-index</property>

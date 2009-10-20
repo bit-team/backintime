@@ -109,8 +109,7 @@ class MainWindow(object):
         builder = gtk.Builder()
         self.builder = builder
 
-        glade_file = os.path.join(self.config.get_app_path(), 'gnome',
-                'mainwindow.glade')
+        glade_file = os.path.join(self.config.get_app_path(), 'gnome', 'mainwindow.glade')
 
         builder.add_from_file(glade_file)
 
@@ -138,7 +137,7 @@ class MainWindow(object):
                 'on_list_folder_view_button_press_event': self.on_list_folder_view_button_press_event,
                 'on_list_folder_view_drag_data_get': self.on_list_folder_view_drag_data_get,
                 'on_combo_profiles_changed': self.on_combo_profiles_changed,
-		'on_btn_website_clicked': self.on_btn_website_clicked,
+                'on_btn_website_clicked': self.on_btn_website_clicked,
             }
 
         builder.connect_signals(signals)
@@ -152,9 +151,9 @@ class MainWindow(object):
         #fix a glade bug
         self.builder.get_object( 'btn_current_path' ).set_expand( True )
         #self.builder.get_object( 'tb_sep_item' ).set_expand( True )
-	self.builder.get_object( 'mtb_separator1' ).set_expand( True )
+        self.builder.get_object( 'mtb_separator1' ).set_expand( True )
         
-	#profiles
+        #profiles
         self.disable_combo_changed = True
         self.first_update_all = True
 
@@ -329,24 +328,28 @@ class MainWindow(object):
         self.update_all( first_update_all )
 
     def update_profiles( self ):
-    	"""Populates the profile list"""
-        self.disable_combo_changed = True
+		"""Populates the profile list"""
+		self.disable_combo_changed = True
 
-        profiles = self.config.get_profiles_sorted_by_name()
+		profiles = self.config.get_profiles_sorted_by_name()
 		
-        select_iter = None
-        self.store_profiles.clear()
+		select_iter = None
+		self.store_profiles.clear()
 
-        for profile_id in profiles:
-            iter = self.store_profiles.append( [ self.config.get_profile_name( profile_id ), profile_id ] )
-            if profile_id == self.config.get_current_profile():
-                select_iter = iter
+		for profile_id in profiles:
+			iter = self.store_profiles.append( [ self.config.get_profile_name( profile_id ), profile_id ] )
+			if profile_id == self.config.get_current_profile():
+				select_iter = iter
             
+		self.disable_combo_changed = False
 
-        self.disable_combo_changed = False
+		if not select_iter is None:
+			self.combo_profiles.set_active_iter( select_iter )
 
-        if not select_iter is None:
-            self.combo_profiles.set_active_iter( select_iter )
+		if len( profiles ) > 1:
+			self.builder.get_object( 'tb_profiles' ).show()
+		else:
+			self.builder.get_object( 'tb_profiles' ).hide()
 
         #self.update_all( True )
 
