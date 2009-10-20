@@ -208,9 +208,10 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return self.get_profile_str_value( 'snapshots.path', '', profile_id )
 
 	def get_snapshots_full_path( self, profile_id = None ):
+		'''Returns the full path for the snapshots: .../backintime/machine/user-profile_id'''
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
-		user_profile_id = user + str( profile_id ) 
+		user_profile_id = user + '-' + str( profile_id ) 
 		return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user_profile_id ) 
 
 	def set_snapshots_path( self, value, profile_id = None ):
@@ -225,7 +226,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		#Initialize the snapshots folder
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
-		user_profile_id = user + str( profile_id ) 
+		user_profile_id = user + '-' + str( profile_id ) 
 		full_path = os.path.join( value, 'backintime', machine, user_profile_id ) 
 		if not os.path.isdir( full_path ):
 			tools.make_dirs( full_path )
@@ -490,10 +491,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return True
 
 	def can_backup( self, profile_id = None ):
+		'''Checks if snapshots_path exists''' 
 		if not self.is_configured( profile_id ):
 			return False
 
 		if not os.path.isdir( self.get_snapshots_full_path( profile_id ) ):
+			print "%s does not exist" % self.get_snapshots_full_path( profile_id )
 			return False
 
 		return True

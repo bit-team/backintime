@@ -25,6 +25,7 @@ import gettext
 import config
 import logger
 import snapshots
+import tools
 
 _=gettext.gettext
 
@@ -81,6 +82,19 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 	cfg = config.Config()
 	print_version( cfg, app_name )
 
+	# do if necessary some updates
+	if cfg.get_update_other_folders() == True:
+    		profiles = cfg.get_profiles()
+    	
+    		for profile_id in profiles:
+    			old_folder = os.path.join( cfg.get_snapshots_path( profile_id ), 'backintime' )
+    			new_folder = cfg.get_snapshots_full_path( profile_id )
+    			latest_snapshot = tools.get_snapshots_list_in_folder( old_folder )
+    			#latest_snapshot[0].copy_snapshot( old_folder, new_folder )
+    			print latest_snapshot[0]
+    	
+    		#cfg.set_update_other_folders( False )	
+	
 	skip = False
 	index = 0
 

@@ -40,6 +40,8 @@ _=gettext.gettext
 
 
 class Snapshots:
+	SNAPSHOT_VERSION = 3
+
 	def __init__( self, cfg = None ):
 		self.config = cfg
 		if self.config is None:
@@ -60,7 +62,17 @@ class Snapshots:
 		return ""
 
 	def get_snapshot_path( self, date ):
-		return os.path.join( self.config.get_snapshots_full_path(), self.get_snapshot_id( date ) )
+		path = os.path.join( self.config.get_snapshots_full_path(), self.get_snapshot_id( date ) )
+		if os.path.exists( path ):
+			print path
+			return path
+		other_folders = self.config.get_other_folders_paths()
+		for folder in other_folders:
+			print folder
+			path = os.path.join( folder, self.get_snapshot_id( date ) )
+			if os.path.exists( path ):
+				print path
+				return path 
 
 	def get_snapshot_info_path( self, date ):
 		return os.path.join( self.get_snapshot_path( date ), 'info' )
@@ -292,6 +304,29 @@ class Snapshots:
 
 
 	def get_snapshots_list( self, sort_reverse = True ):
+		'''Returns a list with the snapshot_ids of all snapshots in the snapshots folder'''
+		biglist = []
+		snapshots_path = self.config.get_snapshots_full_path()
+
+		try:
+			biglist = os.listdir( snapshots_path )
+		except:
+			pass
+
+		list = []
+
+		for item in biglist:
+			if len( item ) != 15:
+				continue
+			if os.path.isdir( os.path.join( snapshots_path, item ) ):
+				list.append( item )
+
+		list.sort( reverse = sort_reverse )
+		return list
+		
+	def get_snapshots_and_other_list( self, sort_reverse = True ):
+		'''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
+		print "Get snapshots and other list" 
 		biglist = []
 		snapshots_path = self.config.get_snapshots_full_path()
 		snapshots_other_paths = self.config.get_other_folders_paths()
@@ -307,15 +342,15 @@ class Snapshots:
 			if len( item ) != 15:
 				continue
 			if os.path.isdir( os.path.join( snapshots_path, item ) ):
-				a = ( item, snapshots_path )
-				list.append( a )
+				#a = ( item, snapshots_path )
+				list.append( item )
 
 				
 		if len( snapshots_other_paths ) > 0:	
 			for folder in snapshots_other_paths:
 				folderlist = []
 				try:
-					folderlist = os.listdir( snapshots_path )
+					folderlist = os.listdir( folder )
 				except:
 					pass
 				
@@ -323,8 +358,8 @@ class Snapshots:
 					if len( member ) != 15:
 						continue
 					if os.path.isdir( os.path.join( folder, member ) ):
-						a = ( member, folder )
-						list.append( a )
+						#a = ( member, folder )
+						list.append( member )
 		
 		list.sort( reverse = sort_reverse )
 		return list
@@ -599,7 +634,8 @@ class Snapshots:
 
 		new_snapshot_id = 'new_snapshot'
 		new_snapshot_path = self.get_snapshot_path( new_snapshot_id )
-
+		logger.info( "Kom ik door?" )
+		
 		if os.path.exists( new_snapshot_path ):
 			#self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
 			#self._execute( "chmod -R a+rwx \"%s\"" %  new_snapshot_path )
@@ -613,7 +649,7 @@ class Snapshots:
 				return False
 
 		new_snapshot_path_to = self.get_snapshot_path_to( new_snapshot_id )
-
+		
 		#create exclude patterns string
 		items = []
 		for exclude in self.config.get_exclude_patterns():
@@ -750,13 +786,13 @@ class Snapshots:
 
 		fileinfo.close()
 
-		#create info file
+		#create info file 
 		logger.info( "Create info file" ) 
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
 		profile_id = self.config.get_current_profile()
 		info_file = configfile.ConfigFile()
-		info_file.set_int_value( 'snapshot_version', 2 )
+		info_file.set_int_value( 'snapshot_version', SNAPSHOT_VERSION )
 		info_file.set_str_value( 'snapshot_date', snapshot_id )
 		info_file.set_str_value( 'snapshot_machine', machine )
 		info_file.set_str_value( 'snapshot_user', user )
@@ -806,6 +842,7 @@ class Snapshots:
 
 	def smart_remove( self, now_full = None ):
 		snapshots = self.get_snapshots_list()
+		print "Take into account for removal: %s" % snapshots
 		if len( snapshots ) <= 1:
 			logger.info( "[smart remove] There is only one snapshots, so keep it" )
 			return
