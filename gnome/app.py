@@ -617,7 +617,7 @@ class MainWindow(object):
 
         self.snapshots_list = self.snapshots.get_snapshots_and_other_list()
 
-        print self.snapshots_list
+        #print self.snapshots_list
         #self.snapshots_list = []
         #for item in  self.snapshots_list_complete:
         #	self.snapshots_list.append( item[0] )

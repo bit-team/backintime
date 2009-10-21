@@ -83,24 +83,6 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 	cfg = config.Config()
 	print_version( cfg, app_name )
 
-	# do if necessary, some updates
-	update_other_folders = cfg.get_update_other_folders()
-	print update_other_folders
-	if update_other_folders == True:
-    		#profiles = cfg.get_profiles()
-    		
-    		#for profile_id in profiles:
-    			#print profile_id
-    			#old_folder = os.path.join( cfg.get_snapshots_path( profile_id ), 'backintime' )
-    			#print old_folder
-    			#new_folder = cfg.get_snapshots_full_path( profile_id )
-    			#latest_snapshot = tools.get_snapshots_list_in_folder( old_folder )
-    			#print "Copy %s, from %s to %s" %(latest_snapshot[0], old_folder, new_folder)
-    			#cmd = "cp -al \"%s\"* \"%s\"" % ( os.path.join( old_folder, latest_snapshot[0] ), new_folder )
-			#os.system( cmd )
-    			
-    		cfg.set_update_other_folders( False )	
-	
 	skip = False
 	index = 0
 

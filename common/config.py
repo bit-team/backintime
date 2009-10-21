@@ -143,7 +143,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			# but must be able to read old paths
 			profiles = self.get_profiles()
 			self.set_bool_value( 'update.other_folders', True )
-			print "Update other folders"
+			print "Update to config version 4: other snapshot locations"
 						
 			for profile_id in profiles:
 				old_folder = self.get_snapshots_path( profile_id )
@@ -229,12 +229,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return False
 
 		#Initialize the snapshots folder
-		print "Initialize the snapshots folder"
+		print "Test the snapshots folder"
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
 		user_profile_id = user + '-' + str( profile_id ) 
 		full_path = os.path.join( value, 'backintime', machine, user_profile_id ) 
 		if not os.path.isdir( full_path ):
+			print "Create the snapshots folder"
 			tools.make_dirs( full_path )
 			if not os.path.isdir( full_path ):
 				self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % value ) )
