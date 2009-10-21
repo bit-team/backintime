@@ -21,6 +21,7 @@ import os
 import datetime
 import gettext
 import socket
+import random
 
 import configfile
 import tools
@@ -142,7 +143,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			# but must be able to read old paths
 			profiles = self.get_profiles()
 			self.set_bool_value( 'update.other_folders', True )
-			print "update other folders"
+			print "Update other folders"
 						
 			for profile_id in profiles:
 				old_folder = self.get_snapshots_path( profile_id )
@@ -150,6 +151,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 				other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
 				self.set_str_value( other_folder_key, other_folder )
 				self.set_snapshots_path( old_folder, profile_id )
+				tag = str(random.randint(100, 999))
+				print "Random tag for profile %s: %s" %( profile_id, tag )
+				self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
 							
 			self.set_int_value( 'config.version', 4 )
 
@@ -217,6 +221,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_snapshots_path( self, value, profile_id = None ):
 		"""Sets the snapshot path to value, initializes, and checks it"""
 		if len( value ) <= 0:
+			print "value <= 0: %s" % value
 			return False
 
 		if not os.path.isdir( value ):
@@ -224,6 +229,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return False
 
 		#Initialize the snapshots folder
+		print "Initialize the snapshots folder"
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
 		user_profile_id = user + '-' + str( profile_id ) 
@@ -294,9 +300,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 			value = value + item[0] + '|' + str( item[1] )
 
 		self.set_profile_str_value( 'snapshots.include_folders', value, profile_id )
-
-	# Sets the default exclude patterns: caches, thumbnails, trashbins, and backups 
+ 
 	def get_exclude_patterns( self, profile_id = None ):
+		'''Gets the default exclude patterns: caches, thumbnails, trashbins, and backups'''
 		value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id )
 		if len( value ) <= 0:
 			return []
@@ -304,6 +310,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def set_exclude_patterns( self, list, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.exclude_patterns', ':'.join( list ), profile_id )
+
+	def get_tag( self, profile_id = None ):
+		return self.get_profile_str_value( 'snapshots.tag', str(random.randint(100, 999)), profile_id )
 
 	def get_automatic_backup_mode( self, profile_id = None ):
 		return self.get_profile_int_value( 'snapshots.automatic_backup_mode', self.NONE, profile_id )

@@ -50,14 +50,37 @@ class Snapshots:
 		self.plugin_manager = pluginmanager.PluginManager()
 
 	def get_snapshot_id( self, date ):
+		profile_id = self.config.get_current_profile()
+		tag = self.config.get_tag( profile_id )
+		
 		if type( date ) is datetime.datetime:
-			return date.strftime( '%Y%m%d-%H%M%S' )
+			snapshot_id = date.strftime( '%Y%m%d-%H%M%S' ) + '-' + tag
+			return snapshot_id
 
 		if type( date ) is datetime.date:
-			return date.strftime( '%Y%m%d-000000' )
+			snapshot_id = date.strftime( '%Y%m%d-000000' ) + '-' + tag
+			return snapshot_id
 
 		if type( date ) is str:
-			return date
+			snapshot_id = date
+			return snapshot_id
+		
+		return ""
+
+	def get_snapshot_old_id( self, date ):
+		profile_id = self.config.get_current_profile()
+		
+		if type( date ) is datetime.datetime:
+			snapshot_id = date.strftime( '%Y%m%d-%H%M%S' )
+			return snapshot_id
+
+		if type( date ) is datetime.date:
+			snapshot_id = date.strftime( '%Y%m%d-000000' )
+			return snapshot_id
+
+		if type( date ) is str:
+			snapshot_id = date
+			return snapshot_id
 		
 		return ""
 
@@ -69,11 +92,20 @@ class Snapshots:
 			return path
 		other_folders = self.config.get_other_folders_paths()
 		for folder in other_folders:
-			print folder
 			path_other = os.path.join( folder, self.get_snapshot_id( date ) )
 			if os.path.exists( path_other ):
 				print path_other
 				return path_other
+		old_path = os.path.join( self.config.get_snapshots_full_path( profile_id ), self.get_snapshot_old_id( date ) )
+		if os.path.exists( path ):
+			print path
+			return path
+		other_folders = self.config.get_other_folders_paths()
+		for folder in other_folders:
+			path_other = os.path.join( folder, self.get_snapshot_old_id( date ) )
+			if os.path.exists( path_other ):
+				print path_other
+				return path_other				
 		print path
 		return path
 
@@ -319,7 +351,7 @@ class Snapshots:
 		list = []
 
 		for item in biglist:
-			if len( item ) != 15:
+			if len( item ) != 15 and len( item ) != 19:
 				continue
 			if os.path.isdir( os.path.join( snapshots_path, item ) ):
 				list.append( item )
@@ -329,9 +361,9 @@ class Snapshots:
 		
 	def get_snapshots_and_other_list( self, sort_reverse = True ):
 		'''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
-		print "Get snapshots and other list" 
 		biglist = []
-		snapshots_path = self.config.get_snapshots_full_path()
+		profile_id = self.config.get_current_profile()
+		snapshots_path = self.config.get_snapshots_full_path( profile_id )
 		snapshots_other_paths = self.config.get_other_folders_paths()
 		
 		try:
@@ -342,7 +374,7 @@ class Snapshots:
 		list = []
 
 		for item in biglist:
-			if len( item ) != 15:
+			if len( item ) != 15 and len( item ) != 19:
 				continue
 			if os.path.isdir( os.path.join( snapshots_path, item ) ):
 				#a = ( item, snapshots_path )
@@ -358,7 +390,7 @@ class Snapshots:
 					pass
 				
 				for member in folderlist:
-					if len( member ) != 15:
+					if len( member ) != 15 and len( member ) != 19:
 						continue
 					if os.path.isdir( os.path.join( folder, member ) ):
 						#a = ( member, folder )
@@ -645,7 +677,6 @@ class Snapshots:
 
 		new_snapshot_id = 'new_snapshot'
 		new_snapshot_path = self.get_snapshot_path( new_snapshot_id )
-		logger.info( "Kom ik door?" )
 		
 		if os.path.exists( new_snapshot_path ):
 			#self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
@@ -698,7 +729,14 @@ class Snapshots:
 		#snapshots = self.get_snapshots_and_other_list() -> should only contain the personal snapshots
 		snapshots = self.get_snapshots_list()
 		prev_snapshot_id = ''
-
+		
+		if len( snapshots ) == 0:
+			snapshots = self.get_snapshots_and_other_list()
+			# When there is no snapshots it takes the last snapshot from the other folders
+			# It should delete the excluded folders then
+			rsync_prefix = rsync_prefix + '--delete-excluded '
+			
+			
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 			prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
@@ -803,12 +841,14 @@ class Snapshots:
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
 		profile_id = self.config.get_current_profile()
+		tag = self.config.get_tag( profile_id )
 		info_file = configfile.ConfigFile()
 		info_file.set_int_value( 'snapshot_version', self.SNAPSHOT_VERSION )
-		info_file.set_str_value( 'snapshot_date', snapshot_id )
+		info_file.set_str_value( 'snapshot_date', snapshot_id[0-14] )
 		info_file.set_str_value( 'snapshot_machine', machine )
 		info_file.set_str_value( 'snapshot_user', user )
 		info_file.set_int_value( 'snapshot_profile_id', profile_id )
+		info_file.set_int_value( 'snapshot_tag', tag )
 		info_file.save( self.get_snapshot_info_path( new_snapshot_id ) )
 		info_file = None
 
@@ -854,7 +894,7 @@ class Snapshots:
 
 	def smart_remove( self, now_full = None ):
 		snapshots = self.get_snapshots_list()
-		print "Take into account for removal: %s" % snapshots
+		logger.info( "Take into account for smart removal: %s" % snapshots )
 		if len( snapshots ) <= 1:
 			logger.info( "[smart remove] There is only one snapshots, so keep it" )
 			return
