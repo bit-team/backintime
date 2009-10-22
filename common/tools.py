@@ -153,7 +153,7 @@ def get_snapshots_list_in_folder( folder, sort_reverse = True ):
 	list = []
 
 	for item in biglist:
-		if len( item ) != 15:
+		if len( item ) != 15 or len( item ) != 19:
 			continue
 		if os.path.isdir( os.path.join( snapshots_path, item ) ):
 			list.append( item )

@@ -139,12 +139,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 			self.set_int_value( 'config.version', 3 )
 			
 		if self.get_int_value( 'config.version', 1 ) < 4:
-			# version 4 uses as path backintime/machine/user_profile_id
+			# version 4 uses as path backintime/machine/user/profile_id
 			# but must be able to read old paths
 			profiles = self.get_profiles()
 			self.set_bool_value( 'update.other_folders', True )
 			print "Update to config version 4: other snapshot locations"
-						
+									
 			for profile_id in profiles:
 				old_folder = self.get_snapshots_path( profile_id )
 				other_folder = os.path.join( old_folder, 'backintime' )
@@ -154,7 +154,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 				tag = str(random.randint(100, 999))
 				print "Random tag for profile %s: %s" %( profile_id, tag )
 				self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
-							
+			
+			#self.notify_question( _('The application needs to change the backup format. Your old snapshots will be moved accordingly to this new format. Is that OK? (If not you will not be able to make new snapshots)') )  
+			#	if Yes:
+			#		snapshots_tomove = tools.get_snapshot_list_in_folder( old_folder )
+			#		for item 
+			#		snapshot.copy			
+			
 			self.set_int_value( 'config.version', 4 )
 
 	def save( self ):
@@ -212,11 +218,10 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return self.get_profile_str_value( 'snapshots.path', '', profile_id )
 
 	def get_snapshots_full_path( self, profile_id = None ):
-		'''Returns the full path for the snapshots: .../backintime/machine/user-profile_id'''
+		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
-		user_profile_id = user + '-' + str( profile_id ) 
-		return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user_profile_id ) 
+		return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user, profile_id ) 
 
 	def set_snapshots_path( self, value, profile_id = None ):
 		"""Sets the snapshot path to value, initializes, and checks it"""
@@ -229,11 +234,10 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return False
 
 		#Initialize the snapshots folder
-		print "Test the snapshots folder"
+		print "Check the snapshots folder"
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
-		user_profile_id = user + '-' + str( profile_id ) 
-		full_path = os.path.join( value, 'backintime', machine, user_profile_id ) 
+		full_path = os.path.join( value, 'backintime', machine, user, profile_id ) 
 		if not os.path.isdir( full_path ):
 			print "Create the snapshots folder"
 			tools.make_dirs( full_path )
