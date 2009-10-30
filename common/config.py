@@ -25,7 +25,7 @@ import random
 
 import configfile
 import tools
-
+import logger
 
 _=gettext.gettext
 
@@ -155,11 +155,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 				print "Random tag for profile %s: %s" %( profile_id, tag )
 				self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
 			
-			#self.notify_question( _('The application needs to change the backup format. Your old snapshots will be moved accordingly to this new format. Is that OK? (If not you will not be able to make new snapshots)') )  
-			#	if Yes:
-			#		snapshots_tomove = tools.get_snapshot_list_in_folder( old_folder )
-			#		for item 
-			#		snapshot.copy			
+			print "The application needs to change the backup format. Start the GUI to proceed. (As long as you do not you will not be able to make new snapshots)" 
 			
 			self.set_int_value( 'config.version', 4 )
 
@@ -170,7 +166,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		profiles = self.get_profiles()
 
 		checked_profiles = []
-
+		
 		for profile_id in profiles:
 			profile_name = self.get_profile_name( profile_id )
 			snapshots_path = self.get_snapshots_path( profile_id )
@@ -496,6 +492,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return path
 
 	def is_configured( self, profile_id = None ):
+		'''Checks if the program is configured''' 
 		if len( self.get_snapshots_path( profile_id ) ) == 0:
 			return False
 
@@ -503,7 +500,67 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return False
 
 		return True
+	
+	def update_snapshot_location( self ):
+		'''Updates to location: backintime/machine/user/profile_id'''
+		if self.get_update_other_folders() == True:
+			logger.info( 'Snapshot location update flag detected' )
+			logger.warning( 'Snapshot location needs update' ) 
+			answer_change = self.question_handler( _('BackinTime needs to change the backup format.\nYour old snapshots will be moved accordingly to this new format. OK?\n(If not you will not be able to make new snapshots)') )
+			print answer_change
+			if answer_change == True:
+				logger.info( 'Update snapshot locations' )
+				profiles = self.get_profiles()
+				print len( profiles )
+				
+				if len( profiles ) == 1:
+					logger.info( 'Only 1 profile found' )
+					answer_same == True
+				elif len( profiles ) > 1:
+					answer_same = self.question_handler( _('%s profiles found. \n\nThe new backup format supports storage of different users and profiles on the same location. Do you want the same location for both profiles? \n\n(The program will still be able to discriminate between them)') % len( profiles ) )
+				else:
+					logger.warning( 'No profiles are found!' )
+					self.notify_error( _( 'No profiles are found. Will have to update to profiles first, please restart BackinTime' ) )
+					logger.info( 'Config version is %s' % str( self.get_int_value( 'config.version', 1 ) ) )
+					
+					if self.get_int_value( 'config.version', 1 ) > 1:
+						#self.set_int_value( 'config.version', 2 )
+						logger.info( 'Config version set to 2' )
+						return False
+					
+				print answer_same
+				profile_id = profiles[0]
+				print profile_id
+				#old_folder = self.get_snapshots_path( profile_id )
+				#print old_folder
+				main_folder = self.get_snapshots_path( profile_id )
+				old_snapshots_paths=[]
+				counter = 0
 
+				for profile_id in profiles:
+					print counter
+					old_snapshots_paths.append( self.get_snapshots_path( profile_id ) )
+					print old_snapshots_paths
+					old_folder = os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
+					print old_folder
+					if profile_id != "1" and answer_same == True:
+						print 'profile_id != 1, answer = True'
+						self.set_snapshots_path( main_folder, profile_id )
+					new_folder = self.get_snapshots_full_path( profile_id )
+					print new_folder
+					snapshots_to_move = tools.get_snapshots_list_in_folder( old_folder )
+					print snapshots_to_move
+					self.set_snapshots_path( old_snapshots_paths[counter], profile_id )
+					print self.get_snapshots_path( profile_id )
+					counter = counter + 1
+					
+			
+			elif answer_change == False:
+				logger.info( 'Change in format refused by user' )
+				logger.warning( 'Will not be able to make new snapshots' )
+			else:
+				return False
+		
 	def can_backup( self, profile_id = None ):
 		'''Checks if snapshots_path exists''' 
 		if not self.is_configured( profile_id ):

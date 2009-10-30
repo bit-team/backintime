@@ -303,6 +303,10 @@ class MainWindow(object):
             if not self.config.is_configured():
                 return 
 	
+	if self.config.get_update_other_folders() == True:
+		settingsdialog.SettingsDialog( self.config, self ).update_snapshot_location()
+		print "update"
+	
 	profile_id = self.config.get_current_profile()
 	if not self.config.can_backup( profile_id ):
             messagebox.show_error( self.window, self.config, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )

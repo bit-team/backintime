@@ -143,19 +143,22 @@ def on_battery():
 
 def get_snapshots_list_in_folder( folder, sort_reverse = True ):
 	biglist = []
-	snapshots_path = folder
+	#print folder
 
 	try:
-		biglist = os.listdir( snapshots_path )
+		biglist = os.listdir( folder )
+		#print biglist
 	except:
 		pass
 
 	list = []
 
 	for item in biglist:
-		if len( item ) != 15 or len( item ) != 19:
+		#print item + ' ' + str(len( item ))
+		if len( item ) != 15 and len( item ) != 19:
 			continue
-		if os.path.isdir( os.path.join( snapshots_path, item ) ):
+		if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
+			#print item
 			list.append( item )
 
 	list.sort( reverse = sort_reverse )

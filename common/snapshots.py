@@ -355,7 +355,7 @@ class Snapshots:
 		for item in biglist:
 			if len( item ) != 15 and len( item ) != 19:
 				continue
-			if os.path.isdir( os.path.join( snapshots_path, item ) ):
+			if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
 				list.append( item )
 
 		list.sort( reverse = sort_reverse )
@@ -363,6 +363,7 @@ class Snapshots:
 		
 	def get_snapshots_and_other_list( self, sort_reverse = True ):
 		'''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
+
 		biglist = []
 		profile_id = self.config.get_current_profile()
 		snapshots_path = self.config.get_snapshots_full_path( profile_id )
@@ -378,7 +379,7 @@ class Snapshots:
 		for item in biglist:
 			if len( item ) != 15 and len( item ) != 19:
 				continue
-			if os.path.isdir( os.path.join( snapshots_path, item ) ):
+			if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
 				#a = ( item, snapshots_path )
 				list.append( item )
 
@@ -394,7 +395,7 @@ class Snapshots:
 				for member in folderlist:
 					if len( member ) != 15 and len( member ) != 19:
 						continue
-					if os.path.isdir( os.path.join( folder, member ) ):
+					if os.path.isdir( os.path.join( folder, member,  'backup' ) ):
 						#a = ( member, folder )
 						list.append( member )
 		
@@ -412,9 +413,11 @@ class Snapshots:
 		cmd = "rm -rfv \"%s\"" % path
 		self._execute( cmd )
 
-	def copy_snapshot( snapshot_id, new_folder ):
+	def copy_snapshot( self, snapshot_id, new_folder ):
+		'''Copies a known snapshot to a new location'''
 		current.path = self.get_snapshot_path( snapshot_id )
 		cmd = "cp -al \"%s\"* \"%s\"" % ( current_path, new_folder )
+		logger.info( '%s is copied to folder %s' %( snapshot_id, new_folder ) )
 		self._execute( cmd )
 	
 	def _get_last_snapshot_info( self ):
@@ -471,6 +474,9 @@ class Snapshots:
 			self.plugin_manager.on_error( 1 ) #not configured
 		elif self.config.is_no_on_battery_enabled() and tools.on_battery():
 			logger.info( 'Deferring backup while on battery' )
+			logger.warning( 'Backup not performed' )
+		elif self.config.get_update_other_folders() == True:
+			logger.info( 'The application needs to change the backup format. Start the GUI to proceed. (As long as you do not you will not be able to make new snapshots!)' )
 			logger.warning( 'Backup not performed' )
 		else:
 			instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
