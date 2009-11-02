@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2009 Oprea Dan
+#    Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ class AboutDialog(gtk.AboutDialog):
 
         self.set_name( config.APP_NAME )
         self.set_version( config.VERSION )
-        self.set_copyright( 'Copyright (C) 2008-2009 Oprea Dan' )
+        self.set_copyright( 'Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey' )
         self.set_website( 'http://backintime.le-web.org' )
         self.set_website_label( 'http://backintime.le-web.org' )
         self.set_license( config.get_license() )

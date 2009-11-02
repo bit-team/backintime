@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2009 Oprea Dan
+#    Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ class KDE4Plugin( pluginmanager.Plugin ):
 			from PyKDE4.kdecore import KAboutData, KCmdLineArgs, ki18n
 			from PyKDE4.kdeui import KApplication, KSystemTrayIcon, KIcon
 
-			kaboutdata = KAboutData( 'backintime', '', ki18n( self.config.APP_NAME ), self.config.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( self.config.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'dan@le-web.org' )
+			kaboutdata = KAboutData( 'backintime', '', ki18n( self.config.APP_NAME ), self.config.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( self.config.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
 			kaboutdata.setProgramIconName( 'document-save' )
 
 			KCmdLineArgs.init( [sys.argv[0]], kaboutdata )

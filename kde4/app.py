@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2009 Oprea Dan
+#    Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -1005,7 +1005,7 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 
 
 def create_kapplication( cfg ):
-	kaboutdata = KAboutData( 'backintime', '', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( cfg.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'dan@le-web.org' )
+	kaboutdata = KAboutData( 'backintime', '', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( cfg.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
 	kaboutdata.setProgramIconName( 'document-save' )
 
 	#extra_translations = _('about-translators')
