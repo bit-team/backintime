@@ -457,6 +457,12 @@ class SettingsDialog( KDialog ):
 
 		return ret_val
 
+    	def update_snapshot_location( self ):
+		'''Update snapshot location dialog'''
+		self.config.set_question_handler( self.question_handler )
+        	self.config.set_error_handler( self.error_handler )
+		self.config.update_snapshot_location()
+	
 	def update_include_columns( self ):
 		if self.cb_per_diretory_schedule.isChecked():
 			self.list_include.showColumn( 1 )
