@@ -147,11 +147,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 									
 			for profile_id in profiles:
 				old_folder = self.get_snapshots_path( profile_id )
+				print "Old snapshot folder: %s" %old_folder
 				other_folder = os.path.join( old_folder, 'backintime' )
 				other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
 				self.set_str_value( other_folder_key, other_folder )
 				self.set_snapshots_path( old_folder, profile_id )
-				tag = str(random.randint(100, 999))
+				tag = str( random.randint(100, 999) )
 				print "Random tag for profile %s: %s" %( profile_id, tag )
 				self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
 			
@@ -507,11 +508,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 			logger.info( 'Snapshot location update flag detected' )
 			logger.warning( 'Snapshot location needs update' ) 
 			answer_change = self.question_handler( _('BackinTime needs to change the backup format.\nYour old snapshots will be moved accordingly to this new format. OK?\n(If not you will not be able to make new snapshots)') )
-			print answer_change
+			#print answer_change
 			if answer_change == True:
 				logger.info( 'Update snapshot locations' )
 				profiles = self.get_profiles()
-				print len( profiles )
+				#print len( profiles )
 				
 				if len( profiles ) == 1:
 					logger.info( 'Only 1 profile found' )
@@ -524,40 +525,77 @@ class Config( configfile.ConfigFileWithProfiles ):
 					logger.info( 'Config version is %s' % str( self.get_int_value( 'config.version', 1 ) ) )
 					
 					if self.get_int_value( 'config.version', 1 ) > 1:
-						#self.set_int_value( 'config.version', 2 )
+						self.set_int_value( 'config.version', 2 )
 						logger.info( 'Config version set to 2' )
 						return False
 					
-				print answer_same
+				# Moving old snapshots per profile_id
+				#print answer_same
 				profile_id = profiles[0]
-				print profile_id
+				#print profile_id
 				#old_folder = self.get_snapshots_path( profile_id )
 				#print old_folder
 				main_folder = self.get_snapshots_path( profile_id )
 				old_snapshots_paths=[]
 				counter = 0
-
+				success = []
+				
 				for profile_id in profiles:
-					print counter
+					#print counter
 					old_snapshots_paths.append( self.get_snapshots_path( profile_id ) )
-					print old_snapshots_paths
+					#print old_snapshots_paths
 					old_folder = os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
-					print old_folder
+					#print old_folder
 					if profile_id != "1" and answer_same == True:
-						print 'profile_id != 1, answer = True'
+						#print 'profile_id != 1, answer = True'
 						self.set_snapshots_path( main_folder, profile_id )
+						logger.info( 'Folder of profile %s is set to %s' %( profile_id, main_folder ) )
 					new_folder = self.get_snapshots_full_path( profile_id )
-					print new_folder
-					snapshots_to_move = tools.get_snapshots_list_in_folder( old_folder )
-					print snapshots_to_move
-					self.set_snapshots_path( old_snapshots_paths[counter], profile_id )
-					print self.get_snapshots_path( profile_id )
-					counter = counter + 1
+					#print new_folder
+					#snapshots_to_move = tools.get_snapshots_list_in_folder( old_folder )
+					#print snapshots_to_move
+
+					output = tools.move_snapshots_folder( old_folder, new_folder )
+
+					snapshots_left = tools.get_snapshots_list_in_folder( old_folder )
+					if output == True:
+						success.append( True )
+						if len( snapshots_left ) == 0:
+							logger.info( 'Update was successful. Snapshots of profile %s are moved to their new location' % profile_id )
+						else:
+							logger.warning( 'Not all snapshots are removed from the original folder!' )
+							logger.info( 'The following snapshots are still present: %s' % snapshots_left )
+							logger.info( 'You could move them manually or leave them where they are now' )
+					else:
+						logger.warning( '%s: are not moved to their new location!' %snapshots_left )
+						
+						answer_unsuccessful = self.question_handler( _('%s\nof profile %s are not moved to their new location\nDo you want to proceed?\n(BackinTime will be able to continue taking snapshots, however the remaining snapshots will not be considered for automatic removal)\n\nIf not BackinTime will restore former settings for this profile, however cannot continue taking snapshots' %( snapshots_left, profile_id ) ) )
+						if answer_unsuccessful == True:
+							success.append( True )
+						else:
+							success.append( False )
+							# restore
+							logger.info( 'Restore former settings' )
+							self.set_snapshots_path( old_snapshots_paths[counter], profile_id )
+							#print self.get_snapshots_path( profile_id )
+							self.error_handler( _('Former settings of profile %s are restored.\nBackinTime cannot continue taking new snapshots.\n\nYou can manually move the snapshots, \nif you are done restart BackinTime to proceed' %profile_id ) )
 					
-			
+					counter = counter + 1
+				
+				print success
+				overall_success = True
+				for item in success:
+					if item == False:
+						overall_success = False	
+				if overall_success == True:
+					self.set_update_other_folders( False )
+					print self.get_update_other_folders()
+					logger.info( 'BackinTime will be able to make new snapshots again!' )
+					self.error_handler( _('Update was successful!\n\nBackinTime will continue taking snapshots again as scheduled' ) )
 			elif answer_change == False:
 				logger.info( 'Change in format refused by user' )
 				logger.warning( 'Will not be able to make new snapshots' )
+				self.error_handler( _('BackinTime cannot continue taking new snapshots.\nRestart BackinTime to change this setting') )
 			else:
 				return False
 		

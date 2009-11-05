@@ -416,9 +416,53 @@ class Snapshots:
 	def copy_snapshot( self, snapshot_id, new_folder ):
 		'''Copies a known snapshot to a new location'''
 		current.path = self.get_snapshot_path( snapshot_id )
+		#need to implement hardlinking to existing folder -> cp newest snapshot folder, rsync -aEAXHv --delete to this folder
 		cmd = "cp -al \"%s\"* \"%s\"" % ( current_path, new_folder )
 		logger.info( '%s is copied to folder %s' %( snapshot_id, new_folder ) )
 		self._execute( cmd )
+	
+	def move_snapshots_folder( old_folder, new_folder ):
+		'''Moves all the snapshots from one folder to another'''
+		print old_folder + " to " + new_folder
+		# Fetch a list with snapshots for verification
+		snapshots_to_move = tools.get_snapshots_list_in_folder( old_folder )
+		snapshots_already_there = []
+		if os.path.exists( new_folder ) == True:
+			snapshots_already_there = tools.get_snapshots_list_in_folder( new_folder )
+		else:
+			tools.make_dirs( new_folder )	
+		print "To move: " + snapshots_to_move
+		print "Already there: " + snapshots_already_there
+		snapshots_expected = snapshots_to_move + snapshots_already_there
+		print "Snapshots expected: " + snapshots_expected
+		
+		# Prepare hardlinks 
+		if len( snapshots_already_there ) > 0:
+			first_snapshot_path = os.path.join( new_folder, snapshots_to_move[ len( snapshots_to_move ) - 1 ] )
+			snapshot_to_hardlink_path =  os.path.join( new_folder, snapshots_already_there[0] )
+			cmd = "cp -al \"%s\" \"%s\"" % ( snapshot_to_hardlink_path, first_snapshot_path )
+			print cmd
+			#self._execute( cmd )
+		
+		# Prepare excludes
+		nonsnapshots = tools.get_nonsnapshots_list_in_folder( old_folder )
+		print "Nonsnapshots: " + nonsnapshots
+		items = []
+		for nonsnapshot in nonsnapshots:
+			self._append_item_to_list( "--exclude=\"%s\"" % nonsnapshot, items )
+		rsync_exclude = ' '.join( items )
+		print rsync_exclude
+		cmd = "rsync -aEAXHv --delete " + old_folder + " " + new_folder + " " + rsync_exclude
+		print cmd
+		#output = self._execute( cmd )
+		
+		# Check snapshot list
+		if snapshots_expected == tools.get_snapshots_list_in_folder( new_folder ):
+			print "Succes!!!"
+			return True
+		else:
+			print "Error!!!"
+			return False
 	
 	def _get_last_snapshot_info( self ):
 		lines = ''
