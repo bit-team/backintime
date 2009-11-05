@@ -507,7 +507,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		if self.get_update_other_folders() == True:
 			logger.info( 'Snapshot location update flag detected' )
 			logger.warning( 'Snapshot location needs update' ) 
-			answer_change = self.question_handler( _('BackinTime needs to change the backup format.\nYour old snapshots will be moved accordingly to this new format. OK?\n(If not you will not be able to make new snapshots)') )
+			answer_change = self.question_handler( _('BackinTime changed its backup format.\n\nYour old snapshots can be moved according to this new format. OK?') )
 			#print answer_change
 			if answer_change == True:
 				logger.info( 'Update snapshot locations' )
@@ -589,13 +589,20 @@ class Config( configfile.ConfigFileWithProfiles ):
 						overall_success = False	
 				if overall_success == True:
 					self.set_update_other_folders( False )
-					print self.get_update_other_folders()
+					#print self.get_update_other_folders()
 					logger.info( 'BackinTime will be able to make new snapshots again!' )
 					self.error_handler( _('Update was successful!\n\nBackinTime will continue taking snapshots again as scheduled' ) )
 			elif answer_change == False:
-				logger.info( 'Change in format refused by user' )
-				logger.warning( 'Will not be able to make new snapshots' )
-				self.error_handler( _('BackinTime cannot continue taking new snapshots.\nRestart BackinTime to change this setting') )
+				logger.info( 'Move refused by user' )
+				logger.warning( 'Old snapshots are not taken into account by smart-remove' )
+				answer_continue = self.question_handler( _('Are you sure you do not want to move your old snapshots?\n\n\nIf you do, you will not see these questions again next time, BackinTime will continue making snapshots again, but smart-remove cannot take your old snapshots into account any longer!\n\nIf you do not, you will be asked again next time you start BackinTime.') )
+				if answer_continue == True:
+					self.set_update_other_folders( False )
+					#print self.get_update_other_folders()
+					logger.info( 'BackinTime will be able to make new snapshots again!' )
+					self.error_handler( _('BackinTime will continue taking snapshots again as scheduled' ) )
+				else: 
+					self.error_handler( _( 'BackinTime still cannot continue taking new snapshots.\nRestart BackinTime to see the questions again' ) )
 			else:
 				return False
 		
