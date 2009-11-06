@@ -25,6 +25,7 @@ import gettext
 import config
 import logger
 import snapshots
+import tools
 
 _=gettext.gettext
 
@@ -78,12 +79,13 @@ def print_help( cfg ):
 
 
 def start_app( app_name = 'backintime', extra_args = [] ):
+	update_other_folders = False
 	cfg = config.Config()
 	print_version( cfg, app_name )
 
 	skip = False
 	index = 0
-
+	
 	for arg in sys.argv[ 1 : ]:
 		index = index + 1
 

@@ -482,7 +482,13 @@ class SettingsDialog(object):
 		self.config.clear_handlers()
 		
 		self.dialog.destroy()
-	
+	   
+	def update_snapshot_location( self ):
+		'''Update snapshot location dialog'''
+		self.config.set_question_handler( self.question_handler )
+		self.config.set_error_handler( self.error_handler )
+		self.config.update_snapshot_location()
+
 	def on_add_profile(self, button, data=None):
 		
 		name = messagebox.text_input_dialog( self.dialog, self.config, _('New profile'), None )

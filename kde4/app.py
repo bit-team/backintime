@@ -297,8 +297,13 @@ class MainWindow( KMainWindow ):
 
 		if not cfg.is_configured():
 			return
+	
+		if self.config.get_update_other_folders() == True:
+			settingsdialog.SettingsDialog( self ).update_snapshot_location()
 
-		if not cfg.can_backup():
+		
+		profile_id = cfg.get_current_profile()
+		if not cfg.can_backup( profile_id ):
 			KMessageBox.error( self, QString.fromUtf8( _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') ) )
 
 		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('completed()'), self.on_dir_lister_completed )

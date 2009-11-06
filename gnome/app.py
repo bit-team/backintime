@@ -301,8 +301,12 @@ class MainWindow(object):
 
             if not self.config.is_configured():
                 return 
-
-        if not self.config.can_backup():
+	
+	if self.config.get_update_other_folders() == True:
+		settingsdialog.SettingsDialog( self.config, self ).update_snapshot_location()
+	
+	profile_id = self.config.get_current_profile()
+	if not self.config.can_backup( profile_id ):
             messagebox.show_error( self.window, self.config, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
         self.update_profiles()
@@ -617,7 +621,12 @@ class MainWindow(object):
         self.store_time_line.clear()
         self.store_time_line.append( [ gnometools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
 
-        self.snapshots_list = self.snapshots.get_snapshots_list() 
+        self.snapshots_list = self.snapshots.get_snapshots_and_other_list()
+
+        #print self.snapshots_list
+        #self.snapshots_list = []
+        #for item in  self.snapshots_list_complete:
+        #	self.snapshots_list.append( item[0] )
 
         groups = []
         now = datetime.date.today()
@@ -1126,6 +1135,7 @@ if __name__ == '__main__':
 
     logger.openlog()
     main_window = MainWindow( cfg, app_instance )
+    		
     if cfg.is_configured():
         gtk.main()
     logger.closelog()
