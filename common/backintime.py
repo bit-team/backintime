@@ -42,6 +42,7 @@ def take_snapshot( cfg, force = True ):
 
 
 def print_version( cfg, app_name ):
+	print ''
 	print 'Back In Time'
 	print 'Version: ' + cfg.VERSION
 	print ''
@@ -79,7 +80,6 @@ def print_help( cfg ):
 
 
 def start_app( app_name = 'backintime', extra_args = [] ):
-	update_other_folders = False
 	cfg = config.Config()
 	print_version( cfg, app_name )
 

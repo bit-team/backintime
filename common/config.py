@@ -143,21 +143,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 			# but must be able to read old paths
 			profiles = self.get_profiles()
 			self.set_bool_value( 'update.other_folders', True )
-			print "Update to config version 4: other snapshot locations"
+			logger.info( "Update to config version 4: other snapshot locations" )
 									
 			for profile_id in profiles:
 				old_folder = self.get_snapshots_path( profile_id )
-				print "Old snapshot folder: %s" %old_folder
 				other_folder = os.path.join( old_folder, 'backintime' )
 				other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
 				self.set_str_value( other_folder_key, other_folder )
-				self.set_snapshots_path( old_folder, profile_id )
+				#self.set_snapshots_path( old_folder, profile_id )
 				tag = str( random.randint(100, 999) )
-				print "Random tag for profile %s: %s" %( profile_id, tag )
+				logger.info( "Random tag for profile %s: %s" %( profile_id, tag ) )
 				self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
-			
-			print "The application needs to change the backup format. Start the GUI to proceed. (As long as you do not you will not be able to make new snapshots)" 
-			
+	
 			self.set_int_value( 'config.version', 4 )
 
 	def save( self ):
@@ -216,9 +213,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def get_snapshots_full_path( self, profile_id = None ):
 		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
-		machine = socket.gethostname()
-		user = os.environ['LOGNAME']
-		return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user, profile_id ) 
+		if self.get_int_value( 'config.version', 1 ) < 4:
+			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
+		else:
+			machine = socket.gethostname()
+			user = os.environ['LOGNAME']
+			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user, profile_id ) 
 
 	def set_snapshots_path( self, value, profile_id = None ):
 		"""Sets the snapshot path to value, initializes, and checks it"""
@@ -515,7 +515,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 				
 				if len( profiles ) == 1:
 					logger.info( 'Only 1 profile found' )
-					answer_same == True
+					answer_same = True
 				elif len( profiles ) > 1:
 					answer_same = self.question_handler( _('%s profiles found. \n\nThe new backup format supports storage of different users and profiles on the same location. Do you want the same location for both profiles? \n\n(The program will still be able to discriminate between them)') % len( profiles ) )
 				else:
@@ -549,6 +549,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 						#print 'profile_id != 1, answer = True'
 						self.set_snapshots_path( main_folder, profile_id )
 						logger.info( 'Folder of profile %s is set to %s' %( profile_id, main_folder ) )
+					else:
+						self.set_snapshots_path( self.get_snapshots_path( profile_id ), profile_id )
+						logger.info( 'Folder of profile %s is set to %s' %( profile_id, main_folder ) )
 					new_folder = self.get_snapshots_full_path( profile_id )
 					#print new_folder
 					#snapshots_to_move = tools.get_snapshots_list_in_folder( old_folder )
@@ -581,7 +584,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 					
 					counter = counter + 1
 				
-				print success
+				#print success
 				overall_success = True
 				for item in success:
 					if item == False:
@@ -695,7 +698,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return True
 	
 	def get_update_other_folders( self ):
-		return self.get_bool_value( 'update.other_folders', False )
+		return self.get_bool_value( 'update.other_folders', True )
 		
 	def set_update_other_folders( self, value ):
 		self.set_bool_value( 'update.other_folders', value )
