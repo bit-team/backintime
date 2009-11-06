@@ -174,11 +174,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 				self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('Snapshots folder is not valid !') )
 				return False
 
-			for other_profile in checked_profiles:
-				if snapshots_path == self.get_snapshots_path( other_profile[0] ):
-					self.notify_error( _('Profiles "%s" and "%s" have the same snapshots path !') % ( profile_name, other_profile[1] ) )
-					return False
-
+			## Should not check for similar snapshot paths any longer! 
+			#for other_profile in checked_profiles:
+			#	if snapshots_path == self.get_snapshots_path( other_profile[0] ):
+			#		self.notify_error( _('Profiles "%s" and "%s" have the same snapshots path !') % ( profile_name, other_profile[1] ) )
+			#		return False
+			#
 			#if not os.path.isdir( snapshots_path ):
 			#	return ( 0, _('Snapshots folder is not valid !') )
 
@@ -225,17 +226,22 @@ class Config( configfile.ConfigFileWithProfiles ):
 		if len( value ) <= 0:
 			return False
 
+		if profile_id == None:
+			print "BUG: calling set_snapshots_path without profile_id!"
+			tjoep
+			return False
+			
 		if not os.path.isdir( value ):
 			self.notify_error( _( '%s is not a folder !' ) )
 			return False
 
 		#Initialize the snapshots folder
-		print "Check the snapshots folder"
+		print "Check snapshot folder: %s" % value
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
 		full_path = os.path.join( value, 'backintime', machine, user, profile_id ) 
 		if not os.path.isdir( full_path ):
-			print "Create the snapshots folder"
+			print "Create folder: %s" % full_path
 			tools.make_dirs( full_path )
 			if not os.path.isdir( full_path ):
 				self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % value ) )
