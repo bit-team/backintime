@@ -622,7 +622,7 @@ class MainWindow( KMainWindow ):
 		self.add_time_line( QString.fromUtf8( self.snapshots.get_snapshot_display_name( '/' ) ), '/' )
 
 		if get_snapshots_list:
-			self.snapshots_list = self.snapshots.get_snapshots_list() 
+			self.snapshots_list = self.snapshots.get_snapshots_and_other_list() 
 
 		groups = []
 		now = datetime.date.today()

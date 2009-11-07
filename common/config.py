@@ -512,11 +512,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 		if self.get_update_other_folders() == True:
 			logger.info( 'Snapshot location update flag detected' )
 			logger.warning( 'Snapshot location needs update' ) 
+			profiles = self.get_profiles()
+
 			answer_change = self.question_handler( _('BackinTime changed its backup format.\n\nYour old snapshots can be moved according to this new format. OK?') )
 			#print answer_change
 			if answer_change == True:
 				logger.info( 'Update snapshot locations' )
-				profiles = self.get_profiles()
 				#print len( profiles )
 				
 				if len( profiles ) == 1:
@@ -606,7 +607,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 				answer_continue = self.question_handler( _('Are you sure you do not want to move your old snapshots?\n\n\nIf you do, you will not see these questions again next time, BackinTime will continue making snapshots again, but smart-remove cannot take your old snapshots into account any longer!\n\nIf you do not, you will be asked again next time you start BackinTime.') )
 				if answer_continue == True:
 					self.set_update_other_folders( False )
-					#print self.get_update_other_folders()
+					for profile_id in profiles:
+						old_folder = self.get_snapshots_path( profile_id )
+						self.set_snapshots_path( old_folder, profile_id )
+						logger.info( 'Folder of profile %s is set to %s' %( profile_id, self.get_snapshots_path( profile_id ) ) )
+					
 					logger.info( 'BackinTime will be able to make new snapshots again!' )
 					self.error_handler( _('BackinTime will continue taking snapshots again as scheduled' ) )
 				else: 
