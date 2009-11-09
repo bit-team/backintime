@@ -502,7 +502,7 @@ class MainWindow( KMainWindow ):
 		elif not self.btn_take_snapshot.isEnabled():
 			self.btn_take_snapshot.setEnabled( True )
 			
-			snapshots_list = self.snapshots.get_snapshots_list()
+			snapshots_list = self.snapshots.get_snapshots_and_other_list()
 
 			if snapshots_list != self.snapshots_list:
 				self.snapshots_list = snapshots_list
