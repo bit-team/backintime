@@ -503,7 +503,7 @@ class SettingsDialog( KDialog ):
 		return item
 
 	def add_exclude( self, pattern ):
-		item = QListWidgetItem( KIcon('edit-delete'), pattern, self.list_exclude )
+		item = QListWidgetItem( KIcon('edit-delete'), QString.fromUtf8( pattern ), self.list_exclude )
 
 		if self.list_exclude.currentItem() is None:
 			self.list_exclude.setCurrentItem( item )
@@ -546,7 +546,7 @@ class SettingsDialog( KDialog ):
 			return
 
 		for index in xrange( self.list_exclude.count() ):
-			if pattern == self.list_exclude.item( index ).text():
+			if pattern == self.list_exclude.item( index ).text().toUtf8():
 				return
 
 		self.add_exclude( pattern )
