@@ -147,7 +147,7 @@ class SnapshotsDialog( KDialog ):
 	def add_snapshot_( self, snapshot_id, is_dir ):
 		full_path = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
 
-		if not os.path.exists( full_path ):
+		if not os.path.lexists( full_path ):
 			return
 
 		if is_dir != os.path.isdir( full_path ):
@@ -223,6 +223,9 @@ class SnapshotsDialog( KDialog ):
 			return
 
 		full_path = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
+		if not os.path.exists( full_path ):
+			return
+
 		self.run = KRun( KUrl( full_path ), self, True )
 
 	def on_btn_diff_clicked( self ):

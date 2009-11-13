@@ -805,11 +805,12 @@ class MainWindow( KMainWindow ):
 		rel_path = os.path.join( self.path, rel_path )
 		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, rel_path )
 
-		if os.path.isdir( full_path ):
-			self.path = rel_path
-			self.update_files_view( 0 )
-		else:
-			self.run = KRun( KUrl( full_path ), self, True )
+		if os.path.exists( full_path ):
+			if os.path.isdir( full_path ):
+				self.path = rel_path
+				self.update_files_view( 0 )
+			else:
+				self.run = KRun( KUrl( full_path ), self, True )
 
 	def files_view_get_name( self, item ):
 		return str( item.text( 0 ).toUtf8() )

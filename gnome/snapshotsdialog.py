@@ -280,7 +280,7 @@ class SnapshotsDialog(object):
         
         #add now
         path = self.path
-        if os.path.exists( path ):
+        if os.path.lexists( path ):
             if os.path.isdir( path ) == isdir:
                 self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
                 if '/' == current_snapshot_id:
@@ -290,7 +290,7 @@ class SnapshotsDialog(object):
         #add snapshots
         for snapshot in snapshots_list:
             path = self.snapshots.get_snapshot_path_to( snapshot, self.path )
-            if os.path.exists( path ):
+            if os.path.lexists( path ):
                 if os.path.isdir( path ) == isdir:
                     self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, snapshot ), snapshot ] )
                     if snapshot == current_snapshot_id:
@@ -317,12 +317,16 @@ class SnapshotsDialog(object):
         self.open_item()
 
     def open_item( self ):
-        iter = self.list_snapshots.get_selection().get_selected()[1]
-        if iter is None:
-            return
-        path = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
-        cmd = "gnome-open \"%s\" &" % path
-        os.system( cmd )
+		iter = self.list_snapshots.get_selection().get_selected()[1]
+		if iter is None:
+			return
+        
+		path = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
+		if not os.path.exists( path ):
+			return
+
+		cmd = "gnome-open \"%s\" &" % path
+		os.system( cmd )
 
     def run( self ):
         snapshot_id = None
