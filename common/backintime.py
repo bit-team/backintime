@@ -25,6 +25,7 @@ import gettext
 import config
 import logger
 import snapshots
+import tools
 
 _=gettext.gettext
 
@@ -41,6 +42,7 @@ def take_snapshot( cfg, force = True ):
 
 
 def print_version( cfg, app_name ):
+	print ''
 	print 'Back In Time'
 	print 'Version: ' + cfg.VERSION
 	print ''
@@ -83,7 +85,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 
 	skip = False
 	index = 0
-
+	
 	for arg in sys.argv[ 1 : ]:
 		index = index + 1
 

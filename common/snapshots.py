@@ -40,6 +40,8 @@ _=gettext.gettext
 
 
 class Snapshots:
+	SNAPSHOT_VERSION = 3
+
 	def __init__( self, cfg = None ):
 		self.config = cfg
 		if self.config is None:
@@ -48,19 +50,64 @@ class Snapshots:
 		self.plugin_manager = pluginmanager.PluginManager()
 
 	def get_snapshot_id( self, date ):
+		profile_id = self.config.get_current_profile()
+		tag = self.config.get_tag( profile_id )
+		
 		if type( date ) is datetime.datetime:
-			return date.strftime( '%Y%m%d-%H%M%S' )
+			snapshot_id = date.strftime( '%Y%m%d-%H%M%S' ) + '-' + tag
+			return snapshot_id
 
 		if type( date ) is datetime.date:
-			return date.strftime( '%Y%m%d-000000' )
+			snapshot_id = date.strftime( '%Y%m%d-000000' ) + '-' + tag
+			return snapshot_id
 
 		if type( date ) is str:
-			return date
+			snapshot_id = date
+			return snapshot_id
+		
+		return ""
+
+	def get_snapshot_old_id( self, date ):
+		profile_id = self.config.get_current_profile()
+		
+		if type( date ) is datetime.datetime:
+			snapshot_id = date.strftime( '%Y%m%d-%H%M%S' )
+			return snapshot_id
+
+		if type( date ) is datetime.date:
+			snapshot_id = date.strftime( '%Y%m%d-000000' )
+			return snapshot_id
+
+		if type( date ) is str:
+			snapshot_id = date
+			return snapshot_id
 		
 		return ""
 
 	def get_snapshot_path( self, date ):
-		return os.path.join( self.config.get_snapshots_full_path(), self.get_snapshot_id( date ) )
+		profile_id = self.config.get_current_profile()
+		path = os.path.join( self.config.get_snapshots_full_path( profile_id ), self.get_snapshot_id( date ) )
+		if os.path.exists( path ):
+			#print path
+			return path
+		other_folders = self.config.get_other_folders_paths()
+		for folder in other_folders:
+			path_other = os.path.join( folder, self.get_snapshot_id( date ) )
+			if os.path.exists( path_other ):
+				#print path_other
+				return path_other
+		old_path = os.path.join( self.config.get_snapshots_full_path( profile_id ), self.get_snapshot_old_id( date ) )
+		if os.path.exists( path ):
+			#print path
+			return path
+		other_folders = self.config.get_other_folders_paths()
+		for folder in other_folders:
+			path_other = os.path.join( folder, self.get_snapshot_old_id( date ) )
+			if os.path.exists( path_other ):
+				#print path_other
+				return path_other				
+		#print path
+		return path
 
 	def get_snapshot_info_path( self, date ):
 		return os.path.join( self.get_snapshot_path( date ), 'info' )
@@ -258,11 +305,12 @@ class Snapshots:
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 		#cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		cmd = "rsync -avRAXEH --whole-file --backup --suffix=%s " % backup_suffix
-		cmd = cmd + '--chmod=+w '
+		#cmd = cmd + '--chmod=+w '
 		cmd = cmd + "\"%s.%s\" %s" % ( self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		self._execute( cmd )
 
 		#restore permissions
+		logger.info( "Restore permissions" )
 		file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
 		if len( file_info_dict ) > 0:
 			#explore items
@@ -291,9 +339,11 @@ class Snapshots:
 				self._restore_path_info( item_path, file_info_dict )
 
 	def get_snapshots_list( self, sort_reverse = True ):
+		'''Returns a list with the snapshot_ids of all snapshots in the snapshots folder'''
 		biglist = []
-		snapshots_path = self.config.get_snapshots_full_path()
-
+		profile_id = self.config.get_current_profile()
+		snapshots_path = self.config.get_snapshots_full_path( profile_id )
+		
 		try:
 			biglist = os.listdir( snapshots_path )
 		except:
@@ -302,11 +352,52 @@ class Snapshots:
 		list = []
 
 		for item in biglist:
-			if len( item ) != 15:
+			if len( item ) != 15 and len( item ) != 19:
 				continue
-			if os.path.isdir( os.path.join( snapshots_path, item ) ):
+			if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
 				list.append( item )
 
+		list.sort( reverse = sort_reverse )
+		return list
+		
+	def get_snapshots_and_other_list( self, sort_reverse = True ):
+		'''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
+
+		biglist = []
+		profile_id = self.config.get_current_profile()
+		snapshots_path = self.config.get_snapshots_full_path( profile_id )
+		snapshots_other_paths = self.config.get_other_folders_paths()
+		
+		try:
+			biglist = os.listdir( snapshots_path )
+		except:
+			pass
+			
+		list = []
+
+		for item in biglist:
+			if len( item ) != 15 and len( item ) != 19:
+				continue
+			if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
+				#a = ( item, snapshots_path )
+				list.append( item )
+
+				
+		if len( snapshots_other_paths ) > 0:	
+			for folder in snapshots_other_paths:
+				folderlist = []
+				try:
+					folderlist = os.listdir( folder )
+				except:
+					pass
+				
+				for member in folderlist:
+					if len( member ) != 15 and len( member ) != 19:
+						continue
+					if os.path.isdir( os.path.join( folder, member,  'backup' ) ):
+						#a = ( member, folder )
+						list.append( member )
+		
 		list.sort( reverse = sort_reverse )
 		return list
 
@@ -319,6 +410,14 @@ class Snapshots:
 		cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path #Debian patch
 		self._execute( cmd )
 		cmd = "rm -rfv \"%s\"" % path
+		self._execute( cmd )
+
+	def copy_snapshot( self, snapshot_id, new_folder ):
+		'''Copies a known snapshot to a new location'''
+		current.path = self.get_snapshot_path( snapshot_id )
+		#need to implement hardlinking to existing folder -> cp newest snapshot folder, rsync -aEAXHv --delete to this folder
+		cmd = "cp -al \"%s\"* \"%s\"" % ( current_path, new_folder )
+		logger.info( '%s is copied to folder %s' %( snapshot_id, new_folder ) )
 		self._execute( cmd )
 
 	def _get_last_snapshot_info( self ):
@@ -376,6 +475,9 @@ class Snapshots:
 		elif self.config.is_no_on_battery_enabled() and tools.on_battery():
 			logger.info( 'Deferring backup while on battery' )
 			logger.warning( 'Backup not performed' )
+		elif self.config.get_update_other_folders() == True:
+			logger.info( 'The application needs to change the backup format. Start the GUI to proceed. (As long as you do not you will not be able to make new snapshots!)' )
+			logger.warning( 'Backup not performed' )
 		else:
 			instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
 			if not instance.check():
@@ -401,10 +503,12 @@ class Snapshots:
 					logger.info( 'Nothing to do' )
 				else:
 					self.plugin_manager.on_process_begins() #take snapshot process begin
-
+					logger.info( "on process begins" )
 					self.set_take_snapshot_message( 0, '...' )
-
-					if not self.config.can_backup():
+					profile_id = self.config.get_current_profile()
+					logger.info( "Profile_id: %s" % profile_id )
+					
+					if not self.config.can_backup( profile_id ):
 						if self.plugin_manager.has_gui_plugins() and self.config.is_notify_enabled():
 							for counter in xrange( 30, 0, -1 ):
 								self.set_take_snapshot_message( 1, 
@@ -415,13 +519,13 @@ class Snapshots:
 								if self.config.can_backup():
 									break
 
-					if not self.config.can_backup():
+					if not self.config.can_backup( profile_id ):
 						logger.warning( 'Can\'t find snapshots folder !' )
 						self.plugin_manager.on_error( 3 ) #Can't find snapshots directory (is it on a removable drive ?)
 					else:
 						snapshot_id = self.get_snapshot_id( now )
 						snapshot_path = self.get_snapshot_path( snapshot_id )
-
+						
 						if os.path.exists( snapshot_path ):
 							logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
 							self.plugin_manager.on_error( 4, snapshot_id ) #This snapshots already exists
@@ -580,7 +684,7 @@ class Snapshots:
 
 		new_snapshot_id = 'new_snapshot'
 		new_snapshot_path = self.get_snapshot_path( new_snapshot_id )
-
+		
 		if os.path.exists( new_snapshot_path ):
 			#self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
 			#self._execute( "chmod -R a+rwx \"%s\"" %  new_snapshot_path )
@@ -594,7 +698,7 @@ class Snapshots:
 				return False
 
 		new_snapshot_path_to = self.get_snapshot_path_to( new_snapshot_id )
-
+		
 		#create exclude patterns string
 		items = []
 		for exclude in self.config.get_exclude_patterns():
@@ -629,9 +733,17 @@ class Snapshots:
 			self._set_last_snapshot_info( dict )
 
 		#check previous backup
+		#should only contain the personal snapshots
 		snapshots = self.get_snapshots_list()
 		prev_snapshot_id = ''
-
+		
+		if len( snapshots ) == 0:
+			snapshots = self.get_snapshots_and_other_list()
+			# When there is no snapshots it takes the last snapshot from the other folders
+			# It should delete the excluded folders then
+			rsync_prefix = rsync_prefix + '--delete-excluded '
+			
+			
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 			prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
@@ -731,17 +843,19 @@ class Snapshots:
 
 		fileinfo.close()
 
-		#create info file
+		#create info file 
 		logger.info( "Create info file" ) 
 		machine = socket.gethostname()
 		user = os.environ['LOGNAME']
 		profile_id = self.config.get_current_profile()
+		tag = self.config.get_tag( profile_id )
 		info_file = configfile.ConfigFile()
-		info_file.set_int_value( 'snapshot_version', 2 )
-		info_file.set_str_value( 'snapshot_date', snapshot_id )
+		info_file.set_int_value( 'snapshot_version', self.SNAPSHOT_VERSION )
+		info_file.set_str_value( 'snapshot_date', snapshot_id[0:15] )
 		info_file.set_str_value( 'snapshot_machine', machine )
 		info_file.set_str_value( 'snapshot_user', user )
 		info_file.set_int_value( 'snapshot_profile_id', profile_id )
+		info_file.set_int_value( 'snapshot_tag', tag )
 		info_file.save( self.get_snapshot_info_path( new_snapshot_id ) )
 		info_file = None
 
@@ -787,6 +901,7 @@ class Snapshots:
 
 	def smart_remove( self, now_full = None ):
 		snapshots = self.get_snapshots_list()
+		logger.info( "[smart remove] considered: %s" % snapshots )
 		if len( snapshots ) <= 1:
 			logger.info( "[smart remove] There is only one snapshots, so keep it" )
 			return
@@ -849,7 +964,7 @@ class Snapshots:
 			snapshots = self.get_snapshots_list( False )
 
 			old_backup_id = self.get_snapshot_id( self.config.get_remove_old_snapshots_date() )
-			logger.info( "Remove backups older than: %s" % old_backup_id )
+			logger.info( "Remove backups older than: %s" % old_backup_id[0:15] )
 
 			while True:
 				if len( snapshots ) <= 1:

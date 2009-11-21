@@ -379,6 +379,7 @@ class SettingsDialog(object):
 		self.cb_no_on_battery.set_active( self.config.is_no_on_battery_enabled() )
 	
 	def save_profile( self ):
+		profile_id = self.config.get_current_profile()
 		#snapshots path
 		snapshots_path = self.edit_where.get_text()
 		
@@ -406,7 +407,7 @@ class SettingsDialog(object):
 		#	   return False 
 		
 		#ok let's save to config
-		self.config.set_snapshots_path( snapshots_path )
+		self.config.set_snapshots_path( snapshots_path, profile_id )
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
 		#   return False
@@ -482,7 +483,13 @@ class SettingsDialog(object):
 		self.config.clear_handlers()
 		
 		self.dialog.destroy()
-	
+	   
+	def update_snapshot_location( self ):
+		'''Update snapshot location dialog'''
+		self.config.set_question_handler( self.question_handler )
+		self.config.set_error_handler( self.error_handler )
+		self.config.update_snapshot_location()
+
 	def on_add_profile(self, button, data=None):
 		
 		name = messagebox.text_input_dialog( self.dialog, self.config, _('New profile'), None )
