@@ -6,6 +6,9 @@ Version 1.0.0
 * update Slovak translation (Tomáš Vadina <kyberdev@gmail.com>)
 * multiple profiles support
 * GNOME: fix notification
+* backintime snapshot folder is restructured to ../backintime/machine/user/profile_id/
+* added the possibility to include other snapshot folders within your profile, it can only read those
+* added a tag suffix to the snapshot_id, to avoid double snapshot_ids
 * added a desktop file for kdesu and a test if kdesu or kdesudo should be used (LP: #389988)
 * added expert option to disable snapshots when on battery (LP: #388178)
 * fix bug handling big files by the GNOME GUI (LP: #409130)
