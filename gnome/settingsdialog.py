@@ -152,7 +152,7 @@ class SettingsDialog(object):
 		column.pack_start( pix_renderer, False )
 		column.pack_end( text_renderer, True )
 		column.add_attribute( pix_renderer, 'stock-id', 1 )
-		column.add_attribute( text_renderer, 'markup', 0 )
+		column.add_attribute( text_renderer, 'text', 0 )
 		self.list_exclude.append_column( column )
 		
 		self.store_exclude = gtk.ListStore( str, str )
@@ -564,7 +564,7 @@ class SettingsDialog(object):
 		if pattern.find( ':' ) >= 0:
 			messagebox.show_error( self.dialog, self.config, _('Exclude patterns can\'t contain \':\' char !') )
 			return
-		
+
 		self.add_exclude_( pattern )
 	
 	def on_add_exclude_file( self, button ):

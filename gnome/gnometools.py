@@ -17,13 +17,14 @@
 
 
 import gtk
+import glib
 
 
 def get_snapshot_display_markup( snapshots, snapshot_id ):
 	display_name = snapshots.get_snapshot_display_id( snapshot_id )
 	name = snapshots.get_snapshot_name( snapshot_id )
 	if len( name ) > 0:
-		display_name = display_name + ' - <b>' + name + '</b>'
+		display_name = display_name + ' - <b>' + glib.markup_escape_text( name ) + '</b>'
 	return display_name
 
 
