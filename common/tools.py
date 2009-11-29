@@ -26,6 +26,7 @@ ON_AC = 0
 ON_BATTERY = 1
 POWER_ERROR = 255
 
+
 def get_backintime_path( path ):
 	return os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), path )
 
@@ -141,6 +142,7 @@ def on_battery():
 	else:
 		return False
 
+
 def get_snapshots_list_in_folder( folder, sort_reverse = True ):
 	biglist = []
 	#print folder
@@ -163,6 +165,7 @@ def get_snapshots_list_in_folder( folder, sort_reverse = True ):
 
 	list.sort( reverse = sort_reverse )
 	return list
+
 
 def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
 	biglist = []
@@ -189,7 +192,8 @@ def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
 
 	list.sort( reverse = sort_reverse )
 	return list
-	
+
+
 def move_snapshots_folder( old_folder, new_folder ):
 	'''Moves all the snapshots from one folder to another'''
 	print "\nMove snapshots from %s to %s" %( old_folder, new_folder )	
@@ -262,7 +266,8 @@ def move_snapshots_folder( old_folder, new_folder ):
 	else:
 		print "Error! Not moved: %s\n" %snapshots_not_moved
 		return False
-		
+
+
 def _execute( cmd, callback = None, user_data = None ):
 	ret_val = 0
 
@@ -287,3 +292,35 @@ def _execute( cmd, callback = None, user_data = None ):
 		print "Command \"%s\" returns %s" % ( cmd, ret_val ) 
 
 	return ret_val
+
+
+def get_rsync_caps():
+	data = read_command_output( 'rsync --version' )
+	si = data.find( 'Capabilities:' )
+	if si < 0:
+		return []
+	si = data.find( '\n', si )
+	if si < 0:
+		return []
+	ei = data.find( '\n\n', si )
+	if ei < 0:
+		return []
+
+	data = data[ si + 1 : ei - 1 ]
+	data = data.split( '\n' )
+	all_caps = ''
+
+	for line in data:
+		line = line.strip()
+		if len( line ) <= 0:
+			continue
+		if len( all_caps ) > 0:
+			all_caps = all_caps + ' '
+		all_caps = all_caps + line
+
+	caps = all_caps.split( ", " )
+	#print caps
+	#print ( "ACLs" in get_rsync_caps() )
+	return caps
+
+
