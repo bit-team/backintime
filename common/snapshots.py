@@ -132,8 +132,8 @@ class Snapshots:
 		base_path = self.get_snapshot_path_to( snapshot_id )
 		target = os.readlink( full_path )
 		target = os.path.join( os.path.abspath( os.path.dirname( full_path ) ), target )
-		print "[can_open_path] full_path %s" % full_path
-		print "[can_open_path] base_path %s" % base_path
+		#print "[can_open_path] full_path %s" % full_path
+		#print "[can_open_path] base_path %s" % base_path
 		return target.startswith( base_path )
 
 	def get_snapshot_display_id( self, snapshot_id ):
