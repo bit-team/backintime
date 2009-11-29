@@ -123,6 +123,19 @@ class Snapshots:
 	def get_snapshot_path_to( self, snapshot_id, toPath = '/' ):
 		return os.path.join( self._get_snapshot_data_path( snapshot_id ), toPath[ 1 : ] )
 
+	def can_open_path( self, snapshot_id, full_path ):
+		#full_path = self.get_snapshot_path_to( snapshot_id, path )
+		if not os.path.exists( full_path ):
+			return False
+		if not os.path.islink( full_path ):
+			return True
+		base_path = self.get_snapshot_path_to( snapshot_id )
+		target = os.readlink( full_path )
+		target = os.path.join( os.path.abspath( os.path.dirname( full_path ) ), target )
+		print "[can_open_path] full_path %s" % full_path
+		print "[can_open_path] base_path %s" % base_path
+		return target.startswith( base_path )
+
 	def get_snapshot_display_id( self, snapshot_id ):
 		if len( snapshot_id ) <= 1:
 			return _('Now')

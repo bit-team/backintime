@@ -817,6 +817,9 @@ class MainWindow(object):
 		if not os.path.exists( full_path ):
 			return
 
+		if not self.snapshots.can_open_path( self.snapshot_id, full_path ):
+			return
+
 		#directory
 		if 0 == self.store_folder_view.get_value( iter, 3 ):
 			self.folder_path = path
@@ -1062,7 +1065,7 @@ class MainWindow(object):
 
 				markup = "%s"
 				if os.path.islink( path ):
-					if os.path.exists( path ):
+					if self.snapshots.can_open_path( self.snapshot_id, path ):
 						markup = "<i>%s</i>"
 					else:
 						markup = "<b>!</b><i>%s</i>"
