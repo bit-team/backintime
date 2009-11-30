@@ -324,3 +324,16 @@ def get_rsync_caps():
 	return caps
 
 
+def get_rsync_prefix():
+	caps = get_rsync_caps()
+	cmd = 'rsync -aEH'
+
+	if "ACLs" in caps:
+		cmd = cmd + 'A'
+
+	if "xattrs" in caps:
+		cmd = cmd + 'X'
+
+	return cmd + ' '
+
+
