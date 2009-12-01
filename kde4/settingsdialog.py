@@ -37,20 +37,20 @@ import kde4tools
 _=gettext.gettext
 
 
-class PopupAutomaticBackupAction( KAction ):
-	def __init__( self, list, id, label ):
-		KAction.__init__( self, label, list )
-		self.list = list
-		self.id = id
-		self.label = label
-	
-		QObject.connect( self, SIGNAL('triggered()'), self.on_selected )
-
-	def on_selected( self ):
-		item = self.list.currentItem()
-		if not item is None:
-			item.setText( 1, QString.fromUtf8( self.label ) )
-			item.setData( 0, Qt.UserRole, QVariant( self.id ) )
+#class PopupAutomaticBackupAction( KAction ):
+#	def __init__( self, list, id, label ):
+#		KAction.__init__( self, label, list )
+#		self.list = list
+#		self.id = id
+#		self.label = label
+#	
+#		QObject.connect( self, SIGNAL('triggered()'), self.on_selected )
+#
+#	def on_selected( self ):
+#		item = self.list.currentItem()
+#		if not item is None:
+#			item.setText( 1, QString.fromUtf8( self.label ) )
+#			item.setData( 0, Qt.UserRole, QVariant( self.id ) )
 
 
 class SettingsDialog( KDialog ):
@@ -140,16 +140,17 @@ class SettingsDialog( KDialog ):
 		self.list_include = QTreeWidget( self )
 		self.list_include.setRootIsDecorated( False )
 		#self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
-		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
+		#self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
+		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ) ] )
 		self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
 
-		self.popup_automatic_backup = KMenu( self )
-		keys = self.config.AUTOMATIC_BACKUP_MODES.keys()
-		keys.sort()
-		for key in keys:
-			self.popup_automatic_backup.addAction( PopupAutomaticBackupAction( self.list_include, key, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ key ] ) ) )
+		#self.popup_automatic_backup = KMenu( self )
+		#keys = self.config.AUTOMATIC_BACKUP_MODES.keys()
+		#keys.sort()
+		#for key in keys:
+		#	self.popup_automatic_backup.addAction( PopupAutomaticBackupAction( self.list_include, key, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ key ] ) ) )
 
-		QObject.connect( self.list_include, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_include_item_activated )
+		#QObject.connect( self.list_include, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_include_item_activated )
 		layout.addWidget( self.list_include )
 
 		buttons_layout = QHBoxLayout()
@@ -259,9 +260,9 @@ class SettingsDialog( KDialog ):
 		kde4tools.set_font_bold( label )
 		layout.addWidget( label )
 
-		self.cb_per_diretory_schedule = QCheckBox( QString.fromUtf8( _( 'Enable schedule per included folder (see Include tab; default: disabled)' ) ), self )
-		layout.addWidget( self.cb_per_diretory_schedule )
-		QObject.connect( self.cb_per_diretory_schedule, SIGNAL('clicked()'), self.update_include_columns )
+		#self.cb_per_diretory_schedule = QCheckBox( QString.fromUtf8( _( 'Enable schedule per included folder (see Include tab; default: disabled)' ) ), self )
+		#layout.addWidget( self.cb_per_diretory_schedule )
+		#QObject.connect( self.cb_per_diretory_schedule, SIGNAL('clicked()'), self.update_include_columns )
 
 		self.cb_run_nice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'nice\' as cron job (default: enabled)' ) ), self )
 		layout.addWidget( self.cb_run_nice_from_cron )
@@ -387,12 +388,12 @@ class SettingsDialog( KDialog ):
 		self.cb_notify_enabled.setChecked( self.config.is_notify_enabled() )
 
 		#TAB: Expert Options
-		self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
+		#self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
 		self.cb_run_nice_from_cron.setChecked( self.config.is_run_nice_from_cron_enabled() )
 		self.cb_no_on_battery.setChecked( self.config.is_no_on_battery_enabled() )
 
 		#update
-		self.update_include_columns()
+		#self.update_include_columns()
 		self.update_remove_older_than()
 		self.update_min_free_space()
 
@@ -404,7 +405,8 @@ class SettingsDialog( KDialog ):
 		include_list = []
 		for index in xrange( self.list_include.topLevelItemCount() ):
 			item = self.list_include.topLevelItem( index )
-			include_list.append( [ str( item.text(0).toUtf8() ), item.data( 0, Qt.UserRole ).toInt()[0] ] )
+			#include_list.append( [ str( item.text(0).toUtf8() ), item.data( 0, Qt.UserRole ).toInt()[0] ] )
+			include_list.append( str( item.text(0).toUtf8() ) )
 		
 		self.config.set_include_folders( include_list )
 
@@ -434,7 +436,7 @@ class SettingsDialog( KDialog ):
 		self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
 
 		#expert options
-		self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
+		#self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
 		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.isChecked() )
 		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.isChecked() )
 
@@ -463,28 +465,28 @@ class SettingsDialog( KDialog ):
         	self.config.set_error_handler( self.error_handler )
 		self.config.update_snapshot_location()
 	
-	def update_include_columns( self ):
-		if self.cb_per_diretory_schedule.isChecked():
-			self.list_include.showColumn( 1 )
-			self.global_schedule_group_box.hide()
-		else:
-			self.list_include.hideColumn( 1 )
-			self.global_schedule_group_box.show()
+	#def update_include_columns( self ):
+	#	if self.cb_per_diretory_schedule.isChecked():
+	#		self.list_include.showColumn( 1 )
+	#		self.global_schedule_group_box.hide()
+	#	else:
+	#		self.list_include.hideColumn( 1 )
+	#		self.global_schedule_group_box.show()
 
-	def on_list_include_item_activated( self, item, column ):
-		if not self.cb_per_diretory_schedule.isChecked():
-			return
-		
-		if item is None:
-			return
+	#def on_list_include_item_activated( self, item, column ):
+	#	if not self.cb_per_diretory_schedule.isChecked():
+	#		return
+	#	
+	#	if item is None:
+	#		return
 
-		#if column != 1:
-		#	return
+	#	#if column != 1:
+	#	#	return
 
-		self.popup_automatic_backup.popup( QCursor.pos() )
+	#	self.popup_automatic_backup.popup( QCursor.pos() )
 
-	def on_popup_automatic_backup( self ):
-		print "ABC"
+	#def on_popup_automatic_backup( self ):
+	#	print "ABC"
 
 	def update_remove_older_than( self ):
 		enabled = self.cb_remove_older_then.isChecked()
@@ -498,9 +500,10 @@ class SettingsDialog( KDialog ):
 
 	def add_include( self, data ):
 		item = QTreeWidgetItem()
-		item.setText( 0, QString.fromUtf8( data[0] ) )
-		item.setText( 1, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] ) )
-		item.setData( 0, Qt.UserRole, QVariant( data[1]) )
+		item.setText( 0, QString.fromUtf8( data ) )
+		#item.setText( 0, QString.fromUtf8( data[0] ) )
+		#item.setText( 1, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] ) )
+		#item.setData( 0, Qt.UserRole, QVariant( data[1]) )
 		self.list_include.addTopLevelItem( item )
 
 		if self.list_include.currentItem() is None:
@@ -525,7 +528,7 @@ class SettingsDialog( KDialog ):
 
 	def set_combo_value( self, combo, value ):
 		for i in xrange( combo.count() ):
-			if value == combo.itemData( i ).toInt():
+			if value == combo.itemData( i ).toInt()[0]:
 				combo.setCurrentIndex( i )
 				break
 
@@ -606,7 +609,8 @@ class SettingsDialog( KDialog ):
 			if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
 				return
 
-		self.add_include( [ path, self.config.NONE ] )
+		#self.add_include( [ path, self.config.NONE ] )
+		self.add_include( path )
 
 	def on_btn_snapshots_path_clicked( self ):
 		old_path = str( self.edit_snapshots_path.text().toUtf8() )

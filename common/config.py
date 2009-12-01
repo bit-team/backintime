@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99beta2'
+	VERSION = '0.9.99beta3'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 4
 
@@ -227,10 +227,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return False
 
 		if profile_id == None:
-			print "BUG: calling set_snapshots_path without profile_id!"
-			tjoep
-			return False
-			
+		#	print "BUG: calling set_snapshots_path without profile_id!"
+		#	tjoep
+		#	return False
+			profile_id = self.get_current_profile()
+
 		if not os.path.isdir( value ):
 			self.notify_error( _( '%s is not a folder !' ) )
 			return False
@@ -294,7 +295,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 			else:
 				automatic_backup_mode = self.get_automatic_backup_mode()
 
-			paths.append( ( path, automatic_backup_mode ) )
+			#paths.append( ( path, automatic_backup_mode ) )
+			paths.append( path )
 
 		return paths
 
@@ -304,7 +306,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 		for item in list:
 			if len( value ) > 0:
 				value = value + ':'
-			value = value + item[0] + '|' + str( item[1] )
+			#value = value + item[0] + '|' + str( item[1] )
+			value = value + item
 
 		self.set_profile_str_value( 'snapshots.include_folders', value, profile_id )
  
@@ -327,11 +330,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_automatic_backup_mode( self, value, profile_id = None ):
 		self.set_profile_int_value( 'snapshots.automatic_backup_mode', value, profile_id )
 
-	def get_per_directory_schedule( self, profile_id = None ):
-		return self.get_profile_bool_value( 'snapshots.expert.per_directory_schedule', False, profile_id )
+	#def get_per_directory_schedule( self, profile_id = None ):
+	#	return self.get_profile_bool_value( 'snapshots.expert.per_directory_schedule', False, profile_id )
 
-	def set_per_directory_schedule( self, value, profile_id = None ):
-		return self.set_profile_bool_value( 'snapshots.expert.per_directory_schedule', value, profile_id )
+	#def set_per_directory_schedule( self, value, profile_id = None ):
+	#	return self.set_profile_bool_value( 'snapshots.expert.per_directory_schedule', value, profile_id )
 
 	def get_remove_old_snapshots( self, profile_id = None ):
 		return ( self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id ),
@@ -476,8 +479,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def get_take_snapshot_instance_file( self, profile_id = None ):
 		return os.path.join( self._LOCAL_DATA_FOLDER, "worker%s.lock" % self.__get_file_id__( profile_id ) )
 
-	def get_last_snapshot_info_file( self, profile_id = None ):
-		return os.path.join( self._LOCAL_DATA_FOLDER, "snapshot%s.last" % self.__get_file_id__( profile_id ) )
+	#def get_last_snapshot_info_file( self, profile_id = None ):
+	#	return os.path.join( self._LOCAL_DATA_FOLDER, "snapshot%s.last" % self.__get_file_id__( profile_id ) )
 
 	def get_take_snapshot_user_callback( self, profile_id = None ):
 		return os.path.join( self._LOCAL_CONFIG_FOLDER, "user%s.callback" % self.__get_file_id__( profile_id ) )
@@ -654,25 +657,25 @@ class Config( configfile.ConfigFileWithProfiles ):
 			min_backup_mode = self.NONE
 			max_backup_mode = self.NONE
 
-			if self.get_per_directory_schedule( profile_id ):
-				for item in self.get_include_folders( profile_id ):
-					backup_mode = item[1]
+			#if self.get_per_directory_schedule( profile_id ):
+			#	for item in self.get_include_folders( profile_id ):
+			#		backup_mode = item[1]
 
-					if self.NONE != backup_mode:
-						if self.NONE == min_backup_mode:
-							min_backup_mode = backup_mode
-							max_backup_mode = backup_mode
-						elif backup_mode < min_backup_mode:
-							min_backup_mode = backup_mode
-						elif backup_mode > max_backup_mode:
-							max_backup_mode = backup_mode
+			#		if self.NONE != backup_mode:
+			#			if self.NONE == min_backup_mode:
+			#				min_backup_mode = backup_mode
+			#				max_backup_mode = backup_mode
+			#			elif backup_mode < min_backup_mode:
+			#				min_backup_mode = backup_mode
+			#			elif backup_mode > max_backup_mode:
+			#				max_backup_mode = backup_mode
 		
-				print "Min automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
-				print "Max automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ max_backup_mode ]
-			else:
-				min_backup_mode = self.get_automatic_backup_mode( profile_id )
-				max_backup_mode = min_backup_mode
-				print "Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
+			#	print "Min automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
+			#	print "Max automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ max_backup_mode ]
+			#else:
+			min_backup_mode = self.get_automatic_backup_mode( profile_id )
+			max_backup_mode = min_backup_mode
+			print "Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
 
 			if self.NONE == min_backup_mode:
 				continue

@@ -67,7 +67,7 @@ class SettingsDialog(object):
 				'on_btn_remove_exclude_clicked' : self.on_remove_exclude,
 				'on_cb_remove_old_backup_toggled' : self.update_remove_old_backups,
 				'on_cb_min_free_space_toggled' : self.update_min_free_space,
-				'on_cb_per_directory_schedule_toggled' : self.on_cb_per_directory_schedule_toggled,
+				#'on_cb_per_directory_schedule_toggled' : self.on_cb_per_directory_schedule_toggled,
 				'on_combo_profiles_changed': self.on_combo_profiles_changed,
 				'on_btn_where_clicked': self.on_btn_where_clicked,
 			}
@@ -111,8 +111,8 @@ class SettingsDialog(object):
 			self.store_backup_mode.append( [ map[key], key ] )
 		
 		#per directory schedule
-		self.cb_per_directory_schedule = get( 'cb_per_directory_schedule' )
-		self.lbl_schedule = get( 'lbl_schedule' )
+		#self.cb_per_directory_schedule = get( 'cb_per_directory_schedule' )
+		#self.lbl_schedule = get( 'lbl_schedule' )
 		
 		#setup include folders
 		self.list_include = get( 'list_include' )
@@ -127,19 +127,19 @@ class SettingsDialog(object):
 		column.add_attribute( text_renderer, 'markup', 0 )
 		self.list_include.append_column( column )
 		
-		column = gtk.TreeViewColumn( _('Schedule') )
-		combo_renderer = gtk.CellRendererCombo()
-		combo_renderer.set_property( 'editable', True )
-		combo_renderer.set_property( 'has-entry', False )
-		combo_renderer.set_property( 'model', self.store_backup_mode )
-		combo_renderer.set_property( 'text-column', 0 )
-		combo_renderer.connect( 'edited', self.on_automatic_backup_mode_changed )
-		column.pack_end( combo_renderer, True )
-		column.add_attribute( combo_renderer, 'text', 2 )
+		#column = gtk.TreeViewColumn( _('Schedule') )
+		#combo_renderer = gtk.CellRendererCombo()
+		#combo_renderer.set_property( 'editable', True )
+		#combo_renderer.set_property( 'has-entry', False )
+		#combo_renderer.set_property( 'model', self.store_backup_mode )
+		#combo_renderer.set_property( 'text-column', 0 )
+		#combo_renderer.connect( 'edited', self.on_automatic_backup_mode_changed )
+		#column.pack_end( combo_renderer, True )
+		#column.add_attribute( combo_renderer, 'text', 2 )
 		
-		self.include_schedule_column = column
+		#self.include_schedule_column = column
 		
-		self.store_include = gtk.ListStore( str, str, str, int )
+		self.store_include = gtk.ListStore( str, str ) #, str, int )
 		self.list_include.set_model( self.store_include )
 		
 		#setup exclude patterns
@@ -231,10 +231,10 @@ class SettingsDialog(object):
 	def question_handler( self, message ):
 		return gtk.RESPONSE_YES == messagebox.show_question( self.dialog, self.config, message )
 	
-	def on_automatic_backup_mode_changed( self, renderer, path, new_text ):
-		iter = self.store_include.get_iter(path)
-		self.store_include.set_value( iter, 2, new_text )
-		self.store_include.set_value( iter, 3, self.rev_automatic_backup_modes[new_text] )
+	#def on_automatic_backup_mode_changed( self, renderer, path, new_text ):
+	#	iter = self.store_include.get_iter(path)
+	#	self.store_include.set_value( iter, 2, new_text )
+	#	self.store_include.set_value( iter, 3, self.rev_automatic_backup_modes[new_text] )
 	
 	def on_btn_where_clicked( self, button ):
 		path = self.edit_where.get_text()
@@ -299,16 +299,16 @@ class SettingsDialog(object):
 		self.edit_where.set_text( self.config.get_snapshots_path() )
 		
 		#per directory schedule
-		self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
+		#self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
 		
 		#setup include folders
-		self.update_per_directory_option()
+		#self.update_per_directory_option()
 		
 		self.store_include.clear()
 		include_folders = self.config.get_include_folders()
 		if len( include_folders ) > 0:
 			for include_folder in include_folders:
-				self.store_include.append( [include_folder[0], gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
+				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY] ) #, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
 		
 		#setup exclude patterns
 		self.store_exclude.clear()
@@ -391,7 +391,8 @@ class SettingsDialog(object):
 		include_list = []
 		iter = self.store_include.get_iter_first()
 		while not iter is None:
-			include_list.append( ( self.store_include.get_value( iter, 0 ), self.store_include.get_value( iter, 3 ) ) )
+			#include_list.append( ( self.store_include.get_value( iter, 0 ), self.store_include.get_value( iter, 3 ) ) )
+			include_list.append( self.store_include.get_value( iter, 0 ) )
 			iter = self.store_include.iter_next( iter )
 		
 		#exclude patterns
@@ -434,7 +435,7 @@ class SettingsDialog(object):
 		self.config.set_notify_enabled( self.cb_enable_notifications.get_active() )
 		
 		#expert options
-		self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
+		#self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
 		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active() )
 		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active() )
 	
@@ -448,20 +449,20 @@ class SettingsDialog(object):
 		self.edit_min_free_space_value.set_sensitive( enabled )
 		self.cb_min_free_space_unit.set_sensitive( enabled )
 	
-	def on_cb_per_directory_schedule_toggled( self, button ):
-		self.update_per_directory_option()
+	#def on_cb_per_directory_schedule_toggled( self, button ):
+	#	self.update_per_directory_option()
 	
-	def update_per_directory_option( self ):
-		if self.cb_per_directory_schedule.get_active():
-			if self.list_include.get_column(1) == None:
-				self.list_include.append_column( self.include_schedule_column )
-			self.cb_backup_mode.hide()
-			self.lbl_schedule.hide()
-		else:
-			if self.list_include.get_column(1) != None:
-				self.list_include.remove_column( self.include_schedule_column )
-			self.lbl_schedule.show()
-			self.cb_backup_mode.show()
+	#def update_per_directory_option( self ):
+	#	if self.cb_per_directory_schedule.get_active():
+	#		if self.list_include.get_column(1) == None:
+	#			self.list_include.append_column( self.include_schedule_column )
+	#		self.cb_backup_mode.hide()
+	#		self.lbl_schedule.hide()
+	#	else:
+	#		if self.list_include.get_column(1) != None:
+	#			self.list_include.remove_column( self.include_schedule_column )
+	#		self.lbl_schedule.show()
+	#		self.cb_backup_mode.show()
 	
 	def run( self ):
 		self.config.set_question_handler( self.question_handler )
@@ -534,7 +535,8 @@ class SettingsDialog(object):
 				iter = self.store_include.iter_next( iter )
 			
 			if iter is None:
-				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
+				#self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
+				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY ] )
 		
 		fcd.destroy()
 	

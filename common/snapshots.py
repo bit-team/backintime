@@ -434,43 +434,43 @@ class Snapshots:
 		logger.info( '%s is copied to folder %s' %( snapshot_id, new_folder ) )
 		self._execute( cmd )
 
-	def _get_last_snapshot_info( self ):
-		lines = ''
-		dict = {}
+	#def _get_last_snapshot_info( self ):
+	#	lines = ''
+	#	dict = {}
 
-		try:
-			if os.path.exists( self.config.get_last_snapshot_info_file() ):
-				file = open( self.config.get_last_snapshot_info_file(), 'rt' )
-				lines = file.read()
-				file.close()
-		except:
-			pass
+	#	try:
+	#		if os.path.exists( self.config.get_last_snapshot_info_file() ):
+	#			file = open( self.config.get_last_snapshot_info_file(), 'rt' )
+	#			lines = file.read()
+	#			file.close()
+	#	except:
+	#		pass
 
-		lines = lines.split( '\n' )
-		for line in lines:
-			line = line.strip()
-			if len( line ) <= 0:
-				continue
-			fields = line.split( ':' )
-			if len( fields ) < 6:
-				continue
+	#	lines = lines.split( '\n' )
+	#	for line in lines:
+	#		line = line.strip()
+	#		if len( line ) <= 0:
+	#			continue
+	#		fields = line.split( ':' )
+	#		if len( fields ) < 6:
+	#			continue
 
-			dict[ fields[0] ] = datetime.datetime( int(fields[1]), int(fields[2]), int(fields[3]), int(fields[4]), int(fields[5]) )
+	#		dict[ fields[0] ] = datetime.datetime( int(fields[1]), int(fields[2]), int(fields[3]), int(fields[4]), int(fields[5]) )
 
-		return dict
+	#	return dict
 
-	def _set_last_snapshot_info( self, dict ):
-		lines = []
+	#def _set_last_snapshot_info( self, dict ):
+	#	lines = []
 
-		for key, value in dict.items():
-			lines.append( "%s:%s:%s:%s:%s:%s" % ( key, value.year, value.month, value.day, value.hour, value.minute ) )
+	#	for key, value in dict.items():
+	#		lines.append( "%s:%s:%s:%s:%s:%s" % ( key, value.year, value.month, value.day, value.hour, value.minute ) )
 
-		try:
-			file = open( self.config.get_last_snapshot_info_file(), 'wt' )
-			file.write( '\n'.join( lines ) )
-			file.close()
-		except:
-			pass
+	#	try:
+	#		file = open( self.config.get_last_snapshot_info_file(), 'wt' )
+	#		file.write( '\n'.join( lines ) )
+	#		file.close()
+	#	except:
+	#		pass
 
 	#def call_user_callback( self, args ):
 	#	cmd = self.config.get_take_snapshot_user_callback()
@@ -504,14 +504,15 @@ class Snapshots:
 				instance.start_application()
 				logger.info( 'Lock' )
 
-				if not self.config.get_per_directory_schedule():
-					force = True
+				#if not self.config.get_per_directory_schedule():
+				#	force = True
 
 				now = datetime.datetime.today()
-				if not force:
-					now = now.replace( second = 0 )
+				#if not force:
+				#	now = now.replace( second = 0 )
 
-				include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
+				#include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
+				include_folders = self.config.get_include_folders()
 
 				if len( include_folders ) <= 0:
 					logger.info( 'Nothing to do' )
@@ -544,7 +545,8 @@ class Snapshots:
 							logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
 							self.plugin_manager.on_error( 4, snapshot_id ) #This snapshots already exists
 						else:
-							ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
+							#ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
+							ret_val = self._take_snapshot( snapshot_id, now, include_folders )
 
 						if not ret_val:
 							os.system( "rm -rf \"%s\"" % snapshot_path )
@@ -559,6 +561,8 @@ class Snapshots:
 
 					if ret_val:
 						self.plugin_manager.on_new_snapshot( snapshot_id, snapshot_path ) #new snapshot
+
+					os.system( 'sleep 20' )
 
 					self.plugin_manager.on_process_ends() #take snapshot process end
 
@@ -627,37 +631,37 @@ class Snapshots:
 
 		return False
 
-	def _get_backup_folders( self, now, force ):
-		include_folders = []
-		ignore_folders = []
-		dict = self._get_last_snapshot_info()
-		dict2 = {}
+	#def _get_backup_folders( self, now, force ):
+	#	include_folders = []
+	#	ignore_folders = []
+	#	dict = self._get_last_snapshot_info()
+	#	dict2 = {}
 
-		all_include_folders = self.config.get_include_folders()
-		
-		for item in all_include_folders:
-			path = item[0]
-			path = os.path.expanduser( path )
-			path = os.path.abspath( path )
+	#	all_include_folders = self.config.get_include_folders()
+	#	
+	#	for item in all_include_folders:
+	#		path = item[0]
+	#		path = os.path.expanduser( path )
+	#		path = os.path.abspath( path )
 
-			if path in dict:
-				dict2[ path ] = dict[ path ]
+	#		if path in dict:
+	#			dict2[ path ] = dict[ path ]
 
-			if not os.path.isdir( path ):
-				continue
+	#		if not os.path.isdir( path ):
+	#			continue
 
-			if not force and path in dict:
-				if not self._is_auto_backup_needed( now, dict[path], item[1] ):
-					ignore_folders.append( path )
-					continue
+	#		if not force and path in dict:
+	#			if not self._is_auto_backup_needed( now, dict[path], item[1] ):
+	#				ignore_folders.append( path )
+	#				continue
 
-			include_folders.append( path )
+	#		include_folders.append( path )
 
-		logger.info( "Include folders: %s" % include_folders )
-		logger.info( "Ignore folders: %s" % ignore_folders )
-		logger.info( "Last snapshots: %s" % dict2 )
+	#	logger.info( "Include folders: %s" % include_folders )
+	#	logger.info( "Ignore folders: %s" % ignore_folders )
+	#	logger.info( "Last snapshots: %s" % dict2 )
 
-		return ( include_folders, ignore_folders, dict2 )
+	#	return ( include_folders, ignore_folders, dict2 )
 
 	def _create_directory( self, folder ):
 		tools.make_dirs( folder )
@@ -693,7 +697,7 @@ class Snapshots:
 		except:
 			pass
 
-	def _take_snapshot( self, snapshot_id, now, include_folders, ignore_folders, dict, force ):
+	def _take_snapshot( self, snapshot_id, now, include_folders ): # ignore_folders, dict, force ):
 		self.set_take_snapshot_message( 0, _('...') )
 
 		new_snapshot_id = 'new_snapshot'
@@ -717,8 +721,8 @@ class Snapshots:
 		items = []
 		for exclude in self.config.get_exclude_patterns():
 			self._append_item_to_list( "--exclude=\"%s\"" % exclude, items )
-		for folder in ignore_folders:
-			self._append_item_to_list( "--exclude=\"%s\"" % folder, items )
+		#for folder in ignore_folders:
+		#	self._append_item_to_list( "--exclude=\"%s\"" % folder, items )
 		rsync_exclude = ' '.join( items )
 
 		#create include patterns list
@@ -740,11 +744,11 @@ class Snapshots:
 		rsync_suffix = ' --chmod=Fa-w,Da-w --whole-file --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
-		if not force:
-			for folder in include_folders:
-				dict[ folder ] = now
-
-			self._set_last_snapshot_info( dict )
+		#if not force:
+		#	for folder in include_folders:
+		#		dict[ folder ] = now
+		#
+		#	self._set_last_snapshot_info( dict )
 
 		#check previous backup
 		#should only contain the personal snapshots
@@ -753,10 +757,10 @@ class Snapshots:
 		
 		if len( snapshots ) == 0:
 			snapshots = self.get_snapshots_and_other_list()
-			# When there is no snapshots it takes the last snapshot from the other folders
-			# It should delete the excluded folders then
-			rsync_prefix = rsync_prefix + '--delete-excluded '
-			
+
+		# When there is no snapshots it takes the last snapshot from the other folders
+		# It should delete the excluded folders then
+		rsync_prefix = rsync_prefix + '--delete-excluded '
 			
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]

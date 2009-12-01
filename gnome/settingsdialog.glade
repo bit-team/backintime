@@ -14,6 +14,7 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkHBox" id="hbox5">
@@ -45,7 +46,7 @@
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkButton" id="btn_edit_profile">
-                    <property name="label" translatable="yes">gtk-edit</property>
+                    <property name="label">gtk-edit</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -59,7 +60,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="btn_add_profile">
-                    <property name="label" translatable="yes">gtk-new</property>
+                    <property name="label">gtk-new</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -73,7 +74,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="btn_remove_profile">
-                    <property name="label" translatable="yes">gtk-delete</property>
+                    <property name="label">gtk-delete</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -114,6 +115,7 @@
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkFrame" id="frame1">
@@ -239,6 +241,7 @@
               <object class="GtkVBox" id="vbox7">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkScrolledWindow" id="scrolledwindow4">
@@ -267,7 +270,7 @@
                     <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkButton" id="btn_add_include">
-                        <property name="label" translatable="yes">gtk-add</property>
+                        <property name="label">gtk-add</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -281,7 +284,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="btn_remove_include">
-                        <property name="label" translatable="yes">gtk-remove</property>
+                        <property name="label">gtk-remove</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -318,6 +321,7 @@
               <object class="GtkVBox" id="vbox8">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkScrolledWindow" id="scrolledwindow5">
@@ -346,7 +350,7 @@
                     <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkButton" id="btn_add_exclude">
-                        <property name="label" translatable="yes">gtk-add</property>
+                        <property name="label">gtk-add</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -384,7 +388,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="btn_remove_exclude">
-                        <property name="label" translatable="yes">gtk-remove</property>
+                        <property name="label">gtk-remove</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -583,6 +587,7 @@
               <object class="GtkVBox" id="vbox5">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkCheckButton" id="cb_enable_notifications">
@@ -619,6 +624,7 @@
               <object class="GtkVBox" id="vbox9">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="label15">
@@ -633,20 +639,6 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="cb_per_directory_schedule">
-                    <property name="label" translatable="yes">Enable schedule per included folder (see Include tab; default: disabled)</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="on_cb_per_directory_schedule_toggled"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkCheckButton" id="cb_run_nice_from_cron">
                     <property name="label" translatable="yes">Run 'nice' as cron job (default: enabled)</property>
                     <property name="visible">True</property>
@@ -656,7 +648,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="position">2</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -670,7 +662,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="position">3</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -678,7 +670,7 @@
                     <property name="visible">True</property>
                   </object>
                   <packing>
-                    <property name="position">4</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
@@ -706,7 +698,7 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="btn_cancel">
-                <property name="label" translatable="yes">gtk-cancel</property>
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -720,7 +712,7 @@
             </child>
             <child>
               <object class="GtkButton" id="btn_ok">
-                <property name="label" translatable="yes">gtk-ok</property>
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
