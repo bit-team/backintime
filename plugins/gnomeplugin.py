@@ -110,7 +110,10 @@ class GnomePlugin( pluginmanager.Plugin ):
 				if not gtk.events_pending():
 					if attach_notification:
 						attach_notification = False
-						self.notification.attach_to_status_icon( status_icon )
+						try:
+							self.notification.attach_to_status_icon( status_icon )
+						except:
+							pass
 
 					message = self.snapshots.get_take_snapshot_message()
 					if message is None and last_message is None:
