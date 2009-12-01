@@ -289,7 +289,7 @@ class MainWindow( KMainWindow ):
 		self.text_validator = QRegExpValidator( QRegExp( '.*' ), self )
 
 		#
-		kde4tools.set_font_bold( self.right_widget )
+		#kde4tools.set_font_bold( self.right_widget )
 
 		#force settingdialog if it is not configured
 		if not cfg.is_configured():
@@ -301,7 +301,6 @@ class MainWindow( KMainWindow ):
 		if self.config.get_update_other_folders() == True:
 			settingsdialog.SettingsDialog( self ).update_snapshot_location()
 
-		
 		profile_id = cfg.get_current_profile()
 		if not cfg.can_backup( profile_id ):
 			KMessageBox.error( self, QString.fromUtf8( _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') ) )
