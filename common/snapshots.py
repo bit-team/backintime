@@ -811,7 +811,7 @@ class Snapshots:
 
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
-		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + new_snapshot_path_to + '"' # do not delete the excluded, as we will miss the hardlinks with files or folders that are scheduled for a later time
+		cmd = rsync_prefix + ' -v --delete-excluded ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
 

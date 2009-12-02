@@ -1,9 +1,10 @@
 Back In Time
 
 Version 1.0.0
+* fix bug that could cause "ghost" folders in snapshots (LP: 406092)
 * fix bug that converted / into // (LP: #455149)
 * fix bug: https://bugs.launchpad.net/backintime/+bug/441628
-* remove "schedule per included directory" (profiles do that)
+* remove "schedule per included directory" (profiles do that) (+ bug LP: #412470)
 * fig bug: https://bugs.launchpad.net/backintime/+bug/489380
 * fix bug: https://bugs.launchpad.net/backintime/+bug/489319
 * fix bug: https://bugs.launchpad.net/backintime/+bug/447841
@@ -25,7 +26,6 @@ Version 1.0.0
 * changed default exclude patterns to caches, thumbnails, trashbins, and backups (LP: #422132)
 * write access to snapshot folder is checked & change to snapshot version 2 (LP: #423086)
 * fix small bugs (a.o. LP: #474307)
-* Fix bug in schedule per included folder (LP: #412470)
 * Used a more standard crontab syntax (LP: #409783)
 * Stop the "Over zealous removal of crontab entries" (LP: #451811)
 
