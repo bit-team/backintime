@@ -312,8 +312,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_str_value( 'snapshots.include_folders', value, profile_id )
  
 	def get_exclude_patterns( self, profile_id = None ):
-		'''Gets the exclude patterns (default: caches, thumbnails, trashbins, and backups)'''
-		value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id )
+		'''Gets the exclude patterns (default: virtual file systems, caches, thumbnails, trashbins, and backups)'''
+		value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.gvfs:.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id )
 		if len( value ) <= 0:
 			return []
 		return value.split(':')
