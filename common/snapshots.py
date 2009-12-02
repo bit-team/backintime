@@ -562,8 +562,6 @@ class Snapshots:
 					if ret_val:
 						self.plugin_manager.on_new_snapshot( snapshot_id, snapshot_path ) #new snapshot
 
-					os.system( 'sleep 20' )
-
 					self.plugin_manager.on_process_ends() #take snapshot process end
 
 				if sleep:
