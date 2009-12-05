@@ -248,6 +248,12 @@ class SettingsDialog( KDialog ):
 		self.cb_notify_enabled = QCheckBox( QString.fromUtf8( _( 'Enable notifications' ) ), self )
 		layout.addWidget( self.cb_notify_enabled )
 
+		self.cb_no_on_battery = QCheckBox( QString.fromUtf8( _( 'Disable snapshots when on battery' ) ), self )
+		if not tools.power_status_available ():
+			self.cb_no_on_battery.setEnabled ( False )
+			self.cb_no_on_battery.setToolTip ( QString.fromUtf8 ( _( 'Power status not available from system' ) ) )
+		layout.addWidget( self.cb_no_on_battery )
+
 		#
 		layout.addStretch()
 
@@ -266,12 +272,6 @@ class SettingsDialog( KDialog ):
 
 		self.cb_run_nice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'nice\' as cron job (default: enabled)' ) ), self )
 		layout.addWidget( self.cb_run_nice_from_cron )
-
-		self.cb_no_on_battery = QCheckBox( QString.fromUtf8( _( 'Disable snapshots when on battery' ) ), self )
-		if not tools.power_status_available ():
-			self.cb_no_on_battery.setEnabled ( False )
-			self.cb_no_on_battery.setToolTip ( QString.fromUtf8 ( _( 'Power status not available from system' ) ) )
-		layout.addWidget( self.cb_no_on_battery )
 
 		#
 		layout.addStretch()
