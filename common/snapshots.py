@@ -816,6 +816,11 @@ class Snapshots:
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
 
+		#backup config file
+		logger.info( 'Save config file' )
+		self.set_take_snapshot_message( 0, _('Save config file ...') )
+		self._execute( 'cp %s %s' % (self.config._LOCAL_CONFIG_PATH, new_snapshot_path_to + '..') )
+		
 		#save permissions for sync folders
 		logger.info( 'Save permissions' )
 		self.set_take_snapshot_message( 0, _('Save permission ...') )
@@ -877,7 +882,7 @@ class Snapshots:
 		info_file.set_int_value( 'snapshot_tag', tag )
 		info_file.save( self.get_snapshot_info_path( new_snapshot_id ) )
 		info_file = None
-
+		
 		#rename snapshot
 		snapshot_path = self.get_snapshot_path( snapshot_id )
 		os.system( "mv \"%s\" \"%s\"" % ( new_snapshot_path, snapshot_path ) )
