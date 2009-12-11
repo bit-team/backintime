@@ -549,7 +549,8 @@ class Snapshots:
 							ret_val = self._take_snapshot( snapshot_id, now, include_folders )
 
 						if not ret_val:
-							os.system( "rm -rf \"%s\"" % snapshot_path )
+#							os.system( "rm -rf \"%s\"" % snapshot_path )
+							self._execute( "rm -rf \"%s\"" % snapshot_path )
 							logger.warning( "No new snapshot (not needed or error)" )
 						
 						self._free_space( now )
@@ -1034,12 +1035,13 @@ class Snapshots:
 				del snapshots[0]
 
 	def _execute( self, cmd, callback = None, user_data = None ):
+		with_ionice = 'ionice -c2 -n7 %s'
 		ret_val = 0
 
 		if callback is None:
-			ret_val = os.system( cmd )
+			ret_val = os.system( with_ionice % cmd )
 		else:
-			pipe = os.popen( cmd, 'r' )
+			pipe = os.popen( with_ionice % cmd, 'r' )
 
 			while True:
 				line = pipe.readline()
@@ -1059,9 +1061,10 @@ class Snapshots:
 		return ret_val
 
 	def _execute_output( self, cmd, callback = None, user_data = None ):
+		with_ionice = 'ionice -c2 -n7 %s'
 		output = ''
 
-		pipe = os.popen( cmd, 'r' )
+		pipe = os.popen( with_ionice % cmd, 'r' )
 		
 		while True:
 			line = pipe.readline()
