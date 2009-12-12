@@ -80,7 +80,7 @@ class MainWindow( KMainWindow ):
 		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 
 		self.btn_update_snapshots = self.main_toolbar.addAction( KIcon( 'view-refresh' ), '' )
-		self.btn_update_snapshots.setToolTip( QString.fromUtf8( _('Update snapshots') ) )
+		self.btn_update_snapshots.setToolTip( QString.fromUtf8( _('Refresh snapshots') ) )
 		QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
 
 		self.btn_name_snapshot = self.main_toolbar.addAction( KIcon( 'edit-rename' ), '' )
