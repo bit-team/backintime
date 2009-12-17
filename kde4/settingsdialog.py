@@ -273,6 +273,12 @@ class SettingsDialog( KDialog ):
 		self.cb_run_nice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'nice\' as cron job (default: enabled)' ) ), self )
 		layout.addWidget( self.cb_run_nice_from_cron )
 
+		self.cb_run_ionice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' as cron job (default: enabled)' ) ), self )
+		layout.addWidget( self.cb_run_ionice_from_cron )
+
+		self.cb_run_ionice_from_user = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' when tacking a manual snapshot (default: disabled)' ) ), self )
+		layout.addWidget( self.cb_run_ionice_from_user )
+
 		#
 		layout.addStretch()
 
@@ -390,6 +396,8 @@ class SettingsDialog( KDialog ):
 		#TAB: Expert Options
 		#self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
 		self.cb_run_nice_from_cron.setChecked( self.config.is_run_nice_from_cron_enabled() )
+		self.cb_run_ionice_from_cron.setChecked( self.config.is_run_ionice_from_cron_enabled() )
+		self.cb_run_ionice_from_user.setChecked( self.config.is_run_ionice_from_user_enabled() )
 		self.cb_no_on_battery.setChecked( self.config.is_no_on_battery_enabled() )
 
 		#update
@@ -438,6 +446,8 @@ class SettingsDialog( KDialog ):
 		#expert options
 		#self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
 		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.isChecked() )
+		self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.isChecked() )
+		self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.isChecked() )
 		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.isChecked() )
 
 	def error_handler( self, message ):

@@ -1040,13 +1040,12 @@ class Snapshots:
 				del snapshots[0]
 
 	def _execute( self, cmd, callback = None, user_data = None ):
-		with_ionice = 'ionice -c2 -n7 %s'
 		ret_val = 0
 
 		if callback is None:
-			ret_val = os.system( with_ionice % cmd )
+			ret_val = os.system( cmd )
 		else:
-			pipe = os.popen( with_ionice % cmd, 'r' )
+			pipe = os.popen( cmd, 'r' )
 
 			while True:
 				line = pipe.readline()
@@ -1066,10 +1065,9 @@ class Snapshots:
 		return ret_val
 
 	def _execute_output( self, cmd, callback = None, user_data = None ):
-		with_ionice = 'ionice -c2 -n7 %s'
 		output = ''
 
-		pipe = os.popen( with_ionice % cmd, 'r' )
+		pipe = os.popen( cmd, 'r' )
 		
 		while True:
 			line = pipe.readline()

@@ -216,6 +216,11 @@ class SettingsDialog(object):
 		
 		#enable notifications
 		self.cb_enable_notifications = get( 'cb_enable_notifications' )
+
+		#nice & ionice
+		self.cb_run_nice_from_cron = get('cb_run_nice_from_cron')
+		self.cb_run_ionice_from_cron = get('cb_run_ionice_from_cron')
+		self.cb_run_ionice_from_user = get('cb_run_ionice_from_user')
 		
 		#don't run when on battery
 		self.cb_no_on_battery = get( 'cb_no_on_battery' )
@@ -372,8 +377,13 @@ class SettingsDialog(object):
 		self.cb_enable_notifications.set_active( self.config.is_notify_enabled() )
 		
 		#run 'nice' from cron
-		self.cb_run_nice_from_cron = self.builder.get_object('cb_run_nice_from_cron')
 		self.cb_run_nice_from_cron.set_active(self.config.is_run_nice_from_cron_enabled())
+
+		#run 'ionice' from cron
+		self.cb_run_ionice_from_cron.set_active(self.config.is_run_ionice_from_cron_enabled())
+		
+		#run 'ionice' from user
+		self.cb_run_ionice_from_user.set_active(self.config.is_run_ionice_from_user_enabled())
 		
 		#don't run when on battery
 		self.cb_no_on_battery.set_active( self.config.is_no_on_battery_enabled() )
@@ -437,6 +447,8 @@ class SettingsDialog(object):
 		#expert options
 		#self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
 		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active() )
+		self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.get_active() )
+		self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.get_active() )
 		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active() )
 	
 	def update_remove_old_backups( self, button ):

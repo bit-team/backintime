@@ -32,6 +32,8 @@ _=gettext.gettext
 
 def take_snapshot_now_async( cfg ):
 	cmd = "backintime --profile \"%s\" --backup &" % cfg.get_profile_name()
+	if cfg.is_run_ionice_from_user_enabled():
+		cmd = 'ionice -c2 -n7 ' + cmd
 	os.system( cmd )
 
 

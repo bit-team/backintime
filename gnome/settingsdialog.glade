@@ -666,11 +666,37 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkCheckButton" id="cb_run_ionice_from_cron">
+                    <property name="label" translatable="yes">Run 'ionice' as cron job (default: enabled)</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="cb_run_ionice_from_user">
+                    <property name="label" translatable="yes">Run 'ionice' when tacking a manual snapshot (default: disabled)</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkLabel" id="label16">
                     <property name="visible">True</property>
                   </object>
                   <packing>
-                    <property name="position">2</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>

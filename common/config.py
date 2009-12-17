@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99beta4'
+	VERSION = '0.9.99beta5'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 4
 
@@ -421,6 +421,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_run_nice_from_cron_enabled( self, value, profile_id = None ):
 		self.set_profile_bool_value( 'snapshots.cron.nice', value, profile_id )
 
+	def is_run_ionice_from_cron_enabled( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.cron.ionice', True, profile_id )
+
+	def set_run_ionice_from_cron_enabled( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.cron.ionice', value, profile_id )
+
+	def is_run_ionice_from_user_enabled( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.user_backup.ionice', False, profile_id )
+
+	def set_run_ionice_from_user_enabled( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.user_backup.ionice', value, profile_id )
+
 	def is_no_on_battery_enabled( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.no_on_battery', False, profile_id )
 
@@ -703,6 +715,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 			if len( cron_line ) > 0:
 				cmd = "/usr/bin/backintime --profile \\\"%s\\\" --backup-job >/dev/null 2>&1" % profile_name
+				if self.is_run_ionice_from_cron_enabled():
+					cmd = 'ionice -c2 -n7 ' + cmd
 				if self.is_run_nice_from_cron_enabled( profile_id ):
 					cmd = 'nice -n 19 ' + cmd
 				cron_line = cron_line.replace( '{cmd}', cmd )
