@@ -41,6 +41,7 @@ class KDE4Plugin( pluginmanager.Plugin ):
 
 	def init( self, snapshots ):
 		self.snapshots = snapshots
+		return True
 
 		if not tools.process_exists( 'ksmserver' ):
 			return False
@@ -56,49 +57,6 @@ class KDE4Plugin( pluginmanager.Plugin ):
 	def is_gui( self ):
 		return True
 
-	def update_info( self ):
-		from PyQt4.QtCore import QObject, QString, SIGNAL, QEventLoop
-		from PyKDE4.kdecore import KAboutData, KCmdLineArgs, ki18n
-		from PyKDE4.kdeui import KApplication, KSystemTrayIcon, KIcon
-
-		print "[KDE4Plugin UPDATE] %s" % thread.get_ident()
-
-		if self.app is None:
-			return
-
-		self.app.processEvents( QEventLoop.AllEvents, 2000 )
-	
-		message = self.snapshots.get_take_snapshot_message()
-		if message is None and self.last_message is None:
-			message = ( 0, _('Working...') )
-		
-		if not message is None:
-			if message != self.last_message:
-				self.last_message = message
-				self.status_icon.setToolTip( QString.fromUtf8( self.last_message[1] ) )
-
-				if self.last_message[0] != 0:
-					self.status_icon.setIcon( KIcon('document-save-as') )
-					if self.first_error:
-						self.first_error = False
-						self.show_popup()
-				else:
-					self.status_icon.setIcon( KIcon('document-save') )
-
-		self.app.processEvents( QEventLoop.AllEvents, 2000 )
-
-	def show_popup( self ):
-		from PyKDE4.kdeui import KPassivePopup
-		from PyQt4.QtCore import QString
-
-		if not self.popup is None:
-			self.popup.deleteLater()
-			self.popup = None
-
-		if not self.last_message is None:
-			self.popup = KPassivePopup.message( self.config.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
-			self.popup.setAutoDelete( False )
-
 	def on_process_begins( self ):
 		try:
 			self.process = subprocess.Popen( [ sys.executable, '/usr/share/backintime/kde4/kde4systrayicon.py', self.snapshots.config.get_current_profile() ] )
@@ -111,10 +69,4 @@ class KDE4Plugin( pluginmanager.Plugin ):
 				self.process.terminate()
 			except:
 				pass
-
-	def on_error( self, code, message ):
-		self.update_info()
-
-	def on_new_snapshot( self, snapshot_id, snapshot_path ):
-		self.update_info()
 
