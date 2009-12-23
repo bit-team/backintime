@@ -58,6 +58,7 @@ class SettingsDialog( KDialog ):
 		KDialog.__init__( self, parent )
 
 		self.config = parent.config
+		self.snapshots = parent.snapshots
 		self.config_copy_dict = copy.copy( self.config.dict )
 		self.current_profile_org = self.config.get_current_profile()
 
@@ -469,11 +470,11 @@ class SettingsDialog( KDialog ):
 
 		return ret_val
 
-    	def update_snapshot_location( self ):
+	def update_snapshots_location( self ):
 		'''Update snapshot location dialog'''
 		self.config.set_question_handler( self.question_handler )
-        	self.config.set_error_handler( self.error_handler )
-		self.config.update_snapshot_location()
+		self.config.set_error_handler( self.error_handler )
+		self.snapshots.update_snapshots_location()
 	
 	#def update_include_columns( self ):
 	#	if self.cb_per_diretory_schedule.isChecked():

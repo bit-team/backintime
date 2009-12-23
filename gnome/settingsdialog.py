@@ -37,10 +37,11 @@ _=gettext.gettext
 
 class SettingsDialog(object):
 	
-	def __init__( self, config, parent ):
+	def __init__( self, config, snapshots, parent ):
 		
 		self.config = config
 		self.parent = parent
+		self.snapshots = snapshots
 		
 		builder = gtk.Builder()
 		self.builder = builder
@@ -497,11 +498,11 @@ class SettingsDialog(object):
 		
 		self.dialog.destroy()
 	   
-	def update_snapshot_location( self ):
+	def update_snapshots_location( self ):
 		'''Update snapshot location dialog'''
 		self.config.set_question_handler( self.question_handler )
 		self.config.set_error_handler( self.error_handler )
-		self.config.update_snapshot_location()
+		self.snapshots.update_snapshots_location()
 
 	def on_add_profile(self, button, data=None):
 		

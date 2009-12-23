@@ -298,8 +298,8 @@ class MainWindow( KMainWindow ):
 		if not cfg.is_configured():
 			return
 	
-		if self.config.get_update_other_folders() == True:
-			settingsdialog.SettingsDialog( self ).update_snapshot_location()
+		if self.snapshots.has_old_snapshots():
+			settingsdialog.SettingsDialog( self ).update_snapshots_location()
 
 		profile_id = cfg.get_current_profile()
 		if not cfg.can_backup( profile_id ):

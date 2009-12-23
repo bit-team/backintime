@@ -41,7 +41,6 @@ class KDE4Plugin( pluginmanager.Plugin ):
 
 	def init( self, snapshots ):
 		self.snapshots = snapshots
-		return True
 
 		if not tools.process_exists( 'ksmserver' ):
 			return False

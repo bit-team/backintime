@@ -297,13 +297,13 @@ class MainWindow(object):
         gobject.timeout_add( 1000, self.raise_application )
 
         if not self.config.is_configured():
-            settingsdialog.SettingsDialog( self.config, self ).run()
+            settingsdialog.SettingsDialog( self.config, self.snapshots, self ).run()
 
             if not self.config.is_configured():
                 return 
 	
-	if self.config.get_update_other_folders() == True:
-		settingsdialog.SettingsDialog( self.config, self ).update_snapshot_location()
+	if self.snapshots.has_old_snapshots():
+		settingsdialog.SettingsDialog( self.config, self.snapshots, self ).update_snapshots_location()
 	
 	profile_id = self.config.get_current_profile()
 	if not self.config.can_backup( profile_id ):
@@ -913,7 +913,7 @@ class MainWindow(object):
         snapshots_path = self.config.get_snapshots_path()
         include_folders = self.config.get_include_folders()
 
-        settingsdialog.SettingsDialog( self.config, self ).run()
+        settingsdialog.SettingsDialog( self.config, self.snapshots, self ).run()
 
         if snapshots_path != self.config.get_snapshots_path() or include_folders != self.config.get_include_folders():
             self.update_all( False )
