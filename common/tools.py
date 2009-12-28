@@ -294,6 +294,15 @@ def _execute( cmd, callback = None, user_data = None ):
 	return ret_val
 
 
+def is_process_alive( pid ):
+	try:
+		os.kill( pid, 0 )	#this will raise an exception if the pid is not valid
+	except:
+		return False
+
+	return True
+
+
 def get_rsync_caps():
 	data = read_command_output( 'rsync --version' )
 	si = data.find( 'Capabilities:' )

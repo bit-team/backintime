@@ -45,11 +45,11 @@ class KDE4SysTrayIcon:
 		self.config = self.snapshots.config
 
 		if len( sys.argv ) > 1:
-			#try:
-			profile_id = int( sys.argv[1] )
-			self.config.set_current_profile( profile_id )
-			#except:
-			#	pass
+			try:
+				profile_id = int( sys.argv[1] )
+				self.config.set_current_profile( profile_id )
+			except:
+				pass
 
 		kaboutdata = KAboutData( 'backintime', '', ki18n( self.config.APP_NAME ), self.config.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( self.config.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
 		kaboutdata.setProgramIconName( 'document-save' )
@@ -70,20 +70,32 @@ class KDE4SysTrayIcon:
 		self.timer = QTimer()
 		QObject.connect( self.timer, SIGNAL('timeout()'), self.update_info )
 
-	def run( self ):
-		self.status_icon.show()
-		self.timer.start( 500 )
+		self.ppid = os.getppid()
 
-		self.kapp.exec_()
-
+	def prepare_exit( self ):
 		self.timer.stop()
-		self.status_icon.hide()
+
+		if not self.status_icon is None:
+			self.status_icon.hide()
+			self.status_icon = None
 
 		if not self.popup is None:
 			self.popup.deleteLater()
 			self.popup = None
 
-		kapp.processEvents()
+		self.kapp.processEvents()
+
+	def run( self ):
+		self.status_icon.show()
+		self.timer.start( 500 )
+
+		logger.info( "[kde4systrayicon] begin loop" )
+
+		self.kapp.exec_()
+		
+		logger.info( "[kde4systrayicon] end loop" )
+
+		self.prepare_exit()
 
 	def show_popup( self ):
 		if not self.popup is None:
@@ -95,6 +107,11 @@ class KDE4SysTrayIcon:
 			self.popup.setAutoDelete( False )
 
 	def update_info( self ):
+		if not tools.is_process_alive( self.ppid ):
+			self.prepare_exit()
+			self.kapp.exit(0)
+			return
+
 		message = self.snapshots.get_take_snapshot_message()
 		if message is None and self.last_message is None:
 			message = ( 0, _('Working...') )

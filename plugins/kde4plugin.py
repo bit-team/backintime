@@ -65,7 +65,8 @@ class KDE4Plugin( pluginmanager.Plugin ):
 	def on_process_ends( self ):
 		if not self.process is None:
 			try:
-				self.process.terminate()
+				#self.process.terminate()
+				return
 			except:
 				pass
 
