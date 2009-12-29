@@ -222,6 +222,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 		else:
 			machine = socket.gethostname()
 			user = os.environ['LOGNAME']
+			if profile_id is None:
+				profile_id = self.config.get_current_profile()
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user, profile_id ) 
 
 	def set_snapshots_path( self, value, profile_id = None ):
