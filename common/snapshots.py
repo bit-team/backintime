@@ -318,7 +318,7 @@ class Snapshots:
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 		#cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		cmd = tools.get_rsync_prefix()
-		cmd = cmd + "-R --whole-file --backup --suffix=%s " % backup_suffix
+		cmd = cmd + "-R --backup --suffix=%s " % backup_suffix
 		#cmd = cmd + '--chmod=+w '
 		cmd = cmd + "\"%s.%s\" %s" % ( self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		self._execute( cmd )
@@ -862,7 +862,7 @@ class Snapshots:
 		#rsync prefix & suffix
 		rsync_prefix = tools.get_rsync_prefix() # 'rsync -aEAXH '
 		rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" " % ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER )
-		rsync_suffix = ' --chmod=Fa-w,Da-w --whole-file --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
 		#if not force:
