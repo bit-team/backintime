@@ -217,6 +217,7 @@ class SettingsDialog(object):
 		
 		#enable notifications
 		self.cb_enable_notifications = get( 'cb_enable_notifications' )
+		self.cb_backup_on_restore = get( 'cb_backup_on_restore' )
 
 		#nice & ionice
 		self.cb_run_nice_from_cron = get('cb_run_nice_from_cron')
@@ -377,6 +378,9 @@ class SettingsDialog(object):
 		#enable notifications
 		self.cb_enable_notifications.set_active( self.config.is_notify_enabled() )
 		
+		#backup on restore
+		self.cb_backup_on_restore.set_active( self.config.is_backup_on_restore_enabled() )
+		
 		#run 'nice' from cron
 		self.cb_run_nice_from_cron.set_active(self.config.is_run_nice_from_cron_enabled())
 
@@ -444,6 +448,7 @@ class SettingsDialog(object):
 		
 		#options
 		self.config.set_notify_enabled( self.cb_enable_notifications.get_active() )
+		self.config.set_backup_on_restore( self.cb_backup_on_restore.get_active() )
 		
 		#expert options
 		#self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )

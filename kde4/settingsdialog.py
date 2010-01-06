@@ -255,6 +255,9 @@ class SettingsDialog( KDialog ):
 			self.cb_no_on_battery.setToolTip ( QString.fromUtf8 ( _( 'Power status not available from system' ) ) )
 		layout.addWidget( self.cb_no_on_battery )
 
+		self.cb_backup_on_restore = QCheckBox( QString.fromUtf8( _( 'Backup files on restore' ) ), self )
+		layout.addWidget( self.cb_backup_on_restore )
+
 		#
 		layout.addStretch()
 
@@ -393,6 +396,7 @@ class SettingsDialog( KDialog ):
 
 		#TAB: Options
 		self.cb_notify_enabled.setChecked( self.config.is_notify_enabled() )
+		self.cb_backup_on_restore.setChecked( self.config.is_backup_on_restore_enabled() )
 
 		#TAB: Expert Options
 		#self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
@@ -443,6 +447,7 @@ class SettingsDialog( KDialog ):
 
 		#options
 		self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
+		self.config.set_backup_on_restore( self.cb_backup_on_restore.isChecked() )
 
 		#expert options
 		#self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )

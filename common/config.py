@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99beta8'
+	VERSION = '0.9.99beta9'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 4
 
@@ -419,6 +419,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def set_notify_enabled( self, value, profile_id = None ):
 		self.set_profile_bool_value( 'snapshots.notify.enabled', value, profile_id )
+
+	def is_backup_on_restore_enabled( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.backup_on_restore.enabled', True, profile_id )
+
+	def set_backup_on_restore( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.backup_on_restore.enabled', value, profile_id )
 
 	def is_run_nice_from_cron_enabled( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.cron.nice', True, profile_id )
