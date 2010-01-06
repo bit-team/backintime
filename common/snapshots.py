@@ -864,7 +864,8 @@ class Snapshots:
 		#rsync prefix & suffix
 		rsync_prefix = tools.get_rsync_prefix() # 'rsync -aEAXH '
 		rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" " % ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER )
-		rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		#rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		rsync_suffix = ' --chmod=Da+w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
 		#if not force:
@@ -934,7 +935,7 @@ class Snapshots:
 
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
-		cmd = rsync_prefix + ' -v --delete-excluded ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
+		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
 
@@ -1015,7 +1016,7 @@ class Snapshots:
 			return False
 
 		#make new snapshot read-only
-		#self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
+		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
 
 		return True
 
