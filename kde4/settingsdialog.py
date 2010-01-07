@@ -229,13 +229,13 @@ class SettingsDialog( KDialog ):
 		self.cb_smart_remove = QCheckBox( QString.fromUtf8( _( 'Smart remove' ) ), self )
 		layout.addWidget( self.cb_smart_remove, 2, 0 )
 
-		label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year and all months of the last year\n- keep one snapshot per year for all other years' ) ),self )
+		label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year and all months of the last year \n- keep one snapshot per year for all other years' ) ),self )
 		label.setContentsMargins( 25, 0, 0, 0 )
-		layout.addWidget( label, 3, 0 )
+		layout.addWidget( label, 3, 0, 1, 3 )
 
 		#don't remove named snapshots
 		self.cb_dont_remove_named_snapshots = QCheckBox( QString.fromUtf8( _( 'Don\'t remove named snapshots' ) ), self )
-		layout.addWidget( self.cb_dont_remove_named_snapshots, 4, 0 )
+		layout.addWidget( self.cb_dont_remove_named_snapshots, 4, 0, 1, 3 )
 
 		#
 		layout.addWidget( QWidget(), 5, 0 )
