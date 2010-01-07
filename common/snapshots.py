@@ -1074,17 +1074,29 @@ class Snapshots:
 		min_date = min_date - datetime.timedelta( days = 7 )
 		keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
 
-		#one per month for all months of this year
+		#one per month for all months of this year and last year
 		if now.date > 1:
+			#this year months
 			for month in xrange( 1, now.month ):
 				#print "month: %s" % month
 				min_date = datetime.date( now.year, month, 1 )
 				max_date = datetime.date( now.year, month + 1, 1 ) - datetime.timedelta( days = 1 )
 				keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
 
+			#last year months
+			for month in xrange( 1, 12 ):
+				#print "month: %s" % month
+				min_date = datetime.date( now.year - 1, month, 1 )
+				max_date = datetime.date( now.year - 1, month + 1, 1 ) - datetime.timedelta( days = 1 )
+				keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
+
+			min_date = datetime.date( now.year - 1, 12, 1 )
+			max_date = datetime.date( now.year, 1, 1 ) - datetime.timedelta( days = 1 )
+			keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
+
 		#one per year for all previous years
 		min_year = int( snapshots[ -1 ][ :4 ] )
-		for year in xrange( min_year, now.year ):
+		for year in xrange( min_year, now.year - 1 ):
 			#print "year: %s" % year
 			min_date = datetime.date( year, 1, 1 )
 			max_date = datetime.date( year + 1, 1, 1 ) - datetime.timedelta( days = 1 )
