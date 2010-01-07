@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-06 15:56+0100\n"
+"POT-Creation-Date: 2010-01-07 12:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,12 +208,12 @@ msgstr[1] ""
 msgid "Finalizing"
 msgstr ""
 
-#: ../../common/snapshots.py:704 ../../common/snapshots.py:938
+#: ../../common/snapshots.py:704 ../../common/snapshots.py:939
 #: ../../kde4/app.py:79 ../../gnome/mainwindow.glade:37
 msgid "Take snapshot"
 msgstr ""
 
-#: ../../common/snapshots.py:707 ../../common/snapshots.py:891
+#: ../../common/snapshots.py:707 ../../common/snapshots.py:892
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr ""
@@ -232,33 +232,33 @@ msgstr ""
 msgid "Can't remove folder: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:914
+#: ../../common/snapshots.py:915
 msgid "Create hard-links"
 msgstr ""
 
-#: ../../common/snapshots.py:943
+#: ../../common/snapshots.py:944
 msgid "Save config file ..."
 msgstr ""
 
-#: ../../common/snapshots.py:948
+#: ../../common/snapshots.py:949
 msgid "Save permission ..."
 msgstr ""
 
-#: ../../common/snapshots.py:1013
+#: ../../common/snapshots.py:1014
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1109
+#: ../../common/snapshots.py:1122
 msgid "Remove old snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:1132 ../../kde4/settingsdialog.py:229
+#: ../../common/snapshots.py:1145 ../../kde4/settingsdialog.py:229
 #: ../../gnome/settingsdialog.glade:527
 msgid "Smart remove"
 msgstr ""
 
-#: ../../common/snapshots.py:1137
+#: ../../common/snapshots.py:1150
 msgid "Try to keep min free space"
 msgstr ""
 
@@ -551,12 +551,13 @@ msgstr ""
 msgid "If free space is less than:"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:232 ../../gnome/settingsdialog.glade:544
+#: ../../kde4/settingsdialog.py:232
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
-"- keep one snapshot per month for all previous months of this year\n"
-"- keep one snapshot per year for all previous years"
+"- keep one snapshot per month for all previous months of this year and all "
+"months of the last year \n"
+"- keep one snapshot per year for all other years"
 msgstr ""
 
 #: ../../kde4/settingsdialog.py:237 ../../gnome/settingsdialog.glade:434
@@ -660,6 +661,15 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:197
 msgid "<b>Schedule</b>"
+msgstr ""
+
+#: ../../gnome/settingsdialog.glade:544
+msgid ""
+"- keep all snapshots from today and yesterday\n"
+"- keep one snapshot for the last week and one for two weeks ago\n"
+"- keep one snapshot per month for all previous months of this year and all "
+"months of the last year\n"
+"- keep one snapshot per year for all other years"
 msgstr ""
 
 #: ../../gnome/settingsdialog.glade:560
