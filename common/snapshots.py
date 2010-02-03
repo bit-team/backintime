@@ -176,10 +176,10 @@ class Snapshots:
 
 		name_path = os.path.join( path, 'name' )
 
-		info_file = configfile.ConfigFile()
-		info_file.load( self.get_snapshot_info_path( snapshot_id ) )
-		if info_file.get_int_value( 'snapshot_version' ) == 0:
-			os.system( "chmod a+w \"%s\"" % path )
+		#info_file = configfile.ConfigFile()
+		#info_file.load( self.get_snapshot_info_path( snapshot_id ) )
+		#if info_file.get_int_value( 'snapshot_version' ) == 0:
+		os.system( "chmod +w \"%s\"" % path )
 
 		try:
 			file = open( name_path, 'wt' )
@@ -1016,7 +1016,7 @@ class Snapshots:
 			return False
 
 		#make new snapshot read-only
-		self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
+		self._execute( "chmod -R a-w \"%s/backup\"" % snapshot_path )
 
 		return True
 
