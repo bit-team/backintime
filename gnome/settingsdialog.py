@@ -71,6 +71,7 @@ class SettingsDialog(object):
 				#'on_cb_per_directory_schedule_toggled' : self.on_cb_per_directory_schedule_toggled,
 				'on_combo_profiles_changed': self.on_combo_profiles_changed,
 				'on_btn_where_clicked': self.on_btn_where_clicked,
+				'on_cb_backup_mode_changed': self.on_cb_backup_mode_changed,
 			}
 		
 		builder.connect_signals(signals)
@@ -102,7 +103,6 @@ class SettingsDialog(object):
 		
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
-		default_automatic_backup_mode_index = 0
 		map = self.config.AUTOMATIC_BACKUP_MODES
 		self.rev_automatic_backup_modes = {}
 		keys = map.keys()
@@ -110,7 +110,12 @@ class SettingsDialog(object):
 		for key in keys:
 			self.rev_automatic_backup_modes[ map[key] ] = key
 			self.store_backup_mode.append( [ map[key], key ] )
-		
+
+		#automatic backup time store
+		self.store_backup_time = gtk.ListStore( str, int )
+		for t in xrange( 0, 2400, 100 ):
+			self.store_backup_time.append( [ datetime.time( t/100, t%100 ).strftime("%H:%M"), t ] )
+
 		#per directory schedule
 		#self.cb_per_directory_schedule = get( 'cb_per_directory_schedule' )
 		#self.lbl_schedule = get( 'lbl_schedule' )
@@ -168,6 +173,17 @@ class SettingsDialog(object):
 		self.cb_backup_mode.pack_start( renderer, True )
 		self.cb_backup_mode.add_attribute( renderer, 'text', 0 )
 		
+		#setup automatic backup time
+		self.cb_backup_time = get( 'cb_backup_time' )
+		self.cb_backup_time.set_model( self.store_backup_time )
+
+		self.cb_backup_time.clear()
+		renderer = gtk.CellRendererText()
+		self.cb_backup_time.pack_start( renderer, True )
+		self.cb_backup_time.add_attribute( renderer, 'text', 0 )
+		
+		self.hbox_backup_time = get( 'hbox_backup_time' )
+
 		#setup remove old backups older than
 		self.edit_remove_old_backup_value = get( 'edit_remove_old_backup_value' )
 		self.cb_remove_old_backup_unit = get( 'cb_remove_old_backup_unit' )
@@ -259,7 +275,22 @@ class SettingsDialog(object):
 			self.edit_where.set_text( new_path )
 		else:
 			fcd.destroy()
-	
+
+	def on_cb_backup_mode_changed( self, *params ):
+		iter = self.cb_backup_mode.get_active_iter()
+
+		hide_time = True
+
+		if not iter is None:
+			backup_mode = self.store_backup_mode.get_value( iter, 1 )
+			if backup_mode >= self.config.DAY:
+				hide_time = False
+
+		if hide_time:
+			self.hbox_backup_time.hide()
+		else:
+			self.hbox_backup_time.show()
+
 	def on_combo_profiles_changed( self, *params ):
 		if self.disable_combo_changed:
 			return
@@ -334,7 +365,20 @@ class SettingsDialog(object):
 				break
 			iter = self.store_backup_mode.iter_next( iter )
 			i = i + 1
+
+		#setup automatic backup time
+		i = 0
+		iter = self.store_backup_time.get_iter_first()
+		default_mode = self.config.get_automatic_backup_time()
+		while not iter is None:
+			if self.store_backup_time.get_value( iter, 1 ) == default_mode:
+				self.cb_backup_time.set_active( i )
+				break
+			iter = self.store_backup_time.iter_next( iter )
+			i = i + 1
 		
+		self.on_cb_backup_mode_changed()
+
 		#setup remove old backups older than
 		enabled, value, unit = self.config.get_remove_old_snapshots()
 		
@@ -433,6 +477,7 @@ class SettingsDialog(object):
 		
 		#global schedule
 		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
+		self.config.set_automatic_backup_time( self.store_backup_time.get_value( self.cb_backup_time.get_active_iter(), 1 ) )
 		
 		#auto-remove snapshots
 		self.config.set_remove_old_snapshots( 

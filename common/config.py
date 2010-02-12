@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99beta12'
+	VERSION = '0.9.99beta13'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 4
 
@@ -335,6 +335,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_automatic_backup_mode( self, value, profile_id = None ):
 		self.set_profile_int_value( 'snapshots.automatic_backup_mode', value, profile_id )
 
+	def get_automatic_backup_time( self, profile_id = None ):
+		return self.get_profile_int_value( 'snapshots.automatic_backup_time', 0, profile_id )
+
+	def set_automatic_backup_time( self, value, profile_id = None ):
+		self.set_profile_int_value( 'snapshots.automatic_backup_time', value, profile_id )
+
 	#def get_per_directory_schedule( self, profile_id = None ):
 	#	return self.get_profile_bool_value( 'snapshots.expert.per_directory_schedule', False, profile_id )
 
@@ -604,13 +610,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 			if self.HOUR == min_backup_mode:
 				cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
 			elif self.DAY == min_backup_mode:
-				cron_line = 'echo "{msg}\n15 15 * * * {cmd}"'
-			elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day
-				cron_line = 'echo "{msg}\n15 15 * * * {cmd}"'
+				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * * {cmd}"'
+			#elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day
+			#	cron_line = 'echo "{msg}\n15 15 * * * {cmd}"'
 			elif self.WEEK == min_backup_mode:
-				cron_line = 'echo "{msg}\n15 15 * * 0 {cmd}"'
+				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * 0 {cmd}"'
 			elif self.MONTH == min_backup_mode:
-				cron_line = 'echo "{msg}\n15 15 1 * * {cmd}"'
+				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' 1 * * {cmd}"'
 
 			if len( cron_line ) > 0:
 				cmd = "/usr/bin/backintime --profile \\\"%s\\\" --backup-job >/dev/null 2>&1" % profile_name

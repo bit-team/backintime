@@ -127,8 +127,24 @@ class SettingsDialog( KDialog ):
 		hlayout = QHBoxLayout( group_box )
 
 		self.combo_automatic_snapshots = KComboBox( self )
-		hlayout.addWidget( self.combo_automatic_snapshots )
+		hlayout.addWidget( self.combo_automatic_snapshots, 2 )
 		self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES )
+
+		hlayout_time = QHBoxLayout( group_box )
+		hlayout.addLayout( hlayout_time )
+
+		self.lbl_automatic_snapshots_time = QLabel( QString.fromUtf8( _( 'Hour:' ) ), self )
+		self.lbl_automatic_snapshots_time.setContentsMargins( 5, 0, 0, 0 )
+		self.lbl_automatic_snapshots_time.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
+		hlayout_time.addWidget( self.lbl_automatic_snapshots_time )
+
+		self.combo_automatic_snapshots_time = KComboBox( self )
+		hlayout_time.addWidget( self.combo_automatic_snapshots_time, 1 )
+
+		for t in xrange( 0, 2300, 100 ):
+			self.combo_automatic_snapshots_time.addItem( QIcon(), QString.fromUtf8( datetime.time( t/100, t%100 ).strftime("%H:%M") ), QVariant( t ) )
+
+		QObject.connect( self.combo_automatic_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_automatic_snapshot_changed )
 
 		#
 		layout.addStretch()
@@ -321,6 +337,18 @@ class SettingsDialog( KDialog ):
 			self.config.remove_profile()
 			self.update_profiles()
 
+	def update_automatic_snapshot_time( self, backup_mode ):
+		if backup_mode >= self.config.DAY:
+			self.lbl_automatic_snapshots_time.show()
+			self.combo_automatic_snapshots_time.show()
+		else:
+			self.lbl_automatic_snapshots_time.hide()
+			self.combo_automatic_snapshots_time.hide()
+
+	def current_automatic_snapshot_changed( self, index ):
+		backup_mode = self.combo_automatic_snapshots.itemData( index ).toInt()[0]
+		self.update_automatic_snapshot_time( backup_mode )
+
 	def current_profile_changed( self, index ):
 		if self.disable_profile_changed:
 			return
@@ -361,6 +389,8 @@ class SettingsDialog( KDialog ):
 		#TAB: General
 		self.edit_snapshots_path.setText( QString.fromUtf8( self.config.get_snapshots_path() ) )
 		self.set_combo_value( self.combo_automatic_snapshots, self.config.get_automatic_backup_mode() )
+		self.set_combo_value( self.combo_automatic_snapshots_time, self.config.get_automatic_backup_time() )
+		self.update_automatic_snapshot_time( self.config.get_automatic_backup_mode() )
 
 		#TAB: Include
 		self.list_include.clear()
@@ -432,6 +462,7 @@ class SettingsDialog( KDialog ):
 
 		#schedule
 		self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
+		self.config.set_automatic_backup_time( self.combo_automatic_snapshots_time.itemData( self.combo_automatic_snapshots_time.currentIndex() ).toInt()[0] )
 
 		#auto-remove
 		self.config.set_remove_old_snapshots( 
