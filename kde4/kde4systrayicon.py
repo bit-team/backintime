@@ -123,8 +123,8 @@ class KDE4SysTrayIcon:
 
 				if self.last_message[0] != 0:
 					self.status_icon.setIcon( KIcon('document-save-as') )
-					if first_error:
-						first_error = False
+					if self.first_error:
+						self.first_error = False
 						self.show_popup()
 				else:
 					self.status_icon.setIcon( KIcon('document-save') )
