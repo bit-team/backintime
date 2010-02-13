@@ -592,9 +592,9 @@ class MainWindow(object):
         for rawbookmark in rawbookmarks.split( '\n' ):
             if rawbookmark.startswith( 'file://' ):
                 index = rawbookmark.find( ' ' )
-                if index > 0:
+                if index > 0 and os.path.exists( rawbookmark[ 7 : index ] ):
                     bookmarks.append( ( gnomevfs.unescape_string_for_display( rawbookmark[ 7 : index ] ), rawbookmark[ index + 1 : ] ) )
-                elif index < 0:
+                elif index < 0 and os.path.exists( rawbookmark[ 7 : ] ):
                     index = rawbookmark.rfind( '/' )
                     if index > 0:
                         bookmarks.append( ( gnomevfs.unescape_string_for_display( rawbookmark[ 7 : ] ), gnomevfs.unescape_string_for_display( rawbookmark[ index + 1 : ] ) ) )
