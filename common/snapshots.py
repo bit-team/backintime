@@ -1183,7 +1183,7 @@ class Snapshots:
 			pipe = os.popen( cmd, 'r' )
 
 			while True:
-				line = pipe.readline()
+				line = tools.temp_failure_retry( pipe.readline )
 				if len( line ) == 0:
 					break
 				callback( line.strip(), user_data )
@@ -1205,7 +1205,7 @@ class Snapshots:
 		pipe = os.popen( cmd, 'r' )
 		
 		while True:
-			line = pipe.readline()
+			line = tools.temp_failure_retry( pipe.readline )
 			if len( line ) == 0:
 				break
 			output = output + line

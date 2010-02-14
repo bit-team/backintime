@@ -277,7 +277,7 @@ def _execute( cmd, callback = None, user_data = None ):
 		pipe = os.popen( cmd, 'r' )
 
 		while True:
-			line = pipe.readline()
+			line = temp_failure_retry( pipe.readline )
 			if len( line ) == 0:
 				break
 			callback( line.strip(), user_data )
@@ -345,4 +345,14 @@ def get_rsync_prefix():
 
 	return cmd + ' '
 
+
+def temp_failure_retry(func, *args, **kwargs): 
+	while True:
+		try:
+			return func(*args, **kwargs)
+		except (os.error, IOError), ex:
+			if ex.errno == errno.EINTR:
+				continue
+			else:
+				raise
 
