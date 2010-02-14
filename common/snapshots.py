@@ -993,7 +993,7 @@ class Snapshots:
 		#create info file 
 		logger.info( "Create info file" ) 
 		machine = socket.gethostname()
-		user = os.environ['LOGNAME']
+		user = os.environ['USER']
 		profile_id = self.config.get_current_profile()
 		tag = self.config.get_tag( profile_id )
 		info_file = configfile.ConfigFile()

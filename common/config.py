@@ -221,7 +221,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
 		else:
 			machine = socket.gethostname()
-			user = os.environ['LOGNAME']
+			user = os.environ['USER']
 			if profile_id is None:
 				profile_id = self.get_current_profile()
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user, profile_id ) 
@@ -244,7 +244,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		#Initialize the snapshots folder
 		print "Check snapshot folder: %s" % value
 		machine = socket.gethostname()
-		user = os.environ['LOGNAME']
+		user = os.environ['USER']
 		full_path = os.path.join( value, 'backintime', machine, user, profile_id ) 
 		if not os.path.isdir( full_path ):
 			print "Create folder: %s" % full_path
