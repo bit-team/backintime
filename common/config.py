@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99beta14'
+	VERSION = '0.9.99beta15'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 4
 
@@ -209,6 +209,24 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		return True
 
+	def get_user( self ):
+		user = ''
+
+		try:
+			user = os.environ['USER']
+		except:
+			user = ''
+
+		if len( user ) != 0:
+			return user
+
+		try:
+			user = os.environ['LOGNAME']
+		except:
+			user = ''
+
+		return user
+
 	def get_snapshots_path( self, profile_id = None ):
 		return self.get_profile_str_value( 'snapshots.path', '', profile_id )
 
@@ -221,7 +239,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
 		else:
 			machine = socket.gethostname()
-			user = os.environ['USER']
+			user = self.get_user()
 			if profile_id is None:
 				profile_id = self.get_current_profile()
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user, profile_id ) 
@@ -244,7 +262,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		#Initialize the snapshots folder
 		print "Check snapshot folder: %s" % value
 		machine = socket.gethostname()
-		user = os.environ['USER']
+		user = self.get_user()
 		full_path = os.path.join( value, 'backintime', machine, user, profile_id ) 
 		if not os.path.isdir( full_path ):
 			print "Create folder: %s" % full_path
