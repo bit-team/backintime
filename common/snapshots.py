@@ -703,8 +703,16 @@ class Snapshots:
 	def _exec_rsync_callback( self, line, user_data ):
 		self.set_take_snapshot_message( 0, _('Take snapshot') + " (rsync: %s)" % line )
 
-	def _exec_rsync_compare_callback( self, line, user_data ):
-		self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % user_data + " (rsync: %s)"% line )
+	#def _exec_rsync_compare_callback( self, line, user_data ):
+	#	self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % user_data + " (rsync: %s)"% line )
+
+	def _exec_rsync_compare_callback( self, line, params ):
+		self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % params[0] )
+
+		if len(line) >= 13:
+			if line.startswith( 'BACKINTIME: ' ):
+				if line[12] != '.':
+					params[1] = True
 
 	def _append_item_to_list( self, item, list ):
 		for list_item in list:
@@ -893,17 +901,21 @@ class Snapshots:
 			logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
 			
 			prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
-			cmd = rsync_prefix + ' -i --dry-run ' + rsync_suffix + '"' + prev_snapshot_folder + '"'
-			try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
-			changed = False
+			cmd = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix + '"' + prev_snapshot_folder + '"'
+			params = [ prev_snapshot_folder, False ]
+			#try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
+			self._execute( cmd, self._exec_rsync_compare_callback, params )
+			changed = params[1]
 
-			for line in try_cmd.split( '\n' ):
-				if len( line ) < 1:
-					continue
+			#changed = False
 
-				if line[0] != '.':
-					changed = True
-					break
+			#for line in try_cmd.split( '\n' ):
+			#	if len( line ) < 1:
+			#		continue
+
+			#	if line[0] != '.':
+			#		changed = True
+			#		break
 
 			if not changed:
 				logger.info( "Nothing changed, no back needed" )
@@ -1199,29 +1211,29 @@ class Snapshots:
 
 		return ret_val
 
-	def _execute_output( self, cmd, callback = None, user_data = None ):
-		output = ''
+	#def _execute_output( self, cmd, callback = None, user_data = None ):
+	#	output = ''
 
-		pipe = os.popen( cmd, 'r' )
-		
-		while True:
-			line = tools.temp_failure_retry( pipe.readline )
-			if len( line ) == 0:
-				break
-			output = output + line
-			if not callback is None:
-				callback( line.strip(), user_data )
+	#	pipe = os.popen( cmd, 'r' )
+	#	
+	#	while True:
+	#		line = tools.temp_failure_retry( pipe.readline )
+	#		if len( line ) == 0:
+	#			break
+	#		output = output + line
+	#		if not callback is None:
+	#			callback( line.strip(), user_data )
 
-		ret_val = pipe.close()
-		if ret_val is None:
-			ret_val = 0
+	#	ret_val = pipe.close()
+	#	if ret_val is None:
+	#		ret_val = 0
 
-		if ret_val != 0:
-			logger.warning( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
-		else:
-			logger.info( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
+	#	if ret_val != 0:
+	#		logger.warning( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
+	#	else:
+	#		logger.info( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
 
-		return output
+	#	return output
 
 
 if __name__ == "__main__":
