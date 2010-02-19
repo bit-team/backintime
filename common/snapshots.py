@@ -873,7 +873,7 @@ class Snapshots:
 		rsync_prefix = tools.get_rsync_prefix() # 'rsync -aEAXH '
 		rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" " % ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER )
 		#rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
-		rsync_suffix = ' --chmod=Da+w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		rsync_suffix = ' --chmod=Da+w ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
 		#if not force:
@@ -892,8 +892,10 @@ class Snapshots:
 
 		# When there is no snapshots it takes the last snapshot from the other folders
 		# It should delete the excluded folders then
-		rsync_prefix = rsync_prefix + '--delete-excluded '
-			
+		rsync_prefix = rsync_prefix + ' --delete-before --delete-excluded '
+		
+		prev_snapshot_id = ''
+
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 			prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
@@ -934,6 +936,7 @@ class Snapshots:
 			#if force or len( ignore_folders ) == 0:
 			cmd = "cp -al \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
 			self._execute( cmd )
+			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 			#else:
 			#	for folder in include_folders:
 			#		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
@@ -1029,6 +1032,10 @@ class Snapshots:
 
 		#make new snapshot read-only
 		self._execute( "chmod -R a-w \"%s/backup\"" % snapshot_path )
+
+		#fix previous snapshot: make read-only again
+		if len( prev_snapshot_id ) > 0:
+			self._execute( "chmod -R a-w \"%s\"" % self.get_snapshot_path_to( prev_snapshot_id ) )
 
 		return True
 
