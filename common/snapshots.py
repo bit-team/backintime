@@ -892,7 +892,7 @@ class Snapshots:
 
 		# When there is no snapshots it takes the last snapshot from the other folders
 		# It should delete the excluded folders then
-		rsync_prefix = rsync_prefix + ' --delete-before --delete-excluded '
+		rsync_prefix = rsync_prefix + ' --delete --delete-excluded '
 		
 		prev_snapshot_id = ''
 
