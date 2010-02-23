@@ -803,7 +803,7 @@ class MainWindow( KMainWindow ):
 		if model_index is None:
 			return
 
-		rel_path = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString().toAscii() )
+		rel_path = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString().toUtf8() )
 		if len( rel_path ) <= 0:
 			return
 
@@ -816,7 +816,7 @@ class MainWindow( KMainWindow ):
 					self.path = rel_path
 					self.update_files_view( 0 )
 				else:
-					self.run = KRun( KUrl( full_path ), self, True )
+					self.run = KRun( KUrl( QString.fromUtf8( full_path ) ), self, True )
 
 	def files_view_get_name( self, item ):
 		return str( item.text( 0 ).toUtf8() )
@@ -826,7 +826,7 @@ class MainWindow( KMainWindow ):
 
 	def add_files_view( self, name, size_str, date_str, size_int, type ):
 		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, os.path.join( self.path, name ) )
-		icon = KIcon( KMimeType.iconNameForUrl( KUrl( full_path ) ) )
+		icon = KIcon( KMimeType.iconNameForUrl( KUrl( QString.fromUtf8( full_path ) ) ) )
 
 		item = QTreeWidgetItem( self.list_files_view )
 
