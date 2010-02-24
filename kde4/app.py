@@ -738,7 +738,7 @@ class MainWindow( KMainWindow ):
 		KRun.runCommand( "khelpcenter help:/backintime", self )
 
 	def open_url( self, url = 'http://backintime.le-web.org' ):
-		self.run = KRun( KUrl( url ), self, True )
+		self.run = KRun( KUrl( QString.fromUtf8( url ) ), self, True )
 
 	def on_btn_show_hidden_files_toggled( self, checked ):
 		self.show_hidden_files = checked
