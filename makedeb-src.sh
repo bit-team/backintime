@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in common gnome kde4; do
+for i in common ; do
 	PKGNAME=`cat $i/debian_specific/control | grep "Package:" | cut -d" " -f2`
 	PKGVER=`cat $i/debian_specific/control | grep "Version:" | cut -d" " -f2`
 	PKGARCH=`cat $i/debian_specific/control | grep "Architecture:" | cut -d" " -f2`
@@ -11,7 +11,7 @@ for i in common gnome kde4; do
 	mkdir -p tmp
 
 	cd $i
-	./make-debsrc DESTDIR=../tmp install
+	./makedeb-src.sh ../tmp
 	cd ..
 
 	##update control
@@ -22,6 +22,11 @@ for i in common gnome kde4; do
 	#cp $i/debian_specific/postrm tmp/DEBIAN/postrm
 
 	#dpkg --build tmp/ $PKGNAME-${PKGVER}_$PKGARCH.deb
+	cd tmp
+	debuild -S
+	cd ..
+
+	exit 0
 
 	rm -rf tmp
 done
