@@ -21,6 +21,7 @@ import os
 import sys
 import subprocess
 import hashlib
+import commands
 
 
 ON_AC = 0
@@ -358,10 +359,17 @@ def temp_failure_retry(func, *args, **kwargs):
 				raise
 				
 def get_md5sum_from_path(path):
-    try:
-        path = open(path, 'r')
-        md5sum = hashlib.md5(path.read())
-    except IOError:
-        return False  
-    return md5sum.hexdigest()
+    out = commands.getstatusoutput("md5sum " + path)
+    if out[0] == 0:
+        # md5sum utility, if available
+        md5sum = out[1].split(" ")[0]
+        return md5sum
+    else: 
+        # python std lib (not a good idea for huge files)
+        try:
+            path = open(path, 'rb')
+            md5sum = hashlib.md5(path.read())
+        except IOError:
+            return False  
+        return md5sum.hexdigest()
 
