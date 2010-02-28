@@ -14,6 +14,8 @@ for i in common ; do
 	./makedeb-src.sh ../tmp
 	cd ..
 
+	exit 0
+
 	##update control
 	#mkdir -p tmp/DEBIAN
 	#cp $i/debian_specific/control tmp/DEBIAN/control
@@ -25,8 +27,6 @@ for i in common ; do
 	cd tmp
 	debuild -S
 	cd ..
-
-	exit 0
 
 	rm -rf tmp
 done
