@@ -3,16 +3,44 @@
 package = backintime-common
 
 clean:
-        dh_testdir
-        dh_clean
-        rm -f build
+	dh_testdir
+	dh_clean
+	rm -f build
 
 install: build
-        dh_clean
-        dh_installdirs
+	dh_clean
+	
+	#install python
+	dh_installdirs $(DEST)/share/backintime/common
+	dh_install ../*.py $(DEST)/share/backintime/common
+	
+	#install plugin(s)
+	dh_installdirs $(DEST)/share/backintime/plugins
+	dh_install ../plugins/usercallbackplugin.py $(DEST)/share/backintime/plugins
+	
+	#install copyright file
+	dh_installdirs $(DEST)/share/doc/backintime-common
+	dh_install ../debian_specific/copyright $(DEST)/share/doc/backintime-common
+	
+	#install doc file(s)
+	dh_installdirs $(DEST)/share/doc/backintime
+	dh_install ../doc/AUTHORS $(DEST)/share/doc/backintime
+	dh_install ../doc/LICENSE $(DEST)/share/doc/backintime
+	dh_install ../doc/README $(DEST)/share/doc/backintime
+	dh_install ../doc/TRANSLATIONS $(DEST)/share/doc/backintime
+	dh_install ../doc/VERSION $(DEST)/share/doc/backintime
+	dh_install ../doc/CHANGES $(DEST)/share/doc/backintime
+	
+	#install man file(s)
+	dh_installdirs $(DEST)/share/man/man1
+	dh_install ../man/C/*.gz $(DEST)/share/man/man1
+	
+	#install application
+	dh_installdirs $(DEST)/bin
+	dh_install backintime $(DEST)/bin
 
 build:
-        touch build
+	touch build
 
 binary-indep: install
 
@@ -20,5 +48,5 @@ binary-arch: install
 
 binary: binary-indep
 
-.PHONY: binary binary-arch binary-indep clean checkroot
+.PHONY: binary binary-arch binary-indep clean
 
