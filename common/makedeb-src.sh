@@ -7,42 +7,25 @@ fi
 
 DEST=$1
 
-mkdir -p $DEST/src/debian/rules
+mkdir -p $DEST/src/debian
+mkdir -p $DEST/src/po
+mkdir -p $DEST/src/man
 
-#check languages
-mos=""
-langs=""
+#languages
 for langfile in `ls po/*.po`; do
-	msgfmt -o po/$lang.mo po/$lang.po
+	msgfmt -o po/$lang.mo $DEST/po/$lang.po
 done
 
-#Start Makefile
-echo -e "LANGS=$langs" >> Makefile
-echo -e "SHELL=`which bash`" >> Makefile
-echo -e "" >> Makefile
+#python files
+cp *.py $DEST/src
 
-#add template
-cat Makefile.template >> Makefile
+#man pages
+cp -R man/* $DEST/src/man
 
-#translate
-echo -e "translate: $mos" >> Makefile
-echo -e "" >> Makefile
+#copyright
+cp debian_specific/copyright $DEST/src/debian
 
-for lang in $langs; do
-	echo -e "po/$lang.mo: po/$lang.po" >> Makefile
-	echo -e "\tmsgfmt -o po/$lang.mo po/$lang.po" >> Makefile
-	echo -e "" >> Makefile
-done
+#changelog
 
-#common langs
-echo "install_translations:" >> Makefile
-for lang in $langs; do
-	echo -e "\tinstall -d \$(DEST)/share/locale/$lang/LC_MESSAGES" >> Makefile
-	echo -e "\tinstall --mode=644 po/$lang.mo \$(DEST)/share/locale/$lang/LC_MESSAGES/backintime.mo" >> Makefile
-done
-echo -e "" >> Makefile
-
-echo "All OK. Now run:"
-echo "    make"
-echo "    sudo make install"
+#rules files
 
