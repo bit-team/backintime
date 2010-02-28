@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+
+package = backintime-common
+
+clean:
+        dh_testdir
+        dh_clean
+        rm -f build
+
+install: build
+        dh_clean
+        dh_installdirs
+
+build:
+        touch build
+
+binary-indep: install
+
+binary-arch: install
+
+binary: binary-indep
+
+.PHONY: binary binary-arch binary-indep clean checkroot
+

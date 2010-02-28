@@ -26,6 +26,8 @@ cp -R man/* $DEST/src/man
 cp debian_specific/copyright $DEST/src/debian
 
 #changelog
+cat debian_specific/changelog | sed -e "s/$BACKINTIME/backintime-common" > $DEST/src/debian/changelog
 
 #rules files
+cp debian_specific/rules $DEST/src/debian
 
