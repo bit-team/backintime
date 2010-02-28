@@ -286,11 +286,11 @@ class SnapshotsDialog(object):
         index_combo_diff_with = 0
         
         #add now
+        md5set = set()
         path = self.path
         if os.path.lexists( path ):
             if os.path.isdir( path ) == isdir:
                 if self.list_only_different_snapshots:
-                    md5set = set()
                     md5set.add(tools.get_md5sum_from_path(path))
                 self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
                 if '/' == current_snapshot_id:
