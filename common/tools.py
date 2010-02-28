@@ -20,6 +20,7 @@ import os.path
 import os
 import sys
 import subprocess
+import hashlib
 
 
 ON_AC = 0
@@ -355,4 +356,12 @@ def temp_failure_retry(func, *args, **kwargs):
 				continue
 			else:
 				raise
+				
+def get_md5sum_from_path(path):
+    try:
+        path = open(path, 'r')
+        md5sum = hashlib.md5(path.read())
+    except IOError:
+        return False  
+    return md5sum.hexdigest()
 
