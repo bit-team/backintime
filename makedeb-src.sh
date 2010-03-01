@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in common ; do
+for i in common gnome kde4; do
 	PKGNAME=`cat $i/debian_specific/control | grep "^Package:" | cut -d" " -f2`
 	PKGVER=`cat $i/debian_specific/control | grep "^Version:" | cut -d" " -f2`
 	PKGARCH=`cat $i/debian_specific/control | grep "^Architecture:" | cut -d" " -f2`
@@ -21,8 +21,6 @@ for i in common ; do
 	rm -rf ${PKGNAME}_$PKGVER
 	mv * ../
 	cd ..
-
-	exit 0
 
 	rm -rf tmp
 done

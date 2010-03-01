@@ -21,6 +21,9 @@ cp backintime-kde4 $DEST/
 #python files
 cp *.py $DEST/
 
+#desktop files
+cp *.desktop $DEST/
+
 #plugins
 cp plugins/*.py $DEST/plugins
 
@@ -39,7 +42,7 @@ cp ../VERSION $DEST/doc
 cp ../CHANGES $DEST/doc
 
 #debian: control
-cp debian_specific/control $DEST/debian
+cp debian_specific/control.source $DEST/debian/control
 
 #debian: copyright
 cp ../common/debian_specific/copyright $DEST/debian
