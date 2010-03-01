@@ -1,15 +1,18 @@
-Package: backintime-common
-Version: 0.9.99.18
 Source: backintime-common
-Standards-Version: 3.7.3
+Maintainer: BIT Team <bit-team@lists.launchpad.net>
 Section: utils
 Priority: optional
-Maintainer: BIT Team <bit-team@lists.launchpad.net>
+Standards-Version: 3.7.3
 Homepage: http://backintime.le-web.org
+
+Package: backintime-common
 Architecture: all
+Section: utils
+Priority: optional
 Depends: python, rsync, cron
 Recommends: powermgmt-base
 Conflicts: backintime
 Replaces: backintime
 Description: Simple backup system (common)
  This package contains non GUI files used by different GUI fontends.
+Homepage: http://backintime.le-web.org

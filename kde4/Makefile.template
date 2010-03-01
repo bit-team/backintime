@@ -13,7 +13,7 @@ install:
 	
 	#install plugin
 	install -d $(DEST)/share/backintime/plugins
-	install --mode=644 ../plugins/kde4*.py $(DEST)/share/backintime/plugins
+	install --mode=644 plugins/*.py $(DEST)/share/backintime/plugins
 	
 	#install application
 	install -d $(DEST)/bin

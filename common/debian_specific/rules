@@ -11,36 +11,32 @@ install: build
 	dh_clean
 	
 	#install python
-	dh_installdirs /usr/share/backintime/common
-	dh_install ../*.py /usr/share/backintime/common
-	
-	#install po files
-	dh_installdirs /usr/share/backintime/common
-	dh_install ../*.py /usr/share/backintime/common
+	#dh_installdirs /usr/share/backintime/common
+	dh_install *.py /usr/share/backintime/common
 	
 	#install plugin(s)
-	dh_installdirs /usr/share/backintime/plugins
-	dh_install ../plugins/usercallbackplugin.py /usr/share/backintime/plugins
+	#dh_installdirs /usr/share/backintime/plugins
+	dh_install plugins/*.py /usr/share/backintime/plugins
 	
 	#install copyright file
-	dh_installdirs /usr/share/doc/backintime-common
-	dh_install ../debian_specific/copyright /usr/share/doc/backintime-common
+	#dh_installdirs /usr/share/doc/backintime-common
+	dh_install debian/copyright /usr/share/doc/backintime-common
 	
 	#install doc file(s)
-	dh_installdirs $(DEST)/share/doc/backintime
-	dh_install ../doc/AUTHORS /usr/share/doc/backintime
-	dh_install ../doc/LICENSE /usr/share/doc/backintime
-	dh_install ../doc/README /usr/share/doc/backintime
-	dh_install ../doc/TRANSLATIONS /usr/share/doc/backintime
-	dh_install ../doc/VERSION /usr/share/doc/backintime
-	dh_install ../doc/CHANGES /usr/share/doc/backintime
+	#dh_installdirs /usr/share/doc/backintime
+	dh_install doc/AUTHORS /usr/share/doc/backintime
+	dh_install doc/LICENSE /usr/share/doc/backintime
+	dh_install doc/README /usr/share/doc/backintime
+	dh_install doc/TRANSLATIONS /usr/share/doc/backintime
+	dh_install doc/VERSION /usr/share/doc/backintime
+	dh_install doc/CHANGES /usr/share/doc/backintime
 	
 	#install man file(s)
-	dh_installdirs /usr/share/man/man1
-	dh_install ../man/C/*.gz /usr/share/man/man1
+	#dh_installdirs /usr/share/man/man1
+	dh_install man/C/*.gz /usr/share/man/man1
 	
 	#install application
-	dh_installdirs /usr/bin
+	#dh_installdirs /usr/bin
 	dh_install backintime /usr/bin
 	
 	#install langs
@@ -50,6 +46,18 @@ build:
 	touch build
 
 binary-indep: install
+	dh_testdir -i
+	dh_testroot -i
+	#dh_installdocs -i NEWS
+	#dh_installchangelogs -i ChangeLog
+	#dh_strip -i
+	#dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	#dh_shlibdeps -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
 
 binary-arch: install
 

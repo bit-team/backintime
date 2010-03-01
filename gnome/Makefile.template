@@ -13,7 +13,7 @@ install:
 	
 	#install plugin
 	install -d $(DEST)/share/backintime/plugins
-	install --mode=644 ../plugins/gnome*.py $(DEST)/share/backintime/plugins
+	install --mode=644 plugins/*.py $(DEST)/share/backintime/plugins
 	
 	#install copyright file
 	install -d $(DEST)/share/doc/backintime-gnome

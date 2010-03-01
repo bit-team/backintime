@@ -15,7 +15,7 @@ install: build install_translations
 	
 	#install plugin(s)
 	install -d $(DEST)/share/backintime/plugins
-	install --mode=644 ../plugins/usercallbackplugin.py $(DEST)/share/backintime/plugins
+	install --mode=644 plugins/*.py $(DEST)/share/backintime/plugins
 	
 	#install copyright file
 	install -d $(DEST)/share/doc/backintime-common
