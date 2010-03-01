@@ -1,0 +1,58 @@
+#!/usr/bin/make -f
+
+package = backintime-gnome
+
+clean:
+	dh_testdir
+	dh_clean
+	rm -f build
+
+install: build
+	#install python
+	#dh_installdirs /usr/share/backintime/kde4
+	dh_install *.py /usr/share/backintime/kde4
+	
+	#install plugin
+	#dh_installdirs /usr/share/backintime/plugins
+	dh_install plugins/*.py /usr/share/backintime/plugins
+	
+	#install application
+	#dh_installdirs /usr/bin
+	dh_install backintime-kde4 /usr/bin
+	
+	#install copyright file
+	#dh_installdirs /usr/share/doc/backintime-kde4
+	dh_install debian/copyright /usr/share/doc/backintime-kde4
+	
+	#install .desktop file(s)
+	#dh_installdirs /usr/share/applications/kde4
+	dh_install *.desktop /usr/share/applications/kde4
+	
+	#install docbook
+	#dh_installdirs /usr/share/doc/kde4/HTML/en/backintime/figures
+	dh_install docbook/en/*.docbook /usr/share/doc/kde4/HTML/en/backintime
+	dh_install docbook/en/figures/*.png /usr/share/doc/kde4/HTML/en/backintime/figures
+
+build:
+	touch build
+
+binary-indep: install
+	dh_testdir -i
+	dh_testroot -i
+	#dh_installdocs -i NEWS
+	#dh_installchangelogs -i ChangeLog
+	#dh_strip -i
+	#dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	#dh_shlibdeps -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+binary-arch: install
+
+binary: binary-indep
+
+.PHONY: binary binary-arch binary-indep clean
+

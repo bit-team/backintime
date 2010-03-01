@@ -5,33 +5,58 @@ if [ -z $1 ]; then
 	exit 1
 fi
 
+VERSION=`cat ../VERSION`
+
 DEST=$1
 
 mkdir -p $DEST/debian
 mkdir -p $DEST/man
 mkdir -p $DEST/mo
+mkdir -p $DEST/doc
+mkdir -p $DEST/plugins
+
+#app
+cp backintime $DEST/
 
 #python files
 cp *.py $DEST/
 
+#plugins
+cp plugins/*.py $DEST/plugins
+
 #man pages
 cp -R man/* $DEST/man
 
-#copyright
+#doc files
+cp ../AUTHORS $DEST/doc
+cp ../LICENSE $DEST/doc
+cp ../README $DEST/doc
+cp ../TRANSLATIONS $DEST/doc
+cp ../VERSION $DEST/doc
+cp ../CHANGES $DEST/doc
+
+#debian: control
+cp debian_specific/control.source $DEST/debian/control
+
+#debian: copyright
 cp debian_specific/copyright $DEST/debian
 
-#changelog
-cat debian_specific/changelog | sed -e "s/\$BACKINTIME/backintime-common/" > $DEST/debian/changelog
+#debian: postrm
+cp debian_specific/postrm $DEST/debian
 
-#rules files
+#debian: changelog
+cat debian_specific/changelog | sed -e "s/\$BACKINTIME/backintime-common/" -e "s/\$VERSION/$VERSION/" > $DEST/debian/changelog
+
+#debian: rules
 cp debian_specific/rules $DEST/debian
 
-#languages
+#add languages to rules
 for langfile in `ls po/*.po`; do
 	lang=`echo $langfile | cut -d/ -f2 | cut -d. -f1`
 	msgfmt -o $DEST/mo/$lang.mo po/$lang.po
-	sed -i -e "s/\t\[INSTALL_LANGS\]/\tdh_installdirs \/usr\/share\/locale\/$lang\/LC_MESSAGES\n\tdh_install ..\/mo\/$lang.mo \/usr\/share\/locale\/$lang\/LC_MESSAGES\/backintime.mo\n\t[INSTALL_LANGS]/g" $DEST/debian/rules
+	#sed -i -e "s/\t\[INSTALL_LANGS\]/\tdh_installdirs \/usr\/share\/locale\/$lang\/LC_MESSAGES\n\tdh_install mo\/$lang.mo \/usr\/share\/locale\/$lang\/LC_MESSAGES\/backintime.mo\n\t[INSTALL_LANGS]/g" $DEST/debian/rules
+	sed -i -e "s/\t\[INSTALL_LANGS\]/\tdh_install mo\/$lang.mo \/usr\/share\/locale\/$lang\/LC_MESSAGES\/backintime.mo\n\t[INSTALL_LANGS]/g" $DEST/debian/rules
 done
 
-sed -i -e "s/\t\[INSTALL_LANGS\]//" $DEST/debian/rules
+sed -i -e "s/\t\[INSTALL_LANGS\]/\t/" $DEST/debian/rules
 
