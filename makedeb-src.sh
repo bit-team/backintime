@@ -16,7 +16,7 @@ for i in common gnome kde4; do
 
 	cd tmp/${PKGNAME}_$PKGVER
 	#debuild -i -us -uc -S
-	debuild -i -b
+	debuild -i -S
 
 	cd ..
 	rm -rf ${PKGNAME}_$PKGVER
