@@ -1,5 +1,7 @@
 #!/bin/bash
 
+RELEASES="hardy intrepid jaunty karmic"
+
 for i in common gnome kde4; do
 	PKGNAME=`cat $i/debian_specific/control | grep "^Package:" | cut -d" " -f2`
 	PKGVER=`cat $i/debian_specific/control | grep "^Version:" | cut -d" " -f2`
@@ -15,8 +17,12 @@ for i in common gnome kde4; do
 	cd ..
 
 	cd tmp/${PKGNAME}_$PKGVER
-	#debuild -i -us -uc -S
-	debuild -i -S
+
+	for release in $RELEASES; do
+		#debuild -i -us -uc -S
+		sed -e "1s/.*/$PKGNAME ($PKGVER~$release) $release; urgency=low/" -i debian/changelog
+		debuild -i -S
+	done
 
 	cd ..
 	rm -rf ${PKGNAME}_$PKGVER
