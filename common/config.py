@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99.21'
+	VERSION = '0.9.99.22'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
@@ -69,7 +69,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
 
-	DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~' ]
+	DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ) ]
 
 	def __init__( self ):
 		configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
@@ -101,9 +101,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.load( self._GLOBAL_CONFIG_PATH )
 		self.append( self._LOCAL_CONFIG_PATH )
 
-		if self.get_int_value( 'config.version', 1 ) < self.CONFIG_VERSION:
+		if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < self.CONFIG_VERSION:
 
-			if self.get_int_value( 'config.version', 1 ) < 2:
+			if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 2:
 				#remap old items
 				self.remap_key( 'BASE_BACKUP_PATH', 'snapshots.path' )
 				self.remap_key( 'INCLUDE_FOLDERS', 'snapshots.include_folders' )
@@ -126,7 +126,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 				self.remap_key( 'MAIN_WINDOW_HPANED1_POSITION', 'gnome.main_window.hpaned1' )
 				self.remap_key( 'MAIN_WINDOW_HPANED2_POSITION', 'gnome.main_window.hpaned2' )
 
-			if self.get_int_value( 'config.version', 1 ) < 3:
+			if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 3:
 				self.remap_key( 'snapshots.path', 'profile1.snapshots.path' )
 				self.remap_key( 'snapshots.include_folders', 'profile1.snapshots.include_folders' )
 				self.remap_key( 'snapshots.exclude_patterns', 'profile1.snapshots.exclude_patterns' )
@@ -139,7 +139,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 				self.remap_key( 'snapshots.min_free_space.unit', 'profile1.snapshots.min_free_space.unit' )
 				self.remap_key( 'snapshots.dont_remove_named_snapshots', 'profile1.snapshots.dont_remove_named_snapshots' )
 				
-			if self.get_int_value( 'config.version', 1 ) < 4:
+			if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 4:
 				# version 4 uses as path backintime/machine/user/profile_id
 				# but must be able to read old paths
 				profiles = self.get_profiles()
@@ -156,7 +156,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 					logger.info( "Random tag for profile %s: %s" %( profile_id, tag ) )
 					self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
 
-			if self.get_int_value( 'config.version', 1 ) < 5:
+			if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 5:
+				logger.info( "Update to config version 5: other snapshot locations" )
 				profiles = self.get_profiles()
 				for profile_id in profiles:
 					#change include
