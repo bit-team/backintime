@@ -42,6 +42,7 @@ class SettingsDialog(object):
 		self.config = config
 		self.parent = parent
 		self.snapshots = snapshots
+		self.profile_id = self.config.get_current_profile()
 		
 		builder = gtk.Builder()
 		self.builder = builder
@@ -226,7 +227,6 @@ class SettingsDialog(object):
 		
 		#don't remove named snapshots
 		self.cb_dont_remove_named_snapshots = get( 'cb_dont_remove_named_snapshots' )
-		self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots() )
 		
 		#smart remove
 		self.cb_smart_remove = get( 'cb_smart_remove' )
@@ -245,7 +245,7 @@ class SettingsDialog(object):
 		if not tools.power_status_available ():
 			self.cb_no_on_battery.set_sensitive( False )
 			self.cb_no_on_battery.set_tooltip_text( 'Power status not available from system' )
-		
+
 		self.update_profiles()
 	
 	def error_handler( self, message ):
@@ -300,23 +300,23 @@ class SettingsDialog(object):
 			return
 		
 		profile_id = self.store_profiles.get_value( iter, 1 )
-		if profile_id != self.config.get_current_profile():
+		if profile_id != self.profile_id:
 			self.save_profile()
-			self.config.set_current_profile( profile_id )
+			self.profile_id = profile_id
 		
 		self.update_profile()
 	
 	def update_profiles( self ):
 		self.disable_combo_changed = True
 		
-		profiles = self.config.get_profiles_sorted_by_name()
+		profiles = self.config.get_profiles_sorted_by_name( self.profile_id )
 		
 		select_iter = None
 		self.store_profiles.clear()
 
 		for profile_id in profiles:
 			iter = self.store_profiles.append( [ self.config.get_profile_name( profile_id ), profile_id ] )
-			if profile_id == self.config.get_current_profile():
+			if profile_id == self.profile_id:
 				select_iter = iter
 		
 		self.disable_combo_changed = False
@@ -325,7 +325,7 @@ class SettingsDialog(object):
 			self.combo_profiles.set_active_iter( select_iter )
 	
 	def update_profile( self ):
-		if self.config.get_current_profile() == '1':
+		if self.profile_id == '1':
 			self.btn_edit_profile.set_sensitive( False )
 			self.btn_remove_profile.set_sensitive( False )
 		else:
@@ -334,7 +334,7 @@ class SettingsDialog(object):
 		
 		#set current folder
 		#self.fcb_where.set_filename( self.config.get_snapshots_path() )
-		self.edit_where.set_text( self.config.get_snapshots_path() )
+		self.edit_where.set_text( self.config.get_snapshots_path( self.profile_id ) )
 		
 		#per directory schedule
 		#self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -343,7 +343,7 @@ class SettingsDialog(object):
 		#self.update_per_directory_option()
 		
 		self.store_include.clear()
-		include_folders = self.config.get_include()
+		include_folders = self.config.get_include( profile_id )
 		if len( include_folders ) > 0:
 			for include_folder in include_folders:
 				if include_folder[1] == 0:
@@ -353,7 +353,7 @@ class SettingsDialog(object):
 		
 		#setup exclude patterns
 		self.store_exclude.clear()
-		exclude_patterns = self.config.get_exclude()
+		exclude_patterns = self.config.get_exclude( self.profile_id )
 		if len( exclude_patterns ) > 0:
 			for exclude_pattern in exclude_patterns:
 				self.store_exclude.append( [exclude_pattern, gtk.STOCK_DELETE] )
@@ -361,7 +361,7 @@ class SettingsDialog(object):
 		#setup automatic backup mode
 		i = 0
 		iter = self.store_backup_mode.get_iter_first()
-		default_mode = self.config.get_automatic_backup_mode()
+		default_mode = self.config.get_automatic_backup_mode( self.profile_id )
 		while not iter is None:
 			if self.store_backup_mode.get_value( iter, 1 ) == default_mode:
 				self.cb_backup_mode.set_active( i )
@@ -372,7 +372,7 @@ class SettingsDialog(object):
 		#setup automatic backup time
 		i = 0
 		iter = self.store_backup_time.get_iter_first()
-		default_mode = self.config.get_automatic_backup_time()
+		default_mode = self.config.get_automatic_backup_time( self.profile_id )
 		while not iter is None:
 			if self.store_backup_time.get_value( iter, 1 ) == default_mode:
 				self.cb_backup_time.set_active( i )
@@ -383,7 +383,7 @@ class SettingsDialog(object):
 		self.on_cb_backup_mode_changed()
 
 		#setup remove old backups older than
-		enabled, value, unit = self.config.get_remove_old_snapshots()
+		enabled, value, unit = self.config.get_remove_old_snapshots( self.profile_id )
 		
 		self.edit_remove_old_backup_value.set_value( float( value ) )
 		
@@ -400,7 +400,7 @@ class SettingsDialog(object):
 		self.update_remove_old_backups( self.cb_remove_old_backup )
 		
 		#setup min free space
-		enabled, value, unit = self.config.get_min_free_space()
+		enabled, value, unit = self.config.get_min_free_space( self.profile_id )
 		
 		self.edit_min_free_space_value.set_value( float(value) )
 		
@@ -417,10 +417,10 @@ class SettingsDialog(object):
 		self.update_min_free_space( self.cb_min_free_space )
 		
 		#don't remove named snapshots
-		self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots() )
+		self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots( self.profile_id ) )
 		
 		#smart remove
-		self.cb_smart_remove.set_active( self.config.get_smart_remove() )
+		self.cb_smart_remove.set_active( self.config.get_smart_remove( self.profile_id ) )
 		
 		#enable notifications
 		self.cb_enable_notifications.set_active( self.config.is_notify_enabled() )
