@@ -375,8 +375,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		if counter < old_size:
 			for i in xrange( counter + 1, old_size + 1 ):
-				self.remove_profile_key( "snapshots.include.%s.value" % counter, profile_id )
-				self.remove_profile_key( "snapshots.include.%s.type" % counter, profile_id )
+				self.remove_profile_key( "snapshots.include.%s.value" % i, profile_id )
+				self.remove_profile_key( "snapshots.include.%s.type" % i, profile_id )
  
 	def get_exclude_v4( self, profile_id = None ):
 		'''Gets the exclude patterns: conf version 4'''
@@ -412,7 +412,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		if counter < old_size:
 			for i in xrange( counter + 1, old_size + 1 ):
-				self.remove_profile_key( "snapshots.exclude.%s.value" % counter, profile_id )
+				self.remove_profile_key( "snapshots.exclude.%s.value" % i, profile_id )
 
 	def get_tag( self, profile_id = None ):
 		return self.get_profile_str_value( 'snapshots.tag', str(random.randint(100, 999)), profile_id )

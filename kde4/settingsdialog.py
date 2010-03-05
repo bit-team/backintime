@@ -313,9 +313,11 @@ class SettingsDialog( KDialog ):
 		if len( name ) <= 0:
 			return
 
-		if not self.config.add_profile( name ):
+		profile_id = self.config.add_profile( name )
+		if profile_id is None:
 			return
 
+		self.config.set_current_profile( profile_id )
 		self.update_profiles()
 
 	def edit_profile( self ):

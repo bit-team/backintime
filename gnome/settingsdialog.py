@@ -309,7 +309,7 @@ class SettingsDialog(object):
 	def update_profiles( self ):
 		self.disable_combo_changed = True
 		
-		profiles = self.config.get_profiles_sorted_by_name( self.profile_id )
+		profiles = self.config.get_profiles_sorted_by_name()
 		
 		select_iter = None
 		self.store_profiles.clear()
@@ -343,7 +343,7 @@ class SettingsDialog(object):
 		#self.update_per_directory_option()
 		
 		self.store_include.clear()
-		include_folders = self.config.get_include( profile_id )
+		include_folders = self.config.get_include( self.profile_id )
 		if len( include_folders ) > 0:
 			for include_folder in include_folders:
 				if include_folder[1] == 0:
@@ -423,25 +423,25 @@ class SettingsDialog(object):
 		self.cb_smart_remove.set_active( self.config.get_smart_remove( self.profile_id ) )
 		
 		#enable notifications
-		self.cb_enable_notifications.set_active( self.config.is_notify_enabled() )
+		self.cb_enable_notifications.set_active( self.config.is_notify_enabled( self.profile_id ) )
 		
 		#backup on restore
-		self.cb_backup_on_restore.set_active( self.config.is_backup_on_restore_enabled() )
+		self.cb_backup_on_restore.set_active( self.config.is_backup_on_restore_enabled( self.profile_id ) )
 		
 		#run 'nice' from cron
-		self.cb_run_nice_from_cron.set_active(self.config.is_run_nice_from_cron_enabled())
+		self.cb_run_nice_from_cron.set_active(self.config.is_run_nice_from_cron_enabled( self.profile_id ))
 
 		#run 'ionice' from cron
-		self.cb_run_ionice_from_cron.set_active(self.config.is_run_ionice_from_cron_enabled())
+		self.cb_run_ionice_from_cron.set_active(self.config.is_run_ionice_from_cron_enabled( self.profile_id ))
 		
 		#run 'ionice' from user
-		self.cb_run_ionice_from_user.set_active(self.config.is_run_ionice_from_user_enabled())
+		self.cb_run_ionice_from_user.set_active(self.config.is_run_ionice_from_user_enabled( self.profile_id ))
 		
 		#don't run when on battery
-		self.cb_no_on_battery.set_active( self.config.is_no_on_battery_enabled() )
+		self.cb_no_on_battery.set_active( self.config.is_no_on_battery_enabled( self.profile_id ) )
 	
 	def save_profile( self ):
-		profile_id = self.config.get_current_profile()
+		#profile_id = self.config.get_current_profile()
 		#snapshots path
 		snapshots_path = self.edit_where.get_text()
 		
@@ -472,40 +472,42 @@ class SettingsDialog(object):
 		#	   return False 
 		
 		#ok let's save to config
-		self.config.set_snapshots_path( snapshots_path, profile_id )
+		self.config.set_snapshots_path( snapshots_path, self.profile_id )
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
 		#   return False
-		
-		self.config.set_include( include_list )
-		self.config.set_exclude( exclude_list )
+
+		self.config.set_include( include_list, self.profile_id )
+		self.config.set_exclude( exclude_list, self.profile_id )
 		
 		#global schedule
-		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
-		self.config.set_automatic_backup_time( self.store_backup_time.get_value( self.cb_backup_time.get_active_iter(), 1 ) )
+		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ), self.profile_id )
+		self.config.set_automatic_backup_time( self.store_backup_time.get_value( self.cb_backup_time.get_active_iter(), 1 ), self.profile_id )
 		
 		#auto-remove snapshots
 		self.config.set_remove_old_snapshots( 
 						self.cb_remove_old_backup.get_active(), 
 						int( self.edit_remove_old_backup_value.get_value() ),
-						self.store_remove_old_backup_unit.get_value( self.cb_remove_old_backup_unit.get_active_iter(), 1 ) )
+						self.store_remove_old_backup_unit.get_value( self.cb_remove_old_backup_unit.get_active_iter(), 1 ),
+						self.profile_id )
 		self.config.set_min_free_space( 
 						self.cb_min_free_space.get_active(), 
 						int( self.edit_min_free_space_value.get_value() ),
-						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ) )
-		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active() )
-		self.config.set_smart_remove( self.cb_smart_remove.get_active() )
+						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ),
+						self.profile_id )
+		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active(), self.profile_id )
+		self.config.set_smart_remove( self.cb_smart_remove.get_active(), self.profile_id )
 		
 		#options
-		self.config.set_notify_enabled( self.cb_enable_notifications.get_active() )
-		self.config.set_backup_on_restore( self.cb_backup_on_restore.get_active() )
+		self.config.set_notify_enabled( self.cb_enable_notifications.get_active(), self.profile_id )
+		self.config.set_backup_on_restore( self.cb_backup_on_restore.get_active(), self.profile_id )
 		
 		#expert options
 		#self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
-		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active() )
-		self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.get_active() )
-		self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.get_active() )
-		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active() )
+		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active(), self.profile_id )
+		self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.get_active(), self.profile_id )
+		self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.get_active(), self.profile_id )
+		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active(), self.profile_id )
 	
 	def update_remove_old_backups( self, button ):
 		enabled = self.cb_remove_old_backup.get_active()
@@ -537,7 +539,6 @@ class SettingsDialog(object):
 		self.config.set_error_handler( self.error_handler )
 		
 		self.config_copy_dict = copy.copy( self.config.dict )
-		self.current_profile_org = self.config.get_current_profile()
 		
 		while True:
 			if gtk.RESPONSE_OK == self.dialog.run():
@@ -545,12 +546,9 @@ class SettingsDialog(object):
 					continue
 			else:
 				self.config.dict = self.config_copy_dict
-			
 			break
 		
-		self.config.set_current_profile( self.current_profile_org )
 		self.config.clear_handlers()
-		
 		self.dialog.destroy()
 	   
 	def update_snapshots_location( self ):
@@ -566,10 +564,12 @@ class SettingsDialog(object):
 			return
 		if len( name ) <= 0:
 			return
-		
-		if not self.config.add_profile( name ):
+	
+		profile_id = self.config.add_profile( name )
+		if profile_id is None:
 			return
-		
+	
+		self.profile_id = profile_id
 		self.update_profiles()
 	
 	def on_edit_profile( self, button ):
@@ -579,14 +579,15 @@ class SettingsDialog(object):
 		if len( name ) <= 0:
 			return
 		
-		if not self.config.set_profile_name( name ):
+		if not self.config.set_profile_name( name, self.profile_id ):
 			return
 		
 		self.update_profiles()
 	
 	def on_remove_profile( self, button ):
 		if gtk.RESPONSE_YES == messagebox.show_question( self.dialog, self.config, _('Are you sure you want to delete the profile "%s" ?') % self.config.get_profile_name() ):
-			self.config.remove_profile()
+			self.config.remove_profile( self.profile_id )
+			self.profile_id = '1'
 			self.update_profiles()
 	
 	def on_add_include( self, button ):
