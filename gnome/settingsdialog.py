@@ -62,6 +62,7 @@ class SettingsDialog(object):
 				'on_btn_edit_profile_clicked' : self.on_edit_profile,
 				'on_btn_remove_profile_clicked' : self.on_remove_profile,
 				'on_btn_add_include_clicked' : self.on_add_include,
+				'on_btn_add_include_file_clicked' : self.on_add_include_file,
 				'on_btn_remove_include_clicked' : self.on_remove_include,
 				'on_btn_add_exclude_clicked' : self.on_add_exclude,
 				'on_btn_add_exclude_file_clicked' : self.on_add_exclude_file,
@@ -606,6 +607,25 @@ class SettingsDialog(object):
 			if iter is None:
 				#self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
 				self.store_include.append( [ include_folder, gtk.STOCK_DIRECTORY, 0 ] )
+		
+		fcd.destroy()
+	
+	def on_add_include_file( self, button ):
+		fcd = gtk.FileChooserDialog( _('Include file'), self.dialog, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		fcd.set_show_hidden( self.parent.show_hidden_files  )
+		
+		if fcd.run() == gtk.RESPONSE_OK:
+			include_file = tools.prepare_path( fcd.get_filename() )
+			
+			iter = self.store_include.get_iter_first()
+			while not iter is None:
+				if self.store_include.get_value( iter, 0 ) == include_file:
+					break
+				iter = self.store_include.iter_next( iter )
+			
+			if iter is None:
+				#self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
+				self.store_include.append( [ include_file, gtk.STOCK_FILE, 1 ] )
 		
 		fcd.destroy()
 	

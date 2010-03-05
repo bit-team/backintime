@@ -173,7 +173,13 @@ class SettingsDialog( KDialog ):
 		buttons_layout = QHBoxLayout()
 		layout.addLayout( buttons_layout )
 
+		self.btn_include_file_add = KPushButton( KStandardGuiItem.add(), self )
+		self.btn_include_file_add.setText( QString.fromUtf8( _( 'Add file' ) ) )
+		buttons_layout.addWidget( self.btn_include_file_add )
+		QObject.connect( self.btn_include_file_add, SIGNAL('clicked()'), self.on_btn_include_file_add_clicked )
+		
 		self.btn_include_add = KPushButton( KStandardGuiItem.add(), self )
+		self.btn_include_add.setText( QString.fromUtf8( _( 'Add folder' ) ) )
 		buttons_layout.addWidget( self.btn_include_add )
 		QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
 		
@@ -652,6 +658,20 @@ class SettingsDialog( KDialog ):
 
 		if self.list_include.topLevelItemCount() > 0:
 			self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
+
+	def on_btn_include_file_add_clicked( self ):
+		path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Include file' ) ) ).toUtf8() )
+		if len( path ) == 0 :
+			return
+
+		path = self.config.prepare_path( path )
+
+		for index in xrange( self.list_include.topLevelItemCount() ):
+			if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
+				return
+
+		#self.add_include( [ path, self.config.NONE ] )
+		self.add_include( ( path, 1 ) )
 
 	def on_btn_include_add_clicked( self ):
 		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ).toUtf8() )
