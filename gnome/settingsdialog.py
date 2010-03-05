@@ -145,7 +145,7 @@ class SettingsDialog(object):
 		
 		#self.include_schedule_column = column
 		
-		self.store_include = gtk.ListStore( str, str ) #, str, int )
+		self.store_include = gtk.ListStore( str, str, int ) #, str, int )
 		self.list_include.set_model( self.store_include )
 		
 		#setup exclude patterns
@@ -343,14 +343,17 @@ class SettingsDialog(object):
 		#self.update_per_directory_option()
 		
 		self.store_include.clear()
-		include_folders = self.config.get_include_folders()
+		include_folders = self.config.get_include()
 		if len( include_folders ) > 0:
 			for include_folder in include_folders:
-				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY] ) #, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
+				if include_folder[1] == 0:
+					self.store_include.append( [include_folder[0], gtk.STOCK_DIRECTORY, 0] ) #, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
+				else:
+					self.store_include.append( [include_folder[0], gtk.STOCK_FILE, include_folder[1]] ) #, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
 		
 		#setup exclude patterns
 		self.store_exclude.clear()
-		exclude_patterns = self.config.get_exclude_patterns()
+		exclude_patterns = self.config.get_exclude()
 		if len( exclude_patterns ) > 0:
 			for exclude_pattern in exclude_patterns:
 				self.store_exclude.append( [exclude_pattern, gtk.STOCK_DELETE] )
@@ -451,7 +454,9 @@ class SettingsDialog(object):
 		iter = self.store_include.get_iter_first()
 		while not iter is None:
 			#include_list.append( ( self.store_include.get_value( iter, 0 ), self.store_include.get_value( iter, 3 ) ) )
-			include_list.append( self.store_include.get_value( iter, 0 ) )
+			value = self.store_include.get_value( iter, 0 )
+			type = self.store_include.get_value( iter, 2 )
+			include_list.append( ( value, type ) )
 			iter = self.store_include.iter_next( iter )
 		
 		#exclude patterns
@@ -472,8 +477,8 @@ class SettingsDialog(object):
 		#   messagebox.show_error( self.dialog, self.config, msg )
 		#   return False
 		
-		self.config.set_include_folders( include_list )
-		self.config.set_exclude_patterns( exclude_list )
+		self.config.set_include( include_list )
+		self.config.set_exclude( exclude_list )
 		
 		#global schedule
 		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
@@ -599,7 +604,7 @@ class SettingsDialog(object):
 			
 			if iter is None:
 				#self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
-				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY ] )
+				self.store_include.append( [ include_folder, gtk.STOCK_DIRECTORY, 0 ] )
 		
 		fcd.destroy()
 	

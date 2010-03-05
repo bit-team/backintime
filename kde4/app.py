@@ -557,12 +557,18 @@ class MainWindow( KMainWindow ):
 		self.add_place( QString.fromUtf8( _('Home') ), os.path.expanduser( '~' ), 'user-home' )
 
 		#add backup folders
-		include_folders = self.config.get_include_folders()
+		include_folders = self.config.get_include()
 		if len( include_folders ) > 0:
-			self.add_place( QString.fromUtf8( _('Backup folders') ), '', '' )
-			for folder in include_folders:
-				#self.add_place( QString.fromUtf8(folder[0]), folder[0], 'document-save' )
-				self.add_place( QString.fromUtf8(folder), folder, 'document-save' )
+			folders = []
+			for item in include_folders:
+				if item[1] == 0:
+					folders.append( item[0] )
+
+			if len( folders ) > 0:
+				self.add_place( QString.fromUtf8( _('Backup folders') ), '', '' )
+				for folder in folders:
+					#self.add_place( QString.fromUtf8(folder[0]), folder[0], 'document-save' )
+					self.add_place( QString.fromUtf8(folder), folder, 'document-save' )
 
 	def update_snapshot_actions( self ):
 		enabled = False

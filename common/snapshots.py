@@ -634,7 +634,7 @@ class Snapshots:
 				#	now = now.replace( second = 0 )
 
 				#include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
-				include_folders = self.config.get_include_folders()
+				include_folders = self.config.get_include()
 
 				if len( include_folders ) <= 0:
 					logger.info( 'Nothing to do' )
@@ -766,7 +766,7 @@ class Snapshots:
 	#	dict = self._get_last_snapshot_info()
 	#	dict2 = {}
 
-	#	all_include_folders = self.config.get_include_folders()
+	#	all_include_folders = self.config.get_include()
 	#	
 	#	for item in all_include_folders:
 	#		path = item[0]
@@ -848,7 +848,7 @@ class Snapshots:
 		
 		#create exclude patterns string
 		items = []
-		for exclude in self.config.get_exclude_patterns():
+		for exclude in self.config.get_exclude():
 			self._append_item_to_list( "--exclude=\"%s\"" % exclude, items )
 		#for folder in ignore_folders:
 		#	self._append_item_to_list( "--exclude=\"%s\"" % folder, items )
@@ -858,14 +858,23 @@ class Snapshots:
 		items = []
 		items2 = []
 		for include_folder in include_folders:
-			if include_folder == "/":	# If / is selected as included folder it should be changed to ""
-				include_folder = ""	# because an extra / is added below. Patch thanks to Martin Hoefling
-			self._append_item_to_list( "--include=\"%s/**\"" % include_folder, items2 )
+			folder = include_folder[0]
+
+			if folder == "/":	# If / is selected as included folder it should be changed to ""
+				folder = ""	# because an extra / is added below. Patch thanks to Martin Hoefling
+
+			if include_folder[1] == 0:
+				self._append_item_to_list( "--include=\"%s/**\"" % folder, items2 )
+			else:
+				self._append_item_to_list( "--include=\"%s\"" % folder, items2 )
+				folder = os.path.split( folder )[0]
+
 			while True:
-				self._append_item_to_list( "--include=\"%s/\"" % include_folder, items )
-				include_folder = os.path.split( include_folder )[0]
-				if len( include_folder ) <= 1:
+				self._append_item_to_list( "--include=\"%s/\"" % folder, items )
+				folder = os.path.split( folder )[0]
+				if len( folder) <= 1:
 					break
+
 		rsync_include = ' '.join( items )
 		rsync_include2 = ' '.join( items2 )
 
