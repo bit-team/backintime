@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z $1 ]; then
-	echo "ERROOR: You need to specify the install dir"
+	echo "ERROR: You need to specify the install dir"
 	exit 1
 fi
 
@@ -35,17 +35,11 @@ cp ../TRANSLATIONS $DEST/doc
 cp ../VERSION $DEST/doc
 cp ../CHANGES $DEST/doc
 
-#debian: control
-cp debian_specific/control.source $DEST/debian/control
-
 #debian: copyright
 cp debian_specific/copyright $DEST/debian
 
 #debian: postrm
 cp debian_specific/postrm $DEST/debian
-
-#debian: changelog
-cat debian_specific/changelog | sed -e "s/\$BACKINTIME/backintime-common/" -e "s/\$VERSION/$VERSION/" > $DEST/debian/changelog
 
 #debian: rules
 cp debian_specific/rules $DEST/debian

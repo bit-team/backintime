@@ -173,7 +173,13 @@ class SettingsDialog( KDialog ):
 		buttons_layout = QHBoxLayout()
 		layout.addLayout( buttons_layout )
 
+		self.btn_include_file_add = KPushButton( KStandardGuiItem.add(), self )
+		self.btn_include_file_add.setText( QString.fromUtf8( _( 'Add file' ) ) )
+		buttons_layout.addWidget( self.btn_include_file_add )
+		QObject.connect( self.btn_include_file_add, SIGNAL('clicked()'), self.on_btn_include_file_add_clicked )
+		
 		self.btn_include_add = KPushButton( KStandardGuiItem.add(), self )
+		self.btn_include_add.setText( QString.fromUtf8( _( 'Add folder' ) ) )
 		buttons_layout.addWidget( self.btn_include_add )
 		QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
 		
@@ -313,9 +319,11 @@ class SettingsDialog( KDialog ):
 		if len( name ) <= 0:
 			return
 
-		if not self.config.add_profile( name ):
+		profile_id = self.config.add_profile( name )
+		if profile_id is None:
 			return
 
+		self.config.set_current_profile( profile_id )
 		self.update_profiles()
 
 	def edit_profile( self ):
@@ -395,13 +403,13 @@ class SettingsDialog( KDialog ):
 		#TAB: Include
 		self.list_include.clear()
 
-		for include in self.config.get_include_folders():
+		for include in self.config.get_include():
 			self.add_include( include )
 
 		#TAB: Exclude
 		self.list_exclude.clear()
 	
-		for exclude in self.config.get_exclude_patterns():
+		for exclude in self.config.get_exclude():
 			self.add_exclude( exclude )
 
 		#TAB: Auto-remove
@@ -449,16 +457,16 @@ class SettingsDialog( KDialog ):
 		for index in xrange( self.list_include.topLevelItemCount() ):
 			item = self.list_include.topLevelItem( index )
 			#include_list.append( [ str( item.text(0).toUtf8() ), item.data( 0, Qt.UserRole ).toInt()[0] ] )
-			include_list.append( str( item.text(0).toUtf8() ) )
+			include_list.append( ( str( item.text(0).toUtf8() ), item.data( 0, Qt.UserRole ).toInt()[0] ) )
 		
-		self.config.set_include_folders( include_list )
+		self.config.set_include( include_list )
 
 		#exclude patterns
 		exclude_list = []
 		for index in xrange( self.list_exclude.count() ):
 			exclude_list.append( str( self.list_exclude.item( index ).text().toUtf8() ) )
 
-		self.config.set_exclude_patterns( exclude_list )
+		self.config.set_exclude( exclude_list )
 
 		#schedule
 		self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
@@ -547,10 +555,16 @@ class SettingsDialog( KDialog ):
 
 	def add_include( self, data ):
 		item = QTreeWidgetItem()
-		item.setText( 0, QString.fromUtf8( data ) )
+
+		if data[1] == 0:
+			item.setIcon( 0, KIcon('folder') )
+		else:
+			item.setIcon( 0, KIcon('text-plain') )
+
+		item.setText( 0, QString.fromUtf8( data[0] ) )
 		#item.setText( 0, QString.fromUtf8( data[0] ) )
 		#item.setText( 1, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] ) )
-		#item.setData( 0, Qt.UserRole, QVariant( data[1]) )
+		item.setData( 0, Qt.UserRole, QVariant( data[1] ) )
 		self.list_include.addTopLevelItem( item )
 
 		if self.list_include.currentItem() is None:
@@ -645,6 +659,20 @@ class SettingsDialog( KDialog ):
 		if self.list_include.topLevelItemCount() > 0:
 			self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
 
+	def on_btn_include_file_add_clicked( self ):
+		path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Include file' ) ) ).toUtf8() )
+		if len( path ) == 0 :
+			return
+
+		path = self.config.prepare_path( path )
+
+		for index in xrange( self.list_include.topLevelItemCount() ):
+			if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
+				return
+
+		#self.add_include( [ path, self.config.NONE ] )
+		self.add_include( ( path, 1 ) )
+
 	def on_btn_include_add_clicked( self ):
 		path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ).toUtf8() )
 		if len( path ) == 0 :
@@ -657,7 +685,7 @@ class SettingsDialog( KDialog ):
 				return
 
 		#self.add_include( [ path, self.config.NONE ] )
-		self.add_include( path )
+		self.add_include( ( path, 0 ) )
 
 	def on_btn_snapshots_path_clicked( self ):
 		old_path = str( self.edit_snapshots_path.text().toUtf8() )

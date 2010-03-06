@@ -249,7 +249,7 @@ class ConfigFileWithProfiles( ConfigFile ):
 		for profile_id in profiles:
 			if self.get_profile_name( profile_id ) == name:
 				self.notify_error( _('Profile "%s" already exists !') % name )
-				return False
+				return None
 
 		new_id = 1
 		while True:
@@ -270,9 +270,8 @@ class ConfigFileWithProfiles( ConfigFile ):
 		profiles.append( new_id )
 		self.set_str_value( 'profiles', ':'.join(profiles) )
 
-		self.current_profile_id = new_id
 		self.set_profile_str_value( 'name', name, new_id )
-		return True
+		return new_id
 
 	def remove_profile( self, profile_id = None ):
 		if profile_id == None:
@@ -298,11 +297,7 @@ class ConfigFileWithProfiles( ConfigFile ):
 			return False
 
 		if self.current_profile_id == profile_id:
-			profiles = self.get_profiles()
-			if len( profiles ) > 0:
-				self.current_profile_id = profiles[0]
-			else:
-				self.current_profile_id = '1'
+			self.current_profile_id = '1'
 
 		return True
 

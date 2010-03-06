@@ -605,13 +605,18 @@ class MainWindow(object):
                 self.store_places.append( [ bookmark[1], bookmark[0], self.icon_names.get_icon(bookmark[0]) ] )
 
         #add backup folders
-        include_folders = self.config.get_include_folders()
+        include_folders = self.config.get_include()
         if len( include_folders ) > 0:
-            if len( include_folders ) > 0:
-                self.store_places.append( [ "<b>%s</b>" % _('Backup folders'), '', '' ] )
-                for folder in include_folders:
-                    #self.store_places.append( [ folder[0], folder[0], gtk.STOCK_SAVE ] )
-                    self.store_places.append( [ folder, folder, gtk.STOCK_SAVE ] )
+			folders = []
+			for item in include_folders:
+				if item[1] == 0:
+					folders.append( item[0] )
+
+			if len( folders ) > 0:
+				self.store_places.append( [ "<b>%s</b>" % _('Backup folders'), '', '' ] )
+				for folder in folders:
+					#self.store_places.append( [ folder[0], folder[0], gtk.STOCK_SAVE ] )
+					self.store_places.append( [ folder, folder, gtk.STOCK_SAVE ] )
 
     def fill_time_line( self, update_folder_view = True ):
         current_selection = '/'
@@ -911,11 +916,11 @@ class MainWindow(object):
 
     def on_btn_settings_clicked( self, button ):
         snapshots_path = self.config.get_snapshots_path()
-        include_folders = self.config.get_include_folders()
+        include_folders = self.config.get_include()
 
         settingsdialog.SettingsDialog( self.config, self.snapshots, self ).run()
 
-        if snapshots_path != self.config.get_snapshots_path() or include_folders != self.config.get_include_folders():
+        if snapshots_path != self.config.get_snapshots_path() or include_folders != self.config.get_include():
             self.update_all( False )
         self.update_profiles()
 

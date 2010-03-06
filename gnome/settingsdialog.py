@@ -42,6 +42,7 @@ class SettingsDialog(object):
 		self.config = config
 		self.parent = parent
 		self.snapshots = snapshots
+		self.profile_id = self.config.get_current_profile()
 		
 		builder = gtk.Builder()
 		self.builder = builder
@@ -61,6 +62,7 @@ class SettingsDialog(object):
 				'on_btn_edit_profile_clicked' : self.on_edit_profile,
 				'on_btn_remove_profile_clicked' : self.on_remove_profile,
 				'on_btn_add_include_clicked' : self.on_add_include,
+				'on_btn_add_include_file_clicked' : self.on_add_include_file,
 				'on_btn_remove_include_clicked' : self.on_remove_include,
 				'on_btn_add_exclude_clicked' : self.on_add_exclude,
 				'on_btn_add_exclude_file_clicked' : self.on_add_exclude_file,
@@ -145,7 +147,7 @@ class SettingsDialog(object):
 		
 		#self.include_schedule_column = column
 		
-		self.store_include = gtk.ListStore( str, str ) #, str, int )
+		self.store_include = gtk.ListStore( str, str, int ) #, str, int )
 		self.list_include.set_model( self.store_include )
 		
 		#setup exclude patterns
@@ -226,7 +228,6 @@ class SettingsDialog(object):
 		
 		#don't remove named snapshots
 		self.cb_dont_remove_named_snapshots = get( 'cb_dont_remove_named_snapshots' )
-		self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots() )
 		
 		#smart remove
 		self.cb_smart_remove = get( 'cb_smart_remove' )
@@ -245,7 +246,7 @@ class SettingsDialog(object):
 		if not tools.power_status_available ():
 			self.cb_no_on_battery.set_sensitive( False )
 			self.cb_no_on_battery.set_tooltip_text( 'Power status not available from system' )
-		
+
 		self.update_profiles()
 	
 	def error_handler( self, message ):
@@ -300,9 +301,9 @@ class SettingsDialog(object):
 			return
 		
 		profile_id = self.store_profiles.get_value( iter, 1 )
-		if profile_id != self.config.get_current_profile():
+		if profile_id != self.profile_id:
 			self.save_profile()
-			self.config.set_current_profile( profile_id )
+			self.profile_id = profile_id
 		
 		self.update_profile()
 	
@@ -316,7 +317,7 @@ class SettingsDialog(object):
 
 		for profile_id in profiles:
 			iter = self.store_profiles.append( [ self.config.get_profile_name( profile_id ), profile_id ] )
-			if profile_id == self.config.get_current_profile():
+			if profile_id == self.profile_id:
 				select_iter = iter
 		
 		self.disable_combo_changed = False
@@ -325,7 +326,7 @@ class SettingsDialog(object):
 			self.combo_profiles.set_active_iter( select_iter )
 	
 	def update_profile( self ):
-		if self.config.get_current_profile() == '1':
+		if self.profile_id == '1':
 			self.btn_edit_profile.set_sensitive( False )
 			self.btn_remove_profile.set_sensitive( False )
 		else:
@@ -334,7 +335,7 @@ class SettingsDialog(object):
 		
 		#set current folder
 		#self.fcb_where.set_filename( self.config.get_snapshots_path() )
-		self.edit_where.set_text( self.config.get_snapshots_path() )
+		self.edit_where.set_text( self.config.get_snapshots_path( self.profile_id ) )
 		
 		#per directory schedule
 		#self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -343,14 +344,17 @@ class SettingsDialog(object):
 		#self.update_per_directory_option()
 		
 		self.store_include.clear()
-		include_folders = self.config.get_include_folders()
+		include_folders = self.config.get_include( self.profile_id )
 		if len( include_folders ) > 0:
 			for include_folder in include_folders:
-				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY] ) #, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
+				if include_folder[1] == 0:
+					self.store_include.append( [include_folder[0], gtk.STOCK_DIRECTORY, 0] ) #, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
+				else:
+					self.store_include.append( [include_folder[0], gtk.STOCK_FILE, include_folder[1]] ) #, self.config.AUTOMATIC_BACKUP_MODES[include_folder[1]], include_folder[1] ] )
 		
 		#setup exclude patterns
 		self.store_exclude.clear()
-		exclude_patterns = self.config.get_exclude_patterns()
+		exclude_patterns = self.config.get_exclude( self.profile_id )
 		if len( exclude_patterns ) > 0:
 			for exclude_pattern in exclude_patterns:
 				self.store_exclude.append( [exclude_pattern, gtk.STOCK_DELETE] )
@@ -358,7 +362,7 @@ class SettingsDialog(object):
 		#setup automatic backup mode
 		i = 0
 		iter = self.store_backup_mode.get_iter_first()
-		default_mode = self.config.get_automatic_backup_mode()
+		default_mode = self.config.get_automatic_backup_mode( self.profile_id )
 		while not iter is None:
 			if self.store_backup_mode.get_value( iter, 1 ) == default_mode:
 				self.cb_backup_mode.set_active( i )
@@ -369,7 +373,7 @@ class SettingsDialog(object):
 		#setup automatic backup time
 		i = 0
 		iter = self.store_backup_time.get_iter_first()
-		default_mode = self.config.get_automatic_backup_time()
+		default_mode = self.config.get_automatic_backup_time( self.profile_id )
 		while not iter is None:
 			if self.store_backup_time.get_value( iter, 1 ) == default_mode:
 				self.cb_backup_time.set_active( i )
@@ -380,7 +384,7 @@ class SettingsDialog(object):
 		self.on_cb_backup_mode_changed()
 
 		#setup remove old backups older than
-		enabled, value, unit = self.config.get_remove_old_snapshots()
+		enabled, value, unit = self.config.get_remove_old_snapshots( self.profile_id )
 		
 		self.edit_remove_old_backup_value.set_value( float( value ) )
 		
@@ -397,7 +401,7 @@ class SettingsDialog(object):
 		self.update_remove_old_backups( self.cb_remove_old_backup )
 		
 		#setup min free space
-		enabled, value, unit = self.config.get_min_free_space()
+		enabled, value, unit = self.config.get_min_free_space( self.profile_id )
 		
 		self.edit_min_free_space_value.set_value( float(value) )
 		
@@ -414,31 +418,31 @@ class SettingsDialog(object):
 		self.update_min_free_space( self.cb_min_free_space )
 		
 		#don't remove named snapshots
-		self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots() )
+		self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots( self.profile_id ) )
 		
 		#smart remove
-		self.cb_smart_remove.set_active( self.config.get_smart_remove() )
+		self.cb_smart_remove.set_active( self.config.get_smart_remove( self.profile_id ) )
 		
 		#enable notifications
-		self.cb_enable_notifications.set_active( self.config.is_notify_enabled() )
+		self.cb_enable_notifications.set_active( self.config.is_notify_enabled( self.profile_id ) )
 		
 		#backup on restore
-		self.cb_backup_on_restore.set_active( self.config.is_backup_on_restore_enabled() )
+		self.cb_backup_on_restore.set_active( self.config.is_backup_on_restore_enabled( self.profile_id ) )
 		
 		#run 'nice' from cron
-		self.cb_run_nice_from_cron.set_active(self.config.is_run_nice_from_cron_enabled())
+		self.cb_run_nice_from_cron.set_active(self.config.is_run_nice_from_cron_enabled( self.profile_id ))
 
 		#run 'ionice' from cron
-		self.cb_run_ionice_from_cron.set_active(self.config.is_run_ionice_from_cron_enabled())
+		self.cb_run_ionice_from_cron.set_active(self.config.is_run_ionice_from_cron_enabled( self.profile_id ))
 		
 		#run 'ionice' from user
-		self.cb_run_ionice_from_user.set_active(self.config.is_run_ionice_from_user_enabled())
+		self.cb_run_ionice_from_user.set_active(self.config.is_run_ionice_from_user_enabled( self.profile_id ))
 		
 		#don't run when on battery
-		self.cb_no_on_battery.set_active( self.config.is_no_on_battery_enabled() )
+		self.cb_no_on_battery.set_active( self.config.is_no_on_battery_enabled( self.profile_id ) )
 	
 	def save_profile( self ):
-		profile_id = self.config.get_current_profile()
+		#profile_id = self.config.get_current_profile()
 		#snapshots path
 		snapshots_path = self.edit_where.get_text()
 		
@@ -451,7 +455,9 @@ class SettingsDialog(object):
 		iter = self.store_include.get_iter_first()
 		while not iter is None:
 			#include_list.append( ( self.store_include.get_value( iter, 0 ), self.store_include.get_value( iter, 3 ) ) )
-			include_list.append( self.store_include.get_value( iter, 0 ) )
+			value = self.store_include.get_value( iter, 0 )
+			type = self.store_include.get_value( iter, 2 )
+			include_list.append( ( value, type ) )
 			iter = self.store_include.iter_next( iter )
 		
 		#exclude patterns
@@ -467,40 +473,42 @@ class SettingsDialog(object):
 		#	   return False 
 		
 		#ok let's save to config
-		self.config.set_snapshots_path( snapshots_path, profile_id )
+		self.config.set_snapshots_path( snapshots_path, self.profile_id )
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
 		#   return False
-		
-		self.config.set_include_folders( include_list )
-		self.config.set_exclude_patterns( exclude_list )
+
+		self.config.set_include( include_list, self.profile_id )
+		self.config.set_exclude( exclude_list, self.profile_id )
 		
 		#global schedule
-		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) )
-		self.config.set_automatic_backup_time( self.store_backup_time.get_value( self.cb_backup_time.get_active_iter(), 1 ) )
+		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ), self.profile_id )
+		self.config.set_automatic_backup_time( self.store_backup_time.get_value( self.cb_backup_time.get_active_iter(), 1 ), self.profile_id )
 		
 		#auto-remove snapshots
 		self.config.set_remove_old_snapshots( 
 						self.cb_remove_old_backup.get_active(), 
 						int( self.edit_remove_old_backup_value.get_value() ),
-						self.store_remove_old_backup_unit.get_value( self.cb_remove_old_backup_unit.get_active_iter(), 1 ) )
+						self.store_remove_old_backup_unit.get_value( self.cb_remove_old_backup_unit.get_active_iter(), 1 ),
+						self.profile_id )
 		self.config.set_min_free_space( 
 						self.cb_min_free_space.get_active(), 
 						int( self.edit_min_free_space_value.get_value() ),
-						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ) )
-		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active() )
-		self.config.set_smart_remove( self.cb_smart_remove.get_active() )
+						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ),
+						self.profile_id )
+		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active(), self.profile_id )
+		self.config.set_smart_remove( self.cb_smart_remove.get_active(), self.profile_id )
 		
 		#options
-		self.config.set_notify_enabled( self.cb_enable_notifications.get_active() )
-		self.config.set_backup_on_restore( self.cb_backup_on_restore.get_active() )
+		self.config.set_notify_enabled( self.cb_enable_notifications.get_active(), self.profile_id )
+		self.config.set_backup_on_restore( self.cb_backup_on_restore.get_active(), self.profile_id )
 		
 		#expert options
 		#self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )
-		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active() )
-		self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.get_active() )
-		self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.get_active() )
-		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active() )
+		self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active(), self.profile_id )
+		self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.get_active(), self.profile_id )
+		self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.get_active(), self.profile_id )
+		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active(), self.profile_id )
 	
 	def update_remove_old_backups( self, button ):
 		enabled = self.cb_remove_old_backup.get_active()
@@ -532,7 +540,6 @@ class SettingsDialog(object):
 		self.config.set_error_handler( self.error_handler )
 		
 		self.config_copy_dict = copy.copy( self.config.dict )
-		self.current_profile_org = self.config.get_current_profile()
 		
 		while True:
 			if gtk.RESPONSE_OK == self.dialog.run():
@@ -540,12 +547,9 @@ class SettingsDialog(object):
 					continue
 			else:
 				self.config.dict = self.config_copy_dict
-			
 			break
 		
-		self.config.set_current_profile( self.current_profile_org )
 		self.config.clear_handlers()
-		
 		self.dialog.destroy()
 	   
 	def update_snapshots_location( self ):
@@ -561,10 +565,12 @@ class SettingsDialog(object):
 			return
 		if len( name ) <= 0:
 			return
-		
-		if not self.config.add_profile( name ):
+	
+		profile_id = self.config.add_profile( name )
+		if profile_id is None:
 			return
-		
+	
+		self.profile_id = profile_id
 		self.update_profiles()
 	
 	def on_edit_profile( self, button ):
@@ -574,14 +580,15 @@ class SettingsDialog(object):
 		if len( name ) <= 0:
 			return
 		
-		if not self.config.set_profile_name( name ):
+		if not self.config.set_profile_name( name, self.profile_id ):
 			return
 		
 		self.update_profiles()
 	
 	def on_remove_profile( self, button ):
 		if gtk.RESPONSE_YES == messagebox.show_question( self.dialog, self.config, _('Are you sure you want to delete the profile "%s" ?') % self.config.get_profile_name() ):
-			self.config.remove_profile()
+			self.config.remove_profile( self.profile_id )
+			self.profile_id = '1'
 			self.update_profiles()
 	
 	def on_add_include( self, button ):
@@ -599,7 +606,26 @@ class SettingsDialog(object):
 			
 			if iter is None:
 				#self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
-				self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY ] )
+				self.store_include.append( [ include_folder, gtk.STOCK_DIRECTORY, 0 ] )
+		
+		fcd.destroy()
+	
+	def on_add_include_file( self, button ):
+		fcd = gtk.FileChooserDialog( _('Include file'), self.dialog, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		fcd.set_show_hidden( self.parent.show_hidden_files  )
+		
+		if fcd.run() == gtk.RESPONSE_OK:
+			include_file = tools.prepare_path( fcd.get_filename() )
+			
+			iter = self.store_include.get_iter_first()
+			while not iter is None:
+				if self.store_include.get_value( iter, 0 ) == include_file:
+					break
+				iter = self.store_include.iter_next( iter )
+			
+			if iter is None:
+				#self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
+				self.store_include.append( [ include_file, gtk.STOCK_FILE, 1 ] )
 		
 		fcd.destroy()
 	

@@ -35,9 +35,9 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99.18'
+	VERSION = '0.9.99.23'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
-	CONFIG_VERSION = 4
+	CONFIG_VERSION = 5
 
 	NONE = 0
 	_5_MIN = 2
@@ -69,6 +69,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
 
+	DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ) ]
 
 	def __init__( self ):
 		configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
@@ -100,62 +101,81 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.load( self._GLOBAL_CONFIG_PATH )
 		self.append( self._LOCAL_CONFIG_PATH )
 
-		if self.get_int_value( 'config.version', 1 ) < 2:
-			#remap old items
-			self.remap_key( 'BASE_BACKUP_PATH', 'snapshots.path' )
-			self.remap_key( 'INCLUDE_FOLDERS', 'snapshots.include_folders' )
-			self.remap_key( 'EXCLUDE_PATTERNS', 'snapshots.exclude_patterns' )
-			self.remap_key( 'AUTOMATIC_BACKUP', 'snapshots.automatic_backup_mode' )
-			self.remap_key( 'REMOVE_OLD_BACKUPS', 'snapshots.remove_old_snapshots.enabled' )
-			self.remap_key( 'REMOVE_OLD_BACKUPS_VALUE', 'snapshots.remove_old_snapshots.value' )
-			self.remap_key( 'REMOVE_OLD_BACKUPS_UNIT', 'snapshots.remove_old_snapshots.unit' )
-			self.remap_key( 'MIN_FREE_SPACE', 'snapshots.min_free_space.enabled' )
-			self.remap_key( 'MIN_FREE_SPACE_VALUE', 'snapshots.min_free_space.value' )
-			self.remap_key( 'MIN_FREE_SPACE_UNIT', 'snapshots.min_free_space.unit' )
-			self.remap_key( 'DONT_REMOVE_NAMED_SNAPSHOTS', 'snapshots.dont_remove_named_snapshots' )
-			self.remap_key( 'DIFF_CMD', 'gnome.diff.cmd' )
-			self.remap_key( 'DIFF_CMD_PARAMS', 'gnome.diff.params' )
-			self.remap_key( 'LAST_PATH', 'gnome.last_path' )
-			self.remap_key( 'MAIN_WINDOW_X', 'gnome.main_window.x' )
-			self.remap_key( 'MAIN_WINDOW_Y', 'gnome.main_window.y' )
-			self.remap_key( 'MAIN_WINDOW_WIDTH', 'gnome.main_window.width' )
-			self.remap_key( 'MAIN_WINDOW_HEIGHT', 'gnome.main_window.height' )
-			self.remap_key( 'MAIN_WINDOW_HPANED1_POSITION', 'gnome.main_window.hpaned1' )
-			self.remap_key( 'MAIN_WINDOW_HPANED2_POSITION', 'gnome.main_window.hpaned2' )
-			self.set_int_value( 'config.version', 2 )
+		if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < self.CONFIG_VERSION:
 
-		if self.get_int_value( 'config.version', 1 ) < 3:
-			self.remap_key( 'snapshots.path', 'profile1.snapshots.path' )
-			self.remap_key( 'snapshots.include_folders', 'profile1.snapshots.include_folders' )
-			self.remap_key( 'snapshots.exclude_patterns', 'profile1.snapshots.exclude_patterns' )
-			self.remap_key( 'snapshots.automatic_backup_mode', 'profile1.snapshots.automatic_backup_mode' )
-			self.remap_key( 'snapshots.remove_old_snapshots.enabled', 'profile1.snapshots.remove_old_snapshots.enabled' )
-			self.remap_key( 'snapshots.remove_old_snapshots.value', 'profile1.snapshots.remove_old_snapshots.value' )
-			self.remap_key( 'snapshots.remove_old_snapshots.unit', 'profile1.snapshots.remove_old_snapshots.unit' )
-			self.remap_key( 'snapshots.min_free_space.enabled', 'profile1.snapshots.min_free_space.enabled' )
-			self.remap_key( 'snapshots.min_free_space.value', 'profile1.snapshots.min_free_space.value' )
-			self.remap_key( 'snapshots.min_free_space.unit', 'profile1.snapshots.min_free_space.unit' )
-			self.remap_key( 'snapshots.dont_remove_named_snapshots', 'profile1.snapshots.dont_remove_named_snapshots' )
-			self.set_int_value( 'config.version', 3 )
-			
-		if self.get_int_value( 'config.version', 1 ) < 4:
-			# version 4 uses as path backintime/machine/user/profile_id
-			# but must be able to read old paths
-			profiles = self.get_profiles()
-			self.set_bool_value( 'update.other_folders', True )
-			logger.info( "Update to config version 4: other snapshot locations" )
-									
-			for profile_id in profiles:
-				old_folder = self.get_snapshots_path( profile_id )
-				other_folder = os.path.join( old_folder, 'backintime' )
-				other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
-				self.set_str_value( other_folder_key, other_folder )
-				#self.set_snapshots_path( old_folder, profile_id )
-				tag = str( random.randint(100, 999) )
-				logger.info( "Random tag for profile %s: %s" %( profile_id, tag ) )
-				self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
-	
-			self.set_int_value( 'config.version', 4 )
+			if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 2:
+				#remap old items
+				self.remap_key( 'BASE_BACKUP_PATH', 'snapshots.path' )
+				self.remap_key( 'INCLUDE_FOLDERS', 'snapshots.include_folders' )
+				self.remap_key( 'EXCLUDE_PATTERNS', 'snapshots.exclude_patterns' )
+				self.remap_key( 'AUTOMATIC_BACKUP', 'snapshots.automatic_backup_mode' )
+				self.remap_key( 'REMOVE_OLD_BACKUPS', 'snapshots.remove_old_snapshots.enabled' )
+				self.remap_key( 'REMOVE_OLD_BACKUPS_VALUE', 'snapshots.remove_old_snapshots.value' )
+				self.remap_key( 'REMOVE_OLD_BACKUPS_UNIT', 'snapshots.remove_old_snapshots.unit' )
+				self.remap_key( 'MIN_FREE_SPACE', 'snapshots.min_free_space.enabled' )
+				self.remap_key( 'MIN_FREE_SPACE_VALUE', 'snapshots.min_free_space.value' )
+				self.remap_key( 'MIN_FREE_SPACE_UNIT', 'snapshots.min_free_space.unit' )
+				self.remap_key( 'DONT_REMOVE_NAMED_SNAPSHOTS', 'snapshots.dont_remove_named_snapshots' )
+				self.remap_key( 'DIFF_CMD', 'gnome.diff.cmd' )
+				self.remap_key( 'DIFF_CMD_PARAMS', 'gnome.diff.params' )
+				self.remap_key( 'LAST_PATH', 'gnome.last_path' )
+				self.remap_key( 'MAIN_WINDOW_X', 'gnome.main_window.x' )
+				self.remap_key( 'MAIN_WINDOW_Y', 'gnome.main_window.y' )
+				self.remap_key( 'MAIN_WINDOW_WIDTH', 'gnome.main_window.width' )
+				self.remap_key( 'MAIN_WINDOW_HEIGHT', 'gnome.main_window.height' )
+				self.remap_key( 'MAIN_WINDOW_HPANED1_POSITION', 'gnome.main_window.hpaned1' )
+				self.remap_key( 'MAIN_WINDOW_HPANED2_POSITION', 'gnome.main_window.hpaned2' )
+
+			if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 3:
+				self.remap_key( 'snapshots.path', 'profile1.snapshots.path' )
+				self.remap_key( 'snapshots.include_folders', 'profile1.snapshots.include_folders' )
+				self.remap_key( 'snapshots.exclude_patterns', 'profile1.snapshots.exclude_patterns' )
+				self.remap_key( 'snapshots.automatic_backup_mode', 'profile1.snapshots.automatic_backup_mode' )
+				self.remap_key( 'snapshots.remove_old_snapshots.enabled', 'profile1.snapshots.remove_old_snapshots.enabled' )
+				self.remap_key( 'snapshots.remove_old_snapshots.value', 'profile1.snapshots.remove_old_snapshots.value' )
+				self.remap_key( 'snapshots.remove_old_snapshots.unit', 'profile1.snapshots.remove_old_snapshots.unit' )
+				self.remap_key( 'snapshots.min_free_space.enabled', 'profile1.snapshots.min_free_space.enabled' )
+				self.remap_key( 'snapshots.min_free_space.value', 'profile1.snapshots.min_free_space.value' )
+				self.remap_key( 'snapshots.min_free_space.unit', 'profile1.snapshots.min_free_space.unit' )
+				self.remap_key( 'snapshots.dont_remove_named_snapshots', 'profile1.snapshots.dont_remove_named_snapshots' )
+				
+			if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 4:
+				# version 4 uses as path backintime/machine/user/profile_id
+				# but must be able to read old paths
+				profiles = self.get_profiles()
+				self.set_bool_value( 'update.other_folders', True )
+				logger.info( "Update to config version 4: other snapshot locations" )
+										
+				for profile_id in profiles:
+					old_folder = self.get_snapshots_path( profile_id )
+					other_folder = os.path.join( old_folder, 'backintime' )
+					other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
+					self.set_str_value( other_folder_key, other_folder )
+					#self.set_snapshots_path( old_folder, profile_id )
+					tag = str( random.randint(100, 999) )
+					logger.info( "Random tag for profile %s: %s" %( profile_id, tag ) )
+					self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
+
+			if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 5:
+				logger.info( "Update to config version 5: other snapshot locations" )
+				profiles = self.get_profiles()
+				for profile_id in profiles:
+					#change include
+					old_values = self.get_include_v4( profile_id )
+					values = []
+					for value in old_values:
+						values.append( ( value, 0 ) )
+					self.set_include( values, profile_id )
+
+					#change exclude
+					old_values = self.get_exclude_v4( profile_id )
+					self.set_exclude( old_values, profile_id )
+
+					#remove keys
+					self.remove_profile_key( 'snapshots.include_folders', profile_id )
+					self.remove_profile_key( 'snapshots.exclude_patterns', profile_id )
+
+			self.set_int_value( 'config.version', self.CONFIG_VERSION )
 
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
@@ -187,7 +207,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 			#	return ( 0, _('Snapshots folder can\'t be the root folder !') )
 
 			#check include
-			include_list = self.get_include_folders( profile_id )
+			include_list = self.get_include( profile_id )
+
 			if len( include_list ) <= 0:
 				self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('You must select at least one folder to backup !') )
 				return False
@@ -195,6 +216,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 			snapshots_path2 = snapshots_path + '/'
 
 			for item in include_list:
+				if item[1] != 0:
+					continue
+
 				path = item[0]
 				if path == snapshots_path:
 					self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('You can\'t include backup folder !') )
@@ -300,7 +324,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		return paths
 	
-	def get_include_folders( self, profile_id = None ):
+	def get_include_v4( self, profile_id = None ):
 		value = self.get_profile_str_value( 'snapshots.include_folders', '', profile_id )
 		if len( value ) <= 0:
 			return []
@@ -323,26 +347,73 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		return paths
 
-	def set_include_folders( self, list, profile_id = None ):
-		value = ''
+	def get_include( self, profile_id = None ):
+		size = self.get_profile_int_value( 'snapshots.include.size', -1, profile_id )
+		if size <= 0:
+			return []
 
-		for item in list:
+		include = []
+
+		for i in xrange( 1, size + 1 ):
+			value = self.get_profile_str_value( "snapshots.include.%s.value" % i, '', profile_id )
 			if len( value ) > 0:
-				value = value + ':'
-			#value = value + item[0] + '|' + str( item[1] )
-			value = value + item
+				type = self.get_profile_int_value( "snapshots.include.%s.type" % i, 0, profile_id )
+				include.append( ( value, type ) )
 
-		self.set_profile_str_value( 'snapshots.include_folders', value, profile_id )
+		return include
+
+	def set_include( self, list, profile_id = None ):
+		old_size = self.get_profile_int_value( 'snapshots.include.size', 0, profile_id )
+
+		counter = 0
+		for value in list:
+			if len( value[0] ) > 0:
+				counter = counter + 1
+				self.set_profile_str_value( "snapshots.include.%s.value" % counter, value[0], profile_id )
+				self.set_profile_int_value( "snapshots.include.%s.type" % counter, value[1], profile_id )
+
+		self.set_profile_int_value( 'snapshots.include.size', counter, profile_id )
+
+		if counter < old_size:
+			for i in xrange( counter + 1, old_size + 1 ):
+				self.remove_profile_key( "snapshots.include.%s.value" % i, profile_id )
+				self.remove_profile_key( "snapshots.include.%s.type" % i, profile_id )
  
-	def get_exclude_patterns( self, profile_id = None ):
-		'''Gets the exclude patterns (default: virtual file systems, caches, thumbnails, trashbins, and backups)'''
+	def get_exclude_v4( self, profile_id = None ):
+		'''Gets the exclude patterns: conf version 4'''
 		value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.gvfs:.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id )
 		if len( value ) <= 0:
 			return []
-		return value.split(':')
+		return value.split( ':' )
 
-	def set_exclude_patterns( self, list, profile_id = None ):
-		self.set_profile_str_value( 'snapshots.exclude_patterns', ':'.join( list ), profile_id )
+	def get_exclude( self, profile_id = None ):
+		'''Gets the exclude patterns'''
+		size = self.get_profile_int_value( 'snapshots.exclude.size', -1, profile_id )
+		if size < 0:
+			return self.DEFAULT_EXCLUDE
+
+		exclude = []
+		for i in xrange( 1, size + 1 ):
+			value = self.get_profile_str_value( "snapshots.exclude.%s.value" % i, '', profile_id )
+			if len( value ) > 0:
+				exclude.append( value )
+
+		return exclude
+
+	def set_exclude( self, list, profile_id = None ):
+		old_size = self.get_profile_int_value( 'snapshots.include.size', 0, profile_id )
+
+		counter = 0
+		for value in list:
+			if len( value ) > 0:
+				counter = counter + 1
+				self.set_profile_str_value( "snapshots.exclude.%s.value" % counter, value, profile_id )
+
+		self.set_profile_int_value( 'snapshots.exclude.size', counter, profile_id )
+
+		if counter < old_size:
+			for i in xrange( counter + 1, old_size + 1 ):
+				self.remove_profile_key( "snapshots.exclude.%s.value" % i, profile_id )
 
 	def get_tag( self, profile_id = None ):
 		return self.get_profile_str_value( 'snapshots.tag', str(random.randint(100, 999)), profile_id )
@@ -552,7 +623,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		if len( self.get_snapshots_path( profile_id ) ) == 0:
 			return False
 
-		if len( self.get_include_folders( profile_id ) ) == 0:
+		if len( self.get_include( profile_id ) ) == 0:
 			return False
 
 		return True
@@ -593,7 +664,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			max_backup_mode = self.NONE
 
 			#if self.get_per_directory_schedule( profile_id ):
-			#	for item in self.get_include_folders( profile_id ):
+			#	for item in self.get_include( profile_id ):
 			#		backup_mode = item[1]
 
 			#		if self.NONE != backup_mode:
