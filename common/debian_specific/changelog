@@ -1,46 +1,5 @@
 $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
-  * fix deb source packages generation scripts
- -- Dan Le Web (le-web.org) <dan@le-web.org>  Thu, 04 Mar 2010 19:22:13 +0200
+  * fix bug: https://bugs.launchpad.net/backintime/+bug/386230
+  * fix bug: https://bugs.launchpad.net/backintime/+bug/527039
+ -- BIT Team <dan@le-web.org>  Thu, 05 Mar 2010 22:22:13 +0200
 
-$BACKINTIME (0.9.99.19~$RELEASE) $RELEASE; urgency=low
-  * reduce memory usage during compare with previous snapshot process
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/520956
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/520930
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/521223
-  * custom backup hour (for daily backups or mode): https://bugs.launchpad.net/backintime/+bug/507451
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/516066
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/512813
-  * smart remove was slightly changed (https://bugs.launchpad.net/backintime/+bug/502435)
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/503859
-  * make backup on restore optional
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/501285
-  * add ionice support for user/cron backup process
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/493558
-  * fix bug that could cause "ghost" folders in snapshots (LP: 406092)
-  * fix bug that converted / into // (LP: #455149)
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/441628
-  * remove "schedule per included directory" (profiles do that) (+ bug LP: #412470)
-  * fig bug: https://bugs.launchpad.net/backintime/+bug/489380
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/489319
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/447841
-  * fix bug: https://bugs.launchpad.net/backintime/+bug/412695
-  * update Slovak translation (Tomáš Vadina <kyberdev@gmail.com>)
-  * multiple profiles support
-  * GNOME: fix notification
-  * backintime snapshot folder is restructured to ../backintime/machine/user/profile_id/
-  * added the possibility to include other snapshot folders within a profile, it can only read those, there is not a GUI implementation yet
-  * added a tag suffix to the snapshot_id, to avoid double snapshot_ids
-  * added a desktop file for kdesu and a test if kdesu or kdesudo should be used (LP: #389988)
-  * added expert option to disable snapshots when on battery (LP: #388178)
-  * fix bug handling big files by the GNOME GUI (LP: #409130)
-  * fix bug in handling of & characters by GNOME GUI (LP: #415848)
-  * fix a security bug in chmods before snapshot removal (LP: #419774)
-  * snapshots are stored entirely read-only (LP: #386275)
-  * fix exclude patterns in KDE4 (LP:#432537)
-  * fix opening german files with external applications in KDE (LP: #404652)
-  * changed default exclude patterns to caches, thumbnails, trashbins, and backups (LP: #422132)
-  * write access to snapshot folder is checked & change to snapshot version 2 (LP: #423086)
-  * fix small bugs (a.o. LP: #474307)
-  * Used a more standard crontab syntax (LP: #409783)
-  * Stop the "Over zealous removal of crontab entries" (LP: #451811)
- -- Dan Le Web (le-web.org) <dan@le-web.org>  Sun, 28 Feb 2010 14:46:19 +0200

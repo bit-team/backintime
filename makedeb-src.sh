@@ -22,6 +22,7 @@ for i in common gnome kde4; do
 	for release in $RELEASES; do
 		#debian: control
 		cp ../../$i/debian_specific/control.source debian/control
+		cat ../../$i/debian_specific/control >> debian/control
 		sed -e "s/backintime-common (= [^)]*)/backintime-common (= $PKGVER~$release)/g" -i debian/control
 
 		#debian: changelog

@@ -6,14 +6,3 @@ Build-Depends: debhelper (>= 7)
 Standards-Version: 3.7.3
 Homepage: http://backintime.le-web.org
 
-Package: backintime-common
-Architecture: all
-Section: utils
-Priority: optional
-Depends: python, rsync, cron
-Recommends: powermgmt-base
-Conflicts: backintime
-Replaces: backintime
-Description: Simple backup system (common)
- This package contains non GUI files used by different GUI fontends.
-Homepage: http://backintime.le-web.org
