@@ -754,7 +754,8 @@ class MainWindow( KMainWindow ):
 		if len( self.snapshot_id ) <= 1:
 			return
 
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
+		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
@@ -762,7 +763,8 @@ class MainWindow( KMainWindow ):
 		self.snapshots.restore( self.snapshot_id, rel_path )
 
 	def on_btn_copy_to_clipboard_clicked( self ):
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
+		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
@@ -770,14 +772,15 @@ class MainWindow( KMainWindow ):
 		kde4tools.clipboard_set_path( self.kapp, path )
 
 	def on_btn_snapshots_clicked( self ):
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
+		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
 		rel_path = os.path.join( self.path, selected_file )
 		icon = None
-		if self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex(), Qt.DecorationRole ).type() == QVariant.Icon:
-			icon = self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex(), Qt.DecorationRole )
+		if self.list_files_view_sort_filter_proxy.data( idx, Qt.DecorationRole ).type() == QVariant.Icon:
+			icon = self.list_files_view_sort_filter_proxy.data( idx, Qt.DecorationRole )
 
 		dlg = snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path, icon )
 		if QDialog.Accepted == dlg.exec_():
@@ -809,7 +812,8 @@ class MainWindow( KMainWindow ):
 		if model_index is None:
 			return
 
-		rel_path = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString().toUtf8() )
+		idx = self.list_files_view_sort_filter_proxy.index( model_index.row(), 0 )
+		rel_path = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 		if len( rel_path ) <= 0:
 			return
 
@@ -874,7 +878,8 @@ class MainWindow( KMainWindow ):
 
 		#try to keep old selected file
 		if selected_file is None:
-			selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
+			idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
+			selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 
 		self.selected_file = selected_file
 	
