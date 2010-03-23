@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-16 12:27+0100\n"
+"POT-Creation-Date: 2010-03-23 10:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,7 +111,7 @@ msgid ""
 "If not you should disable all automatic backups."
 msgstr ""
 
-#: ../../common/snapshots.py:141 ../../gnome/app.py:991 ../../kde4/app.py:874
+#: ../../common/snapshots.py:141 ../../gnome/app.py:1001 ../../kde4/app.py:888
 msgid "Now"
 msgstr ""
 
@@ -191,13 +191,13 @@ msgid ""
 "Restart BackinTime to see the questions again"
 msgstr ""
 
-#: ../../common/snapshots.py:652
+#: ../../common/snapshots.py:654
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
 
-#: ../../common/snapshots.py:654
+#: ../../common/snapshots.py:656
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -205,65 +205,70 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../../common/snapshots.py:680
+#, python-format
+msgid "Failed to take snapshot %s !!!"
+msgstr ""
+
+#: ../../common/snapshots.py:689
 msgid "Finalizing"
 msgstr ""
 
-#: ../../common/snapshots.py:704 ../../common/snapshots.py:963
+#: ../../common/snapshots.py:715 ../../common/snapshots.py:974
 #: ../../kde4/app.py:79 ../../gnome/mainwindow.glade:37
 msgid "Take snapshot"
 msgstr ""
 
-#: ../../common/snapshots.py:710 ../../common/snapshots.py:911
+#: ../../common/snapshots.py:721 ../../common/snapshots.py:922
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr ""
 
-#: ../../common/snapshots.py:800
+#: ../../common/snapshots.py:811
 #, python-format
 msgid "Can't create folder: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:830
+#: ../../common/snapshots.py:841
 msgid "..."
 msgstr ""
 
-#: ../../common/snapshots.py:843
+#: ../../common/snapshots.py:854
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:938
+#: ../../common/snapshots.py:949
 msgid "Create hard-links"
 msgstr ""
 
-#: ../../common/snapshots.py:968
+#: ../../common/snapshots.py:991
 msgid "Save config file ..."
 msgstr ""
 
-#: ../../common/snapshots.py:973
+#: ../../common/snapshots.py:996
 msgid "Save permission ..."
 msgstr ""
 
-#: ../../common/snapshots.py:1038
+#: ../../common/snapshots.py:1061
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1150
+#: ../../common/snapshots.py:1173
 msgid "Remove old snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:1173 ../../kde4/settingsdialog.py:251
+#: ../../common/snapshots.py:1196 ../../kde4/settingsdialog.py:251
 #: ../../gnome/settingsdialog.glade:579
 msgid "Smart remove"
 msgstr ""
 
-#: ../../common/snapshots.py:1178
+#: ../../common/snapshots.py:1201
 msgid "Try to keep min free space"
 msgstr ""
 
-#: ../../gnome/app.py:177 ../../gnome/app.py:564 ../../kde4/app.py:254
-#: ../../kde4/app.py:509
+#: ../../gnome/app.py:177 ../../gnome/app.py:547 ../../gnome/app.py:561
+#: ../../kde4/app.py:254 ../../kde4/app.py:493 ../../kde4/app.py:510
 msgid "Done"
 msgstr ""
 
@@ -319,73 +324,77 @@ msgid ""
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
 
-#: ../../gnome/app.py:550 ../../kde4/app.py:497
-msgid "Working:"
-msgstr ""
-
-#: ../../gnome/app.py:566 ../../kde4/app.py:511
+#: ../../gnome/app.py:564 ../../kde4/app.py:513
 msgid "Done, no backup needed"
 msgstr ""
 
-#: ../../gnome/app.py:577 ../../kde4/app.py:555
+#: ../../gnome/app.py:570 ../../kde4/app.py:519
+msgid "Working:"
+msgstr ""
+
+#: ../../gnome/app.py:574 ../../kde4/app.py:523
+msgid "Error:"
+msgstr ""
+
+#: ../../gnome/app.py:587 ../../kde4/app.py:569
 msgid "Global"
 msgstr ""
 
-#: ../../gnome/app.py:578 ../../kde4/app.py:556
+#: ../../gnome/app.py:588 ../../kde4/app.py:570
 msgid "Root"
 msgstr ""
 
-#: ../../gnome/app.py:579 ../../kde4/app.py:557
+#: ../../gnome/app.py:589 ../../kde4/app.py:571
 msgid "Home"
 msgstr ""
 
-#: ../../gnome/app.py:603
+#: ../../gnome/app.py:613
 msgid "Bookmarks"
 msgstr ""
 
-#: ../../gnome/app.py:616 ../../kde4/app.py:568
+#: ../../gnome/app.py:626 ../../kde4/app.py:582
 msgid "Backup folders"
 msgstr ""
 
-#: ../../gnome/app.py:642 ../../kde4/app.py:638
+#: ../../gnome/app.py:652 ../../kde4/app.py:652
 msgid "Today"
 msgstr ""
 
-#: ../../gnome/app.py:646 ../../kde4/app.py:642
+#: ../../gnome/app.py:656 ../../kde4/app.py:656
 msgid "Yesterday"
 msgstr ""
 
-#: ../../gnome/app.py:650 ../../kde4/app.py:646
+#: ../../gnome/app.py:660 ../../kde4/app.py:660
 msgid "This week"
 msgstr ""
 
-#: ../../gnome/app.py:654 ../../kde4/app.py:650
+#: ../../gnome/app.py:664 ../../kde4/app.py:664
 msgid "Last week"
 msgstr ""
 
-#: ../../gnome/app.py:937 ../../kde4/app.py:87 ../../kde4/app.py:709
+#: ../../gnome/app.py:947 ../../kde4/app.py:87 ../../kde4/app.py:723
 #: ../../gnome/mainwindow.glade:63 ../../gnome/mainwindow.glade:64
 msgid "Snapshot Name"
 msgstr ""
 
-#: ../../gnome/app.py:956
+#: ../../gnome/app.py:966
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
 
-#: ../../gnome/app.py:987 ../../kde4/app.py:870
+#: ../../gnome/app.py:997 ../../kde4/app.py:884
 #, python-format
 msgid "Snapshot: %s"
 msgstr ""
 
-#: ../../gnome/app.py:988 ../../kde4/app.py:871
+#: ../../gnome/app.py:998 ../../kde4/app.py:885
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr ""
 
-#: ../../gnome/app.py:990 ../../kde4/app.py:873
+#: ../../gnome/app.py:1000 ../../kde4/app.py:887
 msgid "View the current disk content"
 msgstr ""
 
@@ -495,14 +504,14 @@ msgid ""
 "in current snapshot !"
 msgstr ""
 
-#: ../../kde4/app.py:729
+#: ../../kde4/app.py:743
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
 
-#: ../../kde4/app.py:1002 ../../kde4/kde4systrayicon.py:117
+#: ../../kde4/app.py:1016 ../../kde4/kde4systrayicon.py:117
 msgid "Working..."
 msgstr ""
 

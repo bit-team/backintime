@@ -483,22 +483,23 @@ class MainWindow( KMainWindow ):
 
 		fake_busy = busy or self.force_wait_lock_counter > 0
 
+		take_snapshot_message = self.snapshots.get_take_snapshot_message()
 		if fake_busy:
-			take_snapshot_message = None
-
-			if busy:
-				take_snapshot_message = self.snapshots.get_take_snapshot_message()
-
 			if take_snapshot_message is None:
 				take_snapshot_message = ( 0, '...' )
+		elif take_snapshot_message is None:
+			take_snapshot_message = self.last_take_snapshot_message
+			if take_snapshot_message is None:
+				take_snapshot_message = ( 0, _('Done') )
 
-			if take_snapshot_message != self.last_take_snapshot_message:
-				self.last_take_snapshot_message = take_snapshot_message
-				self.statusBar().showMessage( QString.fromUtf8( _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' ) ) )
+		force_update = False
 
+		if fake_busy:
 			if self.btn_take_snapshot.isEnabled():
 				self.btn_take_snapshot.setEnabled( False )
 		elif not self.btn_take_snapshot.isEnabled():
+			force_update = True
+
 			self.btn_take_snapshot.setEnabled( True )
 			
 			snapshots_list = self.snapshots.get_snapshots_and_other_list()
@@ -506,12 +507,25 @@ class MainWindow( KMainWindow ):
 			if snapshots_list != self.snapshots_list:
 				self.snapshots_list = snapshots_list
 				self.update_time_line( False )
-			 	self.statusBar().showMessage( QString.fromUtf8( _('Done') ) )
+				take_snapshot_message = ( 0, _('Done') )
 			else:
-				self.statusBar().showMessage( QString.fromUtf8( _('Done, no backup needed') ) )
+				if take_snapshot_message[0] == 0:
+					take_snapshot_message = ( 0, _('Done, no backup needed') )
 
-		if not fake_busy:
-			self.last_take_snapshot_message = None
+		if take_snapshot_message != self.last_take_snapshot_message or force_update:
+			self.last_take_snapshot_message = take_snapshot_message
+
+			if fake_busy:
+				message = _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
+			elif take_snapshot_message[0] == 0:
+				message = self.last_take_snapshot_message[1].replace( '\n', ' ' )
+			else:
+				message = _('Error:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
+
+			self.statusBar().showMessage( QString.fromUtf8( message ) )
+
+		#if not fake_busy:
+		#	self.last_take_snapshot_message = None
 
 	def on_list_places_current_item_changed( self, item, previous ):
 		if item is None:

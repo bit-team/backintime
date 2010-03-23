@@ -620,6 +620,8 @@ class Snapshots:
 				logger.warning( 'A backup is already running' )
 				self.plugin_manager.on_error( 2 ) #a backup is already running
 			else:
+				ret_error = False
+
 				if self.config.is_no_on_battery_enabled () and not tools.power_status_available():
 					logger.warning( 'Backups disabled on battery but power status is not available' )
 								
@@ -668,16 +670,23 @@ class Snapshots:
 							self.plugin_manager.on_error( 4, snapshot_id ) #This snapshots already exists
 						else:
 							#ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
-							ret_val = self._take_snapshot( snapshot_id, now, include_folders )
+							ret_val, ret_error = self._take_snapshot( snapshot_id, now, include_folders )
 
 						if not ret_val:
-#							os.system( "rm -rf \"%s\"" % snapshot_path )
 							self._execute( "rm -rf \"%s\"" % snapshot_path )
-							logger.warning( "No new snapshot (not needed or error)" )
-						
-						self._free_space( now )
 
-						self.set_take_snapshot_message( 0, _('Finalizing') )
+							if ret_error:
+								logger.error( 'Failed to take snapshot !!!' )
+								self.set_take_snapshot_message( 1, _('Failed to take snapshot %s !!!') % now.strftime( '%x %H:%M:%S' ) )
+								os.system( 'sleep 2' )
+							else:
+								logger.warning( "No new snapshot" )
+						else:
+							ret_error = False
+					
+						if not ret_error:
+							self._free_space( now )
+							self.set_take_snapshot_message( 0, _('Finalizing') )
 
 					os.system( 'sleep 2' )
 					sleep = False
@@ -691,7 +700,9 @@ class Snapshots:
 					os.system( 'sleep 2' )
 					sleep = False
 
-				self.clear_take_snapshot_message()
+				if not ret_error:
+					self.clear_take_snapshot_message()
+
 				instance.exit_application()
 				logger.info( 'Unlock' )
 
@@ -842,7 +853,7 @@ class Snapshots:
 				logger.error( "Can't remove folder: %s" % new_snapshot_path )
 				self.set_take_snapshot_message( 1, _('Can\'t remove folder: %s') % new_snapshot_path )
 				os.system( 'sleep 2' ) #max 1 backup / second
-				return False
+				return [ False, True ]
 
 		new_snapshot_path_to = self.get_snapshot_path_to( new_snapshot_id )
 		
@@ -930,10 +941,10 @@ class Snapshots:
 
 			if not changed:
 				logger.info( "Nothing changed, no back needed" )
-				return False
+				return [ False, False ]
 
 			if not self._create_directory( new_snapshot_path_to ):
-				return False
+				return [ False, True ]
 			
 			self.set_take_snapshot_message( 0, _('Create hard-links') )
 			logger.info( "Create hard-links" )
@@ -955,13 +966,25 @@ class Snapshots:
 			#		self._execute( cmd )
 		else:
 			if not self._create_directory( new_snapshot_path_to ):
-				return False
+				return [ False, True ]
 
 		#sync changed folders
 		logger.info( "Call rsync to take the snapshot" )
 		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 		self._execute( cmd, self._exec_rsync_callback )
+
+		#verify snapshot
+		cmd = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix + '"' + new_snapshot_path_to + '"'
+		params = [ new_snapshot_path_to, False ]
+		#try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
+		self._execute( cmd, self._exec_rsync_compare_callback, params )
+		changed = params[1]
+
+		if changed:
+			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
+			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
+			return [ False, True ]
 
 		#backup config file
 		logger.info( 'Save config file' )
@@ -1037,7 +1060,7 @@ class Snapshots:
 			logger.error( "Can't rename %s to %s" % ( new_snapshot_path, snapshot_path ) )
 			self.set_take_snapshot_message( 1, _('Can\'t rename %s to %s') % ( new_snapshot_path, snapshot_path ) )
 			os.system( 'sleep 2' ) #max 1 backup / second
-			return False
+			return [ False, True ]
 
 		#make new snapshot read-only
 		self._execute( "chmod -R a-w \"%s/backup\"" % snapshot_path )
@@ -1046,7 +1069,7 @@ class Snapshots:
 		if len( prev_snapshot_id ) > 0:
 			self._execute( "chmod -R a-w \"%s\"" % self.get_snapshot_path_to( prev_snapshot_id ) )
 
-		return True
+		return [ True, False ]
 
 	def _smart_remove_keep_all_( self, snapshots, keep_snapshots, min_date ):
 		min_id = self.get_snapshot_id( min_date )
