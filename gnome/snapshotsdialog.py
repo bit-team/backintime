@@ -65,7 +65,8 @@ class SnapshotsDialog(object):
             'on_btn_diff_with_clicked' : self.on_btn_diff_with_clicked,
             'on_btn_copy_snapshot_clicked' : self.on_btn_copy_snapshot_clicked,
             'on_btn_restore_snapshot_clicked' : self.on_btn_restore_snapshot_clicked,
-            'on_check_only_different_toggled' : self.on_check_only_different_toggled
+            'on_check_only_different_toggled' : self.on_check_only_different_toggled,
+            'on_check_use_md5sum_toggled' : self.on_check_use_md5sum_toggled
             }
 
         #path
@@ -109,7 +110,11 @@ class SnapshotsDialog(object):
         self.combo_diff_with.set_model( self.store_snapshots ) #use the same store
 
         #UPDATE
+        if os.path.isdir( path ):
+            self.builder.get_object( 'check_only_different' ).set_sensitive( False )
+        self.builder.get_object( 'check_use_md5sum' ).set_sensitive( False )
         self.list_only_different_snapshots = False
+        self.deep_check = False
         self.current_snapshot_id, self.snapshots_list = current_snapshot_id, snapshots_list
         self.path = path
         self.icon_name = icon_name
@@ -269,9 +274,16 @@ class SnapshotsDialog(object):
             self.config.save()
 
     def on_check_only_different_toggled( self, widget, data = None ):
-        self.list_only_different_snapshots = not self.list_only_different_snapshots
+        self.list_only_different_snapshots = widget.get_active()
+        deep_btn = self.builder.get_object( 'check_use_md5sum' )
+        deep_btn.set_sensitive( self.list_only_different_snapshots )
+        if not self.list_only_different_snapshots:
+            deep_btn.set_active(False)
         self.update_snapshots(self.current_snapshot_id, self.snapshots_list )
         
+    def on_check_use_md5sum_toggled( self, widget, data = None ):
+        self.deep_check = widget.get_active()
+        self.update_snapshots(self.current_snapshot_id, self.snapshots_list )
 
     def update_snapshots( self, current_snapshot_id, snapshots_list ):
         self.edit_path.set_text( self.path )
@@ -286,12 +298,12 @@ class SnapshotsDialog(object):
         index_combo_diff_with = 0
         
         #add now
-        md5set = set()
+        uniqueness_set = set()
         path = self.path
         if os.path.lexists( path ):
             if os.path.isdir( path ) == isdir:
                 if self.list_only_different_snapshots:
-                    md5set.add(tools.get_md5sum_from_path(path))
+                    uniqueness_set.add(tools.get_unique_sum_from_path(path, self.deep_check))
                 self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
                 if '/' == current_snapshot_id:
                     indexComboDiffWith = counter
@@ -304,9 +316,9 @@ class SnapshotsDialog(object):
                 if os.path.isdir( path ) == isdir:
                     list_current = True
                     if self.list_only_different_snapshots:
-                        md5sum = tools.get_md5sum_from_path(path)
-                        if md5sum not in md5set:
-                            md5set.add(md5sum)
+                        uniq_sum = tools.get_unique_sum_from_path(path, self.deep_check)
+                        if uniq_sum not in uniqueness_set:
+                            uniqueness_set.add(uniq_sum)
                         else:
                             list_current = False
                     if list_current:    

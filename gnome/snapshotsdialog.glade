@@ -45,6 +45,19 @@
               </packing>
             </child>
             <child>
+              <object class="GtkCheckButton" id="check_use_md5sum">
+                <property name="label" translatable="yes">deep check (more accurate, but slow)</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="on_check_use_md5sum_toggled"/>
+              </object>
+              <packing>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkToolbar" id="toolbar2">
                 <property name="visible">True</property>
                 <child>
@@ -76,7 +89,7 @@
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -103,7 +116,7 @@
               </object>
               <packing>
                 <property name="padding">2</property>
-                <property name="position">3</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>

@@ -358,7 +358,9 @@ def temp_failure_retry(func, *args, **kwargs):
 			else:
 				raise
 				
-def get_md5sum_from_path(path):
+def _get_md5sum_from_path(path):
+    '''return md5sum of path'''   
+    # print "md5"
     out = commands.getstatusoutput("md5sum " + path)
     if out[0] == 0:
         # md5sum utility, if available
@@ -372,4 +374,22 @@ def get_md5sum_from_path(path):
         except IOError:
             return False  
         return md5sum.hexdigest()
+
+        
+def _get_size_mtime_from_path(path):
+    '''return a tuple of (size, modification time)'''
+    obj  = os.stat(path)
+    # print obj.st_size, int(obj.st_mtime)
+    return (obj.st_size, int(obj.st_mtime))
+    
+
+def get_unique_sum_from_path(path, md5sum = False):
+    '''return a uniqueness flag of path'''
+    if not md5sum:
+        return _get_size_mtime_from_path(path)
+    else:
+        return _get_md5sum_from_path(path)
+
+  
+    
 
