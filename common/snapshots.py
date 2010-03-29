@@ -711,11 +711,13 @@ class Snapshots:
 
 		return ret_val
 
-	def _exec_rsync_callback( self, line, user_data ):
+	def _exec_rsync_callback( self, line, params ):
 		self.set_take_snapshot_message( 0, _('Take snapshot') + " (rsync: %s)" % line )
 
-	#def _exec_rsync_compare_callback( self, line, user_data ):
-	#	self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % user_data + " (rsync: %s)"% line )
+		if line.endswith( ')' ):
+			if line.startswith( 'rsync:' ):
+				if not line.startswith( 'rsync: chgrp ' ) and not line.startswith( 'rsync: chown ' ):
+					params[0] = True
 
 	def _exec_rsync_compare_callback( self, line, params ):
 		self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % params[0] )
@@ -972,16 +974,11 @@ class Snapshots:
 		logger.info( "Call rsync to take the snapshot" )
 		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
-		self._execute( cmd, self._exec_rsync_callback )
 
-		#verify snapshot
-		cmd = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix + '"' + new_snapshot_path_to + '"'
-		params = [ new_snapshot_path_to, False ]
-		#try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
-		self._execute( cmd, self._exec_rsync_compare_callback, params )
-		changed = params[1]
+		params = [False]
+		self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params )
 
-		if changed:
+		if params[0]:
 			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
 			return [ False, True ]

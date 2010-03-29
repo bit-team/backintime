@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99.31'
+	VERSION = '0.9.99.32'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
@@ -280,7 +280,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			profile_id = self.get_current_profile()
 
 		if not os.path.isdir( value ):
-			self.notify_error( _( '%s is not a folder !' ) )
+			self.notify_error( _( '%s is not a folder !' ) % value )
 			return False
 
 		#Initialize the snapshots folder
