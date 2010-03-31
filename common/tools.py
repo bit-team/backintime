@@ -408,48 +408,4 @@ class UniquenessSet():
             self._sizes_dict[unique_key] = path
             return True    
         return False
-    
-    
-class UniquenessSetOld():
-    ''' a class to check for uniqueness of snapshots'''
-    def __init__(self, dc = False): 
-        self.deep_check = dc
-        self._sizes_dict = {}   # if self._sizes_dict[i] == None => already checked with md5sum
-        
-    def test_and_add(self, path):
-        '''store a unique key for path'''
-        if self.deep_check:
-            # store md5sum 
-            size  = os.stat(path).st_size
-            if size not in self._sizes_dict.keys(): 
-                # first item of that size
-                self._sizes_dict[size] = path
-                unique_key = size
-                print "md5sum, added size",size
-            else: 
-                previously = self._sizes_dict[size]
-                if previously:
-                    # store md5sum instead of previously stored size
-                    self._sizes_dict[size] = None
-                    md5sum_0 = _get_md5sum_from_path(previously)     
-                    set.add(self, md5sum_0)
-                    set.remove(self, size)   
-                    print "md5sum, removed size, added sum",size     
-                unique_key = _get_md5sum_from_path(path)
-                print "md5sum, usual",size   
-        else:
-            # store a tuple of (size, modification time)
-            obj  = os.stat(path)
-            unique_key = (obj.st_size, int(obj.st_mtime)) 
-            print "size, len"
-        # if not already in, the store it and return True
-        if unique_key not in self:
-            set.add(self, unique_key )
-            return True    
-        return False       
-        
-
-        
-        
-        
 
