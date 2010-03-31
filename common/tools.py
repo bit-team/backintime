@@ -357,13 +357,14 @@ def temp_failure_retry(func, *args, **kwargs):
 				continue
 			else:
 				raise
-				
+
+
 def _get_md5sum_from_path(path):
     '''return md5sum of path'''   
     # print "md5"
-    out = commands.getstatusoutput("md5sum " + path)
-    if out[0] == 0:
+    if check_command("md5sum"):
         # md5sum utility, if available
+        out = commands.getstatusoutput("md5sum " + path)
         md5sum = out[1].split(" ")[0]
         return md5sum
     else: 
@@ -374,22 +375,81 @@ def _get_md5sum_from_path(path):
         except IOError:
             return False  
         return md5sum.hexdigest()
+        				
+
+class UniquenessSet():
+    ''' a class to check for uniqueness of snapshots'''
+    def __init__(self, dc = False): 
+        self.deep_check = dc
+        self._sizes_dict = {}   # if self._sizes_dict[i] == None => already checked with md5sum
+        
+    def test_and_add(self, path):
+        '''store a unique key for path'''
+        if self.deep_check:
+            # store md5sum 
+            size  = os.stat(path).st_size
+            if size not in self._sizes_dict.keys(): 
+                # first item of that size
+                unique_key = size
+            else: 
+                previously = self._sizes_dict[size]
+                if previously:
+                    # store md5sum instead of previously stored size
+                    md5sum_0 = _get_md5sum_from_path(previously)     
+                    self._sizes_dict[size]     = None
+                    self._sizes_dict[md5sum_0] = previously      
+                unique_key = _get_md5sum_from_path(path) 
+        else:
+            # store a tuple of (size, modification time)
+            obj  = os.stat(path)
+            unique_key = (obj.st_size, int(obj.st_mtime)) 
+        # store if not already, and return True
+        if unique_key not in self._sizes_dict.keys():
+            self._sizes_dict[unique_key] = path
+            return True    
+        return False
+    
+    
+class UniquenessSetOld():
+    ''' a class to check for uniqueness of snapshots'''
+    def __init__(self, dc = False): 
+        self.deep_check = dc
+        self._sizes_dict = {}   # if self._sizes_dict[i] == None => already checked with md5sum
+        
+    def test_and_add(self, path):
+        '''store a unique key for path'''
+        if self.deep_check:
+            # store md5sum 
+            size  = os.stat(path).st_size
+            if size not in self._sizes_dict.keys(): 
+                # first item of that size
+                self._sizes_dict[size] = path
+                unique_key = size
+                print "md5sum, added size",size
+            else: 
+                previously = self._sizes_dict[size]
+                if previously:
+                    # store md5sum instead of previously stored size
+                    self._sizes_dict[size] = None
+                    md5sum_0 = _get_md5sum_from_path(previously)     
+                    set.add(self, md5sum_0)
+                    set.remove(self, size)   
+                    print "md5sum, removed size, added sum",size     
+                unique_key = _get_md5sum_from_path(path)
+                print "md5sum, usual",size   
+        else:
+            # store a tuple of (size, modification time)
+            obj  = os.stat(path)
+            unique_key = (obj.st_size, int(obj.st_mtime)) 
+            print "size, len"
+        # if not already in, the store it and return True
+        if unique_key not in self:
+            set.add(self, unique_key )
+            return True    
+        return False       
+        
 
         
-def _get_size_mtime_from_path(path):
-    '''return a tuple of (size, modification time)'''
-    obj  = os.stat(path)
-    # print obj.st_size, int(obj.st_mtime)
-    return (obj.st_size, int(obj.st_mtime))
-    
-
-def get_unique_sum_from_path(path, md5sum = False):
-    '''return a uniqueness flag of path'''
-    if not md5sum:
-        return _get_size_mtime_from_path(path)
-    else:
-        return _get_md5sum_from_path(path)
-
-  
-    
+        
+        
 
