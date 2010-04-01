@@ -273,7 +273,7 @@ class SnapshotsDialog(object):
 
     def on_check_only_different_toggled( self, widget, data = None ):
         deep_btn = self.builder.get_object( 'check_use_md5sum' )     
-        if widget.get_active():
+        if widget.get_active() and tools.check_command("md5sum"):
             deep_btn.set_sensitive(True)
         else:
             deep_btn.set_active(False)
@@ -298,12 +298,12 @@ class SnapshotsDialog(object):
         #add now
         list_diff_only  = self.builder.get_object( 'check_only_different' ).get_active()
         flag_deep_check = self.builder.get_object( 'check_use_md5sum' ).get_active()   
-        uniqueness_set = tools.UniquenessSet(flag_deep_check)
+        uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False)
         path = self.path
         if os.path.lexists( path ):
             if os.path.isdir( path ) == isdir:
                 if list_diff_only:
-                    uniqueness_set.test_and_add(path)
+                    uniqueness.check_for(path)
                 self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
                 if '/' == current_snapshot_id:
                     indexComboDiffWith = counter
@@ -311,12 +311,12 @@ class SnapshotsDialog(object):
                 
         #add snapshots
         for snapshot in snapshots_list:
-            path = self.snapshots.get_snapshot_path_to( snapshot, self.path )
+            path = self.snapshots.get_snapshot_path_to( snapshot, self.path  )
             if os.path.lexists( path ):
                 if os.path.isdir( path ) == isdir:
                     list_current = True
                     if list_diff_only:
-                        list_current = uniqueness_set.test_and_add(path)
+                        list_current = uniqueness.check_for(path)
                     if list_current:    
                         self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, snapshot), snapshot ] )
                         if snapshot == current_snapshot_id:

@@ -361,51 +361,72 @@ def temp_failure_retry(func, *args, **kwargs):
 
 def _get_md5sum_from_path(path):
     '''return md5sum of path'''   
-    # print "md5"
     if check_command("md5sum"):
         # md5sum utility, if available
         out = commands.getstatusoutput("md5sum " + path)
         md5sum = out[1].split(" ")[0]
         return md5sum
     else: 
-        # python std lib (not a good idea for huge files)
-        try:
-            path = open(path, 'rb')
-            md5sum = hashlib.md5(path.read())
-        except IOError:
-            return False  
-        return md5sum.hexdigest()
+        # md5sum unavailable; raise an exception ? a message ? use std lib ? 
+        pass
+        ## python std lib 
+        # try:
+        #     path = open(path, 'rb')
+        #     md5sum = hashlib.md5(path.read())
+        # except IOError:
+        #     return False  
+        # return md5sum.hexdigest()
         				
-
+#
+#
 class UniquenessSet():
-    ''' a class to check for uniqueness of snapshots'''
-    def __init__(self, dc = False): 
+    '''a class to check for uniqueness of snapshots of the same [item]'''
+    
+    def __init__(self, dc = False, follow_symlink = False): 
         self.deep_check = dc
-        self._sizes_dict = {}   # if self._sizes_dict[i] == None => already checked with md5sum
+        self.follow_sym = follow_symlink
+        self._uniq_dict = {}      # if not self._uniq_dict[size] -> size already checked with md5sum
+        self._size_inode = set()  # if (size,inode) in self._size_inode -> path is a hlink 
         
-    def test_and_add(self, path):
-        '''store a unique key for path'''
+    def check_for(self, input_path, verb = False):
+        '''store a unique key for path, return True if path is unique'''
+        # follow symlinks ?
+        path = input_path
+        if self.follow_sym and os.path.islink(input_path):
+            path = os.readlink(input_path)
+        # check
         if self.deep_check:
-            # store md5sum 
-            size  = os.stat(path).st_size
-            if size not in self._sizes_dict.keys(): 
+            dum = os.stat(path)
+            size,inode  = dum.st_size, dum.st_ino
+            # is it a hlink ?
+            if (size, inode) in self._size_inode: 
+                if verb: print "[deep test] : skip, it's a duplicate (size, inode)" 
+                return False   
+            self._size_inode.add( (size,inode) )
+            if size not in self._uniq_dict.keys(): 
                 # first item of that size
                 unique_key = size
+                if verb: print "[deep test] : store current size ?" 
             else: 
-                previously = self._sizes_dict[size]
-                if previously:
+                prev = self._uniq_dict[size]
+                if prev:
                     # store md5sum instead of previously stored size
-                    md5sum_0 = _get_md5sum_from_path(previously)     
-                    self._sizes_dict[size]     = None
-                    self._sizes_dict[md5sum_0] = previously      
+                    md5sum_prev = _get_md5sum_from_path(prev)     
+                    self._uniq_dict[size] = None
+                    self._uniq_dict[md5sum_prev] = prev      
+                    if verb: 
+                        print "[deep test] : size duplicate, remove the size, store prev md5sum"                     
                 unique_key = _get_md5sum_from_path(path) 
+                if verb: print "[deep test] : store current md5sum ?" 
         else:
             # store a tuple of (size, modification time)
             obj  = os.stat(path)
             unique_key = (obj.st_size, int(obj.st_mtime)) 
-        # store if not already, and return True
-        if unique_key not in self._sizes_dict.keys():
-            self._sizes_dict[unique_key] = path
+        # store if not already present, then return True
+        if unique_key not in self._uniq_dict.keys():
+            if verb: print " >> ok, store !"             
+            self._uniq_dict[unique_key] = path
             return True    
+        if verb: print " >> skip (it's a duplicate)" 
         return False
 
