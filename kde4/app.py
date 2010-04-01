@@ -195,7 +195,7 @@ class MainWindow( KMainWindow ):
 		self.second_splitter.addWidget( widget )
 
 		#folder don't exist label
-		self.lbl_folder_dont_exists = QLabel( QString.fromUtf8( _('This folder don\'t exist\nin current snapshot !') ), self )
+		self.lbl_folder_dont_exists = QLabel( QString.fromUtf8( _('This folder doesn\'t exist\nin the current snapshot !') ), self )
 		kde4tools.set_font_bold( self.lbl_folder_dont_exists )
 		self.lbl_folder_dont_exists.setFrameShadow( QFrame.Sunken )
 		self.lbl_folder_dont_exists.setFrameShape( QFrame.Panel )
