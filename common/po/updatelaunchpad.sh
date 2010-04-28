@@ -1,6 +1,7 @@
 #!/bin/bash
 
-EXCEPTIONS="es.po de.po"
+#EXCEPTIONS="es.po de.po"
+EXCEPTIONS="none"
 TRANSLATIONFILE="launchpad-export.tar.gz"
 
 rm -rf tmp
