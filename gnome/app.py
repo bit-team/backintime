@@ -518,57 +518,67 @@ class MainWindow(object):
         return True
 
     def update_backup_info( self, force_wait_lock = False ):
-        if None is self.builder.get_object( 'btn_backup' ):
-            return True
+		if None is self.builder.get_object( 'btn_backup' ):
+			return True
 
-        #print "forceWaitLock: %s" % forceWaitLock
+		#print "forceWaitLock: %s" % forceWaitLock
 
-        if force_wait_lock:
-            self.force_wait_lock_counter = 10
+		if force_wait_lock:
+			self.force_wait_lock_counter = 10
         
-        busy = self.snapshots.is_busy()
-        if busy:
-            self.force_wait_lock_counter = 0
+		busy = self.snapshots.is_busy()
 
-        if self.force_wait_lock_counter > 0:
-            self.force_wait_lock_counter = self.force_wait_lock_counter - 1
+		if busy:
+			self.force_wait_lock_counter = 0
 
-        fake_busy = busy or self.force_wait_lock_counter > 0
-        self.builder.get_object( 'btn_backup' ).set_sensitive( not fake_busy )
+		if self.force_wait_lock_counter > 0:
+			self.force_wait_lock_counter = self.force_wait_lock_counter - 1
 
-        if fake_busy:
-            take_snapshot_message = None
+		fake_busy = busy or self.force_wait_lock_counter > 0
+		self.builder.get_object( 'btn_backup' ).set_sensitive( not fake_busy )
 
-            if busy:
-                take_snapshot_message = self.snapshots.get_take_snapshot_message()
+		take_snapshot_message = self.snapshots.get_take_snapshot_message()
+		if take_snapshot_message is None:
+			if fake_busy:
+				take_snapshot_message = ( 0, '...' )
+			else:
+				take_snapshot_message = self.last_take_snapshot_message
+				if take_snapshot_message is None:
+					take_snapshot_message = ( 0, _('Done') )
 
-            if take_snapshot_message is None:
-                take_snapshot_message = ( 0, '...' )
+		update_time_line = self.update_time_line
 
-            if take_snapshot_message != self.last_take_snapshot_message:
-                self.last_take_snapshot_message = take_snapshot_message
-                self.status_bar.push( 0, _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' ) )
+		if fake_busy:
+			if not self.update_time_line:
+				self.update_time_line = True
+		elif self.update_time_line:
+			self.update_time_line = False
+			snapshots_list = self.snapshots_list
 
-            if not self.update_time_line:
-                self.update_time_line = True
-        elif self.update_time_line:
-            self.update_time_line = False
-            snapshots_list = self.snapshots_list
+			self.fill_time_line()
 
-            self.fill_time_line()
+			if snapshots_list != self.snapshots_list:
+				take_snapshot_message = ( 0, _('Done') )
+			else:
+				if take_snapshot_message[0] == 0:
+					take_snapshot_message = ( 0, _('Done, no backup needed') )
 
-            #print "New backup: %s" % self.lastBackupList
-            #print "Last backup: %s" % lastBackupList
+		if take_snapshot_message != self.last_take_snapshot_message or update_time_line:
+			self.last_take_snapshot_message = take_snapshot_message
+		
+			if fake_busy:
+				message = _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
+			elif take_snapshot_message[0] == 0:
+				message = self.last_take_snapshot_message[1].replace( '\n', ' ' )
+			else:
+				message = _('Error:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
 
-            if snapshots_list != self.snapshots_list:
-                self.status_bar.push( 0, _('Done') )
-            else:
-                self.status_bar.push( 0, _('Done, no backup needed') )
+			self.status_bar.push( 0, message )
 
-        if not fake_busy:
-            self.last_take_snapshot_message = None
+		#if not fake_busy:
+		#   self.last_take_snapshot_message = None
 
-        return True
+		return True
 
     def fill_places( self ):
         self.store_places.clear()

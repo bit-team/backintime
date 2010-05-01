@@ -195,7 +195,7 @@ class MainWindow( KMainWindow ):
 		self.second_splitter.addWidget( widget )
 
 		#folder don't exist label
-		self.lbl_folder_dont_exists = QLabel( QString.fromUtf8( _('This folder don\'t exist\nin current snapshot !') ), self )
+		self.lbl_folder_dont_exists = QLabel( QString.fromUtf8( _('This folder doesn\'t exist\nin the current snapshot !') ), self )
 		kde4tools.set_font_bold( self.lbl_folder_dont_exists )
 		self.lbl_folder_dont_exists.setFrameShadow( QFrame.Sunken )
 		self.lbl_folder_dont_exists.setFrameShape( QFrame.Panel )
@@ -483,22 +483,23 @@ class MainWindow( KMainWindow ):
 
 		fake_busy = busy or self.force_wait_lock_counter > 0
 
+		take_snapshot_message = self.snapshots.get_take_snapshot_message()
 		if fake_busy:
-			take_snapshot_message = None
-
-			if busy:
-				take_snapshot_message = self.snapshots.get_take_snapshot_message()
-
 			if take_snapshot_message is None:
 				take_snapshot_message = ( 0, '...' )
+		elif take_snapshot_message is None:
+			take_snapshot_message = self.last_take_snapshot_message
+			if take_snapshot_message is None:
+				take_snapshot_message = ( 0, _('Done') )
 
-			if take_snapshot_message != self.last_take_snapshot_message:
-				self.last_take_snapshot_message = take_snapshot_message
-				self.statusBar().showMessage( QString.fromUtf8( _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' ) ) )
+		force_update = False
 
+		if fake_busy:
 			if self.btn_take_snapshot.isEnabled():
 				self.btn_take_snapshot.setEnabled( False )
 		elif not self.btn_take_snapshot.isEnabled():
+			force_update = True
+
 			self.btn_take_snapshot.setEnabled( True )
 			
 			snapshots_list = self.snapshots.get_snapshots_and_other_list()
@@ -506,12 +507,25 @@ class MainWindow( KMainWindow ):
 			if snapshots_list != self.snapshots_list:
 				self.snapshots_list = snapshots_list
 				self.update_time_line( False )
-			 	self.statusBar().showMessage( QString.fromUtf8( _('Done') ) )
+				take_snapshot_message = ( 0, _('Done') )
 			else:
-				self.statusBar().showMessage( QString.fromUtf8( _('Done, no backup needed') ) )
+				if take_snapshot_message[0] == 0:
+					take_snapshot_message = ( 0, _('Done, no backup needed') )
 
-		if not fake_busy:
-			self.last_take_snapshot_message = None
+		if take_snapshot_message != self.last_take_snapshot_message or force_update:
+			self.last_take_snapshot_message = take_snapshot_message
+
+			if fake_busy:
+				message = _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
+			elif take_snapshot_message[0] == 0:
+				message = self.last_take_snapshot_message[1].replace( '\n', ' ' )
+			else:
+				message = _('Error:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
+
+			self.statusBar().showMessage( QString.fromUtf8( message ) )
+
+		#if not fake_busy:
+		#	self.last_take_snapshot_message = None
 
 	def on_list_places_current_item_changed( self, item, previous ):
 		if item is None:
@@ -754,7 +768,8 @@ class MainWindow( KMainWindow ):
 		if len( self.snapshot_id ) <= 1:
 			return
 
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
+		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
@@ -762,7 +777,8 @@ class MainWindow( KMainWindow ):
 		self.snapshots.restore( self.snapshot_id, rel_path )
 
 	def on_btn_copy_to_clipboard_clicked( self ):
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
+		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
@@ -770,14 +786,15 @@ class MainWindow( KMainWindow ):
 		kde4tools.clipboard_set_path( self.kapp, path )
 
 	def on_btn_snapshots_clicked( self ):
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
+		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
+		selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
 		rel_path = os.path.join( self.path, selected_file )
 		icon = None
-		if self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex(), Qt.DecorationRole ).type() == QVariant.Icon:
-			icon = self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex(), Qt.DecorationRole )
+		if self.list_files_view_sort_filter_proxy.data( idx, Qt.DecorationRole ).type() == QVariant.Icon:
+			icon = self.list_files_view_sort_filter_proxy.data( idx, Qt.DecorationRole )
 
 		dlg = snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path, icon )
 		if QDialog.Accepted == dlg.exec_():
@@ -809,7 +826,8 @@ class MainWindow( KMainWindow ):
 		if model_index is None:
 			return
 
-		rel_path = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString().toUtf8() )
+		idx = self.list_files_view_sort_filter_proxy.index( model_index.row(), 0 )
+		rel_path = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 		if len( rel_path ) <= 0:
 			return
 
@@ -874,7 +892,8 @@ class MainWindow( KMainWindow ):
 
 		#try to keep old selected file
 		if selected_file is None:
-			selected_file = str( self.list_files_view_sort_filter_proxy.data( self.list_files_view.currentIndex() ).toString().toUtf8() )
+			idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
+			selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 
 		self.selected_file = selected_file
 	

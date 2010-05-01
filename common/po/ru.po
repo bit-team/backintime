@@ -7,150 +7,268 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-05-11 09:42+0200\n"
-"PO-Revision-Date: 2009-05-12 16:21+0000\n"
-"Last-Translator: Sergei Sedov <Unknown>\n"
+"POT-Creation-Date: 2010-04-01 19:55+0200\n"
+"PO-Revision-Date: 2010-04-12 09:47+0000\n"
+"Last-Translator: Anton Kostov <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2009-05-19 07:08+0000\n"
+"X-Launchpad-Export-Date: 2010-04-28 06:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../../common/config.py:53
-msgid "Disabled"
-msgstr "Отключено"
-
-#: ../../common/config.py:54
-msgid "Every 5 minutes"
-msgstr "Каждые 5 минут"
-
-#: ../../gnome/app.py:893 ../../kde4/app.py:819
+#: ../../gnome/app.py:1000 ../../kde4/app.py:887
 msgid "View the current disk content"
 msgstr "Просмотр содержимого текущего диска"
 
-#: ../../gnome/settingsdialog.py:303 ../../kde4/settingsdialog.py:434
+#: ../../gnome/settingsdialog.py:595 ../../kde4/settingsdialog.py:677
 msgid "Include folder"
 msgstr "Включить каталог"
 
-#: ../../gnome/settingsdialog.py:356 ../../kde4/settingsdialog.py:416
+#: ../../gnome/settingsdialog.py:672 ../../kde4/settingsdialog.py:645
 msgid "Exclude folder"
 msgstr "Исключить каталог"
 
-#: ../../kde4/settingsdialog.py:158 ../../gnome/settingsdialog.glade:263
+#: ../../kde4/settingsdialog.py:182 ../../kde4/settingsdialog.py:211
+#: ../../gnome/settingsdialog.glade:431
 msgid "Add folder"
 msgstr "Добавить каталог"
 
-#: ../../kde4/settingsdialog.py:168 ../../gnome/settingsdialog.glade:449
+#: ../../kde4/settingsdialog.py:221 ../../gnome/settingsdialog.glade:631
 msgid "Auto-remove"
 msgstr "Автоматическое удаление"
 
-#: ../../gnome/settingsdialog.glade:41
-msgid "Select A Folder"
-msgstr "Выбрать каталог"
-
-#: ../../common/configfile.py:168 ../../common/configfile.py:226
+#: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
-msgid "Profile %s already exists !"
-msgstr "Профиль %s уже существует !"
+msgid "Profile \"%s\" already exists !"
+msgstr "Профиль \"%s\" уже существует!"
 
-#: ../../common/configfile.py:218
-msgid "You can't rename \"Main\" profile"
-msgstr "Вы не можете переименовать \"Главный\" профиль"
+#: ../../common/configfile.py:282
+msgid "You can't remove the last profile !"
+msgstr "Невозможно удалить последний профиль!"
 
 #: ../../common/config.py:55
+msgid "Disabled"
+msgstr "Отключён"
+
+#: ../../common/config.py:56
+msgid "Every 5 minutes"
+msgstr "Каждые 5 минут"
+
+#: ../../common/config.py:57
 msgid "Every 10 minutes"
 msgstr "Каждые 10 минут"
 
-#: ../../common/config.py:56
+#: ../../common/config.py:58
 msgid "Every Hour"
 msgstr "Каждый час"
 
-#: ../../common/config.py:57
+#: ../../common/config.py:59
 msgid "Every Day"
-msgstr "Каждый день"
+msgstr "Ежедневно"
 
-#: ../../common/config.py:58
+#: ../../common/config.py:60
 msgid "Every Week"
 msgstr "Каждую неделю"
 
-#: ../../common/config.py:59
+#: ../../common/config.py:61
 msgid "Every Month"
 msgstr "Каждый месяц"
 
-#: ../../common/config.py:63
+#: ../../common/config.py:65
 msgid "Day(s)"
-msgstr "дней"
+msgstr "Дней (Дня)"
 
-#: ../../common/config.py:64
+#: ../../common/config.py:66
 msgid "Week(s)"
 msgstr "недель"
 
-#: ../../common/config.py:65
+#: ../../common/config.py:67
 msgid "Year(s)"
-msgstr "лет"
+msgstr "Лет (Года)"
 
-#: ../../common/config.py:131
+#: ../../common/config.py:75
+msgid "Main profile"
+msgstr "Основной профиль"
+
+#: ../../common/config.py:194 ../../common/config.py:213
+#: ../../common/config.py:224 ../../common/config.py:229
+#, python-format
+msgid "Profile: \"%s\""
+msgstr "Профиль: \"%s\""
+
+#: ../../common/config.py:194
 msgid "Snapshots folder is not valid !"
-msgstr ""
+msgstr "Каталог резервных копий задан неверно!"
 
-#: ../../common/config.py:134
-msgid "Snapshots folder can't be the root folder !"
-msgstr "Каталог снимков не может быть корневым каталогом!"
-
-#: ../../common/config.py:137
+#: ../../common/config.py:213
 msgid "You must select at least one folder to backup !"
-msgstr "Вы должны выбрать хотя бы один каталог для резевного копирования!"
+msgstr "Вы должны выбрать хотя бы одну папку для резервного копирования!"
 
-#: ../../common/config.py:146
+#: ../../common/config.py:224
 msgid "You can't include backup folder !"
-msgstr ""
+msgstr "Вы не можете добавить папку для резервного копирования!"
 
-#: ../../common/config.py:152
+#: ../../common/config.py:229
 msgid "You can't include a backup sub-folder !"
 msgstr ""
 
-#: ../../common/config.py:163
-msgid "Exclude patterns can't contain ':' char !"
-msgstr ""
-
-#: ../../common/config.py:178
+#: ../../common/config.py:283
 #, python-format
 msgid "%s is not a folder !"
-msgstr "%s не каталог !"
+msgstr "%s не папка !"
 
-#: ../../common/config.py:188
+#: ../../common/config.py:295 ../../common/config.py:302
 #, python-format
 msgid ""
 "Can't write to: %s\n"
-"Are you sure have write access ?"
+"Are you sure you have write access ?"
 msgstr ""
-"Не могу записать в: %s\n"
-"У вас точно есть права на запись ?"
+"Не удаётся произвести запись в: %s\n"
+"Вы уверены, что имеете право на запись?"
 
-#: ../../common/config.py:446
+#: ../../common/config.py:690
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
-"Не могу найти crontab.\n"
-"Вы уверены, что cron установлен ?\n"
-"Если не установлен, то вам надо отключить автоматическую архивацию."
+"Невозможно найти crontab\n"
+"Вы уверены, что cron установлен?\n"
+"Если не установлен, вы должны отключить автоматическое резервное копирование."
 
-#: ../../common/snapshots.py:80 ../../gnome/app.py:894 ../../kde4/app.py:820
+#: ../../common/snapshots.py:141 ../../gnome/app.py:1001 ../../kde4/app.py:888
 msgid "Now"
 msgstr "Сейчас"
 
-#: ../../common/snapshots.py:403
+#: ../../common/snapshots.py:492
+msgid ""
+"BackinTime changed its backup format.\n"
+"\n"
+"Your old snapshots can be moved according to this new format. OK?"
+msgstr ""
+"BackinTime изменил формат сохранения резервных копий\n"
+"\n"
+"Ваши старые резервные копии могут быть перемещены в соответствии с новым "
+"форматом. ОК?"
+
+#: ../../common/snapshots.py:502
+#, python-format
+msgid ""
+"%s profiles found. \n"
+"\n"
+"The new backup format supports storage of different users and profiles on "
+"the same location. Do you want the same location for both profiles? \n"
+"\n"
+"(The program will still be able to discriminate between them)"
+msgstr ""
+"%s профилей найдено. \n"
+"\n"
+"Новый формат сохранений резервных копий поддерживает хранилище различных "
+"пользователей в одном месте. Хотите ли Вы использовать одинаковое размещение "
+"для обоих пользователей?\n"
+"(Программа сможет различать профили)"
+
+#: ../../common/snapshots.py:505
+msgid ""
+"No profiles are found. Will have to update to profiles first, please restart "
+"BackinTime"
+msgstr ""
+"Профили не найдены. Сначало необходимо обновление профилей, пожалуйста, "
+"перезапустите BackinTime"
+
+#: ../../common/snapshots.py:556
+#, python-format
+msgid ""
+"%s\n"
+"of profile %s are not moved to their new location\n"
+"Do you want to proceed?\n"
+"(BackinTime will be able to continue taking snapshots, however the remaining "
+"snapshots will not be considered for automatic removal)\n"
+"\n"
+"If not BackinTime will restore former settings for this profile, however "
+"cannot continue taking snapshots"
+msgstr ""
+"%s\n"
+"из общего количества профилей %s не передвинуты в новое назначение.\n"
+"Вы хотите продолжить?\n"
+"(Backintime сможет продолжать делать сохранения, но оставшиеся не будут "
+"автоматически удалены)\n"
+"\n"
+"Если нет, Backintime вернет прошлые настройки этого профиля, но не сможет "
+"продолжать делать сохранения"
+
+#: ../../common/snapshots.py:565
+#, python-format
+msgid ""
+"Former settings of profile %s are restored.\n"
+"BackinTime cannot continue taking new snapshots.\n"
+"\n"
+"You can manually move the snapshots, \n"
+"if you are done restart BackinTime to proceed"
+msgstr ""
+"Старые настройки профиля %s возвращены,\n"
+"Backintime не может продолжать делать сохранения.\n"
+"\n"
+"Вы можете переместить их вручную, \n"
+"Когда закончите, перезапустите Backintime"
+
+#: ../../common/snapshots.py:578
+msgid ""
+"Update was successful!\n"
+"\n"
+"BackinTime will continue taking snapshots again as scheduled"
+msgstr ""
+"Обновление успешно завершено!\n"
+"\n"
+"BackinTime продолжит выполнение операций по резервному копированию согласно "
+"расписания"
+
+#: ../../common/snapshots.py:583
+msgid ""
+"Are you sure you do not want to move your old snapshots?\n"
+"\n"
+"\n"
+"If you do, you will not see these questions again next time, BackinTime will "
+"continue making snapshots again, but smart-remove cannot take your old "
+"snapshots into account any longer!\n"
+"\n"
+"If you do not, you will be asked again next time you start BackinTime."
+msgstr ""
+"Вы уверены что НЕ хотите переместить старые резервные копии?\n"
+"\n"
+"\n"
+"Если вы это сделаете, вы не увидите этот вопрос следующий раз. Backintime "
+"продолжит выполнять резервное копирование, но \"умное удаление\" больше не "
+"будет работать для старых резервных копий!\n"
+"\n"
+"Если вы этого не сделаете, вас спросят при следующем запуске."
+
+#: ../../common/snapshots.py:592
+msgid "BackinTime will continue taking snapshots again as scheduled"
+msgstr ""
+"BackinTime продолжит выполнение операций по резервному копированию согласно "
+"расписания"
+
+#: ../../common/snapshots.py:594
+msgid ""
+"BackinTime still cannot continue taking new snapshots.\n"
+"Restart BackinTime to see the questions again"
+msgstr ""
+"Backintime не может продолжать работу.\n"
+"Перезапустите Backintime и ответьте на вопросы."
+
+#: ../../common/snapshots.py:654
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
+"Невозможно найти каталог резервных копий!\n"
+"Если он находится на съёмном диске, пожалуйста, подключите его."
 
-#: ../../common/snapshots.py:405
+#: ../../common/snapshots.py:656
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -158,357 +276,421 @@ msgstr[0] "Ждать %s сек."
 msgstr[1] "Ждать %s сек."
 msgstr[2] "Ждать %s сек."
 
-#: ../../common/snapshots.py:429
+#: ../../common/snapshots.py:680
+#, python-format
+msgid "Failed to take snapshot %s !!!"
+msgstr "Не удалось создать резервную копию %s !!!"
+
+#: ../../common/snapshots.py:689
 msgid "Finalizing"
 msgstr "Окончание"
 
-#: ../../common/snapshots.py:453 ../../common/snapshots.py:672
-#: ../../kde4/app.py:71 ../../gnome/mainwindow.glade:21
+#: ../../common/snapshots.py:715 ../../common/snapshots.py:976
+#: ../../kde4/app.py:79 ../../gnome/mainwindow.glade:37
 msgid "Take snapshot"
-msgstr "Сделать снимок"
+msgstr "Сделать резервную копию"
 
-#: ../../common/snapshots.py:456 ../../common/snapshots.py:629
+#: ../../common/snapshots.py:723 ../../common/snapshots.py:924
 #, python-format
 msgid "Compare with snapshot %s"
-msgstr "Сравнить со снимком %s"
+msgstr "Сравнить с резервной копией %s"
 
-#: ../../common/snapshots.py:541
+#: ../../common/snapshots.py:813
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "Не могу создать каталог: %s"
 
-#: ../../common/snapshots.py:571
+#: ../../common/snapshots.py:843
 msgid "..."
 msgstr "..."
 
-#: ../../common/snapshots.py:583
+#: ../../common/snapshots.py:856
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "Не могу удалить каталог: %s"
 
-#: ../../common/snapshots.py:652
+#: ../../common/snapshots.py:951
 msgid "Create hard-links"
 msgstr "Создать жёсткие ссылки"
 
-#: ../../common/snapshots.py:677
+#: ../../common/snapshots.py:988
+msgid "Save config file ..."
+msgstr "Сохранить конфигурационный файл..."
+
+#: ../../common/snapshots.py:993
 msgid "Save permission ..."
 msgstr "Сохранить разрешение ..."
 
-#: ../../common/snapshots.py:731
+#: ../../common/snapshots.py:1058
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr "Не могу переименовать %s в %s"
 
-#: ../../common/snapshots.py:818
+#: ../../common/snapshots.py:1170
 msgid "Remove old snapshots"
-msgstr "Удалить старые снимки"
+msgstr "Удалить старые резервные копии"
 
-#: ../../common/snapshots.py:841 ../../kde4/settingsdialog.py:202
-#: ../../gnome/settingsdialog.glade:413
+#: ../../common/snapshots.py:1193 ../../kde4/settingsdialog.py:251
+#: ../../gnome/settingsdialog.glade:579
 msgid "Smart remove"
 msgstr "Умное удаление"
 
-#: ../../common/snapshots.py:846
+#: ../../common/snapshots.py:1198
 msgid "Try to keep min free space"
 msgstr "Стараться сохранять минимальное свободное место"
 
-#: ../../gnome/app.py:79 ../../kde4/app.py:974
-msgid "about-translators"
-msgstr "О переводчиках"
-
-#: ../../gnome/app.py:149 ../../gnome/app.py:489 ../../kde4/app.py:246
-#: ../../kde4/app.py:455
+#: ../../gnome/app.py:177 ../../gnome/app.py:547 ../../gnome/app.py:561
+#: ../../kde4/app.py:254 ../../kde4/app.py:493 ../../kde4/app.py:510
 msgid "Done"
 msgstr "Готово"
 
-#: ../../gnome/app.py:163 ../../kde4/app.py:181
+#: ../../gnome/app.py:191 ../../kde4/app.py:189
 msgid "Shortcuts"
 msgstr "Ярлыки"
 
-#: ../../gnome/app.py:186
+#: ../../gnome/app.py:214
 msgid "Name"
-msgstr "Имя"
+msgstr "Название"
 
-#: ../../gnome/app.py:197
+#: ../../gnome/app.py:225
 msgid "Size"
 msgstr "Размер"
 
-#: ../../gnome/app.py:204
+#: ../../gnome/app.py:232
 msgid "Date"
 msgstr "Дата"
 
-#: ../../gnome/app.py:223 ../../gnome/app.py:260
-#: ../../gnome/snapshotsdialog.py:85 ../../kde4/app.py:124
-#: ../../kde4/app.py:167 ../../kde4/snapshotsdialog.py:90
-#: ../../gnome/mainwindow.glade:267 ../../gnome/mainwindow.glade:268
+#: ../../gnome/app.py:251 ../../gnome/app.py:288
+#: ../../gnome/snapshotsdialog.py:92 ../../kde4/app.py:132
+#: ../../kde4/app.py:175 ../../kde4/snapshotsdialog.py:90
+#: ../../gnome/mainwindow.glade:326 ../../gnome/mainwindow.glade:327
 #: ../../gnome/snapshotsdialog.glade:7
 msgid "Snapshots"
-msgstr "Снимки"
+msgstr "Резервные копии"
 
-#: ../../gnome/app.py:258
+#: ../../gnome/app.py:286
 msgid "Open"
 msgstr "Открыть"
 
-#: ../../gnome/app.py:259 ../../kde4/app.py:163
-#: ../../kde4/snapshotsdialog.py:115 ../../gnome/mainwindow.glade:255
-#: ../../gnome/mainwindow.glade:256 ../../gnome/snapshotsdialog.glade:40
+#: ../../gnome/app.py:287 ../../kde4/app.py:171
+#: ../../kde4/snapshotsdialog.py:115 ../../gnome/mainwindow.glade:312
+#: ../../gnome/mainwindow.glade:313 ../../gnome/snapshotsdialog.glade:40
 #: ../../gnome/snapshotsdialog.glade:41
 msgid "Copy"
 msgstr "Копировать"
 
-#: ../../gnome/app.py:261 ../../kde4/snapshotsdialog.py:128
+#: ../../gnome/app.py:289 ../../kde4/snapshotsdialog.py:128
 msgid "Diff"
 msgstr "Различие"
 
-#: ../../gnome/app.py:262 ../../kde4/app.py:159
-#: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:243
-#: ../../gnome/mainwindow.glade:244 ../../gnome/snapshotsdialog.glade:52
-#: ../../gnome/snapshotsdialog.glade:53
+#: ../../gnome/app.py:290 ../../kde4/app.py:167
+#: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:298
+#: ../../gnome/mainwindow.glade:299 ../../gnome/snapshotsdialog.glade:53
+#: ../../gnome/snapshotsdialog.glade:54
 msgid "Restore"
 msgstr "Восстановить"
 
-#: ../../gnome/app.py:278 ../../kde4/app.py:294
+#: ../../gnome/app.py:310 ../../kde4/app.py:306
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
+"Невозможно найти каталог резервных копий!\n"
+"Если он находится на съёмном диске, пожалуйста, подключите его и нажмите ОК"
 
-#: ../../gnome/app.py:475 ../../kde4/app.py:443
-msgid "Working:"
-msgstr "Работаю:"
-
-#: ../../gnome/app.py:491 ../../kde4/app.py:457
+#: ../../gnome/app.py:564 ../../kde4/app.py:513
 msgid "Done, no backup needed"
 msgstr "Всё сделано, сохранять ничего не надо"
 
-#: ../../gnome/app.py:502 ../../kde4/app.py:501
+#: ../../gnome/app.py:570 ../../kde4/app.py:519
+msgid "Working:"
+msgstr "Работаю:"
+
+#: ../../gnome/app.py:574 ../../kde4/app.py:523
+msgid "Error:"
+msgstr "Ошибка:"
+
+#: ../../gnome/app.py:587 ../../kde4/app.py:569
 msgid "Global"
 msgstr "Общее"
 
-#: ../../gnome/app.py:503 ../../kde4/app.py:502
+#: ../../gnome/app.py:588 ../../kde4/app.py:570
 msgid "Root"
 msgstr "Корневой каталог"
 
-#: ../../gnome/app.py:504 ../../kde4/app.py:503
+#: ../../gnome/app.py:589 ../../kde4/app.py:571
 msgid "Home"
 msgstr "Домашний каталог"
 
-#: ../../gnome/app.py:528
+#: ../../gnome/app.py:613
 msgid "Bookmarks"
 msgstr "Закладки"
 
-#: ../../gnome/app.py:536 ../../kde4/app.py:508
+#: ../../gnome/app.py:626 ../../kde4/app.py:582
 msgid "Backup folders"
-msgstr ""
+msgstr "Резервные директории"
 
-#: ../../gnome/app.py:556 ../../kde4/app.py:577
+#: ../../gnome/app.py:652 ../../kde4/app.py:652
 msgid "Today"
 msgstr "Сегодня"
 
-#: ../../gnome/app.py:560 ../../kde4/app.py:581
+#: ../../gnome/app.py:656 ../../kde4/app.py:656
 msgid "Yesterday"
 msgstr "Вчера"
 
-#: ../../gnome/app.py:564 ../../kde4/app.py:585
+#: ../../gnome/app.py:660 ../../kde4/app.py:660
 msgid "This week"
 msgstr "Эта неделя"
 
-#: ../../gnome/app.py:568 ../../kde4/app.py:589
+#: ../../gnome/app.py:664 ../../kde4/app.py:664
 msgid "Last week"
 msgstr "На прошлой неделе"
 
-#: ../../gnome/app.py:840 ../../kde4/app.py:79 ../../kde4/app.py:648
-#: ../../gnome/mainwindow.glade:45 ../../gnome/mainwindow.glade:46
+#: ../../gnome/app.py:947 ../../kde4/app.py:87 ../../kde4/app.py:723
+#: ../../gnome/mainwindow.glade:63 ../../gnome/mainwindow.glade:64
 msgid "Snapshot Name"
-msgstr "Имя снимка"
+msgstr "Название резервной копии"
 
-#: ../../gnome/app.py:859
+#: ../../gnome/app.py:966
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
-"Вы уверены в том, что хотите удалить снимки:\n"
+"Вы уверены в том, что хотите удалить резервную копию:\n"
 "<b>%s</b>"
 
-#: ../../gnome/app.py:890 ../../kde4/app.py:816
+#: ../../gnome/app.py:997 ../../kde4/app.py:884
 #, python-format
 msgid "Snapshot: %s"
-msgstr "Снимок: %s"
+msgstr "Резервная копия: %s"
 
-#: ../../gnome/app.py:891 ../../kde4/app.py:817
+#: ../../gnome/app.py:998 ../../kde4/app.py:885
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "Посмотреть снимок, который сделан %s"
+msgstr "Посмотреть резервную копию, которая сделана %s"
 
-#: ../../gnome/settingsdialog.py:85 ../../kde4/settingsdialog.py:108
+#: ../../gnome/settingsdialog.py:131 ../../kde4/settingsdialog.py:161
 msgid "Include folders"
 msgstr "Включить каталоги"
 
-#: ../../gnome/settingsdialog.py:92 ../../kde4/settingsdialog.py:88
-msgid "Schedule"
-msgstr "Расписание"
-
-#: ../../gnome/settingsdialog.py:113
+#: ../../gnome/settingsdialog.py:159
 msgid "Patterns, files or folders"
 msgstr "Шаблоны, файлы или каталоги"
 
-#: ../../gnome/settingsdialog.py:339 ../../kde4/settingsdialog.py:405
+#: ../../gnome/settingsdialog.py:266
+msgid "Snapshots folder"
+msgstr "Каталог резервных копий"
+
+#: ../../gnome/settingsdialog.py:274 ../../kde4/settingsdialog.py:696
+msgid "Are you sure you want to change snapshots folder ?"
+msgstr ""
+"Вы уверены, что хотите изменить каталог для хранения резервных копий?"
+
+#: ../../gnome/settingsdialog.py:563 ../../kde4/settingsdialog.py:314
+msgid "New profile"
+msgstr "Новый профиль"
+
+#: ../../gnome/settingsdialog.py:577 ../../kde4/settingsdialog.py:330
+msgid "Rename profile"
+msgstr "Переименовать профиль"
+
+#: ../../gnome/settingsdialog.py:589 ../../kde4/settingsdialog.py:344
+#, python-format
+msgid "Are you sure you want to delete the profile \"%s\" ?"
+msgstr "Вы действительно хотите удалить профиль \"%s\"?"
+
+#: ../../gnome/settingsdialog.py:614 ../../kde4/settingsdialog.py:663
+msgid "Include file"
+msgstr "Включить файл"
+
+#: ../../gnome/settingsdialog.py:651 ../../kde4/settingsdialog.py:625
 msgid "Exclude pattern"
 msgstr "Исключать папку по шаблону"
 
-#: ../../gnome/settingsdialog.py:346 ../../kde4/settingsdialog.py:412
+#: ../../gnome/settingsdialog.py:656 ../../kde4/settingsdialog.py:635
+msgid "Exclude patterns can't contain ':' char !"
+msgstr "Исключение. Шаблоны не могут содержать символ ':' !"
+
+#: ../../gnome/settingsdialog.py:662 ../../kde4/settingsdialog.py:641
 msgid "Exclude file"
 msgstr "Исключая файл"
 
-#: ../../gnome/settingsdialog.py:404 ../../kde4/settingsdialog.py:345
-msgid "Are you sure you want to change snapshots folder ?"
-msgstr "Вы уверены, что хотите изменить каталог хранения снимков?"
-
-#: ../../gnome/snapshotsdialog.py:237 ../../kde4/snapshotsdialog.py:244
+#: ../../gnome/snapshotsdialog.py:244 ../../kde4/snapshotsdialog.py:247
 msgid "You can't compare a snapshot to itself"
-msgstr "Нельзя сравнивать снимок с самим собой"
+msgstr "Нельзя сравнивать резервную копию с саму с собой"
 
-#: ../../gnome/snapshotsdialog.py:244 ../../kde4/snapshotsdialog.py:251
+#: ../../gnome/snapshotsdialog.py:251 ../../kde4/snapshotsdialog.py:254
 #, python-format
 msgid "Command not found: %s"
 msgstr "Команда не найдена: %s"
 
-#: ../../kde4/app.py:75 ../../gnome/mainwindow.glade:33
-#: ../../gnome/mainwindow.glade:34
-msgid "Update snapshots"
-msgstr "Обновить снимки"
+#: ../../kde4/app.py:83 ../../gnome/mainwindow.glade:51
+msgid "Refresh snapshots"
+msgstr "Обновить резервные копии"
 
-#: ../../kde4/app.py:83 ../../gnome/mainwindow.glade:57
-#: ../../gnome/mainwindow.glade:58
+#: ../../kde4/app.py:91 ../../gnome/mainwindow.glade:76
+#: ../../gnome/mainwindow.glade:77
 msgid "Remove Snapshot"
-msgstr "Удалить снимок"
+msgstr "Удалить резервную копию"
 
-#: ../../kde4/app.py:89 ../../kde4/settingsdialog.py:60
-#: ../../gnome/mainwindow.glade:74 ../../gnome/mainwindow.glade:75
+#: ../../kde4/app.py:97 ../../kde4/settingsdialog.py:66
+#: ../../gnome/mainwindow.glade:97 ../../gnome/mainwindow.glade:98
 #: ../../gnome/settingsdialog.glade:7
 msgid "Settings"
 msgstr "Настройки"
 
-#: ../../kde4/app.py:95 ../../gnome/mainwindow.glade:94
-#: ../../gnome/mainwindow.glade:95
+#: ../../kde4/app.py:103 ../../gnome/mainwindow.glade:119
+#: ../../gnome/mainwindow.glade:120
 msgid "About"
 msgstr "О программе"
 
-#: ../../kde4/app.py:99 ../../gnome/mainwindow.glade:106
-#: ../../gnome/mainwindow.glade:107
+#: ../../kde4/app.py:107 ../../gnome/mainwindow.glade:132
+#: ../../gnome/mainwindow.glade:133
 msgid "Help"
 msgstr "Справка"
 
-#: ../../kde4/app.py:105 ../../gnome/mainwindow.glade:123
-#: ../../gnome/mainwindow.glade:124
+#: ../../kde4/app.py:113 ../../gnome/mainwindow.glade:153
+#: ../../gnome/mainwindow.glade:154
 msgid "Exit"
-msgstr "Выход"
+msgstr "Выйти"
 
-#: ../../kde4/app.py:139 ../../gnome/mainwindow.glade:203
+#: ../../kde4/app.py:147 ../../gnome/mainwindow.glade:247
 msgid "Up"
 msgstr "Вверх"
 
-#: ../../kde4/app.py:153 ../../gnome/mainwindow.glade:226
+#: ../../kde4/app.py:161 ../../gnome/mainwindow.glade:276
 msgid "Show hidden files"
 msgstr "Показать скрытые файлы"
 
-#: ../../kde4/app.py:190
+#: ../../kde4/app.py:198
 msgid ""
-"This folder don't exist\n"
-"in current snapshot !"
+"This folder doesn't exist\n"
+"in the current snapshot !"
 msgstr ""
 
-#: ../../kde4/app.py:668
+#: ../../kde4/app.py:743
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Вы уверены что вы хотите удалить снимок:\n"
+"Вы уверены что вы хотите удалить резервную копию:\n"
 "%s"
 
-#: ../../kde4/app.py:947 ../../plugins/gnomeplugin.py:115
-#: ../../plugins/kde4plugin.py:99
+#: ../../kde4/app.py:1016 ../../kde4/kde4systrayicon.py:117
 msgid "Working..."
-msgstr "Работаю..."
+msgstr "Выполняется..."
 
-#: ../../kde4/settingsdialog.py:67 ../../gnome/settingsdialog.glade:119
+#: ../../kde4/settingsdialog.py:76 ../../gnome/settingsdialog.glade:26
+msgid "Profile:"
+msgstr "Профиль:"
+
+#: ../../kde4/settingsdialog.py:85
+msgid "Edit"
+msgstr "Изменить"
+
+#: ../../kde4/settingsdialog.py:103 ../../gnome/settingsdialog.glade:274
 msgid "General"
 msgstr "Общие"
 
-#: ../../kde4/settingsdialog.py:72 ../../kde4/settingsdialog.py:447
+#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:693
 msgid "Where to save snapshots"
-msgstr "Место для сохранения снимков"
+msgstr "Место для сохранения резервных копий"
 
-#: ../../kde4/settingsdialog.py:102 ../../gnome/settingsdialog.glade:196
+#: ../../kde4/settingsdialog.py:124
+msgid "Schedule"
+msgstr "Расписание"
+
+#: ../../kde4/settingsdialog.py:136 ../../gnome/settingsdialog.glade:207
+msgid "Hour:"
+msgstr "Часы:"
+
+#: ../../kde4/settingsdialog.py:154 ../../gnome/settingsdialog.glade:365
 msgid "Include"
 msgstr "Включить"
 
-#: ../../kde4/settingsdialog.py:108
-msgid "Automatic backup"
-msgstr "Автоматическая архивация"
-
-#: ../../kde4/settingsdialog.py:136 ../../gnome/settingsdialog.glade:300
-msgid "Exclude"
-msgstr "Исключить"
-
-#: ../../kde4/settingsdialog.py:153 ../../gnome/settingsdialog.glade:250
+#: ../../kde4/settingsdialog.py:177 ../../kde4/settingsdialog.py:206
+#: ../../gnome/settingsdialog.glade:419
 msgid "Add file"
 msgstr "Добавить файл"
 
-#: ../../kde4/settingsdialog.py:174 ../../gnome/settingsdialog.glade:385
+#: ../../kde4/settingsdialog.py:192 ../../gnome/settingsdialog.glade:469
+msgid "Exclude"
+msgstr "Исключить"
+
+#: ../../kde4/settingsdialog.py:225 ../../gnome/settingsdialog.glade:551
 msgid "Older than:"
 msgstr "Старее чем:"
 
-#: ../../kde4/settingsdialog.py:189 ../../gnome/settingsdialog.glade:398
+#: ../../kde4/settingsdialog.py:239 ../../gnome/settingsdialog.glade:564
 msgid "If free space is less than:"
 msgstr "Если свободного места меньше чем:"
 
-#: ../../kde4/settingsdialog.py:206 ../../gnome/settingsdialog.glade:428
+#: ../../kde4/settingsdialog.py:254
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
-"- keep one snapshot per month for all previous months of this year\n"
-"- keep one snapshot per year for all previous years"
+"- keep one snapshot per month for all previous months of this year and all "
+"months of the last year \n"
+"- keep one snapshot per year for all other years"
 msgstr ""
-"- сохранять все вчерашние и сегодняшние снимки\n"
-"- сохранять один снимок с прошлой недели и один с двух недель назад\n"
-"- сохранять один снимок за каждый месяц за все предыдущие месяцы этого года\n"
-"- сохранять один снимок каждого года за все предыдущие года"
+"- Хранить все сегодняшние и вчерашние резервные копии\n"
+"- Хранить одну резервную копию с последней недели и одну с двух недель "
+"назад\n"
+"- Хранить одну резервную копию за все предыдущие месяцы этого и прошлого "
+"года\n"
+"- Хранить одну резервную копию за каждый прошедший год"
 
-#: ../../kde4/settingsdialog.py:211 ../../gnome/settingsdialog.glade:320
+#: ../../kde4/settingsdialog.py:259 ../../gnome/settingsdialog.glade:486
 msgid "Don't remove named snapshots"
-msgstr "Не удалять названные снимки"
+msgstr "Не удалять переименованные резервные копии"
 
-#: ../../kde4/settingsdialog.py:221 ../../gnome/settingsdialog.glade:485
+#: ../../kde4/settingsdialog.py:268 ../../gnome/settingsdialog.glade:695
 msgid "Options"
 msgstr "Опции"
 
-#: ../../kde4/settingsdialog.py:224 ../../gnome/settingsdialog.glade:466
+#: ../../kde4/settingsdialog.py:271 ../../gnome/settingsdialog.glade:646
 msgid "Enable notifications"
 msgstr "Включить уведомления"
 
-#: ../../kde4/settingsdialog.py:233 ../../gnome/settingsdialog.glade:552
+#: ../../kde4/settingsdialog.py:274 ../../gnome/settingsdialog.glade:659
+msgid "Disable snapshots when on battery"
+msgstr "Отключить создание резервных копий при работе от батареи"
+
+#: ../../kde4/settingsdialog.py:277
+msgid "Power status not available from system"
+msgstr "Статус питания недоступен."
+
+#: ../../kde4/settingsdialog.py:280 ../../gnome/settingsdialog.glade:673
+msgid "Backup files on restore"
+msgstr "Сохранять файлы во время восстановления"
+
+#: ../../kde4/settingsdialog.py:288 ../../gnome/settingsdialog.glade:775
 msgid "Expert Options"
 msgstr "Расширенные настройки"
 
-#: ../../kde4/settingsdialog.py:236
+#: ../../kde4/settingsdialog.py:291
 msgid "Change this options only if you really know what you are doing !"
 msgstr ""
 "Изменяйте эти настройки только если вы уверены в том, что вы делаете!"
 
-#: ../../kde4/settingsdialog.py:240 ../../gnome/settingsdialog.glade:513
-msgid ""
-"Enable schedule per included folder (see Include tab; default: disabled)"
-msgstr ""
-
-#: ../../kde4/settingsdialog.py:245 ../../gnome/settingsdialog.glade:527
+#: ../../kde4/settingsdialog.py:299 ../../gnome/settingsdialog.glade:722
 msgid "Run 'nice' as cron job (default: enabled)"
+msgstr "Запустить 'nice' как задание cron (по умолчанию: включено)"
+
+#: ../../kde4/settingsdialog.py:302 ../../gnome/settingsdialog.glade:735
+msgid "Run 'ionice' as cron job (default: enabled)"
+msgstr "Запустить  'ionice' как задачу в кроне (по умолчанию: отключено)"
+
+#: ../../kde4/settingsdialog.py:305 ../../gnome/settingsdialog.glade:748
+msgid "Run 'ionice' when tacking a manual snapshot (default: disabled)"
 msgstr ""
+"Запускать ionice во время создания ручного сохранения (выключено по "
+"умолчанию)"
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:137
-#: ../../gnome/snapshotsdialog.glade:210
+#: ../../gnome/snapshotsdialog.glade:213
 msgid "Diff Options"
 msgstr "Параметры сравнения"
 
@@ -532,39 +714,68 @@ msgstr "Перейти к"
 msgid "Back In Time"
 msgstr "Back In Time"
 
-#: ../../gnome/mainwindow.glade:22
+#: ../../gnome/mainwindow.glade:38
 msgid "Backup Now"
 msgstr "Создать резервную копию сейчас"
 
-#: ../../gnome/mainwindow.glade:202
+#: ../../gnome/mainwindow.glade:50
+msgid "Update snapshots"
+msgstr "Обновить резервные копии"
+
+#: ../../gnome/mainwindow.glade:187 ../../gnome/mainwindow.glade:188
+msgid "Website"
+msgstr "Сайт"
+
+#: ../../gnome/mainwindow.glade:246
 msgid "Parent folder"
 msgstr "Родительский каталог"
 
-#: ../../gnome/mainwindow.glade:227
+#: ../../gnome/mainwindow.glade:277
 msgid "Hidden files"
 msgstr "Скрытые файлы"
 
-#: ../../gnome/mainwindow.glade:340
+#: ../../gnome/mainwindow.glade:403
 msgid ""
-"<b>This folder don't exist\n"
-"in current snapshot !</b>"
+"<b>This folder doesn't exist\n"
+"in the current snapshot !</b>"
 msgstr ""
 
-#: ../../gnome/settingsdialog.glade:49
+#: ../../gnome/settingsdialog.glade:168
 msgid "<b>Where to save snapshots</b>"
-msgstr "<b>Куда сохранить снимки</b>"
+msgstr "<b>Куда сохранить резервные копии</b>"
 
-#: ../../gnome/settingsdialog.glade:80
+#: ../../gnome/settingsdialog.glade:237
 msgid "<b>Schedule</b>"
 msgstr "<b>Расписание</b>"
 
-#: ../../gnome/settingsdialog.glade:501
+#: ../../gnome/settingsdialog.glade:596
+msgid ""
+"- keep all snapshots from today and yesterday\n"
+"- keep one snapshot for the last week and one for two weeks ago\n"
+"- keep one snapshot per month for all previous months of this year and all "
+"months of the last year\n"
+"- keep one snapshot per year for all other years"
+msgstr ""
+"- Хранить все сегодняшние и вчерашние резервные копии\n"
+"- Хранить одну резервную копию с последней недели, и одну с двух недель "
+"назад\n"
+"- Хранить одну резервную копию за все предыдущие месяцы этого и прошлого "
+"года\n"
+"- Хранить одну резервную копию за каждый прошедший год"
+
+#: ../../gnome/settingsdialog.glade:612
+msgid "Auto-remove only removes snapshots from the selected snapshots folder"
+msgstr ""
+"Автоматическое удаление резервных копий только из выбранного каталога "
+"резервных копий."
+
+#: ../../gnome/settingsdialog.glade:711
 msgid ""
 "<b>Change this options only if you really know what you are doing !</b>"
 msgstr ""
 "<b>Изменяйте эти настройки только если вы уверены в том, что вы делаете!</b>"
 
-#: ../../gnome/snapshotsdialog.glade:112
+#: ../../gnome/snapshotsdialog.glade:111
 msgid "Diff with"
 msgstr "Сравнивать с"
 
@@ -575,14 +786,11 @@ msgstr "Шаблон"
 #~ msgid "Backup Directories"
 #~ msgstr "Папки, которые необходимо сохранять"
 
-#~ msgid "Snapshots directory can't be the root directory !"
-#~ msgstr "Каталог снимков не может быть корневым каталогом!"
+#~ msgid "Select A Folder"
+#~ msgstr "Выбрать папку"
 
-#~ msgid "Are you sure you want to change snapshots directory ?"
-#~ msgstr "Вы уверены, что хотите изменить каталог снимков?"
-
-#~ msgid "You must select at least one directory to backup !"
-#~ msgstr "Вы должны выбрать хотя бы один каталог для сохранения!"
+#~ msgid "Snapshots directory is not valid !"
+#~ msgstr "Данная папка не правильная папка с каталогами!"
 
 #~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
 #~ msgstr ""
@@ -594,34 +802,31 @@ msgstr "Шаблон"
 #~ "\"Каталоги для резервного копирования\" не могут включать в себя каталог "
 #~ "снимков!"
 
+#~ msgid "You must select at least one directory to backup !"
+#~ msgstr "Вы должны выбрать хотя бы один каталог для сохранения!"
+
+#~ msgid "Snapshots directory can't be the root directory !"
+#~ msgstr "Каталог снимков не может быть корневым каталогом!"
+
+#~ msgid "Are you sure you want to change snapshots directory ?"
+#~ msgstr "Вы уверены, что хотите изменить каталог снимков?"
+
 #~ msgid "Parent Directory"
 #~ msgstr "Верхний каталог"
-
-#~ msgid "Snapshots directory is not valid !"
-#~ msgstr "Данная папка не правильная папка с каталогами!"
 
 #~ msgid "\"Exclude pattern\" can't contain \":\" char !"
 #~ msgstr "Шаблон не может содержать символ \":\"!"
 
+#~ msgid "about-translators"
+#~ msgstr "О переводчиках"
+
 #, python-format
-#~ msgid "%s is not a directory !"
-#~ msgstr "%s не каталог !"
-
 #~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it and then press OK"
+#~ "Can't write to: %s\n"
+#~ "Are you sure have write access ?"
 #~ msgstr ""
-#~ "Не могу найти каталог снимков.\n"
-#~ "Если он находится на съёмном диске, пожалуйста, подключите его и нажмите ОК"
-
-#~ msgid "Patterns, files or directories"
-#~ msgstr "Шаблоны, файлы или каталоги"
-
-#~ msgid "Include directory"
-#~ msgstr "Включая каталог"
-
-#~ msgid "Exclude directory"
-#~ msgstr "Исключая каталог"
+#~ "Не могу записать в: %s\n"
+#~ "У вас точно есть права на запись ?"
 
 #~ msgid ""
 #~ "This directory don't exist\n"
@@ -630,11 +835,11 @@ msgstr "Шаблон"
 #~ "Каталог не существует\n"
 #~ "в текущем снимке !"
 
-#~ msgid ""
-#~ "Enable schedule per included directory (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Включить расписание для каждого каталога (смотри вкладку \"Включая\"; по "
-#~ "умолчанию отключено)"
+#~ msgid "Exclude directory"
+#~ msgstr "Исключая каталог"
+
+#~ msgid "Automatic backup"
+#~ msgstr "Автоматическая архивация"
 
 #~ msgid ""
 #~ "Can't find snapshots directory.\n"
@@ -652,8 +857,49 @@ msgstr "Шаблон"
 #~ msgstr "Не могу удалить каталог: %s"
 
 #~ msgid ""
+#~ "Can't find snapshots directory.\n"
+#~ "If it is on a removable drive please plug it and then press OK"
+#~ msgstr ""
+#~ "Не могу найти каталог снимков.\n"
+#~ "Если он находится на съёмном диске, пожалуйста, подключите его и нажмите ОК"
+
+#~ msgid "Patterns, files or directories"
+#~ msgstr "Шаблоны, файлы или каталоги"
+
+#~ msgid "Include directory"
+#~ msgstr "Включая каталог"
+
+#~ msgid ""
+#~ "- keep all snapshots from today and yesterday\n"
+#~ "- keep one snapshot for the last week and one for two weeks ago\n"
+#~ "- keep one snapshot per month for all previous months of this year\n"
+#~ "- keep one snapshot per year for all previous years"
+#~ msgstr ""
+#~ "- сохранять все вчерашние и сегодняшние снимки\n"
+#~ "- сохранять один снимок с прошлой недели и один с двух недель назад\n"
+#~ "- сохранять один снимок за каждый месяц за все предыдущие месяцы этого года\n"
+#~ "- сохранять один снимок каждого года за все предыдущие года"
+
+#~ msgid ""
 #~ "<b>This directory don't exist\n"
 #~ "in current snapshot !</b>"
 #~ msgstr ""
 #~ "<b>Этот каталог не существует\n"
 #~ "в текущем снимке !</b>"
+
+#, python-format
+#~ msgid "%s is not a directory !"
+#~ msgstr "%s не каталог !"
+
+#~ msgid ""
+#~ "Enable schedule per included directory (see Include tab; default: disabled)"
+#~ msgstr ""
+#~ "Включить расписание для каждого каталога (смотри вкладку \"Включая\"; по "
+#~ "умолчанию отключено)"
+
+#~ msgid "You can't rename \"Main\" profile"
+#~ msgstr "Вы не можете переименовать \"Главный\" профиль"
+
+#, python-format
+#~ msgid "Profile %s already exists !"
+#~ msgstr "Профиль %s уже существует !"
