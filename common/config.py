@@ -545,6 +545,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_no_on_battery_enabled( self, value, profile_id = None ):
 		self.set_profile_bool_value( 'snapshots.no_on_battery', value, profile_id )
 
+	def preserve_acl( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.preserve_acl', False, profile_id )
+
+	def set_preserve_acl( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.preserve_acl', value, profile_id )
+
+	def preserve_xattr( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.preserve_xattr', False, profile_id )
+
+	def set_preserve_xattr( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.preserve_xattr', value, profile_id )
+
 	def get_take_snapshot_user_script( self, step, profile_id = None ):
 		return self.get_profile_str_value ( "snapshots.take_snapshot.%s.user.script" % step, '', profile_id )
 

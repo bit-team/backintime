@@ -317,7 +317,7 @@ class Snapshots:
 
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 		#cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
-		cmd = tools.get_rsync_prefix()
+		cmd = tools.get_rsync_prefix( self.config )
 		cmd = cmd + '-R '
 		if self.config.is_backup_on_restore_enabled():
 			cmd = cmd + "--backup --suffix=%s " % backup_suffix
@@ -892,7 +892,7 @@ class Snapshots:
 		rsync_include2 = ' '.join( items2 )
 
 		#rsync prefix & suffix
-		rsync_prefix = tools.get_rsync_prefix() # 'rsync -aEAXH '
+		rsync_prefix = tools.get_rsync_prefix( self.config ) # 'rsync -aEAXH '
 		rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" " % ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER )
 		#rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 		rsync_suffix = ' --chmod=Da+w ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '

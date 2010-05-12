@@ -305,6 +305,12 @@ class SettingsDialog( KDialog ):
 		self.cb_run_ionice_from_user = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' when tacking a manual snapshot (default: disabled)' ) ), self )
 		layout.addWidget( self.cb_run_ionice_from_user )
 
+		self.cb_preserve_acl = QCheckBox( QString.fromUtf8( _( 'Preserve ACL' ) ), self )
+		layout.addWidget( self.cb_preserve_acl )
+
+		self.cb_preserve_xattr = QCheckBox( QString.fromUtf8( _( 'Preserve extended attributes (xattr)' ) ), self )
+		layout.addWidget( self.cb_preserve_xattr )
+
 		#
 		layout.addStretch()
 
