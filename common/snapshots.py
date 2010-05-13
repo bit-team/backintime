@@ -377,6 +377,9 @@ class Snapshots:
 				list.append( item )
 
 		list.sort( reverse = sort_reverse )
+		print "ABC:"
+		print list
+
 		return list
 		
 	def get_snapshots_and_other_list( self, sort_reverse = True ):

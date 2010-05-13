@@ -176,6 +176,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 					self.remove_profile_key( 'snapshots.exclude_patterns', profile_id )
 
 			self.set_int_value( 'config.version', self.CONFIG_VERSION )
+			self.save()
 
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
@@ -257,7 +258,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def get_snapshots_full_path( self, profile_id = None, version = None ):
 		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
 		if version is None:
-			version = self.get_int_value( 'config.version', 1 )
+			version = self.get_int_value( 'config.version', self.CONFIG_VERSION )
 
 		if version < 4:
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )

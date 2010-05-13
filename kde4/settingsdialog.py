@@ -158,7 +158,7 @@ class SettingsDialog( KDialog ):
 		self.list_include.setRootIsDecorated( False )
 		#self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		#self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
-		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ) ] )
+		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include files & folders') ) ] )
 		self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
 
 		#self.popup_automatic_backup = KMenu( self )
