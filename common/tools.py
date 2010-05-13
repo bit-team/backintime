@@ -337,7 +337,7 @@ def get_rsync_prefix( config ):
 	caps = get_rsync_caps()
 	cmd = 'rsync -aEH'
 
-	if config.preserve_ACL() and "ACLs" in caps:
+	if config.preserve_acl() and "ACLs" in caps:
 		cmd = cmd + 'A'
 
 	if config.preserve_xattr() and "xattrs" in caps:
