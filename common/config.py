@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99.35'
+	VERSION = '0.9.99.37'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
@@ -176,6 +176,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 					self.remove_profile_key( 'snapshots.exclude_patterns', profile_id )
 
 			self.set_int_value( 'config.version', self.CONFIG_VERSION )
+			self.save()
 
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
@@ -257,7 +258,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def get_snapshots_full_path( self, profile_id = None, version = None ):
 		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
 		if version is None:
-			version = self.get_int_value( 'config.version', 1 )
+			version = self.get_int_value( 'config.version', self.CONFIG_VERSION )
 
 		if version < 4:
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
@@ -544,6 +545,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def set_no_on_battery_enabled( self, value, profile_id = None ):
 		self.set_profile_bool_value( 'snapshots.no_on_battery', value, profile_id )
+
+	def preserve_acl( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.preserve_acl', False, profile_id )
+
+	def set_preserve_acl( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.preserve_acl', value, profile_id )
+
+	def preserve_xattr( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.preserve_xattr', False, profile_id )
+
+	def set_preserve_xattr( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.preserve_xattr', value, profile_id )
 
 	def get_take_snapshot_user_script( self, step, profile_id = None ):
 		return self.get_profile_str_value ( "snapshots.take_snapshot.%s.user.script" % step, '', profile_id )

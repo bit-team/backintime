@@ -158,7 +158,7 @@ class SettingsDialog( KDialog ):
 		self.list_include.setRootIsDecorated( False )
 		#self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		#self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
-		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ) ] )
+		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include files & folders') ) ] )
 		self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
 
 		#self.popup_automatic_backup = KMenu( self )
@@ -304,6 +304,12 @@ class SettingsDialog( KDialog ):
 
 		self.cb_run_ionice_from_user = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' when tacking a manual snapshot (default: disabled)' ) ), self )
 		layout.addWidget( self.cb_run_ionice_from_user )
+
+		self.cb_preserve_acl = QCheckBox( QString.fromUtf8( _( 'Preserve ACL' ) ), self )
+		layout.addWidget( self.cb_preserve_acl )
+
+		self.cb_preserve_xattr = QCheckBox( QString.fromUtf8( _( 'Preserve extended attributes (xattr)' ) ), self )
+		layout.addWidget( self.cb_preserve_xattr )
 
 		#
 		layout.addStretch()

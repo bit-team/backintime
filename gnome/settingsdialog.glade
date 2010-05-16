@@ -14,7 +14,6 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkHBox" id="hbox5">
@@ -115,7 +114,6 @@
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkFrame" id="frame1">
@@ -281,7 +279,6 @@
               <object class="GtkVBox" id="vbox7">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkScrolledWindow" id="scrolledwindow4">
@@ -373,7 +370,6 @@
               <object class="GtkVBox" id="vbox8">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkScrolledWindow" id="scrolledwindow5">
@@ -639,7 +635,6 @@
               <object class="GtkVBox" id="vbox5">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkCheckButton" id="cb_enable_notifications">
@@ -703,7 +698,6 @@
               <object class="GtkVBox" id="vbox9">
                 <property name="visible">True</property>
                 <property name="border_width">5</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="label15">
@@ -757,11 +751,37 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkCheckButton" id="cb_preserve_acl">
+                    <property name="label" translatable="yes">Preserve ACL</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="cb_preserve_xattr">
+                    <property name="label" translatable="yes">Preserve extended attributes (xattr)</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkLabel" id="label16">
                     <property name="visible">True</property>
                   </object>
                   <packing>
-                    <property name="position">4</property>
+                    <property name="position">6</property>
                   </packing>
                 </child>
               </object>

@@ -128,7 +128,7 @@ class SettingsDialog(object):
 		pix_renderer = gtk.CellRendererPixbuf()
 		text_renderer = gtk.CellRendererText()
 		
-		column = gtk.TreeViewColumn( _('Include folders') )
+		column = gtk.TreeViewColumn( _('Include files & folders') )
 		column.pack_start( pix_renderer, False )
 		column.pack_end( text_renderer, True )
 		column.add_attribute( pix_renderer, 'stock-id', 1 )
@@ -240,6 +240,8 @@ class SettingsDialog(object):
 		self.cb_run_nice_from_cron = get('cb_run_nice_from_cron')
 		self.cb_run_ionice_from_cron = get('cb_run_ionice_from_cron')
 		self.cb_run_ionice_from_user = get('cb_run_ionice_from_user')
+		self.cb_preserve_acl = get('cb_preserve_acl')
+		self.cb_preserve_xattr = get('cb_preserve_xattr')
 		
 		#don't run when on battery
 		self.cb_no_on_battery = get( 'cb_no_on_battery' )
@@ -441,6 +443,10 @@ class SettingsDialog(object):
 		#don't run when on battery
 		self.cb_no_on_battery.set_active( self.config.is_no_on_battery_enabled( self.profile_id ) )
 	
+		#ACL & xattr
+		self.cb_preserve_acl.set_active(self.config.preserve_acl( self.profile_id ))
+		self.cb_preserve_xattr.set_active(self.config.preserve_xattr( self.profile_id ))
+		
 	def save_profile( self ):
 		#profile_id = self.config.get_current_profile()
 		#snapshots path
@@ -509,6 +515,9 @@ class SettingsDialog(object):
 		self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.get_active(), self.profile_id )
 		self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.get_active(), self.profile_id )
 		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active(), self.profile_id )
+
+		self.config.set_preserve_acl( self.cb_preserve_acl.get_active(), self.profile_id )
+		self.config.set_preserve_xattr( self.cb_preserve_xattr.get_active(), self.profile_id )
 	
 	def update_remove_old_backups( self, button ):
 		enabled = self.cb_remove_old_backup.get_active()
