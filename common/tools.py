@@ -333,15 +333,29 @@ def get_rsync_caps():
 	return caps
 
 
+def use_rsync_fast( config ):
+	return not (config.preserve_acl() or config.preserve_xattr())
+
+
 def get_rsync_prefix( config ):
 	caps = get_rsync_caps()
-	cmd = 'rsync -aEH'
+	#cmd = 'rsync -aEH'
+	cmd = 'rsync -rltDH'
+
+	no_perms = True
 
 	if config.preserve_acl() and "ACLs" in caps:
 		cmd = cmd + 'A'
+		no_perms = False
 
 	if config.preserve_xattr() and "xattrs" in caps:
 		cmd = cmd + 'X'
+		no_perms = False
+
+	if no_perms:
+		cmd = cmd + ' --no-p --no-g --no-o'
+	else:
+		cmd = cmd + 'pEgo'
 
 	return cmd + ' '
 

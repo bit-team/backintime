@@ -48,7 +48,7 @@ class Plugin:
 		return
 
 
-class PluginManager():
+class PluginManager:
 	def __init__( self ):
 		self.plugins = []
 		self.has_gui_plugins_ = False
