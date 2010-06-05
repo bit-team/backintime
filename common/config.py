@@ -283,15 +283,24 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		#Initialize the snapshots folder
 		print "Check snapshot folder: %s" % value
-		machine = socket.gethostname()
-		user = self.get_user()
-		full_path = os.path.join( value, 'backintime', machine, user, profile_id ) 
+		#machine = socket.gethostname()
+		#user = self.get_user()
+
+		host, user, profile = self.get_host_user_profile( profile_id )
+
+		full_path = os.path.join( value, 'backintime', host, user, profile ) 
 		if not os.path.isdir( full_path ):
 			print "Create folder: %s" % full_path
 			tools.make_dirs( full_path )
 			if not os.path.isdir( full_path ):
 				self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % value ) )
 				return False
+
+			path1 = os.path.join( value, 'backintime' ) 
+			os.system( "chmod a+rwx \"%s\"" % path1 )
+
+			path1 = os.path.join( value, 'backintime', host ) 
+			os.system( "chmod a+rwx \"%s\"" % path1 )
 		
 		#Test write access for the folder
 		check_path = os.path.join( full_path, 'check' )
