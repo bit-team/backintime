@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99.39'
+	VERSION = '0.9.99.41'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
@@ -263,11 +263,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 		if version < 4:
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
 		else:
-			machine = socket.gethostname()
-			user = self.get_user()
-			if profile_id is None:
-				profile_id = self.get_current_profile()
-			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', machine, user, profile_id ) 
+			host, user, profile = self.get_host_user_profile( profile_id )
+			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile ) 
 
 	def set_snapshots_path( self, value, profile_id = None ):
 		"""Sets the snapshot path to value, initializes, and checks it"""
@@ -306,6 +303,49 @@ class Config( configfile.ConfigFileWithProfiles ):
 		os.rmdir( check_path )
 		self.set_profile_str_value( 'snapshots.path', value, profile_id )
 		return True
+
+	def get_auto_host_user_profile( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.path.auto', True, profile_id )
+
+	def set_auto_host_user_profile( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.path.auto', value, profile_id )
+
+	def get_default_host_user_profile( self, profile_id = None ):
+		host = socket.gethostname()
+		user = self.get_user()
+		profile = profile_id
+		if profile is None:
+			profile = self.get_current_profile()
+
+		return ( host, user, profile )
+
+	def get_host_user_profile( self, profile_id = None ):
+		default_host, default_user, default_profile = self.get_default_host_user_profile( profile_id )
+
+		if self.get_auto_host_user_profile( profile_id ):
+			return ( default_host, default_user, default_profile )
+
+		host = self.get_profile_str_value( 'snapshots.path.host', default_host, profile_id )
+		if len( host ) <= 0:
+			host = default_host
+
+		user = self.get_profile_str_value( 'snapshots.path.user', default_user, profile_id )
+		if len( user ) <= 0:
+			user = default_user
+
+		profile = self.get_profile_str_value( 'snapshots.path.profile', default_profile, profile_id )
+		if len( profile ) <= 0:
+			profile = default_profile
+
+		return ( host, user, profile )
+
+	def set_host_user_profile( self, host, user, profile, profile_id = None ):
+		if profile_id is None:
+			profile_id = self.get_current_profile()
+
+		self.set_profile_str_value( 'snapshots.path.host', host, profile_id )
+		self.set_profile_str_value( 'snapshots.path.user', user, profile_id )
+		self.set_profile_str_value( 'snapshots.path.profile', profile, profile_id )
 
 	def get_other_folders_paths( self, profile_id = None ):
 		'''Returns the other snapshots folders paths as a list'''

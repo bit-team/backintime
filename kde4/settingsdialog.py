@@ -108,7 +108,10 @@ class SettingsDialog( KDialog ):
 		group_box.setTitle( QString.fromUtf8( _( 'Where to save snapshots' ) ) )
 		layout.addWidget( group_box )
 
-		hlayout = QHBoxLayout( group_box )
+		vlayout = QVBoxLayout( group_box )
+
+		hlayout = QHBoxLayout()
+		vlayout.addLayout( hlayout )
 
 		self.edit_snapshots_path = KLineEdit( self )
 		self.edit_snapshots_path.setReadOnly( True )
@@ -117,6 +120,39 @@ class SettingsDialog( KDialog ):
 		self.btn_snapshots_path = KPushButton( KIcon( 'folder' ), '', self )
 		hlayout.addWidget( self.btn_snapshots_path )
 		QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
+
+		#host, user, profile id
+		hlayout = QHBoxLayout()
+		layout.addLayout( hlayout )
+		hlayout.addSpacing( 12 )
+
+		vlayout2 = QVBoxLayout()
+		hlayout.addLayout( vlayout2 )
+
+		hlayout2 = QHBoxLayout()
+		vlayout2.addLayout( hlayout2 )
+
+		self.cb_auto_host_user_profile = QCheckBox( QString.fromUtf8( _( 'Auto Host / User / Profile Id' ) ), self )
+		QObject.connect( self.cb_auto_host_user_profile, SIGNAL('stateChanged(int)'), self.update_host_user_profile )
+		hlayout2.addWidget( self.cb_auto_host_user_profile )
+
+		hlayout2 = QHBoxLayout()
+		vlayout2.addLayout( hlayout2 )
+
+		self.lbl_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
+		hlayout2.addWidget( self.lbl_host )
+		self.txt_host = KLineEdit( self )
+		hlayout2.addWidget( self.txt_host )
+
+		self.lbl_user = QLabel( QString.fromUtf8( _( 'User:' ) ), self )
+		hlayout2.addWidget( self.lbl_user )
+		self.txt_user = KLineEdit( self )
+		hlayout2.addWidget( self.txt_user )
+
+		self.lbl_profile = QLabel( QString.fromUtf8( _( 'Profile:' ) ), self )
+		hlayout2.addWidget( self.lbl_profile )
+		self.txt_profile = KLineEdit( self )
+		hlayout2.addWidget( self.txt_profile )
 
 		#Schedule
 		group_box = QGroupBox( self )
@@ -376,6 +412,15 @@ class SettingsDialog( KDialog ):
 			self.config.set_current_profile( profile_id )
 			self.update_profile()
 
+	def update_host_user_profile( self ):
+		enabled = not self.cb_auto_host_user_profile.isChecked()
+		self.lbl_host.setEnabled( enabled )
+		self.txt_host.setEnabled( enabled )
+		self.lbl_user.setEnabled( enabled )
+		self.txt_user.setEnabled( enabled )
+		self.lbl_profile.setEnabled( enabled )
+		self.txt_profile.setEnabled( enabled )
+
 	def update_profiles( self ):
 		self.update_profile()
 		current_profile_id = self.config.get_current_profile()
@@ -402,6 +447,14 @@ class SettingsDialog( KDialog ):
 
 		#TAB: General
 		self.edit_snapshots_path.setText( QString.fromUtf8( self.config.get_snapshots_path() ) )
+
+		self.cb_auto_host_user_profile.setChecked( self.config.get_auto_host_user_profile() )
+		host, user, profile = self.config.get_host_user_profile()
+		self.txt_host.setText( QString.fromUtf8( host ) )
+		self.txt_user.setText( QString.fromUtf8( user ) )
+		self.txt_profile.setText( QString.fromUtf8( profile ) )
+		self.update_host_user_profile()
+
 		self.set_combo_value( self.combo_automatic_snapshots, self.config.get_automatic_backup_mode() )
 		self.set_combo_value( self.combo_automatic_snapshots_time, self.config.get_automatic_backup_time() )
 		self.update_automatic_snapshot_time( self.config.get_automatic_backup_mode() )
@@ -458,6 +511,12 @@ class SettingsDialog( KDialog ):
 		#snapshots path
 		self.config.set_snapshots_path( str( self.edit_snapshots_path.text().toUtf8() ) )
 		
+		self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.isChecked() )
+		self.config.set_host_user_profile(
+				str( self.txt_host.text().toUtf8() ),
+				str( self.txt_user.text().toUtf8() ),
+				str( self.txt_profile.text().toUtf8() ) )
+
 		#include list 
 		include_list = []
 		for index in xrange( self.list_include.topLevelItemCount() ):

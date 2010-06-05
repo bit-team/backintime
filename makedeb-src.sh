@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #RELEASES="hardy intrepid jaunty karmic"
-RELEASES="karmic"
+RELEASES="karmic lucid"
 
 for i in common gnome kde4; do
 	PKGNAME=`cat $i/debian_specific/control | grep "^Package:" | cut -d" " -f2`
