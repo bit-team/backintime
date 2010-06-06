@@ -509,13 +509,12 @@ class SettingsDialog( KDialog ):
 
 	def save_profile( self ):
 		#snapshots path
-		self.config.set_snapshots_path( str( self.edit_snapshots_path.text().toUtf8() ) )
-		
 		self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.isChecked() )
 		self.config.set_host_user_profile(
 				str( self.txt_host.text().toUtf8() ),
 				str( self.txt_user.text().toUtf8() ),
 				str( self.txt_profile.text().toUtf8() ) )
+		self.config.set_snapshots_path( str( self.edit_snapshots_path.text().toUtf8() ) )
 
 		#include list 
 		include_list = []

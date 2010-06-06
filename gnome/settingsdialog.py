@@ -503,9 +503,9 @@ class SettingsDialog(object):
 		#	   return False 
 		
 		#ok let's save to config
-		self.config.set_snapshots_path( snapshots_path, self.profile_id )
 		self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.get_active(), self.profile_id )
 		self.config.set_host_user_profile( self.txt_host.get_text(), self.txt_user.get_text(), self.txt_profile.get_text(), self.profile_id )
+		self.config.set_snapshots_path( snapshots_path, self.profile_id )
 
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
