@@ -224,6 +224,7 @@ def move_snapshots_folder( old_folder, new_folder ):
 		if len( snapshots_already_there ) > 0:
 			first_snapshot_path = os.path.join( new_folder, snapshots_to_move[ len( snapshots_to_move ) - 1 ] )
 			snapshot_to_hardlink_path =  os.path.join( new_folder, snapshots_already_there[0] )
+			_execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % snapshot_to_hardlink_path )
 			cmd = "cp -al \"%s\" \"%s\"" % ( snapshot_to_hardlink_path, first_snapshot_path )
 			_execute( cmd )
 	
@@ -242,6 +243,7 @@ def move_snapshots_folder( old_folder, new_folder ):
 		# Move move move
 		cmd = "rsync -aEAXHv --delete " + old_folder + " " + new_folder + " " + rsync_exclude
 		_execute( cmd )
+		_execute ( "find \"%s\" \"%s\" -type d -exec chmod a-w {} \\;" % ( snapshots_to_hardlink_path, first_snapshot_path ) )
 		
 	# Remove old ones
 	snapshots_not_moved = []
