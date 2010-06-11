@@ -74,6 +74,7 @@ class SettingsDialog(object):
 				'on_combo_profiles_changed': self.on_combo_profiles_changed,
 				'on_btn_where_clicked': self.on_btn_where_clicked,
 				'on_cb_backup_mode_changed': self.on_cb_backup_mode_changed,
+				'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile
 			}
 		
 		builder.connect_signals(signals)
@@ -103,6 +104,14 @@ class SettingsDialog(object):
 		#self.fcb_where.set_show_hidden( self.parent.show_hidden_files )
 		self.edit_where = get( 'edit_where' )
 		
+		self.cb_auto_host_user_profile = get('cb_auto_host_user_profile')
+		self.lbl_host = get('lbl_host')
+		self.txt_host = get('txt_host')
+		self.lbl_user = get('lbl_user')
+		self.txt_user = get('txt_user')
+		self.lbl_profile = get('lbl_profile')
+		self.txt_profile = get('txt_profile')
+
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
 		map = self.config.AUTOMATIC_BACKUP_MODES
@@ -294,6 +303,15 @@ class SettingsDialog(object):
 		else:
 			self.hbox_backup_time.show()
 
+	def update_host_user_profile( self, *params ):
+		value = not self.cb_auto_host_user_profile.get_active()
+		self.lbl_host.set_sensitive( value )
+		self.txt_host.set_sensitive( value )
+		self.lbl_user.set_sensitive( value )
+		self.txt_user.set_sensitive( value )
+		self.lbl_profile.set_sensitive( value )
+		self.txt_profile.set_sensitive( value )
+
 	def on_combo_profiles_changed( self, *params ):
 		if self.disable_combo_changed:
 			return
@@ -338,6 +356,12 @@ class SettingsDialog(object):
 		#set current folder
 		#self.fcb_where.set_filename( self.config.get_snapshots_path() )
 		self.edit_where.set_text( self.config.get_snapshots_path( self.profile_id ) )
+		self.cb_auto_host_user_profile.set_active( self.config.get_auto_host_user_profile( self.profile_id ) )
+		host, user, profile = self.config.get_host_user_profile( self.profile_id )
+		self.txt_host.set_text( host )
+		self.txt_user.set_text( user )
+		self.txt_profile.set_text( profile )
+		self.update_host_user_profile()
 		
 		#per directory schedule
 		#self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -479,7 +503,10 @@ class SettingsDialog(object):
 		#	   return False 
 		
 		#ok let's save to config
+		self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.get_active(), self.profile_id )
+		self.config.set_host_user_profile( self.txt_host.get_text(), self.txt_user.get_text(), self.txt_profile.get_text(), self.profile_id )
 		self.config.set_snapshots_path( snapshots_path, self.profile_id )
+
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
 		#   return False
