@@ -128,7 +128,7 @@ class SettingsDialog(object):
 		pix_renderer = gtk.CellRendererPixbuf()
 		text_renderer = gtk.CellRendererText()
 		
-		column = gtk.TreeViewColumn( _('Include files & folders') )
+		column = gtk.TreeViewColumn( _('Include files and folders') )
 		column.pack_start( pix_renderer, False )
 		column.pack_end( text_renderer, True )
 		column.add_attribute( pix_renderer, 'stock-id', 1 )
@@ -156,7 +156,7 @@ class SettingsDialog(object):
 		pix_renderer = gtk.CellRendererPixbuf()
 		text_renderer = gtk.CellRendererText()
 		
-		column = gtk.TreeViewColumn( _('Patterns, files or folders') )
+		column = gtk.TreeViewColumn( _('Exclude patterns, files or folders') )
 		column.pack_start( pix_renderer, False )
 		column.pack_end( text_renderer, True )
 		column.add_attribute( pix_renderer, 'stock-id', 1 )
