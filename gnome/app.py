@@ -925,12 +925,12 @@ class MainWindow(object):
             self.on_help()
 
     def on_btn_settings_clicked( self, button ):
-        snapshots_path = self.config.get_snapshots_path()
+        snapshots_full_path = self.config.get_snapshots_full_path()
         include_folders = self.config.get_include()
 
         settingsdialog.SettingsDialog( self.config, self.snapshots, self ).run()
 
-        if snapshots_path != self.config.get_snapshots_path() or include_folders != self.config.get_include():
+        if snapshots_full_path != self.config.get_snapshots_full_path() or include_folders != self.config.get_include():
             self.update_all( False )
         self.update_profiles()
 
