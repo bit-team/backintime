@@ -877,7 +877,10 @@ class Snapshots:
 			folder = include_folder[0]
 
 			if folder == "/":	# If / is selected as included folder it should be changed to ""
-				folder = ""	# because an extra / is added below. Patch thanks to Martin Hoefling
+				#folder = ""	# because an extra / is added below. Patch thanks to Martin Hoefling
+				self._append_item_to_list( "--include=\"/\"" , items2 )
+				self._append_item_to_list( "--include=\"/**\"" , items2 )
+				continue
 
 			if include_folder[1] == 0:
 				self._append_item_to_list( "--include=\"%s/**\"" % folder, items2 )
