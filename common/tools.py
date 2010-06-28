@@ -377,7 +377,7 @@ def _get_md5sum_from_path(path):
     '''return md5sum of path'''   
     if check_command("md5sum"):
         # md5sum utility, if available
-        out = commands.getstatusoutput("md5sum " + path)
+        out = commands.getstatusoutput('md5sum "' + path + '"')
         md5sum = out[1].split(" ")[0]
         return md5sum
     else: 
@@ -435,7 +435,8 @@ class UniquenessSet():
         else:
             # store a tuple of (size, modification time)
             obj  = os.stat(path)
-            unique_key = (obj.st_size, int(obj.st_mtime)) 
+            unique_key = (obj.st_size, int(obj.st_mtime))
+            # print "..", path, unique_key 
         # store if not already present, then return True
         if unique_key not in self._uniq_dict.keys():
             if verb: print " >> ok, store !"             
