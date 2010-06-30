@@ -1,19 +1,19 @@
-#    Back In Time
-#    Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
+#	Back In Time
+#	Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+#	This program is free software; you can redistribute it and/or modify
+#	it under the terms of the GNU General Public License as published by
+#	the Free Software Foundation; either version 2 of the License, or
+#	(at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#	This program is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#	GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#	You should have received a copy of the GNU General Public License along
+#	with this program; if not, write to the Free Software Foundation, Inc.,
+#	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 import os
@@ -1273,6 +1273,33 @@ class Snapshots:
 	#		logger.info( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
 
 	#	return output
+	
+	def filterFor(self, path_base, snapshots_list, list_diff_only  = False, flag_deep_check = False):
+		"return a list of available snapshots (including 'now'), eventually filtered for uniqueness"
+		snapshots_filtered = []
+		is_dir = os.path.isdir( path_base )
+		if not list_diff_only :
+			# don't care about duplicates, add now ..
+			if os.path.lexists( path_base ):
+				snapshots_filtered.append('/')
+			# .. and add all the snapshots
+			for snapshot_id in snapshots_list:
+				path = self.get_snapshot_path_to( snapshot_id, path_base )
+				if os.path.lexists( path ):
+					snapshots_filtered.append(snapshot_id)
+		else:
+			# check for duplicates
+			uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False)
+			# add now
+			if os.path.lexists( path_base ) and uniqueness.check_for(path_base):  
+				snapshots_filtered.append('/')
+			# add snapshots
+			for snapshot_id in snapshots_list:
+				path = self.get_snapshot_path_to( snapshot_id, path_base )
+				if os.path.lexists( path ) and uniqueness.check_for(path):  
+					snapshots_filtered.append(snapshot_id)
+		return snapshots_filtered
+		
 
 
 if __name__ == "__main__":

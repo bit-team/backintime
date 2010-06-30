@@ -289,39 +289,19 @@ class SnapshotsDialog(object):
         #fill snapshots
         self.store_snapshots.clear()
     
-        path = self.snapshots.get_snapshot_path_to( current_snapshot_id, self.path )    
-        isdir = os.path.isdir( path )
-
         counter = 0
         index_combo_diff_with = 0
         
-        #add now
+        # filter snapshots for uniqueness
         list_diff_only  = self.builder.get_object( 'check_only_different' ).get_active()
         flag_deep_check = self.builder.get_object( 'check_use_md5sum' ).get_active()   
-        uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False)
-        path = self.path
-        if os.path.lexists( path ):
-            if os.path.isdir( path ) == isdir:
-                if list_diff_only:
-                    uniqueness.check_for(path)
-                self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, '/' ), '/' ] )
-                if '/' == current_snapshot_id:
-                    indexComboDiffWith = counter
-                counter += 1
-                
-        #add snapshots
-        for snapshot in snapshots_list:
-            path = self.snapshots.get_snapshot_path_to( snapshot, self.path  )
-            if os.path.lexists( path ):
-                if os.path.isdir( path ) == isdir:
-                    list_current = True
-                    if list_diff_only:
-                        list_current = uniqueness.check_for(path)
-                    if list_current:    
-                        self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, snapshot), snapshot ] )
-                        if snapshot == current_snapshot_id:
-                            index_combo_diff_with = counter
-                        counter += 1
+        snapshots_filtered = self.snapshots.filterFor(self.path, snapshots_list, list_diff_only, flag_deep_check)
+        
+        for snapshot_id in snapshots_filtered:
+            self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, snapshot_id ), snapshot_id ] )
+            if snapshot_id == current_snapshot_id:
+                index_combo_diff_with = counter
+            counter += 1
 
         #select first item
         if len( self.store_snapshots ) > 0:
