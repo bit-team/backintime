@@ -54,9 +54,6 @@ class SnapshotsDialog(object):
 
         builder.add_from_file(glade_file)
 
-        #self.path = None
-        #self.icon_name = None
-
         self.dialog = self.builder.get_object( 'SnapshotsDialog' )
         self.dialog.set_transient_for( parent )
 
