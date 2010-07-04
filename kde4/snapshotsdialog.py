@@ -115,6 +115,15 @@ class SnapshotsDialog( KDialog ):
 		self.btn_copy.setToolTip( QString.fromUtf8( _('Copy') ) )
 		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.on_btn_copy_to_clipboard_clicked )
 
+		#list different snapshots only
+		self.cb_only_different_snapshots = QCheckBox( QString.fromUtf8( _( 'List only different snapshots' ) ), self )
+		self.main_layout.addWidget( self.cb_only_different_snapshots )
+		QObject.connect( self.cb_only_different_snapshots, SIGNAL('stateChanged(int)'), self.cb_only_different_snapshots_changed )
+
+		self.cb_only_different_snapshots_deep_check = QCheckBox( QString.fromUtf8( _( 'Deep check (more accurate, but slow)' ) ), self )
+		self.main_layout.addWidget( self.cb_only_different_snapshots_deep_check )
+		QObject.connect( self.cb_only_different_snapshots_deep_check, SIGNAL('stateChanged(int)'), self.cb_only_different_snapshots_deep_check_changed )
+
 		#snapshots list
 		self.list_snapshots = KListWidget( self )
 		self.main_layout.addWidget( self.list_snapshots )
@@ -144,15 +153,7 @@ class SnapshotsDialog( KDialog ):
 		#update list and combobox
 		self.update_snapshots()
 
-	def add_snapshot_( self, snapshot_id, is_dir ):
-		full_path = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
-
-		if not os.path.lexists( full_path ):
-			return
-
-		if is_dir != os.path.isdir( full_path ):
-			return
-
+	def add_snapshot_( self, snapshot_id ):
 		name = self.snapshots.get_snapshot_display_name( snapshot_id )
 
 		#add to list
@@ -174,23 +175,9 @@ class SnapshotsDialog( KDialog ):
 		self.list_snapshots.clear()
 		self.combo_diff.clear()
 	
-		path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )	
-		is_dir = os.path.isdir( path )
-
-        #
-        # here something like this:
-        #  snapshots_filtered = self.snapshots.filterFor(self.path, snapshots_list, list_diff_only, flag_deep_check)
-        #
-        #  for snapshot_id in snapshots_filtered:
-        #      self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, snapshot_id ), snapshot_id ] )
-        # 
-
-		#add now
-		self.add_snapshot_( '/', is_dir )
-				
-		#add snapshots
-		for snapshot_id in self.snapshots_list:
-			self.add_snapshot_( snapshot_id, is_dir )
+		snapshots_filtered = self.snapshots.filter_for(self.snapshot_id, self.path, self.snapshots_list, self.cb_only_different_snapshots.isChecked(), self.cb_only_different_snapshots_deep_check.isChecked())
+		for snapshot_id in snapshots_filtered:
+			self.add_snapshot_( snapshot_id )
 
 		self.update_toolbar()
 
@@ -199,6 +186,15 @@ class SnapshotsDialog( KDialog ):
 		if item is None:
 			return ''
 		return str( item.data( Qt.UserRole ).toString().toUtf8() )
+
+	def cb_only_different_snapshots_changed( self ):
+		enabled = self.cb_only_different_snapshots.isChecked()
+		self.cb_only_different_snapshots_deep_check.setEnabled( enabled )
+
+		self.update_snapshots()
+
+	def cb_only_different_snapshots_deep_check_changed( self ):
+		self.update_snapshots()
 
 	def update_toolbar( self ):
 		snapshot_id = self.get_list_snapshot_id()
