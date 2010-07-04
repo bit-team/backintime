@@ -374,22 +374,17 @@ def temp_failure_retry(func, *args, **kwargs):
 
 
 def _get_md5sum_from_path(path):
-    '''return md5sum of path'''   
+    '''return md5sum of path, af available system command md5sum()'''   
     if check_command("md5sum"):
-        # md5sum utility, if available
-        out = commands.getstatusoutput('md5sum "' + path + '"')
-        md5sum = out[1].split(" ")[0]
-        return md5sum
-    else: 
-        # md5sum unavailable; raise an exception ? a message ? use std lib ? 
-        pass
-        ## python std lib 
-        # try:
-        #     path = open(path, 'rb')
-        #     md5sum = hashlib.md5(path.read())
-        # except IOError:
-        #     return False  
-        # return md5sum.hexdigest()
+        status,output = commands.getstatusoutput("md5sum '" + path + "'")
+        if status == 0:
+            md5sum = output.split(" ")[0]
+            return md5sum
+    # md5sum unavailable or command failed; raise an exception ? a message ? use std lib ? 
+    print "warning: md5sum() fail ! used (st_size, st_mttime) instead of md5sum."
+    obj  = os.stat(path)
+    unique_key = (obj.st_size, int(obj.st_mtime))    
+    return unique_key
         				
 #
 #

@@ -32,26 +32,26 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="check_only_different">
+              <object class="GtkCheckButton" id="check_list_diff">
                 <property name="label" translatable="yes">list different snapshots only</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="on_check_only_different_toggled"/>
+                <signal name="toggled" handler="on_check_list_diff_toggled"/>
               </object>
               <packing>
                 <property name="position">1</property>
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="check_use_md5sum">
+              <object class="GtkCheckButton" id="check_deep_check">
                 <property name="label" translatable="yes">deep check (more accurate, but slow)</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="on_check_use_md5sum_toggled"/>
+                <signal name="toggled" handler="on_check_deep_check_toggled"/>
               </object>
               <packing>
                 <property name="position">2</property>

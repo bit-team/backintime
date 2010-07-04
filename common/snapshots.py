@@ -1277,8 +1277,7 @@ class Snapshots:
 	def filterFor(self, path_base, snapshots_list, list_diff_only  = False, flag_deep_check = False):
 		"return a list of available snapshots (including 'now'), eventually filtered for uniqueness"
 		snapshots_filtered = []
-		is_dir = os.path.isdir( path_base )
-		if not list_diff_only :
+		if not list_diff_only or os.path.isdir( path_base ):
 			# don't care about duplicates, add now ..
 			if os.path.lexists( path_base ):
 				snapshots_filtered.append('/')

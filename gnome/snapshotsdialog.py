@@ -40,8 +40,12 @@ class SnapshotsDialog(object):
 
     def __init__( self, snapshots, parent, path, snapshots_list, current_snapshot_id, icon_name ):
         self.snapshots = snapshots
+        self.path = path
+        self.snapshots_list = snapshots_list
+        self.current_snapshot_id = current_snapshot_id
+        self.icon_name = icon_name        
         self.config = snapshots.config
-        
+                
         builder = gtk.Builder()
         self.builder = builder
 
@@ -50,8 +54,8 @@ class SnapshotsDialog(object):
 
         builder.add_from_file(glade_file)
 
-        self.path = None
-        self.icon_name = None
+        #self.path = None
+        #self.icon_name = None
 
         self.dialog = self.builder.get_object( 'SnapshotsDialog' )
         self.dialog.set_transient_for( parent )
@@ -65,8 +69,8 @@ class SnapshotsDialog(object):
             'on_btn_diff_with_clicked' : self.on_btn_diff_with_clicked,
             'on_btn_copy_snapshot_clicked' : self.on_btn_copy_snapshot_clicked,
             'on_btn_restore_snapshot_clicked' : self.on_btn_restore_snapshot_clicked,
-            'on_check_only_different_toggled' : self.on_check_only_different_toggled,
-            'on_check_use_md5sum_toggled' : self.on_check_use_md5sum_toggled
+            'on_check_list_diff_toggled'  : self.on_check_list_diff_toggled,
+            'on_check_deep_check_toggled' : self.on_check_deep_check_toggled
             }
 
         #path
@@ -109,14 +113,11 @@ class SnapshotsDialog(object):
         self.combo_diff_with.add_attribute( text_renderer, 'markup', 0 )
         self.combo_diff_with.set_model( self.store_snapshots ) #use the same store
 
-        #UPDATE
+        # update snapshot list
         if os.path.isdir( path ):
-            self.builder.get_object( 'check_only_different' ).set_sensitive( False )
-        self.builder.get_object( 'check_use_md5sum' ).set_sensitive( False )
-        self.current_snapshot_id, self.snapshots_list = current_snapshot_id, snapshots_list
-        self.path = path
-        self.icon_name = icon_name
-        self.update_snapshots( current_snapshot_id, snapshots_list )
+            self.builder.get_object( 'check_list_diff' ).set_sensitive( False )
+        self.builder.get_object( 'check_deep_check' ).set_sensitive( False )
+        self.update_snapshots()
 
     def update_toolbar( self ):
         if len( self.store_snapshots ) <= 0:
@@ -271,19 +272,19 @@ class SnapshotsDialog(object):
             self.config.set_str_value( 'gnome.diff.params', diff_cmd_params )
             self.config.save()
 
-    def on_check_only_different_toggled( self, widget, data = None ):
-        deep_btn = self.builder.get_object( 'check_use_md5sum' )     
+    def on_check_list_diff_toggled( self, widget, data = None ):
+        deep_btn = self.builder.get_object( 'check_deep_check' )     
         if widget.get_active() and tools.check_command("md5sum"):
             deep_btn.set_sensitive(True)
         else:
             deep_btn.set_active(False)
             deep_btn.set_sensitive( False )
-        self.update_snapshots(self.current_snapshot_id, self.snapshots_list )
+        self.update_snapshots()
         
-    def on_check_use_md5sum_toggled( self, widget, data = None ):
-        self.update_snapshots(self.current_snapshot_id, self.snapshots_list )
+    def on_check_deep_check_toggled( self, widget, data = None ):
+        self.update_snapshots()
 
-    def update_snapshots( self, current_snapshot_id, snapshots_list ):
+    def update_snapshots( self):
         self.edit_path.set_text( self.path )
 
         #fill snapshots
@@ -292,14 +293,14 @@ class SnapshotsDialog(object):
         counter = 0
         index_combo_diff_with = 0
         
-        # filter snapshots for uniqueness
-        list_diff_only  = self.builder.get_object( 'check_only_different' ).get_active()
-        flag_deep_check = self.builder.get_object( 'check_use_md5sum' ).get_active()   
-        snapshots_filtered = self.snapshots.filterFor(self.path, snapshots_list, list_diff_only, flag_deep_check)
+        # filter snapshots for uniqueness (if requested)
+        list_diff  = self.builder.get_object( 'check_list_diff' ).get_active()
+        deep_check = self.builder.get_object( 'check_deep_check' ).get_active()   
+        snapshots_filtered = self.snapshots.filterFor(self.path, self.snapshots_list, list_diff, deep_check)
         
         for snapshot_id in snapshots_filtered:
             self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, snapshot_id ), snapshot_id ] )
-            if snapshot_id == current_snapshot_id:
+            if snapshot_id == self.current_snapshot_id:
                 index_combo_diff_with = counter
             counter += 1
 
