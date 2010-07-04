@@ -177,6 +177,14 @@ class SnapshotsDialog( KDialog ):
 		path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )	
 		is_dir = os.path.isdir( path )
 
+        #
+        # here something like this:
+        #  snapshots_filtered = self.snapshots.filterFor(self.path, snapshots_list, list_diff_only, flag_deep_check)
+        #
+        #  for snapshot_id in snapshots_filtered:
+        #      self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, snapshot_id ), snapshot_id ] )
+        # 
+
 		#add now
 		self.add_snapshot_( '/', is_dir )
 				
