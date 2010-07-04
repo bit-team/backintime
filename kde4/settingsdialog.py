@@ -166,16 +166,13 @@ class SettingsDialog( KDialog ):
 		hlayout.addWidget( self.combo_automatic_snapshots, 2 )
 		self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES )
 
-		hlayout_time = QHBoxLayout( group_box )
-		hlayout.addLayout( hlayout_time )
-
 		self.lbl_automatic_snapshots_time = QLabel( QString.fromUtf8( _( 'Hour:' ) ), self )
 		self.lbl_automatic_snapshots_time.setContentsMargins( 5, 0, 0, 0 )
 		self.lbl_automatic_snapshots_time.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
-		hlayout_time.addWidget( self.lbl_automatic_snapshots_time )
+		hlayout.addWidget( self.lbl_automatic_snapshots_time )
 
 		self.combo_automatic_snapshots_time = KComboBox( self )
-		hlayout_time.addWidget( self.combo_automatic_snapshots_time, 1 )
+		hlayout.addWidget( self.combo_automatic_snapshots_time, 1 )
 
 		for t in xrange( 0, 2300, 100 ):
 			self.combo_automatic_snapshots_time.addItem( QIcon(), QString.fromUtf8( datetime.time( t/100, t%100 ).strftime("%H:%M") ), QVariant( t ) )
