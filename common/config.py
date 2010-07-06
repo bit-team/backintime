@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99.50'
+	VERSION = '0.9.99.51'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
@@ -705,16 +705,16 @@ class Config( configfile.ConfigFileWithProfiles ):
 		system_entry_message = "#Back In Time system entry, this will be edited by the gui:"
 		
 		"""We have to check if the system_entry_message is in use,
-		if not then the entries are most likely from Back in Time 0.9.26
+		if not then the entries are most likely from Back In Time 0.9.26
 		or earlier."""
 		if os.system( "crontab -l | grep '%s' > /dev/null" % system_entry_message ) != 0:
 			"""Then the system entry message has not yet been used in this crontab
 			therefore we assume all entries are system entries and clear them all.
 			This is the old behaviour"""
-			print "Clearing all backintime entries"
+			print "Clearing all Back In Time entries"
 			os.system( "crontab -l | grep -v backintime | crontab -" )
 		
-		print "Clearing system backintime entries"
+		print "Clearing system Back In Time entries"
 		os.system( "crontab -l | grep -Pv '(?s)%s.*?backintime' | crontab -" % system_entry_message )
 		
 		profiles = self.get_profiles()

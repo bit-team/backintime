@@ -80,7 +80,7 @@ class MainWindow( KMainWindow ):
 		QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 
 		self.btn_update_snapshots = self.main_toolbar.addAction( KIcon( 'view-refresh' ), '' )
-		self.btn_update_snapshots.setToolTip( QString.fromUtf8( _('Refresh snapshots') ) )
+		self.btn_update_snapshots.setToolTip( QString.fromUtf8( _('Refresh snapshots list') ) )
 		QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
 
 		self.btn_name_snapshot = self.main_toolbar.addAction( KIcon( 'edit-rename' ), '' )
@@ -168,7 +168,7 @@ class MainWindow( KMainWindow ):
 		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.on_btn_restore_clicked )
 
 		self.btn_copy = self.files_view_toolbar.addAction( KIcon( 'edit-copy' ), '' )
-		self.btn_copy.setToolTip( QString.fromUtf8( _('Copy') ) )
+		self.btn_copy.setToolTip( QString.fromUtf8( _('Copy pathname to clipboard') ) )
 		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.on_btn_copy_to_clipboard_clicked )
 
 		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
@@ -306,7 +306,7 @@ class MainWindow( KMainWindow ):
 			KMessageBox.error( self, QString.fromUtf8( _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') ) )
 
 		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('completed()'), self.on_dir_lister_completed )
-		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('canceled()'), self.on_dir_lister_completed )
+		QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('cancelled()'), self.on_dir_lister_completed )
 
 		#populate lists
 		self.update_profiles()

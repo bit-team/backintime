@@ -191,7 +191,7 @@ class SettingsDialog( KDialog ):
 		self.list_include.setRootIsDecorated( False )
 		#self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		#self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
-		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include files & folders') ) ] )
+		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include files and folders') ) ] )
 		self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
 
 		#self.popup_automatic_backup = KMenu( self )
@@ -321,7 +321,7 @@ class SettingsDialog( KDialog ):
 		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Expert Options' ) ) )
 		layout = QVBoxLayout( tab_widget )
 
-		label = QLabel( QString.fromUtf8( _('Change this options only if you really know what you are doing !') ), self )
+		label = QLabel( QString.fromUtf8( _('Change these options only if you really know what you are doing !') ), self )
 		kde4tools.set_font_bold( label )
 		layout.addWidget( label )
 
