@@ -1,19 +1,19 @@
-#    Back In Time
-#    Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
+#	Back In Time
+#	Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+#	This program is free software; you can redistribute it and/or modify
+#	it under the terms of the GNU General Public License as published by
+#	the Free Software Foundation; either version 2 of the License, or
+#	(at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#	This program is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#	GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#	You should have received a copy of the GNU General Public License along
+#	with this program; if not, write to the Free Software Foundation, Inc.,
+#	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 import os
@@ -377,8 +377,8 @@ class Snapshots:
 				list.append( item )
 
 		list.sort( reverse = sort_reverse )
-		print "ABC:"
-		print list
+		#print "ABC:"
+		#print list
 
 		return list
 		
@@ -494,7 +494,7 @@ class Snapshots:
 			logger.warning( 'Snapshot location needs update' ) 
 			profiles = self.config.get_profiles()
 
-			answer_change = self.config.question_handler( _('BackinTime changed its backup format.\n\nYour old snapshots can be moved according to this new format. OK?') )
+			answer_change = self.config.question_handler( _('Back In Time changed its backup format.\n\nYour old snapshots can be moved according to this new format. OK?') )
 			#print answer_change
 			if answer_change == True:
 				logger.info( 'Update snapshot locations' )
@@ -507,7 +507,7 @@ class Snapshots:
 					answer_same = self.config.question_handler( _('%s profiles found. \n\nThe new backup format supports storage of different users and profiles on the same location. Do you want the same location for both profiles? \n\n(The program will still be able to discriminate between them)') % len( profiles ) )
 				else:
 					logger.warning( 'No profiles are found!' )
-					self.config.notify_error( _( 'No profiles are found. Will have to update to profiles first, please restart BackinTime' ) )
+					self.config.notify_error( _( 'No profiles are found. Will have to update to profiles first, please restart Back In Time' ) )
 					logger.info( 'Config version is %s' % str( self.get_int_value( 'config.version', 1 ) ) )
 					
 					if self.config.get_int_value( 'config.version', 1 ) > 1:
@@ -558,7 +558,7 @@ class Snapshots:
 					else:
 						logger.warning( '%s: are not moved to their new location!' %snapshots_left )
 						
-						answer_unsuccessful = self.config.question_handler( _('%s\nof profile %s are not moved to their new location\nDo you want to proceed?\n(BackinTime will be able to continue taking snapshots, however the remaining snapshots will not be considered for automatic removal)\n\nIf not BackinTime will restore former settings for this profile, however cannot continue taking snapshots' %( snapshots_left, profile_id ) ) )
+						answer_unsuccessful = self.config.question_handler( _('%s\nof profile %s are not moved to their new location\nDo you want to proceed?\n(Back In Time will be able to continue taking snapshots, however the remaining snapshots will not be considered for automatic removal)\n\nIf not Back In Time will restore former settings for this profile, however cannot continue taking snapshots' %( snapshots_left, profile_id ) ) )
 						if answer_unsuccessful == True:
 							success.append( True )
 						else:
@@ -567,7 +567,7 @@ class Snapshots:
 							logger.info( 'Restore former settings' )
 							self.config.set_snapshots_path( old_snapshots_paths[counter], profile_id )
 							#print self.get_snapshots_path( profile_id )
-							self.config.error_handler( _('Former settings of profile %s are restored.\nBackinTime cannot continue taking new snapshots.\n\nYou can manually move the snapshots, \nif you are done restart BackinTime to proceed' %profile_id ) )
+							self.config.error_handler( _('Former settings of profile %s are restored.\nBack In Time cannot continue taking new snapshots.\n\nYou can manually move the snapshots, \nif you are done restart Back In Time to proceed' %profile_id ) )
 					
 					counter = counter + 1
 				
@@ -579,13 +579,13 @@ class Snapshots:
 				if overall_success == True:
 					#self.set_update_other_folders( False )
 					#print self.get_update_other_folders()
-					logger.info( 'BackinTime will be able to make new snapshots again!' )
-					self.config.error_handler( _('Update was successful!\n\nBackinTime will continue taking snapshots again as scheduled' ) )
+					logger.info( 'Back In Time will be able to make new snapshots again!' )
+					self.config.error_handler( _('Update was successful!\n\nBack In Time will continue taking snapshots again as scheduled' ) )
 
 			elif answer_change == False:
 				logger.info( 'Move refused by user' )
 				logger.warning( 'Old snapshots are not taken into account by smart-remove' )
-				answer_continue = self.config.question_handler( _('Are you sure you do not want to move your old snapshots?\n\n\nIf you do, you will not see these questions again next time, BackinTime will continue making snapshots again, but smart-remove cannot take your old snapshots into account any longer!\n\nIf you do not, you will be asked again next time you start BackinTime.') )
+				answer_continue = self.config.question_handler( _('Are you sure you do not want to move your old snapshots?\n\n\nIf you do, you will not see these questions again next time, Back In Time will continue making snapshots again, but smart-remove cannot take your old snapshots into account any longer!\n\nIf you do not, you will be asked again next time you start Back In Time.') )
 				if answer_continue == True:
 					#self.set_update_other_folders( False )
 					for profile_id in profiles:
@@ -593,10 +593,10 @@ class Snapshots:
 						self.config.set_snapshots_path( old_folder, profile_id )
 						logger.info( 'Folder of profile %s is set to %s' %( profile_id, self.get_snapshots_path( profile_id ) ) )
 					
-					logger.info( 'BackinTime will be able to make new snapshots again!' )
-					self.config.error_handler( _('BackinTime will continue taking snapshots again as scheduled' ) )
+					logger.info( 'Back In Time will be able to make new snapshots again!' )
+					self.config.error_handler( _('Back In Time will continue taking snapshots again as scheduled' ) )
 				else: 
-					self.config.error_handler( _( 'BackinTime still cannot continue taking new snapshots.\nRestart BackinTime to see the questions again' ) )
+					self.config.error_handler( _( 'Back In Time still cannot continue taking new snapshots.\nRestart Back In Time to see the questions again' ) )
 			else:
 				return False
 		
@@ -879,7 +879,10 @@ class Snapshots:
 			folder = include_folder[0]
 
 			if folder == "/":	# If / is selected as included folder it should be changed to ""
-				folder = ""	# because an extra / is added below. Patch thanks to Martin Hoefling
+				#folder = ""	# because an extra / is added below. Patch thanks to Martin Hoefling
+				self._append_item_to_list( "--include=\"/\"" , items2 )
+				self._append_item_to_list( "--include=\"/**\"" , items2 )
+				continue
 
 			if include_folder[1] == 0:
 				self._append_item_to_list( "--include=\"%s/**\"" % folder, items2 )
@@ -1275,6 +1278,61 @@ class Snapshots:
 	#		logger.info( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
 
 	#	return output
+	
+	def filter_for(self, base_snapshot_id, base_path, snapshots_list, list_diff_only  = False, flag_deep_check = False):
+		"return a list of available snapshots (including 'now'), eventually filtered for uniqueness"
+		snapshots_filtered = []
+
+		base_full_path = self.get_snapshot_path_to( base_snapshot_id, base_path )
+		if not os.path.lexists( base_full_path ):
+			return []
+
+		all_snapshots_list = [ '/' ]
+		all_snapshots_list.extend( snapshots_list )
+
+		#links
+		if os.path.islink( base_full_path ):
+			for snapshot_id in all_snapshots_list:
+				path = self.get_snapshot_path_to( snapshot_id, base_path )
+
+				if os.path.lexists( path ) and os.path.islink( path ):
+					if list_diff_only:
+						target = os.readlink( path )
+						if target in targets:
+							continue
+						targets.append( target )
+					snapshots_filtered.append(snapshot_id)
+
+			return snapshots_filtered
+
+		#directories
+		if os.path.isdir( base_full_path ):
+			for snapshot_id in all_snapshots_list:
+				path = self.get_snapshot_path_to( snapshot_id, base_path )
+
+				if os.path.exists( path ) and not os.path.islink( path ) and os.path.isdir( path ):
+					snapshots_filtered.append(snapshot_id)
+
+			return snapshots_filtered
+
+		#files
+		if not list_diff_only:
+			for snapshot_id in all_snapshots_list:
+				path = self.get_snapshot_path_to( snapshot_id, base_path )
+
+				if os.path.exists( path ) and not os.path.islink( path ) and os.path.isfile( path ):
+					snapshots_filtered.append(snapshot_id)
+
+			return snapshots_filtered
+
+		# check for duplicates
+		uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False)
+		for snapshot_id in all_snapshots_list:
+			path = self.get_snapshot_path_to( snapshot_id, base_path )
+			if os.path.exists( path ) and not os.path.islink( path ) and os.path.isfile( path ) and uniqueness.check_for(path):  
+				snapshots_filtered.append(snapshot_id)
+
+		return snapshots_filtered
 
 
 if __name__ == "__main__":

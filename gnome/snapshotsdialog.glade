@@ -32,12 +32,38 @@
               </packing>
             </child>
             <child>
+              <object class="GtkCheckButton" id="check_list_diff">
+                <property name="label" translatable="yes">List only different snapshots</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="on_check_list_diff_toggled"/>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="check_deep_check">
+                <property name="label" translatable="yes">Deep check (more accurate, but slow)</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="on_check_deep_check_toggled"/>
+              </object>
+              <packing>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkToolbar" id="toolbar2">
                 <property name="visible">True</property>
                 <child>
                   <object class="GtkToolButton" id="btn_copy_snapshot">
                     <property name="visible">True</property>
-                    <property name="tooltip_text" translatable="yes">Copy</property>
+                    <property name="tooltip_text" translatable="yes">Copy pathname to clipboard</property>
                     <property name="label" translatable="yes">Copy</property>
                     <property name="stock_id">gtk-copy</property>
                     <signal name="clicked" handler="on_btn_copy_snapshot_clicked"/>
@@ -63,7 +89,7 @@
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="position">1</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -90,7 +116,7 @@
               </object>
               <packing>
                 <property name="padding">2</property>
-                <property name="position">2</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>
@@ -232,7 +258,7 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="btn_goto_snapshot">
-                <property name="label" translatable="yes">gtk-jump-to</property>
+                <property name="label">gtk-jump-to</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -248,7 +274,7 @@
             </child>
             <child>
               <object class="GtkButton" id="btn_cancel ">
-                <property name="label" translatable="yes">gtk-cancel</property>
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>

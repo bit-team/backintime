@@ -166,16 +166,13 @@ class SettingsDialog( KDialog ):
 		hlayout.addWidget( self.combo_automatic_snapshots, 2 )
 		self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES )
 
-		hlayout_time = QHBoxLayout( group_box )
-		hlayout.addLayout( hlayout_time )
-
 		self.lbl_automatic_snapshots_time = QLabel( QString.fromUtf8( _( 'Hour:' ) ), self )
 		self.lbl_automatic_snapshots_time.setContentsMargins( 5, 0, 0, 0 )
 		self.lbl_automatic_snapshots_time.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
-		hlayout_time.addWidget( self.lbl_automatic_snapshots_time )
+		hlayout.addWidget( self.lbl_automatic_snapshots_time )
 
 		self.combo_automatic_snapshots_time = KComboBox( self )
-		hlayout_time.addWidget( self.combo_automatic_snapshots_time, 1 )
+		hlayout.addWidget( self.combo_automatic_snapshots_time, 1 )
 
 		for t in xrange( 0, 2300, 100 ):
 			self.combo_automatic_snapshots_time.addItem( QIcon(), QString.fromUtf8( datetime.time( t/100, t%100 ).strftime("%H:%M") ), QVariant( t ) )
@@ -194,7 +191,7 @@ class SettingsDialog( KDialog ):
 		self.list_include.setRootIsDecorated( False )
 		#self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		#self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
-		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include files & folders') ) ] )
+		self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include files and folders') ) ] )
 		self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
 
 		#self.popup_automatic_backup = KMenu( self )
@@ -324,7 +321,7 @@ class SettingsDialog( KDialog ):
 		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Expert Options' ) ) )
 		layout = QVBoxLayout( tab_widget )
 
-		label = QLabel( QString.fromUtf8( _('Change this options only if you really know what you are doing !') ), self )
+		label = QLabel( QString.fromUtf8( _('Change these options only if you really know what you are doing !') ), self )
 		kde4tools.set_font_bold( label )
 		layout.addWidget( label )
 
