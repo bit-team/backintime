@@ -188,6 +188,9 @@ class Snapshots:
 		except:
 			pass
 
+	def clear_take_snapshot_message( self ):
+		os.system( "rm \"%s\"" % self.config.get_take_snapshot_message_file() )
+
 	def get_take_snapshot_message( self ):
 		try:
 			file = open( self.config.get_take_snapshot_message_file(), 'rt' )
@@ -215,14 +218,35 @@ class Snapshots:
 
 		try:
 			file = open( self.config.get_take_snapshot_message_file(), 'wt' )
-			items = file.write( data )
+			file.write( data )
 			file.close()
 			#logger.info( "Take snapshot message: %s" % data )
 		except:
 			pass
 
-	def clear_take_snapshot_message( self ):
-		os.system( "rm \"%s\"" % self.config.get_take_snapshot_message_file() )
+		if 1 == type_id:
+			self.append_to_take_snapshot_log( message )
+
+	def get_take_snapshot_log( self, profile_id = None ):
+		try:
+			file = open( self.config.get_take_snapshot_log_file( profile_id ), 'rt' )
+			data = file.read()
+			file.close()
+			return data
+		except:
+			return ''
+
+	def new_take_snapshot_log( self, date ):
+		os.system( "rm \"%s\"" % self.config.get_take_snapshot_log_file() )
+		self.append_to_take_snapshot_log( "========== Take snapshot (profile %s): %s ==========\n" % ( self.config.get_current_profile(), date.strftime( '%c' ) ) )
+
+	def append_to_take_snapshot_log( self, message ):
+		try:
+			file = open( self.config.get_take_snapshot_log_file(), 'at' )
+			file.write( message + '\n' )
+			file.close()
+		except:
+			pass
 
 	def is_busy( self ):
 		instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
@@ -647,6 +671,7 @@ class Snapshots:
 					self.plugin_manager.on_process_begins() #take snapshot process begin
 					logger.info( "on process begins" )
 					self.set_take_snapshot_message( 0, '...' )
+					self.new_take_snapshot_log( now )
 					profile_id = self.config.get_current_profile()
 					logger.info( "Profile_id: %s" % profile_id )
 					
@@ -721,6 +746,7 @@ class Snapshots:
 			if line.startswith( 'rsync:' ):
 				if not line.startswith( 'rsync: chgrp ' ) and not line.startswith( 'rsync: chown ' ):
 					params[0] = True
+					self.set_take_snapshot_message( 1, 'Error: ' + line )
 
 	def _exec_rsync_compare_callback( self, line, params ):
 		self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % params[0] )

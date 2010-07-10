@@ -46,6 +46,7 @@ import guiapplicationinstance
 import tools
 
 import settingsdialog
+import logviewdialog
 import snapshotsdialog
 import messagebox
 import fileicons
@@ -125,6 +126,7 @@ class MainWindow(object):
                 'on_btn_update_snapshots_clicked' : self.on_btn_update_snapshots_clicked,
                 'on_btn_snapshot_name_clicked' : self.on_btn_snapshot_name_clicked,
                 'on_btn_remove_snapshot_clicked' : self.on_btn_remove_snapshot_clicked,
+                'on_btn_view_log_clicked' : self.on_btn_view_log_clicked,
                 'on_btn_restore_clicked' : self.on_btn_restore_clicked,
                 'on_btn_copy_clicked' : self.on_btn_copy_clicked,
                 'on_btn_snapshots_clicked' : self.on_btn_snapshots_clicked,
@@ -967,6 +969,9 @@ class MainWindow(object):
             print "Remove Snapshot: %s" % snapshot_id
             self.snapshots.remove_snapshot( snapshot_id )
             self.fill_time_line()
+
+    def on_btn_view_log_clicked( self, button ):
+		logviewdialog.LogViewDialog( self ).run()
 
     def on_btn_backup_clicked( self, button ):
         button.set_sensitive( False )

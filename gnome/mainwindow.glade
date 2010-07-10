@@ -12,7 +12,6 @@
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkToolbar" id="toolbar1">
             <property name="visible">True</property>
@@ -77,6 +76,20 @@
                 <property name="label" translatable="yes">Remove Snapshot</property>
                 <property name="stock_id">gtk-delete</property>
                 <signal name="clicked" handler="on_btn_remove_snapshot_clicked"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="btn_view_log">
+                <property name="visible">True</property>
+                <property name="tooltip_markup">Error log view</property>
+                <property name="label" translatable="yes">Error log view</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-file</property>
+                <signal name="clicked" handler="on_btn_view_log_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -235,7 +248,6 @@
                   <object class="GtkVBox" id="vbox6">
                     <property name="visible">True</property>
                     <property name="border_width">5</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkToolbar" id="toolbar3">
                         <property name="visible">True</property>

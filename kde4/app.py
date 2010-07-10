@@ -47,6 +47,7 @@ from PyKDE4.kio import *
 import kde4tools
 import settingsdialog
 import snapshotsdialog
+import logviewdialog
 
 
 _=gettext.gettext
@@ -90,6 +91,10 @@ class MainWindow( KMainWindow ):
 		self.btn_remove_snapshot = self.main_toolbar.addAction( KIcon( 'edit-delete' ), '' )
 		self.btn_remove_snapshot.setToolTip( QString.fromUtf8( _('Remove Snapshot') ) )
 		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
+	
+		self.btn_log_view = self.main_toolbar.addAction( KIcon( 'text-plain' ), '' )
+		self.btn_log_view.setToolTip( QString.fromUtf8( _('Error log view') ) )
+		QObject.connect( self.btn_log_view, SIGNAL('triggered()'), self.on_btn_log_view_clicked )
 	
 		self.main_toolbar.addSeparator()
 
@@ -730,6 +735,9 @@ class MainWindow( KMainWindow ):
 
 		self.snapshots.set_snapshot_name( snapshot_id, new_name )
 		self.time_line_update_snapshot_name( item )
+
+	def on_btn_log_view_clicked ( self ):
+		logviewdialog.LogViewDialog( self ).exec_()
 
 	def on_btn_remove_snapshot_clicked ( self ):
 		item = self.list_time_line.currentItem()
