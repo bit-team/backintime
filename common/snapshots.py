@@ -225,14 +225,45 @@ class Snapshots:
 			pass
 
 		if 1 == type_id:
-			self.append_to_take_snapshot_log( message )
+			self.append_to_take_snapshot_log( '[E] ' + message )
+		else:
+			self.append_to_take_snapshot_log( '[I] '  + message )
 
-	def get_take_snapshot_log( self, profile_id = None ):
+	def _filter_take_snapshot_log( self, log, mode ):
+		if 0 == mode:
+			return log
+
+		lines = log.split( '\n' )
+		log = ''
+
+		for line in lines:
+			if line.startswith( '[' ):
+				if mode == 1 and line[1] != 'E':
+					continue
+				elif mode == 2 and line[1] != 'C':
+					continue
+				elif mode == 3 and line[1] != 'I':
+					continue
+
+			log = log + line + '\n'
+
+		return log
+
+	def get_snapshot_log( self, snapshot_id, mode = 0, profile_id = None ):
+		try:
+			file = bz2.BZ2File( os.path.join( self.get_snapshot_path( snapshot_id ), 'takesnapshot.log.bz2' ), 'w' )
+			data = file.read()
+			file.close()
+			return self._filter_take_snapshot_log( data, mode )
+		except:
+			return ''
+
+	def get_take_snapshot_log( self, mode = 0, profile_id = None ):
 		try:
 			file = open( self.config.get_take_snapshot_log_file( profile_id ), 'rt' )
 			data = file.read()
 			file.close()
-			return data
+			return self._filter_take_snapshot_log( data, mode )
 		except:
 			return ''
 
@@ -755,6 +786,7 @@ class Snapshots:
 			if line.startswith( 'BACKINTIME: ' ):
 				if line[12] != '.':
 					params[1] = True
+					self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ] )
 
 	def _append_item_to_list( self, item, list ):
 		for list_item in list:
@@ -1090,6 +1122,18 @@ class Snapshots:
 			self.set_take_snapshot_message( 1, _('Can\'t rename %s to %s') % ( new_snapshot_path, snapshot_path ) )
 			os.system( 'sleep 2' ) #max 1 backup / second
 			return [ False, True ]
+
+		#copy take snapshot log
+		try:
+			logfile = open( self.config.get_take_snapshot_log_file(), 'at' )
+			logdata = logfile.read()
+			log.close()
+
+			logfile = bz2.BZ2File( os.path.join( snapshot_path, 'takesnapshot.log.bz2' ), 'w' )
+			logfile.write( logdata )
+			logfile.close()
+		except:
+			pass
 
 		#make new snapshot read-only
 		self._execute( "chmod -R a-w \"%s/backup\"" % snapshot_path )

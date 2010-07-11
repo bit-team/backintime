@@ -83,13 +83,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="btn_view_log">
+              <object class="GtkToolButton" id="btn_view_snapshot_log">
                 <property name="visible">True</property>
-                <property name="tooltip_markup">Error log view</property>
-                <property name="label" translatable="yes">Error log view</property>
+                <property name="tooltip_markup">View Snapshot Log</property>
+                <property name="label" translatable="yes">View Snapshot Log</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-file</property>
-                <signal name="clicked" handler="on_btn_view_log_clicked"/>
+                <signal name="clicked" handler="on_btn_view_snapshot_log_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -102,6 +102,20 @@
               </object>
               <packing>
                 <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="btn_view_last_log">
+                <property name="visible">True</property>
+                <property name="tooltip_markup">View Last Log</property>
+                <property name="label" translatable="yes">View Last Log</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-new</property>
+                <signal name="clicked" handler="on_btn_view_last_log_clicked"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
               </packing>
             </child>
             <child>
