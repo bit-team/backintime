@@ -115,6 +115,9 @@ class Snapshots:
 	def get_snapshot_fileinfo_path( self, date ):
 		return os.path.join( self.get_snapshot_path( date ), 'fileinfo.bz2' )
 
+	def get_snapshot_log_path( self, snapshot_id ):
+		return os.path.join( self.get_snapshot_path( snapshot_id ), 'takesnapshot.log.bz2' )
+
 	def _get_snapshot_data_path( self, snapshot_id ):
 		if len( snapshot_id ) <= 1:
 			return '/';
@@ -251,7 +254,7 @@ class Snapshots:
 
 	def get_snapshot_log( self, snapshot_id, mode = 0, profile_id = None ):
 		try:
-			file = bz2.BZ2File( os.path.join( self.get_snapshot_path( snapshot_id ), 'takesnapshot.log.bz2' ), 'w' )
+			file = bz2.BZ2File( self.get_snapshot_log_path( snapshot_id ), 'r' )
 			data = file.read()
 			file.close()
 			return self._filter_take_snapshot_log( data, mode )
@@ -1114,6 +1117,18 @@ class Snapshots:
 		info_file.save( self.get_snapshot_info_path( new_snapshot_id ) )
 		info_file = None
 		
+		#copy take snapshot log
+		try:
+			logfile = open( self.config.get_take_snapshot_log_file(), 'r' )
+			logdata = logfile.read()
+			logfile.close()
+
+			logfile = bz2.BZ2File( self.get_snapshot_log_path( new_snapshot_id ), 'w' )
+			logfile.write( logdata )
+			logfile.close()
+		except:
+			pass
+
 		#rename snapshot
 		snapshot_path = self.get_snapshot_path( snapshot_id )
 		os.system( "mv \"%s\" \"%s\"" % ( new_snapshot_path, snapshot_path ) )
@@ -1122,18 +1137,6 @@ class Snapshots:
 			self.set_take_snapshot_message( 1, _('Can\'t rename %s to %s') % ( new_snapshot_path, snapshot_path ) )
 			os.system( 'sleep 2' ) #max 1 backup / second
 			return [ False, True ]
-
-		#copy take snapshot log
-		try:
-			logfile = open( self.config.get_take_snapshot_log_file(), 'at' )
-			logdata = logfile.read()
-			log.close()
-
-			logfile = bz2.BZ2File( os.path.join( snapshot_path, 'takesnapshot.log.bz2' ), 'w' )
-			logfile.write( logdata )
-			logfile.close()
-		except:
-			pass
 
 		#make new snapshot read-only
 		self._execute( "chmod -R a-w \"%s/backup\"" % snapshot_path )

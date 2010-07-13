@@ -126,6 +126,7 @@ class MainWindow(object):
                 'on_btn_update_snapshots_clicked' : self.on_btn_update_snapshots_clicked,
                 'on_btn_snapshot_name_clicked' : self.on_btn_snapshot_name_clicked,
                 'on_btn_remove_snapshot_clicked' : self.on_btn_remove_snapshot_clicked,
+                'on_btn_view_snapshot_log_clicked' : self.on_btn_view_snapshot_log_clicked,
                 'on_btn_view_last_log_clicked' : self.on_btn_view_last_log_clicked,
                 'on_btn_restore_clicked' : self.on_btn_restore_clicked,
                 'on_btn_copy_clicked' : self.on_btn_copy_clicked,
@@ -392,7 +393,6 @@ class MainWindow(object):
             return 1
 
         return 0
-
 
     def get_default_startup_folder_and_file( self ):
         last_path = self.config.get_str_value( 'gnome.last_path', '' )
@@ -970,6 +970,17 @@ class MainWindow(object):
             self.snapshots.remove_snapshot( snapshot_id )
             self.fill_time_line()
 
+    def on_btn_view_snapshot_log_clicked( self, button ):
+		iter = self.list_time_line.get_selection().get_selected()[1]
+		if iter is None:
+			return
+
+		snapshot_id = self.store_time_line.get_value( iter, 1 )
+		if len( snapshot_id ) <= 1:
+			return
+
+		logviewdialog.LogViewDialog( self, snapshot_id ).run()
+
     def on_btn_view_last_log_clicked( self, button ):
 		logviewdialog.LogViewDialog( self ).run()
 
@@ -1138,6 +1149,7 @@ class MainWindow(object):
 		#update remove/name snapshot buttons
 		self.builder.get_object( 'btn_snapshot_name' ).set_sensitive( len( self.snapshot_id ) > 1 )
 		self.builder.get_object( 'btn_remove_snapshot' ).set_sensitive( len( self.snapshot_id ) > 1 )
+		self.builder.get_object( 'btn_view_snapshot_log' ).set_sensitive( len( self.snapshot_id ) > 1 )
 
 		#update copy button state
 		self.builder.get_object( 'btn_copy' ).set_sensitive( len( self.store_folder_view ) > 0 )

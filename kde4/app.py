@@ -92,8 +92,12 @@ class MainWindow( KMainWindow ):
 		self.btn_remove_snapshot.setToolTip( QString.fromUtf8( _('Remove Snapshot') ) )
 		QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
 	
-		self.btn_log_view = self.main_toolbar.addAction( KIcon( 'text-plain' ), '' )
-		self.btn_log_view.setToolTip( QString.fromUtf8( _('Error log view') ) )
+		self.btn_snapshot_log_view = self.main_toolbar.addAction( KIcon( 'text-plain' ), '' )
+		self.btn_snapshot_log_view.setToolTip( QString.fromUtf8( _('View Snapshot Log') ) )
+		QObject.connect( self.btn_snapshot_log_view, SIGNAL('triggered()'), self.on_btn_snapshot_log_view_clicked )
+	
+		self.btn_log_view = self.main_toolbar.addAction( KIcon( 'document-new' ), '' )
+		self.btn_log_view.setToolTip( QString.fromUtf8( _('View Last Log') ) )
 		QObject.connect( self.btn_log_view, SIGNAL('triggered()'), self.on_btn_log_view_clicked )
 	
 		self.main_toolbar.addSeparator()
@@ -600,6 +604,7 @@ class MainWindow( KMainWindow ):
 		#update remove/name snapshot buttons
 		self.btn_name_snapshot.setEnabled( enabled )
 		self.btn_remove_snapshot.setEnabled( enabled )
+		self.btn_snapshot_log_view.setEnabled( enabled )
 
 	def on_list_time_line_current_item_changed( self, item, previous ):
 		self.update_snapshot_actions()
@@ -738,6 +743,17 @@ class MainWindow( KMainWindow ):
 
 	def on_btn_log_view_clicked ( self ):
 		logviewdialog.LogViewDialog( self ).exec_()
+
+	def on_btn_snapshot_log_view_clicked ( self ):
+		item = self.list_time_line.currentItem()
+		if item is None:
+			return
+
+		snapshot_id = self.time_line_get_snapshot_id( item )
+		if len( snapshot_id ) <= 1:
+			return
+
+		logviewdialog.LogViewDialog( self, snapshot_id ).exec_()
 
 	def on_btn_remove_snapshot_clicked ( self ):
 		item = self.list_time_line.currentItem()
