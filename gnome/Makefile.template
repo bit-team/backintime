@@ -34,7 +34,7 @@ install:
 	#install gnome-help file(s)
 	install -d $(DEST)/share/gnome/help/backintime/C/figures
 	install --mode=644 docbook/C/*.xml $(DEST)/share/gnome/help/backintime/C
-	install --mode=644 docbook/C/figures/*.png $(DEST)/share/gnome/help/backintime/C/figures
+	#install --mode=644 docbook/C/figures/*.png $(DEST)/share/gnome/help/backintime/C/figures
 	
 	install -d $(DEST)/share/omf/backintime
 	install --mode=644 docbook/C/*.omf $(DEST)/share/omf/backintime
