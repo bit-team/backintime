@@ -1026,7 +1026,7 @@ class Snapshots:
 			#if force or len( ignore_folders ) == 0:
 
 			#try with preserve user/group
-			cmd = "cp -a \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
+			cmd = "cp -al \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
 			self.append_to_take_snapshot_log( '[I] ' + cmd )
 			cmd_ret_val = self._execute( cmd )
 			self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val )
