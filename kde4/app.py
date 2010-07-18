@@ -779,7 +779,8 @@ class MainWindow( KMainWindow ):
 		dlg.exec_()
 
 	def on_btn_help_clicked( self ):
-		KRun.runCommand( "khelpcenter help:/backintime", self )
+		#KRun.runCommand( "khelpcenter help:/backintime", self )
+		self.open_url( 'http://backintime.le-web.org/documentation' );
 
 	def open_url( self, url = 'http://backintime.le-web.org' ):
 		self.run = KRun( KUrl( QString.fromUtf8( url ) ), self, True )

@@ -995,6 +995,7 @@ class Snapshots:
 			cmd = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix + '"' + prev_snapshot_folder + '"'
 			params = [ prev_snapshot_folder, False ]
 			#try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
+			self.append_to_take_snapshot_log( '[I] ' + cmd )
 			self._execute( cmd, self._exec_rsync_compare_callback, params )
 			changed = params[1]
 
@@ -1023,8 +1024,20 @@ class Snapshots:
 			# The ignored folders were copied afterwards. To solve this, the whole last snapshot is now hardlinked
 			# and rsync is called only for the folders that should be synced (without --delete-excluded).  
 			#if force or len( ignore_folders ) == 0:
-			cmd = "cp -dRl \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
-			self._execute( cmd )
+
+			#try with preserve user/group
+			cmd = "cp -a \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
+			self.append_to_take_snapshot_log( '[I] ' + cmd )
+			cmd_ret_val = self._execute( cmd )
+			self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val )
+
+			if 0 != cmd_ret_val:
+				#try without preserving user/group
+				cmd = "cp -dRl \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
+				self.append_to_take_snapshot_log( '[I] ' + cmd )
+				self._execute( cmd )
+				
+
 			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 			#else:
 			#	for folder in include_folders:
@@ -1043,6 +1056,7 @@ class Snapshots:
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 
 		params = [False]
+		self.append_to_take_snapshot_log( '[I] ' + cmd )
 		self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params )
 
 		if params[0]:

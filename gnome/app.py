@@ -917,7 +917,8 @@ class MainWindow(object):
         gnome.help_display('backintime')
 
     def on_btn_help_clicked( self, button ):
-        self.on_help()
+        #self.on_help()
+        os.system( "gnome-open http://backintime.le-web.org/documentation &" )
 
     def on_btn_website_clicked( self, button ):
         os.system( "gnome-open http://backintime.le-web.org &" )

@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99.56'
+	VERSION = '0.9.99.57'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
@@ -227,7 +227,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			
 				if len( path ) >= len( snapshots_path2 ):
 					if path[ : len( snapshots_path2 ) ] == snapshots_path2:
-						self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('You can\'t include a backup sub-folder !') )
+						self.notify_error( _('Profile: "%s"') %  self.config.get_current_profile(), + '\n' + _('You can\'t include a backup sub-folder !') )
 						return False
 
 			checked_profiles.append( ( profile_id, profile_name ) )
@@ -666,7 +666,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 	#	return os.path.join( self._LOCAL_DATA_FOLDER, "snapshot%s.last" % self.__get_file_id__( profile_id ) )
 
 	def get_take_snapshot_user_callback( self, profile_id = None ):
-		return os.path.join( self._LOCAL_CONFIG_FOLDER, "user%s.callback" % self.__get_file_id__( profile_id ) )
+		return os.path.join( self._LOCAL_CONFIG_FOLDER, "user-callback" )
 
 	def get_license( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )
