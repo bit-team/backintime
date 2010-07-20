@@ -9,7 +9,7 @@ rm */Makefile
 rm *~
 rm */*~
 rm *.deb
-rm */*.pyc
+rm **/*.pyc
 rm -rf tmp
 rm -rf common/po/*.mo
 
