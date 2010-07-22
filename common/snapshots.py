@@ -1377,6 +1377,8 @@ class Snapshots:
 
 		#links
 		if os.path.islink( base_full_path ):
+			targets = []
+
 			for snapshot_id in all_snapshots_list:
 				path = self.get_snapshot_path_to( snapshot_id, base_path )
 

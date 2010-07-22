@@ -150,6 +150,16 @@ class SnapshotsDialog( KDialog ):
 
 		self.setDefaultButton( KDialog.Ok )
 
+		#
+		self.cb_only_different_snapshots_deep_check.setEnabled( False )
+
+		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
+		if os.path.islink( full_path ):
+			self.cb_only_different_snapshots_deep_check.hide()
+		elif os.path.isdir( full_path ):
+			self.cb_only_different_snapshots.hide()
+			self.cb_only_different_snapshots_deep_check.hide()
+
 		#update list and combobox
 		self.update_snapshots()
 
