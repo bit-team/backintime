@@ -486,7 +486,7 @@ class Snapshots:
 			return
 
 		path = self.get_snapshot_path( snapshot_id )
-		#cmd = "chmod -R a+rwx \"%s\"" %  path
+		#cmd = "chmod -R u+rwx \"%s\"" %  path
 		cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path #Debian patch
 		self._execute( cmd )
 		cmd = "rm -rfv \"%s\"" % path
@@ -911,7 +911,7 @@ class Snapshots:
 		
 		if os.path.exists( new_snapshot_path ):
 			#self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
-			#self._execute( "chmod -R a+rwx \"%s\"" %  new_snapshot_path )
+			#self._execute( "chmod -R u+rwx \"%s\"" %  new_snapshot_path )
 			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
 		
@@ -962,7 +962,7 @@ class Snapshots:
 		rsync_prefix = tools.get_rsync_prefix( self.config ) # 'rsync -aEAXH '
 		rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" " % ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER )
 		#rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
-		rsync_suffix = ' --chmod=Da+w ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+		rsync_suffix = ' --chmod=Du+wx ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
 		#update dict
 		#if not force:
@@ -1026,17 +1026,10 @@ class Snapshots:
 			#if force or len( ignore_folders ) == 0:
 
 			#try with preserve user/group
-			cmd = "cp -al \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
+			cmd = "cp -aRl --no-preserve=mode \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
 			self.append_to_take_snapshot_log( '[I] ' + cmd )
 			cmd_ret_val = self._execute( cmd )
 			self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val )
-
-			if 0 != cmd_ret_val:
-				#try without preserving user/group
-				cmd = "cp -dRl \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
-				self.append_to_take_snapshot_log( '[I] ' + cmd )
-				self._execute( cmd )
-				
 
 			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 			#else:
