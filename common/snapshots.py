@@ -1025,11 +1025,19 @@ class Snapshots:
 			# and rsync is called only for the folders that should be synced (without --delete-excluded).  
 			#if force or len( ignore_folders ) == 0:
 
-			#try with preserve user/group
-			cmd = "cp -aRl --no-preserve=mode \"%s\"* \"%s\"" % ( self.get_snapshot_path_to( prev_snapshot_id ), new_snapshot_path_to )
+			prev_snapshot_path = self.get_snapshot_path_to( prev_snapshot_id )
+
+			#make source snapshot rw to allow cp -al
+			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % prev_snapshot_path ) #Debian patch
+
+			#clone snapshot
+			cmd = "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path, new_snapshot_path_to )
 			self.append_to_take_snapshot_log( '[I] ' + cmd )
 			cmd_ret_val = self._execute( cmd )
 			self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val )
+
+			#make source snapshot read-only
+			self._execute( "find \"%s\" -type d -exec chmod a-w {} \\;" % prev_snapshot_path ) #Debian patch
 
 			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 			#else:
