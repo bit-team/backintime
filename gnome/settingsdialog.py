@@ -251,6 +251,8 @@ class SettingsDialog(object):
 		self.cb_run_ionice_from_user = get('cb_run_ionice_from_user')
 		self.cb_preserve_acl = get('cb_preserve_acl')
 		self.cb_preserve_xattr = get('cb_preserve_xattr')
+		self.cb_copy_unsafe_links = get('cb_copy_unsafe_links')
+		self.cb_copy_links = get('cb_copy_links')
 		
 		#don't run when on battery
 		self.cb_no_on_battery = get( 'cb_no_on_battery' )
@@ -470,6 +472,8 @@ class SettingsDialog(object):
 		#ACL & xattr
 		self.cb_preserve_acl.set_active(self.config.preserve_acl( self.profile_id ))
 		self.cb_preserve_xattr.set_active(self.config.preserve_xattr( self.profile_id ))
+		self.cb_copy_unsafe_links.set_active(self.config.copy_unsafe_links( self.profile_id ))
+		self.cb_copy_links.set_active(self.config.copy_links( self.profile_id ))
 		
 	def save_profile( self ):
 		#profile_id = self.config.get_current_profile()
@@ -545,6 +549,8 @@ class SettingsDialog(object):
 
 		self.config.set_preserve_acl( self.cb_preserve_acl.get_active(), self.profile_id )
 		self.config.set_preserve_xattr( self.cb_preserve_xattr.get_active(), self.profile_id )
+		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.get_active(), self.profile_id )
+		self.config.set_copy_links( self.cb_copy_links.get_active(), self.profile_id )
 	
 	def update_remove_old_backups( self, button ):
 		enabled = self.cb_remove_old_backup.get_active()

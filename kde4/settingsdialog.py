@@ -344,6 +344,12 @@ class SettingsDialog( KDialog ):
 		self.cb_preserve_xattr = QCheckBox( QString.fromUtf8( _( 'Preserve extended attributes (xattr)' ) ), self )
 		layout.addWidget( self.cb_preserve_xattr )
 
+		self.cb_copy_unsafe_links = QCheckBox( QString.fromUtf8( _( 'Copy unsafe links (works only with absolute links)' ) ), self )
+		layout.addWidget( self.cb_copy_unsafe_links )
+
+		self.cb_copy_links = QCheckBox( QString.fromUtf8( _( 'Copy links (dereference symbolic links)' ) ), self )
+		layout.addWidget( self.cb_copy_links )
+
 		#
 		layout.addStretch()
 
@@ -498,6 +504,10 @@ class SettingsDialog( KDialog ):
 		self.cb_run_ionice_from_cron.setChecked( self.config.is_run_ionice_from_cron_enabled() )
 		self.cb_run_ionice_from_user.setChecked( self.config.is_run_ionice_from_user_enabled() )
 		self.cb_no_on_battery.setChecked( self.config.is_no_on_battery_enabled() )
+		self.cb_preserve_acl.setChecked( self.config.preserve_acl() )
+		self.cb_preserve_xattr.setChecked( self.config.preserve_xattr() )
+		self.cb_copy_unsafe_links.setChecked( self.config.copy_unsafe_links() )
+		self.cb_copy_links.setChecked( self.config.copy_links() )
 
 		#update
 		#self.update_include_columns()
@@ -555,6 +565,10 @@ class SettingsDialog( KDialog ):
 		self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.isChecked() )
 		self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.isChecked() )
 		self.config.set_no_on_battery_enabled( self.cb_no_on_battery.isChecked() )
+		self.config.set_preserve_acl( self.cb_preserve_acl.isChecked() )
+		self.config.set_preserve_xattr( self.cb_preserve_xattr.isChecked() )
+		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.isChecked() )
+		self.config.set_copy_links( self.cb_copy_links.isChecked() )
 
 	def error_handler( self, message ):
 		KMessageBox.error( self, QString.fromUtf8( message ) )

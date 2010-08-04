@@ -342,7 +342,16 @@ def use_rsync_fast( config ):
 def get_rsync_prefix( config ):
 	caps = get_rsync_caps()
 	#cmd = 'rsync -aEH'
-	cmd = 'rsync -rltDH'
+	cmd = 'rsync'
+	cmd = cmd + ' -rtDH'
+
+	if config.copy_unsafe_links():
+		cmd = cmd + ' --copy-unsafe-links'
+
+	if config.copy_links():
+		cmd = cmd + ' --copy-links'
+	else:
+		cmd = cmd + ' --links'
 
 	no_perms = True
 
