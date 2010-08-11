@@ -80,10 +80,12 @@ class LogViewDialog( KDialog ):
 	
 		self.combo_filter.addItem( QString.fromUtf8( _('All') ), QVariant( 0 ) )
 		self.combo_filter.addItem( QString.fromUtf8( _('Errors') ), QVariant( 1 ) )
-		if self.snapshot_id is None:
+		set_active = True
+		if self.snapshot_id is None or self.snapshots.is_snapshot_failed( self.snapshot_id ):
 			self.combo_filter.setCurrentIndex( self.combo_filter.count() - 1 )
+			set_active = False
 		self.combo_filter.addItem( QString.fromUtf8( _('Changes') ), QVariant( 2 ) )
-		if not self.snapshot_id is None:
+		if not self.snapshot_id is None and set_active:
 			self.combo_filter.setCurrentIndex( self.combo_filter.count() - 1 )
 		self.combo_filter.addItem( QString.fromUtf8( _('Informations') ), QVariant( 3 ) )
 

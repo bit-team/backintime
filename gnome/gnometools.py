@@ -18,13 +18,22 @@
 
 import gtk
 import glib
+import gettext
+
+
+_=gettext.gettext
 
 
 def get_snapshot_display_markup( snapshots, snapshot_id ):
 	display_name = snapshots.get_snapshot_display_id( snapshot_id )
+
 	name = snapshots.get_snapshot_name( snapshot_id )
 	if len( name ) > 0:
 		display_name = display_name + ' - <b>' + glib.markup_escape_text( name ) + '</b>'
+	
+	if snapshots.is_snapshot_failed( snapshot_id ):
+		display_name = display_name + " (<b>%s</b>)" % _("FAILED")
+
 	return display_name
 
 

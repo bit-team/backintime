@@ -90,10 +90,12 @@ class LogViewDialog(object):
 	
 		self.store_filter.append( [ _('All'), 0 ] )
 		select_iter = self.store_filter.append( [ _('Errors'), 1 ] )
-		if self.snapshot_id is None:
+		set_active = True
+		if self.snapshot_id is None or self.snapshots.is_snapshot_failed( self.snapshot_id ):
 			self.combo_filter.set_active_iter( select_iter )
+			set_active = False
 		select_iter = self.store_filter.append( [ _('Changes'), 2 ] )
-		if not self.snapshot_id is None:
+		if not self.snapshot_id is None and set_active:
 			self.combo_filter.set_active_iter( select_iter )
 		self.store_filter.append( [ _('Informations'), 3 ] )
 		

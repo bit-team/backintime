@@ -118,6 +118,9 @@ class Snapshots:
 	def get_snapshot_log_path( self, snapshot_id ):
 		return os.path.join( self.get_snapshot_path( snapshot_id ), 'takesnapshot.log.bz2' )
 
+	def get_snapshot_failed_path( self, snapshot_id ):
+		return os.path.join( self.get_snapshot_path( snapshot_id ), 'failed' )
+
 	def _get_snapshot_data_path( self, snapshot_id ):
 		if len( snapshot_id ) <= 1:
 			return '/';
@@ -147,8 +150,13 @@ class Snapshots:
 	def get_snapshot_display_name( self, snapshot_id ):
 		display_name = self.get_snapshot_display_id( snapshot_id )
 		name = self.get_snapshot_name( snapshot_id )
+
 		if len( name ) > 0:
 			display_name = display_name + ' - ' + name
+
+		if self.is_snapshot_failed( snapshot_id ):
+			display_name = display_name + " (%s)" % _("FAILED")
+
 		return display_name
 
 	def get_snapshot_name( self, snapshot_id ):
@@ -190,6 +198,13 @@ class Snapshots:
 			file.close()
 		except:
 			pass
+
+	def is_snapshot_failed( self, snapshot_id ):
+		if len( snapshot_id ) <= 1: #not a snapshot
+			return False
+
+		path = self.get_snapshot_failed_path( snapshot_id )
+		return os.path.isfile( path )
 
 	def clear_take_snapshot_message( self ):
 		os.system( "rm \"%s\"" % self.config.get_take_snapshot_message_file() )
@@ -1060,10 +1075,15 @@ class Snapshots:
 		self.append_to_take_snapshot_log( '[I] ' + cmd )
 		self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params )
 
+		has_errors = False
 		if params[0]:
-			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
-			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
-			return [ False, True ]
+			if not self.config.continue_on_errors():
+				self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
+				self._execute( "rm -rf \"%s\"" % new_snapshot_path )
+				return [ False, True ]
+
+			has_errors = True
+			self._execute( "touch \"%s\"" % self.get_snapshot_failed_path( new_snapshot_id ) )
 
 		#backup config file
 		logger.info( 'Save config file' )
@@ -1160,7 +1180,7 @@ class Snapshots:
 		if len( prev_snapshot_id ) > 0:
 			self._execute( "chmod -R a-w \"%s\"" % self.get_snapshot_path_to( prev_snapshot_id ) )
 
-		return [ True, False ]
+		return [ True, has_errors ]
 
 	def _smart_remove_keep_all_( self, snapshots, keep_snapshots, min_date ):
 		min_id = self.get_snapshot_id( min_date )

@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99.72'
+	VERSION = '0.9.99.74'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
@@ -618,6 +618,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def set_copy_links( self, value, profile_id = None ):
 		return self.set_profile_bool_value( 'snapshots.copy_links', value, profile_id )
+
+	def continue_on_errors( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.continue_on_errors', False, profile_id )
+
+	def set_continue_on_errors( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.continue_on_errors', value, profile_id )
 
 	def get_take_snapshot_user_script( self, step, profile_id = None ):
 		return self.get_profile_str_value ( "snapshots.take_snapshot.%s.user.script" % step, '', profile_id )
