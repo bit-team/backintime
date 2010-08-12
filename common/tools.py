@@ -356,17 +356,17 @@ def get_rsync_prefix( config ):
 	no_perms = True
 
 	if config.preserve_acl() and "ACLs" in caps:
-		cmd = cmd + 'A'
+		cmd = cmd + ' -A'
 		no_perms = False
 
 	if config.preserve_xattr() and "xattrs" in caps:
-		cmd = cmd + 'X'
+		cmd = cmd + ' -X'
 		no_perms = False
 
 	if no_perms:
 		cmd = cmd + ' --no-p --no-g --no-o'
 	else:
-		cmd = cmd + 'pEgo'
+		cmd = cmd + ' -pEgo'
 
 	return cmd + ' '
 

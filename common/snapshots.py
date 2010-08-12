@@ -1042,7 +1042,7 @@ class Snapshots:
 
 			prev_snapshot_path = self.get_snapshot_path_to( prev_snapshot_id )
 
-			#make source snapshot rw to allow cp -al
+			#make source snapshot folders rw to allow cp -al
 			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % prev_snapshot_path ) #Debian patch
 
 			#clone snapshot
@@ -1051,10 +1051,12 @@ class Snapshots:
 			cmd_ret_val = self._execute( cmd )
 			self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val )
 
-			#make source snapshot read-only
+			#make source snapshot folders read-only
 			self._execute( "find \"%s\" -type d -exec chmod a-w {} \\;" % prev_snapshot_path ) #Debian patch
 
-			self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
+			#make snapshot items rw to allow xopy xattr
+			self._execute( "chmod -R a+w \"%s\"" % new_snapshot_path )
+
 			#else:
 			#	for folder in include_folders:
 			#		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
@@ -1080,6 +1082,11 @@ class Snapshots:
 			if not self.config.continue_on_errors():
 				self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 				self._execute( "rm -rf \"%s\"" % new_snapshot_path )
+
+				#fix previous snapshot: make read-only again
+				if len( prev_snapshot_id ) > 0:
+					self._execute( "chmod -R a-w \"%s\"" % self.get_snapshot_path_to( prev_snapshot_id ) )
+
 				return [ False, True ]
 
 			has_errors = True
