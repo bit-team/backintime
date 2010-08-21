@@ -35,11 +35,12 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '0.9.99.78'
+	VERSION = '0.9.99.80'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
 	NONE = 0
+	AT_EVERY_BOOT = 1
 	_5_MIN = 2
 	_10_MIN = 4
 	HOUR = 10
@@ -53,6 +54,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	AUTOMATIC_BACKUP_MODES = { 
 				NONE : _('Disabled'), 
+				AT_EVERY_BOOT : _('At every boot/reboot'), 
 				_5_MIN: _('Every 5 minutes'), 
 				_10_MIN: _('Every 10 minutes'), 
 				HOUR : _('Every Hour'), 
@@ -775,7 +777,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 			cron_line = ''
 			
-			if self._5_MIN == min_backup_mode:
+			if self.AT_EVERY_BOOT == min_backup_mode:
+				cron_line = 'echo "{msg}\n@reboot {cmd}"'
+			elif self._5_MIN == min_backup_mode:
 				cron_line = 'echo "{msg}\n*/5 * * * * {cmd}"'
 			elif self._10_MIN == min_backup_mode:
 				cron_line = 'echo "{msg}\n*/10 * * * * {cmd}"'
