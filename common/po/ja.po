@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-13 23:14+0200\n"
-"PO-Revision-Date: 2010-07-12 04:54+0000\n"
+"POT-Creation-Date: 2010-08-21 17:03+0200\n"
+"PO-Revision-Date: 2010-08-22 17:11+0000\n"
 "Last-Translator: Toshiharu Kudoh <toshi.kd2@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-07-20 19:40+0000\n"
+"X-Launchpad-Export-Date: 2010-09-11 06:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
@@ -27,78 +27,82 @@ msgstr "プロファイル \\\"%s\\\" はすでに存在しています！"
 msgid "You can't remove the last profile !"
 msgstr "最後のプロファイルを削除することが出来ません！"
 
-#: ../../common/config.py:55
+#: ../../common/config.py:56
 msgid "Disabled"
 msgstr "無効"
 
-#: ../../common/config.py:56
+#: ../../common/config.py:57
+msgid "At every boot/reboot"
+msgstr "起動/再起動毎に"
+
+#: ../../common/config.py:58
 msgid "Every 5 minutes"
 msgstr "5分毎"
 
-#: ../../common/config.py:57
+#: ../../common/config.py:59
 msgid "Every 10 minutes"
 msgstr "10分毎"
 
-#: ../../common/config.py:58
+#: ../../common/config.py:60
 msgid "Every Hour"
 msgstr "1時間毎"
 
-#: ../../common/config.py:59
+#: ../../common/config.py:61
 msgid "Every Day"
 msgstr "毎日"
 
-#: ../../common/config.py:60
+#: ../../common/config.py:62
 msgid "Every Week"
 msgstr "毎週"
 
-#: ../../common/config.py:61
+#: ../../common/config.py:63
 msgid "Every Month"
 msgstr "毎月"
 
-#: ../../common/config.py:65
+#: ../../common/config.py:67
 msgid "Day(s)"
 msgstr "日"
 
-#: ../../common/config.py:66
+#: ../../common/config.py:68
 msgid "Week(s)"
 msgstr "週"
 
-#: ../../common/config.py:67
+#: ../../common/config.py:69
 msgid "Year(s)"
 msgstr "年"
 
-#: ../../common/config.py:75
+#: ../../common/config.py:77
 msgid "Main profile"
 msgstr "メインプロファイル"
 
-#: ../../common/config.py:195 ../../common/config.py:214
-#: ../../common/config.py:225 ../../common/config.py:230
+#: ../../common/config.py:197 ../../common/config.py:216
+#: ../../common/config.py:227 ../../common/config.py:232
 #, python-format
 msgid "Profile: \"%s\""
 msgstr "プロファイル: \\\"%s\\\""
 
-#: ../../common/config.py:195
+#: ../../common/config.py:197
 msgid "Snapshots folder is not valid !"
 msgstr "スナップショットのフォルダは有効ではありません！"
 
-#: ../../common/config.py:214
+#: ../../common/config.py:216
 msgid "You must select at least one folder to backup !"
 msgstr "バックアップするためには最低1つのフォルダを選択しなくてはなりません！"
 
-#: ../../common/config.py:225
+#: ../../common/config.py:227
 msgid "You can't include backup folder !"
 msgstr "バックアップフォルダを含むことはできません！"
 
-#: ../../common/config.py:230
+#: ../../common/config.py:232
 msgid "You can't include a backup sub-folder !"
 msgstr "バックアップサブフォルダを含むことはできません！"
 
-#: ../../common/config.py:281
+#: ../../common/config.py:283
 #, python-format
 msgid "%s is not a folder !"
 msgstr "%s はフォルダではありません！"
 
-#: ../../common/config.py:296 ../../common/config.py:309
+#: ../../common/config.py:298 ../../common/config.py:311
 #, python-format
 msgid ""
 "Can't write to: %s\n"
@@ -107,7 +111,7 @@ msgstr ""
 "%s に書き込めません。\\n\n"
 "書き込み権限を持っていますか？"
 
-#: ../../common/config.py:755
+#: ../../common/config.py:775
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -117,11 +121,15 @@ msgstr ""
 "cron をインストールしてもよろしいですか？\\n\n"
 "インストールしないのであれば、全ての自動バックアップは無効になります。"
 
-#: ../../common/snapshots.py:144 ../../gnome/app.py:1017 ../../kde4/app.py:912
+#: ../../common/snapshots.py:147 ../../gnome/app.py:1018 ../../kde4/app.py:913
 msgid "Now"
 msgstr "現在"
 
-#: ../../common/snapshots.py:553
+#: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
+msgid "FAILED"
+msgstr ""
+
+#: ../../common/snapshots.py:568
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
@@ -131,7 +139,7 @@ msgstr ""
 "\\n\n"
 "あなたの古いスナップショットはこの新たなフォーマットにより変更されます。よろしいですか？"
 
-#: ../../common/snapshots.py:563
+#: ../../common/snapshots.py:578
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -146,13 +154,13 @@ msgstr ""
 "\\n\n"
 "（プログラムでは今までどおりそれらを区別できます）"
 
-#: ../../common/snapshots.py:566
+#: ../../common/snapshots.py:581
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr "プロファイルがみつかりません。まずプロファイルをアップデートしてから、 Back In Time を再起動してください"
 
-#: ../../common/snapshots.py:617
+#: ../../common/snapshots.py:632
 #, python-format
 msgid ""
 "%s\n"
@@ -165,7 +173,7 @@ msgid ""
 "cannot continue taking snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:626
+#: ../../common/snapshots.py:641
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -175,7 +183,7 @@ msgid ""
 "if you are done restart Back In Time to proceed"
 msgstr ""
 
-#: ../../common/snapshots.py:639
+#: ../../common/snapshots.py:654
 msgid ""
 "Update was successful!\n"
 "\n"
@@ -185,7 +193,7 @@ msgstr ""
 "\\n\n"
 "Back In Time は再度スケジュール通りスナップショットを取得し続けます"
 
-#: ../../common/snapshots.py:644
+#: ../../common/snapshots.py:659
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -197,11 +205,11 @@ msgid ""
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
 
-#: ../../common/snapshots.py:653
+#: ../../common/snapshots.py:668
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr "Back In Time は再度スケジュール通りスナップショットを取得し続けます"
 
-#: ../../common/snapshots.py:655
+#: ../../common/snapshots.py:670
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
@@ -209,7 +217,7 @@ msgstr ""
 "Back In Time はまだ新たなスナップショットを取得できません。\\n\n"
 "質問を見直して Back In Time を再起動してください。"
 
-#: ../../common/snapshots.py:716
+#: ../../common/snapshots.py:731
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
@@ -217,72 +225,72 @@ msgstr ""
 "スナップショットフォルダがみつかりません。\\n\n"
 "もしリムーバブルドライブ上にあるのなら、接続して下さい。"
 
-#: ../../common/snapshots.py:718
+#: ../../common/snapshots.py:733
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "%s 秒待っています。"
 
-#: ../../common/snapshots.py:742
+#: ../../common/snapshots.py:757
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr "スナップショット %s の取得に失敗しました!!!"
 
-#: ../../common/snapshots.py:751
+#: ../../common/snapshots.py:766
 msgid "Finalizing"
 msgstr "ファイナライズ中"
 
-#: ../../common/snapshots.py:777 ../../common/snapshots.py:1043
+#: ../../common/snapshots.py:792 ../../common/snapshots.py:1074
 #: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:36
 msgid "Take snapshot"
 msgstr "スナップショット取得"
 
-#: ../../common/snapshots.py:786 ../../common/snapshots.py:991
+#: ../../common/snapshots.py:801 ../../common/snapshots.py:1006
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "スナップショット %s と比較"
 
-#: ../../common/snapshots.py:877
+#: ../../common/snapshots.py:892
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "フォルダ %s を作成できません"
 
-#: ../../common/snapshots.py:907
+#: ../../common/snapshots.py:922
 msgid "..."
 msgstr "…"
 
-#: ../../common/snapshots.py:920
+#: ../../common/snapshots.py:935
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "フォルダ %s を削除できません"
 
-#: ../../common/snapshots.py:1018
+#: ../../common/snapshots.py:1034
 msgid "Create hard-links"
 msgstr "ハードリンクを作成"
 
-#: ../../common/snapshots.py:1055
+#: ../../common/snapshots.py:1097
 msgid "Save config file ..."
 msgstr "設定ファイルを保存..."
 
-#: ../../common/snapshots.py:1060
+#: ../../common/snapshots.py:1102
 msgid "Save permission ..."
 msgstr "パーミッションを保存..."
 
-#: ../../common/snapshots.py:1137
+#: ../../common/snapshots.py:1179
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr "%s から %s へリネームできません"
 
-#: ../../common/snapshots.py:1249
+#: ../../common/snapshots.py:1291
 msgid "Remove old snapshots"
 msgstr "古いスナップショットを削除"
 
-#: ../../common/snapshots.py:1272 ../../kde4/settingsdialog.py:284
+#: ../../common/snapshots.py:1314 ../../kde4/settingsdialog.py:284
 #: ../../gnome/settingsdialog.glade:694
 msgid "Smart remove"
 msgstr "スマートな削除"
 
-#: ../../common/snapshots.py:1277
+#: ../../common/snapshots.py:1319
 msgid "Try to keep min free space"
 msgstr "最小限のフリースペースの確保を試みる"
 
@@ -308,7 +316,7 @@ msgid "Date"
 msgstr "日付"
 
 #: ../../gnome/app.py:254 ../../gnome/app.py:291
-#: ../../gnome/snapshotsdialog.py:94 ../../kde4/app.py:141
+#: ../../gnome/snapshotsdialog.py:93 ../../kde4/app.py:141
 #: ../../kde4/app.py:184 ../../kde4/snapshotsdialog.py:90
 #: ../../gnome/mainwindow.glade:352 ../../gnome/mainwindow.glade:353
 #: ../../gnome/snapshotsdialog.glade:7
@@ -392,12 +400,12 @@ msgstr "今週"
 msgid "Last week"
 msgstr "先週"
 
-#: ../../gnome/app.py:949 ../../kde4/app.py:88 ../../kde4/app.py:733
+#: ../../gnome/app.py:950 ../../kde4/app.py:88 ../../kde4/app.py:733
 #: ../../gnome/mainwindow.glade:62 ../../gnome/mainwindow.glade:63
 msgid "Snapshot Name"
 msgstr "スナップショット名"
 
-#: ../../gnome/app.py:968
+#: ../../gnome/app.py:969
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -406,35 +414,35 @@ msgstr ""
 "スナップショット <b>%s</b> を\\n\n"
 "削除してもよろしいですか"
 
-#: ../../gnome/app.py:1013 ../../kde4/app.py:908
+#: ../../gnome/app.py:1014 ../../kde4/app.py:909
 #, python-format
 msgid "Snapshot: %s"
 msgstr "スナップショット：%s"
 
-#: ../../gnome/app.py:1014 ../../kde4/app.py:909
+#: ../../gnome/app.py:1015 ../../kde4/app.py:910
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "%s に作成したスナップショットを閲覧"
 
-#: ../../gnome/app.py:1016 ../../kde4/app.py:911
+#: ../../gnome/app.py:1017 ../../kde4/app.py:912
 msgid "View the current disk content"
 msgstr "現在のディスクの内容を閲覧"
 
 #: ../../gnome/logviewdialog.py:91 ../../kde4/logviewdialog.py:81
 msgid "All"
-msgstr ""
+msgstr "全て"
 
 #: ../../gnome/logviewdialog.py:92 ../../kde4/logviewdialog.py:82
 msgid "Errors"
-msgstr ""
+msgstr "エラー"
 
-#: ../../gnome/logviewdialog.py:95 ../../kde4/logviewdialog.py:85
+#: ../../gnome/logviewdialog.py:97 ../../kde4/logviewdialog.py:87
 msgid "Changes"
-msgstr ""
+msgstr "変更点"
 
-#: ../../gnome/logviewdialog.py:98 ../../kde4/logviewdialog.py:88
+#: ../../gnome/logviewdialog.py:100 ../../kde4/logviewdialog.py:90
 msgid "Informations"
-msgstr ""
+msgstr "情報"
 
 #: ../../gnome/settingsdialog.py:140 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
@@ -442,58 +450,58 @@ msgstr "含むファイルとフォルダ"
 
 #: ../../gnome/settingsdialog.py:168
 msgid "Exclude patterns, files or folders"
-msgstr ""
+msgstr "ファイルやフォルダの除外パターン"
 
-#: ../../gnome/settingsdialog.py:277
+#: ../../gnome/settingsdialog.py:280
 msgid "Snapshots folder"
 msgstr "スナップショットフォルダ"
 
-#: ../../gnome/settingsdialog.py:285 ../../kde4/settingsdialog.py:757
+#: ../../gnome/settingsdialog.py:288 ../../kde4/settingsdialog.py:776
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr "スナップショットフォルダを変更してよろしいですか？"
 
-#: ../../gnome/settingsdialog.py:599 ../../kde4/settingsdialog.py:353
+#: ../../gnome/settingsdialog.py:610 ../../kde4/settingsdialog.py:362
 msgid "New profile"
 msgstr "新規プロファイル"
 
-#: ../../gnome/settingsdialog.py:613 ../../kde4/settingsdialog.py:369
+#: ../../gnome/settingsdialog.py:624 ../../kde4/settingsdialog.py:378
 msgid "Rename profile"
 msgstr "プロファイルをリネーム"
 
-#: ../../gnome/settingsdialog.py:625 ../../kde4/settingsdialog.py:383
+#: ../../gnome/settingsdialog.py:636 ../../kde4/settingsdialog.py:392
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "プロファイル \\\"%s\\\" を削除してよろしいですか？"
 
-#: ../../gnome/settingsdialog.py:631 ../../kde4/settingsdialog.py:738
+#: ../../gnome/settingsdialog.py:642 ../../kde4/settingsdialog.py:757
 msgid "Include folder"
 msgstr "含めるフォルダ"
 
-#: ../../gnome/settingsdialog.py:650 ../../kde4/settingsdialog.py:724
+#: ../../gnome/settingsdialog.py:661 ../../kde4/settingsdialog.py:743
 msgid "Include file"
 msgstr "含めるファイル"
 
-#: ../../gnome/settingsdialog.py:687 ../../kde4/settingsdialog.py:686
+#: ../../gnome/settingsdialog.py:698 ../../kde4/settingsdialog.py:705
 msgid "Exclude pattern"
 msgstr "除外するパターン"
 
-#: ../../gnome/settingsdialog.py:692 ../../kde4/settingsdialog.py:696
+#: ../../gnome/settingsdialog.py:703 ../../kde4/settingsdialog.py:715
 msgid "Exclude patterns can't contain ':' char !"
 msgstr "\\\"除外パターン\\\"には\\\":\\\"を含むことができません！"
 
-#: ../../gnome/settingsdialog.py:698 ../../kde4/settingsdialog.py:702
+#: ../../gnome/settingsdialog.py:709 ../../kde4/settingsdialog.py:721
 msgid "Exclude file"
 msgstr "除外するファイル"
 
-#: ../../gnome/settingsdialog.py:708 ../../kde4/settingsdialog.py:706
+#: ../../gnome/settingsdialog.py:719 ../../kde4/settingsdialog.py:725
 msgid "Exclude folder"
 msgstr "除外するフォルダ"
 
-#: ../../gnome/snapshotsdialog.py:247 ../../kde4/snapshotsdialog.py:251
+#: ../../gnome/snapshotsdialog.py:252 ../../kde4/snapshotsdialog.py:261
 msgid "You can't compare a snapshot to itself"
 msgstr "スナップショット自体とは比較できません"
 
-#: ../../gnome/snapshotsdialog.py:254 ../../kde4/snapshotsdialog.py:258
+#: ../../gnome/snapshotsdialog.py:259 ../../kde4/snapshotsdialog.py:268
 #, python-format
 msgid "Command not found: %s"
 msgstr "コマンド %s がみつかりませんでした"
@@ -510,11 +518,11 @@ msgstr "スナップショット削除"
 
 #: ../../kde4/app.py:96 ../../gnome/mainwindow.glade:89
 msgid "View Snapshot Log"
-msgstr ""
+msgstr "スナップショットのログを閲覧"
 
 #: ../../kde4/app.py:100 ../../gnome/mainwindow.glade:103
 msgid "View Last Log"
-msgstr ""
+msgstr "最近のログを閲覧"
 
 #: ../../kde4/app.py:106 ../../kde4/settingsdialog.py:66
 #: ../../gnome/mainwindow.glade:124 ../../gnome/mainwindow.glade:125
@@ -566,13 +574,13 @@ msgstr ""
 "スナップショット %s を\\n\n"
 "削除してもよろしいですか"
 
-#: ../../kde4/app.py:1040 ../../kde4/kde4systrayicon.py:117
+#: ../../kde4/app.py:1041 ../../kde4/kde4systrayicon.py:117
 msgid "Working..."
 msgstr "作業中..."
 
 #: ../../kde4/logviewdialog.py:53
 msgid "Error Log View"
-msgstr ""
+msgstr "エラーログビュー"
 
 #: ../../kde4/logviewdialog.py:63 ../../kde4/settingsdialog.py:76
 #: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:38
@@ -582,9 +590,9 @@ msgstr "プロファイル:"
 
 #: ../../kde4/logviewdialog.py:75 ../../gnome/logviewdialog.glade:67
 msgid "Filter:"
-msgstr ""
+msgstr "フィルタ："
 
-#: ../../kde4/logviewdialog.py:96 ../../gnome/logviewdialog.glade:117
+#: ../../kde4/logviewdialog.py:98 ../../gnome/logviewdialog.glade:117
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr ""
 
@@ -596,13 +604,13 @@ msgstr "編集"
 msgid "General"
 msgstr "一般"
 
-#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:754
+#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:773
 msgid "Where to save snapshots"
 msgstr "スナップショットの保存場所"
 
 #: ../../kde4/settingsdialog.py:135 ../../gnome/settingsdialog.glade:182
 msgid "Auto Host / User / Profile Id"
-msgstr ""
+msgstr "自動ホスト/ユーザ/プロファイル Id"
 
 #: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:202
 msgid "Host:"
@@ -616,7 +624,7 @@ msgstr "ユーザ："
 msgid "Schedule"
 msgstr "スケジュール"
 
-#: ../../kde4/settingsdialog.py:169 ../../gnome/settingsdialog.glade:346
+#: ../../kde4/settingsdialog.py:169 ../../gnome/settingsdialog.glade:324
 msgid "Hour:"
 msgstr "時："
 
@@ -663,7 +671,7 @@ msgstr ""
 msgid "Don't remove named snapshots"
 msgstr "名付けたスナップショットは削除しない"
 
-#: ../../kde4/settingsdialog.py:301 ../../gnome/settingsdialog.glade:809
+#: ../../kde4/settingsdialog.py:301 ../../gnome/settingsdialog.glade:822
 msgid "Options"
 msgstr "オプション"
 
@@ -683,33 +691,45 @@ msgstr "システムから電源情報が得られません"
 msgid "Backup files on restore"
 msgstr "レストアの際にファイルをバックアップ"
 
-#: ../../kde4/settingsdialog.py:321 ../../gnome/settingsdialog.glade:914
+#: ../../kde4/settingsdialog.py:316 ../../gnome/settingsdialog.glade:800
+msgid "Continue on errors (keep incomplete snapshots)"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:953
 msgid "Expert Options"
 msgstr "上級者向けオプション"
 
-#: ../../kde4/settingsdialog.py:324
+#: ../../kde4/settingsdialog.py:327
 msgid "Change these options only if you really know what you are doing !"
 msgstr "何をしているか本当に理解している場合に限りこれらのオプションを変更してください！"
 
-#: ../../kde4/settingsdialog.py:332 ../../gnome/settingsdialog.glade:835
+#: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:848
 msgid "Run 'nice' as cron job (default: enabled)"
 msgstr "cron job として \\\"nice\\\" を実行 （デフォルト：有効）"
 
-#: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:848
+#: ../../kde4/settingsdialog.py:338 ../../gnome/settingsdialog.glade:861
 msgid "Run 'ionice' as cron job (default: enabled)"
 msgstr "cron job として \\\"ionice\\\" を実行（デフォルト：有効）"
 
-#: ../../kde4/settingsdialog.py:338 ../../gnome/settingsdialog.glade:861
+#: ../../kde4/settingsdialog.py:341 ../../gnome/settingsdialog.glade:874
 msgid "Run 'ionice' when tacking a manual snapshot (default: disabled)"
 msgstr "手動でスナップショットを仮にとる場合 \\\"ionice\\\"  を実行（デフォルト：無効）"
 
-#: ../../kde4/settingsdialog.py:341 ../../gnome/settingsdialog.glade:874
+#: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:887
 msgid "Preserve ACL"
 msgstr "ACL を保存"
 
-#: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:887
+#: ../../kde4/settingsdialog.py:347 ../../gnome/settingsdialog.glade:900
 msgid "Preserve extended attributes (xattr)"
-msgstr ""
+msgstr "拡張属性を維持(xattr)"
+
+#: ../../kde4/settingsdialog.py:350 ../../gnome/settingsdialog.glade:913
+msgid "Copy unsafe links (works only with absolute links)"
+msgstr "危険なリンクをコピー（絶対リンクに対してのみ動作）"
+
+#: ../../kde4/settingsdialog.py:353 ../../gnome/settingsdialog.glade:926
+msgid "Copy links (dereference symbolic links)"
+msgstr "リンクをコピー（シンボリックリンクを参照）"
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:146
 #: ../../gnome/snapshotsdialog.glade:239
@@ -742,7 +762,7 @@ msgstr "移動"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr ""
+msgstr "ログビュー"
 
 #: ../../gnome/mainwindow.glade:6
 msgid "Back In Time"
@@ -774,7 +794,7 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:242
 msgid "Profile Id:"
-msgstr ""
+msgstr "プロファイルID："
 
 #: ../../gnome/settingsdialog.glade:270
 msgid "Advanced"
@@ -784,7 +804,7 @@ msgstr "上級設定"
 msgid "<b>Where to save snapshots</b>"
 msgstr "<b>スナップショットの保存場所</b>"
 
-#: ../../gnome/settingsdialog.glade:376
+#: ../../gnome/settingsdialog.glade:354
 msgid "<b>Schedule</b>"
 msgstr "<b>予定</b>"
 
@@ -801,7 +821,7 @@ msgstr ""
 msgid "Auto-remove only removes snapshots from the selected snapshots folder"
 msgstr "自動削除は選択されたスナップショットフォルダからスナップショットだけを削除します"
 
-#: ../../gnome/settingsdialog.glade:824
+#: ../../gnome/settingsdialog.glade:837
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
 msgstr ""

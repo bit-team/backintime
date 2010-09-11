@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-13 23:14+0200\n"
-"PO-Revision-Date: 2010-06-06 19:15+0000\n"
-"Last-Translator: Gabriel U. <Unknown>\n"
+"POT-Creation-Date: 2010-08-21 17:03+0200\n"
+"PO-Revision-Date: 2010-07-27 10:20+0000\n"
+"Last-Translator: Antoine Lenoir <Unknown>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-07-20 19:40+0000\n"
+"X-Launchpad-Export-Date: 2010-09-11 06:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
@@ -27,79 +27,83 @@ msgstr "Le profil « %s » existe déjà !"
 msgid "You can't remove the last profile !"
 msgstr "Vous ne pouvez pas supprimer le dernier profil !"
 
-#: ../../common/config.py:55
+#: ../../common/config.py:56
 msgid "Disabled"
 msgstr "Désactivée"
 
-#: ../../common/config.py:56
+#: ../../common/config.py:57
+msgid "At every boot/reboot"
+msgstr ""
+
+#: ../../common/config.py:58
 msgid "Every 5 minutes"
 msgstr "Toutes les 5 minutes"
 
-#: ../../common/config.py:57
+#: ../../common/config.py:59
 msgid "Every 10 minutes"
 msgstr "Toutes les 10 minutes"
 
-#: ../../common/config.py:58
+#: ../../common/config.py:60
 msgid "Every Hour"
 msgstr "Chaque Heure"
 
-#: ../../common/config.py:59
+#: ../../common/config.py:61
 msgid "Every Day"
 msgstr "Chaque Jour"
 
-#: ../../common/config.py:60
+#: ../../common/config.py:62
 msgid "Every Week"
 msgstr "Chaque Semaine"
 
-#: ../../common/config.py:61
+#: ../../common/config.py:63
 msgid "Every Month"
 msgstr "Chaque Mois"
 
-#: ../../common/config.py:65
+#: ../../common/config.py:67
 msgid "Day(s)"
 msgstr "Jour(s)"
 
-#: ../../common/config.py:66
+#: ../../common/config.py:68
 msgid "Week(s)"
 msgstr "Semaine(s)"
 
-#: ../../common/config.py:67
+#: ../../common/config.py:69
 msgid "Year(s)"
 msgstr "Année(s)"
 
-#: ../../common/config.py:75
+#: ../../common/config.py:77
 msgid "Main profile"
 msgstr "Profil principal"
 
-#: ../../common/config.py:195 ../../common/config.py:214
-#: ../../common/config.py:225 ../../common/config.py:230
+#: ../../common/config.py:197 ../../common/config.py:216
+#: ../../common/config.py:227 ../../common/config.py:232
 #, python-format
 msgid "Profile: \"%s\""
 msgstr "Profil : «%s»"
 
-#: ../../common/config.py:195
+#: ../../common/config.py:197
 msgid "Snapshots folder is not valid !"
 msgstr "Le dossier des sauvegardes n'est pas valide !"
 
-#: ../../common/config.py:214
+#: ../../common/config.py:216
 msgid "You must select at least one folder to backup !"
 msgstr "Vous devez sélectionner au moins un dossier à sauvegarder !"
 
-#: ../../common/config.py:225
+#: ../../common/config.py:227
 msgid "You can't include backup folder !"
 msgstr "Vous ne pouvez pas inclure le dossier des sauvegardes !"
 
-#: ../../common/config.py:230
+#: ../../common/config.py:232
 msgid "You can't include a backup sub-folder !"
 msgstr ""
 "Vous ne pouvez pas inclure un sous-dossier du dossier des sauvegardes !"
 
-#: ../../common/config.py:281
+#: ../../common/config.py:283
 #, python-format
 msgid "%s is not a folder !"
 msgstr "%s n'est pas un dossier !"
 
-#: ../../common/config.py:296 ../../common/config.py:309
+#: ../../common/config.py:298 ../../common/config.py:311
 #, python-format
 msgid ""
 "Can't write to: %s\n"
@@ -108,7 +112,7 @@ msgstr ""
 "Impossible d'écrire dans : %s\n"
 "Êtes-vous sûr d'avoir les droits en écriture ?"
 
-#: ../../common/config.py:755
+#: ../../common/config.py:775
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -118,18 +122,26 @@ msgstr ""
 "Etes-vous sûr que crontab est installé ?\n"
 "Si ce n'est pas le cas vous devriez désactiver les sauvegardes automatiques."
 
-#: ../../common/snapshots.py:144 ../../gnome/app.py:1017 ../../kde4/app.py:912
+#: ../../common/snapshots.py:147 ../../gnome/app.py:1018 ../../kde4/app.py:913
 msgid "Now"
 msgstr "Maintenant"
 
-#: ../../common/snapshots.py:553
+#: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
+msgid "FAILED"
+msgstr ""
+
+#: ../../common/snapshots.py:568
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
+"Back In Time a changé son format de sauvegarde\n"
+"\n"
+"Vos anciennes sauvegardes peuvent être converties dans ce nouveau format. OK "
+"?"
 
-#: ../../common/snapshots.py:563
+#: ../../common/snapshots.py:578
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -145,13 +157,15 @@ msgstr ""
 "emplacement pour les deux profils?\n"
 "(Le programme sera toujours capable de faire la différence entre les deux)"
 
-#: ../../common/snapshots.py:566
+#: ../../common/snapshots.py:581
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
+"Aucun profil n'a été trouvé. Une mise à jour des profils est nécessaire, "
+"veuillez redémarrer Back In Time"
 
-#: ../../common/snapshots.py:617
+#: ../../common/snapshots.py:632
 #, python-format
 msgid ""
 "%s\n"
@@ -163,8 +177,15 @@ msgid ""
 "If not Back In Time will restore former settings for this profile, however "
 "cannot continue taking snapshots"
 msgstr ""
+"%s\n"
+"du profil %s ne seront pas déplacés vers leur nouvel emplacement\n"
+"Voulez-vous procéder ?\n"
+"(Back In Time continuera à prendre des instantanés, mais les instantanés "
+"restants ne seront pas pris en compte pour la suppression automatique)\n"
+"Sinon, Back In Time restaurera les paramètres antérieurs pour ce profil, "
+"mais ne sera plus en mesure de prendre des instantanés."
 
-#: ../../common/snapshots.py:626
+#: ../../common/snapshots.py:641
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -173,15 +194,21 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
+"Les paramètres antérieurs du profil %s ont été restaurés\n"
+"Back In Time ne peut plus prendre de nouveaux instantanés.\n"
+"Vous pouvez déplacer manuellement les instantanés\n"
+"Lorsque vous avez fini, redémarrez Back In Time pour continuer."
 
-#: ../../common/snapshots.py:639
+#: ../../common/snapshots.py:654
 msgid ""
 "Update was successful!\n"
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"La mise a jour s'est achevée avec succès.\n"
+"Back In Time va continuer à prendre des instantanés selon la planification."
 
-#: ../../common/snapshots.py:644
+#: ../../common/snapshots.py:659
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -192,18 +219,29 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
+"Êtes vous sûr de ne pas vouloir déplacer vos anciens instantanés ?\n"
+"\n"
+"\n"
+"Si vous les déplacez, vous ne verrez plus ces questions la prochaine fois. "
+"Back In Time continuera de prendre des instantanés, mais smart-remove ne "
+"pourra plus prendre en compte vos anciens instantanés.\n"
+"\n"
+"Sinon, ces questions vous seront reposées la prochaine fois que vous "
+"redémarrerez Back In Time."
 
-#: ../../common/snapshots.py:653
+#: ../../common/snapshots.py:668
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr ""
+msgstr "Back In Time continuera à prendre des instantanés comme planifié."
 
-#: ../../common/snapshots.py:655
+#: ../../common/snapshots.py:670
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
+"Back In Time ne peut toujours pas continuer à prendre des instantanés.\n"
+"Redémarrez Back In Time pour voir à nouveau ces questions."
 
-#: ../../common/snapshots.py:716
+#: ../../common/snapshots.py:731
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
@@ -211,73 +249,73 @@ msgstr ""
 "Impossible de trouver le dossier des sauvegardes.\n"
 "S'il se trouve sur un disque externe, veuillez connecter celui-ci."
 
-#: ../../common/snapshots.py:718
+#: ../../common/snapshots.py:733
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "En attente pour %s seconde."
 msgstr[1] "En attente pour %s secondes."
 
-#: ../../common/snapshots.py:742
+#: ../../common/snapshots.py:757
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr "Impossible d'effectuer la sauvegarde %s !!!"
 
-#: ../../common/snapshots.py:751
+#: ../../common/snapshots.py:766
 msgid "Finalizing"
 msgstr "Finalisation"
 
-#: ../../common/snapshots.py:777 ../../common/snapshots.py:1043
+#: ../../common/snapshots.py:792 ../../common/snapshots.py:1074
 #: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:36
 msgid "Take snapshot"
 msgstr "Sauvegarder"
 
-#: ../../common/snapshots.py:786 ../../common/snapshots.py:991
+#: ../../common/snapshots.py:801 ../../common/snapshots.py:1006
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "Comparaison avec la sauvegarde %s"
 
-#: ../../common/snapshots.py:877
+#: ../../common/snapshots.py:892
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "Impossible de créer le dossier: %s"
 
-#: ../../common/snapshots.py:907
+#: ../../common/snapshots.py:922
 msgid "..."
 msgstr "..."
 
-#: ../../common/snapshots.py:920
+#: ../../common/snapshots.py:935
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "Impossible de supprimer le dossier: %s"
 
-#: ../../common/snapshots.py:1018
+#: ../../common/snapshots.py:1034
 msgid "Create hard-links"
 msgstr "Création des liens physiques"
 
-#: ../../common/snapshots.py:1055
+#: ../../common/snapshots.py:1097
 msgid "Save config file ..."
 msgstr "Sauvegarde du fichier de configuration..."
 
-#: ../../common/snapshots.py:1060
+#: ../../common/snapshots.py:1102
 msgid "Save permission ..."
 msgstr "Sauvegarde des permissions..."
 
-#: ../../common/snapshots.py:1137
+#: ../../common/snapshots.py:1179
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr "Impossible de renommer %s en %s"
 
-#: ../../common/snapshots.py:1249
+#: ../../common/snapshots.py:1291
 msgid "Remove old snapshots"
 msgstr "Suppression des sauvegardes obsolètes"
 
-#: ../../common/snapshots.py:1272 ../../kde4/settingsdialog.py:284
+#: ../../common/snapshots.py:1314 ../../kde4/settingsdialog.py:284
 #: ../../gnome/settingsdialog.glade:694
 msgid "Smart remove"
 msgstr "Suppression intelligente"
 
-#: ../../common/snapshots.py:1277
+#: ../../common/snapshots.py:1319
 msgid "Try to keep min free space"
 msgstr "Préservation de l'espace libre minimal (si possible)"
 
@@ -303,7 +341,7 @@ msgid "Date"
 msgstr "Date"
 
 #: ../../gnome/app.py:254 ../../gnome/app.py:291
-#: ../../gnome/snapshotsdialog.py:94 ../../kde4/app.py:141
+#: ../../gnome/snapshotsdialog.py:93 ../../kde4/app.py:141
 #: ../../kde4/app.py:184 ../../kde4/snapshotsdialog.py:90
 #: ../../gnome/mainwindow.glade:352 ../../gnome/mainwindow.glade:353
 #: ../../gnome/snapshotsdialog.glade:7
@@ -388,12 +426,12 @@ msgstr "Cette semaine"
 msgid "Last week"
 msgstr "La semaine dernière"
 
-#: ../../gnome/app.py:949 ../../kde4/app.py:88 ../../kde4/app.py:733
+#: ../../gnome/app.py:950 ../../kde4/app.py:88 ../../kde4/app.py:733
 #: ../../gnome/mainwindow.glade:62 ../../gnome/mainwindow.glade:63
 msgid "Snapshot Name"
 msgstr "Nommer la sauvegarde"
 
-#: ../../gnome/app.py:968
+#: ../../gnome/app.py:969
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -402,94 +440,94 @@ msgstr ""
 "Etes-vous sûr de vouloir supprimer la sauvegarde :\n"
 "<b>%s</b>"
 
-#: ../../gnome/app.py:1013 ../../kde4/app.py:908
+#: ../../gnome/app.py:1014 ../../kde4/app.py:909
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Sauvegarde : %s"
 
-#: ../../gnome/app.py:1014 ../../kde4/app.py:909
+#: ../../gnome/app.py:1015 ../../kde4/app.py:910
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "Voir le contenu sauvegardé dans %s"
 
-#: ../../gnome/app.py:1016 ../../kde4/app.py:911
+#: ../../gnome/app.py:1017 ../../kde4/app.py:912
 msgid "View the current disk content"
 msgstr "Voir le contenu actuel"
 
 #: ../../gnome/logviewdialog.py:91 ../../kde4/logviewdialog.py:81
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: ../../gnome/logviewdialog.py:92 ../../kde4/logviewdialog.py:82
 msgid "Errors"
-msgstr ""
+msgstr "Erreurs"
 
-#: ../../gnome/logviewdialog.py:95 ../../kde4/logviewdialog.py:85
+#: ../../gnome/logviewdialog.py:97 ../../kde4/logviewdialog.py:87
 msgid "Changes"
-msgstr ""
+msgstr "Modifications"
 
-#: ../../gnome/logviewdialog.py:98 ../../kde4/logviewdialog.py:88
+#: ../../gnome/logviewdialog.py:100 ../../kde4/logviewdialog.py:90
 msgid "Informations"
-msgstr ""
+msgstr "Informations"
 
 #: ../../gnome/settingsdialog.py:140 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
-msgstr ""
+msgstr "Inclure les fichiers et les dossiers"
 
 #: ../../gnome/settingsdialog.py:168
 msgid "Exclude patterns, files or folders"
-msgstr ""
+msgstr "Exclure les motifs, fichiers ou dossiers"
 
-#: ../../gnome/settingsdialog.py:277
+#: ../../gnome/settingsdialog.py:280
 msgid "Snapshots folder"
 msgstr "Dossier des sauvegardes"
 
-#: ../../gnome/settingsdialog.py:285 ../../kde4/settingsdialog.py:757
+#: ../../gnome/settingsdialog.py:288 ../../kde4/settingsdialog.py:776
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr "Etes-vous sûr de vouloir changer de dossier des sauvegardes ?"
 
-#: ../../gnome/settingsdialog.py:599 ../../kde4/settingsdialog.py:353
+#: ../../gnome/settingsdialog.py:610 ../../kde4/settingsdialog.py:362
 msgid "New profile"
 msgstr "Nouveau profil"
 
-#: ../../gnome/settingsdialog.py:613 ../../kde4/settingsdialog.py:369
+#: ../../gnome/settingsdialog.py:624 ../../kde4/settingsdialog.py:378
 msgid "Rename profile"
 msgstr "Renommer le profil"
 
-#: ../../gnome/settingsdialog.py:625 ../../kde4/settingsdialog.py:383
+#: ../../gnome/settingsdialog.py:636 ../../kde4/settingsdialog.py:392
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "Êtes-vous sûr de vouloir supprimer le profil \"%s\" ?"
 
-#: ../../gnome/settingsdialog.py:631 ../../kde4/settingsdialog.py:738
+#: ../../gnome/settingsdialog.py:642 ../../kde4/settingsdialog.py:757
 msgid "Include folder"
 msgstr "Inclure un dossier"
 
-#: ../../gnome/settingsdialog.py:650 ../../kde4/settingsdialog.py:724
+#: ../../gnome/settingsdialog.py:661 ../../kde4/settingsdialog.py:743
 msgid "Include file"
-msgstr ""
+msgstr "Inclure le fichier"
 
-#: ../../gnome/settingsdialog.py:687 ../../kde4/settingsdialog.py:686
+#: ../../gnome/settingsdialog.py:698 ../../kde4/settingsdialog.py:705
 msgid "Exclude pattern"
 msgstr "Exclure selon un modèle"
 
-#: ../../gnome/settingsdialog.py:692 ../../kde4/settingsdialog.py:696
+#: ../../gnome/settingsdialog.py:703 ../../kde4/settingsdialog.py:715
 msgid "Exclude patterns can't contain ':' char !"
 msgstr "Un modèle ne peut pas contenir le caractère « : » !"
 
-#: ../../gnome/settingsdialog.py:698 ../../kde4/settingsdialog.py:702
+#: ../../gnome/settingsdialog.py:709 ../../kde4/settingsdialog.py:721
 msgid "Exclude file"
 msgstr "Exclure un fichier"
 
-#: ../../gnome/settingsdialog.py:708 ../../kde4/settingsdialog.py:706
+#: ../../gnome/settingsdialog.py:719 ../../kde4/settingsdialog.py:725
 msgid "Exclude folder"
 msgstr "Exclure un dossier"
 
-#: ../../gnome/snapshotsdialog.py:247 ../../kde4/snapshotsdialog.py:251
+#: ../../gnome/snapshotsdialog.py:252 ../../kde4/snapshotsdialog.py:261
 msgid "You can't compare a snapshot to itself"
 msgstr "Vous ne pouvez pas comparer une sauvegarde à elle-même"
 
-#: ../../gnome/snapshotsdialog.py:254 ../../kde4/snapshotsdialog.py:258
+#: ../../gnome/snapshotsdialog.py:259 ../../kde4/snapshotsdialog.py:268
 #, python-format
 msgid "Command not found: %s"
 msgstr "Commande non trouvée : %s"
@@ -497,7 +535,7 @@ msgstr "Commande non trouvée : %s"
 #: ../../kde4/app.py:84 ../../gnome/mainwindow.glade:49
 #: ../../gnome/mainwindow.glade:50
 msgid "Refresh snapshots list"
-msgstr ""
+msgstr "Rafraîchir la liste des instantanés"
 
 #: ../../kde4/app.py:92 ../../gnome/mainwindow.glade:75
 #: ../../gnome/mainwindow.glade:76
@@ -506,11 +544,11 @@ msgstr "Supprimer"
 
 #: ../../kde4/app.py:96 ../../gnome/mainwindow.glade:89
 msgid "View Snapshot Log"
-msgstr ""
+msgstr "Voir le journal des instantanés"
 
 #: ../../kde4/app.py:100 ../../gnome/mainwindow.glade:103
 msgid "View Last Log"
-msgstr ""
+msgstr "Voir la dernière entrée du journal"
 
 #: ../../kde4/app.py:106 ../../kde4/settingsdialog.py:66
 #: ../../gnome/mainwindow.glade:124 ../../gnome/mainwindow.glade:125
@@ -543,7 +581,7 @@ msgstr "Fichiers cachés"
 
 #: ../../kde4/app.py:180 ../../gnome/snapshotsdialog.glade:66
 msgid "Copy pathname to clipboard"
-msgstr ""
+msgstr "Copier le chemin dans le presse-papiers"
 
 #: ../../kde4/app.py:207
 msgid ""
@@ -562,13 +600,13 @@ msgstr ""
 "Êtes-vous sûr de vouloir supprimer la sauvegarde :\n"
 "%s"
 
-#: ../../kde4/app.py:1040 ../../kde4/kde4systrayicon.py:117
+#: ../../kde4/app.py:1041 ../../kde4/kde4systrayicon.py:117
 msgid "Working..."
 msgstr "Traitement en cours..."
 
 #: ../../kde4/logviewdialog.py:53
 msgid "Error Log View"
-msgstr ""
+msgstr "Voir le journal d'erreurs"
 
 #: ../../kde4/logviewdialog.py:63 ../../kde4/settingsdialog.py:76
 #: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:38
@@ -578,11 +616,11 @@ msgstr "Profil :"
 
 #: ../../kde4/logviewdialog.py:75 ../../gnome/logviewdialog.glade:67
 msgid "Filter:"
-msgstr ""
+msgstr "Filtre :"
 
-#: ../../kde4/logviewdialog.py:96 ../../gnome/logviewdialog.glade:117
+#: ../../kde4/logviewdialog.py:98 ../../gnome/logviewdialog.glade:117
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr ""
+msgstr "[E] Erreur, [I] Information, [C] Modification"
 
 #: ../../kde4/settingsdialog.py:85
 msgid "Edit"
@@ -592,27 +630,27 @@ msgstr "Modifier"
 msgid "General"
 msgstr "Général"
 
-#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:754
+#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:773
 msgid "Where to save snapshots"
 msgstr "Dossier pour les sauvegardes"
 
 #: ../../kde4/settingsdialog.py:135 ../../gnome/settingsdialog.glade:182
 msgid "Auto Host / User / Profile Id"
-msgstr ""
+msgstr "Hôte / Utilisateur / Profil automatiques"
 
 #: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:202
 msgid "Host:"
-msgstr ""
+msgstr "Hôte :"
 
 #: ../../kde4/settingsdialog.py:147 ../../gnome/settingsdialog.glade:222
 msgid "User:"
-msgstr ""
+msgstr "Utilisateur :"
 
 #: ../../kde4/settingsdialog.py:160
 msgid "Schedule"
 msgstr "Planification"
 
-#: ../../kde4/settingsdialog.py:169 ../../gnome/settingsdialog.glade:346
+#: ../../kde4/settingsdialog.py:169 ../../gnome/settingsdialog.glade:324
 msgid "Hour:"
 msgstr "Heure :"
 
@@ -654,12 +692,18 @@ msgid ""
 "months of the last year \n"
 "- keep one snapshot per year for all other years"
 msgstr ""
+"- Conserver toutes les sauvegardes de aujourd'hui et de hier\n"
+"- Conserver une sauvegarde de la dernière semaine et celle des deux "
+"dernières semaines\n"
+"- Conserver une sauvegarde par mois pour tous les mois précédents de cette "
+"année et tous les mois de la dernière année\n"
+"- Conserver une sauvegarde par an pour toutes les années"
 
 #: ../../kde4/settingsdialog.py:292 ../../gnome/settingsdialog.glade:601
 msgid "Don't remove named snapshots"
 msgstr "Ne pas effacer les sauvegardes avec des noms"
 
-#: ../../kde4/settingsdialog.py:301 ../../gnome/settingsdialog.glade:809
+#: ../../kde4/settingsdialog.py:301 ../../gnome/settingsdialog.glade:822
 msgid "Options"
 msgstr "Options"
 
@@ -679,32 +723,45 @@ msgstr "Impossible d'obtenir l'état de l'alimentation du système"
 msgid "Backup files on restore"
 msgstr "Sauvegarder les fichiers lors de la restauration"
 
-#: ../../kde4/settingsdialog.py:321 ../../gnome/settingsdialog.glade:914
+#: ../../kde4/settingsdialog.py:316 ../../gnome/settingsdialog.glade:800
+msgid "Continue on errors (keep incomplete snapshots)"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:953
 msgid "Expert Options"
 msgstr "Avancé"
 
-#: ../../kde4/settingsdialog.py:324
+#: ../../kde4/settingsdialog.py:327
 msgid "Change these options only if you really know what you are doing !"
 msgstr ""
+"Modifiez ces options uniquement si vous savez réellement ce que vous faites !"
 
-#: ../../kde4/settingsdialog.py:332 ../../gnome/settingsdialog.glade:835
+#: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:848
 msgid "Run 'nice' as cron job (default: enabled)"
 msgstr "Utiliser 'nice' pour exécuter la commande cron (activé par défaut)"
 
-#: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:848
+#: ../../kde4/settingsdialog.py:338 ../../gnome/settingsdialog.glade:861
 msgid "Run 'ionice' as cron job (default: enabled)"
 msgstr "Executer 'ionice' en tant que tâche planifiée (par defaut: activé)"
 
-#: ../../kde4/settingsdialog.py:338 ../../gnome/settingsdialog.glade:861
+#: ../../kde4/settingsdialog.py:341 ../../gnome/settingsdialog.glade:874
 msgid "Run 'ionice' when tacking a manual snapshot (default: disabled)"
 msgstr "Executer 'ionice' pour restaurer un snapshot (par défaut: désactivé)"
 
-#: ../../kde4/settingsdialog.py:341 ../../gnome/settingsdialog.glade:874
+#: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:887
 msgid "Preserve ACL"
+msgstr "Conserver les autorisations"
+
+#: ../../kde4/settingsdialog.py:347 ../../gnome/settingsdialog.glade:900
+msgid "Preserve extended attributes (xattr)"
+msgstr "Conserver les attributs étendus (xattr)"
+
+#: ../../kde4/settingsdialog.py:350 ../../gnome/settingsdialog.glade:913
+msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:887
-msgid "Preserve extended attributes (xattr)"
+#: ../../kde4/settingsdialog.py:353 ../../gnome/settingsdialog.glade:926
+msgid "Copy links (dereference symbolic links)"
 msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:146
@@ -726,11 +783,11 @@ msgstr "Utilisez %1 et %2 pour les deux chemins"
 
 #: ../../kde4/snapshotsdialog.py:119 ../../gnome/snapshotsdialog.glade:36
 msgid "List only different snapshots"
-msgstr ""
+msgstr "Lister uniquement les instantanés différents"
 
 #: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:49
 msgid "Deep check (more accurate, but slow)"
-msgstr ""
+msgstr "Vérification avancée (plus sûre mais lente)"
 
 #: ../../kde4/snapshotsdialog.py:147
 msgid "Go To"
@@ -738,7 +795,7 @@ msgstr "Atteindre"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr ""
+msgstr "Voir le journal"
 
 #: ../../gnome/mainwindow.glade:6
 msgid "Back In Time"
@@ -770,17 +827,17 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:242
 msgid "Profile Id:"
-msgstr ""
+msgstr "Profil :"
 
 #: ../../gnome/settingsdialog.glade:270
 msgid "Advanced"
-msgstr ""
+msgstr "Options avancées"
 
 #: ../../gnome/settingsdialog.glade:285
 msgid "<b>Where to save snapshots</b>"
 msgstr "<b>Dossier pour les sauvegardes</b>"
 
-#: ../../gnome/settingsdialog.glade:376
+#: ../../gnome/settingsdialog.glade:354
 msgid "<b>Schedule</b>"
 msgstr "<b>Sauvegarde automatique</b>"
 
@@ -792,15 +849,22 @@ msgid ""
 "months of the last year\n"
 "- keep one snapshot per year for all other years"
 msgstr ""
+"- Conserver toutes les sauvegardes de aujourd'hui et de hier\n"
+"- Conserver une sauvegarde de la dernière semaine et celle des deux "
+"dernières semaines\n"
+"- Conserver une sauvegarde par mois pour tous les mois précédents de cette "
+"année et tous les mois de la dernière année\n"
+"- Conserver une sauvegarde par an pour toutes les années"
 
 #: ../../gnome/settingsdialog.glade:727
 msgid "Auto-remove only removes snapshots from the selected snapshots folder"
 msgstr "La purge automatique ne supprime que les sauvegardes sélectionnées"
 
-#: ../../gnome/settingsdialog.glade:824
+#: ../../gnome/settingsdialog.glade:837
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
 msgstr ""
+"<b>Modifiez ces options uniquement si vous savez ce que vous faites !</p>"
 
 #: ../../gnome/snapshotsdialog.glade:137
 msgid "Diff with"
