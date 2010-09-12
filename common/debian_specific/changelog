@@ -1,4 +1,20 @@
 $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
+  * add '.dropbox*' to default exclude patterns (https://bugs.launchpad.net/backintime/+bug/628172)
+  * add option to take a snapshot at every boot (https://bugs.launchpad.net/backintime/+bug/621810)
+  * fix xattr
+  * add continue on errors (https://bugs.launchpad.net/backintime/+bug/616299)
+  * add expert options: copy unsafe links & copy links
+  * "user-callback" replace "user.callback" and receive profile informations
+  * documentation: on-line only (easier to maintain)
+  * add error log and error log view dialog (Gnome & KDE4)
+  * merge with: lp:~dave2010/backintime/minor-edits
+  * merge with: lp:~mcfonty/backintime/unique-snapshots-view
+  * fix bug: https://bugs.launchpad.net/backintime/+bug/588841
+  * fix bug: https://bugs.launchpad.net/backintime/+bug/588215
+  * fix bug: https://bugs.launchpad.net/backintime/+bug/588393
+  * fix bug: https://bugs.launchpad.net/backintime/+bug/426400
+  * fix bug: https://bugs.launchpad.net/backintime/+bug/575022
+  * fix bug: https://bugs.launchpad.net/backintime/+bug/571894
   * fix bug: https://bugs.launchpad.net/backintime/+bug/553441
   * fix bug: https://bugs.launchpad.net/backintime/+bug/550765
   * fix bug: https://bugs.launchpad.net/backintime/+bug/507246
