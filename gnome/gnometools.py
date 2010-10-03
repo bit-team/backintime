@@ -32,7 +32,7 @@ def get_snapshot_display_markup( snapshots, snapshot_id ):
 		display_name = display_name + ' - <b>' + glib.markup_escape_text( name ) + '</b>'
 	
 	if snapshots.is_snapshot_failed( snapshot_id ):
-		display_name = display_name + " (<b>%s</b>)" % _("FAILED")
+		display_name = display_name + " (<b>%s</b>)" % _("WITH ERRORS !")
 
 	return display_name
 

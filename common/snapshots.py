@@ -155,7 +155,7 @@ class Snapshots:
 			display_name = display_name + ' - ' + name
 
 		if self.is_snapshot_failed( snapshot_id ):
-			display_name = display_name + " (%s)" % _("FAILED")
+			display_name = display_name + " (%s)" % _("WITH ERRORS !")
 
 		return display_name
 
@@ -798,7 +798,7 @@ class Snapshots:
 					self.set_take_snapshot_message( 1, 'Error: ' + line )
 
 	def _exec_rsync_compare_callback( self, line, params ):
-		self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % params[0] )
+		#self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % params[0] )
 
 		if len(line) >= 13:
 			if line.startswith( 'BACKINTIME: ' ):
