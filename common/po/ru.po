@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-08-21 17:03+0200\n"
-"PO-Revision-Date: 2010-09-08 15:38+0000\n"
-"Last-Translator: poruchik <Unknown>\n"
+"PO-Revision-Date: 2010-09-13 07:27+0000\n"
+"Last-Translator: vovkkk <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-09-11 06:52+0000\n"
+"X-Launchpad-Export-Date: 2010-10-05 08:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../../gnome/app.py:1017 ../../kde4/app.py:912
@@ -157,6 +157,10 @@ msgid ""
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
+"В Back In Time сменился используемый формат.\n"
+"\n"
+"Ваши старые снимки могут быть преобразованы в соответствии с новым форматом. "
+"Преобразовать?"
 
 #: ../../common/snapshots.py:578
 #, python-format
@@ -180,6 +184,8 @@ msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
+"Профили не найдены. Необходимо сначала обновить профили, пожалуйста, "
+"перезапустите Back In Time"
 
 #: ../../common/snapshots.py:632
 #, python-format
@@ -211,6 +217,11 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
+"Предыдущие настройки профиля %s восстановлены.\n"
+"Back In Time не может продолжать создавать новые снимки.\n"
+"\n"
+"Вы можете вручную переместить снимки, \n"
+"если вы сделали, что хотели, то перезапустите Back In Time, чтобы продолжить."
 
 #: ../../common/snapshots.py:654
 msgid ""
@@ -218,6 +229,9 @@ msgid ""
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"Обновление завершено успешно!\n"
+"\n"
+"Back In Time продолжит выполнять резервное копирование по расписанию"
 
 #: ../../common/snapshots.py:659
 msgid ""
@@ -241,7 +255,7 @@ msgstr ""
 
 #: ../../common/snapshots.py:668
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr ""
+msgstr "Back In Time продолжит выполнять резервное копирование по расписанию"
 
 #: ../../common/snapshots.py:670
 msgid ""
@@ -635,7 +649,7 @@ msgstr "Место для сохранения резервных копий"
 
 #: ../../kde4/settingsdialog.py:135 ../../gnome/settingsdialog.glade:182
 msgid "Auto Host / User / Profile Id"
-msgstr ""
+msgstr "Автоматическая идентификация Компьютера / Пользователя / Профиля"
 
 #: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:202
 msgid "Host:"
@@ -715,7 +729,7 @@ msgstr "Сохранять файлы во время восстановлени
 
 #: ../../kde4/settingsdialog.py:316 ../../gnome/settingsdialog.glade:800
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr ""
+msgstr "Игнорировать ошибки (сохранять незавершенные копии)"
 
 #: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:953
 msgid "Expert Options"

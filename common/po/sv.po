@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-08-21 17:03+0200\n"
-"PO-Revision-Date: 2010-02-16 15:44+0000\n"
-"Last-Translator: Treecko <Unknown>\n"
+"PO-Revision-Date: 2010-10-04 20:34+0000\n"
+"Last-Translator: Stefan Lunderius <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-09-11 06:52+0000\n"
+"X-Launchpad-Export-Date: 2010-10-05 08:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
@@ -25,7 +25,7 @@ msgstr "Profilen \"%s\" existerar redan!"
 
 #: ../../common/configfile.py:282
 msgid "You can't remove the last profile !"
-msgstr ""
+msgstr "Du kan inte radera den sista profilen!"
 
 #: ../../common/config.py:56
 msgid "Disabled"
@@ -33,7 +33,7 @@ msgstr "Inaktiverad"
 
 #: ../../common/config.py:57
 msgid "At every boot/reboot"
-msgstr ""
+msgstr "Vid varje start/omstart"
 
 #: ../../common/config.py:58
 msgid "Every 5 minutes"
@@ -73,7 +73,7 @@ msgstr "År"
 
 #: ../../common/config.py:77
 msgid "Main profile"
-msgstr ""
+msgstr "Huvudprofil"
 
 #: ../../common/config.py:197 ../../common/config.py:216
 #: ../../common/config.py:227 ../../common/config.py:232
@@ -108,6 +108,8 @@ msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
+"Kan inte skriva till: %s\n"
+"Är du säker på att du har skrivrättighet?"
 
 #: ../../common/config.py:775
 msgid ""
@@ -125,7 +127,7 @@ msgstr "Nu"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
 msgid "FAILED"
-msgstr ""
+msgstr "MISSLYCKADES"
 
 #: ../../common/snapshots.py:568
 msgid ""
@@ -133,6 +135,9 @@ msgid ""
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
+"Back In Time ändrade dess format för säkerhetskopiering.\n"
+"\n"
+"Dina gamla ögonblicksbilder kan flyttas till detta ny format. OK?"
 
 #: ../../common/snapshots.py:578
 #, python-format
@@ -144,6 +149,12 @@ msgid ""
 "\n"
 "(The program will still be able to discriminate between them)"
 msgstr ""
+"%s profiler funna. \n"
+"\n"
+"Det nya formatet för säkerhetskopior stöder sparandet av olika användare och "
+"profiler på samma plats. Vill du ha samma plats för båda profiler? \n"
+"\n"
+"(Programmet kommer fortfarande att kunna skilja mellan dem)"
 
 #: ../../common/snapshots.py:581
 msgid ""
@@ -163,6 +174,15 @@ msgid ""
 "If not Back In Time will restore former settings for this profile, however "
 "cannot continue taking snapshots"
 msgstr ""
+"%s\n"
+"av profil %s är inte flyttade till deras nya plats\n"
+"Vill du fortsätta?\n"
+"(Back In Time kommer att kunna fortsätta skapa ögonblicksbilder, men de "
+"återstående ögonblicksbilderna kommer inte att övervägas för automatisk "
+"borttagning)\n"
+"\n"
+"Om inte, kommer Back In Time återställa tidigare inställningar för den här "
+"profilen men kan inte fortsätta skapa ögonblicksbilder"
 
 #: ../../common/snapshots.py:641
 #, python-format
@@ -173,6 +193,11 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
+"Tidigare inställningar för profil %s är återställda.\n"
+"Back In Time kan inte fortsätta skapa nya ögonblicksbilder.\n"
+"\n"
+"Du kan flytta ögonblicksbilderna manuellt, \n"
+"om du är klar starta om Back In Time för att fortsätta"
 
 #: ../../common/snapshots.py:654
 msgid ""
@@ -180,6 +205,9 @@ msgid ""
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"Uppdatering lyckades!\n"
+"\n"
+"Back In Time kommer fortsätta ta ögonblicksbilder igen som schemalagt"
 
 #: ../../common/snapshots.py:659
 msgid ""
@@ -192,16 +220,28 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
+"Är du säker på att du inte vill flytta dina gamla ögonblicksbilder?\n"
+"\n"
+"\n"
+"Om du är det kommer du inte få dessa frågor igen nästa gång, Back In Time "
+"kommer fortsätta skapa ögonblicksbilder igen men smart-borttagning kan inte "
+"beakta dina gamla ögonblicksbilder fortsättningsvis!\n"
+"\n"
+"Om du inte är det kommer du bli tillfrågad igen nästa gång du startar Back "
+"In Time."
 
 #: ../../common/snapshots.py:668
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"Back In Time kommer fortsätta ta ögonblicksbilder igen som schemalagt"
 
 #: ../../common/snapshots.py:670
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
+"Back In Time kan fortfarande inte fortsätta ta nya ögonblicksbilder.\n"
+"Starta om Back In Time för att se frågorna igen"
 
 #: ../../common/snapshots.py:731
 msgid ""
@@ -221,7 +261,7 @@ msgstr[1] "Väntar %s sekunder."
 #: ../../common/snapshots.py:757
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr ""
+msgstr "Misslyckades att skapa ögonblicksbild %s !!!"
 
 #: ../../common/snapshots.py:766
 msgid "Finalizing"
@@ -257,7 +297,7 @@ msgstr "Skapa hårda länkar"
 
 #: ../../common/snapshots.py:1097
 msgid "Save config file ..."
-msgstr ""
+msgstr "Spara konfigurationsfil ..."
 
 #: ../../common/snapshots.py:1102
 msgid "Save permission ..."
@@ -349,7 +389,7 @@ msgstr "Arbetar:"
 
 #: ../../gnome/app.py:576 ../../kde4/app.py:532
 msgid "Error:"
-msgstr ""
+msgstr "Fel:"
 
 #: ../../gnome/app.py:589 ../../kde4/app.py:578
 msgid "Global"
@@ -417,15 +457,15 @@ msgstr "Visa det aktuella diskinnehållet"
 
 #: ../../gnome/logviewdialog.py:91 ../../kde4/logviewdialog.py:81
 msgid "All"
-msgstr ""
+msgstr "Alla"
 
 #: ../../gnome/logviewdialog.py:92 ../../kde4/logviewdialog.py:82
 msgid "Errors"
-msgstr ""
+msgstr "Fel"
 
 #: ../../gnome/logviewdialog.py:97 ../../kde4/logviewdialog.py:87
 msgid "Changes"
-msgstr ""
+msgstr "Ändringar"
 
 #: ../../gnome/logviewdialog.py:100 ../../kde4/logviewdialog.py:90
 msgid "Informations"
@@ -433,15 +473,15 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.py:140 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
-msgstr ""
+msgstr "Inkludera filer och kataloger"
 
 #: ../../gnome/settingsdialog.py:168
 msgid "Exclude patterns, files or folders"
-msgstr ""
+msgstr "Exkludera mönster, filer eller kataloger"
 
 #: ../../gnome/settingsdialog.py:280
 msgid "Snapshots folder"
-msgstr ""
+msgstr "Katalog för ögonblicksbilder"
 
 #: ../../gnome/settingsdialog.py:288 ../../kde4/settingsdialog.py:776
 msgid "Are you sure you want to change snapshots folder ?"
@@ -466,7 +506,7 @@ msgstr "Inkludera mapp"
 
 #: ../../gnome/settingsdialog.py:661 ../../kde4/settingsdialog.py:743
 msgid "Include file"
-msgstr ""
+msgstr "Inkludera fil"
 
 #: ../../gnome/settingsdialog.py:698 ../../kde4/settingsdialog.py:705
 msgid "Exclude pattern"
@@ -496,7 +536,7 @@ msgstr "Kommandot hittades inte: %s"
 #: ../../kde4/app.py:84 ../../gnome/mainwindow.glade:49
 #: ../../gnome/mainwindow.glade:50
 msgid "Refresh snapshots list"
-msgstr ""
+msgstr "Uppdatera listan över ögonblicksbilder"
 
 #: ../../kde4/app.py:92 ../../gnome/mainwindow.glade:75
 #: ../../gnome/mainwindow.glade:76
@@ -505,11 +545,11 @@ msgstr "Ta bort ögonblicksbild"
 
 #: ../../kde4/app.py:96 ../../gnome/mainwindow.glade:89
 msgid "View Snapshot Log"
-msgstr ""
+msgstr "Visa logg för ögonblicksbild"
 
 #: ../../kde4/app.py:100 ../../gnome/mainwindow.glade:103
 msgid "View Last Log"
-msgstr ""
+msgstr "Visa senaste logg"
 
 #: ../../kde4/app.py:106 ../../kde4/settingsdialog.py:66
 #: ../../gnome/mainwindow.glade:124 ../../gnome/mainwindow.glade:125
@@ -542,13 +582,15 @@ msgstr "Visa dolda filer"
 
 #: ../../kde4/app.py:180 ../../gnome/snapshotsdialog.glade:66
 msgid "Copy pathname to clipboard"
-msgstr ""
+msgstr "Kopiera sökvägen till urklipp"
 
 #: ../../kde4/app.py:207
 msgid ""
 "This folder doesn't exist\n"
 "in the current snapshot !"
 msgstr ""
+"Den här katalogen existerar inte\n"
+"i den aktuella ögonblicksbilden!"
 
 #: ../../kde4/app.py:767
 #, python-format
@@ -565,7 +607,7 @@ msgstr "Arbetar..."
 
 #: ../../kde4/logviewdialog.py:53
 msgid "Error Log View"
-msgstr ""
+msgstr "Felloggsvy"
 
 #: ../../kde4/logviewdialog.py:63 ../../kde4/settingsdialog.py:76
 #: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:38
@@ -575,7 +617,7 @@ msgstr "Profil:"
 
 #: ../../kde4/logviewdialog.py:75 ../../gnome/logviewdialog.glade:67
 msgid "Filter:"
-msgstr ""
+msgstr "Filter:"
 
 #: ../../kde4/logviewdialog.py:98 ../../gnome/logviewdialog.glade:117
 msgid "[E] Error, [I] Information, [C] Change"
@@ -599,11 +641,11 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:202
 msgid "Host:"
-msgstr ""
+msgstr "Värd:"
 
 #: ../../kde4/settingsdialog.py:147 ../../gnome/settingsdialog.glade:222
 msgid "User:"
-msgstr ""
+msgstr "Användare:"
 
 #: ../../kde4/settingsdialog.py:160
 msgid "Schedule"
@@ -611,7 +653,7 @@ msgstr "Schema"
 
 #: ../../kde4/settingsdialog.py:169 ../../gnome/settingsdialog.glade:324
 msgid "Hour:"
-msgstr ""
+msgstr "Timme:"
 
 #: ../../kde4/settingsdialog.py:187 ../../gnome/settingsdialog.glade:481
 msgid "Include"
@@ -651,6 +693,11 @@ msgid ""
 "months of the last year \n"
 "- keep one snapshot per year for all other years"
 msgstr ""
+"- behåll alla ögonblicksbilder från idag och igår\n"
+"- behåll en ögonblicksbild för förra veckan och en för två veckor sedan\n"
+"- behåll en ögonblicksbild per månad för alla tidigare månader det här året "
+"och alla månader förra året \n"
+"- behåll en ögonblicksbild per år för alla andra år"
 
 #: ../../kde4/settingsdialog.py:292 ../../gnome/settingsdialog.glade:601
 msgid "Don't remove named snapshots"
@@ -666,19 +713,19 @@ msgstr "Aktivera notifieringar"
 
 #: ../../kde4/settingsdialog.py:307 ../../gnome/settingsdialog.glade:773
 msgid "Disable snapshots when on battery"
-msgstr ""
+msgstr "Deaktivera ögonblicksbilder vid batteridrift"
 
 #: ../../kde4/settingsdialog.py:310
 msgid "Power status not available from system"
-msgstr ""
+msgstr "Strömstatus inte tillgängligt från systemet"
 
 #: ../../kde4/settingsdialog.py:313 ../../gnome/settingsdialog.glade:787
 msgid "Backup files on restore"
-msgstr ""
+msgstr "Säkerhetskopiera filer vid återställning"
 
 #: ../../kde4/settingsdialog.py:316 ../../gnome/settingsdialog.glade:800
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr ""
+msgstr "Fortsätt vid fel (behåll icke kompletta ögonblicksbilder)"
 
 #: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:953
 msgid "Expert Options"
@@ -686,7 +733,7 @@ msgstr "Avancerade alternativ"
 
 #: ../../kde4/settingsdialog.py:327
 msgid "Change these options only if you really know what you are doing !"
-msgstr ""
+msgstr "Ändra dessa inställningar endast om du vet vad du gör !"
 
 #: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:848
 msgid "Run 'nice' as cron job (default: enabled)"
@@ -694,23 +741,24 @@ msgstr "Kör \"nice\" som cronjobb (standard: aktiverat)"
 
 #: ../../kde4/settingsdialog.py:338 ../../gnome/settingsdialog.glade:861
 msgid "Run 'ionice' as cron job (default: enabled)"
-msgstr ""
+msgstr "Kör 'ionice' som cron-jobb (förval: aktiverat)"
 
 #: ../../kde4/settingsdialog.py:341 ../../gnome/settingsdialog.glade:874
 msgid "Run 'ionice' when tacking a manual snapshot (default: disabled)"
 msgstr ""
+"Kör 'ionice' vid manuellt skapande av ögonblicksbild (förval: inaktiverat)"
 
 #: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:887
 msgid "Preserve ACL"
-msgstr ""
+msgstr "Behåll ACL"
 
 #: ../../kde4/settingsdialog.py:347 ../../gnome/settingsdialog.glade:900
 msgid "Preserve extended attributes (xattr)"
-msgstr ""
+msgstr "Behåll utökade attribut (xattr)"
 
 #: ../../kde4/settingsdialog.py:350 ../../gnome/settingsdialog.glade:913
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr ""
+msgstr "Kopiera osäkra länkar (fungerar endast med absoluta länkar)"
 
 #: ../../kde4/settingsdialog.py:353 ../../gnome/settingsdialog.glade:926
 msgid "Copy links (dereference symbolic links)"
@@ -735,11 +783,11 @@ msgstr "Använd %1 och %2 för sökvägsparametrar"
 
 #: ../../kde4/snapshotsdialog.py:119 ../../gnome/snapshotsdialog.glade:36
 msgid "List only different snapshots"
-msgstr ""
+msgstr "Lista endast olika ögonblicksbilder"
 
 #: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:49
 msgid "Deep check (more accurate, but slow)"
-msgstr ""
+msgstr "Djupkontroll (mer noggrann, men långsam)"
 
 #: ../../kde4/snapshotsdialog.py:147
 msgid "Go To"
@@ -747,7 +795,7 @@ msgstr "Gå till"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr ""
+msgstr "Loggvy"
 
 #: ../../gnome/mainwindow.glade:6
 msgid "Back In Time"
@@ -774,14 +822,16 @@ msgid ""
 "<b>This folder doesn't exist\n"
 "in the current snapshot !</b>"
 msgstr ""
+"<b>Den här katalogen existerar inte\n"
+"i den aktuella ögonblicksbilden !</b>"
 
 #: ../../gnome/settingsdialog.glade:242
 msgid "Profile Id:"
-msgstr ""
+msgstr "Profil-id;"
 
 #: ../../gnome/settingsdialog.glade:270
 msgid "Advanced"
-msgstr ""
+msgstr "Advancerat"
 
 #: ../../gnome/settingsdialog.glade:285
 msgid "<b>Where to save snapshots</b>"
@@ -799,15 +849,23 @@ msgid ""
 "months of the last year\n"
 "- keep one snapshot per year for all other years"
 msgstr ""
+"- behåll alla ögonblicksbilder från idag och igår\n"
+"- behåll en ögonblicksbild från förra veckan och en för två veckor sedan\n"
+"- behåll en ögonblicksbild per månad för alla tidigare månader det här året "
+"och alla månader förra året\n"
+"- behåll en ögonblicksbild per år för alla andra år"
 
 #: ../../gnome/settingsdialog.glade:727
 msgid "Auto-remove only removes snapshots from the selected snapshots folder"
 msgstr ""
+"Autoborttagning tar endast bort ögonblicksbilder från den valda "
+"ögonblicksbildskatalogen"
 
 #: ../../gnome/settingsdialog.glade:837
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
 msgstr ""
+"<b>Ändra dessa inställningar endast om du verkligen vet vad du gör!</b>"
 
 #: ../../gnome/snapshotsdialog.glade:137
 msgid "Diff with"

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-08-21 17:03+0200\n"
-"PO-Revision-Date: 2010-09-02 12:21+0000\n"
+"PO-Revision-Date: 2010-09-24 10:56+0000\n"
 "Last-Translator: Petri Pikkanen <petri@petripikkanen.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-09-11 06:52+0000\n"
+"X-Launchpad-Export-Date: 2010-10-05 08:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
@@ -127,7 +127,7 @@ msgstr "Nyt"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
 msgid "FAILED"
-msgstr ""
+msgstr "VIALLINEN"
 
 #: ../../common/snapshots.py:568
 msgid ""
@@ -222,6 +222,14 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
+"Oletko varma että et halua siirtää vanhoja otoksiasi?\n"
+"\n"
+"\n"
+"Mikäli olet varma, et näe näitä kysymyksiä uudestaan. Back In Time jatkaa "
+"otoksien ottamista, mutta Älykäs poisto ei ota huomioon vanhoja otoksiasi.\n"
+"\n"
+"Mikäli et ole varma, tämä kysytään seuraavan kerran Back In Timen "
+"käynnistyksen yhteydessä."
 
 #: ../../common/snapshots.py:668
 msgid "Back In Time will continue taking snapshots again as scheduled"
@@ -281,7 +289,7 @@ msgstr "..."
 #: ../../common/snapshots.py:935
 #, python-format
 msgid "Can't remove folder: %s"
-msgstr ""
+msgstr "Ei voida poistaa kansiota: %s"
 
 #: ../../common/snapshots.py:1034
 msgid "Create hard-links"
@@ -320,7 +328,7 @@ msgstr "Valmis"
 
 #: ../../gnome/app.py:194 ../../kde4/app.py:198
 msgid "Shortcuts"
-msgstr ""
+msgstr "Sijainnit"
 
 #: ../../gnome/app.py:217
 msgid "Name"
@@ -841,10 +849,15 @@ msgid ""
 "months of the last year\n"
 "- keep one snapshot per year for all other years"
 msgstr ""
+"- Pidä kaikki otokset tästä päivästä ja eilisestä\n"
+"- Pidä yksi otos viime viikolta ja sitä edeltävältä viikolta\n"
+"- Pidä yksi otos per kuukausi edellisiltä tämän vuoden kuukausilta ja "
+"kaikilta viime vuoden kuukausilta\n"
+"- Pidä yksi otos per vuosi kaikilta muilta vuosilta"
 
 #: ../../gnome/settingsdialog.glade:727
 msgid "Auto-remove only removes snapshots from the selected snapshots folder"
-msgstr ""
+msgstr "Automaattipoisto poistaa vain valitun otoskansion otoksia"
 
 #: ../../gnome/settingsdialog.glade:837
 msgid ""

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-08-21 17:03+0200\n"
-"PO-Revision-Date: 2010-08-18 05:41+0000\n"
+"PO-Revision-Date: 2010-09-16 07:11+0000\n"
 "Last-Translator: Svetoslav Stefanov <svetlisashkov@yahoo.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-09-11 06:52+0000\n"
+"X-Launchpad-Export-Date: 2010-10-05 08:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../../gnome/app.py:589 ../../kde4/app.py:578
@@ -37,7 +37,7 @@ msgstr "Изключено"
 
 #: ../../common/config.py:57
 msgid "At every boot/reboot"
-msgstr ""
+msgstr "При всяко зареждане/рестартиране"
 
 #: ../../common/config.py:58
 msgid "Every 5 minutes"
@@ -182,6 +182,14 @@ msgid ""
 "If not Back In Time will restore former settings for this profile, however "
 "cannot continue taking snapshots"
 msgstr ""
+"%s\n"
+"от профила %s не са преместени в новото си местоположение\n"
+"Желаете ли да продължите?\n"
+"(Програмата ще може да продължи да прави моментни архиви, но оставащите от "
+"тях няма да бъдат автоматично премахвани)\n"
+"\n"
+"Ако не продължите, Back In Time ще възстанови предишните настройки на този "
+"профил, но няма да може да продължи да прави моментни архиви."
 
 #: ../../common/snapshots.py:641
 #, python-format
@@ -219,6 +227,15 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
+"Сигурни ли сте, че не желаете да преместите своите стари моментни архиви?\n"
+"\n"
+"\n"
+"Ако решите така, този въпрос няма да ви бъде задаван повече, Back In Time ще "
+"продължи да прави моментни архиви, но функцията умно премахване няма да "
+"взема предвид старите ви моментни архиви!\n"
+"\n"
+"Ако не сте сигурно, този въпрос ще ви бъде зададен отново при следващото "
+"стартиране на програмата."
 
 #: ../../common/snapshots.py:668
 msgid "Back In Time will continue taking snapshots again as scheduled"
@@ -250,7 +267,7 @@ msgstr[1] "Изчакване %s секунди."
 #: ../../common/snapshots.py:757
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr ""
+msgstr "Неуспех при създаването на моментен архив %s !!!"
 
 #: ../../common/snapshots.py:766
 msgid "Finalizing"
@@ -462,7 +479,7 @@ msgstr "Включване на файлове и папки"
 
 #: ../../gnome/settingsdialog.py:168
 msgid "Exclude patterns, files or folders"
-msgstr ""
+msgstr "Изключване на шарки, файлове или папки"
 
 #: ../../gnome/settingsdialog.py:280
 msgid "Snapshots folder"
@@ -591,7 +608,7 @@ msgstr "Изпълнение..."
 
 #: ../../kde4/logviewdialog.py:53
 msgid "Error Log View"
-msgstr ""
+msgstr "Преглед на дневника с грешки"
 
 #: ../../kde4/logviewdialog.py:63 ../../kde4/settingsdialog.py:76
 #: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:38
@@ -710,7 +727,7 @@ msgstr "Създаване на резервен архив при възста�
 
 #: ../../kde4/settingsdialog.py:316 ../../gnome/settingsdialog.glade:800
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr ""
+msgstr "Продължаване при грешки (запазване на непълни моментни архиви)"
 
 #: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:953
 msgid "Expert Options"
@@ -736,7 +753,7 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:887
 msgid "Preserve ACL"
-msgstr ""
+msgstr "Запазване на ACL (списък за контрол на достъпа)"
 
 #: ../../kde4/settingsdialog.py:347 ../../gnome/settingsdialog.glade:900
 msgid "Preserve extended attributes (xattr)"
@@ -781,7 +798,7 @@ msgstr "Отиване до"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr ""
+msgstr "Преглед на дневника"
 
 #: ../../gnome/mainwindow.glade:6
 msgid "Back In Time"
