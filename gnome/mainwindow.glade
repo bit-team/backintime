@@ -409,6 +409,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <signal name="button_press_event" handler="on_list_folder_view_button_press_event"/>
+                                    <signal name="key_press_event" handler="on_list_folder_view_key_press_event"/>
                                     <signal name="row_activated" handler="on_list_folder_view_row_activated"/>
                                     <signal name="popup_menu" handler="on_list_folder_view_popup_menu"/>
                                     <signal name="drag_data_get" handler="on_list_folder_view_drag_data_get"/>

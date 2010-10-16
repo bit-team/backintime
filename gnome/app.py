@@ -106,6 +106,7 @@ class MainWindow(object):
 
         self.last_take_snapshot_message = None
 
+        self.use_gloobus_preview = tools.check_command( 'gloobus-preview' )
         
         builder = gtk.Builder()
         self.builder = builder
@@ -139,6 +140,7 @@ class MainWindow(object):
                 'on_list_folder_view_popup_menu' : self.on_list_folder_view_popup_menu,
                 'on_list_folder_view_button_press_event': self.on_list_folder_view_button_press_event,
                 'on_list_folder_view_drag_data_get': self.on_list_folder_view_drag_data_get,
+				'on_list_folder_view_key_press_event' : self.on_list_folder_view_key_press_event,
                 'on_combo_profiles_changed': self.on_combo_profiles_changed,
                 'on_btn_website_clicked': self.on_btn_website_clicked,
             }
@@ -750,6 +752,41 @@ class MainWindow(object):
             path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
             path = gnomevfs.escape_path_string( path )
             selection_data.set_uris( [ 'file://' + path ] )
+
+    def on_list_folder_view_key_press_event( self, list, event ):
+		#print event.keyval
+
+		if gtk.keysyms.BackSpace == event.keyval:
+			self.on_btn_fodler_up_clicked( None )
+			return True
+
+		if 32 != event.keyval:
+			return False
+
+		if not self.use_gloobus_preview:
+			return False
+
+		iter = self.list_folder_view.get_selection().get_selected()
+		if iter is None:
+			return True
+
+		iter = iter[1]
+		if iter is None:
+			return True
+
+		path = self.store_folder_view.get_value( iter, 1 )
+		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
+
+		if not os.path.exists( full_path ):
+			return True
+
+		if not self.snapshots.can_open_path( self.snapshot_id, full_path ):
+			return True
+
+		cmd = "gloobus-preview \"%s\" &" % full_path
+		print cmd
+		os.system( cmd )
+		return True
 
     def on_list_folder_view_button_press_event( self, list, event ):
         if event.button != 3:
