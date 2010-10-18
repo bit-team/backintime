@@ -38,14 +38,15 @@ _=gettext.gettext
 
 class SnapshotsDialog(object):
 
-    def __init__( self, snapshots, parent, path, snapshots_list, current_snapshot_id, icon_name ):
+    def __init__( self, snapshots, parent, path, snapshots_list, current_snapshot_id, icon_name, use_gloobus_preview ):
 		self.snapshots = snapshots
 		self.path = path
 		self.snapshots_list = snapshots_list
 		self.current_snapshot_id = current_snapshot_id
 		self.icon_name = icon_name        
 		self.config = snapshots.config
-                
+		self.use_gloobus_preview = use_gloobus_preview 
+ 
 		builder = gtk.Builder()
 		self.builder = builder
 
@@ -62,6 +63,7 @@ class SnapshotsDialog(object):
 			'on_list_snapshots_popup_menu' : self.on_list_snapshots_popup_menu,
 			'on_list_snapshots_button_press_event': self.on_list_snapshots_button_press_event,
 			'on_list_snapshots_drag_data_get': self.on_list_snapshots_drag_data_get,
+			'on_list_snapshots_key_press_event' : self.on_list_snapshots_key_press_event,
 			'on_btn_diff_with_clicked' : self.on_btn_diff_with_clicked,
 			'on_btn_copy_snapshot_clicked' : self.on_btn_copy_snapshot_clicked,
 			'on_btn_restore_snapshot_clicked' : self.on_btn_restore_snapshot_clicked,
@@ -155,6 +157,19 @@ class SnapshotsDialog(object):
             path = self.store_snapshots.get_value( iter, 2 )
             path = gnomevfs.escape_path_string(path)
             selection_data.set_uris( [ 'file://' + path ] )
+
+    def on_list_snapshots_key_press_event( self, list, event ):
+		if 32 != event.keyval:
+			return False
+
+		if not self.use_gloobus_preview:
+			return False
+
+		if not self.config.get_bool_value( 'gnome.use_gloobus_preview', True ):
+			return False
+
+		self.open_item( True )
+		return True
 
     def on_list_snapshots_cursor_changed( self, list ):
         self.update_toolbar()
@@ -325,7 +340,7 @@ class SnapshotsDialog(object):
     def on_list_snapshots_row_activated( self, list, path, column ):
         self.open_item()
 
-    def open_item( self ):
+    def open_item( self, use_gloobus_preview = False ):
 		iter = self.list_snapshots.get_selection().get_selected()[1]
 		if iter is None:
 			return
@@ -334,7 +349,11 @@ class SnapshotsDialog(object):
 		if not os.path.exists( path ):
 			return
 
-		cmd = "gnome-open \"%s\" &" % path
+		if use_gloobus_preview:
+			cmd = "gloobus-preview \"%s\" &" % path
+		else:
+			cmd = "gnome-open \"%s\" &" % path
+
 		os.system( cmd )
 
     def run( self ):

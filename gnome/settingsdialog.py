@@ -245,6 +245,8 @@ class SettingsDialog(object):
 		self.cb_enable_notifications = get( 'cb_enable_notifications' )
 		self.cb_backup_on_restore = get( 'cb_backup_on_restore' )
 		self.cb_continue_on_errors = get( 'cb_continue_on_errors' )
+		self.cb_use_gloobus_preview = get( 'cb_use_gloobus_preview' )
+		self.cb_use_gloobus_preview.set_active( self.config.get_bool_value( 'gnome.use_gloobus_preview', True ) )
 
 		#nice & ionice
 		self.cb_run_nice_from_cron = get('cb_run_nice_from_cron')
@@ -742,6 +744,8 @@ class SettingsDialog(object):
 		if not self.config.setup_cron():
 			return False
 		
+		self.config.set_bool_value( 'gnome.use_gloobus_preview', self.cb_use_gloobus_preview.get_active() )
+
 		self.config.save()
 		return True
 	

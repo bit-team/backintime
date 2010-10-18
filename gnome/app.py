@@ -754,8 +754,6 @@ class MainWindow(object):
             selection_data.set_uris( [ 'file://' + path ] )
 
     def on_list_folder_view_key_press_event( self, list, event ):
-		#print event.keyval
-
 		if gtk.keysyms.BackSpace == event.keyval:
 			self.on_btn_fodler_up_clicked( None )
 			return True
@@ -764,6 +762,9 @@ class MainWindow(object):
 			return False
 
 		if not self.use_gloobus_preview:
+			return False
+
+		if not self.config.get_bool_value( 'gnome.use_gloobus_preview', True ):
 			return False
 
 		iter = self.list_folder_view.get_selection().get_selected()
@@ -932,7 +933,7 @@ class MainWindow(object):
         path = self.store_folder_view.get_value( iter, 1 )
         icon_name = self.store_folder_view.get_value( iter, 2 )
 
-        retVal = snapshotsdialog.SnapshotsDialog( self.snapshots, self.window, path, self.snapshots_list, self.snapshot_id, icon_name ).run()
+        retVal = snapshotsdialog.SnapshotsDialog( self.snapshots, self.window, path, self.snapshots_list, self.snapshot_id, icon_name, self.use_gloobus_preview ).run()
         
         #select the specified file
         if not retVal is None:

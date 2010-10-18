@@ -107,6 +107,7 @@
                     <property name="can_focus">True</property>
                     <property name="has_focus">True</property>
                     <signal name="button_press_event" handler="on_list_snapshots_button_press_event"/>
+                    <signal name="key_press_event" handler="on_list_snapshots_key_press_event"/>
                     <signal name="cursor_changed" handler="on_list_snapshots_cursor_changed"/>
                     <signal name="row_activated" handler="on_list_snapshots_row_activated"/>
                     <signal name="popup_menu" handler="on_list_snapshots_popup_menu"/>
