@@ -809,19 +809,6 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="cb_use_gloobus_preview">
-                    <property name="label" translatable="yes">Use gloobus-preview (if installed)</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
                   <placeholder/>
                 </child>
               </object>
@@ -967,6 +954,54 @@
               </object>
               <packing>
                 <property name="position">5</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkVBox" id="vbox4">
+                <property name="visible">True</property>
+                <property name="border_width">5</property>
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkLabel" id="label8">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">&lt;b&gt;This options don't depend on profile&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="cb_use_gloobus_preview">
+                    <property name="label" translatable="yes">Use gloobus-preview (if installed)</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">GUI Options</property>
+              </object>
+              <packing>
+                <property name="position">6</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
