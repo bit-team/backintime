@@ -83,7 +83,6 @@ class SettingsDialog(object):
 		self.btn_edit_profile = get( 'btn_edit_profile' )
 		self.btn_add_profile = get( 'btn_add_profile' )
 		self.btn_remove_profile = get( 'btn_remove_profile' )
-		self.combo_profiles = get( 'combo_profiles' )
 		
 		self.disable_combo_changed = True
 		
@@ -248,6 +247,20 @@ class SettingsDialog(object):
 		self.cb_use_gloobus_preview = get( 'cb_use_gloobus_preview' )
 		self.cb_use_gloobus_preview.set_active( self.config.get_bool_value( 'gnome.use_gloobus_preview', True ) )
 
+		self.store_log_level = gtk.ListStore( int, str )
+		self.combo_log_level = get( 'combo_log_level' )
+
+		text_renderer = gtk.CellRendererText()
+		self.combo_log_level.pack_start( text_renderer, True )
+		self.combo_log_level.add_attribute( text_renderer, 'text', 1 )
+		
+		self.combo_log_level.set_model( self.store_log_level )
+		
+		self.store_log_level.append( [ 0, _('None') ] )
+		self.store_log_level.append( [ 1, _('Errors') ] )
+		self.store_log_level.append( [ 2, _('Changes & Errors') ] )
+		self.store_log_level.append( [ 3, _('All') ] )
+		
 		#nice & ionice
 		self.cb_run_nice_from_cron = get('cb_run_nice_from_cron')
 		self.cb_run_ionice_from_cron = get('cb_run_ionice_from_cron')
@@ -463,6 +476,9 @@ class SettingsDialog(object):
 		#continue on errors
 		self.cb_continue_on_errors.set_active( self.config.continue_on_errors( self.profile_id ) )
 		
+		#log level
+		self.combo_log_level.set_active( self.config.log_level( self.profile_id ) )
+
 		#run 'nice' from cron
 		self.cb_run_nice_from_cron.set_active(self.config.is_run_nice_from_cron_enabled( self.profile_id ))
 
@@ -546,6 +562,7 @@ class SettingsDialog(object):
 		self.config.set_notify_enabled( self.cb_enable_notifications.get_active(), self.profile_id )
 		self.config.set_backup_on_restore( self.cb_backup_on_restore.get_active(), self.profile_id )
 		self.config.set_continue_on_errors( self.cb_continue_on_errors.get_active(), self.profile_id )
+		self.config.set_log_level( self.store_log_level.get_value( self.combo_log_level.get_active_iter(), 0 ), self.profile_id )
 		
 		#expert options
 		#self.config.set_per_directory_schedule( self.cb_per_directory_schedule.get_active() )

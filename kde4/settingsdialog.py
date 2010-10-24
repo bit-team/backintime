@@ -316,6 +316,20 @@ class SettingsDialog( KDialog ):
 		self.cb_continue_on_errors = QCheckBox( QString.fromUtf8( _( 'Continue on errors (keep incomplete snapshots)' ) ), self )
 		layout.addWidget( self.cb_continue_on_errors )
 
+		#log level
+		hlayout = QHBoxLayout()
+		layout.addLayout( hlayout )
+
+		hlayout.addWidget( QLabel( QString.fromUtf8( _('Log Level:') ), self ) )
+
+		self.combo_log_level = KComboBox( self )
+		hlayout.addWidget( self.combo_log_level, 1 )
+		
+		self.combo_log_level.addItem( QIcon(), QString.fromUtf8( _('None') ), QVariant(0) )
+		self.combo_log_level.addItem( QIcon(), QString.fromUtf8( _('Errors') ), QVariant(1) )
+		self.combo_log_level.addItem( QIcon(), QString.fromUtf8( _('Changes & Errors') ), QVariant(2) )
+		self.combo_log_level.addItem( QIcon(), QString.fromUtf8( _('All') ), QVariant(3) )
+
 		#
 		layout.addStretch()
 
@@ -501,6 +515,7 @@ class SettingsDialog( KDialog ):
 		self.cb_notify_enabled.setChecked( self.config.is_notify_enabled() )
 		self.cb_backup_on_restore.setChecked( self.config.is_backup_on_restore_enabled() )
 		self.cb_continue_on_errors.setChecked( self.config.continue_on_errors() )
+		self.set_combo_value( self.combo_log_level, self.config.log_level() )
 
 		#TAB: Expert Options
 		#self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
@@ -563,6 +578,7 @@ class SettingsDialog( KDialog ):
 		self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
 		self.config.set_backup_on_restore( self.cb_backup_on_restore.isChecked() )
 		self.config.set_continue_on_errors( self.cb_continue_on_errors.isChecked() )
+		self.config.set_log_level( self.combo_log_level.itemData( self.combo_log_level.currentIndex() ).toInt()[0] )
 
 		#expert options
 		#self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
