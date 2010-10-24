@@ -243,9 +243,9 @@ class Snapshots:
 			pass
 
 		if 1 == type_id:
-			self.append_to_take_snapshot_log( '[E] ' + message )
+			self.append_to_take_snapshot_log( '[E] ' + message, 1 )
 		else:
-			self.append_to_take_snapshot_log( '[I] '  + message )
+			self.append_to_take_snapshot_log( '[I] '  + message, 3 )
 
 	def _filter_take_snapshot_log( self, log, mode ):
 		if 0 == mode:
@@ -287,9 +287,12 @@ class Snapshots:
 
 	def new_take_snapshot_log( self, date ):
 		os.system( "rm \"%s\"" % self.config.get_take_snapshot_log_file() )
-		self.append_to_take_snapshot_log( "========== Take snapshot (profile %s): %s ==========\n" % ( self.config.get_current_profile(), date.strftime( '%c' ) ) )
+		self.append_to_take_snapshot_log( "========== Take snapshot (profile %s): %s ==========\n" % ( self.config.get_current_profile(), date.strftime( '%c' ) ), 1 )
 
-	def append_to_take_snapshot_log( self, message ):
+	def append_to_take_snapshot_log( self, message, level ):
+		if level > self.config.log_level():
+			return
+
 		try:
 			file = open( self.config.get_take_snapshot_log_file(), 'at' )
 			file.write( message + '\n' )
@@ -804,7 +807,7 @@ class Snapshots:
 			if line.startswith( 'BACKINTIME: ' ):
 				if line[12] != '.':
 					params[1] = True
-					self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ] )
+					self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
 	def _append_item_to_list( self, item, list ):
 		for list_item in list:
@@ -1010,7 +1013,7 @@ class Snapshots:
 			cmd = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix + '"' + prev_snapshot_folder + '"'
 			params = [ prev_snapshot_folder, False ]
 			#try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
-			self.append_to_take_snapshot_log( '[I] ' + cmd )
+			self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
 			self._execute( cmd, self._exec_rsync_compare_callback, params )
 			changed = params[1]
 
@@ -1047,9 +1050,9 @@ class Snapshots:
 
 			#clone snapshot
 			cmd = "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path, new_snapshot_path_to )
-			self.append_to_take_snapshot_log( '[I] ' + cmd )
+			self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
 			cmd_ret_val = self._execute( cmd )
-			self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val )
+			self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val, 3 )
 
 			#make source snapshot folders read-only
 			self._execute( "find \"%s\" -type d -exec chmod a-w {} \\;" % prev_snapshot_path ) #Debian patch
@@ -1074,7 +1077,7 @@ class Snapshots:
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 
 		params = [False]
-		self.append_to_take_snapshot_log( '[I] ' + cmd )
+		self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
 		self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params )
 
 		has_errors = False
