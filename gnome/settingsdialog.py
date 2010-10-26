@@ -246,7 +246,9 @@ class SettingsDialog(object):
 		self.cb_continue_on_errors = get( 'cb_continue_on_errors' )
 		self.cb_use_gloobus_preview = get( 'cb_use_gloobus_preview' )
 		self.cb_use_gloobus_preview.set_active( self.config.get_bool_value( 'gnome.use_gloobus_preview', True ) )
+		self.cb_use_checksum = get( 'cb_use_checksum' )
 
+		#log level
 		self.store_log_level = gtk.ListStore( int, str )
 		self.combo_log_level = get( 'combo_log_level' )
 
@@ -476,6 +478,9 @@ class SettingsDialog(object):
 		#continue on errors
 		self.cb_continue_on_errors.set_active( self.config.continue_on_errors( self.profile_id ) )
 		
+		#use checksum
+		self.cb_use_checksum.set_active( self.config.use_checksum( self.profile_id ) )
+		
 		#log level
 		self.combo_log_level.set_active( self.config.log_level( self.profile_id ) )
 
@@ -562,6 +567,7 @@ class SettingsDialog(object):
 		self.config.set_notify_enabled( self.cb_enable_notifications.get_active(), self.profile_id )
 		self.config.set_backup_on_restore( self.cb_backup_on_restore.get_active(), self.profile_id )
 		self.config.set_continue_on_errors( self.cb_continue_on_errors.get_active(), self.profile_id )
+		self.config.set_use_checksum( self.cb_use_checksum.get_active(), self.profile_id )
 		self.config.set_log_level( self.store_log_level.get_value( self.combo_log_level.get_active_iter(), 0 ), self.profile_id )
 		
 		#expert options

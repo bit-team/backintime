@@ -345,6 +345,9 @@ def get_rsync_prefix( config ):
 	cmd = 'rsync'
 	cmd = cmd + ' -rtDH'
 
+	if config.use_checksum():
+		cmd = cmd + ' --checksum'
+
 	if config.copy_unsafe_links():
 		cmd = cmd + ' --copy-unsafe-links'
 

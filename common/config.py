@@ -627,6 +627,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_continue_on_errors( self, value, profile_id = None ):
 		return self.set_profile_bool_value( 'snapshots.continue_on_errors', value, profile_id )
 
+	def use_checksum( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.use_checksum', False, profile_id )
+
+	def set_use_checksum( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.use_checksum', value, profile_id )
+
 	def log_level( self, profile_id = None ):
 		return self.get_profile_int_value( 'snapshots.log_level', 3, profile_id )
 
