@@ -750,7 +750,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 			os.system( "crontab -l | grep -v backintime | crontab -" )
 		
 		print "Clearing system Back In Time entries"
-		os.system( "crontab -l | grep -Pv '(?s)%s.*?backintime' | crontab -" % system_entry_message )
+		#os.system( "crontab -l | grep -Pv '(?s)%s.*?backintime' | crontab -" % system_entry_message ) #buggy in Ubuntu 10.10
+		os.system( "crontab -l | grep -v '%s\n.*backintime.*' | crontab -" % system_entry_message )
+
 		
 		profiles = self.get_profiles()
 		
