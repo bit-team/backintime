@@ -227,6 +227,11 @@ class SettingsDialog( KDialog ):
 
 		self.list_exclude = KListWidget( self )
 		layout.addWidget( self.list_exclude )
+
+		label = QLabel( QString.fromUtf8( _('Highly recommended:') ), self )
+		kde4tools.set_font_bold( label )
+		layout.addWidget( label )
+		layout.addWidget( QLabel( QString.fromUtf8( ', '.join(self.config.DEFAULT_EXCLUDE) ), self ) )
 		
 		buttons_layout = QHBoxLayout()
 		layout.addLayout( buttons_layout )

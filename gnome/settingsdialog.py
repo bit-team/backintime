@@ -173,7 +173,9 @@ class SettingsDialog(object):
 		
 		self.store_exclude = gtk.ListStore( str, str )
 		self.list_exclude.set_model( self.store_exclude )
-		
+
+		get( 'lbl_highly_recommended_excluded' ).set_text( ', '.join(self.config.DEFAULT_EXCLUDE) )
+
 		#setup automatic backup mode
 		self.cb_backup_mode = get( 'cb_backup_mode' )
 		self.cb_backup_mode.set_model( self.store_backup_mode )
