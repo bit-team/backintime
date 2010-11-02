@@ -556,10 +556,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_bool_value( 'snapshots.dont_remove_named_snapshots', value, profile_id )
 	
 	def get_smart_remove( self, profile_id = None ):
-		return self.get_profile_bool_value( 'snapshots.smart_remove', False, profile_id )
+		return ( self.get_profile_bool_value( 'snapshots.smart_remove', False, profile_id ),
+				 self.get_profile_int_value( 'snapshots.smart_remove.keep_all', 2, profile_id ),
+				 self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_day', 7, profile_id ),
+				 self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_week', 4, profile_id ),
+				 self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_month', 24, profile_id ) )
 
-	def set_smart_remove( self, value, profile_id = None ):
+	def set_smart_remove( self, value, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month, profile_id = None ):
 		self.set_profile_bool_value( 'snapshots.smart_remove', value, profile_id )
+		self.set_profile_int_value( 'snapshots.smart_remove.keep_all', keep_all, profile_id )
+		self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_day', keep_one_per_day, profile_id )
+		self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_week', keep_one_per_week, profile_id )
+		self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_month', keep_one_per_month, profile_id )
 	
 	def is_notify_enabled( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.notify.enabled', True, profile_id )

@@ -1192,21 +1192,22 @@ class Snapshots:
 
 		return [ True, has_errors ]
 
-	def _smart_remove_keep_all_( self, snapshots, keep_snapshots, min_date ):
+	def _smart_remove_keep_all_( self, snapshots, keep_snapshots, min_date, max_date ):
 		min_id = self.get_snapshot_id( min_date )
+		max_id = self.get_snapshot_id( max_date )
 
-		logger.info( "[smart remove] keep all >= %s" % min_id )
+		logger.info( "[smart remove] keep all >= %s and < %s" % ( min_id, max_id ) )
 
 		for snapshot_id in snapshots:
-			if snapshot_id >= min_id:
+			if snapshot_id >= min_id and snapshot_id < max_id:
 				if snapshot_id not in keep_snapshots:
 					keep_snapshots.append( snapshot_id )
 
 		return keep_snapshots
 
 	def _smart_remove_keep_first_( self, snapshots, keep_snapshots, min_date, max_date ):
-		max_id = self.get_snapshot_id( max_date + datetime.timedelta( days = 1 ) )
 		min_id = self.get_snapshot_id( min_date )
+		max_id = self.get_snapshot_id( max_date )
 
 		logger.info( "[smart remove] keep first >= %s and < %s" % ( min_id, max_id ) )
 
@@ -1218,7 +1219,23 @@ class Snapshots:
 
 		return keep_snapshots
 
-	def smart_remove( self, now_full = None ):
+	def inc_month( self, date ):
+		y = date.year
+		m = date.month + 1
+		if m > 12:
+			m = 1
+			y = y + 1
+		return datetime.date( y, m, 1 )
+
+	def dec_month( self, date ):
+		y = date.year
+		m = date.month - 1
+		if m < 1:
+			m = 12
+			y = y - 1
+		return datetime.date( y, m, 1 )
+
+	def smart_remove( self, now_full, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month ):
 		snapshots = self.get_snapshots_list()
 		logger.info( "[smart remove] considered: %s" % snapshots )
 		if len( snapshots ) <= 1:
@@ -1228,51 +1245,42 @@ class Snapshots:
 		if now_full is None:
 			now_full = datetime.datetime.today()
 
-		now = datetime.datetime( now_full.year, now_full.month, now_full.day )
+		now = now_full.date() 
 
 		#keep the last snapshot
 		keep_snapshots = [ snapshots[0] ]
 
-		#keep all from today and yesterday
-		keep_snapshots = self._smart_remove_keep_all_( snapshots, keep_snapshots, now - datetime.timedelta( days = 1 ) )
+		#keep all for the last keep_all days
+		if keep_all > 0:
+			keep_snapshots = self._smart_remove_keep_all_( snapshots, keep_snapshots, now - datetime.timedelta( days=keep_all-1), now + datetime.timedelta(days=1) )
 
-		#last week	
-		max_date = now - datetime.timedelta( days = now.weekday() + 1 )
-		min_date = max_date - datetime.timedelta( days = 6 )
-		keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
+		#keep one per days for the last keep_one_per_day days
+		if keep_one_per_day > 0:
+			d = now
+			for i in xrange( 0, keep_one_per_day ):
+				keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d, d + datetime.timedelta(days=1) )
+				d = d - datetime.timedelta(days=1)
 
-		#2 weeks ago
-		max_date = max_date - datetime.timedelta( days = 7 )
-		min_date = min_date - datetime.timedelta( days = 7 )
-		keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
+		#keep one per week for the last keep_one_per_week weeks
+		if keep_one_per_week > 0:
+			d = now - datetime.timedelta( days = now.weekday() + 1 )
+			for i in xrange( 0, keep_one_per_week ):
+				keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d, d + datetime.timedelta(days=8) )
+				d = d - datetime.timedelta(days=7)
 
-		#one per month for all months of this year and last year
-		if now.date > 1:
-			#this year months
-			for month in xrange( 1, now.month ):
-				#print "month: %s" % month
-				min_date = datetime.date( now.year, month, 1 )
-				max_date = datetime.date( now.year, month + 1, 1 ) - datetime.timedelta( days = 1 )
-				keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
+		#keep one per month for the last keep_one_per_month months
+		if keep_one_per_month > 0:
+			d1 = datetime.date( now.year, now.month, 1 )
+			d2 = self.inc_date( d1 )
+			for i in xrange( 0, keep_one_per_month ):
+				keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d1, d2 )
+				d2 = d1
+				d1 = self.dec_month(1)
 
-			#last year months
-			for month in xrange( 1, 12 ):
-				#print "month: %s" % month
-				min_date = datetime.date( now.year - 1, month, 1 )
-				max_date = datetime.date( now.year - 1, month + 1, 1 ) - datetime.timedelta( days = 1 )
-				keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
-
-			min_date = datetime.date( now.year - 1, 12, 1 )
-			max_date = datetime.date( now.year, 1, 1 ) - datetime.timedelta( days = 1 )
-			keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
-
-		#one per year for all previous years
-		min_year = int( snapshots[ -1 ][ :4 ] )
-		for year in xrange( min_year, now.year - 1 ):
-			#print "year: %s" % year
-			min_date = datetime.date( year, 1, 1 )
-			max_date = datetime.date( year + 1, 1, 1 ) - datetime.timedelta( days = 1 )
-			keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, min_date, max_date )
+		#keep one per year for all years
+		first_year = int(snapshots[-1][ : 4])
+		for i in xrange( first_year, now.year()+1 ):
+			keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, datetime.date(i,1,1), datetime.date(i+1,1,1) )
 
 		logger.info( "[smart remove] keep snapshots: %s" % keep_snapshots )
 
@@ -1313,9 +1321,10 @@ class Snapshots:
 				del snapshots[0]
 
 		#smart remove
-		if self.config.get_smart_remove():
+		smart_remove, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month, keep_one_per_year = self.config.get_smart_remove()
+		if smart_remove:
 			self.set_take_snapshot_message( 0, _('Smart remove') )
-			self.smart_remove( now )
+			self.smart_remove( now, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month, keep_one_per_year )
 
 		#try to keep min free space
 		if self.config.is_min_free_space_enabled():

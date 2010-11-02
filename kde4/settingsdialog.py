@@ -289,9 +289,37 @@ class SettingsDialog( KDialog ):
 		self.cb_smart_remove = QCheckBox( QString.fromUtf8( _( 'Smart remove' ) ), self )
 		layout.addWidget( self.cb_smart_remove, 2, 0 )
 
-		label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year and all months of the last year \n- keep one snapshot per year for all other years' ) ),self )
-		label.setContentsMargins( 25, 0, 0, 0 )
-		layout.addWidget( label, 3, 0, 1, 3 )
+		#label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year and all months of the last year \n- keep one snapshot per year for all other years' ) ),self )
+		#label.setContentsMargins( 25, 0, 0, 0 )
+		#layout.addWidget( label, 3, 0, 1, 3 )
+
+		widget = QWidget( self )
+		widget.setContentsMargins( 25, 0, 0, 0 )
+		layout.addWidget( widget, 3, 0, 1, 3 )
+
+		smlayout = QGridLayout( widget )
+
+		smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep all snapshots for the last' ) ), self ), 0, 0 )
+		self.edit_keep_all = KIntSpinBox( 1, 10000, 1, 1, self )
+		smlayout.addWidget( self.edit_keep_all, 0, 1 )
+		smlayout.addWidget( QLabel( QString.fromUtf8( _( 'day(s)' ) ), self ), 0, 2 )
+
+		smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per day for the last' ) ), self ), 1, 0 )
+		self.edit_keep_one_per_day = KIntSpinBox( 1, 10000, 1, 1, self )
+		smlayout.addWidget( self.edit_keep_one_per_day, 1, 1 )
+		smlayout.addWidget( QLabel( QString.fromUtf8( _( 'day(s)' ) ), self ), 1, 2 )
+
+		smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per week for the last' ) ), self ), 2, 0 )
+		self.edit_keep_one_per_week = KIntSpinBox( 1, 10000, 1, 1, self )
+		smlayout.addWidget( self.edit_keep_one_per_week, 2, 1 )
+		smlayout.addWidget( QLabel( QString.fromUtf8( _( 'weeks(s)' ) ), self ), 2, 2 )
+
+		smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per month for the last' ) ), self ), 3, 0 )
+		self.edit_keep_one_per_month = KIntSpinBox( 1, 10000, 1, 1, self )
+		smlayout.addWidget( self.edit_keep_one_per_month, 3, 1 )
+		smlayout.addWidget( QLabel( QString.fromUtf8( _( 'month(s)' ) ), self ), 3, 2 )
+
+		smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per year for all years' ) ), self ), 4, 0, 1, 3 )
 
 		#don't remove named snapshots
 		self.cb_dont_remove_named_snapshots = QCheckBox( QString.fromUtf8( _( 'Don\'t remove named snapshots' ) ), self )
@@ -514,7 +542,12 @@ class SettingsDialog( KDialog ):
 		self.set_combo_value( self.combo_min_free_space, unit )
 
 		#smart remove
-		self.cb_smart_remove.setChecked( self.config.get_smart_remove() )
+		smart_remove, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.get_smart_remove()
+		self.cb_smart_remove.setChecked( smart_remove )
+		self.edit_keep_all.setValue( keep_all )
+		self.edit_keep_one_per_day.setValue( keep_one_per_day )
+		self.edit_keep_one_per_week.setValue( keep_one_per_week )
+		self.edit_keep_one_per_month.setValue( keep_one_per_month )
 
 		#don't remove named snapshots
 		self.cb_dont_remove_named_snapshots.setChecked( self.config.get_dont_remove_named_snapshots() )
@@ -581,7 +614,12 @@ class SettingsDialog( KDialog ):
 						self.edit_min_free_space.value(),
 						self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ).toInt()[0] )
 		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.isChecked() )
-		self.config.set_smart_remove( self.cb_smart_remove.isChecked() )
+		self.config.set_smart_remove( 
+						self.cb_smart_remove.isChecked(),
+						self.edit_keep_all.value(),
+						self.edit_keep_one_per_day.value(),
+						self.edit_keep_one_per_week.value(),
+						self.edit_keep_one_per_month.value() )
 
 		#options
 		self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )

@@ -241,6 +241,10 @@ class SettingsDialog(object):
 		
 		#smart remove
 		self.cb_smart_remove = get( 'cb_smart_remove' )
+		self.edit_keep_all = get( 'edit_keep_all' )
+		self.edit_keep_one_per_day = get( 'edit_keep_one_per_day' )
+		self.edit_keep_one_per_week = get( 'edit_keep_one_per_week' )
+		self.edit_keep_one_per_month= get( 'edit_keep_one_per_month' )
 		
 		#enable notifications
 		self.cb_enable_notifications = get( 'cb_enable_notifications' )
@@ -469,7 +473,13 @@ class SettingsDialog(object):
 		self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots( self.profile_id ) )
 		
 		#smart remove
-		self.cb_smart_remove.set_active( self.config.get_smart_remove( self.profile_id ) )
+		smart_remove, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.get_smart_remove( self.profile_id )
+
+		self.cb_smart_remove.set_active( smart_remove )
+		self.edit_keep_all.set_value( float(keep_all) )
+		self.edit_keep_one_per_day.set_value( float(keep_one_per_day) )
+		self.edit_keep_one_per_week.set_value( float(keep_one_per_week) )
+		self.edit_keep_one_per_month.set_value( float(keep_one_per_month) )
 		
 		#enable notifications
 		self.cb_enable_notifications.set_active( self.config.is_notify_enabled( self.profile_id ) )
@@ -563,7 +573,13 @@ class SettingsDialog(object):
 						self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ),
 						self.profile_id )
 		self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active(), self.profile_id )
-		self.config.set_smart_remove( self.cb_smart_remove.get_active(), self.profile_id )
+		self.config.set_smart_remove(
+						self.cb_smart_remove.get_active(), 
+						int( self.edit_keep_all.get_value() ),
+						int( self.edit_keep_one_per_day.get_value() ),
+						int( self.edit_keep_one_per_week.get_value() ),
+						int( self.edit_keep_one_per_month.get_value() ),
+						self.profile_id )
 		
 		#options
 		self.config.set_notify_enabled( self.cb_enable_notifications.get_active(), self.profile_id )
