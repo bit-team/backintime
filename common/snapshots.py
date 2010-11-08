@@ -1321,10 +1321,10 @@ class Snapshots:
 				del snapshots[0]
 
 		#smart remove
-		smart_remove, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month, keep_one_per_year = self.config.get_smart_remove()
+		smart_remove, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.get_smart_remove()
 		if smart_remove:
 			self.set_take_snapshot_message( 0, _('Smart remove') )
-			self.smart_remove( now, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month, keep_one_per_year )
+			self.smart_remove( now, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month )
 
 		#try to keep min free space
 		if self.config.is_min_free_space_enabled():
