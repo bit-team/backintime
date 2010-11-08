@@ -31,9 +31,14 @@ _=gettext.gettext
 
 
 def take_snapshot_now_async( cfg ):
-	cmd = "backintime --profile \"%s\" --backup &" % cfg.get_profile_name()
+	profile=''
+	if '1' != cfg.get_current_profile():
+		profile = "--profile-id %s" % cfg.get_current_profile()
+
+	cmd = "backintime %s --backup &" % profile
 	if cfg.is_run_ionice_from_user_enabled():
 		cmd = 'ionice -c2 -n7 ' + cmd
+
 	os.system( cmd )
 
 
@@ -58,6 +63,8 @@ def print_help( cfg ):
 	print 'Options'
 	print '--profile <profile name>'
 	print '\tSelect profile (use it before other options)'
+	print '--profile-id <profile id>'
+	print '\tSelect profile by id (use it before other options)'
 	print '-b | --backup'
 	print '\tTake a snapshot (and exit)'
 	print '--backup-job'
@@ -98,6 +105,13 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 		if arg == '--profile':
 			if not cfg.set_current_profile_by_name( sys.argv[index + 1] ):
 				print "Profile not found: %s" % sys.argv[index + 1]
+				sys.exit(0)
+			skip = True
+			continue
+
+		if arg == '--profile-id':
+			if not cfg.set_current_profile( sys.argv[index + 1] ):
+				print "Profile id not found: %s" % sys.argv[index + 1]
 				sys.exit(0)
 			skip = True
 			continue

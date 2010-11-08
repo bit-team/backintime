@@ -816,8 +816,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 			elif self.MONTH == min_backup_mode:
 				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' 1 * * {cmd}"'
 
-			if len( cron_line ) > 0:
-				cmd = "/usr/bin/backintime --profile \\\"%s\\\" --backup-job >/dev/null 2>&1" % profile_name
+			if len( cron_line ) > 0:	
+				profile=''
+				if '1' != profile_id:
+					profile = "--profile-id %s" % profile_id
+				cmd = "/usr/bin/backintime %s --backup-job >/dev/null 2>&1" % profile
 				if self.is_run_ionice_from_cron_enabled():
 					cmd = 'ionice -c2 -n7 ' + cmd
 				if self.is_run_nice_from_cron_enabled( profile_id ):
