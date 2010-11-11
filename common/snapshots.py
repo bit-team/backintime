@@ -1271,15 +1271,15 @@ class Snapshots:
 		#keep one per month for the last keep_one_per_month months
 		if keep_one_per_month > 0:
 			d1 = datetime.date( now.year, now.month, 1 )
-			d2 = self.inc_date( d1 )
+			d2 = self.inc_month( d1 )
 			for i in xrange( 0, keep_one_per_month ):
 				keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d1, d2 )
 				d2 = d1
-				d1 = self.dec_month(1)
+				d1 = self.dec_month(d1)
 
 		#keep one per year for all years
 		first_year = int(snapshots[-1][ : 4])
-		for i in xrange( first_year, now.year()+1 ):
+		for i in xrange( first_year, now.year+1 ):
 			keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, datetime.date(i,1,1), datetime.date(i+1,1,1) )
 
 		logger.info( "[smart remove] keep snapshots: %s" % keep_snapshots )
