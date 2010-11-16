@@ -400,7 +400,7 @@ def _get_md5sum_from_path(path):
         				
 #
 #
-class UniquenessSet():
+class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     
     def __init__(self, dc = False, follow_symlink = False): 
