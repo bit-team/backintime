@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-21 17:03+0200\n"
-"PO-Revision-Date: 2010-09-16 08:44+0000\n"
+"POT-Creation-Date: 2010-10-27 21:55+0200\n"
+"PO-Revision-Date: 2010-11-09 20:10+0000\n"
 "Last-Translator: boki24 <Unknown>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,17 +16,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-10-05 08:00+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
+"X-Generator: Launchpad (build 12138)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
 msgid "Profile \"%s\" already exists !"
-msgstr "Profajl \"%s\" već postoji!"
+msgstr "Profil \"%s\" već postoji!"
 
 #: ../../common/configfile.py:282
 msgid "You can't remove the last profile !"
-msgstr "Nije moguće ukloniti poslednji profajl!"
+msgstr "Nije moguće ukloniti poslednji profil!"
 
 #: ../../common/config.py:56
 msgid "Disabled"
@@ -34,7 +34,7 @@ msgstr "Onemogućeno"
 
 #: ../../common/config.py:57
 msgid "At every boot/reboot"
-msgstr "Pri svakom pokretanju sistema/ponovnom pokretanju"
+msgstr "Pri svakom pokretanju/ponovnom pokretanju sistema"
 
 #: ../../common/config.py:58
 msgid "Every 5 minutes"
@@ -62,15 +62,15 @@ msgstr "Jednom mesečno"
 
 #: ../../common/config.py:67
 msgid "Day(s)"
-msgstr "Dan(a)"
+msgstr "Dana"
 
 #: ../../common/config.py:68
 msgid "Week(s)"
-msgstr "Sedmica(e)"
+msgstr "Sedmica"
 
 #: ../../common/config.py:69
 msgid "Year(s)"
-msgstr "Godina(e)"
+msgstr "Godina"
 
 #: ../../common/config.py:77
 msgid "Main profile"
@@ -84,24 +84,24 @@ msgstr "Profil: \"%s\""
 
 #: ../../common/config.py:197
 msgid "Snapshots folder is not valid !"
-msgstr "Fascikla za snimak nije ispravna!"
+msgstr "Direktorijum za snimak nije ispravan!"
 
 #: ../../common/config.py:216
 msgid "You must select at least one folder to backup !"
-msgstr "Morate odabrati bar jednu fasciklu za rezervne kopije!"
+msgstr "Morate odabrati bar jedan direktorijum za rezervne kopije!"
 
 #: ../../common/config.py:227
 msgid "You can't include backup folder !"
-msgstr "Nije moguće uključiti fasciklu za rezervne kopije!"
+msgstr "Nije moguće uključiti direktorijum za rezervne kopije!"
 
 #: ../../common/config.py:232
 msgid "You can't include a backup sub-folder !"
-msgstr "Nije moguće uključiti podfasciklu za rezervne kopije!"
+msgstr "Nije moguće uključiti poddirektorijum za rezervne kopije!"
 
 #: ../../common/config.py:283
 #, python-format
 msgid "%s is not a folder !"
-msgstr "%s nije fascikla!"
+msgstr "%s nije direktorijum!"
 
 #: ../../common/config.py:298 ../../common/config.py:311
 #, python-format
@@ -112,7 +112,7 @@ msgstr ""
 "Ne mogu da upisujem u:  %s\n"
 "Da li ste sigurni da imate dozvolu za upisivanje?"
 
-#: ../../common/config.py:775
+#: ../../common/config.py:789
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -120,17 +120,17 @@ msgid ""
 msgstr ""
 "Ne mogu da pronađem crontab.\n"
 "Da li si siguran da je crontab inastaliran?\n"
-"Ako nije, treba da onemogućeš automatsko kreiranje rezervnih kopija."
+"Ako nije, treba da onemogućiš automatsko kreiranje rezervnih kopija."
 
-#: ../../common/snapshots.py:147 ../../gnome/app.py:1018 ../../kde4/app.py:913
+#: ../../common/snapshots.py:147 ../../gnome/app.py:1056 ../../kde4/app.py:913
 msgid "Now"
 msgstr "Sada"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
-msgid "FAILED"
-msgstr "NEUSPEŠNO"
+msgid "WITH ERRORS !"
+msgstr "SA GREŠKAMA !"
 
-#: ../../common/snapshots.py:568
+#: ../../common/snapshots.py:571
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
@@ -138,10 +138,10 @@ msgid ""
 msgstr ""
 "Back In Time je promenio format rezervnih kopija.\n"
 "\n"
-"Snimci vaših ranijih rezervnih kopija mogu biti premešteni u skladu sa nivim "
+"Snimci vaših ranijih rezervnih kopija mogu biti premešteni u skladu sa novim "
 "formatom. OK?"
 
-#: ../../common/snapshots.py:578
+#: ../../common/snapshots.py:581
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -151,22 +151,22 @@ msgid ""
 "\n"
 "(The program will still be able to discriminate between them)"
 msgstr ""
-"%s profila pronađeno.\n"
+"Prona]eno je %s profila.\n"
 "\n"
 "Novi format za rezervne kopije omogućava snimanje različitih korisnika i "
-"profila u istu lokaciju. Da li želite istu lokaciju za oba profila? \n"
+"profila na istu lokaciju. Da li želite istu lokaciju za oba profila? \n"
 "\n"
 "(Program će biti u stanju da ih razlikuje)"
 
-#: ../../common/snapshots.py:581
+#: ../../common/snapshots.py:584
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
-"Profajli nisu pronađeni. Prvo treba da obnovim profila, molim ponovo "
-"pokrenite Back In Time"
+"Nije pronađen nijedan profil. Prvo moram da obnovim listu profila. Molim "
+"ponovo pokrenite Back In Time"
 
-#: ../../common/snapshots.py:632
+#: ../../common/snapshots.py:635
 #, python-format
 msgid ""
 "%s\n"
@@ -179,15 +179,15 @@ msgid ""
 "cannot continue taking snapshots"
 msgstr ""
 "%s\n"
-"profila %s nije premešten na svoju novu lokaciju\n"
+"profila %s nije premešteno na svoju novu lokaciju\n"
 "Da li želite da nastavite?\n"
 "(Back In Time će moći da nastavi sa kreiranjem snimaka, međutim preostali "
 "snimci se neće uzimati u obzir za automatsko uklanjanje)\n"
 "\n"
-"Ako ne želite, Back In Time će povrati prethodna podešavanja ovog profila, "
-"međutim neće nastaviti kreiranje snimaka"
+"Ako ovo ne želite, Back In Time će povratiti prethodna podešavanja ovog "
+"profila, međutim neće moći da nastavi kreiranje snimaka"
 
-#: ../../common/snapshots.py:641
+#: ../../common/snapshots.py:644
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -196,13 +196,13 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
-"Prethodna podešavanja profila %s su povrećena.\n"
+"Prethodna podešavanja profila %s su povraćena.\n"
 "Back In Time nije u stanju da pravi nove snimke.\n"
 "\n"
-"Možete ručno da premestite snumke,\n"
+"Možete ručno da premestite snimke, \n"
 "ako ste ponovo učitali Back In Time"
 
-#: ../../common/snapshots.py:654
+#: ../../common/snapshots.py:657
 msgid ""
 "Update was successful!\n"
 "\n"
@@ -210,9 +210,9 @@ msgid ""
 msgstr ""
 "Ažuriranje je bilo uspešno!\n"
 "\n"
-"Back In Time će ponovo, po planu, nastaviti da pravi snimke"
+"Back In Time će nastaviti da pravi snimke po planu"
 
-#: ../../common/snapshots.py:659
+#: ../../common/snapshots.py:662
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -226,33 +226,33 @@ msgstr ""
 "Sigurni ste da ne želite da premestite vaše stare snimke?\n"
 "\n"
 "\n"
-"Ako jeste, nećete ponovo videti ovo pitanje sledeći put. Back In Time će "
-"nastaviti da pravljenje snimaka, ali pametno-uklanjanje neće moći da uzima u "
-"obzir vaše stare snimke!\n"
+"Ako jeste, sledeći put nećete videti ovo pitanje. Back In Time će nastaviti "
+"pravljenje snimaka, ali pametno uklanjanje neće moći da uzima u obzir vaše "
+"stare snimke!\n"
 "\n"
-"Ako niste, bićete upitani kada sledeči put pokrenete Back In Time."
+"Ako niste, bićete ponovo upitani kada sledeći put pokrenete Back In Time."
 
-#: ../../common/snapshots.py:668
+#: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr "Back In Time će nastaviti sa kreiranjem snimaka, kako je planirano."
+msgstr "Back In Time će nastaviti sa kreiranjem snimaka po planu"
 
-#: ../../common/snapshots.py:670
+#: ../../common/snapshots.py:673
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
 "Back In Time još uvek nije u stanju da pravi nove snimke.\n"
-"Ponovo pokrenite Back In Time da bi pitanje videli pitanje"
+"Ponovo pokrenite Back In Time da bi ponovo videli pitanja"
 
-#: ../../common/snapshots.py:731
+#: ../../common/snapshots.py:734
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Ne mogu da pronađem fasciklu za snimke.\n"
+"Ne mogu da pronađem direktorijum za snimke.\n"
 "Ako je na izmenljivom medijumu, molim vas da ga priključite."
 
-#: ../../common/snapshots.py:733
+#: ../../common/snapshots.py:736
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -260,275 +260,287 @@ msgstr[0] "Čekam %s sekund"
 msgstr[1] "Čekam %s sekundi"
 msgstr[2] "Čekam %s sek."
 
-#: ../../common/snapshots.py:757
+#: ../../common/snapshots.py:760
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr "Nisam uspeo da napravim snimak %s !!!"
 
-#: ../../common/snapshots.py:766
+#: ../../common/snapshots.py:769
 msgid "Finalizing"
 msgstr "Završavam"
 
-#: ../../common/snapshots.py:792 ../../common/snapshots.py:1074
+#: ../../common/snapshots.py:795 ../../common/snapshots.py:1077
 #: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:36
 msgid "Take snapshot"
 msgstr "Napravi snimak"
 
-#: ../../common/snapshots.py:801 ../../common/snapshots.py:1006
+#: ../../common/snapshots.py:895
+#, python-format
+msgid "Can't create folder: %s"
+msgstr "Ne mogu da kreiram direktorijum: %s"
+
+#: ../../common/snapshots.py:925
+msgid "..."
+msgstr "..."
+
+#: ../../common/snapshots.py:938
+#, python-format
+msgid "Can't remove folder: %s"
+msgstr "Ne mogu da uklonim direktorijum: %s"
+
+#: ../../common/snapshots.py:1009
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "Uporedi sa snimkom %s"
 
-#: ../../common/snapshots.py:892
-#, python-format
-msgid "Can't create folder: %s"
-msgstr "Ne mogu da kreiram fasciklu: %s"
-
-#: ../../common/snapshots.py:922
-msgid "..."
-msgstr "..."
-
-#: ../../common/snapshots.py:935
-#, python-format
-msgid "Can't remove folder: %s"
-msgstr "Ne mogu da uklonim fasciklu: %s"
-
-#: ../../common/snapshots.py:1034
+#: ../../common/snapshots.py:1037
 msgid "Create hard-links"
 msgstr "Kreiraj čvrstu vezu"
 
-#: ../../common/snapshots.py:1097
+#: ../../common/snapshots.py:1100
 msgid "Save config file ..."
 msgstr "Sačuvaj konfiguracioni fajl ..."
 
-#: ../../common/snapshots.py:1102
+#: ../../common/snapshots.py:1105
 msgid "Save permission ..."
 msgstr "Sačuvaj dozvolu ..."
 
-#: ../../common/snapshots.py:1179
+#: ../../common/snapshots.py:1182
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr "Nisam uspeo da preimenujem %s u %s"
 
-#: ../../common/snapshots.py:1291
+#: ../../common/snapshots.py:1294
 msgid "Remove old snapshots"
-msgstr "Ukloni starije snimke"
+msgstr "Ukloni stare snimke"
 
-#: ../../common/snapshots.py:1314 ../../kde4/settingsdialog.py:284
-#: ../../gnome/settingsdialog.glade:694
+#: ../../common/snapshots.py:1317 ../../kde4/settingsdialog.py:289
+#: ../../gnome/settingsdialog.glade:718
 msgid "Smart remove"
-msgstr "Ukloni pametno"
+msgstr "Pametno uklanjanje"
 
-#: ../../common/snapshots.py:1319
+#: ../../common/snapshots.py:1322
 msgid "Try to keep min free space"
-msgstr "Pokušaj da održiš minimum slobodnog prostora"
+msgstr "Pokušaj da sačuvaš minimum slobodnog prostora"
 
-#: ../../gnome/app.py:180 ../../gnome/app.py:549 ../../gnome/app.py:563
+#: ../../gnome/app.py:182 ../../gnome/app.py:551 ../../gnome/app.py:565
 #: ../../kde4/app.py:263 ../../kde4/app.py:502 ../../kde4/app.py:519
 msgid "Done"
 msgstr "Gotovo"
 
-#: ../../gnome/app.py:194 ../../kde4/app.py:198
+#: ../../gnome/app.py:196 ../../kde4/app.py:198
 msgid "Shortcuts"
 msgstr "Prečice"
 
-#: ../../gnome/app.py:217
+#: ../../gnome/app.py:219
 msgid "Name"
-msgstr "Ime"
+msgstr "Naziv"
 
-#: ../../gnome/app.py:228
+#: ../../gnome/app.py:230
 msgid "Size"
 msgstr "Veličina"
 
-#: ../../gnome/app.py:235
+#: ../../gnome/app.py:237
 msgid "Date"
 msgstr "Datum"
 
-#: ../../gnome/app.py:254 ../../gnome/app.py:291
-#: ../../gnome/snapshotsdialog.py:93 ../../kde4/app.py:141
+#: ../../gnome/app.py:256 ../../gnome/app.py:293
+#: ../../gnome/snapshotsdialog.py:95 ../../kde4/app.py:141
 #: ../../kde4/app.py:184 ../../kde4/snapshotsdialog.py:90
 #: ../../gnome/mainwindow.glade:352 ../../gnome/mainwindow.glade:353
 #: ../../gnome/snapshotsdialog.glade:7
 msgid "Snapshots"
-msgstr "Snimak"
+msgstr "Snimci"
 
-#: ../../gnome/app.py:289
+#: ../../gnome/app.py:291
 msgid "Open"
 msgstr "Otvori"
 
-#: ../../gnome/app.py:290 ../../kde4/snapshotsdialog.py:115
+#: ../../gnome/app.py:292 ../../kde4/snapshotsdialog.py:115
 #: ../../gnome/mainwindow.glade:338 ../../gnome/mainwindow.glade:339
 #: ../../gnome/snapshotsdialog.glade:67
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: ../../gnome/app.py:292 ../../kde4/snapshotsdialog.py:137
+#: ../../gnome/app.py:294 ../../kde4/snapshotsdialog.py:137
 msgid "Diff"
 msgstr "Diff"
 
-#: ../../gnome/app.py:293 ../../kde4/app.py:176
+#: ../../gnome/app.py:295 ../../kde4/app.py:176
 #: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:324
 #: ../../gnome/mainwindow.glade:325 ../../gnome/snapshotsdialog.glade:79
 #: ../../gnome/snapshotsdialog.glade:80
 msgid "Restore"
 msgstr "Povrati"
 
-#: ../../gnome/app.py:313 ../../kde4/app.py:315
+#: ../../gnome/app.py:315 ../../kde4/app.py:315
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
-msgstr "Ne mogu da pronađem fasciklu sa snimcima."
+msgstr ""
+"Ne mogu da pronađem direktorijum sa snimcima.\n"
+"Ako se nalazi na izmenjivom mediju, molim da ga priključite i pritisnete OK"
 
-#: ../../gnome/app.py:566 ../../kde4/app.py:522
+#: ../../gnome/app.py:568 ../../kde4/app.py:522
 msgid "Done, no backup needed"
-msgstr "Gotovo, nisu potrebne rezervne kopije"
+msgstr "Gotovo, nije bila potrebna rezervne kopija"
 
-#: ../../gnome/app.py:572 ../../kde4/app.py:528
+#: ../../gnome/app.py:574 ../../kde4/app.py:528
 msgid "Working:"
 msgstr "Radim:"
 
-#: ../../gnome/app.py:576 ../../kde4/app.py:532
+#: ../../gnome/app.py:578 ../../kde4/app.py:532
 msgid "Error:"
 msgstr "Greška:"
 
-#: ../../gnome/app.py:589 ../../kde4/app.py:578
+#: ../../gnome/app.py:591 ../../kde4/app.py:578
 msgid "Global"
 msgstr "Globalno"
 
-#: ../../gnome/app.py:590 ../../kde4/app.py:579
+#: ../../gnome/app.py:592 ../../kde4/app.py:579
 msgid "Root"
 msgstr "Koren"
 
-#: ../../gnome/app.py:591 ../../kde4/app.py:580
+#: ../../gnome/app.py:593 ../../kde4/app.py:580
 msgid "Home"
-msgstr "Lična fascikla"
+msgstr "Lični direktorijum"
 
-#: ../../gnome/app.py:615
+#: ../../gnome/app.py:617
 msgid "Bookmarks"
 msgstr "Obeleživači"
 
-#: ../../gnome/app.py:628 ../../kde4/app.py:591
+#: ../../gnome/app.py:630 ../../kde4/app.py:591
 msgid "Backup folders"
-msgstr "Fascikla za rezervne kopije"
+msgstr "Direktorijumi za rezervne kopije"
 
-#: ../../gnome/app.py:654 ../../kde4/app.py:662
+#: ../../gnome/app.py:656 ../../kde4/app.py:662
 msgid "Today"
 msgstr "Danas"
 
-#: ../../gnome/app.py:658 ../../kde4/app.py:666
+#: ../../gnome/app.py:660 ../../kde4/app.py:666
 msgid "Yesterday"
 msgstr "Juče"
 
-#: ../../gnome/app.py:662 ../../kde4/app.py:670
+#: ../../gnome/app.py:664 ../../kde4/app.py:670
 msgid "This week"
-msgstr "ove nedelje"
+msgstr "Ove nedelje"
 
-#: ../../gnome/app.py:666 ../../kde4/app.py:674
+#: ../../gnome/app.py:668 ../../kde4/app.py:674
 msgid "Last week"
 msgstr "Prošla sedmica"
 
-#: ../../gnome/app.py:950 ../../kde4/app.py:88 ../../kde4/app.py:733
+#: ../../gnome/app.py:988 ../../kde4/app.py:88 ../../kde4/app.py:733
 #: ../../gnome/mainwindow.glade:62 ../../gnome/mainwindow.glade:63
 msgid "Snapshot Name"
 msgstr "Ime snimka"
 
-#: ../../gnome/app.py:969
+#: ../../gnome/app.py:1007
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
-"Da li želite da uklonite snimak:\n"
+"Da li ste sigurni da želite da uklonite snimak:\n"
 "<b>%s</b>"
 
-#: ../../gnome/app.py:1014 ../../kde4/app.py:909
+#: ../../gnome/app.py:1052 ../../kde4/app.py:909
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Snimak: %s"
 
-#: ../../gnome/app.py:1015 ../../kde4/app.py:910
+#: ../../gnome/app.py:1053 ../../kde4/app.py:910
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "Pogledaj snimak načinjen %s"
 
-#: ../../gnome/app.py:1017 ../../kde4/app.py:912
+#: ../../gnome/app.py:1055 ../../kde4/app.py:912
 msgid "View the current disk content"
 msgstr "Pogledaj trenutni sadržaj diska"
 
-#: ../../gnome/logviewdialog.py:91 ../../kde4/logviewdialog.py:81
+#: ../../gnome/logviewdialog.py:91 ../../gnome/settingsdialog.py:266
+#: ../../kde4/logviewdialog.py:81 ../../kde4/settingsdialog.py:339
 msgid "All"
 msgstr "Sve"
 
-#: ../../gnome/logviewdialog.py:92 ../../kde4/logviewdialog.py:82
+#: ../../gnome/logviewdialog.py:92 ../../gnome/settingsdialog.py:264
+#: ../../kde4/logviewdialog.py:82 ../../kde4/settingsdialog.py:337
 msgid "Errors"
 msgstr "Greške"
 
 #: ../../gnome/logviewdialog.py:97 ../../kde4/logviewdialog.py:87
 msgid "Changes"
-msgstr "izmene"
+msgstr "Izmene"
 
 #: ../../gnome/logviewdialog.py:100 ../../kde4/logviewdialog.py:90
 msgid "Informations"
 msgstr "Informacije"
 
-#: ../../gnome/settingsdialog.py:140 ../../kde4/settingsdialog.py:194
+#: ../../gnome/settingsdialog.py:139 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
-msgstr "Uključi fajlove i fascikle"
+msgstr "Uključi fajlove i direktorijume"
 
-#: ../../gnome/settingsdialog.py:168
+#: ../../gnome/settingsdialog.py:167
 msgid "Exclude patterns, files or folders"
-msgstr "Izostavi mustre, fajlove ili fascikle"
+msgstr "Izostavi šablone, fajlove, ili direktorijume"
 
-#: ../../gnome/settingsdialog.py:280
+#: ../../gnome/settingsdialog.py:263 ../../kde4/settingsdialog.py:336
+msgid "None"
+msgstr "Nijedan"
+
+#: ../../gnome/settingsdialog.py:265 ../../kde4/settingsdialog.py:338
+msgid "Changes & Errors"
+msgstr "Izmene i greške"
+
+#: ../../gnome/settingsdialog.py:299
 msgid "Snapshots folder"
-msgstr "Fascikla snimaka"
+msgstr "Direktorijum za snimke"
 
-#: ../../gnome/settingsdialog.py:288 ../../kde4/settingsdialog.py:776
+#: ../../gnome/settingsdialog.py:307 ../../kde4/settingsdialog.py:802
 msgid "Are you sure you want to change snapshots folder ?"
-msgstr "Da li stvarno želiš da promeniš fasciklu snimaka?"
+msgstr "Da li stvarno želiš da promeniš direktorijum za snimkea?"
 
-#: ../../gnome/settingsdialog.py:610 ../../kde4/settingsdialog.py:362
+#: ../../gnome/settingsdialog.py:637 ../../kde4/settingsdialog.py:384
 msgid "New profile"
 msgstr "Novi profil"
 
-#: ../../gnome/settingsdialog.py:624 ../../kde4/settingsdialog.py:378
+#: ../../gnome/settingsdialog.py:651 ../../kde4/settingsdialog.py:400
 msgid "Rename profile"
 msgstr "Preimenuj profil"
 
-#: ../../gnome/settingsdialog.py:636 ../../kde4/settingsdialog.py:392
+#: ../../gnome/settingsdialog.py:663 ../../kde4/settingsdialog.py:414
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
-msgstr "Želiš da ukloniš profil \"%s\" ?"
+msgstr "Da li ste sigurni da želite da uklonite profil \"%s\" ?"
 
-#: ../../gnome/settingsdialog.py:642 ../../kde4/settingsdialog.py:757
+#: ../../gnome/settingsdialog.py:669 ../../kde4/settingsdialog.py:783
 msgid "Include folder"
-msgstr "Uključi fasciklu"
+msgstr "Uključi direktorijum"
 
-#: ../../gnome/settingsdialog.py:661 ../../kde4/settingsdialog.py:743
+#: ../../gnome/settingsdialog.py:688 ../../kde4/settingsdialog.py:769
 msgid "Include file"
 msgstr "Uključi fajl"
 
-#: ../../gnome/settingsdialog.py:698 ../../kde4/settingsdialog.py:705
+#: ../../gnome/settingsdialog.py:725 ../../kde4/settingsdialog.py:731
 msgid "Exclude pattern"
-msgstr "Izostavi uzorak"
+msgstr "Izostavi šablon"
 
-#: ../../gnome/settingsdialog.py:703 ../../kde4/settingsdialog.py:715
+#: ../../gnome/settingsdialog.py:730 ../../kde4/settingsdialog.py:741
 msgid "Exclude patterns can't contain ':' char !"
-msgstr "Izostavi uzorak ne može sadržati ':' znak!"
+msgstr "Šablon za izostavljanje ne može sadržati znak ':'!"
 
-#: ../../gnome/settingsdialog.py:709 ../../kde4/settingsdialog.py:721
+#: ../../gnome/settingsdialog.py:736 ../../kde4/settingsdialog.py:747
 msgid "Exclude file"
 msgstr "Izostavi fajl"
 
-#: ../../gnome/settingsdialog.py:719 ../../kde4/settingsdialog.py:725
+#: ../../gnome/settingsdialog.py:746 ../../kde4/settingsdialog.py:751
 msgid "Exclude folder"
-msgstr "Izostavi fasciklu"
+msgstr "Izostavi direktorijum"
 
-#: ../../gnome/snapshotsdialog.py:252 ../../kde4/snapshotsdialog.py:261
+#: ../../gnome/snapshotsdialog.py:267 ../../kde4/snapshotsdialog.py:261
 msgid "You can't compare a snapshot to itself"
 msgstr "Nije moguće uporediti snimak sa samim sobom"
 
-#: ../../gnome/snapshotsdialog.py:259 ../../kde4/snapshotsdialog.py:268
+#: ../../gnome/snapshotsdialog.py:274 ../../kde4/snapshotsdialog.py:268
 #, python-format
 msgid "Command not found: %s"
 msgstr "Naredba nije pronađena: %s"
@@ -541,15 +553,15 @@ msgstr "Obnovi listu snimaka"
 #: ../../kde4/app.py:92 ../../gnome/mainwindow.glade:75
 #: ../../gnome/mainwindow.glade:76
 msgid "Remove Snapshot"
-msgstr "Ukloni snimke"
+msgstr "Ukloni snimak"
 
 #: ../../kde4/app.py:96 ../../gnome/mainwindow.glade:89
 msgid "View Snapshot Log"
-msgstr "Pogledaj Log snimka"
+msgstr "Pogledaj izveštaj snimka"
 
 #: ../../kde4/app.py:100 ../../gnome/mainwindow.glade:103
 msgid "View Last Log"
-msgstr "Pogledaj poslednji Log"
+msgstr "Pogledaj poslednji izveštaj"
 
 #: ../../kde4/app.py:106 ../../kde4/settingsdialog.py:66
 #: ../../gnome/mainwindow.glade:124 ../../gnome/mainwindow.glade:125
@@ -560,7 +572,7 @@ msgstr "Podešavanja"
 #: ../../kde4/app.py:112 ../../gnome/mainwindow.glade:146
 #: ../../gnome/mainwindow.glade:147
 msgid "About"
-msgstr "О"
+msgstr "O programu"
 
 #: ../../kde4/app.py:116 ../../gnome/mainwindow.glade:159
 #: ../../gnome/mainwindow.glade:160
@@ -570,7 +582,7 @@ msgstr "Pomoć"
 #: ../../kde4/app.py:122 ../../gnome/mainwindow.glade:180
 #: ../../gnome/mainwindow.glade:181
 msgid "Exit"
-msgstr "Napusti"
+msgstr "Izađi"
 
 #: ../../kde4/app.py:156 ../../gnome/mainwindow.glade:273
 msgid "Up"
@@ -582,14 +594,14 @@ msgstr "Prikaži skrivene fajlove"
 
 #: ../../kde4/app.py:180 ../../gnome/snapshotsdialog.glade:66
 msgid "Copy pathname to clipboard"
-msgstr "Iskopiraj putanju u klipbord"
+msgstr "Kopiraj putanju u memoriju"
 
 #: ../../kde4/app.py:207
 msgid ""
 "This folder doesn't exist\n"
 "in the current snapshot !"
 msgstr ""
-"Ova fascikla ne postoji\n"
+"Ovaj direktorijum ne postoji\n"
 "u trenutnom snimku!"
 
 #: ../../kde4/app.py:767
@@ -598,7 +610,7 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Da li želite da uklonite snimak:\n"
+"Da li ste sigurni da želite da uklonite snimak:\n"
 "%s"
 
 #: ../../kde4/app.py:1041 ../../kde4/kde4systrayicon.py:117
@@ -607,7 +619,7 @@ msgstr "Radim..."
 
 #: ../../kde4/logviewdialog.py:53
 msgid "Error Log View"
-msgstr "Greška pri prikazu Loga"
+msgstr "Pregled izveštaja o greškama"
 
 #: ../../kde4/logviewdialog.py:63 ../../kde4/settingsdialog.py:76
 #: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:38
@@ -631,17 +643,17 @@ msgstr "Uredi"
 msgid "General"
 msgstr "Opšte"
 
-#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:773
+#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:799
 msgid "Where to save snapshots"
-msgstr "Gde da sačuvam snimke"
+msgstr "Gde da čuvam snimke"
 
 #: ../../kde4/settingsdialog.py:135 ../../gnome/settingsdialog.glade:182
 msgid "Auto Host / User / Profile Id"
-msgstr "Auto Domaćin / Korisnik / Profil Id"
+msgstr "Automatski ID računara / korisnika / profila"
 
 #: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:202
 msgid "Host:"
-msgstr "Domaćin:"
+msgstr "Računar:"
 
 #: ../../kde4/settingsdialog.py:147 ../../gnome/settingsdialog.glade:222
 msgid "User:"
@@ -649,7 +661,7 @@ msgstr "Korisnik:"
 
 #: ../../kde4/settingsdialog.py:160
 msgid "Schedule"
-msgstr "Zakazano"
+msgstr "Plan rada"
 
 #: ../../kde4/settingsdialog.py:169 ../../gnome/settingsdialog.glade:324
 msgid "Hour:"
@@ -659,33 +671,37 @@ msgstr "Čas:"
 msgid "Include"
 msgstr "Uključi"
 
-#: ../../kde4/settingsdialog.py:210 ../../kde4/settingsdialog.py:239
-#: ../../gnome/settingsdialog.glade:534
+#: ../../kde4/settingsdialog.py:210 ../../kde4/settingsdialog.py:244
+#: ../../gnome/settingsdialog.glade:558
 msgid "Add file"
 msgstr "Dodaj fajl"
 
-#: ../../kde4/settingsdialog.py:215 ../../kde4/settingsdialog.py:244
-#: ../../gnome/settingsdialog.glade:546
+#: ../../kde4/settingsdialog.py:215 ../../kde4/settingsdialog.py:249
+#: ../../gnome/settingsdialog.glade:570
 msgid "Add folder"
-msgstr "Dodaj fasciklu"
+msgstr "Dodaj direktorijum"
 
-#: ../../kde4/settingsdialog.py:225 ../../gnome/settingsdialog.glade:584
+#: ../../kde4/settingsdialog.py:225 ../../gnome/settingsdialog.glade:608
 msgid "Exclude"
 msgstr "Izostavi"
 
-#: ../../kde4/settingsdialog.py:254 ../../gnome/settingsdialog.glade:746
+#: ../../kde4/settingsdialog.py:231
+msgid "Highly recommended:"
+msgstr "Toplo preporučeno:"
+
+#: ../../kde4/settingsdialog.py:259 ../../gnome/settingsdialog.glade:770
 msgid "Auto-remove"
 msgstr "Automatsko uklanjanje"
 
-#: ../../kde4/settingsdialog.py:258 ../../gnome/settingsdialog.glade:666
+#: ../../kde4/settingsdialog.py:263 ../../gnome/settingsdialog.glade:690
 msgid "Older than:"
 msgstr "Stariji od:"
 
-#: ../../kde4/settingsdialog.py:272 ../../gnome/settingsdialog.glade:679
+#: ../../kde4/settingsdialog.py:277 ../../gnome/settingsdialog.glade:703
 msgid "If free space is less than:"
 msgstr "Ako je slobodan prostor manji od:"
 
-#: ../../kde4/settingsdialog.py:287
+#: ../../kde4/settingsdialog.py:292
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
@@ -694,100 +710,108 @@ msgid ""
 "- keep one snapshot per year for all other years"
 msgstr ""
 "- zadrži sve snimke od danas i juče\n"
-"- zadrži jedan snimak za prošlu sedmicu i jedan za prethodne dve\n"
-"- zadrži po jedan snimak za prethodne mesece ove godine i sve mesece "
-"prethodne godine  \n"
-"- zadrži po jedan snimak za sve prethodne godine"
+"- zadrži jedan snimak za prošlu i jedan za pretprošlu sedmicu\n"
+"- zadrži po jedan snimak za sve prethodne mesece ove i sve mesece prethodne "
+"godine  \n"
+"- zadrži po jedan snimak godišnje za sve prethodne godine"
 
-#: ../../kde4/settingsdialog.py:292 ../../gnome/settingsdialog.glade:601
+#: ../../kde4/settingsdialog.py:297 ../../gnome/settingsdialog.glade:625
 msgid "Don't remove named snapshots"
 msgstr "Nemoj ukloniti imenovane snimke"
 
-#: ../../kde4/settingsdialog.py:301 ../../gnome/settingsdialog.glade:822
+#: ../../kde4/settingsdialog.py:306 ../../gnome/settingsdialog.glade:887
 msgid "Options"
 msgstr "Opcije"
 
-#: ../../kde4/settingsdialog.py:304 ../../gnome/settingsdialog.glade:760
+#: ../../kde4/settingsdialog.py:309 ../../gnome/settingsdialog.glade:784
 msgid "Enable notifications"
 msgstr "Omogući obaveštenja"
 
-#: ../../kde4/settingsdialog.py:307 ../../gnome/settingsdialog.glade:773
+#: ../../kde4/settingsdialog.py:312 ../../gnome/settingsdialog.glade:797
 msgid "Disable snapshots when on battery"
-msgstr "Onemogući snimke kada se napaja iz baterija"
+msgstr "Onemogući snimke kada se računar napaja iz baterije"
 
-#: ../../kde4/settingsdialog.py:310
+#: ../../kde4/settingsdialog.py:315
 msgid "Power status not available from system"
-msgstr "Status napajanja nije dostupan iz sistema"
+msgstr "Informacija o status napajanja nije dostupna od sistema"
 
-#: ../../kde4/settingsdialog.py:313 ../../gnome/settingsdialog.glade:787
+#: ../../kde4/settingsdialog.py:318 ../../gnome/settingsdialog.glade:811
 msgid "Backup files on restore"
-msgstr "Napravi sigurnosne kopije i povrati"
+msgstr "Napravi rezervne kopije pri povraćaju"
 
-#: ../../kde4/settingsdialog.py:316 ../../gnome/settingsdialog.glade:800
+#: ../../kde4/settingsdialog.py:321 ../../gnome/settingsdialog.glade:824
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "Nastavi nakon greške (zadrži nekompletan snimak)"
 
-#: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:953
+#: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:837
+msgid "Use checksum to detect changes"
+msgstr "Koristi kontrolnu sumu da otkriješ izmene"
+
+#: ../../kde4/settingsdialog.py:331
+msgid "Log Level:"
+msgstr "Nivo detalja u izveštaju:"
+
+#: ../../kde4/settingsdialog.py:346 ../../gnome/settingsdialog.glade:1018
 msgid "Expert Options"
 msgstr "Napredne opcije"
 
-#: ../../kde4/settingsdialog.py:327
+#: ../../kde4/settingsdialog.py:349
 msgid "Change these options only if you really know what you are doing !"
 msgstr "Izmeni ove opcije samo ako znaš šta radiš!"
 
-#: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:848
+#: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:913
 msgid "Run 'nice' as cron job (default: enabled)"
-msgstr "Pokreni 'nice' kao cron posao (podrazumevano: omogućeno)"
+msgstr "Pokreni 'nice' kao cron posao (podrazumeva se: omogućeno)"
 
-#: ../../kde4/settingsdialog.py:338 ../../gnome/settingsdialog.glade:861
+#: ../../kde4/settingsdialog.py:360 ../../gnome/settingsdialog.glade:926
 msgid "Run 'ionice' as cron job (default: enabled)"
-msgstr "Pokreni 'ionice' kao cron posao (podrazumevano: omogućeno)"
+msgstr "Pokreni 'ionice' kao cron posao (podrazumeva se: omogućeno)"
 
-#: ../../kde4/settingsdialog.py:341 ../../gnome/settingsdialog.glade:874
+#: ../../kde4/settingsdialog.py:363 ../../gnome/settingsdialog.glade:939
 msgid "Run 'ionice' when tacking a manual snapshot (default: disabled)"
 msgstr ""
-"Pokreni 'ionice' kada se vrši ručni snimak (podrazumevano: onemogućeno)"
+"Pokreni 'ionice' kada se pravi ručni snimak (podrazumeva se: onemogućeno)"
 
-#: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:887
+#: ../../kde4/settingsdialog.py:366 ../../gnome/settingsdialog.glade:952
 msgid "Preserve ACL"
 msgstr "Sačuvaj ACL"
 
-#: ../../kde4/settingsdialog.py:347 ../../gnome/settingsdialog.glade:900
+#: ../../kde4/settingsdialog.py:369 ../../gnome/settingsdialog.glade:965
 msgid "Preserve extended attributes (xattr)"
 msgstr "Sačuvaj proširene atribute (xattr)"
 
-#: ../../kde4/settingsdialog.py:350 ../../gnome/settingsdialog.glade:913
+#: ../../kde4/settingsdialog.py:372 ../../gnome/settingsdialog.glade:978
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Kopiraj nebezbedni link (funkcioniše samo sa apsolutnim linkovima)"
 
-#: ../../kde4/settingsdialog.py:353 ../../gnome/settingsdialog.glade:926
+#: ../../kde4/settingsdialog.py:375 ../../gnome/settingsdialog.glade:991
 msgid "Copy links (dereference symbolic links)"
-msgstr "Kopiraj linkove (opozovi simboličke linkove)"
+msgstr "Kopiraj linkove (prati simboličke linkove)"
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:146
-#: ../../gnome/snapshotsdialog.glade:239
+#: ../../gnome/snapshotsdialog.glade:240
 msgid "Diff Options"
 msgstr "Diff opcije"
 
-#: ../../kde4/snapshotsdialog.py:55 ../../gnome/snapshotsdialog.glade:179
+#: ../../kde4/snapshotsdialog.py:55 ../../gnome/snapshotsdialog.glade:180
 msgid "Command:"
 msgstr "Naredba:"
 
-#: ../../kde4/snapshotsdialog.py:59 ../../gnome/snapshotsdialog.glade:186
+#: ../../kde4/snapshotsdialog.py:59 ../../gnome/snapshotsdialog.glade:187
 msgid "Parameters:"
 msgstr "Parametri:"
 
-#: ../../kde4/snapshotsdialog.py:63 ../../gnome/snapshotsdialog.glade:197
+#: ../../kde4/snapshotsdialog.py:63 ../../gnome/snapshotsdialog.glade:198
 msgid "Use %1 and %2 for path parameters"
-msgstr "Koristi  %1 i %2 kao putanju"
+msgstr "Koristi  %1 i %2 kao parametre putanje"
 
 #: ../../kde4/snapshotsdialog.py:119 ../../gnome/snapshotsdialog.glade:36
 msgid "List only different snapshots"
-msgstr "Izlistaj samo rezličite snimke"
+msgstr "Izlistaj samo različite snimke"
 
 #: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:49
 msgid "Deep check (more accurate, but slow)"
-msgstr "Detaljna provera (mnogo tačnija, ali sporija)"
+msgstr "Detaljna provera (tačnija, ali spora)"
 
 #: ../../kde4/snapshotsdialog.py:147
 msgid "Go To"
@@ -795,7 +819,7 @@ msgstr "Idi na"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr "Pregled Loga"
+msgstr "Pregled izveštaja"
 
 #: ../../gnome/mainwindow.glade:6
 msgid "Back In Time"
@@ -811,23 +835,23 @@ msgstr "Internet stranica"
 
 #: ../../gnome/mainwindow.glade:272
 msgid "Parent folder"
-msgstr "Prethodna fascikla"
+msgstr "Naddirektorijum"
 
 #: ../../gnome/mainwindow.glade:303
 msgid "Hidden files"
 msgstr "Skriveni fajlovi"
 
-#: ../../gnome/mainwindow.glade:429
+#: ../../gnome/mainwindow.glade:430
 msgid ""
 "<b>This folder doesn't exist\n"
 "in the current snapshot !</b>"
 msgstr ""
-"<b>Ova fascikla ne postoji\n"
+"<b>Ovaj direktorijum ne postoji\n"
 "u trenutnom snimku!</b>"
 
 #: ../../gnome/settingsdialog.glade:242
 msgid "Profile Id:"
-msgstr "Profil Id:"
+msgstr "ID profila:"
 
 #: ../../gnome/settingsdialog.glade:270
 msgid "Advanced"
@@ -839,9 +863,17 @@ msgstr "<b>Gde da sačuvam snimke</b>"
 
 #: ../../gnome/settingsdialog.glade:354
 msgid "<b>Schedule</b>"
-msgstr "<b>Raspored</b>"
+msgstr "<b>Plan rada</b>"
 
-#: ../../gnome/settingsdialog.glade:711
+#: ../../gnome/settingsdialog.glade:517
+msgid "<b>Highly recommended:</b>"
+msgstr "<b>Toplo preporučeno:</b>"
+
+#: ../../gnome/settingsdialog.glade:529
+msgid "label"
+msgstr "oznaka"
+
+#: ../../gnome/settingsdialog.glade:735
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
@@ -850,26 +882,151 @@ msgid ""
 "- keep one snapshot per year for all other years"
 msgstr ""
 "- zadrži sve snimke od danas i juče\n"
-"- zadrži jedan snimak za prošlu sedmicu i jedan za prethodne dve\n"
-"- zadrži po jedan snimak za prethodne mesece ove godine i sve mesece "
-"prethodne godine\n"
-"- zadrži po jedan snimak za sve prethodne godine"
+"- zadrži po jedan snimak za prošlu i pretrpošlu sedmicu\n"
+"- zadrži po jedan snimak za prethodne mesece ove i sve mesece prethodne "
+"godine\n"
+"- zadrži po jedan snimak godišnje za sve prethodne godine"
 
-#: ../../gnome/settingsdialog.glade:727
+#: ../../gnome/settingsdialog.glade:751
 msgid "Auto-remove only removes snapshots from the selected snapshots folder"
 msgstr ""
-"Auromatsko uklanjanje treba da ukloni samo snimke iz odabranih fascikli za "
+"Auromatsko uklanjanje uklanja samo snimke iz odabranih direktorijuma za "
 "snimke"
 
-#: ../../gnome/settingsdialog.glade:837
+#: ../../gnome/settingsdialog.glade:855
+msgid "Log level:"
+msgstr "Nivo detalja u izveštaju:"
+
+#: ../../gnome/settingsdialog.glade:902
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
 msgstr "<b>Izmeni ove opcije samo ako stvarno znaš šta radiš!</b>"
 
-#: ../../gnome/snapshotsdialog.glade:137
+#: ../../gnome/settingsdialog.glade:1033
+msgid "<b>This options don't depend on profile</b>"
+msgstr "<b>Ove opcije ne zavise od profila</b>"
+
+#: ../../gnome/settingsdialog.glade:1044
+msgid "Use gloobus-preview (if installed)"
+msgstr "Koristi gloobus-preview (ako je instaliran)"
+
+#: ../../gnome/settingsdialog.glade:1066
+msgid "GUI Options"
+msgstr "Opcije korisničkog interfejsa"
+
+#: ../../gnome/snapshotsdialog.glade:138
 msgid "Diff with"
 msgstr "Diff sa"
 
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
-msgstr "Obrazac"
+msgstr "Šablon"
+
+#~ msgid ""
+#~ "BackinTime changed its backup format.\n"
+#~ "\n"
+#~ "Your old snapshots can be moved according to this new format. OK?"
+#~ msgstr ""
+#~ "BackinTime je promenio svoj format rezervnih kopija.\n"
+#~ "Vaši prethodni snimci mogu biti pomereni u skladu sa novim formatom. OK?"
+
+#, python-format
+#~ msgid ""
+#~ "%s\n"
+#~ "of profile %s are not moved to their new location\n"
+#~ "Do you want to proceed?\n"
+#~ "(BackinTime will be able to continue taking snapshots, however the remaining "
+#~ "snapshots will not be considered for automatic removal)\n"
+#~ "\n"
+#~ "If not BackinTime will restore former settings for this profile, however "
+#~ "cannot continue taking snapshots"
+#~ msgstr ""
+#~ "%s\n"
+#~ "profajla %s nije pomereno na novu lokaciju\n"
+#~ "Da li želiš da nastaviš?\n"
+#~ "(BackinTime će moći da pravi snimke, ali preostale snimke neće biti moguće "
+#~ "automatski ukloniti)\n"
+#~ "\n"
+#~ "Ako ne želiš, BackinTime će povratiti prethodne postavke profila, ali neće "
+#~ "moći da nastavi sa pravljenjem snimaka."
+
+#~ msgid ""
+#~ "No profiles are found. Will have to update to profiles first, please restart "
+#~ "BackinTime"
+#~ msgstr ""
+#~ "Profil nije pronađen. Treba prvo da ažuriram  profajl, molim vas resetujte "
+#~ "BackinTime"
+
+#~ msgid "BackinTime will continue taking snapshots again as scheduled"
+#~ msgstr "BackinTime će nastaviti sa kreiranjem snimaka kako je planirano"
+
+#~ msgid ""
+#~ "Are you sure you do not want to move your old snapshots?\n"
+#~ "\n"
+#~ "\n"
+#~ "If you do, you will not see these questions again next time, BackinTime will "
+#~ "continue making snapshots again, but smart-remove cannot take your old "
+#~ "snapshots into account any longer!\n"
+#~ "\n"
+#~ "If you do not, you will be asked again next time you start BackinTime."
+#~ msgstr ""
+#~ "Da li želite pomeriti vaše stare snimke?\n"
+#~ "\n"
+#~ "\n"
+#~ "Ako želite, sledeći put nećete videti ovo pitanje. BackinTime će nastaviti "
+#~ "sa kreiranjem snimaka, ali pametno uklanjanje neće više uzimati u obzir "
+#~ "stare snimke!\n"
+#~ "\n"
+#~ "Ako ne želite, bićete upitani ponovo kada sledeći put pokrenete BackinTime."
+
+#~ msgid ""
+#~ "Update was successful!\n"
+#~ "\n"
+#~ "BackinTime will continue taking snapshots again as scheduled"
+#~ msgstr ""
+#~ "Uspešno ažuriranje.\n"
+#~ "\n"
+#~ "BackinTime će nastaviti sa kreiranjem snimaka kako je planirano"
+
+#, python-format
+#~ msgid ""
+#~ "Former settings of profile %s are restored.\n"
+#~ "BackinTime cannot continue taking new snapshots.\n"
+#~ "\n"
+#~ "You can manually move the snapshots, \n"
+#~ "if you are done restart BackinTime to proceed"
+#~ msgstr ""
+#~ "Prethodne postavke profila %s su povrećene.\n"
+#~ "BackinTime ne može nastaviti sa pravljenjem snimaka.\n"
+#~ "\n"
+#~ "Možete ručno premestiti snimke, \n"
+#~ "ako ste resetovali BackinTime da nastavi"
+
+#~ msgid ""
+#~ "BackinTime still cannot continue taking new snapshots.\n"
+#~ "Restart BackinTime to see the questions again"
+#~ msgstr ""
+#~ "BackinTime ne može još uvek da nastavi sa pravljenjem snimaka.\n"
+#~ "Resetujte BackinTime da bi ponovo videli pitanje"
+
+#~ msgid "Include folders"
+#~ msgstr "Ukлјuči fascikle"
+
+#~ msgid "Refresh snapshots"
+#~ msgstr "Obnovi snimke"
+
+#~ msgid "Patterns, files or folders"
+#~ msgstr "Uzorak, fajla ili fascikle"
+
+#~ msgid "Change this options only if you really know what you are doing !"
+#~ msgstr "Promeni ovu opciju samo ako stvarno znaš šta radiš!"
+
+#~ msgid "Update snapshots"
+#~ msgstr "Ažuriraj snimak"
+
+#~ msgid ""
+#~ "<b>Change this options only if you really know what you are doing !</b>"
+#~ msgstr "<b>Promeni ovu opciju samo ako stvarno znaš šta radiš!</b>"
+
+#~ msgid "FAILED"
+#~ msgstr "NEUSPEŠNO"

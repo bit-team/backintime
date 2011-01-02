@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-21 17:03+0200\n"
+"POT-Creation-Date: 2010-10-27 21:55+0200\n"
 "PO-Revision-Date: 2009-12-28 16:01+0000\n"
 "Last-Translator: nanker <Unknown>\n"
 "Language-Team: Danish <da@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-10-05 08:00+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
+"X-Generator: Launchpad (build 12138)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -111,7 +111,7 @@ msgstr ""
 "Kan ikke skrive til: %s\n"
 "Er du sikker på, du har skrive-rettigheder ?"
 
-#: ../../common/config.py:775
+#: ../../common/config.py:789
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -121,22 +121,22 @@ msgstr ""
 "Er du sikker på, at cron er installeret ?\n"
 "Hvis ikke, skal du deaktivere alle automatiske sikkerhedskopieringer."
 
-#: ../../common/snapshots.py:147 ../../gnome/app.py:1018 ../../kde4/app.py:913
+#: ../../common/snapshots.py:147 ../../gnome/app.py:1056 ../../kde4/app.py:913
 msgid "Now"
 msgstr "Nu"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
-msgid "FAILED"
+msgid "WITH ERRORS !"
 msgstr ""
 
-#: ../../common/snapshots.py:568
+#: ../../common/snapshots.py:571
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
 
-#: ../../common/snapshots.py:578
+#: ../../common/snapshots.py:581
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -150,13 +150,13 @@ msgstr ""
 "Det nye backup-format understøtter lagring af forskellige brugere og "
 "profiler på den samme location. Ønsker du samme location for begge profiler?"
 
-#: ../../common/snapshots.py:581
+#: ../../common/snapshots.py:584
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
 
-#: ../../common/snapshots.py:632
+#: ../../common/snapshots.py:635
 #, python-format
 msgid ""
 "%s\n"
@@ -169,7 +169,7 @@ msgid ""
 "cannot continue taking snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:641
+#: ../../common/snapshots.py:644
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -179,14 +179,14 @@ msgid ""
 "if you are done restart Back In Time to proceed"
 msgstr ""
 
-#: ../../common/snapshots.py:654
+#: ../../common/snapshots.py:657
 msgid ""
 "Update was successful!\n"
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 
-#: ../../common/snapshots.py:659
+#: ../../common/snapshots.py:662
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -198,17 +198,17 @@ msgid ""
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
 
-#: ../../common/snapshots.py:668
+#: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 
-#: ../../common/snapshots.py:670
+#: ../../common/snapshots.py:673
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
 
-#: ../../common/snapshots.py:731
+#: ../../common/snapshots.py:734
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
@@ -216,127 +216,127 @@ msgstr ""
 "Kan ikke finde tilstands-billede-mappen.\n"
 "Hvis den er på et flytbart drev indsæt venligst dette."
 
-#: ../../common/snapshots.py:733
+#: ../../common/snapshots.py:736
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Venter %s sekund."
 msgstr[1] "Venter %s sekunder."
 
-#: ../../common/snapshots.py:757
+#: ../../common/snapshots.py:760
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr ""
 
-#: ../../common/snapshots.py:766
+#: ../../common/snapshots.py:769
 msgid "Finalizing"
 msgstr "Afslutter"
 
-#: ../../common/snapshots.py:792 ../../common/snapshots.py:1074
+#: ../../common/snapshots.py:795 ../../common/snapshots.py:1077
 #: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:36
 msgid "Take snapshot"
 msgstr "Tag et tilstands-billede"
 
-#: ../../common/snapshots.py:801 ../../common/snapshots.py:1006
-#, python-format
-msgid "Compare with snapshot %s"
-msgstr "Sammenlign med tilstands-billede %s"
-
-#: ../../common/snapshots.py:892
+#: ../../common/snapshots.py:895
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "Kan ikke oprette mappen: %s"
 
-#: ../../common/snapshots.py:922
+#: ../../common/snapshots.py:925
 msgid "..."
 msgstr "..."
 
-#: ../../common/snapshots.py:935
+#: ../../common/snapshots.py:938
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "Kan ikke fjerne mappen: %s"
 
-#: ../../common/snapshots.py:1034
+#: ../../common/snapshots.py:1009
+#, python-format
+msgid "Compare with snapshot %s"
+msgstr "Sammenlign med tilstands-billede %s"
+
+#: ../../common/snapshots.py:1037
 msgid "Create hard-links"
 msgstr "Opret hard-links"
 
-#: ../../common/snapshots.py:1097
+#: ../../common/snapshots.py:1100
 msgid "Save config file ..."
 msgstr "Gem config fil ..."
 
-#: ../../common/snapshots.py:1102
+#: ../../common/snapshots.py:1105
 msgid "Save permission ..."
 msgstr "Gem tilladelse ..."
 
-#: ../../common/snapshots.py:1179
+#: ../../common/snapshots.py:1182
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr "Kan ikke omdøbe %s til %s"
 
-#: ../../common/snapshots.py:1291
+#: ../../common/snapshots.py:1294
 msgid "Remove old snapshots"
 msgstr "Fjern gamle tilstands-billeder"
 
-#: ../../common/snapshots.py:1314 ../../kde4/settingsdialog.py:284
-#: ../../gnome/settingsdialog.glade:694
+#: ../../common/snapshots.py:1317 ../../kde4/settingsdialog.py:289
+#: ../../gnome/settingsdialog.glade:718
 msgid "Smart remove"
 msgstr "Smart fjern"
 
-#: ../../common/snapshots.py:1319
+#: ../../common/snapshots.py:1322
 msgid "Try to keep min free space"
 msgstr "Prøv at holde minimum fri plads"
 
-#: ../../gnome/app.py:180 ../../gnome/app.py:549 ../../gnome/app.py:563
+#: ../../gnome/app.py:182 ../../gnome/app.py:551 ../../gnome/app.py:565
 #: ../../kde4/app.py:263 ../../kde4/app.py:502 ../../kde4/app.py:519
 msgid "Done"
 msgstr "Færdig"
 
-#: ../../gnome/app.py:194 ../../kde4/app.py:198
+#: ../../gnome/app.py:196 ../../kde4/app.py:198
 msgid "Shortcuts"
 msgstr "Genveje"
 
-#: ../../gnome/app.py:217
+#: ../../gnome/app.py:219
 msgid "Name"
 msgstr "Navn"
 
-#: ../../gnome/app.py:228
+#: ../../gnome/app.py:230
 msgid "Size"
 msgstr "Størrelse"
 
-#: ../../gnome/app.py:235
+#: ../../gnome/app.py:237
 msgid "Date"
 msgstr "Dato"
 
-#: ../../gnome/app.py:254 ../../gnome/app.py:291
-#: ../../gnome/snapshotsdialog.py:93 ../../kde4/app.py:141
+#: ../../gnome/app.py:256 ../../gnome/app.py:293
+#: ../../gnome/snapshotsdialog.py:95 ../../kde4/app.py:141
 #: ../../kde4/app.py:184 ../../kde4/snapshotsdialog.py:90
 #: ../../gnome/mainwindow.glade:352 ../../gnome/mainwindow.glade:353
 #: ../../gnome/snapshotsdialog.glade:7
 msgid "Snapshots"
 msgstr "Tilstamds-billeder"
 
-#: ../../gnome/app.py:289
+#: ../../gnome/app.py:291
 msgid "Open"
 msgstr "Åbn"
 
-#: ../../gnome/app.py:290 ../../kde4/snapshotsdialog.py:115
+#: ../../gnome/app.py:292 ../../kde4/snapshotsdialog.py:115
 #: ../../gnome/mainwindow.glade:338 ../../gnome/mainwindow.glade:339
 #: ../../gnome/snapshotsdialog.glade:67
 msgid "Copy"
 msgstr "Kopier"
 
-#: ../../gnome/app.py:292 ../../kde4/snapshotsdialog.py:137
+#: ../../gnome/app.py:294 ../../kde4/snapshotsdialog.py:137
 msgid "Diff"
 msgstr "Diff"
 
-#: ../../gnome/app.py:293 ../../kde4/app.py:176
+#: ../../gnome/app.py:295 ../../kde4/app.py:176
 #: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:324
 #: ../../gnome/mainwindow.glade:325 ../../gnome/snapshotsdialog.glade:79
 #: ../../gnome/snapshotsdialog.glade:80
 msgid "Restore"
 msgstr "Gendan"
 
-#: ../../gnome/app.py:313 ../../kde4/app.py:315
+#: ../../gnome/app.py:315 ../../kde4/app.py:315
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
@@ -344,60 +344,60 @@ msgstr ""
 "Kan ikke finde tilstands-billede-mappen.\n"
 "Hvis den er på et flytbar drev, indsæt venligst drevet og tryk OK"
 
-#: ../../gnome/app.py:566 ../../kde4/app.py:522
+#: ../../gnome/app.py:568 ../../kde4/app.py:522
 msgid "Done, no backup needed"
 msgstr "Færdig, ingen sikkerhedskopiering nødvendig"
 
-#: ../../gnome/app.py:572 ../../kde4/app.py:528
+#: ../../gnome/app.py:574 ../../kde4/app.py:528
 msgid "Working:"
 msgstr "Arbejder:"
 
-#: ../../gnome/app.py:576 ../../kde4/app.py:532
+#: ../../gnome/app.py:578 ../../kde4/app.py:532
 msgid "Error:"
 msgstr ""
 
-#: ../../gnome/app.py:589 ../../kde4/app.py:578
+#: ../../gnome/app.py:591 ../../kde4/app.py:578
 msgid "Global"
 msgstr "Globalt"
 
-#: ../../gnome/app.py:590 ../../kde4/app.py:579
+#: ../../gnome/app.py:592 ../../kde4/app.py:579
 msgid "Root"
 msgstr "Root"
 
-#: ../../gnome/app.py:591 ../../kde4/app.py:580
+#: ../../gnome/app.py:593 ../../kde4/app.py:580
 msgid "Home"
 msgstr "Hjemmemappe"
 
-#: ../../gnome/app.py:615
+#: ../../gnome/app.py:617
 msgid "Bookmarks"
 msgstr "Bogmærker"
 
-#: ../../gnome/app.py:628 ../../kde4/app.py:591
+#: ../../gnome/app.py:630 ../../kde4/app.py:591
 msgid "Backup folders"
 msgstr "Sikkerhedskopi-mapper"
 
-#: ../../gnome/app.py:654 ../../kde4/app.py:662
+#: ../../gnome/app.py:656 ../../kde4/app.py:662
 msgid "Today"
 msgstr "I dag"
 
-#: ../../gnome/app.py:658 ../../kde4/app.py:666
+#: ../../gnome/app.py:660 ../../kde4/app.py:666
 msgid "Yesterday"
 msgstr "I går"
 
-#: ../../gnome/app.py:662 ../../kde4/app.py:670
+#: ../../gnome/app.py:664 ../../kde4/app.py:670
 msgid "This week"
 msgstr "Denne uge"
 
-#: ../../gnome/app.py:666 ../../kde4/app.py:674
+#: ../../gnome/app.py:668 ../../kde4/app.py:674
 msgid "Last week"
 msgstr "Sidste uge"
 
-#: ../../gnome/app.py:950 ../../kde4/app.py:88 ../../kde4/app.py:733
+#: ../../gnome/app.py:988 ../../kde4/app.py:88 ../../kde4/app.py:733
 #: ../../gnome/mainwindow.glade:62 ../../gnome/mainwindow.glade:63
 msgid "Snapshot Name"
 msgstr "Tilstands-billede-navn"
 
-#: ../../gnome/app.py:969
+#: ../../gnome/app.py:1007
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -406,25 +406,27 @@ msgstr ""
 "Er du sikker på du ønsker at fjerne tilstands-billedet:\n"
 "<b>%s</b>"
 
-#: ../../gnome/app.py:1014 ../../kde4/app.py:909
+#: ../../gnome/app.py:1052 ../../kde4/app.py:909
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Tilstands-billede: %s"
 
-#: ../../gnome/app.py:1015 ../../kde4/app.py:910
+#: ../../gnome/app.py:1053 ../../kde4/app.py:910
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "Se tilstands-billedet lavet ved %s"
 
-#: ../../gnome/app.py:1017 ../../kde4/app.py:912
+#: ../../gnome/app.py:1055 ../../kde4/app.py:912
 msgid "View the current disk content"
 msgstr "Se nuværende disk-indhold"
 
-#: ../../gnome/logviewdialog.py:91 ../../kde4/logviewdialog.py:81
+#: ../../gnome/logviewdialog.py:91 ../../gnome/settingsdialog.py:266
+#: ../../kde4/logviewdialog.py:81 ../../kde4/settingsdialog.py:339
 msgid "All"
 msgstr ""
 
-#: ../../gnome/logviewdialog.py:92 ../../kde4/logviewdialog.py:82
+#: ../../gnome/logviewdialog.py:92 ../../gnome/settingsdialog.py:264
+#: ../../kde4/logviewdialog.py:82 ../../kde4/settingsdialog.py:337
 msgid "Errors"
 msgstr ""
 
@@ -436,64 +438,72 @@ msgstr ""
 msgid "Informations"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:140 ../../kde4/settingsdialog.py:194
+#: ../../gnome/settingsdialog.py:139 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:168
+#: ../../gnome/settingsdialog.py:167
 msgid "Exclude patterns, files or folders"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:280
+#: ../../gnome/settingsdialog.py:263 ../../kde4/settingsdialog.py:336
+msgid "None"
+msgstr ""
+
+#: ../../gnome/settingsdialog.py:265 ../../kde4/settingsdialog.py:338
+msgid "Changes & Errors"
+msgstr ""
+
+#: ../../gnome/settingsdialog.py:299
 msgid "Snapshots folder"
 msgstr "Tilstands-billeders mappe"
 
-#: ../../gnome/settingsdialog.py:288 ../../kde4/settingsdialog.py:776
+#: ../../gnome/settingsdialog.py:307 ../../kde4/settingsdialog.py:802
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr "Er du sikker på du ønsker at skifte tilstands-billede-mappe ?"
 
-#: ../../gnome/settingsdialog.py:610 ../../kde4/settingsdialog.py:362
+#: ../../gnome/settingsdialog.py:637 ../../kde4/settingsdialog.py:384
 msgid "New profile"
 msgstr "Ny profil"
 
-#: ../../gnome/settingsdialog.py:624 ../../kde4/settingsdialog.py:378
+#: ../../gnome/settingsdialog.py:651 ../../kde4/settingsdialog.py:400
 msgid "Rename profile"
 msgstr "Omdøb profil"
 
-#: ../../gnome/settingsdialog.py:636 ../../kde4/settingsdialog.py:392
+#: ../../gnome/settingsdialog.py:663 ../../kde4/settingsdialog.py:414
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "Er du sikker på at du vil slette profilen \"%s\" ?"
 
-#: ../../gnome/settingsdialog.py:642 ../../kde4/settingsdialog.py:757
+#: ../../gnome/settingsdialog.py:669 ../../kde4/settingsdialog.py:783
 msgid "Include folder"
 msgstr "Inkludér mapper"
 
-#: ../../gnome/settingsdialog.py:661 ../../kde4/settingsdialog.py:743
+#: ../../gnome/settingsdialog.py:688 ../../kde4/settingsdialog.py:769
 msgid "Include file"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:698 ../../kde4/settingsdialog.py:705
+#: ../../gnome/settingsdialog.py:725 ../../kde4/settingsdialog.py:731
 msgid "Exclude pattern"
 msgstr "Ekskludér mønster"
 
-#: ../../gnome/settingsdialog.py:703 ../../kde4/settingsdialog.py:715
+#: ../../gnome/settingsdialog.py:730 ../../kde4/settingsdialog.py:741
 msgid "Exclude patterns can't contain ':' char !"
 msgstr "Ekskluder-mønster kan ikke indeholde \":\"-tegn !"
 
-#: ../../gnome/settingsdialog.py:709 ../../kde4/settingsdialog.py:721
+#: ../../gnome/settingsdialog.py:736 ../../kde4/settingsdialog.py:747
 msgid "Exclude file"
 msgstr "Ekskludér fil"
 
-#: ../../gnome/settingsdialog.py:719 ../../kde4/settingsdialog.py:725
+#: ../../gnome/settingsdialog.py:746 ../../kde4/settingsdialog.py:751
 msgid "Exclude folder"
 msgstr "Ekskludér mappe"
 
-#: ../../gnome/snapshotsdialog.py:252 ../../kde4/snapshotsdialog.py:261
+#: ../../gnome/snapshotsdialog.py:267 ../../kde4/snapshotsdialog.py:261
 msgid "You can't compare a snapshot to itself"
 msgstr "Du kan ikke sammenligne et tilstands-billede med sig selv"
 
-#: ../../gnome/snapshotsdialog.py:259 ../../kde4/snapshotsdialog.py:268
+#: ../../gnome/snapshotsdialog.py:274 ../../kde4/snapshotsdialog.py:268
 #, python-format
 msgid "Command not found: %s"
 msgstr "Kommando ikke fundet: %s"
@@ -594,7 +604,7 @@ msgstr "Redigér"
 msgid "General"
 msgstr "Generelt"
 
-#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:773
+#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:799
 msgid "Where to save snapshots"
 msgstr "Hvor skal tilstands-billeder gemmes"
 
@@ -622,33 +632,37 @@ msgstr ""
 msgid "Include"
 msgstr "Inkludér"
 
-#: ../../kde4/settingsdialog.py:210 ../../kde4/settingsdialog.py:239
-#: ../../gnome/settingsdialog.glade:534
+#: ../../kde4/settingsdialog.py:210 ../../kde4/settingsdialog.py:244
+#: ../../gnome/settingsdialog.glade:558
 msgid "Add file"
 msgstr "Tilføj fil"
 
-#: ../../kde4/settingsdialog.py:215 ../../kde4/settingsdialog.py:244
-#: ../../gnome/settingsdialog.glade:546
+#: ../../kde4/settingsdialog.py:215 ../../kde4/settingsdialog.py:249
+#: ../../gnome/settingsdialog.glade:570
 msgid "Add folder"
 msgstr "Tilføj mappe"
 
-#: ../../kde4/settingsdialog.py:225 ../../gnome/settingsdialog.glade:584
+#: ../../kde4/settingsdialog.py:225 ../../gnome/settingsdialog.glade:608
 msgid "Exclude"
 msgstr "Ekskludér"
 
-#: ../../kde4/settingsdialog.py:254 ../../gnome/settingsdialog.glade:746
+#: ../../kde4/settingsdialog.py:231
+msgid "Highly recommended:"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:259 ../../gnome/settingsdialog.glade:770
 msgid "Auto-remove"
 msgstr "Auto-fjern"
 
-#: ../../kde4/settingsdialog.py:258 ../../gnome/settingsdialog.glade:666
+#: ../../kde4/settingsdialog.py:263 ../../gnome/settingsdialog.glade:690
 msgid "Older than:"
 msgstr "Ældre end:"
 
-#: ../../kde4/settingsdialog.py:272 ../../gnome/settingsdialog.glade:679
+#: ../../kde4/settingsdialog.py:277 ../../gnome/settingsdialog.glade:703
 msgid "If free space is less than:"
 msgstr "Hvis fri plads er mindre end:"
 
-#: ../../kde4/settingsdialog.py:287
+#: ../../kde4/settingsdialog.py:292
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
@@ -657,86 +671,94 @@ msgid ""
 "- keep one snapshot per year for all other years"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:292 ../../gnome/settingsdialog.glade:601
+#: ../../kde4/settingsdialog.py:297 ../../gnome/settingsdialog.glade:625
 msgid "Don't remove named snapshots"
 msgstr "Fjern ikke navngivne tilstands-billeder"
 
-#: ../../kde4/settingsdialog.py:301 ../../gnome/settingsdialog.glade:822
+#: ../../kde4/settingsdialog.py:306 ../../gnome/settingsdialog.glade:887
 msgid "Options"
 msgstr "Indstillinger"
 
-#: ../../kde4/settingsdialog.py:304 ../../gnome/settingsdialog.glade:760
+#: ../../kde4/settingsdialog.py:309 ../../gnome/settingsdialog.glade:784
 msgid "Enable notifications"
 msgstr "Aktivér bekendtgørelser"
 
-#: ../../kde4/settingsdialog.py:307 ../../gnome/settingsdialog.glade:773
+#: ../../kde4/settingsdialog.py:312 ../../gnome/settingsdialog.glade:797
 msgid "Disable snapshots when on battery"
 msgstr "De-aktivér tilstands-billeder ved batteri-drift"
 
-#: ../../kde4/settingsdialog.py:310
+#: ../../kde4/settingsdialog.py:315
 msgid "Power status not available from system"
 msgstr "Strømstatus ikke tilgængelig fra system"
 
-#: ../../kde4/settingsdialog.py:313 ../../gnome/settingsdialog.glade:787
+#: ../../kde4/settingsdialog.py:318 ../../gnome/settingsdialog.glade:811
 msgid "Backup files on restore"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:316 ../../gnome/settingsdialog.glade:800
+#: ../../kde4/settingsdialog.py:321 ../../gnome/settingsdialog.glade:824
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:953
+#: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:837
+msgid "Use checksum to detect changes"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:331
+msgid "Log Level:"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:346 ../../gnome/settingsdialog.glade:1018
 msgid "Expert Options"
 msgstr "Avancerede indstillinger"
 
-#: ../../kde4/settingsdialog.py:327
+#: ../../kde4/settingsdialog.py:349
 msgid "Change these options only if you really know what you are doing !"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:848
+#: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:913
 msgid "Run 'nice' as cron job (default: enabled)"
 msgstr "Kør 'nice' som cron-job (standard: aktiveret)"
 
-#: ../../kde4/settingsdialog.py:338 ../../gnome/settingsdialog.glade:861
+#: ../../kde4/settingsdialog.py:360 ../../gnome/settingsdialog.glade:926
 msgid "Run 'ionice' as cron job (default: enabled)"
 msgstr "Kør 'ionice' som et cron-job (standard:aktiveret)"
 
-#: ../../kde4/settingsdialog.py:341 ../../gnome/settingsdialog.glade:874
+#: ../../kde4/settingsdialog.py:363 ../../gnome/settingsdialog.glade:939
 msgid "Run 'ionice' when tacking a manual snapshot (default: disabled)"
 msgstr ""
 "Kør 'ionice' når der tages et manuelt tilstands-billed (standard: ikke "
 "aktiveret)"
 
-#: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:887
+#: ../../kde4/settingsdialog.py:366 ../../gnome/settingsdialog.glade:952
 msgid "Preserve ACL"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:347 ../../gnome/settingsdialog.glade:900
+#: ../../kde4/settingsdialog.py:369 ../../gnome/settingsdialog.glade:965
 msgid "Preserve extended attributes (xattr)"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:350 ../../gnome/settingsdialog.glade:913
+#: ../../kde4/settingsdialog.py:372 ../../gnome/settingsdialog.glade:978
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:353 ../../gnome/settingsdialog.glade:926
+#: ../../kde4/settingsdialog.py:375 ../../gnome/settingsdialog.glade:991
 msgid "Copy links (dereference symbolic links)"
 msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:146
-#: ../../gnome/snapshotsdialog.glade:239
+#: ../../gnome/snapshotsdialog.glade:240
 msgid "Diff Options"
 msgstr "Diff-indstillinger"
 
-#: ../../kde4/snapshotsdialog.py:55 ../../gnome/snapshotsdialog.glade:179
+#: ../../kde4/snapshotsdialog.py:55 ../../gnome/snapshotsdialog.glade:180
 msgid "Command:"
 msgstr "Kommando:"
 
-#: ../../kde4/snapshotsdialog.py:59 ../../gnome/snapshotsdialog.glade:186
+#: ../../kde4/snapshotsdialog.py:59 ../../gnome/snapshotsdialog.glade:187
 msgid "Parameters:"
 msgstr "Parametre:"
 
-#: ../../kde4/snapshotsdialog.py:63 ../../gnome/snapshotsdialog.glade:197
+#: ../../kde4/snapshotsdialog.py:63 ../../gnome/snapshotsdialog.glade:198
 msgid "Use %1 and %2 for path parameters"
 msgstr "Brug %1 og %2 som sti-parametre"
 
@@ -776,7 +798,7 @@ msgstr "Forældre-mappe"
 msgid "Hidden files"
 msgstr "Skjulte filer"
 
-#: ../../gnome/mainwindow.glade:429
+#: ../../gnome/mainwindow.glade:430
 msgid ""
 "<b>This folder doesn't exist\n"
 "in the current snapshot !</b>"
@@ -798,7 +820,15 @@ msgstr "<b>Hvor skal tilstands-billedet gemmes</b>"
 msgid "<b>Schedule</b>"
 msgstr "<b>Planlæg</b>"
 
-#: ../../gnome/settingsdialog.glade:711
+#: ../../gnome/settingsdialog.glade:517
+msgid "<b>Highly recommended:</b>"
+msgstr ""
+
+#: ../../gnome/settingsdialog.glade:529
+msgid "label"
+msgstr ""
+
+#: ../../gnome/settingsdialog.glade:735
 msgid ""
 "- keep all snapshots from today and yesterday\n"
 "- keep one snapshot for the last week and one for two weeks ago\n"
@@ -807,21 +837,207 @@ msgid ""
 "- keep one snapshot per year for all other years"
 msgstr ""
 
-#: ../../gnome/settingsdialog.glade:727
+#: ../../gnome/settingsdialog.glade:751
 msgid "Auto-remove only removes snapshots from the selected snapshots folder"
 msgstr ""
 "Auto-fjern fjerner kun tilstands-billeder fra den valgte tilstands-billede-"
 "mappe"
 
-#: ../../gnome/settingsdialog.glade:837
+#: ../../gnome/settingsdialog.glade:855
+msgid "Log level:"
+msgstr ""
+
+#: ../../gnome/settingsdialog.glade:902
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
 msgstr ""
 
-#: ../../gnome/snapshotsdialog.glade:137
+#: ../../gnome/settingsdialog.glade:1033
+msgid "<b>This options don't depend on profile</b>"
+msgstr ""
+
+#: ../../gnome/settingsdialog.glade:1044
+msgid "Use gloobus-preview (if installed)"
+msgstr ""
+
+#: ../../gnome/settingsdialog.glade:1066
+msgid "GUI Options"
+msgstr ""
+
+#: ../../gnome/snapshotsdialog.glade:138
 msgid "Diff with"
 msgstr "Diff med"
 
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Mønster"
+
+#~ msgid "You can't rename \"Main\" profile"
+#~ msgstr "Du kan ikke omdøbe \"Main\" profil"
+
+#, python-format
+#~ msgid "Profile %s already exists !"
+#~ msgstr "Profil %s eksisterer allerede !"
+
+#~ msgid "Snapshots folder can't be the root folder !"
+#~ msgstr "Billede-mapper kan ikke være root-mappen !"
+
+#, python-format
+#~ msgid ""
+#~ "Can't write to: %s\n"
+#~ "Are you sure have write access ?"
+#~ msgstr "Kan ikke skrive til: %s"
+
+#~ msgid "about-translators"
+#~ msgstr "Om-Oversættere"
+
+#~ msgid "Patterns, files or folders"
+#~ msgstr "Mønstre, filer eller mapper"
+
+#~ msgid "Include folders"
+#~ msgstr "Inkluder mapper"
+
+#~ msgid "Automatic backup"
+#~ msgstr "Automatisk sikkerhedskopiering"
+
+#~ msgid ""
+#~ "Enable schedule per included folder (see Include tab; default: disabled)"
+#~ msgstr ""
+#~ "Aktivér planlæg for hver inkluderede mappe (se inkludér tab; standard: "
+#~ "deaktiveret)"
+
+#~ msgid "Change this options only if you really know what you are doing !"
+#~ msgstr "Skift kun disse indstillinger hvis du virkelig ved hvad du laver !"
+
+#~ msgid "Select A Folder"
+#~ msgstr "Vælg en mappe"
+
+#~ msgid ""
+#~ "<b>Change this options only if you really know what you are doing !</b>"
+#~ msgstr ""
+#~ "<b>Skift kun denne indstilling hvis du virkelig ved, hvad du laver !</b>"
+
+#~ msgid ""
+#~ "<b>This folder don't exist\n"
+#~ "in current snapshot !</b>"
+#~ msgstr ""
+#~ "<b>Denne mappe eksisterer ikke\n"
+#~ "i det nuværende billede !</b>"
+
+#, python-format
+#~ msgid "Profiles \"%s\" and \"%s\" have the same snapshots path !"
+#~ msgstr "Profilerne \"%s\" og \"%s\" har den samme tilstands-bille sti !"
+
+#~ msgid "Update snapshots"
+#~ msgstr "Opdatér tilstands-billeder"
+
+#~ msgid ""
+#~ "This folder don't exist\n"
+#~ "in current snapshot !"
+#~ msgstr ""
+#~ "Denne mappe eksisterer ikke\n"
+#~ "i det nuværende tilstands-billede !"
+
+#~ msgid ""
+#~ "- keep all snapshots from today and yesterday\n"
+#~ "- keep one snapshot for the last week and one for two weeks ago\n"
+#~ "- keep one snapshot per month for all previous months of this year\n"
+#~ "- keep one snapshot per year for all previous years"
+#~ msgstr ""
+#~ "- behold alle tilstands-billeder fra i dag og i går\n"
+#~ "- behold et tilstands-billede for den sidste uge og et for to uger siden\n"
+#~ "- behold et tilstands-billede per måned for alle tidligere måneder i "
+#~ "indeværende år\n"
+#~ "- behold et tilstands-billede per år for alle tidligere år"
+
+#~ msgid ""
+#~ "<b>This folder does not exist\n"
+#~ "in current snapshot !</b>"
+#~ msgstr ""
+#~ "<b>Denne mappe eksisterer ikke\n"
+#~ "i nuværende tilstands-billede !</b>"
+
+#~ msgid ""
+#~ "BackinTime still cannot continue taking new snapshots.\n"
+#~ "Restart BackinTime to see the questions again"
+#~ msgstr ""
+#~ "BackinTime kan stadig ikke fortsætte med at tage tilstands-billeder.\n"
+#~ "Genstart BackinTime for at se spørgsmålet igen"
+
+#, python-format
+#~ msgid ""
+#~ "%s\n"
+#~ "of profile %s are not moved to their new location\n"
+#~ "Do you want to proceed?\n"
+#~ "(BackinTime will be able to continue taking snapshots, however the remaining "
+#~ "snapshots will not be considered for automatic removal)\n"
+#~ "\n"
+#~ "If not BackinTime will restore former settings for this profile, however "
+#~ "cannot continue taking snapshots"
+#~ msgstr ""
+#~ "%s\n"
+#~ "af profil %s er ikke flyttet til deres nye location\n"
+#~ "Ønsker du at fortsætte?\n"
+#~ "(BackinTime vil fortsat kunne tage tilstands-billeder, selv om de resterende "
+#~ "tilstands-billeder ikke vil blive overvejet for automatisk fjernelse)\n"
+#~ "\n"
+#~ "Hvis ikke vil BackinTime genskabe tidligere indstillinger for denne profil, "
+#~ "selv om der ikke fortsat kan tages tilstands-billeder"
+
+#~ msgid ""
+#~ "No profiles are found. Will have to update to profiles first, please restart "
+#~ "BackinTime"
+#~ msgstr ""
+#~ "Ingen profiler er fundet. Bliver nød til at opdatere profiler først. "
+#~ "Venligst genstart BackinTime"
+
+#~ msgid ""
+#~ "BackinTime changed its backup format.\n"
+#~ "\n"
+#~ "Your old snapshots can be moved according to this new format. OK?"
+#~ msgstr "BackinTime ændrede sit backup-format."
+
+#~ msgid "BackinTime will continue taking snapshots again as scheduled"
+#~ msgstr "BackinTime vil fortsætte med at tage tilstands-billeder som planlagt"
+
+#~ msgid ""
+#~ "Are you sure you do not want to move your old snapshots?\n"
+#~ "\n"
+#~ "\n"
+#~ "If you do, you will not see these questions again next time, BackinTime will "
+#~ "continue making snapshots again, but smart-remove cannot take your old "
+#~ "snapshots into account any longer!\n"
+#~ "\n"
+#~ "If you do not, you will be asked again next time you start BackinTime."
+#~ msgstr ""
+#~ "Er du sikker på, du ikke ønsker at flytte dine gamle tilstands-billeder?\n"
+#~ "\n"
+#~ "\n"
+#~ "Hvis du ikke gør vil du blive stillet disse spørgsmål igen næste gang du "
+#~ "starter BackinTime."
+
+#~ msgid ""
+#~ "Update was successful!\n"
+#~ "\n"
+#~ "BackinTime will continue taking snapshots again as scheduled"
+#~ msgstr ""
+#~ "Opdateringen var succesfuld!\n"
+#~ "\n"
+#~ "BackinTime vil fortsætte med at tage tilstands-billeder igen som planlagt"
+
+#, python-format
+#~ msgid ""
+#~ "Former settings of profile %s are restored.\n"
+#~ "BackinTime cannot continue taking new snapshots.\n"
+#~ "\n"
+#~ "You can manually move the snapshots, \n"
+#~ "if you are done restart BackinTime to proceed"
+#~ msgstr ""
+#~ "Tidligere indstillinger for profilen %s er genskabt.\n"
+#~ "BackinTime kan ikke fortsat tage nye tilstands-billeder. \n"
+#~ "\n"
+#~ "Du kan flytte tilstands-billedet manuelt, \n"
+#~ "hvis du er færdig, genstart BackinTime for at fortsætte"
+
+#~ msgid "Refresh snapshots"
+#~ msgstr "Genopfrisk tilstands-billed"
