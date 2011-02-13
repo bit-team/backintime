@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy toplevel-contextual -->
@@ -10,7 +10,6 @@
     <property name="destroy_with_parent">True</property>
     <property name="icon_name">gtk-preferences</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
@@ -136,7 +135,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="editable">False</property>
-                                    <property name="invisible_char">&#x2022;</property>
+                                    <property name="invisible_char">•</property>
                                   </object>
                                   <packing>
                                     <property name="position">0</property>
@@ -209,7 +208,7 @@
                                               <object class="GtkEntry" id="txt_host">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="invisible_char">&#x2022;</property>
+                                                <property name="invisible_char">•</property>
                                               </object>
                                               <packing>
                                                 <property name="position">1</property>
@@ -229,7 +228,7 @@
                                               <object class="GtkEntry" id="txt_user">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="invisible_char">&#x2022;</property>
+                                                <property name="invisible_char">•</property>
                                               </object>
                                               <packing>
                                                 <property name="position">3</property>
@@ -249,7 +248,7 @@
                                               <object class="GtkEntry" id="txt_profile">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="invisible_char">&#x2022;</property>
+                                                <property name="invisible_char">•</property>
                                               </object>
                                               <packing>
                                                 <property name="position">5</property>
@@ -1102,7 +1101,7 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="cb_run_ionice_from_user">
-                    <property name="label" translatable="yes">Run 'ionice' when tacking a manual snapshot (default: disabled)</property>
+                    <property name="label" translatable="yes">Run 'ionice' when taking a manual snapshot (default: disabled)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

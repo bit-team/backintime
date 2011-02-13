@@ -388,7 +388,7 @@ class SettingsDialog( KDialog ):
 		self.cb_run_ionice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' as cron job (default: enabled)' ) ), self )
 		layout.addWidget( self.cb_run_ionice_from_cron )
 
-		self.cb_run_ionice_from_user = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' when tacking a manual snapshot (default: disabled)' ) ), self )
+		self.cb_run_ionice_from_user = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' when taking a manual snapshot (default: disabled)' ) ), self )
 		layout.addWidget( self.cb_run_ionice_from_user )
 
 		self.cb_preserve_acl = QCheckBox( QString.fromUtf8( _( 'Preserve ACL' ) ), self )
