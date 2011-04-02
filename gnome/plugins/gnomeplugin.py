@@ -43,6 +43,8 @@ class GnomePlugin( pluginmanager.Plugin ):
 			self.stop_flag = False
 			self.snapshots = snapshots
 			self.config = self.snapshots.config
+			self.notification = None
+			self.notification_visible = False
 
 			gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
 			gnome.program_init( 'backintime', self.config.VERSION, properties = gnome_props )
@@ -141,13 +143,15 @@ class GnomePlugin( pluginmanager.Plugin ):
 								first_error = False
 								self.notification.set_timeout( 10000 )
 								self.notification.show()
+								self.notification_visible = True
 
 					time.sleep( 0.2 )
 			
 			status_icon.set_visible( False )
 			gtk.main_iteration( False )
 
-			self.notification.close()
+			if self.notification_visible:
+				self.notification.close()
 			pynotify.uninit()
 			
 			logger.info( '[GnomePlugin.Systray.run] end loop' )
