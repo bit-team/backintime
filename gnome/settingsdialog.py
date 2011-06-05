@@ -250,8 +250,6 @@ class SettingsDialog(object):
 		self.cb_enable_notifications = get( 'cb_enable_notifications' )
 		self.cb_backup_on_restore = get( 'cb_backup_on_restore' )
 		self.cb_continue_on_errors = get( 'cb_continue_on_errors' )
-		self.cb_use_gloobus_preview = get( 'cb_use_gloobus_preview' )
-		self.cb_use_gloobus_preview.set_active( self.config.get_bool_value( 'gnome.use_gloobus_preview', True ) )
 		self.cb_use_checksum = get( 'cb_use_checksum' )
 
 		#log level
@@ -676,7 +674,7 @@ class SettingsDialog(object):
 		self.update_profiles()
 	
 	def on_remove_profile( self, button ):
-		if gtk.RESPONSE_YES == messagebox.show_question( self.dialog, self.config, _('Are you sure you want to delete the profile "%s" ?') % self.config.get_profile_name() ):
+		if gtk.RESPONSE_YES == messagebox.show_question( self.dialog, self.config, _('Are you sure you want to delete the profile "%s" ?') % self.config.get_profile_name(self.profile_id) ):
 			self.config.remove_profile( self.profile_id )
 			self.profile_id = '1'
 			self.update_profiles()
@@ -785,8 +783,6 @@ class SettingsDialog(object):
 		if not self.config.setup_cron():
 			return False
 		
-		self.config.set_bool_value( 'gnome.use_gloobus_preview', self.cb_use_gloobus_preview.get_active() )
-
 		self.config.save()
 		return True
 	

@@ -47,6 +47,9 @@ class Snapshots:
 		if self.config is None:
 			self.config = config.Config()
 
+		self.clear_uid_gid_cache()
+		self.clear_uid_gid_names_cache()
+
 		self.plugin_manager = pluginmanager.PluginManager()
 
 	def get_snapshot_id( self, date ):
@@ -351,7 +354,67 @@ class Snapshots:
 
 		return dict
 
-	def _restore_path_info( self, path, dict ):
+	def clear_uid_gid_names_cache(self):
+		self.user_cache = {}
+		self.group_cache = {}
+
+	def clear_uid_gid_cache(self):
+		self.uid_cache = {}
+		self.gid_cache = {}
+
+	def get_uid( self, name ):
+		try:
+			return self.uid_cache[name]
+		except:
+			uid = -1
+			try:
+				uid = pwd.getpwnam(name).pw_uid
+			except:
+				pass
+
+			self.uid_cache[name] = uid
+			return uid
+			
+	def get_gid( self, name ):
+		try:
+			return self.gid_cache[name]
+		except:
+			gid = -1
+			try:
+				gid = grp.getgrnam(name).gr_gid
+			except:
+				pass
+
+			self.gid_cache[name] = gid
+			return gid
+
+	def get_user_name( self, uid ):
+		try:
+			return self.user_cache[uid]
+		except:
+			name = '-'
+			try:
+				name = pwd.getpwuid(uid).pw_name
+			except:
+				pass
+
+			self.user_cache[uid] = name
+			return name
+			
+	def get_group_name( self, gid ):
+		try:
+			return self.group_cache[gid]
+		except:
+			name = '-'
+			try:
+				name = grp.getgrgid(gid).gr_name
+			except:
+				pass
+
+			self.group_cache[gid] = name
+			return name
+			
+	def _restore_path_info( self, path, dict, restore_to = "" ):
 		if path not in dict:
 			return
 
@@ -359,34 +422,25 @@ class Snapshots:
 
 		#restore perms
 		try:
-			os.chmod( path, info[0] )
+			os.chmod( restore_to + path, info[0] )
 		except:
 			pass
 
 		#restore uid/gid
-		uid = -1
-		gid = -1
-
-		if info[1] != '-':
-			try:
-				uid = pwd.getpwnam( info[1] ).pw_uid
-			except:
-				pass
-
-		if info[2] != '-':
-			try:
-				gid = grp.getgrnam( info[2] ).gr_gid
-			except:
-				pass
-
+		uid = self.get_uid(info[1])
+		gid = self.get_gid(info[2])
+		
 		if uid != -1 or gid != -1:
 			try:
-				os.chown( path, uid, gid )
+				os.chown( restore_to + path, uid, gid )
 			except:
 				pass
 
-	def restore( self, snapshot_id, path ):
-		logger.info( "Restore: %s" % path )
+	def restore( self, snapshot_id, path, restore_to = "" ):
+		if restore_to.endswith('/'):
+			restore_to = restore_to[ : -1 ]
+
+		logger.info( "Restore: %s to: %s" % (path, restore_to) )
 
 		info_file = configfile.ConfigFile()
 		info_file.load( self.get_snapshot_info_path( snapshot_id ) )
@@ -398,7 +452,7 @@ class Snapshots:
 		if self.config.is_backup_on_restore_enabled():
 			cmd = cmd + "--backup --suffix=%s " % backup_suffix
 		#cmd = cmd + '--chmod=+w '
-		cmd = cmd + "\"%s.%s\" %s" % ( self.get_snapshot_path_to( snapshot_id ), path, '/' )
+		cmd = cmd + "\"%s.%s\" %s" % ( self.get_snapshot_path_to( snapshot_id ), path, restore_to + '/' )
 		self._execute( cmd )
 
 		#restore permissions
@@ -428,7 +482,7 @@ class Snapshots:
 
 			all_dirs.reverse()
 			for item_path in all_dirs:
-				self._restore_path_info( item_path, file_info_dict )
+				self._restore_path_info( item_path, file_info_dict, restore_to )
 
 	def get_snapshots_list( self, sort_reverse = True, profile_id = None, version = None ):
 		'''Returns a list with the snapshot_ids of all snapshots in the snapshots folder'''
@@ -904,19 +958,8 @@ class Snapshots:
 	def _save_path_info( self, fileinfo, path ):
 		try:
 			info = os.stat( path )
-			user = '-'
-			group = '-'
-
-			try:
-				user = pwd.getpwuid( info.st_uid ).pw_name
-			except:
-				pass
-
-			try:
-				group = grp.getgrgid( info.st_gid ).gr_name
-			except:
-				pass
-
+			user = self.get_user_name(info.st_uid)
+			group = self.get_group_name(info.st_gid)
 			self._save_path_info_line( fileinfo, path, [ info.st_mode, user, group ] )
 		except:
 			pass

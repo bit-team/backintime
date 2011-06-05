@@ -764,9 +764,6 @@ class MainWindow(object):
 		if not self.use_gloobus_preview:
 			return False
 
-		if not self.config.get_bool_value( 'gnome.use_gloobus_preview', True ):
-			return False
-
 		iter = self.list_folder_view.get_selection().get_selected()
 		if iter is None:
 			return True

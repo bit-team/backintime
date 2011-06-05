@@ -165,9 +165,6 @@ class SnapshotsDialog(object):
 		if not self.use_gloobus_preview:
 			return False
 
-		if not self.config.get_bool_value( 'gnome.use_gloobus_preview', True ):
-			return False
-
 		self.open_item( True )
 		return True
 
