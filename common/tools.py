@@ -252,8 +252,9 @@ def move_snapshots_folder( old_folder, new_folder ):
 			if os.path.exists( os.path.join( old_folder, snapshot) ):
 				print "Remove: %s" %snapshot
 				path_to_remove = os.path.join( old_folder, snapshot )
-				cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path_to_remove #Debian patch
-				_execute( cmd )
+				if not config.disable_debian_patch(): 
+					cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path_to_remove #Debian patch
+					_execute( cmd )
 				cmd = "rm -rfv \"%s\"" % path_to_remove
 				_execute( cmd )
 			else:

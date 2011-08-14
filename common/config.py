@@ -44,6 +44,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 	_5_MIN = 2
 	_10_MIN = 4
 	HOUR = 10
+	CUSTOM_HOUR = 15
 	DAY = 20
 	WEEK = 30
 	MONTH = 40
@@ -58,6 +59,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 				_5_MIN: _('Every 5 minutes'), 
 				_10_MIN: _('Every 10 minutes'), 
 				HOUR : _('Every Hour'), 
+				CUSTOM_HOUR : _('Custom Hours'), 
 				DAY : _('Every Day'), 
 				WEEK : _('Every Week'), 
 				MONTH : _('Every Month')
@@ -482,6 +484,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_automatic_backup_time( self, value, profile_id = None ):
 		self.set_profile_int_value( 'snapshots.automatic_backup_time', value, profile_id )
 
+	def get_custom_backup_time( self, profile_id = None ):
+		return self.get_profile_str_value( 'snapshots.custom_backup_time', '0,10,13,15,17,20,23', profile_id )
+
+	def set_custom_backup_time( self, value, profile_id = None ):
+		self.set_profile_str_value( 'snapshots.custom_backup_time', value, profile_id )
+
 	#def get_per_directory_schedule( self, profile_id = None ):
 	#	return self.get_profile_bool_value( 'snapshots.expert.per_directory_schedule', False, profile_id )
 
@@ -628,6 +636,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def set_copy_links( self, value, profile_id = None ):
 		return self.set_profile_bool_value( 'snapshots.copy_links', value, profile_id )
+
+	def disable_debian_patch( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.disable_debian_patch', False, profile_id )
+
+	def set_disable_debian_patch( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.disable_debian_patch', value, profile_id )
 
 	def continue_on_errors( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.continue_on_errors', False, profile_id )
@@ -807,6 +821,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 				cron_line = 'echo "{msg}\n*/10 * * * * {cmd}"'
 			if self.HOUR == min_backup_mode:
 				cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
+			if self.CUSTOM_HOUR == min_backup_mode:
+				cron_line = 'echo "{msg}\n0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}"'
 			elif self.DAY == min_backup_mode:
 				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * * {cmd}"'
 			#elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day

@@ -126,6 +126,9 @@ class SettingsDialog(object):
 		for t in xrange( 0, 2400, 100 ):
 			self.store_backup_time.append( [ datetime.time( t/100, t%100 ).strftime("%H:%M"), t ] )
 
+		#custom backup time
+		self.cb_backup_time_custom = get('cb_backup_time_custom')
+
 		#per directory schedule
 		#self.cb_per_directory_schedule = get( 'cb_per_directory_schedule' )
 		#self.lbl_schedule = get( 'lbl_schedule' )
@@ -195,6 +198,7 @@ class SettingsDialog(object):
 		self.cb_backup_time.add_attribute( renderer, 'text', 0 )
 		
 		self.hbox_backup_time = get( 'hbox_backup_time' )
+		self.hbox_backup_time_custom = get( 'hbox_backup_time_custom' )
 
 		#setup remove old backups older than
 		self.edit_remove_old_backup_value = get( 'edit_remove_old_backup_value' )
@@ -275,6 +279,7 @@ class SettingsDialog(object):
 		self.cb_preserve_xattr = get('cb_preserve_xattr')
 		self.cb_copy_unsafe_links = get('cb_copy_unsafe_links')
 		self.cb_copy_links = get('cb_copy_links')
+		self.cb_disable_debian_patch = get('cb_disable_debian_patch')
 		
 		#don't run when on battery
 		self.cb_no_on_battery = get( 'cb_no_on_battery' )
@@ -315,12 +320,22 @@ class SettingsDialog(object):
 	def on_cb_backup_mode_changed( self, *params ):
 		iter = self.cb_backup_mode.get_active_iter()
 
+		hide_custom_time = True
 		hide_time = True
 
 		if not iter is None:
 			backup_mode = self.store_backup_mode.get_value( iter, 1 )
+			if backup_mode == self.config.CUSTOM_HOUR:
+				hide_custom_time = False
 			if backup_mode >= self.config.DAY:
 				hide_time = False
+
+		if hide_custom_time:
+			self.hbox_backup_time_custom.hide()
+		else:
+			self.hbox_backup_time_custom.show()
+			self.cb_backup_time_custom.set_sensitive( True )
+			self.cb_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
 
 		if hide_time:
 			self.hbox_backup_time.hide()
@@ -433,6 +448,9 @@ class SettingsDialog(object):
 		
 		self.on_cb_backup_mode_changed()
 
+		#setup custom backup time
+		self.cb_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
+
 		#setup remove old backups older than
 		enabled, value, unit = self.config.get_remove_old_snapshots( self.profile_id )
 		
@@ -511,6 +529,7 @@ class SettingsDialog(object):
 		self.cb_preserve_xattr.set_active(self.config.preserve_xattr( self.profile_id ))
 		self.cb_copy_unsafe_links.set_active(self.config.copy_unsafe_links( self.profile_id ))
 		self.cb_copy_links.set_active(self.config.copy_links( self.profile_id ))
+		self.cb_disable_debian_patch.set_active(self.config.disable_debian_patch( self.profile_id ))
 		
 	def save_profile( self ):
 		#profile_id = self.config.get_current_profile()
@@ -558,6 +577,7 @@ class SettingsDialog(object):
 		#global schedule
 		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ), self.profile_id )
 		self.config.set_automatic_backup_time( self.store_backup_time.get_value( self.cb_backup_time.get_active_iter(), 1 ), self.profile_id )
+		self.config.set_custom_backup_time( self.cb_backup_time_custom.get_text(), self.profile_id )
 		
 		#auto-remove snapshots
 		self.config.set_remove_old_snapshots( 
@@ -597,6 +617,7 @@ class SettingsDialog(object):
 		self.config.set_preserve_xattr( self.cb_preserve_xattr.get_active(), self.profile_id )
 		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.get_active(), self.profile_id )
 		self.config.set_copy_links( self.cb_copy_links.get_active(), self.profile_id )
+		self.config.set_disable_debian_patch( self.cb_disable_debian_patch.get_active(), self.profile_id )
 	
 	def update_remove_old_backups( self, button ):
 		enabled = self.cb_remove_old_backup.get_active()

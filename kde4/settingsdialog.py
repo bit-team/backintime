@@ -177,6 +177,14 @@ class SettingsDialog( KDialog ):
 		for t in xrange( 0, 2300, 100 ):
 			self.combo_automatic_snapshots_time.addItem( QIcon(), QString.fromUtf8( datetime.time( t/100, t%100 ).strftime("%H:%M") ), QVariant( t ) )
 
+		self.lbl_automatic_snapshots_time_custom = QLabel( QString.fromUtf8( _( 'Hours:' ) ), self )
+		self.lbl_automatic_snapshots_time_custom.setContentsMargins( 5, 0, 0, 0 )
+		self.lbl_automatic_snapshots_time_custom.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
+		hlayout.addWidget( self.lbl_automatic_snapshots_time_custom )
+
+		self.txt_automatic_snapshots_time_custom = KLineEdit( self )
+		hlayout.addWidget( self.txt_automatic_snapshots_time_custom, 1 )
+
 		QObject.connect( self.combo_automatic_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_automatic_snapshot_changed )
 
 		#
@@ -403,6 +411,9 @@ class SettingsDialog( KDialog ):
 		self.cb_copy_links = QCheckBox( QString.fromUtf8( _( 'Copy links (dereference symbolic links)' ) ), self )
 		layout.addWidget( self.cb_copy_links )
 
+		self.cb_disable_debian_patch = QCheckBox( QString.fromUtf8( _( 'Disable \'Debian-Patch\' (chmod u+wx prev_snapshot)' ) ), self )
+		layout.addWidget( self.cb_disable_debian_patch )
+
 		#
 		layout.addStretch()
 
@@ -444,6 +455,13 @@ class SettingsDialog( KDialog ):
 			self.update_profiles()
 
 	def update_automatic_snapshot_time( self, backup_mode ):
+		if backup_mode == self.config.CUSTOM_HOUR:
+			self.lbl_automatic_snapshots_time_custom.show()
+			self.txt_automatic_snapshots_time_custom.show()
+		else:
+			self.lbl_automatic_snapshots_time_custom.hide()
+			self.txt_automatic_snapshots_time_custom.hide()
+
 		if backup_mode >= self.config.DAY:
 			self.lbl_automatic_snapshots_time.show()
 			self.combo_automatic_snapshots_time.show()
@@ -513,6 +531,7 @@ class SettingsDialog( KDialog ):
 
 		self.set_combo_value( self.combo_automatic_snapshots, self.config.get_automatic_backup_mode() )
 		self.set_combo_value( self.combo_automatic_snapshots_time, self.config.get_automatic_backup_time() )
+		self.txt_automatic_snapshots_time_custom.setText( self.config.get_custom_backup_time() )
 		self.update_automatic_snapshot_time( self.config.get_automatic_backup_mode() )
 
 		#TAB: Include
@@ -569,6 +588,7 @@ class SettingsDialog( KDialog ):
 		self.cb_preserve_xattr.setChecked( self.config.preserve_xattr() )
 		self.cb_copy_unsafe_links.setChecked( self.config.copy_unsafe_links() )
 		self.cb_copy_links.setChecked( self.config.copy_links() )
+		self.cb_disable_debian_patch.setChecked( self.config.disable_debian_patch() )
 
 		#update
 		#self.update_include_columns()
@@ -603,6 +623,7 @@ class SettingsDialog( KDialog ):
 		#schedule
 		self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
 		self.config.set_automatic_backup_time( self.combo_automatic_snapshots_time.itemData( self.combo_automatic_snapshots_time.currentIndex() ).toInt()[0] )
+		self.config.set_custom_backup_time( str( self.txt_automatic_snapshots_time_custom.text().toUtf8() ) )
 
 		#auto-remove
 		self.config.set_remove_old_snapshots( 
@@ -638,6 +659,7 @@ class SettingsDialog( KDialog ):
 		self.config.set_preserve_xattr( self.cb_preserve_xattr.isChecked() )
 		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.isChecked() )
 		self.config.set_copy_links( self.cb_copy_links.isChecked() )
+		self.config.set_disable_debian_patch( self.cb_disable_debian_patch.isChecked() )
 
 	def error_handler( self, message ):
 		KMessageBox.error( self, QString.fromUtf8( message ) )
