@@ -559,9 +559,8 @@ class Snapshots:
 
 		path = self.get_snapshot_path( snapshot_id )
 		#cmd = "chmod -R u+rwx \"%s\"" %  path
-		if not self.config.disable_debian_patch(): 
-			cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path #Debian patch
-			self._execute( cmd )
+		cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path #Debian patch
+		self._execute( cmd )
 		cmd = "rm -rfv \"%s\"" % path
 		self._execute( cmd )
 
