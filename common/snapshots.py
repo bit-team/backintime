@@ -448,7 +448,7 @@ class Snapshots:
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 		#cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		cmd = tools.get_rsync_prefix( self.config )
-		cmd = cmd + '-R '
+		cmd = cmd + '-R --chmod=ugo=rwX '
 		if self.config.is_backup_on_restore_enabled():
 			cmd = cmd + "--backup --suffix=%s " % backup_suffix
 		#cmd = cmd + '--chmod=+w '
