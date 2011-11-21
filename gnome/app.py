@@ -47,6 +47,7 @@ import tools
 
 import settingsdialog
 import logviewdialog
+import restoredialog
 import snapshotsdialog
 import messagebox
 import fileicons
@@ -900,10 +901,11 @@ class MainWindow(object):
     def on_btn_restore_clicked( self, button ):
         iter = self.list_folder_view.get_selection().get_selected()[1]
         if not iter is None:
-            button.set_sensitive( False )
-            gnometools.run_gtk_update_loop()
-            self.snapshots.restore( self.snapshot_id, self.store_folder_view.get_value( iter, 1 ) )
-            button.set_sensitive( True )
+            #button.set_sensitive( False )
+            #gnometools.run_gtk_update_loop()
+            #self.snapshots.restore( self.snapshot_id, self.store_folder_view.get_value( iter, 1 ) )
+            #button.set_sensitive( True )
+            restoredialog.restore(self, self.snapshot_id, self.store_folder_view.get_value( iter, 1 ) )
     
     def on_btn_copy_clicked( self, button ):
         iter = self.list_folder_view.get_selection().get_selected()[1]

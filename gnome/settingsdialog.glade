@@ -420,9 +420,13 @@
                         <property name="can_focus">False</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <object class="GtkHBox" id="hbox7">
+                          <object class="GtkTable" id="grid1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="n_rows">4</property>
+                            <property name="n_columns">2</property>
+                            <property name="column_spacing">5</property>
+                            <property name="row_spacing">4</property>
                             <child>
                               <object class="GtkComboBox" id="cb_backup_mode">
                                 <property name="visible">True</property>
@@ -430,48 +434,76 @@
                                 <signal name="changed" handler="on_cb_backup_mode_changed" swapped="no"/>
                               </object>
                               <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
+                                <property name="right_attach">2</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkHBox" id="hbox_backup_time">
+                              <object class="GtkLabel" id="lbl_backup_time">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="lbl_backup_time">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="xalign">1</property>
-                                    <property name="ypad">6</property>
-                                    <property name="label" translatable="yes">Hour:</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="padding">5</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkComboBox" id="cb_backup_time">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
+                                <property name="xalign">1</property>
+                                <property name="ypad">6</property>
+                                <property name="label" translatable="yes">Hour:</property>
                               </object>
                               <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">True</property>
-                                <property name="pack_type">end</property>
-                                <property name="position">1</property>
+                                <property name="top_attach">3</property>
+                                <property name="x_options">GTK_FILL</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lbl_backup_weekday">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="xalign">1</property>
+                                <property name="ypad">6</property>
+                                <property name="label" translatable="yes">Weekday:</property>
+                              </object>
+                              <packing>
+                                <property name="top_attach">2</property>
+                                <property name="x_options">GTK_FILL</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="lbl_backup_day">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="xalign">1</property>
+                                <property name="ypad">6</property>
+                                <property name="label" translatable="yes">Day:</property>
+                              </object>
+                              <packing>
+                                <property name="top_attach">1</property>
+                                <property name="x_options">GTK_FILL</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkComboBox" id="cb_backup_time">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkComboBox" id="cb_backup_weekday">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkComboBox" id="cb_backup_day">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">1</property>
                               </packing>
                             </child>
                           </object>
@@ -544,8 +576,6 @@
                     <property name="height_request">250</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTreeView" id="list_include">
@@ -647,8 +677,6 @@
                     <property name="height_request">120</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">automatic</property>
-                    <property name="vscrollbar_policy">automatic</property>
                     <property name="shadow_type">in</property>
                     <child>
                       <object class="GtkTreeView" id="list_exclude">
@@ -1167,6 +1195,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1183,6 +1212,7 @@
                     <property name="receives_default">False</property>
                     <property name="has_tooltip">True</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1198,6 +1228,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1213,6 +1244,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1228,12 +1260,50 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="cb_full_rsync">
+                    <property name="label" translatable="yes">Full rsync (may be faster) but:</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkAlignment" id="alignment5">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="left_padding">24</property>
+                    <child>
+                      <object class="GtkLabel" id="label8">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">- snapshots are no read-only
+- destination file-system must support all linux attributes (dates, rights, user, group ...)</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">6</property>
                   </packing>
                 </child>
                 <child>
@@ -1268,7 +1338,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">5</property>
+                    <property name="position">7</property>
                   </packing>
                 </child>
                 <child>
@@ -1317,6 +1387,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1332,6 +1403,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1347,6 +1419,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1362,6 +1435,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1377,6 +1451,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1392,6 +1467,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1407,6 +1483,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>

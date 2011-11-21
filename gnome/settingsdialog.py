@@ -126,6 +126,16 @@ class SettingsDialog(object):
 		for t in xrange( 0, 2400, 100 ):
 			self.store_backup_time.append( [ datetime.time( t/100, t%100 ).strftime("%H:%M"), t ] )
 
+		#automatic backup day store
+		self.store_backup_day = gtk.ListStore( str, int )
+		for t in xrange( 1, 29 ):
+			self.store_backup_day.append( [ str(t), t ] )
+
+		#automatic backup weekday store
+		self.store_backup_weekday = gtk.ListStore( str, int )
+		for t in xrange( 1, 8 ):
+			self.store_backup_weekday.append( [ datetime.date(2011, 11, 6 + t).strftime("%A"), t ] )
+
 		#per directory schedule
 		#self.cb_per_directory_schedule = get( 'cb_per_directory_schedule' )
 		#self.lbl_schedule = get( 'lbl_schedule' )
@@ -194,7 +204,29 @@ class SettingsDialog(object):
 		self.cb_backup_time.pack_start( renderer, True )
 		self.cb_backup_time.add_attribute( renderer, 'text', 0 )
 		
-		self.hbox_backup_time = get( 'hbox_backup_time' )
+		self.lbl_backup_time = get( 'lbl_backup_time' )
+
+		#setup automatic backup day
+		self.cb_backup_day = get( 'cb_backup_day' )
+		self.cb_backup_day.set_model( self.store_backup_day )
+
+		self.cb_backup_day.clear()
+		renderer = gtk.CellRendererText()
+		self.cb_backup_day.pack_start( renderer, True )
+		self.cb_backup_day.add_attribute( renderer, 'text', 0 )
+		
+		self.lbl_backup_day = get( 'lbl_backup_day' )
+
+		#setup automatic backup weekday
+		self.cb_backup_weekday = get( 'cb_backup_weekday' )
+		self.cb_backup_weekday.set_model( self.store_backup_weekday )
+
+		self.cb_backup_weekday.clear()
+		renderer = gtk.CellRendererText()
+		self.cb_backup_weekday.pack_start( renderer, True )
+		self.cb_backup_weekday.add_attribute( renderer, 'text', 0 )
+		
+		self.lbl_backup_weekday = get( 'lbl_backup_weekday' )
 
 		#setup remove old backups older than
 		self.edit_remove_old_backup_value = get( 'edit_remove_old_backup_value' )
@@ -314,18 +346,31 @@ class SettingsDialog(object):
 
 	def on_cb_backup_mode_changed( self, *params ):
 		iter = self.cb_backup_mode.get_active_iter()
+		if iter is None:
+			return
 
-		hide_time = True
-
-		if not iter is None:
-			backup_mode = self.store_backup_mode.get_value( iter, 1 )
-			if backup_mode >= self.config.DAY:
-				hide_time = False
-
-		if hide_time:
-			self.hbox_backup_time.hide()
+		backup_mode = self.store_backup_mode.get_value( iter, 1 )
+		
+		if backup_mode >= self.config.DAY:
+			self.lbl_backup_time.show()
+			self.cb_backup_time.show()
 		else:
-			self.hbox_backup_time.show()
+			self.lbl_backup_time.hide()
+			self.cb_backup_time.hide()
+
+		if backup_mode == self.config.WEEK:
+			self.lbl_backup_weekday.show()
+			self.cb_backup_weekday.show()
+		else:
+			self.lbl_backup_weekday.hide()
+			self.cb_backup_weekday.hide()
+		
+		if backup_mode == self.config.MONTH:
+			self.lbl_backup_day.show()
+			self.cb_backup_day.show()
+		else:
+			self.lbl_backup_day.hide()
+			self.cb_backup_day.hide()
 
 	def update_host_user_profile( self, *params ):
 		value = not self.cb_auto_host_user_profile.get_active()
@@ -429,6 +474,28 @@ class SettingsDialog(object):
 				self.cb_backup_time.set_active( i )
 				break
 			iter = self.store_backup_time.iter_next( iter )
+			i = i + 1
+		
+		#setup automatic backup day
+		i = 0
+		iter = self.store_backup_day.get_iter_first()
+		default_mode = self.config.get_automatic_backup_day( self.profile_id )
+		while not iter is None:
+			if self.store_backup_day.get_value( iter, 1 ) == default_mode:
+				self.cb_backup_day.set_active( i )
+				break
+			iter = self.store_backup_day.iter_next( iter )
+			i = i + 1
+		
+		#setup automatic backup weekday
+		i = 0
+		iter = self.store_backup_weekday.get_iter_first()
+		default_mode = self.config.get_automatic_backup_weekday( self.profile_id )
+		while not iter is None:
+			if self.store_backup_weekday.get_value( iter, 1 ) == default_mode:
+				self.cb_backup_weekday.set_active( i )
+				break
+			iter = self.store_backup_weekday.iter_next( iter )
 			i = i + 1
 		
 		self.on_cb_backup_mode_changed()
@@ -558,6 +625,8 @@ class SettingsDialog(object):
 		#global schedule
 		self.config.set_automatic_backup_mode( self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ), self.profile_id )
 		self.config.set_automatic_backup_time( self.store_backup_time.get_value( self.cb_backup_time.get_active_iter(), 1 ), self.profile_id )
+		self.config.set_automatic_backup_day( self.store_backup_day.get_value( self.cb_backup_day.get_active_iter(), 1 ), self.profile_id )
+		self.config.set_automatic_backup_weekday( self.store_backup_weekday.get_value( self.cb_backup_weekday.get_active_iter(), 1 ), self.profile_id )
 		
 		#auto-remove snapshots
 		self.config.set_remove_old_snapshots( 

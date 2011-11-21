@@ -32,6 +32,7 @@ import tools
 import clipboardtools 
 import messagebox
 import gnometools
+import restoredialog
 
 
 _=gettext.gettext
@@ -55,6 +56,7 @@ class SnapshotsDialog(object):
 		builder.add_from_file(glade_file)
 
 		self.dialog = self.builder.get_object( 'SnapshotsDialog' )
+		self.window = self.dialog
 		self.dialog.set_transient_for( parent )
 
 		signals = { 
@@ -142,7 +144,8 @@ class SnapshotsDialog(object):
         if not iter is None:
             button.set_sensitive( False )
             gnometools.run_gtk_update_loop()
-            self.snapshots.restore( self.store_snapshots.get_value( iter, 1 ), self.path )
+            #self.snapshots.restore( self.store_snapshots.get_value( iter, 1 ), self.path )
+            restoredialog.restore(self, self.store_snapshots.get_value( iter, 1 ), self.path )
             button.set_sensitive( True )
 
     def on_btn_copy_snapshot_clicked( self, button ):

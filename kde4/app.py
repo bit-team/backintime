@@ -48,6 +48,7 @@ import kde4tools
 import settingsdialog
 import snapshotsdialog
 import logviewdialog
+import restoredialog
 
 
 _=gettext.gettext
@@ -799,7 +800,8 @@ class MainWindow( KMainWindow ):
 			return
 
 		rel_path = os.path.join( self.path, selected_file )
-		self.snapshots.restore( self.snapshot_id, rel_path )
+		#self.snapshots.restore( self.snapshot_id, rel_path )
+		restoredialog.restore( self, self.snapshot_id, rel_path )
 
 	def on_btn_copy_to_clipboard_clicked( self ):
 		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )

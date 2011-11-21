@@ -413,30 +413,42 @@ class Snapshots:
 
 			self.group_cache[gid] = name
 			return name
-			
-	def _restore_path_info( self, path, dict, restore_to = "" ):
+
+	def restore_callback( self, callback, ok, msg ):
+		if not callback is None:
+			if not ok:
+				msg = msg + " : " + _("FAILED")
+			callback( msg )
+	
+	def _restore_path_info( self, path, dict, callback = None, restore_to = "" ):
 		if path not in dict:
 			return
 
 		info = dict[path]
 
 		#restore perms
+		ok = False
 		try:
 			os.chmod( restore_to + path, info[0] )
+			ok = True
 		except:
 			pass
+		self.restore_callback( callback, ok, "chmod %s %04o" % ( restore_to + path, info[0] ) )
 
 		#restore uid/gid
 		uid = self.get_uid(info[1])
 		gid = self.get_gid(info[2])
 		
 		if uid != -1 or gid != -1:
+			ok = False
 			try:
 				os.chown( restore_to + path, uid, gid )
+				ok = True
 			except:
 				pass
+			self.restore_callback( callback, ok, "chown %s %s : %s" % ( restore_to + path, uid, gid ) )
 
-	def restore( self, snapshot_id, path, restore_to = "" ):
+	def restore( self, snapshot_id, path, callback = None, restore_to = "" ):
 		if restore_to.endswith('/'):
 			restore_to = restore_to[ : -1 ]
 
@@ -448,15 +460,18 @@ class Snapshots:
 		backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 		#cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
 		cmd = tools.get_rsync_prefix( self.config )
-		cmd = cmd + '-R '
+		cmd = cmd + '-R -v '
 		if self.config.is_backup_on_restore_enabled():
 			cmd = cmd + "--backup --suffix=%s " % backup_suffix
 		#cmd = cmd + '--chmod=+w '
 		cmd = cmd + "\"%s.%s\" %s" % ( self.get_snapshot_path_to( snapshot_id ), path, restore_to + '/' )
-		self._execute( cmd )
+		self.restore_callback( callback, True, cmd )
+		self._execute( cmd, callback )
 
 		#restore permissions
 		logger.info( "Restore permissions" )
+		self.restore_callback( callback, True, "" )
+		self.restore_callback( callback, True, _("Restore permissions:") )
 		file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
 		if len( file_info_dict ) > 0:
 			#explore items
@@ -482,7 +497,7 @@ class Snapshots:
 
 			all_dirs.reverse()
 			for item_path in all_dirs:
-				self._restore_path_info( item_path, file_info_dict, restore_to )
+				self._restore_path_info( item_path, file_info_dict, callback, restore_to )
 
 	def get_snapshots_list( self, sort_reverse = True, profile_id = None, version = None ):
 		'''Returns a list with the snapshot_ids of all snapshots in the snapshots folder'''
@@ -507,8 +522,6 @@ class Snapshots:
 				list.append( item )
 
 		list.sort( reverse = sort_reverse )
-		#print "ABC:"
-		#print list
 
 		return list
 		

@@ -31,6 +31,7 @@ from PyKDE4.kio import *
 import config
 import tools
 import kde4tools
+import restoredialog
 
 
 _=gettext.gettext
@@ -215,7 +216,8 @@ class SnapshotsDialog( KDialog ):
 	def on_btn_restore_clicked( self ):
 		snapshot_id = self.get_list_snapshot_id()
 		if len( snapshot_id ) > 1:
-			self.snapshots.restore( snapshot_id, self.path )
+			restoredialog.restore( self, snapshot_id, self.path )
+			#self.snapshots.restore( snapshot_id, self.path )
 
 	def on_btn_copy_to_clipboard_clicked( self ):
 		snapshot_id = self.get_list_snapshot_id()
