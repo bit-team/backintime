@@ -802,7 +802,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 				return False
 
 			cron_line = ''
-			
+		
+			hour = self.get_automatic_backup_time(profile_id) / 100;
+			minute = self.get_automatic_backup_time(profile_id) % 100;
+			day = self.get_automatic_backup_day(profile_id)
+			weekday = self.get_automatic_backup_weekday(profile_id)	
+
 			if self.AT_EVERY_BOOT == backup_mode:
 				cron_line = 'echo "{msg}\n@reboot {cmd}"'
 			elif self._5_MIN == backup_mode:
@@ -812,11 +817,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 			if self.HOUR == backup_mode:
 				cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
 			elif self.DAY == backup_mode:
-				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * * {cmd}"'
+				cron_line = "echo \"{msg}\n%s %s * * * {cmd}\"" % (minute, hour)
 			elif self.WEEK == backup_mode:
-				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * ' + str(self.get_automatic_backup_weekday( profile_id )) + ' {cmd}"'
+				cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
 			elif self.MONTH == backup_mode:
-				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' ' + str(self.get_automatic_backup_day( profile_id )) + ' * * {cmd}"'
+				cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
 
 			if len( cron_line ) > 0:	
 				profile=''
