@@ -581,9 +581,11 @@ class Snapshots:
 		'''Copies a known snapshot to a new location'''
 		current.path = self.get_snapshot_path( snapshot_id )
 		#need to implement hardlinking to existing folder -> cp newest snapshot folder, rsync -aEAXHv --delete to this folder
+		self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % snapshot_current_path )
 		cmd = "cp -dRl \"%s\"* \"%s\"" % ( current_path, new_folder )
 		logger.info( '%s is copied to folder %s' %( snapshot_id, new_folder ) )
 		self._execute( cmd )
+		self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} \\;" % ( snapshot_current_path, new_folder ) )
 
 	#def _get_last_snapshot_info( self ):
 	#	lines = ''
