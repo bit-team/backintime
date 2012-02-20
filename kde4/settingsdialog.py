@@ -160,19 +160,42 @@ class SettingsDialog( KDialog ):
 		group_box.setTitle( QString.fromUtf8( _( 'Schedule' ) ) )
 		layout.addWidget( group_box )
 
-		hlayout = QHBoxLayout( group_box )
+		glayout = QGridLayout( group_box )
+		glayout.setColumnStretch(1, 2)
 
 		self.combo_automatic_snapshots = KComboBox( self )
-		hlayout.addWidget( self.combo_automatic_snapshots, 2 )
+		glayout.addWidget( self.combo_automatic_snapshots, 0, 0, 1, 2 )
 		self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES )
+
+		self.lbl_automatic_snapshots_day = QLabel( QString.fromUtf8( _( 'Day:' ) ), self )
+		self.lbl_automatic_snapshots_day.setContentsMargins( 5, 0, 0, 0 )
+		self.lbl_automatic_snapshots_day.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
+		glayout.addWidget( self.lbl_automatic_snapshots_day, 1, 0 )
+
+		self.combo_automatic_snapshots_day = KComboBox( self )
+		glayout.addWidget( self.combo_automatic_snapshots_day, 1, 1 )
+
+		for d in xrange( 1, 29 ):
+			self.combo_automatic_snapshots_day.addItem( QIcon(), QString.fromUtf8( str(d) ), QVariant( d ) )
+
+		self.lbl_automatic_snapshots_weekday = QLabel( QString.fromUtf8( _( 'Weekday:' ) ), self )
+		self.lbl_automatic_snapshots_weekday.setContentsMargins( 5, 0, 0, 0 )
+		self.lbl_automatic_snapshots_weekday.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
+		glayout.addWidget( self.lbl_automatic_snapshots_weekday, 2, 0 )
+
+		self.combo_automatic_snapshots_weekday = KComboBox( self )
+		glayout.addWidget( self.combo_automatic_snapshots_weekday, 2, 1 )
+
+		for d in xrange( 1, 8 ):
+			self.combo_automatic_snapshots_weekday.addItem( QIcon(), QString.fromUtf8( datetime.date(2011, 11, 6 + d).strftime("%A") ), QVariant( d ) )
 
 		self.lbl_automatic_snapshots_time = QLabel( QString.fromUtf8( _( 'Hour:' ) ), self )
 		self.lbl_automatic_snapshots_time.setContentsMargins( 5, 0, 0, 0 )
 		self.lbl_automatic_snapshots_time.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
-		hlayout.addWidget( self.lbl_automatic_snapshots_time )
+		glayout.addWidget( self.lbl_automatic_snapshots_time, 3, 0 )
 
 		self.combo_automatic_snapshots_time = KComboBox( self )
-		hlayout.addWidget( self.combo_automatic_snapshots_time, 1 )
+		glayout.addWidget( self.combo_automatic_snapshots_time, 3, 1 )
 
 		for t in xrange( 0, 2300, 100 ):
 			self.combo_automatic_snapshots_time.addItem( QIcon(), QString.fromUtf8( datetime.time( t/100, t%100 ).strftime("%H:%M") ), QVariant( t ) )
@@ -444,6 +467,20 @@ class SettingsDialog( KDialog ):
 			self.update_profiles()
 
 	def update_automatic_snapshot_time( self, backup_mode ):
+		if backup_mode == self.config.WEEK:
+			self.lbl_automatic_snapshots_weekday.show()
+			self.combo_automatic_snapshots_weekday.show()
+		else:
+			self.lbl_automatic_snapshots_weekday.hide()
+			self.combo_automatic_snapshots_weekday.hide()
+
+		if backup_mode == self.config.MONTH:
+			self.lbl_automatic_snapshots_day.show()
+			self.combo_automatic_snapshots_day.show()
+		else:
+			self.lbl_automatic_snapshots_day.hide()
+			self.combo_automatic_snapshots_day.hide()
+
 		if backup_mode >= self.config.DAY:
 			self.lbl_automatic_snapshots_time.show()
 			self.combo_automatic_snapshots_time.show()
@@ -513,6 +550,8 @@ class SettingsDialog( KDialog ):
 
 		self.set_combo_value( self.combo_automatic_snapshots, self.config.get_automatic_backup_mode() )
 		self.set_combo_value( self.combo_automatic_snapshots_time, self.config.get_automatic_backup_time() )
+		self.set_combo_value( self.combo_automatic_snapshots_day, self.config.get_automatic_backup_day() )
+		self.set_combo_value( self.combo_automatic_snapshots_weekday, self.config.get_automatic_backup_weekday() )
 		self.update_automatic_snapshot_time( self.config.get_automatic_backup_mode() )
 
 		#TAB: Include
@@ -603,6 +642,8 @@ class SettingsDialog( KDialog ):
 		#schedule
 		self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
 		self.config.set_automatic_backup_time( self.combo_automatic_snapshots_time.itemData( self.combo_automatic_snapshots_time.currentIndex() ).toInt()[0] )
+		self.config.set_automatic_backup_weekday( self.combo_automatic_snapshots_weekday.itemData( self.combo_automatic_snapshots_weekday.currentIndex() ).toInt()[0] )
+		self.config.set_automatic_backup_day( self.combo_automatic_snapshots_day.itemData( self.combo_automatic_snapshots_day.currentIndex() ).toInt()[0] )
 
 		#auto-remove
 		self.config.set_remove_old_snapshots( 

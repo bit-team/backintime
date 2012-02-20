@@ -303,6 +303,7 @@ class SettingsDialog(object):
 		self.cb_run_nice_from_cron = get('cb_run_nice_from_cron')
 		self.cb_run_ionice_from_cron = get('cb_run_ionice_from_cron')
 		self.cb_run_ionice_from_user = get('cb_run_ionice_from_user')
+		
 		self.cb_preserve_acl = get('cb_preserve_acl')
 		self.cb_preserve_xattr = get('cb_preserve_xattr')
 		self.cb_copy_unsafe_links = get('cb_copy_unsafe_links')
@@ -313,6 +314,9 @@ class SettingsDialog(object):
 		if not tools.power_status_available ():
 			self.cb_no_on_battery.set_sensitive( False )
 			self.cb_no_on_battery.set_tooltip_text( 'Power status not available from system' )
+
+		#check for changes
+		self.cb_check_for_changes = get('cb_check_for_changes')
 
 		self.update_profiles()
 	
@@ -579,6 +583,9 @@ class SettingsDialog(object):
 		self.cb_copy_unsafe_links.set_active(self.config.copy_unsafe_links( self.profile_id ))
 		self.cb_copy_links.set_active(self.config.copy_links( self.profile_id ))
 		
+		#check for changes
+		self.cb_check_for_changes.set_active( self.config.check_for_changes( self.profile_id ) )
+	
 	def save_profile( self ):
 		#profile_id = self.config.get_current_profile()
 		#snapshots path
@@ -653,6 +660,7 @@ class SettingsDialog(object):
 		self.config.set_backup_on_restore( self.cb_backup_on_restore.get_active(), self.profile_id )
 		self.config.set_continue_on_errors( self.cb_continue_on_errors.get_active(), self.profile_id )
 		self.config.set_use_checksum( self.cb_use_checksum.get_active(), self.profile_id )
+		self.config.set_check_for_changes( self.cb_check_for_changes.get_active(), self.profile_id )
 		self.config.set_log_level( self.store_log_level.get_value( self.combo_log_level.get_active_iter(), 0 ), self.profile_id )
 		
 		#expert options

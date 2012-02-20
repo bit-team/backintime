@@ -1059,7 +1059,7 @@ class Snapshots:
 		
 		prev_snapshot_id = ''
 
-		if len( snapshots ) > 0:
+		if self.config.check_for_changes() and len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 			prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
 			self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % prev_snapshot_name )

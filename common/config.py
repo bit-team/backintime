@@ -489,7 +489,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_int_value( 'snapshots.automatic_backup_day', value, profile_id )
 
 	def get_automatic_backup_weekday( self, profile_id = None ):
-		return self.get_profile_int_value( 'snapshots.automatic_backup_weekday', 1, profile_id )
+		return self.get_profile_int_value( 'snapshots.automatic_backup_weekday', 7, profile_id )
 
 	def set_automatic_backup_weekday( self, value, profile_id = None ):
 		self.set_profile_int_value( 'snapshots.automatic_backup_weekday', value, profile_id )
@@ -665,6 +665,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_full_rsync( self, value, profile_id = None ):
 		return self.set_profile_bool_value( 'snapshots.full_rsync', value, profile_id )
 
+	def check_for_changes( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.check_for_changes', True, profile_id )
+
+	def set_check_for_changes( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.check_for_changes', value, profile_id )
+
 	def get_take_snapshot_user_script( self, step, profile_id = None ):
 		return self.get_profile_str_value ( "snapshots.take_snapshot.%s.user.script" % step, '', profile_id )
 
@@ -808,9 +814,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 			elif self.DAY == backup_mode:
 				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * * {cmd}"'
 			elif self.WEEK == backup_mode:
-				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * 0 {cmd}"'
+				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * ' + str(self.get_automatic_backup_weekday( profile_id )) + ' {cmd}"'
 			elif self.MONTH == backup_mode:
-				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' 1 * * {cmd}"'
+				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' ' + str(self.get_automatic_backup_day( profile_id )) + ' * * {cmd}"'
 
 			if len( cron_line ) > 0:	
 				profile=''

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="MainWindow">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Back In Time</property>
@@ -270,6 +271,8 @@
                 <property name="width_request">200</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
                 <property name="shadow_type">in</property>
                 <child>
                   <object class="GtkTreeView" id="list_time_line">
@@ -277,9 +280,6 @@
                     <property name="can_focus">True</property>
                     <property name="search_column">0</property>
                     <signal name="cursor-changed" handler="on_list_time_line_cursor_changed" swapped="no"/>
-                    <child internal-child="selection">
-                      <object class="GtkTreeSelection" id="treeview-selection1"/>
-                    </child>
                   </object>
                 </child>
               </object>
@@ -330,6 +330,10 @@
                                 <property name="can_focus">True</property>
                                 <property name="editable">False</property>
                                 <property name="invisible_char">•</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </object>
                             </child>
                           </object>
@@ -426,6 +430,8 @@
                             <property name="width_request">200</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">automatic</property>
                             <property name="shadow_type">in</property>
                             <child>
                               <object class="GtkTreeView" id="list_places">
@@ -433,9 +439,6 @@
                                 <property name="can_focus">True</property>
                                 <property name="search_column">0</property>
                                 <signal name="cursor-changed" handler="on_list_places_cursor_changed" swapped="no"/>
-                                <child internal-child="selection">
-                                  <object class="GtkTreeSelection" id="treeview-selection2"/>
-                                </child>
                               </object>
                             </child>
                           </object>
@@ -455,6 +458,8 @@
                                 <property name="height_request">400</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
                                 <property name="shadow_type">in</property>
                                 <child>
                                   <object class="GtkTreeView" id="list_folder_view">
@@ -465,9 +470,6 @@
                                     <signal name="row-activated" handler="on_list_folder_view_row_activated" swapped="no"/>
                                     <signal name="drag-data-get" handler="on_list_folder_view_drag_data_get" swapped="no"/>
                                     <signal name="popup-menu" handler="on_list_folder_view_popup_menu" swapped="no"/>
-                                    <child internal-child="selection">
-                                      <object class="GtkTreeSelection" id="treeview-selection3"/>
-                                    </child>
                                   </object>
                                 </child>
                               </object>
