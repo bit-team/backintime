@@ -1047,9 +1047,10 @@ class Snapshots:
 
 		#check previous backup
 		#should only contain the personal snapshots
-		snapshots = self.get_snapshots_list()
-		prev_snapshot_id = ''
+		check_for_changes = self.config.check_for_changes()
 		
+		prev_snapshot_id = ''
+		snapshots = self.get_snapshots_list()
 		if len( snapshots ) == 0:
 			snapshots = self.get_snapshots_and_other_list()
 
@@ -1057,9 +1058,7 @@ class Snapshots:
 		# It should delete the excluded folders then
 		rsync_prefix = rsync_prefix + ' --delete --delete-excluded '
 		
-		prev_snapshot_id = ''
-
-		if self.config.check_for_changes() and len( snapshots ) > 0:
+		if check_for_changes and len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 			prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
 			self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % prev_snapshot_name )
