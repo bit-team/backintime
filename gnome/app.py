@@ -47,11 +47,9 @@ import tools
 
 import settingsdialog
 import logviewdialog
-import restoredialog
 import snapshotsdialog
 import messagebox
 import fileicons
-import clipboardtools
 import gnometools
 
 
@@ -100,7 +98,6 @@ class MainWindow(object):
         self.app_instance = app_instance
         self.snapshots = snapshots.Snapshots( config )
         self.special_background_color = 'lightblue'
-        self.popup_menu = None
 
         self.folder_path = None
         self.snapshot_id = ''
@@ -130,8 +127,7 @@ class MainWindow(object):
                 'on_btn_remove_snapshot_clicked' : self.on_btn_remove_snapshot_clicked,
                 'on_btn_view_snapshot_log_clicked' : self.on_btn_view_snapshot_log_clicked,
                 'on_btn_view_last_log_clicked' : self.on_btn_view_last_log_clicked,
-                'on_btn_restore_clicked' : self.on_btn_restore_clicked,
-                'on_btn_copy_clicked' : self.on_btn_copy_clicked,
+                'on_btn_restore_clicked' : self.on_restore_this,
                 'on_btn_snapshots_clicked' : self.on_btn_snapshots_clicked,
                 'on_btn_hidden_files_toggled' : self.on_btn_hidden_files_toggled,
                 'on_list_places_cursor_changed' : self.on_list_places_cursor_changed,
@@ -141,7 +137,7 @@ class MainWindow(object):
                 'on_list_folder_view_popup_menu' : self.on_list_folder_view_popup_menu,
                 'on_list_folder_view_button_press_event': self.on_list_folder_view_button_press_event,
                 'on_list_folder_view_drag_data_get': self.on_list_folder_view_drag_data_get,
-				'on_list_folder_view_key_press_event' : self.on_list_folder_view_key_press_event,
+                'on_list_folder_view_key_press_event' : self.on_list_folder_view_key_press_event,
                 'on_combo_profiles_changed': self.on_combo_profiles_changed,
                 'on_btn_website_clicked': self.on_btn_website_clicked,
             }
@@ -181,6 +177,20 @@ class MainWindow(object):
         #status bar
         self.status_bar = self.builder.get_object( 'status_bar' )
         self.status_bar.push( 0, _('Done') )
+
+        #restore menu
+        self.restore_menu = gtk.Menu()
+        self.restore_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore'), self.on_restore_this))
+        self.restore_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore to ...'), self.on_restore_this_to))
+        self.restore_menu.append(gtk.SeparatorMenuItem())
+        self.rm_restore_parent = gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore \'%s\'') % '', self.on_restore_parent)
+        self.restore_menu.append(self.rm_restore_parent)
+        self.rm_restore_parent_to = gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore \'%s\' to ...') % '', self.on_restore_parent_to)
+        self.restore_menu.append(self.rm_restore_parent_to)
+        self.restore_menu.show_all()
+        
+        self.btn_restore = self.builder.get_object('btn_restore')
+        self.btn_restore.set_menu(self.restore_menu)
 
         #show hidden files
         self.show_hidden_files = self.config.get_bool_value( 'gnome.show_hidden_files', False )
@@ -286,14 +296,6 @@ class MainWindow(object):
         if main_window_hpaned1 > 0 and main_window_hpaned2 > 0:
             self.builder.get_object('hpaned1').set_position( main_window_hpaned1 )
             self.builder.get_object('hpaned2').set_position( main_window_hpaned2 )
-
-        #prepare popup menu ids
-        gtk.stock_add( 
-                [ ('backintime.open', _('Open'), 0, 0, 'backintime' ),
-                  ('backintime.copy', _('Copy'), 0, 0, 'backintime' ),
-                  ('backintime.snapshots', _('Snapshots'), 0, 0, 'backintime' ),
-                  ('backintime.diff', _('Diff'), 0, 0, 'backintime' ),
-                  ('backintime.restore', _('Restore'), 0, 0, 'backintime' ) ] )
 
         #show main window
         self.window.show()
@@ -805,45 +807,45 @@ class MainWindow(object):
     def on_list_folder_view_popup_menu( self, list ):
         self.show_folder_view_menu_popup( list, 1, gtk.get_current_event_time() )
 
+    def add_menu_item(menu, icon, label, callback):
+        menu_item = gtk.ImageMenuItem()
+        menu_item.set_label(label)
+        menu_item.set_image(icon)
+        if not icon is None:
+            menu_item.set_always_show_image(True)
+        menu_item.connect( 'activate', callback )
+        menu.append( menu_item )
+
     def show_folder_view_menu_popup( self, list, button, time ):
         iter = list.get_selection().get_selected()[1]
-        if iter is None:
-            return
-
         #print "popup-menu"
-        self.popup_menu = gtk.Menu()
+        popup_menu = gtk.Menu()
 
-        menu_item = gtk.ImageMenuItem( 'backintime.open' )
-        menu_item.set_image( gtk.image_new_from_icon_name( self.store_folder_view.get_value( iter, 2 ), gtk.ICON_SIZE_MENU ) )
-        menu_item.connect( 'activate', self.on_list_folder_view_open_item )
-        self.popup_menu.append( menu_item )
+        ok = False
 
-        self.popup_menu.append( gtk.SeparatorMenuItem() )
+        if not iter is None:
+            ok = True
+            popup_menu.append(gnometools.new_menu_item(gtk.image_new_from_icon_name( self.store_folder_view.get_value( iter, 2 ), gtk.ICON_SIZE_MENU ), _('Open'), self.on_list_folder_view_open_item))
+            popup_menu.append(gtk.SeparatorMenuItem())
+            popup_menu.append(gnometools.new_menu_item(gtk.STOCK_INDEX, _('Snapshots'), self.on_list_folder_view_snapshots_item))
 
-        menu_item = gtk.ImageMenuItem( 'backintime.copy' )
-        menu_item.set_image( gtk.image_new_from_stock( gtk.STOCK_COPY, gtk.ICON_SIZE_MENU ) )
-        menu_item.connect( 'activate', self.on_list_folder_view_copy_item )
-        self.popup_menu.append( menu_item )
-
-        menu_item = gtk.ImageMenuItem( 'backintime.snapshots' )
-        menu_item.set_image( gtk.image_new_from_stock( gtk.STOCK_INDEX, gtk.ICON_SIZE_MENU ) )
-        menu_item.connect( 'activate', self.on_list_folder_view_snapshots_item )
-        self.popup_menu.append( menu_item )
+            if len( self.snapshot_id ) > 1:
+                popup_menu.append(gtk.SeparatorMenuItem())
+                popup_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore'), self.on_restore_this))
+                popup_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore to ...'), self.on_restore_this_to))
 
         if len( self.snapshot_id ) > 1:
-            menu_item = gtk.ImageMenuItem( 'backintime.restore' )
-            menu_item.set_image( gtk.image_new_from_stock( gtk.STOCK_UNDELETE, gtk.ICON_SIZE_MENU ) )
-            menu_item.connect( 'activate', self.on_list_folder_view_restore_item )
-            self.popup_menu.append( menu_item )
-
-        self.popup_menu.show_all()
-        self.popup_menu.popup( None, None, None, button, time )
-
-    def on_list_folder_view_restore_item( self, widget, data = None ):
-        self.on_btn_restore_clicked( self.builder.get_object( 'btn_restore' ) )
-
-    def on_list_folder_view_copy_item( self, widget, data = None ):
-        self.on_btn_copy_clicked( self.builder.get_object( 'btn_copy' ) )
+            if ok:
+                popup_menu.append( gtk.SeparatorMenuItem() )
+            else:
+                ok = True
+            
+            popup_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore \'%s\'') % self.folder_path, self.on_restore_parent))
+            popup_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore \'%s\' to ...') % self.folder_path, self.on_restore_parent_to))
+                
+        if ok:
+            popup_menu.show_all()
+            popup_menu.popup( None, None, None, button, time )
 
     def on_list_folder_view_snapshots_item( self, widget, data = None ):
         self.on_btn_snapshots_clicked( self.builder.get_object( 'btn_snapshots' ) )
@@ -898,24 +900,21 @@ class MainWindow(object):
         self.folder_path = parent_path
         self.update_folder_view( 1 )
 
-    def on_btn_restore_clicked( self, button ):
+    def on_restore_this( self, *args ):
         iter = self.list_folder_view.get_selection().get_selected()[1]
         if not iter is None:
-            #button.set_sensitive( False )
-            #gnometools.run_gtk_update_loop()
-            #self.snapshots.restore( self.snapshot_id, self.store_folder_view.get_value( iter, 1 ) )
-            #button.set_sensitive( True )
-            restoredialog.restore(self, self.snapshot_id, self.store_folder_view.get_value( iter, 1 ) )
-    
-    def on_btn_copy_clicked( self, button ):
+            gnometools.restore(self, self.snapshot_id, self.store_folder_view.get_value( iter, 1 ) )
+
+    def on_restore_this_to( self, *args ):
         iter = self.list_folder_view.get_selection().get_selected()[1]
-        if iter is None:
-            return
+        if not iter is None:
+            gnometools.restore(self, self.snapshot_id, self.store_folder_view.get_value( iter, 1 ), True )
 
-        path = self.store_folder_view.get_value( iter, 1 )
-        path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
+    def on_restore_parent( self, *args ):
+        gnometools.restore(self, self.snapshot_id, self.folder_path )
 
-        clipboardtools.clipboard_copy_path( path )
+    def on_restore_parent_to( self, *args ):
+        gnometools.restore(self, self.snapshot_id, self.folder_path, True )
 
     def on_btn_hidden_files_toggled( self, button ):
         if self.folder_path is None:
@@ -1071,6 +1070,10 @@ class MainWindow(object):
 			else:
 				self.list_places.get_selection().select_iter( iter )
 
+		self.rm_restore_parent.set_label(_('Restore \'%s\'') % self.folder_path)
+		self.rm_restore_parent_to.set_label(_('Restore \'%s\' to ...') % self.folder_path)
+
+
 		#update folder view
 		
 		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.folder_path )
@@ -1174,23 +1177,17 @@ class MainWindow(object):
 			if selected_iter is None:
 				selected_iter = self.store_folder_view.get_iter_first()
 			self.list_folder_view.get_selection().select_iter( selected_iter )
-			self.list_folder_view.drag_source_set( gtk.gdk.BUTTON1_MASK | gtk.gdk.BUTTON3_MASK, gtk.target_list_add_uri_targets(), gtk.gdk.ACTION_COPY )
-		else:
-			self.list_folder_view.drag_source_unset()
 
 		#update folderup button state
 		self.builder.get_object( 'btn_folder_up' ).set_sensitive( len( self.folder_path ) > 1 )
 
 		#update restore button state
-		self.builder.get_object( 'btn_restore' ).set_sensitive( len( self.snapshot_id ) > 1 and len( self.store_folder_view ) > 0 )
+		self.btn_restore.set_sensitive( len( self.snapshot_id ) > 1 and len( self.store_folder_view ) > 0 )
 
 		#update remove/name snapshot buttons
 		self.builder.get_object( 'btn_snapshot_name' ).set_sensitive( len( self.snapshot_id ) > 1 )
 		self.builder.get_object( 'btn_remove_snapshot' ).set_sensitive( len( self.snapshot_id ) > 1 )
 		self.builder.get_object( 'btn_view_snapshot_log' ).set_sensitive( len( self.snapshot_id ) > 1 )
-
-		#update copy button state
-		self.builder.get_object( 'btn_copy' ).set_sensitive( len( self.store_folder_view ) > 0 )
 
 		#update snapshots button state
 		self.builder.get_object( 'btn_snapshots' ).set_sensitive( len( self.store_folder_view ) > 0 )

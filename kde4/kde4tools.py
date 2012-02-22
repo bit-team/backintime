@@ -32,14 +32,3 @@ def set_font_bold( widget ):
 	widget.setFont( get_font_bold( widget.font() ) )
 
 
-def clipboard_set_path( app, path ):
-	mime_data = QMimeData()
-	mime_data.setText( path )
-	mime_data.setUrls( [ QUrl( path ) ] )
-
-	#gnome copy mime
-	mime_data.setData( 'x-special/gnome-copied-files', QString( 'copy\nfile://' + path ).toAscii() )
-
-	clipboard = app.clipboard()
-	clipboard.setMimeData( mime_data )
-

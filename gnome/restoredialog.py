@@ -36,13 +36,13 @@ import gnometools
 _=gettext.gettext
 
 
-def restore( parent, snapshot_id, what, where = "" ):
+def restore( parent, snapshot_id, what, where = '' ):
 	RestoreDialog(parent, snapshot_id, what, where).run()
 
 
 class RestoreDialog(object):
 	
-	def __init__( self, parent, snapshot_id, what, where = "" ):
+	def __init__( self, parent, snapshot_id, what, where = '' ):
 		self.parent = parent
 		self.config = parent.config
 		self.snapshots = parent.snapshots
@@ -82,7 +82,7 @@ class RestoreDialog(object):
 		self.btn_close.set_sensitive(False)
 
 		#
-		self.buffer = ""
+		self.buffer = ''
 	
 	def callback(self, line, *params ):
 		self.buffer = self.buffer + line + "\n"

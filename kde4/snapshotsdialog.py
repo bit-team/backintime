@@ -111,11 +111,6 @@ class SnapshotsDialog( KDialog ):
 		self.btn_restore.setToolTip( QString.fromUtf8( _('Restore') ) )
 		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.on_btn_restore_clicked )
 
-		#toolbar copy
-		self.btn_copy = self.toolbar.addAction( KIcon( 'edit-copy' ), '' )
-		self.btn_copy.setToolTip( QString.fromUtf8( _('Copy') ) )
-		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.on_btn_copy_to_clipboard_clicked )
-
 		#list different snapshots only
 		self.cb_only_different_snapshots = QCheckBox( QString.fromUtf8( _( 'List only different snapshots' ) ), self )
 		self.main_layout.addWidget( self.cb_only_different_snapshots )
@@ -218,14 +213,6 @@ class SnapshotsDialog( KDialog ):
 		if len( snapshot_id ) > 1:
 			restoredialog.restore( self, snapshot_id, self.path )
 			#self.snapshots.restore( snapshot_id, self.path )
-
-	def on_btn_copy_to_clipboard_clicked( self ):
-		snapshot_id = self.get_list_snapshot_id()
-		if len( snapshot_id ) < 1:
-			return
-
-		path = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
-		kde4tools.clipboard_set_path( self.kapp, path )
 
 	def on_list_snapshots_changed( self ):
 		self.update_toolbar()

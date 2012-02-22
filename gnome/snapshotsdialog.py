@@ -29,7 +29,6 @@ import gettext
 
 import config
 import tools
-import clipboardtools 
 import messagebox
 import gnometools
 import restoredialog
@@ -47,7 +46,7 @@ class SnapshotsDialog(object):
 		self.icon_name = icon_name        
 		self.config = snapshots.config
 		self.use_gloobus_preview = use_gloobus_preview 
- 
+		 
 		builder = gtk.Builder()
 		self.builder = builder
 
@@ -67,14 +66,25 @@ class SnapshotsDialog(object):
 			'on_list_snapshots_drag_data_get': self.on_list_snapshots_drag_data_get,
 			'on_list_snapshots_key_press_event' : self.on_list_snapshots_key_press_event,
 			'on_btn_diff_with_clicked' : self.on_btn_diff_with_clicked,
-			'on_btn_copy_snapshot_clicked' : self.on_btn_copy_snapshot_clicked,
-			'on_btn_restore_snapshot_clicked' : self.on_btn_restore_snapshot_clicked,
+			'on_btn_restore_clicked' : self.on_restore_this,
 			'on_check_list_diff_toggled'  : self.on_check_list_diff_toggled,
 			'on_check_deep_check_toggled' : self.on_check_deep_check_toggled
 		}
-
+		
 		#path
 		self.edit_path = self.builder.get_object( 'edit_path' )
+		
+		#restore menu
+		self.restore_menu = gtk.Menu()
+		self.restore_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore'), self.on_restore_this))
+		self.restore_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore to ...'), self.on_restore_this_to))
+		self.restore_menu.show_all()
+		
+		self.btn_restore = self.builder.get_object('btn_restore')
+		self.btn_restore.set_menu(self.restore_menu)
+
+		#popup now
+		#self.popup_now = gtk.Menu()
 		
 		#diff
 		self.edit_diff_cmd = self.builder.get_object( 'edit_diff_cmd' )
@@ -88,9 +98,8 @@ class SnapshotsDialog(object):
 		
 		#setup backup folders
 		self.list_snapshots = self.builder.get_object( 'list_snapshots' )
-		self.list_snapshots.drag_source_set( gtk.gdk.BUTTON1_MASK | gtk.gdk.BUTTON3_MASK, gtk.target_list_add_uri_targets(), gtk.gdk.ACTION_COPY )
 		
-		### connect callbacks to widgets signals.
+		# connect callbacks to widgets signals.
 		builder.connect_signals(signals)
 		
 		text_renderer = gtk.CellRendererText()
@@ -127,33 +136,25 @@ class SnapshotsDialog(object):
 
     def update_toolbar( self ):
         if len( self.store_snapshots ) <= 0:
-            self.builder.get_object( 'btn_copy_snapshot' ).set_sensitive( False )
-            self.builder.get_object( 'btn_restore_snapshot' ).set_sensitive( False )
+            self.btn_restore.set_sensitive( False )
         else:
-            self.builder.get_object( 'btn_copy_snapshot' ).set_sensitive( True )
-
             iter = self.list_snapshots.get_selection().get_selected()[1]
             if iter is None:
-                self.builder.get_object( 'btn_restore_snapshot' ).set_sensitive( False )
+                self.btn_restore.set_sensitive( False )
             else:
                 path = self.store_snapshots.get_value( iter, 1 )
-                self.builder.get_object( 'btn_restore_snapshot' ).set_sensitive( len( path ) > 1 )
+                self.btn_restore.set_sensitive( len( path ) > 1 )
 
-    def on_btn_restore_snapshot_clicked( self, button ):
+    def on_restore_this( self, *args ):
         iter = self.list_snapshots.get_selection().get_selected()[1]
         if not iter is None:
-            button.set_sensitive( False )
-            gnometools.run_gtk_update_loop()
-            #self.snapshots.restore( self.store_snapshots.get_value( iter, 1 ), self.path )
-            restoredialog.restore(self, self.store_snapshots.get_value( iter, 1 ), self.path )
-            button.set_sensitive( True )
+            gnometools.restore(self, self.store_snapshots.get_value( iter, 1 ), self.path )
 
-    def on_btn_copy_snapshot_clicked( self, button ):
+    def on_restore_this_to( self, *args ):
         iter = self.list_snapshots.get_selection().get_selected()[1]
         if not iter is None:
-            path = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
-            clipboardtools.clipboard_copy_path( path )
- 
+            gnometools.restore(self, self.store_snapshots.get_value( iter, 1 ), self.path, True )
+
     def on_list_snapshots_drag_data_get( self, widget, drag_context, selection_data, info, timestamp, user_param1 = None ):
         iter = self.list_snapshots.get_selection().get_selected()[1]
         if not iter is None:
@@ -191,7 +192,7 @@ class SnapshotsDialog(object):
         self.show_popup_menu( self.list_snapshots, event.button, event.time )
 
     def on_list_snapshots_popup_menu( self, list ):
-        self.showPopupMenu( list, 1, gtk.get_current_event_time() )
+        self.show_popup_menu( list, 1, gtk.get_current_event_time() )
 
     def show_popup_menu( self, list, button, time ):
         iter = list.get_selection().get_selected()[1]
@@ -199,40 +200,22 @@ class SnapshotsDialog(object):
             return
 
         #print "popup-menu"
-        self.popup_menu = gtk.Menu()
-
-        menu_item = gtk.ImageMenuItem( 'backintime.open' )
-        menu_item.set_image( gtk.image_new_from_icon_name( self.icon_name, gtk.ICON_SIZE_MENU ) )
-        menu_item.connect( 'activate', self.on_list_snapshots_open_item )
-        self.popup_menu.append( menu_item )
-
-        self.popup_menu.append( gtk.SeparatorMenuItem() )
-
-        menu_item = gtk.ImageMenuItem( 'backintime.copy' )
-        menu_item.set_image( gtk.image_new_from_stock( gtk.STOCK_COPY, gtk.ICON_SIZE_MENU ) )
-        menu_item.connect( 'activate', self.on_list_snapshots_copy_item )
-        self.popup_menu.append( menu_item )
-
-        menu_item = gtk.ImageMenuItem( gtk.STOCK_JUMP_TO )
-        menu_item.connect( 'activate', self.on_list_snapshots_jumpto_item )
-        self.popup_menu.append( menu_item )
+        popup_menu = gtk.Menu()
+        popup_menu.append(gnometools.new_menu_item( gtk.image_new_from_icon_name( self.icon_name, gtk.ICON_SIZE_MENU ), _('Open'), self.on_list_snapshots_row_activated ))
+        popup_menu.append( gtk.SeparatorMenuItem() )
+        popup_menu.append(gnometools.new_menu_item( gtk.STOCK_JUMP_TO, _('Jump to'), self.on_list_snapshots_jumpto_item ))
 
         path = self.store_snapshots.get_value( iter, 1 )
         if len( path ) > 1:
-            menu_item = gtk.ImageMenuItem( 'backintime.restore' )
-            menu_item.set_image( gtk.image_new_from_stock( gtk.STOCK_UNDELETE, gtk.ICON_SIZE_MENU ) )
-            menu_item.connect( 'activate', self.on_list_snapshots_restore_item )
-            self.popup_menu.append( menu_item )
+            popup_menu.append( gtk.SeparatorMenuItem() )
+            popup_menu.append(gnometools.new_menu_item( gtk.STOCK_UNDELETE, _('Restore'), self.on_restore_this ))
+            popup_menu.append(gnometools.new_menu_item( gtk.STOCK_UNDELETE, _('Restore to ...'), self.on_restore_this_to ))
 
-        self.popup_menu.append( gtk.SeparatorMenuItem() )
+        popup_menu.append(gtk.SeparatorMenuItem())
+        popup_menu.append(gnometools.new_menu_item(None, _('Diff'), self.on_list_snapshots_diff_item) )
 
-        menu_item = gtk.ImageMenuItem( 'backintime.diff' )
-        #menu_item.set_image( gtk.image_new_from_stock( gtk.STOCK_COPY, gtk.ICON_SIZE_MENU ) )
-        menu_item.connect( 'activate', self.on_list_snapshots_diff_item )
-        self.popup_menu.append( menu_item )
-
-        self.popup_menu.show_all()
-        self.popup_menu.popup( None, None, None, button, time )
+        popup_menu.show_all()
+        popup_menu.popup( None, None, None, button, time )
 
     def on_list_snapshots_diff_item( self, widget, data = None ):
         self.on_btn_diff_with_clicked( self.builder.get_object( 'btn_diff_with' ) )
@@ -242,12 +225,6 @@ class SnapshotsDialog(object):
 
     def on_list_snapshots_open_item( self, widget, data = None ):
         self.open_item()
-
-    def on_list_snapshots_restore_item( self, widget, data = None ):
-        self.on_btn_restore_snapshot_clicked( self.builder.get_object( 'btn_restore_snapshot' ) )
-
-    def on_list_snapshots_copy_item( self, widget, data = None ):
-        self.on_btn_copy_snapshot_clicked( self.builder.get_object( 'btn_copy_snapshot' ) )
 
     def on_btn_diff_with_clicked( self, button ):
         if len( self.store_snapshots ) < 1:

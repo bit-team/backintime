@@ -177,10 +177,6 @@ class MainWindow( KMainWindow ):
 		self.btn_restore.setToolTip( QString.fromUtf8( _('Restore') ) )
 		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.on_btn_restore_clicked )
 
-		self.btn_copy = self.files_view_toolbar.addAction( KIcon( 'edit-copy' ), '' )
-		self.btn_copy.setToolTip( QString.fromUtf8( _('Copy pathname to clipboard') ) )
-		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.on_btn_copy_to_clipboard_clicked )
-
 		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
 		self.btn_snapshots.setToolTip( QString.fromUtf8( _('Snapshots') ) )
 		QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.on_btn_snapshots_clicked )
@@ -802,15 +798,6 @@ class MainWindow( KMainWindow ):
 		rel_path = os.path.join( self.path, selected_file )
 		#self.snapshots.restore( self.snapshot_id, rel_path )
 		restoredialog.restore( self, self.snapshot_id, rel_path )
-
-	def on_btn_copy_to_clipboard_clicked( self ):
-		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
-		selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
-		if len( selected_file ) <= 0:
-			return
-
-		path = self.snapshots.get_snapshot_path_to( self.snapshot_id, os.path.join( self.path, selected_file ) )
-		kde4tools.clipboard_set_path( self.kapp, path )
 
 	def on_btn_snapshots_clicked( self ):
 		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )

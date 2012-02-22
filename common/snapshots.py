@@ -420,20 +420,21 @@ class Snapshots:
 				msg = msg + " : " + _("FAILED")
 			callback( msg )
 	
-	def _restore_path_info( self, path, dict, callback = None, restore_to = "" ):
-		if path not in dict:
-			return
+	def _restore_path_info( self, key_path, path, dict, callback = None ):
+		#print "restore infos - key: %s ; path: %s" % ( key_path, path )
 
-		info = dict[path]
+		if key_path not in dict:
+			return
+		info = dict[key_path]
 
 		#restore perms
 		ok = False
 		try:
-			os.chmod( restore_to + path, info[0] )
+			os.chmod( path, info[0] )
 			ok = True
 		except:
 			pass
-		self.restore_callback( callback, ok, "chmod %s %04o" % ( restore_to + path, info[0] ) )
+		self.restore_callback( callback, ok, "chmod %s %04o" % ( path, info[0] ) )
 
 		#restore uid/gid
 		uid = self.get_uid(info[1])
@@ -442,13 +443,13 @@ class Snapshots:
 		if uid != -1 or gid != -1:
 			ok = False
 			try:
-				os.chown( restore_to + path, uid, gid )
+				os.chown( path, uid, gid )
 				ok = True
 			except:
 				pass
-			self.restore_callback( callback, ok, "chown %s %s : %s" % ( restore_to + path, uid, gid ) )
+			self.restore_callback( callback, ok, "chown %s %s : %s" % ( path, uid, gid ) )
 
-	def restore( self, snapshot_id, path, callback = None, restore_to = "" ):
+	def restore( self, snapshot_id, path, callback = None, restore_to = '' ):
 		if restore_to.endswith('/'):
 			restore_to = restore_to[ : -1 ]
 
@@ -464,13 +465,33 @@ class Snapshots:
 		if self.config.is_backup_on_restore_enabled():
 			cmd = cmd + "--backup --suffix=%s " % backup_suffix
 		#cmd = cmd + '--chmod=+w '
-		cmd = cmd + "\"%s.%s\" %s" % ( self.get_snapshot_path_to( snapshot_id ), path, restore_to + '/' )
+		src_base = self.get_snapshot_path_to( snapshot_id )
+		src_path = path
+		src_delta = 0
+		if len(restore_to) > 0:
+			aux = src_path
+			if aux.startswith('/'):
+				aux = aux[1:]
+			items = os.path.split(src_path)
+			aux = items[0]
+			if aux.startswith('/'):
+				aux = aux[1:]		
+			src_base = os.path.join(src_base, aux) + '/'
+			src_path = '/' + items[1]
+			src_delta = len(items[0])
+	
+		#print "src_base: %s" % src_base
+		#print "src_path: %s" % src_path
+		#print "src_delta: %s" % src_delta
+		#print "snapshot_id: %s" % snapshot_id 
+	
+		cmd = cmd + "\"%s.%s\" %s" % ( src_base, src_path, restore_to + '/' )
 		self.restore_callback( callback, True, cmd )
 		self._execute( cmd, callback )
 
 		#restore permissions
-		logger.info( "Restore permissions" )
-		self.restore_callback( callback, True, "" )
+		logger.info( 'Restore permissions' )
+		self.restore_callback( callback, True, '' )
 		self.restore_callback( callback, True, _("Restore permissions:") )
 		file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
 		if len( file_info_dict ) > 0:
@@ -479,13 +500,17 @@ class Snapshots:
 			root_snapshot_path_to = self.get_snapshot_path_to( snapshot_id ).rstrip( '/' )
 			all_dirs = [] #restore dir permissions after all files are done
 
-			path_items = path.strip( '/' ).split( '/' )
-			curr_path = '/'
-			for path_item in path_items:
-				curr_path = os.path.join( curr_path, path_item )
-				all_dirs.append( curr_path )
+			if len(restore_to) == 0:
+				path_items = path.strip( '/' ).split( '/' )
+				curr_path = '/'
+				for path_item in path_items:
+					curr_path = os.path.join( curr_path, path_item )
+					all_dirs.append( curr_path )
+			else:
+					all_dirs.append(path)
 
-			if not os.path.isfile( snapshot_path_to ):
+			#print "snapshot_path_to: %s" % snapshot_path_to
+			if os.path.isdir( snapshot_path_to ) and not os.path.islink( snapshot_path_to ):
 				for explore_path, dirs, files in os.walk( snapshot_path_to ):
 					for item in dirs:
 						item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
@@ -493,11 +518,17 @@ class Snapshots:
 
 					for item in files:
 						item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
-						self._restore_path_info( item_path, file_info_dict )
+						real_path = restore_to + item_path[src_delta:]
+						self._restore_path_info( item_path, real_path, file_info_dict, callback )
+			#else:
+			#	item_path = snapshot_path_to[ len( root_snapshot_path_to ) : ]
+			#	real_path = restore_to + item_path[src_delta:]
+			#	self._restore_path_info( item_path, real_path, file_info_dict, callback )
 
 			all_dirs.reverse()
 			for item_path in all_dirs:
-				self._restore_path_info( item_path, file_info_dict, callback, restore_to )
+				real_path = restore_to + item_path[src_delta:]
+				self._restore_path_info( item_path, real_path, file_info_dict, callback )
 
 	def get_snapshots_list( self, sort_reverse = True, profile_id = None, version = None ):
 		'''Returns a list with the snapshot_ids of all snapshots in the snapshots folder'''
