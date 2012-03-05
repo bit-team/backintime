@@ -37,12 +37,18 @@ import kde4tools
 _=gettext.gettext
 
 
-def restore( parent, snapshot_id, what, where = "" ):
+def restore( parent, snapshot_id, what, where = '' ):
+	if where is None:
+		where = str( KFileDialog.getExistingDirectory( KUrl(), parent, QString.fromUtf8( _( 'Restore to ...' ) ) ).toUtf8() )
+		if len( where ) == 0 :
+			return
+		where = parent.config.prepare_path( where )
+
 	RestoreDialog(parent, snapshot_id, what, where).exec_()
 
 
 class RestoreDialog( KDialog ):
-	def __init__( self, parent, snapshot_id, what, where = "" ):
+	def __init__( self, parent, snapshot_id, what, where = '' ):
 		KDialog.__init__( self, parent )
 		self.setButtons(KDialog.Close)
 		self.resize( 600, 500 )

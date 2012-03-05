@@ -107,9 +107,16 @@ class SnapshotsDialog( KDialog ):
 		self.main_layout.addWidget( self.toolbar )
 
 		#toolbar restore
+		menu_restore = QMenu()
+		action = menu_restore.addAction( KIcon( 'document-revert' ), QString.fromUtf8( _('Restore') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.restore_this )
+		action = menu_restore.addAction( KIcon( 'document-revert' ), QString.fromUtf8( _('Restore to ...') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.restore_this_to )
+
 		self.btn_restore = self.toolbar.addAction( KIcon( 'document-revert' ), '' )
 		self.btn_restore.setToolTip( QString.fromUtf8( _('Restore') ) )
-		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.on_btn_restore_clicked )
+		self.btn_restore.setMenu(menu_restore)
+		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
 
 		#list different snapshots only
 		self.cb_only_different_snapshots = QCheckBox( QString.fromUtf8( _( 'List only different snapshots' ) ), self )
@@ -207,11 +214,15 @@ class SnapshotsDialog( KDialog ):
 
 		self.btn_restore.setEnabled( len( snapshot_id ) > 1 )
 
-	def on_btn_restore_clicked( self ):
+	def restore_this( self ):
 		snapshot_id = self.get_list_snapshot_id()
 		if len( snapshot_id ) > 1:
 			restoredialog.restore( self, snapshot_id, self.path )
-			#self.snapshots.restore( snapshot_id, self.path )
+
+	def restore_this_to( self ):
+		snapshot_id = self.get_list_snapshot_id()
+		if len( snapshot_id ) > 1:
+			restoredialog.restore( self, snapshot_id, self.path, None )
 
 	def on_list_snapshots_changed( self ):
 		self.update_toolbar()
