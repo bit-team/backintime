@@ -28,8 +28,8 @@ install:
 	install --mode=644 *.desktop $(DEST)/share/applications/kde4
 	
 	#install docbook
-	#install -d $(DEST)/share/doc/kde4/HTML/en/backintime/figures
-	install -d $(DEST)/share/doc/kde4/HTML/en/backintime
-	install --mode=644 docbook/en/*.docbook $(DEST)/share/doc/kde4/HTML/en/backintime
-	#install --mode=644 docbook/en/figures/*.png $(DEST)/share/doc/kde4/HTML/en/backintime/figures
+	#install -d $(DEST)/share/doc/kde/HTML/en/backintime/figures
+	install -d $(DEST)/share/doc/kde/HTML/en/backintime
+	install --mode=644 docbook/en/*.docbook $(DEST)/share/doc/kde/HTML/en/backintime
+	#install --mode=644 docbook/en/figures/*.png $(DEST)/share/doc/kde/HTML/en/backintime/figures
 
