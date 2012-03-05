@@ -205,7 +205,6 @@ class SnapshotsDialog( KDialog ):
 	def update_toolbar( self ):
 		snapshot_id = self.get_list_snapshot_id()
 
-		self.btn_copy.setEnabled( len( snapshot_id ) > 0 )
 		self.btn_restore.setEnabled( len( snapshot_id ) > 1 )
 
 	def on_btn_restore_clicked( self ):

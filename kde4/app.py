@@ -164,8 +164,13 @@ class MainWindow( KMainWindow ):
 		#show hidden files
 		self.show_hidden_files = self.config.get_bool_value( 'kde4.show_hidden_files', False )
 
-		self.btn_show_hidden_files = KToggleAction( KIcon( 'list-add' ), '', self.files_view_toolbar )
-		self.files_view_toolbar.addAction( self.btn_show_hidden_files )
+		#self.btn_show_hidden_files = KToggleAction( KIcon( 'list-add' ), '', self.files_view_toolbar )
+		#self.files_view_toolbar.addAction( self.btn_show_hidden_files )
+		#self.btn_show_hidden_files.setCheckable( True )
+		#self.btn_show_hidden_files.setChecked( self.show_hidden_files )
+		#self.btn_show_hidden_files.setToolTip( QString.fromUtf8( _('Show hidden files') ) )
+
+		self.btn_show_hidden_files = self.files_view_toolbar.addAction( KIcon( 'list-add' ), '' )
 		self.btn_show_hidden_files.setCheckable( True )
 		self.btn_show_hidden_files.setChecked( self.show_hidden_files )
 		self.btn_show_hidden_files.setToolTip( QString.fromUtf8( _('Show hidden files') ) )
@@ -921,7 +926,6 @@ class MainWindow( KMainWindow ):
 			self.files_view_layout.setCurrentWidget( self.list_files_view )
 		else:
 			self.btn_restore.setEnabled( False )
-			self.btn_copy.setEnabled( False )
 			self.btn_snapshots.setEnabled( False )
 			self.files_view_layout.setCurrentWidget( self.lbl_folder_dont_exists )
 
@@ -940,9 +944,6 @@ class MainWindow( KMainWindow ):
 
 		#update restore button state
 		self.btn_restore.setEnabled( len( self.snapshot_id ) > 1 and has_files )
-
-		#update copy button state
-		self.btn_copy.setEnabled( has_files )
 
 		#update snapshots button state
 		self.btn_snapshots.setEnabled( has_files )
