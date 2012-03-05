@@ -131,7 +131,7 @@ class SnapshotsDialog( KDialog ):
 		self.list_snapshots = KListWidget( self )
 		self.main_layout.addWidget( self.list_snapshots )
 		QObject.connect( self.list_snapshots, SIGNAL('currentItemChanged(QListWidgetItem*,QListWidgetItem*)'), self.on_list_snapshots_changed )
-		QObject.connect( self.list_snapshots, SIGNAL('executed(QListWidgetItem*)'), self.on_list_snapshots_executed )
+		QObject.connect( self.list_snapshots, SIGNAL('itemActivated(QListWidgetItem*)'), self.on_list_snapshots_executed )
 
 		#diff
 		layout = QHBoxLayout()
