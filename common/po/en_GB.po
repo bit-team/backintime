@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2010-04-05 18:48+0000\n"
-"Last-Translator: Jonathon Fernyhough <j.fernyhough@gmail.com>\n"
+"PO-Revision-Date: 2011-06-09 22:48+0000\n"
+"Last-Translator: Stefan Pynappels <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -33,7 +33,7 @@ msgstr "Disabled"
 
 #: ../../common/config.py:57
 msgid "At every boot/reboot"
-msgstr ""
+msgstr "At every boot/reboot"
 
 #: ../../common/config.py:58
 msgid "Every 5 minutes"
@@ -127,7 +127,7 @@ msgstr "Now"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
 msgid "WITH ERRORS !"
-msgstr ""
+msgstr "WITH ERRORS !"
 
 #: ../../common/snapshots.py:571
 msgid ""
@@ -135,6 +135,9 @@ msgid ""
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
+"Back In Time changed its backup format.\n"
+"\n"
+"Your old snapshots can be moved according to this new format. OK?"
 
 #: ../../common/snapshots.py:581
 #, python-format
@@ -157,6 +160,8 @@ msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
+"No profiles are found. Will have to update to profiles first, please restart "
+"Back In Time"
 
 #: ../../common/snapshots.py:635
 #, python-format
@@ -170,6 +175,14 @@ msgid ""
 "If not Back In Time will restore former settings for this profile, however "
 "cannot continue taking snapshots"
 msgstr ""
+"%s\n"
+"of profile %s are not moved to their new location\n"
+"Do you want to proceed?\n"
+"(Back In Time will be able to continue taking snapshots, however the "
+"remaining snapshots will not be considered for automatic removal)\n"
+"\n"
+"If not Back In Time will restore former settings for this profile, however "
+"cannot continue taking snapshots"
 
 #: ../../common/snapshots.py:644
 #, python-format
@@ -180,6 +193,11 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
+"Former settings of profile %s are restored.\n"
+"Back In Time cannot continue taking new snapshots.\n"
+"\n"
+"You can manually move the snapshots, \n"
+"if you are done restart Back In Time to proceed"
 
 #: ../../common/snapshots.py:657
 msgid ""
@@ -187,6 +205,9 @@ msgid ""
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"Update was successful!\n"
+"\n"
+"Back In Time will continue taking snapshots again as scheduled"
 
 #: ../../common/snapshots.py:662
 msgid ""
@@ -199,16 +220,26 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
+"Are you sure you do not want to move your old snapshots?\n"
+"\n"
+"\n"
+"If you do, you will not see these questions again next time, Back In Time "
+"will continue making snapshots again, but smart-remove cannot take your old "
+"snapshots into account any longer!\n"
+"\n"
+"If you do not, you will be asked again next time you start Back In Time."
 
 #: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr ""
+msgstr "Back In Time will continue taking snapshots again as scheduled"
 
 #: ../../common/snapshots.py:673
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
+"Back In Time still cannot continue taking new snapshots.\n"
+"Restart Back In Time to see the questions again"
 
 #: ../../common/snapshots.py:734
 msgid ""
@@ -425,36 +456,36 @@ msgstr "View the current disk content"
 #: ../../gnome/logviewdialog.py:91 ../../gnome/settingsdialog.py:266
 #: ../../kde4/logviewdialog.py:81 ../../kde4/settingsdialog.py:339
 msgid "All"
-msgstr ""
+msgstr "All"
 
 #: ../../gnome/logviewdialog.py:92 ../../gnome/settingsdialog.py:264
 #: ../../kde4/logviewdialog.py:82 ../../kde4/settingsdialog.py:337
 msgid "Errors"
-msgstr ""
+msgstr "Errors"
 
 #: ../../gnome/logviewdialog.py:97 ../../kde4/logviewdialog.py:87
 msgid "Changes"
-msgstr ""
+msgstr "Changes"
 
 #: ../../gnome/logviewdialog.py:100 ../../kde4/logviewdialog.py:90
 msgid "Informations"
-msgstr ""
+msgstr "Information"
 
 #: ../../gnome/settingsdialog.py:139 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
-msgstr ""
+msgstr "Include files and folders"
 
 #: ../../gnome/settingsdialog.py:167
 msgid "Exclude patterns, files or folders"
-msgstr ""
+msgstr "Exclude patterns, files or folders"
 
 #: ../../gnome/settingsdialog.py:263 ../../kde4/settingsdialog.py:336
 msgid "None"
-msgstr ""
+msgstr "None"
 
 #: ../../gnome/settingsdialog.py:265 ../../kde4/settingsdialog.py:338
 msgid "Changes & Errors"
-msgstr ""
+msgstr "Changes & Errors"
 
 #: ../../gnome/settingsdialog.py:299
 msgid "Snapshots folder"
@@ -513,7 +544,7 @@ msgstr "Command not found: %s"
 #: ../../kde4/app.py:84 ../../gnome/mainwindow.glade:49
 #: ../../gnome/mainwindow.glade:50
 msgid "Refresh snapshots list"
-msgstr ""
+msgstr "Refresh snapshots list"
 
 #: ../../kde4/app.py:92 ../../gnome/mainwindow.glade:75
 #: ../../gnome/mainwindow.glade:76
@@ -522,11 +553,11 @@ msgstr "Remove Snapshot"
 
 #: ../../kde4/app.py:96 ../../gnome/mainwindow.glade:89
 msgid "View Snapshot Log"
-msgstr ""
+msgstr "View Snapshot Log"
 
 #: ../../kde4/app.py:100 ../../gnome/mainwindow.glade:103
 msgid "View Last Log"
-msgstr ""
+msgstr "View Last Log"
 
 #: ../../kde4/app.py:106 ../../kde4/settingsdialog.py:66
 #: ../../gnome/mainwindow.glade:124 ../../gnome/mainwindow.glade:125
@@ -559,7 +590,7 @@ msgstr "Show hidden files"
 
 #: ../../kde4/app.py:180 ../../gnome/snapshotsdialog.glade:66
 msgid "Copy pathname to clipboard"
-msgstr ""
+msgstr "Copy pathname to clipboard"
 
 #: ../../kde4/app.py:207
 msgid ""
@@ -584,7 +615,7 @@ msgstr "Working…"
 
 #: ../../kde4/logviewdialog.py:53
 msgid "Error Log View"
-msgstr ""
+msgstr "Error Log View"
 
 #: ../../kde4/logviewdialog.py:63 ../../kde4/settingsdialog.py:76
 #: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:38
@@ -594,11 +625,11 @@ msgstr "Profile:"
 
 #: ../../kde4/logviewdialog.py:75 ../../gnome/logviewdialog.glade:67
 msgid "Filter:"
-msgstr ""
+msgstr "Filter:"
 
 #: ../../kde4/logviewdialog.py:98 ../../gnome/logviewdialog.glade:117
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr ""
+msgstr "[E] Error, [I] Information, [C] Change"
 
 #: ../../kde4/settingsdialog.py:85
 msgid "Edit"
@@ -614,15 +645,15 @@ msgstr "Where to save snapshots"
 
 #: ../../kde4/settingsdialog.py:135 ../../gnome/settingsdialog.glade:182
 msgid "Auto Host / User / Profile Id"
-msgstr ""
+msgstr "Auto Host / User / Profile Id"
 
 #: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:202
 msgid "Host:"
-msgstr ""
+msgstr "Host:"
 
 #: ../../kde4/settingsdialog.py:147 ../../gnome/settingsdialog.glade:222
 msgid "User:"
-msgstr ""
+msgstr "User:"
 
 #: ../../kde4/settingsdialog.py:160
 msgid "Schedule"
@@ -652,7 +683,7 @@ msgstr "Exclude"
 
 #: ../../kde4/settingsdialog.py:231
 msgid "Highly recommended:"
-msgstr ""
+msgstr "Highly recommended:"
 
 #: ../../kde4/settingsdialog.py:259 ../../gnome/settingsdialog.glade:770
 msgid "Auto-remove"
@@ -705,15 +736,15 @@ msgstr "Bewaar kopie van bestanden vóór herstel"
 
 #: ../../kde4/settingsdialog.py:321 ../../gnome/settingsdialog.glade:824
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr ""
+msgstr "Continue on errors (keep incomplete snapshots)"
 
 #: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:837
 msgid "Use checksum to detect changes"
-msgstr ""
+msgstr "Use checksum to detect changes"
 
 #: ../../kde4/settingsdialog.py:331
 msgid "Log Level:"
-msgstr ""
+msgstr "Log Level:"
 
 #: ../../kde4/settingsdialog.py:346 ../../gnome/settingsdialog.glade:1018
 msgid "Expert Options"
@@ -721,7 +752,7 @@ msgstr "Expert Options"
 
 #: ../../kde4/settingsdialog.py:349
 msgid "Change these options only if you really know what you are doing !"
-msgstr ""
+msgstr "Change these options only if you really know what you are doing !"
 
 #: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:913
 msgid "Run 'nice' as cron job (default: enabled)"
@@ -739,19 +770,19 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:366 ../../gnome/settingsdialog.glade:952
 msgid "Preserve ACL"
-msgstr ""
+msgstr "Preserve ACL"
 
 #: ../../kde4/settingsdialog.py:369 ../../gnome/settingsdialog.glade:965
 msgid "Preserve extended attributes (xattr)"
-msgstr ""
+msgstr "Preserve extended attributes (xattr)"
 
 #: ../../kde4/settingsdialog.py:372 ../../gnome/settingsdialog.glade:978
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr ""
+msgstr "Copy unsafe links (works only with absolute links)"
 
 #: ../../kde4/settingsdialog.py:375 ../../gnome/settingsdialog.glade:991
 msgid "Copy links (dereference symbolic links)"
-msgstr ""
+msgstr "Copy links (dereference symbolic links)"
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:146
 #: ../../gnome/snapshotsdialog.glade:240
@@ -772,11 +803,11 @@ msgstr "Use %1 and %2 for path parameters"
 
 #: ../../kde4/snapshotsdialog.py:119 ../../gnome/snapshotsdialog.glade:36
 msgid "List only different snapshots"
-msgstr ""
+msgstr "List only different snapshots"
 
 #: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:49
 msgid "Deep check (more accurate, but slow)"
-msgstr ""
+msgstr "Deep check (more accurate, but slow)"
 
 #: ../../kde4/snapshotsdialog.py:147
 msgid "Go To"
@@ -784,7 +815,7 @@ msgstr "Go To"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr ""
+msgstr "Log View"
 
 #: ../../gnome/mainwindow.glade:6
 msgid "Back In Time"
@@ -816,11 +847,11 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:242
 msgid "Profile Id:"
-msgstr ""
+msgstr "Profile Id:"
 
 #: ../../gnome/settingsdialog.glade:270
 msgid "Advanced"
-msgstr ""
+msgstr "Advanced"
 
 #: ../../gnome/settingsdialog.glade:285
 msgid "<b>Where to save snapshots</b>"
@@ -832,11 +863,11 @@ msgstr "<b>Schedule</b>"
 
 #: ../../gnome/settingsdialog.glade:517
 msgid "<b>Highly recommended:</b>"
-msgstr ""
+msgstr "<b>Highly recommended:</b>"
 
 #: ../../gnome/settingsdialog.glade:529
 msgid "label"
-msgstr ""
+msgstr "label"
 
 #: ../../gnome/settingsdialog.glade:735
 msgid ""
@@ -857,24 +888,25 @@ msgstr "Otomatik-temizleme sadece seçili klasördeki yedeklemeleri temizler"
 
 #: ../../gnome/settingsdialog.glade:855
 msgid "Log level:"
-msgstr ""
+msgstr "Log level:"
 
 #: ../../gnome/settingsdialog.glade:902
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
 msgstr ""
+"<b>Change these options only if you really know what you are doing !</b>"
 
 #: ../../gnome/settingsdialog.glade:1033
 msgid "<b>This options don't depend on profile</b>"
-msgstr ""
+msgstr "<b>These options don't depend on profile</b>"
 
 #: ../../gnome/settingsdialog.glade:1044
 msgid "Use gloobus-preview (if installed)"
-msgstr ""
+msgstr "Use gloobus-preview (if installed)"
 
 #: ../../gnome/settingsdialog.glade:1066
 msgid "GUI Options"
-msgstr ""
+msgstr "GUI Options"
 
 #: ../../gnome/snapshotsdialog.glade:138
 msgid "Diff with"
@@ -883,205 +915,3 @@ msgstr "Diff with"
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Pattern"
-
-#~ msgid "Backup Directories"
-#~ msgstr "Backup Directories"
-
-#~ msgid "You must select at least one directory to backup !"
-#~ msgstr "You must select at least one directory to backup!"
-
-#~ msgid "Snapshots directory can't be the root directory !"
-#~ msgstr "Snapshots directory can't be the root directory!"
-
-#~ msgid "Are you sure you want to change snapshots directory ?"
-#~ msgstr "Are you sure you want to change snapshots directory?"
-
-#~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
-#~ msgstr "Snapshots directory can't be in \"Backup Directories\"!"
-
-#~ msgid "\"Backup directories\" can't include snapshots directory !"
-#~ msgstr "\"Backup directories\" can't include snapshots directory!"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Select A Folder"
-
-#~ msgid "Parent Directory"
-#~ msgstr "Parent Directory"
-
-#~ msgid "If free space is less then:"
-#~ msgstr "If free space is less than:"
-
-#~ msgid "Older then:"
-#~ msgstr "Older than:"
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "You can't rename \"Main\" profile"
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "Profile %s already exists !"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "Snapshots folder can't be the root folder !"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-
-#~ msgid "about-translators"
-#~ msgstr "about-translators"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Patterns, files or folders"
-
-#~ msgid "Include folders"
-#~ msgstr "Include folders"
-
-#~ msgid "Update snapshots"
-#~ msgstr "Update snapshots"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Automatic backup"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-
-#~ msgid ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "This folder does not exist\n"
-#~ "in the current snapshot!"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr "Change these options only if you really know what you are doing!"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr ""
-#~ "<b>Change these options only if you really know what you are doing!</b>"
-
-#~ msgid ""
-#~ "<b>This folder does not exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>This folder does not exist\n"
-#~ "in current snapshot!</b>"
-
-#, python-format
-#~ msgid "Profiles \"%s\" and \"%s\" have the same snapshots path !"
-#~ msgstr "Profiles \"%s\" and \"%s\" have the same snapshots path!"
-
-#~ msgid ""
-#~ "BackinTime still cannot continue taking new snapshots.\n"
-#~ "Restart BackinTime to see the questions again"
-#~ msgstr ""
-#~ "BackinTime hala yeni yedekleme alamıyor.\n"
-#~ "Soruyu tekrar görmek için lütfen yeniden başlatın."
-
-#~ msgid ""
-#~ "No profiles are found. Will have to update to profiles first, please restart "
-#~ "BackinTime"
-#~ msgstr ""
-#~ "Hiçbir profil bulunamadı. Eğer profilleri güncelleyecekseniz, lütfen "
-#~ "BackinTime uygulamasını yeniden başlatın"
-
-#~ msgid ""
-#~ "BackinTime changed its backup format.\n"
-#~ "\n"
-#~ "Your old snapshots can be moved according to this new format. OK?"
-#~ msgstr ""
-#~ "BackinTime yedekleme formatını değiştir.\n"
-#~ "Eski yedeklemeler yeni formata göre taşınacak. Onaylıyor musunuz?"
-
-#~ msgid "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr "BackinTime yedeklemeleri almaya planlandığı şekilde devam edecek"
-
-#~ msgid ""
-#~ "Are you sure you do not want to move your old snapshots?\n"
-#~ "\n"
-#~ "\n"
-#~ "If you do, you will not see these questions again next time, BackinTime will "
-#~ "continue making snapshots again, but smart-remove cannot take your old "
-#~ "snapshots into account any longer!\n"
-#~ "\n"
-#~ "If you do not, you will be asked again next time you start BackinTime."
-#~ msgstr ""
-#~ "Eski yedeklemeleri taşımak istediğinizden eminmisiniz?\n"
-#~ "\n"
-#~ "Eğer taşırsanız, bu soruyu tekrar görmeyeceksiniz ve BackinTime yedekleme "
-#~ "almaya devam edecek fakat akıllı-temizleme eski yedeklemelerinizi hesaba "
-#~ "artık taşıyamaz.\n"
-#~ "\n"
-#~ "Eğer taşımazsanız, BackinTime tekrar başladığında bu soruyu size tekrar "
-#~ "soracaktır."
-
-#~ msgid ""
-#~ "Update was successful!\n"
-#~ "\n"
-#~ "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr ""
-#~ "Güncelleme başarıyla tamamlandı.\n"
-#~ "\n"
-#~ "BackinTime planlandığı şekilde anlık yedeklemeleri almayada devam edecek."
-
-#, python-format
-#~ msgid ""
-#~ "Former settings of profile %s are restored.\n"
-#~ "BackinTime cannot continue taking new snapshots.\n"
-#~ "\n"
-#~ "You can manually move the snapshots, \n"
-#~ "if you are done restart BackinTime to proceed"
-#~ msgstr ""
-#~ "%s profilinin önceki ayarları geri yüklendi.\n"
-#~ "BackinTime şu anda yeni anlık yedekleme alamaz.\n"
-#~ "\n"
-#~ "Kendiniz anlık yedeklemeleri taşıyabilirsiniz. \n"
-#~ "Eğer taşıdıysanız devam etmek için BackinTime'ı yeniden başlatın."
-
-#~ msgid "Refresh snapshots"
-#~ msgstr "刷新快照"
-
-#, python-format
-#~ msgid ""
-#~ "%s\n"
-#~ "of profile %s are not moved to their new location\n"
-#~ "Do you want to proceed?\n"
-#~ "(BackinTime will be able to continue taking snapshots, however the remaining "
-#~ "snapshots will not be considered for automatic removal)\n"
-#~ "\n"
-#~ "If not BackinTime will restore former settings for this profile, however "
-#~ "cannot continue taking snapshots"
-#~ msgstr ""
-#~ "%s\n"
-#~ "of profile %s are not moved to their new location\n"
-#~ "Do you want to proceed?\n"
-#~ "(BackinTime will be able to continue taking snapshots, however the remaining "
-#~ "snapshots will not be considered for automatic removal)\n"
-#~ "\n"
-#~ "If not BackinTime will restore former settings for this profile, however "
-#~ "cannot continue taking snapshots"

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2009-11-27 19:23+0000\n"
-"Last-Translator: Tor Syversen <sol-moe@online.no>\n"
+"PO-Revision-Date: 2011-03-31 10:17+0000\n"
+"Last-Translator: Mats Schjølberg <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -33,7 +33,7 @@ msgstr "Deaktivert"
 
 #: ../../common/config.py:57
 msgid "At every boot/reboot"
-msgstr ""
+msgstr "For hver start/omstart"
 
 #: ../../common/config.py:58
 msgid "Every 5 minutes"
@@ -127,7 +127,7 @@ msgstr "Nå"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
 msgid "WITH ERRORS !"
-msgstr ""
+msgstr "MED FEIL !"
 
 #: ../../common/snapshots.py:571
 msgid ""
@@ -135,6 +135,9 @@ msgid ""
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
+"Back In Time har endret backup-format. \n"
+"\n"
+"Dine gamle øyeblikksbilder kan flyttes i henhold til det nye formatet. OK?"
 
 #: ../../common/snapshots.py:581
 #, python-format
@@ -146,12 +149,20 @@ msgid ""
 "\n"
 "(The program will still be able to discriminate between them)"
 msgstr ""
+"%s profiler funnet. \n"
+"\n"
+"Det nye backup-formatet støtter lagring av forskjellige brukere og profiler "
+"på samme sted. Vil du ha samme plassering for begge profiler? \n"
+"\n"
+"(Programmet vil fortsatt kunne skille mellom dem)"
 
 #: ../../common/snapshots.py:584
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
+"Ingen profiler funnet. Må oppdatere til profiler først, vennligst start Back "
+"In Time på nytt"
 
 #: ../../common/snapshots.py:635
 #, python-format
@@ -165,6 +176,14 @@ msgid ""
 "If not Back In Time will restore former settings for this profile, however "
 "cannot continue taking snapshots"
 msgstr ""
+"%s\n"
+"av %s profiler er ikke flyttet til ny plassering\n"
+"Vil du fortsette? \n"
+"(Back In Time vil fortsatt ta øyeblikksbilder, men de gjenværende "
+"øyeblikksbildene vil ikke bli regnet med for automatisk fjerning)\n"
+"\n"
+"Hvis ikke vil Back In Time gjenopprette eldre innstillinger for denne "
+"profilen, men vil da ikke fortsette å ta nye øyeblikksbilder"
 
 #: ../../common/snapshots.py:644
 #, python-format
@@ -175,6 +194,11 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
+"Eldre innstillinger for profil %s er gjenopprettet. \n"
+"Back In Time kan ikke fortsette å ta nye øyeblikksbilder. \n"
+"\n"
+"Du kan manuelt flytte øyeblikksbildene, \n"
+"hvis du er ferdig kan du starte Back In Time på nytt for å fortsette"
 
 #: ../../common/snapshots.py:657
 msgid ""
@@ -182,6 +206,9 @@ msgid ""
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"Oppdatering vellykket! \n"
+"\n"
+"Back In Time vil fortsette å ta øyeblikksbilder som planlagt"
 
 #: ../../common/snapshots.py:662
 msgid ""
@@ -194,10 +221,18 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
+"Er du sikker på at du ikke vil flytte dine gamle øyeblikksbilder? \n"
+"\n"
+"\n"
+"Hvis du gjør det vil du ikke se dette spørsmålet igjen. Back In time vil "
+"fortsette å ta øyeblikksbilder, men automatisk fjerning av dine gamle "
+"øyeblikksbilder vil ikke fungere! \n"
+"\n"
+"Hvis du ikke gjør det vil du bli spurt neste gang du starter Back In Time."
 
 #: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr ""
+msgstr "Back In Time vil fortsette å ta øyeblikksbilder som planlagt"
 
 #: ../../common/snapshots.py:673
 msgid ""
@@ -425,11 +460,11 @@ msgstr ""
 #: ../../gnome/logviewdialog.py:92 ../../gnome/settingsdialog.py:264
 #: ../../kde4/logviewdialog.py:82 ../../kde4/settingsdialog.py:337
 msgid "Errors"
-msgstr ""
+msgstr "Feil"
 
 #: ../../gnome/logviewdialog.py:97 ../../kde4/logviewdialog.py:87
 msgid "Changes"
-msgstr ""
+msgstr "Endringer"
 
 #: ../../gnome/logviewdialog.py:100 ../../kde4/logviewdialog.py:90
 msgid "Informations"
@@ -437,7 +472,7 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.py:139 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
-msgstr ""
+msgstr "Inkluder filer og mapper"
 
 #: ../../gnome/settingsdialog.py:167
 msgid "Exclude patterns, files or folders"
@@ -561,6 +596,8 @@ msgid ""
 "This folder doesn't exist\n"
 "in the current snapshot !"
 msgstr ""
+"Denne mappen finnes ikke\n"
+"i det valgte øyeblikksbilde!"
 
 #: ../../kde4/app.py:767
 #, python-format
@@ -627,7 +664,7 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:187 ../../gnome/settingsdialog.glade:481
 msgid "Include"
-msgstr "Inkludér"
+msgstr "Inkluder"
 
 #: ../../kde4/settingsdialog.py:210 ../../kde4/settingsdialog.py:244
 #: ../../gnome/settingsdialog.glade:558
@@ -864,177 +901,3 @@ msgstr "Diff med"
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Mønster"
-
-#~ msgid "Snapshots directory is not valid !"
-#~ msgstr "Øyeblikksbilder katalogen er ikke gyldig !"
-
-#~ msgid "You must select at least one directory to backup !"
-#~ msgstr "Du må velge minst en katalog å sikkerhetskopiere !"
-
-#~ msgid "Include folders"
-#~ msgstr "Inkluder mapper"
-
-#~ msgid "Older then:"
-#~ msgstr "Eldre enn:"
-
-#~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
-#~ msgstr ""
-#~ "Øyeblikksbilder katalogen kan ikke være i \"Sikkerhetskopi Katalogene\" !"
-
-#~ msgid "\"Backup directories\" can't include snapshots directory !"
-#~ msgstr ""
-#~ "\"Sikkerhetskopi kataloger\" kan ikke inkludere øyeblikksbilde katalog !"
-
-#~ msgid "If free space is less then:"
-#~ msgstr "Hvis ledig plass er mindre enn:"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Velg en mappe"
-
-#~ msgid "Backup Directories"
-#~ msgstr "Sikkerhetskopi Kataloger"
-
-#~ msgid "\"Exclude pattern\" can't contain \":\" char !"
-#~ msgstr "\"Utelukk mønster\" kan ikke inneholde \":\" char !"
-
-#~ msgid "Update snapshots"
-#~ msgstr "Oppdater øyeblikksbilde"
-
-#~ msgid "Snapshots directory can't be the root directory !"
-#~ msgstr "Øyeblikksbilder katalog kan ikke være root katalog !"
-
-#~ msgid "about-translators"
-#~ msgstr "om oversettere"
-
-#, python-format
-#~ msgid "%s is not a directory !"
-#~ msgstr "%s er ikke en katalog !"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "Kan ikke skrive til: %s\n"
-#~ "Er du sikker på du har skrive tilgang?"
-
-#~ msgid "Patterns, files or directories"
-#~ msgstr "Mønster, filer eller kataloger"
-
-#~ msgid "Include directory"
-#~ msgstr "Inkluder katalog"
-
-#~ msgid "Exclude directory"
-#~ msgstr "Ekskluder katalog"
-
-#~ msgid ""
-#~ "This directory don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Denne katalogen eksisterer ikke\n"
-#~ "i gjeldende øyeblikksbilde !"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Automatisk sikkerhetskopi"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "-behold alle øyeblikksbilder fra idag og igår\n"
-#~ "-behold ett øyeblikksbilde for forrige uke og ett for to uker siden\n"
-#~ "-behold ett øyeblikksbilde per måned for alle forgående måneder dette året\n"
-#~ "-behold ett øyeblikksbilde per år for alle foregående år"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr ""
-#~ "Forandre bare denne innstillingen om du er helt sikker på hva du gjør !"
-
-#, python-format
-#~ msgid "Can't create directory: %s"
-#~ msgstr "Kan ikke opprette katalog: %s"
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it."
-#~ msgstr ""
-#~ "Finner ikke øyeblikksbilde katalog.\n"
-#~ "Om det er på en flyttbar stasjon vær snill å plugg den inn."
-
-#~ msgid "Parent Directory"
-#~ msgstr "Forelderkatalog"
-
-#, python-format
-#~ msgid "Can't remove directory: %s"
-#~ msgstr "Kan ikke fjerne katalog: %s"
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it and then press OK"
-#~ msgstr ""
-#~ "Kan ikke finne øyeblikksbilde katalogen.\n"
-#~ "Om den er på en flyttbar stasjon vær vennling å plugg den i og trykk OK"
-
-#~ msgid "Are you sure you want to change snapshots directory ?"
-#~ msgstr "Er du sikker på at du vil forandre øyeblikksbilde katalog ?"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr ""
-#~ "<b>Forandre bare denne innstillingen om du er helt sikker på hva du gjør "
-#~ "!</b>"
-
-#~ msgid ""
-#~ "<b>This directory don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Denne katalogen eksisterer ikke\n"
-#~ "i gjeldende øyeblikksbilde !</b>"
-
-#~ msgid ""
-#~ "Enable schedule per included directory (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Aktiver timeplan per inkluderte katalog (se inkluder fanen; standar: avslått)"
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "Profil %s eksisterer allerede !"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "Øyeblikksbilde mappe kan ikke være root mappe !"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Denne mappen eksisterer ikke \n"
-#~ "i nåværende øyeblikksbilde !"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Mønstre, filer og mapper"
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "Du kan ikke gi nytt navn til \"Hoved\" profil"
-
-#~ msgid ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Aktiver timeplan pr inkluderte mappe (se Inkluder tab: standard: deaktivert)"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Denne mappen eksisterer ikke\n"
-#~ "i nåværende øyeblikksbilde  !</b>"
-
-#~ msgid ""
-#~ "BackinTime changed its backup format.\n"
-#~ "\n"
-#~ "Your old snapshots can be moved according to this new format. OK?"
-#~ msgstr ""
-#~ "BackinTime skiftet backup-format.\n"
-#~ "\n"
-#~ "Dine gamle snapshots kan flyttes i henhold til dette nye formatet. OK?"

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2010-06-27 23:09+0000\n"
-"Last-Translator: Rui Leal <ralleal@gmail.com>\n"
+"PO-Revision-Date: 2011-05-11 18:37+0000\n"
+"Last-Translator: Tiago Carrondo <tiago@ubuntu-pt.org>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -33,7 +33,7 @@ msgstr "Desactivado"
 
 #: ../../common/config.py:57
 msgid "At every boot/reboot"
-msgstr ""
+msgstr "A cada arranque/reinício"
 
 #: ../../common/config.py:58
 msgid "Every 5 minutes"
@@ -129,7 +129,7 @@ msgstr "Agora"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
 msgid "WITH ERRORS !"
-msgstr ""
+msgstr "COM ERROS !"
 
 #: ../../common/snapshots.py:571
 msgid ""
@@ -206,12 +206,16 @@ msgstr ""
 #: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"Back In Time vai novamente continuar a fazer capturas de ecrã conforme "
+"agendado"
 
 #: ../../common/snapshots.py:673
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
+"Back In Time ainda não pode continuar a fazer novas capturas de ecrã.\n"
+"Reinicie Back In Time para ver as perguntas novamente"
 
 #: ../../common/snapshots.py:734
 msgid ""
@@ -259,7 +263,7 @@ msgstr "Impossível remover directoria: %s"
 #: ../../common/snapshots.py:1009
 #, python-format
 msgid "Compare with snapshot %s"
-msgstr ""
+msgstr "Compare com a captura de ecrã %s"
 
 #: ../../common/snapshots.py:1037
 msgid "Create hard-links"
@@ -318,7 +322,7 @@ msgstr "Data"
 #: ../../gnome/mainwindow.glade:352 ../../gnome/mainwindow.glade:353
 #: ../../gnome/snapshotsdialog.glade:7
 msgid "Snapshots"
-msgstr ""
+msgstr "Capturas de ecrã"
 
 #: ../../gnome/app.py:291
 msgid "Open"
@@ -357,7 +361,7 @@ msgstr "A processar:"
 
 #: ../../gnome/app.py:578 ../../kde4/app.py:532
 msgid "Error:"
-msgstr ""
+msgstr "Erro:"
 
 #: ../../gnome/app.py:591 ../../kde4/app.py:578
 msgid "Global"
@@ -429,15 +433,15 @@ msgstr ""
 #: ../../gnome/logviewdialog.py:92 ../../gnome/settingsdialog.py:264
 #: ../../kde4/logviewdialog.py:82 ../../kde4/settingsdialog.py:337
 msgid "Errors"
-msgstr ""
+msgstr "Erros"
 
 #: ../../gnome/logviewdialog.py:97 ../../kde4/logviewdialog.py:87
 msgid "Changes"
-msgstr ""
+msgstr "Alterações"
 
 #: ../../gnome/logviewdialog.py:100 ../../kde4/logviewdialog.py:90
 msgid "Informations"
-msgstr ""
+msgstr "Informações"
 
 #: ../../gnome/settingsdialog.py:139 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
@@ -453,7 +457,7 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.py:265 ../../kde4/settingsdialog.py:338
 msgid "Changes & Errors"
-msgstr ""
+msgstr "Alterações & Erros"
 
 #: ../../gnome/settingsdialog.py:299
 msgid "Snapshots folder"
@@ -613,11 +617,11 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:202
 msgid "Host:"
-msgstr ""
+msgstr "Servidor:"
 
 #: ../../kde4/settingsdialog.py:147 ../../gnome/settingsdialog.glade:222
 msgid "User:"
-msgstr ""
+msgstr "Utilizador:"
 
 #: ../../kde4/settingsdialog.py:160
 msgid "Schedule"
@@ -625,7 +629,7 @@ msgstr "Agenda"
 
 #: ../../kde4/settingsdialog.py:169 ../../gnome/settingsdialog.glade:324
 msgid "Hour:"
-msgstr ""
+msgstr "Hora:"
 
 #: ../../kde4/settingsdialog.py:187 ../../gnome/settingsdialog.glade:481
 msgid "Include"
@@ -647,7 +651,7 @@ msgstr "Excluir"
 
 #: ../../kde4/settingsdialog.py:231
 msgid "Highly recommended:"
-msgstr ""
+msgstr "Altamente recomendado:"
 
 #: ../../kde4/settingsdialog.py:259 ../../gnome/settingsdialog.glade:770
 msgid "Auto-remove"
@@ -700,7 +704,7 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:837
 msgid "Use checksum to detect changes"
-msgstr ""
+msgstr "Use a soma de verificação para detectar mudanças"
 
 #: ../../kde4/settingsdialog.py:331
 msgid "Log Level:"
@@ -866,92 +870,3 @@ msgstr ""
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Padrão"
-
-#~ msgid "You must select at least one directory to backup !"
-#~ msgstr ""
-#~ "Necessita de seleccionar pelo menos um directório para criar cópia de "
-#~ "segurança!"
-
-#~ msgid "Include folders"
-#~ msgstr "Incluír pastas"
-
-#~ msgid "If free space is less then:"
-#~ msgstr "Se o espaço livre é inferior a:"
-
-#~ msgid "Older then:"
-#~ msgstr "Anterior a:"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Seleccione uma directoria"
-
-#~ msgid "about-translators"
-#~ msgstr "sobre-traduções"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "Impossível escrever em: %s\n"
-#~ "Tem permissões de escrita ?"
-
-#~ msgid "Exclude directory"
-#~ msgstr "Excluir directoria"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Cópia de segurança automática"
-
-#, python-format
-#~ msgid "%s is not a directory !"
-#~ msgstr "%s não é uma directoria !"
-
-#~ msgid "Include directory"
-#~ msgstr "Incluir directoria"
-
-#, python-format
-#~ msgid "Can't create directory: %s"
-#~ msgstr "Impossível criar o drectório: %s"
-
-#, python-format
-#~ msgid "Can't remove directory: %s"
-#~ msgstr "Impossível remover o drectório: %s"
-
-#~ msgid ""
-#~ "No profiles are found. Will have to update to profiles first, please restart "
-#~ "BackinTime"
-#~ msgstr ""
-#~ "Nenhum perfil encontrado. É necessário actualizar os perfis primeiro, por "
-#~ "favor reinicie o BackinTime."
-
-#~ msgid ""
-#~ "BackinTime changed its backup format.\n"
-#~ "\n"
-#~ "Your old snapshots can be moved according to this new format. OK?"
-#~ msgstr ""
-#~ "BackinTime  alterou o seu formato de cópia de segurança.\n"
-#~ "\n"
-#~ "Os arquivos de cópia de segurança continuam a poder ser utilizados com este "
-#~ "novo formato."
-
-#~ msgid "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr "Backintime vai continuar tirando snapshots de novo, como previsto"
-
-#~ msgid ""
-#~ "Update was successful!\n"
-#~ "\n"
-#~ "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr ""
-#~ "A actualização foi efectuada com sucesso!\n"
-#~ "\n"
-#~ "Backintime vai continuar tirando snapshots de novo, como previsto"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Padrões, ficheiros ou pastas"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr ""
-#~ "<b>Apenas altere estas opções caso saiba mesmo o que está a fazer !</b>"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr "Apenas altere estas opções caso saiba mesmo o que está a fazer !"

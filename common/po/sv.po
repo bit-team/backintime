@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2010-11-18 11:23+0000\n"
-"Last-Translator: Stefan Lunderius <Unknown>\n"
+"PO-Revision-Date: 2011-01-19 11:04+0000\n"
+"Last-Translator: jolindbe <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -127,7 +127,7 @@ msgstr "Nu"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
 msgid "WITH ERRORS !"
-msgstr ""
+msgstr "MED FEL !"
 
 #: ../../common/snapshots.py:571
 msgid ""
@@ -489,7 +489,7 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.py:265 ../../kde4/settingsdialog.py:338
 msgid "Changes & Errors"
-msgstr ""
+msgstr "Ändringar & Fel"
 
 #: ../../gnome/settingsdialog.py:299
 msgid "Snapshots folder"
@@ -687,7 +687,7 @@ msgstr "Exkludera"
 
 #: ../../kde4/settingsdialog.py:231
 msgid "Highly recommended:"
-msgstr ""
+msgstr "Starkt rekommenderat:"
 
 #: ../../kde4/settingsdialog.py:259 ../../gnome/settingsdialog.glade:770
 msgid "Auto-remove"
@@ -745,11 +745,11 @@ msgstr "Fortsätt vid fel (behåll icke kompletta ögonblicksbilder)"
 
 #: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:837
 msgid "Use checksum to detect changes"
-msgstr ""
+msgstr "Använd checksum för att detektera ändringar"
 
 #: ../../kde4/settingsdialog.py:331
 msgid "Log Level:"
-msgstr ""
+msgstr "Loggnivå:"
 
 #: ../../kde4/settingsdialog.py:346 ../../gnome/settingsdialog.glade:1018
 msgid "Expert Options"
@@ -867,11 +867,11 @@ msgstr "<b>Schema</b>"
 
 #: ../../gnome/settingsdialog.glade:517
 msgid "<b>Highly recommended:</b>"
-msgstr ""
+msgstr "<b>Starkt rekommenderat:</b>"
 
 #: ../../gnome/settingsdialog.glade:529
 msgid "label"
-msgstr ""
+msgstr "etikett"
 
 #: ../../gnome/settingsdialog.glade:735
 msgid ""
@@ -895,7 +895,7 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:855
 msgid "Log level:"
-msgstr ""
+msgstr "Loggnivå:"
 
 #: ../../gnome/settingsdialog.glade:902
 msgid ""
@@ -905,15 +905,15 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:1033
 msgid "<b>This options don't depend on profile</b>"
-msgstr ""
+msgstr "<b>Dessa inställningar beror inte på profilen</b>"
 
 #: ../../gnome/settingsdialog.glade:1044
 msgid "Use gloobus-preview (if installed)"
-msgstr ""
+msgstr "Använd gloobus-preview (om installerad)"
 
 #: ../../gnome/settingsdialog.glade:1066
 msgid "GUI Options"
-msgstr ""
+msgstr "GUI-inställningar"
 
 #: ../../gnome/snapshotsdialog.glade:138
 msgid "Diff with"
@@ -922,117 +922,3 @@ msgstr "Jämför med"
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Mönster"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Välj en mapp"
-
-#~ msgid "Older then:"
-#~ msgstr "Äldre än:"
-
-#~ msgid "Are you sure you want to change snapshots directory ?"
-#~ msgstr "Är du säker på att du vill ändra katalog för ögonblicksbilder?"
-
-#~ msgid "You must select at least one directory to backup !"
-#~ msgstr "Du måste välja minst en katalog att säkerhetskopiera!"
-
-#~ msgid "Snapshots directory can't be the root directory !"
-#~ msgstr "Katalog för ögonblicksbilder får inte rotkatalogen!"
-
-#~ msgid "Backup Directories"
-#~ msgstr "Kataloger för säkerhetskopiera"
-
-#~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
-#~ msgstr ""
-#~ "Katalog för ögonblicksbilder får inte vara i \"Kataloger för "
-#~ "säkerhetskopiera\"!"
-
-#~ msgid "\"Backup directories\" can't include snapshots directory !"
-#~ msgstr ""
-#~ "\"Kataloger för säkerhetskopiera\" kan inte inkludera katalog för "
-#~ "ögonblicksbilder!"
-
-#~ msgid "Parent Directory"
-#~ msgstr "Föräldrakatalog"
-
-#~ msgid "If free space is less then:"
-#~ msgstr "Om ledigt utrymme är mindre än:"
-
-#~ msgid "Snapshots directory is not valid !"
-#~ msgstr "Katalogen för ögonblicksbilder är inte giltig!"
-
-#~ msgid "\"Exclude pattern\" can't contain \":\" char !"
-#~ msgstr "\"Exkludera mönster\" får inte innehålla \":\"-tecken!"
-
-#~ msgid "Update snapshots"
-#~ msgstr "Uppdatera ögonblicksbilder"
-
-#~ msgid "Include folders"
-#~ msgstr "Inkludera mappar"
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "Profilen %s finns redan !"
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "Du kan inte byta namn på profilen \"Main\""
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "Kan inte skriva till: %s\n"
-#~ "Är du säker på att du har skrivrättigheter där?"
-
-#~ msgid "about-translators"
-#~ msgstr "Daniel Nylander <po@danielnylander.se>"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Mönster, filer eller mappar"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Automatisk säkerhetskopiering"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr "Ändra endast dessa alternativ om du verkligen vet vad du gör!"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "- behåll alla ögonblicksbilder från idag och igår\n"
-#~ "- behåll en ögonblicksbild för senaste veckan och en för två veckor sedan\n"
-#~ "- behåll en ögonblicksbild per månad för alla tidigare månader detta år\n"
-#~ "- behåll en ögonblicksbild per år för alla tidigare år"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr "<b>Ändra endast dessa alternativ om du verkligen vet vad du gör!</b>"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Denna mapp finns inte\n"
-#~ "i aktuell ögonblicksbild!</b>"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Denna mapp finns inte\n"
-#~ "i aktuell ögonblicksbild!"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "Mapp för ögonblicksbilder får inte vara rotmappen!"
-
-#~ msgid ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Aktivera schema per inkluderad mapp (se fliken Inkludera; standard: "
-#~ "inaktiverat)"
-
-#~ msgid "FAILED"
-#~ msgstr "MISSLYCKADES"

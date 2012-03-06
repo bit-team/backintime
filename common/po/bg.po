@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2010-11-14 18:13+0000\n"
-"Last-Translator: Svetoslav Stefanov <svetlisashkov@yahoo.com>\n"
+"PO-Revision-Date: 2011-06-07 21:22+0000\n"
+"Last-Translator: PhobosK <phobosk@kbfx.net>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../gnome/app.py:591 ../../kde4/app.py:578
 msgid "Global"
@@ -787,7 +787,7 @@ msgstr "Копиране на несигурните връзки (работи 
 
 #: ../../kde4/settingsdialog.py:375 ../../gnome/settingsdialog.glade:991
 msgid "Copy links (dereference symbolic links)"
-msgstr ""
+msgstr "Копирай връзките към файлове (следвай символните връзки)"
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:146
 #: ../../gnome/snapshotsdialog.glade:240
@@ -872,7 +872,7 @@ msgstr "<b>Силно препоръчително:</b>"
 
 #: ../../gnome/settingsdialog.glade:529
 msgid "label"
-msgstr ""
+msgstr "етикет"
 
 #: ../../gnome/settingsdialog.glade:735
 msgid ""
@@ -905,7 +905,7 @@ msgstr "<b>Променяйте тези настройки, само ако з�
 
 #: ../../gnome/settingsdialog.glade:1033
 msgid "<b>This options don't depend on profile</b>"
-msgstr ""
+msgstr "<b>Тези настройки не зависят от профила</b>"
 
 #: ../../gnome/settingsdialog.glade:1044
 msgid "Use gloobus-preview (if installed)"
@@ -922,232 +922,3 @@ msgstr "Сравняване с"
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Шаблон"
-
-#~ msgid "Snapshots directory is not valid !"
-#~ msgstr "Папката за моментни архиви не е валидна!"
-
-#~ msgid "Snapshots directory can't be the root directory !"
-#~ msgstr "Папката с моментни архиви не може да бъде в главната (root) папка"
-
-#~ msgid "You must select at least one directory to backup !"
-#~ msgstr "Трябва да изберете поне една папка за архивиране!"
-
-#~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
-#~ msgstr "Моментните архиви не могат да бъдат в \"Папките за архивиране\" !"
-
-#~ msgid "\"Backup directories\" can't include snapshots directory !"
-#~ msgstr ""
-#~ "\"Папките за архивиране\" не могат да включват папката с моментни архиви!"
-
-#~ msgid "Backup Directories"
-#~ msgstr "Папки за архивиране"
-
-#~ msgid "Include folders"
-#~ msgstr "Включване на папки"
-
-#~ msgid "Older then:"
-#~ msgstr "По стари от:"
-
-#~ msgid "If free space is less then:"
-#~ msgstr "Ако свободното място е под:"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Избор на папка"
-
-#~ msgid "Are you sure you want to change snapshots directory ?"
-#~ msgstr "Сигурни ли сте, че желаете да промените папката за моментни архиви?"
-
-#~ msgid "Update snapshots"
-#~ msgstr "Обновяване на моментните архиви"
-
-#~ msgid "\"Exclude pattern\" can't contain \":\" char !"
-#~ msgstr "\"Шаблонът за изключване\" не може да съдържа знак \":\"!"
-
-#~ msgid "Parent Directory"
-#~ msgstr "Родителска папка"
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "Не можете да преименувате \"Главния\" профил"
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "Профилът %s вече съществува !"
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it."
-#~ msgstr ""
-#~ "Папката за моментните архиви не може да бъде открита.\n"
-#~ "Ако е на преносимо устройства, моля включете го."
-
-#, python-format
-#~ msgid "Can't create directory: %s"
-#~ msgstr "Не може да бъде създадена папката: %s"
-
-#, python-format
-#~ msgid "%s is not a directory !"
-#~ msgstr "%s не е папка!"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "Не може да се записва в: %s\n"
-#~ "Сигурни ли сте, че имате права за запис?"
-
-#, python-format
-#~ msgid "Can't remove directory: %s"
-#~ msgstr "Не може да бъде премахната папката: %s"
-
-#~ msgid "about-translators"
-#~ msgstr "Светослав Стефанов lfu.project@gmail.com"
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it and then press OK"
-#~ msgstr ""
-#~ "Папката за моментните архиви не може да бъде намерена.\n"
-#~ "Ако е на преносимо устройство, моля включете го, след което натиснете Добре"
-
-#~ msgid "Patterns, files or directories"
-#~ msgstr "Шаблони, файлове или папки"
-
-#~ msgid "Include directory"
-#~ msgstr "Включване на папка"
-
-#~ msgid ""
-#~ "This directory don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Тази папка не съществува\n"
-#~ "в текущия моментен архив !"
-
-#~ msgid "Exclude directory"
-#~ msgstr "Изключване на папка"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Автоматично архивиране"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "- запазване на всички моментни архиви от днес и вчера\n"
-#~ "- запазване на един моментен архив за последната седмица и на един за "
-#~ "предните две седмици\n"
-#~ "- Запазване на един моментен архив месечно за всеки месец в годината\n"
-#~ "- Запазване на един моментен архив годишно за всички предишни години"
-
-#~ msgid ""
-#~ "Enable schedule per included directory (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Включване на разписание за включената папка (вижте подстраницата Включване; "
-#~ "стандартно: изключено)"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr "Променяйте тези настройки, само ако наистина знаете какво вършите !"
-
-#~ msgid ""
-#~ "<b>This directory don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Тази папка не съществува\n"
-#~ "в текущия моментен архив !</b>"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr ""
-#~ "<b>Променяйте тези настройки, само ако наистина знаете какво вършите !</b>"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "Папката за моментни архиви не може да е основният дял"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Тази папка не съществува в\n"
-#~ "текущият моментен архив !"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Маски, файлове или папки"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Тази папка не съществува в\n"
-#~ "текущият моментен архив !</b>"
-
-#~ msgid ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Включване на разписание за включената папка (вижте подпрозореца Включване; "
-#~ "стадартно: изключено)"
-
-#~ msgid ""
-#~ "No profiles are found. Will have to update to profiles first, please restart "
-#~ "BackinTime"
-#~ msgstr ""
-#~ "Не са намерени профили. Първо трябва да ги обновите, моля рестартирайте "
-#~ "BackInTime."
-
-#~ msgid ""
-#~ "BackinTime changed its backup format.\n"
-#~ "\n"
-#~ "Your old snapshots can be moved according to this new format. OK?"
-#~ msgstr ""
-#~ "BackinTime е променил формата си за архивиране.\n"
-#~ "\n"
-#~ "Старите ви моментни архиви могат да бъдат мигрирани към този нов формат. "
-#~ "Изпълнение?"
-
-#~ msgid ""
-#~ "BackinTime still cannot continue taking new snapshots.\n"
-#~ "Restart BackinTime to see the questions again"
-#~ msgstr ""
-#~ "BackinTime все още не може да продължи да прави моментни архиви.\n"
-#~ "Рестартирайте програмата, за да видите отново въпросите."
-
-#~ msgid "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr ""
-#~ "BackinTime отново ще продължи да прави моментни архиви по разписание."
-
-#~ msgid ""
-#~ "Update was successful!\n"
-#~ "\n"
-#~ "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr ""
-#~ "Обновяването беше успешно!\n"
-#~ "\n"
-#~ "BackinTime ще продължи да прави моментни архиви по разписание."
-
-#~ msgid "Refresh snapshots"
-#~ msgstr "Опресняване на моментни архиви"
-
-#~ msgid ""
-#~ "<b>This folder does not exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Тази папка не съществува\n"
-#~ "в текущия моментен архив !</b>"
-
-#, python-format
-#~ msgid ""
-#~ "Former settings of profile %s are restored.\n"
-#~ "BackinTime cannot continue taking new snapshots.\n"
-#~ "\n"
-#~ "You can manually move the snapshots, \n"
-#~ "if you are done restart BackinTime to proceed"
-#~ msgstr ""
-#~ "Възстановени са предишните настройка на профила %s.\n"
-#~ "BackinTime не може да продължи да прави нови моментни архиви.\n"
-#~ "\n"
-#~ "Можете ръчно да преместите моментните архиви. \n"
-#~ "Ако сте готови, рестартирайте BackinTime, за да продължите."
-
-#~ msgid "FAILED"
-#~ msgstr "НЕУСПЕШНО"

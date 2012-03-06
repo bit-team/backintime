@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2010-05-16 10:34+0000\n"
-"Last-Translator: Krasznecz Zoltán <zoltan.krasznecz@gmail.com>\n"
+"PO-Revision-Date: 2011-07-20 08:04+0000\n"
+"Last-Translator: Gergely Nehéz <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -133,6 +133,9 @@ msgid ""
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
+"A Back in Time  megváltoztatta a mentés formátumát.\n"
+"\n"
+"A régi pillanatképeket át tudjuk rakni ebbe az új formátumba. Mehet?"
 
 #: ../../common/snapshots.py:581
 #, python-format
@@ -173,6 +176,11 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
+"A %s profil korábbi beállításai visszaállítva.\n"
+"A Back in Time nem tud újabb pillanatképeket készíteni.\n"
+"\n"
+"Kézzel tudja mozgatni a pillanatképeket,\n"
+"ha elkészült, a folytatáshoz indítsa újra a Back in Time-ot."
 
 #: ../../common/snapshots.py:657
 msgid ""
@@ -180,6 +188,9 @@ msgid ""
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"A frissítés sikeres volt.\n"
+"\n"
+"A Back in Time folytatja a pillanatképek készítését az időzítés szerint."
 
 #: ../../common/snapshots.py:662
 msgid ""
@@ -196,12 +207,15 @@ msgstr ""
 #: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"A Back in Time folytatja a pillanatképek készítését az időzítés szerint."
 
 #: ../../common/snapshots.py:673
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
+"A Back in Time nem tud újabb pillanatképeket készíteni.\n"
+"Indítsa újra a Back in Time -ot, hogy ismét láthassa a kérdéseket."
 
 #: ../../common/snapshots.py:734
 msgid ""
@@ -221,7 +235,7 @@ msgstr[1] "%s másodperc várakozás"
 #: ../../common/snapshots.py:760
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr ""
+msgstr "A %s pillanatkép készítése meghiúsult!!!"
 
 #: ../../common/snapshots.py:769
 msgid "Finalizing"
@@ -863,81 +877,3 @@ msgstr "Összehasonlítás ezzel:"
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Minta"
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "A \"Fő\" profil nem nevezhető át"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "A Pillanatkép könyvtára nem lehet a gyökérkönyvtár"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "Nem írható a következő: %s\n"
-#~ "Biztos, hogy van írási joga?"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Minták, fájlok vagy mappák"
-
-#~ msgid "Update snapshots"
-#~ msgstr "Pillanatképek frissítése"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Ez a mappa nem létezik\n"
-#~ "az aktuális pillanatképben"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Automatikus biztonsági mentés"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr ""
-#~ "Csak akkor módosítsa ezeket a beállításokat, ha biztos benne, hogy tudja mit "
-#~ "csinál!"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Mappa kiválasztása"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr ""
-#~ "<b>Csak akkor módosítsa ezeket a beállításokat, ha biztos benne, hogy tudja "
-#~ "mit csinál!</b>"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Ez a mappa nem létezik\n"
-#~ "az aktuális pillanatképben</b>"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "-minden pillanatkép megtartása máról és tegnapról\n"
-#~ "-egy pillanatkép megtartása a múlt hétről és az előtte lévő hétről\n"
-#~ "-egy pillanatkép megtartása havonta ebből az évből\n"
-#~ "-egy pillanatkép megtartása minden ezelőtti évből"
-
-#~ msgid ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Ütemterv engedélyezése hozzáadott mappánként (lásd: Hozzáadás fül; "
-#~ "alapértelmezett: kikapcsolva)"
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "A következő profil már létezik: %s"
-
-#~ msgid "Include folders"
-#~ msgstr "Tartalmazandó mappák"
-
-#~ msgid "about-translators"
-#~ msgstr "egyebek-fordítók"
