@@ -525,7 +525,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		
 		if unit == self.YEAR:
 			date = datetime.date.today()
-			return date.replace( year = date.year - value )
+			return date.replace( day = 1, year = date.year - value )
 		
 		return datetime.date( 1, 1, 1 )
 
