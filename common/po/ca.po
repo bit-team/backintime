@@ -8,24 +8,24 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2009-11-11 14:26+0000\n"
-"Last-Translator: MephSnake <Unknown>\n"
+"PO-Revision-Date: 2011-09-20 08:37+0000\n"
+"Last-Translator: Joan Isc <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
 msgid "Profile \"%s\" already exists !"
-msgstr ""
+msgstr "El perfil \"%s\" ja existeix !"
 
 #: ../../common/configfile.py:282
 msgid "You can't remove the last profile !"
-msgstr ""
+msgstr "No es pot esborrar el darrer perfil !"
 
 #: ../../common/config.py:56
 msgid "Disabled"
@@ -33,7 +33,7 @@ msgstr "Desactivat"
 
 #: ../../common/config.py:57
 msgid "At every boot/reboot"
-msgstr ""
+msgstr "En cada inici/reinici"
 
 #: ../../common/config.py:58
 msgid "Every 5 minutes"
@@ -61,46 +61,46 @@ msgstr "Cada mes"
 
 #: ../../common/config.py:67
 msgid "Day(s)"
-msgstr "Dia/es"
+msgstr "Dia(es)"
 
 #: ../../common/config.py:68
 msgid "Week(s)"
-msgstr "Setmana/es"
+msgstr "Setmana(es)"
 
 #: ../../common/config.py:69
 msgid "Year(s)"
-msgstr "Any/s"
+msgstr "Any(s)"
 
 #: ../../common/config.py:77
 msgid "Main profile"
-msgstr ""
+msgstr "Perfil principal"
 
 #: ../../common/config.py:197 ../../common/config.py:216
 #: ../../common/config.py:227 ../../common/config.py:232
 #, python-format
 msgid "Profile: \"%s\""
-msgstr ""
+msgstr "Perfil: \"%s\""
 
 #: ../../common/config.py:197
 msgid "Snapshots folder is not valid !"
-msgstr "El directori d'instantànies no és valid!"
+msgstr "La carpeta per instantànies no es vàlida !"
 
 #: ../../common/config.py:216
 msgid "You must select at least one folder to backup !"
-msgstr "Has de seleccionar al menys una carpeta per guardar"
+msgstr "Heu de seleccionar al menys una carpeta per salvaguardar !"
 
 #: ../../common/config.py:227
 msgid "You can't include backup folder !"
-msgstr "No podeu incloure el directori de còpies de seguretat!"
+msgstr "No podeu incloure el directori de còpies de seguretat !"
 
 #: ../../common/config.py:232
 msgid "You can't include a backup sub-folder !"
-msgstr "No podeu incloure un subdirectori de còpies de seguretat!"
+msgstr "No podeu incloure un subdirectori de còpies de seguretat !"
 
 #: ../../common/config.py:283
 #, python-format
 msgid "%s is not a folder !"
-msgstr "%s no és un directori!"
+msgstr "%s no és un directori !"
 
 #: ../../common/config.py:298 ../../common/config.py:311
 #, python-format
@@ -108,6 +108,8 @@ msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
+"No es pot escriure a: %s\n"
+"Esteu segurs de que teniu permisos d'escriptura ?"
 
 #: ../../common/config.py:789
 msgid ""
@@ -115,9 +117,9 @@ msgid ""
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
-"No es pot trobar el crontab.\n"
-"Esteu segur que el cron està instal·lat?\n"
-"Si no és així, es recomanable que desactiveu totes les còpies automàtiques."
+"No es pot trobar el 'crontab'.\n"
+"Esteu segur que el 'cron' està instal·lat ?\n"
+"Si no és així, deveu desactivar totes les còpies automàtiques."
 
 #: ../../common/snapshots.py:147 ../../gnome/app.py:1056 ../../kde4/app.py:913
 msgid "Now"
@@ -125,7 +127,7 @@ msgstr "Ara"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
 msgid "WITH ERRORS !"
-msgstr ""
+msgstr "AMB ERRORS !"
 
 #: ../../common/snapshots.py:571
 msgid ""
@@ -133,6 +135,10 @@ msgid ""
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
+"'Back In Time' ha canviat el format de les còpies de seguretat.\n"
+"\n"
+"Les vostres antigues instantànies poden ser convertides al nou format. Esteu "
+"d'acord?"
 
 #: ../../common/snapshots.py:581
 #, python-format
@@ -144,12 +150,20 @@ msgid ""
 "\n"
 "(The program will still be able to discriminate between them)"
 msgstr ""
+"S'han trobat %s perfils. \n"
+"\n"
+"El nou format de copies suporta diferents usuaris i perfils en la mateixa "
+"localització. Voleu la mateixa direcció per tots dos perfils ?  \n"
+"\n"
+"(El programa es capaç de discriminar entre ells)"
 
 #: ../../common/snapshots.py:584
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
+"No s'han trobat perfils. Primer actualitzarem a perfils, sis plau reinicieu "
+"'Back In Time'"
 
 #: ../../common/snapshots.py:635
 #, python-format
@@ -163,6 +177,14 @@ msgid ""
 "If not Back In Time will restore former settings for this profile, however "
 "cannot continue taking snapshots"
 msgstr ""
+"%s\n"
+"del perfil %s no s'ha traslladat a la seva nova ubicació\n"
+"Voleu continuar?\n"
+"('Back In Time' continuarà fent instantànies, no obstant les restants "
+"instantànies no seran considerades per ser eliminades de forma automàtica\n"
+"\n"
+"Si 'Back In Time' no restaura la configuració antiga d'aquest perfil no "
+"podrà continuar fent instantànies."
 
 #: ../../common/snapshots.py:644
 #, python-format
@@ -173,6 +195,11 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
+"S'ha restaurat l'antiga configuració d'aquest perfil %s.\n"
+"'Back In Time' no pot continuar fent noves instantànies.\n"
+"\n"
+"Vostè pot moure manualment les instantànies, \n"
+"si està preparat, reinicii 'Back In Time' per avançar"
 
 #: ../../common/snapshots.py:657
 msgid ""
@@ -180,6 +207,10 @@ msgid ""
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"Actualització correcte !\n"
+"\n"
+"'Back In Time' continuarà prenent instantànies altre vegada tal com ha sigut "
+"programat"
 
 #: ../../common/snapshots.py:662
 msgid ""
@@ -192,16 +223,28 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
+"Està segur de que no vol moure les vostres antigues instantànies?\n"
+"\n"
+"\n"
+"Si ho fa, no tornarà a veure aquestes preguntes la propera vegada, 'Back In "
+"Time' continuarà fent instantànies altre vegada, però el sistema de esborrat-"
+"intel·ligent no podrà portar les vostres velles instantànies a la vostre "
+"compte!\n"
+"\n"
+"Si no ho feu, s'os preguntarà la propera vegada que inicieu 'Back In Time'."
 
 #: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"'Back In Time' continuarà fent instantànies de nou com s'ha programat"
 
 #: ../../common/snapshots.py:673
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
+"'Back In Time' encar no pot continuar fent noves instantànies.\n"
+"Reinicieu 'Back In Time' per veure de nou les preguntes"
 
 #: ../../common/snapshots.py:734
 msgid ""
@@ -209,23 +252,23 @@ msgid ""
 "If it is on a removable drive please plug it."
 msgstr ""
 "No es pot trobar el directori d'instantànies.\n"
-"Si està en una unitat extraïble, connecti-la."
+"Si està en una unitat extraïble, connecteu-la."
 
 #: ../../common/snapshots.py:736
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "S'estan esperant %s segons."
-msgstr[1] "S'estan esperant %s segons."
+msgstr[0] "Esperant %s segons."
+msgstr[1] "Esperant %s segons."
 
 #: ../../common/snapshots.py:760
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr ""
+msgstr "S'ha produït un error fent l'instantània %s !!!"
 
 #: ../../common/snapshots.py:769
 msgid "Finalizing"
-msgstr "S'està finalitzant."
+msgstr "Finalitzant"
 
 #: ../../common/snapshots.py:795 ../../common/snapshots.py:1077
 #: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:36
@@ -244,7 +287,7 @@ msgstr "..."
 #: ../../common/snapshots.py:938
 #, python-format
 msgid "Can't remove folder: %s"
-msgstr "No es pot reanomenar el directori: %s"
+msgstr "No es pot borrar el directori: %s"
 
 #: ../../common/snapshots.py:1009
 #, python-format
@@ -257,16 +300,16 @@ msgstr "Crea enllaços forts"
 
 #: ../../common/snapshots.py:1100
 msgid "Save config file ..."
-msgstr ""
+msgstr "Guarda el fixter de configuració ..."
 
 #: ../../common/snapshots.py:1105
 msgid "Save permission ..."
-msgstr "Guarda el permís ..."
+msgstr "Guarda els permisos ..."
 
 #: ../../common/snapshots.py:1182
 #, python-format
 msgid "Can't rename %s to %s"
-msgstr "No es pot reanomenar %s a %s"
+msgstr "No es pot canviar el nom de %s a %s"
 
 #: ../../common/snapshots.py:1294
 msgid "Remove old snapshots"
@@ -279,7 +322,7 @@ msgstr "Eliminació intel·ligent"
 
 #: ../../common/snapshots.py:1322
 msgid "Try to keep min free space"
-msgstr "Intenta mantenir un minim d'espai lliure"
+msgstr "Proveu de mantenir un minim d'espai lliure"
 
 #: ../../gnome/app.py:182 ../../gnome/app.py:551 ../../gnome/app.py:565
 #: ../../kde4/app.py:263 ../../kde4/app.py:502 ../../kde4/app.py:519
@@ -322,7 +365,7 @@ msgstr "Còpia"
 
 #: ../../gnome/app.py:294 ../../kde4/snapshotsdialog.py:137
 msgid "Diff"
-msgstr ""
+msgstr "Diff"
 
 #: ../../gnome/app.py:295 ../../kde4/app.py:176
 #: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:324
@@ -349,7 +392,7 @@ msgstr "S'està treballant:"
 
 #: ../../gnome/app.py:578 ../../kde4/app.py:532
 msgid "Error:"
-msgstr ""
+msgstr "S'ha produït un error:"
 
 #: ../../gnome/app.py:591 ../../kde4/app.py:578
 msgid "Global"
@@ -357,7 +400,7 @@ msgstr "Global"
 
 #: ../../gnome/app.py:592 ../../kde4/app.py:579
 msgid "Root"
-msgstr ""
+msgstr "Arrel"
 
 #: ../../gnome/app.py:593 ../../kde4/app.py:580
 msgid "Home"
@@ -418,40 +461,40 @@ msgstr "Visualitza el contingut actual del disc"
 #: ../../gnome/logviewdialog.py:91 ../../gnome/settingsdialog.py:266
 #: ../../kde4/logviewdialog.py:81 ../../kde4/settingsdialog.py:339
 msgid "All"
-msgstr ""
+msgstr "Tots"
 
 #: ../../gnome/logviewdialog.py:92 ../../gnome/settingsdialog.py:264
 #: ../../kde4/logviewdialog.py:82 ../../kde4/settingsdialog.py:337
 msgid "Errors"
-msgstr ""
+msgstr "Errors"
 
 #: ../../gnome/logviewdialog.py:97 ../../kde4/logviewdialog.py:87
 msgid "Changes"
-msgstr ""
+msgstr "Canvis"
 
 #: ../../gnome/logviewdialog.py:100 ../../kde4/logviewdialog.py:90
 msgid "Informations"
-msgstr ""
+msgstr "Informacions"
 
 #: ../../gnome/settingsdialog.py:139 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
-msgstr ""
+msgstr "Inclou fitxers i carpetes"
 
 #: ../../gnome/settingsdialog.py:167
 msgid "Exclude patterns, files or folders"
-msgstr ""
+msgstr "Exclou fitxers i carpetes"
 
 #: ../../gnome/settingsdialog.py:263 ../../kde4/settingsdialog.py:336
 msgid "None"
-msgstr ""
+msgstr "Cap"
 
 #: ../../gnome/settingsdialog.py:265 ../../kde4/settingsdialog.py:338
 msgid "Changes & Errors"
-msgstr ""
+msgstr "Canvis i Errors"
 
 #: ../../gnome/settingsdialog.py:299
 msgid "Snapshots folder"
-msgstr ""
+msgstr "Carpeta d'instantànies"
 
 #: ../../gnome/settingsdialog.py:307 ../../kde4/settingsdialog.py:802
 msgid "Are you sure you want to change snapshots folder ?"
@@ -459,16 +502,16 @@ msgstr "Esteu segur que voleu cambiar el directori d'instantànies?"
 
 #: ../../gnome/settingsdialog.py:637 ../../kde4/settingsdialog.py:384
 msgid "New profile"
-msgstr ""
+msgstr "Perfil nou"
 
 #: ../../gnome/settingsdialog.py:651 ../../kde4/settingsdialog.py:400
 msgid "Rename profile"
-msgstr ""
+msgstr "Reanomena el perfil"
 
 #: ../../gnome/settingsdialog.py:663 ../../kde4/settingsdialog.py:414
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
-msgstr ""
+msgstr "Esteu segurs de que voleu eliminar el perfil \"%s\"?"
 
 #: ../../gnome/settingsdialog.py:669 ../../kde4/settingsdialog.py:783
 msgid "Include folder"
@@ -476,7 +519,7 @@ msgstr "Inclou el directori"
 
 #: ../../gnome/settingsdialog.py:688 ../../kde4/settingsdialog.py:769
 msgid "Include file"
-msgstr ""
+msgstr "Afegeix un fitxer"
 
 #: ../../gnome/settingsdialog.py:725 ../../kde4/settingsdialog.py:731
 msgid "Exclude pattern"
@@ -506,7 +549,7 @@ msgstr "No s'ha trobat l'ordre: %s"
 #: ../../kde4/app.py:84 ../../gnome/mainwindow.glade:49
 #: ../../gnome/mainwindow.glade:50
 msgid "Refresh snapshots list"
-msgstr ""
+msgstr "Refresca la llista d'instantànies"
 
 #: ../../kde4/app.py:92 ../../gnome/mainwindow.glade:75
 #: ../../gnome/mainwindow.glade:76
@@ -515,11 +558,11 @@ msgstr "Elimina l'instantània"
 
 #: ../../kde4/app.py:96 ../../gnome/mainwindow.glade:89
 msgid "View Snapshot Log"
-msgstr ""
+msgstr "Visualitza el log d'instantànies"
 
 #: ../../kde4/app.py:100 ../../gnome/mainwindow.glade:103
 msgid "View Last Log"
-msgstr ""
+msgstr "Visualitza l'últim log"
 
 #: ../../kde4/app.py:106 ../../kde4/settingsdialog.py:66
 #: ../../gnome/mainwindow.glade:124 ../../gnome/mainwindow.glade:125
@@ -552,13 +595,15 @@ msgstr "Mostra els fitxers ocults"
 
 #: ../../kde4/app.py:180 ../../gnome/snapshotsdialog.glade:66
 msgid "Copy pathname to clipboard"
-msgstr ""
+msgstr "Copia la ruta al portaretalls"
 
 #: ../../kde4/app.py:207
 msgid ""
 "This folder doesn't exist\n"
 "in the current snapshot !"
 msgstr ""
+"La carpeta no existeix\n"
+"en la instantània acual"
 
 #: ../../kde4/app.py:767
 #, python-format
@@ -575,25 +620,25 @@ msgstr "S'està treballant..."
 
 #: ../../kde4/logviewdialog.py:53
 msgid "Error Log View"
-msgstr ""
+msgstr "Visualitza el log d'errors"
 
 #: ../../kde4/logviewdialog.py:63 ../../kde4/settingsdialog.py:76
 #: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:38
 #: ../../gnome/settingsdialog.glade:25
 msgid "Profile:"
-msgstr ""
+msgstr "Perfil:"
 
 #: ../../kde4/logviewdialog.py:75 ../../gnome/logviewdialog.glade:67
 msgid "Filter:"
-msgstr ""
+msgstr "Filtra:"
 
 #: ../../kde4/logviewdialog.py:98 ../../gnome/logviewdialog.glade:117
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr ""
+msgstr "[E]Errors, [I]Informació, [C]Canvia"
 
 #: ../../kde4/settingsdialog.py:85
 msgid "Edit"
-msgstr ""
+msgstr "Edita"
 
 #: ../../kde4/settingsdialog.py:103 ../../gnome/settingsdialog.glade:391
 msgid "General"
@@ -605,15 +650,15 @@ msgstr "A on guardar Instanànies"
 
 #: ../../kde4/settingsdialog.py:135 ../../gnome/settingsdialog.glade:182
 msgid "Auto Host / User / Profile Id"
-msgstr ""
+msgstr "Auto amfitrió / Usuari / Perfil ID"
 
 #: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:202
 msgid "Host:"
-msgstr ""
+msgstr "Ordinador amfitrió:"
 
 #: ../../kde4/settingsdialog.py:147 ../../gnome/settingsdialog.glade:222
 msgid "User:"
-msgstr ""
+msgstr "Usuari:"
 
 #: ../../kde4/settingsdialog.py:160
 msgid "Schedule"
@@ -621,7 +666,7 @@ msgstr "Planificació"
 
 #: ../../kde4/settingsdialog.py:169 ../../gnome/settingsdialog.glade:324
 msgid "Hour:"
-msgstr ""
+msgstr "Hora:"
 
 #: ../../kde4/settingsdialog.py:187 ../../gnome/settingsdialog.glade:481
 msgid "Include"
@@ -643,7 +688,7 @@ msgstr "Exclou"
 
 #: ../../kde4/settingsdialog.py:231
 msgid "Highly recommended:"
-msgstr ""
+msgstr "Molt recomanat"
 
 #: ../../kde4/settingsdialog.py:259 ../../gnome/settingsdialog.glade:770
 msgid "Auto-remove"
@@ -665,6 +710,12 @@ msgid ""
 "months of the last year \n"
 "- keep one snapshot per year for all other years"
 msgstr ""
+"- mantenir totes les instantànies d'Ahir i avui\n"
+"- mantenir una instantània de la setmana passada i una altre de fa dues "
+"setmanes\n"
+"- mantenir una instantània per cada mes de l'any en curs i de tots els mesos "
+"de l'any passat.\n"
+"- mantenir una instantània per cada any  dels anys anteriors."
 
 #: ../../kde4/settingsdialog.py:297 ../../gnome/settingsdialog.glade:625
 msgid "Don't remove named snapshots"
@@ -680,27 +731,27 @@ msgstr "Activa les notificacions"
 
 #: ../../kde4/settingsdialog.py:312 ../../gnome/settingsdialog.glade:797
 msgid "Disable snapshots when on battery"
-msgstr ""
+msgstr "Desactiva les instantànies treballant en bateria"
 
 #: ../../kde4/settingsdialog.py:315
 msgid "Power status not available from system"
-msgstr ""
+msgstr "No està disponible l'estat de l'energia"
 
 #: ../../kde4/settingsdialog.py:318 ../../gnome/settingsdialog.glade:811
 msgid "Backup files on restore"
-msgstr ""
+msgstr "Fes una còpia al tornar a iniciar"
 
 #: ../../kde4/settingsdialog.py:321 ../../gnome/settingsdialog.glade:824
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr ""
+msgstr "Continua amb errors (Mantingues instantànies incompletes)"
 
 #: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:837
 msgid "Use checksum to detect changes"
-msgstr ""
+msgstr "Utilitza el checksum per detectar canvis"
 
 #: ../../kde4/settingsdialog.py:331
 msgid "Log Level:"
-msgstr ""
+msgstr "Nivell de log"
 
 #: ../../kde4/settingsdialog.py:346 ../../gnome/settingsdialog.glade:1018
 msgid "Expert Options"
@@ -708,40 +759,42 @@ msgstr "Opcions avançades"
 
 #: ../../kde4/settingsdialog.py:349
 msgid "Change these options only if you really know what you are doing !"
-msgstr ""
+msgstr "Canvia aquestes opcions només si saps el que estas fent !"
 
 #: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:913
 msgid "Run 'nice' as cron job (default: enabled)"
-msgstr ""
+msgstr "Executa 'nice' com a tasca cron (activat per defecte)"
 
 #: ../../kde4/settingsdialog.py:360 ../../gnome/settingsdialog.glade:926
 msgid "Run 'ionice' as cron job (default: enabled)"
-msgstr ""
+msgstr "Executa 'ionice' com a tasca del cron (activat per defecte)"
 
 #: ../../kde4/settingsdialog.py:363 ../../gnome/settingsdialog.glade:939
 msgid "Run 'ionice' when tacking a manual snapshot (default: disabled)"
 msgstr ""
+"Executa 'ionice' quan es realitzi una instantània manual (activat per "
+"defecte)"
 
 #: ../../kde4/settingsdialog.py:366 ../../gnome/settingsdialog.glade:952
 msgid "Preserve ACL"
-msgstr ""
+msgstr "Preserva ACL"
 
 #: ../../kde4/settingsdialog.py:369 ../../gnome/settingsdialog.glade:965
 msgid "Preserve extended attributes (xattr)"
-msgstr ""
+msgstr "Preserva els atributs extesos (xattr)"
 
 #: ../../kde4/settingsdialog.py:372 ../../gnome/settingsdialog.glade:978
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr ""
+msgstr "Copia links insegurs (Només funciona amb links absoluts)"
 
 #: ../../kde4/settingsdialog.py:375 ../../gnome/settingsdialog.glade:991
 msgid "Copy links (dereference symbolic links)"
-msgstr ""
+msgstr "Copia enllaços (desarbitra els enllaços simbòlics)"
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:146
 #: ../../gnome/snapshotsdialog.glade:240
 msgid "Diff Options"
-msgstr ""
+msgstr "Opcions de diff"
 
 #: ../../kde4/snapshotsdialog.py:55 ../../gnome/snapshotsdialog.glade:180
 msgid "Command:"
@@ -753,15 +806,15 @@ msgstr "Paràmetres:"
 
 #: ../../kde4/snapshotsdialog.py:63 ../../gnome/snapshotsdialog.glade:198
 msgid "Use %1 and %2 for path parameters"
-msgstr ""
+msgstr "Utilitza  %1 i %2 com a paràmetres de les rutes"
 
 #: ../../kde4/snapshotsdialog.py:119 ../../gnome/snapshotsdialog.glade:36
 msgid "List only different snapshots"
-msgstr ""
+msgstr "LLista només les instantànies diferents"
 
 #: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:49
 msgid "Deep check (more accurate, but slow)"
-msgstr ""
+msgstr "Comprovació a fons (més acurada, però lenta)"
 
 #: ../../kde4/snapshotsdialog.py:147
 msgid "Go To"
@@ -769,7 +822,7 @@ msgstr "Vés a"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr ""
+msgstr "Visualitza el log"
 
 #: ../../gnome/mainwindow.glade:6
 msgid "Back In Time"
@@ -781,7 +834,7 @@ msgstr "Fés la còpia de seguretat ara"
 
 #: ../../gnome/mainwindow.glade:214 ../../gnome/mainwindow.glade:215
 msgid "Website"
-msgstr ""
+msgstr "Lloc web"
 
 #: ../../gnome/mainwindow.glade:272
 msgid "Parent folder"
@@ -796,14 +849,16 @@ msgid ""
 "<b>This folder doesn't exist\n"
 "in the current snapshot !</b>"
 msgstr ""
+"<b>Aquesta carpeta no existeix\n"
+"en l'actual instantània!</b>"
 
 #: ../../gnome/settingsdialog.glade:242
 msgid "Profile Id:"
-msgstr ""
+msgstr "ID del Perfil:"
 
 #: ../../gnome/settingsdialog.glade:270
 msgid "Advanced"
-msgstr ""
+msgstr "Avançat"
 
 #: ../../gnome/settingsdialog.glade:285
 msgid "<b>Where to save snapshots</b>"
@@ -815,11 +870,11 @@ msgstr "<b>Planificació</b>"
 
 #: ../../gnome/settingsdialog.glade:517
 msgid "<b>Highly recommended:</b>"
-msgstr ""
+msgstr "<b>Molt recomanat</b>"
 
 #: ../../gnome/settingsdialog.glade:529
 msgid "label"
-msgstr ""
+msgstr "etiqueta"
 
 #: ../../gnome/settingsdialog.glade:735
 msgid ""
@@ -829,106 +884,43 @@ msgid ""
 "months of the last year\n"
 "- keep one snapshot per year for all other years"
 msgstr ""
+"- mantenir totes les instantànies d'ahir i avui\n"
+"- mantenir una instantània de la setmana passada i una altre de fa dues "
+"setmanes\n"
+"- mantenir una instantània per cada més de l'any en curs i de tots els mesos "
+"de l'any passat\n"
+"- mantenir una instantània por any per la resta d'anys"
 
 #: ../../gnome/settingsdialog.glade:751
 msgid "Auto-remove only removes snapshots from the selected snapshots folder"
 msgstr ""
+"Auto elimina, només elimina instantànies de les carpetes seleccionades"
 
 #: ../../gnome/settingsdialog.glade:855
 msgid "Log level:"
-msgstr ""
+msgstr "Nivell de registre:"
 
 #: ../../gnome/settingsdialog.glade:902
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
-msgstr ""
+msgstr "Canvia aquestes opcions només si està segur del que està fent!"
 
 #: ../../gnome/settingsdialog.glade:1033
 msgid "<b>This options don't depend on profile</b>"
-msgstr ""
+msgstr "Aquestes opcions no depenen del perfil"
 
 #: ../../gnome/settingsdialog.glade:1044
 msgid "Use gloobus-preview (if installed)"
-msgstr ""
+msgstr "Utilitza la previsualització Gloobus (si està instalada)"
 
 #: ../../gnome/settingsdialog.glade:1066
 msgid "GUI Options"
-msgstr ""
+msgstr "Opcions de le interfície gràfica"
 
 #: ../../gnome/snapshotsdialog.glade:138
 msgid "Diff with"
-msgstr ""
+msgstr "Mostra diferències amb"
 
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Patró"
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "No podeu reanomenar el perfil \"Principal\""
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "El perfil %s ja existeix!"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "El directori d'instantànies no pot ser el directori de 'root'!"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "No s'ha pogut escriure a: %s\n"
-#~ "Esteu segur que hi teniu privilegis d'escriptura?"
-
-#~ msgid "about-translators"
-#~ msgstr "quant a traductors"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Patrons, fitxers i directoris"
-
-#~ msgid "Update snapshots"
-#~ msgstr "Actualitza les instantànies"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Aquest directori no existeix\n"
-#~ "a l'instantània actual!"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Còpia de seguretat automàtica"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Seleccioneu un directori"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr "<b>Canvieu aquestes opcions si esteu segurs del que esteu fent!</b>"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Aquest directori no existeix\n"
-#~ "a l'instantània actual!</b>"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr ""
-#~ "Canvieu aquestes opcions nomès si esteu realment segur del que esteu fent!"
-
-#~ msgid "Include folders"
-#~ msgstr "Directoris incluits"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "- guardar totes les instantànies d'ahir i d'avui\n"
-#~ "- guardar una instantània de la darrera setmana i una per cada dues setmanes "
-#~ "pasades\n"
-#~ "- guardar una instantània al mes per tots els mesos anteriors d'aquest any\n"
-#~ "- guardar una instantània a l'any per a tots els anys anteriors"

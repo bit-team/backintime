@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2010-12-18 02:23+0000\n"
-"Last-Translator: Fitoschido <Unknown>\n"
+"PO-Revision-Date: 2011-11-08 05:34+0000\n"
+"Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish/Spain <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../common/config.py:67
 msgid "Day(s)"
@@ -34,7 +34,7 @@ msgid ""
 msgstr ""
 "No se pudo encontrar crontab.\n"
 "¿Está seguro de que cron está instalado?\n"
-"Si no, debe deshabilitar todas las copias automáticas."
+"Si no, debe desactivar todas las copias automáticas."
 
 #: ../../common/snapshots.py:769
 msgid "Finalizing"
@@ -126,7 +126,7 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:799
 msgid "Where to save snapshots"
-msgstr "Dónde se guardan las instantáneas"
+msgstr "Dónde guardar las instantáneas:"
 
 #: ../../kde4/settingsdialog.py:210 ../../kde4/settingsdialog.py:244
 #: ../../gnome/settingsdialog.glade:558
@@ -171,21 +171,18 @@ msgstr "<b>Dónde guardar las instantáneas</b>"
 msgid "Diff with"
 msgstr "Mostrar diferencias con"
 
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr "¡Cambie estas opciones sólo si realmente sabe lo que está haciendo!"
-
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
 msgid "Profile \"%s\" already exists !"
-msgstr "¡El perfil «%s» ya existe."
+msgstr "El perfil «%s» ya existe."
 
 #: ../../common/configfile.py:282
 msgid "You can't remove the last profile !"
-msgstr "No puede eliminar el último perfil."
+msgstr "No puede quitar el último perfil."
 
 #: ../../common/config.py:56
 msgid "Disabled"
-msgstr "Deshabilitado"
+msgstr "Desactivado"
 
 #: ../../common/config.py:57
 msgid "At every boot/reboot"
@@ -368,7 +365,7 @@ msgstr ""
 "continuará tomando instantáneas, pero smart-remove ya no tendrá en cuenta "
 "sus instantáneas antiguas\n"
 "\n"
-"Si no está seguro, será preguntado la próxima vez que inice Back In Time."
+"Si no está seguro, se le preguntará la próxima vez que inicie Back In Time."
 
 #: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
@@ -380,7 +377,7 @@ msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
-"Back In Time ya no puede continuar tomando nuevas instántaneas.\n"
+"Back In Time aún no puede continuar tomando nuevas instántaneas.\n"
 "Reinicie Back In Time para ver de nuevo las preguntas"
 
 #: ../../common/snapshots.py:734
@@ -401,7 +398,7 @@ msgstr[1] "Esperando %s segundos."
 #: ../../common/snapshots.py:760
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr "Fallo al crear la instantánea %s !!!"
+msgstr "Fallo al crear la instantánea %s"
 
 #: ../../common/snapshots.py:895
 #, python-format
@@ -565,7 +562,7 @@ msgstr "Cambios & Errores"
 
 #: ../../gnome/settingsdialog.py:299
 msgid "Snapshots folder"
-msgstr "Carpeta de instantaneas"
+msgstr "Carpeta de instantáneas"
 
 #: ../../gnome/settingsdialog.py:307 ../../kde4/settingsdialog.py:802
 msgid "Are you sure you want to change snapshots folder ?"
@@ -926,336 +923,3 @@ msgstr "Opciones de la interfaz"
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Patrón"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Seleccione una carpeta"
-
-#~ msgid "If free space is less then:"
-#~ msgstr "Si el espacio libre es menor que:"
-
-#~ msgid "Update snapshots"
-#~ msgstr "Actualizar instantáneas"
-
-#, python-format
-#~ msgid "%s is not a directory !"
-#~ msgstr "¡%s no es un directorio!"
-
-#~ msgid "Include directory"
-#~ msgstr "Incluir directorio"
-
-#~ msgid "Exclude directory"
-#~ msgstr "Excluir directorio"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr ""
-#~ "<b>¡Cambie estas opciones sólo si sabe realmente lo que está haciendo!</b>"
-
-#~ msgid ""
-#~ "<b>This directory don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>¡Este directorio no existe\n"
-#~ "en la instantánea actual!</b>"
-
-#~ msgid "Include folders"
-#~ msgstr "Incluir carpetas"
-
-#~ msgid "Older then:"
-#~ msgstr "Mas antiguo que:"
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "¡El perfil %s ya existe!"
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "No puede renombrar el perfil \"Principal\""
-
-#~ msgid "Snapshots directory is not valid !"
-#~ msgstr "¡El directorio de instantáneas no es válido!"
-
-#~ msgid "Snapshots directory can't be the root directory !"
-#~ msgstr "¡El directorio de instantáneas no puede ser el directorio raiz!"
-
-#~ msgid "You must select at least one directory to backup !"
-#~ msgstr ""
-#~ "¡Debe seleccionar al menos un directorio para hacer copia de respaldo!"
-
-#~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
-#~ msgstr ""
-#~ "¡El directorio de instantáneas no puede estar en «Directorios de copia de "
-#~ "respaldo»!"
-
-#~ msgid "\"Backup directories\" can't include snapshots directory !"
-#~ msgstr ""
-#~ "¡«Directorios de copias de respaldo» no pueden incluir el directorio de "
-#~ "instantáneas!"
-
-#~ msgid "\"Exclude pattern\" can't contain \":\" char !"
-#~ msgstr "¡«El patrón de exclusión» no puede contener el caracter «:»!"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "No es posible escribir en %s\n"
-#~ "¿Está seguro que tiene permisos de escritura?"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "- Mantener todas las instantáneas de ayer y hoy\n"
-#~ "- Mantener una instantánea para la última semana y otra para hace dos "
-#~ "semanas\n"
-#~ "- Mantener una instantánea por mes para todos los meses previos de este año\n"
-#~ "- Mantener una instantánea por año para todos los años previos"
-
-#~ msgid ""
-#~ "Enable schedule per included directory (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Habilitar tareas para directorios incluidos (ver solapa incluir; por "
-#~ "omisión: deshabilitada)"
-
-#~ msgid "Parent Directory"
-#~ msgstr "Directorio padre"
-
-#~ msgid "gtk-add"
-#~ msgstr "gtk-add"
-
-#~ msgid "gtk-cancel"
-#~ msgstr "gtk-cancel"
-
-#~ msgid "gtk-jump-to"
-#~ msgstr "gtk-jump-to"
-
-#~ msgid "gtk-ok"
-#~ msgstr "gtk-ok"
-
-#~ msgid "gtk-remove"
-#~ msgstr "gtk-remove"
-
-#~ msgid "about-translators"
-#~ msgstr "Acerca de los traductores"
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it and then press OK"
-#~ msgstr ""
-#~ "No se puede encontrar el directorio de instanáneas \n"
-#~ "Si está en un dispositivo estraible porfavor conéctelo y pulse Ok"
-
-#~ msgid "Backup Directories"
-#~ msgstr "Directorios de copia de respaldo"
-
-#~ msgid "Patterns, files or directories"
-#~ msgstr "Patrones, ficheros o directorios"
-
-#~ msgid "Are you sure you want to change snapshots directory ?"
-#~ msgstr "¿Está seguro de que quiere cambiar el directorio de instantáneas?"
-
-#~ msgid ""
-#~ "This directory don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "¡Este directorio no existe\n"
-#~ "en la instantánea actual!"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Copias de respaldo automáticas"
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it."
-#~ msgstr ""
-#~ "No se puede encontrar el directorio de instanáneas \n"
-#~ "Si está en un dispositivo estraible por favor conéctelo."
-
-#, python-format
-#~ msgid "Can't create directory: %s"
-#~ msgstr "No es posible crear el directorio: %s"
-
-#, python-format
-#~ msgid "Can't remove directory: %s"
-#~ msgstr "No es posible eliminar el directorio: %s"
-
-#~ msgid "<b>Remove Snapshots</b>"
-#~ msgstr "Eliminar Instantáneas"
-
-#~ msgid "<b>What to save</b>"
-#~ msgstr "<b>Qué copiar</b>"
-
-#~ msgid "Automatic snapshots: "
-#~ msgstr "Copias de respaldo automáticas: "
-
-#~ msgid "Show hidden & backup files"
-#~ msgstr "Mostrar ficheros ocultos y de copia de respaldo"
-
-#~ msgid "Places"
-#~ msgstr "Lugares"
-
-#~ msgid "Exclude patterns"
-#~ msgstr "Excluir patrones"
-
-#~ msgid "What to save"
-#~ msgstr "Qué copiar"
-
-#~ msgid "When"
-#~ msgstr "Cuando"
-
-#~ msgid "Remove Snapshots"
-#~ msgstr "Eliminar Instantáneas"
-
-#~ msgid "Timeline"
-#~ msgstr "Linea de tiempo"
-
-#~ msgid "Back In Time: take snapshot ..."
-#~ msgstr "Back In Time: Realizar instantánea ..."
-
-#~ msgid "gtk-apply"
-#~ msgstr "gtk-apply"
-
-#~ msgid "<b>Remove Backups</b>"
-#~ msgstr "<b>Eliminar copias de respaldo</b>"
-
-#~ msgid "Restrore"
-#~ msgstr "Restaurar"
-
-#~ msgid "Simple backup system"
-#~ msgstr "Sencillo sistema de copias de respaldo"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Esta carpeta no existe\n"
-#~ "en la instantánea actual !</b>"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Patrones, archivos o carpetas"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Esta carpeta no existe\n"
-#~ "en la instantánea actual !"
-
-#~ msgid ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Activar calendario incluido por carpeta (véase la ficha Incluir; por "
-#~ "defecto: desactivado)"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "¡La carpeta de instantáneas no puede ser la carpeta raíz!"
-
-#, python-format
-#~ msgid "Profiles \"%s\" and \"%s\" have the same snapshots path !"
-#~ msgstr ""
-#~ "Los perfiles \"%s\" y \"%s\" han de tener la misma ruta de instantánea"
-
-#~ msgid ""
-#~ "<b>This folder does not exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Esta carpeta no existe\n"
-#~ "en la instantánea actual</b>"
-
-#~ msgid ""
-#~ "BackinTime changed its backup format.\n"
-#~ "\n"
-#~ "Your old snapshots can be moved according to this new format. OK?"
-#~ msgstr ""
-#~ "BackinTime cambió su formato de respaldo.\n"
-#~ "\n"
-#~ "Tus viejas instantáneas pueden ser actualizadas de acuerdo a este nuevo "
-#~ "formato, ¿Esta bien?"
-
-#~ msgid ""
-#~ "No profiles are found. Will have to update to profiles first, please restart "
-#~ "BackinTime"
-#~ msgstr ""
-#~ "No se han encontrado perfiles. Se tiene que actualizar a perfiles primero, "
-#~ "por favor reinicia BackinTime"
-
-#, python-format
-#~ msgid ""
-#~ "%s\n"
-#~ "of profile %s are not moved to their new location\n"
-#~ "Do you want to proceed?\n"
-#~ "(BackinTime will be able to continue taking snapshots, however the remaining "
-#~ "snapshots will not be considered for automatic removal)\n"
-#~ "\n"
-#~ "If not BackinTime will restore former settings for this profile, however "
-#~ "cannot continue taking snapshots"
-#~ msgstr ""
-#~ "%s\n"
-#~ "del perfil %s no han sido movidos a su nueva ubicación\n"
-#~ "¿Quieres proceder?\n"
-#~ "(BackinTime será capaz de continuar tomando instantáneas, sin embargo, las "
-#~ "instantáneas restantes no serán consideradas para remoción automática)"
-
-#, python-format
-#~ msgid ""
-#~ "Former settings of profile %s are restored.\n"
-#~ "BackinTime cannot continue taking new snapshots.\n"
-#~ "\n"
-#~ "You can manually move the snapshots, \n"
-#~ "if you are done restart BackinTime to proceed"
-#~ msgstr ""
-#~ "Las antiguas configuraciones del perfil %s se han restaurado.\n"
-#~ "BackinTime no puede continuar tomando nuevas instantáneas\n"
-#~ "\n"
-#~ "Puedes mover manualmente las instantáneas. \n"
-#~ "si has terminado, reinicia BackinTime para proceder"
-
-#~ msgid ""
-#~ "Update was successful!\n"
-#~ "\n"
-#~ "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr ""
-#~ "¡La actualización ha sido exitosa!\n"
-#~ "\n"
-#~ "BackinTime continuará tomando instantáneas como estaba programado."
-
-#~ msgid ""
-#~ "Are you sure you do not want to move your old snapshots?\n"
-#~ "\n"
-#~ "\n"
-#~ "If you do, you will not see these questions again next time, BackinTime will "
-#~ "continue making snapshots again, but smart-remove cannot take your old "
-#~ "snapshots into account any longer!\n"
-#~ "\n"
-#~ "If you do not, you will be asked again next time you start BackinTime."
-#~ msgstr ""
-#~ "¿Estas seguro de no querer mover tus antiguas instantáneas?\n"
-#~ "\n"
-#~ "\n"
-#~ "Si lo haces, no volveras a ver estas preguntas la siguiente vez. BackinTime "
-#~ "continuará haciendo instantáneas de nuevo, pero la \"eliminación "
-#~ "inteligente\" no puede mantener tus instantáneas más tiempo\n"
-#~ "Si lo haces, se te volverá a preguntar la próxima vez que inicie BackinTime"
-
-#~ msgid "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr ""
-#~ "BackinTime seguirá tomando instantáneas de nuevo como estaba programado."
-
-#~ msgid ""
-#~ "BackinTime still cannot continue taking new snapshots.\n"
-#~ "Restart BackinTime to see the questions again"
-#~ msgstr ""
-#~ "BackinTime aún no puede continuar tomando nuevas instantáneas.\n"
-#~ "Reinicie BackinTime para ver las preguntas de nuevo."
-
-#~ msgid "Refresh snapshots"
-#~ msgstr "Refrescar instantáneas"
-
-#~ msgid "Include files & folders"
-#~ msgstr "Incluir archivos y directorios"
-
-#~ msgid "FAILED"
-#~ msgstr "FALLÓ"

@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2010-12-30 16:47+0000\n"
-"Last-Translator: Wazery <al.wazery@gmail.com>\n"
+"PO-Revision-Date: 2011-01-03 11:58+0000\n"
+"Last-Translator: Islam Wazery <al.wazery@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -716,7 +716,7 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:331
 msgid "Log Level:"
-msgstr ""
+msgstr "مستوي السجل:"
 
 #: ../../kde4/settingsdialog.py:346 ../../gnome/settingsdialog.glade:1018
 msgid "Expert Options"
@@ -724,7 +724,7 @@ msgstr "خيارات متقدمة"
 
 #: ../../kde4/settingsdialog.py:349
 msgid "Change these options only if you really know what you are doing !"
-msgstr ""
+msgstr "قم بتغير هذه الاعدادات فقط في حالة معرفتك التامة بوظائفها!"
 
 #: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:913
 msgid "Run 'nice' as cron job (default: enabled)"
@@ -748,11 +748,11 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:372 ../../gnome/settingsdialog.glade:978
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr ""
+msgstr "انسخ الروابط غير الامنة (تعمل فقط في حالة الروابط الثابتة)"
 
 #: ../../kde4/settingsdialog.py:375 ../../gnome/settingsdialog.glade:991
 msgid "Copy links (dereference symbolic links)"
-msgstr ""
+msgstr "نسخ الروابط (احصل علي محتوي العنوان الرمزي)"
 
 #: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:146
 #: ../../gnome/snapshotsdialog.glade:240
@@ -812,6 +812,8 @@ msgid ""
 "<b>This folder doesn't exist\n"
 "in the current snapshot !</b>"
 msgstr ""
+"<b>هذا المجلد لم يعد موجوداً\n"
+"في اللقطة الحالية!</b>"
 
 #: ../../gnome/settingsdialog.glade:242
 msgid "Profile Id:"
@@ -831,7 +833,7 @@ msgstr "<b>جدول</b>"
 
 #: ../../gnome/settingsdialog.glade:517
 msgid "<b>Highly recommended:</b>"
-msgstr ""
+msgstr "<b>ينصح بها:</b>"
 
 #: ../../gnome/settingsdialog.glade:529
 msgid "label"
@@ -869,7 +871,7 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:1066
 msgid "GUI Options"
-msgstr ""
+msgstr "خيارات الواجهة الرسومية"
 
 #: ../../gnome/snapshotsdialog.glade:138
 msgid "Diff with"
@@ -878,168 +880,3 @@ msgstr "اختلاف مع"
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "النمط"
-
-#~ msgid "Snapshots directory is not valid !"
-#~ msgstr "دليل اللقطات غير صالح !"
-
-#~ msgid "\"Exclude pattern\" can't contain \":\" char !"
-#~ msgstr "\"نمط الاستثناء\" لا يمكن أن يحتوي على \":\" محرف !"
-
-#~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
-#~ msgstr "دليل اللقطات لا يمكن أن يكون في \"دليل النسخ الاحتياطية\" !"
-
-#~ msgid "\"Backup directories\" can't include snapshots directory !"
-#~ msgstr "\"دليل النسخ الاحتياطية\"  لا يمكن أن يتضمن دليل اللقطات !"
-
-#~ msgid "You must select at least one directory to backup !"
-#~ msgstr "يجب على الأقل اختيار دليل واحد للنسخة الاحتياطية !"
-
-#~ msgid "Snapshots directory can't be the root directory !"
-#~ msgstr "دليل اللقطات لا يمكن أن يكون دليل الجذر !"
-
-#~ msgid "about-translators"
-#~ msgstr "حول فريق الترجمة"
-
-#, python-format
-#~ msgid "%s is not a directory !"
-#~ msgstr "%s ليس بدليل !"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "لا يستطيع الكتابة في: %s\n"
-#~ "ِِِِِِِِِِهل أنت متأكد بأنه لديك صلاحيات الولوج ؟"
-
-#~ msgid "Backup Directories"
-#~ msgstr "دليل النسخ الاحتياطية"
-
-#~ msgid "Patterns, files or directories"
-#~ msgstr "أنماط، ملفات أو مجلدات"
-
-#~ msgid "Include folders"
-#~ msgstr "ضمن الملفات"
-
-#~ msgid "Include directory"
-#~ msgstr "ضمن الدليل"
-
-#~ msgid "Exclude directory"
-#~ msgstr "استثني المجلد"
-
-#~ msgid "Update snapshots"
-#~ msgstr "حدث اللقطات"
-
-#~ msgid "Are you sure you want to change snapshots directory ?"
-#~ msgstr "هل أنت متأكد بأنك تريد تغيير دليل اللقطات؟"
-
-#~ msgid ""
-#~ "This directory don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "هذ الدليل لا يوجد\n"
-#~ "في اللقطة الحالية"
-
-#~ msgid "Automatic backup"
-#~ msgstr "نسخ احتياطي تلقائي"
-
-#~ msgid "If free space is less then:"
-#~ msgstr "اذا المساحة الفارغة أقل من:"
-
-#~ msgid "Older then:"
-#~ msgstr "أقدم من:"
-
-#~ msgid ""
-#~ "Enable schedule per included directory (see Include tab; default: disabled)"
-#~ msgstr "فعٓل الجدولة بالدليل المضمن (انظر اللسان المضمن، مبدئي: معطل)"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr "أبدل هذه الخيارات فقط اذا كنت تعرف ماذا أنت فاعل !"
-
-#, python-format
-#~ msgid "Can't remove directory: %s"
-#~ msgstr "لا يستطيع حذف الدليل: %s"
-
-#, python-format
-#~ msgid "Can't create directory: %s"
-#~ msgstr "لا يستطيع انشاء الدليل: %s"
-
-#~ msgid "Select A Folder"
-#~ msgstr "اختر مجلّد"
-
-#~ msgid "Parent Directory"
-#~ msgstr "الدليل الأبوي"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr "<b>أبدل هذه الخيارات فقط اذا كنت تعرف ماذا تفعل !</b>"
-
-#~ msgid ""
-#~ "<b>This directory don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>هذا الدليل لا يوجد \n"
-#~ "في اللقطة الحالية !</b>"
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it and then press OK"
-#~ msgstr ""
-#~ "لا يستطيع ايجاد دليل اللقطات\n"
-#~ "If it is on a removable drive please plug it and then press OK."
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "لا تستطيع إعادة تسمية ملف التعريف الرئيسي"
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "ملف التعريف %s موجود من قبل !"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "مجلد اللقطات لا يمكن أن مجلد للمستخدم الجذر !"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr "هذا المجلد غير موجود."
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "أنماط الملفات أو المجلدات"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b> هذا المجلد غير موجود \n"
-#~ "في اللقطة الحالية ! <b/>"
-
-#~ msgid ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "السماح بالجدول الزمني لكل مجلد مضاف (أنظر إلى تبويبة الإضافة ؛ افتراضي ؛ غير "
-#~ "مسمح به)"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "- حافظ على كل اللقطات من اليوم والأمس.\n"
-#~ "- حافظ على لقطة واحدة من الأسبوع الفارط و واحدة منذ أسبوعين.\n"
-#~ "- حافظ على لقطة واحدة كل شهر لكل الشهور السابقة ولهذه السنة.\n"
-#~ "- حافظ على لقطة واحدة كل سنة لكل الأعوام السابقة."
-
-#~ msgid "Include files & folders"
-#~ msgstr "تضمين الملفات والمستندات"
-
-#~ msgid ""
-#~ "Update was successful!\n"
-#~ "\n"
-#~ "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr ""
-#~ "تم التحديث بنجاح!\n"
-#~ "سيستمر باك ان تايم في اخذ صور للنظام كما كان مخططا"
-
-#~ msgid "Refresh snapshots"
-#~ msgstr "تحديث صور النظام"

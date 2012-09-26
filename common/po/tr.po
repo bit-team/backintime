@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2010-04-26 14:49+0000\n"
-"Last-Translator: Angel Spy <melissadilara@yahoo.com>\n"
+"PO-Revision-Date: 2011-01-18 20:19+0000\n"
+"Last-Translator: Burhan Teoman <bbteoman@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -33,7 +33,7 @@ msgstr "Etkisizleştirildi"
 
 #: ../../common/config.py:57
 msgid "At every boot/reboot"
-msgstr ""
+msgstr "Her yeniden başlattığında"
 
 #: ../../common/config.py:58
 msgid "Every 5 minutes"
@@ -127,7 +127,7 @@ msgstr "Şimdi"
 
 #: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
 msgid "WITH ERRORS !"
-msgstr ""
+msgstr "HATALARLA!"
 
 #: ../../common/snapshots.py:571
 msgid ""
@@ -135,6 +135,9 @@ msgid ""
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
+"Back In Time yedekleme formatını değiştirdi.\n"
+"\n"
+"Eski yedekleme görüntüleri yeni formata göre taşınabilir. Tamam mı?"
 
 #: ../../common/snapshots.py:581
 #, python-format
@@ -146,12 +149,19 @@ msgid ""
 "\n"
 "(The program will still be able to discriminate between them)"
 msgstr ""
+"%s profil bulundu. \n"
+"Yeni yedekleme formatı aynı konumdaki farklı kullanıcıların ve profillerin "
+"depolama konumlarını destekliyor. Her iki profil içinde aynı konumu istiyor "
+"musunuz? \n"
+"Program ikisine ait dosyaları ayıracaktır."
 
 #: ../../common/snapshots.py:584
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
+"Hiçbir profil bulunamadı. Önce profillerin güncellenmesi gerekiyor. Lütfen "
+"Back In Time'ı yeniden başlatın."
 
 #: ../../common/snapshots.py:635
 #, python-format
@@ -165,6 +175,13 @@ msgid ""
 "If not Back In Time will restore former settings for this profile, however "
 "cannot continue taking snapshots"
 msgstr ""
+"%s\n"
+"profilden %s i yeni konuma taşınmadı\n"
+"Devam etmek istiyor musunuz?\n"
+"(Back in Time yeni yedeklere almaya devam edecektir fakat kalan yedek "
+"görüntüleri otomatik temizlik sırasında kayıt dışı kalacaktır)\n"
+"Fakat Back In Time bu profil için bir önceki ayarları geri yükleyemezse, "
+"yedek görüntüleri almaya devam edemez."
 
 #: ../../common/snapshots.py:644
 #, python-format
@@ -175,6 +192,11 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
+"%s profilinin önceki ayarları geri yüklendi.\n"
+"Back In Time yeni yedek görüntüleri almaya devam edemiyor.\n"
+"\n"
+"Yedek görüntülerini elle taşıyabilirsiniz, \n"
+"ve bitirdiğinizde devam etmek için Back In Time'ı yeniden başlatın"
 
 #: ../../common/snapshots.py:657
 msgid ""
@@ -182,6 +204,10 @@ msgid ""
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"Güncelleme başarıyla tamamlandı!\n"
+"\n"
+"Back In Time, önceden belirlediğiniz zamanlarda yedek görüntüleri almaya "
+"devam edecek"
 
 #: ../../common/snapshots.py:662
 msgid ""
@@ -194,10 +220,21 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
+"Eski yedek görüntülerini taşımak istediğinizden emin misiniz?\n"
+"\n"
+"\n"
+"Bunu yaparsanız, bu soruları bir dahaki sefer tekrar görmeyeceksiniz, Back "
+"in Time tekrar yedek görüntüleri alamya devam edecek fakat akıllı-temizleme "
+"sırasında eski yedek görüntüleri temizlenmeyecek.\n"
+"\n"
+"Eğer yapmazsanız, Back In Time bir dahaki sefer yeniden başlatıldığında "
+"tekrar sorulacaktır."
 
 #: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
+"Back In Time önceden ayarladığınız zamanlarda yedek görüntüleri almaya devam "
+"edecek."
 
 #: ../../common/snapshots.py:673
 msgid ""
@@ -859,77 +896,3 @@ msgstr ""
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Kalıp"
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "\"Ana\" profili yeniden adlandıramazsınız"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "Şu konuma yazılamadı: %s\n"
-#~ "Yazma izninizin olduğuna emin misiniz ?"
-
-#~ msgid "about-translators"
-#~ msgstr "çevirmenler-hakkında"
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "%s profili zaten mevcut !"
-
-#~ msgid "Include folders"
-#~ msgstr "Klasörleri dahil et"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Otomatik yedekle"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr ""
-#~ "Bu seçenekleri ancak ne yaptığınızı gerçekten biliyorsanız değiştirin !"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr ""
-#~ "<b>Bu seçenekleri ancak ne yaptığınızı gerçekten biliyorsanız değiştirin "
-#~ "!</b>"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Bir Dizin Seçin"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Bu klasör şu andaki\n"
-#~ "anlık durumda yok !"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "- bugüne ve düne ait tüm anlık durumları sakla\n"
-#~ "- geçen haftaya ait bir ve iki hafta öncesine ait bir anlık durum sakla\n"
-#~ "- bu yılın tüm geçmiş ayları için her aya ait birer anlık durum sakla\n"
-#~ "- tüm geçmiş yıllar için her yıla ait birer anlık durum sakla"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Bu klasör şu andaki\n"
-#~ "anlık durumda yok !</b>"
-
-#~ msgid ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Dahil edilen klasör başına zamanlamayı etkinleştir (Dahil Et sekmesine "
-#~ "bakınız; varsayılan: etkisizleştirilmiş)"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "Anlık durum dizini kök dizini olamaz !"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Kalıplar, dosyalar veya klasörler"

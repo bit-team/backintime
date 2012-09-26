@@ -22,28 +22,3 @@ import gtk
 import gnomevfs
 
 
-def clipboard_set_text( text ):
-	clipboard = gtk.clipboard_get()
-	clipboard.set_text( text )
-	clipboard.store()
-
-
-def clipboard_copy_path( path ):
-	targets = gtk.target_list_add_uri_targets()
-	targets = gtk.target_list_add_text_targets( targets)
-	targets.append( ( 'x-special/gnome-copied-files', 0, 0 ) )
-
-	clipboard = gtk.clipboard_get()
-	clipboard.set_with_data( targets, __clipboard_copy_path_get, __clipboard_copy_path_clear, path )
-	clipboard.store()
-
-
-def __clipboard_copy_path_get( clipboard, selectiondata, info, path ):
-	selectiondata.set_text( path )
-	path2 = gnomevfs.escape_path_string(path)
-	selectiondata.set_uris( [ 'file://' + path2 ] )
-	selectiondata.set( 'x-special/gnome-copied-files', 8, 'copy\nfile://' + path2 );
-
-def __clipboard_copy_path_clear( self, path ):
-	return
-

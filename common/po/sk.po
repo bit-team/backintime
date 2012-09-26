@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2010-12-11 19:35+0000\n"
-"Last-Translator: Stano Kobella <Stano110@azet.sk>\n"
+"PO-Revision-Date: 2012-01-04 07:43+0000\n"
+"Last-Translator: Tomáš Vadina <Unknown>\n"
 "Language-Team: Tomáš Vadina <kyberdev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2011-01-02 13:32+0000\n"
-"X-Generator: Launchpad (build 12138)\n"
+"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 "X-Poedit-Country: SLOVAKIA\n"
 "X-Poedit-Language: Slovak\n"
 
@@ -85,7 +85,7 @@ msgstr "Profil: \"%s\""
 
 #: ../../common/config.py:197
 msgid "Snapshots folder is not valid !"
-msgstr "Priečinok snímkov nie je platný !"
+msgstr "Priečinok snímok nie je platný !"
 
 #: ../../common/config.py:216
 msgid "You must select at least one folder to backup !"
@@ -110,7 +110,7 @@ msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
-"Nemôžem zapisovať do: %s\n"
+"Nie je možné zapisovať do: %s\n"
 "Určite máte právo na zápis ?"
 
 #: ../../common/config.py:789
@@ -182,11 +182,11 @@ msgstr ""
 "%s\n"
 "profilu %s nie sú presunuté do ich nových umiestnení\n"
 "Chcete pokračovať?\n"
-"(Back In Time bude pokračovať vo vytváraní snímkov, ale zostávajúce snímky "
+"(Back In Time bude pokračovať vo vytváraní snímok, ale zostávajúce snímky "
 "nebude zohľadňovať pri automatickom mazaní)\n"
 "\n"
 "Ak Back In Time neobnoví predošlé nastavenia pre tento profil, nebude môcť "
-"pokračovať vo vytváraní snímkov."
+"pokračovať vo vytváraní snímok."
 
 #: ../../common/snapshots.py:644
 #, python-format
@@ -198,7 +198,7 @@ msgid ""
 "if you are done restart Back In Time to proceed"
 msgstr ""
 "Predošlé nastavenia profilu %s sú obnovené.\n"
-"Back In Time nemôže pokračovať vo vytváraní nových snímkov.\n"
+"Back In Time nemôže pokračovať vo vytváraní nových snímok.\n"
 "\n"
 "Môžete manuálne premiestňovať snímky, \n"
 "pokiaľ ste dokončili reštart Back In Time."
@@ -210,7 +210,7 @@ msgid ""
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 "Aktualizácia bola dokončená!\n"
-"Back In Time bude znova pokračovať vo vytváraní snímkov podľa plánu"
+"Back In Time bude znova pokračovať vo vytváraní snímok podľa plánu"
 
 #: ../../common/snapshots.py:662
 msgid ""
@@ -227,21 +227,21 @@ msgstr ""
 "\n"
 "\n"
 "Ak áno, nabudúce nesledujte nasledujúce otázky znovu, Back In Time bude opäť "
-"pokračovať v tvorbe snímkov, ale smart-remove už nemôže zobrať na účet vaše "
+"pokračovať v tvorbe snímok, ale smart-remove už nemôže zobrať na účet vaše "
 "staré snímky!\n"
 "\n"
 "Ak nie, program sa spýta nabudúce znovu po štarte Back In Time."
 
 #: ../../common/snapshots.py:671
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr "Back In Time bude znova pokračovať vo vytváraní snímkov podľa plánu"
+msgstr "Back In Time bude znova pokračovať vo vytváraní snímok podľa plánu"
 
 #: ../../common/snapshots.py:673
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
-"Back In Time stále nemôže pokračovať vo vytváraní nových snímkov.\n"
+"Back In Time stále nemôže pokračovať vo vytváraní nových snímok.\n"
 "Reštartujte Back In Time pre opätovné zobrazenie otázky"
 
 #: ../../common/snapshots.py:734
@@ -249,7 +249,7 @@ msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Nemožno nájsť priečinok snímkov.\n"
+"Nie je možné nájsť priečinok snímok.\n"
 "Ak je na prenosnom médiu prosím vložte ho."
 
 #: ../../common/snapshots.py:736
@@ -263,7 +263,7 @@ msgstr[2] "Čakajte %s sekundy."
 #: ../../common/snapshots.py:760
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr "Zlyhalo vytváranie snímku %s !!!"
+msgstr "Zlyhalo vytváranie snímky %s !!!"
 
 #: ../../common/snapshots.py:769
 msgid "Finalizing"
@@ -272,7 +272,7 @@ msgstr "Dokončovanie"
 #: ../../common/snapshots.py:795 ../../common/snapshots.py:1077
 #: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:36
 msgid "Take snapshot"
-msgstr "Urobiť snímok"
+msgstr "Urobiť snímku"
 
 #: ../../common/snapshots.py:895
 #, python-format
@@ -291,7 +291,7 @@ msgstr "Nemožno odstrániť priečinok: %s"
 #: ../../common/snapshots.py:1009
 #, python-format
 msgid "Compare with snapshot %s"
-msgstr "Porovnať so snímkom %s"
+msgstr "Porovnať so snímkou %s"
 
 #: ../../common/snapshots.py:1037
 msgid "Create hard-links"
@@ -317,7 +317,7 @@ msgstr "Odstrániť staré snímky"
 #: ../../common/snapshots.py:1317 ../../kde4/settingsdialog.py:289
 #: ../../gnome/settingsdialog.glade:718
 msgid "Smart remove"
-msgstr "Rozumné odstránenie"
+msgstr "Šikovné odstránenie"
 
 #: ../../common/snapshots.py:1322
 msgid "Try to keep min free space"
@@ -378,7 +378,7 @@ msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
-"Nemožno nájsť priečinok snímkov.\n"
+"Nie je možné nájsť priečinok snímok.\n"
 "Ak je na prenosnom médiu prosím vložte ho a potom stlačte OK"
 
 #: ../../gnome/app.py:568 ../../kde4/app.py:522
@@ -432,7 +432,7 @@ msgstr "Minulý týždeň"
 #: ../../gnome/app.py:988 ../../kde4/app.py:88 ../../kde4/app.py:733
 #: ../../gnome/mainwindow.glade:62 ../../gnome/mainwindow.glade:63
 msgid "Snapshot Name"
-msgstr "Názov snímka"
+msgstr "Názov snímky"
 
 #: ../../gnome/app.py:1007
 #, python-format
@@ -440,18 +440,18 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
-"Ste si istý, že chcete odstrániť snímok:\n"
+"Ste si istý, že chcete odstrániť snímku:\n"
 "<b>%s</b>"
 
 #: ../../gnome/app.py:1052 ../../kde4/app.py:909
 #, python-format
 msgid "Snapshot: %s"
-msgstr "Snímok: %s"
+msgstr "Snímka: %s"
 
 #: ../../gnome/app.py:1053 ../../kde4/app.py:910
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "Zobraziť snímok vytvorený %s"
+msgstr "Zobraziť snímku vytvorenú %s"
 
 #: ../../gnome/app.py:1055 ../../kde4/app.py:912
 msgid "View the current disk content"
@@ -477,7 +477,7 @@ msgstr "Informácie"
 
 #: ../../gnome/settingsdialog.py:139 ../../kde4/settingsdialog.py:194
 msgid "Include files and folders"
-msgstr "Zahrňuje súbory a zložky"
+msgstr "Zahrňuje súbory a priečinky"
 
 #: ../../gnome/settingsdialog.py:167
 msgid "Exclude patterns, files or folders"
@@ -493,11 +493,11 @@ msgstr "Zmeny a chyby"
 
 #: ../../gnome/settingsdialog.py:299
 msgid "Snapshots folder"
-msgstr "Zložka snímkov"
+msgstr "Priečinok snímok"
 
 #: ../../gnome/settingsdialog.py:307 ../../kde4/settingsdialog.py:802
 msgid "Are you sure you want to change snapshots folder ?"
-msgstr "Ste si istí, že chcete zmeniť priečinok snímkov?"
+msgstr "Ste si istí, že chcete zmeniť priečinok snímok?"
 
 #: ../../gnome/settingsdialog.py:637 ../../kde4/settingsdialog.py:384
 msgid "New profile"
@@ -538,7 +538,7 @@ msgstr "Vylúčiť priečinok"
 
 #: ../../gnome/snapshotsdialog.py:267 ../../kde4/snapshotsdialog.py:261
 msgid "You can't compare a snapshot to itself"
-msgstr "Nemôžete porovnávať snímok sám"
+msgstr "Nemôžete porovnávať snímku s ňou samou"
 
 #: ../../gnome/snapshotsdialog.py:274 ../../kde4/snapshotsdialog.py:268
 #, python-format
@@ -548,16 +548,16 @@ msgstr "Príkaz nenájdený: %s"
 #: ../../kde4/app.py:84 ../../gnome/mainwindow.glade:49
 #: ../../gnome/mainwindow.glade:50
 msgid "Refresh snapshots list"
-msgstr "Obnoviť zoznam snímkov"
+msgstr "Obnoviť zoznam snímok"
 
 #: ../../kde4/app.py:92 ../../gnome/mainwindow.glade:75
 #: ../../gnome/mainwindow.glade:76
 msgid "Remove Snapshot"
-msgstr "Odstrániť snímok"
+msgstr "Odstrániť snímku"
 
 #: ../../kde4/app.py:96 ../../gnome/mainwindow.glade:89
 msgid "View Snapshot Log"
-msgstr "Zobraziť log snímkov"
+msgstr "Zobraziť záznam snímok"
 
 #: ../../kde4/app.py:100 ../../gnome/mainwindow.glade:103
 msgid "View Last Log"
@@ -601,7 +601,7 @@ msgid ""
 "This folder doesn't exist\n"
 "in the current snapshot !"
 msgstr ""
-"Táto zložka neexistuje\n"
+"Tento priečinok neexistuje\n"
 "v aktuálnej snímke !"
 
 #: ../../kde4/app.py:767
@@ -610,7 +610,7 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Ste si istí, že chcete odstrániť snímok:\n"
+"Ste si istí, že chcete odstrániť snímku:\n"
 "%s"
 
 #: ../../kde4/app.py:1041 ../../kde4/kde4systrayicon.py:117
@@ -709,11 +709,11 @@ msgid ""
 "months of the last year \n"
 "- keep one snapshot per year for all other years"
 msgstr ""
-"- zachovaj všetky snímky z dneška a včerajška\n"
-"- zachovaj jeden snímok za posledný týždeň a jeden za dva týždňe\n"
-"- zachovaj jeden snímok za posledný mesiac pre všetky predchádzajúce mesiace "
+"- zachovať všetky snímky z dneška a včerajška\n"
+"- zachovať jednu snímku za posledný týždeň a jednu za dva týždne\n"
+"- zachovať jednu snímku za posledný mesiac pre všetky predchádzajúce mesiace "
 "tohto roku a všetky mesiace minulého roku \n"
-"- zachovaj jeden snímok za posledný rok pre všetky ostatné roky"
+"- zachovať jednu snímku za posledný rok pre všetky ostatné roky"
 
 #: ../../kde4/settingsdialog.py:297 ../../gnome/settingsdialog.glade:625
 msgid "Don't remove named snapshots"
@@ -769,7 +769,7 @@ msgstr "Spusti 'ionice' ako job cronu (predvolené: povolené)"
 
 #: ../../kde4/settingsdialog.py:363 ../../gnome/settingsdialog.glade:939
 msgid "Run 'ionice' when tacking a manual snapshot (default: disabled)"
-msgstr "Spusti 'ionice' pri manuálnom vytvorení snímku (predvolené: vypnuté)"
+msgstr "Spusti 'ionice' pri manuálnom vytvorení snímky (predvolené: vypnuté)"
 
 #: ../../kde4/settingsdialog.py:366 ../../gnome/settingsdialog.glade:952
 msgid "Preserve ACL"
@@ -806,7 +806,7 @@ msgstr "Použiť %1 a %2 parametre cesty"
 
 #: ../../kde4/snapshotsdialog.py:119 ../../gnome/snapshotsdialog.glade:36
 msgid "List only different snapshots"
-msgstr "Zoznam iba rozdielnych snímkov"
+msgstr "Zoznam iba rozdielnych snímok"
 
 #: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:49
 msgid "Deep check (more accurate, but slow)"
@@ -845,8 +845,8 @@ msgid ""
 "<b>This folder doesn't exist\n"
 "in the current snapshot !</b>"
 msgstr ""
-"<b>Táto zložka neexistuje\n"
-"v aktuálnom snímku!</b>"
+"<b>Tento priečinok neexistuje\n"
+"v aktuálnej snímke!</b>"
 
 #: ../../gnome/settingsdialog.glade:242
 msgid "Profile Id:"
@@ -888,7 +888,7 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:751
 msgid "Auto-remove only removes snapshots from the selected snapshots folder"
-msgstr "Auto-odstránie zmaže iba snímky z vybraného adresára so snímkami"
+msgstr "Auto-odstránie zmaže iba snímky z vybraného priečinka so snímkami"
 
 #: ../../gnome/settingsdialog.glade:855
 msgid "Log level:"
@@ -918,202 +918,3 @@ msgstr "Porovnať s"
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Vzor"
-
-#~ msgid "Backup Directories"
-#~ msgstr "Priečinky zálohy"
-
-#~ msgid "Include folders"
-#~ msgstr "Zahrnúť priečinky"
-
-#~ msgid "Older then:"
-#~ msgstr "Staršie než:"
-
-#~ msgid "Select A Folder"
-#~ msgstr "Vybrať priečinok"
-
-#~ msgid "Update snapshots"
-#~ msgstr "Aktualizovať snímky"
-
-#~ msgid "If free space is less then:"
-#~ msgstr "Ak je menej voľného miesta než:"
-
-#, python-format
-#~ msgid "%s is not a directory !"
-#~ msgstr "%s nie je priečinok !"
-
-#, python-format
-#~ msgid ""
-#~ "Can't write to: %s\n"
-#~ "Are you sure have write access ?"
-#~ msgstr ""
-#~ "Nemožno zapísať do: %s\n"
-#~ "Ste si istí, že máte povolenie na zápis ?"
-
-#~ msgid "about-translators"
-#~ msgstr "o programe-prekladatelia"
-
-#~ msgid "Patterns, files or directories"
-#~ msgstr "Vzory, súbory alebo priečinky"
-
-#~ msgid "Include directory"
-#~ msgstr "Zahrnúť priečinok"
-
-#~ msgid "Exclude directory"
-#~ msgstr "Vylúčiť priečinok"
-
-#~ msgid ""
-#~ "This directory don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Tento priečinok neexistuje\n"
-#~ "v aktuálnom snímku !"
-
-#~ msgid "Automatic backup"
-#~ msgstr "Automatická záloha"
-
-#~ msgid ""
-#~ "- keep all snapshots from today and yesterday\n"
-#~ "- keep one snapshot for the last week and one for two weeks ago\n"
-#~ "- keep one snapshot per month for all previous months of this year\n"
-#~ "- keep one snapshot per year for all previous years"
-#~ msgstr ""
-#~ "- Uchovať všetky snímky z dnes a včera\n"
-#~ "- Uchovať snímok za posledný týždeň a raz za dva týždne\n"
-#~ "- Uchovať snímok mesačne u všetkých predchádzajúcich mesiacoch tohto roka\n"
-#~ "- Uchovať snímok ročne u všetkých predchádzajúcich rokov"
-
-#~ msgid "Change this options only if you really know what you are doing !"
-#~ msgstr "Zmeňte tieto možnosti iba ak naozaj viete čo robíte !"
-
-#~ msgid ""
-#~ "Enable schedule per included directory (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Povoliť plánovanie každého zahrnutého priečinka (pozrite záložku Zahrnúť; "
-#~ "prednastavené: zakázané)"
-
-#, python-format
-#~ msgid "Can't create directory: %s"
-#~ msgstr "Nemožno vytvoriť priečinok: %s"
-
-#, python-format
-#~ msgid "Can't remove directory: %s"
-#~ msgstr "Nemožno odstrániť priečinok: %s"
-
-#~ msgid ""
-#~ "<b>This directory don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Tento priečinok neexistuje\n"
-#~ "v aktuálnom snímku !</b>"
-
-#~ msgid ""
-#~ "<b>Change this options only if you really know what you are doing !</b>"
-#~ msgstr "<b>Zmeňte tieto možnosti iba ak naozaj viete čo robíte !</b>"
-
-#~ msgid "You can't rename \"Main\" profile"
-#~ msgstr "Nemožno premenovať \"Main\" profil"
-
-#, python-format
-#~ msgid "Profile %s already exists !"
-#~ msgstr "Profil %s už existuje !"
-
-#~ msgid "Snapshots folder can't be the root folder !"
-#~ msgstr "Priečinok snímkov nemôže byť koreňový priečinok !"
-
-#~ msgid ""
-#~ "This folder don't exist\n"
-#~ "in current snapshot !"
-#~ msgstr ""
-#~ "Tento priečinok neexistuje\n"
-#~ "v aktuálnom snímku !"
-
-#~ msgid ""
-#~ "<b>This folder don't exist\n"
-#~ "in current snapshot !</b>"
-#~ msgstr ""
-#~ "<b>Tento priečinok neexistuje\n"
-#~ "v aktuálnom snímku !</b>"
-
-#~ msgid "Patterns, files or folders"
-#~ msgstr "Vzory, súbory alebo priečinky"
-
-#~ msgid "Snapshots directory is not valid !"
-#~ msgstr "Priečinok snímkov nie je platný !"
-
-#~ msgid "Snapshots directory can't be the root directory !"
-#~ msgstr "Priečinok snímkov nemôže byť koreňový priečinok !"
-
-#~ msgid "You must select at least one directory to backup !"
-#~ msgstr "Musíte vybrať aspoň jeden priečinok pre zálohovanie!"
-
-#~ msgid "Snapshots directory can't be in \"Backup Directories\" !"
-#~ msgstr "Priečinok snímkov nemôže byť koreňový priečinok !"
-
-#~ msgid "\"Backup directories\" can't include snapshots directory !"
-#~ msgstr "\"Priečinky zálohy\" nemožno zahrnúť priečinok snímkov !"
-
-#~ msgid "\"Exclude pattern\" can't contain \":\" char !"
-#~ msgstr "\"Vylúčiť vzor\" nemôže obsahovať \":\" znak !"
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it."
-#~ msgstr ""
-#~ "Nemožno nájsť priečinok snímkov.\n"
-#~ "Ak je na prenosnom médiu prosím vložte ho."
-
-#~ msgid ""
-#~ "Can't find snapshots directory.\n"
-#~ "If it is on a removable drive please plug it and then press OK"
-#~ msgstr ""
-#~ "Nemožno nájsť priečinok snímkov.\n"
-#~ "Ak je na prenosnom médiu prosím vložte ho a potom stlačte OK"
-
-#~ msgid "Are you sure you want to change snapshots directory ?"
-#~ msgstr "Ste si istí, že chcete zmeniť priečinok snímkov ?"
-
-#~ msgid "Parent Directory"
-#~ msgstr "Zdrojový priečinok"
-
-#~ msgid ""
-#~ "Enable schedule per included folder (see Include tab; default: disabled)"
-#~ msgstr ""
-#~ "Povoliť plánovanie každého zahrnutého priečinka (pozrite záložku Zahrnúť; "
-#~ "prednastavené: zakázané)"
-
-#~ msgid ""
-#~ "BackinTime still cannot continue taking new snapshots.\n"
-#~ "Restart BackinTime to see the questions again"
-#~ msgstr ""
-#~ "BackinTime nemôže stále pokračovať vo vytváraní snímkov.\n"
-#~ "Reštartuje BackinTime pre opakované zobrazenie otázok"
-
-#~ msgid ""
-#~ "BackinTime changed its backup format.\n"
-#~ "\n"
-#~ "Your old snapshots can be moved according to this new format. OK?"
-#~ msgstr ""
-#~ "BackinTime zmenil formát zálohy.\n"
-#~ "\n"
-#~ "Vaše staršie kópie môžu byť zmenené na zodpovedajúci formát. OK?"
-
-#~ msgid "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr "BackinTime bude znova pokračovať vo vytváraní snímkov podľa plánu"
-
-#~ msgid ""
-#~ "Update was successful!\n"
-#~ "\n"
-#~ "BackinTime will continue taking snapshots again as scheduled"
-#~ msgstr ""
-#~ "Aktualizácia bola úspešná!\n"
-#~ "\n"
-#~ "BackinTime bude znova pokračovať vo vytváraní snímkov podľa plánu"
-
-#~ msgid ""
-#~ "No profiles are found. Will have to update to profiles first, please restart "
-#~ "BackinTime"
-#~ msgstr ""
-#~ "Nenájdené žiadne profily. Aktualizujte profily a reštartujte BackinTime"
-
-#~ msgid "FAILED"
-#~ msgstr "ZLYHALO"

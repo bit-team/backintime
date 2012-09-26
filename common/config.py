@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '1.0.9'
+	VERSION = '1.0.10'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
@@ -73,7 +73,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
 
-	DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ), '.dropbox*' ]
+	DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ), '.dropbox*', '/proc', '/sys', '/dev' ]
 
 	def __init__( self ):
 		configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
@@ -484,6 +484,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_automatic_backup_time( self, value, profile_id = None ):
 		self.set_profile_int_value( 'snapshots.automatic_backup_time', value, profile_id )
 
+	def get_automatic_backup_day( self, profile_id = None ):
+		return self.get_profile_int_value( 'snapshots.automatic_backup_day', 1, profile_id )
+
+	def set_automatic_backup_day( self, value, profile_id = None ):
+		self.set_profile_int_value( 'snapshots.automatic_backup_day', value, profile_id )
+
+	def get_automatic_backup_weekday( self, profile_id = None ):
+		return self.get_profile_int_value( 'snapshots.automatic_backup_weekday', 7, profile_id )
+
+	def set_automatic_backup_weekday( self, value, profile_id = None ):
+		self.set_profile_int_value( 'snapshots.automatic_backup_weekday', value, profile_id )
+
 	def get_custom_backup_time( self, profile_id = None ):
 		return self.get_profile_str_value( 'snapshots.custom_backup_time', '0,10,13,15,17,20,23', profile_id )
 
@@ -521,7 +533,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		
 		if unit == self.YEAR:
 			date = datetime.date.today()
-			return date.replace( year = date.year - value )
+			return date.replace( day = 1, year = date.year - value )
 		
 		return datetime.date( 1, 1, 1 )
 
@@ -644,7 +656,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return self.set_profile_bool_value( 'snapshots.disable_debian_patch', value, profile_id )
 
 	def continue_on_errors( self, profile_id = None ):
-		return self.get_profile_bool_value( 'snapshots.continue_on_errors', False, profile_id )
+		return self.get_profile_bool_value( 'snapshots.continue_on_errors', True, profile_id )
 
 	def set_continue_on_errors( self, value, profile_id = None ):
 		return self.set_profile_bool_value( 'snapshots.continue_on_errors', value, profile_id )
@@ -660,6 +672,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def set_log_level( self, value, profile_id = None ):
 		return self.set_profile_int_value( 'snapshots.log_level', value, profile_id )
+
+	def full_rsync( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.full_rsync', True, profile_id )
+
+	def set_full_rsync( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.full_rsync', value, profile_id )
+
+	def check_for_changes( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.check_for_changes', True, profile_id )
+
+	def set_check_for_changes( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.check_for_changes', value, profile_id )
 
 	def get_take_snapshot_user_script( self, step, profile_id = None ):
 		return self.get_profile_str_value ( "snapshots.take_snapshot.%s.user.script" % step, '', profile_id )
@@ -781,30 +805,10 @@ class Config( configfile.ConfigFileWithProfiles ):
 		for profile_id in profiles:
 			profile_name = self.get_profile_name( profile_id )
 			print "Profile: %s" % profile_name
-			min_backup_mode = self.NONE
-			max_backup_mode = self.NONE
+			backup_mode = self.get_automatic_backup_mode( profile_id )
+			print "Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ backup_mode ]
 
-			#if self.get_per_directory_schedule( profile_id ):
-			#	for item in self.get_include( profile_id ):
-			#		backup_mode = item[1]
-
-			#		if self.NONE != backup_mode:
-			#			if self.NONE == min_backup_mode:
-			#				min_backup_mode = backup_mode
-			#				max_backup_mode = backup_mode
-			#			elif backup_mode < min_backup_mode:
-			#				min_backup_mode = backup_mode
-			#			elif backup_mode > max_backup_mode:
-			#				max_backup_mode = backup_mode
-		
-			#	print "Min automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
-			#	print "Max automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ max_backup_mode ]
-			#else:
-			min_backup_mode = self.get_automatic_backup_mode( profile_id )
-			max_backup_mode = min_backup_mode
-			print "Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ min_backup_mode ]
-
-			if self.NONE == min_backup_mode:
+			if self.NONE == backup_mode:
 				continue
 
 			if not tools.check_command( 'crontab' ):
@@ -812,25 +816,28 @@ class Config( configfile.ConfigFileWithProfiles ):
 				return False
 
 			cron_line = ''
-			
-			if self.AT_EVERY_BOOT == min_backup_mode:
+		
+			hour = self.get_automatic_backup_time(profile_id) / 100;
+			minute = self.get_automatic_backup_time(profile_id) % 100;
+			day = self.get_automatic_backup_day(profile_id)
+			weekday = self.get_automatic_backup_weekday(profile_id)	
+
+			if self.AT_EVERY_BOOT == backup_mode:
 				cron_line = 'echo "{msg}\n@reboot {cmd}"'
-			elif self._5_MIN == min_backup_mode:
+			elif self._5_MIN == backup_mode:
 				cron_line = 'echo "{msg}\n*/5 * * * * {cmd}"'
-			elif self._10_MIN == min_backup_mode:
+			elif self._10_MIN == backup_mode:
 				cron_line = 'echo "{msg}\n*/10 * * * * {cmd}"'
-			if self.HOUR == min_backup_mode:
+			if self.HOUR == backup_mode:
 				cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
-			if self.CUSTOM_HOUR == min_backup_mode:
+			if self.CUSTOM_HOUR == backup_mode:
 				cron_line = 'echo "{msg}\n0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}"'
-			elif self.DAY == min_backup_mode:
-				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * * {cmd}"'
-			#elif self.WEEK == min_backup_mode and self.MONTH == max_backup_mode: #for every-week and every-month use every-day
-			#	cron_line = 'echo "{msg}\n15 15 * * * {cmd}"'
-			elif self.WEEK == min_backup_mode:
-				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' * * 0 {cmd}"'
-			elif self.MONTH == min_backup_mode:
-				cron_line = 'echo "{msg}\n0 ' + str(self.get_automatic_backup_time( profile_id ) / 100) + ' 1 * * {cmd}"'
+			elif self.DAY == backup_mode:
+				cron_line = "echo \"{msg}\n%s %s * * * {cmd}\"" % (minute, hour)
+			elif self.WEEK == backup_mode:
+				cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
+			elif self.MONTH == backup_mode:
+				cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
 
 			if len( cron_line ) > 0:	
 				profile=''

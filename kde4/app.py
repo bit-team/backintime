@@ -48,6 +48,7 @@ import kde4tools
 import settingsdialog
 import snapshotsdialog
 import logviewdialog
+import restoredialog
 
 
 _=gettext.gettext
@@ -163,8 +164,7 @@ class MainWindow( KMainWindow ):
 		#show hidden files
 		self.show_hidden_files = self.config.get_bool_value( 'kde4.show_hidden_files', False )
 
-		self.btn_show_hidden_files = KToggleAction( KIcon( 'list-add' ), '', self.files_view_toolbar )
-		self.files_view_toolbar.addAction( self.btn_show_hidden_files )
+		self.btn_show_hidden_files = self.files_view_toolbar.addAction( KIcon( 'list-add' ), '' )
 		self.btn_show_hidden_files.setCheckable( True )
 		self.btn_show_hidden_files.setChecked( self.show_hidden_files )
 		self.btn_show_hidden_files.setToolTip( QString.fromUtf8( _('Show hidden files') ) )
@@ -172,13 +172,21 @@ class MainWindow( KMainWindow ):
 
 		self.files_view_toolbar.addSeparator()
 
+		#restore menu
+		self.menu_restore = QMenu()
+		action = self.menu_restore.addAction( KIcon( 'document-revert' ), QString.fromUtf8( _('Restore') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.restore_this )
+		action = self.menu_restore.addAction( KIcon( 'document-revert' ), QString.fromUtf8( _('Restore to ...') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.restore_this_to )
+		self.menu_restore_parent = self.menu_restore.addAction( KIcon( 'document-revert' ), '' )
+		QObject.connect( self.menu_restore_parent, SIGNAL('triggered()'), self.restore_parent )
+		self.menu_restore_parent_to = self.menu_restore.addAction( KIcon( 'document-revert' ), '' )
+		QObject.connect( self.menu_restore_parent_to, SIGNAL('triggered()'), self.restore_parent_to )
+
 		self.btn_restore = self.files_view_toolbar.addAction( KIcon( 'document-revert' ), '' )
 		self.btn_restore.setToolTip( QString.fromUtf8( _('Restore') ) )
-		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.on_btn_restore_clicked )
-
-		self.btn_copy = self.files_view_toolbar.addAction( KIcon( 'edit-copy' ), '' )
-		self.btn_copy.setToolTip( QString.fromUtf8( _('Copy pathname to clipboard') ) )
-		QObject.connect( self.btn_copy, SIGNAL('triggered()'), self.on_btn_copy_to_clipboard_clicked )
+		self.btn_restore.setMenu(self.menu_restore)
+		QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
 
 		self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
 		self.btn_snapshots.setToolTip( QString.fromUtf8( _('Snapshots') ) )
@@ -219,8 +227,7 @@ class MainWindow( KMainWindow ):
 		#self.list_files_view.setAllColumnsShowFocus( True )
 		self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
 		self.list_files_view.setItemsExpandable( False )
-		self.list_files_view.setDragEnabled( True )
-		self.list_files_view.setDragDropMode( QAbstractItemView.DragOnly )
+		self.list_files_view.setDragEnabled( False )
 
 		self.list_files_view.header().setClickable( True )
 		self.list_files_view.header().setMovable( False )
@@ -789,7 +796,7 @@ class MainWindow( KMainWindow ):
 		self.show_hidden_files = checked
 		self.update_files_view( 1 )
 
-	def on_btn_restore_clicked( self ):
+	def restore_this( self ):
 		if len( self.snapshot_id ) <= 1:
 			return
 
@@ -799,16 +806,29 @@ class MainWindow( KMainWindow ):
 			return
 
 		rel_path = os.path.join( self.path, selected_file )
-		self.snapshots.restore( self.snapshot_id, rel_path )
+		restoredialog.restore( self, self.snapshot_id, rel_path )
 
-	def on_btn_copy_to_clipboard_clicked( self ):
+	def restore_this_to( self ):
+		if len( self.snapshot_id ) <= 1:
+			return
+
 		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
 		selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
 		if len( selected_file ) <= 0:
 			return
 
-		path = self.snapshots.get_snapshot_path_to( self.snapshot_id, os.path.join( self.path, selected_file ) )
-		kde4tools.clipboard_set_path( self.kapp, path )
+		rel_path = os.path.join( self.path, selected_file )
+		restoredialog.restore( self, self.snapshot_id, rel_path, None )
+
+	def restore_parent( self ):
+		if len( self.snapshot_id ) <= 1:
+			return
+		restoredialog.restore( self, self.snapshot_id, self.path)
+
+	def restore_parent_to( self ):
+		if len( self.snapshot_id ) <= 1:
+			return
+		restoredialog.restore( self, self.snapshot_id, self.path, None )
 
 	def on_btn_snapshots_clicked( self ):
 		idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
@@ -932,12 +952,13 @@ class MainWindow( KMainWindow ):
 			self.files_view_layout.setCurrentWidget( self.list_files_view )
 		else:
 			self.btn_restore.setEnabled( False )
-			self.btn_copy.setEnabled( False )
 			self.btn_snapshots.setEnabled( False )
 			self.files_view_layout.setCurrentWidget( self.lbl_folder_dont_exists )
 
 		#show current path
 		self.edit_current_path.setText( QString.fromUtf8( self.path ) )
+		self.menu_restore_parent.setText(QString.fromUtf8( _("Restore '%s'") % self.path ))
+		self.menu_restore_parent_to.setText(QString.fromUtf8( _("Restore '%s' to ...") % self.path ))
 
 		#update folder_up button state
 		self.btn_folder_up.setEnabled( len( self.path ) > 1 )
@@ -951,9 +972,6 @@ class MainWindow( KMainWindow ):
 
 		#update restore button state
 		self.btn_restore.setEnabled( len( self.snapshot_id ) > 1 and has_files )
-
-		#update copy button state
-		self.btn_copy.setEnabled( has_files )
 
 		#update snapshots button state
 		self.btn_snapshots.setEnabled( has_files )
