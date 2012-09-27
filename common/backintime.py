@@ -26,6 +26,7 @@ import config
 import logger
 import snapshots
 import tools
+import sshtools
 
 _=gettext.gettext
 
@@ -44,7 +45,19 @@ def take_snapshot_now_async( cfg ):
 
 def take_snapshot( cfg, force = True ):
 	logger.openlog()
+	ssh = sshtools.SSH(cfg=cfg)
+	if ssh.ssh:
+		try:
+			ssh.mount()
+		except sshtools.SSHException as ex:
+			logger.error(str(ex))
+			return
 	snapshots.Snapshots( cfg ).take_snapshot( force )
+	if ssh.ssh:
+		try:
+			ssh.umount()
+		except sshtools.SSHException as ex:
+			logger.error(str(ex))
 	logger.closelog()
 
 

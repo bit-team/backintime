@@ -259,6 +259,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def get_snapshots_path( self, profile_id = None ):
 		return self.get_profile_str_value( 'snapshots.path', '', profile_id )
 
+	def get_snapshots_path_ssh( self, profile_id = None ):
+		return self.get_profile_str_value( 'snapshots.ssh.path', '', profile_id )
+
 	def get_snapshots_full_path( self, profile_id = None, version = None ):
 		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
 		if version is None:
@@ -269,6 +272,17 @@ class Config( configfile.ConfigFileWithProfiles ):
 		else:
 			host, user, profile = self.get_host_user_profile( profile_id )
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile ) 
+
+	def get_snapshots_full_path_ssh( self, profile_id = None, version = None ):
+		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
+		if version is None:
+			version = self.get_int_value( 'config.version', self.CONFIG_VERSION )
+
+		if version < 4:
+			return os.path.join( self.get_snapshots_path_ssh( profile_id ), 'backintime' )
+		else:
+			host, user, profile = self.get_host_user_profile( profile_id )
+			return os.path.join( self.get_snapshots_path_ssh( profile_id ), 'backintime', host, user, profile ) 
 
 	def set_snapshots_path( self, value, profile_id = None ):
 		"""Sets the snapshot path to value, initializes, and checks it"""
@@ -316,6 +330,34 @@ class Config( configfile.ConfigFileWithProfiles ):
 		os.rmdir( check_path )
 		self.set_profile_str_value( 'snapshots.path', value, profile_id )
 		return True
+
+	def set_snapshots_path_ssh( self, value, profile_id = None ): #TODO: check snapshots.path.ssh before set
+		self.set_profile_str_value( 'snapshots.ssh.path', value, profile_id )
+		return True
+
+	def get_ssh( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.ssh', False, profile_id )
+
+	def set_ssh( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.ssh', value, profile_id )
+
+	def get_ssh_host( self, profile_id = None ):
+		return self.get_profile_str_value( 'snapshots.ssh.host', '', profile_id )
+
+	def set_ssh_host( self, value, profile_id = None ):
+		self.set_profile_str_value( 'snapshots.ssh.host', value, profile_id )
+
+	def get_ssh_port( self, profile_id = None ):
+		return self.get_profile_int_value( 'snapshots.ssh.port', '', profile_id )
+
+	def set_ssh_port( self, value, profile_id = None ):
+		self.set_profile_int_value( 'snapshots.ssh.port', value, profile_id )
+
+	def get_ssh_user( self, profile_id = None ):
+		return self.get_profile_str_value( 'snapshots.ssh.user', '', profile_id )
+
+	def set_ssh_user( self, value, profile_id = None ):
+		self.set_profile_str_value( 'snapshots.ssh.user', value, profile_id )
 
 	def get_auto_host_user_profile( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.path.auto', True, profile_id )

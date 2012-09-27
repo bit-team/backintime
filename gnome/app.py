@@ -44,6 +44,7 @@ import logger
 import snapshots
 import guiapplicationinstance
 import tools
+import sshtools
 
 import settingsdialog
 import logviewdialog
@@ -1219,10 +1220,22 @@ if __name__ == '__main__':
     gtk.about_dialog_set_url_hook( open_url, None )
 
     logger.openlog()
+    ssh = sshtools.SSH(cfg=cfg)
+    if ssh.ssh:
+        try:
+            ssh.mount()
+        except sshtools.SSHException as ex:
+            logger.error(str(ex))
+            quit()
     main_window = MainWindow( cfg, app_instance )
     		
     if cfg.is_configured():
         gtk.main()
+    if ssh.ssh:
+        try:
+            ssh.umount()
+        except sshtools.SSHException as ex:
+            logger.error(str(ex))
     logger.closelog()
 
     app_instance.exit_application()
