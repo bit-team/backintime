@@ -45,20 +45,27 @@ def take_snapshot_now_async( cfg ):
 
 def take_snapshot( cfg, force = True ):
 	logger.openlog()
+	mount(cfg)
+	snapshots.Snapshots( cfg ).take_snapshot( force )
+	umount(cfg)
+	logger.closelog()
+
+def mount(cfg):
 	ssh = sshtools.SSH(cfg=cfg)
 	if ssh.ssh:
 		try:
 			ssh.mount()
 		except sshtools.SSHException as ex:
 			logger.error(str(ex))
-			return
-	snapshots.Snapshots( cfg ).take_snapshot( force )
+			sys.exit(1)
+		
+def umount(cfg):
+	ssh = sshtools.SSH(cfg=cfg)
 	if ssh.ssh:
 		try:
 			ssh.umount()
 		except sshtools.SSHException as ex:
 			logger.error(str(ex))
-	logger.closelog()
 
 
 def print_version( cfg, app_name ):
@@ -159,18 +166,21 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
+				mount()
 				list = snapshots.Snapshots( cfg ).get_snapshots_list()
 				if len( list ) <= 0:
 					print "There are no snapshots"
 				else:
 					for snapshot_id in list:
 						print "SnapshotID: %s" % snapshot_id
+				umount()
 			sys.exit(0)
 
 		if arg == '--snapshots-list-path':
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
+				mount()
 				s = snapshots.Snapshots( cfg )
 				list = s.get_snapshots_list()
 				if len( list ) <= 0:
@@ -178,29 +188,34 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 				else:
 					for snapshot_id in list:
 						print "SnapshotPath: %s" % s.get_snapshot_path( snapshot_id )
+				umount()
 			sys.exit(0)
 
 		if arg == '--last-snapshot':
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
+				mount()
 				list = snapshots.Snapshots( cfg ).get_snapshots_list()
 				if len( list ) <= 0:
 					print "There are no snapshots"
 				else:
 					print "SnapshotID: %s" % list[0]
+				umount()
 			sys.exit(0)
 
 		if arg == '--last-snapshot-path':
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
+				mount()
 				s = snapshots.Snapshots( cfg )
 				list = s.get_snapshots_list()
 				if len( list ) <= 0:
 					print "There are no snapshots"
 				else:
 					print "SnapshotPath: %s" % s.get_snapshot_path( list[0] )
+				umount()
 			sys.exit(0)
 
 		if arg == '--snapshots' or arg == '-s':

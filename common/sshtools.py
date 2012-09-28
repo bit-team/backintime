@@ -71,16 +71,17 @@ class SSH:
         return True
         
     def umount(self):
-        if self.check_mount_lock():
-            logger.info('Mountpoint %s still in use. Keep mounted' % self.local_path)
-            self.del_mount_lock()
-        else:
-            logger.info('unmount %s' % self.local_path)
-            self.del_mount_lock()
-            try:
-                subprocess.check_call(['fusermount', '-u', self.local_path])
-            except subprocess.CalledProcessError as ex:
-                raise SSHException('Can\'t unmount sshfs %s' % self.local_path)
+        if self.is_mounted():
+            if self.check_mount_lock():
+                logger.info('Mountpoint %s still in use. Keep mounted' % self.local_path)
+                self.del_mount_lock()
+            else:
+                logger.info('unmount %s' % self.local_path)
+                self.del_mount_lock()
+                try:
+                    subprocess.check_call(['fusermount', '-u', self.local_path])
+                except subprocess.CalledProcessError as ex:
+                    raise SSHException('Can\'t unmount sshfs %s' % self.local_path)
         return True
         
     def is_mounted(self):

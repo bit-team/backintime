@@ -311,12 +311,12 @@ class MainWindow(object):
             if not self.config.is_configured():
                 return 
 	
-	if self.snapshots.has_old_snapshots():
-		settingsdialog.SettingsDialog( self.config, self.snapshots, self ).update_snapshots_location()
-	
-	profile_id = self.config.get_current_profile()
-	if not self.config.can_backup( profile_id ):
-            messagebox.show_error( self.window, self.config, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
+        if self.snapshots.has_old_snapshots():
+            settingsdialog.SettingsDialog( self.config, self.snapshots, self ).update_snapshots_location()
+        
+        profile_id = self.config.get_current_profile()
+        if not self.config.can_backup( profile_id ):
+                messagebox.show_error( self.window, self.config, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
         self.update_profiles()
         self.update_backup_info()
@@ -1220,20 +1220,19 @@ if __name__ == '__main__':
     gtk.about_dialog_set_url_hook( open_url, None )
 
     logger.openlog()
-    ssh = sshtools.SSH(cfg=cfg)
-    if ssh.ssh:
+    if sshtools.SSH(cfg).ssh:
         try:
-            ssh.mount()
+            sshtools.SSH(cfg).mount()
         except sshtools.SSHException as ex:
             logger.error(str(ex))
-            quit()
+            sys.exit(1)
     main_window = MainWindow( cfg, app_instance )
     		
     if cfg.is_configured():
         gtk.main()
-    if ssh.ssh:
+    if sshtools.SSH(cfg).ssh:
         try:
-            ssh.umount()
+            sshtools.SSH(cfg).umount()
         except sshtools.SSHException as ex:
             logger.error(str(ex))
     logger.closelog()
