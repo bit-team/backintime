@@ -30,6 +30,7 @@ import gettext
 import config
 import messagebox
 import tools
+import sshtools
 
 
 _=gettext.gettext
@@ -74,7 +75,8 @@ class SettingsDialog(object):
 				'on_combo_profiles_changed': self.on_combo_profiles_changed,
 				'on_btn_where_clicked': self.on_btn_where_clicked,
 				'on_cb_backup_mode_changed': self.on_cb_backup_mode_changed,
-				'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile
+				'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile,
+				'on_cb_ssh_toggled': self.update_ssh
 			}
 		
 		builder.connect_signals(signals)
@@ -110,6 +112,18 @@ class SettingsDialog(object):
 		self.txt_user = get('txt_user')
 		self.lbl_profile = get('lbl_profile')
 		self.txt_profile = get('txt_profile')
+		
+		#ssh
+		self.cb_ssh = get('cb_ssh')
+		self.lbl_ssh_host = get('lbl_ssh_host')
+		self.txt_ssh_host = get('txt_ssh_host')
+		self.lbl_ssh_port = get('lbl_ssh_port')
+		self.txt_ssh_port = get('txt_ssh_port')
+		self.lbl_ssh_user = get('lbl_ssh_user')
+		self.txt_ssh_user = get('txt_ssh_user')
+		self.lbl_ssh_path = get('lbl_ssh_path')
+		self.txt_ssh_path = get('txt_ssh_path')
+		self.lbl_mountpoint = get('label4')
 
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -400,6 +414,21 @@ class SettingsDialog(object):
 		self.txt_user.set_sensitive( value )
 		self.lbl_profile.set_sensitive( value )
 		self.txt_profile.set_sensitive( value )
+		
+	def update_ssh( self, *params ):
+		value = self.cb_ssh.get_active()
+		self.lbl_ssh_host.set_sensitive( value )
+		self.txt_ssh_host.set_sensitive( value )
+		self.lbl_ssh_port.set_sensitive( value )
+		self.txt_ssh_port.set_sensitive( value )
+		self.lbl_ssh_user.set_sensitive( value )
+		self.txt_ssh_user.set_sensitive( value )
+		self.lbl_ssh_path.set_sensitive( value )
+		self.txt_ssh_path.set_sensitive( value )
+		if value:
+			self.lbl_mountpoint.set_label('<b>Mountpoint</b>')
+		else:
+			self.lbl_mountpoint.set_label('<b>Where to save snapshots</b>')
 
 	def on_combo_profiles_changed( self, *params ):
 		if self.disable_combo_changed:
@@ -451,6 +480,14 @@ class SettingsDialog(object):
 		self.txt_user.set_text( user )
 		self.txt_profile.set_text( profile )
 		self.update_host_user_profile()
+		
+		#ssh
+		self.cb_ssh.set_active( self.config.get_ssh( self.profile_id ) )
+		self.txt_ssh_host.set_text( self.config.get_ssh_host( self.profile_id ) )
+		self.txt_ssh_port.set_text( self.config.get_ssh_port( self.profile_id ) )
+		self.txt_ssh_user.set_text( self.config.get_ssh_user( self.profile_id ) )
+		self.txt_ssh_path.set_text( self.config.get_snapshots_path_ssh( self.profile_id ) )
+		self.update_ssh()
 		
 		#per directory schedule
 		#self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -631,6 +668,29 @@ class SettingsDialog(object):
 		while not iter is None:
 			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
 			iter = self.store_exclude.iter_next( iter )
+			
+		#check ssh settings
+		if self.cb_ssh.get_active():
+			host = self.txt_ssh_host.get_text()
+			port = self.txt_ssh_port.get_text()
+			user = self.txt_ssh_user.get_text()
+			path_ssh = self.txt_ssh_path.get_text()
+			
+			ssh = sshtools.SSH(host=host, port=port, user=user, path=path_ssh, local_path=snapshots_path)
+			try:
+				ssh.check_fuse()
+				ssh.check_known_hosts()
+				ssh.check_login()
+			except sshtools.SSHException as ex:
+				self.error_handler(str(ex))
+				return False
+
+			#okay, lets try to mount
+			try:
+				ssh.mount()
+			except sshtools.SSHException as ex:
+				error_handler(str(ex))
+				return False
 		
 		#check if back folder changed
 		#if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
@@ -641,6 +701,14 @@ class SettingsDialog(object):
 		self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.get_active(), self.profile_id )
 		self.config.set_host_user_profile( self.txt_host.get_text(), self.txt_user.get_text(), self.txt_profile.get_text(), self.profile_id )
 		self.config.set_snapshots_path( snapshots_path, self.profile_id )
+		
+		#####ssh
+		self.config.set_ssh(self.cb_ssh.get_active(), self.profile_id)
+		self.config.set_ssh_host(self.txt_ssh_host.get_text(), self.profile_id)
+		self.config.set_ssh_port(self.txt_ssh_port.get_text(), self.profile_id)
+		self.config.set_ssh_user(self.txt_ssh_user.get_text(), self.profile_id)
+		self.config.set_snapshots_path_ssh(self.txt_ssh_path.get_text(), self.profile_id)
+
 
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
@@ -696,6 +764,14 @@ class SettingsDialog(object):
 		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.get_active(), self.profile_id )
 		self.config.set_copy_links( self.cb_copy_links.get_active(), self.profile_id )
 		self.config.set_disable_debian_patch( self.cb_disable_debian_patch.get_active(), self.profile_id )
+		
+		#umount ssh
+		if self.cb_ssh.get_active():
+			try:
+				ssh.umount()
+			except sshtools.SSHException as ex:
+				self.error_handler(str(ex))
+				return False
 	
 	def update_remove_old_backups( self, button ):
 		enabled = self.cb_remove_old_backup.get_active()

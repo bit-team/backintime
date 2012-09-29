@@ -26,6 +26,7 @@ import random
 import configfile
 import tools
 import logger
+import sshtools
 
 _=gettext.gettext
 
@@ -199,6 +200,20 @@ class Config( configfile.ConfigFileWithProfiles ):
 				self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('Snapshots folder is not valid !') )
 				return False
 
+			#try to mount ssh
+			if self.get_ssh( profile_id ):
+				host = self.get_ssh_host( profile_id )
+				port = self.get_ssh_port( profile_id )
+				user = self.get_ssh_user( profile_id )
+				path_ssh = self.get_snapshots_path_ssh( profile_id )
+				
+				ssh = sshtools.SSH(host=host, port=port, user=user, path=path_ssh, local_path=snapshots_path)
+				try:
+					ssh.mount()
+					ssh.umount()
+				except sshtools.SSHException as ex:
+					self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _(str(ex)) )
+					return False
 			## Should not check for similar snapshot paths any longer! 
 			#for other_profile in checked_profiles:
 			#	if snapshots_path == self.get_snapshots_path( other_profile[0] ):
@@ -260,7 +275,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return self.get_profile_str_value( 'snapshots.path', '', profile_id )
 
 	def get_snapshots_path_ssh( self, profile_id = None ):
-		return self.get_profile_str_value( 'snapshots.ssh.path', '', profile_id )
+		return self.get_profile_str_value( 'snapshots.ssh.path', './', profile_id )
 
 	def get_snapshots_full_path( self, profile_id = None, version = None ):
 		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
@@ -348,13 +363,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_str_value( 'snapshots.ssh.host', value, profile_id )
 
 	def get_ssh_port( self, profile_id = None ):
-		return self.get_profile_int_value( 'snapshots.ssh.port', '', profile_id )
+		return self.get_profile_int_value( 'snapshots.ssh.port', '22', profile_id )
 
 	def set_ssh_port( self, value, profile_id = None ):
 		self.set_profile_int_value( 'snapshots.ssh.port', value, profile_id )
 
 	def get_ssh_user( self, profile_id = None ):
-		return self.get_profile_str_value( 'snapshots.ssh.user', '', profile_id )
+		return self.get_profile_str_value( 'snapshots.ssh.user', self.get_user(), profile_id )
 
 	def set_ssh_user( self, value, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.ssh.user', value, profile_id )

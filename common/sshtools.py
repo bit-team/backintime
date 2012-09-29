@@ -35,12 +35,13 @@ class SSH:
         if self.config is None:
             self.config = config.Config()
             
-        self.ssh = self.config.get_ssh()
-        self.ssh_host = self.config.get_ssh_host()
-        self.ssh_port = self.config.get_ssh_port()
-        self.ssh_user = self.config.get_ssh_user()
-        self.ssh_path = self.config.get_snapshots_path_ssh()
-        self.local_path = self.config.get_snapshots_path()
+        profile_id = self.config.get_current_profile()
+        self.ssh = self.config.get_ssh(profile_id)
+        self.ssh_host = self.config.get_ssh_host(profile_id)
+        self.ssh_port = self.config.get_ssh_port(profile_id)
+        self.ssh_user = self.config.get_ssh_user(profile_id)
+        self.ssh_path = self.config.get_snapshots_path_ssh(profile_id)
+        self.local_path = self.config.get_snapshots_path(profile_id)
         if host:
             self.ssh = True
             self.ssh_host = host
@@ -59,9 +60,9 @@ class SSH:
             logger.info('Mountpoint %s is already mounted' % self.local_path)
             self.set_mount_lock()
         else:
+            self.check_fuse()
             self.check_known_hosts()
             self.check_login()
-            self.check_fuse()
             try:
                 subprocess.check_call(['sshfs', '-p', str(self.ssh_port), self.ssh_user_host_path, self.local_path])
             except subprocess.CalledProcessError as ex:
@@ -136,7 +137,7 @@ class SSH:
         user = os.getlogin()
         fuse_grp_members = grp.getgrnam('fuse')[3]
         if not user in fuse_grp_members:
-            raise SSHException('%s is not member of group \'fuse\'. Run \'adduser %s fuse\' and relogin user.' % (user, user))
+            raise SSHException('%s is not member of group \'fuse\'. Run \'adduser %s fuse\' as root and relogin user.' % (user, user))
         
     def pathexists(self, filename):
         """Checks if 'filename' is present in the system PATH.

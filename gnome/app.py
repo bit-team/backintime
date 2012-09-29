@@ -322,7 +322,7 @@ class MainWindow(object):
         self.update_backup_info()
         gobject.timeout_add( 1000, self.update_backup_info )
 
-    def on_combo_profiles_changed( self, *params ):
+    def on_combo_profiles_changed( self, *params ): #TODO: umount and mount on profiles changed
     	if self.disable_combo_changed:
             return
 
@@ -464,6 +464,12 @@ class MainWindow(object):
             self.folder_path, selected_file, show_snapshots = self.get_startup_folder_and_file()
         self.snapshot_id = '/'
         self.snapshots_list = []
+        
+        if self.config.get_ssh(self.config.get_current_profile()):
+            ssh = sshtools.SSH(self.config)
+            if ssh.is_mounted():
+                ssh.umount()
+            ssh.mount()
 
         self.fill_places()
         self.fill_time_line( False )
