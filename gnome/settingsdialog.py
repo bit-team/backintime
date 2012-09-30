@@ -113,7 +113,7 @@ class SettingsDialog(object):
 		self.lbl_profile = get('lbl_profile')
 		self.txt_profile = get('txt_profile')
 		
-		#ssh
+		######ssh
 		self.cb_ssh = get('cb_ssh')
 		self.lbl_ssh_host = get('lbl_ssh_host')
 		self.txt_ssh_host = get('txt_ssh_host')
@@ -124,6 +124,8 @@ class SettingsDialog(object):
 		self.lbl_ssh_path = get('lbl_ssh_path')
 		self.txt_ssh_path = get('txt_ssh_path')
 		self.lbl_mountpoint = get('label4')
+		self.lbl_warn_mountpoint = get('lbl_warn_mountpoint')
+		self.homedir = os.getenv('HOME')
 
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -366,6 +368,7 @@ class SettingsDialog(object):
 				if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
 					return
 			self.edit_where.set_text( new_path )
+			self.warn_mountpoint()
 		else:
 			fcd.destroy()
 
@@ -429,6 +432,21 @@ class SettingsDialog(object):
 			self.lbl_mountpoint.set_label('<b>Mountpoint</b>')
 		else:
 			self.lbl_mountpoint.set_label('<b>Where to save snapshots</b>')
+		self.warn_mountpoint()
+			
+	def warn_mountpoint(self):
+		if self.cb_ssh.get_active():
+			mountpoint = self.edit_where.get_text()
+			mountpoint = str(os.path.abspath(mountpoint))
+			if self.homedir and mountpoint.startswith(self.homedir):
+				self.lbl_warn_mountpoint.hide()
+			else:
+				self.lbl_warn_mountpoint.set_label('Warning: Please make sure, ' + \
+				'no other user uses the same mountpoint. Easiest way to avoid ' + \
+				'this would be to mount inside users home directory %s' % self.homedir)
+				self.lbl_warn_mountpoint.show()
+		else:
+			self.lbl_warn_mountpoint.hide()
 
 	def on_combo_profiles_changed( self, *params ):
 		if self.disable_combo_changed:
@@ -481,10 +499,10 @@ class SettingsDialog(object):
 		self.txt_profile.set_text( profile )
 		self.update_host_user_profile()
 		
-		#ssh
+		######ssh
 		self.cb_ssh.set_active( self.config.get_ssh( self.profile_id ) )
 		self.txt_ssh_host.set_text( self.config.get_ssh_host( self.profile_id ) )
-		self.txt_ssh_port.set_text( self.config.get_ssh_port( self.profile_id ) )
+		self.txt_ssh_port.set_text( str(self.config.get_ssh_port( self.profile_id )) )
 		self.txt_ssh_user.set_text( self.config.get_ssh_user( self.profile_id ) )
 		self.txt_ssh_path.set_text( self.config.get_snapshots_path_ssh( self.profile_id ) )
 		self.update_ssh()
@@ -669,14 +687,15 @@ class SettingsDialog(object):
 			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
 			iter = self.store_exclude.iter_next( iter )
 			
-		#check ssh settings
+		####check ssh settings
+		ssh = False
 		if self.cb_ssh.get_active():
 			host = self.txt_ssh_host.get_text()
 			port = self.txt_ssh_port.get_text()
 			user = self.txt_ssh_user.get_text()
 			path_ssh = self.txt_ssh_path.get_text()
 			
-			ssh = sshtools.SSH(host=host, port=port, user=user, path=path_ssh, local_path=snapshots_path)
+			ssh = sshtools.SSH(host_port_user_path = (host, port, user, path_ssh), local_path=snapshots_path)
 			try:
 				ssh.check_fuse()
 				ssh.check_known_hosts()
@@ -765,8 +784,8 @@ class SettingsDialog(object):
 		self.config.set_copy_links( self.cb_copy_links.get_active(), self.profile_id )
 		self.config.set_disable_debian_patch( self.cb_disable_debian_patch.get_active(), self.profile_id )
 		
-		#umount ssh
-		if self.cb_ssh.get_active():
+		####umount ssh
+		if ssh:
 			try:
 				ssh.umount()
 			except sshtools.SSHException as ex:

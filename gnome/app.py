@@ -315,6 +315,13 @@ class MainWindow(object):
             settingsdialog.SettingsDialog( self.config, self.snapshots, self ).update_snapshots_location()
         
         profile_id = self.config.get_current_profile()
+        #####ssh
+        try:
+            ssh = sshtools.SSH(self.config, profile_id = profile_id)
+            ssh.mount()
+        except sshtools.SSHException as ex:
+            messagebox.show_error( self.window, self.config, str(ex) )
+            sys.exit(1)
         if not self.config.can_backup( profile_id ):
                 messagebox.show_error( self.window, self.config, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
@@ -322,7 +329,7 @@ class MainWindow(object):
         self.update_backup_info()
         gobject.timeout_add( 1000, self.update_backup_info )
 
-    def on_combo_profiles_changed( self, *params ): #TODO: umount and mount on profiles changed
+    def on_combo_profiles_changed( self, *params ):
     	if self.disable_combo_changed:
             return
 
@@ -336,6 +343,7 @@ class MainWindow(object):
         if not first_update_all and profile_id == self.config.get_current_profile():
             return
 
+        self.update_ssh(profile_id, self.config.get_current_profile())
         self.config.set_current_profile( profile_id )
         self.first_update_all = False
         self.update_all( first_update_all )
@@ -464,16 +472,22 @@ class MainWindow(object):
             self.folder_path, selected_file, show_snapshots = self.get_startup_folder_and_file()
         self.snapshot_id = '/'
         self.snapshots_list = []
-        
-        if self.config.get_ssh(self.config.get_current_profile()):
-            ssh = sshtools.SSH(self.config)
-            if ssh.is_mounted():
-                ssh.umount()
-            ssh.mount()
 
         self.fill_places()
         self.fill_time_line( False )
         self.update_folder_view( 1, selected_file, show_snapshots )
+        
+    def update_ssh( self, profile_id, old_profile_id):
+        if sshtools.Compare(self.config).profiles_different(profile_id, old_profile_id):
+            try:
+                ssh_old = sshtools.SSH(cfg = self.config, profile_id = old_profile_id)
+                if ssh_old.ssh:
+                        ssh_old.umount()
+                ssh = sshtools.SSH(cfg = self.config, profile_id = profile_id)
+                if ssh.ssh:
+                    ssh.mount()
+            except sshtools.SSHException as ex:
+                messagebox.show_error( self.window, self.config, str(ex) )
 
     def places_pix_renderer_function( self, column, renderer, model, iter, user_data ):
         if len( model.get_value( iter, 1 ) ) == 0:
@@ -738,6 +752,14 @@ class MainWindow(object):
         self.config.set_int_value( 'gnome.main_window.hpaned2', main_window_hpaned2 )
         self.config.set_str_value( 'gnome.last_path', self.folder_path )
         self.config.set_bool_value( 'gnome.show_hidden_files', self.show_hidden_files )
+        
+        #####ssh
+        try:
+            ssh = sshtools.SSH(cfg = self.config)
+            if ssh.ssh:
+                    ssh.umount()
+        except sshtools.SSHException as ex:
+            messagebox.show_error( self.window, self.config, str(ex) )
 
         self.config.save()
         self.window.destroy()
@@ -975,6 +997,14 @@ class MainWindow(object):
         include_folders = self.config.get_include()
 
         settingsdialog.SettingsDialog( self.config, self.snapshots, self ).run()
+        
+        ####ssh
+        try:
+            ssh = sshtools.SSH(cfg = self.config)
+            if ssh.ssh:
+                    ssh.mount()
+        except sshtools.SSHException as ex:
+            messagebox.show_error( self.window, self.config, str(ex) )
 
         if snapshots_full_path != self.config.get_snapshots_full_path() or include_folders != self.config.get_include():
             self.update_all( False )
@@ -1226,21 +1256,10 @@ if __name__ == '__main__':
     gtk.about_dialog_set_url_hook( open_url, None )
 
     logger.openlog()
-    if sshtools.SSH(cfg).ssh:
-        try:
-            sshtools.SSH(cfg).mount()
-        except sshtools.SSHException as ex:
-            logger.error(str(ex))
-            sys.exit(1)
     main_window = MainWindow( cfg, app_instance )
     		
     if cfg.is_configured():
         gtk.main()
-    if sshtools.SSH(cfg).ssh:
-        try:
-            sshtools.SSH(cfg).umount()
-        except sshtools.SSHException as ex:
-            logger.error(str(ex))
     logger.closelog()
 
     app_instance.exit_application()

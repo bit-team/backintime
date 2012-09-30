@@ -202,13 +202,10 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 			#try to mount ssh
 			if self.get_ssh( profile_id ):
-				host = self.get_ssh_host( profile_id )
-				port = self.get_ssh_port( profile_id )
-				user = self.get_ssh_user( profile_id )
-				path_ssh = self.get_snapshots_path_ssh( profile_id )
-				
-				ssh = sshtools.SSH(host=host, port=port, user=user, path=path_ssh, local_path=snapshots_path)
 				try:
+					sshtools.Compare(self).all_profiles(profile_id)
+					ssh_host_port_user_path = self.get_ssh_host_port_user_path(profile_id)
+					ssh = sshtools.SSH(cfg = self, host_port_user_path = ssh_host_port_user_path, local_path=snapshots_path)
 					ssh.mount()
 					ssh.umount()
 				except sshtools.SSHException as ex:
@@ -346,7 +343,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_str_value( 'snapshots.path', value, profile_id )
 		return True
 
-	def set_snapshots_path_ssh( self, value, profile_id = None ): #TODO: check snapshots.path.ssh before set
+	def set_snapshots_path_ssh( self, value, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.ssh.path', value, profile_id )
 		return True
 
@@ -373,6 +370,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def set_ssh_user( self, value, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.ssh.user', value, profile_id )
+		
+	def get_ssh_host_port_user_path(self, profile_id = None ):
+		host = self.get_ssh_host(profile_id)
+		port = self.get_ssh_port(profile_id)
+		user = self.get_ssh_user(profile_id)
+		path = self.get_snapshots_path_ssh(profile_id)
+		return (host, port, user, path)
 
 	def get_auto_host_user_profile( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.path.auto', True, profile_id )

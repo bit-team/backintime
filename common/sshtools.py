@@ -26,31 +26,55 @@ from time import sleep
 import config
 import logger
 
+class Compare:
+	def __init__(self, cfg):
+		self.config = cfg
+		
+	def profile(self, profile_id_1, profile_id_2):
+		"""compare two profiles. make sure user don't try to 
+		   use one mountpoint for different ssh_host_port_user_path settings. Will raise exception if so.
+		   return True if profiles have identical settings"""
+		if self.config.get_ssh(profile_id_1) and self.config.get_ssh(profile_id_2):
+			if self.config.get_snapshots_path(profile_id_1) == self.config.get_snapshots_path(profile_id_2):
+				if self.config.get_ssh_host_port_user_path(profile_id_1) == self.config.get_ssh_host_port_user_path(profile_id_2):
+					return True
+				else:
+					profile_name_1 = self.config.get_profile_name( profile_id_1 )
+					profile_name_2 = self.config.get_profile_name( profile_id_2 )
+					raise SSHException('%s and %s uses the same mountpoint with different servers. That would cause trouble. Please choose different mountpoint' % (profile_name_1, profile_name_2))
+		return False
+
+	def all_profiles(self, profile_id_1):
+		profiles = self.config.get_profiles()
+		for profile_id_2 in profiles:
+			if profile_id_1 == profile_id_2:
+				continue
+			self.profile(profile_id_1, profile_id_2)
+			
+	def profiles_different(self, profile_id_1, profile_id_2):
+		try:
+			return not self.profile(profile_id_1, profile_id_2)
+		except SSHException as ex:
+			logger.error(str(ex))
+
 class SSHException(Exception):
     pass
 
-class SSH:
-    def __init__( self, cfg = None , host = False, port = False, user = False, path = False, local_path = False):
+class SSH:#TODO: pingtest host
+    def __init__( self, cfg = None , host_port_user_path = False, local_path = False, profile_id = False):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
             
-        profile_id = self.config.get_current_profile()
-        self.ssh = self.config.get_ssh(profile_id)
-        self.ssh_host = self.config.get_ssh_host(profile_id)
-        self.ssh_port = self.config.get_ssh_port(profile_id)
-        self.ssh_user = self.config.get_ssh_user(profile_id)
-        self.ssh_path = self.config.get_snapshots_path_ssh(profile_id)
-        self.local_path = self.config.get_snapshots_path(profile_id)
-        if host:
+        self.profile_id = profile_id
+        if not self.profile_id:
+            self.profile_id = self.config.get_current_profile()
+        self.ssh = self.config.get_ssh(self.profile_id)
+        (self.ssh_host, self.ssh_port, self.ssh_user, self.ssh_path) = self.config.get_ssh_host_port_user_path(self.profile_id)
+        self.local_path = self.config.get_snapshots_path(self.profile_id)
+        if host_port_user_path:
             self.ssh = True
-            self.ssh_host = host
-        if port:
-            self.ssh_port = port
-        if user:
-            self.ssh_user = user
-        if path:
-            self.ssh_path = path
+            (self.ssh_host, self.ssh_port, self.ssh_user, self.ssh_path) = host_port_user_path
         if local_path:
             self.local_path = local_path
         self.ssh_user_host_path = '%s@%s:%s' % (self.ssh_user, self.ssh_host, self.ssh_path)

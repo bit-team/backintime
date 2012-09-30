@@ -614,10 +614,9 @@ class Snapshots:
 		if len( snapshot_id ) <= 1:
 			return
 		#######ssh
-		ssh = self.config.get_ssh()
-		ssh_host = self.config.get_ssh_host()
-		ssh_port = self.config.get_ssh_port()
-		ssh_user = self.config.get_ssh_user()
+		profile_id = self.config.get_current_profile()
+		ssh = self.config.get_ssh(profile_id)
+		(ssh_host, ssh_port, ssh_user, ssh_path) = self.config.get_ssh_host_port_user_path(profile_id)
 		cmd_ssh = 'ssh -p %s %s@%s ' % ( ssh_port, ssh_user, ssh_host )
 		
 		if not ssh:
@@ -1044,10 +1043,9 @@ class Snapshots:
 		new_snapshot_path = self.get_snapshot_path( new_snapshot_id )
 		
 		###########ssh
-		ssh = self.config.get_ssh()
-		ssh_host = self.config.get_ssh_host()
-		ssh_port = self.config.get_ssh_port()
-		ssh_user = self.config.get_ssh_user()
+		profile_id = self.config.get_current_profile()
+		ssh = self.config.get_ssh(profile_id)
+		(ssh_host, ssh_port, ssh_user, ssh_path) = self.config.get_ssh_host_port_user_path(profile_id)
 		rsync_ssh_suffix = '--rsh="ssh -p %s" "%s@%s:' % ( str(ssh_port), ssh_user, ssh_host )
 		cmd_ssh = 'ssh -p %s %s@%s ' % ( ssh_port, ssh_user, ssh_host )
 		new_snapshot_path_ssh = self.get_snapshot_path_ssh( new_snapshot_id )
