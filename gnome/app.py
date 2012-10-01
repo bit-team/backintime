@@ -318,7 +318,8 @@ class MainWindow(object):
         #####ssh
         try:
             ssh = sshtools.SSH(self.config, profile_id = profile_id)
-            ssh.mount()
+            if ssh.ssh:
+                ssh.mount()
         except sshtools.SSHException as ex:
             messagebox.show_error( self.window, self.config, str(ex) )
             sys.exit(1)
