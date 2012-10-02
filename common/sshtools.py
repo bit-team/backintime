@@ -22,6 +22,7 @@ import os
 import grp
 import subprocess
 from time import sleep
+import socket
 
 import config
 import logger
@@ -134,26 +135,32 @@ class SSH:#TODO: pingtest host
             return True
         
     def set_mount_lock(self):
+        host = socket.gethostname()
+        user = self.config.get_user()
         pid = str(os.getpid())
-        mountlock = os.path.join(self.local_path, '.mount' + pid)
+        mountlock = os.path.join(self.local_path, '.mount' + host + user + pid)
         with open(mountlock, 'w') as f:
             f.write(pid)
         
     def del_mount_lock(self, pid = False):
+        host = socket.gethostname()
+        user = self.config.get_user()
         if not pid:
             pid = str(os.getpid())
-        mountlock = os.path.join(self.local_path, '.mount' + pid)
+        mountlock = os.path.join(self.local_path, '.mount' + host + user + pid)
         os.remove(mountlock)
         
     def check_mount_lock(self):
         """check if no other running process has a mountlock.
            return true if an other process is locked"""
+        host = socket.gethostname()
+        user = self.config.get_user()
         pid = str(os.getpid())
         files = os.listdir(self.local_path)
         for file in files:
-            if not file.startswith('.mount'):
+            if not file.startswith('.mount' + host + user):
                 continue
-            file_pid = file[len('.mount'):]
+            file_pid = file[len('.mount' + host + user):]
             if file_pid == pid:
                 continue
             #check if other process is alive
@@ -201,10 +208,23 @@ class SSH:#TODO: pingtest host
             if self.ssh_cipher_id > 0:
                 ssh.extend(['-o', 'Ciphers=%s' % self.ssh_cipher])
             ssh.extend([self.ssh_user + '@' + self.ssh_host, 'echo', '"Hello"'])
-            try:
-                subprocess.check_call(ssh, stdout=open(os.devnull, 'w'))
-            except subprocess.CalledProcessError:
-                raise SSHException('Cipher %s failed for %s'  % (self.ssh_cipher, self.ssh_host))
+            err = subprocess.Popen(ssh, stdout=open(os.devnull, 'w'), stderr=subprocess.PIPE).communicate()[1]
+            if err:
+                raise SSHException('Cipher %s failed for %s:\n%s'  % (self.ssh_cipher, self.ssh_host, err))
+            
+    def benchmark_cipher(self, size = '40'):
+        import tempfile
+        temp = tempfile.mkstemp()[1]
+        print('create random data file')
+        subprocess.call(['dd', 'if=/dev/urandom', 'of=%s' % temp, 'bs=1M', 'count=%s' % size])
+        for cipher in self.config.get_ssh_ciphers():
+            if cipher == 'default':
+                continue
+            print('%s:' % cipher)
+            for i in range(2):
+                subprocess.call(['scp', '-c', cipher, temp, self.ssh_user_host_path])
+        subprocess.call(['ssh', '%s@%s' % (self.ssh_user, self.ssh_host), 'rm', os.path.join(self.ssh_path, os.path.basename(temp))])
+        os.remove(temp)
         
     def check_known_hosts(self):
         """check ssh_known_hosts"""

@@ -99,6 +99,8 @@ def print_help( cfg ):
 	print '\tShow the ID of the last snapshot (and exit)'
 	print '--last-snapshot-path'
 	print '\tShow the path to the last snapshot (and exit)'
+	print '--benchmark-cipher [file-size]'
+	print '\tShow a benchmark of all ciphers for ssh transfer (and exit)'
 	print '-v | --version'
 	print '\tShow version (and exit)'
 	print '--license'
@@ -216,6 +218,21 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 				else:
 					print "SnapshotPath: %s" % s.get_snapshot_path( list[0] )
 				umount()
+			sys.exit(0)
+
+		if arg == '--benchmark-cipher':
+			if not cfg.is_configured():
+				print "The application is not configured !"
+			else:
+				try:
+					size = sys.argv[index + 1]
+				except IndexError:
+					size = '40'
+				ssh = sshtools.SSH(cfg=cfg)
+				if ssh.ssh:
+					ssh.benchmark_cipher(size)
+				else:
+					print('ssh is not configured !')
 			sys.exit(0)
 
 		if arg == '--snapshots' or arg == '-s':

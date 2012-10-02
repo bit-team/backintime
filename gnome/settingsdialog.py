@@ -710,7 +710,7 @@ class SettingsDialog(object):
 			port = self.txt_ssh_port.get_text()
 			user = self.txt_ssh_user.get_text()
 			path_ssh = self.txt_ssh_path.get_text()
-			cipher = self.config.get_ssh_ciphers()[self.cb_ssh_cipher.get_active()]
+			cipher = self.cb_ssh_cipher.get_active()
 			
 			ssh = sshtools.SSH(host_port_user_path = (host, port, user, path_ssh), local_path=snapshots_path, cipher = cipher)
 			try:
