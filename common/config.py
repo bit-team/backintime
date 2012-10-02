@@ -365,6 +365,17 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_ssh_port( self, value, profile_id = None ):
 		self.set_profile_int_value( 'snapshots.ssh.port', value, profile_id )
 
+	def get_ssh_cipher( self, profile_id = None ):
+		return self.get_profile_int_value( 'snapshots.ssh.cipher', '0', profile_id )
+
+	def get_ssh_ciphers( self ):
+		return ('standard', 'aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 
+				'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 
+				'aes256-cbc', 'arcfour' )
+
+	def set_ssh_cipher( self, value, profile_id = None ):
+		self.set_profile_int_value( 'snapshots.ssh.cipher', value, profile_id )
+
 	def get_ssh_user( self, profile_id = None ):
 		return self.get_profile_str_value( 'snapshots.ssh.user', self.get_user(), profile_id )
 

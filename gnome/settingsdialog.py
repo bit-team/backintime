@@ -126,6 +126,19 @@ class SettingsDialog(object):
 		self.lbl_mountpoint = get('label4')
 		self.lbl_warn_mountpoint = get('lbl_warn_mountpoint')
 		self.homedir = os.getenv('HOME')
+		self.lbl_ssh_cipher = get('lbl_ssh_cipher')
+		
+		self.store_ssh_cipher = gtk.ListStore(str)
+		for item in self.config.get_ssh_ciphers():
+			self.store_ssh_cipher.append([item])
+		
+		self.cb_ssh_cipher = get( 'cb_ssh_cipher' )
+		self.cb_ssh_cipher.set_model( self.store_ssh_cipher )
+
+		self.cb_ssh_cipher.clear()
+		renderer = gtk.CellRendererText()
+		self.cb_ssh_cipher.pack_start( renderer, True )
+		self.cb_ssh_cipher.add_attribute( renderer, 'text', 0 )
 
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -428,6 +441,8 @@ class SettingsDialog(object):
 		self.txt_ssh_user.set_sensitive( value )
 		self.lbl_ssh_path.set_sensitive( value )
 		self.txt_ssh_path.set_sensitive( value )
+		self.lbl_ssh_cipher.set_sensitive( value )
+		self.cb_ssh_cipher.set_sensitive( value )
 		if value:
 			self.lbl_mountpoint.set_label('<b>Mountpoint</b>')
 		else:
@@ -505,6 +520,7 @@ class SettingsDialog(object):
 		self.txt_ssh_port.set_text( str(self.config.get_ssh_port( self.profile_id )) )
 		self.txt_ssh_user.set_text( self.config.get_ssh_user( self.profile_id ) )
 		self.txt_ssh_path.set_text( self.config.get_snapshots_path_ssh( self.profile_id ) )
+		self.cb_ssh_cipher.set_active( int( self.config.get_ssh_cipher( self.profile_id ) ) )
 		self.update_ssh()
 		
 		#per directory schedule
@@ -694,21 +710,23 @@ class SettingsDialog(object):
 			port = self.txt_ssh_port.get_text()
 			user = self.txt_ssh_user.get_text()
 			path_ssh = self.txt_ssh_path.get_text()
+			cipher = self.config.get_ssh_ciphers()[self.cb_ssh_cipher.get_active()]
 			
-			ssh = sshtools.SSH(host_port_user_path = (host, port, user, path_ssh), local_path=snapshots_path)
+			ssh = sshtools.SSH(host_port_user_path = (host, port, user, path_ssh), local_path=snapshots_path, cipher = cipher)
 			try:
 				ssh.check_fuse()
 				ssh.check_known_hosts()
 				ssh.check_login()
+				ssh.check_cipher()
 			except sshtools.SSHException as ex:
 				self.error_handler(str(ex))
 				return False
 
 			#okay, lets try to mount
 			try:
-				ssh.mount()
+				ssh.mount(check = False)
 			except sshtools.SSHException as ex:
-				error_handler(str(ex))
+				self.error_handler(str(ex))
 				return False
 		
 		#check if back folder changed
@@ -727,6 +745,7 @@ class SettingsDialog(object):
 		self.config.set_ssh_port(self.txt_ssh_port.get_text(), self.profile_id)
 		self.config.set_ssh_user(self.txt_ssh_user.get_text(), self.profile_id)
 		self.config.set_snapshots_path_ssh(self.txt_ssh_path.get_text(), self.profile_id)
+		self.config.set_ssh_cipher(self.cb_ssh_cipher.get_active(), self.profile_id)
 
 
 		#if not msg is None:

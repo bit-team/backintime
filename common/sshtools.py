@@ -61,7 +61,7 @@ class SSHException(Exception):
     pass
 
 class SSH:#TODO: pingtest host
-    def __init__( self, cfg = None , host_port_user_path = False, local_path = False, profile_id = False):
+    def __init__( self, cfg = None , host_port_user_path = False, local_path = False, profile_id = False, cipher = False):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -72,6 +72,11 @@ class SSH:#TODO: pingtest host
         self.ssh = self.config.get_ssh(self.profile_id)
         (self.ssh_host, self.ssh_port, self.ssh_user, self.ssh_path) = self.config.get_ssh_host_port_user_path(self.profile_id)
         self.local_path = self.config.get_snapshots_path(self.profile_id)
+        if cipher:
+            self.ssh_cipher_id = int(cipher)
+        else:
+            self.ssh_cipher_id = int(self.config.get_ssh_cipher(self.profile_id))
+        self.ssh_cipher = self.config.get_ssh_ciphers()[self.ssh_cipher_id]
         if host_port_user_path:
             self.ssh = True
             (self.ssh_host, self.ssh_port, self.ssh_user, self.ssh_path) = host_port_user_path
@@ -79,16 +84,22 @@ class SSH:#TODO: pingtest host
             self.local_path = local_path
         self.ssh_user_host_path = '%s@%s:%s' % (self.ssh_user, self.ssh_host, self.ssh_path)
         
-    def mount(self):
+    def mount(self, check = True):
         if self.is_mounted():
             logger.info('Mountpoint %s is already mounted' % self.local_path)
             self.set_mount_lock()
         else:
-            self.check_fuse()
-            self.check_known_hosts()
-            self.check_login()
+            if check:
+                self.check_fuse()
+                self.check_known_hosts()
+                self.check_login()
+                self.check_cipher()
+            sshfs = ['sshfs', '-p', str(self.ssh_port)]
+            if self.ssh_cipher_id > 0:
+                sshfs.extend(['-o', 'Ciphers=%s' % self.ssh_cipher])
+            sshfs.extend([self.ssh_user_host_path, self.local_path])
             try:
-                subprocess.check_call(['sshfs', '-p', str(self.ssh_port), self.ssh_user_host_path, self.local_path])
+                subprocess.check_call(sshfs)
             except subprocess.CalledProcessError as ex:
                 raise SSHException('Can\'t mount sshfs %s' % self.local_path)
             logger.info('mount %s on %s' % (self.ssh_user_host_path, self.local_path))
@@ -182,6 +193,18 @@ class SSH:#TODO: pingtest host
                                    self.ssh_user + '@' + self.ssh_host, 'echo', '"Hello"'], stdout=open(os.devnull, 'w'))
         except subprocess.CalledProcessError:
             raise SSHException('Passwordless authentication for %s@%s failed. Please follow http://www.debian-administration.org/articles/152'  % (self.ssh_user, self.ssh_host))
+        
+    def check_cipher(self):
+        """check if both host and localhost support cipher"""
+        if self.ssh_cipher_id > 0:
+            ssh = ['ssh']
+            if self.ssh_cipher_id > 0:
+                ssh.extend(['-o', 'Ciphers=%s' % self.ssh_cipher])
+            ssh.extend([self.ssh_user + '@' + self.ssh_host, 'echo', '"Hello"'])
+            try:
+                subprocess.check_call(ssh, stdout=open(os.devnull, 'w'))
+            except subprocess.CalledProcessError:
+                raise SSHException('Cipher %s failed for %s'  % (self.ssh_cipher, self.ssh_host))
         
     def check_known_hosts(self):
         """check ssh_known_hosts"""

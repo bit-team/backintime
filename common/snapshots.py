@@ -617,7 +617,12 @@ class Snapshots:
 		profile_id = self.config.get_current_profile()
 		ssh = self.config.get_ssh(profile_id)
 		(ssh_host, ssh_port, ssh_user, ssh_path) = self.config.get_ssh_host_port_user_path(profile_id)
-		cmd_ssh = 'ssh -p %s %s@%s ' % ( ssh_port, ssh_user, ssh_host )
+		ssh_cipher = int(self.config.get_ssh_cipher(profile_id))
+		if ssh_cipher <= 0:
+			ssh_cipher_suffix = ''
+		else:
+			ssh_cipher_suffix = '-c %s' % self.config.get_ssh_ciphers()[ssh_cipher]
+		cmd_ssh = 'ssh -p %s %s %s@%s ' % ( ssh_port, ssh_cipher_suffix, ssh_user, ssh_host )
 		
 		if not ssh:
 			path = self.get_snapshot_path( snapshot_id )
@@ -1046,8 +1051,13 @@ class Snapshots:
 		profile_id = self.config.get_current_profile()
 		ssh = self.config.get_ssh(profile_id)
 		(ssh_host, ssh_port, ssh_user, ssh_path) = self.config.get_ssh_host_port_user_path(profile_id)
-		rsync_ssh_suffix = '--rsh="ssh -p %s" "%s@%s:' % ( str(ssh_port), ssh_user, ssh_host )
-		cmd_ssh = 'ssh -p %s %s@%s ' % ( ssh_port, ssh_user, ssh_host )
+		ssh_cipher = int(self.config.get_ssh_cipher(profile_id))
+		if ssh_cipher <= 0:
+			ssh_cipher_suffix = ''
+		else:
+			ssh_cipher_suffix = '-c %s' % self.config.get_ssh_ciphers()[ssh_cipher]
+		rsync_ssh_suffix = '--rsh="ssh -p %s %s" "%s@%s:' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
+		cmd_ssh = 'ssh -p %s %s %s@%s ' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
 		new_snapshot_path_ssh = self.get_snapshot_path_ssh( new_snapshot_id )
 		new_snapshot_path_to_ssh = self.get_snapshot_path_to_ssh( new_snapshot_id )
 		
