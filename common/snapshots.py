@@ -629,14 +629,14 @@ class Snapshots:
 			#cmd = "chmod -R u+rwx \"%s\"" %  path
 			cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path #Debian patch
 			self._execute( cmd )
-			cmd = "rm -rfv \"%s\"" % path
+			cmd = "rm -rf \"%s\"" % path
 			self._execute( cmd )
 		else:
 			path = self.get_snapshot_path_ssh( snapshot_id )
 			#cmd = "chmod -R u+rwx \"%s\"" %  path
 			cmd = cmd_ssh + '\'find \"%s\" -type d -exec chmod u+wx \\\"{}\\\" \\;\'' % path #Debian patch
 			self._execute( cmd )
-			cmd = cmd_ssh + "rm -rfv \"%s\"" % path
+			cmd = cmd_ssh + "rm -rf \"%s\"" % path
 			self._execute( cmd )
 
 	def copy_snapshot( self, snapshot_id, new_folder ):
