@@ -634,7 +634,7 @@ class Snapshots:
 		else:
 			path = self.get_snapshot_path_ssh( snapshot_id )
 			#cmd = "chmod -R u+rwx \"%s\"" %  path
-			cmd = cmd_ssh + '"find \\\"%s\\\" -type d -exec chmod u+wx {} \\;"' % path #Debian patch
+			cmd = cmd_ssh + '\'find \"%s\" -type d -exec chmod u+wx \\\"{}\\\" \\;\'' % path #Debian patch
 			self._execute( cmd )
 			cmd = cmd_ssh + "rm -rfv \"%s\"" % path
 			self._execute( cmd )
@@ -1068,7 +1068,7 @@ class Snapshots:
 				if not ssh:
 					self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 				else:
-					self._execute( cmd_ssh + '"find \\\"%s\\\" -type d -exec chmod u+wx {} \\;"' % new_snapshot_path_ssh ) #Debian patch
+					self._execute( cmd_ssh + '\'find \"%s\" -type d -exec chmod u+wx \\\"{}\\\" \\;\'' % new_snapshot_path_ssh ) #Debian patch
 			if not ssh:
 				self._execute( "rm -rf \"%s\"" % new_snapshot_path )
 			else:
@@ -1198,7 +1198,7 @@ class Snapshots:
 				if not ssh:
 					self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % prev_snapshot_path ) #Debian patch
 				else:
-					self._execute( cmd_ssh + '"find \\\"%s\\\" -type d -exec chmod u+wx {} \\;"' % prev_snapshot_path_ssh ) #Debian patch
+					self._execute( cmd_ssh + '\'find \"%s\" -type d -exec chmod u+wx \\\"{}\\\" \\;\'' % prev_snapshot_path_ssh ) #Debian patch
 
 			#clone snapshot
 			cmd = "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path, new_snapshot_path_to )
@@ -1213,7 +1213,7 @@ class Snapshots:
 				if not ssh:
 					self._execute( "find \"%s\" -type d -exec chmod a-w {} \\;" % prev_snapshot_path ) #Debian patch
 				else:
-					self._execute( cmd_ssh + '"find \\\"%s\\\" -type d -exec chmod a-w {} \\;"' % prev_snapshot_path_ssh ) #Debian patch
+					self._execute( cmd_ssh + '\'find \"%s\" -type d -exec chmod a-w \\\"{}\\\" \\;\'' % prev_snapshot_path_ssh ) #Debian patch
 
 			#make snapshot items rw to allow xopy xattr
 			if not ssh:
@@ -1250,7 +1250,7 @@ class Snapshots:
 					if not ssh:
 						self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
 					else:
-						self._execute( cmd_ssh +  '"find \\\"%s\\\" -type d -exec chmod u+wx {} \\;"' % new_snapshot_path_ssh ) #Debian patch
+						self._execute( cmd_ssh +  '\'find \"%s\" -type d -exec chmod u+wx \\\"{}\\\" \\;\'' % new_snapshot_path_ssh ) #Debian patch
 				if not ssh:
 					self._execute( "rm -rf \"%s\"" % new_snapshot_path )
 				else:
