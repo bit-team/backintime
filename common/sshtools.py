@@ -176,7 +176,7 @@ class SSH:#TODO: pingtest host
         """check if sshfs is installed and user is part of group fuse"""
         if not self.pathexists('sshfs'):
             raise SSHException('sshfs not found. Please install e.g. \'apt-get install sshfs\'')
-        user = os.getlogin()
+        user = self.config.get_user()
         fuse_grp_members = grp.getgrnam('fuse')[3]
         if not user in fuse_grp_members:
             raise SSHException('%s is not member of group \'fuse\'. Run \'adduser %s fuse\' as root and relogin user.' % (user, user))
