@@ -841,7 +841,7 @@ class Snapshots:
 									'\n' +
 									gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', 30 ) % 30,
 									30 )
-							for counter in xrange( 1, 0, -1 ):
+							for counter in xrange( 30, 0, -1 ):
 								os.system( 'sleep 1' )
 								if self.config.can_backup():
 									break

@@ -25,7 +25,24 @@ _=gettext.gettext
 
 class NotifyPlugin( pluginmanager.Plugin ):
 	def __init__( self ):
-		return
+		self.user = ''
+
+		try:
+			self.user = os.getlogin()
+		except:
+			pass
+
+		if len(self.user) <= 0:
+			try:
+				user = os.environ['USER']
+			except:
+				pass
+
+		if len(self.user) <= 0:
+			try:
+				user = os.environ['LOGNAME']
+			except:
+				pass
 
 	def init( self, snapshots ):
 		return True
@@ -51,7 +68,7 @@ class NotifyPlugin( pluginmanager.Plugin ):
 			if timeout > 0:
 				cmd = cmd + " -t %s" % (1000 * timeout)
 			
-			title = "Back In Time (%s) : %s" % (os.getlogin(), profile_name)
+			title = "Back In Time (%s) : %s" % (self.user, profile_name)
 			message = message.replace("\n", ' ')
 			message = message.replace("\r", '')
 
