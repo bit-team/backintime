@@ -234,7 +234,7 @@ class Snapshots:
 
 		return( id, message )
 
-	def set_take_snapshot_message( self, type_id, message ):
+	def set_take_snapshot_message( self, type_id, message, timeout = -1 ):
 		data = str(type_id) + '\n' + message
 
 		try:
@@ -249,6 +249,13 @@ class Snapshots:
 			self.append_to_take_snapshot_log( '[E] ' + message, 1 )
 		else:
 			self.append_to_take_snapshot_log( '[I] '  + message, 3 )
+
+		try:
+			profile_id =self.config.get_current_profile() 
+			profile_name = self.config.get_profile_name( profile_id )
+			self.plugin_manager.on_message( profile_id, profile_name, type_id, message, timeout )
+		except:
+			pass
 
 	def _filter_take_snapshot_log( self, log, mode ):
 		if 0 == mode:
@@ -829,11 +836,12 @@ class Snapshots:
 					
 					if not self.config.can_backup( profile_id ):
 						if self.plugin_manager.has_gui_plugins() and self.config.is_notify_enabled():
-							for counter in xrange( 30, 0, -1 ):
-								self.set_take_snapshot_message( 1, 
-										_('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it.' ) +
-										'\n' +
-										gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', counter ) % counter )
+							self.set_take_snapshot_message( 1, 
+									_('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it.' ) +
+									'\n' +
+									gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', 30 ) % 30,
+									30 )
+							for counter in xrange( 1, 0, -1 ):
 								os.system( 'sleep 1' )
 								if self.config.can_backup():
 									break

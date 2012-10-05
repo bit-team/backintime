@@ -25,7 +25,6 @@ tools.register_backintime_path( 'plugins' )
 
 
 class Plugin:
-	
 	def __init__( self ):
 		return
 
@@ -47,6 +46,9 @@ class Plugin:
 	def on_new_snapshot( self, snapshot_id, snapshot_path ):
 		return
 
+	def on_message( self, profile_id, profile_name, level, message, timeout ):
+		return
+
 
 class PluginManager:
 	def __init__( self ):
@@ -65,42 +67,64 @@ class PluginManager:
 		plugins_path = tools.get_backintime_path( 'plugins' )
 
 		for file in os.listdir( plugins_path ):
-			if file.endswith( '.py' ) and not file.startswith( '__' ):
-				path = os.path.join( plugins_path, file )
+			try:
+				if file.endswith( '.py' ) and not file.startswith( '__' ):
+					path = os.path.join( plugins_path, file )
 
-				module = __import__( file[ : -3 ] )
-				module_dict = module.__dict__
-				
- 				for key, value in module_dict.items():
-					if key.startswith( '__' ):
-						continue
+					module = __import__( file[ : -3 ] )
+					module_dict = module.__dict__
+					
+					for key, value in module_dict.items():
+						if key.startswith( '__' ):
+							continue
 
-					if type(value) is types.ClassType:
-						if issubclass( value, Plugin ):
-							plugin = value()
-							if plugin.init( snapshots ):
-								if plugin.is_gui():
-									self.has_gui_plugins_ = True
-									self.plugins.insert( 0, plugin )
-								else:
-									self.plugins.append( plugin )
+						if type(value) is types.ClassType:
+							if issubclass( value, Plugin ):
+								plugin = value()
+								if plugin.init( snapshots ):
+									if plugin.is_gui():
+										self.has_gui_plugins_ = True
+										self.plugins.insert( 0, plugin )
+									else:
+										self.plugins.append( plugin )
+			except:
+				pass
 
 	def has_gui_plugins( self ):
 		return self.has_gui_plugins_
 
 	def on_process_begins( self ):
 		for plugin in self.plugins:
-			plugin.on_process_begins()
+			try:
+				plugin.on_process_begins()
+			except:
+				pass
 
 	def on_process_ends( self ):
 		for plugin in reversed( self.plugins ):
-			plugin.on_process_ends()
+			try:
+				plugin.on_process_ends()
+			except:
+				pass
 
 	def on_error( self, code, message = '' ):
 		for plugin in self.plugins:
-			plugin.on_error( code, message )
+			try:
+				plugin.on_error( code, message )
+			except:
+				pass
 
 	def on_new_snapshot( self, snapshot_id, snapshot_path ):
 		for plugin in self.plugins:
-			plugin.on_new_snapshot( snapshot_id, snapshot_path )
+			try:
+				plugin.on_new_snapshot( snapshot_id, snapshot_path )
+			except:
+				pass
+
+	def on_message( self, profile_id, profile_name, level, message, timeout = -1 ):
+		for plugin in self.plugins:
+			try:
+				plugin.on_message( profile_id, profile_name, level, message, timeout )
+			except:
+				pass
 

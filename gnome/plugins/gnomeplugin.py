@@ -43,8 +43,6 @@ class GnomePlugin( pluginmanager.Plugin ):
 			self.stop_flag = False
 			self.snapshots = snapshots
 			self.config = self.snapshots.config
-			self.notification = None
-			self.notification_visible = False
 
 			gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
 			gnome.program_init( 'backintime', self.config.VERSION, properties = gnome_props )
@@ -60,14 +58,8 @@ class GnomePlugin( pluginmanager.Plugin ):
 			except:
 				pass
 
-		def show_notification( self, icon ):
-			import pynotify
-			#self.notification.set_timeout( pynotify.EXPIRES_NEVER )
-			self.notification.show()
-
 		def run( self ):
 			import gtk
-			import pynotify
 
 			logger.info( '[GnomePlugin.Systray.run]' )
 
@@ -88,19 +80,10 @@ class GnomePlugin( pluginmanager.Plugin ):
 				logger.info( '[GnomePlugin.Systray.run] no status_icon' )
 				return
 
-			attach_notification = True
 			last_message = None
-			first_error = self.config.is_notify_enabled()
 
 			status_icon.set_from_stock( gtk.STOCK_SAVE )
 			status_icon.set_visible( True )
-
-			pynotify.init( self.config.APP_NAME )
-			self.notification = pynotify.Notification( self.config.APP_NAME, '' )
-			#self.notification.set_urgency( pynotify.URGENCY_NORMAL )
-			#self.notification.set_timeout( pynotify.EXPIRES_NEVER )
-
-			status_icon.connect('activate', self.show_notification )
 
 			logger.info( '[GnomePlugin.Systray.run] begin loop' )
 
@@ -110,13 +93,6 @@ class GnomePlugin( pluginmanager.Plugin ):
 					break
 
 				if not gtk.events_pending():
-					if attach_notification:
-						attach_notification = False
-						try:
-							self.notification.attach_to_status_icon( status_icon )
-						except:
-							pass
-
 					message = self.snapshots.get_take_snapshot_message()
 					if message is None and last_message is None:
 						message = ( 0, _('Working...') )
@@ -125,35 +101,18 @@ class GnomePlugin( pluginmanager.Plugin ):
 						if message != last_message:
 							last_message = message
 
-							urgency = pynotify.URGENCY_NORMAL
-							icon_name = gtk.STOCK_SAVE
 							status_icon_blinking = False
 							if last_message[0] != 0:
-								urgency = pynotify.URGENCY_CRITICAL
-								icon_name = 'dialog-error'
 								status_icon_blinking = True
 
 							status_icon.set_blinking( status_icon_blinking )
 							status_icon.set_tooltip( last_message[1] )
-
-							self.notification.update( self.config.APP_NAME, last_message[1], icon_name )
-							self.notification.set_urgency( urgency )
-						
-							if last_message[0] != 0 and first_error:
-								first_error = False
-								self.notification.set_timeout( 10000 )
-								self.notification.show()
-								self.notification_visible = True
 
 					time.sleep( 0.2 )
 			
 			status_icon.set_visible( False )
 			gtk.main_iteration( False )
 
-			if self.notification_visible:
-				self.notification.close()
-			pynotify.uninit()
-			
 			logger.info( '[GnomePlugin.Systray.run] end loop' )
 
 	def __init__( self ):
@@ -184,10 +143,4 @@ class GnomePlugin( pluginmanager.Plugin ):
 	def on_process_ends( self ):
 		if not self.systray is None:
 			self.systray.stop()
-
-	def on_error( self, code, message ):
-		return
-
-	def on_new_snapshot( self, snapshot_id, snapshot_path ):
-		return
 
