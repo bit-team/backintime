@@ -35,7 +35,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
 	APP_NAME = 'Back In Time'
-	VERSION = '1.0.10'
+	VERSION = '1.0.11'
 	COPYRIGHT = 'Copyright (c) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey'
 	CONFIG_VERSION = 5
 
@@ -229,7 +229,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			
 				if len( path ) >= len( snapshots_path2 ):
 					if path[ : len( snapshots_path2 ) ] == snapshots_path2:
-						self.notify_error( _('Profile: "%s"') %  self.config.get_current_profile(), + '\n' + _('You can\'t include a backup sub-folder !') )
+						self.notify_error( _('Profile: "%s"') %  self.get_current_profile(), + '\n' + _('You can\'t include a backup sub-folder !') )
 						return False
 
 			checked_profiles.append( ( profile_id, profile_name ) )
