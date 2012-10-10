@@ -144,6 +144,8 @@ class ConfigFileWithProfiles( ConfigFile ):
 
 		self.default_profile_name = default_profile_name
 		self.current_profile_id = '1'
+		
+		self.current_hash_id = 'local'
 
 	def load( self, filename ):
 		self.current_profile_id = '1'
@@ -348,3 +350,8 @@ class ConfigFileWithProfiles( ConfigFile ):
 	def set_profile_bool_value( self, key, value, profile_id = None ):
 		self.set_bool_value( self._get_profile_key_( key, profile_id ), value )
 
+	def get_current_hash_id(self):
+		return self.current_hash_id
+
+	def set_current_hash_id(self, hash_id):
+		self.current_hash_id = hash_id

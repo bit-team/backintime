@@ -75,6 +75,14 @@ class Config( configfile.ConfigFileWithProfiles ):
 	MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
 
 	DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ), '.dropbox*', '/proc', '/sys', '/dev' ]
+	
+	SNAPSHOT_MODES = {
+				#mode : (<mounttools>, _('ComboBox Text') ),
+				'local' : (None, _('Local') ),
+				'ssh' : (sshtools.SSH, _('SSH') )
+				}
+		
+	MOUNT_ROOT = '/tmp/backintime'
 
 	def __init__( self ):
 		configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
@@ -268,9 +276,20 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		return user
 
-	def get_snapshots_path( self, profile_id = None ):
-		return self.get_profile_str_value( 'snapshots.path', '', profile_id )
+	def get_snapshots_mode( self, profile_id = None ):
+		return self.get_profile_str_value( 'snapshots.mode', 'local', profile_id )
 
+	def get_snapshots_path( self, profile_id = None ):
+		mode = get_snapshots_mode(profile_id)
+		if SNAPSHOT_MODES[mode][0] == None:
+			#no mount needed
+			return self.get_profile_str_value( 'snapshots.path', '', profile_id )
+		else:
+			#mode need to be mounted; return mountpoint
+			user = self.get_user()
+			pid = str(os.getpid())
+			return os.path.join(MOUNT_ROOT, user, profile_id + '_' + pid)
+		
 	def get_snapshots_path_ssh( self, profile_id = None ):
 		return self.get_profile_str_value( 'snapshots.ssh.path', './', profile_id )
 
@@ -346,6 +365,14 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_snapshots_path_ssh( self, value, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.ssh.path', value, profile_id )
 		return True
+
+	def get_hash_collision(self):
+		return self.get_int_value( 'global.hash_collision', 0 )
+
+	def increment_hash_collision(self):
+		value = self.get_hash_collision() + 1
+		self.set_int_value( 'global.hash_collision', value )
+		self.save()
 
 	def get_ssh( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.ssh', False, profile_id )
