@@ -26,7 +26,9 @@ import random
 import configfile
 import tools
 import logger
+import mount
 import sshtools
+##import dummytools
 
 _=gettext.gettext
 
@@ -190,6 +192,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 			self.set_int_value( 'config.version', self.CONFIG_VERSION )
 			self.save()
+		
+		self.current_hash_id = 'local'
 
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
@@ -208,17 +212,6 @@ class Config( configfile.ConfigFileWithProfiles ):
 				self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('Snapshots folder is not valid !') )
 				return False
 
-			#try to mount ssh
-			if self.get_ssh( profile_id ):
-				try:
-					sshtools.Compare(self).all_profiles(profile_id)
-					ssh_host_port_user_path = self.get_ssh_host_port_user_path(profile_id)
-					ssh = sshtools.SSH(cfg = self, host_port_user_path = ssh_host_port_user_path, local_path=snapshots_path)
-					ssh.mount()
-					ssh.umount()
-				except sshtools.SSHException as ex:
-					self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _(str(ex)) )
-					return False
 			## Should not check for similar snapshot paths any longer! 
 			#for other_profile in checked_profiles:
 			#	if snapshots_path == self.get_snapshots_path( other_profile[0] ):
@@ -276,22 +269,22 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 		return user
 
-	def get_snapshots_mode( self, profile_id = None ):
-		return self.get_profile_str_value( 'snapshots.mode', 'local', profile_id )
+	def get_pid(self):
+		return str(os.getpid())
 
-	def get_snapshots_path( self, profile_id = None ):
-		mode = get_snapshots_mode(profile_id)
-		if SNAPSHOT_MODES[mode][0] == None:
+	def get_host(self):
+		return socket.gethostname()
+
+	def get_snapshots_path( self, profile_id = None, mode = None, tmp_mount = False ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		if self.SNAPSHOT_MODES[mode][0] == None:
 			#no mount needed
 			return self.get_profile_str_value( 'snapshots.path', '', profile_id )
 		else:
 			#mode need to be mounted; return mountpoint
-			user = self.get_user()
-			pid = str(os.getpid())
-			return os.path.join(MOUNT_ROOT, user, profile_id + '_' + pid)
-		
-	def get_snapshots_path_ssh( self, profile_id = None ):
-		return self.get_profile_str_value( 'snapshots.ssh.path', './', profile_id )
+			symlink = self.get_snapshots_symlink(profile_id = profile_id, tmp_mount = tmp_mount)
+			return os.path.join(self.MOUNT_ROOT, self.get_user(), symlink)
 
 	def get_snapshots_full_path( self, profile_id = None, version = None ):
 		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
@@ -303,17 +296,6 @@ class Config( configfile.ConfigFileWithProfiles ):
 		else:
 			host, user, profile = self.get_host_user_profile( profile_id )
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile ) 
-
-	def get_snapshots_full_path_ssh( self, profile_id = None, version = None ):
-		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
-		if version is None:
-			version = self.get_int_value( 'config.version', self.CONFIG_VERSION )
-
-		if version < 4:
-			return os.path.join( self.get_snapshots_path_ssh( profile_id ), 'backintime' )
-		else:
-			host, user, profile = self.get_host_user_profile( profile_id )
-			return os.path.join( self.get_snapshots_path_ssh( profile_id ), 'backintime', host, user, profile ) 
 
 	def set_snapshots_path( self, value, profile_id = None ):
 		"""Sets the snapshot path to value, initializes, and checks it"""
@@ -361,24 +343,48 @@ class Config( configfile.ConfigFileWithProfiles ):
 		os.rmdir( check_path )
 		self.set_profile_str_value( 'snapshots.path', value, profile_id )
 		return True
+		
+	def get_snapshots_mode( self, profile_id = None ):
+		return self.get_profile_str_value( 'snapshots.mode', 'local', profile_id )
+		
+	def set_snapshots_mode( self, value, profile_id = None ):
+		self.set_profile_str_value( 'snapshots.mode', value, profile_id )
+		
+	def get_snapshots_symlink(self, profile_id = None, tmp_mount = False):
+		if profile_id is None:
+			profile_id = self.current_profile_id
+		symlink = '%s_%s' % (profile_id, self.get_pid())
+		if tmp_mount:
+			symlink = 'tmp_%s' % symlink
+		return symlink
+		
+	def set_current_hash_id(self, hash_id):
+		self.current_hash_id = hash_id
+		
+	def get_hash_collision(self):
+		return self.get_int_value( 'global.hash_collision', 0 )
+		
+	def increment_hash_collision(self):
+		value = self.get_hash_collision() + 1
+		self.set_int_value( 'global.hash_collision', value )
+		
+	def get_snapshots_path_ssh( self, profile_id = None ):
+		return self.get_profile_str_value( 'snapshots.ssh.path', './', profile_id )
+		
+	def get_snapshots_full_path_ssh( self, profile_id = None, version = None ):
+		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
+		if version is None:
+			version = self.get_int_value( 'config.version', self.CONFIG_VERSION )
+
+		if version < 4:
+			return os.path.join( self.get_snapshots_path_ssh( profile_id ), 'backintime' )
+		else:
+			host, user, profile = self.get_host_user_profile( profile_id )
+			return os.path.join( self.get_snapshots_path_ssh( profile_id ), 'backintime', host, user, profile ) 
 
 	def set_snapshots_path_ssh( self, value, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.ssh.path', value, profile_id )
 		return True
-
-	def get_hash_collision(self):
-		return self.get_int_value( 'global.hash_collision', 0 )
-
-	def increment_hash_collision(self):
-		value = self.get_hash_collision() + 1
-		self.set_int_value( 'global.hash_collision', value )
-		self.save()
-
-	def get_ssh( self, profile_id = None ):
-		return self.get_profile_bool_value( 'snapshots.ssh', False, profile_id )
-
-	def set_ssh( self, value, profile_id = None ):
-		self.set_profile_bool_value( 'snapshots.ssh', value, profile_id )
 
 	def get_ssh_host( self, profile_id = None ):
 		return self.get_profile_str_value( 'snapshots.ssh.host', '', profile_id )
@@ -393,6 +399,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_int_value( 'snapshots.ssh.port', value, profile_id )
 
 	def get_ssh_cipher( self, profile_id = None ):
+		return self.get_ssh_ciphers()[self.get_ssh_cipher_id(profile_id)]
+
+	def get_ssh_cipher_id( self, profile_id = None ):
 		return self.get_profile_int_value( 'snapshots.ssh.cipher', '0', profile_id )
 
 	def get_ssh_ciphers( self ):
@@ -400,7 +409,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 				'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 
 				'aes256-cbc', 'arcfour' )
 
-	def set_ssh_cipher( self, value, profile_id = None ):
+	def set_ssh_cipher_id( self, value, profile_id = None ):
 		self.set_profile_int_value( 'snapshots.ssh.cipher', value, profile_id )
 
 	def get_ssh_user( self, profile_id = None ):
@@ -415,6 +424,24 @@ class Config( configfile.ConfigFileWithProfiles ):
 		user = self.get_ssh_user(profile_id)
 		path = self.get_snapshots_path_ssh(profile_id)
 		return (host, port, user, path)
+
+##	def get_dummy_host( self, profile_id = None ):
+##		return self.get_profile_str_value( 'snapshots.dummy.host', '', profile_id )
+##
+##	def set_dummy_host( self, value, profile_id = None ):
+##		self.set_profile_str_value( 'snapshots.dummy.host', value, profile_id )
+##
+##	def get_dummy_port( self, profile_id = None ):
+##		return self.get_profile_int_value( 'snapshots.dummy.port', '22', profile_id )
+##
+##	def set_dummy_port( self, value, profile_id = None ):
+##		self.set_profile_int_value( 'snapshots.dummy.port', value, profile_id )
+##
+##	def get_dummy_user( self, profile_id = None ):
+##		return self.get_profile_str_value( 'snapshots.dummy.user', self.get_user(), profile_id )
+##
+##	def set_dummy_user( self, value, profile_id = None ):
+##		self.set_profile_str_value( 'snapshots.dummy.user', value, profile_id )
 
 	def get_auto_host_user_profile( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.path.auto', True, profile_id )

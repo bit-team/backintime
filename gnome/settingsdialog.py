@@ -30,7 +30,7 @@ import gettext
 import config
 import messagebox
 import tools
-import sshtools
+import mount
 
 
 _=gettext.gettext
@@ -76,7 +76,7 @@ class SettingsDialog(object):
 				'on_btn_where_clicked': self.on_btn_where_clicked,
 				'on_cb_backup_mode_changed': self.on_cb_backup_mode_changed,
 				'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile,
-				'on_cb_ssh_toggled': self.update_ssh
+				'on_combo_modes_changed': self.on_combo_modes_changed
 			}
 		
 		builder.connect_signals(signals)
@@ -100,6 +100,26 @@ class SettingsDialog(object):
 		
 		self.disable_combo_changed = False
 		
+		#snapshots mode (local, ssh, ...)
+		self.store_modes = gtk.ListStore(str, str)
+		keys = self.config.SNAPSHOT_MODES.keys()
+		keys.sort()
+		for key in keys:
+			self.store_modes.append([self.config.SNAPSHOT_MODES[key][1], key])
+			
+		self.combo_modes = get( 'combo_modes' )
+		self.combo_modes.set_model( self.store_modes )
+		
+		self.combo_modes.clear()
+		text_renderer = gtk.CellRendererText()
+		self.combo_modes.pack_start( text_renderer, True )
+		self.combo_modes.add_attribute( text_renderer, 'text', 0 )
+		
+		self.mode = None
+		self.mode_local = get('mode_local')
+		self.mode_ssh = get('mode_ssh')
+##		self.mode_dummy = get('mode_dummy')
+		
 		#set current folder
 		#self.fcb_where = get( 'fcb_where' )
 		#self.fcb_where.set_show_hidden( self.parent.show_hidden_files )
@@ -113,32 +133,28 @@ class SettingsDialog(object):
 		self.lbl_profile = get('lbl_profile')
 		self.txt_profile = get('txt_profile')
 		
-		######ssh
-		self.cb_ssh = get('cb_ssh')
-		self.lbl_ssh_host = get('lbl_ssh_host')
+		#ssh
 		self.txt_ssh_host = get('txt_ssh_host')
-		self.lbl_ssh_port = get('lbl_ssh_port')
 		self.txt_ssh_port = get('txt_ssh_port')
-		self.lbl_ssh_user = get('lbl_ssh_user')
 		self.txt_ssh_user = get('txt_ssh_user')
-		self.lbl_ssh_path = get('lbl_ssh_path')
 		self.txt_ssh_path = get('txt_ssh_path')
-		self.lbl_mountpoint = get('label4')
-		self.lbl_warn_mountpoint = get('lbl_warn_mountpoint')
-		self.homedir = os.getenv('HOME')
-		self.lbl_ssh_cipher = get('lbl_ssh_cipher')
 		
-		self.store_ssh_cipher = gtk.ListStore(str)
+		self.store_ssh_cipher = gtk.ListStore(str) #TODO: change to str, str; make dict config.SSH_CIPHERS{<cipher>: _(<cipher>), ...}
 		for item in self.config.get_ssh_ciphers():
 			self.store_ssh_cipher.append([item])
 		
-		self.cb_ssh_cipher = get( 'cb_ssh_cipher' )
-		self.cb_ssh_cipher.set_model( self.store_ssh_cipher )
+		self.combo_ssh_cipher = get( 'combo_ssh_cipher' )
+		self.combo_ssh_cipher.set_model( self.store_ssh_cipher )
 
-		self.cb_ssh_cipher.clear()
+		self.combo_ssh_cipher.clear()
 		renderer = gtk.CellRendererText()
-		self.cb_ssh_cipher.pack_start( renderer, True )
-		self.cb_ssh_cipher.add_attribute( renderer, 'text', 0 )
+		self.combo_ssh_cipher.pack_start( renderer, True )
+		self.combo_ssh_cipher.add_attribute( renderer, 'text', 0 )
+		
+##		#dummy
+##		self.txt_dummy_host = get('txt_dummy_host')
+##		self.txt_dummy_port = get('txt_dummy_port')
+##		self.txt_dummy_user = get('txt_dummy_user')
 
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -381,7 +397,6 @@ class SettingsDialog(object):
 				if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
 					return
 			self.edit_where.set_text( new_path )
-			self.warn_mountpoint()
 		else:
 			fcd.destroy()
 
@@ -431,37 +446,19 @@ class SettingsDialog(object):
 		self.lbl_profile.set_sensitive( value )
 		self.txt_profile.set_sensitive( value )
 		
-	def update_ssh( self, *params ):
-		value = self.cb_ssh.get_active()
-		self.lbl_ssh_host.set_sensitive( value )
-		self.txt_ssh_host.set_sensitive( value )
-		self.lbl_ssh_port.set_sensitive( value )
-		self.txt_ssh_port.set_sensitive( value )
-		self.lbl_ssh_user.set_sensitive( value )
-		self.txt_ssh_user.set_sensitive( value )
-		self.lbl_ssh_path.set_sensitive( value )
-		self.txt_ssh_path.set_sensitive( value )
-		self.lbl_ssh_cipher.set_sensitive( value )
-		self.cb_ssh_cipher.set_sensitive( value )
-		if value:
-			self.lbl_mountpoint.set_label('<b>Mountpoint</b>')
-		else:
-			self.lbl_mountpoint.set_label('<b>Where to save snapshots</b>')
-		self.warn_mountpoint()
+	def on_combo_modes_changed(self, *params):
+		iter = self.combo_modes.get_active_iter()
+		if iter is None:
+			return
 			
-	def warn_mountpoint(self):
-		if self.cb_ssh.get_active():
-			mountpoint = self.edit_where.get_text()
-			mountpoint = str(os.path.abspath(mountpoint))
-			if self.homedir and mountpoint.startswith(self.homedir):
-				self.lbl_warn_mountpoint.hide()
-			else:
-				self.lbl_warn_mountpoint.set_label('Warning: Please make sure, ' + \
-				'no other user uses the same mountpoint. Easiest way to avoid ' + \
-				'this would be to mount inside users home directory %s' % self.homedir)
-				self.lbl_warn_mountpoint.show()
-		else:
-			self.lbl_warn_mountpoint.hide()
+		active_mode = self.store_modes.get_value( iter, 1 )
+		if active_mode != self.mode:
+			for mode in self.config.SNAPSHOT_MODES.keys():
+				if active_mode == mode:
+					getattr(self, 'mode_%s' % mode).show()
+				else:
+					getattr(self, 'mode_%s' % mode).hide()
+			self.mode = active_mode
 
 	def on_combo_profiles_changed( self, *params ):
 		if self.disable_combo_changed:
@@ -503,10 +500,22 @@ class SettingsDialog(object):
 		else:
 			self.btn_edit_profile.set_sensitive( True )
 			self.btn_remove_profile.set_sensitive( True )
+			
+		#set mode
+		i = 0
+		iter = self.store_modes.get_iter_first()
+		default_mode = self.config.get_snapshots_mode(self.profile_id)
+		while not iter is None:
+			if self.store_modes.get_value( iter, 1 ) == default_mode:
+				self.combo_modes.set_active( i )
+				break
+			iter = self.store_modes.iter_next( iter )
+			i = i + 1
+		self.on_combo_modes_changed()
 		
 		#set current folder
 		#self.fcb_where.set_filename( self.config.get_snapshots_path() )
-		self.edit_where.set_text( self.config.get_snapshots_path( self.profile_id ) )
+		self.edit_where.set_text( self.config.get_snapshots_path( self.profile_id, mode = self.mode ) )
 		self.cb_auto_host_user_profile.set_active( self.config.get_auto_host_user_profile( self.profile_id ) )
 		host, user, profile = self.config.get_host_user_profile( self.profile_id )
 		self.txt_host.set_text( host )
@@ -514,14 +523,17 @@ class SettingsDialog(object):
 		self.txt_profile.set_text( profile )
 		self.update_host_user_profile()
 		
-		######ssh
-		self.cb_ssh.set_active( self.config.get_ssh( self.profile_id ) )
+		#ssh
 		self.txt_ssh_host.set_text( self.config.get_ssh_host( self.profile_id ) )
 		self.txt_ssh_port.set_text( str(self.config.get_ssh_port( self.profile_id )) )
 		self.txt_ssh_user.set_text( self.config.get_ssh_user( self.profile_id ) )
 		self.txt_ssh_path.set_text( self.config.get_snapshots_path_ssh( self.profile_id ) )
-		self.cb_ssh_cipher.set_active( int( self.config.get_ssh_cipher( self.profile_id ) ) )
-		self.update_ssh()
+		self.combo_ssh_cipher.set_active( int( self.config.get_ssh_cipher_id( self.profile_id ) ) )
+		
+##		#dummy
+##		self.txt_dummy_host.set_text( self.config.get_dummy_host( self.profile_id ) )
+##		self.txt_dummy_port.set_text( str(self.config.get_dummy_port( self.profile_id )) )
+##		self.txt_dummy_user.set_text( self.config.get_dummy_user( self.profile_id ) )
 		
 		#per directory schedule
 		#self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -680,7 +692,12 @@ class SettingsDialog(object):
 	def save_profile( self ):
 		#profile_id = self.config.get_current_profile()
 		#snapshots path
-		snapshots_path = self.edit_where.get_text()
+		iter = self.combo_modes.get_active_iter()
+		mode = self.store_modes.get_value( iter, 1 )
+		if self.config.SNAPSHOT_MODES[mode][0] is None:
+			snapshots_path = self.edit_where.get_text()
+		else:
+			snapshots_path = self.config.get_snapshots_path(self.profile_id, mode = mode, tmp_mount = True)
 		
 		#hack
 		if snapshots_path.startswith( '//' ):
@@ -703,29 +720,38 @@ class SettingsDialog(object):
 			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
 			iter = self.store_exclude.iter_next( iter )
 			
-		####check ssh settings
-		ssh = False
-		if self.cb_ssh.get_active():
-			host = self.txt_ssh_host.get_text()
-			port = self.txt_ssh_port.get_text()
-			user = self.txt_ssh_user.get_text()
-			path_ssh = self.txt_ssh_path.get_text()
-			cipher = self.cb_ssh_cipher.get_active()
+		mount_kwargs = {}
+		
+		#ssh settings
+		ssh_host = self.txt_ssh_host.get_text()
+		ssh_port = self.txt_ssh_port.get_text()
+		ssh_user = self.txt_ssh_user.get_text()
+		ssh_path = self.txt_ssh_path.get_text()
+		ssh_cipher_id = self.combo_ssh_cipher.get_active()
+		ssh_cipher = self.config.get_ssh_ciphers()[ssh_cipher_id]
+		if mode == 'ssh':
+			mount_kwargs = { 'host': ssh_host, 'port': ssh_port, 'user': ssh_user, 'path': ssh_path, 'cipher': ssh_cipher }
+		
+##		#dummy settings
+##		dummy_host = self.txt_dummy_host.get_text()
+##		dummy_port = self.txt_dummy_port.get_text()
+##		dummy_user = self.txt_dummy_user.get_text()
+##		if mode == 'dummy':
+##			mount_kwargs = { 'host': dummy_host, 'port': dummy_port, 'user': dummy_user }
 			
-			ssh = sshtools.SSH(host_port_user_path = (host, port, user, path_ssh), local_path=snapshots_path, cipher = cipher)
+		if not self.config.SNAPSHOT_MODES[mode] is None:
+			#pre_mount_check
+			mnt = mount.Mount(cfg = self.config, profile_id = self.profile_id, tmp_mount = True)
 			try:
-				ssh.check_fuse()
-				ssh.check_known_hosts()
-				ssh.check_login()
-				ssh.check_cipher()
-			except sshtools.SSHException as ex:
+				mnt.pre_mount_check(mode = mode, **mount_kwargs)
+			except mount.MountException as ex:
 				self.error_handler(str(ex))
 				return False
 
 			#okay, lets try to mount
 			try:
-				ssh.mount(check = False)
-			except sshtools.SSHException as ex:
+				hash_id = mnt.mount(mode = mode, check = False, **mount_kwargs)
+			except mount.MountException as ex:
 				self.error_handler(str(ex))
 				return False
 		
@@ -739,14 +765,19 @@ class SettingsDialog(object):
 		self.config.set_host_user_profile( self.txt_host.get_text(), self.txt_user.get_text(), self.txt_profile.get_text(), self.profile_id )
 		self.config.set_snapshots_path( snapshots_path, self.profile_id )
 		
-		#####ssh
-		self.config.set_ssh(self.cb_ssh.get_active(), self.profile_id)
-		self.config.set_ssh_host(self.txt_ssh_host.get_text(), self.profile_id)
-		self.config.set_ssh_port(self.txt_ssh_port.get_text(), self.profile_id)
-		self.config.set_ssh_user(self.txt_ssh_user.get_text(), self.profile_id)
-		self.config.set_snapshots_path_ssh(self.txt_ssh_path.get_text(), self.profile_id)
-		self.config.set_ssh_cipher(self.cb_ssh_cipher.get_active(), self.profile_id)
+		self.config.set_snapshots_mode(mode, self.profile_id)
+		
+		#save ssh
+		self.config.set_ssh_host(ssh_host, self.profile_id)
+		self.config.set_ssh_port(ssh_port, self.profile_id)
+		self.config.set_ssh_user(ssh_user, self.profile_id)
+		self.config.set_snapshots_path_ssh(ssh_path, self.profile_id)
+		self.config.set_ssh_cipher_id(ssh_cipher_id, self.profile_id)
 
+##		#save dummy
+##		self.config.set_dummy_host(dummy_host, self.profile_id)
+##		self.config.set_dummy_port(dummy_port, self.profile_id)
+##		self.config.set_dummy_user(dummy_user, self.profile_id)
 
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
@@ -803,11 +834,11 @@ class SettingsDialog(object):
 		self.config.set_copy_links( self.cb_copy_links.get_active(), self.profile_id )
 		self.config.set_disable_debian_patch( self.cb_disable_debian_patch.get_active(), self.profile_id )
 		
-		####umount ssh
-		if ssh:
+		#umount
+		if not self.config.SNAPSHOT_MODES[mode] is None:
 			try:
-				ssh.umount()
-			except sshtools.SSHException as ex:
+				mnt.umount(hash_id = hash_id)
+			except mount.MountException as ex:
 				self.error_handler(str(ex))
 				return False
 	

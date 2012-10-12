@@ -19,7 +19,6 @@
 ##SOFTWARE.
 
 import os
-import grp
 import subprocess
 import socket
 import json
@@ -35,8 +34,8 @@ class MountException(Exception):
 class HashCollision(Exception):
     pass
 
-class Mount:
-    def __init__(self, cfg = None, profile_id = None):
+class Mount(object):
+    def __init__(self, cfg = None, profile_id = None, tmp_mount = False):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -45,7 +44,9 @@ class Mount:
         if self.profile_id is None:
             self.profile_id = self.config.get_current_profile()
             
-    def mount(self, mode = None, **kwargs): #TODO: skip_pre_mount_check
+        self.tmp_mount = tmp_mount
+            
+    def mount(self, mode = None, check = True, **kwargs):
         if mode is None:
             mode = self.config.get_snapshots_mode(self.profile_id)
             
@@ -53,13 +54,21 @@ class Mount:
             #mode doesn't need to mount
             return 'local'
         else:
-            mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            tools = mounttools(cfg = self.config, profile_id = self.profile_id, mode = mode, **kwargs)
-            return tools.mount()
+            while True:
+                try:
+                    mounttools = self.config.SNAPSHOT_MODES[mode][0]
+                    tools = mounttools(cfg = self.config, profile_id = self.profile_id, tmp_mount = self.tmp_mount, mode = mode, **kwargs)
+                    return tools.mount(check = check)
+                except HashCollision as ex:
+                    logger.warning(str(ex))
+                    del tools
+                    check = False
+                    continue
+                break
         
     def umount(self, hash_id = None):
         if hash_id is None:
-            hash_id = self.config.get_current_hash_id()
+            hash_id = self.config.current_hash_id
         if hash_id == 'local':
             #mode doesn't need to umount
             return
@@ -69,9 +78,9 @@ class Mount:
                 data_string = f.read()
                 f.close()
             kwargs = json.loads(data_string)
-            mode = kwargs['mode']
+            mode = kwargs.pop('mode')
             mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            tools = mounttools(cfg = self.config, profile_id = self.profile_id, mode = mode, hash_id = hash_id, **kwargs)
+            tools = mounttools(cfg = self.config, profile_id = self.profile_id, tmp_mount = self.tmp_mount, mode = mode, hash_id = hash_id, **kwargs)
             tools.umount()
         
     def pre_mount_check(self, mode = None, **kwargs):
@@ -85,7 +94,7 @@ class Mount:
             return True
         else:
             mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            tools = mounttools(cfg = self.config, profile_id = self.profile_id, mode = mode, **kwargs)
+            tools = mounttools(cfg = self.config, profile_id = self.profile_id, tmp_mount = self.tmp_mount, mode = mode, **kwargs)
             return tools.pre_mount_check()
         
     def remount(self, new_profile_id, mode = None, hash_id = None, **kwargs):
@@ -95,6 +104,8 @@ class Mount:
            self.profile_id <= old profile"""
         if mode is None:
             mode = self.config.get_snapshots_mode(new_profile_id)
+        if hash_id is None:
+            hash_id = self.config.current_hash_id
             
         if self.config.SNAPSHOT_MODES[mode][0] is None:
             #new profile don't need to mount.
@@ -107,7 +118,7 @@ class Mount:
             return self.mount(mode = mode, **kwargs)
             
         mounttools = self.config.SNAPSHOT_MODES[mode][0]
-        tools = mounttools(cfg = self.config, profile_id = new_profile_id, mode = mode, **kwargs)
+        tools = mounttools(cfg = self.config, profile_id = new_profile_id, tmp_mount = self.tmp_mount, mode = mode, **kwargs)
         if tools.compare_remount(hash_id):
             #profiles uses the same settings. just swap the symlinks
             tools.remove_symlink(profile_id = self.profile_id) 
@@ -119,30 +130,52 @@ class Mount:
             self.profile_id = new_profile_id
             return self.mount(mode = mode, **kwargs)
 
-class MountControl:
+class MountControl(object):
     def __init__(self):
-        self.local_host = socket.gethostname()
+        self.local_host = self.config.get_host()
         self.local_user = self.config.get_user()
-        self.pid = str(os.getpid())
+        self.pid = self.config.get_pid()
+            
+    def set_default_args(self):
+        #self.destination should contain all arguments that are nessesary for mount.
+        args = self.all_kwargs.keys()
+        self.destination = '%s:' % self.all_kwargs['mode']
+        args.remove('mode')
+        args.sort()
+        for arg in args:
+            self.destination += ' %s' % self.all_kwargs[arg]
+            
+        #unique id for every different mount settings. Similar settings even in
+        #different profiles will generate the same hash_id and so share the same
+        #mountpoint
+        if self.hash_id is None:
+            self.hash_id = self.hash(self.destination)
+            
         self.mount_root = self.config.MOUNT_ROOT
         self.mount_user_path = os.path.join(self.mount_root, self.local_user)
-        self.snapshots_path = self.config.get_snapshots_path(self.profile_id)
+        self.snapshots_path = self.config.get_snapshots_path(profile_id = self.profile_id, mode = self.mode, tmp_mount = self.tmp_mount)
         
-    def mount(self): #TODO: tmp_mount for testing in settingsdialog
+        self.hash_id_path = self.get_hash_id_path()
+        self.mountpoint = self.get_mountpoint()
+        self.lock_path = self.get_lock_path()
+        self.umount_info = self.get_umount_info()
+        
+    def mount(self, check = True):
         self.create_mountstructure()
         self.mountprocess_lock_acquire()
         try:
             if self.is_mounted():
-                if not compare_umount_info():
+                if not self.compare_umount_info(): #TODO: test this function
                     #We probably have a hash collision
                     self.config.increment_hash_collision()
                     raise HashCollision('Hash collision occurred in <hash_id> %s. Incrementing global value <hash_collision> and try again.' % self.hash_id)
                 logger.info('Mountpoint %s is already mounted' % self.mountpoint)
             else:
-                self.pre_mount_check(self)
+                if check:
+                    self.pre_mount_check()
                 self._mount()
-                self.post_mount_check(self)
-                logger.info('mount %s on %s' % (self.destination, self.mountpoint))
+                self.post_mount_check()
+                logger.info('mount %s on %s' % (self.log_command, self.mountpoint))
                 self.write_umount_info()
         except Exception:
             raise
@@ -168,7 +201,7 @@ class MountControl:
                         self.pre_umount_check()
                         self._umount()
                         self.post_umount_check()
-                        logger.info('unmount %s' % self.mountpoint)
+                        logger.info('unmount %s from %s' % (self.log_command, self.mountpoint))
         except Exception:
             raise
         else:
@@ -203,6 +236,8 @@ class MountControl:
         tmp_<pid>/                <= sym-link for testing mountpoints in settingsdialog
         """
         self.mkdir(self.mount_root, 0777)
+        #hack: debian and ubuntu won't set go+w on mkdir in tmp
+        os.chmod(self.mount_root, 0777)
         self.mkdir(self.mount_user_path, 0700)
         self.mkdir(os.path.join(self.mount_user_path, 'mnt'), 0700)
         self.mkdir(self.hash_id_path, 0700)
@@ -271,7 +306,7 @@ class MountControl:
             if self.check_process_alive(lock_pid):
                 return True
             else:
-                os.remove(file)
+                os.remove(os.path.join(path, file))
         return False
             
     def setattr_kwargs(self, arg, default, **kwargs):
@@ -307,7 +342,7 @@ class MountControl:
            return True if both are identical"""
         #run self.all_kwargs through json first
         current_kwargs = json.loads(json.dumps(self.all_kwargs))
-        saved_kwargs = read_umount_info(umount_info)
+        saved_kwargs = self.read_umount_info(umount_info)
         if not len(current_kwargs) == len(saved_kwargs):
             return False
         for arg in current_kwargs.keys():
@@ -318,7 +353,7 @@ class MountControl:
         return True
         
     def compare_remount(self, old_hash_id):
-        """return True is profiles are identiacal and we don't need to remount"""
+        """return True if profiles are identiacal and we don't need to remount"""
         if old_hash_id == self.hash_id:
             return self.compare_umount_info(self.get_umount_info(old_hash_id))
         return False
@@ -326,15 +361,14 @@ class MountControl:
     def set_symlink(self, profile_id = None, hash_id = None):
         if profile_id is None:
             profile_id = self.profile_id
-        dst = os.path.join(self.mount_user_path, '%s_%s' % (profile_id, self.pid))
+        dst = self.config.get_snapshots_path(profile_id = profile_id, mode = self.mode, tmp_mount = self.tmp_mount)
         src = self.get_mountpoint(hash_id)
         os.symlink(src, dst)
         
     def remove_symlink(self, profile_id = None):
         if profile_id is None:
             profile_id = self.profile_id
-        link = os.path.join(self.mount_user_path, '%s_%s' % (profile_id, self.pid))
-        os.remove(link)
+        os.remove(self.config.get_snapshots_path(profile_id = profile_id, mode = self.mode, tmp_mount = self.tmp_mount))
         
     def hash(self, str):
         """return a hex crc32 hash of str"""

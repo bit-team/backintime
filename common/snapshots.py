@@ -613,15 +613,17 @@ class Snapshots:
 	def remove_snapshot( self, snapshot_id ):
 		if len( snapshot_id ) <= 1:
 			return
-		#######ssh
+		#ssh
 		profile_id = self.config.get_current_profile()
-		ssh = self.config.get_ssh(profile_id)
+		ssh = False
+		if self.config.get_snapshots_mode() == 'ssh':
+			ssh = True
 		(ssh_host, ssh_port, ssh_user, ssh_path) = self.config.get_ssh_host_port_user_path(profile_id)
-		ssh_cipher = int(self.config.get_ssh_cipher(profile_id))
-		if ssh_cipher <= 0:
+		ssh_cipher = self.config.get_ssh_cipher(profile_id)
+		if ssh_cipher == 'default':
 			ssh_cipher_suffix = ''
 		else:
-			ssh_cipher_suffix = '-c %s' % self.config.get_ssh_ciphers()[ssh_cipher]
+			ssh_cipher_suffix = '-c %s' % ssh_cipher
 		cmd_ssh = 'ssh -p %s %s %s@%s ' % ( ssh_port, ssh_cipher_suffix, ssh_user, ssh_host )
 		
 		if not ssh:
@@ -1047,15 +1049,17 @@ class Snapshots:
 		new_snapshot_id = 'new_snapshot'
 		new_snapshot_path = self.get_snapshot_path( new_snapshot_id )
 		
-		###########ssh
+		#ssh
 		profile_id = self.config.get_current_profile()
-		ssh = self.config.get_ssh(profile_id)
+		ssh = False
+		if self.config.get_snapshots_mode() == 'ssh':
+			ssh = True
 		(ssh_host, ssh_port, ssh_user, ssh_path) = self.config.get_ssh_host_port_user_path(profile_id)
-		ssh_cipher = int(self.config.get_ssh_cipher(profile_id))
-		if ssh_cipher <= 0:
+		ssh_cipher = self.config.get_ssh_cipher(profile_id)
+		if ssh_cipher == 'default':
 			ssh_cipher_suffix = ''
 		else:
-			ssh_cipher_suffix = '-c %s' % self.config.get_ssh_ciphers()[ssh_cipher]
+			ssh_cipher_suffix = '-c %s' % ssh_cipher
 		rsync_ssh_suffix = '--rsh="ssh -p %s %s" "%s@%s:' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
 		cmd_ssh = 'ssh -p %s %s %s@%s ' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
 		new_snapshot_path_ssh = self.get_snapshot_path_ssh( new_snapshot_id )
@@ -1277,11 +1281,11 @@ class Snapshots:
 		logger.info( 'Save permissions' )
 		self.set_take_snapshot_message( 0, _('Save permission ...') )
 
-		fileinfo = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' )
+		fileinfo = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' ) #TODO: if mount use tmp file and cp when done
 		path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' )
 		fileinfo_dict = {}
 
-		for path, dirs, files in os.walk( path_to_explore ):
+		for path, dirs, files in os.walk( path_to_explore ): #TODO: may be faster with find over ssh?
 			dirs.extend( files )
 			for item in dirs:
 				item_path = os.path.join( path, item )[ len( path_to_explore ) : ]

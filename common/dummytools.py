@@ -20,8 +20,6 @@
 
 import os
 import subprocess
-import socket
-from time import sleep
 
 import config
 import logger
@@ -29,7 +27,13 @@ import mount
 
 class Dummy(mount.MountControl):
     """
-    This is a template for mounting services.
+    This is a template for mounting services. For simple mount services
+    all you need to do is:
+    - add your settings in gnome/settingsdialog.py (search for the dummy examples)
+    - add settings in gnome/settingsdialog.glade (copy GtkFrame 'mode_dummy')
+    - add settings in common/config.py (search for the dummy examples)
+    - modify a copy of this file
+    
     This class inherit from MountControl. All methodes from MountControl can
     be used exactly like they were in this class.
     Methodes from MountControl also can be overwritten in here if you need
@@ -62,22 +66,9 @@ class Dummy(mount.MountControl):
         self.setattr_kwargs('host', self.config.get_dummy_host(self.profile_id), **kwargs)
         self.setattr_kwargs('port', self.config.get_dummy_port(self.profile_id), **kwargs)
             
-        #self.destination should contain all arguments that are nessesary for mount.
-        args = self.all_kwargs.keys()
-        self.destination = '%s:' % self.all_kwargs['mode']
-        args.remove('mode')
-        for arg in args.sort():
-            self.destination += ' %s' % self.all_kwargs[arg]
+        self.set_default_args()
             
-        #unique id for every different mount settings. Similar settings even in
-        #different profiles will generate the same hash_id and so share the same
-        #mountpoint
-        if self.hash_id is None:
-            self.hash_id = self.hash(self.destination)
-        self.hash_id_path = self.get_hash_id_path()
-        self.mountpoint = self.get_mountpoint()
-        self.lock_path = self.get_lock_path()
-        self.umount_info = self.get_umount_info()
+        self.log_command = '%s: %s@%s' % (self.mode, self.user, self.host)
         
     def _mount(self):
         """mount the service"""
