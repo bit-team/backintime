@@ -139,17 +139,19 @@ class SettingsDialog(object):
 		self.txt_ssh_user = get('txt_ssh_user')
 		self.txt_ssh_path = get('txt_ssh_path')
 		
-		self.store_ssh_cipher = gtk.ListStore(str) #TODO: change to str, str; make dict config.SSH_CIPHERS{<cipher>: _(<cipher>), ...}
-		for item in self.config.get_ssh_ciphers():
-			self.store_ssh_cipher.append([item])
+		self.store_ssh_cipher = gtk.ListStore(str, str)
+		keys = self.config.SSH_CIPHERS.keys()
+		keys.sort()
+		for key in keys:
+			self.store_ssh_cipher.append([self.config.SSH_CIPHERS[key], key])
 		
 		self.combo_ssh_cipher = get( 'combo_ssh_cipher' )
 		self.combo_ssh_cipher.set_model( self.store_ssh_cipher )
 
 		self.combo_ssh_cipher.clear()
-		renderer = gtk.CellRendererText()
-		self.combo_ssh_cipher.pack_start( renderer, True )
-		self.combo_ssh_cipher.add_attribute( renderer, 'text', 0 )
+		text_renderer = gtk.CellRendererText()
+		self.combo_ssh_cipher.pack_start( text_renderer, True )
+		self.combo_ssh_cipher.add_attribute( text_renderer, 'text', 0 )
 		
 ##		#dummy
 ##		self.txt_dummy_host = get('txt_dummy_host')
@@ -528,7 +530,16 @@ class SettingsDialog(object):
 		self.txt_ssh_port.set_text( str(self.config.get_ssh_port( self.profile_id )) )
 		self.txt_ssh_user.set_text( self.config.get_ssh_user( self.profile_id ) )
 		self.txt_ssh_path.set_text( self.config.get_snapshots_path_ssh( self.profile_id ) )
-		self.combo_ssh_cipher.set_active( int( self.config.get_ssh_cipher_id( self.profile_id ) ) )
+		#set chipher
+		i = 0
+		iter = self.store_ssh_cipher.get_iter_first()
+		default_mode = self.config.get_ssh_cipher(self.profile_id)
+		while not iter is None:
+			if self.store_ssh_cipher.get_value( iter, 1 ) == default_mode:
+				self.combo_ssh_cipher.set_active( i )
+				break
+			iter = self.store_ssh_cipher.iter_next( iter )
+			i = i + 1
 		
 ##		#dummy
 ##		self.txt_dummy_host.set_text( self.config.get_dummy_host( self.profile_id ) )
@@ -727,8 +738,8 @@ class SettingsDialog(object):
 		ssh_port = self.txt_ssh_port.get_text()
 		ssh_user = self.txt_ssh_user.get_text()
 		ssh_path = self.txt_ssh_path.get_text()
-		ssh_cipher_id = self.combo_ssh_cipher.get_active()
-		ssh_cipher = self.config.get_ssh_ciphers()[ssh_cipher_id]
+		iter = self.combo_ssh_cipher.get_active_iter()
+		ssh_cipher = self.store_ssh_cipher.get_value( iter, 1 )
 		if mode == 'ssh':
 			mount_kwargs = { 'host': ssh_host, 'port': int(ssh_port), 'user': ssh_user, 'path': ssh_path, 'cipher': ssh_cipher }
 		
@@ -772,7 +783,7 @@ class SettingsDialog(object):
 		self.config.set_ssh_port(ssh_port, self.profile_id)
 		self.config.set_ssh_user(ssh_user, self.profile_id)
 		self.config.set_snapshots_path_ssh(ssh_path, self.profile_id)
-		self.config.set_ssh_cipher_id(ssh_cipher_id, self.profile_id)
+		self.config.set_ssh_cipher(ssh_cipher, self.profile_id)
 
 ##		#save dummy
 ##		self.config.set_dummy_host(dummy_host, self.profile_id)

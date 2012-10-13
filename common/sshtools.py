@@ -153,7 +153,9 @@ class SSH(mount.MountControl):
         temp = tempfile.mkstemp()[1]
         print('create random data file')
         subprocess.call(['dd', 'if=/dev/urandom', 'of=%s' % temp, 'bs=1M', 'count=%s' % size])
-        for cipher in self.config.get_ssh_ciphers():
+        keys = self.config.SSH_CIPHERS.keys()
+        keys.sort()
+        for cipher in keys:
             if cipher == 'default':
                 continue
             print('%s:' % cipher)

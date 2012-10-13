@@ -227,8 +227,8 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 					size = sys.argv[index + 1]
 				except IndexError:
 					size = '40'
-				ssh = sshtools.SSH(cfg=cfg) #TODO: change to new mount_framework
-				if ssh.ssh:
+				if cfg.get_snapshots_mode() == 'ssh':
+					ssh = sshtools.SSH(cfg=cfg) #TODO: change to new mount_framework
 					ssh.benchmark_cipher(size)
 				else:
 					print('ssh is not configured !')

@@ -86,6 +86,20 @@ class Config( configfile.ConfigFileWithProfiles ):
 				}
 		
 	MOUNT_ROOT = '/tmp/backintime'
+	
+	SSH_CIPHERS =  {'default':    _('Default'),
+					'aes128-ctr': _('AES128-CTR'), 
+					'aes192-ctr': _('AES192-CTR'), 
+					'aes256-ctr': _('AES256-CTR'), 
+					'arcfour256': _('ARCFOUR256'), 
+					'arcfour128': _('ARCFOUR128'), 
+					'aes128-cbc': _('AES128-CBC'), 
+					'3des-cbc':   _('3DES-CBC'), 
+					'blowfish-cbc': _('Blowfish-CBC'), 
+					'cast128-cbc': _('Cast128-CBC'), 
+					'aes192-cbc': _('AES192-CBC'), 
+					'aes256-cbc': _('AES256-CBC'), 
+					'arcfour':    _('ARCFOUR') }
 
 	def __init__( self ):
 		configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
@@ -400,18 +414,10 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_int_value( 'snapshots.ssh.port', value, profile_id )
 
 	def get_ssh_cipher( self, profile_id = None ):
-		return self.get_ssh_ciphers()[int(self.get_ssh_cipher_id(profile_id))]
+		return self.get_profile_str_value( 'snapshots.ssh.cipher', 'default', profile_id )
 
-	def get_ssh_cipher_id( self, profile_id = None ):
-		return self.get_profile_int_value( 'snapshots.ssh.cipher', '0', profile_id )
-
-	def get_ssh_ciphers( self ):
-		return ('default', 'aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 
-				'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 
-				'aes256-cbc', 'arcfour' )
-
-	def set_ssh_cipher_id( self, value, profile_id = None ):
-		self.set_profile_int_value( 'snapshots.ssh.cipher', value, profile_id )
+	def set_ssh_cipher( self, value, profile_id = None ):
+		self.set_profile_str_value( 'snapshots.ssh.cipher', value, profile_id )
 
 	def get_ssh_user( self, profile_id = None ):
 		return self.get_profile_str_value( 'snapshots.ssh.user', self.get_user(), profile_id )

@@ -165,7 +165,7 @@ class MountControl(object):
         self.mountprocess_lock_acquire()
         try:
             if self.is_mounted():
-                if not self.compare_umount_info(): #TODO: test this function
+                if not self.compare_umount_info():
                     #We probably have a hash collision
                     self.config.increment_hash_collision()
                     raise HashCollision('Hash collision occurred in <hash_id> %s. Incrementing global value <hash_collision> and try again.' % self.hash_id)
