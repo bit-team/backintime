@@ -167,21 +167,21 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
-				_mount()
+				_mount(cfg)
 				list = snapshots.Snapshots( cfg ).get_snapshots_list()
 				if len( list ) <= 0:
 					print "There are no snapshots"
 				else:
 					for snapshot_id in list:
 						print "SnapshotID: %s" % snapshot_id
-				_umount()
+				_umount(cfg)
 			sys.exit(0)
 
-		if arg == '--snapshots-list-path':
+		if arg == '--snapshots-list-path': #TODO: don't umount?
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
-				_mount()
+				_mount(cfg)
 				s = snapshots.Snapshots( cfg )
 				list = s.get_snapshots_list()
 				if len( list ) <= 0:
@@ -189,34 +189,34 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 				else:
 					for snapshot_id in list:
 						print "SnapshotPath: %s" % s.get_snapshot_path( snapshot_id )
-				_umount()
+				_umount(cfg)
 			sys.exit(0)
 
 		if arg == '--last-snapshot':
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
-				_mount()
+				_mount(cfg)
 				list = snapshots.Snapshots( cfg ).get_snapshots_list()
 				if len( list ) <= 0:
 					print "There are no snapshots"
 				else:
 					print "SnapshotID: %s" % list[0]
-				_umount()
+				_umount(cfg)
 			sys.exit(0)
 
-		if arg == '--last-snapshot-path':
+		if arg == '--last-snapshot-path': #TODO: don't umount?
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
-				_mount()
+				_mount(cfg)
 				s = snapshots.Snapshots( cfg )
 				list = s.get_snapshots_list()
 				if len( list ) <= 0:
 					print "There are no snapshots"
 				else:
 					print "SnapshotPath: %s" % s.get_snapshot_path( list[0] )
-				_umount()
+				_umount(cfg)
 			sys.exit(0)
 
 		if arg == '--benchmark-cipher':
@@ -228,7 +228,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 				except IndexError:
 					size = '40'
 				if cfg.get_snapshots_mode() == 'ssh':
-					ssh = sshtools.SSH(cfg=cfg) #TODO: change to new mount_framework
+					ssh = sshtools.SSH(cfg=cfg)
 					ssh.benchmark_cipher(size)
 				else:
 					print('ssh is not configured !')
