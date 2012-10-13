@@ -91,6 +91,7 @@ class SSH(mount.MountControl):
         self.check_known_hosts()
         self.check_login()
         self.check_cipher()
+        self.check_remote_folder()
         return True
         
     def post_mount_check(self):
@@ -166,3 +167,24 @@ class SSH(mount.MountControl):
         output = subprocess.Popen(['ssh-keygen', '-F', self.host], stdout=subprocess.PIPE).communicate()[0] #subprocess.check_output doesn't exist in Python 2.6 (Debian squeeze default)
         if output.find('Host %s found' % self.host) < 0:
             raise mount.MountException('%s not found in ssh_known_hosts.' % self.host)
+        
+    def check_remote_folder(self):
+        """check if remote folder exists and is write- and executable.
+           Create folder if it doesn't exist."""
+        cmd  = '[[ -a %s ]] || mkdir %s; err=$?; [[ $err -ne 0 ]] && exit $err;' % (self.path, self.path)
+        cmd += '[[ -d %s ]] || exit 11;' % self.path
+        cmd += '[[ -w %s ]] || exit 12;' % self.path
+        cmd += '[[ -x %s ]] || exit 13;' % self.path
+        cmd += 'exit 0'
+        try:
+            subprocess.check_call(['ssh', self.user + '@' + self.host, cmd], stdout=open(os.devnull, 'w'))
+        except subprocess.CalledProcessError as ex:
+            if ex.returncode == 11:
+                raise mount.MountException('Remote path exists but is not a directory:\n %s' % self.path)
+            elif ex.returncode == 12:
+                raise mount.MountException('Remote path is not writeable:\n %s' % self.path)
+            elif ex.returncode == 13:
+                raise mount.MountException('Remote path is not executable:\n %s' % self.path)
+            else:
+                raise mount.MountException('Couldn\'t create remote path:\n %s' % self.path)
+            
