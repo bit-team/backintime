@@ -858,7 +858,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry" id="cb_backup_time_custom">
+                              <object class="GtkEntry" id="txt_backup_time_custom">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="tooltip_text" translatable="yes">seperate by comma (cron style)</property>
@@ -1904,8 +1904,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="cb_disable_debian_patch">
-                    <property name="label" translatable="yes">Disable 'Debian-Patch' (chmod u+wx prev_snapshot)</property>
+                  <object class="GtkCheckButton" id="cb_disable_chmod">
+                    <property name="label" translatable="yes">Don't make snapshot writeable before backup</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

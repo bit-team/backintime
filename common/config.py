@@ -82,6 +82,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 				#mode : (<mounttools>, _('ComboBox Text') ),
 				'local' : (None, _('Local') ),
 				'ssh' : (sshtools.SSH, _('SSH') )
+##				'dummy' : (dummytools.Dummy, _('Dummy') )
 				}
 		
 	MOUNT_ROOT = '/tmp/backintime'
@@ -399,7 +400,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_int_value( 'snapshots.ssh.port', value, profile_id )
 
 	def get_ssh_cipher( self, profile_id = None ):
-		return self.get_ssh_ciphers()[self.get_ssh_cipher_id(profile_id)]
+		return self.get_ssh_ciphers()[int(self.get_ssh_cipher_id(profile_id))]
 
 	def get_ssh_cipher_id( self, profile_id = None ):
 		return self.get_profile_int_value( 'snapshots.ssh.cipher', '0', profile_id )
@@ -775,11 +776,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_copy_links( self, value, profile_id = None ):
 		return self.set_profile_bool_value( 'snapshots.copy_links', value, profile_id )
 
-	def disable_debian_patch( self, profile_id = None ):
-		return self.get_profile_bool_value( 'snapshots.disable_debian_patch', False, profile_id )
+	def disable_chmod( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.disable_chmod', False, profile_id )
 
-	def set_disable_debian_patch( self, value, profile_id = None ):
-		return self.set_profile_bool_value( 'snapshots.disable_debian_patch', value, profile_id )
+	def set_disable_chmod( self, value, profile_id = None ):
+		return self.set_profile_bool_value( 'snapshots.disable_chmod', value, profile_id )
 
 	def continue_on_errors( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.continue_on_errors', True, profile_id )

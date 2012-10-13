@@ -233,20 +233,21 @@ class MountControl(object):
         <profile id>_<pid>/       <= sym-link to the right path. return by config.get_snapshots_path
                                      (can be ../mnt/<hash_id>/mount_point for ssh or
                                      ../mnt/<hash_id>/<HOST>/<SHARE> for fusesmb ...)
-        tmp_<pid>/                <= sym-link for testing mountpoints in settingsdialog
+        tmp_<profile id>_<pid>/   <= sym-link for testing mountpoints in settingsdialog
         """
-        self.mkdir(self.mount_root, 0777)
-        #hack: debian and ubuntu won't set go+w on mkdir in tmp
-        os.chmod(self.mount_root, 0777)
+        self.mkdir(self.mount_root, 0777, force_chmod = True)
         self.mkdir(self.mount_user_path, 0700)
         self.mkdir(os.path.join(self.mount_user_path, 'mnt'), 0700)
         self.mkdir(self.hash_id_path, 0700)
         self.mkdir(self.mountpoint, 0700)
         self.mkdir(self.lock_path, 0700)
                 
-    def mkdir(self, path, mode = 0777):
+    def mkdir(self, path, mode = 0777, force_chmod = False):
         if not os.path.isdir(path):
             os.mkdir(path, mode)
+            if force_chmod:
+                #hack: debian and ubuntu won't set go+w on mkdir in tmp
+                os.chmod(path, mode)
         
     def mountprocess_lock_acquire(self, timeout = 60):
         """block while an other process is mounting or unmounting"""
@@ -267,12 +268,16 @@ class MountControl(object):
     def mountprocess_lock_release(self):
         lock_path = os.path.join(self.mount_user_path, 'mnt')
         lock_suffix = '.lock'
-        lock = self.pid + lock_suffix
-        os.remove(os.path.join(lock_path, lock))
+        lock = os.path.join(lock_path, self.pid + lock_suffix)
+        if os.path.exists(lock):
+            os.remove(lock)
         
     def set_mount_lock(self):
         """lock mount for this process"""
-        lock_suffix = '.lock'  
+        if self.tmp_mount:
+            lock_suffix = '.tmp.lock'
+        else:
+            lock_suffix = '.lock'
         lock = self.pid + lock_suffix
         with open(os.path.join(self.lock_path, lock), 'w') as f:
             f.write(self.pid)
@@ -285,9 +290,13 @@ class MountControl(object):
         
     def del_mount_lock(self):
         """remove mount lock for this process"""
-        lock_suffix = '.lock'  
-        lock = self.pid + lock_suffix
-        os.remove(os.path.join(self.lock_path, lock))
+        if self.tmp_mount:
+            lock_suffix = '.tmp.lock'
+        else:
+            lock_suffix = '.lock' 
+        lock = os.path.join(self.lock_path, self.pid + lock_suffix)
+        if os.path.exists(lock):
+            os.remove(lock)
         
     def check_process_alive(self, pid):
         """check if process is still alive"""
@@ -300,9 +309,16 @@ class MountControl(object):
         for file in os.listdir(path):
             if not file[-len(lock_suffix):] == lock_suffix:
                 continue
-            lock_pid = os.path.basename(file)[:-len(lock_suffix)]
+            is_tmp = False
+            if os.path.basename(file)[-len(lock_suffix)-len('.tmp'):-len(lock_suffix)] == '.tmp':
+                is_tmp = True
+            if is_tmp:
+                lock_pid = os.path.basename(file)[:-len('tmp')-len(lock_suffix)]
+            else:
+                lock_pid = os.path.basename(file)[:-len(lock_suffix)]
             if lock_pid == self.pid:
-                continue
+                if is_tmp == self.tmp_mount:
+                    continue
             if self.check_process_alive(lock_pid):
                 return True
             else:

@@ -182,7 +182,7 @@ class SettingsDialog(object):
 			self.store_backup_weekday.append( [ datetime.date(2011, 11, 6 + t).strftime("%A"), t ] )
 
 		#custom backup time
-		self.cb_backup_time_custom = get('cb_backup_time_custom')
+		self.txt_backup_time_custom = get('txt_backup_time_custom')
 		self.lbl_backup_time_custom = get('lbl_backup_time_custom')
 		
 		#per directory schedule
@@ -359,7 +359,7 @@ class SettingsDialog(object):
 		self.cb_preserve_xattr = get('cb_preserve_xattr')
 		self.cb_copy_unsafe_links = get('cb_copy_unsafe_links')
 		self.cb_copy_links = get('cb_copy_links')
-		self.cb_disable_debian_patch = get('cb_disable_debian_patch')
+		self.cb_disable_chmod = get('cb_disable_chmod')
 		
 		#don't run when on battery
 		self.cb_no_on_battery = get( 'cb_no_on_battery' )
@@ -430,12 +430,12 @@ class SettingsDialog(object):
 
 		if backup_mode == self.config.CUSTOM_HOUR:
 			self.lbl_backup_time_custom.show()
-			self.cb_backup_time_custom.show()
-			self.cb_backup_time_custom.set_sensitive( True )
-			self.cb_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
+			self.txt_backup_time_custom.show()
+			self.txt_backup_time_custom.set_sensitive( True )
+			self.txt_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
 		else:
 			self.lbl_backup_time_custom.hide()
-			self.cb_backup_time_custom.hide()
+			self.txt_backup_time_custom.hide()
 
 	def update_host_user_profile( self, *params ):
 		value = not self.cb_auto_host_user_profile.get_active()
@@ -604,7 +604,7 @@ class SettingsDialog(object):
 		self.on_cb_backup_mode_changed()
 
 		#setup custom backup time
-		self.cb_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
+		self.txt_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
 
 		#setup remove old backups older than
 		enabled, value, unit = self.config.get_remove_old_snapshots( self.profile_id )
@@ -684,7 +684,7 @@ class SettingsDialog(object):
 		self.cb_preserve_xattr.set_active(self.config.preserve_xattr( self.profile_id ))
 		self.cb_copy_unsafe_links.set_active(self.config.copy_unsafe_links( self.profile_id ))
 		self.cb_copy_links.set_active(self.config.copy_links( self.profile_id ))
-		self.cb_disable_debian_patch.set_active(self.config.disable_debian_patch( self.profile_id ))
+		self.cb_disable_chmod.set_active(self.config.disable_chmod( self.profile_id ))
 		
 		#check for changes
 		self.cb_check_for_changes.set_active( self.config.check_for_changes( self.profile_id ) )
@@ -730,14 +730,14 @@ class SettingsDialog(object):
 		ssh_cipher_id = self.combo_ssh_cipher.get_active()
 		ssh_cipher = self.config.get_ssh_ciphers()[ssh_cipher_id]
 		if mode == 'ssh':
-			mount_kwargs = { 'host': ssh_host, 'port': ssh_port, 'user': ssh_user, 'path': ssh_path, 'cipher': ssh_cipher }
+			mount_kwargs = { 'host': ssh_host, 'port': int(ssh_port), 'user': ssh_user, 'path': ssh_path, 'cipher': ssh_cipher }
 		
 ##		#dummy settings
 ##		dummy_host = self.txt_dummy_host.get_text()
 ##		dummy_port = self.txt_dummy_port.get_text()
 ##		dummy_user = self.txt_dummy_user.get_text()
 ##		if mode == 'dummy':
-##			mount_kwargs = { 'host': dummy_host, 'port': dummy_port, 'user': dummy_user }
+##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
 			
 		if not self.config.SNAPSHOT_MODES[mode] is None:
 			#pre_mount_check
@@ -791,7 +791,7 @@ class SettingsDialog(object):
 		self.config.set_automatic_backup_time( self.store_backup_time.get_value( self.cb_backup_time.get_active_iter(), 1 ), self.profile_id )
 		self.config.set_automatic_backup_day( self.store_backup_day.get_value( self.cb_backup_day.get_active_iter(), 1 ), self.profile_id )
 		self.config.set_automatic_backup_weekday( self.store_backup_weekday.get_value( self.cb_backup_weekday.get_active_iter(), 1 ), self.profile_id )
-		self.config.set_custom_backup_time( self.cb_backup_time_custom.get_text(), self.profile_id )
+		self.config.set_custom_backup_time( self.txt_backup_time_custom.get_text(), self.profile_id )
 		
 		#auto-remove snapshots
 		self.config.set_remove_old_snapshots( 
@@ -832,7 +832,7 @@ class SettingsDialog(object):
 		self.config.set_preserve_xattr( self.cb_preserve_xattr.get_active(), self.profile_id )
 		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.get_active(), self.profile_id )
 		self.config.set_copy_links( self.cb_copy_links.get_active(), self.profile_id )
-		self.config.set_disable_debian_patch( self.cb_disable_debian_patch.get_active(), self.profile_id )
+		self.config.set_disable_chmod( self.cb_disable_chmod.get_active(), self.profile_id )
 		
 		#umount
 		if not self.config.SNAPSHOT_MODES[mode] is None:

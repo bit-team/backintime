@@ -437,8 +437,8 @@ class SettingsDialog( KDialog ):
 		self.cb_copy_links = QCheckBox( QString.fromUtf8( _( 'Copy links (dereference symbolic links)' ) ), self )
 		layout.addWidget( self.cb_copy_links )
 
-		self.cb_disable_debian_patch = QCheckBox( QString.fromUtf8( _( 'Disable \'Debian-Patch\' (chmod u+wx prev_snapshot)' ) ), self )
-		layout.addWidget( self.cb_disable_debian_patch )
+		self.cb_disable_chmod = QCheckBox( QString.fromUtf8( _( 'Don\'t make snapshot writeable before backup' ) ), self )
+		layout.addWidget( self.cb_disable_chmod )
 
 		#
 		layout.addStretch()
@@ -631,7 +631,7 @@ class SettingsDialog( KDialog ):
 		self.cb_preserve_xattr.setChecked( self.config.preserve_xattr() )
 		self.cb_copy_unsafe_links.setChecked( self.config.copy_unsafe_links() )
 		self.cb_copy_links.setChecked( self.config.copy_links() )
-		self.cb_disable_debian_patch.setChecked( self.config.disable_debian_patch() )
+		self.cb_disable_chmod.setChecked( self.config.disable_chmod() )
 
 		#update
 		#self.update_include_columns()
@@ -705,7 +705,7 @@ class SettingsDialog( KDialog ):
 		self.config.set_preserve_xattr( self.cb_preserve_xattr.isChecked() )
 		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.isChecked() )
 		self.config.set_copy_links( self.cb_copy_links.isChecked() )
-		self.config.set_disable_debian_patch( self.cb_disable_debian_patch.isChecked() )
+		self.config.set_disable_chmod( self.cb_disable_chmod.isChecked() )
 
 	def error_handler( self, message ):
 		KMessageBox.error( self, QString.fromUtf8( message ) )

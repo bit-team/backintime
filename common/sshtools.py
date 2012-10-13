@@ -32,7 +32,7 @@ class SSH(mount.MountControl):
     Mount remote path with sshfs. The real take_snapshot process will use
     rsync over ssh. Other commands run remote over ssh.
     """
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = None, **kwargs):
+    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, **kwargs):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
