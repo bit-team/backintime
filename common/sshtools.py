@@ -21,11 +21,14 @@
 import os
 import grp
 import subprocess
+import gettext
 from time import sleep
 
 import config
-import logger
 import mount
+import logger
+
+_=gettext.gettext
 
 class SSH(mount.MountControl):
     """
@@ -74,18 +77,18 @@ class SSH(mount.MountControl):
         try:
             subprocess.check_call(sshfs)
         except subprocess.CalledProcessError as ex:
-            raise mount.MountException('Can\'t mount %s' % ' '.join(sshfs))
+            raise mount.MountException( _('Can\'t mount %s') % ' '.join(sshfs))
         
     def _umount(self):
         """umount the service"""
         try:
             subprocess.check_call(['fusermount', '-u', self.mountpoint])
         except subprocess.CalledProcessError as ex:
-            raise mount.MountException('Can\'t unmount sshfs %s' % self.mountpoint)
+            raise mount.MountException( _('Can\'t unmount sshfs %s') % self.mountpoint)
         
     def pre_mount_check(self):
         """check what ever conditions must be given for the mount to be done successful
-           raise MountException('Error discription') if service can not mount
+           raise MountException( _('Error discription') ) if service can not mount
            return True if everything is okay
            all pre|post_[u]mount_check can also be used to prepare things or clean up"""
         self.check_fuse()
@@ -97,27 +100,27 @@ class SSH(mount.MountControl):
         
     def post_mount_check(self):
         """check if mount was successful
-           raise MountException('Error discription') if not"""
+           raise MountException( _('Error discription') ) if not"""
         return True
         
     def pre_umount_check(self):
         """check if service is safe to umount
-           raise MountException('Error discription') if not"""
+           raise MountException( _('Error discription') ) if not"""
         return True
         
     def post_umount_check(self):
         """check if umount successful
-           raise MountException('Error discription') if not"""
+           raise MountException( _('Error discription') ) if not"""
         return True
         
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""
         if not self.pathexists('sshfs'):
-            raise mount.MountException('sshfs not found. Please install e.g. \'apt-get install sshfs\'')
+            raise mount.MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
         user = self.config.get_user()
         fuse_grp_members = grp.getgrnam('fuse')[3]
         if not user in fuse_grp_members:
-            raise mount.MountException('%s is not member of group \'fuse\'. Run \'adduser %s fuse\' as root and relogin user.' % (user, user))
+            raise mount.MountException( _('%s is not member of group \'fuse\'.\n Run \'adduser %s fuse\' as root and relogin user.') % (user, user))
         
     def pathexists(self, filename):
         """Checks if 'filename' is present in the system PATH.
@@ -137,7 +140,7 @@ class SSH(mount.MountControl):
             subprocess.check_call(['ssh', '-o', 'PreferredAuthentications=publickey', \
                                    self.user + '@' + self.host, 'echo', '"Hello"'], stdout=open(os.devnull, 'w'))
         except subprocess.CalledProcessError:
-            raise mount.MountException('Passwordless authentication for %s@%s failed. Please follow http://www.debian-administration.org/articles/152'  % (self.user, self.host))
+            raise mount.MountException( _('Passwordless authentication for %s@%s failed. Please follow:\n http://www.debian-administration.org/articles/152')  % (self.user, self.host))
         
     def check_cipher(self):
         """check if both host and localhost support cipher"""
@@ -147,7 +150,7 @@ class SSH(mount.MountControl):
             ssh.extend([self.user + '@' + self.host, 'echo', '"Hello"'])
             err = subprocess.Popen(ssh, stdout=open(os.devnull, 'w'), stderr=subprocess.PIPE).communicate()[1]
             if err:
-                raise mount.MountException('Cipher %s failed for %s:\n%s'  % (self.cipher, self.host, err))
+                raise mount.MountException( _('Cipher %s failed for %s:\n%s')  % (self.cipher, self.host, err))
             
     def benchmark_cipher(self, size = '40'):
         import tempfile
@@ -169,25 +172,34 @@ class SSH(mount.MountControl):
         """check ssh_known_hosts"""
         output = subprocess.Popen(['ssh-keygen', '-F', self.host], stdout=subprocess.PIPE).communicate()[0] #subprocess.check_output doesn't exist in Python 2.6 (Debian squeeze default)
         if output.find('Host %s found' % self.host) < 0:
-            raise mount.MountException('%s not found in ssh_known_hosts.' % self.host)
+            raise mount.MountException( _('%s not found in ssh_known_hosts.') % self.host)
         
     def check_remote_folder(self):
         """check if remote folder exists and is write- and executable.
            Create folder if it doesn't exist."""
-        cmd  = '[[ -a %s ]] || mkdir %s; err=$?; [[ $err -ne 0 ]] && exit $err;' % (self.path, self.path)
-        cmd += '[[ -d %s ]] || exit 11;' % self.path
-        cmd += '[[ -w %s ]] || exit 12;' % self.path
-        cmd += '[[ -x %s ]] || exit 13;' % self.path
-        cmd += 'exit 0'
+        cmd  = 'd=0;'
+        cmd += '[[ -a %s ]] || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
+        cmd += '[[ $d -eq 1 ]] && mkdir %s; err=$?;' % self.path #create path, get errorcode from mkdir
+        cmd += '[[ $d -eq 1 ]] && exit $err;'                    #return errorcode from mkdir
+        cmd += '[[ -d %s ]] || exit 11;' % self.path #path is no directory
+        cmd += '[[ -w %s ]] || exit 12;' % self.path #path is not writeable
+        cmd += '[[ -x %s ]] || exit 13;' % self.path #path is not executable
+        cmd += 'exit 20'                             #everything is fine
         try:
             subprocess.check_call(['ssh', self.user + '@' + self.host, cmd], stdout=open(os.devnull, 'w'))
         except subprocess.CalledProcessError as ex:
-            if ex.returncode == 11:
-                raise mount.MountException('Remote path exists but is not a directory:\n %s' % self.path)
+            if ex.returncode == 20:
+                #clean exit
+                pass
+            elif ex.returncode == 11:
+                raise mount.MountException( _('Remote path exists but is not a directory:\n %s') % self.path)
             elif ex.returncode == 12:
-                raise mount.MountException('Remote path is not writeable:\n %s' % self.path)
+                raise mount.MountException( _('Remote path is not writeable:\n %s') % self.path)
             elif ex.returncode == 13:
-                raise mount.MountException('Remote path is not executable:\n %s' % self.path)
+                raise mount.MountException( _('Remote path is not executable:\n %s') % self.path)
             else:
-                raise mount.MountException('Couldn\'t create remote path:\n %s' % self.path)
+                raise mount.MountException( _('Couldn\'t create remote path:\n %s') % self.path)
+        else:
+            #returncode is 0
+            logger.info('Create remote folder %s' % self.path)
             

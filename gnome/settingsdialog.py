@@ -235,7 +235,17 @@ class SettingsDialog(object):
 		self.store_exclude = gtk.ListStore( str, str )
 		self.list_exclude.set_model( self.store_exclude )
 
-		get( 'lbl_highly_recommended_excluded' ).set_text( ', '.join(self.config.DEFAULT_EXCLUDE) )
+		exclude = ''
+		i = 1
+		prev_lines = 0
+		for ex in self.config.DEFAULT_EXCLUDE:
+			exclude += ex
+			if i < len(self.config.DEFAULT_EXCLUDE):
+				exclude += ', '
+			if len(exclude)-prev_lines > 80:
+				exclude += '\n'
+				prev_lines += len(exclude)
+		get( 'lbl_highly_recommended_excluded' ).set_text( exclude )
 
 		#setup automatic backup mode
 		self.cb_backup_mode = get( 'cb_backup_mode' )
@@ -517,7 +527,7 @@ class SettingsDialog(object):
 		
 		#set current folder
 		#self.fcb_where.set_filename( self.config.get_snapshots_path() )
-		self.edit_where.set_text( self.config.get_snapshots_path( self.profile_id, mode = self.mode ) )
+		self.edit_where.set_text( self.config.get_snapshots_path( self.profile_id, mode = 'local' ) )
 		self.cb_auto_host_user_profile.set_active( self.config.get_auto_host_user_profile( self.profile_id ) )
 		host, user, profile = self.config.get_host_user_profile( self.profile_id )
 		self.txt_host.set_text( host )
@@ -777,7 +787,7 @@ class SettingsDialog(object):
 		#ok let's save to config
 		self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.get_active(), self.profile_id )
 		self.config.set_host_user_profile( self.txt_host.get_text(), self.txt_user.get_text(), self.txt_profile.get_text(), self.profile_id )
-		self.config.set_snapshots_path( snapshots_path, self.profile_id )
+		self.config.set_snapshots_path( snapshots_path, self.profile_id , mode)
 		
 		self.config.set_snapshots_mode(mode, self.profile_id)
 		

@@ -76,7 +76,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
 
-	DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ), '.dropbox*', '/proc', '/sys', '/dev' ]
+	DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ), '.dropbox*', '/proc', '/sys', '/dev' , '/tmp/backintime']
 	
 	SNAPSHOT_MODES = {
 				#mode : (<mounttools>, _('ComboBox Text') ),
@@ -312,7 +312,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			host, user, profile = self.get_host_user_profile( profile_id )
 			return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile ) 
 
-	def set_snapshots_path( self, value, profile_id = None ):
+	def set_snapshots_path( self, value, profile_id = None, mode = None ):
 		"""Sets the snapshot path to value, initializes, and checks it"""
 		if len( value ) <= 0:
 			return False
@@ -322,6 +322,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 		#	tjoep
 		#	return False
 			profile_id = self.get_current_profile()
+			
+		if mode is None:
+			mode = self.get_snapshots_mode( profile_id )
 
 		if not os.path.isdir( value ):
 			self.notify_error( _( '%s is not a folder !' ) % value )
@@ -356,7 +359,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return False
 		
 		os.rmdir( check_path )
-		self.set_profile_str_value( 'snapshots.path', value, profile_id )
+		if self.SNAPSHOT_MODES[mode][0] is None:
+			self.set_profile_str_value( 'snapshots.path', value, profile_id )
 		return True
 		
 	def get_snapshots_mode( self, profile_id = None ):

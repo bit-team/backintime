@@ -22,11 +22,14 @@ import os
 import subprocess
 import socket
 import json
+import gettext
 from zlib import crc32
 from time import sleep
 
 import config
 import logger
+
+_=gettext.gettext
 
 class MountException(Exception):
     pass
@@ -168,7 +171,7 @@ class MountControl(object):
                 if not self.compare_umount_info():
                     #We probably have a hash collision
                     self.config.increment_hash_collision()
-                    raise HashCollision('Hash collision occurred in <hash_id> %s. Incrementing global value <hash_collision> and try again.' % self.hash_id)
+                    raise HashCollision( _('Hash collision occurred in <hash_id> %s. Incrementing global value <hash_collision> and try again.') % self.hash_id)
                 logger.info('Mountpoint %s is already mounted' % self.mountpoint)
             else:
                 if check:
@@ -219,7 +222,7 @@ class MountControl(object):
             subprocess.check_call(['mountpoint', self.mountpoint], stdout=open(os.devnull, 'w'))
         except subprocess.CalledProcessError:
             if len(os.listdir(self.mountpoint)) > 0:
-                raise MountException('mountpoint %s not empty.' % self.mountpoint)
+                raise MountException( _('mountpoint %s not empty.') % self.mountpoint)
             return False
         else:
             return True
@@ -261,7 +264,7 @@ class MountControl(object):
         while self.check_locks(lock_path, lock_suffix):
             count += 1
             if count == timeout:
-                raise MountException('mountprocess lock timeout')
+                raise MountException( _('Mountprocess lock timeout') )
             sleep(1)
             
         with open(os.path.join(lock_path, lock), 'w') as f:

@@ -18,12 +18,12 @@
 ##OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ##SOFTWARE.
 
-import os
-import subprocess
+import gettext
 
 import config
-import logger
 import mount
+
+_=gettext.gettext
 
 class Dummy(mount.MountControl):
     """
@@ -87,23 +87,23 @@ class Dummy(mount.MountControl):
         
     def pre_mount_check(self):
         """check what ever conditions must be given for the mount to be done successful
-           raise MountException('Error discription') if service can not mount
+           raise MountException( _('Error discription') ) if service can not mount
            return True if everything is okay
            all pre|post_[u]mount_check can also be used to prepare things or clean up"""
         return True
         
     def post_mount_check(self):
         """check if mount was successful
-           raise MountException('Error discription') if not"""
+           raise MountException( _('Error discription') ) if not"""
         return True
         
     def pre_umount_check(self):
         """check if service is safe to umount
-           raise MountException('Error discription') if not"""
+           raise MountException( _('Error discription') ) if not"""
         return True
         
     def post_umount_check(self):
         """check if umount successful
-           raise MountException('Error discription') if not"""
+           raise MountException( _('Error discription') ) if not"""
         return True
         
