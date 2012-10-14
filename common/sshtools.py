@@ -61,6 +61,7 @@ class SSH(mount.MountControl):
             
         self.set_default_args()
             
+        self.symlink_subfolder = None
         self.user_host_path = '%s@%s:%s' % (self.user, self.host, self.path)
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
         

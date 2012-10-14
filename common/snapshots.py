@@ -27,6 +27,7 @@ import bz2
 import pwd
 import grp
 import socket
+import subprocess
 
 import config
 import configfile
@@ -1069,14 +1070,8 @@ class Snapshots:
 			#self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
 			#self._execute( "chmod -R u+rwx \"%s\"" %  new_snapshot_path )
 			if not self.config.disable_chmod(): 
-				if not ssh:
-					self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
-				else:
-					self._execute( cmd_ssh + '\'find \"%s\" -type d -exec chmod u+wx \"{}\" \\;\'' % new_snapshot_path_ssh ) #Debian patch
-			if not ssh:
-				self._execute( "rm -rf \"%s\"" % new_snapshot_path )
-			else:
-				self._execute( cmd_ssh + "rm -rf \"%s\"" % new_snapshot_path_ssh )
+				self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
+			self._execute( "rm -rf \"%s\"" % new_snapshot_path )
 		
 			if os.path.exists( new_snapshot_path ):
 				logger.error( "Can't remove folder: %s" % new_snapshot_path )
@@ -1281,16 +1276,38 @@ class Snapshots:
 		logger.info( 'Save permissions' )
 		self.set_take_snapshot_message( 0, _('Save permission ...') )
 
-		fileinfo = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' ) #TODO: if mount use tmp file and cp when done
+		fileinfo = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' )
 		path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' )
 		fileinfo_dict = {}
 
-		for path, dirs, files in os.walk( path_to_explore ): #TODO: may be faster with find over ssh?
-			dirs.extend( files )
-			for item in dirs:
-				item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-				fileinfo_dict[item_path] = 1
-				self._save_path_info( fileinfo, item_path )
+		permission_done = False
+		if ssh:
+			path_to_explore_ssh = self.get_snapshot_path_to_ssh( new_snapshot_id ).rstrip( '/' )
+			cmd = ['ssh', '-p', str(ssh_port)]
+			if not ssh_cipher == 'default':
+				cmd.extend(['-c', ssh_cipher])
+			cmd.extend(['%s@%s' % (ssh_user, ssh_host)])
+			cmd.extend(['find', path_to_explore_ssh, '-name', '\*', '-print'])
+			
+			find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+			output, err = find.communicate()
+			if len(err) > 0:
+				logger.warning('Save permission over ssh failed. Retry normal methode')
+			else:
+				for line in output.split('\n'):
+					if not len(line) == 0:
+						item_path = line[ len( path_to_explore_ssh ) : ]
+						fileinfo_dict[item_path] = 1
+						self._save_path_info( fileinfo, item_path )
+				permission_done = True
+				
+		if not permission_done:
+			for path, dirs, files in os.walk( path_to_explore ):
+				dirs.extend( files )
+				for item in dirs:
+					item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
+					fileinfo_dict[item_path] = 1
+					self._save_path_info( fileinfo, item_path )
 
 		# We now copy on forehand, so copying afterwards is not necessary anymore
 		##copy ignored folders

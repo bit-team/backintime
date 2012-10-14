@@ -68,6 +68,10 @@ class Dummy(mount.MountControl):
         self.setattr_kwargs('port', self.config.get_dummy_port(self.profile_id), **kwargs)
             
         self.set_default_args()
+        
+        #if self.mountpoint is not the remote snapshot path you can specify
+        #a subfolder of self.mountpoint for the symlink
+        self.symlink_subfolder = None
             
         self.log_command = '%s: %s@%s' % (self.mode, self.user, self.host)
         

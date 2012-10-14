@@ -748,6 +748,9 @@ class SettingsDialog(object):
 ##		dummy_port = self.txt_dummy_port.get_text()
 ##		dummy_user = self.txt_dummy_user.get_text()
 ##		if mode == 'dummy':
+##			#values must have exactly the same Type (str, int or bool) 
+##			#as they are set in config or you will run into false-positive
+##			#HashCollision warnings
 ##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
 			
 		if not self.config.SNAPSHOT_MODES[mode] is None:

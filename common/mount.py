@@ -201,7 +201,10 @@ class MountControl(object):
                         self.pre_umount_check()
                         self._umount()
                         self.post_umount_check()
-                        logger.info('unmount %s from %s' % (self.log_command, self.mountpoint))
+                        if len(os.listdir(self.mountpoint)) > 0:
+                            logger.warning('Mountpoint %s not empty after unmount' % self.mountpoint)
+                        else:
+                            logger.info('unmount %s from %s' % (self.log_command, self.mountpoint))
         except Exception:
             raise
         else:
@@ -322,7 +325,11 @@ class MountControl(object):
             if self.check_process_alive(lock_pid):
                 return True
             else:
+                #clean up
                 os.remove(os.path.join(path, file))
+                for symlink in os.listdir(self.mount_user_path):
+                    if symlink.endswith('_%s' % lock_pid):
+                        os.remove(os.path.join(self.mount_user_path, symlink))
         return False
             
     def setattr_kwargs(self, arg, default, **kwargs):
@@ -374,17 +381,27 @@ class MountControl(object):
             return self.compare_umount_info(self.get_umount_info(old_hash_id))
         return False
         
-    def set_symlink(self, profile_id = None, hash_id = None):
+    def set_symlink(self, profile_id = None, hash_id = None, tmp_mount = None):
         if profile_id is None:
             profile_id = self.profile_id
-        dst = self.config.get_snapshots_path(profile_id = profile_id, mode = self.mode, tmp_mount = self.tmp_mount)
-        src = self.get_mountpoint(hash_id)
+        if hash_id is None:
+            hash_id = self.hash_id
+        if tmp_mount is None:
+            tmp_mount = self.tmp_mount
+        dst = self.config.get_snapshots_path(profile_id = profile_id, mode = self.mode, tmp_mount = tmp_mount)
+        mountpoint = self.get_mountpoint(hash_id)
+        if self.symlink_subfolder is None:
+            src = mountpoint
+        else:
+            src = os.path.join(mountpoint, self.symlink_subfolder)
         os.symlink(src, dst)
         
-    def remove_symlink(self, profile_id = None):
+    def remove_symlink(self, profile_id = None, tmp_mount = None):
         if profile_id is None:
             profile_id = self.profile_id
-        os.remove(self.config.get_snapshots_path(profile_id = profile_id, mode = self.mode, tmp_mount = self.tmp_mount))
+        if tmp_mount is None:
+            tmp_mount = self.tmp_mount
+        os.remove(self.config.get_snapshots_path(profile_id = profile_id, mode = self.mode, tmp_mount = tmp_mount))
         
     def hash(self, str):
         """return a hex crc32 hash of str"""
