@@ -91,6 +91,7 @@ class SSH(mount.MountControl):
            raise MountException( _('Error discription') ) if service can not mount
            return True if everything is okay
            all pre|post_[u]mount_check can also be used to prepare things or clean up"""
+        self.check_ping_host()
         self.check_fuse()
         self.check_known_hosts()
         self.check_login()
@@ -203,3 +204,8 @@ class SSH(mount.MountControl):
             #returncode is 0
             logger.info('Create remote folder %s' % self.path)
             
+    def check_ping_host(self):
+        try:
+            subprocess.check_call(['ping', '-q', '-c3', '-l3', self.host], stdout = open(os.devnull, 'w') )
+        except subprocess.CalledProcessError:
+            raise mount.MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
