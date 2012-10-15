@@ -98,6 +98,11 @@ def print_help( cfg ):
 	print '\tShow the ID of the last snapshot (and exit)'
 	print '--last-snapshot-path'
 	print '\tShow the path to the last snapshot (and exit)'
+	print '--keep-mount'
+	print '\tDon\'t unmount on exit. Only valid with'
+	print '\t--snapshots-list-path and --last-snapshot-path.'
+	print '--unmount'
+	print '\tUnmount the profile.'
 	print '--benchmark-cipher [file-size]'
 	print '\tShow a benchmark of all ciphers for ssh transfer (and exit)'
 	print '-v | --version'
@@ -115,6 +120,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 
 	skip = False
 	index = 0
+	keep_mount = False
 	
 	for arg in sys.argv[ 1 : ]:
 		index = index + 1
@@ -189,7 +195,8 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 				else:
 					for snapshot_id in list:
 						print "SnapshotPath: %s" % s.get_snapshot_path( snapshot_id )
-				_umount(cfg)
+				if not keep_mount:
+					_umount(cfg)
 			sys.exit(0)
 
 		if arg == '--last-snapshot':
@@ -216,7 +223,17 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 					print "There are no snapshots"
 				else:
 					print "SnapshotPath: %s" % s.get_snapshot_path( list[0] )
-				_umount(cfg)
+				if not keep_mount:
+					_umount(cfg)
+			sys.exit(0)
+			
+		if arg == '--keep-mount':
+			keep_mount = True
+			continue
+			
+		if arg == '--unmount':
+			_mount(cfg)
+			_umount(cfg)
 			sys.exit(0)
 
 		if arg == '--benchmark-cipher':
