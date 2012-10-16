@@ -85,7 +85,7 @@ class Dummy(mount.MountControl):
         #implement your unmountprocess here
         pass
         
-    def pre_mount_check(self):
+    def pre_mount_check(self, first_run = False):
         """check what ever conditions must be given for the mount to be done successful
            raise MountException( _('Error discription') ) if service can not mount
            return True if everything is okay

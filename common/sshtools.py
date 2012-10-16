@@ -86,17 +86,21 @@ class SSH(mount.MountControl):
         except subprocess.CalledProcessError as ex:
             raise mount.MountException( _('Can\'t unmount sshfs %s') % self.mountpoint)
         
-    def pre_mount_check(self):
+    def pre_mount_check(self, first_run = False):
         """check what ever conditions must be given for the mount to be done successful
            raise MountException( _('Error discription') ) if service can not mount
            return True if everything is okay
            all pre|post_[u]mount_check can also be used to prepare things or clean up"""
         self.check_ping_host()
-        self.check_fuse()
-        self.check_known_hosts()
+        if first_run:
+            self.check_fuse()
+            self.check_known_hosts()
         self.check_login()
-        self.check_cipher()
+        if first_run:
+            self.check_cipher()
         self.check_remote_folder()
+        if first_run:
+            self.check_remote_commands()
         return True
         
     def post_mount_check(self):
@@ -179,7 +183,7 @@ class SSH(mount.MountControl):
         """check if remote folder exists and is write- and executable.
            Create folder if it doesn't exist."""
         cmd  = 'd=0;'
-        cmd += '[[ -a %s ]] || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
+        cmd += '[[ -e %s ]] || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
         cmd += '[[ $d -eq 1 ]] && mkdir %s; err=$?;' % self.path #create path, get errorcode from mkdir
         cmd += '[[ $d -eq 1 ]] && exit $err;'                    #return errorcode from mkdir
         cmd += '[[ -d %s ]] || exit 11;' % self.path #path is no directory
@@ -209,3 +213,47 @@ class SSH(mount.MountControl):
             subprocess.check_call(['ping', '-q', '-c3', '-l3', self.host], stdout = open(os.devnull, 'w') )
         except subprocess.CalledProcessError:
             raise mount.MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
+        
+    def check_remote_commands(self):
+        """try all relevant commands for take_snapshot on remote host.
+           specialy embedded Linux devices using 'BusyBox' sometimes doesn't
+           support everything that is need to run backintime.
+           also check for hardlink-support on remote host.
+        """
+        cmd  = 'cd %s; [[ -e tmp ]] || mkdir tmp; cd tmp; touch a; ' % self.path
+        cmd += 'echo \"cp -aRl SOURCE DEST\"; cp -aRl a b; err_cp=$?; '
+        cmd += '[[ $err_cp -ne 0 ]] && exit $err_cp; '
+        cmd += 'ls -i a; ls -i b; '
+        cmd += 'echo \"chmod u+rw FILE\"; chmod u+rw a; err_chmod=$?; '
+        cmd += '[[ $err_chmod -ne 0 ]] && exit $err_chmod; '
+        cmd += 'echo \"find PATH -type f -exec chmod u-wx \"{}\" \\;\"; '
+        cmd += 'find ./ -type f -exec chmod u-wx \"{}\" \\; ; err_find=$?; '
+        cmd += '[[ $err_find -ne 0 ]] && exit $err_find; '
+        cmd += 'echo \"rm -rf PATH\"; cd ..; rm -rf tmp; err_rm=$?; '
+        cmd += '[[ $err_rm -ne 0 ]] && exit $err_rm; '
+        cmd += 'echo \"done\"'
+        output, err = subprocess.Popen(['ssh', self.user + '@' + self.host, cmd],
+                                        stdout=subprocess.PIPE, 
+                                        stderr=subprocess.PIPE).communicate()
+
+        output_split = output.split('\n')
+        if len(output_split[-1]) == 0:
+            output_split = output_split[:-1]
+        if err or not output_split[-1].startswith('done'):
+            for command in ('cp', 'chmod', 'find', 'rm'):
+                if output_split[-1].startswith(command):
+                    raise mount.MountException( _('Remote host %s doesn\'t support \'%s\':\n%s\nLook at \'man backintime\' for further instructions') % (self.host, output_split[-1], err))
+            raise mount.MountException( _('Check commands on host %s returned unknown error:\n%s\nLook at \'man backintime\' for further instructions') % (self.host, err))
+            
+        i = 1
+        inode1 = inode2 = 0
+        for line in output_split:
+            if line.startswith('cp'):
+                try:
+                    inode1 = output_split[i].split(' ')[0]
+                    inode2 = output_split[i+1].split(' ')[0]
+                except IndexError:
+                    pass
+                if not inode1 == inode2:
+                    raise mount.MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
+            i += 1

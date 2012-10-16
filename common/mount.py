@@ -86,7 +86,7 @@ class Mount(object):
             tools = mounttools(cfg = self.config, profile_id = self.profile_id, tmp_mount = self.tmp_mount, mode = mode, hash_id = hash_id, **kwargs)
             tools.umount()
         
-    def pre_mount_check(self, mode = None, **kwargs):
+    def pre_mount_check(self, mode = None, first_run = False, **kwargs):
         """called by SettingsDialog.save_profile() to check
            if settings are correct before saving"""
         if mode is None:
@@ -98,7 +98,7 @@ class Mount(object):
         else:
             mounttools = self.config.SNAPSHOT_MODES[mode][0]
             tools = mounttools(cfg = self.config, profile_id = self.profile_id, tmp_mount = self.tmp_mount, mode = mode, **kwargs)
-            return tools.pre_mount_check()
+            return tools.pre_mount_check(first_run)
         
     def remount(self, new_profile_id, mode = None, hash_id = None, **kwargs):
         """mode            <= new profile

@@ -767,7 +767,7 @@ class SettingsDialog(object):
 			#pre_mount_check
 			mnt = mount.Mount(cfg = self.config, profile_id = self.profile_id, tmp_mount = True)
 			try:
-				mnt.pre_mount_check(mode = mode, **mount_kwargs)
+				mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
 			except mount.MountException as ex:
 				self.error_handler(str(ex))
 				return False
