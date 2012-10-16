@@ -37,6 +37,7 @@ import tools
 import logger
 import snapshots
 import guiapplicationinstance
+import mount
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -318,6 +319,17 @@ class MainWindow( KMainWindow ):
 			settingsdialog.SettingsDialog( self ).update_snapshots_location()
 
 		profile_id = cfg.get_current_profile()
+		
+		#mount
+		try:
+			mnt = mount.Mount(cfg = self.config, profile_id = profile_id)
+			hash_id = mnt.mount()
+		except mount.MountException as ex:
+			KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
+			sys.exit(1)
+		else:
+			self.config.set_current_hash_id(hash_id)
+		
 		if not cfg.can_backup( profile_id ):
 			KMessageBox.error( self, QString.fromUtf8( _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') ) )
 
@@ -378,6 +390,13 @@ class MainWindow( KMainWindow ):
 		self.config.set_int_value( 'kde4.main_window.files_view.sort.column', self.list_files_view.header().sortIndicatorSection() )
 		self.config.set_bool_value( 'kde4.main_window.files_view.sort.ascending', self.list_files_view.header().sortIndicatorOrder() == Qt.AscendingOrder )
 		
+		#umount
+		try:
+			mnt = mount.Mount(cfg = self.config)
+			mnt.umount(self.config.current_hash_id)
+		except mount.MountException as ex:
+			KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
+			
 		self.config.save()
 
 		event.accept()
@@ -419,8 +438,18 @@ class MainWindow( KMainWindow ):
 			return
 		
 		if profile_id != self.config.get_current_profile():
+			self.remount(profile_id, self.config.get_current_profile())
 			self.config.set_current_profile( profile_id )
 			self.update_profile()
+			
+	def remount( self, new_profile_id, old_profile_id):
+		try:
+			mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id)
+			hash_id = mnt.remount(new_profile_id)
+		except mount.MountException as ex:
+			KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
+		else:
+			self.config.set_current_hash_id(hash_id)
 
 	def get_default_startup_folder_and_file( self ):
 		last_path = self.config.get_str_value( 'gnome.last_path', '' )
@@ -779,6 +808,8 @@ class MainWindow( KMainWindow ):
 
 	def on_btn_settings_clicked( self ):
 		if QDialog.Accepted == settingsdialog.SettingsDialog( self ).exec_():
+			profile_id = self.config.get_current_profile()
+			self.remount(profile_id, profile_id)
 			self.update_profiles()
 
 	def on_btn_about_clicked( self ):
