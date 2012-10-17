@@ -171,7 +171,7 @@ class MountControl(object):
                 if not self.compare_umount_info():
                     #We probably have a hash collision
                     self.config.increment_hash_collision()
-                    raise HashCollision( _('Hash collision occurred in <hash_id> %s. Incrementing global value <hash_collision> and try again.') % self.hash_id)
+                    raise HashCollision( _('Hash collision occurred in hash_id %s. Incrementing global value hash_collision and try again.') % self.hash_id)
                 logger.info('Mountpoint %s is already mounted' % self.mountpoint)
             else:
                 if check:

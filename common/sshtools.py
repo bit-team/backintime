@@ -22,11 +22,15 @@ import os
 import grp
 import subprocess
 import gettext
+import string
+import random
+import tempfile
 from time import sleep
 
 import config
 import mount
 import logger
+import tools
 
 _=gettext.gettext
 
@@ -125,7 +129,7 @@ class SSH(mount.MountControl):
         user = self.config.get_user()
         fuse_grp_members = grp.getgrnam('fuse')[3]
         if not user in fuse_grp_members:
-            raise mount.MountException( _('%s is not member of group \'fuse\'.\n Run \'adduser %s fuse\' as root and relogin user.') % (user, user))
+            raise mount.MountException( _('%s is not member of group \'fuse\'.\n Run \'sudo adduser %s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % (user, user))
         
     def pathexists(self, filename):
         """Checks if 'filename' is present in the system PATH.
@@ -141,18 +145,20 @@ class SSH(mount.MountControl):
         
     def check_login(self):
         """check passwordless authentication to host"""
+        ssh = ['ssh', '-o', 'PreferredAuthentications=publickey']
+        ssh.extend(['-p', str(self.port), self.user + '@' + self.host])
+        ssh.extend(['echo', '"Hello"'])
         try:
-            subprocess.check_call(['ssh', '-o', 'PreferredAuthentications=publickey', \
-                                   self.user + '@' + self.host, 'echo', '"Hello"'], stdout=open(os.devnull, 'w'))
+            subprocess.check_call(ssh, stdout=open(os.devnull, 'w'))
         except subprocess.CalledProcessError:
-            raise mount.MountException( _('Passwordless authentication for %s@%s failed. Please follow:\n http://www.debian-administration.org/articles/152')  % (self.user, self.host))
+            raise mount.MountException( _('Password-less authentication for %s@%s failed. Look at \'man backintime\' for further instructions.')  % (self.user, self.host))
         
     def check_cipher(self):
         """check if both host and localhost support cipher"""
         if not self.cipher == 'default':
             ssh = ['ssh']
             ssh.extend(['-o', 'Ciphers=%s' % self.cipher])
-            ssh.extend([self.user + '@' + self.host, 'echo', '"Hello"'])
+            ssh.extend(['-p', str(self.port), self.user + '@' + self.host, 'echo', '"Hello"'])
             err = subprocess.Popen(ssh, stdout=open(os.devnull, 'w'), stderr=subprocess.PIPE).communicate()[1]
             if err:
                 raise mount.MountException( _('Cipher %s failed for %s:\n%s')  % (self.cipher, self.host, err))
@@ -169,7 +175,7 @@ class SSH(mount.MountControl):
                 continue
             print('%s:' % cipher)
             for i in range(2):
-                subprocess.call(['scp', '-c', cipher, temp, self.user_host_path])
+                subprocess.call(['scp', '-p', str(self.port), '-c', cipher, temp, self.user_host_path])
         subprocess.call(['ssh', '%s@%s' % (self.user, self.host), 'rm', os.path.join(self.path, os.path.basename(temp))])
         os.remove(temp)
         
@@ -191,7 +197,7 @@ class SSH(mount.MountControl):
         cmd += '[[ -x %s ]] || exit 13;' % self.path #path is not executable
         cmd += 'exit 20'                             #everything is fine
         try:
-            subprocess.check_call(['ssh', self.user + '@' + self.host, cmd], stdout=open(os.devnull, 'w'))
+            subprocess.check_call(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd], stdout=open(os.devnull, 'w'))
         except subprocess.CalledProcessError as ex:
             if ex.returncode == 20:
                 #clean exit
@@ -220,25 +226,64 @@ class SSH(mount.MountControl):
            support everything that is need to run backintime.
            also check for hardlink-support on remote host.
         """
-        cmd  = 'cd %s; [[ -e tmp ]] || mkdir tmp; cd tmp; touch a; ' % self.path
-        cmd += 'echo \"cp -aRl SOURCE DEST\"; cp -aRl a b; err_cp=$?; '
-        cmd += '[[ $err_cp -ne 0 ]] && exit $err_cp; '
-        cmd += 'ls -i a; ls -i b; '
-        cmd += 'echo \"chmod u+rw FILE\"; chmod u+rw a; err_chmod=$?; '
-        cmd += '[[ $err_chmod -ne 0 ]] && exit $err_chmod; '
+        #check rsync
+        tmp_file = tempfile.mkstemp()[1]
+        rsync = tools.get_rsync_prefix( self.config ) + ' --dry-run --chmod=Du+wx %s ' % tmp_file
+        
+        if self.cipher == 'default':
+            ssh_cipher_suffix = ''
+        else:
+            ssh_cipher_suffix = '-c %s' % self.cipher
+        rsync += '--rsh="ssh -p %s %s" ' % ( str(self.port), ssh_cipher_suffix)
+        rsync += '"%s@%s:%s"' % (self.user, self.host, self.path)
+            
+        #use os.system for compatiblity with snapshots.py
+        err = os.system(rsync)
+        if err:
+            os.remove(tmp_file)
+            raise mount.MountException( _('Remote host %s doesn\'t support \'%s\':\n%s\nLook at \'man backintime\' for further instructions') % (self.host, rsync, err))
+        os.remove(tmp_file)
+            
+        #check cp chmod find and rm
+        remote_tmp_dir = os.path.join(self.path, 'tmp_%s' % self.random_id())
+        cmd  = 'tmp=%s ; ' % remote_tmp_dir
+        #first define a function to clean up and exit
+        cmd += 'cleanup(){ '
+        cmd += '[[ -e $tmp/a ]] && rm $tmp/a; '
+        cmd += '[[ -e $tmp/b ]] && rm $tmp/b; '
+        cmd += '[[ -e $tmp ]] && rmdir $tmp; '
+        cmd += 'exit $1; }; '
+        #create tmp_RANDOM dir and file a
+        cmd += '[[ -e $tmp ]] || mkdir $tmp; touch $tmp/a; '
+        #try to create hardlink b from a
+        cmd += 'echo \"cp -aRl SOURCE DEST\"; cp -aRl $tmp/a $tmp/b; err_cp=$?; '
+        cmd += '[[ $err_cp -ne 0 ]] && cleanup $err_cp; '
+        #list inodes of a and b
+        cmd += 'ls -i $tmp/a; ls -i $tmp/b; '
+        #try to chmod
+        cmd += 'echo \"chmod u+rw FILE\"; chmod u+rw $tmp/a; err_chmod=$?; '
+        cmd += '[[ $err_chmod -ne 0 ]] && cleanup $err_chmod; '
+        #try to find and chmod
         cmd += 'echo \"find PATH -type f -exec chmod u-wx \"{}\" \\;\"; '
-        cmd += 'find ./ -type f -exec chmod u-wx \"{}\" \\; ; err_find=$?; '
-        cmd += '[[ $err_find -ne 0 ]] && exit $err_find; '
-        cmd += 'echo \"rm -rf PATH\"; cd ..; rm -rf tmp; err_rm=$?; '
-        cmd += '[[ $err_rm -ne 0 ]] && exit $err_rm; '
+        cmd += 'find $tmp -type f -exec chmod u-wx \"{}\" \\; ; err_find=$?; '
+        cmd += '[[ $err_find -ne 0 ]] && cleanup $err_find; '
+        #try to rm -rf
+        cmd += 'echo \"rm -rf PATH\"; cd ..; rm -rf $tmp; err_rm=$?; '
+        cmd += '[[ $err_rm -ne 0 ]] && cleanup $err_rm; '
+        #if we end up here, everything should be fine
         cmd += 'echo \"done\"'
-        output, err = subprocess.Popen(['ssh', self.user + '@' + self.host, cmd],
+        output, err = subprocess.Popen(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd],
                                         stdout=subprocess.PIPE, 
                                         stderr=subprocess.PIPE).communicate()
-
+            
+##        print('ERROR: %s' % err)
+##        print('OUTPUT: %s' % output)
         output_split = output.split('\n')
-        if len(output_split[-1]) == 0:
-            output_split = output_split[:-1]
+        while True:
+            if len(output_split) > 0 and len(output_split[-1]) == 0:
+                output_split = output_split[:-1]
+            else:
+                break
         if err or not output_split[-1].startswith('done'):
             for command in ('cp', 'chmod', 'find', 'rm'):
                 if output_split[-1].startswith(command):
@@ -257,3 +302,6 @@ class SSH(mount.MountControl):
                 if not inode1 == inode2:
                     raise mount.MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
             i += 1
+        
+    def random_id(self, size=6, chars=string.ascii_uppercase + string.digits):
+        return ''.join(random.choice(chars) for x in range(size))
