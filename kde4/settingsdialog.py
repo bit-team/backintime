@@ -765,9 +765,9 @@ class SettingsDialog( KDialog ):
 			
 		if not self.config.SNAPSHOT_MODES[mode] is None:
 			#pre_mount_check
-			mnt = mount.Mount(cfg = self.config, first_run = True, tmp_mount = True)
+			mnt = mount.Mount(cfg = self.config, tmp_mount = True)
 			try:
-				mnt.pre_mount_check(mode = mode, **mount_kwargs)
+				mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
 			except mount.MountException as ex:
 				self.error_handler(str(ex))
 				return False

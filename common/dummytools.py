@@ -29,7 +29,7 @@ class Dummy(mount.MountControl):
     """
     This is a template for mounting services. For simple mount services
     all you need to do is:
-    - add your settings in gnome/settingsdialog.py (search for the dummy examples)
+    - add your settings in gnome|kde/settingsdialog.py (search for the dummy examples)
     - add settings in gnome/settingsdialog.glade (copy GtkFrame 'mode_dummy')
     - add settings in common/config.py (search for the dummy examples)
     - modify a copy of this file
