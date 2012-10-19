@@ -371,7 +371,6 @@ class SettingsDialog(object):
 		self.cb_preserve_xattr = get('cb_preserve_xattr')
 		self.cb_copy_unsafe_links = get('cb_copy_unsafe_links')
 		self.cb_copy_links = get('cb_copy_links')
-		self.cb_disable_chmod = get('cb_disable_chmod')
 		
 		#don't run when on battery
 		self.cb_no_on_battery = get( 'cb_no_on_battery' )
@@ -705,7 +704,6 @@ class SettingsDialog(object):
 		self.cb_preserve_xattr.set_active(self.config.preserve_xattr( self.profile_id ))
 		self.cb_copy_unsafe_links.set_active(self.config.copy_unsafe_links( self.profile_id ))
 		self.cb_copy_links.set_active(self.config.copy_links( self.profile_id ))
-		self.cb_disable_chmod.set_active(self.config.disable_chmod( self.profile_id ))
 		
 		#check for changes
 		self.cb_check_for_changes.set_active( self.config.check_for_changes( self.profile_id ) )
@@ -741,6 +739,11 @@ class SettingsDialog(object):
 			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
 			iter = self.store_exclude.iter_next( iter )
 			
+		if self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) == self.config.CUSTOM_HOUR:
+			if not tools.check_cron_pattern(self.txt_backup_time_custom.get_text()):
+				self.error_handler( _('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours') )
+				return False
+
 		mount_kwargs = {}
 		
 		#ssh settings
@@ -763,7 +766,7 @@ class SettingsDialog(object):
 ##			#HashCollision warnings
 ##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
 			
-		if not self.config.SNAPSHOT_MODES[mode] is None:
+		if not self.config.SNAPSHOT_MODES[mode][0] is None:
 			#pre_mount_check
 			mnt = mount.Mount(cfg = self.config, profile_id = self.profile_id, tmp_mount = True)
 			try:
@@ -856,10 +859,9 @@ class SettingsDialog(object):
 		self.config.set_preserve_xattr( self.cb_preserve_xattr.get_active(), self.profile_id )
 		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.get_active(), self.profile_id )
 		self.config.set_copy_links( self.cb_copy_links.get_active(), self.profile_id )
-		self.config.set_disable_chmod( self.cb_disable_chmod.get_active(), self.profile_id )
 		
 		#umount
-		if not self.config.SNAPSHOT_MODES[mode] is None:
+		if not self.config.SNAPSHOT_MODES[mode][0] is None:
 			try:
 				mnt.umount(hash_id = hash_id)
 			except mount.MountException as ex:

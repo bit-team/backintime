@@ -319,7 +319,7 @@ class MountControl(object):
             if os.path.basename(file)[-len(lock_suffix)-len('.tmp'):-len(lock_suffix)] == '.tmp':
                 is_tmp = True
             if is_tmp:
-                lock_pid = os.path.basename(file)[:-len('tmp')-len(lock_suffix)]
+                lock_pid = os.path.basename(file)[:-len('.tmp')-len(lock_suffix)]
             else:
                 lock_pid = os.path.basename(file)[:-len(lock_suffix)]
             if lock_pid == self.pid:

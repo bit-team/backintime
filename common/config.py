@@ -634,7 +634,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_int_value( 'snapshots.automatic_backup_weekday', value, profile_id )
 
 	def get_custom_backup_time( self, profile_id = None ):
-		return self.get_profile_str_value( 'snapshots.custom_backup_time', '0,10,13,15,17,20,23', profile_id )
+		return self.get_profile_str_value( 'snapshots.custom_backup_time', '8,12,18,23', profile_id )
 
 	def set_custom_backup_time( self, value, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.custom_backup_time', value, profile_id )
@@ -785,12 +785,6 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def set_copy_links( self, value, profile_id = None ):
 		return self.set_profile_bool_value( 'snapshots.copy_links', value, profile_id )
-
-	def disable_chmod( self, profile_id = None ):
-		return self.get_profile_bool_value( 'snapshots.disable_chmod', False, profile_id )
-
-	def set_disable_chmod( self, value, profile_id = None ):
-		return self.set_profile_bool_value( 'snapshots.disable_chmod', value, profile_id )
 
 	def continue_on_errors( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.continue_on_errors', True, profile_id )

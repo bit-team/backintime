@@ -288,10 +288,10 @@ class SettingsDialog( KDialog ):
 		self.lbl_automatic_snapshots_time_custom = QLabel( QString.fromUtf8( _( 'Hours:' ) ), self )
 		self.lbl_automatic_snapshots_time_custom.setContentsMargins( 5, 0, 0, 0 )
 		self.lbl_automatic_snapshots_time_custom.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
-		hlayout.addWidget( self.lbl_automatic_snapshots_time_custom )
+		glayout.addWidget( self.lbl_automatic_snapshots_time_custom, 4, 0 )
 
 		self.txt_automatic_snapshots_time_custom = KLineEdit( self )
-		hlayout.addWidget( self.txt_automatic_snapshots_time_custom, 1 )
+		glayout.addWidget( self.txt_automatic_snapshots_time_custom, 4, 1 )
 
 		QObject.connect( self.combo_automatic_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_automatic_snapshot_changed )
 
@@ -522,9 +522,6 @@ class SettingsDialog( KDialog ):
 		self.cb_copy_links = QCheckBox( QString.fromUtf8( _( 'Copy links (dereference symbolic links)' ) ), self )
 		layout.addWidget( self.cb_copy_links )
 
-		self.cb_disable_chmod = QCheckBox( QString.fromUtf8( _( 'Don\'t make snapshot writeable before backup' ) ), self )
-		layout.addWidget( self.cb_disable_chmod )
-
 		#
 		layout.addStretch()
 
@@ -732,7 +729,6 @@ class SettingsDialog( KDialog ):
 		self.cb_preserve_xattr.setChecked( self.config.preserve_xattr() )
 		self.cb_copy_unsafe_links.setChecked( self.config.copy_unsafe_links() )
 		self.cb_copy_links.setChecked( self.config.copy_links() )
-		self.cb_disable_chmod.setChecked( self.config.disable_chmod() )
 
 		#update
 		#self.update_include_columns()
@@ -740,9 +736,15 @@ class SettingsDialog( KDialog ):
 		self.update_min_free_space()
 
 	def save_profile( self ):
+		if self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] == self.config.CUSTOM_HOUR:
+			if not tools.check_cron_pattern(str( self.txt_automatic_snapshots_time_custom.text().toUtf8() ) ):
+				self.error_handler( _('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours') )
+				return False
+			
 		#mode
 		mode = str( self.combo_modes.itemData( self.combo_modes.currentIndex() ).toString().toUtf8() )
 		self.config.set_snapshots_mode( mode )
+		mount_kwargs = {}
 		
 		#ssh
 		ssh_host = str( self.txt_ssh_host.text().toUtf8() )
@@ -763,7 +765,7 @@ class SettingsDialog( KDialog ):
 ##			#HashCollision warnings
 ##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
 			
-		if not self.config.SNAPSHOT_MODES[mode] is None:
+		if not self.config.SNAPSHOT_MODES[mode][0] is None:
 			#pre_mount_check
 			mnt = mount.Mount(cfg = self.config, tmp_mount = True)
 			try:
@@ -863,10 +865,9 @@ class SettingsDialog( KDialog ):
 		self.config.set_preserve_xattr( self.cb_preserve_xattr.isChecked() )
 		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.isChecked() )
 		self.config.set_copy_links( self.cb_copy_links.isChecked() )
-		self.config.set_disable_chmod( self.cb_disable_chmod.isChecked() )
 		
 		#umount
-		if not self.config.SNAPSHOT_MODES[mode] is None:
+		if not self.config.SNAPSHOT_MODES[mode][0] is None:
 			try:
 				mnt.umount(hash_id = hash_id)
 			except mount.MountException as ex:
