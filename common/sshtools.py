@@ -249,26 +249,26 @@ class SSH(mount.MountControl):
         cmd  = 'tmp=%s ; ' % remote_tmp_dir
         #first define a function to clean up and exit
         cmd += 'cleanup(){ '
-        cmd += '[[ -e $tmp/a ]] && rm $tmp/a; '
-        cmd += '[[ -e $tmp/b ]] && rm $tmp/b; '
-        cmd += '[[ -e $tmp ]] && rmdir $tmp; '
+        cmd += '[[ -e $tmp/a ]] && rm $tmp/a >/dev/null 2>&1; '
+        cmd += '[[ -e $tmp/b ]] && rm $tmp/b >/dev/null 2>&1; '
+        cmd += '[[ -e $tmp ]] && rmdir $tmp >/dev/null 2>&1; '
         cmd += 'exit $1; }; '
         #create tmp_RANDOM dir and file a
         cmd += '[[ -e $tmp ]] || mkdir $tmp; touch $tmp/a; '
         #try to create hardlink b from a
-        cmd += 'echo \"cp -aRl SOURCE DEST\"; cp -aRl $tmp/a $tmp/b; err_cp=$?; '
+        cmd += 'echo \"cp -aRl SOURCE DEST\"; cp -aRl $tmp/a $tmp/b >/dev/null; err_cp=$?; '
         cmd += '[[ $err_cp -ne 0 ]] && cleanup $err_cp; '
         #list inodes of a and b
         cmd += 'ls -i $tmp/a; ls -i $tmp/b; '
         #try to chmod
-        cmd += 'echo \"chmod u+rw FILE\"; chmod u+rw $tmp/a; err_chmod=$?; '
+        cmd += 'echo \"chmod u+rw FILE\"; chmod u+rw $tmp/a >/dev/null; err_chmod=$?; '
         cmd += '[[ $err_chmod -ne 0 ]] && cleanup $err_chmod; '
         #try to find and chmod
         cmd += 'echo \"find PATH -type f -exec chmod u-wx \"{}\" \\;\"; '
-        cmd += 'find $tmp -type f -exec chmod u-wx \"{}\" \\; ; err_find=$?; '
+        cmd += 'find $tmp -type f -exec chmod u-wx \"{}\" \\; >/dev/null; err_find=$?; '
         cmd += '[[ $err_find -ne 0 ]] && cleanup $err_find; '
         #try to rm -rf
-        cmd += 'echo \"rm -rf PATH\"; cd ..; rm -rf $tmp; err_rm=$?; '
+        cmd += 'echo \"rm -rf PATH\"; rm -rf $tmp >/dev/null; err_rm=$?; '
         cmd += '[[ $err_rm -ne 0 ]] && cleanup $err_rm; '
         #if we end up here, everything should be fine
         cmd += 'echo \"done\"'
@@ -291,7 +291,8 @@ class SSH(mount.MountControl):
             raise mount.MountException( _('Check commands on host %s returned unknown error:\n%s\nLook at \'man backintime\' for further instructions') % (self.host, err))
             
         i = 1
-        inode1 = inode2 = 0
+        inode1 = 'ABC'
+        inode2 = 'DEF'
         for line in output_split:
             if line.startswith('cp'):
                 try:

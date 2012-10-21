@@ -37,7 +37,7 @@ class Dummy(mount.MountControl):
     Please use self.mountpoint as your local mountpoint.
     This class inherit from mount.MountControl. All methodes from MountControl can
     be used exactly like they were in this class.
-    Methodes from MountControl also can be overwritten in here if you need
+    Methodes from MountControl also can be overriden in here if you need
     something different."""
     def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, **kwargs):
         self.config = cfg

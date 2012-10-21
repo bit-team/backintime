@@ -873,6 +873,7 @@ class SettingsDialog( KDialog ):
 			except mount.MountException as ex:
 				self.error_handler(str(ex))
 				return False
+		return True
 
 	def error_handler( self, message ):
 		KMessageBox.error( self, QString.fromUtf8( message ) )
@@ -976,7 +977,8 @@ class SettingsDialog( KDialog ):
 				break
 
 	def validate( self ):
-		self.save_profile()
+		if not self.save_profile():
+			return False
 
 		if not self.config.check_config():
 			return False

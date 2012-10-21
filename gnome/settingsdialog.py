@@ -867,6 +867,7 @@ class SettingsDialog(object):
 			except mount.MountException as ex:
 				self.error_handler(str(ex))
 				return False
+		return True
 	
 	def update_remove_old_backups( self, button ):
 		enabled = self.cb_remove_old_backup.get_active()
@@ -1045,7 +1046,8 @@ class SettingsDialog(object):
 		self.dialog.destroy()
 	
 	def validate( self ):
-		self.save_profile()
+		if not self.save_profile():
+			return False
 		
 		if not self.config.check_config():
 			return False

@@ -183,7 +183,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 				_umount(cfg)
 			sys.exit(0)
 
-		if arg == '--snapshots-list-path': #TODO: don't umount?
+		if arg == '--snapshots-list-path':
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
@@ -212,7 +212,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 				_umount(cfg)
 			sys.exit(0)
 
-		if arg == '--last-snapshot-path': #TODO: don't umount?
+		if arg == '--last-snapshot-path':
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
