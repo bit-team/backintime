@@ -78,8 +78,13 @@ class SSH(mount.MountControl):
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
         sshfs.extend([self.user_host_path, self.mountpoint])
+        #bugfix: sshfs doesn't mount if locale in LC_ALL is not available on remote host
+        #LANG or other envirnoment variable are no problem.
+        env = os.environ.copy()
+        if 'LC_ALL' in env.keys():
+            env['LC_ALL'] = 'C'
         try:
-            subprocess.check_call(sshfs)
+            subprocess.check_call(sshfs, env = env)
         except subprocess.CalledProcessError as ex:
             raise mount.MountException( _('Can\'t mount %s') % ' '.join(sshfs))
         
