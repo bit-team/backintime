@@ -466,6 +466,18 @@ class Snapshots:
 	def restore( self, snapshot_id, path, callback = None, restore_to = '' ):
 		if restore_to.endswith('/'):
 			restore_to = restore_to[ : -1 ]
+			
+		#ssh
+		ssh = False
+		if self.config.get_snapshots_mode() == 'ssh':
+			ssh = True
+		(ssh_host, ssh_port, ssh_user, ssh_path) = self.config.get_ssh_host_port_user_path()
+		ssh_cipher = self.config.get_ssh_cipher()
+		if ssh_cipher == 'default':
+			ssh_cipher_suffix = ''
+		else:
+			ssh_cipher_suffix = '-c %s' % ssh_cipher
+		rsync_ssh_suffix = '--rsh="ssh -p %s %s" "%s@%s:' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
 
 		logger.info( "Restore: %s to: %s" % (path, restore_to) )
 
@@ -480,6 +492,8 @@ class Snapshots:
 			cmd = cmd + "--backup --suffix=%s " % backup_suffix
 		#cmd = cmd + '--chmod=+w '
 		src_base = self.get_snapshot_path_to( snapshot_id )
+		if ssh:
+			src_base = self.get_snapshot_path_to_ssh( snapshot_id )
 		src_path = path
 		src_delta = 0
 		if len(restore_to) > 0:
@@ -489,17 +503,24 @@ class Snapshots:
 			items = os.path.split(src_path)
 			aux = items[0]
 			if aux.startswith('/'):
-				aux = aux[1:]		
-			src_base = os.path.join(src_base, aux) + '/'
+				aux = aux[1:]
+			if len(aux) > 0: #bugfix: restore system root ended in <src_base>//.<src_path>
+				src_base = os.path.join(src_base, aux) + '/'
 			src_path = '/' + items[1]
-			src_delta = len(items[0])
+			if items[0] == '/':
+				src_delta = 0
+			else:
+				src_delta = len(items[0])
 	
 		#print "src_base: %s" % src_base
 		#print "src_path: %s" % src_path
 		#print "src_delta: %s" % src_delta
 		#print "snapshot_id: %s" % snapshot_id 
 	
-		cmd = cmd + "\"%s.%s\" %s" % ( src_base, src_path, restore_to + '/' )
+		if ssh:
+			cmd = cmd + rsync_ssh_suffix + "%s.%s\" %s" % ( src_base, src_path, restore_to + '/' )
+		else:
+			cmd = cmd + "\"%s.%s\" %s" % ( src_base, src_path, restore_to + '/' )
 		self.restore_callback( callback, True, cmd )
 		self._execute( cmd, callback )
 
