@@ -43,7 +43,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 	AT_EVERY_BOOT = 1
 	_5_MIN = 2
 	_10_MIN = 4
-	HOUR = 10
+	_30_MIN = 7
+	_1_HOUR = 10
+	_2_HOURS = 12
+	_4_HOURS = 14
+	_6_HOURS = 16
+	_12_HOURS = 18
 	DAY = 20
 	WEEK = 30
 	MONTH = 40
@@ -57,7 +62,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 				AT_EVERY_BOOT : _('At every boot/reboot'), 
 				_5_MIN: _('Every 5 minutes'), 
 				_10_MIN: _('Every 10 minutes'), 
-				HOUR : _('Every Hour'), 
+				_30_MIN: _('Every 30 minutes'), 
+				_1_HOUR : _('Every hour'), 
+				_2_HOURS : _('Every 2 hours'), 
+				_4_HOURS : _('Every 4 hours'), 
+				_6_HOURS : _('Every 6 hours'), 
+				_12_HOURS : _('Every 12 hours'), 
 				DAY : _('Every Day'), 
 				WEEK : _('Every Week'), 
 				MONTH : _('Every Month')
@@ -814,8 +824,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 				cron_line = 'echo "{msg}\n*/5 * * * * {cmd}"'
 			elif self._10_MIN == backup_mode:
 				cron_line = 'echo "{msg}\n*/10 * * * * {cmd}"'
-			if self.HOUR == backup_mode:
+			elif self._30_MIN == backup_mode:
+				cron_line = 'echo "{msg}\n*/30 * * * * {cmd}"'
+			elif self._1_HOUR == backup_mode:
 				cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
+			elif self._2_HOURS == backup_mode:
+				cron_line = 'echo "{msg}\n0 */2 * * * {cmd}"'
+			elif self._4_HOURS == backup_mode:
+				cron_line = 'echo "{msg}\n0 */4 * * * {cmd}"'
+			elif self._6_HOURS == backup_mode:
+				cron_line = 'echo "{msg}\n0 */6 * * * {cmd}"'
+			elif self._12_HOURS == backup_mode:
+				cron_line = 'echo "{msg}\n0 */12 * * * {cmd}"'
 			elif self.DAY == backup_mode:
 				cron_line = "echo \"{msg}\n%s %s * * * {cmd}\"" % (minute, hour)
 			elif self.WEEK == backup_mode:
