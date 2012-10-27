@@ -118,8 +118,6 @@ class MainWindow(object):
                 'on_MainWindow_delete_event' : self.on_close,
                 'on_MainWindow_key_release_event': self.on_key_release_event,
                 'on_btn_exit_clicked' : self.on_close,
-                'on_btn_help_clicked' : self.on_btn_help_clicked,
-                'on_btn_about_clicked' : self.on_btn_about_clicked,
                 'on_btn_settings_clicked' : self.on_btn_settings_clicked,
                 'on_btn_backup_clicked' : self.on_btn_backup_clicked,
                 'on_btn_update_snapshots_clicked' : self.on_btn_update_snapshots_clicked,
@@ -139,7 +137,7 @@ class MainWindow(object):
                 'on_list_folder_view_drag_data_get': self.on_list_folder_view_drag_data_get,
                 'on_list_folder_view_key_press_event' : self.on_list_folder_view_key_press_event,
                 'on_combo_profiles_changed': self.on_combo_profiles_changed,
-                'on_btn_website_clicked': self.on_btn_website_clicked,
+                'on_btn_help_clicked': self.on_help
             }
 
         builder.connect_signals(signals)
@@ -177,6 +175,19 @@ class MainWindow(object):
         #status bar
         self.status_bar = self.builder.get_object( 'status_bar' )
         self.status_bar.push( 0, _('Done') )
+
+	#help menu
+        self.help_menu = gtk.Menu()
+        self.help_menu.append(gnometools.new_menu_item(gtk.STOCK_HELP, _('Help'), self.on_help))
+        self.help_menu.append(gtk.SeparatorMenuItem())
+        self.help_menu.append(gnometools.new_menu_item(gtk.STOCK_HOME, _('Website'), self.on_website))
+        self.help_menu.append(gnometools.new_menu_item(gtk.STOCK_DIALOG_QUESTION, _('FAQ'), self.on_faq))
+        self.help_menu.append(gnometools.new_menu_item(gtk.STOCK_DIALOG_QUESTION, _('Ask a question'), self.on_ask_a_question))
+        self.help_menu.append(gnometools.new_menu_item(gtk.STOCK_DIALOG_ERROR, _('Report a bug'), self.on_report_a_bug))
+        self.help_menu.append(gtk.SeparatorMenuItem())
+        self.help_menu.append(gnometools.new_menu_item(gtk.STOCK_ABOUT, _('About'), self.on_about))
+	self.help_menu.show_all()
+	self.builder.get_object('btn_help').set_menu(self.help_menu)
 
         #restore menu
         self.restore_menu = gtk.Menu()
@@ -807,14 +818,14 @@ class MainWindow(object):
     def on_list_folder_view_popup_menu( self, list ):
         self.show_folder_view_menu_popup( list, 1, gtk.get_current_event_time() )
 
-    def add_menu_item(menu, icon, label, callback):
-        menu_item = gtk.ImageMenuItem()
-        menu_item.set_label(label)
-        menu_item.set_image(icon)
-        if not icon is None:
-            menu_item.set_always_show_image(True)
-        menu_item.connect( 'activate', callback )
-        menu.append( menu_item )
+    #def add_menu_item(menu, icon, label, callback):
+    #    menu_item = gtk.ImageMenuItem()
+    #    menu_item.set_label(label)
+    #    menu_item.set_image(icon)
+    #    if not icon is None:
+    #        menu_item.set_always_show_image(True)
+    #    menu_item.connect( 'activate', callback )
+    #    menu.append( menu_item )
 
     def show_folder_view_menu_popup( self, list, button, time ):
         iter = list.get_selection().get_selected()[1]
@@ -946,18 +957,23 @@ class MainWindow(object):
                 self.list_time_line.get_selection().select_iter( iter )
                 self.update_folder_view( 2 )
 
-    def on_btn_about_clicked( self, button ):
+    def on_about( self, *args ):
         AboutDialog( self.config, self.window ).run()
 
-    def on_help( self ):
-        gnome.help_display('backintime')
+    def on_website( self, *args ):
+        os.system( "gnome-open http://backintime.le-web.org &" )
 
-    def on_btn_help_clicked( self, button ):
-        #self.on_help()
+    def on_help( self, *args ):
         os.system( "gnome-open http://backintime.le-web.org/documentation &" )
 
-    def on_btn_website_clicked( self, button ):
-        os.system( "gnome-open http://backintime.le-web.org &" )
+    def on_report_a_bug( self, *args ):
+        os.system( "gnome-open https://bugs.launchpad.net/backintime &" )
+
+    def on_faq( self, *args ):
+        os.system( "gnome-open https://answers.launchpad.net/backintime/+faq/2116 &" )
+
+    def on_ask_a_question( self, *args ):
+        os.system( "gnome-open https://answers.launchpad.net/backintime &" )
 
     def on_key_release_event( self, widget, event ):
         if 'F1' == gtk.gdk.keyval_name( event.keyval ) and ( event.state & (gtk.gdk.CONTROL_MASK | gtk.gdk.MOD1_MASK) ) == 0:

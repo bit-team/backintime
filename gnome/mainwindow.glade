@@ -153,46 +153,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSeparatorToolItem" id="toolbutton5">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="btn_about">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">About</property>
-                <property name="use_action_appearance">False</property>
-                <property name="label" translatable="yes">About</property>
-                <property name="stock_id">gtk-about</property>
-                <signal name="clicked" handler="on_btn_about_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="btn_help">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">Help</property>
-                <property name="use_action_appearance">False</property>
-                <property name="label" translatable="yes">Help</property>
-                <property name="stock_id">gtk-help</property>
-                <signal name="clicked" handler="on_btn_help_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkSeparatorToolItem" id="toolbutton2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -241,14 +201,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="btn_website">
+              <object class="GtkMenuToolButton" id="btn_help">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="tooltip_text" translatable="yes">Website</property>
                 <property name="use_action_appearance">False</property>
-                <property name="label" translatable="yes">Website</property>
-                <property name="stock_id">gtk-home</property>
-                <signal name="clicked" handler="on_btn_website_clicked" swapped="no"/>
+                <property name="label" translatable="yes">Help</property>
+                <property name="stock_id">gtk-help</property>
+                <signal name="clicked" handler="on_btn_help_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

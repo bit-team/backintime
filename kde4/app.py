@@ -109,15 +109,15 @@ class MainWindow( KMainWindow ):
 
 		self.main_toolbar.addSeparator()
 
-		self.btn_about = self.main_toolbar.addAction( KIcon( 'help-about' ), '' )
-		self.btn_about.setToolTip( QString.fromUtf8( _('About') ) )
-		QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_btn_about_clicked )
+		#self.btn_about = self.main_toolbar.addAction( KIcon( 'help-about' ), '' )
+		#self.btn_about.setToolTip( QString.fromUtf8( _('About') ) )
+		#QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_btn_about_clicked )
 
-		self.btn_help = self.main_toolbar.addAction( KIcon( 'help-contents' ), '' )
-		self.btn_help.setToolTip( QString.fromUtf8( _('Help') ) )
-		QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_btn_help_clicked )
+		#self.btn_help = self.main_toolbar.addAction( KIcon( 'help-contents' ), '' )
+		#self.btn_help.setToolTip( QString.fromUtf8( _('Help') ) )
+		#QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_btn_help_clicked )
 
-		self.main_toolbar.addSeparator()
+		#self.main_toolbar.addSeparator()
 
 		self.btn_quit = self.main_toolbar.addAction( KIcon( 'application-exit' ), '' )
 		self.btn_quit.setToolTip( QString.fromUtf8( _('Exit') ) )
@@ -127,10 +127,31 @@ class MainWindow( KMainWindow ):
 
 		self.main_toolbar.addSeparator()
 
-		self.btn_link = self.main_toolbar.addAction( KIcon( 'go-home' ), '' )
-		self.btn_link.setToolTip( QString.fromUtf8( 'backintime.le-web.org' ) )
-		QObject.connect( self.btn_link, SIGNAL('triggered()'), self.open_url )
-		
+		#self.btn_link = self.main_toolbar.addAction( KIcon( 'go-home' ), '' )
+		#self.btn_link.setToolTip( QString.fromUtf8( 'backintime.le-web.org' ) )
+		#QObject.connect( self.btn_link, SIGNAL('triggered()'), self.open_url )
+
+		help_menu = QMenu()
+		action = help_menu.addAction( KIcon( 'help-contents' ), QString.fromUtf8( _('Help') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.on_help )
+       		help_menu.addSeparator();
+		action = help_menu.addAction( KIcon( 'go-home' ), QString.fromUtf8( _('Website') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.on_website)
+		action = help_menu.addAction( KIcon( 'help-hint' ), QString.fromUtf8( _('FAQ') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.on_faq)
+		action = help_menu.addAction( KIcon( 'help-feedback' ), QString.fromUtf8( _('Ask a question') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.on_ask_a_question)
+		action = help_menu.addAction( KIcon( 'tools-report-bug' ), QString.fromUtf8( _('Report a bug') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.on_report_a_bug)
+       		help_menu.addSeparator();
+		action = help_menu.addAction( KIcon( 'help-about' ), QString.fromUtf8( _('About') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.on_about)
+
+		action = self.main_toolbar.addAction( KIcon( 'help-contents' ), '' )
+		action.setToolTip( QString.fromUtf8( _('Help') ) )
+		QObject.connect( action, SIGNAL('triggered()'), self.on_help )
+		action.setMenu(help_menu)
+
 		#main splitter
 		self.main_splitter = QSplitter( self )
 		self.main_splitter.setOrientation( Qt.Horizontal )
@@ -781,15 +802,26 @@ class MainWindow( KMainWindow ):
 		if QDialog.Accepted == settingsdialog.SettingsDialog( self ).exec_():
 			self.update_profiles()
 
-	def on_btn_about_clicked( self ):
+	def on_about( self ):
 		dlg = KAboutApplicationDialog( self.kaboutdata, self )
 		dlg.exec_()
 
-	def on_btn_help_clicked( self ):
-		#KRun.runCommand( "khelpcenter help:/backintime", self )
+	def on_help( self ):
 		self.open_url( 'http://backintime.le-web.org/documentation' );
 
-	def open_url( self, url = 'http://backintime.le-web.org' ):
+	def on_website( self ):
+		self.open_url( 'http://backintime.le-web.org' );
+
+	def on_faq( self ):
+		self.open_url( 'https://answers.launchpad.net/backintime/+faq/2116' );
+
+	def on_ask_a_question( self ):
+		self.open_url( 'https://answers.launchpad.net/backintime' );
+
+	def on_report_a_bug( self ):
+		self.open_url( 'https://bugs.launchpad.net/backintime' );
+
+	def open_url( self, url ):
 		self.run = KRun( KUrl( QString.fromUtf8( url ) ), self, True )
 
 	def on_btn_show_hidden_files_toggled( self, checked ):
