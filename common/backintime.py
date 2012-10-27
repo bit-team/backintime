@@ -26,6 +26,8 @@ import config
 import logger
 import snapshots
 import tools
+import sshtools
+import mount
 
 _=gettext.gettext
 
@@ -44,8 +46,25 @@ def take_snapshot_now_async( cfg ):
 
 def take_snapshot( cfg, force = True ):
 	logger.openlog()
+	_mount(cfg)
 	snapshots.Snapshots( cfg ).take_snapshot( force )
+	_umount(cfg)
 	logger.closelog()
+
+def _mount(cfg):
+	try:
+		hash_id = mount.Mount(cfg = cfg).mount()
+	except mount.MountException as ex:
+		logger.error(str(ex))
+		sys.exit(1)
+	else:
+		cfg.set_current_hash_id(hash_id)
+
+def _umount(cfg):
+	try:
+		mount.Mount(cfg = cfg).umount(cfg.current_hash_id)
+	except mount.MountException as ex:
+		logger.error(str(ex))
 
 
 def print_version( cfg, app_name ):
@@ -79,6 +98,13 @@ def print_help( cfg ):
 	print '\tShow the ID of the last snapshot (and exit)'
 	print '--last-snapshot-path'
 	print '\tShow the path to the last snapshot (and exit)'
+	print '--keep-mount'
+	print '\tDon\'t unmount on exit. Only valid with'
+	print '\t--snapshots-list-path and --last-snapshot-path.'
+	print '--unmount'
+	print '\tUnmount the profile.'
+	print '--benchmark-cipher [file-size]'
+	print '\tShow a benchmark of all ciphers for ssh transfer (and exit)'
 	print '-v | --version'
 	print '\tShow version (and exit)'
 	print '--license'
@@ -94,6 +120,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 
 	skip = False
 	index = 0
+	keep_mount = False
 	
 	for arg in sys.argv[ 1 : ]:
 		index = index + 1
@@ -146,18 +173,21 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
+				_mount(cfg)
 				list = snapshots.Snapshots( cfg ).get_snapshots_list()
 				if len( list ) <= 0:
 					print "There are no snapshots"
 				else:
 					for snapshot_id in list:
 						print "SnapshotID: %s" % snapshot_id
+				_umount(cfg)
 			sys.exit(0)
 
 		if arg == '--snapshots-list-path':
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
+				_mount(cfg)
 				s = snapshots.Snapshots( cfg )
 				list = s.get_snapshots_list()
 				if len( list ) <= 0:
@@ -165,29 +195,60 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 				else:
 					for snapshot_id in list:
 						print "SnapshotPath: %s" % s.get_snapshot_path( snapshot_id )
+				if not keep_mount:
+					_umount(cfg)
 			sys.exit(0)
 
 		if arg == '--last-snapshot':
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
+				_mount(cfg)
 				list = snapshots.Snapshots( cfg ).get_snapshots_list()
 				if len( list ) <= 0:
 					print "There are no snapshots"
 				else:
 					print "SnapshotID: %s" % list[0]
+				_umount(cfg)
 			sys.exit(0)
 
 		if arg == '--last-snapshot-path':
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
+				_mount(cfg)
 				s = snapshots.Snapshots( cfg )
 				list = s.get_snapshots_list()
 				if len( list ) <= 0:
 					print "There are no snapshots"
 				else:
 					print "SnapshotPath: %s" % s.get_snapshot_path( list[0] )
+				if not keep_mount:
+					_umount(cfg)
+			sys.exit(0)
+			
+		if arg == '--keep-mount':
+			keep_mount = True
+			continue
+			
+		if arg == '--unmount':
+			_mount(cfg)
+			_umount(cfg)
+			sys.exit(0)
+
+		if arg == '--benchmark-cipher':
+			if not cfg.is_configured():
+				print "The application is not configured !"
+			else:
+				try:
+					size = sys.argv[index + 1]
+				except IndexError:
+					size = '40'
+				if cfg.get_snapshots_mode() == 'ssh':
+					ssh = sshtools.SSH(cfg=cfg)
+					ssh.benchmark_cipher(size)
+				else:
+					print('ssh is not configured !')
 			sys.exit(0)
 
 		if arg == '--snapshots' or arg == '-s':

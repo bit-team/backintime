@@ -399,7 +399,27 @@ def _get_md5sum_from_path(path):
     obj  = os.stat(path)
     unique_key = (obj.st_size, int(obj.st_mtime))    
     return unique_key
-        				
+        
+def check_cron_pattern(str):
+    '''check if str look like '0,10,13,15,17,20,23' or '*/6' '''
+    if str.find(' ') >= 0:
+        return False
+    try:
+        if str.startswith('*/'):
+            if int(str[2:]) <= 24:
+                return True
+            else:
+                return False
+        list = str.split(',')
+        for s in list:
+            if int(s) <= 24:
+                continue
+            else:
+                return False
+        return True
+    except ValueError:
+        return False
+
 #
 #
 class UniquenessSet:

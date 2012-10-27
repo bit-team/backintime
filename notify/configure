@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ -e Makefile ]; then
+	rm Makefile;
+fi
+
+cp Makefile.template Makefile
+
+echo "All OK. Now run:"
+echo "    make"
+echo "    sudo make install"
+

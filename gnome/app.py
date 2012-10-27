@@ -44,6 +44,7 @@ import logger
 import snapshots
 import guiapplicationinstance
 import tools
+import mount
 
 import settingsdialog
 import logviewdialog
@@ -320,20 +321,31 @@ class MainWindow(object):
 
             if not self.config.is_configured():
                 return 
-	
-	if self.snapshots.has_old_snapshots():
-		settingsdialog.SettingsDialog( self.config, self.snapshots, self ).update_snapshots_location()
-	
-	profile_id = self.config.get_current_profile()
-	if not self.config.can_backup( profile_id ):
-            messagebox.show_error( self.window, self.config, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
+
+        if self.snapshots.has_old_snapshots():
+            settingsdialog.SettingsDialog( self.config, self.snapshots, self ).update_snapshots_location()
+        
+        profile_id = self.config.get_current_profile()
+        
+        #mount
+        try:
+            mnt = mount.Mount(cfg = self.config, profile_id = profile_id)
+            hash_id = mnt.mount()
+        except mount.MountException as ex:
+            messagebox.show_error( self.window, self.config, str(ex) )
+            sys.exit(1)
+        else:
+            self.config.set_current_hash_id(hash_id)
+            
+        if not self.config.can_backup( profile_id ):
+                messagebox.show_error( self.window, self.config, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
         self.update_profiles()
         self.update_backup_info()
         gobject.timeout_add( 1000, self.update_backup_info )
 
     def on_combo_profiles_changed( self, *params ):
-    	if self.disable_combo_changed:
+        if self.disable_combo_changed:
             return
 
         iter = self.combo_profiles.get_active_iter()
@@ -346,6 +358,7 @@ class MainWindow(object):
         if not first_update_all and profile_id == self.config.get_current_profile():
             return
 
+        self.remount(profile_id, self.config.get_current_profile())
         self.config.set_current_profile( profile_id )
         self.first_update_all = False
         self.update_all( first_update_all )
@@ -363,7 +376,7 @@ class MainWindow(object):
 			iter = self.store_profiles.append( [ self.config.get_profile_name( profile_id ), profile_id ] )
 			if profile_id == self.config.get_current_profile():
 				select_iter = iter
-            
+
 		self.disable_combo_changed = False
 
 		if not select_iter is None:
@@ -478,6 +491,15 @@ class MainWindow(object):
         self.fill_places()
         self.fill_time_line( False )
         self.update_folder_view( 1, selected_file, show_snapshots )
+        
+    def remount( self, new_profile_id, old_profile_id):
+        try:
+            mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id)
+            hash_id = mnt.remount(new_profile_id)
+        except mount.MountException as ex:
+            messagebox.show_error( self.window, self.config, str(ex) )
+        else:
+            self.config.set_current_hash_id(hash_id)
 
     def places_pix_renderer_function( self, column, renderer, model, iter, user_data ):
         if len( model.get_value( iter, 1 ) ) == 0:
@@ -742,6 +764,13 @@ class MainWindow(object):
         self.config.set_int_value( 'gnome.main_window.hpaned2', main_window_hpaned2 )
         self.config.set_str_value( 'gnome.last_path', self.folder_path )
         self.config.set_bool_value( 'gnome.show_hidden_files', self.show_hidden_files )
+        
+        #mount
+        try:
+            mnt = mount.Mount(cfg = self.config)
+            mnt.umount(self.config.current_hash_id)
+        except mount.MountException as ex:
+            messagebox.show_error( self.window, self.config, str(ex) )
 
         self.config.save()
         self.window.destroy()
@@ -982,10 +1011,22 @@ class MainWindow(object):
     def on_btn_settings_clicked( self, button ):
         snapshots_full_path = self.config.get_snapshots_full_path()
         include_folders = self.config.get_include()
+        hash_id = self.config.current_hash_id
 
         settingsdialog.SettingsDialog( self.config, self.snapshots, self ).run()
+        
+        #mount
+        try:
+            mnt = mount.Mount(cfg = self.config)
+            new_hash_id = mnt.remount(self.config.get_current_profile())
+        except mount.MountException as ex:
+            messagebox.show_error( self.window, self.config, str(ex) )
+        else:
+            self.config.set_current_hash_id(new_hash_id)
 
-        if snapshots_full_path != self.config.get_snapshots_full_path() or include_folders != self.config.get_include():
+        if snapshots_full_path != self.config.get_snapshots_full_path() \
+            or include_folders != self.config.get_include() \
+            or hash_id != self.config.current_hash_id:
             self.update_all( False )
         self.update_profiles()
 

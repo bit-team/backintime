@@ -30,6 +30,7 @@ import gettext
 import config
 import messagebox
 import tools
+import mount
 
 
 _=gettext.gettext
@@ -74,7 +75,8 @@ class SettingsDialog(object):
 				'on_combo_profiles_changed': self.on_combo_profiles_changed,
 				'on_btn_where_clicked': self.on_btn_where_clicked,
 				'on_cb_backup_mode_changed': self.on_cb_backup_mode_changed,
-				'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile
+				'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile,
+				'on_combo_modes_changed': self.on_combo_modes_changed
 			}
 		
 		builder.connect_signals(signals)
@@ -98,6 +100,26 @@ class SettingsDialog(object):
 		
 		self.disable_combo_changed = False
 		
+		#snapshots mode (local, ssh, ...)
+		self.store_modes = gtk.ListStore(str, str)
+		keys = self.config.SNAPSHOT_MODES.keys()
+		keys.sort()
+		for key in keys:
+			self.store_modes.append([self.config.SNAPSHOT_MODES[key][1], key])
+			
+		self.combo_modes = get( 'combo_modes' )
+		self.combo_modes.set_model( self.store_modes )
+		
+		self.combo_modes.clear()
+		text_renderer = gtk.CellRendererText()
+		self.combo_modes.pack_start( text_renderer, True )
+		self.combo_modes.add_attribute( text_renderer, 'text', 0 )
+		
+		self.mode = None
+		self.mode_local = get('mode_local')
+		self.mode_ssh = get('mode_ssh')
+##		self.mode_dummy = get('mode_dummy')
+		
 		#set current folder
 		#self.fcb_where = get( 'fcb_where' )
 		#self.fcb_where.set_show_hidden( self.parent.show_hidden_files )
@@ -110,6 +132,31 @@ class SettingsDialog(object):
 		self.txt_user = get('txt_user')
 		self.lbl_profile = get('lbl_profile')
 		self.txt_profile = get('txt_profile')
+		
+		#ssh
+		self.txt_ssh_host = get('txt_ssh_host')
+		self.txt_ssh_port = get('txt_ssh_port')
+		self.txt_ssh_user = get('txt_ssh_user')
+		self.txt_ssh_path = get('txt_ssh_path')
+		
+		self.store_ssh_cipher = gtk.ListStore(str, str)
+		keys = self.config.SSH_CIPHERS.keys()
+		keys.sort()
+		for key in keys:
+			self.store_ssh_cipher.append([self.config.SSH_CIPHERS[key], key])
+		
+		self.combo_ssh_cipher = get( 'combo_ssh_cipher' )
+		self.combo_ssh_cipher.set_model( self.store_ssh_cipher )
+
+		self.combo_ssh_cipher.clear()
+		text_renderer = gtk.CellRendererText()
+		self.combo_ssh_cipher.pack_start( text_renderer, True )
+		self.combo_ssh_cipher.add_attribute( text_renderer, 'text', 0 )
+		
+##		#dummy
+##		self.txt_dummy_host = get('txt_dummy_host')
+##		self.txt_dummy_port = get('txt_dummy_port')
+##		self.txt_dummy_user = get('txt_dummy_user')
 
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -136,6 +183,10 @@ class SettingsDialog(object):
 		for t in xrange( 1, 8 ):
 			self.store_backup_weekday.append( [ datetime.date(2011, 11, 6 + t).strftime("%A"), t ] )
 
+		#custom backup time
+		self.txt_backup_time_custom = get('txt_backup_time_custom')
+		self.lbl_backup_time_custom = get('lbl_backup_time_custom')
+		
 		#per directory schedule
 		#self.cb_per_directory_schedule = get( 'cb_per_directory_schedule' )
 		#self.lbl_schedule = get( 'lbl_schedule' )
@@ -184,7 +235,17 @@ class SettingsDialog(object):
 		self.store_exclude = gtk.ListStore( str, str )
 		self.list_exclude.set_model( self.store_exclude )
 
-		get( 'lbl_highly_recommended_excluded' ).set_text( ', '.join(self.config.DEFAULT_EXCLUDE) )
+		exclude = ''
+		i = 1
+		prev_lines = 0
+		for ex in self.config.DEFAULT_EXCLUDE:
+			exclude += ex
+			if i < len(self.config.DEFAULT_EXCLUDE):
+				exclude += ', '
+			if len(exclude)-prev_lines > 80:
+				exclude += '\n'
+				prev_lines += len(exclude)
+		get( 'lbl_highly_recommended_excluded' ).set_text( exclude )
 
 		#setup automatic backup mode
 		self.cb_backup_mode = get( 'cb_backup_mode' )
@@ -228,6 +289,8 @@ class SettingsDialog(object):
 		
 		self.lbl_backup_weekday = get( 'lbl_backup_weekday' )
 
+		self.hbox_backup_time = get( 'hbox_backup_time' )
+		
 		#setup remove old backups older than
 		self.edit_remove_old_backup_value = get( 'edit_remove_old_backup_value' )
 		self.cb_remove_old_backup_unit = get( 'cb_remove_old_backup_unit' )
@@ -376,6 +439,15 @@ class SettingsDialog(object):
 			self.lbl_backup_day.hide()
 			self.cb_backup_day.hide()
 
+		if backup_mode == self.config.CUSTOM_HOUR:
+			self.lbl_backup_time_custom.show()
+			self.txt_backup_time_custom.show()
+			self.txt_backup_time_custom.set_sensitive( True )
+			self.txt_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
+		else:
+			self.lbl_backup_time_custom.hide()
+			self.txt_backup_time_custom.hide()
+
 	def update_host_user_profile( self, *params ):
 		value = not self.cb_auto_host_user_profile.get_active()
 		self.lbl_host.set_sensitive( value )
@@ -384,6 +456,20 @@ class SettingsDialog(object):
 		self.txt_user.set_sensitive( value )
 		self.lbl_profile.set_sensitive( value )
 		self.txt_profile.set_sensitive( value )
+		
+	def on_combo_modes_changed(self, *params):
+		iter = self.combo_modes.get_active_iter()
+		if iter is None:
+			return
+			
+		active_mode = self.store_modes.get_value( iter, 1 )
+		if active_mode != self.mode:
+			for mode in self.config.SNAPSHOT_MODES.keys():
+				if active_mode == mode:
+					getattr(self, 'mode_%s' % mode).show()
+				else:
+					getattr(self, 'mode_%s' % mode).hide()
+			self.mode = active_mode
 
 	def on_combo_profiles_changed( self, *params ):
 		if self.disable_combo_changed:
@@ -425,16 +511,49 @@ class SettingsDialog(object):
 		else:
 			self.btn_edit_profile.set_sensitive( True )
 			self.btn_remove_profile.set_sensitive( True )
+			
+		#set mode
+		i = 0
+		iter = self.store_modes.get_iter_first()
+		default_mode = self.config.get_snapshots_mode(self.profile_id)
+		while not iter is None:
+			if self.store_modes.get_value( iter, 1 ) == default_mode:
+				self.combo_modes.set_active( i )
+				break
+			iter = self.store_modes.iter_next( iter )
+			i = i + 1
+		self.on_combo_modes_changed()
 		
 		#set current folder
 		#self.fcb_where.set_filename( self.config.get_snapshots_path() )
-		self.edit_where.set_text( self.config.get_snapshots_path( self.profile_id ) )
+		self.edit_where.set_text( self.config.get_snapshots_path( self.profile_id, mode = 'local' ) )
 		self.cb_auto_host_user_profile.set_active( self.config.get_auto_host_user_profile( self.profile_id ) )
 		host, user, profile = self.config.get_host_user_profile( self.profile_id )
 		self.txt_host.set_text( host )
 		self.txt_user.set_text( user )
 		self.txt_profile.set_text( profile )
 		self.update_host_user_profile()
+		
+		#ssh
+		self.txt_ssh_host.set_text( self.config.get_ssh_host( self.profile_id ) )
+		self.txt_ssh_port.set_text( str(self.config.get_ssh_port( self.profile_id )) )
+		self.txt_ssh_user.set_text( self.config.get_ssh_user( self.profile_id ) )
+		self.txt_ssh_path.set_text( self.config.get_snapshots_path_ssh( self.profile_id ) )
+		#set chipher
+		i = 0
+		iter = self.store_ssh_cipher.get_iter_first()
+		default_mode = self.config.get_ssh_cipher(self.profile_id)
+		while not iter is None:
+			if self.store_ssh_cipher.get_value( iter, 1 ) == default_mode:
+				self.combo_ssh_cipher.set_active( i )
+				break
+			iter = self.store_ssh_cipher.iter_next( iter )
+			i = i + 1
+		
+##		#dummy
+##		self.txt_dummy_host.set_text( self.config.get_dummy_host( self.profile_id ) )
+##		self.txt_dummy_port.set_text( str(self.config.get_dummy_port( self.profile_id )) )
+##		self.txt_dummy_user.set_text( self.config.get_dummy_user( self.profile_id ) )
 		
 		#per directory schedule
 		#self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -503,6 +622,9 @@ class SettingsDialog(object):
 			i = i + 1
 		
 		self.on_cb_backup_mode_changed()
+
+		#setup custom backup time
+		self.txt_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
 
 		#setup remove old backups older than
 		enabled, value, unit = self.config.get_remove_old_snapshots( self.profile_id )
@@ -589,7 +711,12 @@ class SettingsDialog(object):
 	def save_profile( self ):
 		#profile_id = self.config.get_current_profile()
 		#snapshots path
-		snapshots_path = self.edit_where.get_text()
+		iter = self.combo_modes.get_active_iter()
+		mode = self.store_modes.get_value( iter, 1 )
+		if self.config.SNAPSHOT_MODES[mode][0] is None:
+			snapshots_path = self.edit_where.get_text()
+		else:
+			snapshots_path = self.config.get_snapshots_path(self.profile_id, mode = mode, tmp_mount = True)
 		
 		#hack
 		if snapshots_path.startswith( '//' ):
@@ -611,6 +738,49 @@ class SettingsDialog(object):
 		while not iter is None:
 			exclude_list.append( self.store_exclude.get_value( iter, 0 ) )
 			iter = self.store_exclude.iter_next( iter )
+			
+		if self.store_backup_mode.get_value( self.cb_backup_mode.get_active_iter(), 1 ) == self.config.CUSTOM_HOUR:
+			if not tools.check_cron_pattern(self.txt_backup_time_custom.get_text()):
+				self.error_handler( _('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours') )
+				return False
+
+		mount_kwargs = {}
+		
+		#ssh settings
+		ssh_host = self.txt_ssh_host.get_text()
+		ssh_port = self.txt_ssh_port.get_text()
+		ssh_user = self.txt_ssh_user.get_text()
+		ssh_path = self.txt_ssh_path.get_text()
+		iter = self.combo_ssh_cipher.get_active_iter()
+		ssh_cipher = self.store_ssh_cipher.get_value( iter, 1 )
+		if mode == 'ssh':
+			mount_kwargs = { 'host': ssh_host, 'port': int(ssh_port), 'user': ssh_user, 'path': ssh_path, 'cipher': ssh_cipher }
+		
+##		#dummy settings
+##		dummy_host = self.txt_dummy_host.get_text()
+##		dummy_port = self.txt_dummy_port.get_text()
+##		dummy_user = self.txt_dummy_user.get_text()
+##		if mode == 'dummy':
+##			#values must have exactly the same Type (str, int or bool) 
+##			#as they are set in config or you will run into false-positive
+##			#HashCollision warnings
+##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
+			
+		if not self.config.SNAPSHOT_MODES[mode][0] is None:
+			#pre_mount_check
+			mnt = mount.Mount(cfg = self.config, profile_id = self.profile_id, tmp_mount = True)
+			try:
+				mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
+			except mount.MountException as ex:
+				self.error_handler(str(ex))
+				return False
+
+			#okay, lets try to mount
+			try:
+				hash_id = mnt.mount(mode = mode, check = False, **mount_kwargs)
+			except mount.MountException as ex:
+				self.error_handler(str(ex))
+				return False
 		
 		#check if back folder changed
 		#if len( self.config.get_snapshots_path() ) > 0 and self.config.get_snapshots_path() != snapshots_path:
@@ -620,7 +790,21 @@ class SettingsDialog(object):
 		#ok let's save to config
 		self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.get_active(), self.profile_id )
 		self.config.set_host_user_profile( self.txt_host.get_text(), self.txt_user.get_text(), self.txt_profile.get_text(), self.profile_id )
-		self.config.set_snapshots_path( snapshots_path, self.profile_id )
+		self.config.set_snapshots_path( snapshots_path, self.profile_id , mode)
+		
+		self.config.set_snapshots_mode(mode, self.profile_id)
+		
+		#save ssh
+		self.config.set_ssh_host(ssh_host, self.profile_id)
+		self.config.set_ssh_port(ssh_port, self.profile_id)
+		self.config.set_ssh_user(ssh_user, self.profile_id)
+		self.config.set_snapshots_path_ssh(ssh_path, self.profile_id)
+		self.config.set_ssh_cipher(ssh_cipher, self.profile_id)
+
+##		#save dummy
+##		self.config.set_dummy_host(dummy_host, self.profile_id)
+##		self.config.set_dummy_port(dummy_port, self.profile_id)
+##		self.config.set_dummy_user(dummy_user, self.profile_id)
 
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
@@ -634,6 +818,7 @@ class SettingsDialog(object):
 		self.config.set_automatic_backup_time( self.store_backup_time.get_value( self.cb_backup_time.get_active_iter(), 1 ), self.profile_id )
 		self.config.set_automatic_backup_day( self.store_backup_day.get_value( self.cb_backup_day.get_active_iter(), 1 ), self.profile_id )
 		self.config.set_automatic_backup_weekday( self.store_backup_weekday.get_value( self.cb_backup_weekday.get_active_iter(), 1 ), self.profile_id )
+		self.config.set_custom_backup_time( self.txt_backup_time_custom.get_text(), self.profile_id )
 		
 		#auto-remove snapshots
 		self.config.set_remove_old_snapshots( 
@@ -674,6 +859,15 @@ class SettingsDialog(object):
 		self.config.set_preserve_xattr( self.cb_preserve_xattr.get_active(), self.profile_id )
 		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.get_active(), self.profile_id )
 		self.config.set_copy_links( self.cb_copy_links.get_active(), self.profile_id )
+		
+		#umount
+		if not self.config.SNAPSHOT_MODES[mode][0] is None:
+			try:
+				mnt.umount(hash_id = hash_id)
+			except mount.MountException as ex:
+				self.error_handler(str(ex))
+				return False
+		return True
 	
 	def update_remove_old_backups( self, button ):
 		enabled = self.cb_remove_old_backup.get_active()
@@ -716,7 +910,7 @@ class SettingsDialog(object):
 		
 		self.config.clear_handlers()
 		self.dialog.destroy()
-	   
+		
 	def update_snapshots_location( self ):
 		'''Update snapshot location dialog'''
 		self.config.set_question_handler( self.question_handler )
@@ -852,7 +1046,8 @@ class SettingsDialog(object):
 		self.dialog.destroy()
 	
 	def validate( self ):
-		self.save_profile()
+		if not self.save_profile():
+			return False
 		
 		if not self.config.check_config():
 			return False

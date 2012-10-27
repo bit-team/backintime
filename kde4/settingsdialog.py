@@ -32,6 +32,7 @@ from PyKDE4.kio import *
 import config
 import tools
 import kde4tools
+import mount
 
 
 _=gettext.gettext
@@ -102,9 +103,25 @@ class SettingsDialog( KDialog ):
 		tab_widget = QWidget( self )
 		self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'General' ) ) )
 		layout = QVBoxLayout( tab_widget )
-
+		
+		#select mode
+		self.mode = None
+		vlayout = QVBoxLayout()
+		layout.addLayout( vlayout )
+		
+		self.lbl_modes = QLabel( QString.fromUtf8( _( 'Mode:' ) ), self )
+		vlayout.addWidget( self.lbl_modes )
+		
+		self.combo_modes = KComboBox( self )
+		vlayout.addWidget( self.combo_modes )
+		store_modes = {}
+		for key in self.config.SNAPSHOT_MODES.keys():
+			store_modes[key] = self.config.SNAPSHOT_MODES[key][1]
+		self.fill_combo( self.combo_modes, store_modes )
+		
 		#Where to save snapshots
 		group_box = QGroupBox( self )
+		self.mode_local = group_box
 		group_box.setTitle( QString.fromUtf8( _( 'Where to save snapshots' ) ) )
 		layout.addWidget( group_box )
 
@@ -120,7 +137,75 @@ class SettingsDialog( KDialog ):
 		self.btn_snapshots_path = KPushButton( KIcon( 'folder' ), '', self )
 		hlayout.addWidget( self.btn_snapshots_path )
 		QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
+		
+		#SSH
+		group_box = QGroupBox( self )
+		self.mode_ssh = group_box
+		group_box.setTitle( QString.fromUtf8( _( 'SSH Settings' ) ) )
+		layout.addWidget( group_box )
 
+		vlayout = QVBoxLayout( group_box )
+
+		hlayout1 = QHBoxLayout()
+		vlayout.addLayout( hlayout1 )
+		hlayout2 = QHBoxLayout()
+		vlayout.addLayout( hlayout2 )
+		
+		self.lbl_ssh_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
+		hlayout1.addWidget( self.lbl_ssh_host )
+		self.txt_ssh_host = KLineEdit( self )
+		hlayout1.addWidget( self.txt_ssh_host )
+		
+		self.lbl_ssh_port = QLabel( QString.fromUtf8( _( 'Port:' ) ), self )
+		hlayout1.addWidget( self.lbl_ssh_port )
+		self.txt_ssh_port = KLineEdit( self )
+		hlayout1.addWidget( self.txt_ssh_port )
+		
+		self.lbl_ssh_user = QLabel( QString.fromUtf8( _( 'User:' ) ), self )
+		hlayout1.addWidget( self.lbl_ssh_user )
+		self.txt_ssh_user = KLineEdit( self )
+		hlayout1.addWidget( self.txt_ssh_user )
+		
+		self.lbl_ssh_path = QLabel( QString.fromUtf8( _( 'Path:' ) ), self )
+		hlayout2.addWidget( self.lbl_ssh_path )
+		self.txt_ssh_path = KLineEdit( self )
+		hlayout2.addWidget( self.txt_ssh_path )
+		
+		self.lbl_ssh_cipher = QLabel( QString.fromUtf8( _( 'Cipher:' ) ), self )
+		hlayout2.addWidget( self.lbl_ssh_cipher )
+		self.combo_ssh_cipher = KComboBox( self )
+		hlayout2.addWidget( self.combo_ssh_cipher )
+		self.fill_combo( self.combo_ssh_cipher, self.config.SSH_CIPHERS )
+		
+##		#Dummy
+##		group_box = QGroupBox( self )
+##		self.mode_dummy = group_box
+##		group_box.setTitle( QString.fromUtf8( _( 'Dummy Settings' ) ) )
+##		layout.addWidget( group_box )
+##
+##		vlayout = QVBoxLayout( group_box )
+##
+##		hlayout = QHBoxLayout()
+##		vlayout.addLayout( hlayout )
+##		
+##		self.lbl_dummy_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
+##		hlayout.addWidget( self.lbl_dummy_host )
+##		self.txt_dummy_host = KLineEdit( self )
+##		hlayout.addWidget( self.txt_dummy_host )
+##		
+##		self.lbl_dummy_port = QLabel( QString.fromUtf8( _( 'Port:' ) ), self )
+##		hlayout.addWidget( self.lbl_dummy_port )
+##		self.txt_dummy_port = KLineEdit( self )
+##		hlayout.addWidget( self.txt_dummy_port )
+##		
+##		self.lbl_dummy_user = QLabel( QString.fromUtf8( _( 'User:' ) ), self )
+##		hlayout.addWidget( self.lbl_dummy_user )
+##		self.txt_dummy_user = KLineEdit( self )
+##		hlayout.addWidget( self.txt_dummy_user )
+
+		QObject.connect( self.combo_modes, SIGNAL('currentIndexChanged(int)'), self.on_combo_modes_changed )
+		self.on_combo_modes_changed()
+		
 		#host, user, profile id
 		hlayout = QHBoxLayout()
 		layout.addLayout( hlayout )
@@ -199,6 +284,14 @@ class SettingsDialog( KDialog ):
 
 		for t in xrange( 0, 2300, 100 ):
 			self.combo_automatic_snapshots_time.addItem( QIcon(), QString.fromUtf8( datetime.time( t/100, t%100 ).strftime("%H:%M") ), QVariant( t ) )
+
+		self.lbl_automatic_snapshots_time_custom = QLabel( QString.fromUtf8( _( 'Hours:' ) ), self )
+		self.lbl_automatic_snapshots_time_custom.setContentsMargins( 5, 0, 0, 0 )
+		self.lbl_automatic_snapshots_time_custom.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
+		glayout.addWidget( self.lbl_automatic_snapshots_time_custom, 4, 0 )
+
+		self.txt_automatic_snapshots_time_custom = KLineEdit( self )
+		glayout.addWidget( self.txt_automatic_snapshots_time_custom, 4, 1 )
 
 		QObject.connect( self.combo_automatic_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_automatic_snapshot_changed )
 
@@ -470,6 +563,13 @@ class SettingsDialog( KDialog ):
 			self.update_profiles()
 
 	def update_automatic_snapshot_time( self, backup_mode ):
+		if backup_mode == self.config.CUSTOM_HOUR:
+			self.lbl_automatic_snapshots_time_custom.show()
+			self.txt_automatic_snapshots_time_custom.show()
+		else:
+			self.lbl_automatic_snapshots_time_custom.hide()
+			self.txt_automatic_snapshots_time_custom.hide()
+
 		if backup_mode == self.config.WEEK:
 			self.lbl_automatic_snapshots_weekday.show()
 			self.combo_automatic_snapshots_weekday.show()
@@ -542,7 +642,23 @@ class SettingsDialog( KDialog ):
 			self.btn_remove_profile.setEnabled( True )
 
 		#TAB: General
-		self.edit_snapshots_path.setText( QString.fromUtf8( self.config.get_snapshots_path() ) )
+		#mode
+		self.set_combo_value( self.combo_modes, self.config.get_snapshots_mode(), type = 'str' )
+		
+		#local
+		self.edit_snapshots_path.setText( QString.fromUtf8( self.config.get_snapshots_path( mode = 'local') ) )
+		
+		#ssh
+		self.txt_ssh_host.setText( QString.fromUtf8( self.config.get_ssh_host() ) )
+		self.txt_ssh_port.setText( QString.fromUtf8( str(self.config.get_ssh_port()) ) )
+		self.txt_ssh_user.setText( QString.fromUtf8( self.config.get_ssh_user() ) )
+		self.txt_ssh_path.setText( QString.fromUtf8( self.config.get_snapshots_path_ssh() ) )
+		self.set_combo_value( self.combo_ssh_cipher, self.config.get_ssh_cipher(), type = 'str' )
+		
+##		#dummy
+##		self.txt_dummy_host.setText( QString.fromUtf8( self.config.get_dummy_host() ) )
+##		self.txt_dummy_port.setText( QString.fromUtf8( self.config.get_dummy_port() ) )
+##		self.txt_dummy_user.setText( QString.fromUtf8( self.config.get_dummy_user() ) )
 
 		self.cb_auto_host_user_profile.setChecked( self.config.get_auto_host_user_profile() )
 		host, user, profile = self.config.get_host_user_profile()
@@ -555,6 +671,7 @@ class SettingsDialog( KDialog ):
 		self.set_combo_value( self.combo_automatic_snapshots_time, self.config.get_automatic_backup_time() )
 		self.set_combo_value( self.combo_automatic_snapshots_day, self.config.get_automatic_backup_day() )
 		self.set_combo_value( self.combo_automatic_snapshots_weekday, self.config.get_automatic_backup_weekday() )
+		self.txt_automatic_snapshots_time_custom.setText( self.config.get_custom_backup_time() )
 		self.update_automatic_snapshot_time( self.config.get_automatic_backup_mode() )
 
 		#TAB: Include
@@ -619,13 +736,76 @@ class SettingsDialog( KDialog ):
 		self.update_min_free_space()
 
 	def save_profile( self ):
+		if self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] == self.config.CUSTOM_HOUR:
+			if not tools.check_cron_pattern(str( self.txt_automatic_snapshots_time_custom.text().toUtf8() ) ):
+				self.error_handler( _('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours') )
+				return False
+			
+		#mode
+		mode = str( self.combo_modes.itemData( self.combo_modes.currentIndex() ).toString().toUtf8() )
+		self.config.set_snapshots_mode( mode )
+		mount_kwargs = {}
+		
+		#ssh
+		ssh_host = str( self.txt_ssh_host.text().toUtf8() )
+		ssh_port = str( self.txt_ssh_port.text().toUtf8() )
+		ssh_user = str( self.txt_ssh_user.text().toUtf8() )
+		ssh_path = str( self.txt_ssh_path.text().toUtf8() )
+		ssh_cipher = str( self.combo_ssh_cipher.itemData( self.combo_ssh_cipher.currentIndex() ).toString().toUtf8() )
+		if mode == 'ssh':
+			mount_kwargs = { 'host': ssh_host, 'port': int(ssh_port), 'user': ssh_user, 'path': ssh_path, 'cipher': ssh_cipher }
+			
+##		#dummy
+##		dummy_host = str( self.txt_dummy_host.text().toUtf8() )
+##		dummy_port = str( self.txt_dummy_port.text().toUtf8() )
+##		dummy_user = str( self.txt_dummy_user.text().toUtf8() )
+##		if mode == 'dummy':
+##			#values must have exactly the same Type (str, int or bool) 
+##			#as they are set in config or you will run into false-positive
+##			#HashCollision warnings
+##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
+			
+		if not self.config.SNAPSHOT_MODES[mode][0] is None:
+			#pre_mount_check
+			mnt = mount.Mount(cfg = self.config, tmp_mount = True)
+			try:
+				mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
+			except mount.MountException as ex:
+				self.error_handler(str(ex))
+				return False
+
+			#okay, lets try to mount
+			try:
+				hash_id = mnt.mount(mode = mode, check = False, **mount_kwargs)
+			except mount.MountException as ex:
+				self.error_handler(str(ex))
+				return False
+		
 		#snapshots path
 		self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.isChecked() )
 		self.config.set_host_user_profile(
 				str( self.txt_host.text().toUtf8() ),
 				str( self.txt_user.text().toUtf8() ),
 				str( self.txt_profile.text().toUtf8() ) )
-		self.config.set_snapshots_path( str( self.edit_snapshots_path.text().toUtf8() ) )
+				
+		if self.config.SNAPSHOT_MODES[mode][0] is None:
+			snapshots_path = str( self.edit_snapshots_path.text().toUtf8() )
+		else:
+			snapshots_path = self.config.get_snapshots_path(mode = mode, tmp_mount = True)
+			
+		self.config.set_snapshots_path( snapshots_path, mode = mode )
+		
+		#save ssh
+		self.config.set_ssh_host(ssh_host)
+		self.config.set_ssh_port(ssh_port)
+		self.config.set_ssh_user(ssh_user)
+		self.config.set_snapshots_path_ssh(ssh_path)
+		self.config.set_ssh_cipher(ssh_cipher)
+		
+##		#save dummy
+##		self.config.set_dummy_host(dummy_host)
+##		self.config.set_dummy_port(dummy_port)
+##		self.config.set_dummy_user(dummy_user)
 
 		#include list 
 		include_list = []
@@ -648,6 +828,7 @@ class SettingsDialog( KDialog ):
 		self.config.set_automatic_backup_time( self.combo_automatic_snapshots_time.itemData( self.combo_automatic_snapshots_time.currentIndex() ).toInt()[0] )
 		self.config.set_automatic_backup_weekday( self.combo_automatic_snapshots_weekday.itemData( self.combo_automatic_snapshots_weekday.currentIndex() ).toInt()[0] )
 		self.config.set_automatic_backup_day( self.combo_automatic_snapshots_day.itemData( self.combo_automatic_snapshots_day.currentIndex() ).toInt()[0] )
+		self.config.set_custom_backup_time( str( self.txt_automatic_snapshots_time_custom.text().toUtf8() ) )
 
 		#auto-remove
 		self.config.set_remove_old_snapshots( 
@@ -684,6 +865,15 @@ class SettingsDialog( KDialog ):
 		self.config.set_preserve_xattr( self.cb_preserve_xattr.isChecked() )
 		self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.isChecked() )
 		self.config.set_copy_links( self.cb_copy_links.isChecked() )
+		
+		#umount
+		if not self.config.SNAPSHOT_MODES[mode][0] is None:
+			try:
+				mnt.umount(hash_id = hash_id)
+			except mount.MountException as ex:
+				self.error_handler(str(ex))
+				return False
+		return True
 
 	def error_handler( self, message ):
 		KMessageBox.error( self, QString.fromUtf8( message ) )
@@ -777,14 +967,18 @@ class SettingsDialog( KDialog ):
 		for key in keys:
 			combo.addItem( QIcon(), QString.fromUtf8( dict[ key ] ), QVariant( key ) )
 
-	def set_combo_value( self, combo, value ):
+	def set_combo_value( self, combo, value, type = 'int' ):
 		for i in xrange( combo.count() ):
-			if value == combo.itemData( i ).toInt()[0]:
+			if type == 'int' and value == combo.itemData( i ).toInt()[0]:
+				combo.setCurrentIndex( i )
+				break
+			if type == 'str' and value == combo.itemData( i ).toString():
 				combo.setCurrentIndex( i )
 				break
 
 	def validate( self ):
-		self.save_profile()
+		if not self.save_profile():
+			return False
 
 		if not self.config.check_config():
 			return False
@@ -886,7 +1080,21 @@ class SettingsDialog( KDialog ):
 				if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
 					return
 			self.edit_snapshots_path.setText( QString.fromUtf8( self.config.prepare_path( path ) ) )
-
+		
+	def on_combo_modes_changed(self, *params):
+		if len(params) == 0:
+			index = self.combo_modes.currentIndex()
+		else:
+			index = params[0]
+		active_mode = str( self.combo_modes.itemData( index ).toString().toUtf8() )
+		if active_mode != self.mode:
+			for mode in self.config.SNAPSHOT_MODES.keys():
+				if active_mode == mode:
+					getattr(self, 'mode_%s' % mode).show()
+				else:
+					getattr(self, 'mode_%s' % mode).hide()
+			self.mode = active_mode
+		
 	def accept( self ):
 		if self.validate():
 			KDialog.accept( self )

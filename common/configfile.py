@@ -347,4 +347,3 @@ class ConfigFileWithProfiles( ConfigFile ):
 
 	def set_profile_bool_value( self, key, value, profile_id = None ):
 		self.set_bool_value( self._get_profile_key_( key, profile_id ), value )
-

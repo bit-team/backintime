@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+
+package = backintime-notify
+
+clean:
+	dh_testdir
+	dh_clean
+	rm -f build
+
+install: build
+	#install plugin
+	dh_install plugins/*.py /usr/share/backintime/plugins
+	
+	#install copyright file
+	#dh_installdirs /usr/share/doc/backintime-gnome
+	dh_install debian/copyright /usr/share/doc/backintime-notify
+	
+build:
+	touch build
+
+binary-indep: install
+	dh_testdir -i
+	dh_testroot -i
+	#dh_installdocs -i NEWS
+	#dh_installchangelogs -i ChangeLog
+	#dh_strip -i
+	#dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	#dh_shlibdeps -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+binary-arch: install
+
+binary: binary-indep
+
+.PHONY: binary binary-arch binary-indep clean
+
