@@ -109,6 +109,7 @@ class MainWindow(object):
         
         builder = gtk.Builder()
         self.builder = builder
+        self.builder.set_translation_domain('backintime')
 
         glade_file = os.path.join(self.config.get_app_path(), 'gnome', 'mainwindow.glade')
 

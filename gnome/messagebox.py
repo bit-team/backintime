@@ -49,6 +49,7 @@ def show_error( parent, config, message ):
 def text_input_dialog( parent, config, title, default_value = '' ):
     
     builder = gtk.Builder()
+    builder.set_translation_domain('backintime')
 
     glade_file = os.path.join(config.get_app_path(), 'gnome',
             'textinputdialog.glade')
