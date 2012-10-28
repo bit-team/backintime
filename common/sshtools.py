@@ -62,6 +62,8 @@ class SSH(mount.MountControl):
         self.setattr_kwargs('path', self.config.get_snapshots_path_ssh(self.profile_id), **kwargs)
         self.setattr_kwargs('cipher', self.config.get_ssh_cipher(self.profile_id), **kwargs)
             
+        if len(self.path) == 0:
+            self.path = './'
         self.set_default_args()
             
         self.symlink_subfolder = None

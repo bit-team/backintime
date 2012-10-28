@@ -398,18 +398,20 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_int_value( 'global.hash_collision', value )
 		
 	def get_snapshots_path_ssh( self, profile_id = None ):
-		return self.get_profile_str_value( 'snapshots.ssh.path', './', profile_id )
+		return self.get_profile_str_value( 'snapshots.ssh.path', '', profile_id )
 		
 	def get_snapshots_full_path_ssh( self, profile_id = None, version = None ):
 		'''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
 		if version is None:
 			version = self.get_int_value( 'config.version', self.CONFIG_VERSION )
-
+		path = self.get_snapshots_path_ssh( profile_id )
+		if len(path) == 0:
+			path = './'
 		if version < 4:
-			return os.path.join( self.get_snapshots_path_ssh( profile_id ), 'backintime' )
+			return os.path.join( path, 'backintime' )
 		else:
 			host, user, profile = self.get_host_user_profile( profile_id )
-			return os.path.join( self.get_snapshots_path_ssh( profile_id ), 'backintime', host, user, profile ) 
+			return os.path.join( path, 'backintime', host, user, profile ) 
 
 	def set_snapshots_path_ssh( self, value, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.ssh.path', value, profile_id )
@@ -444,6 +446,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 		port = self.get_ssh_port(profile_id)
 		user = self.get_ssh_user(profile_id)
 		path = self.get_snapshots_path_ssh(profile_id)
+		if len(path) == 0:
+			path = './'
 		return (host, port, user, path)
 
 ##	def get_dummy_host( self, profile_id = None ):
