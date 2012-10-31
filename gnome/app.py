@@ -1000,7 +1000,7 @@ class MainWindow(object):
         os.system( "gnome-open https://bugs.launchpad.net/backintime &" )
 
     def on_faq( self, *args ):
-        os.system( "gnome-open https://answers.launchpad.net/backintime/+faq/2116 &" )
+        os.system( "gnome-open https://answers.launchpad.net/backintime/+faqs &" )
 
     def on_ask_a_question( self, *args ):
         os.system( "gnome-open https://answers.launchpad.net/backintime &" )

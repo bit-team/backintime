@@ -844,7 +844,7 @@ class MainWindow( KMainWindow ):
 		self.open_url( 'http://backintime.le-web.org' );
 
 	def on_faq( self ):
-		self.open_url( 'https://answers.launchpad.net/backintime/+faq/2116' );
+		self.open_url( 'https://answers.launchpad.net/backintime/+faqs' );
 
 	def on_ask_a_question( self ):
 		self.open_url( 'https://answers.launchpad.net/backintime' );
