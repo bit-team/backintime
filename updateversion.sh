@@ -22,21 +22,15 @@ sed -i -e "s/^\tVERSION = '.*'$/\tVERSION = '$VERSION'/" common/config.py
 
 echo "Update common man page"
 FILE=common/man/C/backintime.1
-gzip -d $FILE.gz
 sed -i -e "s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION\"\3/" $FILE
-gzip --best $FILE
 
 echo "Update Gnome man page"
 FILE=gnome/man/C/backintime-gnome.1
-gzip -d $FILE.gz
 sed -i -e "s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION\"\3/" $FILE
-gzip --best $FILE
 
 echo "Update KDE4 man page"
 FILE=kde4/man/C/backintime-kde4.1
-gzip -d $FILE.gz
 sed -i -e "s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION\"\3/" $FILE
-gzip --best $FILE
 
 echo "Update help .omf file"
 sed -i -e "s/^\([ \]*\)<version\([^0-9]*\)\([^\"]*\)\(.*\)$/\1<version\2$VERSION\4/" gnome/docbook/C/backintime-C.omf

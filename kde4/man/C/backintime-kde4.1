@@ -1,0 +1,63 @@
+.TH backintime-kde4 1 "Mars 2009" "version 1.0.11" "USER COMMANDS"
+.SH NAME
+backintime-kde4 \- a simple backup tool for KDE4.
+.SH SYNOPSIS
+.B backintime-kde4
+[ \-\-backup | \-\-backup\-job |
+\-\-snapshots\-path |
+\-\-snapshots\-list | \-\-snapshots\-list\-path |
+\-\-last\-snapshot | \-\-last\-snapshot\-path |
+\-\-keep\-mount | \-\-unmount |
+\-\-benchmark-cipher [SIZE] |
+\-\-help | \-\-version | \-\-license ]
+.SH DESCRIPTION
+Back In Time is a simple backup tool for Linux. This is the KDE4 version.
+For more information about Back In Time see backintime man page.
+.PP
+If you want to run it as root you need to use 'kdesudo'.
+.SH OPTIONS
+.TP
+\-b, \-\-backup
+take a snapshot now (if needed) 
+.TP
+\-\-backup\-job
+take a snapshot (if needed) depending on schedule rules (used for cron jobs)
+.TP
+\-\-snapshots\-path
+display path where is saves the snapshots (if configured) 
+.TP
+\-\-snapshots\-list
+display the list of snapshot IDs (if any)
+.TP
+\-\-snapshots\-list\-path
+display the paths to snapshots (if any)
+.TP
+\-\-last\-snapshot
+display last snapshot ID (if any)
+.TP
+\-\-last\-snapshot\-path
+display the path to the last snapshot (if any)
+.TP
+\-\-keep\-mount
+Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-snapshot\-path.
+.TP
+ \-\-unmount
+Unmount the profile.
+.TP
+\-\-benchmark-cipher [SIZE]
+Show a benchmark of all ciphers for ssh transfer
+.TP
+\-h, \-\-help
+display a short help and exit
+.TP
+\-v, \-\-version
+show version and exit
+.TP
+\-\-license
+show license and exit
+.SH SEE ALSO
+backintime, backintime-gnome.
+.PP
+Back In Time also has a website: http://backintime.le\-web.org
+.SH AUTHOR
+This manual page was written by BIT Team (<bit-team@lists.launchpad.net>).

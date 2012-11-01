@@ -1,0 +1,168 @@
+.TH backintime 1 "Mars 2009" "version 1.0.11" "USER COMMANDS"
+.SH NAME
+backintime \- a simple backup tool for Linux.
+.PP
+This is command line tool.
+The graphical tools are: backintime-gnome and backintime-kde4.
+.SH SYNOPSIS
+.B backintime
+[ \-\-backup | \-\-backup\-job |
+\-\-snapshots\-path |
+\-\-snapshots\-list | \-\-snapshots\-list\-path |
+\-\-last\-snapshot | \-\-last\-snapshot\-path |
+\-\-keep\-mount | \-\-unmount |
+\-\-benchmark-cipher [SIZE] |
+\-\-help | \-\-version | \-\-license ]
+.SH DESCRIPTION
+Back In Time is a simple backup tool for Linux. The backup is done by taking
+snapshots of a specified set of folders.
+.PP
+All you have to do is configure: where to save snapshots, what folders to backup.
+You can also specify a backup schedule: disabled, every 5 minutes, every 10 minutes,
+every hour, every day, every week, every month. To configure it use one of the graphical
+interfaces available (backintime-gnome or backintime-kde4).
+.PP
+It acts as a 'user mode' backup tool. This means that you can backup/restore only folders
+you have write access to (actually you can backup read\-only folders, 
+but you can't restore them).
+.PP
+If you want to run it as root you need to use 'su'.
+.PP
+A new snapshot is created only if something changed since the last snapshot (if any).
+.PP
+A snapshot contains all the files from the selected folders (except for exclude patterns).
+In order to reduce disk space it use hard\-links (if possible) between snapshots
+for unchanged files. This way a file of 10Mb, unchanged for 10 snapshots, will use only
+10Mb on the disk.
+.PP
+When you restore a file 'A', if it already exists on the file system it will be renamed to 'A.backup.currentdate'.
+.PP
+For automatic backup it use 'cron' so there is no need for a daemon, but 'cron' must be running.
+.SS user-callback
+During backup process the application can call a user callback at different steps.
+This callback is "$XDG_CONFIG_HOME/backintime/user-callback" (by default $XDG_CONFIG_HOME is ~/.config).
+.PP
+The first argument is the progile id (1=Main Profile, ...).
+.PP
+The second argument is the progile name.
+.PP
+The third argument is the reason:
+.RS
+.TP
+1
+Backup process begins.
+.TP
+2
+Backup process ends.
+.TP
+3
+A new snapshot was taken. The extra arguments are snapshot ID and snapshot path.
+.TP
+4
+There was an error. The second argument is the error code.
+.RS
+Error codes:
+.TP
+1
+The application is not configured.
+.TP
+2
+A "take snapshot" process is already running.
+.TP
+3
+Can't find snapshots folder (is it on a removable drive ?).
+.TP
+4
+A snapshot for "now" already exist.
+.RE
+.SS SSH
+With Mode set to SSH you can store the backup on a remote host using the SecureShellHost protocol (ssh).
+The remote path will be mount local using sshfs to provide file-access for the graphical interface and the backup process.
+Rsync and other processes called during backup process will run directly on the remote host using ssh.
+.PP
+To prepare your user account for ssh-mode you have to add the user to group 'fuse' by typing 'sudo adduser <USER> fuse' in terminal.  To apply changes you have to logout and login again.
+.PP
+Next you have to create a password-less login to the remote host (for further informations look at http://www.debian-administration.org/articles/152).
+Type in terminal 'ssh-keygen -t rsa' hit enter for default path and keep the passphrase empty. 
+.PP
+Finally type 'ssh-copy-id -i ~/.ssh/id_rsa.pub <REMOTE_USER>@<HOST>' and enter your password on remote host.
+.PP
+.B Cipher
+(the algorithm used to encrypt the data during transfer)
+.br
+To optimize performance you can choose the cipher used by ssh. Depending on your environment you can have a massive speed increase compared to the default cipher.
+.PP
+\-\-benchmark\-cipher will give you an overview over which cipher is the fastest in your environment.
+.PP
+If the bottleneck of your environment is the hard-drive or the network you will not see a big difference between the ciphers. In this case you should stay on 'default'.
+.PP
+A weaker cipher does mean weaker security even if all supported ciphers are known to be safe at the moment.
+.PP
+.B "Remote Host"
+.br
+If your remote host is an embedded Linux NAS or any other device with limited functions, you could run into some problems caused by feature-less commands.
+For example some devices may not have hardlink support for 'cp', 'chmod' and 'rsync'. In this case it may help to install so-called Optware on your device if available.
+.PP
+.B WARNING: THIS IS ONLY FOR EXPERIENCED USERS!
+.br
+If you don't know how to compile packages and how to modify a Linux system you should NOT try to do this. There is a significant chance to break your device and make it completely 
+unusable with the following procedure. We will not take any warranty for this. Make a backup of your device before proceed! You have been warned!
+.PP
+You should install at least packages called 'bash', 'coreutils' and 'rsync'.  You will have to change users default shell from '/bin/sh' to '/opt/bin/bash' in '/etc/passwd'. 
+Add '/opt/bin:/opt/sbin:' to the start of the PATH environment variable in '/etc/profiles'.
+.PP
+To check if it does work you can compare the output of '/bin/cp --help' and '/opt/bin/cp --help'. 
+If 'ssh <user>@<host> cp --help' called from your PC will print the same as '/opt/bin/cp --help' 
+called on the remote host (via interactive ssh session) you are ready to go.
+.PP
+If you have questions on how to install and configure the Optware please refer to the community of your device. You can also take a look on BackInTime FAQ on Launchpad https://answers.launchpad.net/backintime/+faqs
+.PP
+If you successfuly modified your device to be able to make backups over ssh, it would be nice if you write a 'How to' on Launchpad's Answers so we can add this to the FAQ.
+.RE
+.RE
+.SH OPTIONS
+.TP
+\-b, \-\-backup
+take a snapshot now (if needed) 
+.TP
+\-\-backup\-job
+take a snapshot (if needed) depending on schedule rules (used for cron jobs)
+.TP
+\-\-snapshots\-path
+display path where is saves the snapshots (if configured) 
+.TP
+\-\-snapshots\-list
+display the list of snapshot IDs (if any)
+.TP
+\-\-snapshots\-list\-path
+display the paths to snapshots (if any)
+.TP
+\-\-last\-snapshot
+display last snapshot ID (if any)
+.TP
+\-\-last\-snapshot\-path
+display the path to the last snapshot (if any)
+.TP
+\-\-keep\-mount
+Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-snapshot\-path.
+.TP
+ \-\-unmount
+Unmount the profile.
+.TP
+\-\-benchmark-cipher [SIZE]
+Show a benchmark of all ciphers for ssh transfer.
+.TP
+\-h, \-\-help
+display a short help
+.TP
+\-v, \-\-version
+show version
+.TP
+\-\-license
+show license
+.SH SEE ALSO
+backintime-gnome, backintime-kde4.
+.PP
+Back In Time also has a website: http://backintime.le\-web.org
+.SH AUTHOR
+This manual page was written by BIT Team (<bit-team@lists.launchpad.net>).
