@@ -34,6 +34,6 @@ install:
 	#install --mode=644 docbook/en/figures/*.png $(DEST)/share/doc/kde/HTML/en/backintime/figures
 
 	#install man file(s)
-	for i in $$(ls -1 man/C/); do case $$i in *.gz) continue;; *) gzip --best -c man/C/$$i > man/C/$${i}.gz;; esac; done
+	for i in $$(ls -1 man/C/); do case $$i in *.gz|*~) continue;; *) gzip --best -c man/C/$$i > man/C/$${i}.gz;; esac; done
 	install -d $(DEST)/share/man/man1
 	install --mode=644 man/C/*.gz $(DEST)/share/man/man1

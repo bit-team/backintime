@@ -31,7 +31,7 @@ install: build install_translations
 	install --mode=644 ../CHANGES $(DEST)/share/doc/backintime
 	
 	#install man file(s)
-	for i in $$(ls -1 man/C/); do case $$i in *.gz) continue;; *) gzip --best -c man/C/$$i > man/C/$${i}.gz;; esac; done
+	for i in $$(ls -1 man/C/); do case $$i in *.gz|*~) continue;; *) gzip --best -c man/C/$$i > man/C/$${i}.gz;; esac; done
 	install -d $(DEST)/share/man/man1
 	install --mode=644 man/C/*.gz $(DEST)/share/man/man1
 	
