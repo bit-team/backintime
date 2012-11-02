@@ -448,15 +448,6 @@ class Snapshots:
 			return
 		info = dict[key_path]
 
-		#restore perms
-		ok = False
-		try:
-			os.chmod( path, info[0] )
-			ok = True
-		except:
-			pass
-		self.restore_callback( callback, ok, "chmod %s %04o" % ( path, info[0] ) )
-
 		#restore uid/gid
 		uid = self.get_uid(info[1])
 		gid = self.get_gid(info[2])
@@ -469,6 +460,15 @@ class Snapshots:
 			except:
 				pass
 			self.restore_callback( callback, ok, "chown %s %s : %s" % ( path, uid, gid ) )
+			
+		#restore perms
+		ok = False
+		try:
+			os.chmod( path, info[0] )
+			ok = True
+		except:
+			pass
+		self.restore_callback( callback, ok, "chmod %s %04o" % ( path, info[0] ) )
 
 	def restore( self, snapshot_id, path, callback = None, restore_to = '' ):
 		if restore_to.endswith('/'):
