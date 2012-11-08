@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-27 21:55+0200\n"
-"PO-Revision-Date: 2011-02-08 12:29+0000\n"
-"Last-Translator: Andy Lee <Unknown>\n"
+"POT-Creation-Date: 2012-03-06 12:15+0100\n"
+"PO-Revision-Date: 2012-04-30 05:53+0000\n"
+"Last-Translator: mozillazg <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2012-03-06 10:56+0000\n"
-"X-Generator: Launchpad (build 14900)\n"
+"X-Launchpad-Export-Date: 2012-11-08 20:56+0000\n"
+"X-Generator: Launchpad (build 16232)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -111,7 +111,7 @@ msgstr ""
 "不能写入： %s\n"
 "您确定有写入权限吗？"
 
-#: ../../common/config.py:789
+#: ../../common/config.py:801
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -121,15 +121,23 @@ msgstr ""
 "您确定已经安装了 cron？\n"
 "如果没有安装，您应当禁用所有自动备份。"
 
-#: ../../common/snapshots.py:147 ../../gnome/app.py:1056 ../../kde4/app.py:913
+#: ../../common/snapshots.py:150 ../../gnome/app.py:1054 ../../kde4/app.py:933
 msgid "Now"
 msgstr "现在"
 
-#: ../../common/snapshots.py:158 ../../gnome/gnometools.py:35
+#: ../../common/snapshots.py:161 ../../gnome/gnometools.py:37
 msgid "WITH ERRORS !"
 msgstr "发生错误！"
 
-#: ../../common/snapshots.py:571
+#: ../../common/snapshots.py:420
+msgid "FAILED"
+msgstr "失败"
+
+#: ../../common/snapshots.py:495
+msgid "Restore permissions:"
+msgstr ""
+
+#: ../../common/snapshots.py:671
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
@@ -138,7 +146,7 @@ msgstr ""
 "Back In Time 改变了备份的格式。\n"
 "根据新的格式，您旧的快照可能被移动。这样可以吗？"
 
-#: ../../common/snapshots.py:581
+#: ../../common/snapshots.py:681
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -154,13 +162,13 @@ msgstr ""
 "\n"
 "(程序能够区分它们)"
 
-#: ../../common/snapshots.py:584
+#: ../../common/snapshots.py:684
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr "没有发现配置文件。请重启 Back In Time 以更新配置文件"
 
-#: ../../common/snapshots.py:635
+#: ../../common/snapshots.py:735
 #, python-format
 msgid ""
 "%s\n"
@@ -179,7 +187,7 @@ msgstr ""
 "\n"
 "如果终止，Back In Time 将还原之前的配置文件，但是将不能继续创建快照"
 
-#: ../../common/snapshots.py:644
+#: ../../common/snapshots.py:744
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -194,7 +202,7 @@ msgstr ""
 "你可以手动移动这些快照， \n"
 "如果你已经完成，请重启 Back In Time 以继续"
 
-#: ../../common/snapshots.py:657
+#: ../../common/snapshots.py:757
 msgid ""
 "Update was successful!\n"
 "\n"
@@ -203,7 +211,7 @@ msgstr ""
 "更新成功！\n"
 "Back In Time 将根据预定时间继续创建快照"
 
-#: ../../common/snapshots.py:662
+#: ../../common/snapshots.py:762
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -220,11 +228,11 @@ msgstr ""
 "\n"
 "如果您不确定，下次重启 Back In Time 时，您将被再次询问。"
 
-#: ../../common/snapshots.py:671
+#: ../../common/snapshots.py:771
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr "Back In Time 将根据预定时间继续创建快照"
 
-#: ../../common/snapshots.py:673
+#: ../../common/snapshots.py:773
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
@@ -232,7 +240,7 @@ msgstr ""
 "Back In Time 仍然不能创建快照。\n"
 "请重启 Back In Time 再次查看问题"
 
-#: ../../common/snapshots.py:734
+#: ../../common/snapshots.py:834
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
@@ -240,126 +248,134 @@ msgstr ""
 "找不到快照文件夹。\n"
 "如果使用的是可移动磁盘，请先连接到电脑。"
 
-#: ../../common/snapshots.py:736
+#: ../../common/snapshots.py:836
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "等待 %s 秒"
 
-#: ../../common/snapshots.py:760
+#: ../../common/snapshots.py:860
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr "创建快照 %s 失败!!!"
 
-#: ../../common/snapshots.py:769
+#: ../../common/snapshots.py:869
 msgid "Finalizing"
 msgstr "正在完成"
 
-#: ../../common/snapshots.py:795 ../../common/snapshots.py:1077
-#: ../../kde4/app.py:80 ../../gnome/mainwindow.glade:36
+#: ../../common/snapshots.py:895 ../../common/snapshots.py:1168
+#: ../../kde4/app.py:81 ../../gnome/mainwindow.glade:43
 msgid "Take snapshot"
 msgstr "创建快照"
 
-#: ../../common/snapshots.py:895
+#: ../../common/snapshots.py:995
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "无法新建文件夹： %s"
 
-#: ../../common/snapshots.py:925
+#: ../../common/snapshots.py:1014
 msgid "..."
 msgstr "..."
 
-#: ../../common/snapshots.py:938
+#: ../../common/snapshots.py:1027
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "无法删除文件夹： %s"
 
-#: ../../common/snapshots.py:1009
+#: ../../common/snapshots.py:1100
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "与快照 %s 比较"
 
-#: ../../common/snapshots.py:1037
+#: ../../common/snapshots.py:1128
 msgid "Create hard-links"
 msgstr "创建硬链接"
 
-#: ../../common/snapshots.py:1100
+#: ../../common/snapshots.py:1191
 msgid "Save config file ..."
 msgstr "保存配置文件 ..."
 
-#: ../../common/snapshots.py:1105
+#: ../../common/snapshots.py:1196
 msgid "Save permission ..."
 msgstr "保存权限 ..."
 
-#: ../../common/snapshots.py:1182
+#: ../../common/snapshots.py:1273
 #, python-format
 msgid "Can't rename %s to %s"
 msgstr "无法将 %s 重命名到 %s"
 
-#: ../../common/snapshots.py:1294
+#: ../../common/snapshots.py:1393
 msgid "Remove old snapshots"
 msgstr "移除旧的快照"
 
-#: ../../common/snapshots.py:1317 ../../kde4/settingsdialog.py:289
-#: ../../gnome/settingsdialog.glade:718
+#: ../../common/snapshots.py:1417 ../../kde4/settingsdialog.py:312
+#: ../../gnome/settingsdialog.glade:930
 msgid "Smart remove"
 msgstr "智能移除"
 
-#: ../../common/snapshots.py:1322
+#: ../../common/snapshots.py:1422
 msgid "Try to keep min free space"
-msgstr "试图保留最小的可用空间"
+msgstr "尝试保留最小可用空间"
 
-#: ../../gnome/app.py:182 ../../gnome/app.py:551 ../../gnome/app.py:565
-#: ../../kde4/app.py:263 ../../kde4/app.py:502 ../../kde4/app.py:519
+#: ../../gnome/app.py:179 ../../gnome/app.py:554 ../../gnome/app.py:568
+#: ../../kde4/app.py:270 ../../kde4/app.py:509 ../../kde4/app.py:526
 msgid "Done"
 msgstr "已完成"
 
-#: ../../gnome/app.py:196 ../../kde4/app.py:198
-msgid "Shortcuts"
-msgstr "快捷方式"
-
-#: ../../gnome/app.py:219
-msgid "Name"
-msgstr "名称"
-
-#: ../../gnome/app.py:230
-msgid "Size"
-msgstr "大小"
-
-#: ../../gnome/app.py:237
-msgid "Date"
-msgstr "日期"
-
-#: ../../gnome/app.py:256 ../../gnome/app.py:293
-#: ../../gnome/snapshotsdialog.py:95 ../../kde4/app.py:141
-#: ../../kde4/app.py:184 ../../kde4/snapshotsdialog.py:90
-#: ../../gnome/mainwindow.glade:352 ../../gnome/mainwindow.glade:353
-#: ../../gnome/snapshotsdialog.glade:7
-msgid "Snapshots"
-msgstr "快照"
-
-#: ../../gnome/app.py:291
-msgid "Open"
-msgstr "打开"
-
-#: ../../gnome/app.py:292 ../../kde4/snapshotsdialog.py:115
-#: ../../gnome/mainwindow.glade:338 ../../gnome/mainwindow.glade:339
-#: ../../gnome/snapshotsdialog.glade:67
-msgid "Copy"
-msgstr "复制"
-
-#: ../../gnome/app.py:294 ../../kde4/snapshotsdialog.py:137
-msgid "Diff"
-msgstr "Diff"
-
-#: ../../gnome/app.py:295 ../../kde4/app.py:176
-#: ../../kde4/snapshotsdialog.py:110 ../../gnome/mainwindow.glade:324
-#: ../../gnome/mainwindow.glade:325 ../../gnome/snapshotsdialog.glade:79
-#: ../../gnome/snapshotsdialog.glade:80
+#: ../../gnome/app.py:183 ../../gnome/app.py:834
+#: ../../gnome/restoredialog.py:78 ../../gnome/snapshotsdialog.py:79
+#: ../../gnome/snapshotsdialog.py:211 ../../kde4/app.py:177
+#: ../../kde4/app.py:187 ../../kde4/restoredialog.py:64
+#: ../../kde4/snapshotsdialog.py:111 ../../kde4/snapshotsdialog.py:117
+#: ../../gnome/mainwindow.glade:374 ../../gnome/mainwindow.glade:376
+#: ../../gnome/snapshotsdialog.glade:128 ../../gnome/snapshotsdialog.glade:130
 msgid "Restore"
 msgstr "还原"
 
-#: ../../gnome/app.py:315 ../../kde4/app.py:315
+#: ../../gnome/app.py:184 ../../gnome/app.py:835 ../../gnome/gnometools.py:67
+#: ../../gnome/snapshotsdialog.py:80 ../../gnome/snapshotsdialog.py:212
+#: ../../kde4/app.py:179 ../../kde4/restoredialog.py:42
+#: ../../kde4/snapshotsdialog.py:113
+msgid "Restore to ..."
+msgstr "还原至："
+
+#: ../../gnome/app.py:186 ../../gnome/app.py:843 ../../gnome/app.py:1073
+#: ../../kde4/app.py:960
+#, python-format
+msgid "Restore '%s'"
+msgstr "还原 '%s'"
+
+#: ../../gnome/app.py:188 ../../gnome/app.py:844 ../../gnome/app.py:1074
+#: ../../kde4/app.py:961
+#, python-format
+msgid "Restore '%s' to ..."
+msgstr "还原 '%s' 至 ..."
+
+#: ../../gnome/app.py:207 ../../kde4/app.py:206
+msgid "Shortcuts"
+msgstr "快捷方式"
+
+#: ../../gnome/app.py:230
+msgid "Name"
+msgstr "名称"
+
+#: ../../gnome/app.py:241
+msgid "Size"
+msgstr "大小"
+
+#: ../../gnome/app.py:248
+msgid "Date"
+msgstr "日期"
+
+#: ../../gnome/app.py:267 ../../gnome/app.py:830
+#: ../../gnome/snapshotsdialog.py:106 ../../kde4/app.py:142
+#: ../../kde4/app.py:192 ../../kde4/snapshotsdialog.py:91
+#: ../../gnome/mainwindow.glade:390 ../../gnome/mainwindow.glade:392
+#: ../../gnome/snapshotsdialog.glade:8
+msgid "Snapshots"
+msgstr "快照"
+
+#: ../../gnome/app.py:318 ../../kde4/app.py:322
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
@@ -367,60 +383,64 @@ msgstr ""
 "找不到快照文件夹。\n"
 "如果使用的是可移动磁盘，请连接到电脑，然后按 “确定”"
 
-#: ../../gnome/app.py:568 ../../kde4/app.py:522
+#: ../../gnome/app.py:571 ../../kde4/app.py:529
 msgid "Done, no backup needed"
 msgstr "已完成，无需备份。"
 
-#: ../../gnome/app.py:574 ../../kde4/app.py:528
+#: ../../gnome/app.py:577 ../../kde4/app.py:535
 msgid "Working:"
 msgstr "运行中："
 
-#: ../../gnome/app.py:578 ../../kde4/app.py:532
+#: ../../gnome/app.py:581 ../../kde4/app.py:539
 msgid "Error:"
 msgstr "错误："
 
-#: ../../gnome/app.py:591 ../../kde4/app.py:578
+#: ../../gnome/app.py:594 ../../kde4/app.py:585
 msgid "Global"
 msgstr "全局"
 
-#: ../../gnome/app.py:592 ../../kde4/app.py:579
+#: ../../gnome/app.py:595 ../../kde4/app.py:586
 msgid "Root"
 msgstr "根目录"
 
-#: ../../gnome/app.py:593 ../../kde4/app.py:580
+#: ../../gnome/app.py:596 ../../kde4/app.py:587
 msgid "Home"
-msgstr "Home"
+msgstr "主目录"
 
-#: ../../gnome/app.py:617
+#: ../../gnome/app.py:620
 msgid "Bookmarks"
 msgstr "书签"
 
-#: ../../gnome/app.py:630 ../../kde4/app.py:591
+#: ../../gnome/app.py:633 ../../kde4/app.py:598
 msgid "Backup folders"
 msgstr "备份文件夹"
 
-#: ../../gnome/app.py:656 ../../kde4/app.py:662
+#: ../../gnome/app.py:659 ../../kde4/app.py:669
 msgid "Today"
 msgstr "今天"
 
-#: ../../gnome/app.py:660 ../../kde4/app.py:666
+#: ../../gnome/app.py:663 ../../kde4/app.py:673
 msgid "Yesterday"
 msgstr "昨天"
 
-#: ../../gnome/app.py:664 ../../kde4/app.py:670
+#: ../../gnome/app.py:667 ../../kde4/app.py:677
 msgid "This week"
 msgstr "本周"
 
-#: ../../gnome/app.py:668 ../../kde4/app.py:674
+#: ../../gnome/app.py:671 ../../kde4/app.py:681
 msgid "Last week"
 msgstr "上周"
 
-#: ../../gnome/app.py:988 ../../kde4/app.py:88 ../../kde4/app.py:733
-#: ../../gnome/mainwindow.glade:62 ../../gnome/mainwindow.glade:63
+#: ../../gnome/app.py:828 ../../gnome/snapshotsdialog.py:204
+msgid "Open"
+msgstr "打开"
+
+#: ../../gnome/app.py:986 ../../kde4/app.py:89 ../../kde4/app.py:740
+#: ../../gnome/mainwindow.glade:73 ../../gnome/mainwindow.glade:75
 msgid "Snapshot Name"
 msgstr "快照名"
 
-#: ../../gnome/app.py:1007
+#: ../../gnome/app.py:1005
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -429,27 +449,27 @@ msgstr ""
 "您确定要移除快照：\n"
 "<b>%s</b>"
 
-#: ../../gnome/app.py:1052 ../../kde4/app.py:909
+#: ../../gnome/app.py:1050 ../../kde4/app.py:929
 #, python-format
 msgid "Snapshot: %s"
 msgstr "快照：%s"
 
-#: ../../gnome/app.py:1053 ../../kde4/app.py:910
+#: ../../gnome/app.py:1051 ../../kde4/app.py:930
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "查看快照 %s"
 
-#: ../../gnome/app.py:1055 ../../kde4/app.py:912
+#: ../../gnome/app.py:1053 ../../kde4/app.py:932
 msgid "View the current disk content"
 msgstr "查看当前磁盘内容"
 
-#: ../../gnome/logviewdialog.py:91 ../../gnome/settingsdialog.py:266
-#: ../../kde4/logviewdialog.py:81 ../../kde4/settingsdialog.py:339
+#: ../../gnome/logviewdialog.py:91 ../../gnome/settingsdialog.py:300
+#: ../../kde4/logviewdialog.py:81 ../../kde4/settingsdialog.py:393
 msgid "All"
 msgstr "所有的"
 
-#: ../../gnome/logviewdialog.py:92 ../../gnome/settingsdialog.py:264
-#: ../../kde4/logviewdialog.py:82 ../../kde4/settingsdialog.py:337
+#: ../../gnome/logviewdialog.py:92 ../../gnome/settingsdialog.py:298
+#: ../../kde4/logviewdialog.py:82 ../../kde4/settingsdialog.py:391
 msgid "Errors"
 msgstr "错误"
 
@@ -461,128 +481,132 @@ msgstr "变更"
 msgid "Informations"
 msgstr "提示信息"
 
-#: ../../gnome/settingsdialog.py:139 ../../kde4/settingsdialog.py:194
+#: ../../gnome/settingsdialog.py:149 ../../kde4/settingsdialog.py:217
 msgid "Include files and folders"
 msgstr "包含文件和文件夹"
 
-#: ../../gnome/settingsdialog.py:167
+#: ../../gnome/settingsdialog.py:177
 msgid "Exclude patterns, files or folders"
 msgstr "不包含模式，文件或文件夹"
 
-#: ../../gnome/settingsdialog.py:263 ../../kde4/settingsdialog.py:336
+#: ../../gnome/settingsdialog.py:297 ../../kde4/settingsdialog.py:390
 msgid "None"
 msgstr "空"
 
-#: ../../gnome/settingsdialog.py:265 ../../kde4/settingsdialog.py:338
+#: ../../gnome/settingsdialog.py:299 ../../kde4/settingsdialog.py:392
 msgid "Changes & Errors"
 msgstr "变更 & 错误"
 
-#: ../../gnome/settingsdialog.py:299
+#: ../../gnome/settingsdialog.py:337
 msgid "Snapshots folder"
 msgstr "快照目录"
 
-#: ../../gnome/settingsdialog.py:307 ../../kde4/settingsdialog.py:802
+#: ../../gnome/settingsdialog.py:345 ../../kde4/settingsdialog.py:886
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr "确定要改变快照文件夹吗？"
 
-#: ../../gnome/settingsdialog.py:637 ../../kde4/settingsdialog.py:384
+#: ../../gnome/settingsdialog.py:728 ../../kde4/settingsdialog.py:438
 msgid "New profile"
 msgstr "新建配置"
 
-#: ../../gnome/settingsdialog.py:651 ../../kde4/settingsdialog.py:400
+#: ../../gnome/settingsdialog.py:742 ../../kde4/settingsdialog.py:454
 msgid "Rename profile"
 msgstr "重命名配置"
 
-#: ../../gnome/settingsdialog.py:663 ../../kde4/settingsdialog.py:414
+#: ../../gnome/settingsdialog.py:754 ../../kde4/settingsdialog.py:468
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "是否确定删除配置“%s”？"
 
-#: ../../gnome/settingsdialog.py:669 ../../kde4/settingsdialog.py:783
+#: ../../gnome/settingsdialog.py:760 ../../kde4/settingsdialog.py:867
 msgid "Include folder"
 msgstr "包含文件夹"
 
-#: ../../gnome/settingsdialog.py:688 ../../kde4/settingsdialog.py:769
+#: ../../gnome/settingsdialog.py:779 ../../kde4/settingsdialog.py:853
 msgid "Include file"
 msgstr "包含文件"
 
-#: ../../gnome/settingsdialog.py:725 ../../kde4/settingsdialog.py:731
+#: ../../gnome/settingsdialog.py:816 ../../kde4/settingsdialog.py:815
 msgid "Exclude pattern"
 msgstr "排除模式"
 
-#: ../../gnome/settingsdialog.py:730 ../../kde4/settingsdialog.py:741
+#: ../../gnome/settingsdialog.py:821 ../../kde4/settingsdialog.py:825
 msgid "Exclude patterns can't contain ':' char !"
 msgstr "排除格式里不能包含英文冒号 ':' 字符！"
 
-#: ../../gnome/settingsdialog.py:736 ../../kde4/settingsdialog.py:747
+#: ../../gnome/settingsdialog.py:827 ../../kde4/settingsdialog.py:831
 msgid "Exclude file"
 msgstr "排除文件"
 
-#: ../../gnome/settingsdialog.py:746 ../../kde4/settingsdialog.py:751
+#: ../../gnome/settingsdialog.py:837 ../../kde4/settingsdialog.py:835
 msgid "Exclude folder"
 msgstr "排除文件夹"
 
-#: ../../gnome/snapshotsdialog.py:267 ../../kde4/snapshotsdialog.py:261
+#: ../../gnome/snapshotsdialog.py:206
+msgid "Jump to"
+msgstr "跳至"
+
+#: ../../gnome/snapshotsdialog.py:215 ../../kde4/snapshotsdialog.py:140
+msgid "Diff"
+msgstr "Diff"
+
+#: ../../gnome/snapshotsdialog.py:244 ../../kde4/snapshotsdialog.py:260
 msgid "You can't compare a snapshot to itself"
 msgstr "不能将快照与其自身比较"
 
-#: ../../gnome/snapshotsdialog.py:274 ../../kde4/snapshotsdialog.py:268
+#: ../../gnome/snapshotsdialog.py:251 ../../kde4/snapshotsdialog.py:267
 #, python-format
 msgid "Command not found: %s"
 msgstr "命令未找到：%s"
 
-#: ../../kde4/app.py:84 ../../gnome/mainwindow.glade:49
-#: ../../gnome/mainwindow.glade:50
+#: ../../kde4/app.py:85 ../../gnome/mainwindow.glade:58
+#: ../../gnome/mainwindow.glade:60
 msgid "Refresh snapshots list"
 msgstr "刷新快照列表"
 
-#: ../../kde4/app.py:92 ../../gnome/mainwindow.glade:75
-#: ../../gnome/mainwindow.glade:76
+#: ../../kde4/app.py:93 ../../gnome/mainwindow.glade:88
+#: ../../gnome/mainwindow.glade:90
 msgid "Remove Snapshot"
 msgstr "移除快照"
 
-#: ../../kde4/app.py:96 ../../gnome/mainwindow.glade:89
+#: ../../kde4/app.py:97 ../../gnome/mainwindow.glade:105
 msgid "View Snapshot Log"
 msgstr "查看快照日志"
 
-#: ../../kde4/app.py:100 ../../gnome/mainwindow.glade:103
+#: ../../kde4/app.py:101 ../../gnome/mainwindow.glade:121
 msgid "View Last Log"
 msgstr "查看最近的日志"
 
-#: ../../kde4/app.py:106 ../../kde4/settingsdialog.py:66
-#: ../../gnome/mainwindow.glade:124 ../../gnome/mainwindow.glade:125
-#: ../../gnome/settingsdialog.glade:7
+#: ../../kde4/app.py:107 ../../kde4/settingsdialog.py:66
+#: ../../gnome/mainwindow.glade:144 ../../gnome/mainwindow.glade:146
+#: ../../gnome/settingsdialog.glade:8
 msgid "Settings"
 msgstr "设置"
 
-#: ../../kde4/app.py:112 ../../gnome/mainwindow.glade:146
-#: ../../gnome/mainwindow.glade:147
+#: ../../kde4/app.py:113 ../../gnome/mainwindow.glade:169
+#: ../../gnome/mainwindow.glade:171
 msgid "About"
 msgstr "关于"
 
-#: ../../kde4/app.py:116 ../../gnome/mainwindow.glade:159
-#: ../../gnome/mainwindow.glade:160
+#: ../../kde4/app.py:117 ../../gnome/mainwindow.glade:184
+#: ../../gnome/mainwindow.glade:186
 msgid "Help"
 msgstr "帮助"
 
-#: ../../kde4/app.py:122 ../../gnome/mainwindow.glade:180
-#: ../../gnome/mainwindow.glade:181
+#: ../../kde4/app.py:123 ../../gnome/mainwindow.glade:208
+#: ../../gnome/mainwindow.glade:210
 msgid "Exit"
 msgstr "退出"
 
-#: ../../kde4/app.py:156 ../../gnome/mainwindow.glade:273
+#: ../../kde4/app.py:157 ../../gnome/mainwindow.glade:313
 msgid "Up"
 msgstr "上移"
 
-#: ../../kde4/app.py:170 ../../gnome/mainwindow.glade:302
+#: ../../kde4/app.py:170 ../../gnome/mainwindow.glade:349
 msgid "Show hidden files"
 msgstr "显示隐藏文件"
 
-#: ../../kde4/app.py:180 ../../gnome/snapshotsdialog.glade:66
-msgid "Copy pathname to clipboard"
-msgstr "复制路径到剪贴板"
-
-#: ../../kde4/app.py:207
+#: ../../kde4/app.py:215
 msgid ""
 "This folder doesn't exist\n"
 "in the current snapshot !"
@@ -590,7 +614,7 @@ msgstr ""
 "该文件夹不存在于\n"
 "当前快照中！"
 
-#: ../../kde4/app.py:767
+#: ../../kde4/app.py:774
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -599,7 +623,7 @@ msgstr ""
 "您确定要移除快照：\n"
 "%s"
 
-#: ../../kde4/app.py:1041 ../../kde4/kde4systrayicon.py:117
+#: ../../kde4/app.py:1059 ../../kde4/kde4systrayicon.py:117
 msgid "Working..."
 msgstr "正在进行..."
 
@@ -608,16 +632,16 @@ msgid "Error Log View"
 msgstr "错误日志查看"
 
 #: ../../kde4/logviewdialog.py:63 ../../kde4/settingsdialog.py:76
-#: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:38
-#: ../../gnome/settingsdialog.glade:25
+#: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:73
+#: ../../gnome/settingsdialog.glade:70
 msgid "Profile:"
 msgstr "配置："
 
-#: ../../kde4/logviewdialog.py:75 ../../gnome/logviewdialog.glade:67
+#: ../../kde4/logviewdialog.py:75 ../../gnome/logviewdialog.glade:110
 msgid "Filter:"
 msgstr "过滤器"
 
-#: ../../kde4/logviewdialog.py:98 ../../gnome/logviewdialog.glade:117
+#: ../../kde4/logviewdialog.py:98 ../../gnome/logviewdialog.glade:169
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] 错误，[I] 通知，[C] 变更"
 
@@ -625,179 +649,211 @@ msgstr "[E] 错误，[I] 通知，[C] 变更"
 msgid "Edit"
 msgstr "编辑"
 
-#: ../../kde4/settingsdialog.py:103 ../../gnome/settingsdialog.glade:391
+#: ../../kde4/settingsdialog.py:103 ../../gnome/settingsdialog.glade:561
 msgid "General"
 msgstr "常规"
 
-#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:799
+#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:883
 msgid "Where to save snapshots"
 msgstr "何处保存快照"
 
-#: ../../kde4/settingsdialog.py:135 ../../gnome/settingsdialog.glade:182
+#: ../../kde4/settingsdialog.py:135 ../../gnome/settingsdialog.glade:260
 msgid "Auto Host / User / Profile Id"
 msgstr "自动解析 /User/Profile Id"
 
-#: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:202
+#: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:285
 msgid "Host:"
-msgstr "主机"
+msgstr "主机："
 
-#: ../../kde4/settingsdialog.py:147 ../../gnome/settingsdialog.glade:222
+#: ../../kde4/settingsdialog.py:147 ../../gnome/settingsdialog.glade:314
 msgid "User:"
-msgstr "用户"
+msgstr "用户名："
 
 #: ../../kde4/settingsdialog.py:160
 msgid "Schedule"
-msgstr "日程表"
+msgstr "计划任务"
 
-#: ../../kde4/settingsdialog.py:169 ../../gnome/settingsdialog.glade:324
+#: ../../kde4/settingsdialog.py:170 ../../gnome/settingsdialog.glade:472
+msgid "Day:"
+msgstr "日："
+
+#: ../../kde4/settingsdialog.py:181 ../../gnome/settingsdialog.glade:459
+msgid "Weekday:"
+msgstr "工作日："
+
+#: ../../kde4/settingsdialog.py:192 ../../gnome/settingsdialog.glade:446
 msgid "Hour:"
 msgstr "小时："
 
-#: ../../kde4/settingsdialog.py:187 ../../gnome/settingsdialog.glade:481
+#: ../../kde4/settingsdialog.py:210 ../../gnome/settingsdialog.glade:661
 msgid "Include"
 msgstr "包含"
 
-#: ../../kde4/settingsdialog.py:210 ../../kde4/settingsdialog.py:244
-#: ../../gnome/settingsdialog.glade:558
+#: ../../kde4/settingsdialog.py:233 ../../kde4/settingsdialog.py:267
+#: ../../gnome/settingsdialog.glade:746
 msgid "Add file"
 msgstr "添加文件"
 
-#: ../../kde4/settingsdialog.py:215 ../../kde4/settingsdialog.py:249
-#: ../../gnome/settingsdialog.glade:570
+#: ../../kde4/settingsdialog.py:238 ../../kde4/settingsdialog.py:272
+#: ../../gnome/settingsdialog.glade:761
 msgid "Add folder"
 msgstr "添加文件夹"
 
-#: ../../kde4/settingsdialog.py:225 ../../gnome/settingsdialog.glade:608
+#: ../../kde4/settingsdialog.py:248 ../../gnome/settingsdialog.glade:806
 msgid "Exclude"
 msgstr "排除"
 
-#: ../../kde4/settingsdialog.py:231
+#: ../../kde4/settingsdialog.py:254
 msgid "Highly recommended:"
-msgstr "强烈推荐"
+msgstr "强烈推荐："
 
-#: ../../kde4/settingsdialog.py:259 ../../gnome/settingsdialog.glade:770
+#: ../../kde4/settingsdialog.py:282 ../../gnome/settingsdialog.glade:1178
 msgid "Auto-remove"
 msgstr "自动移除"
 
-#: ../../kde4/settingsdialog.py:263 ../../gnome/settingsdialog.glade:690
+#: ../../kde4/settingsdialog.py:286 ../../gnome/settingsdialog.glade:900
 msgid "Older than:"
 msgstr "早于："
 
-#: ../../kde4/settingsdialog.py:277 ../../gnome/settingsdialog.glade:703
+#: ../../kde4/settingsdialog.py:300 ../../gnome/settingsdialog.glade:914
 msgid "If free space is less than:"
 msgstr "如果磁盘可用空间少于："
 
-#: ../../kde4/settingsdialog.py:292
-msgid ""
-"- keep all snapshots from today and yesterday\n"
-"- keep one snapshot for the last week and one for two weeks ago\n"
-"- keep one snapshot per month for all previous months of this year and all "
-"months of the last year \n"
-"- keep one snapshot per year for all other years"
-msgstr ""
-"- 保留昨天和今天的全部快照\n"
-"- 按周保留上周和上上周的快照\n"
-"- 按月保留今年和去年各月份的快照\n"
-"- 按年保留其它年份的快照"
+#: ../../kde4/settingsdialog.py:325 ../../gnome/settingsdialog.glade:977
+msgid "Keep all snapshots for the last"
+msgstr "保留最新的所有快照"
 
-#: ../../kde4/settingsdialog.py:297 ../../gnome/settingsdialog.glade:625
+#: ../../kde4/settingsdialog.py:328 ../../kde4/settingsdialog.py:333
+#: ../../gnome/settingsdialog.glade:985 ../../gnome/settingsdialog.glade:1009
+msgid "day(s)"
+msgstr "天"
+
+#: ../../kde4/settingsdialog.py:330 ../../gnome/settingsdialog.glade:997
+msgid "Keep one snapshot per day for the last"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:1023
+msgid "Keep one snapshot per week for the last"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:338
+msgid "weeks(s)"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:340 ../../gnome/settingsdialog.glade:1049
+msgid "Keep one snapshot per month for the last"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:343 ../../gnome/settingsdialog.glade:1061
+msgid "month(s)"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:345 ../../gnome/settingsdialog.glade:1075
+msgid "Keep one snapshot per year for all years"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:348 ../../gnome/settingsdialog.glade:824
 msgid "Don't remove named snapshots"
 msgstr "不要移除已命名的快照"
 
-#: ../../kde4/settingsdialog.py:306 ../../gnome/settingsdialog.glade:887
+#: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:1370
 msgid "Options"
 msgstr "选项"
 
-#: ../../kde4/settingsdialog.py:309 ../../gnome/settingsdialog.glade:784
+#: ../../kde4/settingsdialog.py:360 ../../gnome/settingsdialog.glade:1193
 msgid "Enable notifications"
 msgstr "启用通知"
 
-#: ../../kde4/settingsdialog.py:312 ../../gnome/settingsdialog.glade:797
+#: ../../kde4/settingsdialog.py:363 ../../gnome/settingsdialog.glade:1209
 msgid "Disable snapshots when on battery"
 msgstr "使用电池时禁用快照"
 
-#: ../../kde4/settingsdialog.py:315
+#: ../../kde4/settingsdialog.py:366
 msgid "Power status not available from system"
 msgstr "无法从系统中获取电源状态"
 
-#: ../../kde4/settingsdialog.py:318 ../../gnome/settingsdialog.glade:811
+#: ../../kde4/settingsdialog.py:369 ../../gnome/settingsdialog.glade:1226
 msgid "Backup files on restore"
-msgstr "恢复时备份文件"
+msgstr "还原时备份文件"
 
-#: ../../kde4/settingsdialog.py:321 ../../gnome/settingsdialog.glade:824
+#: ../../kde4/settingsdialog.py:372 ../../gnome/settingsdialog.glade:1242
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "忽略错误并继续(保留不完整的快照)"
 
-#: ../../kde4/settingsdialog.py:324 ../../gnome/settingsdialog.glade:837
+#: ../../kde4/settingsdialog.py:375 ../../gnome/settingsdialog.glade:1258
 msgid "Use checksum to detect changes"
 msgstr "使用校验检测变更"
 
-#: ../../kde4/settingsdialog.py:331
+#: ../../kde4/settingsdialog.py:378 ../../gnome/settingsdialog.glade:1309
+msgid "Check for changes (don't take a new snapshot if nothing changed)"
+msgstr "检查变更（如果没有任何变更，不要创建新的快照）"
+
+#: ../../kde4/settingsdialog.py:385
 msgid "Log Level:"
 msgstr "日志级别"
 
-#: ../../kde4/settingsdialog.py:346 ../../gnome/settingsdialog.glade:1018
+#: ../../kde4/settingsdialog.py:400 ../../gnome/settingsdialog.glade:1529
 msgid "Expert Options"
 msgstr "专家选项"
 
-#: ../../kde4/settingsdialog.py:349
+#: ../../kde4/settingsdialog.py:403
 msgid "Change these options only if you really know what you are doing !"
 msgstr "除非您知道自己在干什么，否则不要变更这些选项！"
 
-#: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:913
+#: ../../kde4/settingsdialog.py:411 ../../gnome/settingsdialog.glade:1399
 msgid "Run 'nice' as cron job (default: enabled)"
 msgstr "运行 nice 命令来作为 cron任务 (默认：已启用)"
 
-#: ../../kde4/settingsdialog.py:360 ../../gnome/settingsdialog.glade:926
+#: ../../kde4/settingsdialog.py:414 ../../gnome/settingsdialog.glade:1415
 msgid "Run 'ionice' as cron job (default: enabled)"
 msgstr "将 “ionice'” 作为 cron 任务运行 (默认：启用)"
 
-#: ../../kde4/settingsdialog.py:363 ../../gnome/settingsdialog.glade:939
-msgid "Run 'ionice' when tacking a manual snapshot (default: disabled)"
-msgstr "发现手动快照时运行 “ionice”(默认：禁用)"
+#: ../../kde4/settingsdialog.py:417 ../../gnome/settingsdialog.glade:1431
+msgid "Run 'ionice' when taking a manual snapshot (default: disabled)"
+msgstr ""
 
-#: ../../kde4/settingsdialog.py:366 ../../gnome/settingsdialog.glade:952
+#: ../../kde4/settingsdialog.py:420 ../../gnome/settingsdialog.glade:1447
 msgid "Preserve ACL"
 msgstr "保留 ACL"
 
-#: ../../kde4/settingsdialog.py:369 ../../gnome/settingsdialog.glade:965
+#: ../../kde4/settingsdialog.py:423 ../../gnome/settingsdialog.glade:1463
 msgid "Preserve extended attributes (xattr)"
 msgstr "保留扩展属性 (xattr)"
 
-#: ../../kde4/settingsdialog.py:372 ../../gnome/settingsdialog.glade:978
+#: ../../kde4/settingsdialog.py:426 ../../gnome/settingsdialog.glade:1479
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "复制不安全的链接(仅绝对链接有效)"
 
-#: ../../kde4/settingsdialog.py:375 ../../gnome/settingsdialog.glade:991
+#: ../../kde4/settingsdialog.py:429 ../../gnome/settingsdialog.glade:1495
 msgid "Copy links (dereference symbolic links)"
 msgstr "复制链接(废除符号链接)"
 
-#: ../../kde4/snapshotsdialog.py:45 ../../kde4/snapshotsdialog.py:146
-#: ../../gnome/snapshotsdialog.glade:240
+#: ../../kde4/snapshotsdialog.py:46 ../../kde4/snapshotsdialog.py:149
+#: ../../gnome/snapshotsdialog.glade:315
 msgid "Diff Options"
 msgstr "Diff 选项"
 
-#: ../../kde4/snapshotsdialog.py:55 ../../gnome/snapshotsdialog.glade:180
+#: ../../kde4/snapshotsdialog.py:56 ../../gnome/snapshotsdialog.glade:244
 msgid "Command:"
 msgstr "命令："
 
-#: ../../kde4/snapshotsdialog.py:59 ../../gnome/snapshotsdialog.glade:187
+#: ../../kde4/snapshotsdialog.py:60 ../../gnome/snapshotsdialog.glade:252
 msgid "Parameters:"
 msgstr "参数："
 
-#: ../../kde4/snapshotsdialog.py:63 ../../gnome/snapshotsdialog.glade:198
+#: ../../kde4/snapshotsdialog.py:64 ../../gnome/snapshotsdialog.glade:264
 msgid "Use %1 and %2 for path parameters"
 msgstr "用 %1 和 %2 作为路径参数"
 
-#: ../../kde4/snapshotsdialog.py:119 ../../gnome/snapshotsdialog.glade:36
+#: ../../kde4/snapshotsdialog.py:122 ../../gnome/snapshotsdialog.glade:88
 msgid "List only different snapshots"
 msgstr "仅列出不同的快照"
 
-#: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:49
+#: ../../kde4/snapshotsdialog.py:126 ../../gnome/snapshotsdialog.glade:105
 msgid "Deep check (more accurate, but slow)"
 msgstr "深度检查(更精确，但是较慢）"
 
-#: ../../kde4/snapshotsdialog.py:147
+#: ../../kde4/snapshotsdialog.py:150
 msgid "Go To"
 msgstr "转到"
 
@@ -805,27 +861,27 @@ msgstr "转到"
 msgid "Log View"
 msgstr "日志查看"
 
-#: ../../gnome/mainwindow.glade:6
+#: ../../gnome/mainwindow.glade:7
 msgid "Back In Time"
 msgstr "Back In Time"
 
-#: ../../gnome/mainwindow.glade:37
+#: ../../gnome/mainwindow.glade:45
 msgid "Backup Now"
 msgstr "立即备份"
 
-#: ../../gnome/mainwindow.glade:214 ../../gnome/mainwindow.glade:215
+#: ../../gnome/mainwindow.glade:247 ../../gnome/mainwindow.glade:249
 msgid "Website"
 msgstr "网站"
 
-#: ../../gnome/mainwindow.glade:272
+#: ../../gnome/mainwindow.glade:311
 msgid "Parent folder"
 msgstr "上一级目录"
 
-#: ../../gnome/mainwindow.glade:303
+#: ../../gnome/mainwindow.glade:351
 msgid "Hidden files"
 msgstr "隐藏文件"
 
-#: ../../gnome/mainwindow.glade:430
+#: ../../gnome/mainwindow.glade:475
 msgid ""
 "<b>This folder doesn't exist\n"
 "in the current snapshot !</b>"
@@ -833,69 +889,59 @@ msgstr ""
 "<b>该文件夹不存在于\n"
 "当前快照中！</b>"
 
-#: ../../gnome/settingsdialog.glade:242
+#: ../../gnome/settingsdialog.glade:343
 msgid "Profile Id:"
 msgstr "配置文件Id"
 
-#: ../../gnome/settingsdialog.glade:270
+#: ../../gnome/settingsdialog.glade:382
 msgid "Advanced"
 msgstr "高级"
 
-#: ../../gnome/settingsdialog.glade:285
+#: ../../gnome/settingsdialog.glade:400
 msgid "<b>Where to save snapshots</b>"
 msgstr "<b>保存快照的地方</b>"
 
-#: ../../gnome/settingsdialog.glade:354
+#: ../../gnome/settingsdialog.glade:517
 msgid "<b>Schedule</b>"
 msgstr "<b>日程表</b>"
 
-#: ../../gnome/settingsdialog.glade:517
+#: ../../gnome/settingsdialog.glade:699
 msgid "<b>Highly recommended:</b>"
 msgstr "<b> 强烈推荐 :</b>"
 
-#: ../../gnome/settingsdialog.glade:529
+#: ../../gnome/settingsdialog.glade:713
 msgid "label"
 msgstr "标记"
 
-#: ../../gnome/settingsdialog.glade:735
-msgid ""
-"- keep all snapshots from today and yesterday\n"
-"- keep one snapshot for the last week and one for two weeks ago\n"
-"- keep one snapshot per month for all previous months of this year and all "
-"months of the last year\n"
-"- keep one snapshot per year for all other years"
-msgstr ""
-"- 保留昨天和今天的全部快照\n"
-"- 按周保留上周和上上周的快照\n"
-"- 按月保留今年和去年各月份的快照\n"
-"- 按年保留其它年份的快照"
-
-#: ../../gnome/settingsdialog.glade:751
+#: ../../gnome/settingsdialog.glade:948
 msgid "Auto-remove only removes snapshots from the selected snapshots folder"
 msgstr "自动删除仅从选定的快照文件夹中删除快照"
 
-#: ../../gnome/settingsdialog.glade:855
-msgid "Log level:"
-msgstr "日志级别"
+#: ../../gnome/settingsdialog.glade:1035
+msgid "week(s)"
+msgstr ""
 
-#: ../../gnome/settingsdialog.glade:902
+#: ../../gnome/settingsdialog.glade:1274
+msgid "Full rsync mode. May be faster but:"
+msgstr "完整的 rsync 模式。可能会更快，但是:"
+
+#: ../../gnome/settingsdialog.glade:1296
+msgid ""
+"- snapshots are no read-only\n"
+"- destination file-system must support all linux attributes (dates, rights, "
+"user, group ...)"
+msgstr ""
+
+#: ../../gnome/settingsdialog.glade:1332
+msgid "Log level:"
+msgstr "日志级别："
+
+#: ../../gnome/settingsdialog.glade:1387
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
-msgstr "<b>除非您知道自己在干什么，否则不要变更这写选项！</b>"
+msgstr "<b>除非您知道自己在干什么，否则不要更改这些选项！</b>"
 
-#: ../../gnome/settingsdialog.glade:1033
-msgid "<b>This options don't depend on profile</b>"
-msgstr "<b> 这些选项不依赖于配置文件 </b>"
-
-#: ../../gnome/settingsdialog.glade:1044
-msgid "Use gloobus-preview (if installed)"
-msgstr "使用 gloobus 预览(如果已安装)"
-
-#: ../../gnome/settingsdialog.glade:1066
-msgid "GUI Options"
-msgstr "图形用户界面选项"
-
-#: ../../gnome/snapshotsdialog.glade:138
+#: ../../gnome/snapshotsdialog.glade:193
 msgid "Diff with"
 msgstr "和...不同"
 
