@@ -7,15 +7,15 @@ echo "Update 'common/debian_specific/control'"
 sed -i -e "s/^Version: .*$/Version: $VERSION/" common/debian_specific/control
 
 echo "Update 'gnome/debian_specific/control'"
-sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-common (= [^)]*)/backintime-common (= $VERSION)/" gnome/debian_specific/control
-sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-notify (= [^)]*)/backintime-notify (= $VERSION)/" gnome/debian_specific/control
+sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-common (>= [^)]*)/backintime-common (>= $VERSION~)/" gnome/debian_specific/control
+sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-notify (>= [^)]*)/backintime-notify (>= $VERSION~)/" gnome/debian_specific/control
 
 echo "Update 'kde4/debian_specific/control'"
-sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-common (= [^)]*)/backintime-common (= $VERSION)/" kde4/debian_specific/control
-sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-notify (= [^)]*)/backintime-notify (= $VERSION)/" kde4/debian_specific/control
+sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-common (>= [^)]*)/backintime-common (>= $VERSION~)/" kde4/debian_specific/control
+sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-notify (>= [^)]*)/backintime-notify (>= $VERSION~)/" kde4/debian_specific/control
 
 echo "Update 'notify/debian_specific/control'"
-sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-common (= [^)]*)/backintime-common (= $VERSION)/" notify/debian_specific/control
+sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-common (>= [^)]*)/backintime-common (>= $VERSION~)/" notify/debian_specific/control
 
 echo "Update 'common/config.py'"
 sed -i -e "s/^\tVERSION = '.*'$/\tVERSION = '$VERSION'/" common/config.py
