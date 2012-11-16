@@ -83,16 +83,17 @@ class RestoreDialog(object):
 		self.btn_close.set_sensitive(False)
 
 		#
-		self.buffer = ''
+		self.buffer = self.txt_log_view.get_buffer()
 	
 	def callback(self, line, *params ):
-		self.buffer = self.buffer + line + "\n"
-		self.txt_log_view.get_buffer().set_text(self.buffer)
-        	gnometools.run_gtk_update_loop()
+		end_iter = self.buffer.get_end_iter()
+		self.buffer.insert(end_iter, line + "\n")
+		self.txt_log_view.scroll_to_mark(self.buffer.get_insert(), 0)
+		gnometools.run_gtk_update_loop()
 
 	def run( self ):
-        	self.dialog.show()
-        	gnometools.run_gtk_update_loop()
+		self.dialog.show()
+		gnometools.run_gtk_update_loop()
 		self.snapshots.restore( self.snapshot_id, self.what, self.callback, self.where )
 		self.btn_close.set_sensitive(True)
 		self.dialog.run()

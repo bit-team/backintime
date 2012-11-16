@@ -74,11 +74,9 @@ class RestoreDialog( KDialog ):
 
 		#
 		self.enableButton(KDialog.Close, False)
-		self.buffer = ""
 
 	def callback(self, line, *params ):
-		self.buffer = self.buffer + line + "\n"
-		self.txt_log_view.setPlainText( self.buffer )
+		self.txt_log_view.append(QString(line))
 		KApplication.processEvents()
 
 	def exec_(self):
