@@ -162,8 +162,9 @@ class SSH(mount.MountControl):
             ssh = ['ssh']
             ssh.extend(['-o', 'Ciphers=%s' % self.cipher])
             ssh.extend(['-p', str(self.port), self.user + '@' + self.host, 'echo', '"Hello"'])
-            err = subprocess.Popen(ssh, stdout=open(os.devnull, 'w'), stderr=subprocess.PIPE).communicate()[1]
-            if err:
+            proc = subprocess.Popen(ssh, stdout=open(os.devnull, 'w'), stderr=subprocess.PIPE)
+            err = proc.communicate()[1]
+            if proc.returncode:
                 raise mount.MountException( _('Cipher %s failed for %s:\n%s')  % (self.cipher, self.host, err))
             
     def benchmark_cipher(self, size = '40'):
@@ -275,9 +276,10 @@ class SSH(mount.MountControl):
         cmd += '[[ $err_rm -ne 0 ]] && cleanup $err_rm; '
         #if we end up here, everything should be fine
         cmd += 'echo \"done\"'
-        output, err = subprocess.Popen(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd],
+        proc = subprocess.Popen(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd],
                                         stdout=subprocess.PIPE, 
-                                        stderr=subprocess.PIPE).communicate()
+                                        stderr=subprocess.PIPE)
+        output, err = proc.communicate()
             
 ##        print('ERROR: %s' % err)
 ##        print('OUTPUT: %s' % output)
@@ -287,7 +289,7 @@ class SSH(mount.MountControl):
                 output_split = output_split[:-1]
             else:
                 break
-        if err or not output_split[-1].startswith('done'):
+        if proc.returncode or not output_split[-1].startswith('done'):
             for command in ('cp', 'chmod', 'find', 'rm'):
                 if output_split[-1].startswith(command):
                     raise mount.MountException( _('Remote host %s doesn\'t support \'%s\':\n%s\nLook at \'man backintime\' for further instructions') % (self.host, output_split[-1], err))

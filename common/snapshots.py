@@ -1313,8 +1313,8 @@ class Snapshots:
 			cmd.extend(['find', path_to_explore_ssh, '-name', '\*', '-print'])
 			
 			find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-			output, err = find.communicate()
-			if len(err) > 0:
+			output = find.communicate()[0]
+			if find.returncode:
 				logger.warning('Save permission over ssh failed. Retry normal methode')
 			else:
 				for line in output.split('\n'):
