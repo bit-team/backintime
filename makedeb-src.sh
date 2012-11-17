@@ -1,10 +1,8 @@
 #!/bin/bash
 
-#RELEASES="karmic lucid maverick natty precise quantal"
-RELEASES="precise"
+RELEASES="karmic lucid maverick natty precise quantal"
 
-#for i in common notify gnome kde4; do
-for i in common; do
+for i in common notify gnome kde4; do
 	PKGNAME=`cat $i/debian_specific/control | grep "^Package:" | cut -d" " -f2`
 	PKGVER=`cat $i/debian_specific/control | grep "^Version:" | cut -d" " -f2`
 	PKGARCH=`cat $i/debian_specific/control | grep "^Architecture:" | cut -d" " -f2`
