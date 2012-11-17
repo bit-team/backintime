@@ -47,7 +47,6 @@ cp debian_specific/rules $DEST/debian
 #add languages to rules
 for langfile in `ls po/*.po`; do
 	lang=`echo $langfile | cut -d/ -f2 | cut -d. -f1`
-	echo $lang
 	mkdir -p $DEST/mo/$lang
 	msgfmt -o $DEST/mo/$lang/backintime.mo po/$lang.po
 	#sed -i -e "s/\t\[INSTALL_LANGS\]/\tdh_installdirs \/usr\/share\/locale\/$lang\/LC_MESSAGES\n\tdh_install mo\/$lang.mo \/usr\/share\/locale\/$lang\/LC_MESSAGES\/backintime.mo\n\t[INSTALL_LANGS]/g" $DEST/debian/rules
