@@ -891,6 +891,15 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def get_take_snapshot_user_callback( self, profile_id = None ):
 		return os.path.join( self._LOCAL_CONFIG_FOLDER, "user-callback" )
 
+	def get_password_cache_folder( self ):
+		return os.path.join( self._LOCAL_DATA_FOLDER, "password_cache" )
+
+	def get_password_cache_pid( self ):
+		return os.path.join( self.get_password_cache_folder(), "PID" )
+
+	def get_password_cache_fifo( self ):
+		return os.path.join( self.get_password_cache_folder(), "FIFO" )
+
 	def get_license( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )
 

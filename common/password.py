@@ -16,6 +16,8 @@
 
 import sys, os, time, atexit, signal, tempfile
 
+import config
+
 class Timeout(Exception):
     pass
     
@@ -76,7 +78,9 @@ class Daemon:
         # write pidfile
         atexit.register(self.delpid)
         pid = str(os.getpid())
-        file(self.pidfile,'w+').write("%s\n" % pid)
+        with open(self.pidfile, 'w+') as pidfile:
+            pidfile.write("%s\n" % pid)
+        os.chmod(self.pidfile, 0660)
    
     def delpid(self):
         os.remove(self.pidfile)
@@ -148,9 +152,10 @@ class Daemon:
         pass
         
 class FIFO(object):
-    def __init__(self, log):
+    def __init__(self, cfg, log):
+        self.config = cfg
         self.log = log
-        self.fifo = '/tmp/daemon-example.fifo'
+        self.fifo = self.config.get_password_cache_fifo()
         
     def __del__(self):
         if os.path.exists(self.fifo):
@@ -194,9 +199,19 @@ class Log(object):
             log.write('%s: %s\n' % (time.asctime(), string) )
      
 class Password_Cache(Daemon):
-    db = {'a': 'AAA', 'b': 'BBB', 'c': 'CCC', 'd': 'DDD'}
-    log = Log() #replace with config
-    fifo = FIFO(log)
+    def __init__(self, cfg = None, *args, **kwargs):
+        self.config = cfg
+        if self.config is None:
+            self.config = config.Config()
+        pw_cache_path = self.config.get_password_cache_folder()
+        if not os.path.isdir(pw_cache_path):
+            os.mkdir(pw_cache_path, 0700)
+        else:
+            os.chmod(pw_cache_path, 0700)
+        Daemon.__init__(self, self.config.get_password_cache_pid(), *args, **kwargs)
+        self.db = {'a': 'AAA', 'b': 'BBB', 'c': 'CCC', 'd': 'DDD'}
+        self.log = Log()
+        self.fifo = FIFO(self.config, self.log)
         
     def run(self):
         self.fifo.create()
@@ -210,16 +225,18 @@ class Password_Cache(Daemon):
                     answer = 'NONE'
                 try:
                     self.fifo.write(answer, 5)
-                except BaseException as ex:
+                except IOError as ex:
                     self.log.write('Error in writing answer to FIFO: %s' % str(ex))
                 else:
                     self.log.write('%s: %s' % (request, answer))
             except KeyboardInterrupt: 
                 print('Quit.')
                 break
+            except BaseException:
+                pass
 
 if __name__ == "__main__":
-    daemon = Password_Cache('/tmp/daemon-example.pid')
+    daemon = Password_Cache()
     if len(sys.argv) == 1:
         daemon.run()
         sys.exit(0)
