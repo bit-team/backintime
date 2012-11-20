@@ -17,6 +17,7 @@
 import sys, os, time, atexit, signal, tempfile
 
 import config
+import tools
 
 class Timeout(Exception):
     pass
@@ -34,6 +35,10 @@ class Daemon:
         self.stdout = stdout
         self.stderr = stderr
         self.pidfile = pidfile
+        
+    def __del__(self):
+        if os.path.exists(self.pidfile):
+            os.remove(self.pidfile)
    
     def daemonize(self):
         """
@@ -45,6 +50,7 @@ class Daemon:
             pid = os.fork()
             if pid > 0:
                 # exit first parent
+                self.log.write('daemonize exit0 first parent')
                 sys.exit(0)
         except OSError, e:
             sys.stderr.write("fork #1 failed: %d (%s)\n" % (e.errno, e.strerror))
@@ -60,6 +66,7 @@ class Daemon:
             pid = os.fork()
             if pid > 0:
                 # exit from second parent
+                self.log.write('daemonize exit0 second parent')
                 sys.exit(0)
         except OSError, e:
             sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
@@ -77,13 +84,22 @@ class Daemon:
 
         # write pidfile
         atexit.register(self.delpid)
+        signal.signal(signal.SIGTERM, self.cleanup_handler)
         pid = str(os.getpid())
         with open(self.pidfile, 'w+') as pidfile:
             pidfile.write("%s\n" % pid)
-        os.chmod(self.pidfile, 0660)
-   
+        os.chmod(self.pidfile, 0600)
+
+    def cleanup_handler(self, signum, frame):
+        self.delpid()
+        sys.exit(0)
+        
     def delpid(self):
-        os.remove(self.pidfile)
+        try:
+            os.remove(self.pidfile)
+            self.fifo.delfifo()
+        except:
+            pass
 
     def start(self):
         """
@@ -98,9 +114,12 @@ class Daemon:
             pid = None
 
         if pid:
-            message = "pidfile %s already exist. Daemon already running?\n"
-            sys.stderr.write(message % self.pidfile)
-            sys.exit(1)
+            if tools.is_process_alive(pid):
+                message = "pidfile %s already exist. Daemon already running?\n"
+                sys.stderr.write(message % self.pidfile)
+                sys.exit(1)
+            else:
+                self.delpid()
        
         # Start the daemon
         self.daemonize()
@@ -134,7 +153,7 @@ class Daemon:
                 if os.path.exists(self.pidfile):
                     os.remove(self.pidfile)
             else:
-                print str(err)
+                print err
                 sys.exit(1)
 
     def restart(self):
@@ -156,12 +175,19 @@ class FIFO(object):
         self.config = cfg
         self.log = log
         self.fifo = self.config.get_password_cache_fifo()
-        
+            
     def __del__(self):
-        if os.path.exists(self.fifo):
+        self.delfifo()
+        
+    def delfifo(self):
+        try:
             os.remove(self.fifo)
+        except:
+            pass
         
     def create(self):
+        if os.path.exists(self.fifo):
+            self.delfifo()
         try:
             os.mkfifo(self.fifo, 0600)
         except OSError, e:
