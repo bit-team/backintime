@@ -14,7 +14,33 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys, os, time, atexit, signal, tempfile
+import sys
+import os
+import time
+import atexit
+import signal
+import tempfile
+try:
+    import keyring
+except ImportError:
+    print """Unable to import keyring module
+On Debian like systems you probably need to install the following package(s):
+python-keyring"""
+    sys.exit(1)
+    
+window = False
+try:
+    sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'gnome' )] + sys.path
+    from messagebox import text_input_dialog
+    window = 'glade'
+except:
+    pass
+if not window:
+    try:
+        from PyKDE4.kdeui import *
+        window = 'kde'
+    except:
+        pass
 
 import config
 import tools
@@ -27,7 +53,9 @@ class Daemon:
     A generic daemon class.
    
     Usage: subclass the Daemon class and override the run() method
-    Original by Sander Marechal from:
+    
+    Daemon Copyright by Sander Marechal
+    License CC BY-SA 3.0
     http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
     """
     def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
@@ -84,13 +112,13 @@ class Daemon:
 
         # write pidfile
         atexit.register(self.delpid)
-        signal.signal(signal.SIGTERM, self.cleanup_handler)
+        signal.signal(signal.SIGTERM, self._cleanup_handler)
         pid = str(os.getpid())
         with open(self.pidfile, 'w+') as pidfile:
             pidfile.write("%s\n" % pid)
         os.chmod(self.pidfile, 0600)
 
-    def cleanup_handler(self, signum, frame):
+    def _cleanup_handler(self, signum, frame):
         self.delpid()
         sys.exit(0)
         
@@ -162,6 +190,35 @@ class Daemon:
         """
         self.stop()
         self.start()
+        
+    def reload(self):
+        """
+        send SIGHUP signal to process
+        """
+        # Get the pid from the pidfile
+        try:
+            pf = file(self.pidfile,'r')
+            pid = int(pf.read().strip())
+            pf.close()
+        except IOError:
+            pid = None
+
+        if not pid:
+            message = "pidfile %s does not exist. Daemon not running?\n"
+            sys.stderr.write(message % self.pidfile)
+            return
+        
+        # Try killing the daemon process       
+        try:
+            os.kill(pid, signal.SIGHUP)
+        except OSError, err:
+            err = str(err)
+            if err.find("No such process") > 0:
+                if os.path.exists(self.pidfile):
+                    os.remove(self.pidfile)
+            else:
+                print err
+                sys.exit(1)
 
     def run(self):
         """
@@ -171,13 +228,8 @@ class Daemon:
         pass
         
 class FIFO(object):
-    def __init__(self, cfg, log):
-        self.config = cfg
-        self.log = log
-        self.fifo = self.config.get_password_cache_fifo()
-            
-    def __del__(self):
-        self.delfifo()
+    def __init__(self, fname):
+        self.fifo = fname
         
     def delfifo(self):
         try:
@@ -191,7 +243,7 @@ class FIFO(object):
         try:
             os.mkfifo(self.fifo, 0600)
         except OSError, e:
-            self.log.write('Failed to create FIFO: %s' % e)
+            sys.stderr.write('Failed to create FIFO:\n%s' % e.strerror)
             sys.exit(1)
         
     def read(self, timeout = 0):
@@ -201,8 +253,8 @@ class FIFO(object):
             with open(self.fifo, 'r') as fifo:
                 ret = fifo.read()
             signal.alarm(0)
-        except Timeout as ex:
-            self.log.write(str(ex))
+        except Timeout as e:
+            sys.stderr.write(e.strerror)
             ret = ''
         return ret
         
@@ -213,8 +265,8 @@ class FIFO(object):
             with open(self.fifo, 'a') as fifo:
                 fifo.write(string)
             signal.alarm(0)
-        except Timeout as ex:
-            self.log.write(str(ex))
+        except Timeout as e:
+            sys.stderr.write(e.strerror)
 
     def handler(self, signum, frame):
         raise Timeout('FIFO timeout')
@@ -235,12 +287,14 @@ class Password_Cache(Daemon):
         else:
             os.chmod(pw_cache_path, 0700)
         Daemon.__init__(self, self.config.get_password_cache_pid(), *args, **kwargs)
-        self.db = {'a': 'AAA', 'b': 'BBB', 'c': 'CCC', 'd': 'DDD'}
+        self.db = {}
         self.log = Log()
-        self.fifo = FIFO(self.config, self.log)
+        self.fifo = FIFO(self.config.get_password_cache_fifo())
         
     def run(self):
         self.fifo.create()
+        _collect_passwords()
+        signal.signal(signal.SIGHUP, self._reload_handler)
         while True:
             try:
                 request = self.fifo.read()
@@ -260,7 +314,89 @@ class Password_Cache(Daemon):
                 break
             except BaseException:
                 pass
+        
+    def _reload_handler(self, signum, frame):
+        self.log.write('Reloading')
+        del(self.db)
+        self.db = {}
+        _collect_passwords()
+        
+    def _collect_passwords(self):
+        profiles = self.config.get_profiles()
+        for profile_id in profiles:
+            mode = self.config.get_snapshots_mode(profile_id)
+            if mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
+                if self.config.get_password_save(profile_id):
+                    if self.config.get_password_use_cache(profile_id):
+                        service_name = self.config.get_keyring_service_name(profile_id, mode)
+                        user_name = self.config.get_keyring_user_name(profile_id)
+                            
+                        password = keyring.get_password(service_name, user_name)
+                        self.db[profile_id] = password
 
+class Password(object):
+    def __init__(self, cfg = None):
+        self.config = cfg
+        if self.config is None:
+            self.config = config.Config()
+        self.pw_cache = Password_Cache(self.config)
+        self.fifo = FIFO(self.config.get_password_cache_fifo())
+        self.db = {}
+        
+    def get_password(self, profile_id, mode, parent = None):
+        if not mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
+            return ''
+        try:
+            return self.db[profile_id][mode]
+        except KeyError:
+            pass
+        if self.config.get_password_save(profile_id):
+            if self.config.get_password_use_cache(profile_id):
+                password = self._get_password_from_pw_cache(profile_id)
+            else:
+                password = self._get_password_from_keyring(profile_id, mode)
+        else:
+            password = self._get_password_from_user(parent, profile_id)
+        self._set_password_db(profile_id, mode, password)
+        return password
+        
+    def _get_password_from_keyring(self, profile_id, mode):
+        service_name = self.config.get_keyring_service_name(profile_id, mode)
+        user_name = self.config.get_keyring_user_name(profile_id)
+        return keyring.get_password(service_name, user_name)
+    
+    def _get_password_from_pw_cache(self, profile_id):
+        self.fifo.write(profile_id, timeout = 5)
+        return self.fifo.read(timeout = 5)
+    
+    def _get_password_from_user(self, parent, profile_id):
+        title = _('Password profile %s') % self.config.get_profile_name(profile_id)
+        if window == 'glade':
+            if parent is None:
+                pass
+            return text_input_dialog(parent, self.config, title, password_mode = True)
+        elif window == 'kde':
+            if parent is None:
+                pass
+            pass
+        else:
+            return ''
+        
+    def _set_password_db(self, profile_id, mode, password):
+        if not profile_id in self.db.keys():
+            self.db[profile_id] = {}
+        self.db[profile_id][mode] = password
+    
+    def set_password(self, profile_id, mode, password):
+        if mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
+            service_name = self.config.get_keyring_service_name(profile_id, mode)
+            user_name = self.config.get_keyring_user_name(profile_id)
+            if self.config.get_password_save(profile_id):
+                keyring.set_password(service_name, user_name, password)
+            if self.config.get_password_use_cache(profile_id):
+                self.pw_cache.reload()
+            self._set_password_db(profile_id, mode, password)
+        
 if __name__ == "__main__":
     daemon = Password_Cache()
     if len(sys.argv) == 1:

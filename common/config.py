@@ -94,6 +94,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 				'ssh' : (sshtools.SSH, _('SSH (without password)') )
 ##				'dummy' : (dummytools.Dummy, _('Dummy') )
 				}
+	
+	SNAPSHOT_MODES_NEED_PASSWORD = ['ssh', 'dummy']
 		
 	MOUNT_ROOT = '/tmp/backintime'
 	
@@ -467,6 +469,46 @@ class Config( configfile.ConfigFileWithProfiles ):
 ##
 ##	def set_dummy_user( self, value, profile_id = None ):
 ##		self.set_profile_str_value( 'snapshots.dummy.user', value, profile_id )
+
+	def get_password_save( self, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		return self.get_profile_bool_value( 'snapshots.%s.password.save' % mode, True, profile_id )
+
+	def set_password_save( self, value, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		self.set_profile_bool_value( 'snapshots.%s.password.save' % mode, value, profile_id )
+
+	def get_password_use_cache( self, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		return self.get_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, True, profile_id )
+
+	def set_password_use_cache( self, value, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		self.set_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, value, profile_id )
+
+	def get_password( self, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		pass
+
+	def set_password( self, value, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		pass
+
+	def get_keyring_service_name( self, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		return 'backintime/%s' % mode
+
+	def get_keyring_user_name( self, profile_id = None ):
+		if profile_id is None:
+			profile_id = self.get_current_profile()
+		return 'profile_id_%s' % profile_id
 
 	def get_auto_host_user_profile( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.path.auto', True, profile_id )
