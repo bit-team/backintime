@@ -84,12 +84,24 @@ class RestoreDialog(object):
 
 		#
 		self.buffer = self.txt_log_view.get_buffer()
+		
+		#auto scroll
+		self.cb_auto_scroll = get('cb_auto_scroll')
+		self.cb_auto_scroll.show()
+		self.cb_auto_scroll.set_active(True)
+
+		signals = {'on_cb_auto_scroll_toggled': self.scroll}
+		builder.connect_signals(signals)
 	
+	def scroll(self, *args):
+		if self.cb_auto_scroll.get_active():
+			self.txt_log_view.scroll_to_iter(self.buffer.get_end_iter(), 0)
+		gnometools.run_gtk_update_loop()
+		
 	def callback(self, line, *params ):
 		end_iter = self.buffer.get_end_iter()
 		self.buffer.insert(end_iter, line + "\n")
-		self.txt_log_view.scroll_to_mark(self.buffer.get_insert(), 0)
-		gnometools.run_gtk_update_loop()
+		self.scroll()
 
 	def run( self ):
 		self.dialog.show()
