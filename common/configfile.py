@@ -61,11 +61,11 @@ class ConfigFile:
 		except:
 			pass
 
-	def load( self, filename ):
+	def load( self, filename, **kwargs ):
 		self.dict = {}
-		self.append( filename )
+		self.append( filename, **kwargs )
 
-	def append( self, filename ):
+	def append( self, filename, maxsplit = -1 ):
 		lines = []
 
 		try:
@@ -76,7 +76,7 @@ class ConfigFile:
 			pass
 
 		for line in lines:
-			items = line.split( '=' )
+			items = line.split( '=', maxsplit )
 			if len( items ) == 2:
 				self.dict[ items[ 0 ] ] = items[ 1 ][ : -1 ]
 
@@ -137,6 +137,8 @@ class ConfigFile:
 		for key in remove_keys:
 			del self.dict[ key ]
 
+	def get_keys(self):
+		return self.dict.keys()
 
 class ConfigFileWithProfiles( ConfigFile ):
 	def __init__( self, default_profile_name = '' ):

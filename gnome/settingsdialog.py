@@ -26,11 +26,14 @@ import gtk
 import gobject
 import datetime
 import gettext
+import subprocess
 
 import config
 import messagebox
 import tools
 import mount
+import password
+import autostart
 
 
 _=gettext.gettext
@@ -77,7 +80,8 @@ class SettingsDialog(object):
 				'on_btn_where_clicked': self.on_btn_where_clicked,
 				'on_cb_backup_mode_changed': self.on_cb_backup_mode_changed,
 				'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile,
-				'on_combo_modes_changed': self.on_combo_modes_changed
+				'on_combo_modes_changed': self.on_combo_modes_changed,
+				'on_cb_password_save_toggled': self.update_password_save
 			}
 		
 		builder.connect_signals(signals)
@@ -158,6 +162,13 @@ class SettingsDialog(object):
 ##		self.txt_dummy_host = get('txt_dummy_host')
 ##		self.txt_dummy_port = get('txt_dummy_port')
 ##		self.txt_dummy_user = get('txt_dummy_user')
+
+		#password
+		self.frame_password = get('password')
+		self.txt_password = get('txt_password')
+		self.txt_password.set_visibility(False)
+		self.cb_password_save = get('cb_password_save')
+		self.cb_password_use_cache = get('cb_password_use_cache')
 
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -458,6 +469,10 @@ class SettingsDialog(object):
 		self.lbl_profile.set_sensitive( value )
 		self.txt_profile.set_sensitive( value )
 		
+	def update_password_save(self, *params):
+		value = self.cb_password_save.get_active()
+		self.cb_password_use_cache.set_sensitive(value)
+		
 	def on_combo_modes_changed(self, *params):
 		iter = self.combo_modes.get_active_iter()
 		if iter is None:
@@ -471,6 +486,10 @@ class SettingsDialog(object):
 				else:
 					getattr(self, 'mode_%s' % mode).hide()
 			self.mode = active_mode
+		if active_mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
+			self.frame_password.show()
+		else:
+			self.frame_password.hide()
 
 	def on_combo_profiles_changed( self, *params ):
 		if self.disable_combo_changed:
@@ -555,6 +574,12 @@ class SettingsDialog(object):
 ##		self.txt_dummy_host.set_text( self.config.get_dummy_host( self.profile_id ) )
 ##		self.txt_dummy_port.set_text( str(self.config.get_dummy_port( self.profile_id )) )
 ##		self.txt_dummy_user.set_text( self.config.get_dummy_user( self.profile_id ) )
+		
+		#password
+		self.txt_password.set_text( self.config.get_password( self.profile_id, self.mode, parent = self.dialog, only_from_keyring = True ) )
+		self.cb_password_save.set_active( self.config.get_password_save( self.profile_id, self.mode ) )
+		self.cb_password_use_cache.set_active( self.config.get_password_use_cache( self.profile_id, self.mode ) )
+		self.update_password_save()
 		
 		#per directory schedule
 		#self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -766,6 +791,9 @@ class SettingsDialog(object):
 ##			#as they are set in config or you will run into false-positive
 ##			#HashCollision warnings
 ##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
+
+		#password
+		password = self.txt_password.get_text()
 			
 		if not self.config.SNAPSHOT_MODES[mode][0] is None:
 			#pre_mount_check
@@ -806,6 +834,11 @@ class SettingsDialog(object):
 ##		self.config.set_dummy_host(dummy_host, self.profile_id)
 ##		self.config.set_dummy_port(dummy_port, self.profile_id)
 ##		self.config.set_dummy_user(dummy_user, self.profile_id)
+
+		#save password
+		self.config.set_password_save(self.cb_password_save.get_active(), self.profile_id, mode)
+		self.config.set_password_use_cache(self.cb_password_use_cache.get_active(), self.profile_id, mode)
+		self.config.set_password(password, self.profile_id, mode)
 
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
@@ -1057,5 +1090,13 @@ class SettingsDialog(object):
 			return False
 		
 		self.config.save()
+		autostart.create()
+		daemon = password.Password_Cache(self.config, stdout = '/tmp/bit_stdout', stderr = '/tmp/bit_stderr') #Todo: delete debug
+		if not daemon.status():
+			print('start Password Cache')
+			try:
+				subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))
+			except subprocess.CalledProcessError as e:
+				print('start Password Cache failed: %s' % e.strerror)
 		return True
 	

@@ -43,6 +43,7 @@ if not window:
         pass
 
 import config
+import configfile
 import tools
 
 class Timeout(Exception):
@@ -63,10 +64,6 @@ class Daemon:
         self.stdout = stdout
         self.stderr = stderr
         self.pidfile = pidfile
-        
-    def __del__(self):
-        if os.path.exists(self.pidfile):
-            os.remove(self.pidfile)
    
     def daemonize(self):
         """
@@ -78,7 +75,6 @@ class Daemon:
             pid = os.fork()
             if pid > 0:
                 # exit first parent
-                self.log.write('daemonize exit0 first parent')
                 sys.exit(0)
         except OSError, e:
             sys.stderr.write("fork #1 failed: %d (%s)\n" % (e.errno, e.strerror))
@@ -94,7 +90,6 @@ class Daemon:
             pid = os.fork()
             if pid > 0:
                 # exit from second parent
-                self.log.write('daemonize exit0 second parent')
                 sys.exit(0)
         except OSError, e:
             sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
@@ -111,6 +106,7 @@ class Daemon:
         os.dup2(se.fileno(), sys.stderr.fileno())
 
         # write pidfile
+        sys.stdout.write('write pidfile\n')
         atexit.register(self.delpid)
         signal.signal(signal.SIGTERM, self._cleanup_handler)
         pid = str(os.getpid())
@@ -119,13 +115,13 @@ class Daemon:
         os.chmod(self.pidfile, 0600)
 
     def _cleanup_handler(self, signum, frame):
+        self.fifo.delfifo()
         self.delpid()
         sys.exit(0)
         
     def delpid(self):
         try:
             os.remove(self.pidfile)
-            self.fifo.delfifo()
         except:
             pass
 
@@ -176,12 +172,11 @@ class Daemon:
                 os.kill(pid, signal.SIGTERM)
                 time.sleep(0.1)
         except OSError, err:
-            err = str(err)
-            if err.find("No such process") > 0:
+            if err.errno == 3:
                 if os.path.exists(self.pidfile):
                     os.remove(self.pidfile)
             else:
-                print err
+                print err.strerror
                 sys.exit(1)
 
     def restart(self):
@@ -212,13 +207,40 @@ class Daemon:
         try:
             os.kill(pid, signal.SIGHUP)
         except OSError, err:
-            err = str(err)
-            if err.find("No such process") > 0:
+            if err.errno == 3:
                 if os.path.exists(self.pidfile):
                     os.remove(self.pidfile)
             else:
-                print err
+                sys.stderr.write(err.strerror)
                 sys.exit(1)
+        
+    def status(self):
+        """
+        return status
+        """
+        # Get the pid from the pidfile
+        try:
+            pf = file(self.pidfile,'r')
+            pid = int(pf.read().strip())
+            pf.close()
+        except IOError:
+            pid = None
+
+        if not pid:
+            return False
+        
+        # Try killing the daemon process       
+        try:
+            os.kill(pid, 0)
+        except OSError, err:
+            if err.errno == 3:
+                if os.path.exists(self.pidfile):
+                    os.remove(self.pidfile)
+                    return False
+            else:
+                sys.stderr.write(err.strerror)
+                return False
+        return True
 
     def run(self):
         """
@@ -243,39 +265,29 @@ class FIFO(object):
         try:
             os.mkfifo(self.fifo, 0600)
         except OSError, e:
-            sys.stderr.write('Failed to create FIFO:\n%s' % e.strerror)
+            sys.stderr.write('Failed to create FIFO: %s\n' % e.strerror)
             sys.exit(1)
         
     def read(self, timeout = 0):
-        try:
-            signal.signal(signal.SIGALRM, self.handler)
-            signal.alarm(timeout)
-            with open(self.fifo, 'r') as fifo:
-                ret = fifo.read()
-            signal.alarm(0)
-        except Timeout as e:
-            sys.stderr.write(e.strerror)
-            ret = ''
+        sys.stdout.write('read fifo\n')
+        signal.signal(signal.SIGALRM, self.handler)
+        signal.alarm(timeout)
+        with open(self.fifo, 'r') as fifo:
+            ret = fifo.read()
+        signal.alarm(0)
         return ret
         
     def write(self, string, timeout = 0):
-        try:
-            signal.signal(signal.SIGALRM, self.handler)
-            signal.alarm(timeout)
-            with open(self.fifo, 'a') as fifo:
-                fifo.write(string)
-            signal.alarm(0)
-        except Timeout as e:
-            sys.stderr.write(e.strerror)
+        sys.stdout.write('write fifo\n')
+        signal.signal(signal.SIGALRM, self.handler)
+        signal.alarm(timeout)
+        with open(self.fifo, 'a') as fifo:
+            fifo.write(string)
+        signal.alarm(0)
 
     def handler(self, signum, frame):
-        raise Timeout('FIFO timeout')
+        raise Timeout()
     
-class Log(object):
-    def write(self, string):
-        with open('/tmp/bit-daemon.log', 'a') as log:
-            log.write('%s: %s\n' % (time.asctime(), string) )
-     
 class Password_Cache(Daemon):
     def __init__(self, cfg = None, *args, **kwargs):
         self.config = cfg
@@ -288,12 +300,20 @@ class Password_Cache(Daemon):
             os.chmod(pw_cache_path, 0700)
         Daemon.__init__(self, self.config.get_password_cache_pid(), *args, **kwargs)
         self.db = {}
-        self.log = Log()
         self.fifo = FIFO(self.config.get_password_cache_fifo())
         
+    def start(self):
+        self.save_env()
+        Daemon.start(self)
+        
     def run(self):
+        self.save_env()
+        self._collect_passwords()
+        if len(self.db) == 0:
+            sys.stdout.write('Nothing to cache. Quit.')
+            sys.exit(0)
         self.fifo.create()
-        _collect_passwords()
+        atexit.register(self.fifo.delfifo)
         signal.signal(signal.SIGHUP, self._reload_handler)
         while True:
             try:
@@ -302,24 +322,26 @@ class Password_Cache(Daemon):
                 if request in self.db.keys():
                     answer = self.db[request]
                 else:
-                    answer = 'NONE'
+                    answer = ''
                 try:
                     self.fifo.write(answer, 5)
-                except IOError as ex:
-                    self.log.write('Error in writing answer to FIFO: %s' % str(ex))
+                except IOError as e:
+                    sys.stderr.write('Error in writing answer to FIFO: %s\n' % e.strerror)
                 else:
-                    self.log.write('%s: %s' % (request, answer))
+                    sys.stdout.write('%s: %s\n' % (request, answer)) #Todo: delete debug
             except KeyboardInterrupt: 
                 print('Quit.')
                 break
-            except BaseException:
-                pass
+            except Timeout as e:
+                sys.stderr.write('FIFO timeout\n')
+            except StandardError as e:
+                sys.stderr.write('ERROR: %s\n' % str(e))
         
     def _reload_handler(self, signum, frame):
-        self.log.write('Reloading')
+        sys.stdout.write('Reloading\n')
         del(self.db)
         self.db = {}
-        _collect_passwords()
+        self._collect_passwords()
         
     def _collect_passwords(self):
         profiles = self.config.get_profiles()
@@ -333,6 +355,25 @@ class Password_Cache(Daemon):
                             
                         password = keyring.get_password(service_name, user_name)
                         self.db[profile_id] = password
+        
+    def save_env(self):
+        """
+        save environ variables to file that are needed by cron
+        to connect to keyring. This will only work if the user is logged in.
+        """
+        env = os.environ.copy()
+        env_file = configfile.ConfigFile()
+        #ubuntu
+        self.set_env_key(env, env_file, 'GNOME_KEYRING_CONTROL')
+        self.set_env_key(env, env_file, 'DBUS_SESSION_BUS_ADDRESS')
+        self.set_env_key(env, env_file, 'DISPLAY')
+        
+        env_file.save(self.config.get_cron_env_file())
+        del(env_file)
+        
+    def set_env_key(self, env, env_file, key):
+        if key in env.keys():
+            env_file.set_str_value(key, env[key])
 
 class Password(object):
     def __init__(self, cfg = None):
@@ -343,7 +384,7 @@ class Password(object):
         self.fifo = FIFO(self.config.get_password_cache_fifo())
         self.db = {}
         
-    def get_password(self, profile_id, mode, parent = None):
+    def get_password(self, profile_id, mode, parent = None, only_from_keyring = False):
         if not mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
             return ''
         try:
@@ -351,12 +392,15 @@ class Password(object):
         except KeyError:
             pass
         if self.config.get_password_save(profile_id):
-            if self.config.get_password_use_cache(profile_id):
+            if self.config.get_password_use_cache(profile_id) and not only_from_keyring:
                 password = self._get_password_from_pw_cache(profile_id)
             else:
                 password = self._get_password_from_keyring(profile_id, mode)
         else:
-            password = self._get_password_from_user(parent, profile_id)
+            if not only_from_keyring:
+                password = self._get_password_from_user(parent, profile_id)
+            else:
+                password = ''
         self._set_password_db(profile_id, mode, password)
         return password
         
@@ -366,8 +410,11 @@ class Password(object):
         return keyring.get_password(service_name, user_name)
     
     def _get_password_from_pw_cache(self, profile_id):
-        self.fifo.write(profile_id, timeout = 5)
-        return self.fifo.read(timeout = 5)
+        if self.pw_cache:
+            self.fifo.write(profile_id, timeout = 5)
+            return self.fifo.read(timeout = 5)
+        else:
+            return ''
     
     def _get_password_from_user(self, parent, profile_id):
         title = _('Password profile %s') % self.config.get_profile_name(profile_id)
@@ -387,18 +434,19 @@ class Password(object):
             self.db[profile_id] = {}
         self.db[profile_id][mode] = password
     
-    def set_password(self, profile_id, mode, password):
+    def set_password(self, password, profile_id, mode):
         if mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
             service_name = self.config.get_keyring_service_name(profile_id, mode)
             user_name = self.config.get_keyring_user_name(profile_id)
             if self.config.get_password_save(profile_id):
                 keyring.set_password(service_name, user_name, password)
-            if self.config.get_password_use_cache(profile_id):
-                self.pw_cache.reload()
+                if self.config.get_password_use_cache(profile_id):
+                    if self.pw_cache.status():
+                        self.pw_cache.reload()
             self._set_password_db(profile_id, mode, password)
         
 if __name__ == "__main__":
-    daemon = Password_Cache()
+    daemon = Password_Cache(stdout = '/tmp/bit_stdout', stderr = '/tmp/bit_stderr') #Todo: delete debug
     if len(sys.argv) == 1:
         daemon.run()
         sys.exit(0)
@@ -409,10 +457,17 @@ if __name__ == "__main__":
             daemon.stop()
         elif 'restart' == sys.argv[1]:
             daemon.restart()
+        elif 'reload' == sys.argv[1]:
+            daemon.reload()
+        elif 'status' == sys.argv[1]:
+            if daemon.status():
+                print('running')
+            else:
+                print('not running')
         else:
             print "Unknown command"
             sys.exit(2)
         sys.exit(0)
     else:
-        print "usage: %s start|stop|restart" % sys.argv[0]
+        print "usage: %s start|stop|restart|reload|status" % sys.argv[0]
         sys.exit(2)

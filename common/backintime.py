@@ -23,11 +23,13 @@ import sys
 import gettext
 
 import config
+import configfile
 import logger
 import snapshots
 import tools
 import sshtools
 import mount
+import password
 
 _=gettext.gettext
 
@@ -45,6 +47,7 @@ def take_snapshot_now_async( cfg ):
 
 
 def take_snapshot( cfg, force = True ):
+	load_env(cfg)
 	logger.openlog()
 	_mount(cfg)
 	snapshots.Snapshots( cfg ).take_snapshot( force )
@@ -105,6 +108,8 @@ def print_help( cfg ):
 	print '\tUnmount the profile.'
 	print '--benchmark-cipher [file-size]'
 	print '\tShow a benchmark of all ciphers for ssh transfer (and exit)'
+	print '--pw-cache [start|stop|restart|reload|status]'
+	print '\tControl Password Cache for non-interactive cronjobs'
 	print '-v | --version'
 	print '\tShow version (and exit)'
 	print '--license'
@@ -251,6 +256,36 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 					print('ssh is not configured !')
 			sys.exit(0)
 
+		if arg == '--pw-cache':
+			if not cfg.is_configured():
+				print "The application is not configured !"
+			else:
+				daemon = password.Password_Cache(cfg, stdout = '/tmp/bit_stdout', stderr = '/tmp/bit_stderr') #Todo: delete debug
+				try:
+					if sys.argv[index + 1].startswith('-'):
+						daemon.run()
+					elif 'start' == sys.argv[index + 1]:
+						daemon.start()
+					elif 'stop' == sys.argv[index + 1]:
+						daemon.stop()
+					elif 'restart' == sys.argv[index + 1]:
+						daemon.restart()
+					elif 'reload' == sys.argv[index + 1]:
+						daemon.reload()
+					elif 'status' == sys.argv[index + 1]:
+						print 'Backintime Password Cache:',
+						if daemon.status():
+							print 'running'
+						else:
+							print 'not running'
+					else:
+						print "Unknown command"
+						print "usage: %s %s start|stop|restart|reload|status" % (sys.argv[0], sys.argv[index])
+						sys.exit(2)
+				except IndexError:
+					daemon.run()
+				sys.exit(0)
+
 		if arg == '--snapshots' or arg == '-s':
 			continue
 
@@ -263,6 +298,19 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 			continue
 
 	return cfg
+
+def load_env(cfg):
+	env = os.environ.copy()
+	env_file = configfile.ConfigFile()
+	env_file.load(cfg.get_cron_env_file(), maxsplit = 1)
+	for key in env_file.get_keys():
+		value = env_file.get_str_value(key)
+		if not value:
+			continue
+		if not key in env.keys():
+			os.environ[key] = value
+	del(env_file)
+
 
 
 if __name__ == '__main__':

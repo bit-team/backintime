@@ -29,6 +29,7 @@ import logger
 import mount
 import sshtools
 ##import dummytools
+import password
 
 _=gettext.gettext
 
@@ -221,6 +222,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			self.save()
 		
 		self.current_hash_id = 'local'
+		self.pw = password.Password(self)
 
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
@@ -490,15 +492,17 @@ class Config( configfile.ConfigFileWithProfiles ):
 			mode = self.get_snapshots_mode(profile_id)
 		self.set_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, value, profile_id )
 
-	def get_password( self, profile_id = None, mode = None ):
+	def get_password( self, profile_id = None, mode = None, parent = None, only_from_keyring = False ):
 		if mode is None:
 			mode = self.get_snapshots_mode(profile_id)
-		pass
+		return self.pw.get_password(profile_id, mode, parent, only_from_keyring)
 
-	def set_password( self, value, profile_id = None, mode = None ):
+	def set_password( self, password, profile_id = None, mode = None ):
+		if profile_id is None:
+			profile_id = self.get_current_profile()
 		if mode is None:
 			mode = self.get_snapshots_mode(profile_id)
-		pass
+		self.pw.set_password(password, profile_id, mode)
 
 	def get_keyring_service_name( self, profile_id = None, mode = None ):
 		if mode is None:
@@ -941,6 +945,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def get_password_cache_fifo( self ):
 		return os.path.join( self.get_password_cache_folder(), "FIFO" )
+
+	def get_cron_env_file( self ):
+		return os.path.join( self._LOCAL_DATA_FOLDER, "cron_env" )
 
 	def get_license( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )
