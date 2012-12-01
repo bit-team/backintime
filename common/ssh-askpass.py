@@ -1,7 +1,5 @@
-#!/bin/sh
-
-#    Back In Time
-#    Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
+#!/usr/bin/env python
+#    Copyright (c) 2012 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,11 +15,18 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-if [ -f backintime.py ]; then
-	APP_PATH="."
-else
-	APP_PATH="/usr/share/backintime/common"
-fi
+import os
+import sys
+import password
 
-ssh-agent python $APP_PATH/backintime.py "$@"
+def get_password(profile_id, mode):
+    pw = password.Password()
+    return pw.get_password(profile_id, mode)
 
+if __name__ == '__main__':
+    try:
+        profile_id = os.environ['SSH_ASKPASS_PROFILE_ID']
+        mode = os.environ['SSH_ASKPASS_MODE']
+    except:
+        sys.exit(1)
+    print(get_password(profile_id, mode))

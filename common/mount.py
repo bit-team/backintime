@@ -331,7 +331,7 @@ class MountControl(object):
                         os.remove(os.path.join(self.mount_user_path, symlink))
         return False
             
-    def setattr_kwargs(self, arg, default, **kwargs):
+    def setattr_kwargs(self, arg, default, store = True, **kwargs):
         """if kwargs[arg] exist set self.<arg> to kwargs[arg]
            else set self.<arg> to default which should be the value from config"""
         if arg in kwargs:
@@ -339,8 +339,9 @@ class MountControl(object):
         else:
             value = default
         setattr(self, arg, value)
-        #make dictionary with all used args for umount
-        self.all_kwargs[arg] = value
+        if store:
+            #make dictionary with all used args for umount
+            self.all_kwargs[arg] = value
             
     def write_umount_info(self):
         """dump dictionary self.all_kwargs to umount_info file"""

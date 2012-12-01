@@ -83,7 +83,7 @@ Rsync and other processes called during backup process will run directly on the 
 To prepare your user account for ssh-mode you have to add the user to group 'fuse' by typing 'sudo adduser <USER> fuse' in terminal.  To apply changes you have to logout and login again.
 .PP
 Next you have to create a password-less login to the remote host (for further informations look at http://www.debian-administration.org/articles/152).
-Type in terminal 'ssh-keygen -t rsa' hit enter for default path and keep the passphrase empty. 
+Type in terminal 'ssh-keygen -t dsa' hit enter for default path and keep the passphrase empty. 
 .PP
 Finally type 'ssh-copy-id -i ~/.ssh/id_rsa.pub <REMOTE_USER>@<HOST>' and enter your password on remote host.
 .PP

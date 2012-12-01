@@ -453,6 +453,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 		if len(path) == 0:
 			path = './'
 		return (host, port, user, path)
+		
+	def get_ssh_private_key_path(self, profile_id = None):
+		default = os.path.join(os.path.expanduser('~'), '.ssh', 'id_dsa')
+		return self.get_profile_str_value( 'snapshots.ssh.private_key_path', default, profile_id )
+	
+	def set_ssh_private_key_path( self, value, profile_id = None ):
+		self.set_profile_str_value( 'snapshots.ssh.private_key_path', value, profile_id )
 
 ##	def get_dummy_host( self, profile_id = None ):
 ##		return self.get_profile_str_value( 'snapshots.dummy.host', '', profile_id )
@@ -493,6 +500,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 		self.set_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, value, profile_id )
 
 	def get_password( self, profile_id = None, mode = None, parent = None, only_from_keyring = False ):
+		if profile_id is None:
+			profile_id = self.get_current_profile()
 		if mode is None:
 			mode = self.get_snapshots_mode(profile_id)
 		return self.pw.get_password(profile_id, mode, parent, only_from_keyring)

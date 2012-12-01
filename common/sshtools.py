@@ -41,7 +41,7 @@ class SSH(mount.MountControl):
             self.config = config.Config()
             
         self.profile_id = profile_id
-        if not self.profile_id:
+        if self.profile_id is None:
             self.profile_id = self.config.get_current_profile()
             
         self.tmp_mount = tmp_mount
@@ -69,6 +69,8 @@ class SSH(mount.MountControl):
         self.symlink_subfolder = None
         self.user_host_path = '%s@%s:%s' % (self.user, self.host, self.path)
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
+        
+        self.unlock_ssh_agent()
         
     def _mount(self):
         """mount the service"""
@@ -124,6 +126,27 @@ class SSH(mount.MountControl):
         """check if umount successful
            raise MountException( _('Error discription') ) if not"""
         return True
+        
+    def unlock_ssh_agent(self):
+        """using ssh_askpass.py to unlock private key in ssh-agent"""
+        env = os.environ.copy()
+        env['SSH_ASKPASS'] = 'backintime-ssh-askpass'
+        env['SSH_ASKPASS_PROFILE_ID'] = self.profile_id
+        env['SSH_ASKPASS_MODE'] = self.mode
+        env['DISPLAY'] = ':9999' #fake value to detach from display
+        private_key = self.config.get_ssh_private_key_path(self.profile_id)
+        
+        output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
+        if not output.find(private_key) >= 0:
+            proc = subprocess.Popen(['ssh-add'], #, private_key],
+                                    stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,
+                                    env = env,
+                                    preexec_fn = os.setsid)
+            output, error = proc.communicate()
+            if proc.returncode:
+                raise mount.MountException( _('Failed to unlock SSH private key:\nOutput: %s\nError: %s') % (output, error))
         
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""

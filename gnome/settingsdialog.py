@@ -576,7 +576,10 @@ class SettingsDialog(object):
 ##		self.txt_dummy_user.set_text( self.config.get_dummy_user( self.profile_id ) )
 		
 		#password
-		self.txt_password.set_text( self.config.get_password( self.profile_id, self.mode, parent = self.dialog, only_from_keyring = True ) )
+		password = self.config.get_password( self.profile_id, self.mode, parent = self.dialog, only_from_keyring = True )
+		if password is None:
+			password = ''
+		self.txt_password.set_text(password)
 		self.cb_password_save.set_active( self.config.get_password_save( self.profile_id, self.mode ) )
 		self.cb_password_use_cache.set_active( self.config.get_password_use_cache( self.profile_id, self.mode ) )
 		self.update_password_save()

@@ -17,11 +17,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-if [ -f backintime.py ]; then
+if [ -f ssh-askpass.py ]; then
 	APP_PATH="."
 else
 	APP_PATH="/usr/share/backintime/common"
 fi
 
-ssh-agent python $APP_PATH/backintime.py "$@"
+python $APP_PATH/ssh-askpass.py "$@"
 

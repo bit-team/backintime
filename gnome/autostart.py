@@ -22,13 +22,15 @@ _=gettext.gettext
 def create():
     home = os.path.expanduser('~')
     autostart = os.path.join(home, '.config', 'autostart')
+    if not os.path.isdir(autostart):
+        os.makedirs(autostart)
     backintime_autostart = os.path.join(autostart, 'backintime.desktop')
     if not os.path.isfile(backintime_autostart):
         print('create autostart file')
         s  = '[Desktop Entry]\n'
         s += 'Version=1.0\n'
         s += 'Name=' + _('Backintime Password Cache\n')
-        s += 'Exec=backintime --pw-cache start\n'
+        s += 'Exec=backintime --pw-cache restart\n'
         s += 'Comment=' + _('Cache passwords for non-interactive Backintime cronjobs\n')
         s += 'Icon=gtk-save\n'
         s += 'Terminal=false\n'

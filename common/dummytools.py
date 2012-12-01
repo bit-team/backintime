@@ -41,7 +41,7 @@ class Dummy(mount.MountControl):
             self.config = config.Config()
             
         self.profile_id = profile_id
-        if not self.profile_id:
+        if self.profile_id is None:
             self.profile_id = self.config.get_current_profile()
             
         self.tmp_mount = tmp_mount
@@ -62,6 +62,7 @@ class Dummy(mount.MountControl):
         self.setattr_kwargs('user', self.config.get_dummy_user(self.profile_id), **kwargs)
         self.setattr_kwargs('host', self.config.get_dummy_host(self.profile_id), **kwargs)
         self.setattr_kwargs('port', self.config.get_dummy_port(self.profile_id), **kwargs)
+        self.setattr_kwargs('password', self.config.get_password(self.profile_id), store = False, **kwargs)
             
         self.set_default_args()
         

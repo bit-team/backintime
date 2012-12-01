@@ -20,6 +20,7 @@ import time
 import atexit
 import signal
 import tempfile
+import base64
 try:
     import keyring
 except ImportError:
@@ -269,7 +270,7 @@ class FIFO(object):
             sys.exit(1)
         
     def read(self, timeout = 0):
-        sys.stdout.write('read fifo\n')
+        #sys.stdout.write('read fifo\n')
         signal.signal(signal.SIGALRM, self.handler)
         signal.alarm(timeout)
         with open(self.fifo, 'r') as fifo:
@@ -278,7 +279,7 @@ class FIFO(object):
         return ret
         
     def write(self, string, timeout = 0):
-        sys.stdout.write('write fifo\n')
+        #sys.stdout.write('write fifo\n')
         signal.signal(signal.SIGALRM, self.handler)
         signal.alarm(timeout)
         with open(self.fifo, 'a') as fifo:
@@ -354,7 +355,9 @@ class Password_Cache(Daemon):
                         user_name = self.config.get_keyring_user_name(profile_id)
                             
                         password = keyring.get_password(service_name, user_name)
-                        self.db[profile_id] = password
+                        #add some snakeoil
+                        pw_base64 = base64.encodestring(password)
+                        self.db[profile_id] = pw_base64
         
     def save_env(self):
         """
@@ -412,12 +415,13 @@ class Password(object):
     def _get_password_from_pw_cache(self, profile_id):
         if self.pw_cache:
             self.fifo.write(profile_id, timeout = 5)
-            return self.fifo.read(timeout = 5)
+            pw_base64 = self.fifo.read(timeout = 5)
+            return base64.decodestring(pw_base64)
         else:
             return ''
     
     def _get_password_from_user(self, parent, profile_id):
-        title = _('Password profile %s') % self.config.get_profile_name(profile_id)
+        title = _('Password for profile %s') % self.config.get_profile_name(profile_id)
         if window == 'glade':
             if parent is None:
                 pass
