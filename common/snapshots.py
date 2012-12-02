@@ -484,7 +484,7 @@ class Snapshots:
 			ssh_cipher_suffix = ''
 		else:
 			ssh_cipher_suffix = '-c %s' % ssh_cipher
-		rsync_ssh_suffix = '--rsh="ssh -p %s %s" "%s@%s:' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
+		rsync_ssh_suffix = '--protect-args --rsh="ssh -p %s %s" \"%s@%s:' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
 
 		logger.info( "Restore: %s to: %s" % (path, restore_to) )
 
