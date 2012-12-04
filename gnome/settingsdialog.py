@@ -81,7 +81,8 @@ class SettingsDialog(object):
 				'on_cb_backup_mode_changed': self.on_cb_backup_mode_changed,
 				'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile,
 				'on_combo_modes_changed': self.on_combo_modes_changed,
-				'on_cb_password_save_toggled': self.update_password_save
+				'on_cb_password_save_toggled': self.update_password_save,
+				'on_btn_ssh_private_key_file_clicked': self.on_btn_ssh_private_key_file_clicked
 			}
 		
 		builder.connect_signals(signals)
@@ -143,6 +144,7 @@ class SettingsDialog(object):
 		self.txt_ssh_port = get('txt_ssh_port')
 		self.txt_ssh_user = get('txt_ssh_user')
 		self.txt_ssh_path = get('txt_ssh_path')
+		self.txt_private_key_file = get('txt_ssh_private_key_file')
 		
 		self.store_ssh_cipher = gtk.ListStore(str, str)
 		keys = self.config.SSH_CIPHERS.keys()
@@ -423,6 +425,20 @@ class SettingsDialog(object):
 		else:
 			fcd.destroy()
 
+	def on_btn_ssh_private_key_file_clicked( self, button ): 
+		file = self.txt_private_key_file.get_text()
+		
+		fcd = gtk.FileChooserDialog( _('SSH private key'), self.dialog, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		if len( file ) > 0:
+			fcd.set_filename( file )
+		
+		if fcd.run() == gtk.RESPONSE_OK:
+			new_file = tools.prepare_path( fcd.get_filename() )
+			fcd.destroy()
+			self.txt_private_key_file.set_text( new_file )
+		else:
+			fcd.destroy()
+
 	def on_cb_backup_mode_changed( self, *params ):
 		iter = self.cb_backup_mode.get_active_iter()
 		if iter is None:
@@ -559,6 +575,7 @@ class SettingsDialog(object):
 		self.txt_ssh_port.set_text( str(self.config.get_ssh_port( self.profile_id )) )
 		self.txt_ssh_user.set_text( self.config.get_ssh_user( self.profile_id ) )
 		self.txt_ssh_path.set_text( self.config.get_snapshots_path_ssh( self.profile_id ) )
+		self.txt_private_key_file.set_text( self.config.get_ssh_private_key_file( self.profile_id ) )
 		#set chipher
 		i = 0
 		iter = self.store_ssh_cipher.get_iter_first()
@@ -576,7 +593,7 @@ class SettingsDialog(object):
 ##		self.txt_dummy_user.set_text( self.config.get_dummy_user( self.profile_id ) )
 		
 		#password
-		password = self.config.get_password( self.profile_id, self.mode, parent = self.dialog, only_from_keyring = True )
+		password = self.config.get_password( self.profile_id, self.mode, only_from_keyring = True )
 		if password is None:
 			password = ''
 		self.txt_password.set_text(password)
@@ -780,10 +797,17 @@ class SettingsDialog(object):
 		ssh_port = self.txt_ssh_port.get_text()
 		ssh_user = self.txt_ssh_user.get_text()
 		ssh_path = self.txt_ssh_path.get_text()
+		ssh_private_key_file = self.txt_private_key_file.get_text()
 		iter = self.combo_ssh_cipher.get_active_iter()
 		ssh_cipher = self.store_ssh_cipher.get_value( iter, 1 )
 		if mode == 'ssh':
-			mount_kwargs = { 'host': ssh_host, 'port': int(ssh_port), 'user': ssh_user, 'path': ssh_path, 'cipher': ssh_cipher }
+			mount_kwargs = {'host': ssh_host,
+							'port': int(ssh_port),
+							'user': ssh_user,
+							'path': ssh_path,
+							'cipher': ssh_cipher,
+							'private_key_file': ssh_private_key_file
+							}
 		
 ##		#dummy settings
 ##		dummy_host = self.txt_dummy_host.get_text()
@@ -793,7 +817,11 @@ class SettingsDialog(object):
 ##			#values must have exactly the same Type (str, int or bool) 
 ##			#as they are set in config or you will run into false-positive
 ##			#HashCollision warnings
-##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
+##			mount_kwargs = {'host': dummy_host,
+##							'port': int(dummy_port),
+##							'user': dummy_user,
+##							'password': password
+##							}
 
 		#password
 		password = self.txt_password.get_text()
@@ -832,6 +860,7 @@ class SettingsDialog(object):
 		self.config.set_ssh_user(ssh_user, self.profile_id)
 		self.config.set_snapshots_path_ssh(ssh_path, self.profile_id)
 		self.config.set_ssh_cipher(ssh_cipher, self.profile_id)
+		self.config.set_ssh_private_key_file(ssh_private_key_file, self.profile_id)
 
 ##		#save dummy
 ##		self.config.set_dummy_host(dummy_host, self.profile_id)
@@ -1096,7 +1125,6 @@ class SettingsDialog(object):
 		autostart.create()
 		daemon = password.Password_Cache(self.config, stdout = '/tmp/bit_stdout', stderr = '/tmp/bit_stderr') #Todo: delete debug
 		if not daemon.status():
-			print('start Password Cache')
 			try:
 				subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))
 			except subprocess.CalledProcessError as e:

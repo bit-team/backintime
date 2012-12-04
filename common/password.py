@@ -19,8 +19,10 @@ import os
 import time
 import atexit
 import signal
-import tempfile
 import base64
+import subprocess
+import gettext
+import stat
 try:
     import keyring
 except ImportError:
@@ -28,24 +30,12 @@ except ImportError:
 On Debian like systems you probably need to install the following package(s):
 python-keyring"""
     sys.exit(1)
-    
-window = False
-try:
-    sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'gnome' )] + sys.path
-    from messagebox import text_input_dialog
-    window = 'glade'
-except:
-    pass
-if not window:
-    try:
-        from PyKDE4.kdeui import *
-        window = 'kde'
-    except:
-        pass
 
 import config
 import configfile
 import tools
+
+_=gettext.gettext
 
 class Timeout(Exception):
     pass
@@ -271,6 +261,9 @@ class FIFO(object):
         
     def read(self, timeout = 0):
         #sys.stdout.write('read fifo\n')
+        if not self.is_fifo():
+            sys.stderr.write('%s is not a FIFO\n' % self.fifo)
+            sys.exit(1)
         signal.signal(signal.SIGALRM, self.handler)
         signal.alarm(timeout)
         with open(self.fifo, 'r') as fifo:
@@ -280,6 +273,9 @@ class FIFO(object):
         
     def write(self, string, timeout = 0):
         #sys.stdout.write('write fifo\n')
+        if not self.is_fifo():
+            sys.stderr.write('%s is not a FIFO\n' % self.fifo)
+            sys.exit(1)
         signal.signal(signal.SIGALRM, self.handler)
         signal.alarm(timeout)
         with open(self.fifo, 'a') as fifo:
@@ -288,6 +284,12 @@ class FIFO(object):
 
     def handler(self, signum, frame):
         raise Timeout()
+        
+    def is_fifo(self):
+        try:
+            return stat.S_ISFIFO(os.stat(self.fifo).st_mode)
+        except OSError:
+            return False
     
 class Password_Cache(Daemon):
     def __init__(self, cfg = None, *args, **kwargs):
@@ -387,7 +389,7 @@ class Password(object):
         self.fifo = FIFO(self.config.get_password_cache_fifo())
         self.db = {}
         
-    def get_password(self, profile_id, mode, parent = None, only_from_keyring = False):
+    def get_password(self, profile_id, mode, only_from_keyring = False):
         if not mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
             return ''
         try:
@@ -401,7 +403,7 @@ class Password(object):
                 password = self._get_password_from_keyring(profile_id, mode)
         else:
             if not only_from_keyring:
-                password = self._get_password_from_user(parent, profile_id)
+                password = self._get_password_from_user(profile_id)
             else:
                 password = ''
         self._set_password_db(profile_id, mode, password)
@@ -420,18 +422,36 @@ class Password(object):
         else:
             return ''
     
-    def _get_password_from_user(self, parent, profile_id):
-        title = _('Password for profile %s') % self.config.get_profile_name(profile_id)
-        if window == 'glade':
-            if parent is None:
-                pass
-            return text_input_dialog(parent, self.config, title, password_mode = True)
-        elif window == 'kde':
-            if parent is None:
-                pass
-            pass
-        else:
+    def _get_password_from_user(self, profile_id):
+        """
+        ask user for password. This does even work when run as cronjob
+        and user is logged in.
+        """
+        try:
+            subprocess.check_call(['xdpyinfo'],
+                                stdout=open(os.devnull, 'w'),
+                                stderr=open(os.devnull, 'w'))
+        except subprocess.CalledProcessError:
+            #DISPLAY is not available anymore
             return ''
+        password, error = ('', '')
+        signal.signal(signal.SIGALRM, self.handler)
+        signal.alarm(20)
+        try:
+            proc = subprocess.Popen(['zenity', '--password', '--title',
+                                    _('"BackInTime profile %s"') % self.config.get_profile_name(profile_id)],
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE)
+            password, error = proc.communicate()
+            signal.alarm(0)
+        except Timeout:
+            os.kill(proc.pid, signal.SIGKILL)
+        if proc.returncode:
+            print('Could not get password from user\nERROR %s: %s' %(proc.returncode, error))
+        return password
+
+    def handler(self, signum, frame):
+        raise Timeout()
         
     def _set_password_db(self, profile_id, mode, password):
         if not profile_id in self.db.keys():
@@ -448,30 +468,3 @@ class Password(object):
                     if self.pw_cache.status():
                         self.pw_cache.reload()
             self._set_password_db(profile_id, mode, password)
-        
-if __name__ == "__main__":
-    daemon = Password_Cache(stdout = '/tmp/bit_stdout', stderr = '/tmp/bit_stderr') #Todo: delete debug
-    if len(sys.argv) == 1:
-        daemon.run()
-        sys.exit(0)
-    if len(sys.argv) == 2:
-        if 'start' == sys.argv[1]:
-            daemon.start()
-        elif 'stop' == sys.argv[1]:
-            daemon.stop()
-        elif 'restart' == sys.argv[1]:
-            daemon.restart()
-        elif 'reload' == sys.argv[1]:
-            daemon.reload()
-        elif 'status' == sys.argv[1]:
-            if daemon.status():
-                print('running')
-            else:
-                print('not running')
-        else:
-            print "Unknown command"
-            sys.exit(2)
-        sys.exit(0)
-    else:
-        print "usage: %s start|stop|restart|reload|status" % sys.argv[0]
-        sys.exit(2)

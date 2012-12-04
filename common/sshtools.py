@@ -133,12 +133,11 @@ class SSH(mount.MountControl):
         env['SSH_ASKPASS'] = 'backintime-ssh-askpass'
         env['SSH_ASKPASS_PROFILE_ID'] = self.profile_id
         env['SSH_ASKPASS_MODE'] = self.mode
-        env['DISPLAY'] = ':9999' #fake value to detach from display
-        private_key = self.config.get_ssh_private_key_path(self.profile_id)
+        private_key = self.config.get_ssh_private_key_file(self.profile_id)
         
         output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
         if not output.find(private_key) >= 0:
-            proc = subprocess.Popen(['ssh-add'], #, private_key],
+            proc = subprocess.Popen(['ssh-add', private_key],
                                     stdin=subprocess.PIPE,
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE,
@@ -146,7 +145,10 @@ class SSH(mount.MountControl):
                                     preexec_fn = os.setsid)
             output, error = proc.communicate()
             if proc.returncode:
-                raise mount.MountException( _('Failed to unlock SSH private key:\nOutput: %s\nError: %s') % (output, error))
+                print( _('Failed to unlock SSH private key:\nError: %s') % error)
+            output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
+            if not output.find(private_key) >= 0:
+                raise mount.MountException( _('Could not unlock ssh private key. Wrong password or password not available for cron.'))
         
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""
