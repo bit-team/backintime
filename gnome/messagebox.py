@@ -46,7 +46,7 @@ def show_error( parent, config, message ):
     dialog.destroy()
     return retVal
 
-def text_input_dialog( parent, config, title, default_value = '' , password_mode = False):
+def text_input_dialog( parent, config, title, default_value = '' ):
     
     builder = gtk.Builder()
     builder.set_translation_domain('backintime')
@@ -61,9 +61,6 @@ def text_input_dialog( parent, config, title, default_value = '' , password_mode
     dialog.set_transient_for( parent )
     
     edit = builder.get_object( 'edit_text' )
-    
-    if password_mode:
-        edit.set_visibility(False)
 
     if not default_value is None:
         edit.set_text( default_value )

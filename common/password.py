@@ -22,7 +22,6 @@ import signal
 import base64
 import subprocess
 import gettext
-import stat
 try:
     import keyring
 except ImportError:
@@ -34,12 +33,10 @@ python-keyring"""
 import config
 import configfile
 import tools
+import password_ipc
 
 _=gettext.gettext
 
-class Timeout(Exception):
-    pass
-    
 class Daemon:
     """
     A generic daemon class.
@@ -240,57 +237,6 @@ class Daemon:
         """
         pass
         
-class FIFO(object):
-    def __init__(self, fname):
-        self.fifo = fname
-        
-    def delfifo(self):
-        try:
-            os.remove(self.fifo)
-        except:
-            pass
-        
-    def create(self):
-        if os.path.exists(self.fifo):
-            self.delfifo()
-        try:
-            os.mkfifo(self.fifo, 0600)
-        except OSError, e:
-            sys.stderr.write('Failed to create FIFO: %s\n' % e.strerror)
-            sys.exit(1)
-        
-    def read(self, timeout = 0):
-        #sys.stdout.write('read fifo\n')
-        if not self.is_fifo():
-            sys.stderr.write('%s is not a FIFO\n' % self.fifo)
-            sys.exit(1)
-        signal.signal(signal.SIGALRM, self.handler)
-        signal.alarm(timeout)
-        with open(self.fifo, 'r') as fifo:
-            ret = fifo.read()
-        signal.alarm(0)
-        return ret
-        
-    def write(self, string, timeout = 0):
-        #sys.stdout.write('write fifo\n')
-        if not self.is_fifo():
-            sys.stderr.write('%s is not a FIFO\n' % self.fifo)
-            sys.exit(1)
-        signal.signal(signal.SIGALRM, self.handler)
-        signal.alarm(timeout)
-        with open(self.fifo, 'a') as fifo:
-            fifo.write(string)
-        signal.alarm(0)
-
-    def handler(self, signum, frame):
-        raise Timeout()
-        
-    def is_fifo(self):
-        try:
-            return stat.S_ISFIFO(os.stat(self.fifo).st_mode)
-        except OSError:
-            return False
-    
 class Password_Cache(Daemon):
     def __init__(self, cfg = None, *args, **kwargs):
         self.config = cfg
@@ -303,7 +249,7 @@ class Password_Cache(Daemon):
             os.chmod(pw_cache_path, 0700)
         Daemon.__init__(self, self.config.get_password_cache_pid(), *args, **kwargs)
         self.db = {}
-        self.fifo = FIFO(self.config.get_password_cache_fifo())
+        self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         
     def start(self):
         self.save_env()
@@ -335,7 +281,7 @@ class Password_Cache(Daemon):
             except KeyboardInterrupt: 
                 print('Quit.')
                 break
-            except Timeout as e:
+            except password_ipc.Timeout as e:
                 sys.stderr.write('FIFO timeout\n')
             except StandardError as e:
                 sys.stderr.write('ERROR: %s\n' % str(e))
@@ -386,7 +332,7 @@ class Password(object):
         if self.config is None:
             self.config = config.Config()
         self.pw_cache = Password_Cache(self.config)
-        self.fifo = FIFO(self.config.get_password_cache_fifo())
+        self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         self.db = {}
         
     def get_password(self, profile_id, mode, only_from_keyring = False):
@@ -435,23 +381,20 @@ class Password(object):
             #DISPLAY is not available anymore
             return ''
         password, error = ('', '')
-        signal.signal(signal.SIGALRM, self.handler)
-        signal.alarm(20)
+        alarm = password_ipc.Alarm()
+        alarm.start(300)
         try:
             proc = subprocess.Popen(['zenity', '--password', '--title',
                                     _('"BackInTime profile %s"') % self.config.get_profile_name(profile_id)],
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE)
             password, error = proc.communicate()
-            signal.alarm(0)
-        except Timeout:
+            alarm.stop()
+        except password_ipc.Timeout:
             os.kill(proc.pid, signal.SIGKILL)
         if proc.returncode:
             print('Could not get password from user\nERROR %s: %s' %(proc.returncode, error))
         return password
-
-    def handler(self, signum, frame):
-        raise Timeout()
         
     def _set_password_db(self, profile_id, mode, password):
         if not profile_id in self.db.keys():

@@ -790,6 +790,9 @@ class SettingsDialog(object):
 				self.error_handler( _('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours') )
 				return False
 
+		#password
+		password = self.txt_password.get_text()
+
 		mount_kwargs = {}
 		
 		#ssh settings
@@ -806,7 +809,8 @@ class SettingsDialog(object):
 							'user': ssh_user,
 							'path': ssh_path,
 							'cipher': ssh_cipher,
-							'private_key_file': ssh_private_key_file
+							'private_key_file': ssh_private_key_file,
+							'password': password
 							}
 		
 ##		#dummy settings
@@ -822,9 +826,6 @@ class SettingsDialog(object):
 ##							'user': dummy_user,
 ##							'password': password
 ##							}
-
-		#password
-		password = self.txt_password.get_text()
 			
 		if not self.config.SNAPSHOT_MODES[mode][0] is None:
 			#pre_mount_check

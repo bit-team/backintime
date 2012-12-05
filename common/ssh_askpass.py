@@ -17,7 +17,10 @@
 
 import os
 import sys
+import base64
+
 import password
+import password_ipc
 
 def get_password(profile_id, mode):
     pw = password.Password()
@@ -27,6 +30,16 @@ if __name__ == '__main__':
     try:
         profile_id = os.environ['SSH_ASKPASS_PROFILE_ID']
         mode = os.environ['SSH_ASKPASS_MODE']
-    except:
+    except KeyError:
         sys.exit(1)
-    print(get_password(profile_id, mode))
+    try:
+        temp_file = os.environ['SSH_ASKPASS_TEMP']
+    except KeyError:
+        #normal mode, get password from module password
+        print(get_password(profile_id, mode))
+    else:
+        #temp mode
+        fifo = password_ipc.FIFO(temp_file)
+        pw_base64 = fifo.read(5)
+        if pw_base64:
+            print(base64.decodestring(pw_base64))

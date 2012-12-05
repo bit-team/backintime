@@ -22,11 +22,14 @@ import string
 import random
 import tempfile
 from time import sleep
+import threading
+import base64
 
 import config
 import mount
 import logger
 import tools
+import password_ipc
 
 _=gettext.gettext
 
@@ -61,6 +64,8 @@ class SSH(mount.MountControl):
         self.setattr_kwargs('port', self.config.get_ssh_port(self.profile_id), **kwargs)
         self.setattr_kwargs('path', self.config.get_snapshots_path_ssh(self.profile_id), **kwargs)
         self.setattr_kwargs('cipher', self.config.get_ssh_cipher(self.profile_id), **kwargs)
+        self.setattr_kwargs('private_key_file', self.config.get_ssh_private_key_file(self.profile_id), **kwargs)
+        self.setattr_kwargs('password', None, store = False, **kwargs)
             
         if len(self.path) == 0:
             self.path = './'
@@ -133,11 +138,17 @@ class SSH(mount.MountControl):
         env['SSH_ASKPASS'] = 'backintime-ssh-askpass'
         env['SSH_ASKPASS_PROFILE_ID'] = self.profile_id
         env['SSH_ASKPASS_MODE'] = self.mode
-        private_key = self.config.get_ssh_private_key_file(self.profile_id)
         
         output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
-        if not output.find(private_key) >= 0:
-            proc = subprocess.Popen(['ssh-add', private_key],
+        if not output.find(self.private_key_file) >= 0:
+            if not self.password is None:
+                #write password directly to temp FIFO
+                temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
+                env['SSH_ASKPASS_TEMP'] = temp_file
+                thread = TempPasswordThread(self.password, temp_file)
+                thread.start()
+                
+            proc = subprocess.Popen(['ssh-add', self.private_key_file],
                                     stdin=subprocess.PIPE,
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE,
@@ -147,8 +158,18 @@ class SSH(mount.MountControl):
             if proc.returncode:
                 print( _('Failed to unlock SSH private key:\nError: %s') % error)
             output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
-            if not output.find(private_key) >= 0:
+            if not output.find(self.private_key_file) >= 0:
                 raise mount.MountException( _('Could not unlock ssh private key. Wrong password or password not available for cron.'))
+        
+            if not self.password is None:
+                thread.join(5)
+                if thread.isAlive():
+                    #threading does not support signal.alarm
+                    thread.read()
+                try:
+                    os.rmdir(os.path.dirname(temp_file))
+                except OSError:
+                    pass
         
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""
@@ -336,3 +357,21 @@ class SSH(mount.MountControl):
         
     def random_id(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for x in range(size))
+
+class TempPasswordThread(threading.Thread):
+    def __init__(self, string, temp_file):
+        threading.Thread.__init__(self)
+        self.pw_base64 = base64.encodestring(string)
+        self.fifo = password_ipc.FIFO(temp_file)
+        
+    def run(self):
+        self.fifo.create()
+        self.fifo.write(self.pw_base64)
+        self.fifo.delfifo()
+
+    def read():
+        """
+        read fifo to end the blocking fifo.write
+        use only if thread timeout.
+        """
+        self.fifo.read()
