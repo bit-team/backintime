@@ -19,6 +19,9 @@ mkdir -p $DEST/plugins
 cp backintime $DEST/
 cp backintime-ssh-askpass $DEST/
 
+#autostart
+cp backintime.desktop $DEST/
+
 #python files
 cp *.py $DEST/
 

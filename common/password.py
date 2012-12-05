@@ -238,6 +238,12 @@ class Daemon:
         pass
         
 class Password_Cache(Daemon):
+    """
+    Password_Cache get started on User login. It provides passwords for
+    BIT cronjobs because keyring is not available when the User is not
+    logged in. Does not start if there is no password to cache
+    (e.g. no profile allows to cache).
+    """
     def __init__(self, cfg = None, *args, **kwargs):
         self.config = cfg
         if self.config is None:
@@ -252,10 +258,17 @@ class Password_Cache(Daemon):
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         
     def start(self):
+        """
+        override Daemon.start to save environment before starting.
+        """
         self.save_env()
         Daemon.start(self)
         
     def run(self):
+        """
+        wait for password request on FIFO and answer with password
+        from self.db through FIFO.
+        """
         self.save_env()
         self._collect_passwords()
         if len(self.db) == 0:
@@ -287,12 +300,18 @@ class Password_Cache(Daemon):
                 sys.stderr.write('ERROR: %s\n' % str(e))
         
     def _reload_handler(self, signum, frame):
+        """
+        reload passwords during runtime.
+        """
         sys.stdout.write('Reloading\n')
         del(self.db)
         self.db = {}
         self._collect_passwords()
         
     def _collect_passwords(self):
+        """
+        search all profiles in config and collect passwords from keyring.
+        """
         profiles = self.config.get_profiles()
         for profile_id in profiles:
             mode = self.config.get_snapshots_mode(profile_id)
@@ -327,6 +346,10 @@ class Password_Cache(Daemon):
             env_file.set_str_value(key, env[key])
 
 class Password(object):
+    """
+    provide passwords for BIT either from keyring, Password_Cache or 
+    by asking User.
+    """
     def __init__(self, cfg = None):
         self.config = cfg
         if self.config is None:
@@ -336,6 +359,10 @@ class Password(object):
         self.db = {}
         
     def get_password(self, profile_id, mode, only_from_keyring = False):
+        """
+        based on profile settings return password from keyring,
+        Password_Cache or by asking User.
+        """
         if not mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
             return ''
         try:
@@ -356,11 +383,18 @@ class Password(object):
         return password
         
     def _get_password_from_keyring(self, profile_id, mode):
+        """
+        get password from system keyring (seahorse). The keyring is only
+        available if User is logged in.
+        """
         service_name = self.config.get_keyring_service_name(profile_id, mode)
         user_name = self.config.get_keyring_user_name(profile_id)
         return keyring.get_password(service_name, user_name)
     
     def _get_password_from_pw_cache(self, profile_id):
+        """
+        get password from Password_Cache
+        """
         if self.pw_cache:
             self.fifo.write(profile_id, timeout = 5)
             pw_base64 = self.fifo.read(timeout = 5)
@@ -397,11 +431,19 @@ class Password(object):
         return password
         
     def _set_password_db(self, profile_id, mode, password):
+        """
+        internal Password cache. Prevent to ask password several times
+        during runtime.
+        """
         if not profile_id in self.db.keys():
             self.db[profile_id] = {}
         self.db[profile_id][mode] = password
     
     def set_password(self, password, profile_id, mode):
+        """
+        store password to keyring (seahorse). If caching is allowed
+        reload Password_Cache
+        """
         if mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
             service_name = self.config.get_keyring_service_name(profile_id, mode)
             user_name = self.config.get_keyring_user_name(profile_id)

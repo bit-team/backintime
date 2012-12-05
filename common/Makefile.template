@@ -40,3 +40,7 @@ install: build install_translations
 	install backintime $(DEST)/bin
 	install backintime-ssh-askpass $(DEST)/bin
 
+	#install autostart
+	install -d $(DEST)/../etc/xdg/autostart
+	install --mode=644 backintime.desktop $(DEST)/../etc/xdg/autostart
+

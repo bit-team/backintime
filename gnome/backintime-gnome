@@ -23,5 +23,8 @@ else
 	APP_PATH="/usr/share/backintime/gnome"
 fi
 
+#starting a new ssh-agent all the time is just a workaround for
+#https://bugs.launchpad.net/ubuntu/+source/openssh/+bug/841672
+#normally we don't need to start ssh-agent for backintime-gnome
 ssh-agent python ${APP_PATH}/app.py "$@"
 

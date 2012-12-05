@@ -27,6 +27,9 @@ def get_password(profile_id, mode):
     return pw.get_password(profile_id, mode)
 
 if __name__ == '__main__':
+    """
+    return password to ssh-add.
+    """
     try:
         profile_id = os.environ['SSH_ASKPASS_PROFILE_ID']
         mode = os.environ['SSH_ASKPASS_MODE']

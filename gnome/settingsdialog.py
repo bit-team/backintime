@@ -33,8 +33,6 @@ import messagebox
 import tools
 import mount
 import password
-import autostart
-
 
 _=gettext.gettext
 
@@ -1123,8 +1121,9 @@ class SettingsDialog(object):
 			return False
 		
 		self.config.save()
-		autostart.create()
-		daemon = password.Password_Cache(self.config, stdout = '/tmp/bit_stdout', stderr = '/tmp/bit_stderr') #Todo: delete debug
+
+		#start Password_Cache if not running
+		daemon = password.Password_Cache(self.config)
 		if not daemon.status():
 			try:
 				subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))

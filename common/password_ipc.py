@@ -23,17 +23,26 @@ class Timeout(Exception):
     pass
 
 class FIFO(object):
+    """
+    interprocess-communication with named pipes
+    """
     def __init__(self, fname):
         self.fifo = fname
         self.alarm = Alarm()
         
     def delfifo(self):
+        """
+        remove FIFO
+        """
         try:
             os.remove(self.fifo)
         except:
             pass
         
     def create(self):
+        """
+        create the FIFO in a way that only the current user can access it.
+        """
         if os.path.exists(self.fifo):
             self.delfifo()
         try:
@@ -43,6 +52,10 @@ class FIFO(object):
             sys.exit(1)
         
     def read(self, timeout = 0):
+        """
+        read from fifo untill timeout. If timeout is 0 it will wait forever
+        for input.
+        """
         #sys.stdout.write('read fifo\n')
         if not self.is_fifo():
             sys.stderr.write('%s is not a FIFO\n' % self.fifo)
@@ -54,6 +67,10 @@ class FIFO(object):
         return ret
         
     def write(self, string, timeout = 0):
+        """
+        write to fifo untill timeout. If timeout is 0 it will wait forever
+        for an other process that will read this.
+        """
         #sys.stdout.write('write fifo\n')
         if not self.is_fifo():
             sys.stderr.write('%s is not a FIFO\n' % self.fifo)
@@ -64,16 +81,25 @@ class FIFO(object):
         self.alarm.stop()
         
     def is_fifo(self):
+        """
+        make sure file is still a FIFO
+        """
         try:
             return stat.S_ISFIFO(os.stat(self.fifo).st_mode)
         except OSError:
             return False
 
 class Alarm(object):
+    """
+    Timeout for FIFO. This does not work with threading.
+    """
     def __init__(self):
         pass
         
     def start(self, timeout):
+        """
+        start timer
+        """
         try:
             signal.signal(signal.SIGALRM, self.handler)
             signal.alarm(timeout)
@@ -81,10 +107,16 @@ class Alarm(object):
             pass
         
     def stop(self):
+        """
+        stop timer before it come to an end
+        """
         try:
             signal.alarm(0)
         except:
             pass
         
     def handler(self, signum, frame):
+        """
+        timeout occur.
+        """
         raise Timeout()

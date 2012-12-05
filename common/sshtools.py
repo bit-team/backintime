@@ -359,6 +359,10 @@ class SSH(mount.MountControl):
         return ''.join(random.choice(chars) for x in range(size))
 
 class TempPasswordThread(threading.Thread):
+    """
+    in case BIT is not configured yet provide password through temp FIFO
+    to backintime-ssh-askpass.
+    """
     def __init__(self, string, temp_file):
         threading.Thread.__init__(self)
         self.pw_base64 = base64.encodestring(string)
