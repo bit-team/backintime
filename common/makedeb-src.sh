@@ -48,6 +48,9 @@ cp debian_specific/postrm $DEST/debian
 #debian: rules
 cp debian_specific/rules $DEST/debian
 
+#debian: conffiles
+cp debian_specific/conffiles $DEST/debian
+
 #add languages to rules
 for langfile in `ls po/*.po`; do
 	lang=`echo $langfile | cut -d/ -f2 | cut -d. -f1`
