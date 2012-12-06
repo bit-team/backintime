@@ -260,7 +260,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 			if not cfg.is_configured():
 				print "The application is not configured !"
 			else:
-				daemon = password.Password_Cache(cfg, stdout = '/tmp/bit_stdout', stderr = '/tmp/bit_stderr') #Todo: delete debug
+				daemon = password.Password_Cache(cfg)
 				try:
 					if sys.argv[index + 1].startswith('-'):
 						daemon.run()

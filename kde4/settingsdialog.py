@@ -217,12 +217,36 @@ class SettingsDialog( KDialog ):
 ##		self.txt_dummy_user = KLineEdit( self )
 ##		hlayout.addWidget( self.txt_dummy_user )
 
+		#password
+		group_box = QGroupBox( self )
+		self.frame_password = group_box
+		group_box.setTitle( QString.fromUtf8( _( 'Password' ) ) )
+		layout.addWidget( group_box )
+
+		vlayout = QVBoxLayout( group_box )
+
+		self.txt_password = KLineEdit( self )
+		self.txt_password.setPasswordMode(True)
+		vlayout.addWidget( self.txt_password )
+
+		self.cb_password_save = QCheckBox( QString.fromUtf8( _( 'Save Password to Keyring' ) ), self )
+		QObject.connect( self.cb_password_save, SIGNAL('stateChanged(int)'), self.update_password_save )
+		vlayout.addWidget( self.cb_password_save )
+
+		self.cb_password_use_cache = QCheckBox( QString.fromUtf8( _( 'Cache Password for Cron (Security issue: root can read password)' ) ), self )
+		vlayout.addWidget( self.cb_password_use_cache )
+
+		#mode change
 		QObject.connect( self.combo_modes, SIGNAL('currentIndexChanged(int)'), self.on_combo_modes_changed )
 		self.on_combo_modes_changed()
 		
 		#host, user, profile id
-		hlayout = QHBoxLayout()
-		layout.addLayout( hlayout )
+		group_box = QGroupBox( self )
+		self.frame_advanced = group_box
+		group_box.setTitle( QString.fromUtf8( _( 'Advanced' ) ) )
+		layout.addWidget( group_box )
+		
+		hlayout = QHBoxLayout( group_box )
 		hlayout.addSpacing( 12 )
 
 		vlayout2 = QVBoxLayout()
@@ -631,6 +655,10 @@ class SettingsDialog( KDialog ):
 		self.lbl_profile.setEnabled( enabled )
 		self.txt_profile.setEnabled( enabled )
 
+	def update_password_save( self ):
+		enabled = self.cb_password_save.isChecked()
+		self.cb_password_use_cache.setEnabled( enabled )
+
 	def update_profiles( self ):
 		self.update_profile()
 		current_profile_id = self.config.get_current_profile()
@@ -674,6 +702,15 @@ class SettingsDialog( KDialog ):
 ##		self.txt_dummy_host.setText( QString.fromUtf8( self.config.get_dummy_host() ) )
 ##		self.txt_dummy_port.setText( QString.fromUtf8( self.config.get_dummy_port() ) )
 ##		self.txt_dummy_user.setText( QString.fromUtf8( self.config.get_dummy_user() ) )
+
+		#password
+		password = self.config.get_password( mode = self.mode, only_from_keyring = True )
+		if password is None:
+			password = ''
+		self.txt_password.setText( QString.fromUtf8( password ) )
+		self.cb_password_save.setChecked( self.config.get_password_save( mode = self.mode ) )
+		self.cb_password_use_cache.setChecked( self.config.get_password_use_cache( mode = self.mode ) )
+		self.update_password_save()
 
 		self.cb_auto_host_user_profile.setChecked( self.config.get_auto_host_user_profile() )
 		host, user, profile = self.config.get_host_user_profile()
@@ -761,6 +798,9 @@ class SettingsDialog( KDialog ):
 		self.config.set_snapshots_mode( mode )
 		mount_kwargs = {}
 		
+		#password
+		password = str( self.txt_password.text().toUtf8() )
+		
 		#ssh
 		ssh_host = str( self.txt_ssh_host.text().toUtf8() )
 		ssh_port = str( self.txt_ssh_port.text().toUtf8() )
@@ -774,7 +814,9 @@ class SettingsDialog( KDialog ):
 							'user': ssh_user,
 							'path': ssh_path,
 							'cipher': ssh_cipher,
-							'private_key_file': ssh_private_key_file }
+							'private_key_file': ssh_private_key_file,
+							'password': password
+							}
 			
 ##		#dummy
 ##		dummy_host = str( self.txt_dummy_host.text().toUtf8() )
@@ -786,7 +828,9 @@ class SettingsDialog( KDialog ):
 ##			#HashCollision warnings
 ##			mount_kwargs = {'host': dummy_host,
 ##							'port': int(dummy_port),
-##							'user': dummy_user }
+##							'user': dummy_user,
+##							'password': password
+##							}
 			
 		if not self.config.SNAPSHOT_MODES[mode][0] is None:
 			#pre_mount_check
@@ -830,6 +874,11 @@ class SettingsDialog( KDialog ):
 ##		self.config.set_dummy_host(dummy_host)
 ##		self.config.set_dummy_port(dummy_port)
 ##		self.config.set_dummy_user(dummy_user)
+
+		#save password
+		self.config.set_password_save(self.cb_password_save.isChecked(), mode = mode)
+		self.config.set_password_use_cache(self.cb_password_use_cache.isChecked(), mode = mode)
+		self.config.set_password(password, mode = mode)
 
 		#include list 
 		include_list = []
@@ -1011,6 +1060,15 @@ class SettingsDialog( KDialog ):
 			return False
 
 		self.config.save()
+
+		#start Password_Cache if not running
+		daemon = password.Password_Cache(self.config)
+		if not daemon.status():
+			try:
+				subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))
+			except subprocess.CalledProcessError as e:
+				print('start Password Cache failed: %s' % e.strerror)
+
 		return True
 
 	def on_btn_exclude_remove_clicked ( self ):
@@ -1129,6 +1187,10 @@ class SettingsDialog( KDialog ):
 				else:
 					getattr(self, 'mode_%s' % mode).hide()
 			self.mode = active_mode
+		if active_mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
+			self.frame_password.show()
+		else:
+			self.frame_password.hide()
 		
 	def accept( self ):
 		if self.validate():

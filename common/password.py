@@ -285,12 +285,9 @@ class Password_Cache(Daemon):
                     answer = self.db[request]
                 else:
                     answer = ''
-                try:
-                    self.fifo.write(answer, 5)
-                except IOError as e:
-                    sys.stderr.write('Error in writing answer to FIFO: %s\n' % e.strerror)
-                else:
-                    sys.stdout.write('%s: %s\n' % (request, answer)) #Todo: delete debug
+                self.fifo.write(answer, 5)
+            except IOError as e:
+                sys.stderr.write('Error in writing answer to FIFO: %s\n' % e.strerror)
             except KeyboardInterrupt: 
                 print('Quit.')
                 break
@@ -322,6 +319,8 @@ class Password_Cache(Daemon):
                         user_name = self.config.get_keyring_user_name(profile_id)
                             
                         password = keyring.get_password(service_name, user_name)
+                        if password is None:
+                            continue
                         #add some snakeoil
                         pw_base64 = base64.encodestring(password)
                         self.db[profile_id] = pw_base64
@@ -422,7 +421,7 @@ class Password(object):
                                     _('"BackInTime profile %s"') % self.config.get_profile_name(profile_id)],
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE)
-            password, error = proc.communicate()
+            password, error = proc.communicate() #Todo: replace zenity with own dialog
             alarm.stop()
         except password_ipc.Timeout:
             os.kill(proc.pid, signal.SIGKILL)
