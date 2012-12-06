@@ -22,6 +22,7 @@ import sys
 import datetime
 import gettext
 import copy
+import subprocess
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -33,6 +34,7 @@ import config
 import tools
 import kde4tools
 import mount
+import password
 
 
 _=gettext.gettext
@@ -150,6 +152,8 @@ class SettingsDialog( KDialog ):
 		vlayout.addLayout( hlayout1 )
 		hlayout2 = QHBoxLayout()
 		vlayout.addLayout( hlayout2 )
+		hlayout3 = QHBoxLayout()
+		vlayout.addLayout( hlayout3 )
 		
 		self.lbl_ssh_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
 		hlayout1.addWidget( self.lbl_ssh_host )
@@ -172,10 +176,20 @@ class SettingsDialog( KDialog ):
 		hlayout2.addWidget( self.txt_ssh_path )
 		
 		self.lbl_ssh_cipher = QLabel( QString.fromUtf8( _( 'Cipher:' ) ), self )
-		hlayout2.addWidget( self.lbl_ssh_cipher )
+		hlayout3.addWidget( self.lbl_ssh_cipher )
 		self.combo_ssh_cipher = KComboBox( self )
-		hlayout2.addWidget( self.combo_ssh_cipher )
+		hlayout3.addWidget( self.combo_ssh_cipher )
 		self.fill_combo( self.combo_ssh_cipher, self.config.SSH_CIPHERS )
+		
+		self.lbl_ssh_private_key_file = QLabel( QString.fromUtf8( _( 'Private Key:' ) ), self )
+		hlayout3.addWidget( self.lbl_ssh_private_key_file )
+		self.txt_ssh_private_key_file = KLineEdit( self )
+		self.txt_ssh_private_key_file.setReadOnly( True )
+		hlayout3.addWidget( self.txt_ssh_private_key_file )
+		
+		self.btn_ssh_private_key_file = KPushButton( KIcon( 'folder' ), '', self )
+		hlayout3.addWidget( self.btn_ssh_private_key_file )
+		QObject.connect( self.btn_ssh_private_key_file, SIGNAL('clicked()'), self.on_btn_ssh_private_key_file_clicked )
 		
 ##		#Dummy
 ##		group_box = QGroupBox( self )
@@ -654,6 +668,7 @@ class SettingsDialog( KDialog ):
 		self.txt_ssh_user.setText( QString.fromUtf8( self.config.get_ssh_user() ) )
 		self.txt_ssh_path.setText( QString.fromUtf8( self.config.get_snapshots_path_ssh() ) )
 		self.set_combo_value( self.combo_ssh_cipher, self.config.get_ssh_cipher(), type = 'str' )
+		self.txt_ssh_private_key_file.setText( QString.fromUtf8( self.config.get_ssh_private_key_file() ) )
 		
 ##		#dummy
 ##		self.txt_dummy_host.setText( QString.fromUtf8( self.config.get_dummy_host() ) )
@@ -752,8 +767,14 @@ class SettingsDialog( KDialog ):
 		ssh_user = str( self.txt_ssh_user.text().toUtf8() )
 		ssh_path = str( self.txt_ssh_path.text().toUtf8() )
 		ssh_cipher = str( self.combo_ssh_cipher.itemData( self.combo_ssh_cipher.currentIndex() ).toString().toUtf8() )
+		ssh_private_key_file = str( self.txt_ssh_private_key_file.text().toUtf8() )
 		if mode == 'ssh':
-			mount_kwargs = { 'host': ssh_host, 'port': int(ssh_port), 'user': ssh_user, 'path': ssh_path, 'cipher': ssh_cipher }
+			mount_kwargs = {'host': ssh_host,
+							'port': int(ssh_port),
+							'user': ssh_user,
+							'path': ssh_path,
+							'cipher': ssh_cipher,
+							'private_key_file': ssh_private_key_file }
 			
 ##		#dummy
 ##		dummy_host = str( self.txt_dummy_host.text().toUtf8() )
@@ -763,7 +784,9 @@ class SettingsDialog( KDialog ):
 ##			#values must have exactly the same Type (str, int or bool) 
 ##			#as they are set in config or you will run into false-positive
 ##			#HashCollision warnings
-##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
+##			mount_kwargs = {'host': dummy_host,
+##							'port': int(dummy_port),
+##							'user': dummy_user }
 			
 		if not self.config.SNAPSHOT_MODES[mode][0] is None:
 			#pre_mount_check
@@ -801,6 +824,7 @@ class SettingsDialog( KDialog ):
 		self.config.set_ssh_user(ssh_user)
 		self.config.set_snapshots_path_ssh(ssh_path)
 		self.config.set_ssh_cipher(ssh_cipher)
+		self.config.set_ssh_private_key_file(ssh_private_key_file)
 		
 ##		#save dummy
 ##		self.config.set_dummy_host(dummy_host)
@@ -1080,6 +1104,17 @@ class SettingsDialog( KDialog ):
 				if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
 					return
 			self.edit_snapshots_path.setText( QString.fromUtf8( self.config.prepare_path( path ) ) )
+
+	def on_btn_ssh_private_key_file_clicked( self ):
+		old_file = str( self.txt_ssh_private_key_file.text().toUtf8() )
+
+		if len(old_file) > 0:
+			start_dir = KUrl( self.txt_ssh_private_key_file.text() )
+		else:
+			start_dir = KUrl( self.config.get_ssh_private_key_folder() )
+		file = str( KFileDialog.getOpenFileName( start_dir, QString.fromUtf8(''), self, QString.fromUtf8( _( 'SSH private key' ) ) ).toUtf8() )
+		if len( file ) > 0 :
+			self.txt_ssh_private_key_file.setText( QString.fromUtf8( self.config.prepare_path( file ) ) )
 		
 	def on_combo_modes_changed(self, *params):
 		if len(params) == 0:

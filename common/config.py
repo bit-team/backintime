@@ -455,7 +455,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return (host, port, user, path)
 		
 	def get_ssh_private_key_file(self, profile_id = None):
-		ssh = os.path.join(os.path.expanduser('~'), '.ssh')
+		ssh = self.get_ssh_private_key_folder()
 		default = ''
 		for file in ['id_dsa', 'id_rsa', 'identity']:
 			private_key = os.path.join(ssh, file)
@@ -467,6 +467,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 			return default
 		else:
 			return file
+
+	def get_ssh_private_key_folder(self):
+		return os.path.join(os.path.expanduser('~'), '.ssh')
 	
 	def set_ssh_private_key_file( self, value, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.ssh.private_key_file', value, profile_id )

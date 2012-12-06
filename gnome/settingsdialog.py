@@ -429,6 +429,8 @@ class SettingsDialog(object):
 		fcd = gtk.FileChooserDialog( _('SSH private key'), self.dialog, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
 		if len( file ) > 0:
 			fcd.set_filename( file )
+		else:
+			fcd.set_filename(self.config.get_ssh_private_key_folder())
 		
 		if fcd.run() == gtk.RESPONSE_OK:
 			new_file = tools.prepare_path( fcd.get_filename() )
