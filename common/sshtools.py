@@ -132,7 +132,7 @@ class SSH(mount.MountControl):
         user = self.config.get_user()
         fuse_grp_members = grp.getgrnam('fuse')[3]
         if not user in fuse_grp_members:
-            raise mount.MountException( _('%s is not member of group \'fuse\'.\n Run \'sudo adduser %s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % (user, user))
+            raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
         
     def pathexists(self, filename):
         """Checks if 'filename' is present in the system PATH.
@@ -154,7 +154,7 @@ class SSH(mount.MountControl):
         try:
             subprocess.check_call(ssh, stdout=open(os.devnull, 'w'))
         except subprocess.CalledProcessError:
-            raise mount.MountException( _('Password-less authentication for %s@%s failed. Look at \'man backintime\' for further instructions.')  % (self.user, self.host))
+            raise mount.MountException( _('Password-less authentication for %(user)s@%(host)s failed. Look at \'man backintime\' for further instructions.')  % {'user' : self.user, 'host' : self.host})
         
     def check_cipher(self):
         """check if both host and localhost support cipher"""
@@ -162,9 +162,10 @@ class SSH(mount.MountControl):
             ssh = ['ssh']
             ssh.extend(['-o', 'Ciphers=%s' % self.cipher])
             ssh.extend(['-p', str(self.port), self.user + '@' + self.host, 'echo', '"Hello"'])
-            err = subprocess.Popen(ssh, stdout=open(os.devnull, 'w'), stderr=subprocess.PIPE).communicate()[1]
-            if err:
-                raise mount.MountException( _('Cipher %s failed for %s:\n%s')  % (self.cipher, self.host, err))
+            proc = subprocess.Popen(ssh, stdout=open(os.devnull, 'w'), stderr=subprocess.PIPE)
+            err = proc.communicate()[1]
+            if proc.returncode:
+                raise mount.MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')  % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
             
     def benchmark_cipher(self, size = '40'):
         import tempfile
@@ -244,7 +245,7 @@ class SSH(mount.MountControl):
         err = os.system(rsync)
         if err:
             os.remove(tmp_file)
-            raise mount.MountException( _('Remote host %s doesn\'t support \'%s\':\n%s\nLook at \'man backintime\' for further instructions') % (self.host, rsync, err))
+            raise mount.MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'command' : rsync, 'err' : err})
         os.remove(tmp_file)
             
         #check cp chmod find and rm
@@ -275,9 +276,10 @@ class SSH(mount.MountControl):
         cmd += '[[ $err_rm -ne 0 ]] && cleanup $err_rm; '
         #if we end up here, everything should be fine
         cmd += 'echo \"done\"'
-        output, err = subprocess.Popen(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd],
+        proc = subprocess.Popen(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd],
                                         stdout=subprocess.PIPE, 
-                                        stderr=subprocess.PIPE).communicate()
+                                        stderr=subprocess.PIPE)
+        output, err = proc.communicate()
             
 ##        print('ERROR: %s' % err)
 ##        print('OUTPUT: %s' % output)
@@ -287,11 +289,11 @@ class SSH(mount.MountControl):
                 output_split = output_split[:-1]
             else:
                 break
-        if err or not output_split[-1].startswith('done'):
+        if proc.returncode or not output_split[-1].startswith('done'):
             for command in ('cp', 'chmod', 'find', 'rm'):
                 if output_split[-1].startswith(command):
-                    raise mount.MountException( _('Remote host %s doesn\'t support \'%s\':\n%s\nLook at \'man backintime\' for further instructions') % (self.host, output_split[-1], err))
-            raise mount.MountException( _('Check commands on host %s returned unknown error:\n%s\nLook at \'man backintime\' for further instructions') % (self.host, err))
+                    raise mount.MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
+            raise mount.MountException( _('Check commands on host %(host)s returned unknown error:\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'err' : err})
             
         i = 1
         inode1 = 'ABC'

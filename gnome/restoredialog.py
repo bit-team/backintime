@@ -83,16 +83,29 @@ class RestoreDialog(object):
 		self.btn_close.set_sensitive(False)
 
 		#
-		self.buffer = ''
+		self.buffer = self.txt_log_view.get_buffer()
+		
+		#auto scroll
+		self.cb_auto_scroll = get('cb_auto_scroll')
+		self.cb_auto_scroll.show()
+		self.cb_auto_scroll.set_active(True)
+
+		signals = {'on_cb_auto_scroll_toggled': self.scroll}
+		builder.connect_signals(signals)
 	
+	def scroll(self, *args):
+		if self.cb_auto_scroll.get_active():
+			self.txt_log_view.scroll_to_iter(self.buffer.get_end_iter(), 0)
+		gnometools.run_gtk_update_loop()
+		
 	def callback(self, line, *params ):
-		self.buffer = self.buffer + line + "\n"
-		self.txt_log_view.get_buffer().set_text(self.buffer)
-        	gnometools.run_gtk_update_loop()
+		end_iter = self.buffer.get_end_iter()
+		self.buffer.insert(end_iter, line + "\n")
+		self.scroll()
 
 	def run( self ):
-        	self.dialog.show()
-        	gnometools.run_gtk_update_loop()
+		self.dialog.show()
+		gnometools.run_gtk_update_loop()
 		self.snapshots.restore( self.snapshot_id, self.what, self.callback, self.where )
 		self.btn_close.set_sensitive(True)
 		self.dialog.run()

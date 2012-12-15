@@ -59,10 +59,14 @@ class LogViewDialog(object):
 
 		signals = { 
 				'on_combo_profiles_changed': self.on_combo_profiles_changed,
-				'on_combo_filter_changed': self.on_combo_filter_changed
+				'on_combo_filter_changed': self.on_combo_filter_changed,
+				'on_cb_auto_scroll_toggled': self.scroll
 			}
 		
 		builder.connect_signals(signals)
+
+		self.cb_auto_scroll = get('cb_auto_scroll')
+		self.cb_auto_scroll.hide()
 
 		#log view
 		self.txt_log_view = get( 'txt_log_view' )
@@ -107,6 +111,9 @@ class LogViewDialog(object):
 		
 		self.update_profiles()
 	
+	def scroll(self, *args):
+		pass
+		
 	def on_combo_profiles_changed( self, *params ):
 		iter = self.combo_profiles.get_active_iter()
 		if iter is None:

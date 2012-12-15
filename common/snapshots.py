@@ -484,7 +484,7 @@ class Snapshots:
 			ssh_cipher_suffix = ''
 		else:
 			ssh_cipher_suffix = '-c %s' % ssh_cipher
-		rsync_ssh_suffix = '--rsh="ssh -p %s %s" "%s@%s:' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
+		rsync_ssh_suffix = '--protect-args --rsh="ssh -p %s %s" \"%s@%s:' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
 
 		logger.info( "Restore: %s to: %s" % (path, restore_to) )
 
@@ -794,7 +794,7 @@ class Snapshots:
 					else:
 						logger.warning( '%s: are not moved to their new location!' %snapshots_left )
 						
-						answer_unsuccessful = self.config.question_handler( _('%s\nof profile %s are not moved to their new location\nDo you want to proceed?\n(Back In Time will be able to continue taking snapshots, however the remaining snapshots will not be considered for automatic removal)\n\nIf not Back In Time will restore former settings for this profile, however cannot continue taking snapshots' %( snapshots_left, profile_id ) ) )
+						answer_unsuccessful = self.config.question_handler( _('%(snapshots_left)s\nof profile %(profile_id)s are not moved to their new location\nDo you want to proceed?\n(Back In Time will be able to continue taking snapshots, however the remaining snapshots will not be considered for automatic removal)\n\nIf not Back In Time will restore former settings for this profile, however cannot continue taking snapshots' %{ 'snapshots_left' : snapshots_left, 'profile_id' : profile_id } ) )
 						if answer_unsuccessful == True:
 							success.append( True )
 						else:
@@ -1313,8 +1313,8 @@ class Snapshots:
 			cmd.extend(['find', path_to_explore_ssh, '-name', '\*', '-print'])
 			
 			find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-			output, err = find.communicate()
-			if len(err) > 0:
+			output = find.communicate()[0]
+			if find.returncode:
 				logger.warning('Save permission over ssh failed. Retry normal methode')
 			else:
 				for line in output.split('\n'):
@@ -1400,7 +1400,7 @@ class Snapshots:
 			os.system( cmd_ssh + "mv \"%s\" \"%s\"" % ( new_snapshot_path_ssh, snapshot_path_ssh ) )
 		if not os.path.exists( snapshot_path ):
 			logger.error( "Can't rename %s to %s" % ( new_snapshot_path, snapshot_path ) )
-			self.set_take_snapshot_message( 1, _('Can\'t rename %s to %s') % ( new_snapshot_path, snapshot_path ) )
+			self.set_take_snapshot_message( 1, _('Can\'t rename %(new_path)s to %(path)s') % { 'new_path' : new_snapshot_path, 'path' : snapshot_path } )
 			os.system( 'sleep 2' ) #max 1 backup / second
 			return [ False, True ]
 
