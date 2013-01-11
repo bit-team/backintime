@@ -484,7 +484,7 @@ class Snapshots:
 			ssh_cipher_suffix = ''
 		else:
 			ssh_cipher_suffix = '-c %s' % ssh_cipher
-		rsync_ssh_suffix = '--rsh="ssh -p %s %s" "%s@%s:' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
+		rsync_ssh_suffix = '--protect-args --rsh="ssh -p %s %s" \"%s@%s:' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host )
 
 		logger.info( "Restore: %s to: %s" % (path, restore_to) )
 
@@ -525,9 +525,9 @@ class Snapshots:
 		#print "snapshot_id: %s" % snapshot_id 
 	
 		if ssh:
-			cmd = cmd + rsync_ssh_suffix + "%s.%s\" %s" % ( src_base, src_path, restore_to + '/' )
+			cmd = cmd + rsync_ssh_suffix + "%s.%s\" \"%s\"" % ( src_base, src_path, restore_to + '/' )
 		else:
-			cmd = cmd + "\"%s.%s\" %s" % ( src_base, src_path, restore_to + '/' )
+			cmd = cmd + "\"%s.%s\" \"%s\"" % ( src_base, src_path, restore_to + '/' )
 		self.restore_callback( callback, True, cmd )
 		self._execute( cmd, callback )
 

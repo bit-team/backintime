@@ -28,7 +28,7 @@ cp *.desktop $DEST/
 cp plugins/*.py $DEST/plugins
 
 #man pages
-cp -R man/* $DEST/man
+gzip --best -c man/C/backintime-kde4.1 >$DEST/man/C/backintime-kde4.1.gz
 
 #docbook
 cp -R docbook/* $DEST/docbook
