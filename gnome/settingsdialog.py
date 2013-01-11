@@ -487,6 +487,8 @@ class SettingsDialog(object):
 		
 	def update_password_save(self, *params):
 		value = self.cb_password_save.get_active()
+		if value and tools.check_home_encrypt():
+			value = False
 		self.cb_password_use_cache.set_sensitive(value)
 		
 	def on_combo_modes_changed(self, *params):

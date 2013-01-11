@@ -657,6 +657,8 @@ class SettingsDialog( KDialog ):
 
 	def update_password_save( self ):
 		enabled = self.cb_password_save.isChecked()
+		if enabled and tools.check_home_encrypt():
+			enabled = False
 		self.cb_password_use_cache.setEnabled( enabled )
 
 	def update_profiles( self ):

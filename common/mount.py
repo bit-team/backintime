@@ -24,6 +24,7 @@ from time import sleep
 
 import config
 import logger
+import tools
 
 _=gettext.gettext
 
@@ -214,14 +215,12 @@ class MountControl(object):
         
     def is_mounted(self):
         """return True if path is is already mounted"""
-        try:
-            subprocess.check_call(['mountpoint', self.mountpoint], stdout=open(os.devnull, 'w'))
-        except subprocess.CalledProcessError:
+        if tools.check_mountpoint(self.mountpoint):
+            return True
+        else:
             if len(os.listdir(self.mountpoint)) > 0:
                 raise MountException( _('mountpoint %s not empty.') % self.mountpoint)
             return False
-        else:
-            return True
         
     def create_mountstructure(self):
         """ folder structure in /tmp/backintime/<user>/:

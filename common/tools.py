@@ -420,6 +420,28 @@ def check_cron_pattern(str):
     except ValueError:
         return False
 
+def check_mountpoint(path):
+    '''return True if path is a mountpoint'''
+    try:
+        subprocess.check_call(['mountpoint', path], stdout=open(os.devnull, 'w'))
+    except subprocess.CalledProcessError:
+        return False
+    return True
+
+def check_home_encrypt():
+    '''return True if users home is encrypted'''
+    home = os.path.expanduser('~')
+    if not check_mountpoint(home):
+        return False
+    if check_command('ecryptfs-verify'):
+        try:
+            subprocess.check_call(['ecryptfs-verify', '--home'], stdout=open(os.devnull, 'w'))
+        except subprocess.CalledProcessError:
+            pass
+        else:
+            return True
+    #Todo: add check for encfs
+    return False
 #
 #
 class UniquenessSet:

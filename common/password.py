@@ -47,7 +47,7 @@ class Daemon:
     License CC BY-SA 3.0
     http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
     """
-    def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+    def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/stdout', stderr='/dev/null'):
         self.stdin = stdin
         self.stdout = stdout
         self.stderr = stderr
@@ -257,19 +257,15 @@ class Password_Cache(Daemon):
         self.db = {}
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         
-    def start(self):
-        """
-        override Daemon.start to save environment before starting.
-        """
-        self.save_env()
-        Daemon.start(self)
-        
     def run(self):
         """
         wait for password request on FIFO and answer with password
         from self.db through FIFO.
         """
         self.save_env()
+        if tools.check_home_encrypt():
+            sys.stdout.write('Home is encrypt. Doesn\'t make sense to cache passwords. Quit.')
+            sys.exit(0)
         self._collect_passwords()
         if len(self.db) == 0:
             sys.stdout.write('Nothing to cache. Quit.')
@@ -406,12 +402,7 @@ class Password(object):
         ask user for password. This does even work when run as cronjob
         and user is logged in.
         """
-        try:
-            subprocess.check_call(['xdpyinfo'],
-                                stdout=open(os.devnull, 'w'),
-                                stderr=open(os.devnull, 'w'))
-        except subprocess.CalledProcessError:
-            #DISPLAY is not available anymore
+        if not tools.check_x_server():
             return ''
         password, error = ('', '')
         alarm = password_ipc.Alarm()

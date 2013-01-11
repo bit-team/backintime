@@ -505,7 +505,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def get_password_use_cache( self, profile_id = None, mode = None ):
 		if mode is None:
 			mode = self.get_snapshots_mode(profile_id)
-		return self.get_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, True, profile_id )
+		default = not tools.check_home_encrypt()
+		return self.get_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, default, profile_id )
 
 	def set_password_use_cache( self, value, profile_id = None, mode = None ):
 		if mode is None:
