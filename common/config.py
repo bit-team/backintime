@@ -513,12 +513,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 			mode = self.get_snapshots_mode(profile_id)
 		self.set_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, value, profile_id )
 
-	def get_password( self, profile_id = None, mode = None, only_from_keyring = False ):
+	def get_password( self, parent = None, profile_id = None, mode = None, only_from_keyring = False ):
 		if profile_id is None:
 			profile_id = self.get_current_profile()
 		if mode is None:
 			mode = self.get_snapshots_mode(profile_id)
-		return self.pw.get_password(profile_id, mode, only_from_keyring)
+		return self.pw.get_password(parent, profile_id, mode, only_from_keyring)
 
 	def set_password( self, password, profile_id = None, mode = None ):
 		if profile_id is None:

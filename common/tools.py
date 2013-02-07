@@ -22,7 +22,9 @@ import sys
 import subprocess
 import hashlib
 import commands
+import signal
 
+import configfile
 
 ON_AC = 0
 ON_BATTERY = 1
@@ -442,8 +444,40 @@ def check_home_encrypt():
             return True
     #Todo: add check for encfs
     return False
-#
-#
+
+def load_env(cfg):
+    env = os.environ.copy()
+    env_file = configfile.ConfigFile()
+    env_file.load(cfg.get_cron_env_file(), maxsplit = 1)
+    for key in env_file.get_keys():
+        value = env_file.get_str_value(key)
+        if not value:
+            continue
+        if not key in env.keys():
+            os.environ[key] = value
+    del(env_file)
+
+def save_env(cfg):
+    """
+    save environ variables to file that are needed by cron
+    to connect to keyring. This will only work if the user is logged in.
+    """
+    env = os.environ.copy()
+    env_file = configfile.ConfigFile()
+    #ubuntu
+    set_env_key(env, env_file, 'GNOME_KEYRING_CONTROL')
+    set_env_key(env, env_file, 'DBUS_SESSION_BUS_ADDRESS')
+    set_env_key(env, env_file, 'DISPLAY')
+    #debian
+    set_env_key(env, env_file, 'XAUTHORITY')
+    
+    env_file.save(cfg.get_cron_env_file())
+    del(env_file)
+
+def set_env_key(env, env_file, key):
+    if key in env.keys():
+        env_file.set_str_value(key, env[key])
+
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     
@@ -496,3 +530,40 @@ class UniquenessSet:
         if verb: print " >> skip (it's a duplicate)" 
         return False
 
+class Timeout(Exception):
+    pass
+
+class Alarm(object):
+    """
+    Timeout for FIFO. This does not work with threading.
+    """
+    def __init__(self, callback = None):
+        self.callback = callback
+        
+    def start(self, timeout):
+        """
+        start timer
+        """
+        try:
+            signal.signal(signal.SIGALRM, self.handler)
+            signal.alarm(timeout)
+        except ValueError:
+            pass
+        
+    def stop(self):
+        """
+        stop timer before it come to an end
+        """
+        try:
+            signal.alarm(0)
+        except:
+            pass
+        
+    def handler(self, signum, frame):
+        """
+        timeout occur.
+        """
+        if self.callback is None:
+            raise Timeout()
+        else:
+            self.callback()

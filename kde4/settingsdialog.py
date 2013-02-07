@@ -23,6 +23,7 @@ import datetime
 import gettext
 import copy
 import subprocess
+import keyring
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -878,6 +879,12 @@ class SettingsDialog( KDialog ):
 ##		self.config.set_dummy_user(dummy_user)
 
 		#save password
+		if self.cb_password_save.isChecked():
+			if not type(keyring.get_keyring()) == type(keyring.backend.KDEKWallet()):
+				#in Kubuntu keyring.backend.KDEKWallet is included in python-keyring
+				#but Debian uses an extra package for this: python-keyring-kwallet
+				self.error_handler( _('Can\'t connect to KWallet. On Debian you need to install:\n\'apt-get install python-keyring-kwallet\''))
+				return False
 		self.config.set_password_save(self.cb_password_save.isChecked(), mode = mode)
 		self.config.set_password_use_cache(self.cb_password_use_cache.isChecked(), mode = mode)
 		self.config.set_password(password, mode = mode)
@@ -1069,7 +1076,7 @@ class SettingsDialog( KDialog ):
 			try:
 				subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))
 			except subprocess.CalledProcessError as e:
-				print('start Password Cache failed: %s' % e.strerror)
+				self.error_handler( _('start Password Cache failed: %s') % e.strerror)
 
 		return True
 

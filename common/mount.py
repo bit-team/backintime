@@ -1,4 +1,4 @@
-#    Copyright (c) 2012 Germar Reitze
+#    Copyright (c) 2012-2013 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ class HashCollision(Exception):
     pass
 
 class Mount(object):
-    def __init__(self, cfg = None, profile_id = None, tmp_mount = False):
+    def __init__(self, cfg = None, profile_id = None, tmp_mount = False, parent = None):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -45,6 +45,7 @@ class Mount(object):
             self.profile_id = self.config.get_current_profile()
             
         self.tmp_mount = tmp_mount
+        self.parent = parent
             
     def mount(self, mode = None, check = True, **kwargs):
         if mode is None:
@@ -57,7 +58,9 @@ class Mount(object):
             while True:
                 try:
                     mounttools = self.config.SNAPSHOT_MODES[mode][0]
-                    tools = mounttools(cfg = self.config, profile_id = self.profile_id, tmp_mount = self.tmp_mount, mode = mode, **kwargs)
+                    tools = mounttools(cfg = self.config, profile_id = self.profile_id,
+                                       tmp_mount = self.tmp_mount, mode = mode,
+                                       parent = self.parent, **kwargs)
                     return tools.mount(check = check)
                 except HashCollision as ex:
                     logger.warning(str(ex))
@@ -80,7 +83,9 @@ class Mount(object):
             kwargs = json.loads(data_string)
             mode = kwargs.pop('mode')
             mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            tools = mounttools(cfg = self.config, profile_id = self.profile_id, tmp_mount = self.tmp_mount, mode = mode, hash_id = hash_id, **kwargs)
+            tools = mounttools(cfg = self.config, profile_id = self.profile_id,
+                               tmp_mount = self.tmp_mount, mode = mode,
+                               hash_id = hash_id, parent = self.parent, **kwargs)
             tools.umount()
         
     def pre_mount_check(self, mode = None, first_run = False, **kwargs):
@@ -94,7 +99,9 @@ class Mount(object):
             return True
         else:
             mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            tools = mounttools(cfg = self.config, profile_id = self.profile_id, tmp_mount = self.tmp_mount, mode = mode, **kwargs)
+            tools = mounttools(cfg = self.config, profile_id = self.profile_id,
+                               tmp_mount = self.tmp_mount, mode = mode,
+                               parent = self.parent, **kwargs)
             return tools.pre_mount_check(first_run)
         
     def remount(self, new_profile_id, mode = None, hash_id = None, **kwargs):
@@ -118,7 +125,9 @@ class Mount(object):
             return self.mount(mode = mode, **kwargs)
             
         mounttools = self.config.SNAPSHOT_MODES[mode][0]
-        tools = mounttools(cfg = self.config, profile_id = new_profile_id, tmp_mount = self.tmp_mount, mode = mode, **kwargs)
+        tools = mounttools(cfg = self.config, profile_id = new_profile_id,
+                           tmp_mount = self.tmp_mount, mode = mode,
+                           parent = self.parent, **kwargs)
         if tools.compare_remount(hash_id):
             #profiles uses the same settings. just swap the symlinks
             tools.remove_symlink(profile_id = self.profile_id) 

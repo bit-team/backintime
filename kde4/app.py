@@ -343,7 +343,7 @@ class MainWindow( KMainWindow ):
 		
 		#mount
 		try:
-			mnt = mount.Mount(cfg = self.config, profile_id = profile_id)
+			mnt = mount.Mount(cfg = self.config, profile_id = profile_id, parent = self)
 			hash_id = mnt.mount()
 		except mount.MountException as ex:
 			KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
@@ -413,7 +413,7 @@ class MainWindow( KMainWindow ):
 		
 		#umount
 		try:
-			mnt = mount.Mount(cfg = self.config)
+			mnt = mount.Mount(cfg = self.config, parent = self)
 			mnt.umount(self.config.current_hash_id)
 		except mount.MountException as ex:
 			KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
@@ -465,7 +465,7 @@ class MainWindow( KMainWindow ):
 			
 	def remount( self, new_profile_id, old_profile_id):
 		try:
-			mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id)
+			mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id, parent = self)
 			hash_id = mnt.remount(new_profile_id)
 		except mount.MountException as ex:
 			KMessageBox.error( self, QString.fromUtf8( str(ex) ) )

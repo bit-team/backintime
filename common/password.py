@@ -1,4 +1,4 @@
-#    Copyright (c) 2012 Germar Reitze
+#    Copyright (c) 2012-2013 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,13 +22,7 @@ import signal
 import base64
 import subprocess
 import gettext
-try:
-    import keyring
-except ImportError:
-    print """Unable to import keyring module
-On Debian like systems you probably need to install the following package(s):
-python-keyring"""
-    sys.exit(1)
+import keyring
 
 import config
 import configfile
@@ -262,7 +256,7 @@ class Password_Cache(Daemon):
         wait for password request on FIFO and answer with password
         from self.db through FIFO.
         """
-        self.save_env()
+        tools.save_env(self.config)
         if tools.check_home_encrypt():
             sys.stdout.write('Home is encrypt. Doesn\'t make sense to cache passwords. Quit.')
             sys.exit(0)
@@ -287,7 +281,7 @@ class Password_Cache(Daemon):
             except KeyboardInterrupt: 
                 print('Quit.')
                 break
-            except password_ipc.Timeout as e:
+            except tools.Timeout:
                 sys.stderr.write('FIFO timeout\n')
             except StandardError as e:
                 sys.stderr.write('ERROR: %s\n' % str(e))
@@ -320,25 +314,6 @@ class Password_Cache(Daemon):
                         #add some snakeoil
                         pw_base64 = base64.encodestring(password)
                         self.db[profile_id] = pw_base64
-        
-    def save_env(self):
-        """
-        save environ variables to file that are needed by cron
-        to connect to keyring. This will only work if the user is logged in.
-        """
-        env = os.environ.copy()
-        env_file = configfile.ConfigFile()
-        #ubuntu
-        self.set_env_key(env, env_file, 'GNOME_KEYRING_CONTROL')
-        self.set_env_key(env, env_file, 'DBUS_SESSION_BUS_ADDRESS')
-        self.set_env_key(env, env_file, 'DISPLAY')
-        
-        env_file.save(self.config.get_cron_env_file())
-        del(env_file)
-        
-    def set_env_key(self, env, env_file, key):
-        if key in env.keys():
-            env_file.set_str_value(key, env[key])
 
 class Password(object):
     """
@@ -353,7 +328,7 @@ class Password(object):
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         self.db = {}
         
-    def get_password(self, profile_id, mode, only_from_keyring = False):
+    def get_password(self, parent, profile_id, mode, only_from_keyring = False):
         """
         based on profile settings return password from keyring,
         Password_Cache or by asking User.
@@ -371,7 +346,7 @@ class Password(object):
                 password = self._get_password_from_keyring(profile_id, mode)
         else:
             if not only_from_keyring:
-                password = self._get_password_from_user(profile_id)
+                password = self._get_password_from_user(parent, profile_id)
             else:
                 password = ''
         self._set_password_db(profile_id, mode, password)
@@ -397,27 +372,41 @@ class Password(object):
         else:
             return ''
     
-    def _get_password_from_user(self, profile_id):
+    def _get_password_from_user(self, parent, profile_id):
         """
         ask user for password. This does even work when run as cronjob
         and user is logged in.
         """
-        if not tools.check_x_server():
-            return ''
-        password, error = ('', '')
-        alarm = password_ipc.Alarm()
-        alarm.start(300)
-        try:
-            proc = subprocess.Popen(['zenity', '--password', '--title',
-                                    _('"BackInTime profile %s"') % self.config.get_profile_name(profile_id)],
-                                    stdout=subprocess.PIPE,
-                                    stderr=subprocess.PIPE)
-            password, error = proc.communicate() #Todo: replace zenity with own dialog
-            alarm.stop()
-        except password_ipc.Timeout:
-            os.kill(proc.pid, signal.SIGKILL)
-        if proc.returncode:
-            print('Could not get password from user\nERROR %s: %s' %(proc.returncode, error))
+        gnome = os.path.join(self.config.get_app_path(), 'gnome')
+        kde   = os.path.join(self.config.get_app_path(), 'kde4')
+        for path in (gnome, kde):
+            if os.path.isdir(path):
+                sys.path = [path] + sys.path
+                break
+        
+        x_server = tools.check_x_server()
+        import_successful = False
+        if x_server:
+            try:
+                import messagebox
+                import_successful = True
+            except ImportError:
+                pass
+            
+        if not import_successful or not x_server:
+##            import getpass
+##            alarm = tools.Alarm()
+##            alarm.start(5)
+##            try:
+##                password = getpass.getpass(_('Enter Password for profile %s: ') % self.config.get_profile_name(profile_id))
+##            except tools.Timeout:
+##                password = ''
+##            return password
+            return '' #Todo: get password on terminal
+        
+        password = messagebox.ask_password_dialog(parent, self.config, 'Back in Time',
+                    prompt = _('Enter Password for profile %s: ') % self.config.get_profile_name(profile_id),
+                    timeout = 10)
         return password
         
     def _set_password_db(self, profile_id, mode, password):

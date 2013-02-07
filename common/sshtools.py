@@ -1,4 +1,4 @@
-#    Copyright (c) 2012 Germar Reitze
+#    Copyright (c) 2012-2013 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class SSH(mount.MountControl):
     Mount remote path with sshfs. The real take_snapshot process will use
     rsync over ssh. Other commands run remote over ssh.
     """
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, **kwargs):
+    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, **kwargs):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -49,6 +49,7 @@ class SSH(mount.MountControl):
             
         self.tmp_mount = tmp_mount
         self.hash_id = hash_id
+        self.parent = parent
             
         #init MountControl
         mount.MountControl.__init__(self)

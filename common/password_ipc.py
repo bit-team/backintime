@@ -1,4 +1,4 @@
-#    Copyright (c) 2012 Germar Reitze
+#    Copyright (c) 2012-2013 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,9 +18,7 @@ import os
 import sys
 import stat
 import signal
-
-class Timeout(Exception):
-    pass
+import tools
 
 class FIFO(object):
     """
@@ -28,7 +26,7 @@ class FIFO(object):
     """
     def __init__(self, fname):
         self.fifo = fname
-        self.alarm = Alarm()
+        self.alarm = tools.Alarm()
         
     def delfifo(self):
         """
@@ -88,35 +86,3 @@ class FIFO(object):
             return stat.S_ISFIFO(os.stat(self.fifo).st_mode)
         except OSError:
             return False
-
-class Alarm(object):
-    """
-    Timeout for FIFO. This does not work with threading.
-    """
-    def __init__(self):
-        pass
-        
-    def start(self, timeout):
-        """
-        start timer
-        """
-        try:
-            signal.signal(signal.SIGALRM, self.handler)
-            signal.alarm(timeout)
-        except ValueError:
-            pass
-        
-    def stop(self):
-        """
-        stop timer before it come to an end
-        """
-        try:
-            signal.alarm(0)
-        except:
-            pass
-        
-    def handler(self, signum, frame):
-        """
-        timeout occur.
-        """
-        raise Timeout()

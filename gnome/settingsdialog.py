@@ -595,7 +595,7 @@ class SettingsDialog(object):
 ##		self.txt_dummy_user.set_text( self.config.get_dummy_user( self.profile_id ) )
 		
 		#password
-		password = self.config.get_password( self.profile_id, self.mode, only_from_keyring = True )
+		password = self.config.get_password( profile_id = self.profile_id, mode = self.mode, only_from_keyring = True )
 		if password is None:
 			password = ''
 		self.txt_password.set_text(password)
@@ -1132,6 +1132,6 @@ class SettingsDialog(object):
 			try:
 				subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))
 			except subprocess.CalledProcessError as e:
-				print('start Password Cache failed: %s' % e.strerror)
+				messagebox.show_error(self.dialog, self.config, _('start Password Cache failed: %s') % e.strerror)
 		return True
 	

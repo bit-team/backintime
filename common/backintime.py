@@ -23,7 +23,6 @@ import sys
 import gettext
 
 import config
-import configfile
 import logger
 import snapshots
 import tools
@@ -48,7 +47,7 @@ def take_snapshot_now_async( cfg ):
 
 def take_snapshot( cfg, force = True ):
 	logger.openlog()
-	load_env(cfg)
+	tools.load_env(cfg)
 	_mount(cfg)
 	snapshots.Snapshots( cfg ).take_snapshot( force )
 	_umount(cfg)
@@ -298,19 +297,6 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 			continue
 
 	return cfg
-
-def load_env(cfg):
-	env = os.environ.copy()
-	env_file = configfile.ConfigFile()
-	env_file.load(cfg.get_cron_env_file(), maxsplit = 1)
-	for key in env_file.get_keys():
-		value = env_file.get_str_value(key)
-		if not value:
-			continue
-		if not key in env.keys():
-			os.environ[key] = value
-	del(env_file)
-
 
 
 if __name__ == '__main__':
