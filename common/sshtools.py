@@ -142,22 +142,36 @@ class SSH(mount.MountControl):
         
         output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
         if not output.find(self.private_key_file) >= 0:
-            if not self.password is None:
-                #write password directly to temp FIFO
-                temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
-                env['SSH_ASKPASS_TEMP'] = temp_file
-                thread = TempPasswordThread(self.password, temp_file)
-                thread.start()
+            if not self.config.get_password_save(self.profile_id) and not tools.check_x_server():
+                #we need to unlink stdin from ssh-add in order to make it
+                #use our own ssh-askpass.
+                #But because of this we can NOT use getpass inside ssh-askpass
+                #if password is not saved and there is no x-server.
+                #So, let's just keep ssh-add asking for the password in that case.
+                alarm = tools.Alarm()
+                alarm.start(10)
+                try:
+                    proc = subprocess.call(['ssh-add', self.private_key_file])
+                    alarm.stop()
+                except tools.Timeout:
+                    pass
+            else:
+                if not self.password is None:
+                    #write password directly to temp FIFO
+                    temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
+                    env['SSH_ASKPASS_TEMP'] = temp_file
+                    thread = TempPasswordThread(self.password, temp_file)
+                    thread.start()
                 
-            proc = subprocess.Popen(['ssh-add', self.private_key_file],
-                                    stdin=subprocess.PIPE,
-                                    stdout=subprocess.PIPE,
-                                    stderr=subprocess.PIPE,
-                                    env = env,
-                                    preexec_fn = os.setsid)
-            output, error = proc.communicate()
-            if proc.returncode:
-                print( _('Failed to unlock SSH private key:\nError: %s') % error)
+                proc = subprocess.Popen(['ssh-add', self.private_key_file],
+                                        stdin=subprocess.PIPE,
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE,
+                                        env = env,
+                                        preexec_fn = os.setsid)
+                output, error = proc.communicate()
+                if proc.returncode:
+                    print( _('Failed to unlock SSH private key:\nError: %s') % error)
             output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
             if not output.find(self.private_key_file) >= 0:
                 raise mount.MountException( _('Could not unlock ssh private key. Wrong password or password not available for cron.'))

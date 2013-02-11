@@ -346,7 +346,7 @@ class Password(object):
                 password = self._get_password_from_keyring(profile_id, mode)
         else:
             if not only_from_keyring:
-                password = self._get_password_from_user(parent, profile_id)
+                password = self._get_password_from_user(parent, profile_id, mode)
             else:
                 password = ''
         self._set_password_db(profile_id, mode, password)
@@ -372,11 +372,13 @@ class Password(object):
         else:
             return ''
     
-    def _get_password_from_user(self, parent, profile_id):
+    def _get_password_from_user(self, parent, profile_id, mode):
         """
         ask user for password. This does even work when run as cronjob
         and user is logged in.
         """
+        prompt = _('Enter Password for profile %(profile)s mode %(mode)s: ') % {'profile': self.config.get_profile_name(profile_id), 'mode': mode}
+        
         gnome = os.path.join(self.config.get_app_path(), 'gnome')
         kde   = os.path.join(self.config.get_app_path(), 'kde4')
         for path in (gnome, kde):
@@ -394,19 +396,19 @@ class Password(object):
                 pass
             
         if not import_successful or not x_server:
-##            import getpass
-##            alarm = tools.Alarm()
-##            alarm.start(5)
-##            try:
-##                password = getpass.getpass(_('Enter Password for profile %s: ') % self.config.get_profile_name(profile_id))
-##            except tools.Timeout:
-##                password = ''
-##            return password
-            return '' #Todo: get password on terminal
+            import getpass
+            alarm = tools.Alarm()
+            alarm.start(300)
+            try:
+                password = getpass.getpass(prompt)
+                alarm.stop()
+            except tools.Timeout:
+                password = ''
+            return password
         
         password = messagebox.ask_password_dialog(parent, self.config, 'Back in Time',
-                    prompt = _('Enter Password for profile %s: ') % self.config.get_profile_name(profile_id),
-                    timeout = 10)
+                    prompt = prompt,
+                    timeout = 300)
         return password
         
     def _set_password_db(self, profile_id, mode, password):
