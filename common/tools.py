@@ -437,12 +437,23 @@ def check_home_encrypt():
         return False
     if check_command('ecryptfs-verify'):
         try:
-            subprocess.check_call(['ecryptfs-verify', '--home'], stdout=open(os.devnull, 'w'))
+            subprocess.check_call(['ecryptfs-verify', '--home'],
+                                    stdout=open(os.devnull, 'w'),
+                                    stderr=open(os.devnull, 'w'))
         except subprocess.CalledProcessError:
             pass
         else:
             return True
-    #Todo: add check for encfs
+    if check_command('encfs'):
+        mount = subprocess.Popen(['mount'], stdout=subprocess.PIPE).communicate()[0]
+        for line in mount.split('\n'):
+            line_split = line.split(' ')
+            if len(line_split) < 5:
+                continue
+            if not line_split[2] == home:
+                continue
+            if line_split[4] == 'fuse.encfs':
+                return True
     return False
 
 def load_env(cfg):
