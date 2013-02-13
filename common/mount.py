@@ -402,6 +402,8 @@ class MountControl(object):
             src = mountpoint
         else:
             src = os.path.join(mountpoint, self.symlink_subfolder)
+        if os.path.exists(dst):
+            os.remove(dst)
         os.symlink(src, dst)
         
     def remove_symlink(self, profile_id = None, tmp_mount = None):

@@ -251,6 +251,11 @@ class Password_Cache(Daemon):
         self.db = {}
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         
+        if self.config.get_keyring_backend() == 'kde':
+            keyring.set_keyring(keyring.backend.KDEKWallet())
+        else:
+            keyring.set_keyring(keyring.backend.GnomeKeyring())
+    
     def run(self):
         """
         wait for password request on FIFO and answer with password
@@ -328,6 +333,11 @@ class Password(object):
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         self.db = {}
         
+        if self.config.get_keyring_backend() == 'kde':
+            keyring.set_keyring(keyring.backend.KDEKWallet())
+        else:
+            keyring.set_keyring(keyring.backend.GnomeKeyring())
+    
     def get_password(self, parent, profile_id, mode, only_from_keyring = False):
         """
         based on profile settings return password from keyring,

@@ -527,6 +527,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 			mode = self.get_snapshots_mode(profile_id)
 		self.pw.set_password(password, profile_id, mode)
 
+	def get_keyring_backend(self):
+		return self.get_str_value('keyring.backend', '')
+
+	def set_keyring_backend(self, value):
+		self.set_str_value('keyring.backend', value)
+		
 	def get_keyring_service_name( self, profile_id = None, mode = None ):
 		if mode is None:
 			mode = self.get_snapshots_mode(profile_id)

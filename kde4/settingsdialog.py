@@ -880,11 +880,17 @@ class SettingsDialog( KDialog ):
 
 		#save password
 		if self.cb_password_save.isChecked():
-			if not type(keyring.get_keyring()) == type(keyring.backend.KDEKWallet()):
-				#in Kubuntu keyring.backend.KDEKWallet is included in python-keyring
-				#but Debian uses an extra package for this: python-keyring-kwallet
-				self.error_handler( _('Can\'t connect to KWallet. On Debian you need to install:\n\'apt-get install python-keyring-kwallet\''))
-				return False
+			if self.config.get_keyring_backend() == '':
+				self.config.set_keyring_backend('kde')
+			if self.config.get_keyring_backend() == 'gnome' and \
+				not keyring.backend.GnomeKeyring().supported() == 1:
+					self.config.set_keyring_backend('kde')
+			if self.config.get_keyring_backend() == 'kde' and \
+				not keyring.backend.KDEKWallet().supported() == 1:
+					#in Kubuntu keyring.backend.KDEKWallet is included in python-keyring
+					#but Debian uses an extra package for this: python-keyring-kwallet
+					self.error_handler( _('Can\'t connect to KWallet. On Debian you need to install:\n\'apt-get install python-keyring-kwallet\''))
+					return False
 		self.config.set_password_save(self.cb_password_save.isChecked(), mode = mode)
 		self.config.set_password_use_cache(self.cb_password_use_cache.isChecked(), mode = mode)
 		self.config.set_password(password, mode = mode)
