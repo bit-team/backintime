@@ -889,7 +889,7 @@ class SettingsDialog( KDialog ):
 				not keyring.backend.KDEKWallet().supported() == 1:
 					#in Kubuntu keyring.backend.KDEKWallet is included in python-keyring
 					#but Debian uses an extra package for this: python-keyring-kwallet
-					self.error_handler( _('Can\'t connect to KWallet. On Debian you need to install:\n\'apt-get install python-keyring-kwallet\''))
+					self.error_handler( _('Can\'t connect to KWallet to save password. On Debian you need to install:\n\'apt-get install python-keyring-kwallet\''))
 					return False
 		self.config.set_password_save(self.cb_password_save.isChecked(), mode = mode)
 		self.config.set_password_use_cache(self.cb_password_use_cache.isChecked(), mode = mode)

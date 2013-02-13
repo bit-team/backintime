@@ -27,6 +27,7 @@ import gobject
 import datetime
 import gettext
 import subprocess
+import keyring
 
 import config
 import messagebox
@@ -871,7 +872,7 @@ class SettingsDialog(object):
 ##		self.config.set_dummy_user(dummy_user, self.profile_id)
 
 		#save password
-		if cb_password_save.get_active():
+		if self.cb_password_save.get_active():
 			if self.config.get_keyring_backend() == '':
 				self.config.set_keyring_backend('gnome')
 			if self.config.get_keyring_backend() == 'kde' and \
@@ -879,7 +880,7 @@ class SettingsDialog(object):
 					self.config.set_keyring_backend('gnome')
 			if self.config.get_keyring_backend() == 'gnome' and \
 				not keyring.backend.GnomeKeyring().supported() == 1:
-					self.error_handler( _('Can\'t connect to Seahorse'))
+					self.error_handler( _('Can\'t connect to Seahorse to save password'))
 					return False
 		self.config.set_password_save(self.cb_password_save.get_active(), self.profile_id, mode)
 		self.config.set_password_use_cache(self.cb_password_use_cache.get_active(), self.profile_id, mode)
