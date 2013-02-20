@@ -195,12 +195,12 @@ class SSH(mount.MountControl):
         """check if remote folder exists and is write- and executable.
            Create folder if it doesn't exist."""
         cmd  = 'd=0;'
-        cmd += '[[ -e %s ]] || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
-        cmd += '[[ $d -eq 1 ]] && mkdir %s; err=$?;' % self.path #create path, get errorcode from mkdir
-        cmd += '[[ $d -eq 1 ]] && exit $err;'                    #return errorcode from mkdir
-        cmd += '[[ -d %s ]] || exit 11;' % self.path #path is no directory
-        cmd += '[[ -w %s ]] || exit 12;' % self.path #path is not writeable
-        cmd += '[[ -x %s ]] || exit 13;' % self.path #path is not executable
+        cmd += 'test -e %s || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
+        cmd += 'test $d -eq 1 && mkdir %s; err=$?;' % self.path #create path, get errorcode from mkdir
+        cmd += 'test $d -eq 1 && exit $err;'                    #return errorcode from mkdir
+        cmd += 'test -d %s || exit 11;' % self.path #path is no directory
+        cmd += 'test -w %s || exit 12;' % self.path #path is not writeable
+        cmd += 'test -x %s || exit 13;' % self.path #path is not executable
         cmd += 'exit 20'                             #everything is fine
         try:
             subprocess.check_call(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd], stdout=open(os.devnull, 'w'))
@@ -255,27 +255,27 @@ class SSH(mount.MountControl):
         cmd  = 'tmp=%s ; ' % remote_tmp_dir
         #first define a function to clean up and exit
         cmd += 'cleanup(){ '
-        cmd += '[[ -e $tmp/a ]] && rm $tmp/a >/dev/null 2>&1; '
-        cmd += '[[ -e $tmp/b ]] && rm $tmp/b >/dev/null 2>&1; '
-        cmd += '[[ -e $tmp ]] && rmdir $tmp >/dev/null 2>&1; '
+        cmd += 'test -e $tmp/a && rm $tmp/a >/dev/null 2>&1; '
+        cmd += 'test -e $tmp/b && rm $tmp/b >/dev/null 2>&1; '
+        cmd += 'test -e $tmp && rmdir $tmp >/dev/null 2>&1; '
         cmd += 'exit $1; }; '
         #create tmp_RANDOM dir and file a
-        cmd += '[[ -e $tmp ]] || mkdir $tmp; touch $tmp/a; '
+        cmd += 'test -e $tmp || mkdir $tmp; touch $tmp/a; '
         #try to create hardlink b from a
         cmd += 'echo \"cp -aRl SOURCE DEST\"; cp -aRl $tmp/a $tmp/b >/dev/null; err_cp=$?; '
-        cmd += '[[ $err_cp -ne 0 ]] && cleanup $err_cp; '
+        cmd += 'test $err_cp -ne 0 && cleanup $err_cp; '
         #list inodes of a and b
         cmd += 'ls -i $tmp/a; ls -i $tmp/b; '
         #try to chmod
         cmd += 'echo \"chmod u+rw FILE\"; chmod u+rw $tmp/a >/dev/null; err_chmod=$?; '
-        cmd += '[[ $err_chmod -ne 0 ]] && cleanup $err_chmod; '
+        cmd += 'test $err_chmod -ne 0 && cleanup $err_chmod; '
         #try to find and chmod
         cmd += 'echo \"find PATH -type f -exec chmod u-wx \"{}\" \\;\"; '
         cmd += 'find $tmp -type f -exec chmod u-wx \"{}\" \\; >/dev/null; err_find=$?; '
-        cmd += '[[ $err_find -ne 0 ]] && cleanup $err_find; '
+        cmd += 'test $err_find -ne 0 && cleanup $err_find; '
         #try to rm -rf
         cmd += 'echo \"rm -rf PATH\"; rm -rf $tmp >/dev/null; err_rm=$?; '
-        cmd += '[[ $err_rm -ne 0 ]] && cleanup $err_rm; '
+        cmd += 'test $err_rm -ne 0 && cleanup $err_rm; '
         #if we end up here, everything should be fine
         cmd += 'echo \"done\"'
         proc = subprocess.Popen(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd],
