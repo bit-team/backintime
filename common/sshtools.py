@@ -185,9 +185,11 @@ class SSH(mount.MountControl):
         
     def check_known_hosts(self):
         """check ssh_known_hosts"""
-        output = subprocess.Popen(['ssh-keygen', '-F', self.host], stdout=subprocess.PIPE).communicate()[0] #subprocess.check_output doesn't exist in Python 2.6 (Debian squeeze default)
-        if output.find('Host %s found' % self.host) < 0:
-            raise mount.MountException( _('%s not found in ssh_known_hosts.') % self.host)
+        for host in (self.host, '[%s]:%s' % (self.host, self.port)):
+            output = subprocess.Popen(['ssh-keygen', '-F', host], stdout=subprocess.PIPE).communicate()[0] #subprocess.check_output doesn't exist in Python 2.6 (Debian squeeze default)
+            if output.find('Host %s found' % host) >= 0:
+                return True
+        raise mount.MountException( _('%s not found in ssh_known_hosts.') % self.host)
         
     def check_remote_folder(self):
         """check if remote folder exists and is write- and executable.
