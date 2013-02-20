@@ -2,6 +2,8 @@ Back In Time
 
 Version 1.0.22
 * Fix bug: "Restore to..." failed due to spaces in directory name (https://bugs.launchpad.net/backintime/+bug/1096319)
+* Fix bug: host not found in known_hosts if port != 22 (https://bugs.launchpad.net/backintime/+bug/1130356)
+* Fix bug: sshtools.py used not POSIX conform conditionals
 
 Version 1.0.20
 * Fix bug: restore remote path with spaces using mode ssh returned error
