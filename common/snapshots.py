@@ -525,9 +525,9 @@ class Snapshots:
 		#print "snapshot_id: %s" % snapshot_id 
 	
 		if ssh:
-			cmd = cmd + rsync_ssh_suffix + "%s.%s\" %s" % ( src_base, src_path, restore_to + '/' )
+			cmd = cmd + rsync_ssh_suffix + "%s.%s\" \"%s\"" % ( src_base, src_path, restore_to + '/' )
 		else:
-			cmd = cmd + "\"%s.%s\" %s" % ( src_base, src_path, restore_to + '/' )
+			cmd = cmd + "\"%s.%s\" \"%s\"" % ( src_base, src_path, restore_to + '/' )
 		self.restore_callback( callback, True, cmd )
 		self._execute( cmd, callback )
 
