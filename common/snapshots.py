@@ -963,6 +963,12 @@ class Snapshots:
 					params[0] = True
 					self.set_take_snapshot_message( 1, 'Error: ' + line )
 
+		if len(line) >= 13:
+			if line.startswith( 'BACKINTIME: ' ):
+				if line[12] != '.':
+					params[1] = True
+					self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
+
 	def _exec_rsync_compare_callback( self, line, params ):
 		#self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % params[0] )
 
@@ -1160,6 +1166,9 @@ class Snapshots:
 		#check previous backup
 		#should only contain the personal snapshots
 		check_for_changes = self.config.check_for_changes()
+
+		#full rsync
+		full_rsync = self.config.full_rsync()
 		
 		prev_snapshot_id = ''
 		snapshots = self.get_snapshots_list()
@@ -1173,86 +1182,88 @@ class Snapshots:
 		if len( snapshots ) > 0:
 			prev_snapshot_id = snapshots[0]
 
-			changed = True
-			if check_for_changes:
-				prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
-				self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % prev_snapshot_name )
-				logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
-				
-				prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
-				prev_snapshot_folder_ssh = self.get_snapshot_path_to_ssh( prev_snapshot_id )
-				cmd = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix + '"' + prev_snapshot_folder + '"'
-				if ssh:
-					cmd = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix 
-					cmd += rsync_ssh_suffix + prev_snapshot_folder_ssh + '"'
-				params = [ prev_snapshot_folder, False ]
-				#try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
-				self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
-				self._execute( cmd, self._exec_rsync_compare_callback, params )
-				changed = params[1]
+			if not full_rsync:
+				changed = True
+				if check_for_changes:
+					prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
+					self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % prev_snapshot_name )
+					logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
+					
+					prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
+					prev_snapshot_folder_ssh = self.get_snapshot_path_to_ssh( prev_snapshot_id )
+					cmd = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix + '"' + prev_snapshot_folder + '"'
+					if ssh:
+						cmd = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix 
+						cmd += rsync_ssh_suffix + prev_snapshot_folder_ssh + '"'
+					params = [ prev_snapshot_folder, False ]
+					#try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
+					self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
+					self._execute( cmd, self._exec_rsync_compare_callback, params )
+					changed = params[1]
 
-				#changed = False
+					#changed = False
 
-				#for line in try_cmd.split( '\n' ):
-				#	if len( line ) < 1:
-				#		continue
+					#for line in try_cmd.split( '\n' ):
+					#	if len( line ) < 1:
+					#		continue
 
-				#	if line[0] != '.':
-				#		changed = True
-				#		break
+					#	if line[0] != '.':
+					#		changed = True
+					#		break
 
-				if not changed:
-					logger.info( "Nothing changed, no back needed" )
-					return [ False, False ]
+					if not changed:
+						logger.info( "Nothing changed, no back needed" )
+						return [ False, False ]
 
 			if not self._create_directory( new_snapshot_path_to ):
 				return [ False, True ]
 			
-			self.set_take_snapshot_message( 0, _('Create hard-links') )
-			logger.info( "Create hard-links" )
-			
-			# When schedule per included folders is enabled this did not work (cp -alb iso cp -al?)
-			# This resulted in a complete rsync for the whole snapshot consuming time and space
-			# The ignored folders were copied afterwards. To solve this, the whole last snapshot is now hardlinked
-			# and rsync is called only for the folders that should be synced (without --delete-excluded).  
-			#if force or len( ignore_folders ) == 0:
+			if not full_rsync:
+				self.set_take_snapshot_message( 0, _('Create hard-links') )
+				logger.info( "Create hard-links" )
+				
+				# When schedule per included folders is enabled this did not work (cp -alb iso cp -al?)
+				# This resulted in a complete rsync for the whole snapshot consuming time and space
+				# The ignored folders were copied afterwards. To solve this, the whole last snapshot is now hardlinked
+				# and rsync is called only for the folders that should be synced (without --delete-excluded).  
+				#if force or len( ignore_folders ) == 0:
 
-			prev_snapshot_path = self.get_snapshot_path_to( prev_snapshot_id )
-			prev_snapshot_path_ssh = self.get_snapshot_path_to_ssh( prev_snapshot_id )
+				prev_snapshot_path = self.get_snapshot_path_to( prev_snapshot_id )
+				prev_snapshot_path_ssh = self.get_snapshot_path_to_ssh( prev_snapshot_id )
 
-			#make source snapshot folders rw to allow cp -al
-			if not ssh:
-				self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % prev_snapshot_path ) #Debian patch
-			else:
-				self._execute( cmd_ssh + '\'find \"%s\" -type d -exec chmod u+wx \"{}\" \\;\'' % prev_snapshot_path_ssh ) #Debian patch
+				#make source snapshot folders rw to allow cp -al
+				if not ssh:
+					self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % prev_snapshot_path ) #Debian patch
+				else:
+					self._execute( cmd_ssh + '\'find \"%s\" -type d -exec chmod u+wx \"{}\" \\;\'' % prev_snapshot_path_ssh ) #Debian patch
 
-			#clone snapshot
-			cmd = "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path, new_snapshot_path_to )
-			if ssh:
-				cmd = cmd_ssh + "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path_ssh, new_snapshot_path_to_ssh )
-			self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
-			cmd_ret_val = self._execute( cmd )
-			self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val, 3 )
+				#clone snapshot
+				cmd = "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path, new_snapshot_path_to )
+				if ssh:
+					cmd = cmd_ssh + "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path_ssh, new_snapshot_path_to_ssh )
+				self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
+				cmd_ret_val = self._execute( cmd )
+				self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val, 3 )
 
-			#make source snapshot folders read-only
-			if not ssh:
-				self._execute( "find \"%s\" -type d -exec chmod a-w {} \\;" % prev_snapshot_path ) #Debian patch
-			else:
-				self._execute( cmd_ssh + '\'find \"%s\" -type d -exec chmod a-w \"{}\" \\;\'' % prev_snapshot_path_ssh ) #Debian patch
+				#make source snapshot folders read-only
+				if not ssh:
+					self._execute( "find \"%s\" -type d -exec chmod a-w {} \\;" % prev_snapshot_path ) #Debian patch
+				else:
+					self._execute( cmd_ssh + '\'find \"%s\" -type d -exec chmod a-w \"{}\" \\;\'' % prev_snapshot_path_ssh ) #Debian patch
 
-			#make snapshot items rw to allow xopy xattr
-			if not ssh:
-				self._execute( "chmod -R a+w \"%s\"" % new_snapshot_path )
-			else:
-				self._execute( cmd_ssh + "chmod -R a+w \"%s\"" % new_snapshot_path_ssh )
+				#make snapshot items rw to allow xopy xattr
+				if not ssh:
+					self._execute( "chmod -R a+w \"%s\"" % new_snapshot_path )
+				else:
+					self._execute( cmd_ssh + "chmod -R a+w \"%s\"" % new_snapshot_path_ssh )
 
-			#else:
-			#	for folder in include_folders:
-			#		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
-			#		new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
-			#		tools.make_dirs( new_path )
-			#		cmd = "cp -alb \"%s\"* \"%s\"" % ( prev_path, new_path )
-			#		self._execute( cmd )
+				#else:
+				#	for folder in include_folders:
+				#		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
+				#		new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
+				#		tools.make_dirs( new_path )
+				#		cmd = "cp -alb \"%s\"* \"%s\"" % ( prev_path, new_path )
+				#		self._execute( cmd )
 		else:
 			if not self._create_directory( new_snapshot_path_to ):
 				return [ False, True ]
@@ -1262,9 +1273,22 @@ class Snapshots:
 		cmd = rsync_prefix + ' -v ' + rsync_suffix + '"' + new_snapshot_path_to + '"'
 		if ssh:
 			cmd = rsync_prefix + ' -v ' + rsync_suffix + rsync_ssh_suffix + new_snapshot_path_to_ssh + '"'
+
 		self.set_take_snapshot_message( 0, _('Take snapshot') )
 
-		params = [False]
+		if full_rsync:
+			if len( prev_snapshot_id ) > 0:
+				prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
+				prev_snapshot_folder_ssh = self.get_snapshot_path_to_ssh( prev_snapshot_id )
+				if ssh:
+					cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder_ssh
+				else:
+					cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder
+
+			cmd = cmd + ' -i --out-format="BACKINTIME: %i %n%L"'
+			print "A: %s" % cmd
+
+		params = [False, False]
 		self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
 		self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params )
 
@@ -1278,90 +1302,105 @@ class Snapshots:
 					self._execute( cmd_ssh +  '\'find \"%s\" -type d -exec chmod u+wx \"{}\" \\;\'' % new_snapshot_path_ssh ) #Debian patch
 					self._execute( cmd_ssh + "rm -rf \"%s\"" % new_snapshot_path_ssh )
 
-				#fix previous snapshot: make read-only again
-				if len( prev_snapshot_id ) > 0:
-					if not ssh:
-						self._execute( "chmod -R a-w \"%s\"" % self.get_snapshot_path_to( prev_snapshot_id ) )
-					else:
-						self._execute( cmd_ssh + "chmod -R a-w \"%s\"" % self.get_snapshot_path_to_ssh( prev_snapshot_id ) )
+				if not full_rsync:
+					#fix previous snapshot: make read-only again
+					if len( prev_snapshot_id ) > 0:
+						if not ssh:
+							self._execute( "chmod -R a-w \"%s\"" % self.get_snapshot_path_to( prev_snapshot_id ) )
+						else:
+							self._execute( cmd_ssh + "chmod -R a-w \"%s\"" % self.get_snapshot_path_to_ssh( prev_snapshot_id ) )
 
 				return [ False, True ]
 
 			has_errors = True
 			self._execute( "touch \"%s\"" % self.get_snapshot_failed_path( new_snapshot_id ) )
 
+		if full_rsync:
+			if not params[1]:
+				if not ssh:
+					self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path ) #Debian patch
+					self._execute( "rm -rf \"%s\"" % new_snapshot_path )
+				else:
+					self._execute( cmd_ssh +  '\'find \"%s\" -type d -exec chmod u+wx \"{}\" \\;\'' % new_snapshot_path_ssh ) #Debian patch
+					self._execute( cmd_ssh + "rm -rf \"%s\"" % new_snapshot_path_ssh )
+
+				logger.info( "Nothing changed, no back needed" )
+				return [ False, False ]
+				
+
 		#backup config file
 		logger.info( 'Save config file' )
 		self.set_take_snapshot_message( 0, _('Save config file ...') )
 		self._execute( 'cp %s %s' % (self.config._LOCAL_CONFIG_PATH, new_snapshot_path_to + '..') )
 		
-		#save permissions for sync folders
-		logger.info( 'Save permissions' )
-		self.set_take_snapshot_message( 0, _('Save permission ...') )
+		if not full_rsync:
+			#save permissions for sync folders
+			logger.info( 'Save permissions' )
+			self.set_take_snapshot_message( 0, _('Save permission ...') )
 
-		fileinfo = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' )
-		path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' )
-		fileinfo_dict = {}
+			fileinfo = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' )
+			path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' )
+			fileinfo_dict = {}
 
-		permission_done = False
-		if ssh:
-			path_to_explore_ssh = self.get_snapshot_path_to_ssh( new_snapshot_id ).rstrip( '/' )
-			cmd = ['ssh', '-p', str(ssh_port)]
-			if not ssh_cipher == 'default':
-				cmd.extend(['-c', ssh_cipher])
-			cmd.extend(['%s@%s' % (ssh_user, ssh_host)])
-			cmd.extend(['find', path_to_explore_ssh, '-name', '\*', '-print'])
-			
-			find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-			output = find.communicate()[0]
-			if find.returncode:
-				logger.warning('Save permission over ssh failed. Retry normal methode')
-			else:
-				for line in output.split('\n'):
-					if not len(line) == 0:
-						item_path = line[ len( path_to_explore_ssh ) : ]
+			permission_done = False
+			if ssh:
+				path_to_explore_ssh = self.get_snapshot_path_to_ssh( new_snapshot_id ).rstrip( '/' )
+				cmd = ['ssh', '-p', str(ssh_port)]
+				if not ssh_cipher == 'default':
+					cmd.extend(['-c', ssh_cipher])
+				cmd.extend(['%s@%s' % (ssh_user, ssh_host)])
+				cmd.extend(['find', path_to_explore_ssh, '-name', '\*', '-print'])
+				
+				find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+				output = find.communicate()[0]
+				if find.returncode:
+					logger.warning('Save permission over ssh failed. Retry normal methode')
+				else:
+					for line in output.split('\n'):
+						if not len(line) == 0:
+							item_path = line[ len( path_to_explore_ssh ) : ]
+							fileinfo_dict[item_path] = 1
+							self._save_path_info( fileinfo, item_path )
+					permission_done = True
+					
+			if not permission_done:
+				for path, dirs, files in os.walk( path_to_explore ):
+					dirs.extend( files )
+					for item in dirs:
+						item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
 						fileinfo_dict[item_path] = 1
 						self._save_path_info( fileinfo, item_path )
-				permission_done = True
-				
-		if not permission_done:
-			for path, dirs, files in os.walk( path_to_explore ):
-				dirs.extend( files )
-				for item in dirs:
-					item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-					fileinfo_dict[item_path] = 1
-					self._save_path_info( fileinfo, item_path )
 
-		# We now copy on forehand, so copying afterwards is not necessary anymore
-		##copy ignored folders
-		#if not force and len( prev_snapshot_id ) > 0 and len( ignore_folders ) > 0:
-		#	prev_fileinfo_dict = self.load_fileinfo_dict( prev_snapshot_id )
-		#
-		#	for folder in ignore_folders:
-		#		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
-		#		new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
-		#		tools.make_dirs( new_path )
-		#		cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
-		#		self._execute( cmd )
-		#
-		#		if len( prev_fileinfo_dict ) > 0:
-		#			#save permissions for all items to folder
-		#			item_path = '/'
-		#			prev_path_items = folder.strip( '/' ).split( '/' )
-		#			for item in items:
-		#				item_path = os.path.join( item_path, item )
-		#				if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
-		#					self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
+			# We now copy on forehand, so copying afterwards is not necessary anymore
+			##copy ignored folders
+			#if not force and len( prev_snapshot_id ) > 0 and len( ignore_folders ) > 0:
+			#	prev_fileinfo_dict = self.load_fileinfo_dict( prev_snapshot_id )
+			#
+			#	for folder in ignore_folders:
+			#		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
+			#		new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
+			#		tools.make_dirs( new_path )
+			#		cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
+			#		self._execute( cmd )
+			#
+			#		if len( prev_fileinfo_dict ) > 0:
+			#			#save permissions for all items to folder
+			#			item_path = '/'
+			#			prev_path_items = folder.strip( '/' ).split( '/' )
+			#			for item in items:
+			#				item_path = os.path.join( item_path, item )
+			#				if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
+			#					self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
 
-		#			#save permission for all items in folder
-		#			for path, dirs, files in os.walk( new_path ):
-		#				dirs.extend( files )
-		#				for item in dirs:
-		#					item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-		#					if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
-		#						self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
+			#			#save permission for all items in folder
+			#			for path, dirs, files in os.walk( new_path ):
+			#				dirs.extend( files )
+			#				for item in dirs:
+			#					item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
+			#					if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
+			#						self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
 
-		fileinfo.close()
+			fileinfo.close()
 
 		#create info file 
 		logger.info( "Create info file" ) 
@@ -1398,24 +1437,26 @@ class Snapshots:
 			os.system( "mv \"%s\" \"%s\"" % ( new_snapshot_path, snapshot_path ) )
 		else:
 			os.system( cmd_ssh + "mv \"%s\" \"%s\"" % ( new_snapshot_path_ssh, snapshot_path_ssh ) )
+
 		if not os.path.exists( snapshot_path ):
 			logger.error( "Can't rename %s to %s" % ( new_snapshot_path, snapshot_path ) )
 			self.set_take_snapshot_message( 1, _('Can\'t rename %(new_path)s to %(path)s') % { 'new_path' : new_snapshot_path, 'path' : snapshot_path } )
 			os.system( 'sleep 2' ) #max 1 backup / second
 			return [ False, True ]
 
-		#make new snapshot read-only
-		if not ssh:
-			self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
-		else:
-			self._execute( cmd_ssh + "chmod -R a-w \"%s\"" % snapshot_path_ssh )
-
-		#fix previous snapshot: make read-only again
-		if len( prev_snapshot_id ) > 0:
-			if not ssh:	
-				self._execute( "chmod -R a-w \"%s\"" % self.get_snapshot_path_to( prev_snapshot_id ) )
+		if not full_rsync:
+			#make new snapshot read-only
+			if not ssh:
+				self._execute( "chmod -R a-w \"%s\"" % snapshot_path )
 			else:
-				self._execute( cmd_ssh + "chmod -R a-w \"%s\"" % self.get_snapshot_path_to_ssh( prev_snapshot_id ) )
+				self._execute( cmd_ssh + "chmod -R a-w \"%s\"" % snapshot_path_ssh )
+
+			#fix previous snapshot: make read-only again
+			if len( prev_snapshot_id ) > 0:
+				if not ssh:	
+					self._execute( "chmod -R a-w \"%s\"" % self.get_snapshot_path_to( prev_snapshot_id ) )
+				else:
+					self._execute( cmd_ssh + "chmod -R a-w \"%s\"" % self.get_snapshot_path_to_ssh( prev_snapshot_id ) )
 
 		return [ True, has_errors ]
 

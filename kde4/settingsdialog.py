@@ -468,6 +468,9 @@ class SettingsDialog( KDialog ):
 		self.cb_use_checksum = QCheckBox( QString.fromUtf8( _( 'Use checksum to detect changes' ) ), self )
 		layout.addWidget( self.cb_use_checksum )
 
+		self.cb_full_rsync = QCheckBox( QString.fromUtf8( _( 'Full rsync mode. May be faster but snapshots are not read-only and destination filesystem must support hard-links, sym-links and all linux attributes.' ) ), self )
+		layout.addWidget( self.cb_full_rsync)
+
 		self.cb_check_for_changes = QCheckBox( QString.fromUtf8( _( 'Check for changes (don\'t take a new snapshot if nothing changed)' ) ), self )
 		layout.addWidget( self.cb_check_for_changes )
 
@@ -716,6 +719,7 @@ class SettingsDialog( KDialog ):
 		self.cb_backup_on_restore.setChecked( self.config.is_backup_on_restore_enabled() )
 		self.cb_continue_on_errors.setChecked( self.config.continue_on_errors() )
 		self.cb_use_checksum.setChecked( self.config.use_checksum() )
+		self.cb_full_rsync.setChecked( self.config.full_rsync() )
 		self.cb_check_for_changes.setChecked( self.config.check_for_changes() )
 		self.set_combo_value( self.combo_log_level, self.config.log_level() )
 
@@ -852,6 +856,7 @@ class SettingsDialog( KDialog ):
 		self.config.set_backup_on_restore( self.cb_backup_on_restore.isChecked() )
 		self.config.set_continue_on_errors( self.cb_continue_on_errors.isChecked() )
 		self.config.set_use_checksum( self.cb_use_checksum.isChecked() )
+		self.config.set_full_rsync( self.cb_full_rsync.isChecked() )
 		self.config.set_check_for_changes( self.cb_check_for_changes.isChecked() )
 		self.config.set_log_level( self.combo_log_level.itemData( self.combo_log_level.currentIndex() ).toInt()[0] )
 

@@ -819,7 +819,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 		return self.set_profile_int_value( 'snapshots.log_level', value, profile_id )
 
 	def full_rsync( self, profile_id = None ):
-		return self.get_profile_bool_value( 'snapshots.full_rsync', True, profile_id )
+		return self.get_profile_bool_value( 'snapshots.full_rsync', False, profile_id )
 
 	def set_full_rsync( self, value, profile_id = None ):
 		return self.set_profile_bool_value( 'snapshots.full_rsync', value, profile_id )
