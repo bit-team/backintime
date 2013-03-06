@@ -26,17 +26,17 @@ import config
 
 if __name__ == '__main__':
     """
-    return password to ssh-add.
+    return password.
     """
     cfg = config.Config()
     tools.load_env(cfg)
     try:
-        profile_id = os.environ['SSH_ASKPASS_PROFILE_ID']
-        mode = os.environ['SSH_ASKPASS_MODE']
+        profile_id = os.environ['ASKPASS_PROFILE_ID']
+        mode = os.environ['ASKPASS_MODE']
     except KeyError:
         sys.exit(1)
     try:
-        temp_file = os.environ['SSH_ASKPASS_TEMP']
+        temp_file = os.environ['ASKPASS_TEMP']
     except KeyError:
         #normal mode, get password from module password
         pw = password.Password(cfg)

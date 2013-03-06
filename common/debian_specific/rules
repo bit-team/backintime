@@ -38,7 +38,7 @@ install: build
 	#install application
 	#dh_installdirs /usr/bin
 	dh_install backintime /usr/bin
-	dh_install backintime-ssh-askpass /usr/bin
+	dh_install backintime-askpass /usr/bin
 
 	#install autostart
 	dh_install backintime.desktop /etc/xdg/autostart

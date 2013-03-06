@@ -19,6 +19,8 @@ import sys
 import stat
 import signal
 import tools
+import threading
+import base64
 
 class FIFO(object):
     """
@@ -86,3 +88,25 @@ class FIFO(object):
             return stat.S_ISFIFO(os.stat(self.fifo).st_mode)
         except OSError:
             return False
+
+class TempPasswordThread(threading.Thread):
+    """
+    in case BIT is not configured yet provide password through temp FIFO
+    to backintime-askpass.
+    """
+    def __init__(self, string, temp_file):
+        threading.Thread.__init__(self)
+        self.pw_base64 = base64.encodestring(string)
+        self.fifo = FIFO(temp_file)
+        
+    def run(self):
+        self.fifo.create()
+        self.fifo.write(self.pw_base64)
+        self.fifo.delfifo()
+
+    def read():
+        """
+        read fifo to end the blocking fifo.write
+        use only if thread timeout.
+        """
+        self.fifo.read()

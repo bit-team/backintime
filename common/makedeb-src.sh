@@ -17,7 +17,7 @@ mkdir -p $DEST/plugins
 
 #app
 cp backintime $DEST/
-cp backintime-ssh-askpass $DEST/
+cp backintime-askpass $DEST/
 
 #autostart
 cp backintime.desktop $DEST/

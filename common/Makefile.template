@@ -38,7 +38,7 @@ install: build install_translations
 	#install application
 	install -d $(DEST)/bin
 	install backintime $(DEST)/bin
-	install backintime-ssh-askpass $(DEST)/bin
+	install backintime-askpass $(DEST)/bin
 
 	#install autostart
 	install -d $(DEST)/../etc/xdg/autostart

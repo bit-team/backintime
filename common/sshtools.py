@@ -23,7 +23,6 @@ import random
 import tempfile
 from time import sleep
 import threading
-import base64
 
 import config
 import mount
@@ -134,18 +133,18 @@ class SSH(mount.MountControl):
         return True
         
     def unlock_ssh_agent(self):
-        """using ssh_askpass.py to unlock private key in ssh-agent"""
+        """using askpass.py to unlock private key in ssh-agent"""
         env = os.environ.copy()
-        env['SSH_ASKPASS'] = 'backintime-ssh-askpass'
-        env['SSH_ASKPASS_PROFILE_ID'] = self.profile_id
-        env['SSH_ASKPASS_MODE'] = self.mode
+        env['SSH_ASKPASS'] = 'backintime-askpass'
+        env['ASKPASS_PROFILE_ID'] = self.profile_id
+        env['ASKPASS_MODE'] = self.mode
         
         output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
         if not output.find(self.private_key_file) >= 0:
             if not self.config.get_password_save(self.profile_id) and not tools.check_x_server():
                 #we need to unlink stdin from ssh-add in order to make it
-                #use our own ssh-askpass.
-                #But because of this we can NOT use getpass inside ssh-askpass
+                #use our own backintime-askpass.
+                #But because of this we can NOT use getpass inside backintime-askpass
                 #if password is not saved and there is no x-server.
                 #So, let's just keep ssh-add asking for the password in that case.
                 alarm = tools.Alarm()
@@ -159,8 +158,8 @@ class SSH(mount.MountControl):
                 if not self.password is None:
                     #write password directly to temp FIFO
                     temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
-                    env['SSH_ASKPASS_TEMP'] = temp_file
-                    thread = TempPasswordThread(self.password, temp_file)
+                    env['ASKPASS_TEMP'] = temp_file
+                    thread = password_ipc.TempPasswordThread(self.password, temp_file)
                     thread.start()
                 
                 proc = subprocess.Popen(['ssh-add', self.private_key_file],
@@ -372,25 +371,3 @@ class SSH(mount.MountControl):
         
     def random_id(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for x in range(size))
-
-class TempPasswordThread(threading.Thread):
-    """
-    in case BIT is not configured yet provide password through temp FIFO
-    to backintime-ssh-askpass.
-    """
-    def __init__(self, string, temp_file):
-        threading.Thread.__init__(self)
-        self.pw_base64 = base64.encodestring(string)
-        self.fifo = password_ipc.FIFO(temp_file)
-        
-    def run(self):
-        self.fifo.create()
-        self.fifo.write(self.pw_base64)
-        self.fifo.delfifo()
-
-    def read():
-        """
-        read fifo to end the blocking fifo.write
-        use only if thread timeout.
-        """
-        self.fifo.read()
