@@ -104,7 +104,7 @@ class TempPasswordThread(threading.Thread):
         self.fifo.write(self.pw_base64)
         self.fifo.delfifo()
 
-    def read():
+    def read(self):
         """
         read fifo to end the blocking fifo.write
         use only if thread timeout.

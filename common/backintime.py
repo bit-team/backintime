@@ -258,6 +258,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 		if arg == '--pw-cache':
 			if not cfg.is_configured():
 				print "The application is not configured !"
+				sys.exit(0)
 			else:
 				daemon = password.Password_Cache(cfg)
 				try:

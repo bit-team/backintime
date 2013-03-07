@@ -333,7 +333,7 @@ class Password(object):
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         self.db = {}
         
-        if self.config.get_keyring_backend() == 'kde':
+        if self.config.get_keyring_backend() == 'kwallet':
             keyring.set_keyring(keyring.backend.KDEKWallet())
         else:
             keyring.set_keyring(keyring.backend.GnomeKeyring())
@@ -387,7 +387,7 @@ class Password(object):
         ask user for password. This does even work when run as cronjob
         and user is logged in.
         """
-        prompt = _('Enter Password for profile %(profile)s mode %(mode)s: ') % {'profile': self.config.get_profile_name(profile_id), 'mode': mode}
+        prompt = _('Enter Password for profile \'%(profile)s\' mode %(mode)s: ') % {'profile': self.config.get_profile_name(profile_id), 'mode': self.config.SNAPSHOT_MODES[mode][1]}
         
         gnome = os.path.join(self.config.get_app_path(), 'gnome')
         kde   = os.path.join(self.config.get_app_path(), 'kde4')

@@ -92,7 +92,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 	SNAPSHOT_MODES = {
 				#mode : (<mounttools>, _('ComboBox Text') ),
 				'local' : (None, _('Local') ),
-				'ssh' : (sshtools.SSH, _('SSH (without password)') )
+				'ssh' : (sshtools.SSH, _('SSH') )
 ##				'dummy' : (dummytools.Dummy, _('Dummy') )
 				}
 	

@@ -874,13 +874,17 @@ class SettingsDialog(object):
 		#save password
 		if self.cb_password_save.get_active():
 			if self.config.get_keyring_backend() == '':
-				self.config.set_keyring_backend('gnome')
-			if self.config.get_keyring_backend() == 'kde' and \
-				not keyring.backend.KDEKWallet().supported() == 1:
-					self.config.set_keyring_backend('gnome')
-			if self.config.get_keyring_backend() == 'gnome' and \
-				not keyring.backend.GnomeKeyring().supported() == 1:
-					self.error_handler( _('Can\'t connect to Seahorse to save password'))
+				self.config.set_keyring_backend('gnomekeyring')
+			if self.config.get_keyring_backend() == 'kwallet':
+				if keyring.backend.KDEKWallet().supported() == 1:
+					keyring.set_keyring(keyring.backend.KDEKWallet())
+				else:
+					self.config.set_keyring_backend('gnomekeyring')
+			if self.config.get_keyring_backend() == 'gnomekeyring':
+				if keyring.backend.GnomeKeyring().supported() == 1:
+					keyring.set_keyring(keyring.backend.GnomeKeyring())
+				else:
+					self.error_handler( _('Can\'t connect to gnomekeyring to save password'))
 					return False
 		self.config.set_password_save(self.cb_password_save.get_active(), self.profile_id, mode)
 		self.config.set_password_use_cache(self.cb_password_use_cache.get_active(), self.profile_id, mode)
