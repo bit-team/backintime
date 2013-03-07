@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy toplevel-contextual -->
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="lower">1</property>
+    <property name="upper">1000</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="lower">1</property>
+    <property name="upper">1000</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="lower">1</property>
+    <property name="upper">10000</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment4">
+    <property name="lower">1</property>
+    <property name="upper">10000</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment5">
+    <property name="lower">1</property>
+    <property name="upper">10000</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment6">
+    <property name="lower">1</property>
+    <property name="upper">10000</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+  </object>
   <object class="GtkDialog" id="SettingsDialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -12,17 +47,19 @@
     <property name="icon_name">gtk-preferences</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox2">
+      <object class="GtkBox" id="dialog-vbox2">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area2">
+          <object class="GtkButtonBox" id="dialog-action_area2">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="btn_cancel">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -38,6 +75,7 @@
             <child>
               <object class="GtkButton" id="btn_ok">
                 <property name="label">gtk-ok</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -96,6 +134,7 @@
                 <child>
                   <object class="GtkButton" id="btn_edit_profile">
                     <property name="label">gtk-edit</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -112,6 +151,7 @@
                 <child>
                   <object class="GtkButton" id="btn_add_profile">
                     <property name="label">gtk-new</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -128,6 +168,7 @@
                 <child>
                   <object class="GtkButton" id="btn_remove_profile">
                     <property name="label">gtk-delete</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -242,8 +283,6 @@
                                 <property name="invisible_char">•</property>
                                 <property name="primary_icon_activatable">False</property>
                                 <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -253,6 +292,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="btn_where">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -332,8 +372,6 @@
                                     <property name="invisible_char">•</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -362,8 +400,6 @@
                                     <property name="invisible_char">•</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -392,8 +428,6 @@
                                     <property name="invisible_char">•</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -434,8 +468,6 @@
                                     <property name="invisible_char">•</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -607,8 +639,6 @@
                                 <property name="invisible_char">•</property>
                                 <property name="primary_icon_activatable">False</property>
                                 <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -637,8 +667,6 @@
                                 <property name="invisible_char">•</property>
                                 <property name="primary_icon_activatable">False</property>
                                 <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -667,8 +695,6 @@
                                 <property name="invisible_char">•</property>
                                 <property name="primary_icon_activatable">False</property>
                                 <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -799,10 +825,12 @@
                                 <child>
                                   <object class="GtkCheckButton" id="cb_auto_host_user_profile">
                                     <property name="label" translatable="yes">Auto Host / User / Profile Id</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="use_action_appearance">False</property>
+                                    <property name="xalign">0.5</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_cb_auto_host_user_profile_toggled" swapped="no"/>
                                   </object>
@@ -838,8 +866,6 @@
                                         <property name="invisible_char">•</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -868,8 +894,6 @@
                                         <property name="invisible_char">•</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -898,8 +922,6 @@
                                         <property name="invisible_char">•</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -1023,8 +1045,6 @@
                                 <property name="invisible_char">•</property>
                                 <property name="primary_icon_activatable">False</property>
                                 <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1136,6 +1156,9 @@
                       <object class="GtkTreeView" id="list_include">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection" id="treeview-selection1"/>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -1154,6 +1177,7 @@
                     <child>
                       <object class="GtkButton" id="btn_add_include_file">
                         <property name="label">Add file</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1169,6 +1193,7 @@
                     <child>
                       <object class="GtkButton" id="btn_add_include">
                         <property name="label">Add folder</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1184,6 +1209,7 @@
                     <child>
                       <object class="GtkButton" id="btn_remove_include">
                         <property name="label">gtk-remove</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1237,6 +1263,9 @@
                       <object class="GtkTreeView" id="list_exclude">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection" id="treeview-selection2"/>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -1283,6 +1312,7 @@
                     <child>
                       <object class="GtkButton" id="btn_add_exclude">
                         <property name="label">gtk-add</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1299,6 +1329,7 @@
                     <child>
                       <object class="GtkButton" id="btn_add_exclude_file">
                         <property name="label" translatable="yes">Add file</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1314,6 +1345,7 @@
                     <child>
                       <object class="GtkButton" id="btn_add_exclude_folder">
                         <property name="label" translatable="yes">Add folder</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1329,6 +1361,7 @@
                     <child>
                       <object class="GtkButton" id="btn_remove_exclude">
                         <property name="label">gtk-remove</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1377,10 +1410,12 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_dont_remove_named_snapshots">
                     <property name="label" translatable="yes">Don't remove named snapshots</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0.5</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1420,8 +1455,6 @@
                     <property name="can_focus">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                     <property name="adjustment">adjustment2</property>
                     <property name="numeric">True</property>
                   </object>
@@ -1437,8 +1470,6 @@
                     <property name="can_focus">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                     <property name="adjustment">adjustment1</property>
                     <property name="numeric">True</property>
                   </object>
@@ -1453,10 +1484,12 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_remove_old_backup">
                     <property name="label" translatable="yes">Older than:</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0.5</property>
                     <property name="draw_indicator">True</property>
                     <signal name="toggled" handler="on_cb_remove_old_backup_toggled" swapped="no"/>
                   </object>
@@ -1467,10 +1500,12 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_min_free_space">
                     <property name="label" translatable="yes">If free space is less than:</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0.5</property>
                     <property name="draw_indicator">True</property>
                     <signal name="toggled" handler="on_cb_min_free_space_toggled" swapped="no"/>
                   </object>
@@ -1483,10 +1518,12 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_smart_remove">
                     <property name="label" translatable="yes">Smart remove</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
+                    <property name="xalign">0.5</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1524,6 +1561,9 @@
                         <property name="n_columns">3</property>
                         <property name="column_spacing">5</property>
                         <property name="row_spacing">2</property>
+                        <child>
+                          <placeholder/>
+                        </child>
                         <child>
                           <object class="GtkLabel" id="label10">
                             <property name="visible">True</property>
@@ -1641,8 +1681,6 @@
                             <property name="can_focus">True</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">adjustment3</property>
                             <property name="numeric">True</property>
                           </object>
@@ -1658,8 +1696,6 @@
                             <property name="can_focus">True</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">adjustment4</property>
                             <property name="numeric">True</property>
                           </object>
@@ -1677,8 +1713,6 @@
                             <property name="can_focus">True</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">adjustment5</property>
                             <property name="numeric">True</property>
                           </object>
@@ -1696,8 +1730,6 @@
                             <property name="can_focus">True</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">adjustment6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -1708,9 +1740,6 @@
                             <property name="bottom_attach">4</property>
                             <property name="y_options">GTK_FILL</property>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                     </child>
@@ -1746,6 +1775,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_enable_notifications">
                     <property name="label" translatable="yes">Enable notifications</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1762,6 +1792,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_no_on_battery">
                     <property name="label" translatable="yes">Disable snapshots when on battery</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1779,6 +1810,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_backup_on_restore">
                     <property name="label" translatable="yes">Backup files on restore</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1795,6 +1827,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_continue_on_errors">
                     <property name="label" translatable="yes">Continue on errors (keep incomplete snapshots)</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1811,6 +1844,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_use_checksum">
                     <property name="label" translatable="yes">Use checksum to detect changes</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1827,6 +1861,8 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_full_rsync">
                     <property name="label" translatable="yes">Full rsync mode. May be faster but:</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_action_appearance">False</property>
@@ -1841,6 +1877,7 @@
                 </child>
                 <child>
                   <object class="GtkAlignment" id="alignment5">
+                    <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="left_padding">24</property>
                     <child>
@@ -1862,6 +1899,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_check_for_changes">
                     <property name="label" translatable="yes">Check for changes (don't take a new snapshot if nothing changed)</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1922,6 +1960,7 @@
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_top">1</property>
                 <property name="label" translatable="yes">Options</property>
               </object>
               <packing>
@@ -1952,6 +1991,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_run_nice_from_cron">
                     <property name="label" translatable="yes">Run 'nice' as cron job (default: enabled)</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1968,6 +2008,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_run_ionice_from_cron">
                     <property name="label" translatable="yes">Run 'ionice' as cron job (default: enabled)</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1984,6 +2025,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_run_ionice_from_user">
                     <property name="label" translatable="yes">Run 'ionice' when taking a manual snapshot (default: disabled)</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -2000,6 +2042,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_preserve_acl">
                     <property name="label" translatable="yes">Preserve ACL</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -2016,6 +2059,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_preserve_xattr">
                     <property name="label" translatable="yes">Preserve extended attributes (xattr)</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -2032,6 +2076,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_copy_unsafe_links">
                     <property name="label" translatable="yes">Copy unsafe links (works only with absolute links)</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -2048,6 +2093,7 @@
                 <child>
                   <object class="GtkCheckButton" id="cb_copy_links">
                     <property name="label" translatable="yes">Copy links (dereference symbolic links)</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -2101,42 +2147,6 @@
       <action-widget response="-6">btn_cancel</action-widget>
       <action-widget response="-5">btn_ok</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="lower">1</property>
-    <property name="upper">1000</property>
-    <property name="value">1</property>
-    <property name="step_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment2">
-    <property name="lower">1</property>
-    <property name="upper">1000</property>
-    <property name="value">1</property>
-    <property name="step_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment3">
-    <property name="lower">1</property>
-    <property name="upper">10000</property>
-    <property name="value">1</property>
-    <property name="step_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment4">
-    <property name="lower">1</property>
-    <property name="upper">10000</property>
-    <property name="value">1</property>
-    <property name="step_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment5">
-    <property name="lower">1</property>
-    <property name="upper">10000</property>
-    <property name="value">1</property>
-    <property name="step_increment">1</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment6">
-    <property name="lower">1</property>
-    <property name="upper">10000</property>
-    <property name="value">1</property>
-    <property name="step_increment">1</property>
   </object>
   <object class="GtkAdjustment" id="adjustment7">
     <property name="lower">1</property>

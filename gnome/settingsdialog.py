@@ -359,6 +359,7 @@ class SettingsDialog(object):
 		self.cb_backup_on_restore = get( 'cb_backup_on_restore' )
 		self.cb_continue_on_errors = get( 'cb_continue_on_errors' )
 		self.cb_use_checksum = get( 'cb_use_checksum' )
+		self.cb_full_rsync = get( 'cb_full_rsync' )
 
 		#log level
 		self.store_log_level = gtk.ListStore( int, str )
@@ -733,6 +734,9 @@ class SettingsDialog(object):
 		#use checksum
 		self.cb_use_checksum.set_active( self.config.use_checksum( self.profile_id ) )
 		
+		#use checksum
+		self.cb_full_rsync.set_active( self.config.full_rsync( self.profile_id ) )
+		
 		#log level
 		self.combo_log_level.set_active( self.config.log_level( self.profile_id ) )
 
@@ -929,6 +933,7 @@ class SettingsDialog(object):
 		self.config.set_backup_on_restore( self.cb_backup_on_restore.get_active(), self.profile_id )
 		self.config.set_continue_on_errors( self.cb_continue_on_errors.get_active(), self.profile_id )
 		self.config.set_use_checksum( self.cb_use_checksum.get_active(), self.profile_id )
+		self.config.set_full_rsync( self.cb_full_rsync.get_active(), self.profile_id )
 		self.config.set_check_for_changes( self.cb_check_for_changes.get_active(), self.profile_id )
 		self.config.set_log_level( self.store_log_level.get_value( self.combo_log_level.get_active_iter(), 0 ), self.profile_id )
 		
