@@ -67,12 +67,18 @@ class SSH(mount.MountControl):
         self.set_default_args()
             
         self.symlink_subfolder = None
+
+        # config strings used in ssh-calls
         self.user_host_path = '%s@%s:%s' % (self.user, self.host, self.path)
+        self.user_host = '%s@%s' % (self.user, self.host)
+
+        # ssh_options contains port but can be extended to include cipher, customkeyfile, etc
+        self.ssh_options = ['-p', str(self.port)]
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
         
     def _mount(self):
         """mount the service"""
-        sshfs = ['sshfs', '-p', str(self.port)]
+        sshfs = ['sshfs'] + self.ssh_options
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
         sshfs.extend([self.user_host_path, self.mountpoint])
@@ -149,7 +155,7 @@ class SSH(mount.MountControl):
     def check_login(self):
         """check passwordless authentication to host"""
         ssh = ['ssh', '-o', 'PreferredAuthentications=publickey']
-        ssh.extend(['-p', str(self.port), self.user + '@' + self.host])
+        ssh.extend(self.ssh_options + [self.user_host])
         ssh.extend(['echo', '"Hello"'])
         try:
             subprocess.check_call(ssh, stdout=open(os.devnull, 'w'))
@@ -161,7 +167,8 @@ class SSH(mount.MountControl):
         if not self.cipher == 'default':
             ssh = ['ssh']
             ssh.extend(['-o', 'Ciphers=%s' % self.cipher])
-            ssh.extend(['-p', str(self.port), self.user + '@' + self.host, 'echo', '"Hello"'])
+            ssh.extend(self.ssh_options + [self.user_host])
+            ssh.extend(['echo', '"Hello"'])
             proc = subprocess.Popen(ssh, stdout=open(os.devnull, 'w'), stderr=subprocess.PIPE)
             err = proc.communicate()[1]
             if proc.returncode:
@@ -179,8 +186,9 @@ class SSH(mount.MountControl):
                 continue
             print('%s:' % cipher)
             for i in range(2):
-                subprocess.call(['scp', '-p', str(self.port), '-c', cipher, temp, self.user_host_path])
-        subprocess.call(['ssh', '%s@%s' % (self.user, self.host), 'rm', os.path.join(self.path, os.path.basename(temp))])
+                # scp uses -P instead of -p for port
+                subprocess.call(['scp', '-P', str(self.port), '-c', cipher, temp, self.user_host_path])
+        subprocess.call(['ssh'] + self.ssh_options + [self.user_host, 'rm', os.path.join(self.path, os.path.basename(temp))])
         os.remove(temp)
         
     def check_known_hosts(self):
@@ -203,7 +211,7 @@ class SSH(mount.MountControl):
         cmd += 'test -x %s || exit 13;' % self.path #path is not executable
         cmd += 'exit 20'                             #everything is fine
         try:
-            subprocess.check_call(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd], stdout=open(os.devnull, 'w'))
+            subprocess.check_call(['ssh'] + self.ssh_options + [ self.user_host, cmd], stdout=open(os.devnull, 'w'))
         except subprocess.CalledProcessError as ex:
             if ex.returncode == 20:
                 #clean exit
@@ -278,7 +286,7 @@ class SSH(mount.MountControl):
         cmd += 'test $err_rm -ne 0 && cleanup $err_rm; '
         #if we end up here, everything should be fine
         cmd += 'echo \"done\"'
-        proc = subprocess.Popen(['ssh', '-p', str(self.port), self.user + '@' + self.host, cmd],
+        proc = subprocess.Popen(['ssh'] + self.ssh_options + [self.user_host, cmd],
                                         stdout=subprocess.PIPE, 
                                         stderr=subprocess.PIPE)
         output, err = proc.communicate()
