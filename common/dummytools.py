@@ -1,4 +1,4 @@
-#    Copyright (c) 2012 Germar Reitze
+#    Copyright (c) 2012-2013 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -35,17 +35,18 @@ class Dummy(mount.MountControl):
     be used exactly like they were in this class.
     Methodes from MountControl also can be overriden in here if you need
     something different."""
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, **kwargs):
+    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None **kwargs):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
             
         self.profile_id = profile_id
-        if not self.profile_id:
+        if self.profile_id is None:
             self.profile_id = self.config.get_current_profile()
             
         self.tmp_mount = tmp_mount
         self.hash_id = hash_id
+        self.parent = parent
             
         #init MountControl
         mount.MountControl.__init__(self)
@@ -62,6 +63,7 @@ class Dummy(mount.MountControl):
         self.setattr_kwargs('user', self.config.get_dummy_user(self.profile_id), **kwargs)
         self.setattr_kwargs('host', self.config.get_dummy_host(self.profile_id), **kwargs)
         self.setattr_kwargs('port', self.config.get_dummy_port(self.profile_id), **kwargs)
+        self.setattr_kwargs('password', self.config.get_password(parent, self.profile_id), store = False, **kwargs)
             
         self.set_default_args()
         

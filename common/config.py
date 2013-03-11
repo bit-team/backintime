@@ -29,6 +29,7 @@ import logger
 import mount
 import sshtools
 ##import dummytools
+import password
 
 _=gettext.gettext
 
@@ -91,9 +92,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 	SNAPSHOT_MODES = {
 				#mode : (<mounttools>, _('ComboBox Text') ),
 				'local' : (None, _('Local') ),
-				'ssh' : (sshtools.SSH, _('SSH (without password)') )
+				'ssh' : (sshtools.SSH, _('SSH') )
 ##				'dummy' : (dummytools.Dummy, _('Dummy') )
 				}
+	
+	SNAPSHOT_MODES_NEED_PASSWORD = ['ssh', 'dummy']
 		
 	MOUNT_ROOT = '/tmp/backintime'
 	
@@ -219,6 +222,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 			self.save()
 		
 		self.current_hash_id = 'local'
+		self.pw = password.Password(self)
 
 	def save( self ):
 		configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
@@ -449,6 +453,26 @@ class Config( configfile.ConfigFileWithProfiles ):
 		if len(path) == 0:
 			path = './'
 		return (host, port, user, path)
+		
+	def get_ssh_private_key_file(self, profile_id = None):
+		ssh = self.get_ssh_private_key_folder()
+		default = ''
+		for file in ['id_dsa', 'id_rsa', 'identity']:
+			private_key = os.path.join(ssh, file)
+			if os.path.isfile(private_key):
+				default = private_key
+				break
+		file = self.get_profile_str_value( 'snapshots.ssh.private_key_file', default, profile_id )
+		if len(file) == 0:
+			return default
+		else:
+			return file
+
+	def get_ssh_private_key_folder(self):
+		return os.path.join(os.path.expanduser('~'), '.ssh')
+	
+	def set_ssh_private_key_file( self, value, profile_id = None ):
+		self.set_profile_str_value( 'snapshots.ssh.private_key_file', value, profile_id )
 
 ##	def get_dummy_host( self, profile_id = None ):
 ##		return self.get_profile_str_value( 'snapshots.dummy.host', '', profile_id )
@@ -467,6 +491,57 @@ class Config( configfile.ConfigFileWithProfiles ):
 ##
 ##	def set_dummy_user( self, value, profile_id = None ):
 ##		self.set_profile_str_value( 'snapshots.dummy.user', value, profile_id )
+
+	def get_password_save( self, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		return self.get_profile_bool_value( 'snapshots.%s.password.save' % mode, True, profile_id )
+
+	def set_password_save( self, value, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		self.set_profile_bool_value( 'snapshots.%s.password.save' % mode, value, profile_id )
+
+	def get_password_use_cache( self, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		default = not tools.check_home_encrypt()
+		return self.get_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, default, profile_id )
+
+	def set_password_use_cache( self, value, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		self.set_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, value, profile_id )
+
+	def get_password( self, parent = None, profile_id = None, mode = None, only_from_keyring = False ):
+		if profile_id is None:
+			profile_id = self.get_current_profile()
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		return self.pw.get_password(parent, profile_id, mode, only_from_keyring)
+
+	def set_password( self, password, profile_id = None, mode = None ):
+		if profile_id is None:
+			profile_id = self.get_current_profile()
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		self.pw.set_password(password, profile_id, mode)
+
+	def get_keyring_backend(self):
+		return self.get_str_value('keyring.backend', '')
+
+	def set_keyring_backend(self, value):
+		self.set_str_value('keyring.backend', value)
+		
+	def get_keyring_service_name( self, profile_id = None, mode = None ):
+		if mode is None:
+			mode = self.get_snapshots_mode(profile_id)
+		return 'backintime/%s' % mode
+
+	def get_keyring_user_name( self, profile_id = None ):
+		if profile_id is None:
+			profile_id = self.get_current_profile()
+		return 'profile_id_%s' % profile_id
 
 	def get_auto_host_user_profile( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.path.auto', True, profile_id )
@@ -896,6 +971,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 	def get_take_snapshot_user_callback( self, profile_id = None ):
 		return os.path.join( self._LOCAL_CONFIG_FOLDER, "user-callback" )
+
+	def get_password_cache_folder( self ):
+		return os.path.join( self._LOCAL_DATA_FOLDER, "password_cache" )
+
+	def get_password_cache_pid( self ):
+		return os.path.join( self.get_password_cache_folder(), "PID" )
+
+	def get_password_cache_fifo( self ):
+		return os.path.join( self.get_password_cache_folder(), "FIFO" )
+
+	def get_cron_env_file( self ):
+		return os.path.join( self._LOCAL_DATA_FOLDER, "cron_env" )
 
 	def get_license( self ):
 		return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )

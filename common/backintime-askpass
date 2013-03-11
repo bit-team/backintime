@@ -17,15 +17,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-if [ -f backintime.py ]; then
+if [ -f askpass.py ]; then
 	APP_PATH="."
 else
 	APP_PATH="/usr/share/backintime/common"
 fi
 
-#starting a new ssh-agent all the time is just a workaround for
-#https://bugs.launchpad.net/ubuntu/+source/openssh/+bug/841672
-#normally this should only be necessary if run as cronjob
-#and the user is not logged in
-ssh-agent python $APP_PATH/backintime.py "$@"
+python $APP_PATH/askpass.py "$@"
 

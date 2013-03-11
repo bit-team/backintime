@@ -26,12 +26,14 @@ import gtk
 import gobject
 import datetime
 import gettext
+import subprocess
+import keyring
 
 import config
 import messagebox
 import tools
 import mount
-
+import password
 
 _=gettext.gettext
 
@@ -77,7 +79,9 @@ class SettingsDialog(object):
 				'on_btn_where_clicked': self.on_btn_where_clicked,
 				'on_cb_backup_mode_changed': self.on_cb_backup_mode_changed,
 				'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile,
-				'on_combo_modes_changed': self.on_combo_modes_changed
+				'on_combo_modes_changed': self.on_combo_modes_changed,
+				'on_cb_password_save_toggled': self.update_password_save,
+				'on_btn_ssh_private_key_file_clicked': self.on_btn_ssh_private_key_file_clicked
 			}
 		
 		builder.connect_signals(signals)
@@ -139,6 +143,7 @@ class SettingsDialog(object):
 		self.txt_ssh_port = get('txt_ssh_port')
 		self.txt_ssh_user = get('txt_ssh_user')
 		self.txt_ssh_path = get('txt_ssh_path')
+		self.txt_private_key_file = get('txt_ssh_private_key_file')
 		
 		self.store_ssh_cipher = gtk.ListStore(str, str)
 		keys = self.config.SSH_CIPHERS.keys()
@@ -158,6 +163,13 @@ class SettingsDialog(object):
 ##		self.txt_dummy_host = get('txt_dummy_host')
 ##		self.txt_dummy_port = get('txt_dummy_port')
 ##		self.txt_dummy_user = get('txt_dummy_user')
+
+		#password
+		self.frame_password = get('password')
+		self.txt_password = get('txt_password')
+		self.txt_password.set_visibility(False)
+		self.cb_password_save = get('cb_password_save')
+		self.cb_password_use_cache = get('cb_password_use_cache')
 
 		#automatic backup mode store
 		self.store_backup_mode = gtk.ListStore( str, int )
@@ -413,6 +425,22 @@ class SettingsDialog(object):
 		else:
 			fcd.destroy()
 
+	def on_btn_ssh_private_key_file_clicked( self, button ): 
+		file = self.txt_private_key_file.get_text()
+		
+		fcd = gtk.FileChooserDialog( _('SSH private key'), self.dialog, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
+		if len( file ) > 0:
+			fcd.set_filename( file )
+		else:
+			fcd.set_filename(self.config.get_ssh_private_key_folder())
+		
+		if fcd.run() == gtk.RESPONSE_OK:
+			new_file = tools.prepare_path( fcd.get_filename() )
+			fcd.destroy()
+			self.txt_private_key_file.set_text( new_file )
+		else:
+			fcd.destroy()
+
 	def on_cb_backup_mode_changed( self, *params ):
 		iter = self.cb_backup_mode.get_active_iter()
 		if iter is None:
@@ -459,6 +487,12 @@ class SettingsDialog(object):
 		self.lbl_profile.set_sensitive( value )
 		self.txt_profile.set_sensitive( value )
 		
+	def update_password_save(self, *params):
+		value = self.cb_password_save.get_active()
+		if value and tools.check_home_encrypt():
+			value = False
+		self.cb_password_use_cache.set_sensitive(value)
+		
 	def on_combo_modes_changed(self, *params):
 		iter = self.combo_modes.get_active_iter()
 		if iter is None:
@@ -472,6 +506,10 @@ class SettingsDialog(object):
 				else:
 					getattr(self, 'mode_%s' % mode).hide()
 			self.mode = active_mode
+		if active_mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
+			self.frame_password.show()
+		else:
+			self.frame_password.hide()
 
 	def on_combo_profiles_changed( self, *params ):
 		if self.disable_combo_changed:
@@ -541,6 +579,7 @@ class SettingsDialog(object):
 		self.txt_ssh_port.set_text( str(self.config.get_ssh_port( self.profile_id )) )
 		self.txt_ssh_user.set_text( self.config.get_ssh_user( self.profile_id ) )
 		self.txt_ssh_path.set_text( self.config.get_snapshots_path_ssh( self.profile_id ) )
+		self.txt_private_key_file.set_text( self.config.get_ssh_private_key_file( self.profile_id ) )
 		#set chipher
 		i = 0
 		iter = self.store_ssh_cipher.get_iter_first()
@@ -556,6 +595,15 @@ class SettingsDialog(object):
 ##		self.txt_dummy_host.set_text( self.config.get_dummy_host( self.profile_id ) )
 ##		self.txt_dummy_port.set_text( str(self.config.get_dummy_port( self.profile_id )) )
 ##		self.txt_dummy_user.set_text( self.config.get_dummy_user( self.profile_id ) )
+		
+		#password
+		password = self.config.get_password( profile_id = self.profile_id, mode = self.mode, only_from_keyring = True )
+		if password is None:
+			password = ''
+		self.txt_password.set_text(password)
+		self.cb_password_save.set_active( self.config.get_password_save( self.profile_id, self.mode ) )
+		self.cb_password_use_cache.set_active( self.config.get_password_use_cache( self.profile_id, self.mode ) )
+		self.update_password_save()
 		
 		#per directory schedule
 		#self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -749,6 +797,9 @@ class SettingsDialog(object):
 				self.error_handler( _('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours') )
 				return False
 
+		#password
+		password = self.txt_password.get_text()
+
 		mount_kwargs = {}
 		
 		#ssh settings
@@ -756,10 +807,18 @@ class SettingsDialog(object):
 		ssh_port = self.txt_ssh_port.get_text()
 		ssh_user = self.txt_ssh_user.get_text()
 		ssh_path = self.txt_ssh_path.get_text()
+		ssh_private_key_file = self.txt_private_key_file.get_text()
 		iter = self.combo_ssh_cipher.get_active_iter()
 		ssh_cipher = self.store_ssh_cipher.get_value( iter, 1 )
 		if mode == 'ssh':
-			mount_kwargs = { 'host': ssh_host, 'port': int(ssh_port), 'user': ssh_user, 'path': ssh_path, 'cipher': ssh_cipher }
+			mount_kwargs = {'host': ssh_host,
+							'port': int(ssh_port),
+							'user': ssh_user,
+							'path': ssh_path,
+							'cipher': ssh_cipher,
+							'private_key_file': ssh_private_key_file,
+							'password': password
+							}
 		
 ##		#dummy settings
 ##		dummy_host = self.txt_dummy_host.get_text()
@@ -769,7 +828,11 @@ class SettingsDialog(object):
 ##			#values must have exactly the same Type (str, int or bool) 
 ##			#as they are set in config or you will run into false-positive
 ##			#HashCollision warnings
-##			mount_kwargs = { 'host': dummy_host, 'port': int(dummy_port), 'user': dummy_user }
+##			mount_kwargs = {'host': dummy_host,
+##							'port': int(dummy_port),
+##							'user': dummy_user,
+##							'password': password
+##							}
 			
 		if not self.config.SNAPSHOT_MODES[mode][0] is None:
 			#pre_mount_check
@@ -805,11 +868,31 @@ class SettingsDialog(object):
 		self.config.set_ssh_user(ssh_user, self.profile_id)
 		self.config.set_snapshots_path_ssh(ssh_path, self.profile_id)
 		self.config.set_ssh_cipher(ssh_cipher, self.profile_id)
+		self.config.set_ssh_private_key_file(ssh_private_key_file, self.profile_id)
 
 ##		#save dummy
 ##		self.config.set_dummy_host(dummy_host, self.profile_id)
 ##		self.config.set_dummy_port(dummy_port, self.profile_id)
 ##		self.config.set_dummy_user(dummy_user, self.profile_id)
+
+		#save password
+		if self.cb_password_save.get_active():
+			if self.config.get_keyring_backend() == '':
+				self.config.set_keyring_backend('gnomekeyring')
+			if self.config.get_keyring_backend() == 'kwallet':
+				if keyring.backend.KDEKWallet().supported() == 1:
+					keyring.set_keyring(keyring.backend.KDEKWallet())
+				else:
+					self.config.set_keyring_backend('gnomekeyring')
+			if self.config.get_keyring_backend() == 'gnomekeyring':
+				if keyring.backend.GnomeKeyring().supported() == 1:
+					keyring.set_keyring(keyring.backend.GnomeKeyring())
+				else:
+					self.error_handler( _('Can\'t connect to gnomekeyring to save password'))
+					return False
+		self.config.set_password_save(self.cb_password_save.get_active(), self.profile_id, mode)
+		self.config.set_password_use_cache(self.cb_password_use_cache.get_active(), self.profile_id, mode)
+		self.config.set_password(password, self.profile_id, mode)
 
 		#if not msg is None:
 		#   messagebox.show_error( self.dialog, self.config, msg )
@@ -1062,5 +1145,13 @@ class SettingsDialog(object):
 			return False
 		
 		self.config.save()
+
+		#start Password_Cache if not running
+		daemon = password.Password_Cache(self.config)
+		if not daemon.status():
+			try:
+				subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))
+			except subprocess.CalledProcessError as e:
+				messagebox.show_error(self.dialog, self.config, _('start Password Cache failed: %s') % e.strerror)
 		return True
 	

@@ -965,7 +965,7 @@ class Snapshots:
 
 		if len(line) >= 13:
 			if line.startswith( 'BACKINTIME: ' ):
-				if line[12] != '.':
+				if line[12] != '.' and line[12:14] != 'cd':
 					params[1] = True
 					self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
@@ -1150,8 +1150,15 @@ class Snapshots:
 		rsync_include = ' '.join( items )
 		rsync_include2 = ' '.join( items2 )
 
+		#check previous backup
+		#should only contain the personal snapshots
+		check_for_changes = self.config.check_for_changes()
+
+		#full rsync
+		full_rsync = self.config.full_rsync()
+		
 		#rsync prefix & suffix
-		rsync_prefix = tools.get_rsync_prefix( self.config ) # 'rsync -aEAXH '
+		rsync_prefix = tools.get_rsync_prefix( self.config, not full_rsync ) # 'rsync -aEAXH '
 		rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" " % ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER )
 		#rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 		rsync_suffix = ' --chmod=Du+wx ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
@@ -1163,13 +1170,6 @@ class Snapshots:
 		#
 		#	self._set_last_snapshot_info( dict )
 
-		#check previous backup
-		#should only contain the personal snapshots
-		check_for_changes = self.config.check_for_changes()
-
-		#full rsync
-		full_rsync = self.config.full_rsync()
-		
 		prev_snapshot_id = ''
 		snapshots = self.get_snapshots_list()
 		if len( snapshots ) == 0:
@@ -1278,12 +1278,13 @@ class Snapshots:
 
 		if full_rsync:
 			if len( prev_snapshot_id ) > 0:
-				prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
-				prev_snapshot_folder_ssh = self.get_snapshot_path_to_ssh( prev_snapshot_id )
-				if ssh:
-					cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder_ssh
-				else:
-					cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder
+				#prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
+				#prev_snapshot_folder_ssh = self.get_snapshot_path_to_ssh( prev_snapshot_id )
+				#if ssh:
+				#	cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder_ssh
+				#else:
+				#	cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder
+				cmd = cmd + " --link-dest=\"../../%s/backup\"" % prev_snapshot_id
 
 			cmd = cmd + ' -i --out-format="BACKINTIME: %i %n%L"'
 			print "A: %s" % cmd

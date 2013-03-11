@@ -28,6 +28,7 @@ import snapshots
 import tools
 import sshtools
 import mount
+import password
 
 _=gettext.gettext
 
@@ -46,6 +47,7 @@ def take_snapshot_now_async( cfg ):
 
 def take_snapshot( cfg, force = True ):
 	logger.openlog()
+	tools.load_env(cfg)
 	_mount(cfg)
 	snapshots.Snapshots( cfg ).take_snapshot( force )
 	_umount(cfg)
@@ -105,6 +107,8 @@ def print_help( cfg ):
 	print '\tUnmount the profile.'
 	print '--benchmark-cipher [file-size]'
 	print '\tShow a benchmark of all ciphers for ssh transfer (and exit)'
+	print '--pw-cache [start|stop|restart|reload|status]'
+	print '\tControl Password Cache for non-interactive cronjobs'
 	print '-v | --version'
 	print '\tShow version (and exit)'
 	print '--license'
@@ -250,6 +254,37 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 				else:
 					print('ssh is not configured !')
 			sys.exit(0)
+
+		if arg == '--pw-cache':
+			if not cfg.is_configured():
+				print "The application is not configured !"
+				sys.exit(0)
+			else:
+				daemon = password.Password_Cache(cfg)
+				try:
+					if sys.argv[index + 1].startswith('-'):
+						daemon.run()
+					elif 'start' == sys.argv[index + 1]:
+						daemon.start()
+					elif 'stop' == sys.argv[index + 1]:
+						daemon.stop()
+					elif 'restart' == sys.argv[index + 1]:
+						daemon.restart()
+					elif 'reload' == sys.argv[index + 1]:
+						daemon.reload()
+					elif 'status' == sys.argv[index + 1]:
+						print 'Backintime Password Cache:',
+						if daemon.status():
+							print 'running'
+						else:
+							print 'not running'
+					else:
+						print "Unknown command"
+						print "usage: %s %s start|stop|restart|reload|status" % (sys.argv[0], sys.argv[index])
+						sys.exit(2)
+				except IndexError:
+					daemon.run()
+				sys.exit(0)
 
 		if arg == '--snapshots' or arg == '-s':
 			continue

@@ -1,4 +1,4 @@
-#    Copyright (c) 2012 Germar Reitze
+#    Copyright (c) 2012-2013 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,11 +22,13 @@ import string
 import random
 import tempfile
 from time import sleep
+import threading
 
 import config
 import mount
 import logger
 import tools
+import password_ipc
 
 _=gettext.gettext
 
@@ -35,17 +37,18 @@ class SSH(mount.MountControl):
     Mount remote path with sshfs. The real take_snapshot process will use
     rsync over ssh. Other commands run remote over ssh.
     """
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, **kwargs):
+    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, **kwargs):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
             
         self.profile_id = profile_id
-        if not self.profile_id:
+        if self.profile_id is None:
             self.profile_id = self.config.get_current_profile()
             
         self.tmp_mount = tmp_mount
         self.hash_id = hash_id
+        self.parent = parent
             
         #init MountControl
         mount.MountControl.__init__(self)
@@ -61,6 +64,8 @@ class SSH(mount.MountControl):
         self.setattr_kwargs('port', self.config.get_ssh_port(self.profile_id), **kwargs)
         self.setattr_kwargs('path', self.config.get_snapshots_path_ssh(self.profile_id), **kwargs)
         self.setattr_kwargs('cipher', self.config.get_ssh_cipher(self.profile_id), **kwargs)
+        self.setattr_kwargs('private_key_file', self.config.get_ssh_private_key_file(self.profile_id), **kwargs)
+        self.setattr_kwargs('password', None, store = False, **kwargs)
             
         if len(self.path) == 0:
             self.path = './'
@@ -69,6 +74,8 @@ class SSH(mount.MountControl):
         self.symlink_subfolder = None
         self.user_host_path = '%s@%s:%s' % (self.user, self.host, self.path)
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
+        
+        self.unlock_ssh_agent()
         
     def _mount(self):
         """mount the service"""
@@ -124,6 +131,59 @@ class SSH(mount.MountControl):
         """check if umount successful
            raise MountException( _('Error discription') ) if not"""
         return True
+        
+    def unlock_ssh_agent(self):
+        """using askpass.py to unlock private key in ssh-agent"""
+        env = os.environ.copy()
+        env['SSH_ASKPASS'] = 'backintime-askpass'
+        env['ASKPASS_PROFILE_ID'] = self.profile_id
+        env['ASKPASS_MODE'] = self.mode
+        
+        output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
+        if not output.find(self.private_key_file) >= 0:
+            if not self.config.get_password_save(self.profile_id) and not tools.check_x_server():
+                #we need to unlink stdin from ssh-add in order to make it
+                #use our own backintime-askpass.
+                #But because of this we can NOT use getpass inside backintime-askpass
+                #if password is not saved and there is no x-server.
+                #So, let's just keep ssh-add asking for the password in that case.
+                alarm = tools.Alarm()
+                alarm.start(10)
+                try:
+                    proc = subprocess.call(['ssh-add', self.private_key_file])
+                    alarm.stop()
+                except tools.Timeout:
+                    pass
+            else:
+                if not self.password is None:
+                    #write password directly to temp FIFO
+                    temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
+                    env['ASKPASS_TEMP'] = temp_file
+                    thread = password_ipc.TempPasswordThread(self.password, temp_file)
+                    thread.start()
+                
+                proc = subprocess.Popen(['ssh-add', self.private_key_file],
+                                        stdin=subprocess.PIPE,
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE,
+                                        env = env,
+                                        preexec_fn = os.setsid)
+                output, error = proc.communicate()
+                if proc.returncode:
+                    print( _('Failed to unlock SSH private key:\nError: %s') % error)
+            output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
+            if not output.find(self.private_key_file) >= 0:
+                raise mount.MountException( _('Could not unlock ssh private key. Wrong password or password not available for cron.'))
+        
+            if not self.password is None:
+                thread.join(5)
+                if thread.isAlive():
+                    #threading does not support signal.alarm
+                    thread.read()
+                try:
+                    os.rmdir(os.path.dirname(temp_file))
+                except OSError:
+                    pass
         
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""

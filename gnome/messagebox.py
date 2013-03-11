@@ -23,6 +23,7 @@ import pygtk
 pygtk.require("2.0")
 import gtk
 import gettext
+import gobject
 
 import config
 
@@ -46,7 +47,7 @@ def show_error( parent, config, message ):
     dialog.destroy()
     return retVal
 
-def text_input_dialog( parent, config, title, default_value = '' ):
+def text_input_dialog( parent, config, title, default_value = '', prompt = None, hide_input = False , timeout = None):
     
     builder = gtk.Builder()
     builder.set_translation_domain('backintime')
@@ -58,14 +59,26 @@ def text_input_dialog( parent, config, title, default_value = '' ):
 
     dialog = builder.get_object( 'TextInputDialog' )
     dialog.set_title( title )
-    dialog.set_transient_for( parent )
+    if not parent is None:
+        dialog.set_transient_for( parent )
+        
+    prompt_text = builder.get_object('prompt_text')
+    if not prompt is None:
+        prompt_text.set_text(prompt)
+        prompt_text.set_visible(True)
     
     edit = builder.get_object( 'edit_text' )
+    
+    if hide_input:
+        edit.set_visibility(False)
 
     if not default_value is None:
         edit.set_text( default_value )
 
     edit.grab_focus()
+    
+    if not timeout is None:
+        gobject.timeout_add(1000 * timeout, dialog.destroy)
     
     text = None
     if gtk.RESPONSE_OK == dialog.run():
@@ -76,3 +89,8 @@ def text_input_dialog( parent, config, title, default_value = '' ):
     dialog.destroy()
     return text  
 
+def ask_password_dialog(parent, config, title, prompt, timeout = None):
+    password = text_input_dialog(parent, config, title,
+                    prompt = prompt,
+                    hide_input = True, timeout = timeout)
+    return(password)

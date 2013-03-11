@@ -22,7 +22,9 @@ import sys
 import subprocess
 import hashlib
 import commands
+import signal
 
+import configfile
 
 ON_AC = 0
 ON_BATTERY = 1
@@ -341,7 +343,7 @@ def use_rsync_fast( config ):
 	return not (config.preserve_acl() or config.preserve_xattr())
 
 
-def get_rsync_prefix( config ):
+def get_rsync_prefix( config, no_perms = True ):
 	caps = get_rsync_caps()
 	#cmd = 'rsync -aEH'
 	cmd = 'rsync'
@@ -357,8 +359,6 @@ def get_rsync_prefix( config ):
 		cmd = cmd + ' --copy-links'
 	else:
 		cmd = cmd + ' --links'
-
-	no_perms = True
 
 	if config.preserve_acl() and "ACLs" in caps:
 		cmd = cmd + ' -A'
@@ -420,8 +420,73 @@ def check_cron_pattern(str):
     except ValueError:
         return False
 
-#
-#
+def check_mountpoint(path):
+    '''return True if path is a mountpoint'''
+    try:
+        subprocess.check_call(['mountpoint', path], stdout=open(os.devnull, 'w'))
+    except subprocess.CalledProcessError:
+        return False
+    return True
+
+def check_home_encrypt():
+    '''return True if users home is encrypted'''
+    home = os.path.expanduser('~')
+    if not check_mountpoint(home):
+        return False
+    if check_command('ecryptfs-verify'):
+        try:
+            subprocess.check_call(['ecryptfs-verify', '--home'],
+                                    stdout=open(os.devnull, 'w'),
+                                    stderr=open(os.devnull, 'w'))
+        except subprocess.CalledProcessError:
+            pass
+        else:
+            return True
+    if check_command('encfs'):
+        mount = subprocess.Popen(['mount'], stdout=subprocess.PIPE).communicate()[0]
+        for line in mount.split('\n'):
+            line_split = line.split(' ')
+            if len(line_split) < 5:
+                continue
+            if not line_split[2] == home:
+                continue
+            if line_split[4] == 'fuse.encfs':
+                return True
+    return False
+
+def load_env(cfg):
+    env = os.environ.copy()
+    env_file = configfile.ConfigFile()
+    env_file.load(cfg.get_cron_env_file(), maxsplit = 1)
+    for key in env_file.get_keys():
+        value = env_file.get_str_value(key)
+        if not value:
+            continue
+        if not key in env.keys():
+            os.environ[key] = value
+    del(env_file)
+
+def save_env(cfg):
+    """
+    save environ variables to file that are needed by cron
+    to connect to keyring. This will only work if the user is logged in.
+    """
+    env = os.environ.copy()
+    env_file = configfile.ConfigFile()
+    #ubuntu
+    set_env_key(env, env_file, 'GNOME_KEYRING_CONTROL')
+    set_env_key(env, env_file, 'DBUS_SESSION_BUS_ADDRESS')
+    set_env_key(env, env_file, 'DISPLAY')
+    #debian
+    set_env_key(env, env_file, 'XAUTHORITY')
+    
+    env_file.save(cfg.get_cron_env_file())
+    del(env_file)
+
+def set_env_key(env, env_file, key):
+    if key in env.keys():
+        env_file.set_str_value(key, env[key])
+
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     
@@ -474,3 +539,40 @@ class UniquenessSet:
         if verb: print " >> skip (it's a duplicate)" 
         return False
 
+class Timeout(Exception):
+    pass
+
+class Alarm(object):
+    """
+    Timeout for FIFO. This does not work with threading.
+    """
+    def __init__(self, callback = None):
+        self.callback = callback
+        
+    def start(self, timeout):
+        """
+        start timer
+        """
+        try:
+            signal.signal(signal.SIGALRM, self.handler)
+            signal.alarm(timeout)
+        except ValueError:
+            pass
+        
+    def stop(self):
+        """
+        stop timer before it come to an end
+        """
+        try:
+            signal.alarm(0)
+        except:
+            pass
+        
+    def handler(self, signum, frame):
+        """
+        timeout occur.
+        """
+        if self.callback is None:
+            raise Timeout()
+        else:
+            self.callback()

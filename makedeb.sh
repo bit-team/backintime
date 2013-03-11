@@ -21,6 +21,7 @@ for i in common notify gnome kde4; do
 	echo "Installed-Size: `du -sk tmp | cut -f1`" >> tmp/DEBIAN/control
 	
 	cp $i/debian_specific/postrm tmp/DEBIAN/postrm
+	[ -e $i/debian_specific/conffiles ] && cp $i/debian_specific/conffiles tmp/DEBIAN/conffiles
 
 	dpkg --build tmp/ $PKGNAME-${PKGVER}_$PKGARCH.deb
 
