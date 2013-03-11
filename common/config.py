@@ -664,6 +664,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 				 self.get_profile_int_value( 'snapshots.remove_old_snapshots.value', 10, profile_id ),
 				 self.get_profile_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR, profile_id ) )
 	
+	def keep_only_one_snapshot( self, profile_id = None ):
+		return self.get_profile_bool_value( 'snapshots.keep_only_one_snapshot.enabled', False, profile_id )
+	
+	def set_keep_only_one_snapshot( self, value, profile_id = None ):
+		self.set_profile_bool_value( 'snapshots.keep_only_one_snapshot.enabled', value, profile_id )
+	
 	def is_remove_old_snapshots_enabled( self, profile_id = None ):
 		return self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id )
 	
