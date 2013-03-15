@@ -1377,11 +1377,6 @@ class Snapshots:
 			#make new snapshot read-only
 			self._execute( self.cmd_ssh( "chmod -R a-w \"%s\"" % snapshot_path(use_mode = ['ssh']) ) )
 
-
-			#fix previous snapshot: make read-only again
-			if len( prev_snapshot_id ) > 0:
-				self._execute( self.cmd_ssh( "chmod -R a-w \"%s\"" % prev_snapshot_path_to(use_mode = ['ssh']) ) )
-
 		return [ True, has_errors ]
 
 	def _smart_remove_keep_all_( self, snapshots, keep_snapshots, min_date, max_date ):
