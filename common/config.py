@@ -445,14 +445,15 @@ class Config( configfile.ConfigFileWithProfiles ):
 	def set_ssh_user( self, value, profile_id = None ):
 		self.set_profile_str_value( 'snapshots.ssh.user', value, profile_id )
 		
-	def get_ssh_host_port_user_path(self, profile_id = None ):
+	def get_ssh_host_port_user_path_cipher(self, profile_id = None ):
 		host = self.get_ssh_host(profile_id)
 		port = self.get_ssh_port(profile_id)
 		user = self.get_ssh_user(profile_id)
 		path = self.get_snapshots_path_ssh(profile_id)
+		cipher = self.get_ssh_cipher(profile_id)
 		if len(path) == 0:
 			path = './'
-		return (host, port, user, path)
+		return (host, port, user, path, cipher)
 		
 	def get_ssh_private_key_file(self, profile_id = None):
 		ssh = self.get_ssh_private_key_folder()
