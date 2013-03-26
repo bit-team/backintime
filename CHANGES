@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.0.22
+* check free-space on ssh remote host (statvfs didn't work over sshfs)
 * Add Password storage mode ssh
 * Add "Full rsync mode" (can be faster but ...)
 * Fix bug: "Restore to..." failed due to spaces in directory name (https://bugs.launchpad.net/backintime/+bug/1096319)
