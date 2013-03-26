@@ -373,6 +373,15 @@ def get_rsync_prefix( config, no_perms = True ):
 	else:
 		cmd = cmd + ' -pEgo'
 
+	if config.get_snapshots_mode() == 'ssh':
+		ssh_port = config.get_ssh_port()
+		ssh_cipher = config.get_ssh_cipher()
+		if ssh_cipher == 'default':
+			ssh_cipher_suffix = ''
+		else:
+			ssh_cipher_suffix = '-c %s' % ssh_cipher
+		cmd = cmd + ' --rsh="ssh -p %s %s"' % ( str(ssh_port), ssh_cipher_suffix)
+			
 	return cmd + ' '
 
 
