@@ -1277,13 +1277,8 @@ class Snapshots:
 
 			permission_done = False
 			if self.config.get_snapshots_mode() == 'ssh':
-				(ssh_host, ssh_port, ssh_user, ssh_path, ssh_cipher) = self.config.get_ssh_host_port_user_path_cipher()
 				path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh']).rstrip( '/' )
-				cmd = ['ssh', '-p', str(ssh_port)]
-				if not ssh_cipher == 'default':
-					cmd.extend(['-c', ssh_cipher])
-				cmd.extend(['%s@%s' % (ssh_user, ssh_host)])
-				cmd.extend(['find', path_to_explore_ssh, '-name', '\*', '-print'])
+				cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'], module = 'subprocess')
 				
 				find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
 				output = find.communicate()[0]
@@ -1648,18 +1643,30 @@ class Snapshots:
 
 		return snapshots_filtered
 
-	def cmd_ssh(self, cmd, quote = False):
+	def cmd_ssh(self, cmd, quote = False, module = 'os.system'):
 		if self.config.get_snapshots_mode() == 'ssh':
 			(ssh_host, ssh_port, ssh_user, ssh_path, ssh_cipher) = self.config.get_ssh_host_port_user_path_cipher()
-			if ssh_cipher == 'default':
-				ssh_cipher_suffix = ''
-			else:
-				ssh_cipher_suffix = '-c %s' % ssh_cipher
-			
-			if quote:
-				cmd = '\'%s\'' % cmd
+			if module == 'os.system':
+				if ssh_cipher == 'default':
+					ssh_cipher_suffix = ''
+				else:
+					ssh_cipher_suffix = '-c %s' % ssh_cipher
 				
-			return 'ssh -p %s %s %s@%s %s' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host, cmd )
+				if quote:
+					cmd = '\'%s\'' % cmd
+					
+				return 'ssh -p %s %s %s@%s %s' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host, cmd )
+
+			elif module == 'subprocess':
+				suffix = ['ssh', '-p', str(ssh_port)]
+				if not ssh_cipher == 'default':
+					suffix += ['-c', ssh_cipher]
+				suffix += ['%s@%s' % (ssh_user, ssh_host)]
+				if quote:
+					suffix += ['\'']
+					cmd += ['\'']
+				return suffix + cmd
+				
 		else:
 			return cmd
 
