@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-06 12:15+0100\n"
-"PO-Revision-Date: 2012-04-27 18:46+0000\n"
-"Last-Translator: Sid Roberts <Unknown>\n"
+"PO-Revision-Date: 2013-01-23 15:07+0000\n"
+"Last-Translator: Hélion du Mas des Bourboux <helion331990@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2012-11-08 20:56+0000\n"
-"X-Generator: Launchpad (build 16232)\n"
+"X-Launchpad-Export-Date: 2013-03-26 21:16+0000\n"
+"X-Generator: Launchpad (build 16540)\n"
 
 #: ../../common/configfile.py:251 ../../common/configfile.py:313
 #, python-format
@@ -132,11 +132,11 @@ msgstr "AVEC DES ERREURS !"
 
 #: ../../common/snapshots.py:420
 msgid "FAILED"
-msgstr ""
+msgstr "ÉCHEC"
 
 #: ../../common/snapshots.py:495
 msgid "Restore permissions:"
-msgstr ""
+msgstr "Restaurer les permissions :"
 
 #: ../../common/snapshots.py:671
 msgid ""
@@ -353,19 +353,19 @@ msgstr "Restaurer"
 #: ../../kde4/app.py:179 ../../kde4/restoredialog.py:42
 #: ../../kde4/snapshotsdialog.py:113
 msgid "Restore to ..."
-msgstr ""
+msgstr "Restaurer vers ..."
 
 #: ../../gnome/app.py:186 ../../gnome/app.py:843 ../../gnome/app.py:1073
 #: ../../kde4/app.py:960
 #, python-format
 msgid "Restore '%s'"
-msgstr ""
+msgstr "Restaurer '%s'"
 
 #: ../../gnome/app.py:188 ../../gnome/app.py:844 ../../gnome/app.py:1074
 #: ../../kde4/app.py:961
 #, python-format
 msgid "Restore '%s' to ..."
-msgstr ""
+msgstr "Restaurer '%s' vers ..."
 
 #: ../../gnome/app.py:207 ../../kde4/app.py:206
 msgid "Shortcuts"
@@ -561,7 +561,7 @@ msgstr "Exclure un dossier"
 
 #: ../../gnome/snapshotsdialog.py:206
 msgid "Jump to"
-msgstr ""
+msgstr "Sauter vers"
 
 #: ../../gnome/snapshotsdialog.py:215 ../../kde4/snapshotsdialog.py:140
 msgid "Diff"
@@ -696,7 +696,7 @@ msgstr "Jour:"
 
 #: ../../kde4/settingsdialog.py:181 ../../gnome/settingsdialog.glade:459
 msgid "Weekday:"
-msgstr ""
+msgstr "Jour de la semaine :"
 
 #: ../../kde4/settingsdialog.py:192 ../../gnome/settingsdialog.glade:446
 msgid "Hour:"
@@ -738,7 +738,7 @@ msgstr "Si l'espace libre est inférieur à :"
 
 #: ../../kde4/settingsdialog.py:325 ../../gnome/settingsdialog.glade:977
 msgid "Keep all snapshots for the last"
-msgstr ""
+msgstr "Garder tous les instantanés depuis les derniers"
 
 #: ../../kde4/settingsdialog.py:328 ../../kde4/settingsdialog.py:333
 #: ../../gnome/settingsdialog.glade:985 ../../gnome/settingsdialog.glade:1009
@@ -747,11 +747,11 @@ msgstr "jour(s)"
 
 #: ../../kde4/settingsdialog.py:330 ../../gnome/settingsdialog.glade:997
 msgid "Keep one snapshot per day for the last"
-msgstr ""
+msgstr "Garder un instantané par jour depuis les derniers"
 
 #: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:1023
 msgid "Keep one snapshot per week for the last"
-msgstr ""
+msgstr "Garder un instantané par semaine depuis les derniers"
 
 #: ../../kde4/settingsdialog.py:338
 msgid "weeks(s)"
@@ -759,7 +759,7 @@ msgstr "semaine(s)"
 
 #: ../../kde4/settingsdialog.py:340 ../../gnome/settingsdialog.glade:1049
 msgid "Keep one snapshot per month for the last"
-msgstr ""
+msgstr "Garder un instantané par mois depuis les derniers"
 
 #: ../../kde4/settingsdialog.py:343 ../../gnome/settingsdialog.glade:1061
 msgid "month(s)"
@@ -767,7 +767,7 @@ msgstr "mois"
 
 #: ../../kde4/settingsdialog.py:345 ../../gnome/settingsdialog.glade:1075
 msgid "Keep one snapshot per year for all years"
-msgstr ""
+msgstr "Garder un instantané par an depuis les derniers"
 
 #: ../../kde4/settingsdialog.py:348 ../../gnome/settingsdialog.glade:824
 msgid "Don't remove named snapshots"
@@ -804,6 +804,8 @@ msgstr "Utiliser le checksum pour détecter les changements"
 #: ../../kde4/settingsdialog.py:378 ../../gnome/settingsdialog.glade:1309
 msgid "Check for changes (don't take a new snapshot if nothing changed)"
 msgstr ""
+"Vérifier les changements (ne pas faire un nouvel instantané si rien n'a "
+"changé)"
 
 #: ../../kde4/settingsdialog.py:385
 msgid "Log Level:"
@@ -829,6 +831,7 @@ msgstr "Executer 'ionice' en tant que tâche planifiée (par defaut: activé)"
 #: ../../kde4/settingsdialog.py:417 ../../gnome/settingsdialog.glade:1431
 msgid "Run 'ionice' when taking a manual snapshot (default: disabled)"
 msgstr ""
+"Lancer 'ionice' lorsqu'un instantané manuel est lancé (défaut : désactivé)"
 
 #: ../../kde4/settingsdialog.py:420 ../../gnome/settingsdialog.glade:1447
 msgid "Preserve ACL"
@@ -950,6 +953,9 @@ msgid ""
 "- destination file-system must support all linux attributes (dates, rights, "
 "user, group ...)"
 msgstr ""
+"- les snapshots ne sont pas en lecture-seule\n"
+"- le système de fichier de destination doit supporter tous les attributs "
+"linux (dates, droits, utilisateur , groupe...)"
 
 #: ../../gnome/settingsdialog.glade:1332
 msgid "Log level:"
