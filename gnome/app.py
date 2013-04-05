@@ -178,7 +178,7 @@ class MainWindow(object):
         self.status_bar = self.builder.get_object( 'status_bar' )
         self.status_bar.push( 0, _('Done') )
 
-	#help menu
+        #help menu
         self.help_menu = gtk.Menu()
         self.help_menu.append(gnometools.new_menu_item(gtk.STOCK_HELP, _('Help'), self.on_help))
         self.help_menu.append(gtk.SeparatorMenuItem())
@@ -188,8 +188,8 @@ class MainWindow(object):
         self.help_menu.append(gnometools.new_menu_item(gtk.STOCK_DIALOG_ERROR, _('Report a bug'), self.on_report_a_bug))
         self.help_menu.append(gtk.SeparatorMenuItem())
         self.help_menu.append(gnometools.new_menu_item(gtk.STOCK_ABOUT, _('About'), self.on_about))
-	self.help_menu.show_all()
-	self.builder.get_object('btn_help').set_menu(self.help_menu)
+        self.help_menu.show_all()
+        self.builder.get_object('btn_help').set_menu(self.help_menu)
 
         #restore menu
         self.restore_menu = gtk.Menu()
@@ -365,28 +365,28 @@ class MainWindow(object):
         self.update_all( first_update_all )
 
     def update_profiles( self ):
-		"""Populates the profile list"""
-		self.disable_combo_changed = True
+        """Populates the profile list"""
+        self.disable_combo_changed = True
 
-		profiles = self.config.get_profiles_sorted_by_name()
-		
-		select_iter = None
-		self.store_profiles.clear()
+        profiles = self.config.get_profiles_sorted_by_name()
+        
+        select_iter = None
+        self.store_profiles.clear()
 
-		for profile_id in profiles:
-			iter = self.store_profiles.append( [ self.config.get_profile_name( profile_id ), profile_id ] )
-			if profile_id == self.config.get_current_profile():
-				select_iter = iter
+        for profile_id in profiles:
+            iter = self.store_profiles.append( [ self.config.get_profile_name( profile_id ), profile_id ] )
+            if profile_id == self.config.get_current_profile():
+                select_iter = iter
 
-		self.disable_combo_changed = False
+        self.disable_combo_changed = False
 
-		if not select_iter is None:
-			self.combo_profiles.set_active_iter( select_iter )
+        if not select_iter is None:
+            self.combo_profiles.set_active_iter( select_iter )
 
-		if len( profiles ) > 1:
-			self.builder.get_object( 'tb_profiles' ).show()
-		else:
-			self.builder.get_object( 'tb_profiles' ).hide()
+        if len( profiles ) > 1:
+            self.builder.get_object( 'tb_profiles' ).show()
+        else:
+            self.builder.get_object( 'tb_profiles' ).hide()
 
         #self.update_all( True )
 
@@ -559,67 +559,67 @@ class MainWindow(object):
         return True
 
     def update_backup_info( self, force_wait_lock = False ):
-		if None is self.builder.get_object( 'btn_backup' ):
-			return True
+        if None is self.builder.get_object( 'btn_backup' ):
+            return True
 
-		#print "forceWaitLock: %s" % forceWaitLock
+        #print "forceWaitLock: %s" % forceWaitLock
 
-		if force_wait_lock:
-			self.force_wait_lock_counter = 10
+        if force_wait_lock:
+            self.force_wait_lock_counter = 10
         
-		busy = self.snapshots.is_busy()
+        busy = self.snapshots.is_busy()
 
-		if busy:
-			self.force_wait_lock_counter = 0
+        if busy:
+            self.force_wait_lock_counter = 0
 
-		if self.force_wait_lock_counter > 0:
-			self.force_wait_lock_counter = self.force_wait_lock_counter - 1
+        if self.force_wait_lock_counter > 0:
+            self.force_wait_lock_counter = self.force_wait_lock_counter - 1
 
-		fake_busy = busy or self.force_wait_lock_counter > 0
-		self.builder.get_object( 'btn_backup' ).set_sensitive( not fake_busy )
+        fake_busy = busy or self.force_wait_lock_counter > 0
+        self.builder.get_object( 'btn_backup' ).set_sensitive( not fake_busy )
 
-		take_snapshot_message = self.snapshots.get_take_snapshot_message()
-		if take_snapshot_message is None:
-			if fake_busy:
-				take_snapshot_message = ( 0, '...' )
-			else:
-				take_snapshot_message = self.last_take_snapshot_message
-				if take_snapshot_message is None:
-					take_snapshot_message = ( 0, _('Done') )
+        take_snapshot_message = self.snapshots.get_take_snapshot_message()
+        if take_snapshot_message is None:
+            if fake_busy:
+                take_snapshot_message = ( 0, '...' )
+            else:
+                take_snapshot_message = self.last_take_snapshot_message
+                if take_snapshot_message is None:
+                    take_snapshot_message = ( 0, _('Done') )
 
-		update_time_line = self.update_time_line
+        update_time_line = self.update_time_line
 
-		if fake_busy:
-			if not self.update_time_line:
-				self.update_time_line = True
-		elif self.update_time_line:
-			self.update_time_line = False
-			snapshots_list = self.snapshots_list
+        if fake_busy:
+            if not self.update_time_line:
+                self.update_time_line = True
+        elif self.update_time_line:
+            self.update_time_line = False
+            snapshots_list = self.snapshots_list
 
-			self.fill_time_line()
+            self.fill_time_line()
 
-			if snapshots_list != self.snapshots_list:
-				take_snapshot_message = ( 0, _('Done') )
-			else:
-				if take_snapshot_message[0] == 0:
-					take_snapshot_message = ( 0, _('Done, no backup needed') )
+            if snapshots_list != self.snapshots_list:
+                take_snapshot_message = ( 0, _('Done') )
+            else:
+                if take_snapshot_message[0] == 0:
+                    take_snapshot_message = ( 0, _('Done, no backup needed') )
 
-		if take_snapshot_message != self.last_take_snapshot_message or update_time_line:
-			self.last_take_snapshot_message = take_snapshot_message
-		
-			if fake_busy:
-				message = _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
-			elif take_snapshot_message[0] == 0:
-				message = self.last_take_snapshot_message[1].replace( '\n', ' ' )
-			else:
-				message = _('Error:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
+        if take_snapshot_message != self.last_take_snapshot_message or update_time_line:
+            self.last_take_snapshot_message = take_snapshot_message
+        
+            if fake_busy:
+                message = _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
+            elif take_snapshot_message[0] == 0:
+                message = self.last_take_snapshot_message[1].replace( '\n', ' ' )
+            else:
+                message = _('Error:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
 
-			self.status_bar.push( 0, message )
+            self.status_bar.push( 0, message )
 
-		#if not fake_busy:
-		#   self.last_take_snapshot_message = None
+        #if not fake_busy:
+        #   self.last_take_snapshot_message = None
 
-		return True
+        return True
 
     def fill_places( self ):
         self.store_places.clear()
@@ -658,16 +658,16 @@ class MainWindow(object):
         #add backup folders
         include_folders = self.config.get_include()
         if len( include_folders ) > 0:
-			folders = []
-			for item in include_folders:
-				if item[1] == 0:
-					folders.append( item[0] )
+            folders = []
+            for item in include_folders:
+                if item[1] == 0:
+                    folders.append( item[0] )
 
-			if len( folders ) > 0:
-				self.store_places.append( [ "<b>%s</b>" % _('Backup folders'), '', '' ] )
-				for folder in folders:
-					#self.store_places.append( [ folder[0], folder[0], gtk.STOCK_SAVE ] )
-					self.store_places.append( [ folder, folder, gtk.STOCK_SAVE ] )
+            if len( folders ) > 0:
+                self.store_places.append( [ "<b>%s</b>" % _('Backup folders'), '', '' ] )
+                for folder in folders:
+                    #self.store_places.append( [ folder[0], folder[0], gtk.STOCK_SAVE ] )
+                    self.store_places.append( [ folder, folder, gtk.STOCK_SAVE ] )
 
     def fill_time_line( self, update_folder_view = True ):
         current_selection = '/'
@@ -798,37 +798,37 @@ class MainWindow(object):
             selection_data.set_uris( [ 'file://' + path ] )
 
     def on_list_folder_view_key_press_event( self, list, event ):
-		if gtk.keysyms.BackSpace == event.keyval:
-			self.on_btn_fodler_up_clicked( None )
-			return True
+        if gtk.keysyms.BackSpace == event.keyval:
+            self.on_btn_fodler_up_clicked( None )
+            return True
 
-		if 32 != event.keyval:
-			return False
+        if 32 != event.keyval:
+            return False
 
-		if not self.use_gloobus_preview:
-			return False
+        if not self.use_gloobus_preview:
+            return False
 
-		iter = self.list_folder_view.get_selection().get_selected()
-		if iter is None:
-			return True
+        iter = self.list_folder_view.get_selection().get_selected()
+        if iter is None:
+            return True
 
-		iter = iter[1]
-		if iter is None:
-			return True
+        iter = iter[1]
+        if iter is None:
+            return True
 
-		path = self.store_folder_view.get_value( iter, 1 )
-		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
+        path = self.store_folder_view.get_value( iter, 1 )
+        full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
 
-		if not os.path.exists( full_path ):
-			return True
+        if not os.path.exists( full_path ):
+            return True
 
-		if not self.snapshots.can_open_path( self.snapshot_id, full_path ):
-			return True
+        if not self.snapshots.can_open_path( self.snapshot_id, full_path ):
+            return True
 
-		cmd = "gloobus-preview \"%s\" &" % full_path
-		print cmd
-		os.system( cmd )
-		return True
+        cmd = "gloobus-preview \"%s\" &" % full_path
+        print cmd
+        os.system( cmd )
+        return True
 
     def on_list_folder_view_button_press_event( self, list, event ):
         if event.button != 3:
@@ -892,41 +892,41 @@ class MainWindow(object):
         self.on_btn_snapshots_clicked( self.builder.get_object( 'btn_snapshots' ) )
 
     def on_list_folder_view_open_item( self, widget, data = None ):
-		iter = self.list_folder_view.get_selection().get_selected()[1]
-		if iter is None:
-			return
+        iter = self.list_folder_view.get_selection().get_selected()[1]
+        if iter is None:
+            return
 
-		path = self.store_folder_view.get_value( iter, 1 )
-		path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
+        path = self.store_folder_view.get_value( iter, 1 )
+        path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
 
-		if not os.path.exists( path ):
-			return
+        if not os.path.exists( path ):
+            return
 
-		cmd = "gnome-open \"%s\" &" % path
-		print cmd
-		os.system( cmd )
+        cmd = "gnome-open \"%s\" &" % path
+        print cmd
+        os.system( cmd )
 
     def on_list_folder_view_row_activated( self, list, path, column ):
-		iter = list.get_selection().get_selected()[1]
-		path = self.store_folder_view.get_value( iter, 1 )
-		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
+        iter = list.get_selection().get_selected()[1]
+        path = self.store_folder_view.get_value( iter, 1 )
+        full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
 
-		if not os.path.exists( full_path ):
-			return
+        if not os.path.exists( full_path ):
+            return
 
-		if not self.snapshots.can_open_path( self.snapshot_id, full_path ):
-			return
+        if not self.snapshots.can_open_path( self.snapshot_id, full_path ):
+            return
 
-		#directory
-		if 0 == self.store_folder_view.get_value( iter, 3 ):
-			self.folder_path = path
-			self.update_folder_view( 1 )
-			return
+        #directory
+        if 0 == self.store_folder_view.get_value( iter, 3 ):
+            self.folder_path = path
+            self.update_folder_view( 1 )
+            return
 
-		#file
-		cmd = "gnome-open \"%s\" &" % full_path
-		print cmd
-		os.system( cmd )
+        #file
+        cmd = "gnome-open \"%s\" &" % full_path
+        print cmd
+        os.system( cmd )
 
     def on_btn_fodler_up_clicked( self, button ):
         if len( self.folder_path ) <= 1:
@@ -1066,18 +1066,18 @@ class MainWindow(object):
             self.fill_time_line()
 
     def on_btn_view_snapshot_log_clicked( self, button ):
-		iter = self.list_time_line.get_selection().get_selected()[1]
-		if iter is None:
-			return
+        iter = self.list_time_line.get_selection().get_selected()[1]
+        if iter is None:
+            return
 
-		snapshot_id = self.store_time_line.get_value( iter, 1 )
-		if len( snapshot_id ) <= 1:
-			return
+        snapshot_id = self.store_time_line.get_value( iter, 1 )
+        if len( snapshot_id ) <= 1:
+            return
 
-		logviewdialog.LogViewDialog( self, snapshot_id ).run()
+        logviewdialog.LogViewDialog( self, snapshot_id ).run()
 
     def on_btn_view_last_log_clicked( self, button ):
-		logviewdialog.LogViewDialog( self ).run()
+        logviewdialog.LogViewDialog( self ).run()
 
     def on_btn_backup_clicked( self, button ):
         button.set_sensitive( False )
@@ -1095,167 +1095,167 @@ class MainWindow(object):
         self.update_folder_view( 2 )
 
     def update_folder_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
-		#update backup time
-		if 2 == changed_from:
-			iter = self.list_time_line.get_selection().get_selected()[1]
-			self.snapshot_id = self.store_time_line.get_value( iter, 1 )
-			#self.lblTime.set_markup( "<b>%s</b>" % backupTime )
+        #update backup time
+        if 2 == changed_from:
+            iter = self.list_time_line.get_selection().get_selected()[1]
+            self.snapshot_id = self.store_time_line.get_value( iter, 1 )
+            #self.lblTime.set_markup( "<b>%s</b>" % backupTime )
 
-		tooltip = ''
-		text = ''
-		if len( self.snapshot_id ) > 1:
-			name = self.snapshots.get_snapshot_display_id( self.snapshot_id )
-			text = _('Snapshot: %s') % name
-			tooltip = _('View the snapshot made at %s') % name
-		else:
-			tooltip = _('View the current disk content')
-			text = _('Now')
+        tooltip = ''
+        text = ''
+        if len( self.snapshot_id ) > 1:
+            name = self.snapshots.get_snapshot_display_id( self.snapshot_id )
+            text = _('Snapshot: %s') % name
+            tooltip = _('View the snapshot made at %s') % name
+        else:
+            tooltip = _('View the current disk content')
+            text = _('Now')
 
-		self.lbl_snapshot.set_markup( ' <b>' + text + '</b> ' )
-		self.lbl_snapshot.set_tooltip_text( tooltip )
+        self.lbl_snapshot.set_markup( ' <b>' + text + '</b> ' )
+        self.lbl_snapshot.set_tooltip_text( tooltip )
 
-		#update selected places item
-		if 1 == changed_from:
-			iter = self.store_places.get_iter_first()
-			while not iter is None:
-				place_path = self.store_places.get_value( iter, 1 )
-				if place_path == self.folder_path:
-					break
-				iter = self.store_places.iter_next( iter )
+        #update selected places item
+        if 1 == changed_from:
+            iter = self.store_places.get_iter_first()
+            while not iter is None:
+                place_path = self.store_places.get_value( iter, 1 )
+                if place_path == self.folder_path:
+                    break
+                iter = self.store_places.iter_next( iter )
 
-			if iter is None:
-				self.list_places.get_selection().unselect_all()
-			else:
-				self.list_places.get_selection().select_iter( iter )
+            if iter is None:
+                self.list_places.get_selection().unselect_all()
+            else:
+                self.list_places.get_selection().select_iter( iter )
 
-		self.rm_restore_parent.set_label(_('Restore \'%s\'') % self.folder_path)
-		self.rm_restore_parent_to.set_label(_('Restore \'%s\' to ...') % self.folder_path)
+        self.rm_restore_parent.set_label(_('Restore \'%s\'') % self.folder_path)
+        self.rm_restore_parent_to.set_label(_('Restore \'%s\' to ...') % self.folder_path)
 
 
-		#update folder view
-		
-		full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.folder_path )
-		all_files = []
-		files = []
-		folder_exists = os.path.isdir( full_path )
+        #update folder view
+        
+        full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.folder_path )
+        all_files = []
+        files = []
+        folder_exists = os.path.isdir( full_path )
 
-		if folder_exists:
-			try:
-				all_files = os.listdir( full_path )
-				all_files.sort()
-			except:
-				pass
+        if folder_exists:
+            try:
+                all_files = os.listdir( full_path )
+                all_files.sort()
+            except:
+                pass
 
-			files = []
-			for file in all_files:
-				if len( file ) == 0:
-					continue
+            files = []
+            for file in all_files:
+                if len( file ) == 0:
+                    continue
 
-				if not self.show_hidden_files:
-					if file[ 0 ] == '.':
-						continue
-					if file[ -1 ] == '~':
-						continue
+                if not self.show_hidden_files:
+                    if file[ 0 ] == '.':
+                        continue
+                    if file[ -1 ] == '~':
+                        continue
 
-				path = os.path.join( full_path, file )
+                path = os.path.join( full_path, file )
 
-				file_size = -1
-				file_date = -1
+                file_size = -1
+                file_date = -1
 
-				try:
-					file_stat = os.stat( path )
-					file_size = file_stat[stat.ST_SIZE]
-					file_date = file_stat[stat.ST_MTIME]
-				except:
-					pass
+                try:
+                    file_stat = os.stat( path )
+                    file_size = file_stat[stat.ST_SIZE]
+                    file_date = file_stat[stat.ST_MTIME]
+                except:
+                    pass
 
-				#format size
-				file_size_int = file_size
-				if file_size_int < 0:
-					file_size_int = 0
+                #format size
+                file_size_int = file_size
+                if file_size_int < 0:
+                    file_size_int = 0
 
-				if file_size < 0:
-					file_size = 'unknown'
-				elif file_size < 1024:
-					file_size = str( file_size ) + ' bytes'
-				elif file_size < 1024 * 1024:
-					file_size = file_size / 1024
-					file_size = str( file_size ) + ' KB'
-				elif file_size < 1024 * 1024 * 1024:
-					file_size = file_size / ( 1024 * 1024 )
-					file_size = str( file_size ) + ' MB'
-				else:
-					file_size = file_size / ( 1024 * 1024 * 1024 )
-					file_size = str( file_size ) + ' GB'
+                if file_size < 0:
+                    file_size = 'unknown'
+                elif file_size < 1024:
+                    file_size = str( file_size ) + ' bytes'
+                elif file_size < 1024 * 1024:
+                    file_size = file_size / 1024
+                    file_size = str( file_size ) + ' KB'
+                elif file_size < 1024 * 1024 * 1024:
+                    file_size = file_size / ( 1024 * 1024 )
+                    file_size = str( file_size ) + ' MB'
+                else:
+                    file_size = file_size / ( 1024 * 1024 * 1024 )
+                    file_size = str( file_size ) + ' GB'
 
-				#format date
-				if file_date < 0:
-					file_date = 'unknown'
-				else:
-					file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
+                #format date
+                if file_date < 0:
+                    file_date = 'unknown'
+                else:
+                    file_date = datetime.datetime.fromtimestamp(file_date).isoformat(' ')
 
-				markup = "%s"
-				if os.path.islink( path ):
-					if self.snapshots.can_open_path( self.snapshot_id, path ):
-						markup = "<i>%s</i>"
-					else:
-						markup = "<b>!</b><i>%s</i>"
+                markup = "%s"
+                if os.path.islink( path ):
+                    if self.snapshots.can_open_path( self.snapshot_id, path ):
+                        markup = "<i>%s</i>"
+                    else:
+                        markup = "<b>!</b><i>%s</i>"
 
-				if os.path.isdir( path ):
-					files.append( [ markup % file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 0, file ] )
-				else:
-					files.append( [ markup % file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 1, file ] )
+                if os.path.isdir( path ):
+                    files.append( [ markup % file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 0, file ] )
+                else:
+                    files.append( [ markup % file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 1, file ] )
 
-			#try to keep old selected file
-			if selected_file is None:
-				selected_file = ''
-				iter = self.list_folder_view.get_selection().get_selected()[1]
-				if not iter is None:
-					selected_file = self.store_folder_view.get_value( iter, 1 )
+            #try to keep old selected file
+            if selected_file is None:
+                selected_file = ''
+                iter = self.list_folder_view.get_selection().get_selected()[1]
+                if not iter is None:
+                    selected_file = self.store_folder_view.get_value( iter, 1 )
 
-			self.list_folder_view_widget.show()
-			self.list_folder_view_shadow.hide()
-		else:
-			self.list_folder_view_widget.hide()
-			self.list_folder_view_shadow.show()
+            self.list_folder_view_widget.show()
+            self.list_folder_view_shadow.hide()
+        else:
+            self.list_folder_view_widget.hide()
+            self.list_folder_view_shadow.show()
 
-		#populate the list
-		self.store_folder_view.clear()
+        #populate the list
+        self.store_folder_view.clear()
 
-		selected_iter = None
-		for item in files:
-			rel_path = os.path.join( self.folder_path, item[6] )
-			item[0] = item[0].replace( '&' , '&amp;' )
-			new_iter = self.store_folder_view.append( [ item[0], rel_path, item[3], item[5], item[1], item[2], item[4] ] )
-			if selected_file == rel_path:
-				selected_iter = new_iter 
+        selected_iter = None
+        for item in files:
+            rel_path = os.path.join( self.folder_path, item[6] )
+            item[0] = item[0].replace( '&' , '&amp;' )
+            new_iter = self.store_folder_view.append( [ item[0], rel_path, item[3], item[5], item[1], item[2], item[4] ] )
+            if selected_file == rel_path:
+                selected_iter = new_iter 
 
-		#select old item or the first item
-		if len( files ) > 0:
-			if selected_iter is None:
-				selected_iter = self.store_folder_view.get_iter_first()
-			self.list_folder_view.get_selection().select_iter( selected_iter )
+        #select old item or the first item
+        if len( files ) > 0:
+            if selected_iter is None:
+                selected_iter = self.store_folder_view.get_iter_first()
+            self.list_folder_view.get_selection().select_iter( selected_iter )
 
-		#update folderup button state
-		self.builder.get_object( 'btn_folder_up' ).set_sensitive( len( self.folder_path ) > 1 )
+        #update folderup button state
+        self.builder.get_object( 'btn_folder_up' ).set_sensitive( len( self.folder_path ) > 1 )
 
-		#update restore button state
-		self.btn_restore.set_sensitive( len( self.snapshot_id ) > 1 and len( self.store_folder_view ) > 0 )
+        #update restore button state
+        self.btn_restore.set_sensitive( len( self.snapshot_id ) > 1 and len( self.store_folder_view ) > 0 )
 
-		#update remove/name snapshot buttons
-		self.builder.get_object( 'btn_snapshot_name' ).set_sensitive( len( self.snapshot_id ) > 1 )
-		self.builder.get_object( 'btn_remove_snapshot' ).set_sensitive( len( self.snapshot_id ) > 1 )
-		self.builder.get_object( 'btn_view_snapshot_log' ).set_sensitive( len( self.snapshot_id ) > 1 )
+        #update remove/name snapshot buttons
+        self.builder.get_object( 'btn_snapshot_name' ).set_sensitive( len( self.snapshot_id ) > 1 )
+        self.builder.get_object( 'btn_remove_snapshot' ).set_sensitive( len( self.snapshot_id ) > 1 )
+        self.builder.get_object( 'btn_view_snapshot_log' ).set_sensitive( len( self.snapshot_id ) > 1 )
 
-		#update snapshots button state
-		self.builder.get_object( 'btn_snapshots' ).set_sensitive( len( self.store_folder_view ) > 0 )
+        #update snapshots button state
+        self.builder.get_object( 'btn_snapshots' ).set_sensitive( len( self.store_folder_view ) > 0 )
 
-		#display current folder
-		self.builder.get_object( 'edit_current_path' ).set_text( self.folder_path )
+        #display current folder
+        self.builder.get_object( 'edit_current_path' ).set_text( self.folder_path )
 
-		#show snapshots
-		if show_snapshots:
-			self.on_btn_snapshots_clicked( None )
+        #show snapshots
+        if show_snapshots:
+            self.on_btn_snapshots_clicked( None )
 
 
 def open_url( dialog, link, user_data ):
@@ -1278,7 +1278,7 @@ if __name__ == '__main__':
 
     logger.openlog()
     main_window = MainWindow( cfg, app_instance )
-    		
+            
     if cfg.is_configured():
         gtk.main()
     logger.closelog()

@@ -27,35 +27,35 @@ _=gettext.gettext
 
 
 class UserScriptsPlugin( pluginmanager.Plugin ):
-	def __init__( self ):
-		return
+    def __init__( self ):
+        return
 
-	def init( self, snapshots ):
-		self.config = snapshots.config
-		return True
+    def init( self, snapshots ):
+        self.config = snapshots.config
+        return True
 
-	def notify_script( self, path, args = '' ):
-		if path == None:
-			return
-		if len( path ) <= 0:
-			return
+    def notify_script( self, path, args = '' ):
+        if path == None:
+            return
+        if len( path ) <= 0:
+            return
 
-		logger.info( "[UserScriptsPlugin.notify_script] %s %s" % ( path, args ) )
-		os.system( "sh \"%s\" %s" % ( self.callback, args ) )
+        logger.info( "[UserScriptsPlugin.notify_script] %s %s" % ( path, args ) )
+        os.system( "sh \"%s\" %s" % ( self.callback, args ) )
 
-	def on_process_begins( self ):
-		self.notify_script( self.config.get_take_snapshot_user_script_before() )
+    def on_process_begins( self ):
+        self.notify_script( self.config.get_take_snapshot_user_script_before() )
 
-	def on_process_ends( self ):
-		self.notify_script( self.config.get_take_snapshot_user_script_after() )
+    def on_process_ends( self ):
+        self.notify_script( self.config.get_take_snapshot_user_script_after() )
 
-	def on_error( self, code, message ):
-		code = str( code )
-		if len( message ) > 0:
-			code = code + " \"" + message + "\""
+    def on_error( self, code, message ):
+        code = str( code )
+        if len( message ) > 0:
+            code = code + " \"" + message + "\""
 
-		self.notify_script( self.config.get_take_snapshot_user_script_error(), code )
+        self.notify_script( self.config.get_take_snapshot_user_script_error(), code )
 
-	def on_new_snapshot( self, snapshot_id, snapshot_path ):
-		self.notify_script( self.config.get_take_snapshot_user_script_new_snapshot(), "%s \"%s\"" % ( snapshot_id, snapshot_path ) )
+    def on_new_snapshot( self, snapshot_id, snapshot_path ):
+        self.notify_script( self.config.get_take_snapshot_user_script_new_snapshot(), "%s \"%s\"" % ( snapshot_id, snapshot_path ) )
 

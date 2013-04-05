@@ -27,120 +27,120 @@ import gettext
 _=gettext.gettext
 
 if len( os.getenv( 'DISPLAY', '' ) ) == 0:
-	os.putenv( 'DISPLAY', ':0.0' )
+    os.putenv( 'DISPLAY', ':0.0' )
 
 
 class GnomePlugin( pluginmanager.Plugin ):
 
-	class Systray( threading.Thread ):
-		def __init__( self, snapshots ):
-			import pygtk
-			pygtk.require("2.0")
-			import gtk
-			import gnome
+    class Systray( threading.Thread ):
+        def __init__( self, snapshots ):
+            import pygtk
+            pygtk.require("2.0")
+            import gtk
+            import gnome
 
-			threading.Thread.__init__( self )
-			self.stop_flag = False
-			self.snapshots = snapshots
-			self.config = self.snapshots.config
+            threading.Thread.__init__( self )
+            self.stop_flag = False
+            self.snapshots = snapshots
+            self.config = self.snapshots.config
 
-			gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
-			gnome.program_init( 'backintime', self.config.VERSION, properties = gnome_props )
+            gnome_props = { gnome.PARAM_APP_DATADIR : '/usr/share' }
+            gnome.program_init( 'backintime', self.config.VERSION, properties = gnome_props )
 
-		def start( self ):
-			self.stop_flag = False
-			threading.Thread.start( self )
+        def start( self ):
+            self.stop_flag = False
+            threading.Thread.start( self )
 
-		def stop( self ):
-			self.stop_flag = True
-			try:
-				self.join()
-			except:
-				pass
+        def stop( self ):
+            self.stop_flag = True
+            try:
+                self.join()
+            except:
+                pass
 
-		def run( self ):
-			import gtk
+        def run( self ):
+            import gtk
 
-			logger.info( '[GnomePlugin.Systray.run]' )
+            logger.info( '[GnomePlugin.Systray.run]' )
 
-			gtk.gdk.threads_init()
-			display = gtk.gdk.display_get_default()
-			
-			if display is None:
-				logger.info( '[GnomePlugin.Systray.run] display KO' )
-				return
+            gtk.gdk.threads_init()
+            display = gtk.gdk.display_get_default()
+            
+            if display is None:
+                logger.info( '[GnomePlugin.Systray.run] display KO' )
+                return
 
-			status_icon = None
-			try:
-				status_icon = gtk.StatusIcon()
-			except:
-				pass
+            status_icon = None
+            try:
+                status_icon = gtk.StatusIcon()
+            except:
+                pass
 
-			if status_icon is None:
-				logger.info( '[GnomePlugin.Systray.run] no status_icon' )
-				return
+            if status_icon is None:
+                logger.info( '[GnomePlugin.Systray.run] no status_icon' )
+                return
 
-			last_message = None
+            last_message = None
 
-			status_icon.set_from_stock( gtk.STOCK_SAVE )
-			status_icon.set_visible( True )
+            status_icon.set_from_stock( gtk.STOCK_SAVE )
+            status_icon.set_visible( True )
 
-			logger.info( '[GnomePlugin.Systray.run] begin loop' )
+            logger.info( '[GnomePlugin.Systray.run] begin loop' )
 
-			while True:
-				gtk.main_iteration( False )
-				if self.stop_flag:
-					break
+            while True:
+                gtk.main_iteration( False )
+                if self.stop_flag:
+                    break
 
-				if not gtk.events_pending():
-					message = self.snapshots.get_take_snapshot_message()
-					if message is None and last_message is None:
-						message = ( 0, _('Working...') )
+                if not gtk.events_pending():
+                    message = self.snapshots.get_take_snapshot_message()
+                    if message is None and last_message is None:
+                        message = ( 0, _('Working...') )
 
-					if not message is None:
-						if message != last_message:
-							last_message = message
+                    if not message is None:
+                        if message != last_message:
+                            last_message = message
 
-							status_icon_blinking = False
-							if last_message[0] != 0:
-								status_icon_blinking = True
+                            status_icon_blinking = False
+                            if last_message[0] != 0:
+                                status_icon_blinking = True
 
-							status_icon.set_blinking( status_icon_blinking )
-							status_icon.set_tooltip( last_message[1] )
+                            status_icon.set_blinking( status_icon_blinking )
+                            status_icon.set_tooltip( last_message[1] )
 
-					time.sleep( 0.2 )
-			
-			status_icon.set_visible( False )
-			gtk.main_iteration( False )
+                    time.sleep( 0.2 )
+            
+            status_icon.set_visible( False )
+            gtk.main_iteration( False )
 
-			logger.info( '[GnomePlugin.Systray.run] end loop' )
+            logger.info( '[GnomePlugin.Systray.run] end loop' )
 
-	def __init__( self ):
-		return
+    def __init__( self ):
+        return
 
-	def init( self, snapshots ):
-		if not tools.process_exists( 'gnome-settings-daemon' ):
-			return False
+    def init( self, snapshots ):
+        if not tools.process_exists( 'gnome-settings-daemon' ):
+            return False
 
-		if not tools.check_x_server():
-			return False
+        if not tools.check_x_server():
+            return False
 
-		self.systray = None
-		try:
-			self.systray = GnomePlugin.Systray( snapshots )
-		except:
-			self.systray = None
+        self.systray = None
+        try:
+            self.systray = GnomePlugin.Systray( snapshots )
+        except:
+            self.systray = None
 
-		return True
+        return True
 
-	def is_gui( self ):
-		return True
+    def is_gui( self ):
+        return True
 
-	def on_process_begins( self ):
-		if not self.systray is None:
-			self.systray.start()
+    def on_process_begins( self ):
+        if not self.systray is None:
+            self.systray.start()
 
-	def on_process_ends( self ):
-		if not self.systray is None:
-			self.systray.stop()
+    def on_process_ends( self ):
+        if not self.systray is None:
+            self.systray.stop()
 

@@ -24,56 +24,56 @@ _=gettext.gettext
 
 
 class NotifyPlugin( pluginmanager.Plugin ):
-	def __init__( self ):
-		self.user = ''
+    def __init__( self ):
+        self.user = ''
 
-		try:
-			self.user = os.getlogin()
-		except:
-			pass
+        try:
+            self.user = os.getlogin()
+        except:
+            pass
 
-		if len(self.user) <= 0:
-			try:
-				user = os.environ['USER']
-			except:
-				pass
+        if len(self.user) <= 0:
+            try:
+                user = os.environ['USER']
+            except:
+                pass
 
-		if len(self.user) <= 0:
-			try:
-				user = os.environ['LOGNAME']
-			except:
-				pass
+        if len(self.user) <= 0:
+            try:
+                user = os.environ['LOGNAME']
+            except:
+                pass
 
-	def init( self, snapshots ):
-		return True
+    def init( self, snapshots ):
+        return True
 
-	def is_gui( self ):
-		return True
+    def is_gui( self ):
+        return True
 
-	def on_process_begins( self ):
-		pass
+    def on_process_begins( self ):
+        pass
 
-	def on_process_ends( self ):
-		pass
+    def on_process_ends( self ):
+        pass
 
-	def on_error( self, code, message ):
-		return
+    def on_error( self, code, message ):
+        return
 
-	def on_new_snapshot( self, snapshot_id, snapshot_path ):
-		return
+    def on_new_snapshot( self, snapshot_id, snapshot_path ):
+        return
 
-	def on_message( self, profile_id, profile_name, level, message, timeout ):
-		if 1 == level:
-			cmd = "notify-send "
-			if timeout > 0:
-				cmd = cmd + " -t %s" % (1000 * timeout)
-			
-			title = "Back In Time (%s) : %s" % (self.user, profile_name)
-			message = message.replace("\n", ' ')
-			message = message.replace("\r", '')
+    def on_message( self, profile_id, profile_name, level, message, timeout ):
+        if 1 == level:
+            cmd = "notify-send "
+            if timeout > 0:
+                cmd = cmd + " -t %s" % (1000 * timeout)
+            
+            title = "Back In Time (%s) : %s" % (self.user, profile_name)
+            message = message.replace("\n", ' ')
+            message = message.replace("\r", '')
 
-			cmd = cmd + " \"%s\" \"%s\"" % (title, message)
-			print cmd
-			os.system(cmd)
-		return
+            cmd = cmd + " \"%s\" \"%s\"" % (title, message)
+            print cmd
+            os.system(cmd)
+        return
 

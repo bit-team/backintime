@@ -39,101 +39,101 @@ _=gettext.gettext
 class SnapshotsDialog(object):
 
     def __init__( self, snapshots, parent, path, snapshots_list, current_snapshot_id, icon_name, use_gloobus_preview ):
-		self.snapshots = snapshots
-		self.path = path
-		self.snapshots_list = snapshots_list
-		self.current_snapshot_id = current_snapshot_id
-		self.icon_name = icon_name        
-		self.config = snapshots.config
-		self.use_gloobus_preview = use_gloobus_preview 
-		 
-		builder = gtk.Builder()
-		self.builder = builder
-		self.builder.set_translation_domain('backintime')
+        self.snapshots = snapshots
+        self.path = path
+        self.snapshots_list = snapshots_list
+        self.current_snapshot_id = current_snapshot_id
+        self.icon_name = icon_name        
+        self.config = snapshots.config
+        self.use_gloobus_preview = use_gloobus_preview 
+         
+        builder = gtk.Builder()
+        self.builder = builder
+        self.builder.set_translation_domain('backintime')
 
-		glade_file = os.path.join(self.config.get_app_path(), 'gnome', 'snapshotsdialog.glade')
+        glade_file = os.path.join(self.config.get_app_path(), 'gnome', 'snapshotsdialog.glade')
 
-		builder.add_from_file(glade_file)
+        builder.add_from_file(glade_file)
 
-		self.dialog = self.builder.get_object( 'SnapshotsDialog' )
-		self.window = self.dialog
-		self.dialog.set_transient_for( parent )
+        self.dialog = self.builder.get_object( 'SnapshotsDialog' )
+        self.window = self.dialog
+        self.dialog.set_transient_for( parent )
 
-		signals = { 
-			'on_list_snapshots_cursor_changed' : self.on_list_snapshots_cursor_changed,
-			'on_list_snapshots_row_activated' : self.on_list_snapshots_row_activated,
-			'on_list_snapshots_popup_menu' : self.on_list_snapshots_popup_menu,
-			'on_list_snapshots_button_press_event': self.on_list_snapshots_button_press_event,
-			'on_list_snapshots_drag_data_get': self.on_list_snapshots_drag_data_get,
-			'on_list_snapshots_key_press_event' : self.on_list_snapshots_key_press_event,
-			'on_btn_diff_with_clicked' : self.on_btn_diff_with_clicked,
-			'on_btn_restore_clicked' : self.on_restore_this,
-			'on_check_list_diff_toggled'  : self.on_check_list_diff_toggled,
-			'on_check_deep_check_toggled' : self.on_check_deep_check_toggled
-		}
-		
-		#path
-		self.edit_path = self.builder.get_object( 'edit_path' )
-		
-		#restore menu
-		self.restore_menu = gtk.Menu()
-		self.restore_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore'), self.on_restore_this))
-		self.restore_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore to ...'), self.on_restore_this_to))
-		self.restore_menu.show_all()
-		
-		self.btn_restore = self.builder.get_object('btn_restore')
-		self.btn_restore.set_menu(self.restore_menu)
+        signals = { 
+            'on_list_snapshots_cursor_changed' : self.on_list_snapshots_cursor_changed,
+            'on_list_snapshots_row_activated' : self.on_list_snapshots_row_activated,
+            'on_list_snapshots_popup_menu' : self.on_list_snapshots_popup_menu,
+            'on_list_snapshots_button_press_event': self.on_list_snapshots_button_press_event,
+            'on_list_snapshots_drag_data_get': self.on_list_snapshots_drag_data_get,
+            'on_list_snapshots_key_press_event' : self.on_list_snapshots_key_press_event,
+            'on_btn_diff_with_clicked' : self.on_btn_diff_with_clicked,
+            'on_btn_restore_clicked' : self.on_restore_this,
+            'on_check_list_diff_toggled'  : self.on_check_list_diff_toggled,
+            'on_check_deep_check_toggled' : self.on_check_deep_check_toggled
+        }
+        
+        #path
+        self.edit_path = self.builder.get_object( 'edit_path' )
+        
+        #restore menu
+        self.restore_menu = gtk.Menu()
+        self.restore_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore'), self.on_restore_this))
+        self.restore_menu.append(gnometools.new_menu_item(gtk.STOCK_UNDELETE, _('Restore to ...'), self.on_restore_this_to))
+        self.restore_menu.show_all()
+        
+        self.btn_restore = self.builder.get_object('btn_restore')
+        self.btn_restore.set_menu(self.restore_menu)
 
-		#popup now
-		#self.popup_now = gtk.Menu()
-		
-		#diff
-		self.edit_diff_cmd = self.builder.get_object( 'edit_diff_cmd' )
-		self.edit_diff_cmd_params = self.builder.get_object( 'edit_diff_cmd_params' )
-		
-		diff_cmd = self.config.get_str_value( 'gnome.diff.cmd', 'meld' )
-		diff_cmd_params = self.config.get_str_value( 'gnome.diff.params', '%1 %2' )
-		
-		self.edit_diff_cmd.set_text( diff_cmd )
-		self.edit_diff_cmd_params.set_text( diff_cmd_params )
-		
-		#setup backup folders
-		self.list_snapshots = self.builder.get_object( 'list_snapshots' )
-		
-		# connect callbacks to widgets signals.
-		builder.connect_signals(signals)
-		
-		text_renderer = gtk.CellRendererText()
-		column = gtk.TreeViewColumn( _('Snapshots') )
-		column.pack_end( text_renderer, True )
-		column.add_attribute( text_renderer, 'markup', 0 )
-		column.set_sort_column_id( 0 )
-		self.list_snapshots.append_column( column )
-		
-		#display name, snapshot_id
-		self.store_snapshots = gtk.ListStore( str, str )
-		self.list_snapshots.set_model( self.store_snapshots )
-		
-		self.store_snapshots.set_sort_column_id( 0, gtk.SORT_DESCENDING )
-		
-		#setup diff with combo
-		self.combo_diff_with = self.builder.get_object( 'combo_diff_with' )
-		text_renderer = gtk.CellRendererText()
-		self.combo_diff_with.pack_start( text_renderer, True )
-		self.combo_diff_with.add_attribute( text_renderer, 'markup', 0 )
-		self.combo_diff_with.set_model( self.store_snapshots ) #use the same store
+        #popup now
+        #self.popup_now = gtk.Menu()
+        
+        #diff
+        self.edit_diff_cmd = self.builder.get_object( 'edit_diff_cmd' )
+        self.edit_diff_cmd_params = self.builder.get_object( 'edit_diff_cmd_params' )
+        
+        diff_cmd = self.config.get_str_value( 'gnome.diff.cmd', 'meld' )
+        diff_cmd_params = self.config.get_str_value( 'gnome.diff.params', '%1 %2' )
+        
+        self.edit_diff_cmd.set_text( diff_cmd )
+        self.edit_diff_cmd_params.set_text( diff_cmd_params )
+        
+        #setup backup folders
+        self.list_snapshots = self.builder.get_object( 'list_snapshots' )
+        
+        # connect callbacks to widgets signals.
+        builder.connect_signals(signals)
+        
+        text_renderer = gtk.CellRendererText()
+        column = gtk.TreeViewColumn( _('Snapshots') )
+        column.pack_end( text_renderer, True )
+        column.add_attribute( text_renderer, 'markup', 0 )
+        column.set_sort_column_id( 0 )
+        self.list_snapshots.append_column( column )
+        
+        #display name, snapshot_id
+        self.store_snapshots = gtk.ListStore( str, str )
+        self.list_snapshots.set_model( self.store_snapshots )
+        
+        self.store_snapshots.set_sort_column_id( 0, gtk.SORT_DESCENDING )
+        
+        #setup diff with combo
+        self.combo_diff_with = self.builder.get_object( 'combo_diff_with' )
+        text_renderer = gtk.CellRendererText()
+        self.combo_diff_with.pack_start( text_renderer, True )
+        self.combo_diff_with.add_attribute( text_renderer, 'markup', 0 )
+        self.combo_diff_with.set_model( self.store_snapshots ) #use the same store
 
-		# update snapshot list
-		full_path = self.snapshots.get_snapshot_path_to( self.current_snapshot_id, self.path )
-		if os.path.islink( full_path ):
-			self.builder.get_object( 'check_deep_check' ).hide()
-		elif os.path.isdir( full_path ):
-			self.builder.get_object( 'check_list_diff' ).hide()
-			self.builder.get_object( 'check_deep_check' ).hide()
+        # update snapshot list
+        full_path = self.snapshots.get_snapshot_path_to( self.current_snapshot_id, self.path )
+        if os.path.islink( full_path ):
+            self.builder.get_object( 'check_deep_check' ).hide()
+        elif os.path.isdir( full_path ):
+            self.builder.get_object( 'check_list_diff' ).hide()
+            self.builder.get_object( 'check_deep_check' ).hide()
 
-		self.builder.get_object( 'check_deep_check' ).set_sensitive( False )
+        self.builder.get_object( 'check_deep_check' ).set_sensitive( False )
 
-		self.update_snapshots()
+        self.update_snapshots()
 
     def update_toolbar( self ):
         if len( self.store_snapshots ) <= 0:
@@ -164,14 +164,14 @@ class SnapshotsDialog(object):
             selection_data.set_uris( [ 'file://' + path ] )
 
     def on_list_snapshots_key_press_event( self, list, event ):
-		if 32 != event.keyval:
-			return False
+        if 32 != event.keyval:
+            return False
 
-		if not self.use_gloobus_preview:
-			return False
+        if not self.use_gloobus_preview:
+            return False
 
-		self.open_item( True )
-		return True
+        self.open_item( True )
+        return True
 
     def on_list_snapshots_cursor_changed( self, list ):
         self.update_toolbar()
@@ -319,20 +319,20 @@ class SnapshotsDialog(object):
         self.open_item()
 
     def open_item( self, use_gloobus_preview = False ):
-		iter = self.list_snapshots.get_selection().get_selected()[1]
-		if iter is None:
-			return
+        iter = self.list_snapshots.get_selection().get_selected()[1]
+        if iter is None:
+            return
         
-		path = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
-		if not os.path.exists( path ):
-			return
+        path = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
+        if not os.path.exists( path ):
+            return
 
-		if use_gloobus_preview:
-			cmd = "gloobus-preview \"%s\" &" % path
-		else:
-			cmd = "gnome-open \"%s\" &" % path
+        if use_gloobus_preview:
+            cmd = "gloobus-preview \"%s\" &" % path
+        else:
+            cmd = "gnome-open \"%s\" &" % path
 
-		os.system( cmd )
+        os.system( cmd )
 
     def run( self ):
         snapshot_id = None

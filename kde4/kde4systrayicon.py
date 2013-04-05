@@ -24,7 +24,7 @@ import gettext
 _=gettext.gettext
 
 if len( os.getenv( 'DISPLAY', '' ) ) == 0:
-	os.putenv( 'DISPLAY', ':0.0' )
+    os.putenv( 'DISPLAY', ':0.0' )
 
 sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'common' )] + sys.path
 
@@ -40,96 +40,96 @@ from PyKDE4.kdeui import KApplication, KSystemTrayIcon, KIcon
 
 
 class KDE4SysTrayIcon:
-	def __init__( self ):
-		self.snapshots = snapshots.Snapshots()
-		self.config = self.snapshots.config
+    def __init__( self ):
+        self.snapshots = snapshots.Snapshots()
+        self.config = self.snapshots.config
 
-		if len( sys.argv ) > 1:
-			try:
-				profile_id = int( sys.argv[1] )
-				self.config.set_current_profile( profile_id )
-			except:
-				pass
+        if len( sys.argv ) > 1:
+            try:
+                profile_id = int( sys.argv[1] )
+                self.config.set_current_profile( profile_id )
+            except:
+                pass
 
-		kaboutdata = KAboutData( 'backintime', '', ki18n( self.config.APP_NAME ), self.config.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( self.config.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
-		kaboutdata.setProgramIconName( 'document-save' )
+        kaboutdata = KAboutData( 'backintime', '', ki18n( self.config.APP_NAME ), self.config.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( self.config.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
+        kaboutdata.setProgramIconName( 'document-save' )
 
-		KCmdLineArgs.init( [sys.argv[0]], kaboutdata )
-		self.kapp = KApplication()
+        KCmdLineArgs.init( [sys.argv[0]], kaboutdata )
+        self.kapp = KApplication()
 
-		self.status_icon = KSystemTrayIcon()
-		self.status_icon.setIcon( KIcon('document-save') )
-		#self.status_icon.actionCollection().clear()
-		self.status_icon.setContextMenu( None )
-		QObject.connect( self.status_icon, SIGNAL('activated(QSystemTrayIcon::ActivationReason)'), self.show_popup )
+        self.status_icon = KSystemTrayIcon()
+        self.status_icon.setIcon( KIcon('document-save') )
+        #self.status_icon.actionCollection().clear()
+        self.status_icon.setContextMenu( None )
+        QObject.connect( self.status_icon, SIGNAL('activated(QSystemTrayIcon::ActivationReason)'), self.show_popup )
 
-		self.first_error = self.config.is_notify_enabled()
-		self.popup = None
-		self.last_message = None
+        self.first_error = self.config.is_notify_enabled()
+        self.popup = None
+        self.last_message = None
 
-		self.timer = QTimer()
-		QObject.connect( self.timer, SIGNAL('timeout()'), self.update_info )
+        self.timer = QTimer()
+        QObject.connect( self.timer, SIGNAL('timeout()'), self.update_info )
 
-		self.ppid = os.getppid()
+        self.ppid = os.getppid()
 
-	def prepare_exit( self ):
-		self.timer.stop()
+    def prepare_exit( self ):
+        self.timer.stop()
 
-		if not self.status_icon is None:
-			self.status_icon.hide()
-			self.status_icon = None
+        if not self.status_icon is None:
+            self.status_icon.hide()
+            self.status_icon = None
 
-		if not self.popup is None:
-			self.popup.deleteLater()
-			self.popup = None
+        if not self.popup is None:
+            self.popup.deleteLater()
+            self.popup = None
 
-		self.kapp.processEvents()
+        self.kapp.processEvents()
 
-	def run( self ):
-		self.status_icon.show()
-		self.timer.start( 500 )
+    def run( self ):
+        self.status_icon.show()
+        self.timer.start( 500 )
 
-		logger.info( "[kde4systrayicon] begin loop" )
+        logger.info( "[kde4systrayicon] begin loop" )
 
-		self.kapp.exec_()
-		
-		logger.info( "[kde4systrayicon] end loop" )
+        self.kapp.exec_()
+        
+        logger.info( "[kde4systrayicon] end loop" )
 
-		self.prepare_exit()
+        self.prepare_exit()
 
-	def show_popup( self ):
-		if not self.popup is None:
-			self.popup.deleteLater()
-			self.popup = None
+    def show_popup( self ):
+        if not self.popup is None:
+            self.popup.deleteLater()
+            self.popup = None
 
-		if not self.last_message is None:
-			self.popup = KPassivePopup.message( self.config.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
-			self.popup.setAutoDelete( False )
+        if not self.last_message is None:
+            self.popup = KPassivePopup.message( self.config.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
+            self.popup.setAutoDelete( False )
 
-	def update_info( self ):
-		if not tools.is_process_alive( self.ppid ):
-			self.prepare_exit()
-			self.kapp.exit(0)
-			return
+    def update_info( self ):
+        if not tools.is_process_alive( self.ppid ):
+            self.prepare_exit()
+            self.kapp.exit(0)
+            return
 
-		message = self.snapshots.get_take_snapshot_message()
-		if message is None and self.last_message is None:
-			message = ( 0, _('Working...') )
-			
-		if not message is None:
-			if message != self.last_message:
-				self.last_message = message
-				self.status_icon.setToolTip( QString.fromUtf8( self.last_message[1] ) )
+        message = self.snapshots.get_take_snapshot_message()
+        if message is None and self.last_message is None:
+            message = ( 0, _('Working...') )
+            
+        if not message is None:
+            if message != self.last_message:
+                self.last_message = message
+                self.status_icon.setToolTip( QString.fromUtf8( self.last_message[1] ) )
 
-				if self.last_message[0] != 0:
-					self.status_icon.setIcon( KIcon('document-save-as') )
-					if self.first_error:
-						self.first_error = False
-						self.show_popup()
-				else:
-					self.status_icon.setIcon( KIcon('document-save') )
-			
+                if self.last_message[0] != 0:
+                    self.status_icon.setIcon( KIcon('document-save-as') )
+                    if self.first_error:
+                        self.first_error = False
+                        self.show_popup()
+                else:
+                    self.status_icon.setIcon( KIcon('document-save') )
+            
 
 if __name__ == '__main__':
-	KDE4SysTrayIcon().run()
+    KDE4SysTrayIcon().run()
 

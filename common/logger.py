@@ -20,21 +20,21 @@ import syslog
 import os
 
 def openlog():
-	name = os.getenv( 'LOGNAME', 'unknown' )
-	syslog.openlog( "backintime (%s)" % name )
+    name = os.getenv( 'LOGNAME', 'unknown' )
+    syslog.openlog( "backintime (%s)" % name )
 
 def closelog():
-	syslog.closelog()
+    syslog.closelog()
 
 def error( msg ):
-	print 'ERROR: ' + msg
-	syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + msg )
+    print 'ERROR: ' + msg
+    syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + msg )
 
 def warning( msg ):
-	print 'WARNING: ' + msg
-	syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + msg )
+    print 'WARNING: ' + msg
+    syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + msg )
 
 def info( msg ):
-	print 'INFO: ' + msg
-	syslog.syslog( syslog.LOG_INFO, 'INFO: ' + msg )
+    print 'INFO: ' + msg
+    syslog.syslog( syslog.LOG_INFO, 'INFO: ' + msg )
 

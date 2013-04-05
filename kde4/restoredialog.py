@@ -38,52 +38,52 @@ _=gettext.gettext
 
 
 def restore( parent, snapshot_id, what, where = '' ):
-	if where is None:
-		where = str( KFileDialog.getExistingDirectory( KUrl(), parent, QString.fromUtf8( _( 'Restore to ...' ) ) ).toUtf8() )
-		if len( where ) == 0 :
-			return
-		where = parent.config.prepare_path( where )
+    if where is None:
+        where = str( KFileDialog.getExistingDirectory( KUrl(), parent, QString.fromUtf8( _( 'Restore to ...' ) ) ).toUtf8() )
+        if len( where ) == 0 :
+            return
+        where = parent.config.prepare_path( where )
 
-	RestoreDialog(parent, snapshot_id, what, where).exec_()
+    RestoreDialog(parent, snapshot_id, what, where).exec_()
 
 
 class RestoreDialog( KDialog ):
-	def __init__( self, parent, snapshot_id, what, where = '' ):
-		KDialog.__init__( self, parent )
-		self.setButtons(KDialog.Close)
-		self.resize( 600, 500 )
+    def __init__( self, parent, snapshot_id, what, where = '' ):
+        KDialog.__init__( self, parent )
+        self.setButtons(KDialog.Close)
+        self.resize( 600, 500 )
 
-		self.config = parent.config
-		self.current_profile = self.config.get_current_profile()
-		self.snapshots = parent.snapshots
-		self.snapshot_id = snapshot_id
-		self.what = what
-		self.where = where
+        self.config = parent.config
+        self.current_profile = self.config.get_current_profile()
+        self.snapshots = parent.snapshots
+        self.snapshot_id = snapshot_id
+        self.what = what
+        self.where = where
 
-		self.setWindowIcon( KIcon( 'text-plain' ) )
-		self.setCaption( QString.fromUtf8( _( 'Restore' ) ) )
+        self.setWindowIcon( KIcon( 'text-plain' ) )
+        self.setCaption( QString.fromUtf8( _( 'Restore' ) ) )
 
-		self.main_widget = QWidget( self )
-		self.main_layout = QVBoxLayout( self.main_widget )
-		self.setMainWidget( self.main_widget )
+        self.main_widget = QWidget( self )
+        self.main_layout = QVBoxLayout( self.main_widget )
+        self.setMainWidget( self.main_widget )
 
-		#text view
-		self.txt_log_view = KTextEdit( self )
-		self.txt_log_view.setReadOnly( True)
-		self.main_layout.addWidget( self.txt_log_view )
+        #text view
+        self.txt_log_view = KTextEdit( self )
+        self.txt_log_view.setReadOnly( True)
+        self.main_layout.addWidget( self.txt_log_view )
 
-		#
-		self.enableButton(KDialog.Close, False)
+        #
+        self.enableButton(KDialog.Close, False)
 
-	def callback(self, line, *params ):
-		self.txt_log_view.append(QString(line))
-		KApplication.processEvents()
+    def callback(self, line, *params ):
+        self.txt_log_view.append(QString(line))
+        KApplication.processEvents()
 
-	def exec_(self):
-		self.show()
-		KApplication.processEvents()
-		self.snapshots.restore( self.snapshot_id, self.what, self.callback, self.where )
-		self.enableButton(KDialog.Close, True)
-		KDialog.exec_(self)
+    def exec_(self):
+        self.show()
+        KApplication.processEvents()
+        self.snapshots.restore( self.snapshot_id, self.what, self.callback, self.where )
+        self.enableButton(KDialog.Close, True)
+        KDialog.exec_(self)
 
 
