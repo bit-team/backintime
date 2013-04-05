@@ -912,6 +912,18 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_check_for_changes( self, value, profile_id = None ):
         return self.set_profile_bool_value( 'snapshots.check_for_changes', value, profile_id )
 
+    def gnu_find_suffix_support( self, profile_id = None ):
+        return self.get_profile_bool_value( 'snapshots.gnu_find_suffix_support', True, profile_id )
+
+    def find_suffix( self, profile_id = None ):
+        if self.gnu_find_suffix_support(profile_id):
+            return '+'
+        else:
+            return '\\;'
+
+    def set_gnu_find_suffix_support( self, value, profile_id = None ):
+        return self.set_profile_bool_value( 'snapshots.gnu_find_suffix_support', value, profile_id )
+
     def get_take_snapshot_user_script( self, step, profile_id = None ):
         return self.get_profile_str_value ( "snapshots.take_snapshot.%s.user.script" % step, '', profile_id )
 

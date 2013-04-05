@@ -341,9 +341,13 @@ class SSH(mount.MountControl):
         cmd += 'echo \"find PATH -type f -exec chmod u-wx \"{}\" \\;\"; '
         cmd += 'find $tmp -type f -exec chmod u-wx \"{}\" \\; >/dev/null; err_find=$?; '
         cmd += 'test $err_find -ne 0 && cleanup $err_find; '
+        #try find suffix '+'
+        cmd += 'find $tmp -type f -exec chmod u-wx \"{}\" + >/dev/null; err_gnu_find=$?; '
         #try to rm -rf
         cmd += 'echo \"rm -rf PATH\"; rm -rf $tmp >/dev/null; err_rm=$?; '
         cmd += 'test $err_rm -ne 0 && cleanup $err_rm; '
+        #report not supported gnu find suffix
+        cmd += 'test $err_gnu_find -ne 0 && echo \"gnu_find not supported\" && exit $err_gnu_find; '
         #if we end up here, everything should be fine
         cmd += 'echo \"done\"'
         proc = subprocess.Popen(['ssh'] + self.ssh_options + [self.user_host, cmd],
@@ -363,7 +367,10 @@ class SSH(mount.MountControl):
             for command in ('cp', 'chmod', 'find', 'rm'):
                 if output_split[-1].startswith(command):
                     raise mount.MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
-            raise mount.MountException( _('Check commands on host %(host)s returned unknown error:\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'err' : err})
+            if output_split[-1].startswith('gnu_find not supported'):
+                self.config.set_gnu_find_suffix_support(False, self.profile_id)
+            else:
+                raise mount.MountException( _('Check commands on host %(host)s returned unknown error:\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'err' : err})
             
         i = 1
         inode1 = 'ABC'

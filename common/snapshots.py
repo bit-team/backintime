@@ -627,7 +627,7 @@ class Snapshots:
             return
         path = self.get_snapshot_path( snapshot_id, use_mode = ['ssh'] )
         #cmd = "chmod -R u+rwx \"%s\"" %  path
-        cmd = self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" \\;' % path, quote = True ) #Debian patch
+        cmd = self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (path, self.config.find_suffix), quote = True ) #Debian patch
         self._execute( cmd )
         cmd = self.cmd_ssh( "rm -rf \"%s\"" % path )
         self._execute( cmd )
@@ -636,11 +636,11 @@ class Snapshots:
         '''Copies a known snapshot to a new location'''
         current.path = self.get_snapshot_path( snapshot_id )
         #need to implement hardlinking to existing folder -> cp newest snapshot folder, rsync -aEAXHv --delete to this folder
-        self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % snapshot_current_path )
+        self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (snapshot_current_path, self.config.find_suffix) )
         cmd = "cp -dRl \"%s\"* \"%s\"" % ( current_path, new_folder )
         logger.info( '%s is copied to folder %s' %( snapshot_id, new_folder ) )
         self._execute( cmd )
-        self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} \\;" % ( snapshot_current_path, new_folder ) )
+        self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} %s" % ( snapshot_current_path, new_folder, self.config.find_suffix ) )
 
     #def _get_last_snapshot_info( self ):
     #	lines = ''
@@ -1065,10 +1065,13 @@ class Snapshots:
             ssh_host = self.config.get_ssh_host()
             ssh_user_host = '%s@%s:' %( ssh_user, ssh_host )
         
+        #find
+        find_suffix = self.config.find_suffix()
+        
         if os.path.exists( new_snapshot_path() ):
             #self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
             #self._execute( "chmod -R u+rwx \"%s\"" %  new_snapshot_path )
-            self._execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % new_snapshot_path() ) #Debian patch
+            self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (new_snapshot_path(), find_suffix) ) #Debian patch
             self._execute( "rm -rf \"%s\"" % new_snapshot_path() )
         
             if os.path.exists( new_snapshot_path() ):
@@ -1187,7 +1190,7 @@ class Snapshots:
                 #if force or len( ignore_folders ) == 0:
 
                 #make source snapshot folders rw to allow cp -al
-                self._execute( self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" \\;' % prev_snapshot_path_to(use_mode = ['ssh']), quote = True) ) #Debian patch
+                self._execute( self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh']), find_suffix), quote = True) ) #Debian patch
 
                 #clone snapshot
                 cmd = self.cmd_ssh( "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path_to(use_mode = ['ssh']), new_snapshot_path_to(use_mode = ['ssh']) ) )
@@ -1196,7 +1199,7 @@ class Snapshots:
                 self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val, 3 )
 
                 #make source snapshot folders read-only
-                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod a-w \"{}\" \\;' % prev_snapshot_path_to(use_mode = ['ssh']), quote = True) ) #Debian patch
+                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod a-w \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh']), find_suffix), quote = True) ) #Debian patch
 
                 #make snapshot items rw to allow xopy xattr
                 self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot_path(use_mode = ['ssh']) ) )
@@ -1239,7 +1242,7 @@ class Snapshots:
         has_errors = False
         if params[0]:
             if not self.config.continue_on_errors():
-                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" \\;' % new_snapshot_path(use_mode = ['ssh']), quote = True) ) #Debian patch
+                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh']), find_suffix), quote = True) ) #Debian patch
                 self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh']) ) )
 
                 if not full_rsync:
@@ -1254,7 +1257,7 @@ class Snapshots:
 
         if full_rsync:
             if not params[1]:
-                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" \\;' % new_snapshot_path(use_mode = ['ssh']), quote = True) ) #Debian patch
+                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh']), find_suffix), quote = True) ) #Debian patch
                 self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh']) ) )
 
                 logger.info( "Nothing changed, no back needed" )
