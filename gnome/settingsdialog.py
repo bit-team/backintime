@@ -876,7 +876,7 @@ class SettingsDialog(object):
 ##		self.config.set_dummy_user(dummy_user, self.profile_id)
 
         #save password
-        if self.cb_password_save.get_active():
+        if self.cb_password_save.get_active() and mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
             if self.config.get_keyring_backend() == '':
                 self.config.set_keyring_backend('gnomekeyring')
             if self.config.get_keyring_backend() == 'kwallet':

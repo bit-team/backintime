@@ -883,7 +883,7 @@ class SettingsDialog( KDialog ):
 ##		self.config.set_dummy_user(dummy_user)
 
         #save password
-        if self.cb_password_save.isChecked():
+        if self.cb_password_save.isChecked() and mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
             if self.config.get_keyring_backend() == '':
                 self.config.set_keyring_backend('kwallet')
             if self.config.get_keyring_backend() == 'gnomekeyring':
