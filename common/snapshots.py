@@ -453,6 +453,15 @@ class Snapshots:
                 pass
             self.restore_callback( callback, ok, "chown %s %s : %s" % ( path, uid, gid ) )
             
+            #if restore uid/gid failed try to restore at least gid
+            if not ok:
+                try:
+                    os.chown( path, -1, gid )
+                    ok = True
+                except:
+                    pass
+                self.restore_callback( callback, ok, "chgrp %s %s" % ( path, gid ) )
+                
         #restore perms
         ok = False
         try:
