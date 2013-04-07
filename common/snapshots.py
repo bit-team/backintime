@@ -330,7 +330,7 @@ class Snapshots:
         dict = {}
 
         if 0 == version:
-            return file_info_dict
+            return dict
 
         fileinfo_path = self.get_snapshot_fileinfo_path( snapshot_id )
         if not os.path.exists( fileinfo_path ):
@@ -473,6 +473,9 @@ class Snapshots:
             ssh_host = self.config.get_ssh_host()
             ssh_user_host = '%s@%s:' % (ssh_user, ssh_host)
 
+        #full rsync
+        full_rsync = self.config.full_rsync()
+
         logger.info( "Restore: %s to: %s" % (path, restore_to) )
 
         info_file = configfile.ConfigFile()
@@ -480,8 +483,10 @@ class Snapshots:
 
         backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
         #cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
-        cmd = tools.get_rsync_prefix( self.config )
-        cmd = cmd + '-R -v --chmod=ugo=rwX '
+        cmd = tools.get_rsync_prefix( self.config, not full_rsync )
+        cmd = cmd + '-R -v '
+        if not full_rsync:
+            cmd = cmd + '--chmod=ugo=rwX '
         if self.config.is_backup_on_restore_enabled():
             cmd = cmd + "--backup --suffix=%s " % backup_suffix
         #cmd = cmd + '--chmod=+w '
@@ -513,6 +518,9 @@ class Snapshots:
         cmd = cmd + "\"%s%s.%s\" \"%s\"" % ( ssh_user_host, src_base, src_path, restore_to + '/' )
         self.restore_callback( callback, True, cmd )
         self._execute( cmd, callback )
+
+        if full_rsync:
+            return
 
         #restore permissions
         logger.info( 'Restore permissions' )
