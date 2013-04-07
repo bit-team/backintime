@@ -519,7 +519,7 @@ class Snapshots:
         self.restore_callback( callback, True, cmd )
         self._execute( cmd, callback )
 
-        if full_rsync:
+        if full_rsync and not self.config.get_snapshots_mode() == 'ssh':
             return
 
         #restore permissions
@@ -1277,7 +1277,7 @@ class Snapshots:
         self.set_take_snapshot_message( 0, _('Save config file ...') )
         self._execute( 'cp %s %s' % (self.config._LOCAL_CONFIG_PATH, new_snapshot_path_to() + '..') )
         
-        if not full_rsync:
+        if not full_rsync or self.config.get_snapshots_mode() == 'ssh':
             #save permissions for sync folders
             logger.info( 'Save permissions' )
             self.set_take_snapshot_message( 0, _('Save permission ...') )

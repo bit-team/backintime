@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.0.24
+* SSH need to store permissions in seperate file with "Full rsync mode" because remote user might not be able to store ownership
 * Fix bug: restore permission failed on "Full rsync mode"
 * Fix bug: glib.GError: Unknown internal child: selection
 * Fix bug: GtkWarning: Unknown property: GtkLabel.margin-top
