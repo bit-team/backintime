@@ -644,7 +644,7 @@ class Snapshots:
             return
         path = self.get_snapshot_path( snapshot_id, use_mode = ['ssh'] )
         #cmd = "chmod -R u+rwx \"%s\"" %  path
-        cmd = self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (path, self.config.find_suffix), quote = True ) #Debian patch
+        cmd = self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (path, self.config.find_suffix()), quote = True ) #Debian patch
         self._execute( cmd )
         cmd = self.cmd_ssh( "rm -rf \"%s\"" % path )
         self._execute( cmd )
@@ -653,11 +653,11 @@ class Snapshots:
         '''Copies a known snapshot to a new location'''
         current.path = self.get_snapshot_path( snapshot_id )
         #need to implement hardlinking to existing folder -> cp newest snapshot folder, rsync -aEAXHv --delete to this folder
-        self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (snapshot_current_path, self.config.find_suffix) )
+        self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (snapshot_current_path, self.config.find_suffix()) )
         cmd = "cp -dRl \"%s\"* \"%s\"" % ( current_path, new_folder )
         logger.info( '%s is copied to folder %s' %( snapshot_id, new_folder ) )
         self._execute( cmd )
-        self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} %s" % ( snapshot_current_path, new_folder, self.config.find_suffix ) )
+        self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} %s" % ( snapshot_current_path, new_folder, self.config.find_suffix() ) )
 
     #def _get_last_snapshot_info( self ):
     #	lines = ''
