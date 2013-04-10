@@ -474,13 +474,6 @@ class Snapshots:
     def restore( self, snapshot_id, path, callback = None, restore_to = '' ):
         if restore_to.endswith('/'):
             restore_to = restore_to[ : -1 ]
-            
-        #ssh
-        ssh_user_host = ''
-        if self.config.get_snapshots_mode() == 'ssh':
-            ssh_user = self.config.get_ssh_user()
-            ssh_host = self.config.get_ssh_host()
-            ssh_user_host = '%s@%s:' % (ssh_user, ssh_host)
 
         #full rsync
         full_rsync = self.config.full_rsync()
@@ -524,7 +517,8 @@ class Snapshots:
         #print "src_delta: %s" % src_delta
         #print "snapshot_id: %s" % snapshot_id 
     
-        cmd = cmd + "\"%s%s.%s\" \"%s\"" % ( ssh_user_host, src_base, src_path, restore_to + '/' )
+        cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path))
+        cmd += ' "%s/"' % restore_to
         self.restore_callback( callback, True, cmd )
         self._execute( cmd, callback )
 
@@ -1075,13 +1069,6 @@ class Snapshots:
         def prev_snapshot_path_to(**kwargs):
             return self.get_snapshot_path_to( prev_snapshot_id, **kwargs )
 
-        #ssh
-        ssh_user_host = ''
-        if self.config.get_snapshots_mode() == 'ssh':
-            ssh_user = self.config.get_ssh_user()
-            ssh_host = self.config.get_ssh_host()
-            ssh_user_host = '%s@%s:' %( ssh_user, ssh_host )
-        
         #find
         find_suffix = self.config.find_suffix()
         
@@ -1172,7 +1159,7 @@ class Snapshots:
                     logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
                     
                     cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix 
-                    cmd += '"' + ssh_user_host + prev_snapshot_path_to(use_mode = ['ssh']) + '"'
+                    cmd += self.rsync_remote_path( prev_snapshot_path_to(use_mode = ['ssh']) )
                     params = [ prev_snapshot_path_to(), False ]
                     #try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
                     self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
@@ -1235,7 +1222,7 @@ class Snapshots:
         #sync changed folders
         logger.info( "Call rsync to take the snapshot" )
         cmd = rsync_prefix + ' -v ' + rsync_suffix 
-        cmd += '"' + ssh_user_host + new_snapshot_path_to(use_mode = ['ssh']) + '"'
+        cmd += self.rsync_remote_path( new_snapshot_path_to(use_mode = ['ssh']) )
 
         self.set_take_snapshot_message( 0, _('Take snapshot') )
 
@@ -1706,6 +1693,14 @@ class Snapshots:
                 
         else:
             return cmd
+
+    def rsync_remote_path(self, path):
+        if self.config.get_snapshots_mode() == 'ssh':
+            user = self.config.get_ssh_user()
+            host = self.config.get_ssh_host()
+            return '\'%s@%s:"%s"\'' % (user, host, path)
+        else:
+            return '"%s"' % path
 
 if __name__ == "__main__":
     config = config.Config()
