@@ -1151,7 +1151,7 @@ class SettingsDialog(object):
         if not daemon.status():
             try:
                 subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))
-            except subprocess.CalledProcessError as e:
-                messagebox.show_error(self.dialog, self.config, _('start Password Cache failed: %s') % e.strerror)
+            except subprocess.CalledProcessError:
+                messagebox.show_error(self.dialog, self.config, _('start Password Cache failed') )
         return True
     
