@@ -65,7 +65,7 @@ class SSH(mount.MountControl):
         self.setattr_kwargs('path', self.config.get_snapshots_path_ssh(self.profile_id), **kwargs)
         self.setattr_kwargs('cipher', self.config.get_ssh_cipher(self.profile_id), **kwargs)
         self.setattr_kwargs('private_key_file', self.config.get_ssh_private_key_file(self.profile_id), **kwargs)
-        self.setattr_kwargs('password', None, store = False, **kwargs)
+        self.setattr_kwargs('password', self.config.get_password(parent, self.profile_id, self.mode), store = False, **kwargs)
             
         if len(self.path) == 0:
             self.path = './'
@@ -140,56 +140,36 @@ class SSH(mount.MountControl):
         
     def unlock_ssh_agent(self):
         """using askpass.py to unlock private key in ssh-agent"""
-        env = os.environ.copy()
-        env['SSH_ASKPASS'] = 'backintime-askpass'
-        env['ASKPASS_PROFILE_ID'] = self.profile_id
-        env['ASKPASS_MODE'] = self.mode
-        
         output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
         if not output.find(self.private_key_file) >= 0:
-            if not self.config.get_password_save(self.profile_id) and not tools.check_x_server():
-                #we need to unlink stdin from ssh-add in order to make it
-                #use our own backintime-askpass.
-                #But because of this we can NOT use getpass inside backintime-askpass
-                #if password is not saved and there is no x-server.
-                #So, let's just keep ssh-add asking for the password in that case.
-                alarm = tools.Alarm()
-                alarm.start(10)
-                try:
-                    proc = subprocess.call(['ssh-add', self.private_key_file])
-                    alarm.stop()
-                except tools.Timeout:
-                    pass
-            else:
-                if not self.password is None:
-                    #write password directly to temp FIFO
-                    temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
-                    env['ASKPASS_TEMP'] = temp_file
-                    thread = password_ipc.TempPasswordThread(self.password, temp_file)
-                    thread.start()
+            temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
+            env = os.environ.copy()
+            env['SSH_ASKPASS'] = 'backintime-askpass'
+            env['ASKPASS_TEMP'] = temp_file
+            thread = password_ipc.TempPasswordThread(self.password, temp_file)
+            thread.start()
                 
-                proc = subprocess.Popen(['ssh-add', self.private_key_file],
-                                        stdin=subprocess.PIPE,
-                                        stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE,
-                                        env = env,
-                                        preexec_fn = os.setsid)
-                output, error = proc.communicate()
-                if proc.returncode:
-                    print( _('Failed to unlock SSH private key:\nError: %s') % error)
+            proc = subprocess.Popen(['ssh-add', self.private_key_file],
+                                    stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,
+                                    env = env,
+                                    preexec_fn = os.setsid)
+            output, error = proc.communicate()
+            if proc.returncode:
+                print( _('Failed to unlock SSH private key:\nError: %s') % error)
             output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
             if not output.find(self.private_key_file) >= 0:
                 raise mount.MountException( _('Could not unlock ssh private key. Wrong password or password not available for cron.'))
         
-            if not self.password is None:
-                thread.join(5)
-                if thread.isAlive():
-                    #threading does not support signal.alarm
-                    thread.read()
-                try:
-                    os.rmdir(os.path.dirname(temp_file))
-                except OSError:
-                    pass
+            thread.join(5)
+            if thread.isAlive():
+                #threading does not support signal.alarm
+                thread.read()
+            try:
+                os.rmdir(os.path.dirname(temp_file))
+            except OSError:
+                pass
         
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""
