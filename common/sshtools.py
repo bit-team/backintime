@@ -142,11 +142,10 @@ class SSH(mount.MountControl):
         """using askpass.py to unlock private key in ssh-agent"""
         output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
         if not output.find(self.private_key_file) >= 0:
-            temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
+            thread = password_ipc.TempPasswordThread(self.password)
             env = os.environ.copy()
             env['SSH_ASKPASS'] = 'backintime-askpass'
-            env['ASKPASS_TEMP'] = temp_file
-            thread = password_ipc.TempPasswordThread(self.password, temp_file)
+            env['ASKPASS_TEMP'] = thread.temp_file
             thread.start()
                 
             proc = subprocess.Popen(['ssh-add', self.private_key_file],
@@ -161,15 +160,8 @@ class SSH(mount.MountControl):
             output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
             if not output.find(self.private_key_file) >= 0:
                 raise mount.MountException( _('Could not unlock ssh private key. Wrong password or password not available for cron.'))
-        
-            thread.join(5)
-            if thread.isAlive():
-                #threading does not support signal.alarm
-                thread.read()
-            try:
-                os.rmdir(os.path.dirname(temp_file))
-            except OSError:
-                pass
+            
+            thread.stop()
         
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""
