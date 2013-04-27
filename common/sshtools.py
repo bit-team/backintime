@@ -65,7 +65,7 @@ class SSH(mount.MountControl):
         self.setattr_kwargs('path', self.config.get_snapshots_path_ssh(self.profile_id), **kwargs)
         self.setattr_kwargs('cipher', self.config.get_ssh_cipher(self.profile_id), **kwargs)
         self.setattr_kwargs('private_key_file', self.config.get_ssh_private_key_file(self.profile_id), **kwargs)
-        self.setattr_kwargs('password', self.config.get_password(parent, self.profile_id, self.mode), store = False, **kwargs)
+        self.setattr_kwargs('password', None, store = False, **kwargs)
             
         if len(self.path) == 0:
             self.path = './'
@@ -142,6 +142,8 @@ class SSH(mount.MountControl):
         """using askpass.py to unlock private key in ssh-agent"""
         output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
         if not output.find(self.private_key_file) >= 0:
+            if self.password is None:
+                self.password = self.config.get_password(self.parent, self.profile_id, self.mode)
             thread = password_ipc.TempPasswordThread(self.password)
             env = os.environ.copy()
             env['SSH_ASKPASS'] = 'backintime-askpass'
