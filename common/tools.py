@@ -23,6 +23,7 @@ import subprocess
 import hashlib
 import commands
 import signal
+import re
 
 import configfile
 
@@ -453,13 +454,9 @@ def check_home_encrypt():
             return True
     if check_command('encfs'):
         mount = subprocess.Popen(['mount'], stdout=subprocess.PIPE).communicate()[0]
+        r = re.compile('^encfs on %s type fuse' % home)
         for line in mount.split('\n'):
-            line_split = line.split(' ')
-            if len(line_split) < 5:
-                continue
-            if not line_split[2] == home:
-                continue
-            if line_split[4] == 'fuse.encfs':
+            if r.match(line):
                 return True
     return False
 
