@@ -1128,7 +1128,9 @@ class Snapshots:
         
         #rsync prefix & suffix
         rsync_prefix = tools.get_rsync_prefix( self.config, not full_rsync ) # 'rsync -aEAXH '
-        rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" " % ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER )
+        rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" --exclude=\"%s\" " % \
+                ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER,  \
+                  self.config.MOUNT_ROOT )
         #rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
         rsync_suffix = ' --chmod=Du+wx ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
 
