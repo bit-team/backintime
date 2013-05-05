@@ -508,6 +508,7 @@ class SettingsDialog( KDialog ):
         layout.addWidget( self.cb_use_checksum )
 
         self.cb_full_rsync = QCheckBox( QString.fromUtf8( _( 'Full rsync mode. May be faster but snapshots are not read-only and destination filesystem must support hard-links, sym-links and all linux attributes.' ) ), self )
+        QObject.connect( self.cb_full_rsync, SIGNAL('stateChanged(int)'), self.update_check_for_changes )
         layout.addWidget( self.cb_full_rsync)
 
         self.cb_check_for_changes = QCheckBox( QString.fromUtf8( _( 'Check for changes (don\'t take a new snapshot if nothing changed)' ) ), self )
@@ -665,6 +666,10 @@ class SettingsDialog( KDialog ):
             enabled = False
         self.cb_password_use_cache.setEnabled( enabled )
 
+    def update_check_for_changes(self):
+        enabled = not self.cb_full_rsync.isChecked()
+        self.cb_check_for_changes.setEnabled( enabled )
+
     def update_profiles( self ):
         self.update_profile()
         current_profile_id = self.config.get_current_profile()
@@ -775,6 +780,7 @@ class SettingsDialog( KDialog ):
         self.cb_continue_on_errors.setChecked( self.config.continue_on_errors() )
         self.cb_use_checksum.setChecked( self.config.use_checksum() )
         self.cb_full_rsync.setChecked( self.config.full_rsync() )
+        self.update_check_for_changes()
         self.cb_check_for_changes.setChecked( self.config.check_for_changes() )
         self.set_combo_value( self.combo_log_level, self.config.log_level() )
 

@@ -81,7 +81,8 @@ class SettingsDialog(object):
                 'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile,
                 'on_combo_modes_changed': self.on_combo_modes_changed,
                 'on_cb_password_save_toggled': self.update_password_save,
-                'on_btn_ssh_private_key_file_clicked': self.on_btn_ssh_private_key_file_clicked
+                'on_btn_ssh_private_key_file_clicked': self.on_btn_ssh_private_key_file_clicked,
+                'on_cb_full_rsync_toggled': self.update_check_for_changes
             }
         
         builder.connect_signals(signals)
@@ -493,6 +494,10 @@ class SettingsDialog(object):
             value = False
         self.cb_password_use_cache.set_sensitive(value)
         
+    def update_check_for_changes(self, *params):
+        value = not self.cb_full_rsync.get_active()
+        self.cb_check_for_changes.set_sensitive(value)
+        
     def on_combo_modes_changed(self, *params):
         iter = self.combo_modes.get_active_iter()
         if iter is None:
@@ -736,6 +741,7 @@ class SettingsDialog(object):
         
         #use checksum
         self.cb_full_rsync.set_active( self.config.full_rsync( self.profile_id ) )
+        self.update_check_for_changes()
         
         #log level
         self.combo_log_level.set_active( self.config.log_level( self.profile_id ) )
