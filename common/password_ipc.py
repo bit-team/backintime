@@ -117,7 +117,7 @@ class TempPasswordThread(threading.Thread):
         self.join(5)
         if self.isAlive():
             #threading does not support signal.alarm
-            self.read(1)
+            self.read()
         try:
             os.rmdir(os.path.dirname(self.temp_file))
         except OSError:

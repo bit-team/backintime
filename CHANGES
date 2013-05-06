@@ -4,7 +4,6 @@ Version 1.0.24
 * hide check_for_canges if full_rsync_mode is checked
 * DEFAULT_EXCLUDE system folders with /foo/* so at least the folder itself will backup
 * DEFAULT_EXCLUDE /run; exclude MOUNT_ROOT with higher priority and not with DEFAULT_EXCLUDE anymore
-* backintime-askpass always use temp-FIFO
 * Fix bug: 'CalledProcessError' object has no attribute 'strerror'
 * Fix bug: quote rsync remote path with spaces
 * 'Save Password' default off to avoid problems with existing profiles
