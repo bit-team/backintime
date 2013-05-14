@@ -18,7 +18,7 @@ echo "Update 'notify/debian_specific/control'"
 sed -i -e "s/^Version: .*$/Version: $VERSION/" -e "s/backintime-common (>= [^)]*)/backintime-common (>= $VERSION~)/" notify/debian_specific/control
 
 echo "Update 'common/config.py'"
-sed -i -e "s/^\tVERSION = '.*'$/\tVERSION = '$VERSION'/" common/config.py
+sed -i -e "s/^    VERSION = '.*'$/    VERSION = '$VERSION'/" common/config.py
 
 echo "Update common man page"
 FILE=common/man/C/backintime.1
