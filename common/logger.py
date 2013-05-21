@@ -18,6 +18,7 @@
 
 import syslog
 import os
+import sys
 
 def openlog():
     name = os.getenv( 'LOGNAME', 'unknown' )
@@ -27,14 +28,14 @@ def closelog():
     syslog.closelog()
 
 def error( msg ):
-    print 'ERROR: ' + msg
+    print >> sys.stderr, 'ERROR: ' + msg
     syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + msg )
 
 def warning( msg ):
-    print 'WARNING: ' + msg
+    print >> sys.stderr, 'WARNING: ' + msg
     syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + msg )
 
 def info( msg ):
-    print 'INFO: ' + msg
+    print >> sys.stdout, 'INFO: ' + msg
     syslog.syslog( syslog.LOG_INFO, 'INFO: ' + msg )
 
