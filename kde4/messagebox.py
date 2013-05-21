@@ -34,16 +34,16 @@ def ask_password_dialog(parent, config, title, prompt, timeout = None):
         timer.start()
 
     dialog.setPrompt( QString.fromUtf8(prompt))
-    dialog.show()
     KApplication.processEvents()
 
     if parent is None:
+        dialog.show()
         kapp.exec_()
     else:
         dialog.exec_()
 
     timer.stop()
-    password = dialog.password()
+    password = dialog.password().toUtf8()
     del(dialog)
 
     return(password)

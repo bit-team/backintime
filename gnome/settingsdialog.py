@@ -81,7 +81,6 @@ class SettingsDialog(object):
                 'on_cb_backup_mode_changed': self.on_cb_backup_mode_changed,
                 'on_cb_auto_host_user_profile_toggled': self.update_host_user_profile,
                 'on_combo_modes_changed': self.on_combo_modes_changed,
-                'on_cb_password_save_toggled': self.update_password_save,
                 'on_btn_ssh_private_key_file_clicked': self.on_btn_ssh_private_key_file_clicked,
                 'on_cb_full_rsync_toggled': self.update_check_for_changes
             }
@@ -179,11 +178,23 @@ class SettingsDialog(object):
 ##		self.txt_dummy_user = get('txt_dummy_user')
 
         #password
-        self.frame_password = get('password')
-        self.txt_password = get('txt_password')
-        self.txt_password.set_visibility(False)
+        self.frame_password_1 = get('password')
+        self.lbl_password_1 = get('label_password_1')
+        self.txt_password_1 = get('txt_password_1')
+        self.txt_password_1.set_visibility(False)
+        self.frame_password_2 = get('hbox_password_2')
+        self.lbl_password_2 = get('label_password_2')
+        self.txt_password_2 = get('txt_password_2')
+        self.txt_password_2.set_visibility(False)
         self.cb_password_save = get('cb_password_save')
         self.cb_password_use_cache = get('cb_password_use_cache')
+
+        backend = self.config.get_keyring_backend()
+        if len(backend) <= 0:
+            backend = 'gnomekeyring'
+            self.config.set_keyring_backend(backend)
+        self.keyring_supported = tools.set_keyring(backend)
+        self.cb_password_save.set_sensitive(self.keyring_supported)
 
         #automatic backup mode store
         self.store_backup_mode = gtk.ListStore( str, int )
@@ -502,12 +513,6 @@ class SettingsDialog(object):
         self.lbl_profile.set_sensitive( value )
         self.txt_profile.set_sensitive( value )
         
-    def update_password_save(self, *params):
-        value = self.cb_password_save.get_active()
-        if value and tools.check_home_encrypt():
-            value = False
-        self.cb_password_use_cache.set_sensitive(value)
-        
     def update_check_for_changes(self, *params):
         value = not self.cb_full_rsync.get_active()
         self.cb_check_for_changes.set_sensitive(value)
@@ -525,10 +530,24 @@ class SettingsDialog(object):
                 if active_mode == mode:
                     getattr(self, 'mode_%s' % mode).show()
             self.mode = active_mode
-        if active_mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
-            self.frame_password.show()
+
+        if self.config.mode_need_password(active_mode):
+            self.lbl_password_1.set_text(self.config.SNAPSHOT_MODES[active_mode][2] + ':')
+            self.frame_password_1.show()
+            if self.config.mode_need_password(active_mode, 2):
+                self.lbl_password_2.set_text(self.config.SNAPSHOT_MODES[active_mode][3] + ':')
+                self.frame_password_2.show()
+                gnometools.equal_indent(self.lbl_password_1, self.lbl_password_2)
+            else:
+                self.frame_password_2.hide()
+                gnometools.equal_indent(self.lbl_password_1)
         else:
-            self.frame_password.hide()
+            self.frame_password_1.hide()
+
+        if active_mode == 'ssh_encfs':
+            self.lbl_ssh_encfs_exclude_warning.show()
+        else:
+            self.lbl_ssh_encfs_exclude_warning.hide()
 
     def on_combo_profiles_changed( self, *params ):
         if self.disable_combo_changed:
@@ -620,13 +639,16 @@ class SettingsDialog(object):
 ##		self.txt_dummy_user.set_text( self.config.get_dummy_user( self.profile_id ) )
         
         #password
-        password = self.config.get_password( profile_id = self.profile_id, mode = self.mode, only_from_keyring = True )
-        if password is None:
-            password = ''
-        self.txt_password.set_text(password)
-        self.cb_password_save.set_active( self.config.get_password_save( self.profile_id, self.mode ) )
+        password_1 = self.config.get_password( profile_id = self.profile_id, mode = self.mode, pw_id = 1, only_from_keyring = True )
+        password_2 = self.config.get_password( profile_id = self.profile_id, mode = self.mode, pw_id = 2, only_from_keyring = True )
+        if password_1 is None:
+            password_1 = ''
+        if password_2 is None:
+            password_2 = ''
+        self.txt_password_1.set_text(password_1)
+        self.txt_password_2.set_text(password_2)
+        self.cb_password_save.set_active( self.keyring_supported and self.config.get_password_save( self.profile_id, self.mode ) )
         self.cb_password_use_cache.set_active( self.config.get_password_use_cache( self.profile_id, self.mode ) )
-        self.update_password_save()
         
         #per directory schedule
         #self.cb_per_directory_schedule.set_active( self.config.get_per_directory_schedule() )
@@ -822,7 +844,8 @@ class SettingsDialog(object):
                 return False
 
         #password
-        password = self.txt_password.get_text()
+        password_1 = self.txt_password_1.get_text()
+        password_2 = self.txt_password_2.get_text()
 
         mount_kwargs = {}
         
@@ -841,7 +864,7 @@ class SettingsDialog(object):
                             'path': ssh_path,
                             'cipher': ssh_cipher,
                             'private_key_file': ssh_private_key_file,
-                            'password': password
+                            'password': password_1
                             }
         
         #local_encfs settings
@@ -862,6 +885,7 @@ class SettingsDialog(object):
                             'ssh_password': password_1,
                             'encfs_password': password_2
                             }
+
 ##		#dummy settings
 ##		dummy_host = self.txt_dummy_host.get_text()
 ##		dummy_port = self.txt_dummy_port.get_text()
@@ -873,7 +897,7 @@ class SettingsDialog(object):
 ##			mount_kwargs = {'host': dummy_host,
 ##							'port': int(dummy_port),
 ##							'user': dummy_user,
-##							'password': password
+##							'password': password_1
 ##							}
             
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
@@ -921,23 +945,10 @@ class SettingsDialog(object):
 ##		self.config.set_dummy_user(dummy_user, self.profile_id)
 
         #save password
-        if self.cb_password_save.get_active() and mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
-            if self.config.get_keyring_backend() == '':
-                self.config.set_keyring_backend('gnomekeyring')
-            if self.config.get_keyring_backend() == 'kwallet':
-                if keyring.backend.KDEKWallet().supported() == 1:
-                    keyring.set_keyring(keyring.backend.KDEKWallet())
-                else:
-                    self.config.set_keyring_backend('gnomekeyring')
-            if self.config.get_keyring_backend() == 'gnomekeyring':
-                if keyring.backend.GnomeKeyring().supported() == 1:
-                    keyring.set_keyring(keyring.backend.GnomeKeyring())
-                else:
-                    self.error_handler( _('Can\'t connect to gnomekeyring to save password'))
-                    return False
         self.config.set_password_save(self.cb_password_save.get_active(), self.profile_id, mode)
         self.config.set_password_use_cache(self.cb_password_use_cache.get_active(), self.profile_id, mode)
-        self.config.set_password(password, self.profile_id, mode)
+        self.config.set_password(password_1, self.profile_id, mode)
+        self.config.set_password(password_2, self.profile_id, mode, 2)
 
         #if not msg is None:
         #   messagebox.show_error( self.dialog, self.config, msg )

@@ -99,9 +99,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted')+exp, _('SSH private key'),   _('Encryption') )
                 ##'dummy'       : (dummytools.Dummy,        'Dummy',                'Dummy',                False )
                 }
-    
-    SNAPSHOT_MODES_NEED_PASSWORD = ['ssh', 'dummy']
-        
+
     MOUNT_ROOT = '/tmp/backintime'
     
     SSH_CIPHERS =  {'default':    _('Default'),
@@ -527,19 +525,25 @@ class Config( configfile.ConfigFileWithProfiles ):
             mode = self.get_snapshots_mode(profile_id)
         self.set_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, value, profile_id )
 
-    def get_password( self, parent = None, profile_id = None, mode = None, only_from_keyring = False ):
+    def get_password( self, parent = None, profile_id = None, mode = None, pw_id = 1, only_from_keyring = False ):
         if profile_id is None:
             profile_id = self.get_current_profile()
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)
-        return self.pw.get_password(parent, profile_id, mode, only_from_keyring)
+        return self.pw.get_password(parent, profile_id, mode, pw_id, only_from_keyring)
 
-    def set_password( self, password, profile_id = None, mode = None ):
+    def set_password( self, password, profile_id = None, mode = None, pw_id = 1 ):
         if profile_id is None:
             profile_id = self.get_current_profile()
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)
-        self.pw.set_password(password, profile_id, mode)
+        self.pw.set_password(password, profile_id, mode, pw_id)
+        
+    def mode_need_password(self, mode, pw_id = 1):
+        need_pw = self.SNAPSHOT_MODES[mode][pw_id + 1]
+        if need_pw is False:
+            return False
+        return True
 
     def get_keyring_backend(self):
         return self.get_str_value('keyring.backend', '')
@@ -547,9 +551,11 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_keyring_backend(self, value):
         self.set_str_value('keyring.backend', value)
         
-    def get_keyring_service_name( self, profile_id = None, mode = None ):
+    def get_keyring_service_name( self, profile_id = None, mode = None, pw_id = 1 ):
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)
+        if pw_id > 1:
+            return 'backintime/%s_%s' % (mode, pw_id)
         return 'backintime/%s' % mode
 
     def get_keyring_user_name( self, profile_id = None ):
@@ -1006,6 +1012,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_password_cache_fifo( self ):
         return os.path.join( self.get_password_cache_folder(), "FIFO" )
+
+    def get_password_cache_info( self ):
+        return os.path.join( self.get_password_cache_folder(), "info" )
 
     def get_cron_env_file( self ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "cron_env" )

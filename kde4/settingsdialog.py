@@ -225,22 +225,40 @@ class SettingsDialog( KDialog ):
 
         #password
         group_box = QGroupBox( self )
-        self.frame_password = group_box
+        self.frame_password_1 = group_box
         group_box.setTitle( QString.fromUtf8( _( 'Password' ) ) )
         layout.addWidget( group_box )
 
         vlayout = QVBoxLayout( group_box )
+        hlayout1 = QHBoxLayout()
+        vlayout.addLayout(hlayout1)
+        hlayout2 = QHBoxLayout()
+        vlayout.addLayout(hlayout2)
 
-        self.txt_password = KLineEdit( self )
-        self.txt_password.setPasswordMode(True)
-        vlayout.addWidget( self.txt_password )
+        self.lbl_password_1 = QLabel( QString.fromUtf8( _( 'Password' ) ), self )
+        hlayout1.addWidget( self.lbl_password_1 )
+        self.txt_password_1 = KLineEdit( self )
+        self.txt_password_1.setPasswordMode(True)
+        hlayout1.addWidget( self.txt_password_1 )
+
+        self.lbl_password_2 = QLabel( QString.fromUtf8( _( 'Password' ) ), self )
+        hlayout2.addWidget( self.lbl_password_2 )
+        self.txt_password_2 = KLineEdit( self )
+        self.txt_password_2.setPasswordMode(True)
+        hlayout2.addWidget( self.txt_password_2 )
 
         self.cb_password_save = QCheckBox( QString.fromUtf8( _( 'Save Password to Keyring' ) ), self )
-        QObject.connect( self.cb_password_save, SIGNAL('stateChanged(int)'), self.update_password_save )
         vlayout.addWidget( self.cb_password_save )
 
         self.cb_password_use_cache = QCheckBox( QString.fromUtf8( _( 'Cache Password for Cron (Security issue: root can read password)' ) ), self )
         vlayout.addWidget( self.cb_password_use_cache )
+
+        backend = self.config.get_keyring_backend()
+        if len(backend) <= 0:
+            backend = 'kwallet'
+            self.config.set_keyring_backend(backend)
+        self.keyring_supported = tools.set_keyring(backend)
+        self.cb_password_save.setEnabled(self.keyring_supported)
 
         #mode change
         QObject.connect( self.combo_modes, SIGNAL('currentIndexChanged(int)'), self.on_combo_modes_changed )
@@ -676,12 +694,6 @@ class SettingsDialog( KDialog ):
         self.lbl_profile.setEnabled( enabled )
         self.txt_profile.setEnabled( enabled )
 
-    def update_password_save( self ):
-        enabled = self.cb_password_save.isChecked()
-        if enabled and tools.check_home_encrypt():
-            enabled = False
-        self.cb_password_use_cache.setEnabled( enabled )
-
     def update_check_for_changes(self):
         enabled = not self.cb_full_rsync.isChecked()
         self.cb_check_for_changes.setEnabled( enabled )
@@ -735,13 +747,16 @@ class SettingsDialog( KDialog ):
 ##		self.txt_dummy_user.setText( QString.fromUtf8( self.config.get_dummy_user() ) )
 
         #password
-        password = self.config.get_password( mode = self.mode, only_from_keyring = True )
-        if password is None:
-            password = ''
-        self.txt_password.setText( QString.fromUtf8( password ) )
-        self.cb_password_save.setChecked( self.config.get_password_save( mode = self.mode ) )
+        password_1 = self.config.get_password( mode = self.mode, pw_id = 1, only_from_keyring = True )
+        password_2 = self.config.get_password( mode = self.mode, pw_id = 2, only_from_keyring = True )
+        if password_1 is None:
+            password_1 = ''
+        if password_2 is None:
+            password_2 = ''
+        self.txt_password_1.setText( QString.fromUtf8( password_1 ) )
+        self.txt_password_2.setText( QString.fromUtf8( password_2 ) )
+        self.cb_password_save.setChecked( self.keyring_supported and self.config.get_password_save( mode = self.mode ) )
         self.cb_password_use_cache.setChecked( self.config.get_password_use_cache( mode = self.mode ) )
-        self.update_password_save()
 
         self.cb_auto_host_user_profile.setChecked( self.config.get_auto_host_user_profile() )
         host, user, profile = self.config.get_host_user_profile()
@@ -832,7 +847,8 @@ class SettingsDialog( KDialog ):
         mount_kwargs = {}
         
         #password
-        password = str( self.txt_password.text().toUtf8() )
+        password_1 = str( self.txt_password_1.text().toUtf8() )
+        password_2 = str( self.txt_password_2.text().toUtf8() )
         
         #ssh
         ssh_host = str( self.txt_ssh_host.text().toUtf8() )
@@ -848,7 +864,7 @@ class SettingsDialog( KDialog ):
                             'path': ssh_path,
                             'cipher': ssh_cipher,
                             'private_key_file': ssh_private_key_file,
-                            'password': password
+                            'password': password_1
                             }
         
         #local-encfs settings
@@ -881,7 +897,7 @@ class SettingsDialog( KDialog ):
 ##			mount_kwargs = {'host': dummy_host,
 ##							'port': int(dummy_port),
 ##							'user': dummy_user,
-##							'password': password
+##							'password': password_1
 ##							}
             
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
@@ -931,25 +947,10 @@ class SettingsDialog( KDialog ):
 ##		self.config.set_dummy_user(dummy_user)
 
         #save password
-        if self.cb_password_save.isChecked() and mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
-            if self.config.get_keyring_backend() == '':
-                self.config.set_keyring_backend('kwallet')
-            if self.config.get_keyring_backend() == 'gnomekeyring':
-                if keyring.backend.GnomeKeyring().supported() == 1:
-                    keyring.set_keyring(keyring.backend.GnomeKeyring())
-                else:
-                    self.config.set_keyring_backend('kwallet')
-            if self.config.get_keyring_backend() == 'kwallet':
-                if keyring.backend.KDEKWallet().supported() == 1:
-                    keyring.set_keyring(keyring.backend.KDEKWallet())
-                else:
-                    #in Kubuntu keyring.backend.KDEKWallet is included in python-keyring
-                    #but Debian uses an extra package for this: python-keyring-kwallet
-                    self.error_handler( _('Can\'t connect to KWallet to save password. On Debian you need to install:\n\'apt-get install python-keyring-kwallet\''))
-                    return False
         self.config.set_password_save(self.cb_password_save.isChecked(), mode = mode)
         self.config.set_password_use_cache(self.cb_password_use_cache.isChecked(), mode = mode)
-        self.config.set_password(password, mode = mode)
+        self.config.set_password(password_1, mode = mode)
+        self.config.set_password(password_2, mode = mode, pw_id = 2)
 
         #include list 
         include_list = []
@@ -1132,15 +1133,6 @@ class SettingsDialog( KDialog ):
             return False
 
         self.config.save()
-
-        #start Password_Cache if not running
-        daemon = password.Password_Cache(self.config)
-        if not daemon.status():
-            try:
-                subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))
-            except subprocess.CalledProcessError:
-                self.error_handler( _('start Password Cache failed') )
-
         return True
 
     def on_btn_exclude_remove_clicked ( self ):
@@ -1259,11 +1251,27 @@ class SettingsDialog( KDialog ):
                 if active_mode == mode:
                     getattr(self, 'mode_%s' % mode).show()
             self.mode = active_mode
-        if active_mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
-            self.frame_password.show()
+            
+        if self.config.mode_need_password(active_mode):
+            self.lbl_password_1.setText( QString.fromUtf8( self.config.SNAPSHOT_MODES[active_mode][2] + ':' ) )
+            self.frame_password_1.show()
+            if self.config.mode_need_password(active_mode, 2):
+                self.lbl_password_2.setText( QString.fromUtf8( self.config.SNAPSHOT_MODES[active_mode][3] + ':' ) )
+                self.lbl_password_2.show()
+                self.txt_password_2.show()
+                kde4tools.equal_indent(self.lbl_password_1, self.lbl_password_2)
+            else:
+                self.lbl_password_2.hide()
+                self.txt_password_2.hide()
+                kde4tools.equal_indent(self.lbl_password_1)
         else:
-            self.frame_password.hide()
-        
+            self.frame_password_1.hide()
+            
+        if active_mode == 'ssh_encfs':
+            self.lbl_ssh_encfs_exclude_warning.show()
+        else:
+            self.lbl_ssh_encfs_exclude_warning.hide()
+            
     def accept( self ):
         if self.validate():
             KDialog.accept( self )

@@ -25,6 +25,7 @@ from time import sleep
 import config
 import logger
 import tools
+import password
 
 _=gettext.gettext
 
@@ -46,6 +47,20 @@ class Mount(object):
             
         self.tmp_mount = tmp_mount
         self.parent = parent
+        
+        if self.config.get_password_use_cache(self.profile_id):
+            pw_cache = password.Password_Cache(self.config)
+            action = None
+            running = pw_cache.status()
+            if not running:
+                action = 'start'
+            if running and not pw_cache.check_version():
+                action = 'restart'
+            if not action is None:
+                try:
+                    subprocess.check_call(['backintime', '--pw-cache', action], stdout=open(os.devnull, 'w'))
+                except subprocess.CalledProcessError:
+                    pass
             
     def mount(self, mode = None, check = True, **kwargs):
         if mode is None:

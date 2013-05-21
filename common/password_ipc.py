@@ -59,7 +59,6 @@ class FIFO(object):
         """
         #sys.stdout.write('read fifo\n')
         if not self.is_fifo():
-            sys.stderr.write('%s is not a FIFO\n' % self.fifo)
             sys.exit(1)
         self.alarm.start(timeout)
         with open(self.fifo, 'r') as fifo:
@@ -74,7 +73,6 @@ class FIFO(object):
         """
         #sys.stdout.write('write fifo\n')
         if not self.is_fifo():
-            sys.stderr.write('%s is not a FIFO\n' % self.fifo)
             sys.exit(1)
         self.alarm.start(timeout)
         with open(self.fifo, 'a') as fifo:
@@ -83,12 +81,24 @@ class FIFO(object):
         
     def is_fifo(self):
         """
-        make sure file is still a FIFO
+        make sure file is still a FIFO and has correct permissions
         """
         try:
-            return stat.S_ISFIFO(os.stat(self.fifo).st_mode)
+            s = os.stat(self.fifo)
         except OSError:
             return False
+        if not s.st_uid == os.getuid():
+            sys.stderr.write('%s is not owned by user\n' % self.fifo)
+            return False
+        mode = s.st_mode
+        if not stat.S_ISFIFO(mode):
+            sys.stderr.write('%s is not a FIFO\n' % self.fifo)
+            return False
+        forbidden_perm = stat.S_IXUSR + stat.S_IRWXG + stat.S_IRWXO
+        if mode & forbidden_perm > 0:
+            sys.stderr.write('%s has wrong permissions\n' % self.fifo)
+            return False
+        return True
 
 class TempPasswordThread(threading.Thread):
     """

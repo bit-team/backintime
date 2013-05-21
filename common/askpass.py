@@ -34,16 +34,17 @@ if __name__ == '__main__':
         profile_id = os.environ['ASKPASS_PROFILE_ID']
         mode = os.environ['ASKPASS_MODE']
     except KeyError:
-        sys.exit(1)
+        pass
     try:
         temp_file = os.environ['ASKPASS_TEMP']
     except KeyError:
         #normal mode, get password from module password
         pw = password.Password(cfg)
         print(pw.get_password(None, profile_id, mode))
-    else:
-        #temp mode
-        fifo = password_ipc.FIFO(temp_file)
-        pw_base64 = fifo.read(5)
-        if pw_base64:
-            print(base64.decodestring(pw_base64))
+        sys.exit(0)
+    
+    #temp mode
+    fifo = password_ipc.FIFO(temp_file)
+    pw_base64 = fifo.read(5)
+    if pw_base64:
+        print(base64.decodestring(pw_base64))
