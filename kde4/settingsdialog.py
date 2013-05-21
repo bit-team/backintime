@@ -586,6 +586,17 @@ class SettingsDialog( KDialog ):
         self.cb_run_ionice_from_user = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' when taking a manual snapshot (default: disabled)' ) ), self )
         layout.addWidget( self.cb_run_ionice_from_user )
 
+        #bwlimit
+        hlayout = QHBoxLayout()
+        layout.addLayout(hlayout)
+        self.cb_bwlimit = QCheckBox( QString.fromUtf8( _( 'Limit rsync bandwidth usage: ' ) ), self )
+        hlayout.addWidget( self.cb_bwlimit )
+        self.sb_bwlimit = QSpinBox(self)
+        self.sb_bwlimit.setSuffix( QString.fromUtf8( _(' KB/sec') ) )
+        self.sb_bwlimit.setSingleStep( 100 )
+        self.sb_bwlimit.setRange( 0, 1000000 )
+        hlayout.addWidget(self.sb_bwlimit)
+
         self.cb_preserve_acl = QCheckBox( QString.fromUtf8( _( 'Preserve ACL' ) ), self )
         layout.addWidget( self.cb_preserve_acl )
 
@@ -824,6 +835,8 @@ class SettingsDialog( KDialog ):
         self.cb_run_nice_from_cron.setChecked( self.config.is_run_nice_from_cron_enabled() )
         self.cb_run_ionice_from_cron.setChecked( self.config.is_run_ionice_from_cron_enabled() )
         self.cb_run_ionice_from_user.setChecked( self.config.is_run_ionice_from_user_enabled() )
+        self.cb_bwlimit.setChecked( self.config.bwlimit_enabled() )
+        self.sb_bwlimit.setValue( self.config.bwlimit() )
         self.cb_no_on_battery.setChecked( self.config.is_no_on_battery_enabled() )
         self.cb_preserve_acl.setChecked( self.config.preserve_acl() )
         self.cb_preserve_xattr.setChecked( self.config.preserve_xattr() )
@@ -1006,6 +1019,8 @@ class SettingsDialog( KDialog ):
         self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.isChecked() )
         self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.isChecked() )
         self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.isChecked() )
+        self.config.set_bwlimit_enabled( self.cb_bwlimit.isChecked() )
+        self.config.set_bwlimit( self.sb_bwlimit.value() )
         self.config.set_no_on_battery_enabled( self.cb_no_on_battery.isChecked() )
         self.config.set_preserve_acl( self.cb_preserve_acl.isChecked() )
         self.config.set_preserve_xattr( self.cb_preserve_xattr.isChecked() )

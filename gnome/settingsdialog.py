@@ -407,6 +407,10 @@ class SettingsDialog(object):
         self.cb_run_ionice_from_cron = get('cb_run_ionice_from_cron')
         self.cb_run_ionice_from_user = get('cb_run_ionice_from_user')
         
+        #bwlimit
+        self.cb_bwlimit = get('cb_bwlimit')
+        self.sb_bwlimit = get('sb_bwlimit')
+        
         self.cb_preserve_acl = get('cb_preserve_acl')
         self.cb_preserve_xattr = get('cb_preserve_xattr')
         self.cb_copy_unsafe_links = get('cb_copy_unsafe_links')
@@ -795,6 +799,10 @@ class SettingsDialog(object):
         #run 'ionice' from user
         self.cb_run_ionice_from_user.set_active(self.config.is_run_ionice_from_user_enabled( self.profile_id ))
         
+        #bwlimit
+        self.cb_bwlimit.set_active(self.config.bwlimit_enabled(self.profile_id) )
+        self.sb_bwlimit.set_value(self.config.bwlimit(self.profile_id) )
+        
         #don't run when on battery
         self.cb_no_on_battery.set_active( self.config.is_no_on_battery_enabled( self.profile_id ) )
     
@@ -1000,6 +1008,10 @@ class SettingsDialog(object):
         self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.get_active(), self.profile_id )
         self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active(), self.profile_id )
 
+        #bwlimit
+        self.config.set_bwlimit_enabled(self.cb_bwlimit.get_active(), self.profile_id)
+        self.config.set_bwlimit(self.sb_bwlimit.get_value_as_int(), self.profile_id)
+        
         self.config.set_preserve_acl( self.cb_preserve_acl.get_active(), self.profile_id )
         self.config.set_preserve_xattr( self.cb_preserve_xattr.get_active(), self.profile_id )
         self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.get_active(), self.profile_id )

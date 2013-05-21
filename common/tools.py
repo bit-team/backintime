@@ -384,7 +384,10 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
         else:
             ssh_cipher_suffix = '-c %s' % ssh_cipher
         cmd = cmd + ' --rsh="ssh -p %s %s"' % ( str(ssh_port), ssh_cipher_suffix)
-            
+    
+    if config.bwlimit_enabled():
+        cmd = cmd + ' --bwlimit=%d' % config.bwlimit()
+
     return cmd + ' '
 
 

@@ -871,6 +871,18 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_run_ionice_from_user_enabled( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.user_backup.ionice', value, profile_id )
 
+    def bwlimit_enabled( self, profile_id = None ):
+        return self.get_profile_bool_value( 'snapshots.bwlimit.enabled', False, profile_id )
+
+    def set_bwlimit_enabled( self, value, profile_id = None ):
+        self.set_profile_bool_value( 'snapshots.bwlimit.enabled', value, profile_id )
+
+    def bwlimit( self, profile_id = None ):
+        return self.get_profile_int_value( 'snapshots.bwlimit.value', 3000, profile_id )
+
+    def set_bwlimit( self, value, profile_id = None ):
+        self.set_profile_int_value( 'snapshots.bwlimit.value', value, profile_id )
+
     def is_no_on_battery_enabled( self, profile_id = None ):
         return self.get_profile_bool_value( 'snapshots.no_on_battery', False, profile_id )
 
