@@ -32,6 +32,7 @@ from PyKDE4.kio import *
 import config
 import tools
 import kde4tools
+import encfstools
 
 
 _=gettext.gettext
@@ -48,6 +49,7 @@ class LogViewDialog( KDialog ):
         self.current_profile = self.config.get_current_profile()
         self.snapshot_id = snapshot_id
         self.enable_update = False
+        self.decode = None
 
         self.setWindowIcon( KIcon( 'text-plain' ) )
         self.setCaption( QString.fromUtf8( _( 'Error Log View' ) ) )
@@ -97,7 +99,25 @@ class LogViewDialog( KDialog ):
         #
         self.main_layout.addWidget( QLabel( QString.fromUtf8( _('[E] Error, [I] Information, [C] Change') ), self ) )
 
+        #decode path
+        self.cb_decode = QCheckBox( QString.fromUtf8( _('decode paths') ), self )
+        QObject.connect( self.cb_decode, SIGNAL('stateChanged(int)'), self.on_cb_decode )
+        self.main_layout.addWidget(self.cb_decode)
+        if self.config.get_snapshots_mode() == 'ssh_encfs':
+            self.cb_decode.show()
+        else:
+            self.cb_decode.hide()
+
         self.update_profiles()
+
+    def on_cb_decode(self):
+        if self.cb_decode.isChecked():
+            self.decode = encfstools.Decode(self.config)
+        else:
+            if not self.decode is None:
+                self.decode.close()
+            self.decode = None
+        self.update_log()
 
     def current_profile_changed( self, index ):
         self.update_log()
@@ -131,8 +151,6 @@ class LogViewDialog( KDialog ):
 
         if self.snapshot_id is None:
             profile_id = str( self.combo_profiles.itemData( self.combo_profiles.currentIndex() ).toString().toUtf8() )
-            self.txt_log_view.setPlainText( self.snapshots.get_take_snapshot_log( mode, profile_id ) )
+            self.txt_log_view.setPlainText( self.snapshots.get_take_snapshot_log( mode, profile_id, decode = self.decode ) )
         else:
-            self.txt_log_view.setPlainText( self.snapshots.get_snapshot_log( self.snapshot_id, mode ) )
-
-
+            self.txt_log_view.setPlainText( self.snapshots.get_snapshot_log( self.snapshot_id, mode, decode = self.decode ) )

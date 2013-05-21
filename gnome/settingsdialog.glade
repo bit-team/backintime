@@ -1074,7 +1074,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="yalign">0.49000000953674316</property>
+                        <property name="yalign">0.5</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1215,6 +1215,21 @@
                 <property name="border_width">5</property>
                 <property name="spacing">5</property>
                 <child>
+                  <object class="GtkLabel" id="label_ssh_encfs_exclude_warning">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Warning:&lt;/b&gt; Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with mode 'SSH encrypted'. 
+Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkScrolledWindow" id="scrolledwindow5">
                     <property name="width_request">180</property>
                     <property name="height_request">120</property>
@@ -1231,7 +1246,7 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">0</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -1245,7 +1260,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -1259,7 +1274,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -1338,7 +1353,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>

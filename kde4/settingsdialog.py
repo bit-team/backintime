@@ -191,6 +191,11 @@ class SettingsDialog( KDialog ):
         self.btn_ssh_private_key_file = KPushButton( KIcon( 'folder' ), '', self )
         hlayout3.addWidget( self.btn_ssh_private_key_file )
         QObject.connect( self.btn_ssh_private_key_file, SIGNAL('clicked()'), self.on_btn_ssh_private_key_file_clicked )
+        kde4tools.equal_indent(self.lbl_ssh_host, self.lbl_ssh_path, self.lbl_ssh_cipher)
+        
+        #encfs
+        self.mode_local_encfs = self.mode_local
+        self.mode_ssh_encfs = self.mode_ssh
         
 ##		#Dummy
 ##		group_box = QGroupBox( self )
@@ -239,7 +244,6 @@ class SettingsDialog( KDialog ):
 
         #mode change
         QObject.connect( self.combo_modes, SIGNAL('currentIndexChanged(int)'), self.on_combo_modes_changed )
-        self.on_combo_modes_changed()
         
         #host, user, profile id
         group_box = QGroupBox( self )
@@ -380,13 +384,20 @@ class SettingsDialog( KDialog ):
         self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Exclude' ) ) )
         layout = QVBoxLayout( tab_widget )
 
+        label = QLabel( QString.fromUtf8( _('<b>Warning:</b> Wildcards (\'foo*\', \'[fF]oo\', \'fo?\') will be ignored with mode \'SSH encrypted\'.\nOnly separate asterisk are allowed (\'foo/*\', \'foo/**/bar\')') ), self )
+        label.setWordWrap(True)
+        self.lbl_ssh_encfs_exclude_warning = label
+        layout.addWidget( label )
+
         self.list_exclude = KListWidget( self )
         layout.addWidget( self.list_exclude )
 
         label = QLabel( QString.fromUtf8( _('Highly recommended:') ), self )
         kde4tools.set_font_bold( label )
         layout.addWidget( label )
-        layout.addWidget( QLabel( QString.fromUtf8( ', '.join(self.config.DEFAULT_EXCLUDE) ), self ) )
+        label = QLabel( QString.fromUtf8( ', '.join(self.config.DEFAULT_EXCLUDE) ), self )
+        label.setWordWrap(True)
+        layout.addWidget( label )
         
         buttons_layout = QHBoxLayout()
         layout.addLayout( buttons_layout )
@@ -507,9 +518,13 @@ class SettingsDialog( KDialog ):
         self.cb_use_checksum = QCheckBox( QString.fromUtf8( _( 'Use checksum to detect changes' ) ), self )
         layout.addWidget( self.cb_use_checksum )
 
-        self.cb_full_rsync = QCheckBox( QString.fromUtf8( _( 'Full rsync mode. May be faster but snapshots are not read-only and destination filesystem must support hard-links, sym-links and all linux attributes.' ) ), self )
+        self.cb_full_rsync = QCheckBox( QString.fromUtf8( _( 'Full rsync mode. May be faster but:' ) ), self )
+        label = QLabel( QString.fromUtf8( _('- snapshots are no read-only\n- destination file-system must support all linux attributes (dates, rights, user, group ...)') ), self)
+        label.setIndent(36)
+        label.setWordWrap(True)
         QObject.connect( self.cb_full_rsync, SIGNAL('stateChanged(int)'), self.update_check_for_changes )
-        layout.addWidget( self.cb_full_rsync)
+        layout.addWidget( self.cb_full_rsync )
+        layout.addWidget( label )
 
         self.cb_check_for_changes = QCheckBox( QString.fromUtf8( _( 'Check for changes (don\'t take a new snapshot if nothing changed)' ) ), self )
         layout.addWidget( self.cb_check_for_changes )
@@ -569,6 +584,7 @@ class SettingsDialog( KDialog ):
         layout.addStretch()
 
         self.update_profiles()
+        self.on_combo_modes_changed()
 
     def add_profile( self ):
         ret_val = KInputDialog.getText( QString.fromUtf8( _( 'New profile' ) ), '', '', self )
@@ -709,6 +725,10 @@ class SettingsDialog( KDialog ):
         self.set_combo_value( self.combo_ssh_cipher, self.config.get_ssh_cipher(), type = 'str' )
         self.txt_ssh_private_key_file.setText( QString.fromUtf8( self.config.get_ssh_private_key_file() ) )
         
+        #local_encfs
+        if self.mode == 'local_encfs':
+            self.edit_snapshots_path.setText( QString.fromUtf8( self.config.get_local_encfs_path() ) )
+        
 ##		#dummy
 ##		self.txt_dummy_host.setText( QString.fromUtf8( self.config.get_dummy_host() ) )
 ##		self.txt_dummy_port.setText( QString.fromUtf8( self.config.get_dummy_port() ) )
@@ -830,7 +850,26 @@ class SettingsDialog( KDialog ):
                             'private_key_file': ssh_private_key_file,
                             'password': password
                             }
-            
+        
+        #local-encfs settings
+        local_encfs_path = str( self.edit_snapshots_path.text().toUtf8() )
+        if mode == 'local_encfs':
+            mount_kwargs = {'path': local_encfs_path,
+                            'password': password_1
+                            }
+        
+        #ssh_encfs settings
+        if mode == 'ssh_encfs':
+            mount_kwargs = {'host': ssh_host,
+                            'port': int(ssh_port),
+                            'user': ssh_user,
+                            'ssh_path': ssh_path,
+                            'cipher': ssh_cipher,
+                            'private_key_file': ssh_private_key_file,
+                            'ssh_password': password_1,
+                            'encfs_password': password_2
+                            }
+
 ##		#dummy
 ##		dummy_host = str( self.txt_dummy_host.text().toUtf8() )
 ##		dummy_port = str( self.txt_dummy_port.text().toUtf8() )
@@ -847,7 +886,7 @@ class SettingsDialog( KDialog ):
             
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
             #pre_mount_check
-            mnt = mount.Mount(cfg = self.config, tmp_mount = True)
+            mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self)
             try:
                 mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
             except mount.MountException as ex:
@@ -882,6 +921,9 @@ class SettingsDialog( KDialog ):
         self.config.set_snapshots_path_ssh(ssh_path)
         self.config.set_ssh_cipher(ssh_cipher)
         self.config.set_ssh_private_key_file(ssh_private_key_file)
+        
+        #save local_encfs
+        self.config.set_local_encfs_path(local_encfs_path)
         
 ##		#save dummy
 ##		self.config.set_dummy_host(dummy_host)
@@ -1212,10 +1254,10 @@ class SettingsDialog( KDialog ):
         active_mode = str( self.combo_modes.itemData( index ).toString().toUtf8() )
         if active_mode != self.mode:
             for mode in self.config.SNAPSHOT_MODES.keys():
+                getattr(self, 'mode_%s' % mode).hide()
+            for mode in self.config.SNAPSHOT_MODES.keys():
                 if active_mode == mode:
                     getattr(self, 'mode_%s' % mode).show()
-                else:
-                    getattr(self, 'mode_%s' % mode).hide()
             self.mode = active_mode
         if active_mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
             self.frame_password.show()

@@ -35,7 +35,7 @@ class Dummy(mount.MountControl):
     be used exactly like they were in this class.
     Methodes from MountControl also can be overriden in here if you need
     something different."""
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None **kwargs):
+    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -47,6 +47,7 @@ class Dummy(mount.MountControl):
         self.tmp_mount = tmp_mount
         self.hash_id = hash_id
         self.parent = parent
+        self.symlink = symlink
             
         #init MountControl
         mount.MountControl.__init__(self)

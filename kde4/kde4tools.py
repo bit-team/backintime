@@ -31,4 +31,11 @@ def get_font_bold( font ):
 def set_font_bold( widget ):
     widget.setFont( get_font_bold( widget.font() ) )
 
-
+def equal_indent(*args):
+    width = 0
+    for widget in args:
+        widget.setMinimumWidth(0)
+        width = max(width, widget.sizeHint().width())
+    if len(args) > 1:
+        for widget in args:
+            widget.setMinimumWidth(width)

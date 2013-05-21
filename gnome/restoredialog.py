@@ -74,6 +74,7 @@ class RestoreDialog(object):
         get('combo_filter').hide()
         get('hbox1').hide()
         get('label1').hide()
+        get('cb_decode').hide()
     
         #update title
         self.dialog.set_title( _('Restore') )
@@ -90,9 +91,16 @@ class RestoreDialog(object):
         self.cb_auto_scroll.show()
         self.cb_auto_scroll.set_active(True)
 
-        signals = {'on_cb_auto_scroll_toggled': self.scroll}
+        signals = { 'on_cb_auto_scroll_toggled': self.scroll,
+                    'on_combo_profiles_changed': self.dummy_handler,
+                    'on_combo_filter_changed': self.dummy_handler,
+                    'on_cb_decode_toggled': self.dummy_handler
+                    }
         builder.connect_signals(signals)
-    
+
+    def dummy_handler(self, *args):
+        pass
+
     def scroll(self, *args):
         if self.cb_auto_scroll.get_active():
             self.txt_log_view.scroll_to_iter(self.buffer.get_end_iter(), 0)

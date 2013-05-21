@@ -22,7 +22,6 @@ import string
 import random
 import tempfile
 from time import sleep
-import threading
 
 import config
 import mount
@@ -37,7 +36,7 @@ class SSH(mount.MountControl):
     Mount remote path with sshfs. The real take_snapshot process will use
     rsync over ssh. Other commands run remote over ssh.
     """
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, **kwargs):
+    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -49,6 +48,7 @@ class SSH(mount.MountControl):
         self.tmp_mount = tmp_mount
         self.hash_id = hash_id
         self.parent = parent
+        self.symlink = symlink
             
         #init MountControl
         mount.MountControl.__init__(self)

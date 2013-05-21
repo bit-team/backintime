@@ -29,6 +29,7 @@ import tools
 import sshtools
 import mount
 import password
+import encfstools
 
 _=gettext.gettext
 
@@ -109,6 +110,9 @@ def print_help( cfg ):
     print '\tShow a benchmark of all ciphers for ssh transfer (and exit)'
     print '--pw-cache [start|stop|restart|reload|status]'
     print '\tControl Password Cache for non-interactive cronjobs'
+    print '--decode [encoded_PATH]'
+    print '\tDecode PATH. If no PATH is specified on command line,'
+    print '\tthan a list of filenames will be read from stdin.'
     print '-v | --version'
     print '\tShow version (and exit)'
     print '--license'
@@ -248,7 +252,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                     size = sys.argv[index + 1]
                 except IndexError:
                     size = '40'
-                if cfg.get_snapshots_mode() == 'ssh':
+                if cfg.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
                     ssh = sshtools.SSH(cfg=cfg)
                     ssh.benchmark_cipher(size)
                 else:
@@ -286,6 +290,41 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                     daemon.run()
                 sys.exit(0)
 
+        if arg == '--decode':
+            if not cfg.is_configured():
+                print "The application is not configured !"
+                sys.exit(0)
+            else:
+                mode = cfg.get_snapshots_mode()
+                if not mode in ['local_encfs', 'ssh_encfs']:
+                    print 'Profile \'%s\' is not encrypted.' % cfg.get_profile_name()
+                path = ''
+                list = []
+                try:
+                    path = sys.argv[index + 1]
+                except IndexError:
+                    pass
+                if len(path) > 0:
+                    list.append(path)
+                else:
+                    while True:
+                        try:
+                            path = raw_input()
+                        except EOFError:
+                            break
+                        if len(path) <= 0:
+                            break
+                        list.append(path)
+                
+                _mount(cfg)
+                decode = encfstools.Decode(cfg)
+                ret = decode.list(list)
+                decode.close()
+                _umount(cfg)
+                
+                print '\n'.join(ret)
+                sys.exit(0)
+                
         if arg == '--snapshots' or arg == '-s':
             continue
 

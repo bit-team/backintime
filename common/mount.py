@@ -390,6 +390,8 @@ class MountControl(object):
         return False
         
     def set_symlink(self, profile_id = None, hash_id = None, tmp_mount = None):
+        if not self.symlink:
+            return
         if profile_id is None:
             profile_id = self.profile_id
         if hash_id is None:
@@ -407,6 +409,8 @@ class MountControl(object):
         os.symlink(src, dst)
         
     def remove_symlink(self, profile_id = None, tmp_mount = None):
+        if not self.symlink:
+            return
         if profile_id is None:
             profile_id = self.profile_id
         if tmp_mount is None:

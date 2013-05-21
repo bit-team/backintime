@@ -74,3 +74,11 @@ def restore(parent, snapshot_id, path, ask_where = False):
     print "Where: %s" % where
     restoredialog.restore(parent, snapshot_id, path, where )
 
+def equal_indent(*args):
+    width = 0
+    for widget in args:
+        widget.set_size_request(-1, -1)
+        width = max(width, widget.size_request()[0] )
+    if len(args) > 1:
+        for widget in args:
+            widget.set_size_request(width, -1)

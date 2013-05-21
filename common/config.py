@@ -28,6 +28,7 @@ import tools
 import logger
 import mount
 import sshtools
+import encfstools
 ##import dummytools
 import password
 
@@ -89,11 +90,14 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ), '.dropbox*', '/proc/*', '/sys/*', '/dev/*', '/run/*' ]
     
+    exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
-                #mode : (<mounttools>, _('ComboBox Text') ),
-                'local' : (None, _('Local') ),
-                'ssh' : (sshtools.SSH, _('SSH') )
-##				'dummy' : (dummytools.Dummy, _('Dummy') )
+                #mode           : (<mounttools>,            'ComboBox Text',        need_pw|lbl_pw_1,       need_2_pw|lbl_pw_2 ),
+                'local'         : (None,                    _('Local'),             False,                  False ),
+                'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False ),
+                'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False ),
+                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted')+exp, _('SSH private key'),   _('Encryption') )
+                ##'dummy'       : (dummytools.Dummy,        'Dummy',                'Dummy',                False )
                 }
     
     SNAPSHOT_MODES_NEED_PASSWORD = ['ssh', 'dummy']
@@ -113,6 +117,8 @@ class Config( configfile.ConfigFileWithProfiles ):
                     'aes192-cbc': _('AES192-CBC'), 
                     'aes256-cbc': _('AES256-CBC'), 
                     'arcfour':    _('ARCFOUR') }
+    
+    ENCODE = encfstools.Bounce()
 
     def __init__( self ):
         configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
@@ -474,6 +480,13 @@ class Config( configfile.ConfigFileWithProfiles ):
     
     def set_ssh_private_key_file( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.ssh.private_key_file', value, profile_id )
+        
+    #ENCFS
+    def get_local_encfs_path( self, profile_id = None ):
+        return self.get_profile_str_value( 'snapshots.local_encfs.path', '', profile_id )
+    
+    def set_local_encfs_path( self, value, profile_id = None ):
+        self.set_profile_str_value( 'snapshots.local_encfs.path', value, profile_id )
 
 ##	def get_dummy_host( self, profile_id = None ):
 ##		return self.get_profile_str_value( 'snapshots.dummy.host', '', profile_id )

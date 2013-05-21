@@ -30,6 +30,7 @@ import gettext
 import config
 import snapshots
 import tools
+import encfstools
 
 
 _=gettext.gettext
@@ -43,6 +44,7 @@ class LogViewDialog(object):
         self.snapshots = parent.snapshots
         self.profile_id = self.config.get_current_profile()
         self.snapshot_id = snapshot_id
+        self.decode = None
         
         builder = gtk.Builder()
         self.builder = builder
@@ -60,13 +62,21 @@ class LogViewDialog(object):
         signals = { 
                 'on_combo_profiles_changed': self.on_combo_profiles_changed,
                 'on_combo_filter_changed': self.on_combo_filter_changed,
-                'on_cb_auto_scroll_toggled': self.scroll
+                'on_cb_auto_scroll_toggled': self.dummy_handler,
+                'on_cb_decode_toggled': self.on_cb_decode
             }
         
         builder.connect_signals(signals)
 
-        self.cb_auto_scroll = get('cb_auto_scroll')
-        self.cb_auto_scroll.hide()
+        #hide unused
+        get('cb_auto_scroll').hide()
+
+        #decode paths
+        self.cb_decode = get('cb_decode')
+        if self.config.get_snapshots_mode() == 'ssh_encfs':
+            self.cb_decode.show()
+        else:
+            self.cb_decode.hide()
 
         #log view
         self.txt_log_view = get( 'txt_log_view' )
@@ -110,8 +120,17 @@ class LogViewDialog(object):
             self.dialog.set_title( "%s (%s)" % ( self.dialog.get_title(), self.snapshots.get_snapshot_display_name( self.snapshot_id ) ) )
         
         self.update_profiles()
+
+    def on_cb_decode(self, *args):
+        if self.cb_decode.get_active():
+            self.decode = encfstools.Decode(self.config)
+        else:
+            if not self.decode is None:
+                self.decode.close()
+            self.decode = None
+        self.update_log_view()
     
-    def scroll(self, *args):
+    def dummy_handler(self, *args):
         pass
         
     def on_combo_profiles_changed( self, *params ):
@@ -156,12 +175,14 @@ class LogViewDialog(object):
             mode = self.store_filter.get_value( iter, 1 )
 
         if self.snapshot_id is None:
-            self.txt_log_view.get_buffer().set_text( self.snapshots.get_take_snapshot_log( mode, self.profile_id ) )
+            self.txt_log_view.get_buffer().set_text( self.snapshots.get_take_snapshot_log( mode, self.profile_id, decode = self.decode ) )
         else:
-            self.txt_log_view.get_buffer().set_text( self.snapshots.get_snapshot_log( self.snapshot_id, mode ) )
+            self.txt_log_view.get_buffer().set_text( self.snapshots.get_snapshot_log( self.snapshot_id, mode, decode = self.decode ) )
         
     def run( self ):
         self.dialog.run()
+        if not self.decode is None:
+            self.decode.close()
         self.dialog.destroy()
 
 

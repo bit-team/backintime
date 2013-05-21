@@ -35,6 +35,7 @@ import logger
 import applicationinstance
 import tools
 import pluginmanager
+import encfstools
 
 
 _=gettext.gettext
@@ -94,6 +95,9 @@ class Snapshots:
         if 'ssh' in use_mode and current_mode == 'ssh':
             path = os.path.join( self.config.get_snapshots_full_path_ssh( profile_id ), self.get_snapshot_id( date ) )
             return path
+        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
+            path = os.path.join( self.config.get_snapshots_full_path_ssh( profile_id ), self.get_snapshot_id( date ) )
+            return self.config.ENCODE.remote(path)
         path = os.path.join( self.config.get_snapshots_full_path( profile_id ), self.get_snapshot_id( date ) )
         if os.path.exists( path ):
             #print path
@@ -129,14 +133,23 @@ class Snapshots:
     def get_snapshot_failed_path( self, snapshot_id ):
         return os.path.join( self.get_snapshot_path( snapshot_id ), 'failed' )
 
-    def _get_snapshot_data_path( self, snapshot_id, **kwargs ):
+    def _get_snapshot_data_path( self, snapshot_id, use_mode = [] ):
         current_mode = self.config.get_snapshots_mode()
         if len( snapshot_id ) <= 1:
             return '/';
-        return os.path.join( self.get_snapshot_path( snapshot_id, **kwargs ), 'backup' )
+        path = 'backup'
+        snapshot_path = self.get_snapshot_path( snapshot_id, use_mode )
+        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
+            return os.path.join( snapshot_path, self.config.ENCODE.path(path) )
+        return os.path.join( snapshot_path, path )
     
-    def get_snapshot_path_to( self, snapshot_id, toPath = '/', **kwargs ):
-        return os.path.join( self._get_snapshot_data_path( snapshot_id, **kwargs ), toPath[ 1 : ] )
+    def get_snapshot_path_to( self, snapshot_id, toPath = '/', use_mode = [] ):
+        current_mode = self.config.get_snapshots_mode()
+        snapshot_data_path = os.path.join( self._get_snapshot_data_path( snapshot_id, use_mode ) )
+        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
+            enc_path = self.config.ENCODE.path( toPath[ 1 : ] )
+            return os.path.join( snapshot_data_path, enc_path )
+        return os.path.join( snapshot_data_path, toPath[ 1 : ] )
 
     def can_open_path( self, snapshot_id, full_path ):
         #full_path = self.get_snapshot_path_to( snapshot_id, path )
@@ -263,12 +276,27 @@ class Snapshots:
         except:
             pass
 
-    def _filter_take_snapshot_log( self, log, mode ):
+    def _filter_take_snapshot_log( self, log, mode , decode = None):
+        decode_msg = _( '''### This log has been decoded with automatic search pattern
+### If some paths are not decoded you can manually decode them with:\n''')
+        decode_msg += '### \'backintime --quiet'
+        profile_id = self.config.get_current_profile()
+        if profile_id > 1:
+            decode_msg += ' --profile %s' % self.config.get_profile_name(profile_id)
+        decode_msg += ' --decode <path>\'\n\n'
         if 0 == mode:
+            if not decode is None:
+                ret = decode_msg
+                for line in log.split('\n'):
+                    line = decode.log(line)
+                    ret += line + '\n'
+                return ret
             return log
 
         lines = log.split( '\n' )
         log = ''
+        if not decode is None:
+            log = decode_msg
 
         for line in lines:
             if line.startswith( '[' ):
@@ -279,25 +307,27 @@ class Snapshots:
                 elif mode == 3 and line[1] != 'I':
                     continue
 
+            if not decode is None:
+                line = decode.log(line)
             log = log + line + '\n'
 
         return log
 
-    def get_snapshot_log( self, snapshot_id, mode = 0, profile_id = None ):
+    def get_snapshot_log( self, snapshot_id, mode = 0, profile_id = None , **kwargs ):
         try:
             file = bz2.BZ2File( self.get_snapshot_log_path( snapshot_id ), 'r' )
             data = file.read()
             file.close()
-            return self._filter_take_snapshot_log( data, mode )
+            return self._filter_take_snapshot_log( data, mode, **kwargs )
         except:
             return ''
 
-    def get_take_snapshot_log( self, mode = 0, profile_id = None ):
+    def get_take_snapshot_log( self, mode = 0, profile_id = None, **kwargs ):
         try:
             file = open( self.config.get_take_snapshot_log_file( profile_id ), 'rt' )
             data = file.read()
             file.close()
-            return self._filter_take_snapshot_log( data, mode )
+            return self._filter_take_snapshot_log( data, mode, **kwargs )
         except:
             return ''
 
@@ -485,7 +515,7 @@ class Snapshots:
 
         backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
         #cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
-        cmd = tools.get_rsync_prefix( self.config, not full_rsync )
+        cmd = tools.get_rsync_prefix( self.config, not full_rsync, use_modes = ['ssh'] )
         cmd = cmd + '-R -v '
         if not full_rsync:
             cmd = cmd + '--chmod=ugo=rwX '
@@ -517,12 +547,12 @@ class Snapshots:
         #print "src_delta: %s" % src_delta
         #print "snapshot_id: %s" % snapshot_id 
     
-        cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path))
+        cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_modes = ['ssh'])
         cmd += ' "%s/"' % restore_to
         self.restore_callback( callback, True, cmd )
         self._execute( cmd, callback )
 
-        if full_rsync and not self.config.get_snapshots_mode() == 'ssh':
+        if full_rsync and not self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
             return
 
         #restore permissions
@@ -636,7 +666,7 @@ class Snapshots:
     def remove_snapshot( self, snapshot_id ):
         if len( snapshot_id ) <= 1:
             return
-        path = self.get_snapshot_path( snapshot_id, use_mode = ['ssh'] )
+        path = self.get_snapshot_path( snapshot_id, use_mode = ['ssh', 'ssh_encfs'] )
         #cmd = "chmod -R u+rwx \"%s\"" %  path
         cmd = self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (path, self.config.find_suffix()), quote = True ) #Debian patch
         self._execute( cmd )
@@ -1086,7 +1116,11 @@ class Snapshots:
         
         #create exclude patterns string
         items = []
+        encode = self.config.ENCODE
         for exclude in self.config.get_exclude():
+            exclude = encode.exclude(exclude)
+            if exclude is None:
+                continue
             self._append_item_to_list( "--exclude=\"%s\"" % exclude, items )
         #for folder in ignore_folders:
         #	self._append_item_to_list( "--exclude=\"%s\"" % folder, items )
@@ -1104,6 +1138,7 @@ class Snapshots:
                 self._append_item_to_list( "--include=\"/**\"" , items2 )
                 continue
 
+            folder = encode.include(folder)
             if include_folder[1] == 0:
                 self._append_item_to_list( "--include=\"%s/**\"" % folder, items2 )
             else:
@@ -1129,10 +1164,13 @@ class Snapshots:
         #rsync prefix & suffix
         rsync_prefix = tools.get_rsync_prefix( self.config, not full_rsync ) # 'rsync -aEAXH '
         rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" --exclude=\"%s\" " % \
-                ( self.config.get_snapshots_path(), self.config._LOCAL_DATA_FOLDER,  \
-                  self.config.MOUNT_ROOT )
+                ( encode.exclude( self.config.get_snapshots_path() ), \
+                  encode.exclude( self.config._LOCAL_DATA_FOLDER ) ,  \
+                  encode.exclude( self.config.MOUNT_ROOT ) )
         #rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
-        rsync_suffix = ' --chmod=Du+wx ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
+        rsync_suffix = ' --chmod=Du+wx ' + rsync_exclude_backup_directory
+        rsync_suffix += rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2
+        rsync_suffix += ' --exclude=\"*\" ' + encode.chroot + ' '
 
         #update dict
         #if not force:
@@ -1161,7 +1199,7 @@ class Snapshots:
                     logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
                     
                     cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix 
-                    cmd += self.rsync_remote_path( prev_snapshot_path_to(use_mode = ['ssh']) )
+                    cmd += self.rsync_remote_path( prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
                     params = [ prev_snapshot_path_to(), False ]
                     #try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
                     self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
@@ -1196,19 +1234,19 @@ class Snapshots:
                 #if force or len( ignore_folders ) == 0:
 
                 #make source snapshot folders rw to allow cp -al
-                self._execute( self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh']), find_suffix), quote = True) ) #Debian patch
+                self._execute( self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
 
                 #clone snapshot
-                cmd = self.cmd_ssh( "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path_to(use_mode = ['ssh']), new_snapshot_path_to(use_mode = ['ssh']) ) )
+                cmd = self.cmd_ssh( "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']), new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) ) )
                 self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
                 cmd_ret_val = self._execute( cmd )
                 self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val, 3 )
 
                 #make source snapshot folders read-only
-                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod a-w \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh']), find_suffix), quote = True) ) #Debian patch
+                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod a-w \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
 
                 #make snapshot items rw to allow xopy xattr
-                self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot_path(use_mode = ['ssh']) ) )
+                self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
                 #else:
                 #	for folder in include_folders:
@@ -1224,7 +1262,7 @@ class Snapshots:
         #sync changed folders
         logger.info( "Call rsync to take the snapshot" )
         cmd = rsync_prefix + ' -v ' + rsync_suffix 
-        cmd += self.rsync_remote_path( new_snapshot_path_to(use_mode = ['ssh']) )
+        cmd += self.rsync_remote_path( new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
 
         self.set_take_snapshot_message( 0, _('Take snapshot') )
 
@@ -1236,10 +1274,11 @@ class Snapshots:
                 #	cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder_ssh
                 #else:
                 #	cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder
-                cmd = cmd + " --link-dest=\"../../%s/backup\"" % prev_snapshot_id
+                link_dest = encode.path( os.path.join(prev_snapshot_id, 'backup') )
+                link_dest = os.path.join('..', '..', link_dest)
+                cmd = cmd + " --link-dest=\"%s\"" % link_dest
 
             cmd = cmd + ' -i --out-format="BACKINTIME: %i %n%L"'
-            print "A: %s" % cmd
 
         params = [False, False]
         self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
@@ -1248,13 +1287,13 @@ class Snapshots:
         has_errors = False
         if params[0]:
             if not self.config.continue_on_errors():
-                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh']), find_suffix), quote = True) ) #Debian patch
-                self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh']) ) )
+                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
+                self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
                 if not full_rsync:
                     #fix previous snapshot: make read-only again
                     if len( prev_snapshot_id ) > 0:
-                        self._execute( self.cmd_ssh("chmod -R a-w \"%s\"" % prev_snapshot_path_to(use_mode = ['ssh']) ) )
+                        self._execute( self.cmd_ssh("chmod -R a-w \"%s\"" % prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) ) )
 
                 return [ False, True ]
 
@@ -1263,8 +1302,8 @@ class Snapshots:
 
         if full_rsync:
             if not params[1]:
-                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh']), find_suffix), quote = True) ) #Debian patch
-                self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh']) ) )
+                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
+                self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
                 logger.info( "Nothing changed, no back needed" )
                 return [ False, False ]
@@ -1275,7 +1314,7 @@ class Snapshots:
         self.set_take_snapshot_message( 0, _('Save config file ...') )
         self._execute( 'cp %s %s' % (self.config._LOCAL_CONFIG_PATH, new_snapshot_path_to() + '..') )
         
-        if not full_rsync or self.config.get_snapshots_mode() == 'ssh':
+        if not full_rsync or self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
             #save permissions for sync folders
             logger.info( 'Save permissions' )
             self.set_take_snapshot_message( 0, _('Save permission ...') )
@@ -1285,8 +1324,8 @@ class Snapshots:
             fileinfo_dict = {}
 
             permission_done = False
-            if self.config.get_snapshots_mode() == 'ssh':
-                path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh']).rstrip( '/' )
+            if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
+                path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
                 cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'], module = 'subprocess')
                 
                 find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
@@ -1294,8 +1333,14 @@ class Snapshots:
                 if find.returncode:
                     logger.warning('Save permission over ssh failed. Retry normal methode')
                 else:
+                    if self.config.get_snapshots_mode() == 'ssh_encfs':
+                        decode = encfstools.Decode(self.config)
+                        path_to_explore_ssh = decode.remote(path_to_explore_ssh)
+                    else:
+                        decode = encfstools.Bounce()
                     for line in output.split('\n'):
                         if not len(line) == 0:
+                            line = decode.remote(line)
                             item_path = line[ len( path_to_explore_ssh ) : ]
                             fileinfo_dict[item_path] = 1
                             self._save_path_info( fileinfo, item_path )
@@ -1369,7 +1414,7 @@ class Snapshots:
             pass
 
         #rename snapshot
-        os.system( self.cmd_ssh( "mv \"%s\" \"%s\"" % ( new_snapshot_path(use_mode = ['ssh']), snapshot_path(use_mode = ['ssh']) ) ) )
+        os.system( self.cmd_ssh( "mv \"%s\" \"%s\"" % ( new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) ) )
 
         if not os.path.exists( snapshot_path() ):
             logger.error( "Can't rename %s to %s" % ( new_snapshot_path(), snapshot_path() ) )
@@ -1379,7 +1424,7 @@ class Snapshots:
 
         if not full_rsync:
             #make new snapshot read-only
-            self._execute( self.cmd_ssh( "chmod -R a-w \"%s\"" % snapshot_path(use_mode = ['ssh']) ) )
+            self._execute( self.cmd_ssh( "chmod -R a-w \"%s\"" % snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
         return [ True, has_errors ]
 
@@ -1531,7 +1576,7 @@ class Snapshots:
                 if len( snapshots ) <= 1:
                     break
 
-                if self.config.get_snapshots_mode() == 'ssh':
+                if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
                     snapshots_path_ssh = self.config.get_snapshots_path_ssh()
                     if len(snapshots_path_ssh) == 0:
                         snapshots_path_ssh = './'
@@ -1669,8 +1714,9 @@ class Snapshots:
 
         return snapshots_filtered
 
-    def cmd_ssh(self, cmd, quote = False, module = 'os.system'):
-        if self.config.get_snapshots_mode() == 'ssh':
+    def cmd_ssh(self, cmd, quote = False, module = 'os.system', use_modes = ['ssh', 'ssh_encfs'] ):
+        mode = self.config.get_snapshots_mode()
+        if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
             (ssh_host, ssh_port, ssh_user, ssh_path, ssh_cipher) = self.config.get_ssh_host_port_user_path_cipher()
             if module == 'os.system':
                 if ssh_cipher == 'default':
@@ -1696,8 +1742,9 @@ class Snapshots:
         else:
             return cmd
 
-    def rsync_remote_path(self, path):
-        if self.config.get_snapshots_mode() == 'ssh':
+    def rsync_remote_path(self, path, use_modes = ['ssh', 'ssh_encfs'] ):
+        mode = self.config.get_snapshots_mode()
+        if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
             user = self.config.get_ssh_user()
             host = self.config.get_ssh_host()
             return '\'%s@%s:"%s"\'' % (user, host, path)

@@ -330,7 +330,7 @@ class MainWindow(object):
         
         #mount
         try:
-            mnt = mount.Mount(cfg = self.config, profile_id = profile_id)
+            mnt = mount.Mount(cfg = self.config, profile_id = profile_id, parent = self.window)
             hash_id = mnt.mount()
         except mount.MountException as ex:
             messagebox.show_error( self.window, self.config, str(ex) )
@@ -495,7 +495,7 @@ class MainWindow(object):
         
     def remount( self, new_profile_id, old_profile_id):
         try:
-            mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id)
+            mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id, parent = self.window)
             hash_id = mnt.remount(new_profile_id)
         except mount.MountException as ex:
             messagebox.show_error( self.window, self.config, str(ex) )
@@ -1018,7 +1018,7 @@ class MainWindow(object):
         
         #mount
         try:
-            mnt = mount.Mount(cfg = self.config)
+            mnt = mount.Mount(cfg = self.config, parent = self.window)
             new_hash_id = mnt.remount(self.config.get_current_profile())
         except mount.MountException as ex:
             messagebox.show_error( self.window, self.config, str(ex) )

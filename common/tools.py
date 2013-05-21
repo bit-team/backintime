@@ -344,7 +344,7 @@ def use_rsync_fast( config ):
     return not (config.preserve_acl() or config.preserve_xattr())
 
 
-def get_rsync_prefix( config, no_perms = True ):
+def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] ):
     caps = get_rsync_caps()
     #cmd = 'rsync -aEH'
     cmd = 'rsync'
@@ -374,7 +374,8 @@ def get_rsync_prefix( config, no_perms = True ):
     else:
         cmd = cmd + ' -pEgo'
 
-    if config.get_snapshots_mode() == 'ssh':
+    mode = config.get_snapshots_mode()
+    if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
         ssh_port = config.get_ssh_port()
         ssh_cipher = config.get_ssh_cipher()
         if ssh_cipher == 'default':

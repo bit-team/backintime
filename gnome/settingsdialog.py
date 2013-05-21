@@ -34,6 +34,7 @@ import messagebox
 import tools
 import mount
 import password
+import gnometools
 
 _=gettext.gettext
 
@@ -124,6 +125,8 @@ class SettingsDialog(object):
         self.mode = None
         self.mode_local = get('mode_local')
         self.mode_ssh = get('mode_ssh')
+        self.mode_local_encfs = get('mode_local')
+        self.mode_ssh_encfs = get('mode_ssh')
 ##		self.mode_dummy = get('mode_dummy')
         
         #set current folder
@@ -140,11 +143,17 @@ class SettingsDialog(object):
         self.txt_profile = get('txt_profile')
         
         #ssh
+        self.lbl_ssh_host = get('lbl_ssh_host')
         self.txt_ssh_host = get('txt_ssh_host')
+        self.lbl_ssh_port = get('lbl_ssh_port')
         self.txt_ssh_port = get('txt_ssh_port')
+        self.lbl_ssh_user = get('lbl_ssh_user')
         self.txt_ssh_user = get('txt_ssh_user')
+        self.lbl_ssh_path = get('lbl_ssh_path')
         self.txt_ssh_path = get('txt_ssh_path')
+        self.lbl_private_key_file = get('lbl_ssh_private_key_file')
         self.txt_private_key_file = get('txt_ssh_private_key_file')
+        self.lbl_ssh_cipher = get('lbl_ssh_cipher')
         
         self.store_ssh_cipher = gtk.ListStore(str, str)
         keys = self.config.SSH_CIPHERS.keys()
@@ -159,7 +168,11 @@ class SettingsDialog(object):
         text_renderer = gtk.CellRendererText()
         self.combo_ssh_cipher.pack_start( text_renderer, True )
         self.combo_ssh_cipher.add_attribute( text_renderer, 'text', 0 )
+        gnometools.equal_indent(self.lbl_ssh_host, self.lbl_ssh_path, self.lbl_ssh_cipher)
         
+        #ssh_encfs
+        self.lbl_ssh_encfs_exclude_warning = get('label_ssh_encfs_exclude_warning')
+
 ##		#dummy
 ##		self.txt_dummy_host = get('txt_dummy_host')
 ##		self.txt_dummy_port = get('txt_dummy_port')
@@ -256,6 +269,7 @@ class SettingsDialog(object):
             exclude += ex
             if i < len(self.config.DEFAULT_EXCLUDE):
                 exclude += ', '
+            i += 1
             if len(exclude)-prev_lines > 80:
                 exclude += '\n'
                 prev_lines += len(exclude)
@@ -506,10 +520,10 @@ class SettingsDialog(object):
         active_mode = self.store_modes.get_value( iter, 1 )
         if active_mode != self.mode:
             for mode in self.config.SNAPSHOT_MODES.keys():
+                getattr(self, 'mode_%s' % mode).hide()
+            for mode in self.config.SNAPSHOT_MODES.keys():
                 if active_mode == mode:
                     getattr(self, 'mode_%s' % mode).show()
-                else:
-                    getattr(self, 'mode_%s' % mode).hide()
             self.mode = active_mode
         if active_mode in self.config.SNAPSHOT_MODES_NEED_PASSWORD:
             self.frame_password.show()
@@ -595,6 +609,10 @@ class SettingsDialog(object):
                 break
             iter = self.store_ssh_cipher.iter_next( iter )
             i = i + 1
+            
+        #local_encfs
+        if self.mode == 'local_encfs':
+            self.edit_where.set_text( self.config.get_local_encfs_path( self.profile_id ) )
         
 ##		#dummy
 ##		self.txt_dummy_host.set_text( self.config.get_dummy_host( self.profile_id ) )
@@ -826,6 +844,24 @@ class SettingsDialog(object):
                             'password': password
                             }
         
+        #local_encfs settings
+        local_encfs_path = self.edit_where.get_text()
+        if mode == 'local_encfs':
+            mount_kwargs = {'path': local_encfs_path,
+                            'password': password_1
+                            }
+        
+        #ssh_encfs settings
+        if mode == 'ssh_encfs':
+            mount_kwargs = {'host': ssh_host,
+                            'port': int(ssh_port),
+                            'user': ssh_user,
+                            'ssh_path': ssh_path,
+                            'cipher': ssh_cipher,
+                            'private_key_file': ssh_private_key_file,
+                            'ssh_password': password_1,
+                            'encfs_password': password_2
+                            }
 ##		#dummy settings
 ##		dummy_host = self.txt_dummy_host.get_text()
 ##		dummy_port = self.txt_dummy_port.get_text()
@@ -842,7 +878,7 @@ class SettingsDialog(object):
             
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
             #pre_mount_check
-            mnt = mount.Mount(cfg = self.config, profile_id = self.profile_id, tmp_mount = True)
+            mnt = mount.Mount(cfg = self.config, profile_id = self.profile_id, tmp_mount = True, parent = self.dialog)
             try:
                 mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
             except mount.MountException as ex:
@@ -875,6 +911,9 @@ class SettingsDialog(object):
         self.config.set_snapshots_path_ssh(ssh_path, self.profile_id)
         self.config.set_ssh_cipher(ssh_cipher, self.profile_id)
         self.config.set_ssh_private_key_file(ssh_private_key_file, self.profile_id)
+        
+        #save local_encfs
+        self.config.set_local_encfs_path(local_encfs_path, self.profile_id)
 
 ##		#save dummy
 ##		self.config.set_dummy_host(dummy_host, self.profile_id)
@@ -1151,13 +1190,5 @@ class SettingsDialog(object):
             return False
         
         self.config.save()
-
-        #start Password_Cache if not running
-        daemon = password.Password_Cache(self.config)
-        if not daemon.status():
-            try:
-                subprocess.check_call(['backintime', '--pw-cache', 'start'], stdout=open(os.devnull, 'w'))
-            except subprocess.CalledProcessError:
-                messagebox.show_error(self.dialog, self.config, _('start Password Cache failed') )
         return True
     
