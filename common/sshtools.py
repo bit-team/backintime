@@ -88,6 +88,7 @@ class SSH(mount.MountControl):
         sshfs = ['sshfs'] + self.ssh_options
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
+        sshfs.extend(['-o', 'idmap=user'])
         sshfs.extend([self.user_host_path, self.mountpoint])
         #bugfix: sshfs doesn't mount if locale in LC_ALL is not available on remote host
         #LANG or other envirnoment variable are no problem.
