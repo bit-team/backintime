@@ -413,21 +413,42 @@ class Decode(object):
             self.password = cfg.get_password(pw_id = 2)
         self.encfs = cfg.SNAPSHOT_MODES[self.mode][0](cfg)
         self.remote_path = cfg.get_snapshots_path_ssh()
+        if len(self.remote_path) <= 0:
+            self.remote_path = './'
         if not self.remote_path[-1] == os.sep:
             self.remote_path += os.sep
         
         #precompile some regular expressions
         host, port, user, path, cipher = cfg.get_ssh_host_port_user_path_cipher()
-        self.re_include_exclude = re.compile(r'(--(?:ex|in)clude=")(.*?)(")')                 #replace: --exclude"<crypted_path>" or --include"<crypted_path>"
-        self.re_remote_path =     re.compile(r'(\'%s@%s:"%s)(.*?)("\')' %(user, host, path) ) #replace: 'USER@HOST:"PATH<crypted_path>"'
-        self.re_link_dest =       re.compile(r'(--link-dest="\.\./\.\./)(.*?)(")')            #replace: --link-dest="../../<crypted_path>"
-        self.re_change = re.compile(r'(^\[C\] .{11} )(.*)')                                   #search for: [C] <f+++++++++ <crypted_path>
-        self.re_info =   re.compile(r'(^\[I\] %s \(rsync:(?: BACKINTIME: .{11})?(?: deleting)? )(.*?)(\))' % _('Take snapshot') ) 
-                                                                                              #search for: [I] Take snapshot (rsync: BACKINTIME: <f+++++++++ <crypted_path>)
-                                                                                              #            [I] Take snapshot (rsync: deleting <crypted_path>)
-                                                                                              #            [I] Take snapshot (rsync: <crypted_path>)
-        self.re_info_cp= re.compile(r'(^\[I\] .*? cp -aRl "%s/)(.*?)("\* "%s/)(.*?)(")' % (path, path) ) #search for: [I] ssh USER@HOST cp -aRl "PATH<crypted_path>"* "PATH<crypted_path>"
+        #replace: --exclude"<crypted_path>" or --include"<crypted_path>"
+        self.re_include_exclude = re.compile(r'(--(?:ex|in)clude=")(.*?)(")')
+        
+        #replace: 'USER@HOST:"PATH<crypted_path>"'
+        self.re_remote_path =     re.compile(r'(\'%s@%s:"%s)(.*?)("\')' %(user, host, path) )
+        
+        #replace: --link-dest="../../<crypted_path>"
+        self.re_link_dest =       re.compile(r'(--link-dest="\.\./\.\./)(.*?)(")')
+        
+        #search for: [C] <f+++++++++ <crypted_path>
+        self.re_change = re.compile(r'(^\[C\] .{11} )(.*)')
+        
+        #search for: [I] Take snapshot (rsync: BACKINTIME: <f+++++++++ <crypted_path>)
+        #            [I] Take snapshot (rsync: deleting <crypted_path>)
+        #            [I] Take snapshot (rsync: rsync: readlink_stat("/tmp...mountpoint/<crypted_path>")
+        #            [I] Take snapshot (rsync: <crypted_path>)
+        self.re_info = re.compile(r'(^\[I\] %s \(rsync:(?: BACKINTIME: .{11})?(?: deleting)?(?: rsync: readlink_stat\("/tmp.*?mountpoint/)? ?)(.*?)("?\))' % _('Take snapshot') )
+        
+        #search for: [E] Error: rsync readlink_stat("/tmp...mountpoint/<crypted_path>")
+        self.re_error = re.compile(r'(^\[E\] Error:(?: rsync: readlink_stat\("/tmp.*?mountpoint/)? ?)(.*?)("?\).*)')
+        
+        #search for: [I] ssh USER@HOST cp -aRl "PATH<crypted_path>"* "PATH<crypted_path>"
+        self.re_info_cp= re.compile(r'(^\[I\] .*? cp -aRl "%s/)(.*?)("\* "%s/)(.*?)(")' % (path, path) )
+        
+        #search for all chars except *
         self.re_all_except_asterisk = re.compile(r'[^\*]+')
+        
+        #search for: <crypted_path> -> <crypted_path>
+        self.re_all_except_arrow = re.compile(r'(.*?)((?: [-=]> )+)(.*)')
 
     def __del__(self):
         self.close()
@@ -481,9 +502,13 @@ class Decode(object):
         #[C] Change lines
         m = self.re_change.match(line)
         if not m is None:
-            return m.group(1) + self.path(m.group(2))
+            return m.group(1) + self.path_with_arrow(m.group(2))
         #[I] Information lines
         m = self.re_info.match(line)
+        if not m is None:
+            return m.group(1) + self.path_with_arrow(m.group(2)) + m.group(3)
+        #[E] Error lines
+        m = self.re_error.match(line)
         if not m is None:
             return m.group(1) + self.path(m.group(2)) + m.group(3)
         #cp cmd
@@ -502,6 +527,14 @@ class Decode(object):
     def path_m(self, m):
         """return decoded path of a match object"""
         return self.path(m.group(0))
+
+    def path_with_arrow(self, path):
+        """rsync print symlinks like 'dest -> src'. This will decode both and also normal paths"""
+        m = self.re_all_except_arrow.match(path)
+        if not m is None:
+            return self.path(m.group(1)) + m.group(2) + self.path(m.group(3))
+        else:
+            return self.path(path)
 
     def remote(self, path):
         """decode the path on remote host starting from backintime/host/user/..."""
