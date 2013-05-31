@@ -148,7 +148,11 @@ class SSH(mount.MountControl):
         
         output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
         if not output.find(self.private_key_file) >= 0:
-            if not self.config.get_password_save(self.profile_id) and not tools.check_x_server():
+            password_available = any([self.config.get_password_save(self.profile_id),
+                                      self.config.get_password_use_cache(self.profile_id),
+                                      not self.password is None
+                                      ])
+            if not password_available and not tools.check_x_server():
                 #we need to unlink stdin from ssh-add in order to make it
                 #use our own backintime-askpass.
                 #But because of this we can NOT use getpass inside backintime-askpass
