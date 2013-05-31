@@ -31,6 +31,13 @@ def get_font_bold( font ):
 def set_font_bold( widget ):
     widget.setFont( get_font_bold( widget.font() ) )
 
+def get_font_normal( font ):
+    font.setWeight( QFont.Normal )
+    return font
+
+def set_font_normal( widget ):
+    widget.setFont( get_font_normal( widget.font() ) )
+
 def equal_indent(*args):
     width = 0
     for widget in args:
