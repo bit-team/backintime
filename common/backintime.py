@@ -49,9 +49,7 @@ def take_snapshot_now_async( cfg ):
 def take_snapshot( cfg, force = True ):
     logger.openlog()
     tools.load_env(cfg)
-    _mount(cfg)
     snapshots.Snapshots( cfg ).take_snapshot( force )
-    _umount(cfg)
     logger.closelog()
 
 def _mount(cfg):

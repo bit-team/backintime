@@ -36,6 +36,7 @@ import applicationinstance
 import tools
 import pluginmanager
 import encfstools
+import mount
 
 
 _=gettext.gettext
@@ -879,6 +880,18 @@ class Snapshots:
                 #if not force:
                 #	now = now.replace( second = 0 )
 
+                #mount
+                try:
+                    hash_id = mount.Mount(cfg = self.config).mount()
+                except mount.MountException as ex:
+                    logger.error(str(ex))
+                    instance.exit_application()
+                    logger.info( 'Unlock' )
+                    os.system( 'sleep 2' )
+                    return False
+                else:
+                    self.config.set_current_hash_id(hash_id)
+
                 #include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
                 include_folders = self.config.get_include()
 
@@ -948,6 +961,12 @@ class Snapshots:
 
                 if not ret_error:
                     self.clear_take_snapshot_message()
+
+                #unmount
+                try:
+                    mount.Mount(cfg = self.config).umount(self.config.current_hash_id)
+                except mount.MountException as ex:
+                    logger.error(str(ex))
 
                 instance.exit_application()
                 logger.info( 'Unlock' )
