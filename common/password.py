@@ -23,6 +23,7 @@ import base64
 import subprocess
 import gettext
 import keyring
+import re
 
 import config
 import configfile
@@ -211,18 +212,22 @@ class Daemon:
         if not pid:
             return False
         
-        # Try killing the daemon process       
-        try:
-            os.kill(pid, 0)
-        except OSError, err:
-            if err.errno == 3:
-                if os.path.exists(self.pidfile):
-                    os.remove(self.pidfile)
-                    return False
-            else:
-                sys.stderr.write(err.strerror)
-                return False
-        return True
+        #kill -0 can false report process alive because of still active threads
+        cmd = ['ps', 'ax', '-o', 'pid=', '-o', 'args=']
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+        output = p.communicate()[0]
+
+        c = re.compile(r'(\d+) (.*)')
+        for line in output.split('\n'):
+            res = c.findall(line)
+            if res:
+                _pid = int(res[0][0])
+                _name = res[0][1]
+                if _pid == pid and _name.find('backintime.py --pw-cache'):
+                    return True
+        if os.path.exists(self.pidfile):
+            os.remove(self.pidfile)
+        return False
 
     def run(self):
         """
