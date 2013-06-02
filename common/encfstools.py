@@ -449,6 +449,11 @@ class Decode(object):
         
         #search for: <crypted_path> -> <crypted_path>
         self.re_all_except_arrow = re.compile(r'(.*?)((?: [-=]> )+)(.*)')
+        
+        #skip: [I] Take snapshot (rsync: sending incremental file list)
+        #      [I] Take snapshot (rsync: sent 26569703 bytes  received 239616 bytes  85244.26 bytes/sec)
+        #      [I] Take snapshot (rsync: total size is 9130263449  speedup is 340.56)
+        self.re_skip = re.compile(r'^\[I\] %s \(rsync: (sending incremental file list|sent .*? received|total size is .*? speedup is)' % _('Take snapshot') )
 
     def __del__(self):
         self.close()
@@ -504,6 +509,9 @@ class Decode(object):
         if not m is None:
             return m.group(1) + self.path_with_arrow(m.group(2))
         #[I] Information lines
+        m = self.re_skip.match(line)
+        if not m is None:
+            return line
         m = self.re_info.match(line)
         if not m is None:
             return m.group(1) + self.path_with_arrow(m.group(2)) + m.group(3)
