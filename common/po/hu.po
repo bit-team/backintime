@@ -1,151 +1,363 @@
 # Hungarian translation for backintime
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the backintime package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# Kósa Lajos <lajos@kosa.co.hu>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-03-06 12:15+0100\n"
-"PO-Revision-Date: 2011-07-20 08:04+0000\n"
-"Last-Translator: Gergely Nehéz <Unknown>\n"
-"Language-Team: Hungarian <hu@li.org>\n"
+"POT-Creation-Date: 2013-05-23 06:30+0200\n"
+"PO-Revision-Date: 2013-05-27 11:51+0000\n"
+"Last-Translator: Kósa Lajos <lajos@kosa.co.hu>\n"
+"Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-03-26 21:16+0000\n"
-"X-Generator: Launchpad (build 16540)\n"
+"X-Launchpad-Export-Date: 2013-06-02 21:12+0000\n"
+"X-Generator: Launchpad (build 16660)\n"
+"Language: hu\n"
 
-#: ../../common/configfile.py:251 ../../common/configfile.py:313
-#, python-format
-msgid "Profile \"%s\" already exists !"
-msgstr "A \"%s\" már létezik!"
-
-#: ../../common/configfile.py:282
-msgid "You can't remove the last profile !"
-msgstr "Nem távolíthatod el az utolsó profilt!"
-
-#: ../../common/config.py:56
+#: ../../common/config.py:67
 msgid "Disabled"
 msgstr "Kikapcsolva"
 
-#: ../../common/config.py:57
+#: ../../common/config.py:68
 msgid "At every boot/reboot"
-msgstr ""
+msgstr "Minden (újra)indításkor"
 
-#: ../../common/config.py:58
+#: ../../common/config.py:69
 msgid "Every 5 minutes"
-msgstr "Öt percenként"
+msgstr "Ötpercenként"
 
-#: ../../common/config.py:59
+#: ../../common/config.py:70
 msgid "Every 10 minutes"
-msgstr "Tíz percenként"
+msgstr "Tízpercenként"
 
-#: ../../common/config.py:60
-msgid "Every Hour"
+#: ../../common/config.py:71
+msgid "Every 30 minutes"
+msgstr "30 percenként"
+
+#: ../../common/config.py:72
+msgid "Every hour"
 msgstr "Óránként"
 
-#: ../../common/config.py:61
+#: ../../common/config.py:73
+msgid "Every 2 hours"
+msgstr "Kétóránként"
+
+#: ../../common/config.py:74
+msgid "Every 4 hours"
+msgstr "Négyóránként"
+
+#: ../../common/config.py:75
+msgid "Every 6 hours"
+msgstr "Hatóránként"
+
+#: ../../common/config.py:76
+msgid "Every 12 hours"
+msgstr "Tizenkétóránként"
+
+#: ../../common/config.py:77
+msgid "Custom Hours"
+msgstr "Egyedi beállítás (óra)"
+
+#: ../../common/config.py:78
 msgid "Every Day"
 msgstr "Naponta"
 
-#: ../../common/config.py:62
+#: ../../common/config.py:79
 msgid "Every Week"
 msgstr "Hetente"
 
-#: ../../common/config.py:63
+#: ../../common/config.py:80
 msgid "Every Month"
 msgstr "Havonta"
 
-#: ../../common/config.py:67
+#: ../../common/config.py:84
 msgid "Day(s)"
 msgstr "Nap"
 
-#: ../../common/config.py:68
+#: ../../common/config.py:85
 msgid "Week(s)"
 msgstr "Hét"
 
-#: ../../common/config.py:69
+#: ../../common/config.py:86
 msgid "Year(s)"
 msgstr "Év"
 
-#: ../../common/config.py:77
+#: ../../common/config.py:93
+msgid " EXPERIMENTAL!"
+msgstr " KÍSÉRLETI!"
+
+#: ../../common/config.py:96
+msgid "Local"
+msgstr "Helyi"
+
+#: ../../common/config.py:97
+msgid "SSH"
+msgstr "SSH"
+
+#: ../../common/config.py:97 ../../common/config.py:99
+#: ../../gnome/settingsdialog.py:461 ../../kde4/settingsdialog.py:1252
+msgid "SSH private key"
+msgstr "SSH privát kulcs"
+
+#: ../../common/config.py:98
+msgid "Local encrypted"
+msgstr "Helyi titkosított"
+
+#: ../../common/config.py:98 ../../common/config.py:99
+msgid "Encryption"
+msgstr "Titkosítás"
+
+#: ../../common/config.py:99
+msgid "SSH encrypted"
+msgstr "SSH-val titkosított"
+
+#: ../../common/config.py:105
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: ../../common/config.py:106
+msgid "AES128-CTR"
+msgstr "AES128-CTR"
+
+#: ../../common/config.py:107
+msgid "AES192-CTR"
+msgstr "AES192-CTR"
+
+#: ../../common/config.py:108
+msgid "AES256-CTR"
+msgstr "AES256-CTR"
+
+#: ../../common/config.py:109
+msgid "ARCFOUR256"
+msgstr "ARCFOUR256"
+
+#: ../../common/config.py:110
+msgid "ARCFOUR128"
+msgstr "ARCFOUR128"
+
+#: ../../common/config.py:111
+msgid "AES128-CBC"
+msgstr "AES128-CBC"
+
+#: ../../common/config.py:112
+msgid "3DES-CBC"
+msgstr "3DES-CBC"
+
+#: ../../common/config.py:113
+msgid "Blowfish-CBC"
+msgstr "Blowfish-CBC"
+
+#: ../../common/config.py:114
+msgid "Cast128-CBC"
+msgstr "Cast128-CBC"
+
+#: ../../common/config.py:115
+msgid "AES192-CBC"
+msgstr "AES192-CBC"
+
+#: ../../common/config.py:116
+msgid "AES256-CBC"
+msgstr "AES256-CBC"
+
+#: ../../common/config.py:117
+msgid "ARCFOUR"
+msgstr "ARCFOUR"
+
+#: ../../common/config.py:122
 msgid "Main profile"
 msgstr "Fő profil"
 
-#: ../../common/config.py:197 ../../common/config.py:216
-#: ../../common/config.py:227 ../../common/config.py:232
+#: ../../common/config.py:245 ../../common/config.py:264
+#: ../../common/config.py:275 ../../common/config.py:280
 #, python-format
 msgid "Profile: \"%s\""
 msgstr "Profil: \"%s\""
 
-#: ../../common/config.py:197
+#: ../../common/config.py:245
 msgid "Snapshots folder is not valid !"
-msgstr "A Pillanatkép könyvtára nem érvényes"
+msgstr "A pillanatkép-könyvtár nem érvényes"
 
-#: ../../common/config.py:216
+#: ../../common/config.py:264
 msgid "You must select at least one folder to backup !"
-msgstr "Legalább egy könyvtárat ki kell jelölnie mentésre"
+msgstr "Legalább egy könyvtárat ki kell jelölnie a mentéshez"
 
-#: ../../common/config.py:227
+#: ../../common/config.py:275
 msgid "You can't include backup folder !"
-msgstr "Nem adhat hozzá biztonsági mentés mappát"
+msgstr "Nem adható hozzá a biztonsági mentés mappája"
 
-#: ../../common/config.py:232
+#: ../../common/config.py:280
 msgid "You can't include a backup sub-folder !"
-msgstr "Nem adhat hozzá biztonsági mentés almappáját"
+msgstr "Nem adható hozzá a biztonsági mentés almappája"
 
-#: ../../common/config.py:283
+#: ../../common/config.py:348
 #, python-format
 msgid "%s is not a folder !"
 msgstr "A(z) %s nem könyvtár"
 
-#: ../../common/config.py:298 ../../common/config.py:311
+#: ../../common/config.py:363 ../../common/config.py:376
 #, python-format
 msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
+"Nem tudok ide írni: %s\n"
+"Biztos, hogy van írási jogod?"
 
-#: ../../common/config.py:801
+#: ../../common/config.py:1100
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
-"A Crontab nem található.\n"
+"A crontab nem található.\n"
 "Biztos, hogy telepítve van a cron?\n"
-"Ha nem akkor ki kell kapcsolnia az automatikus biztonsági mentést."
+"Ha nem, akkor ki kell kapcsolni az automatikus biztonsági mentést."
 
-#: ../../common/snapshots.py:150 ../../gnome/app.py:1054 ../../kde4/app.py:933
+#: ../../common/configfile.py:253 ../../common/configfile.py:315
+#, python-format
+msgid "Profile \"%s\" already exists !"
+msgstr "A \"%s\" már létezik!"
+
+#: ../../common/configfile.py:284
+msgid "You can't remove the last profile !"
+msgstr "Nem távolíthatod el az utolsó profilt!"
+
+#: ../../common/encfstools.py:92
+#, python-format
+msgid ""
+"Can't mount '%(command)s':\n"
+"\n"
+"%(error)s"
+msgstr ""
+"Nem tudtam felcsatolni a következőt: '%(command)s':\n"
+"\n"
+"%(error)s"
+
+#: ../../common/encfstools.py:102
+#, python-format
+msgid "Can't unmount encfs %s"
+msgstr "Nem tudom lecsatolni a(z) %s encfs-t"
+
+#: ../../common/encfstools.py:146
+msgid "Config for encrypted folder not found."
+msgstr "A titkosított mappa konfigurációja nem található"
+
+#: ../../common/encfstools.py:150
+msgid ""
+"\n"
+"Create a new encrypted folder?"
+msgstr ""
+"\n"
+"Létrehozzak egy új titkosított mappát?"
+
+#: ../../common/encfstools.py:151
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: ../../common/encfstools.py:154
+msgid "Please confirm password"
+msgstr "Erősítsd meg a jelszót"
+
+#: ../../common/encfstools.py:158
+msgid "Password doesn't match"
+msgstr "A jelszavakat nem egyeznek"
+
+#: ../../common/encfstools.py:163
+msgid "encfs not found. Please install e.g. 'apt-get install encfs'"
+msgstr "Nem találom az encfs-t. Telepítsd pl. így: 'apt-get install encfs'"
+
+#: ../../common/encfstools.py:167 ../../common/sshtools.py:193
+#, python-format
+msgid ""
+"%(user)s is not member of group 'fuse'.\n"
+" Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
+"Look at 'man backintime' for further instructions."
+msgstr ""
+"A(z) %(user)s nem tagja a 'fuse' csoportnak.\n"
+" Futtasd le a 'sudo adduser %(user)s fuse' parancsot, majd jelentkezz ki és "
+"vissza.\n"
+"Nézd meg a 'man backintime'-ot további részletekért."
+
+#: ../../common/encfstools.py:182
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+"Az encfs az 1.7.2-es és korábbi verzióknál hibás, ha a --reverse opciót "
+"használod. Frissítsd az encfs-t"
+
+#: ../../common/encfstools.py:439 ../../common/snapshots.py:961
+#: ../../common/snapshots.py:1267 ../../kde4/app.py:82
+#: ../../gnome/mainwindow.glade:43
+msgid "Take snapshot"
+msgstr "Pillanatkép készítése"
+
+#: ../../common/mount.py:195
+#, python-format
+msgid ""
+"Hash collision occurred in hash_id %s. Incrementing global value "
+"hash_collision and try again."
+msgstr ""
+"Hash-ütközés történt: hash_id %s. Megnövelem a hash_collision értékét, és "
+"újra próbálom."
+
+#: ../../common/mount.py:246
+#, python-format
+msgid "mountpoint %s not empty."
+msgstr "A %s csatolási pont foglalt"
+
+#: ../../common/mount.py:286
+msgid "Mountprocess lock timeout"
+msgstr "A csatolási folyamat túl sok időt vett igénybe"
+
+#: ../../common/password.py:431
+#, python-format
+msgid "Profile '%(profile)s': Enter password for %(mode)s: "
+msgstr ""
+"A(z) '%(profile)s' profil: add meg a jelszót a következőhöz: %(mode)s "
+
+#: ../../common/snapshots.py:169 ../../gnome/app.py:1112 ../../kde4/app.py:996
 msgid "Now"
 msgstr "Most"
 
-#: ../../common/snapshots.py:161 ../../gnome/gnometools.py:37
+#: ../../common/snapshots.py:180 ../../gnome/gnometools.py:37
 msgid "WITH ERRORS !"
-msgstr ""
+msgstr "HIBÁKKAL!"
 
-#: ../../common/snapshots.py:420
+#: ../../common/snapshots.py:280
+msgid ""
+"### This log has been decoded with automatic search pattern\n"
+"### If some paths are not decoded you can manually decode them with:\n"
+msgstr ""
+"### Ezt a naplófájlt automatikus keresési mintával dekódolták\n"
+"### Ha néhány útvonal dekódolása elmaradt, a következővel tudod kézzel "
+"dekódolni:\n"
+
+#: ../../common/snapshots.py:463
 msgid "FAILED"
-msgstr ""
+msgstr "MEGHIÚSULT"
 
-#: ../../common/snapshots.py:495
+#: ../../common/snapshots.py:561
 msgid "Restore permissions:"
-msgstr ""
+msgstr "Engedélyek visszaállítása:"
 
-#: ../../common/snapshots.py:671
+#: ../../common/snapshots.py:736
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
-"A Back in Time  megváltoztatta a mentés formátumát.\n"
+"A Back in Time  megváltoztatta a mentési formátumát.\n"
 "\n"
-"A régi pillanatképeket át tudjuk rakni ebbe az új formátumba. Mehet?"
+"A régi pillanatképeket át tudjuk konvertálni ebbe az új formátumba. Rendben?"
 
-#: ../../common/snapshots.py:681
+#: ../../common/snapshots.py:746
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -155,18 +367,27 @@ msgid ""
 "\n"
 "(The program will still be able to discriminate between them)"
 msgstr ""
+"A(z) %s profilokat nem találom.\n"
+"\n"
+"Az új mentési formátum lehetővé teszi különböző felhasználók és profilok "
+"tárolását ugyanazon a helyen. Szeretnéd mindkét profilt ugyanazon a helyen "
+"tárolni?\n"
+"\n"
+"(A program ettől még meg fogja tudni különböztetni őket)"
 
-#: ../../common/snapshots.py:684
+#: ../../common/snapshots.py:749
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
+"Nem találtam profilt. Először frissíteni kell a profilokat, először indítsd "
+"újra a Back In Time-ot"
 
-#: ../../common/snapshots.py:735
+#: ../../common/snapshots.py:800
 #, python-format
 msgid ""
-"%s\n"
-"of profile %s are not moved to their new location\n"
+"%(snapshots_left)s\n"
+"of profile %(profile_id)s are not moved to their new location\n"
 "Do you want to proceed?\n"
 "(Back In Time will be able to continue taking snapshots, however the "
 "remaining snapshots will not be considered for automatic removal)\n"
@@ -174,8 +395,15 @@ msgid ""
 "If not Back In Time will restore former settings for this profile, however "
 "cannot continue taking snapshots"
 msgstr ""
+"A(z) %(profile_id)s profil\n"
+"%(snapshots_left)s tartalma nem került át az új helyére.\n"
+"Folytassam?\n"
+"(A Back In Time továbbra is tud pillanatképeket készíteni, de a megmaradt "
+"pillanatképeket az automatikus eltávolítás figyelmen kívül fogja hagyni)\n"
+"Ha nem folytatom, a Back In Time visszaállítja ennek a profilnak a korábbi "
+"beállításait, de nem fog tudni pillanatképeket készíteni"
 
-#: ../../common/snapshots.py:744
+#: ../../common/snapshots.py:809
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -187,10 +415,10 @@ msgstr ""
 "A %s profil korábbi beállításai visszaállítva.\n"
 "A Back in Time nem tud újabb pillanatképeket készíteni.\n"
 "\n"
-"Kézzel tudja mozgatni a pillanatképeket,\n"
-"ha elkészült, a folytatáshoz indítsa újra a Back in Time-ot."
+"Kézzel tudod mozgatni a pillanatképeket,\n"
+"ha befejezted, a folytatáshoz indítsd újra a Back in Time-ot"
 
-#: ../../common/snapshots.py:757
+#: ../../common/snapshots.py:822
 msgid ""
 "Update was successful!\n"
 "\n"
@@ -200,7 +428,7 @@ msgstr ""
 "\n"
 "A Back in Time folytatja a pillanatképek készítését az időzítés szerint."
 
-#: ../../common/snapshots.py:762
+#: ../../common/snapshots.py:827
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -211,607 +439,854 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
+"Biztos, hogy nem akarod áthelyezni a pillanatképeket?\n"
+"\n"
+"\n"
+"Ha mégis,ezt a kérdést nem kapod meg újra, és a Back In Time újra készít "
+"majd pillanatképeket, de az okos eltávolítás nem veszi majd figyelembe a "
+"régi pillanatképeidet!\n"
+"\n"
+"Ha nem, a Back In Time következő indításakor újra megkapod ezt a kérdést."
 
-#: ../../common/snapshots.py:771
+#: ../../common/snapshots.py:836
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr ""
-"A Back in Time folytatja a pillanatképek készítését az időzítés szerint."
+msgstr "A Back in Time újra készít majd pillanatképeket az időzítés szerint."
 
-#: ../../common/snapshots.py:773
+#: ../../common/snapshots.py:838
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
 "A Back in Time nem tud újabb pillanatképeket készíteni.\n"
-"Indítsa újra a Back in Time -ot, hogy ismét láthassa a kérdéseket."
+"Indítsd újra a Back in Time -ot, hogy ismét láthasd a kérdéseket."
 
-#: ../../common/snapshots.py:834
+#: ../../common/snapshots.py:898
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"A Pillanatkép könyvtára nem található.\n"
-"Ha egy eltávolítható adathordozón van, akkor csatlakoztassa."
+"A pillanatképek könyvtára nem található.\n"
+"Ha egy eltávolítható adathordozón van, csatlakoztasd."
 
-#: ../../common/snapshots.py:836
+#: ../../common/snapshots.py:900
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "%s másodperc várakozás"
-msgstr[1] "%s másodperc várakozás"
+msgstr[0] "%s másodperc várakozás."
+msgstr[1] "%s másodperc várakozás."
 
-#: ../../common/snapshots.py:860
+#: ../../common/snapshots.py:926
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr "A %s pillanatkép készítése meghiúsult!!!"
 
-#: ../../common/snapshots.py:869
+#: ../../common/snapshots.py:935
 msgid "Finalizing"
 msgstr "Véglegesítés"
 
-#: ../../common/snapshots.py:895 ../../common/snapshots.py:1168
-#: ../../kde4/app.py:81 ../../gnome/mainwindow.glade:43
-msgid "Take snapshot"
-msgstr "Pillanatkép készítése"
-
-#: ../../common/snapshots.py:995
+#: ../../common/snapshots.py:1067
 #, python-format
 msgid "Can't create folder: %s"
-msgstr "A(z) %s nem hozható létre"
+msgstr "A(z) %s mappa nem hozható létre"
 
-#: ../../common/snapshots.py:1014
+#: ../../common/snapshots.py:1086
 msgid "..."
 msgstr "..."
 
-#: ../../common/snapshots.py:1027
+#: ../../common/snapshots.py:1113
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "A(z) %s mappa nem távolítható el"
 
-#: ../../common/snapshots.py:1100
+#: ../../common/snapshots.py:1198
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "Összehasonlítás a következő pillanatképpel: %s"
 
-#: ../../common/snapshots.py:1128
+#: ../../common/snapshots.py:1227
 msgid "Create hard-links"
 msgstr "Hard-linkek készítése"
 
-#: ../../common/snapshots.py:1191
+#: ../../common/snapshots.py:1314
 msgid "Save config file ..."
-msgstr ""
+msgstr "Konfigurációs fájl mentése..."
 
-#: ../../common/snapshots.py:1196
+#: ../../common/snapshots.py:1320
 msgid "Save permission ..."
-msgstr "Mentési engedély ..."
+msgstr "Hozzáférési jogosultságok mentése..."
 
-#: ../../common/snapshots.py:1273
+#: ../../common/snapshots.py:1421
 #, python-format
-msgid "Can't rename %s to %s"
-msgstr "Nem nevezhető át a(z) %s erre: %s"
+msgid "Can't rename %(new_path)s to %(path)s"
+msgstr "Nem tudom a(z) %(path)s útvonalat átnevezni erre: %(new_path)s"
 
-#: ../../common/snapshots.py:1393
+#: ../../common/snapshots.py:1538
 msgid "Remove old snapshots"
 msgstr "Régi pillanatképek eltávolítása"
 
-#: ../../common/snapshots.py:1417 ../../kde4/settingsdialog.py:312
-#: ../../gnome/settingsdialog.glade:930
+#: ../../common/snapshots.py:1562 ../../kde4/settingsdialog.py:473
+#: ../../gnome/settingsdialog.glade:1567
 msgid "Smart remove"
-msgstr "\"Okos\" eltávolítás"
+msgstr "Okos eltávolítás"
 
-#: ../../common/snapshots.py:1422
+#: ../../common/snapshots.py:1567
 msgid "Try to keep min free space"
-msgstr "Próbáljon minimális szabad helyet tartani"
+msgstr "A minimálisan megadott szabad hely kialakítása"
 
-#: ../../gnome/app.py:179 ../../gnome/app.py:554 ../../gnome/app.py:568
-#: ../../kde4/app.py:270 ../../kde4/app.py:509 ../../kde4/app.py:526
+#: ../../common/sshtools.py:100
+#, python-format
+msgid "Can't mount %s"
+msgstr "Nem tudom felcsatolni: %s"
+
+#: ../../common/sshtools.py:107
+#, python-format
+msgid "Can't unmount sshfs %s"
+msgstr "Nem tudom felcsatolni a(z) %s sshfs-t"
+
+#: ../../common/sshtools.py:177
+#, python-format
+msgid ""
+"Failed to unlock SSH private key:\n"
+"Error: %s"
+msgstr ""
+"Nem tudtam feloldani az SSH privát kulcsát:\n"
+"Hiba: %s"
+
+#: ../../common/sshtools.py:184
+msgid ""
+"Could not unlock ssh private key. Wrong password or password not available "
+"for cron."
+msgstr ""
+"Nem tudtam feloldani az ssh privát kulcsát. Hibás jelszó vagy a cron nem éri "
+"el a jelszót."
+
+#: ../../common/sshtools.py:189
+msgid "sshfs not found. Please install e.g. 'apt-get install sshfs'"
+msgstr ""
+"Nem találom az sshfs-t. Telepítsd pl. az 'apt-get install sshfs' paranccsal."
+
+#: ../../common/sshtools.py:215
+#, python-format
+msgid ""
+"Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
+"backintime' for further instructions."
+msgstr ""
+"A %(user)s@%(host)s nem tudott jelszó nélkül bejelentkeztni. Nézd meg a 'man "
+"backintime'-ot további részletekért."
+
+#: ../../common/sshtools.py:227
+#, python-format
+msgid ""
+"Cipher %(cipher)s failed for %(host)s:\n"
+"%(err)s"
+msgstr ""
+"A(z) %(cipher)s nem sikerült a %(host)s esetében:\n"
+"%(err)s"
+
+#: ../../common/sshtools.py:252
+#, python-format
+msgid "%s not found in ssh_known_hosts."
+msgstr "A(z) %s nem található itt: ssh_known_hosts."
+
+#: ../../common/sshtools.py:272
+#, python-format
+msgid ""
+"Remote path exists but is not a directory:\n"
+" %s"
+msgstr ""
+"A távoli útvonal létezik, de nem könyvtár:\n"
+" %s"
+
+#: ../../common/sshtools.py:274
+#, python-format
+msgid ""
+"Remote path is not writeable:\n"
+" %s"
+msgstr ""
+"A távoli útvonal nem írható:\n"
+" %s"
+
+#: ../../common/sshtools.py:276
+#, python-format
+msgid ""
+"Remote path is not executable:\n"
+" %s"
+msgstr ""
+"A távoli útvonal nem futtatható:\n"
+" %s"
+
+#: ../../common/sshtools.py:278
+#, python-format
+msgid ""
+"Couldn't create remote path:\n"
+" %s"
+msgstr ""
+"Nem tudom távoli útvonalat elkészíteni:\n"
+" %s"
+
+#: ../../common/sshtools.py:287
+#, python-format
+msgid "Ping %s failed. Host is down or wrong address."
+msgstr ""
+"A(z) %s ping sikertelen volt. A kiszolgáló nem működik vagy rossz a cím."
+
+#: ../../common/sshtools.py:310 ../../common/sshtools.py:361
+#, python-format
+msgid ""
+"Remote host %(host)s doesn't support '%(command)s':\n"
+"%(err)s\n"
+"Look at 'man backintime' for further instructions"
+msgstr ""
+"A(z) %(host)s távoli kiszolgáló nem támogatja a következőt: '%(command)s':\n"
+"%(err)s\n"
+"Nézd meg a 'man backintime'-ot további részletekért"
+
+#: ../../common/sshtools.py:365
+#, python-format
+msgid ""
+"Check commands on host %(host)s returned unknown error:\n"
+"%(err)s\n"
+"Look at 'man backintime' for further instructions"
+msgstr ""
+"A parancsok ellenőzése a(z) %(host)s kiszolgálón ismeretlen hibát okozott:\n"
+"%(err)s\n"
+"Nézd meg a 'man backintime'-ot további részletekért"
+
+#: ../../common/sshtools.py:378
+#, python-format
+msgid "Remote host %s doesn't support hardlinks"
+msgstr "A(z) %s kiszolgáló nem támogatja a hardlinkeket."
+
+#: ../../gnome/app.py:179 ../../gnome/app.py:588 ../../gnome/app.py:602
+#: ../../kde4/app.py:292 ../../kde4/app.py:559 ../../kde4/app.py:576
 msgid "Done"
 msgstr "Kész"
 
-#: ../../gnome/app.py:183 ../../gnome/app.py:834
-#: ../../gnome/restoredialog.py:78 ../../gnome/snapshotsdialog.py:79
-#: ../../gnome/snapshotsdialog.py:211 ../../kde4/app.py:177
-#: ../../kde4/app.py:187 ../../kde4/restoredialog.py:64
+#: ../../gnome/app.py:183 ../../kde4/app.py:136 ../../kde4/app.py:152
+#: ../../gnome/mainwindow.glade:209
+msgid "Help"
+msgstr "Súgó"
+
+#: ../../gnome/app.py:185 ../../kde4/app.py:139
+#: ../../gnome/mainwindow.glade:207
+msgid "Website"
+msgstr "Honlap"
+
+#: ../../gnome/app.py:186 ../../kde4/app.py:141
+msgid "FAQ"
+msgstr "GYIK"
+
+#: ../../gnome/app.py:187 ../../kde4/app.py:143
+msgid "Ask a question"
+msgstr "Kérdezz"
+
+#: ../../gnome/app.py:188 ../../kde4/app.py:145
+msgid "Report a bug"
+msgstr "Hiba jelentése"
+
+#: ../../gnome/app.py:190 ../../kde4/app.py:148
+msgid "About"
+msgstr "Névjegy"
+
+#: ../../gnome/app.py:196 ../../gnome/app.py:875
+#: ../../gnome/restoredialog.py:80 ../../gnome/snapshotsdialog.py:80
+#: ../../gnome/snapshotsdialog.py:212 ../../kde4/app.py:199
+#: ../../kde4/app.py:209 ../../kde4/restoredialog.py:64
 #: ../../kde4/snapshotsdialog.py:111 ../../kde4/snapshotsdialog.py:117
-#: ../../gnome/mainwindow.glade:374 ../../gnome/mainwindow.glade:376
+#: ../../gnome/mainwindow.glade:334 ../../gnome/mainwindow.glade:336
 #: ../../gnome/snapshotsdialog.glade:128 ../../gnome/snapshotsdialog.glade:130
 msgid "Restore"
 msgstr "Visszaállítás"
 
-#: ../../gnome/app.py:184 ../../gnome/app.py:835 ../../gnome/gnometools.py:67
-#: ../../gnome/snapshotsdialog.py:80 ../../gnome/snapshotsdialog.py:212
-#: ../../kde4/app.py:179 ../../kde4/restoredialog.py:42
+#: ../../gnome/app.py:197 ../../gnome/app.py:876 ../../gnome/gnometools.py:67
+#: ../../gnome/snapshotsdialog.py:81 ../../gnome/snapshotsdialog.py:213
+#: ../../kde4/app.py:201 ../../kde4/restoredialog.py:42
 #: ../../kde4/snapshotsdialog.py:113
 msgid "Restore to ..."
-msgstr ""
+msgstr "Visszaállítás ide..."
 
-#: ../../gnome/app.py:186 ../../gnome/app.py:843 ../../gnome/app.py:1073
-#: ../../kde4/app.py:960
+#: ../../gnome/app.py:199 ../../gnome/app.py:884 ../../gnome/app.py:1131
+#: ../../kde4/app.py:1023
 #, python-format
 msgid "Restore '%s'"
-msgstr ""
+msgstr "A(z) '%s' visszaállítása"
 
-#: ../../gnome/app.py:188 ../../gnome/app.py:844 ../../gnome/app.py:1074
-#: ../../kde4/app.py:961
+#: ../../gnome/app.py:201 ../../gnome/app.py:885 ../../gnome/app.py:1132
+#: ../../kde4/app.py:1024
 #, python-format
 msgid "Restore '%s' to ..."
-msgstr ""
+msgstr "A(z) '%s' visszaállítása ide..."
 
-#: ../../gnome/app.py:207 ../../kde4/app.py:206
+#: ../../gnome/app.py:220 ../../kde4/app.py:228
 msgid "Shortcuts"
 msgstr "Billentyűparancsok"
 
-#: ../../gnome/app.py:230
+#: ../../gnome/app.py:243
 msgid "Name"
 msgstr "Név"
 
-#: ../../gnome/app.py:241
+#: ../../gnome/app.py:254
 msgid "Size"
 msgstr "Méret"
 
-#: ../../gnome/app.py:248
+#: ../../gnome/app.py:261
 msgid "Date"
 msgstr "Dátum"
 
-#: ../../gnome/app.py:267 ../../gnome/app.py:830
-#: ../../gnome/snapshotsdialog.py:106 ../../kde4/app.py:142
-#: ../../kde4/app.py:192 ../../kde4/snapshotsdialog.py:91
-#: ../../gnome/mainwindow.glade:390 ../../gnome/mainwindow.glade:392
+#: ../../gnome/app.py:280 ../../gnome/app.py:871
+#: ../../gnome/snapshotsdialog.py:107 ../../kde4/app.py:164
+#: ../../kde4/app.py:214 ../../kde4/snapshotsdialog.py:91
+#: ../../gnome/mainwindow.glade:350 ../../gnome/mainwindow.glade:352
 #: ../../gnome/snapshotsdialog.glade:8
 msgid "Snapshots"
-msgstr "Pillanatkép"
+msgstr "Pillanatképek"
 
-#: ../../gnome/app.py:318 ../../kde4/app.py:322
+#: ../../gnome/app.py:342 ../../kde4/app.py:355
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
-"Nem található a pillanatkép könyvtára.\n"
-"Ha egy eltávolítható lemezen van, akkor csatlakoztassa és nyomja meg az OK "
-"gombot"
+"Nem található a pillanatképek könyvtára.\n"
+"Ha egy eltávolítható lemezen van, csatlakoztasd és nyomd meg az OK-t"
 
-#: ../../gnome/app.py:571 ../../kde4/app.py:529
+#: ../../gnome/app.py:605 ../../kde4/app.py:579
 msgid "Done, no backup needed"
-msgstr "Kész, nincs szükség visszaállításra"
+msgstr "Kész, nincs szükség biztonsági mentés készítésére"
 
-#: ../../gnome/app.py:577 ../../kde4/app.py:535
+#: ../../gnome/app.py:611 ../../kde4/app.py:585
 msgid "Working:"
 msgstr "Dolgozik:"
 
-#: ../../gnome/app.py:581 ../../kde4/app.py:539
+#: ../../gnome/app.py:615 ../../kde4/app.py:589
 msgid "Error:"
-msgstr ""
+msgstr "Hiba:"
 
-#: ../../gnome/app.py:594 ../../kde4/app.py:585
+#: ../../gnome/app.py:628 ../../kde4/app.py:635
 msgid "Global"
 msgstr "Globális"
 
-#: ../../gnome/app.py:595 ../../kde4/app.py:586
+#: ../../gnome/app.py:629 ../../kde4/app.py:636
 msgid "Root"
 msgstr "Root"
 
-#: ../../gnome/app.py:596 ../../kde4/app.py:587
+#: ../../gnome/app.py:630 ../../kde4/app.py:637
 msgid "Home"
 msgstr "Home"
 
-#: ../../gnome/app.py:620
+#: ../../gnome/app.py:654
 msgid "Bookmarks"
 msgstr "Könyvjelzők"
 
-#: ../../gnome/app.py:633 ../../kde4/app.py:598
+#: ../../gnome/app.py:667 ../../kde4/app.py:648
 msgid "Backup folders"
 msgstr "Biztonsági mentés mappái"
 
-#: ../../gnome/app.py:659 ../../kde4/app.py:669
+#: ../../gnome/app.py:693 ../../kde4/app.py:719
 msgid "Today"
 msgstr "Ma"
 
-#: ../../gnome/app.py:663 ../../kde4/app.py:673
+#: ../../gnome/app.py:697 ../../kde4/app.py:723
 msgid "Yesterday"
 msgstr "Tegnap"
 
-#: ../../gnome/app.py:667 ../../kde4/app.py:677
+#: ../../gnome/app.py:701 ../../kde4/app.py:727
 msgid "This week"
 msgstr "Ezen a héten"
 
-#: ../../gnome/app.py:671 ../../kde4/app.py:681
+#: ../../gnome/app.py:705 ../../kde4/app.py:731
 msgid "Last week"
 msgstr "Múlt héten"
 
-#: ../../gnome/app.py:828 ../../gnome/snapshotsdialog.py:204
+#: ../../gnome/app.py:869 ../../gnome/snapshotsdialog.py:205
 msgid "Open"
 msgstr "Megnyitás"
 
-#: ../../gnome/app.py:986 ../../kde4/app.py:89 ../../kde4/app.py:740
+#: ../../gnome/app.py:1044 ../../kde4/app.py:90 ../../kde4/app.py:790
 #: ../../gnome/mainwindow.glade:73 ../../gnome/mainwindow.glade:75
 msgid "Snapshot Name"
 msgstr "Pillanatkép neve"
 
-#: ../../gnome/app.py:1005
+#: ../../gnome/app.py:1063
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
-"Biztos benne, hogy el akarja távolítani a következő pillanatképet:\n"
-"<b>%s</b>"
+"Biztos, hogy el akarod távolítani a következő pillanatképet:\n"
+"<b>%s</b>?"
 
-#: ../../gnome/app.py:1050 ../../kde4/app.py:929
+#: ../../gnome/app.py:1108 ../../kde4/app.py:992
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Pillanatkép: %s"
 
-#: ../../gnome/app.py:1051 ../../kde4/app.py:930
+#: ../../gnome/app.py:1109 ../../kde4/app.py:993
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "%s -kor készült pillanatkép megjelenítése"
+msgstr "A %s időpontban észült pillanatkép megtekintése"
 
-#: ../../gnome/app.py:1053 ../../kde4/app.py:932
+#: ../../gnome/app.py:1111 ../../kde4/app.py:995
 msgid "View the current disk content"
-msgstr "Jelenlegi lemeztartalom mutatása"
+msgstr "A lemez jelenlegi tartalmának megtekintése"
 
-#: ../../gnome/logviewdialog.py:91 ../../gnome/settingsdialog.py:300
-#: ../../kde4/logviewdialog.py:81 ../../kde4/settingsdialog.py:393
+#: ../../gnome/logviewdialog.py:106 ../../gnome/settingsdialog.py:403
+#: ../../kde4/logviewdialog.py:83 ../../kde4/settingsdialog.py:562
 msgid "All"
-msgstr ""
+msgstr "Mindegyik"
 
-#: ../../gnome/logviewdialog.py:92 ../../gnome/settingsdialog.py:298
-#: ../../kde4/logviewdialog.py:82 ../../kde4/settingsdialog.py:391
+#: ../../gnome/logviewdialog.py:107 ../../gnome/settingsdialog.py:401
+#: ../../kde4/logviewdialog.py:84 ../../kde4/settingsdialog.py:560
 msgid "Errors"
-msgstr ""
+msgstr "Hibák"
 
-#: ../../gnome/logviewdialog.py:97 ../../kde4/logviewdialog.py:87
+#: ../../gnome/logviewdialog.py:112 ../../kde4/logviewdialog.py:89
 msgid "Changes"
-msgstr ""
+msgstr "Változások"
 
-#: ../../gnome/logviewdialog.py:100 ../../kde4/logviewdialog.py:90
+#: ../../gnome/logviewdialog.py:115 ../../kde4/logviewdialog.py:92
 msgid "Informations"
-msgstr ""
+msgstr "Információk"
 
-#: ../../gnome/settingsdialog.py:149 ../../kde4/settingsdialog.py:217
+#: ../../gnome/settingsdialog.py:238 ../../kde4/settingsdialog.py:371
 msgid "Include files and folders"
-msgstr ""
+msgstr "Felveendő fájlok és mappák"
 
-#: ../../gnome/settingsdialog.py:177
+#: ../../gnome/settingsdialog.py:266
 msgid "Exclude patterns, files or folders"
-msgstr ""
+msgstr "Kihagyandó minták, fájlok és mappák"
 
-#: ../../gnome/settingsdialog.py:297 ../../kde4/settingsdialog.py:390
+#: ../../gnome/settingsdialog.py:400 ../../kde4/settingsdialog.py:559
 msgid "None"
-msgstr ""
+msgstr "Egyik sem"
 
-#: ../../gnome/settingsdialog.py:299 ../../kde4/settingsdialog.py:392
+#: ../../gnome/settingsdialog.py:402 ../../kde4/settingsdialog.py:561
 msgid "Changes & Errors"
-msgstr ""
+msgstr "Változások & Hibák"
 
-#: ../../gnome/settingsdialog.py:337
+#: ../../gnome/settingsdialog.py:444
 msgid "Snapshots folder"
-msgstr ""
+msgstr "A biztonsági mentések mappája"
 
-#: ../../gnome/settingsdialog.py:345 ../../kde4/settingsdialog.py:886
+#: ../../gnome/settingsdialog.py:452 ../../kde4/settingsdialog.py:1241
 msgid "Are you sure you want to change snapshots folder ?"
-msgstr "Biztos benne, hogy szeretné megváltoztatni a pillanatképek mappáját?"
+msgstr "Biztos, hogy szeretnéd megváltoztatni a pillanatképek mappáját?"
 
-#: ../../gnome/settingsdialog.py:728 ../../kde4/settingsdialog.py:438
+#: ../../gnome/settingsdialog.py:851 ../../kde4/settingsdialog.py:854
+msgid ""
+"Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
+"*/3 for periodic backups every 3 hours"
+msgstr ""
+"Az egyedi órák csak vesszővel elválasztott, listázott értékek lehetnek (pl. "
+"8,12,18,23), vagy */3, ha háromóránként akarsz mentést készíteni."
+
+#: ../../gnome/settingsdialog.py:1079 ../../kde4/settingsdialog.py:619
 msgid "New profile"
 msgstr "Új profil"
 
-#: ../../gnome/settingsdialog.py:742 ../../kde4/settingsdialog.py:454
+#: ../../gnome/settingsdialog.py:1093 ../../kde4/settingsdialog.py:635
 msgid "Rename profile"
 msgstr "Profil átnevezése"
 
-#: ../../gnome/settingsdialog.py:754 ../../kde4/settingsdialog.py:468
+#: ../../gnome/settingsdialog.py:1105 ../../kde4/settingsdialog.py:649
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
-msgstr "Biztosan törli a(z) \"%s\" profilt ?"
+msgstr "Biztosan törlöd a(z) \"%s\" profilt?"
 
-#: ../../gnome/settingsdialog.py:760 ../../kde4/settingsdialog.py:867
+#: ../../gnome/settingsdialog.py:1111 ../../kde4/settingsdialog.py:1222
 msgid "Include folder"
-msgstr "Mappa kiválasztása"
+msgstr "Felveendő mappa"
 
-#: ../../gnome/settingsdialog.py:779 ../../kde4/settingsdialog.py:853
+#: ../../gnome/settingsdialog.py:1130 ../../kde4/settingsdialog.py:1208
 msgid "Include file"
-msgstr "Fájl csatolása"
+msgstr "Felveendő fájl"
 
-#: ../../gnome/settingsdialog.py:816 ../../kde4/settingsdialog.py:815
+#: ../../gnome/settingsdialog.py:1167 ../../kde4/settingsdialog.py:1170
 msgid "Exclude pattern"
 msgstr "Kihagyási minta"
 
-#: ../../gnome/settingsdialog.py:821 ../../kde4/settingsdialog.py:825
+#: ../../gnome/settingsdialog.py:1172 ../../kde4/settingsdialog.py:1180
 msgid "Exclude patterns can't contain ':' char !"
 msgstr "A kihagyási minták nem tartalmazhatnak kettőspontot"
 
-#: ../../gnome/settingsdialog.py:827 ../../kde4/settingsdialog.py:831
+#: ../../gnome/settingsdialog.py:1178 ../../kde4/settingsdialog.py:1186
 msgid "Exclude file"
-msgstr "Fájl kihagyása"
+msgstr "Kihagyandó fájl"
 
-#: ../../gnome/settingsdialog.py:837 ../../kde4/settingsdialog.py:835
+#: ../../gnome/settingsdialog.py:1188 ../../kde4/settingsdialog.py:1190
 msgid "Exclude folder"
-msgstr "Mappa kihagyása"
+msgstr "Kihagyandó mappa"
 
-#: ../../gnome/snapshotsdialog.py:206
+#: ../../gnome/snapshotsdialog.py:207
 msgid "Jump to"
-msgstr ""
+msgstr "Ugrás ide:"
 
-#: ../../gnome/snapshotsdialog.py:215 ../../kde4/snapshotsdialog.py:140
+#: ../../gnome/snapshotsdialog.py:216 ../../kde4/snapshotsdialog.py:140
 msgid "Diff"
 msgstr "Különbség"
 
-#: ../../gnome/snapshotsdialog.py:244 ../../kde4/snapshotsdialog.py:260
+#: ../../gnome/snapshotsdialog.py:245 ../../kde4/snapshotsdialog.py:260
 msgid "You can't compare a snapshot to itself"
 msgstr "Egy pillanatkép nem hasonlítható össze önmagával"
 
-#: ../../gnome/snapshotsdialog.py:251 ../../kde4/snapshotsdialog.py:267
+#: ../../gnome/snapshotsdialog.py:252 ../../kde4/snapshotsdialog.py:267
 #, python-format
 msgid "Command not found: %s"
 msgstr "A következő parancs nem található: %s"
 
-#: ../../kde4/app.py:85 ../../gnome/mainwindow.glade:58
+#: ../../kde4/app.py:86 ../../gnome/mainwindow.glade:58
 #: ../../gnome/mainwindow.glade:60
 msgid "Refresh snapshots list"
-msgstr ""
+msgstr "Pillanatképek listájának frissítése"
 
-#: ../../kde4/app.py:93 ../../gnome/mainwindow.glade:88
+#: ../../kde4/app.py:94 ../../gnome/mainwindow.glade:88
 #: ../../gnome/mainwindow.glade:90
 msgid "Remove Snapshot"
 msgstr "Pillanatkép eltávolítása"
 
-#: ../../kde4/app.py:97 ../../gnome/mainwindow.glade:105
+#: ../../kde4/app.py:98 ../../gnome/mainwindow.glade:105
 msgid "View Snapshot Log"
-msgstr ""
+msgstr "A pillanatképek naplófájljának megtekintése"
 
-#: ../../kde4/app.py:101 ../../gnome/mainwindow.glade:121
+#: ../../kde4/app.py:102 ../../gnome/mainwindow.glade:121
 msgid "View Last Log"
-msgstr ""
+msgstr "Utolsó naplófájl megtekintése"
 
-#: ../../kde4/app.py:107 ../../kde4/settingsdialog.py:66
+#: ../../kde4/app.py:108 ../../kde4/settingsdialog.py:70
 #: ../../gnome/mainwindow.glade:144 ../../gnome/mainwindow.glade:146
-#: ../../gnome/settingsdialog.glade:8
+#: ../../gnome/settingsdialog.glade:7
 msgid "Settings"
 msgstr "Beállítások"
 
-#: ../../kde4/app.py:113 ../../gnome/mainwindow.glade:169
-#: ../../gnome/mainwindow.glade:171
-msgid "About"
-msgstr "Névjegy"
-
-#: ../../kde4/app.py:117 ../../gnome/mainwindow.glade:184
-#: ../../gnome/mainwindow.glade:186
-msgid "Help"
-msgstr "Súgó"
-
-#: ../../kde4/app.py:123 ../../gnome/mainwindow.glade:208
-#: ../../gnome/mainwindow.glade:210
+#: ../../kde4/app.py:124 ../../gnome/mainwindow.glade:168
+#: ../../gnome/mainwindow.glade:170
 msgid "Exit"
 msgstr "Kilépés"
 
-#: ../../kde4/app.py:157 ../../gnome/mainwindow.glade:313
+#: ../../kde4/app.py:179 ../../gnome/mainwindow.glade:273
 msgid "Up"
 msgstr "Fel"
 
-#: ../../kde4/app.py:170 ../../gnome/mainwindow.glade:349
+#: ../../kde4/app.py:192 ../../gnome/mainwindow.glade:309
 msgid "Show hidden files"
 msgstr "Rejtett fájlok megjelenítése"
 
-#: ../../kde4/app.py:215
+#: ../../kde4/app.py:237
 msgid ""
 "This folder doesn't exist\n"
 "in the current snapshot !"
 msgstr ""
+"A jelenlegi pillanatképben\n"
+"nincs benne ez a mappa!"
 
-#: ../../kde4/app.py:774
+#: ../../kde4/app.py:824
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Biztos benne, hogy el akarja távolítani a következő pillanatképet:\n"
-"%s"
+"Biztos, hogy el akar távolítani a következő pillanatképet:\n"
+"%s?"
 
-#: ../../kde4/app.py:1059 ../../kde4/kde4systrayicon.py:117
+#: ../../kde4/app.py:1122 ../../kde4/kde4systrayicon.py:117
 msgid "Working..."
 msgstr "Dolgozom..."
 
-#: ../../kde4/logviewdialog.py:53
+#: ../../kde4/logviewdialog.py:55
 msgid "Error Log View"
-msgstr ""
+msgstr "Hibanapló megtekintése"
 
-#: ../../kde4/logviewdialog.py:63 ../../kde4/settingsdialog.py:76
-#: ../../kde4/settingsdialog.py:152 ../../gnome/logviewdialog.glade:73
-#: ../../gnome/settingsdialog.glade:70
+#: ../../kde4/logviewdialog.py:65 ../../kde4/settingsdialog.py:80
+#: ../../kde4/settingsdialog.py:298 ../../gnome/logviewdialog.glade:73
+#: ../../gnome/settingsdialog.glade:72
 msgid "Profile:"
 msgstr "Profil:"
 
-#: ../../kde4/logviewdialog.py:75 ../../gnome/logviewdialog.glade:110
+#: ../../kde4/logviewdialog.py:77 ../../gnome/logviewdialog.glade:110
 msgid "Filter:"
-msgstr ""
+msgstr "Szűrő:"
 
-#: ../../kde4/logviewdialog.py:98 ../../gnome/logviewdialog.glade:169
+#: ../../kde4/logviewdialog.py:100 ../../gnome/logviewdialog.glade:169
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr ""
+msgstr "[E] hiba, [I] információ, [C] változtat"
 
-#: ../../kde4/settingsdialog.py:85
+#: ../../kde4/logviewdialog.py:103 ../../gnome/logviewdialog.glade:195
+msgid "decode paths"
+msgstr "dekódolás útvonalai"
+
+#: ../../kde4/settingsdialog.py:89
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: ../../kde4/settingsdialog.py:103 ../../gnome/settingsdialog.glade:561
+#: ../../kde4/settingsdialog.py:107 ../../gnome/settingsdialog.glade:1166
 msgid "General"
 msgstr "Általános"
 
-#: ../../kde4/settingsdialog.py:108 ../../kde4/settingsdialog.py:883
+#: ../../kde4/settingsdialog.py:115 ../../gnome/settingsdialog.glade:199
+msgid "Mode:"
+msgstr "Mód:"
+
+#: ../../kde4/settingsdialog.py:128 ../../kde4/settingsdialog.py:1238
 msgid "Where to save snapshots"
 msgstr "Hova mentse a pillanatképeket"
 
-#: ../../kde4/settingsdialog.py:135 ../../gnome/settingsdialog.glade:260
-msgid "Auto Host / User / Profile Id"
-msgstr ""
+#: ../../kde4/settingsdialog.py:147
+msgid "SSH Settings"
+msgstr "Az SSH beállításai"
 
-#: ../../kde4/settingsdialog.py:142 ../../gnome/settingsdialog.glade:285
+#: ../../kde4/settingsdialog.py:159 ../../kde4/settingsdialog.py:288
+#: ../../gnome/settingsdialog.glade:323 ../../gnome/settingsdialog.glade:589
+#: ../../gnome/settingsdialog.glade:883
 msgid "Host:"
-msgstr ""
+msgstr "Kiszolgáló:"
 
-#: ../../kde4/settingsdialog.py:147 ../../gnome/settingsdialog.glade:314
+#: ../../kde4/settingsdialog.py:164 ../../gnome/settingsdialog.glade:351
+#: ../../gnome/settingsdialog.glade:617
+msgid "Port:"
+msgstr "Port:"
+
+#: ../../kde4/settingsdialog.py:169 ../../kde4/settingsdialog.py:293
+#: ../../gnome/settingsdialog.glade:379 ../../gnome/settingsdialog.glade:645
+#: ../../gnome/settingsdialog.glade:911
 msgid "User:"
-msgstr ""
+msgstr "Felhasználó:"
 
-#: ../../kde4/settingsdialog.py:160
+#: ../../kde4/settingsdialog.py:174 ../../gnome/settingsdialog.glade:419
+msgid "Path:"
+msgstr "Elérési út:"
+
+#: ../../kde4/settingsdialog.py:179 ../../gnome/settingsdialog.glade:463
+msgid "Cipher:"
+msgstr "Cipher:"
+
+#: ../../kde4/settingsdialog.py:185
+msgid "Private Key:"
+msgstr "Privát kulcs"
+
+#: ../../kde4/settingsdialog.py:229 ../../kde4/settingsdialog.py:238
+#: ../../kde4/settingsdialog.py:244 ../../gnome/settingsdialog.glade:712
+#: ../../gnome/settingsdialog.glade:752
+msgid "Password"
+msgstr "Jelszó"
+
+#: ../../kde4/settingsdialog.py:250 ../../gnome/settingsdialog.glade:784
+msgid "Save Password to Keyring"
+msgstr "Jelszó mentése a kulcstartóba"
+
+#: ../../kde4/settingsdialog.py:253 ../../gnome/settingsdialog.glade:801
+msgid "Cache Password for Cron (Security issue: root can read password)"
+msgstr ""
+"Jelszó mentése a Cron számára (biztonsági figyelmeztetés: a root látja a "
+"jelszót)"
+
+#: ../../kde4/settingsdialog.py:269 ../../gnome/settingsdialog.glade:977
+msgid "Advanced"
+msgstr "Szakértői"
+
+#: ../../kde4/settingsdialog.py:281 ../../gnome/settingsdialog.glade:857
+msgid "Auto Host / User / Profile Id"
+msgstr "Kiszolgáló/Felhasználó/Profil Id automatikusan"
+
+#: ../../kde4/settingsdialog.py:306
 msgid "Schedule"
 msgstr "Ütemterv"
 
-#: ../../kde4/settingsdialog.py:170 ../../gnome/settingsdialog.glade:472
+#: ../../kde4/settingsdialog.py:316 ../../gnome/settingsdialog.glade:1063
 msgid "Day:"
-msgstr ""
+msgstr "Nap:"
 
-#: ../../kde4/settingsdialog.py:181 ../../gnome/settingsdialog.glade:459
+#: ../../kde4/settingsdialog.py:327 ../../gnome/settingsdialog.glade:1050
 msgid "Weekday:"
-msgstr ""
+msgstr "Hétköznap:"
 
-#: ../../kde4/settingsdialog.py:192 ../../gnome/settingsdialog.glade:446
+#: ../../kde4/settingsdialog.py:338 ../../gnome/settingsdialog.glade:1037
 msgid "Hour:"
-msgstr ""
+msgstr "Óra:"
 
-#: ../../kde4/settingsdialog.py:210 ../../gnome/settingsdialog.glade:661
+#: ../../kde4/settingsdialog.py:349 ../../gnome/settingsdialog.glade:1024
+msgid "Hours:"
+msgstr "Óra:"
+
+#: ../../kde4/settingsdialog.py:364 ../../gnome/settingsdialog.glade:1269
 msgid "Include"
 msgstr "Hozzáadás"
 
-#: ../../kde4/settingsdialog.py:233 ../../kde4/settingsdialog.py:267
-#: ../../gnome/settingsdialog.glade:746
+#: ../../kde4/settingsdialog.py:387 ../../kde4/settingsdialog.py:428
+#: ../../gnome/settingsdialog.glade:1370
 msgid "Add file"
 msgstr "Fájl hozzáadása"
 
-#: ../../kde4/settingsdialog.py:238 ../../kde4/settingsdialog.py:272
-#: ../../gnome/settingsdialog.glade:761
+#: ../../kde4/settingsdialog.py:392 ../../kde4/settingsdialog.py:433
+#: ../../gnome/settingsdialog.glade:1386
 msgid "Add folder"
 msgstr "Mappa hozzáadása"
 
-#: ../../kde4/settingsdialog.py:248 ../../gnome/settingsdialog.glade:806
+#: ../../kde4/settingsdialog.py:402 ../../gnome/settingsdialog.glade:1433
 msgid "Exclude"
 msgstr "Kihagyás"
 
-#: ../../kde4/settingsdialog.py:254
-msgid "Highly recommended:"
+#: ../../kde4/settingsdialog.py:405 ../../gnome/settingsdialog.glade:1287
+msgid ""
+"<b>Warning:</b> Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with "
+"mode 'SSH encrypted'.\n"
+"Only separate asterisk are allowed ('foo/*', 'foo/**/bar')"
 msgstr ""
+"<b>Figyelem:</b> a helyettesítő karaktreket ('foo*', '[fF]oo', 'fo?') az "
+"'SSH encrypted' mód nem veszi figyelembe.\n"
+"Csak az elválasztó csillag megengedett ('foo/*', 'foo/**/bar')"
 
-#: ../../kde4/settingsdialog.py:282 ../../gnome/settingsdialog.glade:1178
+#: ../../kde4/settingsdialog.py:413
+msgid "Highly recommended:"
+msgstr "Erősen ajánlott:"
+
+#: ../../kde4/settingsdialog.py:443 ../../gnome/settingsdialog.glade:1812
 msgid "Auto-remove"
 msgstr "Automatikus eltávolítás"
 
-#: ../../kde4/settingsdialog.py:286 ../../gnome/settingsdialog.glade:900
+#: ../../kde4/settingsdialog.py:447 ../../gnome/settingsdialog.glade:1533
 msgid "Older than:"
 msgstr "Régebbi, mint:"
 
-#: ../../kde4/settingsdialog.py:300 ../../gnome/settingsdialog.glade:914
+#: ../../kde4/settingsdialog.py:461 ../../gnome/settingsdialog.glade:1549
 msgid "If free space is less than:"
 msgstr "Ha a szabad hely kevesebb, mint:"
 
-#: ../../kde4/settingsdialog.py:325 ../../gnome/settingsdialog.glade:977
+#: ../../kde4/settingsdialog.py:486 ../../gnome/settingsdialog.glade:1604
 msgid "Keep all snapshots for the last"
-msgstr ""
+msgstr "Tartsd meg a pillanatképeket a legutóbbi:"
 
-#: ../../kde4/settingsdialog.py:328 ../../kde4/settingsdialog.py:333
-#: ../../gnome/settingsdialog.glade:985 ../../gnome/settingsdialog.glade:1009
+#: ../../kde4/settingsdialog.py:489 ../../kde4/settingsdialog.py:494
+#: ../../gnome/settingsdialog.glade:1612 ../../gnome/settingsdialog.glade:1636
 msgid "day(s)"
-msgstr ""
+msgstr "napból"
 
-#: ../../kde4/settingsdialog.py:330 ../../gnome/settingsdialog.glade:997
+#: ../../kde4/settingsdialog.py:491 ../../gnome/settingsdialog.glade:1624
 msgid "Keep one snapshot per day for the last"
-msgstr ""
+msgstr "Tarts meg napi egy pillanatképet a legutóbbi:"
 
-#: ../../kde4/settingsdialog.py:335 ../../gnome/settingsdialog.glade:1023
+#: ../../kde4/settingsdialog.py:496 ../../gnome/settingsdialog.glade:1650
 msgid "Keep one snapshot per week for the last"
-msgstr ""
+msgstr "Tarts meg heti egy pillanatképet a legutóbbi:"
 
-#: ../../kde4/settingsdialog.py:338
+#: ../../kde4/settingsdialog.py:499
 msgid "weeks(s)"
-msgstr ""
+msgstr "hétből"
 
-#: ../../kde4/settingsdialog.py:340 ../../gnome/settingsdialog.glade:1049
+#: ../../kde4/settingsdialog.py:501 ../../gnome/settingsdialog.glade:1676
 msgid "Keep one snapshot per month for the last"
-msgstr ""
+msgstr "Tarts meg havi egy pillanatképet a legutóbbi:"
 
-#: ../../kde4/settingsdialog.py:343 ../../gnome/settingsdialog.glade:1061
+#: ../../kde4/settingsdialog.py:504 ../../gnome/settingsdialog.glade:1688
 msgid "month(s)"
-msgstr ""
+msgstr "hónapból"
 
-#: ../../kde4/settingsdialog.py:345 ../../gnome/settingsdialog.glade:1075
+#: ../../kde4/settingsdialog.py:506 ../../gnome/settingsdialog.glade:1702
 msgid "Keep one snapshot per year for all years"
-msgstr ""
+msgstr "Tarts meg évi egy pillanatképet a legutóbbi:"
 
-#: ../../kde4/settingsdialog.py:348 ../../gnome/settingsdialog.glade:824
+#: ../../kde4/settingsdialog.py:509 ../../gnome/settingsdialog.glade:1455
 msgid "Don't remove named snapshots"
 msgstr "Ne távolítsa el a névvel ellátott pillanatképeket"
 
-#: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:1370
+#: ../../kde4/settingsdialog.py:518 ../../gnome/settingsdialog.glade:2011
 msgid "Options"
 msgstr "Beállítások"
 
-#: ../../kde4/settingsdialog.py:360 ../../gnome/settingsdialog.glade:1193
+#: ../../kde4/settingsdialog.py:521 ../../gnome/settingsdialog.glade:1827
 msgid "Enable notifications"
 msgstr "Értesítések engedélyezése"
 
-#: ../../kde4/settingsdialog.py:363 ../../gnome/settingsdialog.glade:1209
+#: ../../kde4/settingsdialog.py:524 ../../gnome/settingsdialog.glade:1844
 msgid "Disable snapshots when on battery"
-msgstr ""
+msgstr "Pillanatképek készítésének tiltása akkumulátorról működésnél"
 
-#: ../../kde4/settingsdialog.py:366
+#: ../../kde4/settingsdialog.py:527
 msgid "Power status not available from system"
-msgstr ""
+msgstr "A rendszer nem adja meg az energiaellátás állapotát"
 
-#: ../../kde4/settingsdialog.py:369 ../../gnome/settingsdialog.glade:1226
+#: ../../kde4/settingsdialog.py:530 ../../gnome/settingsdialog.glade:1862
 msgid "Backup files on restore"
-msgstr ""
+msgstr "Visszaállításkor a fájlok biztonsági mentése"
 
-#: ../../kde4/settingsdialog.py:372 ../../gnome/settingsdialog.glade:1242
+#: ../../kde4/settingsdialog.py:533 ../../gnome/settingsdialog.glade:1879
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr ""
+msgstr "Folytatás hibák esetén (megtartja a nem teljes pillanatképeket)"
 
-#: ../../kde4/settingsdialog.py:375 ../../gnome/settingsdialog.glade:1258
+#: ../../kde4/settingsdialog.py:536 ../../gnome/settingsdialog.glade:1896
 msgid "Use checksum to detect changes"
-msgstr ""
+msgstr "Checksum használata hibák felfedezéséhez"
 
-#: ../../kde4/settingsdialog.py:378 ../../gnome/settingsdialog.glade:1309
+#: ../../kde4/settingsdialog.py:539 ../../gnome/settingsdialog.glade:1913
+msgid "Full rsync mode. May be faster but:"
+msgstr "Teljes rsync-mód. Lassabb lehet, de:"
+
+#: ../../kde4/settingsdialog.py:540 ../../gnome/settingsdialog.glade:1939
+msgid ""
+"- snapshots are no read-only\n"
+"- destination file-system must support all linux attributes (dates, rights, "
+"user, group ...)"
+msgstr ""
+"- a pillanatképek nem csak olvashatók\n"
+"- a célfájlrendszernek támogatnia kell minden linux-attribútumot (dátumok, "
+"jogok, felhasználó, csoport...)"
+
+#: ../../kde4/settingsdialog.py:547 ../../gnome/settingsdialog.glade:1952
 msgid "Check for changes (don't take a new snapshot if nothing changed)"
 msgstr ""
+"Változások ellenőrzése (nem készít új pillanatképet, ha nincs változás)"
 
-#: ../../kde4/settingsdialog.py:385
+#: ../../kde4/settingsdialog.py:554
 msgid "Log Level:"
-msgstr ""
+msgstr "Naplózás szintje:"
 
-#: ../../kde4/settingsdialog.py:400 ../../gnome/settingsdialog.glade:1529
+#: ../../kde4/settingsdialog.py:569 ../../gnome/settingsdialog.glade:2239
 msgid "Expert Options"
 msgstr "Szakértői beállítások"
 
-#: ../../kde4/settingsdialog.py:403
+#: ../../kde4/settingsdialog.py:572
 msgid "Change these options only if you really know what you are doing !"
 msgstr ""
+"Ezeket a beállításokat csak akkor változtasd meg, ha biztosan tudod, mit "
+"csinálsz!"
 
-#: ../../kde4/settingsdialog.py:411 ../../gnome/settingsdialog.glade:1399
+#: ../../kde4/settingsdialog.py:580 ../../gnome/settingsdialog.glade:2040
 msgid "Run 'nice' as cron job (default: enabled)"
-msgstr "'Nice' futtatása cron feladatként (alapértelmezett: engedélyezve)"
+msgstr ""
+"A cron-feladatok 'nice'-ként fussanak (alapértelmezett: engedélyezve)"
 
-#: ../../kde4/settingsdialog.py:414 ../../gnome/settingsdialog.glade:1415
+#: ../../kde4/settingsdialog.py:583 ../../gnome/settingsdialog.glade:2057
 msgid "Run 'ionice' as cron job (default: enabled)"
 msgstr ""
+"A cron-feladatok 'ionice'-ként fussanak (alapértelmezett: engedélyezve)"
 
-#: ../../kde4/settingsdialog.py:417 ../../gnome/settingsdialog.glade:1431
+#: ../../kde4/settingsdialog.py:586 ../../gnome/settingsdialog.glade:2074
 msgid "Run 'ionice' when taking a manual snapshot (default: disabled)"
 msgstr ""
+"A cron-feladatok 'nice'-ként fussanak, ha kézzel készítesz pillanatképet "
+"(alapértelmezett: tiltva)"
 
-#: ../../kde4/settingsdialog.py:420 ../../gnome/settingsdialog.glade:1447
+#: ../../kde4/settingsdialog.py:592 ../../gnome/settingsdialog.glade:2097
+msgid "Limit rsync bandwidth usage: "
+msgstr "Az rsync sávszélesség-használatának korlátja: "
+
+#: ../../kde4/settingsdialog.py:595 ../../gnome/settingsdialog.glade:2132
+msgid " KB/sec"
+msgstr " KB/sec"
+
+#: ../../kde4/settingsdialog.py:600 ../../gnome/settingsdialog.glade:2153
 msgid "Preserve ACL"
-msgstr ""
+msgstr "ACL-ek megtartása"
 
-#: ../../kde4/settingsdialog.py:423 ../../gnome/settingsdialog.glade:1463
+#: ../../kde4/settingsdialog.py:603 ../../gnome/settingsdialog.glade:2170
 msgid "Preserve extended attributes (xattr)"
-msgstr ""
+msgstr "Kiterjesztett jogosultságok (xattr) megtartása"
 
-#: ../../kde4/settingsdialog.py:426 ../../gnome/settingsdialog.glade:1479
+#: ../../kde4/settingsdialog.py:606 ../../gnome/settingsdialog.glade:2187
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr ""
+msgstr "Nem biztonságos linkek másolása (csak abszolút linkekkel működik)"
 
-#: ../../kde4/settingsdialog.py:429 ../../gnome/settingsdialog.glade:1495
+#: ../../kde4/settingsdialog.py:609 ../../gnome/settingsdialog.glade:2204
 msgid "Copy links (dereference symbolic links)"
-msgstr ""
+msgstr "Linkek másolása (szimbolikus linkeknél nem csak a hivatkozást)"
 
 #: ../../kde4/snapshotsdialog.py:46 ../../kde4/snapshotsdialog.py:149
 #: ../../gnome/snapshotsdialog.glade:315
@@ -828,101 +1303,110 @@ msgstr "Paraméterek:"
 
 #: ../../kde4/snapshotsdialog.py:64 ../../gnome/snapshotsdialog.glade:264
 msgid "Use %1 and %2 for path parameters"
-msgstr "Használja ezeket útvonal paraméterként: %1 és %2"
+msgstr "Használja ezeket útvonal-paraméterként: %1 és %2"
 
 #: ../../kde4/snapshotsdialog.py:122 ../../gnome/snapshotsdialog.glade:88
 msgid "List only different snapshots"
-msgstr ""
+msgstr "Csak az eltérő pillanatképek listázása"
 
 #: ../../kde4/snapshotsdialog.py:126 ../../gnome/snapshotsdialog.glade:105
 msgid "Deep check (more accurate, but slow)"
-msgstr ""
+msgstr "Alapos ellenőrzés (pontosabb, de lassú)"
 
 #: ../../kde4/snapshotsdialog.py:150
 msgid "Go To"
-msgstr "Ugrás"
+msgstr "Ugrás ide:"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr ""
+msgstr "Naplófájl megtekintése"
+
+#: ../../gnome/logviewdialog.glade:179
+msgid "scroll down automatic"
+msgstr "automatikus lefelé görgetés"
 
 #: ../../gnome/mainwindow.glade:7
 msgid "Back In Time"
-msgstr "Back in Time"
+msgstr "Back In Time"
 
 #: ../../gnome/mainwindow.glade:45
 msgid "Backup Now"
 msgstr "Biztonsági mentés most"
 
-#: ../../gnome/mainwindow.glade:247 ../../gnome/mainwindow.glade:249
-msgid "Website"
-msgstr "Honlap"
+#: ../../gnome/mainwindow.glade:271
+msgid "Parent folder"
+msgstr "Szülőkönyvtár"
 
 #: ../../gnome/mainwindow.glade:311
-msgid "Parent folder"
-msgstr "Szülő könyvtár"
-
-#: ../../gnome/mainwindow.glade:351
 msgid "Hidden files"
 msgstr "Rejtett fájlok"
 
-#: ../../gnome/mainwindow.glade:475
+#: ../../gnome/mainwindow.glade:435
 msgid ""
 "<b>This folder doesn't exist\n"
 "in the current snapshot !</b>"
 msgstr ""
+"<b>A jelenlegi pillanatképben\n"
+"nincs benne ez a mappa!</b>"
 
-#: ../../gnome/settingsdialog.glade:343
-msgid "Profile Id:"
-msgstr ""
-
-#: ../../gnome/settingsdialog.glade:382
-msgid "Advanced"
-msgstr ""
-
-#: ../../gnome/settingsdialog.glade:400
+#: ../../gnome/settingsdialog.glade:287
 msgid "<b>Where to save snapshots</b>"
 msgstr "<b>Hova mentsem a pillanatképet</b>"
 
-#: ../../gnome/settingsdialog.glade:517
+#: ../../gnome/settingsdialog.glade:488
+msgid "Private key:"
+msgstr "Privát kulcs:"
+
+#: ../../gnome/settingsdialog.glade:540
+msgid "Advanced SSH Settings"
+msgstr "Szakértői SSH-beállítások"
+
+#: ../../gnome/settingsdialog.glade:558
+msgid "<b>SSH Settings</b>"
+msgstr "<b>SSH-beállítások</b>"
+
+#: ../../gnome/settingsdialog.glade:824
+msgid "<b>Password</b>"
+msgstr "<b>Jelszó</b>"
+
+#: ../../gnome/settingsdialog.glade:939
+msgid "Profile Id:"
+msgstr "A profil azonosítója:"
+
+#: ../../gnome/settingsdialog.glade:1074
+msgid ""
+"hours seperate by comma ( e.g. 8,12,18,23) or */3 for periodic backups every "
+"3 hours (cron style)"
+msgstr ""
+"az órákat vesszővel kell elválasztani (pl. 8,12,18,23) vagy */3 esetén "
+"háromóránként készül mentés (cron-stílus)"
+
+#: ../../gnome/settingsdialog.glade:1122
 msgid "<b>Schedule</b>"
 msgstr "<b>Ütemterv</b>"
 
-#: ../../gnome/settingsdialog.glade:699
+#: ../../gnome/settingsdialog.glade:1322
 msgid "<b>Highly recommended:</b>"
-msgstr ""
+msgstr "<b>Erősen ajánlott:</b>"
 
-#: ../../gnome/settingsdialog.glade:713
+#: ../../gnome/settingsdialog.glade:1336
 msgid "label"
-msgstr ""
+msgstr "címke"
 
-#: ../../gnome/settingsdialog.glade:948
-msgid "Auto-remove only removes snapshots from the selected snapshots folder"
-msgstr ""
-
-#: ../../gnome/settingsdialog.glade:1035
+#: ../../gnome/settingsdialog.glade:1662
 msgid "week(s)"
-msgstr ""
+msgstr "hét"
 
-#: ../../gnome/settingsdialog.glade:1274
-msgid "Full rsync mode. May be faster but:"
-msgstr ""
-
-#: ../../gnome/settingsdialog.glade:1296
-msgid ""
-"- snapshots are no read-only\n"
-"- destination file-system must support all linux attributes (dates, rights, "
-"user, group ...)"
-msgstr ""
-
-#: ../../gnome/settingsdialog.glade:1332
+#: ../../gnome/settingsdialog.glade:1976
 msgid "Log level:"
-msgstr ""
+msgstr "Naplózási szint:"
 
-#: ../../gnome/settingsdialog.glade:1387
+#: ../../gnome/settingsdialog.glade:2028
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
 msgstr ""
+"<b>Ezeket a beállításokat csak akkor változtasd meg, ha biztosan tudod, mit "
+"csinálsz!</b>"
 
 #: ../../gnome/snapshotsdialog.glade:193
 msgid "Diff with"
@@ -931,3 +1415,7 @@ msgstr "Összehasonlítás ezzel:"
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
 msgstr "Minta"
+
+#: ../../gnome/textinputdialog.glade:70
+msgid "Text"
+msgstr "Szöveg"
