@@ -1,4 +1,4 @@
-.TH backintime-kde4 1 "Mars 2009" "version 1.0.25" "USER COMMANDS"
+.TH backintime-kde4 1 "June 2013" "version 1.0.25" "USER COMMANDS"
 .SH NAME
 backintime-kde4 \- a simple backup tool for KDE4.
 .SH SYNOPSIS
@@ -9,6 +9,8 @@ backintime-kde4 \- a simple backup tool for KDE4.
 \-\-last\-snapshot | \-\-last\-snapshot\-path |
 \-\-keep\-mount | \-\-unmount |
 \-\-benchmark-cipher [SIZE] |
+\-\-decode [PATH] |
+\-\-quiet |
 \-\-help | \-\-version | \-\-license ]
 .SH DESCRIPTION
 Back In Time is a simple backup tool for Linux. This is the KDE4 version.
@@ -46,6 +48,12 @@ Unmount the profile.
 .TP
 \-\-benchmark-cipher [SIZE]
 Show a benchmark of all ciphers for ssh transfer
+.TP
+\-\-decode [PATH]
+decode encrypted PATH. If no PATH is given Backintime will read paths from standard input.
+.TP
+\-\-quiet
+suppress status messages on standard output.
 .TP
 \-h, \-\-help
 display a short help and exit

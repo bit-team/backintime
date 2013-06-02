@@ -1,4 +1,4 @@
-.TH backintime 1 "Mars 2009" "version 1.0.25" "USER COMMANDS"
+.TH backintime 1 "June 2013" "version 1.0.25" "USER COMMANDS"
 .SH NAME
 backintime \- a simple backup tool for Linux.
 .PP
@@ -12,6 +12,8 @@ The graphical tools are: backintime-gnome and backintime-kde4.
 \-\-last\-snapshot | \-\-last\-snapshot\-path |
 \-\-keep\-mount | \-\-unmount |
 \-\-benchmark-cipher [SIZE] |
+\-\-decode [PATH] |
+\-\-quiet |
 \-\-help | \-\-version | \-\-license ]
 .SH DESCRIPTION
 Back In Time is a simple backup tool for Linux. The backup is done by taking
@@ -38,44 +40,17 @@ for unchanged files. This way a file of 10Mb, unchanged for 10 snapshots, will u
 When you restore a file 'A', if it already exists on the file system it will be renamed to 'A.backup.currentdate'.
 .PP
 For automatic backup it use 'cron' so there is no need for a daemon, but 'cron' must be running.
-.SS user-callback
-During backup process the application can call a user callback at different steps.
-This callback is "$XDG_CONFIG_HOME/backintime/user-callback" (by default $XDG_CONFIG_HOME is ~/.config).
-.PP
-The first argument is the progile id (1=Main Profile, ...).
-.PP
-The second argument is the progile name.
-.PP
-The third argument is the reason:
+.SS Modes
+.IP "\fILocal\fR" 4
 .RS
-.TP
-1
-Backup process begins.
-.TP
-2
-Backup process ends.
-.TP
-3
-A new snapshot was taken. The extra arguments are snapshot ID and snapshot path.
-.TP
-4
-There was an error. The second argument is the error code.
-.RS
-Error codes:
-.TP
-1
-The application is not configured.
-.TP
-2
-A "take snapshot" process is already running.
-.TP
-3
-Can't find snapshots folder (is it on a removable drive ?).
-.TP
-4
-A snapshot for "now" already exist.
+Store snapshots on local HDD's (internal or USB). The drive has to be mounted before creating a new snapshot.
 .RE
-.SS SSH
+.IP "\fILocal encrypted\fR" 4
+.RS
+Store encrypted snapshots on local HDD's (internal or USB). Backintime uses 'encfs' with standard configuration to encrypt all data. You have to be member of group fuse to use this. In terminal type 'sudo adduser <USER> fuse'. To apply changes you have to logout and login again.
+.RE
+.IP "\fISSH \fR" 4
+.RS
 With Mode set to SSH you can store the backup on a remote host using the SecureShellHost protocol (ssh).
 The remote path will be mount local using sshfs to provide file-access for the graphical interface and the backup process.
 Rsync and other processes called during backup process will run directly on the remote host using ssh.
@@ -119,8 +94,54 @@ called on the remote host (via interactive ssh session) you are ready to go.
 .PP
 If you have questions on how to install and configure the Optware please refer to the community of your device. You can also take a look on BackInTime FAQ on Launchpad https://answers.launchpad.net/backintime/+faqs
 .PP
-If you successfuly modified your device to be able to make backups over ssh, it would be nice if you write a 'How to' on Launchpad's Answers so we can add this to the FAQ.
+If you successfully modified your device to be able to make backups over ssh, it would be nice if you write a 'How to' on Launchpad's Answers so we can add this to the FAQ.
 .RE
+.IP "\fISSH encrypted\fR" 4
+.RS
+Store encrypted snapshots on remote hosts using SSH. Backintime uses 'encfs --reverse' to mount the root filesystem '/'. Rsync will sync this encrypted view of '/' to a remote host over SSH. All encoding will be done on the local machine. So the password will never be exposed to the remote host and you can use the (normally) more powerful processor in you local machine for encryption instead of weak NAS CPU's. The downside on this is 'encfs --reverse' does not support 'Filename Initialization Vector Chaining' and 'Per-File Initialization Vectors' from the standard configuration (take a look at 'man encfs' for further informations).
+.PP
+Because of all data is transferred encrypted the log output shows encrypted filenames, too. In the Logview-Dialog you can use 'decode' option to decrypt the paths automatically or you can use 'backintime --decode' to manually decrypt paths. Backintime will show all snapshots decoded so you can browse all files as normal.
+.PP
+Exclude does not support wildcards ('foo*', '[fF]oo', 'fo?') because after encoding a file these wildcards can't match any more. Only separate asterisk that match a full file or folder will work ('foo/*', 'foo/**/bar'). All other excludes that have wildcards will be silently ignored.
+.PP
+Please refer to the 'SSH' section above for informations on setting up the SSH connection.
+.RE
+.SS user-callback
+During backup process the application can call a user callback at different steps.
+This callback is "$XDG_CONFIG_HOME/backintime/user-callback" (by default $XDG_CONFIG_HOME is ~/.config).
+.PP
+The first argument is the profile id (1=Main Profile, ...).
+.PP
+The second argument is the profile name.
+.PP
+The third argument is the reason:
+.RS
+.TP
+1
+Backup process begins.
+.TP
+2
+Backup process ends.
+.TP
+3
+A new snapshot was taken. The extra arguments are snapshot ID and snapshot path.
+.TP
+4
+There was an error. The second argument is the error code.
+.RS
+Error codes:
+.TP
+1
+The application is not configured.
+.TP
+2
+A "take snapshot" process is already running.
+.TP
+3
+Can't find snapshots folder (is it on a removable drive ?).
+.TP
+4
+A snapshot for "now" already exist.
 .RE
 .SH OPTIONS
 .TP
@@ -153,6 +174,12 @@ Unmount the profile.
 .TP
 \-\-benchmark-cipher [SIZE]
 Show a benchmark of all ciphers for ssh transfer.
+.TP
+\-\-decode [PATH]
+decode encrypted PATH. If no PATH is given Backintime will read paths from standard input.
+.TP
+\-\-quiet
+suppress status messages on standard output.
 .TP
 \-h, \-\-help
 display a short help
