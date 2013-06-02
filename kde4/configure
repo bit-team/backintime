@@ -1,10 +1,12 @@
 #!/bin/bash
 
 CHECK="--check"
+SUDO="--kdesudo"
 
 for arg in $*; do
 	case $arg in
-		--check | --no-check) CHECK=$arg
+		--check | --no-check) CHECK=$arg;;
+		--kdesu | --kdesudo) SUDO=$arg;;
 	esac
 done
 
@@ -15,6 +17,12 @@ if [ $CHECK = "--check" ]; then
 		exit 1
 	fi
 fi
+
+#set sudo
+case $SUDO in
+	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesudo -c backintime-kde4/" backintime-kde4-root.desktop;;
+	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesu -c backintime-kde4/" backintime-kde4-root.desktop;;
+esac
 
 cp Makefile.template Makefile
 
