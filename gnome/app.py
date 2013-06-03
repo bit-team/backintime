@@ -1202,7 +1202,7 @@ class MainWindow(object):
                         markup = "<b>!</b><i>%s</i>"
 
                 if os.path.isdir( path ):
-                    files.append( [ markup % file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 0, file ] )
+                    files.append( [ markup % file, '', file_date, self.icon_names.get_icon(path), file_size_int, 0, file ] )
                 else:
                     files.append( [ markup % file, file_size, file_date, self.icon_names.get_icon(path), file_size_int, 1, file ] )
 
