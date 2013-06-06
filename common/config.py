@@ -226,7 +226,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             self.save()
         
         self.current_hash_id = 'local'
-        self.pw = password.Password(self)
+        self.pw = None
 
     def save( self ):
         configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
@@ -526,6 +526,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, value, profile_id )
 
     def get_password( self, parent = None, profile_id = None, mode = None, pw_id = 1, only_from_keyring = False ):
+        if self.pw is None:
+            self.pw = password.Password(self)
         if profile_id is None:
             profile_id = self.get_current_profile()
         if mode is None:
@@ -533,6 +535,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.pw.get_password(parent, profile_id, mode, pw_id, only_from_keyring)
 
     def set_password( self, password, profile_id = None, mode = None, pw_id = 1 ):
+        if self.pw is None:
+            self.pw = password.Password(self)
         if profile_id is None:
             profile_id = self.get_current_profile()
         if mode is None:

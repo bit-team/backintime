@@ -410,7 +410,10 @@ class Password(object):
         available if User is logged in.
         """
         if self.keyring_supported:
-            return keyring.get_password(service_name, user_name)
+            try:
+                return keyring.get_password(service_name, user_name)
+            except Exception:
+                logger.error('get password from Keyring failed')
         return None
     
     def _get_password_from_pw_cache(self, service_name, user_name):
