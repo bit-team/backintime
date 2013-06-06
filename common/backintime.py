@@ -269,6 +269,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                 print >> sys.stderr, "The application is not configured !"
                 sys.exit(0)
             else:
+                logger.openlog()
                 daemon = password.Password_Cache(cfg)
                 try:
                     if sys.argv[index + 1].startswith('-'):
@@ -293,6 +294,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                         sys.exit(2)
                 except IndexError:
                     daemon.run()
+                logger.closelog()
                 sys.exit(0)
 
         if arg == '--decode':
