@@ -6,14 +6,18 @@ This is command line tool.
 The graphical tools are: backintime-gnome and backintime-kde4.
 .SH SYNOPSIS
 .B backintime
+[ \-\-profile <profile name> |
+\-\-profile\-id <profile id> ] 
+[ \-\-keep\-mount ] 
+[ \-\-quiet ] 
 [ \-\-backup | \-\-backup\-job |
 \-\-snapshots\-path |
 \-\-snapshots\-list | \-\-snapshots\-list\-path |
 \-\-last\-snapshot | \-\-last\-snapshot\-path |
-\-\-keep\-mount | \-\-unmount |
+\-\-unmount |
 \-\-benchmark-cipher [SIZE] |
+\-\-pw\-cache [start|stop|restart|reload|status] |
 \-\-decode [PATH] |
-\-\-quiet |
 \-\-help | \-\-version | \-\-license ]
 .SH DESCRIPTION
 Back In Time is a simple backup tool for Linux. The backup is done by taking
@@ -106,6 +110,10 @@ Exclude does not support wildcards ('foo*', '[fF]oo', 'fo?') because after encod
 .PP
 Please refer to the 'SSH' section above for informations on setting up the SSH connection.
 .RE
+.SS Password
+If 'Save Password to Keyring' is activated BackinTime will save the Password into GnomeKeyring (Seahorse) or KDE-KWallet. Both are secure password storages which encrypt the password with the users login-password. So they can only be accessed if the user is logged in.
+.PP
+A backup cronjob during the user isn't logged in can not collect the password from keyring. Also if the homedir is encrypted the keyring is not accessible from cronjobs (even if the user is logged in). For these cases the password can be cached in RAM. If 'Cache Password for Cron' is activated BackinTime will start a small daemon in user-space which will collect the password from keyring and provide them for cronjobs. They will never be written to the harddrive but a user with root permissions could access the daemon and read the password.
 .SS user-callback
 During backup process the application can call a user callback at different steps.
 This callback is "$XDG_CONFIG_HOME/backintime/user-callback" (by default $XDG_CONFIG_HOME is ~/.config).
@@ -143,7 +151,20 @@ Can't find snapshots folder (is it on a removable drive ?).
 4
 A snapshot for "now" already exist.
 .RE
-.SH OPTIONS
+.SH OPTIONS (use these before other actions)
+.TP
+\-\-profile <profile name>
+select profile by name
+.TP
+\-\-profile\-id <profile id>
+select profile by id
+.TP
+\-\-keep\-mount
+Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-snapshot\-path.
+.TP
+\-\-quiet
+suppress status messages on standard output.
+.SH ACTIONS
 .TP
 \-b, \-\-backup
 take a snapshot now (if needed) 
@@ -166,20 +187,17 @@ display last snapshot ID (if any)
 \-\-last\-snapshot\-path
 display the path to the last snapshot (if any)
 .TP
-\-\-keep\-mount
-Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-snapshot\-path.
-.TP
  \-\-unmount
 Unmount the profile.
 .TP
 \-\-benchmark-cipher [SIZE]
 Show a benchmark of all ciphers for ssh transfer.
 .TP
+\-\-pw\-cache [start|stop|restart|reload|status]
+Control the Password Cache Daemon. If no argument is given the Password Cache will start in foreground.
+.TP
 \-\-decode [PATH]
 decode encrypted PATH. If no PATH is given Backintime will read paths from standard input.
-.TP
-\-\-quiet
-suppress status messages on standard output.
 .TP
 \-h, \-\-help
 display a short help
@@ -194,4 +212,4 @@ backintime-gnome, backintime-kde4.
 .PP
 Back In Time also has a website: http://backintime.le\-web.org
 .SH AUTHOR
-This manual page was written by BIT Team (<bit-team@lists.launchpad.net>).
+This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).

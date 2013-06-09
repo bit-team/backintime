@@ -3,21 +3,38 @@
 backintime-kde4 \- a simple backup tool for KDE4.
 .SH SYNOPSIS
 .B backintime-kde4
+[ \-\-profile <profile name> |
+\-\-profile\-id <profile id> ] 
+[ \-\-keep\-mount ] 
+[ \-\-quiet ] 
 [ \-\-backup | \-\-backup\-job |
 \-\-snapshots\-path |
 \-\-snapshots\-list | \-\-snapshots\-list\-path |
 \-\-last\-snapshot | \-\-last\-snapshot\-path |
-\-\-keep\-mount | \-\-unmount |
+\-\-unmount |
 \-\-benchmark-cipher [SIZE] |
+\-\-pw\-cache [start|stop|restart|reload|status] |
 \-\-decode [PATH] |
-\-\-quiet |
 \-\-help | \-\-version | \-\-license ]
 .SH DESCRIPTION
 Back In Time is a simple backup tool for Linux. This is the KDE4 version.
 For more information about Back In Time see backintime man page.
 .PP
 If you want to run it as root you need to use 'kdesudo'.
-.SH OPTIONS
+.SH OPTIONS (use these before other actions)
+.TP
+\-\-profile <profile name>
+select profile by name
+.TP
+\-\-profile\-id <profile id>
+select profile by id
+.TP
+\-\-keep\-mount
+Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-snapshot\-path.
+.TP
+\-\-quiet
+suppress status messages on standard output.
+.SH ACTIONS
 .TP
 \-b, \-\-backup
 take a snapshot now (if needed) 
@@ -40,32 +57,29 @@ display last snapshot ID (if any)
 \-\-last\-snapshot\-path
 display the path to the last snapshot (if any)
 .TP
-\-\-keep\-mount
-Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-snapshot\-path.
-.TP
  \-\-unmount
 Unmount the profile.
 .TP
 \-\-benchmark-cipher [SIZE]
-Show a benchmark of all ciphers for ssh transfer
+Show a benchmark of all ciphers for ssh transfer.
+.TP
+\-\-pw\-cache [start|stop|restart|reload|status]
+Control the Password Cache Daemon. If no argument is given the Password Cache will start in foreground.
 .TP
 \-\-decode [PATH]
 decode encrypted PATH. If no PATH is given Backintime will read paths from standard input.
 .TP
-\-\-quiet
-suppress status messages on standard output.
-.TP
 \-h, \-\-help
-display a short help and exit
+display a short help
 .TP
 \-v, \-\-version
-show version and exit
+show version
 .TP
 \-\-license
-show license and exit
+show license
 .SH SEE ALSO
 backintime, backintime-gnome.
 .PP
 Back In Time also has a website: http://backintime.le\-web.org
 .SH AUTHOR
-This manual page was written by BIT Team (<bit-team@lists.launchpad.net>).
+This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).
