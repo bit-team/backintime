@@ -351,6 +351,9 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                 sys.exit(0)
 
         if arg == '--restore':
+            if not cfg.is_configured():
+                print >> sys.stderr, "The application is not configured !"
+                sys.exit(0)
             what = None
             where = None
             snapshot_id = None
