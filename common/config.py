@@ -1092,9 +1092,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         
         print "Clearing system Back In Time entries"
         #os.system( "crontab -l | grep -Pv '(?s)%s.*?backintime' | crontab -" % system_entry_message ) #buggy in Ubuntu 10.10
-        os.system( "crontab -l | grep -v '%s\n.*backintime.*' | crontab -" % system_entry_message )
+        os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab -" % system_entry_message )
 
-        
+        empty = True
         profiles = self.get_profiles()
         
         for profile_id in profiles:
@@ -1144,7 +1144,8 @@ class Config( configfile.ConfigFileWithProfiles ):
             elif self.MONTH == backup_mode:
                 cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
 
-            if len( cron_line ) > 0:	
+            if len( cron_line ) > 0:
+                empty = False
                 profile=''
                 if '1' != profile_id:
                     profile = "--profile-id %s" % profile_id
@@ -1157,6 +1158,12 @@ class Config( configfile.ConfigFileWithProfiles ):
                 cron_line = cron_line.replace( '{msg}', system_entry_message )
                 os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
+        if empty:
+            # Leave one system_entry_message in to prevent deleting of manual
+            # entries if there is no automatic entry.
+            info_message = "#Please don't delete these two lines, or all custom backintime entries are going to be deleted next time you call the gui options!"
+            os.system( '(crontab -l; echo "%s"; echo "%s") | crontab -'
+                    % (system_entry_message, info_message) )
         return True
     
     #def get_update_other_folders( self ):
