@@ -118,7 +118,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     
     ENCODE = encfstools.Bounce()
 
-    def __init__( self ):
+    def __init__( self, config_path = None ):
         configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
 
         self._APP_PATH =  os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) )
@@ -136,7 +136,10 @@ class Config( configfile.ConfigFileWithProfiles ):
         tools.make_dirs( self._LOCAL_CONFIG_FOLDER )
         tools.make_dirs( self._LOCAL_DATA_FOLDER )
 
-        self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
+        if config_path is None:
+            self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
+        else:
+            self._LOCAL_CONFIG_PATH = config_path
         old_path = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
 
         if os.path.exists( old_path ):
@@ -1034,6 +1037,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_cron_env_file( self ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "cron_env" )
+
+    def get_restore_log_file( self, profile_id = None ):
+        return os.path.join( self._LOCAL_DATA_FOLDER, "restore_%s.log" % self.__get_file_id__( profile_id ) )
 
     def get_license( self ):
         return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )

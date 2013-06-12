@@ -10,6 +10,7 @@ The graphical tools are: backintime-gnome and backintime-kde4.
 \-\-profile\-id <profile id> ] 
 [ \-\-keep\-mount ] 
 [ \-\-quiet ] 
+[ \-\-config PATH ] 
 [ \-\-backup | \-\-backup\-job |
 \-\-snapshots\-path |
 \-\-snapshots\-list | \-\-snapshots\-list\-path |
@@ -18,6 +19,7 @@ The graphical tools are: backintime-gnome and backintime-kde4.
 \-\-benchmark-cipher [SIZE] |
 \-\-pw\-cache [start|stop|restart|reload|status] |
 \-\-decode [PATH] |
+\-\-restore [WHAT [WHERE [SNAPSHOT_ID]]] |
 \-\-help | \-\-version | \-\-license ]
 .SH DESCRIPTION
 Back In Time is a simple backup tool for Linux. The backup is done by taking
@@ -164,6 +166,9 @@ Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-s
 .TP
 \-\-quiet
 suppress status messages on standard output.
+.TP
+\-\-config PATH
+read config from PATH.
 .SH ACTIONS
 .TP
 \-b, \-\-backup
@@ -198,6 +203,9 @@ Control the Password Cache Daemon. If no argument is given the Password Cache wi
 .TP
 \-\-decode [PATH]
 decode encrypted PATH. If no PATH is given Backintime will read paths from standard input.
+.TP
+\-\-restore [WHAT [WHERE [SNAPSHOT_ID]]]
+Restore file WHAT to path WHERE from snapshot SNAPSHOT_ID. If arguments are missing they will be prompted. To restore to the original path WHERE can be an empty string '' or just press Enter at the prompt. SNAPSHOT_ID can be an index (starting with 0 for the last snapshot) or the exact SnapshotID (19 caracters like '20130606-230501-984')
 .TP
 \-h, \-\-help
 display a short help

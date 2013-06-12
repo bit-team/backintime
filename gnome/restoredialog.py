@@ -50,6 +50,10 @@ class RestoreDialog(object):
         self.what = what
         self.where = where
         
+        self.log_file = self.config.get_restore_log_file()
+        if os.path.exists(self.log_file):
+            os.remove(self.log_file)
+        
         builder = gtk.Builder()
         self.builder = builder
         self.builder.set_translation_domain('backintime')
@@ -110,6 +114,8 @@ class RestoreDialog(object):
         end_iter = self.buffer.get_end_iter()
         self.buffer.insert(end_iter, line + "\n")
         self.scroll()
+        with open(self.log_file, 'a') as log:
+            log.write(line + '\n')
 
     def run( self ):
         self.dialog.show()
