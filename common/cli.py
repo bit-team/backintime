@@ -59,7 +59,7 @@ def restore(cfg, snapshot_id = None, what = None, where = None):
                 size = rc
                 break
         len_snapshots = len(snapshot_list)
-        columns = (int(size[1]) - 24) / 26 + 1
+        columns = (int(size[1]) - 25) / 26 + 1
         rows = len_snapshots // columns
         if len_snapshots % columns > 0:
             rows += 1

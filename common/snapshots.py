@@ -519,10 +519,11 @@ class Snapshots:
         cmd = tools.get_rsync_prefix( self.config, not full_rsync, use_modes = ['ssh'] )
         cmd = cmd + '-R -v '
         if not full_rsync:
-            cmd = cmd + '--chmod=ugo=rwX '
+            # During the rsync operation, directories must be rwx by the current
+            # user. Files should be r and x (if executable) by the current user.
+            cmd += '--chmod=Du=rwx,Fu=rX,go= '
         if self.config.is_backup_on_restore_enabled():
             cmd = cmd + "--backup --suffix=%s " % backup_suffix
-        #cmd = cmd + '--chmod=+w '
         src_base = self.get_snapshot_path_to( snapshot_id, use_mode = ['ssh'] )
 
         src_path = path
