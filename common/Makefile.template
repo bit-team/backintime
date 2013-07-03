@@ -29,6 +29,13 @@ install: build install_translations
 	install --mode=644 ../TRANSLATIONS $(DEST)/share/doc/backintime
 	install --mode=644 ../VERSION $(DEST)/share/doc/backintime
 	install --mode=644 ../CHANGES $(DEST)/share/doc/backintime
+
+	#install config-example files(s)
+	gzip --best -c config-example-local > config-example-local.gz
+	gzip --best -c config-example-ssh > config-example-ssh.gz
+	install -d $(DEST)/share/doc/backintime/examples
+	install --mode=644 config-example-local.gz $(DEST)/share/doc/backintime/examples
+	install --mode=644 config-example-ssh.gz $(DEST)/share/doc/backintime/examples
 	
 	#install man file(s)
 	for i in $$(ls -1 man/C/); do case $$i in *.gz|*~) continue;; *) gzip --best -c man/C/$$i > man/C/$${i}.gz;; esac; done

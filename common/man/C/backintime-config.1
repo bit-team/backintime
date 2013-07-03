@@ -1,0 +1,648 @@
+.TH backintime-config 1 "July 2013" "version 1.0.25" "USER COMMANDS"
+.SH NAME
+config \- BackInTime configuration files.
+.SH SYNOPSIS
+~/.config/backintime/config
+.br
+/etc/backintime/config
+.SH DESCRIPTION
+Back In Time was developed as pure GUI program and so most functions are only 
+useable with backintime-gnome or backintime-kde4. But it is possible to use 
+Back In Time e.g. on a headless server. You have to create the configuration file
+(~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime/examples/ for examples.
+.PP
+The configuration file has the following format:
+.br
+keyword=arguments
+.PP
+Arguments don't need to be quoted. All characters are allowed except '='.
+.PP
+The given path (\fIprofile<N>.snapshots.path\fR, \fIprofile<N>.snapshots.local_encfs.path\fR 
+or \fIprofile<N>.snapshots.ssh.path\fR) must contain a folderstructure like 
+backintime/<HOST>/<USER>/<PROFILE_ID>. This has to be created manually.
+.PP
+Also the crontab entry for automatic backup shedules has to be created manually.
+.PP
+crontab example:
+.br
+0 */2 * * * nice -n 19 ionice -c2 -n7 /usr/bin/backintime --backup-job >/dev/null 2>&1
+.SH POSSIBLE KEYWORDS
+.IP "\fIglobal.hash_collision\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+Internal value used to prevent hash collisions on mountpoints. Do not change this.
+.PP
+Default: 0 
+.RE
+
+.IP "\fIkeyring.backend\fR" 6
+.RS
+Type: str       Allowed Values: gnomekeyring|kwallet
+.br
+Backend used for \fIprofile<N>.snapshots.<MODE>.password.save\fR
+.PP
+Default: ''
+.RE
+
+.IP "\fIprofile<N>.name\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Name of this profile.
+.PP
+Default: Main profile
+.RE
+
+.IP "\fIprofile<N>.snapshots.automatic_backup_day\fR" 6
+.RS
+Type: int       Allowed Values: 1-28
+.br
+Which day of month the cronjob should run? Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR >= 40
+.PP
+Default: 1
+.RE
+
+.IP "\fIprofile<N>.snapshots.automatic_backup_mode\fR" 6
+.RS
+Type: int       Allowed Values: 0|1|2|4|7|10|12|14|16|18|19|20|30|40|80
+.br
+Which shedule used for crontab. Note that the crontab entry is only generated during saving in settings dialog. If you don't run a GUI version of BackInTime you'll have to create the crontab entry on your own.
+.br
+ 0 = Disabled
+.br
+ 1 = at every boot
+.br
+ 2 = every 5 minute
+.br
+ 4 = every 10 minute
+.br
+ 7 = every 30 minute
+.br
+10 = every hour
+.br
+12 = every 2 hours
+.br
+14 = every 4 hours
+.br
+16 = every 6 hours
+.br
+18 = every 12 hours
+.br
+19 = custom defined hours
+.br
+20 = every day
+.br
+30 = every week
+.br
+40 = every month
+.br
+80 = every year
+.PP
+Default: 0
+.RE
+
+.IP "\fIprofile<N>.snapshots.automatic_backup_time\fR" 6
+.RS
+Type: int       Allowed Values: 0-24
+.br
+What time the cronjob should run? Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR >= 20
+.PP
+Default: 0
+.RE
+
+.IP "\fIprofile<N>.snapshots.automatic_backup_weekday\fR" 6
+.RS
+Type: int       Allowed Values: 1 = monday - 7 = sunday
+.br
+Which day of week the cronjob should run? Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 30
+.PP
+Default: 7
+.RE
+
+.IP "\fIprofile<N>.snapshots.backup_on_restore.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Rename existing files before restore into FILE.backup.YYYYMMDD
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.bwlimit.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Limit rsync bandwidth usage over network. Use this with mode SSH. For mode Local you should rather use ionice.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.bwlimit.value\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+Bandwidth limit in KB/sec.
+.PP
+Default: 3000
+.RE
+
+.IP "\fIprofile<N>.snapshots.check_for_changes\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Perform a dry-run before taking snapshots. Don't take a new snapshot if nothing has changed.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.continue_on_errors\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Continue on errors. This will keep incomplete snapshots rather than deleting and start over again.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.copy_links\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+When  symlinks  are  encountered, the item that they point to (the referent) is copied, rather than the symlink.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.copy_unsafe_links\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+This tells rsync to copy the referent of symbolic links that point outside the copied tree.  Absolute symlinks are also treated like ordinary files.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.cron.ionice\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Run cronjobs with 'ionice -c2 -n7'. This will give BackInTime the lowest IO bandwidth priority to not interupt any other working process.
+.br
+Note that the crontab entry is only generated during saving in settings dialog. If you don't run a GUI version of BackInTime you'll have to create the crontab entry on your own.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.cron.nice\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Run cronjobs with 'nice -n 19'. This will give BackInTime the lowest CPU priority to not interupt any other working process.
+.br
+Note that the crontab entry is only generated during saving in settings dialog. If you don't run a GUI version of BackInTime you'll have to create the crontab entry on your own.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.custom_backup_time\fR" 6
+.RS
+Type: str       Allowed Values: comma separated int (8,12,18,23) or */3
+.br
+Custom hours for cronjob. Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 19
+.PP
+Default: 8,12,18,23
+.RE
+
+.IP "\fIprofile<N>.snapshots.dont_remove_named_snapshots\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Keep snapshots with names during smart_remove.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.exclude.<I>.value\fR" 6
+.RS
+Type: str       Allowed Values: file, folder or pattern (relative or absolute)
+.br
+Exclude this file or folder. <I> must be a counter starting with 1
+.PP
+Default: ''
+.RE
+
+.IP "\fIprofile<N>.snapshots.exclude.size\fR" 6
+.RS
+Type: int       Allowed Values: 1-99999
+.br
+Quantity of exclude entrys.
+.PP
+Default: -1
+.RE
+
+.IP "\fIprofile<N>.snapshots.full_rsync\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Full rsync mode. May be faster but snapshots are not read-only anymore and destination file-system must support all linux attributes (date, rights, user, group...)
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.gnu_find_suffix_support\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Remote SSH host support GNU find suffix (find -exec COMMAND {} +).
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.include.<I>.type\fR" 6
+.RS
+Type: int       Allowed Values: 0|1
+.br
+Specify if \fIprofile<N>.snapshots.include.<I>.value\fR is a folder (0) or a file (1).
+.PP
+Default: 0
+.RE
+
+.IP "\fIprofile<N>.snapshots.include.<I>.value\fR" 6
+.RS
+Type: str       Allowed Values: absolute path
+.br
+Include this file or folder. <I> must be a counter starting with 1
+.PP
+Default: ''
+.RE
+
+.IP "\fIprofile<N>.snapshots.include.size\fR" 6
+.RS
+Type: int       Allowed Values: 1-99999
+.br
+Quantity of include entrys.
+.PP
+Default: -1
+.RE
+
+.IP "\fIprofile<N>.snapshots.keep_only_one_snapshot.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+NOT YET IMPLEMENTED. Remove all snapshots but one.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.local_encfs.path\fR" 6
+.RS
+Type: str       Allowed Values: absolute path
+.br
+Where to save snapshots in mode 'local_encfs'. The encrypted path must contian a folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>'
+.PP
+Default: ''
+.RE
+
+.IP "\fIprofile<N>.snapshots.log_level\fR" 6
+.RS
+Type: int       Allowed Values: 1-3
+.br
+Log level used during take_snapshot.
+.br
+1 = Error
+.br
+2 = Changes
+.br
+3 = Info
+.PP
+Default: 3
+.RE
+
+.IP "\fIprofile<N>.snapshots.min_free_space.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR free space is reached.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.min_free_space.unit\fR" 6
+.RS
+Type: int       Allowed Values: 10|20
+.br
+10 = MB
+.br
+20 = GB
+.PP
+Default: 20
+.RE
+
+.IP "\fIprofile<N>.snapshots.min_free_space.value\fR" 6
+.RS
+Type: int       Allowed Values: 1-99999
+.br
+Keep at least value + unit free space.
+.PP
+Default: 1
+.RE
+
+.IP "\fIprofile<N>.snapshots.mode\fR" 6
+.RS
+Type: str       Allowed Values: local|local_encfs|ssh|ssh_encfs
+.br
+Use mode (or backend) for this snapshot. Look at 'man backintime' section 'Modes'.
+.PP
+Default: local
+.RE
+
+.IP "\fIprofile<N>.snapshots.<MODE>.password.save\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Save password to system keyring (gnome-keyring or kwallet). <MODE> must be the same as \fIprofile<N>.snapshots.mode\fR
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.<MODE>.password.use_cache\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Cache password in RAM so it can be read by cronjobs. Security issue: root might be able to read that password, too. <MODE> must be the same as \fIprofile<N>.snapshots.mode\fR
+.PP
+Default: true if home is not encrypted
+.RE
+
+.IP "\fIprofile<N>.snapshots.no_on_battery\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Don't take snapshots if the Computer runs on battery.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.notify.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Display notifications (errors, warnings) through libnotify.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.path\fR" 6
+.RS
+Type: str       Allowed Values: absolute path
+.br
+Where to save snapshots in mode 'local'. This path must contain a folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>'
+.PP
+Default: ''
+.RE
+
+.IP "\fIprofile<N>.snapshots.path.auto\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Automaticaly set HOST, USER and PROFILE_ID for snapshot path.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.path.host\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Set Host for snapshot path if \fIprofile<N>.snapshots.path.auto\fR is false
+.PP
+Default: local hostname
+.RE
+
+.IP "\fIprofile<N>.snapshots.path.profile\fR" 6
+.RS
+Type: str       Allowed Values: 1-99999
+.br
+Set Profile-ID for snapshot path if \fIprofile<N>.snapshots.path.auto\fR is false
+.PP
+Default: current Profile-ID
+.RE
+
+.IP "\fIprofile<N>.snapshots.path.user\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Set User for snapshot path if \fIprofile<N>.snapshots.path.auto\fR is false
+.PP
+Default: local username
+.RE
+
+.IP "\fIprofile<N>.snapshots.preserve_acl\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Preserve ACL. The  source  and  destination  systems must have compatible ACL entries for this option to work properly.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.preserve_xattr\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Preserve extended attributes (xattr).
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.remove_old_snapshots.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Remove all snapshots older than value + unit
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.remove_old_snapshots.unit\fR" 6
+.RS
+Type: int       Allowed Values: 20|30|80
+.br
+20 = days
+.br
+30 = weeks
+.br
+80 = years
+.PP
+Default: 80
+.RE
+
+.IP "\fIprofile<N>.snapshots.remove_old_snapshots.value\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+Snapshots older than this times units will be removed
+.PP
+Default: 10
+.RE
+
+.IP "\fIprofile<N>.snapshots.smart_remove\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Run smart_remove to clean up old snapshots after a new snapshot was created.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.smart_remove.keep_all\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+Keep all snapshots for X days.
+.PP
+Default: 2
+.RE
+
+.IP "\fIprofile<N>.snapshots.smart_remove.keep_one_per_day\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+Keep one snapshot per day for X days.
+.PP
+Default: 7
+.RE
+
+.IP "\fIprofile<N>.snapshots.smart_remove.keep_one_per_month\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+Keep one snapshot per month for X month.
+.PP
+Default: 24
+.RE
+
+.IP "\fIprofile<N>.snapshots.smart_remove.keep_one_per_week\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+Keep one snapshot per week for X weeks.
+.PP
+Default: 4
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.cipher\fR" 6
+.RS
+Type: str       Allowed Values: default|aes192-cbc|aes256-cbc|aes128-ctr|aes192-ctr|aes256-ctr|arcfour|arcfour256|arcfour128|aes128-cbc|3des-cbc|blowfish-cbc|cast128-cbc
+.br
+Cipher that is used for encryping the SSH tunnel. Depending on the environment (network bandwidth, cpu and hdd performance) a different cipher might be faster.
+.PP
+Default: default
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.host\fR" 6
+.RS
+Type: str       Allowed Values: IP or domain address
+.br
+Remote host used for mode 'ssh' and 'ssh_encfs'.
+.PP
+Default: ''
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.path\fR" 6
+.RS
+Type: str       Allowed Values: absolute or relative path
+.br
+Snapshot path on remote host. If the path is relative (no leading '/') it will start from remote Users homedir. An empty path will be replaced with './'. This path must contain a folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>'
+.PP
+Default: ''
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.port\fR" 6
+.RS
+Type: int       Allowed Values: 0-65535
+.br
+SSH Port on remote host.
+.PP
+Default: 22
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.private_key_file\fR" 6
+.RS
+Type: str       Allowed Values: absolute path to private key file
+.br
+Private key file used for password-less authentication on remote host.
+.PP
+Default: ~/.ssh/id_dsa
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.user\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Remote SSH user
+.PP
+Default: local users name
+.RE
+
+.IP "\fIprofile<N>.snapshots.take_snapshot.<STEP>.user.script\fR" 6
+.RS
+Type: str       Allowed Values: absolute path
+.br
+Run this scrip on events defined by <STEP>.
+.br
+Possible events for <STEP>:
+.br
+  before
+.br
+  after
+.br
+  new_snapshot
+.br
+  error
+.PP
+Default: ''
+.RE
+
+.IP "\fIprofile<N>.snapshots.use_checksum\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Use checksum to detect changes rather than size + time.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.user_backup.ionice\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Run BackInTime with 'ionice -c2 -n7' when taking a manual snapshot. This will give BackInTime the lowest IO bandwidth priority to not interupt any other working process.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofiles\fR" 6
+.RS
+Type: str       Allowed Values: int seperated by colon (e.g. 1:3:4)
+.br
+All active Profiles (<N> in profile<N>.snapshots...).
+.PP
+Default: 1
+.RE
+
+.IP "\fIprofiles.version\fR" 6
+.RS
+Type: int       Allowed Values: 1
+.br
+Internal version of profiles config.
+.PP
+Default: 1
+.RE
+.SH SEE ALSO
+backintime, backintime-gnome, backintime-kde4.
+.PP
+Back In Time also has a website: http://backintime.le\-web.org
+.SH AUTHOR
+This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).
