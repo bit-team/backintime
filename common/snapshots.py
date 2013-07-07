@@ -28,6 +28,7 @@ import pwd
 import grp
 import socket
 import subprocess
+import shutil
 
 import config
 import configfile
@@ -1677,7 +1678,7 @@ class Snapshots:
 
     #	return output
     
-    def filter_for(self, base_snapshot_id, base_path, snapshots_list, list_diff_only  = False, flag_deep_check = False):
+    def filter_for(self, base_snapshot_id, base_path, snapshots_list, list_diff_only  = False, flag_deep_check = False, list_equal_to = False):
         "return a list of available snapshots (including 'now'), eventually filtered for uniqueness"
         snapshots_filtered = []
 
@@ -1716,7 +1717,7 @@ class Snapshots:
             return snapshots_filtered
 
         #files
-        if not list_diff_only:
+        if not list_diff_only and not list_equal_to:
             for snapshot_id in all_snapshots_list:
                 path = self.get_snapshot_path_to( snapshot_id, base_path )
 
@@ -1726,7 +1727,7 @@ class Snapshots:
             return snapshots_filtered
 
         # check for duplicates
-        uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False)
+        uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False, list_equal_to = list_equal_to)
         for snapshot_id in all_snapshots_list:
             path = self.get_snapshot_path_to( snapshot_id, base_path )
             if os.path.exists( path ) and not os.path.islink( path ) and os.path.isfile( path ) and uniqueness.check_for(path):  
@@ -1770,6 +1771,28 @@ class Snapshots:
             return '\'%s@%s:"%s"\'' % (user, host, path)
         else:
             return '"%s"' % path
+
+    def delete_path(self, snapshot_id, path):
+        def handle_error(fn, path, excinfo):
+            dir = os.path.dirname(path)
+            if not os.access(dir, os.W_OK):
+                st = os.stat(dir)
+                os.chmod(dir, st.st_mode | stat.S_IWUSR)
+            st = os.stat(path)
+            os.chmod(path, st.st_mode | stat.S_IWUSR)
+            fn(path)
+            
+        full_path = self.get_snapshot_path_to(snapshot_id, path)
+        dirname = os.path.dirname(full_path)
+        dir_st = os.stat(dirname)
+        os.chmod(dirname, dir_st.st_mode | stat.S_IWUSR)
+        if os.path.isdir(full_path) and not os.path.islink(full_path):
+            shutil.rmtree(full_path, onerror = handle_error)
+        else:
+            st = os.stat(full_path)
+            os.chmod(full_path, st.st_mode | stat.S_IWUSR)
+            os.remove(full_path)
+        os.chmod(dirname, dir_st.st_mode)
 
 if __name__ == "__main__":
     config = config.Config()

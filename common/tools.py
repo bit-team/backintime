@@ -512,19 +512,32 @@ def set_keyring(prefered):
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
-    
-    def __init__(self, dc = False, follow_symlink = False): 
+    def __init__(self, dc = False, follow_symlink = False, list_equal_to = False): 
         self.deep_check = dc
         self.follow_sym = follow_symlink
         self._uniq_dict = {}      # if not self._uniq_dict[size] -> size already checked with md5sum
         self._size_inode = set()  # if (size,inode) in self._size_inode -> path is a hlink 
-        
+        self.list_equal_to = list_equal_to
+        if list_equal_to:
+            st = os.stat(list_equal_to)
+            if self.deep_check:
+                self.reference = (st.st_size, _get_md5sum_from_path(list_equal_to))
+            else:
+                self.reference = (st.st_size, int(st.st_mtime))
+
     def check_for(self, input_path, verb = False):
-        '''store a unique key for path, return True if path is unique'''
         # follow symlinks ?
         path = input_path
         if self.follow_sym and os.path.islink(input_path):
             path = os.readlink(input_path)
+
+        if self.list_equal_to:
+            return self.check_equal(path, verb)
+        else:
+            return self.check_unique(path, verb)
+
+    def check_unique(self, path, verb):
+        '''store a unique key for path, return True if path is unique'''
         # check
         if self.deep_check:
             dum = os.stat(path)
@@ -561,6 +574,16 @@ class UniquenessSet:
             return True    
         if verb: print " >> skip (it's a duplicate)" 
         return False
+
+    def check_equal(self, path, verb):
+        '''return True if path and reference are equal'''
+        st = os.stat(path)
+        if self.deep_check:
+            if self.reference[0] == st.st_size:
+                return self.reference[1] == _get_md5sum_from_path(path)
+            return False
+        else:
+            return self.reference == (st.st_size, int(st.st_mtime))
 
 class Timeout(Exception):
     pass

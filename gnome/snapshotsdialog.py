@@ -60,7 +60,6 @@ class SnapshotsDialog(object):
         self.dialog.set_transient_for( parent )
 
         signals = { 
-            'on_list_snapshots_cursor_changed' : self.on_list_snapshots_cursor_changed,
             'on_list_snapshots_row_activated' : self.on_list_snapshots_row_activated,
             'on_list_snapshots_popup_menu' : self.on_list_snapshots_popup_menu,
             'on_list_snapshots_button_press_event': self.on_list_snapshots_button_press_event,
@@ -68,8 +67,11 @@ class SnapshotsDialog(object):
             'on_list_snapshots_key_press_event' : self.on_list_snapshots_key_press_event,
             'on_btn_diff_with_clicked' : self.on_btn_diff_with_clicked,
             'on_btn_restore_clicked' : self.on_restore_this,
+            'on_btn_delete_clicked' : self.on_btn_delete_clicked,
             'on_check_list_diff_toggled'  : self.on_check_list_diff_toggled,
-            'on_check_deep_check_toggled' : self.on_check_deep_check_toggled
+            'on_check_list_equal_toggled'  : self.on_check_list_diff_toggled,
+            'on_check_deep_check_toggled' : self.on_check_deep_check_toggled,
+            'on_combo_equal_to_changed' : self.on_combo_equal_to_changed
         }
         
         #path
@@ -83,6 +85,9 @@ class SnapshotsDialog(object):
         
         self.btn_restore = self.builder.get_object('btn_restore')
         self.btn_restore.set_menu(self.restore_menu)
+
+        #delete
+        self.btn_delete = self.builder.get_object('btn_delete')
 
         #popup now
         #self.popup_now = gtk.Menu()
@@ -115,6 +120,8 @@ class SnapshotsDialog(object):
         self.list_snapshots.set_model( self.store_snapshots )
         
         self.store_snapshots.set_sort_column_id( 0, gtk.SORT_DESCENDING )
+        self.list_snapshots.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
+        self.list_snapshots.get_selection().connect('changed', self.on_list_snapshots_cursor_changed)
         
         #setup diff with combo
         self.combo_diff_with = self.builder.get_object( 'combo_diff_with' )
@@ -123,12 +130,27 @@ class SnapshotsDialog(object):
         self.combo_diff_with.add_attribute( text_renderer, 'markup', 0 )
         self.combo_diff_with.set_model( self.store_snapshots ) #use the same store
 
+        #setup equal to combo
+        self.store_snapshots_combo_equal = gtk.ListStore( str, str )
+        self.store_snapshots_combo_equal.set_sort_column_id( 0, gtk.SORT_DESCENDING )
+        
+        self.combo_equal_to = self.builder.get_object( 'combo_equal_to' )
+        text_renderer = gtk.CellRendererText()
+        self.combo_equal_to.pack_start( text_renderer, True )
+        self.combo_equal_to.add_attribute( text_renderer, 'markup', 0 )
+        self.combo_equal_to.set_model(self.store_snapshots_combo_equal)
+        
+        self.update_combo_equal_to()
+        self.combo_equal_to.set_sensitive(False)
+
         # update snapshot list
         full_path = self.snapshots.get_snapshot_path_to( self.current_snapshot_id, self.path )
         if os.path.islink( full_path ):
             self.builder.get_object( 'check_deep_check' ).hide()
         elif os.path.isdir( full_path ):
             self.builder.get_object( 'check_list_diff' ).hide()
+            self.builder.get_object('check_list_equal').hide()
+            self.combo_equal_to.hide()
             self.builder.get_object( 'check_deep_check' ).hide()
 
         self.builder.get_object( 'check_deep_check' ).set_sensitive( False )
@@ -138,26 +160,36 @@ class SnapshotsDialog(object):
     def update_toolbar( self ):
         if len( self.store_snapshots ) <= 0:
             self.btn_restore.set_sensitive( False )
+            self.btn_delete.set_sensitive(False)
         else:
-            iter = self.list_snapshots.get_selection().get_selected()[1]
+            try:
+                iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
+                iter = self.store_snapshots.get_iter(iter[0])
+            except IndexError:
+                iter = None
             if iter is None:
                 self.btn_restore.set_sensitive( False )
+                self.btn_delete.set_sensitive(False)
             else:
                 path = self.store_snapshots.get_value( iter, 1 )
-                self.btn_restore.set_sensitive( len( path ) > 1 )
+                self.btn_restore.set_sensitive( len( path ) > 1 and not self.list_snapshots.get_selection().count_selected_rows() > 1)
+                self.btn_delete.set_sensitive(len(path) > 1)
 
     def on_restore_this( self, *args ):
-        iter = self.list_snapshots.get_selection().get_selected()[1]
+        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
+        iter = self.store_snapshots.get_iter(iter[0])
         if not iter is None:
             gnometools.restore(self, self.store_snapshots.get_value( iter, 1 ), self.path )
 
     def on_restore_this_to( self, *args ):
-        iter = self.list_snapshots.get_selection().get_selected()[1]
+        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
+        iter = self.store_snapshots.get_iter(iter[0])
         if not iter is None:
             gnometools.restore(self, self.store_snapshots.get_value( iter, 1 ), self.path, True )
 
     def on_list_snapshots_drag_data_get( self, widget, drag_context, selection_data, info, timestamp, user_param1 = None ):
-        iter = self.list_snapshots.get_selection().get_selected()[1]
+        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
+        iter = self.store_snapshots.get_iter(iter[0])
         if not iter is None:
             path = self.store_snapshots.get_value( iter, 2 )
             path = gnomevfs.escape_path_string(path)
@@ -196,7 +228,8 @@ class SnapshotsDialog(object):
         self.show_popup_menu( list, 1, gtk.get_current_event_time() )
 
     def show_popup_menu( self, list, button, time ):
-        iter = list.get_selection().get_selected()[1]
+        iter = list.get_selection().get_selected_rows()[1][0]
+        iter = self.store_snapshots.get_iter(iter[0])
         if iter is None:
             return
 
@@ -232,7 +265,8 @@ class SnapshotsDialog(object):
             return
 
         #get path from the list
-        iter = self.list_snapshots.get_selection().get_selected()[1]
+        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
+        iter = self.store_snapshots.get_iter(iter[0])
         if iter is None:
             return
         path1 = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
@@ -267,16 +301,57 @@ class SnapshotsDialog(object):
             self.config.set_str_value( 'gnome.diff.params', diff_cmd_params )
             self.config.save()
 
+    def on_btn_delete_clicked(self, *args):
+        iters = self.list_snapshots.get_selection().get_selected_rows()[1]
+        list = []
+        for iter in iters:
+            iter = self.store_snapshots.get_iter(iter[0])
+            if not iter is None:
+                snapshot_id = self.store_snapshots.get_value( iter, 1 )
+                list.append(snapshot_id)
+        if len(list) == 0:
+            return
+        elif len(list) == 1:
+            msg = _('Do you really want to delete "%(file)s" in snapshot "%(snapshot_id)s?\n') \
+                    % {'file' : self.path, 'snapshot_id' : list[0]}
+        else:
+            msg = _('Do you really want to delete "%(file)s" in %(count)d snapshots?\n') \
+                    % {'file' : self.path, 'count' : len(list)}
+        msg += _('WARNING: This can not be revoked!')
+        if gtk.RESPONSE_YES == messagebox.show_question(self.dialog, self.config, msg):
+            for snapshot_id in list:
+                self.snapshots.delete_path(snapshot_id, self.path)
+
+            msg = _('Exclude "%s" from future snapshots?' % self.path)
+            if gtk.RESPONSE_YES == messagebox.show_question(self.dialog, self.config, msg):
+                exclude = self.config.get_exclude()
+                exclude.append(self.path)
+                self.config.set_exclude(exclude)
+            self.update_combo_equal_to()
+            self.update_snapshots()
+
     def on_check_list_diff_toggled( self, widget, data = None ):
-        deep_btn = self.builder.get_object( 'check_deep_check' )     
-        if widget.get_active() and tools.check_command("md5sum"):
+        deep_btn = self.builder.get_object( 'check_deep_check' )
+        diff_btn = self.builder.get_object('check_list_diff')
+        equal_btn = self.builder.get_object('check_list_equal')
+
+        if widget == diff_btn:
+            equal_btn.set_sensitive(not widget.get_active())
+        elif widget == equal_btn:
+            diff_btn.set_sensitive(not widget.get_active())
+
+        if diff_btn.get_active() or equal_btn.get_active() and tools.check_command("md5sum"):
             deep_btn.set_sensitive(True)
         else:
             deep_btn.set_active(False)
             deep_btn.set_sensitive( False )
+        self.combo_equal_to.set_sensitive(equal_btn.get_active())
         self.update_snapshots()
         
     def on_check_deep_check_toggled( self, widget, data = None ):
+        self.update_snapshots()
+
+    def on_combo_equal_to_changed(self, *args):
         self.update_snapshots()
 
     def update_snapshots( self):
@@ -290,8 +365,14 @@ class SnapshotsDialog(object):
         
         # filter snapshots for uniqueness (if requested)
         list_diff  = self.builder.get_object( 'check_list_diff' ).get_active()
-        deep_check = self.builder.get_object( 'check_deep_check' ).get_active()   
-        snapshots_filtered = self.snapshots.filter_for( self.current_snapshot_id, self.path, self.snapshots_list, list_diff, deep_check )
+        deep_check = self.builder.get_object( 'check_deep_check' ).get_active()
+        list_equal_to = False
+        if self.builder.get_object('check_list_equal').get_active():
+            iter = self.combo_equal_to.get_active_iter()
+            if not iter is None:
+                list_equal_to = self.snapshots.get_snapshot_path_to( self.store_snapshots_combo_equal.get_value( iter, 1 ), self.path )
+        
+        snapshots_filtered = self.snapshots.filter_for( self.current_snapshot_id, self.path, self.snapshots_list, list_diff, deep_check, list_equal_to )
         
         for snapshot_id in snapshots_filtered:
             self.store_snapshots.append( [ gnometools.get_snapshot_display_markup( self.snapshots, snapshot_id ), snapshot_id ] )
@@ -315,11 +396,26 @@ class SnapshotsDialog(object):
         self.list_snapshots.grab_focus()
         self.update_toolbar()
 
+    def update_combo_equal_to(self):
+        self.store_snapshots_combo_equal.clear()
+        counter = 0
+        index_combo_equal_to = 0
+        snapshots_filtered = self.snapshots.filter_for(self.current_snapshot_id, self.path, self.snapshots_list)
+        
+        for snapshot_id in snapshots_filtered:
+            self.store_snapshots_combo_equal.append( [ gnometools.get_snapshot_display_markup( self.snapshots, snapshot_id ), snapshot_id ] )
+            if snapshot_id == self.current_snapshot_id:
+                index_combo_equal_to = counter
+            counter += 1
+        
+        self.combo_equal_to.set_active(index_combo_equal_to)
+
     def on_list_snapshots_row_activated( self, list, path, column ):
         self.open_item()
 
     def open_item( self, use_gloobus_preview = False ):
-        iter = self.list_snapshots.get_selection().get_selected()[1]
+        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
+        iter = self.store_snapshots.get_iter(iter[0])
         if iter is None:
             return
         
@@ -340,7 +436,8 @@ class SnapshotsDialog(object):
             ret_val = self.dialog.run()
             
             if gtk.RESPONSE_OK == ret_val: #go to
-                iter = self.list_snapshots.get_selection().get_selected()[1]
+                iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
+                iter = self.store_snapshots.get_iter(iter[0])
                 if not iter is None:
                     snapshot_id = self.store_snapshots.get_value( iter, 1 )
                 break

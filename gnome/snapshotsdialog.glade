@@ -101,6 +101,47 @@
               </packing>
             </child>
             <child>
+              <object class="GtkHBox" id="hbox_list_equal">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="spacing">2</property>
+                <child>
+                  <object class="GtkCheckButton" id="check_list_equal">
+                    <property name="label" translatable="yes">List only equal snapshots to: </property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_check_list_equal_toggled" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="combo_equal_to">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <signal name="changed" handler="on_combo_equal_to_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkCheckButton" id="check_deep_check">
                 <property name="label" translatable="yes">Deep check (more accurate, but slow)</property>
                 <property name="visible">True</property>
@@ -114,7 +155,7 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -136,11 +177,26 @@
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkToolButton" id="btn_delete">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Delete</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="label" translatable="yes">Delete</property>
+                    <property name="stock_id">gtk-delete</property>
+                    <signal name="clicked" handler="on_btn_delete_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">3</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child>
@@ -156,7 +212,6 @@
                     <property name="can_focus">True</property>
                     <property name="has_focus">True</property>
                     <signal name="button-press-event" handler="on_list_snapshots_button_press_event" swapped="no"/>
-                    <signal name="cursor-changed" handler="on_list_snapshots_cursor_changed" swapped="no"/>
                     <signal name="key-press-event" handler="on_list_snapshots_key_press_event" swapped="no"/>
                     <signal name="row-activated" handler="on_list_snapshots_row_activated" swapped="no"/>
                     <signal name="drag-data-get" handler="on_list_snapshots_drag_data_get" swapped="no"/>
@@ -168,7 +223,7 @@
                 <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="padding">2</property>
-                <property name="position">4</property>
+                <property name="position">5</property>
               </packing>
             </child>
           </object>
