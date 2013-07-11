@@ -68,6 +68,7 @@ class SnapshotsDialog(object):
             'on_btn_diff_with_clicked' : self.on_btn_diff_with_clicked,
             'on_btn_restore_clicked' : self.on_restore_this,
             'on_btn_delete_clicked' : self.on_btn_delete_clicked,
+            'on_btn_select_all_clicked' : self.on_btn_select_all_clicked,
             'on_check_list_diff_toggled'  : self.on_check_list_diff_toggled,
             'on_check_list_equal_toggled'  : self.on_check_list_diff_toggled,
             'on_check_deep_check_toggled' : self.on_check_deep_check_toggled,
@@ -88,6 +89,9 @@ class SnapshotsDialog(object):
 
         #delete
         self.btn_delete = self.builder.get_object('btn_delete')
+
+        #select all
+        self.btn_select_all = self.builder.get_object('btn_select_all')
 
         #popup now
         #self.popup_now = gtk.Menu()
@@ -158,40 +162,37 @@ class SnapshotsDialog(object):
         self.update_snapshots()
 
     def update_toolbar( self ):
-        if len( self.store_snapshots ) <= 0:
-            self.btn_restore.set_sensitive( False )
-            self.btn_delete.set_sensitive(False)
+        snapshot_ids = self.get_list_snapshot_id(True)
+
+        if len(snapshot_ids) <= 0:
+            enable_restore = False
+            enable_delete = False
+        elif len(snapshot_ids) == 1:
+            enable_restore = len( snapshot_ids[0] ) > 1
+            enable_delete = len( snapshot_ids[0] ) > 1
         else:
-            try:
-                iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
-                iter = self.store_snapshots.get_iter(iter[0])
-            except IndexError:
-                iter = None
-            if iter is None:
-                self.btn_restore.set_sensitive( False )
-                self.btn_delete.set_sensitive(False)
-            else:
-                path = self.store_snapshots.get_value( iter, 1 )
-                self.btn_restore.set_sensitive( len( path ) > 1 and not self.list_snapshots.get_selection().count_selected_rows() > 1)
-                self.btn_delete.set_sensitive(len(path) > 1)
+            enable_restore = False
+            enable_delete = True
+            for snapshot_id in snapshot_ids:
+                if len(snapshot_id) <= 1:
+                    enable_delete = False
+                    
+        self.btn_restore.set_sensitive(enable_restore)
+        self.btn_delete.set_sensitive(enable_delete)
 
     def on_restore_this( self, *args ):
-        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
-        iter = self.store_snapshots.get_iter(iter[0])
-        if not iter is None:
-            gnometools.restore(self, self.store_snapshots.get_value( iter, 1 ), self.path )
+        snapshot_id = self.get_list_snapshot_id()
+        if not snapshot_id is None:
+            gnometools.restore(self, snapshot_id, self.path )
 
     def on_restore_this_to( self, *args ):
-        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
-        iter = self.store_snapshots.get_iter(iter[0])
-        if not iter is None:
-            gnometools.restore(self, self.store_snapshots.get_value( iter, 1 ), self.path, True )
+        snapshot_id = self.get_list_snapshot_id()
+        if not snapshot_id is None:
+            gnometools.restore(self, snapshot_id, self.path, True )
 
     def on_list_snapshots_drag_data_get( self, widget, drag_context, selection_data, info, timestamp, user_param1 = None ):
-        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
-        iter = self.store_snapshots.get_iter(iter[0])
-        if not iter is None:
-            path = self.store_snapshots.get_value( iter, 2 )
+        path = self.get_list_snapshot_id(index = 2)
+        if not path is None:
             path = gnomevfs.escape_path_string(path)
             selection_data.set_uris( [ 'file://' + path ] )
 
@@ -228,9 +229,8 @@ class SnapshotsDialog(object):
         self.show_popup_menu( list, 1, gtk.get_current_event_time() )
 
     def show_popup_menu( self, list, button, time ):
-        iter = list.get_selection().get_selected_rows()[1][0]
-        iter = self.store_snapshots.get_iter(iter[0])
-        if iter is None:
+        path = self.get_list_snapshot_id()
+        if path is None:
             return
 
         #print "popup-menu"
@@ -239,7 +239,6 @@ class SnapshotsDialog(object):
         popup_menu.append( gtk.SeparatorMenuItem() )
         popup_menu.append(gnometools.new_menu_item( gtk.STOCK_JUMP_TO, _('Jump to'), self.on_list_snapshots_jumpto_item ))
 
-        path = self.store_snapshots.get_value( iter, 1 )
         if len( path ) > 1:
             popup_menu.append( gtk.SeparatorMenuItem() )
             popup_menu.append(gnometools.new_menu_item( gtk.STOCK_UNDELETE, _('Restore'), self.on_restore_this ))
@@ -265,11 +264,10 @@ class SnapshotsDialog(object):
             return
 
         #get path from the list
-        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
-        iter = self.store_snapshots.get_iter(iter[0])
-        if iter is None:
+        snapshot_id = self.get_list_snapshot_id()
+        if snapshot_id is None:
             return
-        path1 = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
+        path1 = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
 
         #get path from the combo
         path2 = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( self.combo_diff_with.get_active_iter(), 1 ), self.path )
@@ -302,16 +300,10 @@ class SnapshotsDialog(object):
             self.config.save()
 
     def on_btn_delete_clicked(self, *args):
-        iters = self.list_snapshots.get_selection().get_selected_rows()[1]
-        list = []
-        for iter in iters:
-            iter = self.store_snapshots.get_iter(iter[0])
-            if not iter is None:
-                snapshot_id = self.store_snapshots.get_value( iter, 1 )
-                list.append(snapshot_id)
-        if len(list) == 0:
+        snapshot_ids = self.get_list_snapshot_id(True)
+        if len(snapshot_ids) == 0:
             return
-        elif len(list) == 1:
+        elif len(snapshot_ids) == 1:
             msg = _('Do you really want to delete "%(file)s" in snapshot "%(snapshot_id)s?\n') \
                     % {'file' : self.path, 'snapshot_id' : list[0]}
         else:
@@ -319,7 +311,7 @@ class SnapshotsDialog(object):
                     % {'file' : self.path, 'count' : len(list)}
         msg += _('WARNING: This can not be revoked!')
         if gtk.RESPONSE_YES == messagebox.show_question(self.dialog, self.config, msg):
-            for snapshot_id in list:
+            for snapshot_id in snapshot_ids:
                 self.snapshots.delete_path(snapshot_id, self.path)
 
             msg = _('Exclude "%s" from future snapshots?' % self.path)
@@ -414,12 +406,11 @@ class SnapshotsDialog(object):
         self.open_item()
 
     def open_item( self, use_gloobus_preview = False ):
-        iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
-        iter = self.store_snapshots.get_iter(iter[0])
-        if iter is None:
+        snapshot_id = self.get_list_snapshot_id()
+        if snapshot_id is None:
             return
         
-        path = self.snapshots.get_snapshot_path_to( self.store_snapshots.get_value( iter, 1 ), self.path )
+        path = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
         if not os.path.exists( path ):
             return
 
@@ -430,16 +421,41 @@ class SnapshotsDialog(object):
 
         os.system( cmd )
 
+    def get_list_snapshot_id(self, multiSelection = False, index = 1):
+        paths = self.list_snapshots.get_selection().get_selected_rows()[1]
+        if multiSelection:
+            list = []
+            for path in paths:
+                iter = self.store_snapshots.get_iter(path[0])
+                if not iter is None:
+                    list.append(self.store_snapshots.get_value( iter, index ))
+            return list
+
+        iter = self.store_snapshots.get_iter(paths[0][0])
+        if iter is None:
+            return None
+        return self.store_snapshots.get_value(iter, index)
+
+    def on_btn_select_all_clicked(self, *args):
+        '''Select all except 'Now' '''
+        def iterAllItems(self):
+            iter = self.get_iter_first()
+            while not iter is None:
+                yield iter
+                iter = self.iter_next(iter)
+
+        self.list_snapshots.get_selection().unselect_all()
+        for iter in iterAllItems(self.store_snapshots):
+            if len(self.store_snapshots.get_value(iter, 1)) > 1:
+                self.list_snapshots.get_selection().select_iter(iter)
+
     def run( self ):
         snapshot_id = None
         while True:
             ret_val = self.dialog.run()
             
             if gtk.RESPONSE_OK == ret_val: #go to
-                iter = self.list_snapshots.get_selection().get_selected_rows()[1][0]
-                iter = self.store_snapshots.get_iter(iter[0])
-                if not iter is None:
-                    snapshot_id = self.store_snapshots.get_value( iter, 1 )
+                snapshot_id = self.get_list_snapshot_id()
                 break
             else:
                 #cancel, close ...

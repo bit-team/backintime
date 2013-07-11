@@ -123,6 +123,11 @@ class SnapshotsDialog( KDialog ):
         self.btn_delete.setToolTip(QString.fromUtf8(_('Delete')))
         QObject.connect(self.btn_delete, SIGNAL('triggered()'), self.on_btn_delete_clicked)
 
+        #btn select_all
+        self.btn_select_all = self.toolbar.addAction(KIcon('edit-select-all'),'')
+        self.btn_select_all.setToolTip(QString.fromUtf8(_('Select All')))
+        QObject.connect(self.btn_select_all, SIGNAL('triggered()'), self.on_btn_select_all_clicked)
+
         #list different snapshots only
         self.cb_only_different_snapshots = QCheckBox( QString.fromUtf8( _( 'List only different snapshots' ) ), self )
         self.main_layout.addWidget( self.cb_only_different_snapshots )
@@ -376,6 +381,17 @@ class SnapshotsDialog( KDialog ):
                 self.config.set_exclude(exclude)
             self.update_combo_equal_to()
             self.update_snapshots()
+
+    def on_btn_select_all_clicked(self):
+        '''select all expect 'Now' '''
+        def iterAllItems(self):
+            for i in range(self.count()):
+                yield self.item(i)
+
+        self.list_snapshots.clearSelection()
+        for item in iterAllItems(self.list_snapshots):
+            if len(str(item.data(Qt.UserRole).toString().toUtf8())) > 1:
+                item.setSelected(True)
 
     def accept( self ):
         snapshot_id = self.get_list_snapshot_id()
