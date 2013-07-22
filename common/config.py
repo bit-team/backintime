@@ -1291,7 +1291,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                                  % {'cmd': tools.which('anacron'),
                                     'tab': self.get_anacrontab(),
                                     'spool': self.get_anacron_spool()}
-                    cron_line = 'echo "{msg}\n*\15 * * * * %s"' % anacron
+                    cron_line = 'echo "{msg}\n*/15 * * * * %s"' % anacron
                     start_anacron = True
                 anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
             elif self.WEEK == backup_mode:
