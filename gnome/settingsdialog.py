@@ -330,6 +330,11 @@ class SettingsDialog(object):
 
         self.hbox_backup_time = get( 'hbox_backup_time' )
         
+        #automatic backup anacron
+        self.lbl_backup_anacron        = get('lbl_backup_anacron')
+        self.lbl_backup_anacron_period = get('lbl_backup_anacron_period')
+        self.sb_backup_anacron_period  = get('sb_backup_anacron_period')
+        
         #setup remove old backups older than
         self.edit_remove_old_backup_value = get( 'edit_remove_old_backup_value' )
         self.cb_remove_old_backup_unit = get( 'cb_remove_old_backup_unit' )
@@ -507,6 +512,17 @@ class SettingsDialog(object):
         else:
             self.lbl_backup_time_custom.hide()
             self.txt_backup_time_custom.hide()
+
+        if backup_mode == self.config.DAY_ANACRON:
+            self.lbl_backup_anacron.show()
+            self.lbl_backup_anacron_period.show()
+            self.sb_backup_anacron_period.show()
+            self.lbl_backup_time.hide()
+            self.cb_backup_time.hide()
+        else:
+            self.lbl_backup_anacron.hide()
+            self.lbl_backup_anacron_period.hide()
+            self.sb_backup_anacron_period.hide()
 
     def update_host_user_profile( self, *params ):
         value = not self.cb_auto_host_user_profile.get_active()
@@ -724,6 +740,9 @@ class SettingsDialog(object):
 
         #setup custom backup time
         self.txt_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
+
+        #setup automatic backup anacron
+        self.sb_backup_anacron_period.set_value(self.config.get_automatic_backup_anacron_period(self.profile_id))
 
         #setup remove old backups older than
         enabled, value, unit = self.config.get_remove_old_snapshots( self.profile_id )
@@ -971,6 +990,7 @@ class SettingsDialog(object):
         self.config.set_automatic_backup_day( self.store_backup_day.get_value( self.cb_backup_day.get_active_iter(), 1 ), self.profile_id )
         self.config.set_automatic_backup_weekday( self.store_backup_weekday.get_value( self.cb_backup_weekday.get_active_iter(), 1 ), self.profile_id )
         self.config.set_custom_backup_time( self.txt_backup_time_custom.get_text(), self.profile_id )
+        self.config.set_automatic_backup_anacron_period(self.sb_backup_anacron_period.get_value_as_int(), self.profile_id)
         
         #auto-remove snapshots
         self.config.set_remove_old_snapshots( 

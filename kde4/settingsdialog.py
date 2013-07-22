@@ -354,6 +354,21 @@ class SettingsDialog( KDialog ):
         self.txt_automatic_snapshots_time_custom = KLineEdit( self )
         glayout.addWidget( self.txt_automatic_snapshots_time_custom, 4, 1 )
 
+        #anacron
+        self.lbl_automatic_snapshots_anacron = QLabel(QString.fromUtf8(_('Run Back In Time periodically with anacron. This is useful if the computer is not running regular.')))
+        self.lbl_automatic_snapshots_anacron.setWordWrap(True)
+        glayout.addWidget(self.lbl_automatic_snapshots_anacron, 5, 0, 1, 2)
+
+        self.lbl_automatic_snapshots_anacron_period = QLabel(QString.fromUtf8(_('Frequency in days:')))
+        self.lbl_automatic_snapshots_anacron_period.setContentsMargins( 5, 0, 0, 0 )
+        self.lbl_automatic_snapshots_anacron_period.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
+        glayout.addWidget(self.lbl_automatic_snapshots_anacron_period, 6, 0)
+
+        self.sb_automatic_snapshots_anacron_period = QSpinBox(self)
+        self.sb_automatic_snapshots_anacron_period.setSingleStep( 1 )
+        self.sb_automatic_snapshots_anacron_period.setRange( 1, 10000 )
+        glayout.addWidget(self.sb_automatic_snapshots_anacron_period, 6, 1)
+
         QObject.connect( self.combo_automatic_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_automatic_snapshot_changed )
 
         #
@@ -679,6 +694,17 @@ class SettingsDialog( KDialog ):
             self.lbl_automatic_snapshots_time.hide()
             self.combo_automatic_snapshots_time.hide()
 
+        if backup_mode == self.config.DAY_ANACRON:
+            self.lbl_automatic_snapshots_anacron.show()
+            self.lbl_automatic_snapshots_anacron_period.show()
+            self.sb_automatic_snapshots_anacron_period.show()
+            self.lbl_automatic_snapshots_time.hide()
+            self.combo_automatic_snapshots_time.hide()
+        else:
+            self.lbl_automatic_snapshots_anacron.hide()
+            self.lbl_automatic_snapshots_anacron_period.hide()
+            self.sb_automatic_snapshots_anacron_period.hide()
+
     def current_automatic_snapshot_changed( self, index ):
         backup_mode = self.combo_automatic_snapshots.itemData( index ).toInt()[0]
         self.update_automatic_snapshot_time( backup_mode )
@@ -781,6 +807,7 @@ class SettingsDialog( KDialog ):
         self.set_combo_value( self.combo_automatic_snapshots_day, self.config.get_automatic_backup_day() )
         self.set_combo_value( self.combo_automatic_snapshots_weekday, self.config.get_automatic_backup_weekday() )
         self.txt_automatic_snapshots_time_custom.setText( self.config.get_custom_backup_time() )
+        self.sb_automatic_snapshots_anacron_period.setValue(self.config.get_automatic_backup_anacron_period())
         self.update_automatic_snapshot_time( self.config.get_automatic_backup_mode() )
 
         #TAB: Include
@@ -987,6 +1014,7 @@ class SettingsDialog( KDialog ):
         self.config.set_automatic_backup_weekday( self.combo_automatic_snapshots_weekday.itemData( self.combo_automatic_snapshots_weekday.currentIndex() ).toInt()[0] )
         self.config.set_automatic_backup_day( self.combo_automatic_snapshots_day.itemData( self.combo_automatic_snapshots_day.currentIndex() ).toInt()[0] )
         self.config.set_custom_backup_time( str( self.txt_automatic_snapshots_time_custom.text().toUtf8() ) )
+        self.config.set_automatic_backup_anacron_period(self.sb_automatic_snapshots_anacron_period.value())
 
         #auto-remove
         self.config.set_remove_old_snapshots( 

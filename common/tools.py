@@ -91,7 +91,7 @@ def check_command( cmd ):
     if os.path.isfile( cmd ):
         return True
 
-    cmd = read_command_output( "which \"%s\"" % cmd )
+    cmd = which(cmd)
 
     if len( cmd ) < 1:
         return False
@@ -101,6 +101,8 @@ def check_command( cmd ):
 
     return False
 
+def which(cmd):
+    return read_command_output( "which \"%s\"" % cmd )
 
 def make_dirs( path ):
     path = path.rstrip( os.sep )

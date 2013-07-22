@@ -22,6 +22,7 @@ import datetime
 import gettext
 import socket
 import random
+import re
 
 import configfile
 import tools
@@ -56,6 +57,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     _12_HOURS = 18
     CUSTOM_HOUR = 19
     DAY = 20
+    DAY_ANACRON = 25
     WEEK = 30
     MONTH = 40
     YEAR = 80
@@ -76,6 +78,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 _12_HOURS : _('Every 12 hours'), 
                 CUSTOM_HOUR : _('Custom Hours'), 
                 DAY : _('Every Day'), 
+                DAY_ANACRON : _('Daily (anacron)'),
                 WEEK : _('Every Week'), 
                 MONTH : _('Every Month')
                 }
@@ -780,7 +783,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         #? 4 = every 10 minute\n 7 = every 30 minute\n10 = every hour\n
         #?12 = every 2 hours\n14 = every 4 hours\n16 = every 6 hours\n
         #?18 = every 12 hours\n19 = custom defined hours\n20 = every day\n
-        #?30 = every week\n40 = every month\n80 = every year
+        #?25 = daily anacron\n30 = every week\n40 = every month\n80 = every year
         #?;0|1|2|4|7|10|12|14|16|18|19|20|30|40|80;0
         return self.get_profile_int_value( 'snapshots.automatic_backup_mode', self.NONE, profile_id )
 
@@ -819,6 +822,14 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_custom_backup_time( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.custom_backup_time', value, profile_id )
+
+    def get_automatic_backup_anacron_period(self, profile_id = None):
+        #?How many days to wait between new snapshots with anacron? Only valid
+        #?for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25
+        return self.get_profile_int_value('snapshots.automatic_backup_anacron_period', 1, profile_id)
+
+    def set_automatic_backup_anacron_period(self, value, profile_id = None):
+        self.set_profile_int_value('snapshots.automatic_backup_anacron_period', value, profile_id)
 
     #def get_per_directory_schedule( self, profile_id = None ):
     #	return self.get_profile_bool_value( 'snapshots.expert.per_directory_schedule', False, profile_id )
@@ -1156,6 +1167,12 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_cron_env_file( self ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "cron_env" )
 
+    def get_anacrontab(self):
+        return os.path.join(self._LOCAL_CONFIG_FOLDER, 'anacrontab')
+
+    def get_anacron_spool(self):
+        return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
+
     def get_restore_log_file( self, profile_id = None ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "restore_%s.log" % self.__get_file_id__( profile_id ) )
 
@@ -1212,7 +1229,12 @@ class Config( configfile.ConfigFileWithProfiles ):
         #os.system( "crontab -l | grep -Pv '(?s)%s.*?backintime' | crontab -" % system_entry_message ) #buggy in Ubuntu 10.10
         os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab -" % system_entry_message )
 
+        if os.path.exists(self.get_anacrontab()):
+            print "Clearing anacrontab"
+            os.remove(self.get_anacrontab())
+
         empty = True
+        start_anacron = False
         profiles = self.get_profiles()
         
         for profile_id in profiles:
@@ -1229,11 +1251,14 @@ class Config( configfile.ConfigFileWithProfiles ):
                 return False
 
             cron_line = ''
+            anacron_line = ''
         
             hour = self.get_automatic_backup_time(profile_id) / 100;
             minute = self.get_automatic_backup_time(profile_id) % 100;
             day = self.get_automatic_backup_day(profile_id)
             weekday = self.get_automatic_backup_weekday(profile_id)	
+            period = str(self.get_automatic_backup_anacron_period(profile_id))
+            job_identify = profile_id + '_' + profile_name
 
             if self.AT_EVERY_BOOT == backup_mode:
                 cron_line = 'echo "{msg}\n@reboot {cmd}"'
@@ -1253,28 +1278,47 @@ class Config( configfile.ConfigFileWithProfiles ):
                 cron_line = 'echo "{msg}\n0 */6 * * * {cmd}"'
             elif self._12_HOURS == backup_mode:
                 cron_line = 'echo "{msg}\n0 */12 * * * {cmd}"'
-            if self.CUSTOM_HOUR == backup_mode:
+            elif self.CUSTOM_HOUR == backup_mode:
                 cron_line = 'echo "{msg}\n0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}"'
             elif self.DAY == backup_mode:
                 cron_line = "echo \"{msg}\n%s %s * * * {cmd}\"" % (minute, hour)
+            elif self.DAY_ANACRON == backup_mode:
+                if not tools.check_command('anacron'):
+                    self.notify_error( _( 'Can\'t find anacron.\nAre you sure anacron is installed ?\nIf not you should disable daily anacron backups.' ) )
+                    return False
+                if not start_anacron:
+                    anacron = 'test -x %(cmd)s && test -e %(tab)s && %(cmd)s -s -t %(tab)s -S %(spool)s' \
+                                 % {'cmd': tools.which('anacron'),
+                                    'tab': self.get_anacrontab(),
+                                    'spool': self.get_anacron_spool()}
+                    cron_line = 'echo "{msg}\n*\15 * * * * %s"' % anacron
+                    start_anacron = True
+                anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
             elif self.WEEK == backup_mode:
                 cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
             elif self.MONTH == backup_mode:
                 cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
 
+            profile=''
+            if '1' != profile_id:
+                profile = "--profile-id %s" % profile_id
+            cmd = "/usr/bin/backintime %s --backup-job >/dev/null 2>&1" % profile
+            if self.is_run_ionice_from_cron_enabled(profile_id):
+                cmd = 'ionice -c2 -n7 ' + cmd
+            if self.is_run_nice_from_cron_enabled( profile_id ):
+                cmd = 'nice -n 19 ' + cmd
+
             if len( cron_line ) > 0:
                 empty = False
-                profile=''
-                if '1' != profile_id:
-                    profile = "--profile-id %s" % profile_id
-                cmd = "/usr/bin/backintime %s --backup-job >/dev/null 2>&1" % profile
-                if self.is_run_ionice_from_cron_enabled():
-                    cmd = 'ionice -c2 -n7 ' + cmd
-                if self.is_run_nice_from_cron_enabled( profile_id ):
-                    cmd = 'nice -n 19 ' + cmd
                 cron_line = cron_line.replace( '{cmd}', cmd )
                 cron_line = cron_line.replace( '{msg}', system_entry_message )
                 os.system( "( crontab -l; %s ) | crontab -" % cron_line )
+
+            if len(anacron_line) > 0:
+                anacron_line = anacron_line.replace('{cmd}', cmd)
+                tools.make_dirs(self.get_anacron_spool())
+                with open(self.get_anacrontab(), 'a') as f:
+                    f.write(anacron_line)
 
         if empty:
             # Leave one system_entry_message in to prevent deleting of manual
