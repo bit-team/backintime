@@ -1597,25 +1597,8 @@ class Snapshots:
                 if len( snapshots ) <= 1:
                     break
 
-                if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-                    snapshots_path_ssh = self.config.get_snapshots_path_ssh()
-                    if len(snapshots_path_ssh) == 0:
-                        snapshots_path_ssh = './'
-                    cmd = self.cmd_ssh(['df', snapshots_path_ssh], module = 'subprocess')
-                    
-                    df = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-                    output = df.communicate()[0]
-                    try:
-                        lines = output.split('\n')
-                        cols = lines[1].split()
-                        free_space = int(cols[3]) / 1024
-                    except IndexError:
-                        logger.warning("could not get free disk space")
-                        break
-                    
-                else:
-                    info = os.statvfs( self.config.get_snapshots_path() )
-                    free_space = info[ statvfs.F_FRSIZE ] * info[ statvfs.F_BAVAIL ] / ( 1024 * 1024 )
+                info = os.statvfs( self.config.get_snapshots_path() )
+                free_space = info[ statvfs.F_FRSIZE ] * info[ statvfs.F_BAVAIL ] / ( 1024 * 1024 )
 
                 if free_space >= min_free_space:
                     break

@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.0.26
+* roll back commit 836.1.5 (check free-space on ssh remote host): statvfs DOES work over sshfs. But not with quite outdated sshd
 * add daily anacron schedule
 * add delete button and 'list only equal' in Snapshot dialog; multiSelect in snapshot list
 * add manpage backintime-config and config-examples
