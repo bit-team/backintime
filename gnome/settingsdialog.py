@@ -75,6 +75,7 @@ class SettingsDialog(object):
                 'on_btn_remove_exclude_clicked' : self.on_remove_exclude,
                 'on_cb_remove_old_backup_toggled' : self.update_remove_old_backups,
                 'on_cb_min_free_space_toggled' : self.update_min_free_space,
+                'on_cb_min_free_inodes_toggled' : self.update_min_free_inodes,
                 #'on_cb_per_directory_schedule_toggled' : self.on_cb_per_directory_schedule_toggled,
                 'on_combo_profiles_changed': self.on_combo_profiles_changed,
                 'on_btn_where_clicked': self.on_btn_where_clicked,
@@ -374,6 +375,11 @@ class SettingsDialog(object):
             self.store_min_free_space_unit.append( [ map[ key ], key ] )
                 
         self.cb_min_free_space = get( 'cb_min_free_space' )
+        
+        #setup min free inodes
+        self.edit_min_free_inodes_value = get('edit_min_free_inodes_value')
+        self.lbl_min_free_inodes_unit = get('lbl_min_free_inodes_unit')
+        self.cb_min_free_inodes = get('cb_min_free_inodes')
         
         #don't remove named snapshots
         self.cb_dont_remove_named_snapshots = get( 'cb_dont_remove_named_snapshots' )
@@ -778,6 +784,11 @@ class SettingsDialog(object):
         self.cb_min_free_space.set_active( enabled )
         self.update_min_free_space( self.cb_min_free_space )
         
+        #setup min free inodes
+        self.cb_min_free_inodes.set_active(self.config.min_free_inodes_enabled(self.profile_id))
+        self.edit_min_free_inodes_value.set_value(self.config.min_free_inodes(self.profile_id))
+        self.update_min_free_inodes(self.cb_min_free_inodes)
+        
         #don't remove named snapshots
         self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots( self.profile_id ) )
         
@@ -1003,6 +1014,10 @@ class SettingsDialog(object):
                         int( self.edit_min_free_space_value.get_value() ),
                         self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ),
                         self.profile_id )
+        self.config.set_min_free_inodes(
+                        self.cb_min_free_inodes.get_active(),
+                        int(self.edit_min_free_inodes_value.get_value()),
+                        self.profile_id )
         self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active(), self.profile_id )
         self.config.set_smart_remove(
                         self.cb_smart_remove.get_active(), 
@@ -1055,6 +1070,11 @@ class SettingsDialog(object):
         enabled = self.cb_min_free_space.get_active()
         self.edit_min_free_space_value.set_sensitive( enabled )
         self.cb_min_free_space_unit.set_sensitive( enabled )
+
+    def update_min_free_inodes( self, button ):
+        enabled = self.cb_min_free_inodes.get_active()
+        self.edit_min_free_inodes_value.set_sensitive( enabled )
+        self.lbl_min_free_inodes_unit.set_sensitive( enabled )
     
     #def on_cb_per_directory_schedule_toggled( self, button ):
     #	self.update_per_directory_option()

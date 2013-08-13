@@ -54,6 +54,15 @@ Name of this profile.
 Default: Main profile
 .RE
 
+.IP "\fIprofile<N>.snapshots.automatic_backup_anacron_period\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+How many days to wait between new snapshots with anacron? Only validfor \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25
+.PP
+Default: 1
+.RE
+
 .IP "\fIprofile<N>.snapshots.automatic_backup_day\fR" 6
 .RS
 Type: int       Allowed Values: 1-28
@@ -92,6 +101,8 @@ Which shedule used for crontab. Note that the crontab entry is only generated du
 19 = custom defined hours
 .br
 20 = every day
+.br
+25 = daily anacron
 .br
 30 = every week
 .br
@@ -317,6 +328,24 @@ Log level used during take_snapshot.
 3 = Info
 .PP
 Default: 3
+.RE
+
+.IP "\fIprofile<N>.snapshots.min_free_inodes.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR free inodes in % is reached.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.min_free_inodes.value\fR" 6
+.RS
+Type: int       Allowed Values: 1-15
+.br
+Keep at least value % free inodes.
+.PP
+Default: 2
 .RE
 
 .IP "\fIprofile<N>.snapshots.min_free_space.enabled\fR" 6

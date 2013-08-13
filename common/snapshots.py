@@ -1612,6 +1612,34 @@ class Snapshots:
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
 
+        #try to keep free inodes
+        if self.config.min_free_inodes_enabled():
+            min_free_inodes = self.config.min_free_inodes()
+            self.set_take_snapshot_message( 0, _('Try to keep min {0}% free inodes').format(min_free_inodes) )
+            logger.info( "Keep min {0}% free inodes".format(min_free_inodes) )
+
+            snapshots = self.get_snapshots_list( False )
+
+            while True:
+                if len( snapshots ) <= 1:
+                    break
+
+                info = os.statvfs( self.config.get_snapshots_path() )
+                free_inodes = info[statvfs.F_FAVAIL]
+                max_inodes  = info[statvfs.F_FILES]
+
+                if free_inodes >= max_inodes * (min_free_inodes / 100.0):
+                    break
+
+                if self.config.get_dont_remove_named_snapshots():
+                    if len( self.get_snapshot_name( snapshots[0] ) ) > 0:
+                        del snapshots[0]
+                        continue
+
+                logger.info( "free inodes: {0:.2f}%".format(100.0 / max_inodes * free_inodes) )
+                self.remove_snapshot( snapshots[0] )
+                del snapshots[0]
+
     def _execute( self, cmd, callback = None, user_data = None ):
         ret_val = 0
 

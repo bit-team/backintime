@@ -912,6 +912,19 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.min_free_space.value', value, profile_id )
         self.set_profile_int_value( 'snapshots.min_free_space.unit', unit, profile_id )
 
+    def min_free_inodes(self, profile_id = None):
+        #?Keep at least value % free inodes.;1-15
+        return self.get_profile_int_value('snapshots.min_free_inodes.value', 2, profile_id)
+
+    def min_free_inodes_enabled(self, profile_id = None):
+        #?Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR 
+        #?free inodes in % is reached.
+        return self.get_profile_bool_value('snapshots.min_free_inodes.enabled', True, profile_id)
+
+    def set_min_free_inodes(self, enabled, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.min_free_inodes.enabled', enabled, profile_id)
+        self.set_profile_int_value('snapshots.min_free_inodes.value', value, profile_id)
+
     def get_dont_remove_named_snapshots( self, profile_id = None ):
         #?Keep snapshots with names during smart_remove.
         return self.get_profile_bool_value( 'snapshots.dont_remove_named_snapshots', True, profile_id )

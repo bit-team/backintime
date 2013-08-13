@@ -484,9 +484,20 @@ class SettingsDialog( KDialog ):
         layout.addWidget( self.combo_min_free_space, 1, 2 )
         self.fill_combo( self.combo_min_free_space, self.config.MIN_FREE_SPACE_UNITS )
 
+        #min free inodes
+        self.cb_min_free_inodes = QCheckBox(QString.fromUtf8( _('If free inodes is less than:') ), self)
+        layout.addWidget(self.cb_min_free_inodes, 2, 0)
+        QObject.connect( self.cb_min_free_inodes, SIGNAL('stateChanged(int)'), self.update_min_free_inodes)
+        
+        self.edit_min_free_inodes = QSpinBox(self)
+        self.edit_min_free_inodes.setSuffix( QString.fromUtf8(' %') )
+        self.edit_min_free_inodes.setSingleStep( 1 )
+        self.edit_min_free_inodes.setRange( 0, 15 )
+        layout.addWidget(self.edit_min_free_inodes, 2, 1)
+        
         #smart remove
         self.cb_smart_remove = QCheckBox( QString.fromUtf8( _( 'Smart remove' ) ), self )
-        layout.addWidget( self.cb_smart_remove, 2, 0 )
+        layout.addWidget( self.cb_smart_remove, 3, 0 )
 
         #label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year and all months of the last year \n- keep one snapshot per year for all other years' ) ),self )
         #label.setContentsMargins( 25, 0, 0, 0 )
@@ -494,7 +505,7 @@ class SettingsDialog( KDialog ):
 
         widget = QWidget( self )
         widget.setContentsMargins( 25, 0, 0, 0 )
-        layout.addWidget( widget, 3, 0, 1, 3 )
+        layout.addWidget( widget, 4, 0, 1, 3 )
 
         smlayout = QGridLayout( widget )
 
@@ -522,11 +533,11 @@ class SettingsDialog( KDialog ):
 
         #don't remove named snapshots
         self.cb_dont_remove_named_snapshots = QCheckBox( QString.fromUtf8( _( 'Don\'t remove named snapshots' ) ), self )
-        layout.addWidget( self.cb_dont_remove_named_snapshots, 4, 0, 1, 3 )
+        layout.addWidget( self.cb_dont_remove_named_snapshots, 5, 0, 1, 3 )
 
         #
-        layout.addWidget( QWidget(), 5, 0 )
-        layout.setRowStretch( 5, 2 )
+        layout.addWidget( QWidget(), 6, 0 )
+        layout.setRowStretch( 6, 2 )
         
         #TAB: Options
         tab_widget = QWidget( self )
@@ -836,6 +847,10 @@ class SettingsDialog( KDialog ):
         self.edit_min_free_space.setValue( value )
         self.set_combo_value( self.combo_min_free_space, unit )
 
+        #min free inodes
+        self.cb_min_free_inodes.setChecked(self.config.min_free_inodes_enabled())
+        self.edit_min_free_inodes.setValue(self.config.min_free_inodes())
+
         #smart remove
         smart_remove, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.get_smart_remove()
         self.cb_smart_remove.setChecked( smart_remove )
@@ -1025,6 +1040,9 @@ class SettingsDialog( KDialog ):
                         self.cb_min_free_space.isChecked(), 
                         self.edit_min_free_space.value(),
                         self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ).toInt()[0] )
+        self.config.set_min_free_inodes(
+                        self.cb_min_free_inodes.isChecked(),
+                        self.edit_min_free_inodes.value() )
         self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.isChecked() )
         self.config.set_smart_remove( 
                         self.cb_smart_remove.isChecked(),
@@ -1121,6 +1139,10 @@ class SettingsDialog( KDialog ):
         enabled = self.cb_min_free_space.isChecked()
         self.edit_min_free_space.setEnabled( enabled )
         self.combo_min_free_space.setEnabled( enabled )
+
+    def update_min_free_inodes(self):
+        enabled = self.cb_min_free_inodes.isChecked()
+        self.edit_min_free_inodes.setEnabled(enabled)
 
     def add_include( self, data ):
         item = QTreeWidgetItem()
