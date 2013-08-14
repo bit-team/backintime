@@ -305,10 +305,10 @@ class SnapshotsDialog(object):
             return
         elif len(snapshot_ids) == 1:
             msg = _('Do you really want to delete "%(file)s" in snapshot "%(snapshot_id)s?\n') \
-                    % {'file' : self.path, 'snapshot_id' : list[0]}
+                    % {'file' : self.path, 'snapshot_id' : snapshot_ids[0]}
         else:
             msg = _('Do you really want to delete "%(file)s" in %(count)d snapshots?\n') \
-                    % {'file' : self.path, 'count' : len(list)}
+                    % {'file' : self.path, 'count' : len(snapshot_ids)}
         msg += _('WARNING: This can not be revoked!')
         if gtk.RESPONSE_YES == messagebox.show_question(self.dialog, self.config, msg):
             for snapshot_id in snapshot_ids:
