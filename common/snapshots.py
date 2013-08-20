@@ -1615,8 +1615,8 @@ class Snapshots:
         #try to keep free inodes
         if self.config.min_free_inodes_enabled():
             min_free_inodes = self.config.min_free_inodes()
-            self.set_take_snapshot_message( 0, _('Try to keep min {0}% free inodes').format(min_free_inodes) )
-            logger.info( "Keep min {0}% free inodes".format(min_free_inodes) )
+            self.set_take_snapshot_message( 0, _('Try to keep min %d%% free inodes') % min_free_inodes )
+            logger.info( "Keep min %d%% free inodes" % min_free_inodes )
 
             snapshots = self.get_snapshots_list( False )
 
@@ -1636,7 +1636,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                logger.info( "free inodes: {0:.2f}%".format(100.0 / max_inodes * free_inodes) )
+                logger.info( "free inodes: %.2f%%" % (100.0 / max_inodes * free_inodes) )
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
 
