@@ -354,6 +354,21 @@ class SettingsDialog( KDialog ):
         self.txt_automatic_snapshots_time_custom = KLineEdit( self )
         glayout.addWidget( self.txt_automatic_snapshots_time_custom, 4, 1 )
 
+        #anacron
+        self.lbl_automatic_snapshots_anacron = QLabel(QString.fromUtf8(_('Run Back In Time periodically with anacron. This is useful if the computer is not running regular.')))
+        self.lbl_automatic_snapshots_anacron.setWordWrap(True)
+        glayout.addWidget(self.lbl_automatic_snapshots_anacron, 5, 0, 1, 2)
+
+        self.lbl_automatic_snapshots_anacron_period = QLabel(QString.fromUtf8(_('Frequency in days:')))
+        self.lbl_automatic_snapshots_anacron_period.setContentsMargins( 5, 0, 0, 0 )
+        self.lbl_automatic_snapshots_anacron_period.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
+        glayout.addWidget(self.lbl_automatic_snapshots_anacron_period, 6, 0)
+
+        self.sb_automatic_snapshots_anacron_period = QSpinBox(self)
+        self.sb_automatic_snapshots_anacron_period.setSingleStep( 1 )
+        self.sb_automatic_snapshots_anacron_period.setRange( 1, 10000 )
+        glayout.addWidget(self.sb_automatic_snapshots_anacron_period, 6, 1)
+
         QObject.connect( self.combo_automatic_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_automatic_snapshot_changed )
 
         #
@@ -469,9 +484,20 @@ class SettingsDialog( KDialog ):
         layout.addWidget( self.combo_min_free_space, 1, 2 )
         self.fill_combo( self.combo_min_free_space, self.config.MIN_FREE_SPACE_UNITS )
 
+        #min free inodes
+        self.cb_min_free_inodes = QCheckBox(QString.fromUtf8( _('If free inodes is less than:') ), self)
+        layout.addWidget(self.cb_min_free_inodes, 2, 0)
+        QObject.connect( self.cb_min_free_inodes, SIGNAL('stateChanged(int)'), self.update_min_free_inodes)
+        
+        self.edit_min_free_inodes = QSpinBox(self)
+        self.edit_min_free_inodes.setSuffix( QString.fromUtf8(' %') )
+        self.edit_min_free_inodes.setSingleStep( 1 )
+        self.edit_min_free_inodes.setRange( 0, 15 )
+        layout.addWidget(self.edit_min_free_inodes, 2, 1)
+        
         #smart remove
         self.cb_smart_remove = QCheckBox( QString.fromUtf8( _( 'Smart remove' ) ), self )
-        layout.addWidget( self.cb_smart_remove, 2, 0 )
+        layout.addWidget( self.cb_smart_remove, 3, 0 )
 
         #label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year and all months of the last year \n- keep one snapshot per year for all other years' ) ),self )
         #label.setContentsMargins( 25, 0, 0, 0 )
@@ -479,7 +505,7 @@ class SettingsDialog( KDialog ):
 
         widget = QWidget( self )
         widget.setContentsMargins( 25, 0, 0, 0 )
-        layout.addWidget( widget, 3, 0, 1, 3 )
+        layout.addWidget( widget, 4, 0, 1, 3 )
 
         smlayout = QGridLayout( widget )
 
@@ -507,11 +533,11 @@ class SettingsDialog( KDialog ):
 
         #don't remove named snapshots
         self.cb_dont_remove_named_snapshots = QCheckBox( QString.fromUtf8( _( 'Don\'t remove named snapshots' ) ), self )
-        layout.addWidget( self.cb_dont_remove_named_snapshots, 4, 0, 1, 3 )
+        layout.addWidget( self.cb_dont_remove_named_snapshots, 5, 0, 1, 3 )
 
         #
-        layout.addWidget( QWidget(), 5, 0 )
-        layout.setRowStretch( 5, 2 )
+        layout.addWidget( QWidget(), 6, 0 )
+        layout.setRowStretch( 6, 2 )
         
         #TAB: Options
         tab_widget = QWidget( self )
@@ -679,6 +705,17 @@ class SettingsDialog( KDialog ):
             self.lbl_automatic_snapshots_time.hide()
             self.combo_automatic_snapshots_time.hide()
 
+        if backup_mode == self.config.DAY_ANACRON:
+            self.lbl_automatic_snapshots_anacron.show()
+            self.lbl_automatic_snapshots_anacron_period.show()
+            self.sb_automatic_snapshots_anacron_period.show()
+            self.lbl_automatic_snapshots_time.hide()
+            self.combo_automatic_snapshots_time.hide()
+        else:
+            self.lbl_automatic_snapshots_anacron.hide()
+            self.lbl_automatic_snapshots_anacron_period.hide()
+            self.sb_automatic_snapshots_anacron_period.hide()
+
     def current_automatic_snapshot_changed( self, index ):
         backup_mode = self.combo_automatic_snapshots.itemData( index ).toInt()[0]
         self.update_automatic_snapshot_time( backup_mode )
@@ -781,6 +818,7 @@ class SettingsDialog( KDialog ):
         self.set_combo_value( self.combo_automatic_snapshots_day, self.config.get_automatic_backup_day() )
         self.set_combo_value( self.combo_automatic_snapshots_weekday, self.config.get_automatic_backup_weekday() )
         self.txt_automatic_snapshots_time_custom.setText( self.config.get_custom_backup_time() )
+        self.sb_automatic_snapshots_anacron_period.setValue(self.config.get_automatic_backup_anacron_period())
         self.update_automatic_snapshot_time( self.config.get_automatic_backup_mode() )
 
         #TAB: Include
@@ -808,6 +846,10 @@ class SettingsDialog( KDialog ):
         self.cb_min_free_space.setChecked( enabled )
         self.edit_min_free_space.setValue( value )
         self.set_combo_value( self.combo_min_free_space, unit )
+
+        #min free inodes
+        self.cb_min_free_inodes.setChecked(self.config.min_free_inodes_enabled())
+        self.edit_min_free_inodes.setValue(self.config.min_free_inodes())
 
         #smart remove
         smart_remove, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.get_smart_remove()
@@ -987,6 +1029,7 @@ class SettingsDialog( KDialog ):
         self.config.set_automatic_backup_weekday( self.combo_automatic_snapshots_weekday.itemData( self.combo_automatic_snapshots_weekday.currentIndex() ).toInt()[0] )
         self.config.set_automatic_backup_day( self.combo_automatic_snapshots_day.itemData( self.combo_automatic_snapshots_day.currentIndex() ).toInt()[0] )
         self.config.set_custom_backup_time( str( self.txt_automatic_snapshots_time_custom.text().toUtf8() ) )
+        self.config.set_automatic_backup_anacron_period(self.sb_automatic_snapshots_anacron_period.value())
 
         #auto-remove
         self.config.set_remove_old_snapshots( 
@@ -997,6 +1040,9 @@ class SettingsDialog( KDialog ):
                         self.cb_min_free_space.isChecked(), 
                         self.edit_min_free_space.value(),
                         self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ).toInt()[0] )
+        self.config.set_min_free_inodes(
+                        self.cb_min_free_inodes.isChecked(),
+                        self.edit_min_free_inodes.value() )
         self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.isChecked() )
         self.config.set_smart_remove( 
                         self.cb_smart_remove.isChecked(),
@@ -1093,6 +1139,10 @@ class SettingsDialog( KDialog ):
         enabled = self.cb_min_free_space.isChecked()
         self.edit_min_free_space.setEnabled( enabled )
         self.combo_min_free_space.setEnabled( enabled )
+
+    def update_min_free_inodes(self):
+        enabled = self.cb_min_free_inodes.isChecked()
+        self.edit_min_free_inodes.setEnabled(enabled)
 
     def add_include( self, data ):
         item = QTreeWidgetItem()

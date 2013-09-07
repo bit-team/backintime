@@ -1,6 +1,18 @@
 Back In Time
 
 Version 1.0.26
+* add feature: keep min free inodes
+* roll back commit 836.1.5 (check free-space on ssh remote host): statvfs DOES work over sshfs. But not with quite outdated sshd
+* add daily anacron schedule
+* add delete button and 'list only equal' in Snapshot dialog; multiSelect in snapshot list
+* add manpage backintime-config and config-examples
+* Fix bug: Restore makes files public during the operation
+* Fix bug: Cannot keep modifications to cron (https://bugs.launchpad.net/backintime/+bug/698106)
+* add feature: restore from command line; add option --config
+* Fix bug: cannot stat 'backintime-kde4-root.desktop.kdesudo' (https://bugs.launchpad.net/backintime/+bug/696659)
+* Fix bug: unreadable dark KDE color schemes (https://bugs.launchpad.net/backintime/+bug/1184920)
+* use 'ps ax' to check if 'backintime --pw-cache' is still running
+* mount after locking, unmount before unlocking in take_snapshot
 * Fix bug: permission denied if remote uid wasn't the same as local uid
 * add option --bwlimit for rsync
 * redirect logger.error and .warning to stderr; new argument --quiet

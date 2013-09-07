@@ -622,6 +622,7 @@ class MainWindow( KMainWindow ):
             #item.setFlags( Qt.NoItemFlags )
             item.setFlags( Qt.ItemIsEnabled )
             item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
+            item.setTextColor( 0, QColor( 60, 60, 60 ))
 
         self.list_places.addTopLevelItem( item )
 
@@ -691,7 +692,7 @@ class MainWindow( KMainWindow ):
     def add_time_line( self, snapshot_name, snapshot_id ):
         item = QTreeWidgetItem()
         item.setText( 0, snapshot_name )
-
+        item.setFont( 0, kde4tools.get_font_normal( item.font( 0 ) ) )
         item.setData( 0, Qt.UserRole, QVariant( QString.fromUtf8( snapshot_id ) ) )
 
         if len( snapshot_id ) == 0:
@@ -699,6 +700,7 @@ class MainWindow( KMainWindow ):
             #item.setFlags( Qt.NoItemFlags )
             item.setFlags( Qt.ItemIsEnabled )
             item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
+            item.setTextColor( 0, QColor( 60, 60, 60 ) )
 
         self.list_time_line.addTopLevelItem( item )
 

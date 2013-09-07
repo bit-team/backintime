@@ -28,6 +28,7 @@ import pwd
 import grp
 import socket
 import subprocess
+import shutil
 
 import config
 import configfile
@@ -36,6 +37,7 @@ import applicationinstance
 import tools
 import pluginmanager
 import encfstools
+import mount
 
 
 _=gettext.gettext
@@ -518,10 +520,11 @@ class Snapshots:
         cmd = tools.get_rsync_prefix( self.config, not full_rsync, use_modes = ['ssh'] )
         cmd = cmd + '-R -v '
         if not full_rsync:
-            cmd = cmd + '--chmod=ugo=rwX '
+            # During the rsync operation, directories must be rwx by the current
+            # user. Files should be r and x (if executable) by the current user.
+            cmd += '--chmod=Du=rwx,Fu=rX,go= '
         if self.config.is_backup_on_restore_enabled():
             cmd = cmd + "--backup --suffix=%s " % backup_suffix
-        #cmd = cmd + '--chmod=+w '
         src_base = self.get_snapshot_path_to( snapshot_id, use_mode = ['ssh'] )
 
         src_path = path
@@ -879,6 +882,18 @@ class Snapshots:
                 #if not force:
                 #	now = now.replace( second = 0 )
 
+                #mount
+                try:
+                    hash_id = mount.Mount(cfg = self.config).mount()
+                except mount.MountException as ex:
+                    logger.error(str(ex))
+                    instance.exit_application()
+                    logger.info( 'Unlock' )
+                    os.system( 'sleep 2' )
+                    return False
+                else:
+                    self.config.set_current_hash_id(hash_id)
+
                 #include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
                 include_folders = self.config.get_include()
 
@@ -948,6 +963,12 @@ class Snapshots:
 
                 if not ret_error:
                     self.clear_take_snapshot_message()
+
+                #unmount
+                try:
+                    mount.Mount(cfg = self.config).umount(self.config.current_hash_id)
+                except mount.MountException as ex:
+                    logger.error(str(ex))
 
                 instance.exit_application()
                 logger.info( 'Unlock' )
@@ -1576,25 +1597,8 @@ class Snapshots:
                 if len( snapshots ) <= 1:
                     break
 
-                if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-                    snapshots_path_ssh = self.config.get_snapshots_path_ssh()
-                    if len(snapshots_path_ssh) == 0:
-                        snapshots_path_ssh = './'
-                    cmd = self.cmd_ssh(['df', snapshots_path_ssh], module = 'subprocess')
-                    
-                    df = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-                    output = df.communicate()[0]
-                    try:
-                        lines = output.split('\n')
-                        cols = lines[1].split()
-                        free_space = int(cols[3]) / 1024
-                    except IndexError:
-                        logger.warning("could not get free disk space")
-                        break
-                    
-                else:
-                    info = os.statvfs( self.config.get_snapshots_path() )
-                    free_space = info[ statvfs.F_FRSIZE ] * info[ statvfs.F_BAVAIL ] / ( 1024 * 1024 )
+                info = os.statvfs( self.config.get_snapshots_path() )
+                free_space = info[ statvfs.F_FRSIZE ] * info[ statvfs.F_BAVAIL ] / ( 1024 * 1024 )
 
                 if free_space >= min_free_space:
                     break
@@ -1605,6 +1609,34 @@ class Snapshots:
                         continue
 
                 logger.info( "free disk space: %s Mb" % free_space )
+                self.remove_snapshot( snapshots[0] )
+                del snapshots[0]
+
+        #try to keep free inodes
+        if self.config.min_free_inodes_enabled():
+            min_free_inodes = self.config.min_free_inodes()
+            self.set_take_snapshot_message( 0, _('Try to keep min %d%% free inodes') % min_free_inodes )
+            logger.info( "Keep min %d%% free inodes" % min_free_inodes )
+
+            snapshots = self.get_snapshots_list( False )
+
+            while True:
+                if len( snapshots ) <= 1:
+                    break
+
+                info = os.statvfs( self.config.get_snapshots_path() )
+                free_inodes = info[statvfs.F_FAVAIL]
+                max_inodes  = info[statvfs.F_FILES]
+
+                if free_inodes >= max_inodes * (min_free_inodes / 100.0):
+                    break
+
+                if self.config.get_dont_remove_named_snapshots():
+                    if len( self.get_snapshot_name( snapshots[0] ) ) > 0:
+                        del snapshots[0]
+                        continue
+
+                logger.info( "free inodes: %.2f%%" % (100.0 / max_inodes * free_inodes) )
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
 
@@ -1657,7 +1689,7 @@ class Snapshots:
 
     #	return output
     
-    def filter_for(self, base_snapshot_id, base_path, snapshots_list, list_diff_only  = False, flag_deep_check = False):
+    def filter_for(self, base_snapshot_id, base_path, snapshots_list, list_diff_only  = False, flag_deep_check = False, list_equal_to = False):
         "return a list of available snapshots (including 'now'), eventually filtered for uniqueness"
         snapshots_filtered = []
 
@@ -1696,7 +1728,7 @@ class Snapshots:
             return snapshots_filtered
 
         #files
-        if not list_diff_only:
+        if not list_diff_only and not list_equal_to:
             for snapshot_id in all_snapshots_list:
                 path = self.get_snapshot_path_to( snapshot_id, base_path )
 
@@ -1706,7 +1738,7 @@ class Snapshots:
             return snapshots_filtered
 
         # check for duplicates
-        uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False)
+        uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False, list_equal_to = list_equal_to)
         for snapshot_id in all_snapshots_list:
             path = self.get_snapshot_path_to( snapshot_id, base_path )
             if os.path.exists( path ) and not os.path.islink( path ) and os.path.isfile( path ) and uniqueness.check_for(path):  
@@ -1750,6 +1782,28 @@ class Snapshots:
             return '\'%s@%s:"%s"\'' % (user, host, path)
         else:
             return '"%s"' % path
+
+    def delete_path(self, snapshot_id, path):
+        def handle_error(fn, path, excinfo):
+            dir = os.path.dirname(path)
+            if not os.access(dir, os.W_OK):
+                st = os.stat(dir)
+                os.chmod(dir, st.st_mode | stat.S_IWUSR)
+            st = os.stat(path)
+            os.chmod(path, st.st_mode | stat.S_IWUSR)
+            fn(path)
+            
+        full_path = self.get_snapshot_path_to(snapshot_id, path)
+        dirname = os.path.dirname(full_path)
+        dir_st = os.stat(dirname)
+        os.chmod(dirname, dir_st.st_mode | stat.S_IWUSR)
+        if os.path.isdir(full_path) and not os.path.islink(full_path):
+            shutil.rmtree(full_path, onerror = handle_error)
+        else:
+            st = os.stat(full_path)
+            os.chmod(full_path, st.st_mode | stat.S_IWUSR)
+            os.remove(full_path)
+        os.chmod(dirname, dir_st.st_mode)
 
 if __name__ == "__main__":
     config = config.Config()

@@ -1,4 +1,4 @@
-.TH backintime 1 "Mars 2009" "version 1.0.25" "USER COMMANDS"
+.TH backintime 1 "June 2013" "version 1.0.25" "USER COMMANDS"
 .SH NAME
 backintime \- a simple backup tool for Linux.
 .PP
@@ -6,12 +6,20 @@ This is command line tool.
 The graphical tools are: backintime-gnome and backintime-kde4.
 .SH SYNOPSIS
 .B backintime
+[ \-\-profile <profile name> |
+\-\-profile\-id <profile id> ] 
+[ \-\-keep\-mount ] 
+[ \-\-quiet ] 
+[ \-\-config PATH ] 
 [ \-\-backup | \-\-backup\-job |
 \-\-snapshots\-path |
 \-\-snapshots\-list | \-\-snapshots\-list\-path |
 \-\-last\-snapshot | \-\-last\-snapshot\-path |
-\-\-keep\-mount | \-\-unmount |
+\-\-unmount |
 \-\-benchmark-cipher [SIZE] |
+\-\-pw\-cache [start|stop|restart|reload|status] |
+\-\-decode [PATH] |
+\-\-restore [WHAT [WHERE [SNAPSHOT_ID]]] |
 \-\-help | \-\-version | \-\-license ]
 .SH DESCRIPTION
 Back In Time is a simple backup tool for Linux. The backup is done by taking
@@ -38,44 +46,17 @@ for unchanged files. This way a file of 10Mb, unchanged for 10 snapshots, will u
 When you restore a file 'A', if it already exists on the file system it will be renamed to 'A.backup.currentdate'.
 .PP
 For automatic backup it use 'cron' so there is no need for a daemon, but 'cron' must be running.
-.SS user-callback
-During backup process the application can call a user callback at different steps.
-This callback is "$XDG_CONFIG_HOME/backintime/user-callback" (by default $XDG_CONFIG_HOME is ~/.config).
-.PP
-The first argument is the progile id (1=Main Profile, ...).
-.PP
-The second argument is the progile name.
-.PP
-The third argument is the reason:
+.SS Modes
+.IP "\fILocal\fR" 4
 .RS
-.TP
-1
-Backup process begins.
-.TP
-2
-Backup process ends.
-.TP
-3
-A new snapshot was taken. The extra arguments are snapshot ID and snapshot path.
-.TP
-4
-There was an error. The second argument is the error code.
-.RS
-Error codes:
-.TP
-1
-The application is not configured.
-.TP
-2
-A "take snapshot" process is already running.
-.TP
-3
-Can't find snapshots folder (is it on a removable drive ?).
-.TP
-4
-A snapshot for "now" already exist.
+Store snapshots on local HDD's (internal or USB). The drive has to be mounted before creating a new snapshot.
 .RE
-.SS SSH
+.IP "\fILocal encrypted\fR" 4
+.RS
+Store encrypted snapshots on local HDD's (internal or USB). Backintime uses 'encfs' with standard configuration to encrypt all data. You have to be member of group fuse to use this. In terminal type 'sudo adduser <USER> fuse'. To apply changes you have to logout and login again.
+.RE
+.IP "\fISSH \fR" 4
+.RS
 With Mode set to SSH you can store the backup on a remote host using the SecureShellHost protocol (ssh).
 The remote path will be mount local using sshfs to provide file-access for the graphical interface and the backup process.
 Rsync and other processes called during backup process will run directly on the remote host using ssh.
@@ -119,10 +100,76 @@ called on the remote host (via interactive ssh session) you are ready to go.
 .PP
 If you have questions on how to install and configure the Optware please refer to the community of your device. You can also take a look on BackInTime FAQ on Launchpad https://answers.launchpad.net/backintime/+faqs
 .PP
-If you successfuly modified your device to be able to make backups over ssh, it would be nice if you write a 'How to' on Launchpad's Answers so we can add this to the FAQ.
+If you successfully modified your device to be able to make backups over ssh, it would be nice if you write a 'How to' on Launchpad's Answers so we can add this to the FAQ.
 .RE
+.IP "\fISSH encrypted\fR" 4
+.RS
+Store encrypted snapshots on remote hosts using SSH. Backintime uses 'encfs --reverse' to mount the root filesystem '/'. Rsync will sync this encrypted view of '/' to a remote host over SSH. All encoding will be done on the local machine. So the password will never be exposed to the remote host and you can use the (normally) more powerful processor in you local machine for encryption instead of weak NAS CPU's. The downside on this is 'encfs --reverse' does not support 'Filename Initialization Vector Chaining' and 'Per-File Initialization Vectors' from the standard configuration (take a look at 'man encfs' for further informations).
+.PP
+Because of all data is transferred encrypted the log output shows encrypted filenames, too. In the Logview-Dialog you can use 'decode' option to decrypt the paths automatically or you can use 'backintime --decode' to manually decrypt paths. Backintime will show all snapshots decoded so you can browse all files as normal.
+.PP
+Exclude does not support wildcards ('foo*', '[fF]oo', 'fo?') because after encoding a file these wildcards can't match any more. Only separate asterisk that match a full file or folder will work ('foo/*', 'foo/**/bar'). All other excludes that have wildcards will be silently ignored.
+.PP
+Please refer to the 'SSH' section above for informations on setting up the SSH connection.
 .RE
-.SH OPTIONS
+.SS Password
+If 'Save Password to Keyring' is activated BackinTime will save the Password into GnomeKeyring (Seahorse) or KDE-KWallet. Both are secure password storages which encrypt the password with the users login-password. So they can only be accessed if the user is logged in.
+.PP
+A backup cronjob during the user isn't logged in can not collect the password from keyring. Also if the homedir is encrypted the keyring is not accessible from cronjobs (even if the user is logged in). For these cases the password can be cached in RAM. If 'Cache Password for Cron' is activated BackinTime will start a small daemon in user-space which will collect the password from keyring and provide them for cronjobs. They will never be written to the harddrive but a user with root permissions could access the daemon and read the password.
+.SS user-callback
+During backup process the application can call a user callback at different steps.
+This callback is "$XDG_CONFIG_HOME/backintime/user-callback" (by default $XDG_CONFIG_HOME is ~/.config).
+.PP
+The first argument is the profile id (1=Main Profile, ...).
+.PP
+The second argument is the profile name.
+.PP
+The third argument is the reason:
+.RS
+.TP
+1
+Backup process begins.
+.TP
+2
+Backup process ends.
+.TP
+3
+A new snapshot was taken. The extra arguments are snapshot ID and snapshot path.
+.TP
+4
+There was an error. The second argument is the error code.
+.RS
+Error codes:
+.TP
+1
+The application is not configured.
+.TP
+2
+A "take snapshot" process is already running.
+.TP
+3
+Can't find snapshots folder (is it on a removable drive ?).
+.TP
+4
+A snapshot for "now" already exist.
+.RE
+.SH OPTIONS (use these before other actions)
+.TP
+\-\-profile <profile name>
+select profile by name
+.TP
+\-\-profile\-id <profile id>
+select profile by id
+.TP
+\-\-keep\-mount
+Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-snapshot\-path.
+.TP
+\-\-quiet
+suppress status messages on standard output.
+.TP
+\-\-config PATH
+read config from PATH.
+.SH ACTIONS
 .TP
 \-b, \-\-backup
 take a snapshot now (if needed) 
@@ -145,14 +192,20 @@ display last snapshot ID (if any)
 \-\-last\-snapshot\-path
 display the path to the last snapshot (if any)
 .TP
-\-\-keep\-mount
-Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-snapshot\-path.
-.TP
  \-\-unmount
 Unmount the profile.
 .TP
 \-\-benchmark-cipher [SIZE]
 Show a benchmark of all ciphers for ssh transfer.
+.TP
+\-\-pw\-cache [start|stop|restart|reload|status]
+Control the Password Cache Daemon. If no argument is given the Password Cache will start in foreground.
+.TP
+\-\-decode [PATH]
+decode encrypted PATH. If no PATH is given Backintime will read paths from standard input.
+.TP
+\-\-restore [WHAT [WHERE [SNAPSHOT_ID]]]
+Restore file WHAT to path WHERE from snapshot SNAPSHOT_ID. If arguments are missing they will be prompted. To restore to the original path WHERE can be an empty string '' or just press Enter at the prompt. SNAPSHOT_ID can be an index (starting with 0 for the last snapshot) or the exact SnapshotID (19 caracters like '20130606-230501-984')
 .TP
 \-h, \-\-help
 display a short help
@@ -163,8 +216,8 @@ show version
 \-\-license
 show license
 .SH SEE ALSO
-backintime-gnome, backintime-kde4.
+backintime-gnome, backintime-kde4, backintime-config.
 .PP
 Back In Time also has a website: http://backintime.le\-web.org
 .SH AUTHOR
-This manual page was written by BIT Team (<bit-team@lists.launchpad.net>).
+This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).

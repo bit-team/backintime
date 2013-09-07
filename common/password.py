@@ -23,11 +23,13 @@ import base64
 import subprocess
 import gettext
 import keyring
+import re
 
 import config
 import configfile
 import tools
 import password_ipc
+import logger
 
 _=gettext.gettext
 
@@ -53,13 +55,14 @@ class Daemon:
         Programming in the UNIX Environment" for details (ISBN 0201563177)
         http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
         """
+        logger.info('[Password_Cache.Daemon.daemonize] start')
         try:
             pid = os.fork()
             if pid > 0:
                 # exit first parent
                 sys.exit(0)
         except OSError, e:
-            sys.stderr.write("fork #1 failed: %d (%s)\n" % (e.errno, e.strerror))
+            logger.error("[Password_Cache.Daemon.daemonize] fork #1 failed: %d (%s)" % (e.errno, e.strerror))
             sys.exit(1)
 
         # decouple from parent environment
@@ -74,7 +77,7 @@ class Daemon:
                 # exit from second parent
                 sys.exit(0)
         except OSError, e:
-            sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
+            logger.error("[Password_Cache.Daemon.daemonize] fork #2 failed: %d (%s)" % (e.errno, e.strerror))
             sys.exit(1)
 
         # redirect standard file descriptors
@@ -88,7 +91,7 @@ class Daemon:
         os.dup2(se.fileno(), sys.stderr.fileno())
 
         # write pidfile
-        sys.stdout.write('write pidfile\n')
+        logger.info('[Password_Cache.Daemon.daemonize] write pidfile')
         atexit.register(self.delpid)
         signal.signal(signal.SIGTERM, self._cleanup_handler)
         pid = str(os.getpid())
@@ -122,7 +125,7 @@ class Daemon:
         if pid:
             if tools.is_process_alive(pid):
                 message = "pidfile %s already exist. Daemon already running?\n"
-                sys.stderr.write(message % self.pidfile)
+                logger.error('[Password_Cache.Daemon.start] ' + message % self.pidfile)
                 sys.exit(1)
             else:
                 self.delpid()
@@ -145,7 +148,7 @@ class Daemon:
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
-            sys.stderr.write(message % self.pidfile)
+            logger.error('[Password_Cache.Daemon.stop] ' + message % self.pidfile)
             return # not an error in a restart
 
         # Try killing the daemon process       
@@ -182,7 +185,7 @@ class Daemon:
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
-            sys.stderr.write(message % self.pidfile)
+            logger.error('[Password_Cache.Daemon.reload] ' + message % self.pidfile)
             return
         
         # Try killing the daemon process       
@@ -211,18 +214,22 @@ class Daemon:
         if not pid:
             return False
         
-        # Try killing the daemon process       
-        try:
-            os.kill(pid, 0)
-        except OSError, err:
-            if err.errno == 3:
-                if os.path.exists(self.pidfile):
-                    os.remove(self.pidfile)
-                    return False
-            else:
-                sys.stderr.write(err.strerror)
-                return False
-        return True
+        #kill -0 can false report process alive because of still active threads
+        cmd = ['ps', 'ax', '-o', 'pid=', '-o', 'args=']
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+        output = p.communicate()[0]
+
+        c = re.compile(r'(\d+) (.*)')
+        for line in output.split('\n'):
+            res = c.findall(line)
+            if res:
+                _pid = int(res[0][0])
+                _name = res[0][1]
+                if _pid == pid and _name.find('backintime.py --pw-cache'):
+                    return True
+        if os.path.exists(self.pidfile):
+            os.remove(self.pidfile)
+        return False
 
     def run(self):
         """
@@ -270,11 +277,12 @@ class Password_Cache(Daemon):
         tools.save_env(self.config)
 
         if not self._collect_passwords():
-            sys.stdout.write('Nothing to cache. Quit.\n')
+            logger.info('[Password_Cache.run] Nothing to cache. Quit.')
             sys.exit(0)
         self.fifo.create()
         atexit.register(self.fifo.delfifo)
         signal.signal(signal.SIGHUP, self._reload_handler)
+        logger.info('[Password_Cache.run] start loop')
         while True:
             try:
                 request = self.fifo.read()
@@ -294,27 +302,25 @@ class Password_Cache(Daemon):
                     self.db_usr[key] = value
                 
             except IOError as e:
-                sys.stderr.write('Error in writing answer to FIFO: %s\n' % e.strerror)
+                logger.error('[Password_Cache.run] Error in writing answer to FIFO: %s' % e.strerror)
             except KeyboardInterrupt: 
                 print('Quit.')
                 break
             except tools.Timeout:
-                sys.stderr.write('FIFO timeout\n')
+                logger.error('[Password_Cache.run] FIFO timeout')
             except StandardError as e:
-                sys.stderr.write('ERROR: %s\n' % str(e))
+                logger.error('[Password_Cache.run] ERROR: %s' % str(e))
         
     def _reload_handler(self, signum, frame):
         """
         reload passwords during runtime.
         """
-        sys.stdout.write('Reloading: ')
         time.sleep(2)
         del(self.config)
         self.config = config.Config()
         del(self.db_keyring)
         self.db_keyring = {}
         self._collect_passwords()
-        sys.stdout.write('Done\n')
         
     def _collect_passwords(self):
         """
@@ -404,7 +410,10 @@ class Password(object):
         available if User is logged in.
         """
         if self.keyring_supported:
-            return keyring.get_password(service_name, user_name)
+            try:
+                return keyring.get_password(service_name, user_name)
+            except Exception:
+                logger.error('get password from Keyring failed')
         return None
     
     def _get_password_from_pw_cache(self, service_name, user_name):

@@ -30,6 +30,7 @@ import sshtools
 import mount
 import password
 import encfstools
+import cli
 
 _=gettext.gettext
 
@@ -49,9 +50,7 @@ def take_snapshot_now_async( cfg ):
 def take_snapshot( cfg, force = True ):
     logger.openlog()
     tools.load_env(cfg)
-    _mount(cfg)
     snapshots.Snapshots( cfg ).take_snapshot( force )
-    _umount(cfg)
     logger.closelog()
 
 def _mount(cfg):
@@ -127,10 +126,20 @@ def print_help( cfg ):
 def start_app( app_name = 'backintime', extra_args = [] ):
     force_stdout = sys.stdout
     if '--quiet' in sys.argv:
-        sys.argv.remove('--quiet')
         f = open(os.devnull, 'w')
         sys.stdout = f
-    cfg = config.Config()
+
+    config_path = None
+    if '--config' in sys.argv:
+        i = sys.argv.index('--config')
+        try:
+            path = sys.argv[i + 1]
+            if os.path.isfile(path):
+                config_path = path
+        except IndexError:
+            pass
+
+    cfg = config.Config(config_path)
     print_version( cfg, app_name )
 
     skip = False
@@ -271,6 +280,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                 print >> sys.stderr, "The application is not configured !"
                 sys.exit(0)
             else:
+                logger.openlog()
                 daemon = password.Password_Cache(cfg)
                 try:
                     if sys.argv[index + 1].startswith('-'):
@@ -295,6 +305,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                         sys.exit(2)
                 except IndexError:
                     daemon.run()
+                logger.closelog()
                 sys.exit(0)
 
         if arg == '--decode':
@@ -331,11 +342,38 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                 
                 print >> force_stdout, '\n'.join(ret)
                 sys.exit(0)
-                
+
+        if arg == '--restore':
+            if not cfg.is_configured():
+                print >> sys.stderr, "The application is not configured !"
+                sys.exit(0)
+            what = None
+            where = None
+            snapshot_id = None
+            
+            try:
+                what = sys.argv[index + 1]
+                where = sys.argv[index + 2]
+                snapshot_id = sys.argv[index + 3]
+            except IndexError:
+                pass
+            
+            _mount(cfg)
+            cli.restore(cfg, snapshot_id, what, where)
+            _umount(cfg)
+            sys.exit(0)
+
         if arg == '--snapshots' or arg == '-s':
             continue
 
         if arg == '--gnome' or arg == '--kde4' or arg == '--kde3':
+            continue
+
+        if arg == '--quiet':
+            continue
+
+        if arg == '--config':
+            skip = True
             continue
 
         if arg[0] == '-':

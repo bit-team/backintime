@@ -24,6 +24,10 @@ echo "Update common man page"
 FILE=common/man/C/backintime.1
 sed -i -e "s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION\"\3/" $FILE
 
+echo "Update config man page"
+FILE=common/man/C/backintime-config.1
+sed -i -e "s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION\"\3/" $FILE
+
 echo "Update Gnome man page"
 FILE=gnome/man/C/backintime-gnome.1
 sed -i -e "s/\.TH\(.*\)\"version\([^\"]*\)\"\(.*\)$/.TH\1\"version $VERSION\"\3/" $FILE

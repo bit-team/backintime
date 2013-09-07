@@ -60,6 +60,10 @@ class RestoreDialog( KDialog ):
         self.what = what
         self.where = where
 
+        self.log_file = self.config.get_restore_log_file()
+        if os.path.exists(self.log_file):
+            os.remove(self.log_file)
+
         self.setWindowIcon( KIcon( 'text-plain' ) )
         self.setCaption( QString.fromUtf8( _( 'Restore' ) ) )
 
@@ -78,6 +82,8 @@ class RestoreDialog( KDialog ):
     def callback(self, line, *params ):
         self.txt_log_view.append(QString(line))
         KApplication.processEvents()
+        with open(self.log_file, 'a') as log:
+            log.write(line + '\n')
 
     def exec_(self):
         self.show()

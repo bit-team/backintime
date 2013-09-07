@@ -1,16 +1,16 @@
-# Finnish translation for backintime
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# Esperanto translation for backintime
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the backintime package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-08-20 23:25+0200\n"
-"PO-Revision-Date: 2012-07-03 09:04+0000\n"
-"Last-Translator: Torsti Schulz <Unknown>\n"
-"Language-Team: Finnish <fi@li.org>\n"
+"PO-Revision-Date: 2012-04-14 10:04+0000\n"
+"Last-Translator: Michael Moroni <michael.moroni@mailoo.org>\n"
+"Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,19 +20,19 @@ msgstr ""
 
 #: ../../common/config.py:69
 msgid "Disabled"
-msgstr "Poissa käytöstä"
+msgstr "Malŝaltita"
 
 #: ../../common/config.py:70
 msgid "At every boot/reboot"
-msgstr "Joka käynnistyksessä/uudelleenkäynnistyksessä"
+msgstr "Je ĉiu startigo/restartigo"
 
 #: ../../common/config.py:71
 msgid "Every 5 minutes"
-msgstr "5 minuutin välein"
+msgstr "Je ĉiuj 5 minutoj"
 
 #: ../../common/config.py:72
 msgid "Every 10 minutes"
-msgstr "10 minuutin välein"
+msgstr "Je ĉiuj 10 minutoj"
 
 #: ../../common/config.py:73
 msgid "Every 30 minutes"
@@ -64,7 +64,7 @@ msgstr ""
 
 #: ../../common/config.py:80
 msgid "Every Day"
-msgstr "Joka päivä"
+msgstr "Ĉiutage"
 
 #: ../../common/config.py:81
 msgid "Daily (anacron)"
@@ -72,23 +72,23 @@ msgstr ""
 
 #: ../../common/config.py:82
 msgid "Every Week"
-msgstr "Joka viikko"
+msgstr "Ĉiusemajne"
 
 #: ../../common/config.py:83
 msgid "Every Month"
-msgstr "Joka kuukausi"
+msgstr "Ĉiumonate"
 
 #: ../../common/config.py:87
 msgid "Day(s)"
-msgstr "Päivä(ä)"
+msgstr "Tago(j)"
 
 #: ../../common/config.py:88
 msgid "Week(s)"
-msgstr "Viikko(a)"
+msgstr "Semajno(j)"
 
 #: ../../common/config.py:89
 msgid "Year(s)"
-msgstr "Vuosi(a)"
+msgstr "Jaro(j)"
 
 #: ../../common/config.py:96
 msgid " EXPERIMENTAL!"
@@ -173,34 +173,34 @@ msgstr ""
 
 #: ../../common/config.py:125
 msgid "Main profile"
-msgstr "Pääprofiili"
+msgstr "Ĉefa profilo"
 
 #: ../../common/config.py:251 ../../common/config.py:270
 #: ../../common/config.py:281 ../../common/config.py:286
 #, python-format
 msgid "Profile: \"%s\""
-msgstr "Profiili: \"%s\""
+msgstr "Profilo: \"%s\""
 
 #: ../../common/config.py:251
 msgid "Snapshots folder is not valid !"
-msgstr "Otoskansio ei ole pätevä !"
+msgstr ""
 
 #: ../../common/config.py:270
 msgid "You must select at least one folder to backup !"
-msgstr "Valitse ainakin yksi kansio varmuuskopioitavaksi!"
+msgstr "Vi devas almenaŭ elekti unu dosieron por sekurkopio!"
 
 #: ../../common/config.py:281
 msgid "You can't include backup folder !"
-msgstr "Varmuuskopiokansiota ei voi lisätä!"
+msgstr "Vi ne povas inkluzivi sekurkopian dosieron!"
 
 #: ../../common/config.py:286
 msgid "You can't include a backup sub-folder !"
-msgstr "Varmuuskopionkansion alikansiota ei voi lisätä!"
+msgstr ""
 
 #: ../../common/config.py:356
 #, python-format
 msgid "%s is not a folder !"
-msgstr "%s ei ole kansio!"
+msgstr "%s ne estas dosierujo!"
 
 #: ../../common/config.py:371 ../../common/config.py:384
 #, python-format
@@ -208,8 +208,6 @@ msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
-"Ei voi kirjoittaa: %s\n"
-"Oletko varma että sinulla on kirjoitusoikeudet?"
 
 #: ../../common/config.py:1263
 msgid ""
@@ -217,9 +215,6 @@ msgid ""
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
-"Crontab-ohjelmaa ei löydy.\n"
-"Onko cron-ohjelmaa asennettu?\n"
-"Jos ei ole, kaikki automaattiset varmuuskopiot kannattaa ottaa pois käytöstä"
 
 #: ../../common/config.py:1300
 msgid ""
@@ -231,11 +226,11 @@ msgstr ""
 #: ../../common/configfile.py:253 ../../common/configfile.py:315
 #, python-format
 msgid "Profile \"%s\" already exists !"
-msgstr "Profiili \"%s\" on jo olemassa !"
+msgstr "Profilo \"%s\" jam ekzistas!"
 
 #: ../../common/configfile.py:284
 msgid "You can't remove the last profile !"
-msgstr "Et voi poistaa viimeistä profiilia !"
+msgstr "Vi ne povas forigi la lastan profilon!"
 
 #: ../../common/encfstools.py:92
 #, python-format
@@ -294,7 +289,7 @@ msgstr ""
 #: ../../common/snapshots.py:982 ../../common/snapshots.py:1288
 #: ../../kde4/app.py:82 ../../gnome/mainwindow.glade:43
 msgid "Take snapshot"
-msgstr "Ota otos"
+msgstr ""
 
 #: ../../common/mount.py:195
 #, python-format
@@ -319,11 +314,11 @@ msgstr ""
 
 #: ../../common/snapshots.py:171 ../../gnome/app.py:1112 ../../kde4/app.py:998
 msgid "Now"
-msgstr "Nyt"
+msgstr "Nun"
 
 #: ../../common/snapshots.py:182 ../../gnome/gnometools.py:37
 msgid "WITH ERRORS !"
-msgstr "VIRHEITÄ!"
+msgstr ""
 
 #: ../../common/snapshots.py:282
 msgid ""
@@ -333,11 +328,11 @@ msgstr ""
 
 #: ../../common/snapshots.py:465
 msgid "FAILED"
-msgstr "EPÄONNISTUI!"
+msgstr ""
 
 #: ../../common/snapshots.py:564
 msgid "Restore permissions:"
-msgstr "Palauta oikeudet:"
+msgstr ""
 
 #: ../../common/snapshots.py:739
 msgid ""
@@ -345,9 +340,6 @@ msgid ""
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
-"Back In Time muutti varmuuskopioiden tiedostomuotoa.\n"
-"\n"
-"Vanhat otoksesi voidaan siirtää uudeen tiedostomuotoon. OK?"
 
 #: ../../common/snapshots.py:749
 #, python-format
@@ -359,21 +351,12 @@ msgid ""
 "\n"
 "(The program will still be able to discriminate between them)"
 msgstr ""
-"%s profiilia löytynyt. \n"
-"\n"
-"Uusi varmuuskopioiden tiedostomuoto tukee eri käyttäjien ja profiilien "
-"tallentamista samaan paikkaan. Käytetäänkö samaa paikkaa molemmille "
-"profiileille? \n"
-"\n"
-"(Ohjelma pystyy silti erottamaan molemmat profiilit)"
 
 #: ../../common/snapshots.py:752
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
-"Profiileja ei löytynyt. Käynnistä Back In Time uudelleen profiilipäivityksiä "
-"varten"
 
 #: ../../common/snapshots.py:803
 #, python-format
@@ -397,11 +380,6 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
-"Edelliset asetukset profiilin %s on palautettu.\n"
-"Back In Time ei jatka uusien otoksien ottamista.\n"
-"\n"
-"Voit siirtää manuaalisesti otokset, \n"
-"jos olet valmis jatkamaan, käynnistä Back In Time uudelleen"
 
 #: ../../common/snapshots.py:825
 msgid ""
@@ -409,9 +387,6 @@ msgid ""
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
-"Päivitys onnistui!\n"
-"\n"
-"Back In Time jatkaa otosten ottamista aikataulun mukaan"
 
 #: ../../common/snapshots.py:830
 msgid ""
@@ -424,81 +399,69 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
-"Oletko varma että et halua siirtää vanhoja otoksiasi?\n"
-"\n"
-"\n"
-"Mikäli olet varma, et näe näitä kysymyksiä uudestaan. Back In Time jatkaa "
-"otoksien ottamista, mutta Älykäs poisto ei ota huomioon vanhoja otoksiasi.\n"
-"\n"
-"Mikäli et ole varma, tämä kysytään seuraavan kerran Back In Timen "
-"käynnistyksen yhteydessä."
 
 #: ../../common/snapshots.py:839
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr "Back In Time jatkaa otosten ottamista aikataulun mukaan"
+msgstr ""
 
 #: ../../common/snapshots.py:841
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
-"Back In Time ei voi jatkaa uusien otosten ottamista.\n"
-"Käynnistä Back In Time uudelleen nähdäksesi kysymykset uudestaan"
 
 #: ../../common/snapshots.py:913
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Otoskansiota ei löydy.\n"
-"Jos otoskansio sijaitsee ulkoisella asemalla, liitä asema tietokoneeseen."
 
 #: ../../common/snapshots.py:915
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "Odotetaan %s sekunti."
-msgstr[1] "Odotetaan %s sekuntia."
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../../common/snapshots.py:941
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr "Otoksen %s otto epäonnistui !!!"
+msgstr ""
 
 #: ../../common/snapshots.py:950
 msgid "Finalizing"
-msgstr "Viimeistellään"
+msgstr ""
 
 #: ../../common/snapshots.py:1088
 #, python-format
 msgid "Can't create folder: %s"
-msgstr "Ei voinut luoda kansiota: %s"
+msgstr ""
 
 #: ../../common/snapshots.py:1107
 msgid "..."
-msgstr "..."
+msgstr ""
 
 #: ../../common/snapshots.py:1134
 #, python-format
 msgid "Can't remove folder: %s"
-msgstr "Ei voida poistaa kansiota: %s"
+msgstr "Ne povas forigi dosieron: %s"
 
 #: ../../common/snapshots.py:1219
 #, python-format
 msgid "Compare with snapshot %s"
-msgstr "Vertaa otokseen %s"
+msgstr ""
 
 #: ../../common/snapshots.py:1248
 msgid "Create hard-links"
-msgstr "Luo hard link-tiedostot"
+msgstr ""
 
 #: ../../common/snapshots.py:1335
 msgid "Save config file ..."
-msgstr "Tallenna asetustiedosto ..."
+msgstr ""
 
 #: ../../common/snapshots.py:1341
 msgid "Save permission ..."
-msgstr "Tallenna käyttöoikeudet ..."
+msgstr ""
 
 #: ../../common/snapshots.py:1442
 #, python-format
@@ -507,16 +470,16 @@ msgstr ""
 
 #: ../../common/snapshots.py:1559
 msgid "Remove old snapshots"
-msgstr "Poista vanhat otokset"
+msgstr ""
 
 #: ../../common/snapshots.py:1583 ../../kde4/settingsdialog.py:499
 #: ../../gnome/settingsdialog.glade:1647
 msgid "Smart remove"
-msgstr "Älykäs poisto"
+msgstr ""
 
 #: ../../common/snapshots.py:1588
 msgid "Try to keep min free space"
-msgstr "Pidä vähän vapaata tilaa"
+msgstr ""
 
 #: ../../common/snapshots.py:1618
 #, python-format
@@ -626,17 +589,17 @@ msgstr ""
 #: ../../gnome/app.py:179 ../../gnome/app.py:588 ../../gnome/app.py:602
 #: ../../kde4/app.py:292 ../../kde4/app.py:559 ../../kde4/app.py:576
 msgid "Done"
-msgstr "Valmis"
+msgstr "Farite"
 
 #: ../../gnome/app.py:183 ../../kde4/app.py:136 ../../kde4/app.py:152
 #: ../../gnome/mainwindow.glade:209
 msgid "Help"
-msgstr "Ohje"
+msgstr "Helpo"
 
 #: ../../gnome/app.py:185 ../../kde4/app.py:139
 #: ../../gnome/mainwindow.glade:207
 msgid "Website"
-msgstr "Verkkosivu"
+msgstr "Retejo"
 
 #: ../../gnome/app.py:186 ../../kde4/app.py:141
 msgid "FAQ"
@@ -652,7 +615,7 @@ msgstr ""
 
 #: ../../gnome/app.py:190 ../../kde4/app.py:148
 msgid "About"
-msgstr "Tietoja ohjelmasta"
+msgstr "Pri"
 
 #: ../../gnome/app.py:196 ../../gnome/app.py:875
 #: ../../gnome/restoredialog.py:84 ../../gnome/snapshotsdialog.py:83
@@ -662,42 +625,42 @@ msgstr "Tietoja ohjelmasta"
 #: ../../gnome/mainwindow.glade:334 ../../gnome/mainwindow.glade:336
 #: ../../gnome/snapshotsdialog.glade:169 ../../gnome/snapshotsdialog.glade:171
 msgid "Restore"
-msgstr "Palauta"
+msgstr "Restaŭri"
 
 #: ../../gnome/app.py:197 ../../gnome/app.py:876 ../../gnome/gnometools.py:67
 #: ../../gnome/snapshotsdialog.py:84 ../../gnome/snapshotsdialog.py:245
 #: ../../kde4/app.py:201 ../../kde4/restoredialog.py:42
 #: ../../kde4/snapshotsdialog.py:113
 msgid "Restore to ..."
-msgstr "Palauta kohteeseen ..."
+msgstr ""
 
 #: ../../gnome/app.py:199 ../../gnome/app.py:884 ../../gnome/app.py:1131
 #: ../../kde4/app.py:1025
 #, python-format
 msgid "Restore '%s'"
-msgstr "Palauta '%s'"
+msgstr ""
 
 #: ../../gnome/app.py:201 ../../gnome/app.py:885 ../../gnome/app.py:1132
 #: ../../kde4/app.py:1026
 #, python-format
 msgid "Restore '%s' to ..."
-msgstr "Palauta '%s' kohteeseen ..."
+msgstr ""
 
 #: ../../gnome/app.py:220 ../../kde4/app.py:228
 msgid "Shortcuts"
-msgstr "Sijainnit"
+msgstr "Klavkombinoj"
 
 #: ../../gnome/app.py:243
 msgid "Name"
-msgstr "Nimi"
+msgstr "Nomo"
 
 #: ../../gnome/app.py:254
 msgid "Size"
-msgstr "Koko"
+msgstr "Grandeco"
 
 #: ../../gnome/app.py:261
 msgid "Date"
-msgstr "Päiväys"
+msgstr "Dato"
 
 #: ../../gnome/app.py:280 ../../gnome/app.py:871
 #: ../../gnome/snapshotsdialog.py:116 ../../kde4/app.py:164
@@ -705,72 +668,70 @@ msgstr "Päiväys"
 #: ../../gnome/mainwindow.glade:350 ../../gnome/mainwindow.glade:352
 #: ../../gnome/snapshotsdialog.glade:8
 msgid "Snapshots"
-msgstr "Otokset"
+msgstr ""
 
 #: ../../gnome/app.py:342 ../../kde4/app.py:355
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
-"Otoskansiota ei löydy.\n"
-"Jos kansio on ulkoisella asemalla, kytke laite kiinni ja paina OK"
 
 #: ../../gnome/app.py:605 ../../kde4/app.py:579
 msgid "Done, no backup needed"
-msgstr "Valmis, varmuuskopiota ei tarvittu"
+msgstr ""
 
 #: ../../gnome/app.py:611 ../../kde4/app.py:585
 msgid "Working:"
-msgstr "Käsitellään:"
+msgstr ""
 
 #: ../../gnome/app.py:615 ../../kde4/app.py:589
 msgid "Error:"
-msgstr "Virhe:"
+msgstr "Eraro:"
 
 #: ../../gnome/app.py:628 ../../kde4/app.py:636
 msgid "Global"
-msgstr "Yleiset"
+msgstr ""
 
 #: ../../gnome/app.py:629 ../../kde4/app.py:637
 msgid "Root"
-msgstr "Root"
+msgstr ""
 
 #: ../../gnome/app.py:630 ../../kde4/app.py:638
 msgid "Home"
-msgstr "Home"
+msgstr "Hejmo"
 
 #: ../../gnome/app.py:654
 msgid "Bookmarks"
-msgstr "Kirjanmerkit"
+msgstr "Legosignoj"
 
 #: ../../gnome/app.py:667 ../../kde4/app.py:649
 msgid "Backup folders"
-msgstr "Varmuuskopiokansiot"
+msgstr ""
 
 #: ../../gnome/app.py:693 ../../kde4/app.py:721
 msgid "Today"
-msgstr "Tänään"
+msgstr "Hodiaŭ"
 
 #: ../../gnome/app.py:697 ../../kde4/app.py:725
 msgid "Yesterday"
-msgstr "Eilen"
+msgstr "Hieraŭ"
 
 #: ../../gnome/app.py:701 ../../kde4/app.py:729
 msgid "This week"
-msgstr "Tällä viikolla"
+msgstr "Nuna semajno"
 
 #: ../../gnome/app.py:705 ../../kde4/app.py:733
 msgid "Last week"
-msgstr "Viime viikolla"
+msgstr "Lasta semajno"
 
 #: ../../gnome/app.py:869 ../../gnome/snapshotsdialog.py:238
 msgid "Open"
-msgstr "Avaa"
+msgstr "Malfermi"
 
 #: ../../gnome/app.py:1044 ../../kde4/app.py:90 ../../kde4/app.py:792
 #: ../../gnome/mainwindow.glade:73 ../../gnome/mainwindow.glade:75
 msgid "Snapshot Name"
-msgstr "Otoksen nimi"
+msgstr ""
 
 #: ../../gnome/app.py:1063
 #, python-format
@@ -778,64 +739,62 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
-"Oletko varma että haluat poistaa otoksen:\n"
-"<b>%s</b>"
 
 #: ../../gnome/app.py:1108 ../../kde4/app.py:994
 #, python-format
 msgid "Snapshot: %s"
-msgstr "Otos: %s"
+msgstr ""
 
 #: ../../gnome/app.py:1109 ../../kde4/app.py:995
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "Selaa otosta joka on tehty %s"
+msgstr ""
 
 #: ../../gnome/app.py:1111 ../../kde4/app.py:997
 msgid "View the current disk content"
-msgstr "Selaa nykyistä levyn sisältöä"
+msgstr ""
 
 #: ../../gnome/logviewdialog.py:106 ../../gnome/settingsdialog.py:414
 #: ../../kde4/logviewdialog.py:83 ../../kde4/settingsdialog.py:588
 msgid "All"
-msgstr "Kaikki"
+msgstr ""
 
 #: ../../gnome/logviewdialog.py:107 ../../gnome/settingsdialog.py:412
 #: ../../kde4/logviewdialog.py:84 ../../kde4/settingsdialog.py:586
 msgid "Errors"
-msgstr "Virheet"
+msgstr "Eraroj"
 
 #: ../../gnome/logviewdialog.py:112 ../../kde4/logviewdialog.py:89
 msgid "Changes"
-msgstr "Muutokset"
+msgstr "Ŝanĝoj"
 
 #: ../../gnome/logviewdialog.py:115 ../../kde4/logviewdialog.py:92
 msgid "Informations"
-msgstr "Tiedot"
+msgstr "informoj"
 
 #: ../../gnome/settingsdialog.py:239 ../../kde4/settingsdialog.py:386
 msgid "Include files and folders"
-msgstr "Sisällytä tiedostot ja hakemistot"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:267
 msgid "Exclude patterns, files or folders"
-msgstr "Poissulje hakuehdoilla, tiedoilla tai kansioilla"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:411 ../../kde4/settingsdialog.py:585
 msgid "None"
-msgstr "Ei mitään"
+msgstr "Neniu"
 
 #: ../../gnome/settingsdialog.py:413 ../../kde4/settingsdialog.py:587
 msgid "Changes & Errors"
-msgstr "Muutokset & virheet"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:455
 msgid "Snapshots folder"
-msgstr "Otosten kansio"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:463 ../../kde4/settingsdialog.py:1291
 msgid "Are you sure you want to change snapshots folder ?"
-msgstr "Oletko varma että haluat vaihtaa otosten kansiota?"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:881 ../../kde4/settingsdialog.py:896
 msgid ""
@@ -845,58 +804,57 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.py:1119 ../../kde4/settingsdialog.py:645
 msgid "New profile"
-msgstr "Uusi profiili"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:1133 ../../kde4/settingsdialog.py:661
 msgid "Rename profile"
-msgstr "Uudelleennimeä profiili"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:1145 ../../kde4/settingsdialog.py:675
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
-msgstr "Oletko varma että haluat poistaa profiilin \"%s\" ?"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:1151 ../../kde4/settingsdialog.py:1272
 msgid "Include folder"
-msgstr "Sisällytä kansio"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:1170 ../../kde4/settingsdialog.py:1258
 msgid "Include file"
-msgstr "Sisällytä tiedosto"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:1207 ../../kde4/settingsdialog.py:1220
 msgid "Exclude pattern"
-msgstr "Poissulje hakulausekkeella"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:1212 ../../kde4/settingsdialog.py:1230
 msgid "Exclude patterns can't contain ':' char !"
 msgstr ""
-"Poissulkevat hakulausekkeet eivät saa sisältää ':'-kaksoispiste merkkiä !"
 
 #: ../../gnome/settingsdialog.py:1218 ../../kde4/settingsdialog.py:1236
 msgid "Exclude file"
-msgstr "Poissulje tiedosto"
+msgstr ""
 
 #: ../../gnome/settingsdialog.py:1228 ../../kde4/settingsdialog.py:1240
 msgid "Exclude folder"
-msgstr "Poissulje kansio"
+msgstr ""
 
 #: ../../gnome/snapshotsdialog.py:240
 msgid "Jump to"
-msgstr "Hyppää"
+msgstr ""
 
 #: ../../gnome/snapshotsdialog.py:248 ../../kde4/snapshotsdialog.py:164
 msgid "Diff"
-msgstr "Erot"
+msgstr ""
 
 #: ../../gnome/snapshotsdialog.py:277 ../../kde4/snapshotsdialog.py:339
 msgid "You can't compare a snapshot to itself"
-msgstr "Otosta ei voi verrata itseensä"
+msgstr ""
 
 #: ../../gnome/snapshotsdialog.py:284 ../../kde4/snapshotsdialog.py:346
 #, python-format
 msgid "Command not found: %s"
-msgstr "Komentoa ei löydy: %s"
+msgstr ""
 
 #: ../../gnome/snapshotsdialog.py:307 ../../kde4/snapshotsdialog.py:367
 #, python-format
@@ -921,47 +879,45 @@ msgstr ""
 #: ../../kde4/app.py:86 ../../gnome/mainwindow.glade:58
 #: ../../gnome/mainwindow.glade:60
 msgid "Refresh snapshots list"
-msgstr "Päivitä otoslista"
+msgstr ""
 
 #: ../../kde4/app.py:94 ../../gnome/mainwindow.glade:88
 #: ../../gnome/mainwindow.glade:90
 msgid "Remove Snapshot"
-msgstr "Poista otos"
+msgstr ""
 
 #: ../../kde4/app.py:98 ../../gnome/mainwindow.glade:105
 msgid "View Snapshot Log"
-msgstr "Selaa otoslokia"
+msgstr ""
 
 #: ../../kde4/app.py:102 ../../gnome/mainwindow.glade:121
 msgid "View Last Log"
-msgstr "Selaa viimeisintä lokia"
+msgstr ""
 
 #: ../../kde4/app.py:108 ../../kde4/settingsdialog.py:70
 #: ../../gnome/mainwindow.glade:144 ../../gnome/mainwindow.glade:146
 #: ../../gnome/settingsdialog.glade:7
 msgid "Settings"
-msgstr "Asetukset"
+msgstr "Agordoj"
 
 #: ../../kde4/app.py:124 ../../gnome/mainwindow.glade:168
 #: ../../gnome/mainwindow.glade:170
 msgid "Exit"
-msgstr "Lopeta"
+msgstr "Eliri"
 
 #: ../../kde4/app.py:179 ../../gnome/mainwindow.glade:273
 msgid "Up"
-msgstr "Ylös"
+msgstr "Supren"
 
 #: ../../kde4/app.py:192 ../../gnome/mainwindow.glade:309
 msgid "Show hidden files"
-msgstr "Näytä piilotiedostot"
+msgstr "Montri kaŝitajn dosierojn"
 
 #: ../../kde4/app.py:237
 msgid ""
 "This folder doesn't exist\n"
 "in the current snapshot !"
 msgstr ""
-"Tätä kansiota ei ole olemassa\n"
-"nykyisessä otoksessa !"
 
 #: ../../kde4/app.py:826
 #, python-format
@@ -969,30 +925,28 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Oletko varma että haluat poistaa otoksen:\n"
-"%s"
 
 #: ../../kde4/app.py:1124 ../../kde4/kde4systrayicon.py:117
 msgid "Working..."
-msgstr "Työn alla..."
+msgstr "Laborante..."
 
 #: ../../kde4/logviewdialog.py:55
 msgid "Error Log View"
-msgstr "Virhelokinäkymä"
+msgstr ""
 
 #: ../../kde4/logviewdialog.py:65 ../../kde4/settingsdialog.py:80
 #: ../../kde4/settingsdialog.py:298 ../../gnome/logviewdialog.glade:73
 #: ../../gnome/settingsdialog.glade:72
 msgid "Profile:"
-msgstr "Profiili:"
+msgstr "Profilo:"
 
 #: ../../kde4/logviewdialog.py:77 ../../gnome/logviewdialog.glade:110
 msgid "Filter:"
-msgstr "Suodatin:"
+msgstr "Filtrilo:"
 
 #: ../../kde4/logviewdialog.py:100 ../../gnome/logviewdialog.glade:169
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Virhe, [I] Tietoa, [C] Muutokset"
+msgstr ""
 
 #: ../../kde4/logviewdialog.py:103 ../../gnome/logviewdialog.glade:195
 msgid "decode paths"
@@ -1000,11 +954,11 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:89
 msgid "Edit"
-msgstr "Muokkaa"
+msgstr "Redakti"
 
 #: ../../kde4/settingsdialog.py:107 ../../gnome/settingsdialog.glade:1194
 msgid "General"
-msgstr "Yleiset"
+msgstr "Ĝenerale"
 
 #: ../../kde4/settingsdialog.py:115 ../../gnome/settingsdialog.glade:199
 msgid "Mode:"
@@ -1012,7 +966,7 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:128 ../../kde4/settingsdialog.py:1288
 msgid "Where to save snapshots"
-msgstr "Otosten tallennuspaikka"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:147
 msgid "SSH Settings"
@@ -1022,7 +976,7 @@ msgstr ""
 #: ../../gnome/settingsdialog.glade:323 ../../gnome/settingsdialog.glade:583
 #: ../../gnome/settingsdialog.glade:874
 msgid "Host:"
-msgstr "Verkkonimi:"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:164 ../../gnome/settingsdialog.glade:350
 #: ../../gnome/settingsdialog.glade:610
@@ -1033,7 +987,7 @@ msgstr ""
 #: ../../gnome/settingsdialog.glade:377 ../../gnome/settingsdialog.glade:637
 #: ../../gnome/settingsdialog.glade:902
 msgid "User:"
-msgstr "Käyttäjä:"
+msgstr "Uzanto:"
 
 #: ../../kde4/settingsdialog.py:174 ../../gnome/settingsdialog.glade:416
 msgid "Path:"
@@ -1063,7 +1017,7 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:269 ../../gnome/settingsdialog.glade:968
 msgid "Advanced"
-msgstr "Lisäasetukset"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:281 ../../gnome/settingsdialog.glade:848
 msgid "Auto Host / User / Profile Id"
@@ -1071,19 +1025,19 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:306
 msgid "Schedule"
-msgstr "Aikataulu"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:316 ../../gnome/settingsdialog.glade:1079
 msgid "Day:"
-msgstr "Päivä:"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:327 ../../gnome/settingsdialog.glade:1066
 msgid "Weekday:"
-msgstr "Viikonpäivä:"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:338 ../../gnome/settingsdialog.glade:1053
 msgid "Hour:"
-msgstr "Tunti:"
+msgstr "Horo:"
 
 #: ../../kde4/settingsdialog.py:349 ../../gnome/settingsdialog.glade:1040
 msgid "Hours:"
@@ -1101,21 +1055,21 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:379 ../../gnome/settingsdialog.glade:1297
 msgid "Include"
-msgstr "Sisällytä"
+msgstr "Inkluzivi"
 
 #: ../../kde4/settingsdialog.py:402 ../../kde4/settingsdialog.py:443
 #: ../../gnome/settingsdialog.glade:1398
 msgid "Add file"
-msgstr "Lisää tiedosto"
+msgstr "Aldoni dosieron"
 
 #: ../../kde4/settingsdialog.py:407 ../../kde4/settingsdialog.py:448
 #: ../../gnome/settingsdialog.glade:1414
 msgid "Add folder"
-msgstr "Lisää kansio"
+msgstr "Aldoni dosierujon"
 
 #: ../../kde4/settingsdialog.py:417 ../../gnome/settingsdialog.glade:1461
 msgid "Exclude"
-msgstr "Poissulje"
+msgstr "Ekskluzivi"
 
 #: ../../kde4/settingsdialog.py:420 ../../gnome/settingsdialog.glade:1315
 msgid ""
@@ -1126,19 +1080,19 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:428
 msgid "Highly recommended:"
-msgstr "Erityisesti suositeltu:"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:458 ../../gnome/settingsdialog.glade:1892
 msgid "Auto-remove"
-msgstr "Automaattinen poisto"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:462 ../../gnome/settingsdialog.glade:1595
 msgid "Older than:"
-msgstr "Vanhempia kun:"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:476 ../../gnome/settingsdialog.glade:1611
 msgid "If free space is less than:"
-msgstr "Vapaata tilaa vähemmän kun:"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:488 ../../gnome/settingsdialog.glade:1629
 msgid "If free inodes is less than:"
@@ -1146,68 +1100,68 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:512 ../../gnome/settingsdialog.glade:1684
 msgid "Keep all snapshots for the last"
-msgstr "Säilytä kaikki otokset viimeiseltä"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:515 ../../kde4/settingsdialog.py:520
 #: ../../gnome/settingsdialog.glade:1692 ../../gnome/settingsdialog.glade:1716
 msgid "day(s)"
-msgstr "päivältä"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:517 ../../gnome/settingsdialog.glade:1704
 msgid "Keep one snapshot per day for the last"
-msgstr "Säilytä yksi otos jokaiselta päivältä viimeiseltä"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:522 ../../gnome/settingsdialog.glade:1730
 msgid "Keep one snapshot per week for the last"
-msgstr "Säilytä yksi otos jokaiselta viikolta viimeiseltä"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:525
 msgid "weeks(s)"
-msgstr "viikkolta"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:527 ../../gnome/settingsdialog.glade:1756
 msgid "Keep one snapshot per month for the last"
-msgstr "Säilytä yksi otos jokaiselta kuukaudelta viimeiseltä"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:530 ../../gnome/settingsdialog.glade:1768
 msgid "month(s)"
-msgstr "kuukaudelta"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:532 ../../gnome/settingsdialog.glade:1782
 msgid "Keep one snapshot per year for all years"
-msgstr "Säilytä yksi otos jokaiselta vuodelta viimeiseltä"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:535 ../../gnome/settingsdialog.glade:1483
 msgid "Don't remove named snapshots"
-msgstr "Älä poista nimettyjä otoksia"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:544 ../../gnome/settingsdialog.glade:2091
 msgid "Options"
-msgstr "Valinnat"
+msgstr "Agordoj"
 
 #: ../../kde4/settingsdialog.py:547 ../../gnome/settingsdialog.glade:1907
 msgid "Enable notifications"
-msgstr "Näytä ilmoitukset"
+msgstr "Aktivigi sciigojn"
 
 #: ../../kde4/settingsdialog.py:550 ../../gnome/settingsdialog.glade:1924
 msgid "Disable snapshots when on battery"
-msgstr "Älä ota otoksia kun kone käyttää akkua"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:553
 msgid "Power status not available from system"
-msgstr "Virranhallinnan tilatiedot eivät ole käytettävissä"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:556 ../../gnome/settingsdialog.glade:1942
 msgid "Backup files on restore"
-msgstr "Ota varmuuskopio palautuksen yhteydessä"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:559 ../../gnome/settingsdialog.glade:1959
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr "Jatka virheistä huolimatta (pidä keskeneräiset otokset)"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:562 ../../gnome/settingsdialog.glade:1976
 msgid "Use checksum to detect changes"
-msgstr "Käytä tarkistussummia muutosten havaitsemiseen"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:565 ../../gnome/settingsdialog.glade:1993
 msgid "Full rsync mode. May be faster but:"
@@ -1219,39 +1173,34 @@ msgid ""
 "- destination file-system must support all linux attributes (dates, rights, "
 "user, group ...)"
 msgstr ""
-"- otokset ovat vain luettavissa\n"
-"- kohdetiedostojärjestelmän on tuettava kaikkia Linuxin tiedosto-"
-"ominaisuuksia (päivämäärät, oikeudet, käyttäjä, ryhmä ...)"
 
 #: ../../kde4/settingsdialog.py:573 ../../gnome/settingsdialog.glade:2032
 msgid "Check for changes (don't take a new snapshot if nothing changed)"
 msgstr ""
-"Tarkista muutosten varalta (älä tee uutta otosta, jos mikään ei ole "
-"muuttunut)"
 
 #: ../../kde4/settingsdialog.py:580
 msgid "Log Level:"
-msgstr "Lokitaso:"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:595 ../../gnome/settingsdialog.glade:2319
 msgid "Expert Options"
-msgstr "Lisäasetukset"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:598
 msgid "Change these options only if you really know what you are doing !"
-msgstr "Muuta näitä asetuksia vain jos tiedät mitä teet !"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:606 ../../gnome/settingsdialog.glade:2120
 msgid "Run 'nice' as cron job (default: enabled)"
-msgstr "Aja 'nice'-prioriteettiohjelma cron-ohjelman työnä (Oletuksena)"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:609 ../../gnome/settingsdialog.glade:2137
 msgid "Run 'ionice' as cron job (default: enabled)"
-msgstr "Aja 'ionice' cronilla (oletus: päällä)"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:612 ../../gnome/settingsdialog.glade:2154
 msgid "Run 'ionice' when taking a manual snapshot (default: disabled)"
-msgstr "Aja 'ionice' tehtäessä manuaalinen otos (oletus: pois päältä)"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:618 ../../gnome/settingsdialog.glade:2177
 msgid "Limit rsync bandwidth usage: "
@@ -1263,37 +1212,36 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:626 ../../gnome/settingsdialog.glade:2233
 msgid "Preserve ACL"
-msgstr "Säilytä tiedostojärjestelmän pääsylistat (ACL)"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:629 ../../gnome/settingsdialog.glade:2250
 msgid "Preserve extended attributes (xattr)"
-msgstr "Säilytä tiedostojen lisäominaisuudet (xattr)"
+msgstr ""
 
 #: ../../kde4/settingsdialog.py:632 ../../gnome/settingsdialog.glade:2267
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
-"Kopioi turvattomat linkit (toimii vain absoluuttisten linkkien kanssa)"
 
 #: ../../kde4/settingsdialog.py:635 ../../gnome/settingsdialog.glade:2284
 msgid "Copy links (dereference symbolic links)"
-msgstr "Kopioi linkit (ratkaise symboliset linkit)"
+msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:46 ../../kde4/snapshotsdialog.py:173
 #: ../../gnome/snapshotsdialog.glade:385
 msgid "Diff Options"
-msgstr "Diff-asetukset"
+msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:56 ../../gnome/snapshotsdialog.glade:314
 msgid "Command:"
-msgstr "Komento:"
+msgstr "Komando:"
 
 #: ../../kde4/snapshotsdialog.py:60 ../../gnome/snapshotsdialog.glade:322
 msgid "Parameters:"
-msgstr "Parametrit:"
+msgstr "Parametroj:"
 
 #: ../../kde4/snapshotsdialog.py:64 ../../gnome/snapshotsdialog.glade:334
 msgid "Use %1 and %2 for path parameters"
-msgstr "Käytä %1 ja %2 polkuparametreinä"
+msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:184
 #: ../../gnome/snapshotsdialog.glade:186
@@ -1307,7 +1255,7 @@ msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:132 ../../gnome/snapshotsdialog.glade:88
 msgid "List only different snapshots"
-msgstr "Listaa vain eri otokset"
+msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:139 ../../gnome/snapshotsdialog.glade:110
 msgid "List only equal snapshots to: "
@@ -1315,15 +1263,15 @@ msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:149 ../../gnome/snapshotsdialog.glade:146
 msgid "Deep check (more accurate, but slow)"
-msgstr "Syvätarkistus (tarkempi, mutta hitaampi)"
+msgstr ""
 
 #: ../../kde4/snapshotsdialog.py:174
 msgid "Go To"
-msgstr "Siirry"
+msgstr "Iri al"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr "Lokinäkymä"
+msgstr ""
 
 #: ../../gnome/logviewdialog.glade:179
 msgid "scroll down automatic"
@@ -1331,31 +1279,29 @@ msgstr ""
 
 #: ../../gnome/mainwindow.glade:7
 msgid "Back In Time"
-msgstr "Back In Time"
+msgstr ""
 
 #: ../../gnome/mainwindow.glade:45
 msgid "Backup Now"
-msgstr "Varmuuskopioi nyt"
+msgstr ""
 
 #: ../../gnome/mainwindow.glade:271
 msgid "Parent folder"
-msgstr "Yläkansio"
+msgstr ""
 
 #: ../../gnome/mainwindow.glade:311
 msgid "Hidden files"
-msgstr "Piilotetut tiedostot"
+msgstr ""
 
 #: ../../gnome/mainwindow.glade:435
 msgid ""
 "<b>This folder doesn't exist\n"
 "in the current snapshot !</b>"
 msgstr ""
-"<b>Tämä kansio ei ole olemassa\n"
-"tässä otoksessa !</b>"
 
 #: ../../gnome/settingsdialog.glade:287
 msgid "<b>Where to save snapshots</b>"
-msgstr "<b>Mihin tallennetaan otokset</b>"
+msgstr ""
 
 #: ../../gnome/settingsdialog.glade:483
 msgid "Private key:"
@@ -1375,7 +1321,7 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:930
 msgid "Profile Id:"
-msgstr "Profiili ID:"
+msgstr ""
 
 #: ../../gnome/settingsdialog.glade:1102
 msgid ""
@@ -1385,36 +1331,36 @@ msgstr ""
 
 #: ../../gnome/settingsdialog.glade:1150
 msgid "<b>Schedule</b>"
-msgstr "Aikataulu"
+msgstr ""
 
 #: ../../gnome/settingsdialog.glade:1350
 msgid "<b>Highly recommended:</b>"
-msgstr "<b>Erityisesti suositeltu:</b>"
+msgstr ""
 
 #: ../../gnome/settingsdialog.glade:1364
 msgid "label"
-msgstr "nimike"
+msgstr "etikedo"
 
 #: ../../gnome/settingsdialog.glade:1742
 msgid "week(s)"
-msgstr "viikolta"
+msgstr ""
 
 #: ../../gnome/settingsdialog.glade:2056
 msgid "Log level:"
-msgstr "Lokitaso:"
+msgstr ""
 
 #: ../../gnome/settingsdialog.glade:2108
 msgid ""
 "<b>Change these options only if you really know what you are doing !</b>"
-msgstr "<b>Muuta näitä asetuksia vain silloin kun tiedät mitä teet !</b>"
+msgstr ""
 
 #: ../../gnome/snapshotsdialog.glade:263
 msgid "Diff with"
-msgstr "Vertaa"
+msgstr ""
 
 #: ../../gnome/textinputdialog.glade:7
 msgid "Pattern"
-msgstr "Hakuehto"
+msgstr "Modelo"
 
 #: ../../gnome/textinputdialog.glade:70
 msgid "Text"

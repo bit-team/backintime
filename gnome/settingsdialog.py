@@ -75,6 +75,7 @@ class SettingsDialog(object):
                 'on_btn_remove_exclude_clicked' : self.on_remove_exclude,
                 'on_cb_remove_old_backup_toggled' : self.update_remove_old_backups,
                 'on_cb_min_free_space_toggled' : self.update_min_free_space,
+                'on_cb_min_free_inodes_toggled' : self.update_min_free_inodes,
                 #'on_cb_per_directory_schedule_toggled' : self.on_cb_per_directory_schedule_toggled,
                 'on_combo_profiles_changed': self.on_combo_profiles_changed,
                 'on_btn_where_clicked': self.on_btn_where_clicked,
@@ -330,6 +331,11 @@ class SettingsDialog(object):
 
         self.hbox_backup_time = get( 'hbox_backup_time' )
         
+        #automatic backup anacron
+        self.lbl_backup_anacron        = get('lbl_backup_anacron')
+        self.lbl_backup_anacron_period = get('lbl_backup_anacron_period')
+        self.sb_backup_anacron_period  = get('sb_backup_anacron_period')
+        
         #setup remove old backups older than
         self.edit_remove_old_backup_value = get( 'edit_remove_old_backup_value' )
         self.cb_remove_old_backup_unit = get( 'cb_remove_old_backup_unit' )
@@ -369,6 +375,11 @@ class SettingsDialog(object):
             self.store_min_free_space_unit.append( [ map[ key ], key ] )
                 
         self.cb_min_free_space = get( 'cb_min_free_space' )
+        
+        #setup min free inodes
+        self.edit_min_free_inodes_value = get('edit_min_free_inodes_value')
+        self.lbl_min_free_inodes_unit = get('lbl_min_free_inodes_unit')
+        self.cb_min_free_inodes = get('cb_min_free_inodes')
         
         #don't remove named snapshots
         self.cb_dont_remove_named_snapshots = get( 'cb_dont_remove_named_snapshots' )
@@ -507,6 +518,17 @@ class SettingsDialog(object):
         else:
             self.lbl_backup_time_custom.hide()
             self.txt_backup_time_custom.hide()
+
+        if backup_mode == self.config.DAY_ANACRON:
+            self.lbl_backup_anacron.show()
+            self.lbl_backup_anacron_period.show()
+            self.sb_backup_anacron_period.show()
+            self.lbl_backup_time.hide()
+            self.cb_backup_time.hide()
+        else:
+            self.lbl_backup_anacron.hide()
+            self.lbl_backup_anacron_period.hide()
+            self.sb_backup_anacron_period.hide()
 
     def update_host_user_profile( self, *params ):
         value = not self.cb_auto_host_user_profile.get_active()
@@ -725,6 +747,9 @@ class SettingsDialog(object):
         #setup custom backup time
         self.txt_backup_time_custom.set_text( self.config.get_custom_backup_time( self.profile_id ) )
 
+        #setup automatic backup anacron
+        self.sb_backup_anacron_period.set_value(self.config.get_automatic_backup_anacron_period(self.profile_id))
+
         #setup remove old backups older than
         enabled, value, unit = self.config.get_remove_old_snapshots( self.profile_id )
         
@@ -758,6 +783,11 @@ class SettingsDialog(object):
         
         self.cb_min_free_space.set_active( enabled )
         self.update_min_free_space( self.cb_min_free_space )
+        
+        #setup min free inodes
+        self.cb_min_free_inodes.set_active(self.config.min_free_inodes_enabled(self.profile_id))
+        self.edit_min_free_inodes_value.set_value(self.config.min_free_inodes(self.profile_id))
+        self.update_min_free_inodes(self.cb_min_free_inodes)
         
         #don't remove named snapshots
         self.cb_dont_remove_named_snapshots.set_active( self.config.get_dont_remove_named_snapshots( self.profile_id ) )
@@ -971,6 +1001,7 @@ class SettingsDialog(object):
         self.config.set_automatic_backup_day( self.store_backup_day.get_value( self.cb_backup_day.get_active_iter(), 1 ), self.profile_id )
         self.config.set_automatic_backup_weekday( self.store_backup_weekday.get_value( self.cb_backup_weekday.get_active_iter(), 1 ), self.profile_id )
         self.config.set_custom_backup_time( self.txt_backup_time_custom.get_text(), self.profile_id )
+        self.config.set_automatic_backup_anacron_period(self.sb_backup_anacron_period.get_value_as_int(), self.profile_id)
         
         #auto-remove snapshots
         self.config.set_remove_old_snapshots( 
@@ -982,6 +1013,10 @@ class SettingsDialog(object):
                         self.cb_min_free_space.get_active(), 
                         int( self.edit_min_free_space_value.get_value() ),
                         self.store_min_free_space_unit.get_value( self.cb_min_free_space_unit.get_active_iter(), 1 ),
+                        self.profile_id )
+        self.config.set_min_free_inodes(
+                        self.cb_min_free_inodes.get_active(),
+                        int(self.edit_min_free_inodes_value.get_value()),
                         self.profile_id )
         self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.get_active(), self.profile_id )
         self.config.set_smart_remove(
@@ -1035,6 +1070,11 @@ class SettingsDialog(object):
         enabled = self.cb_min_free_space.get_active()
         self.edit_min_free_space_value.set_sensitive( enabled )
         self.cb_min_free_space_unit.set_sensitive( enabled )
+
+    def update_min_free_inodes( self, button ):
+        enabled = self.cb_min_free_inodes.get_active()
+        self.edit_min_free_inodes_value.set_sensitive( enabled )
+        self.lbl_min_free_inodes_unit.set_sensitive( enabled )
     
     #def on_cb_per_directory_schedule_toggled( self, button ):
     #	self.update_per_directory_option()

@@ -23,6 +23,8 @@ import threading
 import base64
 import tempfile
 
+import logger
+
 class FIFO(object):
     """
     interprocess-communication with named pipes
@@ -49,7 +51,7 @@ class FIFO(object):
         try:
             os.mkfifo(self.fifo, 0600)
         except OSError, e:
-            sys.stderr.write('Failed to create FIFO: %s\n' % e.strerror)
+            logger.error('Failed to create FIFO: %s' % e.strerror)
             sys.exit(1)
         
     def read(self, timeout = 0):
@@ -88,15 +90,15 @@ class FIFO(object):
         except OSError:
             return False
         if not s.st_uid == os.getuid():
-            sys.stderr.write('%s is not owned by user\n' % self.fifo)
+            logger.error('%s is not owned by user' % self.fifo)
             return False
         mode = s.st_mode
         if not stat.S_ISFIFO(mode):
-            sys.stderr.write('%s is not a FIFO\n' % self.fifo)
+            logger.error('%s is not a FIFO' % self.fifo)
             return False
         forbidden_perm = stat.S_IXUSR + stat.S_IRWXG + stat.S_IRWXO
         if mode & forbidden_perm > 0:
-            sys.stderr.write('%s has wrong permissions\n' % self.fifo)
+            logger.error('%s has wrong permissions' % self.fifo)
             return False
         return True
 
