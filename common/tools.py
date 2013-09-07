@@ -202,7 +202,7 @@ def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
 
 def move_snapshots_folder( old_folder, new_folder ):
     '''Moves all the snapshots from one folder to another'''
-    print "\nMove snapshots from %s to %s" %( old_folder, new_folder )	
+    print("\nMove snapshots from %s to %s" %( old_folder, new_folder ))
 
     # Fetch a list with snapshots for verification
     snapshots_to_move = get_snapshots_list_in_folder( old_folder )
@@ -211,10 +211,10 @@ def move_snapshots_folder( old_folder, new_folder ):
         snapshots_already_there = get_snapshots_list_in_folder( new_folder )
     else:
         tools.make_dirs( new_folder )	
-    print "To move: %s" % snapshots_to_move
-    print "Already there: %s" % snapshots_already_there
+    print("To move: %s" % snapshots_to_move)
+    print("Already there: %s" % snapshots_already_there)
     snapshots_expected = snapshots_to_move + snapshots_already_there
-    print "Snapshots expected: %s" % snapshots_expected
+    print("Snapshots expected: %s" % snapshots_expected)
     
     # Check if both folders are within the same os
     device_old = os.stat( old_folder ).st_dev
@@ -236,7 +236,7 @@ def move_snapshots_folder( old_folder, new_folder ):
     
         # Prepare excludes
         nonsnapshots = get_nonsnapshots_list_in_folder( old_folder )
-        print "Nonsnapshots: %s" % nonsnapshots
+        print("Nonsnapshots: %s" % nonsnapshots)
         items = []
         for nonsnapshot in nonsnapshots:
             for item in items:
@@ -256,23 +256,23 @@ def move_snapshots_folder( old_folder, new_folder ):
     for snapshot in snapshots_to_move:
         if os.path.exists( os.path.join( new_folder, snapshot, "backup" ) ):
             if os.path.exists( os.path.join( old_folder, snapshot) ):
-                print "Remove: %s" %snapshot
+                print("Remove: %s" %snapshot)
                 path_to_remove = os.path.join( old_folder, snapshot )
                 cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path_to_remove #Debian patch
                 _execute( cmd )
                 cmd = "rm -rfv \"%s\"" % path_to_remove
                 _execute( cmd )
             else:
-                print "%s was already removed" %snapshot
+                print("%s was already removed" %snapshot)
         else: 
             snapshots_not_moved.append( snapshot )
                 
     # Check snapshot list
     if len( snapshots_not_moved ) == 0:
-        print "Succes!\n"
+        print("Succes!\n")
         return True
     else:
-        print "Error! Not moved: %s\n" %snapshots_not_moved
+        print("Error! Not moved: %s\n" %snapshots_not_moved)
         return False
 
 
@@ -295,9 +295,9 @@ def _execute( cmd, callback = None, user_data = None ):
             ret_val = 0
 
     if ret_val != 0:
-        print "Command \"%s\" returns %s" % ( cmd, ret_val ) 
+        print("Command \"%s\" returns %s" % ( cmd, ret_val ))
     else:
-        print "Command \"%s\" returns %s" % ( cmd, ret_val ) 
+        print("Command \"%s\" returns %s" % ( cmd, ret_val ))
 
     return ret_val
 
@@ -410,7 +410,7 @@ def _get_md5sum_from_path(path):
             md5sum = output.split(" ")[0]
             return md5sum
     # md5sum unavailable or command failed; raise an exception ? a message ? use std lib ? 
-    print "warning: md5sum() fail ! used (st_size, st_mttime) instead of md5sum."
+    print("warning: md5sum() fail ! used (st_size, st_mttime) instead of md5sum.")
     obj  = os.stat(path)
     unique_key = (obj.st_size, int(obj.st_mtime))    
     return unique_key
@@ -531,13 +531,13 @@ class UniquenessSet:
             size,inode  = dum.st_size, dum.st_ino
             # is it a hlink ?
             if (size, inode) in self._size_inode: 
-                if verb: print "[deep test] : skip, it's a duplicate (size, inode)" 
+                if verb: print("[deep test] : skip, it's a duplicate (size, inode)")
                 return False   
             self._size_inode.add( (size,inode) )
             if size not in self._uniq_dict.keys(): 
                 # first item of that size
                 unique_key = size
-                if verb: print "[deep test] : store current size ?" 
+                if verb: print("[deep test] : store current size ?")
             else: 
                 prev = self._uniq_dict[size]
                 if prev:
@@ -546,9 +546,9 @@ class UniquenessSet:
                     self._uniq_dict[size] = None
                     self._uniq_dict[md5sum_prev] = prev      
                     if verb: 
-                        print "[deep test] : size duplicate, remove the size, store prev md5sum"                     
+                        print("[deep test] : size duplicate, remove the size, store prev md5sum")
                 unique_key = _get_md5sum_from_path(path) 
-                if verb: print "[deep test] : store current md5sum ?" 
+                if verb: print("[deep test] : store current md5sum ?")
         else:
             # store a tuple of (size, modification time)
             obj  = os.stat(path)
@@ -556,10 +556,10 @@ class UniquenessSet:
             # print "..", path, unique_key 
         # store if not already present, then return True
         if unique_key not in self._uniq_dict.keys():
-            if verb: print " >> ok, store !"             
+            if verb: print(" >> ok, store !")             
             self._uniq_dict[unique_key] = path
             return True    
-        if verb: print " >> skip (it's a duplicate)" 
+        if verb: print(" >> skip (it's a duplicate)")
         return False
 
 class Timeout(Exception):

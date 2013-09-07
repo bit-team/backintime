@@ -59,7 +59,7 @@ class ApplicationInstance:
 
         if auto_exit:
             #exit the application
-            print "The application is already running !"
+            print("The application is already running !")
             exit(0) #exit raise an exception so don't put it in a try/except block
 
         return False
@@ -83,9 +83,9 @@ if __name__ == '__main__':
     app_instance = ApplicationInstance( '/tmp/myapp.pid' )
 
     #do something here
-    print "Start MyApp"
+    print("Start MyApp")
     time.sleep(5)	#sleep 5 seconds
-    print "End MyApp"
+    print("End MyApp")
 
     #remove pid file
     app_instance.exit_application()

@@ -525,7 +525,7 @@ class MainWindow(object):
         if raise_cmd is None:
             return True
 
-        print "Raise cmd: " + raise_cmd
+        print( "Raise cmd: " + raise_cmd)
         self.window.present_with_time( int(time.time()) )
         self.window.window.focus()
         #self.window.present()
@@ -533,14 +533,14 @@ class MainWindow(object):
         if len( raise_cmd ) == 0:
             return True
 
-        print "Check if the main window is the only top level visible window"
+        print("Check if the main window is the only top level visible window")
         for window in gtk.window_list_toplevels():
             if window.get_property( 'visible' ):
                 if window != self.window:
-                    print "Failed"
+                    print("Failed")
                     return True
 
-        print "OK"
+        print("OK")
 
         folder_and_file = self.get_cmd_startup_folder_and_file( raise_cmd )
         if folder_and_file is None:
@@ -826,7 +826,7 @@ class MainWindow(object):
             return True
 
         cmd = "gloobus-preview \"%s\" &" % full_path
-        print cmd
+        print(cmd)
         os.system( cmd )
         return True
 
@@ -903,7 +903,7 @@ class MainWindow(object):
             return
 
         cmd = "gnome-open \"%s\" &" % path
-        print cmd
+        print(cmd)
         os.system( cmd )
 
     def on_list_folder_view_row_activated( self, list, path, column ):
@@ -925,7 +925,7 @@ class MainWindow(object):
 
         #file
         cmd = "gnome-open \"%s\" &" % full_path
-        print cmd
+        print(cmd)
         os.system( cmd )
 
     def on_btn_fodler_up_clicked( self, button ):
@@ -1061,7 +1061,7 @@ class MainWindow(object):
             return
 
         if gtk.RESPONSE_YES == messagebox.show_question( self.window, self.config, _('Are you sure you want to remove the snapshot:\n<b>%s</b>') % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
-            print "Remove Snapshot: %s" % snapshot_id
+            print("Remove Snapshot: %s" % snapshot_id)
             self.snapshots.remove_snapshot( snapshot_id )
             self.fill_time_line()
 

@@ -336,7 +336,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             return False
 
         if profile_id == None:
-        #	print "BUG: calling set_snapshots_path without profile_id!"
+        #	print("BUG: calling set_snapshots_path without profile_id!")
         #	tjoep
         #	return False
             profile_id = self.get_current_profile()
@@ -349,7 +349,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             return False
 
         #Initialize the snapshots folder
-        print "Check snapshot folder: %s" % value
+        print("Check snapshot folder: %s" % value)
         #machine = socket.gethostname()
         #user = self.get_user()
 
@@ -357,7 +357,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         full_path = os.path.join( value, 'backintime', host, user, profile ) 
         if not os.path.isdir( full_path ):
-            print "Create folder: %s" % full_path
+            print("Create folder: %s" % full_path)
             tools.make_dirs( full_path )
             if not os.path.isdir( full_path ):
                 self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % value ) )
@@ -1062,7 +1062,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             return False
 
         if not os.path.isdir( self.get_snapshots_full_path( profile_id ) ):
-            print "%s does not exist" % self.get_snapshots_full_path( profile_id )
+            print("%s does not exist" % self.get_snapshots_full_path( profile_id ))
             return False
 
         return True
@@ -1077,10 +1077,10 @@ class Config( configfile.ConfigFileWithProfiles ):
             """Then the system entry message has not yet been used in this crontab
             therefore we assume all entries are system entries and clear them all.
             This is the old behaviour"""
-            print "Clearing all Back In Time entries"
+            print("Clearing all Back In Time entries")
             os.system( "crontab -l | grep -v backintime | crontab -" )
         
-        print "Clearing system Back In Time entries"
+        print("Clearing system Back In Time entries")
         #os.system( "crontab -l | grep -Pv '(?s)%s.*?backintime' | crontab -" % system_entry_message ) #buggy in Ubuntu 10.10
         os.system( "crontab -l | grep -v '%s\n.*backintime.*' | crontab -" % system_entry_message )
 
@@ -1089,9 +1089,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         
         for profile_id in profiles:
             profile_name = self.get_profile_name( profile_id )
-            print "Profile: %s" % profile_name
+            print("Profile: %s" % profile_name)
             backup_mode = self.get_automatic_backup_mode( profile_id )
-            print "Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ backup_mode ]
+            print("Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ backup_mode ])
 
             if self.NONE == backup_mode:
                 continue
@@ -1157,5 +1157,5 @@ class Config( configfile.ConfigFileWithProfiles ):
 
 if __name__ == "__main__":
     config = Config()
-    print "snapshots path = %s" % config.get_snapshots_full_path()
+    print("snapshots path = %s" % config.get_snapshots_full_path())
 

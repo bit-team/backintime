@@ -65,7 +65,7 @@ class GUIApplicationInstance:
             return
 
         #exit the application
-        print "The application is already running ! (pid: %s)" % pid
+        print("The application is already running ! (pid: %s)" % pid)
 
         #notify raise
         try:

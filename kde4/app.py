@@ -533,7 +533,7 @@ class MainWindow( KMainWindow ):
         if raise_cmd is None:
             return
         
-        print "Raise cmd: " + raise_cmd
+        print("Raise cmd: " + raise_cmd)
         self.kapp.alert( self )
 
     def update_take_snapshot( self, force_wait_lock = False ):

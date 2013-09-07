@@ -71,7 +71,7 @@ def restore(parent, snapshot_id, path, ask_where = False):
         if where is None:
             return
     
-    print "Where: %s" % where
+    print("Where: %s" % where)
     restoredialog.restore(parent, snapshot_id, path, where )
 
 def equal_indent(*args):

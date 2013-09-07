@@ -73,7 +73,7 @@ class NotifyPlugin( pluginmanager.Plugin ):
             message = message.replace("\r", '')
 
             cmd = cmd + " \"%s\" \"%s\"" % (title, message)
-            print cmd
+            print(cmd)
             os.system(cmd)
         return
 

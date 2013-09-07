@@ -71,57 +71,57 @@ def _umount(cfg):
 
 
 def print_version( cfg, app_name ):
-    print ''
-    print 'Back In Time'
-    print 'Version: ' + cfg.VERSION
-    print ''
-    print 'Back In Time comes with ABSOLUTELY NO WARRANTY.'
-    print 'This is free software, and you are welcome to redistribute it'
-    print "under certain conditions; type `%s --license\' for details." % app_name
-    print ''
+    print('')
+    print('Back In Time')
+    print('Version: ' + cfg.VERSION)
+    print('')
+    print('Back In Time comes with ABSOLUTELY NO WARRANTY.')
+    print('This is free software, and you are welcome to redistribute it')
+    print("under certain conditions; type `%s --license\' for details." % app_name)
+    print('')
 
 
 def print_help( cfg ):
-    print 'Options'
-    print '--profile <profile name>'
-    print '\tSelect profile (use it before other options)'
-    print '--profile-id <profile id>'
-    print '\tSelect profile by id (use it before other options)'
-    print '-b | --backup'
-    print '\tTake a snapshot (and exit)'
-    print '--backup-job'
-    print '\tUsed for cron job: take a snapshot (and exit)'
-    print '--snapshots-path'
-    print '\tShow the path where is saves the snapshots (and exit)'
-    print '--snapshots-list'
-    print '\tShow the list of snapshots IDs (and exit)'
-    print '--snapshots-list-path'
-    print '\tShow the paths to snapshots (and exit)'
-    print '--last-snapshot'
-    print '\tShow the ID of the last snapshot (and exit)'
-    print '--last-snapshot-path'
-    print '\tShow the path to the last snapshot (and exit)'
-    print '--keep-mount'
-    print '\tDon\'t unmount on exit. Only valid with'
-    print '\t--snapshots-list-path and --last-snapshot-path.'
-    print '--unmount'
-    print '\tUnmount the profile.'
-    print '--benchmark-cipher [file-size]'
-    print '\tShow a benchmark of all ciphers for ssh transfer (and exit)'
-    print '--pw-cache [start|stop|restart|reload|status]'
-    print '\tControl Password Cache for non-interactive cronjobs'
-    print '--decode [encoded_PATH]'
-    print '\tDecode PATH. If no PATH is specified on command line,'
-    print '\tthan a list of filenames will be read from stdin.'
-    print '--quiet'
-    print '\tBe quiet. Suppress messages on stdout.'
-    print '-v | --version'
-    print '\tShow version (and exit)'
-    print '--license'
-    print '\tShow license (and exit)'
-    print '-h | --help'
-    print '\tShow this help (and exit)'
-    print ''
+    print('Options')
+    print('--profile <profile name>')
+    print('\tSelect profile (use it before other options)')
+    print('--profile-id <profile id>')
+    print('\tSelect profile by id (use it before other options)')
+    print('-b | --backup')
+    print('\tTake a snapshot (and exit)')
+    print('--backup-job')
+    print('\tUsed for cron job: take a snapshot (and exit)')
+    print('--snapshots-path')
+    print('\tShow the path where is saves the snapshots (and exit)')
+    print('--snapshots-list')
+    print('\tShow the list of snapshots IDs (and exit)')
+    print('--snapshots-list-path')
+    print('\tShow the paths to snapshots (and exit)')
+    print('--last-snapshot')
+    print('\tShow the ID of the last snapshot (and exit)')
+    print('--last-snapshot-path')
+    print('\tShow the path to the last snapshot (and exit)')
+    print('--keep-mount')
+    print('\tDon\'t unmount on exit. Only valid with')
+    print('\t--snapshots-list-path and --last-snapshot-path.')
+    print('--unmount')
+    print('\tUnmount the profile.')
+    print('--benchmark-cipher [file-size]')
+    print('\tShow a benchmark of all ciphers for ssh transfer (and exit)')
+    print('--pw-cache [start|stop|restart|reload|status]')
+    print('\tControl Password Cache for non-interactive cronjobs')
+    print('--decode [encoded_PATH]')
+    print('\tDecode PATH. If no PATH is specified on command line,')
+    print('\tthan a list of filenames will be read from stdin.')
+    print('--quiet')
+    print('\tBe quiet. Suppress messages on stdout.')
+    print('-v | --version')
+    print('\tShow version (and exit)')
+    print('--license')
+    print('\tShow license (and exit)')
+    print('-h | --help')
+    print('\tShow this help (and exit)')
+    print('')
 
 
 def start_app( app_name = 'backintime', extra_args = [] ):
@@ -170,7 +170,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
             sys.exit(0)
 
         if arg == '--license':
-            print cfg.get_license()
+            print(cfg.get_license())
             sys.exit(0)
 
         if arg == '--help' or arg == '-h':
@@ -290,8 +290,8 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                         else:
                             print >> force_stdout, 'not running'
                     else:
-                        print "Unknown command"
-                        print "usage: %s %s start|stop|restart|reload|status" % (sys.argv[0], sys.argv[index])
+                        print("Unknown command")
+                        print("usage: %s %s start|stop|restart|reload|status" % (sys.argv[0], sys.argv[index]))
                         sys.exit(2)
                 except IndexError:
                     daemon.run()
@@ -340,7 +340,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
 
         if arg[0] == '-':
             if not arg[0] in extra_args:
-                print "Ignore option: %s" % arg
+                print("Ignore option: %s" % arg)
             continue
 
     return cfg
