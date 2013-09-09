@@ -115,12 +115,7 @@ class Daemon:
         Start the daemon
         """
         # Check for a pidfile to see if the daemon already runs
-        try:
-            pf = file(self.pidfile,'r')
-            pid = int(pf.read().strip())
-            pf.close()
-        except IOError:
-            pid = None
+        pid = self.read_pid()
 
         if pid:
             if tools.is_process_alive(pid):
@@ -139,12 +134,7 @@ class Daemon:
         Stop the daemon
         """
         # Get the pid from the pidfile
-        try:
-            pf = file(self.pidfile,'r')
-            pid = int(pf.read().strip())
-            pf.close()
-        except IOError:
-            pid = None
+        pid = self.read_pid()
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
@@ -176,12 +166,7 @@ class Daemon:
         send SIGHUP signal to process
         """
         # Get the pid from the pidfile
-        try:
-            pf = file(self.pidfile,'r')
-            pid = int(pf.read().strip())
-            pf.close()
-        except IOError:
-            pid = None
+        pid = self.read_pid()
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
@@ -204,12 +189,7 @@ class Daemon:
         return status
         """
         # Get the pid from the pidfile
-        try:
-            pf = file(self.pidfile,'r')
-            pid = int(pf.read().strip())
-            pf.close()
-        except IOError:
-            pid = None
+        pid = self.read_pid()
 
         if not pid:
             return False
@@ -237,7 +217,15 @@ class Daemon:
         daemonized by start() or restart().
         """
         pass
-        
+
+    def read_pid(self):
+        """read PID from PID-file"""
+        try:
+            with open(self.pidfile, 'r') as pf:
+                return(int(pf.read().strip()))
+        except (IOError, ValueError):
+            return(None)
+
 class Password_Cache(Daemon):
     """
     Password_Cache get started on User login. It provides passwords for

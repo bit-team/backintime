@@ -1,5 +1,8 @@
 Back In Time
 
+Version 1.0.28
+* Fix bug: ValueError while reading pw-cache PID
+
 Version 1.0.26
 * add feature: keep min free inodes
 * roll back commit 836.1.5 (check free-space on ssh remote host): statvfs DOES work over sshfs. But not with quite outdated sshd
