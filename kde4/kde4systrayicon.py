@@ -36,7 +36,7 @@ import snapshots
 
 from PyQt4.QtCore import QObject, QString, SIGNAL, QTimer
 from PyKDE4.kdecore import KAboutData, KCmdLineArgs, ki18n
-from PyKDE4.kdeui import KApplication, KSystemTrayIcon, KIcon
+from PyKDE4.kdeui import KApplication, KSystemTrayIcon, KIcon, KPassivePopup
 
 
 class KDE4SysTrayIcon:
