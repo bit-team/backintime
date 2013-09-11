@@ -212,7 +212,7 @@ def move_snapshots_folder( old_folder, new_folder ):
     if os.path.exists( new_folder ) == True:
         snapshots_already_there = get_snapshots_list_in_folder( new_folder )
     else:
-        tools.make_dirs( new_folder )	
+        make_dirs( new_folder )	
     print("To move: %s" % snapshots_to_move)
     print("Already there: %s" % snapshots_already_there)
     snapshots_expected = snapshots_to_move + snapshots_already_there
