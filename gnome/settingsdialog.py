@@ -232,6 +232,7 @@ class SettingsDialog(object):
         
         #setup include folders
         self.list_include = get( 'list_include' )
+        self.list_include.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         
         pix_renderer = gtk.CellRendererPixbuf()
         text_renderer = gtk.CellRendererText()
@@ -260,6 +261,7 @@ class SettingsDialog(object):
         
         #setup exclude patterns
         self.list_exclude = get( 'list_exclude' )
+        self.list_exclude.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         
         pix_renderer = gtk.CellRendererPixbuf()
         text_renderer = gtk.CellRendererText()
@@ -1150,44 +1152,50 @@ class SettingsDialog(object):
     def on_add_include( self, button ):
         fcd = gtk.FileChooserDialog( _('Include folder'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
         fcd.set_show_hidden( self.parent.show_hidden_files  )
+        fcd.set_select_multiple(True)
         
         if fcd.run() == gtk.RESPONSE_OK:
-            include_folder = tools.prepare_path( fcd.get_filename() )
-            
-            iter = self.store_include.get_iter_first()
-            while not iter is None:
-                if self.store_include.get_value( iter, 0 ) == include_folder:
-                    break
-                iter = self.store_include.iter_next( iter )
-            
-            if iter is None:
-                #self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
-                self.store_include.append( [ include_folder, gtk.STOCK_DIRECTORY, 0 ] )
+            for include_folder in fcd.get_filenames():
+                include_folder = tools.prepare_path(include_folder)
+                
+                iter = self.store_include.get_iter_first()
+                while not iter is None:
+                    if self.store_include.get_value( iter, 0 ) == include_folder:
+                        break
+                    iter = self.store_include.iter_next( iter )
+                
+                if iter is None:
+                    self.store_include.append( [ include_folder, gtk.STOCK_DIRECTORY, 0 ] )
         
         fcd.destroy()
     
     def on_add_include_file( self, button ):
         fcd = gtk.FileChooserDialog( _('Include file'), self.dialog, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
         fcd.set_show_hidden( self.parent.show_hidden_files  )
+        fcd.set_select_multiple(True)
         
         if fcd.run() == gtk.RESPONSE_OK:
-            include_file = tools.prepare_path( fcd.get_filename() )
-            
-            iter = self.store_include.get_iter_first()
-            while not iter is None:
-                if self.store_include.get_value( iter, 0 ) == include_file:
-                    break
-                iter = self.store_include.iter_next( iter )
-            
-            if iter is None:
-                #self.store_include.append( [include_folder, gtk.STOCK_DIRECTORY, self.config.AUTOMATIC_BACKUP_MODES[self.config.NONE], self.config.NONE ] )
-                self.store_include.append( [ include_file, gtk.STOCK_FILE, 1 ] )
+            for include_file in fcd.get_filenames():
+                include_file = tools.prepare_path(include_file)
+                
+                iter = self.store_include.get_iter_first()
+                while not iter is None:
+                    if self.store_include.get_value( iter, 0 ) == include_file:
+                        break
+                    iter = self.store_include.iter_next( iter )
+                
+                if iter is None:
+                    self.store_include.append( [ include_file, gtk.STOCK_FILE, 1 ] )
         
         fcd.destroy()
     
     def on_remove_include( self, button ):
-        store, iter = self.list_include.get_selection().get_selected()
-        if not iter is None:
+        self.remove_selected_from_list(self.list_include)
+        
+    def remove_selected_from_list(self, widget):
+        store, paths = widget.get_selection().get_selected_rows()
+        iters = [store.get_iter(path[0]) for path in paths] 
+        for iter in iters:
             store.remove( iter )
     
     def add_exclude_( self, pattern ):
@@ -1217,27 +1225,27 @@ class SettingsDialog(object):
     def on_add_exclude_file( self, button ):
         fcd = gtk.FileChooserDialog( _('Exclude file'), self.dialog, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
         fcd.set_show_hidden( self.parent.show_hidden_files  )
+        fcd.set_select_multiple(True)
         
         if fcd.run() == gtk.RESPONSE_OK:
-            pattern = tools.prepare_path( fcd.get_filename() )
-            self.add_exclude_( pattern )
+            for path in fcd.get_filenames():
+                self.add_exclude_(tools.prepare_path(path))
         
         fcd.destroy()
     
     def on_add_exclude_folder( self, button ):
         fcd = gtk.FileChooserDialog( _('Exclude folder'), self.dialog, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK) )
         fcd.set_show_hidden( self.parent.show_hidden_files  )
+        fcd.set_select_multiple(True)
         
         if fcd.run() == gtk.RESPONSE_OK:
-            pattern = tools.prepare_path( fcd.get_filename() )
-            self.add_exclude_( pattern )
+            for path in fcd.get_filenames():
+                self.add_exclude_(tools.prepare_path(path))
         
         fcd.destroy()
     
     def on_remove_exclude( self, button ):
-        store, iter = self.list_exclude.get_selection().get_selected()
-        if not iter is None:
-            store.remove( iter )
+        self.remove_selected_from_list(self.list_exclude)
     
     def on_cancel( self, button ):
         self.dialog.destroy()

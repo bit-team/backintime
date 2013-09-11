@@ -46,3 +46,14 @@ def equal_indent(*args):
     if len(args) > 1:
         for widget in args:
             widget.setMinimumWidth(width)
+
+class getExistingDirectories(QFileDialog):
+    """Workaround for selecting multiple directories
+    adopted from http://www.qtcentre.org/threads/34226-QFileDialog-select-multiple-directories?p=158482#post158482
+    """
+    def __init__(self, *args):
+        QFileDialog.__init__(self, *args)
+        self.setOption(self.DontUseNativeDialog, True)
+        self.setFileMode(self.DirectoryOnly)
+        self.findChildren(QListView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.findChildren(QTreeView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)

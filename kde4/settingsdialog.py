@@ -380,6 +380,7 @@ class SettingsDialog( KDialog ):
         layout = QVBoxLayout( tab_widget )
 
         self.list_include = QTreeWidget( self )
+        self.list_include.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.list_include.setRootIsDecorated( False )
         #self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
         #self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
@@ -423,6 +424,7 @@ class SettingsDialog( KDialog ):
         layout.addWidget( label )
 
         self.list_exclude = KListWidget( self )
+        self.list_exclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
         layout.addWidget( self.list_exclude )
 
         label = QLabel( QString.fromUtf8( _('Highly recommended:') ), self )
@@ -1201,7 +1203,8 @@ class SettingsDialog( KDialog ):
         return True
 
     def on_btn_exclude_remove_clicked ( self ):
-        self.list_exclude.takeItem( self.list_exclude.currentRow() )
+        for item in self.list_exclude.selectedItems():
+            self.list_exclude.takeItem(self.list_exclude.row(item))
 
         if self.list_exclude.count() > 0:
             self.list_exclude.setCurrentItem( self.list_exclude.item(0) )
@@ -1233,54 +1236,56 @@ class SettingsDialog( KDialog ):
         self.add_exclude_( pattern )
 
     def on_btn_exclude_file_clicked( self ):
-        path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ).toUtf8() )
-        self.add_exclude_( path )
+        for path in KFileDialog.getOpenFileNames( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ):
+            self.add_exclude_( str(path.toUtf8()) )
 
     def on_btn_exclude_folder_clicked( self ):
-        path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Exclude folder' ) ) ).toUtf8() )
-        self.add_exclude_( path )
+        dialog = kde4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Exclude folder' ) ) )
+        dialog.exec_()
+        for path in dialog.selectedFiles():
+            self.add_exclude_( str(path.toUtf8()) )
 
     def on_btn_include_remove_clicked ( self ):
-        item = self.list_include.currentItem()
-        if item is None:
-            return
+        for item in self.list_include.selectedItems():
+            index = self.list_include.indexOfTopLevelItem( item )
+            if index < 0:
+                continue
 
-        index = self.list_include.indexOfTopLevelItem( item )
-        if index < 0:
-            return
-
-        self.list_include.takeTopLevelItem( index )
+            self.list_include.takeTopLevelItem( index )
 
         if self.list_include.topLevelItemCount() > 0:
             self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
 
     def on_btn_include_file_add_clicked( self ):
-        path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Include file' ) ) ).toUtf8() )
-        if len( path ) == 0 :
-            return
+        for path in KFileDialog.getOpenFileNames( KUrl(), '', self, QString.fromUtf8( _( 'Include file' ) ) ):
+            path = str(path.toUtf8())
+            if len( path ) == 0 :
+                continue
 
-        path = self.config.prepare_path( path )
+            path = self.config.prepare_path( path )
 
-        for index in xrange( self.list_include.topLevelItemCount() ):
-            if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
-                return
+            for index in xrange( self.list_include.topLevelItemCount() ):
+                if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
+                    continue
 
-        #self.add_include( [ path, self.config.NONE ] )
-        self.add_include( ( path, 1 ) )
+            self.add_include( ( path, 1 ) )
 
     def on_btn_include_add_clicked( self ):
-        path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ).toUtf8() )
-        if len( path ) == 0 :
-            return
+        dialog = kde4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Include folder' ) ) )
+        dialog.exec_()
+        for path in dialog.selectedFiles():
+            path = str(path.toUtf8())
+            
+            if len( path ) == 0 :
+                continue
 
-        path = self.config.prepare_path( path )
+            path = self.config.prepare_path( path )
 
-        for index in xrange( self.list_include.topLevelItemCount() ):
-            if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
-                return
+            for index in xrange( self.list_include.topLevelItemCount() ):
+                if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
+                    continue
 
-        #self.add_include( [ path, self.config.NONE ] )
-        self.add_include( ( path, 0 ) )
+            self.add_include( ( path, 0 ) )
 
     def on_btn_snapshots_path_clicked( self ):
         old_path = str( self.edit_snapshots_path.text().toUtf8() )
