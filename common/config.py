@@ -1271,7 +1271,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             day = self.get_automatic_backup_day(profile_id)
             weekday = self.get_automatic_backup_weekday(profile_id)	
             period = str(self.get_automatic_backup_anacron_period(profile_id))
-            job_identify = profile_id + '_' + profile_name
+            job_identify = profile_id + '_' + profile_name.replace(' ', '_')
 
             if self.AT_EVERY_BOOT == backup_mode:
                 cron_line = 'echo "{msg}\n@reboot {cmd}"'
