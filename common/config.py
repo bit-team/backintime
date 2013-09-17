@@ -455,7 +455,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.ssh.port', value, profile_id )
 
     def get_ssh_cipher( self, profile_id = None ):
-        #?Cipher that is used for encryping the SSH tunnel. Depending on the 
+        #?Cipher that is used for encrypting the SSH tunnel. Depending on the 
         #?environment (network bandwidth, cpu and hdd performance) a different 
         #?cipher might be faster.;default|aes192-cbc|aes256-cbc|aes128-ctr|
         #?aes192-ctr|aes256-ctr|arcfour|arcfour256|arcfour128|aes128-cbc|

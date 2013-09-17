@@ -21,6 +21,7 @@ import gettext
 import string
 import random
 import tempfile
+import socket
 from time import sleep
 
 import config
@@ -286,9 +287,15 @@ class SSH(mount.MountControl):
             logger.info('Create remote folder %s' % self.path)
             
     def check_ping_host(self):
+        """connect to remote port and check if it is open"""
         try:
-            subprocess.check_call(['ping', '-q', '-c3', '-l3', self.host], stdout = open(os.devnull, 'w') )
-        except subprocess.CalledProcessError:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            result = s.connect_ex((socket.gethostbyname(self.host), self.port))
+        except:
+            result = -1
+        finally:
+            s.close()
+        if result != 0:
             raise mount.MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
         
     def check_remote_commands(self):
