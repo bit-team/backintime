@@ -80,6 +80,7 @@ class SSH(mount.MountControl):
 
         # ssh_options contains port but can be extended to include cipher, customkeyfile, etc
         self.ssh_options = ['-p', str(self.port)]
+        self.ssh_options += ['-o', 'ServerAliveInterval=240']
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
         
         self.unlock_ssh_agent()
@@ -288,13 +289,20 @@ class SSH(mount.MountControl):
             
     def check_ping_host(self):
         """connect to remote port and check if it is open"""
-        try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            result = s.connect_ex((socket.gethostbyname(self.host), self.port))
-        except:
-            result = -1
-        finally:
-            s.close()
+        count = 0
+        while count < 5:
+            try:
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s.settimeout(2.0)
+                result = s.connect_ex((socket.gethostbyname(self.host), self.port))
+            except:
+                result = -1
+            finally:
+                s.close()
+            if result == 0:
+                return
+            count += 1
+            sleep(0.2)
         if result != 0:
             raise mount.MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
         

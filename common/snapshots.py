@@ -1759,10 +1759,12 @@ class Snapshots:
                 if quote:
                     cmd = '\'%s\'' % cmd
                     
-                return 'ssh -p %s %s %s@%s %s' % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host, cmd )
+                return 'ssh -p %s -o ServerAliveInterval=240 %s %s@%s %s' \
+                        % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host, cmd )
 
             elif module == 'subprocess':
                 suffix = ['ssh', '-p', str(ssh_port)]
+                suffix += ['-o', 'ServerAliveInterval=240']
                 if not ssh_cipher == 'default':
                     suffix += ['-c', ssh_cipher]
                 suffix += ['%s@%s' % (ssh_user, ssh_host)]

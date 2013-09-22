@@ -54,6 +54,7 @@ class getExistingDirectories(QFileDialog):
     def __init__(self, *args):
         QFileDialog.__init__(self, *args)
         self.setOption(self.DontUseNativeDialog, True)
-        self.setFileMode(self.DirectoryOnly)
+        self.setFileMode(self.Directory)
+        self.setOption(self.ShowDirsOnly, True)
         self.findChildren(QListView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.findChildren(QTreeView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)
