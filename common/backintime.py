@@ -93,6 +93,8 @@ def print_help( cfg ):
     print('\tBe quiet. Suppress messages on stdout.')
     print('--config PATH')
     print('\tread config from PATH.')
+    print('--checksum')
+    print('\tforce to use checksum for checking if files have been changed.')
     print('')
     print('ACTIONS:')
     print('-b | --backup')
@@ -369,6 +371,11 @@ def start_app( app_name = 'backintime', extra_args = [] ):
             cli.restore(cfg, snapshot_id, what, where)
             _umount(cfg)
             sys.exit(0)
+
+        if arg == '--checksum':
+            print('Force using checksum')
+            cfg.force_use_checksum = True
+            continue
 
         if arg == '--snapshots' or arg == '-s':
             continue

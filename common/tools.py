@@ -353,7 +353,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
     cmd = 'rsync'
     cmd = cmd + ' -rtDH'
 
-    if config.use_checksum():
+    if config.use_checksum() or config.force_use_checksum:
         cmd = cmd + ' --checksum'
 
     if config.copy_unsafe_links():

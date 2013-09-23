@@ -233,6 +233,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         
         self.current_hash_id = 'local'
         self.pw = None
+        self.force_use_checksum = False
 
     def save( self ):
         configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
