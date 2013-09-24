@@ -195,7 +195,10 @@ class SSH(mount.MountControl):
         if not self.pathexists('sshfs'):
             raise mount.MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
         user = self.config.get_user()
-        fuse_grp_members = grp.getgrnam('fuse')[3]
+        try:
+            fuse_grp_members = grp.getgrnam('fuse')[3]
+        except KeyError:
+            fuse_grp_members = []
         if not user in fuse_grp_members:
             raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
         
