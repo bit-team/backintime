@@ -500,15 +500,16 @@ def set_env_key(env, env_file, key):
     if key in env.keys():
         env_file.set_str_value(key, env[key])
 
-def set_keyring(prefered):
-    if prefered in ('', 'gnomekeyring'):
-        backends = (keyring.backend.GnomeKeyring(), keyring.backend.KDEKWallet())
-    elif prefered == 'kwallet':
-        backends = (keyring.backend.KDEKWallet(), keyring.backend.GnomeKeyring())
-    for backend in backends:
-        if backend.supported() == 1:
-            keyring.set_keyring(backend)
-            return True
+def keyring_supported():
+    try:
+        backends = (keyring.backends.SecretService.Keyring,
+                    keyring.backends.Gnome.Keyring,
+                    keyring.backends.kwallet.Keyring)
+    except AttributeError:
+        backends = (keyring.backend.GnomeKeyring,
+                    keyring.backend.KDEKWallet)
+    if isinstance(keyring.get_keyring(), backends):
+        return True
     return False
 
 

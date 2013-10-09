@@ -249,8 +249,7 @@ class Password_Cache(Daemon):
         self.db_usr = {}
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         
-        backend = self.config.get_keyring_backend()
-        self.keyring_supported = tools.set_keyring(backend)
+        self.keyring_supported = tools.keyring_supported()
     
     def run(self):
         """
@@ -354,8 +353,7 @@ class Password(object):
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         self.db = {}
         
-        backend = self.config.get_keyring_backend()
-        self.keyring_supported = tools.set_keyring(backend)
+        self.keyring_supported = tools.keyring_supported()
     
     def get_password(self, parent, profile_id, mode, pw_id = 1, only_from_keyring = False):
         """

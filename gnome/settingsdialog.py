@@ -27,7 +27,6 @@ import gobject
 import datetime
 import gettext
 import subprocess
-import keyring
 
 import config
 import messagebox
@@ -190,11 +189,7 @@ class SettingsDialog(object):
         self.cb_password_save = get('cb_password_save')
         self.cb_password_use_cache = get('cb_password_use_cache')
 
-        backend = self.config.get_keyring_backend()
-        if len(backend) <= 0:
-            backend = 'gnomekeyring'
-            self.config.set_keyring_backend(backend)
-        self.keyring_supported = tools.set_keyring(backend)
+        self.keyring_supported = tools.keyring_supported()
         self.cb_password_save.set_sensitive(self.keyring_supported)
 
         #automatic backup mode store

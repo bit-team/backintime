@@ -582,14 +582,6 @@ class Config( configfile.ConfigFileWithProfiles ):
             return False
         return True
 
-    def get_keyring_backend(self):
-        #?Backend used for \fIprofile<N>.snapshots.<MODE>.password.save\fR
-        #?;gnomekeyring|kwallet
-        return self.get_str_value('keyring.backend', '')
-
-    def set_keyring_backend(self, value):
-        self.set_str_value('keyring.backend', value)
-        
     def get_keyring_service_name( self, profile_id = None, mode = None, pw_id = 1 ):
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)

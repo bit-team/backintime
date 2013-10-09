@@ -20,6 +20,7 @@ import os
 import os.path
 import stat
 import sys
+import keyring
 
 if len( os.getenv( 'DISPLAY', '' ) ) == 0:
     os.putenv( 'DISPLAY', ':0.0' )

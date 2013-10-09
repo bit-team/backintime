@@ -23,7 +23,6 @@ import datetime
 import gettext
 import copy
 import subprocess
-import keyring
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -253,11 +252,7 @@ class SettingsDialog( KDialog ):
         self.cb_password_use_cache = QCheckBox( QString.fromUtf8( _( 'Cache Password for Cron (Security issue: root can read password)' ) ), self )
         vlayout.addWidget( self.cb_password_use_cache )
 
-        backend = self.config.get_keyring_backend()
-        if len(backend) <= 0:
-            backend = 'kwallet'
-            self.config.set_keyring_backend(backend)
-        self.keyring_supported = tools.set_keyring(backend)
+        self.keyring_supported = tools.keyring_supported()
         self.cb_password_save.setEnabled(self.keyring_supported)
 
         #mode change

@@ -1,4 +1,4 @@
-.TH backintime-config 1 "July 2013" "version 1.0.27" "USER COMMANDS"
+.TH backintime-config 1 "Oct 2013" "version 1.0.27" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -34,15 +34,6 @@ Type: int       Allowed Values: 0-99999
 Internal value used to prevent hash collisions on mountpoints. Do not change this.
 .PP
 Default: 0 
-.RE
-
-.IP "\fIkeyring.backend\fR" 6
-.RS
-Type: str       Allowed Values: gnomekeyring|kwallet
-.br
-Backend used for \fIprofile<N>.snapshots.<MODE>.password.save\fR
-.PP
-Default: ''
 .RE
 
 .IP "\fIprofile<N>.name\fR" 6
