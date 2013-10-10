@@ -53,14 +53,18 @@ Copyright (C) 2008-2013 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 		sudo make install
 
 	GNOME (dependencies: x11-utils, python-glade2, python-gnome2, meld,
-	                     gksu, libnotify-bin, python-gnomekeyring):
+	                     gksu, libnotify-bin
+	       recomended:   python-secretstorage | python-gnomekeyring):
+
 		cd gnome
 		./configure
 		make
 		sudo make install
 
 	KDE4 (dependencies: x11-utils, python-kde4 (>= 4.1), kompare, kdesudo, 
-	                    libnotify-bin, python-keyring-kwallet):
+	                    libnotify-bin
+	      recomended:   python-secretstorage | python-keyring-kwallet):
+
 		cd kde4
 		./configure
 		make

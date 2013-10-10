@@ -506,12 +506,10 @@ def keyring_supported():
                     keyring.backends.Gnome.Keyring,
                     keyring.backends.kwallet.Keyring)
     except AttributeError:
-        backends = (keyring.backend.GnomeKeyring,
+        backends = (keyring.backend.SecretServiceKeyring,
+                    keyring.backend.GnomeKeyring,
                     keyring.backend.KDEKWallet)
-    if isinstance(keyring.get_keyring(), backends):
-        return True
-    return False
-
+    return isinstance(keyring.get_keyring(), backends)
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
