@@ -1236,7 +1236,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab -" % system_entry_message )
 
         if os.path.exists(self.get_anacrontab()):
-            print "Clearing anacrontab"
+            print("Clearing anacrontab")
             os.remove(self.get_anacrontab())
 
         empty = True
