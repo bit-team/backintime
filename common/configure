@@ -4,6 +4,41 @@ if [ -e Makefile ]; then
 	rm Makefile;
 fi
 
+#set default options
+PYTHON="--python"
+FUSE_GROUP="--fuse-group"
+
+USR_BIN_FILES="backintime backintime-askpass"
+FUSE_FILES="sshtools.py encfstools.py"
+
+#get commandline arguments
+for arg in $*; do
+	case $arg in
+		--python | --python2) PYTHON=$arg;;
+		--fuse-group | --no-fuse-group) FUSE_GROUP=$arg;;
+	esac
+done
+
+#patch python command
+#use 'python' or 'python2' to start Python Version 2.x
+case $PYTHON in
+	--python)   sed -e "s/^python2\? /python /g" \
+			-e "s/^ssh-agent python2\? /ssh-agent python /g" \
+			-i $USR_BIN_FILES
+			;;
+	--python2)  sed -e "s/^python2\? /python2 /g" \
+			-e "s/^ssh-agent python2\? /ssh-agent python2 /g" \
+			-i $USR_BIN_FILES
+			;;
+esac
+
+#patch check for 'fuse' group
+#Some distributions require user to be in group 'fuse' to use sshfs and encfs
+case $FUSE_GROUP in
+	--fuse-group)    sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = True/"  -i $FUSE_FILES;;
+	--no-fuse-group) sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = False/" -i $FUSE_FILES;;
+esac
+
 #check languages
 mos=""
 langs=""

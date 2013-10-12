@@ -37,6 +37,9 @@ class SSH(mount.MountControl):
     Mount remote path with sshfs. The real take_snapshot process will use
     rsync over ssh. Other commands run remote over ssh.
     """
+
+    CHECK_FUSE_GROUP = True
+
     def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
         self.config = cfg
         if self.config is None:
@@ -194,13 +197,14 @@ class SSH(mount.MountControl):
         """check if sshfs is installed and user is part of group fuse"""
         if not self.pathexists('sshfs'):
             raise mount.MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
-        user = self.config.get_user()
-        try:
-            fuse_grp_members = grp.getgrnam('fuse')[3]
-        except KeyError:
-            fuse_grp_members = []
-        if not user in fuse_grp_members:
-            raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
+        if self.CHECK_FUSE_GROUP:
+            user = self.config.get_user()
+            try:
+                fuse_grp_members = grp.getgrnam('fuse')[3]
+            except KeyError:
+                fuse_grp_members = []
+            if not user in fuse_grp_members:
+                raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
         
     def pathexists(self, filename):
         """Checks if 'filename' is present in the system PATH.

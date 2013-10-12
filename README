@@ -77,8 +77,21 @@ Copyright (C) 2008-2013 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 		sudo make install
 
 
-	NOTE: if want to run configure without check (gnome or kde), just run:
-		./configure --no-check
+2.3. configure options
+	first value is default:
+	--check | --no-check (only GNOME and KDE4)
+		Check if Gnome respectively KDE4 is available
+
+	--fuse-group | --no-fuse-group (only COMMON)
+		Some distributions require user to be in group 'fuse' to use
+		sshfs and encfs. This toggles the check on or off.
+
+	--kdesudo | --kdesu (only KDE4)
+		Use either 'kdesudo' or 'kdesu' to start Backintime as root
+
+	--python | --python2 (all)
+		Use either 'python' or 'python2' to start Python Version 2.x
+
 
 3. Integrate with filemanager
 
