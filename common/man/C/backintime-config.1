@@ -49,7 +49,7 @@ Default: Main profile
 .RS
 Type: int       Allowed Values: 0-99999
 .br
-How many days to wait between new snapshots with anacron? Only validfor \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25
+How many days to wait between new snapshots with anacron? Only validfor \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
 .PP
 Default: 1
 .RE
@@ -65,7 +65,7 @@ Default: 1
 
 .IP "\fIprofile<N>.snapshots.automatic_backup_mode\fR" 6
 .RS
-Type: int       Allowed Values: 0|1|2|4|7|10|12|14|16|18|19|20|30|40|80
+Type: int       Allowed Values: 0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80
 .br
 Which shedule used for crontab. Note that the crontab entry is only generated during saving in settings dialog. If you don't run a GUI version of BackInTime you'll have to create the crontab entry on your own.
 .br
@@ -94,6 +94,8 @@ Which shedule used for crontab. Note that the crontab entry is only generated du
 20 = every day
 .br
 25 = daily anacron
+.br
+27 = when drive get connected
 .br
 30 = every week
 .br

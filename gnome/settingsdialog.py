@@ -333,6 +333,9 @@ class SettingsDialog(object):
         self.lbl_backup_anacron_period = get('lbl_backup_anacron_period')
         self.sb_backup_anacron_period  = get('sb_backup_anacron_period')
         
+        #automatic backup udev
+        self.lbl_backup_udev = get('lbl_backup_udev')
+        
         #setup remove old backups older than
         self.edit_remove_old_backup_value = get( 'edit_remove_old_backup_value' )
         self.cb_remove_old_backup_unit = get( 'cb_remove_old_backup_unit' )
@@ -516,16 +519,24 @@ class SettingsDialog(object):
             self.lbl_backup_time_custom.hide()
             self.txt_backup_time_custom.hide()
 
-        if backup_mode == self.config.DAY_ANACRON:
-            self.lbl_backup_anacron.show()
+        if self.config.DAY_ANACRON <= backup_mode <= self.config.UDEV:
             self.lbl_backup_anacron_period.show()
             self.sb_backup_anacron_period.show()
             self.lbl_backup_time.hide()
             self.cb_backup_time.hide()
         else:
-            self.lbl_backup_anacron.hide()
             self.lbl_backup_anacron_period.hide()
             self.sb_backup_anacron_period.hide()
+
+        if backup_mode == self.config.DAY_ANACRON:
+            self.lbl_backup_anacron.show()
+        else:
+            self.lbl_backup_anacron.hide()
+
+        if backup_mode == self.config.UDEV:
+            self.lbl_backup_udev.show()
+        else:
+            self.lbl_backup_udev.hide()
 
     def update_host_user_profile( self, *params ):
         value = not self.cb_auto_host_user_profile.get_active()

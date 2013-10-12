@@ -32,6 +32,8 @@ ON_AC = 0
 ON_BATTERY = 1
 POWER_ERROR = 255
 
+DISK_BY_UUID = '/dev/disk/by-uuid'
+
 
 def get_backintime_path( path ):
     return os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), path )
@@ -510,6 +512,41 @@ def keyring_supported():
                     keyring.backend.GnomeKeyring,
                     keyring.backend.KDEKWallet)
     return isinstance(keyring.get_keyring(), backends)
+
+def get_mountpoint(path):
+    '''return (DEVICE, MOUNTPOINT) for given PATH'''
+    if os.path.exists(path):
+        cmd = ['df', '-P', path]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+        output = p.communicate()[0]
+        #search for: /dev/sdc1  880940  8   880932  1% /mnt/foo
+        c = re.compile(r'(/[^ \t]*)(?:[ \t]+[\d]+){4}%?[ \t]+(/.*)')
+        for line in output.split('\n'):
+            m = c.match(line)
+            if not m is None:
+                return (m.group(1), m.group(2))
+    return (None, None)
+
+def get_uuid(dev):
+    '''return uuid for given block device'''
+    if dev and os.path.exists(dev):
+        dev_stat = os.stat(dev)
+        for uuid in os.listdir(DISK_BY_UUID):
+            if dev_stat == os.stat(os.path.join(DISK_BY_UUID, uuid)):
+                return uuid
+    return None
+
+def get_uuid_from_path(path):
+    return get_uuid(get_mountpoint(path)[0])
+
+def sudo_execute(cfg, cmd, *args, **kwargs):
+    '''execute command with gksudo or kdesudo if user isn't root'''
+    if cfg.get_user() != 'root':
+        for i in ['gksudo', 'kdesudo', 'kdesu']:
+            if check_command(i):
+                cmd = i + ' ' + cmd
+                break
+    return _execute(cmd, *args, **kwargs)
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''

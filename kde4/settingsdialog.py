@@ -357,12 +357,17 @@ class SettingsDialog( KDialog ):
         self.lbl_automatic_snapshots_anacron_period = QLabel(QString.fromUtf8(_('Frequency in days:')))
         self.lbl_automatic_snapshots_anacron_period.setContentsMargins( 5, 0, 0, 0 )
         self.lbl_automatic_snapshots_anacron_period.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
-        glayout.addWidget(self.lbl_automatic_snapshots_anacron_period, 6, 0)
+        glayout.addWidget(self.lbl_automatic_snapshots_anacron_period, 7, 0)
 
         self.sb_automatic_snapshots_anacron_period = QSpinBox(self)
         self.sb_automatic_snapshots_anacron_period.setSingleStep( 1 )
         self.sb_automatic_snapshots_anacron_period.setRange( 1, 10000 )
-        glayout.addWidget(self.sb_automatic_snapshots_anacron_period, 6, 1)
+        glayout.addWidget(self.sb_automatic_snapshots_anacron_period, 7, 1)
+
+        #udev
+        self.lbl_automatic_snapshots_udev = QLabel(QString.fromUtf8(_('Run Back In Time as soon as the drive is connected (only once every X days).')))
+        self.lbl_automatic_snapshots_udev.setWordWrap(True)
+        glayout.addWidget(self.lbl_automatic_snapshots_udev, 6, 0, 1, 2)
 
         QObject.connect( self.combo_automatic_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_automatic_snapshot_changed )
 
@@ -702,16 +707,24 @@ class SettingsDialog( KDialog ):
             self.lbl_automatic_snapshots_time.hide()
             self.combo_automatic_snapshots_time.hide()
 
-        if backup_mode == self.config.DAY_ANACRON:
-            self.lbl_automatic_snapshots_anacron.show()
+        if self.config.DAY_ANACRON <= backup_mode <= self.config.UDEV:
             self.lbl_automatic_snapshots_anacron_period.show()
             self.sb_automatic_snapshots_anacron_period.show()
             self.lbl_automatic_snapshots_time.hide()
             self.combo_automatic_snapshots_time.hide()
         else:
-            self.lbl_automatic_snapshots_anacron.hide()
             self.lbl_automatic_snapshots_anacron_period.hide()
             self.sb_automatic_snapshots_anacron_period.hide()
+
+        if backup_mode == self.config.DAY_ANACRON:
+            self.lbl_automatic_snapshots_anacron.show()
+        else:
+            self.lbl_automatic_snapshots_anacron.hide()
+
+        if backup_mode == self.config.UDEV:
+            self.lbl_automatic_snapshots_udev.show()
+        else:
+            self.lbl_automatic_snapshots_udev.hide()
 
     def current_automatic_snapshot_changed( self, index ):
         backup_mode = self.combo_automatic_snapshots.itemData( index ).toInt()[0]

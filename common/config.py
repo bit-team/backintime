@@ -23,6 +23,8 @@ import gettext
 import socket
 import random
 import re
+import tempfile
+import stat
 
 import configfile
 import tools
@@ -58,6 +60,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     CUSTOM_HOUR = 19
     DAY = 20
     DAY_ANACRON = 25
+    UDEV = 27
     WEEK = 30
     MONTH = 40
     YEAR = 80
@@ -79,6 +82,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 CUSTOM_HOUR : _('Custom Hours'), 
                 DAY : _('Every Day'), 
                 DAY_ANACRON : _('Daily (anacron)'),
+                UDEV : _('When drive get connected (udev)'),
                 WEEK : _('Every Week'), 
                 MONTH : _('Every Month')
                 }
@@ -99,7 +103,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 'local'         : (None,                    _('Local'),             False,                  False ),
                 'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False ),
                 'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False ),
-                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted')+exp, _('SSH private key'),   _('Encryption') )
+                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption') )
                 ##'dummy'       : (dummytools.Dummy,        'Dummy',                'Dummy',                False )
                 }
 
@@ -776,8 +780,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         #? 4 = every 10 minute\n 7 = every 30 minute\n10 = every hour\n
         #?12 = every 2 hours\n14 = every 4 hours\n16 = every 6 hours\n
         #?18 = every 12 hours\n19 = custom defined hours\n20 = every day\n
-        #?25 = daily anacron\n30 = every week\n40 = every month\n80 = every year
-        #?;0|1|2|4|7|10|12|14|16|18|19|20|30|40|80;0
+        #?25 = daily anacron\n27 = when drive get connected\n30 = every week\n
+        #?40 = every month\n80 = every year
+        #?;0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80;0
         return self.get_profile_int_value( 'snapshots.automatic_backup_mode', self.NONE, profile_id )
 
     def set_automatic_backup_mode( self, value, profile_id = None ):
@@ -818,7 +823,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_automatic_backup_anacron_period(self, profile_id = None):
         #?How many days to wait between new snapshots with anacron? Only valid
-        #?for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25
+        #?for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
         return self.get_profile_int_value('snapshots.automatic_backup_anacron_period', 1, profile_id)
 
     def set_automatic_backup_anacron_period(self, value, profile_id = None):
@@ -1173,11 +1178,14 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_cron_env_file( self ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "cron_env" )
 
-    def get_anacrontab(self):
-        return os.path.join(self._LOCAL_CONFIG_FOLDER, 'anacrontab')
+    def get_anacrontab(self, suffix = ''):
+        return os.path.join(self._LOCAL_CONFIG_FOLDER, 'anacrontab' + suffix)
 
     def get_anacron_spool(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
+
+    def get_udev_rules_path(self):
+        return os.path.join('/etc/udev/rules.d', '99-backintime-%s.rules' % self.get_user())
 
     def get_restore_log_file( self, profile_id = None ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "restore_%s.log" % self.__get_file_id__( profile_id ) )
@@ -1235,12 +1243,16 @@ class Config( configfile.ConfigFileWithProfiles ):
         #os.system( "crontab -l | grep -Pv '(?s)%s.*?backintime' | crontab -" % system_entry_message ) #buggy in Ubuntu 10.10
         os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab -" % system_entry_message )
 
-        if os.path.exists(self.get_anacrontab()):
-            print("Clearing anacrontab")
-            os.remove(self.get_anacrontab())
+        print("Clearing anacrontab")
+        dirname, basename = os.path.split(self.get_anacrontab())
+        for file in os.listdir(dirname):
+            if file.startswith(basename):
+                os.remove(os.path.join(dirname, file))
 
         empty = True
         start_anacron = False
+        uuid_tmp_fd = None
+        uuids = []
         profiles = self.get_profiles()
         
         for profile_id in profiles:
@@ -1258,7 +1270,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
             cron_line = ''
             anacron_line = ''
-        
+
             hour = self.get_automatic_backup_time(profile_id) / 100;
             minute = self.get_automatic_backup_time(profile_id) % 100;
             day = self.get_automatic_backup_day(profile_id)
@@ -1289,30 +1301,41 @@ class Config( configfile.ConfigFileWithProfiles ):
             elif self.DAY == backup_mode:
                 cron_line = "echo \"{msg}\n%s %s * * * {cmd}\"" % (minute, hour)
             elif self.DAY_ANACRON == backup_mode:
-                if not tools.check_command('anacron'):
-                    self.notify_error( _( 'Can\'t find anacron.\nAre you sure anacron is installed ?\nIf not you should disable daily anacron backups.' ) )
+                if not self.check_anacron():
                     return False
+                anacrontab_suffix = ''
                 if not start_anacron:
-                    anacron = 'test -x %(cmd)s && test -e %(tab)s && %(cmd)s -s -t %(tab)s -S %(spool)s' \
-                                 % {'cmd': tools.which('anacron'),
-                                    'tab': self.get_anacrontab(),
-                                    'spool': self.get_anacron_spool()}
-                    cron_line = 'echo "{msg}\n*/15 * * * * %s"' % anacron
+                    cron_line = 'echo "{msg}\n*/15 * * * * %s"' % self.anacron_cmd(anacrontab_suffix)
                     start_anacron = True
                 anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
+            elif self.UDEV == backup_mode:
+                if not self.check_anacron():
+                        return False
+                mode = self.get_snapshots_mode(profile_id)
+                if mode == 'local':
+                    dest_path = self.get_snapshots_full_path(profile_id)
+                elif mode == 'local_encfs':
+                    dest_path = self.get_local_encfs_path(profile_id)
+                else:
+                    self.notify_error( _('Shedule udev doesn\'t work with mode %s') % mode)
+                    return False
+                uuid = tools.get_uuid_from_path(dest_path)
+                if uuid is None:
+                    self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
+                    return False
+                if uuid_tmp_fd is None:
+                    uuid_tmp_fd = tempfile.NamedTemporaryFile()
+                anacrontab_suffix = '-%s' % uuid
+                anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
+                if not uuid in uuids:
+                    self.prepair_udev(uuid_tmp_fd, uuid, anacrontab_suffix)
+                    uuids += uuid
             elif self.WEEK == backup_mode:
                 cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
             elif self.MONTH == backup_mode:
                 cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
 
-            profile=''
-            if '1' != profile_id:
-                profile = "--profile-id %s" % profile_id
-            cmd = "/usr/bin/backintime %s --backup-job >/dev/null 2>&1" % profile
-            if self.is_run_ionice_from_cron_enabled(profile_id):
-                cmd = 'ionice -c2 -n7 ' + cmd
-            if self.is_run_nice_from_cron_enabled( profile_id ):
-                cmd = 'nice -n 19 ' + cmd
+            cmd = self.cron_cmd(profile_id)
 
             if len( cron_line ) > 0:
                 empty = False
@@ -1323,8 +1346,28 @@ class Config( configfile.ConfigFileWithProfiles ):
             if len(anacron_line) > 0:
                 anacron_line = anacron_line.replace('{cmd}', cmd)
                 tools.make_dirs(self.get_anacron_spool())
-                with open(self.get_anacrontab(), 'a') as f:
+                env = ''
+                if not os.path.exists(self.get_anacrontab(anacrontab_suffix)):
+                    env  = 'SHELL=%s\n'   % os.environ['SHELL']
+                    env += 'PATH=%s\n'    % os.environ['PATH']
+                    env += 'DISPLAY=%s\n' % os.environ['DISPLAY']
+                    env += '\n\n'
+                with open(self.get_anacrontab(anacrontab_suffix), 'a') as f:
+                    f.write(env)
                     f.write(anacron_line)
+
+        if uuid_tmp_fd is None:
+            if not self.remove_udev():
+                self.notify_error( _('Failed to remove udev rules') )
+        else:
+            uuid_tmp_fd.flush()
+            uuid_tmp_fd.seek(0)
+            if len(uuid_tmp_fd.read()) > 0:
+                if not self.setup_udev(uuid_tmp_fd):
+                    self.notify_error( _('Failed to create udev rules') )
+                    uuid_tmp_fd.close()
+                    return False
+            uuid_tmp_fd.close()
 
         if empty:
             # Leave one system_entry_message in to prevent deleting of manual
@@ -1333,6 +1376,55 @@ class Config( configfile.ConfigFileWithProfiles ):
             os.system( '(crontab -l; echo "%s"; echo "%s") | crontab -'
                     % (system_entry_message, info_message) )
         return True
+
+    def cron_cmd(self, profile_id):
+        cmd = tools.which('backintime') + ' '
+        if profile_id != 1:
+            cmd += '--profile-id %s ' % profile_id
+        cmd += '--backup-job >/dev/null 2>&1'
+        if self.is_run_ionice_from_cron_enabled(profile_id) and tools.check_command('ionice'):
+            cmd = tools.which('ionice') + ' -c2 -n7 ' + cmd
+        if self.is_run_nice_from_cron_enabled( profile_id ) and tools.check_command('nice'):
+            cmd = tools.which('nice') + ' -n 19 ' + cmd
+        return cmd
+
+    def anacron_cmd(self, suffix = ''):
+        return 'test -x %(cmd)s && test -e %(tab)s && %(cmd)s -s -t %(tab)s -S %(spool)s' \
+                         % {'cmd': tools.which('anacron'),
+                            'tab': self.get_anacrontab(suffix),
+                            'spool': self.get_anacron_spool()}
+
+    def check_anacron(self):
+        if tools.check_command('anacron'):
+            return True
+        self.notify_error( _( 'Can\'t find anacron.\nAre you sure anacron is installed ?\nIf not you should disable daily anacron backups.' ) )
+        return False
+
+    def prepair_udev(self, tmp_fd, uuid, anacrontab_suffix):
+        cmd = self.anacron_cmd(anacrontab_suffix)
+        user = self.get_user()
+        if user != 'root':
+            cmd = tools.which('su') + " '%s' -c '%s' &" %(user, cmd)
+        tmp_fd.write('ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, cmd))
+        return True
+
+    def setup_udev(self, tmp_fd):
+        tmp_fd.flush()
+        path = self.get_udev_rules_path()
+        os.chmod(tmp_fd.name, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+        try:
+            if os.path.exists(path) and tools._get_md5sum_from_path(tmp_fd.name) == tools._get_md5sum_from_path(path):
+                return True
+        except TypeError:
+            pass
+        cmd = 'cp "%s" "%s"' %(tmp_fd.name, path)
+        return tools.sudo_execute(self, cmd) == 0
+
+    def remove_udev(self):
+        if not os.path.exists(self.get_udev_rules_path()):
+            return True
+        cmd = 'rm %s' % self.get_udev_rules_path()
+        return tools.sudo_execute(self, cmd) == 0
     
     #def get_update_other_folders( self ):
     #	return self.get_bool_value( 'update.other_folders', True )
