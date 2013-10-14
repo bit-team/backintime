@@ -1317,7 +1317,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 elif mode == 'local_encfs':
                     dest_path = self.get_local_encfs_path(profile_id)
                 else:
-                    self.notify_error( _('Shedule udev doesn\'t work with mode %s') % mode)
+                    self.notify_error( _('Schedule udev doesn\'t work with mode %s') % mode)
                     return False
                 uuid = tools.get_uuid_from_path(dest_path)
                 if uuid is None:
