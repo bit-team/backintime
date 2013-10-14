@@ -365,7 +365,7 @@ class SettingsDialog( KDialog ):
         glayout.addWidget(self.sb_automatic_snapshots_anacron_period, 7, 1)
 
         #udev
-        self.lbl_automatic_snapshots_udev = QLabel(QString.fromUtf8(_('Run Back In Time as soon as the drive is connected (only once every X days).')))
+        self.lbl_automatic_snapshots_udev = QLabel(QString.fromUtf8(_('Run Back In Time as soon as the drive is connected (only once every X days).\nYou will be prompted for your sudo password.')))
         self.lbl_automatic_snapshots_udev.setWordWrap(True)
         glayout.addWidget(self.lbl_automatic_snapshots_udev, 6, 0, 1, 2)
 
