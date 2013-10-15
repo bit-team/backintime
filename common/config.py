@@ -1379,7 +1379,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def cron_cmd(self, profile_id):
         cmd = tools.which('backintime') + ' '
-        if profile_id != 1:
+        if profile_id != '1':
             cmd += '--profile-id %s ' % profile_id
         cmd += '--backup-job >/dev/null 2>&1'
         if self.is_run_ionice_from_cron_enabled(profile_id) and tools.check_command('ionice'):
@@ -1402,9 +1402,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def prepair_udev(self, tmp_fd, uuid, anacrontab_suffix):
         cmd = self.anacron_cmd(anacrontab_suffix)
-        user = self.get_user()
-        if user != 'root':
-            cmd = tools.which('su') + " '%s' -c '%s' &" %(user, cmd)
+        cmd = "%s '%s' -c '%s' &" %(tools.which('su'), self.get_user(), cmd)
         tmp_fd.write('ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, cmd))
         return True
 
