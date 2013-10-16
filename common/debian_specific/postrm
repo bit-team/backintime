@@ -1,12 +1,14 @@
 #!/bin/sh
 rm -rf /usr/share/backintime/common/*.pyc
 rm -rf /usr/share/backintime/plugins/*.pyc
-case $@ in
-    purge) rm -rf /etc/udev/rules.d/99-backintime-*.rules
-           find /home -maxdepth 3 -type d -path '*/.config/backintime' -exec rm -rf {} \;
-           find /home -maxdepth 4 -type d -path '*/.local/share/backintime' -exec rm -rf {} \;
-           rm -rf /root/.config/backintime
-           rm -rf /root/.local/share/backintime
-           ;;
-esac
+for arg in $*; do
+    case $arg in
+        purge) rm -rf /etc/udev/rules.d/99-backintime-*.rules
+               find /home -maxdepth 3 -type d -path '*/.config/backintime' -exec rm -rf {} \;
+               find /home -maxdepth 4 -type d -path '*/.local/share/backintime' -exec rm -rf {} \;
+               rm -rf /root/.config/backintime
+               rm -rf /root/.local/share/backintime
+               ;;
+    esac
+done
 exit 0
