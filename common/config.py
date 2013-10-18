@@ -1255,126 +1255,129 @@ class Config( configfile.ConfigFileWithProfiles ):
         uuids = []
         profiles = self.get_profiles()
         
-        for profile_id in profiles:
-            profile_name = self.get_profile_name( profile_id )
-            print("Profile: %s" % profile_name)
-            backup_mode = self.get_automatic_backup_mode( profile_id )
-            print("Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ backup_mode ])
+        try:
+            for profile_id in profiles:
+                profile_name = self.get_profile_name( profile_id )
+                print("Profile: %s" % profile_name)
+                backup_mode = self.get_automatic_backup_mode( profile_id )
+                print("Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ backup_mode ])
 
-            if self.NONE == backup_mode:
-                continue
+                if self.NONE == backup_mode:
+                    continue
 
-            if not tools.check_command( 'crontab' ):
-                self.notify_error( _( 'Can\'t find crontab.\nAre you sure cron is installed ?\nIf not you should disable all automatic backups.' ) )
-                return False
-
-            cron_line = ''
-            anacron_line = ''
-
-            hour = self.get_automatic_backup_time(profile_id) / 100;
-            minute = self.get_automatic_backup_time(profile_id) % 100;
-            day = self.get_automatic_backup_day(profile_id)
-            weekday = self.get_automatic_backup_weekday(profile_id)	
-            period = str(self.get_automatic_backup_anacron_period(profile_id))
-            job_identify = profile_id + '_' + profile_name.replace(' ', '_')
-
-            if self.AT_EVERY_BOOT == backup_mode:
-                cron_line = 'echo "{msg}\n@reboot {cmd}"'
-            elif self._5_MIN == backup_mode:
-                cron_line = 'echo "{msg}\n*/5 * * * * {cmd}"'
-            elif self._10_MIN == backup_mode:
-                cron_line = 'echo "{msg}\n*/10 * * * * {cmd}"'
-            elif self._30_MIN == backup_mode:
-                cron_line = 'echo "{msg}\n*/30 * * * * {cmd}"'
-            elif self._1_HOUR == backup_mode:
-                cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
-            elif self._2_HOURS == backup_mode:
-                cron_line = 'echo "{msg}\n0 */2 * * * {cmd}"'
-            elif self._4_HOURS == backup_mode:
-                cron_line = 'echo "{msg}\n0 */4 * * * {cmd}"'
-            elif self._6_HOURS == backup_mode:
-                cron_line = 'echo "{msg}\n0 */6 * * * {cmd}"'
-            elif self._12_HOURS == backup_mode:
-                cron_line = 'echo "{msg}\n0 */12 * * * {cmd}"'
-            elif self.CUSTOM_HOUR == backup_mode:
-                cron_line = 'echo "{msg}\n0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}"'
-            elif self.DAY == backup_mode:
-                cron_line = "echo \"{msg}\n%s %s * * * {cmd}\"" % (minute, hour)
-            elif self.DAY_ANACRON == backup_mode:
-                if not self.check_anacron():
+                if not tools.check_command( 'crontab' ):
+                    self.notify_error( _( 'Can\'t find crontab.\nAre you sure cron is installed ?\nIf not you should disable all automatic backups.' ) )
                     return False
-                anacrontab_suffix = ''
-                if not start_anacron:
-                    cron_line = 'echo "{msg}\n*/15 * * * * %s"' % self.anacron_cmd(anacrontab_suffix)
-                    start_anacron = True
-                anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
-            elif self.UDEV == backup_mode:
-                if not self.check_anacron():
+
+                cron_line = ''
+                anacron_line = ''
+
+                hour = self.get_automatic_backup_time(profile_id) / 100;
+                minute = self.get_automatic_backup_time(profile_id) % 100;
+                day = self.get_automatic_backup_day(profile_id)
+                weekday = self.get_automatic_backup_weekday(profile_id)	
+                period = str(self.get_automatic_backup_anacron_period(profile_id))
+                job_identify = profile_id + '_' + profile_name.replace(' ', '_')
+
+                if self.AT_EVERY_BOOT == backup_mode:
+                    cron_line = 'echo "{msg}\n@reboot {cmd}"'
+                elif self._5_MIN == backup_mode:
+                    cron_line = 'echo "{msg}\n*/5 * * * * {cmd}"'
+                elif self._10_MIN == backup_mode:
+                    cron_line = 'echo "{msg}\n*/10 * * * * {cmd}"'
+                elif self._30_MIN == backup_mode:
+                    cron_line = 'echo "{msg}\n*/30 * * * * {cmd}"'
+                elif self._1_HOUR == backup_mode:
+                    cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
+                elif self._2_HOURS == backup_mode:
+                    cron_line = 'echo "{msg}\n0 */2 * * * {cmd}"'
+                elif self._4_HOURS == backup_mode:
+                    cron_line = 'echo "{msg}\n0 */4 * * * {cmd}"'
+                elif self._6_HOURS == backup_mode:
+                    cron_line = 'echo "{msg}\n0 */6 * * * {cmd}"'
+                elif self._12_HOURS == backup_mode:
+                    cron_line = 'echo "{msg}\n0 */12 * * * {cmd}"'
+                elif self.CUSTOM_HOUR == backup_mode:
+                    cron_line = 'echo "{msg}\n0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}"'
+                elif self.DAY == backup_mode:
+                    cron_line = "echo \"{msg}\n%s %s * * * {cmd}\"" % (minute, hour)
+                elif self.DAY_ANACRON == backup_mode:
+                    if not self.check_anacron():
                         return False
-                mode = self.get_snapshots_mode(profile_id)
-                if mode == 'local':
-                    dest_path = self.get_snapshots_full_path(profile_id)
-                elif mode == 'local_encfs':
-                    dest_path = self.get_local_encfs_path(profile_id)
-                else:
-                    self.notify_error( _('Schedule udev doesn\'t work with mode %s') % mode)
-                    return False
-                uuid = tools.get_uuid_from_path(dest_path)
-                if uuid is None:
-                    self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
-                    return False
-                if uuid_tmp_fd is None:
-                    uuid_tmp_fd = tempfile.NamedTemporaryFile()
-                anacrontab_suffix = '-%s' % uuid
-                anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
-                if not uuid in uuids:
-                    self.prepair_udev(uuid_tmp_fd, uuid, anacrontab_suffix)
-                    uuids += uuid
-            elif self.WEEK == backup_mode:
-                cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
-            elif self.MONTH == backup_mode:
-                cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
+                    anacrontab_suffix = ''
+                    if not start_anacron:
+                        cron_line = 'echo "{msg}\n*/15 * * * * %s"' % self.anacron_cmd(anacrontab_suffix)
+                        start_anacron = True
+                    anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
+                elif self.UDEV == backup_mode:
+                    if not self.check_anacron():
+                        return False
+                    mode = self.get_snapshots_mode(profile_id)
+                    if mode == 'local':
+                        dest_path = self.get_snapshots_full_path(profile_id)
+                    elif mode == 'local_encfs':
+                        dest_path = self.get_local_encfs_path(profile_id)
+                    else:
+                        self.notify_error( _('Schedule udev doesn\'t work with mode %s') % mode)
+                        return False
+                    uuid = tools.get_uuid_from_path(dest_path)
+                    if uuid is None:
+                        self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
+                        return False
+                    if uuid_tmp_fd is None:
+                        uuid_tmp_fd = tempfile.NamedTemporaryFile()
+                    anacrontab_suffix = '-%s' % uuid
+                    anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
+                    if not uuid in uuids:
+                        self.prepair_udev(uuid_tmp_fd, uuid, anacrontab_suffix)
+                        uuids += uuid
+                elif self.WEEK == backup_mode:
+                    cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
+                elif self.MONTH == backup_mode:
+                    cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
 
-            cmd = self.cron_cmd(profile_id)
+                cmd = self.cron_cmd(profile_id)
 
-            if len( cron_line ) > 0:
-                empty = False
-                cron_line = cron_line.replace( '{cmd}', cmd )
-                cron_line = cron_line.replace( '{msg}', system_entry_message )
-                os.system( "( crontab -l; %s ) | crontab -" % cron_line )
+                if len( cron_line ) > 0:
+                    empty = False
+                    cron_line = cron_line.replace( '{cmd}', cmd )
+                    cron_line = cron_line.replace( '{msg}', system_entry_message )
+                    os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
-            if len(anacron_line) > 0:
-                anacron_line = anacron_line.replace('{cmd}', cmd)
-                tools.make_dirs(self.get_anacron_spool())
-                env = ''
-                if not os.path.exists(self.get_anacrontab(anacrontab_suffix)):
-                    env  = 'SHELL=%s\n'   % os.environ['SHELL']
-                    env += 'PATH=%s\n'    % os.environ['PATH']
-                    env += 'DISPLAY=%s\n' % os.environ['DISPLAY']
-                    env += '\n\n'
-                with open(self.get_anacrontab(anacrontab_suffix), 'a') as f:
-                    f.write(env)
-                    f.write(anacron_line)
+                if len(anacron_line) > 0:
+                    anacron_line = anacron_line.replace('{cmd}', cmd)
+                    tools.make_dirs(self.get_anacron_spool())
+                    env = ''
+                    if not os.path.exists(self.get_anacrontab(anacrontab_suffix)):
+                        env  = 'SHELL=%s\n'   % os.environ['SHELL']
+                        env += 'PATH=%s\n'    % os.environ['PATH']
+                        env += 'DISPLAY=%s\n' % os.environ['DISPLAY']
+                        env += '\n\n'
+                    with open(self.get_anacrontab(anacrontab_suffix), 'a') as f:
+                        f.write(env)
+                        f.write(anacron_line)
 
-        if uuid_tmp_fd is None:
-            if not self.remove_udev():
-                self.notify_error( _('Failed to remove udev rules') )
-        else:
-            uuid_tmp_fd.flush()
-            uuid_tmp_fd.seek(0)
-            if len(uuid_tmp_fd.read()) > 0:
-                if not self.setup_udev(uuid_tmp_fd):
-                    self.notify_error( _('Failed to create udev rules') )
-                    uuid_tmp_fd.close()
-                    return False
-            uuid_tmp_fd.close()
-
-        if empty:
-            # Leave one system_entry_message in to prevent deleting of manual
-            # entries if there is no automatic entry.
-            info_message = "#Please don't delete these two lines, or all custom backintime entries are going to be deleted next time you call the gui options!"
-            os.system( '(crontab -l; echo "%s"; echo "%s") | crontab -'
-                    % (system_entry_message, info_message) )
+            if uuid_tmp_fd is None:
+                if not self.remove_udev():
+                    self.notify_error( _('Failed to remove udev rules') )
+            else:
+                uuid_tmp_fd.flush()
+                uuid_tmp_fd.seek(0)
+                if len(uuid_tmp_fd.read()) > 0:
+                    if not self.setup_udev(uuid_tmp_fd):
+                        self.notify_error( _('Failed to create udev rules') )
+                        uuid_tmp_fd.close()
+                        return False
+                uuid_tmp_fd.close()
+        except:
+            raise
+        finally:
+            if empty:
+                # Leave one system_entry_message in to prevent deleting of manual
+                # entries if there is no automatic entry.
+                info_message = "#Please don't delete these two lines, or all custom backintime entries are going to be deleted next time you call the gui options!"
+                os.system( '(crontab -l; echo "%s"; echo "%s") | crontab -'
+                        % (system_entry_message, info_message) )
         return True
 
     def cron_cmd(self, profile_id):
