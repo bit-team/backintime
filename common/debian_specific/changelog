@@ -2,15 +2,27 @@ $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
   * remove config on 'apt-get purge'
   * add more options for configure scripts; update README
   * add udev schedule (run BIT as soon as the drive is connected)
-  * Fix bug: AttributeError with python-keyring>1.6.1 [#1234024](https://bugs.launchpad.net/backintime/+bug/1234024)
-  * Fix bug: TypeError: KDirModel.removeColumns() is a private method in kde4/app.py [#1232694](https://bugs.launchpad.net/backintime/+bug/1232694)
-  * add '--checksum' commandline option [#886021](https://bugs.launchpad.net/backintime/+bug/886021)
-  * Fix bug: sshfs mount disconnect after a while due to some firewalls (add ServerAliveInterval) [#235685](https://answers.launchpad.net/backintime/+question/235685)
-  * Fix bug: Ping fails if ICMP is disabled on remote host [#1226718](https://bugs.launchpad.net/backintime/+bug/1226718)
-  * Fix bug: KeyError in getgrnam if there is no 'fuse' group [#1225561](https://bugs.launchpad.net/backintime/+bug/1225561)
-  * Fix bug: anacrontab won't work with profilename with spaces [#1224620](https://bugs.launchpad.net/backintime/+bug/1224620)
-  * Fix bug: NameError in tools.move_snapshots_folder [#871466](https://bugs.launchpad.net/backintime/+bug/871466)
-  * Fix bug: KPassivePopup is not defined [#871475](https://bugs.launchpad.net/backintime/+bug/871475)
-  * multi selection for include and exclude list [#660753](https://bugs.launchpad.net/backintime/+bug/660753)
-  * Fix bug: ValueError while reading pw-cache PID [#235407](https://answers.launchpad.net/backintime/+question/235407)
--- BIT Team <dan@le-web.org>  Sat, 19 Oct 2013 15:53:41 +0200
+  * Fix bug: AttributeError with python-keyring>1.6.1 
+    (https://bugs.launchpad.net/backintime/+bug/1234024)
+  * Fix bug: TypeError: KDirModel.removeColumns() is a private method in kde4/app.py
+    (https://bugs.launchpad.net/backintime/+bug/1232694)
+  * add '--checksum' commandline option 
+    (https://bugs.launchpad.net/backintime/+bug/886021)
+  * Fix bug: sshfs mount disconnect after a while due to some firewalls (add ServerAliveInterval) 
+    (https://answers.launchpad.net/backintime/+question/235685)
+  * Fix bug: Ping fails if ICMP is disabled on remote host 
+    (https://bugs.launchpad.net/backintime/+bug/1226718)
+  * Fix bug: KeyError in getgrnam if there is no 'fuse' group 
+    (https://bugs.launchpad.net/backintime/+bug/1225561)
+  * Fix bug: anacrontab won't work with profilename with spaces 
+    (https://bugs.launchpad.net/backintime/+bug/1224620)
+  * Fix bug: NameError in tools.move_snapshots_folder 
+    (https://bugs.launchpad.net/backintime/+bug/871466)
+  * Fix bug: KPassivePopup is not defined 
+    (https://bugs.launchpad.net/backintime/+bug/871475)
+  * multi selection for include and exclude list 
+    (https://bugs.launchpad.net/backintime/+bug/660753)
+  * Fix bug: ValueError while reading pw-cache PID 
+    (https://answers.launchpad.net/backintime/+question/235407)
+ -- BIT Team <dan@le-web.org>  Sat, 19 Oct 2013 15:53:41 +0200
+
