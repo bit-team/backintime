@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASES="karmic lucid maverick natty precise quantal raring saucy"
+RELEASES="precise quantal raring saucy"
 
 for i in common notify gnome kde4; do
 	PKGNAME=`cat $i/debian_specific/control | grep "^Package:" | cut -d" " -f2`
