@@ -32,6 +32,8 @@ ON_AC = 0
 ON_BATTERY = 1
 POWER_ERROR = 255
 
+DISK_BY_UUID = '/dev/disk/by-uuid'
+
 
 def get_backintime_path( path ):
     return os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), path )
@@ -212,7 +214,7 @@ def move_snapshots_folder( old_folder, new_folder ):
     if os.path.exists( new_folder ) == True:
         snapshots_already_there = get_snapshots_list_in_folder( new_folder )
     else:
-        tools.make_dirs( new_folder )	
+        make_dirs( new_folder )	
     print("To move: %s" % snapshots_to_move)
     print("Already there: %s" % snapshots_already_there)
     snapshots_expected = snapshots_to_move + snapshots_already_there
@@ -353,7 +355,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
     cmd = 'rsync'
     cmd = cmd + ' -rtDH'
 
-    if config.use_checksum():
+    if config.use_checksum() or config.force_use_checksum:
         cmd = cmd + ' --checksum'
 
     if config.copy_unsafe_links():
@@ -500,17 +502,51 @@ def set_env_key(env, env_file, key):
     if key in env.keys():
         env_file.set_str_value(key, env[key])
 
-def set_keyring(prefered):
-    if prefered in ('', 'gnomekeyring'):
-        backends = (keyring.backend.GnomeKeyring(), keyring.backend.KDEKWallet())
-    elif prefered == 'kwallet':
-        backends = (keyring.backend.KDEKWallet(), keyring.backend.GnomeKeyring())
-    for backend in backends:
-        if backend.supported() == 1:
-            keyring.set_keyring(backend)
-            return True
-    return False
+def keyring_supported():
+    try:
+        backends = (keyring.backends.SecretService.Keyring,
+                    keyring.backends.Gnome.Keyring,
+                    keyring.backends.kwallet.Keyring)
+    except AttributeError:
+        backends = (keyring.backend.SecretServiceKeyring,
+                    keyring.backend.GnomeKeyring,
+                    keyring.backend.KDEKWallet)
+    return isinstance(keyring.get_keyring(), backends)
 
+def get_mountpoint(path):
+    '''return (DEVICE, MOUNTPOINT) for given PATH'''
+    if os.path.exists(path):
+        cmd = ['df', '-P', path]
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+        output = p.communicate()[0]
+        #search for: /dev/sdc1  880940  8   880932  1% /mnt/foo
+        c = re.compile(r'(/[^ \t]*)(?:[ \t]+[\d]+){4}%?[ \t]+(/.*)')
+        for line in output.split('\n'):
+            m = c.match(line)
+            if not m is None:
+                return (m.group(1), m.group(2))
+    return (None, None)
+
+def get_uuid(dev):
+    '''return uuid for given block device'''
+    if dev and os.path.exists(dev):
+        dev_stat = os.stat(dev)
+        for uuid in os.listdir(DISK_BY_UUID):
+            if dev_stat == os.stat(os.path.join(DISK_BY_UUID, uuid)):
+                return uuid
+    return None
+
+def get_uuid_from_path(path):
+    return get_uuid(get_mountpoint(path)[0])
+
+def sudo_execute(cfg, cmd, *args, **kwargs):
+    '''execute command with gksudo or kdesudo if user isn't root'''
+    if cfg.get_user() != 'root':
+        for i in ['gksudo', 'kdesudo', 'kdesu']:
+            if check_command(i):
+                cmd = i + ' ' + cmd
+                break
+    return _execute(cmd, *args, **kwargs)
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''

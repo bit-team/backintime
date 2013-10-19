@@ -1,5 +1,21 @@
 Back In Time
 
+Version 1.0.28
+* remove config on 'apt-get purge'
+* add more options for configure scripts; update README
+* add udev schedule (run BIT as soon as the drive is connected)
+* Fix bug: AttributeError with python-keyring>1.6.1 [#1234024](https://bugs.launchpad.net/backintime/+bug/1234024)
+* Fix bug: TypeError: KDirModel.removeColumns() is a private method in kde4/app.py [#1232694](https://bugs.launchpad.net/backintime/+bug/1232694)
+* add '--checksum' commandline option [#886021](https://bugs.launchpad.net/backintime/+bug/886021)
+* Fix bug: sshfs mount disconnect after a while due to some firewalls (add ServerAliveInterval) [#235685](https://answers.launchpad.net/backintime/+question/235685)
+* Fix bug: Ping fails if ICMP is disabled on remote host [#1226718](https://bugs.launchpad.net/backintime/+bug/1226718)
+* Fix bug: KeyError in getgrnam if there is no 'fuse' group [#1225561](https://bugs.launchpad.net/backintime/+bug/1225561)
+* Fix bug: anacrontab won't work with profilename with spaces [#1224620](https://bugs.launchpad.net/backintime/+bug/1224620)
+* Fix bug: NameError in tools.move_snapshots_folder [#871466](https://bugs.launchpad.net/backintime/+bug/871466)
+* Fix bug: KPassivePopup is not defined [#871475](https://bugs.launchpad.net/backintime/+bug/871475)
+* multi selection for include and exclude list [#660753](https://bugs.launchpad.net/backintime/+bug/660753)
+* Fix bug: ValueError while reading pw-cache PID [#235407](https://answers.launchpad.net/backintime/+question/235407)
+
 Version 1.0.26
 * add feature: keep min free inodes
 * roll back commit 836.1.5 (check free-space on ssh remote host): statvfs DOES work over sshfs. But not with quite outdated sshd

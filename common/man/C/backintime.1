@@ -1,4 +1,4 @@
-.TH backintime 1 "June 2013" "version 1.0.26" "USER COMMANDS"
+.TH backintime 1 "Oct 2013" "version 1.0.28" "USER COMMANDS"
 .SH NAME
 backintime \- a simple backup tool for Linux.
 .PP
@@ -11,6 +11,7 @@ The graphical tools are: backintime-gnome and backintime-kde4.
 [ \-\-keep\-mount ] 
 [ \-\-quiet ] 
 [ \-\-config PATH ] 
+[ \-\-checksum ] 
 [ \-\-backup | \-\-backup\-job |
 \-\-snapshots\-path |
 \-\-snapshots\-list | \-\-snapshots\-list\-path |
@@ -79,7 +80,7 @@ To optimize performance you can choose the cipher used by ssh. Depending on your
 .PP
 If the bottleneck of your environment is the hard-drive or the network you will not see a big difference between the ciphers. In this case you should stay on 'default'.
 .PP
-A weaker cipher does mean weaker security even if all supported ciphers are known to be safe at the moment.
+Please read security informations about the cipher before using them in untrusted networks (Wifi, Internet). Some of them (Arcfour, 3DES, ...) should be handled as not secure anymore.
 .PP
 .B "Remote Host"
 .br
@@ -169,6 +170,9 @@ suppress status messages on standard output.
 .TP
 \-\-config PATH
 read config from PATH.
+.TP
+\-\-checksum
+force to use checksum for checking if files have been changed. This is the same as 'Use checksum to detect changes' in Options. But you can use this to periodically run checksums from cronjobs.
 .SH ACTIONS
 .TP
 \-b, \-\-backup

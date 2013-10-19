@@ -35,6 +35,9 @@ class EncFS_mount(mount.MountControl):
     """
     Mount encrypted paths with encfs.
     """
+
+    CHECK_FUSE_GROUP = True
+
     def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
         self.config = cfg
         if self.config is None:
@@ -161,10 +164,14 @@ class EncFS_mount(mount.MountControl):
         """check if encfs is installed and user is part of group fuse"""
         if not tools.check_command('encfs'):
             raise mount.MountException( _('encfs not found. Please install e.g. \'apt-get install encfs\'') )
-        user = self.config.get_user()
-        fuse_grp_members = grp.getgrnam('fuse')[3]
-        if not user in fuse_grp_members:
-            raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
+        if self.CHECK_FUSE_GROUP:
+            user = self.config.get_user()
+            try:
+                fuse_grp_members = grp.getgrnam('fuse')[3]
+            except KeyError:
+                fuse_grp_members = []
+            if not user in fuse_grp_members:
+                raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
         
     def check_version(self):
         """check encfs version.

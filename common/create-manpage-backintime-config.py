@@ -19,6 +19,7 @@
 import re
 import os
 import sys
+from time import strftime, gmtime
 
 PATH = os.path.join(os.getcwd(), os.path.dirname(sys.argv[0]))
 
@@ -29,7 +30,7 @@ with open(os.path.join(PATH, '../VERSION'), 'r') as f:
 SORT = True #True = sort by alphabet; False = sort by line numbering
 c = re.compile(r'.*?self\.get((?:_profile)?)_(.*?)_value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
 
-HEADER = '''.TH backintime-config 1 "July 2013" "version %s" "USER COMMANDS"
+HEADER = '''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -58,7 +59,7 @@ crontab example:
 .br
 0 */2 * * * nice -n 19 ionice -c2 -n7 /usr/bin/backintime --backup-job >/dev/null 2>&1
 .SH POSSIBLE KEYWORDS
-''' % VERSION
+''' % (strftime('%b %Y', gmtime()), VERSION)
 
 FOOTER = '''.SH SEE ALSO
 backintime, backintime-gnome, backintime-kde4.

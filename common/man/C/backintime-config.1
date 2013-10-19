@@ -1,4 +1,4 @@
-.TH backintime-config 1 "July 2013" "version 1.0.26" "USER COMMANDS"
+.TH backintime-config 1 "Oct 2013" "version 1.0.28" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -36,15 +36,6 @@ Internal value used to prevent hash collisions on mountpoints. Do not change thi
 Default: 0 
 .RE
 
-.IP "\fIkeyring.backend\fR" 6
-.RS
-Type: str       Allowed Values: gnomekeyring|kwallet
-.br
-Backend used for \fIprofile<N>.snapshots.<MODE>.password.save\fR
-.PP
-Default: ''
-.RE
-
 .IP "\fIprofile<N>.name\fR" 6
 .RS
 Type: str       Allowed Values: text
@@ -58,7 +49,7 @@ Default: Main profile
 .RS
 Type: int       Allowed Values: 0-99999
 .br
-How many days to wait between new snapshots with anacron? Only validfor \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25
+How many days to wait between new snapshots with anacron? Only validfor \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
 .PP
 Default: 1
 .RE
@@ -74,7 +65,7 @@ Default: 1
 
 .IP "\fIprofile<N>.snapshots.automatic_backup_mode\fR" 6
 .RS
-Type: int       Allowed Values: 0|1|2|4|7|10|12|14|16|18|19|20|30|40|80
+Type: int       Allowed Values: 0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80
 .br
 Which shedule used for crontab. Note that the crontab entry is only generated during saving in settings dialog. If you don't run a GUI version of BackInTime you'll have to create the crontab entry on your own.
 .br
@@ -103,6 +94,8 @@ Which shedule used for crontab. Note that the crontab entry is only generated du
 20 = every day
 .br
 25 = daily anacron
+.br
+27 = when drive get connected
 .br
 30 = every week
 .br
@@ -565,7 +558,7 @@ Default: 4
 .RS
 Type: str       Allowed Values: default|aes192-cbc|aes256-cbc|aes128-ctr|aes192-ctr|aes256-ctr|arcfour|arcfour256|arcfour128|aes128-cbc|3des-cbc|blowfish-cbc|cast128-cbc
 .br
-Cipher that is used for encryping the SSH tunnel. Depending on the environment (network bandwidth, cpu and hdd performance) a different cipher might be faster.
+Cipher that is used for encrypting the SSH tunnel. Depending on the environment (network bandwidth, cpu and hdd performance) a different cipher might be faster.
 .PP
 Default: default
 .RE

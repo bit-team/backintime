@@ -45,3 +45,7 @@ sed -i -e "s/^<!ENTITY appversion .*>$/<!ENTITY appversion \"$VERSION\">/" -e "s
 echo "Update KDE4 help docbook file"
 sed -i -e "s/^<!ENTITY appversion .*>$/<!ENTITY appversion \"$VERSION\">/" -e "s/^<!ENTITY manrevision .*>$/<!ENTITY manrevision \"$VERSION\">/" kde4/docbook/en/index.docbook
 
+echo "Update Debian changelog"
+echo '$BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low' > common/debian_specific/changelog
+cat CHANGES | awk 'BEGIN {ins=0} /^Version '$VERSION'/ {ins=1; next} /^Version [0-9.]+/ && (ins == 1) {exit 0} /^\*/ && (ins == 1) {print "  "$0}' >> common/debian_specific/changelog
+echo  "-- BIT Team <dan@le-web.org>  $(date -R)" >> common/debian_specific/changelog

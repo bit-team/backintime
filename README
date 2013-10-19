@@ -1,6 +1,6 @@
 Back In Time
 
-Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
+Copyright (C) 2008-2013 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 
 1. About
 
@@ -25,46 +25,73 @@ Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
 
 2. INSTALL
 
-2.1. Ubuntu packages
+2.1. Debian/Ubuntu packages
 
 	GNOME:
 
 		./makedeb.sh
 		sudo dpkg -i backintime-common-<version>.deb
 		sudo dpkg -i backintime-gnome-<version>.deb
+		sudo dpkg -i backintime-notify-<version>.deb
 
 	KDE4: (KDE4 >= 4.1)
 
 		./makedeb.sh
 		sudo dpkg -i backintime-common-<version>.deb
 		sudo dpkg -i backintime-kde4-<version>.deb
-
-	NOTE:
-	Ubuntu 8.04: to install KDE4 4.1 check this link:
-		http://news.softpedia.com/news/How-To-Install-KDE-4-1-On-Ubuntu-8-04-91034.shtml
+		sudo dpkg -i backintime-notify-<version>.deb
 
 2.2. From sources
 
-	Common (dependencies: python, rsync, cron):
+	Common (dependencies: python, rsync, cron, openssh-client,
+	                      python-keyring
+	        recomended:   powermgmt-base, sshfs, encfs):
+
 		cd common
 		./configure
 		make
 		sudo make install
 
-	GNOME (dependencies: python-glade2, python-gnome2, meld):
+	GNOME (dependencies: x11-utils, python-glade2, python-gnome2, meld,
+	                     gksu, libnotify-bin
+	       recomended:   python-secretstorage | python-gnomekeyring):
+
 		cd gnome
 		./configure
 		make
 		sudo make install
 
-	KDE4 (dependencies: x11-utils, python-kde4 (>= 4.1), kompare):
+	KDE4 (dependencies: x11-utils, python-kde4 (>= 4.1), kompare, kdesudo, 
+	                    libnotify-bin
+	      recomended:   python-secretstorage | python-keyring-kwallet):
+
 		cd kde4
 		./configure
 		make
 		sudo make install
 
-	NOTE: if want to run configure without check (gnome or kde), just run:
-		./configure --no-check
+	NOTIFY (dependencies: libnotify-bin):
+		cd notify
+		./configure
+		make
+		sudo make install
+
+
+2.3. configure options
+	first value is default:
+	--check | --no-check (only GNOME and KDE4)
+		Check if Gnome respectively KDE4 is available
+
+	--fuse-group | --no-fuse-group (only COMMON)
+		Some distributions require user to be in group 'fuse' to use
+		sshfs and encfs. This toggles the check on or off.
+
+	--kdesudo | --kdesu (only KDE4)
+		Use either 'kdesudo' or 'kdesu' to start Backintime as root
+
+	--python | --python2 (all)
+		Use either 'python' or 'python2' to start Python Version 2.x
+
 
 3. Integrate with filemanager
 
@@ -82,4 +109,6 @@ Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
 				* Appears is selection contains: Both
 		* Press OK and you will see the new actions called "Open with Back In Time" when you 
 		  right-click an item
+
+Oct 2013
 

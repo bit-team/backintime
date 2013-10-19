@@ -15,7 +15,8 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+#print into file like it is done in Python3
+from __future__ import print_function
 import syslog
 import os
 import sys
@@ -28,14 +29,14 @@ def closelog():
     syslog.closelog()
 
 def error( msg ):
-    print >> sys.stderr, 'ERROR: ' + msg
+    print('ERROR: ' + msg, file=sys.stderr)
     syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + msg )
 
 def warning( msg ):
-    print >> sys.stderr, 'WARNING: ' + msg
+    print('WARNING: ' + msg, file=sys.stderr)
     syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + msg )
 
 def info( msg ):
-    print >> sys.stdout, 'INFO: ' + msg
+    print('INFO: ' + msg, file=sys.stdout)
     syslog.syslog( syslog.LOG_INFO, 'INFO: ' + msg )
 

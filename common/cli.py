@@ -36,17 +36,17 @@ def restore(cfg, snapshot_id = None, what = None, where = None):
     if not snapshot_id is None:
         if len(snapshot_id) == 19:
             if not snapshot_id in snapshot_list:
-                print 'SnapshotID %s not found.' % snapshot_id
+                print('SnapshotID %s not found.' % snapshot_id)
                 snapshot_id = None
         else:
             try:
                 index = int(snapshot_id)
                 snapshot_id = snapshot_list[index]
             except (ValueError, IndexError):
-                print 'Invalid SnaphotID index: %s' % snapshot_id
+                print('Invalid SnaphotID index: %s' % snapshot_id)
                 snapshot_id = None
     if snapshot_id is None:
-        print '\nSnapshotID\'s:'
+        print('\nSnapshotID\'s:')
         #get terminal size
         size = (24, 80)
         for fd in (sys.stdin, sys.stdout, sys.stderr):
@@ -70,17 +70,17 @@ def restore(cfg, snapshot_id = None, what = None, where = None):
                 if index > len_snapshots - 1:
                     continue
                 line.append('{i:>4}: {s}'.format(i = index, s = snapshot_list[index]))
-            print ' '.join(line)
-        print ''
+            print(' '.join(line))
+        print('')
         while snapshot_id is None:
             try:
                 input = int(raw_input('SnapshotID to restore ( 0 - %d ): ' % (len_snapshots - 1) ))
                 snapshot_id = snapshot_list[input]
             except (ValueError, IndexError):
-                print 'Invalid Input'
+                print('Invalid Input')
                 continue
 
-    print ''
+    print('')
     RestoreDialog(cfg, _snapshots, snapshot_id, what, where).run()
 
 class RestoreDialog(object):
@@ -96,10 +96,10 @@ class RestoreDialog(object):
             os.remove(self.log_file)
 
     def callback(self, line, *params):
-        print line
+        print(line)
         with open(self.log_file, 'a') as log:
             log.write(line + '\n')
 
     def run(self):
         self.snapshots.restore(self.snapshot_id, self.what, self.callback, self.where)
-        print '\nLog saved to %s' % self.log_file
+        print('\nLog saved to %s' % self.log_file)

@@ -115,12 +115,7 @@ class Daemon:
         Start the daemon
         """
         # Check for a pidfile to see if the daemon already runs
-        try:
-            pf = file(self.pidfile,'r')
-            pid = int(pf.read().strip())
-            pf.close()
-        except IOError:
-            pid = None
+        pid = self.read_pid()
 
         if pid:
             if tools.is_process_alive(pid):
@@ -139,12 +134,7 @@ class Daemon:
         Stop the daemon
         """
         # Get the pid from the pidfile
-        try:
-            pf = file(self.pidfile,'r')
-            pid = int(pf.read().strip())
-            pf.close()
-        except IOError:
-            pid = None
+        pid = self.read_pid()
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
@@ -176,12 +166,7 @@ class Daemon:
         send SIGHUP signal to process
         """
         # Get the pid from the pidfile
-        try:
-            pf = file(self.pidfile,'r')
-            pid = int(pf.read().strip())
-            pf.close()
-        except IOError:
-            pid = None
+        pid = self.read_pid()
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
@@ -204,12 +189,7 @@ class Daemon:
         return status
         """
         # Get the pid from the pidfile
-        try:
-            pf = file(self.pidfile,'r')
-            pid = int(pf.read().strip())
-            pf.close()
-        except IOError:
-            pid = None
+        pid = self.read_pid()
 
         if not pid:
             return False
@@ -237,7 +217,15 @@ class Daemon:
         daemonized by start() or restart().
         """
         pass
-        
+
+    def read_pid(self):
+        """read PID from PID-file"""
+        try:
+            with open(self.pidfile, 'r') as pf:
+                return(int(pf.read().strip()))
+        except (IOError, ValueError):
+            return(None)
+
 class Password_Cache(Daemon):
     """
     Password_Cache get started on User login. It provides passwords for
@@ -261,8 +249,7 @@ class Password_Cache(Daemon):
         self.db_usr = {}
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         
-        backend = self.config.get_keyring_backend()
-        self.keyring_supported = tools.set_keyring(backend)
+        self.keyring_supported = tools.keyring_supported()
     
     def run(self):
         """
@@ -366,8 +353,7 @@ class Password(object):
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         self.db = {}
         
-        backend = self.config.get_keyring_backend()
-        self.keyring_supported = tools.set_keyring(backend)
+        self.keyring_supported = tools.keyring_supported()
     
     def get_password(self, parent, profile_id, mode, pw_id = 1, only_from_keyring = False):
         """

@@ -256,7 +256,7 @@ class MainWindow( KMainWindow ):
         self.list_files_view.header().setSortIndicatorShown( True )
         
         self.list_files_view_model = KDirModel( self )
-        self.list_files_view_model.removeColumns( 3, 2 )
+        #self.list_files_view_model.removeColumns( 3, 2 )
         self.list_files_view_model.dirLister().setAutoErrorHandlingEnabled( False, self )
         self.list_files_view_model.dirLister().setAutoUpdate( False )
         self.list_files_view_model.dirLister().setDelayedMimeTypes( False )

@@ -1,4 +1,4 @@
-.TH backintime-kde4 1 "June 2013" "version 1.0.26" "USER COMMANDS"
+.TH backintime-kde4 1 "Oct 2013" "version 1.0.28" "USER COMMANDS"
 .SH NAME
 backintime-kde4 \- a simple backup tool for KDE4.
 .SH SYNOPSIS
@@ -8,6 +8,7 @@ backintime-kde4 \- a simple backup tool for KDE4.
 [ \-\-keep\-mount ] 
 [ \-\-quiet ] 
 [ \-\-config PATH ] 
+[ \-\-checksum ] 
 [ \-\-backup | \-\-backup\-job |
 \-\-snapshots\-path |
 \-\-snapshots\-list | \-\-snapshots\-list\-path |
@@ -39,6 +40,9 @@ suppress status messages on standard output.
 .TP
 \-\-config PATH
 read config from PATH.
+.TP
+\-\-checksum
+force to use checksum for checking if files have been changed. This is the same as 'Use checksum to detect changes' in Options. But you can use this to periodically run checksums from cronjobs.
 .SH ACTIONS
 .TP
 \-b, \-\-backup

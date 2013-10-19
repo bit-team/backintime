@@ -21,6 +21,7 @@ import gettext
 import string
 import random
 import tempfile
+import socket
 from time import sleep
 
 import config
@@ -36,6 +37,9 @@ class SSH(mount.MountControl):
     Mount remote path with sshfs. The real take_snapshot process will use
     rsync over ssh. Other commands run remote over ssh.
     """
+
+    CHECK_FUSE_GROUP = True
+
     def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
         self.config = cfg
         if self.config is None:
@@ -79,6 +83,7 @@ class SSH(mount.MountControl):
 
         # ssh_options contains port but can be extended to include cipher, customkeyfile, etc
         self.ssh_options = ['-p', str(self.port)]
+        self.ssh_options += ['-o', 'ServerAliveInterval=240']
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
         
         self.unlock_ssh_agent()
@@ -192,10 +197,14 @@ class SSH(mount.MountControl):
         """check if sshfs is installed and user is part of group fuse"""
         if not self.pathexists('sshfs'):
             raise mount.MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
-        user = self.config.get_user()
-        fuse_grp_members = grp.getgrnam('fuse')[3]
-        if not user in fuse_grp_members:
-            raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
+        if self.CHECK_FUSE_GROUP:
+            user = self.config.get_user()
+            try:
+                fuse_grp_members = grp.getgrnam('fuse')[3]
+            except KeyError:
+                fuse_grp_members = []
+            if not user in fuse_grp_members:
+                raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
         
     def pathexists(self, filename):
         """Checks if 'filename' is present in the system PATH.
@@ -286,9 +295,22 @@ class SSH(mount.MountControl):
             logger.info('Create remote folder %s' % self.path)
             
     def check_ping_host(self):
-        try:
-            subprocess.check_call(['ping', '-q', '-c3', '-l3', self.host], stdout = open(os.devnull, 'w') )
-        except subprocess.CalledProcessError:
+        """connect to remote port and check if it is open"""
+        count = 0
+        while count < 5:
+            try:
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s.settimeout(2.0)
+                result = s.connect_ex((socket.gethostbyname(self.host), self.port))
+            except:
+                result = -1
+            finally:
+                s.close()
+            if result == 0:
+                return
+            count += 1
+            sleep(0.2)
+        if result != 0:
             raise mount.MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
         
     def check_remote_commands(self):

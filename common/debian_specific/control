@@ -1,13 +1,13 @@
 Package: backintime-common
-Version: 1.0.26
+Version: 1.0.28
 Source: backintime-common
 Section: utils
 Priority: optional
 Maintainer: BIT Team <bit-team@lists.launchpad.net>
 Homepage: http://backintime.le-web.org
 Architecture: all
-Depends: python, rsync, cron, openssh-client, sshfs, python-keyring, encfs
-Recommends: powermgmt-base
+Depends: python, rsync, cron, openssh-client, python-keyring
+Recommends: powermgmt-base, sshfs, encfs
 Conflicts: backintime
 Replaces: backintime
 Description: Simple backup system (common)

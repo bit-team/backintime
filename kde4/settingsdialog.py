@@ -23,7 +23,6 @@ import datetime
 import gettext
 import copy
 import subprocess
-import keyring
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -253,11 +252,7 @@ class SettingsDialog( KDialog ):
         self.cb_password_use_cache = QCheckBox( QString.fromUtf8( _( 'Cache Password for Cron (Security issue: root can read password)' ) ), self )
         vlayout.addWidget( self.cb_password_use_cache )
 
-        backend = self.config.get_keyring_backend()
-        if len(backend) <= 0:
-            backend = 'kwallet'
-            self.config.set_keyring_backend(backend)
-        self.keyring_supported = tools.set_keyring(backend)
+        self.keyring_supported = tools.keyring_supported()
         self.cb_password_save.setEnabled(self.keyring_supported)
 
         #mode change
@@ -362,12 +357,17 @@ class SettingsDialog( KDialog ):
         self.lbl_automatic_snapshots_anacron_period = QLabel(QString.fromUtf8(_('Frequency in days:')))
         self.lbl_automatic_snapshots_anacron_period.setContentsMargins( 5, 0, 0, 0 )
         self.lbl_automatic_snapshots_anacron_period.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
-        glayout.addWidget(self.lbl_automatic_snapshots_anacron_period, 6, 0)
+        glayout.addWidget(self.lbl_automatic_snapshots_anacron_period, 7, 0)
 
         self.sb_automatic_snapshots_anacron_period = QSpinBox(self)
         self.sb_automatic_snapshots_anacron_period.setSingleStep( 1 )
         self.sb_automatic_snapshots_anacron_period.setRange( 1, 10000 )
-        glayout.addWidget(self.sb_automatic_snapshots_anacron_period, 6, 1)
+        glayout.addWidget(self.sb_automatic_snapshots_anacron_period, 7, 1)
+
+        #udev
+        self.lbl_automatic_snapshots_udev = QLabel(QString.fromUtf8(_('Run Back In Time as soon as the drive is connected (only once every X days).\nYou will be prompted for your sudo password.')))
+        self.lbl_automatic_snapshots_udev.setWordWrap(True)
+        glayout.addWidget(self.lbl_automatic_snapshots_udev, 6, 0, 1, 2)
 
         QObject.connect( self.combo_automatic_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_automatic_snapshot_changed )
 
@@ -380,6 +380,7 @@ class SettingsDialog( KDialog ):
         layout = QVBoxLayout( tab_widget )
 
         self.list_include = QTreeWidget( self )
+        self.list_include.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.list_include.setRootIsDecorated( False )
         #self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
         #self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
@@ -423,6 +424,7 @@ class SettingsDialog( KDialog ):
         layout.addWidget( label )
 
         self.list_exclude = KListWidget( self )
+        self.list_exclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
         layout.addWidget( self.list_exclude )
 
         label = QLabel( QString.fromUtf8( _('Highly recommended:') ), self )
@@ -705,16 +707,24 @@ class SettingsDialog( KDialog ):
             self.lbl_automatic_snapshots_time.hide()
             self.combo_automatic_snapshots_time.hide()
 
-        if backup_mode == self.config.DAY_ANACRON:
-            self.lbl_automatic_snapshots_anacron.show()
+        if self.config.DAY_ANACRON <= backup_mode <= self.config.UDEV:
             self.lbl_automatic_snapshots_anacron_period.show()
             self.sb_automatic_snapshots_anacron_period.show()
             self.lbl_automatic_snapshots_time.hide()
             self.combo_automatic_snapshots_time.hide()
         else:
-            self.lbl_automatic_snapshots_anacron.hide()
             self.lbl_automatic_snapshots_anacron_period.hide()
             self.sb_automatic_snapshots_anacron_period.hide()
+
+        if backup_mode == self.config.DAY_ANACRON:
+            self.lbl_automatic_snapshots_anacron.show()
+        else:
+            self.lbl_automatic_snapshots_anacron.hide()
+
+        if backup_mode == self.config.UDEV:
+            self.lbl_automatic_snapshots_udev.show()
+        else:
+            self.lbl_automatic_snapshots_udev.hide()
 
     def current_automatic_snapshot_changed( self, index ):
         backup_mode = self.combo_automatic_snapshots.itemData( index ).toInt()[0]
@@ -1201,7 +1211,8 @@ class SettingsDialog( KDialog ):
         return True
 
     def on_btn_exclude_remove_clicked ( self ):
-        self.list_exclude.takeItem( self.list_exclude.currentRow() )
+        for item in self.list_exclude.selectedItems():
+            self.list_exclude.takeItem(self.list_exclude.row(item))
 
         if self.list_exclude.count() > 0:
             self.list_exclude.setCurrentItem( self.list_exclude.item(0) )
@@ -1233,54 +1244,56 @@ class SettingsDialog( KDialog ):
         self.add_exclude_( pattern )
 
     def on_btn_exclude_file_clicked( self ):
-        path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ).toUtf8() )
-        self.add_exclude_( path )
+        for path in KFileDialog.getOpenFileNames( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ):
+            self.add_exclude_( str(path.toUtf8()) )
 
     def on_btn_exclude_folder_clicked( self ):
-        path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Exclude folder' ) ) ).toUtf8() )
-        self.add_exclude_( path )
+        dialog = kde4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Exclude folder' ) ) )
+        if dialog.exec_():
+            for path in dialog.selectedFiles():
+                self.add_exclude_( str(path.toUtf8()) )
 
     def on_btn_include_remove_clicked ( self ):
-        item = self.list_include.currentItem()
-        if item is None:
-            return
+        for item in self.list_include.selectedItems():
+            index = self.list_include.indexOfTopLevelItem( item )
+            if index < 0:
+                continue
 
-        index = self.list_include.indexOfTopLevelItem( item )
-        if index < 0:
-            return
-
-        self.list_include.takeTopLevelItem( index )
+            self.list_include.takeTopLevelItem( index )
 
         if self.list_include.topLevelItemCount() > 0:
             self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
 
     def on_btn_include_file_add_clicked( self ):
-        path = str( KFileDialog.getOpenFileName( KUrl(), '', self, QString.fromUtf8( _( 'Include file' ) ) ).toUtf8() )
-        if len( path ) == 0 :
-            return
+        for path in KFileDialog.getOpenFileNames( KUrl(), '', self, QString.fromUtf8( _( 'Include file' ) ) ):
+            path = str(path.toUtf8())
+            if len( path ) == 0 :
+                continue
 
-        path = self.config.prepare_path( path )
+            path = self.config.prepare_path( path )
 
-        for index in xrange( self.list_include.topLevelItemCount() ):
-            if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
-                return
+            for index in xrange( self.list_include.topLevelItemCount() ):
+                if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
+                    continue
 
-        #self.add_include( [ path, self.config.NONE ] )
-        self.add_include( ( path, 1 ) )
+            self.add_include( ( path, 1 ) )
 
     def on_btn_include_add_clicked( self ):
-        path = str( KFileDialog.getExistingDirectory( KUrl(), self, QString.fromUtf8( _( 'Include folder' ) ) ).toUtf8() )
-        if len( path ) == 0 :
-            return
+        dialog = kde4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Include folder' ) ) )
+        if dialog.exec_():
+            for path in dialog.selectedFiles():
+                path = str(path.toUtf8())
+                
+                if len( path ) == 0 :
+                    continue
 
-        path = self.config.prepare_path( path )
+                path = self.config.prepare_path( path )
 
-        for index in xrange( self.list_include.topLevelItemCount() ):
-            if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
-                return
+                for index in xrange( self.list_include.topLevelItemCount() ):
+                    if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
+                        continue
 
-        #self.add_include( [ path, self.config.NONE ] )
-        self.add_include( ( path, 0 ) )
+                self.add_include( ( path, 0 ) )
 
     def on_btn_snapshots_path_clicked( self ):
         old_path = str( self.edit_snapshots_path.text().toUtf8() )

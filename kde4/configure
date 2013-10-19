@@ -1,12 +1,18 @@
 #!/bin/bash
 
+#set default options
 CHECK="--check"
 SUDO="--kdesudo"
+PYTHON="--python"
 
+USR_BIN_FILES="backintime-kde4"
+
+#get commandline arguments
 for arg in $*; do
 	case $arg in
 		--check | --no-check) CHECK=$arg;;
 		--kdesu | --kdesudo) SUDO=$arg;;
+		--python | --python2) PYTHON=$arg;;
 	esac
 done
 
@@ -22,6 +28,19 @@ fi
 case $SUDO in
 	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesudo -c backintime-kde4/" backintime-kde4-root.desktop;;
 	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesu -c backintime-kde4/" backintime-kde4-root.desktop;;
+esac
+
+#patch python command
+#use 'python' or 'python2' to start Python Version 2.x
+case $PYTHON in
+	--python)   sed -e "s/^python2\? /python /g" \
+			-e "s/^ssh-agent python2\? /ssh-agent python /g" \
+			-i $USR_BIN_FILES
+			;;
+	--python2)  sed -e "s/^python2\? /python2 /g" \
+			-e "s/^ssh-agent python2\? /ssh-agent python2 /g" \
+			-i $USR_BIN_FILES
+			;;
 esac
 
 cp Makefile.template Makefile
