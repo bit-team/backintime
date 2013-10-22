@@ -564,6 +564,23 @@ def sudo_execute(cfg, cmd, *args, **kwargs):
                 break
     return _execute(cmd, *args, **kwargs)
 
+def wrap_line(msg, size=1900, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
+    if len(new_line_indicator) >= size - 1:
+        new_line_indicator = ''
+    while len(msg):
+        if len(msg) <= size:
+            yield(msg)
+            break
+        else:
+            line = ''
+            for look in range(size-1, size/2, -1):
+                if msg[look] in delimiters:
+                    line, msg = msg[:look+1], new_line_indicator + msg[look+1:]
+                    break
+            if not len(line):
+                line, msg = msg[:size], new_line_indicator + msg[size:]
+            yield(line)
+
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     def __init__(self, dc = False, follow_symlink = False, list_equal_to = False): 
