@@ -24,9 +24,13 @@ import hashlib
 import commands
 import signal
 import re
-import keyring
+try:
+    import keyring
+except:
+    pass
 
 import configfile
+import logger
 
 ON_AC = 0
 ON_BATTERY = 1
@@ -503,6 +507,8 @@ def set_env_key(env, env_file, key):
         env_file.set_str_value(key, env[key])
 
 def keyring_supported():
+    if not 'keyring' in globals():
+        return False
     try:
         backends = (keyring.backends.SecretService.Keyring,
                     keyring.backends.Gnome.Keyring,
@@ -512,6 +518,16 @@ def keyring_supported():
                     keyring.backend.GnomeKeyring,
                     keyring.backend.KDEKWallet)
     return isinstance(keyring.get_keyring(), backends)
+
+def get_password(*args):
+    if 'keyring' in globals():
+        return keyring.get_password(*args)
+    return None
+
+def set_password(*args):
+    if 'keyring' in globals():
+        return keyring.set_password(*args)
+    return False
 
 def get_mountpoint(path):
     '''return (DEVICE, MOUNTPOINT) for given PATH'''
@@ -660,3 +676,6 @@ class Alarm(object):
             raise Timeout()
         else:
             self.callback()
+
+if not 'keyring' in globals():
+    logger.warning('import keyring failed')

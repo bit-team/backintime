@@ -18,6 +18,10 @@
 import os
 import sys
 import base64
+try:
+    import gtk
+except:
+    pass
 
 import password
 import password_ipc
@@ -30,14 +34,12 @@ if __name__ == '__main__':
     """
     cfg = config.Config()
     tools.load_env(cfg)
-    try:
-        profile_id = os.environ['ASKPASS_PROFILE_ID']
-        mode = os.environ['ASKPASS_MODE']
-    except KeyError:
-        pass
-    try:
-        temp_file = os.environ['ASKPASS_TEMP']
-    except KeyError:
+
+    profile_id = os.getenv('ASKPASS_PROFILE_ID', '1')
+    mode = os.getenv('ASKPASS_MODE', 'local')
+
+    temp_file = os.getenv('ASKPASS_TEMP')
+    if temp_file is None:
         #normal mode, get password from module password
         pw = password.Password(cfg)
         print(pw.get_password(None, profile_id, mode))
