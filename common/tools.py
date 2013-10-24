@@ -27,7 +27,7 @@ import re
 try:
     import keyring
 except:
-    pass
+    keyring = None
 
 import configfile
 import logger
@@ -507,25 +507,30 @@ def set_env_key(env, env_file, key):
         env_file.set_str_value(key, env[key])
 
 def keyring_supported():
-    if not 'keyring' in globals():
+    if keyring is None:
         return False
-    try:
-        backends = (keyring.backends.SecretService.Keyring,
-                    keyring.backends.Gnome.Keyring,
-                    keyring.backends.kwallet.Keyring)
-    except AttributeError:
-        backends = (keyring.backend.SecretServiceKeyring,
-                    keyring.backend.GnomeKeyring,
-                    keyring.backend.KDEKWallet)
-    return isinstance(keyring.get_keyring(), backends)
+    backends = []
+    try: backends.append(keyring.backends.SecretService.Keyring)
+    except: pass
+    try: backends.append(keyring.backends.Gnome.Keyring)
+    except: pass
+    try: backends.append(keyring.backends.kwallet.Keyring)
+    except: pass
+    try: backends.append(keyring.backend.SecretServiceKeyring)
+    except: pass
+    try: backends.append(keyring.backend.GnomeKeyring)
+    except: pass
+    try: backends.append(keyring.backend.KDEKWallet)
+    except: pass
+    return isinstance(keyring.get_keyring(), tuple(backends))
 
 def get_password(*args):
-    if 'keyring' in globals():
+    if not keyring is None:
         return keyring.get_password(*args)
     return None
 
 def set_password(*args):
-    if 'keyring' in globals():
+    if not keyring is None:
         return keyring.set_password(*args)
     return False
 
@@ -694,5 +699,5 @@ class Alarm(object):
         else:
             self.callback()
 
-if not 'keyring' in globals():
+if keyring is None:
     logger.warning('import keyring failed')
