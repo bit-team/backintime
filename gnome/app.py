@@ -139,7 +139,8 @@ class MainWindow(object):
                 'on_list_folder_view_drag_data_get': self.on_list_folder_view_drag_data_get,
                 'on_list_folder_view_key_press_event' : self.on_list_folder_view_key_press_event,
                 'on_combo_profiles_changed': self.on_combo_profiles_changed,
-                'on_btn_help_clicked': self.on_help
+                'on_btn_help_clicked': self.on_help,
+                'on_btn_shutdown_toggled' : self.on_btn_shutdown_toggled
             }
 
         builder.connect_signals(signals)
@@ -170,6 +171,11 @@ class MainWindow(object):
         self.combo_profiles.set_model( self.store_profiles )
         
         self.disable_combo_changed = False
+
+        #btn shutdown
+        self.btn_shutdown = self.builder.get_object('btn_shutdown')
+        self.shutdown = tools.ShutDown()
+        self.btn_shutdown.set_sensitive(self.shutdown.can_shutdown())
 
         #lbl snapshot
         self.lbl_snapshot = self.builder.get_object( 'lbl_snapshot' )
@@ -604,6 +610,8 @@ class MainWindow(object):
                 if take_snapshot_message[0] == 0:
                     take_snapshot_message = ( 0, _('Done, no backup needed') )
 
+            self.shutdown.shutdown()
+
         if take_snapshot_message != self.last_take_snapshot_message or update_time_line:
             self.last_take_snapshot_message = take_snapshot_message
         
@@ -752,6 +760,10 @@ class MainWindow(object):
             self.update_folder_view( 2 )
 
     def on_close( self, *params ):
+        if self.shutdown.ask_before_quit():
+            if gtk.RESPONSE_YES != messagebox.show_question( self.window, self.config, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you realy want to close?') ):
+                return False
+
         main_window_x, main_window_y = self.window.get_position()
         main_window_width, main_window_height = self.window.get_size()
         main_window_hpaned1 = self.builder.get_object('hpaned1').get_position()
@@ -1093,6 +1105,9 @@ class MainWindow(object):
     def on_btn_update_snapshots_clicked( self, button ):
         self.fill_time_line( False )
         self.update_folder_view( 2 )
+
+    def on_btn_shutdown_toggled(self, button):
+        self.shutdown.activate_shutdown = button.get_active()
 
     def update_folder_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - places, 1 - folder view, 2 - time_line
         #update backup time

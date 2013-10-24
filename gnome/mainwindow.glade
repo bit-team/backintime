@@ -162,6 +162,22 @@
               </packing>
             </child>
             <child>
+              <object class="GtkToggleToolButton" id="btn_shutdown">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_text" translatable="yes">Shutdown system after snapshot has finished.</property>
+                <property name="use_action_appearance">False</property>
+                <property name="label" translatable="yes">Shutdown</property>
+                <property name="stock_id">gtk-execute</property>
+                <signal name="toggled" handler="on_btn_shutdown_toggled" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkToolButton" id="btn_exit">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>

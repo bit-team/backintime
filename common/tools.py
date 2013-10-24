@@ -699,5 +699,110 @@ class Alarm(object):
         else:
             self.callback()
 
+class ShutDown(object):
+    """Shutdown the system after the current snapshot has finished.
+    This should work for Gnome, Unity, Cinnamon, XFCE, Mate and KDE.
+    """
+    import dbus
+    DBUS_SHUTDOWN ={'gnome':   {'service':      'org.gnome.SessionManager',
+                                'objectPath':   '/org/gnome/SessionManager',
+                                'method':       'Shutdown',
+                                    #methods    Shutdown
+                                    #           Reboot
+                                    #           Logout
+                                'interface':    'org.gnome.SessionManager',
+                                'arguments':    ()
+                                    #arg (only with Logout)
+                                    #           0 normal
+                                    #           1 no confirm
+                                    #           2 force
+                               },
+                    'kde':     {'service':      'org.kde.ksmserver',
+                                'objectPath':   '/KSMServer',
+                                'method':       'logout',
+                                'interface':    'org.kde.KSMServerInterface',
+                                'arguments':    (-1, 2, -1)
+                                    #1st arg   -1 confirm
+                                    #           0 no confirm
+                                    #2nd arg   -1 full dialog with default logout
+                                    #           0 logout
+                                    #           1 restart
+                                    #           2 shutdown
+                                    #3rd arg   -1 wait 30sec
+                                    #           2 immediately
+                               },
+                    'xfce':    {'service':      'org.xfce.SessionManager',
+                                'objectPath':   '/org/xfce/SessionManager',
+                                'method':       'Shutdown',
+                                    #methods    Shutdown
+                                    #           Restart
+                                    #           Suspend (no args)
+                                    #           Hibernate (no args)
+                                    #           Logout (two args)
+                                'interface':    'org.xfce.Session.Manager',
+                                'arguments':    (False,)
+                                    #arg        True    allow saving
+                                    #           False   don't allow saving
+                                    #1nd arg (only with Logout)
+                                    #           True    show dialog
+                                    #           False   don't show dialog
+                                    #2nd arg (only with Logout)
+                                    #           True    allow saving
+                                    #           False   don't allow saving
+                               },
+                    'mate':    {'service':      'org.mate.SessionManager',
+                                'objectPath':   '/org/mate/SessionManager',
+                                'method':       'Shutdown',
+                                    #methods    Shutdown
+                                    #           Logout
+                                'interface':    'org.mate.SessionManager',
+                                'arguments':    ()
+                                    #arg (only with Logout)
+                                    #           0 normal
+                                    #           1 no confirm
+                                    #           2 force
+                               }
+                   }
+
+    def __init__(self):
+        self.proxy, self.args = self._prepair()
+        self.activate_shutdown = False
+        self.started = False
+
+    def _prepair(self):
+        """try to connect to the given dbus services. If successful it will
+        return a callable dbus proxy and those arguments.
+        """
+        bus = self.dbus.SessionBus()
+        for de in self.DBUS_SHUTDOWN:
+            dbus_props = self.DBUS_SHUTDOWN[de]
+            try:
+                interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
+                proxy = interface.get_dbus_method(dbus_props['method'], dbus_props['interface'])
+                return( (proxy, dbus_props['arguments']) )
+            except self.dbus.exceptions.DBusException:
+                continue
+        return( (None, None) )
+
+    def can_shutdown(self):
+        """indicate if a valid dbus service is available to shutdown system.
+        """
+        return(not self.proxy is None)
+
+    def ask_before_quit(self):
+        """indicate if ShutDown is ready to fire and so the application
+        shouldn't be closed.
+        """
+        return(self.activate_shutdown and not self.started)
+
+    def shutdown(self):
+        """call the dbus proxy to start the shutdown.
+        """
+        if self.proxy is None:
+            return(False)
+        if self.activate_shutdown:
+            self.started = True
+            return(self.proxy(*self.args))
+
 if keyring is None:
     logger.warning('import keyring failed')
