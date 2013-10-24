@@ -701,7 +701,7 @@ class Alarm(object):
 
 class ShutDown(object):
     """Shutdown the system after the current snapshot has finished.
-    This should work for Gnome, Unity, Cinnamon, XFCE, Mate and KDE.
+    This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
     """
     import dbus
     DBUS_SHUTDOWN ={'gnome':   {'service':      'org.gnome.SessionManager',
@@ -761,6 +761,12 @@ class ShutDown(object):
                                     #           0 normal
                                     #           1 no confirm
                                     #           2 force
+                               },
+                    'e17':     {'service':      'org.enlightenment.Remote.service',
+                                'objectPath':   '/org/enlightenment/Remote/RemoteObject',
+                                'method':       'Halt',
+                                'interface':    'org.enlightenment.Remote.Core',
+                                'arguments':    ()
                                }
                    }
 
