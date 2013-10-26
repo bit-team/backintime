@@ -395,7 +395,7 @@ class MainWindow( KMainWindow ):
 
     def closeEvent( self, event ):
         if self.shutdown.ask_before_quit():
-            if KMessageBox.Yes != KMessageBox.warningYesNo(self, QString.fromUtf8( _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you realy want to close?') )):
+            if KMessageBox.Yes != KMessageBox.warningYesNo(self, QString.fromUtf8( _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you really want to close?') )):
                 return event.ignore()
 
         self.config.set_str_value( 'kde4.last_path', self.path )

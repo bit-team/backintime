@@ -167,7 +167,7 @@ def get_snapshots_list_in_folder( folder, sort_reverse = True ):
     except:
         pass
 
-    list = []
+    _list = []
 
     for item in biglist:
         #print item + ' ' + str(len( item ))
@@ -175,10 +175,10 @@ def get_snapshots_list_in_folder( folder, sort_reverse = True ):
             continue
         if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
             #print item
-            list.append( item )
+            _list.append( item )
 
-    list.sort( reverse = sort_reverse )
-    return list
+    _list.sort( reverse = sort_reverse )
+    return _list
 
 
 def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
@@ -191,21 +191,21 @@ def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
     except:
         pass
 
-    list = []
+    _list = []
 
     for item in biglist:
         #print item + ' ' + str(len( item ))
         if len( item ) != 15 and len( item ) != 19:
-            list.append( item )
+            _list.append( item )
         else: 
             if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
                 #print item
                 continue
             else:
-                list.append( item )
+                _list.append( item )
 
-    list.sort( reverse = sort_reverse )
-    return list
+    _list.sort( reverse = sort_reverse )
+    return _list
 
 
 def move_snapshots_folder( old_folder, new_folder ):
@@ -433,8 +433,8 @@ def check_cron_pattern(str):
                 return True
             else:
                 return False
-        list = str.split(',')
-        for s in list:
+        _list = str.split(',')
+        for s in _list:
             if int(s) <= 24:
                 continue
             else:
@@ -569,7 +569,7 @@ def sudo_execute(cfg, cmd, *args, **kwargs):
                 break
     return _execute(cmd, *args, **kwargs)
 
-def wrap_line(msg, size=1900, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
+def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
     if len(new_line_indicator) >= size - 1:
         new_line_indicator = ''
     while len(msg):
@@ -765,6 +765,11 @@ class ShutDown(object):
                     'e17':     {'service':      'org.enlightenment.Remote.service',
                                 'objectPath':   '/org/enlightenment/Remote/RemoteObject',
                                 'method':       'Halt',
+                                    #methods    Halt -> Shutdown
+                                    #           Reboot
+                                    #           Logout
+                                    #           Suspend
+                                    #           Hibernate
                                 'interface':    'org.enlightenment.Remote.Core',
                                 'arguments':    ()
                                }

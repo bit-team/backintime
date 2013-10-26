@@ -613,17 +613,17 @@ class Snapshots:
         except:
             pass
 
-        list = []
+        _list = []
 
         for item in biglist:
             if len( item ) != 15 and len( item ) != 19:
                 continue
             if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
-                list.append( item )
+                _list.append( item )
 
-        list.sort( reverse = sort_reverse )
+        _list.sort( reverse = sort_reverse )
 
-        return list
+        return _list
         
     def get_snapshots_and_other_list( self, sort_reverse = True ):
         '''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
@@ -638,14 +638,14 @@ class Snapshots:
         except:
             pass
             
-        list = []
+        _list = []
 
         for item in biglist:
             if len( item ) != 15 and len( item ) != 19:
                 continue
             if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
                 #a = ( item, snapshots_path )
-                list.append( item )
+                _list.append( item )
 
                 
         if len( snapshots_other_paths ) > 0:	
@@ -661,10 +661,10 @@ class Snapshots:
                         continue
                     if os.path.isdir( os.path.join( folder, member,  'backup' ) ):
                         #a = ( member, folder )
-                        list.append( member )
+                        _list.append( member )
         
-        list.sort( reverse = sort_reverse )
-        return list
+        _list.sort( reverse = sort_reverse )
+        return _list
 
     def remove_snapshot( self, snapshot_id ):
         if len( snapshot_id ) <= 1:
@@ -1002,11 +1002,11 @@ class Snapshots:
                     params[1] = True
                     self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
-    def _append_item_to_list( self, item, list ):
-        for list_item in list:
+    def _append_item_to_list( self, item, _list ):
+        for list_item in _list:
             if item == list_item:
                 return
-        list.append( item )
+        _list.append( item )
 
     def _is_auto_backup_needed( self, now, last, mode ):
         #print "now: %s, last: %s, mode: %s" % ( now, last, mode )

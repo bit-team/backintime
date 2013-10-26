@@ -246,10 +246,10 @@ class SnapshotsDialog( KDialog ):
     def get_list_snapshot_id( self, multiSelection = False):
         if multiSelection:
             items = self.list_snapshots.selectedItems()
-            list = []
+            _list = []
             for item in items:
-                list.append(str( item.data( Qt.UserRole ).toString().toUtf8() ))
-            return list
+                _list.append(str( item.data( Qt.UserRole ).toString().toUtf8() ))
+            return _list
 
         item = self.list_snapshots.currentItem()
         if item is None:

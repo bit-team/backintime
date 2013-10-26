@@ -761,7 +761,7 @@ class MainWindow(object):
 
     def on_close( self, *params ):
         if self.shutdown.ask_before_quit():
-            if gtk.RESPONSE_YES != messagebox.show_question( self.window, self.config, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you realy want to close?') ):
+            if gtk.RESPONSE_YES != messagebox.show_question( self.window, self.config, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you really want to close?') ):
                 return False
 
         main_window_x, main_window_y = self.window.get_position()
@@ -789,13 +789,13 @@ class MainWindow(object):
         self.window.destroy()
         return True
 
-    def on_list_time_line_cursor_changed( self, list ):
-        if list.get_selection().path_is_selected( list.get_cursor()[ 0 ] ):
+    def on_list_time_line_cursor_changed( self, _list ):
+        if _list.get_selection().path_is_selected( _list.get_cursor()[ 0 ] ):
             self.update_folder_view( 2 )
 
-    def on_list_places_cursor_changed( self, list ):
-        if list.get_selection().path_is_selected( list.get_cursor()[ 0 ] ):
-            iter = list.get_selection().get_selected()[1]
+    def on_list_places_cursor_changed( self, _list ):
+        if _list.get_selection().path_is_selected( _list.get_cursor()[ 0 ] ):
+            iter = _list.get_selection().get_selected()[1]
             folder_path = self.store_places.get_value( iter, 1 )
             if folder_path != self.folder_path:
                 self.folder_path = folder_path
@@ -809,7 +809,7 @@ class MainWindow(object):
             path = gnomevfs.escape_path_string( path )
             selection_data.set_uris( [ 'file://' + path ] )
 
-    def on_list_folder_view_key_press_event( self, list, event ):
+    def on_list_folder_view_key_press_event( self, _list, event ):
         if gtk.keysyms.BackSpace == event.keyval:
             self.on_btn_fodler_up_clicked( None )
             return True
@@ -842,7 +842,7 @@ class MainWindow(object):
         os.system( cmd )
         return True
 
-    def on_list_folder_view_button_press_event( self, list, event ):
+    def on_list_folder_view_button_press_event( self, _list, event ):
         if event.button != 3:
             return
 
@@ -857,8 +857,8 @@ class MainWindow(object):
         self.list_folder_view.get_selection().select_path( path )
         self.show_folder_view_menu_popup( self.list_folder_view, event.button, event.time )
 
-    def on_list_folder_view_popup_menu( self, list ):
-        self.show_folder_view_menu_popup( list, 1, gtk.get_current_event_time() )
+    def on_list_folder_view_popup_menu( self, _list ):
+        self.show_folder_view_menu_popup( _list, 1, gtk.get_current_event_time() )
 
     #def add_menu_item(menu, icon, label, callback):
     #    menu_item = gtk.ImageMenuItem()
@@ -869,8 +869,8 @@ class MainWindow(object):
     #    menu_item.connect( 'activate', callback )
     #    menu.append( menu_item )
 
-    def show_folder_view_menu_popup( self, list, button, time ):
-        iter = list.get_selection().get_selected()[1]
+    def show_folder_view_menu_popup( self, _list, button, time ):
+        iter = _list.get_selection().get_selected()[1]
         #print "popup-menu"
         popup_menu = gtk.Menu()
 
@@ -918,8 +918,8 @@ class MainWindow(object):
         print(cmd)
         os.system( cmd )
 
-    def on_list_folder_view_row_activated( self, list, path, column ):
-        iter = list.get_selection().get_selected()[1]
+    def on_list_folder_view_row_activated( self, _list, path, column ):
+        iter = _list.get_selection().get_selected()[1]
         path = self.store_folder_view.get_value( iter, 1 )
         full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, path )
 

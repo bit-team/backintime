@@ -513,10 +513,10 @@ class Decode(object):
             return path
         return ret
     
-    def list(self, list):
+    def list(self, _list):
         """decode a list of paths"""
         output = []
-        for path in list:
+        for path in _list:
             output.append(self.path(path))
         return output
     

@@ -711,11 +711,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         return include
 
-    def set_include( self, list, profile_id = None ):
+    def set_include( self, _list, profile_id = None ):
         old_size = self.get_profile_int_value( 'snapshots.include.size', 0, profile_id )
 
         counter = 0
-        for value in list:
+        for value in _list:
             if len( value[0] ) > 0:
                 counter = counter + 1
                 self.set_profile_str_value( "snapshots.include.%s.value" % counter, value[0], profile_id )
@@ -753,11 +753,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         return exclude
 
-    def set_exclude( self, list, profile_id = None ):
+    def set_exclude( self, _list, profile_id = None ):
         old_size = self.get_profile_int_value( 'snapshots.exclude.size', 0, profile_id )
 
         counter = 0
-        for value in list:
+        for value in _list:
             if len( value ) > 0:
                 counter = counter + 1
                 self.set_profile_str_value( "snapshots.exclude.%s.value" % counter, value, profile_id )
