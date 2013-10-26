@@ -994,6 +994,20 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_run_ionice_from_user_enabled( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.user_backup.ionice', value, profile_id )
 
+    def is_run_nice_on_remote_enabled(self, profile_id = None):
+        #?Run rsync and other commands on remote host with 'nice -n 19'
+        return self.get_profile_bool_value('snapshots.ssh.nice', False, profile_id)
+
+    def set_run_nice_on_remote_enabled(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.ssh.nice', value, profile_id)
+
+    def is_run_ionice_on_remote_enabled(self, profile_id = None):
+        #?Run rsync and other commands on remote host with 'ionice -c2 -n7'
+        return self.get_profile_bool_value('snapshots.ssh.ionice', False, profile_id)
+
+    def set_run_ionice_on_remote_enabled(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.ssh.ionice', value, profile_id)
+
     def bwlimit_enabled( self, profile_id = None ):
         #?Limit rsync bandwidth usage over network. Use this with mode SSH. 
         #?For mode Local you should rather use ionice.

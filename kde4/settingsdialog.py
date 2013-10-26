@@ -614,6 +614,12 @@ class SettingsDialog( KDialog ):
         self.cb_run_ionice_from_user = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' when taking a manual snapshot (default: disabled)' ) ), self )
         layout.addWidget( self.cb_run_ionice_from_user )
 
+        self.cb_run_nice_on_remote = QCheckBox(QString.fromUtf8( _('Run \'nice\' on remote host (default: disabled)') ), self)
+        layout.addWidget(self.cb_run_nice_on_remote)
+
+        self.cb_run_ionice_on_remote = QCheckBox(QString.fromUtf8( _('Run \'ionice\' on remote host (default: disabled)') ), self)
+        layout.addWidget(self.cb_run_ionice_on_remote)
+
         #bwlimit
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
@@ -887,6 +893,8 @@ class SettingsDialog( KDialog ):
         self.cb_run_nice_from_cron.setChecked( self.config.is_run_nice_from_cron_enabled() )
         self.cb_run_ionice_from_cron.setChecked( self.config.is_run_ionice_from_cron_enabled() )
         self.cb_run_ionice_from_user.setChecked( self.config.is_run_ionice_from_user_enabled() )
+        self.cb_run_nice_on_remote.setChecked(self.config.is_run_nice_on_remote_enabled())
+        self.cb_run_ionice_on_remote.setChecked(self.config.is_run_ionice_on_remote_enabled())
         self.cb_bwlimit.setChecked( self.config.bwlimit_enabled() )
         self.sb_bwlimit.setValue( self.config.bwlimit() )
         self.cb_no_on_battery.setChecked( self.config.is_no_on_battery_enabled() )
@@ -1075,6 +1083,8 @@ class SettingsDialog( KDialog ):
         self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.isChecked() )
         self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.isChecked() )
         self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.isChecked() )
+        self.config.set_run_nice_on_remote_enabled(self.cb_run_nice_on_remote.isChecked())
+        self.config.set_run_ionice_on_remote_enabled(self.cb_run_ionice_on_remote.isChecked())
         self.config.set_bwlimit_enabled( self.cb_bwlimit.isChecked() )
         self.config.set_bwlimit( self.sb_bwlimit.value() )
         self.config.set_no_on_battery_enabled( self.cb_no_on_battery.isChecked() )
@@ -1349,6 +1359,12 @@ class SettingsDialog( KDialog ):
             self.lbl_ssh_encfs_exclude_warning.show()
         else:
             self.lbl_ssh_encfs_exclude_warning.hide()
+            
+        enabled = active_mode in ('ssh', 'ssh_encfs')
+        self.cb_run_nice_on_remote.setEnabled(enabled)
+        self.cb_run_ionice_on_remote.setEnabled(enabled)
+        self.cb_bwlimit.setEnabled(enabled)
+        self.sb_bwlimit.setEnabled(enabled)
             
     def accept( self ):
         if self.validate():

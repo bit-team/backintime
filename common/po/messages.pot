@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-25 23:42+0200\n"
+"POT-Creation-Date: 2013-10-26 22:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,7 +107,7 @@ msgid "SSH"
 msgstr ""
 
 #: ../../common/config.py:104 ../../common/config.py:106
-#: ../../gnome/settingsdialog.py:472 ../../kde4/settingsdialog.py:1315
+#: ../../gnome/settingsdialog.py:475 ../../kde4/settingsdialog.py:1325
 msgid "SSH private key"
 msgstr ""
 
@@ -213,32 +213,32 @@ msgid ""
 "Are you sure you have write access ?"
 msgstr ""
 
-#: ../../common/config.py:1269
+#: ../../common/config.py:1283
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
 
-#: ../../common/config.py:1321
+#: ../../common/config.py:1335
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr ""
 
-#: ../../common/config.py:1325
+#: ../../common/config.py:1339
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr ""
 
-#: ../../common/config.py:1362
+#: ../../common/config.py:1376
 msgid "Failed to remove udev rules"
 msgstr ""
 
-#: ../../common/config.py:1368
+#: ../../common/config.py:1382
 msgid "Failed to create udev rules"
 msgstr ""
 
-#: ../../common/config.py:1403
+#: ../../common/config.py:1417
 msgid ""
 "Can't find anacron.\n"
 "Are you sure anacron is installed ?\n"
@@ -588,7 +588,7 @@ msgstr ""
 msgid "Ping %s failed. Host is down or wrong address."
 msgstr ""
 
-#: ../../common/sshtools.py:337 ../../common/sshtools.py:388
+#: ../../common/sshtools.py:337 ../../common/sshtools.py:395
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
@@ -596,7 +596,7 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:392
+#: ../../common/sshtools.py:399
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
@@ -604,7 +604,7 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:405
+#: ../../common/sshtools.py:412
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
 msgstr ""
@@ -818,54 +818,54 @@ msgstr ""
 msgid "Changes & Errors"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:455
+#: ../../gnome/settingsdialog.py:458
 msgid "Snapshots folder"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:463 ../../kde4/settingsdialog.py:1304
+#: ../../gnome/settingsdialog.py:466 ../../kde4/settingsdialog.py:1314
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:889 ../../kde4/settingsdialog.py:906
+#: ../../gnome/settingsdialog.py:901 ../../kde4/settingsdialog.py:914
 msgid ""
 "Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
 "*/3 for periodic backups every 3 hours"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:1127 ../../kde4/settingsdialog.py:647
+#: ../../gnome/settingsdialog.py:1141 ../../kde4/settingsdialog.py:653
 msgid "New profile"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:1141 ../../kde4/settingsdialog.py:663
+#: ../../gnome/settingsdialog.py:1155 ../../kde4/settingsdialog.py:669
 msgid "Rename profile"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:1153 ../../kde4/settingsdialog.py:677
+#: ../../gnome/settingsdialog.py:1167 ../../kde4/settingsdialog.py:683
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:1159 ../../kde4/settingsdialog.py:1282
+#: ../../gnome/settingsdialog.py:1173 ../../kde4/settingsdialog.py:1292
 msgid "Include folder"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:1179 ../../kde4/settingsdialog.py:1268
+#: ../../gnome/settingsdialog.py:1193 ../../kde4/settingsdialog.py:1278
 msgid "Include file"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:1221 ../../kde4/settingsdialog.py:1231
+#: ../../gnome/settingsdialog.py:1235 ../../kde4/settingsdialog.py:1241
 msgid "Exclude pattern"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:1226 ../../kde4/settingsdialog.py:1241
+#: ../../gnome/settingsdialog.py:1240 ../../kde4/settingsdialog.py:1251
 msgid "Exclude patterns can't contain ':' char !"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:1232 ../../kde4/settingsdialog.py:1247
+#: ../../gnome/settingsdialog.py:1246 ../../kde4/settingsdialog.py:1257
 msgid "Exclude file"
 msgstr ""
 
-#: ../../gnome/settingsdialog.py:1243 ../../kde4/settingsdialog.py:1251
+#: ../../gnome/settingsdialog.py:1257 ../../kde4/settingsdialog.py:1261
 msgid "Exclude folder"
 msgstr ""
 
@@ -998,7 +998,7 @@ msgstr ""
 msgid "Mode:"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:127 ../../kde4/settingsdialog.py:1301
+#: ../../kde4/settingsdialog.py:127 ../../kde4/settingsdialog.py:1311
 msgid "Where to save snapshots"
 msgstr ""
 
@@ -1223,7 +1223,7 @@ msgstr ""
 msgid "Log Level:"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:597 ../../gnome/settingsdialog.glade:2332
+#: ../../kde4/settingsdialog.py:597 ../../gnome/settingsdialog.glade:2366
 msgid "Expert Options"
 msgstr ""
 
@@ -1243,27 +1243,35 @@ msgstr ""
 msgid "Run 'ionice' when taking a manual snapshot (default: disabled)"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:620 ../../gnome/settingsdialog.glade:2190
+#: ../../kde4/settingsdialog.py:617 ../../gnome/settingsdialog.glade:2184
+msgid "Run 'nice' on remote host (default: disabled)"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:620 ../../gnome/settingsdialog.glade:2201
+msgid "Run 'ionice' on remote host (default: disabled)"
+msgstr ""
+
+#: ../../kde4/settingsdialog.py:626 ../../gnome/settingsdialog.glade:2224
 msgid "Limit rsync bandwidth usage: "
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:623 ../../gnome/settingsdialog.glade:2225
+#: ../../kde4/settingsdialog.py:629 ../../gnome/settingsdialog.glade:2259
 msgid " KB/sec"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:628 ../../gnome/settingsdialog.glade:2246
+#: ../../kde4/settingsdialog.py:634 ../../gnome/settingsdialog.glade:2280
 msgid "Preserve ACL"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:631 ../../gnome/settingsdialog.glade:2263
+#: ../../kde4/settingsdialog.py:637 ../../gnome/settingsdialog.glade:2297
 msgid "Preserve extended attributes (xattr)"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:634 ../../gnome/settingsdialog.glade:2280
+#: ../../kde4/settingsdialog.py:640 ../../gnome/settingsdialog.glade:2314
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 
-#: ../../kde4/settingsdialog.py:637 ../../gnome/settingsdialog.glade:2297
+#: ../../kde4/settingsdialog.py:643 ../../gnome/settingsdialog.glade:2331
 msgid "Copy links (dereference symbolic links)"
 msgstr ""
 

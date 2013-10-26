@@ -365,6 +365,13 @@ class SSH(mount.MountControl):
         #try to rm -rf
         cmd += 'echo \"rm -rf PATH\"; rm -rf $tmp >/dev/null; err_rm=$?; '
         cmd += 'test $err_rm -ne 0 && cleanup $err_rm; '
+        #try nice -n 19
+        if self.config.is_run_nice_on_remote_enabled():
+            cmd += 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
+            cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
+        if self.config.is_run_ionice_on_remote_enabled():
+            cmd += 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
+            cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
         #report not supported gnu find suffix
         cmd += 'test $err_gnu_find -ne 0 && echo \"gnu_find not supported\" && exit $err_gnu_find; '
         #if we end up here, everything should be fine
@@ -383,7 +390,7 @@ class SSH(mount.MountControl):
             else:
                 break
         if proc.returncode or not output_split[-1].startswith('done'):
-            for command in ('cp', 'chmod', 'find', 'rm'):
+            for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice'):
                 if output_split[-1].startswith(command):
                     raise mount.MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
             if output_split[-1].startswith('gnu_find not supported'):

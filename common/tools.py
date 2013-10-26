@@ -392,9 +392,17 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
         else:
             ssh_cipher_suffix = '-c %s' % ssh_cipher
         cmd = cmd + ' --rsh="ssh -p %s %s"' % ( str(ssh_port), ssh_cipher_suffix)
-    
-    if config.bwlimit_enabled():
-        cmd = cmd + ' --bwlimit=%d' % config.bwlimit()
+
+        if config.bwlimit_enabled():
+            cmd = cmd + ' --bwlimit=%d' % config.bwlimit()
+
+        if config.is_run_nice_on_remote_enabled() or config.is_run_ionice_on_remote_enabled():
+            cmd += ' --rsync-path="'
+            if config.is_run_nice_on_remote_enabled():
+                cmd += 'nice -n 19 '
+            if config.is_run_ionice_on_remote_enabled():
+                cmd += 'ionice -c2 -n7 '
+            cmd += 'rsync"'
 
     return cmd + ' '
 

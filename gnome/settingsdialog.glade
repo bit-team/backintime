@@ -2142,7 +2142,7 @@ Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">10</property>
                   </packing>
                 </child>
                 <child>
@@ -2159,7 +2159,7 @@ Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">20</property>
                   </packing>
                 </child>
                 <child>
@@ -2176,7 +2176,41 @@ Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">3</property>
+                    <property name="position">30</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="cb_run_nice_on_remote">
+                    <property name="label" translatable="yes">Run 'nice' on remote host (default: disabled)</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">40</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="cb_run_ionice_on_remote">
+                    <property name="label" translatable="yes">Run 'ionice' on remote host (default: disabled)</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">50</property>
                   </packing>
                 </child>
                 <child>
@@ -2238,7 +2272,7 @@ Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">4</property>
+                    <property name="position">60</property>
                   </packing>
                 </child>
                 <child>
@@ -2255,7 +2289,7 @@ Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">5</property>
+                    <property name="position">70</property>
                   </packing>
                 </child>
                 <child>
@@ -2272,7 +2306,7 @@ Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">6</property>
+                    <property name="position">80</property>
                   </packing>
                 </child>
                 <child>
@@ -2289,7 +2323,7 @@ Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">7</property>
+                    <property name="position">90</property>
                   </packing>
                 </child>
                 <child>
@@ -2306,7 +2340,7 @@ Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">8</property>
+                    <property name="position">100</property>
                   </packing>
                 </child>
                 <child>
@@ -2317,7 +2351,7 @@ Only separate asterisk are allowed ('foo/*', 'foo/**/bar')</property>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">9</property>
+                    <property name="position">110</property>
                   </packing>
                 </child>
               </object>

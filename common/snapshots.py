@@ -1347,7 +1347,7 @@ class Snapshots:
             permission_done = False
             if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
                 path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
-                cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'], module = 'subprocess')
+                cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'])
                 
                 find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
                 output = find.communicate()[0]
@@ -1746,15 +1746,21 @@ class Snapshots:
 
         return snapshots_filtered
 
-    def cmd_ssh(self, cmd, quote = False, module = 'os.system', use_modes = ['ssh', 'ssh_encfs'] ):
+    def cmd_ssh(self, cmd, quote = False, use_modes = ['ssh', 'ssh_encfs'] ):
         mode = self.config.get_snapshots_mode()
         if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
             (ssh_host, ssh_port, ssh_user, ssh_path, ssh_cipher) = self.config.get_ssh_host_port_user_path_cipher()
-            if module == 'os.system':
+            if isinstance(cmd, str):
                 if ssh_cipher == 'default':
                     ssh_cipher_suffix = ''
                 else:
                     ssh_cipher_suffix = '-c %s' % ssh_cipher
+                
+                if self.config.is_run_ionice_on_remote_enabled():
+                    cmd = 'ionice -c2 -n7 ' + cmd
+                
+                if self.config.is_run_nice_on_remote_enabled():
+                    cmd = 'nice -n 19 ' + cmd
                 
                 if quote:
                     cmd = '\'%s\'' % cmd
@@ -1762,15 +1768,24 @@ class Snapshots:
                 return 'ssh -p %s -o ServerAliveInterval=240 %s %s@%s %s' \
                         % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host, cmd )
 
-            elif module == 'subprocess':
+            if isinstance(cmd, tuple):
+                cmd = list(cmd)
+
+            if isinstance(cmd, list):
                 suffix = ['ssh', '-p', str(ssh_port)]
                 suffix += ['-o', 'ServerAliveInterval=240']
                 if not ssh_cipher == 'default':
                     suffix += ['-c', ssh_cipher]
                 suffix += ['%s@%s' % (ssh_user, ssh_host)]
+                
+                if self.config.is_run_ionice_on_remote_enabled():
+                    cmd = ['ionice', '-c2', '-n7'] + cmd
+                
+                if self.config.is_run_nice_on_remote_enabled():
+                    cmd = ['nice', '-n 19'] + cmd
+                
                 if quote:
-                    suffix += ['\'']
-                    cmd += ['\'']
+                    cmd = ['\''] + cmd + ['\'']
                 return suffix + cmd
                 
         else:
