@@ -530,6 +530,8 @@ def keyring_supported():
     except: pass
     try: backends.append(keyring.backend.KDEKWallet)
     except: pass
+    if len(backends) == 0:
+        return False
     return isinstance(keyring.get_keyring(), tuple(backends))
 
 def get_password(*args):
