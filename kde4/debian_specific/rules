@@ -31,10 +31,14 @@ install: build
 	#install docbook
 	#dh_installdirs /usr/share/doc/kde4/HTML/en/backintime/figures
 	dh_install docbook/en/*.docbook /usr/share/doc/kde4/HTML/en/backintime
-	dh_install docbook/en/figures/*.png /usr/share/doc/kde4/HTML/en/backintime/figures
+	#dh_install docbook/en/figures/*.png /usr/share/doc/kde4/HTML/en/backintime/figures
 
 build:
 	touch build
+
+build-arch: build
+
+build-indep: build
 
 binary-indep: install
 	dh_testdir -i

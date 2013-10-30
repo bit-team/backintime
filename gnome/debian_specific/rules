@@ -36,13 +36,17 @@ install: build
 	#install gnome-help file(s)
 	#dh_installdirs /usr/share/gnome/help/backintime/C/figures
 	dh_install docbook/C/*.xml /usr/share/gnome/help/backintime/C
-	dh_install docbook/C/figures/*.png /usr/share/gnome/help/backintime/C/figures
+	#dh_install docbook/C/figures/*.png /usr/share/gnome/help/backintime/C/figures
 	
 	#dh_installdirs /usr/share/omf/backintime
 	dh_install docbook/C/*.omf /usr/share/omf/backintime
 
 build:
 	touch build
+
+build-arch: build
+
+build-indep: build
 
 binary-indep: install
 	dh_testdir -i

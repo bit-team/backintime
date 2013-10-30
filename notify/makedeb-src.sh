@@ -9,8 +9,8 @@ VERSION=`cat ../VERSION`
 
 DEST=$1
 
-mkdir -p $DEST/debian
-mkdir -p $DEST/man
+mkdir -p $DEST/debian/source
+mkdir -p $DEST/man/C
 mkdir -p $DEST/doc
 mkdir -p $DEST/docbook
 mkdir -p $DEST/plugins
@@ -34,4 +34,10 @@ cp debian_specific/postrm $DEST/debian
 
 #debian: rules
 cp debian_specific/rules $DEST/debian
+
+#debian: dpkg-source format
+cp debian_specific/source/format $DEST/debian/source
+
+#debian: compatibility level
+cp debian_specific/compat $DEST/debian
 

@@ -9,7 +9,7 @@ VERSION=`cat ../VERSION`
 
 DEST=$1
 
-mkdir -p $DEST/debian
+mkdir -p $DEST/debian/source
 mkdir -p $DEST/man/C
 mkdir -p $DEST/mo
 mkdir -p $DEST/doc
@@ -48,8 +48,11 @@ cp debian_specific/postrm $DEST/debian
 #debian: rules
 cp debian_specific/rules $DEST/debian
 
-#debian: conffiles
-cp debian_specific/conffiles $DEST/debian
+#debian: compatibility level
+cp debian_specific/compat $DEST/debian
+
+#debian: dpkg-source format
+cp debian_specific/source/format $DEST/debian/source
 
 #add languages to rules
 for langfile in `ls po/*.po`; do
