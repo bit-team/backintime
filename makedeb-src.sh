@@ -29,10 +29,12 @@ for i in common notify gnome kde4; do
 			    -e 's/^Depends: /Depends: ${misc:Depends}, /g' \
 			    -e "s/backintime-\(common\|notify\|kde\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $PKGVER~$release)/g" \
 			    >> debian/control
-		[[ -e ../../$i/debian_specific/control.virtual-kde ]] && \
+		if [ -e ../../$i/debian_specific/control.virtual-kde ]; then
+			echo "" >> debian/control
 			cat ../../$i/debian_specific/control.virtual-kde | \
-			sed -e 's/^Depends: /Depends: ${misc:Depends}, /g' \
-			    >> debian/control
+				sed -e 's/^Depends: /Depends: ${misc:Depends}, /g' \
+				    >> debian/control
+		fi
 
 		#debian: changelog
 		cp ../../common/debian_specific/changelog debian
