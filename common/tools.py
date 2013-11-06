@@ -24,10 +24,15 @@ import hashlib
 import commands
 import signal
 import re
+keyring = None
+keyring_warn = False
 try:
-    import keyring
+    if os.getenv('BIT_USE_KEYRING', 'true') == 'true':
+        import keyring
 except:
     keyring = None
+    os.putenv('BIT_USE_KEYRING', 'false')
+    keyring_warn = True
 
 import configfile
 import logger
@@ -825,5 +830,5 @@ class ShutDown(object):
             self.started = True
             return(self.proxy(*self.args))
 
-if keyring is None:
+if keyring is None and keyring_warn:
     logger.warning('import keyring failed')
