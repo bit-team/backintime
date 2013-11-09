@@ -195,7 +195,7 @@ class SSH(mount.MountControl):
 
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""
-        if not self.pathexists('sshfs'):
+        if not tools.check_command('sshfs'):
             raise mount.MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
         if self.CHECK_FUSE_GROUP:
             user = self.config.get_user()
@@ -205,18 +205,6 @@ class SSH(mount.MountControl):
                 fuse_grp_members = []
             if not user in fuse_grp_members:
                 raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
-        
-    def pathexists(self, filename):
-        """Checks if 'filename' is present in the system PATH.
-        In other words, it checks if os.execvp(filename, ...) will work.
-        shameless stolen from GnuPGInterface;)"""
-        pathenv = os.getenv("PATH")
-        path = pathenv.split(":")
-        for directory in path:
-            fullpath = os.path.join(directory, filename)
-            if (os.path.exists(fullpath)):
-                return True
-        return False
         
     def check_login(self):
         """check passwordless authentication to host"""

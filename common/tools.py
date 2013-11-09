@@ -101,19 +101,18 @@ def check_command( cmd ):
 
     if os.path.isfile( cmd ):
         return True
+    return not which(cmd) is None
 
-    cmd = which(cmd)
-
-    if len( cmd ) < 1:
-        return False
-
-    if os.path.isfile( cmd ):
-        return True
-
-    return False
-
-def which(cmd):
-    return read_command_output( "which \"%s\"" % cmd )
+def which(filename):
+    """Checks if 'filename' is present in the system PATH."""
+    pathenv = os.getenv('PATH', '')
+    path = pathenv.split(":")
+    path.insert(0, os.getcwd())
+    for directory in path:
+        fullpath = os.path.join(directory, filename)
+        if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
+            return fullpath
+    return None
 
 def make_dirs( path ):
     path = path.rstrip( os.sep )
