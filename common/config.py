@@ -1422,7 +1422,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def prepair_udev(self, tmp_fd, uuid, anacrontab_suffix):
         cmd = self.anacron_cmd(anacrontab_suffix)
-        cmd = "%s '%s' -c '%s' &" %(tools.which('su'), self.get_user(), cmd)
+        cmd = "%s - '%s' -c '%s' &" %(tools.which('su'), self.get_user(), cmd)
         tmp_fd.write('ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, cmd))
         return True
 
