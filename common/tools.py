@@ -575,12 +575,19 @@ def get_uuid(dev):
 def get_uuid_from_path(path):
     return get_uuid(get_mountpoint(path)[0])
 
-def sudo_execute(cfg, cmd, *args, **kwargs):
+def sudo_execute(cfg, cmd, msg = None, *args, **kwargs):
     '''execute command with gksudo or kdesudo if user isn't root'''
     if cfg.get_user() != 'root':
-        for i in ['gksudo', 'kdesudo', 'kdesu']:
+        sudo = {'gksudo':  ('-m "{msg}"', '-- {cmd}'),
+                'kdesudo': ('--comment "{msg}"', '-- {cmd}'),
+                'kdesu':   ('', '-c "{cmd}"') }
+        for i in sudo:
             if check_command(i):
-                cmd = i + ' ' + cmd
+                sudo_cmd = [i,]
+                if not msg is None and len(sudo[i][0]):
+                    sudo_cmd.append(sudo[i][0].replace('{msg}', msg))
+                sudo_cmd.append(sudo[i][1].replace('{cmd}', cmd))
+                cmd = ' '.join(sudo_cmd)
                 break
     return _execute(cmd, *args, **kwargs)
 

@@ -1436,13 +1436,13 @@ class Config( configfile.ConfigFileWithProfiles ):
         except TypeError:
             pass
         cmd = 'cp "%s" "%s"' %(tmp_fd.name, path)
-        return tools.sudo_execute(self, cmd) == 0
+        return tools.sudo_execute(self, cmd, _('Please provide your sudo password to install the udev rule.')) == 0
 
     def remove_udev(self):
         if not os.path.exists(self.get_udev_rules_path()):
             return True
         cmd = 'rm %s' % self.get_udev_rules_path()
-        return tools.sudo_execute(self, cmd) == 0
+        return tools.sudo_execute(self, cmd, _('Please provide your sudo password to remove unused udev rules.')) == 0
     
     #def get_update_other_folders( self ):
     #	return self.get_bool_value( 'update.other_folders', True )
