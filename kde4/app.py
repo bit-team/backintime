@@ -354,7 +354,6 @@ class MainWindow( KMainWindow ):
             hash_id = mnt.mount()
         except mount.MountException as ex:
             KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
-            sys.exit(1)
         else:
             self.config.set_current_hash_id(hash_id)
         
