@@ -761,7 +761,7 @@ class ShutDown(object):
                                     #           Hibernate (no args)
                                     #           Logout (two args)
                                 'interface':    'org.xfce.Session.Manager',
-                                'arguments':    (False,)
+                                'arguments':    (True,)
                                     #arg        True    allow saving
                                     #           False   don't allow saving
                                     #1nd arg (only with Logout)
