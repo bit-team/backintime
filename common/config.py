@@ -143,8 +143,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         tools.make_dirs( self._LOCAL_CONFIG_FOLDER )
         tools.make_dirs( self._LOCAL_DATA_FOLDER )
 
+        self._DEFAULT_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
         if config_path is None:
-            self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
+            self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
         else:
             self._LOCAL_CONFIG_PATH = config_path
         old_path = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
@@ -1401,6 +1402,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         cmd = tools.which('backintime') + ' '
         if profile_id != '1':
             cmd += '--profile-id %s ' % profile_id
+        if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:
+            cmd += '--config %s ' % self._LOCAL_CONFIG_PATH
         cmd += '--backup-job >/dev/null 2>&1'
         if self.is_run_ionice_from_cron_enabled(profile_id) and tools.check_command('ionice'):
             cmd = tools.which('ionice') + ' -c2 -n7 ' + cmd
