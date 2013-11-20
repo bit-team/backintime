@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ -e Makefile ]; then
 	rm Makefile;
@@ -49,32 +49,28 @@ for langfile in `ls po/*.po`; do
 done
 
 #Start Makefile
-echo -e "LANGS=$langs" >> Makefile
-echo -e "SHELL=`which bash`" >> Makefile
-echo -e "" >> Makefile
+printf "LANGS=$langs\n\n" >> Makefile
 
 #add template
 cat Makefile.template >> Makefile
 
 #translate
-echo -e "translate: $mos" >> Makefile
-echo -e "" >> Makefile
+printf "translate: $mos\n\n" >> Makefile
 
 for lang in $langs; do
-	echo -e "po/$lang.mo: po/$lang.po" >> Makefile
-	echo -e "\tmsgfmt -o po/$lang.mo po/$lang.po" >> Makefile
-	echo -e "" >> Makefile
+	printf "po/$lang.mo: po/$lang.po\n" >> Makefile
+	printf "\tmsgfmt -o po/$lang.mo po/$lang.po\n\n" >> Makefile
 done
 
 #common langs
-echo "install_translations:" >> Makefile
+printf "install_translations:\n" >> Makefile
 for lang in $langs; do
-	echo -e "\tinstall -d \$(DEST)/share/locale/$lang/LC_MESSAGES" >> Makefile
-	echo -e "\tinstall --mode=644 po/$lang.mo \$(DEST)/share/locale/$lang/LC_MESSAGES/backintime.mo" >> Makefile
+	printf "\tinstall -d \$(DEST)/share/locale/$lang/LC_MESSAGES\n" >> Makefile
+	printf "\tinstall --mode=644 po/$lang.mo \$(DEST)/share/locale/$lang/LC_MESSAGES/backintime.mo\n" >> Makefile
 done
-echo -e "" >> Makefile
+printf "\n" >> Makefile
 
-echo "All OK. Now run:"
-echo "    make"
-echo "    sudo make install"
+printf "All OK. Now run:\n"
+printf "    make\n"
+printf "    sudo make install\n"
 
