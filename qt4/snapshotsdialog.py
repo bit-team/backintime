@@ -24,109 +24,87 @@ import gettext
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from PyKDE4.kdecore import *
-from PyKDE4.kdeui import *
-from PyKDE4.kio import *
 
 import config
 import tools
-import kde4tools
+import qt4tools
 import restoredialog
-
+import messagebox
 
 _=gettext.gettext
 
+if tools.check_command('meld'):
+    DIFF_CMD = 'meld'
+    DIFF_PARAMS = '%1 %2'
+elif tools.check_command('kompare'):
+    DIFF_CMD = 'kompare'
+    DIFF_PARAMS = '%1 %2'
+else:
+    DIFF_CMD = 'false'
+    DIFF_PARAMS = '%1 %2'
 
-class DiffOptionsDialog( KDialog ):
+class DiffOptionsDialog( QDialog ):
     def __init__( self, parent ):
-        KDialog.__init__( self, parent )
+        QDialog.__init__( self, parent )
         self.config = parent.config
 
-        self.setWindowIcon( KIcon( 'configure' ) )
-        self.setCaption( QString.fromUtf8( _( 'Diff Options' ) ) )
+        import icon
+        self.setWindowIcon(icon.DIFF_OPTIONS)
+        self.setWindowTitle( QString.fromUtf8( _( 'Diff Options' ) ) )
 
-        self.main_widget = QWidget( self )
-        self.main_layout = QGridLayout()
-        self.main_widget.setLayout( self.main_layout )
-        self.setMainWidget( self.main_widget )
+        self.main_layout = QGridLayout(self)
 
-        self.diff_cmd = self.config.get_str_value( 'kde4.diff.cmd', 'kompare' )
-        self.diff_params = self.config.get_str_value( 'kde4.diff.params', '%1 %2' )
+        self.diff_cmd = self.config.get_str_value( 'qt4.diff.cmd', DIFF_CMD )
+        self.diff_params = self.config.get_str_value( 'qt4.diff.params', DIFF_PARAMS )
 
         self.main_layout.addWidget( QLabel( QString.fromUtf8( _( 'Command:' ) ) ), 0, 0 )
-        self.edit_command = KLineEdit( self.diff_cmd, self )
+        self.edit_command = QLineEdit( self.diff_cmd, self )
         self.main_layout.addWidget( self.edit_command, 0, 1 )
 
         self.main_layout.addWidget( QLabel( QString.fromUtf8( _( 'Parameters:' ) ) ), 1, 0 )
-        self.edit_params = KLineEdit( self.diff_params, self )
+        self.edit_params = QLineEdit( self.diff_params, self )
         self.main_layout.addWidget( self.edit_params, 1, 1 )
 
         self.main_layout.addWidget( QLabel( QString.fromUtf8( _( 'Use %1 and %2 for path parameters' ) ) ), 2, 1 )
+
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        QObject.connect(button_box, SIGNAL('accepted()'), self.accept)
+        QObject.connect(button_box, SIGNAL('rejected()'), self.reject)
+        self.main_layout.addWidget(button_box, 3, 0, 3, 2)
 
     def accept( self ):
         diff_cmd = str( self.edit_command.text().toUtf8() )
         diff_params = str( self.edit_params.text().toUtf8() )
 
         if diff_cmd != self.diff_cmd or diff_params != self.diff_params:
-            self.config.set_str_value( 'kde4.diff.cmd', diff_cmd )
-            self.config.set_str_value( 'kde4.diff.params', diff_params )
+            self.config.set_str_value( 'qt4.diff.cmd', diff_cmd )
+            self.config.set_str_value( 'qt4.diff.params', diff_params )
             self.config.save()
         
-        KDialog.accept( self )
+        QDialog.accept( self )
 
 
-class SnapshotsDialog( KDialog ):
-    def __init__( self, parent, snapshot_id, path, icon ):
-        KDialog.__init__( self, parent )
+class SnapshotsDialog( QDialog ):
+    def __init__( self, parent, snapshot_id, path ):
+        QDialog.__init__( self, parent )
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.snapshots_list = parent.snapshots_list
-        self.kapp = parent.kapp
+        self.qapp = parent.qapp
+        import icon
 
         self.snapshot_id = snapshot_id
         self.path = path 
-        self.icon = icon
 
-        self.setWindowIcon( KIcon( 'view-list-details' ) )
-        self.setCaption( QString.fromUtf8( _( 'Snapshots' ) ) )
+        self.setWindowIcon(icon.SNAPSHOTS)
+        self.setWindowTitle(QString.fromUtf8(_('Snapshots')) )
 
-        #
-        self.main_widget = QWidget( self )
-        self.main_layout = QVBoxLayout()
-        self.main_widget.setLayout( self.main_layout )
-        self.setMainWidget( self.main_widget )
+        self.main_layout = QVBoxLayout(self)
 
         #path
-        self.edit_path = KLineEdit( self.path, self )
+        self.edit_path = QLineEdit( self.path, self )
         self.edit_path.setReadOnly( True )
         self.main_layout.addWidget( self.edit_path )
-
-        #toolbar
-        self.toolbar = KToolBar( self )
-        self.toolbar.setFloatable( False )
-        self.main_layout.addWidget( self.toolbar )
-
-        #toolbar restore
-        menu_restore = QMenu()
-        action = menu_restore.addAction( KIcon( 'document-revert' ), QString.fromUtf8( _('Restore') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.restore_this )
-        action = menu_restore.addAction( KIcon( 'document-revert' ), QString.fromUtf8( _('Restore to ...') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.restore_this_to )
-
-        self.btn_restore = self.toolbar.addAction( KIcon( 'document-revert' ), '' )
-        self.btn_restore.setToolTip( QString.fromUtf8( _('Restore') ) )
-        self.btn_restore.setMenu(menu_restore)
-        QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
-
-        #btn delete
-        self.btn_delete = self.toolbar.addAction(KIcon('edit-delete'),'')
-        self.btn_delete.setToolTip(QString.fromUtf8(_('Delete')))
-        QObject.connect(self.btn_delete, SIGNAL('triggered()'), self.on_btn_delete_clicked)
-
-        #btn select_all
-        self.btn_select_all = self.toolbar.addAction(KIcon('edit-select-all'),'')
-        self.btn_select_all.setToolTip(QString.fromUtf8(_('Select All')))
-        QObject.connect(self.btn_select_all, SIGNAL('triggered()'), self.on_btn_select_all_clicked)
 
         #list different snapshots only
         self.cb_only_different_snapshots = QCheckBox( QString.fromUtf8( _( 'List only different snapshots' ) ), self )
@@ -140,7 +118,7 @@ class SnapshotsDialog( KDialog ):
         QObject.connect(self.cb_only_equal_snapshots, SIGNAL('stateChanged(int)'), self.cb_only_equal_snapshots_changed)
         layout.addWidget(self.cb_only_equal_snapshots)
 
-        self.combo_equal_to = KComboBox(self)
+        self.combo_equal_to = QComboBox(self)
         QObject.connect(self.combo_equal_to, SIGNAL('currentIndexChanged(int)'), self.on_combo_equal_to_changed)
         self.combo_equal_to.setEnabled(False)
         layout.addWidget(self.combo_equal_to)
@@ -150,8 +128,32 @@ class SnapshotsDialog( KDialog ):
         self.main_layout.addWidget( self.cb_only_different_snapshots_deep_check )
         QObject.connect( self.cb_only_different_snapshots_deep_check, SIGNAL('stateChanged(int)'), self.cb_only_different_snapshots_deep_check_changed )
 
+        #toolbar
+        self.toolbar = QToolBar( self )
+        self.toolbar.setFloatable( False )
+        self.main_layout.addWidget( self.toolbar )
+
+        #toolbar restore
+        menu_restore = QMenu()
+        action = menu_restore.addAction(icon.RESTORE, QString.fromUtf8( _('Restore') ) )
+        QObject.connect( action, SIGNAL('triggered()'), self.restore_this )
+        action = menu_restore.addAction(icon.RESTORE_TO, QString.fromUtf8( _('Restore to ...') ) )
+        QObject.connect( action, SIGNAL('triggered()'), self.restore_this_to )
+
+        self.btn_restore = self.toolbar.addAction(icon.RESTORE, QString.fromUtf8(_('Restore')) )
+        self.btn_restore.setMenu(menu_restore)
+        QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
+
+        #btn delete
+        self.btn_delete = self.toolbar.addAction(icon.DELETE_FILE, QString.fromUtf8(_('Delete')) )
+        QObject.connect(self.btn_delete, SIGNAL('triggered()'), self.on_btn_delete_clicked)
+
+        #btn select_all
+        self.btn_select_all = self.toolbar.addAction(icon.SELECT_ALL, QString.fromUtf8(_('Select All')) )
+        QObject.connect(self.btn_select_all, SIGNAL('triggered()'), self.on_btn_select_all_clicked)
+
         #snapshots list
-        self.list_snapshots = KListWidget( self )
+        self.list_snapshots = QListWidget( self )
         self.list_snapshots.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.main_layout.addWidget( self.list_snapshots )
         QObject.connect( self.list_snapshots, SIGNAL('itemSelectionChanged()'), self.on_list_snapshots_changed )
@@ -161,21 +163,24 @@ class SnapshotsDialog( KDialog ):
         layout = QHBoxLayout()
         self.main_layout.addLayout( layout )
 
-        self.btn_diff = KPushButton( QString.fromUtf8( _('Diff') ), self )
+        self.btn_diff = QPushButton( QString.fromUtf8( _('Diff') ), self )
         layout.addWidget( self.btn_diff )
         QObject.connect( self.btn_diff, SIGNAL('clicked()'), self.on_btn_diff_clicked )
 
-        self.combo_diff = KComboBox( self )
+        self.combo_diff = QComboBox( self )
         layout.addWidget( self.combo_diff, 2 )
 
-        #diff options
-        self.setButtons( KDialog.ButtonCode( KDialog.Ok | KDialog.Cancel | KDialog.User1 ) )
-        self.setButtonGuiItem( KDialog.User1, KGuiItem( QString.fromUtf8( _('Diff Options') ), KIcon( 'configure' ) ) )
-        self.setButtonText( KDialog.Ok, QString.fromUtf8( _('Go To') ) )
+        #buttons
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        button_box.button(QDialogButtonBox.Ok).setText(QString.fromUtf8(_('Go To')) )
+        btn_diff_options = button_box.addButton(QString.fromUtf8(_('Diff Options')), QDialogButtonBox.HelpRole)
+        btn_diff_options.setIcon(icon.DIFF_OPTIONS)
 
-        QObject.connect( self, SIGNAL('user1Clicked()'), self.on_btn_diff_options_clicked )
+        self.main_layout.addWidget(button_box)
 
-        self.setDefaultButton( KDialog.Ok )
+        QObject.connect(button_box, SIGNAL('accepted()'), self.accept)
+        QObject.connect(button_box, SIGNAL('rejected()'), self.reject)
+        QObject.connect(btn_diff_options, SIGNAL('clicked()'), self.on_btn_diff_options_clicked)
 
         #
         self.cb_only_different_snapshots_deep_check.setEnabled( False )
@@ -307,7 +312,7 @@ class SnapshotsDialog( KDialog ):
         self.update_toolbar()
 
     def on_list_snapshots_executed( self, item ):
-        if self.kapp.keyboardModifiers() and Qt.ControlModifier:
+        if self.qapp.keyboardModifiers() and Qt.ControlModifier:
             return
 
         snapshot_id = self.get_list_snapshot_id()
@@ -318,7 +323,7 @@ class SnapshotsDialog( KDialog ):
         if not os.path.exists( full_path ):
             return
 
-        self.run = KRun( KUrl( full_path ), self, True )
+        self.run = QRun( QUrl( full_path ), self, True )
 
     def on_btn_diff_clicked( self ):
         snapshot_id = self.get_list_snapshot_id()
@@ -336,14 +341,14 @@ class SnapshotsDialog( KDialog ):
 
         #check if the 2 paths are different
         if path1 == path2:
-            KMessageBox.error( self, QString.fromUtf8( _('You can\'t compare a snapshot to itself') ) )
+            messagebox.error( self, _('You can\'t compare a snapshot to itself') )
             return
 
-        diff_cmd = self.config.get_str_value( 'kde4.diff.cmd', 'kompare' )
-        diff_params = self.config.get_str_value( 'kde4.diff.params', '%1 %2' )
+        diff_cmd = self.config.get_str_value( 'qt4.diff.cmd', DIFF_CMD )
+        diff_params = self.config.get_str_value( 'qt4.diff.params', DIFF_PARAMS )
 
         if not tools.check_command( diff_cmd ):
-            KMessageBox.error( self, QString.fromUtf8( _('Command not found: %s') % diff_cmd ) )
+            messagebox.error( self, _('Command not found: %s') % diff_cmd )
             return
 
         params = diff_params
@@ -370,12 +375,12 @@ class SnapshotsDialog( KDialog ):
             msg = _('Do you really want to delete "%(file)s" in %(count)d snapshots?\n') \
                     % {'file' : self.path, 'count' : len(snapshot_ids)}
         msg += _('WARNING: This can not be revoked!')
-        if KMessageBox.Yes == KMessageBox.warningYesNo(self, QString.fromUtf8(msg)):
+        if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
             for snapshot_id in snapshot_ids:
                 self.snapshots.delete_path(snapshot_id, self.path)
 
             msg = _('Exclude "%s" from future snapshots?' % self.path)
-            if KMessageBox.Yes == KMessageBox.warningYesNo(self, QString.fromUtf8(msg)):
+            if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
                 exclude = self.config.get_exclude()
                 exclude.append(self.path)
                 self.config.set_exclude(exclude)
@@ -397,5 +402,5 @@ class SnapshotsDialog( KDialog ):
         snapshot_id = self.get_list_snapshot_id()
         if len( snapshot_id ) >= 1:
             self.snapshot_id = snapshot_id
-        KDialog.accept( self )
+        QDialog.accept( self )
 

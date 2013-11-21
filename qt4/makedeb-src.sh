@@ -16,7 +16,7 @@ mkdir -p $DEST/docbook
 mkdir -p $DEST/plugins
 
 #app
-cp backintime-kde4 $DEST/
+cp backintime-qt4 $DEST/
 
 #python files
 cp *.py $DEST/
@@ -28,7 +28,7 @@ cp *.desktop $DEST/
 cp plugins/*.py $DEST/plugins
 
 #man pages
-gzip --best -c man/C/backintime-kde4.1 >$DEST/man/C/backintime-kde4.1.gz
+gzip --best -c man/C/backintime-qt4.1 >$DEST/man/C/backintime-qt4.1.gz
 
 #docbook
 cp -R docbook/* $DEST/docbook

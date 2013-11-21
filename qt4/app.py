@@ -28,6 +28,8 @@ import datetime
 import gettext
 import time
 import threading
+import re
+import pdb
 
 sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'common' )] + sys.path
 
@@ -41,122 +43,102 @@ import mount
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from PyKDE4.kdecore import *
-from PyKDE4.kdeui import *
-from PyKDE4.kio import *
 
-import kde4tools
+import qt4tools
 import settingsdialog
 import snapshotsdialog
 import logviewdialog
 import restoredialog
+import messagebox
 
 
 _=gettext.gettext
 
 
-class MainWindow( KMainWindow ):
-    def __init__( self, config, app_instance, kapp, kaboutdata ):
-        KMainWindow.__init__( self )
+class MainWindow( QMainWindow ):
+    def __init__( self, config, app_instance, qapp ):
+        QMainWindow.__init__( self )
 
         self.config = config
         self.app_instance = app_instance
-        self.kapp = kapp
-        self.kaboutdata = kaboutdata
+        self.qapp = qapp
         self.snapshots = snapshots.Snapshots( config )
         self.last_take_snapshot_message = None
 
+        #window icon
+        import icon
+        self.qapp.setWindowIcon(icon.BIT_LOGO)
+
         #main toolbar
-        self.main_toolbar = self.toolBar()
+        self.main_toolbar = self.addToolBar(QString.fromUtf8('main'))
         self.main_toolbar.setFloatable( False )
 
         #profiles
-        #self.main_toolbar.addWidget( QLabel( QString.fromUtf8( _('Profile:') ), self ) )
         self.first_update_all = True
         self.disable_profile_changed = False
-        self.combo_profiles = KComboBox( self )
+        self.combo_profiles = QComboBox( self )
         self.combo_profiles_action = self.main_toolbar.addWidget( self.combo_profiles )
         #self.combo_profiles.setMinimumWidth( 250 )
 
-        self.btn_take_snapshot = self.main_toolbar.addAction( KIcon( 'document-save' ), '' )
-        self.btn_take_snapshot.setToolTip( QString.fromUtf8( _('Take snapshot') ) )
+        self.btn_take_snapshot = self.main_toolbar.addAction(icon.TAKE_SNAPSHOT, QString.fromUtf8(_('Take snapshot')) )
         QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 
-        self.btn_update_snapshots = self.main_toolbar.addAction( KIcon( 'view-refresh' ), '' )
-        self.btn_update_snapshots.setToolTip( QString.fromUtf8( _('Refresh snapshots list') ) )
+        self.btn_update_snapshots = self.main_toolbar.addAction(icon.REFRESH_SNAPSHOT, QString.fromUtf8(_('Refresh snapshots list')) )
         QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
 
-        self.btn_name_snapshot = self.main_toolbar.addAction( KIcon( 'edit-rename' ), '' )
-        self.btn_name_snapshot.setToolTip( QString.fromUtf8( _('Snapshot Name') ) )
+        self.btn_name_snapshot = self.main_toolbar.addAction(icon.SNAPSHOT_NAME, QString.fromUtf8(_('Snapshot Name')) )
         QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.on_btn_name_snapshot_clicked )
 
-        self.btn_remove_snapshot = self.main_toolbar.addAction( KIcon( 'edit-delete' ), '' )
-        self.btn_remove_snapshot.setToolTip( QString.fromUtf8( _('Remove Snapshot') ) )
+        self.btn_remove_snapshot = self.main_toolbar.addAction(icon.REMOVE_SNAPSHOT, QString.fromUtf8(_('Remove Snapshot')) )
         QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
     
-        self.btn_snapshot_log_view = self.main_toolbar.addAction( KIcon( 'text-plain' ), '' )
-        self.btn_snapshot_log_view.setToolTip( QString.fromUtf8( _('View Snapshot Log') ) )
+        self.btn_snapshot_log_view = self.main_toolbar.addAction(icon.VIEW_SNAPSHOT_LOG, QString.fromUtf8(_('View Snapshot Log')) )
         QObject.connect( self.btn_snapshot_log_view, SIGNAL('triggered()'), self.on_btn_snapshot_log_view_clicked )
     
-        self.btn_log_view = self.main_toolbar.addAction( KIcon( 'document-new' ), '' )
-        self.btn_log_view.setToolTip( QString.fromUtf8( _('View Last Log') ) )
+        self.btn_log_view = self.main_toolbar.addAction(icon.VIEW_LAST_LOG, QString.fromUtf8(_('View Last Log')) )
         QObject.connect( self.btn_log_view, SIGNAL('triggered()'), self.on_btn_log_view_clicked )
     
         self.main_toolbar.addSeparator()
 
-        self.btn_settings = self.main_toolbar.addAction( KIcon( 'configure' ), '' )
-        self.btn_settings.setToolTip( QString.fromUtf8( _('Settings') ) )
+        self.btn_settings = self.main_toolbar.addAction(icon.SETTINGS, QString.fromUtf8(_('Settings')) )
         QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
 
         self.main_toolbar.addSeparator()
 
-        #self.btn_about = self.main_toolbar.addAction( KIcon( 'help-about' ), '' )
-        #self.btn_about.setToolTip( QString.fromUtf8( _('About') ) )
-        #QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_btn_about_clicked )
-
-        #self.btn_help = self.main_toolbar.addAction( KIcon( 'help-contents' ), '' )
-        #self.btn_help.setToolTip( QString.fromUtf8( _('Help') ) )
-        #QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_btn_help_clicked )
-
-        #self.main_toolbar.addSeparator()
-
-        self.btn_shutdown = self.main_toolbar.addAction( KIcon( 'system-shutdown' ), '' )
-        self.btn_shutdown.setToolTip( QString.fromUtf8( _('Shutdown system after snapshot has finished.') ) )
+        self.btn_shutdown = self.main_toolbar.addAction(icon.SHUTDOWN, QString.fromUtf8(_('Shutdown')) )
+        self.btn_shutdown.setToolTip(QString.fromUtf8(_('Shutdown system after snapshot has finished.')) )
         self.btn_shutdown.setCheckable(True)
         self.shutdown = tools.ShutDown()
         self.btn_shutdown.setEnabled(self.shutdown.can_shutdown())
         QObject.connect( self.btn_shutdown, SIGNAL('toggled(bool)'), self.on_btn_shutdown_toggled )
 
-        self.btn_quit = self.main_toolbar.addAction( KIcon( 'application-exit' ), '' )
-        self.btn_quit.setToolTip( QString.fromUtf8( _('Exit') ) )
+        self.btn_quit = self.main_toolbar.addAction(icon.EXIT, QString.fromUtf8(_('Exit')) )
+        self.btn_quit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_W))
         QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 
-        self.main_toolbar.addAction( KToolBarSpacerAction( self ) )
-
-        self.main_toolbar.addSeparator()
-
-        #self.btn_link = self.main_toolbar.addAction( KIcon( 'go-home' ), '' )
-        #self.btn_link.setToolTip( QString.fromUtf8( 'backintime.le-web.org' ) )
-        #QObject.connect( self.btn_link, SIGNAL('triggered()'), self.open_url )
+        empty = QWidget()
+        empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.main_toolbar.addWidget(empty)
 
         help_menu = QMenu()
-        action = help_menu.addAction( KIcon( 'help-contents' ), QString.fromUtf8( _('Help') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.on_help )
+        self.btn_help = help_menu.addAction(icon.HELP, QString.fromUtf8( _('Help') ) )
+        QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_help )
         help_menu.addSeparator()
-        action = help_menu.addAction( KIcon( 'go-home' ), QString.fromUtf8( _('Website') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.on_website)
-        action = help_menu.addAction( KIcon( 'help-hint' ), QString.fromUtf8( _('FAQ') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.on_faq)
-        action = help_menu.addAction( KIcon( 'help-feedback' ), QString.fromUtf8( _('Ask a question') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.on_ask_a_question)
-        action = help_menu.addAction( KIcon( 'tools-report-bug' ), QString.fromUtf8( _('Report a bug') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.on_report_a_bug)
+        self.btn_website = help_menu.addAction(icon.WEBSITE, QString.fromUtf8( _('Website') ) )
+        QObject.connect( self.btn_website, SIGNAL('triggered()'), self.on_website)
+        self.btn_changelog = help_menu.addAction(icon.CHANGELOG, QString.fromUtf8( _('Changelog') ) )
+        QObject.connect( self.btn_changelog, SIGNAL('triggered()'), self.on_changelog)
+        self.btn_faq = help_menu.addAction(icon.FAQ, QString.fromUtf8( _('FAQ') ) )
+        QObject.connect( self.btn_faq, SIGNAL('triggered()'), self.on_faq)
+        self.btn_question = help_menu.addAction(icon.QUESTION, QString.fromUtf8( _('Ask a question') ) )
+        QObject.connect( self.btn_question, SIGNAL('triggered()'), self.on_ask_a_question)
+        self.btn_bug = help_menu.addAction(icon.BUG, QString.fromUtf8( _('Report a bug') ) )
+        QObject.connect( self.btn_bug, SIGNAL('triggered()'), self.on_report_a_bug)
         help_menu.addSeparator()
-        action = help_menu.addAction( KIcon( 'help-about' ), QString.fromUtf8( _('About') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.on_about)
+        self.btn_about = help_menu.addAction(icon.ABOUT, QString.fromUtf8( _('About') ) )
+        QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_about)
 
-        action = self.main_toolbar.addAction( KIcon( 'help-contents' ), '' )
-        action.setToolTip( QString.fromUtf8( _('Help') ) )
+        action = self.main_toolbar.addAction(icon.HELP, _('Help') )
         QObject.connect( action, SIGNAL('triggered()'), self.on_help )
         action.setMenu(help_menu)
 
@@ -179,49 +161,85 @@ class MainWindow( KMainWindow ):
         #right_layout.setContentsMargins( 0, 0, 0, right )
 
         #files toolbar
-        self.files_view_toolbar = KToolBar( self )
+        self.files_view_toolbar = QToolBar( self )
         self.files_view_toolbar.setFloatable( False )
 
-        self.btn_folder_up = self.files_view_toolbar.addAction( KIcon( 'go-up' ), '' )
-        self.btn_folder_up.setToolTip( QString.fromUtf8( _('Up') ) )
+        self.btn_folder_up = self.files_view_toolbar.addAction(icon.UP, QString.fromUtf8(_('Up')) )
+        self.btn_folder_up.setShortcut(Qt.Key_Backspace)
         QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
 
-        self.edit_current_path = KLineEdit( self )
+        self.edit_current_path = QLineEdit( self )
         self.edit_current_path.setReadOnly( True )
         self.files_view_toolbar.addWidget( self.edit_current_path )
 
         #show hidden files
-        self.show_hidden_files = self.config.get_bool_value( 'kde4.show_hidden_files', False )
+        self.show_hidden_files = self.config.get_bool_value( 'qt4.show_hidden_files', False )
 
-        self.btn_show_hidden_files = self.files_view_toolbar.addAction( KIcon( 'list-add' ), '' )
+        self.btn_show_hidden_files = self.files_view_toolbar.addAction(icon.SHOW_HIDDEN, QString.fromUtf8(_('Show hidden files')) )
         self.btn_show_hidden_files.setCheckable( True )
         self.btn_show_hidden_files.setChecked( self.show_hidden_files )
-        self.btn_show_hidden_files.setToolTip( QString.fromUtf8( _('Show hidden files') ) )
         QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
 
         self.files_view_toolbar.addSeparator()
 
         #restore menu
         self.menu_restore = QMenu()
-        action = self.menu_restore.addAction( KIcon( 'document-revert' ), QString.fromUtf8( _('Restore') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.restore_this )
-        action = self.menu_restore.addAction( KIcon( 'document-revert' ), QString.fromUtf8( _('Restore to ...') ) )
-        QObject.connect( action, SIGNAL('triggered()'), self.restore_this_to )
-        self.menu_restore_parent = self.menu_restore.addAction( KIcon( 'document-revert' ), '' )
+        self.btn_restore = self.menu_restore.addAction(icon.RESTORE, QString.fromUtf8( _('Restore') ) )
+        QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
+        self.btn_restore_to = self.menu_restore.addAction(icon.RESTORE_TO, QString.fromUtf8( _('Restore to ...') ) )
+        QObject.connect( self.btn_restore_to, SIGNAL('triggered()'), self.restore_this_to )
+        self.menu_restore_parent = self.menu_restore.addAction(icon.RESTORE, '' )
         QObject.connect( self.menu_restore_parent, SIGNAL('triggered()'), self.restore_parent )
-        self.menu_restore_parent_to = self.menu_restore.addAction( KIcon( 'document-revert' ), '' )
+        self.menu_restore_parent_to = self.menu_restore.addAction(icon.RESTORE_TO, '' )
         QObject.connect( self.menu_restore_parent_to, SIGNAL('triggered()'), self.restore_parent_to )
 
-        self.btn_restore = self.files_view_toolbar.addAction( KIcon( 'document-revert' ), '' )
-        self.btn_restore.setToolTip( QString.fromUtf8( _('Restore') ) )
-        self.btn_restore.setMenu(self.menu_restore)
-        QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
+        self.btn_restore_menu = self.files_view_toolbar.addAction(icon.RESTORE, QString.fromUtf8(_('Restore')) )
+        self.btn_restore_menu.setMenu(self.menu_restore)
+        QObject.connect( self.btn_restore_menu, SIGNAL('triggered()'), self.restore_this )
 
-        self.btn_snapshots = self.files_view_toolbar.addAction( KIcon( 'view-list-details' ), '' )
-        self.btn_snapshots.setToolTip( QString.fromUtf8( _('Snapshots') ) )
+        self.btn_snapshots = self.files_view_toolbar.addAction(icon.SNAPSHOTS, QString.fromUtf8(_('Snapshots')) )
         QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.on_btn_snapshots_clicked )
 
         right_layout.addWidget( self.files_view_toolbar )
+
+        #menubar
+        self.menubar = self.menuBar()
+        self.menubar_snapshot = self.menubar.addMenu(QString.fromUtf8(_('Snapshot')) )
+        self.menubar_snapshot.addAction(self.btn_take_snapshot)
+        self.menubar_snapshot.addAction(self.btn_update_snapshots)
+        self.menubar_snapshot.addAction(self.btn_name_snapshot)
+        self.menubar_snapshot.addAction(self.btn_remove_snapshot)
+        self.menubar_snapshot.addSeparator()
+        self.menubar_snapshot.addAction(self.btn_settings)
+        self.menubar_snapshot.addSeparator()
+        self.menubar_snapshot.addAction(self.btn_shutdown)
+        self.menubar_snapshot.addAction(self.btn_quit)
+
+        self.menubar_view = self.menubar.addMenu(QString.fromUtf8(_('View')) )
+        self.menubar_view.addAction(self.btn_folder_up)
+        self.menubar_view.addAction(self.btn_show_hidden_files)
+        self.menubar_view.addSeparator()
+        self.menubar_view.addAction(self.btn_snapshot_log_view)
+        self.menubar_view.addAction(self.btn_log_view)
+        self.menubar_view.addSeparator()
+        self.menubar_view.addAction(self.btn_snapshots)
+
+        self.menubar_restore = self.menubar.addMenu(QString.fromUtf8(_('Restore')) )
+        self.menubar_restore.addAction(self.btn_restore)
+        self.menubar_restore.addAction(self.btn_restore_to)
+        self.menubar_restore.addAction(self.menu_restore_parent)
+        self.menubar_restore.addAction(self.menu_restore_parent_to)
+
+        self.menubar_help = self.menubar.addMenu(QString.fromUtf8(_('Help')) )
+        self.menubar_help.addAction(self.btn_help)
+        self.menubar_help.addSeparator()
+        self.menubar_help.addAction(self.btn_website)
+        self.menubar_help.addAction(self.btn_changelog)
+        self.menubar_help.addAction(self.btn_faq)
+        self.menubar_help.addAction(self.btn_question)
+        self.menubar_help.addAction(self.btn_bug)
+        self.menubar_help.addSeparator()
+        self.menubar_help.addAction(self.btn_about)
 
         #second spliter
         self.second_splitter = QSplitter( self )
@@ -242,7 +260,7 @@ class MainWindow( KMainWindow ):
 
         #folder don't exist label
         self.lbl_folder_dont_exists = QLabel( QString.fromUtf8( _('This folder doesn\'t exist\nin the current snapshot !') ), self )
-        kde4tools.set_font_bold( self.lbl_folder_dont_exists )
+        qt4tools.set_font_bold( self.lbl_folder_dont_exists )
         self.lbl_folder_dont_exists.setFrameShadow( QFrame.Sunken )
         self.lbl_folder_dont_exists.setFrameShape( QFrame.Panel )
         self.lbl_folder_dont_exists.setAlignment( Qt.AlignHCenter | Qt.AlignVCenter )
@@ -253,43 +271,39 @@ class MainWindow( KMainWindow ):
         self.files_view_layout.addWidget( self.list_files_view )
         self.list_files_view.setRootIsDecorated( False )
         self.list_files_view.setAlternatingRowColors( True )
-        #self.list_files_view.setAllColumnsShowFocus( True )
+##        self.list_files_view.setAllColumnsShowFocus( True )
         self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
         self.list_files_view.setItemsExpandable( False )
         self.list_files_view.setDragEnabled( False )
 
-        self.list_files_view.header().setClickable( True )
-        self.list_files_view.header().setMovable( False )
-        self.list_files_view.header().setSortIndicatorShown( True )
+        self.list_files_view_header = self.list_files_view.header()
+        self.list_files_view_header.setClickable( True )
+        self.list_files_view_header.setMovable( False )
+        self.list_files_view_header.setSortIndicatorShown( True )
         
-        self.list_files_view_model = KDirModel( self )
-        #self.list_files_view_model.removeColumns( 3, 2 )
-        self.list_files_view_model.dirLister().setAutoErrorHandlingEnabled( False, self )
-        self.list_files_view_model.dirLister().setAutoUpdate( False )
-        self.list_files_view_model.dirLister().setDelayedMimeTypes( False )
-        self.list_files_view_model.dirLister().setMainWindow( self )
+        self.list_files_view_model = QFileSystemModel()
+        self.list_files_view_model.setRootPath(QDir().rootPath())
+        self.list_files_view_model.setReadOnly(True)
+        self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries | QDir.NoDotAndDotDot)
 
-        self.list_files_view_sort_filter_proxy = KDirSortFilterProxyModel( self )
-        self.list_files_view_sort_filter_proxy.setSourceModel( self.list_files_view_model )
+        self.list_files_view.setModel(self.list_files_view_model)
 
-        self.list_files_view.setModel( self.list_files_view_sort_filter_proxy )
-
-        self.list_files_view_delegate = KFileItemDelegate( self )
+        self.list_files_view_delegate = QStyledItemDelegate( self )
         self.list_files_view.setItemDelegate( self.list_files_view_delegate )
 
-        for column_index in xrange( 3, self.list_files_view_model.columnCount() ):
-            self.list_files_view.hideColumn( column_index )
-
-        sort_column = self.config.get_int_value( 'kde4.main_window.files_view.sort.column', 0 )
-        sort_order = self.config.get_bool_value( 'kde4.main_window.files_view.sort.ascending', True )
+        sort_column = self.config.get_int_value( 'qt4.main_window.files_view.sort.column', 0 )
+        sort_order = self.config.get_bool_value( 'qt4.main_window.files_view.sort.ascending', True )
         if sort_order:
             sort_order = Qt.AscendingOrder
         else:
             sort_order = Qt.DescendingOrder
 
-        self.list_files_view.header().setSortIndicator( sort_column, sort_order )
-        self.list_files_view_sort_filter_proxy.sort( self.list_files_view.header().sortIndicatorSection(), self.list_files_view.header().sortIndicatorOrder() )
-        QObject.connect( self.list_files_view.header(), SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'), self.list_files_view_sort_filter_proxy.sort )
+        self.list_files_view_header.setSortIndicator( sort_column, sort_order )
+        self.list_files_view_model.sort(self.list_files_view_header.sortIndicatorSection(),
+                                        self.list_files_view_header.sortIndicatorOrder() )
+        QObject.connect(self.list_files_view_header,
+                        SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
+                        self.list_files_view_model.sort )
 
         self.files_view_layout.setCurrentWidget( self.list_files_view )
 
@@ -300,41 +314,39 @@ class MainWindow( KMainWindow ):
 
         self.snapshots_list = []
         self.snapshot_id = '/'
-        self.path = self.config.get_str_value( 'kde4.last_path', '/' )
+        self.path = self.config.get_str_value( 'qt4.last_path', '/' )
         self.edit_current_path.setText( QString.fromUtf8( self.path ) )
 
         #restore size and position
-        x = self.config.get_int_value( 'kde4.main_window.x', -1 )
-        y = self.config.get_int_value( 'kde4.main_window.y', -1 )
+        x = self.config.get_int_value( 'qt4.main_window.x', -1 )
+        y = self.config.get_int_value( 'qt4.main_window.y', -1 )
         if x >= 0 and y >= 0:
             self.move( x, y )
 
-        w = self.config.get_int_value( 'kde4.main_window.width', 800 )
-        h = self.config.get_int_value( 'kde4.main_window.height', 500 )
+        w = self.config.get_int_value( 'qt4.main_window.width', 800 )
+        h = self.config.get_int_value( 'qt4.main_window.height', 500 )
         self.resize( w, h )
 
-        main_splitter_left_w = self.config.get_int_value( 'kde4.main_window.main_splitter_left_w', 150 )
-        main_splitter_right_w = self.config.get_int_value( 'kde4.main_window.main_splitter_right_w', 450 )
+        main_splitter_left_w = self.config.get_int_value( 'qt4.main_window.main_splitter_left_w', 150 )
+        main_splitter_right_w = self.config.get_int_value( 'qt4.main_window.main_splitter_right_w', 450 )
         sizes = [ main_splitter_left_w, main_splitter_right_w ]
         self.main_splitter.setSizes( sizes )
         
-        second_splitter_left_w = self.config.get_int_value( 'kde4.main_window.second_splitter_left_w', 150 )
-        second_splitter_right_w = self.config.get_int_value( 'kde4.main_window.second_splitter_right_w', 300 )
+        second_splitter_left_w = self.config.get_int_value( 'qt4.main_window.second_splitter_left_w', 150 )
+        second_splitter_right_w = self.config.get_int_value( 'qt4.main_window.second_splitter_right_w', 300 )
         sizes = [ second_splitter_left_w, second_splitter_right_w ]
         self.second_splitter.setSizes( sizes )
 
-        files_view_name_width = self.config.get_int_value( 'kde4.main_window.files_view.name_width', -1 )
-        files_view_size_width = self.config.get_int_value( 'kde4.main_window.files_view.size_width', -1 )
-        files_view_date_width = self.config.get_int_value( 'kde4.main_window.files_view.date_width', -1 )
+        files_view_name_width = self.config.get_int_value( 'qt4.main_window.files_view.name_width', -1 )
+        files_view_size_width = self.config.get_int_value( 'qt4.main_window.files_view.size_width', -1 )
+        files_view_date_width = self.config.get_int_value( 'qt4.main_window.files_view.date_width', -1 )
         if files_view_name_width > 0 and files_view_size_width > 0 and files_view_date_width > 0:
-            self.list_files_view.header().resizeSection( 0, files_view_name_width )
-            self.list_files_view.header().resizeSection( 1, files_view_size_width )
-            self.list_files_view.header().resizeSection( 2, files_view_date_width )
-
-        self.text_validator = QRegExpValidator( QRegExp( '.*' ), self )
+            self.list_files_view_header.resizeSection( 0, files_view_name_width )
+            self.list_files_view_header.resizeSection( 1, files_view_size_width )
+            self.list_files_view_header.resizeSection( 2, files_view_date_width )
 
         #
-        #kde4tools.set_font_bold( self.right_widget )
+        #qt4tools.set_font_bold( self.right_widget )
 
         #force settingdialog if it is not configured
         if not cfg.is_configured():
@@ -353,16 +365,15 @@ class MainWindow( KMainWindow ):
             mnt = mount.Mount(cfg = self.config, profile_id = profile_id, parent = self)
             hash_id = mnt.mount()
         except mount.MountException as ex:
-            KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
+            messagebox.critical( self, str(ex) )
             sys.exit(1)
         else:
             self.config.set_current_hash_id(hash_id)
         
         if not cfg.can_backup( profile_id ):
-            KMessageBox.error( self, QString.fromUtf8( _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') ) )
+            messagebox.critical( self, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
-        QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('completed()'), self.on_dir_lister_completed )
-        QObject.connect( self.list_files_view_model.dirLister(), SIGNAL('cancelled()'), self.on_dir_lister_completed )
+        QObject.connect(self.list_files_view_model, SIGNAL('layoutChanged()'), self.on_dir_lister_completed)
 
         #populate lists
         self.update_profiles()
@@ -395,39 +406,39 @@ class MainWindow( KMainWindow ):
 
     def closeEvent( self, event ):
         if self.shutdown.ask_before_quit():
-            if KMessageBox.Yes != KMessageBox.warningYesNo(self, QString.fromUtf8( _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you really want to close?') )):
+            if QMessageBox.Yes != messagebox.warningYesNo(self, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you realy want to close?') ):
                 return event.ignore()
 
-        self.config.set_str_value( 'kde4.last_path', self.path )
+        self.config.set_str_value( 'qt4.last_path', self.path )
 
-        self.config.set_int_value( 'kde4.main_window.x', self.x() )
-        self.config.set_int_value( 'kde4.main_window.y', self.y() )
-        self.config.set_int_value( 'kde4.main_window.width', self.width() )
-        self.config.set_int_value( 'kde4.main_window.height', self.height() )
+        self.config.set_int_value( 'qt4.main_window.x', self.x() )
+        self.config.set_int_value( 'qt4.main_window.y', self.y() )
+        self.config.set_int_value( 'qt4.main_window.width', self.width() )
+        self.config.set_int_value( 'qt4.main_window.height', self.height() )
 
         sizes = self.main_splitter.sizes()
-        self.config.set_int_value( 'kde4.main_window.main_splitter_left_w', sizes[0] )
-        self.config.set_int_value( 'kde4.main_window.main_splitter_right_w', sizes[1] )
+        self.config.set_int_value( 'qt4.main_window.main_splitter_left_w', sizes[0] )
+        self.config.set_int_value( 'qt4.main_window.main_splitter_right_w', sizes[1] )
     
         sizes = self.second_splitter.sizes()
-        self.config.set_int_value( 'kde4.main_window.second_splitter_left_w', sizes[0] )
-        self.config.set_int_value( 'kde4.main_window.second_splitter_right_w', sizes[1] )
+        self.config.set_int_value( 'qt4.main_window.second_splitter_left_w', sizes[0] )
+        self.config.set_int_value( 'qt4.main_window.second_splitter_right_w', sizes[1] )
 
-        self.config.set_int_value( 'kde4.main_window.files_view.name_width', self.list_files_view.header().sectionSize( 0 ) )
-        self.config.set_int_value( 'kde4.main_window.files_view.size_width', self.list_files_view.header().sectionSize( 1 ) )
-        self.config.set_int_value( 'kde4.main_window.files_view.date_width', self.list_files_view.header().sectionSize( 2 ) )
+        self.config.set_int_value( 'qt4.main_window.files_view.name_width', self.list_files_view_header.sectionSize( 0 ) )
+        self.config.set_int_value( 'qt4.main_window.files_view.size_width', self.list_files_view_header.sectionSize( 1 ) )
+        self.config.set_int_value( 'qt4.main_window.files_view.date_width', self.list_files_view_header.sectionSize( 2 ) )
 
-        self.config.set_bool_value( 'kde4.show_hidden_files', self.show_hidden_files )
+        self.config.set_bool_value( 'qt4.show_hidden_files', self.show_hidden_files )
 
-        self.config.set_int_value( 'kde4.main_window.files_view.sort.column', self.list_files_view.header().sortIndicatorSection() )
-        self.config.set_bool_value( 'kde4.main_window.files_view.sort.ascending', self.list_files_view.header().sortIndicatorOrder() == Qt.AscendingOrder )
+        self.config.set_int_value( 'qt4.main_window.files_view.sort.column', self.list_files_view_header.sortIndicatorSection() )
+        self.config.set_bool_value( 'qt4.main_window.files_view.sort.ascending', self.list_files_view_header.sortIndicatorOrder() == Qt.AscendingOrder )
         
         #umount
         try:
             mnt = mount.Mount(cfg = self.config, parent = self)
             mnt.umount(self.config.current_hash_id)
         except mount.MountException as ex:
-            KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
+            messagebox.critical( self, str(ex) )
             
         self.config.save()
 
@@ -479,7 +490,7 @@ class MainWindow( KMainWindow ):
             mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id, parent = self)
             hash_id = mnt.remount(new_profile_id)
         except mount.MountException as ex:
-            KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
+            messagebox.critical( self, str(ex) )
         else:
             self.config.set_current_hash_id(hash_id)
 
@@ -545,7 +556,7 @@ class MainWindow( KMainWindow ):
             return
         
         print("Raise cmd: " + raise_cmd)
-        self.kapp.alert( self )
+        self.qapp.alert( self )
 
     def update_take_snapshot( self, force_wait_lock = False ):
         if force_wait_lock:
@@ -626,12 +637,12 @@ class MainWindow( KMainWindow ):
         item.setText( 0, name )
 
         if len( icon ) > 0:
-            item.setIcon( 0, KIcon( icon ) )
+            item.setIcon( 0, QIcon.fromTheme( icon ) )
 
         item.setData( 0, Qt.UserRole, QVariant( QString.fromUtf8( path ) ) )
 
         if len( path ) == 0:
-            item.setFont( 0, kde4tools.get_font_bold( item.font( 0 ) ) )
+            item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
             #item.setFlags( Qt.NoItemFlags )
             item.setFlags( Qt.ItemIsEnabled )
             item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
@@ -705,11 +716,11 @@ class MainWindow( KMainWindow ):
     def add_time_line( self, snapshot_name, snapshot_id ):
         item = QTreeWidgetItem()
         item.setText( 0, snapshot_name )
-        item.setFont( 0, kde4tools.get_font_normal( item.font( 0 ) ) )
+        item.setFont( 0, qt4tools.get_font_normal( item.font( 0 ) ) )
         item.setData( 0, Qt.UserRole, QVariant( QString.fromUtf8( snapshot_id ) ) )
 
         if len( snapshot_id ) == 0:
-            item.setFont( 0, kde4tools.get_font_bold( item.font( 0 ) ) )
+            item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
             #item.setFlags( Qt.NoItemFlags )
             item.setFlags( Qt.ItemIsEnabled )
             item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
@@ -802,7 +813,11 @@ class MainWindow( KMainWindow ):
 
         name = self.snapshots.get_snapshot_name( snapshot_id )
 
-        ret_val = KInputDialog.getText( QString.fromUtf8( _( 'Snapshot Name' ) ), '', name, self, self.text_validator )
+        ret_val = QInputDialog.getText( self, QString.fromUtf8(_('Snapshot Name')),
+                                        QString(),
+                                        QLineEdit.Normal,
+                                        QString.fromUtf8(name),
+                                        Qt.Widget)
         if not ret_val[1]:
             return
         
@@ -836,7 +851,7 @@ class MainWindow( KMainWindow ):
         if len( snapshot_id ) <= 1:
             return
         
-        if KMessageBox.Yes != KMessageBox.warningYesNo( self, QString.fromUtf8( _('Are you sure you want to remove the snapshot:\n%s') % self.snapshots.get_snapshot_display_name( snapshot_id ) ) ):
+        if QMessageBox.Yes != messagebox.warningYesNo( self, _('Are you sure you want to remove the snapshot:\n%s') % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
             return
 
         self.snapshots.remove_snapshot( snapshot_id )
@@ -852,7 +867,7 @@ class MainWindow( KMainWindow ):
         self.shutdown.activate_shutdown = checked
 
     def on_about( self ):
-        dlg = KAboutApplicationDialog( self.kaboutdata, self )
+        dlg = About(self)
         dlg.exec_()
 
     def on_help( self ):
@@ -860,6 +875,9 @@ class MainWindow( KMainWindow ):
 
     def on_website( self ):
         self.open_url( 'http://backintime.le-web.org' );
+
+    def on_changelog( self ):
+        self.open_url( 'http://backintime.le-web.org/change-log' )
 
     def on_faq( self ):
         self.open_url( 'https://answers.launchpad.net/backintime/+faqs' );
@@ -871,7 +889,7 @@ class MainWindow( KMainWindow ):
         self.open_url( 'https://bugs.launchpad.net/backintime' );
 
     def open_url( self, url ):
-        self.run = KRun( KUrl( QString.fromUtf8( url ) ), self, True )
+        return QDesktopServices.openUrl(QUrl(QString.fromUtf8(url)) )
 
     def on_btn_show_hidden_files_toggled( self, checked ):
         self.show_hidden_files = checked
@@ -881,8 +899,7 @@ class MainWindow( KMainWindow ):
         if len( self.snapshot_id ) <= 1:
             return
 
-        idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
-        selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
+        selected_file, idx = self.file_selected()
         if len( selected_file ) <= 0:
             return
 
@@ -893,8 +910,7 @@ class MainWindow( KMainWindow ):
         if len( self.snapshot_id ) <= 1:
             return
 
-        idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
-        selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
+        selected_file, idx = self.file_selected()
         if len( selected_file ) <= 0:
             return
 
@@ -912,17 +928,13 @@ class MainWindow( KMainWindow ):
         restoredialog.restore( self, self.snapshot_id, self.path, None )
 
     def on_btn_snapshots_clicked( self ):
-        idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
-        selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
+        selected_file, idx = self.file_selected()
         if len( selected_file ) <= 0:
             return
 
         rel_path = os.path.join( self.path, selected_file )
-        icon = None
-        if self.list_files_view_sort_filter_proxy.data( idx, Qt.DecorationRole ).type() == QVariant.Icon:
-            icon = self.list_files_view_sort_filter_proxy.data( idx, Qt.DecorationRole )
 
-        dlg = snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path, icon )
+        dlg = snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path)
         if QDialog.Accepted == dlg.exec_():
             if dlg.snapshot_id != self.snapshot_id:
                 for index in xrange( self.list_time_line.topLevelItemCount() ):
@@ -946,14 +958,13 @@ class MainWindow( KMainWindow ):
         self.update_files_view( 0 )
 
     def on_list_files_view_item_activated( self, model_index ):
-        if self.kapp.keyboardModifiers() and Qt.ControlModifier:
+        if self.qapp.keyboardModifiers() and Qt.ControlModifier:
             return
 
         if model_index is None:
             return
 
-        idx = self.list_files_view_sort_filter_proxy.index( model_index.row(), 0 )
-        rel_path = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
+        rel_path = str( self.list_files_view_model.data( model_index ).toString().toUtf8() )
         if len( rel_path ) <= 0:
             return
 
@@ -966,7 +977,7 @@ class MainWindow( KMainWindow ):
                     self.path = rel_path
                     self.update_files_view( 0 )
                 else:
-                    self.run = KRun( KUrl( QString.fromUtf8( full_path ) ), self, True )
+                    self.run = QDesktopServices.openUrl(QUrl(QString.fromUtf8(full_path )) )
 
     def files_view_get_name( self, item ):
         return str( item.text( 0 ).toUtf8() )
@@ -976,7 +987,7 @@ class MainWindow( KMainWindow ):
 
     def add_files_view( self, name, size_str, date_str, size_int, type ):
         full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, os.path.join( self.path, name ) )
-        icon = KIcon( KMimeType.iconNameForUrl( KUrl( QString.fromUtf8( full_path ) ) ) )
+        icon = QIcon.fromTheme( QMimeType.iconNameForUrl( QUrl( QString.fromUtf8( full_path ) ) ) )
 
         item = QTreeWidgetItem( self.list_files_view )
 
@@ -1018,8 +1029,7 @@ class MainWindow( KMainWindow ):
 
         #try to keep old selected file
         if selected_file is None:
-            idx = self.list_files_view_sort_filter_proxy.index( self.list_files_view.currentIndex().row(), 0 )
-            selected_file = str( self.list_files_view_sort_filter_proxy.data( idx ).toString().toUtf8() )
+            selected_file, idx = self.file_selected()
 
         self.selected_file = selected_file
     
@@ -1027,12 +1037,23 @@ class MainWindow( KMainWindow ):
         full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
 
         if os.path.isdir( full_path ):
-            self.list_files_view_model.dirLister().setShowingDotFiles( self.show_hidden_files )
-            self.list_files_view_model.dirLister().openUrl( KUrl( QString.fromUtf8( full_path ) ), KDirLister.Reload )
+            if self.show_hidden_files:
+                self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries |
+                                                     QDir.NoDotAndDotDot | QDir.Hidden)
+            else:
+                self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries |
+                                                     QDir.NoDotAndDotDot)
+            #self.list_files_view_model.setRootPath(full_path)
+            self.index = self.list_files_view_model.index(full_path)
+            self.list_files_view.setRootIndex(self.index)
+
             self.files_view_toolbar.setEnabled( False )
             self.files_view_layout.setCurrentWidget( self.list_files_view )
+            #todo: find a signal for this
+            self.on_dir_lister_completed()
         else:
-            self.btn_restore.setEnabled( False )
+            self.btn_restore_menu.setEnabled( False )
+            self.menubar_restore.setEnabled(False)
             self.btn_snapshots.setEnabled( False )
             self.files_view_layout.setCurrentWidget( self.lbl_folder_dont_exists )
 
@@ -1049,10 +1070,11 @@ class MainWindow( KMainWindow ):
 #			self.on_btn_snapshots_clicked( None )
 
     def on_dir_lister_completed( self ):
-        has_files = ( self.list_files_view_model.rowCount() > 0 )
+        has_files = (self.list_files_view_model.rowCount(self.list_files_view.rootIndex() ) > 0 )
 
         #update restore button state
-        self.btn_restore.setEnabled( len( self.snapshot_id ) > 1 and has_files )
+        self.btn_restore_menu.setEnabled( len( self.snapshot_id ) > 1 and has_files )
+        self.menubar_restore.setEnabled(len(self.snapshot_id) > 1 and has_files)
 
         #update snapshots button state
         self.btn_snapshots.setEnabled( has_files )
@@ -1064,20 +1086,29 @@ class MainWindow( KMainWindow ):
         found = False
 
         if len( self.selected_file ) > 0:
-            for index in xrange( self.list_files_view_sort_filter_proxy.rowCount() ):
-                model_index = self.list_files_view_sort_filter_proxy.index( index, 0 )
-                file_name = str( self.list_files_view_sort_filter_proxy.data( model_index ).toString().toUtf8() )
+            index = self.list_files_view.indexAt(QPoint(0,0))
+            if not index.isValid():
+                return
+            while index.isValid():
+                file_name = (str( self.list_files_view_model.data(index).toString().toUtf8() ))
                 if file_name == self.selected_file:
-                    self.list_files_view.setCurrentIndex( model_index )
+                    self.list_files_view.setCurrentIndex(index)
                     found = True
                     break
+                index = self.list_files_view.indexBelow(index)
             self.selected_file = ''
 
         if not found and has_files:
-            self.list_files_view.setCurrentIndex( self.list_files_view_sort_filter_proxy.index( 0, 0 ) )
+            self.list_files_view.setCurrentIndex( self.list_files_view_model.index( 0, 0 ) )
 
+    def file_selected(self):
+        idx = self.list_files_view.currentIndex()
+        if idx.column() > 0:
+            idx = idx.sibling(idx.row(), 0)
+        selected_file = str( self.list_files_view_model.data( idx ).toString().toUtf8() )
+        return(selected_file, idx)
 
-class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
+class Qt4TakeSnapshotCallback( threading.Thread ): #used to display status icon
     def __init__( self ):
         threading.Thread.__init__( self )
         self.stop_flag = False
@@ -1104,23 +1135,23 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
             self.popup = None
 
         if not self.last_message is None:
-            self.popup = KPassivePopup.message( self.cfg.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
+            self.popup = QPassivePopup.message( self.cfg.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
             self.popup.setAutoDelete( False )
 
     def run(self):
-        logger.info( '[KDE4TakeSnapshotCallback.run]' )
+        logger.info( '[Qt4TakeSnapshotCallback.run]' )
 
         if not check_x_server():
-            logger.info( '[KDE4TakeSnapshotCallback.run] no X server' )
+            logger.info( '[Qt4TakeSnapshotCallback.run] no X server' )
             return
 
-        logger.info( '[KDE4TakeSnapshotCallback.run] begin loop' )
+        logger.info( '[Qt4TakeSnapshotCallback.run] begin loop' )
 
-        kapp, kaboutdata = create_kapplication( self.cfg )
+        qapp = create_qapplication( self.cfg )
         self.last_message = None
 
-        self.status_icon = KSystemTrayIcon()
-        self.status_icon.setIcon( KIcon('document-save') )
+        self.status_icon = QSystemTrayIcon()
+        self.status_icon.setIcon(icon.BIT_LOGO)
         #self.status_icon.actionCollection().clear()
         self.status_icon.setContextMenu( None )
         self.status_icon.show()
@@ -1129,12 +1160,12 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
         first_error = self.cfg.is_notify_enabled()
 
         while True:
-            kapp.processEvents()
+            qapp.processEvents()
         
             if self.stop_flag:
                 break
 
-            if not kapp.hasPendingEvents():
+            if not qapp.hasPendingEvents():
                 message = self.snapshots.get_take_snapshot_message()
                 if message is None and self.last_message is None:
                     message = ( 0, _('Working...') )
@@ -1145,65 +1176,105 @@ class KDE4TakeSnapshotCallback( threading.Thread ): #used to display status icon
                         self.status_icon.setToolTip( QString.fromUtf8( self.last_message[1] ) )
 
                         if self.last_message[0] != 0:
-                            self.status_icon.setIcon( KIcon('document-save-as') )
+                            self.status_icon.setIcon(icon.BIT_LOGO_INFO)
                             if first_error:
                                 first_error = False
                                 self.show_popup()
                         else:
-                            self.status_icon.setIcon( KIcon('document-save') )
+                            self.status_icon.setIcon(icon.BIT_LOGO)
 
                 time.sleep( 0.2 )
         
         self.status_icon.hide()
-        kapp.processEvents()
+        qapp.processEvents()
         
-        logger.info( '[KDE4TakeSnapshotCallback.run] end loop' )
+        logger.info( '[Qt4TakeSnapshotCallback.run] end loop' )
 
+class About(QDialog):
+    def __init__(self, parent = None):
+        super(About, self).__init__(parent)
+        self.parent = parent
+        self.config = parent.config
 
-def create_kapplication( cfg ):
-    kaboutdata = KAboutData( 'backintime', '', ki18n( cfg.APP_NAME ), cfg.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( cfg.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
-    kaboutdata.setProgramIconName( 'document-save' )
+        self.setWindowTitle(QString.fromUtf8(_('About') + ' ' + self.config.APP_NAME))
+        name     = QLabel(QString.fromUtf8('<h1>' + self.config.APP_NAME + ' ' + self.config.VERSION + '</h1>'))
+        homepage = QLabel(QString.fromUtf8(self.mkurl('<http://backintime.le-web.org>')) )
+        homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
+        homepage.setOpenExternalLinks(True)
+        copyright = QLabel(QString.fromUtf8(self.config.COPYRIGHT + '\n'))
 
-    #extra_translations = _('about-translators')
-    #if extra_translations is None:
-    #	extra_translations = ''
-    #elif extra_translations == 'about-translators':
-    #	extra_translations = ''
-    #
-    #translation_text = cfg.get_translations() + extra_translations
-    translation_text = cfg.get_translations()
-    
-    translators = []
-    translator_emails = []
-    for line in translation_text.split( '\n' ):
-        line = line.strip()
-        if len( line ) == 0:
-            continue
-        
-        index1 = line.find( ':' )
-        if index1 < 0:
-            continue
+        vlayout = QVBoxLayout(self)
+        vlayout.addWidget(name)
+        vlayout.addWidget(homepage)
+        vlayout.addWidget(copyright)
 
-        index2 = line.find( '<', index1 )
-        if index2 < 0:
-            continue
+        button_box_left  = QDialogButtonBox()
+        btn_authors      = button_box_left.addButton(QString.fromUtf8(_('Authors')), QDialogButtonBox.ActionRole)
+        btn_translations = button_box_left.addButton(QString.fromUtf8(_('Translations')), QDialogButtonBox.ActionRole)
+        btn_license      = button_box_left.addButton(QString.fromUtf8(_('License')), QDialogButtonBox.ActionRole)
 
-        index3 = line.find( '>', index2 )
-        if index3 < 0:
-            continue
+        button_box_right = QDialogButtonBox(QDialogButtonBox.Ok)
 
-        translators.append( line[ index1 + 1 : index2 ].strip() )
-        translator_emails.append( line[ index2 + 1 : index3 ].strip() )
+        hlayout = QHBoxLayout()
+        hlayout.addWidget(button_box_left)
+        hlayout.addWidget(button_box_right)
+        vlayout.addLayout(hlayout)
 
-    kaboutdata.setTranslator( ki18n( ','.join( translators ) ), ki18n( ','.join( translator_emails ) ) )
+        QObject.connect(btn_authors, SIGNAL('clicked()'), self.authors)
+        QObject.connect(btn_translations, SIGNAL('clicked()'), self.translations)
+        QObject.connect(btn_license, SIGNAL('clicked()'), self.license)
+        QObject.connect(button_box_right, SIGNAL('accepted()'), self.accept)
 
-    #KCmdLineArgs.init( sys.argv, kaboutdata )
-    KCmdLineArgs.init( [sys.argv[0]], kaboutdata )
-    return ( KApplication(), kaboutdata )
+    def authors(self):
+        return self.show_info(_('Authors'), self.mkurl(self.config.get_authors()) )
 
+    def translations(self):
+        return self.show_info(_('Translations'), self.mkurl(self.config.get_translations()) )
+
+    def license(self):
+        return self.show_info(_('License'), self.config.get_license())
+
+    def show_info(self, title, msg):
+        dlg = QDialog(self)
+        dlg.setWindowTitle(QString.fromUtf8(title) )
+        vlayout = QVBoxLayout(dlg)
+        label = QLabel(QString.fromUtf8(msg) )
+        label.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
+        label.setOpenExternalLinks(True)
+
+        scroll_area = QScrollArea()
+        scroll_area.setWidget(label)
+
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok)
+        QObject.connect(button_box, SIGNAL('accepted()'), dlg.accept)
+
+        vlayout.addWidget(scroll_area)
+        vlayout.addWidget(button_box)
+        return dlg.exec_()
+
+    def mkurl(self, msg):
+        msg = re.sub(r'<(.*?)>', self.a_href, msg)
+        msg = re.sub(r'\n', '<br>', msg)
+        return msg
+
+    def a_href(self, m):
+        if m.group(1).count('@'):
+            return '<a href="mailto:%(url)s">%(url)s</a>' % {'url': m.group(1)}
+        else:
+            return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(1)}
+
+def debug_trace():
+  '''Set a tracepoint in the Python debugger that works with Qt'''
+  from PyQt4.QtCore import pyqtRemoveInputHook
+  from pdb import set_trace
+  pyqtRemoveInputHook()
+  set_trace()
+
+def create_qapplication( cfg ):
+    return QApplication(sys.argv + ['-title', cfg.APP_NAME])
 
 if __name__ == '__main__':
-    cfg = backintime.start_app( 'backintime-kde4' )
+    cfg = backintime.start_app( 'backintime-qt4' )
 
     raise_cmd = ''
     if len( sys.argv ) > 1:
@@ -1212,13 +1283,13 @@ if __name__ == '__main__':
     app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
 
     logger.openlog()
-    kapp, kaboutdata = create_kapplication( cfg )
+    qapp = create_qapplication( cfg )
 
-    main_window = MainWindow( cfg, app_instance, kapp, kaboutdata )
+    main_window = MainWindow( cfg, app_instance, qapp )
 
     if cfg.is_configured():
         main_window.show()
-        kapp.exec_()
+        qapp.exec_()
 
     logger.closelog()
 

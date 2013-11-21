@@ -6,7 +6,7 @@ echo VERSION: $VERSION
 update_control () {
   echo "Update '$1'"
   sed -e "s/^Version: .*$/Version: $VERSION/" \
-      -e "s/backintime-\(common\|notify\|kde\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $VERSION~)/g" \
+      -e "s/backintime-\(common\|notify\|qt\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $VERSION~)/g" \
       -i $1
 }
 
@@ -44,9 +44,7 @@ update_changelog () {
 
 update_control common/debian_specific/control
 
-update_control gnome/debian_specific/control
-
-update_control kde4/debian_specific/control
+update_control qt4/debian_specific/control
 
 update_control notify/debian_specific/control
 
@@ -56,15 +54,9 @@ update_man_page common/man/C/backintime.1
 
 update_man_page common/man/C/backintime-config.1
 
-update_man_page gnome/man/C/backintime-gnome.1
+update_man_page qt4/man/C/backintime-kde4.1
 
-update_man_page kde4/man/C/backintime-kde4.1
-
-update_omf gnome/docbook/C/backintime-C.omf
-
-update_xml gnome/docbook/C/backintime.xml
-
-update_xml kde4/docbook/en/index.docbook
+update_xml qt4/docbook/en/index.docbook
 
 update_changelog common/debian_specific/changelog
 

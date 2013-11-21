@@ -26,13 +26,10 @@ import subprocess
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from PyKDE4.kdecore import *
-from PyKDE4.kdeui import *
-from PyKDE4.kio import *
 
 import config
 import tools
-import kde4tools
+import qt4tools
 import mount
 import password
 
@@ -56,21 +53,19 @@ _=gettext.gettext
 #			item.setData( 0, Qt.UserRole, QVariant( self.id ) )
 
 
-class SettingsDialog( KDialog ):
+class SettingsDialog( QDialog ):
     def __init__( self, parent ):
-        KDialog.__init__( self, parent )
+        QDialog.__init__( self, parent )
 
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.config_copy_dict = copy.copy( self.config.dict )
         self.current_profile_org = self.config.get_current_profile()
 
-        self.setWindowIcon( KIcon( 'configure' ) )
-        self.setCaption( QString.fromUtf8( _( 'Settings' ) ) )
+        self.setWindowIcon( QIcon.fromTheme( 'configure' ) )
+        self.setWindowTitle( QString.fromUtf8( _( 'Settings' ) ) )
 
-        self.main_widget = QWidget( self )
-        self.main_layout = QVBoxLayout( self.main_widget )
-        self.setMainWidget( self.main_widget )
+        self.main_layout = QVBoxLayout(self)
 
         #profiles
         layout = QHBoxLayout()
@@ -80,25 +75,25 @@ class SettingsDialog( KDialog ):
 
         self.first_update_all = True
         self.disable_profile_changed = True
-        self.combo_profiles = KComboBox( self )
+        self.combo_profiles = QComboBox( self )
         layout.addWidget( self.combo_profiles, 1 )
         QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.current_profile_changed )
         self.disable_profile_changed = False
 
-        self.btn_edit_profile = KPushButton( KIcon( 'edit-rename' ), QString.fromUtf8( _('Edit') ), self )
+        self.btn_edit_profile = QPushButton( QIcon.fromTheme( 'edit-rename' ), QString.fromUtf8( _('Edit') ), self )
         QObject.connect( self.btn_edit_profile, SIGNAL('clicked()'), self.edit_profile )
         layout.addWidget( self.btn_edit_profile )
 
-        self.btn_add_profile = KPushButton( KStandardGuiItem.add(), self )
+        self.btn_add_profile = QPushButton( QStandardGuiItem.add(), self )
         QObject.connect( self.btn_add_profile, SIGNAL('clicked()'), self.add_profile )
         layout.addWidget( self.btn_add_profile )
 
-        self.btn_remove_profile = KPushButton( KStandardGuiItem.remove(), self )
+        self.btn_remove_profile = QPushButton( QStandardGuiItem.remove(), self )
         QObject.connect( self.btn_remove_profile, SIGNAL('clicked()'), self.remove_profile )
         layout.addWidget( self.btn_remove_profile )
 
         #TABs
-        self.tabs_widget = KTabWidget( self )
+        self.tabs_widget = QTabWidget( self )
         self.main_layout.addWidget( self.tabs_widget )
 
         #TAB: General
@@ -114,7 +109,7 @@ class SettingsDialog( KDialog ):
         self.lbl_modes = QLabel( QString.fromUtf8( _( 'Mode:' ) ), self )
         vlayout.addWidget( self.lbl_modes )
         
-        self.combo_modes = KComboBox( self )
+        self.combo_modes = QComboBox( self )
         vlayout.addWidget( self.combo_modes )
         store_modes = {}
         for key in self.config.SNAPSHOT_MODES.keys():
@@ -132,11 +127,11 @@ class SettingsDialog( KDialog ):
         hlayout = QHBoxLayout()
         vlayout.addLayout( hlayout )
 
-        self.edit_snapshots_path = KLineEdit( self )
+        self.edit_snapshots_path = QLineEdit( self )
         self.edit_snapshots_path.setReadOnly( True )
         hlayout.addWidget( self.edit_snapshots_path )
 
-        self.btn_snapshots_path = KPushButton( KIcon( 'folder' ), '', self )
+        self.btn_snapshots_path = QPushButton( QIcon.fromTheme( 'folder' ), '', self )
         hlayout.addWidget( self.btn_snapshots_path )
         QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
         
@@ -157,40 +152,40 @@ class SettingsDialog( KDialog ):
         
         self.lbl_ssh_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
         hlayout1.addWidget( self.lbl_ssh_host )
-        self.txt_ssh_host = KLineEdit( self )
+        self.txt_ssh_host = QLineEdit( self )
         hlayout1.addWidget( self.txt_ssh_host )
         
         self.lbl_ssh_port = QLabel( QString.fromUtf8( _( 'Port:' ) ), self )
         hlayout1.addWidget( self.lbl_ssh_port )
-        self.txt_ssh_port = KLineEdit( self )
+        self.txt_ssh_port = QLineEdit( self )
         hlayout1.addWidget( self.txt_ssh_port )
         
         self.lbl_ssh_user = QLabel( QString.fromUtf8( _( 'User:' ) ), self )
         hlayout1.addWidget( self.lbl_ssh_user )
-        self.txt_ssh_user = KLineEdit( self )
+        self.txt_ssh_user = QLineEdit( self )
         hlayout1.addWidget( self.txt_ssh_user )
         
         self.lbl_ssh_path = QLabel( QString.fromUtf8( _( 'Path:' ) ), self )
         hlayout2.addWidget( self.lbl_ssh_path )
-        self.txt_ssh_path = KLineEdit( self )
+        self.txt_ssh_path = QLineEdit( self )
         hlayout2.addWidget( self.txt_ssh_path )
         
         self.lbl_ssh_cipher = QLabel( QString.fromUtf8( _( 'Cipher:' ) ), self )
         hlayout3.addWidget( self.lbl_ssh_cipher )
-        self.combo_ssh_cipher = KComboBox( self )
+        self.combo_ssh_cipher = QComboBox( self )
         hlayout3.addWidget( self.combo_ssh_cipher )
         self.fill_combo( self.combo_ssh_cipher, self.config.SSH_CIPHERS )
         
         self.lbl_ssh_private_key_file = QLabel( QString.fromUtf8( _( 'Private Key:' ) ), self )
         hlayout3.addWidget( self.lbl_ssh_private_key_file )
-        self.txt_ssh_private_key_file = KLineEdit( self )
+        self.txt_ssh_private_key_file = QLineEdit( self )
         self.txt_ssh_private_key_file.setReadOnly( True )
         hlayout3.addWidget( self.txt_ssh_private_key_file )
         
-        self.btn_ssh_private_key_file = KPushButton( KIcon( 'folder' ), '', self )
+        self.btn_ssh_private_key_file = QPushButton( QIcon.fromTheme( 'folder' ), '', self )
         hlayout3.addWidget( self.btn_ssh_private_key_file )
         QObject.connect( self.btn_ssh_private_key_file, SIGNAL('clicked()'), self.on_btn_ssh_private_key_file_clicked )
-        kde4tools.equal_indent(self.lbl_ssh_host, self.lbl_ssh_path, self.lbl_ssh_cipher)
+        qt4tools.equal_indent(self.lbl_ssh_host, self.lbl_ssh_path, self.lbl_ssh_cipher)
         
         #encfs
         self.mode_local_encfs = self.mode_local
@@ -209,17 +204,17 @@ class SettingsDialog( KDialog ):
 ##		
 ##		self.lbl_dummy_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
 ##		hlayout.addWidget( self.lbl_dummy_host )
-##		self.txt_dummy_host = KLineEdit( self )
+##		self.txt_dummy_host = QLineEdit( self )
 ##		hlayout.addWidget( self.txt_dummy_host )
 ##		
 ##		self.lbl_dummy_port = QLabel( QString.fromUtf8( _( 'Port:' ) ), self )
 ##		hlayout.addWidget( self.lbl_dummy_port )
-##		self.txt_dummy_port = KLineEdit( self )
+##		self.txt_dummy_port = QLineEdit( self )
 ##		hlayout.addWidget( self.txt_dummy_port )
 ##		
 ##		self.lbl_dummy_user = QLabel( QString.fromUtf8( _( 'User:' ) ), self )
 ##		hlayout.addWidget( self.lbl_dummy_user )
-##		self.txt_dummy_user = KLineEdit( self )
+##		self.txt_dummy_user = QLineEdit( self )
 ##		hlayout.addWidget( self.txt_dummy_user )
 
         #password
@@ -236,13 +231,13 @@ class SettingsDialog( KDialog ):
 
         self.lbl_password_1 = QLabel( QString.fromUtf8( _( 'Password' ) ), self )
         hlayout1.addWidget( self.lbl_password_1 )
-        self.txt_password_1 = KLineEdit( self )
+        self.txt_password_1 = QLineEdit( self )
         self.txt_password_1.setPasswordMode(True)
         hlayout1.addWidget( self.txt_password_1 )
 
         self.lbl_password_2 = QLabel( QString.fromUtf8( _( 'Password' ) ), self )
         hlayout2.addWidget( self.lbl_password_2 )
-        self.txt_password_2 = KLineEdit( self )
+        self.txt_password_2 = QLineEdit( self )
         self.txt_password_2.setPasswordMode(True)
         hlayout2.addWidget( self.txt_password_2 )
 
@@ -282,17 +277,17 @@ class SettingsDialog( KDialog ):
 
         self.lbl_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
         hlayout2.addWidget( self.lbl_host )
-        self.txt_host = KLineEdit( self )
+        self.txt_host = QLineEdit( self )
         hlayout2.addWidget( self.txt_host )
 
         self.lbl_user = QLabel( QString.fromUtf8( _( 'User:' ) ), self )
         hlayout2.addWidget( self.lbl_user )
-        self.txt_user = KLineEdit( self )
+        self.txt_user = QLineEdit( self )
         hlayout2.addWidget( self.txt_user )
 
         self.lbl_profile = QLabel( QString.fromUtf8( _( 'Profile:' ) ), self )
         hlayout2.addWidget( self.lbl_profile )
-        self.txt_profile = KLineEdit( self )
+        self.txt_profile = QLineEdit( self )
         hlayout2.addWidget( self.txt_profile )
 
         #Schedule
@@ -304,7 +299,7 @@ class SettingsDialog( KDialog ):
         glayout = QGridLayout( group_box )
         glayout.setColumnStretch(1, 2)
 
-        self.combo_automatic_snapshots = KComboBox( self )
+        self.combo_automatic_snapshots = QComboBox( self )
         glayout.addWidget( self.combo_automatic_snapshots, 0, 0, 1, 2 )
         self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES )
 
@@ -313,7 +308,7 @@ class SettingsDialog( KDialog ):
         self.lbl_automatic_snapshots_day.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget( self.lbl_automatic_snapshots_day, 1, 0 )
 
-        self.combo_automatic_snapshots_day = KComboBox( self )
+        self.combo_automatic_snapshots_day = QComboBox( self )
         glayout.addWidget( self.combo_automatic_snapshots_day, 1, 1 )
 
         for d in xrange( 1, 29 ):
@@ -324,7 +319,7 @@ class SettingsDialog( KDialog ):
         self.lbl_automatic_snapshots_weekday.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget( self.lbl_automatic_snapshots_weekday, 2, 0 )
 
-        self.combo_automatic_snapshots_weekday = KComboBox( self )
+        self.combo_automatic_snapshots_weekday = QComboBox( self )
         glayout.addWidget( self.combo_automatic_snapshots_weekday, 2, 1 )
 
         for d in xrange( 1, 8 ):
@@ -335,7 +330,7 @@ class SettingsDialog( KDialog ):
         self.lbl_automatic_snapshots_time.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget( self.lbl_automatic_snapshots_time, 3, 0 )
 
-        self.combo_automatic_snapshots_time = KComboBox( self )
+        self.combo_automatic_snapshots_time = QComboBox( self )
         glayout.addWidget( self.combo_automatic_snapshots_time, 3, 1 )
 
         for t in xrange( 0, 2300, 100 ):
@@ -346,7 +341,7 @@ class SettingsDialog( KDialog ):
         self.lbl_automatic_snapshots_time_custom.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget( self.lbl_automatic_snapshots_time_custom, 4, 0 )
 
-        self.txt_automatic_snapshots_time_custom = KLineEdit( self )
+        self.txt_automatic_snapshots_time_custom = QLineEdit( self )
         glayout.addWidget( self.txt_automatic_snapshots_time_custom, 4, 1 )
 
         #anacron
@@ -387,7 +382,7 @@ class SettingsDialog( KDialog ):
         self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include files and folders') ) ] )
         self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
 
-        #self.popup_automatic_backup = KMenu( self )
+        #self.popup_automatic_backup = QMenu( self )
         #keys = self.config.AUTOMATIC_BACKUP_MODES.keys()
         #keys.sort()
         #for key in keys:
@@ -399,17 +394,17 @@ class SettingsDialog( KDialog ):
         buttons_layout = QHBoxLayout()
         layout.addLayout( buttons_layout )
 
-        self.btn_include_file_add = KPushButton( KStandardGuiItem.add(), self )
+        self.btn_include_file_add = QPushButton( QStandardGuiItem.add(), self )
         self.btn_include_file_add.setText( QString.fromUtf8( _( 'Add file' ) ) )
         buttons_layout.addWidget( self.btn_include_file_add )
         QObject.connect( self.btn_include_file_add, SIGNAL('clicked()'), self.on_btn_include_file_add_clicked )
         
-        self.btn_include_add = KPushButton( KStandardGuiItem.add(), self )
+        self.btn_include_add = QPushButton( QStandardGuiItem.add(), self )
         self.btn_include_add.setText( QString.fromUtf8( _( 'Add folder' ) ) )
         buttons_layout.addWidget( self.btn_include_add )
         QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
         
-        self.btn_include_remove = KPushButton( KStandardGuiItem.remove(), self )
+        self.btn_include_remove = QPushButton( QStandardGuiItem.remove(), self )
         buttons_layout.addWidget( self.btn_include_remove )
         QObject.connect( self.btn_include_remove, SIGNAL('clicked()'), self.on_btn_include_remove_clicked )
 
@@ -423,12 +418,12 @@ class SettingsDialog( KDialog ):
         self.lbl_ssh_encfs_exclude_warning = label
         layout.addWidget( label )
 
-        self.list_exclude = KListWidget( self )
+        self.list_exclude = QListWidget( self )
         self.list_exclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
         layout.addWidget( self.list_exclude )
 
         label = QLabel( QString.fromUtf8( _('Highly recommended:') ), self )
-        kde4tools.set_font_bold( label )
+        qt4tools.set_font_bold( label )
         layout.addWidget( label )
         label = QLabel( QString.fromUtf8( ', '.join(self.config.DEFAULT_EXCLUDE) ), self )
         label.setWordWrap(True)
@@ -437,21 +432,21 @@ class SettingsDialog( KDialog ):
         buttons_layout = QHBoxLayout()
         layout.addLayout( buttons_layout )
 
-        self.btn_exclude_add = KPushButton( KStandardGuiItem.add(), self )
+        self.btn_exclude_add = QPushButton( QStandardGuiItem.add(), self )
         buttons_layout.addWidget( self.btn_exclude_add )
         QObject.connect( self.btn_exclude_add, SIGNAL('clicked()'), self.on_btn_exclude_add_clicked )
         
-        self.btn_exclude_file = KPushButton( KStandardGuiItem.add(), self )
+        self.btn_exclude_file = QPushButton( QStandardGuiItem.add(), self )
         self.btn_exclude_file.setText( QString.fromUtf8( _( 'Add file' ) ) )
         buttons_layout.addWidget( self.btn_exclude_file )
         QObject.connect( self.btn_exclude_file, SIGNAL('clicked()'), self.on_btn_exclude_file_clicked )
         
-        self.btn_exclude_folder = KPushButton( KStandardGuiItem.add(), self )
+        self.btn_exclude_folder = QPushButton( QStandardGuiItem.add(), self )
         self.btn_exclude_folder.setText( QString.fromUtf8( _( 'Add folder' ) ) )
         buttons_layout.addWidget( self.btn_exclude_folder )
         QObject.connect( self.btn_exclude_folder, SIGNAL('clicked()'), self.on_btn_exclude_folder_clicked )
         
-        self.btn_exclude_remove = KPushButton( KStandardGuiItem.remove(), self )
+        self.btn_exclude_remove = QPushButton( QStandardGuiItem.remove(), self )
         buttons_layout.addWidget( self.btn_exclude_remove )
         QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
@@ -465,10 +460,10 @@ class SettingsDialog( KDialog ):
         layout.addWidget( self.cb_remove_older_then, 0, 0 )
         QObject.connect( self.cb_remove_older_then, SIGNAL('stateChanged(int)'), self.update_remove_older_than )
 
-        self.edit_remove_older_then = KIntSpinBox( 1, 1000, 1, 1, self )
+        self.edit_remove_older_then = QIntSpinBox( 1, 1000, 1, 1, self )
         layout.addWidget( self.edit_remove_older_then, 0, 1 )
 
-        self.combo_remove_older_then = KComboBox( self )
+        self.combo_remove_older_then = QComboBox( self )
         layout.addWidget( self.combo_remove_older_then, 0, 2 )
         self.fill_combo( self.combo_remove_older_then, self.config.REMOVE_OLD_BACKUP_UNITS )
 
@@ -479,10 +474,10 @@ class SettingsDialog( KDialog ):
         layout.addWidget( self.cb_min_free_space, 1, 0 )
         QObject.connect( self.cb_min_free_space, SIGNAL('stateChanged(int)'), self.update_min_free_space )
 
-        self.edit_min_free_space = KIntSpinBox( 1, 1000, 1, 1, self )
+        self.edit_min_free_space = QIntSpinBox( 1, 1000, 1, 1, self )
         layout.addWidget( self.edit_min_free_space, 1, 1 )
 
-        self.combo_min_free_space = KComboBox( self )
+        self.combo_min_free_space = QComboBox( self )
         layout.addWidget( self.combo_min_free_space, 1, 2 )
         self.fill_combo( self.combo_min_free_space, self.config.MIN_FREE_SPACE_UNITS )
 
@@ -512,22 +507,22 @@ class SettingsDialog( KDialog ):
         smlayout = QGridLayout( widget )
 
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep all snapshots for the last' ) ), self ), 0, 0 )
-        self.edit_keep_all = KIntSpinBox( 1, 10000, 1, 1, self )
+        self.edit_keep_all = QIntSpinBox( 1, 10000, 1, 1, self )
         smlayout.addWidget( self.edit_keep_all, 0, 1 )
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'day(s)' ) ), self ), 0, 2 )
 
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per day for the last' ) ), self ), 1, 0 )
-        self.edit_keep_one_per_day = KIntSpinBox( 1, 10000, 1, 1, self )
+        self.edit_keep_one_per_day = QIntSpinBox( 1, 10000, 1, 1, self )
         smlayout.addWidget( self.edit_keep_one_per_day, 1, 1 )
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'day(s)' ) ), self ), 1, 2 )
 
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per week for the last' ) ), self ), 2, 0 )
-        self.edit_keep_one_per_week = KIntSpinBox( 1, 10000, 1, 1, self )
+        self.edit_keep_one_per_week = QIntSpinBox( 1, 10000, 1, 1, self )
         smlayout.addWidget( self.edit_keep_one_per_week, 2, 1 )
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'weeks(s)' ) ), self ), 2, 2 )
 
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per month for the last' ) ), self ), 3, 0 )
-        self.edit_keep_one_per_month = KIntSpinBox( 1, 10000, 1, 1, self )
+        self.edit_keep_one_per_month = QIntSpinBox( 1, 10000, 1, 1, self )
         smlayout.addWidget( self.edit_keep_one_per_month, 3, 1 )
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'month(s)' ) ), self ), 3, 2 )
 
@@ -581,7 +576,7 @@ class SettingsDialog( KDialog ):
 
         hlayout.addWidget( QLabel( QString.fromUtf8( _('Log Level:') ), self ) )
 
-        self.combo_log_level = KComboBox( self )
+        self.combo_log_level = QComboBox( self )
         hlayout.addWidget( self.combo_log_level, 1 )
         
         self.combo_log_level.addItem( QIcon(), QString.fromUtf8( _('None') ), QVariant(0) )
@@ -598,7 +593,7 @@ class SettingsDialog( KDialog ):
         layout = QVBoxLayout( tab_widget )
 
         label = QLabel( QString.fromUtf8( _('Change these options only if you really know what you are doing !') ), self )
-        kde4tools.set_font_bold( label )
+        qt4tools.set_font_bold( label )
         layout.addWidget( label )
 
         #self.cb_per_diretory_schedule = QCheckBox( QString.fromUtf8( _( 'Enable schedule per included folder (see Include tab; default: disabled)' ) ), self )
@@ -650,7 +645,7 @@ class SettingsDialog( KDialog ):
         self.on_combo_modes_changed()
 
     def add_profile( self ):
-        ret_val = KInputDialog.getText( QString.fromUtf8( _( 'New profile' ) ), '', '', self )
+        ret_val = QInputDialog.getText( QString.fromUtf8( _( 'New profile' ) ), '', '', self )
         if not ret_val[1]:
             return
 
@@ -666,7 +661,7 @@ class SettingsDialog( KDialog ):
         self.update_profiles()
 
     def edit_profile( self ):
-        ret_val = KInputDialog.getText( QString.fromUtf8( _( 'Rename profile' ) ), '', '', self )
+        ret_val = QInputDialog.getText( QString.fromUtf8( _( 'Rename profile' ) ), '', '', self )
         if not ret_val[1]:
             return
 
@@ -1103,15 +1098,15 @@ class SettingsDialog( KDialog ):
         return True
 
     def error_handler( self, message ):
-        KMessageBox.error( self, QString.fromUtf8( message ) )
+        messagebox.critical( self, message )
 
     def question_handler( self, message ):
-        return KMessageBox.Yes == KMessageBox.warningYesNo( self, QString.fromUtf8( message ) )
+        return QMessageBox.Yes == messagebox.warningYesNo( self, message )
 
     def exec_( self ):
         self.config.set_question_handler( self.question_handler )
         self.config.set_error_handler( self.error_handler )
-        ret_val = KDialog.exec_( self )
+        ret_val = QDialog.exec_( self )
         self.config.clear_handlers()
 
         if ret_val != QDialog.Accepted:
@@ -1168,9 +1163,9 @@ class SettingsDialog( KDialog ):
         item = QTreeWidgetItem()
 
         if data[1] == 0:
-            item.setIcon( 0, KIcon('folder') )
+            item.setIcon( 0, QIcon.fromTheme('folder') )
         else:
-            item.setIcon( 0, KIcon('text-plain') )
+            item.setIcon( 0, QIcon.fromTheme('text-plain') )
 
         item.setText( 0, QString.fromUtf8( data[0] ) )
         #item.setText( 0, QString.fromUtf8( data[0] ) )
@@ -1184,7 +1179,7 @@ class SettingsDialog( KDialog ):
         return item
 
     def add_exclude( self, pattern ):
-        item = QListWidgetItem( KIcon('edit-delete'), QString.fromUtf8( pattern ), self.list_exclude )
+        item = QListWidgetItem( QIcon.fromTheme('edit-delete'), QString.fromUtf8( pattern ), self.list_exclude )
 
         if self.list_exclude.currentItem() is None:
             self.list_exclude.setCurrentItem( item )
@@ -1196,7 +1191,7 @@ class SettingsDialog( KDialog ):
         keys.sort()
 
         for key in keys:
-            combo.addItem( QIcon(), QString.fromUtf8( dict[ key ] ), QVariant( key ) )
+            combo.addItem( QIcon.fromTheme(), QString.fromUtf8( dict[ key ] ), QVariant( key ) )
 
     def set_combo_value( self, combo, value, type = 'int' ):
         for i in xrange( combo.count() ):
@@ -1238,7 +1233,7 @@ class SettingsDialog( KDialog ):
         self.add_exclude( pattern )
     
     def on_btn_exclude_add_clicked( self ):
-        ret_val = KInputDialog.getText( QString.fromUtf8( _( 'Exclude pattern' ) ), '', '', self )
+        ret_val = QInputDialog.getText( QString.fromUtf8( _( 'Exclude pattern' ) ), '', '', self )
         if not ret_val[1]:
             return
 
@@ -1248,17 +1243,17 @@ class SettingsDialog( KDialog ):
             return
 
         if pattern.find( ':' ) >= 0:
-            KMessageBox.error( self, QString.fromUtf8( _('Exclude patterns can\'t contain \':\' char !') ) )
+            messagebox.critical( self, _('Exclude patterns can\'t contain \':\' char !') )
             return
     
         self.add_exclude_( pattern )
 
     def on_btn_exclude_file_clicked( self ):
-        for path in KFileDialog.getOpenFileNames( KUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ):
+        for path in QFileDialog.getOpenFileNames( QUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ):
             self.add_exclude_( str(path.toUtf8()) )
 
     def on_btn_exclude_folder_clicked( self ):
-        dialog = kde4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Exclude folder' ) ) )
+        dialog = qt4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Exclude folder' ) ) )
         if dialog.exec_():
             for path in dialog.selectedFiles():
                 self.add_exclude_( str(path.toUtf8()) )
@@ -1275,7 +1270,7 @@ class SettingsDialog( KDialog ):
             self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
 
     def on_btn_include_file_add_clicked( self ):
-        for path in KFileDialog.getOpenFileNames( KUrl(), '', self, QString.fromUtf8( _( 'Include file' ) ) ):
+        for path in QFileDialog.getOpenFileNames( QUrl(), '', self, QString.fromUtf8( _( 'Include file' ) ) ):
             path = str(path.toUtf8())
             if len( path ) == 0 :
                 continue
@@ -1289,7 +1284,7 @@ class SettingsDialog( KDialog ):
             self.add_include( ( path, 1 ) )
 
     def on_btn_include_add_clicked( self ):
-        dialog = kde4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Include folder' ) ) )
+        dialog = qt4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Include folder' ) ) )
         if dialog.exec_():
             for path in dialog.selectedFiles():
                 path = str(path.toUtf8())
@@ -1308,7 +1303,7 @@ class SettingsDialog( KDialog ):
     def on_btn_snapshots_path_clicked( self ):
         old_path = str( self.edit_snapshots_path.text().toUtf8() )
 
-        path = str( KFileDialog.getExistingDirectory( KUrl( self.edit_snapshots_path.text() ), self, QString.fromUtf8( _( 'Where to save snapshots' ) ) ).toUtf8() )
+        path = str( QFileDialog.getExistingDirectory( QUrl( self.edit_snapshots_path.text() ), self, QString.fromUtf8( _( 'Where to save snapshots' ) ) ).toUtf8() )
         if len( path ) > 0 :
             if len( old_path ) > 0 and old_path != path:
                 if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
@@ -1319,10 +1314,10 @@ class SettingsDialog( KDialog ):
         old_file = str( self.txt_ssh_private_key_file.text().toUtf8() )
 
         if len(old_file) > 0:
-            start_dir = KUrl( self.txt_ssh_private_key_file.text() )
+            start_dir = QUrl( self.txt_ssh_private_key_file.text() )
         else:
-            start_dir = KUrl( self.config.get_ssh_private_key_folder() )
-        file = str( KFileDialog.getOpenFileName( start_dir, QString.fromUtf8(''), self, QString.fromUtf8( _( 'SSH private key' ) ) ).toUtf8() )
+            start_dir = QUrl( self.config.get_ssh_private_key_folder() )
+        file = str( QFileDialog.getOpenFileName( start_dir, QString.fromUtf8(''), self, QString.fromUtf8( _( 'SSH private key' ) ) ).toUtf8() )
         if len( file ) > 0 :
             self.txt_ssh_private_key_file.setText( QString.fromUtf8( self.config.prepare_path( file ) ) )
         
@@ -1347,11 +1342,11 @@ class SettingsDialog( KDialog ):
                 self.lbl_password_2.setText( QString.fromUtf8( self.config.SNAPSHOT_MODES[active_mode][3] + ':' ) )
                 self.lbl_password_2.show()
                 self.txt_password_2.show()
-                kde4tools.equal_indent(self.lbl_password_1, self.lbl_password_2)
+                qt4tools.equal_indent(self.lbl_password_1, self.lbl_password_2)
             else:
                 self.lbl_password_2.hide()
                 self.txt_password_2.hide()
-                kde4tools.equal_indent(self.lbl_password_1)
+                qt4tools.equal_indent(self.lbl_password_1)
         else:
             self.frame_password_1.hide()
             
@@ -1368,5 +1363,5 @@ class SettingsDialog( KDialog ):
             
     def accept( self ):
         if self.validate():
-            KDialog.accept( self )
+            QDialog.accept( self )
 

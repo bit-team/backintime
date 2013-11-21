@@ -8,8 +8,8 @@ clean:
 
 install:
 	#install python
-	install -d $(DEST)/share/backintime/kde4
-	install --mode=644 *.py $(DEST)/share/backintime/kde4
+	install -d $(DEST)/share/backintime/qt4
+	install --mode=644 *.py $(DEST)/share/backintime/qt4
 	
 	#install plugin
 	install -d $(DEST)/share/backintime/plugins
@@ -17,15 +17,15 @@ install:
 	
 	#install application
 	install -d $(DEST)/bin
-	install backintime-kde4 $(DEST)/bin
+	install backintime-qt4 $(DEST)/bin
 	
 	#install copyright file
-	install -d $(DEST)/share/doc/backintime-kde4
-	install --mode=644 ../common/debian_specific/copyright $(DEST)/share/doc/backintime-kde4
+	install -d $(DEST)/share/doc/backintime-qt4
+	install --mode=644 ../common/debian_specific/copyright $(DEST)/share/doc/backintime-qt4
 	
 	#install .desktop file(s)
-	install -d $(DEST)/share/applications/kde4
-	install --mode=644 *.desktop $(DEST)/share/applications/kde4
+	install -d $(DEST)/share/applications/qt4
+	install --mode=644 *.desktop $(DEST)/share/applications/qt4
 	
 	#install docbook
 	#install -d $(DEST)/share/doc/kde/HTML/en/backintime/figures

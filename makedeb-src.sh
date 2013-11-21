@@ -2,7 +2,7 @@
 
 RELEASES="lucid precise quantal raring saucy"
 
-for i in common notify gnome kde4; do
+for i in common notify qt4; do
 	PKGNAME=`cat $i/debian_specific/control | grep "^Package:" | cut -d" " -f2`
 	PKGVER=`cat $i/debian_specific/control | grep "^Version:" | cut -d" " -f2`
 	PKGARCH=`cat $i/debian_specific/control | grep "^Architecture:" | cut -d" " -f2`
@@ -27,11 +27,11 @@ for i in common notify gnome kde4; do
 		cat ../../$i/debian_specific/control | \
 			sed -e '/^Version:\|^Source:\|^Maintainer:/d' \
 			    -e 's/^Depends: /Depends: ${misc:Depends}, /g' \
-			    -e "s/backintime-\(common\|notify\|kde\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $PKGVER~$release)/g" \
+			    -e "s/backintime-\(common\|notify\|qt\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $PKGVER~$release)/g" \
 			    >> debian/control
-		if [ -e ../../$i/debian_specific/control.virtual-kde ]; then
+		if [ -e ../../$i/debian_specific/control.virtual ]; then
 			echo "" >> debian/control
-			cat ../../$i/debian_specific/control.virtual-kde | \
+			cat ../../$i/debian_specific/control.virtual | \
 				sed -e 's/^Depends: /Depends: ${misc:Depends}, /g' \
 				    >> debian/control
 		fi

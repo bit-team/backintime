@@ -25,13 +25,10 @@ import copy
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from PyKDE4.kdecore import *
-from PyKDE4.kdeui import *
-from PyKDE4.kio import *
 
 import config
 import tools
-import kde4tools
+import qt4tools
 
 
 _=gettext.gettext
@@ -39,7 +36,7 @@ _=gettext.gettext
 
 def restore( parent, snapshot_id, what, where = '' ):
     if where is None:
-        where = str( KFileDialog.getExistingDirectory( KUrl(), parent, QString.fromUtf8( _( 'Restore to ...' ) ) ).toUtf8() )
+        where = str( QFileDialog.getExistingDirectory( parent, QString.fromUtf8(_('Restore to ...')) ).toUtf8() )
         if len( where ) == 0 :
             return
         where = parent.config.prepare_path( where )
@@ -47,10 +44,9 @@ def restore( parent, snapshot_id, what, where = '' ):
     RestoreDialog(parent, snapshot_id, what, where).exec_()
 
 
-class RestoreDialog( KDialog ):
+class RestoreDialog( QDialog ):
     def __init__( self, parent, snapshot_id, what, where = '' ):
-        KDialog.__init__( self, parent )
-        self.setButtons(KDialog.Close)
+        QDialog.__init__( self, parent )
         self.resize( 600, 500 )
 
         self.config = parent.config
@@ -59,37 +55,39 @@ class RestoreDialog( KDialog ):
         self.snapshot_id = snapshot_id
         self.what = what
         self.where = where
+        import icon
 
         self.log_file = self.config.get_restore_log_file()
         if os.path.exists(self.log_file):
             os.remove(self.log_file)
 
-        self.setWindowIcon( KIcon( 'text-plain' ) )
-        self.setCaption( QString.fromUtf8( _( 'Restore' ) ) )
+        self.setWindowIcon(icon.RESTORE_DIALOG)
+        self.setWindowTitle( QString.fromUtf8( _( 'Restore' ) ) )
 
-        self.main_widget = QWidget( self )
-        self.main_layout = QVBoxLayout( self.main_widget )
-        self.setMainWidget( self.main_widget )
+        self.main_layout = QVBoxLayout(self)
 
         #text view
-        self.txt_log_view = KTextEdit( self )
+        self.txt_log_view = QTextEdit( self )
         self.txt_log_view.setReadOnly( True)
         self.main_layout.addWidget( self.txt_log_view )
 
-        #
-        self.enableButton(KDialog.Close, False)
+        #buttons
+        button_box = QDialogButtonBox(QDialogButtonBox.Close)
+        self.main_layout.addWidget(button_box)
+        self.btn_close = button_box.button(QDialogButtonBox.Close)
+        QObject.connect(button_box, SIGNAL('rejected()'), self.close)
+
+        self.btn_close.setEnabled(False)
 
     def callback(self, line, *params ):
-        self.txt_log_view.append(QString(line))
-        KApplication.processEvents()
+        self.txt_log_view.append(QString.fromUtf8(line))
+        QApplication.processEvents()
         with open(self.log_file, 'a') as log:
             log.write(line + '\n')
 
     def exec_(self):
         self.show()
-        KApplication.processEvents()
+        QApplication.processEvents()
         self.snapshots.restore( self.snapshot_id, self.what, self.callback, self.where )
-        self.enableButton(KDialog.Close, True)
-        KDialog.exec_(self)
-
-
+        self.btn_close.setEnabled(True)
+        QDialog.exec_(self)

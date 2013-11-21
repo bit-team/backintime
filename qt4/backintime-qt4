@@ -20,7 +20,7 @@
 if [ -f app.py ]; then
 	APP_PATH="."
 else
-	APP_PATH="/usr/share/backintime/kde4"
+	APP_PATH="/usr/share/backintime/qt4"
 fi
 
 python ${APP_PATH}/app.py "$@"

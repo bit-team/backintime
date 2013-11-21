@@ -34,7 +34,7 @@ if len( os.getenv( 'DISPLAY', '' ) ) == 0:
     os.putenv( 'DISPLAY', ':0.0' )
 
 
-class KDE4Plugin( pluginmanager.Plugin ):
+class Qt4Plugin( pluginmanager.Plugin ):
     def __init__( self ):
         self.process = None
         self.snapshots = None
@@ -42,15 +42,8 @@ class KDE4Plugin( pluginmanager.Plugin ):
     def init( self, snapshots ):
         self.snapshots = snapshots
 
-        if not tools.process_exists( 'ksmserver' ):
-            return False
-
         if not tools.check_x_server():
             return False
-
-        if len( tools.read_command_output( "ksmserver --version | grep \"KDE: 4.\"" ) ) <= 0:
-            return False
-
         return True
     
     def is_gui( self ):
@@ -58,7 +51,7 @@ class KDE4Plugin( pluginmanager.Plugin ):
 
     def on_process_begins( self ):
         try:
-            self.process = subprocess.Popen( [ sys.executable, '/usr/share/backintime/kde4/kde4systrayicon.py', self.snapshots.config.get_current_profile() ] )
+            self.process = subprocess.Popen( [ sys.executable, '/usr/share/backintime/qt4/qt4systrayicon.py', self.snapshots.config.get_current_profile() ] )
         except:
             pass
 

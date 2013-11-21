@@ -25,23 +25,19 @@ import copy
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from PyKDE4.kdecore import *
-from PyKDE4.kdeui import *
-from PyKDE4.kio import *
 
 import config
 import tools
-import kde4tools
+import qt4tools
 import encfstools
 
 
 _=gettext.gettext
 
 
-class LogViewDialog( KDialog ):
+class LogViewDialog( QDialog ):
     def __init__( self, parent, snapshot_id = None ):
-        KDialog.__init__( self, parent )
-        self.setButtons(KDialog.Close)
+        QDialog.__init__( self, parent )
         self.resize( 600, 500 )
 
         self.config = parent.config
@@ -51,12 +47,11 @@ class LogViewDialog( KDialog ):
         self.enable_update = False
         self.decode = None
 
-        self.setWindowIcon( KIcon( 'text-plain' ) )
-        self.setCaption( QString.fromUtf8( _( 'Error Log View' ) ) )
+        import icon
+        self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
+        self.setWindowTitle( QString.fromUtf8( _( 'Error Log View' ) ) )
 
-        self.main_widget = QWidget( self )
-        self.main_layout = QVBoxLayout( self.main_widget )
-        self.setMainWidget( self.main_widget )
+        self.main_layout = QVBoxLayout(self)
 
         layout = QHBoxLayout()
         self.main_layout.addLayout( layout )
@@ -65,7 +60,7 @@ class LogViewDialog( KDialog ):
         self.lbl_profiles = QLabel( QString.fromUtf8( _('Profile:') ), self )
         layout.addWidget( self.lbl_profiles )
 
-        self.combo_profiles = KComboBox( self )
+        self.combo_profiles = QComboBox( self )
         layout.addWidget( self.combo_profiles, 1 )
         QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.current_profile_changed )
         
@@ -76,7 +71,7 @@ class LogViewDialog( KDialog ):
         #filter
         layout.addWidget( QLabel( QString.fromUtf8( _('Filter:') ), self ) )
 
-        self.combo_filter = KComboBox( self )
+        self.combo_filter = QComboBox( self )
         layout.addWidget( self.combo_filter, 1 )
         QObject.connect( self.combo_filter, SIGNAL('currentIndexChanged(int)'), self.current_filter_changed )
     
@@ -92,7 +87,7 @@ class LogViewDialog( KDialog ):
         self.combo_filter.addItem( QString.fromUtf8( _('Informations') ), QVariant( 3 ) )
 
         #text view
-        self.txt_log_view = KTextEdit( self )
+        self.txt_log_view = QTextEdit( self )
         self.txt_log_view.setReadOnly( True)
         self.main_layout.addWidget( self.txt_log_view )
 
@@ -107,6 +102,11 @@ class LogViewDialog( KDialog ):
             self.cb_decode.show()
         else:
             self.cb_decode.hide()
+
+        #buttons
+        button_box = QDialogButtonBox(QDialogButtonBox.Close)
+        self.main_layout.addWidget(button_box)
+        QObject.connect(button_box, SIGNAL('rejected()'), self.close)
 
         self.update_profiles()
 
@@ -151,6 +151,6 @@ class LogViewDialog( KDialog ):
 
         if self.snapshot_id is None:
             profile_id = str( self.combo_profiles.itemData( self.combo_profiles.currentIndex() ).toString().toUtf8() )
-            self.txt_log_view.setPlainText( self.snapshots.get_take_snapshot_log( mode, profile_id, decode = self.decode ) )
+            self.txt_log_view.setPlainText(QString.fromUtf8(self.snapshots.get_take_snapshot_log(mode, profile_id, decode = self.decode)) )
         else:
-            self.txt_log_view.setPlainText( self.snapshots.get_snapshot_log( self.snapshot_id, mode, decode = self.decode ) )
+            self.txt_log_view.setPlainText(QString.fromUtf8(self.snapshots.get_snapshot_log(self.snapshot_id, mode, decode = self.decode)) )

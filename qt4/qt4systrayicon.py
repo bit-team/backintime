@@ -34,12 +34,11 @@ import tools
 import logger
 import snapshots
 
-from PyQt4.QtCore import QObject, QString, SIGNAL, QTimer
-from PyKDE4.kdecore import KAboutData, KCmdLineArgs, ki18n
-from PyKDE4.kdeui import KApplication, KSystemTrayIcon, KIcon, KPassivePopup
+from PyQt4.QtCore import QObject, QString, SIGNAL, QTimer , QAboutData, QCmdLineArgs, qin18n
+from PyQt4.QtGui import QApplication, QSystemTrayIcon, QIcon, QPassivePopup
 
 
-class KDE4SysTrayIcon:
+class Qt4SysTrayIcon:
     def __init__( self ):
         self.snapshots = snapshots.Snapshots()
         self.config = self.snapshots.config
@@ -51,14 +50,14 @@ class KDE4SysTrayIcon:
             except:
                 pass
 
-        kaboutdata = KAboutData( 'backintime', '', ki18n( self.config.APP_NAME ), self.config.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( self.config.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
+        kaboutdata = QAboutData( 'backintime', '', ki18n( self.config.APP_NAME ), self.config.VERSION, ki18n( '' ), QAboutData.License_GPL_V2, ki18n( self.config.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
         kaboutdata.setProgramIconName( 'document-save' )
 
-        KCmdLineArgs.init( [sys.argv[0]], kaboutdata )
-        self.kapp = KApplication()
+        QCmdLineArgs.init( [sys.argv[0]], kaboutdata )
+        self.kapp = QApplication()
 
-        self.status_icon = KSystemTrayIcon()
-        self.status_icon.setIcon( KIcon('document-save') )
+        self.status_icon = QSystemTrayIcon()
+        self.status_icon.setIcon( QIcon.fromTheme('document-save') )
         #self.status_icon.actionCollection().clear()
         self.status_icon.setContextMenu( None )
         QObject.connect( self.status_icon, SIGNAL('activated(QSystemTrayIcon::ActivationReason)'), self.show_popup )
@@ -89,11 +88,11 @@ class KDE4SysTrayIcon:
         self.status_icon.show()
         self.timer.start( 500 )
 
-        logger.info( "[kde4systrayicon] begin loop" )
+        logger.info( "[qt4systrayicon] begin loop" )
 
         self.kapp.exec_()
         
-        logger.info( "[kde4systrayicon] end loop" )
+        logger.info( "[qt4systrayicon] end loop" )
 
         self.prepare_exit()
 
@@ -103,7 +102,7 @@ class KDE4SysTrayIcon:
             self.popup = None
 
         if not self.last_message is None:
-            self.popup = KPassivePopup.message( self.config.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
+            self.popup = QPassivePopup.message( self.config.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
             self.popup.setAutoDelete( False )
 
     def update_info( self ):
@@ -122,14 +121,14 @@ class KDE4SysTrayIcon:
                 self.status_icon.setToolTip( QString.fromUtf8( self.last_message[1] ) )
 
                 if self.last_message[0] != 0:
-                    self.status_icon.setIcon( KIcon('document-save-as') )
+                    self.status_icon.setIcon( QIcon.fromTheme('document-save-as') )
                     if self.first_error:
                         self.first_error = False
                         self.show_popup()
                 else:
-                    self.status_icon.setIcon( KIcon('document-save') )
+                    self.status_icon.setIcon( QIcon.fromTheme('document-save') )
             
 
 if __name__ == '__main__':
-    KDE4SysTrayIcon().run()
+    Qt4SysTrayIcon().run()
 

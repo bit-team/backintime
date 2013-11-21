@@ -5,7 +5,7 @@ CHECK="--check"
 SUDO="--kdesudo"
 PYTHON="--python"
 
-USR_BIN_FILES="backintime-kde4"
+USR_BIN_FILES="backintime-qt4"
 
 #get commandline arguments
 for arg in $*; do
@@ -26,8 +26,8 @@ fi
 
 #set sudo
 case $SUDO in
-	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesudo -c backintime-kde4/" backintime-kde4-root.desktop;;
-	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesu -c backintime-kde4/" backintime-kde4-root.desktop;;
+	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesudo -c backintime-kde4/" backintime-qt4-root.desktop;;
+	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesu -c backintime-kde4/" backintime-qt4-root.desktop;;
 esac
 
 #patch python command

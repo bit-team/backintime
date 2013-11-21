@@ -15,17 +15,19 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import sys
-from PyKDE4.kdecore import ki18n, KAboutData, KCmdLineArgs
-from PyKDE4.kdeui import KApplication, KPasswordDialog
+import gettext
 from PyQt4.QtCore import QString, QTimer, SIGNAL
+from PyQt4.QtGui import QApplication, QMessageBox
 
 import app
 
+_ = gettext.gettext
+
 def ask_password_dialog(parent, config, title, prompt, timeout = None):
     if parent is None:
-        kapp, kaboutData = app.create_kapplication( config )
+        qapp = app.create_qapplication( config )
 
-    dialog = KPasswordDialog()
+    dialog = QPasswordDialog()
     
     timer = QTimer()
     if not timeout is None:
@@ -34,11 +36,11 @@ def ask_password_dialog(parent, config, title, prompt, timeout = None):
         timer.start()
 
     dialog.setPrompt( QString.fromUtf8(prompt))
-    KApplication.processEvents()
+    QApplication.processEvents()
 
     if parent is None:
         dialog.show()
-        kapp.exec_()
+        qapp.exec_()
     else:
         dialog.exec_()
 
@@ -47,3 +49,15 @@ def ask_password_dialog(parent, config, title, prompt, timeout = None):
     del(dialog)
 
     return(password)
+
+def critical(parent, msg):
+    return QMessageBox.critical(parent, QString.fromUtf8( _('Error') ),
+                                QString.fromUtf8(msg),
+                                buttons = QMessageBox.Ok,
+                                defaultButton = QMessageBox.Ok )
+
+def warningYesNo(parent, msg):
+    return QMessageBox.question(parent, QString.fromUtf8( _('Question') ),
+                                QString.fromUtf8(msg),
+                                buttons = QMessageBox.Yes | QMessageBox.No,
+                                defaultButton = QMessageBox.No )
