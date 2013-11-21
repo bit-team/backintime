@@ -54,7 +54,7 @@ class Daemon:
         Programming in the UNIX Environment" for details (ISBN 0201563177)
         http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
         """
-        logger.info('[Password_Cache.Daemon.daemonize] start')
+        #logger.info('[Password_Cache.Daemon.daemonize] start')
         try:
             pid = os.fork()
             if pid > 0:
@@ -90,7 +90,7 @@ class Daemon:
         os.dup2(se.fileno(), sys.stderr.fileno())
 
         # write pidfile
-        logger.info('[Password_Cache.Daemon.daemonize] write pidfile')
+        #logger.info('[Password_Cache.Daemon.daemonize] write pidfile')
         atexit.register(self.delpid)
         signal.signal(signal.SIGTERM, self._cleanup_handler)
         pid = str(os.getpid())
@@ -263,12 +263,12 @@ class Password_Cache(Daemon):
         tools.save_env(self.config)
 
         if not self._collect_passwords():
-            logger.info('[Password_Cache.run] Nothing to cache. Quit.')
+            #logger.info('[Password_Cache.run] Nothing to cache. Quit.')
             sys.exit(0)
         self.fifo.create()
         atexit.register(self.fifo.delfifo)
         signal.signal(signal.SIGHUP, self._reload_handler)
-        logger.info('[Password_Cache.run] start loop')
+        #logger.info('[Password_Cache.run] start loop')
         while True:
             try:
                 request = self.fifo.read()

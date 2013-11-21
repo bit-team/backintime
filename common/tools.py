@@ -101,19 +101,18 @@ def check_command( cmd ):
 
     if os.path.isfile( cmd ):
         return True
+    return not which(cmd) is None
 
-    cmd = which(cmd)
-
-    if len( cmd ) < 1:
-        return False
-
-    if os.path.isfile( cmd ):
-        return True
-
-    return False
-
-def which(cmd):
-    return read_command_output( "which \"%s\"" % cmd )
+def which(filename):
+    """Checks if 'filename' is present in the system PATH."""
+    pathenv = os.getenv('PATH', '')
+    path = pathenv.split(":")
+    path.insert(0, os.getcwd())
+    for directory in path:
+        fullpath = os.path.join(directory, filename)
+        if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
+            return fullpath
+    return None
 
 def make_dirs( path ):
     path = path.rstrip( os.sep )
@@ -575,12 +574,19 @@ def get_uuid(dev):
 def get_uuid_from_path(path):
     return get_uuid(get_mountpoint(path)[0])
 
-def sudo_execute(cfg, cmd, *args, **kwargs):
+def sudo_execute(cfg, cmd, msg = None, *args, **kwargs):
     '''execute command with gksudo or kdesudo if user isn't root'''
     if cfg.get_user() != 'root':
-        for i in ['gksudo', 'kdesudo', 'kdesu']:
+        sudo = {'gksudo':  ('-m "{msg}"', '-- {cmd}'),
+                'kdesudo': ('--comment "{msg}"', '-- {cmd}'),
+                'kdesu':   ('', '-c "{cmd}"') }
+        for i in sudo:
             if check_command(i):
-                cmd = i + ' ' + cmd
+                sudo_cmd = [i,]
+                if not msg is None and len(sudo[i][0]):
+                    sudo_cmd.append(sudo[i][0].replace('{msg}', msg))
+                sudo_cmd.append(sudo[i][1].replace('{cmd}', cmd))
+                cmd = ' '.join(sudo_cmd)
                 break
     return _execute(cmd, *args, **kwargs)
 
@@ -755,7 +761,7 @@ class ShutDown(object):
                                     #           Hibernate (no args)
                                     #           Logout (two args)
                                 'interface':    'org.xfce.Session.Manager',
-                                'arguments':    (False,)
+                                'arguments':    (True,)
                                     #arg        True    allow saving
                                     #           False   don't allow saving
                                     #1nd arg (only with Logout)

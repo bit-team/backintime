@@ -1447,6 +1447,9 @@ class Snapshots:
             #make new snapshot read-only
             self._execute( self.cmd_ssh( "chmod -R a-w \"%s\"" % snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
+        #create last_snapshot symlink
+        self.create_last_snapshot_symlink(snapshot_id)
+
         return [ True, has_errors ]
 
     def _smart_remove_keep_all_( self, snapshots, keep_snapshots, min_date, max_date ):
@@ -1821,6 +1824,14 @@ class Snapshots:
             os.chmod(full_path, st.st_mode | stat.S_IWUSR)
             os.remove(full_path)
         os.chmod(dirname, dir_st.st_mode)
+
+    def create_last_snapshot_symlink(self, snapshot_id):
+        symlink = self.config.get_last_snapshot_symlink()
+        if os.path.islink(symlink):
+            os.remove(symlink)
+        if os.path.exists(symlink):
+            return False
+        os.symlink(snapshot_id, symlink)
 
 if __name__ == "__main__":
     config = config.Config()

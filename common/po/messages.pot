@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-26 22:00+0200\n"
+"POT-Creation-Date: 2013-11-09 22:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -213,36 +213,44 @@ msgid ""
 "Are you sure you have write access ?"
 msgstr ""
 
-#: ../../common/config.py:1283
+#: ../../common/config.py:1286
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
 
-#: ../../common/config.py:1335
+#: ../../common/config.py:1338
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr ""
 
-#: ../../common/config.py:1339
+#: ../../common/config.py:1342
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr ""
 
-#: ../../common/config.py:1376
+#: ../../common/config.py:1379
 msgid "Failed to remove udev rules"
 msgstr ""
 
-#: ../../common/config.py:1382
+#: ../../common/config.py:1385
 msgid "Failed to create udev rules"
 msgstr ""
 
-#: ../../common/config.py:1417
+#: ../../common/config.py:1420
 msgid ""
 "Can't find anacron.\n"
 "Are you sure anacron is installed ?\n"
 "If not you should disable daily anacron backups."
+msgstr ""
+
+#: ../../common/config.py:1439
+msgid "Please provide your sudo password to install the udev rule."
+msgstr ""
+
+#: ../../common/config.py:1445
+msgid "Please provide your sudo password to remove unused udev rules."
 msgstr ""
 
 #: ../../common/configfile.py:253 ../../common/configfile.py:315
@@ -491,20 +499,20 @@ msgstr ""
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr ""
 
-#: ../../common/snapshots.py:1559
+#: ../../common/snapshots.py:1562
 msgid "Remove old snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:1583 ../../kde4/settingsdialog.py:501
+#: ../../common/snapshots.py:1586 ../../kde4/settingsdialog.py:501
 #: ../../gnome/settingsdialog.glade:1660
 msgid "Smart remove"
 msgstr ""
 
-#: ../../common/snapshots.py:1588
+#: ../../common/snapshots.py:1591
 msgid "Try to keep min free space"
 msgstr ""
 
-#: ../../common/snapshots.py:1618
+#: ../../common/snapshots.py:1621
 #, python-format
 msgid "Try to keep min %d%% free inodes"
 msgstr ""
@@ -536,59 +544,59 @@ msgstr ""
 msgid "sshfs not found. Please install e.g. 'apt-get install sshfs'"
 msgstr ""
 
-#: ../../common/sshtools.py:229
+#: ../../common/sshtools.py:217
 #, python-format
 msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
 "backintime' for further instructions."
 msgstr ""
 
-#: ../../common/sshtools.py:241
+#: ../../common/sshtools.py:229
 #, python-format
 msgid ""
 "Cipher %(cipher)s failed for %(host)s:\n"
 "%(err)s"
 msgstr ""
 
-#: ../../common/sshtools.py:266
+#: ../../common/sshtools.py:254
 #, python-format
 msgid "%s not found in ssh_known_hosts."
 msgstr ""
 
-#: ../../common/sshtools.py:286
+#: ../../common/sshtools.py:274
 #, python-format
 msgid ""
 "Remote path exists but is not a directory:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:288
+#: ../../common/sshtools.py:276
 #, python-format
 msgid ""
 "Remote path is not writeable:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:290
+#: ../../common/sshtools.py:278
 #, python-format
 msgid ""
 "Remote path is not executable:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:292
+#: ../../common/sshtools.py:280
 #, python-format
 msgid ""
 "Couldn't create remote path:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:314
+#: ../../common/sshtools.py:302
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
 msgstr ""
 
-#: ../../common/sshtools.py:337 ../../common/sshtools.py:395
+#: ../../common/sshtools.py:325 ../../common/sshtools.py:383
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
@@ -596,7 +604,7 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:399
+#: ../../common/sshtools.py:387
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
@@ -604,7 +612,7 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:412
+#: ../../common/sshtools.py:400
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
 msgstr ""

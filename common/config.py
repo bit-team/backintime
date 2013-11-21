@@ -143,8 +143,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         tools.make_dirs( self._LOCAL_CONFIG_FOLDER )
         tools.make_dirs( self._LOCAL_DATA_FOLDER )
 
+        self._DEFAULT_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
         if config_path is None:
-            self._LOCAL_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
+            self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
         else:
             self._LOCAL_CONFIG_PATH = config_path
         old_path = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
@@ -1204,6 +1205,9 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_restore_log_file( self, profile_id = None ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "restore_%s.log" % self.__get_file_id__( profile_id ) )
 
+    def get_last_snapshot_symlink(self, profile_id = None):
+        return os.path.join(self.get_snapshots_full_path(profile_id), 'last_snapshot')
+
     def get_license( self ):
         return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )
 
@@ -1398,6 +1402,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         cmd = tools.which('backintime') + ' '
         if profile_id != '1':
             cmd += '--profile-id %s ' % profile_id
+        if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:
+            cmd += '--config %s ' % self._LOCAL_CONFIG_PATH
         cmd += '--backup-job >/dev/null 2>&1'
         if self.is_run_ionice_from_cron_enabled(profile_id) and tools.check_command('ionice'):
             cmd = tools.which('ionice') + ' -c2 -n7 ' + cmd
@@ -1419,7 +1425,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def prepair_udev(self, tmp_fd, uuid, anacrontab_suffix):
         cmd = self.anacron_cmd(anacrontab_suffix)
-        cmd = "%s '%s' -c '%s' &" %(tools.which('su'), self.get_user(), cmd)
+        cmd = "%s - '%s' -c '%s' &" %(tools.which('su'), self.get_user(), cmd)
         tmp_fd.write('ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, cmd))
         return True
 
@@ -1433,13 +1439,13 @@ class Config( configfile.ConfigFileWithProfiles ):
         except TypeError:
             pass
         cmd = 'cp "%s" "%s"' %(tmp_fd.name, path)
-        return tools.sudo_execute(self, cmd) == 0
+        return tools.sudo_execute(self, cmd, _('Please provide your sudo password to install the udev rule.')) == 0
 
     def remove_udev(self):
         if not os.path.exists(self.get_udev_rules_path()):
             return True
         cmd = 'rm %s' % self.get_udev_rules_path()
-        return tools.sudo_execute(self, cmd) == 0
+        return tools.sudo_execute(self, cmd, _('Please provide your sudo password to remove unused udev rules.')) == 0
     
     #def get_update_other_folders( self ):
     #	return self.get_bool_value( 'update.other_folders', True )

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #set default options
 CHECK="--check"
@@ -34,14 +34,14 @@ fi
 #check GNOME
 if [ $CHECK = "--check" ]; then
 	if [ -z `which gnome-session` ]; then
-		echo "ERROR: Can't find GNOME !"
+		printf "ERROR: Can't find GNOME !\n"
 		exit 1
 	fi
 fi
 
 cp Makefile.template Makefile
 
-echo "All OK. Now run:"
-echo "    make"
-echo "    sudo make install"
+printf "All OK. Now run:\n"
+printf "    make\n"
+printf "    sudo make install\n"
 
