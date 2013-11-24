@@ -424,12 +424,7 @@ class Password(object):
         if prompt is None:
             prompt = _('Profile \'%(profile)s\': Enter password for %(mode)s: ') % {'profile': self.config.get_profile_name(profile_id), 'mode': self.config.SNAPSHOT_MODES[mode][pw_id + 1]}
         
-        gnome = os.path.join(self.config.get_app_path(), 'gnome')
-        kde   = os.path.join(self.config.get_app_path(), 'kde4')
-        for path in (gnome, kde):
-            if os.path.isdir(path):
-                sys.path = [path] + sys.path
-                break
+        tools.register_backintime_path('qt4')
         
         x_server = tools.check_x_server()
         import_successful = False
@@ -451,7 +446,7 @@ class Password(object):
                 password = ''
             return password
         
-        password = messagebox.ask_password_dialog(parent, self.config, 'Back in Time',
+        password = messagebox.ask_password_dialog(parent, self.config.APP_NAME,
                     prompt = prompt,
                     timeout = 300)
         return password

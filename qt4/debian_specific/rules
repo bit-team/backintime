@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-package = backintime-kde4
+package = backintime-qt4
 
 clean:
 	dh_testdir
@@ -9,8 +9,8 @@ clean:
 
 install: build
 	#install python
-	#dh_installdirs /usr/share/backintime/kde4
-	dh_install *.py /usr/share/backintime/kde4
+	#dh_installdirs /usr/share/backintime/qt4
+	dh_install *.py /usr/share/backintime/qt4
 	
 	#install plugin
 	#dh_installdirs /usr/share/backintime/plugins
@@ -18,20 +18,20 @@ install: build
 	
 	#install application
 	#dh_installdirs /usr/bin
-	dh_install backintime-kde4 /usr/bin
+	dh_install backintime-qt4 /usr/bin
 	
 	#install copyright file
-	#dh_installdirs /usr/share/doc/backintime-kde4
-	dh_install debian/copyright /usr/share/doc/backintime-kde4
+	#dh_installdirs /usr/share/doc/backintime-qt4
+	dh_install debian/copyright /usr/share/doc/backintime-qt4
 	
 	#install .desktop file(s)
-	#dh_installdirs /usr/share/applications/kde4
-	dh_install *.desktop /usr/share/applications/kde4
+	#dh_installdirs /usr/share/applications/qt4
+	dh_install *.desktop /usr/share/applications/qt4
 	
 	#install docbook
-	#dh_installdirs /usr/share/doc/kde4/HTML/en/backintime/figures
-	dh_install docbook/en/*.docbook /usr/share/doc/kde4/HTML/en/backintime
-	#dh_install docbook/en/figures/*.png /usr/share/doc/kde4/HTML/en/backintime/figures
+	#dh_installdirs /usr/share/doc/qt4/HTML/en/backintime/figures
+	dh_install docbook/en/*.docbook /usr/share/doc/qt4/HTML/en/backintime
+	#dh_install docbook/en/figures/*.png /usr/share/doc/qt4/HTML/en/backintime/figures
 
 build:
 	touch build

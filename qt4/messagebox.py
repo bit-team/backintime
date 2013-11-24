@@ -16,38 +16,41 @@
 
 import sys
 import gettext
-from PyQt4.QtCore import QString, QTimer, SIGNAL
-from PyQt4.QtGui import QApplication, QMessageBox
-
-import app
+from PyQt4.QtCore import QString, QTimer, SIGNAL, QStringList
+from PyQt4.QtGui import QApplication, QMessageBox, QInputDialog, QLineEdit
 
 _ = gettext.gettext
 
-def ask_password_dialog(parent, config, title, prompt, timeout = None):
+def ask_password_dialog(parent, title, prompt, timeout = None):
     if parent is None:
-        qapp = app.create_qapplication( config )
+        qapp = QApplication(sys.argv)
 
-    dialog = QPasswordDialog()
-    
+    import icon
+    dialog = QInputDialog()
+
     timer = QTimer()
     if not timeout is None:
-        dialog.connect(timer, SIGNAL("timeout()"), dialog.close)
+        dialog.connect(timer, SIGNAL("timeout()"), dialog.reject)
         timer.setInterval(timeout * 1000)
         timer.start()
 
-    dialog.setPrompt( QString.fromUtf8(prompt))
+    dialog.setWindowIcon(icon.BIT_LOGO)
+    dialog.setWindowTitle(QString.fromUtf8(title))
+    dialog.setLabelText(QString.fromUtf8(prompt))
+    dialog.setTextEchoMode(QLineEdit.Password)
     QApplication.processEvents()
 
-    if parent is None:
-        dialog.show()
-        qapp.exec_()
-    else:
-        dialog.exec_()
+    ret = dialog.exec_()
 
     timer.stop()
-    password = dialog.password().toUtf8()
+    if ret:
+        password = dialog.textValue().toUtf8()
+    else:
+        password = ''
     del(dialog)
 
+    if parent is None:
+        qapp.exit(0)
     return(password)
 
 def critical(parent, msg):

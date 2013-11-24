@@ -32,37 +32,24 @@ import tools
 import qt4tools
 import mount
 import password
-
+import messagebox
 
 _=gettext.gettext
-
-
-#class PopupAutomaticBackupAction( KAction ):
-#	def __init__( self, list, id, label ):
-#		KAction.__init__( self, label, list )
-#		self.list = list
-#		self.id = id
-#		self.label = label
-#	
-#		QObject.connect( self, SIGNAL('triggered()'), self.on_selected )
-#
-#	def on_selected( self ):
-#		item = self.list.currentItem()
-#		if not item is None:
-#			item.setText( 1, QString.fromUtf8( self.label ) )
-#			item.setData( 0, Qt.UserRole, QVariant( self.id ) )
 
 
 class SettingsDialog( QDialog ):
     def __init__( self, parent ):
         QDialog.__init__( self, parent )
 
+        self.parent = parent
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.config_copy_dict = copy.copy( self.config.dict )
         self.current_profile_org = self.config.get_current_profile()
+        import icon
+        self.icon = icon
 
-        self.setWindowIcon( QIcon.fromTheme( 'configure' ) )
+        self.setWindowIcon(icon.SETTINGS_DIALOG)
         self.setWindowTitle( QString.fromUtf8( _( 'Settings' ) ) )
 
         self.main_layout = QVBoxLayout(self)
@@ -80,15 +67,15 @@ class SettingsDialog( QDialog ):
         QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.current_profile_changed )
         self.disable_profile_changed = False
 
-        self.btn_edit_profile = QPushButton( QIcon.fromTheme( 'edit-rename' ), QString.fromUtf8( _('Edit') ), self )
+        self.btn_edit_profile = QPushButton(icon.PROFILE_EDIT, QString.fromUtf8( _('Edit') ), self )
         QObject.connect( self.btn_edit_profile, SIGNAL('clicked()'), self.edit_profile )
         layout.addWidget( self.btn_edit_profile )
 
-        self.btn_add_profile = QPushButton( QStandardGuiItem.add(), self )
+        self.btn_add_profile = QPushButton(icon.ADD, QString.fromUtf8(_('Add')), self)
         QObject.connect( self.btn_add_profile, SIGNAL('clicked()'), self.add_profile )
         layout.addWidget( self.btn_add_profile )
 
-        self.btn_remove_profile = QPushButton( QStandardGuiItem.remove(), self )
+        self.btn_remove_profile = QPushButton(icon.REMOVE, QString.fromUtf8(_('Remove')), self)
         QObject.connect( self.btn_remove_profile, SIGNAL('clicked()'), self.remove_profile )
         layout.addWidget( self.btn_remove_profile )
 
@@ -107,10 +94,12 @@ class SettingsDialog( QDialog ):
         layout.addLayout( vlayout )
         
         self.lbl_modes = QLabel( QString.fromUtf8( _( 'Mode:' ) ), self )
-        vlayout.addWidget( self.lbl_modes )
         
         self.combo_modes = QComboBox( self )
-        vlayout.addWidget( self.combo_modes )
+        hlayout = QHBoxLayout()
+        hlayout.addWidget(self.lbl_modes)
+        hlayout.addWidget(self.combo_modes, 1)
+        vlayout.addLayout(hlayout)
         store_modes = {}
         for key in self.config.SNAPSHOT_MODES.keys():
             store_modes[key] = self.config.SNAPSHOT_MODES[key][1]
@@ -131,7 +120,7 @@ class SettingsDialog( QDialog ):
         self.edit_snapshots_path.setReadOnly( True )
         hlayout.addWidget( self.edit_snapshots_path )
 
-        self.btn_snapshots_path = QPushButton( QIcon.fromTheme( 'folder' ), '', self )
+        self.btn_snapshots_path = QPushButton(icon.FOLDER, QString(), self)
         hlayout.addWidget( self.btn_snapshots_path )
         QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
         
@@ -182,7 +171,7 @@ class SettingsDialog( QDialog ):
         self.txt_ssh_private_key_file.setReadOnly( True )
         hlayout3.addWidget( self.txt_ssh_private_key_file )
         
-        self.btn_ssh_private_key_file = QPushButton( QIcon.fromTheme( 'folder' ), '', self )
+        self.btn_ssh_private_key_file = QPushButton(icon.FOLDER, QString(), self)
         hlayout3.addWidget( self.btn_ssh_private_key_file )
         QObject.connect( self.btn_ssh_private_key_file, SIGNAL('clicked()'), self.on_btn_ssh_private_key_file_clicked )
         qt4tools.equal_indent(self.lbl_ssh_host, self.lbl_ssh_path, self.lbl_ssh_cipher)
@@ -232,13 +221,13 @@ class SettingsDialog( QDialog ):
         self.lbl_password_1 = QLabel( QString.fromUtf8( _( 'Password' ) ), self )
         hlayout1.addWidget( self.lbl_password_1 )
         self.txt_password_1 = QLineEdit( self )
-        self.txt_password_1.setPasswordMode(True)
+        self.txt_password_1.setEchoMode(QLineEdit.Password)
         hlayout1.addWidget( self.txt_password_1 )
 
         self.lbl_password_2 = QLabel( QString.fromUtf8( _( 'Password' ) ), self )
         hlayout2.addWidget( self.lbl_password_2 )
         self.txt_password_2 = QLineEdit( self )
-        self.txt_password_2.setPasswordMode(True)
+        self.txt_password_2.setEchoMode(QLineEdit.Password)
         hlayout2.addWidget( self.txt_password_2 )
 
         self.cb_password_save = QCheckBox( QString.fromUtf8( _( 'Save Password to Keyring' ) ), self )
@@ -394,17 +383,15 @@ class SettingsDialog( QDialog ):
         buttons_layout = QHBoxLayout()
         layout.addLayout( buttons_layout )
 
-        self.btn_include_file_add = QPushButton( QStandardGuiItem.add(), self )
-        self.btn_include_file_add.setText( QString.fromUtf8( _( 'Add file' ) ) )
+        self.btn_include_file_add = QPushButton(icon.ADD, QString.fromUtf8(_('Add file')), self)
         buttons_layout.addWidget( self.btn_include_file_add )
         QObject.connect( self.btn_include_file_add, SIGNAL('clicked()'), self.on_btn_include_file_add_clicked )
         
-        self.btn_include_add = QPushButton( QStandardGuiItem.add(), self )
-        self.btn_include_add.setText( QString.fromUtf8( _( 'Add folder' ) ) )
+        self.btn_include_add = QPushButton(icon.ADD, QString.fromUtf8(_('Add folder')), self)
         buttons_layout.addWidget( self.btn_include_add )
         QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
         
-        self.btn_include_remove = QPushButton( QStandardGuiItem.remove(), self )
+        self.btn_include_remove = QPushButton(icon.REMOVE, QString.fromUtf8(_('Remove')), self)
         buttons_layout.addWidget( self.btn_include_remove )
         QObject.connect( self.btn_include_remove, SIGNAL('clicked()'), self.on_btn_include_remove_clicked )
 
@@ -432,21 +419,19 @@ class SettingsDialog( QDialog ):
         buttons_layout = QHBoxLayout()
         layout.addLayout( buttons_layout )
 
-        self.btn_exclude_add = QPushButton( QStandardGuiItem.add(), self )
+        self.btn_exclude_add = QPushButton(icon.ADD, QString.fromUtf8(_('Add')), self)
         buttons_layout.addWidget( self.btn_exclude_add )
         QObject.connect( self.btn_exclude_add, SIGNAL('clicked()'), self.on_btn_exclude_add_clicked )
         
-        self.btn_exclude_file = QPushButton( QStandardGuiItem.add(), self )
-        self.btn_exclude_file.setText( QString.fromUtf8( _( 'Add file' ) ) )
+        self.btn_exclude_file = QPushButton(icon.ADD, QString.fromUtf8(_('Add file')), self)
         buttons_layout.addWidget( self.btn_exclude_file )
         QObject.connect( self.btn_exclude_file, SIGNAL('clicked()'), self.on_btn_exclude_file_clicked )
         
-        self.btn_exclude_folder = QPushButton( QStandardGuiItem.add(), self )
-        self.btn_exclude_folder.setText( QString.fromUtf8( _( 'Add folder' ) ) )
+        self.btn_exclude_folder = QPushButton(icon.ADD, QString.fromUtf8(_('Add folder')), self)
         buttons_layout.addWidget( self.btn_exclude_folder )
         QObject.connect( self.btn_exclude_folder, SIGNAL('clicked()'), self.on_btn_exclude_folder_clicked )
         
-        self.btn_exclude_remove = QPushButton( QStandardGuiItem.remove(), self )
+        self.btn_exclude_remove = QPushButton(icon.REMOVE, QString.fromUtf8(_('Remove')), self)
         buttons_layout.addWidget( self.btn_exclude_remove )
         QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
@@ -460,7 +445,8 @@ class SettingsDialog( QDialog ):
         layout.addWidget( self.cb_remove_older_then, 0, 0 )
         QObject.connect( self.cb_remove_older_then, SIGNAL('stateChanged(int)'), self.update_remove_older_than )
 
-        self.edit_remove_older_then = QIntSpinBox( 1, 1000, 1, 1, self )
+        self.edit_remove_older_then = QSpinBox(self)
+        self.edit_remove_older_then.setRange(1, 1000)
         layout.addWidget( self.edit_remove_older_then, 0, 1 )
 
         self.combo_remove_older_then = QComboBox( self )
@@ -474,7 +460,8 @@ class SettingsDialog( QDialog ):
         layout.addWidget( self.cb_min_free_space, 1, 0 )
         QObject.connect( self.cb_min_free_space, SIGNAL('stateChanged(int)'), self.update_min_free_space )
 
-        self.edit_min_free_space = QIntSpinBox( 1, 1000, 1, 1, self )
+        self.edit_min_free_space = QSpinBox(self)
+        self.edit_min_free_space.setRange(1, 1000)
         layout.addWidget( self.edit_min_free_space, 1, 1 )
 
         self.combo_min_free_space = QComboBox( self )
@@ -496,10 +483,6 @@ class SettingsDialog( QDialog ):
         self.cb_smart_remove = QCheckBox( QString.fromUtf8( _( 'Smart remove' ) ), self )
         layout.addWidget( self.cb_smart_remove, 3, 0 )
 
-        #label = QLabel( QString.fromUtf8( _( '- keep all snapshots from today and yesterday\n- keep one snapshot for the last week and one for two weeks ago\n- keep one snapshot per month for all previous months of this year and all months of the last year \n- keep one snapshot per year for all other years' ) ),self )
-        #label.setContentsMargins( 25, 0, 0, 0 )
-        #layout.addWidget( label, 3, 0, 1, 3 )
-
         widget = QWidget( self )
         widget.setContentsMargins( 25, 0, 0, 0 )
         layout.addWidget( widget, 4, 0, 1, 3 )
@@ -507,22 +490,26 @@ class SettingsDialog( QDialog ):
         smlayout = QGridLayout( widget )
 
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep all snapshots for the last' ) ), self ), 0, 0 )
-        self.edit_keep_all = QIntSpinBox( 1, 10000, 1, 1, self )
+        self.edit_keep_all = QSpinBox(self)
+        self.edit_keep_all.setRange(1, 10000)
         smlayout.addWidget( self.edit_keep_all, 0, 1 )
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'day(s)' ) ), self ), 0, 2 )
 
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per day for the last' ) ), self ), 1, 0 )
-        self.edit_keep_one_per_day = QIntSpinBox( 1, 10000, 1, 1, self )
+        self.edit_keep_one_per_day = QSpinBox(self)
+        self.edit_keep_one_per_day.setRange(1, 10000)
         smlayout.addWidget( self.edit_keep_one_per_day, 1, 1 )
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'day(s)' ) ), self ), 1, 2 )
 
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per week for the last' ) ), self ), 2, 0 )
-        self.edit_keep_one_per_week = QIntSpinBox( 1, 10000, 1, 1, self )
+        self.edit_keep_one_per_week = QSpinBox(self)
+        self.edit_keep_one_per_week.setRange(1, 10000)
         smlayout.addWidget( self.edit_keep_one_per_week, 2, 1 )
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'weeks(s)' ) ), self ), 2, 2 )
 
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per month for the last' ) ), self ), 3, 0 )
-        self.edit_keep_one_per_month = QIntSpinBox( 1, 10000, 1, 1, self )
+        self.edit_keep_one_per_month = QSpinBox(self)
+        self.edit_keep_one_per_month.setRange(1, 1000)
         smlayout.addWidget( self.edit_keep_one_per_month, 3, 1 )
         smlayout.addWidget( QLabel( QString.fromUtf8( _( 'month(s)' ) ), self ), 3, 2 )
 
@@ -625,6 +612,7 @@ class SettingsDialog( QDialog ):
         self.sb_bwlimit.setSingleStep( 100 )
         self.sb_bwlimit.setRange( 0, 1000000 )
         hlayout.addWidget(self.sb_bwlimit)
+        hlayout.addStretch()
 
         self.cb_preserve_acl = QCheckBox( QString.fromUtf8( _( 'Preserve ACL' ) ), self )
         layout.addWidget( self.cb_preserve_acl )
@@ -641,11 +629,17 @@ class SettingsDialog( QDialog ):
         #
         layout.addStretch()
 
+        #buttons
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent = self)
+        QObject.connect(button_box, SIGNAL('accepted()'), self.accept)
+        QObject.connect(button_box, SIGNAL('rejected()'), self.reject)
+        self.main_layout.addWidget(button_box)
+
         self.update_profiles()
         self.on_combo_modes_changed()
 
     def add_profile( self ):
-        ret_val = QInputDialog.getText( QString.fromUtf8( _( 'New profile' ) ), '', '', self )
+        ret_val =  QInputDialog.getText(self, QString.fromUtf8(_('New profile')), QString() )
         if not ret_val[1]:
             return
 
@@ -661,7 +655,7 @@ class SettingsDialog( QDialog ):
         self.update_profiles()
 
     def edit_profile( self ):
-        ret_val = QInputDialog.getText( QString.fromUtf8( _( 'Rename profile' ) ), '', '', self )
+        ret_val =  QInputDialog.getText(self, QString.fromUtf8(_('Rename profile')), QString() )
         if not ret_val[1]:
             return
 
@@ -1163,9 +1157,9 @@ class SettingsDialog( QDialog ):
         item = QTreeWidgetItem()
 
         if data[1] == 0:
-            item.setIcon( 0, QIcon.fromTheme('folder') )
+            item.setIcon(0, self.icon.FOLDER)
         else:
-            item.setIcon( 0, QIcon.fromTheme('text-plain') )
+            item.setIcon(0, self.icon.FILE)
 
         item.setText( 0, QString.fromUtf8( data[0] ) )
         #item.setText( 0, QString.fromUtf8( data[0] ) )
@@ -1179,7 +1173,7 @@ class SettingsDialog( QDialog ):
         return item
 
     def add_exclude( self, pattern ):
-        item = QListWidgetItem( QIcon.fromTheme('edit-delete'), QString.fromUtf8( pattern ), self.list_exclude )
+        item = QListWidgetItem(self.icon.EXCLUDE, QString.fromUtf8( pattern ), self.list_exclude )
 
         if self.list_exclude.currentItem() is None:
             self.list_exclude.setCurrentItem( item )
@@ -1191,7 +1185,7 @@ class SettingsDialog( QDialog ):
         keys.sort()
 
         for key in keys:
-            combo.addItem( QIcon.fromTheme(), QString.fromUtf8( dict[ key ] ), QVariant( key ) )
+            combo.addItem( QIcon(), QString.fromUtf8( dict[ key ] ), QVariant( key ) )
 
     def set_combo_value( self, combo, value, type = 'int' ):
         for i in xrange( combo.count() ):
@@ -1233,7 +1227,7 @@ class SettingsDialog( QDialog ):
         self.add_exclude( pattern )
     
     def on_btn_exclude_add_clicked( self ):
-        ret_val = QInputDialog.getText( QString.fromUtf8( _( 'Exclude pattern' ) ), '', '', self )
+        ret_val = QInputDialog.getText(self, QString.fromUtf8(_('Exclude pattern')), QString() )
         if not ret_val[1]:
             return
 
@@ -1249,14 +1243,12 @@ class SettingsDialog( QDialog ):
         self.add_exclude_( pattern )
 
     def on_btn_exclude_file_clicked( self ):
-        for path in QFileDialog.getOpenFileNames( QUrl(), '', self, QString.fromUtf8( _( 'Exclude file' ) ) ):
+        for path in qt4tools.getOpenFileNames(self, QString.fromUtf8(_('Exclude file')) ):
             self.add_exclude_( str(path.toUtf8()) )
 
     def on_btn_exclude_folder_clicked( self ):
-        dialog = qt4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Exclude folder' ) ) )
-        if dialog.exec_():
-            for path in dialog.selectedFiles():
-                self.add_exclude_( str(path.toUtf8()) )
+        for path in qt4tools.getExistingDirectories(self, QString.fromUtf8(_('Exclude folder')) ):
+            self.add_exclude_( str(path.toUtf8()) )
 
     def on_btn_include_remove_clicked ( self ):
         for item in self.list_include.selectedItems():
@@ -1270,7 +1262,7 @@ class SettingsDialog( QDialog ):
             self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
 
     def on_btn_include_file_add_clicked( self ):
-        for path in QFileDialog.getOpenFileNames( QUrl(), '', self, QString.fromUtf8( _( 'Include file' ) ) ):
+        for path in qt4tools.getOpenFileNames(self, QString.fromUtf8(_('Include file')) ):
             path = str(path.toUtf8())
             if len( path ) == 0 :
                 continue
@@ -1284,26 +1276,26 @@ class SettingsDialog( QDialog ):
             self.add_include( ( path, 1 ) )
 
     def on_btn_include_add_clicked( self ):
-        dialog = qt4tools.getExistingDirectories( self, QString.fromUtf8( _( 'Include folder' ) ) )
-        if dialog.exec_():
-            for path in dialog.selectedFiles():
-                path = str(path.toUtf8())
-                
-                if len( path ) == 0 :
+        for path in qt4tools.getExistingDirectories(self, QString.fromUtf8(_('Include folder')) ):
+            path = str(path.toUtf8())
+            
+            if len( path ) == 0 :
+                continue
+
+            path = self.config.prepare_path( path )
+
+            for index in xrange( self.list_include.topLevelItemCount() ):
+                if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
                     continue
 
-                path = self.config.prepare_path( path )
-
-                for index in xrange( self.list_include.topLevelItemCount() ):
-                    if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
-                        continue
-
-                self.add_include( ( path, 0 ) )
+            self.add_include( ( path, 0 ) )
 
     def on_btn_snapshots_path_clicked( self ):
         old_path = str( self.edit_snapshots_path.text().toUtf8() )
 
-        path = str( QFileDialog.getExistingDirectory( QUrl( self.edit_snapshots_path.text() ), self, QString.fromUtf8( _( 'Where to save snapshots' ) ) ).toUtf8() )
+        path = str(qt4tools.getExistingDirectory(self,
+                                                 QString.fromUtf8(_('Where to save snapshots')),
+                                                 self.edit_snapshots_path.text() ).toUtf8() )
         if len( path ) > 0 :
             if len( old_path ) > 0 and old_path != path:
                 if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
@@ -1311,15 +1303,15 @@ class SettingsDialog( QDialog ):
             self.edit_snapshots_path.setText( QString.fromUtf8( self.config.prepare_path( path ) ) )
 
     def on_btn_ssh_private_key_file_clicked( self ):
-        old_file = str( self.txt_ssh_private_key_file.text().toUtf8() )
+        old_file = self.txt_ssh_private_key_file.text()
 
-        if len(old_file) > 0:
-            start_dir = QUrl( self.txt_ssh_private_key_file.text() )
+        if not old_file.isEmpty():
+            start_dir = self.txt_ssh_private_key_file.text()
         else:
-            start_dir = QUrl( self.config.get_ssh_private_key_folder() )
-        file = str( QFileDialog.getOpenFileName( start_dir, QString.fromUtf8(''), self, QString.fromUtf8( _( 'SSH private key' ) ) ).toUtf8() )
-        if len( file ) > 0 :
-            self.txt_ssh_private_key_file.setText( QString.fromUtf8( self.config.prepare_path( file ) ) )
+            start_dir = QString.fromUtf8( self.config.get_ssh_private_key_folder() )
+        file = qt4tools.getOpenFileName(self, QString.fromUtf8(_('SSH private key')), start_dir)
+        if not file.isEmpty():
+            self.txt_ssh_private_key_file.setText(file)
         
     def on_combo_modes_changed(self, *params):
         if len(params) == 0:

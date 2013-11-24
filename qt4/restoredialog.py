@@ -36,7 +36,7 @@ _=gettext.gettext
 
 def restore( parent, snapshot_id, what, where = '' ):
     if where is None:
-        where = str( QFileDialog.getExistingDirectory( parent, QString.fromUtf8(_('Restore to ...')) ).toUtf8() )
+        where = str( qt4tools.getExistingDirectory( parent, QString.fromUtf8(_('Restore to ...')) ).toUtf8() )
         if len( where ) == 0 :
             return
         where = parent.config.prepare_path( where )

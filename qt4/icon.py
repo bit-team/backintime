@@ -24,7 +24,8 @@ BIT_LOGO_INFO       = QIcon.fromTheme('document-save-as')
 TAKE_SNAPSHOT       = BIT_LOGO
 REFRESH_SNAPSHOT    = QIcon.fromTheme('view-refresh')
 SNAPSHOT_NAME       = QIcon.fromTheme('stock_edit',
-                      QIcon.fromTheme('edit-rename') )
+                      QIcon.fromTheme('gtk-edit',
+                      QIcon.fromTheme('edit-rename') ) )
 REMOVE_SNAPSHOT     = QIcon.fromTheme('edit-delete')
 VIEW_SNAPSHOT_LOG   = QIcon.fromTheme('text-plain')
 VIEW_LAST_LOG       = QIcon.fromTheme('document-new')
@@ -61,3 +62,12 @@ SELECT_ALL          = QIcon.fromTheme('edit-select-all')
 
 #Restore dialog
 RESTORE_DIALOG      = VIEW_SNAPSHOT_LOG
+
+#Settings dialog
+SETTINGS_DIALOG     = SETTINGS
+PROFILE_EDIT        = SNAPSHOT_NAME
+ADD                 = SHOW_HIDDEN
+REMOVE              = QIcon.fromTheme('list-remove')
+FOLDER              = QIcon.fromTheme('folder')
+FILE                = VIEW_SNAPSHOT_LOG
+EXCLUDE             = REMOVE_SNAPSHOT

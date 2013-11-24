@@ -34,8 +34,8 @@ import tools
 import logger
 import snapshots
 
-from PyQt4.QtCore import QObject, QString, SIGNAL, QTimer , QAboutData, QCmdLineArgs, qin18n
-from PyQt4.QtGui import QApplication, QSystemTrayIcon, QIcon, QPassivePopup
+from PyQt4.QtCore import QObject, QString, SIGNAL, QTimer
+from PyQt4.QtGui import QApplication, QSystemTrayIcon, QIcon
 
 
 class Qt4SysTrayIcon:
@@ -50,14 +50,13 @@ class Qt4SysTrayIcon:
             except:
                 pass
 
-        kaboutdata = QAboutData( 'backintime', '', ki18n( self.config.APP_NAME ), self.config.VERSION, ki18n( '' ), QAboutData.License_GPL_V2, ki18n( self.config.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
-        kaboutdata.setProgramIconName( 'document-save' )
+        self.qapp = QApplication(sys.argv)
 
-        QCmdLineArgs.init( [sys.argv[0]], kaboutdata )
-        self.kapp = QApplication()
+        import icon
+        self.icon = icon
+        self.qapp.setWindowIcon(icon.BIT_LOGO)
 
-        self.status_icon = QSystemTrayIcon()
-        self.status_icon.setIcon( QIcon.fromTheme('document-save') )
+        self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
         #self.status_icon.actionCollection().clear()
         self.status_icon.setContextMenu( None )
         QObject.connect( self.status_icon, SIGNAL('activated(QSystemTrayIcon::ActivationReason)'), self.show_popup )
@@ -82,7 +81,7 @@ class Qt4SysTrayIcon:
             self.popup.deleteLater()
             self.popup = None
 
-        self.kapp.processEvents()
+        self.qapp.processEvents()
 
     def run( self ):
         self.status_icon.show()
@@ -90,25 +89,26 @@ class Qt4SysTrayIcon:
 
         logger.info( "[qt4systrayicon] begin loop" )
 
-        self.kapp.exec_()
+        self.qapp.exec_()
         
         logger.info( "[qt4systrayicon] end loop" )
 
         self.prepare_exit()
 
     def show_popup( self ):
-        if not self.popup is None:
-            self.popup.deleteLater()
-            self.popup = None
+        pass
+##        if not self.popup is None:
+##            self.popup.deleteLater()
+##            self.popup = None
 
-        if not self.last_message is None:
-            self.popup = QPassivePopup.message( self.config.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
-            self.popup.setAutoDelete( False )
+##        if not self.last_message is None:
+##            self.popup = KPassivePopup.message( self.config.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
+##            self.popup.setAutoDelete( False )
 
     def update_info( self ):
         if not tools.is_process_alive( self.ppid ):
             self.prepare_exit()
-            self.kapp.exit(0)
+            self.qapp.exit(0)
             return
 
         message = self.snapshots.get_take_snapshot_message()
@@ -121,12 +121,12 @@ class Qt4SysTrayIcon:
                 self.status_icon.setToolTip( QString.fromUtf8( self.last_message[1] ) )
 
                 if self.last_message[0] != 0:
-                    self.status_icon.setIcon( QIcon.fromTheme('document-save-as') )
+                    self.status_icon.setIcon(self.icon.BIT_LOGO_INFO)
                     if self.first_error:
                         self.first_error = False
                         self.show_popup()
                 else:
-                    self.status_icon.setIcon( QIcon.fromTheme('document-save') )
+                    self.status_icon.setIcon(self.icon.BIT_LOGO)
             
 
 if __name__ == '__main__':

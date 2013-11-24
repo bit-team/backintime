@@ -157,8 +157,8 @@ class MainWindow( QMainWindow ):
         self.right_widget = QGroupBox( self )
         self.main_splitter.addWidget( self.right_widget )
         right_layout = QVBoxLayout( self.right_widget )
-        #left, top, right, bottom = right_layout.getContentsMargins()
-        #right_layout.setContentsMargins( 0, 0, 0, right )
+        left, top, right, bottom = right_layout.getContentsMargins()
+        right_layout.setContentsMargins( 0, 0, right, 0 )
 
         #files toolbar
         self.files_view_toolbar = QToolBar( self )
@@ -244,6 +244,7 @@ class MainWindow( QMainWindow ):
         #second spliter
         self.second_splitter = QSplitter( self )
         self.second_splitter.setOrientation( Qt.Horizontal )
+        self.second_splitter.setContentsMargins(0, 0, 0, 0)
         right_layout.addWidget( self.second_splitter )
 
         #places
@@ -812,11 +813,7 @@ class MainWindow( QMainWindow ):
 
         name = self.snapshots.get_snapshot_name( snapshot_id )
 
-        ret_val = QInputDialog.getText( self, QString.fromUtf8(_('Snapshot Name')),
-                                        QString(),
-                                        QLineEdit.Normal,
-                                        QString.fromUtf8(name),
-                                        Qt.Widget)
+        ret_val = QInputDialog.getText(self, QString.fromUtf8(_('Snapshot Name')), QString() )
         if not ret_val[1]:
             return
         
@@ -1129,13 +1126,14 @@ class Qt4TakeSnapshotCallback( threading.Thread ): #used to display status icon
             pass
 
     def show_popup( self ):
-        if not self.popup is None:
-            self.popup.deleteLater()
-            self.popup = None
-
-        if not self.last_message is None:
-            self.popup = QPassivePopup.message( self.cfg.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
-            self.popup.setAutoDelete( False )
+        pass
+##        if not self.popup is None:
+##            self.popup.deleteLater()
+##            self.popup = None
+##
+##        if not self.last_message is None:
+##            self.popup = KPassivePopup.message( self.cfg.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
+##            self.popup.setAutoDelete( False )
 
     def run(self):
         logger.info( '[Qt4TakeSnapshotCallback.run]' )
@@ -1148,6 +1146,7 @@ class Qt4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 
         qapp = create_qapplication( self.cfg )
         self.last_message = None
+        import icon
 
         self.status_icon = QSystemTrayIcon()
         self.status_icon.setIcon(icon.BIT_LOGO)
@@ -1194,16 +1193,24 @@ class About(QDialog):
         super(About, self).__init__(parent)
         self.parent = parent
         self.config = parent.config
+        import icon
 
         self.setWindowTitle(QString.fromUtf8(_('About') + ' ' + self.config.APP_NAME))
+        logo     = QLabel(QString.fromUtf8('Icon'))
+        logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)) )
         name     = QLabel(QString.fromUtf8('<h1>' + self.config.APP_NAME + ' ' + self.config.VERSION + '</h1>'))
+        name.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         homepage = QLabel(QString.fromUtf8(self.mkurl('<http://backintime.le-web.org>')) )
         homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         homepage.setOpenExternalLinks(True)
         copyright = QLabel(QString.fromUtf8(self.config.COPYRIGHT + '\n'))
 
         vlayout = QVBoxLayout(self)
-        vlayout.addWidget(name)
+        hlayout = QHBoxLayout()
+        hlayout.addWidget(logo)
+        hlayout.addWidget(name)
+        hlayout.addStretch()
+        vlayout.addLayout(hlayout)
         vlayout.addWidget(homepage)
         vlayout.addWidget(copyright)
 

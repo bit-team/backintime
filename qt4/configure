@@ -1,7 +1,6 @@
 #!/bin/sh
 
 #set default options
-CHECK="--check"
 SUDO="--kdesudo"
 PYTHON="--python"
 
@@ -10,24 +9,15 @@ USR_BIN_FILES="backintime-qt4"
 #get commandline arguments
 for arg in $*; do
 	case $arg in
-		--check | --no-check) CHECK=$arg;;
 		--kdesu | --kdesudo) SUDO=$arg;;
 		--python | --python2) PYTHON=$arg;;
 	esac
 done
 
-#check KDE4
-if [ $CHECK = "--check" ]; then
-	if [ -z `which kdeinit4` ]; then
-		printf "ERROR: Can't find KDE4 !\n"
-		exit 1
-	fi
-fi
-
 #set sudo
 case $SUDO in
-	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesudo -c backintime-kde4/" backintime-qt4-root.desktop;;
-	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-kde4/Exec=kdesu -c backintime-kde4/" backintime-qt4-root.desktop;;
+	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesudo -c backintime-qt4/" backintime-qt4-root.desktop;;
+	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesu -c backintime-qt4/" backintime-qt4-root.desktop;;
 esac
 
 #patch python command

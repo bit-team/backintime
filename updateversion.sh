@@ -54,7 +54,7 @@ update_man_page common/man/C/backintime.1
 
 update_man_page common/man/C/backintime-config.1
 
-update_man_page qt4/man/C/backintime-kde4.1
+update_man_page qt4/man/C/backintime-qt4.1
 
 update_xml qt4/docbook/en/index.docbook
 

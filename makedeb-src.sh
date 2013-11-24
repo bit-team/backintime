@@ -27,7 +27,7 @@ for i in common notify qt4; do
 		cat ../../$i/debian_specific/control | \
 			sed -e '/^Version:\|^Source:\|^Maintainer:/d' \
 			    -e 's/^Depends: /Depends: ${misc:Depends}, /g' \
-			    -e "s/backintime-\(common\|notify\|qt\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $PKGVER~$release)/g" \
+			    -e "s/backintime-\(common\|notify\|qt\|kde\|kde4\|gnome\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $PKGVER~$release)/g" \
 			    >> debian/control
 		if [ -e ../../$i/debian_specific/control.virtual ]; then
 			echo "" >> debian/control
