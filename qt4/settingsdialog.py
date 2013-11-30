@@ -120,7 +120,11 @@ class SettingsDialog( QDialog ):
         self.edit_snapshots_path.setReadOnly( True )
         hlayout.addWidget( self.edit_snapshots_path )
 
-        self.btn_snapshots_path = QPushButton(icon.FOLDER, QString(), self)
+        self.btn_snapshots_path = QToolButton(self)
+        self.btn_snapshots_path.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.btn_snapshots_path.setIcon(icon.FOLDER)
+        self.btn_snapshots_path.setText(QString.fromUtf8(_('Folder')) )
+        self.btn_snapshots_path.setMinimumSize(32,28)
         hlayout.addWidget( self.btn_snapshots_path )
         QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
         
@@ -171,7 +175,11 @@ class SettingsDialog( QDialog ):
         self.txt_ssh_private_key_file.setReadOnly( True )
         hlayout3.addWidget( self.txt_ssh_private_key_file )
         
-        self.btn_ssh_private_key_file = QPushButton(icon.FOLDER, QString(), self)
+        self.btn_ssh_private_key_file = QToolButton(self)
+        self.btn_ssh_private_key_file.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.btn_ssh_private_key_file.setIcon(icon.FOLDER)
+        self.btn_ssh_private_key_file.setText(QString.fromUtf8(_('Key File')) )
+        self.btn_ssh_private_key_file.setMinimumSize(32,28)
         hlayout3.addWidget( self.btn_ssh_private_key_file )
         QObject.connect( self.btn_ssh_private_key_file, SIGNAL('clicked()'), self.on_btn_ssh_private_key_file_clicked )
         qt4tools.equal_indent(self.lbl_ssh_host, self.lbl_ssh_path, self.lbl_ssh_cipher)

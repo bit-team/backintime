@@ -16,8 +16,8 @@ done
 
 #set sudo
 case $SUDO in
-	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesudo -c backintime-qt4/" backintime-qt4-root.desktop;;
-	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesu -c backintime-qt4/" backintime-qt4-root.desktop;;
+	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesudo -c backintime-qt4/" backintime-kde4-root.desktop;;
+	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesu -c backintime-qt4/" backintime-kde4-root.desktop;;
 esac
 
 #patch python command

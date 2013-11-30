@@ -7,6 +7,7 @@ build: translate
 
 clean:
 	rm po/*.mo
+	rm man/C/*.gz
 
 install: build install_translations
 	#install python

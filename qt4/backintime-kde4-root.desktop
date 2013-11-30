@@ -1,12 +1,13 @@
 [Desktop Entry]
-Name=Back In Time
+Name=Back In Time (root)
 GenericName=Backup
-Exec=backintime-qt4
+Exec=kdesudo -c backintime-qt4
+OnlyShowIn=KDE;TDE;Razor;
 Icon=document-save
 Terminal=false
 X-MultipleArgs=false
 Type=Application
 StartupNotify=true
-Categories=Qt;KDE;GNOME;System;
+Categories=Qt;KDE;System;
 Comment=Simple backup system
 Comment[sl]=Enostaven sistem ustvarjanja varnostnih kopij

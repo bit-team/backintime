@@ -5,6 +5,7 @@ all:
 
 clean:
 	rm po/*.mo
+	rm man/C/*.gz
 
 install:
 	#install python
@@ -24,8 +25,8 @@ install:
 	install --mode=644 ../common/debian_specific/copyright $(DEST)/share/doc/backintime-qt4
 	
 	#install .desktop file(s)
-	install -d $(DEST)/share/applications/qt4
-	install --mode=644 *.desktop $(DEST)/share/applications/qt4
+	install -d $(DEST)/share/applications
+	install --mode=644 *.desktop $(DEST)/share/applications
 	
 	#install docbook
 	#install -d $(DEST)/share/doc/qt/HTML/en/backintime/figures

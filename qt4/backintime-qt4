@@ -23,5 +23,5 @@ else
 	APP_PATH="/usr/share/backintime/qt4"
 fi
 
-python ${APP_PATH}/app.py "$@"
+ssh-agent python ${APP_PATH}/app.py "$@"
 
