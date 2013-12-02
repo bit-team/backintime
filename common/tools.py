@@ -722,7 +722,7 @@ class Alarm(object):
 
 class ShutDown(object):
     """Shutdown the system after the current snapshot has finished.
-    This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
+    This should work for KDE, Gnome, Unity < 7.0, Cinnamon, XFCE, Mate and E17.
     """
     import dbus
     DBUS_SHUTDOWN ={'gnome':   {'service':      'org.gnome.SessionManager',
@@ -797,7 +797,11 @@ class ShutDown(object):
                    }
 
     def __init__(self):
-        self.proxy, self.args = self._prepair()
+        self.is_root = os.geteuid() == 0
+        if self.unity_7() or self.is_root:
+            self.proxy, self.args = None, None
+        else:
+            self.proxy, self.args = self._prepair()
         self.activate_shutdown = False
         self.started = False
 
@@ -819,7 +823,7 @@ class ShutDown(object):
     def can_shutdown(self):
         """indicate if a valid dbus service is available to shutdown system.
         """
-        return(not self.proxy is None)
+        return(not self.proxy is None or self.is_root)
 
     def ask_before_quit(self):
         """indicate if ShutDown is ready to fire and so the application
@@ -828,13 +832,35 @@ class ShutDown(object):
         return(self.activate_shutdown and not self.started)
 
     def shutdown(self):
-        """call the dbus proxy to start the shutdown.
+        """run 'shutdown -h now' if we are root or
+        call the dbus proxy to start the shutdown.
         """
+        if self.is_root:
+            self.started = True
+            proc = subprocess.Popen(['shutdown', '-h', 'now'])
+            proc.communicate()
+            return proc.returncode
         if self.proxy is None:
             return(False)
         if self.activate_shutdown:
             self.started = True
             return(self.proxy(*self.args))
+
+    def unity_7(self):
+        """Unity >= 7.0 doesn't shutdown automatically. It will
+        only show shutdown dialog and wait for user input. So we'll disable
+        Shutdown button in BIT.
+        """
+        if not check_command('unity'):
+            return False
+        try:
+            unity_version = read_command_output('unity --version')
+            unity_version = float(re.findall(r'\s\d+\.\d+', unity_version)[0] )
+            if unity_version > 6.999 and process_exists('unity-panel-service'):
+                return True
+        except:
+            pass
+        return False
 
 if keyring is None and keyring_warn:
     logger.warning('import keyring failed')

@@ -39,8 +39,8 @@ _=gettext.gettext
 def take_snapshot_now_async( cfg ):
     cmd = ''
     if cfg.is_run_ionice_from_user_enabled():
-        cmd += tools.which('ionice') + ' -c2 -n7 '
-    cmd += tools.which('backintime') + ' '
+        cmd += 'ionice -c2 -n7 '
+    cmd += 'backintime '
     if '1' != cfg.get_current_profile():
         cmd += '--profile-id %s ' % cfg.get_current_profile()
     if not cfg._LOCAL_CONFIG_PATH is cfg._DEFAULT_CONFIG_PATH:
