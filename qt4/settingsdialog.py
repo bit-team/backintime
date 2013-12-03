@@ -83,6 +83,10 @@ class SettingsDialog( QDialog ):
         self.tabs_widget = QTabWidget( self )
         self.main_layout.addWidget( self.tabs_widget )
 
+        #occupy whole space for tabs
+        scrollButtonDefault = self.tabs_widget.usesScrollButtons()
+        self.tabs_widget.setUsesScrollButtons(False)
+
         #TAB: General
         tab_widget = QWidget( self )
         self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'General' ) ) )
@@ -645,6 +649,11 @@ class SettingsDialog( QDialog ):
 
         self.update_profiles()
         self.on_combo_modes_changed()
+
+        #enable tabs scroll buttons again but keep dialog size
+        size = self.sizeHint()
+        self.tabs_widget.setUsesScrollButtons(scrollButtonDefault)
+        self.resize(size)
 
     def add_profile( self ):
         ret_val =  QInputDialog.getText(self, QString.fromUtf8(_('New profile')), QString() )

@@ -713,11 +713,13 @@ class MainWindow( QMainWindow ):
         if len( snapshot_id ) > 0:
             item.setText( 0, self.snapshots.get_snapshot_display_name( snapshot_id ) )
 
-    def add_time_line( self, snapshot_name, snapshot_id ):
+    def add_time_line( self, snapshot_name, snapshot_id, tooltip = None):
         item = QTreeWidgetItem()
         item.setText( 0, snapshot_name )
         item.setFont( 0, qt4tools.get_font_normal( item.font( 0 ) ) )
         item.setData( 0, Qt.UserRole, QVariant( QString.fromUtf8( snapshot_id ) ) )
+        if not tooltip is None:
+            item.setToolTip(0, QString.fromUtf8(tooltip) )
 
         if len( snapshot_id ) == 0:
             item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
@@ -784,7 +786,10 @@ class MainWindow( QMainWindow ):
             if len( group[2] ) > 0:
                 self.add_time_line( group[0], '' );
                 for snapshot_id in group[2]:
-                    list_item = self.add_time_line( self.snapshots.get_snapshot_display_name( snapshot_id ), snapshot_id )
+                    list_item = self.add_time_line( self.snapshots.get_snapshot_display_name( snapshot_id ),
+                                                    snapshot_id,
+                                                    _('Last check %s') %
+                                                    self.snapshots.get_snapshot_last_check(snapshot_id) )
                     if snapshot_id == self.snapshot_id:
                         self.list_time_line.setCurrentItem( list_item )
 

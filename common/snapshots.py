@@ -29,6 +29,7 @@ import grp
 import socket
 import subprocess
 import shutil
+import time
 
 import config
 import configfile
@@ -229,6 +230,24 @@ class Snapshots:
 
         path = self.get_snapshot_failed_path( snapshot_id )
         return os.path.isfile( path )
+
+    def get_snapshot_last_check(self, snapshot_id):
+        """return date when snapshot has finished last time.
+        this can be the end of creation of this snapshot or the last time when
+        this snapshot was checked against source without changes.
+        """
+        info = self.get_snapshot_info_path(snapshot_id)
+        if os.path.exists(info):
+            return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)) )
+        return self.get_snapshot_display_id(snapshot_id)
+
+    def set_snapshot_last_check(self, snapshot_id):
+        """set info files atime to current time to indicate this snapshot was
+        checked against source without changes right now.
+        """
+        info = self.get_snapshot_info_path(snapshot_id)
+        if os.path.exists(info):
+            os.utime(info, None)
 
     def clear_take_snapshot_message( self ):
         os.system( "rm \"%s\"" % self.config.get_take_snapshot_message_file() )
@@ -1239,6 +1258,7 @@ class Snapshots:
 
                     if not changed:
                         logger.info( "Nothing changed, no back needed" )
+                        self.set_snapshot_last_check(prev_snapshot_id)
                         return [ False, False ]
 
             if not self._create_directory( new_snapshot_path_to() ):
@@ -1327,6 +1347,7 @@ class Snapshots:
                 self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
                 logger.info( "Nothing changed, no back needed" )
+                self.set_snapshot_last_check(prev_snapshot_id)
                 return [ False, False ]
                 
 
