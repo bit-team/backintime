@@ -722,10 +722,13 @@ class Alarm(object):
 
 class ShutDown(object):
     """Shutdown the system after the current snapshot has finished.
-    This should work for KDE, Gnome, Unity < 7.0, Cinnamon, XFCE, Mate and E17.
+    This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
     """
     import dbus
-    DBUS_SHUTDOWN ={'gnome':   {'service':      'org.gnome.SessionManager',
+    sessionbus = dbus.SessionBus()
+    systembus  = dbus.SystemBus()
+    DBUS_SHUTDOWN ={'gnome':   {'bus':          sessionbus,
+                                'service':      'org.gnome.SessionManager',
                                 'objectPath':   '/org/gnome/SessionManager',
                                 'method':       'Shutdown',
                                     #methods    Shutdown
@@ -738,7 +741,8 @@ class ShutDown(object):
                                     #           1 no confirm
                                     #           2 force
                                },
-                    'kde':     {'service':      'org.kde.ksmserver',
+                    'kde':     {'bus':          sessionbus,
+                                'service':      'org.kde.ksmserver',
                                 'objectPath':   '/KSMServer',
                                 'method':       'logout',
                                 'interface':    'org.kde.KSMServerInterface',
@@ -752,7 +756,8 @@ class ShutDown(object):
                                     #3rd arg   -1 wait 30sec
                                     #           2 immediately
                                },
-                    'xfce':    {'service':      'org.xfce.SessionManager',
+                    'xfce':    {'bus':          sessionbus,
+                                'service':      'org.xfce.SessionManager',
                                 'objectPath':   '/org/xfce/SessionManager',
                                 'method':       'Shutdown',
                                     #methods    Shutdown
@@ -771,7 +776,8 @@ class ShutDown(object):
                                     #           True    allow saving
                                     #           False   don't allow saving
                                },
-                    'mate':    {'service':      'org.mate.SessionManager',
+                    'mate':    {'bus':          sessionbus,
+                                'service':      'org.mate.SessionManager',
                                 'objectPath':   '/org/mate/SessionManager',
                                 'method':       'Shutdown',
                                     #methods    Shutdown
@@ -783,7 +789,8 @@ class ShutDown(object):
                                     #           1 no confirm
                                     #           2 force
                                },
-                    'e17':     {'service':      'org.enlightenment.Remote.service',
+                    'e17':     {'bus':          sessionbus,
+                                'service':      'org.enlightenment.Remote.service',
                                 'objectPath':   '/org/enlightenment/Remote/RemoteObject',
                                 'method':       'Halt',
                                     #methods    Halt -> Shutdown
@@ -793,12 +800,19 @@ class ShutDown(object):
                                     #           Hibernate
                                 'interface':    'org.enlightenment.Remote.Core',
                                 'arguments':    ()
+                               },
+                    'z_freed': {'bus':          systembus,
+                                'service':      'org.freedesktop.ConsoleKit',
+                                'objectPath':   '/org/freedesktop/ConsoleKit/Manager',
+                                'method':       'Stop',
+                                'interface':    'org.freedesktop.ConsoleKit.Manager',
+                                'arguments':    ()
                                }
                    }
 
     def __init__(self):
         self.is_root = os.geteuid() == 0
-        if self.unity_7() or self.is_root:
+        if self.is_root:
             self.proxy, self.args = None, None
         else:
             self.proxy, self.args = self._prepair()
@@ -809,11 +823,14 @@ class ShutDown(object):
         """try to connect to the given dbus services. If successful it will
         return a callable dbus proxy and those arguments.
         """
-        bus = self.dbus.SessionBus()
-        for de in self.DBUS_SHUTDOWN:
+        des = self.DBUS_SHUTDOWN.keys()
+        des.sort()
+        for de in des:
+            if de == 'gnome' and self.unity_7():
+                continue
             dbus_props = self.DBUS_SHUTDOWN[de]
             try:
-                interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
+                interface = dbus_props['bus'].get_object(dbus_props['service'], dbus_props['objectPath'])
                 proxy = interface.get_dbus_method(dbus_props['method'], dbus_props['interface'])
                 return( (proxy, dbus_props['arguments']) )
             except self.dbus.exceptions.DBusException:
@@ -848,8 +865,7 @@ class ShutDown(object):
 
     def unity_7(self):
         """Unity >= 7.0 doesn't shutdown automatically. It will
-        only show shutdown dialog and wait for user input. So we'll disable
-        Shutdown button in BIT.
+        only show shutdown dialog and wait for user input.
         """
         if not check_command('unity'):
             return False
