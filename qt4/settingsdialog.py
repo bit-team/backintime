@@ -380,17 +380,22 @@ class SettingsDialog( QDialog ):
         self.list_include.setRootIsDecorated( False )
         #self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
         #self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
-        self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include files and folders') ) ] )
-        self.list_include.header().setResizeMode( 0, QHeaderView.Stretch )
+        self.list_include.setHeaderLabels( [QString.fromUtf8( _('Include files and folders') ),
+                                            QString.fromUtf8('Count') ] )
+        
+        self.list_include_header = self.list_include.header()
+        self.list_include_header.setResizeMode( 0, QHeaderView.Stretch )
+        self.list_include_header.setClickable(True)
+        self.list_include_header.setSortIndicatorShown(True)
+        self.list_include_header.setSectionHidden(1, True)
+        self.list_include.sortItems(1, Qt.AscendingOrder)
+        self.list_include_model = self.list_include.model()
+        QObject.connect(self.list_include_header,
+                        SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
+                        self.list_include_model.sort )
 
-        #self.popup_automatic_backup = QMenu( self )
-        #keys = self.config.AUTOMATIC_BACKUP_MODES.keys()
-        #keys.sort()
-        #for key in keys:
-        #	self.popup_automatic_backup.addAction( PopupAutomaticBackupAction( self.list_include, key, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ key ] ) ) )
-
-        #QObject.connect( self.list_include, SIGNAL('itemActivated(QTreeWidgetItem*,int)'), self.on_list_include_item_activated )
         layout.addWidget( self.list_include )
+        self.list_include_count = 0
 
         buttons_layout = QHBoxLayout()
         layout.addLayout( buttons_layout )
@@ -417,9 +422,25 @@ class SettingsDialog( QDialog ):
         self.lbl_ssh_encfs_exclude_warning = label
         layout.addWidget( label )
 
-        self.list_exclude = QListWidget( self )
+        self.list_exclude = QTreeWidget( self )
         self.list_exclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.list_exclude.setRootIsDecorated( False )
+        self.list_exclude.setHeaderLabels( [QString.fromUtf8( _('Exclude files and folders') ),
+                                            QString.fromUtf8('Count') ] )
+        
+        self.list_exclude_header = self.list_exclude.header()
+        self.list_exclude_header.setResizeMode( 0, QHeaderView.Stretch )
+        self.list_exclude_header.setClickable(True)
+        self.list_exclude_header.setSortIndicatorShown(True)
+        self.list_exclude_header.setSectionHidden(1, True)
+        self.list_exclude.sortItems(1, Qt.AscendingOrder)
+        self.list_exclude_model = self.list_exclude.model()
+        QObject.connect(self.list_exclude_header,
+                        SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
+                        self.list_exclude_model.sort )
+
         layout.addWidget( self.list_exclude )
+        self.list_exclude_count = 0
 
         label = QLabel( QString.fromUtf8( _('Highly recommended:') ), self )
         qt4tools.set_font_bold( label )
@@ -1032,6 +1053,7 @@ class SettingsDialog( QDialog ):
         self.config.set_password(password_2, mode = mode, pw_id = 2)
 
         #include list 
+        self.list_include.sortItems(1, Qt.AscendingOrder)
         include_list = []
         for index in xrange( self.list_include.topLevelItemCount() ):
             item = self.list_include.topLevelItem( index )
@@ -1041,9 +1063,11 @@ class SettingsDialog( QDialog ):
         self.config.set_include( include_list )
 
         #exclude patterns
+        self.list_exclude.sortItems(1, Qt.AscendingOrder)
         exclude_list = []
-        for index in xrange( self.list_exclude.count() ):
-            exclude_list.append( str( self.list_exclude.item( index ).text().toUtf8() ) )
+        for index in xrange( self.list_exclude.topLevelItemCount() ):
+            item = self.list_exclude.topLevelItem( index )
+            exclude_list.append( str( item.text(0).toUtf8() ) )
 
         self.config.set_exclude( exclude_list )
 
@@ -1182,6 +1206,9 @@ class SettingsDialog( QDialog ):
         #item.setText( 0, QString.fromUtf8( data[0] ) )
         #item.setText( 1, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] ) )
         item.setData( 0, Qt.UserRole, QVariant( data[1] ) )
+        self.list_include_count += 1
+        item.setText(1, QString.fromUtf8(str(self.list_include_count).zfill(6)) )
+        item.setData(1, Qt.UserRole, QVariant(self.list_include_count) )
         self.list_include.addTopLevelItem( item )
 
         if self.list_include.currentItem() is None:
@@ -1190,7 +1217,14 @@ class SettingsDialog( QDialog ):
         return item
 
     def add_exclude( self, pattern ):
-        item = QListWidgetItem(self.icon.EXCLUDE, QString.fromUtf8( pattern ), self.list_exclude )
+        item = QTreeWidgetItem()
+        item.setIcon(0, self.icon.EXCLUDE)
+        item.setText(0, QString.fromUtf8(pattern) )
+        item.setData(0, Qt.UserRole, QVariant(pattern) )
+        self.list_exclude_count += 1
+        item.setText(1, QString.fromUtf8(str(self.list_exclude_count).zfill(6)) )
+        item.setData(1, Qt.UserRole, QVariant(self.list_exclude_count) )
+        self.list_exclude.addTopLevelItem(item)
 
         if self.list_exclude.currentItem() is None:
             self.list_exclude.setCurrentItem( item )
@@ -1228,17 +1262,22 @@ class SettingsDialog( QDialog ):
 
     def on_btn_exclude_remove_clicked ( self ):
         for item in self.list_exclude.selectedItems():
-            self.list_exclude.takeItem(self.list_exclude.row(item))
+            index = self.list_exclude.indexOfTopLevelItem( item )
+            if index < 0:
+                continue
 
-        if self.list_exclude.count() > 0:
-            self.list_exclude.setCurrentItem( self.list_exclude.item(0) )
+            self.list_exclude.takeTopLevelItem( index )
+
+        if self.list_exclude.topLevelItemCount() > 0:
+            self.list_exclude.setCurrentItem( self.list_exclude.topLevelItem(0) )
 
     def add_exclude_( self, pattern ):
         if len( pattern ) == 0:
             return
 
-        for index in xrange( self.list_exclude.count() ):
-            if pattern == self.list_exclude.item( index ).text().toUtf8():
+        for index in xrange( self.list_exclude.topLevelItemCount() ):
+            item = self.list_exclude.topLevelItem( index )
+            if pattern == str(item.text(0).toUtf8() ):
                 return
 
         self.add_exclude( pattern )
