@@ -315,7 +315,8 @@ class MainWindow( QMainWindow ):
 
         self.snapshots_list = []
         self.snapshot_id = '/'
-        self.path = self.config.get_str_value( 'qt4.last_path', '/' )
+        self.path = self.config.get_profile_str_value('qt4.last_path',
+                            self.config.get_str_value('qt4.last_path', '/' ) )
         self.edit_current_path.setText( QString.fromUtf8( self.path ) )
 
         #restore size and position
@@ -410,6 +411,7 @@ class MainWindow( QMainWindow ):
                 return event.ignore()
 
         self.config.set_str_value( 'qt4.last_path', self.path )
+        self.config.set_profile_str_value('qt4.last_path', self.path)
 
         self.config.set_int_value( 'qt4.main_window.x', self.x() )
         self.config.set_int_value( 'qt4.main_window.y', self.y() )
@@ -479,10 +481,17 @@ class MainWindow( QMainWindow ):
         profile_id = str( self.combo_profiles.itemData( index ).toString().toUtf8() )
         if len( profile_id ) <= 0:
             return
-        
-        if profile_id != self.config.get_current_profile():
-            self.remount(profile_id, self.config.get_current_profile())
+        old_profile_id = self.config.get_current_profile()
+        if profile_id != old_profile_id:
+            self.remount(profile_id, old_profile_id)
             self.config.set_current_profile( profile_id )
+
+            self.config.set_profile_str_value('qt4.last_path', self.path, old_profile_id)
+            path = self.config.get_profile_str_value('qt4.last_path', self.path, profile_id)
+            if not path == self.path:
+                self.path = path
+                self.edit_current_path.setText( QString.fromUtf8( self.path ) )
+
             self.update_profile()
             
     def remount( self, new_profile_id, old_profile_id):
