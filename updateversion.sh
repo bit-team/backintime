@@ -6,7 +6,7 @@ echo VERSION: $VERSION
 update_control () {
   echo "Update '$1'"
   sed -e "s/^Version: .*$/Version: $VERSION/" \
-      -e "s/backintime-\(common\|notify\|qt\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $VERSION~)/g" \
+      -e "s/backintime-\(common\|notify\|qt4\|kde\|kde4\|gnome\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $VERSION~)/g" \
       -i $1
 }
 
@@ -45,8 +45,6 @@ update_changelog () {
 update_control common/debian_specific/control
 
 update_control qt4/debian_specific/control
-
-update_control notify/debian_specific/control
 
 update_config common/config.py
 
