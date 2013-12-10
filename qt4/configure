@@ -1,7 +1,8 @@
 #!/bin/sh
 
 #set default options
-SUDO="--kdesudo"
+KDESUDO="--kdesudo"
+GKSUDO="--gksu"
 PYTHON="--python"
 
 USR_BIN_FILES="backintime-qt4"
@@ -9,15 +10,20 @@ USR_BIN_FILES="backintime-qt4"
 #get commandline arguments
 for arg in $*; do
 	case $arg in
-		--kdesu | --kdesudo) SUDO=$arg;;
+		--kdesu | --kdesudo) KDESUDO=$arg;;
+		--gksu | --gksudo) GKSUDO=$arg;;
 		--python | --python2) PYTHON=$arg;;
 	esac
 done
 
 #set sudo
-case $SUDO in
+case $KDESUDO in
 	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesudo -c backintime-qt4/" backintime-kde4-root.desktop;;
 	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesu -c backintime-qt4/" backintime-kde4-root.desktop;;
+esac
+case $GKSUDO in
+	--gksudo) sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=gksudo -c backintime-qt4/" backintime-gnome-root.desktop;;
+	--gksu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=gksu -c backintime-qt4/" backintime-gnome-root.desktop;;
 esac
 
 #patch python command
