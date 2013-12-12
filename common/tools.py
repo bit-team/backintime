@@ -24,9 +24,18 @@ import hashlib
 import commands
 import signal
 import re
-import keyring
+keyring = None
+keyring_warn = False
+try:
+    if os.getenv('BIT_USE_KEYRING', 'true') == 'true':
+        import keyring
+except:
+    keyring = None
+    os.putenv('BIT_USE_KEYRING', 'false')
+    keyring_warn = True
 
 import configfile
+import logger
 
 ON_AC = 0
 ON_BATTERY = 1
@@ -92,19 +101,18 @@ def check_command( cmd ):
 
     if os.path.isfile( cmd ):
         return True
+    return not which(cmd) is None
 
-    cmd = which(cmd)
-
-    if len( cmd ) < 1:
-        return False
-
-    if os.path.isfile( cmd ):
-        return True
-
-    return False
-
-def which(cmd):
-    return read_command_output( "which \"%s\"" % cmd )
+def which(filename):
+    """Checks if 'filename' is present in the system PATH."""
+    pathenv = os.getenv('PATH', '')
+    path = pathenv.split(":")
+    path.insert(0, os.getcwd())
+    for directory in path:
+        fullpath = os.path.join(directory, filename)
+        if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
+            return fullpath
+    return None
 
 def make_dirs( path ):
     path = path.rstrip( os.sep )
@@ -163,7 +171,7 @@ def get_snapshots_list_in_folder( folder, sort_reverse = True ):
     except:
         pass
 
-    list = []
+    _list = []
 
     for item in biglist:
         #print item + ' ' + str(len( item ))
@@ -171,10 +179,10 @@ def get_snapshots_list_in_folder( folder, sort_reverse = True ):
             continue
         if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
             #print item
-            list.append( item )
+            _list.append( item )
 
-    list.sort( reverse = sort_reverse )
-    return list
+    _list.sort( reverse = sort_reverse )
+    return _list
 
 
 def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
@@ -187,21 +195,21 @@ def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
     except:
         pass
 
-    list = []
+    _list = []
 
     for item in biglist:
         #print item + ' ' + str(len( item ))
         if len( item ) != 15 and len( item ) != 19:
-            list.append( item )
+            _list.append( item )
         else: 
             if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
                 #print item
                 continue
             else:
-                list.append( item )
+                _list.append( item )
 
-    list.sort( reverse = sort_reverse )
-    return list
+    _list.sort( reverse = sort_reverse )
+    return _list
 
 
 def move_snapshots_folder( old_folder, new_folder ):
@@ -388,9 +396,17 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
         else:
             ssh_cipher_suffix = '-c %s' % ssh_cipher
         cmd = cmd + ' --rsh="ssh -p %s %s"' % ( str(ssh_port), ssh_cipher_suffix)
-    
-    if config.bwlimit_enabled():
-        cmd = cmd + ' --bwlimit=%d' % config.bwlimit()
+
+        if config.bwlimit_enabled():
+            cmd = cmd + ' --bwlimit=%d' % config.bwlimit()
+
+        if config.is_run_nice_on_remote_enabled() or config.is_run_ionice_on_remote_enabled():
+            cmd += ' --rsync-path="'
+            if config.is_run_nice_on_remote_enabled():
+                cmd += 'nice -n 19 '
+            if config.is_run_ionice_on_remote_enabled():
+                cmd += 'ionice -c2 -n7 '
+            cmd += 'rsync"'
 
     return cmd + ' '
 
@@ -429,8 +445,8 @@ def check_cron_pattern(str):
                 return True
             else:
                 return False
-        list = str.split(',')
-        for s in list:
+        _list = str.split(',')
+        for s in _list:
             if int(s) <= 24:
                 continue
             else:
@@ -503,15 +519,34 @@ def set_env_key(env, env_file, key):
         env_file.set_str_value(key, env[key])
 
 def keyring_supported():
-    try:
-        backends = (keyring.backends.SecretService.Keyring,
-                    keyring.backends.Gnome.Keyring,
-                    keyring.backends.kwallet.Keyring)
-    except AttributeError:
-        backends = (keyring.backend.SecretServiceKeyring,
-                    keyring.backend.GnomeKeyring,
-                    keyring.backend.KDEKWallet)
-    return isinstance(keyring.get_keyring(), backends)
+    if keyring is None:
+        return False
+    backends = []
+    try: backends.append(keyring.backends.SecretService.Keyring)
+    except: pass
+    try: backends.append(keyring.backends.Gnome.Keyring)
+    except: pass
+    try: backends.append(keyring.backends.kwallet.Keyring)
+    except: pass
+    try: backends.append(keyring.backend.SecretServiceKeyring)
+    except: pass
+    try: backends.append(keyring.backend.GnomeKeyring)
+    except: pass
+    try: backends.append(keyring.backend.KDEKWallet)
+    except: pass
+    if len(backends) == 0:
+        return False
+    return isinstance(keyring.get_keyring(), tuple(backends))
+
+def get_password(*args):
+    if not keyring is None:
+        return keyring.get_password(*args)
+    return None
+
+def set_password(*args):
+    if not keyring is None:
+        return keyring.set_password(*args)
+    return False
 
 def get_mountpoint(path):
     '''return (DEVICE, MOUNTPOINT) for given PATH'''
@@ -539,14 +574,38 @@ def get_uuid(dev):
 def get_uuid_from_path(path):
     return get_uuid(get_mountpoint(path)[0])
 
-def sudo_execute(cfg, cmd, *args, **kwargs):
+def sudo_execute(cfg, cmd, msg = None, *args, **kwargs):
     '''execute command with gksudo or kdesudo if user isn't root'''
     if cfg.get_user() != 'root':
-        for i in ['gksudo', 'kdesudo', 'kdesu']:
+        sudo = {'gksudo':  ('-m "{msg}"', '-- {cmd}'),
+                'kdesudo': ('--comment "{msg}"', '-- {cmd}'),
+                'kdesu':   ('', '-c "{cmd}"') }
+        for i in sudo:
             if check_command(i):
-                cmd = i + ' ' + cmd
+                sudo_cmd = [i,]
+                if not msg is None and len(sudo[i][0]):
+                    sudo_cmd.append(sudo[i][0].replace('{msg}', msg))
+                sudo_cmd.append(sudo[i][1].replace('{cmd}', cmd))
+                cmd = ' '.join(sudo_cmd)
                 break
     return _execute(cmd, *args, **kwargs)
+
+def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
+    if len(new_line_indicator) >= size - 1:
+        new_line_indicator = ''
+    while len(msg):
+        if len(msg) <= size:
+            yield(msg)
+            break
+        else:
+            line = ''
+            for look in range(size-1, size/2, -1):
+                if msg[look] in delimiters:
+                    line, msg = msg[:look+1], new_line_indicator + msg[look+1:]
+                    break
+            if not len(line):
+                line, msg = msg[:size], new_line_indicator + msg[size:]
+            yield(line)
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
@@ -660,3 +719,164 @@ class Alarm(object):
             raise Timeout()
         else:
             self.callback()
+
+class ShutDown(object):
+    """Shutdown the system after the current snapshot has finished.
+    This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
+    """
+    import dbus
+    sessionbus = dbus.SessionBus()
+    systembus  = dbus.SystemBus()
+    DBUS_SHUTDOWN ={'gnome':   {'bus':          sessionbus,
+                                'service':      'org.gnome.SessionManager',
+                                'objectPath':   '/org/gnome/SessionManager',
+                                'method':       'Shutdown',
+                                    #methods    Shutdown
+                                    #           Reboot
+                                    #           Logout
+                                'interface':    'org.gnome.SessionManager',
+                                'arguments':    ()
+                                    #arg (only with Logout)
+                                    #           0 normal
+                                    #           1 no confirm
+                                    #           2 force
+                               },
+                    'kde':     {'bus':          sessionbus,
+                                'service':      'org.kde.ksmserver',
+                                'objectPath':   '/KSMServer',
+                                'method':       'logout',
+                                'interface':    'org.kde.KSMServerInterface',
+                                'arguments':    (-1, 2, -1)
+                                    #1st arg   -1 confirm
+                                    #           0 no confirm
+                                    #2nd arg   -1 full dialog with default logout
+                                    #           0 logout
+                                    #           1 restart
+                                    #           2 shutdown
+                                    #3rd arg   -1 wait 30sec
+                                    #           2 immediately
+                               },
+                    'xfce':    {'bus':          sessionbus,
+                                'service':      'org.xfce.SessionManager',
+                                'objectPath':   '/org/xfce/SessionManager',
+                                'method':       'Shutdown',
+                                    #methods    Shutdown
+                                    #           Restart
+                                    #           Suspend (no args)
+                                    #           Hibernate (no args)
+                                    #           Logout (two args)
+                                'interface':    'org.xfce.Session.Manager',
+                                'arguments':    (True,)
+                                    #arg        True    allow saving
+                                    #           False   don't allow saving
+                                    #1nd arg (only with Logout)
+                                    #           True    show dialog
+                                    #           False   don't show dialog
+                                    #2nd arg (only with Logout)
+                                    #           True    allow saving
+                                    #           False   don't allow saving
+                               },
+                    'mate':    {'bus':          sessionbus,
+                                'service':      'org.mate.SessionManager',
+                                'objectPath':   '/org/mate/SessionManager',
+                                'method':       'Shutdown',
+                                    #methods    Shutdown
+                                    #           Logout
+                                'interface':    'org.mate.SessionManager',
+                                'arguments':    ()
+                                    #arg (only with Logout)
+                                    #           0 normal
+                                    #           1 no confirm
+                                    #           2 force
+                               },
+                    'e17':     {'bus':          sessionbus,
+                                'service':      'org.enlightenment.Remote.service',
+                                'objectPath':   '/org/enlightenment/Remote/RemoteObject',
+                                'method':       'Halt',
+                                    #methods    Halt -> Shutdown
+                                    #           Reboot
+                                    #           Logout
+                                    #           Suspend
+                                    #           Hibernate
+                                'interface':    'org.enlightenment.Remote.Core',
+                                'arguments':    ()
+                               },
+                    'z_freed': {'bus':          systembus,
+                                'service':      'org.freedesktop.ConsoleKit',
+                                'objectPath':   '/org/freedesktop/ConsoleKit/Manager',
+                                'method':       'Stop',
+                                'interface':    'org.freedesktop.ConsoleKit.Manager',
+                                'arguments':    ()
+                               }
+                   }
+
+    def __init__(self):
+        self.is_root = os.geteuid() == 0
+        if self.is_root:
+            self.proxy, self.args = None, None
+        else:
+            self.proxy, self.args = self._prepair()
+        self.activate_shutdown = False
+        self.started = False
+
+    def _prepair(self):
+        """try to connect to the given dbus services. If successful it will
+        return a callable dbus proxy and those arguments.
+        """
+        des = self.DBUS_SHUTDOWN.keys()
+        des.sort()
+        for de in des:
+            if de == 'gnome' and self.unity_7():
+                continue
+            dbus_props = self.DBUS_SHUTDOWN[de]
+            try:
+                interface = dbus_props['bus'].get_object(dbus_props['service'], dbus_props['objectPath'])
+                proxy = interface.get_dbus_method(dbus_props['method'], dbus_props['interface'])
+                return( (proxy, dbus_props['arguments']) )
+            except self.dbus.exceptions.DBusException:
+                continue
+        return( (None, None) )
+
+    def can_shutdown(self):
+        """indicate if a valid dbus service is available to shutdown system.
+        """
+        return(not self.proxy is None or self.is_root)
+
+    def ask_before_quit(self):
+        """indicate if ShutDown is ready to fire and so the application
+        shouldn't be closed.
+        """
+        return(self.activate_shutdown and not self.started)
+
+    def shutdown(self):
+        """run 'shutdown -h now' if we are root or
+        call the dbus proxy to start the shutdown.
+        """
+        if self.is_root:
+            self.started = True
+            proc = subprocess.Popen(['shutdown', '-h', 'now'])
+            proc.communicate()
+            return proc.returncode
+        if self.proxy is None:
+            return(False)
+        if self.activate_shutdown:
+            self.started = True
+            return(self.proxy(*self.args))
+
+    def unity_7(self):
+        """Unity >= 7.0 doesn't shutdown automatically. It will
+        only show shutdown dialog and wait for user input.
+        """
+        if not check_command('unity'):
+            return False
+        try:
+            unity_version = read_command_output('unity --version')
+            unity_version = float(re.findall(r'\s\d+\.\d+', unity_version)[0] )
+            if unity_version > 6.999 and process_exists('unity-panel-service'):
+                return True
+        except:
+            pass
+        return False
+
+if keyring is None and keyring_warn:
+    logger.warning('import keyring failed')

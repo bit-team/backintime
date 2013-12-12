@@ -49,6 +49,10 @@ install: build
 build:
 	touch build
 
+build-arch: build
+
+build-indep: build
+
 binary-indep: install
 	dh_testdir -i
 	dh_testroot -i

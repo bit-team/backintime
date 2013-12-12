@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #set default options
 CHECK="--check"
@@ -19,7 +19,7 @@ done
 #check KDE4
 if [ $CHECK = "--check" ]; then
 	if [ -z `which kdeinit4` ]; then
-		echo "ERROR: Can't find KDE4 !"
+		printf "ERROR: Can't find KDE4 !\n"
 		exit 1
 	fi
 fi
@@ -45,7 +45,7 @@ esac
 
 cp Makefile.template Makefile
 
-echo "All OK. Now run:"
-echo "    make"
-echo "    sudo make install"
+printf "All OK. Now run:\n"
+printf "    make\n"
+printf "    sudo make install\n"
 

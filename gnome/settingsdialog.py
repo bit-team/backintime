@@ -417,8 +417,11 @@ class SettingsDialog(object):
         self.cb_run_nice_from_cron = get('cb_run_nice_from_cron')
         self.cb_run_ionice_from_cron = get('cb_run_ionice_from_cron')
         self.cb_run_ionice_from_user = get('cb_run_ionice_from_user')
+        self.cb_run_nice_on_remote = get('cb_run_nice_on_remote')
+        self.cb_run_ionice_on_remote = get('cb_run_ionice_on_remote')
         
         #bwlimit
+        self.hbox_bwlimit = get('hbox_bwlimit')
         self.cb_bwlimit = get('cb_bwlimit')
         self.sb_bwlimit = get('sb_bwlimit')
         
@@ -582,6 +585,11 @@ class SettingsDialog(object):
             self.lbl_ssh_encfs_exclude_warning.show()
         else:
             self.lbl_ssh_encfs_exclude_warning.hide()
+
+        sensitive = active_mode in ('ssh', 'ssh_encfs')
+        self.cb_run_nice_on_remote.set_sensitive(sensitive)
+        self.cb_run_ionice_on_remote.set_sensitive(sensitive)
+        self.hbox_bwlimit.set_sensitive(sensitive)
 
     def on_combo_profiles_changed( self, *params ):
         if self.disable_combo_changed:
@@ -836,7 +844,11 @@ class SettingsDialog(object):
         
         #run 'ionice' from user
         self.cb_run_ionice_from_user.set_active(self.config.is_run_ionice_from_user_enabled( self.profile_id ))
-        
+
+        #run 'nice' or 'ionice' on remote
+        self.cb_run_nice_on_remote.set_active(self.config.is_run_nice_on_remote_enabled(self.profile_id))
+        self.cb_run_ionice_on_remote.set_active(self.config.is_run_ionice_on_remote_enabled(self.profile_id))
+
         #bwlimit
         self.cb_bwlimit.set_active(self.config.bwlimit_enabled(self.profile_id) )
         self.sb_bwlimit.set_value(self.config.bwlimit(self.profile_id) )
@@ -1049,6 +1061,8 @@ class SettingsDialog(object):
         self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.get_active(), self.profile_id )
         self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.get_active(), self.profile_id )
         self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.get_active(), self.profile_id )
+        self.config.set_run_nice_on_remote_enabled(self.cb_run_nice_on_remote.get_active(), self.profile_id)
+        self.config.set_run_ionice_on_remote_enabled(self.cb_run_ionice_on_remote.get_active(), self.profile_id)
         self.config.set_no_on_battery_enabled( self.cb_no_on_battery.get_active(), self.profile_id )
 
         #bwlimit

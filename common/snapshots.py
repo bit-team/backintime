@@ -613,17 +613,17 @@ class Snapshots:
         except:
             pass
 
-        list = []
+        _list = []
 
         for item in biglist:
             if len( item ) != 15 and len( item ) != 19:
                 continue
             if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
-                list.append( item )
+                _list.append( item )
 
-        list.sort( reverse = sort_reverse )
+        _list.sort( reverse = sort_reverse )
 
-        return list
+        return _list
         
     def get_snapshots_and_other_list( self, sort_reverse = True ):
         '''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
@@ -638,14 +638,14 @@ class Snapshots:
         except:
             pass
             
-        list = []
+        _list = []
 
         for item in biglist:
             if len( item ) != 15 and len( item ) != 19:
                 continue
             if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
                 #a = ( item, snapshots_path )
-                list.append( item )
+                _list.append( item )
 
                 
         if len( snapshots_other_paths ) > 0:	
@@ -661,10 +661,10 @@ class Snapshots:
                         continue
                     if os.path.isdir( os.path.join( folder, member,  'backup' ) ):
                         #a = ( member, folder )
-                        list.append( member )
+                        _list.append( member )
         
-        list.sort( reverse = sort_reverse )
-        return list
+        _list.sort( reverse = sort_reverse )
+        return _list
 
     def remove_snapshot( self, snapshot_id ):
         if len( snapshot_id ) <= 1:
@@ -1002,11 +1002,11 @@ class Snapshots:
                     params[1] = True
                     self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
-    def _append_item_to_list( self, item, list ):
-        for list_item in list:
+    def _append_item_to_list( self, item, _list ):
+        for list_item in _list:
             if item == list_item:
                 return
-        list.append( item )
+        _list.append( item )
 
     def _is_auto_backup_needed( self, now, last, mode ):
         #print "now: %s, last: %s, mode: %s" % ( now, last, mode )
@@ -1347,7 +1347,7 @@ class Snapshots:
             permission_done = False
             if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
                 path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
-                cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'], module = 'subprocess')
+                cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'])
                 
                 find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
                 output = find.communicate()[0]
@@ -1446,6 +1446,9 @@ class Snapshots:
         if not full_rsync:
             #make new snapshot read-only
             self._execute( self.cmd_ssh( "chmod -R a-w \"%s\"" % snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
+
+        #create last_snapshot symlink
+        self.create_last_snapshot_symlink(snapshot_id)
 
         return [ True, has_errors ]
 
@@ -1746,15 +1749,21 @@ class Snapshots:
 
         return snapshots_filtered
 
-    def cmd_ssh(self, cmd, quote = False, module = 'os.system', use_modes = ['ssh', 'ssh_encfs'] ):
+    def cmd_ssh(self, cmd, quote = False, use_modes = ['ssh', 'ssh_encfs'] ):
         mode = self.config.get_snapshots_mode()
         if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
             (ssh_host, ssh_port, ssh_user, ssh_path, ssh_cipher) = self.config.get_ssh_host_port_user_path_cipher()
-            if module == 'os.system':
+            if isinstance(cmd, str):
                 if ssh_cipher == 'default':
                     ssh_cipher_suffix = ''
                 else:
                     ssh_cipher_suffix = '-c %s' % ssh_cipher
+                
+                if self.config.is_run_ionice_on_remote_enabled():
+                    cmd = 'ionice -c2 -n7 ' + cmd
+                
+                if self.config.is_run_nice_on_remote_enabled():
+                    cmd = 'nice -n 19 ' + cmd
                 
                 if quote:
                     cmd = '\'%s\'' % cmd
@@ -1762,15 +1771,24 @@ class Snapshots:
                 return 'ssh -p %s -o ServerAliveInterval=240 %s %s@%s %s' \
                         % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host, cmd )
 
-            elif module == 'subprocess':
+            if isinstance(cmd, tuple):
+                cmd = list(cmd)
+
+            if isinstance(cmd, list):
                 suffix = ['ssh', '-p', str(ssh_port)]
                 suffix += ['-o', 'ServerAliveInterval=240']
                 if not ssh_cipher == 'default':
                     suffix += ['-c', ssh_cipher]
                 suffix += ['%s@%s' % (ssh_user, ssh_host)]
+                
+                if self.config.is_run_ionice_on_remote_enabled():
+                    cmd = ['ionice', '-c2', '-n7'] + cmd
+                
+                if self.config.is_run_nice_on_remote_enabled():
+                    cmd = ['nice', '-n 19'] + cmd
+                
                 if quote:
-                    suffix += ['\'']
-                    cmd += ['\'']
+                    cmd = ['\''] + cmd + ['\'']
                 return suffix + cmd
                 
         else:
@@ -1806,6 +1824,14 @@ class Snapshots:
             os.chmod(full_path, st.st_mode | stat.S_IWUSR)
             os.remove(full_path)
         os.chmod(dirname, dir_st.st_mode)
+
+    def create_last_snapshot_symlink(self, snapshot_id):
+        symlink = self.config.get_last_snapshot_symlink()
+        if os.path.islink(symlink):
+            os.remove(symlink)
+        if os.path.exists(symlink):
+            return False
+        os.symlink(snapshot_id, symlink)
 
 if __name__ == "__main__":
     config = config.Config()

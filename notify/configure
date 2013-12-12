@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ -e Makefile ]; then
 	rm Makefile;
@@ -6,7 +6,7 @@ fi
 
 cp Makefile.template Makefile
 
-echo "All OK. Now run:"
-echo "    make"
-echo "    sudo make install"
+printf "All OK. Now run:\n"
+printf "    make\n"
+printf "    sudo make install\n"
 

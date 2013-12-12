@@ -120,6 +120,13 @@ class MainWindow( KMainWindow ):
 
         #self.main_toolbar.addSeparator()
 
+        self.btn_shutdown = self.main_toolbar.addAction( KIcon( 'system-shutdown' ), '' )
+        self.btn_shutdown.setToolTip( QString.fromUtf8( _('Shutdown system after snapshot has finished.') ) )
+        self.btn_shutdown.setCheckable(True)
+        self.shutdown = tools.ShutDown()
+        self.btn_shutdown.setEnabled(self.shutdown.can_shutdown())
+        QObject.connect( self.btn_shutdown, SIGNAL('toggled(bool)'), self.on_btn_shutdown_toggled )
+
         self.btn_quit = self.main_toolbar.addAction( KIcon( 'application-exit' ), '' )
         self.btn_quit.setToolTip( QString.fromUtf8( _('Exit') ) )
         QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
@@ -347,7 +354,6 @@ class MainWindow( KMainWindow ):
             hash_id = mnt.mount()
         except mount.MountException as ex:
             KMessageBox.error( self, QString.fromUtf8( str(ex) ) )
-            sys.exit(1)
         else:
             self.config.set_current_hash_id(hash_id)
         
@@ -387,6 +393,10 @@ class MainWindow( KMainWindow ):
         self.timer_update_take_snapshot.start()
 
     def closeEvent( self, event ):
+        if self.shutdown.ask_before_quit():
+            if KMessageBox.Yes != KMessageBox.warningYesNo(self, QString.fromUtf8( _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you really want to close?') )):
+                return event.ignore()
+
         self.config.set_str_value( 'kde4.last_path', self.path )
 
         self.config.set_int_value( 'kde4.main_window.x', self.x() )
@@ -577,6 +587,8 @@ class MainWindow( KMainWindow ):
             else:
                 if take_snapshot_message[0] == 0:
                     take_snapshot_message = ( 0, _('Done, no backup needed') )
+
+            self.shutdown.shutdown()
 
         if take_snapshot_message != self.last_take_snapshot_message or force_update:
             self.last_take_snapshot_message = take_snapshot_message
@@ -834,6 +846,9 @@ class MainWindow( KMainWindow ):
             profile_id = self.config.get_current_profile()
             self.remount(profile_id, profile_id)
             self.update_profiles()
+
+    def on_btn_shutdown_toggled(self, checked):
+        self.shutdown.activate_shutdown = checked
 
     def on_about( self ):
         dlg = KAboutApplicationDialog( self.kaboutdata, self )

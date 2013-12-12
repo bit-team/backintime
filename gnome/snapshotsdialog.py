@@ -196,7 +196,7 @@ class SnapshotsDialog(object):
             path = gnomevfs.escape_path_string(path)
             selection_data.set_uris( [ 'file://' + path ] )
 
-    def on_list_snapshots_key_press_event( self, list, event ):
+    def on_list_snapshots_key_press_event( self, _list, event ):
         if 32 != event.keyval:
             return False
 
@@ -206,10 +206,10 @@ class SnapshotsDialog(object):
         self.open_item( True )
         return True
 
-    def on_list_snapshots_cursor_changed( self, list ):
+    def on_list_snapshots_cursor_changed( self, _list ):
         self.update_toolbar()
 
-    def on_list_snapshots_button_press_event( self, list, event ):
+    def on_list_snapshots_button_press_event( self, _list, event ):
         if event.button != 3:
             return
 
@@ -225,10 +225,10 @@ class SnapshotsDialog(object):
         self.update_toolbar()
         self.show_popup_menu( self.list_snapshots, event.button, event.time )
 
-    def on_list_snapshots_popup_menu( self, list ):
-        self.show_popup_menu( list, 1, gtk.get_current_event_time() )
+    def on_list_snapshots_popup_menu( self, _list ):
+        self.show_popup_menu( _list, 1, gtk.get_current_event_time() )
 
-    def show_popup_menu( self, list, button, time ):
+    def show_popup_menu( self, _list, button, time ):
         path = self.get_list_snapshot_id()
         if path is None:
             return
@@ -402,7 +402,7 @@ class SnapshotsDialog(object):
         
         self.combo_equal_to.set_active(index_combo_equal_to)
 
-    def on_list_snapshots_row_activated( self, list, path, column ):
+    def on_list_snapshots_row_activated( self, _list, path, column ):
         self.open_item()
 
     def open_item( self, use_gloobus_preview = False ):
@@ -424,12 +424,12 @@ class SnapshotsDialog(object):
     def get_list_snapshot_id(self, multiSelection = False, index = 1):
         paths = self.list_snapshots.get_selection().get_selected_rows()[1]
         if multiSelection:
-            list = []
+            _list = []
             for path in paths:
                 iter = self.store_snapshots.get_iter(path[0])
                 if not iter is None:
-                    list.append(self.store_snapshots.get_value( iter, index ))
-            return list
+                    _list.append(self.store_snapshots.get_value( iter, index ))
+            return _list
 
         iter = self.store_snapshots.get_iter(paths[0][0])
         if iter is None:

@@ -119,7 +119,9 @@ class GnomePlugin( pluginmanager.Plugin ):
         return
 
     def init( self, snapshots ):
-        if not tools.process_exists( 'gnome-settings-daemon' ):
+        if not any((tools.process_exists('gnome-settings-daemon'), \
+                    tools.process_exists('mate-settings-daemon'),  \
+                    tools.process_exists('xfsettingsd') )):
             return False
 
         if not tools.check_x_server():

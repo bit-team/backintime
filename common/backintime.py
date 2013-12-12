@@ -37,13 +37,15 @@ _=gettext.gettext
 
 
 def take_snapshot_now_async( cfg ):
-    profile=''
-    if '1' != cfg.get_current_profile():
-        profile = "--profile-id %s" % cfg.get_current_profile()
-
-    cmd = "backintime %s --backup &" % profile
+    cmd = ''
     if cfg.is_run_ionice_from_user_enabled():
-        cmd = 'ionice -c2 -n7 ' + cmd
+        cmd += 'ionice -c2 -n7 '
+    cmd += 'backintime '
+    if '1' != cfg.get_current_profile():
+        cmd += '--profile-id %s ' % cfg.get_current_profile()
+    if not cfg._LOCAL_CONFIG_PATH is cfg._DEFAULT_CONFIG_PATH:
+        cmd += '--config %s ' % cfg._LOCAL_CONFIG_PATH
+    cmd += '--backup &'
 
     os.system( cmd )
 
@@ -208,11 +210,11 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                 print("The application is not configured !", file=sys.stderr)
             else:
                 _mount(cfg)
-                list = snapshots.Snapshots( cfg ).get_snapshots_list()
-                if len( list ) <= 0:
+                _list = snapshots.Snapshots( cfg ).get_snapshots_list()
+                if len( _list ) <= 0:
                     print("There are no snapshots", file=sys.stderr)
                 else:
-                    for snapshot_id in list:
+                    for snapshot_id in _list:
                         print("SnapshotID: %s" % snapshot_id, file=force_stdout)
                 _umount(cfg)
             sys.exit(0)
@@ -223,11 +225,11 @@ def start_app( app_name = 'backintime', extra_args = [] ):
             else:
                 _mount(cfg)
                 s = snapshots.Snapshots( cfg )
-                list = s.get_snapshots_list()
-                if len( list ) <= 0:
+                _list = s.get_snapshots_list()
+                if len( _list ) <= 0:
                     print("There are no snapshots", file=sys.stderr)
                 else:
-                    for snapshot_id in list:
+                    for snapshot_id in _list:
                         print("SnapshotPath: %s" % s.get_snapshot_path( snapshot_id ), file=force_stdout)
                 if not keep_mount:
                     _umount(cfg)
@@ -238,11 +240,11 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                 print("The application is not configured !", file=sys.stderr)
             else:
                 _mount(cfg)
-                list = snapshots.Snapshots( cfg ).get_snapshots_list()
-                if len( list ) <= 0:
+                _list = snapshots.Snapshots( cfg ).get_snapshots_list()
+                if len( _list ) <= 0:
                     print("There are no snapshots", file=sys.stderr)
                 else:
-                    print("SnapshotID: %s" % list[0], file=force_stdout)
+                    print("SnapshotID: %s" % _list[0], file=force_stdout)
                 _umount(cfg)
             sys.exit(0)
 
@@ -252,11 +254,11 @@ def start_app( app_name = 'backintime', extra_args = [] ):
             else:
                 _mount(cfg)
                 s = snapshots.Snapshots( cfg )
-                list = s.get_snapshots_list()
-                if len( list ) <= 0:
+                _list = s.get_snapshots_list()
+                if len( _list ) <= 0:
                     print("There are no snapshots", file=sys.stderr)
                 else:
-                    print("SnapshotPath: %s" % s.get_snapshot_path( list[0] ), file=force_stdout)
+                    print("SnapshotPath: %s" % s.get_snapshot_path( _list[0] ), file=force_stdout)
                 if not keep_mount:
                     _umount(cfg)
             sys.exit(0)
@@ -327,13 +329,13 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                 if not mode in ['local_encfs', 'ssh_encfs']:
                     print('Profile \'%s\' is not encrypted.' % cfg.get_profile_name(), file=sys.stderr)
                 path = ''
-                list = []
+                _list = []
                 try:
                     path = sys.argv[index + 1]
                 except IndexError:
                     pass
                 if len(path) > 0:
-                    list.append(path)
+                    _list.append(path)
                 else:
                     while True:
                         try:
@@ -342,7 +344,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                             break
                         if len(path) <= 0:
                             break
-                        list.append(path)
+                        _list.append(path)
                 
                 _mount(cfg)
                 decode = encfstools.Decode(cfg)

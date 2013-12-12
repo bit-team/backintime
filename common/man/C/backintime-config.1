@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Oct 2013" "version 1.0.28" "USER COMMANDS"
+.TH backintime-config 1 "Oct 2013" "version 1.0.29" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -570,6 +570,24 @@ Type: str       Allowed Values: IP or domain address
 Remote host used for mode 'ssh' and 'ssh_encfs'.
 .PP
 Default: ''
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.ionice\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Run rsync and other commands on remote host with 'ionice -c2 -n7'
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.nice\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Run rsync and other commands on remote host with 'nice -n 19'
+.PP
+Default: false
 .RE
 
 .IP "\fIprofile<N>.snapshots.ssh.path\fR" 6

@@ -11,7 +11,7 @@ for i in common notify gnome kde4; do
 	mkdir -p tmp
 
 	cd $i
-	./configure
+	./configure $@
 	make DESTDIR=../tmp install
 	cd ..
 

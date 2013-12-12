@@ -21,6 +21,8 @@ import syslog
 import os
 import sys
 
+import tools
+
 def openlog():
     name = os.getenv( 'LOGNAME', 'unknown' )
     syslog.openlog( "backintime (%s)" % name )
@@ -30,13 +32,15 @@ def closelog():
 
 def error( msg ):
     print('ERROR: ' + msg, file=sys.stderr)
-    syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + msg )
+    for line in tools.wrap_line(msg):
+        syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + line )
 
 def warning( msg ):
     print('WARNING: ' + msg, file=sys.stderr)
-    syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + msg )
+    for line in tools.wrap_line(msg):
+        syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + line )
 
 def info( msg ):
     print('INFO: ' + msg, file=sys.stdout)
-    syslog.syslog( syslog.LOG_INFO, 'INFO: ' + msg )
-
+    for line in tools.wrap_line(msg):
+        syslog.syslog( syslog.LOG_INFO, 'INFO: ' + line )

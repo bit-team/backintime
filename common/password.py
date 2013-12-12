@@ -22,7 +22,6 @@ import signal
 import base64
 import subprocess
 import gettext
-import keyring
 import re
 
 import config
@@ -55,7 +54,7 @@ class Daemon:
         Programming in the UNIX Environment" for details (ISBN 0201563177)
         http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
         """
-        logger.info('[Password_Cache.Daemon.daemonize] start')
+        #logger.info('[Password_Cache.Daemon.daemonize] start')
         try:
             pid = os.fork()
             if pid > 0:
@@ -91,7 +90,7 @@ class Daemon:
         os.dup2(se.fileno(), sys.stderr.fileno())
 
         # write pidfile
-        logger.info('[Password_Cache.Daemon.daemonize] write pidfile')
+        #logger.info('[Password_Cache.Daemon.daemonize] write pidfile')
         atexit.register(self.delpid)
         signal.signal(signal.SIGTERM, self._cleanup_handler)
         pid = str(os.getpid())
@@ -264,12 +263,12 @@ class Password_Cache(Daemon):
         tools.save_env(self.config)
 
         if not self._collect_passwords():
-            logger.info('[Password_Cache.run] Nothing to cache. Quit.')
+            #logger.info('[Password_Cache.run] Nothing to cache. Quit.')
             sys.exit(0)
         self.fifo.create()
         atexit.register(self.fifo.delfifo)
         signal.signal(signal.SIGHUP, self._reload_handler)
-        logger.info('[Password_Cache.run] start loop')
+        #logger.info('[Password_Cache.run] start loop')
         while True:
             try:
                 request = self.fifo.read()
@@ -325,7 +324,7 @@ class Password_Cache(Daemon):
                             service_name = self.config.get_keyring_service_name(profile_id, mode, pw_id)
                             user_name = self.config.get_keyring_user_name(profile_id)
                                 
-                            password = keyring.get_password(service_name, user_name)
+                            password = tools.get_password(service_name, user_name)
                             if password is None:
                                 continue
                             #add some snakeoil
@@ -397,7 +396,7 @@ class Password(object):
         """
         if self.keyring_supported:
             try:
-                return keyring.get_password(service_name, user_name)
+                return tools.get_password(service_name, user_name)
             except Exception:
                 logger.error('get password from Keyring failed')
         return None
@@ -481,7 +480,7 @@ class Password(object):
             self._set_password_db(service_name, user_name, password)
 
     def _set_password_to_keyring(self, service_name, user_name, password):
-        return keyring.set_password(service_name, user_name, password)
+        return tools.set_password(service_name, user_name, password)
 
     def _set_password_to_cache(self, service_name, user_name, password):
         if self.pw_cache.status():

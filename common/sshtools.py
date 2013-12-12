@@ -195,7 +195,7 @@ class SSH(mount.MountControl):
 
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""
-        if not self.pathexists('sshfs'):
+        if not tools.check_command('sshfs'):
             raise mount.MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
         if self.CHECK_FUSE_GROUP:
             user = self.config.get_user()
@@ -205,18 +205,6 @@ class SSH(mount.MountControl):
                 fuse_grp_members = []
             if not user in fuse_grp_members:
                 raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
-        
-    def pathexists(self, filename):
-        """Checks if 'filename' is present in the system PATH.
-        In other words, it checks if os.execvp(filename, ...) will work.
-        shameless stolen from GnuPGInterface;)"""
-        pathenv = os.getenv("PATH")
-        path = pathenv.split(":")
-        for directory in path:
-            fullpath = os.path.join(directory, filename)
-            if (os.path.exists(fullpath)):
-                return True
-        return False
         
     def check_login(self):
         """check passwordless authentication to host"""
@@ -365,6 +353,13 @@ class SSH(mount.MountControl):
         #try to rm -rf
         cmd += 'echo \"rm -rf PATH\"; rm -rf $tmp >/dev/null; err_rm=$?; '
         cmd += 'test $err_rm -ne 0 && cleanup $err_rm; '
+        #try nice -n 19
+        if self.config.is_run_nice_on_remote_enabled():
+            cmd += 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
+            cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
+        if self.config.is_run_ionice_on_remote_enabled():
+            cmd += 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
+            cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
         #report not supported gnu find suffix
         cmd += 'test $err_gnu_find -ne 0 && echo \"gnu_find not supported\" && exit $err_gnu_find; '
         #if we end up here, everything should be fine
@@ -383,7 +378,7 @@ class SSH(mount.MountControl):
             else:
                 break
         if proc.returncode or not output_split[-1].startswith('done'):
-            for command in ('cp', 'chmod', 'find', 'rm'):
+            for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice'):
                 if output_split[-1].startswith(command):
                     raise mount.MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
             if output_split[-1].startswith('gnu_find not supported'):
