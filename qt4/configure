@@ -22,8 +22,8 @@ case $KDESUDO in
 	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesu -c backintime-qt4/" backintime-kde4-root.desktop;;
 esac
 case $GKSUDO in
-	--gksudo) sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=gksudo -c backintime-qt4/" backintime-gnome-root.desktop;;
-	--gksu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=gksu -c backintime-qt4/" backintime-gnome-root.desktop;;
+	--gksudo) sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=gksudo -- backintime-qt4/" backintime-gnome-root.desktop;;
+	--gksu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=gksu -- backintime-qt4/" backintime-gnome-root.desktop;;
 esac
 
 #patch python command

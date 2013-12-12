@@ -576,7 +576,7 @@ def get_uuid_from_path(path):
 
 def sudo_execute(cfg, cmd, msg = None, *args, **kwargs):
     '''execute command with gksudo or kdesudo if user isn't root'''
-    if cfg.get_user() != 'root':
+    if os.geteuid() != 0:
         sudo = {'gksudo':  ('-m "{msg}"', '-- {cmd}'),
                 'kdesudo': ('--comment "{msg}"', '-- {cmd}'),
                 'kdesu':   ('', '-c "{cmd}"') }
