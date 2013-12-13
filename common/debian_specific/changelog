@@ -1,14 +1,3 @@
 $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
-  * scheduled and manual snapshots use --config
-  * make configure scripts portable (https://bugs.launchpad.net/backintime/+bug/377429)
-  * Fix bug: udev rule doesn't finish (https://bugs.launchpad.net/backintime/+bug/1249466)
-  * add symlink last_snapshot (https://bugs.launchpad.net/backintime/+bug/787118)
-  * add virtual package backintime-kde for PPA
-  * Fix multiple errors in PPA build process; reorganise updateversion.sh
-  * Fix bug: Mate and xfce desktop didn't show systray icon (https://bugs.launchpad.net/backintime/+bug/658424/comments/31)
-  * add option to run rsync with 'nice' or 'ionice' on remote host (https://bugs.launchpad.net/backintime/+bug/1240301)
-  * add Shutdown button to shutdown system after snapshot has finished (https://bugs.launchpad.net/backintime/+bug/838742)
-  * Fix bug: Ubuntu Lucid dosn't provide SecretServiceKeyring (https://bugs.launchpad.net/backintime/+bug/1243911)
-  * wrap long lines for syslog
-  * Fix bug: 'gksu backintime-gnome' failed with dbus.exceptions.DBusException
- -- BIT Team <dan@le-web.org>  Thu, 12 Dec 2013 10:36:06 +0100
+  * Fix bug: cron scheduled snapshots won't start with 1.0.30
+ -- BIT Team <dan@le-web.org>  Fri, 13 Dec 2013 19:26:58 +0100
