@@ -856,6 +856,8 @@ class ShutDown(object):
         """run 'shutdown -h now' if we are root or
         call the dbus proxy to start the shutdown.
         """
+        if not self.activate_shutdown:
+            return(False)
         if self.is_root:
             self.started = True
             proc = subprocess.Popen(['shutdown', '-h', 'now'])
@@ -863,7 +865,7 @@ class ShutDown(object):
             return proc.returncode
         if self.proxy is None:
             return(False)
-        if self.activate_shutdown:
+        else:
             self.started = True
             return(self.proxy(*self.args))
 
