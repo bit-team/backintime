@@ -608,6 +608,12 @@ def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '
                 line, msg = msg[:size], new_line_indicator + msg[size:]
             yield(line)
 
+def syncfs():
+    """writes any data buffered in memory out to disk
+    """
+    if check_command('sync'):
+        return(_execute('sync') == 0)
+
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     def __init__(self, dc = False, follow_symlink = False, list_equal_to = False): 
@@ -859,6 +865,7 @@ class ShutDown(object):
         if not self.activate_shutdown:
             return(False)
         if self.is_root:
+            syncfs()
             self.started = True
             proc = subprocess.Popen(['shutdown', '-h', 'now'])
             proc.communicate()
@@ -866,6 +873,7 @@ class ShutDown(object):
         if self.proxy is None:
             return(False)
         else:
+            syncfs()
             self.started = True
             return(self.proxy(*self.args))
 
