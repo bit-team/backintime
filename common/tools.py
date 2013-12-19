@@ -827,8 +827,11 @@ class ShutDown(object):
         """try to connect to the given dbus services. If successful it will
         return a callable dbus proxy and those arguments.
         """
-        sessionbus = dbus.SessionBus()
-        systembus  = dbus.SystemBus()
+        try:
+            sessionbus = dbus.SessionBus()
+            systembus  = dbus.SystemBus()
+        except:
+            return( (None, None) )
         des = self.DBUS_SHUTDOWN.keys()
         des.sort()
         for de in des:
