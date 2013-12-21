@@ -608,6 +608,12 @@ def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '
                 line, msg = msg[:size], new_line_indicator + msg[size:]
             yield(line)
 
+def syncfs():
+    """writes any data buffered in memory out to disk
+    """
+    if check_command('sync'):
+        return(_execute('sync') == 0)
+
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     def __init__(self, dc = False, follow_symlink = False, list_equal_to = False): 
@@ -821,8 +827,11 @@ class ShutDown(object):
         """try to connect to the given dbus services. If successful it will
         return a callable dbus proxy and those arguments.
         """
-        sessionbus = dbus.SessionBus()
-        systembus  = dbus.SystemBus()
+        try:
+            sessionbus = dbus.SessionBus()
+            systembus  = dbus.SystemBus()
+        except:
+            return( (None, None) )
         des = self.DBUS_SHUTDOWN.keys()
         des.sort()
         for de in des:
@@ -856,14 +865,18 @@ class ShutDown(object):
         """run 'shutdown -h now' if we are root or
         call the dbus proxy to start the shutdown.
         """
+        if not self.activate_shutdown:
+            return(False)
         if self.is_root:
+            syncfs()
             self.started = True
             proc = subprocess.Popen(['shutdown', '-h', 'now'])
             proc.communicate()
             return proc.returncode
         if self.proxy is None:
             return(False)
-        if self.activate_shutdown:
+        else:
+            syncfs()
             self.started = True
             return(self.proxy(*self.args))
 
