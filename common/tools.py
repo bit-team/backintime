@@ -24,6 +24,7 @@ import hashlib
 import commands
 import signal
 import re
+import dbus
 keyring = None
 keyring_warn = False
 try:
@@ -607,6 +608,12 @@ def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '
                 line, msg = msg[:size], new_line_indicator + msg[size:]
             yield(line)
 
+def syncfs():
+    """writes any data buffered in memory out to disk
+    """
+    if check_command('sync'):
+        return(_execute('sync') == 0)
+
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     def __init__(self, dc = False, follow_symlink = False, list_equal_to = False): 
@@ -724,10 +731,7 @@ class ShutDown(object):
     """Shutdown the system after the current snapshot has finished.
     This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
     """
-    import dbus
-    sessionbus = dbus.SessionBus()
-    systembus  = dbus.SystemBus()
-    DBUS_SHUTDOWN ={'gnome':   {'bus':          sessionbus,
+    DBUS_SHUTDOWN ={'gnome':   {'bus':          'sessionbus',
                                 'service':      'org.gnome.SessionManager',
                                 'objectPath':   '/org/gnome/SessionManager',
                                 'method':       'Shutdown',
@@ -741,7 +745,7 @@ class ShutDown(object):
                                     #           1 no confirm
                                     #           2 force
                                },
-                    'kde':     {'bus':          sessionbus,
+                    'kde':     {'bus':          'sessionbus',
                                 'service':      'org.kde.ksmserver',
                                 'objectPath':   '/KSMServer',
                                 'method':       'logout',
@@ -756,7 +760,7 @@ class ShutDown(object):
                                     #3rd arg   -1 wait 30sec
                                     #           2 immediately
                                },
-                    'xfce':    {'bus':          sessionbus,
+                    'xfce':    {'bus':          'sessionbus',
                                 'service':      'org.xfce.SessionManager',
                                 'objectPath':   '/org/xfce/SessionManager',
                                 'method':       'Shutdown',
@@ -776,7 +780,7 @@ class ShutDown(object):
                                     #           True    allow saving
                                     #           False   don't allow saving
                                },
-                    'mate':    {'bus':          sessionbus,
+                    'mate':    {'bus':          'sessionbus',
                                 'service':      'org.mate.SessionManager',
                                 'objectPath':   '/org/mate/SessionManager',
                                 'method':       'Shutdown',
@@ -789,7 +793,7 @@ class ShutDown(object):
                                     #           1 no confirm
                                     #           2 force
                                },
-                    'e17':     {'bus':          sessionbus,
+                    'e17':     {'bus':          'sessionbus',
                                 'service':      'org.enlightenment.Remote.service',
                                 'objectPath':   '/org/enlightenment/Remote/RemoteObject',
                                 'method':       'Halt',
@@ -801,7 +805,7 @@ class ShutDown(object):
                                 'interface':    'org.enlightenment.Remote.Core',
                                 'arguments':    ()
                                },
-                    'z_freed': {'bus':          systembus,
+                    'z_freed': {'bus':          'systembus',
                                 'service':      'org.freedesktop.ConsoleKit',
                                 'objectPath':   '/org/freedesktop/ConsoleKit/Manager',
                                 'method':       'Stop',
@@ -823,6 +827,11 @@ class ShutDown(object):
         """try to connect to the given dbus services. If successful it will
         return a callable dbus proxy and those arguments.
         """
+        try:
+            sessionbus = dbus.SessionBus()
+            systembus  = dbus.SystemBus()
+        except:
+            return( (None, None) )
         des = self.DBUS_SHUTDOWN.keys()
         des.sort()
         for de in des:
@@ -830,10 +839,14 @@ class ShutDown(object):
                 continue
             dbus_props = self.DBUS_SHUTDOWN[de]
             try:
-                interface = dbus_props['bus'].get_object(dbus_props['service'], dbus_props['objectPath'])
+                if dbus_props['bus'] == 'sessionbus':
+                    bus = sessionbus
+                else:
+                    bus = systembus
+                interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
                 proxy = interface.get_dbus_method(dbus_props['method'], dbus_props['interface'])
                 return( (proxy, dbus_props['arguments']) )
-            except self.dbus.exceptions.DBusException:
+            except dbus.exceptions.DBusException:
                 continue
         return( (None, None) )
 
@@ -852,14 +865,18 @@ class ShutDown(object):
         """run 'shutdown -h now' if we are root or
         call the dbus proxy to start the shutdown.
         """
+        if not self.activate_shutdown:
+            return(False)
         if self.is_root:
+            syncfs()
             self.started = True
             proc = subprocess.Popen(['shutdown', '-h', 'now'])
             proc.communicate()
             return proc.returncode
         if self.proxy is None:
             return(False)
-        if self.activate_shutdown:
+        else:
+            syncfs()
             self.started = True
             return(self.proxy(*self.args))
 

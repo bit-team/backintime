@@ -29,6 +29,15 @@ for i in common qt4; do
 			    -e 's/^Depends: /Depends: ${misc:Depends}, /g' \
 			    -e "s/backintime-\(common\|notify\|qt\|kde\|kde4\|gnome\) (\(>=\|<<\) [^)]*)/backintime-\1 (\2 $PKGVER~$release)/g" \
 			    >> debian/control
+		#Unity 7.0 in Raring and Saucy need consolekit to be able to shutdown
+		#but consolekit isn't available in earlier releases
+		#so this will add consolekit only to Raring and Saucy
+		if [ "x$i" == "xgnome" ]; then
+			if [ "x$release" == "xraring" ] || [ "x$release" == "xsaucy" ]; then
+				sed -e 's/^Depends: /Depends: consolekit, /g' \
+				    -i debian/control
+			fi
+		fi
 		if [ -e ../../$i/debian_specific/control.virtual ]; then
 			echo "" >> debian/control
 			cat ../../$i/debian_specific/control.virtual | \

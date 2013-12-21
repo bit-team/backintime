@@ -425,7 +425,7 @@ class SettingsDialog( QDialog ):
         self.list_exclude = QTreeWidget( self )
         self.list_exclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.list_exclude.setRootIsDecorated( False )
-        self.list_exclude.setHeaderLabels( [QString.fromUtf8( _('Exclude files and folders') ),
+        self.list_exclude.setHeaderLabels( [QString.fromUtf8( _('Exclude patterns, files or folders') ),
                                             QString.fromUtf8('Count') ] )
         
         self.list_exclude_header = self.list_exclude.header()
