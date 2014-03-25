@@ -49,7 +49,7 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
             if output[1]:
                 logger.error( "[UserCallbackPlugin.notify_callback callback error] %s" % output[1] )
             if callback.returncode != 0:
-                exit()
+                raise pluginmanager.StopException()
         except OSError:
             logger.error( "[UserCallbackPlugin.notify_callback] Exception when trying to run user callback" )
 
