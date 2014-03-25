@@ -918,8 +918,10 @@ class Snapshots:
 
                 if len( include_folders ) <= 0:
                     logger.info( 'Nothing to do' )
+                elif not self.plugin_manager.on_process_begins():
+                    logger.info( 'A plugin prevented the backup' )
                 else:
-                    self.plugin_manager.on_process_begins() #take snapshot process begin
+                    #take snapshot process begin
                     logger.info( "on process begins" )
                     self.set_take_snapshot_message( 0, '...' )
                     self.new_take_snapshot_log( now )

@@ -23,6 +23,8 @@ import types
 tools.register_backintime_path( 'common' )
 tools.register_backintime_path( 'plugins' )
 
+class StopException(Exception):
+    pass
 
 class Plugin:
     def __init__( self ):
@@ -94,11 +96,15 @@ class PluginManager:
         return self.has_gui_plugins_
 
     def on_process_begins( self ):
+        ret_val = True
         for plugin in self.plugins:
             try:
                 plugin.on_process_begins()
+            except StopException:
+                ret_val = False
             except:
                 pass
+        return ret_val
 
     def on_process_ends( self ):
         for plugin in reversed( self.plugins ):
