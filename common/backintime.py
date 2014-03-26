@@ -53,8 +53,9 @@ def take_snapshot_now_async( cfg ):
 def take_snapshot( cfg, force = True ):
     logger.openlog()
     tools.load_env(cfg)
-    snapshots.Snapshots( cfg ).take_snapshot( force )
+    ret = snapshots.Snapshots( cfg ).take_snapshot( force )
     logger.closelog()
+    return ret
 
 def _mount(cfg):
     try:
@@ -180,12 +181,12 @@ def start_app( app_name = 'backintime', extra_args = [] ):
             continue
 
         if arg == '--backup' or arg == '-b':
-            take_snapshot( cfg, True )
-            sys.exit(0)
+            ret = take_snapshot( cfg, True )
+            sys.exit(int(not ret))
 
         if arg == '--backup-job':
-            take_snapshot( cfg, False )
-            sys.exit(0)
+            ret = take_snapshot( cfg, False )
+            sys.exit(int(not ret))
 
         if arg == '--version' or arg == '-v':
             sys.exit(0)
@@ -201,6 +202,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
         if arg == '--snapshots-path':
             if not cfg.is_configured():
                 print("The application is not configured !", file=sys.stderr)
+                sys.exit(2)
             else:
                 print("SnapshotsPath: %s" % cfg.get_snapshots_full_path(), file=force_stdout)
             sys.exit(0)
@@ -208,6 +210,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
         if arg == '--snapshots-list':
             if not cfg.is_configured():
                 print("The application is not configured !", file=sys.stderr)
+                sys.exit(2)
             else:
                 _mount(cfg)
                 _list = snapshots.Snapshots( cfg ).get_snapshots_list()
@@ -222,6 +225,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
         if arg == '--snapshots-list-path':
             if not cfg.is_configured():
                 print("The application is not configured !", file=sys.stderr)
+                sys.exit(2)
             else:
                 _mount(cfg)
                 s = snapshots.Snapshots( cfg )
@@ -238,6 +242,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
         if arg == '--last-snapshot':
             if not cfg.is_configured():
                 print("The application is not configured !", file=sys.stderr)
+                sys.exit(2)
             else:
                 _mount(cfg)
                 _list = snapshots.Snapshots( cfg ).get_snapshots_list()
@@ -251,6 +256,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
         if arg == '--last-snapshot-path':
             if not cfg.is_configured():
                 print("The application is not configured !", file=sys.stderr)
+                sys.exit(2)
             else:
                 _mount(cfg)
                 s = snapshots.Snapshots( cfg )
@@ -275,6 +281,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
         if arg == '--benchmark-cipher':
             if not cfg.is_configured():
                 print("The application is not configured !", file=sys.stderr)
+                sys.exit(2)
             else:
                 try:
                     size = sys.argv[index + 1]
@@ -290,7 +297,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
         if arg == '--pw-cache':
             if not cfg.is_configured():
                 print("The application is not configured !", file=sys.stderr)
-                sys.exit(0)
+                sys.exit(2)
             else:
                 logger.openlog()
                 daemon = password.Password_Cache(cfg)
@@ -323,7 +330,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
         if arg == '--decode':
             if not cfg.is_configured():
                 print("The application is not configured !", file=sys.stderr)
-                sys.exit(0)
+                sys.exit(2)
             else:
                 mode = cfg.get_snapshots_mode()
                 if not mode in ['local_encfs', 'ssh_encfs']:
@@ -358,7 +365,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
         if arg == '--restore':
             if not cfg.is_configured():
                 print("The application is not configured !", file=sys.stderr)
-                sys.exit(0)
+                sys.exit(2)
             what = None
             where = None
             snapshot_id = None
