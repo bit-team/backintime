@@ -21,7 +21,6 @@ import os.path
 import stat
 import datetime
 import gettext
-import statvfs
 import stat
 import bz2
 import pwd
@@ -194,9 +193,8 @@ class Snapshots:
         
         name = ''
         try:
-            file = open( os.path.join( path, 'name' ), 'rt' )
-            name = file.read()
-            file.close()
+            with open( os.path.join( path, 'name' ), 'rt' ) as file:
+                name = file.read()
         except:
             pass
 
@@ -218,9 +216,8 @@ class Snapshots:
         os.system( "chmod +w \"%s\"" % path )
 
         try:
-            file = open( name_path, 'wt' )
-            file.write( name )
-            file.close()
+            with open( name_path, 'wt' ) as file:
+                file.write( name )
         except:
             pass
 
@@ -254,9 +251,8 @@ class Snapshots:
 
     def get_take_snapshot_message( self ):
         try:
-            file = open( self.config.get_take_snapshot_message_file(), 'rt' )
-            items = file.read().split( '\n' )
-            file.close()
+            with open( self.config.get_take_snapshot_message_file(), 'rt' ) as file:
+                items = file.read().split( '\n' )
         except:
             return None 
 
@@ -278,9 +274,8 @@ class Snapshots:
         data = str(type_id) + '\n' + message
 
         try:
-            file = open( self.config.get_take_snapshot_message_file(), 'wt' )
-            file.write( data )
-            file.close()
+            with open( self.config.get_take_snapshot_message_file(), 'wt' ) as file:
+                file.write( data )
             #logger.info( "Take snapshot message: %s" % data )
         except:
             pass
@@ -302,7 +297,7 @@ class Snapshots:
 ### If some paths are not decoded you can manually decode them with:\n''')
         decode_msg += '### \'backintime --quiet'
         profile_id = self.config.get_current_profile()
-        if profile_id > 1:
+        if int(profile_id) > 1:
             decode_msg += ' --profile %s' % self.config.get_profile_name(profile_id)
         decode_msg += ' --decode <path>\'\n\n'
         if 0 == mode:
@@ -336,18 +331,16 @@ class Snapshots:
 
     def get_snapshot_log( self, snapshot_id, mode = 0, profile_id = None , **kwargs ):
         try:
-            file = bz2.BZ2File( self.get_snapshot_log_path( snapshot_id ), 'r' )
-            data = file.read()
-            file.close()
+            with bz2.BZ2File( self.get_snapshot_log_path( snapshot_id ), 'r' ) as file:
+                data = file.read().decode()
             return self._filter_take_snapshot_log( data, mode, **kwargs )
         except:
             return ''
 
     def get_take_snapshot_log( self, mode = 0, profile_id = None, **kwargs ):
         try:
-            file = open( self.config.get_take_snapshot_log_file( profile_id ), 'rt' )
-            data = file.read()
-            file.close()
+            with open( self.config.get_take_snapshot_log_file( profile_id ), 'rt' ) as file:
+                data = file.read()
             return self._filter_take_snapshot_log( data, mode, **kwargs )
         except:
             return ''
@@ -361,9 +354,8 @@ class Snapshots:
             return
 
         try:
-            file = open( self.config.get_take_snapshot_log_file(), 'at' )
-            file.write( message + '\n' )
-            file.close()
+            with open( self.config.get_take_snapshot_log_file(), 'at' ) as file:
+                file.write( message + '\n' )
         except:
             pass
 
@@ -387,34 +379,29 @@ class Snapshots:
         if not os.path.exists( fileinfo_path ):
             return dict
 
-        #try:
-        fileinfo = bz2.BZ2File( fileinfo_path, 'r' )
-        while True:
-            line = fileinfo.readline()
-            if len( line ) <= 0:
-                break
+        with bz2.BZ2File( fileinfo_path, 'r' ) as fileinfo:
+            for line in fileinfo:
+                line = line.decode()
+                if len( line ) <= 0:
+                    break
 
-            line = line[ : -1 ]
-            if len( line ) <= 0:
-                continue
-        
-            index = line.find( '/' )
-            if index < 0:
-                continue
+                line = line[ : -1 ]
+                if len( line ) <= 0:
+                    continue
+            
+                index = line.find( '/' )
+                if index < 0:
+                    continue
 
-            file = line[ index: ]
-            if len( file ) <= 0:
-                continue
+                file = line[ index: ]
+                if len( file ) <= 0:
+                    continue
 
-            info = line[ : index ].strip()
-            info = info.split( ' ' )
+                info = line[ : index ].strip()
+                info = info.split( ' ' )
 
-            if len( info ) == 3:
-                dict[ file ] = [ int( info[0] ), info[1], info[2] ] #perms, user, group
-
-        fileinfo.close()
-        #except:
-        #	pass
+                if len( info ) == 3:
+                    dict[ file ] = [ int( info[0] ), info[1], info[2] ] #perms, user, group
 
         return dict
 
@@ -935,7 +922,7 @@ class Snapshots:
                                     '\n' +
                                     gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', 30 ) % 30,
                                     30 )
-                            for counter in xrange( 30, 0, -1 ):
+                            for counter in range( 30, 0, -1 ):
                                 os.system( 'sleep 1' )
                                 if self.config.can_backup():
                                     break
@@ -1113,7 +1100,8 @@ class Snapshots:
         return True
     
     def _save_path_info_line( self, fileinfo, path, info ):
-        fileinfo.write( "%s %s %s %s\n" % ( info[0], info[1], info[2], path ) )
+        s = "{} {} {} {}\n".format(info[0], info[1], info[2], path)
+        fileinfo.write(s.encode())
 
     def _save_path_info( self, fileinfo, path ):
         try:
@@ -1363,71 +1351,42 @@ class Snapshots:
             logger.info( 'Save permissions' )
             self.set_take_snapshot_message( 0, _('Save permission ...') )
 
-            fileinfo = bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'w' )
-            path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' )
-            fileinfo_dict = {}
+            with bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'wb' ) as fileinfo:
+                path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' )
+                fileinfo_dict = {}
 
-            permission_done = False
-            if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-                path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
-                cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'])
-                
-                find = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-                output = find.communicate()[0]
-                if find.returncode:
-                    logger.warning('Save permission over ssh failed. Retry normal methode')
-                else:
-                    if self.config.get_snapshots_mode() == 'ssh_encfs':
-                        decode = encfstools.Decode(self.config)
-                        path_to_explore_ssh = decode.remote(path_to_explore_ssh)
+                permission_done = False
+                if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
+                    path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
+                    cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'])
+                    
+                    find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                            stderr = subprocess.PIPE,
+                                            universal_newlines = True)
+                    output = find.communicate()[0]
+                    if find.returncode:
+                        logger.warning('Save permission over ssh failed. Retry normal methode')
                     else:
-                        decode = encfstools.Bounce()
-                    for line in output.split('\n'):
-                        if not len(line) == 0:
-                            line = decode.remote(line)
-                            item_path = line[ len( path_to_explore_ssh ) : ]
+                        if self.config.get_snapshots_mode() == 'ssh_encfs':
+                            decode = encfstools.Decode(self.config)
+                            path_to_explore_ssh = decode.remote(path_to_explore_ssh)
+                        else:
+                            decode = encfstools.Bounce()
+                        for line in output.split('\n'):
+                            if not len(line) == 0:
+                                line = decode.remote(line)
+                                item_path = line[ len( path_to_explore_ssh ) : ]
+                                fileinfo_dict[item_path] = 1
+                                self._save_path_info( fileinfo, item_path )
+                        permission_done = True
+                        
+                if not permission_done:
+                    for path, dirs, files in os.walk( path_to_explore ):
+                        dirs.extend( files )
+                        for item in dirs:
+                            item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
                             fileinfo_dict[item_path] = 1
                             self._save_path_info( fileinfo, item_path )
-                    permission_done = True
-                    
-            if not permission_done:
-                for path, dirs, files in os.walk( path_to_explore ):
-                    dirs.extend( files )
-                    for item in dirs:
-                        item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-                        fileinfo_dict[item_path] = 1
-                        self._save_path_info( fileinfo, item_path )
-
-            # We now copy on forehand, so copying afterwards is not necessary anymore
-            ##copy ignored folders
-            #if not force and len( prev_snapshot_id ) > 0 and len( ignore_folders ) > 0:
-            #	prev_fileinfo_dict = self.load_fileinfo_dict( prev_snapshot_id )
-            #
-            #	for folder in ignore_folders:
-            #		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
-            #		new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
-            #		tools.make_dirs( new_path )
-            #		cmd = "cp -alb \"%s/\"* \"%s\"" % ( prev_path, new_path )
-            #		self._execute( cmd )
-            #
-            #		if len( prev_fileinfo_dict ) > 0:
-            #			#save permissions for all items to folder
-            #			item_path = '/'
-            #			prev_path_items = folder.strip( '/' ).split( '/' )
-            #			for item in items:
-            #				item_path = os.path.join( item_path, item )
-            #				if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
-            #					self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
-
-            #			#save permission for all items in folder
-            #			for path, dirs, files in os.walk( new_path ):
-            #				dirs.extend( files )
-            #				for item in dirs:
-            #					item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-            #					if item_path not in fileinfo_dict and item_path in prev_fileinfo_dict:
-            #						self._save_path_info_line( fileinfo, item_path, prev_fileinfo_dict[item_path] )
-
-            fileinfo.close()
 
         #create info file 
         logger.info( "Create info file" ) 
@@ -1447,13 +1406,10 @@ class Snapshots:
         
         #copy take snapshot log
         try:
-            logfile = open( self.config.get_take_snapshot_log_file(), 'r' )
-            logdata = logfile.read()
-            logfile.close()
-
-            logfile = bz2.BZ2File( self.get_snapshot_log_path( new_snapshot_id ), 'w' )
-            logfile.write( logdata )
-            logfile.close()
+            with open( self.config.get_take_snapshot_log_file(), 'rb' ) as logfile:
+                with bz2.BZ2File( self.get_snapshot_log_path( new_snapshot_id ), 'wb' ) as logfile_bz2:
+                    for line in logfile:
+                        logfile_bz2.write(line)
         except:
             pass
 
@@ -1540,14 +1496,14 @@ class Snapshots:
         #keep one per days for the last keep_one_per_day days
         if keep_one_per_day > 0:
             d = now
-            for i in xrange( 0, keep_one_per_day ):
+            for i in range( 0, keep_one_per_day ):
                 keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d, d + datetime.timedelta(days=1) )
                 d = d - datetime.timedelta(days=1)
 
         #keep one per week for the last keep_one_per_week weeks
         if keep_one_per_week > 0:
             d = now - datetime.timedelta( days = now.weekday() + 1 )
-            for i in xrange( 0, keep_one_per_week ):
+            for i in range( 0, keep_one_per_week ):
                 keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d, d + datetime.timedelta(days=8) )
                 d = d - datetime.timedelta(days=7)
 
@@ -1555,14 +1511,14 @@ class Snapshots:
         if keep_one_per_month > 0:
             d1 = datetime.date( now.year, now.month, 1 )
             d2 = self.inc_month( d1 )
-            for i in xrange( 0, keep_one_per_month ):
+            for i in range( 0, keep_one_per_month ):
                 keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d1, d2 )
                 d2 = d1
                 d1 = self.dec_month(d1)
 
         #keep one per year for all years
         first_year = int(snapshots[-1][ : 4])
-        for i in xrange( first_year, now.year+1 ):
+        for i in range( first_year, now.year+1 ):
             keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, datetime.date(i,1,1), datetime.date(i+1,1,1) )
 
         logger.info( "[smart remove] keep snapshots: %s" % keep_snapshots )
@@ -1624,7 +1580,7 @@ class Snapshots:
                     break
 
                 info = os.statvfs( self.config.get_snapshots_path() )
-                free_space = info[ statvfs.F_FRSIZE ] * info[ statvfs.F_BAVAIL ] / ( 1024 * 1024 )
+                free_space = info.f_frsize * info.f_bavail // ( 1024 * 1024 )
 
                 if free_space >= min_free_space:
                     break
@@ -1651,8 +1607,8 @@ class Snapshots:
                     break
 
                 info = os.statvfs( self.config.get_snapshots_path() )
-                free_inodes = info[statvfs.F_FAVAIL]
-                max_inodes  = info[statvfs.F_FILES]
+                free_inodes = info.f_favail
+                max_inodes  = info.f_files
 
                 if free_inodes >= max_inodes * (min_free_inodes / 100.0):
                     break

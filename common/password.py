@@ -60,7 +60,7 @@ class Daemon:
             if pid > 0:
                 # exit first parent
                 sys.exit(0)
-        except OSError, e:
+        except OSError as e:
             logger.error("[Password_Cache.Daemon.daemonize] fork #1 failed: %d (%s)" % (e.errno, e.strerror))
             sys.exit(1)
 
@@ -75,16 +75,16 @@ class Daemon:
             if pid > 0:
                 # exit from second parent
                 sys.exit(0)
-        except OSError, e:
+        except OSError as e:
             logger.error("[Password_Cache.Daemon.daemonize] fork #2 failed: %d (%s)" % (e.errno, e.strerror))
             sys.exit(1)
 
         # redirect standard file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
-        si = file(self.stdin, 'r')
-        so = file(self.stdout, 'a+')
-        se = file(self.stderr, 'a+', 0)
+        si = open(self.stdin, 'r')
+        so = open(self.stdout, 'w')
+        se = open(self.stderr, 'w')
         os.dup2(si.fileno(), sys.stdin.fileno())
         os.dup2(so.fileno(), sys.stdout.fileno())
         os.dup2(se.fileno(), sys.stderr.fileno())
@@ -96,7 +96,7 @@ class Daemon:
         pid = str(os.getpid())
         with open(self.pidfile, 'w+') as pidfile:
             pidfile.write("%s\n" % pid)
-        os.chmod(self.pidfile, 0600)
+        os.chmod(self.pidfile, 0o600)
 
     def _cleanup_handler(self, signum, frame):
         self.fifo.delfifo()
@@ -145,7 +145,7 @@ class Daemon:
             while 1:
                 os.kill(pid, signal.SIGTERM)
                 time.sleep(0.1)
-        except OSError, err:
+        except OSError as err:
             if err.errno == 3:
                 if os.path.exists(self.pidfile):
                     os.remove(self.pidfile)
@@ -175,7 +175,7 @@ class Daemon:
         # Try killing the daemon process       
         try:
             os.kill(pid, signal.SIGHUP)
-        except OSError, err:
+        except OSError as err:
             if err.errno == 3:
                 if os.path.exists(self.pidfile):
                     os.remove(self.pidfile)
@@ -195,7 +195,7 @@ class Daemon:
         
         #kill -0 can false report process alive because of still active threads
         cmd = ['ps', 'ax', '-o', 'pid=', '-o', 'args=']
-        p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE, universal_newlines = True)
         output = p.communicate()[0]
 
         c = re.compile(r'(\d+) (.*)')
@@ -226,6 +226,7 @@ class Daemon:
             return(None)
 
 class Password_Cache(Daemon):
+    #TODO: fix timeout on pw-cache
     """
     Password_Cache get started on User login. It provides passwords for
     BIT cronjobs because keyring is not available when the User is not
@@ -240,9 +241,9 @@ class Password_Cache(Daemon):
             self.config = config.Config()
         pw_cache_path = self.config.get_password_cache_folder()
         if not os.path.isdir(pw_cache_path):
-            os.mkdir(pw_cache_path, 0700)
+            os.mkdir(pw_cache_path, 0o700)
         else:
-            os.chmod(pw_cache_path, 0700)
+            os.chmod(pw_cache_path, 0o700)
         Daemon.__init__(self, self.config.get_password_cache_pid(), *args, **kwargs)
         self.db_keyring = {}
         self.db_usr = {}
@@ -258,7 +259,7 @@ class Password_Cache(Daemon):
         info = configfile.ConfigFile()
         info.set_int_value('version', self.PW_CACHE_VERSION)
         info.save(self.config.get_password_cache_info())
-        os.chmod(self.config.get_password_cache_info(), 0600)
+        os.chmod(self.config.get_password_cache_info(), 0o600)
 
         tools.save_env(self.config)
 
@@ -276,9 +277,9 @@ class Password_Cache(Daemon):
                 task, value = request.split(':', 1)
                 if task == 'get_pw':
                     key = value
-                    if key in self.db_keyring.keys():
+                    if key in list(self.db_keyring.keys()):
                         answer = 'pw:' + self.db_keyring[key]
-                    elif key in self.db_usr.keys():
+                    elif key in list(self.db_usr.keys()):
                         answer = 'pw:' + self.db_usr[key]
                     else:
                         answer = 'none:'
@@ -294,7 +295,7 @@ class Password_Cache(Daemon):
                 break
             except tools.Timeout:
                 logger.error('[Password_Cache.run] FIFO timeout')
-            except StandardError as e:
+            except Exception as e:
                 logger.error('[Password_Cache.run] ERROR: %s' % str(e))
         
     def _reload_handler(self, signum, frame):
@@ -328,7 +329,7 @@ class Password_Cache(Daemon):
                             if password is None:
                                 continue
                             #add some snakeoil
-                            pw_base64 = base64.encodestring(password)
+                            pw_base64 = base64.encodebytes(password.encode())
                             self.db_keyring['%s/%s' %(service_name, user_name)] = pw_base64
         return run_daemon
 
@@ -412,7 +413,7 @@ class Password(object):
             mode, pw_base64 = answer.split(':', 1)
             if mode == 'none':
                 return None
-            return base64.decodestring(pw_base64)
+            return base64.decodebytes(pw_base64).decode()
         else:
             return None
     
@@ -480,5 +481,5 @@ class Password(object):
     def _set_password_to_cache(self, service_name, user_name, password):
         if self.pw_cache.status():
             self.pw_cache.check_version()
-            pw_base64 = base64.encodestring(password)
+            pw_base64 = base64.encodebytes(password.encode())
             self.fifo.write('set_pw:%s/%s:%s' %(service_name, user_name, pw_base64), timeout = 5)

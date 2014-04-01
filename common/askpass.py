@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #    Copyright (c) 2012-2013 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -49,4 +49,4 @@ if __name__ == '__main__':
     fifo = password_ipc.FIFO(temp_file)
     pw_base64 = fifo.read(5)
     if pw_base64:
-        print(base64.decodestring(pw_base64))
+        print(base64.decodebytes(pw_base64.encode()).decode())

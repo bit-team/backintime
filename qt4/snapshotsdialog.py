@@ -50,22 +50,22 @@ class DiffOptionsDialog( QDialog ):
 
         import icon
         self.setWindowIcon(icon.DIFF_OPTIONS)
-        self.setWindowTitle( QString.fromUtf8( _( 'Diff Options' ) ) )
+        self.setWindowTitle( _( 'Diff Options' ) )
 
         self.main_layout = QGridLayout(self)
 
         self.diff_cmd = self.config.get_str_value( 'qt4.diff.cmd', DIFF_CMD )
         self.diff_params = self.config.get_str_value( 'qt4.diff.params', DIFF_PARAMS )
 
-        self.main_layout.addWidget( QLabel( QString.fromUtf8( _( 'Command:' ) ) ), 0, 0 )
+        self.main_layout.addWidget( QLabel( _( 'Command:' ) ), 0, 0 )
         self.edit_command = QLineEdit( self.diff_cmd, self )
         self.main_layout.addWidget( self.edit_command, 0, 1 )
 
-        self.main_layout.addWidget( QLabel( QString.fromUtf8( _( 'Parameters:' ) ) ), 1, 0 )
+        self.main_layout.addWidget( QLabel( _( 'Parameters:' ) ), 1, 0 )
         self.edit_params = QLineEdit( self.diff_params, self )
         self.main_layout.addWidget( self.edit_params, 1, 1 )
 
-        self.main_layout.addWidget( QLabel( QString.fromUtf8( _( 'Use %1 and %2 for path parameters' ) ) ), 2, 1 )
+        self.main_layout.addWidget( QLabel( _( 'Use %1 and %2 for path parameters' ) ), 2, 1 )
 
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         QObject.connect(button_box, SIGNAL('accepted()'), self.accept)
@@ -97,7 +97,7 @@ class SnapshotsDialog( QDialog ):
         self.path = path 
 
         self.setWindowIcon(icon.SNAPSHOTS)
-        self.setWindowTitle(QString.fromUtf8(_('Snapshots')) )
+        self.setWindowTitle(_('Snapshots'))
 
         self.main_layout = QVBoxLayout(self)
 
@@ -107,14 +107,14 @@ class SnapshotsDialog( QDialog ):
         self.main_layout.addWidget( self.edit_path )
 
         #list different snapshots only
-        self.cb_only_different_snapshots = QCheckBox( QString.fromUtf8( _( 'List only different snapshots' ) ), self )
+        self.cb_only_different_snapshots = QCheckBox( _( 'List only different snapshots' ), self )
         self.main_layout.addWidget( self.cb_only_different_snapshots )
         QObject.connect( self.cb_only_different_snapshots, SIGNAL('stateChanged(int)'), self.cb_only_different_snapshots_changed )
 
         #list equal snapshots only
         layout = QHBoxLayout()
         self.main_layout.addLayout(layout)
-        self.cb_only_equal_snapshots = QCheckBox(QString.fromUtf8(_('List only equal snapshots to: ')), self)
+        self.cb_only_equal_snapshots = QCheckBox(_('List only equal snapshots to: '), self)
         QObject.connect(self.cb_only_equal_snapshots, SIGNAL('stateChanged(int)'), self.cb_only_equal_snapshots_changed)
         layout.addWidget(self.cb_only_equal_snapshots)
 
@@ -124,7 +124,7 @@ class SnapshotsDialog( QDialog ):
         layout.addWidget(self.combo_equal_to)
 
         #deep check
-        self.cb_only_different_snapshots_deep_check = QCheckBox( QString.fromUtf8( _( 'Deep check (more accurate, but slow)' ) ), self )
+        self.cb_only_different_snapshots_deep_check = QCheckBox( _( 'Deep check (more accurate, but slow)' ), self )
         self.main_layout.addWidget( self.cb_only_different_snapshots_deep_check )
         QObject.connect( self.cb_only_different_snapshots_deep_check, SIGNAL('stateChanged(int)'), self.cb_only_different_snapshots_deep_check_changed )
 
@@ -135,21 +135,21 @@ class SnapshotsDialog( QDialog ):
 
         #toolbar restore
         menu_restore = QMenu()
-        action = menu_restore.addAction(icon.RESTORE, QString.fromUtf8( _('Restore') ) )
+        action = menu_restore.addAction(icon.RESTORE, _('Restore') )
         QObject.connect( action, SIGNAL('triggered()'), self.restore_this )
-        action = menu_restore.addAction(icon.RESTORE_TO, QString.fromUtf8( _('Restore to ...') ) )
+        action = menu_restore.addAction(icon.RESTORE_TO, _('Restore to ...') )
         QObject.connect( action, SIGNAL('triggered()'), self.restore_this_to )
 
-        self.btn_restore = self.toolbar.addAction(icon.RESTORE, QString.fromUtf8(_('Restore')) )
+        self.btn_restore = self.toolbar.addAction(icon.RESTORE, _('Restore'))
         self.btn_restore.setMenu(menu_restore)
         QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
 
         #btn delete
-        self.btn_delete = self.toolbar.addAction(icon.DELETE_FILE, QString.fromUtf8(_('Delete')) )
+        self.btn_delete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete'))
         QObject.connect(self.btn_delete, SIGNAL('triggered()'), self.on_btn_delete_clicked)
 
         #btn select_all
-        self.btn_select_all = self.toolbar.addAction(icon.SELECT_ALL, QString.fromUtf8(_('Select All')) )
+        self.btn_select_all = self.toolbar.addAction(icon.SELECT_ALL, _('Select All'))
         QObject.connect(self.btn_select_all, SIGNAL('triggered()'), self.on_btn_select_all_clicked)
 
         #snapshots list
@@ -163,7 +163,7 @@ class SnapshotsDialog( QDialog ):
         layout = QHBoxLayout()
         self.main_layout.addLayout( layout )
 
-        self.btn_diff = QPushButton( QString.fromUtf8( _('Diff') ), self )
+        self.btn_diff = QPushButton( _('Diff'), self )
         layout.addWidget( self.btn_diff )
         QObject.connect( self.btn_diff, SIGNAL('clicked()'), self.on_btn_diff_clicked )
 
@@ -172,8 +172,8 @@ class SnapshotsDialog( QDialog ):
 
         #buttons
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        button_box.button(QDialogButtonBox.Ok).setText(QString.fromUtf8(_('Go To')) )
-        btn_diff_options = button_box.addButton(QString.fromUtf8(_('Diff Options')), QDialogButtonBox.HelpRole)
+        button_box.button(QDialogButtonBox.Ok).setText(_('Go To'))
+        btn_diff_options = button_box.addButton(_('Diff Options'), QDialogButtonBox.HelpRole)
         btn_diff_options.setIcon(icon.DIFF_OPTIONS)
 
         self.main_layout.addWidget(button_box)
@@ -202,14 +202,14 @@ class SnapshotsDialog( QDialog ):
         name = self.snapshots.get_snapshot_display_name( snapshot_id )
 
         #add to list
-        item = QListWidgetItem( QString.fromUtf8( name ), self.list_snapshots )
-        item.setData( Qt.UserRole, QVariant( snapshot_id ) )
+        item = QListWidgetItem( name, self.list_snapshots )
+        item.setData( Qt.UserRole, snapshot_id )
 
         if self.list_snapshots.currentItem() is None:
             self.list_snapshots.setCurrentItem( item )
 
         #add to combo
-        self.combo_diff.addItem( QString.fromUtf8( name ), QVariant( snapshot_id ) )
+        self.combo_diff.addItem( name, snapshot_id )
 
         if self.snapshot_id == snapshot_id:
             self.combo_diff.setCurrentIndex( self.combo_diff.count() - 1 )
@@ -222,7 +222,7 @@ class SnapshotsDialog( QDialog ):
 
         combo_index = self.combo_equal_to.currentIndex()
         if self.cb_only_equal_snapshots.isChecked() and combo_index >= 0:
-            equal_to_snapshot_id = str(self.combo_equal_to.itemData(combo_index).toString().toUtf8())
+            equal_to_snapshot_id = str(self.combo_equal_to.itemData(combo_index))
             equal_to = self.snapshots.get_snapshot_path_to(equal_to_snapshot_id, self.path)
         else:
             equal_to = False
@@ -241,7 +241,7 @@ class SnapshotsDialog( QDialog ):
         snapshots_filtered = self.snapshots.filter_for(self.snapshot_id, self.path, self.snapshots_list)
         for snapshot_id in snapshots_filtered:
             name = self.snapshots.get_snapshot_display_name(snapshot_id)
-            self.combo_equal_to.addItem(QString.fromUtf8(name), QVariant(snapshot_id))
+            self.combo_equal_to.addItem(name, snapshot_id)
             
             if snapshot_id == self.snapshot_id:
                 self.combo_equal_to.setCurrentIndex(self.combo_equal_to.count() - 1)
@@ -253,13 +253,13 @@ class SnapshotsDialog( QDialog ):
             items = self.list_snapshots.selectedItems()
             _list = []
             for item in items:
-                _list.append(str( item.data( Qt.UserRole ).toString().toUtf8() ))
+                _list.append(str( item.data( Qt.UserRole ) ))
             return _list
 
         item = self.list_snapshots.currentItem()
         if item is None:
             return ''
-        return str( item.data( Qt.UserRole ).toString().toUtf8() )
+        return str( item.data( Qt.UserRole ) )
 
     def cb_only_different_snapshots_changed( self ):
         enabled = self.cb_only_different_snapshots.isChecked()
@@ -334,7 +334,7 @@ class SnapshotsDialog( QDialog ):
         if combo_index < 0:
             return
 
-        snapshot2_id = str( self.combo_diff.itemData( combo_index ).toString().toUtf8() )
+        snapshot2_id = str( self.combo_diff.itemData( combo_index ) )
 
         path1 = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
         path2 = self.snapshots.get_snapshot_path_to( snapshot2_id, self.path )
@@ -395,7 +395,7 @@ class SnapshotsDialog( QDialog ):
 
         self.list_snapshots.clearSelection()
         for item in iterAllItems(self.list_snapshots):
-            if len(str(item.data(Qt.UserRole).toString().toUtf8())) > 1:
+            if len(str(item.data(Qt.UserRole))) > 1:
                 item.setSelected(True)
 
     def accept( self ):

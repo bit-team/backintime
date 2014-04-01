@@ -89,7 +89,8 @@ class EncFS_mount(mount.MountControl):
         
         proc = subprocess.Popen(encfs, env = env,
                                 stdout = subprocess.PIPE,
-                                stderr = subprocess.STDOUT)
+                                stderr = subprocess.STDOUT,
+                                universal_newlines = True)
         output = proc.communicate()[0]
         if proc.returncode:
             raise mount.MountException( _('Can\'t mount \'%(command)s\':\n\n%(error)s') \
@@ -179,7 +180,8 @@ class EncFS_mount(mount.MountControl):
         if self.reverse:
             proc = subprocess.Popen(['encfs', '--version'],
                                     stdout = subprocess.PIPE,
-                                    stderr = subprocess.STDOUT)
+                                    stderr = subprocess.STDOUT,
+                                    universal_newlines = True)
             output = proc.communicate()[0]
             m = re.search(r'(\d\.\d\.\d)', output)
             if m == None:
@@ -314,8 +316,8 @@ class Encode(object):
         encfsctl = ['encfsctl', 'encode', '--extpass=backintime-askpass', '/']
         self.p = subprocess.Popen(encfsctl, env = env,
                                 stdin=subprocess.PIPE,
-                                stdout=subprocess.PIPE
-                                )
+                                stdout=subprocess.PIPE,
+                                universal_newlines = True)
         thread.stop()
         
     def path(self, path):
@@ -493,8 +495,8 @@ class Decode(object):
         encfsctl = ['encfsctl', 'decode', '--extpass=backintime-askpass', self.encfs.path]
         self.p = subprocess.Popen(encfsctl, env = env,
                                 stdin=subprocess.PIPE,
-                                stdout=subprocess.PIPE
-                                )
+                                stdout=subprocess.PIPE,
+                                universal_newlines = True)
         thread.stop()
     
     def path(self, path):

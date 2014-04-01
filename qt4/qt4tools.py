@@ -63,7 +63,8 @@ def getExistingDirectories(parent, *args, **kwargs):
     dlg.findChildren(QTreeView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()
-    return QStringList()
+    #TODO: repl QStringList
+    return [str(), ]
 
 def getExistingDirectory(parent, *args, **kwargs):
     """Workaround to give control about hidden folders
@@ -77,7 +78,7 @@ def getExistingDirectory(parent, *args, **kwargs):
         dlg.setFilter(dlg.filter() | QDir.Hidden)
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()[0]
-    return QString()
+    return str()
 
 def getOpenFileNames(parent, *args, **kwargs):
     """Workaround to give control about hidden files
@@ -90,7 +91,8 @@ def getOpenFileNames(parent, *args, **kwargs):
         dlg.setFilter(dlg.filter() | QDir.Hidden)
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()
-    return QStringList()
+    #TODO: repl QStringList
+    return [str(), ]
 
 def getOpenFileName(parent, *args, **kwargs):
     """Workaround to give control about hidden files
@@ -103,7 +105,7 @@ def getOpenFileName(parent, *args, **kwargs):
         dlg.setFilter(dlg.filter() | QDir.Hidden)
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()[0]
-    return QString()
+    return str()
 
 def hidden_files(parent):
     try:

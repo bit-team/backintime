@@ -52,12 +52,11 @@ class ConfigFile:
 
     def save( self, filename ):
         try:
-            file = open( filename, 'w' )
-            keys = self.dict.keys()
-            keys.sort()
-            for key in keys:
-                file.write( "%s=%s\n" % ( key, self.dict[key] ) )
-            file.close()
+            with open( filename, 'wt' ) as file:
+                keys = list(self.dict.keys())
+                keys.sort()
+                for key in keys:
+                    file.write( "%s=%s\n" % ( key, self.dict[key] ) )
         except:
             pass
 
@@ -69,9 +68,8 @@ class ConfigFile:
         lines = []
 
         try:
-            file = open( filename, 'r' )
-            lines = file.readlines()
-            file.close()
+            with open( filename, 'rt' ) as file:
+                lines = file.readlines()
         except:
             pass
 
@@ -82,16 +80,16 @@ class ConfigFile:
 
     def remap_key( self, old_key, new_key ):
         if old_key != new_key:
-            if self.dict.has_key( old_key ):
-                if not self.dict.has_key( new_key ):
+            if old_key in self.dict:
+                if new_key not in self.dict:
                     self.dict[ new_key ] = self.dict[ old_key ]
                 del self.dict[ old_key ]
 
     def has_value( self, key ):
-        return self.dict.has_key( key )
+        return key in self.dict
 
     def get_str_value( self, key, default_value = '' ):
-        if self.dict.has_key( key ):
+        if key in self.dict:
             return self.dict[ key ]
         else:
             return default_value
@@ -124,13 +122,13 @@ class ConfigFile:
             self.set_str_value( key, 'false' )
 
     def remove_key( self, key ):
-        if self.dict.has_key( key ):
+        if key in self.dict:
             del self.dict[ key ]
 
     def remove_keys_starts_with( self, prefix ):
         remove_keys = []
 
-        for key in self.dict.iterkeys():
+        for key in self.dict.keys():
             if key.startswith( prefix ):
                 remove_keys.append( key )
 
@@ -138,7 +136,7 @@ class ConfigFile:
             del self.dict[ key ]
 
     def get_keys(self):
-        return self.dict.keys()
+        return list(self.dict.keys())
 
 class ConfigFileWithProfiles( ConfigFile ):
     def __init__( self, default_profile_name = '' ):
@@ -167,7 +165,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         if self.get_int_value( 'profiles.version' ) <= 0:
             rename_keys = []
 
-            for key in self.dict.iterkeys():
+            for key in self.dict.keys():
                 if key.startswith( 'profile.0.' ):
                     rename_keys.append( key )
 
@@ -192,7 +190,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         for profile_id in profiles_unsorted:
             profiles_dict[ self.get_profile_name( profile_id ).upper() ] = profile_id
 
-        keys = profiles_dict.keys()
+        keys = list(profiles_dict.keys())
         keys.sort()
 
         profiles_sorted = []
@@ -330,7 +328,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         self.remove_keys_starts_with( self._get_profile_key_( prefix, profile_id ) )
 
     def has_profile_value( self, key, profile_id = None ):
-        return self.dict.has_key( self._get_profile_key_( key, profile_id ) )
+        return self._get_profile_key_( key, profile_id ) in self.dict
 
     def get_profile_str_value( self, key, default_value = '', profile_id = None ):
         return self.get_str_value( self._get_profile_key_( key, profile_id ), default_value )

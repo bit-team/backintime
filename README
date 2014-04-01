@@ -33,8 +33,8 @@ Copyright (C) 2008-2013 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 
 2.2. From sources
 
-    Common  (dependencies: python, rsync, cron, openssh-client,
-                           python-keyring, python-dbus
+    Common  (dependencies: python3, rsync, cron, openssh-client,
+                           python3-keyring, python3-dbus
              recomended:   powermgmt-base, sshfs, encfs):
 
             cd common
@@ -43,7 +43,7 @@ Copyright (C) 2008-2013 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
             sudo make install
 
 
-    Qt4 GUI (dependencies: x11-utils, python-qt4, kdesudo | gksu, libnotify-bin,
+    Qt4 GUI (dependencies: x11-utils, python3-pyqt4, kdesudo | gksu, libnotify-bin,
                            backintime-common
              recomended:   python-secretstorage | python-keyring-kwallet |
                            python-gnomekeyring, kompare | meld):
@@ -66,8 +66,8 @@ Copyright (C) 2008-2013 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
     --gksudo | --gksu (only Qt4 GUI)
         Use either 'gksudo' or 'gksu' to start Backintime as root
 
-    --python | --python2 (all)
-        Use either 'python' or 'python2' to start Python Version 2.x
+    --python3 | --python (all)
+        Use either 'python3' or 'python' to start Python Version 3.x
 
 
 3. Integrate with filemanager

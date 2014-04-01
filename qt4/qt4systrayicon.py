@@ -34,7 +34,7 @@ import tools
 import logger
 import snapshots
 
-from PyQt4.QtCore import QObject, QString, SIGNAL, QTimer
+from PyQt4.QtCore import QObject, SIGNAL, QTimer
 from PyQt4.QtGui import QApplication, QSystemTrayIcon, QIcon
 
 
@@ -102,7 +102,7 @@ class Qt4SysTrayIcon:
 ##            self.popup = None
 
 ##        if not self.last_message is None:
-##            self.popup = KPassivePopup.message( self.config.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
+##            self.popup = KPassivePopup.message( self.config.APP_NAME, self.last_message[1], self.status_icon)
 ##            self.popup.setAutoDelete( False )
 
     def update_info( self ):
@@ -118,7 +118,7 @@ class Qt4SysTrayIcon:
         if not message is None:
             if message != self.last_message:
                 self.last_message = message
-                self.status_icon.setToolTip( QString.fromUtf8( self.last_message[1] ) )
+                self.status_icon.setToolTip( self.last_message[1] )
 
                 if self.last_message[0] != 0:
                     self.status_icon.setIcon(self.icon.BIT_LOGO_INFO)

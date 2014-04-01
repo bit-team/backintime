@@ -21,7 +21,7 @@ import os
 import sys
 import subprocess
 import hashlib
-import commands
+import subprocess
 import signal
 import re
 import dbus
@@ -59,9 +59,8 @@ def read_file( path, default_value = None ):
     ret_val = default_value 
 
     try:
-        file = open( path )
-        ret_val = file.read()
-        file.close()
+        with open( path ) as file:
+            ret_val = file.read()
     except:
         pass
 
@@ -72,9 +71,8 @@ def read_file_lines( path, default_value = None ):
     ret_val = default_value 
 
     try:
-        file = open( path )
-        ret_val = file.readlines()
-        file.close()
+        with open( path ) as file:
+            ret_val = file.readlines()
     except:
         pass
 
@@ -416,7 +414,7 @@ def temp_failure_retry(func, *args, **kwargs):
     while True:
         try:
             return func(*args, **kwargs)
-        except (os.error, IOError), ex:
+        except (os.error, IOError) as ex:
             if ex.errno == errno.EINTR:
                 continue
             else:
@@ -426,7 +424,7 @@ def temp_failure_retry(func, *args, **kwargs):
 def _get_md5sum_from_path(path):
     '''return md5sum of path, af available system command md5sum()'''   
     if check_command("md5sum"):
-        status,output = commands.getstatusoutput("md5sum '" + path + "'")
+        status,output = subprocess.getstatusoutput("md5sum '" + path + "'")
         if status == 0:
             md5sum = output.split(" ")[0]
             return md5sum
@@ -479,7 +477,8 @@ def check_home_encrypt():
         else:
             return True
     if check_command('encfs'):
-        mount = subprocess.Popen(['mount'], stdout=subprocess.PIPE).communicate()[0]
+        proc = subprocess.Popen(['mount'], stdout=subprocess.PIPE, universal_newlines = True)
+        mount = proc.communicate()[0]
         r = re.compile('^encfs on %s type fuse' % home)
         for line in mount.split('\n'):
             if r.match(line):
@@ -494,7 +493,7 @@ def load_env(cfg):
         value = env_file.get_str_value(key)
         if not value:
             continue
-        if not key in env.keys():
+        if not key in list(env.keys()):
             os.environ[key] = value
     del(env_file)
 
@@ -516,7 +515,7 @@ def save_env(cfg):
     del(env_file)
 
 def set_env_key(env, env_file, key):
-    if key in env.keys():
+    if key in list(env.keys()):
         env_file.set_str_value(key, env[key])
 
 def keyring_supported():
@@ -553,7 +552,7 @@ def get_mountpoint(path):
     '''return (DEVICE, MOUNTPOINT) for given PATH'''
     if os.path.exists(path):
         cmd = ['df', '-P', path]
-        p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+        p = subprocess.Popen(cmd, stdout = subprocess.PIPE, universal_newlines = True)
         output = p.communicate()[0]
         #search for: /dev/sdc1  880940  8   880932  1% /mnt/foo
         c = re.compile(r'(/[^ \t]*)(?:[ \t]+[\d]+){4}%?[ \t]+(/.*)')
@@ -600,7 +599,7 @@ def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '
             break
         else:
             line = ''
-            for look in range(size-1, size/2, -1):
+            for look in range(size-1, size//2, -1):
                 if msg[look] in delimiters:
                     line, msg = msg[:look+1], new_line_indicator + msg[look+1:]
                     break
@@ -651,7 +650,7 @@ class UniquenessSet:
                 if verb: print("[deep test] : skip, it's a duplicate (size, inode)")
                 return False   
             self._size_inode.add( (size,inode) )
-            if size not in self._uniq_dict.keys(): 
+            if size not in list(self._uniq_dict.keys()): 
                 # first item of that size
                 unique_key = size
                 if verb: print("[deep test] : store current size ?")
@@ -672,7 +671,7 @@ class UniquenessSet:
             unique_key = (obj.st_size, int(obj.st_mtime))
             # print "..", path, unique_key 
         # store if not already present, then return True
-        if unique_key not in self._uniq_dict.keys():
+        if unique_key not in list(self._uniq_dict.keys()):
             if verb: print(" >> ok, store !")             
             self._uniq_dict[unique_key] = path
             return True    
@@ -832,7 +831,7 @@ class ShutDown(object):
             systembus  = dbus.SystemBus()
         except:
             return( (None, None) )
-        des = self.DBUS_SHUTDOWN.keys()
+        des = list(self.DBUS_SHUTDOWN.keys())
         des.sort()
         for de in des:
             if de == 'gnome' and self.unity_7():

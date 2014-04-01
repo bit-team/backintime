@@ -23,11 +23,11 @@ import snapshots
 
 def restore(cfg, snapshot_id = None, what = None, where = None):
     if what is None:
-        what = raw_input('File to restore: ')
+        what = input('File to restore: ')
     what = tools.prepare_path(os.path.abspath(os.path.expanduser(what)))
 
     if where is None:
-        where = raw_input('Restore to (empty for original path): ')
+        where = input('Restore to (empty for original path): ')
     if len(where) >= 1:
         where = tools.prepare_path(os.path.abspath(os.path.expanduser(where)))
 
@@ -59,7 +59,7 @@ def restore(cfg, snapshot_id = None, what = None, where = None):
                 size = rc
                 break
         len_snapshots = len(snapshot_list)
-        columns = (int(size[1]) - 25) / 26 + 1
+        columns = (int(size[1]) - 25) // 26 + 1
         rows = len_snapshots // columns
         if len_snapshots % columns > 0:
             rows += 1
@@ -74,8 +74,8 @@ def restore(cfg, snapshot_id = None, what = None, where = None):
         print('')
         while snapshot_id is None:
             try:
-                input = int(raw_input('SnapshotID to restore ( 0 - %d ): ' % (len_snapshots - 1) ))
-                snapshot_id = snapshot_list[input]
+                id = int(input('SnapshotID to restore ( 0 - %d ): ' % (len_snapshots - 1) ))
+                snapshot_id = snapshot_list[id]
             except (ValueError, IndexError):
                 print('Invalid Input')
                 continue

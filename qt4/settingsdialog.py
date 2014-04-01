@@ -50,7 +50,7 @@ class SettingsDialog( QDialog ):
         self.icon = icon
 
         self.setWindowIcon(icon.SETTINGS_DIALOG)
-        self.setWindowTitle( QString.fromUtf8( _( 'Settings' ) ) )
+        self.setWindowTitle( _( 'Settings' ) )
 
         self.main_layout = QVBoxLayout(self)
 
@@ -58,7 +58,7 @@ class SettingsDialog( QDialog ):
         layout = QHBoxLayout()
         self.main_layout.addLayout( layout )
 
-        layout.addWidget( QLabel( QString.fromUtf8( _('Profile:') ), self ) )
+        layout.addWidget( QLabel( _('Profile:'), self ) )
 
         self.first_update_all = True
         self.disable_profile_changed = True
@@ -67,15 +67,15 @@ class SettingsDialog( QDialog ):
         QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.current_profile_changed )
         self.disable_profile_changed = False
 
-        self.btn_edit_profile = QPushButton(icon.PROFILE_EDIT, QString.fromUtf8( _('Edit') ), self )
+        self.btn_edit_profile = QPushButton(icon.PROFILE_EDIT, _('Edit'), self )
         QObject.connect( self.btn_edit_profile, SIGNAL('clicked()'), self.edit_profile )
         layout.addWidget( self.btn_edit_profile )
 
-        self.btn_add_profile = QPushButton(icon.ADD, QString.fromUtf8(_('Add')), self)
+        self.btn_add_profile = QPushButton(icon.ADD, _('Add'), self)
         QObject.connect( self.btn_add_profile, SIGNAL('clicked()'), self.add_profile )
         layout.addWidget( self.btn_add_profile )
 
-        self.btn_remove_profile = QPushButton(icon.REMOVE, QString.fromUtf8(_('Remove')), self)
+        self.btn_remove_profile = QPushButton(icon.REMOVE, _('Remove'), self)
         QObject.connect( self.btn_remove_profile, SIGNAL('clicked()'), self.remove_profile )
         layout.addWidget( self.btn_remove_profile )
 
@@ -89,7 +89,7 @@ class SettingsDialog( QDialog ):
 
         #TAB: General
         tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'General' ) ) )
+        self.tabs_widget.addTab( tab_widget, _( 'General' ) )
         layout = QVBoxLayout( tab_widget )
         
         #select mode
@@ -97,7 +97,7 @@ class SettingsDialog( QDialog ):
         vlayout = QVBoxLayout()
         layout.addLayout( vlayout )
         
-        self.lbl_modes = QLabel( QString.fromUtf8( _( 'Mode:' ) ), self )
+        self.lbl_modes = QLabel( _( 'Mode:' ), self )
         
         self.combo_modes = QComboBox( self )
         hlayout = QHBoxLayout()
@@ -105,14 +105,14 @@ class SettingsDialog( QDialog ):
         hlayout.addWidget(self.combo_modes, 1)
         vlayout.addLayout(hlayout)
         store_modes = {}
-        for key in self.config.SNAPSHOT_MODES.keys():
+        for key in list(self.config.SNAPSHOT_MODES.keys()):
             store_modes[key] = self.config.SNAPSHOT_MODES[key][1]
         self.fill_combo( self.combo_modes, store_modes )
         
         #Where to save snapshots
         group_box = QGroupBox( self )
         self.mode_local = group_box
-        group_box.setTitle( QString.fromUtf8( _( 'Where to save snapshots' ) ) )
+        group_box.setTitle( _( 'Where to save snapshots' ) )
         layout.addWidget( group_box )
 
         vlayout = QVBoxLayout( group_box )
@@ -127,7 +127,7 @@ class SettingsDialog( QDialog ):
         self.btn_snapshots_path = QToolButton(self)
         self.btn_snapshots_path.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.btn_snapshots_path.setIcon(icon.FOLDER)
-        self.btn_snapshots_path.setText(QString.fromUtf8(_('Folder')) )
+        self.btn_snapshots_path.setText(_('Folder'))
         self.btn_snapshots_path.setMinimumSize(32,28)
         hlayout.addWidget( self.btn_snapshots_path )
         QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
@@ -135,7 +135,7 @@ class SettingsDialog( QDialog ):
         #SSH
         group_box = QGroupBox( self )
         self.mode_ssh = group_box
-        group_box.setTitle( QString.fromUtf8( _( 'SSH Settings' ) ) )
+        group_box.setTitle( _( 'SSH Settings' ) )
         layout.addWidget( group_box )
 
         vlayout = QVBoxLayout( group_box )
@@ -147,33 +147,33 @@ class SettingsDialog( QDialog ):
         hlayout3 = QHBoxLayout()
         vlayout.addLayout( hlayout3 )
         
-        self.lbl_ssh_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
+        self.lbl_ssh_host = QLabel( _( 'Host:' ), self )
         hlayout1.addWidget( self.lbl_ssh_host )
         self.txt_ssh_host = QLineEdit( self )
         hlayout1.addWidget( self.txt_ssh_host )
         
-        self.lbl_ssh_port = QLabel( QString.fromUtf8( _( 'Port:' ) ), self )
+        self.lbl_ssh_port = QLabel( _( 'Port:' ), self )
         hlayout1.addWidget( self.lbl_ssh_port )
         self.txt_ssh_port = QLineEdit( self )
         hlayout1.addWidget( self.txt_ssh_port )
         
-        self.lbl_ssh_user = QLabel( QString.fromUtf8( _( 'User:' ) ), self )
+        self.lbl_ssh_user = QLabel( _( 'User:' ), self )
         hlayout1.addWidget( self.lbl_ssh_user )
         self.txt_ssh_user = QLineEdit( self )
         hlayout1.addWidget( self.txt_ssh_user )
         
-        self.lbl_ssh_path = QLabel( QString.fromUtf8( _( 'Path:' ) ), self )
+        self.lbl_ssh_path = QLabel( _( 'Path:' ), self )
         hlayout2.addWidget( self.lbl_ssh_path )
         self.txt_ssh_path = QLineEdit( self )
         hlayout2.addWidget( self.txt_ssh_path )
         
-        self.lbl_ssh_cipher = QLabel( QString.fromUtf8( _( 'Cipher:' ) ), self )
+        self.lbl_ssh_cipher = QLabel( _( 'Cipher:' ), self )
         hlayout3.addWidget( self.lbl_ssh_cipher )
         self.combo_ssh_cipher = QComboBox( self )
         hlayout3.addWidget( self.combo_ssh_cipher )
         self.fill_combo( self.combo_ssh_cipher, self.config.SSH_CIPHERS )
         
-        self.lbl_ssh_private_key_file = QLabel( QString.fromUtf8( _( 'Private Key:' ) ), self )
+        self.lbl_ssh_private_key_file = QLabel( _( 'Private Key:' ), self )
         hlayout3.addWidget( self.lbl_ssh_private_key_file )
         self.txt_ssh_private_key_file = QLineEdit( self )
         self.txt_ssh_private_key_file.setReadOnly( True )
@@ -182,7 +182,7 @@ class SettingsDialog( QDialog ):
         self.btn_ssh_private_key_file = QToolButton(self)
         self.btn_ssh_private_key_file.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.btn_ssh_private_key_file.setIcon(icon.FOLDER)
-        self.btn_ssh_private_key_file.setText(QString.fromUtf8(_('Key File')) )
+        self.btn_ssh_private_key_file.setText(_('Key File'))
         self.btn_ssh_private_key_file.setMinimumSize(32,28)
         hlayout3.addWidget( self.btn_ssh_private_key_file )
         QObject.connect( self.btn_ssh_private_key_file, SIGNAL('clicked()'), self.on_btn_ssh_private_key_file_clicked )
@@ -195,7 +195,7 @@ class SettingsDialog( QDialog ):
 ##		#Dummy
 ##		group_box = QGroupBox( self )
 ##		self.mode_dummy = group_box
-##		group_box.setTitle( QString.fromUtf8( _( 'Dummy Settings' ) ) )
+##		group_box.setTitle( _( 'Dummy Settings' ) )
 ##		layout.addWidget( group_box )
 ##
 ##		vlayout = QVBoxLayout( group_box )
@@ -203,17 +203,17 @@ class SettingsDialog( QDialog ):
 ##		hlayout = QHBoxLayout()
 ##		vlayout.addLayout( hlayout )
 ##		
-##		self.lbl_dummy_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
+##		self.lbl_dummy_host = QLabel( _( 'Host:' ), self )
 ##		hlayout.addWidget( self.lbl_dummy_host )
 ##		self.txt_dummy_host = QLineEdit( self )
 ##		hlayout.addWidget( self.txt_dummy_host )
 ##		
-##		self.lbl_dummy_port = QLabel( QString.fromUtf8( _( 'Port:' ) ), self )
+##		self.lbl_dummy_port = QLabel( _( 'Port:' ), self )
 ##		hlayout.addWidget( self.lbl_dummy_port )
 ##		self.txt_dummy_port = QLineEdit( self )
 ##		hlayout.addWidget( self.txt_dummy_port )
 ##		
-##		self.lbl_dummy_user = QLabel( QString.fromUtf8( _( 'User:' ) ), self )
+##		self.lbl_dummy_user = QLabel( _( 'User:' ), self )
 ##		hlayout.addWidget( self.lbl_dummy_user )
 ##		self.txt_dummy_user = QLineEdit( self )
 ##		hlayout.addWidget( self.txt_dummy_user )
@@ -221,7 +221,7 @@ class SettingsDialog( QDialog ):
         #password
         group_box = QGroupBox( self )
         self.frame_password_1 = group_box
-        group_box.setTitle( QString.fromUtf8( _( 'Password' ) ) )
+        group_box.setTitle( _( 'Password' ) )
         layout.addWidget( group_box )
 
         vlayout = QVBoxLayout( group_box )
@@ -230,22 +230,22 @@ class SettingsDialog( QDialog ):
         hlayout2 = QHBoxLayout()
         vlayout.addLayout(hlayout2)
 
-        self.lbl_password_1 = QLabel( QString.fromUtf8( _( 'Password' ) ), self )
+        self.lbl_password_1 = QLabel( _( 'Password' ), self )
         hlayout1.addWidget( self.lbl_password_1 )
         self.txt_password_1 = QLineEdit( self )
         self.txt_password_1.setEchoMode(QLineEdit.Password)
         hlayout1.addWidget( self.txt_password_1 )
 
-        self.lbl_password_2 = QLabel( QString.fromUtf8( _( 'Password' ) ), self )
+        self.lbl_password_2 = QLabel( _( 'Password' ), self )
         hlayout2.addWidget( self.lbl_password_2 )
         self.txt_password_2 = QLineEdit( self )
         self.txt_password_2.setEchoMode(QLineEdit.Password)
         hlayout2.addWidget( self.txt_password_2 )
 
-        self.cb_password_save = QCheckBox( QString.fromUtf8( _( 'Save Password to Keyring' ) ), self )
+        self.cb_password_save = QCheckBox( _( 'Save Password to Keyring' ), self )
         vlayout.addWidget( self.cb_password_save )
 
-        self.cb_password_use_cache = QCheckBox( QString.fromUtf8( _( 'Cache Password for Cron (Security issue: root can read password)' ) ), self )
+        self.cb_password_use_cache = QCheckBox( _( 'Cache Password for Cron (Security issue: root can read password)' ), self )
         vlayout.addWidget( self.cb_password_use_cache )
 
         self.keyring_supported = tools.keyring_supported()
@@ -257,7 +257,7 @@ class SettingsDialog( QDialog ):
         #host, user, profile id
         group_box = QGroupBox( self )
         self.frame_advanced = group_box
-        group_box.setTitle( QString.fromUtf8( _( 'Advanced' ) ) )
+        group_box.setTitle( _( 'Advanced' ) )
         layout.addWidget( group_box )
         
         hlayout = QHBoxLayout( group_box )
@@ -269,24 +269,24 @@ class SettingsDialog( QDialog ):
         hlayout2 = QHBoxLayout()
         vlayout2.addLayout( hlayout2 )
 
-        self.cb_auto_host_user_profile = QCheckBox( QString.fromUtf8( _( 'Auto Host / User / Profile Id' ) ), self )
+        self.cb_auto_host_user_profile = QCheckBox( _( 'Auto Host / User / Profile Id' ), self )
         QObject.connect( self.cb_auto_host_user_profile, SIGNAL('stateChanged(int)'), self.update_host_user_profile )
         hlayout2.addWidget( self.cb_auto_host_user_profile )
 
         hlayout2 = QHBoxLayout()
         vlayout2.addLayout( hlayout2 )
 
-        self.lbl_host = QLabel( QString.fromUtf8( _( 'Host:' ) ), self )
+        self.lbl_host = QLabel( _( 'Host:' ), self )
         hlayout2.addWidget( self.lbl_host )
         self.txt_host = QLineEdit( self )
         hlayout2.addWidget( self.txt_host )
 
-        self.lbl_user = QLabel( QString.fromUtf8( _( 'User:' ) ), self )
+        self.lbl_user = QLabel( _( 'User:' ), self )
         hlayout2.addWidget( self.lbl_user )
         self.txt_user = QLineEdit( self )
         hlayout2.addWidget( self.txt_user )
 
-        self.lbl_profile = QLabel( QString.fromUtf8( _( 'Profile:' ) ), self )
+        self.lbl_profile = QLabel( _( 'Profile:' ), self )
         hlayout2.addWidget( self.lbl_profile )
         self.txt_profile = QLineEdit( self )
         hlayout2.addWidget( self.txt_profile )
@@ -294,7 +294,7 @@ class SettingsDialog( QDialog ):
         #Schedule
         group_box = QGroupBox( self )
         self.global_schedule_group_box = group_box
-        group_box.setTitle( QString.fromUtf8( _( 'Schedule' ) ) )
+        group_box.setTitle( _( 'Schedule' ) )
         layout.addWidget( group_box )
 
         glayout = QGridLayout( group_box )
@@ -304,7 +304,7 @@ class SettingsDialog( QDialog ):
         glayout.addWidget( self.combo_automatic_snapshots, 0, 0, 1, 2 )
         self.fill_combo( self.combo_automatic_snapshots, self.config.AUTOMATIC_BACKUP_MODES )
 
-        self.lbl_automatic_snapshots_day = QLabel( QString.fromUtf8( _( 'Day:' ) ), self )
+        self.lbl_automatic_snapshots_day = QLabel( _( 'Day:' ), self )
         self.lbl_automatic_snapshots_day.setContentsMargins( 5, 0, 0, 0 )
         self.lbl_automatic_snapshots_day.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget( self.lbl_automatic_snapshots_day, 1, 0 )
@@ -312,10 +312,10 @@ class SettingsDialog( QDialog ):
         self.combo_automatic_snapshots_day = QComboBox( self )
         glayout.addWidget( self.combo_automatic_snapshots_day, 1, 1 )
 
-        for d in xrange( 1, 29 ):
-            self.combo_automatic_snapshots_day.addItem( QIcon(), QString.fromUtf8( str(d) ), QVariant( d ) )
+        for d in range( 1, 29 ):
+            self.combo_automatic_snapshots_day.addItem( QIcon(), str(d), d )
 
-        self.lbl_automatic_snapshots_weekday = QLabel( QString.fromUtf8( _( 'Weekday:' ) ), self )
+        self.lbl_automatic_snapshots_weekday = QLabel( _( 'Weekday:' ), self )
         self.lbl_automatic_snapshots_weekday.setContentsMargins( 5, 0, 0, 0 )
         self.lbl_automatic_snapshots_weekday.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget( self.lbl_automatic_snapshots_weekday, 2, 0 )
@@ -323,10 +323,10 @@ class SettingsDialog( QDialog ):
         self.combo_automatic_snapshots_weekday = QComboBox( self )
         glayout.addWidget( self.combo_automatic_snapshots_weekday, 2, 1 )
 
-        for d in xrange( 1, 8 ):
-            self.combo_automatic_snapshots_weekday.addItem( QIcon(), QString.fromUtf8( datetime.date(2011, 11, 6 + d).strftime("%A") ), QVariant( d ) )
+        for d in range( 1, 8 ):
+            self.combo_automatic_snapshots_weekday.addItem( QIcon(), datetime.date(2011, 11, 6 + d).strftime("%A"), d )
 
-        self.lbl_automatic_snapshots_time = QLabel( QString.fromUtf8( _( 'Hour:' ) ), self )
+        self.lbl_automatic_snapshots_time = QLabel( _( 'Hour:' ), self )
         self.lbl_automatic_snapshots_time.setContentsMargins( 5, 0, 0, 0 )
         self.lbl_automatic_snapshots_time.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget( self.lbl_automatic_snapshots_time, 3, 0 )
@@ -334,10 +334,10 @@ class SettingsDialog( QDialog ):
         self.combo_automatic_snapshots_time = QComboBox( self )
         glayout.addWidget( self.combo_automatic_snapshots_time, 3, 1 )
 
-        for t in xrange( 0, 2300, 100 ):
-            self.combo_automatic_snapshots_time.addItem( QIcon(), QString.fromUtf8( datetime.time( t/100, t%100 ).strftime("%H:%M") ), QVariant( t ) )
+        for t in range( 0, 2300, 100 ):
+            self.combo_automatic_snapshots_time.addItem( QIcon(), datetime.time( t//100, t%100 ).strftime("%H:%M"), t )
 
-        self.lbl_automatic_snapshots_time_custom = QLabel( QString.fromUtf8( _( 'Hours:' ) ), self )
+        self.lbl_automatic_snapshots_time_custom = QLabel( _( 'Hours:' ), self )
         self.lbl_automatic_snapshots_time_custom.setContentsMargins( 5, 0, 0, 0 )
         self.lbl_automatic_snapshots_time_custom.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget( self.lbl_automatic_snapshots_time_custom, 4, 0 )
@@ -346,11 +346,11 @@ class SettingsDialog( QDialog ):
         glayout.addWidget( self.txt_automatic_snapshots_time_custom, 4, 1 )
 
         #anacron
-        self.lbl_automatic_snapshots_anacron = QLabel(QString.fromUtf8(_('Run Back In Time periodically with anacron. This is useful if the computer is not running regular.')))
+        self.lbl_automatic_snapshots_anacron = QLabel(_('Run Back In Time periodically with anacron. This is useful if the computer is not running regular.'))
         self.lbl_automatic_snapshots_anacron.setWordWrap(True)
         glayout.addWidget(self.lbl_automatic_snapshots_anacron, 5, 0, 1, 2)
 
-        self.lbl_automatic_snapshots_anacron_period = QLabel(QString.fromUtf8(_('Frequency in days:')))
+        self.lbl_automatic_snapshots_anacron_period = QLabel(_('Frequency in days:'))
         self.lbl_automatic_snapshots_anacron_period.setContentsMargins( 5, 0, 0, 0 )
         self.lbl_automatic_snapshots_anacron_period.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget(self.lbl_automatic_snapshots_anacron_period, 7, 0)
@@ -361,7 +361,7 @@ class SettingsDialog( QDialog ):
         glayout.addWidget(self.sb_automatic_snapshots_anacron_period, 7, 1)
 
         #udev
-        self.lbl_automatic_snapshots_udev = QLabel(QString.fromUtf8(_('Run Back In Time as soon as the drive is connected (only once every X days).\nYou will be prompted for your sudo password.')))
+        self.lbl_automatic_snapshots_udev = QLabel(_('Run Back In Time as soon as the drive is connected (only once every X days).\nYou will be prompted for your sudo password.'))
         self.lbl_automatic_snapshots_udev.setWordWrap(True)
         glayout.addWidget(self.lbl_automatic_snapshots_udev, 6, 0, 1, 2)
 
@@ -372,16 +372,16 @@ class SettingsDialog( QDialog ):
         
         #TAB: Include
         tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Include' ) ) )
+        self.tabs_widget.addTab( tab_widget, _( 'Include' ) )
         layout = QVBoxLayout( tab_widget )
 
         self.list_include = QTreeWidget( self )
         self.list_include.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.list_include.setRootIsDecorated( False )
         #self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
-        #self.list_include.setHeaderLabels( [ QString.fromUtf8( _('Include folders') ), QString.fromUtf8( _('Automatic backup') ) ] )
-        self.list_include.setHeaderLabels( [QString.fromUtf8( _('Include files and folders') ),
-                                            QString.fromUtf8('Count') ] )
+        #self.list_include.setHeaderLabels( [ _('Include folders'), _('Automatic backup') ] )
+        self.list_include.setHeaderLabels( [ _('Include files and folders'),
+                                            'Count' ] )
         
         self.list_include_header = self.list_include.header()
         self.list_include_header.setResizeMode( 0, QHeaderView.Stretch )
@@ -400,24 +400,24 @@ class SettingsDialog( QDialog ):
         buttons_layout = QHBoxLayout()
         layout.addLayout( buttons_layout )
 
-        self.btn_include_file_add = QPushButton(icon.ADD, QString.fromUtf8(_('Add file')), self)
+        self.btn_include_file_add = QPushButton(icon.ADD, _('Add file'), self)
         buttons_layout.addWidget( self.btn_include_file_add )
         QObject.connect( self.btn_include_file_add, SIGNAL('clicked()'), self.on_btn_include_file_add_clicked )
         
-        self.btn_include_add = QPushButton(icon.ADD, QString.fromUtf8(_('Add folder')), self)
+        self.btn_include_add = QPushButton(icon.ADD, _('Add folder'), self)
         buttons_layout.addWidget( self.btn_include_add )
         QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
         
-        self.btn_include_remove = QPushButton(icon.REMOVE, QString.fromUtf8(_('Remove')), self)
+        self.btn_include_remove = QPushButton(icon.REMOVE, _('Remove'), self)
         buttons_layout.addWidget( self.btn_include_remove )
         QObject.connect( self.btn_include_remove, SIGNAL('clicked()'), self.on_btn_include_remove_clicked )
 
         #TAB: Exclude
         tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Exclude' ) ) )
+        self.tabs_widget.addTab( tab_widget, _( 'Exclude' ) )
         layout = QVBoxLayout( tab_widget )
 
-        label = QLabel( QString.fromUtf8( _('<b>Warning:</b> Wildcards (\'foo*\', \'[fF]oo\', \'fo?\') will be ignored with mode \'SSH encrypted\'.\nOnly separate asterisk are allowed (\'foo/*\', \'foo/**/bar\')') ), self )
+        label = QLabel( _('<b>Warning:</b> Wildcards (\'foo*\', \'[fF]oo\', \'fo?\') will be ignored with mode \'SSH encrypted\'.\nOnly separate asterisk are allowed (\'foo/*\', \'foo/**/bar\')'), self )
         label.setWordWrap(True)
         self.lbl_ssh_encfs_exclude_warning = label
         layout.addWidget( label )
@@ -425,8 +425,8 @@ class SettingsDialog( QDialog ):
         self.list_exclude = QTreeWidget( self )
         self.list_exclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.list_exclude.setRootIsDecorated( False )
-        self.list_exclude.setHeaderLabels( [QString.fromUtf8( _('Exclude patterns, files or folders') ),
-                                            QString.fromUtf8('Count') ] )
+        self.list_exclude.setHeaderLabels( [ _('Exclude patterns, files or folders') ,
+                                            'Count' ] )
         
         self.list_exclude_header = self.list_exclude.header()
         self.list_exclude_header.setResizeMode( 0, QHeaderView.Stretch )
@@ -442,39 +442,39 @@ class SettingsDialog( QDialog ):
         layout.addWidget( self.list_exclude )
         self.list_exclude_count = 0
 
-        label = QLabel( QString.fromUtf8( _('Highly recommended:') ), self )
+        label = QLabel( _('Highly recommended:'), self )
         qt4tools.set_font_bold( label )
         layout.addWidget( label )
-        label = QLabel( QString.fromUtf8( ', '.join(self.config.DEFAULT_EXCLUDE) ), self )
+        label = QLabel( ', '.join(self.config.DEFAULT_EXCLUDE), self )
         label.setWordWrap(True)
         layout.addWidget( label )
         
         buttons_layout = QHBoxLayout()
         layout.addLayout( buttons_layout )
 
-        self.btn_exclude_add = QPushButton(icon.ADD, QString.fromUtf8(_('Add')), self)
+        self.btn_exclude_add = QPushButton(icon.ADD, _('Add'), self)
         buttons_layout.addWidget( self.btn_exclude_add )
         QObject.connect( self.btn_exclude_add, SIGNAL('clicked()'), self.on_btn_exclude_add_clicked )
         
-        self.btn_exclude_file = QPushButton(icon.ADD, QString.fromUtf8(_('Add file')), self)
+        self.btn_exclude_file = QPushButton(icon.ADD, _('Add file'), self)
         buttons_layout.addWidget( self.btn_exclude_file )
         QObject.connect( self.btn_exclude_file, SIGNAL('clicked()'), self.on_btn_exclude_file_clicked )
         
-        self.btn_exclude_folder = QPushButton(icon.ADD, QString.fromUtf8(_('Add folder')), self)
+        self.btn_exclude_folder = QPushButton(icon.ADD, _('Add folder'), self)
         buttons_layout.addWidget( self.btn_exclude_folder )
         QObject.connect( self.btn_exclude_folder, SIGNAL('clicked()'), self.on_btn_exclude_folder_clicked )
         
-        self.btn_exclude_remove = QPushButton(icon.REMOVE, QString.fromUtf8(_('Remove')), self)
+        self.btn_exclude_remove = QPushButton(icon.REMOVE, _('Remove'), self)
         buttons_layout.addWidget( self.btn_exclude_remove )
         QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
         #TAB: Auto-remove
         tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Auto-remove' ) ) )
+        self.tabs_widget.addTab( tab_widget, _( 'Auto-remove' ) )
         layout = QGridLayout( tab_widget )
 
         #remove old snapshots
-        self.cb_remove_older_then = QCheckBox( QString.fromUtf8( _( 'Older than:' ) ), self )
+        self.cb_remove_older_then = QCheckBox( _( 'Older than:' ), self )
         layout.addWidget( self.cb_remove_older_then, 0, 0 )
         QObject.connect( self.cb_remove_older_then, SIGNAL('stateChanged(int)'), self.update_remove_older_than )
 
@@ -489,7 +489,7 @@ class SettingsDialog( QDialog ):
         #min free space
         enabled, value, unit = self.config.get_min_free_space()
 
-        self.cb_min_free_space = QCheckBox( QString.fromUtf8( _( 'If free space is less than:' ) ), self )
+        self.cb_min_free_space = QCheckBox( _( 'If free space is less than:' ), self )
         layout.addWidget( self.cb_min_free_space, 1, 0 )
         QObject.connect( self.cb_min_free_space, SIGNAL('stateChanged(int)'), self.update_min_free_space )
 
@@ -502,18 +502,18 @@ class SettingsDialog( QDialog ):
         self.fill_combo( self.combo_min_free_space, self.config.MIN_FREE_SPACE_UNITS )
 
         #min free inodes
-        self.cb_min_free_inodes = QCheckBox(QString.fromUtf8( _('If free inodes is less than:') ), self)
+        self.cb_min_free_inodes = QCheckBox( _('If free inodes is less than:'), self)
         layout.addWidget(self.cb_min_free_inodes, 2, 0)
         QObject.connect( self.cb_min_free_inodes, SIGNAL('stateChanged(int)'), self.update_min_free_inodes)
         
         self.edit_min_free_inodes = QSpinBox(self)
-        self.edit_min_free_inodes.setSuffix( QString.fromUtf8(' %') )
+        self.edit_min_free_inodes.setSuffix(' %')
         self.edit_min_free_inodes.setSingleStep( 1 )
         self.edit_min_free_inodes.setRange( 0, 15 )
         layout.addWidget(self.edit_min_free_inodes, 2, 1)
         
         #smart remove
-        self.cb_smart_remove = QCheckBox( QString.fromUtf8( _( 'Smart remove' ) ), self )
+        self.cb_smart_remove = QCheckBox( _( 'Smart remove' ), self )
         layout.addWidget( self.cb_smart_remove, 3, 0 )
 
         widget = QWidget( self )
@@ -522,34 +522,34 @@ class SettingsDialog( QDialog ):
 
         smlayout = QGridLayout( widget )
 
-        smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep all snapshots for the last' ) ), self ), 0, 0 )
+        smlayout.addWidget( QLabel( _( 'Keep all snapshots for the last' ), self ), 0, 0 )
         self.edit_keep_all = QSpinBox(self)
         self.edit_keep_all.setRange(1, 10000)
         smlayout.addWidget( self.edit_keep_all, 0, 1 )
-        smlayout.addWidget( QLabel( QString.fromUtf8( _( 'day(s)' ) ), self ), 0, 2 )
+        smlayout.addWidget( QLabel( _( 'day(s)' ), self ), 0, 2 )
 
-        smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per day for the last' ) ), self ), 1, 0 )
+        smlayout.addWidget( QLabel( _( 'Keep one snapshot per day for the last' ), self ), 1, 0 )
         self.edit_keep_one_per_day = QSpinBox(self)
         self.edit_keep_one_per_day.setRange(1, 10000)
         smlayout.addWidget( self.edit_keep_one_per_day, 1, 1 )
-        smlayout.addWidget( QLabel( QString.fromUtf8( _( 'day(s)' ) ), self ), 1, 2 )
+        smlayout.addWidget( QLabel( _( 'day(s)' ), self ), 1, 2 )
 
-        smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per week for the last' ) ), self ), 2, 0 )
+        smlayout.addWidget( QLabel( _( 'Keep one snapshot per week for the last' ), self ), 2, 0 )
         self.edit_keep_one_per_week = QSpinBox(self)
         self.edit_keep_one_per_week.setRange(1, 10000)
         smlayout.addWidget( self.edit_keep_one_per_week, 2, 1 )
-        smlayout.addWidget( QLabel( QString.fromUtf8( _( 'weeks(s)' ) ), self ), 2, 2 )
+        smlayout.addWidget( QLabel( _( 'weeks(s)' ), self ), 2, 2 )
 
-        smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per month for the last' ) ), self ), 3, 0 )
+        smlayout.addWidget( QLabel( _( 'Keep one snapshot per month for the last' ), self ), 3, 0 )
         self.edit_keep_one_per_month = QSpinBox(self)
         self.edit_keep_one_per_month.setRange(1, 1000)
         smlayout.addWidget( self.edit_keep_one_per_month, 3, 1 )
-        smlayout.addWidget( QLabel( QString.fromUtf8( _( 'month(s)' ) ), self ), 3, 2 )
+        smlayout.addWidget( QLabel( _( 'month(s)' ), self ), 3, 2 )
 
-        smlayout.addWidget( QLabel( QString.fromUtf8( _( 'Keep one snapshot per year for all years' ) ), self ), 4, 0, 1, 3 )
+        smlayout.addWidget( QLabel( _( 'Keep one snapshot per year for all years' ), self ), 4, 0, 1, 3 )
 
         #don't remove named snapshots
-        self.cb_dont_remove_named_snapshots = QCheckBox( QString.fromUtf8( _( 'Don\'t remove named snapshots' ) ), self )
+        self.cb_dont_remove_named_snapshots = QCheckBox( _( 'Don\'t remove named snapshots' ), self )
         layout.addWidget( self.cb_dont_remove_named_snapshots, 5, 0, 1, 3 )
 
         #
@@ -558,105 +558,105 @@ class SettingsDialog( QDialog ):
         
         #TAB: Options
         tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Options' ) ) )
+        self.tabs_widget.addTab( tab_widget, _( 'Options' ) )
         layout = QVBoxLayout( tab_widget )
 
-        self.cb_notify_enabled = QCheckBox( QString.fromUtf8( _( 'Enable notifications' ) ), self )
+        self.cb_notify_enabled = QCheckBox( _( 'Enable notifications' ), self )
         layout.addWidget( self.cb_notify_enabled )
 
-        self.cb_no_on_battery = QCheckBox( QString.fromUtf8( _( 'Disable snapshots when on battery' ) ), self )
+        self.cb_no_on_battery = QCheckBox( _( 'Disable snapshots when on battery' ), self )
         if not tools.power_status_available ():
             self.cb_no_on_battery.setEnabled ( False )
-            self.cb_no_on_battery.setToolTip ( QString.fromUtf8 ( _( 'Power status not available from system' ) ) )
+            self.cb_no_on_battery.setToolTip ( _( 'Power status not available from system' ) )
         layout.addWidget( self.cb_no_on_battery )
 
-        self.cb_backup_on_restore = QCheckBox( QString.fromUtf8( _( 'Backup files on restore' ) ), self )
+        self.cb_backup_on_restore = QCheckBox( _( 'Backup files on restore' ), self )
         layout.addWidget( self.cb_backup_on_restore )
 
-        self.cb_continue_on_errors = QCheckBox( QString.fromUtf8( _( 'Continue on errors (keep incomplete snapshots)' ) ), self )
+        self.cb_continue_on_errors = QCheckBox( _( 'Continue on errors (keep incomplete snapshots)' ), self )
         layout.addWidget( self.cb_continue_on_errors )
 
-        self.cb_use_checksum = QCheckBox( QString.fromUtf8( _( 'Use checksum to detect changes' ) ), self )
+        self.cb_use_checksum = QCheckBox( _( 'Use checksum to detect changes' ), self )
         layout.addWidget( self.cb_use_checksum )
 
-        self.cb_full_rsync = QCheckBox( QString.fromUtf8( _( 'Full rsync mode. May be faster but:' ) ), self )
-        label = QLabel( QString.fromUtf8( _('- snapshots are no read-only\n- destination file-system must support all linux attributes (dates, rights, user, group ...)') ), self)
+        self.cb_full_rsync = QCheckBox( _( 'Full rsync mode. May be faster but:' ), self )
+        label = QLabel( _('- snapshots are no read-only\n- destination file-system must support all linux attributes (dates, rights, user, group ...)'), self)
         label.setIndent(36)
         label.setWordWrap(True)
         QObject.connect( self.cb_full_rsync, SIGNAL('stateChanged(int)'), self.update_check_for_changes )
         layout.addWidget( self.cb_full_rsync )
         layout.addWidget( label )
 
-        self.cb_check_for_changes = QCheckBox( QString.fromUtf8( _( 'Check for changes (don\'t take a new snapshot if nothing changed)' ) ), self )
+        self.cb_check_for_changes = QCheckBox( _( 'Check for changes (don\'t take a new snapshot if nothing changed)' ), self )
         layout.addWidget( self.cb_check_for_changes )
 
         #log level
         hlayout = QHBoxLayout()
         layout.addLayout( hlayout )
 
-        hlayout.addWidget( QLabel( QString.fromUtf8( _('Log Level:') ), self ) )
+        hlayout.addWidget( QLabel( _('Log Level:'), self ) )
 
         self.combo_log_level = QComboBox( self )
         hlayout.addWidget( self.combo_log_level, 1 )
         
-        self.combo_log_level.addItem( QIcon(), QString.fromUtf8( _('None') ), QVariant(0) )
-        self.combo_log_level.addItem( QIcon(), QString.fromUtf8( _('Errors') ), QVariant(1) )
-        self.combo_log_level.addItem( QIcon(), QString.fromUtf8( _('Changes & Errors') ), QVariant(2) )
-        self.combo_log_level.addItem( QIcon(), QString.fromUtf8( _('All') ), QVariant(3) )
+        self.combo_log_level.addItem( QIcon(), _('None'), 0 )
+        self.combo_log_level.addItem( QIcon(), _('Errors'), 1 )
+        self.combo_log_level.addItem( QIcon(), _('Changes & Errors'), 2 )
+        self.combo_log_level.addItem( QIcon(), _('All'), 3 )
 
         #
         layout.addStretch()
 
         #TAB: Expert Options
         tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, QString.fromUtf8( _( 'Expert Options' ) ) )
+        self.tabs_widget.addTab( tab_widget, _( 'Expert Options' ) )
         layout = QVBoxLayout( tab_widget )
 
-        label = QLabel( QString.fromUtf8( _('Change these options only if you really know what you are doing !') ), self )
+        label = QLabel( _('Change these options only if you really know what you are doing !'), self )
         qt4tools.set_font_bold( label )
         layout.addWidget( label )
 
-        #self.cb_per_diretory_schedule = QCheckBox( QString.fromUtf8( _( 'Enable schedule per included folder (see Include tab; default: disabled)' ) ), self )
+        #self.cb_per_diretory_schedule = QCheckBox( _( 'Enable schedule per included folder (see Include tab; default: disabled)' ), self )
         #layout.addWidget( self.cb_per_diretory_schedule )
         #QObject.connect( self.cb_per_diretory_schedule, SIGNAL('clicked()'), self.update_include_columns )
 
-        self.cb_run_nice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'nice\' as cron job (default: enabled)' ) ), self )
+        self.cb_run_nice_from_cron = QCheckBox( _( 'Run \'nice\' as cron job (default: enabled)' ), self )
         layout.addWidget( self.cb_run_nice_from_cron )
 
-        self.cb_run_ionice_from_cron = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' as cron job (default: enabled)' ) ), self )
+        self.cb_run_ionice_from_cron = QCheckBox( _( 'Run \'ionice\' as cron job (default: enabled)' ), self )
         layout.addWidget( self.cb_run_ionice_from_cron )
 
-        self.cb_run_ionice_from_user = QCheckBox( QString.fromUtf8( _( 'Run \'ionice\' when taking a manual snapshot (default: disabled)' ) ), self )
+        self.cb_run_ionice_from_user = QCheckBox( _( 'Run \'ionice\' when taking a manual snapshot (default: disabled)' ), self )
         layout.addWidget( self.cb_run_ionice_from_user )
 
-        self.cb_run_nice_on_remote = QCheckBox(QString.fromUtf8( _('Run \'nice\' on remote host (default: disabled)') ), self)
+        self.cb_run_nice_on_remote = QCheckBox( _('Run \'nice\' on remote host (default: disabled)'), self)
         layout.addWidget(self.cb_run_nice_on_remote)
 
-        self.cb_run_ionice_on_remote = QCheckBox(QString.fromUtf8( _('Run \'ionice\' on remote host (default: disabled)') ), self)
+        self.cb_run_ionice_on_remote = QCheckBox( _('Run \'ionice\' on remote host (default: disabled)'), self)
         layout.addWidget(self.cb_run_ionice_on_remote)
 
         #bwlimit
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
-        self.cb_bwlimit = QCheckBox( QString.fromUtf8( _( 'Limit rsync bandwidth usage: ' ) ), self )
+        self.cb_bwlimit = QCheckBox( _( 'Limit rsync bandwidth usage: ' ), self )
         hlayout.addWidget( self.cb_bwlimit )
         self.sb_bwlimit = QSpinBox(self)
-        self.sb_bwlimit.setSuffix( QString.fromUtf8( _(' KB/sec') ) )
+        self.sb_bwlimit.setSuffix(  _(' KB/sec') )
         self.sb_bwlimit.setSingleStep( 100 )
         self.sb_bwlimit.setRange( 0, 1000000 )
         hlayout.addWidget(self.sb_bwlimit)
         hlayout.addStretch()
 
-        self.cb_preserve_acl = QCheckBox( QString.fromUtf8( _( 'Preserve ACL' ) ), self )
+        self.cb_preserve_acl = QCheckBox( _( 'Preserve ACL' ), self )
         layout.addWidget( self.cb_preserve_acl )
 
-        self.cb_preserve_xattr = QCheckBox( QString.fromUtf8( _( 'Preserve extended attributes (xattr)' ) ), self )
+        self.cb_preserve_xattr = QCheckBox( _( 'Preserve extended attributes (xattr)' ), self )
         layout.addWidget( self.cb_preserve_xattr )
 
-        self.cb_copy_unsafe_links = QCheckBox( QString.fromUtf8( _( 'Copy unsafe links (works only with absolute links)' ) ), self )
+        self.cb_copy_unsafe_links = QCheckBox( _( 'Copy unsafe links (works only with absolute links)' ), self )
         layout.addWidget( self.cb_copy_unsafe_links )
 
-        self.cb_copy_links = QCheckBox( QString.fromUtf8( _( 'Copy links (dereference symbolic links)' ) ), self )
+        self.cb_copy_links = QCheckBox( _( 'Copy links (dereference symbolic links)' ), self )
         layout.addWidget( self.cb_copy_links )
 
         #
@@ -677,11 +677,11 @@ class SettingsDialog( QDialog ):
         self.resize(size)
 
     def add_profile( self ):
-        ret_val =  QInputDialog.getText(self, QString.fromUtf8(_('New profile')), QString() )
+        ret_val =  QInputDialog.getText(self, _('New profile'), str() )
         if not ret_val[1]:
             return
 
-        name = str( ret_val[0].toUtf8() ).strip()
+        name = ret_val[0].strip()
         if len( name ) <= 0:
             return
 
@@ -693,11 +693,11 @@ class SettingsDialog( QDialog ):
         self.update_profiles()
 
     def edit_profile( self ):
-        ret_val =  QInputDialog.getText(self, QString.fromUtf8(_('Rename profile')), QString() )
+        ret_val =  QInputDialog.getText(self, _('Rename profile'), str() )
         if not ret_val[1]:
             return
 
-        name = str( ret_val[0].toUtf8() ).strip()
+        name = ret_val[0].strip()
         if len( name ) <= 0:
             return
 
@@ -760,14 +760,14 @@ class SettingsDialog( QDialog ):
             self.lbl_automatic_snapshots_udev.hide()
 
     def current_automatic_snapshot_changed( self, index ):
-        backup_mode = self.combo_automatic_snapshots.itemData( index ).toInt()[0]
+        backup_mode = self.combo_automatic_snapshots.itemData( index )
         self.update_automatic_snapshot_time( backup_mode )
 
     def current_profile_changed( self, index ):
         if self.disable_profile_changed:
             return
 
-        profile_id = str( self.combo_profiles.itemData( index ).toString().toUtf8() )
+        profile_id = str( self.combo_profiles.itemData( index ) )
         if len( profile_id ) <= 0:
             return
         
@@ -799,7 +799,7 @@ class SettingsDialog( QDialog ):
             
         profiles = self.config.get_profiles_sorted_by_name()
         for profile_id in profiles:
-            self.combo_profiles.addItem( QString.fromUtf8( self.config.get_profile_name( profile_id ) ), QVariant( QString.fromUtf8( profile_id ) ) )
+            self.combo_profiles.addItem( self.config.get_profile_name( profile_id ), profile_id )
             if profile_id == current_profile_id:
                 self.combo_profiles.setCurrentIndex( self.combo_profiles.count() - 1 )
 
@@ -818,24 +818,24 @@ class SettingsDialog( QDialog ):
         self.set_combo_value( self.combo_modes, self.config.get_snapshots_mode(), type = 'str' )
         
         #local
-        self.edit_snapshots_path.setText( QString.fromUtf8( self.config.get_snapshots_path( mode = 'local') ) )
+        self.edit_snapshots_path.setText( self.config.get_snapshots_path( mode = 'local') )
         
         #ssh
-        self.txt_ssh_host.setText( QString.fromUtf8( self.config.get_ssh_host() ) )
-        self.txt_ssh_port.setText( QString.fromUtf8( str(self.config.get_ssh_port()) ) )
-        self.txt_ssh_user.setText( QString.fromUtf8( self.config.get_ssh_user() ) )
-        self.txt_ssh_path.setText( QString.fromUtf8( self.config.get_snapshots_path_ssh() ) )
+        self.txt_ssh_host.setText( self.config.get_ssh_host() )
+        self.txt_ssh_port.setText( str(self.config.get_ssh_port()) )
+        self.txt_ssh_user.setText( self.config.get_ssh_user() )
+        self.txt_ssh_path.setText( self.config.get_snapshots_path_ssh() )
         self.set_combo_value( self.combo_ssh_cipher, self.config.get_ssh_cipher(), type = 'str' )
-        self.txt_ssh_private_key_file.setText( QString.fromUtf8( self.config.get_ssh_private_key_file() ) )
+        self.txt_ssh_private_key_file.setText( self.config.get_ssh_private_key_file() )
         
         #local_encfs
         if self.mode == 'local_encfs':
-            self.edit_snapshots_path.setText( QString.fromUtf8( self.config.get_local_encfs_path() ) )
+            self.edit_snapshots_path.setText( self.config.get_local_encfs_path() )
         
 ##		#dummy
-##		self.txt_dummy_host.setText( QString.fromUtf8( self.config.get_dummy_host() ) )
-##		self.txt_dummy_port.setText( QString.fromUtf8( self.config.get_dummy_port() ) )
-##		self.txt_dummy_user.setText( QString.fromUtf8( self.config.get_dummy_user() ) )
+##		self.txt_dummy_host.setText( self.config.get_dummy_host() )
+##		self.txt_dummy_port.setText( self.config.get_dummy_port() )
+##		self.txt_dummy_user.setText( self.config.get_dummy_user() )
 
         #password
         password_1 = self.config.get_password( mode = self.mode, pw_id = 1, only_from_keyring = True )
@@ -844,16 +844,16 @@ class SettingsDialog( QDialog ):
             password_1 = ''
         if password_2 is None:
             password_2 = ''
-        self.txt_password_1.setText( QString.fromUtf8( password_1 ) )
-        self.txt_password_2.setText( QString.fromUtf8( password_2 ) )
+        self.txt_password_1.setText( password_1 )
+        self.txt_password_2.setText( password_2 )
         self.cb_password_save.setChecked( self.keyring_supported and self.config.get_password_save( mode = self.mode ) )
         self.cb_password_use_cache.setChecked( self.config.get_password_use_cache( mode = self.mode ) )
 
         self.cb_auto_host_user_profile.setChecked( self.config.get_auto_host_user_profile() )
         host, user, profile = self.config.get_host_user_profile()
-        self.txt_host.setText( QString.fromUtf8( host ) )
-        self.txt_user.setText( QString.fromUtf8( user ) )
-        self.txt_profile.setText( QString.fromUtf8( profile ) )
+        self.txt_host.setText( host )
+        self.txt_user.setText( user )
+        self.txt_profile.setText( profile )
         self.update_host_user_profile()
 
         self.set_combo_value( self.combo_automatic_snapshots, self.config.get_automatic_backup_mode() )
@@ -936,27 +936,27 @@ class SettingsDialog( QDialog ):
         self.update_min_free_space()
 
     def save_profile( self ):
-        if self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] == self.config.CUSTOM_HOUR:
-            if not tools.check_cron_pattern(str( self.txt_automatic_snapshots_time_custom.text().toUtf8() ) ):
+        if self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ) == self.config.CUSTOM_HOUR:
+            if not tools.check_cron_pattern(self.txt_automatic_snapshots_time_custom.text() ):
                 self.error_handler( _('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours') )
                 return False
             
         #mode
-        mode = str( self.combo_modes.itemData( self.combo_modes.currentIndex() ).toString().toUtf8() )
+        mode = str( self.combo_modes.itemData( self.combo_modes.currentIndex() ) )
         self.config.set_snapshots_mode( mode )
         mount_kwargs = {}
         
         #password
-        password_1 = str( self.txt_password_1.text().toUtf8() )
-        password_2 = str( self.txt_password_2.text().toUtf8() )
+        password_1 = self.txt_password_1.text()
+        password_2 = self.txt_password_2.text()
         
         #ssh
-        ssh_host = str( self.txt_ssh_host.text().toUtf8() )
-        ssh_port = str( self.txt_ssh_port.text().toUtf8() )
-        ssh_user = str( self.txt_ssh_user.text().toUtf8() )
-        ssh_path = str( self.txt_ssh_path.text().toUtf8() )
-        ssh_cipher = str( self.combo_ssh_cipher.itemData( self.combo_ssh_cipher.currentIndex() ).toString().toUtf8() )
-        ssh_private_key_file = str( self.txt_ssh_private_key_file.text().toUtf8() )
+        ssh_host = self.txt_ssh_host.text()
+        ssh_port = self.txt_ssh_port.text()
+        ssh_user = self.txt_ssh_user.text()
+        ssh_path = self.txt_ssh_path.text()
+        ssh_cipher = self.combo_ssh_cipher.itemData( self.combo_ssh_cipher.currentIndex() )
+        ssh_private_key_file = self.txt_ssh_private_key_file.text()
         if mode == 'ssh':
             mount_kwargs = {'host': ssh_host,
                             'port': int(ssh_port),
@@ -968,7 +968,7 @@ class SettingsDialog( QDialog ):
                             }
         
         #local-encfs settings
-        local_encfs_path = str( self.edit_snapshots_path.text().toUtf8() )
+        local_encfs_path = self.edit_snapshots_path.text()
         if mode == 'local_encfs':
             mount_kwargs = {'path': local_encfs_path,
                             'password': password_1
@@ -987,9 +987,9 @@ class SettingsDialog( QDialog ):
                             }
 
 ##		#dummy
-##		dummy_host = str( self.txt_dummy_host.text().toUtf8() )
-##		dummy_port = str( self.txt_dummy_port.text().toUtf8() )
-##		dummy_user = str( self.txt_dummy_user.text().toUtf8() )
+##		dummy_host = self.txt_dummy_host.text()
+##		dummy_port = self.txt_dummy_port.text()
+##		dummy_user = self.txt_dummy_user.text()
 ##		if mode == 'dummy':
 ##			#values must have exactly the same Type (str, int or bool) 
 ##			#as they are set in config or you will run into false-positive
@@ -1019,12 +1019,12 @@ class SettingsDialog( QDialog ):
         #snapshots path
         self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.isChecked() )
         self.config.set_host_user_profile(
-                str( self.txt_host.text().toUtf8() ),
-                str( self.txt_user.text().toUtf8() ),
-                str( self.txt_profile.text().toUtf8() ) )
+                self.txt_host.text(),
+                self.txt_user.text(),
+                self.txt_profile.text() )
                 
         if self.config.SNAPSHOT_MODES[mode][0] is None:
-            snapshots_path = str( self.edit_snapshots_path.text().toUtf8() )
+            snapshots_path = self.edit_snapshots_path.text()
         else:
             snapshots_path = self.config.get_snapshots_path(mode = mode, tmp_mount = True)
             
@@ -1055,39 +1055,39 @@ class SettingsDialog( QDialog ):
         #include list 
         self.list_include.sortItems(1, Qt.AscendingOrder)
         include_list = []
-        for index in xrange( self.list_include.topLevelItemCount() ):
+        for index in range( self.list_include.topLevelItemCount() ):
             item = self.list_include.topLevelItem( index )
-            #include_list.append( [ str( item.text(0).toUtf8() ), item.data( 0, Qt.UserRole ).toInt()[0] ] )
-            include_list.append( ( str( item.text(0).toUtf8() ), item.data( 0, Qt.UserRole ).toInt()[0] ) )
+            #include_list.append( [ item.text(0), item.data( 0, Qt.UserRole ) ] )
+            include_list.append( ( item.text(0), item.data( 0, Qt.UserRole ) ) )
         
         self.config.set_include( include_list )
 
         #exclude patterns
         self.list_exclude.sortItems(1, Qt.AscendingOrder)
         exclude_list = []
-        for index in xrange( self.list_exclude.topLevelItemCount() ):
+        for index in range( self.list_exclude.topLevelItemCount() ):
             item = self.list_exclude.topLevelItem( index )
-            exclude_list.append( str( item.text(0).toUtf8() ) )
+            exclude_list.append( item.text(0) )
 
         self.config.set_exclude( exclude_list )
 
         #schedule
-        self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ).toInt()[0] )
-        self.config.set_automatic_backup_time( self.combo_automatic_snapshots_time.itemData( self.combo_automatic_snapshots_time.currentIndex() ).toInt()[0] )
-        self.config.set_automatic_backup_weekday( self.combo_automatic_snapshots_weekday.itemData( self.combo_automatic_snapshots_weekday.currentIndex() ).toInt()[0] )
-        self.config.set_automatic_backup_day( self.combo_automatic_snapshots_day.itemData( self.combo_automatic_snapshots_day.currentIndex() ).toInt()[0] )
-        self.config.set_custom_backup_time( str( self.txt_automatic_snapshots_time_custom.text().toUtf8() ) )
+        self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ) )
+        self.config.set_automatic_backup_time( self.combo_automatic_snapshots_time.itemData( self.combo_automatic_snapshots_time.currentIndex() ) )
+        self.config.set_automatic_backup_weekday( self.combo_automatic_snapshots_weekday.itemData( self.combo_automatic_snapshots_weekday.currentIndex() ) )
+        self.config.set_automatic_backup_day( self.combo_automatic_snapshots_day.itemData( self.combo_automatic_snapshots_day.currentIndex() ) )
+        self.config.set_custom_backup_time( self.txt_automatic_snapshots_time_custom.text() )
         self.config.set_automatic_backup_anacron_period(self.sb_automatic_snapshots_anacron_period.value())
 
         #auto-remove
         self.config.set_remove_old_snapshots( 
                         self.cb_remove_older_then.isChecked(), 
                         self.edit_remove_older_then.value(),
-                        self.combo_remove_older_then.itemData( self.combo_remove_older_then.currentIndex() ).toInt()[0] )
+                        self.combo_remove_older_then.itemData( self.combo_remove_older_then.currentIndex() ) )
         self.config.set_min_free_space( 
                         self.cb_min_free_space.isChecked(), 
                         self.edit_min_free_space.value(),
-                        self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ).toInt()[0] )
+                        self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ) )
         self.config.set_min_free_inodes(
                         self.cb_min_free_inodes.isChecked(),
                         self.edit_min_free_inodes.value() )
@@ -1106,7 +1106,7 @@ class SettingsDialog( QDialog ):
         self.config.set_use_checksum( self.cb_use_checksum.isChecked() )
         self.config.set_full_rsync( self.cb_full_rsync.isChecked() )
         self.config.set_check_for_changes( self.cb_check_for_changes.isChecked() )
-        self.config.set_log_level( self.combo_log_level.itemData( self.combo_log_level.currentIndex() ).toInt()[0] )
+        self.config.set_log_level( self.combo_log_level.itemData( self.combo_log_level.currentIndex() ) )
 
         #expert options
         #self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
@@ -1202,13 +1202,13 @@ class SettingsDialog( QDialog ):
         else:
             item.setIcon(0, self.icon.FILE)
 
-        item.setText( 0, QString.fromUtf8( data[0] ) )
-        #item.setText( 0, QString.fromUtf8( data[0] ) )
-        #item.setText( 1, QString.fromUtf8( self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] ) )
-        item.setData( 0, Qt.UserRole, QVariant( data[1] ) )
+        item.setText( 0, data[0] )
+        #item.setText( 0, data[0] )
+        #item.setText( 1, self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] )
+        item.setData( 0, Qt.UserRole, data[1] )
         self.list_include_count += 1
-        item.setText(1, QString.fromUtf8(str(self.list_include_count).zfill(6)) )
-        item.setData(1, Qt.UserRole, QVariant(self.list_include_count) )
+        item.setText(1, str(self.list_include_count).zfill(6))
+        item.setData(1, Qt.UserRole, self.list_include_count )
         self.list_include.addTopLevelItem( item )
 
         if self.list_include.currentItem() is None:
@@ -1219,11 +1219,11 @@ class SettingsDialog( QDialog ):
     def add_exclude( self, pattern ):
         item = QTreeWidgetItem()
         item.setIcon(0, self.icon.EXCLUDE)
-        item.setText(0, QString.fromUtf8(pattern) )
-        item.setData(0, Qt.UserRole, QVariant(pattern) )
+        item.setText(0, pattern)
+        item.setData(0, Qt.UserRole, pattern )
         self.list_exclude_count += 1
-        item.setText(1, QString.fromUtf8(str(self.list_exclude_count).zfill(6)) )
-        item.setData(1, Qt.UserRole, QVariant(self.list_exclude_count) )
+        item.setText(1, str(self.list_exclude_count).zfill(6))
+        item.setData(1, Qt.UserRole, self.list_exclude_count )
         self.list_exclude.addTopLevelItem(item)
 
         if self.list_exclude.currentItem() is None:
@@ -1232,18 +1232,18 @@ class SettingsDialog( QDialog ):
         return item
 
     def fill_combo( self, combo, dict ):
-        keys = dict.keys()
+        keys = list(dict.keys())
         keys.sort()
 
         for key in keys:
-            combo.addItem( QIcon(), QString.fromUtf8( dict[ key ] ), QVariant( key ) )
+            combo.addItem( QIcon(), dict[ key ], key )
 
     def set_combo_value( self, combo, value, type = 'int' ):
-        for i in xrange( combo.count() ):
-            if type == 'int' and value == combo.itemData( i ).toInt()[0]:
+        for i in range( combo.count() ):
+            if type == 'int' and value == combo.itemData( i ):
                 combo.setCurrentIndex( i )
                 break
-            if type == 'str' and value == combo.itemData( i ).toString():
+            if type == 'str' and value == combo.itemData( i ):
                 combo.setCurrentIndex( i )
                 break
 
@@ -1275,19 +1275,19 @@ class SettingsDialog( QDialog ):
         if len( pattern ) == 0:
             return
 
-        for index in xrange( self.list_exclude.topLevelItemCount() ):
+        for index in range( self.list_exclude.topLevelItemCount() ):
             item = self.list_exclude.topLevelItem( index )
-            if pattern == str(item.text(0).toUtf8() ):
+            if pattern == item.text(0):
                 return
 
         self.add_exclude( pattern )
     
     def on_btn_exclude_add_clicked( self ):
-        ret_val = QInputDialog.getText(self, QString.fromUtf8(_('Exclude pattern')), QString() )
+        ret_val = QInputDialog.getText(self, _('Exclude pattern'), str() )
         if not ret_val[1]:
             return
 
-        pattern = str( ret_val[0].toUtf8() ).strip()
+        pattern = ret_val[0].strip()
 
         if len( pattern ) == 0:
             return
@@ -1299,12 +1299,12 @@ class SettingsDialog( QDialog ):
         self.add_exclude_( pattern )
 
     def on_btn_exclude_file_clicked( self ):
-        for path in qt4tools.getOpenFileNames(self, QString.fromUtf8(_('Exclude file')) ):
-            self.add_exclude_( str(path.toUtf8()) )
+        for path in qt4tools.getOpenFileNames(self, _('Exclude file')):
+            self.add_exclude_( path )
 
     def on_btn_exclude_folder_clicked( self ):
-        for path in qt4tools.getExistingDirectories(self, QString.fromUtf8(_('Exclude folder')) ):
-            self.add_exclude_( str(path.toUtf8()) )
+        for path in qt4tools.getExistingDirectories(self, _('Exclude folder')) :
+            self.add_exclude_( path )
 
     def on_btn_include_remove_clicked ( self ):
         for item in self.list_include.selectedItems():
@@ -1318,45 +1318,45 @@ class SettingsDialog( QDialog ):
             self.list_include.setCurrentItem( self.list_include.topLevelItem(0) )
 
     def on_btn_include_file_add_clicked( self ):
-        for path in qt4tools.getOpenFileNames(self, QString.fromUtf8(_('Include file')) ):
-            path = str(path.toUtf8())
+        for path in qt4tools.getOpenFileNames(self, _('Include file')):
+            path = path
             if len( path ) == 0 :
                 continue
 
             path = self.config.prepare_path( path )
 
-            for index in xrange( self.list_include.topLevelItemCount() ):
-                if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
+            for index in range( self.list_include.topLevelItemCount() ):
+                if path == self.list_include.topLevelItem( index ).text( 0 ):
                     continue
 
             self.add_include( ( path, 1 ) )
 
     def on_btn_include_add_clicked( self ):
-        for path in qt4tools.getExistingDirectories(self, QString.fromUtf8(_('Include folder')) ):
-            path = str(path.toUtf8())
+        for path in qt4tools.getExistingDirectories(self, _('Include folder')):
+            path = path
             
             if len( path ) == 0 :
                 continue
 
             path = self.config.prepare_path( path )
 
-            for index in xrange( self.list_include.topLevelItemCount() ):
-                if path == str( self.list_include.topLevelItem( index ).text( 0 ).toUtf8() ):
+            for index in range( self.list_include.topLevelItemCount() ):
+                if path == self.list_include.topLevelItem( index ).text( 0 ):
                     continue
 
             self.add_include( ( path, 0 ) )
 
     def on_btn_snapshots_path_clicked( self ):
-        old_path = str( self.edit_snapshots_path.text().toUtf8() )
+        old_path = self.edit_snapshots_path.text()
 
         path = str(qt4tools.getExistingDirectory(self,
-                                                 QString.fromUtf8(_('Where to save snapshots')),
-                                                 self.edit_snapshots_path.text() ).toUtf8() )
+                                                 _('Where to save snapshots'),
+                                                 self.edit_snapshots_path.text() ) )
         if len( path ) > 0 :
             if len( old_path ) > 0 and old_path != path:
                 if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
                     return
-            self.edit_snapshots_path.setText( QString.fromUtf8( self.config.prepare_path( path ) ) )
+            self.edit_snapshots_path.setText( self.config.prepare_path( path ) )
 
     def on_btn_ssh_private_key_file_clicked( self ):
         old_file = self.txt_ssh_private_key_file.text()
@@ -1364,8 +1364,8 @@ class SettingsDialog( QDialog ):
         if not old_file.isEmpty():
             start_dir = self.txt_ssh_private_key_file.text()
         else:
-            start_dir = QString.fromUtf8( self.config.get_ssh_private_key_folder() )
-        file = qt4tools.getOpenFileName(self, QString.fromUtf8(_('SSH private key')), start_dir)
+            start_dir = self.config.get_ssh_private_key_folder()
+        file = qt4tools.getOpenFileName(self, _('SSH private key'), start_dir)
         if not file.isEmpty():
             self.txt_ssh_private_key_file.setText(file)
         
@@ -1374,20 +1374,20 @@ class SettingsDialog( QDialog ):
             index = self.combo_modes.currentIndex()
         else:
             index = params[0]
-        active_mode = str( self.combo_modes.itemData( index ).toString().toUtf8() )
+        active_mode = str( self.combo_modes.itemData( index ) )
         if active_mode != self.mode:
-            for mode in self.config.SNAPSHOT_MODES.keys():
+            for mode in list(self.config.SNAPSHOT_MODES.keys()):
                 getattr(self, 'mode_%s' % mode).hide()
-            for mode in self.config.SNAPSHOT_MODES.keys():
+            for mode in list(self.config.SNAPSHOT_MODES.keys()):
                 if active_mode == mode:
                     getattr(self, 'mode_%s' % mode).show()
             self.mode = active_mode
             
         if self.config.mode_need_password(active_mode):
-            self.lbl_password_1.setText( QString.fromUtf8( self.config.SNAPSHOT_MODES[active_mode][2] + ':' ) )
+            self.lbl_password_1.setText( self.config.SNAPSHOT_MODES[active_mode][2] + ':' )
             self.frame_password_1.show()
             if self.config.mode_need_password(active_mode, 2):
-                self.lbl_password_2.setText( QString.fromUtf8( self.config.SNAPSHOT_MODES[active_mode][3] + ':' ) )
+                self.lbl_password_2.setText( self.config.SNAPSHOT_MODES[active_mode][3] + ':' )
                 self.lbl_password_2.show()
                 self.txt_password_2.show()
                 qt4tools.equal_indent(self.lbl_password_1, self.lbl_password_2)

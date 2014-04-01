@@ -98,7 +98,7 @@ class SSH(mount.MountControl):
         #bugfix: sshfs doesn't mount if locale in LC_ALL is not available on remote host
         #LANG or other envirnoment variable are no problem.
         env = os.environ.copy()
-        if 'LC_ALL' in env.keys():
+        if 'LC_ALL' in list(env.keys()):
             env['LC_ALL'] = 'C'
         try:
             subprocess.check_call(sshfs, env = env)
@@ -151,7 +151,10 @@ class SSH(mount.MountControl):
         env['ASKPASS_PROFILE_ID'] = self.profile_id
         env['ASKPASS_MODE'] = self.mode
         
-        output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
+        proc = subprocess.Popen(['ssh-add', '-l'],
+                                stdout = subprocess.PIPE,
+                                universal_newlines = True)
+        output = proc.communicate()[0]
         if not output.find(self.private_key_file) >= 0:
             password_available = any([self.config.get_password_save(self.profile_id),
                                       self.config.get_password_use_cache(self.profile_id),
@@ -181,7 +184,8 @@ class SSH(mount.MountControl):
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         env = env,
-                                        preexec_fn = os.setsid)
+                                        preexec_fn = os.setsid,
+                                        universal_newlines = True)
                 output, error = proc.communicate()
                 if proc.returncode:
                     print( _('Failed to unlock SSH private key:\nError: %s') % error)
@@ -189,7 +193,10 @@ class SSH(mount.MountControl):
                 if not self.password is None:
                     thread.stop()
                     
-            output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
+            proc = subprocess.Popen(['ssh-add', '-l'],
+                                    stdout = subprocess.PIPE,
+                                    universal_newlines = True)
+            output = proc.communicate()[0]
             if not output.find(self.private_key_file) >= 0:
                 raise mount.MountException( _('Could not unlock ssh private key. Wrong password or password not available for cron.'))
 
@@ -223,7 +230,10 @@ class SSH(mount.MountControl):
             ssh.extend(['-o', 'Ciphers=%s' % self.cipher])
             ssh.extend(self.ssh_options + [self.user_host])
             ssh.extend(['echo', '"Hello"'])
-            proc = subprocess.Popen(ssh, stdout=open(os.devnull, 'w'), stderr=subprocess.PIPE)
+            proc = subprocess.Popen(ssh,
+                                    stdout=open(os.devnull, 'w'),
+                                    stderr=subprocess.PIPE,
+                                    universal_newlines = True)
             err = proc.communicate()[1]
             if proc.returncode:
                 raise mount.MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')  % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
@@ -233,7 +243,7 @@ class SSH(mount.MountControl):
         temp = tempfile.mkstemp()[1]
         print('create random data file')
         subprocess.call(['dd', 'if=/dev/urandom', 'of=%s' % temp, 'bs=1M', 'count=%s' % size])
-        keys = self.config.SSH_CIPHERS.keys()
+        keys = list(self.config.SSH_CIPHERS.keys())
         keys.sort()
         for cipher in keys:
             if cipher == 'default':
@@ -248,7 +258,10 @@ class SSH(mount.MountControl):
     def check_known_hosts(self):
         """check ssh_known_hosts"""
         for host in (self.host, '[%s]:%s' % (self.host, self.port)):
-            output = subprocess.Popen(['ssh-keygen', '-F', host], stdout=subprocess.PIPE).communicate()[0] #subprocess.check_output doesn't exist in Python 2.6 (Debian squeeze default)
+            proc = subprocess.Popen(['ssh-keygen', '-F', host],
+                                    stdout=subprocess.PIPE,
+                                    universal_newlines = True)
+            output = proc.communicate()[0] #subprocess.check_output doesn't exist in Python 2.6 (Debian squeeze default)
             if output.find('Host %s found' % host) >= 0:
                 return True
         raise mount.MountException( _('%s not found in ssh_known_hosts.') % self.host)
@@ -366,7 +379,8 @@ class SSH(mount.MountControl):
         cmd += 'echo \"done\"'
         proc = subprocess.Popen(['ssh'] + self.ssh_options + [self.user_host, cmd],
                                         stdout=subprocess.PIPE, 
-                                        stderr=subprocess.PIPE)
+                                        stderr=subprocess.PIPE,
+                                        universal_newlines = True)
         output, err = proc.communicate()
             
 ##        print('ERROR: %s' % err)

@@ -48,9 +48,8 @@ class GUIApplicationInstance:
         #read the pid from the file
         pid = 0
         try:
-            file = open( self.pid_file, 'rt' )
-            data = file.read()
-            file.close()
+            with open( self.pid_file, 'rt' ) as file:
+                data = file.read()
             pid = int( data )
         except:
             pass
@@ -69,9 +68,8 @@ class GUIApplicationInstance:
 
         #notify raise
         try:
-            file = open( self.raise_file, 'wt' )
-            file.write( raise_cmd )
-            file.close()
+            with open( self.raise_file, 'wt' ) as file:
+                file.write( raise_cmd )
         except:
             pass
 
@@ -79,9 +77,8 @@ class GUIApplicationInstance:
 
     #called when the single instance starts to save it's pid
     def start_application( self ):
-        file = open( self.pid_file, 'wt' )
-        file.write( str( os.getpid() ) )
-        file.close()
+        with open( self.pid_file, 'wt' ) as file:
+            file.write( str( os.getpid() ) )
 
     #called when the single instance exit ( remove pid file )
     def exit_application( self ):
@@ -97,9 +94,8 @@ class GUIApplicationInstance:
 
         try:
             if os.path.isfile( self.raise_file ):
-                file = open( self.raise_file, 'rt' )
-                ret_val = file.read()
-                file.close()
+                with open( self.raise_file, 'rt' ) as file:
+                    ret_val = file.read()
                 os.remove( self.raise_file )
         except:
             pass

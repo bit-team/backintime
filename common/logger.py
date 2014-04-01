@@ -15,8 +15,6 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#print into file like it is done in Python3
-from __future__ import print_function
 import syslog
 import os
 import sys

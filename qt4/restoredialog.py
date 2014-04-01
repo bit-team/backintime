@@ -36,7 +36,7 @@ _=gettext.gettext
 
 def restore( parent, snapshot_id, what, where = '' ):
     if where is None:
-        where = str( qt4tools.getExistingDirectory( parent, QString.fromUtf8(_('Restore to ...')) ).toUtf8() )
+        where = qt4tools.getExistingDirectory( parent, _('Restore to ...') )
         if len( where ) == 0 :
             return
         where = parent.config.prepare_path( where )
@@ -62,7 +62,7 @@ class RestoreDialog( QDialog ):
             os.remove(self.log_file)
 
         self.setWindowIcon(icon.RESTORE_DIALOG)
-        self.setWindowTitle( QString.fromUtf8( _( 'Restore' ) ) )
+        self.setWindowTitle( _( 'Restore' ) )
 
         self.main_layout = QVBoxLayout(self)
 
@@ -80,7 +80,7 @@ class RestoreDialog( QDialog ):
         self.btn_close.setEnabled(False)
 
     def callback(self, line, *params ):
-        self.txt_log_view.append(QString.fromUtf8(line))
+        self.txt_log_view.append(line)
         QApplication.processEvents()
         with open(self.log_file, 'a') as log:
             log.write(line + '\n')

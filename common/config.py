@@ -700,7 +700,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         include = []
 
-        for i in xrange( 1, size + 1 ):
+        for i in range( 1, size + 1 ):
             #?Include this file or folder. <I> must be a counter 
             #?starting with 1;absolute path
             value = self.get_profile_str_value( "snapshots.include.%s.value" % i, '', profile_id )
@@ -725,7 +725,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.include.size', counter, profile_id )
 
         if counter < old_size:
-            for i in xrange( counter + 1, old_size + 1 ):
+            for i in range( counter + 1, old_size + 1 ):
                 self.remove_profile_key( "snapshots.include.%s.value" % i, profile_id )
                 self.remove_profile_key( "snapshots.include.%s.type" % i, profile_id )
 
@@ -745,7 +745,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             return self.DEFAULT_EXCLUDE
 
         exclude = []
-        for i in xrange( 1, size + 1 ):
+        for i in range( 1, size + 1 ):
             #?Exclude this file or folder. <I> must be a counter 
             #?starting with 1;file, folder or pattern (relative or absolute)
             value = self.get_profile_str_value( "snapshots.exclude.%s.value" % i, '', profile_id )
@@ -766,7 +766,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.exclude.size', counter, profile_id )
 
         if counter < old_size:
-            for i in xrange( counter + 1, old_size + 1 ):
+            for i in range( counter + 1, old_size + 1 ):
                 self.remove_profile_key( "snapshots.exclude.%s.value" % i, profile_id )
 
     def get_tag( self, profile_id = None ):

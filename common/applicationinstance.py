@@ -41,9 +41,8 @@ class ApplicationInstance:
         #read the pid from the file
         pid = 0
         try:
-            file = open( self.pid_file, 'rt' )
-            data = file.read()
-            file.close()
+            with open( self.pid_file, 'rt' ) as file:
+                data = file.read()
             pid = int( data )
         except:
             pass
@@ -66,9 +65,8 @@ class ApplicationInstance:
 
     #called when the single instance starts to save it's pid
     def start_application( self ):
-        file = open( self.pid_file, 'wt' )
-        file.write( str( os.getpid() ) )
-        file.close()
+        with open( self.pid_file, 'wt' ) as file:
+            file.write( str( os.getpid() ) )
 
     #called when the single instance exit ( remove pid file )
     def exit_application( self ):

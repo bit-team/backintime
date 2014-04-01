@@ -49,8 +49,8 @@ class FIFO(object):
         if os.path.exists(self.fifo):
             self.delfifo()
         try:
-            os.mkfifo(self.fifo, 0600)
-        except OSError, e:
+            os.mkfifo(self.fifo, 0o600)
+        except OSError as e:
             logger.error('Failed to create FIFO: %s' % e.strerror)
             sys.exit(1)
         
@@ -77,7 +77,7 @@ class FIFO(object):
         if not self.is_fifo():
             sys.exit(1)
         self.alarm.start(timeout)
-        with open(self.fifo, 'a') as fifo:
+        with open(self.fifo, 'w') as fifo:
             fifo.write(string)
         self.alarm.stop()
         
@@ -109,7 +109,7 @@ class TempPasswordThread(threading.Thread):
     """
     def __init__(self, string):
         threading.Thread.__init__(self)
-        self.pw_base64 = base64.encodestring(string)
+        self.pw_base64 = base64.encodebytes(string.encode()).decode()
         self.temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
         self.fifo = FIFO(self.temp_file)
         

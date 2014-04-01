@@ -3,7 +3,7 @@
 #set default options
 KDESUDO="--kdesudo"
 GKSUDO="--gksu"
-PYTHON="--python"
+PYTHON="--python3"
 
 USR_BIN_FILES="backintime-qt4"
 
@@ -12,7 +12,7 @@ for arg in $*; do
 	case $arg in
 		--kdesu | --kdesudo) KDESUDO=$arg;;
 		--gksu | --gksudo) GKSUDO=$arg;;
-		--python | --python2) PYTHON=$arg;;
+		--python | --python3) PYTHON=$arg;;
 	esac
 done
 
@@ -29,12 +29,12 @@ esac
 #patch python command
 #use 'python' or 'python2' to start Python Version 2.x
 case $PYTHON in
-	--python)   sed -e "s/^python2\? /python /g" \
-			-e "s/^ssh-agent python2\? /ssh-agent python /g" \
+	--python)   sed -e "s/^python3\? /python /g" \
+			-e "s/^ssh-agent python3\? /ssh-agent python /g" \
 			-i $USR_BIN_FILES
 			;;
-	--python2)  sed -e "s/^python2\? /python2 /g" \
-			-e "s/^ssh-agent python2\? /ssh-agent python2 /g" \
+	--python3)  sed -e "s/^python3\? /python3 /g" \
+			-e "s/^ssh-agent python3\? /ssh-agent python3 /g" \
 			-i $USR_BIN_FILES
 			;;
 esac

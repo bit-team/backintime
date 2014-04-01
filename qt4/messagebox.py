@@ -16,7 +16,7 @@
 
 import sys
 import gettext
-from PyQt4.QtCore import QString, QTimer, SIGNAL, QStringList
+from PyQt4.QtCore import QTimer, SIGNAL
 from PyQt4.QtGui import QApplication, QMessageBox, QInputDialog, QLineEdit
 
 _ = gettext.gettext
@@ -35,8 +35,8 @@ def ask_password_dialog(parent, title, prompt, timeout = None):
         timer.start()
 
     dialog.setWindowIcon(icon.BIT_LOGO)
-    dialog.setWindowTitle(QString.fromUtf8(title))
-    dialog.setLabelText(QString.fromUtf8(prompt))
+    dialog.setWindowTitle(title)
+    dialog.setLabelText(prompt)
     dialog.setTextEchoMode(QLineEdit.Password)
     QApplication.processEvents()
 
@@ -44,7 +44,7 @@ def ask_password_dialog(parent, title, prompt, timeout = None):
 
     timer.stop()
     if ret:
-        password = dialog.textValue().toUtf8()
+        password = dialog.textValue()
     else:
         password = ''
     del(dialog)
@@ -54,13 +54,12 @@ def ask_password_dialog(parent, title, prompt, timeout = None):
     return(password)
 
 def critical(parent, msg):
-    return QMessageBox.critical(parent, QString.fromUtf8( _('Error') ),
-                                QString.fromUtf8(msg),
+    return QMessageBox.critical(parent, _('Error'),
+                                msg,
                                 buttons = QMessageBox.Ok,
                                 defaultButton = QMessageBox.Ok )
 
 def warningYesNo(parent, msg):
-    return QMessageBox.question(parent, QString.fromUtf8( _('Question') ),
-                                QString.fromUtf8(msg),
+    return QMessageBox.question(parent, _('Question'), msg,
                                 buttons = QMessageBox.Yes | QMessageBox.No,
                                 defaultButton = QMessageBox.No )

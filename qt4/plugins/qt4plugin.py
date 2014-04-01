@@ -23,7 +23,7 @@ import tools
 import logger
 import time
 import gettext
-import thread
+import _thread
 import subprocess
 
 

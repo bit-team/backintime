@@ -76,11 +76,11 @@ class PluginManager:
                     module = __import__( file[ : -3 ] )
                     module_dict = module.__dict__
                     
-                    for key, value in module_dict.items():
+                    for key, value in list(module_dict.items()):
                         if key.startswith( '__' ):
                             continue
 
-                        if type(value) is types.ClassType:
+                        if type(value) is type:
                             if issubclass( value, Plugin ):
                                 plugin = value()
                                 if plugin.init( snapshots ):

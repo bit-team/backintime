@@ -162,7 +162,7 @@ class MountControl(object):
             
     def set_default_args(self):
         #self.destination should contain all arguments that are nessesary for mount.
-        args = self.all_kwargs.keys()
+        args = list(self.all_kwargs.keys())
         self.destination = '%s:' % self.all_kwargs['mode']
         args.remove('mode')
         args.sort()
@@ -260,14 +260,14 @@ class MountControl(object):
                                      ../mnt/<hash_id>/<HOST>/<SHARE> for fusesmb ...)
         tmp_<profile id>_<pid>/   <= sym-link for testing mountpoints in settingsdialog
         """
-        self.mkdir(self.mount_root, 0777, force_chmod = True)
-        self.mkdir(self.mount_user_path, 0700)
-        self.mkdir(os.path.join(self.mount_user_path, 'mnt'), 0700)
-        self.mkdir(self.hash_id_path, 0700)
-        self.mkdir(self.mountpoint, 0700)
-        self.mkdir(self.lock_path, 0700)
+        self.mkdir(self.mount_root, 0o777, force_chmod = True)
+        self.mkdir(self.mount_user_path, 0o700)
+        self.mkdir(os.path.join(self.mount_user_path, 'mnt'), 0o700)
+        self.mkdir(self.hash_id_path, 0o700)
+        self.mkdir(self.mountpoint, 0o700)
+        self.mkdir(self.lock_path, 0o700)
                 
-    def mkdir(self, path, mode = 0777, force_chmod = False):
+    def mkdir(self, path, mode = 0o777, force_chmod = False):
         if not os.path.isdir(path):
             os.mkdir(path, mode)
             if force_chmod:
@@ -391,8 +391,8 @@ class MountControl(object):
         saved_kwargs = self.read_umount_info(umount_info)
         if not len(current_kwargs) == len(saved_kwargs):
             return False
-        for arg in current_kwargs.keys():
-            if not arg in saved_kwargs.keys():
+        for arg in list(current_kwargs.keys()):
+            if not arg in list(saved_kwargs.keys()):
                 return False
             if not current_kwargs[arg] == saved_kwargs[arg]:
                 return False
@@ -434,7 +434,7 @@ class MountControl(object):
         
     def hash(self, str):
         """return a hex crc32 hash of str"""
-        return('%X' % (crc32(str) & 0xFFFFFFFF))
+        return('%X' % (crc32(str.encode()) & 0xFFFFFFFF))
         
     def get_hash_id_path(self, hash_id = None):
         if hash_id is None:

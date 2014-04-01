@@ -70,7 +70,7 @@ class MainWindow( QMainWindow ):
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         #main toolbar
-        self.main_toolbar = self.addToolBar(QString.fromUtf8('main'))
+        self.main_toolbar = self.addToolBar('main')
         self.main_toolbar.setFloatable( False )
 
         #profiles
@@ -80,39 +80,39 @@ class MainWindow( QMainWindow ):
         self.combo_profiles_action = self.main_toolbar.addWidget( self.combo_profiles )
         #self.combo_profiles.setMinimumWidth( 250 )
 
-        self.btn_take_snapshot = self.main_toolbar.addAction(icon.TAKE_SNAPSHOT, QString.fromUtf8(_('Take snapshot')) )
+        self.btn_take_snapshot = self.main_toolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
         QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 
-        self.btn_update_snapshots = self.main_toolbar.addAction(icon.REFRESH_SNAPSHOT, QString.fromUtf8(_('Refresh snapshots list')) )
+        self.btn_update_snapshots = self.main_toolbar.addAction(icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'))
         QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
 
-        self.btn_name_snapshot = self.main_toolbar.addAction(icon.SNAPSHOT_NAME, QString.fromUtf8(_('Snapshot Name')) )
+        self.btn_name_snapshot = self.main_toolbar.addAction(icon.SNAPSHOT_NAME, _('Snapshot Name'))
         QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.on_btn_name_snapshot_clicked )
 
-        self.btn_remove_snapshot = self.main_toolbar.addAction(icon.REMOVE_SNAPSHOT, QString.fromUtf8(_('Remove Snapshot')) )
+        self.btn_remove_snapshot = self.main_toolbar.addAction(icon.REMOVE_SNAPSHOT, _('Remove Snapshot'))
         QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
     
-        self.btn_snapshot_log_view = self.main_toolbar.addAction(icon.VIEW_SNAPSHOT_LOG, QString.fromUtf8(_('View Snapshot Log')) )
+        self.btn_snapshot_log_view = self.main_toolbar.addAction(icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'))
         QObject.connect( self.btn_snapshot_log_view, SIGNAL('triggered()'), self.on_btn_snapshot_log_view_clicked )
     
-        self.btn_log_view = self.main_toolbar.addAction(icon.VIEW_LAST_LOG, QString.fromUtf8(_('View Last Log')) )
+        self.btn_log_view = self.main_toolbar.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
         QObject.connect( self.btn_log_view, SIGNAL('triggered()'), self.on_btn_log_view_clicked )
     
         self.main_toolbar.addSeparator()
 
-        self.btn_settings = self.main_toolbar.addAction(icon.SETTINGS, QString.fromUtf8(_('Settings')) )
+        self.btn_settings = self.main_toolbar.addAction(icon.SETTINGS, _('Settings'))
         QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
 
         self.main_toolbar.addSeparator()
 
-        self.btn_shutdown = self.main_toolbar.addAction(icon.SHUTDOWN, QString.fromUtf8(_('Shutdown')) )
-        self.btn_shutdown.setToolTip(QString.fromUtf8(_('Shutdown system after snapshot has finished.')) )
+        self.btn_shutdown = self.main_toolbar.addAction(icon.SHUTDOWN, _('Shutdown'))
+        self.btn_shutdown.setToolTip(_('Shutdown system after snapshot has finished.'))
         self.btn_shutdown.setCheckable(True)
         self.shutdown = tools.ShutDown()
         self.btn_shutdown.setEnabled(self.shutdown.can_shutdown())
         QObject.connect( self.btn_shutdown, SIGNAL('toggled(bool)'), self.on_btn_shutdown_toggled )
 
-        self.btn_quit = self.main_toolbar.addAction(icon.EXIT, QString.fromUtf8(_('Exit')) )
+        self.btn_quit = self.main_toolbar.addAction(icon.EXIT, _('Exit'))
         self.btn_quit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_W))
         QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 
@@ -121,21 +121,21 @@ class MainWindow( QMainWindow ):
         self.main_toolbar.addWidget(empty)
 
         help_menu = QMenu()
-        self.btn_help = help_menu.addAction(icon.HELP, QString.fromUtf8( _('Help') ) )
+        self.btn_help = help_menu.addAction(icon.HELP, _('Help') )
         QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_help )
         help_menu.addSeparator()
-        self.btn_website = help_menu.addAction(icon.WEBSITE, QString.fromUtf8( _('Website') ) )
+        self.btn_website = help_menu.addAction(icon.WEBSITE, _('Website') )
         QObject.connect( self.btn_website, SIGNAL('triggered()'), self.on_website)
-        self.btn_changelog = help_menu.addAction(icon.CHANGELOG, QString.fromUtf8( _('Changelog') ) )
+        self.btn_changelog = help_menu.addAction(icon.CHANGELOG, _('Changelog') )
         QObject.connect( self.btn_changelog, SIGNAL('triggered()'), self.on_changelog)
-        self.btn_faq = help_menu.addAction(icon.FAQ, QString.fromUtf8( _('FAQ') ) )
+        self.btn_faq = help_menu.addAction(icon.FAQ, _('FAQ') )
         QObject.connect( self.btn_faq, SIGNAL('triggered()'), self.on_faq)
-        self.btn_question = help_menu.addAction(icon.QUESTION, QString.fromUtf8( _('Ask a question') ) )
+        self.btn_question = help_menu.addAction(icon.QUESTION, _('Ask a question') )
         QObject.connect( self.btn_question, SIGNAL('triggered()'), self.on_ask_a_question)
-        self.btn_bug = help_menu.addAction(icon.BUG, QString.fromUtf8( _('Report a bug') ) )
+        self.btn_bug = help_menu.addAction(icon.BUG, _('Report a bug') )
         QObject.connect( self.btn_bug, SIGNAL('triggered()'), self.on_report_a_bug)
         help_menu.addSeparator()
-        self.btn_about = help_menu.addAction(icon.ABOUT, QString.fromUtf8( _('About') ) )
+        self.btn_about = help_menu.addAction(icon.ABOUT, _('About') )
         QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_about)
 
         action = self.main_toolbar.addAction(icon.HELP, _('Help') )
@@ -150,7 +150,7 @@ class MainWindow( QMainWindow ):
         self.list_time_line = QTreeWidget( self )
         self.list_time_line.setRootIsDecorated( False )
         self.list_time_line.setEditTriggers( QAbstractItemView.NoEditTriggers )
-        self.list_time_line.setHeaderLabel( QString.fromUtf8( _('Snapshots') ) )
+        self.list_time_line.setHeaderLabel( _('Snapshots') )
         self.main_splitter.addWidget( self.list_time_line )
 
         #right widget
@@ -164,7 +164,7 @@ class MainWindow( QMainWindow ):
         self.files_view_toolbar = QToolBar( self )
         self.files_view_toolbar.setFloatable( False )
 
-        self.btn_folder_up = self.files_view_toolbar.addAction(icon.UP, QString.fromUtf8(_('Up')) )
+        self.btn_folder_up = self.files_view_toolbar.addAction(icon.UP, _('Up'))
         self.btn_folder_up.setShortcut(Qt.Key_Backspace)
         QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
 
@@ -175,7 +175,7 @@ class MainWindow( QMainWindow ):
         #show hidden files
         self.show_hidden_files = self.config.get_bool_value( 'qt4.show_hidden_files', False )
 
-        self.btn_show_hidden_files = self.files_view_toolbar.addAction(icon.SHOW_HIDDEN, QString.fromUtf8(_('Show hidden files')) )
+        self.btn_show_hidden_files = self.files_view_toolbar.addAction(icon.SHOW_HIDDEN, _('Show hidden files'))
         self.btn_show_hidden_files.setCheckable( True )
         self.btn_show_hidden_files.setChecked( self.show_hidden_files )
         QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
@@ -184,27 +184,27 @@ class MainWindow( QMainWindow ):
 
         #restore menu
         self.menu_restore = QMenu()
-        self.btn_restore = self.menu_restore.addAction(icon.RESTORE, QString.fromUtf8( _('Restore') ) )
+        self.btn_restore = self.menu_restore.addAction(icon.RESTORE, _('Restore') )
         QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
-        self.btn_restore_to = self.menu_restore.addAction(icon.RESTORE_TO, QString.fromUtf8( _('Restore to ...') ) )
+        self.btn_restore_to = self.menu_restore.addAction(icon.RESTORE_TO, _('Restore to ...') )
         QObject.connect( self.btn_restore_to, SIGNAL('triggered()'), self.restore_this_to )
         self.menu_restore_parent = self.menu_restore.addAction(icon.RESTORE, '' )
         QObject.connect( self.menu_restore_parent, SIGNAL('triggered()'), self.restore_parent )
         self.menu_restore_parent_to = self.menu_restore.addAction(icon.RESTORE_TO, '' )
         QObject.connect( self.menu_restore_parent_to, SIGNAL('triggered()'), self.restore_parent_to )
 
-        self.btn_restore_menu = self.files_view_toolbar.addAction(icon.RESTORE, QString.fromUtf8(_('Restore')) )
+        self.btn_restore_menu = self.files_view_toolbar.addAction(icon.RESTORE, _('Restore'))
         self.btn_restore_menu.setMenu(self.menu_restore)
         QObject.connect( self.btn_restore_menu, SIGNAL('triggered()'), self.restore_this )
 
-        self.btn_snapshots = self.files_view_toolbar.addAction(icon.SNAPSHOTS, QString.fromUtf8(_('Snapshots')) )
+        self.btn_snapshots = self.files_view_toolbar.addAction(icon.SNAPSHOTS, _('Snapshots'))
         QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.on_btn_snapshots_clicked )
 
         right_layout.addWidget( self.files_view_toolbar )
 
         #menubar
         self.menubar = self.menuBar()
-        self.menubar_snapshot = self.menubar.addMenu(QString.fromUtf8(_('Snapshot')) )
+        self.menubar_snapshot = self.menubar.addMenu(_('Snapshot'))
         self.menubar_snapshot.addAction(self.btn_take_snapshot)
         self.menubar_snapshot.addAction(self.btn_update_snapshots)
         self.menubar_snapshot.addAction(self.btn_name_snapshot)
@@ -215,7 +215,7 @@ class MainWindow( QMainWindow ):
         self.menubar_snapshot.addAction(self.btn_shutdown)
         self.menubar_snapshot.addAction(self.btn_quit)
 
-        self.menubar_view = self.menubar.addMenu(QString.fromUtf8(_('View')) )
+        self.menubar_view = self.menubar.addMenu(_('View'))
         self.menubar_view.addAction(self.btn_folder_up)
         self.menubar_view.addAction(self.btn_show_hidden_files)
         self.menubar_view.addSeparator()
@@ -224,13 +224,13 @@ class MainWindow( QMainWindow ):
         self.menubar_view.addSeparator()
         self.menubar_view.addAction(self.btn_snapshots)
 
-        self.menubar_restore = self.menubar.addMenu(QString.fromUtf8(_('Restore')) )
+        self.menubar_restore = self.menubar.addMenu(_('Restore'))
         self.menubar_restore.addAction(self.btn_restore)
         self.menubar_restore.addAction(self.btn_restore_to)
         self.menubar_restore.addAction(self.menu_restore_parent)
         self.menubar_restore.addAction(self.menu_restore_parent_to)
 
-        self.menubar_help = self.menubar.addMenu(QString.fromUtf8(_('Help')) )
+        self.menubar_help = self.menubar.addMenu(_('Help'))
         self.menubar_help.addAction(self.btn_help)
         self.menubar_help.addSeparator()
         self.menubar_help.addAction(self.btn_website)
@@ -251,7 +251,7 @@ class MainWindow( QMainWindow ):
         self.list_places = QTreeWidget( self )
         self.list_places.setRootIsDecorated( False )
         self.list_places.setEditTriggers( QAbstractItemView.NoEditTriggers )
-        self.list_places.setHeaderLabel( QString.fromUtf8( _('Shortcuts') ) )
+        self.list_places.setHeaderLabel(  _('Shortcuts') )
         self.second_splitter.addWidget( self.list_places )
 
         #files view stacked layout
@@ -260,7 +260,7 @@ class MainWindow( QMainWindow ):
         self.second_splitter.addWidget( widget )
 
         #folder don't exist label
-        self.lbl_folder_dont_exists = QLabel( QString.fromUtf8( _('This folder doesn\'t exist\nin the current snapshot !') ), self )
+        self.lbl_folder_dont_exists = QLabel( _('This folder doesn\'t exist\nin the current snapshot !'), self )
         qt4tools.set_font_bold( self.lbl_folder_dont_exists )
         self.lbl_folder_dont_exists.setFrameShadow( QFrame.Sunken )
         self.lbl_folder_dont_exists.setFrameShape( QFrame.Panel )
@@ -311,13 +311,13 @@ class MainWindow( QMainWindow ):
         #
         self.setCentralWidget( self.main_splitter )
         
-        self.statusBar().showMessage( QString.fromUtf8( _('Done') ) )
+        self.statusBar().showMessage( _('Done') )
 
         self.snapshots_list = []
         self.snapshot_id = '/'
         self.path = self.config.get_profile_str_value('qt4.last_path',
                             self.config.get_str_value('qt4.last_path', '/' ) )
-        self.edit_current_path.setText( QString.fromUtf8( self.path ) )
+        self.edit_current_path.setText( self.path )
 
         #restore size and position
         x = self.config.get_int_value( 'qt4.main_window.x', -1 )
@@ -460,7 +460,7 @@ class MainWindow( QMainWindow ):
         for profile_id in profiles:
             if profile_id == self.config.get_current_profile():
                 index = self.combo_profiles.count()
-            self.combo_profiles.addItem( QString.fromUtf8( self.config.get_profile_name( profile_id ) ), QVariant( QString.fromUtf8( profile_id ) ) )
+            self.combo_profiles.addItem( self.config.get_profile_name( profile_id ), profile_id )
 
         self.combo_profiles.setCurrentIndex( index )
         self.combo_profiles_action.setVisible( len( profiles ) > 1 )
@@ -478,7 +478,7 @@ class MainWindow( QMainWindow ):
         if self.disable_profile_changed:
             return
 
-        profile_id = str( self.combo_profiles.itemData( index ).toString().toUtf8() )
+        profile_id = str( self.combo_profiles.itemData( index ) )
         if len( profile_id ) <= 0:
             return
         old_profile_id = self.config.get_current_profile()
@@ -490,7 +490,7 @@ class MainWindow( QMainWindow ):
             path = self.config.get_profile_str_value('qt4.last_path', self.path, profile_id)
             if not path == self.path:
                 self.path = path
-                self.edit_current_path.setText( QString.fromUtf8( self.path ) )
+                self.edit_current_path.setText( self.path )
 
             self.update_profile()
             
@@ -621,7 +621,7 @@ class MainWindow( QMainWindow ):
             else:
                 message = _('Error:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
 
-            self.statusBar().showMessage( QString.fromUtf8( message ) )
+            self.statusBar().showMessage( message )
 
         #if not fake_busy:
         #	self.last_take_snapshot_message = None
@@ -630,7 +630,7 @@ class MainWindow( QMainWindow ):
         if item is None:
             return
 
-        path = str( item.data( 0, Qt.UserRole ).toString().toUtf8() )
+        path = str( item.data( 0, Qt.UserRole ) )
         if len( path ) == 0:
             return
 
@@ -648,7 +648,7 @@ class MainWindow( QMainWindow ):
         if len( icon ) > 0:
             item.setIcon( 0, QIcon.fromTheme( icon ) )
 
-        item.setData( 0, Qt.UserRole, QVariant( QString.fromUtf8( path ) ) )
+        item.setData( 0, Qt.UserRole, path )
 
         if len( path ) == 0:
             item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
@@ -666,9 +666,9 @@ class MainWindow( QMainWindow ):
 
     def update_places( self ):
         self.list_places.clear()
-        self.add_place( QString.fromUtf8( _('Global') ), '', '' )
-        self.add_place( QString.fromUtf8( _('Root') ), '/', 'computer' )
-        self.add_place( QString.fromUtf8( _('Home') ), os.path.expanduser( '~' ), 'user-home' )
+        self.add_place( _('Global'), '', '' )
+        self.add_place( _('Root'), '/', 'computer' )
+        self.add_place( _('Home'), os.path.expanduser( '~' ), 'user-home' )
 
         #add backup folders
         include_folders = self.config.get_include()
@@ -679,10 +679,10 @@ class MainWindow( QMainWindow ):
                     folders.append( item[0] )
 
             if len( folders ) > 0:
-                self.add_place( QString.fromUtf8( _('Backup folders') ), '', '' )
+                self.add_place( _('Backup folders'), '', '' )
                 for folder in folders:
-                    #self.add_place( QString.fromUtf8(folder[0]), folder[0], 'document-save' )
-                    self.add_place( QString.fromUtf8(folder), folder, 'document-save' )
+                    #self.add_place( folder[0], folder[0], 'document-save' )
+                    self.add_place( folder, folder, 'document-save' )
 
     def update_snapshot_actions( self ):
         enabled = False
@@ -715,7 +715,7 @@ class MainWindow( QMainWindow ):
         self.update_files_view( 2 )
 
     def time_line_get_snapshot_id( self, item ):
-        return str( item.data( 0, Qt.UserRole ).toString().toUtf8() ) 
+        return str( item.data( 0, Qt.UserRole ) ) 
 
     def time_line_update_snapshot_name( self, item ):
         snapshot_id = self.time_line_get_snapshot_id( item )
@@ -726,9 +726,9 @@ class MainWindow( QMainWindow ):
         item = QTreeWidgetItem()
         item.setText( 0, snapshot_name )
         item.setFont( 0, qt4tools.get_font_normal( item.font( 0 ) ) )
-        item.setData( 0, Qt.UserRole, QVariant( QString.fromUtf8( snapshot_id ) ) )
+        item.setData( 0, Qt.UserRole, snapshot_id )
         if not tooltip is None:
-            item.setToolTip(0, QString.fromUtf8(tooltip) )
+            item.setToolTip(0, tooltip)
 
         if len( snapshot_id ) == 0:
             item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
@@ -743,7 +743,7 @@ class MainWindow( QMainWindow ):
 
     def update_time_line( self, get_snapshots_list = True ):
         self.list_time_line.clear()
-        self.add_time_line( QString.fromUtf8( self.snapshots.get_snapshot_display_name( '/' ) ), '/' )
+        self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/' )
 
         if get_snapshots_list:
             self.snapshots_list = self.snapshots.get_snapshots_and_other_list() 
@@ -753,19 +753,19 @@ class MainWindow( QMainWindow ):
 
         #today
         date = now
-        groups.append( (QString.fromUtf8( _('Today') ), self.snapshots.get_snapshot_id( date ), []) )
+        groups.append( ( _('Today'), self.snapshots.get_snapshot_id( date ), []) )
 
         #yesterday
         date = now - datetime.timedelta( days = 1 )
-        groups.append( (QString.fromUtf8( _('Yesterday') ), self.snapshots.get_snapshot_id( date ), []) )
+        groups.append( ( _('Yesterday'), self.snapshots.get_snapshot_id( date ), []) )
 
         #this week
         date = now - datetime.timedelta( days = now.weekday() )
-        groups.append( (QString.fromUtf8( _('This week') ), self.snapshots.get_snapshot_id( date ), []) )
+        groups.append( ( _('This week'), self.snapshots.get_snapshot_id( date ), []) )
 
         #last week
         date = now - datetime.timedelta( days = now.weekday() + 7 )
-        groups.append( (QString.fromUtf8( _('Last week') ), self.snapshots.get_snapshot_id( date ), []) )
+        groups.append( ( _('Last week'), self.snapshots.get_snapshot_id( date ), []) )
 
         #fill groups
         for snapshot_id in self.snapshots_list:
@@ -788,7 +788,7 @@ class MainWindow( QMainWindow ):
                 else:
                     group_name = date.strftime( '%B, %Y' ).capitalize()
 
-                groups.append( ( QString.fromUtf8( group_name ), self.snapshots.get_snapshot_id( date ), [ snapshot_id ]) )
+                groups.append( ( group_name, self.snapshots.get_snapshot_id( date ), [ snapshot_id ]) )
 
         #fill time_line list
         for group in groups:
@@ -827,11 +827,11 @@ class MainWindow( QMainWindow ):
 
         name = self.snapshots.get_snapshot_name( snapshot_id )
 
-        ret_val = QInputDialog.getText(self, QString.fromUtf8(_('Snapshot Name')), QString() )
+        ret_val = QInputDialog.getText(self, _('Snapshot Name'), str() )
         if not ret_val[1]:
             return
         
-        new_name = str( ret_val[0].toUtf8() ).strip()
+        new_name = ret_val[0].strip()
         if name == new_name:
             return
 
@@ -899,7 +899,7 @@ class MainWindow( QMainWindow ):
         self.open_url( 'https://bugs.launchpad.net/backintime' );
 
     def open_url( self, url ):
-        return QDesktopServices.openUrl(QUrl(QString.fromUtf8(url)) )
+        return QDesktopServices.openUrl(QUrl(url))
 
     def on_btn_show_hidden_files_toggled( self, checked ):
         self.show_hidden_files = checked
@@ -947,7 +947,7 @@ class MainWindow( QMainWindow ):
         dlg = snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path)
         if QDialog.Accepted == dlg.exec_():
             if dlg.snapshot_id != self.snapshot_id:
-                for index in xrange( self.list_time_line.topLevelItemCount() ):
+                for index in range( self.list_time_line.topLevelItemCount() ):
                     item = self.list_time_line.topLevelItem( index )
                     snapshot_id = self.time_line_get_snapshot_id( item )
                     if snapshot_id == dlg.snapshot_id:
@@ -974,7 +974,7 @@ class MainWindow( QMainWindow ):
         if model_index is None:
             return
 
-        rel_path = str( self.list_files_view_model.data( model_index ).toString().toUtf8() )
+        rel_path = str( self.list_files_view_model.data( model_index ) )
         if len( rel_path ) <= 0:
             return
 
@@ -987,17 +987,17 @@ class MainWindow( QMainWindow ):
                     self.path = rel_path
                     self.update_files_view( 0 )
                 else:
-                    self.run = QDesktopServices.openUrl(QUrl(QString.fromUtf8(full_path )) )
+                    self.run = QDesktopServices.openUrl(QUrl(full_path ))
 
     def files_view_get_name( self, item ):
-        return str( item.text( 0 ).toUtf8() )
+        return item.text( 0 )
 
     def files_view_get_type( self, item ):
         return int( item.text( 4 ) )
 
     def add_files_view( self, name, size_str, date_str, size_int, type ):
         full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, os.path.join( self.path, name ) )
-        icon = QIcon.fromTheme( QMimeType.iconNameForUrl( QUrl( QString.fromUtf8( full_path ) ) ) )
+        icon = QIcon.fromTheme( QMimeType.iconNameForUrl( QUrl( full_path ) ) )
 
         item = QTreeWidgetItem( self.list_files_view )
 
@@ -1018,9 +1018,9 @@ class MainWindow( QMainWindow ):
         if 0 == changed_from:
             #update places
             self.list_places.setCurrentItem( None )
-            for place_index in xrange( self.list_places.topLevelItemCount() ):
+            for place_index in range( self.list_places.topLevelItemCount() ):
                 item = self.list_places.topLevelItem( place_index )
-                if self.path == str( item.data( 0, Qt.UserRole ).toString().toUtf8() ):
+                if self.path == str( item.data( 0, Qt.UserRole ) ):
                     self.list_places.setCurrentItem( item )
                     break
 
@@ -1034,8 +1034,8 @@ class MainWindow( QMainWindow ):
             tooltip = _('View the current disk content')
             text = _('Now')
 
-        self.right_widget.setTitle( QString.fromUtf8( _( text ) ) )
-        self.right_widget.setToolTip( QString.fromUtf8( _( tooltip ) ) )
+        self.right_widget.setTitle( _( text ) )
+        self.right_widget.setToolTip( _( tooltip ) )
 
         #try to keep old selected file
         if selected_file is None:
@@ -1068,9 +1068,9 @@ class MainWindow( QMainWindow ):
             self.files_view_layout.setCurrentWidget( self.lbl_folder_dont_exists )
 
         #show current path
-        self.edit_current_path.setText( QString.fromUtf8( self.path ) )
-        self.menu_restore_parent.setText(QString.fromUtf8( _("Restore '%s'") % self.path ))
-        self.menu_restore_parent_to.setText(QString.fromUtf8( _("Restore '%s' to ...") % self.path ))
+        self.edit_current_path.setText( self.path )
+        self.menu_restore_parent.setText( _("Restore '%s'") % self.path )
+        self.menu_restore_parent_to.setText( _("Restore '%s' to ...") % self.path )
 
         #update folder_up button state
         self.btn_folder_up.setEnabled( len( self.path ) > 1 )
@@ -1100,7 +1100,7 @@ class MainWindow( QMainWindow ):
             if not index.isValid():
                 return
             while index.isValid():
-                file_name = (str( self.list_files_view_model.data(index).toString().toUtf8() ))
+                file_name = (str( self.list_files_view_model.data(index) ))
                 if file_name == self.selected_file:
                     self.list_files_view.setCurrentIndex(index)
                     found = True
@@ -1115,7 +1115,7 @@ class MainWindow( QMainWindow ):
         idx = self.list_files_view.currentIndex()
         if idx.column() > 0:
             idx = idx.sibling(idx.row(), 0)
-        selected_file = str( self.list_files_view_model.data( idx ).toString().toUtf8() )
+        selected_file = str( self.list_files_view_model.data( idx ) )
         return(selected_file, idx)
 
 class Qt4TakeSnapshotCallback( threading.Thread ): #used to display status icon
@@ -1146,7 +1146,7 @@ class Qt4TakeSnapshotCallback( threading.Thread ): #used to display status icon
 ##            self.popup = None
 ##
 ##        if not self.last_message is None:
-##            self.popup = KPassivePopup.message( self.cfg.APP_NAME, QString.fromUtf8( self.last_message[1] ), self.status_icon )
+##            self.popup = KPassivePopup.message( self.cfg.APP_NAME, self.last_message[1], self.status_icon )
 ##            self.popup.setAutoDelete( False )
 
     def run(self):
@@ -1185,7 +1185,7 @@ class Qt4TakeSnapshotCallback( threading.Thread ): #used to display status icon
                 if not message is None:
                     if message != self.last_message:
                         self.last_message = message
-                        self.status_icon.setToolTip( QString.fromUtf8( self.last_message[1] ) )
+                        self.status_icon.setToolTip( self.last_message[1] )
 
                         if self.last_message[0] != 0:
                             self.status_icon.setIcon(icon.BIT_LOGO_INFO)
@@ -1209,15 +1209,15 @@ class About(QDialog):
         self.config = parent.config
         import icon
 
-        self.setWindowTitle(QString.fromUtf8(_('About') + ' ' + self.config.APP_NAME))
-        logo     = QLabel(QString.fromUtf8('Icon'))
+        self.setWindowTitle(_('About') + ' ' + self.config.APP_NAME)
+        logo     = QLabel('Icon')
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)) )
-        name     = QLabel(QString.fromUtf8('<h1>' + self.config.APP_NAME + ' ' + self.config.VERSION + '</h1>'))
+        name     = QLabel('<h1>' + self.config.APP_NAME + ' ' + self.config.VERSION + '</h1>')
         name.setAlignment(Qt.AlignLeft | Qt.AlignTop)
-        homepage = QLabel(QString.fromUtf8(self.mkurl('<http://backintime.le-web.org>')) )
+        homepage = QLabel(self.mkurl('<http://backintime.le-web.org>'))
         homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         homepage.setOpenExternalLinks(True)
-        copyright = QLabel(QString.fromUtf8(self.config.COPYRIGHT + '\n'))
+        copyright = QLabel(self.config.COPYRIGHT + '\n')
 
         vlayout = QVBoxLayout(self)
         hlayout = QHBoxLayout()
@@ -1229,9 +1229,9 @@ class About(QDialog):
         vlayout.addWidget(copyright)
 
         button_box_left  = QDialogButtonBox()
-        btn_authors      = button_box_left.addButton(QString.fromUtf8(_('Authors')), QDialogButtonBox.ActionRole)
-        btn_translations = button_box_left.addButton(QString.fromUtf8(_('Translations')), QDialogButtonBox.ActionRole)
-        btn_license      = button_box_left.addButton(QString.fromUtf8(_('License')), QDialogButtonBox.ActionRole)
+        btn_authors      = button_box_left.addButton(_('Authors'), QDialogButtonBox.ActionRole)
+        btn_translations = button_box_left.addButton(_('Translations'), QDialogButtonBox.ActionRole)
+        btn_license      = button_box_left.addButton(_('License'), QDialogButtonBox.ActionRole)
 
         button_box_right = QDialogButtonBox(QDialogButtonBox.Ok)
 
@@ -1256,9 +1256,9 @@ class About(QDialog):
 
     def show_info(self, title, msg):
         dlg = QDialog(self)
-        dlg.setWindowTitle(QString.fromUtf8(title) )
+        dlg.setWindowTitle(title)
         vlayout = QVBoxLayout(dlg)
-        label = QLabel(QString.fromUtf8(msg) )
+        label = QLabel(msg)
         label.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         label.setOpenExternalLinks(True)
 

@@ -49,7 +49,7 @@ class LogViewDialog( QDialog ):
 
         import icon
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
-        self.setWindowTitle( QString.fromUtf8( _( 'Error Log View' ) ) )
+        self.setWindowTitle( _( 'Error Log View' ) )
 
         self.main_layout = QVBoxLayout(self)
 
@@ -57,7 +57,7 @@ class LogViewDialog( QDialog ):
         self.main_layout.addLayout( layout )
 
         #profiles
-        self.lbl_profiles = QLabel( QString.fromUtf8( _('Profile:') ), self )
+        self.lbl_profiles = QLabel( _('Profile:'), self )
         layout.addWidget( self.lbl_profiles )
 
         self.combo_profiles = QComboBox( self )
@@ -69,22 +69,22 @@ class LogViewDialog( QDialog ):
             self.combo_profiles.hide()
 
         #filter
-        layout.addWidget( QLabel( QString.fromUtf8( _('Filter:') ), self ) )
+        layout.addWidget( QLabel(_('Filter:')) )
 
         self.combo_filter = QComboBox( self )
         layout.addWidget( self.combo_filter, 1 )
         QObject.connect( self.combo_filter, SIGNAL('currentIndexChanged(int)'), self.current_filter_changed )
     
-        self.combo_filter.addItem( QString.fromUtf8( _('All') ), QVariant( 0 ) )
-        self.combo_filter.addItem( QString.fromUtf8( _('Errors') ), QVariant( 1 ) )
+        self.combo_filter.addItem( _('All'), 0 )
+        self.combo_filter.addItem( _('Errors'), 1 )
         set_active = True
         if self.snapshot_id is None or self.snapshots.is_snapshot_failed( self.snapshot_id ):
             self.combo_filter.setCurrentIndex( self.combo_filter.count() - 1 )
             set_active = False
-        self.combo_filter.addItem( QString.fromUtf8( _('Changes') ), QVariant( 2 ) )
+        self.combo_filter.addItem( _('Changes'), 2 )
         if not self.snapshot_id is None and set_active:
             self.combo_filter.setCurrentIndex( self.combo_filter.count() - 1 )
-        self.combo_filter.addItem( QString.fromUtf8( _('Informations') ), QVariant( 3 ) )
+        self.combo_filter.addItem( _('Informations'), 3 )
 
         #text view
         self.txt_log_view = QTextEdit( self )
@@ -92,10 +92,10 @@ class LogViewDialog( QDialog ):
         self.main_layout.addWidget( self.txt_log_view )
 
         #
-        self.main_layout.addWidget( QLabel( QString.fromUtf8( _('[E] Error, [I] Information, [C] Change') ), self ) )
+        self.main_layout.addWidget( QLabel(_('[E] Error, [I] Information, [C] Change')) ) 
 
         #decode path
-        self.cb_decode = QCheckBox( QString.fromUtf8( _('decode paths') ), self )
+        self.cb_decode = QCheckBox( _('decode paths'), self )
         QObject.connect( self.cb_decode, SIGNAL('stateChanged(int)'), self.on_cb_decode )
         self.main_layout.addWidget(self.cb_decode)
         if self.config.get_snapshots_mode() == 'ssh_encfs':
@@ -132,7 +132,7 @@ class LogViewDialog( QDialog ):
             
         profiles = self.config.get_profiles_sorted_by_name()
         for profile_id in profiles:
-            self.combo_profiles.addItem( QString.fromUtf8( self.config.get_profile_name( profile_id ) ), QVariant( QString.fromUtf8( profile_id ) ) )
+            self.combo_profiles.addItem( self.config.get_profile_name( profile_id ), profile_id )
             if profile_id == current_profile_id:
                 self.combo_profiles.setCurrentIndex( self.combo_profiles.count() - 1 )
 
@@ -147,10 +147,10 @@ class LogViewDialog( QDialog ):
         if not self.enable_update:
             return
 
-        mode = self.combo_filter.itemData( self.combo_filter.currentIndex() ).toInt()[0]
+        mode = self.combo_filter.itemData( self.combo_filter.currentIndex() )
 
         if self.snapshot_id is None:
-            profile_id = str( self.combo_profiles.itemData( self.combo_profiles.currentIndex() ).toString().toUtf8() )
-            self.txt_log_view.setPlainText(QString.fromUtf8(self.snapshots.get_take_snapshot_log(mode, profile_id, decode = self.decode)) )
+            profile_id = str( self.combo_profiles.itemData( self.combo_profiles.currentIndex() ) )
+            self.txt_log_view.setPlainText(self.snapshots.get_take_snapshot_log(mode, profile_id, decode = self.decode) )
         else:
-            self.txt_log_view.setPlainText(QString.fromUtf8(self.snapshots.get_snapshot_log(self.snapshot_id, mode, decode = self.decode)) )
+            self.txt_log_view.setPlainText(self.snapshots.get_snapshot_log(self.snapshot_id, mode, decode = self.decode) )

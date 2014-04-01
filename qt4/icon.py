@@ -25,9 +25,11 @@ TAKE_SNAPSHOT       = BIT_LOGO
 REFRESH_SNAPSHOT    = QIcon.fromTheme('view-refresh')
 SNAPSHOT_NAME       = QIcon.fromTheme('stock_edit',
                       QIcon.fromTheme('gtk-edit',
-                      QIcon.fromTheme('edit-rename') ) )
+                      QIcon.fromTheme('edit-rename',
+                      QIcon.fromTheme('accessories-text-editor') ) ) )
 REMOVE_SNAPSHOT     = QIcon.fromTheme('edit-delete')
-VIEW_SNAPSHOT_LOG   = QIcon.fromTheme('text-plain')
+VIEW_SNAPSHOT_LOG   = QIcon.fromTheme('text-plain',
+                      QIcon.fromTheme('text-x-generic') )
 VIEW_LAST_LOG       = QIcon.fromTheme('document-new')
 SETTINGS            = QIcon.fromTheme('gtk-preferences',
                       QIcon.fromTheme('configure') )
