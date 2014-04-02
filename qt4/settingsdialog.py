@@ -1319,9 +1319,15 @@ class SettingsDialog( QDialog ):
 
     def on_btn_include_file_add_clicked( self ):
         for path in qt4tools.getOpenFileNames(self, _('Include file')):
-            path = path
             if len( path ) == 0 :
                 continue
+
+            if os.path.islink(path) \
+              and not (self.cb_copy_unsafe_links.isChecked() \
+              or self.cb_copy_links.isChecked()):
+                if self.question_handler( \
+                  _('"%s" is a symlink. The linked target will not be backed up until you include it, too.\nWould you like to include the symlinks target instead?') % path ):
+                    path = os.path.realpath(path)
 
             path = self.config.prepare_path( path )
 
@@ -1333,10 +1339,15 @@ class SettingsDialog( QDialog ):
 
     def on_btn_include_add_clicked( self ):
         for path in qt4tools.getExistingDirectories(self, _('Include folder')):
-            path = path
-            
             if len( path ) == 0 :
                 continue
+
+            if os.path.islink(path) \
+              and not (self.cb_copy_unsafe_links.isChecked() \
+              or self.cb_copy_links.isChecked()):
+                if self.question_handler( \
+                  _('"%s" is a symlink. The linked target will not be backed up until you include it, too.\nWould you like to include the symlinks target instead?') % path ):
+                    path = os.path.realpath(path)
 
             path = self.config.prepare_path( path )
 
