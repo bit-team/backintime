@@ -226,14 +226,13 @@ class Daemon:
             return(None)
 
 class Password_Cache(Daemon):
-    #TODO: fix timeout on pw-cache
     """
     Password_Cache get started on User login. It provides passwords for
     BIT cronjobs because keyring is not available when the User is not
     logged in. Does not start if there is no password to cache
     (e.g. no profile allows to cache).
     """
-    PW_CACHE_VERSION = 1
+    PW_CACHE_VERSION = 2
 
     def __init__(self, cfg = None, *args, **kwargs):
         self.config = cfg
@@ -329,7 +328,7 @@ class Password_Cache(Daemon):
                             if password is None:
                                 continue
                             #add some snakeoil
-                            pw_base64 = base64.encodebytes(password.encode())
+                            pw_base64 = base64.encodebytes(password.encode()).decode()
                             self.db_keyring['%s/%s' %(service_name, user_name)] = pw_base64
         return run_daemon
 
@@ -413,6 +412,8 @@ class Password(object):
             mode, pw_base64 = answer.split(':', 1)
             if mode == 'none':
                 return None
+            if isinstance(pw_base64, str):
+                pw_base64 = pw_base64.encode()
             return base64.decodebytes(pw_base64).decode()
         else:
             return None
