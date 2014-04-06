@@ -250,8 +250,14 @@ class Snapshots:
         os.system( "rm \"%s\"" % self.config.get_take_snapshot_message_file() )
 
     def get_take_snapshot_message( self ):
+        worker_message_file = self.config.get_take_snapshot_message_file()
+        if not self.check_snapshot_alive():
+            if os.path.exists(worker_message_file):
+                os.remove(worker_message_file)
+            return None
+
         try:
-            with open( self.config.get_take_snapshot_message_file(), 'rt' ) as file:
+            with open(worker_message_file, 'rt' ) as file:
                 items = file.read().split( '\n' )
         except:
             return None 
@@ -291,6 +297,16 @@ class Snapshots:
             self.plugin_manager.on_message( profile_id, profile_name, type_id, message, timeout )
         except:
             pass
+
+    def check_snapshot_alive(self):
+        pid_file = self.config.get_take_snapshot_instance_file()
+        if os.path.exists(pid_file):
+            with open(pid_file, 'rt') as fd_pid:
+                try:
+                    return tools.is_process_alive(int(fd_pid.read()) )
+                except:
+                    pass
+        return False
 
     def _filter_take_snapshot_log( self, log, mode , decode = None):
         decode_msg = _( '''### This log has been decoded with automatic search pattern
