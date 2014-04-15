@@ -445,12 +445,14 @@ class Decode(object):
         #            [I] Take snapshot (rsync: deleting <crypted_path>)
         #            [I] Take snapshot (rsync: rsync: readlink_stat("/tmp...mountpoint/<crypted_path>")
         #            [I] Take snapshot (rsync: rsync: send_files failed to open "/tmp...mountpoint/<crypted_path>": Permission denied (13))
+        #            [I] Take snapshot (rsync: file has vanished: "/tmp...mountpoint/<crypted_path>")
         #            [I] Take snapshot (rsync: <crypted_path>)
         pattern = []
         pattern.append(r' BACKINTIME: .{11} ')
         pattern.append(r' deleting ')
         pattern.append(r' rsync: readlink_stat\("/tmp.*?mountpoint/')
         pattern.append(r' rsync: send_files failed to open "/tmp.*?mountpoint/')
+        pattern.append(r' file has vanished: "/tmp.*?mountpoint/')
         pattern.append(r' ')
         self.re_info = re.compile(r'(^\[I\] %s \(rsync:(?:%s))(.*?)(\).*|".*)' % (_('Take snapshot'), '|'.join(pattern)) )
         
@@ -474,11 +476,13 @@ class Decode(object):
         #      [I] Take snapshot (rsync: sent 26569703 bytes  received 239616 bytes  85244.26 bytes/sec)
         #      [I] Take snapshot (rsync: total size is 9130263449  speedup is 340.56)
         #      [I] Take snapshot (rsync: rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1070) [sender=3.0.9])
+        #      [I] Take snapshot (rsync: rsync warning: some files vanished before they could be transferred (code 24) at main.c(1070) [sender=3.0.9])
         pattern = []
         pattern.append(r'sending incremental file list')
         pattern.append(r'sent .*? received')
         pattern.append(r'total size is .*? speedup is')
         pattern.append(r'rsync error: some files/attrs were not transferred')
+        pattern.append(r'rsync warning: some files vanished before they could be transferred')
         self.re_skip = re.compile(r'^\[I\] %s \(rsync: (%s)' % (_('Take snapshot'), '|'.join(pattern)) )
 
     def __del__(self):
