@@ -1539,6 +1539,7 @@ class Snapshots:
 
         logger.info( "[smart remove] keep snapshots: %s" % keep_snapshots )
 
+        del_snapshots = []
         for snapshot_id in snapshots:
             if snapshot_id in keep_snapshots:
                 continue
@@ -1548,6 +1549,10 @@ class Snapshots:
                     logger.info( "[smart remove] keep snapshot: %s, it has a name" % snapshot_id )
                     continue
 
+            del_snapshots.append(snapshot_id)
+
+        for i, snapshot_id in enumerate(del_snapshots, 1):
+            self.set_take_snapshot_message( 0, _('Smart remove') + ' %s/%s' %(i, len(del_snapshots)) )
             logger.info( "[smart remove] remove snapshot: %s" % snapshot_id )
             self.remove_snapshot( snapshot_id )
 
