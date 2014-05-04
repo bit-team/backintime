@@ -289,7 +289,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             
                 if len( path ) >= len( snapshots_path2 ):
                     if path[ : len( snapshots_path2 ) ] == snapshots_path2:
-                        self.notify_error( _('Profile: "%s"') %  self.get_current_profile(), + '\n' + _('You can\'t include a backup sub-folder !') )
+                        self.notify_error( _('Profile: "%s"') %  self.get_current_profile() + '\n' + _('You can\'t include a backup sub-folder !') )
                         return False
 
             checked_profiles.append( ( profile_id, profile_name ) )
