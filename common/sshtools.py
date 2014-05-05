@@ -118,8 +118,8 @@ class SSH(mount.MountControl):
            return True if everything is okay
            all pre|post_[u]mount_check can also be used to prepare things or clean up"""
         self.check_ping_host()
+        self.check_fuse()
         if first_run:
-            self.check_fuse()
             self.check_known_hosts()
         self.check_login()
         if first_run:
