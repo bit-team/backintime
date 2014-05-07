@@ -1,5 +1,9 @@
 Back In Time
 
+Version 1.0.36
+* Fix bug: unhandled exception in create_last_snapshot_symlink() (https://bugs.launchpad.net/bugs/1269991)
+* disable keyring for root
+
 Version 1.0.34
 * sync/flush all disks before shutdown (https://bugs.launchpad.net/bugs/1261031)
 * Fix bug: BIT running as root shutdown after snapshot, regardless of option checked (https://bugs.launchpad.net/bugs/1261022)
