@@ -1169,6 +1169,9 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_take_snapshot_message_file( self, profile_id = None ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "worker%s.message" % self.__get_file_id__( profile_id ) )
 
+    def get_take_snapshot_progress_file( self, profile_id = None ):
+        return os.path.join( self._LOCAL_DATA_FOLDER, "worker%s.progress" % self.__get_file_id__( profile_id ) )
+
     def get_take_snapshot_instance_file( self, profile_id = None ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "worker%s.lock" % self.__get_file_id__( profile_id ) )
 

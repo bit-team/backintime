@@ -29,6 +29,7 @@ import socket
 import subprocess
 import shutil
 import time
+import re
 
 import config
 import configfile
@@ -38,7 +39,7 @@ import tools
 import pluginmanager
 import encfstools
 import mount
-
+import progress
 
 _=gettext.gettext
 
@@ -247,17 +248,19 @@ class Snapshots:
             os.utime(info, None)
 
     def clear_take_snapshot_message( self ):
-        os.system( "rm \"%s\"" % self.config.get_take_snapshot_message_file() )
+        files = (self.config.get_take_snapshot_message_file(), \
+                 self.config.get_take_snapshot_progress_file() )
+        for file in files:
+            if os.path.exists(file):
+                os.remove(file)
 
     def get_take_snapshot_message( self ):
-        worker_message_file = self.config.get_take_snapshot_message_file()
         if not self.check_snapshot_alive():
-            if os.path.exists(worker_message_file):
-                os.remove(worker_message_file)
+            self.clear_take_snapshot_message()
             return None
 
         try:
-            with open(worker_message_file, 'rt' ) as file:
+            with open(self.config.get_take_snapshot_message_file(), 'rt' ) as file:
                 items = file.read().split( '\n' )
         except:
             return None 
@@ -1003,6 +1006,22 @@ class Snapshots:
         return ret_val
 
     def _exec_rsync_callback( self, line, params ):
+        if len(line) == 0:
+            return
+        #search for 517.38K  26%   14.46MB/s    0:02:36
+        m = re.match(r'(\d*\.?\d+[KkMGT]?)\s*(\d*)%\s*(\d*\.?\d*[KkMGT]?B/s)\s*(\d+:\d{2}:\d{2})', line)
+        if m:
+            pg = progress.ProgressFile(self.config)
+            pg.set_int_value('status', pg.RSYNC)
+            pg.set_str_value('sent', m.group(1) )
+            pg.set_int_value('percent', int(m.group(2)) )
+            pg.set_str_value('speed', m.group(3) )
+            pg.set_str_value('eta', m.group(4) )
+            pg.save()
+            pg = None
+            #print('sent %s percent %s speed %s eta %s' %(sent, percent, speed, eta))
+            return
+
         self.set_take_snapshot_message( 0, _('Take snapshot') + " (rsync: %s)" % line )
 
         if line.endswith( ')' ):

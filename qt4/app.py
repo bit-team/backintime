@@ -29,7 +29,6 @@ import gettext
 import time
 import threading
 import re
-import pdb
 
 sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'common' )] + sys.path
 
@@ -40,6 +39,7 @@ import logger
 import snapshots
 import guiapplicationinstance
 import mount
+import progress
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -311,7 +311,18 @@ class MainWindow( QMainWindow ):
         #
         self.setCentralWidget( self.main_splitter )
         
-        self.statusBar().showMessage( _('Done') )
+        ####hier
+        self.progressBar = QProgressBar()
+        self.progressBar.setMinimum(0)
+        self.progressBar.setMaximum(100)
+        self.progressBar.setValue(0)
+        self.progressBar.setStyleSheet("text-align: left;")
+        self.progressBar.setVisible(False)
+        self.status = QLabel()
+
+        self.statusBar().addWidget(self.progressBar, 100)
+        self.statusBar().addWidget(self.status, 100)
+        self.status.setText( _('Done') )
 
         self.snapshots_list = []
         self.snapshot_id = '/'
@@ -407,7 +418,7 @@ class MainWindow( QMainWindow ):
 
     def closeEvent( self, event ):
         if self.shutdown.ask_before_quit():
-            if QMessageBox.Yes != messagebox.warningYesNo(self, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you realy want to close?') ):
+            if QMessageBox.Yes != messagebox.warningYesNo(self, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you really want to close?') ):
                 return event.ignore()
 
         self.config.set_str_value( 'qt4.last_path', self.path )
@@ -580,6 +591,7 @@ class MainWindow( QMainWindow ):
 
         fake_busy = busy or self.force_wait_lock_counter > 0
 
+        message = _('Working:')
         take_snapshot_message = self.snapshots.get_take_snapshot_message()
         if fake_busy:
             if take_snapshot_message is None:
@@ -621,10 +633,34 @@ class MainWindow( QMainWindow ):
             else:
                 message = _('Error:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
 
-            self.statusBar().showMessage( message )
+            self.status.setText(message)
+
+        ####hier
+        pg = progress.ProgressFile(self.config)
+        if pg.isFileReadable():
+            self.progressBar.setVisible(True)
+            self.status.setVisible(False)
+            pg.load()
+            self.progressBar.setValue(pg.get_int_value('percent') )
+            self.progressBar.setFormat(' | '.join(self.getProgressBarFormat(pg, message)) )
+        else:
+            self.progressBar.setVisible(False)
+            self.status.setVisible(True)
 
         #if not fake_busy:
         #	self.last_take_snapshot_message = None
+
+    def getProgressBarFormat(self, pg, message):
+        d = (('sent',   _('Sent:')), \
+             ('speed',  _('Speed:')),\
+             ('eta',    _('ETA:')) )
+        yield '%p%'
+        for key, txt in d:
+            value = pg.get_str_value(key, '')
+            if len(value) <= 0:
+                continue
+            yield txt + ' ' + value
+        yield message
 
     def on_list_places_current_item_changed( self, item, previous ):
         if item is None:

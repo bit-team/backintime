@@ -324,15 +324,19 @@ def is_process_alive( pid ):
 
 def get_rsync_caps():
     data = read_command_output( 'rsync --version' )
+    caps = []
+    m = re.match(r'rsync\s*version\s*(\d\.\d)', data)
+    if m and int(m.group(1).replace('.', '')) >= 31:
+        caps.append('progress2')
     si = data.find( 'Capabilities:' )
     if si < 0:
-        return []
+        return caps
     si = data.find( '\n', si )
     if si < 0:
-        return []
+        return caps
     ei = data.find( '\n\n', si )
     if ei < 0:
-        return []
+        return caps
 
     data = data[ si + 1 : ei - 1 ]
     data = data.split( '\n' )
@@ -346,7 +350,7 @@ def get_rsync_caps():
             all_caps = all_caps + ' '
         all_caps = all_caps + line
 
-    caps = all_caps.split( ", " )
+    caps.extend(all_caps.split( ", " ))
     #print caps
     #print ( "ACLs" in get_rsync_caps() )
     return caps
@@ -360,7 +364,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
     caps = get_rsync_caps()
     #cmd = 'rsync -aEH'
     cmd = 'rsync'
-    cmd = cmd + ' -rtDH'
+    cmd = cmd + ' -rtDHh'
 
     if config.use_checksum() or config.force_use_checksum:
         cmd = cmd + ' --checksum'
@@ -385,6 +389,9 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
         cmd = cmd + ' --no-p --no-g --no-o'
     else:
         cmd = cmd + ' -pEgo'
+
+    if 'progress2' in caps:
+        cmd += ' --info=progress2'
 
     mode = config.get_snapshots_mode()
     if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:

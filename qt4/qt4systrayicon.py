@@ -20,6 +20,7 @@ import sys
 import os
 import time
 import gettext
+import subprocess
 
 _=gettext.gettext
 
@@ -33,9 +34,10 @@ import config
 import tools
 import logger
 import snapshots
+import progress
 
 from PyQt4.QtCore import QObject, SIGNAL, QTimer
-from PyQt4.QtGui import QApplication, QSystemTrayIcon, QIcon
+from PyQt4.QtGui import QApplication, QSystemTrayIcon, QIcon, QMenu, QProgressBar, QWidget, QRegion
 
 
 class Qt4SysTrayIcon:
@@ -58,8 +60,24 @@ class Qt4SysTrayIcon:
 
         self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
         #self.status_icon.actionCollection().clear()
-        self.status_icon.setContextMenu( None )
-        QObject.connect( self.status_icon, SIGNAL('activated(QSystemTrayIcon::ActivationReason)'), self.show_popup )
+        self.contextMenu = QMenu()
+
+        self.menuStatusMessage = self.contextMenu.addAction(_('Done'))
+        self.menuProgress = self.contextMenu.addAction('')
+        self.menuProgress.setVisible(False)
+        self.contextMenu.addSeparator()
+        self.startBIT = self.contextMenu.addAction(icon.BIT_LOGO, _('Start BackInTime'))
+        QObject.connect(self.startBIT, SIGNAL('triggered()'), self.onStartBIT)
+        self.status_icon.setContextMenu(self.contextMenu)
+
+        self.pixmap = icon.BIT_LOGO.pixmap(24)
+        self.progressBar = QProgressBar()
+        self.progressBar.setMinimum(0)
+        self.progressBar.setMaximum(100)
+        self.progressBar.setValue(0)
+        self.progressBar.setTextVisible(False)
+        self.progressBar.resize(24, 6)
+        self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
 
         self.first_error = self.config.is_notify_enabled()
         self.popup = None
@@ -95,16 +113,6 @@ class Qt4SysTrayIcon:
 
         self.prepare_exit()
 
-    def show_popup( self ):
-        pass
-##        if not self.popup is None:
-##            self.popup.deleteLater()
-##            self.popup = None
-
-##        if not self.last_message is None:
-##            self.popup = KPassivePopup.message( self.config.APP_NAME, self.last_message[1], self.status_icon)
-##            self.popup.setAutoDelete( False )
-
     def update_info( self ):
         if not tools.is_process_alive( self.ppid ):
             self.prepare_exit()
@@ -118,16 +126,41 @@ class Qt4SysTrayIcon:
         if not message is None:
             if message != self.last_message:
                 self.last_message = message
+                self.menuStatusMessage.setText('\n'.join(tools.wrap_line(self.last_message[1],\
+                                                                         size = 80,\
+                                                                         delimiters = '',\
+                                                                         new_line_indicator = '') \
+                                                                        ))
                 self.status_icon.setToolTip( self.last_message[1] )
 
-                if self.last_message[0] != 0:
-                    self.status_icon.setIcon(self.icon.BIT_LOGO_INFO)
-                    if self.first_error:
-                        self.first_error = False
-                        self.show_popup()
-                else:
-                    self.status_icon.setIcon(self.icon.BIT_LOGO)
+        pg = progress.ProgressFile(self.config)
+        if pg.isFileReadable():
+            pg.load()
+            percent = pg.get_int_value('percent')
+            if percent != self.progressBar.value():
+                self.progressBar.setValue(percent)
+                self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
+                self.status_icon.setIcon(QIcon(self.pixmap))
             
+            self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)) )
+            self.menuProgress.setVisible(True)
+        else:
+            self.status_icon.setIcon(self.icon.BIT_LOGO)
+            self.menuProgress.setVisible(False)
+        
+
+    def getMenuProgress(self, pg):
+        d = (('sent',   _('Sent:')), \
+             ('speed',  _('Speed:')),\
+             ('eta',    _('ETA:')) )
+        for key, txt in d:
+            value = pg.get_str_value(key, '')
+            if len(value) <= 0:
+                continue
+            yield txt + ' ' + value
+    
+    def onStartBIT(self):
+        proc = subprocess.Popen(['backintime-qt4', '&'])
 
 if __name__ == '__main__':
     Qt4SysTrayIcon().run()
