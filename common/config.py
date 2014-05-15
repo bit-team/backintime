@@ -1057,11 +1057,25 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def copy_links( self, profile_id = None ):
         #?When  symlinks  are  encountered, the item that they point to 
-        #?(the referent) is copied, rather than the symlink.
+        #?(the reference) is copied, rather than the symlink.
         return self.get_profile_bool_value( 'snapshots.copy_links', False, profile_id )
 
     def set_copy_links( self, value, profile_id = None ):
         return self.set_profile_bool_value( 'snapshots.copy_links', value, profile_id )
+
+    def rsync_options_enabled( self, profile_id = None ):
+        #?Past additional options to rsync
+        return self.get_profile_bool_value( 'snapshots.rsync_options.enabled', False, profile_id )
+
+    def set_rsync_options_enabled( self, value, profile_id = None ):
+        return self.set_profile_bool_value( 'snapshots.rsync_options.enabled', value, profile_id )
+
+    def rsync_options( self, profile_id = None ):
+        #?rsync options. Options must be quoted e.g. --exclude-from="/path/to/my exclude file"
+        return self.get_profile_str_value( 'snapshots.rsync_options.value', '', profile_id )
+
+    def set_rsync_options( self, value, profile_id = None ):
+        return self.set_profile_str_value( 'snapshots.rsync_options.value', value, profile_id )
 
     def continue_on_errors( self, profile_id = None ):
         #?Continue on errors. This will keep incomplete snapshots rather than 

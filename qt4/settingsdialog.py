@@ -504,14 +504,17 @@ class SettingsDialog( QDialog ):
         #min free inodes
         self.cb_min_free_inodes = QCheckBox( _('If free inodes is less than:'), self)
         layout.addWidget(self.cb_min_free_inodes, 2, 0)
-        QObject.connect( self.cb_min_free_inodes, SIGNAL('stateChanged(int)'), self.update_min_free_inodes)
         
         self.edit_min_free_inodes = QSpinBox(self)
         self.edit_min_free_inodes.setSuffix(' %')
         self.edit_min_free_inodes.setSingleStep( 1 )
         self.edit_min_free_inodes.setRange( 0, 15 )
         layout.addWidget(self.edit_min_free_inodes, 2, 1)
-        
+
+        enabled = lambda state: self.edit_min_free_inodes.setEnabled(state)
+        enabled(False)
+        QObject.connect( self.cb_min_free_inodes, SIGNAL('stateChanged(int)'), enabled)
+
         #smart remove
         self.cb_smart_remove = QCheckBox( _( 'Smart remove' ), self )
         layout.addWidget( self.cb_smart_remove, 3, 0 )
@@ -547,6 +550,10 @@ class SettingsDialog( QDialog ):
         smlayout.addWidget( QLabel( _( 'month(s)' ), self ), 3, 2 )
 
         smlayout.addWidget( QLabel( _( 'Keep one snapshot per year for all years' ), self ), 4, 0, 1, 3 )
+
+        enabled = lambda state: [smlayout.itemAt(x).widget().setEnabled(state) for x in range(smlayout.count())]
+        enabled(False)
+        QObject.connect( self.cb_smart_remove, SIGNAL('stateChanged(int)'), enabled)
 
         #don't remove named snapshots
         self.cb_dont_remove_named_snapshots = QCheckBox( _( 'Don\'t remove named snapshots' ), self )
@@ -646,6 +653,9 @@ class SettingsDialog( QDialog ):
         self.sb_bwlimit.setRange( 0, 1000000 )
         hlayout.addWidget(self.sb_bwlimit)
         hlayout.addStretch()
+        enabled = lambda state: self.sb_bwlimit.setEnabled(state)
+        enabled(False)
+        QObject.connect( self.cb_bwlimit, SIGNAL('stateChanged(int)'), enabled)
 
         self.cb_preserve_acl = QCheckBox( _( 'Preserve ACL' ), self )
         layout.addWidget( self.cb_preserve_acl )
@@ -658,6 +668,19 @@ class SettingsDialog( QDialog ):
 
         self.cb_copy_links = QCheckBox( _( 'Copy links (dereference symbolic links)' ), self )
         layout.addWidget( self.cb_copy_links )
+
+        #additional rsync options
+        hlayout = QHBoxLayout()
+        layout.addLayout(hlayout)
+        self.cb_rsync_options = QCheckBox( _('Paste additional options to rsync'), self)
+        hlayout.addWidget(self.cb_rsync_options)
+        self.txt_rsync_options = QLineEdit(self)
+        self.txt_rsync_options.setToolTip( _('Options must be quoted e.g. --exclude-from="/path/to/my exclude file".') )
+        hlayout.addWidget(self.txt_rsync_options)
+
+        enabled = lambda state: self.txt_rsync_options.setEnabled(state)
+        enabled(False)
+        QObject.connect( self.cb_rsync_options, SIGNAL('stateChanged(int)'), enabled)
 
         #
         layout.addStretch()
@@ -929,6 +952,8 @@ class SettingsDialog( QDialog ):
         self.cb_preserve_xattr.setChecked( self.config.preserve_xattr() )
         self.cb_copy_unsafe_links.setChecked( self.config.copy_unsafe_links() )
         self.cb_copy_links.setChecked( self.config.copy_links() )
+        self.cb_rsync_options.setChecked(self.config.rsync_options_enabled() )
+        self.txt_rsync_options.setText(self.config.rsync_options() )
 
         #update
         #self.update_include_columns()
@@ -1122,6 +1147,8 @@ class SettingsDialog( QDialog ):
         self.config.set_preserve_xattr( self.cb_preserve_xattr.isChecked() )
         self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.isChecked() )
         self.config.set_copy_links( self.cb_copy_links.isChecked() )
+        self.config.set_rsync_options_enabled(self.cb_rsync_options.isChecked() )
+        self.config.set_rsync_options(self.txt_rsync_options.text() )
         
         #umount
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
@@ -1190,9 +1217,6 @@ class SettingsDialog( QDialog ):
         self.edit_min_free_space.setEnabled( enabled )
         self.combo_min_free_space.setEnabled( enabled )
 
-    def update_min_free_inodes(self):
-        enabled = self.cb_min_free_inodes.isChecked()
-        self.edit_min_free_inodes.setEnabled(enabled)
 
     def add_include( self, data ):
         item = QTreeWidgetItem()
@@ -1418,9 +1442,15 @@ class SettingsDialog( QDialog ):
         self.cb_run_nice_on_remote.setEnabled(enabled)
         self.cb_run_ionice_on_remote.setEnabled(enabled)
         self.cb_bwlimit.setEnabled(enabled)
-        self.sb_bwlimit.setEnabled(enabled)
+        self.sb_bwlimit.setEnabled(enabled and self.cb_bwlimit.isChecked())
             
     def accept( self ):
         if self.validate():
             QDialog.accept( self )
 
+def debug_trace():
+  '''Set a tracepoint in the Python debugger that works with Qt'''
+  from PyQt4.QtCore import pyqtRemoveInputHook
+  from pdb import set_trace
+  pyqtRemoveInputHook()
+  set_trace()

@@ -64,7 +64,7 @@ class ConfigFile:
         self.dict = {}
         self.append( filename, **kwargs )
 
-    def append( self, filename, maxsplit = -1 ):
+    def append( self, filename, maxsplit = 1 ):
         lines = []
 
         try:

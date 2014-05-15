@@ -414,6 +414,9 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
                 cmd += 'ionice -c2 -n7 '
             cmd += 'rsync"'
 
+    if config.rsync_options_enabled():
+        cmd += ' ' + config.rsync_options()
+
     return cmd + ' '
 
 

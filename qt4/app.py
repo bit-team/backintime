@@ -311,7 +311,6 @@ class MainWindow( QMainWindow ):
         #
         self.setCentralWidget( self.main_splitter )
         
-        ####hier
         self.progressBar = QProgressBar()
         self.progressBar.setMinimum(0)
         self.progressBar.setMaximum(100)
@@ -635,7 +634,6 @@ class MainWindow( QMainWindow ):
 
             self.status.setText(message)
 
-        ####hier
         pg = progress.ProgressFile(self.config)
         if pg.isFileReadable():
             self.progressBar.setVisible(True)
@@ -654,7 +652,7 @@ class MainWindow( QMainWindow ):
         d = (('sent',   _('Sent:')), \
              ('speed',  _('Speed:')),\
              ('eta',    _('ETA:')) )
-        yield '%p%'
+        yield ' %p%'
         for key, txt in d:
             value = pg.get_str_value(key, '')
             if len(value) <= 0:
