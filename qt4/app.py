@@ -444,7 +444,9 @@ class MainWindow( QMainWindow ):
 
         self.config.set_int_value( 'qt4.main_window.files_view.sort.column', self.list_files_view_header.sortIndicatorSection() )
         self.config.set_bool_value( 'qt4.main_window.files_view.sort.ascending', self.list_files_view_header.sortIndicatorOrder() == Qt.AscendingOrder )
-        
+
+        self.list_files_view_model.deleteLater()
+
         #umount
         try:
             mnt = mount.Mount(cfg = self.config, parent = self)
