@@ -28,7 +28,7 @@ import dbus
 keyring = None
 keyring_warn = False
 try:
-    if os.getenv('BIT_USE_KEYRING', 'true') == 'true':
+    if os.getenv('BIT_USE_KEYRING', 'true') == 'true' and os.geteuid() != 0:
         import keyring
 except:
     keyring = None
