@@ -57,6 +57,10 @@ class Snapshots:
 
         self.plugin_manager = pluginmanager.PluginManager()
 
+        #rsync --info=progress2 output
+        #search for 517.38K  26%   14.46MB/s    0:02:36
+        self.reRsyncProgress = re.compile(r'(\d*[,\.]?\d+[KkMGT]?)\s*(\d*)%\s*(\d*[,\.]?\d*[KkMGT]?B/s)\s*(\d+:\d{2}:\d{2})')
+
     def get_snapshot_id( self, date ):
         profile_id = self.config.get_current_profile()
         tag = self.config.get_tag( profile_id )
@@ -1008,8 +1012,8 @@ class Snapshots:
     def _exec_rsync_callback( self, line, params ):
         if len(line) == 0:
             return
-        #search for 517.38K  26%   14.46MB/s    0:02:36
-        m = re.match(r'(\d*\.?\d+[KkMGT]?)\s*(\d*)%\s*(\d*\.?\d*[KkMGT]?B/s)\s*(\d+:\d{2}:\d{2})', line)
+
+        m = self.reRsyncProgress.match(line)
         if m:
             pg = progress.ProgressFile(self.config)
             pg.set_int_value('status', pg.RSYNC)
