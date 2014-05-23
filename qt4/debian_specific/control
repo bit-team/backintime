@@ -1,14 +1,14 @@
 Package: backintime-qt4
 Source: backintime-qt4
-Version: 1.0.34
+Version: 1.0.99.0
 Priority: optional
 Section: utils
 Maintainer: BIT Team <bit-team@lists.launchpad.net>
 Architecture: all
 Homepage: http://backintime.le-web.org
-Depends: x11-utils, gksu | kdesudo, libnotify-bin, python3-pyqt4, backintime-common (>= 1.0.34~)
+Depends: x11-utils, gksu | kdesudo, libnotify-bin, python3-pyqt4, consolekit, backintime-common (>= 1.0.99.0~)
 Suggests: meld | kompare, python-keyring-gnome | python-gnomekeyring | python-keyring-kwallet
-Conflicts: backintime-kde (<< 1.0.34~), backintime-kde4 (<< 1.0.34~), backintime-gnome (<< 1.0.34~), backintime-notify (<< 1.0.34~)
-Replaces: backintime-kde (<< 1.0.34~), backintime-kde4 (<< 1.0.34~), backintime-gnome (<< 1.0.34~), backintime-notify (<< 1.0.34~)
+Conflicts: backintime-kde (<< 1.0.99.0~), backintime-kde4 (<< 1.0.99.0~), backintime-gnome (<< 1.0.99.0~), backintime-notify (<< 1.0.99.0~)
+Replaces: backintime-kde (<< 1.0.99.0~), backintime-kde4 (<< 1.0.99.0~), backintime-gnome (<< 1.0.99.0~), backintime-notify (<< 1.0.99.0~)
 Description: Simple backup system
  This is a Qt4 GUI frontend for backintime-common.
