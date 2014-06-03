@@ -153,6 +153,12 @@ def start_app( app_name = 'backintime', extra_args = [] ):
     cfg = config.Config(config_path)
     print_version( cfg, app_name )
 
+    if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
+        os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
+        print("WARNING: It looks like you're using 'sudo' to start BackInTime. " +      \
+              "This will cause some troubles. Please use 'gksu' or 'kdesudo' instead.", \
+              file=sys.stderr)
+
     skip = False
     index = 0
     keep_mount = False

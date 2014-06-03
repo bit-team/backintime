@@ -586,7 +586,7 @@ def get_uuid_from_path(path):
 
 def sudo_execute(cfg, cmd, msg = None, *args, **kwargs):
     '''execute command with gksudo or kdesudo if user isn't root'''
-    if os.geteuid() != 0:
+    if not isRoot():
         sudo = {'gksudo':  ('-m "{msg}"', '-- {cmd}'),
                 'kdesudo': ('--comment "{msg}"', '-- {cmd}'),
                 'kdesu':   ('', '-c "{cmd}"') }
@@ -622,6 +622,13 @@ def syncfs():
     """
     if check_command('sync'):
         return(_execute('sync') == 0)
+
+def isRoot():
+    return os.geteuid() == 0
+
+def usingSudo():
+    return isRoot() and os.getenv('HOME', '/root') != '/root'
+        
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
@@ -824,7 +831,7 @@ class ShutDown(object):
                    }
 
     def __init__(self):
-        self.is_root = os.geteuid() == 0
+        self.is_root = isRoot()
         if self.is_root:
             self.proxy, self.args = None, None
         else:
