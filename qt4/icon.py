@@ -73,3 +73,4 @@ REMOVE              = QIcon.fromTheme('list-remove')
 FOLDER              = QIcon.fromTheme('folder')
 FILE                = VIEW_SNAPSHOT_LOG
 EXCLUDE             = REMOVE_SNAPSHOT
+DEFAULT_EXCLUDE     = QIcon.fromTheme('emblem-important')

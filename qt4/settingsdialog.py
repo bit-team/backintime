@@ -445,7 +445,7 @@ class SettingsDialog( QDialog ):
         label = QLabel( _('Highly recommended:'), self )
         qt4tools.set_font_bold( label )
         layout.addWidget( label )
-        label = QLabel( ', '.join(self.config.DEFAULT_EXCLUDE), self )
+        label = QLabel( ', '.join(sorted(self.config.DEFAULT_EXCLUDE)), self )
         label.setWordWrap(True)
         layout.addWidget( label )
         
@@ -463,6 +463,10 @@ class SettingsDialog( QDialog ):
         self.btn_exclude_folder = QPushButton(icon.ADD, _('Add folder'), self)
         buttons_layout.addWidget( self.btn_exclude_folder )
         QObject.connect( self.btn_exclude_folder, SIGNAL('clicked()'), self.on_btn_exclude_folder_clicked )
+        
+        self.btn_exclude_default = QPushButton(icon.DEFAULT_EXCLUDE, _('Add default'), self)
+        buttons_layout.addWidget(self.btn_exclude_default)
+        QObject.connect(self.btn_exclude_default, SIGNAL('clicked()'), self.on_btn_exclude_default_clicked)
         
         self.btn_exclude_remove = QPushButton(icon.REMOVE, _('Remove'), self)
         buttons_layout.addWidget( self.btn_exclude_remove )
@@ -1242,7 +1246,10 @@ class SettingsDialog( QDialog ):
 
     def add_exclude( self, pattern ):
         item = QTreeWidgetItem()
-        item.setIcon(0, self.icon.EXCLUDE)
+        if pattern in self.config.DEFAULT_EXCLUDE:
+            item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
+        else:
+            item.setIcon(0, self.icon.EXCLUDE)
         item.setText(0, pattern)
         item.setData(0, Qt.UserRole, pattern )
         self.list_exclude_count += 1
@@ -1329,6 +1336,10 @@ class SettingsDialog( QDialog ):
     def on_btn_exclude_folder_clicked( self ):
         for path in qt4tools.getExistingDirectories(self, _('Exclude folder')) :
             self.add_exclude_( path )
+
+    def on_btn_exclude_default_clicked(self):
+        for path in self.config.DEFAULT_EXCLUDE:
+            self.add_exclude_(path)
 
     def on_btn_include_remove_clicked ( self ):
         for item in self.list_include.selectedItems():
