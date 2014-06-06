@@ -1407,12 +1407,12 @@ class SettingsDialog( QDialog ):
     def on_btn_ssh_private_key_file_clicked( self ):
         old_file = self.txt_ssh_private_key_file.text()
 
-        if not old_file.isEmpty():
+        if len(old_file) > 0:
             start_dir = self.txt_ssh_private_key_file.text()
         else:
             start_dir = self.config.get_ssh_private_key_folder()
         file = qt4tools.getOpenFileName(self, _('SSH private key'), start_dir)
-        if not file.isEmpty():
+        if len(file) > 0:
             self.txt_ssh_private_key_file.setText(file)
         
     def on_combo_modes_changed(self, *params):
