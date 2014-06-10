@@ -151,6 +151,7 @@ class MainWindow( QMainWindow ):
         self.list_time_line.setRootIsDecorated( False )
         self.list_time_line.setEditTriggers( QAbstractItemView.NoEditTriggers )
         self.list_time_line.setHeaderLabel( _('Snapshots') )
+        self.list_time_line.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.main_splitter.addWidget( self.list_time_line )
 
         #right widget
@@ -397,7 +398,7 @@ class MainWindow( QMainWindow ):
 
         self.update_snapshot_actions()
 
-        QObject.connect( self.list_time_line, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_time_line_current_item_changed )
+        QObject.connect( self.list_time_line, SIGNAL('itemSelectionChanged()'), self.on_list_time_line_current_item_changed )
         QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
         QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
 
@@ -720,10 +721,11 @@ class MainWindow( QMainWindow ):
                     #self.add_place( folder[0], folder[0], 'document-save' )
                     self.add_place( folder, folder, 'document-save' )
 
-    def update_snapshot_actions( self ):
+    def update_snapshot_actions( self, item = None ):
         enabled = False
 
-        item = self.list_time_line.currentItem()
+        if item is None:
+            item = self.get_list_time_line_selection()
         if not item is None:
             if len( self.time_line_get_snapshot_id( item ) ) > 1:
                 enabled = True
@@ -733,8 +735,14 @@ class MainWindow( QMainWindow ):
         self.btn_remove_snapshot.setEnabled( enabled )
         self.btn_snapshot_log_view.setEnabled( enabled )
 
-    def on_list_time_line_current_item_changed( self, item, previous ):
-        self.update_snapshot_actions()
+    def get_list_time_line_selection( self, multiSelection = False):
+        if multiSelection:
+            return self.list_time_line.selectedItems()
+        return self.list_time_line.currentItem()
+
+    def on_list_time_line_current_item_changed(self):
+        item = self.get_list_time_line_selection()
+        self.update_snapshot_actions(item)
 
         if item is None:
             return
@@ -889,18 +897,19 @@ class MainWindow( QMainWindow ):
         logviewdialog.LogViewDialog( self, snapshot_id ).exec_()
 
     def on_btn_remove_snapshot_clicked ( self ):
-        item = self.list_time_line.currentItem()
-        if item is None:
-            return
-
-        snapshot_id = self.time_line_get_snapshot_id( item )
-        if len( snapshot_id ) <= 1:
+        snapshot_ids = [self.time_line_get_snapshot_id(item) \
+                        for item in self.get_list_time_line_selection(True) \
+                        if len(self.time_line_get_snapshot_id(item)) > 1]
+        if len(snapshot_ids) <= 0:
             return
         
-        if QMessageBox.Yes != messagebox.warningYesNo( self, _('Are you sure you want to remove the snapshot:\n%s') % self.snapshots.get_snapshot_display_name( snapshot_id ) ):
+        if QMessageBox.Yes != messagebox.warningYesNo( self, \
+                            _('Are you sure you want to remove the snapshot:\n%s') % \
+                            '\n'.join([self.snapshots.get_snapshot_display_name( snapshot_id ) \
+                            for snapshot_id in snapshot_ids]) ):
             return
 
-        self.snapshots.remove_snapshot( snapshot_id )
+        [self.snapshots.remove_snapshot( snapshot_id ) for snapshot_id in snapshot_ids]
         self.update_time_line()
 
     def on_btn_settings_clicked( self ):

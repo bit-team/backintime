@@ -1,4 +1,4 @@
-.TH backintime 1 "Oct 2013" "version 1.0.99.0" "USER COMMANDS"
+.TH backintime 1 "Jun 2014" "version 1.0.99.0" "USER COMMANDS"
 .SH NAME
 backintime \- a simple backup tool for Linux.
 .PP
@@ -20,6 +20,7 @@ The graphical tools are: backintime-gnome and backintime-kde4.
 \-\-benchmark-cipher [SIZE] |
 \-\-pw\-cache [start|stop|restart|reload|status] |
 \-\-decode [PATH] |
+\-\-remove[\-and\-do\-not\-ask\-again] [SNAPSHOT_ID] |
 \-\-restore [WHAT [WHERE [SNAPSHOT_ID]]] |
 \-\-help | \-\-version | \-\-license ]
 .SH DESCRIPTION
@@ -207,6 +208,9 @@ Control the Password Cache Daemon. If no argument is given the Password Cache wi
 .TP
 \-\-decode [PATH]
 decode encrypted PATH. If no PATH is given Backintime will read paths from standard input.
+.TP
+\-\-remove[\-and\-do\-not\-ask\-again] [SNAPSHOT_ID]
+Remove the snapshot. If SNAPSHOT_ID is missing it will be prompted. SNAPSHOT_ID can be an index (starting with 0 for the last snapshot) or the exact SnapshotID (19 caracters like '20130606-230501-984'). \fI\-\-remove\-and\-do\-not\-ask\-again\fR will remove the snapshot immediately. Be careful with this!
 .TP
 \-\-restore [WHAT [WHERE [SNAPSHOT_ID]]]
 Restore file WHAT to path WHERE from snapshot SNAPSHOT_ID. If arguments are missing they will be prompted. To restore to the original path WHERE can be an empty string '' or just press Enter at the prompt. SNAPSHOT_ID can be an index (starting with 0 for the last snapshot) or the exact SnapshotID (19 caracters like '20130606-230501-984')

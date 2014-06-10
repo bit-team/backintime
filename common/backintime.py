@@ -122,6 +122,10 @@ def print_help( cfg ):
     print('--decode [encoded_PATH]')
     print('\tDecode PATH. If no PATH is specified on command line')
     print('\ta list of filenames will be read from stdin.')
+    print('--remove [SNAPSHOT_ID]')
+    print('\tRemove the snapshot.')
+    print('--remove-and-do-not-ask-again [SNAPSHOT_ID]')
+    print('\tRemove the snapshot and don\'t ask for confirmation before. Be careful!')
     print('--restore [WHAT [WHERE [SNAPSHOT_ID]]]')
     print('\tRestore file WHAT to path WHERE from snapshot SNAPSHOT_ID.')
     print('\tIf arguments are missing they will be prompted.')
@@ -383,6 +387,23 @@ def start_app( app_name = 'backintime', extra_args = [] ):
             
             _mount(cfg)
             cli.restore(cfg, snapshot_id, what, where)
+            _umount(cfg)
+            sys.exit(0)
+
+        if arg == '--remove' or arg == '--remove-and-do-not-ask-again':
+            if not cfg.is_configured():
+                print("The application is not configured !", file=sys.stderr)
+                sys.exit(2)
+
+            force = arg == '--remove-and-do-not-ask-again'
+            snapshot_id = None
+            try:
+                snapshot_id = sys.argv[index + 1]
+            except IndexError:
+                pass
+
+            _mount(cfg)
+            cli.remove(cfg, snapshot_id, force)
             _umount(cfg)
             sys.exit(0)
 

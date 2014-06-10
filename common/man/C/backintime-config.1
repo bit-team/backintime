@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Oct 2013" "version 1.0.99.0" "USER COMMANDS"
+.TH backintime-config 1 "Jun 2014" "version 1.0.99.0" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -173,7 +173,7 @@ Default: true
 .RS
 Type: bool      Allowed Values: true|false
 .br
-When  symlinks  are  encountered, the item that they point to (the referent) is copied, rather than the symlink.
+When  symlinks  are  encountered, the item that they point to (the reference) is copied, rather than the symlink.
 .PP
 Default: false
 .RE
@@ -507,6 +507,24 @@ Type: int       Allowed Values: 0-99999
 Snapshots older than this times units will be removed
 .PP
 Default: 10
+.RE
+
+.IP "\fIprofile<N>.snapshots.rsync_options.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Past additional options to rsync
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.rsync_options.value\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+rsync options. Options must be quoted e.g. --exclude-from="/path/to/my exclude file"
+.PP
+Default: ''
 .RE
 
 .IP "\fIprofile<N>.snapshots.smart_remove\fR" 6
