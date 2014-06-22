@@ -311,7 +311,18 @@ class MainWindow( QMainWindow ):
 
         #
         self.setCentralWidget( self.main_splitter )
-        
+
+        #context menu
+        self.list_files_view.setContextMenuPolicy(Qt.CustomContextMenu)
+        QObject.connect(self.list_files_view, SIGNAL('customContextMenuRequested(const QPoint&)'), self.on_context_menu)
+        self.contextMenu = QMenu(self)
+        self.contextMenu.addAction(self.btn_restore)
+        self.contextMenu.addAction(self.btn_restore_to)
+        self.contextMenu.addAction(self.btn_snapshots)
+        self.contextMenu.addSeparator()
+        self.contextMenu.addAction(self.btn_show_hidden_files)
+
+        #ProgressBar
         self.progressBar = QProgressBar()
         self.progressBar.setMinimum(0)
         self.progressBar.setMaximum(100)
@@ -921,6 +932,9 @@ class MainWindow( QMainWindow ):
     def on_btn_shutdown_toggled(self, checked):
         self.shutdown.activate_shutdown = checked
 
+    def on_context_menu(self, point):
+        self.contextMenu.exec_(self.list_files_view.mapToGlobal(point) )
+
     def on_about( self ):
         dlg = About(self)
         dlg.exec_()
@@ -1109,6 +1123,8 @@ class MainWindow( QMainWindow ):
         else:
             self.btn_restore_menu.setEnabled( False )
             self.menubar_restore.setEnabled(False)
+            self.btn_restore.setEnabled(False)
+            self.btn_restore_to.setEnabled(False)
             self.btn_snapshots.setEnabled( False )
             self.files_view_layout.setCurrentWidget( self.lbl_folder_dont_exists )
 
@@ -1128,8 +1144,11 @@ class MainWindow( QMainWindow ):
         has_files = (self.list_files_view_model.rowCount(self.list_files_view.rootIndex() ) > 0 )
 
         #update restore button state
-        self.btn_restore_menu.setEnabled( len( self.snapshot_id ) > 1 and has_files )
-        self.menubar_restore.setEnabled(len(self.snapshot_id) > 1 and has_files)
+        enable = len(self.snapshot_id) > 1 and has_files
+        self.btn_restore_menu.setEnabled(enable)
+        self.menubar_restore.setEnabled(enable)
+        self.btn_restore.setEnabled(enable)
+        self.btn_restore_to.setEnabled(enable)
 
         #update snapshots button state
         self.btn_snapshots.setEnabled( has_files )

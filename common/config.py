@@ -99,8 +99,8 @@ class Config( configfile.ConfigFileWithProfiles ):
                         '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ),\
                         '.dropbox*', '/proc/*', '/sys/*', '/dev/*', '/run/*',   \
                         '/etc/mtab', '/var/cache/apt/archives/*.deb',           \
-                        '/usr/src/**/*.o', 'lost+found/*', '/tmp/*',            \
-                        '/var/tmp/*', '/var/backups/*', '.Private' ]
+                        'lost+found/*', '/tmp/*', '/var/tmp/*',                 \
+                        '/var/backups/*', '.Private' ]
     
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {

@@ -115,34 +115,3 @@ def hidden_files(parent):
         return parent.show_hidden_files
     except: pass
     return False
-
-##class ExtraFileSystemModel(QFileSystemModel):
-##    def columnCount(self, parent = QModelIndex()):
-##        return super(ExtraFileSystemModel, self).columnCount(parent) + 1
-##
-##    def data(self, index, role = Qt.DisplayRole):
-##        if not index.isValid():
-##            return super(ExtraFileSystemModel, self).data(index, role)
-##        if index.column() == self.columnCount() - 1:
-##            if role == Qt.DisplayRole:
-##                return self.path(index)
-##                #return os.path.join(self.rootPath(), self.getPath(index)[0])
-##            elif role == Qt.TextAlignmentRole:
-##                return Qt.AlignHLeft
-##            else:
-##                return None
-##        return super(ExtraFileSystemModel, self).data(index, role)
-##
-##    def isDir(self, index):
-##        if index.column() > 0:
-##            index = index.sibling(index.row(), 0)
-##        fileInfo = self.fileInfo(index)
-##        if fileInfo.isDir() and not fileInfo.isSymLink():
-##            return True
-##        return False
-##
-##    def path(self, index):
-##        if index.column() > 0:
-##            index = index.sibling(index.row(), 0)
-##        fileInfo = self.fileInfo(index)
-##        return fileInfo.absoluteFilePath()
