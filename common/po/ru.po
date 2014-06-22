@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-09 22:34+0100\n"
-"PO-Revision-Date: 2013-07-22 14:24+0000\n"
-"Last-Translator: Anton Kolochencow <Unknown>\n"
+"PO-Revision-Date: 2014-03-02 09:15+0000\n"
+"Last-Translator: vti <viacheslav.t@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-12-10 17:48+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2014-06-22 12:34+0000\n"
+"X-Generator: Launchpad (build 17058)\n"
 
 #: ../../gnome/app.py:1126 ../../kde4/app.py:1013
 msgid "View the current disk content"
@@ -82,7 +82,7 @@ msgstr "Каждые 12 часов"
 
 #: ../../common/config.py:82
 msgid "Custom Hours"
-msgstr ""
+msgstr "Ручная настройка периодизации"
 
 #: ../../common/config.py:83
 msgid "Every Day"
@@ -90,11 +90,11 @@ msgstr "Ежедневно"
 
 #: ../../common/config.py:84
 msgid "Daily (anacron)"
-msgstr ""
+msgstr "Ежедневно (anacron)"
 
 #: ../../common/config.py:85
 msgid "When drive get connected (udev)"
-msgstr ""
+msgstr "Когда подключено устройство (udev)"
 
 #: ../../common/config.py:86
 msgid "Every Week"
@@ -122,7 +122,7 @@ msgstr " ЭКСПЕРИМЕНТАЛЬНО!"
 
 #: ../../common/config.py:103
 msgid "Local"
-msgstr ""
+msgstr "Локально"
 
 #: ../../common/config.py:104
 msgid "SSH"
@@ -135,11 +135,11 @@ msgstr "личный ключ SSH"
 
 #: ../../common/config.py:105
 msgid "Local encrypted"
-msgstr ""
+msgstr "Локально с шифрованием"
 
 #: ../../common/config.py:105 ../../common/config.py:106
 msgid "Encryption"
-msgstr ""
+msgstr "Шифрование"
 
 #: ../../common/config.py:106
 msgid "SSH encrypted"
@@ -255,15 +255,15 @@ msgstr ""
 #: ../../common/config.py:1342
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
-msgstr ""
+msgstr "Не удалось найти UUID для \"%s\""
 
 #: ../../common/config.py:1379
 msgid "Failed to remove udev rules"
-msgstr ""
+msgstr "Не удалось удалить правила udev"
 
 #: ../../common/config.py:1385
 msgid "Failed to create udev rules"
-msgstr ""
+msgstr "Не удалось создать правила udev"
 
 #: ../../common/config.py:1420
 msgid ""
@@ -271,14 +271,18 @@ msgid ""
 "Are you sure anacron is installed ?\n"
 "If not you should disable daily anacron backups."
 msgstr ""
+"Невозможно найти anacron.\n"
+"Он установлен?\n"
+"Если нет уверенности, стоит отключить ежедневные копии через anacron."
 
 #: ../../common/config.py:1439
 msgid "Please provide your sudo password to install the udev rule."
-msgstr ""
+msgstr "Пожалуйста, укажите sudo-пароль для установки правил udev."
 
 #: ../../common/config.py:1445
 msgid "Please provide your sudo password to remove unused udev rules."
 msgstr ""
+"Пожалуйста, укажите sudo-пароль для удаления неиспользуемых правил udev."
 
 #: ../../common/configfile.py:253 ../../common/configfile.py:315
 #, python-format
@@ -307,7 +311,7 @@ msgstr "Не могу отмонтировать encfs %s"
 
 #: ../../common/encfstools.py:149
 msgid "Config for encrypted folder not found."
-msgstr ""
+msgstr "Не найдена конфигурация для зашифрованной директории."
 
 #: ../../common/encfstools.py:153
 msgid ""
@@ -327,7 +331,7 @@ msgstr "Пожалуйста, подтвердите пароль"
 
 #: ../../common/encfstools.py:161
 msgid "Password doesn't match"
-msgstr ""
+msgstr "Пароль не подходит"
 
 #: ../../common/encfstools.py:166
 msgid "encfs not found. Please install e.g. 'apt-get install encfs'"
@@ -367,11 +371,13 @@ msgid ""
 "Hash collision occurred in hash_id %s. Incrementing global value "
 "hash_collision and try again."
 msgstr ""
+"В hash_id %s возникла хеш-коллизия. Увеличьте глобальную переменую "
+"hash_collision и попробуйте снова."
 
 #: ../../common/mount.py:246
 #, python-format
 msgid "mountpoint %s not empty."
-msgstr ""
+msgstr "точка монтирования %s не пустая."
 
 #: ../../common/mount.py:286
 msgid "Mountprocess lock timeout"
@@ -380,7 +386,7 @@ msgstr ""
 #: ../../common/password.py:425
 #, python-format
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
-msgstr ""
+msgstr "Профиль '%(profile)s': Введите пароль для %(mode)s: "
 
 #: ../../common/snapshots.py:171 ../../gnome/app.py:1127
 #: ../../kde4/app.py:1014
@@ -634,7 +640,7 @@ msgstr ""
 #: ../../common/sshtools.py:254
 #, python-format
 msgid "%s not found in ssh_known_hosts."
-msgstr ""
+msgstr "%s не найдено в ssh_known_hosts."
 
 #: ../../common/sshtools.py:274
 #, python-format
@@ -711,11 +717,11 @@ msgstr ""
 
 #: ../../gnome/app.py:193 ../../kde4/app.py:150
 msgid "Ask a question"
-msgstr ""
+msgstr "Задать вопрос"
 
 #: ../../gnome/app.py:194 ../../kde4/app.py:152
 msgid "Report a bug"
-msgstr ""
+msgstr "Сообщить об ошибке"
 
 #: ../../gnome/app.py:196 ../../kde4/app.py:155
 msgid "About"
@@ -945,7 +951,7 @@ msgstr "Исключая файл"
 
 #: ../../gnome/snapshotsdialog.py:240
 msgid "Jump to"
-msgstr ""
+msgstr "Перейти к"
 
 #: ../../gnome/snapshotsdialog.py:248 ../../kde4/snapshotsdialog.py:164
 msgid "Diff"
@@ -1074,7 +1080,7 @@ msgstr "Общие"
 
 #: ../../kde4/settingsdialog.py:114 ../../gnome/settingsdialog.glade:199
 msgid "Mode:"
-msgstr ""
+msgstr "Режим:"
 
 #: ../../kde4/settingsdialog.py:127 ../../kde4/settingsdialog.py:1311
 msgid "Where to save snapshots"
@@ -1082,7 +1088,7 @@ msgstr "Место для сохранения резервных копий"
 
 #: ../../kde4/settingsdialog.py:146
 msgid "SSH Settings"
-msgstr ""
+msgstr "Найстроки SSH"
 
 #: ../../kde4/settingsdialog.py:158 ../../kde4/settingsdialog.py:283
 #: ../../gnome/settingsdialog.glade:323 ../../gnome/settingsdialog.glade:583
@@ -1093,7 +1099,7 @@ msgstr "Хост:"
 #: ../../kde4/settingsdialog.py:163 ../../gnome/settingsdialog.glade:350
 #: ../../gnome/settingsdialog.glade:610
 msgid "Port:"
-msgstr ""
+msgstr "Порт:"
 
 #: ../../kde4/settingsdialog.py:168 ../../kde4/settingsdialog.py:288
 #: ../../gnome/settingsdialog.glade:377 ../../gnome/settingsdialog.glade:637
@@ -1103,7 +1109,7 @@ msgstr "Пользователь:"
 
 #: ../../kde4/settingsdialog.py:173 ../../gnome/settingsdialog.glade:416
 msgid "Path:"
-msgstr ""
+msgstr "Путь:"
 
 #: ../../kde4/settingsdialog.py:178 ../../gnome/settingsdialog.glade:459
 msgid "Cipher:"
@@ -1111,13 +1117,13 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:184
 msgid "Private Key:"
-msgstr ""
+msgstr "Приватный ключ:"
 
 #: ../../kde4/settingsdialog.py:228 ../../kde4/settingsdialog.py:237
 #: ../../kde4/settingsdialog.py:243 ../../gnome/settingsdialog.glade:703
 #: ../../gnome/settingsdialog.glade:743
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: ../../kde4/settingsdialog.py:249 ../../gnome/settingsdialog.glade:775
 msgid "Save Password to Keyring"
@@ -1141,11 +1147,11 @@ msgstr "Расписание"
 
 #: ../../kde4/settingsdialog.py:311 ../../gnome/settingsdialog.glade:1092
 msgid "Day:"
-msgstr ""
+msgstr "День:"
 
 #: ../../kde4/settingsdialog.py:322 ../../gnome/settingsdialog.glade:1079
 msgid "Weekday:"
-msgstr ""
+msgstr "День недели:"
 
 #: ../../kde4/settingsdialog.py:333 ../../gnome/settingsdialog.glade:1066
 msgid "Hour:"
@@ -1153,17 +1159,19 @@ msgstr "Часы:"
 
 #: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:1053
 msgid "Hours:"
-msgstr ""
+msgstr "Часы:"
 
 #: ../../kde4/settingsdialog.py:353 ../../gnome/settingsdialog.glade:1014
 msgid ""
 "Run Back In Time periodically with anacron. This is useful if the computer "
 "is not running regular."
 msgstr ""
+"Периодически запускать Back In Time через anacron. Подходит, если компьютер "
+"не постоянно включен."
 
 #: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:1040
 msgid "Frequency in days:"
-msgstr ""
+msgstr "Частота в днях:"
 
 #: ../../kde4/settingsdialog.py:368 ../../gnome/settingsdialog.glade:1026
 msgid ""
@@ -1171,6 +1179,9 @@ msgid ""
 "days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
+"Запускать Back In Time как только устройство подключено (только раз в "
+"несколько дней).\n"
+"Будет запрошен sudo-пароль."
 
 #: ../../kde4/settingsdialog.py:379 ../../gnome/settingsdialog.glade:1310
 msgid "Include"
@@ -1318,7 +1329,7 @@ msgstr ""
 
 #: ../../kde4/settingsdialog.py:620 ../../gnome/settingsdialog.glade:2201
 msgid "Run 'ionice' on remote host (default: disabled)"
-msgstr ""
+msgstr "Запускать 'ionice' на удаленном узле (по умолчанию: отключено)"
 
 #: ../../kde4/settingsdialog.py:626 ../../gnome/settingsdialog.glade:2224
 msgid "Limit rsync bandwidth usage: "
@@ -1365,12 +1376,12 @@ msgstr "Использовать %1 и %2 для комманды"
 #: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:184
 #: ../../gnome/snapshotsdialog.glade:186
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: ../../kde4/snapshotsdialog.py:128 ../../gnome/snapshotsdialog.glade:199
 #: ../../gnome/snapshotsdialog.glade:201
 msgid "Select All"
-msgstr ""
+msgstr "Выделить всё"
 
 #: ../../kde4/snapshotsdialog.py:132 ../../gnome/snapshotsdialog.glade:88
 msgid "List only different snapshots"
@@ -1394,7 +1405,7 @@ msgstr "Просмотр журнала"
 
 #: ../../gnome/logviewdialog.glade:179
 msgid "scroll down automatic"
-msgstr ""
+msgstr "автоматически прокручивать вниз"
 
 #: ../../gnome/mainwindow.glade:7
 msgid "Back In Time"
@@ -1490,4 +1501,4 @@ msgstr "Шаблон"
 
 #: ../../gnome/textinputdialog.glade:70
 msgid "Text"
-msgstr ""
+msgstr "Текст"

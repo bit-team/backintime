@@ -508,6 +508,8 @@ def save_env(cfg):
     #ubuntu
     set_env_key(env, env_file, 'GNOME_KEYRING_CONTROL')
     set_env_key(env, env_file, 'DBUS_SESSION_BUS_ADDRESS')
+    set_env_key(env, env_file, 'DBUS_SESSION_BUS_PID')
+    set_env_key(env, env_file, 'DBUS_SESSION_BUS_WINDOWID')
     set_env_key(env, env_file, 'DISPLAY')
     #debian
     set_env_key(env, env_file, 'XAUTHORITY')
