@@ -631,6 +631,7 @@ class SettingsDialog(object):
         else:
             self.btn_edit_profile.set_sensitive( True )
             self.btn_remove_profile.set_sensitive( True )
+        self.btn_add_profile.set_sensitive(self.config.is_configured('1'))
             
         #set mode
         i = 0

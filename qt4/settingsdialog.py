@@ -839,6 +839,7 @@ class SettingsDialog( QDialog ):
         else:
             self.btn_edit_profile.setEnabled( True )
             self.btn_remove_profile.setEnabled( True )
+        self.btn_add_profile.setEnabled(self.config.is_configured('1'))
 
         #TAB: General
         #mode

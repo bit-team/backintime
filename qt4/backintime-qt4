@@ -23,5 +23,9 @@ else
 	APP_PATH="/usr/share/backintime/qt4"
 fi
 
-ssh-agent python3 ${APP_PATH}/app.py "$@"
+if [ "x$SSH_AUTH_SOCK" = "x" ]; then
+        eval "$(ssh-agent)"
+fi
+
+python3 ${APP_PATH}/app.py "$@"
 
