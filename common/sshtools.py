@@ -202,7 +202,8 @@ class SSH(mount.MountControl):
             try:
                 fuse_grp_members = grp.getgrnam('fuse')[3]
             except KeyError:
-                fuse_grp_members = []
+                #group fuse doesn't exist. So most likely it isn't used by this distribution
+                return
             if not user in fuse_grp_members:
                 raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
         
