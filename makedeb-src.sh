@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASES="lucid precise quantal raring saucy"
+RELEASES="precise trusty"
 
 for i in common notify gnome kde4; do
 	PKGNAME=`cat $i/debian_specific/control | grep "^Package:" | cut -d" " -f2`
