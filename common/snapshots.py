@@ -1350,6 +1350,10 @@ class Snapshots:
         params = [False, False]
         self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
         self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params )
+        try:
+            os.remove(self.config.get_take_snapshot_progress_file())
+        except:
+            pass
 
         has_errors = False
         if params[0]:
