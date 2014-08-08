@@ -51,6 +51,17 @@ class Plugin:
     def on_message( self, profile_id, profile_name, level, message, timeout ):
         return
 
+    def on_app_start(self):
+        return
+
+    def on_app_exit(self):
+        return
+
+    def do_mount(self):
+        return
+
+    def do_unmount(self):
+        return
 
 class PluginManager:
     def __init__( self ):
@@ -58,9 +69,13 @@ class PluginManager:
         self.has_gui_plugins_ = False
         self.plugins_loaded = False
 
-    def load_plugins( self, snapshots, force = False ):
+    def load_plugins( self, snapshots = None, cfg = None, force = False ):
         if self.plugins_loaded and not force:
             return
+
+        if snapshots is None:
+            import snapshots as _snapshots
+            snapshots = _snapshots.Snapshots(cfg)
 
         self.plugins_loaded = True
         self.plugins = []
@@ -134,3 +149,30 @@ class PluginManager:
             except:
                 pass
 
+    def on_app_start( self ):
+        for plugin in reversed( self.plugins ):
+            try:
+                plugin.on_app_start()
+            except:
+                pass
+
+    def on_app_exit( self ):
+        for plugin in reversed( self.plugins ):
+            try:
+                plugin.on_app_exit()
+            except:
+                pass
+
+    def do_mount( self ):
+        for plugin in reversed( self.plugins ):
+            try:
+                plugin.do_mount()
+            except:
+                pass
+
+    def do_unmount( self ):
+        for plugin in reversed( self.plugins ):
+            try:
+                plugin.do_unmount()
+            except:
+                pass

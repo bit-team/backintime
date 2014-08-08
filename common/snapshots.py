@@ -36,7 +36,6 @@ import configfile
 import logger
 import applicationinstance
 import tools
-import pluginmanager
 import encfstools
 import mount
 import progress
@@ -54,8 +53,6 @@ class Snapshots:
 
         self.clear_uid_gid_cache()
         self.clear_uid_gid_names_cache()
-
-        self.plugin_manager = pluginmanager.PluginManager()
 
         #rsync --info=progress2 output
         #search for 517.38K  26%   14.46MB/s    0:02:36
@@ -301,7 +298,7 @@ class Snapshots:
         try:
             profile_id =self.config.get_current_profile() 
             profile_name = self.config.get_profile_name( profile_id )
-            self.plugin_manager.on_message( profile_id, profile_name, type_id, message, timeout )
+            self.config.PLUGIN_MANAGER.on_message( profile_id, profile_name, type_id, message, timeout )
         except:
             pass
 
@@ -878,11 +875,11 @@ class Snapshots:
         ret_val = False
         sleep = True
 
-        self.plugin_manager.load_plugins( self )
+        self.config.PLUGIN_MANAGER.load_plugins( self )
 
         if not self.config.is_configured():
             logger.warning( 'Not configured' )
-            self.plugin_manager.on_error( 1 ) #not configured
+            self.config.PLUGIN_MANAGER.on_error( 1 ) #not configured
         elif self.config.is_no_on_battery_enabled() and tools.on_battery():
             logger.info( 'Deferring backup while on battery' )
             logger.warning( 'Backup not performed' )
@@ -894,7 +891,7 @@ class Snapshots:
             instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
             if not instance.check():
                 logger.warning( 'A backup is already running' )
-                self.plugin_manager.on_error( 2 ) #a backup is already running
+                self.config.PLUGIN_MANAGER.on_error( 2 ) #a backup is already running
             else:
                 ret_error = False
 
@@ -928,7 +925,7 @@ class Snapshots:
 
                 if len( include_folders ) <= 0:
                     logger.info( 'Nothing to do' )
-                elif not self.plugin_manager.on_process_begins():
+                elif not self.config.PLUGIN_MANAGER.on_process_begins():
                     logger.info( 'A plugin prevented the backup' )
                 else:
                     #take snapshot process begin
@@ -939,7 +936,7 @@ class Snapshots:
                     logger.info( "Profile_id: %s" % profile_id )
                     
                     if not self.config.can_backup( profile_id ):
-                        if self.plugin_manager.has_gui_plugins() and self.config.is_notify_enabled():
+                        if self.config.PLUGIN_MANAGER.has_gui_plugins() and self.config.is_notify_enabled():
                             self.set_take_snapshot_message( 1, 
                                     _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it.' ) +
                                     '\n' +
@@ -952,14 +949,14 @@ class Snapshots:
 
                     if not self.config.can_backup( profile_id ):
                         logger.warning( 'Can\'t find snapshots folder !' )
-                        self.plugin_manager.on_error( 3 ) #Can't find snapshots directory (is it on a removable drive ?)
+                        self.config.PLUGIN_MANAGER.on_error( 3 ) #Can't find snapshots directory (is it on a removable drive ?)
                     else:
                         snapshot_id = self.get_snapshot_id( now )
                         snapshot_path = self.get_snapshot_path( snapshot_id )
                         
                         if os.path.exists( snapshot_path ):
                             logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
-                            self.plugin_manager.on_error( 4, snapshot_id ) #This snapshots already exists
+                            self.config.PLUGIN_MANAGER.on_error( 4, snapshot_id ) #This snapshots already exists
                         else:
                             #ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
                             ret_val, ret_error = self._take_snapshot( snapshot_id, now, include_folders )
@@ -984,9 +981,9 @@ class Snapshots:
                     sleep = False
 
                     if ret_val:
-                        self.plugin_manager.on_new_snapshot( snapshot_id, snapshot_path ) #new snapshot
+                        self.config.PLUGIN_MANAGER.on_new_snapshot( snapshot_id, snapshot_path ) #new snapshot
 
-                    self.plugin_manager.on_process_ends() #take snapshot process end
+                    self.config.PLUGIN_MANAGER.on_process_ends() #take snapshot process end
 
                 if sleep:
                     os.system( 'sleep 2' )

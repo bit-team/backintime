@@ -1281,6 +1281,8 @@ if __name__ == '__main__':
         raise_cmd = '\n'.join( sys.argv[ 1 : ] )
 
     app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
+    cfg.PLUGIN_MANAGER.load_plugins(cfg = cfg)
+    cfg.PLUGIN_MANAGER.on_app_start()
 
     logger.openlog()
     qapp = create_qapplication( cfg )
@@ -1293,5 +1295,6 @@ if __name__ == '__main__':
 
     logger.closelog()
 
+    cfg.PLUGIN_MANAGER.on_app_exit()
     app_instance.exit_application()
 

@@ -34,6 +34,7 @@ import sshtools
 import encfstools
 ##import dummytools
 import password
+import pluginmanager
 
 _=gettext.gettext
 
@@ -128,6 +129,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                     'arcfour':    _('ARCFOUR') }
     
     ENCODE = encfstools.Bounce()
+    PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__( self, config_path = None ):
         configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )

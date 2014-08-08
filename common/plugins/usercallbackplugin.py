@@ -72,3 +72,14 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
     def on_new_snapshot( self, snapshot_id, snapshot_path ):
         self.notify_callback( "3 %s \"%s\"" % ( snapshot_id, snapshot_path ) )
 
+    def on_app_start(self):
+        self.notify_callback('5')
+
+    def on_app_exit(self):
+        self.notify_callback('6')
+
+    def do_mount(self):
+        self.notify_callback('7')
+
+    def do_unmount(self):
+        self.notify_callback('8')

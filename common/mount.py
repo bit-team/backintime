@@ -63,6 +63,8 @@ class Mount(object):
                     pass
             
     def mount(self, mode = None, check = True, **kwargs):
+        self.config.PLUGIN_MANAGER.load_plugins(cfg = self.config)
+        self.config.PLUGIN_MANAGER.do_mount()
         if mode is None:
             mode = self.config.get_snapshots_mode(self.profile_id)
             
@@ -85,6 +87,8 @@ class Mount(object):
                 break
         
     def umount(self, hash_id = None):
+        self.config.PLUGIN_MANAGER.load_plugins(cfg = self.config)
+        self.config.PLUGIN_MANAGER.do_unmount()
         if hash_id is None:
             hash_id = self.config.current_hash_id
         if hash_id == 'local':
