@@ -915,7 +915,7 @@ class Snapshots:
                     logger.error(str(ex))
                     instance.exit_application()
                     logger.info( 'Unlock' )
-                    os.system( 'sleep 2' )
+                    time.sleep(2)
                     return False
                 else:
                     self.config.set_current_hash_id(hash_id)
@@ -943,7 +943,7 @@ class Snapshots:
                                     gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', 30 ) % 30,
                                     30 )
                         for counter in range( 30, 0, -1 ):
-                            os.system( 'sleep 1' )
+                            time.sleep(1)
                             if self.config.can_backup():
                                 break
 
@@ -967,7 +967,7 @@ class Snapshots:
                             if ret_error:
                                 logger.error( 'Failed to take snapshot !!!' )
                                 self.set_take_snapshot_message( 1, _('Failed to take snapshot %s !!!') % now.strftime( '%x %H:%M:%S' ) )
-                                os.system( 'sleep 2' )
+                                time.sleep(2)
                             else:
                                 logger.warning( "No new snapshot" )
                         else:
@@ -977,7 +977,7 @@ class Snapshots:
                             self._free_space( now )
                             self.set_take_snapshot_message( 0, _('Finalizing') )
 
-                    os.system( 'sleep 2' )
+                    time.sleep(2)
                     sleep = False
 
                     if ret_val:
@@ -986,7 +986,7 @@ class Snapshots:
                     self.config.PLUGIN_MANAGER.on_process_ends() #take snapshot process end
 
                 if sleep:
-                    os.system( 'sleep 2' )
+                    time.sleep(2)
                     sleep = False
 
                 if not ret_error:
@@ -1002,7 +1002,7 @@ class Snapshots:
                 logger.info( 'Unlock' )
 
         if sleep:
-            os.system( 'sleep 2' ) #max 1 backup / second
+            time.sleep(2) #max 1 backup / second
 
         return ret_val
 
@@ -1130,7 +1130,7 @@ class Snapshots:
         if not os.path.exists( folder ):
             logger.error( "Can't create folder: %s" % folder )
             self.set_take_snapshot_message( 1, _('Can\'t create folder: %s') % folder )
-            os.system( 'sleep 2' ) #max 1 backup / second
+            time.sleep(2) #max 1 backup / second
             return False
 
         return True
@@ -1177,7 +1177,7 @@ class Snapshots:
             if os.path.exists( new_snapshot_path() ):
                 logger.error( "Can't remove folder: %s" % new_snapshot_path() )
                 self.set_take_snapshot_message( 1, _('Can\'t remove folder: %s') % new_snapshot_path() )
-                os.system( 'sleep 2' ) #max 1 backup / second
+                time.sleep(2) #max 1 backup / second
                 return [ False, True ]
         
         #create exclude patterns string
@@ -1459,7 +1459,7 @@ class Snapshots:
         if not os.path.exists( snapshot_path() ):
             logger.error( "Can't rename %s to %s" % ( new_snapshot_path(), snapshot_path() ) )
             self.set_take_snapshot_message( 1, _('Can\'t rename %(new_path)s to %(path)s') % { 'new_path' : new_snapshot_path(), 'path' : snapshot_path() } )
-            os.system( 'sleep 2' ) #max 1 backup / second
+            time.sleep(2) #max 1 backup / second
             return [ False, True ]
 
         if not full_rsync:
