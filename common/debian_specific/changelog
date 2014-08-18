@@ -1,11 +1,2 @@
 $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
-  * remove UbuntuOne from exclude (https://bugs.launchpad.net/bugs/1340131)
-  * Gray out 'Add Profile' if 'Main Profile' isn't configured yet (https://bugs.launchpad.net/bugs/1335545)
-  * Don't check for fuse group-membership if group doesn't exist
-  * Fix bug: backintime-kde4 as root failed to load ssh-key (https://bugs.launchpad.net/bugs/1276348)
-  * Fix bug: kdesystrayicon.py crashes because of missing environ (https://bugs.launchpad.net/bugs/1332126)
-  * Fix bug: OSError if sshfs/encfs is not installed (https://bugs.launchpad.net/bugs/1316288)
-  * Fix bug: TypeError in config.py check_config() (https://bugzilla.redhat.com/show_bug.cgi?id=1091644)
-  * Fix bug: unhandled exception in create_last_snapshot_symlink() (https://bugs.launchpad.net/bugs/1269991)
-  * disable keyring for root
- -- BIT Team <dan@le-web.org>  Wed, 06 Aug 2014 13:15:38 +0200
+ -- BIT Team <dan@le-web.org>  Mon, 18 Aug 2014 14:08:39 +0200
