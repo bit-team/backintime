@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-09 22:34+0100\n"
-"PO-Revision-Date: 2013-05-29 21:24+0000\n"
-"Last-Translator: Sid Roberts <Unknown>\n"
+"PO-Revision-Date: 2014-07-16 17:08+0000\n"
+"Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-06-22 12:34+0000\n"
-"X-Generator: Launchpad (build 17058)\n"
+"X-Launchpad-Export-Date: 2014-08-06 10:19+0000\n"
+"X-Generator: Launchpad (build 17147)\n"
 
 #: ../../common/config.py:72
 msgid "Disabled"
@@ -68,11 +68,11 @@ msgstr "Every Day"
 
 #: ../../common/config.py:84
 msgid "Daily (anacron)"
-msgstr ""
+msgstr "Daily (anacron)"
 
 #: ../../common/config.py:85
 msgid "When drive get connected (udev)"
-msgstr ""
+msgstr "When drive get connected (udev)"
 
 #: ../../common/config.py:86
 msgid "Every Week"
@@ -96,7 +96,7 @@ msgstr "Year(s)"
 
 #: ../../common/config.py:100
 msgid " EXPERIMENTAL!"
-msgstr ""
+msgstr " EXPERIMENTAL!"
 
 #: ../../common/config.py:103
 msgid "Local"
@@ -129,51 +129,51 @@ msgstr "Default"
 
 #: ../../common/config.py:113
 msgid "AES128-CTR"
-msgstr ""
+msgstr "AES128-CTR"
 
 #: ../../common/config.py:114
 msgid "AES192-CTR"
-msgstr ""
+msgstr "AES192-CTR"
 
 #: ../../common/config.py:115
 msgid "AES256-CTR"
-msgstr ""
+msgstr "AES256-CTR"
 
 #: ../../common/config.py:116
 msgid "ARCFOUR256"
-msgstr ""
+msgstr "ARCFOUR256"
 
 #: ../../common/config.py:117
 msgid "ARCFOUR128"
-msgstr ""
+msgstr "ARCFOUR128"
 
 #: ../../common/config.py:118
 msgid "AES128-CBC"
-msgstr ""
+msgstr "AES128-CBC"
 
 #: ../../common/config.py:119
 msgid "3DES-CBC"
-msgstr ""
+msgstr "3DES-CBC"
 
 #: ../../common/config.py:120
 msgid "Blowfish-CBC"
-msgstr ""
+msgstr "Blowfish-CBC"
 
 #: ../../common/config.py:121
 msgid "Cast128-CBC"
-msgstr ""
+msgstr "Cast128-CBC"
 
 #: ../../common/config.py:122
 msgid "AES192-CBC"
-msgstr ""
+msgstr "AES192-CBC"
 
 #: ../../common/config.py:123
 msgid "AES256-CBC"
-msgstr ""
+msgstr "AES256-CBC"
 
 #: ../../common/config.py:124
 msgid "ARCFOUR"
-msgstr ""
+msgstr "ARCFOUR"
 
 #: ../../common/config.py:129
 msgid "Main profile"
@@ -228,20 +228,20 @@ msgstr ""
 #: ../../common/config.py:1338
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
-msgstr ""
+msgstr "Schedule udev doesn't work with mode %s"
 
 #: ../../common/config.py:1342
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
-msgstr ""
+msgstr "Couldn't find UUID for \"%s\""
 
 #: ../../common/config.py:1379
 msgid "Failed to remove udev rules"
-msgstr ""
+msgstr "Failed to remove udev rules"
 
 #: ../../common/config.py:1385
 msgid "Failed to create udev rules"
-msgstr ""
+msgstr "Failed to create udev rules"
 
 #: ../../common/config.py:1420
 msgid ""
@@ -249,14 +249,17 @@ msgid ""
 "Are you sure anacron is installed ?\n"
 "If not you should disable daily anacron backups."
 msgstr ""
+"Can't find anacron.\n"
+"Are you sure anacron is installed ?\n"
+"If not you should disable daily anacron backups."
 
 #: ../../common/config.py:1439
 msgid "Please provide your sudo password to install the udev rule."
-msgstr ""
+msgstr "Please provide your sudo password to install the udev rule."
 
 #: ../../common/config.py:1445
 msgid "Please provide your sudo password to remove unused udev rules."
-msgstr ""
+msgstr "Please provide your sudo password to remove unused udev rules."
 
 #: ../../common/configfile.py:253 ../../common/configfile.py:315
 #, python-format
@@ -274,11 +277,14 @@ msgid ""
 "\n"
 "%(error)s"
 msgstr ""
+"Can't mount '%(command)s':\n"
+"\n"
+"%(error)s"
 
 #: ../../common/encfstools.py:105
 #, python-format
 msgid "Can't unmount encfs %s"
-msgstr ""
+msgstr "Can't unmount encfs %s"
 
 #: ../../common/encfstools.py:149
 msgid "Config for encrypted folder not found."
@@ -302,7 +308,7 @@ msgstr "Please confirm password"
 
 #: ../../common/encfstools.py:161
 msgid "Password doesn't match"
-msgstr ""
+msgstr "Password doesn't match"
 
 #: ../../common/encfstools.py:166
 msgid "encfs not found. Please install e.g. 'apt-get install encfs'"
@@ -315,12 +321,17 @@ msgid ""
 " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
 "Look at 'man backintime' for further instructions."
 msgstr ""
+"%(user)s is not member of group 'fuse'.\n"
+" Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
+"Look at 'man backintime' for further instructions."
 
 #: ../../common/encfstools.py:189
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs"
 msgstr ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
 
 #: ../../common/encfstools.py:453 ../../common/encfstools.py:480
 #: ../../common/snapshots.py:982 ../../common/snapshots.py:1288
@@ -334,20 +345,22 @@ msgid ""
 "Hash collision occurred in hash_id %s. Incrementing global value "
 "hash_collision and try again."
 msgstr ""
+"Hash collision occurred in hash_id %s. Incrementing global value "
+"hash_collision and try again."
 
 #: ../../common/mount.py:246
 #, python-format
 msgid "mountpoint %s not empty."
-msgstr ""
+msgstr "mountpoint %s not empty."
 
 #: ../../common/mount.py:286
 msgid "Mountprocess lock timeout"
-msgstr ""
+msgstr "Mountprocess lock timeout"
 
 #: ../../common/password.py:425
 #, python-format
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
-msgstr ""
+msgstr "Profile '%(profile)s': Enter password for %(mode)s: "
 
 #: ../../common/snapshots.py:171 ../../gnome/app.py:1127
 #: ../../kde4/app.py:1014
@@ -421,6 +434,14 @@ msgid ""
 "If not Back In Time will restore former settings for this profile, however "
 "cannot continue taking snapshots"
 msgstr ""
+"%(snapshots_left)s\n"
+"of profile %(profile_id)s are not moved to their new location\n"
+"Do you want to proceed?\n"
+"(Back In Time will be able to continue taking snapshots, however the "
+"remaining snapshots will not be considered for automatic removal)\n"
+"\n"
+"If not Back In Time will restore former settings for this profile, however "
+"cannot continue taking snapshots"
 
 #: ../../common/snapshots.py:812
 #, python-format
@@ -555,7 +576,7 @@ msgstr "Try to keep min free space"
 #: ../../common/snapshots.py:1621
 #, python-format
 msgid "Try to keep min %d%% free inodes"
-msgstr ""
+msgstr "Try to keep min %d%% free inodes"
 
 #: ../../common/sshtools.py:106
 #, python-format
@@ -581,6 +602,8 @@ msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
+"Could not unlock ssh private key. Wrong password or password not available "
+"for cron."
 
 #: ../../common/sshtools.py:199
 msgid "sshfs not found. Please install e.g. 'apt-get install sshfs'"
@@ -592,6 +615,8 @@ msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
 "backintime' for further instructions."
 msgstr ""
+"Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
+"backintime' for further instructions."
 
 #: ../../common/sshtools.py:229
 #, python-format
@@ -605,7 +630,7 @@ msgstr ""
 #: ../../common/sshtools.py:254
 #, python-format
 msgid "%s not found in ssh_known_hosts."
-msgstr ""
+msgstr "%s not found in ssh_known_hosts."
 
 #: ../../common/sshtools.py:274
 #, python-format
@@ -613,6 +638,8 @@ msgid ""
 "Remote path exists but is not a directory:\n"
 " %s"
 msgstr ""
+"Remote path exists but is not a directory:\n"
+" %s"
 
 #: ../../common/sshtools.py:276
 #, python-format
@@ -620,6 +647,8 @@ msgid ""
 "Remote path is not writeable:\n"
 " %s"
 msgstr ""
+"Remote path is not writeable:\n"
+" %s"
 
 #: ../../common/sshtools.py:278
 #, python-format
@@ -627,6 +656,8 @@ msgid ""
 "Remote path is not executable:\n"
 " %s"
 msgstr ""
+"Remote path is not executable:\n"
+" %s"
 
 #: ../../common/sshtools.py:280
 #, python-format
@@ -640,7 +671,7 @@ msgstr ""
 #: ../../common/sshtools.py:302
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
-msgstr ""
+msgstr "Ping %s failed. Host is down or wrong address."
 
 #: ../../common/sshtools.py:325 ../../common/sshtools.py:383
 #, python-format
@@ -649,6 +680,9 @@ msgid ""
 "%(err)s\n"
 "Look at 'man backintime' for further instructions"
 msgstr ""
+"Remote host %(host)s doesn't support '%(command)s':\n"
+"%(err)s\n"
+"Look at 'man backintime' for further instructions"
 
 #: ../../common/sshtools.py:387
 #, python-format
@@ -657,11 +691,14 @@ msgid ""
 "%(err)s\n"
 "Look at 'man backintime' for further instructions"
 msgstr ""
+"Check commands on host %(host)s returned unknown error:\n"
+"%(err)s\n"
+"Look at 'man backintime' for further instructions"
 
 #: ../../common/sshtools.py:400
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
-msgstr ""
+msgstr "Remote host %s doesn't support hardlinks"
 
 #: ../../gnome/app.py:185 ../../gnome/app.py:594 ../../gnome/app.py:608
 #: ../../kde4/app.py:299 ../../kde4/app.py:570 ../../kde4/app.py:587
@@ -809,6 +846,9 @@ msgid ""
 "system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
+"If you close this window Back In Time will not be able to shutdown your "
+"system when the snapshot has finished.\n"
+"Do you really want to close?"
 
 #: ../../gnome/app.py:881 ../../gnome/snapshotsdialog.py:238
 msgid "Open"
@@ -889,6 +929,8 @@ msgid ""
 "Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
 "*/3 for periodic backups every 3 hours"
 msgstr ""
+"Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
+"*/3 for periodic backups every 3 hours"
 
 #: ../../gnome/settingsdialog.py:1141 ../../kde4/settingsdialog.py:653
 msgid "New profile"
@@ -949,20 +991,21 @@ msgstr "Command not found: %s"
 msgid ""
 "Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
 msgstr ""
+"Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
 
 #: ../../gnome/snapshotsdialog.py:310 ../../kde4/snapshotsdialog.py:370
 #, python-format
 msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
-msgstr ""
+msgstr "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
 
 #: ../../gnome/snapshotsdialog.py:312 ../../kde4/snapshotsdialog.py:372
 msgid "WARNING: This can not be revoked!"
-msgstr ""
+msgstr "WARNING: This can not be revoked!"
 
 #: ../../gnome/snapshotsdialog.py:317 ../../kde4/snapshotsdialog.py:377
 #, python-format
 msgid "Exclude \"%s\" from future snapshots?"
-msgstr ""
+msgstr "Exclude \"%s\" from future snapshots?"
 
 #: ../../kde4/app.py:86 ../../gnome/mainwindow.glade:58
 #: ../../gnome/mainwindow.glade:60
@@ -990,7 +1033,7 @@ msgstr "Settings"
 
 #: ../../kde4/app.py:124 ../../gnome/mainwindow.glade:169
 msgid "Shutdown system after snapshot has finished."
-msgstr ""
+msgstr "Shutdown system after snapshot has finished."
 
 #: ../../kde4/app.py:131 ../../gnome/mainwindow.glade:184
 #: ../../gnome/mainwindow.glade:186
@@ -1058,7 +1101,7 @@ msgstr "General"
 
 #: ../../kde4/settingsdialog.py:114 ../../gnome/settingsdialog.glade:199
 msgid "Mode:"
-msgstr ""
+msgstr "Mode:"
 
 #: ../../kde4/settingsdialog.py:127 ../../kde4/settingsdialog.py:1311
 msgid "Where to save snapshots"
@@ -1109,7 +1152,7 @@ msgstr "Save Password to Keyring"
 
 #: ../../kde4/settingsdialog.py:252 ../../gnome/settingsdialog.glade:792
 msgid "Cache Password for Cron (Security issue: root can read password)"
-msgstr ""
+msgstr "Cache Password for Cron (Security issue: root can read password)"
 
 #: ../../kde4/settingsdialog.py:264 ../../gnome/settingsdialog.glade:968
 msgid "Advanced"
@@ -1144,10 +1187,12 @@ msgid ""
 "Run Back In Time periodically with anacron. This is useful if the computer "
 "is not running regular."
 msgstr ""
+"Run Back In Time periodically with anacron. This is useful if the computer "
+"is not running regular."
 
 #: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:1040
 msgid "Frequency in days:"
-msgstr ""
+msgstr "Frequency in days:"
 
 #: ../../kde4/settingsdialog.py:368 ../../gnome/settingsdialog.glade:1026
 msgid ""
@@ -1155,6 +1200,9 @@ msgid ""
 "days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
+"Run Back In Time as soon as the drive is connected (only once every X "
+"days).\n"
+"You will be prompted for your sudo password."
 
 #: ../../kde4/settingsdialog.py:379 ../../gnome/settingsdialog.glade:1310
 msgid "Include"
@@ -1180,6 +1228,9 @@ msgid ""
 "mode 'SSH encrypted'.\n"
 "Only separate asterisk are allowed ('foo/*', 'foo/**/bar')"
 msgstr ""
+"<b>Warning:</b> Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with "
+"mode 'SSH encrypted'.\n"
+"Only separate asterisk are allowed ('foo/*', 'foo/**/bar')"
 
 #: ../../kde4/settingsdialog.py:430
 msgid "Highly recommended:"
@@ -1199,7 +1250,7 @@ msgstr "If free space is less than:"
 
 #: ../../kde4/settingsdialog.py:490 ../../gnome/settingsdialog.glade:1642
 msgid "If free inodes is less than:"
-msgstr ""
+msgstr "If free inodes is less than:"
 
 #: ../../kde4/settingsdialog.py:514 ../../gnome/settingsdialog.glade:1697
 msgid "Keep all snapshots for the last"
@@ -1310,19 +1361,19 @@ msgstr "Run 'ionice' when taking a manual snapshot (default: disabled)"
 
 #: ../../kde4/settingsdialog.py:617 ../../gnome/settingsdialog.glade:2184
 msgid "Run 'nice' on remote host (default: disabled)"
-msgstr ""
+msgstr "Run 'nice' on remote host (default: disabled)"
 
 #: ../../kde4/settingsdialog.py:620 ../../gnome/settingsdialog.glade:2201
 msgid "Run 'ionice' on remote host (default: disabled)"
-msgstr ""
+msgstr "Run 'ionice' on remote host (default: disabled)"
 
 #: ../../kde4/settingsdialog.py:626 ../../gnome/settingsdialog.glade:2224
 msgid "Limit rsync bandwidth usage: "
-msgstr ""
+msgstr "Limit rsync bandwidth usage: "
 
 #: ../../kde4/settingsdialog.py:629 ../../gnome/settingsdialog.glade:2259
 msgid " KB/sec"
-msgstr ""
+msgstr " KB/sec"
 
 #: ../../kde4/settingsdialog.py:634 ../../gnome/settingsdialog.glade:2280
 msgid "Preserve ACL"
@@ -1360,12 +1411,12 @@ msgstr "Use %1 and %2 for path parameters"
 #: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:184
 #: ../../gnome/snapshotsdialog.glade:186
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 #: ../../kde4/snapshotsdialog.py:128 ../../gnome/snapshotsdialog.glade:199
 #: ../../gnome/snapshotsdialog.glade:201
 msgid "Select All"
-msgstr ""
+msgstr "Select All"
 
 #: ../../kde4/snapshotsdialog.py:132 ../../gnome/snapshotsdialog.glade:88
 msgid "List only different snapshots"
@@ -1373,7 +1424,7 @@ msgstr "List only different snapshots"
 
 #: ../../kde4/snapshotsdialog.py:139 ../../gnome/snapshotsdialog.glade:110
 msgid "List only equal snapshots to: "
-msgstr ""
+msgstr "List only equal snapshots to: "
 
 #: ../../kde4/snapshotsdialog.py:149 ../../gnome/snapshotsdialog.glade:146
 msgid "Deep check (more accurate, but slow)"
@@ -1389,7 +1440,7 @@ msgstr "Log View"
 
 #: ../../gnome/logviewdialog.glade:179
 msgid "scroll down automatic"
-msgstr ""
+msgstr "scroll down automatic"
 
 #: ../../gnome/mainwindow.glade:7
 msgid "Back In Time"
@@ -1401,7 +1452,7 @@ msgstr "Backup Now"
 
 #: ../../gnome/mainwindow.glade:171
 msgid "Shutdown"
-msgstr ""
+msgstr "Shutdown"
 
 #: ../../gnome/mainwindow.glade:287
 msgid "Parent folder"
@@ -1429,15 +1480,15 @@ msgstr "Private key:"
 
 #: ../../gnome/settingsdialog.glade:534
 msgid "Advanced SSH Settings"
-msgstr ""
+msgstr "Advanced SSH Settings"
 
 #: ../../gnome/settingsdialog.glade:552
 msgid "<b>SSH Settings</b>"
-msgstr ""
+msgstr "<b>SSH Settings</b>"
 
 #: ../../gnome/settingsdialog.glade:815
 msgid "<b>Password</b>"
-msgstr ""
+msgstr "<b>Password</b>"
 
 #: ../../gnome/settingsdialog.glade:930
 msgid "Profile Id:"
@@ -1448,6 +1499,8 @@ msgid ""
 "hours seperate by comma ( e.g. 8,12,18,23) or */3 for periodic backups every "
 "3 hours (cron style)"
 msgstr ""
+"hours seperate by comma ( e.g. 8,12,18,23) or */3 for periodic backups every "
+"3 hours (cron style)"
 
 #: ../../gnome/settingsdialog.glade:1163
 msgid "<b>Schedule</b>"
@@ -1485,4 +1538,4 @@ msgstr "Pattern"
 
 #: ../../gnome/textinputdialog.glade:70
 msgid "Text"
-msgstr ""
+msgstr "Text"

@@ -942,10 +942,10 @@ class Snapshots:
                                     '\n' +
                                     gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', 30 ) % 30,
                                     30 )
-                            for counter in range( 30, 0, -1 ):
-                                os.system( 'sleep 1' )
-                                if self.config.can_backup():
-                                    break
+                        for counter in range( 30, 0, -1 ):
+                            os.system( 'sleep 1' )
+                            if self.config.can_backup():
+                                break
 
                     if not self.config.can_backup( profile_id ):
                         logger.warning( 'Can\'t find snapshots folder !' )

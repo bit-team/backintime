@@ -19,7 +19,6 @@ import grp
 import gettext
 import subprocess
 import re
-import pdb
 
 import config
 import mount
