@@ -301,13 +301,10 @@ class SSH(mount.MountControl):
         count = 0
         while count < 5:
             try:
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s.settimeout(2.0)
-                result = s.connect_ex((socket.gethostbyname(self.host), self.port))
+                with socket.create_connection((self.host, self.port), 2.0) as s:
+                    result = s.connect_ex(s.getpeername())
             except:
                 result = -1
-            finally:
-                s.close()
             if result == 0:
                 return
             count += 1
