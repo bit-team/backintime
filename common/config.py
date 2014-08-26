@@ -44,7 +44,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
     APP_NAME = 'Back In Time'
-    VERSION = '1.0.99.0'
+    VERSION = '1.0.99.01'
     COPYRIGHT = 'Copyright (c) 2008-2013 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
     CONFIG_VERSION = 5
 
@@ -1227,6 +1227,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_restore_log_file( self, profile_id = None ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "restore_%s.log" % self.__get_file_id__( profile_id ) )
+
+    def get_restore_instance_file( self, profile_id = None ):
+        return os.path.join( self._LOCAL_DATA_FOLDER, "restore%s.lock" % self.__get_file_id__( profile_id ) )
 
     def get_last_snapshot_symlink(self, profile_id = None):
         return os.path.join(self.get_snapshots_full_path(profile_id), 'last_snapshot')

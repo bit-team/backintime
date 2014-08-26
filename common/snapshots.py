@@ -530,6 +530,13 @@ class Snapshots:
         self.restore_callback( callback, ok, "chmod %s %04o" % ( path, info[0] ) )
 
     def restore( self, snapshot_id, path, callback = None, restore_to = '' ):
+        instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False )
+        if instance.check():
+            instance.start_application()
+        else:
+            logger.warning('Restore is already running')
+            return
+        
         if restore_to.endswith('/'):
             restore_to = restore_to[ : -1 ]
 
@@ -582,6 +589,7 @@ class Snapshots:
         self._execute( cmd, callback )
 
         if full_rsync and not self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
+            instance.exit_application()
             return
 
         #restore permissions
@@ -624,6 +632,8 @@ class Snapshots:
             for item_path in all_dirs:
                 real_path = restore_to + item_path[src_delta:]
                 self._restore_path_info( item_path, real_path, file_info_dict, callback )
+
+        instance.exit_application()
 
     def get_snapshots_list( self, sort_reverse = True, profile_id = None, version = None ):
         '''Returns a list with the snapshot_ids of all snapshots in the snapshots folder'''
@@ -889,9 +899,12 @@ class Snapshots:
             logger.warning( 'Backup not performed' )
         else:
             instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
+            restore_instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False )
             if not instance.check():
                 logger.warning( 'A backup is already running' )
                 self.config.PLUGIN_MANAGER.on_error( 2 ) #a backup is already running
+            elif not restore_instance.check():
+                logger.warning( 'Restore is still running. Stop backup until restore is done.' )
             else:
                 ret_error = False
 
