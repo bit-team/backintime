@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2009 Oprea Dan, Bart de Koning, Richard Bailey
+#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ gettext.textdomain( 'backintime' )
 class Config( configfile.ConfigFileWithProfiles ):
     APP_NAME = 'Back In Time'
     VERSION = '1.0.99.02'
-    COPYRIGHT = 'Copyright (c) 2008-2013 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
+    COPYRIGHT = 'Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
     CONFIG_VERSION = 5
 
     NONE = 0
