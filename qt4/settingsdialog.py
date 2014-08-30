@@ -1323,10 +1323,6 @@ class SettingsDialog( QDialog ):
 
         if len( pattern ) == 0:
             return
-
-        if pattern.find( ':' ) >= 0:
-            messagebox.critical( self, _('Exclude patterns can\'t contain \':\' char !') )
-            return
     
         self.add_exclude_( pattern )
 
