@@ -162,22 +162,18 @@ def on_battery():
 
 def get_snapshots_list_in_folder( folder, sort_reverse = True ):
     biglist = []
-    #print folder
 
     try:
         biglist = os.listdir( folder )
-        #print biglist
     except:
         pass
 
     _list = []
 
     for item in biglist:
-        #print item + ' ' + str(len( item ))
         if len( item ) != 15 and len( item ) != 19:
             continue
         if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
-            #print item
             _list.append( item )
 
     _list.sort( reverse = sort_reverse )
@@ -186,23 +182,19 @@ def get_snapshots_list_in_folder( folder, sort_reverse = True ):
 
 def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
     biglist = []
-    #print folder
 
     try:
         biglist = os.listdir( folder )
-        #print biglist
     except:
         pass
 
     _list = []
 
     for item in biglist:
-        #print item + ' ' + str(len( item ))
         if len( item ) != 15 and len( item ) != 19:
             _list.append( item )
         else: 
             if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
-                #print item
                 continue
             else:
                 _list.append( item )
@@ -255,7 +247,6 @@ def move_snapshots_folder( old_folder, new_folder ):
                     break
             items.append( "--exclude=\"%s\"" % nonsnapshot )
         rsync_exclude = ' '.join( items )
-        #print rsync_exclude
         
         # Move move move
         cmd = "rsync -aEAXHv --delete " + old_folder + " " + new_folder + " " + rsync_exclude
@@ -351,8 +342,6 @@ def get_rsync_caps():
         all_caps = all_caps + line
 
     caps.extend(all_caps.split( ", " ))
-    #print caps
-    #print ( "ACLs" in get_rsync_caps() )
     return caps
 
 
@@ -362,7 +351,6 @@ def use_rsync_fast( config ):
 
 def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] ):
     caps = get_rsync_caps()
-    #cmd = 'rsync -aEH'
     cmd = 'rsync'
     cmd = cmd + ' -rtDHh'
 
@@ -685,7 +673,6 @@ class UniquenessSet:
             # store a tuple of (size, modification time)
             obj  = os.stat(path)
             unique_key = (obj.st_size, int(obj.st_mtime))
-            # print "..", path, unique_key 
         # store if not already present, then return True
         if unique_key not in list(self._uniq_dict.keys()):
             if verb: print(" >> ok, store !")             

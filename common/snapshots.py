@@ -104,25 +104,20 @@ class Snapshots:
             return self.config.ENCODE.remote(path)
         path = os.path.join( self.config.get_snapshots_full_path( profile_id ), self.get_snapshot_id( date ) )
         if os.path.exists( path ):
-            #print path
             return path
         other_folders = self.config.get_other_folders_paths()
         for folder in other_folders:
             path_other = os.path.join( folder, self.get_snapshot_id( date ) )
             if os.path.exists( path_other ):
-                #print path_other
                 return path_other
         old_path = os.path.join( self.config.get_snapshots_full_path( profile_id ), self.get_snapshot_old_id( date ) )
         if os.path.exists( path ):
-            #print path
             return path
         other_folders = self.config.get_other_folders_paths()
         for folder in other_folders:
             path_other = os.path.join( folder, self.get_snapshot_old_id( date ) )
             if os.path.exists( path_other ):
-                #print path_other
                 return path_other				
-        #print path
         return path
 
     def get_snapshot_info_path( self, date ):
@@ -156,7 +151,6 @@ class Snapshots:
         return os.path.join( snapshot_data_path, toPath[ 1 : ] )
 
     def can_open_path( self, snapshot_id, full_path ):
-        #full_path = self.get_snapshot_path_to( snapshot_id, path )
         if not os.path.exists( full_path ):
             return False
         if not os.path.islink( full_path ):
@@ -164,8 +158,6 @@ class Snapshots:
         base_path = self.get_snapshot_path_to( snapshot_id )
         target = os.readlink( full_path )
         target = os.path.join( os.path.abspath( os.path.dirname( full_path ) ), target )
-        #print "[can_open_path] full_path %s" % full_path
-        #print "[can_open_path] base_path %s" % base_path
         return target.startswith( base_path )
 
     def get_snapshot_display_id( self, snapshot_id ):
@@ -212,9 +204,6 @@ class Snapshots:
 
         name_path = os.path.join( path, 'name' )
 
-        #info_file = configfile.ConfigFile()
-        #info_file.load( self.get_snapshot_info_path( snapshot_id ) )
-        #if info_file.get_int_value( 'snapshot_version' ) == 0:
         os.system( "chmod +w \"%s\"" % path )
 
         try:
@@ -286,7 +275,6 @@ class Snapshots:
         try:
             with open( self.config.get_take_snapshot_message_file(), 'wt' ) as file:
                 file.write( data )
-            #logger.info( "Take snapshot message: %s" % data )
         except:
             pass
 
@@ -492,8 +480,6 @@ class Snapshots:
             callback( msg )
     
     def _restore_path_info( self, key_path, path, dict, callback = None ):
-        #print "restore infos - key: %s ; path: %s" % ( key_path, path )
-
         if key_path not in dict:
             return
         info = dict[key_path]
@@ -549,7 +535,6 @@ class Snapshots:
         info_file.load( self.get_snapshot_info_path( snapshot_id ) )
 
         backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
-        #cmd = "rsync -avR --copy-unsafe-links --whole-file --backup --suffix=%s --chmod=+w %s/.%s %s" % ( backup_suffix, self.get_snapshot_path_to( snapshot_id ), path, '/' )
         cmd = tools.get_rsync_prefix( self.config, not full_rsync, use_modes = ['ssh'] )
         cmd = cmd + '-R -v '
         if not full_rsync:
@@ -577,12 +562,7 @@ class Snapshots:
                 src_delta = 0
             else:
                 src_delta = len(items[0])
-    
-        #print "src_base: %s" % src_base
-        #print "src_path: %s" % src_path
-        #print "src_delta: %s" % src_delta
-        #print "snapshot_id: %s" % snapshot_id 
-    
+
         cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_modes = ['ssh'])
         cmd += ' "%s/"' % restore_to
         self.restore_callback( callback, True, cmd )
@@ -612,7 +592,6 @@ class Snapshots:
             else:
                     all_dirs.append(path)
 
-            #print "snapshot_path_to: %s" % snapshot_path_to
             if os.path.isdir( snapshot_path_to ) and not os.path.islink( snapshot_path_to ):
                 for explore_path, dirs, files in os.walk( snapshot_path_to ):
                     for item in dirs:
@@ -623,10 +602,6 @@ class Snapshots:
                         item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
                         real_path = restore_to + item_path[src_delta:]
                         self._restore_path_info( item_path, real_path, file_info_dict, callback )
-            #else:
-            #	item_path = snapshot_path_to[ len( root_snapshot_path_to ) : ]
-            #	real_path = restore_to + item_path[src_delta:]
-            #	self._restore_path_info( item_path, real_path, file_info_dict, callback )
 
             all_dirs.reverse()
             for item_path in all_dirs:
@@ -680,7 +655,6 @@ class Snapshots:
             if len( item ) != 15 and len( item ) != 19:
                 continue
             if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
-                #a = ( item, snapshots_path )
                 _list.append( item )
 
                 
@@ -696,7 +670,6 @@ class Snapshots:
                     if len( member ) != 15 and len( member ) != 19:
                         continue
                     if os.path.isdir( os.path.join( folder, member,  'backup' ) ):
-                        #a = ( member, folder )
                         _list.append( member )
         
         _list.sort( reverse = sort_reverse )
@@ -706,7 +679,6 @@ class Snapshots:
         if len( snapshot_id ) <= 1:
             return
         path = self.get_snapshot_path( snapshot_id, use_mode = ['ssh', 'ssh_encfs'] )
-        #cmd = "chmod -R u+rwx \"%s\"" %  path
         cmd = self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (path, self.config.find_suffix()), quote = True ) #Debian patch
         self._execute( cmd )
         cmd = self.cmd_ssh( "rm -rf \"%s\"" % path )
@@ -722,49 +694,6 @@ class Snapshots:
         self._execute( cmd )
         self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} %s" % ( snapshot_current_path, new_folder, self.config.find_suffix() ) )
 
-    #def _get_last_snapshot_info( self ):
-    #	lines = ''
-    #	dict = {}
-
-    #	try:
-    #		if os.path.exists( self.config.get_last_snapshot_info_file() ):
-    #			file = open( self.config.get_last_snapshot_info_file(), 'rt' )
-    #			lines = file.read()
-    #			file.close()
-    #	except:
-    #		pass
-
-    #	lines = lines.split( '\n' )
-    #	for line in lines:
-    #		line = line.strip()
-    #		if len( line ) <= 0:
-    #			continue
-    #		fields = line.split( ':' )
-    #		if len( fields ) < 6:
-    #			continue
-
-    #		dict[ fields[0] ] = datetime.datetime( int(fields[1]), int(fields[2]), int(fields[3]), int(fields[4]), int(fields[5]) )
-
-    #	return dict
-
-    #def _set_last_snapshot_info( self, dict ):
-    #	lines = []
-
-    #	for key, value in dict.items():
-    #		lines.append( "%s:%s:%s:%s:%s:%s" % ( key, value.year, value.month, value.day, value.hour, value.minute ) )
-
-    #	try:
-    #		file = open( self.config.get_last_snapshot_info_file(), 'wt' )
-    #		file.write( '\n'.join( lines ) )
-    #		file.close()
-    #	except:
-    #		pass
-
-    #def call_user_callback( self, args ):
-    #	cmd = self.config.get_take_snapshot_user_callback()
-    #	if os.path.isfile( cmd ):
-    #		self._execute( 'sh ' + cmd + ' ' + args )
-
     def update_snapshots_location( self ):
         '''Updates to location: backintime/machine/user/profile_id'''
         if self.has_old_snapshots():
@@ -773,10 +702,8 @@ class Snapshots:
             profiles = self.config.get_profiles()
 
             answer_change = self.config.question_handler( _('Back In Time changed its backup format.\n\nYour old snapshots can be moved according to this new format. OK?') )
-            #print answer_change
             if answer_change == True:
                 logger.info( 'Update snapshot locations' )
-                #print len( profiles )
                 
                 if len( profiles ) == 1:
                     logger.info( 'Only 1 profile found' )
@@ -794,33 +721,22 @@ class Snapshots:
                         return False
                     
                 # Moving old snapshots per profile_id
-                #print answer_same
                 profile_id = profiles[0]
-                #print profile_id
-                #old_folder = self.get_snapshots_path( profile_id )
-                #print old_folder
                 main_folder = self.config.get_snapshots_path( profile_id )
                 old_snapshots_paths=[]
                 counter = 0
                 success = []
                 
                 for profile_id in profiles:
-                    #print counter
                     old_snapshots_paths.append( self.config.get_snapshots_path( profile_id ) )
-                    #print old_snapshots_paths
                     old_folder = os.path.join( self.config.get_snapshots_path( profile_id ), 'backintime' )
-                    #print old_folder
                     if profile_id != "1" and answer_same == True:
-                        #print 'profile_id != 1, answer = True'
                         self.config.set_snapshots_path( main_folder, profile_id )
                         logger.info( 'Folder of profile %s is set to %s' %( profile_id, main_folder ) )
                     else:
                         self.config.set_snapshots_path( self.config.get_snapshots_path( profile_id ), profile_id )
                         logger.info( 'Folder of profile %s is set to %s' %( profile_id, main_folder ) )
                     new_folder = self.config.get_snapshots_full_path( profile_id )
-                    #print new_folder
-                    #snapshots_to_move = tools.get_snapshots_list_in_folder( old_folder )
-                    #print snapshots_to_move
 
                     output = tools.move_snapshots_folder( old_folder, new_folder )
 
@@ -844,19 +760,15 @@ class Snapshots:
                             # restore
                             logger.info( 'Restore former settings' )
                             self.config.set_snapshots_path( old_snapshots_paths[counter], profile_id )
-                            #print self.get_snapshots_path( profile_id )
                             self.config.error_handler( _('Former settings of profile %s are restored.\nBack In Time cannot continue taking new snapshots.\n\nYou can manually move the snapshots, \nif you are done restart Back In Time to proceed' %profile_id ) )
                     
                     counter = counter + 1
                 
-                #print success
                 overall_success = True
                 for item in success:
                     if item == False:
                         overall_success = False	
                 if overall_success == True:
-                    #self.set_update_other_folders( False )
-                    #print self.get_update_other_folders()
                     logger.info( 'Back In Time will be able to make new snapshots again!' )
                     self.config.error_handler( _('Update was successful!\n\nBack In Time will continue taking snapshots again as scheduled' ) )
 
@@ -865,7 +777,6 @@ class Snapshots:
                 logger.warning( 'Old snapshots are not taken into account by smart-remove' )
                 answer_continue = self.config.question_handler( _('Are you sure you do not want to move your old snapshots?\n\n\nIf you do, you will not see these questions again next time, Back In Time will continue making snapshots again, but smart-remove cannot take your old snapshots into account any longer!\n\nIf you do not, you will be asked again next time you start Back In Time.') )
                 if answer_continue == True:
-                    #self.set_update_other_folders( False )
                     for profile_id in profiles:
                         old_folder = self.config.get_snapshots_path( profile_id )
                         self.config.set_snapshots_path( old_folder, profile_id )
@@ -893,7 +804,6 @@ class Snapshots:
         elif self.config.is_no_on_battery_enabled() and tools.on_battery():
             logger.info( 'Deferring backup while on battery' )
             logger.warning( 'Backup not performed' )
-        #elif self.config.get_update_other_folders() == True:
         elif self.has_old_snapshots():
             logger.info( 'The application needs to change the backup format. Start the GUI to proceed. (As long as you do not you will not be able to make new snapshots!)' )
             logger.warning( 'Backup not performed' )
@@ -914,12 +824,7 @@ class Snapshots:
                 instance.start_application()
                 logger.info( 'Lock' )
 
-                #if not self.config.get_per_directory_schedule():
-                #	force = True
-
                 now = datetime.datetime.today()
-                #if not force:
-                #	now = now.replace( second = 0 )
 
                 #mount
                 try:
@@ -971,7 +876,6 @@ class Snapshots:
                             logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
                             self.config.PLUGIN_MANAGER.on_error( 4, snapshot_id ) #This snapshots already exists
                         else:
-                            #ret_val = self._take_snapshot( snapshot_id, now, include_folders, ignore_folders, dict, force )
                             ret_val, ret_error = self._take_snapshot( snapshot_id, now, include_folders )
 
                         if not ret_val:
@@ -1033,7 +937,6 @@ class Snapshots:
             pg.set_str_value('eta', m.group(4) )
             pg.save()
             pg = None
-            #print('sent %s percent %s speed %s eta %s' %(sent, percent, speed, eta))
             return
 
         self.set_take_snapshot_message( 0, _('Take snapshot') + " (rsync: %s)" % line )
@@ -1051,8 +954,6 @@ class Snapshots:
                     self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
     def _exec_rsync_compare_callback( self, line, params ):
-        #self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % params[0] )
-
         if len(line) >= 13:
             if line.startswith( 'BACKINTIME: ' ):
                 if line[12] != '.':
@@ -1066,8 +967,6 @@ class Snapshots:
         _list.append( item )
 
     def _is_auto_backup_needed( self, now, last, mode ):
-        #print "now: %s, last: %s, mode: %s" % ( now, last, mode )
-
         if self.config.NONE == mode:
             return False
 
@@ -1104,38 +1003,6 @@ class Snapshots:
             return ( int( now.minute / 5 ) ) > ( int( last.minute / 5 ) )
 
         return False
-
-    #def _get_backup_folders( self, now, force ):
-    #	include_folders = []
-    #	ignore_folders = []
-    #	dict = self._get_last_snapshot_info()
-    #	dict2 = {}
-
-    #	all_include_folders = self.config.get_include()
-    #	
-    #	for item in all_include_folders:
-    #		path = item[0]
-    #		path = os.path.expanduser( path )
-    #		path = os.path.abspath( path )
-
-    #		if path in dict:
-    #			dict2[ path ] = dict[ path ]
-
-    #		if not os.path.isdir( path ):
-    #			continue
-
-    #		if not force and path in dict:
-    #			if not self._is_auto_backup_needed( now, dict[path], item[1] ):
-    #				ignore_folders.append( path )
-    #				continue
-
-    #		include_folders.append( path )
-
-    #	logger.info( "Include folders: %s" % include_folders )
-    #	logger.info( "Ignore folders: %s" % ignore_folders )
-    #	logger.info( "Last snapshots: %s" % dict2 )
-
-    #	return ( include_folders, ignore_folders, dict2 )
 
     def _create_directory( self, folder ):
         tools.make_dirs( folder )
@@ -1182,8 +1049,6 @@ class Snapshots:
         find_suffix = self.config.find_suffix()
         
         if os.path.exists( new_snapshot_path() ):
-            #self._execute( "find \"%s\" -type d -exec chmod +w {} \;" % new_snapshot_path )
-            #self._execute( "chmod -R u+rwx \"%s\"" %  new_snapshot_path )
             self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (new_snapshot_path(), find_suffix) ) #Debian patch
             self._execute( "rm -rf \"%s\"" % new_snapshot_path() )
         
@@ -1201,8 +1066,6 @@ class Snapshots:
             if exclude is None:
                 continue
             self._append_item_to_list( "--exclude=\"%s\"" % exclude, items )
-        #for folder in ignore_folders:
-        #	self._append_item_to_list( "--exclude=\"%s\"" % folder, items )
         rsync_exclude = ' '.join( items )
 
         #create include patterns list
@@ -1241,22 +1104,14 @@ class Snapshots:
         full_rsync = self.config.full_rsync()
         
         #rsync prefix & suffix
-        rsync_prefix = tools.get_rsync_prefix( self.config, not full_rsync ) # 'rsync -aEAXH '
+        rsync_prefix = tools.get_rsync_prefix( self.config, not full_rsync )
         rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" --exclude=\"%s\" " % \
                 ( encode.exclude( self.config.get_snapshots_path() ), \
                   encode.exclude( self.config._LOCAL_DATA_FOLDER ) ,  \
                   encode.exclude( self.config.MOUNT_ROOT ) )
-        #rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
         rsync_suffix = ' --chmod=Du+wx ' + rsync_exclude_backup_directory
         rsync_suffix += rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2
         rsync_suffix += ' --exclude=\"*\" ' + encode.chroot + ' '
-
-        #update dict
-        #if not force:
-        #	for folder in include_folders:
-        #		dict[ folder ] = now
-        #
-        #	self._set_last_snapshot_info( dict )
 
         prev_snapshot_id = ''
         snapshots = self.get_snapshots_list()
@@ -1280,20 +1135,9 @@ class Snapshots:
                     cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix 
                     cmd += self.rsync_remote_path( prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
                     params = [ prev_snapshot_path_to(), False ]
-                    #try_cmd = self._execute_output( cmd, self._exec_rsync_compare_callback, prev_snapshot_name )
                     self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
                     self._execute( cmd, self._exec_rsync_compare_callback, params )
                     changed = params[1]
-
-                    #changed = False
-
-                    #for line in try_cmd.split( '\n' ):
-                    #	if len( line ) < 1:
-                    #		continue
-
-                    #	if line[0] != '.':
-                    #		changed = True
-                    #		break
 
                     if not changed:
                         logger.info( "Nothing changed, no back needed" )
@@ -1328,13 +1172,6 @@ class Snapshots:
                 #make snapshot items rw to allow xopy xattr
                 self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
-                #else:
-                #	for folder in include_folders:
-                #		prev_path = self.get_snapshot_path_to( prev_snapshot_id, folder )
-                #		new_path = self.get_snapshot_path_to( new_snapshot_id, folder )
-                #		tools.make_dirs( new_path )
-                #		cmd = "cp -alb \"%s\"* \"%s\"" % ( prev_path, new_path )
-                #		self._execute( cmd )
         else:
             if not self._create_directory( new_snapshot_path_to() ):
                 return [ False, True ]
@@ -1348,12 +1185,6 @@ class Snapshots:
 
         if full_rsync:
             if len( prev_snapshot_id ) > 0:
-                #prev_snapshot_folder = self.get_snapshot_path_to( prev_snapshot_id )
-                #prev_snapshot_folder_ssh = self.get_snapshot_path_to_ssh( prev_snapshot_id )
-                #if ssh:
-                #	cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder_ssh
-                #else:
-                #	cmd = cmd + " --link-dest=\"%s\"" % prev_snapshot_folder
                 link_dest = encode.path( os.path.join(prev_snapshot_id, 'backup') )
                 link_dest = os.path.join('..', '..', link_dest)
                 cmd = cmd + " --link-dest=\"%s\"" % link_dest
@@ -1704,30 +1535,6 @@ class Snapshots:
             logger.info( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
 
         return ret_val
-
-    #def _execute_output( self, cmd, callback = None, user_data = None ):
-    #	output = ''
-
-    #	pipe = os.popen( cmd, 'r' )
-    #	
-    #	while True:
-    #		line = tools.temp_failure_retry( pipe.readline )
-    #		if len( line ) == 0:
-    #			break
-    #		output = output + line
-    #		if not callback is None:
-    #			callback( line.strip(), user_data )
-
-    #	ret_val = pipe.close()
-    #	if ret_val is None:
-    #		ret_val = 0
-
-    #	if ret_val != 0:
-    #		logger.warning( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
-    #	else:
-    #		logger.info( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
-
-    #	return output
     
     def filter_for(self, base_snapshot_id, base_path, snapshots_list, list_diff_only  = False, flag_deep_check = False, list_equal_to = False):
         "return a list of available snapshots (including 'now'), eventually filtered for uniqueness"

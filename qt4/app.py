@@ -78,7 +78,6 @@ class MainWindow( QMainWindow ):
         self.disable_profile_changed = False
         self.combo_profiles = QComboBox( self )
         self.combo_profiles_action = self.main_toolbar.addWidget( self.combo_profiles )
-        #self.combo_profiles.setMinimumWidth( 250 )
 
         self.btn_take_snapshot = self.main_toolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
         QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
@@ -273,7 +272,6 @@ class MainWindow( QMainWindow ):
         self.files_view_layout.addWidget( self.list_files_view )
         self.list_files_view.setRootIsDecorated( False )
         self.list_files_view.setAlternatingRowColors( True )
-##        self.list_files_view.setAllColumnsShowFocus( True )
         self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
         self.list_files_view.setItemsExpandable( False )
         self.list_files_view.setDragEnabled( False )
@@ -369,9 +367,6 @@ class MainWindow( QMainWindow ):
             self.list_files_view_header.resizeSection( 1, files_view_size_width )
             self.list_files_view_header.resizeSection( 2, files_view_date_width )
 
-        #
-        #qt4tools.set_font_bold( self.right_widget )
-
         #force settingdialog if it is not configured
         if not cfg.is_configured():
             settingsdialog.SettingsDialog( self ).exec_()
@@ -401,9 +396,6 @@ class MainWindow( QMainWindow ):
         #populate lists
         self.update_profiles()
         QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.on_profile_changed )
-        #self.update_time_line()
-        #self.update_places()
-        #self.update_files_view( 0 )
 
         self.list_files_view.setFocus()
 
@@ -700,7 +692,6 @@ class MainWindow( QMainWindow ):
 
         if len( path ) == 0:
             item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
-            #item.setFlags( Qt.NoItemFlags )
             item.setFlags( Qt.ItemIsEnabled )
             item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
             item.setTextColor( 0, QColor( 60, 60, 60 ))
@@ -729,7 +720,6 @@ class MainWindow( QMainWindow ):
             if len( folders ) > 0:
                 self.add_place( _('Backup folders'), '', '' )
                 for folder in folders:
-                    #self.add_place( folder[0], folder[0], 'document-save' )
                     self.add_place( folder, folder, 'document-save' )
 
     def update_snapshot_actions( self, item = None ):
@@ -760,7 +750,6 @@ class MainWindow( QMainWindow ):
 
         snapshot_id = self.time_line_get_snapshot_id( item )
         if len( snapshot_id ) == 0:
-            #self.list_time_line.setCurrentItem( previous )
             return
 
         if snapshot_id == self.snapshot_id:
@@ -787,7 +776,6 @@ class MainWindow( QMainWindow ):
 
         if len( snapshot_id ) == 0:
             item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
-            #item.setFlags( Qt.NoItemFlags )
             item.setFlags( Qt.ItemIsEnabled )
             item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
             item.setTextColor( 0, QColor( 60, 60, 60 ) )
@@ -1112,7 +1100,6 @@ class MainWindow( QMainWindow ):
             else:
                 self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries |
                                                      QDir.NoDotAndDotDot)
-            #self.list_files_view_model.setRootPath(full_path)
             self.index = self.list_files_view_model.index(full_path)
             self.list_files_view.setRootIndex(self.index)
 
@@ -1135,10 +1122,6 @@ class MainWindow( QMainWindow ):
 
         #update folder_up button state
         self.btn_folder_up.setEnabled( len( self.path ) > 1 )
-
-#		#show snapshots
-#		if show_snapshots:
-#			self.on_btn_snapshots_clicked( None )
 
     def on_dir_lister_completed( self ):
         has_files = (self.list_files_view_model.rowCount(self.list_files_view.rootIndex() ) > 0 )

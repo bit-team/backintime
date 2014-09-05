@@ -380,9 +380,7 @@ class SSH(mount.MountControl):
                                         stderr=subprocess.PIPE,
                                         universal_newlines = True)
         output, err = proc.communicate()
-            
-##        print('ERROR: %s' % err)
-##        print('OUTPUT: %s' % output)
+        
         output_split = output.split('\n')
         while True:
             if len(output_split) > 0 and len(output_split[-1]) == 0:

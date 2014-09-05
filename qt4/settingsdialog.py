@@ -383,8 +383,6 @@ class SettingsDialog( QDialog ):
         self.list_include = QTreeWidget( self )
         self.list_include.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.list_include.setRootIsDecorated( False )
-        #self.list_include.setEditTriggers( QAbstractItemView.NoEditTriggers )
-        #self.list_include.setHeaderLabels( [ _('Include folders'), _('Automatic backup') ] )
         self.list_include.setHeaderLabels( [ _('Include files and folders'),
                                             'Count' ] )
         
@@ -961,7 +959,6 @@ class SettingsDialog( QDialog ):
         self.set_combo_value( self.combo_log_level, self.config.log_level() )
 
         #TAB: Expert Options
-        #self.cb_per_diretory_schedule.setChecked( self.config.get_per_directory_schedule() )
         self.cb_run_nice_from_cron.setChecked( self.config.is_run_nice_from_cron_enabled() )
         self.cb_run_ionice_from_cron.setChecked( self.config.is_run_ionice_from_cron_enabled() )
         self.cb_run_ionice_from_user.setChecked( self.config.is_run_ionice_from_user_enabled() )
@@ -978,7 +975,6 @@ class SettingsDialog( QDialog ):
         self.txt_rsync_options.setText(self.config.rsync_options() )
 
         #update
-        #self.update_include_columns()
         self.update_remove_older_than()
         self.update_min_free_space()
 
@@ -1104,7 +1100,6 @@ class SettingsDialog( QDialog ):
         include_list = []
         for index in range( self.list_include.topLevelItemCount() ):
             item = self.list_include.topLevelItem( index )
-            #include_list.append( [ item.text(0), item.data( 0, Qt.UserRole ) ] )
             include_list.append( ( item.text(0), item.data( 0, Qt.UserRole ) ) )
         
         self.config.set_include( include_list )
@@ -1156,7 +1151,6 @@ class SettingsDialog( QDialog ):
         self.config.set_log_level( self.combo_log_level.itemData( self.combo_log_level.currentIndex() ) )
 
         #expert options
-        #self.config.set_per_directory_schedule( self.cb_per_diretory_schedule.isChecked() )
         self.config.set_run_nice_from_cron_enabled( self.cb_run_nice_from_cron.isChecked() )
         self.config.set_run_ionice_from_cron_enabled( self.cb_run_ionice_from_cron.isChecked() )
         self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.isChecked() )
@@ -1206,29 +1200,6 @@ class SettingsDialog( QDialog ):
         self.config.set_error_handler( self.error_handler )
         self.snapshots.update_snapshots_location()
     
-    #def update_include_columns( self ):
-    #	if self.cb_per_diretory_schedule.isChecked():
-    #		self.list_include.showColumn( 1 )
-    #		self.global_schedule_group_box.hide()
-    #	else:
-    #		self.list_include.hideColumn( 1 )
-    #		self.global_schedule_group_box.show()
-
-    #def on_list_include_item_activated( self, item, column ):
-    #	if not self.cb_per_diretory_schedule.isChecked():
-    #		return
-    #	
-    #	if item is None:
-    #		return
-
-    #	#if column != 1:
-    #	#	return
-
-    #	self.popup_automatic_backup.popup( QCursor.pos() )
-
-    #def on_popup_automatic_backup( self ):
-    #	print "ABC"
-
     def update_remove_older_than( self ):
         enabled = self.cb_remove_older_then.isChecked()
         self.edit_remove_older_then.setEnabled( enabled )
@@ -1249,8 +1220,6 @@ class SettingsDialog( QDialog ):
             item.setIcon(0, self.icon.FILE)
 
         item.setText( 0, data[0] )
-        #item.setText( 0, data[0] )
-        #item.setText( 1, self.config.AUTOMATIC_BACKUP_MODES[ data[1] ] )
         item.setData( 0, Qt.UserRole, data[1] )
         self.list_include_count += 1
         item.setText(1, str(self.list_include_count).zfill(6))

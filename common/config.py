@@ -145,7 +145,6 @@ class Config( configfile.ConfigFileWithProfiles ):
         self._LOCAL_DATA_FOLDER = os.path.join( os.getenv( 'XDG_DATA_HOME', '$HOME/.local/share' ).replace( '$HOME', HOME_FOLDER ), 'backintime' )
         self._LOCAL_CONFIG_FOLDER = os.path.join( os.getenv( 'XDG_CONFIG_HOME', '$HOME/.config' ).replace( '$HOME', HOME_FOLDER ), 'backintime' )
 
-        #self._LOCAL_CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
         tools.make_dirs( self._LOCAL_CONFIG_FOLDER )
         tools.make_dirs( self._LOCAL_DATA_FOLDER )
 
@@ -215,7 +214,6 @@ class Config( configfile.ConfigFileWithProfiles ):
                     other_folder = os.path.join( old_folder, 'backintime' )
                     other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
                     self.set_str_value( other_folder_key, other_folder )
-                    #self.set_snapshots_path( old_folder, profile_id )
                     tag = str( random.randint(100, 999) )
                     logger.info( "Random tag for profile %s: %s" %( profile_id, tag ) )
                     self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
@@ -262,18 +260,6 @@ class Config( configfile.ConfigFileWithProfiles ):
             if len( snapshots_path ) <= 0:
                 self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('Snapshots folder is not valid !') )
                 return False
-
-            ## Should not check for similar snapshot paths any longer! 
-            #for other_profile in checked_profiles:
-            #	if snapshots_path == self.get_snapshots_path( other_profile[0] ):
-            #		self.notify_error( _('Profiles "%s" and "%s" have the same snapshots path !') % ( profile_name, other_profile[1] ) )
-            #		return False
-            #
-            #if not os.path.isdir( snapshots_path ):
-            #	return ( 0, _('Snapshots folder is not valid !') )
-
-            #if len( self.get_snapshots_path( profile_id ) ) <= 1:
-            #	return ( 0, _('Snapshots folder can\'t be the root folder !') )
 
             #check include
             include_list = self.get_include( profile_id )
@@ -356,9 +342,6 @@ class Config( configfile.ConfigFileWithProfiles ):
             return False
 
         if profile_id == None:
-        #	print("BUG: calling set_snapshots_path without profile_id!")
-        #	tjoep
-        #	return False
             profile_id = self.get_current_profile()
             
         if mode is None:
@@ -370,8 +353,6 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         #Initialize the snapshots folder
         print("Check snapshot folder: %s" % value)
-        #machine = socket.gethostname()
-        #user = self.get_user()
 
         host, user, profile = self.get_host_user_profile( profile_id )
 
@@ -693,7 +674,6 @@ class Config( configfile.ConfigFileWithProfiles ):
             else:
                 automatic_backup_mode = self.get_automatic_backup_mode()
 
-            #paths.append( ( path, automatic_backup_mode ) )
             paths.append( path )
 
         return paths
@@ -835,12 +815,6 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_automatic_backup_anacron_period(self, value, profile_id = None):
         self.set_profile_int_value('snapshots.automatic_backup_anacron_period', value, profile_id)
-
-    #def get_per_directory_schedule( self, profile_id = None ):
-    #	return self.get_profile_bool_value( 'snapshots.expert.per_directory_schedule', False, profile_id )
-
-    #def set_per_directory_schedule( self, value, profile_id = None ):
-    #	return self.set_profile_bool_value( 'snapshots.expert.per_directory_schedule', value, profile_id )
 
     def get_remove_old_snapshots( self, profile_id = None ):
                  #?Remove all snapshots older than value + unit
@@ -1195,9 +1169,6 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_take_snapshot_instance_file( self, profile_id = None ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "worker%s.lock" % self.__get_file_id__( profile_id ) )
 
-    #def get_last_snapshot_info_file( self, profile_id = None ):
-    #	return os.path.join( self._LOCAL_DATA_FOLDER, "snapshot%s.last" % self.__get_file_id__( profile_id ) )
-
     def get_take_snapshot_user_callback( self, profile_id = None ):
         return os.path.join( self._LOCAL_CONFIG_FOLDER, "user-callback" )
 
@@ -1284,7 +1255,6 @@ class Config( configfile.ConfigFileWithProfiles ):
             os.system( "crontab -l | grep -v backintime | crontab -" )
         
         print("Clearing system Back In Time entries")
-        #os.system( "crontab -l | grep -Pv '(?s)%s.*?backintime' | crontab -" % system_entry_message ) #buggy in Ubuntu 10.10
         os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab -" % system_entry_message )
 
         print("Clearing anacrontab")
@@ -1472,14 +1442,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             return True
         cmd = 'rm %s' % self.get_udev_rules_path()
         return tools.sudo_execute(self, cmd, _('Please provide your sudo password to remove unused udev rules.')) == 0
-    
-    #def get_update_other_folders( self ):
-    #	return self.get_bool_value( 'update.other_folders', True )
-        
-    #def set_update_other_folders( self, value ):
-    #	self.set_bool_value( 'update.other_folders', value )
 
 if __name__ == "__main__":
     config = Config()
     print("snapshots path = %s" % config.get_snapshots_full_path())
-
