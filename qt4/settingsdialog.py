@@ -88,9 +88,12 @@ class SettingsDialog( QDialog ):
         self.tabs_widget.setUsesScrollButtons(False)
 
         #TAB: General
-        tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, _( 'General' ) )
-        layout = QVBoxLayout( tab_widget )
+        scrollArea = QScrollArea(self)
+        scrollArea.setFrameStyle(QFrame.NoFrame)
+        self.tabs_widget.addTab( scrollArea, _( 'General' ) )
+        
+        layoutWidget = QWidget(self)
+        layout = QVBoxLayout(layoutWidget)
         
         #select mode
         self.mode = None
@@ -369,6 +372,8 @@ class SettingsDialog( QDialog ):
 
         #
         layout.addStretch()
+        scrollArea.setWidget(layoutWidget)
+        scrollArea.setWidgetResizable(True)
         
         #TAB: Include
         tab_widget = QWidget( self )
@@ -473,9 +478,13 @@ class SettingsDialog( QDialog ):
         QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
         #TAB: Auto-remove
-        tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, _( 'Auto-remove' ) )
-        layout = QGridLayout( tab_widget )
+        scrollArea = QScrollArea(self)
+        scrollArea.setFrameStyle(QFrame.NoFrame)
+        self.tabs_widget.addTab( scrollArea, _( 'Auto-remove' ) )
+        
+        layoutWidget = QWidget(self)
+        layout = QGridLayout(layoutWidget)
+
 
         #remove old snapshots
         self.cb_remove_older_then = QCheckBox( _( 'Older than:' ), self )
@@ -566,11 +575,16 @@ class SettingsDialog( QDialog ):
         #
         layout.addWidget( QWidget(), 6, 0 )
         layout.setRowStretch( 6, 2 )
+        scrollArea.setWidget(layoutWidget)
+        scrollArea.setWidgetResizable(True)
         
         #TAB: Options
-        tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, _( 'Options' ) )
-        layout = QVBoxLayout( tab_widget )
+        scrollArea = QScrollArea(self)
+        scrollArea.setFrameStyle(QFrame.NoFrame)
+        self.tabs_widget.addTab( scrollArea, _( 'Options' ) )
+        
+        layoutWidget = QWidget(self)
+        layout = QVBoxLayout(layoutWidget)
 
         self.cb_notify_enabled = QCheckBox( _( 'Enable notifications' ), self )
         layout.addWidget( self.cb_notify_enabled )
@@ -617,19 +631,20 @@ class SettingsDialog( QDialog ):
 
         #
         layout.addStretch()
+        scrollArea.setWidget(layoutWidget)
+        scrollArea.setWidgetResizable(True)
 
         #TAB: Expert Options
-        tab_widget = QWidget( self )
-        self.tabs_widget.addTab( tab_widget, _( 'Expert Options' ) )
-        layout = QVBoxLayout( tab_widget )
+        scrollArea = QScrollArea(self)
+        scrollArea.setFrameStyle(QFrame.NoFrame)
+        self.tabs_widget.addTab( scrollArea, _( 'Expert Options' ) )
+        
+        layoutWidget = QWidget(self)
+        layout = QVBoxLayout(layoutWidget)
 
         label = QLabel( _('Change these options only if you really know what you are doing !'), self )
         qt4tools.set_font_bold( label )
         layout.addWidget( label )
-
-        #self.cb_per_diretory_schedule = QCheckBox( _( 'Enable schedule per included folder (see Include tab; default: disabled)' ), self )
-        #layout.addWidget( self.cb_per_diretory_schedule )
-        #QObject.connect( self.cb_per_diretory_schedule, SIGNAL('clicked()'), self.update_include_columns )
 
         self.cb_run_nice_from_cron = QCheckBox( _( 'Run \'nice\' as cron job (default: enabled)' ), self )
         layout.addWidget( self.cb_run_nice_from_cron )
@@ -688,6 +703,8 @@ class SettingsDialog( QDialog ):
 
         #
         layout.addStretch()
+        scrollArea.setWidget(layoutWidget)
+        scrollArea.setWidgetResizable(True)
 
         #buttons
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent = self)
