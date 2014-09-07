@@ -1233,7 +1233,10 @@ class SettingsDialog( QDialog ):
 
     def add_exclude( self, pattern ):
         item = QTreeWidgetItem()
-        if pattern in self.config.DEFAULT_EXCLUDE:
+        if self.mode == 'ssh_encfs' and tools.patternHasNotEncryptableWildcard(pattern):
+            item.setIcon(0, self.icon.INVALID_EXCLUDE)
+            item.setBackground(0, QBrush(Qt.lightGray))
+        elif pattern in self.config.DEFAULT_EXCLUDE:
             item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
         else:
             item.setIcon(0, self.icon.EXCLUDE)
@@ -1429,6 +1432,11 @@ class SettingsDialog( QDialog ):
             
         if active_mode == 'ssh_encfs':
             self.lbl_ssh_encfs_exclude_warning.show()
+            for index in range(self.list_exclude.topLevelItemCount()):
+                item = self.list_exclude.topLevelItem(index)
+                if tools.patternHasNotEncryptableWildcard(item.text(0)):
+                    item.setIcon(0, self.icon.INVALID_EXCLUDE)
+                    item.setBackground(0, QBrush(Qt.lightGray))
         else:
             self.lbl_ssh_encfs_exclude_warning.hide()
             

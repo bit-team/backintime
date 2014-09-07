@@ -615,7 +615,17 @@ def isRoot():
 
 def usingSudo():
     return isRoot() and os.getenv('HOME', '/root') != '/root'
-        
+
+re_wildcard = re.compile(r'(?:\[|\]|\?|\*)')
+re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
+def patternHasNotEncryptableWildcard(pattern):
+    #return True if path has wildcards [ ] ? *
+    #but return False for foo/*, foo/*/bar, */bar or **/bar
+    if not re_wildcard.search(pattern) is None:
+        if re_separate_asterisk.search(pattern) is None:
+            return False
+        return True
+    return False
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''

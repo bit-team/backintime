@@ -299,7 +299,6 @@ class Encode(object):
         
         #precompile some regular expressions
         self.re_asterisk = re.compile(r'\*')
-        self.re_wildcard = re.compile(r'(\[|\]|\?)')
         self.re_separate_asterisk = re.compile(r'(.*?)(\*+)(.*)')
 
     def __del__(self):
@@ -338,9 +337,7 @@ class Encode(object):
            so all paths with wildcards are ignored. Only single and double asterisk
            that will match a full file or folder name will work.
         """
-        #return None if path has wildcards [ ] ?
-        m = self.re_wildcard.search(path)
-        if not m is None:
+        if tools.patternHasNotEncryptableWildcard(path):
             return None
         
         enc = ''
