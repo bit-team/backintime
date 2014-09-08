@@ -101,7 +101,13 @@ class Config( configfile.ConfigFileWithProfiles ):
                         '/dev/*', '/run/*', '/etc/mtab',                        \
                         '/var/cache/apt/archives/*.deb', 'lost+found/*',        \
                         '/tmp/*', '/var/tmp/*', '/var/backups/*', '.Private' ]
-    
+
+    DEFAULT_RUN_NICE_FROM_CRON   = True
+    DEFAULT_RUN_NICE_ON_REMOTE   = False
+    DEFAULT_RUN_IONICE_FROM_CRON = True
+    DEFAULT_RUN_IONICE_FROM_USER = False
+    DEFAULT_RUN_IONICE_ON_REMOTE = False
+
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
                 #mode           : (<mounttools>,            'ComboBox Text',        need_pw|lbl_pw_1,       need_2_pw|lbl_pw_2 ),
@@ -950,7 +956,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         #?Note that the crontab entry is only generated during saving in 
         #?settings dialog. If you don't run a GUI version of BackInTime 
         #?you'll have to create the crontab entry on your own.
-        return self.get_profile_bool_value( 'snapshots.cron.nice', True, profile_id )
+        return self.get_profile_bool_value( 'snapshots.cron.nice', self.DEFAULT_RUN_NICE_FROM_CRON, profile_id )
 
     def set_run_nice_from_cron_enabled( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.cron.nice', value, profile_id )
@@ -961,7 +967,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         #?Note that the crontab entry is only generated during saving in 
         #?settings dialog. If you don't run a GUI version of BackInTime 
         #?you'll have to create the crontab entry on your own.
-        return self.get_profile_bool_value( 'snapshots.cron.ionice', True, profile_id )
+        return self.get_profile_bool_value( 'snapshots.cron.ionice', self.DEFAULT_RUN_IONICE_FROM_CRON, profile_id )
 
     def set_run_ionice_from_cron_enabled( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.cron.ionice', value, profile_id )
@@ -970,21 +976,21 @@ class Config( configfile.ConfigFileWithProfiles ):
         #?Run BackInTime with 'ionice -c2 -n7' when taking a manual snapshot. 
         #?This will give BackInTime the lowest IO bandwidth priority to not 
         #?interupt any other working process.
-        return self.get_profile_bool_value( 'snapshots.user_backup.ionice', False, profile_id )
+        return self.get_profile_bool_value( 'snapshots.user_backup.ionice', self.DEFAULT_RUN_IONICE_FROM_USER, profile_id )
 
     def set_run_ionice_from_user_enabled( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.user_backup.ionice', value, profile_id )
 
     def is_run_nice_on_remote_enabled(self, profile_id = None):
         #?Run rsync and other commands on remote host with 'nice -n 19'
-        return self.get_profile_bool_value('snapshots.ssh.nice', False, profile_id)
+        return self.get_profile_bool_value('snapshots.ssh.nice', self.DEFAULT_RUN_NICE_ON_REMOTE, profile_id)
 
     def set_run_nice_on_remote_enabled(self, value, profile_id = None):
         self.set_profile_bool_value('snapshots.ssh.nice', value, profile_id)
 
     def is_run_ionice_on_remote_enabled(self, profile_id = None):
         #?Run rsync and other commands on remote host with 'ionice -c2 -n7'
-        return self.get_profile_bool_value('snapshots.ssh.ionice', False, profile_id)
+        return self.get_profile_bool_value('snapshots.ssh.ionice', self.DEFAULT_RUN_IONICE_ON_REMOTE, profile_id)
 
     def set_run_ionice_on_remote_enabled(self, value, profile_id = None):
         self.set_profile_bool_value('snapshots.ssh.ionice', value, profile_id)

@@ -644,20 +644,32 @@ class SettingsDialog( QDialog ):
         qt4tools.set_font_bold( label )
         layout.addWidget( label )
 
-        self.cb_run_nice_from_cron = QCheckBox( _( 'Run \'nice\' as cron job (default: enabled)' ), self )
-        layout.addWidget( self.cb_run_nice_from_cron )
+        label = QLabel(_("Run 'nice':"))
+        layout.addWidget(label)
+        grid = QGridLayout()
+        grid.setColumnMinimumWidth(0, 20)
+        layout.addLayout(grid)
 
-        self.cb_run_ionice_from_cron = QCheckBox( _( 'Run \'ionice\' as cron job (default: enabled)' ), self )
-        layout.addWidget( self.cb_run_ionice_from_cron )
+        self.cb_run_nice_from_cron = QCheckBox(_('as cron job') + self.printDefault(self.config.DEFAULT_RUN_NICE_FROM_CRON), self)
+        grid.addWidget(self.cb_run_nice_from_cron, 0, 1)
 
-        self.cb_run_ionice_from_user = QCheckBox( _( 'Run \'ionice\' when taking a manual snapshot (default: disabled)' ), self )
-        layout.addWidget( self.cb_run_ionice_from_user )
+        self.cb_run_nice_on_remote = QCheckBox(_('on remote host') + self.printDefault(self.config.DEFAULT_RUN_NICE_ON_REMOTE), self)
+        grid.addWidget(self.cb_run_nice_on_remote, 1, 1)
 
-        self.cb_run_nice_on_remote = QCheckBox( _('Run \'nice\' on remote host (default: disabled)'), self)
-        layout.addWidget(self.cb_run_nice_on_remote)
+        label = QLabel(_("Run 'ionice':"))
+        layout.addWidget(label)
+        grid = QGridLayout()
+        grid.setColumnMinimumWidth(0, 20)
+        layout.addLayout(grid)
 
-        self.cb_run_ionice_on_remote = QCheckBox( _('Run \'ionice\' on remote host (default: disabled)'), self)
-        layout.addWidget(self.cb_run_ionice_on_remote)
+        self.cb_run_ionice_from_cron = QCheckBox(_('as cron job') + self.printDefault(self.config.DEFAULT_RUN_IONICE_FROM_CRON), self)
+        grid.addWidget(self.cb_run_ionice_from_cron, 0, 1)
+
+        self.cb_run_ionice_from_user = QCheckBox(_('when taking a manual snapshot') + self.printDefault(self.config.DEFAULT_RUN_IONICE_FROM_USER), self )
+        grid.addWidget(self.cb_run_ionice_from_user, 1, 1)
+
+        self.cb_run_ionice_on_remote = QCheckBox(_('on remote host') + self.printDefault(self.config.DEFAULT_RUN_IONICE_ON_REMOTE), self)
+        grid.addWidget(self.cb_run_ionice_on_remote, 2, 1)
 
         #bwlimit
         hlayout = QHBoxLayout()
@@ -1451,6 +1463,13 @@ class SettingsDialog( QDialog ):
         else:
             item.setIcon(0, self.icon.EXCLUDE)
             item.setBackground(0, QBrush())
+
+    def printDefault(self, value):
+        if value:
+            _value = _('enabled')
+        else:
+            _value = _('disabled')
+        return ' (%s: %s)' %(_('default'), _value)
 
     def accept( self ):
         if self.validate():
