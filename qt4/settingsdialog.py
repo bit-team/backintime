@@ -1233,18 +1233,12 @@ class SettingsDialog( QDialog ):
 
     def add_exclude( self, pattern ):
         item = QTreeWidgetItem()
-        if self.mode == 'ssh_encfs' and tools.patternHasNotEncryptableWildcard(pattern):
-            item.setIcon(0, self.icon.INVALID_EXCLUDE)
-            item.setBackground(0, QBrush(Qt.lightGray))
-        elif pattern in self.config.DEFAULT_EXCLUDE:
-            item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
-        else:
-            item.setIcon(0, self.icon.EXCLUDE)
         item.setText(0, pattern)
         item.setData(0, Qt.UserRole, pattern )
         self.list_exclude_count += 1
         item.setText(1, str(self.list_exclude_count).zfill(6))
         item.setData(1, Qt.UserRole, self.list_exclude_count )
+        self.formatExcludeItem(item)
         self.list_exclude.addTopLevelItem(item)
 
         if self.list_exclude.currentItem() is None:
@@ -1432,20 +1426,32 @@ class SettingsDialog( QDialog ):
             
         if active_mode == 'ssh_encfs':
             self.lbl_ssh_encfs_exclude_warning.show()
-            for index in range(self.list_exclude.topLevelItemCount()):
-                item = self.list_exclude.topLevelItem(index)
-                if tools.patternHasNotEncryptableWildcard(item.text(0)):
-                    item.setIcon(0, self.icon.INVALID_EXCLUDE)
-                    item.setBackground(0, QBrush(Qt.lightGray))
         else:
             self.lbl_ssh_encfs_exclude_warning.hide()
+        self.updateExcludeItems()
             
         enabled = active_mode in ('ssh', 'ssh_encfs')
         self.cb_run_nice_on_remote.setEnabled(enabled)
         self.cb_run_ionice_on_remote.setEnabled(enabled)
         self.cb_bwlimit.setEnabled(enabled)
         self.sb_bwlimit.setEnabled(enabled and self.cb_bwlimit.isChecked())
-            
+
+    def updateExcludeItems(self):
+        for index in range(self.list_exclude.topLevelItemCount()):
+            item = self.list_exclude.topLevelItem(index)
+            self.formatExcludeItem(item)
+
+    def formatExcludeItem(self, item):
+        if self.mode == 'ssh_encfs' and tools.patternHasNotEncryptableWildcard(item.text(0)):
+            item.setIcon(0, self.icon.INVALID_EXCLUDE)
+            item.setBackground(0, QBrush(Qt.lightGray))
+        elif item.text(0) in self.config.DEFAULT_EXCLUDE:
+            item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
+            item.setBackground(0, QBrush())
+        else:
+            item.setIcon(0, self.icon.EXCLUDE)
+            item.setBackground(0, QBrush())
+
     def accept( self ):
         if self.validate():
             QDialog.accept( self )
