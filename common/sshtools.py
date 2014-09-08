@@ -69,6 +69,9 @@ class SSH(mount.MountControl):
         self.setattr_kwargs('path', self.config.get_snapshots_path_ssh(self.profile_id), **kwargs)
         self.setattr_kwargs('cipher', self.config.get_ssh_cipher(self.profile_id), **kwargs)
         self.setattr_kwargs('private_key_file', self.config.get_ssh_private_key_file(self.profile_id), **kwargs)
+        self.setattr_kwargs('nice', self.config.is_run_nice_on_remote_enabled(self.profile_id), store = False, **kwargs)
+        self.setattr_kwargs('ionice', self.config.is_run_ionice_on_remote_enabled(self.profile_id), store = False, **kwargs)
+        self.setattr_kwargs('nocache', self.config.is_run_nocache_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('password', None, store = False, **kwargs)
             
         if len(self.path) == 0:
@@ -365,12 +368,17 @@ class SSH(mount.MountControl):
         cmd += 'echo \"rm -rf PATH\"; rm -rf $tmp >/dev/null; err_rm=$?; '
         cmd += 'test $err_rm -ne 0 && cleanup $err_rm; '
         #try nice -n 19
-        if self.config.is_run_nice_on_remote_enabled():
+        if self.nice:
             cmd += 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
-        if self.config.is_run_ionice_on_remote_enabled():
+        #try ionice -c2 -n7
+        if self.ionice:
             cmd += 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
+        #try nocache
+        if self.nocache:
+            cmd += 'echo \"nocache\"; nocache true >/dev/null; err_nocache=$?; '
+            cmd += 'test $err_nocache -ne 0 && cleanup $err_nocache; '
         #report not supported gnu find suffix
         cmd += 'test $err_gnu_find -ne 0 && echo \"gnu_find not supported\" && exit $err_gnu_find; '
         #if we end up here, everything should be fine
@@ -388,7 +396,7 @@ class SSH(mount.MountControl):
             else:
                 break
         if proc.returncode or not output_split[-1].startswith('done'):
-            for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice'):
+            for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice', 'nocache'):
                 if output_split[-1].startswith(command):
                     raise mount.MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
             if output_split[-1].startswith('gnu_find not supported'):

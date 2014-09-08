@@ -107,6 +107,8 @@ class Config( configfile.ConfigFileWithProfiles ):
     DEFAULT_RUN_IONICE_FROM_CRON = True
     DEFAULT_RUN_IONICE_FROM_USER = False
     DEFAULT_RUN_IONICE_ON_REMOTE = False
+    DEFAULT_RUN_NOCACHE_ON_LOCAL  = False
+    DEFAULT_RUN_NOCACHE_ON_REMOTE = False
 
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
@@ -994,6 +996,22 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_run_ionice_on_remote_enabled(self, value, profile_id = None):
         self.set_profile_bool_value('snapshots.ssh.ionice', value, profile_id)
+
+    def is_run_nocache_on_local_enabled( self, profile_id = None ):
+        #?Run rsync on local machine with 'nocache'.
+        #?This will prevent files from being cached in memory.
+        return self.get_profile_bool_value( 'snapshots.local.nocache', self.DEFAULT_RUN_NOCACHE_ON_LOCAL, profile_id )
+
+    def set_run_nocache_on_local_enabled( self, value, profile_id = None ):
+        self.set_profile_bool_value( 'snapshots.local.nocache', value, profile_id )
+
+    def is_run_nocache_on_remote_enabled(self, profile_id = None):
+        #?Run rsync on remote host with 'nocache'
+        #?This will prevent files from being cached in memory.
+        return self.get_profile_bool_value('snapshots.ssh.nocache', self.DEFAULT_RUN_NOCACHE_ON_REMOTE, profile_id)
+
+    def set_run_nocache_on_remote_enabled(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.ssh.nocache', value, profile_id)
 
     def bwlimit_enabled( self, profile_id = None ):
         #?Limit rsync bandwidth usage over network. Use this with mode SSH. 

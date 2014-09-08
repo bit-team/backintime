@@ -351,8 +351,11 @@ def use_rsync_fast( config ):
 
 def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] ):
     caps = get_rsync_caps()
-    cmd = 'rsync'
-    cmd = cmd + ' -rtDHh'
+    cmd = ''
+    if config.is_run_nocache_on_local_enabled():
+        cmd += 'nocache '
+    cmd += 'rsync'
+    cmd += ' -rtDHh'
 
     if config.use_checksum() or config.force_use_checksum:
         cmd = cmd + ' --checksum'
@@ -394,12 +397,16 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
         if config.bwlimit_enabled():
             cmd = cmd + ' --bwlimit=%d' % config.bwlimit()
 
-        if config.is_run_nice_on_remote_enabled() or config.is_run_ionice_on_remote_enabled():
+        if config.is_run_nice_on_remote_enabled()     \
+          or config.is_run_ionice_on_remote_enabled() \
+          or config.is_run_nocache_on_remote_enabled():
             cmd += ' --rsync-path="'
             if config.is_run_nice_on_remote_enabled():
                 cmd += 'nice -n 19 '
             if config.is_run_ionice_on_remote_enabled():
                 cmd += 'ionice -c2 -n7 '
+            if config.is_run_nocache_on_remote_enabled():
+                cmd += 'nocache '
             cmd += 'rsync"'
 
     if config.rsync_options_enabled():

@@ -671,6 +671,22 @@ class SettingsDialog( QDialog ):
         self.cb_run_ionice_on_remote = QCheckBox(_('on remote host') + self.printDefault(self.config.DEFAULT_RUN_IONICE_ON_REMOTE), self)
         grid.addWidget(self.cb_run_ionice_on_remote, 2, 1)
 
+        self.nocacheAvailable = tools.check_command('nocache')
+        label = QLabel(_("Run 'rsync' with 'nocache':"))
+        label.setEnabled(self.nocacheAvailable)
+        layout.addWidget(label)
+        grid = QGridLayout()
+        grid.setColumnMinimumWidth(0, 20)
+        layout.addLayout(grid)
+
+        self.cb_run_nocache_on_local = QCheckBox(_('on local machine') + self.printDefault(self.config.DEFAULT_RUN_NOCACHE_ON_LOCAL), self)
+        self.cb_run_nocache_on_local.setEnabled(self.nocacheAvailable)
+        grid.addWidget(self.cb_run_nocache_on_local, 0, 1)
+
+        self.cb_run_nocache_on_remote = QCheckBox(_('on remote host') + self.printDefault(self.config.DEFAULT_RUN_NOCACHE_ON_REMOTE), self)
+        self.cb_run_nocache_on_remote.setEnabled(self.nocacheAvailable)
+        grid.addWidget(self.cb_run_nocache_on_remote, 2, 1)
+
         #bwlimit
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
@@ -976,6 +992,8 @@ class SettingsDialog( QDialog ):
         self.cb_run_ionice_from_user.setChecked( self.config.is_run_ionice_from_user_enabled() )
         self.cb_run_nice_on_remote.setChecked(self.config.is_run_nice_on_remote_enabled())
         self.cb_run_ionice_on_remote.setChecked(self.config.is_run_ionice_on_remote_enabled())
+        self.cb_run_nocache_on_local.setChecked(self.config.is_run_nocache_on_local_enabled())
+        self.cb_run_nocache_on_remote.setChecked(self.config.is_run_nocache_on_remote_enabled())
         self.cb_bwlimit.setChecked( self.config.bwlimit_enabled() )
         self.sb_bwlimit.setValue( self.config.bwlimit() )
         self.cb_no_on_battery.setChecked( self.config.is_no_on_battery_enabled() )
@@ -1012,6 +1030,9 @@ class SettingsDialog( QDialog ):
         ssh_path = self.txt_ssh_path.text()
         ssh_cipher = self.combo_ssh_cipher.itemData( self.combo_ssh_cipher.currentIndex() )
         ssh_private_key_file = self.txt_ssh_private_key_file.text()
+        remote_nice = self.cb_run_nice_on_remote.isChecked()
+        remote_ionice = self.cb_run_ionice_on_remote.isChecked()
+        remote_nocache = self.cb_run_nocache_on_remote.isChecked()
         if mode == 'ssh':
             mount_kwargs = {'host': ssh_host,
                             'port': int(ssh_port),
@@ -1019,7 +1040,10 @@ class SettingsDialog( QDialog ):
                             'path': ssh_path,
                             'cipher': ssh_cipher,
                             'private_key_file': ssh_private_key_file,
-                            'password': password_1
+                            'password': password_1,
+                            'nice': remote_nice,
+                            'ionice': remote_ionice,
+                            'nocache': remote_nocache
                             }
         
         #local-encfs settings
@@ -1038,7 +1062,10 @@ class SettingsDialog( QDialog ):
                             'cipher': ssh_cipher,
                             'private_key_file': ssh_private_key_file,
                             'ssh_password': password_1,
-                            'encfs_password': password_2
+                            'encfs_password': password_2,
+                            'nice': remote_nice,
+                            'ionice': remote_ionice,
+                            'nocache': remote_nocache
                             }
 
 ##		#dummy
@@ -1168,6 +1195,8 @@ class SettingsDialog( QDialog ):
         self.config.set_run_ionice_from_user_enabled( self.cb_run_ionice_from_user.isChecked() )
         self.config.set_run_nice_on_remote_enabled(self.cb_run_nice_on_remote.isChecked())
         self.config.set_run_ionice_on_remote_enabled(self.cb_run_ionice_on_remote.isChecked())
+        self.config.set_run_nocache_on_local_enabled(self.cb_run_nocache_on_local.isChecked())
+        self.config.set_run_nocache_on_remote_enabled(self.cb_run_nocache_on_remote.isChecked())
         self.config.set_bwlimit_enabled( self.cb_bwlimit.isChecked() )
         self.config.set_bwlimit( self.sb_bwlimit.value() )
         self.config.set_no_on_battery_enabled( self.cb_no_on_battery.isChecked() )
@@ -1447,6 +1476,7 @@ class SettingsDialog( QDialog ):
         self.cb_run_ionice_on_remote.setEnabled(enabled)
         self.cb_bwlimit.setEnabled(enabled)
         self.sb_bwlimit.setEnabled(enabled and self.cb_bwlimit.isChecked())
+        self.cb_run_nocache_on_remote.setEnabled(enabled and self.nocacheAvailable)
 
     def updateExcludeItems(self):
         for index in range(self.list_exclude.topLevelItemCount()):
