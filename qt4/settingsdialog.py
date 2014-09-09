@@ -673,7 +673,6 @@ class SettingsDialog( QDialog ):
 
         self.nocacheAvailable = tools.check_command('nocache')
         label = QLabel(_("Run 'rsync' with 'nocache':"))
-        label.setEnabled(self.nocacheAvailable)
         layout.addWidget(label)
         grid = QGridLayout()
         grid.setColumnMinimumWidth(0, 20)
@@ -684,7 +683,6 @@ class SettingsDialog( QDialog ):
         grid.addWidget(self.cb_run_nocache_on_local, 0, 1)
 
         self.cb_run_nocache_on_remote = QCheckBox(_('on remote host') + self.printDefault(self.config.DEFAULT_RUN_NOCACHE_ON_REMOTE), self)
-        self.cb_run_nocache_on_remote.setEnabled(self.nocacheAvailable)
         grid.addWidget(self.cb_run_nocache_on_remote, 2, 1)
 
         #bwlimit
@@ -992,7 +990,7 @@ class SettingsDialog( QDialog ):
         self.cb_run_ionice_from_user.setChecked( self.config.is_run_ionice_from_user_enabled() )
         self.cb_run_nice_on_remote.setChecked(self.config.is_run_nice_on_remote_enabled())
         self.cb_run_ionice_on_remote.setChecked(self.config.is_run_ionice_on_remote_enabled())
-        self.cb_run_nocache_on_local.setChecked(self.config.is_run_nocache_on_local_enabled())
+        self.cb_run_nocache_on_local.setChecked(self.config.is_run_nocache_on_local_enabled() and self.nocacheAvailable)
         self.cb_run_nocache_on_remote.setChecked(self.config.is_run_nocache_on_remote_enabled())
         self.cb_bwlimit.setChecked( self.config.bwlimit_enabled() )
         self.sb_bwlimit.setValue( self.config.bwlimit() )
@@ -1476,7 +1474,7 @@ class SettingsDialog( QDialog ):
         self.cb_run_ionice_on_remote.setEnabled(enabled)
         self.cb_bwlimit.setEnabled(enabled)
         self.sb_bwlimit.setEnabled(enabled and self.cb_bwlimit.isChecked())
-        self.cb_run_nocache_on_remote.setEnabled(enabled and self.nocacheAvailable)
+        self.cb_run_nocache_on_remote.setEnabled(enabled)
 
     def updateExcludeItems(self):
         for index in range(self.list_exclude.topLevelItemCount()):
