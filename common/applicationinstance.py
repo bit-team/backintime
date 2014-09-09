@@ -40,10 +40,14 @@ class ApplicationInstance:
 
         #read the pid from the file
         pid = 0
+        procname = ''
         try:
             with open( self.pid_file, 'rt' ) as file:
                 data = file.read()
-            pid = int( data )
+            data = data.split('\n', 1)
+            pid = int(data[0])
+            if len(data) > 1:
+                procname = data[1].strip('\n')
         except:
             pass
 
@@ -56,6 +60,11 @@ class ApplicationInstance:
         except:
             return True
 
+        #check if the process has the same procname
+        with open('/proc/%s/cmdline' % pid, 'r') as file:
+            if not procname == file.read().strip('\n'):
+                return True
+
         if auto_exit:
             #exit the application
             print("The application is already running !")
@@ -65,8 +74,15 @@ class ApplicationInstance:
 
     #called when the single instance starts to save it's pid
     def start_application( self ):
+        pid = str(os.getpid())
+        procname = ''
+        try:
+            with open('/proc/%s/cmdline' % pid, 'r') as file:
+                procname = file.read().strip('\n')
+        except:
+            pass
         with open( self.pid_file, 'wt' ) as file:
-            file.write( str( os.getpid() ) )
+            file.write( pid + '\n' + procname )
 
     #called when the single instance exit ( remove pid file )
     def exit_application( self ):
@@ -87,4 +103,3 @@ if __name__ == '__main__':
 
     #remove pid file
     app_instance.exit_application()
-
