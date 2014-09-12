@@ -594,13 +594,6 @@ class Config( configfile.ConfigFileWithProfiles ):
             profile_id = self.get_current_profile()
         return 'profile_id_%s' % profile_id
 
-    def get_auto_host_user_profile( self, profile_id = None ):
-        #?Automaticaly set HOST, USER and PROFILE_ID for snapshot path.
-        return self.get_profile_bool_value( 'snapshots.path.auto', True, profile_id )
-
-    def set_auto_host_user_profile( self, value, profile_id = None ):
-        self.set_profile_bool_value( 'snapshots.path.auto', value, profile_id )
-
     def get_default_host_user_profile( self, profile_id = None ):
         host = socket.gethostname()
         user = self.get_user()
@@ -612,34 +605,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_host_user_profile( self, profile_id = None ):
         default_host, default_user, default_profile = self.get_default_host_user_profile( profile_id )
-
-        if self.get_auto_host_user_profile( profile_id ):
-            return ( default_host, default_user, default_profile )
-
-        #?Set Host for snapshot path if \fIprofile<N>.snapshots.path.auto\fR 
-        #?is false;;local hostname
+        #?Set Host for snapshot path;;local hostname
         host = self.get_profile_str_value( 'snapshots.path.host', default_host, profile_id )
-        if len( host ) <= 0:
-            host = default_host
 
-        #?Set User for snapshot path if \fIprofile<N>.snapshots.path.auto\fR 
-        #?is false;;local username
+        #?Set User for snapshot path;;local username
         user = self.get_profile_str_value( 'snapshots.path.user', default_user, profile_id )
-        if len( user ) <= 0:
-            user = default_user
 
-        #?Set Profile-ID for snapshot path if \fIprofile<N>.snapshots.path.auto\fR 
-        #?is false;1-99999;current Profile-ID
+        #?Set Profile-ID for snapshot path;1-99999;current Profile-ID
         profile = self.get_profile_str_value( 'snapshots.path.profile', default_profile, profile_id )
-        if len( profile ) <= 0:
-            profile = default_profile
 
         return ( host, user, profile )
 
     def set_host_user_profile( self, host, user, profile, profile_id = None ):
-        if profile_id is None:
-            profile_id = self.get_current_profile()
-
         self.set_profile_str_value( 'snapshots.path.host', host, profile_id )
         self.set_profile_str_value( 'snapshots.path.user', user, profile_id )
         self.set_profile_str_value( 'snapshots.path.profile', profile, profile_id )

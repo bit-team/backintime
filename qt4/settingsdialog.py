@@ -125,6 +125,7 @@ class SettingsDialog( QDialog ):
 
         self.edit_snapshots_path = QLineEdit( self )
         self.edit_snapshots_path.setReadOnly( True )
+        QObject.connect( self.edit_snapshots_path, SIGNAL('textChanged(QString)'), self.on_full_path_changed )
         hlayout.addWidget( self.edit_snapshots_path )
 
         self.btn_snapshots_path = QToolButton(self)
@@ -168,6 +169,7 @@ class SettingsDialog( QDialog ):
         self.lbl_ssh_path = QLabel( _( 'Path:' ), self )
         hlayout2.addWidget( self.lbl_ssh_path )
         self.txt_ssh_path = QLineEdit( self )
+        QObject.connect( self.txt_ssh_path, SIGNAL('textChanged(QString)'), self.on_full_path_changed )
         hlayout2.addWidget( self.txt_ssh_path )
         
         self.lbl_ssh_cipher = QLabel( _( 'Cipher:' ), self )
@@ -272,27 +274,26 @@ class SettingsDialog( QDialog ):
         hlayout2 = QHBoxLayout()
         vlayout2.addLayout( hlayout2 )
 
-        self.cb_auto_host_user_profile = QCheckBox( _( 'Auto Host / User / Profile Id' ), self )
-        QObject.connect( self.cb_auto_host_user_profile, SIGNAL('stateChanged(int)'), self.update_host_user_profile )
-        hlayout2.addWidget( self.cb_auto_host_user_profile )
-
-        hlayout2 = QHBoxLayout()
-        vlayout2.addLayout( hlayout2 )
-
         self.lbl_host = QLabel( _( 'Host:' ), self )
         hlayout2.addWidget( self.lbl_host )
         self.txt_host = QLineEdit( self )
+        QObject.connect( self.txt_host, SIGNAL('textChanged(QString)'), self.on_full_path_changed )
         hlayout2.addWidget( self.txt_host )
 
         self.lbl_user = QLabel( _( 'User:' ), self )
         hlayout2.addWidget( self.lbl_user )
         self.txt_user = QLineEdit( self )
+        QObject.connect( self.txt_user, SIGNAL('textChanged(QString)'), self.on_full_path_changed )
         hlayout2.addWidget( self.txt_user )
 
         self.lbl_profile = QLabel( _( 'Profile:' ), self )
         hlayout2.addWidget( self.lbl_profile )
         self.txt_profile = QLineEdit( self )
+        QObject.connect( self.txt_profile, SIGNAL('textChanged(QString)'), self.on_full_path_changed )
         hlayout2.addWidget( self.txt_profile )
+
+        self.lbl_full_path = QLabel(_('Full snapshot path: '), self)
+        vlayout2.addWidget(self.lbl_full_path)
 
         #Schedule
         group_box = QGroupBox( self )
@@ -844,15 +845,6 @@ class SettingsDialog( QDialog ):
             self.config.set_current_profile( profile_id )
             self.update_profile()
 
-    def update_host_user_profile( self ):
-        enabled = not self.cb_auto_host_user_profile.isChecked()
-        self.lbl_host.setEnabled( enabled )
-        self.txt_host.setEnabled( enabled )
-        self.lbl_user.setEnabled( enabled )
-        self.txt_user.setEnabled( enabled )
-        self.lbl_profile.setEnabled( enabled )
-        self.txt_profile.setEnabled( enabled )
-
     def update_check_for_changes(self):
         enabled = not self.cb_full_rsync.isChecked()
         self.cb_check_for_changes.setEnabled( enabled )
@@ -918,12 +910,10 @@ class SettingsDialog( QDialog ):
         self.cb_password_save.setChecked( self.keyring_supported and self.config.get_password_save( mode = self.mode ) )
         self.cb_password_use_cache.setChecked( self.config.get_password_use_cache( mode = self.mode ) )
 
-        self.cb_auto_host_user_profile.setChecked( self.config.get_auto_host_user_profile() )
         host, user, profile = self.config.get_host_user_profile()
         self.txt_host.setText( host )
         self.txt_user.setText( user )
         self.txt_profile.setText( profile )
-        self.update_host_user_profile()
 
         self.set_combo_value( self.combo_automatic_snapshots, self.config.get_automatic_backup_mode() )
         self.set_combo_value( self.combo_automatic_snapshots_time, self.config.get_automatic_backup_time() )
@@ -1097,7 +1087,6 @@ class SettingsDialog( QDialog ):
                 return False
         
         #snapshots path
-        self.config.set_auto_host_user_profile( self.cb_auto_host_user_profile.isChecked() )
         self.config.set_host_user_profile(
                 self.txt_host.text(),
                 self.txt_user.text(),
@@ -1475,6 +1464,21 @@ class SettingsDialog( QDialog ):
         self.cb_bwlimit.setEnabled(enabled)
         self.sb_bwlimit.setEnabled(enabled and self.cb_bwlimit.isChecked())
         self.cb_run_nocache_on_remote.setEnabled(enabled)
+
+    def on_full_path_changed(self, dummy):
+        if self.mode in ('ssh', 'ssh_encfs'):
+            path = self.txt_ssh_path.text()
+        else:
+            path = self.edit_snapshots_path.text()
+        self.lbl_full_path.setText(
+            _('Full snapshot path: ') +
+            os.path.join(
+                path,
+                'backintime',
+                self.txt_host.text(),
+                self.txt_user.text(),
+                self.txt_profile.text()
+                ))
 
     def updateExcludeItems(self):
         for index in range(self.list_exclude.topLevelItemCount()):
