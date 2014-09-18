@@ -30,7 +30,7 @@ import subprocess
 _=gettext.gettext
 
 
-if len( os.getenv( 'DISPLAY', '' ) ) == 0:
+if not os.getenv( 'DISPLAY', '' ):
     os.putenv( 'DISPLAY', ':0.0' )
 
 

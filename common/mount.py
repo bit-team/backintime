@@ -229,7 +229,7 @@ class MountControl(object):
                         self.pre_umount_check()
                         self._umount()
                         self.post_umount_check()
-                        if len(os.listdir(self.mountpoint)) > 0:
+                        if os.listdir(self.mountpoint):
                             logger.warning('Mountpoint %s not empty after unmount' % self.mountpoint)
                         else:
                             logger.info('unmount %s from %s' % (self.log_command, self.mountpoint))
@@ -246,7 +246,7 @@ class MountControl(object):
         if tools.check_mountpoint(self.mountpoint):
             return True
         else:
-            if len(os.listdir(self.mountpoint)) > 0:
+            if os.listdir(self.mountpoint):
                 raise MountException( _('mountpoint %s not empty.') % self.mountpoint)
             return False
         

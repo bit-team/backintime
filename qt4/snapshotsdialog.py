@@ -251,10 +251,10 @@ class SnapshotsDialog( QDialog ):
     def get_list_snapshot_id( self, multiSelection = False):
         if multiSelection:
             items = self.list_snapshots.selectedItems()
-            _list = []
+            list_ = []
             for item in items:
-                _list.append(str( item.data( Qt.UserRole ) ))
-            return _list
+                list_.append(str( item.data( Qt.UserRole ) ))
+            return list_
 
         item = self.list_snapshots.currentItem()
         if item is None:
@@ -282,7 +282,7 @@ class SnapshotsDialog( QDialog ):
     def update_toolbar( self ):
         snapshot_ids = self.get_list_snapshot_id(True)
 
-        if len(snapshot_ids) <= 0:
+        if not snapshot_ids:
             enable_restore = False
             enable_delete = False
         elif len(snapshot_ids) == 1:
@@ -316,7 +316,7 @@ class SnapshotsDialog( QDialog ):
             return
 
         snapshot_id = self.get_list_snapshot_id()
-        if len( snapshot_id ) <= 0:
+        if not snapshot_id:
             return
 
         full_path = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
@@ -327,7 +327,7 @@ class SnapshotsDialog( QDialog ):
 
     def on_btn_diff_clicked( self ):
         snapshot_id = self.get_list_snapshot_id()
-        if len( snapshot_id ) <= 0:
+        if not snapshot_id:
             return
 
         combo_index = self.combo_diff.currentIndex()
@@ -366,7 +366,7 @@ class SnapshotsDialog( QDialog ):
 
     def on_btn_delete_clicked(self):
         snapshot_ids = self.get_list_snapshot_id(True)
-        if len(snapshot_ids) == 0:
+        if not snapshot_ids:
             return
         elif len(snapshot_ids) == 1:
             msg = _('Do you really want to delete "%(file)s" in snapshot "%(snapshot_id)s?\n') \
@@ -400,7 +400,7 @@ class SnapshotsDialog( QDialog ):
 
     def accept( self ):
         snapshot_id = self.get_list_snapshot_id()
-        if len( snapshot_id ) >= 1:
+        if snapshot_id:
             self.snapshot_id = snapshot_id
         QDialog.accept( self )
 

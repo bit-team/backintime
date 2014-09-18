@@ -74,8 +74,8 @@ class PluginManager:
             return
 
         if snapshots is None:
-            import snapshots as _snapshots
-            snapshots = _snapshots.Snapshots(cfg)
+            import snapshots as snapshots_
+            snapshots = snapshots_.Snapshots(cfg)
 
         self.plugins_loaded = True
         self.plugins = []

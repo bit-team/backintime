@@ -159,7 +159,7 @@ class ConfigFileWithProfiles( ConfigFile ):
                 found = True
                 break
 
-        if not found and len( profiles ) > 0:
+        if not found and profiles:
             self.current_profile_id = profiles[0]
 
         if self.get_int_value( 'profiles.version' ) <= 0:

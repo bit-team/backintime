@@ -28,28 +28,28 @@ def restore(cfg, snapshot_id = None, what = None, where = None):
 
     if where is None:
         where = input('Restore to (empty for original path): ')
-    if len(where) >= 1:
+    if where:
         where = tools.prepare_path(os.path.abspath(os.path.expanduser(where)))
 
-    _snapshots = snapshots.Snapshots(cfg)
+    snapshots_ = snapshots.Snapshots(cfg)
     snapshot_id = selectSnapshot(_snapshots, snapshot_id, 'SnapshotID to restore')
     print('')
-    RestoreDialog(cfg, _snapshots, snapshot_id, what, where).run()
+    RestoreDialog(cfg, snapshots_, snapshot_id, what, where).run()
 
 def remove(cfg, snapshot_id = None, force = None):
-    _snapshots = snapshots.Snapshots(cfg)
+    snapshots_ = snapshots.Snapshots(cfg)
     snapshot_id = selectSnapshot(_snapshots, snapshot_id, 'SnapshotID to remove')
     if not force:
-        print('Do you really want to remove this snapshot? %s' % _snapshots.get_snapshot_display_name(snapshot_id))
+        print('Do you really want to remove this snapshot? %s' % snapshots_.get_snapshot_display_name(snapshot_id))
         if not 'yes' == input('(no/yes): '):
             return
 
-    _snapshots.remove_snapshot(snapshot_id)
+    snapshots_.remove_snapshot(snapshot_id)
 
 def selectSnapshot(_snapshots, snapshot_id = None, msg = 'SnapshotID'):
     '''check if given snapshot is valid. If not print a list of all
     snapshots and ask to choose one'''
-    snapshot_list = _snapshots.get_snapshots_list()
+    snapshot_list = snapshots_.get_snapshots_list()
     len_snapshots = len(snapshot_list)
 
     if not snapshot_id is None:
@@ -101,9 +101,9 @@ def terminalSize():
     return [24, 80]
 
 class RestoreDialog(object):
-    def __init__(self, cfg, _snapshots, snapshot_id, what, where):
+    def __init__(self, cfg, snapshots_, snapshot_id, what, where):
         self.config = cfg
-        self.snapshots = _snapshots
+        self.snapshots = snapshots_
         self.snapshot_id = snapshot_id
         self.what = what
         self.where = where

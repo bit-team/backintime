@@ -343,27 +343,27 @@ class Encode(object):
         enc = ''
         m = self.re_asterisk.search(path)
         if not m is None:
-            _path = path
+            path_ = path[:]
             while True:
                 #search for foo/*, foo/*/bar, */bar or **/bar
                 #but not foo* or foo/*bar
                 m = self.re_separate_asterisk.search(_path)
                 if m is None:
                     return None
-                if len(m.group(1)) > 0:
+                if m.group(1):
                     if not m.group(1).endswith(os.sep):
                         return None
                     enc = os.path.join(enc, self.path(m.group(1)) )
                 enc = os.path.join(enc, m.group(2) )
-                if len(m.group(3)) > 0:
+                if m.group(3):
                     if not m.group(3).startswith(os.sep):
                         return None
-                    _m = self.re_asterisk.search(m.group(3))
-                    if _m is None:
+                    m1 = self.re_asterisk.search(m.group(3))
+                    if m1 is None:
                         enc = os.path.join(enc, self.path(m.group(3)) )
                         break
                     else:
-                        _path = m.group(3)
+                        path_ = m.group(3)
                         continue
                 else:
                     break
@@ -419,7 +419,7 @@ class Decode(object):
             self.password = cfg.get_password(pw_id = 2)
         self.encfs = cfg.SNAPSHOT_MODES[self.mode][0](cfg)
         self.remote_path = cfg.get_snapshots_path_ssh()
-        if len(self.remote_path) <= 0:
+        if not self.remote_path:
             self.remote_path = './'
         if not self.remote_path[-1] == os.sep:
             self.remote_path += os.sep
@@ -512,14 +512,14 @@ class Decode(object):
         self.p.stdin.write(path + '\n')
         ret = self.p.stdout.readline()
         ret = ret.strip('\n')
-        if len(ret) <= 0:
-            return path
-        return ret
+        if ret:
+            return ret
+        return path
     
-    def list(self, _list):
+    def list(self, list_):
         """decode a list of paths"""
         output = []
-        for path in _list:
+        for path in list_:
             output.append(self.path(path))
         return output
     

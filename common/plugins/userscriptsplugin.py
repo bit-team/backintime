@@ -35,9 +35,7 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
         return True
 
     def notify_script( self, path, args = '' ):
-        if path == None:
-            return
-        if len( path ) <= 0:
+        if not path:
             return
 
         logger.info( "[UserScriptsPlugin.notify_script] %s %s" % ( path, args ) )
@@ -51,7 +49,7 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
 
     def on_error( self, code, message ):
         code = str( code )
-        if len( message ) > 0:
+        if message:
             code = code + " \"" + message + "\""
 
         self.notify_script( self.config.get_take_snapshot_user_script_error(), code )

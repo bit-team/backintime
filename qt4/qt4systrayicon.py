@@ -24,7 +24,7 @@ import subprocess
 
 _=gettext.gettext
 
-if len( os.getenv( 'DISPLAY', '' ) ) == 0:
+if not os.getenv( 'DISPLAY', '' ):
     os.putenv( 'DISPLAY', ':0.0' )
 
 sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'common' )] + sys.path
@@ -155,7 +155,7 @@ class Qt4SysTrayIcon:
              ('eta',    _('ETA:')) )
         for key, txt in d:
             value = pg.get_str_value(key, '')
-            if len(value) <= 0:
+            if not value:
                 continue
             yield txt + ' ' + value
     

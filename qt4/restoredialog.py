@@ -37,7 +37,7 @@ _=gettext.gettext
 def restore( parent, snapshot_id, what, where = '' ):
     if where is None:
         where = qt4tools.getExistingDirectory( parent, _('Restore to ...') )
-        if len( where ) == 0 :
+        if not where:
             return
         where = parent.config.prepare_path( where )
 

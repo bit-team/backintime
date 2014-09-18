@@ -21,7 +21,7 @@ import os.path
 import stat
 import sys
 
-if len( os.getenv( 'DISPLAY', '' ) ) == 0:
+if not os.getenv( 'DISPLAY', '' ):
     os.putenv( 'DISPLAY', ':0.0' )
 
 import datetime
@@ -495,7 +495,7 @@ class MainWindow( QMainWindow ):
             return
 
         profile_id = str( self.combo_profiles.itemData( index ) )
-        if len( profile_id ) <= 0:
+        if not profile_id:
             return
         old_profile_id = self.config.get_current_profile()
         if profile_id != old_profile_id:
@@ -521,7 +521,7 @@ class MainWindow( QMainWindow ):
 
     def get_default_startup_folder_and_file( self ):
         last_path = self.config.get_str_value( 'gnome.last_path', '' )
-        if len(last_path) > 0 and os.path.isdir(last_path):
+        if last_path and os.path.isdir(last_path):
             return ( last_path, None, False )
         return ( '/', None, False )
 
@@ -529,19 +529,19 @@ class MainWindow( QMainWindow ):
         if cmd is None:
             cmd = self.app_instance.raise_cmd
 
-        if len( cmd ) < 1:
+        if not cmd:
             return None
 
         path = None
         show_snapshots = False
 
         for arg in cmd.split( '\n' ):
-            if len( arg ) < 1:
+            if not arg:
                 continue
             if arg == '-s' or arg == '--snapshots':
                 show_snapshots = True
                 continue
-            if arg[0] == '-':
+            if arg.startswith('-'):
                 continue
             if path is None:
                 path = arg
@@ -549,14 +549,14 @@ class MainWindow( QMainWindow ):
         if path is None:
             return None
 
-        if len( path ) < 1:
+        if not path:
             return None
 
         path = os.path.expanduser( path )
         path = os.path.abspath( path )
 
         if os.path.isdir( path ):
-            if len( path ) < 1:
+            if not path:
                 show_snapshots = False
 
             if show_snapshots:
@@ -661,7 +661,7 @@ class MainWindow( QMainWindow ):
         yield ' %p%'
         for key, txt in d:
             value = pg.get_str_value(key, '')
-            if len(value) <= 0:
+            if not value:
                 continue
             yield txt + ' ' + value
         yield message
@@ -671,7 +671,7 @@ class MainWindow( QMainWindow ):
             return
 
         path = str( item.data( 0, Qt.UserRole ) )
-        if len( path ) == 0:
+        if not path:
             return
 
         if path == self.path:
@@ -685,12 +685,12 @@ class MainWindow( QMainWindow ):
 
         item.setText( 0, name )
 
-        if len( icon ) > 0:
+        if icon:
             item.setIcon( 0, QIcon.fromTheme( icon ) )
 
         item.setData( 0, Qt.UserRole, path )
 
-        if len( path ) == 0:
+        if not path:
             item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
             item.setFlags( Qt.ItemIsEnabled )
             item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
@@ -711,13 +711,13 @@ class MainWindow( QMainWindow ):
 
         #add backup folders
         include_folders = self.config.get_include()
-        if len( include_folders ) > 0:
+        if include_folders:
             folders = []
             for item in include_folders:
                 if item[1] == 0:
                     folders.append( item[0] )
 
-            if len( folders ) > 0:
+            if folders:
                 self.add_place( _('Backup folders'), '', '' )
                 for folder in folders:
                     self.add_place( folder, folder, 'document-save' )
@@ -749,7 +749,7 @@ class MainWindow( QMainWindow ):
             return
 
         snapshot_id = self.time_line_get_snapshot_id( item )
-        if len( snapshot_id ) == 0:
+        if not snapshot_id:
             return
 
         if snapshot_id == self.snapshot_id:
@@ -763,7 +763,7 @@ class MainWindow( QMainWindow ):
 
     def time_line_update_snapshot_name( self, item ):
         snapshot_id = self.time_line_get_snapshot_id( item )
-        if len( snapshot_id ) > 0:
+        if snapshot_id:
             item.setText( 0, self.snapshots.get_snapshot_display_name( snapshot_id ) )
 
     def add_time_line( self, snapshot_name, snapshot_id, tooltip = None):
@@ -774,7 +774,7 @@ class MainWindow( QMainWindow ):
         if not tooltip is None:
             item.setToolTip(0, tooltip)
 
-        if len( snapshot_id ) == 0:
+        if not snapshot_id:
             item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
             item.setFlags( Qt.ItemIsEnabled )
             item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
@@ -835,7 +835,7 @@ class MainWindow( QMainWindow ):
 
         #fill time_line list
         for group in groups:
-            if len( group[2] ) > 0:
+            if group[2]:
                 self.add_time_line( group[0], '' );
                 for snapshot_id in group[2]:
                     list_item = self.add_time_line( self.snapshots.get_snapshot_display_name( snapshot_id ),
@@ -899,7 +899,7 @@ class MainWindow( QMainWindow ):
         snapshot_ids = [self.time_line_get_snapshot_id(item) \
                         for item in self.get_list_time_line_selection(True) \
                         if len(self.time_line_get_snapshot_id(item)) > 1]
-        if len(snapshot_ids) <= 0:
+        if not snapshot_ids:
             return
         
         if QMessageBox.Yes != messagebox.warningYesNo( self, \
@@ -957,7 +957,7 @@ class MainWindow( QMainWindow ):
             return
 
         selected_file, idx = self.file_selected()
-        if len( selected_file ) <= 0:
+        if not selected_file:
             return
 
         rel_path = os.path.join( self.path, selected_file )
@@ -968,7 +968,7 @@ class MainWindow( QMainWindow ):
             return
 
         selected_file, idx = self.file_selected()
-        if len( selected_file ) <= 0:
+        if not selected_file:
             return
 
         rel_path = os.path.join( self.path, selected_file )
@@ -986,7 +986,7 @@ class MainWindow( QMainWindow ):
 
     def on_btn_snapshots_clicked( self ):
         selected_file, idx = self.file_selected()
-        if len( selected_file ) <= 0:
+        if not selected_file:
             return
 
         rel_path = os.path.join( self.path, selected_file )
@@ -1022,7 +1022,7 @@ class MainWindow( QMainWindow ):
             return
 
         rel_path = str( self.list_files_view_model.data( model_index ) )
-        if len( rel_path ) <= 0:
+        if not rel_path:
             return
 
         rel_path = os.path.join( self.path, rel_path )
@@ -1142,7 +1142,7 @@ class MainWindow( QMainWindow ):
         #select selected_file
         found = False
 
-        if len( self.selected_file ) > 0:
+        if self.selected_file:
             index = self.list_files_view.indexAt(QPoint(0,0))
             if not index.isValid():
                 return

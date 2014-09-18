@@ -95,7 +95,7 @@ def read_command_output( cmd ):
 def check_command( cmd ):
     cmd = cmd.strip()
 
-    if len( cmd ) < 1:
+    if not cmd:
         return False
 
     if os.path.isfile( cmd ):
@@ -115,7 +115,7 @@ def which(filename):
 
 def make_dirs( path ):
     path = path.rstrip( os.sep )
-    if len( path ) <= 0:
+    if not path:
         return
 
     if not os.path.isdir( path ):
@@ -168,16 +168,16 @@ def get_snapshots_list_in_folder( folder, sort_reverse = True ):
     except:
         pass
 
-    _list = []
+    list_ = []
 
     for item in biglist:
         if len( item ) != 15 and len( item ) != 19:
             continue
         if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
-            _list.append( item )
+            list_.append( item )
 
-    _list.sort( reverse = sort_reverse )
-    return _list
+    list_.sort( reverse = sort_reverse )
+    return list_
 
 
 def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
@@ -188,19 +188,19 @@ def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
     except:
         pass
 
-    _list = []
+    list_ = []
 
     for item in biglist:
         if len( item ) != 15 and len( item ) != 19:
-            _list.append( item )
+            list_.append( item )
         else: 
             if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
                 continue
             else:
-                _list.append( item )
+                list_.append( item )
 
-    _list.sort( reverse = sort_reverse )
-    return _list
+    list_.sort( reverse = sort_reverse )
+    return list_
 
 
 def move_snapshots_folder( old_folder, new_folder ):
@@ -230,7 +230,7 @@ def move_snapshots_folder( old_folder, new_folder ):
     else:
         # Use rsync
         # Prepare hardlinks 
-        if len( snapshots_already_there ) > 0:
+        if snapshots_already_there:
             first_snapshot_path = os.path.join( new_folder, snapshots_to_move[ len( snapshots_to_move ) - 1 ] )
             snapshot_to_hardlink_path =  os.path.join( new_folder, snapshots_already_there[0] )
             _execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % snapshot_to_hardlink_path )
@@ -270,13 +270,11 @@ def move_snapshots_folder( old_folder, new_folder ):
             snapshots_not_moved.append( snapshot )
                 
     # Check snapshot list
-    if len( snapshots_not_moved ) == 0:
-        print("Succes!\n")
-        return True
-    else:
+    if snapshots_not_moved:
         print("Error! Not moved: %s\n" %snapshots_not_moved)
         return False
-
+    print("Succes!\n")
+    return True
 
 def _execute( cmd, callback = None, user_data = None ):
     ret_val = 0
@@ -288,7 +286,7 @@ def _execute( cmd, callback = None, user_data = None ):
 
         while True:
             line = temp_failure_retry( pipe.readline )
-            if len( line ) == 0:
+            if not line:
                 break
             callback( line.strip(), user_data )
 
@@ -335,9 +333,9 @@ def get_rsync_caps():
 
     for line in data:
         line = line.strip()
-        if len( line ) <= 0:
+        if not line:
             continue
-        if len( all_caps ) > 0:
+        if all_caps:
             all_caps = all_caps + ' '
         all_caps = all_caps + line
 
@@ -449,8 +447,8 @@ def check_cron_pattern(str):
                 return True
             else:
                 return False
-        _list = str.split(',')
-        for s in _list:
+        list_ = str.split(',')
+        for s in list_:
             if int(s) <= 24:
                 continue
             else:
@@ -538,9 +536,9 @@ def keyring_supported():
     except: pass
     try: backends.append(keyring.backend.KDEKWallet)
     except: pass
-    if len(backends) == 0:
-        return False
-    return isinstance(keyring.get_keyring(), tuple(backends))
+    if backends:
+        return isinstance(keyring.get_keyring(), tuple(backends))
+    return False
 
 def get_password(*args):
     if not keyring is None:
@@ -597,7 +595,7 @@ def sudo_execute(cfg, cmd, msg = None, *args, **kwargs):
 def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
     if len(new_line_indicator) >= size - 1:
         new_line_indicator = ''
-    while len(msg):
+    while msg:
         if len(msg) <= size:
             yield(msg)
             break
@@ -607,7 +605,7 @@ def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '
                 if msg[look] in delimiters:
                     line, msg = msg[:look+1], new_line_indicator + msg[look+1:]
                     break
-            if not len(line):
+            if not line:
                 line, msg = msg[:size], new_line_indicator + msg[size:]
             yield(line)
 

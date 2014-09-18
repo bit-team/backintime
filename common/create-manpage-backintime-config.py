@@ -62,7 +62,7 @@ crontab example:
 ''' % (strftime('%b %Y', gmtime()), VERSION)
 
 FOOTER = '''.SH SEE ALSO
-backintime, backintime-gnome, backintime-kde4.
+backintime, backintime-qt4.
 .PP
 Back In Time also has a website: http://backintime.le\-web.org
 .SH AUTHOR
@@ -78,7 +78,7 @@ REFERENCE = 'reference'
 LINE      = 'line'
 
 def output(type = '', name = '', values = '', default = '', comment = '', reference = '', line = 0):
-    if len(default) == 0:
+    if not default:
         default = "''"
     ret  = '.IP "\\fI%s\\fR" 6\n' % name
     ret += '.RS\n'
@@ -132,14 +132,9 @@ def main():
                                REFERENCE : 'configfile.py',
                                LINE      : 246}
     with open(CONFIG, 'r') as f:
-        counter = 0
         commentline = ''
         comment = values = force_var = force_default = type = name = var = default = None
-        while True:
-            counter += 1
-            line = f.readline()
-            if len(line) == 0:
-                break
+        for counter, line in enumerate(f, 1):
             line = line.lstrip()
             if line.startswith('#?'):
                 commentline += line.lstrip('#?').rstrip('\n')

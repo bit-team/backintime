@@ -202,9 +202,9 @@ class Daemon:
         for line in output.split('\n'):
             res = c.findall(line)
             if res:
-                _pid = int(res[0][0])
-                _name = res[0][1]
-                if _pid == pid and _name.find('backintime.py --pw-cache'):
+                pid_ = int(res[0][0])
+                name_ = res[0][1]
+                if pid_ == pid and name_.find('backintime.py --pw-cache'):
                     return True
         if os.path.exists(self.pidfile):
             os.remove(self.pidfile)

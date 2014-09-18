@@ -751,7 +751,7 @@ class SettingsDialog( QDialog ):
             return
 
         name = ret_val[0].strip()
-        if len( name ) <= 0:
+        if not name:
             return
 
         profile_id = self.config.add_profile( name )
@@ -767,7 +767,7 @@ class SettingsDialog( QDialog ):
             return
 
         name = ret_val[0].strip()
-        if len( name ) <= 0:
+        if not name:
             return
 
         if not self.config.set_profile_name( name ):
@@ -837,7 +837,7 @@ class SettingsDialog( QDialog ):
             return
 
         profile_id = str( self.combo_profiles.itemData( index ) )
-        if len( profile_id ) <= 0:
+        if not profile_id:
             return
         
         if profile_id != self.config.get_current_profile():
@@ -1315,7 +1315,7 @@ class SettingsDialog( QDialog ):
             self.list_exclude.setCurrentItem( self.list_exclude.topLevelItem(0) )
 
     def add_exclude_( self, pattern ):
-        if len( pattern ) == 0:
+        if not pattern:
             return
 
         for index in range( self.list_exclude.topLevelItemCount() ):
@@ -1332,7 +1332,7 @@ class SettingsDialog( QDialog ):
 
         pattern = ret_val[0].strip()
 
-        if len( pattern ) == 0:
+        if not pattern:
             return
     
         self.add_exclude_( pattern )
@@ -1362,7 +1362,7 @@ class SettingsDialog( QDialog ):
 
     def on_btn_include_file_add_clicked( self ):
         for path in qt4tools.getOpenFileNames(self, _('Include file')):
-            if len( path ) == 0 :
+            if not path:
                 continue
 
             if os.path.islink(path) \
@@ -1382,7 +1382,7 @@ class SettingsDialog( QDialog ):
 
     def on_btn_include_add_clicked( self ):
         for path in qt4tools.getExistingDirectories(self, _('Include folder')):
-            if len( path ) == 0 :
+            if not path:
                 continue
 
             if os.path.islink(path) \
@@ -1406,8 +1406,8 @@ class SettingsDialog( QDialog ):
         path = str(qt4tools.getExistingDirectory(self,
                                                  _('Where to save snapshots'),
                                                  self.edit_snapshots_path.text() ) )
-        if len( path ) > 0 :
-            if len( old_path ) > 0 and old_path != path:
+        if path:
+            if old_path and old_path != path:
                 if not self.question_handler( _('Are you sure you want to change snapshots folder ?') ):
                     return
             self.edit_snapshots_path.setText( self.config.prepare_path( path ) )
@@ -1415,16 +1415,16 @@ class SettingsDialog( QDialog ):
     def on_btn_ssh_private_key_file_clicked( self ):
         old_file = self.txt_ssh_private_key_file.text()
 
-        if len(old_file) > 0:
+        if old_file:
             start_dir = self.txt_ssh_private_key_file.text()
         else:
             start_dir = self.config.get_ssh_private_key_folder()
         file = qt4tools.getOpenFileName(self, _('SSH private key'), start_dir)
-        if len(file) > 0:
+        if file:
             self.txt_ssh_private_key_file.setText(file)
         
     def on_combo_modes_changed(self, *params):
-        if len(params) == 0:
+        if not params:
             index = self.combo_modes.currentIndex()
         else:
             index = params[0]
@@ -1498,10 +1498,10 @@ class SettingsDialog( QDialog ):
 
     def printDefault(self, value):
         if value:
-            _value = _('enabled')
+            value_ = _('enabled')
         else:
-            _value = _('disabled')
-        return ' (%s: %s)' %(_('default'), _value)
+            value_ = _('disabled')
+        return ' (%s: %s)' %(_('default'), value_)
 
     def accept( self ):
         if self.validate():

@@ -169,7 +169,7 @@ class Snapshots:
         display_name = self.get_snapshot_display_id( snapshot_id )
         name = self.get_snapshot_name( snapshot_id )
 
-        if len( name ) > 0:
+        if name:
             display_name = display_name + ' - ' + name
 
         if self.is_snapshot_failed( snapshot_id ):
@@ -390,11 +390,11 @@ class Snapshots:
         with bz2.BZ2File( fileinfo_path, 'r' ) as fileinfo:
             for line in fileinfo:
                 line = line.decode()
-                if len( line ) <= 0:
+                if not line:
                     break
 
                 line = line[ : -1 ]
-                if len( line ) <= 0:
+                if not line:
                     continue
             
                 index = line.find( '/' )
@@ -402,7 +402,7 @@ class Snapshots:
                     continue
 
                 file = line[ index: ]
-                if len( file ) <= 0:
+                if not file:
                     continue
 
                 info = line[ : index ].strip()
@@ -547,7 +547,7 @@ class Snapshots:
 
         src_path = path
         src_delta = 0
-        if len(restore_to) > 0:
+        if restore_to:
             aux = src_path
             if aux.startswith('/'):
                 aux = aux[1:]
@@ -555,7 +555,8 @@ class Snapshots:
             aux = items[0]
             if aux.startswith('/'):
                 aux = aux[1:]
-            if len(aux) > 0: #bugfix: restore system root ended in <src_base>//.<src_path>
+            #bugfix: restore system root ended in <src_base>//.<src_path>
+            if aux:
                 src_base = os.path.join(src_base, aux) + '/'
             src_path = '/' + items[1]
             if items[0] == '/':
@@ -577,13 +578,13 @@ class Snapshots:
         self.restore_callback( callback, True, '' )
         self.restore_callback( callback, True, _("Restore permissions:") )
         file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
-        if len( file_info_dict ) > 0:
+        if file_info_dict:
             #explore items
             snapshot_path_to = self.get_snapshot_path_to( snapshot_id, path ).rstrip( '/' )
             root_snapshot_path_to = self.get_snapshot_path_to( snapshot_id ).rstrip( '/' )
             all_dirs = [] #restore dir permissions after all files are done
 
-            if len(restore_to) == 0:
+            if not restore_to:
                 path_items = path.strip( '/' ).split( '/' )
                 curr_path = '/'
                 for path_item in path_items:
@@ -624,17 +625,17 @@ class Snapshots:
         except:
             pass
 
-        _list = []
+        list_ = []
 
         for item in biglist:
             if len( item ) != 15 and len( item ) != 19:
                 continue
             if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
-                _list.append( item )
+                list_.append( item )
 
-        _list.sort( reverse = sort_reverse )
+        list_.sort( reverse = sort_reverse )
 
-        return _list
+        return list_
         
     def get_snapshots_and_other_list( self, sort_reverse = True ):
         '''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
@@ -649,16 +650,15 @@ class Snapshots:
         except:
             pass
             
-        _list = []
+        list_ = []
 
         for item in biglist:
             if len( item ) != 15 and len( item ) != 19:
                 continue
             if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
-                _list.append( item )
+                list_.append( item )
 
-                
-        if len( snapshots_other_paths ) > 0:	
+        if snapshots_other_paths:	
             for folder in snapshots_other_paths:
                 folderlist = []
                 try:
@@ -670,10 +670,10 @@ class Snapshots:
                     if len( member ) != 15 and len( member ) != 19:
                         continue
                     if os.path.isdir( os.path.join( folder, member,  'backup' ) ):
-                        _list.append( member )
+                        list_.append( member )
         
-        _list.sort( reverse = sort_reverse )
-        return _list
+        list_.sort( reverse = sort_reverse )
+        return list_
 
     def remove_snapshot( self, snapshot_id ):
         if len( snapshot_id ) <= 1:
@@ -743,7 +743,7 @@ class Snapshots:
                     snapshots_left = tools.get_snapshots_list_in_folder( old_folder )
                     if output == True:
                         success.append( True )
-                        if len( snapshots_left ) == 0:
+                        if not snapshots_left:
                             logger.info( 'Update was successful. Snapshots of profile %s are moved to their new location' % profile_id )
                         else:
                             logger.warning( 'Not all snapshots are removed from the original folder!' )
@@ -841,7 +841,7 @@ class Snapshots:
                 #include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
                 include_folders = self.config.get_include()
 
-                if len( include_folders ) <= 0:
+                if not include_folders:
                     logger.info( 'Nothing to do' )
                 elif not self.config.PLUGIN_MANAGER.on_process_begins():
                     logger.info( 'A plugin prevented the backup' )
@@ -924,7 +924,7 @@ class Snapshots:
         return ret_val
 
     def _exec_rsync_callback( self, line, params ):
-        if len(line) == 0:
+        if not line:
             return
 
         m = self.reRsyncProgress.match(line)
@@ -960,11 +960,11 @@ class Snapshots:
                     params[1] = True
                     self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
-    def _append_item_to_list( self, item, _list ):
-        for list_item in _list:
+    def _append_item_to_list( self, item, list_ ):
+        for list_item in list_:
             if item == list_item:
                 return
-        _list.append( item )
+        list_.append( item )
 
     def _is_auto_backup_needed( self, now, last, mode ):
         if self.config.NONE == mode:
@@ -1115,14 +1115,14 @@ class Snapshots:
 
         prev_snapshot_id = ''
         snapshots = self.get_snapshots_list()
-        if len( snapshots ) == 0:
+        if not snapshots:
             snapshots = self.get_snapshots_and_other_list()
 
         # When there is no snapshots it takes the last snapshot from the other folders
         # It should delete the excluded folders then
         rsync_prefix = rsync_prefix + ' --delete --delete-excluded '
         
-        if len( snapshots ) > 0:
+        if snapshots:
             prev_snapshot_id = snapshots[0]
 
             if not full_rsync:
@@ -1150,12 +1150,6 @@ class Snapshots:
             if not full_rsync:
                 self.set_take_snapshot_message( 0, _('Create hard-links') )
                 logger.info( "Create hard-links" )
-                
-                # When schedule per included folders is enabled this did not work (cp -alb iso cp -al?)
-                # This resulted in a complete rsync for the whole snapshot consuming time and space
-                # The ignored folders were copied afterwards. To solve this, the whole last snapshot is now hardlinked
-                # and rsync is called only for the folders that should be synced (without --delete-excluded).  
-                #if force or len( ignore_folders ) == 0:
 
                 #make source snapshot folders rw to allow cp -al
                 self._execute( self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
@@ -1184,7 +1178,7 @@ class Snapshots:
         self.set_take_snapshot_message( 0, _('Take snapshot') )
 
         if full_rsync:
-            if len( prev_snapshot_id ) > 0:
+            if prev_snapshot_id:
                 link_dest = encode.path( os.path.join(prev_snapshot_id, 'backup') )
                 link_dest = os.path.join('..', '..', link_dest)
                 cmd = cmd + " --link-dest=\"%s\"" % link_dest
@@ -1207,7 +1201,7 @@ class Snapshots:
 
                 if not full_rsync:
                     #fix previous snapshot: make read-only again
-                    if len( prev_snapshot_id ) > 0:
+                    if prev_snapshot_id:
                         self._execute( self.cmd_ssh("chmod -R a-w \"%s\"" % prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) ) )
 
                 return [ False, True ]
@@ -1257,7 +1251,7 @@ class Snapshots:
                         else:
                             decode = encfstools.Bounce()
                         for line in output.split('\n'):
-                            if not len(line) == 0:
+                            if line:
                                 line = decode.remote(line)
                                 item_path = line[ len( path_to_explore_ssh ) : ]
                                 fileinfo_dict[item_path] = 1
@@ -1413,7 +1407,7 @@ class Snapshots:
                 continue
 
             if self.config.get_dont_remove_named_snapshots():
-                if len( self.get_snapshot_name( snapshot_id ) ) > 0:
+                if self.get_snapshot_name( snapshot_id ):
                     logger.info( "[smart remove] keep snapshot: %s, it has a name" % snapshot_id )
                     continue
 
@@ -1441,7 +1435,7 @@ class Snapshots:
                     break
 
                 if self.config.get_dont_remove_named_snapshots():
-                    if len( self.get_snapshot_name( snapshots[0] ) ) > 0:
+                    if self.get_snapshot_name( snapshots[0] ):
                         del snapshots[0]
                         continue
 
@@ -1475,7 +1469,7 @@ class Snapshots:
                     break
 
                 if self.config.get_dont_remove_named_snapshots():
-                    if len( self.get_snapshot_name( snapshots[0] ) ) > 0:
+                    if self.get_snapshot_name( snapshots[0] ):
                         del snapshots[0]
                         continue
 
@@ -1503,7 +1497,7 @@ class Snapshots:
                     break
 
                 if self.config.get_dont_remove_named_snapshots():
-                    if len( self.get_snapshot_name( snapshots[0] ) ) > 0:
+                    if self.get_snapshot_name( snapshots[0] ):
                         del snapshots[0]
                         continue
 
@@ -1521,7 +1515,7 @@ class Snapshots:
 
             while True:
                 line = tools.temp_failure_retry( pipe.readline )
-                if len( line ) == 0:
+                if not line:
                     break
                 callback( line.strip(), user_data )
 

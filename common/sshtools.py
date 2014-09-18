@@ -74,7 +74,7 @@ class SSH(mount.MountControl):
         self.setattr_kwargs('nocache', self.config.is_run_nocache_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('password', None, store = False, **kwargs)
             
-        if len(self.path) == 0:
+        if not self.path:
             self.path = './'
         self.set_default_args()
             
@@ -391,7 +391,7 @@ class SSH(mount.MountControl):
         
         output_split = output.split('\n')
         while True:
-            if len(output_split) > 0 and len(output_split[-1]) == 0:
+            if output_split and not output_split[-1]:
                 output_split = output_split[:-1]
             else:
                 break

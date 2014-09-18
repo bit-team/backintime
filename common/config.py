@@ -265,14 +265,14 @@ class Config( configfile.ConfigFileWithProfiles ):
             snapshots_path = self.get_snapshots_path( profile_id )
 
             #check snapshots path
-            if len( snapshots_path ) <= 0:
+            if not snapshots_path:
                 self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('Snapshots folder is not valid !') )
                 return False
 
             #check include
             include_list = self.get_include( profile_id )
 
-            if len( include_list ) <= 0:
+            if not include_list:
                 self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('You must select at least one folder to backup !') )
                 return False
 
@@ -304,7 +304,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         except:
             user = ''
 
-        if len( user ) != 0:
+        if user:
             return user
 
         try:
@@ -346,7 +346,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_snapshots_path( self, value, profile_id = None, mode = None ):
         """Sets the snapshot path to value, initializes, and checks it"""
-        if len( value ) <= 0:
+        if not value:
             return False
 
         if profile_id == None:
@@ -429,7 +429,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         if version is None:
             version = self.get_int_value( 'config.version', self.CONFIG_VERSION )
         path = self.get_snapshots_path_ssh( profile_id )
-        if len(path) == 0:
+        if not path:
             path = './'
         if version < 4:
             return os.path.join( path, 'backintime' )
@@ -479,7 +479,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         user = self.get_ssh_user(profile_id)
         path = self.get_snapshots_path_ssh(profile_id)
         cipher = self.get_ssh_cipher(profile_id)
-        if len(path) == 0:
+        if not path:
             path = './'
         return (host, port, user, path, cipher)
         
@@ -494,10 +494,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         #?Private key file used for password-less authentication on remote host.
         #?;absolute path to private key file;~/.ssh/id_dsa
         file = self.get_profile_str_value( 'snapshots.ssh.private_key_file', default, profile_id )
-        if len(file) == 0:
-            return default
-        else:
+        if file:
             return file
+        return default
 
     def get_ssh_private_key_folder(self):
         return os.path.join(os.path.expanduser('~'), '.ssh')
@@ -625,7 +624,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         '''Returns the other snapshots folders paths as a list'''
         #?!ignore this in manpage
         value = self.get_profile_str_value( 'snapshots.other_folders', '', profile_id )
-        if len( value ) <= 0:
+        if not value:
             return []
             
         paths = []
@@ -643,7 +642,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_include_v4( self, profile_id = None ):
         #?!ignore this in manpage
         value = self.get_profile_str_value( 'snapshots.include_folders', '', profile_id )
-        if len( value ) <= 0:
+        if not value:
             return []
 
         paths = []
@@ -675,7 +674,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             #?Include this file or folder. <I> must be a counter 
             #?starting with 1;absolute path
             value = self.get_profile_str_value( "snapshots.include.%s.value" % i, '', profile_id )
-            if len( value ) > 0:
+            if value:
                 #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR 
                 #?is a folder (0) or a file (1).;0|1
                 type = self.get_profile_int_value( "snapshots.include.%s.type" % i, 0, profile_id )
@@ -683,12 +682,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         return include
 
-    def set_include( self, _list, profile_id = None ):
+    def set_include( self, list_, profile_id = None ):
         old_size = self.get_profile_int_value( 'snapshots.include.size', 0, profile_id )
 
         counter = 0
-        for value in _list:
-            if len( value[0] ) > 0:
+        for value in list_:
+            if value[0]:
                 counter = counter + 1
                 self.set_profile_str_value( "snapshots.include.%s.value" % counter, value[0], profile_id )
                 self.set_profile_int_value( "snapshots.include.%s.type" % counter, value[1], profile_id )
@@ -704,7 +703,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         '''Gets the exclude patterns: conf version 4'''
         #?!ignore this in manpage
         value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.gvfs:.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id )
-        if len( value ) <= 0:
+        if not value:
             return []
         return value.split( ':' )
 
@@ -720,17 +719,17 @@ class Config( configfile.ConfigFileWithProfiles ):
             #?Exclude this file or folder. <I> must be a counter 
             #?starting with 1;file, folder or pattern (relative or absolute)
             value = self.get_profile_str_value( "snapshots.exclude.%s.value" % i, '', profile_id )
-            if len( value ) > 0:
+            if value:
                 exclude.append( value )
 
         return exclude
 
-    def set_exclude( self, _list, profile_id = None ):
+    def set_exclude( self, list_, profile_id = None ):
         old_size = self.get_profile_int_value( 'snapshots.exclude.size', 0, profile_id )
 
         counter = 0
-        for value in _list:
-            if len( value ) > 0:
+        for value in list_:
+            if value:
                 counter = counter + 1
                 self.set_profile_str_value( "snapshots.exclude.%s.value" % counter, value, profile_id )
 
@@ -1223,13 +1222,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def is_configured( self, profile_id = None ):
         '''Checks if the program is configured''' 
-        if len( self.get_snapshots_path( profile_id ) ) == 0:
-            return False
-
-        if len( self.get_include( profile_id ) ) == 0:
-            return False
-
-        return True
+        return bool(self.get_snapshots_path(profile_id) and self.get_include(profile_id))
     
     def can_backup( self, profile_id = None ):
         '''Checks if snapshots_path exists''' 
@@ -1353,13 +1346,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 
                 cmd = self.cron_cmd(profile_id)
 
-                if len( cron_line ) > 0:
+                if cron_line:
                     empty = False
                     cron_line = cron_line.replace( '{cmd}', cmd )
                     cron_line = cron_line.replace( '{msg}', system_entry_message )
                     os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
-                if len(anacron_line) > 0:
+                if anacron_line:
                     anacron_line = anacron_line.replace('{cmd}', cmd)
                     tools.make_dirs(self.get_anacron_spool())
                     env = ''
@@ -1378,7 +1371,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             else:
                 uuid_tmp_fd.flush()
                 uuid_tmp_fd.seek(0)
-                if len(uuid_tmp_fd.read()) > 0:
+                if uuid_tmp_fd.read():
                     if not self.setup_udev(uuid_tmp_fd):
                         self.notify_error( _('Failed to create udev rules') )
                         uuid_tmp_fd.close()
