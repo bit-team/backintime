@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-19 15:35+0200\n"
+"POT-Creation-Date: 2014-09-19 20:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,7 +116,7 @@ msgid "SSH"
 msgstr ""
 
 #: ../../common/config.py:117 ../../common/config.py:119
-#: ../../qt4/settingsdialog.py:1422
+#: ../../qt4/settingsdialog.py:1445
 msgid "SSH private key"
 msgstr ""
 
@@ -222,43 +222,43 @@ msgid ""
 "Are you sure you have write access ?"
 msgstr ""
 
-#: ../../common/config.py:1277
+#: ../../common/config.py:1295
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
 
-#: ../../common/config.py:1329
+#: ../../common/config.py:1347
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr ""
 
-#: ../../common/config.py:1333
+#: ../../common/config.py:1351
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr ""
 
-#: ../../common/config.py:1370
+#: ../../common/config.py:1388
 msgid "Failed to remove udev rules"
 msgstr ""
 
-#: ../../common/config.py:1376
+#: ../../common/config.py:1394
 msgid "Failed to create udev rules"
 msgstr ""
 
-#: ../../common/config.py:1413
+#: ../../common/config.py:1431
 msgid ""
 "Can't find anacron.\n"
 "Are you sure anacron is installed ?\n"
 "If not you should disable daily anacron backups."
 msgstr ""
 
-#: ../../common/config.py:1432
+#: ../../common/config.py:1450
 msgid "Please provide your sudo password to install the udev rule."
 msgstr ""
 
-#: ../../common/config.py:1438
+#: ../../common/config.py:1456
 msgid "Please provide your sudo password to remove unused udev rules."
 msgstr ""
 
@@ -499,7 +499,7 @@ msgid "Can't rename %(new_path)s to %(path)s"
 msgstr ""
 
 #: ../../common/snapshots.py:1417 ../../common/snapshots.py:1448
-#: ../../qt4/settingsdialog.py:531
+#: ../../qt4/settingsdialog.py:550
 msgid "Smart remove"
 msgstr ""
 
@@ -856,11 +856,11 @@ msgstr ""
 msgid "Filter:"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:78 ../../qt4/settingsdialog.py:629
+#: ../../qt4/logviewdialog.py:78 ../../qt4/settingsdialog.py:648
 msgid "All"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:79 ../../qt4/settingsdialog.py:627
+#: ../../qt4/logviewdialog.py:79 ../../qt4/settingsdialog.py:646
 msgid "Errors"
 msgstr ""
 
@@ -917,7 +917,7 @@ msgstr ""
 msgid "Mode:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:118 ../../qt4/settingsdialog.py:1407
+#: ../../qt4/settingsdialog.py:118 ../../qt4/settingsdialog.py:1430
 msgid "Where to save snapshots"
 msgstr ""
 
@@ -974,7 +974,7 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:295 ../../qt4/settingsdialog.py:1474
+#: ../../qt4/settingsdialog.py:295 ../../qt4/settingsdialog.py:1497
 msgid "Full snapshot path: "
 msgstr ""
 
@@ -1055,218 +1055,231 @@ msgid "Add default"
 msgstr ""
 
 #: ../../qt4/settingsdialog.py:482
+msgid "Exclude files bigger than: "
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:483
+msgid ""
+"Exclude files bigger than value in Mb.\n"
+"With 'Full rsync mode' disabled this will only affect new files\n"
+"because for rsync this is a transfer option, not an exclude option.\n"
+"So big files that has been backed up before will remain in snapshots\n"
+"even if they had changed."
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:501
 msgid "Auto-remove"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:489
+#: ../../qt4/settingsdialog.py:508
 msgid "Older than:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:504
+#: ../../qt4/settingsdialog.py:523
 msgid "If free space is less than:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:517
+#: ../../qt4/settingsdialog.py:536
 msgid "If free inodes is less than:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:540
+#: ../../qt4/settingsdialog.py:559
 msgid "Keep all snapshots for the last"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:544 ../../qt4/settingsdialog.py:550
+#: ../../qt4/settingsdialog.py:563 ../../qt4/settingsdialog.py:569
 msgid "day(s)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:546
+#: ../../qt4/settingsdialog.py:565
 msgid "Keep one snapshot per day for the last"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:552
+#: ../../qt4/settingsdialog.py:571
 msgid "Keep one snapshot per week for the last"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:556
+#: ../../qt4/settingsdialog.py:575
 msgid "weeks(s)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:558
+#: ../../qt4/settingsdialog.py:577
 msgid "Keep one snapshot per month for the last"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:562
+#: ../../qt4/settingsdialog.py:581
 msgid "month(s)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:564
+#: ../../qt4/settingsdialog.py:583
 msgid "Keep one snapshot per year for all years"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:571
+#: ../../qt4/settingsdialog.py:590
 msgid "Don't remove named snapshots"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:583
+#: ../../qt4/settingsdialog.py:602
 msgid "Options"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:588
+#: ../../qt4/settingsdialog.py:607
 msgid "Enable notifications"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:591
+#: ../../qt4/settingsdialog.py:610
 msgid "Disable snapshots when on battery"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:594
+#: ../../qt4/settingsdialog.py:613
 msgid "Power status not available from system"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:597
+#: ../../qt4/settingsdialog.py:616
 msgid "Backup files on restore"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:600
+#: ../../qt4/settingsdialog.py:619
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:603
+#: ../../qt4/settingsdialog.py:622
 msgid "Use checksum to detect changes"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:606
+#: ../../qt4/settingsdialog.py:625
 msgid "Full rsync mode. May be faster but:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:607
+#: ../../qt4/settingsdialog.py:626
 msgid ""
 "- snapshots are no read-only\n"
 "- destination file-system must support all linux attributes (dates, rights, "
 "user, group ...)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:614
+#: ../../qt4/settingsdialog.py:633
 msgid "Check for changes (don't take a new snapshot if nothing changed)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:621
+#: ../../qt4/settingsdialog.py:640
 msgid "Log Level:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:626
+#: ../../qt4/settingsdialog.py:645
 msgid "None"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:628
+#: ../../qt4/settingsdialog.py:647
 msgid "Changes & Errors"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:639
+#: ../../qt4/settingsdialog.py:658
 msgid "Expert Options"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:644
+#: ../../qt4/settingsdialog.py:663
 msgid "Change these options only if you really know what you are doing !"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:648
+#: ../../qt4/settingsdialog.py:667
 msgid "Run 'nice':"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:654 ../../qt4/settingsdialog.py:666
+#: ../../qt4/settingsdialog.py:673 ../../qt4/settingsdialog.py:685
 msgid "as cron job"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:657 ../../qt4/settingsdialog.py:672
-#: ../../qt4/settingsdialog.py:686
+#: ../../qt4/settingsdialog.py:676 ../../qt4/settingsdialog.py:691
+#: ../../qt4/settingsdialog.py:705
 msgid "on remote host"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:660
+#: ../../qt4/settingsdialog.py:679
 msgid "Run 'ionice':"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:669
+#: ../../qt4/settingsdialog.py:688
 msgid "when taking a manual snapshot"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:676
+#: ../../qt4/settingsdialog.py:695
 msgid "Run 'rsync' with 'nocache':"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:682
+#: ../../qt4/settingsdialog.py:701
 msgid "on local machine"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:692
+#: ../../qt4/settingsdialog.py:711
 msgid "Limit rsync bandwidth usage: "
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:695
+#: ../../qt4/settingsdialog.py:714
 msgid " KB/sec"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:704
+#: ../../qt4/settingsdialog.py:723
 msgid "Preserve ACL"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:707
+#: ../../qt4/settingsdialog.py:726
 msgid "Preserve extended attributes (xattr)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:710
+#: ../../qt4/settingsdialog.py:729
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:713
+#: ../../qt4/settingsdialog.py:732
 msgid "Copy links (dereference symbolic links)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:719
+#: ../../qt4/settingsdialog.py:738
 msgid "Paste additional options to rsync"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:722
+#: ../../qt4/settingsdialog.py:741
 msgid ""
 "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:749
+#: ../../qt4/settingsdialog.py:768
 msgid "New profile"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:765
+#: ../../qt4/settingsdialog.py:784
 msgid "Rename profile"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:779
+#: ../../qt4/settingsdialog.py:798
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1002
+#: ../../qt4/settingsdialog.py:1023
 msgid ""
 "Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
 "*/3 for periodic backups every 3 hours"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1329
+#: ../../qt4/settingsdialog.py:1352
 msgid "Exclude pattern"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1341
+#: ../../qt4/settingsdialog.py:1364
 msgid "Exclude file"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1345
+#: ../../qt4/settingsdialog.py:1368
 msgid "Exclude folder"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1364
+#: ../../qt4/settingsdialog.py:1387
 msgid "Include file"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1372 ../../qt4/settingsdialog.py:1392
+#: ../../qt4/settingsdialog.py:1395 ../../qt4/settingsdialog.py:1415
 #, python-format
 msgid ""
 "\"%s\" is a symlink. The linked target will not be backed up until you "
@@ -1274,23 +1287,23 @@ msgid ""
 "Would you like to include the symlinks target instead?"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1384
+#: ../../qt4/settingsdialog.py:1407
 msgid "Include folder"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1411
+#: ../../qt4/settingsdialog.py:1434
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1501
+#: ../../qt4/settingsdialog.py:1524
 msgid "enabled"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1503
+#: ../../qt4/settingsdialog.py:1526
 msgid "disabled"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1504
+#: ../../qt4/settingsdialog.py:1527
 msgid "default"
 msgstr ""
 
