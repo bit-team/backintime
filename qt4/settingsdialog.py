@@ -476,6 +476,25 @@ class SettingsDialog( QDialog ):
         buttons_layout.addWidget( self.btn_exclude_remove )
         QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
 
+        #exclude files by size
+        hlayout = QHBoxLayout()
+        layout.addLayout(hlayout)
+        self.cb_exclude_files_by_size = QCheckBox(_('Exclude files bigger than: '), self)
+        self.cb_exclude_files_by_size.setToolTip(_('Exclude files bigger than value in Mb.\n' +\
+        'With \'Full rsync mode\' disabled this will only affect new files\n' +\
+        'because for rsync this is a transfer option, not an exclude option.\n' +\
+        'So big files that has been backed up before will remain in snapshots\n' +\
+        'even if they had changed.'))
+        hlayout.addWidget(self.cb_exclude_files_by_size)
+        self.sb_exclude_files_by_size = QSpinBox(self)
+        self.sb_exclude_files_by_size.setSuffix(' MB')
+        self.sb_exclude_files_by_size.setRange( 0, 100000000 )
+        hlayout.addWidget(self.sb_exclude_files_by_size)
+        hlayout.addStretch()
+        enabled = lambda state: self.sb_exclude_files_by_size.setEnabled(state)
+        enabled(False)
+        QObject.connect(self.cb_exclude_files_by_size, SIGNAL('stateChanged(int)'), enabled)
+
         #TAB: Auto-remove
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.NoFrame)
@@ -934,6 +953,8 @@ class SettingsDialog( QDialog ):
     
         for exclude in self.config.get_exclude():
             self.add_exclude( exclude )
+        self.cb_exclude_files_by_size.setChecked(self.config.exclude_by_size_enabled())
+        self.sb_exclude_files_by_size.setValue(self.config.exclude_by_size())
 
         #TAB: Auto-remove
 
@@ -1138,6 +1159,8 @@ class SettingsDialog( QDialog ):
             exclude_list.append( item.text(0) )
 
         self.config.set_exclude( exclude_list )
+        self.config.set_exclude_by_size_enabled(self.cb_exclude_files_by_size.isChecked())
+        self.config.set_exclude_by_size(self.sb_exclude_files_by_size.value())
 
         #schedule
         self.config.set_automatic_backup_mode( self.combo_automatic_snapshots.itemData( self.combo_automatic_snapshots.currentIndex() ) )

@@ -382,6 +382,12 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
     if 'progress2' in caps:
         cmd += ' --info=progress2'
 
+    if config.rsync_options_enabled():
+        cmd += ' ' + config.rsync_options()
+
+    if config.exclude_by_size_enabled():
+        cmd += ' --max-size=%sM' % config.exclude_by_size()
+
     mode = config.get_snapshots_mode()
     if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
         ssh_port = config.get_ssh_port()
@@ -406,9 +412,6 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
             if config.is_run_nocache_on_remote_enabled():
                 cmd += 'nocache '
             cmd += 'rsync"'
-
-    if config.rsync_options_enabled():
-        cmd += ' ' + config.rsync_options()
 
     return cmd + ' '
 

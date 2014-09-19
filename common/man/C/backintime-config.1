@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Jun 2014" "version 1.1.0~alpha01" "USER COMMANDS"
+.TH backintime-config 1 "Sep 2014" "version 1.1.0~alpha01" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -227,6 +227,24 @@ Keep snapshots with names during smart_remove.
 Default: true
 .RE
 
+.IP "\fIprofile<N>.snapshots.exclude.bysize.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Enable exclude files by size.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.exclude.bysize.value\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+Exclude files bigger than value in Mb. With 'Full rsync mode' disabled this will only affect new files because for rsync this is a transfer option, not an exclude option. So big files that has been backed up before will remain in snapshots even if they had changed.
+.PP
+Default: 500
+.RE
+
 .IP "\fIprofile<N>.snapshots.exclude.<I>.value\fR" 6
 .RS
 Type: str       Allowed Values: file, folder or pattern (relative or absolute)
@@ -295,6 +313,15 @@ Default: -1
 Type: bool      Allowed Values: true|false
 .br
 NOT YET IMPLEMENTED. Remove all snapshots but one.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.local.nocache\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Run rsync on local machine with 'nocache'. This will prevent files from being cached in memory.
 .PP
 Default: false
 .RE
@@ -424,20 +451,11 @@ Where to save snapshots in mode 'local'. This path must contain a folderstructur
 Default: ''
 .RE
 
-.IP "\fIprofile<N>.snapshots.path.auto\fR" 6
-.RS
-Type: bool      Allowed Values: true|false
-.br
-Automaticaly set HOST, USER and PROFILE_ID for snapshot path.
-.PP
-Default: true
-.RE
-
 .IP "\fIprofile<N>.snapshots.path.host\fR" 6
 .RS
 Type: str       Allowed Values: text
 .br
-Set Host for snapshot path if \fIprofile<N>.snapshots.path.auto\fR is false
+Set Host for snapshot path
 .PP
 Default: local hostname
 .RE
@@ -446,7 +464,7 @@ Default: local hostname
 .RS
 Type: str       Allowed Values: 1-99999
 .br
-Set Profile-ID for snapshot path if \fIprofile<N>.snapshots.path.auto\fR is false
+Set Profile-ID for snapshot path
 .PP
 Default: current Profile-ID
 .RE
@@ -455,7 +473,7 @@ Default: current Profile-ID
 .RS
 Type: str       Allowed Values: text
 .br
-Set User for snapshot path if \fIprofile<N>.snapshots.path.auto\fR is false
+Set User for snapshot path
 .PP
 Default: local username
 .RE
@@ -608,6 +626,15 @@ Run rsync and other commands on remote host with 'nice -n 19'
 Default: false
 .RE
 
+.IP "\fIprofile<N>.snapshots.ssh.nocache\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Run rsync on remote host with 'nocache'. This will prevent files from being cached in memory.
+.PP
+Default: false
+.RE
+
 .IP "\fIprofile<N>.snapshots.ssh.path\fR" 6
 .RS
 Type: str       Allowed Values: absolute or relative path
@@ -699,7 +726,7 @@ Internal version of profiles config.
 Default: 1
 .RE
 .SH SEE ALSO
-backintime, backintime-gnome, backintime-kde4.
+backintime, backintime-qt4.
 .PP
 Back In Time also has a website: http://backintime.le\-web.org
 .SH AUTHOR

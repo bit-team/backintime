@@ -29,6 +29,7 @@ with open(os.path.join(PATH, '../VERSION'), 'r') as f:
     VERSION = f.read().strip('\n')
 SORT = True #True = sort by alphabet; False = sort by line numbering
 c = re.compile(r'.*?self\.get((?:_profile)?)_(.*?)_value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
+c_default = re.compile(r'(^DEFAULT[\w]*)[\s]*= ([\w]*)')
 
 HEADER = '''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
 .SH NAME
@@ -109,6 +110,7 @@ def select_values(type, values):
         return '0-99999'
 
 def main():
+    replace_default = {}
     dict = {}
     dict['profiles.version'] = {TYPE      : 'int',
                                 NAME      : 'profiles.version',
@@ -136,6 +138,10 @@ def main():
         comment = values = force_var = force_default = type = name = var = default = None
         for counter, line in enumerate(f, 1):
             line = line.lstrip()
+            m_default = c_default.match(line)
+            if m_default:
+                replace_default[m_default.group(1)] = m_default.group(2)
+                continue
             if line.startswith('#?'):
                 commentline += line.lstrip('#?').rstrip('\n')
                 continue
@@ -160,6 +166,9 @@ def main():
                         force_var     = commentline[3]
                     except IndexError:
                         pass
+
+                    if default.startswith('self.') and default[5:] in replace_default:
+                        default = replace_default[default[5:]]
 
                     if type == 'bool':
                         default = default.lower()

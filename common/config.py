@@ -739,6 +739,24 @@ class Config( configfile.ConfigFileWithProfiles ):
             for i in range( counter + 1, old_size + 1 ):
                 self.remove_profile_key( "snapshots.exclude.%s.value" % i, profile_id )
 
+    def exclude_by_size_enabled(self, profile_id = None):
+        #?Enable exclude files by size.
+        return self.get_profile_bool_value('snapshots.exclude.bysize.enabled', False, profile_id)
+
+    def set_exclude_by_size_enabled(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.exclude.bysize.enabled', value, profile_id)
+
+    def exclude_by_size(self, profile_id = None):
+        #?Exclude files bigger than value in Mb. 
+        #?With 'Full rsync mode' disabled this will only affect new files 
+        #?because for rsync this is a transfer option, not an exclude option. 
+        #?So big files that has been backed up before will remain in snapshots 
+        #?even if they had changed.
+        return self.get_profile_int_value('snapshots.exclude.bysize.value', 500, profile_id)
+
+    def set_exclude_by_size(self, value, profile_id = None):
+        self.set_profile_int_value('snapshots.exclude.bysize.value', value, profile_id)
+
     def get_tag( self, profile_id = None ):
         #?!ignore this in manpage
         return self.get_profile_str_value( 'snapshots.tag', str(random.randint(100, 999)), profile_id )
@@ -974,7 +992,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value('snapshots.ssh.ionice', value, profile_id)
 
     def is_run_nocache_on_local_enabled( self, profile_id = None ):
-        #?Run rsync on local machine with 'nocache'.
+        #?Run rsync on local machine with 'nocache'. 
         #?This will prevent files from being cached in memory.
         return self.get_profile_bool_value( 'snapshots.local.nocache', self.DEFAULT_RUN_NOCACHE_ON_LOCAL, profile_id )
 
@@ -982,7 +1000,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.local.nocache', value, profile_id )
 
     def is_run_nocache_on_remote_enabled(self, profile_id = None):
-        #?Run rsync on remote host with 'nocache'
+        #?Run rsync on remote host with 'nocache'. 
         #?This will prevent files from being cached in memory.
         return self.get_profile_bool_value('snapshots.ssh.nocache', self.DEFAULT_RUN_NOCACHE_ON_REMOTE, profile_id)
 
