@@ -16,6 +16,11 @@
 
 from PyQt4.QtGui import QIcon
 
+for theme in ('gnome', 'oxygen'):
+    if not QIcon.fromTheme('document-save').isNull():
+        break
+    QIcon.setThemeName(theme)
+
 #BackInTime Logo
 BIT_LOGO            = QIcon.fromTheme('document-save')
 BIT_LOGO_INFO       = QIcon.fromTheme('document-save-as')
