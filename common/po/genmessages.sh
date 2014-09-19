@@ -1,3 +1,2 @@
 #!/bin/bash
-#xgettext --output=- ../../**/*.py ../../**/*.glade | msggrep -v -K -e "gtk-" > messages.pot
-xgettext --output=- ../../**/*.py ../../**/*.glade > messages.pot
+xgettext --output=- ../../common/*.py ../../qt4/*.py > messages.pot
