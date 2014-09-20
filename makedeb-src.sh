@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASES="trusty"
+RELEASES="trusty utopic"
 
 for i in common qt4; do
 	PKGNAME=`cat $i/debian_specific/control | grep "^Package:" | cut -d" " -f2`

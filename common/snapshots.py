@@ -1105,6 +1105,8 @@ class Snapshots:
         
         #rsync prefix & suffix
         rsync_prefix = tools.get_rsync_prefix( self.config, not full_rsync )
+        if self.config.exclude_by_size_enabled():
+            rsync_prefix += ' --max-size=%sM' % self.config.exclude_by_size()
         rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" --exclude=\"%s\" " % \
                 ( encode.exclude( self.config.get_snapshots_path() ), \
                   encode.exclude( self.config._LOCAL_DATA_FOLDER ) ,  \
