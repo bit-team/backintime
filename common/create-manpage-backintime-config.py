@@ -58,7 +58,7 @@ Also the crontab entry for automatic backup shedules has to be created manually.
 .PP
 crontab example:
 .br
-0 */2 * * * nice -n 19 ionice -c2 -n7 /usr/bin/backintime --backup-job >/dev/null 2>&1
+0 */2 * * * nice \-n 19 ionice \-c2 \-n7 /usr/bin/backintime \-\-backup-job >/dev/null 2>&1
 .SH POSSIBLE KEYWORDS
 ''' % (strftime('%b %Y', gmtime()), VERSION)
 
@@ -121,7 +121,7 @@ def main():
                                 LINE      : 180}
     dict['profiles'] = {TYPE      : 'str',
                         NAME      : 'profiles',
-                        VALUES    : 'int seperated by colon (e.g. 1:3:4)', 
+                        VALUES    : 'int separated by colon (e.g. 1:3:4)', 
                         DEFAULT   : '1',
                         COMMENT   : 'All active Profiles (<N> in profile<N>.snapshots...).',
                         REFERENCE : 'configfile.py',

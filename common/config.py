@@ -458,9 +458,9 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_ssh_cipher( self, profile_id = None ):
         #?Cipher that is used for encrypting the SSH tunnel. Depending on the 
         #?environment (network bandwidth, cpu and hdd performance) a different 
-        #?cipher might be faster.;default|aes192-cbc|aes256-cbc|aes128-ctr|
-        #?aes192-ctr|aes256-ctr|arcfour|arcfour256|arcfour128|aes128-cbc|
-        #?3des-cbc|blowfish-cbc|cast128-cbc
+        #?cipher might be faster.;default | aes192-cbc | aes256-cbc | aes128-ctr | 
+        #?aes192-ctr | aes256-ctr | arcfour | arcfour256 | arcfour128 | aes128-cbc | 
+        #?3des-cbc | blowfish-cbc | cast128-cbc
         return self.get_profile_str_value( 'snapshots.ssh.cipher', 'default', profile_id )
 
     def set_ssh_cipher( self, value, profile_id = None ):
@@ -663,7 +663,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return paths
 
     def get_include( self, profile_id = None ):
-        #?Quantity of include entrys.;1-99999
+        #?Quantity of include entrys.;1-99999;\-1
         size = self.get_profile_int_value( 'snapshots.include.size', -1, profile_id )
         if size <= 0:
             return []
@@ -709,7 +709,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_exclude( self, profile_id = None ):
         '''Gets the exclude patterns'''
-        #?Quantity of exclude entrys.;1-99999
+        #?Quantity of exclude entrys.;1-99999;\-1
         size = self.get_profile_int_value( 'snapshots.exclude.size', -1, profile_id )
         if size < 0:
             return self.DEFAULT_EXCLUDE
@@ -795,7 +795,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_automatic_backup_weekday( self, profile_id = None ):
         #?Which day of week the cronjob should run? Only valid for 
-        #?\fIprofile<N>.snapshots.automatic_backup_mode\fR = 30;1 = monday - 7 = sunday
+        #?\fIprofile<N>.snapshots.automatic_backup_mode\fR = 30;1 = monday \- 7 = sunday
         return self.get_profile_int_value( 'snapshots.automatic_backup_weekday', 7, profile_id )
 
     def set_automatic_backup_weekday( self, value, profile_id = None ):
@@ -947,7 +947,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.backup_on_restore.enabled', value, profile_id )
 
     def is_run_nice_from_cron_enabled( self, profile_id = None ):
-        #?Run cronjobs with 'nice -n 19'. This will give BackInTime the 
+        #?Run cronjobs with 'nice \-n 19'. This will give BackInTime the 
         #?lowest CPU priority to not interupt any other working process.\n
         #?Note that the crontab entry is only generated during saving in 
         #?settings dialog. If you don't run a GUI version of BackInTime 
@@ -958,7 +958,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.cron.nice', value, profile_id )
 
     def is_run_ionice_from_cron_enabled( self, profile_id = None ):
-        #?Run cronjobs with 'ionice -c2 -n7'. This will give BackInTime the 
+        #?Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the 
         #?lowest IO bandwidth priority to not interupt any other working process.\n
         #?Note that the crontab entry is only generated during saving in 
         #?settings dialog. If you don't run a GUI version of BackInTime 
@@ -969,7 +969,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.cron.ionice', value, profile_id )
 
     def is_run_ionice_from_user_enabled( self, profile_id = None ):
-        #?Run BackInTime with 'ionice -c2 -n7' when taking a manual snapshot. 
+        #?Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot. 
         #?This will give BackInTime the lowest IO bandwidth priority to not 
         #?interupt any other working process.
         return self.get_profile_bool_value( 'snapshots.user_backup.ionice', self.DEFAULT_RUN_IONICE_FROM_USER, profile_id )
@@ -978,14 +978,14 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.user_backup.ionice', value, profile_id )
 
     def is_run_nice_on_remote_enabled(self, profile_id = None):
-        #?Run rsync and other commands on remote host with 'nice -n 19'
+        #?Run rsync and other commands on remote host with 'nice \-n 19'
         return self.get_profile_bool_value('snapshots.ssh.nice', self.DEFAULT_RUN_NICE_ON_REMOTE, profile_id)
 
     def set_run_nice_on_remote_enabled(self, value, profile_id = None):
         self.set_profile_bool_value('snapshots.ssh.nice', value, profile_id)
 
     def is_run_ionice_on_remote_enabled(self, profile_id = None):
-        #?Run rsync and other commands on remote host with 'ionice -c2 -n7'
+        #?Run rsync and other commands on remote host with 'ionice \-c2 \-n7'
         return self.get_profile_bool_value('snapshots.ssh.ionice', self.DEFAULT_RUN_IONICE_ON_REMOTE, profile_id)
 
     def set_run_ionice_on_remote_enabled(self, value, profile_id = None):
@@ -1069,7 +1069,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.rsync_options.enabled', value, profile_id )
 
     def rsync_options( self, profile_id = None ):
-        #?rsync options. Options must be quoted e.g. --exclude-from="/path/to/my exclude file"
+        #?rsync options. Options must be quoted e.g. \-\-exclude-from="/path/to/my exclude file"
         return self.get_profile_str_value( 'snapshots.rsync_options.value', '', profile_id )
 
     def set_rsync_options( self, value, profile_id = None ):
@@ -1115,7 +1115,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.check_for_changes', value, profile_id )
 
     def gnu_find_suffix_support( self, profile_id = None ):
-        #?Remote SSH host support GNU find suffix (find -exec COMMAND {} +).
+        #?Remote SSH host support GNU find suffix (find \-exec COMMAND {} +).
         return self.get_profile_bool_value( 'snapshots.gnu_find_suffix_support', True, profile_id )
 
     def find_suffix( self, profile_id = None ):
