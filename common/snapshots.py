@@ -1110,7 +1110,7 @@ class Snapshots:
         rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" --exclude=\"%s\" " % \
                 ( encode.exclude( self.config.get_snapshots_path() ), \
                   encode.exclude( self.config._LOCAL_DATA_FOLDER ) ,  \
-                  encode.exclude( self.config.MOUNT_ROOT ) )
+                  encode.exclude( self.config._MOUNT_ROOT ) )
         rsync_suffix = ' --chmod=Du+wx ' + rsync_exclude_backup_directory
         rsync_suffix += rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2
         rsync_suffix += ' --exclude=\"*\" ' + encode.chroot + ' '

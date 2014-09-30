@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-09 22:34+0100\n"
-"PO-Revision-Date: 2012-12-09 20:11+0000\n"
-"Last-Translator: matrobriva <matrobriva@libero.it>\n"
+"PO-Revision-Date: 2014-09-30 11:14+0000\n"
+"Last-Translator: Mauro <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-08-06 10:20+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
+"X-Launchpad-Export-Date: 2014-09-30 20:28+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../../common/config.py:286
 msgid "You can't include backup folder !"
@@ -40,31 +40,31 @@ msgstr "Ogni 10 minuti"
 
 #: ../../common/config.py:76
 msgid "Every 30 minutes"
-msgstr ""
+msgstr "Ogni 30 minuti"
 
 #: ../../common/config.py:77
 msgid "Every hour"
-msgstr ""
+msgstr "Ogni ora"
 
 #: ../../common/config.py:78
 msgid "Every 2 hours"
-msgstr ""
+msgstr "Ogni 2 ore"
 
 #: ../../common/config.py:79
 msgid "Every 4 hours"
-msgstr ""
+msgstr "Ogni 4 ore"
 
 #: ../../common/config.py:80
 msgid "Every 6 hours"
-msgstr ""
+msgstr "Ogni 6 ore"
 
 #: ../../common/config.py:81
 msgid "Every 12 hours"
-msgstr ""
+msgstr "Ogni 12 ore"
 
 #: ../../common/config.py:82
 msgid "Custom Hours"
-msgstr ""
+msgstr "Orario personalizzato"
 
 #: ../../common/config.py:83
 msgid "Every Day"
@@ -72,11 +72,11 @@ msgstr "Ogni giorno"
 
 #: ../../common/config.py:84
 msgid "Daily (anacron)"
-msgstr ""
+msgstr "Giornaliero (usando anacron)"
 
 #: ../../common/config.py:85
 msgid "When drive get connected (udev)"
-msgstr ""
+msgstr "Quando il drive è connesso (udev)"
 
 #: ../../common/config.py:86
 msgid "Every Week"
@@ -104,32 +104,32 @@ msgstr ""
 
 #: ../../common/config.py:103
 msgid "Local"
-msgstr ""
+msgstr "Locale"
 
 #: ../../common/config.py:104
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: ../../common/config.py:104 ../../common/config.py:106
 #: ../../gnome/settingsdialog.py:475 ../../kde4/settingsdialog.py:1325
 msgid "SSH private key"
-msgstr ""
+msgstr "Chiave privata SSH"
 
 #: ../../common/config.py:105
 msgid "Local encrypted"
-msgstr ""
+msgstr "cifratura  ocale"
 
 #: ../../common/config.py:105 ../../common/config.py:106
 msgid "Encryption"
-msgstr ""
+msgstr "Cifratura"
 
 #: ../../common/config.py:106
 msgid "SSH encrypted"
-msgstr ""
+msgstr "SSH cifrato"
 
 #: ../../common/config.py:112
 msgid "Default"
-msgstr ""
+msgstr "Predefinito"
 
 #: ../../common/config.py:113
 msgid "AES128-CTR"
@@ -228,20 +228,20 @@ msgstr ""
 #: ../../common/config.py:1338
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
-msgstr ""
+msgstr "Pianificazione udev non funziona con il modo %s"
 
 #: ../../common/config.py:1342
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
-msgstr ""
+msgstr "Impossibile trovare UUID per \"%s\""
 
 #: ../../common/config.py:1379
 msgid "Failed to remove udev rules"
-msgstr ""
+msgstr "Fallita rimozione regole udev"
 
 #: ../../common/config.py:1385
 msgid "Failed to create udev rules"
-msgstr ""
+msgstr "fallita creazione regole udev"
 
 #: ../../common/config.py:1420
 msgid ""
@@ -249,14 +249,20 @@ msgid ""
 "Are you sure anacron is installed ?\n"
 "If not you should disable daily anacron backups."
 msgstr ""
+"Non posso trovare anacron\n"
+"Sei sicuro che anacron sia installato?\n"
+"Se non è installato dovresti disabilitare i backups di anacron"
 
 #: ../../common/config.py:1439
 msgid "Please provide your sudo password to install the udev rule."
 msgstr ""
+"Per favore inserisci la password per il sudo per installare la regola udev"
 
 #: ../../common/config.py:1445
 msgid "Please provide your sudo password to remove unused udev rules."
 msgstr ""
+"Per favore inserisci la password per il sudo per rimuovere le regole udev "
+"non utilizzate"
 
 #: ../../common/configfile.py:253 ../../common/configfile.py:315
 #, python-format
@@ -278,33 +284,36 @@ msgstr ""
 #: ../../common/encfstools.py:105
 #, python-format
 msgid "Can't unmount encfs %s"
-msgstr ""
+msgstr "Non posso smontare encfs %s"
 
 #: ../../common/encfstools.py:149
 msgid "Config for encrypted folder not found."
-msgstr ""
+msgstr "Configurazione  per cartella cifrata non trovata"
 
 #: ../../common/encfstools.py:153
 msgid ""
 "\n"
 "Create a new encrypted folder?"
 msgstr ""
+"\n"
+"Creo una nuoca cartella cifrata?"
 
 #: ../../common/encfstools.py:154
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: ../../common/encfstools.py:157
 msgid "Please confirm password"
-msgstr ""
+msgstr "Per favore conferma la password"
 
 #: ../../common/encfstools.py:161
 msgid "Password doesn't match"
-msgstr ""
+msgstr "La password non combacia"
 
 #: ../../common/encfstools.py:166
 msgid "encfs not found. Please install e.g. 'apt-get install encfs'"
 msgstr ""
+"encfs non trovato. Per favore installalo e.g. 'apt-get install encfs'"
 
 #: ../../common/encfstools.py:174 ../../common/sshtools.py:207
 #, python-format
@@ -319,6 +328,8 @@ msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs"
 msgstr ""
+"la versione di encfs 1.7.2 e precedenti ha un baco con l'opzione --reverse. "
+"Per favore aggiorna encfs"
 
 #: ../../common/encfstools.py:453 ../../common/encfstools.py:480
 #: ../../common/snapshots.py:982 ../../common/snapshots.py:1288
@@ -332,11 +343,13 @@ msgid ""
 "Hash collision occurred in hash_id %s. Incrementing global value "
 "hash_collision and try again."
 msgstr ""
+"Collisione creata in hash_id %s. Incrementail valore globale hash_collision "
+"e prova di nuovo"
 
 #: ../../common/mount.py:246
 #, python-format
 msgid "mountpoint %s not empty."
-msgstr ""
+msgstr "In punto di montaggio %s non è vuoto"
 
 #: ../../common/mount.py:286
 msgid "Mountprocess lock timeout"
@@ -1249,7 +1262,7 @@ msgstr "Impossibile stabilire la modalità di alimentazione"
 
 #: ../../kde4/settingsdialog.py:558 ../../gnome/settingsdialog.glade:1955
 msgid "Backup files on restore"
-msgstr "File di backup da ripristinare"
+msgstr "Esegui il backup dei file sostituiti durante il ripristino"
 
 #: ../../kde4/settingsdialog.py:561 ../../gnome/settingsdialog.glade:1972
 msgid "Continue on errors (keep incomplete snapshots)"
