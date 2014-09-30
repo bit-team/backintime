@@ -568,9 +568,9 @@ def get_mountpoint(path):
 def get_uuid(dev):
     '''return uuid for given block device'''
     if dev and os.path.exists(dev):
-        dev_stat = os.stat(dev)
+        dev = os.path.realpath(dev)
         for uuid in os.listdir(DISK_BY_UUID):
-            if dev_stat == os.stat(os.path.join(DISK_BY_UUID, uuid)):
+            if dev == os.path.realpath(os.path.join(DISK_BY_UUID, uuid)):
                 return uuid
     return None
 
