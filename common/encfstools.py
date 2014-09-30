@@ -441,22 +441,22 @@ class Decode(object):
         
         #search for: [I] Take snapshot (rsync: BACKINTIME: <f+++++++++ <crypted_path>)
         #            [I] Take snapshot (rsync: deleting <crypted_path>)
-        #            [I] Take snapshot (rsync: rsync: readlink_stat("/tmp...mountpoint/<crypted_path>")
-        #            [I] Take snapshot (rsync: rsync: send_files failed to open "/tmp...mountpoint/<crypted_path>": Permission denied (13))
+        #            [I] Take snapshot (rsync: rsync: readlink_stat("...mountpoint/<crypted_path>")
+        #            [I] Take snapshot (rsync: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13))
         #            [I] Take snapshot (rsync: <crypted_path>)
         pattern = []
         pattern.append(r' BACKINTIME: .{11} ')
         pattern.append(r' deleting ')
-        pattern.append(r' rsync: readlink_stat\("/tmp.*?mountpoint/')
-        pattern.append(r' rsync: send_files failed to open "/tmp.*?mountpoint/')
+        pattern.append(r' rsync: readlink_stat\(".*?mountpoint/')
+        pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
         pattern.append(r' ')
         self.re_info = re.compile(r'(^\[I\] %s \(rsync:(?:%s))(.*?)(\).*|".*)' % (_('Take snapshot'), '|'.join(pattern)) )
         
-        #search for: [E] Error: rsync readlink_stat("/tmp...mountpoint/<crypted_path>")
-        #            [E] Error: rsync: send_files failed to open "/tmp...mountpoint/<crypted_path>": Permission denied (13)
+        #search for: [E] Error: rsync readlink_stat("...mountpoint/<crypted_path>")
+        #            [E] Error: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13)
         pattern = []
-        pattern.append(r' rsync: readlink_stat\("/tmp.*?mountpoint/')
-        pattern.append(r' rsync: send_files failed to open "/tmp.*?mountpoint/')
+        pattern.append(r' rsync: readlink_stat\(".*?mountpoint/')
+        pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
         self.re_error = re.compile(r'(^\[E\] Error:(?:%s))(.*?)(".*)' % '|'.join(pattern))
         
         #search for: [I] ssh USER@HOST cp -aRl "PATH<crypted_path>"* "PATH<crypted_path>"
