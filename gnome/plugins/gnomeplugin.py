@@ -63,6 +63,7 @@ class GnomePlugin( pluginmanager.Plugin ):
 
             logger.info( '[GnomePlugin.Systray.run]' )
 
+            gtk.set_interactive(0)
             gtk.gdk.threads_init()
             display = gtk.gdk.display_get_default()
             
