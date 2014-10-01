@@ -44,7 +44,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
     APP_NAME = 'Back In Time'
-    VERSION = '1.1.0~alpha02'
+    VERSION = '1.1.0~alpha03'
     COPYRIGHT = 'Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
     CONFIG_VERSION = 5
 
@@ -1215,6 +1215,15 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_anacron_spool(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
 
+    def get_anacron_spool_file(self, profile_id = None):
+        return os.path.join(self.get_anacron_spool(), self.get_anacron_job_identify(profile_id))
+
+    def get_anacron_job_identify(self, profile_id = None):
+        if not profile_id:
+            profile_id = self.get_current_profile()
+        profile_name = self.get_profile_name(profile_id)
+        return profile_id + '_' + profile_name.replace(' ', '_')
+
     def get_udev_rules_path(self):
         return os.path.join('/etc/udev/rules.d', '99-backintime-%s.rules' % self.get_user())
 
@@ -1307,7 +1316,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 day = self.get_automatic_backup_day(profile_id)
                 weekday = self.get_automatic_backup_weekday(profile_id)	
                 period = str(self.get_automatic_backup_anacron_period(profile_id))
-                job_identify = profile_id + '_' + profile_name.replace(' ', '_')
+                job_identify = self.get_anacron_job_identify(profile_id)
 
                 if self.AT_EVERY_BOOT == backup_mode:
                     cron_line = 'echo "{msg}\n@reboot {cmd}"'
