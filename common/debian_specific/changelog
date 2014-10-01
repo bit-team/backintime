@@ -1,2 +1,7 @@
-$BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
- -- BIT Team <dan@le-web.org>  Mon, 18 Aug 2014 14:08:39 +0200
+$BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=high
+  * Fix bug: 'Attempt to unlock mutex that was not locked' in gnomeplugin (https://answers.launchpad.net/questions/255225)
+  * compare os.path.realpath instead of os.stat to get devices UUID
+  * Fix bug: housekeeping by gnome-session-daemon might delete backup and original data (https://bugs.launchpad.net/bugs/1374343)
+  * Fix bug: Type Error in 'backintime --decode' (https://bugs.launchpad.net/bugs/1365072)
+  * Fix bug: take_snapshot didn't wait for snapshot folder come available if notifications are disabled (https://bugs.launchpad.net/bugs/1332979)
+ -- Germar Reitze <germar.reitze@gmail.com>  Wed, 01 Oct 2014 20:47:48 +0200
