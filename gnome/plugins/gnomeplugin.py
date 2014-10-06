@@ -63,8 +63,16 @@ class GnomePlugin( pluginmanager.Plugin ):
 
             logger.info( '[GnomePlugin.Systray.run]' )
 
-            gtk.set_interactive(0)
-            gtk.gdk.threads_init()
+            threads_init = True
+            try:
+                import glib
+                from distutils.version import StrictVersion
+                threads_init = StrictVersion('2.42') > StrictVersion('.'.join([str(x) for x in glib.glib_version]))
+            except:
+                pass
+            if threads_init:
+                gtk.gdk.threads_init()
+
             display = gtk.gdk.display_get_default()
             
             if display is None:
