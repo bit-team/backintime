@@ -363,7 +363,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                 
                 _mount(cfg)
                 decode = encfstools.Decode(cfg)
-                ret = decode.list(_list)
+                ret = decode.list(list_)
                 decode.close()
                 _umount(cfg)
                 

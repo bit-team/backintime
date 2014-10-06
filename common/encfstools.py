@@ -347,7 +347,7 @@ class Encode(object):
             while True:
                 #search for foo/*, foo/*/bar, */bar or **/bar
                 #but not foo* or foo/*bar
-                m = self.re_separate_asterisk.search(_path)
+                m = self.re_separate_asterisk.search(path_)
                 if m is None:
                     return None
                 if m.group(1):
