@@ -245,6 +245,7 @@ class Snapshots:
                 os.remove(file)
 
     def get_take_snapshot_message( self ):
+        #todo: don't do this everytime. Maybe just once every 30sec
         if not self.check_snapshot_alive():
             self.clear_take_snapshot_message()
             return None
@@ -292,13 +293,8 @@ class Snapshots:
 
     def check_snapshot_alive(self):
         pid_file = self.config.get_take_snapshot_instance_file()
-        if os.path.exists(pid_file):
-            with open(pid_file, 'rt') as fd_pid:
-                try:
-                    return tools.is_process_alive(int(fd_pid.read()) )
-                except:
-                    pass
-        return False
+        instance = applicationinstance.ApplicationInstance(pid_file, False)
+        return not instance.check()
 
     def _filter_take_snapshot_log( self, log, mode , decode = None):
         decode_msg = _( '''### This log has been decoded with automatic search pattern
