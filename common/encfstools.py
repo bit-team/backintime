@@ -52,7 +52,7 @@ class EncFS_mount(mount.MountControl):
         self.symlink = symlink
             
         #init MountControl
-        mount.MountControl.__init__(self)
+        super(EncFS_mount, self).__init__()
             
         self.all_kwargs = {}
             

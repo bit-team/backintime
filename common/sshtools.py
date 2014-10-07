@@ -55,7 +55,7 @@ class SSH(mount.MountControl):
         self.symlink = symlink
             
         #init MountControl
-        mount.MountControl.__init__(self)
+        super(SSH, self).__init__()
             
         self.all_kwargs = {}
             

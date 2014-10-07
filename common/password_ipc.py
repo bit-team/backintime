@@ -108,7 +108,7 @@ class TempPasswordThread(threading.Thread):
     to backintime-askpass.
     """
     def __init__(self, string):
-        threading.Thread.__init__(self)
+        super(TempPasswordThread, self).__init__()
         self.pw_base64 = base64.encodebytes(string.encode()).decode()
         self.temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
         self.fifo = FIFO(self.temp_file)
