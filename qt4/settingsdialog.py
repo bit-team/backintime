@@ -293,6 +293,7 @@ class SettingsDialog( QDialog ):
         hlayout2.addWidget( self.txt_profile )
 
         self.lbl_full_path = QLabel(_('Full snapshot path: '), self)
+        self.lbl_full_path.setWordWrap(True)
         vlayout2.addWidget(self.lbl_full_path)
 
         #Schedule
