@@ -59,7 +59,7 @@ before creating a new snapshot.
 .RE
 .IP "\fILocal encrypted\fR" 4
 .RS
-Store encrypted snapshots on local HDD's (internal or USB). Backintime uses 
+Store encrypted snapshots on local HDD's (internal or USB). Back In Time uses 
 'encfs' with standard configuration to encrypt all data. You have to be member 
 of group fuse to use this. In terminal type 'sudo adduser <USER> fuse'. 
 To apply changes you have to logout and login again.
@@ -133,7 +133,7 @@ will print the same as '/opt/bin/cp \-\-help' called on the remote host (via
 interactive ssh session) you are ready to go.
 .PP
 If you have questions on how to install and configure the Optware please refer 
-to the community of your device. You can also take a look on BackInTime FAQ on 
+to the community of your device. You can also take a look on Back In Time FAQ on 
 Launchpad https://answers.launchpad.net/backintime/+faqs
 .PP
 If you successfully modified your device to be able to make backups over ssh, 
@@ -155,7 +155,7 @@ and 'Per-File Initialization Vectors' from the standard configuration
 Because of all data is transferred encrypted the log output shows encrypted 
 filenames, too. In the Logview-Dialog you can use 'decode' option to decrypt 
 the paths automatically or you can use 'backintime \-\-decode' to manually 
-decrypt paths. Backintime will show all snapshots decoded so you can browse 
+decrypt paths. Back In Time will show all snapshots decoded so you can browse 
 all files as normal.
 .PP
 Exclude does not support wildcards ('foo*', '[fF]oo', 'fo?') because after 
@@ -167,7 +167,7 @@ Please refer to the 'SSH' section above for information on setting up the SSH
 connection.
 .RE
 .SS Password
-If 'Save Password to Keyring' is activated BackinTime will save the Password 
+If 'Save Password to Keyring' is activated Back In Time will save the Password 
 into GnomeKeyring (Seahorse) or KDE-KWallet. Both are secure password storages 
 which encrypt the password with the users login-password. So they can only be 
 accessed if the user is logged in.
@@ -175,7 +175,7 @@ accessed if the user is logged in.
 A backup cronjob during the user isn't logged in can not collect the password 
 from keyring. Also if the homedir is encrypted the keyring is not accessible 
 from cronjobs (even if the user is logged in). For these cases the password can 
-be cached in RAM. If 'Cache Password for Cron' is activated BackinTime will 
+be cached in RAM. If 'Cache Password for Cron' is activated Back In Time will 
 start a small daemon in user-space which will collect the password from keyring 
 and provide them for cronjobs. They will never be written to the harddrive but 
 a user with root permissions could access the daemon and read the password.
@@ -245,7 +245,8 @@ periodically run checksums from cronjobs.
 take a snapshot now (if needed) 
 .TP
 \-\-backup\-job
-take a snapshot (if needed) depending on schedule rules (used for cron jobs)
+take a snapshot (if needed) depending on schedule rules (used for cron jobs).
+Back In Time will run in background for this.
 .TP
 \-\-snapshots\-path
 display path where is saves the snapshots (if configured) 
@@ -273,7 +274,7 @@ Control the Password Cache Daemon. If no argument is given the Password Cache
 will start in foreground.
 .TP
 \-\-decode [PATH]
-decode encrypted PATH. If no PATH is given Backintime will read paths from 
+decode encrypted PATH. If no PATH is given Back In Time will read paths from 
 standard input.
 .TP
 \-\-remove[\-and\-do\-not\-ask\-again] [SNAPSHOT_ID]
