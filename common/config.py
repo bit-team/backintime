@@ -25,6 +25,11 @@ import random
 import re
 import tempfile
 import stat
+try:
+    import pwd
+except ImportError:
+    import getpass
+    pwd = None
 
 import configfile
 import tools
@@ -308,22 +313,14 @@ class Config( configfile.ConfigFileWithProfiles ):
         return True
 
     def get_user( self ):
-        user = ''
-
-        try:
-            user = os.environ['USER']
-        except:
-            user = ''
-
-        if user:
-            return user
-
-        try:
-            user = os.environ['LOGNAME']
-        except:
-            user = ''
-
-        return user
+        '''portable way to get username
+        cc by-sa 3.0      http://stackoverflow.com/a/19865396/1139841
+        author: techtonik http://stackoverflow.com/users/239247/techtonik
+        '''
+        if pwd:
+            return pwd.getpwuid(os.geteuid()).pw_name
+        else:
+            return getpass.getuser()
 
     def get_pid(self):
         return str(os.getpid())
