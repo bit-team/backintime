@@ -53,6 +53,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     _5_MIN = 2
     _10_MIN = 4
     _30_MIN = 7
+    HOUR = 10
     _1_HOUR = 10
     _2_HOURS = 12
     _4_HOURS = 14
@@ -60,7 +61,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     _12_HOURS = 18
     CUSTOM_HOUR = 19
     DAY = 20
-    DAY_ANACRON = 25
+    REPEATEDLY = 25
     UDEV = 27
     WEEK = 30
     MONTH = 40
@@ -82,7 +83,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 _12_HOURS : _('Every 12 hours'), 
                 CUSTOM_HOUR : _('Custom Hours'), 
                 DAY : _('Every Day'), 
-                DAY_ANACRON : _('Daily (anacron)'),
+                REPEATEDLY : _('Repeatedly (anacron)'),
                 UDEV : _('When drive get connected (udev)'),
                 WEEK : _('Every Week'), 
                 MONTH : _('Every Month')
@@ -92,6 +93,12 @@ class Config( configfile.ConfigFileWithProfiles ):
                 DAY : _('Day(s)'), 
                 WEEK : _('Week(s)'), 
                 YEAR : _('Year(s)')
+                }
+
+    REPEATEDLY_UNITS = {
+                HOUR : _('Hour(s)'),
+                DAY : _('Day(s)'),
+                WEEK : _('Week(s)'),
                 }
 
     MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
@@ -815,12 +822,22 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_str_value( 'snapshots.custom_backup_time', value, profile_id )
 
     def get_automatic_backup_anacron_period(self, profile_id = None):
-        #?How many days to wait between new snapshots with anacron? Only valid
+        #?How many units to wait between new snapshots with anacron? Only valid
         #?for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
         return self.get_profile_int_value('snapshots.automatic_backup_anacron_period', 1, profile_id)
 
     def set_automatic_backup_anacron_period(self, value, profile_id = None):
         self.set_profile_int_value('snapshots.automatic_backup_anacron_period', value, profile_id)
+
+    def get_automatic_backup_anacron_unit(self, profile_id = None):
+        #?Units to wait between new snapshots with anacron. 
+        #?10 = hours\n20 = days\n30 = weeks\n
+        #?Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27;
+        #?10|20|30;20
+        return self.get_profile_int_value('snapshots.automatic_backup_anacron_unit', self.DAY, profile_id)
+
+    def set_automatic_backup_anacron_unit(self, value, profile_id = None):
+        self.set_profile_int_value('snapshots.automatic_backup_anacron_unit', value, profile_id)
 
     def get_remove_old_snapshots( self, profile_id = None ):
                  #?Remove all snapshots older than value + unit
@@ -1210,7 +1227,15 @@ class Config( configfile.ConfigFileWithProfiles ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "cron_env" )
 
     def get_anacrontab(self, suffix = ''):
+        '''Deprecated since 1.1. Just keep this to delete old anacrontab files'''
         return os.path.join(self._LOCAL_CONFIG_FOLDER, 'anacrontab' + suffix)
+
+    def anacrontab_files(self):
+        '''list existing old anacrontab files'''
+        dirname, basename = os.path.split(self.get_anacrontab())
+        for file in os.listdir(dirname):
+            if file.startswith(basename):
+                yield os.path.join(dirname, file) 
 
     def get_anacron_spool(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
@@ -1266,6 +1291,27 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         return True
 
+    def is_backup_scheduled(self, profile_id = None):
+        '''check if profile is supposed to be run this time'''
+        if self.get_automatic_backup_mode(profile_id) not in (self.REPEATEDLY, self.UDEV):
+            return True
+
+        #if crontab wasn't updated since upgrading BIT to version without anacron
+        #we are most likely started by anacron and should run this task without asking.
+        if list(self.anacrontab_files()):
+            return True
+
+        last_time = tools.readTimeStamp(self.get_anacron_spool_file(profile_id))
+        if not last_time:
+            return True
+
+        args = [0, ] * 3
+        wait = self.get_automatic_backup_anacron_period(profile_id)
+        unit = self.get_automatic_backup_anacron_unit(profile_id)
+        args[(self.HOUR, self.DAY, self.WEEK).index(unit)] = wait
+
+        return tools.olderThan(last_time, *args)
+
     def setup_cron( self ):
         system_entry_message = "#Back In Time system entry, this will be edited by the gui:"
         
@@ -1282,16 +1328,12 @@ class Config( configfile.ConfigFileWithProfiles ):
         print("Clearing system Back In Time entries")
         os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab -" % system_entry_message )
 
-        print("Clearing anacrontab")
-        dirname, basename = os.path.split(self.get_anacrontab())
-        for file in os.listdir(dirname):
-            if file.startswith(basename):
-                os.remove(os.path.join(dirname, file))
+        for file in self.anacrontab_files():
+            print("Clearing anacrontab")
+            os.remove(file)
 
         empty = True
-        start_anacron = False
         uuid_tmp_fd = None
-        uuids = []
         profiles = self.get_profiles()
         
         try:
@@ -1309,14 +1351,11 @@ class Config( configfile.ConfigFileWithProfiles ):
                     return False
 
                 cron_line = ''
-                anacron_line = ''
 
                 hour = self.get_automatic_backup_time(profile_id) / 100;
                 minute = self.get_automatic_backup_time(profile_id) % 100;
                 day = self.get_automatic_backup_day(profile_id)
                 weekday = self.get_automatic_backup_weekday(profile_id)	
-                period = str(self.get_automatic_backup_anacron_period(profile_id))
-                job_identify = self.get_anacron_job_identify(profile_id)
 
                 if self.AT_EVERY_BOOT == backup_mode:
                     cron_line = 'echo "{msg}\n@reboot {cmd}"'
@@ -1340,17 +1379,12 @@ class Config( configfile.ConfigFileWithProfiles ):
                     cron_line = 'echo "{msg}\n0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}"'
                 elif self.DAY == backup_mode:
                     cron_line = "echo \"{msg}\n%s %s * * * {cmd}\"" % (minute, hour)
-                elif self.DAY_ANACRON == backup_mode:
-                    if not self.check_anacron():
-                        return False
-                    anacrontab_suffix = ''
-                    if not start_anacron:
-                        cron_line = 'echo "{msg}\n*/15 * * * * %s"' % self.anacron_cmd(anacrontab_suffix)
-                        start_anacron = True
-                    anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
+                elif self.REPEATEDLY == backup_mode:
+                    if self.get_automatic_backup_anacron_unit(profile_id) <= self.DAY:
+                        cron_line = 'echo "{msg}\n*/15 * * * * {cmd}"'
+                    else:
+                        cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
                 elif self.UDEV == backup_mode:
-                    if not self.check_anacron():
-                        return False
                     mode = self.get_snapshots_mode(profile_id)
                     if mode == 'local':
                         dest_path = self.get_snapshots_full_path(profile_id)
@@ -1365,11 +1399,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                         return False
                     if uuid_tmp_fd is None:
                         uuid_tmp_fd = tempfile.NamedTemporaryFile()
-                    anacrontab_suffix = '-%s' % uuid
-                    anacron_line = '\t'.join((period, '0', job_identify, '{cmd}')) + '\n'
-                    if not uuid in uuids:
-                        self.prepair_udev(uuid_tmp_fd, uuid, anacrontab_suffix)
-                        uuids += uuid
+                    self.prepair_udev(uuid_tmp_fd, uuid, profile_id)
                 elif self.WEEK == backup_mode:
                     cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
                 elif self.MONTH == backup_mode:
@@ -1382,19 +1412,6 @@ class Config( configfile.ConfigFileWithProfiles ):
                     cron_line = cron_line.replace( '{cmd}', cmd )
                     cron_line = cron_line.replace( '{msg}', system_entry_message )
                     os.system( "( crontab -l; %s ) | crontab -" % cron_line )
-
-                if anacron_line:
-                    anacron_line = anacron_line.replace('{cmd}', cmd)
-                    tools.make_dirs(self.get_anacron_spool())
-                    env = ''
-                    if not os.path.exists(self.get_anacrontab(anacrontab_suffix)):
-                        env  = 'SHELL=%s\n'   % os.environ['SHELL']
-                        env += 'PATH=%s\n'    % os.environ['PATH']
-                        env += 'DISPLAY=%s\n' % os.environ['DISPLAY']
-                        env += '\n\n'
-                    with open(self.get_anacrontab(anacrontab_suffix), 'a') as f:
-                        f.write(env)
-                        f.write(anacron_line)
 
             if uuid_tmp_fd is None:
                 if not self.remove_udev():
@@ -1432,22 +1449,10 @@ class Config( configfile.ConfigFileWithProfiles ):
             cmd = tools.which('nice') + ' -n 19 ' + cmd
         return cmd
 
-    def anacron_cmd(self, suffix = ''):
-        return 'test -x %(cmd)s && test -e %(tab)s && %(cmd)s -s -t %(tab)s -S %(spool)s' \
-                         % {'cmd': tools.which('anacron'),
-                            'tab': self.get_anacrontab(suffix),
-                            'spool': self.get_anacron_spool()}
-
-    def check_anacron(self):
-        if tools.check_command('anacron'):
-            return True
-        self.notify_error( _( 'Can\'t find anacron.\nAre you sure anacron is installed ?\nIf not you should disable daily anacron backups.' ) )
-        return False
-
-    def prepair_udev(self, tmp_fd, uuid, anacrontab_suffix):
-        cmd = self.anacron_cmd(anacrontab_suffix)
-        cmd = "%s - '%s' -c '%s' &" %(tools.which('su'), self.get_user(), cmd)
-        tmp_fd.write('ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, cmd))
+    def prepair_udev(self, tmp_fd, uuid, profile_id):
+        cmd = self.cron_cmd(profile_id)
+        cmd = "%s - '%s' -c '%s'" %(tools.which('su'), self.get_user(), cmd)
+        tmp_fd.write(bytes('ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, cmd), 'UTF-8'))
         return True
 
     def setup_udev(self, tmp_fd):

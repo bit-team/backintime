@@ -17,7 +17,6 @@
 
 
 import os
-import os.path
 import stat
 import datetime
 import gettext
@@ -25,7 +24,6 @@ import stat
 import bz2
 import pwd
 import grp
-import socket
 import subprocess
 import shutil
 import time
@@ -789,7 +787,7 @@ class Snapshots:
         return len( self.get_snapshots_list( False, None, 3 ) ) > 0
 
     def take_snapshot( self, force = False ):
-        ret_val = False
+        ret_val, ret_error = False, True
         sleep = True
 
         self.config.PLUGIN_MANAGER.load_plugins( self )
@@ -803,6 +801,8 @@ class Snapshots:
         elif self.has_old_snapshots():
             logger.info( 'The application needs to change the backup format. Start the GUI to proceed. (As long as you do not you will not be able to make new snapshots!)' )
             logger.warning( 'Backup not performed' )
+        elif not force and not self.config.is_backup_scheduled():
+            logger.info('Profile "%s" is not scheduled to run now.' % self.config.get_profile_name())
         else:
             instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
             restore_instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False )
@@ -812,8 +812,6 @@ class Snapshots:
             elif not restore_instance.check():
                 logger.warning( 'Restore is still running. Stop backup until restore is done.' )
             else:
-                ret_error = False
-
                 if self.config.is_no_on_battery_enabled () and not tools.power_status_available():
                     logger.warning( 'Backups disabled on battery but power status is not available' )
                                 
@@ -865,6 +863,7 @@ class Snapshots:
                         logger.warning( 'Can\'t find snapshots folder !' )
                         self.config.PLUGIN_MANAGER.on_error( 3 ) #Can't find snapshots directory (is it on a removable drive ?)
                     else:
+                        ret_error = False
                         snapshot_id = self.get_snapshot_id( now )
                         snapshot_path = self.get_snapshot_path( snapshot_id )
                         
@@ -916,6 +915,9 @@ class Snapshots:
 
         if sleep:
             time.sleep(2) #max 1 backup / second
+
+        if not ret_error and not list(self.config.anacrontab_files()):
+            tools.writeTimeStamp(self.config.get_anacron_spool_file())
 
         return ret_val
 
@@ -1266,7 +1268,7 @@ class Snapshots:
 
         #create info file 
         logger.info( "Create info file" ) 
-        machine = socket.gethostname()
+        machine = self.config.get_host()
         user = self.config.get_user()
         profile_id = self.config.get_current_profile()
         tag = self.config.get_tag( profile_id )

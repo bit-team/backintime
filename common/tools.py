@@ -16,15 +16,14 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import os.path
 import os
 import sys
 import subprocess
 import hashlib
-import subprocess
 import signal
 import re
 import dbus
+from datetime import datetime, timedelta
 keyring = None
 keyring_warn = False
 try:
@@ -623,14 +622,44 @@ def usingSudo():
 
 re_wildcard = re.compile(r'(?:\[|\]|\?|\*)')
 re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
+
 def patternHasNotEncryptableWildcard(pattern):
-    #return True if path has wildcards [ ] ? *
-    #but return False for foo/*, foo/*/bar, */bar or **/bar
+    '''return True if path has wildcards [ ] ? *
+    but return False for foo/*, foo/*/bar, */bar or **/bar
+    '''
     if not re_wildcard.search(pattern) is None:
         if re_separate_asterisk.search(pattern) is None:
             return False
         return True
     return False
+
+BIT_TIME_FORMAT = '%Y%m%d %H%M'
+ANACRON_TIME_FORMAT = '%Y%m%d'
+
+def readTimeStamp(file):
+    '''read date string from file and try to return datetime'''
+    if not os.path.exists(file):
+        return
+    with open(file, 'r') as f:
+        s = f.read().strip('\n')
+    for format in (ANACRON_TIME_FORMAT, BIT_TIME_FORMAT):
+        try:
+            return datetime.strptime(s, format)
+        except ValueError:
+            pass
+
+def writeTimeStamp(file):
+    '''write current date into file'''
+    make_dirs(os.path.dirname(file))
+    with open(file, 'w') as f:
+        f.write(datetime.now().strftime(BIT_TIME_FORMAT))
+
+def olderThan(time, hours = 0, days = 0, weeks = 0):
+    '''return True if time is older than weeks, days and/or hours'''
+    assert isinstance(time, datetime), 'time is not datetime Type: %s' % time
+
+    d = datetime.now() - timedelta(hours = hours, days = days, weeks = weeks)
+    return time < d
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''

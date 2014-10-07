@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Sep 2014" "version 1.1.0~alpha03" "USER COMMANDS"
+.TH backintime-config 1 "Oct 2014" "version 1.1.0~alpha03" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -49,9 +49,24 @@ Default: Main profile
 .RS
 Type: int       Allowed Values: 0-99999
 .br
-How many days to wait between new snapshots with anacron? Only validfor \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
+How many units to wait between new snapshots with anacron? Only validfor \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
 .PP
 Default: 1
+.RE
+
+.IP "\fIprofile<N>.snapshots.automatic_backup_anacron_unit\fR" 6
+.RS
+Type: int       Allowed Values: 10|20|30
+.br
+Units to wait between new snapshots with anacron. 10 = hours
+.br
+20 = days
+.br
+30 = weeks
+.br
+Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
+.PP
+Default: 20
 .RE
 
 .IP "\fIprofile<N>.snapshots.automatic_backup_day\fR" 6

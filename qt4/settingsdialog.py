@@ -350,19 +350,27 @@ class SettingsDialog( QDialog ):
         glayout.addWidget( self.txt_automatic_snapshots_time_custom, 4, 1 )
 
         #anacron
-        self.lbl_automatic_snapshots_anacron = QLabel(_('Run Back In Time periodically with anacron. This is useful if the computer is not running regular.'))
+        self.lbl_automatic_snapshots_anacron = QLabel(_('Run Back In Time repeatedly. This is useful if the computer is not running regular.'))
+        self.lbl_automatic_snapshots_anacron.setContentsMargins( 5, 0, 0, 0 )
         self.lbl_automatic_snapshots_anacron.setWordWrap(True)
         glayout.addWidget(self.lbl_automatic_snapshots_anacron, 5, 0, 1, 2)
 
-        self.lbl_automatic_snapshots_anacron_period = QLabel(_('Frequency in days:'))
+        self.lbl_automatic_snapshots_anacron_period = QLabel(_('Every:'))
         self.lbl_automatic_snapshots_anacron_period.setContentsMargins( 5, 0, 0, 0 )
         self.lbl_automatic_snapshots_anacron_period.setAlignment( Qt.AlignRight | Qt.AlignVCenter )
         glayout.addWidget(self.lbl_automatic_snapshots_anacron_period, 7, 0)
 
+        hlayout = QHBoxLayout()
         self.sb_automatic_snapshots_anacron_period = QSpinBox(self)
         self.sb_automatic_snapshots_anacron_period.setSingleStep( 1 )
         self.sb_automatic_snapshots_anacron_period.setRange( 1, 10000 )
-        glayout.addWidget(self.sb_automatic_snapshots_anacron_period, 7, 1)
+        hlayout.addWidget(self.sb_automatic_snapshots_anacron_period)
+
+        self.combo_automatic_snapshots_anacron_unit = QComboBox( self )
+        self.fill_combo( self.combo_automatic_snapshots_anacron_unit, self.config.REPEATEDLY_UNITS )
+        hlayout.addWidget(self.combo_automatic_snapshots_anacron_unit)
+        hlayout.addStretch()
+        glayout.addLayout(hlayout, 7, 1)
 
         #udev
         self.lbl_automatic_snapshots_udev = QLabel(_('Run Back In Time as soon as the drive is connected (only once every X days).\nYou will be prompted for your sudo password.'))
@@ -828,16 +836,18 @@ class SettingsDialog( QDialog ):
             self.lbl_automatic_snapshots_time.hide()
             self.combo_automatic_snapshots_time.hide()
 
-        if self.config.DAY_ANACRON <= backup_mode <= self.config.UDEV:
+        if self.config.REPEATEDLY <= backup_mode <= self.config.UDEV:
             self.lbl_automatic_snapshots_anacron_period.show()
             self.sb_automatic_snapshots_anacron_period.show()
+            self.combo_automatic_snapshots_anacron_unit.show()
             self.lbl_automatic_snapshots_time.hide()
             self.combo_automatic_snapshots_time.hide()
         else:
             self.lbl_automatic_snapshots_anacron_period.hide()
             self.sb_automatic_snapshots_anacron_period.hide()
+            self.combo_automatic_snapshots_anacron_unit.hide()
 
-        if backup_mode == self.config.DAY_ANACRON:
+        if backup_mode == self.config.REPEATEDLY:
             self.lbl_automatic_snapshots_anacron.show()
         else:
             self.lbl_automatic_snapshots_anacron.hide()
@@ -940,6 +950,7 @@ class SettingsDialog( QDialog ):
         self.set_combo_value( self.combo_automatic_snapshots_weekday, self.config.get_automatic_backup_weekday() )
         self.txt_automatic_snapshots_time_custom.setText( self.config.get_custom_backup_time() )
         self.sb_automatic_snapshots_anacron_period.setValue(self.config.get_automatic_backup_anacron_period())
+        self.set_combo_value(self.combo_automatic_snapshots_anacron_unit, self.config.get_automatic_backup_anacron_unit())
         self.update_automatic_snapshot_time( self.config.get_automatic_backup_mode() )
 
         #TAB: Include
@@ -1169,6 +1180,7 @@ class SettingsDialog( QDialog ):
         self.config.set_automatic_backup_day( self.combo_automatic_snapshots_day.itemData( self.combo_automatic_snapshots_day.currentIndex() ) )
         self.config.set_custom_backup_time( self.txt_automatic_snapshots_time_custom.text() )
         self.config.set_automatic_backup_anacron_period(self.sb_automatic_snapshots_anacron_period.value())
+        self.config.set_automatic_backup_anacron_unit(self.combo_automatic_snapshots_anacron_unit.itemData(self.combo_automatic_snapshots_anacron_unit.currentIndex() ))
 
         #auto-remove
         self.config.set_remove_old_snapshots( 
