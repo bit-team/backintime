@@ -24,6 +24,7 @@ import signal
 import re
 import dbus
 from datetime import datetime, timedelta
+from distutils.version import StrictVersion
 keyring = None
 keyring_warn = False
 try:
@@ -313,8 +314,9 @@ def is_process_alive( pid ):
 def get_rsync_caps():
     data = read_command_output( 'rsync --version' )
     caps = []
+    #rsync >= 3.1 does provide --info=progress2
     m = re.match(r'rsync\s*version\s*(\d\.\d)', data)
-    if m and int(m.group(1).replace('.', '')) >= 31:
+    if m and StrictVersion(m.group(1)) >= StrictVersion('3.1'):
         caps.append('progress2')
     si = data.find( 'Capabilities:' )
     if si < 0:
