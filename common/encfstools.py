@@ -106,8 +106,8 @@ class EncFS_mount(mount.MountControl):
         
     def pre_mount_check(self, first_run = False):
         """check what ever conditions must be given for the mount"""
+        self.check_fuse()
         if first_run:
-            self.check_fuse()
             self.check_version()
         return True
         
