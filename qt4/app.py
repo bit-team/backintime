@@ -280,13 +280,18 @@ class MainWindow( QMainWindow ):
         self.list_files_view_header.setClickable( True )
         self.list_files_view_header.setMovable( False )
         self.list_files_view_header.setSortIndicatorShown( True )
-        
+
         self.list_files_view_model = QFileSystemModel()
         self.list_files_view_model.setRootPath(QDir().rootPath())
         self.list_files_view_model.setReadOnly(True)
-        self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries | QDir.NoDotAndDotDot)
+        self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries
+                                            | QDir.NoDotAndDotDot | QDir.Hidden)
 
-        self.list_files_view.setModel(self.list_files_view_model)
+        self.list_files_view_proxy_model = QSortFilterProxyModel()
+        self.list_files_view_proxy_model.setDynamicSortFilter(True)
+        self.list_files_view_proxy_model.setSourceModel(self.list_files_view_model)
+
+        self.list_files_view.setModel(self.list_files_view_proxy_model)
 
         self.list_files_view_delegate = QStyledItemDelegate( self )
         self.list_files_view.setItemDelegate( self.list_files_view_delegate )
@@ -391,7 +396,7 @@ class MainWindow( QMainWindow ):
         if not cfg.can_backup( profile_id ):
             messagebox.critical( self, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
-        QObject.connect(self.list_files_view_model, SIGNAL('layoutChanged()'), self.on_dir_lister_completed)
+        QObject.connect(self.list_files_view_proxy_model, SIGNAL('layoutChanged()'), self.on_dir_lister_completed)
 
         #populate lists
         self.update_profiles()
@@ -1021,7 +1026,7 @@ class MainWindow( QMainWindow ):
         if model_index is None:
             return
 
-        rel_path = str( self.list_files_view_model.data( model_index ) )
+        rel_path = str( self.list_files_view_proxy_model.data( model_index ) )
         if not rel_path:
             return
 
@@ -1095,13 +1100,13 @@ class MainWindow( QMainWindow ):
 
         if os.path.isdir( full_path ):
             if self.show_hidden_files:
-                self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries |
-                                                     QDir.NoDotAndDotDot | QDir.Hidden)
+                self.list_files_view_proxy_model.setFilterRegExp(r'')
             else:
-                self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries |
-                                                     QDir.NoDotAndDotDot)
-            self.index = self.list_files_view_model.index(full_path)
-            self.list_files_view.setRootIndex(self.index)
+                self.list_files_view_proxy_model.setFilterRegExp(r'^[^\.]')
+
+            model_index = self.list_files_view_model.index(full_path)
+            proxy_model_index = self.list_files_view_proxy_model.mapFromSource(model_index)
+            self.list_files_view.setRootIndex(proxy_model_index)
 
             self.files_view_toolbar.setEnabled( False )
             self.files_view_layout.setCurrentWidget( self.list_files_view )
@@ -1124,7 +1129,7 @@ class MainWindow( QMainWindow ):
         self.btn_folder_up.setEnabled( len( self.path ) > 1 )
 
     def on_dir_lister_completed( self ):
-        has_files = (self.list_files_view_model.rowCount(self.list_files_view.rootIndex() ) > 0 )
+        has_files = (self.list_files_view_proxy_model.rowCount(self.list_files_view.rootIndex() ) > 0 )
 
         #update restore button state
         enable = len(self.snapshot_id) > 1 and has_files
@@ -1147,7 +1152,7 @@ class MainWindow( QMainWindow ):
             if not index.isValid():
                 return
             while index.isValid():
-                file_name = (str( self.list_files_view_model.data(index) ))
+                file_name = (str( self.list_files_view_proxy_model.data(index) ))
                 if file_name == self.selected_file:
                     self.list_files_view.setCurrentIndex(index)
                     found = True
@@ -1156,13 +1161,13 @@ class MainWindow( QMainWindow ):
             self.selected_file = ''
 
         if not found and has_files:
-            self.list_files_view.setCurrentIndex( self.list_files_view_model.index( 0, 0 ) )
+            self.list_files_view.setCurrentIndex( self.list_files_view_proxy_model.index( 0, 0 ) )
 
     def file_selected(self):
         idx = self.list_files_view.currentIndex()
         if idx.column() > 0:
             idx = idx.sibling(idx.row(), 0)
-        selected_file = str( self.list_files_view_model.data( idx ) )
+        selected_file = str( self.list_files_view_proxy_model.data( idx ) )
         return(selected_file, idx)
 
 class About(QDialog):
