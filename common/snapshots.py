@@ -914,10 +914,10 @@ class Snapshots:
                                     '\n' +
                                     gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', 30 ) % 30,
                                     30 )
-                            for counter in xrange( 30, 0, -1 ):
-                                os.system( 'sleep 1' )
-                                if self.config.can_backup():
-                                    break
+                        for counter in xrange( 30, 0, -1 ):
+                            os.system( 'sleep 1' )
+                            if self.config.can_backup():
+                                break
 
                     if not self.config.can_backup( profile_id ):
                         logger.warning( 'Can\'t find snapshots folder !' )
@@ -1187,7 +1187,7 @@ class Snapshots:
         rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" --exclude=\"%s\" " % \
                 ( encode.exclude( self.config.get_snapshots_path() ), \
                   encode.exclude( self.config._LOCAL_DATA_FOLDER ) ,  \
-                  encode.exclude( self.config.MOUNT_ROOT ) )
+                  encode.exclude( self.config._MOUNT_ROOT ) )
         #rsync_suffix = ' --chmod=Fa-w,Da-w --delete ' + rsync_exclude_backup_directory  + rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2 + ' --exclude=\"*\" / '
         rsync_suffix = ' --chmod=Du+wx ' + rsync_exclude_backup_directory
         rsync_suffix += rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2

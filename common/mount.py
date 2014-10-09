@@ -91,7 +91,7 @@ class Mount(object):
             #mode doesn't need to umount
             return
         else:
-            umount_info = os.path.join(self.config.MOUNT_ROOT, self.config.get_user(), 'mnt', hash_id, 'umount')
+            umount_info = os.path.join(self.config._LOCAL_MOUNT_ROOT, hash_id, 'umount')
             with open(umount_info, 'r') as f:
                 data_string = f.read()
                 f.close()
@@ -175,8 +175,7 @@ class MountControl(object):
         if self.hash_id is None:
             self.hash_id = self.hash(self.destination)
             
-        self.mount_root = self.config.MOUNT_ROOT
-        self.mount_user_path = os.path.join(self.mount_root, self.local_user)
+        self.mount_root = self.config._LOCAL_MOUNT_ROOT
         self.snapshots_path = self.config.get_snapshots_path(profile_id = self.profile_id, mode = self.mode, tmp_mount = self.tmp_mount)
         
         self.hash_id_path = self.get_hash_id_path()
@@ -247,22 +246,19 @@ class MountControl(object):
             return False
         
     def create_mountstructure(self):
-        """ folder structure in /tmp/backintime/<user>/:
-        mnt/                      <= used for mount points
-            <pid>.lock            <= mountprocess lock that will prevent different
-                                     processes modifying mountpoints at one time
-            <hash_id>/            <= will be shared by all profiles with the same mount settings
-                      mountpoint/ <= real mountpoint
-                      umount      <= json file with all nessesary args for unmount
-                      locks/      <= for each process you have a <pid>.lock file
-        <profile id>_<pid>/       <= sym-link to the right path. return by config.get_snapshots_path
-                                     (can be ../mnt/<hash_id>/mount_point for ssh or
-                                     ../mnt/<hash_id>/<HOST>/<SHARE> for fusesmb ...)
-        tmp_<profile id>_<pid>/   <= sym-link for testing mountpoints in settingsdialog
+        """ folder structure in ~/.local/share/backintime/mnt/:
+        <pid>.lock              <= mountprocess lock that will prevent different
+                                   processes modifying mountpoints at one time
+        <hash_id>/              <= will be shared by all profiles with the same mount settings
+                  mountpoint/   <= real mountpoint
+                  umount        <= json file with all nessesary args for unmount
+                  locks/        <= for each process you have a <pid>.lock file
+        <profile id>_<pid>/     <= sym-link to the right path. return by config.get_snapshots_path
+                                   (can be ../mnt/<hash_id>/mount_point for ssh or
+                                   ../mnt/<hash_id>/<HOST>/<SHARE> for fusesmb ...)
+        tmp_<profile id>_<pid>/ <= sym-link for testing mountpoints in settingsdialog
         """
-        self.mkdir(self.mount_root, 0777, force_chmod = True)
-        self.mkdir(self.mount_user_path, 0700)
-        self.mkdir(os.path.join(self.mount_user_path, 'mnt'), 0700)
+        self.mkdir(self.mount_root, 0700)
         self.mkdir(self.hash_id_path, 0700)
         self.mkdir(self.mountpoint, 0700)
         self.mkdir(self.lock_path, 0700)
@@ -276,7 +272,7 @@ class MountControl(object):
         
     def mountprocess_lock_acquire(self, timeout = 60):
         """block while an other process is mounting or unmounting"""
-        lock_path = os.path.join(self.mount_user_path, 'mnt')
+        lock_path = self.mount_root
         lock_suffix = '.lock'
         lock = self.pid + lock_suffix
         count = 0
@@ -291,7 +287,7 @@ class MountControl(object):
             f.close()
         
     def mountprocess_lock_release(self):
-        lock_path = os.path.join(self.mount_user_path, 'mnt')
+        lock_path = self.mount_root
         lock_suffix = '.lock'
         lock = os.path.join(lock_path, self.pid + lock_suffix)
         if os.path.exists(lock):
@@ -349,9 +345,9 @@ class MountControl(object):
             else:
                 #clean up
                 os.remove(os.path.join(path, file))
-                for symlink in os.listdir(self.mount_user_path):
+                for symlink in os.listdir(self.mount_root):
                     if symlink.endswith('_%s' % lock_pid):
-                        os.remove(os.path.join(self.mount_user_path, symlink))
+                        os.remove(os.path.join(self.mount_root, symlink))
         return False
             
     def setattr_kwargs(self, arg, default, store = True, **kwargs):
@@ -439,7 +435,7 @@ class MountControl(object):
     def get_hash_id_path(self, hash_id = None):
         if hash_id is None:
             hash_id = self.hash_id
-        return os.path.join(self.mount_user_path, 'mnt', self.hash_id)
+        return os.path.join(self.mount_root, self.hash_id)
         
     def get_mountpoint(self, hash_id = None):
         return os.path.join(self.get_hash_id_path(hash_id), 'mountpoint')

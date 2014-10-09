@@ -23,5 +23,9 @@ else
 	APP_PATH="/usr/share/backintime/kde4"
 fi
 
+if [ "x$SSH_AUTH_SOCK" = "x" ]; then
+        eval "$(ssh-agent)"
+fi
+
 python ${APP_PATH}/app.py "$@"
 

@@ -43,7 +43,7 @@ gettext.textdomain( 'backintime' )
 
 class Config( configfile.ConfigFileWithProfiles ):
     APP_NAME = 'Back In Time'
-    VERSION = '1.0.35'
+    VERSION = '1.0.39'
     COPYRIGHT = 'Copyright (c) 2008-2013 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
     CONFIG_VERSION = 5
 
@@ -95,7 +95,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
 
-    DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', os.path.expanduser( '~/Ubuntu One' ), '.dropbox*', '/proc/*', '/sys/*', '/dev/*', '/run/*' ]
+    DEFAULT_EXCLUDE = [ '.gvfs', '.cache*', '[Cc]ache*', '.thumbnails*', '[Tt]rash*', '*.backup*', '*~', '.dropbox*', '/proc/*', '/sys/*', '/dev/*', '/run/*' ]
     
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
@@ -106,8 +106,6 @@ class Config( configfile.ConfigFileWithProfiles ):
                 'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption') )
                 ##'dummy'       : (dummytools.Dummy,        'Dummy',                'Dummy',                False )
                 }
-
-    MOUNT_ROOT = '/tmp/backintime'
     
     SSH_CIPHERS =  {'default':    _('Default'),
                     'aes128-ctr': _('AES128-CTR'), 
@@ -136,10 +134,15 @@ class Config( configfile.ConfigFileWithProfiles ):
         self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 
         HOME_FOLDER = os.path.expanduser( '~' )
-        self._LOCAL_DATA_FOLDER = os.path.join( os.getenv( 'XDG_DATA_HOME', '$HOME/.local/share' ).replace( '$HOME', HOME_FOLDER ), 'backintime' )
-        self._LOCAL_CONFIG_FOLDER = os.path.join( os.getenv( 'XDG_CONFIG_HOME', '$HOME/.config' ).replace( '$HOME', HOME_FOLDER ), 'backintime' )
+        DATA_FOLDER = '.local/share'
+        CONFIG_FOLDER = '.config'
+        BIT_FOLDER = 'backintime'
+        self._LOCAL_DATA_FOLDER = os.path.join(HOME_FOLDER, DATA_FOLDER, BIT_FOLDER)
+        self._LOCAL_CONFIG_FOLDER = os.path.join(HOME_FOLDER, CONFIG_FOLDER, BIT_FOLDER)
 
-        #self._LOCAL_CONFIG_FOLDER = os.path.expanduser( '~/.config/backintime' )
+        self._MOUNT_ROOT = os.path.join(DATA_FOLDER, BIT_FOLDER, 'mnt')
+        self._LOCAL_MOUNT_ROOT = os.path.join(HOME_FOLDER, self._MOUNT_ROOT)
+
         tools.make_dirs( self._LOCAL_CONFIG_FOLDER )
         tools.make_dirs( self._LOCAL_DATA_FOLDER )
 
@@ -331,7 +334,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         else:
             #mode need to be mounted; return mountpoint
             symlink = self.get_snapshots_symlink(profile_id = profile_id, tmp_mount = tmp_mount)
-            return os.path.join(self.MOUNT_ROOT, self.get_user(), symlink)
+            return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
 
     def get_snapshots_full_path( self, profile_id = None, version = None ):
         '''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''

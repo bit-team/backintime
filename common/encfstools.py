@@ -19,7 +19,6 @@ import grp
 import gettext
 import subprocess
 import re
-import pdb
 
 import config
 import mount
@@ -169,7 +168,8 @@ class EncFS_mount(mount.MountControl):
             try:
                 fuse_grp_members = grp.getgrnam('fuse')[3]
             except KeyError:
-                fuse_grp_members = []
+                #group fuse doesn't exist. So most likely it isn't used by this distribution
+                return
             if not user in fuse_grp_members:
                 raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
         
@@ -441,22 +441,22 @@ class Decode(object):
         
         #search for: [I] Take snapshot (rsync: BACKINTIME: <f+++++++++ <crypted_path>)
         #            [I] Take snapshot (rsync: deleting <crypted_path>)
-        #            [I] Take snapshot (rsync: rsync: readlink_stat("/tmp...mountpoint/<crypted_path>")
-        #            [I] Take snapshot (rsync: rsync: send_files failed to open "/tmp...mountpoint/<crypted_path>": Permission denied (13))
+        #            [I] Take snapshot (rsync: rsync: readlink_stat("...mountpoint/<crypted_path>")
+        #            [I] Take snapshot (rsync: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13))
         #            [I] Take snapshot (rsync: <crypted_path>)
         pattern = []
         pattern.append(r' BACKINTIME: .{11} ')
         pattern.append(r' deleting ')
-        pattern.append(r' rsync: readlink_stat\("/tmp.*?mountpoint/')
-        pattern.append(r' rsync: send_files failed to open "/tmp.*?mountpoint/')
+        pattern.append(r' rsync: readlink_stat\(".*?mountpoint/')
+        pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
         pattern.append(r' ')
         self.re_info = re.compile(r'(^\[I\] %s \(rsync:(?:%s))(.*?)(\).*|".*)' % (_('Take snapshot'), '|'.join(pattern)) )
         
-        #search for: [E] Error: rsync readlink_stat("/tmp...mountpoint/<crypted_path>")
-        #            [E] Error: rsync: send_files failed to open "/tmp...mountpoint/<crypted_path>": Permission denied (13)
+        #search for: [E] Error: rsync readlink_stat("...mountpoint/<crypted_path>")
+        #            [E] Error: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13)
         pattern = []
-        pattern.append(r' rsync: readlink_stat\("/tmp.*?mountpoint/')
-        pattern.append(r' rsync: send_files failed to open "/tmp.*?mountpoint/')
+        pattern.append(r' rsync: readlink_stat\(".*?mountpoint/')
+        pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
         self.re_error = re.compile(r'(^\[E\] Error:(?:%s))(.*?)(".*)' % '|'.join(pattern))
         
         #search for: [I] ssh USER@HOST cp -aRl "PATH<crypted_path>"* "PATH<crypted_path>"

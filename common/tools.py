@@ -508,6 +508,8 @@ def save_env(cfg):
     #ubuntu
     set_env_key(env, env_file, 'GNOME_KEYRING_CONTROL')
     set_env_key(env, env_file, 'DBUS_SESSION_BUS_ADDRESS')
+    set_env_key(env, env_file, 'DBUS_SESSION_BUS_PID')
+    set_env_key(env, env_file, 'DBUS_SESSION_BUS_WINDOWID')
     set_env_key(env, env_file, 'DISPLAY')
     #debian
     set_env_key(env, env_file, 'XAUTHORITY')
@@ -566,9 +568,9 @@ def get_mountpoint(path):
 def get_uuid(dev):
     '''return uuid for given block device'''
     if dev and os.path.exists(dev):
-        dev_stat = os.stat(dev)
+        dev = os.path.realpath(dev)
         for uuid in os.listdir(DISK_BY_UUID):
-            if dev_stat == os.stat(os.path.join(DISK_BY_UUID, uuid)):
+            if dev == os.path.realpath(os.path.join(DISK_BY_UUID, uuid)):
                 return uuid
     return None
 

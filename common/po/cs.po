@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-09 22:34+0100\n"
-"PO-Revision-Date: 2013-10-21 03:18+0000\n"
+"PO-Revision-Date: 2013-12-23 12:16+0000\n"
 "Last-Translator: Petr Šimáček <petr.simacek@gmail.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-12-10 17:48+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2014-09-30 20:28+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../../common/config.py:72
 msgid "Disabled"
@@ -255,11 +255,11 @@ msgstr ""
 
 #: ../../common/config.py:1439
 msgid "Please provide your sudo password to install the udev rule."
-msgstr ""
+msgstr "Uveďte, prosím, své sudo heslo pro instalaci pravidla udev."
 
 #: ../../common/config.py:1445
 msgid "Please provide your sudo password to remove unused udev rules."
-msgstr ""
+msgstr "Uveďte, prosím, své sudo heslo pro odebrání pravidel udev."
 
 #: ../../common/configfile.py:253 ../../common/configfile.py:315
 #, python-format
@@ -850,6 +850,9 @@ msgid ""
 "system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
+"Pokud zavřete toto okno Back In Time, nebudete moci vypnout váš systém, když "
+"byl snímek ukončen.\n"
+"Opravdu chcete okno zavřít?"
 
 #: ../../gnome/app.py:881 ../../gnome/snapshotsdialog.py:238
 msgid "Open"
@@ -1033,7 +1036,7 @@ msgstr "Nastavení"
 
 #: ../../kde4/app.py:124 ../../gnome/mainwindow.glade:169
 msgid "Shutdown system after snapshot has finished."
-msgstr ""
+msgstr "Vypnout systém po dokončení snímku."
 
 #: ../../kde4/app.py:131 ../../gnome/mainwindow.glade:184
 #: ../../gnome/mainwindow.glade:186
@@ -1360,11 +1363,11 @@ msgstr "Spustit 'ionice' při ručním vytváření snímku (výchozí: zakázá
 
 #: ../../kde4/settingsdialog.py:617 ../../gnome/settingsdialog.glade:2184
 msgid "Run 'nice' on remote host (default: disabled)"
-msgstr ""
+msgstr "Spustit 'nice' u vzdáleného hostitele (výchozí: vypnuto)"
 
 #: ../../kde4/settingsdialog.py:620 ../../gnome/settingsdialog.glade:2201
 msgid "Run 'ionice' on remote host (default: disabled)"
-msgstr ""
+msgstr "Spustit 'ionice' u vzdáleného hostitele (výchozí: vypnuto)"
 
 #: ../../kde4/settingsdialog.py:626 ../../gnome/settingsdialog.glade:2224
 msgid "Limit rsync bandwidth usage: "
@@ -1451,7 +1454,7 @@ msgstr "Zálohovat nyní"
 
 #: ../../gnome/mainwindow.glade:171
 msgid "Shutdown"
-msgstr ""
+msgstr "Vypnout"
 
 #: ../../gnome/mainwindow.glade:287
 msgid "Parent folder"

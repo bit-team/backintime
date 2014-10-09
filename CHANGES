@@ -1,6 +1,21 @@
 Back In Time
 
+Version 1.0.40
+* Fix bug: 'Attempt to unlock mutex that was not locked'... this time for good
+
+Version 1.0.38
+* Fix bug: 'Attempt to unlock mutex that was not locked' in gnomeplugin (https://answers.launchpad.net/questions/255225)
+* compare os.path.realpath instead of os.stat to get devices UUID
+* Fix bug: housekeeping by gnome-session-daemon might delete backup and original data (https://bugs.launchpad.net/bugs/1374343)
+* Fix bug: Type Error in 'backintime --decode' (https://bugs.launchpad.net/bugs/1365072)
+* Fix bug: take_snapshot didn't wait for snapshot folder come available if notifications are disabled (https://bugs.launchpad.net/bugs/1332979)
+
 Version 1.0.36
+* remove UbuntuOne from exclude (https://bugs.launchpad.net/bugs/1340131)
+* Gray out 'Add Profile' if 'Main Profile' isn't configured yet (https://bugs.launchpad.net/bugs/1335545)
+* Don't check for fuse group-membership if group doesn't exist
+* Fix bug: backintime-kde4 as root failed to load ssh-key (https://bugs.launchpad.net/bugs/1276348)
+* Fix bug: kdesystrayicon.py crashes because of missing environ (https://bugs.launchpad.net/bugs/1332126)
 * Fix bug: OSError if sshfs/encfs is not installed (https://bugs.launchpad.net/bugs/1316288)
 * Fix bug: TypeError in config.py check_config() (https://bugzilla.redhat.com/show_bug.cgi?id=1091644)
 * Fix bug: unhandled exception in create_last_snapshot_symlink() (https://bugs.launchpad.net/bugs/1269991)

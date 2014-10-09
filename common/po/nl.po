@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-09 22:34+0100\n"
-"PO-Revision-Date: 2013-11-12 10:13+0000\n"
-"Last-Translator: rob <linuxned@gmail.com>\n"
+"PO-Revision-Date: 2014-03-28 14:08+0000\n"
+"Last-Translator: JL <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-10 17:48+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2014-09-30 20:28+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../../common/config.py:72
 msgid "Disabled"
@@ -187,19 +187,19 @@ msgstr "Profiel: \"%s\""
 
 #: ../../common/config.py:256
 msgid "Snapshots folder is not valid !"
-msgstr "Back-upmap is niet geldig!"
+msgstr "Reservekopiemap is niet geldig!"
 
 #: ../../common/config.py:275
 msgid "You must select at least one folder to backup !"
-msgstr "Selecteer tenminste één map om een back-up te kunnen maken !"
+msgstr "Selecteer tenminste één map om een reservekopie te kunnen maken !"
 
 #: ../../common/config.py:286
 msgid "You can't include backup folder !"
-msgstr "U kunt de back-upmap niet toevoegen!"
+msgstr "U kunt de reservekopiemap niet toevoegen!"
 
 #: ../../common/config.py:291
 msgid "You can't include a backup sub-folder !"
-msgstr "U kunt geen submap van de back-upmap toevoegen!"
+msgstr "U kunt geen submap van de reservekopiemap toevoegen!"
 
 #: ../../common/config.py:361
 #, python-format
@@ -223,8 +223,8 @@ msgid ""
 msgstr ""
 "Kan crontab niet vinden.\n"
 "Weet u zeker dat cron geïnstalleerd is?\n"
-"Indien dit niet het geval is, dient u alle automatische back-ups uit te "
-"schakelen."
+"Indien dit niet het geval is, dient u het maken van automatische "
+"reservekopieën uit te schakelen."
 
 #: ../../common/config.py:1338
 #, python-format
@@ -252,8 +252,8 @@ msgid ""
 msgstr ""
 "Kan anacron niet vinden.\n"
 "Weet u zeker dat anacron geïnstalleerd is ?\n"
-"Indien dit niet het geval is, dient u de dagelijkse anacron-back-ups uit te "
-"schakelen."
+"Indien dit niet het geval is, dient u het maken van de dagelijkse anacron-"
+"reservekopieën uit te schakelen."
 
 #: ../../common/config.py:1439
 msgid "Please provide your sudo password to install the udev rule."
@@ -345,7 +345,7 @@ msgstr ""
 #: ../../common/snapshots.py:982 ../../common/snapshots.py:1288
 #: ../../kde4/app.py:82 ../../gnome/mainwindow.glade:43
 msgid "Take snapshot"
-msgstr "Back-up maken"
+msgstr "Reservekopie maken"
 
 #: ../../common/mount.py:195
 #, python-format
@@ -402,9 +402,10 @@ msgid ""
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
-"Back In Time heeft het back-upformaat gewijzigd.\n"
+"Back In Time heeft het reservekopieformaat gewijzigd.\n"
 "\n"
-"Uw oude back-ups kunnen overgezet worden naar dit nieuwe formaat. Wilt u dit?"
+"Uw oude reservekopieën kunnen overgezet worden naar dit nieuwe formaat. Wilt "
+"u dit?"
 
 #: ../../common/snapshots.py:749
 #, python-format
@@ -418,9 +419,9 @@ msgid ""
 msgstr ""
 "%s profielen gevonden.\n"
 "\n"
-"Het nieuwe back-upformaat ondersteunt de opslag van meerdere gebruikers en "
-"profielen op dezelfde locatie. Wilt u dezelfde locatie voor beide profielen? "
-"\n"
+"Het nieuwe reservekopieformaat ondersteunt de opslag van meerdere gebruikers "
+"en profielen op dezelfde locatie. Wilt u dezelfde locatie voor beide "
+"profielen? \n"
 "\n"
 "(Het programma kan er nog steeds onderscheid tussen blijven maken)"
 
@@ -447,11 +448,12 @@ msgstr ""
 "%(snapshots_left)s\n"
 "van %(profile_id)s zijn niet verplaatst naar hun nieuwe locatie\n"
 "Wilt u doorgaan?\n"
-"(Back In Time zal nog steeds back-ups kunnen maken, maar de resterende back-"
-"ups zullen echter niet meer automatisch verwijderd worden)\n"
+"(Back In Time zal nog steeds reservekopieën kunnen maken, maar de resterende "
+"reservekopieën zullen echter niet meer automatisch verwijderd worden)\n"
 "\n"
 "Indien nee, dan zal Back In Time de oorspronkelijke instellingen van dit "
-"profiel herstellen, er kunnen dan echter geen back-ups meer gemaakt worden"
+"profiel herstellen, er kunnen dan echter geen reservekopieën meer gemaakt "
+"worden"
 
 #: ../../common/snapshots.py:812
 #, python-format
@@ -463,9 +465,9 @@ msgid ""
 "if you are done restart Back In Time to proceed"
 msgstr ""
 "De voormalige instellingen van profiel %s zijn hersteld.\n"
-"Back In Time kan niet doorgaan met het maken van nieuwe back-ups.\n"
+"Back In Time kan niet doorgaan met het maken van nieuwe reservekopieën.\n"
 "\n"
-"U kunt de back-ups handmatig verplaatsen; \n"
+"U kunt de reservekopieën handmatig verplaatsen; \n"
 "wanneer u klaar bent dient u Back In Time te herstarten om door te gaan"
 
 #: ../../common/snapshots.py:825
@@ -476,7 +478,7 @@ msgid ""
 msgstr ""
 "Bijwerken is gelukt!\n"
 "\n"
-"Back In Time zal nu doorgaan met het maken van back-ups zoals gepland"
+"Back In Time zal nu doorgaan met het maken van reservekopieën zoals gepland"
 
 #: ../../common/snapshots.py:830
 msgid ""
@@ -489,27 +491,28 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
-"Weet u zeker dat u uw oude back-ups niet wilt verplaatsen?\n"
+"Weet u zeker dat u uw oude reservekopieën niet wilt verplaatsen?\n"
 "\n"
 "\n"
 "Zo ja, dan zullen deze vragen de volgende keer niet meer gesteld worden; "
-"Back In Time zal dan doorgaan met het maken van back-ups, maar Slim "
-"verwijderen kan dan niet langer rekening houden met uw oude back-ups!\n"
+"Back In Time zal dan doorgaan met het maken van reservekopieën, maar Slim "
+"verwijderen kan dan niet langer rekening houden met uw oude reservekopieën!\n"
 "\n"
 "Zo nee, dan zullen deze vragen opnieuw gesteld worden na het openen van Back "
 "In Time."
 
 #: ../../common/snapshots.py:839
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr "Back In Time zal doorgaan met het maken van back-ups zoals gepland"
+msgstr ""
+"Back In Time zal nu doorgaan met het maken van reservekopieën zoals gepland"
 
 #: ../../common/snapshots.py:841
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
-"Back In Time kan nog steeds niet doorgaan met het maken van nieuwe back-"
-"ups.\n"
+"Back In Time kan nog steeds niet doorgaan met het maken van nieuwe "
+"reservekopieën.\n"
 "Herstart Back In Time om de vragen opnieuw te zien"
 
 #: ../../common/snapshots.py:913
@@ -517,7 +520,7 @@ msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Kan back-upmap niet vinden.\n"
+"Kan reservekopiemap niet vinden.\n"
 "Als deze op een extern medium staat, gelieve dit aan te sluiten."
 
 #: ../../common/snapshots.py:915
@@ -530,7 +533,7 @@ msgstr[1] "Wacht %s seconden"
 #: ../../common/snapshots.py:941
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr "Kon back-up %s niet aanmaken!!!"
+msgstr "Kon reservekopie %s niet maken!!!"
 
 #: ../../common/snapshots.py:950
 msgid "Finalizing"
@@ -553,7 +556,7 @@ msgstr "Kan deze map niet verwijderen: %s"
 #: ../../common/snapshots.py:1219
 #, python-format
 msgid "Compare with snapshot %s"
-msgstr "Met back-up %s vergelijken"
+msgstr "Met reservekopie %s vergelijken"
 
 #: ../../common/snapshots.py:1248
 msgid "Create hard-links"
@@ -574,7 +577,7 @@ msgstr "Kan %(new_path)s niet hernoemen naar %(path)s"
 
 #: ../../common/snapshots.py:1562
 msgid "Remove old snapshots"
-msgstr "Oude back-ups verwijderen"
+msgstr "Oude reservekopieën verwijderen"
 
 #: ../../common/snapshots.py:1586 ../../kde4/settingsdialog.py:501
 #: ../../gnome/settingsdialog.glade:1660
@@ -746,7 +749,7 @@ msgstr "Een fout melden"
 
 #: ../../gnome/app.py:196 ../../kde4/app.py:155
 msgid "About"
-msgstr "Over"
+msgstr "Info"
 
 #: ../../gnome/app.py:202 ../../gnome/app.py:887
 #: ../../gnome/restoredialog.py:84 ../../gnome/snapshotsdialog.py:83
@@ -799,20 +802,20 @@ msgstr "Datum"
 #: ../../gnome/mainwindow.glade:366 ../../gnome/mainwindow.glade:368
 #: ../../gnome/snapshotsdialog.glade:8
 msgid "Snapshots"
-msgstr "Back-ups"
+msgstr "Reservekopieën"
 
 #: ../../gnome/app.py:348 ../../kde4/app.py:362
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
-"Kan back-upmap niet vinden.\n"
+"Kan reservekopiemap niet vinden.\n"
 "Als deze op een extern medium staat, gelieve dit aan te sluiten en op OK te "
 "drukken."
 
 #: ../../gnome/app.py:611 ../../kde4/app.py:590
 msgid "Done, no backup needed"
-msgstr "Klaar, geen back-up nodig"
+msgstr "Klaar, geen reservekopie nodig"
 
 #: ../../gnome/app.py:619 ../../kde4/app.py:598
 msgid "Working:"
@@ -840,7 +843,7 @@ msgstr "Bladwijzers"
 
 #: ../../gnome/app.py:675 ../../kde4/app.py:662
 msgid "Backup folders"
-msgstr "Mappen om te back-uppen"
+msgstr "Mappen om reservekopie van te maken"
 
 #: ../../gnome/app.py:701 ../../kde4/app.py:734
 msgid "Today"
@@ -865,7 +868,7 @@ msgid ""
 "Do you really want to close?"
 msgstr ""
 "Als u dit venster sluit, zal Back In Time de computer niet uit kunnen "
-"schakelen wanneer de back-up voltooid is.\n"
+"schakelen wanneer de reservekopie voltooid is.\n"
 "Weet u zeker dat u het wilt sluiten?"
 
 #: ../../gnome/app.py:881 ../../gnome/snapshotsdialog.py:238
@@ -875,7 +878,7 @@ msgstr "Openen..."
 #: ../../gnome/app.py:1056 ../../kde4/app.py:90 ../../kde4/app.py:805
 #: ../../gnome/mainwindow.glade:73 ../../gnome/mainwindow.glade:75
 msgid "Snapshot Name"
-msgstr "Naam back-up"
+msgstr "Naam reservekopie"
 
 #: ../../gnome/app.py:1075
 #, python-format
@@ -883,18 +886,18 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "<b>%s</b>"
 msgstr ""
-"Weet u zeker dat u deze back-up wilt verwijderen?\n"
+"Weet u zeker dat u deze reservekopie wilt verwijderen?\n"
 "<b>%s</b>"
 
 #: ../../gnome/app.py:1123 ../../kde4/app.py:1010
 #, python-format
 msgid "Snapshot: %s"
-msgstr "Back-up: %s"
+msgstr "Reservekopie: %s"
 
 #: ../../gnome/app.py:1124 ../../kde4/app.py:1011
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "Back-up gemaakt op %s bekijken"
+msgstr "Reservekopie gemaakt op %s bekijken"
 
 #: ../../gnome/app.py:1126 ../../kde4/app.py:1013
 msgid "View the current disk content"
@@ -936,11 +939,11 @@ msgstr "Wijzigingen & fouten"
 
 #: ../../gnome/settingsdialog.py:458
 msgid "Snapshots folder"
-msgstr "Back-upmap"
+msgstr "Reservekopiemap"
 
 #: ../../gnome/settingsdialog.py:466 ../../kde4/settingsdialog.py:1314
 msgid "Are you sure you want to change snapshots folder ?"
-msgstr "Weet u zeker dat u de back-upmap wilt wijzigen?"
+msgstr "Weet u zeker dat u de reservekopiemap wilt wijzigen?"
 
 #: ../../gnome/settingsdialog.py:901 ../../kde4/settingsdialog.py:914
 msgid ""
@@ -948,7 +951,8 @@ msgid ""
 "*/3 for periodic backups every 3 hours"
 msgstr ""
 "Aangepaste uren kunnen alleen een door een komma gescheiden lijst met uren "
-"zijn (b.v. 8,12,18,23) of */3 voor een periodieke back-up elke 3 uren"
+"zijn (b.v. 8,12,18,23) of */3 om elke 3 uren een periodieke reservekopie te "
+"maken"
 
 #: ../../gnome/settingsdialog.py:1141 ../../kde4/settingsdialog.py:653
 msgid "New profile"
@@ -981,11 +985,11 @@ msgstr "Uit te sluiten patronen mogen geen ':' teken bevatten!"
 
 #: ../../gnome/settingsdialog.py:1246 ../../kde4/settingsdialog.py:1257
 msgid "Exclude file"
-msgstr "Selecteer een bestand om uit te sluiten van de back-up"
+msgstr "Selecteer een bestand om uit te sluiten van de reservekopie"
 
 #: ../../gnome/settingsdialog.py:1257 ../../kde4/settingsdialog.py:1261
 msgid "Exclude folder"
-msgstr "Selecteer een map om uit te sluiten van de back-up"
+msgstr "Selecteer een map om uit te sluiten van de reservekopie"
 
 #: ../../gnome/snapshotsdialog.py:240
 msgid "Jump to"
@@ -997,7 +1001,7 @@ msgstr "Verschil"
 
 #: ../../gnome/snapshotsdialog.py:277 ../../kde4/snapshotsdialog.py:339
 msgid "You can't compare a snapshot to itself"
-msgstr "U kunt een back-up niet met zichzelf vergelijken"
+msgstr "U kunt een reservekopie niet met zichzelf vergelijken"
 
 #: ../../gnome/snapshotsdialog.py:284 ../../kde4/snapshotsdialog.py:346
 #, python-format
@@ -1009,14 +1013,15 @@ msgstr "Opdracht niet gevonden: %s"
 msgid ""
 "Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
 msgstr ""
-"Weet u zeker dat u \"%(file)s\" uit back-up \"%(snapshot_id)s wilt "
+"Weet u zeker dat u \"%(file)s\" uit reservekopie \"%(snapshot_id)s wilt "
 "verwijderen?\n"
 
 #: ../../gnome/snapshotsdialog.py:310 ../../kde4/snapshotsdialog.py:370
 #, python-format
 msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
 msgstr ""
-"Weet u zeker dat u \"%(file)s\" uit %(count)d back-ups wilt verwijderen?\n"
+"Weet u zeker dat u \"%(file)s\" uit %(count)d reservekopieën wilt "
+"verwijderen?\n"
 
 #: ../../gnome/snapshotsdialog.py:312 ../../kde4/snapshotsdialog.py:372
 msgid "WARNING: This can not be revoked!"
@@ -1025,25 +1030,25 @@ msgstr "WAARSCHUWING: Dit kan niet ongedaan worden gemaakt!"
 #: ../../gnome/snapshotsdialog.py:317 ../../kde4/snapshotsdialog.py:377
 #, python-format
 msgid "Exclude \"%s\" from future snapshots?"
-msgstr "\"%s\" uitsluiten van toekomstige back-ups?"
+msgstr "\"%s\" uitsluiten van toekomstige reservekopieën?"
 
 #: ../../kde4/app.py:86 ../../gnome/mainwindow.glade:58
 #: ../../gnome/mainwindow.glade:60
 msgid "Refresh snapshots list"
-msgstr "Back-upslijst vernieuwen"
+msgstr "Reservekopielijst vernieuwen"
 
 #: ../../kde4/app.py:94 ../../gnome/mainwindow.glade:88
 #: ../../gnome/mainwindow.glade:90
 msgid "Remove Snapshot"
-msgstr "Back-up verwijderen"
+msgstr "Reservekopie verwijderen"
 
 #: ../../kde4/app.py:98 ../../gnome/mainwindow.glade:105
 msgid "View Snapshot Log"
-msgstr "Back-uplog bekijken"
+msgstr "Reservekopielogboek bekijken"
 
 #: ../../kde4/app.py:102 ../../gnome/mainwindow.glade:121
 msgid "View Last Log"
-msgstr "Laatste log bekijken"
+msgstr "Laatste logboek bekijken"
 
 #: ../../kde4/app.py:108 ../../kde4/settingsdialog.py:69
 #: ../../gnome/mainwindow.glade:144 ../../gnome/mainwindow.glade:146
@@ -1053,7 +1058,7 @@ msgstr "Instellingen"
 
 #: ../../kde4/app.py:124 ../../gnome/mainwindow.glade:169
 msgid "Shutdown system after snapshot has finished."
-msgstr "Computer uitschakelen wanneer de back-up voltooid is."
+msgstr "Computer uitschakelen wanneer de reservekopie voltooid is."
 
 #: ../../kde4/app.py:131 ../../gnome/mainwindow.glade:184
 #: ../../gnome/mainwindow.glade:186
@@ -1074,7 +1079,7 @@ msgid ""
 "in the current snapshot !"
 msgstr ""
 "Deze map bestaat niet\n"
-"in de huidige back-up !"
+"in de huidige reservekopie !"
 
 #: ../../kde4/app.py:839
 #, python-format
@@ -1082,7 +1087,7 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Weet u zeker dat u de volgende back-up wilt verwijderen?\n"
+"Weet u zeker dat u de volgende reservekopie wilt verwijderen?\n"
 "%s"
 
 #: ../../kde4/app.py:1140 ../../kde4/kde4systrayicon.py:117
@@ -1091,7 +1096,7 @@ msgstr "Bezig met..."
 
 #: ../../kde4/logviewdialog.py:55
 msgid "Error Log View"
-msgstr "Foutlogweergave"
+msgstr "Foutenlogboekweergave"
 
 #: ../../kde4/logviewdialog.py:65 ../../kde4/settingsdialog.py:79
 #: ../../kde4/settingsdialog.py:293 ../../gnome/logviewdialog.glade:73
@@ -1125,7 +1130,7 @@ msgstr "Modus:"
 
 #: ../../kde4/settingsdialog.py:127 ../../kde4/settingsdialog.py:1311
 msgid "Where to save snapshots"
-msgstr "Waar wilt u de back-ups opslaan"
+msgstr "Waar wilt u de reservekopieën opslaan"
 
 #: ../../kde4/settingsdialog.py:146
 msgid "SSH Settings"
@@ -1277,7 +1282,7 @@ msgstr "Indien de vrije inodes kleiner zijn dan:"
 
 #: ../../kde4/settingsdialog.py:514 ../../gnome/settingsdialog.glade:1697
 msgid "Keep all snapshots for the last"
-msgstr "Behoud alle back-ups van de afgelopen"
+msgstr "Behoud alle reservekopieën van de afgelopen"
 
 #: ../../kde4/settingsdialog.py:517 ../../kde4/settingsdialog.py:522
 #: ../../gnome/settingsdialog.glade:1705 ../../gnome/settingsdialog.glade:1729
@@ -1286,11 +1291,11 @@ msgstr "dag(en)"
 
 #: ../../kde4/settingsdialog.py:519 ../../gnome/settingsdialog.glade:1717
 msgid "Keep one snapshot per day for the last"
-msgstr "Behoud één back-up per dag van de afgelopen"
+msgstr "Behoud één reservekopie per dag van de afgelopen"
 
 #: ../../kde4/settingsdialog.py:524 ../../gnome/settingsdialog.glade:1743
 msgid "Keep one snapshot per week for the last"
-msgstr "Behoud één back-up per week van de afgelopen"
+msgstr "Behoud één reservekopie per week van de afgelopen"
 
 #: ../../kde4/settingsdialog.py:527
 msgid "weeks(s)"
@@ -1298,7 +1303,7 @@ msgstr "week/weeken"
 
 #: ../../kde4/settingsdialog.py:529 ../../gnome/settingsdialog.glade:1769
 msgid "Keep one snapshot per month for the last"
-msgstr "Behoud één back-up per maand van de afgelopen"
+msgstr "Behoud één reservekopie per maand van de afgelopen"
 
 #: ../../kde4/settingsdialog.py:532 ../../gnome/settingsdialog.glade:1781
 msgid "month(s)"
@@ -1306,11 +1311,11 @@ msgstr "maand(en)"
 
 #: ../../kde4/settingsdialog.py:534 ../../gnome/settingsdialog.glade:1795
 msgid "Keep one snapshot per year for all years"
-msgstr "Behoud één back-up per jaar van alle jaren"
+msgstr "Behoud één reservekopie per jaar van alle jaren"
 
 #: ../../kde4/settingsdialog.py:537 ../../gnome/settingsdialog.glade:1496
 msgid "Don't remove named snapshots"
-msgstr "Geen hernoemde back-ups verwijderen"
+msgstr "Geen hernoemde reservekopieën verwijderen"
 
 #: ../../kde4/settingsdialog.py:546 ../../gnome/settingsdialog.glade:2104
 msgid "Options"
@@ -1322,7 +1327,7 @@ msgstr "Meldingen activeren"
 
 #: ../../kde4/settingsdialog.py:552 ../../gnome/settingsdialog.glade:1937
 msgid "Disable snapshots when on battery"
-msgstr "Back-ups uitschakelen indien op accu"
+msgstr "Maken van reservekopieën uitschakelen indien op accu"
 
 #: ../../kde4/settingsdialog.py:555
 msgid "Power status not available from system"
@@ -1330,11 +1335,11 @@ msgstr "Status stroomvoorziening niet beschikbaar vanuit systeem"
 
 #: ../../kde4/settingsdialog.py:558 ../../gnome/settingsdialog.glade:1955
 msgid "Backup files on restore"
-msgstr "Back-up maken van bestanden bij het herstellen"
+msgstr "Reservekopie maken van bestanden bij het herstellen"
 
 #: ../../kde4/settingsdialog.py:561 ../../gnome/settingsdialog.glade:1972
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr "Doorgaan op fouten (incomplete back-ups behouden)"
+msgstr "Doorgaan op fouten (incomplete reservekopieën behouden)"
 
 #: ../../kde4/settingsdialog.py:564 ../../gnome/settingsdialog.glade:1989
 msgid "Use checksum to detect changes"
@@ -1350,19 +1355,19 @@ msgid ""
 "- destination file-system must support all linux attributes (dates, rights, "
 "user, group ...)"
 msgstr ""
-"- back-ups zijn niet ´alleen-lezen´\n"
+"- reservekopieën zijn niet ´alleen-lezen´\n"
 "- doelbestandssysteem moet alle Linux-attributen ondersteunen (datums, "
 "rechten, gebruiker, groep ...)"
 
 #: ../../kde4/settingsdialog.py:575 ../../gnome/settingsdialog.glade:2045
 msgid "Check for changes (don't take a new snapshot if nothing changed)"
 msgstr ""
-"Controleer op wijzigingen (geen nieuwe back-up maken, indien niets gewijzigd "
-"is)"
+"Controleer op wijzigingen (geen nieuwe reservekopie maken, indien niets "
+"gewijzigd is)"
 
 #: ../../kde4/settingsdialog.py:582
 msgid "Log Level:"
-msgstr "Logniveau:"
+msgstr "Logboekniveau:"
 
 #: ../../kde4/settingsdialog.py:597 ../../gnome/settingsdialog.glade:2366
 msgid "Expert Options"
@@ -1383,7 +1388,7 @@ msgstr "'ionice' als cron job uitvoeren (standaardwaarde: ingeschakeld)"
 #: ../../kde4/settingsdialog.py:614 ../../gnome/settingsdialog.glade:2167
 msgid "Run 'ionice' when taking a manual snapshot (default: disabled)"
 msgstr ""
-"'ionice' uitvoeren bij het maken van een handmatige back-up "
+"'ionice' uitvoeren bij het maken van een handmatige reservekopie "
 "(standaardwaarde: uitgeschakeld)"
 
 #: ../../kde4/settingsdialog.py:617 ../../gnome/settingsdialog.glade:2184
@@ -1450,11 +1455,11 @@ msgstr "Alles selecteren"
 
 #: ../../kde4/snapshotsdialog.py:132 ../../gnome/snapshotsdialog.glade:88
 msgid "List only different snapshots"
-msgstr "Alleen verschillende back-ups tonen"
+msgstr "Alleen reservekopieën tonen die verschillen"
 
 #: ../../kde4/snapshotsdialog.py:139 ../../gnome/snapshotsdialog.glade:110
 msgid "List only equal snapshots to: "
-msgstr "Alleen soorgelijke back-ups tonen als: "
+msgstr "Alleen soorgelijke reservekopieën tonen als: "
 
 #: ../../kde4/snapshotsdialog.py:149 ../../gnome/snapshotsdialog.glade:146
 msgid "Deep check (more accurate, but slow)"
@@ -1466,7 +1471,7 @@ msgstr "Gaan naar"
 
 #: ../../gnome/logviewdialog.glade:9
 msgid "Log View"
-msgstr "Logweergave"
+msgstr "Logboekweergave"
 
 #: ../../gnome/logviewdialog.glade:179
 msgid "scroll down automatic"
@@ -1478,7 +1483,7 @@ msgstr "Terug in de tijd"
 
 #: ../../gnome/mainwindow.glade:45
 msgid "Backup Now"
-msgstr "Nu back-up maken"
+msgstr "Nu reservekopie maken"
 
 #: ../../gnome/mainwindow.glade:171
 msgid "Shutdown"
@@ -1498,11 +1503,11 @@ msgid ""
 "in the current snapshot !</b>"
 msgstr ""
 "<b>Deze map bestaat niet\n"
-"in de huidige back-up !</b>"
+"in de huidige reservekopie !</b>"
 
 #: ../../gnome/settingsdialog.glade:287
 msgid "<b>Where to save snapshots</b>"
-msgstr "<b>Waar wilt u de back-ups opslaan</b>"
+msgstr "<b>Waar wilt u de reservekopieën opslaan</b>"
 
 #: ../../gnome/settingsdialog.glade:483
 msgid "Private key:"
@@ -1529,8 +1534,8 @@ msgid ""
 "hours seperate by comma ( e.g. 8,12,18,23) or */3 for periodic backups every "
 "3 hours (cron style)"
 msgstr ""
-"uren gescheiden door een komma (b.v. 8,12,18,23) of */3 voor een periodieke "
-"back-up elke 3 uren (cron-stijl)"
+"uren gescheiden door een komma (b.v. 8,12,18,23) of */3 om elke 3 uren een "
+"periodieke reservekopie te maken (cron-stijl)"
 
 #: ../../gnome/settingsdialog.glade:1163
 msgid "<b>Schedule</b>"
@@ -1550,7 +1555,7 @@ msgstr "week/weken"
 
 #: ../../gnome/settingsdialog.glade:2069
 msgid "Log level:"
-msgstr "Logniveau:"
+msgstr "Logboekniveau:"
 
 #: ../../gnome/settingsdialog.glade:2121
 msgid ""
