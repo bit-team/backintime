@@ -63,7 +63,6 @@ def getExistingDirectories(parent, *args, **kwargs):
     dlg.findChildren(QTreeView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()
-    #TODO: repl QStringList
     return [str(), ]
 
 def getExistingDirectory(parent, *args, **kwargs):
@@ -91,7 +90,6 @@ def getOpenFileNames(parent, *args, **kwargs):
         dlg.setFilter(dlg.filter() | QDir.Hidden)
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()
-    #TODO: repl QStringList
     return [str(), ]
 
 def getOpenFileName(parent, *args, **kwargs):

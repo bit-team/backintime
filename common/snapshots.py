@@ -56,6 +56,8 @@ class Snapshots:
         #search for 517.38K  26%   14.46MB/s    0:02:36
         self.reRsyncProgress = re.compile(r'(\d*[,\.]?\d+[KkMGT]?)\s*(\d*)%\s*(\d*[,\.]?\d*[KkMGT]?B/s)\s*(\d+:\d{2}:\d{2})')
 
+        self.last_check_snapshot_runnig = datetime.datetime(1,1,1)
+
     def get_snapshot_id( self, date ):
         profile_id = self.config.get_current_profile()
         tag = self.config.get_tag( profile_id )
@@ -243,10 +245,12 @@ class Snapshots:
                 os.remove(file)
 
     def get_take_snapshot_message( self ):
-        #todo: don't do this everytime. Maybe just once every 30sec
-        if not self.check_snapshot_alive():
-            self.clear_take_snapshot_message()
-            return None
+        wait = datetime.datetime.now() - datetime.timedelta(seconds = 30)
+        if self.last_check_snapshot_runnig < wait:
+            self.last_check_snapshot_runnig = datetime.datetime.now()
+            if not self.check_snapshot_alive():
+                self.clear_take_snapshot_message()
+                return None
 
         try:
             with open(self.config.get_take_snapshot_message_file(), 'rt' ) as file:
