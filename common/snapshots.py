@@ -520,7 +520,11 @@ class Snapshots:
         else:
             logger.warning('Restore is already running')
             return
-        
+
+        #inhibit suspend/hibernate during restore
+        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
+                                                         reason = 'restore is running')
+
         if restore_to.endswith('/'):
             restore_to = restore_to[ : -1 ]
 
@@ -606,6 +610,10 @@ class Snapshots:
             for item_path in all_dirs:
                 real_path = restore_to + item_path[src_delta:]
                 self._restore_path_info( item_path, real_path, file_info_dict, callback )
+
+        #release inhibit suspend
+        if self.config.inhibitCookie:
+            tools.unInhibitSuspend(self.config.inhibitCookie)
 
         instance.exit_application()
 
@@ -824,6 +832,9 @@ class Snapshots:
 
                 now = datetime.datetime.today()
 
+                #inhibit suspend/hibernate during snapshot is running
+                self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId)
+
                 #mount
                 try:
                     hash_id = mount.Mount(cfg = self.config).mount()
@@ -922,6 +933,10 @@ class Snapshots:
 
         if not ret_error and not list(self.config.anacrontab_files()):
             tools.writeTimeStamp(self.config.get_anacron_spool_file())
+
+        #release inhibit suspend
+        if self.config.inhibitCookie:
+            tools.unInhibitSuspend(self.config.inhibitCookie)
 
         return ret_val
 

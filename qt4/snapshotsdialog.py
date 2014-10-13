@@ -323,7 +323,7 @@ class SnapshotsDialog( QDialog ):
         if not os.path.exists( full_path ):
             return
 
-        self.run = QRun( QUrl( full_path ), self, True )
+        self.run = QDesktopServices.openUrl(QUrl(full_path ))
 
     def on_btn_diff_clicked( self ):
         snapshot_id = self.get_list_snapshot_id()
@@ -376,8 +376,16 @@ class SnapshotsDialog( QDialog ):
                     % {'file' : self.path, 'count' : len(snapshot_ids)}
         msg += _('WARNING: This can not be revoked!')
         if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
+            #inhibit suspend/hibernate during delete
+            self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
+                                                             reason = 'deleting files')
+
             for snapshot_id in snapshot_ids:
                 self.snapshots.delete_path(snapshot_id, self.path)
+
+            #release inhibit suspend
+            if self.config.inhibitCookie:
+                tools.unInhibitSuspend(self.config.inhibitCookie)
 
             msg = _('Exclude "%s" from future snapshots?' % self.path)
             if QMessageBox.Yes == messagebox.warningYesNo(self, msg):

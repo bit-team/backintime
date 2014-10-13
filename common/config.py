@@ -267,6 +267,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.current_hash_id = 'local'
         self.pw = None
         self.force_use_checksum = False
+        self.xWindowId = None
+        self.inhibitCookie = None
 
     def save( self ):
         configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )

@@ -658,10 +658,76 @@ def writeTimeStamp(file):
 
 def olderThan(time, hours = 0, days = 0, weeks = 0):
     '''return True if time is older than weeks, days and/or hours'''
-    assert isinstance(time, datetime), 'time is not datetime Type: %s' % time
+    assert isinstance(time, datetime), 'time is not datetime type: %s' % time
 
     d = datetime.now() - timedelta(hours = hours, days = days, weeks = weeks)
     return time < d
+
+INHIBIT_LOGGING_OUT = 1
+INHIBIT_USER_SWITCHING = 2
+INHIBIT_SUSPENDING = 4
+INHIBIT_IDLE = 8
+
+INHIBIT_DBUS = (
+               {'service':      'org.gnome.SessionManager',
+                'objectPath':   '/org/gnome/SessionManager',
+                'methodSet':    'Inhibit',
+                'methodUnSet':  'Uninhibit',
+                'interface':    'org.gnome.SessionManager',
+                'arguments':    (0, 1, 2, 3)
+               },
+               {'service':      'org.mate.SessionManager',
+                'objectPath':   '/org/mate/SessionManager',
+                'methodSet':    'Inhibit',
+                'methodUnSet':  'Uninhibit',
+                'interface':    'org.mate.SessionManager',
+                'arguments':    (0, 1, 2, 3)
+               },
+               {'service':      'org.freedesktop.PowerManagement.Inhibit',
+                'objectPath':   '/org/freedesktop/PowerManagement/Inhibit',
+                'methodSet':    'Inhibit',
+                'methodUnSet':  'UnInhibit',
+                'interface':    'org.freedesktop.PowerManagement.Inhibit',
+                'arguments':    (0, 2)
+               } )
+
+def inhibitSuspend( app_id = sys.argv[0],
+                    toplevel_xid = None, 
+                    reason = 'take snapshot',
+                    flags = INHIBIT_SUSPENDING | INHIBIT_IDLE):
+    '''Prevent machine to go to suspend or hibernate.
+    Returns the inhibit cookie which is used to end the inhibitor.
+    '''
+    if not app_id:
+        app_id = 'backintime'
+    if not toplevel_xid:
+        toplevel_xid = 0
+
+    for dbus_props in INHIBIT_DBUS:
+        try:
+            bus = dbus.SessionBus()
+            interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
+            proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
+            cookie = proxy(*[ (app_id, toplevel_xid, reason, flags)[i] for i in dbus_props['arguments'] ])
+            logger.info('Inhibit Suspend started. Reason: %s' % reason)
+            return cookie
+        except:
+            pass
+
+def unInhibitSuspend(cookie):
+    '''Release inhibit.
+    '''
+    assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
+    for dbus_props in INHIBIT_DBUS:
+        try:
+            bus = dbus.SessionBus()
+            interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
+            proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
+            ret = proxy(cookie)
+            logger.info('Release inhibit Suspend')
+            return ret
+        except:
+            pass
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
@@ -851,6 +917,15 @@ class ShutDown(object):
                                     #           Suspend
                                     #           Hibernate
                                 'interface':    'org.enlightenment.Remote.Core',
+                                'arguments':    ()
+                               },
+                    'e19':     {'bus':          'sessionbus',
+                                'service':      'org.enlightenment.wm.service',
+                                'objectPath':   '/org/enlightenment/wm/RemoteObject',
+                                'method':       'Shutdown',
+                                    #methods    Shutdown
+                                    #           Restart
+                                'interface':    'org.enlightenment.wm.Core',
                                 'arguments':    ()
                                },
                     'z_freed': {'bus':          'systembus',

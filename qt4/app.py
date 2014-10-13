@@ -1278,6 +1278,7 @@ if __name__ == '__main__':
     main_window = MainWindow( cfg, app_instance, qapp )
 
     if cfg.is_configured():
+        cfg.xWindowId = main_window.winId()
         main_window.show()
         qapp.exec_()
 
