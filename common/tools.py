@@ -572,6 +572,15 @@ def get_uuid(dev):
         for uuid in os.listdir(DISK_BY_UUID):
             if dev == os.path.realpath(os.path.join(DISK_BY_UUID, uuid)):
                 return uuid
+    c = re.compile(r'.*?ID_FS_UUID=(\S+)')
+    try:
+        udevadm = subprocess.check_output(['udevadm', 'info', '--name=%s' % dev])
+        for line in udevadm.split():
+            m = c.match(line)
+            if m:
+                return m.group(1)
+    except:
+        pass
     return None
 
 def get_uuid_from_path(path):
