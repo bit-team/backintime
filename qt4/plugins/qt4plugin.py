@@ -51,7 +51,8 @@ class Qt4Plugin( pluginmanager.Plugin ):
 
     def on_process_begins( self ):
         try:
-            self.process = subprocess.Popen( [ sys.executable, '/usr/share/backintime/qt4/qt4systrayicon.py', self.snapshots.config.get_current_profile() ] )
+            path = os.path.join(tools.get_backintime_path('qt4'), 'qt4systrayicon.py')
+            self.process = subprocess.Popen( [ sys.executable, path, self.snapshots.config.get_current_profile() ] )
         except:
             pass
 
