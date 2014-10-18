@@ -913,8 +913,16 @@ class MainWindow( QMainWindow ):
                             for snapshot_id in snapshot_ids]) ):
             return
 
+        #inhibit suspend/hibernate during delete
+        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
+                                                         reason = 'deleting snapshots')
+
         [self.snapshots.remove_snapshot( snapshot_id ) for snapshot_id in snapshot_ids]
         self.update_time_line()
+
+        #release inhibit suspend
+        if self.config.inhibitCookie:
+            tools.unInhibitSuspend(self.config.inhibitCookie)
 
     def on_btn_settings_clicked( self ):
         if QDialog.Accepted == settingsdialog.SettingsDialog( self ).exec_():
