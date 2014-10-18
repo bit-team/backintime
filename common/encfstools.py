@@ -458,6 +458,7 @@ class Decode(object):
         pattern = []
         pattern.append(r' rsync: readlink_stat\(".*?mountpoint/')
         pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
+        pattern.append(r' rsync: .*?".*?mountpoint/')
         self.re_error = re.compile(r'(^\[E\] Error:(?:%s))(.*?)(".*)' % '|'.join(pattern))
         
         #search for: [I] ssh USER@HOST cp -aRl "PATH<crypted_path>"* "PATH<crypted_path>"
