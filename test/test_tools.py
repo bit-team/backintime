@@ -37,8 +37,8 @@ class TestTools(unittest.TestCase):
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "notExistedFile")
-        self.assertNotEquals(tools.read_file(test_tools_file), None)
-        self.assertEquals(tools.read_file(non_existing_file), None)
+        self.assertNotEquals(tools.read_file_lines(test_tools_file), None)
+        self.assertEquals(tools.read_file_lines(non_existing_file), None)
 
     def test_read_command_output(self):
         ''' Test the function read_command_output '''
