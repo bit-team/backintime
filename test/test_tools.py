@@ -24,13 +24,16 @@ class TestTools(unittest.TestCase):
 
     def test_read_file(self):
         ''' Test the function read_file '''
-        self.assertNotEquals(tools.read_file("./test_tools.py"), None);
-        self.assertEquals(tools.read_file("./notExistedFile"), None);
+        test_directory = os.path.dirname(os.path.abspath(__file__))
+        self.assertNotEquals(tools.read_file(os.path.join(test_directory, "test_tools.py")), None);
+        self.assertEquals(tools.read_file(os.path.join(test_directory, test_directory + "notExistedFile")), None);
 
     def test_read_file_lines(self):
         ''' Test the function read_file_lines '''
-        self.assertNotEquals(tools.read_file("./test_tools.py"), None);
-        self.assertEquals(tools.read_file("./notExistedFile"), None);
+        test_directory = os.path.dirname(os.path.abspath(__file__))
+        print("Test directory : " + test_directory)
+        self.assertNotEquals(tools.read_file(os.path.join(test_directory, "test_tools.py")), None);
+        self.assertEquals(tools.read_file(os.path.join(test_directory, "/notExistedFile")), None);
 
     def test_read_command_output(self):
         ''' Test the function read_command_output '''
