@@ -6,21 +6,6 @@ import tools
 import config
 import configfile
 
-##################################################
-#             How run that test ?                #
-# ---------------------------------------------- #
-# use py.test-3 (sudo apt-get install py.test-3) #
-#       py.test-3 -v test_tools.py               #
-##################################################
-
-################################################################
-#                         Output                               #
-# ------------------------------------------------------------ #
-# If something is red so something going wrong with BackInTime #
-#         Otherwise all it's good ! you can commit !           #
-################################################################
-
-
 class TestTools(unittest.TestCase):
     ''' All funtions test here come from tools.py '''
 
@@ -28,7 +13,7 @@ class TestTools(unittest.TestCase):
         ''' Test the function read_file '''
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
-        non_existing_file = os.path.join(test_directory, "notExistedFile")
+        non_existing_file = os.path.join(test_directory, "nonExistingFile")
         self.assertNotEquals(tools.read_file(test_tools_file), None)
         self.assertEquals(tools.read_file(non_existing_file), None)
 
@@ -36,7 +21,7 @@ class TestTools(unittest.TestCase):
         ''' Test the function read_file_lines '''
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
-        non_existing_file = os.path.join(test_directory, "notExistedFile")
+        non_existing_file = os.path.join(test_directory, "nonExistingFile")
         self.assertNotEquals(tools.read_file_lines(test_tools_file), None)
         self.assertEquals(tools.read_file_lines(non_existing_file), None)
 
