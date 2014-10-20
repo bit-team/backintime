@@ -84,12 +84,22 @@ class TestTools(unittest.TestCase):
 
     def test_prepare_path(self):
         ''' Test the function load_env '''
-        path_with_slash = "/test/path"
-        path_without_slash = "test/path"
-        self.assertEquals(tools.prepare_path(path_with_slash), path_with_slash)
+        path_with_slash_at_begin = "/test/path"
+        path_without_slash_at_begin = "test/path"
+        path_with_slash_at_end = "/test/path/"
+        path_without_slash_at_end = "/test/path"
         self.assertEquals(
-            tools.prepare_path(path_without_slash),
-            path_with_slash)
+            tools.prepare_path(path_with_slash_at_begin),
+            path_with_slash_at_begin)
+        self.assertEquals(
+            tools.prepare_path(path_without_slash_at_begin),
+            path_with_slash_at_begin)
+        self.assertEquals(
+            tools.prepare_path(path_without_slash_at_end),
+            path_without_slash_at_end)
+        self.assertEquals(
+            tools.prepare_path(path_with_slash_at_end),
+            path_without_slash_at_end)
 
     def test_is_process_alive(self):
         ''' Test the function is_process_alive '''
