@@ -50,7 +50,7 @@ def take_snapshot_now_async( cfg ):
 
 def take_snapshot( cfg, force = True ):
     logger.openlog()
-    tools.load_env(cfg)
+    tools.load_env(cfg.get_cron_env_file())
     ret = snapshots.Snapshots( cfg ).take_snapshot( force )
     logger.closelog()
     return ret

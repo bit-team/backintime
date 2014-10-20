@@ -489,10 +489,10 @@ def check_home_encrypt():
                 return True
     return False
 
-def load_env(cfg):
+def load_env(file):
     env = os.environ.copy()
     env_file = configfile.ConfigFile()
-    env_file.load(cfg.get_cron_env_file(), maxsplit = 1)
+    env_file.load(file, maxsplit = 1)
     for key in env_file.get_keys():
         value = env_file.get_str_value(key)
         if not value:
@@ -501,7 +501,7 @@ def load_env(cfg):
             os.environ[key] = value
     del(env_file)
 
-def save_env(cfg):
+def save_env(file):
     """
     save environ variables to file that are needed by cron
     to connect to keyring. This will only work if the user is logged in.
@@ -514,7 +514,7 @@ def save_env(cfg):
               'KDE_FULL_SESSION'):
         set_env_key(env, env_file, i)
     
-    env_file.save(cfg.get_cron_env_file())
+    env_file.save(file)
     del(env_file)
 
 def set_env_key(env, env_file, key):

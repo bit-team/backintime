@@ -260,7 +260,7 @@ class Password_Cache(Daemon):
         info.save(self.config.get_password_cache_info())
         os.chmod(self.config.get_password_cache_info(), 0o600)
 
-        tools.save_env(self.config)
+        tools.save_env(self.config.get_cron_env_file())
 
         if not self._collect_passwords():
             #logger.info('[Password_Cache.run] Nothing to cache. Quit.')
