@@ -714,7 +714,10 @@ def inhibitSuspend( app_id = sys.argv[0],
 
     for dbus_props in INHIBIT_DBUS:
         try:
-            bus = dbus.SessionBus()
+            #connect directly to the socket instead of dbus.SessionBus because
+            #the dbus.SessionBus was initiated before we loaded the environ
+            #variables and might not work
+            bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
             interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
             cookie = proxy(*[ (app_id, toplevel_xid, reason, flags)[i] for i in dbus_props['arguments'] ])
@@ -722,6 +725,7 @@ def inhibitSuspend( app_id = sys.argv[0],
             return cookie
         except:
             pass
+    logger.warning('Inhibit Suspend failed.')
 
 def unInhibitSuspend(cookie):
     '''Release inhibit.
@@ -729,7 +733,7 @@ def unInhibitSuspend(cookie):
     assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
     for dbus_props in INHIBIT_DBUS:
         try:
-            bus = dbus.SessionBus()
+            bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
             interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
             proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
             ret = proxy(cookie)
@@ -960,7 +964,7 @@ class ShutDown(object):
         return a callable dbus proxy and those arguments.
         """
         try:
-            sessionbus = dbus.SessionBus()
+            sessionbus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
             systembus  = dbus.SystemBus()
         except:
             return( (None, None) )
