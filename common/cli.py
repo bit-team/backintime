@@ -113,6 +113,8 @@ class RestoreDialog(object):
             os.remove(self.log_file)
 
     def callback(self, line, *params):
+        if not line:
+            return
         print(line)
         with open(self.log_file, 'a') as log:
             log.write(line + '\n')

@@ -523,7 +523,7 @@ class Snapshots:
 
         #inhibit suspend/hibernate during restore
         self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'restore is running')
+                                                         reason = 'restoring')
 
         if restore_to.endswith('/'):
             restore_to = restore_to[ : -1 ]
@@ -569,7 +569,11 @@ class Snapshots:
         cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_modes = ['ssh'])
         cmd += ' "%s/"' % restore_to
         self.restore_callback( callback, True, cmd )
-        self._execute( cmd, callback )
+        self._execute( cmd, callback, filter = (self._filter_rsync_progress, ))
+        try:
+            os.remove(self.config.get_take_snapshot_progress_file())
+        except:
+            pass
 
         if full_rsync and not self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
             instance.exit_application()
@@ -940,10 +944,7 @@ class Snapshots:
 
         return ret_val
 
-    def _exec_rsync_callback( self, line, params ):
-        if not line:
-            return
-
+    def _filter_rsync_progress(self, line):
         m = self.reRsyncProgress.match(line)
         if m:
             pg = progress.ProgressFile(self.config)
@@ -953,7 +954,12 @@ class Snapshots:
             pg.set_str_value('speed', m.group(3) )
             pg.set_str_value('eta', m.group(4) )
             pg.save()
-            pg = None
+            del(pg)
+            return
+        return line
+
+    def _exec_rsync_callback( self, line, params ):
+        if not line:
             return
 
         self.set_take_snapshot_message( 0, _('Take snapshot') + " (rsync: %s)" % line )
@@ -1206,7 +1212,7 @@ class Snapshots:
 
         params = [False, False]
         self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
-        self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params )
+        self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params, filter = (self._filter_rsync_progress, ))
         try:
             os.remove(self.config.get_take_snapshot_progress_file())
         except:
@@ -1524,7 +1530,7 @@ class Snapshots:
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
 
-    def _execute( self, cmd, callback = None, user_data = None ):
+    def _execute( self, cmd, callback = None, user_data = None, filter = () ):
         ret_val = 0
 
         if callback is None:
@@ -1536,7 +1542,10 @@ class Snapshots:
                 line = tools.temp_failure_retry( pipe.readline )
                 if not line:
                     break
-                callback( line.strip(), user_data )
+                line = line.strip()
+                for f in filter:
+                    line = f(line)
+                callback(line , user_data )
 
             ret_val = pipe.close()
             if ret_val is None:

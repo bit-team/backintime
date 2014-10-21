@@ -80,6 +80,8 @@ class RestoreDialog( QDialog ):
         self.btn_close.setEnabled(False)
 
     def callback(self, line, *params ):
+        if not line:
+            return
         self.txt_log_view.append(line)
         QApplication.processEvents()
         with open(self.log_file, 'a') as log:
