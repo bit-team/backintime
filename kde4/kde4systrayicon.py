@@ -51,6 +51,9 @@ class KDE4SysTrayIcon:
             except:
                 pass
 
+        if not tools.check_x_server():
+            sys.exit(1)
+
         kaboutdata = KAboutData( 'backintime', '', ki18n( self.config.APP_NAME ), self.config.VERSION, ki18n( '' ), KAboutData.License_GPL_V2, ki18n( self.config.COPYRIGHT ), ki18n( '' ), 'http://backintime.le-web.org', 'bit-team@lists.launchpad.net' )
         kaboutdata.setProgramIconName( 'document-save' )
 
