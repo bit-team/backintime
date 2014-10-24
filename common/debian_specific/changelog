@@ -1,4 +1,9 @@
 $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
+  * restore config dialog added (https://launchpad.net/bugs/480391)
+  * inhibit suspend/hibernate while take_snapshot or restore
+  * use more reliable code for get_user
+  * implement anacrons functions inside BIT => more flexible schedules and no new timestamp if there was an error
+  * automatically run in background if started with 'backintime --backup-job'
   * fix typos and style warnings in manpages reported by Lintian (https://lintian.debian.org/full/jmw@debian.org.html#backintime_1.0.34-0.1)
   * add exclude files by size (https://launchpad.net/bugs/823719)
   * remove 'Auto Host/User/Profile-ID' as this is more confiusing than helping
@@ -36,4 +41,4 @@ $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
   * add shortcuts (https://bugs.launchpad.net/backintime/+bug/686694)
   * add menubar (https://bugs.launchpad.net/backintime/+bug/528851)
   * port KDE4 GUI to pure Qt4 to replace both KDE4 and Gnome GUI
- -- Germar Reitze <germar.reitze@gmail.org>  Wed, 01 Oct 2014 22:13:15 +0200
+ -- Germar Reitze <germar.reitze@gmail.org>  Fri, 24 Oct 2014 21:30:21 +0200
