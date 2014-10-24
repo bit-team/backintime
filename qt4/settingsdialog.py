@@ -23,6 +23,7 @@ import datetime
 import gettext
 import copy
 import subprocess
+import grp
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -39,7 +40,7 @@ _=gettext.gettext
 
 class SettingsDialog( QDialog ):
     def __init__( self, parent ):
-        QDialog.__init__( self, parent )
+        super(SettingsDialog, self).__init__(parent)
 
         self.parent = parent
         self.config = parent.config
@@ -761,8 +762,10 @@ class SettingsDialog( QDialog ):
 
         #buttons
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent = self)
+        btnRestore = button_box.addButton(_('Restore Config'), QDialogButtonBox.ResetRole)
         QObject.connect(button_box, SIGNAL('accepted()'), self.accept)
         QObject.connect(button_box, SIGNAL('rejected()'), self.reject)
+        QObject.connect(btnRestore, SIGNAL('clicked()'), self.restoreConfig)
         self.main_layout.addWidget(button_box)
 
         self.update_profiles()
@@ -1539,9 +1542,178 @@ class SettingsDialog( QDialog ):
             value_ = _('disabled')
         return ' (%s: %s)' %(_('default'), value_)
 
+    def restoreConfig(self, *args):
+        RestoreConfigDialog(self).exec_()
+        self.update_profiles()
+
     def accept( self ):
         if self.validate():
-            QDialog.accept( self )
+            super(SettingsDialog, self).accept()
+
+class RestoreConfigDialog(QDialog):
+    def __init__(self, parent):
+        super(RestoreConfigDialog, self).__init__(parent)
+
+        self.parent = parent
+        self.config = parent.config
+        self.snapshots = parent.snapshots
+
+        import icon
+        self.icon = icon
+        self.setWindowIcon(icon.SETTINGS_DIALOG)
+        self.setWindowTitle(_( 'Restore Settings' ))
+
+        layout = QVBoxLayout(self)
+        samplePath = os.path.join( 'backintime',
+                                    self.config.get_host(),
+                                    self.config.get_user(), '1',
+                                    self.snapshots.get_snapshot_id(datetime.datetime.now())
+                                    )
+
+        addFuse = ''
+        try:
+            user = self.config.get_user()
+            fuse_grp_members = grp.getgrnam('fuse')[3]
+            if not user in fuse_grp_members:
+                addFuse = _(' and add your user to śŚśgroup \'fuse\'')
+        except KeyError:
+            pass
+
+        label = QLabel(_('Please navigate to the snapshot from which you want '
+                         'to restore %(appName)s\'s configuration. The path '
+                         'may look like: \n%(samplePath)s\n\n'
+                         'If your snapshots are on a remote drive or if they are '
+                         'encrypted you need to manually mount them first. '
+                         'If you use Mode SSH you also may need to set up public key '
+                         'login to the remote host%(addFuse)s.\n'
+                         'Take a look at \'man backintime\'.') 
+                         % {'appName': self.config.APP_NAME, 'samplePath': samplePath,
+                         'addFuse': addFuse}, self)
+        label.setWordWrap(True)
+        layout.addWidget(label)
+
+        self.treeView = qt4tools.MyTreeView(self)
+        self.treeViewModel = QFileSystemModel()
+        self.treeViewModel.setRootPath(QDir().rootPath())
+        self.treeViewModel.setReadOnly(True)
+        self.treeViewModel.setFilter(QDir.AllDirs |
+                                     QDir.NoDotAndDotDot | QDir.Hidden)
+
+        self.treeViewFilterProxy = QSortFilterProxyModel()
+        self.treeViewFilterProxy.setDynamicSortFilter(True)
+        self.treeViewFilterProxy.setSourceModel(self.treeViewModel)
+
+        self.treeViewFilterProxy.setFilterRegExp(r'^[^\.]')
+
+        self.treeView.setModel(self.treeViewFilterProxy)
+        for col in range(self.treeView.header().count()):
+            self.treeView.setColumnHidden(col, col != 0)
+        self.treeView.header().hide()
+
+        index = self.indexFromPath(os.path.expanduser('~'))
+        self.treeView.setCurrentIndex(index)
+        self.treeView.expand(index)
+        layout.addWidget(self.treeView)
+
+        self.colorRed = QPalette()
+        self.colorRed.setColor(QPalette.WindowText, Qt.red)
+        self.colorGreen = QPalette()
+        self.colorGreen.setColor(QPalette.WindowText, Qt.green)
+
+        self.lblFound = QLabel(_('No config found'), self)
+        self.lblFound.setWordWrap(True)
+        self.lblFound.setPalette(self.colorRed)
+        layout.addWidget(self.lblFound)
+
+        self.widgetProfiles = QWidget(self)
+        self.widgetProfiles.hide()
+        self.gridProfiles = QGridLayout()
+        self.gridProfiles.setHorizontalSpacing(20)
+        self.widgetProfiles.setLayout(self.gridProfiles)
+        layout.addWidget(self.widgetProfiles)
+
+        self.restoreConfig = None
+
+        self.connect(self.treeView,
+                     SIGNAL('myCurrentIndexChanged'),
+                     self.indexChanged)
+
+        button_box = QDialogButtonBox(self)
+        self.restoreButton = button_box.addButton(_('Restore'), QDialogButtonBox.AcceptRole)
+        self.restoreButton.setEnabled(False)
+        button_box.addButton(QDialogButtonBox.Cancel)
+        QObject.connect(button_box, SIGNAL('accepted()'), self.accept)
+        QObject.connect(button_box, SIGNAL('rejected()'), self.reject)
+        layout.addWidget(button_box)
+
+        self.resize(600, 700)
+
+    def indexFromPath(self, path):
+        indexSource = self.treeViewModel.index(path)
+        return self.treeViewFilterProxy.mapFromSource(indexSource)
+
+    def indexChanged(self, current, previous):
+        cfg = self.searchConfig(self.getPath(current))
+        if cfg:
+            self.expandAll(cfg._LOCAL_CONFIG_PATH)
+            self.lblFound.setText(cfg._LOCAL_CONFIG_PATH)
+            self.lblFound.setPalette(self.colorGreen)
+            self.showProfile(cfg)
+            self.restoreConfig = cfg
+        else:
+            self.lblFound.setText(_('No config found'))
+            self.lblFound.setPalette(self.colorRed)
+            self.widgetProfiles.hide()
+            self.restoreConfig = None
+        self.restoreButton.setEnabled(bool(cfg))
+
+    def getPath(self, index):
+        sourceIndex = self.treeViewFilterProxy.mapToSource(index)
+        return str(self.treeViewModel.filePath(sourceIndex))
+
+    def searchConfig(self, path):
+        snapshotPath = os.path.join('backintime',
+                                    self.config.get_host(),
+                                    self.config.get_user())
+        tryPaths = ['', '..', 'last_snapshot']
+        tryPaths.extend([os.path.join(snapshotPath, str(i), 'last_snapshot') for i in range(10)])
+
+        for p in tryPaths:
+            cfgPath = os.path.join(path, p, 'config')
+            if os.path.exists(cfgPath):
+                try:
+                    return config.Config(cfgPath)
+                except:
+                    pass
+        return
+
+    def expandAll(self, path):
+        paths = []
+        path = os.path.dirname(path)
+        while len(path) > 1:
+            path = os.path.dirname(path)
+            paths.append(path)
+        paths.reverse()
+        [self.treeView.expand(self.indexFromPath(p)) for p in paths]
+
+    def showProfile(self, cfg):
+        child = self.gridProfiles.takeAt(0)
+        while child:
+            child.widget().deleteLater()
+            child = self.gridProfiles.takeAt(0)
+        for row, profileId in enumerate(cfg.get_profiles()):
+            for col, txt in enumerate( (_('Profile:') + ' ' + str(profileId),
+                                        cfg.get_profile_name(profileId),
+                                        _('Mode:') + ' ' + cfg.SNAPSHOT_MODES[cfg.get_snapshots_mode(profileId)][1]
+                                        ) ):
+                self.gridProfiles.addWidget(QLabel(txt, self), row, col)
+        self.gridProfiles.setColumnStretch(col, 1)
+        self.widgetProfiles.show()
+
+    def accept(self):
+        if self.restoreConfig:
+            self.config.dict = self.restoreConfig.dict
+        super(RestoreConfigDialog, self).accept()
 
 def debug_trace():
   '''Set a tracepoint in the Python debugger that works with Qt'''
