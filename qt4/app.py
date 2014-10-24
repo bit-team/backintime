@@ -655,7 +655,7 @@ class MainWindow( QMainWindow ):
             self.status.setVisible(False)
             pg.load()
             self.progressBar.setValue(pg.get_int_value('percent') )
-            self.progressBar.setFormat(' | '.join(self.getProgressBarFormat(pg, message)) )
+            self.progressBar.setFormat(' | '.join(self.getProgressBarFormat(pg, self.status.text())) )
         else:
             self.progressBar.setVisible(False)
             self.status.setVisible(True)
