@@ -1251,7 +1251,7 @@ class SettingsDialog( QDialog ):
     def exec_( self ):
         self.config.set_question_handler( self.question_handler )
         self.config.set_error_handler( self.error_handler )
-        ret_val = QDialog.exec_( self )
+        ret_val = super(SettingsDialog, self).exec_()
         self.config.clear_handlers()
 
         if ret_val != QDialog.Accepted:
@@ -1551,6 +1551,9 @@ class SettingsDialog( QDialog ):
             super(SettingsDialog, self).accept()
 
 class RestoreConfigDialog(QDialog):
+    """Show a dialog that will help to restore BITs configuration.
+    User can select a config from previous snapshots.
+    """
     def __init__(self, parent):
         super(RestoreConfigDialog, self).__init__(parent)
 
@@ -1564,18 +1567,21 @@ class RestoreConfigDialog(QDialog):
         self.setWindowTitle(_( 'Restore Settings' ))
 
         layout = QVBoxLayout(self)
+        #show a hint on how the snapshot path will look like.
         samplePath = os.path.join( 'backintime',
                                     self.config.get_host(),
                                     self.config.get_user(), '1',
                                     self.snapshots.get_snapshot_id(datetime.datetime.now())
                                     )
 
+        #inform user to join group fuse if he hasn't already.
+        #If there is no group fuse than it is most likly not nessesary.
         addFuse = ''
         try:
             user = self.config.get_user()
             fuse_grp_members = grp.getgrnam('fuse')[3]
             if not user in fuse_grp_members:
-                addFuse = _(' and add your user to śŚśgroup \'fuse\'')
+                addFuse = _(' and add your user to group \'fuse\'')
         except KeyError:
             pass
 
@@ -1592,6 +1598,7 @@ class RestoreConfigDialog(QDialog):
         label.setWordWrap(True)
         layout.addWidget(label)
 
+        #treeView
         self.treeView = qt4tools.MyTreeView(self)
         self.treeViewModel = QFileSystemModel()
         self.treeViewModel.setRootPath(QDir().rootPath())
@@ -1610,33 +1617,47 @@ class RestoreConfigDialog(QDialog):
             self.treeView.setColumnHidden(col, col != 0)
         self.treeView.header().hide()
 
-        index = self.indexFromPath(os.path.expanduser('~'))
-        self.treeView.setCurrentIndex(index)
-        self.treeView.expand(index)
+        #expand users home
+        self.expandAll(os.path.expanduser('~'))
         layout.addWidget(self.treeView)
 
         self.colorRed = QPalette()
-        self.colorRed.setColor(QPalette.WindowText, Qt.red)
+        self.colorRed.setColor(QPalette.WindowText, QColor(205, 0, 0))
         self.colorGreen = QPalette()
-        self.colorGreen.setColor(QPalette.WindowText, Qt.green)
+        self.colorGreen.setColor(QPalette.WindowText, QColor(0, 160, 0))
 
+        #wait indicator which will show that the scan for snapshots is still running
+        self.wait = QProgressBar(self)
+        self.wait.setMinimum(0)
+        self.wait.setMaximum(0)
+        self.wait.setMaximumHeight(7)
+        layout.addWidget(self.wait)
+
+        #show where a snapshot with config was found
         self.lblFound = QLabel(_('No config found'), self)
         self.lblFound.setWordWrap(True)
         self.lblFound.setPalette(self.colorRed)
         layout.addWidget(self.lblFound)
 
+        #show profiles inside the config
         self.widgetProfiles = QWidget(self)
+        self.widgetProfiles.setContentsMargins(0, 0, 0, 0)
         self.widgetProfiles.hide()
         self.gridProfiles = QGridLayout()
+        self.gridProfiles.setContentsMargins(0, 0, 0, 0)
         self.gridProfiles.setHorizontalSpacing(20)
         self.widgetProfiles.setLayout(self.gridProfiles)
         layout.addWidget(self.widgetProfiles)
 
         self.restoreConfig = None
 
+        self.scan = ScanFileSystem(self)
+
         self.connect(self.treeView,
                      SIGNAL('myCurrentIndexChanged'),
                      self.indexChanged)
+        self.connect(self.scan, SIGNAL('foundConfig'), self.scanFound)
+        self.connect(self.scan, SIGNAL('finished()'), self.scanFinished)
 
         button_box = QDialogButtonBox(self)
         self.restoreButton = button_box.addButton(_('Restore'), QDialogButtonBox.AcceptRole)
@@ -1646,16 +1667,30 @@ class RestoreConfigDialog(QDialog):
         QObject.connect(button_box, SIGNAL('rejected()'), self.reject)
         layout.addWidget(button_box)
 
+        self.scan.start()
+
         self.resize(600, 700)
 
+    def pathFromIndex(self, index):
+        """return a path string for a given treeView index
+        """
+        sourceIndex = self.treeViewFilterProxy.mapToSource(index)
+        return str(self.treeViewModel.filePath(sourceIndex))
+
     def indexFromPath(self, path):
+        """return the index for path which can be used in treeView
+        """
         indexSource = self.treeViewModel.index(path)
         return self.treeViewFilterProxy.mapFromSource(indexSource)
 
     def indexChanged(self, current, previous):
-        cfg = self.searchConfig(self.getPath(current))
+        """called everytime a new item is choosen in treeView.
+        If there was a config found inside the selected folder, show
+        available informations about the config.
+        """
+        cfg = self.searchConfig(self.pathFromIndex(current))
         if cfg:
-            self.expandAll(cfg._LOCAL_CONFIG_PATH)
+            self.expandAll(os.path.dirname(os.path.dirname(cfg._LOCAL_CONFIG_PATH)))
             self.lblFound.setText(cfg._LOCAL_CONFIG_PATH)
             self.lblFound.setPalette(self.colorGreen)
             self.showProfile(cfg)
@@ -1667,11 +1702,9 @@ class RestoreConfigDialog(QDialog):
             self.restoreConfig = None
         self.restoreButton.setEnabled(bool(cfg))
 
-    def getPath(self, index):
-        sourceIndex = self.treeViewFilterProxy.mapToSource(index)
-        return str(self.treeViewModel.filePath(sourceIndex))
-
     def searchConfig(self, path):
+        """try to find config in couple possible subfolders
+        """
         snapshotPath = os.path.join('backintime',
                                     self.config.get_host(),
                                     self.config.get_user())
@@ -1682,21 +1715,27 @@ class RestoreConfigDialog(QDialog):
             cfgPath = os.path.join(path, p, 'config')
             if os.path.exists(cfgPath):
                 try:
-                    return config.Config(cfgPath)
+                    cfg = config.Config(cfgPath)
+                    if cfg.is_configured():
+                        return cfg
                 except:
                     pass
         return
 
     def expandAll(self, path):
-        paths = []
-        path = os.path.dirname(path)
+        """expand all folders from filesystem root to given path
+        """
+        paths = [path, ]
         while len(path) > 1:
             path = os.path.dirname(path)
             paths.append(path)
+        paths.append('/')
         paths.reverse()
         [self.treeView.expand(self.indexFromPath(p)) for p in paths]
 
     def showProfile(self, cfg):
+        """show information about the profiles inside cfg
+        """
         child = self.gridProfiles.takeAt(0)
         while child:
             child.widget().deleteLater()
@@ -1710,10 +1749,78 @@ class RestoreConfigDialog(QDialog):
         self.gridProfiles.setColumnStretch(col, 1)
         self.widgetProfiles.show()
 
+    def scanFound(self, path):
+        """scan hit a config. Expand the snapshot folder.
+        """
+        self.expandAll(os.path.dirname(path))
+
+    def scanFinished(self):
+        """scan is done. Delete the wait indicator
+        """
+        self.wait.deleteLater()
+
     def accept(self):
+        """handle over the dict from the selected config. The dict contains
+        all settings from the config.
+        """
         if self.restoreConfig:
             self.config.dict = self.restoreConfig.dict
         super(RestoreConfigDialog, self).accept()
+
+    def exec_(self):
+        """stop the scan thread if it is still running after dialog was closed.
+        """
+        ret = super(RestoreConfigDialog, self).exec_()
+        self.scan.stop()
+        return ret
+
+class ScanFileSystem(QThread):
+    CONFIG = 'config'
+    BACKUP = 'backup'
+    BACKINTIME = 'backintime'
+
+    def __init__(self, parent):
+        super(ScanFileSystem, self).__init__(parent)
+        self.stopper = False
+
+    def stop(self):
+        """prepair stop and wait for finish.
+        """
+        self.stopper = True
+        return self.wait()
+
+    def run(self):
+        """search in order of hopefully fastest way to find the snapshots.
+        1. /home/USER 2. /media 3. /mnt and at last filesystem root.
+        Already searched paths will be excluded.
+        """
+        searchOrder = [os.path.expanduser('~'), '/media', '/mnt', '/']
+        for scan in searchOrder:
+            exclude = searchOrder[:]
+            exclude.remove(scan)
+            for path in self.scanPath(scan, exclude):
+                self.emit(SIGNAL('foundConfig'), path)
+
+    def scanPath(self, path, excludes = ()):
+        """walk through all folders and try to find 'config' file.
+        If found make sure it is nested in backintime/FOO/BAR/1/2345/config and
+        return its path.
+        Exclude all paths from excludes and also all backintime/FOO/BAR/1/2345/backup
+        """
+        for root, dirs, files in os.walk(path, topdown = True):
+            if self.stopper:
+                return
+            for exclude in excludes:
+                exDir, exBase = os.path.split(exclude)
+                if root == exDir:
+                    if exBase in dirs:
+                        del dirs[dirs.index(exBase)]
+            if self.CONFIG in files:
+                rootdirs = root.split(os.sep)
+                if len(rootdirs) > 4 and rootdirs[-5].startswith(self.BACKINTIME):
+                    if self.BACKUP in dirs:
+                        del dirs[dirs.index(self.BACKUP)]
+                    yield root
 
 def debug_trace():
   '''Set a tracepoint in the Python debugger that works with Qt'''
