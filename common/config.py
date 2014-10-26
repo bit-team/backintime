@@ -104,6 +104,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 HOUR : _('Hour(s)'),
                 DAY : _('Day(s)'),
                 WEEK : _('Week(s)'),
+                MONTH : _('Month(s)')
                 }
 
     MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
@@ -830,9 +831,9 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_automatic_backup_anacron_unit(self, profile_id = None):
         #?Units to wait between new snapshots with anacron. 
-        #?10 = hours\n20 = days\n30 = weeks\n
+        #?10 = hours\n20 = days\n30 = weeks\n40 = months\n
         #?Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27;
-        #?10|20|30;20
+        #?10|20|30|40;20
         return self.get_profile_int_value('snapshots.automatic_backup_anacron_unit', self.DAY, profile_id)
 
     def set_automatic_backup_anacron_unit(self, value, profile_id = None):
@@ -1304,12 +1305,35 @@ class Config( configfile.ConfigFileWithProfiles ):
         if not last_time:
             return True
 
-        args = [0, ] * 3
-        wait = self.get_automatic_backup_anacron_period(profile_id)
+        value = self.get_automatic_backup_anacron_period(profile_id)
         unit = self.get_automatic_backup_anacron_unit(profile_id)
-        args[(self.HOUR, self.DAY, self.WEEK).index(unit)] = wait
 
-        return tools.olderThan(last_time, *args)
+        return self.olderThan(last_time, value, unit)
+
+    def olderThan(self, time, value, unit):
+        '''return True if time is older than months, weeks, days or hours'''
+        assert isinstance(time, datetime.datetime), 'time is not datetime.datetime type: %s' % time
+
+        now = datetime.datetime.now()
+
+        if unit <= self.HOUR:
+            return time < now - datetime.timedelta(hours = value)
+        elif unit <= self.DAY:
+            return time.date() <= now.date() - datetime.timedelta(days = value)
+        elif unit <= self.WEEK:
+            return time.date() < now.date() \
+                                 - datetime.timedelta(days = now.date().weekday()) \
+                                 - datetime.timedelta(weeks = value - 1)
+        elif unit <= self.MONTH:
+            firstDay = now.date() - datetime.timedelta(days = now.date().day + 1)
+            for i in range(value - 1):
+                if firstDay.month == 1:
+                    firstDay = firstDay.replace(month = 12, year = firstDay.year - 1)
+                else:
+                    firstDay = firstDay.replace(month = firstDay.month - 1)
+            return time.date() < firstDay
+        else:
+            return True
 
     def setup_cron( self ):
         system_entry_message = "#Back In Time system entry, this will be edited by the gui:"

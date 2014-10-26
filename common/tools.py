@@ -23,7 +23,7 @@ import hashlib
 import signal
 import re
 import dbus
-from datetime import datetime, timedelta
+from datetime import datetime
 from distutils.version import StrictVersion
 keyring = None
 keyring_warn = False
@@ -664,13 +664,6 @@ def writeTimeStamp(file):
     make_dirs(os.path.dirname(file))
     with open(file, 'w') as f:
         f.write(datetime.now().strftime(BIT_TIME_FORMAT))
-
-def olderThan(time, hours = 0, days = 0, weeks = 0):
-    '''return True if time is older than weeks, days and/or hours'''
-    assert isinstance(time, datetime), 'time is not datetime type: %s' % time
-
-    d = datetime.now() - timedelta(hours = hours, days = days, weeks = weeks)
-    return time < d
 
 INHIBIT_LOGGING_OUT = 1
 INHIBIT_USER_SWITCHING = 2

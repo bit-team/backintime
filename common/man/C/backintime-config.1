@@ -56,13 +56,15 @@ Default: 1
 
 .IP "\fIprofile<N>.snapshots.automatic_backup_anacron_unit\fR" 6
 .RS
-Type: int       Allowed Values: 10|20|30
+Type: int       Allowed Values: 10|20|30|40
 .br
 Units to wait between new snapshots with anacron. 10 = hours
 .br
 20 = days
 .br
 30 = weeks
+.br
+40 = months
 .br
 Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
 .PP
