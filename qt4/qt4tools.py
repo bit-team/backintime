@@ -17,7 +17,6 @@
 
 
 import os
-import os.path
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *

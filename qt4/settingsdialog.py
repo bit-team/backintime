@@ -17,7 +17,6 @@
 
 
 import os
-import os.path
 import sys
 import datetime
 import gettext

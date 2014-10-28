@@ -17,7 +17,6 @@
 
 
 import os
-import os.path
 import pluginmanager
 import tools
 import logger
