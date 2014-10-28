@@ -56,7 +56,7 @@ def register_backintime_path( path ):
 
 
 def read_file( path, default_value = None ):
-    ret_val = default_value 
+    ret_val = default_value
 
     try:
         with open( path ) as file:
@@ -68,7 +68,7 @@ def read_file( path, default_value = None ):
 
 
 def read_file_lines( path, default_value = None ):
-    ret_val = default_value 
+    ret_val = default_value
 
     try:
         with open( path ) as file:
@@ -85,7 +85,7 @@ def read_command_output( cmd ):
     try:
         pipe = os.popen( cmd )
         ret_val = pipe.read().strip()
-        pipe.close() 
+        pipe.close()
     except:
         return ''
 
@@ -193,7 +193,7 @@ def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
     for item in biglist:
         if len( item ) != 15 and len( item ) != 19:
             list_.append( item )
-        else: 
+        else:
             if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
                 continue
             else:
@@ -213,12 +213,12 @@ def move_snapshots_folder( old_folder, new_folder ):
     if os.path.exists( new_folder ) == True:
         snapshots_already_there = get_snapshots_list_in_folder( new_folder )
     else:
-        make_dirs( new_folder )	
+        make_dirs( new_folder )
     print("To move: %s" % snapshots_to_move)
     print("Already there: %s" % snapshots_already_there)
     snapshots_expected = snapshots_to_move + snapshots_already_there
     print("Snapshots expected: %s" % snapshots_expected)
-    
+
     # Check if both folders are within the same os
     device_old = os.stat( old_folder ).st_dev
     device_new = os.stat( new_folder ).st_dev
@@ -229,14 +229,14 @@ def move_snapshots_folder( old_folder, new_folder ):
             _execute( cmd )
     else:
         # Use rsync
-        # Prepare hardlinks 
+        # Prepare hardlinks
         if snapshots_already_there:
             first_snapshot_path = os.path.join( new_folder, snapshots_to_move[ len( snapshots_to_move ) - 1 ] )
             snapshot_to_hardlink_path =  os.path.join( new_folder, snapshots_already_there[0] )
             _execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % snapshot_to_hardlink_path )
             cmd = "cp -al \"%s\" \"%s\"" % ( snapshot_to_hardlink_path, first_snapshot_path )
             _execute( cmd )
-    
+
         # Prepare excludes
         nonsnapshots = get_nonsnapshots_list_in_folder( old_folder )
         print("Nonsnapshots: %s" % nonsnapshots)
@@ -247,12 +247,12 @@ def move_snapshots_folder( old_folder, new_folder ):
                     break
             items.append( "--exclude=\"%s\"" % nonsnapshot )
         rsync_exclude = ' '.join( items )
-        
+
         # Move move move
         cmd = "rsync -aEAXHv --delete " + old_folder + " " + new_folder + " " + rsync_exclude
         _execute( cmd )
         _execute ( "find \"%s\" \"%s\" -type d -exec chmod a-w {} \\;" % ( snapshots_to_hardlink_path, first_snapshot_path ) )
-        
+
     # Remove old ones
     snapshots_not_moved = []
     for snapshot in snapshots_to_move:
@@ -266,9 +266,9 @@ def move_snapshots_folder( old_folder, new_folder ):
                 _execute( cmd )
             else:
                 print("%s was already removed" %snapshot)
-        else: 
+        else:
             snapshots_not_moved.append( snapshot )
-                
+
     # Check snapshot list
     if snapshots_not_moved:
         print("Error! Not moved: %s\n" %snapshots_not_moved)
@@ -414,7 +414,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
     return cmd + ' '
 
 
-def temp_failure_retry(func, *args, **kwargs): 
+def temp_failure_retry(func, *args, **kwargs):
     while True:
         try:
             return func(*args, **kwargs)
@@ -426,18 +426,18 @@ def temp_failure_retry(func, *args, **kwargs):
 
 
 def _get_md5sum_from_path(path):
-    '''return md5sum of path, af available system command md5sum()'''   
+    '''return md5sum of path, af available system command md5sum()'''
     if check_command("md5sum"):
         status,output = subprocess.getstatusoutput("md5sum '" + path + "'")
         if status == 0:
             md5sum = output.split(" ")[0]
             return md5sum
-    # md5sum unavailable or command failed; raise an exception ? a message ? use std lib ? 
+    # md5sum unavailable or command failed; raise an exception ? a message ? use std lib ?
     print("warning: md5sum() fail ! used (st_size, st_mttime) instead of md5sum.")
     obj  = os.stat(path)
-    unique_key = (obj.st_size, int(obj.st_mtime))    
+    unique_key = (obj.st_size, int(obj.st_mtime))
     return unique_key
-        
+
 def check_cron_pattern(str):
     '''check if str look like '0,10,13,15,17,20,23' or '*/6' '''
     if str.find(' ') >= 0:
@@ -513,7 +513,7 @@ def save_env(file):
               'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
               'KDE_FULL_SESSION'):
         set_env_key(env, env_file, i)
-    
+
     env_file.save(file)
     del(env_file)
 
@@ -694,7 +694,7 @@ INHIBIT_DBUS = (
                } )
 
 def inhibitSuspend( app_id = sys.argv[0],
-                    toplevel_xid = None, 
+                    toplevel_xid = None,
                     reason = 'take snapshot',
                     flags = INHIBIT_SUSPENDING | INHIBIT_IDLE):
     '''Prevent machine to go to suspend or hibernate.
@@ -737,11 +737,11 @@ def unInhibitSuspend(cookie):
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
-    def __init__(self, dc = False, follow_symlink = False, list_equal_to = False): 
+    def __init__(self, dc = False, follow_symlink = False, list_equal_to = False):
         self.deep_check = dc
         self.follow_sym = follow_symlink
         self._uniq_dict = {}      # if not self._uniq_dict[size] -> size already checked with md5sum
-        self._size_inode = set()  # if (size,inode) in self._size_inode -> path is a hlink 
+        self._size_inode = set()  # if (size,inode) in self._size_inode -> path is a hlink
         self.list_equal_to = list_equal_to
         if list_equal_to:
             st = os.stat(list_equal_to)
@@ -768,24 +768,24 @@ class UniquenessSet:
             dum = os.stat(path)
             size,inode  = dum.st_size, dum.st_ino
             # is it a hlink ?
-            if (size, inode) in self._size_inode: 
+            if (size, inode) in self._size_inode:
                 if verb: print("[deep test] : skip, it's a duplicate (size, inode)")
-                return False   
+                return False
             self._size_inode.add( (size,inode) )
-            if size not in list(self._uniq_dict.keys()): 
+            if size not in list(self._uniq_dict.keys()):
                 # first item of that size
                 unique_key = size
                 if verb: print("[deep test] : store current size ?")
-            else: 
+            else:
                 prev = self._uniq_dict[size]
                 if prev:
                     # store md5sum instead of previously stored size
-                    md5sum_prev = _get_md5sum_from_path(prev)     
+                    md5sum_prev = _get_md5sum_from_path(prev)
                     self._uniq_dict[size] = None
-                    self._uniq_dict[md5sum_prev] = prev      
-                    if verb: 
+                    self._uniq_dict[md5sum_prev] = prev
+                    if verb:
                         print("[deep test] : size duplicate, remove the size, store prev md5sum")
-                unique_key = _get_md5sum_from_path(path) 
+                unique_key = _get_md5sum_from_path(path)
                 if verb: print("[deep test] : store current md5sum ?")
         else:
             # store a tuple of (size, modification time)
@@ -793,9 +793,9 @@ class UniquenessSet:
             unique_key = (obj.st_size, int(obj.st_mtime))
         # store if not already present, then return True
         if unique_key not in list(self._uniq_dict.keys()):
-            if verb: print(" >> ok, store !")             
+            if verb: print(" >> ok, store !")
             self._uniq_dict[unique_key] = path
-            return True    
+            return True
         if verb: print(" >> skip (it's a duplicate)")
         return False
 
@@ -818,7 +818,7 @@ class Alarm(object):
     """
     def __init__(self, callback = None):
         self.callback = callback
-        
+
     def start(self, timeout):
         """
         start timer
@@ -828,7 +828,7 @@ class Alarm(object):
             signal.alarm(timeout)
         except ValueError:
             pass
-        
+
     def stop(self):
         """
         stop timer before it come to an end
@@ -837,7 +837,7 @@ class Alarm(object):
             signal.alarm(0)
         except:
             pass
-        
+
     def handler(self, signum, frame):
         """
         timeout occur.

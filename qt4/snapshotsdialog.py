@@ -79,7 +79,7 @@ class DiffOptionsDialog( QDialog ):
             self.config.set_str_value( 'qt4.diff.cmd', diff_cmd )
             self.config.set_str_value( 'qt4.diff.params', diff_params )
             self.config.save()
-        
+
         QDialog.accept( self )
 
 
@@ -93,7 +93,7 @@ class SnapshotsDialog( QDialog ):
         import icon
 
         self.snapshot_id = snapshot_id
-        self.path = path 
+        self.path = path
 
         self.setWindowIcon(icon.SNAPSHOTS)
         self.setWindowTitle(_('Snapshots'))
@@ -225,9 +225,9 @@ class SnapshotsDialog( QDialog ):
             equal_to = self.snapshots.get_snapshot_path_to(equal_to_snapshot_id, self.path)
         else:
             equal_to = False
-        snapshots_filtered = self.snapshots.filter_for(self.snapshot_id, self.path, 
-                                self.snapshots_list, 
-                                self.cb_only_different_snapshots.isChecked(), 
+        snapshots_filtered = self.snapshots.filter_for(self.snapshot_id, self.path,
+                                self.snapshots_list,
+                                self.cb_only_different_snapshots.isChecked(),
                                 self.cb_only_different_snapshots_deep_check.isChecked(),
                                 equal_to)
         for snapshot_id in snapshots_filtered:
@@ -241,7 +241,7 @@ class SnapshotsDialog( QDialog ):
         for snapshot_id in snapshots_filtered:
             name = self.snapshots.get_snapshot_display_name(snapshot_id)
             self.combo_equal_to.addItem(name, snapshot_id)
-            
+
             if snapshot_id == self.snapshot_id:
                 self.combo_equal_to.setCurrentIndex(self.combo_equal_to.count() - 1)
             elif self.combo_equal_to.currentIndex() < 0:

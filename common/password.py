@@ -35,9 +35,9 @@ _=gettext.gettext
 class Daemon:
     """
     A generic daemon class.
-   
+
     Usage: subclass the Daemon class and override the run() method
-    
+
     Daemon Copyright by Sander Marechal
     License CC BY-SA 3.0
     http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
@@ -47,7 +47,7 @@ class Daemon:
         self.stdout = stdout
         self.stderr = stderr
         self.pidfile = pidfile
-   
+
     def daemonize(self):
         """
         do the UNIX double-fork magic, see Stevens' "Advanced
@@ -102,7 +102,7 @@ class Daemon:
         self.fifo.delfifo()
         self.delpid()
         sys.exit(0)
-        
+
     def delpid(self):
         try:
             os.remove(self.pidfile)
@@ -123,7 +123,7 @@ class Daemon:
                 sys.exit(1)
             else:
                 self.delpid()
-       
+
         # Start the daemon
         self.daemonize()
         self.run()
@@ -140,7 +140,7 @@ class Daemon:
             logger.error('[Password_Cache.Daemon.stop] ' + message % self.pidfile)
             return # not an error in a restart
 
-        # Try killing the daemon process       
+        # Try killing the daemon process
         try:
             while 1:
                 os.kill(pid, signal.SIGTERM)
@@ -159,7 +159,7 @@ class Daemon:
         """
         self.stop()
         self.start()
-        
+
     def reload(self):
         """
         send SIGHUP signal to process
@@ -171,8 +171,8 @@ class Daemon:
             message = "pidfile %s does not exist. Daemon not running?\n"
             logger.error('[Password_Cache.Daemon.reload] ' + message % self.pidfile)
             return
-        
-        # Try killing the daemon process       
+
+        # Try killing the daemon process
         try:
             os.kill(pid, signal.SIGHUP)
         except OSError as err:
@@ -182,7 +182,7 @@ class Daemon:
             else:
                 sys.stderr.write(err.strerror)
                 sys.exit(1)
-        
+
     def status(self):
         """
         return status
@@ -192,7 +192,7 @@ class Daemon:
 
         if not pid:
             return False
-        
+
         #kill -0 can false report process alive because of still active threads
         cmd = ['ps', 'ax', '-o', 'pid=', '-o', 'args=']
         p = subprocess.Popen(cmd, stdout = subprocess.PIPE, universal_newlines = True)
@@ -247,9 +247,9 @@ class Password_Cache(Daemon):
         self.db_keyring = {}
         self.db_usr = {}
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
-        
+
         self.keyring_supported = tools.keyring_supported()
-    
+
     def run(self):
         """
         wait for password request on FIFO and answer with password
@@ -286,17 +286,17 @@ class Password_Cache(Daemon):
                 elif task == 'set_pw':
                     key, value = value.split(':', 1)
                     self.db_usr[key] = value
-                
+
             except IOError as e:
                 logger.error('[Password_Cache.run] Error in writing answer to FIFO: %s' % e.strerror)
-            except KeyboardInterrupt: 
+            except KeyboardInterrupt:
                 print('Quit.')
                 break
             except tools.Timeout:
                 logger.error('[Password_Cache.run] FIFO timeout')
             except Exception as e:
                 logger.error('[Password_Cache.run] ERROR: %s' % str(e))
-        
+
     def _reload_handler(self, signum, frame):
         """
         reload passwords during runtime.
@@ -307,7 +307,7 @@ class Password_Cache(Daemon):
         del(self.db_keyring)
         self.db_keyring = {}
         self._collect_passwords()
-        
+
     def _collect_passwords(self):
         """
         search all profiles in config and collect passwords from keyring.
@@ -323,7 +323,7 @@ class Password_Cache(Daemon):
                         if self.config.get_password_save(profile_id) and self.keyring_supported:
                             service_name = self.config.get_keyring_service_name(profile_id, mode, pw_id)
                             user_name = self.config.get_keyring_user_name(profile_id)
-                                
+
                             password = tools.get_password(service_name, user_name)
                             if password is None:
                                 continue
@@ -341,7 +341,7 @@ class Password_Cache(Daemon):
 
 class Password(object):
     """
-    provide passwords for BIT either from keyring, Password_Cache or 
+    provide passwords for BIT either from keyring, Password_Cache or
     by asking User.
     """
     def __init__(self, cfg = None):
@@ -351,9 +351,9 @@ class Password(object):
         self.pw_cache = Password_Cache(self.config)
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())
         self.db = {}
-        
+
         self.keyring_supported = tools.keyring_supported()
-    
+
     def get_password(self, parent, profile_id, mode, pw_id = 1, only_from_keyring = False):
         """
         based on profile settings return password from keyring,
@@ -388,7 +388,7 @@ class Password(object):
             self._set_password_db(service_name, user_name, password)
             return password
         return password
-        
+
     def _get_password_from_keyring(self, service_name, user_name):
         """
         get password from system keyring (seahorse). The keyring is only
@@ -400,7 +400,7 @@ class Password(object):
             except Exception:
                 logger.error('get password from Keyring failed')
         return None
-    
+
     def _get_password_from_pw_cache(self, service_name, user_name):
         """
         get password from Password_Cache
@@ -417,7 +417,7 @@ class Password(object):
             return base64.decodebytes(pw_base64).decode()
         else:
             return None
-    
+
     def _get_password_from_user(self, parent, profile_id = None, mode = None, pw_id = 1, prompt = None):
         """
         ask user for password. This does even work when run as cronjob
@@ -425,9 +425,9 @@ class Password(object):
         """
         if prompt is None:
             prompt = _('Profile \'%(profile)s\': Enter password for %(mode)s: ') % {'profile': self.config.get_profile_name(profile_id), 'mode': self.config.SNAPSHOT_MODES[mode][pw_id + 1]}
-        
+
         tools.register_backintime_path('qt4')
-        
+
         x_server = tools.check_x_server()
         import_successful = False
         if x_server:
@@ -436,7 +436,7 @@ class Password(object):
                 import_successful = True
             except ImportError:
                 pass
-            
+
         if not import_successful or not x_server:
             import getpass
             alarm = tools.Alarm()
@@ -447,19 +447,19 @@ class Password(object):
             except tools.Timeout:
                 password = ''
             return password
-        
+
         password = messagebox.ask_password_dialog(parent, self.config.APP_NAME,
                     prompt = prompt,
                     timeout = 300)
         return password
-        
+
     def _set_password_db(self, service_name, user_name, password):
         """
         internal Password cache. Prevent to ask password several times
         during runtime.
         """
         self.db['%s/%s' %(service_name, user_name)] = password
-    
+
     def set_password(self, password, profile_id, mode, pw_id):
         """
         store password to keyring and Password_Cache
@@ -467,13 +467,13 @@ class Password(object):
         if self.config.mode_need_password(mode, pw_id):
             service_name = self.config.get_keyring_service_name(profile_id, mode, pw_id)
             user_name = self.config.get_keyring_user_name(profile_id)
-            
+
             if self.config.get_password_save(profile_id):
                 self._set_password_to_keyring(service_name, user_name, password)
-            
+
             if self.config.get_password_use_cache(profile_id):
                 self._set_password_to_cache(service_name, user_name, password)
-            
+
             self._set_password_db(service_name, user_name, password)
 
     def _set_password_to_keyring(self, service_name, user_name, password):

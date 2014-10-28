@@ -62,7 +62,7 @@ class LogViewDialog( QDialog ):
         self.combo_profiles = QComboBox( self )
         layout.addWidget( self.combo_profiles, 1 )
         QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.current_profile_changed )
-        
+
         if self.snapshot_id is None:
             self.lbl_profiles.hide()
             self.combo_profiles.hide()
@@ -73,7 +73,7 @@ class LogViewDialog( QDialog ):
         self.combo_filter = QComboBox( self )
         layout.addWidget( self.combo_filter, 1 )
         QObject.connect( self.combo_filter, SIGNAL('currentIndexChanged(int)'), self.current_filter_changed )
-    
+
         self.combo_filter.addItem( _('All'), 0 )
         self.combo_filter.addItem( _('Errors'), 1 )
         set_active = True
@@ -91,7 +91,7 @@ class LogViewDialog( QDialog ):
         self.main_layout.addWidget( self.txt_log_view )
 
         #
-        self.main_layout.addWidget( QLabel(_('[E] Error, [I] Information, [C] Change')) ) 
+        self.main_layout.addWidget( QLabel(_('[E] Error, [I] Information, [C] Change')) )
 
         #decode path
         self.cb_decode = QCheckBox( _('decode paths'), self )
@@ -128,7 +128,7 @@ class LogViewDialog( QDialog ):
         current_profile_id = self.config.get_current_profile()
 
         self.combo_profiles.clear()
-            
+
         profiles = self.config.get_profiles_sorted_by_name()
         for profile_id in profiles:
             self.combo_profiles.addItem( self.config.get_profile_name( profile_id ), profile_id )

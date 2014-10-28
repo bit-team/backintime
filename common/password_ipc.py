@@ -32,7 +32,7 @@ class FIFO(object):
     def __init__(self, fname):
         self.fifo = fname
         self.alarm = tools.Alarm()
-        
+
     def delfifo(self):
         """
         remove FIFO
@@ -41,7 +41,7 @@ class FIFO(object):
             os.remove(self.fifo)
         except:
             pass
-        
+
     def create(self):
         """
         create the FIFO in a way that only the current user can access it.
@@ -53,7 +53,7 @@ class FIFO(object):
         except OSError as e:
             logger.error('Failed to create FIFO: %s' % e.strerror)
             sys.exit(1)
-        
+
     def read(self, timeout = 0):
         """
         read from fifo untill timeout. If timeout is 0 it will wait forever
@@ -67,7 +67,7 @@ class FIFO(object):
             ret = fifo.read()
         self.alarm.stop()
         return ret
-        
+
     def write(self, string, timeout = 0):
         """
         write to fifo untill timeout. If timeout is 0 it will wait forever
@@ -80,7 +80,7 @@ class FIFO(object):
         with open(self.fifo, 'w') as fifo:
             fifo.write(string)
         self.alarm.stop()
-        
+
     def is_fifo(self):
         """
         make sure file is still a FIFO and has correct permissions
@@ -112,7 +112,7 @@ class TempPasswordThread(threading.Thread):
         self.pw_base64 = base64.encodebytes(string.encode()).decode()
         self.temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
         self.fifo = FIFO(self.temp_file)
-        
+
     def run(self):
         self.fifo.create()
         self.fifo.write(self.pw_base64)
@@ -124,7 +124,7 @@ class TempPasswordThread(threading.Thread):
         use only if thread timeout.
         """
         self.fifo.read()
-    
+
     def stop(self):
         self.join(5)
         if self.isAlive():

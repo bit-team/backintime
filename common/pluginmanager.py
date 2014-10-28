@@ -80,7 +80,7 @@ class PluginManager:
         self.plugins_loaded = True
         self.plugins = []
         self.has_gui_plugins_ = False
-        
+
         plugins_path = tools.get_backintime_path( 'plugins' )
 
         for file in os.listdir( plugins_path ):
@@ -90,7 +90,7 @@ class PluginManager:
 
                     module = __import__( file[ : -3 ] )
                     module_dict = module.__dict__
-                    
+
                     for key, value in list(module_dict.items()):
                         if key.startswith( '__' ):
                             continue

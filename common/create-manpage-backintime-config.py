@@ -121,7 +121,7 @@ def main():
                                 LINE      : 180}
     dict['profiles'] = {TYPE      : 'str',
                         NAME      : 'profiles',
-                        VALUES    : 'int separated by colon (e.g. 1:3:4)', 
+                        VALUES    : 'int separated by colon (e.g. 1:3:4)',
                         DEFAULT   : '1',
                         COMMENT   : 'All active Profiles (<N> in profile<N>.snapshots...).',
                         REFERENCE : 'configfile.py',

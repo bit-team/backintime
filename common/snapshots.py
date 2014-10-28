@@ -61,7 +61,7 @@ class Snapshots:
     def get_snapshot_id( self, date ):
         profile_id = self.config.get_current_profile()
         tag = self.config.get_tag( profile_id )
-        
+
         if type( date ) is datetime.datetime:
             snapshot_id = date.strftime( '%Y%m%d-%H%M%S' ) + '-' + tag
             return snapshot_id
@@ -73,12 +73,12 @@ class Snapshots:
         if type( date ) is str:
             snapshot_id = date
             return snapshot_id
-        
+
         return ""
 
     def get_snapshot_old_id( self, date ):
         profile_id = self.config.get_current_profile()
-        
+
         if type( date ) is datetime.datetime:
             snapshot_id = date.strftime( '%Y%m%d-%H%M%S' )
             return snapshot_id
@@ -90,7 +90,7 @@ class Snapshots:
         if type( date ) is str:
             snapshot_id = date
             return snapshot_id
-        
+
         return ""
 
     def get_snapshot_path( self, date, use_mode = [] ):
@@ -117,7 +117,7 @@ class Snapshots:
         for folder in other_folders:
             path_other = os.path.join( folder, self.get_snapshot_old_id( date ) )
             if os.path.exists( path_other ):
-                return path_other				
+                return path_other
         return path
 
     def get_snapshot_info_path( self, date ):
@@ -141,7 +141,7 @@ class Snapshots:
         if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
             return os.path.join( snapshot_path, self.config.ENCODE.path(path) )
         return os.path.join( snapshot_path, path )
-    
+
     def get_snapshot_path_to( self, snapshot_id, toPath = '/', use_mode = [] ):
         current_mode = self.config.get_snapshots_mode()
         snapshot_data_path = os.path.join( self._get_snapshot_data_path( snapshot_id, use_mode ) )
@@ -164,7 +164,7 @@ class Snapshots:
         if len( snapshot_id ) <= 1:
             return _('Now')
         return "%s-%s-%s %s:%s:%s" % ( snapshot_id[ 0 : 4 ], snapshot_id[ 4 : 6 ], snapshot_id[ 6 : 8 ], snapshot_id[ 9 : 11 ], snapshot_id[ 11 : 13 ], snapshot_id[ 13 : 15 ]  )
-    
+
     def get_snapshot_display_name( self, snapshot_id ):
         display_name = self.get_snapshot_display_id( snapshot_id )
         name = self.get_snapshot_name( snapshot_id )
@@ -184,7 +184,7 @@ class Snapshots:
         path = self.get_snapshot_path( snapshot_id )
         if not os.path.isdir( path ):
             return ''
-        
+
         name = ''
         try:
             with open( os.path.join( path, 'name' ), 'rt' ) as file:
@@ -256,7 +256,7 @@ class Snapshots:
             with open(self.config.get_take_snapshot_message_file(), 'rt' ) as file:
                 items = file.read().split( '\n' )
         except:
-            return None 
+            return None
 
         if len( items ) < 2:
             return None
@@ -287,7 +287,7 @@ class Snapshots:
             self.append_to_take_snapshot_log( '[I] '  + message, 3 )
 
         try:
-            profile_id =self.config.get_current_profile() 
+            profile_id =self.config.get_current_profile()
             profile_name = self.config.get_profile_name( profile_id )
             self.config.PLUGIN_MANAGER.on_message( profile_id, profile_name, type_id, message, timeout )
         except:
@@ -394,7 +394,7 @@ class Snapshots:
                 line = line[ : -1 ]
                 if not line:
                     continue
-            
+
                 index = line.find( '/' )
                 if index < 0:
                     continue
@@ -431,7 +431,7 @@ class Snapshots:
 
             self.uid_cache[name] = uid
             return uid
-            
+
     def get_gid( self, name ):
         try:
             return self.gid_cache[name]
@@ -457,7 +457,7 @@ class Snapshots:
 
             self.user_cache[uid] = name
             return name
-            
+
     def get_group_name( self, gid ):
         try:
             return self.group_cache[gid]
@@ -476,7 +476,7 @@ class Snapshots:
             if not ok:
                 msg = msg + " : " + _("FAILED")
             callback( msg )
-    
+
     def _restore_path_info( self, key_path, path, dict, callback = None ):
         if key_path not in dict:
             return
@@ -485,7 +485,7 @@ class Snapshots:
         #restore uid/gid
         uid = self.get_uid(info[1])
         gid = self.get_gid(info[2])
-        
+
         if uid != -1 or gid != -1:
             ok = False
             try:
@@ -494,7 +494,7 @@ class Snapshots:
             except:
                 pass
             self.restore_callback( callback, ok, "chown %s %s : %s" % ( path, uid, gid ) )
-            
+
             #if restore uid/gid failed try to restore at least gid
             if not ok:
                 try:
@@ -503,7 +503,7 @@ class Snapshots:
                 except:
                     pass
                 self.restore_callback( callback, ok, "chgrp %s %s" % ( path, gid ) )
-                
+
         #restore perms
         ok = False
         try:
@@ -629,7 +629,7 @@ class Snapshots:
             profile_id = self.config.get_current_profile()
 
         snapshots_path = self.config.get_snapshots_full_path( profile_id, version )
-        
+
         try:
             biglist = os.listdir( snapshots_path )
         except:
@@ -646,7 +646,7 @@ class Snapshots:
         list_.sort( reverse = sort_reverse )
 
         return list_
-        
+
     def get_snapshots_and_other_list( self, sort_reverse = True ):
         '''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
 
@@ -654,12 +654,12 @@ class Snapshots:
         profile_id = self.config.get_current_profile()
         snapshots_path = self.config.get_snapshots_full_path( profile_id )
         snapshots_other_paths = self.config.get_other_folders_paths()
-        
+
         try:
             biglist = os.listdir( snapshots_path )
         except:
             pass
-            
+
         list_ = []
 
         for item in biglist:
@@ -668,20 +668,20 @@ class Snapshots:
             if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
                 list_.append( item )
 
-        if snapshots_other_paths:	
+        if snapshots_other_paths:
             for folder in snapshots_other_paths:
                 folderlist = []
                 try:
                     folderlist = os.listdir( folder )
                 except:
                     pass
-                
+
                 for member in folderlist:
                     if len( member ) != 15 and len( member ) != 19:
                         continue
                     if os.path.isdir( os.path.join( folder, member,  'backup' ) ):
                         list_.append( member )
-        
+
         list_.sort( reverse = sort_reverse )
         return list_
 
@@ -708,13 +708,13 @@ class Snapshots:
         '''Updates to location: backintime/machine/user/profile_id'''
         if self.has_old_snapshots():
             logger.info( 'Snapshot location update flag detected' )
-            logger.warning( 'Snapshot location needs update' ) 
+            logger.warning( 'Snapshot location needs update' )
             profiles = self.config.get_profiles()
 
             answer_change = self.config.question_handler( _('Back In Time changed its backup format.\n\nYour old snapshots can be moved according to this new format. OK?') )
             if answer_change == True:
                 logger.info( 'Update snapshot locations' )
-                
+
                 if len( profiles ) == 1:
                     logger.info( 'Only 1 profile found' )
                     answer_same = True
@@ -724,19 +724,19 @@ class Snapshots:
                     logger.warning( 'No profiles are found!' )
                     self.config.notify_error( _( 'No profiles are found. Will have to update to profiles first, please restart Back In Time' ) )
                     logger.info( 'Config version is %s' % str( self.get_int_value( 'config.version', 1 ) ) )
-                    
+
                     if self.config.get_int_value( 'config.version', 1 ) > 1:
                         self.config.set_int_value( 'config.version', 2 )
                         logger.info( 'Config version set to 2' )
                         return False
-                    
+
                 # Moving old snapshots per profile_id
                 profile_id = profiles[0]
                 main_folder = self.config.get_snapshots_path( profile_id )
                 old_snapshots_paths=[]
                 counter = 0
                 success = []
-                
+
                 for profile_id in profiles:
                     old_snapshots_paths.append( self.config.get_snapshots_path( profile_id ) )
                     old_folder = os.path.join( self.config.get_snapshots_path( profile_id ), 'backintime' )
@@ -761,7 +761,7 @@ class Snapshots:
                             logger.info( 'You could move them manually or leave them where they are now' )
                     else:
                         logger.warning( '%s: are not moved to their new location!' %snapshots_left )
-                        
+
                         answer_unsuccessful = self.config.question_handler( _('%(snapshots_left)s\nof profile %(profile_id)s are not moved to their new location\nDo you want to proceed?\n(Back In Time will be able to continue taking snapshots, however the remaining snapshots will not be considered for automatic removal)\n\nIf not Back In Time will restore former settings for this profile, however cannot continue taking snapshots' %{ 'snapshots_left' : snapshots_left, 'profile_id' : profile_id } ) )
                         if answer_unsuccessful == True:
                             success.append( True )
@@ -771,13 +771,13 @@ class Snapshots:
                             logger.info( 'Restore former settings' )
                             self.config.set_snapshots_path( old_snapshots_paths[counter], profile_id )
                             self.config.error_handler( _('Former settings of profile %s are restored.\nBack In Time cannot continue taking new snapshots.\n\nYou can manually move the snapshots, \nif you are done restart Back In Time to proceed' %profile_id ) )
-                    
+
                     counter = counter + 1
-                
+
                 overall_success = True
                 for item in success:
                     if item == False:
-                        overall_success = False	
+                        overall_success = False
                 if overall_success == True:
                     logger.info( 'Back In Time will be able to make new snapshots again!' )
                     self.config.error_handler( _('Update was successful!\n\nBack In Time will continue taking snapshots again as scheduled' ) )
@@ -791,14 +791,14 @@ class Snapshots:
                         old_folder = self.config.get_snapshots_path( profile_id )
                         self.config.set_snapshots_path( old_folder, profile_id )
                         logger.info( 'Folder of profile %s is set to %s' %( profile_id, self.get_snapshots_path( profile_id ) ) )
-                    
+
                     logger.info( 'Back In Time will be able to make new snapshots again!' )
                     self.config.error_handler( _('Back In Time will continue taking snapshots again as scheduled' ) )
-                else: 
+                else:
                     self.config.error_handler( _( 'Back In Time still cannot continue taking new snapshots.\nRestart Back In Time to see the questions again' ) )
             else:
                 return False
-        
+
     def has_old_snapshots( self ):
         return len( self.get_snapshots_list( False, None, 3 ) ) > 0
 
@@ -865,10 +865,10 @@ class Snapshots:
                     self.new_take_snapshot_log( now )
                     profile_id = self.config.get_current_profile()
                     logger.info( "Profile_id: %s" % profile_id )
-                    
+
                     if not self.config.can_backup( profile_id ):
                         if self.config.PLUGIN_MANAGER.has_gui_plugins() and self.config.is_notify_enabled():
-                            self.set_take_snapshot_message( 1, 
+                            self.set_take_snapshot_message( 1,
                                     _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it.' ) +
                                     '\n' +
                                     gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', 30 ) % 30,
@@ -885,7 +885,7 @@ class Snapshots:
                         ret_error = False
                         snapshot_id = self.get_snapshot_id( now )
                         snapshot_path = self.get_snapshot_path( snapshot_id )
-                        
+
                         if os.path.exists( snapshot_path ):
                             logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
                             self.config.PLUGIN_MANAGER.on_error( 4, snapshot_id ) #This snapshots already exists
@@ -903,7 +903,7 @@ class Snapshots:
                                 logger.warning( "No new snapshot" )
                         else:
                             ret_error = False
-                    
+
                         if not ret_error:
                             self._free_space( now )
                             self.set_take_snapshot_message( 0, _('Finalizing') )
@@ -1001,7 +1001,7 @@ class Snapshots:
 
         if self.config.MONTH == mode: #month changed
             return now.month > last.month
-        
+
         if self.config.WEEK == mode: #weekly
             if now.date() <= last.date():
                 return False
@@ -1015,7 +1015,7 @@ class Snapshots:
 
         if now.hour > last.hour: #hour changed
             return True
-        
+
         if self.config.HOUR == mode:
             return False
 
@@ -1037,7 +1037,7 @@ class Snapshots:
             return False
 
         return True
-    
+
     def _save_path_info_line( self, fileinfo, path, info ):
         s = "{} {} {} {}\n".format(info[0], info[1], info[2], path)
         fileinfo.write(s.encode())
@@ -1070,17 +1070,17 @@ class Snapshots:
 
         #find
         find_suffix = self.config.find_suffix()
-        
+
         if os.path.exists( new_snapshot_path() ):
             self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (new_snapshot_path(), find_suffix) ) #Debian patch
             self._execute( "rm -rf \"%s\"" % new_snapshot_path() )
-        
+
             if os.path.exists( new_snapshot_path() ):
                 logger.error( "Can't remove folder: %s" % new_snapshot_path() )
                 self.set_take_snapshot_message( 1, _('Can\'t remove folder: %s') % new_snapshot_path() )
                 time.sleep(2) #max 1 backup / second
                 return [ False, True ]
-        
+
         #create exclude patterns string
         items = []
         encode = self.config.ENCODE
@@ -1125,7 +1125,7 @@ class Snapshots:
 
         #full rsync
         full_rsync = self.config.full_rsync()
-        
+
         #rsync prefix & suffix
         rsync_prefix = tools.get_rsync_prefix( self.config, not full_rsync )
         if self.config.exclude_by_size_enabled():
@@ -1146,7 +1146,7 @@ class Snapshots:
         # When there is no snapshots it takes the last snapshot from the other folders
         # It should delete the excluded folders then
         rsync_prefix = rsync_prefix + ' --delete --delete-excluded '
-        
+
         if snapshots:
             prev_snapshot_id = snapshots[0]
 
@@ -1156,8 +1156,8 @@ class Snapshots:
                     prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
                     self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % prev_snapshot_name )
                     logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
-                    
-                    cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix 
+
+                    cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix
                     cmd += self.rsync_remote_path( prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
                     params = [ prev_snapshot_path_to(), False ]
                     self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
@@ -1171,7 +1171,7 @@ class Snapshots:
 
             if not self._create_directory( new_snapshot_path_to() ):
                 return [ False, True ]
-            
+
             if not full_rsync:
                 self.set_take_snapshot_message( 0, _('Create hard-links') )
                 logger.info( "Create hard-links" )
@@ -1197,7 +1197,7 @@ class Snapshots:
 
         #sync changed folders
         logger.info( "Call rsync to take the snapshot" )
-        cmd = rsync_prefix + ' -v ' + rsync_suffix 
+        cmd = rsync_prefix + ' -v ' + rsync_suffix
         cmd += self.rsync_remote_path( new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
 
         self.set_take_snapshot_message( 0, _('Take snapshot') )
@@ -1242,13 +1242,13 @@ class Snapshots:
                 logger.info( "Nothing changed, no back needed" )
                 self.set_snapshot_last_check(prev_snapshot_id)
                 return [ False, False ]
-                
+
 
         #backup config file
         logger.info( 'Save config file' )
         self.set_take_snapshot_message( 0, _('Save config file ...') )
         self._execute( 'cp %s %s' % (self.config._LOCAL_CONFIG_PATH, new_snapshot_path_to() + '..') )
-        
+
         if not full_rsync or self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
             #save permissions for sync folders
             logger.info( 'Save permissions' )
@@ -1262,7 +1262,7 @@ class Snapshots:
                 if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
                     path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
                     cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'])
-                    
+
                     find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
                                             stderr = subprocess.PIPE,
                                             universal_newlines = True)
@@ -1282,7 +1282,7 @@ class Snapshots:
                                 fileinfo_dict[item_path] = 1
                                 self._save_path_info( fileinfo, item_path )
                         permission_done = True
-                        
+
                 if not permission_done:
                     for path, dirs, files in os.walk( path_to_explore ):
                         dirs.extend( files )
@@ -1291,8 +1291,8 @@ class Snapshots:
                             fileinfo_dict[item_path] = 1
                             self._save_path_info( fileinfo, item_path )
 
-        #create info file 
-        logger.info( "Create info file" ) 
+        #create info file
+        logger.info( "Create info file" )
         machine = self.config.get_host()
         user = self.config.get_user()
         profile_id = self.config.get_current_profile()
@@ -1306,7 +1306,7 @@ class Snapshots:
         info_file.set_int_value( 'snapshot_tag', tag )
         info_file.save( self.get_snapshot_info_path( new_snapshot_id ) )
         info_file = None
-        
+
         #copy take snapshot log
         try:
             with open( self.config.get_take_snapshot_log_file(), 'rb' ) as logfile:
@@ -1387,7 +1387,7 @@ class Snapshots:
         if now_full is None:
             now_full = datetime.datetime.today()
 
-        now = now_full.date() 
+        now = now_full.date()
 
         #keep the last snapshot
         keep_snapshots = [ snapshots[0] ]
@@ -1557,7 +1557,7 @@ class Snapshots:
             logger.info( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
 
         return ret_val
-    
+
     def filter_for(self, base_snapshot_id, base_path, snapshots_list, list_diff_only  = False, flag_deep_check = False, list_equal_to = False):
         "return a list of available snapshots (including 'now'), eventually filtered for uniqueness"
         snapshots_filtered = []
@@ -1610,7 +1610,7 @@ class Snapshots:
         uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False, list_equal_to = list_equal_to)
         for snapshot_id in all_snapshots_list:
             path = self.get_snapshot_path_to( snapshot_id, base_path )
-            if os.path.exists( path ) and not os.path.islink( path ) and os.path.isfile( path ) and uniqueness.check_for(path):  
+            if os.path.exists( path ) and not os.path.islink( path ) and os.path.isfile( path ) and uniqueness.check_for(path):
                 snapshots_filtered.append(snapshot_id)
 
         return snapshots_filtered
@@ -1624,16 +1624,16 @@ class Snapshots:
                     ssh_cipher_suffix = ''
                 else:
                     ssh_cipher_suffix = '-c %s' % ssh_cipher
-                
+
                 if self.config.is_run_ionice_on_remote_enabled():
                     cmd = 'ionice -c2 -n7 ' + cmd
-                
+
                 if self.config.is_run_nice_on_remote_enabled():
                     cmd = 'nice -n 19 ' + cmd
-                
+
                 if quote:
                     cmd = '\'%s\'' % cmd
-                    
+
                 return 'ssh -p %s -o ServerAliveInterval=240 %s %s@%s %s' \
                         % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host, cmd )
 
@@ -1646,17 +1646,17 @@ class Snapshots:
                 if not ssh_cipher == 'default':
                     suffix += ['-c', ssh_cipher]
                 suffix += ['%s@%s' % (ssh_user, ssh_host)]
-                
+
                 if self.config.is_run_ionice_on_remote_enabled():
                     cmd = ['ionice', '-c2', '-n7'] + cmd
-                
+
                 if self.config.is_run_nice_on_remote_enabled():
                     cmd = ['nice', '-n 19'] + cmd
-                
+
                 if quote:
                     cmd = ['\''] + cmd + ['\'']
                 return suffix + cmd
-                
+
         else:
             return cmd
 
@@ -1678,7 +1678,7 @@ class Snapshots:
             st = os.stat(path)
             os.chmod(path, st.st_mode | stat.S_IWUSR)
             fn(path)
-            
+
         full_path = self.get_snapshot_path_to(snapshot_id, path)
         dirname = os.path.dirname(full_path)
         dir_st = os.stat(dirname)

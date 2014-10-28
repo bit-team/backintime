@@ -44,22 +44,22 @@ class SSH(mount.MountControl):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
-            
+
         self.profile_id = profile_id
         if self.profile_id is None:
             self.profile_id = self.config.get_current_profile()
-            
+
         self.tmp_mount = tmp_mount
         self.hash_id = hash_id
         self.parent = parent
         self.symlink = symlink
-            
+
         #init MountControl
         super(SSH, self).__init__()
-            
+
         self.all_kwargs = {}
-            
-        #First we need to map the settings. 
+
+        #First we need to map the settings.
         self.setattr_kwargs('mode', self.config.get_snapshots_mode(self.profile_id), **kwargs)
         self.setattr_kwargs('hash_collision', self.config.get_hash_collision(), **kwargs)
         #start editing from here---------------------------------------------------------
@@ -73,11 +73,11 @@ class SSH(mount.MountControl):
         self.setattr_kwargs('ionice', self.config.is_run_ionice_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('nocache', self.config.is_run_nocache_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('password', None, store = False, **kwargs)
-            
+
         if not self.path:
             self.path = './'
         self.set_default_args()
-            
+
         self.symlink_subfolder = None
 
         # config strings used in ssh-calls
@@ -88,9 +88,9 @@ class SSH(mount.MountControl):
         self.ssh_options = ['-p', str(self.port)]
         self.ssh_options += ['-o', 'ServerAliveInterval=240']
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
-        
+
         self.unlock_ssh_agent()
-        
+
     def _mount(self):
         """mount the service"""
         sshfs = ['sshfs'] + self.ssh_options
@@ -107,14 +107,14 @@ class SSH(mount.MountControl):
             subprocess.check_call(sshfs, env = env)
         except subprocess.CalledProcessError as ex:
             raise mount.MountException( _('Can\'t mount %s') % ' '.join(sshfs))
-        
+
     def _umount(self):
         """umount the service"""
         try:
             subprocess.check_call(['fusermount', '-u', self.mountpoint])
         except subprocess.CalledProcessError as ex:
             raise mount.MountException( _('Can\'t unmount sshfs %s') % self.mountpoint)
-        
+
     def pre_mount_check(self, first_run = False):
         """check what ever conditions must be given for the mount to be done successful
            raise MountException( _('Error discription') ) if service can not mount
@@ -131,29 +131,29 @@ class SSH(mount.MountControl):
         if first_run:
             self.check_remote_commands()
         return True
-        
+
     def post_mount_check(self):
         """check if mount was successful
            raise MountException( _('Error discription') ) if not"""
         return True
-        
+
     def pre_umount_check(self):
         """check if service is safe to umount
            raise MountException( _('Error discription') ) if not"""
         return True
-        
+
     def post_umount_check(self):
         """check if umount successful
            raise MountException( _('Error discription') ) if not"""
         return True
-        
+
     def unlock_ssh_agent(self):
         """using askpass.py to unlock private key in ssh-agent"""
         env = os.environ.copy()
         env['SSH_ASKPASS'] = 'backintime-askpass'
         env['ASKPASS_PROFILE_ID'] = self.profile_id
         env['ASKPASS_MODE'] = self.mode
-        
+
         proc = subprocess.Popen(['ssh-add', '-l'],
                                 stdout = subprocess.PIPE,
                                 universal_newlines = True)
@@ -181,7 +181,7 @@ class SSH(mount.MountControl):
                     thread = password_ipc.TempPasswordThread(self.password)
                     env['ASKPASS_TEMP'] = thread.temp_file
                     thread.start()
-                    
+
                 proc = subprocess.Popen(['ssh-add', self.private_key_file],
                                         stdin=subprocess.PIPE,
                                         stdout=subprocess.PIPE,
@@ -192,10 +192,10 @@ class SSH(mount.MountControl):
                 output, error = proc.communicate()
                 if proc.returncode:
                     print( _('Failed to unlock SSH private key:\nError: %s') % error)
-                    
+
                 if not self.password is None:
                     thread.stop()
-                    
+
             proc = subprocess.Popen(['ssh-add', '-l'],
                                     stdout = subprocess.PIPE,
                                     universal_newlines = True)
@@ -216,7 +216,7 @@ class SSH(mount.MountControl):
                 return
             if not user in fuse_grp_members:
                 raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
-        
+
     def check_login(self):
         """check passwordless authentication to host"""
         ssh = ['ssh', '-o', 'PreferredAuthentications=publickey']
@@ -226,7 +226,7 @@ class SSH(mount.MountControl):
             subprocess.check_call(ssh, stdout=open(os.devnull, 'w'))
         except subprocess.CalledProcessError:
             raise mount.MountException( _('Password-less authentication for %(user)s@%(host)s failed. Look at \'man backintime\' for further instructions.')  % {'user' : self.user, 'host' : self.host})
-        
+
     def check_cipher(self):
         """check if both host and localhost support cipher"""
         if not self.cipher == 'default':
@@ -241,7 +241,7 @@ class SSH(mount.MountControl):
             err = proc.communicate()[1]
             if proc.returncode:
                 raise mount.MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')  % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
-            
+
     def benchmark_cipher(self, size = '40'):
         import tempfile
         temp = tempfile.mkstemp()[1]
@@ -258,7 +258,7 @@ class SSH(mount.MountControl):
                 subprocess.call(['scp', '-P', str(self.port), '-c', cipher, temp, self.user_host_path])
         subprocess.call(['ssh'] + self.ssh_options + [self.user_host, 'rm', os.path.join(self.path, os.path.basename(temp))])
         os.remove(temp)
-        
+
     def check_known_hosts(self):
         """check ssh_known_hosts"""
         for host in (self.host, '[%s]:%s' % (self.host, self.port)):
@@ -269,7 +269,7 @@ class SSH(mount.MountControl):
             if output.find('Host %s found' % host) >= 0:
                 return True
         raise mount.MountException( _('%s not found in ssh_known_hosts.') % self.host)
-        
+
     def check_remote_folder(self):
         """check if remote folder exists and is write- and executable.
            Create folder if it doesn't exist."""
@@ -298,7 +298,7 @@ class SSH(mount.MountControl):
         else:
             #returncode is 0
             logger.info('Create remote folder %s' % self.path)
-            
+
     def check_ping_host(self):
         """connect to remote port and check if it is open"""
         count = 0
@@ -314,7 +314,7 @@ class SSH(mount.MountControl):
             sleep(0.2)
         if result != 0:
             raise mount.MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
-        
+
     def check_remote_commands(self):
         """try all relevant commands for take_snapshot on remote host.
            specialy embedded Linux devices using 'BusyBox' sometimes doesn't
@@ -324,21 +324,21 @@ class SSH(mount.MountControl):
         #check rsync
         tmp_file = tempfile.mkstemp()[1]
         rsync = tools.get_rsync_prefix( self.config ) + ' --dry-run --chmod=Du+wx %s ' % tmp_file
-        
+
         if self.cipher == 'default':
             ssh_cipher_suffix = ''
         else:
             ssh_cipher_suffix = '-c %s' % self.cipher
         rsync += '--rsh="ssh -p %s %s" ' % ( str(self.port), ssh_cipher_suffix)
         rsync += '"%s@%s:%s"' % (self.user, self.host, self.path)
-            
+
         #use os.system for compatiblity with snapshots.py
         err = os.system(rsync)
         if err:
             os.remove(tmp_file)
             raise mount.MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'command' : rsync, 'err' : err})
         os.remove(tmp_file)
-            
+
         #check cp chmod find and rm
         remote_tmp_dir = os.path.join(self.path, 'tmp_%s' % self.random_id())
         cmd  = 'tmp=%s ; ' % remote_tmp_dir
@@ -384,11 +384,11 @@ class SSH(mount.MountControl):
         #if we end up here, everything should be fine
         cmd += 'echo \"done\"'
         proc = subprocess.Popen(['ssh'] + self.ssh_options + [self.user_host, cmd],
-                                        stdout=subprocess.PIPE, 
+                                        stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
                                         universal_newlines = True)
         output, err = proc.communicate()
-        
+
         output_split = output.split('\n')
         while True:
             if output_split and not output_split[-1]:
@@ -403,7 +403,7 @@ class SSH(mount.MountControl):
                 self.config.set_gnu_find_suffix_support(False, self.profile_id)
             else:
                 raise mount.MountException( _('Check commands on host %(host)s returned unknown error:\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'err' : err})
-            
+
         i = 1
         inode1 = 'ABC'
         inode2 = 'DEF'
@@ -417,6 +417,6 @@ class SSH(mount.MountControl):
                 if not inode1 == inode2:
                     raise mount.MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
             i += 1
-        
+
     def random_id(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for x in range(size))

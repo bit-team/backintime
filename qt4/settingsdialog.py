@@ -91,17 +91,17 @@ class SettingsDialog( QDialog ):
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.NoFrame)
         self.tabs_widget.addTab( scrollArea, _( 'General' ) )
-        
+
         layoutWidget = QWidget(self)
         layout = QVBoxLayout(layoutWidget)
-        
+
         #select mode
         self.mode = None
         vlayout = QVBoxLayout()
         layout.addLayout( vlayout )
-        
+
         self.lbl_modes = QLabel( _( 'Mode:' ), self )
-        
+
         self.combo_modes = QComboBox( self )
         hlayout = QHBoxLayout()
         hlayout.addWidget(self.lbl_modes)
@@ -111,7 +111,7 @@ class SettingsDialog( QDialog ):
         for key in list(self.config.SNAPSHOT_MODES.keys()):
             store_modes[key] = self.config.SNAPSHOT_MODES[key][1]
         self.fill_combo( self.combo_modes, store_modes )
-        
+
         #Where to save snapshots
         group_box = QGroupBox( self )
         self.mode_local = group_box
@@ -135,7 +135,7 @@ class SettingsDialog( QDialog ):
         self.btn_snapshots_path.setMinimumSize(32,28)
         hlayout.addWidget( self.btn_snapshots_path )
         QObject.connect( self.btn_snapshots_path, SIGNAL('clicked()'), self.on_btn_snapshots_path_clicked )
-        
+
         #SSH
         group_box = QGroupBox( self )
         self.mode_ssh = group_box
@@ -150,40 +150,40 @@ class SettingsDialog( QDialog ):
         vlayout.addLayout( hlayout2 )
         hlayout3 = QHBoxLayout()
         vlayout.addLayout( hlayout3 )
-        
+
         self.lbl_ssh_host = QLabel( _( 'Host:' ), self )
         hlayout1.addWidget( self.lbl_ssh_host )
         self.txt_ssh_host = QLineEdit( self )
         hlayout1.addWidget( self.txt_ssh_host )
-        
+
         self.lbl_ssh_port = QLabel( _( 'Port:' ), self )
         hlayout1.addWidget( self.lbl_ssh_port )
         self.txt_ssh_port = QLineEdit( self )
         hlayout1.addWidget( self.txt_ssh_port )
-        
+
         self.lbl_ssh_user = QLabel( _( 'User:' ), self )
         hlayout1.addWidget( self.lbl_ssh_user )
         self.txt_ssh_user = QLineEdit( self )
         hlayout1.addWidget( self.txt_ssh_user )
-        
+
         self.lbl_ssh_path = QLabel( _( 'Path:' ), self )
         hlayout2.addWidget( self.lbl_ssh_path )
         self.txt_ssh_path = QLineEdit( self )
         QObject.connect( self.txt_ssh_path, SIGNAL('textChanged(QString)'), self.on_full_path_changed )
         hlayout2.addWidget( self.txt_ssh_path )
-        
+
         self.lbl_ssh_cipher = QLabel( _( 'Cipher:' ), self )
         hlayout3.addWidget( self.lbl_ssh_cipher )
         self.combo_ssh_cipher = QComboBox( self )
         hlayout3.addWidget( self.combo_ssh_cipher )
         self.fill_combo( self.combo_ssh_cipher, self.config.SSH_CIPHERS )
-        
+
         self.lbl_ssh_private_key_file = QLabel( _( 'Private Key:' ), self )
         hlayout3.addWidget( self.lbl_ssh_private_key_file )
         self.txt_ssh_private_key_file = QLineEdit( self )
         self.txt_ssh_private_key_file.setReadOnly( True )
         hlayout3.addWidget( self.txt_ssh_private_key_file )
-        
+
         self.btn_ssh_private_key_file = QToolButton(self)
         self.btn_ssh_private_key_file.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.btn_ssh_private_key_file.setIcon(icon.FOLDER)
@@ -192,11 +192,11 @@ class SettingsDialog( QDialog ):
         hlayout3.addWidget( self.btn_ssh_private_key_file )
         QObject.connect( self.btn_ssh_private_key_file, SIGNAL('clicked()'), self.on_btn_ssh_private_key_file_clicked )
         qt4tools.equal_indent(self.lbl_ssh_host, self.lbl_ssh_path, self.lbl_ssh_cipher)
-        
+
         #encfs
         self.mode_local_encfs = self.mode_local
         self.mode_ssh_encfs = self.mode_ssh
-        
+
 ##		#Dummy
 ##		group_box = QGroupBox( self )
 ##		self.mode_dummy = group_box
@@ -207,17 +207,17 @@ class SettingsDialog( QDialog ):
 ##
 ##		hlayout = QHBoxLayout()
 ##		vlayout.addLayout( hlayout )
-##		
+##
 ##		self.lbl_dummy_host = QLabel( _( 'Host:' ), self )
 ##		hlayout.addWidget( self.lbl_dummy_host )
 ##		self.txt_dummy_host = QLineEdit( self )
 ##		hlayout.addWidget( self.txt_dummy_host )
-##		
+##
 ##		self.lbl_dummy_port = QLabel( _( 'Port:' ), self )
 ##		hlayout.addWidget( self.lbl_dummy_port )
 ##		self.txt_dummy_port = QLineEdit( self )
 ##		hlayout.addWidget( self.txt_dummy_port )
-##		
+##
 ##		self.lbl_dummy_user = QLabel( _( 'User:' ), self )
 ##		hlayout.addWidget( self.lbl_dummy_user )
 ##		self.txt_dummy_user = QLineEdit( self )
@@ -258,13 +258,13 @@ class SettingsDialog( QDialog ):
 
         #mode change
         QObject.connect( self.combo_modes, SIGNAL('currentIndexChanged(int)'), self.on_combo_modes_changed )
-        
+
         #host, user, profile id
         group_box = QGroupBox( self )
         self.frame_advanced = group_box
         group_box.setTitle( _( 'Advanced' ) )
         layout.addWidget( group_box )
-        
+
         hlayout = QHBoxLayout( group_box )
         hlayout.addSpacing( 12 )
 
@@ -384,7 +384,7 @@ class SettingsDialog( QDialog ):
         layout.addStretch()
         scrollArea.setWidget(layoutWidget)
         scrollArea.setWidgetResizable(True)
-        
+
         #TAB: Include
         tab_widget = QWidget( self )
         self.tabs_widget.addTab( tab_widget, _( 'Include' ) )
@@ -395,7 +395,7 @@ class SettingsDialog( QDialog ):
         self.list_include.setRootIsDecorated( False )
         self.list_include.setHeaderLabels( [ _('Include files and folders'),
                                             'Count' ] )
-        
+
         self.list_include_header = self.list_include.header()
         self.list_include_header.setResizeMode( 0, QHeaderView.Stretch )
         self.list_include_header.setClickable(True)
@@ -416,11 +416,11 @@ class SettingsDialog( QDialog ):
         self.btn_include_file_add = QPushButton(icon.ADD, _('Add file'), self)
         buttons_layout.addWidget( self.btn_include_file_add )
         QObject.connect( self.btn_include_file_add, SIGNAL('clicked()'), self.on_btn_include_file_add_clicked )
-        
+
         self.btn_include_add = QPushButton(icon.ADD, _('Add folder'), self)
         buttons_layout.addWidget( self.btn_include_add )
         QObject.connect( self.btn_include_add, SIGNAL('clicked()'), self.on_btn_include_add_clicked )
-        
+
         self.btn_include_remove = QPushButton(icon.REMOVE, _('Remove'), self)
         buttons_layout.addWidget( self.btn_include_remove )
         QObject.connect( self.btn_include_remove, SIGNAL('clicked()'), self.on_btn_include_remove_clicked )
@@ -440,7 +440,7 @@ class SettingsDialog( QDialog ):
         self.list_exclude.setRootIsDecorated( False )
         self.list_exclude.setHeaderLabels( [ _('Exclude patterns, files or folders') ,
                                             'Count' ] )
-        
+
         self.list_exclude_header = self.list_exclude.header()
         self.list_exclude_header.setResizeMode( 0, QHeaderView.Stretch )
         self.list_exclude_header.setClickable(True)
@@ -461,26 +461,26 @@ class SettingsDialog( QDialog ):
         label = QLabel( ', '.join(sorted(self.config.DEFAULT_EXCLUDE)), self )
         label.setWordWrap(True)
         layout.addWidget( label )
-        
+
         buttons_layout = QHBoxLayout()
         layout.addLayout( buttons_layout )
 
         self.btn_exclude_add = QPushButton(icon.ADD, _('Add'), self)
         buttons_layout.addWidget( self.btn_exclude_add )
         QObject.connect( self.btn_exclude_add, SIGNAL('clicked()'), self.on_btn_exclude_add_clicked )
-        
+
         self.btn_exclude_file = QPushButton(icon.ADD, _('Add file'), self)
         buttons_layout.addWidget( self.btn_exclude_file )
         QObject.connect( self.btn_exclude_file, SIGNAL('clicked()'), self.on_btn_exclude_file_clicked )
-        
+
         self.btn_exclude_folder = QPushButton(icon.ADD, _('Add folder'), self)
         buttons_layout.addWidget( self.btn_exclude_folder )
         QObject.connect( self.btn_exclude_folder, SIGNAL('clicked()'), self.on_btn_exclude_folder_clicked )
-        
+
         self.btn_exclude_default = QPushButton(icon.DEFAULT_EXCLUDE, _('Add default'), self)
         buttons_layout.addWidget(self.btn_exclude_default)
         QObject.connect(self.btn_exclude_default, SIGNAL('clicked()'), self.on_btn_exclude_default_clicked)
-        
+
         self.btn_exclude_remove = QPushButton(icon.REMOVE, _('Remove'), self)
         buttons_layout.addWidget( self.btn_exclude_remove )
         QObject.connect( self.btn_exclude_remove, SIGNAL('clicked()'), self.on_btn_exclude_remove_clicked )
@@ -508,7 +508,7 @@ class SettingsDialog( QDialog ):
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.NoFrame)
         self.tabs_widget.addTab( scrollArea, _( 'Auto-remove' ) )
-        
+
         layoutWidget = QWidget(self)
         layout = QGridLayout(layoutWidget)
 
@@ -544,7 +544,7 @@ class SettingsDialog( QDialog ):
         #min free inodes
         self.cb_min_free_inodes = QCheckBox( _('If free inodes is less than:'), self)
         layout.addWidget(self.cb_min_free_inodes, 2, 0)
-        
+
         self.edit_min_free_inodes = QSpinBox(self)
         self.edit_min_free_inodes.setSuffix(' %')
         self.edit_min_free_inodes.setSingleStep( 1 )
@@ -604,12 +604,12 @@ class SettingsDialog( QDialog ):
         layout.setRowStretch( 6, 2 )
         scrollArea.setWidget(layoutWidget)
         scrollArea.setWidgetResizable(True)
-        
+
         #TAB: Options
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.NoFrame)
         self.tabs_widget.addTab( scrollArea, _( 'Options' ) )
-        
+
         layoutWidget = QWidget(self)
         layout = QVBoxLayout(layoutWidget)
 
@@ -650,7 +650,7 @@ class SettingsDialog( QDialog ):
 
         self.combo_log_level = QComboBox( self )
         hlayout.addWidget( self.combo_log_level, 1 )
-        
+
         self.combo_log_level.addItem( QIcon(), _('None'), 0 )
         self.combo_log_level.addItem( QIcon(), _('Errors'), 1 )
         self.combo_log_level.addItem( QIcon(), _('Changes & Errors'), 2 )
@@ -665,7 +665,7 @@ class SettingsDialog( QDialog ):
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.NoFrame)
         self.tabs_widget.addTab( scrollArea, _( 'Expert Options' ) )
-        
+
         layoutWidget = QWidget(self)
         layout = QVBoxLayout(layoutWidget)
 
@@ -871,7 +871,7 @@ class SettingsDialog( QDialog ):
         profile_id = str( self.combo_profiles.itemData( index ) )
         if not profile_id:
             return
-        
+
         if profile_id != self.config.get_current_profile():
             self.save_profile()
             self.config.set_current_profile( profile_id )
@@ -888,7 +888,7 @@ class SettingsDialog( QDialog ):
         self.disable_profile_changed = True
 
         self.combo_profiles.clear()
-            
+
         profiles = self.config.get_profiles_sorted_by_name()
         for profile_id in profiles:
             self.combo_profiles.addItem( self.config.get_profile_name( profile_id ), profile_id )
@@ -909,10 +909,10 @@ class SettingsDialog( QDialog ):
         #TAB: General
         #mode
         self.set_combo_value( self.combo_modes, self.config.get_snapshots_mode(), type = 'str' )
-        
+
         #local
         self.edit_snapshots_path.setText( self.config.get_snapshots_path( mode = 'local') )
-        
+
         #ssh
         self.txt_ssh_host.setText( self.config.get_ssh_host() )
         self.txt_ssh_port.setText( str(self.config.get_ssh_port()) )
@@ -920,11 +920,11 @@ class SettingsDialog( QDialog ):
         self.txt_ssh_path.setText( self.config.get_snapshots_path_ssh() )
         self.set_combo_value( self.combo_ssh_cipher, self.config.get_ssh_cipher(), type = 'str' )
         self.txt_ssh_private_key_file.setText( self.config.get_ssh_private_key_file() )
-        
+
         #local_encfs
         if self.mode == 'local_encfs':
             self.edit_snapshots_path.setText( self.config.get_local_encfs_path() )
-        
+
 ##		#dummy
 ##		self.txt_dummy_host.setText( self.config.get_dummy_host() )
 ##		self.txt_dummy_port.setText( self.config.get_dummy_port() )
@@ -964,7 +964,7 @@ class SettingsDialog( QDialog ):
 
         #TAB: Exclude
         self.list_exclude.clear()
-    
+
         for exclude in self.config.get_exclude():
             self.add_exclude( exclude )
         self.cb_exclude_files_by_size.setChecked(self.config.exclude_by_size_enabled())
@@ -1036,16 +1036,16 @@ class SettingsDialog( QDialog ):
             if not tools.check_cron_pattern(self.txt_automatic_snapshots_time_custom.text() ):
                 self.error_handler( _('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours') )
                 return False
-            
+
         #mode
         mode = str( self.combo_modes.itemData( self.combo_modes.currentIndex() ) )
         self.config.set_snapshots_mode( mode )
         mount_kwargs = {}
-        
+
         #password
         password_1 = self.txt_password_1.text()
         password_2 = self.txt_password_2.text()
-        
+
         #ssh
         ssh_host = self.txt_ssh_host.text()
         ssh_port = self.txt_ssh_port.text()
@@ -1068,14 +1068,14 @@ class SettingsDialog( QDialog ):
                             'ionice': remote_ionice,
                             'nocache': remote_nocache
                             }
-        
+
         #local-encfs settings
         local_encfs_path = self.edit_snapshots_path.text()
         if mode == 'local_encfs':
             mount_kwargs = {'path': local_encfs_path,
                             'password': password_1
                             }
-        
+
         #ssh_encfs settings
         if mode == 'ssh_encfs':
             mount_kwargs = {'host': ssh_host,
@@ -1096,7 +1096,7 @@ class SettingsDialog( QDialog ):
 ##		dummy_port = self.txt_dummy_port.text()
 ##		dummy_user = self.txt_dummy_user.text()
 ##		if mode == 'dummy':
-##			#values must have exactly the same Type (str, int or bool) 
+##			#values must have exactly the same Type (str, int or bool)
 ##			#as they are set in config or you will run into false-positive
 ##			#HashCollision warnings
 ##			mount_kwargs = {'host': dummy_host,
@@ -1104,7 +1104,7 @@ class SettingsDialog( QDialog ):
 ##							'user': dummy_user,
 ##							'password': password_1
 ##							}
-            
+
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
             #pre_mount_check
             mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self)
@@ -1120,20 +1120,20 @@ class SettingsDialog( QDialog ):
             except mount.MountException as ex:
                 self.error_handler(str(ex))
                 return False
-        
+
         #snapshots path
         self.config.set_host_user_profile(
                 self.txt_host.text(),
                 self.txt_user.text(),
                 self.txt_profile.text() )
-                
+
         if self.config.SNAPSHOT_MODES[mode][0] is None:
             snapshots_path = self.edit_snapshots_path.text()
         else:
             snapshots_path = self.config.get_snapshots_path(mode = mode, tmp_mount = True)
-            
+
         self.config.set_snapshots_path( snapshots_path, mode = mode )
-        
+
         #save ssh
         self.config.set_ssh_host(ssh_host)
         self.config.set_ssh_port(ssh_port)
@@ -1141,10 +1141,10 @@ class SettingsDialog( QDialog ):
         self.config.set_snapshots_path_ssh(ssh_path)
         self.config.set_ssh_cipher(ssh_cipher)
         self.config.set_ssh_private_key_file(ssh_private_key_file)
-        
+
         #save local_encfs
         self.config.set_local_encfs_path(local_encfs_path)
-        
+
 ##		#save dummy
 ##		self.config.set_dummy_host(dummy_host)
 ##		self.config.set_dummy_port(dummy_port)
@@ -1156,13 +1156,13 @@ class SettingsDialog( QDialog ):
         self.config.set_password(password_1, mode = mode)
         self.config.set_password(password_2, mode = mode, pw_id = 2)
 
-        #include list 
+        #include list
         self.list_include.sortItems(1, Qt.AscendingOrder)
         include_list = []
         for index in range( self.list_include.topLevelItemCount() ):
             item = self.list_include.topLevelItem( index )
             include_list.append( ( item.text(0), item.data( 0, Qt.UserRole ) ) )
-        
+
         self.config.set_include( include_list )
 
         #exclude patterns
@@ -1186,19 +1186,19 @@ class SettingsDialog( QDialog ):
         self.config.set_automatic_backup_anacron_unit(self.combo_automatic_snapshots_anacron_unit.itemData(self.combo_automatic_snapshots_anacron_unit.currentIndex() ))
 
         #auto-remove
-        self.config.set_remove_old_snapshots( 
-                        self.cb_remove_older_then.isChecked(), 
+        self.config.set_remove_old_snapshots(
+                        self.cb_remove_older_then.isChecked(),
                         self.edit_remove_older_then.value(),
                         self.combo_remove_older_then.itemData( self.combo_remove_older_then.currentIndex() ) )
-        self.config.set_min_free_space( 
-                        self.cb_min_free_space.isChecked(), 
+        self.config.set_min_free_space(
+                        self.cb_min_free_space.isChecked(),
                         self.edit_min_free_space.value(),
                         self.combo_min_free_space.itemData( self.combo_min_free_space.currentIndex() ) )
         self.config.set_min_free_inodes(
                         self.cb_min_free_inodes.isChecked(),
                         self.edit_min_free_inodes.value() )
         self.config.set_dont_remove_named_snapshots( self.cb_dont_remove_named_snapshots.isChecked() )
-        self.config.set_smart_remove( 
+        self.config.set_smart_remove(
                         self.cb_smart_remove.isChecked(),
                         self.edit_keep_all.value(),
                         self.edit_keep_one_per_day.value(),
@@ -1231,7 +1231,7 @@ class SettingsDialog( QDialog ):
         self.config.set_copy_links( self.cb_copy_links.isChecked() )
         self.config.set_rsync_options_enabled(self.cb_rsync_options.isChecked() )
         self.config.set_rsync_options(self.txt_rsync_options.text() )
-        
+
         #umount
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
             try:
@@ -1255,7 +1255,7 @@ class SettingsDialog( QDialog ):
 
         if ret_val != QDialog.Accepted:
             self.config.dict = self.config_copy_dict
-            
+
         self.config.set_current_profile( self.current_profile_org )
 
         return ret_val
@@ -1265,7 +1265,7 @@ class SettingsDialog( QDialog ):
         self.config.set_question_handler( self.question_handler )
         self.config.set_error_handler( self.error_handler )
         self.snapshots.update_snapshots_location()
-    
+
     def update_remove_older_than( self ):
         enabled = self.cb_remove_older_then.isChecked()
         self.edit_remove_older_then.setEnabled( enabled )
@@ -1362,7 +1362,7 @@ class SettingsDialog( QDialog ):
                 return
 
         self.add_exclude( pattern )
-    
+
     def on_btn_exclude_add_clicked( self ):
         ret_val = QInputDialog.getText(self, _('Exclude pattern'), str() )
         if not ret_val[1]:
@@ -1372,7 +1372,7 @@ class SettingsDialog( QDialog ):
 
         if not pattern:
             return
-    
+
         self.add_exclude_( pattern )
 
     def on_btn_exclude_file_clicked( self ):
@@ -1460,7 +1460,7 @@ class SettingsDialog( QDialog ):
         file = qt4tools.getOpenFileName(self, _('SSH private key'), start_dir)
         if file:
             self.txt_ssh_private_key_file.setText(file)
-        
+
     def on_combo_modes_changed(self, *params):
         if not params:
             index = self.combo_modes.currentIndex()
@@ -1474,7 +1474,7 @@ class SettingsDialog( QDialog ):
                 if active_mode == mode:
                     getattr(self, 'mode_%s' % mode).show()
             self.mode = active_mode
-            
+
         if self.config.mode_need_password(active_mode):
             self.lbl_password_1.setText( self.config.SNAPSHOT_MODES[active_mode][2] + ':' )
             self.frame_password_1.show()
@@ -1489,13 +1489,13 @@ class SettingsDialog( QDialog ):
                 qt4tools.equal_indent(self.lbl_password_1)
         else:
             self.frame_password_1.hide()
-            
+
         if active_mode == 'ssh_encfs':
             self.lbl_ssh_encfs_exclude_warning.show()
         else:
             self.lbl_ssh_encfs_exclude_warning.hide()
         self.updateExcludeItems()
-            
+
         enabled = active_mode in ('ssh', 'ssh_encfs')
         self.cb_run_nice_on_remote.setEnabled(enabled)
         self.cb_run_ionice_on_remote.setEnabled(enabled)
@@ -1591,7 +1591,7 @@ class RestoreConfigDialog(QDialog):
                          'encrypted you need to manually mount them first. '
                          'If you use Mode SSH you also may need to set up public key '
                          'login to the remote host%(addFuse)s.\n'
-                         'Take a look at \'man backintime\'.') 
+                         'Take a look at \'man backintime\'.')
                          % {'appName': self.config.APP_NAME, 'samplePath': samplePath,
                          'addFuse': addFuse}, self)
         label.setWordWrap(True)

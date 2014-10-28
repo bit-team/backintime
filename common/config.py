@@ -74,28 +74,28 @@ class Config( configfile.ConfigFileWithProfiles ):
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
 
-    AUTOMATIC_BACKUP_MODES = { 
-                NONE : _('Disabled'), 
-                AT_EVERY_BOOT : _('At every boot/reboot'), 
-                _5_MIN: _('Every 5 minutes'), 
-                _10_MIN: _('Every 10 minutes'), 
-                _30_MIN: _('Every 30 minutes'), 
-                _1_HOUR : _('Every hour'), 
-                _2_HOURS : _('Every 2 hours'), 
-                _4_HOURS : _('Every 4 hours'), 
-                _6_HOURS : _('Every 6 hours'), 
-                _12_HOURS : _('Every 12 hours'), 
-                CUSTOM_HOUR : _('Custom Hours'), 
-                DAY : _('Every Day'), 
+    AUTOMATIC_BACKUP_MODES = {
+                NONE : _('Disabled'),
+                AT_EVERY_BOOT : _('At every boot/reboot'),
+                _5_MIN: _('Every 5 minutes'),
+                _10_MIN: _('Every 10 minutes'),
+                _30_MIN: _('Every 30 minutes'),
+                _1_HOUR : _('Every hour'),
+                _2_HOURS : _('Every 2 hours'),
+                _4_HOURS : _('Every 4 hours'),
+                _6_HOURS : _('Every 6 hours'),
+                _12_HOURS : _('Every 12 hours'),
+                CUSTOM_HOUR : _('Custom Hours'),
+                DAY : _('Every Day'),
                 REPEATEDLY : _('Repeatedly (anacron)'),
                 UDEV : _('When drive get connected (udev)'),
-                WEEK : _('Every Week'), 
+                WEEK : _('Every Week'),
                 MONTH : _('Every Month')
                 }
 
-    REMOVE_OLD_BACKUP_UNITS = { 
-                DAY : _('Day(s)'), 
-                WEEK : _('Week(s)'), 
+    REMOVE_OLD_BACKUP_UNITS = {
+                DAY : _('Day(s)'),
+                WEEK : _('Week(s)'),
                 YEAR : _('Year(s)')
                 }
 
@@ -131,21 +131,21 @@ class Config( configfile.ConfigFileWithProfiles ):
                 'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption') )
                 ##'dummy'       : (dummytools.Dummy,        'Dummy',                'Dummy',                False )
                 }
-    
+
     SSH_CIPHERS =  {'default':    _('Default'),
-                    'aes128-ctr': _('AES128-CTR'), 
-                    'aes192-ctr': _('AES192-CTR'), 
-                    'aes256-ctr': _('AES256-CTR'), 
-                    'arcfour256': _('ARCFOUR256'), 
-                    'arcfour128': _('ARCFOUR128'), 
-                    'aes128-cbc': _('AES128-CBC'), 
-                    '3des-cbc':   _('3DES-CBC'), 
-                    'blowfish-cbc': _('Blowfish-CBC'), 
-                    'cast128-cbc': _('Cast128-CBC'), 
-                    'aes192-cbc': _('AES192-CBC'), 
-                    'aes256-cbc': _('AES256-CBC'), 
+                    'aes128-ctr': _('AES128-CTR'),
+                    'aes192-ctr': _('AES192-CTR'),
+                    'aes256-ctr': _('AES256-CTR'),
+                    'arcfour256': _('ARCFOUR256'),
+                    'arcfour128': _('ARCFOUR128'),
+                    'aes128-cbc': _('AES128-CBC'),
+                    '3des-cbc':   _('3DES-CBC'),
+                    'blowfish-cbc': _('Blowfish-CBC'),
+                    'cast128-cbc': _('Cast128-CBC'),
+                    'aes192-cbc': _('AES192-CBC'),
+                    'aes256-cbc': _('AES256-CBC'),
                     'arcfour':    _('ARCFOUR') }
-    
+
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
@@ -225,14 +225,14 @@ class Config( configfile.ConfigFileWithProfiles ):
                 self.remap_key( 'snapshots.min_free_space.value', 'profile1.snapshots.min_free_space.value' )
                 self.remap_key( 'snapshots.min_free_space.unit', 'profile1.snapshots.min_free_space.unit' )
                 self.remap_key( 'snapshots.dont_remove_named_snapshots', 'profile1.snapshots.dont_remove_named_snapshots' )
-                
+
             if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 4:
                 # version 4 uses as path backintime/machine/user/profile_id
                 # but must be able to read old paths
                 profiles = self.get_profiles()
                 self.set_bool_value( 'update.other_folders', True )
                 logger.info( "Update to config version 4: other snapshot locations" )
-                                        
+
                 for profile_id in profiles:
                     old_folder = self.get_snapshots_path( profile_id )
                     other_folder = os.path.join( old_folder, 'backintime' )
@@ -240,7 +240,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                     self.set_str_value( other_folder_key, other_folder )
                     tag = str( random.randint(100, 999) )
                     logger.info( "Random tag for profile %s: %s" %( profile_id, tag ) )
-                    self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
+                    self.set_profile_str_value( 'snapshots.tag', tag, profile_id )
 
             if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 5:
                 logger.info( "Update to config version 5: other snapshot locations" )
@@ -263,7 +263,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
             self.set_int_value( 'config.version', self.CONFIG_VERSION )
             self.save()
-        
+
         self.current_hash_id = 'local'
         self.pw = None
         self.force_use_checksum = False
@@ -304,7 +304,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 if path == snapshots_path:
                     self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('You can\'t include backup folder !') )
                     return False
-            
+
                 if len( path ) >= len( snapshots_path2 ):
                     if path[ : len( snapshots_path2 ) ] == snapshots_path2:
                         self.notify_error( _('Profile: "%s"') %  self.get_current_profile() + '\n' + _('You can\'t include a backup sub-folder !') )
@@ -352,7 +352,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
         else:
             host, user, profile = self.get_host_user_profile( profile_id )
-            return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile ) 
+            return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile )
 
     def set_snapshots_path( self, value, profile_id = None, mode = None ):
         """Sets the snapshot path to value, initializes, and checks it"""
@@ -361,7 +361,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         if profile_id == None:
             profile_id = self.get_current_profile()
-            
+
         if mode is None:
             mode = self.get_snapshots_mode( profile_id )
 
@@ -374,7 +374,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         host, user, profile = self.get_host_user_profile( profile_id )
 
-        full_path = os.path.join( value, 'backintime', host, user, profile ) 
+        full_path = os.path.join( value, 'backintime', host, user, profile )
         if not os.path.isdir( full_path ):
             print("Create folder: %s" % full_path)
             tools.make_dirs( full_path )
@@ -382,32 +382,32 @@ class Config( configfile.ConfigFileWithProfiles ):
                 self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % value ) )
                 return False
 
-            path1 = os.path.join( value, 'backintime' ) 
+            path1 = os.path.join( value, 'backintime' )
             os.system( "chmod a+rwx \"%s\"" % path1 )
 
-            path1 = os.path.join( value, 'backintime', host ) 
+            path1 = os.path.join( value, 'backintime', host )
             os.system( "chmod a+rwx \"%s\"" % path1 )
-        
+
         #Test write access for the folder
         check_path = os.path.join( full_path, 'check' )
         tools.make_dirs( check_path )
         if not os.path.isdir( check_path ):
             self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % full_path ) )
             return False
-        
+
         os.rmdir( check_path )
         if self.SNAPSHOT_MODES[mode][0] is None:
             self.set_profile_str_value( 'snapshots.path', value, profile_id )
         return True
-        
+
     def get_snapshots_mode( self, profile_id = None ):
         #?Use mode (or backend) for this snapshot. Look at 'man backintime' 
         #?section 'Modes'.;local|local_encfs|ssh|ssh_encfs
         return self.get_profile_str_value( 'snapshots.mode', 'local', profile_id )
-        
+
     def set_snapshots_mode( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.mode', value, profile_id )
-        
+
     def get_snapshots_symlink(self, profile_id = None, tmp_mount = False):
         if profile_id is None:
             profile_id = self.current_profile_id
@@ -415,25 +415,25 @@ class Config( configfile.ConfigFileWithProfiles ):
         if tmp_mount:
             symlink = 'tmp_%s' % symlink
         return symlink
-        
+
     def set_current_hash_id(self, hash_id):
         self.current_hash_id = hash_id
-        
+
     def get_hash_collision(self):
         #?Internal value used to prevent hash collisions on mountpoints. Do not change this.
         return self.get_int_value( 'global.hash_collision', 0 )
-        
+
     def increment_hash_collision(self):
         value = self.get_hash_collision() + 1
         self.set_int_value( 'global.hash_collision', value )
-        
+
     def get_snapshots_path_ssh( self, profile_id = None ):
         #?Snapshot path on remote host. If the path is relative (no leading '/') 
         #?it will start from remote Users homedir. An empty path will be replaced 
         #?with './'. This path must contain a folderstructure like 
         #?'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute or relative path
         return self.get_profile_str_value( 'snapshots.ssh.path', '', profile_id )
-        
+
     def get_snapshots_full_path_ssh( self, profile_id = None, version = None ):
         '''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
         if version is None:
@@ -445,7 +445,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             return os.path.join( path, 'backintime' )
         else:
             host, user, profile = self.get_host_user_profile( profile_id )
-            return os.path.join( path, 'backintime', host, user, profile ) 
+            return os.path.join( path, 'backintime', host, user, profile )
 
     def set_snapshots_path_ssh( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.ssh.path', value, profile_id )
@@ -482,7 +482,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_ssh_user( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.ssh.user', value, profile_id )
-        
+
     def get_ssh_host_port_user_path_cipher(self, profile_id = None ):
         host = self.get_ssh_host(profile_id)
         port = self.get_ssh_port(profile_id)
@@ -492,7 +492,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         if not path:
             path = './'
         return (host, port, user, path, cipher)
-        
+
     def get_ssh_private_key_file(self, profile_id = None):
         ssh = self.get_ssh_private_key_folder()
         default = ''
@@ -510,16 +510,16 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_ssh_private_key_folder(self):
         return os.path.join(os.path.expanduser('~'), '.ssh')
-    
+
     def set_ssh_private_key_file( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.ssh.private_key_file', value, profile_id )
-        
+
     #ENCFS
     def get_local_encfs_path( self, profile_id = None ):
         #?Where to save snapshots in mode 'local_encfs'. The encrypted path must contian 
         #?a folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute path
         return self.get_profile_str_value( 'snapshots.local_encfs.path', '', profile_id )
-    
+
     def set_local_encfs_path( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.local_encfs.path', value, profile_id )
 
@@ -584,7 +584,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)
         self.pw.set_password(password, profile_id, mode, pw_id)
-        
+
     def mode_need_password(self, mode, pw_id = 1):
         need_pw = self.SNAPSHOT_MODES[mode][pw_id + 1]
         if need_pw is False:
@@ -636,7 +636,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         value = self.get_profile_str_value( 'snapshots.other_folders', '', profile_id )
         if not value:
             return []
-            
+
         paths = []
 
         for item in value.split(':'):
@@ -648,7 +648,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             paths.append( ( path ) )
 
         return paths
-    
+
     def get_include_v4( self, profile_id = None ):
         #?!ignore this in manpage
         value = self.get_profile_str_value( 'snapshots.include_folders', '', profile_id )
@@ -845,23 +845,23 @@ class Config( configfile.ConfigFileWithProfiles ):
                  self.get_profile_int_value( 'snapshots.remove_old_snapshots.value', 10, profile_id ),
                  #?20 = days\n30 = weeks\n80 = years;20|30|80;80
                  self.get_profile_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR, profile_id ) )
-    
+
     def keep_only_one_snapshot( self, profile_id = None ):
         #?NOT YET IMPLEMENTED. Remove all snapshots but one.
         return self.get_profile_bool_value( 'snapshots.keep_only_one_snapshot.enabled', False, profile_id )
-    
+
     def set_keep_only_one_snapshot( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.keep_only_one_snapshot.enabled', value, profile_id )
-    
+
     def is_remove_old_snapshots_enabled( self, profile_id = None ):
         return self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id )
-    
+
     def get_remove_old_snapshots_date( self, profile_id = None ):
         enabled, value, unit = self.get_remove_old_snapshots( profile_id )
         if not enabled:
             return datetime.date( 1, 1, 1 )
 
-        if unit == self.DAY: 
+        if unit == self.DAY:
             date = datetime.date.today()
             date = date - datetime.timedelta( days = value )
             return date
@@ -870,11 +870,11 @@ class Config( configfile.ConfigFileWithProfiles ):
             date = datetime.date.today()
             date = date - datetime.timedelta( days = date.weekday() + 7 * value )
             return date
-        
+
         if unit == self.YEAR:
             date = datetime.date.today()
             return date.replace( day = 1, year = date.year - value )
-        
+
         return datetime.date( 1, 1, 1 )
 
     def set_remove_old_snapshots( self, enabled, value, unit, profile_id = None ):
@@ -890,7 +890,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                  self.get_profile_int_value( 'snapshots.min_free_space.value', 1, profile_id ),
                  #?10 = MB\n20 = GB;10|20;20
                  self.get_profile_int_value( 'snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id ) )
-    
+
     def is_min_free_space_enabled( self, profile_id = None ):
         return self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id )
 
@@ -932,7 +932,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_dont_remove_named_snapshots( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.dont_remove_named_snapshots', value, profile_id )
-    
+
     def get_smart_remove( self, profile_id = None ):
                  #?Run smart_remove to clean up old snapshots after a new snapshot was created.
         return ( self.get_profile_bool_value( 'snapshots.smart_remove', False, profile_id ),
@@ -951,7 +951,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_day', keep_one_per_day, profile_id )
         self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_week', keep_one_per_week, profile_id )
         self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_month', keep_one_per_month, profile_id )
-    
+
     def is_notify_enabled( self, profile_id = None ):
         #?Display notifications (errors, warnings) through libnotify.
         return self.get_profile_bool_value( 'snapshots.notify.enabled', True, profile_id )
@@ -1234,7 +1234,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         dirname, basename = os.path.split(self.get_anacrontab())
         for file in os.listdir(dirname):
             if file.startswith(basename):
-                yield os.path.join(dirname, file) 
+                yield os.path.join(dirname, file)
 
     def get_anacron_spool(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
@@ -1276,11 +1276,11 @@ class Config( configfile.ConfigFileWithProfiles ):
         return path
 
     def is_configured( self, profile_id = None ):
-        '''Checks if the program is configured''' 
+        '''Checks if the program is configured'''
         return bool(self.get_snapshots_path(profile_id) and self.get_include(profile_id))
-    
+
     def can_backup( self, profile_id = None ):
-        '''Checks if snapshots_path exists''' 
+        '''Checks if snapshots_path exists'''
         if not self.is_configured( profile_id ):
             return False
 
@@ -1336,7 +1336,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def setup_cron( self ):
         system_entry_message = "#Back In Time system entry, this will be edited by the gui:"
-        
+
         """We have to check if the system_entry_message is in use,
         if not then the entries are most likely from Back In Time 0.9.26
         or earlier."""
@@ -1346,7 +1346,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             This is the old behaviour"""
             print("Clearing all Back In Time entries")
             os.system( "crontab -l | grep -v backintime | crontab -" )
-        
+
         print("Clearing system Back In Time entries")
         os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab -" % system_entry_message )
 
@@ -1357,7 +1357,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         empty = True
         uuid_tmp_fd = None
         profiles = self.get_profiles()
-        
+
         try:
             for profile_id in profiles:
                 profile_name = self.get_profile_name( profile_id )
@@ -1377,7 +1377,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 hour = self.get_automatic_backup_time(profile_id) / 100;
                 minute = self.get_automatic_backup_time(profile_id) % 100;
                 day = self.get_automatic_backup_day(profile_id)
-                weekday = self.get_automatic_backup_weekday(profile_id)	
+                weekday = self.get_automatic_backup_weekday(profile_id)
 
                 if self.AT_EVERY_BOOT == backup_mode:
                     cron_line = 'echo "{msg}\n@reboot {cmd}"'

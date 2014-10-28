@@ -44,7 +44,7 @@ if __name__ == '__main__':
         pw = password.Password(cfg)
         print(pw.get_password(None, profile_id, mode))
         sys.exit(0)
-    
+
     #temp mode
     fifo = password_ipc.FIFO(temp_file)
     pw_base64 = fifo.read(5)

@@ -165,7 +165,7 @@ def start_app( app_name = 'backintime', extra_args = [] ):
     skip = False
     index = 0
     keep_mount = False
-    
+
     for arg in sys.argv[ 1 : ]:
         index = index + 1
 
@@ -275,11 +275,11 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                 if not keep_mount:
                     _umount(cfg)
             sys.exit(0)
-            
+
         if arg == '--keep-mount':
             keep_mount = True
             continue
-            
+
         if arg == '--unmount':
             _mount(cfg)
             _umount(cfg)
@@ -359,13 +359,13 @@ def start_app( app_name = 'backintime', extra_args = [] ):
                         if not path:
                             break
                         list_.append(path)
-                
+
                 _mount(cfg)
                 decode = encfstools.Decode(cfg)
                 ret = decode.list(list_)
                 decode.close()
                 _umount(cfg)
-                
+
                 print('\n'.join(ret), file=force_stdout)
                 sys.exit(0)
 
@@ -376,14 +376,14 @@ def start_app( app_name = 'backintime', extra_args = [] ):
             what = None
             where = None
             snapshot_id = None
-            
+
             try:
                 what = sys.argv[index + 1]
                 where = sys.argv[index + 2]
                 snapshot_id = sys.argv[index + 3]
             except IndexError:
                 pass
-            
+
             _mount(cfg)
             cli.restore(cfg, snapshot_id, what, where)
             _umount(cfg)

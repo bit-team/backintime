@@ -108,7 +108,7 @@ class Qt4SysTrayIcon:
         logger.info( "[qt4systrayicon] begin loop" )
 
         self.qapp.exec_()
-        
+
         logger.info( "[qt4systrayicon] end loop" )
 
         self.prepare_exit()
@@ -122,7 +122,7 @@ class Qt4SysTrayIcon:
         message = self.snapshots.get_take_snapshot_message()
         if message is None and self.last_message is None:
             message = ( 0, _('Working...') )
-            
+
         if not message is None:
             if message != self.last_message:
                 self.last_message = message
@@ -141,13 +141,13 @@ class Qt4SysTrayIcon:
                 self.progressBar.setValue(percent)
                 self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
                 self.status_icon.setIcon(QIcon(self.pixmap))
-            
+
             self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)) )
             self.menuProgress.setVisible(True)
         else:
             self.status_icon.setIcon(self.icon.BIT_LOGO)
             self.menuProgress.setVisible(False)
-        
+
 
     def getMenuProgress(self, pg):
         d = (('sent',   _('Sent:')), \
@@ -158,7 +158,7 @@ class Qt4SysTrayIcon:
             if not value:
                 continue
             yield txt + ' ' + value
-    
+
     def onStartBIT(self):
         proc = subprocess.Popen(['backintime-qt4', '&'])
 

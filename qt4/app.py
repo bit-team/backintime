@@ -89,13 +89,13 @@ class MainWindow( QMainWindow ):
 
         self.btn_remove_snapshot = self.main_toolbar.addAction(icon.REMOVE_SNAPSHOT, _('Remove Snapshot'))
         QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
-    
+
         self.btn_snapshot_log_view = self.main_toolbar.addAction(icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'))
         QObject.connect( self.btn_snapshot_log_view, SIGNAL('triggered()'), self.on_btn_snapshot_log_view_clicked )
-    
+
         self.btn_log_view = self.main_toolbar.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
         QObject.connect( self.btn_log_view, SIGNAL('triggered()'), self.on_btn_log_view_clicked )
-    
+
         self.main_toolbar.addSeparator()
 
         self.btn_settings = self.main_toolbar.addAction(icon.SETTINGS, _('Settings'))
@@ -357,7 +357,7 @@ class MainWindow( QMainWindow ):
         main_splitter_right_w = self.config.get_int_value( 'qt4.main_window.main_splitter_right_w', 450 )
         sizes = [ main_splitter_left_w, main_splitter_right_w ]
         self.main_splitter.setSizes( sizes )
-        
+
         second_splitter_left_w = self.config.get_int_value( 'qt4.main_window.second_splitter_left_w', 150 )
         second_splitter_right_w = self.config.get_int_value( 'qt4.main_window.second_splitter_right_w', 300 )
         sizes = [ second_splitter_left_w, second_splitter_right_w ]
@@ -381,12 +381,12 @@ class MainWindow( QMainWindow ):
 
         if not cfg.is_configured():
             return
-    
+
         if self.snapshots.has_old_snapshots():
             settingsdialog.SettingsDialog( self ).update_snapshots_location()
 
         profile_id = cfg.get_current_profile()
-        
+
         #mount
         try:
             mnt = mount.Mount(cfg = self.config, profile_id = profile_id, parent = self)
@@ -395,7 +395,7 @@ class MainWindow( QMainWindow ):
             messagebox.critical( self, str(ex) )
         else:
             self.config.set_current_hash_id(hash_id)
-        
+
         if not cfg.can_backup( profile_id ):
             messagebox.critical( self, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
@@ -414,7 +414,7 @@ class MainWindow( QMainWindow ):
         QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
 
         self.force_wait_lock_counter = 0
-    
+
         self.timer_raise_application = QTimer( self )
         self.timer_raise_application.setInterval( 1000 )
         self.timer_raise_application.setSingleShot( False )
@@ -443,7 +443,7 @@ class MainWindow( QMainWindow ):
         sizes = self.main_splitter.sizes()
         self.config.set_int_value( 'qt4.main_window.main_splitter_left_w', sizes[0] )
         self.config.set_int_value( 'qt4.main_window.main_splitter_right_w', sizes[1] )
-    
+
         sizes = self.second_splitter.sizes()
         self.config.set_int_value( 'qt4.main_window.second_splitter_left_w', sizes[0] )
         self.config.set_int_value( 'qt4.main_window.second_splitter_right_w', sizes[1] )
@@ -465,7 +465,7 @@ class MainWindow( QMainWindow ):
             mnt.umount(self.config.current_hash_id)
         except mount.MountException as ex:
             messagebox.critical( self, str(ex) )
-            
+
         self.config.save()
 
         event.accept()
@@ -517,7 +517,7 @@ class MainWindow( QMainWindow ):
                 self.edit_current_path.setText( self.path )
 
             self.update_profile()
-            
+
     def remount( self, new_profile_id, old_profile_id):
         try:
             mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id, parent = self)
@@ -587,14 +587,14 @@ class MainWindow( QMainWindow ):
         raise_cmd = self.app_instance.raise_command()
         if raise_cmd is None:
             return
-        
+
         print("Raise cmd: " + raise_cmd)
         self.qapp.alert( self )
 
     def update_take_snapshot( self, force_wait_lock = False ):
         if force_wait_lock:
             self.force_wait_lock_counter = 10
-        
+
         busy = self.snapshots.is_busy()
         if busy:
             self.force_wait_lock_counter = 0
@@ -623,7 +623,7 @@ class MainWindow( QMainWindow ):
             force_update = True
 
             self.btn_take_snapshot.setEnabled( True )
-            
+
             snapshots_list = self.snapshots.get_snapshots_and_other_list()
 
             if snapshots_list != self.snapshots_list:
@@ -767,7 +767,7 @@ class MainWindow( QMainWindow ):
         self.update_files_view( 2 )
 
     def time_line_get_snapshot_id( self, item ):
-        return str( item.data( 0, Qt.UserRole ) ) 
+        return str( item.data( 0, Qt.UserRole ) )
 
     def time_line_update_snapshot_name( self, item ):
         snapshot_id = self.time_line_get_snapshot_id( item )
@@ -797,7 +797,7 @@ class MainWindow( QMainWindow ):
         self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/' )
 
         if get_snapshots_list:
-            self.snapshots_list = self.snapshots.get_snapshots_and_other_list() 
+            self.snapshots_list = self.snapshots.get_snapshots_and_other_list()
 
         groups = []
         now = datetime.date.today()
@@ -881,7 +881,7 @@ class MainWindow( QMainWindow ):
         ret_val = QInputDialog.getText(self, _('Snapshot Name'), str() )
         if not ret_val[1]:
             return
-        
+
         new_name = ret_val[0].strip()
         if name == new_name:
             return
@@ -909,7 +909,7 @@ class MainWindow( QMainWindow ):
                         if len(self.time_line_get_snapshot_id(item)) > 1]
         if not snapshot_ids:
             return
-        
+
         if QMessageBox.Yes != messagebox.warningYesNo( self, \
                             _('Are you sure you want to remove the snapshot:\n%s') % \
                             '\n'.join([self.snapshots.get_snapshot_display_name( snapshot_id ) \
@@ -1105,7 +1105,7 @@ class MainWindow( QMainWindow ):
             selected_file, idx = self.file_selected()
 
         self.selected_file = selected_file
-    
+
         #update files view
         full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
 

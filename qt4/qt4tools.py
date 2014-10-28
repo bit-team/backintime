@@ -114,7 +114,7 @@ def hidden_files(parent):
     return False
 
 class MyTreeView(QTreeView):
-    """subclass QTreeView to emit a SIGNAL myCurrentIndexChanged 
+    """subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
     if the SLOT currentChanged is called"""
     def currentChanged(self, *args):
         self.emit(SIGNAL('myCurrentIndexChanged'), *args)

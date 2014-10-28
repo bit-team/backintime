@@ -52,13 +52,13 @@ class DriveInfo( configfile.ConfigFile ):
 
     def support_hardlinks( self ):
         return self.get_bool_value( 'hardlinks', False )
-        
+
     def support_permissions( self ):
         return self.get_bool_value( 'permissions', False )
-        
+
     def support_usergroup( self ):
         return self.get_bool_value( 'usergroup', False )
-        
+
     def _get_driveinfo_file_( self ):
         return os.path.join( self.path, 'driveinfo' )
 

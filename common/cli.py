@@ -107,7 +107,7 @@ class RestoreDialog(object):
         self.snapshot_id = snapshot_id
         self.what = what
         self.where = where
-        
+
         self.log_file = self.config.get_restore_log_file()
         if os.path.exists(self.log_file):
             os.remove(self.log_file)
