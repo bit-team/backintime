@@ -17,23 +17,33 @@
 
 
 import os
-import os.path
 import time
+import fcntl
 
-
-#class used to handle one application instance mechanism
 class ApplicationInstance:
+    '''class used to handle one application instance mechanism
+    '''
 
-    #specify the file used to save the application instance pid
-    def __init__( self, pid_file, auto_exit = True ):
+    def __init__( self, pid_file, auto_exit = True, flock = False ):
+        '''specify the file used to save the application instance pid
+        '''
         self.pid_file = pid_file
+        self.flock_file = None
+        if flock:
+            self.flockExclusiv()
 
         if auto_exit:
             if self.check( True ):
                 self.start_application()
 
-    #check if the current application is already running, returns True if this is the application instance
+    def __del__(self):
+        '''unlock and clean up
+        '''
+        self.flockUnlock()
+
     def check( self, auto_exit = False ):
+        '''check if the current application is already running, returns True if this is the application instance
+        '''
         #check if the pidfile exists
         if not os.path.isfile( self.pid_file ):
             return True
@@ -62,7 +72,7 @@ class ApplicationInstance:
 
         #check if the process has the same procname
         with open('/proc/%s/cmdline' % pid, 'r') as file:
-            if not procname == file.read().strip('\n'):
+            if procname and not procname == file.read().strip('\n'):
                 return True
 
         if auto_exit:
@@ -72,8 +82,9 @@ class ApplicationInstance:
 
         return False
 
-    #called when the single instance starts to save it's pid
     def start_application( self ):
+        '''called when the single instance starts to save it's pid
+        '''
         pid = str(os.getpid())
         procname = ''
         try:
@@ -84,13 +95,33 @@ class ApplicationInstance:
         with open( self.pid_file, 'wt' ) as file:
             file.write( pid + '\n' + procname )
 
-    #called when the single instance exit ( remove pid file )
+        self.flockUnlock()
+
     def exit_application( self ):
+        '''called when the single instance exit ( remove pid file )
+        '''
         try:
             os.remove( self.pid_file )
         except:
             pass
 
+    def flockExclusiv(self):
+        '''create an exclusive lock to block a second instance while
+        the first instance is starting.
+        '''
+        self.flock_file = open(self.pid_file + '.flock', 'w')
+        fcntl.flock(self.flock_file, fcntl.LOCK_EX)
+
+    def flockUnlock(self):
+        '''remove the exclusive lock. Second instance can now continue
+        but should find it self to be obsolet.
+        '''
+        if self.flock_file:
+            fcntl.fcntl(self.flock_file, fcntl.LOCK_UN)
+            self.flock_file.close()
+            if os.path.exists(self.flock_file.name):
+                os.remove(self.flock_file.name)
+        self.flock_file = None
 
 if __name__ == '__main__':
     #create application instance

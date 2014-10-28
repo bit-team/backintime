@@ -17,15 +17,15 @@
 
 
 import os
-import os.path
 import time
 
-
-#class used to handle one application instance mechanism
 class GUIApplicationInstance:
-
-    #specify the base for control files
+    '''class used to handle one application instance mechanism
+    '''
+    #TODO: check if we could subclass ApplicationInstance
     def __init__( self, base_control_file, raise_cmd = '' ):
+        '''specify the base for control files
+        '''
         self.pid_file = base_control_file + '.pid'
         self.raise_file = base_control_file + '.raise'
         self.raise_cmd = raise_cmd
@@ -39,8 +39,9 @@ class GUIApplicationInstance:
         self.check( raise_cmd )
         self.start_application()
 
-    #check if the current application is already running
     def check( self, raise_cmd ):
+        '''check if the current application is already running
+        '''
         #check if the pidfile exists
         if not os.path.isfile( self.pid_file ):
             return
@@ -69,7 +70,7 @@ class GUIApplicationInstance:
 
         #check if the process has the same procname
         with open('/proc/%s/cmdline' % pid, 'r') as file:
-            if not procname == file.read().strip('\n'):
+            if procname and not procname == file.read().strip('\n'):
                 return
 
         #exit the application
@@ -84,8 +85,9 @@ class GUIApplicationInstance:
 
         exit(0) #exit raise an exception so don't put it in a try/except block
 
-    #called when the single instance starts to save it's pid
     def start_application( self ):
+        '''called when the single instance starts to save it's pid
+        '''
         pid = str(os.getpid())
         procname = ''
         try:
@@ -96,16 +98,18 @@ class GUIApplicationInstance:
         with open( self.pid_file, 'wt' ) as file:
             file.write( pid + '\n' + procname )
 
-    #called when the single instance exit ( remove pid file )
     def exit_application( self ):
+        '''called when the single instance exit ( remove pid file )
+        '''
         try:
             os.remove( self.pid_file )
         except:
             pass
 
-    #check if the application must to be raised
-    #return None if no raise needed, or a string command to raise
     def raise_command( self ):
+        '''check if the application must to be raised
+           return None if no raise needed, or a string command to raise
+        '''
         ret_val = None
 
         try:
@@ -117,4 +121,3 @@ class GUIApplicationInstance:
             pass
 
         return ret_val
-

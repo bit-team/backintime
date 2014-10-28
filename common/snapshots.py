@@ -514,7 +514,7 @@ class Snapshots:
         self.restore_callback( callback, ok, "chmod %s %04o" % ( path, info[0] ) )
 
     def restore( self, snapshot_id, path, callback = None, restore_to = '' ):
-        instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False )
+        instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False, flock = True)
         if instance.check():
             instance.start_application()
         else:
@@ -820,7 +820,7 @@ class Snapshots:
         elif not force and not self.config.is_backup_scheduled():
             logger.info('Profile "%s" is not scheduled to run now.' % self.config.get_profile_name())
         else:
-            instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
+            instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False, flock = True)
             restore_instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False )
             if not instance.check():
                 logger.warning( 'A backup is already running' )
@@ -830,7 +830,7 @@ class Snapshots:
             else:
                 if self.config.is_no_on_battery_enabled () and not tools.power_status_available():
                     logger.warning( 'Backups disabled on battery but power status is not available' )
-                                
+
                 instance.start_application()
                 logger.info( 'Lock' )
 
