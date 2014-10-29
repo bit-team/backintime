@@ -1,4 +1,5 @@
 $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
+  * use flock to prevent two instances running at the same time
   * restore config dialog added (https://launchpad.net/bugs/480391)
   * inhibit suspend/hibernate while take_snapshot or restore
   * use more reliable code for get_user
@@ -41,4 +42,4 @@ $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
   * add shortcuts (https://bugs.launchpad.net/backintime/+bug/686694)
   * add menubar (https://bugs.launchpad.net/backintime/+bug/528851)
   * port KDE4 GUI to pure Qt4 to replace both KDE4 and Gnome GUI
- -- Germar Reitze <germar.reitze@gmail.com>  Fri, 24 Oct 2014 21:30:21 +0200
+ -- Germar Reitze <germar.reitze@gmail.com>  Wed, 29 Oct 2014 20:11:32 +0100
