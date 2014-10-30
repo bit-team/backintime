@@ -1620,6 +1620,15 @@ class RestoreConfigDialog(QDialog):
         self.expandAll(os.path.expanduser('~'))
         layout.addWidget(self.treeView)
 
+        #context menu
+        self.treeView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.connect(self.treeView, SIGNAL('customContextMenuRequested(const QPoint&)'), self.onContextMenu)
+        self.contextMenu = QMenu(self)
+        self.btnShowHidden = self.contextMenu.addAction(icon.SHOW_HIDDEN, _('Show hidden files'))
+        self.btnShowHidden.setCheckable(True)
+        self.connect(self.btnShowHidden, SIGNAL('toggled(bool)'), self.onBtnShowHidden)
+
+        #colors
         self.colorRed = QPalette()
         self.colorRed.setColor(QPalette.WindowText, QColor(205, 0, 0))
         self.colorGreen = QPalette()
@@ -1757,6 +1766,15 @@ class RestoreConfigDialog(QDialog):
         """scan is done. Delete the wait indicator
         """
         self.wait.deleteLater()
+
+    def onContextMenu(self, point):
+        self.contextMenu.exec_(self.treeView.mapToGlobal(point))
+
+    def onBtnShowHidden(self, checked):
+        if checked:
+            self.treeViewFilterProxy.setFilterRegExp(r'')
+        else:
+            self.treeViewFilterProxy.setFilterRegExp(r'^[^\.]')
 
     def accept(self):
         """handle over the dict from the selected config. The dict contains
