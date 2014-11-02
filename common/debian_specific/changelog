@@ -1,3 +1,5 @@
 $BACKINTIME ($VERSION~$RELEASE) $RELEASE; urgency=low
+  * use fingerprint to check if ssh key was unlocked correctly (https://answers.launchpad.net/questions/256408)
+  * add fallback method to get UUID (https://answers.launchpad.net/questions/254140)
   * Fix bug: 'Attempt to unlock mutex that was not locked'... this time for good
- -- BIT Team <dan@le-web.org>  Thu, 09 Oct 2014 21:14:29 +0200
+ -- Germar Reitze <germar.reitze@gmail.com>  Sun, 02 Nov 2014 21:01:51 +0100
