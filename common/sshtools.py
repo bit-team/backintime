@@ -85,7 +85,15 @@ class SSH(mount.MountControl):
         self.ssh_options = ['-p', str(self.port)]
         self.ssh_options += ['-o', 'ServerAliveInterval=240']
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
-        
+
+        self.private_key_fingerprint = tools.getSshKeyFingerprint(self.private_key_file)
+        if not self.private_key_fingerprint:
+            logger.warning('Couldn\'t get fingerprint for private key %(path)s. '
+                           'Most likely because the public key %(path)s.pub wasn\'t found. '
+                           'Using fallback to private keys path instead. '
+                           'But this can make troubles with passphrase-less keys.' 
+                           %{'path': self.private_key_file})
+            self.private_key_fingerprint = self.private_key_file
         self.unlock_ssh_agent()
         
     def _mount(self):
@@ -152,7 +160,7 @@ class SSH(mount.MountControl):
         env['ASKPASS_MODE'] = self.mode
         
         output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
-        if not output.find(self.private_key_file) >= 0:
+        if not output.find(self.private_key_fingerprint) >= 0:
             password_available = any([self.config.get_password_save(self.profile_id),
                                       self.config.get_password_use_cache(self.profile_id),
                                       not self.password is None
@@ -190,7 +198,7 @@ class SSH(mount.MountControl):
                     thread.stop()
                     
             output = subprocess.Popen(['ssh-add', '-l'], stdout = subprocess.PIPE).communicate()[0]
-            if not output.find(self.private_key_file) >= 0:
+            if not output.find(self.private_key_fingerprint) >= 0:
                 raise mount.MountException( _('Could not unlock ssh private key. Wrong password or password not available for cron.'))
 
     def check_fuse(self):
