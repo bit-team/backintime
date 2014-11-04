@@ -194,6 +194,9 @@ class MainWindow( QMainWindow ):
 
         self.btn_restore_menu = self.files_view_toolbar.addAction(icon.RESTORE, _('Restore'))
         self.btn_restore_menu.setMenu(self.menu_restore)
+        self.btn_restore_menu.setToolTip( _('Restore selected file or folder.\n'
+                                            'If this button is grayed out this is most likely '
+                                            'because "Now" is selected in left hand snapshots list.'))
         QObject.connect( self.btn_restore_menu, SIGNAL('triggered()'), self.restore_this )
 
         self.btn_snapshots = self.files_view_toolbar.addAction(icon.SNAPSHOTS, _('Snapshots'))
@@ -794,7 +797,8 @@ class MainWindow( QMainWindow ):
 
     def update_time_line( self, get_snapshots_list = True ):
         self.list_time_line.clear()
-        self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/' )
+        self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/',
+                            tooltip = _('This is NOT a snapshot but a live view of your local files') )
 
         if get_snapshots_list:
             self.snapshots_list = self.snapshots.get_snapshots_and_other_list()
