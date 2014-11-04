@@ -196,7 +196,7 @@ class MainWindow( QMainWindow ):
         self.btn_restore_menu.setMenu(self.menu_restore)
         self.btn_restore_menu.setToolTip( _('Restore selected file or folder.\n'
                                             'If this button is grayed out this is most likely '
-                                            'because "Now" is selected in left hand snapshots list.'))
+                                            'because "%(now)s" is selected in left hand snapshots list.') % {'now': _('Now')} )
         QObject.connect( self.btn_restore_menu, SIGNAL('triggered()'), self.restore_this )
 
         self.btn_snapshots = self.files_view_toolbar.addAction(icon.SNAPSHOTS, _('Snapshots'))
