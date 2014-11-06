@@ -33,18 +33,18 @@ import qt4tools
 _=gettext.gettext
 
 
-def restore( parent, snapshot_id, what, where = '' ):
+def restore( parent, snapshot_id, what, where = '', **kwargs ):
     if where is None:
         where = qt4tools.getExistingDirectory( parent, _('Restore to ...') )
         if not where:
             return
         where = parent.config.prepare_path( where )
 
-    RestoreDialog(parent, snapshot_id, what, where).exec_()
+    RestoreDialog(parent, snapshot_id, what, where, **kwargs).exec_()
 
 
 class RestoreDialog( QDialog ):
-    def __init__( self, parent, snapshot_id, what, where = '' ):
+    def __init__( self, parent, snapshot_id, what, where = '', **kwargs ):
         QDialog.__init__( self, parent )
         self.resize( 600, 500 )
 
@@ -54,6 +54,7 @@ class RestoreDialog( QDialog ):
         self.snapshot_id = snapshot_id
         self.what = what
         self.where = where
+        self.kwargs = kwargs
         import icon
 
         self.log_file = self.config.get_restore_log_file()
@@ -89,6 +90,6 @@ class RestoreDialog( QDialog ):
     def exec_(self):
         self.show()
         QApplication.processEvents()
-        self.snapshots.restore( self.snapshot_id, self.what, self.callback, self.where )
+        self.snapshots.restore( self.snapshot_id, self.what, self.callback, self.where, **self.kwargs)
         self.btn_close.setEnabled(True)
         QDialog.exec_(self)

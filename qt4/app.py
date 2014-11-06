@@ -187,10 +187,16 @@ class MainWindow( QMainWindow ):
         QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
         self.btn_restore_to = self.menu_restore.addAction(icon.RESTORE_TO, _('Restore to ...') )
         QObject.connect( self.btn_restore_to, SIGNAL('triggered()'), self.restore_this_to )
+        self.menu_restore.addSeparator()
         self.menu_restore_parent = self.menu_restore.addAction(icon.RESTORE, '' )
         QObject.connect( self.menu_restore_parent, SIGNAL('triggered()'), self.restore_parent )
         self.menu_restore_parent_to = self.menu_restore.addAction(icon.RESTORE_TO, '' )
         QObject.connect( self.menu_restore_parent_to, SIGNAL('triggered()'), self.restore_parent_to )
+        self.menu_restore.addSeparator()
+        self.btn_restore_delete = self.menu_restore.addAction(icon.RESTORE, _('Restore and delete new files'))
+        QObject.connect(self.btn_restore_delete, SIGNAL('triggered()'), lambda: self.restore_this(True))
+        self.menu_restore_parent_delete = self.menu_restore.addAction(icon.RESTORE, '')
+        QObject.connect(self.menu_restore_parent_delete, SIGNAL('triggered()'), lambda: self.restore_parent(True))
 
         self.btn_restore_menu = self.files_view_toolbar.addAction(icon.RESTORE, _('Restore'))
         self.btn_restore_menu.setMenu(self.menu_restore)
@@ -229,8 +235,12 @@ class MainWindow( QMainWindow ):
         self.menubar_restore = self.menubar.addMenu(_('Restore'))
         self.menubar_restore.addAction(self.btn_restore)
         self.menubar_restore.addAction(self.btn_restore_to)
+        self.menubar_restore.addSeparator()
         self.menubar_restore.addAction(self.menu_restore_parent)
         self.menubar_restore.addAction(self.menu_restore_parent_to)
+        self.menubar_restore.addSeparator()
+        self.menubar_restore.addAction(self.btn_restore_delete)
+        self.menubar_restore.addAction(self.menu_restore_parent_delete)
 
         self.menubar_help = self.menubar.addMenu(_('Help'))
         self.menubar_help.addAction(self.btn_help)
@@ -972,7 +982,18 @@ class MainWindow( QMainWindow ):
         self.show_hidden_files = checked
         self.update_files_view( 1 )
 
-    def restore_this( self ):
+    def confirm_delete_on_restore(self):
+        msg = _('Are you sure you want to remove all newer files in your '
+                'original folder?')
+        if self.config.is_backup_on_restore_enabled():
+            msg += '\n\n('
+            msg += _('Actually files will be backed up with trailing '
+                     '\'%(suffix)s\' instead of being removed. You can turn '
+                     'this off in Settings>Options') %{'suffix': self.snapshots.backup_suffix()}
+            msg += ')'
+        return QMessageBox.Yes == messagebox.warningYesNo( self, msg)
+
+    def restore_this( self, delete = False ):
         if len( self.snapshot_id ) <= 1:
             return
 
@@ -980,8 +1001,11 @@ class MainWindow( QMainWindow ):
         if not selected_file:
             return
 
+        if delete and not self.confirm_delete_on_restore():
+            return
+
         rel_path = os.path.join( self.path, selected_file )
-        restoredialog.restore( self, self.snapshot_id, rel_path )
+        restoredialog.restore( self, self.snapshot_id, rel_path, delete = delete)
 
     def restore_this_to( self ):
         if len( self.snapshot_id ) <= 1:
@@ -994,10 +1018,14 @@ class MainWindow( QMainWindow ):
         rel_path = os.path.join( self.path, selected_file )
         restoredialog.restore( self, self.snapshot_id, rel_path, None )
 
-    def restore_parent( self ):
+    def restore_parent( self, delete = False ):
         if len( self.snapshot_id ) <= 1:
             return
-        restoredialog.restore( self, self.snapshot_id, self.path)
+
+        if delete and not self.confirm_delete_on_restore():
+            return
+
+        restoredialog.restore( self, self.snapshot_id, self.path, delete = delete)
 
     def restore_parent_to( self ):
         if len( self.snapshot_id ) <= 1:
@@ -1139,6 +1167,7 @@ class MainWindow( QMainWindow ):
         self.edit_current_path.setText( self.path )
         self.menu_restore_parent.setText( _("Restore '%s'") % self.path )
         self.menu_restore_parent_to.setText( _("Restore '%s' to ...") % self.path )
+        self.menu_restore_parent_delete.setText( _("Restore '%s' and delete new files") % self.path )
 
         #update folder_up button state
         self.btn_folder_up.setEnabled( len( self.path ) > 1 )

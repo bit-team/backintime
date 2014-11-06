@@ -513,7 +513,7 @@ class Snapshots:
             pass
         self.restore_callback( callback, ok, "chmod %s %04o" % ( path, info[0] ) )
 
-    def restore( self, snapshot_id, path, callback = None, restore_to = '' ):
+    def restore( self, snapshot_id, path, callback = None, restore_to = '', delete = False ):
         instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False, flock = True)
         if instance.check():
             instance.start_application()
@@ -536,7 +536,6 @@ class Snapshots:
         info_file = configfile.ConfigFile()
         info_file.load( self.get_snapshot_info_path( snapshot_id ) )
 
-        backup_suffix = '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
         cmd = tools.get_rsync_prefix( self.config, not full_rsync, use_modes = ['ssh'] )
         cmd = cmd + '-R -v '
         if not full_rsync:
@@ -544,8 +543,10 @@ class Snapshots:
             # user. Files should be r and x (if executable) by the current user.
             cmd += '--chmod=Du=rwx,Fu=rX,go= '
         if self.config.is_backup_on_restore_enabled():
-            cmd = cmd + "--backup --suffix=%s " % backup_suffix
+            cmd = cmd + "--backup --suffix=%s " % self.backup_suffix()
         src_base = self.get_snapshot_path_to( snapshot_id, use_mode = ['ssh'] )
+        if delete:
+            cmd += '--delete '
 
         src_path = path
         src_delta = 0
@@ -620,6 +621,9 @@ class Snapshots:
             tools.unInhibitSuspend(self.config.inhibitCookie)
 
         instance.exit_application()
+
+    def backup_suffix(self):
+        return '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 
     def get_snapshots_list( self, sort_reverse = True, profile_id = None, version = None ):
         '''Returns a list with the snapshot_ids of all snapshots in the snapshots folder'''
