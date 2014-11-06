@@ -622,7 +622,14 @@ class SettingsDialog( QDialog ):
             self.cb_no_on_battery.setToolTip ( _( 'Power status not available from system' ) )
         layout.addWidget( self.cb_no_on_battery )
 
-        self.cb_backup_on_restore = QCheckBox( _( 'Backup files on restore' ), self )
+        self.cb_backup_on_restore = QCheckBox(_('Backup replaced files on restore'), self)
+        self.cb_backup_on_restore.setToolTip( _('Newer versions of files will be '
+                                                'renamed with trailing \'%(suffix)s\' '
+                                                'before restoring.\n'
+                                                'If you don\'t need them anymore '
+                                                'you can remove them with \'%(cmd)s\'') 
+                                                %{'suffix': self.snapshots.backup_suffix(),
+                                                'cmd': 'find ./ -name "*%s" -delete' % self.snapshots.backup_suffix() })
         layout.addWidget( self.cb_backup_on_restore )
 
         self.cb_continue_on_errors = QCheckBox( _( 'Continue on errors (keep incomplete snapshots)' ), self )
