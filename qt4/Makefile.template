@@ -24,6 +24,14 @@ install:
 	install -d $(DEST)/share/doc/backintime-qt4
 	install --mode=644 ../common/debian_specific/copyright $(DEST)/share/doc/backintime-qt4
 	
+	#install doc file(s)
+	install --mode=644 ../AUTHORS $(DEST)/share/doc/backintime-qt4
+	install --mode=644 ../LICENSE $(DEST)/share/doc/backintime-qt4
+	install --mode=644 ../README $(DEST)/share/doc/backintime-qt4
+	install --mode=644 ../TRANSLATIONS $(DEST)/share/doc/backintime-qt4
+	install --mode=644 ../VERSION $(DEST)/share/doc/backintime-qt4
+	install --mode=644 ../CHANGES $(DEST)/share/doc/backintime-qt4
+
 	#install .desktop file(s)
 	install -d $(DEST)/share/applications
 	install --mode=644 *.desktop $(DEST)/share/applications

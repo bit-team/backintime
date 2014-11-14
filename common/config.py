@@ -153,7 +153,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
 
         self._APP_PATH =  os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) )
-        self._DOC_PATH = '/usr/share/doc/backintime'
+        self._DOC_PATH = '/usr/share/doc/backintime-common'
         if os.path.exists( os.path.join( self._APP_PATH, 'LICENSE' ) ):
             self._DOC_PATH = self._APP_PATH
 
