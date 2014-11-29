@@ -21,6 +21,7 @@ import subprocess
 import re
 import shutil
 from datetime import datetime
+from distutils.version import StrictVersion
 
 import config
 import mount
@@ -187,10 +188,7 @@ class EncFS_mount(mount.MountControl):
                                     universal_newlines = True)
             output = proc.communicate()[0]
             m = re.search(r'(\d\.\d\.\d)', output)
-            if m == None:
-                return
-            version = int(m.group(1).replace('.', ''))
-            if version <= 172:
+            if m and StrictVersion(m.group(1)) <= StrictVersion('1.7.2'):
                 raise mount.MountException( _('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
 
     def backup_config(self):
