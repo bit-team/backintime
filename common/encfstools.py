@@ -19,6 +19,8 @@ import grp
 import gettext
 import subprocess
 import re
+import shutil
+from datetime import datetime
 
 import config
 import mount
@@ -91,6 +93,7 @@ class EncFS_mount(mount.MountControl):
                                 stderr = subprocess.STDOUT,
                                 universal_newlines = True)
         output = proc.communicate()[0]
+        self.backup_config()
         if proc.returncode:
             raise mount.MountException( _('Can\'t mount \'%(command)s\':\n\n%(error)s') \
                                        % {'command': ' '.join(encfs), 'error': output} )
@@ -189,6 +192,25 @@ class EncFS_mount(mount.MountControl):
             version = int(m.group(1).replace('.', ''))
             if version <= 172:
                 raise mount.MountException( _('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
+
+    def backup_config(self):
+        """create a backup of encfs config file into local config folder
+        so in cases of the config file get deleted or corrupt user can restore
+        it from there"""
+        backup_folder = self.config.get_encfsconfig_backup_folder(self.profile_id)
+        tools.make_dirs(backup_folder)
+        old_backups = tools.get_nonsnapshots_list_in_folder(backup_folder, True)
+        if len(old_backups):
+            last_backup = os.path.join(backup_folder, old_backups[-1])
+
+            #don't create a new backup if config hasn't changed
+            if tools._get_md5sum_from_path(self.get_config_file()) == \
+               tools._get_md5sum_from_path(last_backup):
+                return
+
+        new_backup_file = '.'.join((os.path.basename(self.get_config_file()), datetime.now().strftime('%Y%m%d%H%M') ))
+        new_backup = os.path.join(backup_folder, new_backup_file)
+        shutil.copy2(self.get_config_file(), new_backup)
 
 class EncFS_SSH(EncFS_mount):
     """Mount encrypted remote path with sshfs and encfs.

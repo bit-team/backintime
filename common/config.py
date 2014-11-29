@@ -1260,6 +1260,9 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_last_snapshot_symlink(self, profile_id = None):
         return os.path.join(self.get_snapshots_full_path(profile_id), 'last_snapshot')
 
+    def get_encfsconfig_backup_folder(self, profile_id = None):
+        return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.__get_file_id__( profile_id ))
+
     def get_license( self ):
         return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )
 
