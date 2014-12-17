@@ -53,8 +53,16 @@ class Snapshots:
         self.clear_uid_gid_names_cache()
 
         #rsync --info=progress2 output
-        #search for 517.38K  26%   14.46MB/s    0:02:36
-        self.reRsyncProgress = re.compile(r'(\d*[,\.]?\d+[KkMGT]?)\s*(\d*)%\s*(\d*[,\.]?\d*[KkMGT]?B/s)\s*(\d+:\d{2}:\d{2})')
+        #search for:     517.38K  26%   14.46MB/s    0:02:36
+        #or:             497.84M   4% -449.39kB/s   ??:??:??
+        #but filter out: 517.38K  26%   14.46MB/s    0:00:53 (xfr#53, to-chk=169/452)
+        #                because this shows current run time
+        self.reRsyncProgress = re.compile(r'.*?'                            #trash at start
+                                          r'(\d*[,\.]?\d+[KkMGT]?)\s+'      #bytes sent
+                                          r'(\d*)%\s+'                      #percent done
+                                          r'(-?\d*[,\.]?\d*[KkMGT]?B/s)\s+' #speed
+                                          r'([\d\?]+:[\d\?]{2}:[\d\?]{2})'  #estimated time of arrival
+                                          r'(.*$)')                         #trash at the end
 
         self.last_check_snapshot_runnig = datetime.datetime(1,1,1)
 
@@ -952,6 +960,8 @@ class Snapshots:
     def _filter_rsync_progress(self, line):
         m = self.reRsyncProgress.match(line)
         if m:
+            if m.group(5).strip():
+                return
             pg = progress.ProgressFile(self.config)
             pg.set_int_value('status', pg.RSYNC)
             pg.set_str_value('sent', m.group(1) )
@@ -1550,6 +1560,8 @@ class Snapshots:
                 line = line.strip()
                 for f in filter:
                     line = f(line)
+                if not line:
+                    continue
                 callback(line , user_data )
 
             ret_val = pipe.close()
