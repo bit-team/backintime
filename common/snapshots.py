@@ -815,7 +815,8 @@ class Snapshots:
         if not self.config.is_configured():
             logger.warning( 'Not configured' )
             self.config.PLUGIN_MANAGER.on_error( 1 ) #not configured
-        elif self.config.is_no_on_battery_enabled() and tools.on_battery():
+        elif not force and self.config.is_no_on_battery_enabled() and tools.on_battery():
+            self.set_take_snapshot_message(0, _('Deferring backup while on battery'))
             logger.info( 'Deferring backup while on battery' )
             logger.warning( 'Backup not performed' )
         elif self.has_old_snapshots():
