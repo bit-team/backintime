@@ -521,7 +521,7 @@ class Snapshots:
             pass
         self.restore_callback( callback, ok, "chmod %s %04o" % ( path, info[0] ) )
 
-    def restore( self, snapshot_id, path, callback = None, restore_to = '', delete = False ):
+    def restore( self, snapshot_id, paths, callback = None, restore_to = '', delete = False ):
         instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False, flock = True)
         if instance.check():
             instance.start_application()
@@ -536,49 +536,53 @@ class Snapshots:
         if restore_to.endswith('/'):
             restore_to = restore_to[ : -1 ]
 
+        if not isinstance(paths, (list, tuple)):
+            paths = (paths, )
+
         #full rsync
         full_rsync = self.config.full_rsync()
 
-        logger.info( "Restore: %s to: %s" % (path, restore_to) )
+        logger.info( "Restore: %s to: %s" % (', '.join(paths), restore_to) )
 
         info_file = configfile.ConfigFile()
         info_file.load( self.get_snapshot_info_path( snapshot_id ) )
 
-        cmd = tools.get_rsync_prefix( self.config, not full_rsync, use_modes = ['ssh'] )
-        cmd = cmd + '-R -v '
+        cmd_suffix = tools.get_rsync_prefix( self.config, not full_rsync, use_modes = ['ssh'] )
+        cmd_suffix += '-R -v '
         if not full_rsync:
             # During the rsync operation, directories must be rwx by the current
             # user. Files should be r and x (if executable) by the current user.
-            cmd += '--chmod=Du=rwx,Fu=rX,go= '
+            cmd_suffix += '--chmod=Du=rwx,Fu=rX,go= '
         if self.config.is_backup_on_restore_enabled():
-            cmd = cmd + "--backup --suffix=%s " % self.backup_suffix()
-        src_base = self.get_snapshot_path_to( snapshot_id, use_mode = ['ssh'] )
+            cmd_suffix += "--backup --suffix=%s " % self.backup_suffix()
         if delete:
-            cmd += '--delete '
+            cmd_suffix += '--delete '
 
-        src_path = path
-        src_delta = 0
-        if restore_to:
-            aux = src_path
-            if aux.startswith('/'):
-                aux = aux[1:]
-            items = os.path.split(src_path)
-            aux = items[0]
-            if aux.startswith('/'):
-                aux = aux[1:]
-            #bugfix: restore system root ended in <src_base>//.<src_path>
-            if aux:
-                src_base = os.path.join(src_base, aux) + '/'
-            src_path = '/' + items[1]
-            if items[0] == '/':
-                src_delta = 0
-            else:
-                src_delta = len(items[0])
+        restored_paths = []
+        for path in paths:
+            tools.make_dirs(os.path.dirname(path))
+            src_path = path
+            src_delta = 0
+            src_base = self.get_snapshot_path_to( snapshot_id, use_mode = ['ssh'] )
+            cmd = cmd_suffix
+            if restore_to:
+                items = os.path.split(src_path)
+                aux = items[0].lstrip(os.sep)
+                #bugfix: restore system root ended in <src_base>//.<src_path>
+                if aux:
+                    src_base = os.path.join(src_base, aux) + '/'
+                src_path = '/' + items[1]
+                if items[0] == '/':
+                    src_delta = 0
+                else:
+                    src_delta = len(items[0])
 
-        cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_modes = ['ssh'])
-        cmd += ' "%s/"' % restore_to
-        self.restore_callback( callback, True, cmd )
-        self._execute( cmd, callback, filter = (self._filter_rsync_progress, ))
+            cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_modes = ['ssh'])
+            cmd += ' "%s/"' % restore_to
+            self.restore_callback( callback, True, cmd )
+            self._execute( cmd, callback, filter = (self._filter_rsync_progress, ))
+            self.restore_callback(callback, True, ' ')
+            restored_paths.append((path, src_delta))
         try:
             os.remove(self.config.get_take_snapshot_progress_file())
         except:
@@ -590,39 +594,47 @@ class Snapshots:
 
         #restore permissions
         logger.info( 'Restore permissions' )
-        self.restore_callback( callback, True, '' )
+        self.restore_callback( callback, True, ' ' )
         self.restore_callback( callback, True, _("Restore permissions:") )
         file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
         if file_info_dict:
-            #explore items
-            snapshot_path_to = self.get_snapshot_path_to( snapshot_id, path ).rstrip( '/' )
-            root_snapshot_path_to = self.get_snapshot_path_to( snapshot_id ).rstrip( '/' )
-            all_dirs = [] #restore dir permissions after all files are done
+            restored_permissions = []
+            for path, src_delta in restored_paths:
+                #explore items
+                snapshot_path_to = self.get_snapshot_path_to( snapshot_id, path ).rstrip( '/' )
+                root_snapshot_path_to = self.get_snapshot_path_to( snapshot_id ).rstrip( '/' )
+                all_dirs = [] #restore dir permissions after all files are done
 
-            if not restore_to:
-                path_items = path.strip( '/' ).split( '/' )
-                curr_path = '/'
-                for path_item in path_items:
-                    curr_path = os.path.join( curr_path, path_item )
-                    all_dirs.append( curr_path )
-            else:
-                    all_dirs.append(path)
+                if not restore_to:
+                    path_items = path.strip( '/' ).split( '/' )
+                    curr_path = '/'
+                    for path_item in path_items:
+                        curr_path = os.path.join( curr_path, path_item )
+                        if not curr_path in restored_permissions:
+                            all_dirs.append( curr_path )
+                else:
+                        if not path in restored_permissions:
+                            all_dirs.append(path)
 
-            if os.path.isdir( snapshot_path_to ) and not os.path.islink( snapshot_path_to ):
-                for explore_path, dirs, files in os.walk( snapshot_path_to ):
-                    for item in dirs:
-                        item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
-                        all_dirs.append( item_path )
+                if os.path.isdir( snapshot_path_to ) and not os.path.islink( snapshot_path_to ):
+                    for explore_path, dirs, files in os.walk( snapshot_path_to ):
+                        for item in dirs:
+                            item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
+                            if not item_path in restored_permissions:
+                                all_dirs.append( item_path )
 
-                    for item in files:
-                        item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
-                        real_path = restore_to + item_path[src_delta:]
-                        self._restore_path_info( item_path, real_path, file_info_dict, callback )
+                        for item in files:
+                            item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
+                            real_path = restore_to + item_path[src_delta:]
+                            if not item_path in restored_permissions:
+                                self._restore_path_info( item_path, real_path, file_info_dict, callback )
+                                restored_permissions.append(item_path)
 
-            all_dirs.reverse()
-            for item_path in all_dirs:
-                real_path = restore_to + item_path[src_delta:]
-                self._restore_path_info( item_path, real_path, file_info_dict, callback )
+                all_dirs.reverse()
+                for item_path in all_dirs:
+                    real_path = restore_to + item_path[src_delta:]
+                    self._restore_path_info( item_path, real_path, file_info_dict, callback )
+                    restored_permissions.append(item_path)
 
         #release inhibit suspend
         if self.config.inhibitCookie:

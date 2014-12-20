@@ -287,6 +287,7 @@ class MainWindow( QMainWindow ):
         self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
         self.list_files_view.setItemsExpandable( False )
         self.list_files_view.setDragEnabled( False )
+        self.list_files_view.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
         self.list_files_view_header = self.list_files_view.header()
         self.list_files_view_header.setClickable( True )
@@ -986,36 +987,39 @@ class MainWindow( QMainWindow ):
         msg = _('Are you sure you want to remove all newer files in your '
                 'original folder?')
         if self.config.is_backup_on_restore_enabled():
-            msg += '\n\n('
+            msg += '\n\n'
             msg += _('Actually files will be backed up with trailing '
                      '\'%(suffix)s\' instead of being removed. You can turn '
-                     'this off in Settings>Options') %{'suffix': self.snapshots.backup_suffix()}
-            msg += ')'
+                     'this off in\nSettings > Options > %(backup_option)s'
+                    ) \
+                     %{'suffix': self.snapshots.backup_suffix(),
+                       'backup_option': _('Backup replaced files on restore')
+                      }
         return QMessageBox.Yes == messagebox.warningYesNo( self, msg)
 
     def restore_this( self, delete = False ):
         if len( self.snapshot_id ) <= 1:
             return
 
-        selected_file, idx = self.file_selected()
+        selected_file = [file for file, idx in self.multi_file_selected()]
         if not selected_file:
             return
 
         if delete and not self.confirm_delete_on_restore():
             return
 
-        rel_path = os.path.join( self.path, selected_file )
+        rel_path = [os.path.join(self.path, x) for x in selected_file]
         restoredialog.restore( self, self.snapshot_id, rel_path, delete = delete)
 
     def restore_this_to( self ):
         if len( self.snapshot_id ) <= 1:
             return
 
-        selected_file, idx = self.file_selected()
+        selected_file = [file for file, idx in self.multi_file_selected()]
         if not selected_file:
             return
 
-        rel_path = os.path.join( self.path, selected_file )
+        rel_path = [os.path.join(self.path, x) for x in selected_file]
         restoredialog.restore( self, self.snapshot_id, rel_path, None )
 
     def restore_parent( self, delete = False ):
@@ -1209,10 +1213,21 @@ class MainWindow( QMainWindow ):
 
     def file_selected(self):
         idx = self.list_files_view.currentIndex()
-        if idx.column() > 0:
-            idx = idx.sibling(idx.row(), 0)
+        idx = self.index_first_column(idx)
         selected_file = str( self.list_files_view_proxy_model.data( idx ) )
         return(selected_file, idx)
+
+    def multi_file_selected(self):
+        for idx in self.list_files_view.selectedIndexes():
+            if idx.column() > 0:
+                continue
+            selected_file = str(self.list_files_view_proxy_model.data(idx))
+            yield (selected_file, idx)
+
+    def index_first_column(self, idx):
+        if idx.column() > 0:
+            idx = idx.sibling(idx.row(), 0)
+        return idx
 
 class About(QDialog):
     def __init__(self, parent = None):
