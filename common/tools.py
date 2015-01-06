@@ -381,7 +381,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
         cmd = cmd + ' -pEgo'
 
     if 'progress2' in caps:
-        cmd += ' --info=progress2'
+        cmd += ' --info=progress2 --no-i-r'
 
     if config.rsync_options_enabled():
         cmd += ' ' + config.rsync_options()
