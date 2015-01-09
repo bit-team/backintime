@@ -638,7 +638,7 @@ class Snapshots:
 
         #release inhibit suspend
         if self.config.inhibitCookie:
-            tools.unInhibitSuspend(self.config.inhibitCookie)
+            tools.unInhibitSuspend(*self.config.inhibitCookie)
 
         instance.exit_application()
 
@@ -965,7 +965,7 @@ class Snapshots:
 
         #release inhibit suspend
         if self.config.inhibitCookie:
-            tools.unInhibitSuspend(self.config.inhibitCookie)
+            tools.unInhibitSuspend(*self.config.inhibitCookie)
 
         return ret_val
 
