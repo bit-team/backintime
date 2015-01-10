@@ -1,0 +1,32 @@
+.TH backintime-askpass 1 "Jan 2015" "version 1.1.0~beta02" "USER COMMANDS"
+.SH NAME
+backintime-askpass \- a simple backup tool for Linux.
+.PP
+This is the command line tool for piping passwords into ssh/sshfs and encfs.
+.SH SYNOPSIS
+.B backintime-askpass
+
+.SH DESCRIPTION
+Back In Time is a simple backup tool for Linux. This is a helper tool for
+piping passwords into ssh/sshfs and encfs. Options will will be read from
+environ variables. It doesn't provide any useful enduser service.
+
+
+.SH ENVIRON
+.TP
+ASKPASS_PROFILE_ID
+Back In Time Profile-ID.
+.TP
+ASKPASS_MODE
+Backup mode (or backend).  Take a look at 'man backintime-config'
+section \fIprofile<N>.snapshots.mode\fR
+.TP
+ASKPASS_TEMP
+Temp FIFO socket used to pipe the password
+
+.SH SEE ALSO
+backintime, backintime-config.
+.PP
+Back In Time also has a website: http://backintime.le\-web.org
+.SH AUTHOR
+This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).
