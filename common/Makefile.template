@@ -6,8 +6,9 @@ all: build
 build: translate
 
 clean:
-	rm po/*.mo
-	rm man/C/*.gz
+	rm -f po/*.mo
+	rm -f man/C/*.gz
+	rm -f config-example-*.gz
 
 install: build install_translations
 	#install python
@@ -20,7 +21,7 @@ install: build install_translations
 	
 	#install copyright file
 	install -d $(DEST)/share/doc/backintime-common
-	install --mode=644 debian_specific/copyright $(DEST)/share/doc/backintime-common
+	install --mode=644 ../debian/copyright $(DEST)/share/doc/backintime-common
 	
 	#install doc file(s)
 	install --mode=644 ../AUTHORS $(DEST)/share/doc/backintime-common
