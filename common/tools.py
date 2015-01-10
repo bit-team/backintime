@@ -715,24 +715,25 @@ def inhibitSuspend( app_id = sys.argv[0],
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
             cookie = proxy(*[ (app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments'] ])
             logger.info('Inhibit Suspend started. Reason: %s' % reason)
-            return (bus, cookie)
+            return (cookie, bus, dbus_probs)
         except:
             pass
     logger.warning('Inhibit Suspend failed.')
 
-def unInhibitSuspend(bus, cookie):
+def unInhibitSuspend(cookie, bus, dbus_props):
     '''Release inhibit.
     '''
     assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
-    for dbus_props in INHIBIT_DBUS:
-        try:
-            interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
-            proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
-            ret = proxy(cookie)
-            logger.info('Release inhibit Suspend')
-            return ret
-        except:
-            pass
+    assert isinstance(bus, dbus.Bus), 'bus is not dbus.Bus type: %s' % bus
+    assert isinstance(dbus_props, dict), 'dbus_probs is not dict type: %s' % dbus_probs
+    try:
+        interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
+        proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
+        ret = proxy(cookie)
+        logger.info('Release inhibit Suspend')
+        return ret
+    except:
+        logger.warning('Release inhibit Suspend failed.')
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
