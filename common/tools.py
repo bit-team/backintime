@@ -735,6 +735,18 @@ def unInhibitSuspend(cookie, bus, dbus_props):
     except:
         logger.warning('Release inhibit Suspend failed.')
 
+def getSshKeyFingerprint(path):
+    '''return the hex fingerprint of a given ssh key
+    '''
+    if not os.path.exists(path):
+        return
+    cmd = ['ssh-keygen', '-l', '-f', path]
+    proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = open(os.devnull, 'w'))
+    output = proc.communicate()[0]
+    m = re.match(r'\d+\s+([a-zA-Z0-9:]+).*', output)
+    if m:
+        return m.group(1)
+
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     def __init__(self, dc = False, follow_symlink = False, list_equal_to = False):
