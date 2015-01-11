@@ -36,7 +36,7 @@ update_xml () {
 
 update_changelog () {
   echo "Update '$1'"
-  echo 'backintime ($VERSION~$RELEASE) $RELEASE; urgency=low' > $1
+  echo "backintime ($VERSION) \$RELEASE; urgency=low" > $1
   cat CHANGES | awk 'BEGIN {ins=0} /^Version '$VERSION'/ {ins=1; next} /^Version [0-9.]+/ && (ins == 1) {exit 0} /^\*/ && (ins == 1) {print "  "$0}' >> $1
   echo  " -- ${MAINTAINER}  $(date -R)" >> $1
 }
@@ -46,6 +46,8 @@ update_config common/config.py
 update_man_page common/man/C/backintime.1
 
 update_man_page common/man/C/backintime-config.1
+
+update_man_page common/man/C/backintime-askpass.1
 
 update_man_page qt4/man/C/backintime-qt4.1
 
