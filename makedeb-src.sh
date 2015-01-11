@@ -17,7 +17,7 @@ for release in ${RELEASES}; do
 	cd ${DST}
 
 	#debian: changelog
-	sed -e "s/\$RELEASE/${release}/g" -i debian/changelog
+	sed -e "s/unstable;/${release};/g" -i debian/changelog
 
 	debuild -i -S
 done

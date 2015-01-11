@@ -11,9 +11,6 @@ mkdir ${DST}
 cp -aR ${CURRENT}/* ${DST}
 cd ${DST}
 
-#debian: changelog
-sed -e "s/\$RELEASE/source/g" -i debian/changelog
-
 dpkg-buildpackage -us -uc
 
 cd ..
