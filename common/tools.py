@@ -715,8 +715,8 @@ def inhibitSuspend( app_id = sys.argv[0],
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
             cookie = proxy(*[ (app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments'] ])
             logger.info('Inhibit Suspend started. Reason: %s' % reason)
-            return (cookie, bus, dbus_probs)
-        except:
+            return (cookie, bus, dbus_props)
+        except dbus.exceptions.DBusException:
             pass
     logger.warning('Inhibit Suspend failed.')
 
@@ -732,7 +732,7 @@ def unInhibitSuspend(cookie, bus, dbus_props):
         ret = proxy(cookie)
         logger.info('Release inhibit Suspend')
         return ret
-    except:
+    except dbus.exceptions.DBusException:
         logger.warning('Release inhibit Suspend failed.')
 
 def getSshKeyFingerprint(path):
@@ -743,9 +743,9 @@ def getSshKeyFingerprint(path):
     cmd = ['ssh-keygen', '-l', '-f', path]
     proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = open(os.devnull, 'w'))
     output = proc.communicate()[0]
-    m = re.match(r'\d+\s+([a-zA-Z0-9:]+).*', output)
+    m = re.match(b'\d+\s+([a-zA-Z0-9:]+).*', output)
     if m:
-        return m.group(1)
+        return m.group(1).decode('UTF-8')
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
