@@ -59,10 +59,12 @@ before creating a new snapshot.
 .RE
 .IP "\fILocal encrypted\fR" 4
 .RS
-Store encrypted snapshots on local HDD's (internal or USB). Back In Time uses 
-'encfs' with standard configuration to encrypt all data. You have to be member 
-of group fuse to use this. In terminal type 'sudo adduser <USER> fuse'. 
-To apply changes you have to logout and login again.
+Store encrypted snapshots on local HDD's (internal or USB). 
+Back In Time uses 'encfs' with standard configuration to encrypt all data. 
+Please take a look at \fIA NOTE ON SECURITY\fR. 
+You have to be member of group fuse to use this. In terminal 
+type 'sudo adduser <USER> fuse'. To apply changes you have to logout and login 
+again.
 .RE
 .IP "\fISSH \fR" 4
 .RS
@@ -150,7 +152,8 @@ you can use the (normally) more powerful processor in you local machine for
 encryption instead of weak NAS CPU's. The downside on this is 
 'encfs \-\-reverse' does not support 'Filename Initialization Vector Chaining' 
 and 'Per-File Initialization Vectors' from the standard configuration 
-(take a look at 'man encfs' for further information).
+(take a look at 'man encfs' for further information). Please take a look at 
+\fIA NOTE ON SECURITY\fR.
 .PP
 Because of all data is transferred encrypted the log output shows encrypted 
 filenames, too. In the Logview-Dialog you can use 'decode' option to decrypt 
@@ -299,6 +302,18 @@ show version
 .TP
 \-\-license
 show license
+.SH A NOTE ON SECURITY
+There was a paid security audit for EncFS in Feb 2014 which revealed several 
+potential vulnerabilities.
+.TP
+From https://defuse.ca/audits/encfs.htm
+EncFS is probably safe as long as the adversary only gets one copy of
+the ciphertext and nothing more. EncFS is not safe if the adversary
+has the opportunity to see two or more snapshots of the ciphertext at
+different times. EncFS attempts to protect files from malicious
+modification, but there are serious problems with this feature.
+.PP
+This might be a problem with Back In Time snapshots.
 .SH SEE ALSO
 backintime-qt4, backintime-config.
 .PP
