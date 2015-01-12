@@ -735,17 +735,90 @@ class SettingsDialog( QDialog ):
         enabled = lambda state: self.sb_bwlimit.setEnabled(state)
         enabled(False)
         QObject.connect( self.cb_bwlimit, SIGNAL('stateChanged(int)'), enabled)
+        self.cb_bwlimit.setToolTip(
+                'uses \'rsync --bwlimit=RATE\'\n'
+                'From \'man rsync\':\n'
+                'This option allows you to specify the maximum transfer rate for\n'
+                'the data sent over the socket, specified in units per second.\n'
+                'The RATE value can be suffixed with a string to indicate a size\n'
+                'multiplier, and may be a fractional value (e.g. "--bwlimit=1.5m").\n'
+                'If no suffix is specified, the value will be assumed to be in\n'
+                'units of 1024 bytes (as if "K" or "KiB" had been appended).\n'
+                'See the --max-size option for a description of all the available\n'
+                'suffixes. A value of zero specifies no limit.\n\n'
+                'For backward-compatibility reasons, the rate limit will be\n'
+                'rounded to the nearest KiB unit, so no rate smaller than\n'
+                '1024 bytes per second is possible.\n\n'
+                'Rsync writes data over the socket in blocks, and this option\n'
+                'both limits the size of the blocks that rsync writes, and tries\n'
+                'to keep the average transfer rate at the requested limit.\n'
+                'Some "burstiness" may be seen where rsync writes out a block\n'
+                'of data and then sleeps to bring the average rate into compliance.\n\n'
+                'Due to the internal buffering of data, the --progress option\n'
+                'may not be an accurate reflection on how fast the data is being\n'
+                'sent. This is because some files can show up as being rapidly\n'
+                'sent when the data is quickly buffered, while other can show up\n'
+                'as very slow when the flushing of the output buffer occurs.\n'
+                'This may be fixed in a future version.'
+                )
 
         self.cb_preserve_acl = QCheckBox( _( 'Preserve ACL' ), self )
+        self.cb_preserve_acl.setToolTip(
+                'uses \'rsync -A\'\n'
+                'From \'man rsync\':\n'
+                'This option causes rsync to update the destination ACLs to be\n'
+                'the same as the source ACLs. The option also implies --perms.\n\n'
+                'The source and destination systems must have compatible ACL\n'
+                'entries for this option to work properly.\n'
+                'See the --fake-super option for a way to backup  and restore\n'
+                'ACLs that are not compatible.'
+                )
         layout.addWidget( self.cb_preserve_acl )
 
         self.cb_preserve_xattr = QCheckBox( _( 'Preserve extended attributes (xattr)' ), self )
+        self.cb_preserve_xattr.setToolTip(
+                'uses \'rsync -X\'\n'
+                'From \'man rsync\':\n'
+                'This option causes rsync to update the destination extended\n'
+                'attributes to be the same as the source ones.\n\n'
+                'For systems that support extended-attribute namespaces, a copy\n'
+                'being done by a super-user copies all namespaces except\n'
+                'system.*. A normal user only copies the user.* namespace.\n'
+                'To be able to backup and restore non-user namespaces as a normal\n'
+                'user, see the --fake-super option.\n\n'
+                'Note that this option does not copy rsyncs special xattr values\n'
+                '(e.g. those used by --fake-super) unless you repeat the option\n'
+                '(e.g. -XX). This "copy all xattrs" mode cannot be used\n'
+                'with --fake-super.'
+                )
         layout.addWidget( self.cb_preserve_xattr )
 
         self.cb_copy_unsafe_links = QCheckBox( _( 'Copy unsafe links (works only with absolute links)' ), self )
+        self.cb_copy_unsafe_links.setToolTip(
+                'uses \'rsync --copy-unsafe-links\'\n'
+                'From \'man rsync\':\n'
+                'This tells rsync to copy the referent of symbolic links that\n'
+                'point outside the copied tree. Absolute symlinks are also\n'
+                'treated like ordinary files, and so are any symlinks in the\n'
+                'source path itself when --relative is used. This option has\n'
+                'no additional effect if --copy-links was also specified.\n'
+                )
         layout.addWidget( self.cb_copy_unsafe_links )
 
         self.cb_copy_links = QCheckBox( _( 'Copy links (dereference symbolic links)' ), self )
+        self.cb_copy_links.setToolTip(
+                'uses \'rsync --copy-links\'\n'
+                'From \'man rsync\':\n'
+                'When symlinks are encountered, the item that they point to\n'
+                '(the referent) is copied, rather than the symlink. In older\n'
+                'versions of rsync, this option also had the side-effect of\n'
+                'telling the receiving side to follow symlinks, such as\n'
+                'symlinks to directories. In a modern rsync such as this one,\n'
+                'you’ll need to specify --keep-dirlinks (-K) to get this extra\n'
+                'behavior. The only exception is when sending files to an rsync\n'
+                'that is too old to understand -K -- in that case, the -L option\n'
+                'will still have the side-effect of -K on that older receiving rsync.'
+                )
         layout.addWidget( self.cb_copy_links )
 
         #additional rsync options
