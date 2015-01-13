@@ -11,13 +11,13 @@ for release in ${RELEASES}; do
 	echo ""
 	echo "${PKGNAME} ${PKGVER} ${release}"
 	echo ""
-	DST=${TMP}/${PKGNAME}_${PKGVER}~${release}/
+	DST=${TMP}/${PKGNAME}-${PKGVER}~${release}/
 	mkdir ${DST}
 	cp -aR ${CURRENT}/* ${DST}
 	cd ${DST}
 
 	#debian: changelog
-	sed -e "s/unstable;/${release};/g" -i debian/changelog
+	sed -e "s/backintime (.*)/backintime (${PKGVER}~${release})/g" -e "s/unstable;/${release};/g" -i debian/changelog
 
 	debuild -i -S
 done
