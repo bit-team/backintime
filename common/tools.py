@@ -710,7 +710,10 @@ def inhibitSuspend( app_id = sys.argv[0],
             #connect directly to the socket instead of dbus.SessionBus because
             #the dbus.SessionBus was initiated before we loaded the environ
             #variables and might not work
-            bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
+            if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
+                bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
+            else:
+                bus = dbus.SessionBus()
             interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
             cookie = proxy(*[ (app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments'] ])
@@ -969,7 +972,10 @@ class ShutDown(object):
         return a callable dbus proxy and those arguments.
         """
         try:
-            sessionbus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
+            if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
+                bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
+            else:
+                bus = dbus.SessionBus()
             systembus  = dbus.SystemBus()
         except:
             return( (None, None) )
