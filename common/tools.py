@@ -727,7 +727,7 @@ def unInhibitSuspend(cookie, bus, dbus_props):
     '''Release inhibit.
     '''
     assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
-    assert isinstance(bus, dbus.Bus), 'bus is not dbus.Bus type: %s' % bus
+    assert isinstance(bus, dbus.bus.BusConnection), 'bus is not dbus.bus.BusConnection type: %s' % bus
     assert isinstance(dbus_props, dict), 'dbus_probs is not dict type: %s' % dbus_probs
     try:
         interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
