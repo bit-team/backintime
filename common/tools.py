@@ -973,9 +973,9 @@ class ShutDown(object):
         """
         try:
             if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
-                bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
+                sessionbus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
             else:
-                bus = dbus.SessionBus()
+                sessionbus = dbus.SessionBus()
             systembus  = dbus.SystemBus()
         except:
             return( (None, None) )

@@ -6,7 +6,7 @@ ARCH=all
 TMP=$(mktemp -d)
 CURRENT=$(pwd)
 
-DST=${TMP}/${PKGNAME}_${PKGVER}/
+DST=${TMP}/${PKGNAME}-${PKGVER}/
 mkdir ${DST}
 cp -aR ${CURRENT}/* ${DST}
 cd ${DST}
