@@ -16,6 +16,10 @@ override_dh_auto_configure:
 	cd common && ./configure
 	cd qt4 && ./configure
 
+override_dh_auto_build:
+	cd common && $(MAKE)
+	cd qt4 && $(MAKE)
+
 override_dh_auto_install:
 	cd common && DESTDIR=../debian/backintime-common $(MAKE) install
 

@@ -1,24 +1,14 @@
 #!/bin/sh
 
 #set default options
-KDESUDO="--kdesudo"
-GKSUDO="--gksu"
 PYTHON="--python3"
 
 USR_BIN_FILES="backintime-qt4"
 
 usage () {
 echo "Usage:"
-echo "$0 [--kdesu | --kdesudo], [--gksu | --gksudo], [--python | --python3]"
+echo "$0 [--python | --python3]"
 echo ""
-echo "--kdesu"
-echo "\tuse 'kdesu' to become root on KDE"
-echo "--kdesudo"
-echo "\tuse 'kdesudo' to become root on KDE"
-echo "--gksu"
-echo "\tuse 'gksu' to become root on Gnome"
-echo "--gksudo"
-echo "\tuse 'gksudo' to become root on Gnome"
 echo "--python"
 echo "\tuse 'python' to start Python3"
 echo "--python3"
@@ -28,22 +18,10 @@ echo "\tuse 'python3' to start Python3"
 #get commandline arguments
 for arg in $*; do
 	case $arg in
-		--kdesu | --kdesudo) KDESUDO=$arg;;
-		--gksu | --gksudo) GKSUDO=$arg;;
 		--python | --python3) PYTHON=$arg;;
 		--help | -h | *) usage; exit 0;;
 	esac
 done
-
-#set sudo
-case $KDESUDO in
-	--kdesudo) sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesudo -c backintime-qt4/" backintime-kde4-root.desktop;;
-	--kdesu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=kdesu -c backintime-qt4/" backintime-kde4-root.desktop;;
-esac
-case $GKSUDO in
-	--gksudo) sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=gksudo -- backintime-qt4/" backintime-gnome-root.desktop;;
-	--gksu)   sed -i -e "s/Exec=\(.*\)backintime-qt4/Exec=gksu -- backintime-qt4/" backintime-gnome-root.desktop;;
-esac
 
 #patch python command
 #use 'python' or 'python3' to start Python Version 3.x

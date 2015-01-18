@@ -3,14 +3,14 @@ DEST=$(DESTDIR)$(PREFIX)
 
 all: build
 
-build: translate
+build:	translate compress
 
 clean:
 	rm -f po/*.mo
 	rm -f man/C/*.gz
 	rm -f config-example-*.gz
 
-install: build install_translations
+install: install_translations
 	#install python
 	install -d $(DEST)/share/backintime/common
 	install --mode=644 *.py $(DEST)/share/backintime/common
@@ -32,14 +32,11 @@ install: build install_translations
 	install --mode=644 ../CHANGES $(DEST)/share/doc/backintime-common
 
 	#install config-example files(s)
-	gzip --best -c config-example-local > config-example-local.gz
-	gzip --best -c config-example-ssh > config-example-ssh.gz
 	install -d $(DEST)/share/doc/backintime-common/examples
 	install --mode=644 config-example-local.gz $(DEST)/share/doc/backintime-common/examples
 	install --mode=644 config-example-ssh.gz $(DEST)/share/doc/backintime-common/examples
 	
 	#install man file(s)
-	for i in $$(ls -1 man/C/); do case $$i in *.gz|*~) continue;; *) gzip --best -c man/C/$$i > man/C/$${i}.gz;; esac; done
 	install -d $(DEST)/share/man/man1
 	install --mode=644 man/C/*.gz $(DEST)/share/man/man1
 	
@@ -51,4 +48,12 @@ install: build install_translations
 	#install autostart
 	install -d $(DEST)/../etc/xdg/autostart
 	install --mode=644 backintime.desktop $(DEST)/../etc/xdg/autostart
+
+compress:
+	#man pages
+	for i in $$(ls -1 man/C/); do case $$i in *.gz|*~) continue;; *) gzip --best -c man/C/$$i > man/C/$${i}.gz;; esac; done
+
+	#config-examples
+	gzip --best -c config-example-local > config-example-local.gz
+	gzip --best -c config-example-ssh > config-example-ssh.gz
 
