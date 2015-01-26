@@ -401,11 +401,10 @@ class SettingsDialog( QDialog ):
         self.list_include_header.setClickable(True)
         self.list_include_header.setSortIndicatorShown(True)
         self.list_include_header.setSectionHidden(1, True)
-        self.list_include.sortItems(1, Qt.AscendingOrder)
-        self.list_include_model = self.list_include.model()
+        self.list_include_sort_loop = False
         QObject.connect(self.list_include_header,
                         SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.list_include_model.sort )
+                        self.includeCustomSortOrder )
 
         layout.addWidget( self.list_include )
         self.list_include_count = 0
@@ -446,11 +445,10 @@ class SettingsDialog( QDialog ):
         self.list_exclude_header.setClickable(True)
         self.list_exclude_header.setSortIndicatorShown(True)
         self.list_exclude_header.setSectionHidden(1, True)
-        self.list_exclude.sortItems(1, Qt.AscendingOrder)
-        self.list_exclude_model = self.list_exclude.model()
+        self.list_exclude_sort_loop = False
         QObject.connect(self.list_exclude_header,
                         SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.list_exclude_model.sort )
+                        self.excludeCustomSortOrder )
 
         layout.addWidget( self.list_exclude )
         self.list_exclude_count = 0
@@ -1042,6 +1040,10 @@ class SettingsDialog( QDialog ):
         for include in self.config.get_include():
             self.add_include( include )
 
+        includeSortColumn = int(self.config.get_profile_int_value('qt4.settingsdialog.include.SortColumn', 1))
+        includeSortOrder  = int(self.config.get_profile_int_value('qt4.settingsdialog.include.SortOrder', Qt.AscendingOrder))
+        self.list_include.sortItems(includeSortColumn, includeSortOrder)
+
         #TAB: Exclude
         self.list_exclude.clear()
 
@@ -1049,6 +1051,10 @@ class SettingsDialog( QDialog ):
             self.add_exclude( exclude )
         self.cb_exclude_files_by_size.setChecked(self.config.exclude_by_size_enabled())
         self.sb_exclude_files_by_size.setValue(self.config.exclude_by_size())
+
+        excludeSortColumn = int(self.config.get_profile_int_value('qt4.settingsdialog.exclude.SortColumn', 1))
+        excludeSortOrder  = int(self.config.get_profile_int_value('qt4.settingsdialog.exclude.SortOrder', Qt.AscendingOrder))
+        self.list_exclude.sortItems(excludeSortColumn, excludeSortOrder)
 
         #TAB: Auto-remove
 
@@ -1237,7 +1243,12 @@ class SettingsDialog( QDialog ):
         self.config.set_password(password_2, mode = mode, pw_id = 2)
 
         #include list
+        self.config.set_profile_int_value('qt4.settingsdialog.include.SortColumn',
+                                          self.list_include_header.sortIndicatorSection())
+        self.config.set_profile_int_value('qt4.settingsdialog.include.SortOrder',
+                                          self.list_include_header.sortIndicatorOrder())
         self.list_include.sortItems(1, Qt.AscendingOrder)
+
         include_list = []
         for index in range( self.list_include.topLevelItemCount() ):
             item = self.list_include.topLevelItem( index )
@@ -1246,7 +1257,12 @@ class SettingsDialog( QDialog ):
         self.config.set_include( include_list )
 
         #exclude patterns
+        self.config.set_profile_int_value('qt4.settingsdialog.exclude.SortColumn',
+                                          self.list_exclude_header.sortIndicatorSection())
+        self.config.set_profile_int_value('qt4.settingsdialog.exclude.SortOrder',
+                                          self.list_exclude_header.sortIndicatorOrder())
         self.list_exclude.sortItems(1, Qt.AscendingOrder)
+
         exclude_list = []
         for index in range( self.list_exclude.topLevelItemCount() ):
             item = self.list_exclude.topLevelItem( index )
@@ -1613,6 +1629,27 @@ class SettingsDialog( QDialog ):
         else:
             item.setIcon(0, self.icon.EXCLUDE)
             item.setBackground(0, QBrush())
+
+    def customSortOrder(self, header, loop, newColumn, newOrder):
+        if newColumn == 0 and newOrder == Qt.AscendingOrder:
+            if loop:
+                newColumn, newOrder = 1, Qt.AscendingOrder
+                header.setSortIndicator(newColumn, newOrder)
+                loop = False
+            else:
+                loop = True
+        header.model().sort(newColumn, newOrder)
+        return loop
+
+    def includeCustomSortOrder(self, *args):
+        self.list_include_sort_loop = self.customSortOrder(self.list_include_header,
+                                                           self.list_include_sort_loop,
+                                                           *args)
+
+    def excludeCustomSortOrder(self, *args):
+        self.list_exclude_sort_loop = self.customSortOrder(self.list_exclude_header,
+                                                           self.list_exclude_sort_loop,
+                                                           *args)
 
     def printDefault(self, value):
         if value:
