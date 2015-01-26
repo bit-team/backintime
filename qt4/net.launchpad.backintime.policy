@@ -8,7 +8,7 @@
   <vendor_url>http://backintime.le-web.org</vendor_url>
   <icon_name>document-save</icon_name>
 
-  <action id="org.leWeb.backintime.qt4gui">
+  <action id="net.launchpad.backintime.qt4gui">
     <message gettext-domain="backintime">Authentication is required to run Back In Time as root.</message>
     <description gettext-domain="backintime">Start Back In Time GUI as root.</description>
     <defaults>
@@ -20,7 +20,7 @@
     <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
   </action>
 
-  <action id="org.leWeb.backintime.UdevRuleSave">
+  <action id="net.launchpad.backintime.UdevRuleSave">
     <message gettext-domain="backintime">Authentication is required to add Udev rules.</message>
     <description gettext-domain="backintime">This will install Udev rules which will start Back In Time if a drive get connected.</description>
     <defaults>
@@ -30,7 +30,7 @@
     </defaults>
   </action>
 
-  <action id="org.leWeb.backintime.UdevRuleDelete">
+  <action id="net.launchpad.backintime.UdevRuleDelete">
     <message gettext-domain="backintime">Authentication is required to delete Udev rules.</message>
     <description gettext-domain="backintime">This will delete Udev rules.</description>
     <defaults>

@@ -1414,7 +1414,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                                              'DBus Service \'%(dbus_interface)s\' '
                                              'wasn\'t available') 
                                             %{'profile_id': profile_id,
-                                              'dbus_interface': 'org.leWeb.backintime.serviceHelper'})
+                                              'dbus_interface': 'net.launchpad.backintime.serviceHelper'})
                     mode = self.get_snapshots_mode(profile_id)
                     if mode == 'local':
                         dest_path = self.get_snapshots_full_path(profile_id)

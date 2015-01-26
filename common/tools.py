@@ -1045,9 +1045,9 @@ class SetupUdev(object):
     This is done by serviceHelper.py script (included in backintime-qt4)
     running as root though DBus.
     """
-    CONNECTION = 'org.leWeb.backintime.serviceHelper'
+    CONNECTION = 'net.launchpad.backintime.serviceHelper'
     OBJECT = '/UdevRules'
-    INTERFACE = 'org.leWeb.backintime.serviceHelper.UdevRules'
+    INTERFACE = 'net.launchpad.backintime.serviceHelper.UdevRules'
     MEMBERS = ('addRule', 'save', 'delete')
     def __init__(self):
         bus = dbus.SystemBus()
@@ -1070,7 +1070,7 @@ class SetupUdev(object):
         try:
             return self.iface.addRule(cmd, uuid)
         except dbus.exceptions.DBusException as e:
-            if e._dbus_error_name == 'org.leWeb.backintime.InvalidChar':
+            if e._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
                 raise InvalidChar(str(e))
             else:
                 raise

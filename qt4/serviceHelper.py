@@ -79,7 +79,7 @@ from PyQt4.QtCore import QCoreApplication
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
 
 class InvalidChar(dbus.DBusException):
-    _dbus_error_name = 'org.leWeb.backintime.InvalidChar'
+    _dbus_error_name = 'net.launchpad.backintime.InvalidChar'
 
 class PermissionDeniedByPolicy(dbus.DBusException):
     _dbus_error_name = 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'
@@ -101,7 +101,7 @@ class UdevRules(dbus.service.Object):
         if proc.returncode:
             self.su = '/bin/su'
 
-    @dbus.service.method("org.leWeb.backintime.serviceHelper.UdevRules",
+    @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
                          in_signature='ss', out_signature='',
                          sender_keyword='sender', connection_keyword='conn')
     def addRule(self, cmd, uuid, sender=None, conn=None):
@@ -129,7 +129,7 @@ class UdevRules(dbus.service.Object):
         #store rule in tmp file
         self._senderTmpFile(sender, conn).write(rule)
 
-    @dbus.service.method("org.leWeb.backintime.serviceHelper.UdevRules",
+    @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
                          in_signature='', out_signature='b',
                          sender_keyword='sender', connection_keyword='conn')
     def save(self, sender=None, conn=None):
@@ -153,12 +153,12 @@ class UdevRules(dbus.service.Object):
                 if tmpRules == f.read():
                     return False
         #auth to save changes
-        self._checkPolkitPrivilege(sender, conn, 'org.leWeb.backintime.UdevRuleSave')
+        self._checkPolkitPrivilege(sender, conn, 'net.launchpad.backintime.UdevRuleSave')
         with open(UDEV_RULES_PATH % user, 'w') as f:
             f.write(tmpRules)
         return True
 
-    @dbus.service.method("org.leWeb.backintime.serviceHelper.UdevRules",
+    @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
                          in_signature='', out_signature='',
                          sender_keyword='sender', connection_keyword='conn')
     def delete(self, sender=None, conn=None):
@@ -167,7 +167,7 @@ class UdevRules(dbus.service.Object):
         user = self._getConnectionUser(sender, conn)
         if os.path.exists(UDEV_RULES_PATH % user):
             #auth to delete rule
-            self._checkPolkitPrivilege(sender, conn, 'org.leWeb.backintime.UdevRuleDelete')
+            self._checkPolkitPrivilege(sender, conn, 'net.launchpad.backintime.UdevRuleDelete')
             os.remove(UDEV_RULES_PATH % user)
 
     @classmethod
@@ -254,7 +254,7 @@ if __name__ == '__main__':
     app = QCoreApplication([])
 
     bus = dbus.SystemBus()
-    name = dbus.service.BusName("org.leWeb.backintime.serviceHelper", bus)
+    name = dbus.service.BusName("net.launchpad.backintime.serviceHelper", bus)
     object = UdevRules(bus, '/UdevRules')
 
     print("Running BIT service.")

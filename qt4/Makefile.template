@@ -24,15 +24,15 @@ install:
 
 	#install dbus service
 	install -d $(DEST)/share/dbus-1/system-services
-	install --mode=644 org.leWeb.backintime*.service $(DEST)/share/dbus-1/system-services
+	install --mode=644 net.launchpad.backintime*.service $(DEST)/share/dbus-1/system-services
 
 	#install dbus conf
 	install -d $(DEST)/../etc/dbus-1/system.d
-	install --mode=644 org.leWeb.backintime*.conf $(DEST)/../etc/dbus-1/system.d
+	install --mode=644 net.launchpad.backintime*.conf $(DEST)/../etc/dbus-1/system.d
 
 	#install polkit action
 	install -d $(DEST)/share/polkit-1/actions
-	install --mode=644 org.leWeb.backintime*.policy $(DEST)/share/polkit-1/actions
+	install --mode=644 net.launchpad.backintime*.policy $(DEST)/share/polkit-1/actions
 
 	#install copyright file
 	install -d $(DEST)/share/doc/backintime-qt4
