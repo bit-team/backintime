@@ -814,7 +814,7 @@ class SettingsDialog( QDialog ):
                 'versions of rsync, this option also had the side-effect of\n'
                 'telling the receiving side to follow symlinks, such as\n'
                 'symlinks to directories. In a modern rsync such as this one,\n'
-                'you’ll need to specify --keep-dirlinks (-K) to get this extra\n'
+                'you\'ll need to specify --keep-dirlinks (-K) to get this extra\n'
                 'behavior. The only exception is when sending files to an rsync\n'
                 'that is too old to understand -K -- in that case, the -L option\n'
                 'will still have the side-effect of -K on that older receiving rsync.'

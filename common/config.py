@@ -22,8 +22,6 @@ import gettext
 import socket
 import random
 import re
-import tempfile
-import stat
 try:
     import pwd
 except ImportError:
@@ -269,6 +267,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.force_use_checksum = False
         self.xWindowId = None
         self.inhibitCookie = None
+        self.setupUdev = tools.SetupUdev()
 
     def save( self ):
         configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
@@ -1410,6 +1409,12 @@ class Config( configfile.ConfigFileWithProfiles ):
                     else:
                         cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
                 elif self.UDEV == backup_mode:
+                    if not self.setupUdev.isReady:
+                        self.notify_error( _('Could not install Udev rule for profile %(profile_id)s. '
+                                             'DBus Service \'%(dbus_interface)s\' '
+                                             'wasn\'t available') 
+                                            %{'profile_id': profile_id,
+                                              'dbus_interface': 'org.leWeb.backintime.serviceHelper'})
                     mode = self.get_snapshots_mode(profile_id)
                     if mode == 'local':
                         dest_path = self.get_snapshots_full_path(profile_id)
@@ -1422,9 +1427,10 @@ class Config( configfile.ConfigFileWithProfiles ):
                     if uuid is None:
                         self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
                         return False
-                    if uuid_tmp_fd is None:
-                        uuid_tmp_fd = tempfile.NamedTemporaryFile()
-                    self.prepair_udev(uuid_tmp_fd, uuid, profile_id)
+                    try:
+                        self.setupUdev.addRule(self.cron_cmd(profile_id), uuid)
+                    except tools.InvalidChar as e:
+                        self.notify_error(str(e))
                 elif self.WEEK == backup_mode:
                     cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
                 elif self.MONTH == backup_mode:
@@ -1438,18 +1444,10 @@ class Config( configfile.ConfigFileWithProfiles ):
                     cron_line = cron_line.replace( '{msg}', system_entry_message )
                     os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
-            if uuid_tmp_fd is None:
-                if not self.remove_udev():
-                    self.notify_error( _('Failed to remove udev rules') )
-            else:
-                uuid_tmp_fd.flush()
-                uuid_tmp_fd.seek(0)
-                if uuid_tmp_fd.read():
-                    if not self.setup_udev(uuid_tmp_fd):
-                        self.notify_error( _('Failed to create udev rules') )
-                        uuid_tmp_fd.close()
-                        return False
-                uuid_tmp_fd.close()
+            if self.setupUdev.isReady and self.setupUdev.save():
+                print('Udev rules saved successfully')
+        except tools.PermissionDeniedByPolicy as e:
+                self.notify_error(str(e))
         except:
             raise
         finally:
@@ -1473,30 +1471,6 @@ class Config( configfile.ConfigFileWithProfiles ):
         if self.is_run_nice_from_cron_enabled( profile_id ) and tools.check_command('nice'):
             cmd = tools.which('nice') + ' -n 19 ' + cmd
         return cmd
-
-    def prepair_udev(self, tmp_fd, uuid, profile_id):
-        cmd = self.cron_cmd(profile_id)
-        cmd = "%s - '%s' -c '%s'" %(tools.which('su'), self.get_user(), cmd)
-        tmp_fd.write(bytes('ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, cmd), 'UTF-8'))
-        return True
-
-    def setup_udev(self, tmp_fd):
-        tmp_fd.flush()
-        path = self.get_udev_rules_path()
-        os.chmod(tmp_fd.name, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        try:
-            if os.path.exists(path) and tools._get_md5sum_from_path(tmp_fd.name) == tools._get_md5sum_from_path(path):
-                return True
-        except TypeError:
-            pass
-        cmd = 'cp "%s" "%s"' %(tmp_fd.name, path)
-        return tools.sudo_execute(self, cmd, _('Please provide your sudo password to install the udev rule.')) == 0
-
-    def remove_udev(self):
-        if not os.path.exists(self.get_udev_rules_path()):
-            return True
-        cmd = 'rm %s' % self.get_udev_rules_path()
-        return tools.sudo_execute(self, cmd, _('Please provide your sudo password to remove unused udev rules.')) == 0
 
 if __name__ == "__main__":
     config = Config()

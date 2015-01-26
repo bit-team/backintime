@@ -4,6 +4,7 @@
 PYTHON="--python3"
 
 USR_BIN_FILES="backintime-qt4"
+DBUS_SERVICE_FILES="org.leWeb.backintime.serviceHelper.service"
 
 usage () {
 echo "Usage:"
@@ -29,10 +30,14 @@ case $PYTHON in
 	--python)   sed -e "s/^python3\? /python /g" \
 			-e "s/^ssh-agent python3\? /ssh-agent python /g" \
 			-i $USR_BIN_FILES
+                    sed -e "s/^Exec=/usr/bin/python3\? /Exec=/usr/bin/python /g"
+                        -i $DBUS_SERVICE_FILES
 			;;
 	--python3)  sed -e "s/^python3\? /python3 /g" \
 			-e "s/^ssh-agent python3\? /ssh-agent python3 /g" \
 			-i $USR_BIN_FILES
+                    sed -e "s/^Exec=/usr/bin/python3\? /Exec=/usr/bin/python3 /g"
+                        -i $DBUS_SERVICE_FILES
 			;;
 esac
 

@@ -46,8 +46,8 @@ Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
             sudo make install
 
 
-    Qt4 GUI (dependencies: x11-utils, python3-pyqt4, kdesudo | gksu, libnotify-bin,
-                           backintime-common
+    Qt4 GUI (dependencies: x11-utils, python3-pyqt4, libnotify-bin, policykit-1,
+                           python3-dbus.mainloop.qt, backintime-common
              recomended:   python-secretstorage | python-keyring-kwallet |
                            python-gnomekeyring, kompare | meld):
 
@@ -62,12 +62,6 @@ Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
     --fuse-group | --no-fuse-group (only COMMON)
         Some distributions require user to be in group 'fuse' to use
         sshfs and encfs. This toggles the check on or off.
-
-    --kdesudo | --kdesu (only Qt4 GUI)
-        Use either 'kdesudo' or 'kdesu' to start Backintime as root
-
-    --gksudo | --gksu (only Qt4 GUI)
-        Use either 'gksudo' or 'gksu' to start Backintime as root
 
     --python3 | --python (all)
         Use either 'python3' or 'python' to start Python Version 3.x

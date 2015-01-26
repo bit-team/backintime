@@ -586,22 +586,6 @@ def get_uuid(dev):
 def get_uuid_from_path(path):
     return get_uuid(get_mountpoint(path)[0])
 
-def sudo_execute(cfg, cmd, msg = None, *args, **kwargs):
-    '''execute command with gksudo or kdesudo if user isn't root'''
-    if not isRoot():
-        sudo = {'gksudo':  ('-m "{msg}"', '-- {cmd}'),
-                'kdesudo': ('--comment "{msg}"', '-- {cmd}'),
-                'kdesu':   ('', '-c "{cmd}"') }
-        for i in sudo:
-            if check_command(i):
-                sudo_cmd = [i,]
-                if not msg is None and len(sudo[i][0]):
-                    sudo_cmd.append(sudo[i][0].replace('{msg}', msg))
-                sudo_cmd.append(sudo[i][1].replace('{cmd}', cmd))
-                cmd = ' '.join(sudo_cmd)
-                break
-    return _execute(cmd, *args, **kwargs)
-
 def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
     if len(new_line_indicator) >= size - 1:
         new_line_indicator = ''
@@ -1041,6 +1025,68 @@ class ShutDown(object):
         except:
             pass
         return False
+
+class InvalidChar(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
+
+class PermissionDeniedByPolicy(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
+
+class SetupUdev(object):
+    """Setup Udev rules for starting BackInTime when a drive get connected.
+    This is done by serviceHelper.py script (included in backintime-qt4)
+    running as root though DBus.
+    """
+    CONNECTION = 'org.leWeb.backintime.serviceHelper'
+    OBJECT = '/UdevRules'
+    INTERFACE = 'org.leWeb.backintime.serviceHelper.UdevRules'
+    MEMBERS = ('addRule', 'save', 'delete')
+    def __init__(self):
+        bus = dbus.SystemBus()
+        try:
+            self.conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
+        except dbus.exceptions.DBusException as e:
+            if e._dbus_error_name == 'org.freedesktop.DBus.Error.NameHasNoOwner' or \
+               e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
+                self.conn = None
+            else:
+                raise
+        self.isReady = bool(self.conn)
+
+    def addRule(self, cmd, uuid):
+        """prepair rules in serviceHelper.py
+        """
+        if not self.isReady:
+            return
+        try:
+            return self.conn.addRule(cmd, uuid, dbus_interface = SetupUdev.INTERFACE)
+        except dbus.exceptions.DBusException as e:
+            if e._dbus_error_name == 'org.leWeb.backintime.InvalidChar':
+                raise InvalidChar(str(e))
+            else:
+                raise
+
+    def save(self):
+        """save rules with serviceHelper.py after authentication
+        If no rules where added before this will delete current rule.
+        """
+        if not self.isReady:
+            return
+        try:
+            return self.conn.save(dbus_interface = SetupUdev.INTERFACE)
+        except dbus.exceptions.DBusException as e:
+            if e._dbus_error_name == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy':
+                raise PermissionDeniedByPolicy(str(e))
+            else:
+                raise
 
 if keyring is None and keyring_warn:
     logger.warning('import keyring failed')
