@@ -1052,14 +1052,15 @@ class SetupUdev(object):
     def __init__(self):
         bus = dbus.SystemBus()
         try:
-            self.conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
+            conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
+            self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
         except dbus.exceptions.DBusException as e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.NameHasNoOwner' or \
                e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
-                self.conn = None
+                conn = None
             else:
                 raise
-        self.isReady = bool(self.conn)
+        self.isReady = bool(conn)
 
     def addRule(self, cmd, uuid):
         """prepair rules in serviceHelper.py
@@ -1067,7 +1068,7 @@ class SetupUdev(object):
         if not self.isReady:
             return
         try:
-            return self.conn.addRule(cmd, uuid, dbus_interface = SetupUdev.INTERFACE)
+            return self.iface.addRule(cmd, uuid)
         except dbus.exceptions.DBusException as e:
             if e._dbus_error_name == 'org.leWeb.backintime.InvalidChar':
                 raise InvalidChar(str(e))
@@ -1081,7 +1082,7 @@ class SetupUdev(object):
         if not self.isReady:
             return
         try:
-            return self.conn.save(dbus_interface = SetupUdev.INTERFACE)
+            return self.iface.save()
         except dbus.exceptions.DBusException as e:
             if e._dbus_error_name == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy':
                 raise PermissionDeniedByPolicy(str(e))
