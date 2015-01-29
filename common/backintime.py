@@ -159,7 +159,8 @@ def start_app( app_name = 'backintime', extra_args = [] ):
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
         print("WARNING: It looks like you're using 'sudo' to start BackInTime. " +      \
-              "This will cause some troubles. Please use 'gksu' or 'kdesudo' instead.", \
+              "This will cause some troubles. Please use either 'sudo -i backintime' "+ \
+              "for command-line or 'pkexec backintime-qt4' for the GUI instead.",       \
               file=sys.stderr)
 
     skip = False
