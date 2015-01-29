@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-01-07 23:48+0100\n"
-"PO-Revision-Date: 2014-03-28 14:08+0000\n"
-"Last-Translator: JL <Unknown>\n"
+"PO-Revision-Date: 2015-01-29 22:53+0000\n"
+"Last-Translator: Germar <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-01-12 00:28+0000\n"
-"X-Generator: Launchpad (build 17298)\n"
+"X-Launchpad-Export-Date: 2015-01-29 23:00+0000\n"
+"X-Generator: Launchpad (build 17306)\n"
 
 #: ../../common/configfile.py:250 ../../common/configfile.py:312
 #, python-format
@@ -77,7 +77,7 @@ msgstr "Elke dag"
 
 #: ../../common/config.py:90
 msgid "Repeatedly (anacron)"
-msgstr ""
+msgstr "Herhaaldelijk (anacron)"
 
 #: ../../common/config.py:91
 msgid "When drive get connected (udev)"
@@ -105,11 +105,11 @@ msgstr "Jaar/jaren"
 
 #: ../../common/config.py:103
 msgid "Hour(s)"
-msgstr ""
+msgstr "Uur/uren"
 
 #: ../../common/config.py:106
 msgid "Month(s)"
-msgstr ""
+msgstr "Maand(en)"
 
 #: ../../common/config.py:125
 msgid " EXPERIMENTAL!"
@@ -328,7 +328,7 @@ msgstr ""
 "%(user)s is geen lid van de groep 'fuse'.\n"
 " Voer de opdracht 'sudo adduser %(user)s fuse' uit. Om de wijzigingen toe te "
 "passen dient u zich eerst af te melden en daarna weer aan te melden.\n"
-"Bekijk de 'Backintime handleiding' voor verdere instructies."
+"Bekijk de 'man backintime' voor verdere instructies."
 
 #: ../../common/encfstools.py:192
 msgid ""
@@ -380,7 +380,7 @@ msgid ""
 "### This log has been decoded with automatic search pattern\n"
 "### If some paths are not decoded you can manually decode them with:\n"
 msgstr ""
-"### Dit log is gedecodeerd met automatisch zoekpatroon\n"
+"### Dit logboek is gedecodeerd met automatisch zoekpatroon\n"
 "### Als sommige paden niet gedecodeerd zijn dan kunt u deze handmatig "
 "decoderen met:\n"
 
@@ -513,7 +513,7 @@ msgstr ""
 
 #: ../../common/snapshots.py:839
 msgid "Deferring backup while on battery"
-msgstr ""
+msgstr "Maken van reservekopieën uitstellen indien op accu"
 
 #: ../../common/snapshots.py:897
 msgid ""
@@ -617,8 +617,8 @@ msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
-"Kon SSH-privésleute niet ontgrendelen. Het wachtwoord is ongeldig of is niet "
-"beschikbaar voor cron."
+"Kon SSH-privésleutel niet ontgrendelen. Het wachtwoord is ongeldig of is "
+"niet beschikbaar voor cron."
 
 #: ../../common/sshtools.py:209
 msgid "sshfs not found. Please install e.g. 'apt-get install sshfs'"
@@ -633,7 +633,7 @@ msgid ""
 "backintime' for further instructions."
 msgstr ""
 "Authenticatie aanmelden zonder wachtwoord voor %(user)s@%(host)s is mislukt. "
-"Bekijk de 'Backintime handleiding' voor verdere instructies."
+"Bekijk de 'man backintime' voor verdere instructies."
 
 #: ../../common/sshtools.py:243
 #, python-format
@@ -701,7 +701,7 @@ msgid ""
 msgstr ""
 "Gastcomputer op afstand %(host)s ondersteunt geen '%(command)s':\n"
 "%(err)s\n"
-"Bekijk de 'Backintime handleiding' voor verdere instructies"
+"Bekijk de 'man backintime' voor verdere instructies"
 
 #: ../../common/sshtools.py:405
 #, python-format
@@ -713,7 +713,7 @@ msgstr ""
 "Controleer de opdrachten op de gastcomputer. %(host)s gaf een onbekende fout "
 "aan:\n"
 "%(err)s\n"
-"Bekijk de 'Backintime handleiding' voor verdere instructies"
+"Bekijk de 'man backintime' voor verdere instructies"
 
 #: ../../common/sshtools.py:418
 #, python-format
@@ -766,7 +766,7 @@ msgstr "Website"
 
 #: ../../qt4/app.py:127
 msgid "Changelog"
-msgstr ""
+msgstr "Wijzigingslogboek"
 
 #: ../../qt4/app.py:129
 msgid "FAQ"
@@ -809,7 +809,7 @@ msgstr "Herstellen naar..."
 
 #: ../../qt4/app.py:196
 msgid "Restore and delete new files"
-msgstr ""
+msgstr "Nieuwe bestanden herstellen en verwijderen"
 
 #: ../../qt4/app.py:203
 #, python-format
@@ -818,10 +818,13 @@ msgid ""
 "If this button is grayed out this is most likely because \"%(now)s\" is "
 "selected in left hand snapshots list."
 msgstr ""
+"Geselecteerd bestand of map herstellen.\n"
+"Wanneer deze knop grijs gedimd is komt dat hoogstwaarschijnlijk omdat "
+"\"%(now)s\" is geselecteerd in de reservekopielijst aan de linkerkant."
 
 #: ../../qt4/app.py:215
 msgid "Snapshot"
-msgstr ""
+msgstr "Reservekopie"
 
 #: ../../qt4/app.py:226
 msgid "View"
@@ -850,6 +853,8 @@ msgid ""
 "%(appName)s is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr ""
+"%(appName)s is niet geconfigureerd. Wilt u een eerdere configuratie "
+"herstellen?"
 
 #: ../../qt4/app.py:414
 msgid ""
@@ -888,7 +893,7 @@ msgstr ""
 
 #: ../../qt4/app.py:681 ../../qt4/qt4systrayicon.py:154
 msgid "Speed:"
-msgstr ""
+msgstr "Snelheid:"
 
 #: ../../qt4/app.py:682 ../../qt4/qt4systrayicon.py:155
 msgid "ETA:"
@@ -913,6 +918,7 @@ msgstr "Mappen om reservekopie van te maken"
 #: ../../qt4/app.py:812
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
+"Dit is GEEN reservekopie maar een actuele weergave van uw lokale bestanden"
 
 #: ../../qt4/app.py:822
 msgid "Today"
@@ -933,7 +939,7 @@ msgstr "Afgelopen week"
 #: ../../qt4/app.py:866
 #, python-format
 msgid "Last check %s"
-msgstr ""
+msgstr "Laatste controle %s"
 
 #: ../../qt4/app.py:929
 #, python-format
@@ -948,6 +954,8 @@ msgstr ""
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
+"Weet u zeker dat u alle nieuwere bestanden in de oorspronkelijke map wilt "
+"verwijderen?"
 
 #: ../../qt4/app.py:991
 #, python-format
@@ -959,7 +967,7 @@ msgstr ""
 
 #: ../../qt4/app.py:996 ../../qt4/settingsdialog.py:625
 msgid "Backup replaced files on restore"
-msgstr ""
+msgstr "Reservekopie maken van vervangen bestanden bij het herstellen"
 
 #: ../../qt4/app.py:1130
 #, python-format
@@ -988,7 +996,7 @@ msgstr "'%s' herstellen naar..."
 #: ../../qt4/app.py:1174
 #, python-format
 msgid "Restore '%s' and delete new files"
-msgstr ""
+msgstr "'%s' herstellen en nieuwe bestanden verwijderen"
 
 #: ../../qt4/app.py:1259 ../../qt4/app.py:1276
 msgid "Authors"
@@ -996,11 +1004,11 @@ msgstr ""
 
 #: ../../qt4/app.py:1260 ../../qt4/app.py:1279
 msgid "Translations"
-msgstr ""
+msgstr "Vertalingen"
 
 #: ../../qt4/app.py:1261 ../../qt4/app.py:1282
 msgid "License"
-msgstr ""
+msgstr "Licentie"
 
 #: ../../qt4/logviewdialog.py:51
 msgid "Error Log View"
@@ -1041,15 +1049,15 @@ msgstr "decodeerpaden"
 
 #: ../../qt4/messagebox.py:57
 msgid "Error"
-msgstr ""
+msgstr "Fout"
 
 #: ../../qt4/messagebox.py:63
 msgid "Question"
-msgstr ""
+msgstr "Vraag"
 
 #: ../../qt4/qt4systrayicon.py:69
 msgid "Start BackInTime"
-msgstr ""
+msgstr "Back InTime starten"
 
 #: ../../qt4/qt4systrayicon.py:124
 msgid "Working..."
@@ -1061,12 +1069,12 @@ msgstr "Bewerken"
 
 #: ../../qt4/settingsdialog.py:74 ../../qt4/settingsdialog.py:468
 msgid "Add"
-msgstr ""
+msgstr "Toevoegen"
 
 #: ../../qt4/settingsdialog.py:78 ../../qt4/settingsdialog.py:424
 #: ../../qt4/settingsdialog.py:484
 msgid "Remove"
-msgstr ""
+msgstr "Verwijderen"
 
 #: ../../qt4/settingsdialog.py:93
 msgid "General"
@@ -1082,7 +1090,7 @@ msgstr "Waar wilt u de reservekopieën opslaan"
 
 #: ../../qt4/settingsdialog.py:134
 msgid "Folder"
-msgstr ""
+msgstr "Map"
 
 #: ../../qt4/settingsdialog.py:142
 msgid "SSH Settings"
@@ -1114,7 +1122,7 @@ msgstr "Privésleutel:"
 
 #: ../../qt4/settingsdialog.py:190
 msgid "Key File"
-msgstr ""
+msgstr "Sleutelbestand"
 
 #: ../../qt4/settingsdialog.py:229 ../../qt4/settingsdialog.py:238
 #: ../../qt4/settingsdialog.py:244
@@ -1137,7 +1145,7 @@ msgstr "Geavanceerd"
 
 #: ../../qt4/settingsdialog.py:295 ../../qt4/settingsdialog.py:1519
 msgid "Full snapshot path: "
-msgstr ""
+msgstr "Volledige reservekopiepad: "
 
 #: ../../qt4/settingsdialog.py:302
 msgid "Schedule"
@@ -1164,10 +1172,12 @@ msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regular."
 msgstr ""
+"Laat Back In Time herhaaldelijk een reservekopie maken. Dit is vooral "
+"bruikbaar wanneer de computer niet regelmatig wordt gebruikt."
 
 #: ../../qt4/settingsdialog.py:359
 msgid "Every:"
-msgstr ""
+msgstr "Elke:"
 
 #: ../../qt4/settingsdialog.py:377
 msgid ""
@@ -1175,8 +1185,8 @@ msgid ""
 "days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
-"Laat Back In Time een back-up maken zodra er een extern medium aangesloten "
-"wordt (alleen om de X dagen).\n"
+"Laat Back In Time een reservekopie maken zodra er een extern medium "
+"aangesloten wordt (alleen om de X dagen).\n"
 "Er zal om uw beheerderswachtwoord gevraagd worden."
 
 #: ../../qt4/settingsdialog.py:390
@@ -1224,7 +1234,7 @@ msgstr ""
 
 #: ../../qt4/settingsdialog.py:491
 msgid "Exclude files bigger than: "
-msgstr ""
+msgstr "Bestanden uitsluiten die groter zijn dan: "
 
 #: ../../qt4/settingsdialog.py:492
 msgid ""
@@ -1234,6 +1244,13 @@ msgid ""
 "So big files that has been backed up before will remain in snapshots\n"
 "even if they had changed."
 msgstr ""
+"Sluit bestanden uit die groter zijn dan de waarde in Mb.\n"
+"Indien de 'Volledige rsync-modus' uitgeschakeld wordt zal dit alleen gelden "
+"voor nieuwe bestanden\n"
+"omdat voor rsync dit een optie is voor verplaatsen en niet voor uitsluiten.\n"
+"Dus grote bestanden waar reeds een reservekopie van bestond zullen behouden "
+"blijven\n"
+"zelfs bij een eventuele wijziging."
 
 #: ../../qt4/settingsdialog.py:510
 msgid "Auto-remove"
@@ -1361,32 +1378,32 @@ msgstr "Wijzig deze opties alleen als u zeker weet wat u doet!"
 
 #: ../../qt4/settingsdialog.py:683
 msgid "Run 'nice':"
-msgstr ""
+msgstr "'nice' uitvoeren:"
 
 #: ../../qt4/settingsdialog.py:689 ../../qt4/settingsdialog.py:701
 msgid "as cron job"
-msgstr ""
+msgstr "als cron job"
 
 #: ../../qt4/settingsdialog.py:692 ../../qt4/settingsdialog.py:707
 #: ../../qt4/settingsdialog.py:721
 msgid "on remote host"
-msgstr ""
+msgstr "op gastcomputer"
 
 #: ../../qt4/settingsdialog.py:695
 msgid "Run 'ionice':"
-msgstr ""
+msgstr "'ionice' uitvoeren:"
 
 #: ../../qt4/settingsdialog.py:704
 msgid "when taking a manual snapshot"
-msgstr ""
+msgstr "bij het maken van een handmatige reservekopie"
 
 #: ../../qt4/settingsdialog.py:711
 msgid "Run 'rsync' with 'nocache':"
-msgstr ""
+msgstr "'rsync' uitvoeren met 'nocache':"
 
 #: ../../qt4/settingsdialog.py:717
 msgid "on local machine"
-msgstr ""
+msgstr "op lokale machine"
 
 #: ../../qt4/settingsdialog.py:727
 msgid "Limit rsync bandwidth usage: "
@@ -1414,16 +1431,18 @@ msgstr "Links kopiëren (symbolische links dereferentie)"
 
 #: ../../qt4/settingsdialog.py:754
 msgid "Paste additional options to rsync"
-msgstr ""
+msgstr "Extra opties aan rsync plakken"
 
 #: ../../qt4/settingsdialog.py:757
 msgid ""
 "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
+"Opties moeten tussen aanhalingstekens staan b.v. --exclude-"
+"from=\"/path/to/my exclude file\"."
 
 #: ../../qt4/settingsdialog.py:771
 msgid "Restore Config"
-msgstr ""
+msgstr "Configuratie herstellen"
 
 #: ../../qt4/settingsdialog.py:786
 msgid "New profile"
@@ -1481,23 +1500,23 @@ msgstr "Weet u zeker dat u de reservekopiemap wilt wijzigen?"
 
 #: ../../qt4/settingsdialog.py:1546
 msgid "enabled"
-msgstr ""
+msgstr "ingeschakeld"
 
 #: ../../qt4/settingsdialog.py:1548
 msgid "disabled"
-msgstr ""
+msgstr "uitgeschakeld"
 
 #: ../../qt4/settingsdialog.py:1549
 msgid "default"
-msgstr ""
+msgstr "standaard"
 
 #: ../../qt4/settingsdialog.py:1573
 msgid "Restore Settings"
-msgstr ""
+msgstr "Instellingen herstellen"
 
 #: ../../qt4/settingsdialog.py:1590
 msgid " and add your user to group 'fuse'"
-msgstr ""
+msgstr " en voeg uw gebruiker toe aan de groep 'fuse'"
 
 #: ../../qt4/settingsdialog.py:1594
 #, python-format
@@ -1511,10 +1530,19 @@ msgid ""
 "public key login to the remote host%(addFuse)s.\n"
 "Take a look at 'man backintime'."
 msgstr ""
+"Navigeer a.u.b. naar de reservekopie waarvan u de %(appName)s's configuratie "
+"wilt herstellen. Het pad kan er mogelijk zo uitzien: \n"
+"%(samplePath)s\n"
+"\n"
+"Als deze reservekopieën op een extern medium staan of versleuteld zijn dient "
+"u deze eerst handmatig aan te koppelen. Wanneer u SSH-versleuteling gebruikt "
+"dient u het aanmelden met een publieke sleutel op de gastcomputer op "
+"afstand%(addFuse)s in te stellen.\n"
+"Bekijk de 'man backintime'."
 
 #: ../../qt4/settingsdialog.py:1652 ../../qt4/settingsdialog.py:1714
 msgid "No config found"
-msgstr ""
+msgstr "Geen configuratie gevonden"
 
 #: ../../qt4/snapshotsdialog.py:52 ../../qt4/snapshotsdialog.py:175
 msgid "Diff Options"

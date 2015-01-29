@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-01-07 23:48+0100\n"
-"PO-Revision-Date: 2014-09-14 17:24+0000\n"
+"PO-Revision-Date: 2015-01-29 15:55+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <marcoslansgarza@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-01-12 00:28+0000\n"
-"X-Generator: Launchpad (build 17298)\n"
+"X-Launchpad-Export-Date: 2015-01-29 23:00+0000\n"
+"X-Generator: Launchpad (build 17306)\n"
 "Language: gl\n"
 
 #: ../../common/configfile.py:250 ../../common/configfile.py:312
@@ -78,7 +78,7 @@ msgstr "Todos os días"
 
 #: ../../common/config.py:90
 msgid "Repeatedly (anacron)"
-msgstr ""
+msgstr "Repetidamente (anacron)"
 
 #: ../../common/config.py:91
 msgid "When drive get connected (udev)"
@@ -106,11 +106,11 @@ msgstr "ano(s)"
 
 #: ../../common/config.py:103
 msgid "Hour(s)"
-msgstr ""
+msgstr "Hora(s)"
 
 #: ../../common/config.py:106
 msgid "Month(s)"
-msgstr ""
+msgstr "Mes(es)"
 
 #: ../../common/config.py:125
 msgid " EXPERIMENTAL!"
@@ -507,7 +507,7 @@ msgstr ""
 
 #: ../../common/snapshots.py:839
 msgid "Deferring backup while on battery"
-msgstr ""
+msgstr "Atraso da copia no modo batería"
 
 #: ../../common/snapshots.py:897
 msgid ""
@@ -754,7 +754,7 @@ msgstr "Sitio web"
 
 #: ../../qt4/app.py:127
 msgid "Changelog"
-msgstr ""
+msgstr "Rexistro de cambios"
 
 #: ../../qt4/app.py:129
 msgid "FAQ"
@@ -797,7 +797,7 @@ msgstr "Restablecer como ..."
 
 #: ../../qt4/app.py:196
 msgid "Restore and delete new files"
-msgstr ""
+msgstr "Restabelecer e eliminar os ficheiros novos"
 
 #: ../../qt4/app.py:203
 #, python-format
@@ -806,14 +806,17 @@ msgid ""
 "If this button is grayed out this is most likely because \"%(now)s\" is "
 "selected in left hand snapshots list."
 msgstr ""
+"Restabelecer o ficheiro ou cartafol seleccionado.\n"
+"Se este botón está en gris probabelmente «%(now)s» está seleccionado na "
+"lista de copias da esquerda."
 
 #: ../../qt4/app.py:215
 msgid "Snapshot"
-msgstr ""
+msgstr "Copia de seguranza"
 
 #: ../../qt4/app.py:226
 msgid "View"
-msgstr ""
+msgstr "Ver"
 
 #: ../../qt4/app.py:266
 msgid "Shortcuts"
@@ -838,6 +841,8 @@ msgid ""
 "%(appName)s is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr ""
+"%(appName)s non está configurado. Desexa restabelecer unha configuración "
+"anterior?"
 
 #: ../../qt4/app.py:414
 msgid ""
@@ -871,15 +876,15 @@ msgstr "Produciuse un erro"
 
 #: ../../qt4/app.py:680 ../../qt4/qt4systrayicon.py:153
 msgid "Sent:"
-msgstr ""
+msgstr "Enviado:"
 
 #: ../../qt4/app.py:681 ../../qt4/qt4systrayicon.py:154
 msgid "Speed:"
-msgstr ""
+msgstr "Velocidade:"
 
 #: ../../qt4/app.py:682 ../../qt4/qt4systrayicon.py:155
 msgid "ETA:"
-msgstr ""
+msgstr "Tempo:"
 
 #: ../../qt4/app.py:730
 msgid "Global"
@@ -899,7 +904,7 @@ msgstr "Cartafoles para copiar"
 
 #: ../../qt4/app.py:812
 msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
+msgstr "Esta NON é unha copia senón unha vista actual dos ficheiros locais"
 
 #: ../../qt4/app.py:822
 msgid "Today"
@@ -920,7 +925,7 @@ msgstr "A semana pasada"
 #: ../../qt4/app.py:866
 #, python-format
 msgid "Last check %s"
-msgstr ""
+msgstr "Última comprobación %s"
 
 #: ../../qt4/app.py:929
 #, python-format
@@ -935,6 +940,7 @@ msgstr ""
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
+"Seguro que desexa eliminar todos os ficheiros novos do cartafol orixinal?"
 
 #: ../../qt4/app.py:991
 #, python-format
@@ -943,10 +949,13 @@ msgid ""
 "removed. You can turn this off in\n"
 "Settings > Options > %(backup_option)s"
 msgstr ""
+"En realidade os ficheiros copiaranse cun «%(suffix)s» ao final no canto de "
+"eliminalos. Podes cambiar esta opción en\n"
+"Configuración > Opcións > %(backup_option)s"
 
 #: ../../qt4/app.py:996 ../../qt4/settingsdialog.py:625
 msgid "Backup replaced files on restore"
-msgstr ""
+msgstr "Facer copia dos ficheiros substituídos na restauración"
 
 #: ../../qt4/app.py:1130
 #, python-format
@@ -975,19 +984,19 @@ msgstr "Restabelecer '%s' como ..."
 #: ../../qt4/app.py:1174
 #, python-format
 msgid "Restore '%s' and delete new files"
-msgstr ""
+msgstr "Restabelecer «%s» e eliminar os ficheiros novos"
 
 #: ../../qt4/app.py:1259 ../../qt4/app.py:1276
 msgid "Authors"
-msgstr ""
+msgstr "Autores"
 
 #: ../../qt4/app.py:1260 ../../qt4/app.py:1279
 msgid "Translations"
-msgstr ""
+msgstr "Traducións"
 
 #: ../../qt4/app.py:1261 ../../qt4/app.py:1282
 msgid "License"
-msgstr ""
+msgstr "Licenza"
 
 #: ../../qt4/logviewdialog.py:51
 msgid "Error Log View"
@@ -1028,15 +1037,15 @@ msgstr "decodificar rutas"
 
 #: ../../qt4/messagebox.py:57
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: ../../qt4/messagebox.py:63
 msgid "Question"
-msgstr ""
+msgstr "Pregunta"
 
 #: ../../qt4/qt4systrayicon.py:69
 msgid "Start BackInTime"
-msgstr ""
+msgstr "Iniciar BackInTime"
 
 #: ../../qt4/qt4systrayicon.py:124
 msgid "Working..."
@@ -1048,12 +1057,12 @@ msgstr "Editar"
 
 #: ../../qt4/settingsdialog.py:74 ../../qt4/settingsdialog.py:468
 msgid "Add"
-msgstr ""
+msgstr "Engadir"
 
 #: ../../qt4/settingsdialog.py:78 ../../qt4/settingsdialog.py:424
 #: ../../qt4/settingsdialog.py:484
 msgid "Remove"
-msgstr ""
+msgstr "Eliminar"
 
 #: ../../qt4/settingsdialog.py:93
 msgid "General"
@@ -1069,7 +1078,7 @@ msgstr "Onde gardar as copias de seguranza"
 
 #: ../../qt4/settingsdialog.py:134
 msgid "Folder"
-msgstr ""
+msgstr "Cartafol"
 
 #: ../../qt4/settingsdialog.py:142
 msgid "SSH Settings"
@@ -1101,7 +1110,7 @@ msgstr "Chave privada:"
 
 #: ../../qt4/settingsdialog.py:190
 msgid "Key File"
-msgstr ""
+msgstr "Ficheiro de chaves"
 
 #: ../../qt4/settingsdialog.py:229 ../../qt4/settingsdialog.py:238
 #: ../../qt4/settingsdialog.py:244
@@ -1124,7 +1133,7 @@ msgstr "Avanzado"
 
 #: ../../qt4/settingsdialog.py:295 ../../qt4/settingsdialog.py:1519
 msgid "Full snapshot path: "
-msgstr ""
+msgstr "Ruta completa á copia: "
 
 #: ../../qt4/settingsdialog.py:302
 msgid "Schedule"
@@ -1151,10 +1160,12 @@ msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regular."
 msgstr ""
+"Executar Back In Time repetidamente. Útil se o computador non ten un "
+"funcionamento regular."
 
 #: ../../qt4/settingsdialog.py:359
 msgid "Every:"
-msgstr ""
+msgstr "Cada:"
 
 #: ../../qt4/settingsdialog.py:377
 msgid ""
@@ -1206,11 +1217,11 @@ msgstr "Altamente recomendábel:"
 
 #: ../../qt4/settingsdialog.py:480
 msgid "Add default"
-msgstr ""
+msgstr "Engadir predeterminado"
 
 #: ../../qt4/settingsdialog.py:491
 msgid "Exclude files bigger than: "
-msgstr ""
+msgstr "Excluír ficheiros maiores de: "
 
 #: ../../qt4/settingsdialog.py:492
 msgid ""
@@ -1220,6 +1231,11 @@ msgid ""
 "So big files that has been backed up before will remain in snapshots\n"
 "even if they had changed."
 msgstr ""
+"Excluír os ficheiros maiores dun valor en Mb.\n"
+"Co «Modo resync completo» desactivado isto só afectará os novos ficheiros\n"
+"porque para rsync é unha opción de transferencia non unha exclusión.\n"
+"Por iso, os ficheiros grandes que se copiaron antes permanecerán nas copias\n"
+"incluso se tiveron cambios."
 
 #: ../../qt4/settingsdialog.py:510
 msgid "Auto-remove"
@@ -1296,6 +1312,9 @@ msgid ""
 "restoring.\n"
 "If you don't need them anymore you can remove them with '%(cmd)s'"
 msgstr ""
+"As versións máis novas dos ficheiros renomearanse cun «%(suffix)s» antes da "
+"restauración.\n"
+"Se xa non os precisa pode eliminalos con «%(cmd)s»"
 
 #: ../../qt4/settingsdialog.py:635
 msgid "Continue on errors (keep incomplete snapshots)"
@@ -1345,32 +1364,32 @@ msgstr "Cambie estas opcións unicamente se sabe ben o que está a facer"
 
 #: ../../qt4/settingsdialog.py:683
 msgid "Run 'nice':"
-msgstr ""
+msgstr "Executar «nice»:"
 
 #: ../../qt4/settingsdialog.py:689 ../../qt4/settingsdialog.py:701
 msgid "as cron job"
-msgstr ""
+msgstr "como un traballo de cron"
 
 #: ../../qt4/settingsdialog.py:692 ../../qt4/settingsdialog.py:707
 #: ../../qt4/settingsdialog.py:721
 msgid "on remote host"
-msgstr ""
+msgstr "nun servidor remoto"
 
 #: ../../qt4/settingsdialog.py:695
 msgid "Run 'ionice':"
-msgstr ""
+msgstr "Executar «ionice»:"
 
 #: ../../qt4/settingsdialog.py:704
 msgid "when taking a manual snapshot"
-msgstr ""
+msgstr "ao facer unha copia manual"
 
 #: ../../qt4/settingsdialog.py:711
 msgid "Run 'rsync' with 'nocache':"
-msgstr ""
+msgstr "Executar «rsync» con «nocache»:"
 
 #: ../../qt4/settingsdialog.py:717
 msgid "on local machine"
-msgstr ""
+msgstr "na máquina local"
 
 #: ../../qt4/settingsdialog.py:727
 msgid "Limit rsync bandwidth usage: "
@@ -1399,16 +1418,18 @@ msgstr "Copiar as ligazóns (seguir as ligazóns simbólicas aos ficheiros)"
 
 #: ../../qt4/settingsdialog.py:754
 msgid "Paste additional options to rsync"
-msgstr ""
+msgstr "Engadir as opcións adicionais a rsync"
 
 #: ../../qt4/settingsdialog.py:757
 msgid ""
 "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
+"As opcións deben levar comiñas p.e. --exclude-"
+"from=\"/ruta/ao/ficheiro_excluído\"."
 
 #: ../../qt4/settingsdialog.py:771
 msgid "Restore Config"
-msgstr ""
+msgstr "Restabelecer Config"
 
 #: ../../qt4/settingsdialog.py:786
 msgid "New profile"
@@ -1454,6 +1475,9 @@ msgid ""
 "include it, too.\n"
 "Would you like to include the symlinks target instead?"
 msgstr ""
+"«%s» é unha ligazón simbólica. O destino ligado non se copiará até que o "
+"inclúa.\n"
+"Desexa incluír tamén o destino das ligazóns simbólicas?"
 
 #: ../../qt4/settingsdialog.py:1429
 msgid "Include folder"
@@ -1465,23 +1489,23 @@ msgstr "Está certo de querer cambiar o cartafol de copias de seguranza?"
 
 #: ../../qt4/settingsdialog.py:1546
 msgid "enabled"
-msgstr ""
+msgstr "activado"
 
 #: ../../qt4/settingsdialog.py:1548
 msgid "disabled"
-msgstr ""
+msgstr "desactivado"
 
 #: ../../qt4/settingsdialog.py:1549
 msgid "default"
-msgstr ""
+msgstr "predeterminado"
 
 #: ../../qt4/settingsdialog.py:1573
 msgid "Restore Settings"
-msgstr ""
+msgstr "Restabelecer a configuración"
 
 #: ../../qt4/settingsdialog.py:1590
 msgid " and add your user to group 'fuse'"
-msgstr ""
+msgstr " e engadir o seu usuario ao grupo «fuse»"
 
 #: ../../qt4/settingsdialog.py:1594
 #, python-format
@@ -1495,10 +1519,17 @@ msgid ""
 "public key login to the remote host%(addFuse)s.\n"
 "Take a look at 'man backintime'."
 msgstr ""
+"Vaia á copia de seguranza na que desexa restabelecer a configuración de "
+"%(appName)s. A ruta será como esta: \n"
+" %(samplePath)s\n"
+"\n"
+"Se as copias de seguranza están nunha unidade remota ou están cifradas debe "
+"montalas primeiro. Se usa o modo SSH pode necesitar\n"
+"configurar o acceso coa chave pública ao host%(addFuse)s."
 
 #: ../../qt4/settingsdialog.py:1652 ../../qt4/settingsdialog.py:1714
 msgid "No config found"
-msgstr ""
+msgstr "Non se atopou config"
 
 #: ../../qt4/snapshotsdialog.py:52 ../../qt4/snapshotsdialog.py:175
 msgid "Diff Options"
