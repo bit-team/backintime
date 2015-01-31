@@ -37,22 +37,21 @@ done
 #patch python command
 #use 'python' or 'python3' to start Python Version 3.x
 case $PYTHON in
-	--python)   sed -e "s/^python3\? /python /g" \
-			-e "s/^ssh-agent python3\? /ssh-agent python /g" \
-			-i $USR_BIN_FILES
-			;;
-	--python3)  sed -e "s/^python3\? /python3 /g" \
-			-e "s/^ssh-agent python3\? /ssh-agent python3 /g" \
-			-i $USR_BIN_FILES
-			;;
+	--python)   PYVERSION="" ;;
+	--python3)  PYVERSION="3";;
 esac
+sed -e "s/^python3\? /python${PYVERSION} /g" \
+    -e "s/^ssh-agent python3\? /ssh-agent python${PYVERSION} /g" \
+    -i $USR_BIN_FILES
 
 #patch check for 'fuse' group
 #Some distributions require user to be in group 'fuse' to use sshfs and encfs
 case $FUSE_GROUP in
-	--fuse-group)    sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = True/"  -i $FUSE_FILES;;
-	--no-fuse-group) sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = False/" -i $FUSE_FILES;;
+	--fuse-group)    CHECKFUSE="True" ;;
+	--no-fuse-group) CHECKFUSE="False";;
 esac
+sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = ${CHECKFUSE}/" \
+    -i $FUSE_FILES
 
 #check languages
 mos=""
