@@ -263,8 +263,17 @@ class MainWindow( QMainWindow ):
         self.list_places = QTreeWidget( self )
         self.list_places.setRootIsDecorated( False )
         self.list_places.setEditTriggers( QAbstractItemView.NoEditTriggers )
-        self.list_places.setHeaderLabel(  _('Shortcuts') )
+        self.list_places.setHeaderLabel( _('Shortcuts') )
+        self.list_places.header().setClickable(True)
+        self.list_places.header().setSortIndicatorShown(True)
+        self.list_places.header().setSectionHidden(1, True)
+        self.list_places.header().setSortIndicator(int(self.config.get_profile_int_value('qt4.places.SortColumn', 1)),
+                                                   int(self.config.get_profile_int_value('qt4.places.SortOrder', Qt.AscendingOrder)))
+        self.list_places_sort_loop = {self.config.get_current_profile(): False}
         self.second_splitter.addWidget( self.list_places )
+        QObject.connect(self.list_places.header(),
+                        SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
+                        self.sort_places)
 
         #files view stacked layout
         widget = QWidget( self )
@@ -386,20 +395,20 @@ class MainWindow( QMainWindow ):
             self.list_files_view_header.resizeSection( 2, files_view_date_width )
 
         #force settingdialog if it is not configured
-        if not cfg.is_configured():
+        if not config.is_configured():
             message = _('%(appName)s is not configured. Would you like '
                         'to restore a previous configuration?' % {'appName': self.config.APP_NAME})
             if QMessageBox.Yes == messagebox.warningYesNo(self, message):
                 settingsdialog.RestoreConfigDialog(self).exec_()
             settingsdialog.SettingsDialog( self ).exec_()
 
-        if not cfg.is_configured():
+        if not config.is_configured():
             return
 
         if self.snapshots.has_old_snapshots():
             settingsdialog.SettingsDialog( self ).update_snapshots_location()
 
-        profile_id = cfg.get_current_profile()
+        profile_id = config.get_current_profile()
 
         #mount
         try:
@@ -448,6 +457,11 @@ class MainWindow( QMainWindow ):
 
         self.config.set_str_value( 'qt4.last_path', self.path )
         self.config.set_profile_str_value('qt4.last_path', self.path)
+
+        self.config.set_profile_int_value('qt4.places.SortColumn',
+                                          self.list_places.header().sortIndicatorSection())
+        self.config.set_profile_int_value('qt4.places.SortOrder',
+                                          self.list_places.header().sortIndicatorOrder())
 
         self.config.set_int_value( 'qt4.main_window.x', self.x() )
         self.config.set_int_value( 'qt4.main_window.y', self.y() )
@@ -523,6 +537,16 @@ class MainWindow( QMainWindow ):
         if profile_id != old_profile_id:
             self.remount(profile_id, old_profile_id)
             self.config.set_current_profile( profile_id )
+
+            self.config.set_profile_int_value('qt4.places.SortColumn',
+                                              self.list_places.header().sortIndicatorSection(),
+                                              old_profile_id)
+            self.config.set_profile_int_value('qt4.places.SortOrder',
+                                              self.list_places.header().sortIndicatorOrder(),
+                                              old_profile_id)
+            self.list_places_sort_loop[old_profile_id] = False
+            self.list_places.header().setSortIndicator(int(self.config.get_profile_int_value('qt4.places.SortColumn', 1, profile_id)),
+                                                       int(self.config.get_profile_int_value('qt4.places.SortOrder', Qt.AscendingOrder, profile_id)))
 
             self.config.set_profile_str_value('qt4.last_path', self.path, old_profile_id)
             path = self.config.get_profile_str_value('qt4.last_path', self.path, profile_id)
@@ -740,9 +764,24 @@ class MainWindow( QMainWindow ):
                     folders.append( item[0] )
 
             if folders:
+                sortColumn = self.list_places.header().sortIndicatorSection()
+                sortOrder  = self.list_places.header().sortIndicatorOrder()
+                if not sortColumn:
+                    folders.sort(key = lambda v: (v.upper(), v[0].islower()), reverse = sortOrder)
                 self.add_place( _('Backup folders'), '', '' )
                 for folder in folders:
                     self.add_place( folder, folder, 'document-save' )
+
+    def sort_places(self, newColumn, newOrder, force = False):
+        profile_id = self.config.get_current_profile()
+        if newColumn == 0 and newOrder == Qt.AscendingOrder:
+            if profile_id in self.list_places_sort_loop and self.list_places_sort_loop[profile_id]:
+                newColumn, newOrder = 1, Qt.AscendingOrder
+                self.list_places.header().setSortIndicator(newColumn, newOrder)
+                self.list_places_sort_loop[profile_id] = False
+            else:
+                self.list_places_sort_loop[profile_id] = True
+        self.update_places()
 
     def update_snapshot_actions( self, item = None ):
         enabled = False
