@@ -1089,5 +1089,12 @@ class SetupUdev(object):
             else:
                 raise
 
+    def clean(self):
+        """clean up remote cache
+        """
+        if not self.isReady:
+            return
+        self.iface.clean()
+
 if keyring is None and keyring_warn:
     logger.warning('import keyring failed')

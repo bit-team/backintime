@@ -62,9 +62,7 @@
 # this file under this license: http://creativecommons.org/publicdomain/zero/1.0/
 
 import os
-import time
 import re
-from tempfile import TemporaryFile
 from subprocess import Popen, PIPE
 try:
     import pwd
@@ -89,7 +87,6 @@ class UdevRules(dbus.service.Object):
         super(UdevRules, self).__init__(conn, object_path, bus_name)
         
         # the following variables are used by _checkPolkitPrivilege
-        self.dbus_info = None
         self.polkit = None
         self.enforce_polkit = True
 
@@ -98,7 +95,7 @@ class UdevRules(dbus.service.Object):
         #find su path
         proc = Popen(['which', 'su'], stdout = PIPE)
         self.su = proc.communicate()[0].strip().decode()
-        if proc.returncode:
+        if proc.returncode or not self.su:
             self.su = '/bin/su'
 
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
@@ -110,7 +107,7 @@ class UdevRules(dbus.service.Object):
         run as root.
         """
         #prevent breaking out of su command
-        chars = re.findall(r'[\'"$\{\}\[\]\(\);#\t\n\r\f\v\\]', cmd)
+        chars = re.findall(r'[^a-zA-Z0-9-/\.>& ]', cmd)
         if chars:
             raise InvalidChar("Parameter 'cmd' contains invalid character(s) %s"
                               % '|'.join(set(chars)) )
@@ -120,14 +117,19 @@ class UdevRules(dbus.service.Object):
             raise InvalidChar("Parameter 'uuid' contains invalid character(s) %s"
                               % '|'.join(set(chars)) )
 
-        user = self._getConnectionUser(sender, conn)
+        info = SenderInfo(sender, conn)
+        user = info.connectionUnixUser()
+        owner = info.nameOwner()
+
         #create su command
         sucmd = "%s - '%s' -c '%s'" %(self.su, user, cmd)
         #create Udev rule
         rule = 'ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, sucmd)
 
-        #store rule in tmp file
-        self._senderTmpFile(sender, conn).write(rule)
+        #store rule
+        if not owner in self.tmpDict:
+            self.tmpDict[owner] = []
+        self.tmpDict[owner].append(rule)
 
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
                          in_signature='', out_signature='b',
@@ -138,24 +140,25 @@ class UdevRules(dbus.service.Object):
         temporary added rules and current rules in destiantion file.
         Returns False if files are identical or no rules to be installed.
         """
-        user = self._getConnectionUser(sender, conn)
-        tmp = self._senderTmpFile(sender, conn)
-        tmp.seek(0)
-        tmpRules = tmp.read()
-        tmp.close()
+        info = SenderInfo(sender, conn)
+        user = info.connectionUnixUser()
+        owner = info.nameOwner()
+
         #delete rule if no rules in tmp
-        if not tmpRules:
+        if not owner in self.tmpDict or not self.tmpDict[owner]:
             self.delete(sender, conn)
             return False
         #return False if rule already exist.
         if os.path.exists(UDEV_RULES_PATH % user):
             with open(UDEV_RULES_PATH % user, 'r') as f:
-                if tmpRules == f.read():
+                if self.tmpDict[owner] == f.readlines():
+                    self._clean(owner)
                     return False
         #auth to save changes
         self._checkPolkitPrivilege(sender, conn, 'net.launchpad.backintime.UdevRuleSave')
         with open(UDEV_RULES_PATH % user, 'w') as f:
-            f.write(tmpRules)
+            f.writelines(self.tmpDict[owner])
+        self._clean(owner)
         return True
 
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
@@ -164,28 +167,27 @@ class UdevRules(dbus.service.Object):
     def delete(self, sender=None, conn=None):
         """Delete existing Udev rule
         """
-        user = self._getConnectionUser(sender, conn)
+        info = SenderInfo(sender, conn)
+        user = info.connectionUnixUser()
+        owner = info.nameOwner()
+        self._clean(owner)
         if os.path.exists(UDEV_RULES_PATH % user):
             #auth to delete rule
             self._checkPolkitPrivilege(sender, conn, 'net.launchpad.backintime.UdevRuleDelete')
             os.remove(UDEV_RULES_PATH % user)
 
-    @classmethod
-    def _logInFile(klass, filename, string):
-        date = time.asctime(time.localtime())
-        with open(filename, "a") as ff:
-            ff.write("%s : %s\n" %(date,str(string)))
+    @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
+                         in_signature='', out_signature='',
+                         sender_keyword='sender', connection_keyword='conn')
+    def clean(self, sender=None, conn=None):
+        """clean up previous cached rules
+        """
+        info = SenderInfo(sender, conn)
+        self._clean(info.nameOwner())
 
-    def _senderTmpFile(self, sender, conn):
-        senderName = self._getConnectionUser(sender, conn)
-        if not senderName in self.tmpDict or self.tmpDict[senderName].closed:
-            self.tmpDict[senderName] = TemporaryFile(mode = 'r+')
-        return self.tmpDict[senderName]
-
-    def _initDbusInfo(self, sender, conn):
-        if self.dbus_info is None:
-            self.dbus_info = dbus.Interface(conn.get_object('org.freedesktop.DBus',
-                '/org/freedesktop/DBus/Bus', False), 'org.freedesktop.DBus')
+    def _clean(self, owner):
+        if owner in self.tmpDict:
+            del self.tmpDict[owner]
 
     def _initPolkit(self):
         if self.polkit is None:
@@ -193,18 +195,6 @@ class UdevRules(dbus.service.Object):
                 'org.freedesktop.PolicyKit1',
                 '/org/freedesktop/PolicyKit1/Authority', False),
                 'org.freedesktop.PolicyKit1.Authority')
-
-    def _getConnectionUser(self, sender, conn):
-        self._initDbusInfo(sender, conn)
-        uid = self.dbus_info.GetConnectionUnixUser(sender)
-        if pwd:
-            return pwd.getpwuid(uid).pw_name
-        else:
-            return uid
-
-    def _getConnectionPid(self, sender, conn):
-        self._initDbusInfo(sender, conn)
-        return self.dbus_info.GetConnectionUnixProcessID(sender)
 
     def _checkPolkitPrivilege(self, sender, conn, privilege):
         # from jockey
@@ -226,8 +216,10 @@ class UdevRules(dbus.service.Object):
             # bus, and it does not make sense to restrict operations here
             return
 
+        info = SenderInfo(sender, conn)
+
         # get peer PID
-        pid = self._getConnectionPid(sender, conn)
+        pid = info.connectionPid()
 
         # query PolicyKit
         self._initPolkit()
@@ -236,7 +228,7 @@ class UdevRules(dbus.service.Object):
             (is_auth, _, details) = self.polkit.CheckAuthorization(
                     ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1),
                     'start-time': dbus.UInt64(0, variant_level=1)}), 
-                    privilege, {'': ''}, dbus.UInt32(1), '', timeout=600)
+                    privilege, {'': ''}, dbus.UInt32(1), '', timeout=3000)
         except dbus.DBusException as e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
                 # polkitd timed out, connect again
@@ -247,6 +239,25 @@ class UdevRules(dbus.service.Object):
 
         if not is_auth:
             raise PermissionDeniedByPolicy(privilege)
+
+class SenderInfo(object):
+    def __init__(self, sender, conn):
+        self.sender = sender
+        self.dbus_info = dbus.Interface(conn.get_object('org.freedesktop.DBus',
+                '/org/freedesktop/DBus/Bus', False), 'org.freedesktop.DBus')
+
+    def connectionUnixUser(self):
+        uid = self.dbus_info.GetConnectionUnixUser(self.sender)
+        if pwd:
+            return pwd.getpwuid(uid).pw_name
+        else:
+            return uid
+
+    def nameOwner(self):
+        return self.dbus_info.GetNameOwner(self.sender)
+
+    def connectionPid(self):
+        return self.dbus_info.GetConnectionUnixProcessID(self.sender)
 
 if __name__ == '__main__':
     dbus.mainloop.qt.DBusQtMainLoop(set_as_default=True)

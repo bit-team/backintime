@@ -1356,6 +1356,8 @@ class Config( configfile.ConfigFileWithProfiles ):
             print("Clearing anacrontab")
             os.remove(file)
 
+        self.setupUdev.clean()
+
         empty = True
         uuid_tmp_fd = None
         profiles = self.get_profiles()
@@ -1445,7 +1447,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                     os.system( "( crontab -l; %s ) | crontab -" % cron_line )
 
             if self.setupUdev.isReady and self.setupUdev.save():
-                print('Udev rules saved successfully')
+                print('Udev rules added successfully')
         except tools.PermissionDeniedByPolicy as e:
                 self.notify_error(str(e))
         except:
