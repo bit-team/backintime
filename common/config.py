@@ -1347,10 +1347,10 @@ class Config( configfile.ConfigFileWithProfiles ):
             therefore we assume all entries are system entries and clear them all.
             This is the old behaviour"""
             print("Clearing all Back In Time entries")
-            os.system( "crontab -l | grep -v backintime | crontab -" )
+            os.system( "crontab -l | grep -v backintime | crontab" )
 
         print("Clearing system Back In Time entries")
-        os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab -" % system_entry_message )
+        os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab" % system_entry_message )
 
         for file in self.anacrontab_files():
             print("Clearing anacrontab")
@@ -1444,7 +1444,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                     empty = False
                     cron_line = cron_line.replace( '{cmd}', cmd )
                     cron_line = cron_line.replace( '{msg}', system_entry_message )
-                    os.system( "( crontab -l; %s ) | crontab -" % cron_line )
+                    os.system( "( crontab -l; %s ) | crontab" % cron_line )
 
             if self.setupUdev.isReady and self.setupUdev.save():
                 print('Udev rules added successfully')
@@ -1457,7 +1457,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 # Leave one system_entry_message in to prevent deleting of manual
                 # entries if there is no automatic entry.
                 info_message = "#Please don't delete these two lines, or all custom backintime entries are going to be deleted next time you call the gui options!"
-                os.system( '(crontab -l; echo "%s"; echo "%s") | crontab -'
+                os.system( '(crontab -l; echo "%s"; echo "%s") | crontab'
                         % (system_entry_message, info_message) )
         return True
 
