@@ -384,18 +384,17 @@ class Snapshots:
             version = info_file.get_int_value( 'snapshot_version' )
             info_file = None
 
-        dict = {}
+        file_info_dict = {}
 
         if 0 == version:
-            return dict
+            return file_info_dict
 
         fileinfo_path = self.get_snapshot_fileinfo_path( snapshot_id )
         if not os.path.exists( fileinfo_path ):
-            return dict
+            return file_info_dict
 
-        with bz2.BZ2File( fileinfo_path, 'r' ) as fileinfo:
+        with bz2.BZ2File( fileinfo_path, 'rb' ) as fileinfo:
             for line in fileinfo:
-                line = line.decode()
                 if not line:
                     break
 
@@ -403,7 +402,7 @@ class Snapshots:
                 if not line:
                     continue
 
-                index = line.find( '/' )
+                index = line.find( b'/' )
                 if index < 0:
                     continue
 
@@ -412,12 +411,12 @@ class Snapshots:
                     continue
 
                 info = line[ : index ].strip()
-                info = info.split( ' ' )
+                info = info.split( b' ' )
 
                 if len( info ) == 3:
-                    dict[ file ] = [ int( info[0] ), info[1], info[2] ] #perms, user, group
+                    file_info_dict[file] = (int(info[0]), info[1], info[2]) #perms, user, group
 
-        return dict
+        return file_info_dict
 
     def clear_uid_gid_names_cache(self):
         self.user_cache = {}
@@ -454,9 +453,9 @@ class Snapshots:
             return gid
 
     def get_user_name( self, uid ):
-        try:
+        if uid in self.user_cache:
             return self.user_cache[uid]
-        except:
+        else:
             name = '-'
             try:
                 name = pwd.getpwuid(uid).pw_name
@@ -467,9 +466,9 @@ class Snapshots:
             return name
 
     def get_group_name( self, gid ):
-        try:
+        if gid in self.group_cache:
             return self.group_cache[gid]
-        except:
+        else:
             name = '-'
             try:
                 name = grp.getgrgid(gid).gr_name
@@ -485,10 +484,12 @@ class Snapshots:
                 msg = msg + " : " + _("FAILED")
             callback( msg )
 
-    def _restore_path_info( self, key_path, path, dict, callback = None ):
-        if key_path not in dict:
+    def _restore_path_info( self, key_path, path, file_info_dict, callback = None ):
+        assert isinstance(key_path, bytes), 'key_path is not bytes type: %s' % key_path
+        assert isinstance(path, bytes), 'path is not bytes type: %s' % path
+        if key_path not in file_info_dict:
             return
-        info = dict[key_path]
+        info = file_info_dict[key_path]
 
         #restore uid/gid
         uid = self.get_uid(info[1])
@@ -604,10 +605,14 @@ class Snapshots:
                 snapshot_path_to = self.get_snapshot_path_to( snapshot_id, path ).rstrip( '/' )
                 root_snapshot_path_to = self.get_snapshot_path_to( snapshot_id ).rstrip( '/' )
                 all_dirs = [] #restore dir permissions after all files are done
+                #use bytes instead of string from here
+                path = path.encode()
+                restore_to = restore_to.encode()
+                
 
                 if not restore_to:
-                    path_items = path.strip( '/' ).split( '/' )
-                    curr_path = '/'
+                    path_items = path.strip(b'/').split(b'/')
+                    curr_path = b'/'
                     for path_item in path_items:
                         curr_path = os.path.join( curr_path, path_item )
                         if not curr_path in restored_permissions:
@@ -617,14 +622,15 @@ class Snapshots:
                             all_dirs.append(path)
 
                 if os.path.isdir( snapshot_path_to ) and not os.path.islink( snapshot_path_to ):
-                    for explore_path, dirs, files in os.walk( snapshot_path_to ):
+                    head = len(root_snapshot_path_to.encode())
+                    for explore_path, dirs, files in os.walk( snapshot_path_to.encode() ):
                         for item in dirs:
-                            item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
+                            item_path = os.path.join( explore_path, item )[head:]
                             if not item_path in restored_permissions:
                                 all_dirs.append( item_path )
 
                         for item in files:
-                            item_path = os.path.join( explore_path, item )[ len( root_snapshot_path_to ) : ]
+                            item_path = os.path.join( explore_path, item )[head:]
                             real_path = restore_to + item_path[src_delta:]
                             if not item_path in restored_permissions:
                                 self._restore_path_info( item_path, real_path, file_info_dict, callback )
@@ -1065,18 +1071,14 @@ class Snapshots:
 
         return True
 
-    def _save_path_info_line( self, fileinfo, path, info ):
-        s = "{} {} {} {}\n".format(info[0], info[1], info[2], path)
-        fileinfo.write(s.encode())
-
     def _save_path_info( self, fileinfo, path ):
-        try:
-            info = os.stat( path )
-            user = self.get_user_name(info.st_uid)
-            group = self.get_group_name(info.st_gid)
-            self._save_path_info_line( fileinfo, path, [ info.st_mode, user, group ] )
-        except:
-            pass
+        assert isinstance(path, bytes), 'path is not bytes type: %s' % path
+        if path and os.path.exists(path):
+            info = os.stat(path)
+            mode = str(info.st_mode).encode('utf-8', 'replace')
+            user = self.get_user_name(info.st_uid).encode('utf-8', 'replace')
+            group = self.get_group_name(info.st_gid).encode('utf-8', 'replace')
+            fileinfo.write(b' '.join((mode, user, group, path)) + b'\n' )
 
     def _take_snapshot( self, snapshot_id, now, include_folders ): # ignore_folders, dict, force ):
         self.set_take_snapshot_message( 0, _('...') )
@@ -1282,40 +1284,41 @@ class Snapshots:
             self.set_take_snapshot_message( 0, _('Save permission ...') )
 
             with bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'wb' ) as fileinfo:
-                path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' )
-                fileinfo_dict = {}
 
                 permission_done = False
                 if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
                     path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
-                    cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-name', '\*', '-print'])
+                    cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
+
+                    if self.config.get_snapshots_mode() == 'ssh_encfs':
+                        decode = encfstools.Decode(self.config, False)
+                        path_to_explore_ssh = decode.remote(path_to_explore_ssh.encode())
+                    else:
+                        decode = encfstools.Bounce()
+                    head = len( path_to_explore_ssh )
 
                     find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
-                                            stderr = subprocess.PIPE,
-                                            universal_newlines = True)
+                                            stderr = subprocess.PIPE)
+
+                    for line in find.stdout:
+                        if line:
+                            self._save_path_info(fileinfo, decode.remote(line.rstrip(b'\n'))[head:])
+
                     output = find.communicate()[0]
                     if find.returncode:
-                        logger.warning('Save permission over ssh failed. Retry normal methode')
+                        self.set_take_snapshot_message(1, _('Save permission over ssh failed. Retry normal method'))
                     else:
-                        if self.config.get_snapshots_mode() == 'ssh_encfs':
-                            decode = encfstools.Decode(self.config)
-                            path_to_explore_ssh = decode.remote(path_to_explore_ssh)
-                        else:
-                            decode = encfstools.Bounce()
-                        for line in output.split('\n'):
+                        for line in output.split(b'\n'):
                             if line:
-                                line = decode.remote(line)
-                                item_path = line[ len( path_to_explore_ssh ) : ]
-                                fileinfo_dict[item_path] = 1
-                                self._save_path_info( fileinfo, item_path )
+                                self._save_path_info(fileinfo, decode.remote(line)[head:])
                         permission_done = True
 
                 if not permission_done:
+                    path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' ).encode()
                     for path, dirs, files in os.walk( path_to_explore ):
                         dirs.extend( files )
                         for item in dirs:
                             item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-                            fileinfo_dict[item_path] = 1
                             self._save_path_info( fileinfo, item_path )
 
         #create info file

@@ -431,7 +431,7 @@ class Bounce(object):
 
 class Decode(object):
     """decode path with encfsctl."""
-    def __init__(self, cfg):
+    def __init__(self, cfg, string = True):
         self.mode = cfg.get_snapshots_mode()
         if self.mode == 'local_encfs':
             self.password = cfg.get_password(pw_id = 1)
@@ -475,9 +475,11 @@ class Decode(object):
 
         #search for: [E] Error: rsync readlink_stat("...mountpoint/<crypted_path>")
         #            [E] Error: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13)
+        #            [E] Error: rsync: recv_generator: failed to stat "...mountpoint/<crypted_path>": File name too long (36)
         pattern = []
         pattern.append(r' rsync: readlink_stat\(".*?mountpoint/')
         pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
+        pattern.append(r' rsync: recv_generator: failed to stat ".*?mountpoint/')
         pattern.append(r' rsync: .*?".*?mountpoint/')
         self.re_error = re.compile(r'(^\[E\] Error:(?:%s))(.*?)(".*)' % '|'.join(pattern))
 
@@ -503,6 +505,12 @@ class Decode(object):
         pattern.append(r'rsync warning: some files vanished before they could be transferred')
         self.re_skip = re.compile(r'^\[I\] %s \(rsync: (%s)' % (_('Take snapshot'), '|'.join(pattern)) )
 
+        self.string = string
+        if string:
+            self.newline = '\n'
+        else:
+            self.newline = b'\n'
+
     def __del__(self):
         self.close()
 
@@ -518,21 +526,28 @@ class Decode(object):
         self.p = subprocess.Popen(encfsctl, env = env,
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE,
-                                universal_newlines = True)
+                                universal_newlines = self.string,   #return string (if True) or bytes
+                                bufsize = int(self.string))         #set bufsize to 1 for string or 0 for bytes
+                                                                    #if bytes where buffered p.stdout.readline would
+                                                                    #deadlock otherwise
         thread.stop()
 
     def path(self, path):
         """write crypted path to encfsctl stdin and read plain path from stdout
            if stdout is empty (most likly because there was an error) return crypt path"""
+        if self.string:
+            assert isinstance(path, string), 'path is not string type: %s' % path
+        else:
+            assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if not 'p' in vars(self):
             self.start_process()
         if not self.p.returncode is None:
             logger.warning('\'encfsctl decode\' process terminated. Restarting.')
             del self.p
             self.start_process()
-        self.p.stdin.write(path + '\n')
+        self.p.stdin.write(path + self.newline)
         ret = self.p.stdout.readline()
-        ret = ret.strip('\n')
+        ret = ret.strip(self.newline)
         if ret:
             return ret
         return path
@@ -594,8 +609,11 @@ class Decode(object):
 
     def remote(self, path):
         """decode the path on remote host starting from backintime/host/user/..."""
-        dec_path = self.path( path[len(self.remote_path):] )
-        return os.path.join(self.remote_path, dec_path)
+        assert isinstance(path, bytes), 'path is not bytes type: %s' % path
+
+        remote_path = self.remote_path.encode()
+        dec_path = self.path( path[len(remote_path):] )
+        return os.path.join(remote_path, dec_path)
 
     def close(self):
         """stop encfsctl process"""
