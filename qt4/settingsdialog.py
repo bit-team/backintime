@@ -17,11 +17,9 @@
 
 
 import os
-import sys
 import datetime
 import gettext
 import copy
-import subprocess
 import grp
 
 from PyQt4.QtGui import *
@@ -31,7 +29,6 @@ import config
 import tools
 import qt4tools
 import mount
-import password
 import messagebox
 
 _=gettext.gettext
@@ -986,7 +983,7 @@ class SettingsDialog( QDialog ):
 
         #TAB: General
         #mode
-        self.set_combo_value( self.combo_modes, self.config.get_snapshots_mode(), type = 'str' )
+        self.set_combo_value( self.combo_modes, self.config.get_snapshots_mode(), t = 'str' )
 
         #local
         self.edit_snapshots_path.setText( self.config.get_snapshots_path( mode = 'local') )
@@ -996,7 +993,7 @@ class SettingsDialog( QDialog ):
         self.txt_ssh_port.setText( str(self.config.get_ssh_port()) )
         self.txt_ssh_user.setText( self.config.get_ssh_user() )
         self.txt_ssh_path.setText( self.config.get_snapshots_path_ssh() )
-        self.set_combo_value( self.combo_ssh_cipher, self.config.get_ssh_cipher(), type = 'str' )
+        self.set_combo_value( self.combo_ssh_cipher, self.config.get_ssh_cipher(), t = 'str' )
         self.txt_ssh_private_key_file.setText( self.config.get_ssh_private_key_file() )
 
         #local_encfs
@@ -1408,19 +1405,19 @@ class SettingsDialog( QDialog ):
 
         return item
 
-    def fill_combo( self, combo, dict ):
-        keys = list(dict.keys())
+    def fill_combo( self, combo, d ):
+        keys = list(d.keys())
         keys.sort()
 
         for key in keys:
-            combo.addItem( QIcon(), dict[ key ], key )
+            combo.addItem( QIcon(), d[ key ], key )
 
-    def set_combo_value( self, combo, value, type = 'int' ):
+    def set_combo_value( self, combo, value, t = 'int' ):
         for i in range( combo.count() ):
-            if type == 'int' and value == combo.itemData( i ):
+            if t == 'int' and value == combo.itemData( i ):
                 combo.setCurrentIndex( i )
                 break
-            if type == 'str' and value == combo.itemData( i ):
+            if t == 'str' and value == combo.itemData( i ):
                 combo.setCurrentIndex( i )
                 break
 
@@ -1553,9 +1550,9 @@ class SettingsDialog( QDialog ):
             start_dir = self.txt_ssh_private_key_file.text()
         else:
             start_dir = self.config.get_ssh_private_key_folder()
-        file = qt4tools.getOpenFileName(self, _('SSH private key'), start_dir)
-        if file:
-            self.txt_ssh_private_key_file.setText(file)
+        f = qt4tools.getOpenFileName(self, _('SSH private key'), start_dir)
+        if f:
+            self.txt_ssh_private_key_file.setText(f)
 
     def on_combo_modes_changed(self, *params):
         if not params:
@@ -1957,8 +1954,7 @@ class ScanFileSystem(QThread):
                     yield root
 
 def debug_trace():
-  '''Set a tracepoint in the Python debugger that works with Qt'''
-  from PyQt4.QtCore import pyqtRemoveInputHook
-  from pdb import set_trace
-  pyqtRemoveInputHook()
-  set_trace()
+    '''Set a tracepoint in the Python debugger that works with Qt'''
+    from pdb import set_trace
+    pyqtRemoveInputHook()
+    set_trace()

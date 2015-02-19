@@ -113,14 +113,14 @@ class SSH(mount.MountControl):
             env['LC_ALL'] = 'C'
         try:
             subprocess.check_call(sshfs, env = env)
-        except subprocess.CalledProcessError as ex:
+        except subprocess.CalledProcessError:
             raise mount.MountException( _('Can\'t mount %s') % ' '.join(sshfs))
 
     def _umount(self):
         """umount the service"""
         try:
             subprocess.check_call(['fusermount', '-u', self.mountpoint])
-        except subprocess.CalledProcessError as ex:
+        except subprocess.CalledProcessError:
             raise mount.MountException( _('Can\'t unmount sshfs %s') % self.mountpoint)
 
     def pre_mount_check(self, first_run = False):
@@ -251,7 +251,6 @@ class SSH(mount.MountControl):
                 raise mount.MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')  % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
 
     def benchmark_cipher(self, size = '40'):
-        import tempfile
         temp = tempfile.mkstemp()[1]
         print('create random data file')
         subprocess.call(['dd', 'if=/dev/urandom', 'of=%s' % temp, 'bs=1M', 'count=%s' % size])

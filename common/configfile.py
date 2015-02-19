@@ -15,13 +15,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
-import os
 import gettext
 
-
 _=gettext.gettext
-
 
 class ConfigFile:
     def __init__( self ):
@@ -51,11 +47,11 @@ class ConfigFile:
 
     def save( self, filename ):
         try:
-            with open( filename, 'wt' ) as file:
+            with open( filename, 'wt' ) as f:
                 keys = list(self.dict.keys())
                 keys.sort()
                 for key in keys:
-                    file.write( "%s=%s\n" % ( key, self.dict[key] ) )
+                    f.write( "%s=%s\n" % ( key, self.dict[key] ) )
         except:
             pass
 
@@ -67,8 +63,8 @@ class ConfigFile:
         lines = []
 
         try:
-            with open( filename, 'rt' ) as file:
-                lines = file.readlines()
+            with open( filename, 'rt' ) as f:
+                lines = f.readlines()
         except:
             pass
 
@@ -204,8 +200,8 @@ class ConfigFileWithProfiles( ConfigFile ):
     def set_current_profile( self, profile_id ):
         profiles = self.get_profiles()
 
-        for id in profiles:
-            if id == profile_id:
+        for i in profiles:
+            if i == profile_id:
                 self.current_profile_id = profile_id
                 return True
 
@@ -224,8 +220,8 @@ class ConfigFileWithProfiles( ConfigFile ):
     def profile_exists( self, profile_id ):
         profiles = self.get_profiles()
 
-        for id in profiles:
-            if id == profile_id:
+        for i in profiles:
+            if i == profile_id:
                 return True
 
         return False

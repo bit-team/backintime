@@ -19,10 +19,10 @@
 import os
 import sys
 import subprocess
-import hashlib
 import signal
 import re
 import dbus
+import errno
 from datetime import datetime
 from distutils.version import StrictVersion
 keyring = None
@@ -59,8 +59,8 @@ def read_file( path, default_value = None ):
     ret_val = default_value
 
     try:
-        with open( path ) as file:
-            ret_val = file.read()
+        with open( path ) as f:
+            ret_val = f.read()
     except:
         pass
 
@@ -71,8 +71,8 @@ def read_file_lines( path, default_value = None ):
     ret_val = default_value
 
     try:
-        with open( path ) as file:
-            ret_val = file.readlines()
+        with open( path ) as f:
+            ret_val = f.readlines()
     except:
         pass
 
@@ -251,7 +251,7 @@ def move_snapshots_folder( old_folder, new_folder ):
         # Move move move
         cmd = "rsync -aEAXHv --delete " + old_folder + " " + new_folder + " " + rsync_exclude
         _execute( cmd )
-        _execute ( "find \"%s\" \"%s\" -type d -exec chmod a-w {} \\;" % ( snapshots_to_hardlink_path, first_snapshot_path ) )
+        _execute ( "find \"%s\" \"%s\" -type d -exec chmod a-w {} \\;" % ( snapshot_to_hardlink_path, first_snapshot_path ) )
 
     # Remove old ones
     snapshots_not_moved = []
@@ -413,7 +413,6 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
 
     return cmd + ' '
 
-
 def temp_failure_retry(func, *args, **kwargs):
     while True:
         try:
@@ -423,7 +422,6 @@ def temp_failure_retry(func, *args, **kwargs):
                 continue
             else:
                 raise
-
 
 def _get_md5sum_from_path(path):
     '''return md5sum of path, af available system command md5sum()'''
@@ -438,17 +436,17 @@ def _get_md5sum_from_path(path):
     unique_key = (obj.st_size, int(obj.st_mtime))
     return unique_key
 
-def check_cron_pattern(str):
-    '''check if str look like '0,10,13,15,17,20,23' or '*/6' '''
-    if str.find(' ') >= 0:
+def check_cron_pattern(s):
+    '''check if s look like '0,10,13,15,17,20,23' or '*/6' '''
+    if s.find(' ') >= 0:
         return False
     try:
-        if str.startswith('*/'):
-            if int(str[2:]) <= 24:
+        if s.startswith('*/'):
+            if int(s[2:]) <= 24:
                 return True
             else:
                 return False
-        list_ = str.split(',')
+        list_ = s.split(',')
         for s in list_:
             if int(s) <= 24:
                 continue
@@ -489,10 +487,10 @@ def check_home_encrypt():
                 return True
     return False
 
-def load_env(file):
+def load_env(f):
     env = os.environ.copy()
     env_file = configfile.ConfigFile()
-    env_file.load(file, maxsplit = 1)
+    env_file.load(f, maxsplit = 1)
     for key in env_file.get_keys():
         value = env_file.get_str_value(key)
         if not value:
@@ -501,7 +499,7 @@ def load_env(file):
             os.environ[key] = value
     del(env_file)
 
-def save_env(file):
+def save_env(f):
     """
     save environ variables to file that are needed by cron
     to connect to keyring. This will only work if the user is logged in.
@@ -514,7 +512,7 @@ def save_env(file):
               'KDE_FULL_SESSION'):
         set_env_key(env, env_file, i)
 
-    env_file.save(file)
+    env_file.save(f)
     del(env_file)
 
 def set_env_key(env, env_file, key):
@@ -631,22 +629,22 @@ def patternHasNotEncryptableWildcard(pattern):
 BIT_TIME_FORMAT = '%Y%m%d %H%M'
 ANACRON_TIME_FORMAT = '%Y%m%d'
 
-def readTimeStamp(file):
+def readTimeStamp(f):
     '''read date string from file and try to return datetime'''
-    if not os.path.exists(file):
+    if not os.path.exists(f):
         return
-    with open(file, 'r') as f:
+    with open(f, 'r') as f:
         s = f.read().strip('\n')
-    for format in (ANACRON_TIME_FORMAT, BIT_TIME_FORMAT):
+    for i in (ANACRON_TIME_FORMAT, BIT_TIME_FORMAT):
         try:
-            return datetime.strptime(s, format)
+            return datetime.strptime(s, i)
         except ValueError:
             pass
 
-def writeTimeStamp(file):
+def writeTimeStamp(f):
     '''write current date into file'''
-    make_dirs(os.path.dirname(file))
-    with open(file, 'w') as f:
+    make_dirs(os.path.dirname(f))
+    with open(f, 'w') as f:
         f.write(datetime.now().strftime(BIT_TIME_FORMAT))
 
 INHIBIT_LOGGING_OUT = 1
@@ -712,7 +710,7 @@ def unInhibitSuspend(cookie, bus, dbus_props):
     '''
     assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
     assert isinstance(bus, dbus.bus.BusConnection), 'bus is not dbus.bus.BusConnection type: %s' % bus
-    assert isinstance(dbus_props, dict), 'dbus_probs is not dict type: %s' % dbus_probs
+    assert isinstance(dbus_props, dict), 'dbus_props is not dict type: %s' % dbus_props
     try:
         interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
         proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])

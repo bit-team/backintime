@@ -18,7 +18,6 @@
 
 import sys
 import os
-import time
 import gettext
 import subprocess
 
@@ -29,8 +28,6 @@ if not os.getenv( 'DISPLAY', '' ):
 
 sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'common' )] + sys.path
 
-import backintime
-import config
 import tools
 import logger
 import snapshots

@@ -16,7 +16,6 @@
 
 import os
 import subprocess
-import socket
 import json
 import gettext
 from zlib import crc32
@@ -331,16 +330,16 @@ class MountControl(object):
 
     def check_locks(self, path, lock_suffix):
         """return True if there are active locks"""
-        for file in os.listdir(path):
-            if not file[-len(lock_suffix):] == lock_suffix:
+        for f in os.listdir(path):
+            if not f[-len(lock_suffix):] == lock_suffix:
                 continue
             is_tmp = False
-            if os.path.basename(file)[-len(lock_suffix)-len('.tmp'):-len(lock_suffix)] == '.tmp':
+            if os.path.basename(f)[-len(lock_suffix)-len('.tmp'):-len(lock_suffix)] == '.tmp':
                 is_tmp = True
             if is_tmp:
-                lock_pid = os.path.basename(file)[:-len('.tmp')-len(lock_suffix)]
+                lock_pid = os.path.basename(f)[:-len('.tmp')-len(lock_suffix)]
             else:
-                lock_pid = os.path.basename(file)[:-len(lock_suffix)]
+                lock_pid = os.path.basename(f)[:-len(lock_suffix)]
             if lock_pid == self.pid:
                 if is_tmp == self.tmp_mount:
                     continue
@@ -348,7 +347,7 @@ class MountControl(object):
                 return True
             else:
                 #clean up
-                os.remove(os.path.join(path, file))
+                os.remove(os.path.join(path, f))
                 for symlink in os.listdir(self.mount_root):
                     if symlink.endswith('_%s' % lock_pid):
                         os.remove(os.path.join(self.mount_root, symlink))
@@ -432,9 +431,9 @@ class MountControl(object):
             tmp_mount = self.tmp_mount
         os.remove(self.config.get_snapshots_path(profile_id = profile_id, mode = self.mode, tmp_mount = tmp_mount))
 
-    def hash(self, str):
-        """return a hex crc32 hash of str"""
-        return('%X' % (crc32(str.encode()) & 0xFFFFFFFF))
+    def hash(self, s):
+        """return a hex crc32 hash of s"""
+        return('%X' % (crc32(s.encode()) & 0xFFFFFFFF))
 
     def get_hash_id_path(self, hash_id = None):
         if hash_id is None:

@@ -17,7 +17,6 @@
 
 
 import os
-import stat
 import sys
 
 if not os.getenv( 'DISPLAY', '' ):
@@ -25,14 +24,11 @@ if not os.getenv( 'DISPLAY', '' ):
 
 import datetime
 import gettext
-import time
-import threading
 import re
 
 sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'common' )] + sys.path
 
 import backintime
-import config
 import tools
 import logger
 import snapshots
@@ -1040,7 +1036,7 @@ class MainWindow( QMainWindow ):
         if len( self.snapshot_id ) <= 1:
             return
 
-        selected_file = [file for file, idx in self.multi_file_selected()]
+        selected_file = [f for f, idx in self.multi_file_selected()]
         if not selected_file:
             return
 
@@ -1054,7 +1050,7 @@ class MainWindow( QMainWindow ):
         if len( self.snapshot_id ) <= 1:
             return
 
-        selected_file = [file for file, idx in self.multi_file_selected()]
+        selected_file = [f for f, idx in self.multi_file_selected()]
         if not selected_file:
             return
 
@@ -1132,22 +1128,6 @@ class MainWindow( QMainWindow ):
 
     def files_view_get_type( self, item ):
         return int( item.text( 4 ) )
-
-    def add_files_view( self, name, size_str, date_str, size_int, type ):
-        full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, os.path.join( self.path, name ) )
-        icon = QIcon.fromTheme( QMimeType.iconNameForUrl( QUrl( full_path ) ) )
-
-        item = QTreeWidgetItem( self.list_files_view )
-
-        item.setIcon( 0, icon )
-        item.setText( 0, name )
-        item.setText( 1, size_str )
-        item.setText( 2, date_str )
-        item.setText( 3, str( size_int ) )
-        item.setText( 4, str( type ) )
-
-        self.list_files_view.addTopLevelItem( item )
-        return item
 
     def update_files_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
         if 0 == changed_from or 3 == changed_from:
@@ -1283,7 +1263,7 @@ class About(QDialog):
         homepage = QLabel(self.mkurl('<http://backintime.le-web.org>'))
         homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         homepage.setOpenExternalLinks(True)
-        copyright = QLabel(self.config.COPYRIGHT + '\n')
+        bit_copyright = QLabel(self.config.COPYRIGHT + '\n')
 
         vlayout = QVBoxLayout(self)
         hlayout = QHBoxLayout()
@@ -1292,7 +1272,7 @@ class About(QDialog):
         hlayout.addStretch()
         vlayout.addLayout(hlayout)
         vlayout.addWidget(homepage)
-        vlayout.addWidget(copyright)
+        vlayout.addWidget(bit_copyright)
 
         button_box_left  = QDialogButtonBox()
         btn_authors      = button_box_left.addButton(_('Authors'), QDialogButtonBox.ActionRole)
@@ -1350,11 +1330,10 @@ class About(QDialog):
             return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(1)}
 
 def debug_trace():
-  '''Set a tracepoint in the Python debugger that works with Qt'''
-  from PyQt4.QtCore import pyqtRemoveInputHook
-  from pdb import set_trace
-  pyqtRemoveInputHook()
-  set_trace()
+    '''Set a tracepoint in the Python debugger that works with Qt'''
+    from pdb import set_trace
+    pyqtRemoveInputHook()
+    set_trace()
 
 def create_qapplication( cfg ):
     return QApplication(sys.argv + ['-title', cfg.APP_NAME])

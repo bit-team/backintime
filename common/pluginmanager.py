@@ -16,9 +16,8 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import os.path
+import os
 import tools
-import types
 
 tools.register_backintime_path( 'common' )
 tools.register_backintime_path( 'plugins' )
@@ -83,12 +82,10 @@ class PluginManager:
 
         plugins_path = tools.get_backintime_path( 'plugins' )
 
-        for file in os.listdir( plugins_path ):
+        for f in os.listdir( plugins_path ):
             try:
-                if file.endswith( '.py' ) and not file.startswith( '__' ):
-                    path = os.path.join( plugins_path, file )
-
-                    module = __import__( file[ : -3 ] )
+                if f.endswith( '.py' ) and not f.startswith( '__' ):
+                    module = __import__( f[ : -3 ] )
                     module_dict = module.__dict__
 
                     for key, value in list(module_dict.items()):

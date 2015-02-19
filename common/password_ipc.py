@@ -17,7 +17,6 @@
 import os
 import sys
 import stat
-import signal
 import tools
 import threading
 import base64

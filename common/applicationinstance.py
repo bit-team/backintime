@@ -52,8 +52,8 @@ class ApplicationInstance:
         pid = 0
         procname = ''
         try:
-            with open( self.pid_file, 'rt' ) as file:
-                data = file.read()
+            with open( self.pid_file, 'rt' ) as f:
+                data = f.read()
             data = data.split('\n', 1)
             pid = int(data[0])
             if len(data) > 1:
@@ -71,8 +71,8 @@ class ApplicationInstance:
             return True
 
         #check if the process has the same procname
-        with open('/proc/%s/cmdline' % pid, 'r') as file:
-            if procname and not procname == file.read().strip('\n'):
+        with open('/proc/%s/cmdline' % pid, 'r') as f:
+            if procname and not procname == f.read().strip('\n'):
                 return True
 
         if auto_exit:
@@ -88,12 +88,12 @@ class ApplicationInstance:
         pid = str(os.getpid())
         procname = ''
         try:
-            with open('/proc/%s/cmdline' % pid, 'r') as file:
-                procname = file.read().strip('\n')
+            with open('/proc/%s/cmdline' % pid, 'r') as f:
+                procname = f.read().strip('\n')
         except:
             pass
-        with open( self.pid_file, 'wt' ) as file:
-            file.write( pid + '\n' + procname )
+        with open( self.pid_file, 'wt' ) as f:
+            f.write( pid + '\n' + procname )
 
         self.flockUnlock()
 

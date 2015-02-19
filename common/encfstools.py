@@ -138,11 +138,11 @@ class EncFS_mount(mount.MountControl):
 
     def get_config_file(self):
         """return encfs config file"""
-        file = '.encfs6.xml'
+        f = '.encfs6.xml'
         if self.config_path is None:
-            return os.path.join(self.path, file)
+            return os.path.join(self.path, f)
         else:
-            return os.path.join(self.config_path, file)
+            return os.path.join(self.config_path, f)
 
     def is_configured(self):
         """check if encfs config file exist. If not and if we are in settingsdialog
@@ -260,49 +260,49 @@ class EncFS_SSH(EncFS_mount):
 
     def split_kwargs(self, mode):
         """split all given arguments for the desired mount class"""
-        dict = self.kwargs.copy()
-        dict['cfg']        = self.config
-        dict['profile_id'] = self.profile_id
-        dict['mode']       = self.mode
-        dict['parent']     = self.parent
+        d = self.kwargs.copy()
+        d['cfg']        = self.config
+        d['profile_id'] = self.profile_id
+        d['mode']       = self.mode
+        d['parent']     = self.parent
         if mode == 'ssh':
-            if 'path' in dict:
-                dict.pop('path')
-            if 'ssh_path' in dict:
-                dict['path'] = dict.pop('ssh_path')
-            if 'ssh_password' in dict:
-                dict['password'] = dict.pop('ssh_password')
+            if 'path' in d:
+                d.pop('path')
+            if 'ssh_path' in d:
+                d['path'] = d.pop('ssh_path')
+            if 'ssh_password' in d:
+                d['password'] = d.pop('ssh_password')
             else:
-                dict['password'] = self.config.get_password(parent = self.parent, profile_id = self.profile_id, mode = self.mode)
-            if 'hash_id' in dict:
-                dict.pop('hash_id')
-            if 'hash_id_2' in dict:
-                dict['hash_id'] = dict['hash_id_2']
-            return dict
+                d['password'] = self.config.get_password(parent = self.parent, profile_id = self.profile_id, mode = self.mode)
+            if 'hash_id' in d:
+                d.pop('hash_id')
+            if 'hash_id_2' in d:
+                d['hash_id'] = d['hash_id_2']
+            return d
 
         elif mode == 'encfs':
-            dict['path'] = self.ssh.mountpoint
-            dict['hash_id_1'] = self.rev_root.hash_id
-            dict['hash_id_2'] = self.ssh.hash_id
-            if 'encfs_password' in dict:
-                dict['password'] = dict.pop('encfs_password')
+            d['path'] = self.ssh.mountpoint
+            d['hash_id_1'] = self.rev_root.hash_id
+            d['hash_id_2'] = self.ssh.hash_id
+            if 'encfs_password' in d:
+                d['password'] = d.pop('encfs_password')
             else:
-                dict['password'] = self.config.get_password(parent = self.parent, profile_id = self.profile_id, mode = self.mode, pw_id = 2)
-            return dict
+                d['password'] = self.config.get_password(parent = self.parent, profile_id = self.profile_id, mode = self.mode, pw_id = 2)
+            return d
 
         elif mode == 'encfs_reverse':
-            dict['reverse'] = True
-            dict['path'] = '/'
-            dict['config_path'] = self.ssh.mountpoint
-            if 'encfs_password' in dict:
-                dict['password'] = dict.pop('encfs_password')
+            d['reverse'] = True
+            d['path'] = '/'
+            d['config_path'] = self.ssh.mountpoint
+            if 'encfs_password' in d:
+                d['password'] = d.pop('encfs_password')
             else:
-                dict['password'] = self.config.get_password(parent = self.parent, profile_id = self.profile_id, mode = self.mode, pw_id = 2)
-            if 'hash_id' in dict:
-                dict.pop('hash_id')
-            if 'hash_id_1' in dict:
-                dict['hash_id'] = dict['hash_id_1']
-            return dict
+                d['password'] = self.config.get_password(parent = self.parent, profile_id = self.profile_id, mode = self.mode, pw_id = 2)
+            if 'hash_id' in d:
+                d.pop('hash_id')
+            if 'hash_id_1' in d:
+                d['hash_id'] = d['hash_id_1']
+            return d
 
 class Encode(object):
     """encode path with encfsctl.
@@ -536,7 +536,7 @@ class Decode(object):
         """write crypted path to encfsctl stdin and read plain path from stdout
            if stdout is empty (most likly because there was an error) return crypt path"""
         if self.string:
-            assert isinstance(path, string), 'path is not string type: %s' % path
+            assert isinstance(path, str), 'path is not str type: %s' % path
         else:
             assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if not 'p' in vars(self):

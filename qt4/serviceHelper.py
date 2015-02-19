@@ -66,7 +66,7 @@ import re
 from subprocess import Popen, PIPE
 try:
     import pwd
-except importError:
+except ImportError:
     pwd = None
 
 import dbus

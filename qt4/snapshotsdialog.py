@@ -17,16 +17,12 @@
 
 
 import os
-import sys
-import datetime
 import gettext
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-import config
 import tools
-import qt4tools
 import restoredialog
 import messagebox
 
@@ -340,14 +336,14 @@ class SnapshotsDialog( QDialog ):
 
         #check if the 2 paths are different
         if path1 == path2:
-            messagebox.error( self, _('You can\'t compare a snapshot to itself') )
+            messagebox.critical( self, _('You can\'t compare a snapshot to itself') )
             return
 
         diff_cmd = self.config.get_str_value( 'qt4.diff.cmd', DIFF_CMD )
         diff_params = self.config.get_str_value( 'qt4.diff.params', DIFF_PARAMS )
 
         if not tools.check_command( diff_cmd ):
-            messagebox.error( self, _('Command not found: %s') % diff_cmd )
+            messagebox.critical( self, _('Command not found: %s') % diff_cmd )
             return
 
         params = diff_params

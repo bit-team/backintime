@@ -495,16 +495,16 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_ssh_private_key_file(self, profile_id = None):
         ssh = self.get_ssh_private_key_folder()
         default = ''
-        for file in ['id_dsa', 'id_rsa', 'identity']:
-            private_key = os.path.join(ssh, file)
+        for f in ['id_dsa', 'id_rsa', 'identity']:
+            private_key = os.path.join(ssh, f)
             if os.path.isfile(private_key):
                 default = private_key
                 break
-        #?Private key file used for password-less authentication on remote host.
+        #?Prif key file used for password-less authentication on remote host.
         #?;absolute path to private key file;~/.ssh/id_dsa
-        file = self.get_profile_str_value( 'snapshots.ssh.private_key_file', default, profile_id )
-        if file:
-            return file
+        f = self.get_profile_str_value( 'snapshots.ssh.private_key_file', default, profile_id )
+        if f:
+            return f
         return default
 
     def get_ssh_private_key_folder(self):
@@ -639,8 +639,6 @@ class Config( configfile.ConfigFileWithProfiles ):
         paths = []
 
         for item in value.split(':'):
-            fields = item.split( '|' )
-
             path = os.path.expanduser( item )
             path = os.path.abspath( path )
 
@@ -661,12 +659,6 @@ class Config( configfile.ConfigFileWithProfiles ):
 
             path = os.path.expanduser( fields[0] )
             path = os.path.abspath( path )
-
-            if len( fields ) >= 2:
-                automatic_backup_mode = int( fields[1] )
-            else:
-                automatic_backup_mode = self.get_automatic_backup_mode()
-
             paths.append( path )
 
         return paths
@@ -686,8 +678,8 @@ class Config( configfile.ConfigFileWithProfiles ):
             if value:
                 #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR 
                 #?is a folder (0) or a file (1).;0|1
-                type = self.get_profile_int_value( "snapshots.include.%s.type" % i, 0, profile_id )
-                include.append( ( value, type ) )
+                t = self.get_profile_int_value( "snapshots.include.%s.type" % i, 0, profile_id )
+                include.append( ( value, t ) )
 
         return include
 
@@ -838,12 +830,12 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value('snapshots.automatic_backup_anacron_unit', value, profile_id)
 
     def get_remove_old_snapshots( self, profile_id = None ):
-                 #?Remove all snapshots older than value + unit
-        return ( self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id ),
-                 #?Snapshots older than this times units will be removed
-                 self.get_profile_int_value( 'snapshots.remove_old_snapshots.value', 10, profile_id ),
-                 #?20 = days\n30 = weeks\n80 = years;20|30|80;80
-                 self.get_profile_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR, profile_id ) )
+                #?Remove all snapshots older than value + unit
+        return (self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id ),
+                #?Snapshots older than this times units will be removed
+                self.get_profile_int_value( 'snapshots.remove_old_snapshots.value', 10, profile_id ),
+                #?20 = days\n30 = weeks\n80 = years;20|30|80;80
+                self.get_profile_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR, profile_id ) )
 
     def keep_only_one_snapshot( self, profile_id = None ):
         #?NOT YET IMPLEMENTED. Remove all snapshots but one.
@@ -882,13 +874,13 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.remove_old_snapshots.unit', unit, profile_id )
 
     def get_min_free_space( self, profile_id = None ):
-                 #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR 
-                 #?free space is reached.
-        return ( self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id ),
-                 #?Keep at least value + unit free space.;1-99999
-                 self.get_profile_int_value( 'snapshots.min_free_space.value', 1, profile_id ),
-                 #?10 = MB\n20 = GB;10|20;20
-                 self.get_profile_int_value( 'snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id ) )
+                #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR 
+                #?free space is reached.
+        return (self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id ),
+                #?Keep at least value + unit free space.;1-99999
+                self.get_profile_int_value( 'snapshots.min_free_space.value', 1, profile_id ),
+                #?10 = MB\n20 = GB;10|20;20
+                self.get_profile_int_value( 'snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id ) )
 
     def is_min_free_space_enabled( self, profile_id = None ):
         return self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id )
@@ -933,16 +925,16 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.dont_remove_named_snapshots', value, profile_id )
 
     def get_smart_remove( self, profile_id = None ):
-                 #?Run smart_remove to clean up old snapshots after a new snapshot was created.
-        return ( self.get_profile_bool_value( 'snapshots.smart_remove', False, profile_id ),
-                 #?Keep all snapshots for X days.
-                 self.get_profile_int_value( 'snapshots.smart_remove.keep_all', 2, profile_id ),
-                 #?Keep one snapshot per day for X days.
-                 self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_day', 7, profile_id ),
-                 #?Keep one snapshot per week for X weeks.
-                 self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_week', 4, profile_id ),
-                 #?Keep one snapshot per month for X month.
-                 self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_month', 24, profile_id ) )
+                #?Run smart_remove to clean up old snapshots after a new snapshot was created.
+        return (self.get_profile_bool_value( 'snapshots.smart_remove', False, profile_id ),
+                #?Keep all snapshots for X days.
+                self.get_profile_int_value( 'snapshots.smart_remove.keep_all', 2, profile_id ),
+                #?Keep one snapshot per day for X days.
+                self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_day', 7, profile_id ),
+                #?Keep one snapshot per week for X weeks.
+                self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_week', 4, profile_id ),
+                #?Keep one snapshot per month for X month.
+                self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_month', 24, profile_id ) )
 
     def set_smart_remove( self, value, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.smart_remove', value, profile_id )
@@ -1231,9 +1223,9 @@ class Config( configfile.ConfigFileWithProfiles ):
     def anacrontab_files(self):
         '''list existing old anacrontab files'''
         dirname, basename = os.path.split(self.get_anacrontab())
-        for file in os.listdir(dirname):
-            if file.startswith(basename):
-                yield os.path.join(dirname, file)
+        for f in os.listdir(dirname):
+            if f.startswith(basename):
+                yield os.path.join(dirname, f)
 
     def get_anacron_spool(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
@@ -1352,14 +1344,13 @@ class Config( configfile.ConfigFileWithProfiles ):
         print("Clearing system Back In Time entries")
         os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab" % system_entry_message )
 
-        for file in self.anacrontab_files():
+        for f in self.anacrontab_files():
             print("Clearing anacrontab")
-            os.remove(file)
+            os.remove(f)
 
         self.setupUdev.clean()
 
         empty = True
-        uuid_tmp_fd = None
         profiles = self.get_profiles()
 
         try:

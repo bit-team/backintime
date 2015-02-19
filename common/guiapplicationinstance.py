@@ -17,7 +17,6 @@
 
 
 import os
-import time
 
 class GUIApplicationInstance:
     '''class used to handle one application instance mechanism
@@ -50,8 +49,8 @@ class GUIApplicationInstance:
         pid = 0
         procname = ''
         try:
-            with open( self.pid_file, 'rt' ) as file:
-                data = file.read()
+            with open( self.pid_file, 'rt' ) as f:
+                data = f.read()
             data = data.split('\n', 1)
             pid = int(data[0])
             if len(data) > 1:
@@ -69,8 +68,8 @@ class GUIApplicationInstance:
             return
 
         #check if the process has the same procname
-        with open('/proc/%s/cmdline' % pid, 'r') as file:
-            if procname and not procname == file.read().strip('\n'):
+        with open('/proc/%s/cmdline' % pid, 'r') as f:
+            if procname and not procname == f.read().strip('\n'):
                 return
 
         #exit the application
@@ -78,8 +77,8 @@ class GUIApplicationInstance:
 
         #notify raise
         try:
-            with open( self.raise_file, 'wt' ) as file:
-                file.write( raise_cmd )
+            with open( self.raise_file, 'wt' ) as f:
+                f.write( raise_cmd )
         except:
             pass
 
@@ -91,12 +90,12 @@ class GUIApplicationInstance:
         pid = str(os.getpid())
         procname = ''
         try:
-            with open('/proc/%s/cmdline' % pid, 'r') as file:
-                procname = file.read().strip('\n')
+            with open('/proc/%s/cmdline' % pid, 'r') as f:
+                procname = f.read().strip('\n')
         except:
             pass
-        with open( self.pid_file, 'wt' ) as file:
-            file.write( pid + '\n' + procname )
+        with open( self.pid_file, 'wt' ) as f:
+            f.write( pid + '\n' + procname )
 
     def exit_application( self ):
         '''called when the single instance exit ( remove pid file )
@@ -114,8 +113,8 @@ class GUIApplicationInstance:
 
         try:
             if os.path.isfile( self.raise_file ):
-                with open( self.raise_file, 'rt' ) as file:
-                    ret_val = file.read()
+                with open( self.raise_file, 'rt' ) as f:
+                    ret_val = f.read()
                 os.remove( self.raise_file )
         except:
             pass

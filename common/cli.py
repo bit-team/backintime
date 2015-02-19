@@ -83,8 +83,8 @@ def selectSnapshot(snapshots_, snapshot_id = None, msg = 'SnapshotID'):
     print('')
     while snapshot_id is None:
         try:
-            id = int(input(msg + ' ( 0 - %d ): ' % (len_snapshots - 1) ))
-            snapshot_id = snapshot_list[id]
+            sid = int(input(msg + ' ( 0 - %d ): ' % (len_snapshots - 1) ))
+            snapshot_id = snapshot_list[sid]
         except (ValueError, IndexError):
             print('Invalid Input')
             continue

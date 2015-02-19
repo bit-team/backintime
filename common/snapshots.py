@@ -20,7 +20,6 @@ import os
 import stat
 import datetime
 import gettext
-import stat
 import bz2
 import pwd
 import grp
@@ -85,8 +84,6 @@ class Snapshots:
         return ""
 
     def get_snapshot_old_id( self, date ):
-        profile_id = self.config.get_current_profile()
-
         if type( date ) is datetime.datetime:
             snapshot_id = date.strftime( '%Y%m%d-%H%M%S' )
             return snapshot_id
@@ -118,7 +115,6 @@ class Snapshots:
             path_other = os.path.join( folder, self.get_snapshot_id( date ) )
             if os.path.exists( path_other ):
                 return path_other
-        old_path = os.path.join( self.config.get_snapshots_full_path( profile_id ), self.get_snapshot_old_id( date ) )
         if os.path.exists( path ):
             return path
         other_folders = self.config.get_other_folders_paths()
@@ -195,8 +191,8 @@ class Snapshots:
 
         name = ''
         try:
-            with open( os.path.join( path, 'name' ), 'rt' ) as file:
-                name = file.read()
+            with open( os.path.join( path, 'name' ), 'rt' ) as f:
+                name = f.read()
         except:
             pass
 
@@ -215,8 +211,8 @@ class Snapshots:
         os.system( "chmod +w \"%s\"" % path )
 
         try:
-            with open( name_path, 'wt' ) as file:
-                file.write( name )
+            with open( name_path, 'wt' ) as f:
+                f.write( name )
         except:
             pass
 
@@ -248,9 +244,9 @@ class Snapshots:
     def clear_take_snapshot_message( self ):
         files = (self.config.get_take_snapshot_message_file(), \
                  self.config.get_take_snapshot_progress_file() )
-        for file in files:
-            if os.path.exists(file):
-                os.remove(file)
+        for f in files:
+            if os.path.exists(f):
+                os.remove(f)
 
     def get_take_snapshot_message( self ):
         wait = datetime.datetime.now() - datetime.timedelta(seconds = 30)
@@ -261,31 +257,31 @@ class Snapshots:
                 return None
 
         try:
-            with open(self.config.get_take_snapshot_message_file(), 'rt' ) as file:
-                items = file.read().split( '\n' )
+            with open(self.config.get_take_snapshot_message_file(), 'rt' ) as f:
+                items = f.read().split( '\n' )
         except:
             return None
 
         if len( items ) < 2:
             return None
 
-        id = 0
+        mid = 0
         try:
-            id = int( items[0] )
+            mid = int( items[0] )
         except:
             pass
 
         del items[0]
         message = '\n'.join( items )
 
-        return( id, message )
+        return( mid, message )
 
     def set_take_snapshot_message( self, type_id, message, timeout = -1 ):
         data = str(type_id) + '\n' + message
 
         try:
-            with open( self.config.get_take_snapshot_message_file(), 'wt' ) as file:
-                file.write( data )
+            with open( self.config.get_take_snapshot_message_file(), 'wt' ) as f:
+                f.write( data )
         except:
             pass
 
@@ -345,16 +341,16 @@ class Snapshots:
 
     def get_snapshot_log( self, snapshot_id, mode = 0, profile_id = None , **kwargs ):
         try:
-            with bz2.BZ2File( self.get_snapshot_log_path( snapshot_id ), 'r' ) as file:
-                data = file.read().decode()
+            with bz2.BZ2File( self.get_snapshot_log_path( snapshot_id ), 'r' ) as f:
+                data = f.read().decode()
             return self._filter_take_snapshot_log( data, mode, **kwargs )
         except:
             return ''
 
     def get_take_snapshot_log( self, mode = 0, profile_id = None, **kwargs ):
         try:
-            with open( self.config.get_take_snapshot_log_file( profile_id ), 'rt' ) as file:
-                data = file.read()
+            with open( self.config.get_take_snapshot_log_file( profile_id ), 'rt' ) as f:
+                data = f.read()
             return self._filter_take_snapshot_log( data, mode, **kwargs )
         except:
             return ''
@@ -368,8 +364,8 @@ class Snapshots:
             return
 
         try:
-            with open( self.config.get_take_snapshot_log_file(), 'at' ) as file:
-                file.write( message + '\n' )
+            with open( self.config.get_take_snapshot_log_file(), 'at' ) as f:
+                f.write( message + '\n' )
         except:
             pass
 
@@ -406,15 +402,15 @@ class Snapshots:
                 if index < 0:
                     continue
 
-                file = line[ index: ]
-                if not file:
+                f = line[ index: ]
+                if not f:
                     continue
 
                 info = line[ : index ].strip()
                 info = info.split( b' ' )
 
                 if len( info ) == 3:
-                    file_info_dict[file] = (int(info[0]), info[1], info[2]) #perms, user, group
+                    file_info_dict[f] = (int(info[0]), info[1], info[2]) #perms, user, group
 
         return file_info_dict
 
@@ -581,7 +577,7 @@ class Snapshots:
             cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_modes = ['ssh'])
             cmd += ' "%s/"' % restore_to
             self.restore_callback( callback, True, cmd )
-            self._execute( cmd, callback, filter = (self._filter_rsync_progress, ))
+            self._execute( cmd, callback, filters = (self._filter_rsync_progress, ))
             self.restore_callback(callback, True, ' ')
             restored_paths.append((path, src_delta))
         try:
@@ -726,13 +722,13 @@ class Snapshots:
 
     def copy_snapshot( self, snapshot_id, new_folder ):
         '''Copies a known snapshot to a new location'''
-        current.path = self.get_snapshot_path( snapshot_id )
+        current_path = self.get_snapshot_path( snapshot_id )
         #need to implement hardlinking to existing folder -> cp newest snapshot folder, rsync -aEAXHv --delete to this folder
-        self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (snapshot_current_path, self.config.find_suffix()) )
+        self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (current_path, self.config.find_suffix()) )
         cmd = "cp -dRl \"%s\"* \"%s\"" % ( current_path, new_folder )
         logger.info( '%s is copied to folder %s' %( snapshot_id, new_folder ) )
         self._execute( cmd )
-        self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} %s" % ( snapshot_current_path, new_folder, self.config.find_suffix() ) )
+        self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} %s" % (current_path, new_folder, self.config.find_suffix() ) )
 
     def update_snapshots_location( self ):
         '''Updates to location: backintime/machine/user/profile_id'''
@@ -1241,7 +1237,7 @@ class Snapshots:
 
         params = [False, False]
         self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
-        self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params, filter = (self._filter_rsync_progress, ))
+        self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params, filters = (self._filter_rsync_progress, ))
         try:
             os.remove(self.config.get_take_snapshot_progress_file())
         except:
@@ -1560,7 +1556,7 @@ class Snapshots:
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
 
-    def _execute( self, cmd, callback = None, user_data = None, filter = () ):
+    def _execute( self, cmd, callback = None, user_data = None, filters = () ):
         ret_val = 0
 
         if callback is None:
@@ -1573,7 +1569,7 @@ class Snapshots:
                 if not line:
                     break
                 line = line.strip()
-                for f in filter:
+                for f in filters:
                     line = f(line)
                 if not line:
                     continue
@@ -1703,10 +1699,10 @@ class Snapshots:
 
     def delete_path(self, snapshot_id, path):
         def handle_error(fn, path, excinfo):
-            dir = os.path.dirname(path)
-            if not os.access(dir, os.W_OK):
-                st = os.stat(dir)
-                os.chmod(dir, st.st_mode | stat.S_IWUSR)
+            dirname = os.path.dirname(path)
+            if not os.access(dirname, os.W_OK):
+                st = os.stat(dirname)
+                os.chmod(dirname, st.st_mode | stat.S_IWUSR)
             st = os.stat(path)
             os.chmod(path, st.st_mode | stat.S_IWUSR)
             fn(path)

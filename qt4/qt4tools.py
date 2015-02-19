@@ -15,12 +15,8 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
-import os
-
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-
 
 def get_font_bold( font ):
     font.setWeight( QFont.Bold )

@@ -16,18 +16,11 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import os
-import sys
-import datetime
 import gettext
-import copy
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-import config
-import tools
-import qt4tools
 import encfstools
 
 
