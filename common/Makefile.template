@@ -49,6 +49,10 @@ install: install_translations
 	install -d $(DEST)/../etc/xdg/autostart
 	install --mode=644 backintime.desktop $(DEST)/../etc/xdg/autostart
 
+	#install bash-completition
+	install -d $(DEST)/bash-completion/completions
+	install --mode=644 bash-completion/* $(DEST)/bash-completion/completions
+
 compress:
 	#man pages
 	for i in $$(ls -1 man/C/); do case $$i in *.gz|*~) continue;; *) gzip --best -c man/C/$$i > man/C/$${i}.gz;; esac; done

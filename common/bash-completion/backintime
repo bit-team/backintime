@@ -1,0 +1,69 @@
+_bit_extr_opts()
+{
+    local last="" opts=""
+    for i in "${COMP_WORDS}"; do
+        case "${last}" in
+            --profile|--profile-id|--config)
+                if [[ ${i} != -* ]]; then
+                    opts="${opts} ${last} ${i}"
+                fi ;;
+        esac
+        last=${i}
+    done
+    echo "${opts}"
+}
+
+_bit_snapshots_list()
+{
+    backintime$(_bit_extr_opts) --quiet --snapshots-list | awk '{print $2}'
+}
+
+_backintime() 
+{
+    local cur prev actions opts pw_cache_commands
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    prev2="${COMP_WORDS[COMP_CWORD-2]}"
+    prev3="${COMP_WORDS[COMP_CWORD-3]}"
+    opts="--profile --profile-id --keep-mount --quiet --config --checksum"
+    actions="--backup --backup-job --snapshots-path --snapshots-list --snapshots-list-path --last-snapshot --umount --benchmark-cipher --pw-cache --decode --remove --restore --version --license --help"
+    pw_cache_commands="start stop restart reload status"
+
+    if [[ "${prev2}" == "--restore" ]] && [[ ${prev} != -* ]] && [[ ${cur} != -* ]]; then
+         _filedir
+         return 0
+    fi
+
+    if [[ "${prev3}" == "--restore" ]] && [[ ${prev2} != -* ]] && [[ ${prev} != -* ]] && [[ ${cur} != -* ]]; then
+         COMPREPLY=( $(compgen -W "$(_bit_snapshots_list)" -- ${cur}) )
+         return 0
+    fi
+
+    case "${prev}" in
+        --config|--decode|--restore)
+            if [[ ${cur} != -* ]]; then
+                _filedir
+                return 0
+            fi ;;
+        --pw-cache)
+             if [[ ${cur} != -* ]]; then
+                COMPREPLY=( $(compgen -W "${pw_cache_commands}" -- ${cur}) )
+                return 0
+            fi ;;
+        --remove|--remove-and-do-not-ask-again)
+            if [[ ${cur} != -* ]]; then
+                COMPREPLY=( $(compgen -W "$(_bit_snapshots_list)" -- ${cur}) )
+                return 0
+            fi
+            ;;
+        backintime*|${opts})
+            if [[ ${cur} == -* ]] ; then
+                COMPREPLY=( $(compgen -W "${opts} ${actions}" -- ${cur}) )
+                return 0
+            fi ;;
+    esac
+}
+complete -F _backintime backintime
+complete -F _backintime backintime-qt4
+
