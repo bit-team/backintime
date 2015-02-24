@@ -32,9 +32,10 @@ import tools
 import logger
 import snapshots
 import progress
+import qt4tools
 
 from PyQt4.QtCore import QObject, SIGNAL, QTimer
-from PyQt4.QtGui import QApplication, QSystemTrayIcon, QIcon, QMenu, QProgressBar, QWidget, QRegion
+from PyQt4.QtGui import QSystemTrayIcon, QIcon, QMenu, QProgressBar, QWidget, QRegion
 
 
 class Qt4SysTrayIcon:
@@ -49,7 +50,7 @@ class Qt4SysTrayIcon:
             except:
                 pass
 
-        self.qapp = QApplication(sys.argv)
+        self.qapp = qt4tools.create_qapplication(self.config.APP_NAME)
 
         import icon
         self.icon = icon

@@ -1335,9 +1335,6 @@ def debug_trace():
     pyqtRemoveInputHook()
     set_trace()
 
-def create_qapplication( cfg ):
-    return QApplication(sys.argv + ['-title', cfg.APP_NAME])
-
 if __name__ == '__main__':
     cfg = backintime.start_app( 'backintime-qt4' )
 
@@ -1350,7 +1347,7 @@ if __name__ == '__main__':
     cfg.PLUGIN_MANAGER.on_app_start()
 
     logger.openlog()
-    qapp = create_qapplication( cfg )
+    qapp = qt4tools.create_qapplication(cfg.APP_NAME)
 
     main_window = MainWindow( cfg, app_instance, qapp )
 

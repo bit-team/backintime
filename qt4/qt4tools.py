@@ -15,8 +15,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
+import os
+import sys
+from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView, QTreeView, QDialog, QApplication, QStyleFactory
+from PyQt4.QtCore import QDir, SIGNAL
 
 def get_font_bold( font ):
     font.setWeight( QFont.Bold )
@@ -108,6 +110,14 @@ def hidden_files(parent):
         return parent.show_hidden_files
     except: pass
     return False
+
+def create_qapplication(app_name = 'Back In Time'):
+    qapp = QApplication(sys.argv + ['-title', app_name])
+    if os.geteuid() == 0 and                                   \
+        qapp.style().objectName().lower() == 'windows' and  \
+        'GTK+' in QStyleFactory.keys():
+            qapp.setStyle('GTK+')
+    return qapp
 
 class MyTreeView(QTreeView):
     """subclass QTreeView to emit a SIGNAL myCurrentIndexChanged

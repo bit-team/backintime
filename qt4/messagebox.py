@@ -14,16 +14,16 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys
 import gettext
 from PyQt4.QtCore import QTimer, SIGNAL
 from PyQt4.QtGui import QApplication, QMessageBox, QInputDialog, QLineEdit
+import qt4tools
 
 _ = gettext.gettext
 
 def ask_password_dialog(parent, title, prompt, timeout = None):
     if parent is None:
-        qapp = QApplication(sys.argv)
+        qapp = qt4tools.create_qapplication()
 
     import icon
     dialog = QInputDialog()
