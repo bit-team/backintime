@@ -1513,8 +1513,14 @@ class Snapshots:
                 if len( snapshots ) <= 1:
                     break
 
-                info = os.statvfs( self.config.get_snapshots_path() )
-                free_space = info.f_frsize * info.f_bavail // ( 1024 * 1024 )
+                free_space = self._stat_free_space_local(self.config.get_snapshots_path())
+
+                if free_space is None:
+                    free_space = self._stat_free_space_ssh()
+
+                if free_space is None:
+                    logger.warning('Failed to get free space. Skipping')
+                    break
 
                 if free_space >= min_free_space:
                     break
@@ -1540,9 +1546,13 @@ class Snapshots:
                 if len( snapshots ) <= 1:
                     break
 
-                info = os.statvfs( self.config.get_snapshots_path() )
-                free_inodes = info.f_favail
-                max_inodes  = info.f_files
+                try:
+                    info = os.statvfs( self.config.get_snapshots_path() )
+                    free_inodes = info.f_favail
+                    max_inodes  = info.f_files
+                except:
+                    logger.warning('Failed to stat snapshot path')
+                    break
 
                 if free_inodes >= max_inodes * (min_free_inodes / 100.0):
                     break
@@ -1555,6 +1565,35 @@ class Snapshots:
                 logger.info( "free inodes: %.2f%%" % (100.0 / max_inodes * free_inodes) )
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
+
+    def _stat_free_space_local(self, path):
+        try:
+            info = os.statvfs(path)
+            if info.f_blocks != info.f_bavail:
+                return info.f_frsize * info.f_bavail // ( 1024 * 1024 )
+        except:
+            pass
+        logger.warning('Failed to stat snapshot path')
+
+    def _stat_free_space_ssh(self):
+        if self.config.get_snapshots_mode() not in ('ssh', 'ssh_encfs'):
+            return None
+
+        snapshots_path_ssh = self.config.get_snapshots_path_ssh()
+        if not len(snapshots_path_ssh):
+            snapshots_path_ssh = './'
+        cmd = self.cmd_ssh(['df', snapshots_path_ssh])
+        
+        df = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+        output = df.communicate()[0]
+        #Filesystem     1K-blocks      Used Available Use% Mounted on
+        #/tmp           127266564 115596412   5182296  96% /
+        #                                     ^^^^^^^
+        for line in output.split(b'\n'):
+            m = re.match(b'^.*?\s+\d+\s+\d+\s+(\d+)\s+\d+%', line, re.M)
+            if m:
+                return int(m.group(1)) / 1024
+        logger.warning('Failed to get free space on remote')
 
     def _execute( self, cmd, callback = None, user_data = None, filters = () ):
         ret_val = 0
