@@ -38,6 +38,9 @@ update_changelog () {
   echo "Update '$1'"
   echo "backintime ($VERSION) unstable; urgency=low" > $1
   cat CHANGES | awk 'BEGIN {ins=0} /^Version '$VERSION'/ {ins=1; next} /^Version [0-9.]+/ && (ins == 1) {exit 0} /^\*/ && (ins == 1) {print "  "$0}' >> $1
+  if [ $(cat $1 | wc -l) -eq 1 ]; then
+      echo "  * prepair next version" >> $1
+  fi
   echo  " -- ${MAINTAINER}  $(date -R)" >> $1
 }
 
