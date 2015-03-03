@@ -554,6 +554,9 @@ class Snapshots:
             cmd_suffix += "--backup --suffix=%s " % self.backup_suffix()
         if delete:
             cmd_suffix += '--delete '
+            cmd_suffix += '--filter="protect %s" ' % self.config.get_snapshots_path()
+            cmd_suffix += '--filter="protect %s" ' % self.config._LOCAL_DATA_FOLDER
+            cmd_suffix += '--filter="protect %s" ' % self.config._MOUNT_ROOT
 
         restored_paths = []
         for path in paths:

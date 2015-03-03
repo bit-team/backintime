@@ -1018,9 +1018,12 @@ class MainWindow( QMainWindow ):
         self.show_hidden_files = checked
         self.update_files_view( 1 )
 
-    def confirm_delete_on_restore(self):
+    def confirm_delete_on_restore(self, warn_root = False):
         msg = _('Are you sure you want to remove all newer files in your '
                 'original folder?')
+        if warn_root:
+            msg += '\n\n'
+            msg += _('WARNING: deleting files in filesystem root could break your whole system!!!')
         if self.config.is_backup_on_restore_enabled():
             msg += '\n\n'
             msg += _('Actually files will be backed up with trailing '
@@ -1040,7 +1043,7 @@ class MainWindow( QMainWindow ):
         if not selected_file:
             return
 
-        if delete and not self.confirm_delete_on_restore():
+        if delete and not self.confirm_delete_on_restore(any([i == '/' for i in selected_file]) ):
             return
 
         rel_path = [os.path.join(self.path, x) for x in selected_file]
@@ -1061,7 +1064,7 @@ class MainWindow( QMainWindow ):
         if len( self.snapshot_id ) <= 1:
             return
 
-        if delete and not self.confirm_delete_on_restore():
+        if delete and not self.confirm_delete_on_restore(self.path == '/'):
             return
 
         restoredialog.restore( self, self.snapshot_id, self.path, delete = delete)
