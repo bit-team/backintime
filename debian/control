@@ -22,7 +22,8 @@ Priority: optional
 Section: utils
 Architecture: all
 Depends: x11-utils, libnotify-bin, python3-pyqt4, python3-dbus.mainloop.qt, policykit-1, consolekit, backintime-common (>= ${source:Version}~), ${python3:Depends}, ${misc:Depends}
-Suggests: meld | kompare, python-keyring-gnome | python-gnomekeyring | python-keyring-kwallet
+Recommends: python3-secretstorage
+Suggests: meld | kompare
 Conflicts: backintime-kde (<< ${source:Version}~), backintime-kde4 (<< ${source:Version}~), backintime-gnome (<< ${source:Version}~), backintime-notify (<< ${source:Version}~)
 Replaces: backintime-kde (<< ${source:Version}~), backintime-kde4 (<< ${source:Version}~), backintime-gnome (<< ${source:Version}~), backintime-notify (<< ${source:Version}~)
 Description: Simple backup system
