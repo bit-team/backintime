@@ -423,12 +423,12 @@ class Snapshots:
         self.gid_cache = {}
 
     def get_uid( self, name ):
-        try:
+        if name in self.uid_cache:
             return self.uid_cache[name]
-        except:
+        else:
             uid = -1
             try:
-                uid = pwd.getpwnam(name).pw_uid
+                uid = pwd.getpwnam(name.decode()).pw_uid
             except:
                 pass
 
@@ -436,12 +436,12 @@ class Snapshots:
             return uid
 
     def get_gid( self, name ):
-        try:
+        if name in self.gid_cache:
             return self.gid_cache[name]
-        except:
+        else:
             gid = -1
             try:
-                gid = grp.getgrnam(name).gr_gid
+                gid = grp.getgrnam(name.decode()).gr_gid
             except:
                 pass
 
