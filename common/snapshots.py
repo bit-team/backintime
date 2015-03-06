@@ -598,48 +598,43 @@ class Snapshots:
         self.restore_callback( callback, True, _("Restore permissions:") )
         file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
         if file_info_dict:
-            restored_permissions = []
+            all_dirs = [] #restore dir permissions after all files are done
             for path, src_delta in restored_paths:
                 #explore items
                 snapshot_path_to = self.get_snapshot_path_to( snapshot_id, path ).rstrip( '/' )
                 root_snapshot_path_to = self.get_snapshot_path_to( snapshot_id ).rstrip( '/' )
-                all_dirs = [] #restore dir permissions after all files are done
                 #use bytes instead of string from here
                 path = path.encode()
                 restore_to = restore_to.encode()
-                
 
                 if not restore_to:
                     path_items = path.strip(b'/').split(b'/')
                     curr_path = b'/'
                     for path_item in path_items:
                         curr_path = os.path.join( curr_path, path_item )
-                        if not curr_path in restored_permissions:
+                        if curr_path not in all_dirs:
                             all_dirs.append( curr_path )
                 else:
-                        if not path in restored_permissions:
-                            all_dirs.append(path)
+                    if path not in all_dirs:
+                        all_dirs.append(path)
 
                 if os.path.isdir( snapshot_path_to ) and not os.path.islink( snapshot_path_to ):
                     head = len(root_snapshot_path_to.encode())
                     for explore_path, dirs, files in os.walk( snapshot_path_to.encode() ):
                         for item in dirs:
                             item_path = os.path.join( explore_path, item )[head:]
-                            if not item_path in restored_permissions:
+                            if item_path not in all_dirs:
                                 all_dirs.append( item_path )
 
                         for item in files:
                             item_path = os.path.join( explore_path, item )[head:]
                             real_path = restore_to + item_path[src_delta:]
-                            if not item_path in restored_permissions:
-                                self._restore_path_info( item_path, real_path, file_info_dict, callback )
-                                restored_permissions.append(item_path)
+                            self._restore_path_info( item_path, real_path, file_info_dict, callback )
 
-                all_dirs.reverse()
-                for item_path in all_dirs:
-                    real_path = restore_to + item_path[src_delta:]
-                    self._restore_path_info( item_path, real_path, file_info_dict, callback )
-                    restored_permissions.append(item_path)
+            all_dirs.reverse()
+            for item_path in all_dirs:
+                real_path = restore_to + item_path[src_delta:]
+                self._restore_path_info( item_path, real_path, file_info_dict, callback )
 
         #release inhibit suspend
         if self.config.inhibitCookie:
