@@ -84,6 +84,12 @@ for lang in $langs; do
 done
 printf "\n" >> Makefile
 
+if [ $(python${PYVERSION} --version | grep -c "^Python 3") -ne 1 ]; then
+    printf "Warning: Wrong Python version.\n"
+    printf "Please make sure Python 3.x is used by adding '--python' or '--python3'.\n"
+    exit 1
+fi
+
 printf "All OK. Now run:\n"
 printf "    make\n"
 printf "    sudo make install\n"

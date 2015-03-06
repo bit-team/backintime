@@ -38,6 +38,12 @@ sed -e "s#^Exec=/usr/bin/python3\? #Exec=/usr/bin/python${PYVERSION} #g" \
 
 cp Makefile.template Makefile
 
+if [ $(python${PYVERSION} --version | grep -c "^Python 3") -ne 1 ]; then
+    printf "Wrong Python version.\n"
+    printf "Please make sure Python 3.x is used by adding '--python' or '--python3'.\n"
+    exit 1
+fi
+
 printf "All OK. Now run:\n"
 printf "    make\n"
 printf "    sudo make install\n"
