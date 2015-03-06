@@ -1418,8 +1418,14 @@ class Config( configfile.ConfigFileWithProfiles ):
                         return False
                     uuid = tools.get_uuid_from_path(dest_path)
                     if uuid is None:
-                        self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
-                        return False
+                        #try using cached uuid
+                        uuid = self.get_profile_str_value('snapshots.path.uuid', '', profile_id)
+                        if not uuid:
+                            self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
+                            return False
+                    else:
+                        #cache uuid in config
+                        self.set_profile_str_value('snapshots.path.uuid', uuid, profile_id)
                     try:
                         self.setupUdev.addRule(self.cron_cmd(profile_id), uuid)
                     except tools.InvalidChar as e:
