@@ -1170,6 +1170,13 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_take_snapshot_user_script_error( self, path, profile_id = None ):
         self.set_take_snapshot_user_script( 'error', path, profile_id )
 
+    def use_global_flock(self):
+        #?Prevent multiple snapshots (from different profiles or users) to be run at the same time
+        return self.get_bool_value('global.use_flock', False)
+
+    def set_use_global_flock(self, value):
+        self.set_bool_value('global.use_flock', value)
+
     def get_app_path( self ):
         return self._APP_PATH
 

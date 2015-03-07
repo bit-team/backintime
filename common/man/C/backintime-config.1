@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Oct 2014" "version 1.1.3" "USER COMMANDS"
+.TH backintime-config 1 "Mar 2015" "version 1.1.3" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -34,6 +34,15 @@ Type: int       Allowed Values: 0-99999
 Internal value used to prevent hash collisions on mountpoints. Do not change this.
 .PP
 Default: 0 
+.RE
+
+.IP "\fIglobal.use_flock\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Prevent multiple snapshots (from different profiles or users) to be run at the same time
+.PP
+Default: false
 .RE
 
 .IP "\fIprofile<N>.name\fR" 6
@@ -495,6 +504,15 @@ Set User for snapshot path
 Default: local username
 .RE
 
+.IP "\fIprofile<N>.snapshots.path.uuid\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+
+.PP
+Default: ''
+.RE
+
 .IP "\fIprofile<N>.snapshots.preserve_acl\fR" 6
 .RS
 Type: bool      Allowed Values: true|false
@@ -674,7 +692,7 @@ Default: 22
 .RS
 Type: str       Allowed Values: absolute path to private key file
 .br
-Private key file used for password-less authentication on remote host.
+Prif key file used for password-less authentication on remote host.
 .PP
 Default: ~/.ssh/id_dsa
 .RE

@@ -617,6 +617,9 @@ class SettingsDialog( QDialog ):
             self.cb_no_on_battery.setToolTip ( _( 'Power status not available from system' ) )
         layout.addWidget( self.cb_no_on_battery )
 
+        self.cb_use_global_flock = QCheckBox(_('Run only one snapshot at a time'))
+        layout.addWidget(self.cb_use_global_flock)
+
         self.cb_backup_on_restore = QCheckBox(_('Backup replaced files on restore'), self)
         self.cb_backup_on_restore.setToolTip( _('Newer versions of files will be '
                                                 'renamed with trailing \'%(suffix)s\' '
@@ -1084,6 +1087,8 @@ class SettingsDialog( QDialog ):
 
         #TAB: Options
         self.cb_notify_enabled.setChecked( self.config.is_notify_enabled() )
+        self.cb_no_on_battery.setChecked( self.config.is_no_on_battery_enabled() )
+        self.cb_use_global_flock.setChecked(self.config.use_global_flock())
         self.cb_backup_on_restore.setChecked( self.config.is_backup_on_restore_enabled() )
         self.cb_continue_on_errors.setChecked( self.config.continue_on_errors() )
         self.cb_use_checksum.setChecked( self.config.use_checksum() )
@@ -1102,7 +1107,6 @@ class SettingsDialog( QDialog ):
         self.cb_run_nocache_on_remote.setChecked(self.config.is_run_nocache_on_remote_enabled())
         self.cb_bwlimit.setChecked( self.config.bwlimit_enabled() )
         self.sb_bwlimit.setValue( self.config.bwlimit() )
-        self.cb_no_on_battery.setChecked( self.config.is_no_on_battery_enabled() )
         self.cb_preserve_acl.setChecked( self.config.preserve_acl() )
         self.cb_preserve_xattr.setChecked( self.config.preserve_xattr() )
         self.cb_copy_unsafe_links.setChecked( self.config.copy_unsafe_links() )
@@ -1300,6 +1304,8 @@ class SettingsDialog( QDialog ):
 
         #options
         self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
+        self.config.set_no_on_battery_enabled( self.cb_no_on_battery.isChecked() )
+        self.config.set_use_global_flock(self.cb_use_global_flock.isChecked())
         self.config.set_backup_on_restore( self.cb_backup_on_restore.isChecked() )
         self.config.set_continue_on_errors( self.cb_continue_on_errors.isChecked() )
         self.config.set_use_checksum( self.cb_use_checksum.isChecked() )
@@ -1317,7 +1323,6 @@ class SettingsDialog( QDialog ):
         self.config.set_run_nocache_on_remote_enabled(self.cb_run_nocache_on_remote.isChecked())
         self.config.set_bwlimit_enabled( self.cb_bwlimit.isChecked() )
         self.config.set_bwlimit( self.sb_bwlimit.value() )
-        self.config.set_no_on_battery_enabled( self.cb_no_on_battery.isChecked() )
         self.config.set_preserve_acl( self.cb_preserve_acl.isChecked() )
         self.config.set_preserve_xattr( self.cb_preserve_xattr.isChecked() )
         self.config.set_copy_unsafe_links( self.cb_copy_unsafe_links.isChecked() )

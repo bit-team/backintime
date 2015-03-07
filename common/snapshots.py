@@ -27,6 +27,7 @@ import subprocess
 import shutil
 import time
 import re
+import fcntl
 
 import config
 import configfile
@@ -42,6 +43,7 @@ _=gettext.gettext
 
 class Snapshots:
     SNAPSHOT_VERSION = 3
+    GLOBAL_FLOCK = '/tmp/backintime.lock'
 
     def __init__( self, cfg = None ):
         self.config = cfg
@@ -64,6 +66,7 @@ class Snapshots:
                                           r'(.*$)')                         #trash at the end
 
         self.last_check_snapshot_runnig = datetime.datetime(1,1,1)
+        self.flock_file = None
 
     def get_snapshot_id( self, date ):
         profile_id = self.config.get_current_profile()
@@ -857,6 +860,7 @@ class Snapshots:
                     logger.warning( 'Backups disabled on battery but power status is not available' )
 
                 instance.start_application()
+                self.flockExclusive()
                 logger.info( 'Lock' )
 
                 now = datetime.datetime.today()
@@ -955,6 +959,7 @@ class Snapshots:
                     logger.error(str(ex))
 
                 instance.exit_application()
+                self.flockRelease()
                 logger.info( 'Unlock' )
 
         if sleep:
@@ -1766,6 +1771,17 @@ class Snapshots:
             os.symlink(snapshot_id, symlink)
         except:
             return False
+
+    def flockExclusive(self):
+        if self.config.use_global_flock():
+            self.flock_file = open(self.GLOBAL_FLOCK, 'w')
+            fcntl.flock(self.flock_file, fcntl.LOCK_EX)
+
+    def flockRelease(self):
+        if self.flock_file:
+            fcntl.fcntl(self.flock_file, fcntl.LOCK_UN)
+            self.flock_file.close()
+        self.flock_file = None
 
 if __name__ == "__main__":
     config = config.Config()
