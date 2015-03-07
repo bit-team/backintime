@@ -500,7 +500,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             if os.path.isfile(private_key):
                 default = private_key
                 break
-        #?Prif key file used for password-less authentication on remote host.
+        #?Private key file used for password-less authentication on remote host.
         #?;absolute path to private key file;~/.ssh/id_dsa
         f = self.get_profile_str_value( 'snapshots.ssh.private_key_file', default, profile_id )
         if f:
@@ -1426,6 +1426,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                     uuid = tools.get_uuid_from_path(dest_path)
                     if uuid is None:
                         #try using cached uuid
+                        #?Devices uuid used to automatically set up udev rule if the drive is not connected.
                         uuid = self.get_profile_str_value('snapshots.path.uuid', '', profile_id)
                         if not uuid:
                             self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
