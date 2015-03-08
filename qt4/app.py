@@ -1018,7 +1018,7 @@ class MainWindow( QMainWindow ):
         self.show_hidden_files = checked
         self.update_files_view( 1 )
 
-    def confirm_delete_on_restore(self, warn_root = False):
+    def confirm_delete_on_restore(self, paths, warn_root = False):
         msg = _('Are you sure you want to remove all newer files in your '
                 'original folder?')
         if warn_root:
@@ -1033,6 +1033,17 @@ class MainWindow( QMainWindow ):
                      %{'suffix': self.snapshots.backup_suffix(),
                        'backup_option': _('Backup replaced files on restore')
                       }
+        msg += '\n\n'
+        msg += _('Files to be restored:')
+        msg += '\n'
+        msg += '\n'.join(paths)
+
+        return QMessageBox.Yes == messagebox.warningYesNo( self, msg)
+
+    def confirm_restore(self, paths):
+        msg = _('Do you really want to restore this files(s):')
+        msg += '\n'
+        msg += '\n'.join(paths)
         return QMessageBox.Yes == messagebox.warningYesNo( self, msg)
 
     def restore_this( self, delete = False ):
@@ -1042,11 +1053,15 @@ class MainWindow( QMainWindow ):
         selected_file = [f for f, idx in self.multi_file_selected()]
         if not selected_file:
             return
-
-        if delete and not self.confirm_delete_on_restore(any([i == '/' for i in selected_file]) ):
-            return
-
         rel_path = [os.path.join(self.path, x) for x in selected_file]
+
+        if delete:
+            if not self.confirm_delete_on_restore(rel_path, any([i == '/' for i in selected_file]) ):
+                return
+        else:
+            if not self.confirm_restore(rel_path):
+                return
+
         restoredialog.restore( self, self.snapshot_id, rel_path, delete = delete)
 
     def restore_this_to( self ):
@@ -1056,22 +1071,33 @@ class MainWindow( QMainWindow ):
         selected_file = [f for f, idx in self.multi_file_selected()]
         if not selected_file:
             return
-
         rel_path = [os.path.join(self.path, x) for x in selected_file]
+        
+        if not self.confirm_restore(rel_path):
+            return
+
         restoredialog.restore( self, self.snapshot_id, rel_path, None )
 
     def restore_parent( self, delete = False ):
         if len( self.snapshot_id ) <= 1:
             return
 
-        if delete and not self.confirm_delete_on_restore(self.path == '/'):
-            return
+        if delete:
+            if not self.confirm_delete_on_restore((self.path,), self.path == '/'):
+                return
+        else:
+            if not self.confirm_restore((self.path,)):
+                return
 
         restoredialog.restore( self, self.snapshot_id, self.path, delete = delete)
 
     def restore_parent_to( self ):
         if len( self.snapshot_id ) <= 1:
             return
+
+        if not self.confirm_restore((self.path,)):
+            return
+
         restoredialog.restore( self, self.snapshot_id, self.path, None )
 
     def on_btn_snapshots_clicked( self ):
