@@ -198,6 +198,8 @@ class ConfigFileWithProfiles( ConfigFile ):
         return self.current_profile_id
 
     def set_current_profile( self, profile_id ):
+        if isinstance(profile_id, int):
+            profile_id = str(profile_id)
         profiles = self.get_profiles()
 
         for i in profiles:

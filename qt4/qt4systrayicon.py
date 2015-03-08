@@ -44,11 +44,8 @@ class Qt4SysTrayIcon:
         self.config = self.snapshots.config
 
         if len( sys.argv ) > 1:
-            try:
-                profile_id = int( sys.argv[1] )
-                self.config.set_current_profile( profile_id )
-            except:
-                pass
+            if not self.config.set_current_profile(sys.argv[1]):
+                logger.warning("Failed to change Profile_ID %s" % sys.argv[1])
 
         self.qapp = qt4tools.create_qapplication(self.config.APP_NAME)
 

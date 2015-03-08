@@ -1776,6 +1776,8 @@ class Snapshots:
         if self.config.use_global_flock():
             self.flock_file = open(self.GLOBAL_FLOCK, 'w')
             fcntl.flock(self.flock_file, fcntl.LOCK_EX)
+            os.fchmod(self.flock_file.fileno(), stat.S_IRUSR | stat.S_IWUSR | \
+                      stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
 
     def flockRelease(self):
         if self.flock_file:
@@ -1787,4 +1789,3 @@ if __name__ == "__main__":
     config = config.Config()
     snapshots = Snapshots( config )
     snapshots.take_snapshot()
-
