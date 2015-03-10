@@ -1773,13 +1773,22 @@ class Snapshots:
             return False
 
     def flockExclusive(self):
+        """block take_snapshots from other profiles or users
+        and run them serialized
+        """
         if self.config.use_global_flock():
             self.flock_file = open(self.GLOBAL_FLOCK, 'w')
             fcntl.flock(self.flock_file, fcntl.LOCK_EX)
-            os.fchmod(self.flock_file.fileno(), stat.S_IRUSR | stat.S_IWUSR | \
-                      stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
+            #make it rw by all if that's not already done.
+            perms = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | \
+                    stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH
+            s = os.fstat(self.flock_file.fileno())
+            if not s.st_mode & perms == perms:
+                os.fchmod(self.flock_file.fileno(), perms)
 
     def flockRelease(self):
+        """release lock so other snapshots can continue
+        """
         if self.flock_file:
             fcntl.fcntl(self.flock_file, fcntl.LOCK_UN)
             self.flock_file.close()
