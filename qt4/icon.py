@@ -16,7 +16,7 @@
 
 from PyQt4.QtGui import QIcon
 
-for theme in ('gnome', 'oxygen'):
+for theme in ('ubuntu-mono-dark', 'gnome', 'oxygen'):
     if not QIcon.fromTheme('document-save').isNull():
         break
     QIcon.setThemeName(theme)
