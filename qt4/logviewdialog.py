@@ -79,8 +79,9 @@ class LogViewDialog( QDialog ):
         self.combo_filter.addItem( _('Informations'), 3 )
 
         #text view
-        self.txt_log_view = QTextEdit( self )
-        self.txt_log_view.setReadOnly( True)
+        self.txt_log_view = QPlainTextEdit(self)
+        self.txt_log_view.setReadOnly(True)
+        self.txt_log_view.setLineWrapMode(QPlainTextEdit.NoWrap)
         self.main_layout.addWidget( self.txt_log_view )
 
         #

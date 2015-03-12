@@ -62,29 +62,69 @@ class RestoreDialog( QDialog ):
         self.main_layout = QVBoxLayout(self)
 
         #text view
-        self.txt_log_view = QTextEdit( self )
-        self.txt_log_view.setReadOnly( True)
-        self.main_layout.addWidget( self.txt_log_view )
+        self.txt_log_view = QPlainTextEdit(self)
+        self.txt_log_view.setReadOnly(True)
+        self.txt_log_view.setLineWrapMode(QPlainTextEdit.NoWrap)
+        self.txt_log_view.setMaximumBlockCount(100000)
+        self.main_layout.addWidget(self.txt_log_view)
 
         #buttons
         button_box = QDialogButtonBox(QDialogButtonBox.Close)
+        showLog = button_box.addButton(_('Show full Log'), QDialogButtonBox.ActionRole)
         self.main_layout.addWidget(button_box)
         self.btn_close = button_box.button(QDialogButtonBox.Close)
-        QObject.connect(button_box, SIGNAL('rejected()'), self.close)
-
         self.btn_close.setEnabled(False)
+        button_box.rejected.connect(self.close)
+        showLog.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.log_file)))
 
-    def callback(self, line, *params ):
-        if not line:
-            return
-        self.txt_log_view.append(line)
-        QApplication.processEvents()
-        with open(self.log_file, 'a') as log:
-            log.write(line + '\n')
+        #restore in separate thread
+        self.thread = RestoreThread(self)
+        self.thread.finished.connect(lambda: self.btn_close.setEnabled(True))
+
+        #refresh log every 200ms
+        self.refreshTimer = QTimer(self)
+        self.refreshTimer.setInterval(200)
+        self.refreshTimer.setSingleShot(False)
+        self.refreshTimer.timeout.connect(self.refreshLog)
+
+    def refreshLog(self):
+        """get new log from thread
+        """
+        newLog = self.thread.buffer[:]
+        size = len(newLog)
+        if size:
+            self.thread.mutex.lock()
+            self.thread.buffer = self.thread.buffer[size:]
+            self.thread.mutex.unlock()
+            self.txt_log_view.appendPlainText(newLog.rstrip('\n'))
 
     def exec_(self):
         self.show()
-        QApplication.processEvents()
-        self.snapshots.restore( self.snapshot_id, self.what, self.callback, self.where, **self.kwargs)
-        self.btn_close.setEnabled(True)
-        QDialog.exec_(self)
+        self.refreshTimer.start()
+        self.thread.start()
+        super(RestoreDialog, self).exec_()
+        self.refreshTimer.stop()
+        self.thread.wait()
+
+class RestoreThread(QThread):
+    """run restore in a separate Thread to prevent GUI freeze and speed up restore
+    """
+    def __init__(self, parent):
+        super(RestoreThread, self).__init__()
+        self.parent = parent
+        self.log = open(parent.log_file, 'wt')
+        self.mutex = QMutex()
+        self.buffer = ''
+
+    def run(self):
+        self.parent.snapshots.restore(self.parent.snapshot_id, self.parent.what, self.callback, self.parent.where, **self.parent.kwargs)
+        self.log.close()
+
+    def callback(self, line, *args):
+        """write into log file and provide thread save string for log window
+        """
+        line += '\n'
+        self.log.write(line)
+        self.mutex.lock()
+        self.buffer += line
+        self.mutex.unlock()
