@@ -1376,7 +1376,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
                 cron_line = ''
 
-                hour = self.get_automatic_backup_time(profile_id) / 100
+                hour = self.get_automatic_backup_time(profile_id) // 100
                 minute = self.get_automatic_backup_time(profile_id) % 100
                 day = self.get_automatic_backup_day(profile_id)
                 weekday = self.get_automatic_backup_weekday(profile_id)
@@ -1402,7 +1402,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 elif self.CUSTOM_HOUR == backup_mode:
                     cron_line = 'echo "{msg}\n0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}"'
                 elif self.DAY == backup_mode:
-                    cron_line = "echo \"{msg}\n%i %i * * * {cmd}\"" % (minute, hour)
+                    cron_line = 'echo "{msg}\n%s %s * * * {cmd}"' % (minute, hour)
                 elif self.REPEATEDLY == backup_mode:
                     if self.get_automatic_backup_anacron_unit(profile_id) <= self.DAY:
                         cron_line = 'echo "{msg}\n*/15 * * * * {cmd}"'
@@ -1412,7 +1412,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                     if not self.setupUdev.isReady:
                         self.notify_error( _('Could not install Udev rule for profile %(profile_id)s. '
                                              'DBus Service \'%(dbus_interface)s\' '
-                                             'wasn\'t available') 
+                                             'wasn\'t available')
                                             %{'profile_id': profile_id,
                                               'dbus_interface': 'net.launchpad.backintime.serviceHelper'})
                     mode = self.get_snapshots_mode(profile_id)
@@ -1439,9 +1439,9 @@ class Config( configfile.ConfigFileWithProfiles ):
                     except tools.InvalidChar as e:
                         self.notify_error(str(e))
                 elif self.WEEK == backup_mode:
-                    cron_line = "echo \"{msg}\n%i %i * * %s {cmd}\"" % (minute, hour, weekday)
+                    cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
                 elif self.MONTH == backup_mode:
-                    cron_line = "echo \"{msg}\n%i %i %s * * {cmd}\"" % (minute, hour, day)
+                    cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
 
                 cmd = self.cron_cmd(profile_id)
 
