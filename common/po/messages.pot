@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-08 00:11+0100\n"
+"POT-Creation-Date: 2015-03-16 14:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../../common/configfile.py:246 ../../common/configfile.py:308
+#: ../../common/configfile.py:248 ../../common/configfile.py:310
 #, python-format
 msgid "Profile \"%s\" already exists !"
 msgstr ""
 
-#: ../../common/configfile.py:277
+#: ../../common/configfile.py:279
 msgid "You can't remove the last profile !"
 msgstr ""
 
@@ -249,7 +249,7 @@ msgstr ""
 msgid "Schedule udev doesn't work with mode %s"
 msgstr ""
 
-#: ../../common/config.py:1431
+#: ../../common/config.py:1432
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr ""
@@ -334,7 +334,7 @@ msgstr ""
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
 msgstr ""
 
-#: ../../common/snapshots.py:172 ../../qt4/app.py:201 ../../qt4/app.py:1156
+#: ../../common/snapshots.py:172 ../../qt4/app.py:201 ../../qt4/app.py:1182
 msgid "Now"
 msgstr ""
 
@@ -676,7 +676,7 @@ msgstr ""
 msgid "Report a bug"
 msgstr ""
 
-#: ../../qt4/app.py:132 ../../qt4/app.py:1261
+#: ../../qt4/app.py:132 ../../qt4/app.py:1287
 msgid "About"
 msgstr ""
 
@@ -734,7 +734,7 @@ msgid ""
 msgstr ""
 
 #: ../../qt4/app.py:357 ../../qt4/app.py:649 ../../qt4/app.py:666
-#: ../../qt4/qt4systrayicon.py:63
+#: ../../qt4/qt4systrayicon.py:60
 msgid "Done"
 msgstr ""
 
@@ -770,15 +770,15 @@ msgstr ""
 msgid "Error:"
 msgstr ""
 
-#: ../../qt4/app.py:700 ../../qt4/qt4systrayicon.py:151
+#: ../../qt4/app.py:700 ../../qt4/qt4systrayicon.py:148
 msgid "Sent:"
 msgstr ""
 
-#: ../../qt4/app.py:701 ../../qt4/qt4systrayicon.py:152
+#: ../../qt4/app.py:701 ../../qt4/qt4systrayicon.py:149
 msgid "Speed:"
 msgstr ""
 
-#: ../../qt4/app.py:702 ../../qt4/qt4systrayicon.py:153
+#: ../../qt4/app.py:702 ../../qt4/qt4systrayicon.py:150
 msgid "ETA:"
 msgstr ""
 
@@ -852,44 +852,52 @@ msgstr ""
 msgid "Backup replaced files on restore"
 msgstr ""
 
-#: ../../qt4/app.py:1152
+#: ../../qt4/app.py:1037
+msgid "Files to be restored:"
+msgstr ""
+
+#: ../../qt4/app.py:1044
+msgid "Do you really want to restore this files(s):"
+msgstr ""
+
+#: ../../qt4/app.py:1178
 #, python-format
 msgid "Snapshot: %s"
 msgstr ""
 
-#: ../../qt4/app.py:1153
+#: ../../qt4/app.py:1179
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr ""
 
-#: ../../qt4/app.py:1155
+#: ../../qt4/app.py:1181
 msgid "View the current disk content"
 msgstr ""
 
-#: ../../qt4/app.py:1194
+#: ../../qt4/app.py:1220
 #, python-format
 msgid "Restore '%s'"
 msgstr ""
 
-#: ../../qt4/app.py:1195
+#: ../../qt4/app.py:1221
 #, python-format
 msgid "Restore '%s' to ..."
 msgstr ""
 
-#: ../../qt4/app.py:1196
+#: ../../qt4/app.py:1222
 #, python-format
 msgid "Restore '%s' and delete new files"
 msgstr ""
 
-#: ../../qt4/app.py:1281 ../../qt4/app.py:1298
+#: ../../qt4/app.py:1307 ../../qt4/app.py:1324
 msgid "Authors"
 msgstr ""
 
-#: ../../qt4/app.py:1282 ../../qt4/app.py:1301
+#: ../../qt4/app.py:1308 ../../qt4/app.py:1327
 msgid "Translations"
 msgstr ""
 
-#: ../../qt4/app.py:1283 ../../qt4/app.py:1304
+#: ../../qt4/app.py:1309 ../../qt4/app.py:1330
 msgid "License"
 msgstr ""
 
@@ -922,11 +930,11 @@ msgstr ""
 msgid "Informations"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:87
+#: ../../qt4/logviewdialog.py:88
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:90
+#: ../../qt4/logviewdialog.py:91
 msgid "decode paths"
 msgstr ""
 
@@ -938,12 +946,16 @@ msgstr ""
 msgid "Question"
 msgstr ""
 
-#: ../../qt4/qt4systrayicon.py:67
+#: ../../qt4/qt4systrayicon.py:64
 msgid "Start BackInTime"
 msgstr ""
 
-#: ../../qt4/qt4systrayicon.py:122
+#: ../../qt4/qt4systrayicon.py:119
 msgid "Working..."
+msgstr ""
+
+#: ../../qt4/restoredialog.py:73
+msgid "Show full Log"
 msgstr ""
 
 #: ../../qt4/settingsdialog.py:67
@@ -1211,7 +1223,7 @@ msgstr ""
 
 #: ../../qt4/settingsdialog.py:640
 msgid ""
-"- snapshots are no read-only\n"
+"- snapshots are not read-only\n"
 "- destination file-system must support all linux attributes (dates, rights, "
 "user, group ...)"
 msgstr ""
