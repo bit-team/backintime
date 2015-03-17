@@ -19,6 +19,8 @@
 import os
 import gettext
 
+import tools
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
@@ -35,12 +37,12 @@ def restore( parent, snapshot_id, what, where = '', **kwargs ):
             return
         where = parent.config.prepare_path( where )
 
-    RestoreDialog(parent, snapshot_id, what, where, **kwargs).exec_()
-
+    rd = RestoreDialog(parent, snapshot_id, what, where, **kwargs)
+    rd.exec()
 
 class RestoreDialog( QDialog ):
     def __init__( self, parent, snapshot_id, what, where = '', **kwargs ):
-        QDialog.__init__( self, parent )
+        super(RestoreDialog, self).__init__(parent)
         self.resize( 600, 500 )
 
         self.config = parent.config
@@ -98,13 +100,18 @@ class RestoreDialog( QDialog ):
             self.thread.mutex.unlock()
             self.txt_log_view.appendPlainText(newLog.rstrip('\n'))
 
-    def exec_(self):
+    def exec(self):
+        #inhibit suspend/hibernate during restore
+        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId, reason = 'restoring')
         self.show()
         self.refreshTimer.start()
         self.thread.start()
-        super(RestoreDialog, self).exec_()
+        super(RestoreDialog, self).exec()
         self.refreshTimer.stop()
         self.thread.wait()
+        #release inhibit suspend
+        if self.config.inhibitCookie:
+            tools.unInhibitSuspend(*self.config.inhibitCookie)
 
 class RestoreThread(QThread):
     """run restore in a separate Thread to prevent GUI freeze and speed up restore

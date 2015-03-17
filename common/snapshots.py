@@ -529,10 +529,6 @@ class Snapshots:
             logger.warning('Restore is already running')
             return
 
-        #inhibit suspend/hibernate during restore
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'restoring')
-
         if restore_to.endswith('/'):
             restore_to = restore_to[ : -1 ]
 
@@ -607,8 +603,10 @@ class Snapshots:
                 snapshot_path_to = self.get_snapshot_path_to( snapshot_id, path ).rstrip( '/' )
                 root_snapshot_path_to = self.get_snapshot_path_to( snapshot_id ).rstrip( '/' )
                 #use bytes instead of string from here
-                path = path.encode()
-                restore_to = restore_to.encode()
+                if isinstance(path, str):
+                    path = path.encode()
+                if isinstance(restore_to, str):
+                    restore_to = restore_to.encode()
 
                 if not restore_to:
                     path_items = path.strip(b'/').split(b'/')
@@ -638,10 +636,6 @@ class Snapshots:
             for item_path in all_dirs:
                 real_path = restore_to + item_path[src_delta:]
                 self._restore_path_info( item_path, real_path, file_info_dict, callback )
-
-        #release inhibit suspend
-        if self.config.inhibitCookie:
-            tools.unInhibitSuspend(*self.config.inhibitCookie)
 
         instance.exit_application()
 
