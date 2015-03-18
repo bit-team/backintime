@@ -380,7 +380,7 @@ class SnapshotsDialog( QDialog ):
 
             #release inhibit suspend
             if self.config.inhibitCookie:
-                tools.unInhibitSuspend(*self.config.inhibitCookie)
+                self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
             msg = _('Exclude "%s" from future snapshots?' % self.path)
             if QMessageBox.Yes == messagebox.warningYesNo(self, msg):

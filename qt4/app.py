@@ -975,7 +975,7 @@ class MainWindow( QMainWindow ):
 
         #release inhibit suspend
         if self.config.inhibitCookie:
-            tools.unInhibitSuspend(*self.config.inhibitCookie)
+            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
     def on_btn_settings_clicked( self ):
         if QDialog.Accepted == settingsdialog.SettingsDialog( self ).exec_():

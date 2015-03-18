@@ -964,7 +964,7 @@ class Snapshots:
 
         #release inhibit suspend
         if self.config.inhibitCookie:
-            tools.unInhibitSuspend(*self.config.inhibitCookie)
+            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
         return ret_val
 

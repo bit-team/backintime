@@ -81,7 +81,7 @@ class RestoreDialog( QDialog ):
 
         #restore in separate thread
         self.thread = RestoreThread(self)
-        self.thread.finished.connect(lambda: self.btn_close.setEnabled(True))
+        self.thread.finished.connect(self.threadFinished)
 
         #refresh log every 200ms
         self.refreshTimer = QTimer(self)
@@ -109,9 +109,12 @@ class RestoreDialog( QDialog ):
         super(RestoreDialog, self).exec()
         self.refreshTimer.stop()
         self.thread.wait()
+
+    def threadFinished(self):
+        self.btn_close.setEnabled(True)
         #release inhibit suspend
         if self.config.inhibitCookie:
-            tools.unInhibitSuspend(*self.config.inhibitCookie)
+            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
 class RestoreThread(QThread):
     """run restore in a separate Thread to prevent GUI freeze and speed up restore

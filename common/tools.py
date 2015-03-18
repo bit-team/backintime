@@ -714,11 +714,12 @@ def unInhibitSuspend(cookie, bus, dbus_props):
     try:
         interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
         proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
-        ret = proxy(cookie)
+        proxy(cookie)
         logger.info('Release inhibit Suspend')
-        return ret
+        return None
     except dbus.exceptions.DBusException:
         logger.warning('Release inhibit Suspend failed.')
+        return (cookie, bus, dbus_props)
 
 def getSshKeyFingerprint(path):
     '''return the hex fingerprint of a given ssh key
