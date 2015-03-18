@@ -19,7 +19,6 @@ import os
 import time
 import atexit
 import signal
-import base64
 import subprocess
 import gettext
 import re
@@ -232,7 +231,7 @@ class Password_Cache(Daemon):
     logged in. Does not start if there is no password to cache
     (e.g. no profile allows to cache).
     """
-    PW_CACHE_VERSION = 2
+    PW_CACHE_VERSION = 3
 
     def __init__(self, cfg = None, *args, **kwargs):
         self.config = cfg
@@ -327,9 +326,7 @@ class Password_Cache(Daemon):
                             password = tools.get_password(service_name, user_name)
                             if password is None:
                                 continue
-                            #add some snakeoil
-                            pw_base64 = base64.encodebytes(password.encode()).decode()
-                            self.db_keyring['%s/%s' %(service_name, user_name)] = pw_base64
+                            self.db_keyring['%s/%s' %(service_name, user_name)] = password
         return run_daemon
 
     def check_version(self):
@@ -409,12 +406,10 @@ class Password(object):
             self.pw_cache.check_version()
             self.fifo.write('get_pw:%s/%s' %(service_name, user_name), timeout = 5)
             answer = self.fifo.read(timeout = 5)
-            mode, pw_base64 = answer.split(':', 1)
+            mode, pw = answer.split(':', 1)
             if mode == 'none':
                 return None
-            if isinstance(pw_base64, str):
-                pw_base64 = pw_base64.encode()
-            return base64.decodebytes(pw_base64).decode()
+            return pw
         else:
             return None
 
@@ -482,5 +477,4 @@ class Password(object):
     def _set_password_to_cache(self, service_name, user_name, password):
         if self.pw_cache.status():
             self.pw_cache.check_version()
-            pw_base64 = base64.encodebytes(password.encode())
-            self.fifo.write('set_pw:%s/%s:%s' %(service_name, user_name, pw_base64), timeout = 5)
+            self.fifo.write('set_pw:%s/%s:%s' %(service_name, user_name, password), timeout = 5)

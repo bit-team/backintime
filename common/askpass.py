@@ -17,7 +17,6 @@
 
 import os
 import sys
-import base64
 try:
     import gtk
 except:
@@ -47,6 +46,6 @@ if __name__ == '__main__':
 
     #temp mode
     fifo = password_ipc.FIFO(temp_file)
-    pw_base64 = fifo.read(5)
-    if pw_base64:
-        print(base64.decodebytes(pw_base64.encode()).decode())
+    pw = fifo.read(5)
+    if pw:
+        print(pw)

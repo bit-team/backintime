@@ -19,7 +19,6 @@ import sys
 import stat
 import tools
 import threading
-import base64
 import tempfile
 
 import logger
@@ -108,13 +107,13 @@ class TempPasswordThread(threading.Thread):
     """
     def __init__(self, string):
         super(TempPasswordThread, self).__init__()
-        self.pw_base64 = base64.encodebytes(string.encode()).decode()
+        self.pw = string
         self.temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
         self.fifo = FIFO(self.temp_file)
 
     def run(self):
         self.fifo.create()
-        self.fifo.write(self.pw_base64)
+        self.fifo.write(self.pw)
         self.fifo.delfifo()
 
     def read(self):
