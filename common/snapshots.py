@@ -1471,6 +1471,7 @@ class Snapshots:
         if self.config.is_remove_old_snapshots_enabled():
             self.set_take_snapshot_message( 0, _('Remove old snapshots') )
             snapshots = self.get_snapshots_list( False )
+            last_snapshot = snapshots[-1]
 
             old_backup_id = self.get_snapshot_id( self.config.get_remove_old_snapshots_date() )
             logger.info( "Remove backups older than: %s" % old_backup_id[0:15] )
@@ -1562,6 +1563,10 @@ class Snapshots:
                 logger.info( "free inodes: %.2f%%" % (100.0 / max_inodes * free_inodes) )
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
+
+        #set correct last snapshot again
+        if last_snapshot is not snapshots[-1]:
+            self.create_last_snapshot_symlink(snapshots[-1])
 
     def _stat_free_space_local(self, path):
         try:

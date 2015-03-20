@@ -954,6 +954,7 @@ class MainWindow( QMainWindow ):
         logviewdialog.LogViewDialog( self, snapshot_id ).exec_()
 
     def on_btn_remove_snapshot_clicked ( self ):
+        last_snapshot = self.snapshots.get_snapshots_list()[0]
         snapshot_ids = [self.time_line_get_snapshot_id(item) \
                         for item in self.get_list_time_line_selection(True) \
                         if len(self.time_line_get_snapshot_id(item)) > 1]
@@ -972,6 +973,10 @@ class MainWindow( QMainWindow ):
 
         [self.snapshots.remove_snapshot( snapshot_id ) for snapshot_id in snapshot_ids]
         self.update_time_line()
+
+        #set correct last snapshot again
+        if last_snapshot in snapshot_ids:
+            self.snapshots.create_last_snapshot_symlink(self.snapshots.get_snapshots_list()[0])
 
         #release inhibit suspend
         if self.config.inhibitCookie:
