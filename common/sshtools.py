@@ -97,6 +97,11 @@ class SSH(mount.MountControl):
                            'But this can make troubles with passphrase-less keys.' 
                            %{'path': self.private_key_file})
             self.private_key_fingerprint = self.private_key_file
+
+        # specifying key file here allows to override for potentially 
+        # conflicting .ssh/config key entry
+        self.ssh_options += ['-o', 'IdentityFile=%s' % self.private_key_file]
+
         self.unlock_ssh_agent()
 
     def _mount(self):
@@ -336,7 +341,10 @@ class SSH(mount.MountControl):
             ssh_cipher_suffix = ''
         else:
             ssh_cipher_suffix = '-c %s' % self.cipher
-        rsync += '--rsh="ssh -p %s %s" ' % ( str(self.port), ssh_cipher_suffix)
+        # specifying key file here allows to override for potentially 
+        # conflicting .ssh/config key entry
+        ssh_private_key = "-o IdentityFile=%s" % self.private_key_file
+        rsync += '--rsh="ssh -p %s %s %s"' % ( str(self.port), ssh_cipher_suffix, ssh_private_key)
         rsync += '"%s@%s:%s"' % (self.user, self.host, self.path)
 
         #use os.system for compatiblity with snapshots.py

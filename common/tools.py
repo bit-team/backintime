@@ -394,7 +394,10 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
             ssh_cipher_suffix = ''
         else:
             ssh_cipher_suffix = '-c %s' % ssh_cipher
-        cmd = cmd + ' --rsh="ssh -p %s %s"' % ( str(ssh_port), ssh_cipher_suffix)
+        # specifying key file here allows to override for potentially 
+        # conflicting .ssh/config key entry
+        ssh_private_key = "-o IdentityFile=%s" % config.get_ssh_private_key_file()
+        cmd += ' --rsh="ssh -p %s %s %s"' % ( str(ssh_port), ssh_cipher_suffix, ssh_private_key)
 
         if config.bwlimit_enabled():
             cmd = cmd + ' --bwlimit=%d' % config.bwlimit()

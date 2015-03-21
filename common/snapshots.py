@@ -1683,11 +1683,14 @@ class Snapshots:
         mode = self.config.get_snapshots_mode()
         if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
             (ssh_host, ssh_port, ssh_user, ssh_path, ssh_cipher) = self.config.get_ssh_host_port_user_path_cipher()
+            ssh_private_key = self.config.get_ssh_private_key_file()
+
             if isinstance(cmd, str):
                 if ssh_cipher == 'default':
                     ssh_cipher_suffix = ''
                 else:
                     ssh_cipher_suffix = '-c %s' % ssh_cipher
+                ssh_private_key = "-o IdentityFile=%s" % ssh_private_key
 
                 if self.config.is_run_ionice_on_remote_enabled():
                     cmd = 'ionice -c2 -n7 ' + cmd
@@ -1698,8 +1701,9 @@ class Snapshots:
                 if quote:
                     cmd = '\'%s\'' % cmd
 
-                return 'ssh -p %s -o ServerAliveInterval=240 %s %s@%s %s' \
-                        % ( str(ssh_port), ssh_cipher_suffix, ssh_user, ssh_host, cmd )
+                return 'ssh -p %s -o ServerAliveInterval=240 %s %s %s@%s %s' \
+                        % ( str(ssh_port), ssh_cipher_suffix, ssh_private_key,\
+                        ssh_user, ssh_host, cmd )
 
             if isinstance(cmd, tuple):
                 cmd = list(cmd)
@@ -1709,6 +1713,7 @@ class Snapshots:
                 suffix += ['-o', 'ServerAliveInterval=240']
                 if not ssh_cipher == 'default':
                     suffix += ['-c', ssh_cipher]
+                suffix += ['-o', 'IdentityFile=%s' % ssh_private_key]
                 suffix += ['%s@%s' % (ssh_user, ssh_host)]
 
                 if self.config.is_run_ionice_on_remote_enabled():
