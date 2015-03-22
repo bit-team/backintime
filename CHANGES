@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.1.3
+* add option to keep new snapshot with 'full rsync mode' regardless of changes (https://launchpad.net/bugs/1434722)
 * Fix bug: wrong quote in 'Save config file'
 * Fix bug: Deleting the last snapshot does not update the last_snapshot symlink (https://launchpad.net/bugs/1434724)
 * remove base64 encoding for passwords as it doesn't add any security but broke the password process (https://launchpad.net/bugs/1431305)

@@ -618,6 +618,9 @@ class SettingsDialog( QDialog ):
         layout.addWidget( self.cb_no_on_battery )
 
         self.cb_use_global_flock = QCheckBox(_('Run only one snapshot at a time'))
+        self.cb_use_global_flock.setToolTip(_('Other snapshots will be blocked until the current snapshot is done.\n'
+                                              'This is a global option. So it will effect all profiles for this user.\n'
+                                              'But you need to activate this for all other users, too.'))
         layout.addWidget(self.cb_use_global_flock)
 
         self.cb_backup_on_restore = QCheckBox(_('Backup replaced files on restore'), self)
@@ -643,6 +646,9 @@ class SettingsDialog( QDialog ):
         QObject.connect( self.cb_full_rsync, SIGNAL('stateChanged(int)'), self.update_check_for_changes )
         layout.addWidget( self.cb_full_rsync )
         layout.addWidget( label )
+
+        self.cb_take_snapshot_regardless_of_changes = QCheckBox(_('Take a new snapshot reagardless of there were changes or not.'))
+        layout.addWidget(self.cb_take_snapshot_regardless_of_changes)
 
         self.cb_check_for_changes = QCheckBox( _( 'Check for changes (don\'t take a new snapshot if nothing changed)' ), self )
         layout.addWidget( self.cb_check_for_changes )
@@ -957,7 +963,8 @@ class SettingsDialog( QDialog ):
 
     def update_check_for_changes(self):
         enabled = not self.cb_full_rsync.isChecked()
-        self.cb_check_for_changes.setEnabled( enabled )
+        self.cb_check_for_changes.setVisible(enabled)
+        self.cb_take_snapshot_regardless_of_changes.setVisible(not enabled)
 
     def update_profiles( self ):
         self.update_profile()
@@ -1094,6 +1101,7 @@ class SettingsDialog( QDialog ):
         self.cb_use_checksum.setChecked( self.config.use_checksum() )
         self.cb_full_rsync.setChecked( self.config.full_rsync() )
         self.update_check_for_changes()
+        self.cb_take_snapshot_regardless_of_changes.setChecked(self.config.take_snapshot_regardless_of_changes())
         self.cb_check_for_changes.setChecked( self.config.check_for_changes() )
         self.set_combo_value( self.combo_log_level, self.config.log_level() )
 
@@ -1310,6 +1318,7 @@ class SettingsDialog( QDialog ):
         self.config.set_continue_on_errors( self.cb_continue_on_errors.isChecked() )
         self.config.set_use_checksum( self.cb_use_checksum.isChecked() )
         self.config.set_full_rsync( self.cb_full_rsync.isChecked() )
+        self.config.set_take_snapshot_regardless_of_changes(self.cb_take_snapshot_regardless_of_changes.isChecked())
         self.config.set_check_for_changes( self.cb_check_for_changes.isChecked() )
         self.config.set_log_level( self.combo_log_level.itemData( self.combo_log_level.currentIndex() ) )
 

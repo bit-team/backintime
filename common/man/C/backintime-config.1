@@ -181,7 +181,7 @@ Default: 3000
 .RS
 Type: bool      Allowed Values: true|false
 .br
-Perform a dry-run before taking snapshots. Don't take a new snapshot if nothing has changed.
+Perform a dry-run before taking snapshots. Don't take a new snapshot if nothing has changed. Only valid with \fIprofile<N>.snapshots.full_rsync\fR = false
 .PP
 Default: true
 .RE
@@ -294,6 +294,15 @@ Default: \-1
 Type: bool      Allowed Values: true|false
 .br
 Full rsync mode. May be faster but snapshots are not read-only anymore and destination file-system must support all linux attributes (date, rights, user, group...)
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.full_rsync.take_snapshot_regardless_of_changes\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Create a new snapshot regardless if there were changes or not. Only valid with \fIprofile<N>.snapshots.full_rsync\fR = true
 .PP
 Default: false
 .RE

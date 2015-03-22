@@ -1257,7 +1257,7 @@ class Snapshots:
             self._execute( "touch \"%s\"" % self.get_snapshot_failed_path( new_snapshot_id ) )
 
         if full_rsync:
-            if not params[1]:
+            if not params[1] and not self.config.take_snapshot_regardless_of_changes():
                 self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
                 self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 

@@ -1117,9 +1117,18 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_full_rsync( self, value, profile_id = None ):
         return self.set_profile_bool_value( 'snapshots.full_rsync', value, profile_id )
 
+    def take_snapshot_regardless_of_changes(self, profile_id = None):
+        #?Create a new snapshot regardless if there were changes or not. 
+        #?Only valid with \fIprofile<N>.snapshots.full_rsync\fR = true
+        return self.get_profile_bool_value('snapshots.full_rsync.take_snapshot_regardless_of_changes', False, profile_id)
+
+    def set_take_snapshot_regardless_of_changes(self, value, profile_id = None):
+        return self.set_profile_bool_value('snapshots.full_rsync.take_snapshot_regardless_of_changes', value, profile_id )
+
     def check_for_changes( self, profile_id = None ):
         #?Perform a dry-run before taking snapshots. Don't take a new snapshot 
-        #?if nothing has changed.
+        #?if nothing has changed. 
+        #?Only valid with \fIprofile<N>.snapshots.full_rsync\fR = false
         return self.get_profile_bool_value( 'snapshots.check_for_changes', True, profile_id )
 
     def set_check_for_changes( self, value, profile_id = None ):
