@@ -640,14 +640,14 @@ class SettingsDialog( QDialog ):
         layout.addWidget( self.cb_use_checksum )
 
         self.cb_full_rsync = QCheckBox( _( 'Full rsync mode. May be faster but:' ), self )
-        label = QLabel( _('- snapshots are not read-only\n- destination file-system must support all linux attributes (dates, rights, user, group ...)'), self)
+        label = QLabel( _('- snapshots are not read-only\n- destination file-system must support all Linux attributes (dates, rights, user, group ...)'), self)
         label.setIndent(36)
         label.setWordWrap(True)
         QObject.connect( self.cb_full_rsync, SIGNAL('stateChanged(int)'), self.update_check_for_changes )
         layout.addWidget( self.cb_full_rsync )
         layout.addWidget( label )
 
-        self.cb_take_snapshot_regardless_of_changes = QCheckBox(_('Take a new snapshot reagardless of there were changes or not.'))
+        self.cb_take_snapshot_regardless_of_changes = QCheckBox(_('Take a new snapshot regardless of there were changes or not.'))
         layout.addWidget(self.cb_take_snapshot_regardless_of_changes)
 
         self.cb_check_for_changes = QCheckBox( _( 'Check for changes (don\'t take a new snapshot if nothing changed)' ), self )
