@@ -1467,11 +1467,12 @@ class Snapshots:
             self.remove_snapshot( snapshot_id )
 
     def _free_space( self, now ):
+        snapshots = self.get_snapshots_list( False )
+        last_snapshot = snapshots[-1]
+
         #remove old backups
         if self.config.is_remove_old_snapshots_enabled():
             self.set_take_snapshot_message( 0, _('Remove old snapshots') )
-            snapshots = self.get_snapshots_list( False )
-            last_snapshot = snapshots[-1]
 
             old_backup_id = self.get_snapshot_id( self.config.get_remove_old_snapshots_date() )
             logger.info( "Remove backups older than: %s" % old_backup_id[0:15] )
