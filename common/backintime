@@ -40,8 +40,8 @@ for arg in $@; do
 done
 
 if [ "$detach" = "true" ]; then
-    run $@ &
+    run "$@" &
 else
-    run $@
+    run "$@"
 fi
 
