@@ -75,9 +75,9 @@ graphical interface and the backup process.
 Rsync and other processes called during backup process will run directly on the 
 remote host using ssh.
 .PP
-To prepare your user account for ssh-mode you have to add the user to group 
-'fuse' by typing 'sudo adduser <USER> fuse' in terminal.  To apply changes you 
-have to logout and login again.
+To prepare your user account for ssh-mode you have to add the user to 
+group 'fuse' by typing 'sudo adduser <USER> fuse' in terminal.  To apply 
+changes you have to logout and login again.
 .PP
 Next you have to create a password-less login to the remote host (for further 
 information look at http://www.debian-administration.org/articles/152).
@@ -101,8 +101,8 @@ environment you can have a massive speed increase compared to the default cipher
 in your environment.
 .PP
 If the bottleneck of your environment is the hard-drive or the network you will 
-not see a big difference between the ciphers. In this case you should stay on 
-'default'.
+not see a big difference between the ciphers. In this case you should rather
+stay on 'default'.
 .PP
 Please read security information about the cipher before using them in untrusted 
 networks (Wifi, Internet). Some of them (Arcfour, 3DES, ...) should be handled 
@@ -112,9 +112,9 @@ as not secure anymore.
 .br
 If your remote host is an embedded Linux NAS or any other device with limited 
 functions, you could run into some problems caused by feature-less commands.
-For example some devices may not have hardlink support for 'cp', 'chmod' and 
-'rsync'. In this case it may help to install so-called Optware on your device if 
-available.
+For example some devices may not have hardlink support for 'cp', 'chmod' 
+and 'rsync'. In this case it may help to install so-called Optware on your 
+device if available.
 .PP
 .B WARNING: THIS IS ONLY FOR EXPERIENCED USERS!
 .br
@@ -129,10 +129,10 @@ You will have to change users default shell from '/bin/sh' to '/opt/bin/bash'
 in '/etc/passwd'. Add '/opt/bin:/opt/sbin:' to the start of the PATH environment 
 variable in '/etc/profiles'.
 .PP
-To check if it does work you can compare the output of '/bin/cp \-\-help' and 
-'/opt/bin/cp \-\-help'. If 'ssh <user>@<host> cp \-\-help' called from your PC 
-will print the same as '/opt/bin/cp \-\-help' called on the remote host (via 
-interactive ssh session) you are ready to go.
+To check if it does work you can compare the output of '/bin/cp \-\-help' 
+and '/opt/bin/cp \-\-help'. If 'ssh <user>@<host> cp \-\-help' called from 
+your PC will print the same as '/opt/bin/cp \-\-help' called on the 
+remote host (via interactive ssh session) you are ready to go.
 .PP
 If you have questions on how to install and configure the Optware please refer 
 to the community of your device. You can also take a look on Back In Time FAQ on 
@@ -144,13 +144,13 @@ this to the FAQ.
 .RE
 .IP "\fISSH encrypted\fR" 4
 .RS
-Store encrypted snapshots on remote hosts using SSH. Backintime uses 
-'encfs \-\-reverse' to mount the root filesystem '/'. Rsync will sync this 
+Store encrypted snapshots on remote hosts using SSH. Backintime 
+uses 'encfs \-\-reverse' to mount the root filesystem '/'. Rsync will sync this 
 encrypted view of '/' to a remote host over SSH. All encoding will be done on 
 the local machine. So the password will never be exposed to the remote host and 
 you can use the (normally) more powerful processor in you local machine for 
-encryption instead of weak NAS CPU's. The downside on this is 
-'encfs \-\-reverse' does not support 'Filename Initialization Vector Chaining' 
+encryption instead of weak NAS CPU's. The downside on this 
+is 'encfs \-\-reverse' does not support 'Filename Initialization Vector Chaining' 
 and 'Per-File Initialization Vectors' from the standard configuration 
 (take a look at 'man encfs' for further information). Please take a look at 
 \fIA NOTE ON SECURITY\fR.
