@@ -155,7 +155,12 @@ class Qt4SysTrayIcon:
             yield txt + ' ' + value
 
     def onStartBIT(self):
-        proc = subprocess.Popen(['backintime-qt4', '&'])
+        profileID = self.config.get_current_profile()
+        cmd = ['backintime-qt4',]
+        if not profileID == '1':
+            cmd += ['--profile-id', profileID]
+        cmd += ['&',]
+        proc = subprocess.Popen(cmd)
 
 if __name__ == '__main__':
     Qt4SysTrayIcon().run()
