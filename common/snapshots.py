@@ -1464,6 +1464,9 @@ class Snapshots:
 
             del_snapshots.append(snapshot_id)
 
+        if not del_snapshots:
+            return
+
         if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs'] and self.config.get_smart_remove_run_remote_in_background():
             logger.info('[smart remove] remove snapshots in background: %s' % del_snapshots)
             lckFile = os.path.normpath(os.path.join(self.get_snapshot_path(del_snapshots[0], ['ssh', 'ssh_encfs']), '..', 'smartremove.lck'))
