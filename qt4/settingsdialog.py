@@ -560,31 +560,34 @@ class SettingsDialog( QDialog ):
 
         smlayout = QGridLayout( widget )
 
-        smlayout.addWidget( QLabel( _( 'Keep all snapshots for the last' ), self ), 0, 0 )
+        self.cb_run_smart_remove_remote_in_background = QCheckBox(_('Run in background on remote Host.') + _(' EXPERIMENTAL!'), self)
+        smlayout.addWidget(self.cb_run_smart_remove_remote_in_background, 0, 0, 1, 3)
+
+        smlayout.addWidget( QLabel( _( 'Keep all snapshots for the last' ), self ), 1, 0 )
         self.edit_keep_all = QSpinBox(self)
         self.edit_keep_all.setRange(1, 10000)
-        smlayout.addWidget( self.edit_keep_all, 0, 1 )
-        smlayout.addWidget( QLabel( _( 'day(s)' ), self ), 0, 2 )
-
-        smlayout.addWidget( QLabel( _( 'Keep one snapshot per day for the last' ), self ), 1, 0 )
-        self.edit_keep_one_per_day = QSpinBox(self)
-        self.edit_keep_one_per_day.setRange(1, 10000)
-        smlayout.addWidget( self.edit_keep_one_per_day, 1, 1 )
+        smlayout.addWidget( self.edit_keep_all, 1, 1 )
         smlayout.addWidget( QLabel( _( 'day(s)' ), self ), 1, 2 )
 
-        smlayout.addWidget( QLabel( _( 'Keep one snapshot per week for the last' ), self ), 2, 0 )
+        smlayout.addWidget( QLabel( _( 'Keep one snapshot per day for the last' ), self ), 2, 0 )
+        self.edit_keep_one_per_day = QSpinBox(self)
+        self.edit_keep_one_per_day.setRange(1, 10000)
+        smlayout.addWidget( self.edit_keep_one_per_day, 2, 1 )
+        smlayout.addWidget( QLabel( _( 'day(s)' ), self ), 2, 2 )
+
+        smlayout.addWidget( QLabel( _( 'Keep one snapshot per week for the last' ), self ), 3, 0 )
         self.edit_keep_one_per_week = QSpinBox(self)
         self.edit_keep_one_per_week.setRange(1, 10000)
-        smlayout.addWidget( self.edit_keep_one_per_week, 2, 1 )
-        smlayout.addWidget( QLabel( _( 'weeks(s)' ), self ), 2, 2 )
+        smlayout.addWidget( self.edit_keep_one_per_week, 3, 1 )
+        smlayout.addWidget( QLabel( _( 'weeks(s)' ), self ), 3, 2 )
 
-        smlayout.addWidget( QLabel( _( 'Keep one snapshot per month for the last' ), self ), 3, 0 )
+        smlayout.addWidget( QLabel( _( 'Keep one snapshot per month for the last' ), self ), 4, 0 )
         self.edit_keep_one_per_month = QSpinBox(self)
         self.edit_keep_one_per_month.setRange(1, 1000)
-        smlayout.addWidget( self.edit_keep_one_per_month, 3, 1 )
-        smlayout.addWidget( QLabel( _( 'month(s)' ), self ), 3, 2 )
+        smlayout.addWidget( self.edit_keep_one_per_month, 4, 1 )
+        smlayout.addWidget( QLabel( _( 'month(s)' ), self ), 4, 2 )
 
-        smlayout.addWidget( QLabel( _( 'Keep one snapshot per year for all years' ), self ), 4, 0, 1, 3 )
+        smlayout.addWidget( QLabel( _( 'Keep one snapshot per year for all years' ), self ), 5, 0, 1, 3 )
 
         enabled = lambda state: [smlayout.itemAt(x).widget().setEnabled(state) for x in range(smlayout.count())]
         enabled(False)
@@ -1088,6 +1091,7 @@ class SettingsDialog( QDialog ):
         self.edit_keep_one_per_day.setValue( keep_one_per_day )
         self.edit_keep_one_per_week.setValue( keep_one_per_week )
         self.edit_keep_one_per_month.setValue( keep_one_per_month )
+        self.cb_run_smart_remove_remote_in_background.setChecked(self.config.get_smart_remove_run_remote_in_background())
 
         #don't remove named snapshots
         self.cb_dont_remove_named_snapshots.setChecked( self.config.get_dont_remove_named_snapshots() )
@@ -1309,6 +1313,7 @@ class SettingsDialog( QDialog ):
                         self.edit_keep_one_per_day.value(),
                         self.edit_keep_one_per_week.value(),
                         self.edit_keep_one_per_month.value() )
+        self.config.set_smart_remove_run_remote_in_background(self.cb_run_smart_remove_remote_in_background.isChecked())
 
         #options
         self.config.set_notify_enabled( self.cb_notify_enabled.isChecked() )
@@ -1609,6 +1614,7 @@ class SettingsDialog( QDialog ):
         self.cb_bwlimit.setEnabled(enabled)
         self.sb_bwlimit.setEnabled(enabled and self.cb_bwlimit.isChecked())
         self.cb_run_nocache_on_remote.setEnabled(enabled)
+        self.cb_run_smart_remove_remote_in_background.setHidden(not enabled)
 
     def on_full_path_changed(self, dummy):
         if self.mode in ('ssh', 'ssh_encfs'):

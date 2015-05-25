@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Mar 2015" "version 1.1.5" "USER COMMANDS"
+.TH backintime-config 1 "May 2015" "version 1.1.5" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -632,6 +632,15 @@ Type: int       Allowed Values: 0-99999
 Keep one snapshot per week for X weeks.
 .PP
 Default: 4
+.RE
+
+.IP "\fIprofile<N>.snapshots.smart_remove.run_remote_in_background\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+If using mode SSH or SSH-encrypted, run smart_remove in background on remote machine
+.PP
+Default: false
 .RE
 
 .IP "\fIprofile<N>.snapshots.ssh.cipher\fR" 6

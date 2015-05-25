@@ -42,7 +42,7 @@ config \- BackInTime configuration files.
 Back In Time was developed as pure GUI program and so most functions are only 
 useable with backintime-gnome or backintime-kde4. But it is possible to use 
 Back In Time e.g. on a headless server. You have to create the configuration file
-(~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime/examples/ for examples.
+(~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime\-common/examples/ for examples.
 .PP
 The configuration file has the following format:
 .br

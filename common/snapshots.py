@@ -706,14 +706,17 @@ class Snapshots:
         list_.sort( reverse = sort_reverse )
         return list_
 
-    def remove_snapshot( self, snapshot_id ):
+    def remove_snapshot( self, snapshot_id, execute = True):
         if len( snapshot_id ) <= 1:
             return
         path = self.get_snapshot_path( snapshot_id, use_mode = ['ssh', 'ssh_encfs'] )
-        cmd = self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (path, self.config.find_suffix()), quote = True ) #Debian patch
-        self._execute( cmd )
-        cmd = self.cmd_ssh( "rm -rf \"%s\"" % path )
-        self._execute( cmd )
+        find = 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (path, self.config.find_suffix()) #Debian patch
+        rm = "rm -rf \"%s\"" % path
+        if execute:
+            self._execute(self.cmd_ssh(find, quote = True))
+            self._execute(self.cmd_ssh(rm))
+        else:
+            return((find, rm))
 
     def copy_snapshot( self, snapshot_id, new_folder ):
         '''Copies a known snapshot to a new location'''
@@ -1461,10 +1464,24 @@ class Snapshots:
 
             del_snapshots.append(snapshot_id)
 
-        for i, snapshot_id in enumerate(del_snapshots, 1):
-            self.set_take_snapshot_message( 0, _('Smart remove') + ' %s/%s' %(i, len(del_snapshots)) )
-            logger.info( "[smart remove] remove snapshot: %s" % snapshot_id )
-            self.remove_snapshot( snapshot_id )
+        if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs'] and self.config.get_smart_remove_run_remote_in_background():
+            logger.info('[smart remove] remove snapshots in background: %s' % del_snapshots)
+            lckFile = os.path.normpath(os.path.join(self.get_snapshot_path(del_snapshots[0], ['ssh', 'ssh_encfs']), '..', 'smartremove.lck'))
+            for sid in del_snapshots:
+                snapshot = self.get_snapshot_path( sid, use_mode = ['ssh', 'ssh_encfs'] )
+                cmds = self.remove_snapshot(sid, False)
+                self._execute(self.cmd_ssh('nohup sh -c \':; ('
+                                           'flock -x 9; '
+                                           'test -e %(snapshot)s || exit 0; '
+                                           '%(cmds)s'
+                                           ') 9>%(lckFile)s'
+                                           '\' 2>&1 >/dev/null &'
+                                           %{'lckFile': lckFile, 'snapshot': snapshot, 'cmds': '; '.join(cmds)} ))
+        else:
+            for i, snapshot_id in enumerate(del_snapshots, 1):
+                self.set_take_snapshot_message( 0, _('Smart remove') + ' %s/%s' %(i, len(del_snapshots)) )
+                logger.info( "[smart remove] remove snapshot: %s" % snapshot_id )
+                self.remove_snapshot( snapshot_id )
 
     def _free_space( self, now ):
         snapshots = self.get_snapshots_list( False )

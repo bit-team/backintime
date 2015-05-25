@@ -943,6 +943,13 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_week', keep_one_per_week, profile_id )
         self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_month', keep_one_per_month, profile_id )
 
+    def get_smart_remove_run_remote_in_background(self, profile_id = None):
+        #?If using mode SSH or SSH-encrypted, run smart_remove in background on remote machine
+        return self.get_profile_bool_value('snapshots.smart_remove.run_remote_in_background', False, profile_id)
+
+    def set_smart_remove_run_remote_in_background(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.smart_remove.run_remote_in_background', value, profile_id)
+
     def is_notify_enabled( self, profile_id = None ):
         #?Display notifications (errors, warnings) through libnotify.
         return self.get_profile_bool_value( 'snapshots.notify.enabled', True, profile_id )
