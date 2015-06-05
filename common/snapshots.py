@@ -706,12 +706,13 @@ class Snapshots:
         list_.sort( reverse = sort_reverse )
         return list_
 
-    def remove_snapshot( self, snapshot_id, execute = True):
+    def remove_snapshot( self, snapshot_id, execute = True, quote = '\"'):
         if len( snapshot_id ) <= 1:
             return
         path = self.get_snapshot_path( snapshot_id, use_mode = ['ssh', 'ssh_encfs'] )
-        find = 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (path, self.config.find_suffix()) #Debian patch
-        rm = "rm -rf \"%s\"" % path
+        find = 'find %(quote)s%(path)s%(quote)s -type d -exec chmod u+wx %(quote)s{}%(quote)s %(suffix)s' \
+               % {'path': path, 'quote': quote, 'suffix': self.config.find_suffix()}
+        rm = 'rm -rf %(quote)s%(path)s%(quote)s' % {'path': path, 'quote': quote}
         if execute:
             self._execute(self.cmd_ssh(find, quote = True))
             self._execute(self.cmd_ssh(rm))
@@ -1472,14 +1473,19 @@ class Snapshots:
             lckFile = os.path.normpath(os.path.join(self.get_snapshot_path(del_snapshots[0], ['ssh', 'ssh_encfs']), '..', 'smartremove.lck'))
             for sid in del_snapshots:
                 snapshot = self.get_snapshot_path( sid, use_mode = ['ssh', 'ssh_encfs'] )
-                cmds = self.remove_snapshot(sid, False)
-                self._execute(self.cmd_ssh('nohup sh -c \':; ('
+                cmds = self.remove_snapshot(sid, execute = False, quote = '\\\"')
+                self._execute(self.cmd_ssh('screen -d -m bash -c "('
+                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"start\\\"; '
                                            'flock -x 9; '
-                                           'test -e %(snapshot)s || exit 0; '
-                                           '%(cmds)s'
-                                           ') 9>%(lckFile)s'
-                                           '\' 2>&1 >/dev/null &'
-                                           %{'lckFile': lckFile, 'snapshot': snapshot, 'cmds': '; '.join(cmds)} ))
+                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"got exclusive flock\\\"; '
+                                           'test -e \\\"%(snapshot)s\\\" || exit 0; '
+                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"folder still exist\\\"; '
+                                           '%(find)s; '
+                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"find done\\\"; '
+                                           '%(rm)s; '
+                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"done\\\"'
+                                           ') 9>\\\"%(lckFile)s\\\""'
+                                           %{'lckFile': lckFile, 'snapshot': snapshot, 'find': cmds[0], 'rm': cmds[1], 'sid': sid}, quote = True))
         else:
             for i, snapshot_id in enumerate(del_snapshots, 1):
                 self.set_take_snapshot_message( 0, _('Smart remove') + ' %s/%s' %(i, len(del_snapshots)) )
