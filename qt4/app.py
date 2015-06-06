@@ -341,6 +341,11 @@ class MainWindow( QMainWindow ):
         self.contextMenu.addAction(self.btn_restore_to)
         self.contextMenu.addAction(self.btn_snapshots)
         self.contextMenu.addSeparator()
+        self.btn_add_include = self.contextMenu.addAction(icon.ADD, _('Add to Include'))
+        self.btn_add_exclude = self.contextMenu.addAction(icon.ADD, _('Add to Exclude'))
+        QObject.connect(self.btn_add_include, SIGNAL('triggered()'), self.on_btn_add_include)
+        QObject.connect(self.btn_add_exclude, SIGNAL('triggered()'), self.on_btn_add_exclude)
+        self.contextMenu.addSeparator()
         self.contextMenu.addAction(self.btn_show_hidden_files)
 
         #ProgressBar
@@ -1134,6 +1139,32 @@ class MainWindow( QMainWindow ):
 
         self.path = path
         self.update_files_view( 0 )
+
+    def on_btn_add_include(self):
+        selected_file = [f for f, idx in self.multi_file_selected()]
+        if not selected_file:
+            return
+        rel_path = [os.path.join(self.path, x) for x in selected_file]
+        include = self.config.get_include()
+        update_places = False
+        for item in rel_path:
+            if os.path.isdir(item):
+                include.append((item, 0))
+                update_places = True
+            else:
+                include.append((item, 1))
+        self.config.set_include(include)
+        if update_places:
+            self.update_places()
+
+    def on_btn_add_exclude(self):
+        selected_file = [f for f, idx in self.multi_file_selected()]
+        if not selected_file:
+            return
+        rel_path = [os.path.join(self.path, x) for x in selected_file]
+        exclude = self.config.get_exclude()
+        exclude.extend(rel_path)
+        self.config.set_exclude(exclude)
 
     def on_list_files_view_item_activated( self, model_index ):
         if self.qapp.keyboardModifiers() and Qt.ControlModifier:
