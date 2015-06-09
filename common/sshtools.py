@@ -87,6 +87,11 @@ class SSH(mount.MountControl):
         # ssh_options contains port but can be extended to include cipher, customkeyfile, etc
         self.ssh_options = ['-p', str(self.port)]
         self.ssh_options += ['-o', 'ServerAliveInterval=240']
+
+        # specifying key file here allows to override for potentially 
+        # conflicting .ssh/config key entry
+        self.ssh_options += ['-o', 'IdentityFile=%s' % self.private_key_file]
+
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
 
         self.private_key_fingerprint = tools.getSshKeyFingerprint(self.private_key_file)
@@ -336,7 +341,10 @@ class SSH(mount.MountControl):
             ssh_cipher_suffix = ''
         else:
             ssh_cipher_suffix = '-c %s' % self.cipher
-        rsync += '--rsh="ssh -p %s %s" ' % ( str(self.port), ssh_cipher_suffix)
+        # specifying key file here allows to override for potentially 
+        # conflicting .ssh/config key entry
+        ssh_private_key = "-o IdentityFile=%s" % self.private_key_file
+        rsync += '--rsh="ssh -p %s %s %s"' % ( str(self.port), ssh_cipher_suffix, ssh_private_key)
         rsync += '"%s@%s:%s"' % (self.user, self.host, self.path)
 
         #use os.system for compatiblity with snapshots.py
