@@ -136,6 +136,7 @@ class SSH(mount.MountControl):
         self.check_ping_host()
         self.check_fuse()
         if first_run:
+            self.unlock_ssh_agent(force = True)
             self.check_known_hosts()
         self.check_login()
         if first_run:
@@ -160,18 +161,27 @@ class SSH(mount.MountControl):
            raise MountException( _('Error discription') ) if not"""
         return True
 
-    def unlock_ssh_agent(self):
+    def unlock_ssh_agent(self, force = False):
         """using askpass.py to unlock private key in ssh-agent"""
         env = os.environ.copy()
         env['SSH_ASKPASS'] = 'backintime-askpass'
         env['ASKPASS_PROFILE_ID'] = self.profile_id
         env['ASKPASS_MODE'] = self.mode
 
+        if force:
+            #remove private key first so we can check if the given password is valid
+            proc = subprocess.Popen(['ssh-add', '-d', self.private_key_file],
+                                    stdin=subprocess.DEVNULL,
+                                    stdout=subprocess.DEVNULL,
+                                    stderr=subprocess.DEVNULL,
+                                    universal_newlines = True)
+            proc.communicate()
+
         proc = subprocess.Popen(['ssh-add', '-l'],
                                 stdout = subprocess.PIPE,
                                 universal_newlines = True)
         output = proc.communicate()[0]
-        if not output.find(self.private_key_fingerprint) >= 0:
+        if force or not output.find(self.private_key_fingerprint) >= 0:
             password_available = any([self.config.get_password_save(self.profile_id),
                                       self.config.get_password_use_cache(self.profile_id),
                                       not self.password is None
@@ -236,7 +246,7 @@ class SSH(mount.MountControl):
         ssh.extend(self.ssh_options + [self.user_host])
         ssh.extend(['echo', '"Hello"'])
         try:
-            subprocess.check_call(ssh, stdout=open(os.devnull, 'w'))
+            subprocess.check_call(ssh, stdout=subprocess.DEVNULL)
         except subprocess.CalledProcessError:
             raise mount.MountException( _('Password-less authentication for %(user)s@%(host)s failed. Look at \'man backintime\' for further instructions.')  % {'user' : self.user, 'host' : self.host})
 
@@ -248,7 +258,7 @@ class SSH(mount.MountControl):
             ssh.extend(self.ssh_options + [self.user_host])
             ssh.extend(['echo', '"Hello"'])
             proc = subprocess.Popen(ssh,
-                                    stdout=open(os.devnull, 'w'),
+                                    stdout=subprocess.DEVNULL,
                                     stderr=subprocess.PIPE,
                                     universal_newlines = True)
             err = proc.communicate()[1]
@@ -294,7 +304,7 @@ class SSH(mount.MountControl):
         cmd += 'test -x %s || exit 13;' % self.path #path is not executable
         cmd += 'exit 20'                             #everything is fine
         try:
-            subprocess.check_call(['ssh'] + self.ssh_options + [ self.user_host, cmd], stdout=open(os.devnull, 'w'))
+            subprocess.check_call(['ssh'] + self.ssh_options + [ self.user_host, cmd], stdout=subprocess.DEVNULL)
         except subprocess.CalledProcessError as ex:
             if ex.returncode == 20:
                 #clean exit
@@ -336,15 +346,6 @@ class SSH(mount.MountControl):
         #check rsync
         tmp_file = tempfile.mkstemp()[1]
         rsync = tools.get_rsync_prefix( self.config ) + ' --dry-run --chmod=Du+wx %s ' % tmp_file
-
-        if self.cipher == 'default':
-            ssh_cipher_suffix = ''
-        else:
-            ssh_cipher_suffix = '-c %s' % self.cipher
-        # specifying key file here allows to override for potentially 
-        # conflicting .ssh/config key entry
-        ssh_private_key = "-o IdentityFile=%s" % self.private_key_file
-        rsync += '--rsh="ssh -p %s %s %s"' % ( str(self.port), ssh_cipher_suffix, ssh_private_key)
         rsync += '"%s@%s:%s"' % (self.user, self.host, self.path)
 
         #use os.system for compatiblity with snapshots.py

@@ -34,7 +34,6 @@ import logger
 import mount
 import sshtools
 import encfstools
-##import dummytools
 import password
 import pluginmanager
 
@@ -127,7 +126,6 @@ class Config( configfile.ConfigFileWithProfiles ):
                 'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False ),
                 'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False ),
                 'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption') )
-                ##'dummy'       : (dummytools.Dummy,        'Dummy',                'Dummy',                False )
                 }
 
     SSH_CIPHERS =  {'default':    _('Default'),
@@ -521,24 +519,6 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_local_encfs_path( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.local_encfs.path', value, profile_id )
-
-##	def get_dummy_host( self, profile_id = None ):
-##		return self.get_profile_str_value( 'snapshots.dummy.host', '', profile_id )
-##
-##	def set_dummy_host( self, value, profile_id = None ):
-##		self.set_profile_str_value( 'snapshots.dummy.host', value, profile_id )
-##
-##	def get_dummy_port( self, profile_id = None ):
-##		return self.get_profile_int_value( 'snapshots.dummy.port', '22', profile_id )
-##
-##	def set_dummy_port( self, value, profile_id = None ):
-##		self.set_profile_int_value( 'snapshots.dummy.port', value, profile_id )
-##
-##	def get_dummy_user( self, profile_id = None ):
-##		return self.get_profile_str_value( 'snapshots.dummy.user', self.get_user(), profile_id )
-##
-##	def set_dummy_user( self, value, profile_id = None ):
-##		self.set_profile_str_value( 'snapshots.dummy.user', value, profile_id )
 
     def get_password_save( self, profile_id = None, mode = None ):
         if mode is None:

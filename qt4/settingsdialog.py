@@ -194,32 +194,6 @@ class SettingsDialog( QDialog ):
         self.mode_local_encfs = self.mode_local
         self.mode_ssh_encfs = self.mode_ssh
 
-##		#Dummy
-##		group_box = QGroupBox( self )
-##		self.mode_dummy = group_box
-##		group_box.setTitle( _( 'Dummy Settings' ) )
-##		layout.addWidget( group_box )
-##
-##		vlayout = QVBoxLayout( group_box )
-##
-##		hlayout = QHBoxLayout()
-##		vlayout.addLayout( hlayout )
-##
-##		self.lbl_dummy_host = QLabel( _( 'Host:' ), self )
-##		hlayout.addWidget( self.lbl_dummy_host )
-##		self.txt_dummy_host = QLineEdit( self )
-##		hlayout.addWidget( self.txt_dummy_host )
-##
-##		self.lbl_dummy_port = QLabel( _( 'Port:' ), self )
-##		hlayout.addWidget( self.lbl_dummy_port )
-##		self.txt_dummy_port = QLineEdit( self )
-##		hlayout.addWidget( self.txt_dummy_port )
-##
-##		self.lbl_dummy_user = QLabel( _( 'User:' ), self )
-##		hlayout.addWidget( self.lbl_dummy_user )
-##		self.txt_dummy_user = QLineEdit( self )
-##		hlayout.addWidget( self.txt_dummy_user )
-
         #password
         group_box = QGroupBox( self )
         self.frame_password_1 = group_box
@@ -1013,11 +987,6 @@ class SettingsDialog( QDialog ):
         if self.mode == 'local_encfs':
             self.edit_snapshots_path.setText( self.config.get_local_encfs_path() )
 
-##		#dummy
-##		self.txt_dummy_host.setText( self.config.get_dummy_host() )
-##		self.txt_dummy_port.setText( self.config.get_dummy_port() )
-##		self.txt_dummy_user.setText( self.config.get_dummy_user() )
-
         #password
         password_1 = self.config.get_password( mode = self.mode, pw_id = 1, only_from_keyring = True )
         password_2 = self.config.get_password( mode = self.mode, pw_id = 2, only_from_keyring = True )
@@ -1145,80 +1114,15 @@ class SettingsDialog( QDialog ):
         password_1 = self.txt_password_1.text()
         password_2 = self.txt_password_2.text()
 
-        #ssh
-        ssh_host = self.txt_ssh_host.text()
-        ssh_port = self.txt_ssh_port.text()
-        ssh_user = self.txt_ssh_user.text()
-        ssh_path = self.txt_ssh_path.text()
-        ssh_cipher = self.combo_ssh_cipher.itemData( self.combo_ssh_cipher.currentIndex() )
-        ssh_private_key_file = self.txt_ssh_private_key_file.text()
-        remote_nice = self.cb_run_nice_on_remote.isChecked()
-        remote_ionice = self.cb_run_ionice_on_remote.isChecked()
-        remote_nocache = self.cb_run_nocache_on_remote.isChecked()
-        if mode == 'ssh':
-            mount_kwargs = {'host': ssh_host,
-                            'port': int(ssh_port),
-                            'user': ssh_user,
-                            'path': ssh_path,
-                            'cipher': ssh_cipher,
-                            'private_key_file': ssh_private_key_file,
-                            'password': password_1,
-                            'nice': remote_nice,
-                            'ionice': remote_ionice,
-                            'nocache': remote_nocache
+
+        if mode in ('ssh', 'local_encfs'):
+            mount_kwargs = {'password': password_1
                             }
 
-        #local-encfs settings
-        local_encfs_path = self.edit_snapshots_path.text()
-        if mode == 'local_encfs':
-            mount_kwargs = {'path': local_encfs_path,
-                            'password': password_1
-                            }
-
-        #ssh_encfs settings
         if mode == 'ssh_encfs':
-            mount_kwargs = {'host': ssh_host,
-                            'port': int(ssh_port),
-                            'user': ssh_user,
-                            'ssh_path': ssh_path,
-                            'cipher': ssh_cipher,
-                            'private_key_file': ssh_private_key_file,
-                            'ssh_password': password_1,
+            mount_kwargs = {'ssh_password': password_1,
                             'encfs_password': password_2,
-                            'nice': remote_nice,
-                            'ionice': remote_ionice,
-                            'nocache': remote_nocache
                             }
-
-##		#dummy
-##		dummy_host = self.txt_dummy_host.text()
-##		dummy_port = self.txt_dummy_port.text()
-##		dummy_user = self.txt_dummy_user.text()
-##		if mode == 'dummy':
-##			#values must have exactly the same Type (str, int or bool)
-##			#as they are set in config or you will run into false-positive
-##			#HashCollision warnings
-##			mount_kwargs = {'host': dummy_host,
-##							'port': int(dummy_port),
-##							'user': dummy_user,
-##							'password': password_1
-##							}
-
-        if not self.config.SNAPSHOT_MODES[mode][0] is None:
-            #pre_mount_check
-            mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self)
-            try:
-                mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
-            except mount.MountException as ex:
-                self.error_handler(str(ex))
-                return False
-
-            #okay, lets try to mount
-            try:
-                hash_id = mnt.mount(mode = mode, check = False, **mount_kwargs)
-            except mount.MountException as ex:
-                self.error_handler(str(ex))
-                return False
 
         #snapshots path
         self.config.set_host_user_profile(
@@ -1226,34 +1130,16 @@ class SettingsDialog( QDialog ):
                 self.txt_user.text(),
                 self.txt_profile.text() )
 
-        if self.config.SNAPSHOT_MODES[mode][0] is None:
-            snapshots_path = self.edit_snapshots_path.text()
-        else:
-            snapshots_path = self.config.get_snapshots_path(mode = mode, tmp_mount = True)
-
-        self.config.set_snapshots_path( snapshots_path, mode = mode )
-
         #save ssh
-        self.config.set_ssh_host(ssh_host)
-        self.config.set_ssh_port(ssh_port)
-        self.config.set_ssh_user(ssh_user)
-        self.config.set_snapshots_path_ssh(ssh_path)
-        self.config.set_ssh_cipher(ssh_cipher)
-        self.config.set_ssh_private_key_file(ssh_private_key_file)
+        self.config.set_ssh_host(self.txt_ssh_host.text())
+        self.config.set_ssh_port(self.txt_ssh_port.text())
+        self.config.set_ssh_user(self.txt_ssh_user.text())
+        self.config.set_snapshots_path_ssh(self.txt_ssh_path.text())
+        self.config.set_ssh_cipher(self.combo_ssh_cipher.itemData( self.combo_ssh_cipher.currentIndex() ))
+        self.config.set_ssh_private_key_file(self.txt_ssh_private_key_file.text())
 
         #save local_encfs
-        self.config.set_local_encfs_path(local_encfs_path)
-
-##		#save dummy
-##		self.config.set_dummy_host(dummy_host)
-##		self.config.set_dummy_port(dummy_port)
-##		self.config.set_dummy_user(dummy_user)
-
-        #save password
-        self.config.set_password_save(self.cb_password_save.isChecked(), mode = mode)
-        self.config.set_password_use_cache(self.cb_password_use_cache.isChecked(), mode = mode)
-        self.config.set_password(password_1, mode = mode)
-        self.config.set_password(password_2, mode = mode, pw_id = 2)
+        self.config.set_local_encfs_path(self.edit_snapshots_path.text())
 
         #include list
         self.config.set_profile_int_value('qt4.settingsdialog.include.SortColumn',
@@ -1343,6 +1229,38 @@ class SettingsDialog( QDialog ):
         self.config.set_copy_links( self.cb_copy_links.isChecked() )
         self.config.set_rsync_options_enabled(self.cb_rsync_options.isChecked() )
         self.config.set_rsync_options(self.txt_rsync_options.text() )
+
+        if not self.config.SNAPSHOT_MODES[mode][0] is None:
+            #pre_mount_check
+            mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self)
+            try:
+                mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
+            except mount.MountException as ex:
+                self.error_handler(str(ex))
+                return False
+
+            #okay, lets try to mount
+            try:
+                hash_id = mnt.mount(mode = mode, check = False, **mount_kwargs)
+            except mount.MountException as ex:
+                self.error_handler(str(ex))
+                return False
+
+        #save password
+        self.config.set_password_save(self.cb_password_save.isChecked(), mode = mode)
+        self.config.set_password_use_cache(self.cb_password_use_cache.isChecked(), mode = mode)
+        self.config.set_password(password_1, mode = mode)
+        self.config.set_password(password_2, mode = mode, pw_id = 2)
+
+        #save snaphots_path
+        if self.config.SNAPSHOT_MODES[mode][0] is None:
+            snapshots_path = self.edit_snapshots_path.text()
+        else:
+            snapshots_path = self.config.get_snapshots_path(mode = mode, tmp_mount = True)
+
+        ret = self.config.set_snapshots_path( snapshots_path, mode = mode )
+        if not ret:
+            return ret
 
         #umount
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
