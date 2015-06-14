@@ -1234,6 +1234,7 @@ class Snapshots:
                 link_dest = os.path.join('..', '..', link_dest)
                 cmd = cmd + " --link-dest=\"%s\"" % link_dest
 
+        if full_rsync or not check_for_changes:
             cmd = cmd + ' -i --out-format="BACKINTIME: %i %n%L"'
 
         params = [False, False]
