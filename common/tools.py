@@ -936,11 +936,11 @@ class ShutDown(object):
                                 'arguments':    ()
                                },
                     'z_freed': {'bus':          'systembus',
-                                'service':      'org.freedesktop.ConsoleKit',
-                                'objectPath':   '/org/freedesktop/ConsoleKit/Manager',
-                                'method':       'Stop',
-                                'interface':    'org.freedesktop.ConsoleKit.Manager',
-                                'arguments':    ()
+                                'service':      'org.freedesktop.login1',
+                                'objectPath':   '/org/freedesktop/login1',
+                                'method':       'PowerOff',
+                                'interface':    'org.freedesktop.login1.Manager',
+                                'arguments':    (True, )
                                }
                    }
 
@@ -1019,14 +1019,9 @@ class ShutDown(object):
         """
         if not check_command('unity'):
             return False
-        try:
-            unity_version = read_command_output('unity --version')
-            unity_version = float(re.findall(r'\s\d+\.\d+', unity_version)[0] )
-            if unity_version > 6.999 and process_exists('unity-panel-service'):
-                return True
-        except:
-            pass
-        return False
+        unity_version = read_command_output('unity --version')
+        m = re.match(r'unity ([\d\.]+)', unity_version)
+        return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and process_exists('unity-panel-service')
 
 class InvalidChar(Exception):
     def __init__(self, msg):
