@@ -112,6 +112,11 @@ def hidden_files(parent):
     return False
 
 def create_qapplication(app_name = 'Back In Time'):
+    global qapp
+    try:
+        return qapp
+    except NameError:
+        pass
     qapp = QApplication(sys.argv + ['-title', app_name])
     if os.geteuid() == 0 and                                   \
         qapp.style().objectName().lower() == 'windows' and  \

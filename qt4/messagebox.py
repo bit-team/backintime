@@ -23,7 +23,7 @@ _ = gettext.gettext
 
 def ask_password_dialog(parent, title, prompt, timeout = None):
     if parent is None:
-        qapp = qt4tools.create_qapplication()
+        qt4tools.create_qapplication()
 
     import icon
     dialog = QInputDialog()
@@ -49,8 +49,6 @@ def ask_password_dialog(parent, title, prompt, timeout = None):
         password = ''
     del(dialog)
 
-    if parent is None:
-        qapp.exit(0)
     return(password)
 
 def critical(parent, msg):
