@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.1.5
+* Fix bug: encrypted remote backup hangs on 'start encfsctl encode process' (https://launchpad.net/bugs/1455925)
 * make own Exceptions a childclass from BackInTimeException
 * Fix bug: missing profile<N>.name crashed GUI
 * Fix bug: Segmentation fault caused by two QApplication instances (https://launchpad.net/bugs/1463732)

@@ -333,7 +333,7 @@ class Encode(object):
 
         logger.info('start \'encfsctl encode\' process')
         encfsctl = ['encfsctl', 'encode', '--extpass=backintime-askpass', '/']
-        self.p = subprocess.Popen(encfsctl, env = env,
+        self.p = subprocess.Popen(encfsctl, env = env, bufsize = 0,
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE,
                                 universal_newlines = True)
@@ -348,8 +348,10 @@ class Encode(object):
             del self.p
             self.start_process()
         self.p.stdin.write(path + '\n')
-        ret = self.p.stdout.readline()
-        return ret.strip('\n')
+        ret = self.p.stdout.readline().strip('\n')
+        if not len(ret) and len(path):
+            raise EncodeValueError()
+        return ret
 
     def exclude(self, path):
         """encrypt paths for snapshots.take_snapshot exclude list.
