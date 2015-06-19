@@ -57,6 +57,10 @@ class Qt4SysTrayIcon:
         #self.status_icon.actionCollection().clear()
         self.contextMenu = QMenu()
 
+        self.menuProfileName = self.contextMenu.addAction(_('Profile: "%s"') % self.config.get_profile_name())
+        qt4tools.set_font_bold(self.menuProfileName)
+        self.contextMenu.addSeparator()
+
         self.menuStatusMessage = self.contextMenu.addAction(_('Done'))
         self.menuProgress = self.contextMenu.addAction('')
         self.menuProgress.setVisible(False)
