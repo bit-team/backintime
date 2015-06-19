@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-26 17:42+0100\n"
+"POT-Creation-Date: 2015-05-22 23:57+0200\n"
 "PO-Revision-Date: 2015-03-31 20:21+0000\n"
 "Last-Translator: Germar <Unknown>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2015-03-31 20:56+0000\n"
-"X-Generator: Launchpad (build 17413)\n"
+"X-Launchpad-Export-Date: 2015-06-19 21:04+0000\n"
+"X-Generator: Launchpad (build 17572)\n"
 
 #: ../../common/configfile.py:248 ../../common/configfile.py:310
 #, python-format
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Month(s)"
 msgstr ""
 
-#: ../../common/config.py:123
+#: ../../common/config.py:123 ../../qt4/settingsdialog.py:563
 msgid " EXPERIMENTAL!"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: ../../common/config.py:127 ../../common/config.py:129
-#: ../../qt4/settingsdialog.py:1567
+#: ../../qt4/settingsdialog.py:1572
 msgid "SSH private key"
 msgstr ""
 
@@ -233,7 +233,7 @@ msgstr ""
 "لا يستطيع الكتابة على %s\n"
 "هل انت مُتأكد بأن لديك حق الكتابة ؟"
 
-#: ../../common/config.py:1383
+#: ../../common/config.py:1390
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -243,19 +243,19 @@ msgstr ""
 "ِِِِِِِِِِهل أنت مُتأكد بأن cron مثبت فعلاً ؟\n"
 "أن لم يكن كذلك فعليك بإظهار جميع نُسخ الإحتياطية التلّقائية."
 
-#: ../../common/config.py:1422
+#: ../../common/config.py:1429
 #, python-format
 msgid ""
 "Could not install Udev rule for profile %(profile_id)s. DBus Service "
 "'%(dbus_interface)s' wasn't available"
 msgstr ""
 
-#: ../../common/config.py:1433
+#: ../../common/config.py:1440
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr ""
 
-#: ../../common/config.py:1441
+#: ../../common/config.py:1448
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr ""
@@ -314,7 +314,7 @@ msgid ""
 msgstr ""
 
 #: ../../common/encfstools.py:474 ../../common/encfstools.py:506
-#: ../../common/snapshots.py:991 ../../common/snapshots.py:1225
+#: ../../common/snapshots.py:994 ../../common/snapshots.py:1228
 #: ../../qt4/app.py:77
 msgid "Take snapshot"
 msgstr "خذ لقطة"
@@ -362,7 +362,7 @@ msgstr "فشل"
 msgid "Restore permissions:"
 msgstr "إستعادة التراخيص:"
 
-#: ../../common/snapshots.py:735
+#: ../../common/snapshots.py:738
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
@@ -372,7 +372,7 @@ msgstr ""
 "\n"
 "يمكن نقل لقطات القديمة الخاصة بك وفقاً لِهذه الطريقة الجديدة. مُوافق؟"
 
-#: ../../common/snapshots.py:743
+#: ../../common/snapshots.py:746
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -389,7 +389,7 @@ msgstr ""
 "\n"
 "(البرنامج سيظلُ قادراً على التمييز بينهُما)"
 
-#: ../../common/snapshots.py:746
+#: ../../common/snapshots.py:749
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
@@ -397,7 +397,7 @@ msgstr ""
 "لم يتم العثور على ملفات شخصية. أولاً حَدثّ ملفات الشخصية، ثم أعِد تشغيل باك "
 "إن تايم من فضلك"
 
-#: ../../common/snapshots.py:786
+#: ../../common/snapshots.py:789
 #, python-format
 msgid ""
 "%(snapshots_left)s\n"
@@ -410,7 +410,7 @@ msgid ""
 "cannot continue taking snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:794
+#: ../../common/snapshots.py:797
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -425,7 +425,7 @@ msgstr ""
 "بإمكانك نقل اللقطات يدوياً، \n"
 "إذا انتهيت, أعِد تشغيل باك إن تايم للأستكمال"
 
-#: ../../common/snapshots.py:804
+#: ../../common/snapshots.py:807
 msgid ""
 "Update was successful!\n"
 "\n"
@@ -435,7 +435,7 @@ msgstr ""
 "\n"
 "باك إن تايم سيستمر بأخذ لقطات مُجدداً كما هو مُجدول"
 
-#: ../../common/snapshots.py:809
+#: ../../common/snapshots.py:812
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -455,11 +455,11 @@ msgstr ""
 "\n"
 "إذا لم تكن تُريد ذلك, ستُسأل مُجدداً المرة القادمة حينَ تُشغلّ باك إن تايم."
 
-#: ../../common/snapshots.py:817
+#: ../../common/snapshots.py:820
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr "باك إن تايم سيستمر بأخذ لقطات مجدداً كما هو مُجدول"
 
-#: ../../common/snapshots.py:819
+#: ../../common/snapshots.py:822
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
@@ -467,11 +467,11 @@ msgstr ""
 "باك إن تايم لا يزال غير قادراً على أخذ لقطات جديدة.\n"
 "أعِد تشغيل باك إن تايم لِترى الأسئلة مجدداً"
 
-#: ../../common/snapshots.py:836
+#: ../../common/snapshots.py:839
 msgid "Deferring backup while on battery"
 msgstr ""
 
-#: ../../common/snapshots.py:895
+#: ../../common/snapshots.py:898
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
@@ -479,7 +479,7 @@ msgstr ""
 "لا يستطيع إيجاد مُجلد اللقطات.\n"
 "إذا كان في قرص قابل للإزالة من فضلك وَصْلّهُ."
 
-#: ../../common/snapshots.py:897
+#: ../../common/snapshots.py:900
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -490,69 +490,69 @@ msgstr[3] "ينتظر %s ثواني."
 msgstr[4] "ينتظر %s ثانية."
 msgstr[5] "ينتظر %s ثواني."
 
-#: ../../common/snapshots.py:923
+#: ../../common/snapshots.py:926
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr "فشل بأخذ لقطة %s !!!"
 
-#: ../../common/snapshots.py:932
+#: ../../common/snapshots.py:935
 msgid "Finalizing"
 msgstr "يُنْهيّ"
 
-#: ../../common/snapshots.py:1061
+#: ../../common/snapshots.py:1064
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "لا يُمكن إنشاء مُجلد: %s"
 
-#: ../../common/snapshots.py:1077
+#: ../../common/snapshots.py:1080
 msgid "..."
 msgstr "..."
 
-#: ../../common/snapshots.py:1102
+#: ../../common/snapshots.py:1105
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "لا يُمكن إزالة مُجلد: %s"
 
-#: ../../common/snapshots.py:1179
+#: ../../common/snapshots.py:1182
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "قارن مع لقطة %s"
 
-#: ../../common/snapshots.py:1198
+#: ../../common/snapshots.py:1201
 msgid "Create hard-links"
 msgstr "انشئ hard-links"
 
-#: ../../common/snapshots.py:1271
+#: ../../common/snapshots.py:1274
 msgid "Save config file ..."
 msgstr "أحفظ ملف التعديل ..."
 
-#: ../../common/snapshots.py:1277
+#: ../../common/snapshots.py:1280
 msgid "Save permission ..."
 msgstr "أحفظ ترخيص ..."
 
-#: ../../common/snapshots.py:1302
+#: ../../common/snapshots.py:1305
 msgid "Save permission over ssh failed. Retry normal method"
 msgstr ""
 
-#: ../../common/snapshots.py:1347
+#: ../../common/snapshots.py:1350
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr ""
 
-#: ../../common/snapshots.py:1465 ../../common/snapshots.py:1497
+#: ../../common/snapshots.py:1485 ../../common/snapshots.py:1518
 #: ../../qt4/settingsdialog.py:554
 msgid "Smart remove"
 msgstr "إزالة ذكية"
 
-#: ../../common/snapshots.py:1472
+#: ../../common/snapshots.py:1495
 msgid "Remove old snapshots"
 msgstr "أزل اللقطات القديمة"
 
-#: ../../common/snapshots.py:1502
+#: ../../common/snapshots.py:1523
 msgid "Try to keep min free space"
 msgstr "حاول أبقاء حد أدنى من المساحة فارغة"
 
-#: ../../common/snapshots.py:1538
+#: ../../common/snapshots.py:1559
 #, python-format
 msgid "Try to keep min %d%% free inodes"
 msgstr ""
@@ -729,12 +729,12 @@ msgstr "لقطات"
 msgid "Up"
 msgstr "أعلى"
 
-#: ../../qt4/app.py:173 ../../qt4/settingsdialog.py:1755
+#: ../../qt4/app.py:173 ../../qt4/settingsdialog.py:1761
 msgid "Show hidden files"
 msgstr "أظهر الملفات المخفيّة"
 
 #: ../../qt4/app.py:182 ../../qt4/app.py:197 ../../qt4/app.py:231
-#: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1799
+#: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1805
 #: ../../qt4/snapshotsdialog.py:133 ../../qt4/snapshotsdialog.py:138
 msgid "Restore"
 msgstr "إسترجع"
@@ -895,7 +895,7 @@ msgid ""
 "Settings > Options > %(backup_option)s"
 msgstr ""
 
-#: ../../qt4/app.py:1039 ../../qt4/settingsdialog.py:626
+#: ../../qt4/app.py:1039 ../../qt4/settingsdialog.py:629
 msgid "Backup replaced files on restore"
 msgstr ""
 
@@ -953,7 +953,7 @@ msgid "Error Log View"
 msgstr "خطأ في عرض السجل"
 
 #: ../../qt4/logviewdialog.py:52 ../../qt4/settingsdialog.py:58
-#: ../../qt4/settingsdialog.py:286 ../../qt4/settingsdialog.py:1880
+#: ../../qt4/settingsdialog.py:286 ../../qt4/settingsdialog.py:1886
 msgid "Profile:"
 msgstr "ملف شخصي:"
 
@@ -961,11 +961,11 @@ msgstr "ملف شخصي:"
 msgid "Filter:"
 msgstr "مُرَشِح:"
 
-#: ../../qt4/logviewdialog.py:70 ../../qt4/settingsdialog.py:668
+#: ../../qt4/logviewdialog.py:70 ../../qt4/settingsdialog.py:671
 msgid "All"
 msgstr "كل"
 
-#: ../../qt4/logviewdialog.py:71 ../../qt4/settingsdialog.py:666
+#: ../../qt4/logviewdialog.py:71 ../../qt4/settingsdialog.py:669
 msgid "Errors"
 msgstr "أخطاء"
 
@@ -1022,11 +1022,11 @@ msgstr ""
 msgid "General"
 msgstr "عام"
 
-#: ../../qt4/settingsdialog.py:100 ../../qt4/settingsdialog.py:1882
+#: ../../qt4/settingsdialog.py:100 ../../qt4/settingsdialog.py:1888
 msgid "Mode:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:115 ../../qt4/settingsdialog.py:1552
+#: ../../qt4/settingsdialog.py:115 ../../qt4/settingsdialog.py:1557
 msgid "Where to save snapshots"
 msgstr "أين سيتم حفظ اللقطات"
 
@@ -1083,7 +1083,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "مُتقدم"
 
-#: ../../qt4/settingsdialog.py:292 ../../qt4/settingsdialog.py:1619
+#: ../../qt4/settingsdialog.py:292 ../../qt4/settingsdialog.py:1625
 msgid "Full snapshot path: "
 msgstr ""
 
@@ -1193,69 +1193,73 @@ msgid "If free inodes is less than:"
 msgstr ""
 
 #: ../../qt4/settingsdialog.py:563
+msgid "Run in background on remote Host."
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:566
 msgid "Keep all snapshots for the last"
 msgstr "أبقي كل اللقطات حتى نهاية"
 
-#: ../../qt4/settingsdialog.py:567 ../../qt4/settingsdialog.py:573
+#: ../../qt4/settingsdialog.py:570 ../../qt4/settingsdialog.py:576
 msgid "day(s)"
 msgstr "يوم (أيّام)"
 
-#: ../../qt4/settingsdialog.py:569
+#: ../../qt4/settingsdialog.py:572
 msgid "Keep one snapshot per day for the last"
 msgstr "أبقي لقطة واحدة ليوم واحد حتى النهاية"
 
-#: ../../qt4/settingsdialog.py:575
+#: ../../qt4/settingsdialog.py:578
 msgid "Keep one snapshot per week for the last"
 msgstr "أبقي لقطة واحدة للأسبوع حتى النهاية"
 
-#: ../../qt4/settingsdialog.py:579
+#: ../../qt4/settingsdialog.py:582
 msgid "weeks(s)"
 msgstr "أسبوع(أسابيع)"
 
-#: ../../qt4/settingsdialog.py:581
+#: ../../qt4/settingsdialog.py:584
 msgid "Keep one snapshot per month for the last"
 msgstr "أبقي لقطة واحدة لكل شهر حتى النهاية"
 
-#: ../../qt4/settingsdialog.py:585
+#: ../../qt4/settingsdialog.py:588
 msgid "month(s)"
 msgstr "شهر(أشهر)"
 
-#: ../../qt4/settingsdialog.py:587
+#: ../../qt4/settingsdialog.py:590
 msgid "Keep one snapshot per year for all years"
 msgstr "أبقي لقطة واحدة للسنة وهكذا لكل السنين"
 
-#: ../../qt4/settingsdialog.py:594
+#: ../../qt4/settingsdialog.py:597
 msgid "Don't remove named snapshots"
 msgstr "لا تُزيل اللقطات المُسماّة"
 
-#: ../../qt4/settingsdialog.py:606
+#: ../../qt4/settingsdialog.py:609
 msgid "Options"
 msgstr "خيارات"
 
-#: ../../qt4/settingsdialog.py:611
+#: ../../qt4/settingsdialog.py:614
 msgid "Enable notifications"
 msgstr "فَعْلّ التنبيهات"
 
-#: ../../qt4/settingsdialog.py:614
+#: ../../qt4/settingsdialog.py:617
 msgid "Disable snapshots when on battery"
 msgstr "عطلّ اللقطات عندما تعمل بالجهاز على البطارية"
 
-#: ../../qt4/settingsdialog.py:617
+#: ../../qt4/settingsdialog.py:620
 msgid "Power status not available from system"
 msgstr "حالة الطاقة غير متوفرة من النظام"
 
-#: ../../qt4/settingsdialog.py:620
+#: ../../qt4/settingsdialog.py:623
 msgid "Run only one snapshot at a time"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:621
+#: ../../qt4/settingsdialog.py:624
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done.\n"
 "This is a global option. So it will effect all profiles for this user.\n"
 "But you need to activate this for all other users, too."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:627
+#: ../../qt4/settingsdialog.py:630
 #, python-format
 msgid ""
 "Newer versions of files will be renamed with trailing '%(suffix)s' before "
@@ -1263,19 +1267,19 @@ msgid ""
 "If you don't need them anymore you can remove them with '%(cmd)s'"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:636
+#: ../../qt4/settingsdialog.py:639
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "أستمر عند الأخطاء (أبقي اللقطات الغير مُكتملة)"
 
-#: ../../qt4/settingsdialog.py:639
+#: ../../qt4/settingsdialog.py:642
 msgid "Use checksum to detect changes"
 msgstr "أستخدم تدقيق المجموع لِكشف التغيُّرات"
 
-#: ../../qt4/settingsdialog.py:642
+#: ../../qt4/settingsdialog.py:645
 msgid "Full rsync mode. May be faster but:"
 msgstr "وضع التزَامُنْ المُتكامل. قد يكون أسرع ولكن:"
 
-#: ../../qt4/settingsdialog.py:643
+#: ../../qt4/settingsdialog.py:646
 msgid ""
 "- snapshots are not read-only\n"
 "- destination file-system must support all Linux attributes (dates, rights, "
@@ -1285,136 +1289,136 @@ msgstr ""
 "- الوجهة file-system يجب أن تدعم جميع الخصائص (تواريخ, حقوق, مستخدم, "
 "مجموعة...)"
 
-#: ../../qt4/settingsdialog.py:650
+#: ../../qt4/settingsdialog.py:653
 msgid "Take a new snapshot regardless of there were changes or not."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:653
+#: ../../qt4/settingsdialog.py:656
 msgid "Check for changes (don't take a new snapshot if nothing changed)"
 msgstr "تفحص من وجود تغييرات (لا تأخذ لقطات جديدة إذا لم يتغير شيء)"
 
-#: ../../qt4/settingsdialog.py:660
+#: ../../qt4/settingsdialog.py:663
 msgid "Log Level:"
 msgstr "مستوي السجل:"
 
-#: ../../qt4/settingsdialog.py:665
+#: ../../qt4/settingsdialog.py:668
 msgid "None"
 msgstr "لا شيء"
 
-#: ../../qt4/settingsdialog.py:667
+#: ../../qt4/settingsdialog.py:670
 msgid "Changes & Errors"
 msgstr "تغييرات & أخطاء"
 
-#: ../../qt4/settingsdialog.py:678
+#: ../../qt4/settingsdialog.py:681
 msgid "Expert Options"
 msgstr "خيارات الخبراء"
 
-#: ../../qt4/settingsdialog.py:683
+#: ../../qt4/settingsdialog.py:686
 msgid "Change these options only if you really know what you are doing !"
 msgstr "غيّر هذه الخيارات فقط عندما تكون واثق مما تفعله !"
 
-#: ../../qt4/settingsdialog.py:687
+#: ../../qt4/settingsdialog.py:690
 msgid "Run 'nice':"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:693 ../../qt4/settingsdialog.py:705
+#: ../../qt4/settingsdialog.py:696 ../../qt4/settingsdialog.py:708
 msgid "as cron job"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:696 ../../qt4/settingsdialog.py:711
-#: ../../qt4/settingsdialog.py:725
+#: ../../qt4/settingsdialog.py:699 ../../qt4/settingsdialog.py:714
+#: ../../qt4/settingsdialog.py:728
 msgid "on remote host"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:699
+#: ../../qt4/settingsdialog.py:702
 msgid "Run 'ionice':"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:708
+#: ../../qt4/settingsdialog.py:711
 msgid "when taking a manual snapshot"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:715
+#: ../../qt4/settingsdialog.py:718
 msgid "Run 'rsync' with 'nocache':"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:721
+#: ../../qt4/settingsdialog.py:724
 msgid "on local machine"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:731
+#: ../../qt4/settingsdialog.py:734
 msgid "Limit rsync bandwidth usage: "
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:734
+#: ../../qt4/settingsdialog.py:737
 msgid " KB/sec"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:769
+#: ../../qt4/settingsdialog.py:772
 msgid "Preserve ACL"
 msgstr "حِفاظ ACL"
 
-#: ../../qt4/settingsdialog.py:782
+#: ../../qt4/settingsdialog.py:785
 msgid "Preserve extended attributes (xattr)"
 msgstr "المُحافظة على الصفات المُوسعة (xattr)"
 
-#: ../../qt4/settingsdialog.py:800
+#: ../../qt4/settingsdialog.py:803
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "أنسخ الروابط الغير الآمنة (تعمل فقط مع الروابط الأساسية)"
 
-#: ../../qt4/settingsdialog.py:812
+#: ../../qt4/settingsdialog.py:815
 msgid "Copy links (dereference symbolic links)"
 msgstr "نسخ الروابط (احصل علي محتوي العنوان الرمزي)"
 
-#: ../../qt4/settingsdialog.py:831
+#: ../../qt4/settingsdialog.py:834
 msgid "Paste additional options to rsync"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:834
+#: ../../qt4/settingsdialog.py:837
 msgid ""
 "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:848
+#: ../../qt4/settingsdialog.py:851
 msgid "Restore Config"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:863
+#: ../../qt4/settingsdialog.py:866
 msgid "New profile"
 msgstr "ملف شخصي جديد"
 
-#: ../../qt4/settingsdialog.py:879
+#: ../../qt4/settingsdialog.py:882
 msgid "Rename profile"
 msgstr "أعِد تسمية الملف الشخصي"
 
-#: ../../qt4/settingsdialog.py:893
+#: ../../qt4/settingsdialog.py:896
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "هل أنت مُتأكد بأنك تُريد حذف ملف الشخصي \"%s\" ؟"
 
-#: ../../qt4/settingsdialog.py:1132
+#: ../../qt4/settingsdialog.py:1136
 msgid ""
 "Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
 "*/3 for periodic backups every 3 hours"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1474
+#: ../../qt4/settingsdialog.py:1479
 msgid "Exclude pattern"
 msgstr "إستثني نمط"
 
-#: ../../qt4/settingsdialog.py:1486
+#: ../../qt4/settingsdialog.py:1491
 msgid "Exclude file"
 msgstr "إستثني ملف"
 
-#: ../../qt4/settingsdialog.py:1490
+#: ../../qt4/settingsdialog.py:1495
 msgid "Exclude folder"
 msgstr "إستثني مُجلد"
 
-#: ../../qt4/settingsdialog.py:1509
+#: ../../qt4/settingsdialog.py:1514
 msgid "Include file"
 msgstr "ضمْن ملف"
 
-#: ../../qt4/settingsdialog.py:1517 ../../qt4/settingsdialog.py:1537
+#: ../../qt4/settingsdialog.py:1522 ../../qt4/settingsdialog.py:1542
 #, python-format
 msgid ""
 "\"%s\" is a symlink. The linked target will not be backed up until you "
@@ -1422,35 +1426,35 @@ msgid ""
 "Would you like to include the symlinks target instead?"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1529
+#: ../../qt4/settingsdialog.py:1534
 msgid "Include folder"
 msgstr "ضمْن مُجلد"
 
-#: ../../qt4/settingsdialog.py:1556
+#: ../../qt4/settingsdialog.py:1561
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr "هل أنت مُتأكد بأنك تُريد تغيير مُجلد اللقطات ؟"
 
-#: ../../qt4/settingsdialog.py:1667
+#: ../../qt4/settingsdialog.py:1673
 msgid "enabled"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1669
+#: ../../qt4/settingsdialog.py:1675
 msgid "disabled"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1670
+#: ../../qt4/settingsdialog.py:1676
 msgid "default"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1694
+#: ../../qt4/settingsdialog.py:1700
 msgid "Restore Settings"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1711
+#: ../../qt4/settingsdialog.py:1717
 msgid " and add your user to group 'fuse'"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1715
+#: ../../qt4/settingsdialog.py:1721
 #, python-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore %(appName)s's "
@@ -1463,7 +1467,7 @@ msgid ""
 "Take a look at 'man backintime'."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1773 ../../qt4/settingsdialog.py:1835
+#: ../../qt4/settingsdialog.py:1779 ../../qt4/settingsdialog.py:1841
 msgid "No config found"
 msgstr ""
 
