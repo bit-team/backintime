@@ -238,7 +238,11 @@ class ConfigFileWithProfiles( ConfigFile ):
         return False
 
     def get_profile_name( self, profile_id = None ):
-        return self.get_profile_str_value( 'name', self.default_profile_name, profile_id )
+        if profile_id == '1':
+            default = self.default_profile_name
+        else:
+            default = 'Profile %s' % profile_id
+        return self.get_profile_str_value( 'name', default, profile_id )
 
     def add_profile( self, name ):
         profiles = self.get_profiles()
