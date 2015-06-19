@@ -1193,6 +1193,7 @@ class Snapshots:
 
                     if not changed:
                         logger.info( "Nothing changed, no back needed" )
+                        self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
                         self.set_snapshot_last_check(prev_snapshot_id)
                         return [ False, False ]
 
@@ -1268,6 +1269,7 @@ class Snapshots:
                 self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
                 logger.info( "Nothing changed, no back needed" )
+                self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
                 self.set_snapshot_last_check(prev_snapshot_id)
                 return [ False, False ]
 
