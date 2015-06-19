@@ -1477,15 +1477,15 @@ class Snapshots:
                 snapshot = self.get_snapshot_path( sid, use_mode = ['ssh', 'ssh_encfs'] )
                 cmds = self.remove_snapshot(sid, execute = False, quote = '\\\"')
                 self._execute(self.cmd_ssh('screen -d -m bash -c "('
-                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"start\\\"; '
+                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"start\\\"; '
                                            'flock -x 9; '
-                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"got exclusive flock\\\"; '
+                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"got exclusive flock\\\"; '
                                            'test -e \\\"%(snapshot)s\\\" || exit 0; '
-                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"folder still exist\\\"; '
+                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"folder still exist\\\"; '
                                            '%(find)s; '
-                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"find done\\\"; '
+                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"find done\\\"; '
                                            '%(rm)s; '
-                                           'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"done\\\"'
+                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"done\\\"'
                                            ') 9>\\\"%(lckFile)s\\\""'
                                            %{'lckFile': lckFile, 'snapshot': snapshot, 'find': cmds[0], 'rm': cmds[1], 'sid': sid}, quote = True))
         else:

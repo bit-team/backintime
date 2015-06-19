@@ -373,6 +373,7 @@ class SSH(mount.MountControl):
         cmd += 'cleanup(){ '
         cmd += 'test -e $tmp/a && rm $tmp/a >/dev/null 2>&1; '
         cmd += 'test -e $tmp/b && rm $tmp/b >/dev/null 2>&1; '
+        cmd += 'test -e smr.lock && rm smr.lock >/dev/null 2>&1; '
         cmd += 'test -e $tmp && rmdir $tmp >/dev/null 2>&1; '
         cmd += 'exit $1; }; '
         #create tmp_RANDOM dir and file a
@@ -406,6 +407,12 @@ class SSH(mount.MountControl):
         if self.nocache:
             cmd += 'echo \"nocache\"; nocache true >/dev/null; err_nocache=$?; '
             cmd += 'test $err_nocache -ne 0 && cleanup $err_nocache; '
+        #try screen, bash and flock used by smart-remove running in background
+        if self.config.get_smart_remove_run_remote_in_background(self.profile_id):
+            cmd += 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
+            cmd += 'test $err_screen -ne 0 && cleanup $err_screen; '
+            cmd += 'echo \"(flock -x 9) 9>smr.lock\"; bash -c \"(flock -x 9) 9>smr.lock\" >/dev/null; err_flock=$?; '
+            cmd += 'test $err_flock -ne 0 && cleanup $err_flock; '
         #report not supported gnu find suffix
         cmd += 'test $err_gnu_find -ne 0 && echo \"gnu_find not supported\" && exit $err_gnu_find; '
         #if we end up here, everything should be fine
@@ -423,7 +430,7 @@ class SSH(mount.MountControl):
             else:
                 break
         if proc.returncode or not output_split[-1].startswith('done'):
-            for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice', 'nocache'):
+            for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
                 if output_split[-1].startswith(command):
                     raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                             '%(err)s\nLook at \'man backintime\' for further instructions')
