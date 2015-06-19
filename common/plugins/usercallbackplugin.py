@@ -21,8 +21,8 @@ import pluginmanager
 import tools
 import logger
 import gettext
-from subprocess import Popen
-from subprocess import PIPE
+from subprocess import Popen, PIPE
+from exceptions import StopException
 
 _=gettext.gettext
 
@@ -52,7 +52,7 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
             if output[1]:
                 logger.error( "[UserCallbackPlugin.notify_callback callback error] %s" % output[1] )
             if callback.returncode != 0:
-                raise pluginmanager.StopException()
+                raise StopException()
         except OSError:
             logger.error( "[UserCallbackPlugin.notify_callback] Exception when trying to run user callback" )
 

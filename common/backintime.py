@@ -28,6 +28,7 @@ import mount
 import password
 import encfstools
 import cli
+from exceptions import MountException
 
 _=gettext.gettext
 
@@ -56,7 +57,7 @@ def take_snapshot( cfg, force = True ):
 def _mount(cfg):
     try:
         hash_id = mount.Mount(cfg = cfg).mount()
-    except mount.MountException as ex:
+    except MountException as ex:
         logger.error(str(ex))
         sys.exit(1)
     else:
@@ -65,7 +66,7 @@ def _mount(cfg):
 def _umount(cfg):
     try:
         mount.Mount(cfg = cfg).umount(cfg.current_hash_id)
-    except mount.MountException as ex:
+    except MountException as ex:
         logger.error(str(ex))
 
 

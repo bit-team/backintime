@@ -29,6 +29,7 @@ import mount
 import logger
 import tools
 import password_ipc
+from exceptions import MountException
 
 _=gettext.gettext
 
@@ -119,14 +120,14 @@ class SSH(mount.MountControl):
         try:
             subprocess.check_call(sshfs, env = env)
         except subprocess.CalledProcessError:
-            raise mount.MountException( _('Can\'t mount %s') % ' '.join(sshfs))
+            raise MountException( _('Can\'t mount %s') % ' '.join(sshfs))
 
     def _umount(self):
         """umount the service"""
         try:
             subprocess.check_call(['fusermount', '-u', self.mountpoint])
         except subprocess.CalledProcessError:
-            raise mount.MountException( _('Can\'t unmount sshfs %s') % self.mountpoint)
+            raise MountException( _('Can\'t unmount sshfs %s') % self.mountpoint)
 
     def pre_mount_check(self, first_run = False):
         """check what ever conditions must be given for the mount to be done successful
@@ -224,12 +225,13 @@ class SSH(mount.MountControl):
                                     universal_newlines = True)
             output = proc.communicate()[0]
             if not output.find(self.private_key_fingerprint) >= 0:
-                raise mount.MountException( _('Could not unlock ssh private key. Wrong password or password not available for cron.'))
+                raise MountException( _('Could not unlock ssh private key. Wrong password '
+                                        'or password not available for cron.'))
 
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""
         if not tools.check_command('sshfs'):
-            raise mount.MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
+            raise MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
         if self.CHECK_FUSE_GROUP:
             user = self.config.get_user()
             try:
@@ -238,7 +240,11 @@ class SSH(mount.MountControl):
                 #group fuse doesn't exist. So most likely it isn't used by this distribution
                 return
             if not user in fuse_grp_members:
-                raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
+                raise MountException( _('%(user)s is not member of group \'fuse\'.\n '
+                                        'Run \'sudo adduser %(user)s fuse\'. To apply '
+                                        'changes logout and login again.\nLook at '
+                                        '\'man backintime\' for further instructions.') 
+                                        % {'user': user})
 
     def check_login(self):
         """check passwordless authentication to host"""
@@ -248,7 +254,9 @@ class SSH(mount.MountControl):
         try:
             subprocess.check_call(ssh, stdout=subprocess.DEVNULL)
         except subprocess.CalledProcessError:
-            raise mount.MountException( _('Password-less authentication for %(user)s@%(host)s failed. Look at \'man backintime\' for further instructions.')  % {'user' : self.user, 'host' : self.host})
+            raise MountException( _('Password-less authentication for %(user)s@%(host)s '
+                                    'failed. Look at \'man backintime\' for further '
+                                    'instructions.')  % {'user' : self.user, 'host' : self.host})
 
     def check_cipher(self):
         """check if both host and localhost support cipher"""
@@ -263,7 +271,8 @@ class SSH(mount.MountControl):
                                     universal_newlines = True)
             err = proc.communicate()[1]
             if proc.returncode:
-                raise mount.MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')  % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
+                raise MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')  
+                                      % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
 
     def benchmark_cipher(self, size = '40'):
         temp = tempfile.mkstemp()[1]
@@ -290,7 +299,7 @@ class SSH(mount.MountControl):
             output = proc.communicate()[0] #subprocess.check_output doesn't exist in Python 2.6 (Debian squeeze default)
             if output.find('Host %s found' % host) >= 0:
                 return True
-        raise mount.MountException( _('%s not found in ssh_known_hosts.') % self.host)
+        raise MountException( _('%s not found in ssh_known_hosts.') % self.host)
 
     def check_remote_folder(self):
         """check if remote folder exists and is write- and executable.
@@ -310,13 +319,13 @@ class SSH(mount.MountControl):
                 #clean exit
                 pass
             elif ex.returncode == 11:
-                raise mount.MountException( _('Remote path exists but is not a directory:\n %s') % self.path)
+                raise MountException( _('Remote path exists but is not a directory:\n %s') % self.path)
             elif ex.returncode == 12:
-                raise mount.MountException( _('Remote path is not writeable:\n %s') % self.path)
+                raise MountException( _('Remote path is not writeable:\n %s') % self.path)
             elif ex.returncode == 13:
-                raise mount.MountException( _('Remote path is not executable:\n %s') % self.path)
+                raise MountException( _('Remote path is not executable:\n %s') % self.path)
             else:
-                raise mount.MountException( _('Couldn\'t create remote path:\n %s') % self.path)
+                raise MountException( _('Couldn\'t create remote path:\n %s') % self.path)
         else:
             #returncode is 0
             logger.info('Create remote folder %s' % self.path)
@@ -335,7 +344,7 @@ class SSH(mount.MountControl):
             count += 1
             sleep(0.2)
         if result != 0:
-            raise mount.MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
+            raise MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
 
     def check_remote_commands(self):
         """try all relevant commands for take_snapshot on remote host.
@@ -352,7 +361,9 @@ class SSH(mount.MountControl):
         err = os.system(rsync)
         if err:
             os.remove(tmp_file)
-            raise mount.MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'command' : rsync, 'err' : err})
+            raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
+                                    '%(err)s\nLook at \'man backintime\' for further instructions') 
+                                    % {'host' : self.host, 'command' : rsync, 'err' : err})
         os.remove(tmp_file)
 
         #check cp chmod find and rm
@@ -414,11 +425,15 @@ class SSH(mount.MountControl):
         if proc.returncode or not output_split[-1].startswith('done'):
             for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice', 'nocache'):
                 if output_split[-1].startswith(command):
-                    raise mount.MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
+                    raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
+                                            '%(err)s\nLook at \'man backintime\' for further instructions')
+                                            % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
             if output_split[-1].startswith('gnu_find not supported'):
                 self.config.set_gnu_find_suffix_support(False, self.profile_id)
             else:
-                raise mount.MountException( _('Check commands on host %(host)s returned unknown error:\n%(err)s\nLook at \'man backintime\' for further instructions') % {'host' : self.host, 'err' : err})
+                raise MountException( _('Check commands on host %(host)s returned unknown error:\n'
+                                        '%(err)s\nLook at \'man backintime\' for further instructions')
+                                        % {'host' : self.host, 'err' : err})
 
         i = 1
         inode1 = 'ABC'
@@ -431,7 +446,7 @@ class SSH(mount.MountControl):
                 except IndexError:
                     pass
                 if not inode1 == inode2:
-                    raise mount.MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
+                    raise MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
             i += 1
 
     def random_id(self, size=6, chars=string.ascii_uppercase + string.digits):

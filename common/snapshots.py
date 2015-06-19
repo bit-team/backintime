@@ -37,6 +37,7 @@ import tools
 import encfstools
 import mount
 import progress
+from exceptions import MountException
 
 _=gettext.gettext
 
@@ -869,7 +870,7 @@ class Snapshots:
                 #mount
                 try:
                     hash_id = mount.Mount(cfg = self.config).mount()
-                except mount.MountException as ex:
+                except MountException as ex:
                     logger.error(str(ex))
                     instance.exit_application()
                     logger.info( 'Unlock' )
@@ -953,7 +954,7 @@ class Snapshots:
                 #unmount
                 try:
                     mount.Mount(cfg = self.config).umount(self.config.current_hash_id)
-                except mount.MountException as ex:
+                except MountException as ex:
                     logger.error(str(ex))
 
                 instance.exit_application()

@@ -30,6 +30,7 @@ import tools
 import qt4tools
 import mount
 import messagebox
+from exceptions import MountException
 
 _=gettext.gettext
 
@@ -1235,14 +1236,14 @@ class SettingsDialog( QDialog ):
             mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self)
             try:
                 mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
-            except mount.MountException as ex:
+            except MountException as ex:
                 self.error_handler(str(ex))
                 return False
 
             #okay, lets try to mount
             try:
                 hash_id = mnt.mount(mode = mode, check = False, **mount_kwargs)
-            except mount.MountException as ex:
+            except MountException as ex:
                 self.error_handler(str(ex))
                 return False
 
@@ -1266,7 +1267,7 @@ class SettingsDialog( QDialog ):
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
             try:
                 mnt.umount(hash_id = hash_id)
-            except mount.MountException as ex:
+            except MountException as ex:
                 self.error_handler(str(ex))
                 return False
         return True

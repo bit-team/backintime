@@ -25,14 +25,9 @@ import config
 import logger
 import tools
 import password
+from exceptions import MountException, HashCollision
 
 _=gettext.gettext
-
-class MountException(Exception):
-    pass
-
-class HashCollision(Exception):
-    pass
 
 class Mount(object):
     def __init__(self, cfg = None, profile_id = None, tmp_mount = False, parent = None):

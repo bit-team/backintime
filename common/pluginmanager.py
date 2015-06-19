@@ -22,8 +22,7 @@ import tools
 tools.register_backintime_path( 'common' )
 tools.register_backintime_path( 'plugins' )
 
-class StopException(Exception):
-    pass
+from exceptions import StopException
 
 class Plugin:
     def __init__( self ):

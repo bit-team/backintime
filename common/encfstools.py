@@ -30,7 +30,7 @@ import password_ipc
 import tools
 import sshtools
 import logger
-
+from exceptions import MountException, EncodeValueError
 _=gettext.gettext
 
 class EncFS_mount(mount.MountControl):
@@ -96,8 +96,8 @@ class EncFS_mount(mount.MountControl):
         output = proc.communicate()[0]
         self.backup_config()
         if proc.returncode:
-            raise mount.MountException( _('Can\'t mount \'%(command)s\':\n\n%(error)s') \
-                                       % {'command': ' '.join(encfs), 'error': output} )
+            raise MountException( _('Can\'t mount \'%(command)s\':\n\n%(error)s') \
+                                    % {'command': ' '.join(encfs), 'error': output} )
 
         thread.stop()
 
@@ -106,7 +106,7 @@ class EncFS_mount(mount.MountControl):
         try:
             subprocess.check_call(['fusermount', '-u', self.mountpoint])
         except subprocess.CalledProcessError:
-            raise mount.MountException( _('Can\'t unmount encfs %s') % self.mountpoint)
+            raise MountException( _('Can\'t unmount encfs %s') % self.mountpoint)
 
     def pre_mount_check(self, first_run = False):
         """check what ever conditions must be given for the mount"""
@@ -152,22 +152,22 @@ class EncFS_mount(mount.MountControl):
         else:
             msg = _('Config for encrypted folder not found.')
             if not self.tmp_mount:
-                raise mount.MountException( msg )
+                raise MountException( msg )
             else:
                 if not self.config.ask_question( msg + _('\nCreate a new encrypted folder?')):
-                    raise mount.MountException( _('Cancel') )
+                    raise MountException( _('Cancel') )
                 else:
                     pw = password.Password(self.config)
                     password_confirm = pw._get_password_from_user(self.parent, prompt = _('Please confirm password'))
                     if self.password == password_confirm:
                         return False
                     else:
-                        raise mount.MountException( _('Password doesn\'t match') )
+                        raise MountException( _('Password doesn\'t match') )
 
     def check_fuse(self):
         """check if encfs is installed and user is part of group fuse"""
         if not tools.check_command('encfs'):
-            raise mount.MountException( _('encfs not found. Please install e.g. \'apt-get install encfs\'') )
+            raise MountException( _('encfs not found. Please install e.g. \'apt-get install encfs\'') )
         if self.CHECK_FUSE_GROUP:
             user = self.config.get_user()
             try:
@@ -176,7 +176,7 @@ class EncFS_mount(mount.MountControl):
                 #group fuse doesn't exist. So most likely it isn't used by this distribution
                 return
             if not user in fuse_grp_members:
-                raise mount.MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
+                raise MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
 
     def check_version(self):
         """check encfs version.
@@ -189,7 +189,7 @@ class EncFS_mount(mount.MountControl):
             output = proc.communicate()[0]
             m = re.search(r'(\d\.\d\.\d)', output)
             if m and StrictVersion(m.group(1)) <= StrictVersion('1.7.2'):
-                raise mount.MountException( _('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
+                raise MountException( _('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
 
     def backup_config(self):
         """create a backup of encfs config file into local config folder

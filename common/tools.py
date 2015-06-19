@@ -37,6 +37,7 @@ except:
 
 import configfile
 import logger
+from exceptions import Timeout, InvalidChar, PermissionDeniedByPolicy
 
 ON_AC = 0
 ON_BATTERY = 1
@@ -810,9 +811,6 @@ class UniquenessSet:
         else:
             return self.reference == (st.st_size, int(st.st_mtime))
 
-class Timeout(Exception):
-    pass
-
 class Alarm(object):
     """
     Timeout for FIFO. This does not work with threading.
@@ -1022,20 +1020,6 @@ class ShutDown(object):
         unity_version = read_command_output('unity --version')
         m = re.match(r'unity ([\d\.]+)', unity_version)
         return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and process_exists('unity-panel-service')
-
-class InvalidChar(Exception):
-    def __init__(self, msg):
-        self.msg = msg
-
-    def __str__(self):
-        return self.msg
-
-class PermissionDeniedByPolicy(Exception):
-    def __init__(self, msg):
-        self.msg = msg
-
-    def __str__(self):
-        return self.msg
 
 class SetupUdev(object):
     """Setup Udev rules for starting BackInTime when a drive get connected.

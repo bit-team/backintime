@@ -35,6 +35,7 @@ import snapshots
 import guiapplicationinstance
 import mount
 import progress
+from exceptions import MountException
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -415,7 +416,7 @@ class MainWindow( QMainWindow ):
         try:
             mnt = mount.Mount(cfg = self.config, profile_id = profile_id, parent = self)
             hash_id = mnt.mount()
-        except mount.MountException as ex:
+        except MountException as ex:
             messagebox.critical( self, str(ex) )
         else:
             self.config.set_current_hash_id(hash_id)
@@ -492,7 +493,7 @@ class MainWindow( QMainWindow ):
         try:
             mnt = mount.Mount(cfg = self.config, parent = self)
             mnt.umount(self.config.current_hash_id)
-        except mount.MountException as ex:
+        except MountException as ex:
             messagebox.critical( self, str(ex) )
 
         self.config.save()
@@ -561,7 +562,7 @@ class MainWindow( QMainWindow ):
         try:
             mnt = mount.Mount(cfg = self.config, profile_id = old_profile_id, parent = self)
             hash_id = mnt.remount(new_profile_id)
-        except mount.MountException as ex:
+        except MountException as ex:
             messagebox.critical( self, str(ex) )
         else:
             self.config.set_current_hash_id(hash_id)
