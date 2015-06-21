@@ -238,6 +238,8 @@ class ConfigFileWithProfiles( ConfigFile ):
         return False
 
     def get_profile_name( self, profile_id = None ):
+        if profile_id is None:
+            profile_id = self.current_profile_id
         if profile_id == '1':
             default = self.default_profile_name
         else:
