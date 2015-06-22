@@ -892,7 +892,8 @@ class Snapshots:
                     self.set_take_snapshot_message( 0, '...' )
                     self.new_take_snapshot_log( now )
                     profile_id = self.config.get_current_profile()
-                    logger.info( "Profile_id: %s" % profile_id )
+                    profile_name = self.config.get_profile_name()
+                    logger.info( "Profile_id: %s %s" % (profile_id, profile_name) )
 
                     if not self.config.can_backup( profile_id ):
                         if self.config.PLUGIN_MANAGER.has_gui_plugins() and self.config.is_notify_enabled():
