@@ -110,6 +110,14 @@ class SettingsDialog( QDialog ):
             store_modes[key] = self.config.SNAPSHOT_MODES[key][1]
         self.fill_combo( self.combo_modes, store_modes )
 
+        #encfs security warning
+        self.encfsWarning = QLabel(_("<b>Warning:</b> %(app)s uses EncFS for encryption. A recent security audit "
+                                     "revealed several possible attack vectors for this. "
+                                     "Please take a look at 'A NOTE ON SECURITY' in 'man backintime'.") \
+                                   % {'app': self.config.APP_NAME} )
+        self.encfsWarning.setWordWrap(True)
+        layout.addWidget(self.encfsWarning)
+
         #Where to save snapshots
         group_box = QGroupBox( self )
         self.mode_local = group_box
@@ -1534,6 +1542,8 @@ class SettingsDialog( QDialog ):
         self.sb_bwlimit.setEnabled(enabled and self.cb_bwlimit.isChecked())
         self.cb_run_nocache_on_remote.setEnabled(enabled)
         self.cb_run_smart_remove_remote_in_background.setHidden(not enabled)
+
+        self.encfsWarning.setHidden(active_mode not in ('local_encfs', 'ssh_encfs'))
 
     def on_full_path_changed(self, dummy):
         if self.mode in ('ssh', 'ssh_encfs'):
