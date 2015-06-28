@@ -1,18 +1,3 @@
-backintime (1.1.6) unstable; urgency=low
-  * show Profile name in systrayicon menu
-  * Fix bug: encrypted remote backup hangs on 'start encfsctl encode process' (https://launchpad.net/bugs/1455925)
-  * make own Exceptions a childclass from BackInTimeException
-  * Fix bug: missing profile<N>.name crashed GUI
-  * Fix bug: Segmentation fault caused by two QApplication instances (https://launchpad.net/bugs/1463732)
-  * remove consolekit from dependencies
-  * Fix bug: no Changes [C] log entries with 'Check for changes' disabled (https://launchpad.net/bugs/1463367)
-  * Fix bug: some changed options from Settingsdialog where not respected during automatic tests after hitting OK
-  * Fix bug: python version check fails on python 3.3 (https://launchpad.net/bugs/1463686)
-  * Specifying the SSH private key whenever ssh is called (https://launchpad.net/bugs/1433682)
-  * add to in-/exclude directly from mainwindow (https://launchpad.net/bugs/1454856)
-  * Fix bug: pw-cache didn't start on Mint KDE because of missing stdout and stderr (https://launchpad.net/bugs/1431305)
-  * add option to run Smart Remove in background on remote host (https://launchpad.net/bugs/1457210)
-  * Use current profile when starting GUI from Systray
-  * Fix bug: failed to restore file names with white spaces using CLI (https://launchpad.net/bugs/1435602)
-  * Fix bug: UnboundLocalError with 'last_snapshot' in _free_space (https://launchpad.net/bugs/1437623)
- -- Germar Reitze <germar.reitze@gmail.com>  Sat, 27 Jun 2015 18:37:19 +0200
+backintime (1.1.7) unstable; urgency=low
+  * prepair next version
+ -- Germar Reitze <germar.reitze@gmail.com>  Sun, 28 Jun 2015 23:21:03 +0200
