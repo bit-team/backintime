@@ -1,5 +1,15 @@
 #!/bin/sh
 
+#clean up
+if [ -e Makefile ]; then
+	rm Makefile;
+fi
+
+#tmp files
+MAKEFILE="$(mktemp)"
+UNINSTALL_FILES="$(mktemp)"
+UNINSTALL_DIRS="$(mktemp)"
+
 #set default options
 PYTHON="--python3"
 
@@ -14,6 +24,63 @@ echo "--python"
 echo "\tuse 'python' to start Python3"
 echo "--python3"
 echo "\tuse 'python3' to start Python3"
+}
+
+addInstallFiles () {
+file=$1
+dest=$2
+mode=$3
+if [ -z "$mode" ]; then
+  mode=644
+fi
+for i in $(ls $file); do
+  addInstallFile "$i" "$dest" "$mode"
+done
+}
+
+addInstallFile () {
+file=$1
+dest=$2
+mode=$3
+if [ -z "$mode" ]; then
+  mode=644
+fi
+printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
+addUninstallFile "$file" "$dest"
+}
+
+addUninstallFile () {
+file=$(basename "$1")
+dest=$2
+#translation files will be renamed
+if [ "x$(basename $dest)" = "xbackintime.mo" ]; then
+  file=$dest
+  dest=""
+fi
+printf "\trm -f \$(DEST)$dest/$file\n" >> ${UNINSTALL_FILES}
+}
+
+addInstallDir () {
+dest=$1
+printf "\tinstall -d \$(DEST)$dest\n" >> ${MAKEFILE}
+addUninstallDir "$dest"
+}
+
+addUninstallDir () {
+dest=$1
+printf "\tif [ -d \$(DEST)$dest ]; then rmdir --ignore-fail-on-non-empty \$(DEST)$dest; fi\n" >> ${UNINSTALL_DIRS}
+}
+
+addComment () {
+printf "\t#install $1\n" >> ${MAKEFILE}
+printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
+printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
+}
+
+addNewline () {
+printf "\n" >> ${MAKEFILE}
+printf "\n" >> ${UNINSTALL_FILES}
+printf "\n" >> ${UNINSTALL_DIRS}
 }
 
 #get commandline arguments
@@ -36,8 +103,116 @@ sed -e "s#^python3\? #python${PYVERSION} #g" \
 sed -e "s#^Exec=/usr/bin/python3\? #Exec=/usr/bin/python${PYVERSION} #g" \
     -i $DBUS_SERVICE_FILES
 
-cp Makefile.template Makefile
+#start Makefile
+printf "PREFIX=/usr\n" >> ${MAKEFILE}
+printf "DEST=\$(DESTDIR)\$(PREFIX)\n\n" >> ${MAKEFILE}
 
+printf "all:\tbuild\n\n" >> ${MAKEFILE}
+
+printf "build:\tcompress\n\n" >> ${MAKEFILE}
+
+printf "clean:\n" >> ${MAKEFILE}
+printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
+printf "\trm -f man/C/*.gz\n\n" >> ${MAKEFILE}
+
+#create install and uninstall target
+printf "install:\n" >> ${MAKEFILE}
+addComment "python"
+addUninstallDir          "/share/backintime/qt4/__pycache__"
+addUninstallFile "*.pyc" "/share/backintime/qt4/__pycache__"
+addInstallDir            "/share/backintime/qt4"
+addInstallFiles "*.py"   "/share/backintime/qt4"
+addNewline
+
+addComment "plugin"
+addUninstallDir                "/share/backintime/plugins/__pycache__"
+addUninstallFile "*.pyc"       "/share/backintime/plugins/__pycache__"
+addInstallDir                  "/share/backintime/plugins"
+addInstallFiles "plugins/*.py" "/share/backintime/plugins"
+addUninstallDir                "/share/backintime"
+addNewline
+
+addComment "application"
+addInstallDir                   "/bin"
+addInstallFile "backintime-qt4" "/bin" "755"
+addNewline
+
+addComment "dbus service"
+addInstallDir                                       "/share/dbus-1/system-services"
+addInstallFiles "net.launchpad.backintime*.service" "/share/dbus-1/system-services"
+addUninstallDir                                     "/share/dbus-1"
+addNewline
+
+addComment "dbus conf"
+addInstallDir                                    "/../etc/dbus-1/system.d"
+addInstallFiles "net.launchpad.backintime*.conf" "/../etc/dbus-1/system.d"
+addUninstallDir                                  "/../etc/dbus-1"
+addUninstallDir                                  "/../etc"
+addNewline
+
+addComment "polkit action"
+addInstallDir                                      "/share/polkit-1/actions"
+addInstallFiles "net.launchpad.backintime*.policy" "/share/polkit-1/actions"
+addUninstallDir                                    "/share/polkit-1"
+addNewline
+
+addComment "documentation"
+addInstallDir                        "/share/doc/backintime-qt4"
+addInstallFile "../debian/copyright" "/share/doc/backintime-qt4"
+addInstallFile "../AUTHORS"          "/share/doc/backintime-qt4"
+addInstallFile "../LICENSE"          "/share/doc/backintime-qt4"
+addInstallFile "../README"           "/share/doc/backintime-qt4"
+addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-qt4"
+addInstallFile "../VERSION"          "/share/doc/backintime-qt4"
+addInstallFile "../CHANGES"          "/share/doc/backintime-qt4"
+addNewline
+
+addComment ".desktop"
+addInstallDir               "/share/applications"
+addInstallFiles "*.desktop" "/share/applications"
+addNewline
+
+addComment "docbook"
+addInstallDir                          "/share/doc/qt/HTML/en/backintime"
+addInstallFiles "docbook/en/*.docbook" "/share/doc/qt/HTML/en/backintime"
+addUninstallDir                        "/share/doc/qt/HTML/en"
+addUninstallDir                        "/share/doc/qt/HTML"
+addUninstallDir                        "/share/doc/qt"
+addUninstallDir                        "/share/doc"
+addNewline
+
+addComment "man"
+addInstallDir    "/share/man/man1"
+addInstallFile "man/C/backintime-qt4.1.gz" "/share/man/man1"
+addUninstallDir  "/share/man"
+addUninstallDir  "/share"
+addNewline
+
+#compress
+printf "compress:\n" >> ${MAKEFILE}
+printf "\t#man pages\n" >> ${MAKEFILE}
+printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
+
+#uninstall
+printf "uninstall: uninstall_files uninstall_dirs\n\n" >> ${MAKEFILE}
+printf "uninstall_files:\n" >> ${MAKEFILE}
+cat ${UNINSTALL_FILES} >> ${MAKEFILE}
+
+printf "uninstall_dirs:\n" >> ${MAKEFILE}
+cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
+
+#copy Makefile
+mv ${MAKEFILE} Makefile
+chmod 644 Makefile
+
+#clean up
+for i in "${UNINSTALL_FILES}" "${UNINSTALL_DIRS}"; do
+    if [ -e "$i" ]; then
+        rm "$i"
+    fi
+done
+
+#check python version
 if [ $(python${PYVERSION} --version 2>&1 | grep -c "^Python 3") -ne 1 ]; then
     printf "Wrong Python version.\n"
     printf "Please make sure Python 3.x is used by adding '--python' or '--python3'.\n"
