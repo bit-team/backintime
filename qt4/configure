@@ -49,15 +49,26 @@ printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
 addUninstallFile "$file" "$dest"
 }
 
+addInstallFileRename () {
+file=$1
+dest=$2
+mode=$3
+if [ -z "$mode" ]; then
+  mode=644
+fi
+printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
+addUninstallFileRename "$dest"
+}
+
 addUninstallFile () {
 file=$(basename "$1")
 dest=$2
-#translation files will be renamed
-if [ "x$(basename $dest)" = "xbackintime.mo" ]; then
-  file=$dest
-  dest=""
-fi
 printf "\trm -f \$(DEST)$dest/$file\n" >> ${UNINSTALL_FILES}
+}
+
+addUninstallFileRename () {
+file=$1
+printf "\trm -f \$(DEST)$file\n" >> ${UNINSTALL_FILES}
 }
 
 addInstallDir () {
