@@ -1,4 +1,4 @@
-.TH backintime-config 1 "May 2015" "version 1.1.7" "USER COMMANDS"
+.TH backintime-config 1 "Jul 2015" "version 1.1.7" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -704,6 +704,24 @@ Type: int       Allowed Values: 0-65535
 SSH Port on remote host.
 .PP
 Default: 22
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.prefix.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Add prefix to every command which run through SSH on remote host.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.prefix.value\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Prefix to run before every command on remote host. Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to add a prefix for rsync use \fIprofile<N>.snapshots.rsync_options.value\fR with --rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"
+.PP
+Default: 'PATH=/opt/bin:/opt/sbin:\\$PATH'
 .RE
 
 .IP "\fIprofile<N>.snapshots.ssh.private_key_file\fR" 6

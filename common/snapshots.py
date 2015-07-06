@@ -1729,6 +1729,8 @@ class Snapshots:
                     ssh_cipher_suffix = '-c %s' % ssh_cipher
                 ssh_private_key = "-o IdentityFile=%s" % ssh_private_key
 
+                cmd = self.config.ssh_prefix_cmd(cmd_type = str) + cmd
+
                 if self.config.is_run_ionice_on_remote_enabled():
                     cmd = 'ionice -c2 -n7 ' + cmd
 
@@ -1752,6 +1754,8 @@ class Snapshots:
                     suffix += ['-c', ssh_cipher]
                 suffix += ['-o', 'IdentityFile=%s' % ssh_private_key]
                 suffix += ['%s@%s' % (ssh_user, ssh_host)]
+
+                cmd = self.config.ssh_prefix_cmd(cmd_type = list) + cmd
 
                 if self.config.is_run_ionice_on_remote_enabled():
                     cmd = ['ionice', '-c2', '-n7'] + cmd

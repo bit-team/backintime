@@ -29,7 +29,7 @@ with open(os.path.join(PATH, '../VERSION'), 'r') as f:
     VERSION = f.read().strip('\n')
 SORT = True #True = sort by alphabet; False = sort by line numbering
 c = re.compile(r'.*?self\.get((?:_profile)?)_(.*?)_value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
-c_default = re.compile(r'(^DEFAULT[\w]*)[\s]*= ([\w]*)')
+c_default = re.compile(r'(^DEFAULT[\w]*)[\s]*= (.*)')
 
 HEADER = '''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
 .SH NAME
@@ -140,7 +140,7 @@ def main():
             line = line.lstrip()
             m_default = c_default.match(line)
             if m_default:
-                replace_default[m_default.group(1)] = m_default.group(2)
+                replace_default[m_default.group(1)] = m_default.group(2).replace('\\$', '\\\$')
                 continue
             if line.startswith('#?'):
                 commentline += line.lstrip('#?').rstrip('\n')

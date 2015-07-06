@@ -824,6 +824,30 @@ class SettingsDialog( QDialog ):
         enabled(False)
         QObject.connect( self.cb_rsync_options, SIGNAL('stateChanged(int)'), enabled)
 
+        #ssh prefix
+        hlayout = QHBoxLayout()
+        layout.addLayout(hlayout)
+        self.cb_ssh_prefix = QCheckBox( _('Add prefix to SSH commands'), self)
+        hlayout.addWidget(self.cb_ssh_prefix)
+        self.txt_ssh_prefix = QLineEdit(self)
+        self.txt_ssh_prefix.setToolTip( _('Prefix to run before every command on remote host.\n'
+                                          'Variables need to be escaped with \$FOO.\n'
+                                          'This doesn\'t touch rsync. So to add a prefix\n'
+                                          'for rsync use "%(cb_rsync_options)s" with\n'
+                                          '%(rsync_options_value)s\n\n'
+                                          '%(default)s: %(def_value)s')
+                                          % {'cb_rsync_options': self.cb_rsync_options.text(),
+                                             'rsync_options_value': '--rsync-path="FOO=bar:\$FOO /usr/bin/rsync"',
+                                             'default': _('default'),
+                                             'def_value': self.config.DEFAULT_SSH_PREFIX})
+        hlayout.addWidget(self.txt_ssh_prefix)
+
+        enabled = lambda state: self.txt_ssh_prefix.setEnabled(state)
+        enabled(False)
+        QObject.connect( self.cb_ssh_prefix, SIGNAL('stateChanged(int)'), enabled)
+
+        qt4tools.equal_indent(self.cb_rsync_options, self.cb_ssh_prefix)
+
         #
         layout.addStretch()
         scrollArea.setWidget(layoutWidget)
@@ -1103,6 +1127,8 @@ class SettingsDialog( QDialog ):
         self.cb_copy_links.setChecked( self.config.copy_links() )
         self.cb_rsync_options.setChecked(self.config.rsync_options_enabled() )
         self.txt_rsync_options.setText(self.config.rsync_options() )
+        self.cb_ssh_prefix.setChecked(self.config.ssh_prefix_enabled() )
+        self.txt_ssh_prefix.setText(self.config.ssh_prefix() )
 
         #update
         self.update_remove_older_than()
@@ -1238,6 +1264,8 @@ class SettingsDialog( QDialog ):
         self.config.set_copy_links( self.cb_copy_links.isChecked() )
         self.config.set_rsync_options_enabled(self.cb_rsync_options.isChecked() )
         self.config.set_rsync_options(self.txt_rsync_options.text() )
+        self.config.set_ssh_prefix_enabled(self.cb_ssh_prefix.isChecked() )
+        self.config.set_ssh_prefix(self.txt_ssh_prefix.text() )
 
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
             #pre_mount_check
@@ -1542,6 +1570,8 @@ class SettingsDialog( QDialog ):
         self.sb_bwlimit.setEnabled(enabled and self.cb_bwlimit.isChecked())
         self.cb_run_nocache_on_remote.setEnabled(enabled)
         self.cb_run_smart_remove_remote_in_background.setHidden(not enabled)
+        self.cb_ssh_prefix.setHidden(not enabled)
+        self.txt_ssh_prefix.setHidden(not enabled)
 
         self.encfsWarning.setHidden(active_mode not in ('local_encfs', 'ssh_encfs'))
 

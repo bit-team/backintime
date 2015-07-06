@@ -250,6 +250,7 @@ class SSH(mount.MountControl):
         """check passwordless authentication to host"""
         ssh = ['ssh', '-o', 'PreferredAuthentications=publickey']
         ssh.extend(self.ssh_options + [self.user_host])
+        ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
         ssh.extend(['echo', '"Hello"'])
         try:
             subprocess.check_call(ssh, stdout=subprocess.DEVNULL)
@@ -264,6 +265,7 @@ class SSH(mount.MountControl):
             ssh = ['ssh']
             ssh.extend(['-o', 'Ciphers=%s' % self.cipher])
             ssh.extend(self.ssh_options + [self.user_host])
+            ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
             ssh.extend(['echo', '"Hello"'])
             proc = subprocess.Popen(ssh,
                                     stdout=subprocess.DEVNULL,
@@ -287,7 +289,11 @@ class SSH(mount.MountControl):
             for i in range(2):
                 # scp uses -P instead of -p for port
                 subprocess.call(['scp', '-P', str(self.port), '-c', cipher, temp, self.user_host_path])
-        subprocess.call(['ssh'] + self.ssh_options + [self.user_host, 'rm', os.path.join(self.path, os.path.basename(temp))])
+        ssh = ['ssh']
+        ssh.extend(self.ssh_options + [self.user_host])
+        ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
+        ssh.extend(['rm', os.path.join(self.path, os.path.basename(temp)) ])
+        subprocess.call(ssh)
         os.remove(temp)
 
     def check_known_hosts(self):
@@ -312,8 +318,13 @@ class SSH(mount.MountControl):
         cmd += 'test -w %s || exit 12;' % self.path #path is not writeable
         cmd += 'test -x %s || exit 13;' % self.path #path is not executable
         cmd += 'exit 20'                             #everything is fine
+        ssh = ['ssh']
+        ssh.extend(self.ssh_options + [self.user_host])
+        ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
+        ssh.extend([cmd])
         try:
-            subprocess.check_call(['ssh'] + self.ssh_options + [ self.user_host, cmd], stdout=subprocess.DEVNULL)
+            subprocess.check_call(ssh,
+                                  stdout=subprocess.DEVNULL)
         except subprocess.CalledProcessError as ex:
             if ex.returncode == 20:
                 #clean exit
@@ -417,10 +428,14 @@ class SSH(mount.MountControl):
         cmd += 'test $err_gnu_find -ne 0 && echo \"gnu_find not supported\" && exit $err_gnu_find; '
         #if we end up here, everything should be fine
         cmd += 'echo \"done\"'
-        proc = subprocess.Popen(['ssh'] + self.ssh_options + [self.user_host, cmd],
-                                        stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE,
-                                        universal_newlines = True)
+        ssh = ['ssh']
+        ssh.extend(self.ssh_options + [self.user_host])
+        ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
+        ssh.extend([cmd])
+        proc = subprocess.Popen(ssh,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                universal_newlines = True)
         output, err = proc.communicate()
 
         output_split = output.split('\n')

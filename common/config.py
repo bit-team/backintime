@@ -22,6 +22,7 @@ import gettext
 import socket
 import random
 import re
+import shlex
 try:
     import pwd
 except ImportError:
@@ -118,6 +119,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     DEFAULT_RUN_IONICE_ON_REMOTE = False
     DEFAULT_RUN_NOCACHE_ON_LOCAL  = False
     DEFAULT_RUN_NOCACHE_ON_REMOTE = False
+    DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\$PATH'
 
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
@@ -1072,6 +1074,35 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_rsync_options( self, value, profile_id = None ):
         return self.set_profile_str_value( 'snapshots.rsync_options.value', value, profile_id )
+
+    def ssh_prefix_enabled(self, profile_id = None):
+        #?Add prefix to every command which run through SSH on remote host.
+        return self.get_profile_bool_value('snapshots.ssh.prefix.enabled', False, profile_id)
+
+    def set_ssh_prefix_enabled(self, value, profile_id = None):
+        return self.set_profile_bool_value('snapshots.ssh.prefix.enabled', value, profile_id)
+
+    def ssh_prefix(self, profile_id = None):
+        #?Prefix to run before every command on remote host. Variables need to be escaped with \\$FOO. 
+        #?This doesn't touch rsync. So to add a prefix for rsync use 
+        #?\fIprofile<N>.snapshots.rsync_options.value\fR with 
+        #?--rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"
+        return self.get_profile_str_value('snapshots.ssh.prefix.value', self.DEFAULT_SSH_PREFIX, profile_id)
+
+    def set_ssh_prefix(self, value, profile_id = None):
+        return self.set_profile_str_value('snapshots.ssh.prefix.value', value, profile_id)
+
+    def ssh_prefix_cmd(self, profile_id = None, cmd_type = str):
+        if cmd_type == list:
+            if self.ssh_prefix_enabled(profile_id):
+                return shlex.split(self.ssh_prefix(profile_id))
+            else:
+                return []
+        if cmd_type == str:
+            if self.ssh_prefix_enabled(profile_id):
+                return self.ssh_prefix(profile_id).strip() + ' '
+            else:
+                return ''
 
     def continue_on_errors( self, profile_id = None ):
         #?Continue on errors. This will keep incomplete snapshots rather than 

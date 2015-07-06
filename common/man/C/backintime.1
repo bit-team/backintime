@@ -113,8 +113,8 @@ as not secure anymore.
 If your remote host is an embedded Linux NAS or any other device with limited 
 functions, you could run into some problems caused by feature-less commands.
 For example some devices may not have hardlink support for 'cp', 'chmod' 
-and 'rsync'. In this case it may help to install so-called Optware on your 
-device if available.
+and 'rsync'. In this case it may help to install so-called Optware or Entware 
+on your device if available.
 .PP
 .B WARNING: THIS IS ONLY FOR EXPERIENCED USERS!
 .br
@@ -126,8 +126,9 @@ You have been warned!
 .PP
 You should install at least packages called 'bash', 'coreutils' and 'rsync'. 
 You will have to change users default shell from '/bin/sh' to '/opt/bin/bash' 
-in '/etc/passwd'. Add '/opt/bin:/opt/sbin:' to the start of the PATH environment 
-variable in '/etc/profiles'.
+in '/etc/passwd'. To add '/opt/bin:/opt/sbin:' to the start of the PATH environment 
+you can use 'Add prefix to SSH commands' in 'Expert Options' 
+with 'PATH=/opt/bin:/opt/sbin:\\\$PATH'.
 .PP
 To check if it does work you can compare the output of '/bin/cp \-\-help' 
 and '/opt/bin/cp \-\-help'. If 'ssh <user>@<host> cp \-\-help' called from 
