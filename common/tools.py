@@ -23,6 +23,7 @@ import signal
 import re
 import dbus
 import errno
+import gzip
 from datetime import datetime
 from distutils.version import StrictVersion
 keyring = None
@@ -60,8 +61,12 @@ def read_file( path, default_value = None ):
     ret_val = default_value
 
     try:
-        with open( path ) as f:
-            ret_val = f.read()
+        if os.path.exists(path):
+            with open( path ) as f:
+                ret_val = f.read()
+        elif os.path.exists(path + '.gz'):
+            with gzip.open(path + '.gz') as f:
+                ret_val = f.read()
     except:
         pass
 
@@ -72,8 +77,12 @@ def read_file_lines( path, default_value = None ):
     ret_val = default_value
 
     try:
-        with open( path ) as f:
-            ret_val = f.readlines()
+        if os.path.exists(path):
+            with open( path ) as f:
+                ret_val = f.readlines()
+        elif os.path.exists(path + '.gz'):
+            with gzip.open(path + '.gz') as f:
+                ret_val = f.readlines()
     except:
         pass
 

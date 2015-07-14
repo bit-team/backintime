@@ -1499,7 +1499,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             cmd += '--profile-id %s ' % profile_id
         if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:
             cmd += '--config %s ' % self._LOCAL_CONFIG_PATH
-        cmd += '--backup-job >/dev/null 2>&1'
+        cmd += 'backup-job >/dev/null 2>&1'
         if self.is_run_ionice_from_cron_enabled(profile_id) and tools.check_command('ionice'):
             cmd = tools.which('ionice') + ' -c2 -n7 ' + cmd
         if self.is_run_nice_from_cron_enabled( profile_id ) and tools.check_command('nice'):

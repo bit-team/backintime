@@ -18,6 +18,7 @@
 import os
 import sys
 import gettext
+import argparse
 
 import config
 import logger
@@ -32,6 +33,9 @@ from exceptions import MountException
 
 _=gettext.gettext
 
+RETURN_OK = 0
+RETURN_ERR = 1
+RETURN_NO_CFG = 2
 
 def take_snapshot_now_async( cfg ):
     cmd = ''
@@ -42,7 +46,7 @@ def take_snapshot_now_async( cfg ):
         cmd += '--profile-id %s ' % cfg.get_current_profile()
     if not cfg._LOCAL_CONFIG_PATH is cfg._DEFAULT_CONFIG_PATH:
         cmd += '--config %s ' % cfg._LOCAL_CONFIG_PATH
-    cmd += '--backup &'
+    cmd += 'backup &'
 
     os.system( cmd )
 
@@ -59,7 +63,7 @@ def _mount(cfg):
         hash_id = mount.Mount(cfg = cfg).mount()
     except MountException as ex:
         logger.error(str(ex))
-        sys.exit(1)
+        sys.exit(RETURN_ERR)
     else:
         cfg.set_current_hash_id(hash_id)
 
@@ -69,370 +73,486 @@ def _umount(cfg):
     except MountException as ex:
         logger.error(str(ex))
 
+def start_app(app_name = 'backintime'):
+    #define config argument
+    configArgsParser = argparse.ArgumentParser(add_help = False)
+    configArgsParser.add_argument('--config',
+                                 metavar = 'PATH',
+                                 type = str,
+                                 action = 'store',
+                                 help = 'Read config from %(metavar)s.')
 
-def print_version( cfg, app_name ):
-    print('')
-    print('Back In Time')
-    print('Version: ' + cfg.VERSION)
-    print('')
-    print('Back In Time comes with ABSOLUTELY NO WARRANTY.')
-    print('This is free software, and you are welcome to redistribute it')
-    print("under certain conditions; type `%s --license\' for details." % app_name)
-    print('')
+    #define common arguments which are used for all commands
+    commonArgsParser = argparse.ArgumentParser(add_help = False, parents = [configArgsParser])
+    profileGroup = commonArgsParser.add_mutually_exclusive_group()
+    profileGroup.add_argument    ('--profile',
+                                  metavar = 'NAME',
+                                  type = str,
+                                  action = 'store',
+                                  help = 'Select profile by %(metavar)s.')
+    profileGroup.add_argument    ('--profile-id',
+                                  metavar = 'ID',
+                                  type = int,
+                                  action = 'store',
+                                  help = 'Select profile by %(metavar)s.')
+    commonArgsParser.add_argument('--quiet',
+                                  action = 'store_true',
+                                  help = 'Be quiet. Suppress messages on stdout.')
 
+    #define arguments which are only used by snapshots-path, snapshots-list-path and last-snapshot-path
+    snapshotPathParser = argparse.ArgumentParser(add_help = False)
+    snapshotPathParser.add_argument('--keep-mount',
+                                    action = 'store_true',
+                                    help = "Don't unmount on exit.")
 
-def print_help( cfg ):
-    print('OPTIONS (use these before other actions):')
-    print('--profile <profile name>')
-    print('\tSelect profile by name')
-    print('--profile-id <profile id>')
-    print('\tSelect profile by id')
-    print('--keep-mount')
-    print('\tDon\'t unmount on exit. Only valid with')
-    print('\t--snapshots-list-path and --last-snapshot-path.')
-    print('--quiet')
-    print('\tBe quiet. Suppress messages on stdout.')
-    print('--config PATH')
-    print('\tread config from PATH.')
-    print('--checksum')
-    print('\tforce to use checksum for checking if files have been changed.')
-    print('')
-    print('ACTIONS:')
-    print('-b | --backup')
-    print('\tTake a snapshot (and exit)')
-    print('--backup-job')
-    print('\tUsed for cron job: take a snapshot (and exit)')
-    print('--snapshots-path')
-    print('\tShow the path where is saves the snapshots (and exit)')
-    print('--snapshots-list')
-    print('\tShow the list of snapshots IDs (and exit)')
-    print('--snapshots-list-path')
-    print('\tShow the paths to snapshots (and exit)')
-    print('--last-snapshot')
-    print('\tShow the ID of the last snapshot (and exit)')
-    print('--last-snapshot-path')
-    print('\tShow the path to the last snapshot (and exit)')
-    print('--unmount')
-    print('\tUnmount the profile.')
-    print('--benchmark-cipher [file-size]')
-    print('\tShow a benchmark of all ciphers for ssh transfer (and exit)')
-    print('--pw-cache [start|stop|restart|reload|status]')
-    print('\tControl Password Cache for non-interactive cronjobs')
-    print('--decode [encoded_PATH]')
-    print('\tDecode PATH. If no PATH is specified on command line')
-    print('\ta list of filenames will be read from stdin.')
-    print('--remove [SNAPSHOT_ID]')
-    print('\tRemove the snapshot.')
-    print('--remove-and-do-not-ask-again [SNAPSHOT_ID]')
-    print('\tRemove the snapshot and don\'t ask for confirmation before. Be careful!')
-    print('--restore [WHAT [WHERE [SNAPSHOT_ID]]]')
-    print('\tRestore file WHAT to path WHERE from snapshot SNAPSHOT_ID.')
-    print('\tIf arguments are missing they will be prompted.')
-    print('-v | --version')
-    print('\tShow version (and exit)')
-    print('--license')
-    print('\tShow license (and exit)')
-    print('-h | --help')
-    print('\tShow this help (and exit)')
-    print('')
+    #define arguments which are used by rsync commands (backup and restore)
+    rsyncArgsParser = argparse.ArgumentParser(add_help = False)
+    rsyncArgsParser.add_argument('--checksum',
+                                 action = 'store_true',
+                                 help = 'force to use checksum for checking if files have been changed.')
 
+    #define arguments for snapshot remove
+    removeArgsParser = argparse.ArgumentParser(add_help = False)
+    removeArgsParser.add_argument('SNAPSHOT_ID',
+                                  type = str,
+                                  action = 'store',
+                                  nargs = '*',
+                                  help = 'ID of snapshots which should be removed.')
 
-def start_app( app_name = 'backintime', extra_args = [] ):
-    force_stdout = sys.stdout
-    if '--quiet' in sys.argv:
-        f = open(os.devnull, 'w')
-        sys.stdout = f
+    #define main argument parser
+    parser = argparse.ArgumentParser(prog = app_name,
+                                     parents = [commonArgsParser],
+                                     description = '%(app)s - a simple backup tool for Linux.'
+                                                   % {'app': config.Config.APP_NAME},
+                                     epilog = "For backwards compatibility commands can also be used with trailing '--'. "
+                                              "Run '%(app_name)s <COMMAND> -h' for more information on the commands."
+                                              % {'app_name': app_name})
+    parser.add_argument('--version', '-v',
+                        action = 'version',
+                        version = '%(prog)s ' + str(config.Config.VERSION),
+                        help = "show %(prog)s's version number.")
+    parser.add_argument('--license',
+                        action = printLicense,
+                        nargs = 0,
+                        help = "show %(prog)s's license.")
 
-    config_path = None
-    if '--config' in sys.argv:
-        i = sys.argv.index('--config')
-        try:
-            path = sys.argv[i + 1]
-            if os.path.isfile(path):
-                config_path = path
-        except IndexError:
-            pass
+    #######################
+    ### define commands ###
+    #######################
+    subparsers = parser.add_subparsers(help = 'Commands')
+    command = 'backup'
+    nargs = 0
+    aliases = [(command, nargs), ('b', nargs)]
+    description = 'Take a new snapshot. Ignore if the profile ' +\
+                  'is not scheduled or if the machine runs on battery.'
+    backupCP =             subparsers.add_parser(command,
+                                                 parents = [commonArgsParser, rsyncArgsParser],
+                                                 help = description,
+                                                 description = description)
+    backupCP.set_defaults(func = backup)
 
-    cfg = config.Config(config_path)
-    print_version( cfg, app_name )
+    command = 'backup-job'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Take a new snapshot in background only '      +\
+                  'if the profile is scheduled and the machine ' +\
+                  'is not on battery. This is use by cron jobs.'
+    backupJobCP =          subparsers.add_parser(command,
+                                                 parents = [commonArgsParser, rsyncArgsParser],
+                                                 help = description,
+                                                 description = description)
+    backupJobCP.set_defaults(func = backupJob)
+
+    command = 'snapshots-path'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Show the path where snapshots are stored.'
+    snapshotsPathCP =      subparsers.add_parser(command,
+                                                 parents = [commonArgsParser, snapshotPathParser],
+                                                 help = description,
+                                                 description = description)
+    snapshotsPathCP.set_defaults(func = snapshotsPath)
+
+    command = 'snapshots-list'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Show a list of snapshots IDs.'
+    snapshotsListCP =      subparsers.add_parser(command,
+                                                 parents = [commonArgsParser],
+                                                 help = description,
+                                                 description = description)
+    snapshotsListCP.set_defaults(func = snapshotsList)
+
+    command = 'snapshots-list-path'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = "Show the path's to snapshots."
+    snapshotsListPathCP =  subparsers.add_parser(command,
+                                                 parents = [commonArgsParser, snapshotPathParser],
+                                                 help = description,
+                                                 description = description)
+    snapshotsListPathCP.set_defaults(func = snapshotsListPath)
+
+    command = 'last-snapshot'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Show the ID of the last snapshot.'
+    lastSnapshotCP =       subparsers.add_parser(command,
+                                                 parents = [commonArgsParser],
+                                                 help = description,
+                                                 description = description)
+    lastSnapshotCP.set_defaults(func = lastSnapshot)
+
+    command = 'last-snapshot-path'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Show the path of the last snapshot.'
+    lastSnapshotsPathCP =  subparsers.add_parser(command,
+                                                 parents = [commonArgsParser, snapshotPathParser],
+                                                 help = description,
+                                                 description = description)
+    lastSnapshotsPathCP.set_defaults(func = lastSnapshotPath)
+
+    command = 'unmount'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Unmount the profile.'
+    unmountCP =            subparsers.add_parser(command,
+                                                 parents = [commonArgsParser],
+                                                 help = description,
+                                                 description = description)
+    unmountCP.set_defaults(func = unmount)
+
+    command = 'benchmark-cipher'
+    nargs = '?'
+    aliases.append((command, nargs))
+    description = 'Show a benchmark of all ciphers for ssh transfer.'
+    benchmarkCipherCP =    subparsers.add_parser(command,
+                                                 parents = [commonArgsParser],
+                                                 help = description,
+                                                 description = description)
+    benchmarkCipherCP.set_defaults(func = benchmarkCipher)
+    benchmarkCipherCP.add_argument              ('FILE_SIZE',
+                                                 type = int,
+                                                 action = 'store',
+                                                 default = 40,
+                                                 nargs = '?',
+                                                 help = 'File size used to for benchmark.')
+
+    command = 'pw-cache'
+    nargs = '*'
+    aliases.append((command, nargs))
+    description = 'Control Password Cache for non-interactive cronjobs.'
+    pwCacheCP =            subparsers.add_parser(command,
+                                                 parents = [configArgsParser],
+                                                 help = description,
+                                                 description = description)
+    pwCacheCP.set_defaults(func = pwCache)
+    pwCacheCP.add_argument                      ('COMMAND',
+                                                 action = 'store',
+                                                 choices = ['start', 'stop', 'restart', 'reload', 'status'],
+                                                 nargs = '?',
+                                                 help = 'Command to send to Password Cache daemon.')
+
+    command = 'decode'
+    nargs = '*'
+    aliases.append((command, nargs))
+    description = "Decode pathes with 'encfsctl decode'"
+    decodeCP =             subparsers.add_parser(command,
+                                                 parents = [commonArgsParser],
+                                                 help = description,
+                                                 description = description)
+    decodeCP.set_defaults(func = decode)
+    decodeCP.add_argument                       ('PATH',
+                                                 type = str,
+                                                 action = 'store',
+                                                 nargs = '*',
+                                                 help = 'Decode PATH. If no PATH is specified on command line ' +\
+                                                 'a list of filenames will be read from stdin.')
+
+    command = 'remove'
+    nargs = '*'
+    aliases.append((command, nargs))
+    description = 'Remove a snapshot.'
+    removeCP =             subparsers.add_parser(command,
+                                                 parents = [commonArgsParser, removeArgsParser],
+                                                 help = description,
+                                                 description = description)
+    removeCP.set_defaults(func = remove)
+
+    command = 'remove-and-do-not-ask-again'
+    nargs = '*'
+    aliases.append((command, nargs))
+    description = "Remove snapshots and don't ask for confirmation before. Be careful!"
+    removeDoNotAskCP =     subparsers.add_parser(command,
+                                                 parents = [commonArgsParser, removeArgsParser],
+                                                 help = description,
+                                                 description = description)
+    removeDoNotAskCP.set_defaults(func = removeAndDoNotAskAgain)
+
+    command = 'restore'
+    nargs = '*'
+    aliases.append((command, nargs))
+    description = 'Restore files.'
+    restoreCP =            subparsers.add_parser(command,
+                                                 parents = [commonArgsParser],
+                                                 help = description,
+                                                 description = description)
+    restoreCP.set_defaults(func = restore)
+    restoreCP.add_argument                      ('WHAT',
+                                                 type = str,
+                                                 action = 'store',
+                                                 nargs = '?',
+                                                 help = 'Restore file or folder WHAT.')
+
+    restoreCP.add_argument                      ('WHERE',
+                                                 type = str,
+                                                 action = 'store',
+                                                 nargs = '?',
+                                                 help = "Restore to WHERE. An empty argument '' will restore to original destination.")
+
+    restoreCP.add_argument                      ('SNAPSHOT_ID',
+                                                 type = str,
+                                                 action = 'store',
+                                                 nargs = '?',
+                                                 help = 'Which SNAPSHOT_ID should be used. This can be a snapshot ID or ' +\
+                                                 'an integer starting with 0 for the last snapshot, 1 for the overlast, ... the very first snapshot is -1')
+
+    #define aliases for all commands with trailing --
+    group = parser.add_mutually_exclusive_group()
+    for alias, nargs in aliases:
+        if len(alias) == 1:
+            arg = '-%s' % alias
+        else:
+            arg = '--%s' % alias
+        group.add_argument(arg,
+                           nargs = nargs,
+                           action = PseudoAliasAction,
+                           help = argparse.SUPPRESS)
+
+    #parse args
+    args = parser.parse_args()
 
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
-        print("WARNING: It looks like you're using 'sudo' to start BackInTime. " +      \
-              "This will cause some troubles. Please use either 'sudo -i backintime' "+ \
-              "for command-line or 'pkexec backintime-qt4' for the GUI instead.",       \
+        print("WARNING: It looks like you're using 'sudo' to start %(app)s. "
+              "This will cause some troubles. Please use either 'sudo -i %(app_name)s' "
+              "or 'pkexec %(app_name)s'." % {'app_name': app_name, 'app': config.Config.APP_NAME},
               file=sys.stderr)
 
-    skip = False
-    index = 0
-    keep_mount = False
+    #call commands
+    if 'func' in dir(args):
+        
+        args.func(args)
+    else:
+        return getConfig(args, False)
 
-    for arg in sys.argv[ 1 : ]:
-        index = index + 1
+class PseudoAliasAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        #TODO: find a more elegant way to solve this
+        dest = self.dest.replace('_', '-')
+        if self.dest == 'b':
+            replace = '-b'
+            alias = 'backup'
+        else:
+            replace = '--%s' % dest
+            alias = dest
+        setattr(namespace, 'func', aliasParser)
+        setattr(namespace, 'replace', replace)
+        setattr(namespace, 'alias', alias)
+        setattr(namespace, 'parser', parser)
 
-        if skip:
-            skip = False
-            continue
+def aliasParser(args):
+    logger.info("Run command '%(alias)s' instead of argument '%(replace)s' due to backwards compatibility."
+                % {'alias': args.alias, 'replace': args.replace})
+    argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
+    newArgs = args.parser.parse_args(argv)
+    if 'func' in dir(newArgs):
+        newArgs.func(newArgs)
 
-        if arg == '--profile':
-            if not cfg.set_current_profile_by_name( sys.argv[index + 1] ):
-                print("Profile not found: %s" % sys.argv[index + 1], file=sys.stderr)
-                sys.exit(0)
-            skip = True
-            continue
-
-        if arg == '--profile-id':
-            if not cfg.set_current_profile( sys.argv[index + 1] ):
-                print("Profile id not found: %s" % sys.argv[index + 1], file=sys.stderr)
-                sys.exit(0)
-            skip = True
-            continue
-
-        if arg == '--backup' or arg == '-b':
-            ret = take_snapshot( cfg, True )
-            sys.exit(int(not ret))
-
-        if arg == '--backup-job':
-            ret = take_snapshot( cfg, False )
-            sys.exit(int(not ret))
-
-        if arg == '--version' or arg == '-v':
-            sys.exit(0)
-
-        if arg == '--license':
-            print(cfg.get_license())
-            sys.exit(0)
-
-        if arg == '--help' or arg == '-h':
-            print_help( cfg )
-            sys.exit(0)
-
-        if arg == '--snapshots-path':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-            else:
-                print("SnapshotsPath: %s" % cfg.get_snapshots_full_path(), file=force_stdout)
-            sys.exit(0)
-
-        if arg == '--snapshots-list':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-            else:
-                _mount(cfg)
-                list_ = snapshots.Snapshots( cfg ).get_snapshots_list()
-                if not list_:
-                    print("There are no snapshots", file=sys.stderr)
-                else:
-                    for snapshot_id in list_:
-                        print("SnapshotID: %s" % snapshot_id, file=force_stdout)
-                _umount(cfg)
-            sys.exit(0)
-
-        if arg == '--snapshots-list-path':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-            else:
-                _mount(cfg)
-                s = snapshots.Snapshots( cfg )
-                list_ = s.get_snapshots_list()
-                if not list_:
-                    print("There are no snapshots", file=sys.stderr)
-                else:
-                    for snapshot_id in list_:
-                        print("SnapshotPath: %s" % s.get_snapshot_path( snapshot_id ), file=force_stdout)
-                if not keep_mount:
-                    _umount(cfg)
-            sys.exit(0)
-
-        if arg == '--last-snapshot':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-            else:
-                _mount(cfg)
-                list_ = snapshots.Snapshots( cfg ).get_snapshots_list()
-                if not list_:
-                    print("There are no snapshots", file=sys.stderr)
-                else:
-                    print("SnapshotID: %s" % list_[0], file=force_stdout)
-                _umount(cfg)
-            sys.exit(0)
-
-        if arg == '--last-snapshot-path':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-            else:
-                _mount(cfg)
-                s = snapshots.Snapshots( cfg )
-                list_ = s.get_snapshots_list()
-                if not list_:
-                    print("There are no snapshots", file=sys.stderr)
-                else:
-                    print("SnapshotPath: %s" % s.get_snapshot_path( list_[0] ), file=force_stdout)
-                if not keep_mount:
-                    _umount(cfg)
-            sys.exit(0)
-
-        if arg == '--keep-mount':
-            keep_mount = True
-            continue
-
-        if arg == '--unmount':
-            _mount(cfg)
-            _umount(cfg)
-            sys.exit(0)
-
-        if arg == '--benchmark-cipher':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-            else:
-                try:
-                    size = sys.argv[index + 1]
-                except IndexError:
-                    size = '40'
-                if cfg.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-                    ssh = sshtools.SSH(cfg=cfg)
-                    ssh.benchmark_cipher(size)
-                else:
-                    print('ssh is not configured !', file=sys.stderr)
-            sys.exit(0)
-
-        if arg == '--pw-cache':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-            else:
-                logger.openlog()
-                daemon = password.Password_Cache(cfg)
-                try:
-                    if sys.argv[index + 1].startswith('-'):
-                        daemon.run()
-                    elif 'start' == sys.argv[index + 1]:
-                        daemon.start()
-                    elif 'stop' == sys.argv[index + 1]:
-                        daemon.stop()
-                    elif 'restart' == sys.argv[index + 1]:
-                        daemon.restart()
-                    elif 'reload' == sys.argv[index + 1]:
-                        daemon.reload()
-                    elif 'status' == sys.argv[index + 1]:
-                        print('Backintime Password Cache:', end=' ', file=force_stdout)
-                        if daemon.status():
-                            print('running', file=force_stdout)
-                        else:
-                            print('not running', file=force_stdout)
-                    else:
-                        print("Unknown command")
-                        print("usage: %s %s start|stop|restart|reload|status" % (sys.argv[0], sys.argv[index]))
-                        sys.exit(2)
-                except IndexError:
-                    daemon.run()
-                logger.closelog()
-                sys.exit(0)
-
-        if arg == '--decode':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-            else:
-                mode = cfg.get_snapshots_mode()
-                if not mode in ['local_encfs', 'ssh_encfs']:
-                    print('Profile \'%s\' is not encrypted.' % cfg.get_profile_name(), file=sys.stderr)
-                path = ''
-                list_ = []
-                try:
-                    path = sys.argv[index + 1]
-                except IndexError:
-                    pass
-                if path:
-                    list_.append(path)
-                else:
-                    while True:
-                        try:
-                            path = input()
-                        except EOFError:
-                            break
-                        if not path:
-                            break
-                        list_.append(path)
-
-                _mount(cfg)
-                decode = encfstools.Decode(cfg)
-                ret = decode.list(list_)
-                decode.close()
-                _umount(cfg)
-
-                print('\n'.join(ret), file=force_stdout)
-                sys.exit(0)
-
-        if arg == '--restore':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-            what = None
-            where = None
-            snapshot_id = None
-
-            try:
-                what = sys.argv[index + 1]
-                where = sys.argv[index + 2]
-                snapshot_id = sys.argv[index + 3]
-            except IndexError:
-                pass
-
-            _mount(cfg)
-            cli.restore(cfg, snapshot_id, what, where)
-            _umount(cfg)
-            sys.exit(0)
-
-        if arg == '--remove' or arg == '--remove-and-do-not-ask-again':
-            if not cfg.is_configured():
-                print("The application is not configured !", file=sys.stderr)
-                sys.exit(2)
-
-            force = arg == '--remove-and-do-not-ask-again'
-            snapshot_id = None
-            try:
-                snapshot_id = sys.argv[index + 1]
-            except IndexError:
-                pass
-
-            _mount(cfg)
-            cli.remove(cfg, snapshot_id, force)
-            _umount(cfg)
-            sys.exit(0)
-
-        if arg == '--checksum':
-            print('Force using checksum')
-            cfg.force_use_checksum = True
-            continue
-
-        if arg == '--snapshots' or arg == '-s':
-            continue
-
-        if arg == '--gnome' or arg == '--kde4' or arg == '--kde3':
-            continue
-
-        if arg == '--quiet':
-            continue
-
-        if arg == '--config':
-            skip = True
-            continue
-
-        if arg[0] == '-':
-            if not arg[0] in extra_args:
-                print("Ignore option: %s" % arg)
-            continue
-
+def getConfig(args, check = True):
+    cfg = config.Config(args.config)
+    if 'profile_id' in args and args.profile_id:
+        if not cfg.set_current_profile(args.profile_id):
+            print('Profile-ID not found: %s' % args.profile_id, file = sys.stderr)
+            sys.exit(RETURN_ERR)
+    if 'profile' in args and args.profile:
+        if not cfg.set_current_profile_by_name(args.profile):
+            print('Profile not found: %s' % args.profile, file = sys.stderr)
+            sys.exit(RETURN_ERR)
+    if check and not cfg.is_configured():
+        print('%(app)s is not configured!' %{'app': cfg.APP_NAME}, file = sys.stderr)
+        sys.exit(RETURN_NO_CFG)
+    if 'checksum' in args:
+        cfg.force_use_checksum = args.checksum
     return cfg
 
+def setQuiet(args):
+    force_stdout = sys.stdout
+    if args.quiet:
+        sys.stdout = open(os.devnull, 'w')
+    return force_stdout
+
+class printLicense(argparse.Action):
+    def __init__(self, *args, **kwargs):
+        super(printLicense, self).__init__(*args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+        cfg = config.Config()
+        print(cfg.get_license())
+        sys.exit(RETURN_OK)
+
+def backup(args, force = True):
+    setQuiet(args)
+    cfg = getConfig(args)
+    ret = take_snapshot(cfg, force)
+    sys.exit(int(not ret))
+
+def backupJob(args):
+    backup(args, False)
+
+def snapshotsPath(args):
+    force_stdout = setQuiet(args)
+    cfg = getConfig(args)
+    print('SnapshotsPath: %s' % cfg.get_snapshots_full_path(), file=force_stdout)
+    sys.exit(RETURN_OK)
+
+def snapshotsList(args):
+    force_stdout = setQuiet(args)
+    cfg = getConfig(args)
+    _mount(cfg)
+    s = snapshots.Snapshots(cfg)
+    snapshots_list = s.get_snapshots_list()
+    if snapshots_list:
+        for snapshot_id in snapshots_list:
+            print('SnapshotID: %s' % snapshot_id, file=force_stdout)
+    else:
+        print("There are no snapshots in '%s'" % cfg.get_profile_name(), file = sys.stderr)
+    _umount(cfg)
+    sys.exit(RETURN_OK)
+
+def snapshotsListPath(args):
+    force_stdout = setQuiet(args)
+    cfg = getConfig(args)
+    _mount(cfg)
+    s = snapshots.Snapshots(cfg)
+    snapshots_list = s.get_snapshots_list()
+    if snapshots_list:
+        for snapshot_id in snapshots_list:
+            print('SnapshotPath: %s' % s.get_snapshot_path(snapshot_id), file=force_stdout)
+    else:
+        print("There are no snapshots in '%s'" % cfg.get_profile_name(), file = sys.stderr)
+    if not args.keep_mount:
+        _umount(cfg)
+    sys.exit(RETURN_OK)
+
+def lastSnapshot(args):
+    force_stdout = setQuiet(args)
+    cfg = getConfig(args)
+    _mount(cfg)
+    s = snapshots.Snapshots(cfg)
+    snapshots_list = s.get_snapshots_list()
+    if snapshots_list:
+        print('SnapshotID: %s' % snapshots_list[0], file=force_stdout)
+    else:
+        print("There are no snapshots in '%s'" % cfg.get_profile_name(), file = sys.stderr)
+    _umount(cfg)
+    sys.exit(RETURN_OK)
+
+def lastSnapshotPath(args):
+    force_stdout = setQuiet(args)
+    cfg = getConfig(args)
+    _mount(cfg)
+    s = snapshots.Snapshots(cfg)
+    snapshots_list = s.get_snapshots_list()
+    if snapshots_list:
+        print('SnapshotPath: %s' % s.get_snapshot_path(snapshots_list[0]), file=force_stdout)
+    else:
+        print("There are no snapshots in '%s'" % cfg.get_profile_name(), file = sys.stderr)
+    if not args.keep_mount:
+        _umount(cfg)
+    sys.exit(RETURN_OK)
+
+def unmount(args):
+    setQuiet(args)
+    cfg = getConfig(args)
+    _mount(cfg)
+    _umount(cfg)
+    sys.exit(RETURN_OK)
+
+def benchmarkCipher(args):
+    setQuiet(args)
+    cfg = getConfig(args)
+    if cfg.get_snapshots_mode() in ('ssh', 'ssh_encfs'):
+        ssh = sshtools.SSH(cfg)
+        ssh.benchmark_cipher(args.FILE_SIZE)
+        sys.exit(RETURN_OK)
+    else:
+        print("SSH is not configured for profile '%s'!" % cfg.get_profile_name(), file = sys.stderr)
+        sys.exit(RETURN_ERR)
+
+def pwCache(args):
+    force_stdout = setQuiet(args)
+    cfg = getConfig(args)
+    logger.openlog()
+    ret = RETURN_OK
+    daemon = password.Password_Cache(cfg)
+    if args.COMMAND and args.COMMAND != 'status':
+        getattr(daemon, args.COMMAND)()
+    elif args.COMMAND == 'status':
+        print('Backintime Password Cache: ', end=' ', file = force_stdout)
+        if daemon.status():
+            print('running', file = force_stdout)
+            ret = RETURN_OK
+        else:
+            print('not running', file = force_stdout)
+            ret = RETURN_ERR
+    else:
+        daemon.run()
+    logger.closelog()
+    sys.exit(ret)
+
+def decode(args):
+    force_stdout = setQuiet(args)
+    cfg = getConfig(args)
+    if cfg.get_snapshots_mode() not in ('local_encfs', 'ssh_encfs'):
+        print("Profile '%s' is not encrypted." % cfg.get_profile_name(), file = sys.stderr)
+        sys.exit(RETURN_ERR)
+    _mount(cfg)
+    d = encfstools.Decode(cfg)
+    if not args.PATH:
+        while True:
+            try:
+                path = input()
+            except EOFError:
+                break
+            if not path:
+                break
+            print(d.path(path), file = force_stdout)
+    else:
+        print('\n'.join(d.list(args.PATH)), file = force_stdout)
+    d.close()
+    _umount(cfg)
+    sys.exit(RETURN_OK)
+
+def remove(args, force = False):
+    setQuiet(args)
+    cfg = getConfig(args)
+    _mount(cfg)
+    cli.remove(cfg, args.SNAPSHOT_ID, force)
+    _umount(cfg)
+    sys.exit(RETURN_OK)
+
+def removeAndDoNotAskAgain(args):
+    remove(args, True)
+
+def restore(args):
+    setQuiet(args)
+    cfg = getConfig(args)
+    _mount(cfg)
+    cli.restore(cfg, args.SNAPSHOT_ID, args.WHAT, args.WHERE)
+    _umount(cfg)
+    sys.exit(RETURN_OK)
 
 if __name__ == '__main__':
     start_app()
-

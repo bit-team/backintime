@@ -36,15 +36,17 @@ def restore(cfg, snapshot_id = None, what = None, where = None):
     print('')
     RestoreDialog(cfg, snapshots_, snapshot_id, what, where).run()
 
-def remove(cfg, snapshot_id = None, force = None):
+def remove(cfg, snapshot_ids = None, force = None):
     snapshots_ = snapshots.Snapshots(cfg)
-    snapshot_id = selectSnapshot(snapshots_, snapshot_id, 'SnapshotID to remove')
+    ids = [selectSnapshot(snapshots_, id, 'SnapshotID to remove') for id in snapshot_ids]
+
     if not force:
-        print('Do you really want to remove this snapshot? %s' % snapshots_.get_snapshot_display_name(snapshot_id))
+        print('Do you really want to remove this snapshots?')
+        [print(snapshots_.get_snapshot_display_name(id)) for id in ids]
         if not 'yes' == input('(no/yes): '):
             return
-
-    snapshots_.remove_snapshot(snapshot_id)
+    
+    [snapshots_.remove_snapshot(id) for id in ids]
 
 def selectSnapshot(snapshots_, snapshot_id = None, msg = 'SnapshotID'):
     '''check if given snapshot is valid. If not print a list of all

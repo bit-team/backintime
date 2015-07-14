@@ -203,7 +203,7 @@ class Daemon:
             if res:
                 pid_ = int(res[0][0])
                 name_ = res[0][1]
-                if pid_ == pid and name_.find('backintime.py --pw-cache'):
+                if pid_ == pid and name_.find('backintime.py --pw-cache') or name_.find('backintime.py pw-cache'):
                     return True
         if os.path.exists(self.pidfile):
             os.remove(self.pidfile)
