@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #    Back In Time
 #    Copyright (C) 2012-2015 Germar Reitze
 #
@@ -47,6 +48,87 @@ def remove(cfg, snapshot_ids = None, force = None):
             return
     
     [snapshots_.remove_snapshot(id) for id in ids]
+
+def checkConfig(cfg, crontab = True):
+    import mount
+    from exceptions import MountException
+    def announceTest():
+        print()
+        print(frame(test))
+
+    def failed():
+        print(test + ': ' + bcolors.FAIL + 'failed' + bcolors.ENDC)
+
+    def okay():
+        print(test + ': ' + bcolors.OKGREEN + 'done' + bcolors.ENDC)
+
+    def errorHandler(msg):
+        print(msg)
+
+    cfg.set_error_handler(errorHandler)
+    mode = cfg.get_snapshots_mode()
+
+    if cfg.SNAPSHOT_MODES[mode][0] is not None:
+        #pre_mount_check
+        test = 'Run mount tests'
+        announceTest()
+        mnt = mount.Mount(cfg = cfg, tmp_mount = True)
+        try:
+            mnt.pre_mount_check(mode = mode, first_run = True)
+        except MountException as ex:
+            failed()
+            print(str(ex))
+            return False
+        okay()
+
+        #okay, lets try to mount
+        test = 'Mount'
+        announceTest()
+        try:
+            hash_id = mnt.mount(mode = mode, check = False)
+        except MountException as ex:
+            failed()
+            print(str(ex))
+            return False
+        okay()
+
+    test = 'Check/prepair snapshot path'
+    announceTest()
+    snapshots_path = cfg.get_snapshots_path(mode = mode, tmp_mount = True)
+
+    if not cfg.set_snapshots_path( snapshots_path, mode = mode ):
+        failed()
+        return False
+    okay()
+
+    #umount
+    if not cfg.SNAPSHOT_MODES[mode][0] is None:
+        test = 'Unmount'
+        announceTest()
+        try:
+            mnt.umount(hash_id = hash_id)
+        except MountException as ex:
+            failed()
+            print(str(ex))
+            return False
+        okay()
+
+    test = 'Check config'
+    announceTest()
+    if not cfg.check_config():
+        failed()
+        return False
+    okay()
+
+    if crontab:
+        test = 'Install crontab'
+        announceTest()
+        if not cfg.setup_cron():
+            failed()
+            return False
+        okay()
+
+    return True
 
 def selectSnapshot(snapshots_, snapshot_id = None, msg = 'SnapshotID'):
     '''check if given snapshot is valid. If not print a list of all
@@ -102,6 +184,14 @@ def terminalSize():
             pass
     return [24, 80]
 
+def frame(msg, size = 32):
+    w    = (size - len(msg)) //2
+    wr   = (size - len(msg)) %2 + w
+    ret  = ' ┌' + '─' * size + '┐\n'
+    ret += ' │' + ' ' * w + msg + ' ' * wr + '│\n'
+    ret += ' └' + '─' * size + '┘'
+    return ret
+
 class RestoreDialog(object):
     def __init__(self, cfg, snapshots_, snapshot_id, what, where):
         self.config = cfg
@@ -124,3 +214,13 @@ class RestoreDialog(object):
     def run(self):
         self.snapshots.restore(self.snapshot_id, self.what, self.callback, self.where)
         print('\nLog saved to %s' % self.log_file)
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'

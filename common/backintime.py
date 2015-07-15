@@ -316,7 +316,19 @@ def start_app(app_name = 'backintime'):
                                                  action = 'store',
                                                  nargs = '?',
                                                  help = 'Which SNAPSHOT_ID should be used. This can be a snapshot ID or ' +\
-                                                 'an integer starting with 0 for the last snapshot, 1 for the overlast, ... the very first snapshot is -1')
+                                                 'an integer starting with 0 for the last snapshot, 1 for the overlast, ... ' +\
+                                                 'the very first snapshot is -1')
+
+    command = 'check-config'
+    description = 'Check the profiles configuration and install crontab entries.'
+    checkConfigCP =        subparsers.add_parser(command,
+                                                 parents = [commonArgsParser],
+                                                 help = description,
+                                                 description = description)
+    checkConfigCP.add_argument                  ('--no-crontab',
+                                                 action = 'store_true',
+                                                 help = 'Do not install crontab entries.')
+    checkConfigCP.set_defaults(func = checkConfig)
 
     #define aliases for all commands with trailing --
     group = parser.add_mutually_exclusive_group()
@@ -342,7 +354,7 @@ def start_app(app_name = 'backintime'):
 
     #call commands
     if 'func' in dir(args):
-        
+
         args.func(args)
     else:
         return getConfig(args, False)
@@ -500,12 +512,12 @@ def pwCache(args):
     if args.COMMAND and args.COMMAND != 'status':
         getattr(daemon, args.COMMAND)()
     elif args.COMMAND == 'status':
-        print('Backintime Password Cache: ', end=' ', file = force_stdout)
+        print('%(app)s Password Cache: ' % {'app': cfg.APP_NAME}, end=' ', file = force_stdout)
         if daemon.status():
-            print('running', file = force_stdout)
+            print(cli.bcolors.OKGREEN + 'running' + cli.bcolors.ENDC, file = force_stdout)
             ret = RETURN_OK
         else:
-            print('not running', file = force_stdout)
+            print(cli.bcolors.FAIL + 'not running' + cli.bcolors.ENDC, file = force_stdout)
             ret = RETURN_ERR
     else:
         daemon.run()
@@ -553,6 +565,22 @@ def restore(args):
     cli.restore(cfg, args.SNAPSHOT_ID, args.WHAT, args.WHERE)
     _umount(cfg)
     sys.exit(RETURN_OK)
+
+def checkConfig(args):
+    force_stdout = setQuiet(args)
+    cfg = getConfig(args)
+    if cli.checkConfig(cfg, crontab = not args.no_crontab):
+        print("\nConfig %(cfg)s profile '%(profile)s' is fine."
+              % {'cfg': cfg._LOCAL_CONFIG_PATH,
+                 'profile': cfg.get_profile_name()},
+              file = force_stdout)
+        sys.exit(RETURN_OK)
+    else:
+        print("\nConfig %(cfg)s profile '%(profile)s' has errors."
+              % {'cfg': cfg._LOCAL_CONFIG_PATH,
+                 'profile': cfg.get_profile_name()},
+              file = force_stdout)
+        sys.exit(RETURN_ERR)
 
 if __name__ == '__main__':
     start_app()

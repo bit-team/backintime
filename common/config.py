@@ -429,8 +429,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_snapshots_path_ssh( self, profile_id = None ):
         #?Snapshot path on remote host. If the path is relative (no leading '/') 
         #?it will start from remote Users homedir. An empty path will be replaced 
-        #?with './'. This path must contain a folderstructure like 
-        #?'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute or relative path
+        #?with './'.;absolute or relative path
         return self.get_profile_str_value( 'snapshots.ssh.path', '', profile_id )
 
     def get_snapshots_full_path_ssh( self, profile_id = None, version = None ):
@@ -515,8 +514,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     #ENCFS
     def get_local_encfs_path( self, profile_id = None ):
-        #?Where to save snapshots in mode 'local_encfs'. The encrypted path must contian 
-        #?a folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute path
+        #?Where to save snapshots in mode 'local_encfs'.;absolute path
         return self.get_profile_str_value( 'snapshots.local_encfs.path', '', profile_id )
 
     def set_local_encfs_path( self, value, profile_id = None ):
@@ -646,7 +644,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return paths
 
     def get_include( self, profile_id = None ):
-        #?Quantity of include entrys.;1-99999;\-1
+        #?Quantity of include entries.;1-99999;\-1
         size = self.get_profile_int_value( 'snapshots.include.size', -1, profile_id )
         if size <= 0:
             return []
@@ -692,7 +690,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_exclude( self, profile_id = None ):
         '''Gets the exclude patterns'''
-        #?Quantity of exclude entrys.;1-99999;\-1
+        #?Quantity of exclude entries.;1-99999;\-1
         size = self.get_profile_int_value( 'snapshots.exclude.size', -1, profile_id )
         if size < 0:
             return self.DEFAULT_EXCLUDE
@@ -745,10 +743,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.get_profile_str_value( 'snapshots.tag', str(random.randint(100, 999)), profile_id )
 
     def get_automatic_backup_mode( self, profile_id = None ):
-        #?Which shedule used for crontab. Note that the crontab entry is only 
-        #?generated during saving in settings dialog. If you don't run a GUI 
-        #?version of BackInTime you'll have to create the crontab entry on your 
-        #?own.\n 0 = Disabled\n 1 = at every boot\n 2 = every 5 minute\n
+        #?Which schedule used for crontab. The crontab entry will be  
+        #?generated with 'backintime check-config'.\n
+        #? 0 = Disabled\n 1 = at every boot\n 2 = every 5 minute\n
         #? 4 = every 10 minute\n 7 = every 30 minute\n10 = every hour\n
         #?12 = every 2 hours\n14 = every 4 hours\n16 = every 6 hours\n
         #?18 = every 12 hours\n19 = custom defined hours\n20 = every day\n
@@ -802,7 +799,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value('snapshots.automatic_backup_anacron_period', value, profile_id)
 
     def get_automatic_backup_anacron_unit(self, profile_id = None):
-        #?Units to wait between new snapshots with anacron. 
+        #?Units to wait between new snapshots with anacron.\n
         #?10 = hours\n20 = days\n30 = weeks\n40 = months\n
         #?Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27;
         #?10|20|30|40;20
@@ -948,10 +945,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def is_run_nice_from_cron_enabled( self, profile_id = None ):
         #?Run cronjobs with 'nice \-n 19'. This will give BackInTime the 
-        #?lowest CPU priority to not interupt any other working process.\n
-        #?Note that the crontab entry is only generated during saving in 
-        #?settings dialog. If you don't run a GUI version of BackInTime 
-        #?you'll have to create the crontab entry on your own.
+        #?lowest CPU priority to not interupt any other working process.
         return self.get_profile_bool_value( 'snapshots.cron.nice', self.DEFAULT_RUN_NICE_FROM_CRON, profile_id )
 
     def set_run_nice_from_cron_enabled( self, value, profile_id = None ):
@@ -959,10 +953,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def is_run_ionice_from_cron_enabled( self, profile_id = None ):
         #?Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the 
-        #?lowest IO bandwidth priority to not interupt any other working process.\n
-        #?Note that the crontab entry is only generated during saving in 
-        #?settings dialog. If you don't run a GUI version of BackInTime 
-        #?you'll have to create the crontab entry on your own.
+        #?lowest IO bandwidth priority to not interupt any other working process.
         return self.get_profile_bool_value( 'snapshots.cron.ionice', self.DEFAULT_RUN_IONICE_FROM_CRON, profile_id )
 
     def set_run_ionice_from_cron_enabled( self, value, profile_id = None ):

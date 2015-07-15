@@ -1,4 +1,4 @@
-.TH backintime 1 "Apr 2015" "version 1.1.7" "USER COMMANDS"
+.TH backintime 1 "July 2015" "version 1.1.7" "USER COMMANDS"
 .SH NAME
 backintime \- a simple backup tool for Linux.
 .PP
@@ -24,7 +24,8 @@ benchmark-cipher [FILE-SIZE] |
 pw\-cache [start|stop|restart|reload|status] |
 decode [PATH] |
 remove[\-and\-do\-not\-ask\-again] [SNAPSHOT_ID] |
-restore [WHAT [WHERE [SNAPSHOT_ID]]] }
+restore [WHAT [WHERE [SNAPSHOT_ID]]] |
+check-config }
 
 .SH DESCRIPTION
 Back In Time is a simple backup tool for Linux. The backup is done by taking
@@ -319,6 +320,9 @@ missing they will be prompted. To restore to the original path WHERE can be an
 empty string '' or just press Enter at the prompt. SNAPSHOT_ID can be an index 
 (starting with 0 for the last snapshot) or the exact SnapshotID 
 (19 caracters like '20130606-230501-984')
+.TP
+check-config
+Verify the profile in config, create snapshot path and crontab entries.
 
 .SH A NOTE ON SECURITY
 There was a paid security audit for EncFS in Feb 2014 which revealed several 

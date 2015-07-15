@@ -7,7 +7,7 @@ config \- BackInTime configuration files.
 /etc/backintime/config
 .SH DESCRIPTION
 Back In Time was developed as pure GUI program and so most functions are only 
-useable with backintime-gnome or backintime-kde4. But it is possible to use 
+useable with backintime-qt4. But it is possible to use 
 Back In Time e.g. on a headless server. You have to create the configuration file
 (~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime\-common/examples/ for examples.
 .PP
@@ -17,15 +17,7 @@ keyword=arguments
 .PP
 Arguments don't need to be quoted. All characters are allowed except '='.
 .PP
-The given path (\fIprofile<N>.snapshots.path\fR, \fIprofile<N>.snapshots.local_encfs.path\fR 
-or \fIprofile<N>.snapshots.ssh.path\fR) must contain a folderstructure like 
-backintime/<HOST>/<USER>/<PROFILE_ID>. This has to be created manually.
-.PP
-Also the crontab entry for automatic backup shedules has to be created manually.
-.PP
-crontab example:
-.br
-0 */2 * * * nice \-n 19 ionice \-c2 \-n7 /usr/bin/backintime \-\-backup-job >/dev/null 2>&1
+Run 'backintime check-config' to verify the configfile, create the snapshot folder and crontab entries.
 .SH POSSIBLE KEYWORDS
 .IP "\fIglobal.hash_collision\fR" 6
 .RS
@@ -67,7 +59,9 @@ Default: 1
 .RS
 Type: int       Allowed Values: 10|20|30|40
 .br
-Units to wait between new snapshots with anacron. 10 = hours
+Units to wait between new snapshots with anacron.
+.br
+10 = hours
 .br
 20 = days
 .br
@@ -93,7 +87,7 @@ Default: 1
 .RS
 Type: int       Allowed Values: 0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80
 .br
-Which shedule used for crontab. Note that the crontab entry is only generated during saving in settings dialog. If you don't run a GUI version of BackInTime you'll have to create the crontab entry on your own.
+Which schedule used for crontab. The crontab entry will be  generated with 'backintime check-config'.
 .br
  0 = Disabled
 .br
@@ -218,8 +212,6 @@ Default: false
 Type: bool      Allowed Values: true|false
 .br
 Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the lowest IO bandwidth priority to not interupt any other working process.
-.br
-Note that the crontab entry is only generated during saving in settings dialog. If you don't run a GUI version of BackInTime you'll have to create the crontab entry on your own.
 .PP
 Default: true
 .RE
@@ -229,8 +221,6 @@ Default: true
 Type: bool      Allowed Values: true|false
 .br
 Run cronjobs with 'nice \-n 19'. This will give BackInTime the lowest CPU priority to not interupt any other working process.
-.br
-Note that the crontab entry is only generated during saving in settings dialog. If you don't run a GUI version of BackInTime you'll have to create the crontab entry on your own.
 .PP
 Default: true
 .RE
@@ -284,7 +274,7 @@ Default: ''
 .RS
 Type: int       Allowed Values: 1-99999
 .br
-Quantity of exclude entrys.
+Quantity of exclude entries.
 .PP
 Default: \-1
 .RE
@@ -338,7 +328,7 @@ Default: ''
 .RS
 Type: int       Allowed Values: 1-99999
 .br
-Quantity of include entrys.
+Quantity of include entries.
 .PP
 Default: \-1
 .RE
@@ -365,7 +355,7 @@ Default: false
 .RS
 Type: str       Allowed Values: absolute path
 .br
-Where to save snapshots in mode 'local_encfs'. The encrypted path must contian a folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>'
+Where to save snapshots in mode 'local_encfs'.
 .PP
 Default: ''
 .RE
@@ -692,7 +682,7 @@ Default: false
 .RS
 Type: str       Allowed Values: absolute or relative path
 .br
-Snapshot path on remote host. If the path is relative (no leading '/') it will start from remote Users homedir. An empty path will be replaced with './'. This path must contain a folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>'
+Snapshot path on remote host. If the path is relative (no leading '/') it will start from remote Users homedir. An empty path will be replaced with './'.
 .PP
 Default: ''
 .RE

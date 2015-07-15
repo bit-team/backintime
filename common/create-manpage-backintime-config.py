@@ -40,7 +40,7 @@ config \- BackInTime configuration files.
 /etc/backintime/config
 .SH DESCRIPTION
 Back In Time was developed as pure GUI program and so most functions are only 
-useable with backintime-gnome or backintime-kde4. But it is possible to use 
+useable with backintime-qt4. But it is possible to use 
 Back In Time e.g. on a headless server. You have to create the configuration file
 (~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime\-common/examples/ for examples.
 .PP
@@ -50,15 +50,7 @@ keyword=arguments
 .PP
 Arguments don't need to be quoted. All characters are allowed except '='.
 .PP
-The given path (\\fIprofile<N>.snapshots.path\\fR, \\fIprofile<N>.snapshots.local_encfs.path\\fR 
-or \\fIprofile<N>.snapshots.ssh.path\\fR) must contain a folderstructure like 
-backintime/<HOST>/<USER>/<PROFILE_ID>. This has to be created manually.
-.PP
-Also the crontab entry for automatic backup shedules has to be created manually.
-.PP
-crontab example:
-.br
-0 */2 * * * nice \-n 19 ionice \-c2 \-n7 /usr/bin/backintime \-\-backup-job >/dev/null 2>&1
+Run 'backintime check-config' to verify the configfile, create the snapshot folder and crontab entries.
 .SH POSSIBLE KEYWORDS
 ''' % (strftime('%b %Y', gmtime()), VERSION)
 
