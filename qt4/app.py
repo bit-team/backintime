@@ -1029,33 +1029,46 @@ class MainWindow( QMainWindow ):
         self.show_hidden_files = checked
         self.update_files_view( 1 )
 
+    def backup_on_restore(self):
+        cb = QCheckBox(_("Backup local files before overwriting or\nremoving with trailing '%(suffix)s'.")
+                       % {'suffix': self.snapshots.backup_suffix()} )
+        cb.setChecked(self.config.is_backup_on_restore_enabled())
+        return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'backup'}
+
     def confirm_delete_on_restore(self, paths, warn_root = False):
         msg = _('Are you sure you want to remove all newer files in your '
                 'original folder?')
         if warn_root:
             msg += '\n\n'
             msg += _('WARNING: deleting files in filesystem root could break your whole system!!!')
-        if self.config.is_backup_on_restore_enabled():
-            msg += '\n\n'
-            msg += _('Actually files will be backed up with trailing '
-                     '\'%(suffix)s\' instead of being removed. You can turn '
-                     'this off in\nSettings > Options > %(backup_option)s'
-                    ) \
-                     %{'suffix': self.snapshots.backup_suffix(),
-                       'backup_option': _('Backup replaced files on restore')
-                      }
         msg += '\n\n'
         msg += _('Files to be restored:')
         msg += '\n'
         msg += '\n'.join(paths)
 
-        return QMessageBox.Yes == messagebox.warningYesNo( self, msg)
+        confirm, opt = messagebox.warningYesNoOptions(self, msg, (self.backup_on_restore(), ) )
+        ret = {'backup': False, 'no_backup': False}
+        if self.config.is_backup_on_restore_enabled():
+            if not opt['backup']:
+                ret['no_backup'] = True
+        else:
+            if opt['backup']:
+                ret['backup'] = True
+        return (confirm, ret)
 
     def confirm_restore(self, paths):
         msg = _('Do you really want to restore this files(s):')
         msg += '\n'
         msg += '\n'.join(paths)
-        return QMessageBox.Yes == messagebox.warningYesNo( self, msg)
+        confirm, opt = messagebox.warningYesNoOptions(self, msg, (self.backup_on_restore(), ) )
+        ret = {'backup': False, 'no_backup': False}
+        if self.config.is_backup_on_restore_enabled():
+            if not opt['backup']:
+                ret['no_backup'] = True
+        else:
+            if opt['backup']:
+                ret['backup'] = True
+        return (confirm, ret)
 
     def restore_this( self, delete = False ):
         if len( self.snapshot_id ) <= 1:
@@ -1067,13 +1080,13 @@ class MainWindow( QMainWindow ):
         rel_path = [os.path.join(self.path, x) for x in selected_file]
 
         if delete:
-            if not self.confirm_delete_on_restore(rel_path, any([i == '/' for i in selected_file]) ):
-                return
+            confirm, kwargs = self.confirm_delete_on_restore(rel_path, any([i == '/' for i in selected_file]) )
         else:
-            if not self.confirm_restore(rel_path):
-                return
+            confirm, kwargs = self.confirm_restore(rel_path)
+        if not confirm:
+            return
 
-        restoredialog.restore( self, self.snapshot_id, rel_path, delete = delete)
+        restoredialog.restore(self, self.snapshot_id, rel_path, delete = delete, **kwargs)
 
     def restore_this_to( self ):
         if len( self.snapshot_id ) <= 1:
@@ -1084,23 +1097,24 @@ class MainWindow( QMainWindow ):
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
         
-        if not self.confirm_restore(rel_path):
+        confirm, kwargs = self.confirm_restore(rel_path)
+        if not confirm:
             return
 
-        restoredialog.restore( self, self.snapshot_id, rel_path, None )
+        restoredialog.restore(self, self.snapshot_id, rel_path, None, **kwargs)
 
     def restore_parent( self, delete = False ):
         if len( self.snapshot_id ) <= 1:
             return
 
         if delete:
-            if not self.confirm_delete_on_restore((self.path,), self.path == '/'):
-                return
+            confirm, kwargs = self.confirm_delete_on_restore((self.path,), self.path == '/')
         else:
-            if not self.confirm_restore((self.path,)):
-                return
+            confirm, kwargs = self.confirm_restore((self.path,))
+        if not confirm:
+            return
 
-        restoredialog.restore( self, self.snapshot_id, self.path, delete = delete)
+        restoredialog.restore( self, self.snapshot_id, self.path, delete = delete, **kwargs)
 
     def restore_parent_to( self ):
         if len( self.snapshot_id ) <= 1:

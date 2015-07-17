@@ -22,7 +22,7 @@ import sys
 import tools
 import snapshots
 
-def restore(cfg, snapshot_id = None, what = None, where = None):
+def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
     if what is None:
         what = input('File to restore: ')
     what = tools.prepare_path(os.path.abspath(os.path.expanduser(what)))
@@ -35,7 +35,7 @@ def restore(cfg, snapshot_id = None, what = None, where = None):
     snapshots_ = snapshots.Snapshots(cfg)
     snapshot_id = selectSnapshot(snapshots_, snapshot_id, 'SnapshotID to restore')
     print('')
-    RestoreDialog(cfg, snapshots_, snapshot_id, what, where).run()
+    RestoreDialog(cfg, snapshots_, snapshot_id, what, where, **kwargs).run()
 
 def remove(cfg, snapshot_ids = None, force = None):
     snapshots_ = snapshots.Snapshots(cfg)
@@ -193,12 +193,13 @@ def frame(msg, size = 32):
     return ret
 
 class RestoreDialog(object):
-    def __init__(self, cfg, snapshots_, snapshot_id, what, where):
+    def __init__(self, cfg, snapshots_, snapshot_id, what, where, **kwargs):
         self.config = cfg
         self.snapshots = snapshots_
         self.snapshot_id = snapshot_id
         self.what = what
         self.where = where
+        self.kwargs = kwargs
 
         self.log_file = self.config.get_restore_log_file()
         if os.path.exists(self.log_file):
@@ -212,7 +213,7 @@ class RestoreDialog(object):
             log.write(line + '\n')
 
     def run(self):
-        self.snapshots.restore(self.snapshot_id, self.what, self.callback, self.where)
+        self.snapshots.restore(self.snapshot_id, self.what, self.callback, self.where, **self.kwargs)
         print('\nLog saved to %s' % self.log_file)
 
 class bcolors:

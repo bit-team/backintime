@@ -299,6 +299,7 @@ def start_app(app_name = 'backintime'):
                                                  help = description,
                                                  description = description)
     restoreCP.set_defaults(func = restore)
+    backupGroup = restoreCP.add_mutually_exclusive_group()
     restoreCP.add_argument                      ('WHAT',
                                                  type = str,
                                                  action = 'store',
@@ -318,6 +319,20 @@ def start_app(app_name = 'backintime'):
                                                  help = 'Which SNAPSHOT_ID should be used. This can be a snapshot ID or ' +\
                                                  'an integer starting with 0 for the last snapshot, 1 for the overlast, ... ' +\
                                                  'the very first snapshot is -1')
+
+    restoreCP.add_argument                      ('--delete',
+                                                 action = 'store_true',
+                                                 help = 'Restore and delete newer files which are not in the snapshot. ' +\
+                                                 'WARNING: deleting files in filesystem root could break your whole system!!!')
+
+    backupGroup.add_argument                    ('--backup',
+                                                 action = 'store_true',
+                                                 help = 'Create backup files before changing local files. ')
+
+    backupGroup.add_argument                    ('--no-backup',
+                                                 action = 'store_true',
+                                                 help = 'Temporary disable creation of backup files before changing local files. ' +\
+                                                 'This can be switched of permanently in Settings, too.')
 
     command = 'check-config'
     description = 'Check the profiles configuration and install crontab entries.'
@@ -562,7 +577,13 @@ def restore(args):
     setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
-    cli.restore(cfg, args.SNAPSHOT_ID, args.WHAT, args.WHERE)
+    cli.restore(cfg,
+                args.SNAPSHOT_ID,
+                args.WHAT,
+                args.WHERE,
+                delete = args.delete,
+                backup = args.backup,
+                no_backup = args.no_backup)
     _umount(cfg)
     sys.exit(RETURN_OK)
 

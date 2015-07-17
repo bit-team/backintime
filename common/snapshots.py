@@ -522,7 +522,7 @@ class Snapshots:
             pass
         self.restore_callback( callback, ok, "chmod %s %04o" % ( path.decode(errors = 'ignore'), info[0] ) )
 
-    def restore( self, snapshot_id, paths, callback = None, restore_to = '', delete = False ):
+    def restore( self, snapshot_id, paths, callback = None, restore_to = '', delete = False, backup = False, no_backup = False):
         instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False, flock = True)
         if instance.check():
             instance.start_application()
@@ -550,7 +550,7 @@ class Snapshots:
             # During the rsync operation, directories must be rwx by the current
             # user. Files should be r and x (if executable) by the current user.
             cmd_suffix += '--chmod=Du=rwx,Fu=rX,go= '
-        if self.config.is_backup_on_restore_enabled():
+        if backup or self.config.is_backup_on_restore_enabled() and not no_backup:
             cmd_suffix += "--backup --suffix=%s " % self.backup_suffix()
         if delete:
             cmd_suffix += '--delete '

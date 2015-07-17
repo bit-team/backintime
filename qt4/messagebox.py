@@ -16,7 +16,8 @@
 
 import gettext
 from PyQt4.QtCore import QTimer, SIGNAL
-from PyQt4.QtGui import QApplication, QMessageBox, QInputDialog, QLineEdit
+from PyQt4.QtGui import QApplication, QMessageBox, QInputDialog, QLineEdit,\
+    QDialog, QVBoxLayout, QLabel, QDialogButtonBox, QCheckBox
 import qt4tools
 
 _ = gettext.gettext
@@ -61,3 +62,22 @@ def warningYesNo(parent, msg):
     return QMessageBox.question(parent, _('Question'), msg,
                                 buttons = QMessageBox.Yes | QMessageBox.No,
                                 defaultButton = QMessageBox.No )
+
+def warningYesNoOptions(parent, msg, options = ()):
+    dlg = QDialog(parent)
+    dlg.setWindowTitle(_('Question'))
+    layout = QVBoxLayout()
+    dlg.setLayout(layout)
+    label = QLabel(msg)
+    layout.addWidget(label)
+
+    for opt in options:
+        layout.addWidget(opt['widget'])
+
+    buttonBox = QDialogButtonBox(QDialogButtonBox.Yes | QDialogButtonBox.No)
+    buttonBox.button(QDialogButtonBox.No).setDefault(True)
+    layout.addWidget(buttonBox)
+    dlg.connect(buttonBox, SIGNAL('accepted()'), dlg.accept)
+    dlg.connect(buttonBox, SIGNAL('rejected()'), dlg.reject)
+    ret = dlg.exec_()
+    return (ret, {opt['id']:opt['retFunc']() for opt in options})
