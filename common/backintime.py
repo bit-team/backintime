@@ -325,11 +325,11 @@ def start_app(app_name = 'backintime'):
                                                  help = 'Restore and delete newer files which are not in the snapshot. ' +\
                                                  'WARNING: deleting files in filesystem root could break your whole system!!!')
 
-    backupGroup.add_argument                    ('--backup',
+    backupGroup.add_argument                    ('--local-backup',
                                                  action = 'store_true',
                                                  help = 'Create backup files before changing local files. ')
 
-    backupGroup.add_argument                    ('--no-backup',
+    backupGroup.add_argument                    ('--no-local-backup',
                                                  action = 'store_true',
                                                  help = 'Temporary disable creation of backup files before changing local files. ' +\
                                                  'This can be switched of permanently in Settings, too.')
@@ -582,8 +582,8 @@ def restore(args):
                 args.WHAT,
                 args.WHERE,
                 delete = args.delete,
-                backup = args.backup,
-                no_backup = args.no_backup)
+                backup = args.local_backup,
+                no_backup = args.no_local_backup)
     _umount(cfg)
     sys.exit(RETURN_OK)
 
