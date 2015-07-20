@@ -458,9 +458,10 @@ class SSH(mount.MountControl):
 
         cmds = []
         maxLength = self.config.ssh_max_arg_length(self.profile_id)
+        additionalChars = len('echo ""') + len(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = str))
         while tail:
             s = head
-            while tail and ((len(s + tail[0]) + 7 <= maxLength) or not maxLength):
+            while tail and ((len(s + tail[0]) + additionalChars <= maxLength) or not maxLength):
                 s += tail.pop(0)
             if s.endswith('; '):
                 s += 'echo ""'
@@ -487,21 +488,27 @@ class SSH(mount.MountControl):
                     return maxArg()
                 else:
                     raise
+            print('remote command: %s' % proc.args)
+            print('remote command length: %s' % len(cmd))
+            print('stdout: %s' % ret[0])
+            print('stderr: %s' % ret[1])
+            
             output += ret[0].strip('\n') + '\n'
             err    += ret[1].strip('\n') + '\n'
             returncode += proc.returncode
             if proc.returncode:
                 break
 
-        output_split = output.split('\n')
-        if not output_split:
-            return maxArg()
+        output_split = output.strip('\n').split('\n')
 
         while True:
             if output_split and not output_split[-1]:
                 output_split = output_split[:-1]
             else:
                 break
+
+        if not output_split:
+            return maxArg()
 
         for line in output_split:
             if line.startswith('gnu_find not supported'):
