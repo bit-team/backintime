@@ -660,6 +660,17 @@ Run rsync and other commands on remote host with 'ionice \-c2 \-n7'
 Default: false
 .RE
 
+.IP "\fIprofile<N>.snapshots.ssh.max_arg_length\fR" 6
+.RS
+Type: int       Allowed Values: 0, >700
+.br
+Maximum argument length of commands run on remote host. This can be tested with 'python3 /usr/share/backintime/common/sshMaxArg.py USER@HOST'.
+.br
+0 = unlimited
+.PP
+Default: 0
+.RE
+
 .IP "\fIprofile<N>.snapshots.ssh.nice\fR" 6
 .RS
 Type: bool      Allowed Values: true|false

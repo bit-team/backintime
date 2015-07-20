@@ -512,6 +512,18 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_ssh_private_key_file( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.ssh.private_key_file', value, profile_id )
 
+    def ssh_max_arg_length(self, profile_id):
+        #?Maximum argument length of commands run on remote host. This can be tested 
+        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py USER@HOST'.\n
+        #?0 = unlimited;0, >700
+        value = self.get_profile_int_value('snapshots.ssh.max_arg_length', 0, profile_id)
+        if value and value < 700:
+            raise ValueError('SSH max arg length %s is to low to run commands' % value)
+        return value
+
+    def set_ssh_max_arg_length(self, value, profile_id = None):
+        self.set_profile_int_value('snapshots.ssh.max_arg_length', value, profile_id)
+
     #ENCFS
     def get_local_encfs_path( self, profile_id = None ):
         #?Where to save snapshots in mode 'local_encfs'.;absolute path

@@ -30,6 +30,8 @@ import logger
 import tools
 import password_ipc
 from exceptions import MountException
+import cmd
+from cmd import Cmd
 
 _=gettext.gettext
 
@@ -357,12 +359,24 @@ class SSH(mount.MountControl):
         if result != 0:
             raise MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
 
-    def check_remote_commands(self):
+    def check_remote_commands(self, retry = False):
         """try all relevant commands for take_snapshot on remote host.
            specialy embedded Linux devices using 'BusyBox' sometimes doesn't
            support everything that is need to run backintime.
            also check for hardlink-support on remote host.
         """
+        def maxArg():
+            if retry:
+                raise MountException("Checking commands on remote host didn't return any output. "
+                                     "We already checked the maximum argument lenght but it seem like "
+                                     "there is an other problem")
+            logger.warning('Looks like the command was to long for remote SSHd. We will test max arg length now and retry.')
+            import sshMaxArg
+            mid = sshMaxArg.test_ssh_max_arg(self.user_host)
+            sshMaxArg.reportResult(self.host, mid)
+            self.config.set_ssh_max_arg_length(mid, self.profile_id)
+            return self.check_remote_commands(retry = True)
+
         #check rsync
         tmp_file = tempfile.mkstemp()[1]
         rsync = tools.get_rsync_prefix( self.config ) + ' --dry-run --chmod=Du+wx %s ' % tmp_file
@@ -379,83 +393,129 @@ class SSH(mount.MountControl):
 
         #check cp chmod find and rm
         remote_tmp_dir = os.path.join(self.path, 'tmp_%s' % self.random_id())
-        cmd  = 'tmp=%s ; ' % remote_tmp_dir
+        head  = 'tmp=%s ; ' % remote_tmp_dir
         #first define a function to clean up and exit
-        cmd += 'cleanup(){ '
-        cmd += 'test -e $tmp/a && rm $tmp/a >/dev/null 2>&1; '
-        cmd += 'test -e $tmp/b && rm $tmp/b >/dev/null 2>&1; '
-        cmd += 'test -e smr.lock && rm smr.lock >/dev/null 2>&1; '
-        cmd += 'test -e $tmp && rmdir $tmp >/dev/null 2>&1; '
-        cmd += 'exit $1; }; '
+        head += 'cleanup(){ '
+        head += 'test -e $tmp/a && rm $tmp/a >/dev/null 2>&1; '
+        head += 'test -e $tmp/b && rm $tmp/b >/dev/null 2>&1; '
+        head += 'test -e smr.lock && rm smr.lock >/dev/null 2>&1; '
+        head += 'test -e $tmp && rmdir $tmp >/dev/null 2>&1; '
+        head += 'exit $1; }; '
+        tail = []
         #create tmp_RANDOM dir and file a
-        cmd += 'test -e $tmp || mkdir $tmp; touch $tmp/a; '
+        cmd  = 'test -e $tmp || mkdir $tmp; touch $tmp/a; '
+        tail.append(cmd)
+        
         #try to create hardlink b from a
-        cmd += 'echo \"cp -aRl SOURCE DEST\"; cp -aRl $tmp/a $tmp/b >/dev/null; err_cp=$?; '
+        cmd  = 'echo \"cp -aRl SOURCE DEST\"; cp -aRl $tmp/a $tmp/b >/dev/null; err_cp=$?; '
         cmd += 'test $err_cp -ne 0 && cleanup $err_cp; '
+        tail.append(cmd)
         #list inodes of a and b
-        cmd += 'ls -i $tmp/a; ls -i $tmp/b; '
+        cmd  = 'ls -i $tmp/a; ls -i $tmp/b; '
+        tail.append(cmd)
         #try to chmod
-        cmd += 'echo \"chmod u+rw FILE\"; chmod u+rw $tmp/a >/dev/null; err_chmod=$?; '
+        cmd  = 'echo \"chmod u+rw FILE\"; chmod u+rw $tmp/a >/dev/null; err_chmod=$?; '
         cmd += 'test $err_chmod -ne 0 && cleanup $err_chmod; '
+        tail.append(cmd)
         #try to find and chmod
-        cmd += 'echo \"find PATH -type f -exec chmod u-wx \"{}\" \\;\"; '
+        cmd  = 'echo \"find PATH -type f -exec chmod u-wx \"{}\" \\;\"; '
         cmd += 'find $tmp -type f -exec chmod u-wx \"{}\" \\; >/dev/null; err_find=$?; '
         cmd += 'test $err_find -ne 0 && cleanup $err_find; '
+        tail.append(cmd)
         #try find suffix '+'
-        cmd += 'find $tmp -type f -exec chmod u-wx \"{}\" + >/dev/null; err_gnu_find=$?; '
+        cmd  = 'find $tmp -type f -exec chmod u-wx \"{}\" + >/dev/null; err_gnu_find=$?; '
+        cmd += 'test $err_gnu_find -ne 0 && echo \"gnu_find not supported\"; '
+        tail.append(cmd)
         #try to rm -rf
-        cmd += 'echo \"rm -rf PATH\"; rm -rf $tmp >/dev/null; err_rm=$?; '
+        cmd  = 'echo \"rm -rf PATH\"; rm -rf $tmp >/dev/null; err_rm=$?; '
         cmd += 'test $err_rm -ne 0 && cleanup $err_rm; '
+        tail.append(cmd)
         #try nice -n 19
         if self.nice:
-            cmd += 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
+            cmd  = 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
+            tail.append(cmd)
         #try ionice -c2 -n7
         if self.ionice:
-            cmd += 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
+            cmd  = 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
+            tail.append(cmd)
         #try nocache
         if self.nocache:
-            cmd += 'echo \"nocache\"; nocache true >/dev/null; err_nocache=$?; '
+            cmd  = 'echo \"nocache\"; nocache true >/dev/null; err_nocache=$?; '
             cmd += 'test $err_nocache -ne 0 && cleanup $err_nocache; '
+            tail.append(cmd)
         #try screen, bash and flock used by smart-remove running in background
         if self.config.get_smart_remove_run_remote_in_background(self.profile_id):
-            cmd += 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
+            cmd  = 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
             cmd += 'test $err_screen -ne 0 && cleanup $err_screen; '
             cmd += 'echo \"(flock -x 9) 9>smr.lock\"; bash -c \"(flock -x 9) 9>smr.lock\" >/dev/null; err_flock=$?; '
             cmd += 'test $err_flock -ne 0 && cleanup $err_flock; '
-        #report not supported gnu find suffix
-        cmd += 'test $err_gnu_find -ne 0 && echo \"gnu_find not supported\" && exit $err_gnu_find; '
+            tail.append(cmd)
         #if we end up here, everything should be fine
-        cmd += 'echo \"done\"'
+        cmd = 'echo \"done\"'
+        tail.append(cmd)
+
+        cmds = []
+        maxLength = self.config.ssh_max_arg_length(self.profile_id)
+        while tail:
+            s = head
+            while tail and ((len(s + tail[0]) + 7 <= maxLength) or not maxLength):
+                s += tail.pop(0)
+            if s.endswith('; '):
+                s += 'echo ""'
+            cmds.append(s)
+
         ssh = ['ssh']
         ssh.extend(self.ssh_options + [self.user_host])
         ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
-        ssh.extend([cmd])
-        proc = subprocess.Popen(ssh,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE,
-                                universal_newlines = True)
-        output, err = proc.communicate()
+        output = ''
+        err = ''
+        returncode = 0
+        for cmd in cmds:
+            c = ssh[:]
+            c.extend([cmd])
+            try:
+                proc = subprocess.Popen(c,
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE,
+                                        universal_newlines = True)
+                ret = proc.communicate()
+            except OSError as e:
+                #Argument list too long
+                if e.errno == 7:
+                    return maxArg()
+                else:
+                    raise
+            output += ret[0].strip('\n') + '\n'
+            err    += ret[1].strip('\n') + '\n'
+            returncode += proc.returncode
+            if proc.returncode:
+                break
 
         output_split = output.split('\n')
+        if not output_split:
+            return maxArg()
+
         while True:
             if output_split and not output_split[-1]:
                 output_split = output_split[:-1]
             else:
                 break
-        if proc.returncode or not output_split[-1].startswith('done'):
+
+        for line in output_split:
+            if line.startswith('gnu_find not supported'):
+                self.config.set_gnu_find_suffix_support(False, self.profile_id)
+
+        if returncode or not output_split[-1].startswith('done'):
             for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
                 if output_split[-1].startswith(command):
                     raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                             '%(err)s\nLook at \'man backintime\' for further instructions')
                                             % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
-            if output_split[-1].startswith('gnu_find not supported'):
-                self.config.set_gnu_find_suffix_support(False, self.profile_id)
-            else:
-                raise MountException( _('Check commands on host %(host)s returned unknown error:\n'
-                                        '%(err)s\nLook at \'man backintime\' for further instructions')
-                                        % {'host' : self.host, 'err' : err})
+            raise MountException( _('Check commands on host %(host)s returned unknown error:\n'
+                                    '%(err)s\nLook at \'man backintime\' for further instructions')
+                                    % {'host' : self.host, 'err' : err})
 
         i = 1
         inode1 = 'ABC'
