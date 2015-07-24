@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASES="trusty utopic vivid"
+RELEASES="trusty vivid wily"
 
 PKGNAME=backintime
 PKGVER=$(cat VERSION)
