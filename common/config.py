@@ -373,6 +373,10 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         host, user, profile = self.get_host_user_profile( profile_id )
 
+        if not all((host, user, profile)):
+            self.notify_error(_('Host/User/Profile-ID must not be empty!'))
+            return False
+
         full_path = os.path.join( value, 'backintime', host, user, profile )
         if not os.path.isdir( full_path ):
             print("Create folder: %s" % full_path)
