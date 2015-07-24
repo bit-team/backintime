@@ -47,13 +47,21 @@ class Mount(object):
             action = None
             running = pw_cache.status()
             if not running:
+                logger.debug('pw-cache is not running', self)
                 action = 'start'
             if running and not pw_cache.check_version():
+                logger.debug('pw-cache is running but is an old version', self)
                 action = 'restart'
             if not action is None:
+                cmd = ['backintime', 'pw-cache', action]
+                logger.debug('Call command: %s'
+                             %' '.join(cmd), self)
                 try:
-                    subprocess.check_call(['backintime', '--pw-cache', action], stdout=open(os.devnull, 'w'))
-                except subprocess.CalledProcessError:
+                    subprocess.check_call(cmd, stdout=open(os.devnull, 'w'))
+                except subprocess.CalledProcessError as e:
+                    logger.error('Failed to %s pw-cache: %s'
+                                 %(action, e.strerror),
+                                 self)
                     pass
 
     def mount(self, mode = None, check = True, **kwargs):
@@ -74,7 +82,7 @@ class Mount(object):
                                        parent = self.parent, **kwargs)
                     return tools.mount(check = check)
                 except HashCollision as ex:
-                    logger.warning(str(ex))
+                    logger.warning(ex.strerror)
                     del tools
                     check = False
                     continue
@@ -272,7 +280,7 @@ class MountControl(object):
         """block while an other process is mounting or unmounting"""
         lock_path = self.mount_root
         lock_suffix = '.lock'
-        lock = self.pid + lock_suffix
+        lock = os.path.join(lock_path, self.pid + lock_suffix)
         count = 0
         while self.check_locks(lock_path, lock_suffix):
             count += 1
@@ -280,14 +288,17 @@ class MountControl(object):
                 raise MountException( _('Mountprocess lock timeout') )
             sleep(1)
 
-        with open(os.path.join(lock_path, lock), 'w') as f:
+        logger.debug('Acquire mountprocess lock %s'
+                     %lock, self)
+        with open(lock, 'w') as f:
             f.write(self.pid)
-            f.close()
 
     def mountprocess_lock_release(self):
         lock_path = self.mount_root
         lock_suffix = '.lock'
         lock = os.path.join(lock_path, self.pid + lock_suffix)
+        logger.debug('Release mountprocess lock %s'
+                     %lock, self)
         if os.path.exists(lock):
             os.remove(lock)
 
@@ -297,10 +308,11 @@ class MountControl(object):
             lock_suffix = '.tmp.lock'
         else:
             lock_suffix = '.lock'
-        lock = self.pid + lock_suffix
-        with open(os.path.join(self.lock_path, lock), 'w') as f:
+        lock = os.path.join(self.lock_path, self.pid + lock_suffix)
+        logger.debug('Set mount lock %s'
+                     %lock, self)
+        with open(lock, 'w') as f:
             f.write(self.pid)
-            f.close()
 
     def check_mount_lock(self):
         """return True if mount is locked by other processes"""
@@ -315,6 +327,8 @@ class MountControl(object):
             lock_suffix = '.lock'
         lock = os.path.join(self.lock_path, self.pid + lock_suffix)
         if os.path.exists(lock):
+            logger.debug('Remove mount lock %s'
+                         %lock, self)
             os.remove(lock)
 
     def check_process_alive(self, pid):
@@ -341,6 +355,8 @@ class MountControl(object):
             if self.check_process_alive(lock_pid):
                 return True
             else:
+                logger.debug('Remove old and invalid lock %s'
+                             %f, self)
                 #clean up
                 os.remove(os.path.join(path, f))
                 for symlink in os.listdir(self.mount_root):

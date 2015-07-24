@@ -19,6 +19,7 @@ import os
 import sys
 import gettext
 import argparse
+import atexit
 
 import config
 import logger
@@ -46,6 +47,8 @@ def take_snapshot_now_async( cfg ):
         cmd += '--profile-id %s ' % cfg.get_current_profile()
     if not cfg._LOCAL_CONFIG_PATH is cfg._DEFAULT_CONFIG_PATH:
         cmd += '--config %s ' % cfg._LOCAL_CONFIG_PATH
+    if logger.DEBUG:
+        cmd += '--debug '
     cmd += 'backup &'
 
     os.system( cmd )
@@ -74,6 +77,12 @@ def _umount(cfg):
         logger.error(str(ex))
 
 def start_app(app_name = 'backintime'):
+    #define debug
+    debugArgsParser = argparse.ArgumentParser(add_help = False)
+    debugArgsParser.add_argument('--debug',
+                                 action = 'store_true',
+                                 help = 'Increase verbosity.')
+
     #define config argument
     configArgsParser = argparse.ArgumentParser(add_help = False)
     configArgsParser.add_argument('--config',
@@ -83,7 +92,7 @@ def start_app(app_name = 'backintime'):
                                  help = 'Read config from %(metavar)s.')
 
     #define common arguments which are used for all commands
-    commonArgsParser = argparse.ArgumentParser(add_help = False, parents = [configArgsParser])
+    commonArgsParser = argparse.ArgumentParser(add_help = False, parents = [configArgsParser, debugArgsParser])
     profileGroup = commonArgsParser.add_mutually_exclusive_group()
     profileGroup.add_argument    ('--profile',
                                   metavar = 'NAME',
@@ -244,7 +253,7 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Control Password Cache for non-interactive cronjobs.'
     pwCacheCP =            subparsers.add_parser(command,
-                                                 parents = [configArgsParser],
+                                                 parents = [configArgsParser, debugArgsParser],
                                                  help = description,
                                                  description = description)
     pwCacheCP.set_defaults(func = pwCache)
@@ -359,17 +368,21 @@ def start_app(app_name = 'backintime'):
 
     #parse args
     args = parser.parse_args()
+    logger.DEBUG = args.debug
+    dargs = vars(args)
+    logger.openlog()
+    atexit.register(logger.closelog)
+    logger.debug('Arguments: %s' %{arg:dargs[arg] for arg in dargs if dargs[arg]})
 
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
-        print("WARNING: It looks like you're using 'sudo' to start %(app)s. "
-              "This will cause some troubles. Please use either 'sudo -i %(app_name)s' "
-              "or 'pkexec %(app_name)s'." % {'app_name': app_name, 'app': config.Config.APP_NAME},
-              file=sys.stderr)
+        logger.warning("It looks like you're using 'sudo' to start %(app)s. "
+                       "This will cause some troubles. Please use either 'sudo -i %(app_name)s' "
+                       "or 'pkexec %(app_name)s'."
+                       %{'app_name': app_name, 'app': config.Config.APP_NAME})
 
     #call commands
     if 'func' in dir(args):
-
         args.func(args)
     else:
         return getConfig(args, False)
@@ -399,16 +412,19 @@ def aliasParser(args):
 
 def getConfig(args, check = True):
     cfg = config.Config(args.config)
+    logger.debug('%(app)s %(version)s' %{'app': cfg.APP_NAME, 'version': cfg.VERSION})
+    logger.debug('config file: %s' % cfg._LOCAL_CONFIG_FOLDER)
+    logger.debug('profiles: %s' % cfg.get_profiles())
     if 'profile_id' in args and args.profile_id:
         if not cfg.set_current_profile(args.profile_id):
-            print('Profile-ID not found: %s' % args.profile_id, file = sys.stderr)
+            logger.error('Profile-ID not found: %s' % args.profile_id)
             sys.exit(RETURN_ERR)
     if 'profile' in args and args.profile:
         if not cfg.set_current_profile_by_name(args.profile):
-            print('Profile not found: %s' % args.profile, file = sys.stderr)
+            logger.error('Profile not found: %s' % args.profile)
             sys.exit(RETURN_ERR)
     if check and not cfg.is_configured():
-        print('%(app)s is not configured!' %{'app': cfg.APP_NAME}, file = sys.stderr)
+        logger.error('%(app)s is not configured!' %{'app': cfg.APP_NAME})
         sys.exit(RETURN_NO_CFG)
     if 'checksum' in args:
         cfg.force_use_checksum = args.checksum
@@ -454,7 +470,7 @@ def snapshotsList(args):
         for snapshot_id in snapshots_list:
             print('SnapshotID: %s' % snapshot_id, file=force_stdout)
     else:
-        print("There are no snapshots in '%s'" % cfg.get_profile_name(), file = sys.stderr)
+        logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
     _umount(cfg)
     sys.exit(RETURN_OK)
 
@@ -468,7 +484,7 @@ def snapshotsListPath(args):
         for snapshot_id in snapshots_list:
             print('SnapshotPath: %s' % s.get_snapshot_path(snapshot_id), file=force_stdout)
     else:
-        print("There are no snapshots in '%s'" % cfg.get_profile_name(), file = sys.stderr)
+        logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
     if not args.keep_mount:
         _umount(cfg)
     sys.exit(RETURN_OK)
@@ -482,7 +498,7 @@ def lastSnapshot(args):
     if snapshots_list:
         print('SnapshotID: %s' % snapshots_list[0], file=force_stdout)
     else:
-        print("There are no snapshots in '%s'" % cfg.get_profile_name(), file = sys.stderr)
+        logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
     _umount(cfg)
     sys.exit(RETURN_OK)
 
@@ -495,7 +511,7 @@ def lastSnapshotPath(args):
     if snapshots_list:
         print('SnapshotPath: %s' % s.get_snapshot_path(snapshots_list[0]), file=force_stdout)
     else:
-        print("There are no snapshots in '%s'" % cfg.get_profile_name(), file = sys.stderr)
+        logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
     if not args.keep_mount:
         _umount(cfg)
     sys.exit(RETURN_OK)
@@ -515,7 +531,7 @@ def benchmarkCipher(args):
         ssh.benchmark_cipher(args.FILE_SIZE)
         sys.exit(RETURN_OK)
     else:
-        print("SSH is not configured for profile '%s'!" % cfg.get_profile_name(), file = sys.stderr)
+        logger.error("SSH is not configured for profile '%s'!" % cfg.get_profile_name())
         sys.exit(RETURN_ERR)
 
 def pwCache(args):
@@ -543,7 +559,7 @@ def decode(args):
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     if cfg.get_snapshots_mode() not in ('local_encfs', 'ssh_encfs'):
-        print("Profile '%s' is not encrypted." % cfg.get_profile_name(), file = sys.stderr)
+        logger.error("Profile '%s' is not encrypted." % cfg.get_profile_name())
         sys.exit(RETURN_ERR)
     _mount(cfg)
     d = encfstools.Decode(cfg)

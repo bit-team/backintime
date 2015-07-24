@@ -88,6 +88,9 @@ class EncFS_mount(mount.MountControl):
         if not self.is_configured():
             encfs += ['--standard']
         encfs += [self.path, self.mountpoint]
+        logger.debug('Call mount command: %s'
+                     %' '.join(encfs),
+                     self)
 
         proc = subprocess.Popen(encfs, env = env,
                                 stdout = subprocess.PIPE,
@@ -134,22 +137,30 @@ class EncFS_mount(mount.MountControl):
         """return environment with encfs configfile"""
         env = os.environ.copy()
         env['ENCFS6_CONFIG'] = self.get_config_file()
+        logger.debug('Set environ: %s'
+                     %env, self)
         return env
 
     def get_config_file(self):
         """return encfs config file"""
         f = '.encfs6.xml'
         if self.config_path is None:
-            return os.path.join(self.path, f)
+            cfg = os.path.join(self.path, f)
         else:
-            return os.path.join(self.config_path, f)
+            cfg = os.path.join(self.config_path, f)
+        return cfg
 
     def is_configured(self):
         """check if encfs config file exist. If not and if we are in settingsdialog
            ask for password confirmation. _mount will then create a new config"""
-        if os.path.isfile(self.get_config_file()):
+        cfg = self.get_config_file()
+        if os.path.isfile(cfg):
+            logger.debug('Found encfs config in %s'
+                         %cfg, self)
             return True
         else:
+            logger.debug('No encfs config in %s'
+                         %cfg, self)
             msg = _('Config for encrypted folder not found.')
             if not self.tmp_mount:
                 raise MountException( msg )
@@ -166,7 +177,9 @@ class EncFS_mount(mount.MountControl):
 
     def check_fuse(self):
         """check if encfs is installed and user is part of group fuse"""
+        logger.debug('Check fuse', self)
         if not tools.check_command('encfs'):
+            logger.debug('sshfs is missing', self)
             raise MountException( _('encfs not found. Please install e.g. \'apt-get install encfs\'') )
         if self.CHECK_FUSE_GROUP:
             user = self.config.get_user()
@@ -174,13 +187,16 @@ class EncFS_mount(mount.MountControl):
                 fuse_grp_members = grp.getgrnam('fuse')[3]
             except KeyError:
                 #group fuse doesn't exist. So most likely it isn't used by this distribution
+                logger.debug("Group fuse doesn't exist. Skip test", self)
                 return
             if not user in fuse_grp_members:
+                logger.debug('User %s is not in group fuse' %user, self)
                 raise MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
 
     def check_version(self):
         """check encfs version.
            1.7.2 had a bug with --reverse that will create corrupt files"""
+        logger.debug('Check version', self)
         if self.reverse:
             proc = subprocess.Popen(['encfs', '--version'],
                                     stdout = subprocess.PIPE,
@@ -189,12 +205,14 @@ class EncFS_mount(mount.MountControl):
             output = proc.communicate()[0]
             m = re.search(r'(\d\.\d\.\d)', output)
             if m and StrictVersion(m.group(1)) <= StrictVersion('1.7.2'):
+                logger.debug('Wrong encfs version %s' %m.group(1), self)
                 raise MountException( _('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
 
     def backup_config(self):
         """create a backup of encfs config file into local config folder
         so in cases of the config file get deleted or corrupt user can restore
         it from there"""
+        logger.debug('Backup encfs config', self)
         backup_folder = self.config.get_encfsconfig_backup_folder(self.profile_id)
         tools.make_dirs(backup_folder)
         old_backups = tools.get_nonsnapshots_list_in_folder(backup_folder, True)
@@ -204,10 +222,13 @@ class EncFS_mount(mount.MountControl):
             #don't create a new backup if config hasn't changed
             if tools._get_md5sum_from_path(self.get_config_file()) == \
                tools._get_md5sum_from_path(last_backup):
+                logger.debug('Encfs config did not change. Skip backup')
                 return
 
         new_backup_file = '.'.join((os.path.basename(self.get_config_file()), datetime.now().strftime('%Y%m%d%H%M') ))
         new_backup = os.path.join(backup_folder, new_backup_file)
+        logger.debug('Create backup of encfs config %s to %s'
+                     %(self.get_config_file(), new_backup), self)
         shutil.copy2(self.get_config_file(), new_backup)
 
 class EncFS_SSH(EncFS_mount):
@@ -236,8 +257,11 @@ class EncFS_SSH(EncFS_mount):
     def mount(self, *args, **kwargs):
         """call mount for sshfs, encfs --reverse and encfs
            register 'encfsctl encode' in config.ENCODE"""
+        logger.debug('Mount sshfs', self)
         self.ssh.mount(*args, **kwargs)
+        logger.debug('Mount local filesystem root with encfs --reverse', self)
         self.rev_root.mount(*args, **kwargs)
+        logger.debug('Mount encfs', self)
         ret = EncFS_mount.mount(self, *args, **kwargs)
         self.config.ENCODE = Encode(self)
         return ret
@@ -247,8 +271,11 @@ class EncFS_SSH(EncFS_mount):
            call umount for encfs, encfs --reverse and sshfs"""
         self.config.ENCODE.close()
         self.config.ENCODE = Bounce()
+        logger.debug('Unmount encfs', self)
         EncFS_mount.umount(self, *args, **kwargs)
+        logger.debug('Unmount local filesystem root mount encfs --reverse', self)
         self.rev_root.umount(*args, **kwargs)
+        logger.debug('Unmount sshfs', self)
         self.ssh.umount(*args, **kwargs)
 
     def pre_mount_check(self, *args, **kwargs):
@@ -333,6 +360,9 @@ class Encode(object):
 
         logger.info('start \'encfsctl encode\' process')
         encfsctl = ['encfsctl', 'encode', '--extpass=backintime-askpass', '/']
+        logger.debug('Call command: %s'
+                     %' '.join(encfsctl),
+                     self)
         self.p = subprocess.Popen(encfsctl, env = env, bufsize = 0,
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE,
@@ -350,6 +380,8 @@ class Encode(object):
         self.p.stdin.write(path + '\n')
         ret = self.p.stdout.readline().strip('\n')
         if not len(ret) and len(path):
+            logger.debug('Failed to encode %s. Got empty string'
+                         %path, self)
             raise EncodeValueError()
         return ret
 
@@ -525,6 +557,9 @@ class Decode(object):
 
         logger.info('start \'encfsctl decode\' process')
         encfsctl = ['encfsctl', 'decode', '--extpass=backintime-askpass', self.encfs.path]
+        logger.debug('Call command: %s'
+                     %' '.join(encfsctl),
+                     self)
         self.p = subprocess.Popen(encfsctl, env = env,
                                 stdin=subprocess.PIPE,
                                 stdout=subprocess.PIPE,

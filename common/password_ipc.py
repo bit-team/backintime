@@ -49,7 +49,7 @@ class FIFO(object):
         try:
             os.mkfifo(self.fifo, 0o600)
         except OSError as e:
-            logger.error('Failed to create FIFO: %s' % e.strerror)
+            logger.error('Failed to create FIFO: %s' % e.strerror, self)
             sys.exit(1)
 
     def read(self, timeout = 0):
@@ -88,15 +88,15 @@ class FIFO(object):
         except OSError:
             return False
         if not s.st_uid == os.getuid():
-            logger.error('%s is not owned by user' % self.fifo)
+            logger.error('%s is not owned by user' % self.fifo, self)
             return False
         mode = s.st_mode
         if not stat.S_ISFIFO(mode):
-            logger.error('%s is not a FIFO' % self.fifo)
+            logger.error('%s is not a FIFO' % self.fifo, self)
             return False
         forbidden_perm = stat.S_IXUSR + stat.S_IRWXG + stat.S_IRWXO
         if mode & forbidden_perm > 0:
-            logger.error('%s has wrong permissions' % self.fifo)
+            logger.error('%s has wrong permissions' % self.fifo, self)
             return False
         return True
 

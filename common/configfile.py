@@ -16,10 +16,11 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import gettext
+import logger
 
 _=gettext.gettext
 
-class ConfigFile:
+class ConfigFile(object):
     def __init__( self ):
         self.dict = {}
         self.error_handler = None
@@ -205,6 +206,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         for i in profiles:
             if i == profile_id:
                 self.current_profile_id = profile_id
+                logger.debug('change current profile: %s' %profile_id, self)
                 return True
 
         return False
@@ -215,6 +217,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         for profile_id in profiles:
             if self.get_profile_name( profile_id ) == name:
                 self.current_profile_id = profile_id
+                logger.debug('change current profile: %s' %name, self)
                 return True
 
         return False

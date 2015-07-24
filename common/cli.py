@@ -21,6 +21,7 @@ import sys
 
 import tools
 import snapshots
+import bcolors
 
 def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
     if what is None:
@@ -185,11 +186,9 @@ def terminalSize():
     return [24, 80]
 
 def frame(msg, size = 32):
-    w    = (size - len(msg)) //2
-    wr   = (size - len(msg)) %2 + w
-    ret  = ' ┌' + '─' * size + '┐\n'
-    ret += ' │' + ' ' * w + msg + ' ' * wr + '│\n'
-    ret += ' └' + '─' * size + '┘'
+    ret  = ' ┌' + '─' * size +       '┐\n'
+    ret += ' │' + msg.center(size) + '│\n'
+    ret += ' └' + '─' * size +       '┘'
     return ret
 
 class RestoreDialog(object):
@@ -215,13 +214,3 @@ class RestoreDialog(object):
     def run(self):
         self.snapshots.restore(self.snapshot_id, self.what, self.callback, self.where, **self.kwargs)
         print('\nLog saved to %s' % self.log_file)
-
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'

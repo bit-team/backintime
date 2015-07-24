@@ -287,6 +287,7 @@ def move_snapshots_folder( old_folder, new_folder ):
     return True
 
 def _execute( cmd, callback = None, user_data = None ):
+    logger.debug("Call command \"%s\"" %cmd, traceDepth = 1)
     ret_val = 0
 
     if callback is None:
@@ -305,9 +306,11 @@ def _execute( cmd, callback = None, user_data = None ):
             ret_val = 0
 
     if ret_val != 0:
-        print("Command \"%s\" returns %s" % ( cmd, ret_val ))
+        logger.warning("Command \"%s\" returns %s" % ( cmd, ret_val ))
     else:
-        print("Command \"%s\" returns %s" % ( cmd, ret_val ))
+        logger.debug("Command \"%s...\" returns %s"
+                     %(cmd[:min(16, len(cmd))], ret_val),
+                     traceDepth = 1)
 
     return ret_val
 
@@ -761,18 +764,18 @@ class UniquenessSet:
             else:
                 self.reference = (st.st_size, int(st.st_mtime))
 
-    def check_for(self, input_path, verb = False):
+    def check_for(self, input_path):
         # follow symlinks ?
         path = input_path
         if self.follow_sym and os.path.islink(input_path):
             path = os.readlink(input_path)
 
         if self.list_equal_to:
-            return self.check_equal(path, verb)
+            return self.check_equal(path)
         else:
-            return self.check_unique(path, verb)
+            return self.check_unique(path)
 
-    def check_unique(self, path, verb):
+    def check_unique(self, path):
         '''store a unique key for path, return True if path is unique'''
         # check
         if self.deep_check:
@@ -780,13 +783,13 @@ class UniquenessSet:
             size,inode  = dum.st_size, dum.st_ino
             # is it a hlink ?
             if (size, inode) in self._size_inode:
-                if verb: print("[deep test] : skip, it's a duplicate (size, inode)")
+                logger.debug("[deep test] : skip, it's a duplicate (size, inode)", self)
                 return False
             self._size_inode.add( (size,inode) )
             if size not in list(self._uniq_dict.keys()):
                 # first item of that size
                 unique_key = size
-                if verb: print("[deep test] : store current size ?")
+                logger.debug("[deep test] : store current size ?", self)
             else:
                 prev = self._uniq_dict[size]
                 if prev:
@@ -794,23 +797,22 @@ class UniquenessSet:
                     md5sum_prev = _get_md5sum_from_path(prev)
                     self._uniq_dict[size] = None
                     self._uniq_dict[md5sum_prev] = prev
-                    if verb:
-                        print("[deep test] : size duplicate, remove the size, store prev md5sum")
+                    logger.debug("[deep test] : size duplicate, remove the size, store prev md5sum", self)
                 unique_key = _get_md5sum_from_path(path)
-                if verb: print("[deep test] : store current md5sum ?")
+                logger.debug("[deep test] : store current md5sum ?", self)
         else:
             # store a tuple of (size, modification time)
             obj  = os.stat(path)
             unique_key = (obj.st_size, int(obj.st_mtime))
         # store if not already present, then return True
         if unique_key not in list(self._uniq_dict.keys()):
-            if verb: print(" >> ok, store !")
+            logger.debug(" >> ok, store !", self)
             self._uniq_dict[unique_key] = path
             return True
-        if verb: print(" >> skip (it's a duplicate)")
+        logger.debug(" >> skip (it's a duplicate)", self)
         return False
 
-    def check_equal(self, path, verb):
+    def check_equal(self, path):
         '''return True if path and reference are equal'''
         st = os.stat(path)
         if self.deep_check:

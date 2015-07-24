@@ -628,7 +628,7 @@ class MainWindow( QMainWindow ):
         if raise_cmd is None:
             return
 
-        print("Raise cmd: " + raise_cmd)
+        logger.debug("Raise cmd: %s" %raise_cmd, self)
         self.qapp.alert( self )
 
     def update_take_snapshot( self, force_wait_lock = False ):

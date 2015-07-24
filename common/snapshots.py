@@ -37,6 +37,7 @@ import tools
 import encfstools
 import mount
 import progress
+import bcolors
 from exceptions import MountException
 
 _=gettext.gettext
@@ -186,19 +187,24 @@ class Snapshots:
         return display_name
 
     def get_snapshot_name( self, snapshot_id ):
+        name = ''
         if len( snapshot_id ) <= 1: #not a snapshot
-            return ''
+            return name
 
         path = self.get_snapshot_path( snapshot_id )
+        nameFile = os.path.join(path, 'name')
         if not os.path.isdir( path ):
-            return ''
+            return name
 
-        name = ''
+        if not os.path.exists(nameFile):
+            return name
         try:
-            with open( os.path.join( path, 'name' ), 'rt' ) as f:
+            with open(nameFile, 'rt') as f:
                 name = f.read()
-        except:
-            pass
+        except Exception as e:
+            logger.debug('Failed to get snapshot %s name: %s'
+                         %(snapshot_id, e.strerror),
+                         self)
 
         return name
 
@@ -217,7 +223,10 @@ class Snapshots:
         try:
             with open( name_path, 'wt' ) as f:
                 f.write( name )
-        except:
+        except Exception as e:
+            logger.debug('Failed to set snapshot %s name: %s'
+                         %(snapshot_id, e.strerror),
+                         self)
             pass
 
     def is_snapshot_failed( self, snapshot_id ):
@@ -260,10 +269,15 @@ class Snapshots:
                 self.clear_take_snapshot_message()
                 return None
 
+        if not os.path.exists(self.config.get_take_snapshot_message_file()):
+            return None
         try:
             with open(self.config.get_take_snapshot_message_file(), 'rt' ) as f:
                 items = f.read().split( '\n' )
-        except:
+        except Exception as e:
+            logger.debug('Failed to get take_snapshot message from %s: %s'
+                         %(self.config.get_take_snapshot_message_file(), e.strerror),
+                         self)
             return None
 
         if len( items ) < 2:
@@ -272,7 +286,10 @@ class Snapshots:
         mid = 0
         try:
             mid = int( items[0] )
-        except:
+        except Exception as e:
+            logger.debug('Failed extract message ID from %s: %s'
+                         %(items[0], e.strerror),
+                         self)
             pass
 
         del items[0]
@@ -286,7 +303,10 @@ class Snapshots:
         try:
             with open( self.config.get_take_snapshot_message_file(), 'wt' ) as f:
                 f.write( data )
-        except:
+        except Exception as e:
+            logger.debug('Failed to set take_snapshot message to %s: %s'
+                         %(self.config.get_take_snapshot_message_file(), e.strerror),
+                         self)
             pass
 
         if 1 == type_id:
@@ -298,7 +318,10 @@ class Snapshots:
             profile_id =self.config.get_current_profile()
             profile_name = self.config.get_profile_name( profile_id )
             self.config.PLUGIN_MANAGER.on_message( profile_id, profile_name, type_id, message, timeout )
-        except:
+        except Exception as e:
+            logger.debug('Failed to send message to plugins: %s'
+                         %e.strerror,
+                         self)
             pass
 
     def check_snapshot_alive(self):
@@ -348,7 +371,10 @@ class Snapshots:
             with bz2.BZ2File( self.get_snapshot_log_path( snapshot_id ), 'r' ) as f:
                 data = f.read().decode()
             return self._filter_take_snapshot_log( data, mode, **kwargs )
-        except:
+        except Exception as e:
+            logger.debug('Failed to get snapshot log from %s: %s'
+                         %(self.get_snapshot_log_path(snapshot_id), e.strerror),
+                         self)
             return ''
 
     def get_take_snapshot_log( self, mode = 0, profile_id = None, **kwargs ):
@@ -356,7 +382,10 @@ class Snapshots:
             with open( self.config.get_take_snapshot_log_file( profile_id ), 'rt' ) as f:
                 data = f.read()
             return self._filter_take_snapshot_log( data, mode, **kwargs )
-        except:
+        except Exception as e:
+            logger.debug('Failed to get take_snapshot log from %s: %s'
+                         %(self.get_take_snapshot_log_file(profile_id), e.strerror),
+                         self)
             return ''
 
     def new_take_snapshot_log( self, date ):
@@ -370,7 +399,10 @@ class Snapshots:
         try:
             with open( self.config.get_take_snapshot_log_file(), 'at' ) as f:
                 f.write( message + '\n' )
-        except:
+        except Exception as e:
+            logger.debug('Failed to add message to take_snapshot log %s: %s'
+                         %(self.config.get_take_snapshot_log_file(), e.strerror),
+                         self)
             pass
 
     def is_busy( self ):
@@ -433,7 +465,10 @@ class Snapshots:
             uid = -1
             try:
                 uid = pwd.getpwnam(name.decode()).pw_uid
-            except:
+            except Exception as e:
+                logger.debug('Failed to get UID for %s: %s'
+                             %(name, e.strerror),
+                             self)
                 pass
 
             self.uid_cache[name] = uid
@@ -446,7 +481,10 @@ class Snapshots:
             gid = -1
             try:
                 gid = grp.getgrnam(name.decode()).gr_gid
-            except:
+            except Exception as e:
+                logger.debug('Failed to get GID for %s: %s'
+                             %(name, e.strerror),
+                             self)
                 pass
 
             self.gid_cache[name] = gid
@@ -459,7 +497,10 @@ class Snapshots:
             name = '-'
             try:
                 name = pwd.getpwuid(uid).pw_name
-            except:
+            except Exception as e:
+                logger.debug('Failed to get user name for UID %s: %s'
+                             %(uid, e.strerror),
+                             self)
                 pass
 
             self.user_cache[uid] = name
@@ -472,7 +513,10 @@ class Snapshots:
             name = '-'
             try:
                 name = grp.getgrgid(gid).gr_name
-            except:
+            except Exception as e:
+                logger.debug('Failed to get group name for GID %s: %s'
+                             %(gid, e.strerror),
+                             self)
                 pass
 
             self.group_cache[gid] = name
@@ -585,7 +629,10 @@ class Snapshots:
             restored_paths.append((path, src_delta))
         try:
             os.remove(self.config.get_take_snapshot_progress_file())
-        except:
+        except Exception as e:
+            logger.debug('Failed to remove snapshot progress file %s: %s'
+                         %(self.config.get_take_snapshot_progress_file(), e.strerror),
+                         self)
             pass
 
         if full_rsync and not self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
@@ -654,7 +701,10 @@ class Snapshots:
 
         try:
             biglist = os.listdir( snapshots_path )
-        except:
+        except Exception as e:
+            logger.debug('Failed to get snapshots list: %s'
+                         %e.strerror,
+                         self)
             pass
 
         list_ = []
@@ -679,7 +729,10 @@ class Snapshots:
 
         try:
             biglist = os.listdir( snapshots_path )
-        except:
+        except Exception as e:
+            logger.debug('Failed to get snapshots list: %s'
+                         %e.strerror,
+                         self)
             pass
 
         list_ = []
@@ -695,7 +748,10 @@ class Snapshots:
                 folderlist = []
                 try:
                     folderlist = os.listdir( folder )
-                except:
+                except Exception as e:
+                    logger.debug('Failed to get folder list for %s: %s'
+                                 %(folder, e.strerror),
+                                 self)
                     pass
 
                 for member in folderlist:
@@ -826,7 +882,9 @@ class Snapshots:
                 return False
 
     def has_old_snapshots( self ):
-        return len( self.get_snapshots_list( False, None, 3 ) ) > 0
+        ret = len( self.get_snapshots_list( False, None, 3 ) ) > 0
+        logger.debug('Found old snapshots: %s' %ret, self)
+        return ret
 
     def take_snapshot( self, force = False ):
         ret_val, ret_error = False, True
@@ -871,7 +929,7 @@ class Snapshots:
                 try:
                     hash_id = mount.Mount(cfg = self.config).mount()
                 except MountException as ex:
-                    logger.error(str(ex))
+                    logger.error(ex.strerror, self)
                     instance.exit_application()
                     logger.info( 'Unlock' )
                     time.sleep(2)
@@ -925,7 +983,7 @@ class Snapshots:
                             self._execute( "rm -rf \"%s\"" % snapshot_path )
 
                             if ret_error:
-                                logger.error( 'Failed to take snapshot !!!' )
+                                logger.error('Failed to take snapshot !!!', self)
                                 self.set_take_snapshot_message( 1, _('Failed to take snapshot %s !!!') % now.strftime( '%x %H:%M:%S' ) )
                                 time.sleep(2)
                             else:
@@ -956,7 +1014,7 @@ class Snapshots:
                 try:
                     mount.Mount(cfg = self.config).umount(self.config.current_hash_id)
                 except MountException as ex:
-                    logger.error(str(ex))
+                    logger.error(ex.strerror, self)
 
                 instance.exit_application()
                 self.flockRelease()
@@ -1063,7 +1121,7 @@ class Snapshots:
         tools.make_dirs( folder )
 
         if not os.path.exists( folder ):
-            logger.error( "Can't create folder: %s" % folder )
+            logger.error("Can't create folder: %s" % folder, self)
             self.set_take_snapshot_message( 1, _('Can\'t create folder: %s') % folder )
             time.sleep(2) #max 1 backup / second
             return False
@@ -1104,7 +1162,7 @@ class Snapshots:
             self._execute( "rm -rf \"%s\"" % new_snapshot_path() )
 
             if os.path.exists( new_snapshot_path() ):
-                logger.error( "Can't remove folder: %s" % new_snapshot_path() )
+                logger.error("Can't remove folder: %s" % new_snapshot_path(), self )
                 self.set_take_snapshot_message( 1, _('Can\'t remove folder: %s') % new_snapshot_path() )
                 time.sleep(2) #max 1 backup / second
                 return [ False, True ]
@@ -1245,7 +1303,10 @@ class Snapshots:
         self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params, filters = (self._filter_rsync_progress, ))
         try:
             os.remove(self.config.get_take_snapshot_progress_file())
-        except:
+        except Exception as e:
+            logger.debug('Failed to remove snapshot progress file %s: %s'
+                         %(self.config.get_take_snapshot_progress_file(), e.strerror),
+                         self)
             pass
 
         has_errors = False
@@ -1345,14 +1406,17 @@ class Snapshots:
                 with bz2.BZ2File( self.get_snapshot_log_path( new_snapshot_id ), 'wb' ) as logfile_bz2:
                     for line in logfile:
                         logfile_bz2.write(line)
-        except:
+        except Exception as e:
+            logger.debug('Failed to write take_snapshot log %s into compressed file %s: %s'
+                         %(self.config.get_take_snapshot_log_file(), self.get_snapshot_log_path(new_snapshot_id), e.strerror),
+                         self)
             pass
 
         #rename snapshot
         os.system( self.cmd_ssh( "mv \"%s\" \"%s\"" % ( new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) ) )
 
         if not os.path.exists( snapshot_path() ):
-            logger.error( "Can't rename %s to %s" % ( new_snapshot_path(), snapshot_path() ) )
+            logger.error("Can't rename %s to %s" % (new_snapshot_path(), snapshot_path()), self)
             self.set_take_snapshot_message( 1, _('Can\'t rename %(new_path)s to %(path)s') % { 'new_path' : new_snapshot_path(), 'path' : snapshot_path() } )
             time.sleep(2) #max 1 backup / second
             return [ False, True ]
@@ -1370,7 +1434,7 @@ class Snapshots:
         min_id = self.get_snapshot_id( min_date )
         max_id = self.get_snapshot_id( max_date )
 
-        logger.info( "[smart remove] keep all >= %s and < %s" % ( min_id, max_id ) )
+        logger.debug("Keep all >= %s and < %s" %(min_id, max_id), self)
 
         for snapshot_id in snapshots:
             if snapshot_id >= min_id and snapshot_id < max_id:
@@ -1383,7 +1447,7 @@ class Snapshots:
         min_id = self.get_snapshot_id( min_date )
         max_id = self.get_snapshot_id( max_date )
 
-        logger.info( "[smart remove] keep first >= %s and < %s" % ( min_id, max_id ) )
+        logger.debug("Keep first >= %s and < %s" %(min_id, max_id), self)
 
         for snapshot_id in snapshots:
             if snapshot_id >= min_id and snapshot_id < max_id:
@@ -1411,9 +1475,9 @@ class Snapshots:
 
     def smart_remove( self, now_full, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month ):
         snapshots = self.get_snapshots_list()
-        logger.info( "[smart remove] considered: %s" % snapshots )
+        logger.debug("Considered: %s" %snapshots, self)
         if len( snapshots ) <= 1:
-            logger.info( "[smart remove] There is only one snapshots, so keep it" )
+            logger.debug("There is only one snapshots, so keep it", self)
             return
 
         if now_full is None:
@@ -1456,7 +1520,7 @@ class Snapshots:
         for i in range( first_year, now.year+1 ):
             keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, datetime.date(i,1,1), datetime.date(i+1,1,1) )
 
-        logger.info( "[smart remove] keep snapshots: %s" % keep_snapshots )
+        logger.debug("Keep snapshots: %s" %keep_snapshots, self)
 
         del_snapshots = []
         for snapshot_id in snapshots:
@@ -1465,7 +1529,7 @@ class Snapshots:
 
             if self.config.get_dont_remove_named_snapshots():
                 if self.get_snapshot_name( snapshot_id ):
-                    logger.info( "[smart remove] keep snapshot: %s, it has a name" % snapshot_id )
+                    logger.debug("Keep snapshot: %s, it has a name" %snapshot_id, self)
                     continue
 
             del_snapshots.append(snapshot_id)
@@ -1580,8 +1644,10 @@ class Snapshots:
                     info = os.statvfs( self.config.get_snapshots_path() )
                     free_inodes = info.f_favail
                     max_inodes  = info.f_files
-                except:
-                    logger.warning('Failed to stat snapshot path')
+                except Exception as e:
+                    logger.debug('Failed to get free inodes for snapshot path %s: %s'
+                                 %(self.config.get_snapshots_path(), e.strerror),
+                                 self)
                     break
 
                 if free_inodes >= max_inodes * (min_free_inodes / 100.0):
@@ -1605,7 +1671,10 @@ class Snapshots:
             info = os.statvfs(path)
             if info.f_blocks != info.f_bavail:
                 return info.f_frsize * info.f_bavail // ( 1024 * 1024 )
-        except:
+        except Exception as e:
+            logger.debug('Failed to get free space for %s: %s'
+                         %(path, e.strerror),
+                         self)
             pass
         logger.warning('Failed to stat snapshot path')
 
@@ -1630,6 +1699,7 @@ class Snapshots:
         logger.warning('Failed to get free space on remote')
 
     def _execute( self, cmd, callback = None, user_data = None, filters = () ):
+        logger.debug("Call command \"%s\"" %cmd, self, 1)
         ret_val = 0
 
         if callback is None:
@@ -1653,9 +1723,11 @@ class Snapshots:
                 ret_val = 0
 
         if ret_val != 0:
-            logger.warning( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
+            logger.warning("Command \"%s\" returns %s%s%s" %(cmd, bcolors.WARNING, ret_val, bcolors.ENDC))
         else:
-            logger.info( "Command \"%s\" returns %s" % ( cmd, ret_val ) )
+            logger.debug("Command \"%s...\" returns %s"
+                         %(cmd[:min(16, len(cmd))], ret_val),
+                         self, 1)
 
         return ret_val
 
@@ -1807,9 +1879,12 @@ class Snapshots:
             if os.path.islink(symlink):
                 os.remove(symlink)
             if os.path.exists(symlink):
+                logger.error('Could not remove symlink %s' %symlink, self)
                 return False
+            logger.debug('Create symlink %s => %s' %(symlink, snapshot_id), self)
             os.symlink(snapshot_id, symlink)
-        except:
+        except Exception as e:
+            logger.error('Failed to create symlink %s: %s' %(symlink, e.strerror), self)
             return False
 
     def flockExclusive(self):
@@ -1817,6 +1892,7 @@ class Snapshots:
         and run them serialized
         """
         if self.config.use_global_flock():
+            logger.debug('Set flock %s' %self.GLOBAL_FLOCK, self)
             self.flock_file = open(self.GLOBAL_FLOCK, 'w')
             fcntl.flock(self.flock_file, fcntl.LOCK_EX)
             #make it rw by all if that's not already done.
@@ -1824,12 +1900,14 @@ class Snapshots:
                     stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH
             s = os.fstat(self.flock_file.fileno())
             if not s.st_mode & perms == perms:
+                logger.debug('Set flock permissions %s' %self.GLOBAL_FLOCK, self)
                 os.fchmod(self.flock_file.fileno(), perms)
 
     def flockRelease(self):
         """release lock so other snapshots can continue
         """
         if self.flock_file:
+            logger.debug('Release flock %s' %self.GLOBAL_FLOCK, self)
             fcntl.fcntl(self.flock_file, fcntl.LOCK_UN)
             self.flock_file.close()
         self.flock_file = None

@@ -20,6 +20,9 @@ import os
 import sys
 
 import tools
+import bcolors
+
+DEBUG = False
 
 def openlog():
     name = os.getenv( 'LOGNAME', 'unknown' )
@@ -28,17 +31,38 @@ def openlog():
 def closelog():
     syslog.closelog()
 
-def error( msg ):
-    print('ERROR: ' + msg, file=sys.stderr)
+def error(msg , parent = None, traceDepth = 0):
+    if DEBUG:
+        msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
+    print('%sERROR%s: %s' %(bcolors.FAIL, bcolors.ENDC, msg), file=sys.stderr)
     for line in tools.wrap_line(msg):
         syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + line )
 
 def warning( msg ):
-    print('WARNING: ' + msg, file=sys.stderr)
+    print('%sWARNING%s: %s' %(bcolors.WARNING, bcolors.ENDC, msg), file=sys.stderr)
     for line in tools.wrap_line(msg):
         syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + line )
 
 def info( msg ):
-    print('INFO: ' + msg, file=sys.stdout)
+    print('%sINFO%s: %s' %(bcolors.OKGREEN, bcolors.ENDC, msg), file=sys.stdout)
     for line in tools.wrap_line(msg):
         syslog.syslog( syslog.LOG_INFO, 'INFO: ' + line )
+
+def debug(msg, parent = None, traceDepth = 0):
+    if DEBUG:
+        msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
+        print('%sDEBUG%s: %s' %(bcolors.OKBLUE, bcolors.ENDC, msg), file = sys.stdout)
+        for line in tools.wrap_line(msg):
+            syslog.syslog(syslog.LOG_DEBUG, 'DEBUG: %s' %line)
+
+def _debugHeader(parent, traceDepth):
+    frame = sys._getframe(2 + traceDepth)
+    fdir, fname = os.path.split(frame.f_code.co_filename)
+    fmodule = os.path.basename(fdir)
+    line = frame.f_lineno
+    if parent:
+        fclass = '%s.' %parent.__class__.__name__
+    else:
+        fclass = ''
+    func = frame.f_code.co_name
+    return '[%s/%s:%s %s%s]' %(fmodule, fname, line, fclass, func)

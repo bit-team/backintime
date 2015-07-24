@@ -32,6 +32,7 @@ import password_ipc
 from exceptions import MountException
 import cmd
 from cmd import Cmd
+import bcolors
 
 _=gettext.gettext
 
@@ -119,6 +120,9 @@ class SSH(mount.MountControl):
         env = os.environ.copy()
         if 'LC_ALL' in list(env.keys()):
             env['LC_ALL'] = 'C'
+        logger.debug('Call mount command: %s'
+                     %' '.join(sshfs),
+                     self)
         try:
             subprocess.check_call(sshfs, env = env)
         except subprocess.CalledProcessError:
@@ -173,6 +177,7 @@ class SSH(mount.MountControl):
 
         if force:
             #remove private key first so we can check if the given password is valid
+            logger.debug('Remove private key %s from ssh agent' % self.private_key_file, self)
             proc = subprocess.Popen(['ssh-add', '-d', self.private_key_file],
                                     stdin=subprocess.DEVNULL,
                                     stdout=subprocess.DEVNULL,
@@ -185,10 +190,12 @@ class SSH(mount.MountControl):
                                 universal_newlines = True)
         output = proc.communicate()[0]
         if force or not output.find(self.private_key_fingerprint) >= 0:
+            logger.debug('Add private key %s to ssh agent' % self.private_key_file, self)
             password_available = any([self.config.get_password_save(self.profile_id),
                                       self.config.get_password_use_cache(self.profile_id),
                                       not self.password is None
                                       ])
+            logger.debug('Password available: %s' %password_available, self)
             if not password_available and not tools.check_x_server():
                 #we need to unlink stdin from ssh-add in order to make it
                 #use our own backintime-askpass.
@@ -204,6 +211,7 @@ class SSH(mount.MountControl):
                     pass
             else:
                 if not self.password is None:
+                    logger.debug('Provide password through temp FIFO', self)
                     thread = password_ipc.TempPasswordThread(self.password)
                     env['ASKPASS_TEMP'] = thread.temp_file
                     thread.start()
@@ -217,7 +225,9 @@ class SSH(mount.MountControl):
                                         universal_newlines = True)
                 output, error = proc.communicate()
                 if proc.returncode:
-                    print( _('Failed to unlock SSH private key:\nError: %s') % error)
+                    logger.error('Failed to unlock SSH private key %s: %s'
+                                 %(self.private_key_file, error),
+                                 self)
 
                 if not self.password is None:
                     thread.stop()
@@ -227,12 +237,18 @@ class SSH(mount.MountControl):
                                     universal_newlines = True)
             output = proc.communicate()[0]
             if not output.find(self.private_key_fingerprint) >= 0:
+                logger.debug('Was not able to unlock private key %s' %self.private_key_file, self)
                 raise MountException( _('Could not unlock ssh private key. Wrong password '
                                         'or password not available for cron.'))
+        else:
+            logger.debug('Private key %s is already unlocked in ssh agent'
+                         %self.private_key_file, self)
 
     def check_fuse(self):
         """check if sshfs is installed and user is part of group fuse"""
+        logger.debug('Check fuse', self)
         if not tools.check_command('sshfs'):
+            logger.debug('sshfs is missing', self)
             raise MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
         if self.CHECK_FUSE_GROUP:
             user = self.config.get_user()
@@ -240,8 +256,10 @@ class SSH(mount.MountControl):
                 fuse_grp_members = grp.getgrnam('fuse')[3]
             except KeyError:
                 #group fuse doesn't exist. So most likely it isn't used by this distribution
+                logger.debug("Group fuse doesn't exist. Skip test", self)
                 return
             if not user in fuse_grp_members:
+                logger.debug('User %s is not in group fuse' %user, self)
                 raise MountException( _('%(user)s is not member of group \'fuse\'.\n '
                                         'Run \'sudo adduser %(user)s fuse\'. To apply '
                                         'changes logout and login again.\nLook at '
@@ -250,6 +268,7 @@ class SSH(mount.MountControl):
 
     def check_login(self):
         """check passwordless authentication to host"""
+        logger.debug('Check login', self)
         ssh = ['ssh', '-o', 'PreferredAuthentications=publickey']
         ssh.extend(self.ssh_options + [self.user_host])
         ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
@@ -264,6 +283,7 @@ class SSH(mount.MountControl):
     def check_cipher(self):
         """check if both host and localhost support cipher"""
         if not self.cipher == 'default':
+            logger.debug('Check cipher', self)
             ssh = ['ssh']
             ssh.extend(['-o', 'Ciphers=%s' % self.cipher])
             ssh.extend(self.ssh_options + [self.user_host])
@@ -275,10 +295,12 @@ class SSH(mount.MountControl):
                                     universal_newlines = True)
             err = proc.communicate()[1]
             if proc.returncode:
+                logger.debug('Ciper %s is not supported' %self.config.SSH_CIPHERS[self.cipher], self)
                 raise MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')  
                                       % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
 
     def benchmark_cipher(self, size = '40'):
+        import bcolors
         temp = tempfile.mkstemp()[1]
         print('create random data file')
         subprocess.call(['dd', 'if=/dev/urandom', 'of=%s' % temp, 'bs=1M', 'count=%s' % size])
@@ -287,7 +309,7 @@ class SSH(mount.MountControl):
         for cipher in keys:
             if cipher == 'default':
                 continue
-            print('%s:' % cipher)
+            print('%s%s:%s' %(bcolors.BOLD, cipher, bcolors.ENDC))
             for i in range(2):
                 # scp uses -P instead of -p for port
                 subprocess.call(['scp', '-P', str(self.port), '-c', cipher, temp, self.user_host_path])
@@ -300,18 +322,22 @@ class SSH(mount.MountControl):
 
     def check_known_hosts(self):
         """check ssh_known_hosts"""
+        logger.debug('Check known hosts file', self)
         for host in (self.host, '[%s]:%s' % (self.host, self.port)):
             proc = subprocess.Popen(['ssh-keygen', '-F', host],
                                     stdout=subprocess.PIPE,
                                     universal_newlines = True)
             output = proc.communicate()[0] #subprocess.check_output doesn't exist in Python 2.6 (Debian squeeze default)
             if output.find('Host %s found' % host) >= 0:
+                logger.debug('Host %s was found in known hosts file' % host, self)
                 return True
+        logger.debug('Host %s is not in known hosts file' %self.host, self)
         raise MountException( _('%s not found in ssh_known_hosts.') % self.host)
 
     def check_remote_folder(self):
         """check if remote folder exists and is write- and executable.
            Create folder if it doesn't exist."""
+        logger.debug('Check remote folder', self)
         cmd  = 'd=0;'
         cmd += 'test -e %s || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
         cmd += 'test $d -eq 1 && mkdir %s; err=$?;' % self.path #create path, get errorcode from mkdir
@@ -324,10 +350,12 @@ class SSH(mount.MountControl):
         ssh.extend(self.ssh_options + [self.user_host])
         ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
         ssh.extend([cmd])
+        logger.debug('Call command: %s' %' '.join(ssh), self)
         try:
             subprocess.check_call(ssh,
                                   stdout=subprocess.DEVNULL)
         except subprocess.CalledProcessError as ex:
+            logger.debug('Command returncode: %s' %ex.returncode, self)
             if ex.returncode == 20:
                 #clean exit
                 pass
@@ -345,6 +373,7 @@ class SSH(mount.MountControl):
 
     def check_ping_host(self):
         """connect to remote port and check if it is open"""
+        logger.debug('Check ping host', self)
         count = 0
         while count < 5:
             try:
@@ -353,10 +382,13 @@ class SSH(mount.MountControl):
             except:
                 result = -1
             if result == 0:
+                logger.debug('Host %s is available' %self.host, self)
                 return
+            logger.debug('Could not ping host %s. Try again' %self.host, self)
             count += 1
             sleep(0.2)
         if result != 0:
+            logger.debug('Failed pinging host %s' %self.host, self)
             raise MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
 
     def check_remote_commands(self, retry = False):
@@ -365,6 +397,7 @@ class SSH(mount.MountControl):
            support everything that is need to run backintime.
            also check for hardlink-support on remote host.
         """
+        logger.debug('Check remote commands', self)
         def maxArg():
             if retry:
                 raise MountException("Checking commands on remote host didn't return any output. "
@@ -381,10 +414,12 @@ class SSH(mount.MountControl):
         tmp_file = tempfile.mkstemp()[1]
         rsync = tools.get_rsync_prefix( self.config ) + ' --dry-run --chmod=Du+wx %s ' % tmp_file
         rsync += '"%s@%s:%s"' % (self.user, self.host, self.path)
+        logger.debug('Check rsync command: %s' %rsync, self)
 
         #use os.system for compatiblity with snapshots.py
         err = os.system(rsync)
         if err:
+            logger.debug('Rsync command returnd error: %s' %err, self)
             os.remove(tmp_file)
             raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                     '%(err)s\nLook at \'man backintime\' for further instructions') 
@@ -477,6 +512,7 @@ class SSH(mount.MountControl):
             c = ssh[:]
             c.extend([cmd])
             try:
+                logger.debug('Call command: %s' %' '.join(c), self)
                 proc = subprocess.Popen(c,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
@@ -485,14 +521,13 @@ class SSH(mount.MountControl):
             except OSError as e:
                 #Argument list too long
                 if e.errno == 7:
+                    logger.debug('Argument list too log (Python exception)', self)
                     return maxArg()
                 else:
                     raise
-            print('remote command: %s' % proc.args)
-            print('remote command length: %s' % len(cmd))
-            print('stdout: %s' % ret[0])
-            print('stderr: %s' % ret[1])
-            
+            logger.debug('Command stdout: %s' %ret[0], self)
+            logger.debug('Command stderr: %s' %ret[1], self)
+            logger.debug('Command returncode: %s' %proc.returncode, self)
             output += ret[0].strip('\n') + '\n'
             err    += ret[1].strip('\n') + '\n'
             returncode += proc.returncode

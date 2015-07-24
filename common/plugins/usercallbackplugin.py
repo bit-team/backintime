@@ -18,7 +18,6 @@
 
 import os
 import pluginmanager
-import tools
 import logger
 import gettext
 from subprocess import Popen, PIPE
@@ -39,22 +38,24 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
         return True
 
     def notify_callback( self, args = '' ):
-        logger.info( "[UserCallbackPlugin.notify_callback] %s" % args )
+        cmd = "\"%s\" %s \"%s\" %s" % ( self.callback, self.config.get_current_profile(), self.config.get_profile_name(), args )
+        logger.debug('Call user-callback: %s' %cmd, self)
         try:
-            callback = Popen( "\"%s\" %s \"%s\" %s" % ( self.callback, self.config.get_current_profile(), self.config.get_profile_name(), args ),
-                                shell=True,
-                                stdout=PIPE,
-                                stderr=PIPE,
-                                universal_newlines = True )
+            callback = Popen(cmd,
+                             shell=True,
+                             stdout=PIPE,
+                             stderr=PIPE,
+                             universal_newlines = True)
             output = callback.communicate()
             if output[0]:
-                logger.info( "[UserCallbackPlugin.notify_callback callback output] %s" % output[0] )
+                logger.debug('user-callback returned \'%s\'' %output[0], self)
             if output[1]:
-                logger.error( "[UserCallbackPlugin.notify_callback callback error] %s" % output[1] )
+                logger.error('user-callback returned \'%s\'' %output[1], self)
             if callback.returncode != 0:
+                logger.debug('user-callback returncode: %s' %callback.returncode, self)
                 raise StopException()
-        except OSError:
-            logger.error( "[UserCallbackPlugin.notify_callback] Exception when trying to run user callback" )
+        except OSError as e:
+            logger.error("Exception when trying to run user callback: %s" % e.strerror, self)
 
     def on_process_begins( self ):
         self.notify_callback( '1' )

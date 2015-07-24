@@ -28,6 +28,7 @@ import configfile
 import tools
 import password_ipc
 import logger
+from exceptions import Timeout
 
 _=gettext.gettext
 
@@ -53,14 +54,14 @@ class Daemon:
         Programming in the UNIX Environment" for details (ISBN 0201563177)
         http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
         """
-        #logger.info('[Password_Cache.Daemon.daemonize] start')
+        logger.debug('start', self)
         try:
             pid = os.fork()
             if pid > 0:
                 # exit first parent
                 sys.exit(0)
         except OSError as e:
-            logger.error("[Password_Cache.Daemon.daemonize] fork #1 failed: %d (%s)" % (e.errno, e.strerror))
+            logger.error("fork #1 failed: %d (%s)" % (e.errno, e.strerror), self)
             sys.exit(1)
 
         # decouple from parent environment
@@ -75,7 +76,7 @@ class Daemon:
                 # exit from second parent
                 sys.exit(0)
         except OSError as e:
-            logger.error("[Password_Cache.Daemon.daemonize] fork #2 failed: %d (%s)" % (e.errno, e.strerror))
+            logger.error("fork #2 failed: %d (%s)" % (e.errno, e.strerror), self)
             sys.exit(1)
 
         # redirect standard file descriptors
@@ -89,7 +90,7 @@ class Daemon:
         os.dup2(se.fileno(), sys.stderr.fileno())
 
         # write pidfile
-        #logger.info('[Password_Cache.Daemon.daemonize] write pidfile')
+        logger.debug('write pidfile', self)
         atexit.register(self.delpid)
         signal.signal(signal.SIGTERM, self._cleanup_handler)
         pid = str(os.getpid())
@@ -103,6 +104,7 @@ class Daemon:
         sys.exit(0)
 
     def delpid(self):
+        logger.debug('clean-up pid file', self)
         try:
             os.remove(self.pidfile)
         except:
@@ -118,7 +120,7 @@ class Daemon:
         if pid:
             if tools.is_process_alive(pid):
                 message = "pidfile %s already exist. Daemon already running?\n"
-                logger.error('[Password_Cache.Daemon.start] ' + message % self.pidfile)
+                logger.error(message % self.pidfile, self)
                 sys.exit(1)
             else:
                 self.delpid()
@@ -136,7 +138,7 @@ class Daemon:
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
-            logger.error('[Password_Cache.Daemon.stop] ' + message % self.pidfile)
+            logger.error(message % self.pidfile, self)
             return # not an error in a restart
 
         # Try killing the daemon process
@@ -149,7 +151,7 @@ class Daemon:
                 if os.path.exists(self.pidfile):
                     os.remove(self.pidfile)
             else:
-                print(err.strerror)
+                logger.error(err.strerror, self)
                 sys.exit(1)
 
     def restart(self):
@@ -168,7 +170,7 @@ class Daemon:
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
-            logger.error('[Password_Cache.Daemon.reload] ' + message % self.pidfile)
+            logger.error(message % self.pidfile, self)
             return
 
         # Try killing the daemon process
@@ -221,7 +223,7 @@ class Daemon:
         try:
             with open(self.pidfile, 'r') as pf:
                 return(int(pf.read().strip()))
-        except (IOError, ValueError):
+        except (IOError, ValueError, FileNotFoundError):
             return(None)
 
 class Password_Cache(Daemon):
@@ -259,15 +261,17 @@ class Password_Cache(Daemon):
         info.save(self.config.get_password_cache_info())
         os.chmod(self.config.get_password_cache_info(), 0o600)
 
+        logger.debug('Keyring supported: %s' %self.keyring_supported, self)
+
         tools.save_env(self.config.get_cron_env_file())
 
         if not self._collect_passwords():
-            #logger.info('[Password_Cache.run] Nothing to cache. Quit.')
+            logger.debug('Nothing to cache. Quit.', self)
             sys.exit(0)
         self.fifo.create()
         atexit.register(self.fifo.delfifo)
         signal.signal(signal.SIGHUP, self._reload_handler)
-        #logger.info('[Password_Cache.run] start loop')
+        logger.debug('Start loop', self)
         while True:
             try:
                 request = self.fifo.read()
@@ -287,22 +291,23 @@ class Password_Cache(Daemon):
                     self.db_usr[key] = value
 
             except IOError as e:
-                logger.error('[Password_Cache.run] Error in writing answer to FIFO: %s' % e.strerror)
+                logger.error('Error in writing answer to FIFO: %s' % e.strerror, self)
             except KeyboardInterrupt:
-                print('Quit.')
+                logger.debug('Quit.', self)
                 break
-            except tools.Timeout:
-                logger.error('[Password_Cache.run] FIFO timeout')
+            except Timeout:
+                logger.error('FIFO timeout', self)
             except Exception as e:
-                logger.error('[Password_Cache.run] ERROR: %s' % str(e))
+                logger.error('ERROR: %s' % e.strerror, self)
 
     def _reload_handler(self, signum, frame):
         """
         reload passwords during runtime.
         """
         time.sleep(2)
+        cfgPath = self.config._LOCAL_CONFIG_PATH
         del(self.config)
-        self.config = config.Config()
+        self.config = config.Config(cfgPath)
         del(self.db_keyring)
         self.db_keyring = {}
         self._collect_passwords()
@@ -395,7 +400,7 @@ class Password(object):
             try:
                 return tools.get_password(service_name, user_name)
             except Exception:
-                logger.error('get password from Keyring failed')
+                logger.error('get password from Keyring failed', self)
         return None
 
     def _get_password_from_pw_cache(self, service_name, user_name):
@@ -439,7 +444,7 @@ class Password(object):
             try:
                 password = getpass.getpass(prompt)
                 alarm.stop()
-            except tools.Timeout:
+            except Timeout:
                 password = ''
             return password
 
