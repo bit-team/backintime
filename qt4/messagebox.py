@@ -15,9 +15,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import gettext
-from PyQt4.QtCore import QTimer, SIGNAL
+from PyQt4.QtCore import QTimer, SIGNAL, Qt
 from PyQt4.QtGui import QApplication, QMessageBox, QInputDialog, QLineEdit,\
-    QDialog, QVBoxLayout, QLabel, QDialogButtonBox, QCheckBox
+    QDialog, QVBoxLayout, QLabel, QDialogButtonBox, QScrollArea
 import qt4tools
 
 _ = gettext.gettext
@@ -81,3 +81,21 @@ def warningYesNoOptions(parent, msg, options = ()):
     dlg.connect(buttonBox, SIGNAL('rejected()'), dlg.reject)
     ret = dlg.exec_()
     return (ret, {opt['id']:opt['retFunc']() for opt in options})
+
+def show_info(parent, title, msg):
+    dlg = QDialog(parent)
+    dlg.setWindowTitle(title)
+    vlayout = QVBoxLayout(dlg)
+    label = QLabel(msg)
+    label.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
+    label.setOpenExternalLinks(True)
+
+    scroll_area = QScrollArea()
+    scroll_area.setWidget(label)
+
+    button_box = QDialogButtonBox(QDialogButtonBox.Ok)
+    dlg.connect(button_box, SIGNAL('accepted()'), dlg.accept)
+
+    vlayout.addWidget(scroll_area)
+    vlayout.addWidget(button_box)
+    return dlg.exec_()

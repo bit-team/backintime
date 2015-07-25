@@ -118,6 +118,8 @@ class MainWindow( QMainWindow ):
         help_menu = QMenu()
         self.btn_help = help_menu.addAction(icon.HELP, _('Help') )
         QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_help )
+        self.btn_help_config = help_menu.addAction(icon.HELP, _('Config File Help'))
+        QObject.connect(self.btn_help_config, SIGNAL('triggered()'), self.on_help_config)
         help_menu.addSeparator()
         self.btn_website = help_menu.addAction(icon.WEBSITE, _('Website') )
         QObject.connect( self.btn_website, SIGNAL('triggered()'), self.on_website)
@@ -241,6 +243,7 @@ class MainWindow( QMainWindow ):
 
         self.menubar_help = self.menubar.addMenu(_('Help'))
         self.menubar_help.addAction(self.btn_help)
+        self.menubar_help.addAction(self.btn_help_config)
         self.menubar_help.addSeparator()
         self.menubar_help.addAction(self.btn_website)
         self.menubar_help.addAction(self.btn_changelog)
@@ -1005,25 +1008,44 @@ class MainWindow( QMainWindow ):
         dlg.exec_()
 
     def on_help( self ):
-        self.open_url( 'http://backintime.le-web.org/documentation' );
+        self.open_man_page('backintime')
+
+    def on_help_config(self):
+        self.open_man_page('backintime-config')
 
     def on_website( self ):
-        self.open_url( 'http://backintime.le-web.org' );
+        self.open_url('https://launchpad.net/backintime')
 
     def on_changelog( self ):
-        self.open_url( 'http://backintime.le-web.org/change-log' )
+        def a_href(m):
+            if m.group(0).count('@'):
+                return '<a href="mailto:%(url)s">%(url)s</a>' % {'url': m.group(0)}
+            else:
+                return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(0)}
+
+        def a_href_lp(m):
+            return '<a href="https://bugs.launchpad.net/backintime/+bug/%(id)s">%(txt)s</a>' % {'txt': m.group(0), 'id': m.group(1)}
+
+        msg = self.config.get_changelog()
+        msg = re.sub(r'https?://[^) \n]*', a_href, msg)
+        msg = re.sub(r'LP: #?(\d+)', a_href_lp, msg)
+        msg = re.sub(r'\n', '<br>', msg)
+        messagebox.show_info(self, _('Changelog'), msg)
 
     def on_faq( self ):
-        self.open_url( 'https://answers.launchpad.net/backintime/+faqs' );
+        self.open_url('https://answers.launchpad.net/backintime/+faqs')
 
     def on_ask_a_question( self ):
-        self.open_url( 'https://answers.launchpad.net/backintime' );
+        self.open_url('https://answers.launchpad.net/backintime')
 
     def on_report_a_bug( self ):
-        self.open_url( 'https://bugs.launchpad.net/backintime' );
+        self.open_url('https://bugs.launchpad.net/backintime')
 
     def open_url( self, url ):
         return QDesktopServices.openUrl(QUrl(url))
+
+    def open_man_page(self, man_page):
+        os.system('x-terminal-emulator -e man %s' %man_page)
 
     def on_btn_show_hidden_files_toggled( self, checked ):
         self.show_hidden_files = checked
@@ -1340,7 +1362,7 @@ class About(QDialog):
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)) )
         name     = QLabel('<h1>' + self.config.APP_NAME + ' ' + self.config.VERSION + '</h1>')
         name.setAlignment(Qt.AlignLeft | Qt.AlignTop)
-        homepage = QLabel(self.mkurl('<http://backintime.le-web.org>'))
+        homepage = QLabel(self.mkurl('<https://launchpad.net/backintime>'))
         homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         homepage.setOpenExternalLinks(True)
         bit_copyright = QLabel(self.config.COPYRIGHT + '\n')
@@ -1372,31 +1394,13 @@ class About(QDialog):
         QObject.connect(button_box_right, SIGNAL('accepted()'), self.accept)
 
     def authors(self):
-        return self.show_info(_('Authors'), self.mkurl(self.config.get_authors()) )
+        return messagebox.show_info(self, _('Authors'), self.mkurl(self.config.get_authors()) )
 
     def translations(self):
-        return self.show_info(_('Translations'), self.mkurl(self.config.get_translations()) )
+        return messagebox.show_info(self, _('Translations'), self.mkurl(self.config.get_translations()) )
 
     def license(self):
-        return self.show_info(_('License'), self.config.get_license())
-
-    def show_info(self, title, msg):
-        dlg = QDialog(self)
-        dlg.setWindowTitle(title)
-        vlayout = QVBoxLayout(dlg)
-        label = QLabel(msg)
-        label.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
-        label.setOpenExternalLinks(True)
-
-        scroll_area = QScrollArea()
-        scroll_area.setWidget(label)
-
-        button_box = QDialogButtonBox(QDialogButtonBox.Ok)
-        QObject.connect(button_box, SIGNAL('accepted()'), dlg.accept)
-
-        vlayout.addWidget(scroll_area)
-        vlayout.addWidget(button_box)
-        return dlg.exec_()
+        return messagebox.show_info(self, _('License'), self.config.get_license())
 
     def mkurl(self, msg):
         msg = re.sub(r'<(.*?)>', self.a_href, msg)

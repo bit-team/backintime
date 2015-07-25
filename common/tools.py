@@ -66,7 +66,7 @@ def read_file( path, default_value = None ):
                 ret_val = f.read()
         elif os.path.exists(path + '.gz'):
             with gzip.open(path + '.gz') as f:
-                ret_val = f.read()
+                ret_val = f.read().decode()
     except:
         pass
 
@@ -82,7 +82,7 @@ def read_file_lines( path, default_value = None ):
                 ret_val = f.readlines()
         elif os.path.exists(path + '.gz'):
             with gzip.open(path + '.gz') as f:
-                ret_val = f.readlines()
+                ret_val = [b.decode() for b in f.readlines()]
     except:
         pass
 

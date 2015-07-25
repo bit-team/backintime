@@ -1305,6 +1305,9 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_authors( self ):
         return tools.read_file( os.path.join( self.get_doc_path(), 'AUTHORS' ), '' )
 
+    def get_changelog(self):
+        return tools.read_file(os.path.join(self.get_doc_path(), 'CHANGES'), '')
+
     def prepare_path( self, path ):
         if len( path ) > 1:
             if path[ -1 ] == os.sep:
