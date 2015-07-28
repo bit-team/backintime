@@ -304,7 +304,7 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Restore files.'
     restoreCP =            subparsers.add_parser(command,
-                                                 parents = [commonArgsParser],
+                                                 parents = [commonArgsParser, rsyncArgsParser],
                                                  help = description,
                                                  description = description)
     restoreCP.set_defaults(func = restore)
@@ -336,7 +336,7 @@ def start_app(app_name = 'backintime'):
 
     backupGroup.add_argument                    ('--local-backup',
                                                  action = 'store_true',
-                                                 help = 'Create backup files before changing local files. ')
+                                                 help = 'Create backup files before changing local files.')
 
     backupGroup.add_argument                    ('--no-local-backup',
                                                  action = 'store_true',
