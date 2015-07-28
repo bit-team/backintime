@@ -75,6 +75,7 @@ _backintime()
                 else
                     #other args
                     COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+                    return 0
                 fi
                 ;;
         check-config)
