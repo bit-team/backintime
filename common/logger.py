@@ -18,6 +18,7 @@
 import syslog
 import os
 import sys
+import atexit
 
 import tools
 import bcolors
@@ -27,6 +28,7 @@ DEBUG = False
 def openlog():
     name = os.getenv( 'LOGNAME', 'unknown' )
     syslog.openlog( "backintime (%s)" % name )
+    atexit.register(closelog)
 
 def closelog():
     syslog.closelog()

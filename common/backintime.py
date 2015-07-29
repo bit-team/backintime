@@ -19,7 +19,6 @@ import os
 import sys
 import gettext
 import argparse
-import atexit
 
 import config
 import logger
@@ -55,10 +54,8 @@ def take_snapshot_now_async( cfg ):
 
 
 def take_snapshot( cfg, force = True ):
-    logger.openlog()
     tools.load_env(cfg.get_cron_env_file())
     ret = snapshots.Snapshots( cfg ).take_snapshot( force )
-    logger.closelog()
     return ret
 
 def _mount(cfg):
@@ -368,10 +365,9 @@ def start_app(app_name = 'backintime'):
 
     #parse args
     args = parser.parse_args()
+    logger.openlog()
     logger.DEBUG = args.debug
     dargs = vars(args)
-    logger.openlog()
-    atexit.register(logger.closelog)
     logger.debug('Arguments: %s' %{arg:dargs[arg] for arg in dargs if dargs[arg]})
 
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
@@ -537,7 +533,6 @@ def benchmarkCipher(args):
 def pwCache(args):
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
-    logger.openlog()
     ret = RETURN_OK
     daemon = password.Password_Cache(cfg)
     if args.COMMAND and args.COMMAND != 'status':
@@ -552,7 +547,6 @@ def pwCache(args):
             ret = RETURN_ERR
     else:
         daemon.run()
-    logger.closelog()
     sys.exit(ret)
 
 def decode(args):
