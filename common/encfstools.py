@@ -358,7 +358,7 @@ class Encode(object):
         env['ASKPASS_TEMP'] = thread.temp_file
         thread.start()
 
-        logger.info('start \'encfsctl encode\' process')
+        logger.debug('start \'encfsctl encode\' process', self)
         encfsctl = ['encfsctl', 'encode', '--extpass=backintime-askpass', '/']
         logger.debug('Call command: %s'
                      %' '.join(encfsctl),
@@ -374,7 +374,7 @@ class Encode(object):
         if not 'p' in vars(self):
             self.start_process()
         if not self.p.returncode is None:
-            logger.warning('\'encfsctl encode\' process terminated. Restarting.')
+            logger.warning('\'encfsctl encode\' process terminated. Restarting.', self)
             del self.p
             self.start_process()
         self.p.stdin.write(path + '\n')
@@ -439,7 +439,7 @@ class Encode(object):
     def close(self):
         """stop encfsctl process"""
         if 'p' in vars(self) and self.p.returncode is None:
-            logger.info('stop \'encfsctl encode\' process')
+            logger.debug('stop \'encfsctl encode\' process', self)
             self.p.communicate()
 
 class Bounce(object):
@@ -555,7 +555,7 @@ class Decode(object):
         env['ASKPASS_TEMP'] = thread.temp_file
         thread.start()
 
-        logger.info('start \'encfsctl decode\' process')
+        logger.debug('start \'encfsctl decode\' process', self)
         encfsctl = ['encfsctl', 'decode', '--extpass=backintime-askpass', self.encfs.path]
         logger.debug('Call command: %s'
                      %' '.join(encfsctl),
@@ -579,7 +579,7 @@ class Decode(object):
         if not 'p' in vars(self):
             self.start_process()
         if not self.p.returncode is None:
-            logger.warning('\'encfsctl decode\' process terminated. Restarting.')
+            logger.warning('\'encfsctl decode\' process terminated. Restarting.', self)
             del self.p
             self.start_process()
         self.p.stdin.write(path + self.newline)
@@ -655,5 +655,5 @@ class Decode(object):
     def close(self):
         """stop encfsctl process"""
         if 'p' in vars(self) and self.p.returncode is None:
-            logger.info('stop \'encfsctl decode\' process')
+            logger.debug('stop \'encfsctl decode\' process', self)
             self.p.communicate()

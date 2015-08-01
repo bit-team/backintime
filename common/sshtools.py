@@ -104,7 +104,8 @@ class SSH(mount.MountControl):
                            'Most likely because the public key %(path)s.pub wasn\'t found. '
                            'Using fallback to private keys path instead. '
                            'But this can make troubles with passphrase-less keys.' 
-                           %{'path': self.private_key_file})
+                           %{'path': self.private_key_file},
+                           self)
             self.private_key_fingerprint = self.private_key_file
         self.unlock_ssh_agent()
 
@@ -369,7 +370,7 @@ class SSH(mount.MountControl):
                 raise MountException( _('Couldn\'t create remote path:\n %s') % self.path)
         else:
             #returncode is 0
-            logger.info('Create remote folder %s' % self.path)
+            logger.info('Create remote folder %s' %self.path, self)
 
     def check_ping_host(self):
         """connect to remote port and check if it is open"""
@@ -403,7 +404,8 @@ class SSH(mount.MountControl):
                 raise MountException("Checking commands on remote host didn't return any output. "
                                      "We already checked the maximum argument lenght but it seem like "
                                      "there is an other problem")
-            logger.warning('Looks like the command was to long for remote SSHd. We will test max arg length now and retry.')
+            logger.warning('Looks like the command was to long for remote SSHd. We will test max arg length now and retry.',
+                           self)
             import sshMaxArg
             mid = sshMaxArg.test_ssh_max_arg(self.user_host)
             sshMaxArg.reportResult(self.host, mid)

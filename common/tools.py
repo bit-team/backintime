@@ -306,7 +306,9 @@ def _execute( cmd, callback = None, user_data = None ):
             ret_val = 0
 
     if ret_val != 0:
-        logger.warning("Command \"%s\" returns %s" % ( cmd, ret_val ))
+        logger.warning("Command \"%s\" returns %s"
+                       %(cmd, ret_val),
+                       traceDepth = 1)
     else:
         logger.debug("Command \"%s...\" returns %s"
                      %(cmd[:min(16, len(cmd))], ret_val),

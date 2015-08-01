@@ -229,7 +229,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 # but must be able to read old paths
                 profiles = self.get_profiles()
                 self.set_bool_value( 'update.other_folders', True )
-                logger.info( "Update to config version 4: other snapshot locations" )
+                logger.info("Update to config version 4: other snapshot locations", self)
 
                 for profile_id in profiles:
                     old_folder = self.get_snapshots_path( profile_id )
@@ -237,11 +237,11 @@ class Config( configfile.ConfigFileWithProfiles ):
                     other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
                     self.set_str_value( other_folder_key, other_folder )
                     tag = str( random.randint(100, 999) )
-                    logger.info( "Random tag for profile %s: %s" %( profile_id, tag ) )
+                    logger.info("Random tag for profile %s: %s" %(profile_id, tag), self)
                     self.set_profile_str_value( 'snapshots.tag', tag, profile_id )
 
             if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 5:
-                logger.info( "Update to config version 5: other snapshot locations" )
+                logger.info("Update to config version 5: other snapshot locations", self)
                 profiles = self.get_profiles()
                 for profile_id in profiles:
                     #change include

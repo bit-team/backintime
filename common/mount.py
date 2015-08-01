@@ -82,7 +82,7 @@ class Mount(object):
                                        parent = self.parent, **kwargs)
                     return tools.mount(check = check)
                 except HashCollision as ex:
-                    logger.warning(ex.strerror)
+                    logger.warning(ex.strerror, self)
                     del tools
                     check = False
                     continue
@@ -198,13 +198,15 @@ class MountControl(object):
                     #We probably have a hash collision
                     self.config.increment_hash_collision()
                     raise HashCollision( _('Hash collision occurred in hash_id %s. Incrementing global value hash_collision and try again.') % self.hash_id)
-                logger.info('Mountpoint %s is already mounted' % self.mountpoint)
+                logger.info('Mountpoint %s is already mounted' %self.mountpoint, self)
             else:
                 if check:
                     self.pre_mount_check()
                 self._mount()
                 self.post_mount_check()
-                logger.info('mount %s on %s' % (self.log_command, self.mountpoint))
+                logger.info('mount %s on %s' 
+                            %(self.log_command, self.mountpoint),
+                            self)
                 self.write_umount_info()
         except Exception:
             raise
@@ -219,21 +221,23 @@ class MountControl(object):
         self.mountprocess_lock_acquire()
         try:
             if not os.path.isdir(self.hash_id_path):
-                logger.info('Mountpoint %s does not exist.' % self.hash_id_path)
+                logger.info('Mountpoint %s does not exist.' % self.hash_id_path, self)
             else:
                 if not self.is_mounted():
-                    logger.info('Mountpoint %s is not mounted' % self.hash_id_path)
+                    logger.info('Mountpoint %s is not mounted' % self.hash_id_path, self)
                 else:
                     if self.check_mount_lock():
-                        logger.info('Mountpoint %s still in use. Keep mounted' % self.mountpoint)
+                        logger.info('Mountpoint %s still in use. Keep mounted' % self.mountpoint, self)
                     else:
                         self.pre_umount_check()
                         self._umount()
                         self.post_umount_check()
                         if os.listdir(self.mountpoint):
-                            logger.warning('Mountpoint %s not empty after unmount' % self.mountpoint)
+                            logger.warning('Mountpoint %s not empty after unmount' %self.mountpoint, self)
                         else:
-                            logger.info('unmount %s from %s' % (self.log_command, self.mountpoint))
+                            logger.info('unmount %s from %s'
+                                        %(self.log_command, self.mountpoint),
+                                        self)
         except Exception:
             raise
         else:

@@ -45,7 +45,8 @@ class Qt4SysTrayIcon:
 
         if len( sys.argv ) > 1:
             if not self.config.set_current_profile(sys.argv[1]):
-                logger.warning("Failed to change Profile_ID %s" % sys.argv[1])
+                logger.warning("Failed to change Profile_ID %s"
+                               %sys.argv[1], self)
 
         self.qapp = qt4tools.create_qapplication(self.config.APP_NAME)
 
@@ -104,11 +105,11 @@ class Qt4SysTrayIcon:
         self.status_icon.show()
         self.timer.start( 500 )
 
-        logger.info( "[qt4systrayicon] begin loop" )
+        logger.info("[qt4systrayicon] begin loop", self)
 
         self.qapp.exec_()
 
-        logger.info( "[qt4systrayicon] end loop" )
+        logger.info("[qt4systrayicon] end loop", self)
 
         self.prepare_exit()
 

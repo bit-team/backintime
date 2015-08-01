@@ -40,12 +40,16 @@ def error(msg , parent = None, traceDepth = 0):
     for line in tools.wrap_line(msg):
         syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + line )
 
-def warning( msg ):
+def warning(msg , parent = None, traceDepth = 0):
+    if DEBUG:
+        msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
     print('%sWARNING%s: %s' %(bcolors.WARNING, bcolors.ENDC, msg), file=sys.stderr)
     for line in tools.wrap_line(msg):
         syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + line )
 
-def info( msg ):
+def info(msg , parent = None, traceDepth = 0):
+    if DEBUG:
+        msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
     print('%sINFO%s: %s' %(bcolors.OKGREEN, bcolors.ENDC, msg), file=sys.stdout)
     for line in tools.wrap_line(msg):
         syslog.syslog( syslog.LOG_INFO, 'INFO: ' + line )

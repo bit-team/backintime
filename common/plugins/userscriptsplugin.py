@@ -37,7 +37,9 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
         if not path:
             return
 
-        logger.info( "[UserScriptsPlugin.notify_script] %s %s" % ( path, args ) )
+        logger.info("[UserScriptsPlugin.notify_script] %s %s"
+                    %(path, args),
+                    self)
         os.system( "sh \"%s\" %s" % ( self.callback, args ) )
 
     def on_process_begins( self ):

@@ -571,7 +571,7 @@ class Snapshots:
         if instance.check():
             instance.start_application()
         else:
-            logger.warning('Restore is already running')
+            logger.warning('Restore is already running', self)
             return
 
         if restore_to.endswith('/'):
@@ -583,7 +583,9 @@ class Snapshots:
         #full rsync
         full_rsync = self.config.full_rsync()
 
-        logger.info( "Restore: %s to: %s" % (', '.join(paths), restore_to) )
+        logger.info("Restore: %s to: %s"
+                    %(', '.join(paths), restore_to),
+                    self)
 
         info_file = configfile.ConfigFile()
         info_file.load( self.get_snapshot_info_path( snapshot_id ) )
@@ -640,7 +642,7 @@ class Snapshots:
             return
 
         #restore permissions
-        logger.info( 'Restore permissions' )
+        logger.info('Restore permissions', self)
         self.restore_callback( callback, True, ' ' )
         self.restore_callback( callback, True, _("Restore permissions:") )
         file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
@@ -782,34 +784,38 @@ class Snapshots:
         #need to implement hardlinking to existing folder -> cp newest snapshot folder, rsync -aEAXHv --delete to this folder
         self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (current_path, self.config.find_suffix()) )
         cmd = "cp -dRl \"%s\"* \"%s\"" % ( current_path, new_folder )
-        logger.info( '%s is copied to folder %s' %( snapshot_id, new_folder ) )
+        logger.info('%s is copied to folder %s'
+                    %(snapshot_id, new_folder),
+                    self)
         self._execute( cmd )
         self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} %s" % (current_path, new_folder, self.config.find_suffix() ) )
 
     def update_snapshots_location( self ):
         '''Updates to location: backintime/machine/user/profile_id'''
         if self.has_old_snapshots():
-            logger.info( 'Snapshot location update flag detected' )
-            logger.warning( 'Snapshot location needs update' )
+            logger.info('Snapshot location update flag detected', self)
+            logger.warning('Snapshot location needs update', self)
             profiles = self.config.get_profiles()
 
             answer_change = self.config.question_handler( _('Back In Time changed its backup format.\n\nYour old snapshots can be moved according to this new format. OK?') )
             if answer_change == True:
-                logger.info( 'Update snapshot locations' )
+                logger.info('Update snapshot locations', self)
 
                 if len( profiles ) == 1:
-                    logger.info( 'Only 1 profile found' )
+                    logger.info('Only 1 profile found', self)
                     answer_same = True
                 elif len( profiles ) > 1:
                     answer_same = self.config.question_handler( _('%s profiles found. \n\nThe new backup format supports storage of different users and profiles on the same location. Do you want the same location for both profiles? \n\n(The program will still be able to discriminate between them)') % len( profiles ) )
                 else:
-                    logger.warning( 'No profiles are found!' )
+                    logger.warning('No profiles found!', self)
                     self.config.notify_error( _( 'No profiles are found. Will have to update to profiles first, please restart Back In Time' ) )
-                    logger.info( 'Config version is %s' % str( self.get_int_value( 'config.version', 1 ) ) )
+                    logger.info('Config version is %s'
+                                %str(self.get_int_value('config.version', 1)),
+                                self)
 
                     if self.config.get_int_value( 'config.version', 1 ) > 1:
                         self.config.set_int_value( 'config.version', 2 )
-                        logger.info( 'Config version set to 2' )
+                        logger.info('Config version set to 2', self)
                         return False
 
                 # Moving old snapshots per profile_id
@@ -824,10 +830,14 @@ class Snapshots:
                     old_folder = os.path.join( self.config.get_snapshots_path( profile_id ), 'backintime' )
                     if profile_id != "1" and answer_same == True:
                         self.config.set_snapshots_path( main_folder, profile_id )
-                        logger.info( 'Folder of profile %s is set to %s' %( profile_id, main_folder ) )
+                        logger.info('Folder of profile %s is set to %s'
+                                    %(profile_id, main_folder),
+                                    self)
                     else:
                         self.config.set_snapshots_path( self.config.get_snapshots_path( profile_id ), profile_id )
-                        logger.info( 'Folder of profile %s is set to %s' %( profile_id, main_folder ) )
+                        logger.info('Folder of profile %s is set to %s'
+                                    %(profile_id, main_folder),
+                                    self)
                     new_folder = self.config.get_snapshots_full_path( profile_id )
 
                     output = tools.move_snapshots_folder( old_folder, new_folder )
@@ -836,13 +846,14 @@ class Snapshots:
                     if output == True:
                         success.append( True )
                         if not snapshots_left:
-                            logger.info( 'Update was successful. Snapshots of profile %s are moved to their new location' % profile_id )
+                            logger.info('Update was successful. Snapshots of profile %s are moved to their new location'
+                                        %profile_id, self)
                         else:
-                            logger.warning( 'Not all snapshots are removed from the original folder!' )
-                            logger.info( 'The following snapshots are still present: %s' % snapshots_left )
-                            logger.info( 'You could move them manually or leave them where they are now' )
+                            logger.warning('Not all snapshots are removed from the original folder!', self)
+                            logger.info('The following snapshots are still present: %s' %snapshots_left, self)
+                            logger.info('You could move them manually or leave them where they are now', self)
                     else:
-                        logger.warning( '%s: are not moved to their new location!' %snapshots_left )
+                        logger.warning('%s: are not moved to their new location!' %snapshots_left, self)
 
                         answer_unsuccessful = self.config.question_handler( _('%(snapshots_left)s\nof profile %(profile_id)s are not moved to their new location\nDo you want to proceed?\n(Back In Time will be able to continue taking snapshots, however the remaining snapshots will not be considered for automatic removal)\n\nIf not Back In Time will restore former settings for this profile, however cannot continue taking snapshots' %{ 'snapshots_left' : snapshots_left, 'profile_id' : profile_id } ) )
                         if answer_unsuccessful == True:
@@ -850,7 +861,7 @@ class Snapshots:
                         else:
                             success.append( False )
                             # restore
-                            logger.info( 'Restore former settings' )
+                            logger.info('Restore former settings', self)
                             self.config.set_snapshots_path( old_snapshots_paths[counter], profile_id )
                             self.config.error_handler( _('Former settings of profile %s are restored.\nBack In Time cannot continue taking new snapshots.\n\nYou can manually move the snapshots, \nif you are done restart Back In Time to proceed' %profile_id ) )
 
@@ -861,20 +872,22 @@ class Snapshots:
                     if item == False:
                         overall_success = False
                 if overall_success == True:
-                    logger.info( 'Back In Time will be able to make new snapshots again!' )
+                    logger.info('Back In Time will be able to make new snapshots again!', self)
                     self.config.error_handler( _('Update was successful!\n\nBack In Time will continue taking snapshots again as scheduled' ) )
 
             elif answer_change == False:
-                logger.info( 'Move refused by user' )
-                logger.warning( 'Old snapshots are not taken into account by smart-remove' )
+                logger.info('Move refused by user', self)
+                logger.warning('Old snapshots are not taken into account by smart-remove', self)
                 answer_continue = self.config.question_handler( _('Are you sure you do not want to move your old snapshots?\n\n\nIf you do, you will not see these questions again next time, Back In Time will continue making snapshots again, but smart-remove cannot take your old snapshots into account any longer!\n\nIf you do not, you will be asked again next time you start Back In Time.') )
                 if answer_continue == True:
                     for profile_id in profiles:
                         old_folder = self.config.get_snapshots_path( profile_id )
                         self.config.set_snapshots_path( old_folder, profile_id )
-                        logger.info( 'Folder of profile %s is set to %s' %( profile_id, self.get_snapshots_path( profile_id ) ) )
+                        logger.info('Folder of profile %s is set to %s'
+                                    %(profile_id, self.get_snapshots_path(profile_id)),
+                                    self)
 
-                    logger.info( 'Back In Time will be able to make new snapshots again!' )
+                    logger.info('Back In Time will be able to make new snapshots again!', self)
                     self.config.error_handler( _('Back In Time will continue taking snapshots again as scheduled' ) )
                 else:
                     self.config.error_handler( _( 'Back In Time still cannot continue taking new snapshots.\nRestart Back In Time to see the questions again' ) )
@@ -893,32 +906,35 @@ class Snapshots:
         self.config.PLUGIN_MANAGER.load_plugins( self )
 
         if not self.config.is_configured():
-            logger.warning( 'Not configured' )
+            logger.warning('Not configured', self)
             self.config.PLUGIN_MANAGER.on_error( 1 ) #not configured
         elif not force and self.config.is_no_on_battery_enabled() and tools.on_battery():
             self.set_take_snapshot_message(0, _('Deferring backup while on battery'))
-            logger.info( 'Deferring backup while on battery' )
-            logger.warning( 'Backup not performed' )
+            logger.info('Deferring backup while on battery', self)
+            logger.warning('Backup not performed', self)
         elif self.has_old_snapshots():
-            logger.info( 'The application needs to change the backup format. Start the GUI to proceed. (As long as you do not you will not be able to make new snapshots!)' )
-            logger.warning( 'Backup not performed' )
+            logger.info('The application needs to change the backup format. '
+                        'Start the GUI to proceed. (As long as you do not you '
+                        'will not be able to make new snapshots!)', self)
+            logger.warning('Backup not performed', self)
         elif not force and not self.config.is_backup_scheduled():
-            logger.info('Profile "%s" is not scheduled to run now.' % self.config.get_profile_name())
+            logger.info('Profile "%s" is not scheduled to run now.' 
+                        %self.config.get_profile_name(), self)
         else:
             instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False, flock = True)
             restore_instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False )
             if not instance.check():
-                logger.warning( 'A backup is already running' )
+                logger.warning('A backup is already running', self)
                 self.config.PLUGIN_MANAGER.on_error( 2 ) #a backup is already running
             elif not restore_instance.check():
-                logger.warning( 'Restore is still running. Stop backup until restore is done.' )
+                logger.warning('Restore is still running. Stop backup until restore is done.', self)
             else:
                 if self.config.is_no_on_battery_enabled () and not tools.power_status_available():
-                    logger.warning( 'Backups disabled on battery but power status is not available' )
+                    logger.warning('Backups disabled on battery but power status is not available', self)
 
                 instance.start_application()
                 self.flockExclusive()
-                logger.info( 'Lock' )
+                logger.info('Lock', self)
 
                 now = datetime.datetime.today()
 
@@ -931,7 +947,7 @@ class Snapshots:
                 except MountException as ex:
                     logger.error(ex.strerror, self)
                     instance.exit_application()
-                    logger.info( 'Unlock' )
+                    logger.info('Unlock', self)
                     time.sleep(2)
                     return False
                 else:
@@ -941,17 +957,17 @@ class Snapshots:
                 include_folders = self.config.get_include()
 
                 if not include_folders:
-                    logger.info( 'Nothing to do' )
+                    logger.info('Nothing to do', self)
                 elif not self.config.PLUGIN_MANAGER.on_process_begins():
-                    logger.info( 'A plugin prevented the backup' )
+                    logger.info('A plugin prevented the backup', self)
                 else:
                     #take snapshot process begin
-                    logger.info( "on process begins" )
                     self.set_take_snapshot_message( 0, '...' )
                     self.new_take_snapshot_log( now )
                     profile_id = self.config.get_current_profile()
                     profile_name = self.config.get_profile_name()
-                    logger.info( "Profile_id: %s %s" % (profile_id, profile_name) )
+                    logger.info("Take a new snapshot. Profile: %s %s"
+                                %(profile_id, profile_name), self)
 
                     if not self.config.can_backup( profile_id ):
                         if self.config.PLUGIN_MANAGER.has_gui_plugins() and self.config.is_notify_enabled():
@@ -966,7 +982,7 @@ class Snapshots:
                                 break
 
                     if not self.config.can_backup( profile_id ):
-                        logger.warning( 'Can\'t find snapshots folder !' )
+                        logger.warning('Can\'t find snapshots folder!', self)
                         self.config.PLUGIN_MANAGER.on_error( 3 ) #Can't find snapshots directory (is it on a removable drive ?)
                     else:
                         ret_error = False
@@ -974,7 +990,7 @@ class Snapshots:
                         snapshot_path = self.get_snapshot_path( snapshot_id )
 
                         if os.path.exists( snapshot_path ):
-                            logger.warning( "Snapshot path \"%s\" already exists" % snapshot_path )
+                            logger.warning("Snapshot path \"%s\" already exists" %snapshot_path, self)
                             self.config.PLUGIN_MANAGER.on_error( 4, snapshot_id ) #This snapshots already exists
                         else:
                             ret_val, ret_error = self._take_snapshot( snapshot_id, now, include_folders )
@@ -987,7 +1003,7 @@ class Snapshots:
                                 self.set_take_snapshot_message( 1, _('Failed to take snapshot %s !!!') % now.strftime( '%x %H:%M:%S' ) )
                                 time.sleep(2)
                             else:
-                                logger.warning( "No new snapshot" )
+                                logger.warning("No new snapshot", self)
                         else:
                             ret_error = False
 
@@ -1018,7 +1034,7 @@ class Snapshots:
 
                 instance.exit_application()
                 self.flockRelease()
-                logger.info( 'Unlock' )
+                logger.info('Unlock', self)
 
         if sleep:
             time.sleep(2) #max 1 backup / second
@@ -1241,7 +1257,7 @@ class Snapshots:
                 if check_for_changes:
                     prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
                     self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % prev_snapshot_name )
-                    logger.info( "Compare with old snapshot: %s" % prev_snapshot_id )
+                    logger.info("Compare with old snapshot: %s" % prev_snapshot_id, self)
 
                     cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix
                     cmd += self.rsync_remote_path( prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
@@ -1251,7 +1267,7 @@ class Snapshots:
                     changed = params[1]
 
                     if not changed:
-                        logger.info( "Nothing changed, no back needed" )
+                        logger.info("Nothing changed, no back needed", self)
                         self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
                         self.set_snapshot_last_check(prev_snapshot_id)
                         return [ False, False ]
@@ -1261,7 +1277,7 @@ class Snapshots:
 
             if not full_rsync:
                 self.set_take_snapshot_message( 0, _('Create hard-links') )
-                logger.info( "Create hard-links" )
+                logger.info("Create hard-links", self)
 
                 #make source snapshot folders rw to allow cp -al
                 self._execute( self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
@@ -1283,7 +1299,7 @@ class Snapshots:
                 return [ False, True ]
 
         #sync changed folders
-        logger.info( "Call rsync to take the snapshot" )
+        logger.info("Call rsync to take the snapshot", self)
         cmd = rsync_prefix + ' -v ' + rsync_suffix
         cmd += self.rsync_remote_path( new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
 
@@ -1330,20 +1346,20 @@ class Snapshots:
                 self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
                 self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
-                logger.info( "Nothing changed, no back needed" )
+                logger.info("Nothing changed, no back needed", self)
                 self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
                 self.set_snapshot_last_check(prev_snapshot_id)
                 return [ False, False ]
 
 
         #backup config file
-        logger.info( 'Save config file' )
+        logger.info('Save config file', self)
         self.set_take_snapshot_message( 0, _('Save config file ...') )
         self._execute( 'cp "%s" "%s"' % (self.config._LOCAL_CONFIG_PATH, new_snapshot_path_to() + '..') )
 
         if not full_rsync or self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
             #save permissions for sync folders
-            logger.info( 'Save permissions' )
+            logger.info('Save permissions', self)
             self.set_take_snapshot_message( 0, _('Save permission ...') )
 
             with bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'wb' ) as fileinfo:
@@ -1385,7 +1401,7 @@ class Snapshots:
                             self._save_path_info( fileinfo, item_path )
 
         #create info file
-        logger.info( "Create info file" )
+        logger.info("Create info file", self)
         machine = self.config.get_host()
         user = self.config.get_user()
         profile_id = self.config.get_current_profile()
@@ -1538,7 +1554,8 @@ class Snapshots:
             return
 
         if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs'] and self.config.get_smart_remove_run_remote_in_background():
-            logger.info('[smart remove] remove snapshots in background: %s' % del_snapshots)
+            logger.info('[smart remove] remove snapshots in background: %s'
+                        %del_snapshots, self)
             lckFile = os.path.normpath(os.path.join(self.get_snapshot_path(del_snapshots[0], ['ssh', 'ssh_encfs']), '..', 'smartremove.lck'))
             for sid in del_snapshots:
                 snapshot = self.get_snapshot_path( sid, use_mode = ['ssh', 'ssh_encfs'] )
@@ -1556,9 +1573,10 @@ class Snapshots:
                                            ') 9>\\\"%(lckFile)s\\\""'
                                            %{'lckFile': lckFile, 'snapshot': snapshot, 'find': cmds[0], 'rm': cmds[1], 'sid': sid}, quote = True))
         else:
+            logger.info("[smart remove] remove snapshots: %s"
+                        %del_snapshots, self)
             for i, snapshot_id in enumerate(del_snapshots, 1):
                 self.set_take_snapshot_message( 0, _('Smart remove') + ' %s/%s' %(i, len(del_snapshots)) )
-                logger.info( "[smart remove] remove snapshot: %s" % snapshot_id )
                 self.remove_snapshot( snapshot_id )
 
     def _free_space( self, now ):
@@ -1570,7 +1588,8 @@ class Snapshots:
             self.set_take_snapshot_message( 0, _('Remove old snapshots') )
 
             old_backup_id = self.get_snapshot_id( self.config.get_remove_old_snapshots_date() )
-            logger.info( "Remove backups older than: %s" % old_backup_id[0:15] )
+            logger.info("Remove backups older than: %s"
+                        %old_backup_id[0:15], self)
 
             while True:
                 if len( snapshots ) <= 1:
@@ -1599,7 +1618,8 @@ class Snapshots:
 
             min_free_space = self.config.get_min_free_space_in_mb()
 
-            logger.info( "Keep min free disk space: %s Mb" % min_free_space )
+            logger.info("Keep min free disk space: %s Mb"
+                        %min_free_space, self)
 
             snapshots = self.get_snapshots_list( False )
 
@@ -1613,7 +1633,7 @@ class Snapshots:
                     free_space = self._stat_free_space_ssh()
 
                 if free_space is None:
-                    logger.warning('Failed to get free space. Skipping')
+                    logger.warning('Failed to get free space. Skipping', self)
                     break
 
                 if free_space >= min_free_space:
@@ -1624,7 +1644,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                logger.info( "free disk space: %s Mb" % free_space )
+                logger.info("free disk space: %s Mb" %free_space, self)
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
 
@@ -1632,7 +1652,7 @@ class Snapshots:
         if self.config.min_free_inodes_enabled():
             min_free_inodes = self.config.min_free_inodes()
             self.set_take_snapshot_message( 0, _('Try to keep min %d%% free inodes') % min_free_inodes )
-            logger.info( "Keep min %d%% free inodes" % min_free_inodes )
+            logger.info("Keep min %d%% free inodes" %min_free_inodes, self)
 
             snapshots = self.get_snapshots_list( False )
 
@@ -1658,7 +1678,9 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                logger.info( "free inodes: %.2f%%" % (100.0 / max_inodes * free_inodes) )
+                logger.info("free inodes: %.2f%%"
+                            %(100.0 / max_inodes * free_inodes),
+                            self)
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
 
@@ -1676,7 +1698,7 @@ class Snapshots:
                          %(path, e.strerror),
                          self)
             pass
-        logger.warning('Failed to stat snapshot path')
+        logger.warning('Failed to stat snapshot path', self)
 
     def _stat_free_space_ssh(self):
         if self.config.get_snapshots_mode() not in ('ssh', 'ssh_encfs'):
@@ -1696,7 +1718,7 @@ class Snapshots:
             m = re.match(b'^.*?\s+\d+\s+\d+\s+(\d+)\s+\d+%', line, re.M)
             if m:
                 return int(m.group(1)) / 1024
-        logger.warning('Failed to get free space on remote')
+        logger.warning('Failed to get free space on remote', self)
 
     def _execute( self, cmd, callback = None, user_data = None, filters = () ):
         logger.debug("Call command \"%s\"" %cmd, self, 1)
@@ -1723,7 +1745,9 @@ class Snapshots:
                 ret_val = 0
 
         if ret_val != 0:
-            logger.warning("Command \"%s\" returns %s%s%s" %(cmd, bcolors.WARNING, ret_val, bcolors.ENDC))
+            logger.warning("Command \"%s\" returns %s%s%s"
+                           %(cmd, bcolors.WARNING, ret_val, bcolors.ENDC),
+                           self, 1)
         else:
             logger.debug("Command \"%s...\" returns %s"
                          %(cmd[:min(16, len(cmd))], ret_val),
