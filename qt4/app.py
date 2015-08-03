@@ -1028,7 +1028,7 @@ class MainWindow( QMainWindow ):
 
         msg = self.config.get_changelog()
         msg = re.sub(r'https?://[^) \n]*', a_href, msg)
-        msg = re.sub(r'LP: #?(\d+)', a_href_lp, msg)
+        msg = re.sub(r'(?:LP:|bug) ?#?(\d+)', a_href_lp, msg)
         msg = re.sub(r'\n', '<br>', msg)
         messagebox.show_info(self, _('Changelog'), msg)
 
