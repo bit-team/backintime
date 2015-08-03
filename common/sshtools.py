@@ -30,8 +30,6 @@ import logger
 import tools
 import password_ipc
 from exceptions import MountException
-import cmd
-from cmd import Cmd
 import bcolors
 
 _=gettext.gettext
@@ -301,7 +299,6 @@ class SSH(mount.MountControl):
                                       % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
 
     def benchmark_cipher(self, size = '40'):
-        import bcolors
         temp = tempfile.mkstemp()[1]
         print('create random data file')
         subprocess.call(['dd', 'if=/dev/urandom', 'of=%s' % temp, 'bs=1M', 'count=%s' % size])

@@ -24,6 +24,7 @@ import re
 import dbus
 import errno
 import gzip
+import tempfile
 from datetime import datetime
 from distutils.version import StrictVersion
 keyring = None
@@ -750,6 +751,52 @@ def getSshKeyFingerprint(path):
     m = re.match(b'\d+\s+([a-zA-Z0-9:]+).*', output)
     if m:
         return m.group(1).decode('UTF-8')
+
+def readCrontab():
+    '''read a list of lines from users crontab
+    '''
+    cmd = ['crontab', '-l']
+    if not check_command(cmd[0]):
+        logger.debug('crontab not found.')
+        return []
+    else:
+        proc = subprocess.Popen(cmd,
+                                stdout = subprocess.PIPE,
+                                stderr = subprocess.PIPE,
+                                universal_newlines = True)
+        out, err = proc.communicate()
+        if proc.returncode or err:
+            logger.error('Failed to get crontab lines: %s, %s'
+                         %(proc.returncode, err))
+            return []
+        else:
+            crontab = [x.strip() for x in out.strip('\n').split('\n')]
+            logger.debug('Read %s lines from users crontab'
+                         %len(crontab))
+            return crontab
+
+def writeCrontab(lines):
+    '''write a list of lines to users crontab
+    '''
+    assert isinstance(lines, (list, tuple)), 'lines is not list or tuple type: %s' % lines
+    with tempfile.NamedTemporaryFile(mode = 'wt') as f:
+        f.write('\n'.join(lines))
+        f.write('\n')
+        f.flush()
+        cmd = ['crontab', f.name]
+        proc = subprocess.Popen(cmd,
+                                stdout = subprocess.DEVNULL,
+                                stderr = subprocess.PIPE,
+                                universal_newlines = True)
+        out, err = proc.communicate()
+    if proc.returncode or err:
+        logger.error('Failed to write lines to crontab: %s, %s'
+                     %(proc.returncode, err))
+        return False
+    else:
+        logger.debug('Wrote %s lines to users crontab'
+                     %len(lines))
+        return True
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''

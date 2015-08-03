@@ -21,7 +21,6 @@ import datetime
 import gettext
 import socket
 import random
-import re
 import shlex
 try:
     import pwd
@@ -37,6 +36,7 @@ import sshtools
 import encfstools
 import password
 import pluginmanager
+from exceptions import PermissionDeniedByPolicy, InvalidChar
 
 _=gettext.gettext
 
@@ -1375,137 +1375,170 @@ class Config( configfile.ConfigFileWithProfiles ):
         else:
             return True
 
-    def setup_cron( self ):
-        system_entry_message = "#Back In Time system entry, this will be edited by the gui:"
+    SYSTEM_ENTRY_MESSAGE = "#Back In Time system entry, this will be edited by the gui:"
 
-        """We have to check if the system_entry_message is in use,
-        if not then the entries are most likely from Back In Time 0.9.26
-        or earlier."""
-        if os.system( "crontab -l | grep '%s' > /dev/null" % system_entry_message ) != 0:
-            """Then the system entry message has not yet been used in this crontab
-            therefore we assume all entries are system entries and clear them all.
-            This is the old behaviour"""
-            logger.debug("Clearing all Back In Time entries", self)
-            os.system( "crontab -l | grep -v backintime | crontab" )
-
-        logger.debug("Clearing system Back In Time entries", self)
-        os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab" % system_entry_message )
-
+    def setup_cron(self):
         for f in self.anacrontab_files():
-            logger.debug("Clearing anacrontab", self)
+            logger.debug("Clearing anacrontab %s"
+                         %f, self)
             os.remove(f)
-
         self.setupUdev.clean()
 
-        empty = True
-        profiles = self.get_profiles()
+        oldCrontab = tools.readCrontab()
 
+        stripedCrontab = self.removeOldCrontab(oldCrontab)
+        newCrontab = self. createNewCrontab(stripedCrontab)
+        if not isinstance(newCrontab, (list, tuple)):
+            return newCrontab
+
+        #save Udev rules
         try:
-            for profile_id in profiles:
-                profile_name = self.get_profile_name( profile_id )
-                backup_mode = self.get_automatic_backup_mode( profile_id )
-                logger.debug("Profile: %s | Automatic backup: %s"
-                             %(profile_name, self.AUTOMATIC_BACKUP_MODES[backup_mode]),
-                             self)
-
-                if self.NONE == backup_mode:
-                    continue
-
-                if not tools.check_command( 'crontab' ):
-                    self.notify_error( _( 'Can\'t find crontab.\nAre you sure cron is installed ?\nIf not you should disable all automatic backups.' ) )
-                    return False
-
-                cron_line = ''
-
-                hour = self.get_automatic_backup_time(profile_id) // 100
-                minute = self.get_automatic_backup_time(profile_id) % 100
-                day = self.get_automatic_backup_day(profile_id)
-                weekday = self.get_automatic_backup_weekday(profile_id)
-
-                if self.AT_EVERY_BOOT == backup_mode:
-                    cron_line = 'echo "{msg}\n@reboot {cmd}"'
-                elif self._5_MIN == backup_mode:
-                    cron_line = 'echo "{msg}\n*/5 * * * * {cmd}"'
-                elif self._10_MIN == backup_mode:
-                    cron_line = 'echo "{msg}\n*/10 * * * * {cmd}"'
-                elif self._30_MIN == backup_mode:
-                    cron_line = 'echo "{msg}\n*/30 * * * * {cmd}"'
-                elif self._1_HOUR == backup_mode:
-                    cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
-                elif self._2_HOURS == backup_mode:
-                    cron_line = 'echo "{msg}\n0 */2 * * * {cmd}"'
-                elif self._4_HOURS == backup_mode:
-                    cron_line = 'echo "{msg}\n0 */4 * * * {cmd}"'
-                elif self._6_HOURS == backup_mode:
-                    cron_line = 'echo "{msg}\n0 */6 * * * {cmd}"'
-                elif self._12_HOURS == backup_mode:
-                    cron_line = 'echo "{msg}\n0 */12 * * * {cmd}"'
-                elif self.CUSTOM_HOUR == backup_mode:
-                    cron_line = 'echo "{msg}\n0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}"'
-                elif self.DAY == backup_mode:
-                    cron_line = 'echo "{msg}\n%s %s * * * {cmd}"' % (minute, hour)
-                elif self.REPEATEDLY == backup_mode:
-                    if self.get_automatic_backup_anacron_unit(profile_id) <= self.DAY:
-                        cron_line = 'echo "{msg}\n*/15 * * * * {cmd}"'
-                    else:
-                        cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
-                elif self.UDEV == backup_mode:
-                    if not self.setupUdev.isReady:
-                        self.notify_error( _('Could not install Udev rule for profile %(profile_id)s. '
-                                             'DBus Service \'%(dbus_interface)s\' '
-                                             'wasn\'t available')
-                                            %{'profile_id': profile_id,
-                                              'dbus_interface': 'net.launchpad.backintime.serviceHelper'})
-                    mode = self.get_snapshots_mode(profile_id)
-                    if mode == 'local':
-                        dest_path = self.get_snapshots_full_path(profile_id)
-                    elif mode == 'local_encfs':
-                        dest_path = self.get_local_encfs_path(profile_id)
-                    else:
-                        self.notify_error( _('Schedule udev doesn\'t work with mode %s') % mode)
-                        return False
-                    uuid = tools.get_uuid_from_path(dest_path)
-                    if uuid is None:
-                        #try using cached uuid
-                        #?Devices uuid used to automatically set up udev rule if the drive is not connected.
-                        uuid = self.get_profile_str_value('snapshots.path.uuid', '', profile_id)
-                        if not uuid:
-                            self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
-                            return False
-                    else:
-                        #cache uuid in config
-                        self.set_profile_str_value('snapshots.path.uuid', uuid, profile_id)
-                    try:
-                        self.setupUdev.addRule(self.cron_cmd(profile_id), uuid)
-                    except tools.InvalidChar as e:
-                        self.notify_error(str(e))
-                elif self.WEEK == backup_mode:
-                    cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
-                elif self.MONTH == backup_mode:
-                    cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
-
-                cmd = self.cron_cmd(profile_id)
-
-                if cron_line:
-                    empty = False
-                    cron_line = cron_line.replace( '{cmd}', cmd )
-                    cron_line = cron_line.replace( '{msg}', system_entry_message )
-                    os.system( "( crontab -l; %s ) | crontab" % cron_line )
-
             if self.setupUdev.isReady and self.setupUdev.save():
                 logger.debug('Udev rules added successfully', self)
-        except tools.PermissionDeniedByPolicy as e:
-                self.notify_error(str(e))
-        except:
-            raise
-        finally:
-            if empty:
-                # Leave one system_entry_message in to prevent deleting of manual
-                # entries if there is no automatic entry.
-                info_message = "#Please don't delete these two lines, or all custom backintime entries are going to be deleted next time you call the gui options!"
-                os.system( '(crontab -l; echo "%s"; echo "%s") | crontab'
-                        % (system_entry_message, info_message) )
+        except PermissionDeniedByPolicy as e:
+            logger.error(e.strerror, self)
+            self.notify_error(e.strerror)
+            return False
+
+        if not newCrontab == oldCrontab:
+            if not tools.check_command('crontab'):
+                logger.error('crontab not found.', self)
+                self.notify_error(_('Can\'t find crontab.\nAre you sure cron is installed ?\n'
+                                    'If not you should disable all automatic backups.'))
+                return False
+            if not tools.writeCrontab(newCrontab):
+                self.notify_error(_('Failed to write new crontab.'))
+                return False
+        else:
+            logger.debug("Crontab didn't change. Skip writing.")
         return True
+
+    def removeOldCrontab(self, crontab):
+        #We have to check if the self.SYSTEM_ENTRY_MESSAGE is in use,
+        #if not then the entries are most likely from Back In Time 0.9.26
+        #or earlier.
+        if not self.SYSTEM_ENTRY_MESSAGE in crontab:
+            #Then the system entry message has not yet been used in this crontab
+            #therefore we assume all entries are system entries and clear them all.
+            #This is the old behaviour
+            logger.debug("Clearing all Back In Time entries", self)
+            return [x for x in crontab if not 'backintime' in x]
+        else:
+            #clear all line peers which have a SYSTEM_ENTRY_MESSAGE followed by
+            #one backintime command line
+            logger.debug("Clearing system Back In Time entries", self)
+            delLines = []
+            for i, line in enumerate(crontab):
+                if self.SYSTEM_ENTRY_MESSAGE in line and \
+                    len(crontab) > i + 1 and        \
+                    'backintime' in crontab[i + 1]:
+                        delLines.extend((i, i + 1))
+            return [line for i, line in enumerate(crontab) if i not in delLines]
+
+    def createNewCrontab(self, oldCrontab):
+        newCrontab = oldCrontab[:]
+        for profile_id in self.get_profiles():
+            cronLine = self.cronLine(profile_id)
+            if not isinstance(cronLine, str):
+                return cronLine
+            if cronLine:
+                newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
+                newCrontab.append(cronLine.replace('{cmd}', self.cron_cmd(profile_id)))
+
+        if newCrontab == oldCrontab:
+            # Leave one self.SYSTEM_ENTRY_MESSAGE in to prevent deleting of manual
+            # entries if there is no automatic entry.
+            newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
+            newCrontab.append("#Please don't delete these two lines, or all custom backintime "
+                              "entries are going to be deleted next time you call the gui options!")
+        return newCrontab
+
+    def cronLine(self, profile_id):
+        cron_line = ''
+        profile_name = self.get_profile_name(profile_id)
+        backup_mode = self.get_automatic_backup_mode(profile_id)
+        logger.debug("Profile: %s | Automatic backup: %s"
+                     %(profile_name, self.AUTOMATIC_BACKUP_MODES[backup_mode]),
+                     self)
+
+        if self.NONE == backup_mode:
+            return cron_line
+
+        hour = self.get_automatic_backup_time(profile_id) // 100
+        minute = self.get_automatic_backup_time(profile_id) % 100
+        day = self.get_automatic_backup_day(profile_id)
+        weekday = self.get_automatic_backup_weekday(profile_id)
+
+        if self.AT_EVERY_BOOT == backup_mode:
+            cron_line = '@reboot {cmd}'
+        elif self._5_MIN == backup_mode:
+            cron_line = '*/5 * * * * {cmd}'
+        elif self._10_MIN == backup_mode:
+            cron_line = '*/10 * * * * {cmd}'
+        elif self._30_MIN == backup_mode:
+            cron_line = '*/30 * * * * {cmd}'
+        elif self._1_HOUR == backup_mode:
+            cron_line = '0 * * * * {cmd}'
+        elif self._2_HOURS == backup_mode:
+            cron_line = '0 */2 * * * {cmd}'
+        elif self._4_HOURS == backup_mode:
+            cron_line = '0 */4 * * * {cmd}'
+        elif self._6_HOURS == backup_mode:
+            cron_line = '0 */6 * * * {cmd}'
+        elif self._12_HOURS == backup_mode:
+            cron_line = '0 */12 * * * {cmd}'
+        elif self.CUSTOM_HOUR == backup_mode:
+            cron_line = '0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}'
+        elif self.DAY == backup_mode:
+            cron_line = '%s %s * * * {cmd}' % (minute, hour)
+        elif self.REPEATEDLY == backup_mode:
+            if self.get_automatic_backup_anacron_unit(profile_id) <= self.DAY:
+                cron_line = '*/15 * * * * {cmd}'
+            else:
+                cron_line = '0 * * * * {cmd}'
+        elif self.UDEV == backup_mode:
+            if not self.setupUdev.isReady:
+                logger.error("Failed to install Udev rule for profile %s. "
+                             "DBus Service 'net.launchpad.backintime.serviceHelper' not available"
+                             %profile_id, self)
+                self.notify_error( _('Could not install Udev rule for profile %(profile_id)s. '
+                                     'DBus Service \'%(dbus_interface)s\' '
+                                     'wasn\'t available')
+                                    %{'profile_id': profile_id,
+                                      'dbus_interface': 'net.launchpad.backintime.serviceHelper'})
+            mode = self.get_snapshots_mode(profile_id)
+            if mode == 'local':
+                dest_path = self.get_snapshots_full_path(profile_id)
+            elif mode == 'local_encfs':
+                dest_path = self.get_local_encfs_path(profile_id)
+            else:
+                logger.error('Schedule udev doesn\'t work with mode %s' %mode, self)
+                self.notify_error( _('Schedule udev doesn\'t work with mode %s') % mode)
+                return False
+            uuid = tools.get_uuid_from_path(dest_path)
+            if uuid is None:
+                #try using cached uuid
+                #?Devices uuid used to automatically set up udev rule if the drive is not connected.
+                uuid = self.get_profile_str_value('snapshots.path.uuid', '', profile_id)
+                if not uuid:
+                    logger.error('Couldn\'t find UUID for "%s"' %dest_path, self)
+                    self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
+                    return False
+            else:
+                #cache uuid in config
+                self.set_profile_str_value('snapshots.path.uuid', uuid, profile_id)
+            try:
+                self.setupUdev.addRule(self.cron_cmd(profile_id), uuid)
+            except InvalidChar as e:
+                logger.error(e.strerror, self)
+                self.notify_error(e.strerror)
+                return False
+        elif self.WEEK == backup_mode:
+            cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)
+        elif self.MONTH == backup_mode:
+            cron_line = '%s %s %s * * {cmd}' %(minute, hour, day)
+
+        return cron_line
 
     def cron_cmd(self, profile_id):
         cmd = tools.which('backintime') + ' '
