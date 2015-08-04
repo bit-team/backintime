@@ -1386,8 +1386,8 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         oldCrontab = tools.readCrontab()
 
-        stripedCrontab = self.removeOldCrontab(oldCrontab)
-        newCrontab = self. createNewCrontab(stripedCrontab)
+        strippedCrontab = self.removeOldCrontab(oldCrontab)
+        newCrontab = self. createNewCrontab(strippedCrontab)
         if not isinstance(newCrontab, (list, tuple)):
             return newCrontab
 
