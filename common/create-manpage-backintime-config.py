@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 #    Back In Time
 #    Copyright (C) 2012-2015 Germar Reitze
 #
