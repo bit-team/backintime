@@ -64,9 +64,10 @@ class Mount(object):
                                  self)
                     pass
 
-    def mount(self, mode = None, check = True, **kwargs):
-        self.config.PLUGIN_MANAGER.load_plugins(cfg = self.config)
-        self.config.PLUGIN_MANAGER.do_mount()
+    def mount(self, mode = None, check = True, plugins = True, **kwargs):
+        if plugins:
+            self.config.PLUGIN_MANAGER.load_plugins(cfg = self.config)
+            self.config.PLUGIN_MANAGER.do_mount()
         if mode is None:
             mode = self.config.get_snapshots_mode(self.profile_id)
 
@@ -88,9 +89,10 @@ class Mount(object):
                     continue
                 break
 
-    def umount(self, hash_id = None):
-        self.config.PLUGIN_MANAGER.load_plugins(cfg = self.config)
-        self.config.PLUGIN_MANAGER.do_unmount()
+    def umount(self, hash_id = None, plugins = True):
+        if plugins:
+            self.config.PLUGIN_MANAGER.load_plugins(cfg = self.config)
+            self.config.PLUGIN_MANAGER.do_unmount()
         if hash_id is None:
             hash_id = self.config.current_hash_id
         if hash_id == 'local':
@@ -137,13 +139,13 @@ class Mount(object):
 
         if self.config.SNAPSHOT_MODES[mode][0] is None:
             #new profile don't need to mount.
-            self.umount(hash_id = hash_id)
+            self.umount(hash_id = hash_id, plugins = False)
             return 'local'
 
         if hash_id == 'local':
             #old profile don't need to umount.
             self.profile_id = new_profile_id
-            return self.mount(mode = mode, **kwargs)
+            return self.mount(mode = mode, plugins = False, **kwargs)
 
         mounttools = self.config.SNAPSHOT_MODES[mode][0]
         tools = mounttools(cfg = self.config, profile_id = new_profile_id,
@@ -156,9 +158,9 @@ class Mount(object):
             return hash_id
         else:
             #profiles are different. we need to umount and mount again
-            self.umount(hash_id = hash_id)
+            self.umount(hash_id = hash_id, plugins = False)
             self.profile_id = new_profile_id
-            return self.mount(mode = mode, **kwargs)
+            return self.mount(mode = mode, plugins = False, **kwargs)
 
 class MountControl(object):
     def __init__(self):
