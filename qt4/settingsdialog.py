@@ -711,13 +711,13 @@ class SettingsDialog( QDialog ):
         self.cb_run_nocache_on_remote = QCheckBox(_('on remote host') + self.printDefault(self.config.DEFAULT_RUN_NOCACHE_ON_REMOTE), self)
         grid.addWidget(self.cb_run_nocache_on_remote, 2, 1)
 
-        self.cb_redirect_stdout = QCheckBox(_('Redirect stdout to /dev/null in cronjobs')
+        self.cb_redirect_stdout = QCheckBox(_('Redirect stdout to /dev/null in cronjobs.')
                                             + self.printDefault(self.config.DEFAULT_REDIRECT_STDOUT_IN_CRON),
                                             self)
         self.cb_redirect_stdout.setToolTip('cron will automatically send an email with attached output of cronjobs if a MTA is installed.')
         layout.addWidget(self.cb_redirect_stdout)
 
-        self.cb_redirect_stderr = QCheckBox(_('Redirect stderr to /dev/null in cronjobs')
+        self.cb_redirect_stderr = QCheckBox(_('Redirect stderr to /dev/null in cronjobs.')
                                             + self.printDefault(self.config.DEFAULT_REDIRECT_STDERR_IN_CRON),
                                             self)
         self.cb_redirect_stderr.setToolTip('cron will automatically send an email with attached errors of cronjobs if a MTA is installed.')
