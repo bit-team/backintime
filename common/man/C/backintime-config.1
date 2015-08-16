@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Jul 2015" "version 1.1.7" "USER COMMANDS"
+.TH backintime-config 1 "Aug 2015" "version 1.1.7" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -221,6 +221,24 @@ Default: true
 Type: bool      Allowed Values: true|false
 .br
 Run cronjobs with 'nice \-n 19'. This will give BackInTime the lowest CPU priority to not interupt any other working process.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.cron.redirect_stderr\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+redirect stderr to /dev/null in cronjobs
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.cron.redirect_stdout\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+redirect stdout to /dev/null in cronjobs
 .PP
 Default: true
 .RE

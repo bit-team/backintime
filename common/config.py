@@ -1022,7 +1022,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.get_profile_bool_value('snapshots.cron.redirect_stdout', self.DEFAULT_REDIRECT_STDOUT_IN_CRON, profile_id)
 
     def redirect_stderr_in_cron(self, profile_id = None):
-        #?redirect stderr to /dev/null in cronjobs
+        #?redirect stderr to /dev/null in cronjobs;;false
         if self.is_configured(profile_id):
             default = True
         else:
