@@ -161,6 +161,9 @@ def main():
                     if default.startswith('self.') and default[5:] in replace_default:
                         default = replace_default[default[5:]]
 
+                    if isinstance(force_default, str) and force_default.startswith('self.') and force_default[5:] in replace_default:
+                        force_default = replace_default[force_default[5:]]
+
                     if type == 'bool':
                         default = default.lower()
                     dict[key][TYPE]      = type
