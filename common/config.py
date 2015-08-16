@@ -120,6 +120,8 @@ class Config( configfile.ConfigFileWithProfiles ):
     DEFAULT_RUN_NOCACHE_ON_LOCAL  = False
     DEFAULT_RUN_NOCACHE_ON_REMOTE = False
     DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\$PATH'
+    DEFAULT_REDIRECT_STDOUT_IN_CRON = True
+    DEFAULT_REDIRECT_STDERR_IN_CRON = False
 
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
@@ -1015,6 +1017,24 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_run_nocache_on_remote_enabled(self, value, profile_id = None):
         self.set_profile_bool_value('snapshots.ssh.nocache', value, profile_id)
 
+    def redirect_stdout_in_cron(self, profile_id = None):
+        #?redirect stdout to /dev/null in cronjobs
+        return self.get_profile_bool_value('snapshots.cron.redirect_stdout', self.DEFAULT_REDIRECT_STDOUT_IN_CRON, profile_id)
+
+    def redirect_stderr_in_cron(self, profile_id = None):
+        #?redirect stderr to /dev/null in cronjobs
+        if self.is_configured(profile_id):
+            default = True
+        else:
+            default = self.DEFAULT_REDIRECT_STDERR_IN_CRON
+        return self.get_profile_bool_value('snapshots.cron.redirect_stderr', default, profile_id)
+
+    def set_redirect_stdout_in_cron(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.cron.redirect_stdout', value, profile_id)
+
+    def set_redirect_stderr_in_cron(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.cron.redirect_stderr', value, profile_id)
+
     def bwlimit_enabled( self, profile_id = None ):
         #?Limit rsync bandwidth usage over network. Use this with mode SSH. 
         #?For mode Local you should rather use ionice.
@@ -1546,7 +1566,16 @@ class Config( configfile.ConfigFileWithProfiles ):
             cmd += '--profile-id %s ' % profile_id
         if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:
             cmd += '--config %s ' % self._LOCAL_CONFIG_PATH
-        cmd += 'backup-job >/dev/null 2>&1'
+        if logger.DEBUG:
+            cmd += '--debug '
+        cmd += 'backup-job'
+        if self.redirect_stdout_in_cron(profile_id):
+            cmd += ' >/dev/null'
+        if self.redirect_stderr_in_cron(profile_id):
+            if self.redirect_stdout_in_cron(profile_id):
+                cmd += ' 2>&1'
+            else:
+                cmd += ' 2>/dev/null'
         if self.is_run_ionice_from_cron_enabled(profile_id) and tools.check_command('ionice'):
             cmd = tools.which('ionice') + ' -c2 -n7 ' + cmd
         if self.is_run_nice_from_cron_enabled( profile_id ) and tools.check_command('nice'):

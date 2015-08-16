@@ -711,6 +711,18 @@ class SettingsDialog( QDialog ):
         self.cb_run_nocache_on_remote = QCheckBox(_('on remote host') + self.printDefault(self.config.DEFAULT_RUN_NOCACHE_ON_REMOTE), self)
         grid.addWidget(self.cb_run_nocache_on_remote, 2, 1)
 
+        self.cb_redirect_stdout = QCheckBox(_('Redirect stdout to /dev/null in cronjobs')
+                                            + self.printDefault(self.config.DEFAULT_REDIRECT_STDOUT_IN_CRON),
+                                            self)
+        self.cb_redirect_stdout.setToolTip('cron will automatically send an email with attached output of cronjobs if a MTA is installed.')
+        layout.addWidget(self.cb_redirect_stdout)
+
+        self.cb_redirect_stderr = QCheckBox(_('Redirect stderr to /dev/null in cronjobs')
+                                            + self.printDefault(self.config.DEFAULT_REDIRECT_STDERR_IN_CRON),
+                                            self)
+        self.cb_redirect_stderr.setToolTip('cron will automatically send an email with attached errors of cronjobs if a MTA is installed.')
+        layout.addWidget(self.cb_redirect_stderr)
+
         #bwlimit
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
@@ -1119,6 +1131,8 @@ class SettingsDialog( QDialog ):
         self.cb_run_ionice_on_remote.setChecked(self.config.is_run_ionice_on_remote_enabled())
         self.cb_run_nocache_on_local.setChecked(self.config.is_run_nocache_on_local_enabled() and self.nocacheAvailable)
         self.cb_run_nocache_on_remote.setChecked(self.config.is_run_nocache_on_remote_enabled())
+        self.cb_redirect_stdout.setChecked(self.config.redirect_stdout_in_cron())
+        self.cb_redirect_stderr.setChecked(self.config.redirect_stderr_in_cron())
         self.cb_bwlimit.setChecked( self.config.bwlimit_enabled() )
         self.sb_bwlimit.setValue( self.config.bwlimit() )
         self.cb_preserve_acl.setChecked( self.config.preserve_acl() )
@@ -1256,6 +1270,8 @@ class SettingsDialog( QDialog ):
         self.config.set_run_ionice_on_remote_enabled(self.cb_run_ionice_on_remote.isChecked())
         self.config.set_run_nocache_on_local_enabled(self.cb_run_nocache_on_local.isChecked())
         self.config.set_run_nocache_on_remote_enabled(self.cb_run_nocache_on_remote.isChecked())
+        self.config.set_redirect_stdout_in_cron(self.cb_redirect_stdout.isChecked())
+        self.config.set_redirect_stderr_in_cron(self.cb_redirect_stderr.isChecked())
         self.config.set_bwlimit_enabled( self.cb_bwlimit.isChecked() )
         self.config.set_bwlimit( self.sb_bwlimit.value() )
         self.config.set_preserve_acl( self.cb_preserve_acl.isChecked() )
