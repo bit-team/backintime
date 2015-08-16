@@ -48,7 +48,7 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
                              universal_newlines = True)
             output = callback.communicate()
             if output[0]:
-                logger.debug('user-callback returned \'%s\'' %output[0], self)
+                logger.info('user-callback returned \'%s\'' %output[0], self)
             if output[1]:
                 logger.error('user-callback returned \'%s\'' %output[1], self)
             if callback.returncode != 0:
