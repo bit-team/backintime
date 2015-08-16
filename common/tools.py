@@ -686,7 +686,7 @@ INHIBIT_DBUS = (
                 'interface':    'org.mate.SessionManager',
                 'arguments':    (0, 1, 2, 3)
                },
-               {'service':      'org.freedesktop.PowerManagement.Inhibit',
+               {'service':      'org.freedesktop.PowerManagement',
                 'objectPath':   '/org/freedesktop/PowerManagement/Inhibit',
                 'methodSet':    'Inhibit',
                 'methodUnSet':  'UnInhibit',
