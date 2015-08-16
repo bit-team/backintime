@@ -61,7 +61,7 @@ class Daemon:
                 # exit first parent
                 sys.exit(0)
         except OSError as e:
-            logger.error("fork #1 failed: %d (%s)" % (e.errno, e.strerror), self)
+            logger.error("fork #1 failed: %d (%s)" % (e.errno, str(e)), self)
             sys.exit(1)
 
         # decouple from parent environment
@@ -76,7 +76,7 @@ class Daemon:
                 # exit from second parent
                 sys.exit(0)
         except OSError as e:
-            logger.error("fork #2 failed: %d (%s)" % (e.errno, e.strerror), self)
+            logger.error("fork #2 failed: %d (%s)" % (e.errno, str(e)), self)
             sys.exit(1)
 
         # redirect standard file descriptors
@@ -151,7 +151,7 @@ class Daemon:
                 if os.path.exists(self.pidfile):
                     os.remove(self.pidfile)
             else:
-                logger.error(err.strerror, self)
+                logger.error(str(err), self)
                 sys.exit(1)
 
     def restart(self):
@@ -181,7 +181,7 @@ class Daemon:
                 if os.path.exists(self.pidfile):
                     os.remove(self.pidfile)
             else:
-                sys.stderr.write(err.strerror)
+                sys.stderr.write(str(err))
                 sys.exit(1)
 
     def status(self):
@@ -291,14 +291,14 @@ class Password_Cache(Daemon):
                     self.db_usr[key] = value
 
             except IOError as e:
-                logger.error('Error in writing answer to FIFO: %s' % e.strerror, self)
+                logger.error('Error in writing answer to FIFO: %s' % str(e), self)
             except KeyboardInterrupt:
                 logger.debug('Quit.', self)
                 break
             except Timeout:
                 logger.error('FIFO timeout', self)
             except Exception as e:
-                logger.error('ERROR: %s' % e.strerror, self)
+                logger.error('ERROR: %s' % str(e), self)
 
     def _reload_handler(self, signum, frame):
         """

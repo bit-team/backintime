@@ -1396,8 +1396,8 @@ class Config( configfile.ConfigFileWithProfiles ):
             if self.setupUdev.isReady and self.setupUdev.save():
                 logger.debug('Udev rules added successfully', self)
         except PermissionDeniedByPolicy as e:
-            logger.error(e.strerror, self)
-            self.notify_error(e.strerror)
+            logger.error(str(e), self)
+            self.notify_error(str(e))
             return False
 
         if not newCrontab == oldCrontab:
@@ -1530,8 +1530,8 @@ class Config( configfile.ConfigFileWithProfiles ):
             try:
                 self.setupUdev.addRule(self.cron_cmd(profile_id), uuid)
             except InvalidChar as e:
-                logger.error(e.strerror, self)
-                self.notify_error(e.strerror)
+                logger.error(str(e), self)
+                self.notify_error(str(e))
                 return False
         elif self.WEEK == backup_mode:
             cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)

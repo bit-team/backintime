@@ -49,7 +49,7 @@ class FIFO(object):
         try:
             os.mkfifo(self.fifo, 0o600)
         except OSError as e:
-            logger.error('Failed to create FIFO: %s' % e.strerror, self)
+            logger.error('Failed to create FIFO: %s' % str(e), self)
             sys.exit(1)
 
     def read(self, timeout = 0):

@@ -60,7 +60,7 @@ class Mount(object):
                     subprocess.check_call(cmd, stdout=open(os.devnull, 'w'))
                 except subprocess.CalledProcessError as e:
                     logger.error('Failed to %s pw-cache: %s'
-                                 %(action, e.strerror),
+                                 %(action, str(e)),
                                  self)
                     pass
 
@@ -83,7 +83,7 @@ class Mount(object):
                                        parent = self.parent, **kwargs)
                     return tools.mount(check = check)
                 except HashCollision as ex:
-                    logger.warning(ex.strerror, self)
+                    logger.warning(str(ex), self)
                     del tools
                     check = False
                     continue

@@ -203,7 +203,7 @@ class Snapshots:
                 name = f.read()
         except Exception as e:
             logger.debug('Failed to get snapshot %s name: %s'
-                         %(snapshot_id, e.strerror),
+                         %(snapshot_id, str(e)),
                          self)
 
         return name
@@ -225,7 +225,7 @@ class Snapshots:
                 f.write( name )
         except Exception as e:
             logger.debug('Failed to set snapshot %s name: %s'
-                         %(snapshot_id, e.strerror),
+                         %(snapshot_id, str(e)),
                          self)
             pass
 
@@ -276,7 +276,7 @@ class Snapshots:
                 items = f.read().split( '\n' )
         except Exception as e:
             logger.debug('Failed to get take_snapshot message from %s: %s'
-                         %(self.config.get_take_snapshot_message_file(), e.strerror),
+                         %(self.config.get_take_snapshot_message_file(), str(e)),
                          self)
             return None
 
@@ -288,7 +288,7 @@ class Snapshots:
             mid = int( items[0] )
         except Exception as e:
             logger.debug('Failed extract message ID from %s: %s'
-                         %(items[0], e.strerror),
+                         %(items[0], str(e)),
                          self)
             pass
 
@@ -305,7 +305,7 @@ class Snapshots:
                 f.write( data )
         except Exception as e:
             logger.debug('Failed to set take_snapshot message to %s: %s'
-                         %(self.config.get_take_snapshot_message_file(), e.strerror),
+                         %(self.config.get_take_snapshot_message_file(), str(e)),
                          self)
             pass
 
@@ -320,7 +320,7 @@ class Snapshots:
             self.config.PLUGIN_MANAGER.on_message( profile_id, profile_name, type_id, message, timeout )
         except Exception as e:
             logger.debug('Failed to send message to plugins: %s'
-                         %e.strerror,
+                         %str(e),
                          self)
             pass
 
@@ -373,7 +373,7 @@ class Snapshots:
             return self._filter_take_snapshot_log( data, mode, **kwargs )
         except Exception as e:
             logger.debug('Failed to get snapshot log from %s: %s'
-                         %(self.get_snapshot_log_path(snapshot_id), e.strerror),
+                         %(self.get_snapshot_log_path(snapshot_id), str(e)),
                          self)
             return ''
 
@@ -384,7 +384,7 @@ class Snapshots:
             return self._filter_take_snapshot_log( data, mode, **kwargs )
         except Exception as e:
             logger.debug('Failed to get take_snapshot log from %s: %s'
-                         %(self.get_take_snapshot_log_file(profile_id), e.strerror),
+                         %(self.get_take_snapshot_log_file(profile_id), str(e)),
                          self)
             return ''
 
@@ -401,7 +401,7 @@ class Snapshots:
                 f.write( message + '\n' )
         except Exception as e:
             logger.debug('Failed to add message to take_snapshot log %s: %s'
-                         %(self.config.get_take_snapshot_log_file(), e.strerror),
+                         %(self.config.get_take_snapshot_log_file(), str(e)),
                          self)
             pass
 
@@ -467,7 +467,7 @@ class Snapshots:
                 uid = pwd.getpwnam(name.decode()).pw_uid
             except Exception as e:
                 logger.debug('Failed to get UID for %s: %s'
-                             %(name, e.strerror),
+                             %(name, str(e)),
                              self)
                 pass
 
@@ -483,7 +483,7 @@ class Snapshots:
                 gid = grp.getgrnam(name.decode()).gr_gid
             except Exception as e:
                 logger.debug('Failed to get GID for %s: %s'
-                             %(name, e.strerror),
+                             %(name, str(e)),
                              self)
                 pass
 
@@ -499,7 +499,7 @@ class Snapshots:
                 name = pwd.getpwuid(uid).pw_name
             except Exception as e:
                 logger.debug('Failed to get user name for UID %s: %s'
-                             %(uid, e.strerror),
+                             %(uid, str(e)),
                              self)
                 pass
 
@@ -515,7 +515,7 @@ class Snapshots:
                 name = grp.getgrgid(gid).gr_name
             except Exception as e:
                 logger.debug('Failed to get group name for GID %s: %s'
-                             %(gid, e.strerror),
+                             %(gid, str(e)),
                              self)
                 pass
 
@@ -633,7 +633,7 @@ class Snapshots:
             os.remove(self.config.get_take_snapshot_progress_file())
         except Exception as e:
             logger.debug('Failed to remove snapshot progress file %s: %s'
-                         %(self.config.get_take_snapshot_progress_file(), e.strerror),
+                         %(self.config.get_take_snapshot_progress_file(), str(e)),
                          self)
             pass
 
@@ -705,7 +705,7 @@ class Snapshots:
             biglist = os.listdir( snapshots_path )
         except Exception as e:
             logger.debug('Failed to get snapshots list: %s'
-                         %e.strerror,
+                         %str(e),
                          self)
             pass
 
@@ -733,7 +733,7 @@ class Snapshots:
             biglist = os.listdir( snapshots_path )
         except Exception as e:
             logger.debug('Failed to get snapshots list: %s'
-                         %e.strerror,
+                         %str(e),
                          self)
             pass
 
@@ -752,7 +752,7 @@ class Snapshots:
                     folderlist = os.listdir( folder )
                 except Exception as e:
                     logger.debug('Failed to get folder list for %s: %s'
-                                 %(folder, e.strerror),
+                                 %(folder, str(e)),
                                  self)
                     pass
 
@@ -945,7 +945,7 @@ class Snapshots:
                 try:
                     hash_id = mount.Mount(cfg = self.config).mount()
                 except MountException as ex:
-                    logger.error(ex.strerror, self)
+                    logger.error(str(ex), self)
                     instance.exit_application()
                     logger.info('Unlock', self)
                     time.sleep(2)
@@ -1030,7 +1030,7 @@ class Snapshots:
                 try:
                     mount.Mount(cfg = self.config).umount(self.config.current_hash_id)
                 except MountException as ex:
-                    logger.error(ex.strerror, self)
+                    logger.error(str(ex), self)
 
                 instance.exit_application()
                 self.flockRelease()
@@ -1321,7 +1321,7 @@ class Snapshots:
             os.remove(self.config.get_take_snapshot_progress_file())
         except Exception as e:
             logger.debug('Failed to remove snapshot progress file %s: %s'
-                         %(self.config.get_take_snapshot_progress_file(), e.strerror),
+                         %(self.config.get_take_snapshot_progress_file(), str(e)),
                          self)
             pass
 
@@ -1424,7 +1424,7 @@ class Snapshots:
                         logfile_bz2.write(line)
         except Exception as e:
             logger.debug('Failed to write take_snapshot log %s into compressed file %s: %s'
-                         %(self.config.get_take_snapshot_log_file(), self.get_snapshot_log_path(new_snapshot_id), e.strerror),
+                         %(self.config.get_take_snapshot_log_file(), self.get_snapshot_log_path(new_snapshot_id), str(e)),
                          self)
             pass
 
@@ -1666,7 +1666,7 @@ class Snapshots:
                     max_inodes  = info.f_files
                 except Exception as e:
                     logger.debug('Failed to get free inodes for snapshot path %s: %s'
-                                 %(self.config.get_snapshots_path(), e.strerror),
+                                 %(self.config.get_snapshots_path(), str(e)),
                                  self)
                     break
 
@@ -1695,7 +1695,7 @@ class Snapshots:
                 return info.f_frsize * info.f_bavail // ( 1024 * 1024 )
         except Exception as e:
             logger.debug('Failed to get free space for %s: %s'
-                         %(path, e.strerror),
+                         %(path, str(e)),
                          self)
             pass
         logger.warning('Failed to stat snapshot path', self)
@@ -1908,7 +1908,7 @@ class Snapshots:
             logger.debug('Create symlink %s => %s' %(symlink, snapshot_id), self)
             os.symlink(snapshot_id, symlink)
         except Exception as e:
-            logger.error('Failed to create symlink %s: %s' %(symlink, e.strerror), self)
+            logger.error('Failed to create symlink %s: %s' %(symlink, str(e)), self)
             return False
 
     def flockExclusive(self):
