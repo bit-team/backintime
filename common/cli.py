@@ -64,7 +64,7 @@ def checkConfig(cfg, crontab = True):
         print(test + ': ' + bcolors.OKGREEN + 'done' + bcolors.ENDC)
 
     def errorHandler(msg):
-        print(msg)
+        print(bcolors.WARNING + 'WARNING: ' + bcolors.ENDC + msg)
 
     cfg.set_error_handler(errorHandler)
     mode = cfg.get_snapshots_mode()

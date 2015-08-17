@@ -250,7 +250,7 @@ class MountControl(object):
 
     def is_mounted(self):
         """return True if path is is already mounted"""
-        if tools.check_mountpoint(self.mountpoint):
+        if os.path.ismount(self.mountpoint):
             return True
         else:
             if os.listdir(self.mountpoint):

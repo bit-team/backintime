@@ -394,6 +394,25 @@ class Config( configfile.ConfigFileWithProfiles ):
             path1 = os.path.join( value, 'backintime', host )
             os.system( "chmod a+rwx \"%s\"" % path1 )
 
+        #Test filesystem
+        fs = tools.get_filesystem(full_path)
+        if fs == 'vfat':
+            self.notify_error(_("Destination filesystem for '%(path)s' is formatted with FAT which doesn't support hard-links. "
+                                "Please use a native Linux filesystem.") %
+                              {'path': value})
+            return False
+        elif fs == 'cifs' and not self.copy_links():
+            self.notify_error(_("Destination filsystem for '%(path)s' is a SMB mounted share. Please make sure "
+                                "the remote SMB server supports symlinks or activate '%(copyLinks)s' in '%(expertOptions)s'.") %
+                              {'path': value,
+                               'copyLinks': _('Copy links (dereference symbolic links)'),
+                               'expertOptions': _('Expert Options')})
+        elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
+            self.notify_error(_("Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't support hard-links. "
+                                "Please use mode 'SSH' instead.") %
+                              {'path': value})
+            return False
+
         #Test write access for the folder
         check_path = os.path.join( full_path, 'check' )
         tools.make_dirs( check_path )

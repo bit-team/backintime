@@ -475,18 +475,10 @@ def check_cron_pattern(s):
     except ValueError:
         return False
 
-def check_mountpoint(path):
-    '''return True if path is a mountpoint'''
-    try:
-        subprocess.check_call(['mountpoint', path], stdout=open(os.devnull, 'w'))
-    except subprocess.CalledProcessError:
-        return False
-    return True
-
 def check_home_encrypt():
     '''return True if users home is encrypted'''
     home = os.path.expanduser('~')
-    if not check_mountpoint(home):
+    if not os.path.ismount(home):
         return False
     if check_command('ecryptfs-verify'):
         try:
@@ -569,18 +561,37 @@ def set_password(*args):
     return False
 
 def get_mountpoint(path):
-    '''return (DEVICE, MOUNTPOINT) for given PATH'''
-    if os.path.exists(path):
-        cmd = ['df', '-P', path]
-        p = subprocess.Popen(cmd, stdout = subprocess.PIPE, universal_newlines = True)
-        output = p.communicate()[0]
-        #search for: /dev/sdc1  880940  8   880932  1% /mnt/foo
-        c = re.compile(r'(/[^ \t]*)(?:[ \t]+[\d]+){4}%?[ \t]+(/.*)')
-        for line in output.split('\n'):
-            m = c.match(line)
-            if not m is None:
-                return (m.group(1), m.group(2))
-    return (None, None)
+    '''return MOUNTPOINT for given PATH'''
+    path = os.path.realpath(os.path.abspath(path))
+    while path != os.path.sep:
+        if os.path.ismount(path):
+            return path
+        path = os.path.abspath(os.path.join(path, os.pardir))
+    return path
+
+def get_mount_args(path):
+    '''return a tuple of mount arguments from /proc/mounts'''
+    mp = get_mountpoint(path)
+    with open('/etc/mtab', 'r') as mounts:
+        for line in mounts:
+            args = line.strip('\n').split(' ')
+            if len(args) >= 2 and args[1] == mp:
+                return args
+    return None
+
+def get_device(path):
+    '''return DEVICE for given PATH'''
+    args = get_mount_args(path)
+    if args:
+        return args[0]
+    return None
+
+def get_filesystem(path):
+    '''return FILESYSTEM for given PATH'''
+    args = get_mount_args(path)
+    if args and len(args) >= 3:
+        return args[2]
+    return None
 
 def get_uuid(dev):
     '''return uuid for given block device'''
@@ -601,7 +612,7 @@ def get_uuid(dev):
     return None
 
 def get_uuid_from_path(path):
-    return get_uuid(get_mountpoint(path)[0])
+    return get_uuid(get_device(path))
 
 def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
     if len(new_line_indicator) >= size - 1:
