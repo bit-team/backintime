@@ -381,7 +381,23 @@ def start_app(app_name = 'backintime'):
     if 'func' in dir(args):
         args.func(args)
     else:
+        setQuiet(args)
+        printHeader()
         return getConfig(args, False)
+
+def printHeader():
+    version = config.Config.VERSION
+    rev_no = tools.get_bzr_revno()
+    if rev_no:
+        version += ' Bazaar Revision %s' %rev_no
+    print('')
+    print('Back In Time')
+    print('Version: ' + version)
+    print('')
+    print('Back In Time comes with ABSOLUTELY NO WARRANTY.')
+    print('This is free software, and you are welcome to redistribute it')
+    print("under certain conditions; type `backintime --license' for details.")
+    print('')
 
 class PseudoAliasAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -408,7 +424,6 @@ def aliasParser(args):
 
 def getConfig(args, check = True):
     cfg = config.Config(args.config)
-    logger.debug('%(app)s %(version)s' %{'app': cfg.APP_NAME, 'version': cfg.VERSION})
     logger.debug('config file: %s' % cfg._LOCAL_CONFIG_FOLDER)
     logger.debug('profiles: %s' % cfg.get_profiles())
     if 'profile_id' in args and args.profile_id:
@@ -443,6 +458,7 @@ class printLicense(argparse.Action):
 
 def backup(args, force = True):
     setQuiet(args)
+    printHeader()
     cfg = getConfig(args)
     ret = take_snapshot(cfg, force)
     sys.exit(int(not ret))
@@ -521,6 +537,7 @@ def unmount(args):
 
 def benchmarkCipher(args):
     setQuiet(args)
+    printHeader()
     cfg = getConfig(args)
     if cfg.get_snapshots_mode() in ('ssh', 'ssh_encfs'):
         ssh = sshtools.SSH(cfg)
@@ -532,6 +549,7 @@ def benchmarkCipher(args):
 
 def pwCache(args):
     force_stdout = setQuiet(args)
+    printHeader()
     cfg = getConfig(args)
     ret = RETURN_OK
     daemon = password.Password_Cache(cfg)
@@ -574,6 +592,7 @@ def decode(args):
 
 def remove(args, force = False):
     setQuiet(args)
+    printHeader()
     cfg = getConfig(args)
     _mount(cfg)
     cli.remove(cfg, args.SNAPSHOT_ID, force)
@@ -585,6 +604,7 @@ def removeAndDoNotAskAgain(args):
 
 def restore(args):
     setQuiet(args)
+    printHeader()
     cfg = getConfig(args)
     _mount(cfg)
     cli.restore(cfg,
@@ -599,6 +619,7 @@ def restore(args):
 
 def checkConfig(args):
     force_stdout = setQuiet(args)
+    printHeader()
     cfg = getConfig(args)
     if cli.checkConfig(cfg, crontab = not args.no_crontab):
         print("\nConfig %(cfg)s profile '%(profile)s' is fine."

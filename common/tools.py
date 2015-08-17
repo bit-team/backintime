@@ -51,12 +51,18 @@ DISK_BY_UUID = '/dev/disk/by-uuid'
 def get_backintime_path( path ):
     return os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), path )
 
-
 def register_backintime_path( path ):
     path = get_backintime_path( path )
     if not path in sys.path:
         sys.path = [path] + sys.path
 
+def get_bzr_revno():
+    last_rev = os.path.join(os.path.dirname(__file__), os.pardir, '.bzr', 'branch', 'last-revision')
+    if os.path.exists(last_rev):
+        with open(last_rev, 'r') as f:
+            args = f.read().split(' ')
+            if args:
+                return args[0]    
 
 def read_file( path, default_value = None ):
     ret_val = default_value
@@ -72,7 +78,6 @@ def read_file( path, default_value = None ):
         pass
 
     return ret_val
-
 
 def read_file_lines( path, default_value = None ):
     ret_val = default_value

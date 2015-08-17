@@ -1363,7 +1363,11 @@ class About(QDialog):
         self.setWindowTitle(_('About') + ' ' + self.config.APP_NAME)
         logo     = QLabel('Icon')
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)) )
-        name     = QLabel('<h1>' + self.config.APP_NAME + ' ' + self.config.VERSION + '</h1>')
+        version = self.config.VERSION
+        rev_no = tools.get_bzr_revno()
+        if rev_no:
+            version += ' Bazaar Revision %s' %rev_no
+        name     = QLabel('<h1>' + self.config.APP_NAME + ' ' + version + '</h1>')
         name.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         homepage = QLabel(self.mkurl('<https://launchpad.net/backintime>'))
         homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
