@@ -17,10 +17,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-if [ -f app.py ]; then
-	APP_PATH="."
+CUR_PATH="$(dirname $(readlink -m $0))"
+if [ -f "${CUR_PATH}/app.py" ]; then
+	APP_PATH=$CUR_PATH
 else
-	APP_PATH="/usr/share/backintime/qt4"
+	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/qt4")
 fi
 
 #if [ "x$SSH_AUTH_SOCK" = "x" ]; then

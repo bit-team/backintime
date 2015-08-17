@@ -17,10 +17,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-if [ -f askpass.py ]; then
-	APP_PATH="."
+CUR_PATH="$(dirname $(readlink -m $0))"
+if [ -f "${CUR_PATH}/askpass.py" ]; then
+	APP_PATH=$CUR_PATH
 else
-	APP_PATH="/usr/share/backintime/common"
+	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/common")
 fi
 
 python3 $APP_PATH/askpass.py "$@"
