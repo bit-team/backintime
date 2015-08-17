@@ -47,6 +47,13 @@ POWER_ERROR = 255
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
+def get_share_path():
+    share = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                         os.pardir, os.pardir))
+    if os.path.basename(share) == 'share':
+        return share
+    else:
+        return '/usr/share'
 
 def get_backintime_path( path ):
     return os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), path )
