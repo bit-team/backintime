@@ -22,6 +22,7 @@ import tools
 tools.register_backintime_path( 'common' )
 tools.register_backintime_path( 'plugins' )
 
+import logger
 from exceptions import StopException
 
 class Plugin:
@@ -79,29 +80,35 @@ class PluginManager:
         self.plugins = []
         self.has_gui_plugins_ = False
 
-        plugins_path = tools.get_backintime_path( 'plugins' )
-
-        for f in os.listdir( plugins_path ):
-            try:
-                if f.endswith( '.py' ) and not f.startswith( '__' ):
-                    module = __import__( f[ : -3 ] )
-                    module_dict = module.__dict__
-
-                    for key, value in list(module_dict.items()):
-                        if key.startswith( '__' ):
-                            continue
-
-                        if type(value) is type:
-                            if issubclass( value, Plugin ):
-                                plugin = value()
-                                if plugin.init( snapshots ):
-                                    if plugin.is_gui():
-                                        self.has_gui_plugins_ = True
-                                        self.plugins.insert( 0, plugin )
-                                    else:
-                                        self.plugins.append( plugin )
-            except:
-                pass
+        loadedPlugins = []
+        for path in ('plugins', 'common/plugins', 'qt4/plugins'):
+            fullPath = tools.get_backintime_path(path)
+            if os.path.isdir(fullPath):
+                logger.debug('Register plugin path %s' %fullPath, self)
+                tools.register_backintime_path(path)
+                for f in os.listdir(fullPath):
+                    if f not in loadedPlugins and f.endswith('.py') and not f.startswith('__'):
+                        logger.debug('Add plugin %s' %f, self)
+                        try:
+                            module = __import__( f[ : -3 ] )
+                            module_dict = module.__dict__
+        
+                            for key, value in list(module_dict.items()):
+                                if key.startswith( '__' ):
+                                    continue
+        
+                                if type(value) is type:
+                                    if issubclass( value, Plugin ):
+                                        plugin = value()
+                                        if plugin.init( snapshots ):
+                                            if plugin.is_gui():
+                                                self.has_gui_plugins_ = True
+                                                self.plugins.insert( 0, plugin )
+                                            else:
+                                                self.plugins.append( plugin )
+                            loadedPlugins.append(f)
+                        except:
+                            pass
 
     def has_gui_plugins( self ):
         return self.has_gui_plugins_
