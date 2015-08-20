@@ -40,15 +40,15 @@ def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
 
 def remove(cfg, snapshot_ids = None, force = None):
     snapshots_ = snapshots.Snapshots(cfg)
-    ids = [selectSnapshot(snapshots_, id, 'SnapshotID to remove') for id in snapshot_ids]
+    sids = [selectSnapshot(snapshots_, sid, 'SnapshotID to remove') for sid in snapshot_ids]
 
     if not force:
         print('Do you really want to remove this snapshots?')
-        [print(snapshots_.get_snapshot_display_name(id)) for id in ids]
+        [print(snapshots_.get_snapshot_display_name(sid)) for sid in sids]
         if not 'yes' == input('(no/yes): '):
             return
     
-    [snapshots_.remove_snapshot(id) for id in ids]
+    [snapshots_.remove_snapshot(sid) for sid in sids]
 
 def checkConfig(cfg, crontab = True):
     import mount
