@@ -10,7 +10,7 @@ Package: backintime-common
 Section: utils
 Priority: optional
 Architecture: all
-Depends: rsync, cron, openssh-client, python3-keyring, python3-dbus, ${python3:Depends}, ${misc:Depends}
+Depends: rsync, cron-daemon, openssh-client, python3-keyring, python3-dbus, ${python3:Depends}, ${misc:Depends}
 Recommends: powermgmt-base, sshfs, encfs
 Conflicts: backintime
 Replaces: backintime
