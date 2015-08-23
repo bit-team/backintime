@@ -17,8 +17,9 @@
 
 
 import os
-import time
 import fcntl
+
+import logger
 
 class ApplicationInstance:
     '''class used to handle one application instance mechanism
@@ -58,8 +59,8 @@ class ApplicationInstance:
             pid = int(data[0])
             if len(data) > 1:
                 procname = data[1].strip('\n')
-        except:
-            pass
+        except OSError as e:
+            logger.warning('Failed to read PID and process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
 
         #check if the process with specified by pid exists
         if 0 == pid:
@@ -71,9 +72,8 @@ class ApplicationInstance:
             return True
 
         #check if the process has the same procname
-        with open('/proc/%s/cmdline' % pid, 'r') as f:
-            if procname and not procname == f.read().strip('\n'):
-                return True
+        if procname and not procname == self.readProcName(pid):
+            return True
 
         if auto_exit:
             #exit the application
@@ -86,14 +86,13 @@ class ApplicationInstance:
         '''called when the single instance starts to save it's pid
         '''
         pid = str(os.getpid())
-        procname = ''
+        procname = self.readProcName(pid)
+
         try:
-            with open('/proc/%s/cmdline' % pid, 'r') as f:
-                procname = f.read().strip('\n')
-        except:
-            pass
-        with open( self.pid_file, 'wt' ) as f:
-            f.write( pid + '\n' + procname )
+            with open( self.pid_file, 'wt' ) as f:
+                f.write( pid + '\n' + procname )
+        except OSError as e:
+            logger.error('Failed to write PID file %s: [%s] %s' %(e.filename, e.errno, e.strerror))
 
         self.flockUnlock()
 
@@ -109,8 +108,11 @@ class ApplicationInstance:
         '''create an exclusive lock to block a second instance while
         the first instance is starting.
         '''
-        self.flock_file = open(self.pid_file + '.flock', 'w')
-        fcntl.flock(self.flock_file, fcntl.LOCK_EX)
+        try:
+            self.flock_file = open(self.pid_file + '.flock', 'w')
+            fcntl.flock(self.flock_file, fcntl.LOCK_EX)
+        except OSError as e:
+            logger.error('Failed to write flock file %s: [%s] %s' %(e.filename, e.errno, e.strerror))
 
     def flockUnlock(self):
         '''remove the exclusive lock. Second instance can now continue
@@ -123,7 +125,17 @@ class ApplicationInstance:
                 os.remove(self.flock_file.name)
         self.flock_file = None
 
+    def readProcName(self, pid):
+        try:
+            with open('/proc/%s/cmdline' % pid, 'r') as f:
+                return f.read().strip('\n')
+        except OSError as e:
+            logger.warning('Failed to read process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
+            return ''
+
 if __name__ == '__main__':
+    import time
+
     #create application instance
     app_instance = ApplicationInstance( '/tmp/myapp.pid' )
 
