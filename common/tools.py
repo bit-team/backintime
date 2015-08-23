@@ -821,6 +821,14 @@ def writeCrontab(lines):
                      %len(lines))
         return True
 
+def splitCommands(cmds, head = '', tail = '', maxLength = 0, additionalChars = 0):
+    while cmds:
+        s = head
+        while cmds and ((len(s + cmds[0] + tail) + additionalChars <= maxLength) or not maxLength):
+            s += cmds.pop(0)
+        s += tail
+        yield s
+
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     def __init__(self, dc = False, follow_symlink = False, list_equal_to = False):

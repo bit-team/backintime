@@ -490,16 +490,8 @@ class SSH(mount.MountControl):
         cmd = 'echo \"done\"'
         tail.append(cmd)
 
-        cmds = []
         maxLength = self.config.ssh_max_arg_length(self.profile_id)
         additionalChars = len('echo ""') + len(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = str))
-        while tail:
-            s = head
-            while tail and ((len(s + tail[0]) + additionalChars <= maxLength) or not maxLength):
-                s += tail.pop(0)
-            if s.endswith('; '):
-                s += 'echo ""'
-            cmds.append(s)
 
         ssh = ['ssh']
         ssh.extend(self.ssh_options + [self.user_host])
@@ -507,7 +499,12 @@ class SSH(mount.MountControl):
         output = ''
         err = ''
         returncode = 0
-        for cmd in cmds:
+        for cmd in tools.splitCommands(tail,
+                                       head = head,
+                                       maxLength = maxLength,
+                                       additionalChars = additionalChars):
+            if cmd.endswith('; '):
+                cmd += 'echo ""'
             c = ssh[:]
             c.extend([cmd])
             try:

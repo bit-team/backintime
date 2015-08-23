@@ -1556,22 +1556,53 @@ class Snapshots:
         if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs'] and self.config.get_smart_remove_run_remote_in_background():
             logger.info('[smart remove] remove snapshots in background: %s'
                         %del_snapshots, self)
-            lckFile = os.path.normpath(os.path.join(self.get_snapshot_path(del_snapshots[0], ['ssh', 'ssh_encfs']), '..', 'smartremove.lck'))
+            lckFile = os.path.normpath(os.path.join(self.get_snapshot_path(del_snapshots[0], ['ssh', 'ssh_encfs']), os.pardir, 'smartremove.lck'))
+
+            maxLength = self.config.ssh_max_arg_length()
+            if not maxLength:
+                import sshMaxArg
+                user_host = '%s@%s' %(self.config.get_ssh_user(), self.config.get_ssh_host())
+                maxLength = sshMaxArg.test_ssh_max_arg(user_host)
+                self.config.set_ssh_max_arg_length(maxLength)
+                self.config.save()
+                sshMaxArg.reportResult(user_host, maxLength)
+
+            additionalChars = len(self.config.ssh_prefix_cmd(cmd_type = str))
+
+            head = 'screen -d -m bash -c "('
+            if logger.DEBUG:
+                head += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" \\\"start\\\"; '
+            head += 'flock -x 9; '
+            if logger.DEBUG:
+                head += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" \\\"got exclusive flock\\\"; '
+
+            tail = ') 9>\\\"%s\\\""' %lckFile
+
+            cmds = []
             for sid in del_snapshots:
-                snapshot = self.get_snapshot_path( sid, use_mode = ['ssh', 'ssh_encfs'] )
-                cmds = self.remove_snapshot(sid, execute = False, quote = '\\\"')
-                self._execute(self.cmd_ssh('screen -d -m bash -c "('
-                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"start\\\"; '
-                                           'flock -x 9; '
-                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"got exclusive flock\\\"; '
-                                           'test -e \\\"%(snapshot)s\\\" || exit 0; '
-                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"folder still exist\\\"; '
-                                           '%(find)s; '
-                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"find done\\\"; '
-                                           '%(rm)s; '
-                                           #'logger -t \\\"backintime smart-remove [%(sid)s]\\\" \\\"done\\\"'
-                                           ') 9>\\\"%(lckFile)s\\\""'
-                                           %{'lckFile': lckFile, 'snapshot': snapshot, 'find': cmds[0], 'rm': cmds[1], 'sid': sid}, quote = True))
+                find, rm = self.remove_snapshot(sid, execute = False, quote = '\\\"')
+                s = 'test -e \\\"%s\\\" && (' %self.get_snapshot_path(sid, use_mode = ['ssh', 'ssh_encfs'])
+                if logger.DEBUG:
+                    s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
+                    s += '\\\"snapshot %s still exist\\\"; ' %sid
+                    s += 'sleep 1; ' #add one second delay because otherwise you might not see serialized process with small snapshots
+                s += '%s; ' %find
+                if logger.DEBUG:
+                    s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
+                    s += '\\\"snapshot %s change permission done\\\"; ' %sid
+                s += '%s; ' %rm
+                if logger.DEBUG:
+                    s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
+                    s += '\\\"snapshot %s remove done\\\"' %sid
+                s += '); '
+                cmds.append(s)
+
+            for cmd in tools.splitCommands(cmds,
+                                           head = head,
+                                           tail = tail,
+                                           maxLength = maxLength,
+                                           additionalChars = additionalChars):
+                self._execute(self.cmd_ssh(cmd, quote = True))
         else:
             logger.info("[smart remove] remove snapshots: %s"
                         %del_snapshots, self)
