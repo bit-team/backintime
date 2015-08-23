@@ -1114,13 +1114,14 @@ class SetupUdev(object):
     INTERFACE = 'net.launchpad.backintime.serviceHelper.UdevRules'
     MEMBERS = ('addRule', 'save', 'delete')
     def __init__(self):
-        bus = dbus.SystemBus()
         try:
+            bus = dbus.SystemBus()
             conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
             self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
         except dbus.exceptions.DBusException as e:
-            if e._dbus_error_name == 'org.freedesktop.DBus.Error.NameHasNoOwner' or \
-               e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
+            if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
+                                      'org.freedesktop.DBus.Error.ServiceUnknown',
+                                      'org.freedesktop.DBus.Error.FileNotFound'):
                 conn = None
             else:
                 raise
