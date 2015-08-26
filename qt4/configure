@@ -202,7 +202,7 @@ addNewline
 #compress
 printf "compress:\n" >> ${MAKEFILE}
 printf "\t#man pages\n" >> ${MAKEFILE}
-printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
+printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip -n --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
 
 #uninstall
 printf "uninstall: uninstall_files uninstall_dirs\n\n" >> ${MAKEFILE}
