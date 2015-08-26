@@ -1345,7 +1345,12 @@ class Config( configfile.ConfigFileWithProfiles ):
         return tools.read_file( os.path.join( self.get_doc_path(), 'AUTHORS' ), '' )
 
     def get_changelog(self):
-        return tools.read_file(os.path.join(self.get_doc_path(), 'CHANGES'), '')
+        for i in ('CHANGES', 'changelog'):
+            f = os.path.join(self.get_doc_path(), i)
+            clog = tools.read_file(f, '')
+            if clog:
+                return clog
+        return ''
 
     def prepare_path( self, path ):
         if len( path ) > 1:
