@@ -37,22 +37,26 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
             return False
         return True
 
-    def notify_callback( self, args = '' ):
-        cmd = "\"%s\" %s \"%s\" %s" % ( self.callback, self.config.get_current_profile(), self.config.get_profile_name(), args )
-        logger.debug('Call user-callback: %s' %cmd, self)
+    def notify_callback(self, *args):
+        cmd = [self.callback, self.config.get_current_profile(), self.config.get_profile_name()]
+        cmd.extend([str(x) for x in args])
+        logger.debug('Call user-callback: %s' %' '.join(cmd), self)
+        if self.config.user_callback_no_logging():
+            stdout, stderr = None, None
+        else:
+            stdout, stderr = PIPE, PIPE
         try:
             callback = Popen(cmd,
-                             shell=True,
-                             stdout=PIPE,
-                             stderr=PIPE,
+                             stdout = stdout,
+                             stderr = stderr,
                              universal_newlines = True)
             output = callback.communicate()
             if output[0]:
-                logger.info('user-callback returned \'%s\'' %output[0], self)
+                logger.info('user-callback returned \'%s\'' %output[0].strip('\n'), self)
             if output[1]:
-                logger.error('user-callback returned \'%s\'' %output[1], self)
+                logger.error('user-callback returned \'%s\'' %output[1].strip('\n'), self)
             if callback.returncode != 0:
-                logger.debug('user-callback returncode: %s' %callback.returncode, self)
+                logger.warning('user-callback returncode: %s' %callback.returncode, self)
                 raise StopException()
         except OSError as e:
             logger.error("Exception when trying to run user callback: %s" % e.strerror, self)
@@ -63,14 +67,14 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
     def on_process_ends( self ):
         self.notify_callback( '2' )
 
-    def on_error( self, code, message ):
-        if len( message ) <= 0:
-            self.notify_callback( "4 %s" % code )
+    def on_error(self, code, message):
+        if not message:
+            self.notify_callback('4', code)
         else:
-            self.notify_callback( "4 %s \"%s\"" % ( code, message ) )
+            self.notify_callback('4', code, message)
 
     def on_new_snapshot( self, snapshot_id, snapshot_path ):
-        self.notify_callback( "3 %s \"%s\"" % ( snapshot_id, snapshot_path ) )
+        self.notify_callback('3', snapshot_id, snapshot_path)
 
     def on_app_start(self):
         self.notify_callback('5')

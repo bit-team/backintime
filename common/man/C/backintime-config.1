@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Aug 2015" "version 1.1.7" "USER COMMANDS"
+.TH backintime-config 1 "Sep 2015" "version 1.1.7" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -794,6 +794,15 @@ Default: false
 Type: bool      Allowed Values: true|false
 .br
 Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot. This will give BackInTime the lowest IO bandwidth priority to not interupt any other working process.
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.user_callback.no_logging\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Do not catch std{out|err} from user-callback script. The script will only write to current TTY. Default is to catch std{out|err} and write it to syslog and TTY again.
 .PP
 Default: false
 .RE

@@ -1199,6 +1199,15 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_check_for_changes( self, value, profile_id = None ):
         return self.set_profile_bool_value( 'snapshots.check_for_changes', value, profile_id )
 
+    def user_callback_no_logging(self, profile_id = None):
+        #?Do not catch std{out|err} from user-callback script. 
+        #?The script will only write to current TTY. 
+        #?Default is to catch std{out|err} and write it to 
+        #?syslog and TTY again.
+        return self.get_profile_bool_value('user_callback.no_logging', False, profile_id)
+
+    ###########################################################################
+
     def gnu_find_suffix_support( self, profile_id = None ):
         #?Remote SSH host support GNU find suffix (find \-exec COMMAND {} +).
         return self.get_profile_bool_value( 'snapshots.gnu_find_suffix_support', True, profile_id )
