@@ -137,8 +137,6 @@ class EncFS_mount(mount.MountControl):
         """return environment with encfs configfile"""
         env = os.environ.copy()
         env['ENCFS6_CONFIG'] = self.get_config_file()
-        logger.debug('Set environ: %s'
-                     %env, self)
         return env
 
     def get_config_file(self):
@@ -222,7 +220,7 @@ class EncFS_mount(mount.MountControl):
             #don't create a new backup if config hasn't changed
             if tools._get_md5sum_from_path(self.get_config_file()) == \
                tools._get_md5sum_from_path(last_backup):
-                logger.debug('Encfs config did not change. Skip backup')
+                logger.debug('Encfs config did not change. Skip backup', self)
                 return
 
         new_backup_file = '.'.join((os.path.basename(self.get_config_file()), datetime.now().strftime('%Y%m%d%H%M') ))
