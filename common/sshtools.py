@@ -541,9 +541,11 @@ class SSH(mount.MountControl):
         if not output_split:
             return maxArg()
 
+        gnu_find_suffix_support = True
         for line in output_split:
             if line.startswith('gnu_find not supported'):
-                self.config.set_gnu_find_suffix_support(False, self.profile_id)
+                gnu_find_suffix_support = False
+        self.config.set_gnu_find_suffix_support(gnu_find_suffix_support, self.profile_id)
 
         if returncode or not output_split[-1].startswith('done'):
             for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
