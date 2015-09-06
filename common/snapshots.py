@@ -539,17 +539,31 @@ class Snapshots:
         uid = self.get_uid(info[1])
         gid = self.get_gid(info[2])
 
+        #current file stats
+        st = os.stat(path)
+
+#         logger.debug('%(path)s: uid %(target_uid)s/%(cur_uid)s, gid %(target_gid)s/%(cur_gid)s, mod %(target_mod)s/%(cur_mod)s'
+#                      %{'path': path.decode(),
+#                        'target_uid': uid,
+#                        'cur_uid': st.st_uid,
+#                        'target_gid': gid,
+#                        'cur_gid': st.st_gid,
+#                        'target_mod': info[0],
+#                        'cur_mod': st.st_mode
+#                        })
+
         if uid != -1 or gid != -1:
             ok = False
-            try:
-                os.chown( path, uid, gid )
-                ok = True
-            except:
-                pass
-            self.restore_callback( callback, ok, "chown %s %s : %s" % ( path.decode(errors = 'ignore'), uid, gid ) )
+            if uid != st.st_uid:
+                try:
+                    os.chown( path, uid, gid )
+                    ok = True
+                except:
+                    pass
+                self.restore_callback( callback, ok, "chown %s %s : %s" % ( path.decode(errors = 'ignore'), uid, gid ) )
 
             #if restore uid/gid failed try to restore at least gid
-            if not ok:
+            if not ok and gid != st.st_gid:
                 try:
                     os.chown( path, -1, gid )
                     ok = True
@@ -559,12 +573,13 @@ class Snapshots:
 
         #restore perms
         ok = False
-        try:
-            os.chmod( path, info[0] )
-            ok = True
-        except:
-            pass
-        self.restore_callback( callback, ok, "chmod %s %04o" % ( path.decode(errors = 'ignore'), info[0] ) )
+        if info[0] != st.st_mode:
+            try:
+                os.chmod( path, info[0] )
+                ok = True
+            except:
+                pass
+            self.restore_callback( callback, ok, "chmod %s %04o" % ( path.decode(errors = 'ignore'), info[0] ) )
 
     def restore( self, snapshot_id, paths, callback = None, restore_to = '', delete = False, backup = False, no_backup = False):
         instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False, flock = True)
@@ -686,6 +701,9 @@ class Snapshots:
             for item_path in all_dirs:
                 real_path = restore_to + item_path[src_delta:]
                 self._restore_path_info( item_path, real_path, file_info_dict, callback )
+
+            self.restore_callback( callback, True, '')
+            self.restore_callback( callback, True, _("Restore permissions:") + ' ' + _('Done') )
 
         instance.exit_application()
 
