@@ -17,6 +17,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+#fixing gray window error
+#https://launchpad.net/bugs/1493020
+export QT_GRAPHICSSYSTEM="native"
+
 CUR_PATH="$(dirname $(readlink -m $0))"
 if [ -f "${CUR_PATH}/askpass.py" ]; then
 	APP_PATH=$CUR_PATH

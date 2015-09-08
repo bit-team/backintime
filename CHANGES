@@ -1,6 +1,11 @@
 Back In Time
 
+Done:
+https://bugs.launchpad.net/backintime/+bug/676638
+
+
 Version 1.1.7
+* Fix bug: empty grey window appears when starting the gui as root (https://launchpad.net/bugs/1493020)
 * do not restore permission if they are identical with current permissions
 * Fix bug: gnu_find_suffix_support doesn't set back to True (https://launchpad.net/bugs/1487781)
 * security issue: do not run user-callback in a shell
@@ -11,7 +16,7 @@ Version 1.1.7
 * add error messages if PID file creation fail
 * Fix bug: dbus exception if dbus systembus is not running
 * Fix bug: depend on virtual package cron-daemon instead of cron for compatiblity with other cron implementations (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=776856)
-* Fix bug: wasn't able to start from alternate install dir
+* Fix bug: wasn't able to start from alternate install dir (https://launchpad.net/bugs/478689)
 * Fix bug: wasn't able to start from source dir
 * Add Warning about unsupported filesystems
 * use native Python code to check mountpoint
