@@ -921,6 +921,16 @@ class MainWindow( QMainWindow ):
                 self.snapshot_id = '/'
                 self.update_files_view( 2 )
 
+    def time_line_set_current_snapshot(self, new_snapshot_id):
+        for index in range(self.list_time_line.topLevelItemCount()):
+            item = self.list_time_line.topLevelItem(index)
+            snapshot_id = self.time_line_get_snapshot_id(item)
+            if snapshot_id == new_snapshot_id:
+                self.snapshot_id = new_snapshot_id
+                self.list_time_line.setCurrentItem( item )
+                self.update_files_view( 2 )
+                break
+
     def on_btn_take_snapshot_clicked( self ):
         backintime.take_snapshot_now_async( self.config )
         self.update_take_snapshot( True )
@@ -963,7 +973,10 @@ class MainWindow( QMainWindow ):
         if len( snapshot_id ) <= 1:
             return
 
-        logviewdialog.LogViewDialog( self, snapshot_id ).exec_()
+        dlg = logviewdialog.LogViewDialog( self, snapshot_id )
+        dlg.exec_()
+        if snapshot_id != dlg.snapshot_id:
+            self.time_line_set_current_snapshot(dlg.snapshot_id)
 
     def on_btn_remove_snapshot_clicked ( self ):
         last_snapshot = self.snapshots.get_snapshots_list()[0]
@@ -1160,14 +1173,7 @@ class MainWindow( QMainWindow ):
         dlg = snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path)
         if QDialog.Accepted == dlg.exec_():
             if dlg.snapshot_id != self.snapshot_id:
-                for index in range( self.list_time_line.topLevelItemCount() ):
-                    item = self.list_time_line.topLevelItem( index )
-                    snapshot_id = self.time_line_get_snapshot_id( item )
-                    if snapshot_id == dlg.snapshot_id:
-                        self.snapshot_id = dlg.snapshot_id
-                        self.list_time_line.setCurrentItem( item )
-                        self.update_files_view( 2 )
-                        break
+                self.time_line_set_current_snapshot(dlg.snapshot_id)
 
     def on_btn_folder_up_clicked( self ):
         if len( self.path ) <= 1:

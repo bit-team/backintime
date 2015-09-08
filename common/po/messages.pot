@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-17 00:40+0200\n"
+"POT-Creation-Date: 2015-09-08 23:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -228,37 +228,67 @@ msgstr ""
 msgid "Host/User/Profile-ID must not be empty!"
 msgstr ""
 
-#: ../../common/config.py:388 ../../common/config.py:401
+#: ../../common/config.py:388 ../../common/config.py:420
 #, python-format
 msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
 
-#: ../../common/config.py:1426
+#: ../../common/config.py:400
+#, python-format
+msgid ""
+"Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
+"support hard-links. Please use a native Linux filesystem."
+msgstr ""
+
+#: ../../common/config.py:405
+#, python-format
+msgid ""
+"Destination filsystem for '%(path)s' is a SMB mounted share. Please make "
+"sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
+"'%(expertOptions)s'."
+msgstr ""
+
+#: ../../common/config.py:408 ../../qt4/settingsdialog.py:810
+msgid "Copy links (dereference symbolic links)"
+msgstr ""
+
+#: ../../common/config.py:409 ../../qt4/settingsdialog.py:664
+msgid "Expert Options"
+msgstr ""
+
+#: ../../common/config.py:411
+#, python-format
+msgid ""
+"Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
+"support hard-links. Please use mode 'SSH' instead."
+msgstr ""
+
+#: ../../common/config.py:1459
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
 
-#: ../../common/config.py:1430
+#: ../../common/config.py:1463
 msgid "Failed to write new crontab."
 msgstr ""
 
-#: ../../common/config.py:1524
+#: ../../common/config.py:1557
 #, python-format
 msgid ""
 "Could not install Udev rule for profile %(profile_id)s. DBus Service "
 "'%(dbus_interface)s' wasn't available"
 msgstr ""
 
-#: ../../common/config.py:1536
+#: ../../common/config.py:1569
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr ""
 
-#: ../../common/config.py:1545
+#: ../../common/config.py:1578
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr ""
@@ -276,33 +306,33 @@ msgstr ""
 msgid "Can't unmount encfs %s"
 msgstr ""
 
-#: ../../common/encfstools.py:164
+#: ../../common/encfstools.py:162
 msgid "Config for encrypted folder not found."
 msgstr ""
 
-#: ../../common/encfstools.py:168
+#: ../../common/encfstools.py:166
 msgid ""
 "\n"
 "Create a new encrypted folder?"
 msgstr ""
 
-#: ../../common/encfstools.py:169
+#: ../../common/encfstools.py:167
 msgid "Cancel"
 msgstr ""
 
-#: ../../common/encfstools.py:172
+#: ../../common/encfstools.py:170
 msgid "Please confirm password"
 msgstr ""
 
-#: ../../common/encfstools.py:176
+#: ../../common/encfstools.py:174
 msgid "Password doesn't match"
 msgstr ""
 
-#: ../../common/encfstools.py:183
+#: ../../common/encfstools.py:181
 msgid "encfs not found. Please install e.g. 'apt-get install encfs'"
 msgstr ""
 
-#: ../../common/encfstools.py:194 ../../common/sshtools.py:262
+#: ../../common/encfstools.py:192 ../../common/sshtools.py:262
 #, python-format
 msgid ""
 "%(user)s is not member of group 'fuse'.\n"
@@ -310,14 +340,14 @@ msgid ""
 "Look at 'man backintime' for further instructions."
 msgstr ""
 
-#: ../../common/encfstools.py:209
+#: ../../common/encfstools.py:207
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs"
 msgstr ""
 
-#: ../../common/encfstools.py:508 ../../common/encfstools.py:540
-#: ../../common/snapshots.py:1071 ../../common/snapshots.py:1306
+#: ../../common/encfstools.py:506 ../../common/encfstools.py:538
+#: ../../common/snapshots.py:1089 ../../common/snapshots.py:1324
 #: ../../qt4/app.py:78
 msgid "Take snapshot"
 msgstr ""
@@ -343,7 +373,7 @@ msgstr ""
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
 msgstr ""
 
-#: ../../common/snapshots.py:174 ../../qt4/app.py:204 ../../qt4/app.py:1258
+#: ../../common/snapshots.py:174 ../../qt4/app.py:204 ../../qt4/app.py:1264
 msgid "Now"
 msgstr ""
 
@@ -361,18 +391,23 @@ msgstr ""
 msgid "FAILED"
 msgstr ""
 
-#: ../../common/snapshots.py:647
+#: ../../common/snapshots.py:662 ../../common/snapshots.py:706
 msgid "Restore permissions:"
 msgstr ""
 
-#: ../../common/snapshots.py:800
+#: ../../common/snapshots.py:706 ../../qt4/app.py:366 ../../qt4/app.py:661
+#: ../../qt4/app.py:678 ../../qt4/qt4systrayicon.py:65
+msgid "Done"
+msgstr ""
+
+#: ../../common/snapshots.py:818
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
 
-#: ../../common/snapshots.py:808
+#: ../../common/snapshots.py:826
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -383,13 +418,13 @@ msgid ""
 "(The program will still be able to discriminate between them)"
 msgstr ""
 
-#: ../../common/snapshots.py:811
+#: ../../common/snapshots.py:829
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
 
-#: ../../common/snapshots.py:858
+#: ../../common/snapshots.py:876
 #, python-format
 msgid ""
 "%(snapshots_left)s\n"
@@ -402,7 +437,7 @@ msgid ""
 "cannot continue taking snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:866
+#: ../../common/snapshots.py:884
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -412,14 +447,14 @@ msgid ""
 "if you are done restart Back In Time to proceed"
 msgstr ""
 
-#: ../../common/snapshots.py:876
+#: ../../common/snapshots.py:894
 msgid ""
 "Update was successful!\n"
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 
-#: ../../common/snapshots.py:881
+#: ../../common/snapshots.py:899
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -431,96 +466,96 @@ msgid ""
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
 
-#: ../../common/snapshots.py:891
+#: ../../common/snapshots.py:909
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 
-#: ../../common/snapshots.py:893
+#: ../../common/snapshots.py:911
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
 
-#: ../../common/snapshots.py:912
+#: ../../common/snapshots.py:930
 msgid "Deferring backup while on battery"
 msgstr ""
 
-#: ../../common/snapshots.py:975
+#: ../../common/snapshots.py:993
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
 
-#: ../../common/snapshots.py:977
+#: ../../common/snapshots.py:995
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../common/snapshots.py:1003
+#: ../../common/snapshots.py:1021
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr ""
 
-#: ../../common/snapshots.py:1012
+#: ../../common/snapshots.py:1030
 msgid "Finalizing"
 msgstr ""
 
-#: ../../common/snapshots.py:1141
+#: ../../common/snapshots.py:1159
 #, python-format
 msgid "Can't create folder: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1157
+#: ../../common/snapshots.py:1175
 msgid "..."
 msgstr ""
 
-#: ../../common/snapshots.py:1182
+#: ../../common/snapshots.py:1200
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1259
+#: ../../common/snapshots.py:1277
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1279
+#: ../../common/snapshots.py:1297
 msgid "Create hard-links"
 msgstr ""
 
-#: ../../common/snapshots.py:1357
+#: ../../common/snapshots.py:1375
 msgid "Save config file ..."
 msgstr ""
 
-#: ../../common/snapshots.py:1363
+#: ../../common/snapshots.py:1381
 msgid "Save permission ..."
 msgstr ""
 
-#: ../../common/snapshots.py:1388
+#: ../../common/snapshots.py:1406
 msgid "Save permission over ssh failed. Retry normal method"
 msgstr ""
 
-#: ../../common/snapshots.py:1436
+#: ../../common/snapshots.py:1454
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr ""
 
-#: ../../common/snapshots.py:1579 ../../common/snapshots.py:1612
+#: ../../common/snapshots.py:1628 ../../common/snapshots.py:1661
 #: ../../qt4/settingsdialog.py:537
 msgid "Smart remove"
 msgstr ""
 
-#: ../../common/snapshots.py:1588
+#: ../../common/snapshots.py:1637
 msgid "Remove old snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:1617
+#: ../../common/snapshots.py:1666
 msgid "Try to keep min free space"
 msgstr ""
 
-#: ../../common/snapshots.py:1654
+#: ../../common/snapshots.py:1703
 #, python-format
 msgid "Try to keep min %d%% free inodes"
 msgstr ""
@@ -597,7 +632,7 @@ msgstr ""
 msgid "Ping %s failed. Host is down or wrong address."
 msgstr ""
 
-#: ../../common/sshtools.py:423 ../../common/sshtools.py:554
+#: ../../common/sshtools.py:423 ../../common/sshtools.py:553
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
@@ -605,7 +640,7 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:557
+#: ../../common/sshtools.py:556
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
@@ -613,7 +648,7 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:572
+#: ../../common/sshtools.py:571
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
 msgstr ""
@@ -622,7 +657,7 @@ msgstr ""
 msgid "Refresh snapshots list"
 msgstr ""
 
-#: ../../qt4/app.py:84 ../../qt4/app.py:943
+#: ../../qt4/app.py:84 ../../qt4/app.py:953
 msgid "Snapshot Name"
 msgstr ""
 
@@ -666,7 +701,7 @@ msgstr ""
 msgid "Website"
 msgstr ""
 
-#: ../../qt4/app.py:126 ../../qt4/app.py:1036
+#: ../../qt4/app.py:126 ../../qt4/app.py:1049
 msgid "Changelog"
 msgstr ""
 
@@ -682,11 +717,12 @@ msgstr ""
 msgid "Report a bug"
 msgstr ""
 
-#: ../../qt4/app.py:135 ../../qt4/app.py:1363
+#: ../../qt4/app.py:135 ../../qt4/app.py:1369
 msgid "About"
 msgstr ""
 
-#: ../../qt4/app.py:150 ../../qt4/app.py:207 ../../qt4/snapshotsdialog.py:95
+#: ../../qt4/app.py:150 ../../qt4/app.py:207 ../../qt4/logviewdialog.py:63
+#: ../../qt4/snapshotsdialog.py:95
 msgid "Snapshots"
 msgstr ""
 
@@ -745,11 +781,6 @@ msgstr ""
 
 #: ../../qt4/app.py:349
 msgid "Add to Exclude"
-msgstr ""
-
-#: ../../qt4/app.py:366 ../../qt4/app.py:661 ../../qt4/app.py:678
-#: ../../qt4/qt4systrayicon.py:65
-msgid "Done"
 msgstr ""
 
 #: ../../qt4/app.py:404
@@ -837,113 +868,117 @@ msgstr ""
 msgid "Last check %s"
 msgstr ""
 
-#: ../../qt4/app.py:977
+#: ../../qt4/app.py:990
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
 
-#: ../../qt4/app.py:1058
+#: ../../qt4/app.py:1071
 #, python-format
 msgid ""
 "Backup local files before overwriting or\n"
 "removing with trailing '%(suffix)s'."
 msgstr ""
 
-#: ../../qt4/app.py:1064
+#: ../../qt4/app.py:1077
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 
-#: ../../qt4/app.py:1068
+#: ../../qt4/app.py:1081
 msgid ""
 "WARNING: deleting files in filesystem root could break your whole system!!!"
 msgstr ""
 
-#: ../../qt4/app.py:1070
+#: ../../qt4/app.py:1083
 msgid "Files to be restored:"
 msgstr ""
 
-#: ../../qt4/app.py:1085
+#: ../../qt4/app.py:1098
 msgid "Do you really want to restore this files(s):"
 msgstr ""
 
-#: ../../qt4/app.py:1254
+#: ../../qt4/app.py:1260
 #, python-format
 msgid "Snapshot: %s"
 msgstr ""
 
-#: ../../qt4/app.py:1255
+#: ../../qt4/app.py:1261
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr ""
 
-#: ../../qt4/app.py:1257
+#: ../../qt4/app.py:1263
 msgid "View the current disk content"
 msgstr ""
 
-#: ../../qt4/app.py:1296
+#: ../../qt4/app.py:1302
 #, python-format
 msgid "Restore '%s'"
 msgstr ""
 
-#: ../../qt4/app.py:1297
+#: ../../qt4/app.py:1303
 #, python-format
 msgid "Restore '%s' to ..."
 msgstr ""
 
-#: ../../qt4/app.py:1298
+#: ../../qt4/app.py:1304
 #, python-format
 msgid "Restore '%s' and delete new files"
 msgstr ""
 
-#: ../../qt4/app.py:1383 ../../qt4/app.py:1400
+#: ../../qt4/app.py:1393 ../../qt4/app.py:1410
 msgid "Authors"
 msgstr ""
 
-#: ../../qt4/app.py:1384 ../../qt4/app.py:1403
+#: ../../qt4/app.py:1394 ../../qt4/app.py:1413
 msgid "Translations"
 msgstr ""
 
-#: ../../qt4/app.py:1385 ../../qt4/app.py:1406
+#: ../../qt4/app.py:1395 ../../qt4/app.py:1416
 msgid "License"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:44
-msgid "Error Log View"
+#: ../../qt4/logviewdialog.py:45
+msgid "Last Log View"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:52 ../../qt4/settingsdialog.py:59
+#: ../../qt4/logviewdialog.py:47
+msgid "Snapshot Log View"
+msgstr ""
+
+#: ../../qt4/logviewdialog.py:55 ../../qt4/settingsdialog.py:59
 #: ../../qt4/settingsdialog.py:269 ../../qt4/settingsdialog.py:1861
 msgid "Profile:"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:64
+#: ../../qt4/logviewdialog.py:77
 msgid "Filter:"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:70 ../../qt4/settingsdialog.py:654
+#: ../../qt4/logviewdialog.py:83 ../../qt4/settingsdialog.py:654
 msgid "All"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:71 ../../qt4/settingsdialog.py:652
+#: ../../qt4/logviewdialog.py:84 ../../qt4/settingsdialog.py:652
 msgid "Errors"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:76
+#: ../../qt4/logviewdialog.py:89
 msgid "Changes"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:79
+#: ../../qt4/logviewdialog.py:92
 msgid "Informations"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:88
+#: ../../qt4/logviewdialog.py:101
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:91
+#: ../../qt4/logviewdialog.py:104
 msgid "decode paths"
 msgstr ""
 
@@ -1280,10 +1315,6 @@ msgstr ""
 msgid "Changes & Errors"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:664
-msgid "Expert Options"
-msgstr ""
-
 #: ../../qt4/settingsdialog.py:669
 msgid "Change these options only if you really know what you are doing !"
 msgstr ""
@@ -1343,10 +1374,6 @@ msgstr ""
 
 #: ../../qt4/settingsdialog.py:798
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr ""
-
-#: ../../qt4/settingsdialog.py:810
-msgid "Copy links (dereference symbolic links)"
 msgstr ""
 
 #: ../../qt4/settingsdialog.py:829
