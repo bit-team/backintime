@@ -354,7 +354,7 @@ msgid ""
 msgstr ""
 "%(user)s ist kein Mitglied der Gruppe »fuse«.\n"
 "Bitte »sudo adduser %(user)s fuse« ausführen. Zum Anwenden der Änderungen "
-"bitte einmal aus- und wieder anmelden.\n"
+"bitte einmal ab- und wieder anmelden.\n"
 "Weitere Informationen unter »man backintime«."
 
 #: ../../common/encfstools.py:207
@@ -477,8 +477,8 @@ msgstr ""
 "des Profils %(profile_id)s wurden nicht an den neuen Speicherort "
 "verschoben.\n"
 "Möchten Sie fortfahren?\n"
-"(»Back In Time« kann mit dem Erstellen Schnappschusses fortfahren, jedoch "
-"werden die restlichen Schnappschüsse nicht beachtet oder automatisch "
+"(»Back In Time« kann mit dem Erstellen von Schnappschüssen fortfahren, jedoch "
+"werden die restlichen Schnappschüsse nicht automatisch "
 "entfernt.)\n"
 "\n"
 "Andernfalls stellt »Back In Time« den vorherigen Zustand dieses Profils "
@@ -554,7 +554,7 @@ msgid ""
 "If it is on a removable drive please plug it."
 msgstr ""
 "Schnappschussordner konnte nicht gefunden werden.\n"
-"Wenn es ein Wechsellaufwerk, bitte verbinden!"
+"Wenn es ein Wechsellaufwerk ist, bitte verbinden!"
 
 #: ../../common/snapshots.py:995
 #, python-format
@@ -900,7 +900,7 @@ msgid ""
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
 "Schnappschussordner wurde nicht gefunden.\n"
-"Wenn es ein Wechsellaufwerk, bitte verbinden und dann OK drücken."
+"Wenn es ein Wechsellaufwerk ist, bitte verbinden und dann OK drücken."
 
 #: ../../qt4/app.py:460
 msgid ""
@@ -985,7 +985,7 @@ msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
-"Sind Sie sicher, dass Sie den Snapshot löschen wollen:\n"
+"Sind Sie sicher, dass Sie den Schnappschuss löschen wollen:\n"
 "%s"
 
 #: ../../qt4/app.py:1071
@@ -994,8 +994,8 @@ msgid ""
 "Backup local files before overwriting or\n"
 "removing with trailing '%(suffix)s'."
 msgstr ""
-"Lokale Dateien vor dem Überschrieben sichern oder\n"
-"mit angehängtem »%(suffix)s« entfernen."
+"Lokale Dateien vor dem Überschreiben oder entfernen\n"
+"sichern mit angehängtem »%(suffix)s«."
 
 #: ../../qt4/app.py:1077
 msgid ""
@@ -1027,7 +1027,7 @@ msgstr "Schnappschuss: %s"
 #: ../../qt4/app.py:1261
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "Zeige den Snapshot von %s"
+msgstr "Zeige den Schnappschuss von %s"
 
 #: ../../qt4/app.py:1263
 msgid "View the current disk content"
@@ -1319,7 +1319,7 @@ msgstr ""
 "betreffen,\n"
 "weil dies für rsync eine Transferoption ist, keine Ausschlussoption.\n"
 "Das heißt, dass größere Dateien, die bereits zuvor gesichert wurden,\n"
-"auch in neuen Snapshots gesichert werden, selbst wenn sie verändert wurden."
+"auch in neuen Schnappschüssen gesichert werden, selbst wenn sie verändert wurden."
 
 #: ../../qt4/settingsdialog.py:488
 msgid "Auto-remove"
@@ -1375,7 +1375,7 @@ msgstr "Einen Schnappschuss pro Jahr behalten, für alle Jahre"
 
 #: ../../qt4/settingsdialog.py:580
 msgid "Don't remove named snapshots"
-msgstr "Entferne benannte Snapshots nicht."
+msgstr "Entferne benannte Schnappschüsse nicht."
 
 #: ../../qt4/settingsdialog.py:592
 msgid "Options"
@@ -1403,7 +1403,7 @@ msgid ""
 "This is a global option. So it will effect all profiles for this user.\n"
 "But you need to activate this for all other users, too."
 msgstr ""
-"Andere Snapshots werden blockiert, bis der aktuelle Snapshot fertiggestellt "
+"Andere Schnappschüsse werden blockiert, bis der aktuelle Schnappschuss fertiggestellt "
 "ist.\n"
 "Dies ist eine globale Option, die alle Profile dieses Benutzers betreffen "
 "wird.\n"
@@ -1683,11 +1683,11 @@ msgstr "%1 und %2 als Pfadparameter verwenden"
 
 #: ../../qt4/snapshotsdialog.py:105
 msgid "List only different snapshots"
-msgstr "Nur verschiedene Snapshots auflisten."
+msgstr "Nur verschiedene Schnappschüsse auflisten."
 
 #: ../../qt4/snapshotsdialog.py:112
 msgid "List only equal snapshots to: "
-msgstr "Nur gleiche Snapshots auflisten zu: "
+msgstr "Nur gleiche Schnappschüsse auflisten zu: "
 
 #: ../../qt4/snapshotsdialog.py:122
 msgid "Deep check (more accurate, but slow)"
@@ -1723,13 +1723,13 @@ msgstr "Befehl nicht gefunden: %s"
 msgid ""
 "Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
 msgstr ""
-"Soll \"%(file)s\" wirklich in dem Snapshot \"%(snapshot_id)s\" gelöscht "
+"Soll \"%(file)s\" wirklich in dem Schnappschuss \"%(snapshot_id)s\" gelöscht "
 "werden?\n"
 
 #: ../../qt4/snapshotsdialog.py:370
 #, python-format
 msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
-msgstr "Soll \"%(file)s\" wirklich in %(count)d Snapshots gelöscht werden?\n"
+msgstr "Soll \"%(file)s\" wirklich in %(count)d Schnappschüssen gelöscht werden?\n"
 
 #: ../../qt4/snapshotsdialog.py:372
 msgid "WARNING: This can not be revoked!"
