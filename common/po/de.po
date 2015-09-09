@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-08 23:32+0200\n"
-"PO-Revision-Date: 2015-09-07 12:45+0000\n"
-"Last-Translator: Tobias Bannert <Unknown>\n"
+"PO-Revision-Date: 2015-09-09 20:38+0000\n"
+"Last-Translator: Germar <Unknown>\n"
 "Language-Team: German/Germany <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-08 22:24+0000\n"
+"X-Launchpad-Export-Date: 2015-09-09 20:44+0000\n"
 "X-Generator: Launchpad (build 17706)\n"
 
 #: ../../common/configfile.py:257 ../../common/configfile.py:319
@@ -242,6 +242,9 @@ msgid ""
 "Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
+"Das Zieldateisystem für '%(path)s' ist mit FAT formatiert was harte "
+"Verknüpfungen nicht unterstützt. Bitte benutzen Sie ein echtes "
+"Linuxdateisystem"
 
 #: ../../common/config.py:405
 #, python-format
@@ -250,6 +253,9 @@ msgid ""
 "sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
 "'%(expertOptions)s'."
 msgstr ""
+"Das Zieldateisystem für '%(path)s' ist eine eingehängte SMB Freigabe. Bitte "
+"stellen Sie sicher, dass der entfernte SMB Server Symlinks unterstützt oder "
+"aktivieren Sie '%(copyLinks)s' in '%(expertOptions)s'."
 
 #: ../../common/config.py:408 ../../qt4/settingsdialog.py:810
 msgid "Copy links (dereference symbolic links)"
@@ -265,6 +271,9 @@ msgid ""
 "Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
+"Das Zieldateisystem für '%(path)s' ist eine eingehängte sshfs Freigabe. "
+"sshfs unterstützt keine harten Verknüpfungen. Bitte benutzen Sie statt "
+"dessen den 'SSH' Modus."
 
 #: ../../common/config.py:1459
 msgid ""
@@ -477,9 +486,8 @@ msgstr ""
 "des Profils %(profile_id)s wurden nicht an den neuen Speicherort "
 "verschoben.\n"
 "Möchten Sie fortfahren?\n"
-"(»Back In Time« kann mit dem Erstellen von Schnappschüssen fortfahren, jedoch "
-"werden die restlichen Schnappschüsse nicht automatisch "
-"entfernt.)\n"
+"(»Back In Time« kann mit dem Erstellen von Schnappschüssen fortfahren, "
+"jedoch werden die restlichen Schnappschüsse nicht automatisch entfernt.)\n"
 "\n"
 "Andernfalls stellt »Back In Time« den vorherigen Zustand dieses Profils "
 "wieder her, kann aber keine Schnappschüsse mehr anlegen."
@@ -1062,11 +1070,11 @@ msgstr "Lizenz"
 
 #: ../../qt4/logviewdialog.py:45
 msgid "Last Log View"
-msgstr ""
+msgstr "Letzte Protokoll Ansicht"
 
 #: ../../qt4/logviewdialog.py:47
 msgid "Snapshot Log View"
-msgstr ""
+msgstr "Schnappschussprotokoll Ansicht"
 
 #: ../../qt4/logviewdialog.py:55 ../../qt4/settingsdialog.py:59
 #: ../../qt4/settingsdialog.py:269 ../../qt4/settingsdialog.py:1861
@@ -1319,7 +1327,8 @@ msgstr ""
 "betreffen,\n"
 "weil dies für rsync eine Transferoption ist, keine Ausschlussoption.\n"
 "Das heißt, dass größere Dateien, die bereits zuvor gesichert wurden,\n"
-"auch in neuen Schnappschüssen gesichert werden, selbst wenn sie verändert wurden."
+"auch in neuen Schnappschüssen gesichert werden, selbst wenn sie verändert "
+"wurden."
 
 #: ../../qt4/settingsdialog.py:488
 msgid "Auto-remove"
@@ -1403,8 +1412,8 @@ msgid ""
 "This is a global option. So it will effect all profiles for this user.\n"
 "But you need to activate this for all other users, too."
 msgstr ""
-"Andere Schnappschüsse werden blockiert, bis der aktuelle Schnappschuss fertiggestellt "
-"ist.\n"
+"Andere Schnappschüsse werden blockiert, bis der aktuelle Schnappschuss "
+"fertiggestellt ist.\n"
 "Dies ist eine globale Option, die alle Profile dieses Benutzers betreffen "
 "wird.\n"
 "Die Option muß aber auch für alle anderen Benutzer aktiviert werden."
@@ -1503,11 +1512,11 @@ msgstr "auf dem lokalen Rechner"
 
 #: ../../qt4/settingsdialog.py:714
 msgid "Redirect stdout to /dev/null in cronjobs."
-msgstr ""
+msgstr "Leite stdout in cronjobs nach /dev/null um."
 
 #: ../../qt4/settingsdialog.py:720
 msgid "Redirect stderr to /dev/null in cronjobs."
-msgstr ""
+msgstr "Leite stderr in cronjobs nach /dev/null um."
 
 #: ../../qt4/settingsdialog.py:729
 msgid "Limit rsync bandwidth usage: "
@@ -1557,6 +1566,14 @@ msgid ""
 "\n"
 "%(default)s: %(def_value)s"
 msgstr ""
+"Präfix das vor allen Befehlen auf dem entfernten\n"
+"Rechner gestartet werden soll.\n"
+"Variablen müssen gesichert werden mit \\$FOO.\n"
+"Dies betrifft rsync nicht. Um ein Präfix zu rsync\n"
+"hinzuzufügen, kann '%(cb_rsync_options)s' mit\n"
+"'%(rsync_options_value)s' genutzt werden\n"
+"\n"
+"%(default)s: %(def_value)s"
 
 #: ../../qt4/settingsdialog.py:853 ../../qt4/settingsdialog.py:1651
 msgid "default"
@@ -1729,7 +1746,8 @@ msgstr ""
 #: ../../qt4/snapshotsdialog.py:370
 #, python-format
 msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
-msgstr "Soll \"%(file)s\" wirklich in %(count)d Schnappschüssen gelöscht werden?\n"
+msgstr ""
+"Soll \"%(file)s\" wirklich in %(count)d Schnappschüssen gelöscht werden?\n"
 
 #: ../../qt4/snapshotsdialog.py:372
 msgid "WARNING: This can not be revoked!"
