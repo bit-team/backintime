@@ -559,12 +559,10 @@ class Decode(object):
                      %' '.join(encfsctl),
                      self)
         self.p = subprocess.Popen(encfsctl, env = env,
-                                stdin=subprocess.PIPE,
-                                stdout=subprocess.PIPE,
-                                universal_newlines = self.string,   #return string (if True) or bytes
-                                bufsize = int(self.string))         #set bufsize to 1 for string or 0 for bytes
-                                                                    #if bytes where buffered p.stdout.readline would
-                                                                    #deadlock otherwise
+                                  stdin=subprocess.PIPE,
+                                  stdout=subprocess.PIPE,
+                                  universal_newlines = self.string,   #return string (if True) or bytes
+                                  bufsize = 0)
         thread.stop()
 
     def path(self, path):
