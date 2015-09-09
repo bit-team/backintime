@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-05-22 23:57+0200\n"
+"POT-Creation-Date: 2015-09-08 23:32+0200\n"
 "PO-Revision-Date: 2010-02-09 04:57+0000\n"
 "Last-Translator: Itai Molenaar <Unknown>\n"
 "Language-Team: English (Canada) <en_CA@li.org>\n"
@@ -15,15 +15,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-06-19 21:04+0000\n"
-"X-Generator: Launchpad (build 17572)\n"
+"X-Launchpad-Export-Date: 2015-09-08 22:24+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
-#: ../../common/configfile.py:248 ../../common/configfile.py:310
+#: ../../common/configfile.py:257 ../../common/configfile.py:319
 #, python-format
 msgid "Profile \"%s\" already exists !"
 msgstr "Profile \"%s\" already exists!"
 
-#: ../../common/configfile.py:279
+#: ../../common/configfile.py:288
 msgid "You can't remove the last profile !"
 msgstr "You can't remove the last profile!"
 
@@ -111,119 +111,124 @@ msgstr ""
 msgid "Month(s)"
 msgstr ""
 
-#: ../../common/config.py:123 ../../qt4/settingsdialog.py:563
+#: ../../common/config.py:126 ../../qt4/settingsdialog.py:546
 msgid " EXPERIMENTAL!"
 msgstr ""
 
-#: ../../common/config.py:126
+#: ../../common/config.py:129
 msgid "Local"
 msgstr ""
 
-#: ../../common/config.py:127
+#: ../../common/config.py:130
 msgid "SSH"
 msgstr ""
 
-#: ../../common/config.py:127 ../../common/config.py:129
-#: ../../qt4/settingsdialog.py:1572
+#: ../../common/config.py:130 ../../common/config.py:132
+#: ../../qt4/settingsdialog.py:1543
 msgid "SSH private key"
 msgstr ""
 
-#: ../../common/config.py:128
+#: ../../common/config.py:131
 msgid "Local encrypted"
 msgstr ""
 
-#: ../../common/config.py:128 ../../common/config.py:129
+#: ../../common/config.py:131 ../../common/config.py:132
 msgid "Encryption"
 msgstr ""
 
-#: ../../common/config.py:129
+#: ../../common/config.py:132
 msgid "SSH encrypted"
 msgstr ""
 
-#: ../../common/config.py:133
+#: ../../common/config.py:135
 msgid "Default"
 msgstr ""
 
-#: ../../common/config.py:134
+#: ../../common/config.py:136
 msgid "AES128-CTR"
 msgstr ""
 
-#: ../../common/config.py:135
+#: ../../common/config.py:137
 msgid "AES192-CTR"
 msgstr ""
 
-#: ../../common/config.py:136
+#: ../../common/config.py:138
 msgid "AES256-CTR"
 msgstr ""
 
-#: ../../common/config.py:137
+#: ../../common/config.py:139
 msgid "ARCFOUR256"
 msgstr ""
 
-#: ../../common/config.py:138
+#: ../../common/config.py:140
 msgid "ARCFOUR128"
 msgstr ""
 
-#: ../../common/config.py:139
+#: ../../common/config.py:141
 msgid "AES128-CBC"
 msgstr ""
 
-#: ../../common/config.py:140
+#: ../../common/config.py:142
 msgid "3DES-CBC"
 msgstr ""
 
-#: ../../common/config.py:141
+#: ../../common/config.py:143
 msgid "Blowfish-CBC"
 msgstr ""
 
-#: ../../common/config.py:142
+#: ../../common/config.py:144
 msgid "Cast128-CBC"
 msgstr ""
 
-#: ../../common/config.py:143
+#: ../../common/config.py:145
 msgid "AES192-CBC"
 msgstr ""
 
-#: ../../common/config.py:144
+#: ../../common/config.py:146
 msgid "AES256-CBC"
 msgstr ""
 
-#: ../../common/config.py:145
+#: ../../common/config.py:147
 msgid "ARCFOUR"
 msgstr ""
 
-#: ../../common/config.py:151
+#: ../../common/config.py:153
 msgid "Main profile"
 msgstr "Main profile"
 
-#: ../../common/config.py:286 ../../common/config.py:293
-#: ../../common/config.py:304 ../../common/config.py:309
+#: ../../common/config.py:289 ../../common/config.py:296
+#: ../../common/config.py:307 ../../common/config.py:312
+#: ../../qt4/qt4systrayicon.py:61
 #, python-format
 msgid "Profile: \"%s\""
 msgstr "Profile: \"%s\""
 
-#: ../../common/config.py:286
+#: ../../common/config.py:289
 msgid "Snapshots folder is not valid !"
 msgstr "Snapshots folder is not valid!"
 
-#: ../../common/config.py:293
+#: ../../common/config.py:296
 msgid "You must select at least one folder to backup !"
 msgstr "You must select at least one folder to backup!"
 
-#: ../../common/config.py:304
+#: ../../common/config.py:307
 msgid "You can't include backup folder !"
 msgstr "You can't include backup folder!"
 
-#: ../../common/config.py:309
+#: ../../common/config.py:312
 msgid "You can't include a backup sub-folder !"
 msgstr "You can't include a backup sub-folder!"
 
-#: ../../common/config.py:368
+#: ../../common/config.py:371
 #, python-format
 msgid "%s is not a folder !"
 msgstr "%s is not a folder!"
 
-#: ../../common/config.py:381 ../../common/config.py:394
+#: ../../common/config.py:380
+msgid "Host/User/Profile-ID must not be empty!"
+msgstr ""
+
+#: ../../common/config.py:388 ../../common/config.py:420
 #, python-format
 msgid ""
 "Can't write to: %s\n"
@@ -232,7 +237,37 @@ msgstr ""
 "Can't write to: %s\n"
 "Are you sure you have write access?"
 
-#: ../../common/config.py:1390
+#: ../../common/config.py:400
+#, python-format
+msgid ""
+"Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
+"support hard-links. Please use a native Linux filesystem."
+msgstr ""
+
+#: ../../common/config.py:405
+#, python-format
+msgid ""
+"Destination filsystem for '%(path)s' is a SMB mounted share. Please make "
+"sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
+"'%(expertOptions)s'."
+msgstr ""
+
+#: ../../common/config.py:408 ../../qt4/settingsdialog.py:810
+msgid "Copy links (dereference symbolic links)"
+msgstr ""
+
+#: ../../common/config.py:409 ../../qt4/settingsdialog.py:664
+msgid "Expert Options"
+msgstr "Expert Options"
+
+#: ../../common/config.py:411
+#, python-format
+msgid ""
+"Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
+"support hard-links. Please use mode 'SSH' instead."
+msgstr ""
+
+#: ../../common/config.py:1459
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -242,24 +277,28 @@ msgstr ""
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 
-#: ../../common/config.py:1429
+#: ../../common/config.py:1463
+msgid "Failed to write new crontab."
+msgstr ""
+
+#: ../../common/config.py:1557
 #, python-format
 msgid ""
 "Could not install Udev rule for profile %(profile_id)s. DBus Service "
 "'%(dbus_interface)s' wasn't available"
 msgstr ""
 
-#: ../../common/config.py:1440
+#: ../../common/config.py:1569
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr ""
 
-#: ../../common/config.py:1448
+#: ../../common/config.py:1578
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr ""
 
-#: ../../common/encfstools.py:99
+#: ../../common/encfstools.py:102
 #, python-format
 msgid ""
 "Can't mount '%(command)s':\n"
@@ -267,38 +306,38 @@ msgid ""
 "%(error)s"
 msgstr ""
 
-#: ../../common/encfstools.py:109
+#: ../../common/encfstools.py:112
 #, python-format
 msgid "Can't unmount encfs %s"
 msgstr ""
 
-#: ../../common/encfstools.py:153
+#: ../../common/encfstools.py:162
 msgid "Config for encrypted folder not found."
 msgstr ""
 
-#: ../../common/encfstools.py:157
+#: ../../common/encfstools.py:166
 msgid ""
 "\n"
 "Create a new encrypted folder?"
 msgstr ""
 
-#: ../../common/encfstools.py:158
+#: ../../common/encfstools.py:167
 msgid "Cancel"
 msgstr ""
 
-#: ../../common/encfstools.py:161
+#: ../../common/encfstools.py:170
 msgid "Please confirm password"
 msgstr ""
 
-#: ../../common/encfstools.py:165
+#: ../../common/encfstools.py:174
 msgid "Password doesn't match"
 msgstr ""
 
-#: ../../common/encfstools.py:170
+#: ../../common/encfstools.py:181
 msgid "encfs not found. Please install e.g. 'apt-get install encfs'"
 msgstr ""
 
-#: ../../common/encfstools.py:179 ../../common/sshtools.py:226
+#: ../../common/encfstools.py:192 ../../common/sshtools.py:262
 #, python-format
 msgid ""
 "%(user)s is not member of group 'fuse'.\n"
@@ -306,69 +345,74 @@ msgid ""
 "Look at 'man backintime' for further instructions."
 msgstr ""
 
-#: ../../common/encfstools.py:192
+#: ../../common/encfstools.py:207
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs"
 msgstr ""
 
-#: ../../common/encfstools.py:474 ../../common/encfstools.py:506
-#: ../../common/snapshots.py:994 ../../common/snapshots.py:1228
-#: ../../qt4/app.py:77
+#: ../../common/encfstools.py:506 ../../common/encfstools.py:538
+#: ../../common/snapshots.py:1089 ../../common/snapshots.py:1324
+#: ../../qt4/app.py:78
 msgid "Take snapshot"
 msgstr "Take snapshot"
 
-#: ../../common/mount.py:197
+#: ../../common/mount.py:202
 #, python-format
 msgid ""
 "Hash collision occurred in hash_id %s. Incrementing global value "
 "hash_collision and try again."
 msgstr ""
 
-#: ../../common/mount.py:248
+#: ../../common/mount.py:257
 #, python-format
 msgid "mountpoint %s not empty."
 msgstr ""
 
-#: ../../common/mount.py:285
+#: ../../common/mount.py:294
 msgid "Mountprocess lock timeout"
 msgstr ""
 
-#: ../../common/password.py:422
+#: ../../common/password.py:427
 #, python-format
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
 msgstr ""
 
-#: ../../common/snapshots.py:172 ../../qt4/app.py:201 ../../qt4/app.py:1187
+#: ../../common/snapshots.py:174 ../../qt4/app.py:204 ../../qt4/app.py:1264
 msgid "Now"
 msgstr "Now"
 
-#: ../../common/snapshots.py:183
+#: ../../common/snapshots.py:185
 msgid "WITH ERRORS !"
 msgstr ""
 
-#: ../../common/snapshots.py:309
+#: ../../common/snapshots.py:333
 msgid ""
 "### This log has been decoded with automatic search pattern\n"
 "### If some paths are not decoded you can manually decode them with:\n"
 msgstr ""
 
-#: ../../common/snapshots.py:483
+#: ../../common/snapshots.py:528
 msgid "FAILED"
 msgstr ""
 
-#: ../../common/snapshots.py:597
+#: ../../common/snapshots.py:662 ../../common/snapshots.py:706
 msgid "Restore permissions:"
 msgstr ""
 
-#: ../../common/snapshots.py:738
+#: ../../common/snapshots.py:706 ../../qt4/app.py:366 ../../qt4/app.py:661
+#: ../../qt4/app.py:678 ../../qt4/qt4systrayicon.py:65
+msgid "Done"
+msgstr "Done"
+
+#: ../../common/snapshots.py:818
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
 
-#: ../../common/snapshots.py:746
+#: ../../common/snapshots.py:826
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -385,13 +429,13 @@ msgstr ""
 "\n"
 "(The program will still be able to discriminate between them)"
 
-#: ../../common/snapshots.py:749
+#: ../../common/snapshots.py:829
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
 
-#: ../../common/snapshots.py:789
+#: ../../common/snapshots.py:876
 #, python-format
 msgid ""
 "%(snapshots_left)s\n"
@@ -404,7 +448,7 @@ msgid ""
 "cannot continue taking snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:797
+#: ../../common/snapshots.py:884
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -414,14 +458,14 @@ msgid ""
 "if you are done restart Back In Time to proceed"
 msgstr ""
 
-#: ../../common/snapshots.py:807
+#: ../../common/snapshots.py:894
 msgid ""
 "Update was successful!\n"
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 
-#: ../../common/snapshots.py:812
+#: ../../common/snapshots.py:899
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -433,21 +477,21 @@ msgid ""
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
 
-#: ../../common/snapshots.py:820
+#: ../../common/snapshots.py:909
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 
-#: ../../common/snapshots.py:822
+#: ../../common/snapshots.py:911
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
 
-#: ../../common/snapshots.py:839
+#: ../../common/snapshots.py:930
 msgid "Deferring backup while on battery"
 msgstr ""
 
-#: ../../common/snapshots.py:898
+#: ../../common/snapshots.py:993
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
@@ -455,160 +499,153 @@ msgstr ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive, please plug it in."
 
-#: ../../common/snapshots.py:900
+#: ../../common/snapshots.py:995
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Waiting %s second."
 msgstr[1] "Waiting %s seconds."
 
-#: ../../common/snapshots.py:926
+#: ../../common/snapshots.py:1021
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr ""
 
-#: ../../common/snapshots.py:935
+#: ../../common/snapshots.py:1030
 msgid "Finalizing"
 msgstr "Finalizing"
 
-#: ../../common/snapshots.py:1064
+#: ../../common/snapshots.py:1159
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "Can't create folder: %s"
 
-#: ../../common/snapshots.py:1080
+#: ../../common/snapshots.py:1175
 msgid "..."
 msgstr "..."
 
-#: ../../common/snapshots.py:1105
+#: ../../common/snapshots.py:1200
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "Can't remove folder: %s"
 
-#: ../../common/snapshots.py:1182
+#: ../../common/snapshots.py:1277
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "Compare with snapshot %s"
 
-#: ../../common/snapshots.py:1201
+#: ../../common/snapshots.py:1297
 msgid "Create hard-links"
 msgstr "Create hard-links"
 
-#: ../../common/snapshots.py:1274
+#: ../../common/snapshots.py:1375
 msgid "Save config file ..."
 msgstr "Save config file ..."
 
-#: ../../common/snapshots.py:1280
+#: ../../common/snapshots.py:1381
 msgid "Save permission ..."
 msgstr "Save permission..."
 
-#: ../../common/snapshots.py:1305
+#: ../../common/snapshots.py:1406
 msgid "Save permission over ssh failed. Retry normal method"
 msgstr ""
 
-#: ../../common/snapshots.py:1350
+#: ../../common/snapshots.py:1454
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr ""
 
-#: ../../common/snapshots.py:1485 ../../common/snapshots.py:1518
-#: ../../qt4/settingsdialog.py:554
+#: ../../common/snapshots.py:1628 ../../common/snapshots.py:1661
+#: ../../qt4/settingsdialog.py:537
 msgid "Smart remove"
 msgstr "Smart remove"
 
-#: ../../common/snapshots.py:1495
+#: ../../common/snapshots.py:1637
 msgid "Remove old snapshots"
 msgstr "Remove old snapshots"
 
-#: ../../common/snapshots.py:1523
+#: ../../common/snapshots.py:1666
 msgid "Try to keep min free space"
 msgstr "Try to keep min free space"
 
-#: ../../common/snapshots.py:1559
+#: ../../common/snapshots.py:1703
 #, python-format
 msgid "Try to keep min %d%% free inodes"
 msgstr ""
 
-#: ../../common/sshtools.py:117
+#: ../../common/sshtools.py:128
 #, python-format
 msgid "Can't mount %s"
 msgstr ""
 
-#: ../../common/sshtools.py:124
+#: ../../common/sshtools.py:135
 #, python-format
 msgid "Can't unmount sshfs %s"
 msgstr ""
 
-#: ../../common/sshtools.py:202
-#, python-format
-msgid ""
-"Failed to unlock SSH private key:\n"
-"Error: %s"
-msgstr ""
-
-#: ../../common/sshtools.py:212
+#: ../../common/sshtools.py:240
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
 
-#: ../../common/sshtools.py:217
+#: ../../common/sshtools.py:251
 msgid "sshfs not found. Please install e.g. 'apt-get install sshfs'"
 msgstr ""
 
-#: ../../common/sshtools.py:236
+#: ../../common/sshtools.py:278
 #, python-format
 msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
 "backintime' for further instructions."
 msgstr ""
 
-#: ../../common/sshtools.py:251
+#: ../../common/sshtools.py:298
 #, python-format
 msgid ""
 "Cipher %(cipher)s failed for %(host)s:\n"
 "%(err)s"
 msgstr ""
 
-#: ../../common/sshtools.py:278
+#: ../../common/sshtools.py:333
 #, python-format
 msgid "%s not found in ssh_known_hosts."
 msgstr ""
 
-#: ../../common/sshtools.py:298
+#: ../../common/sshtools.py:361
 #, python-format
 msgid ""
 "Remote path exists but is not a directory:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:300
+#: ../../common/sshtools.py:363
 #, python-format
 msgid ""
 "Remote path is not writeable:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:302
+#: ../../common/sshtools.py:365
 #, python-format
 msgid ""
 "Remote path is not executable:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:304
+#: ../../common/sshtools.py:367
 #, python-format
 msgid ""
 "Couldn't create remote path:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:323
+#: ../../common/sshtools.py:390
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
 msgstr ""
 
-#: ../../common/sshtools.py:346 ../../common/sshtools.py:408
+#: ../../common/sshtools.py:423 ../../common/sshtools.py:553
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
@@ -616,7 +653,7 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:412
+#: ../../common/sshtools.py:556
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
@@ -624,103 +661,108 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:425
+#: ../../common/sshtools.py:571
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
 msgstr ""
 
-#: ../../qt4/app.py:80
+#: ../../qt4/app.py:81
 msgid "Refresh snapshots list"
 msgstr ""
 
-#: ../../qt4/app.py:83 ../../qt4/app.py:931
+#: ../../qt4/app.py:84 ../../qt4/app.py:953
 msgid "Snapshot Name"
 msgstr "Snapshot Name"
 
-#: ../../qt4/app.py:86
+#: ../../qt4/app.py:87
 msgid "Remove Snapshot"
 msgstr "Remove Snapshot"
 
-#: ../../qt4/app.py:89
+#: ../../qt4/app.py:90
 msgid "View Snapshot Log"
 msgstr ""
 
-#: ../../qt4/app.py:92
+#: ../../qt4/app.py:93
 msgid "View Last Log"
 msgstr ""
 
-#: ../../qt4/app.py:97 ../../qt4/settingsdialog.py:50
+#: ../../qt4/app.py:98 ../../qt4/settingsdialog.py:51
 msgid "Settings"
 msgstr "Settings"
 
-#: ../../qt4/app.py:102
+#: ../../qt4/app.py:103
 msgid "Shutdown"
 msgstr ""
 
-#: ../../qt4/app.py:103
+#: ../../qt4/app.py:104
 msgid "Shutdown system after snapshot has finished."
 msgstr ""
 
-#: ../../qt4/app.py:109
+#: ../../qt4/app.py:110
 msgid "Exit"
 msgstr "Exit"
 
-#: ../../qt4/app.py:118 ../../qt4/app.py:135 ../../qt4/app.py:241
+#: ../../qt4/app.py:119 ../../qt4/app.py:138 ../../qt4/app.py:244
 msgid "Help"
 msgstr "Help"
 
 #: ../../qt4/app.py:121
+msgid "Config File Help"
+msgstr ""
+
+#: ../../qt4/app.py:124
 msgid "Website"
 msgstr "Website"
 
-#: ../../qt4/app.py:123
+#: ../../qt4/app.py:126 ../../qt4/app.py:1049
 msgid "Changelog"
 msgstr ""
 
-#: ../../qt4/app.py:125
+#: ../../qt4/app.py:128
 msgid "FAQ"
 msgstr ""
 
-#: ../../qt4/app.py:127
+#: ../../qt4/app.py:130
 msgid "Ask a question"
 msgstr ""
 
-#: ../../qt4/app.py:129
+#: ../../qt4/app.py:132
 msgid "Report a bug"
 msgstr ""
 
-#: ../../qt4/app.py:132 ../../qt4/app.py:1292
+#: ../../qt4/app.py:135 ../../qt4/app.py:1369
 msgid "About"
 msgstr "About"
 
-#: ../../qt4/app.py:147 ../../qt4/app.py:204 ../../qt4/snapshotsdialog.py:95
+#: ../../qt4/app.py:150 ../../qt4/app.py:207 ../../qt4/logviewdialog.py:63
+#: ../../qt4/snapshotsdialog.py:95
 msgid "Snapshots"
 msgstr "Snapshots"
 
-#: ../../qt4/app.py:162
+#: ../../qt4/app.py:165
 msgid "Up"
 msgstr "Up"
 
-#: ../../qt4/app.py:173 ../../qt4/settingsdialog.py:1761
+#: ../../qt4/app.py:176 ../../qt4/settingsdialog.py:1736
 msgid "Show hidden files"
 msgstr "Show hidden files"
 
-#: ../../qt4/app.py:182 ../../qt4/app.py:197 ../../qt4/app.py:231
-#: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1805
+#: ../../qt4/app.py:185 ../../qt4/app.py:200 ../../qt4/app.py:234
+#: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1780
 #: ../../qt4/snapshotsdialog.py:133 ../../qt4/snapshotsdialog.py:138
 msgid "Restore"
 msgstr "Restore"
 
-#: ../../qt4/app.py:184 ../../qt4/restoredialog.py:35
+#: ../../qt4/app.py:187 ../../qt4/restoredialog.py:35
 #: ../../qt4/snapshotsdialog.py:135
 msgid "Restore to ..."
 msgstr ""
 
-#: ../../qt4/app.py:192
+#: ../../qt4/app.py:195
 msgid "Restore and delete new files"
 msgstr ""
 
-#: ../../qt4/app.py:199
+#: ../../qt4/app.py:202
 #, python-format
 msgid ""
 "Restore selected file or folder.\n"
@@ -728,37 +770,40 @@ msgid ""
 "selected in left hand snapshots list."
 msgstr ""
 
-#: ../../qt4/app.py:211
+#: ../../qt4/app.py:214
 msgid "Snapshot"
 msgstr ""
 
-#: ../../qt4/app.py:222
+#: ../../qt4/app.py:225
 msgid "View"
 msgstr ""
 
-#: ../../qt4/app.py:262
+#: ../../qt4/app.py:266
 msgid "Shortcuts"
 msgstr "Shortcuts"
 
-#: ../../qt4/app.py:280
+#: ../../qt4/app.py:284
 msgid ""
 "This folder doesn't exist\n"
 "in the current snapshot !"
 msgstr ""
 
-#: ../../qt4/app.py:357 ../../qt4/app.py:649 ../../qt4/app.py:666
-#: ../../qt4/qt4systrayicon.py:60
-msgid "Done"
-msgstr "Done"
+#: ../../qt4/app.py:348
+msgid "Add to Include"
+msgstr ""
 
-#: ../../qt4/app.py:395
+#: ../../qt4/app.py:349
+msgid "Add to Exclude"
+msgstr ""
+
+#: ../../qt4/app.py:404
 #, python-format
 msgid ""
 "%(appName)s is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr ""
 
-#: ../../qt4/app.py:419
+#: ../../qt4/app.py:428
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
@@ -766,79 +811,79 @@ msgstr ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive, please plug it in and then press OK"
 
-#: ../../qt4/app.py:451
+#: ../../qt4/app.py:460
 msgid ""
 "If you close this window Back In Time will not be able to shutdown your "
 "system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
 
-#: ../../qt4/app.py:641 ../../qt4/app.py:677
+#: ../../qt4/app.py:653 ../../qt4/app.py:689
 msgid "Working:"
 msgstr "Working:"
 
-#: ../../qt4/app.py:669
+#: ../../qt4/app.py:681
 msgid "Done, no backup needed"
 msgstr "Done, no backup needed"
 
-#: ../../qt4/app.py:681
+#: ../../qt4/app.py:693
 msgid "Error:"
 msgstr ""
 
-#: ../../qt4/app.py:700 ../../qt4/qt4systrayicon.py:148
+#: ../../qt4/app.py:712 ../../qt4/qt4systrayicon.py:153
 msgid "Sent:"
 msgstr ""
 
-#: ../../qt4/app.py:701 ../../qt4/qt4systrayicon.py:149
+#: ../../qt4/app.py:713 ../../qt4/qt4systrayicon.py:154
 msgid "Speed:"
 msgstr ""
 
-#: ../../qt4/app.py:702 ../../qt4/qt4systrayicon.py:150
+#: ../../qt4/app.py:714 ../../qt4/qt4systrayicon.py:155
 msgid "ETA:"
 msgstr ""
 
-#: ../../qt4/app.py:750
+#: ../../qt4/app.py:762
 msgid "Global"
 msgstr "Global"
 
-#: ../../qt4/app.py:751
+#: ../../qt4/app.py:763
 msgid "Root"
 msgstr "Root"
 
-#: ../../qt4/app.py:752
+#: ../../qt4/app.py:764
 msgid "Home"
 msgstr "Home"
 
-#: ../../qt4/app.py:767
+#: ../../qt4/app.py:779
 msgid "Backup folders"
 msgstr "Backup folders"
 
-#: ../../qt4/app.py:847
+#: ../../qt4/app.py:859
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 
-#: ../../qt4/app.py:857
+#: ../../qt4/app.py:869
 msgid "Today"
 msgstr "Today"
 
-#: ../../qt4/app.py:861
+#: ../../qt4/app.py:873
 msgid "Yesterday"
 msgstr "Yesterday"
 
-#: ../../qt4/app.py:865
+#: ../../qt4/app.py:877
 msgid "This week"
 msgstr "This week"
 
-#: ../../qt4/app.py:869
+#: ../../qt4/app.py:881
 msgid "Last week"
 msgstr "Last week"
 
-#: ../../qt4/app.py:901
+#: ../../qt4/app.py:913
 #, python-format
 msgid "Last check %s"
 msgstr ""
 
-#: ../../qt4/app.py:965
+#: ../../qt4/app.py:990
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -847,127 +892,126 @@ msgstr ""
 "Are you sure you want to remove the snapshot\n"
 "\"%s\"?"
 
-#: ../../qt4/app.py:1027
+#: ../../qt4/app.py:1071
+#, python-format
+msgid ""
+"Backup local files before overwriting or\n"
+"removing with trailing '%(suffix)s'."
+msgstr ""
+
+#: ../../qt4/app.py:1077
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 
-#: ../../qt4/app.py:1031
+#: ../../qt4/app.py:1081
 msgid ""
 "WARNING: deleting files in filesystem root could break your whole system!!!"
 msgstr ""
 
-#: ../../qt4/app.py:1034
-#, python-format
-msgid ""
-"Actually files will be backed up with trailing '%(suffix)s' instead of being "
-"removed. You can turn this off in\n"
-"Settings > Options > %(backup_option)s"
-msgstr ""
-
-#: ../../qt4/app.py:1039 ../../qt4/settingsdialog.py:629
-msgid "Backup replaced files on restore"
-msgstr ""
-
-#: ../../qt4/app.py:1042
+#: ../../qt4/app.py:1083
 msgid "Files to be restored:"
 msgstr ""
 
-#: ../../qt4/app.py:1049
+#: ../../qt4/app.py:1098
 msgid "Do you really want to restore this files(s):"
 msgstr ""
 
-#: ../../qt4/app.py:1183
+#: ../../qt4/app.py:1260
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Snapshot: %s"
 
-#: ../../qt4/app.py:1184
+#: ../../qt4/app.py:1261
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "View the snapshot made at %s"
 
-#: ../../qt4/app.py:1186
+#: ../../qt4/app.py:1263
 msgid "View the current disk content"
 msgstr "View the current disk content"
 
-#: ../../qt4/app.py:1225
+#: ../../qt4/app.py:1302
 #, python-format
 msgid "Restore '%s'"
 msgstr ""
 
-#: ../../qt4/app.py:1226
+#: ../../qt4/app.py:1303
 #, python-format
 msgid "Restore '%s' to ..."
 msgstr ""
 
-#: ../../qt4/app.py:1227
+#: ../../qt4/app.py:1304
 #, python-format
 msgid "Restore '%s' and delete new files"
 msgstr ""
 
-#: ../../qt4/app.py:1312 ../../qt4/app.py:1329
+#: ../../qt4/app.py:1393 ../../qt4/app.py:1410
 msgid "Authors"
 msgstr ""
 
-#: ../../qt4/app.py:1313 ../../qt4/app.py:1332
+#: ../../qt4/app.py:1394 ../../qt4/app.py:1413
 msgid "Translations"
 msgstr ""
 
-#: ../../qt4/app.py:1314 ../../qt4/app.py:1335
+#: ../../qt4/app.py:1395 ../../qt4/app.py:1416
 msgid "License"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:44
-msgid "Error Log View"
+#: ../../qt4/logviewdialog.py:45
+msgid "Last Log View"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:52 ../../qt4/settingsdialog.py:58
-#: ../../qt4/settingsdialog.py:286 ../../qt4/settingsdialog.py:1886
+#: ../../qt4/logviewdialog.py:47
+msgid "Snapshot Log View"
+msgstr ""
+
+#: ../../qt4/logviewdialog.py:55 ../../qt4/settingsdialog.py:59
+#: ../../qt4/settingsdialog.py:269 ../../qt4/settingsdialog.py:1861
 msgid "Profile:"
 msgstr "Profile:"
 
-#: ../../qt4/logviewdialog.py:64
+#: ../../qt4/logviewdialog.py:77
 msgid "Filter:"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:70 ../../qt4/settingsdialog.py:671
+#: ../../qt4/logviewdialog.py:83 ../../qt4/settingsdialog.py:654
 msgid "All"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:71 ../../qt4/settingsdialog.py:669
+#: ../../qt4/logviewdialog.py:84 ../../qt4/settingsdialog.py:652
 msgid "Errors"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:76
+#: ../../qt4/logviewdialog.py:89
 msgid "Changes"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:79
+#: ../../qt4/logviewdialog.py:92
 msgid "Informations"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:88
+#: ../../qt4/logviewdialog.py:101
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:91
+#: ../../qt4/logviewdialog.py:104
 msgid "decode paths"
 msgstr ""
 
-#: ../../qt4/messagebox.py:57
+#: ../../qt4/messagebox.py:56
 msgid "Error"
 msgstr ""
 
-#: ../../qt4/messagebox.py:63
+#: ../../qt4/messagebox.py:62 ../../qt4/messagebox.py:68
 msgid "Question"
 msgstr ""
 
-#: ../../qt4/qt4systrayicon.py:64
+#: ../../qt4/qt4systrayicon.py:69
 msgid "Start BackInTime"
 msgstr ""
 
-#: ../../qt4/qt4systrayicon.py:119
+#: ../../qt4/qt4systrayicon.py:124
 msgid "Working..."
 msgstr "Working..."
 
@@ -975,169 +1019,177 @@ msgstr "Working..."
 msgid "Show full Log"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:67
+#: ../../qt4/settingsdialog.py:68
 msgid "Edit"
 msgstr "Edit"
 
-#: ../../qt4/settingsdialog.py:71 ../../qt4/settingsdialog.py:463
+#: ../../qt4/settingsdialog.py:72 ../../qt4/settingsdialog.py:446
 msgid "Add"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:75 ../../qt4/settingsdialog.py:420
-#: ../../qt4/settingsdialog.py:479
+#: ../../qt4/settingsdialog.py:76 ../../qt4/settingsdialog.py:403
+#: ../../qt4/settingsdialog.py:462
 msgid "Remove"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:90
+#: ../../qt4/settingsdialog.py:91
 msgid "General"
 msgstr "General"
 
-#: ../../qt4/settingsdialog.py:100 ../../qt4/settingsdialog.py:1888
+#: ../../qt4/settingsdialog.py:101 ../../qt4/settingsdialog.py:1863
 msgid "Mode:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:115 ../../qt4/settingsdialog.py:1557
+#: ../../qt4/settingsdialog.py:114
+#, python-format
+msgid ""
+"<b>Warning:</b> %(app)s uses EncFS for encryption. A recent security audit "
+"revealed several possible attack vectors for this. Please take a look at 'A "
+"NOTE ON SECURITY' in 'man backintime'."
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:124 ../../qt4/settingsdialog.py:1528
 msgid "Where to save snapshots"
 msgstr "Where to save snapshots"
 
-#: ../../qt4/settingsdialog.py:131
+#: ../../qt4/settingsdialog.py:140
 msgid "Folder"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:139
+#: ../../qt4/settingsdialog.py:148
 msgid "SSH Settings"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:151 ../../qt4/settingsdialog.py:274
+#: ../../qt4/settingsdialog.py:160 ../../qt4/settingsdialog.py:257
 msgid "Host:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:156
+#: ../../qt4/settingsdialog.py:165
 msgid "Port:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:161 ../../qt4/settingsdialog.py:280
+#: ../../qt4/settingsdialog.py:170 ../../qt4/settingsdialog.py:263
 msgid "User:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:166
+#: ../../qt4/settingsdialog.py:175
 msgid "Path:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:172
+#: ../../qt4/settingsdialog.py:181
 msgid "Cipher:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:178
+#: ../../qt4/settingsdialog.py:187
 msgid "Private Key:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:187
+#: ../../qt4/settingsdialog.py:196
 msgid "Key File"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:226 ../../qt4/settingsdialog.py:235
-#: ../../qt4/settingsdialog.py:241
+#: ../../qt4/settingsdialog.py:209 ../../qt4/settingsdialog.py:218
+#: ../../qt4/settingsdialog.py:224
 msgid "Password"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:247
+#: ../../qt4/settingsdialog.py:230
 msgid "Save Password to Keyring"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:250
+#: ../../qt4/settingsdialog.py:233
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:262
+#: ../../qt4/settingsdialog.py:245
 msgid "Advanced"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:292 ../../qt4/settingsdialog.py:1625
+#: ../../qt4/settingsdialog.py:275 ../../qt4/settingsdialog.py:1600
 msgid "Full snapshot path: "
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:299
+#: ../../qt4/settingsdialog.py:282
 msgid "Schedule"
 msgstr "Schedule"
 
-#: ../../qt4/settingsdialog.py:309
+#: ../../qt4/settingsdialog.py:292
 msgid "Day:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:320
+#: ../../qt4/settingsdialog.py:303
 msgid "Weekday:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:331
+#: ../../qt4/settingsdialog.py:314
 msgid "Hour:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:342
+#: ../../qt4/settingsdialog.py:325
 msgid "Hours:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:351
+#: ../../qt4/settingsdialog.py:334
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regular."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:356
+#: ../../qt4/settingsdialog.py:339
 msgid "Every:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:374
+#: ../../qt4/settingsdialog.py:357
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X "
 "days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:387
+#: ../../qt4/settingsdialog.py:370
 msgid "Include"
 msgstr "Include"
 
-#: ../../qt4/settingsdialog.py:393
+#: ../../qt4/settingsdialog.py:376
 msgid "Include files and folders"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:412 ../../qt4/settingsdialog.py:467
+#: ../../qt4/settingsdialog.py:395 ../../qt4/settingsdialog.py:450
 msgid "Add file"
 msgstr "Add file"
 
-#: ../../qt4/settingsdialog.py:416 ../../qt4/settingsdialog.py:471
+#: ../../qt4/settingsdialog.py:399 ../../qt4/settingsdialog.py:454
 msgid "Add folder"
 msgstr "Add folder"
 
-#: ../../qt4/settingsdialog.py:426
+#: ../../qt4/settingsdialog.py:409
 msgid "Exclude"
 msgstr "Exclude"
 
-#: ../../qt4/settingsdialog.py:429
+#: ../../qt4/settingsdialog.py:412
 msgid ""
 "<b>Warning:</b> Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with "
 "mode 'SSH encrypted'.\n"
 "Only separate asterisk are allowed ('foo/*', 'foo/**/bar')"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:437
+#: ../../qt4/settingsdialog.py:420
 msgid "Exclude patterns, files or folders"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:453
+#: ../../qt4/settingsdialog.py:436
 msgid "Highly recommended:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:475
+#: ../../qt4/settingsdialog.py:458
 msgid "Add default"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:486
+#: ../../qt4/settingsdialog.py:469
 msgid "Exclude files bigger than: "
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:487
+#: ../../qt4/settingsdialog.py:470
 msgid ""
 "Exclude files bigger than value in Mb.\n"
 "With 'Full rsync mode' disabled this will only affect new files\n"
@@ -1146,90 +1198,94 @@ msgid ""
 "even if they had changed."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:505
+#: ../../qt4/settingsdialog.py:488
 msgid "Auto-remove"
 msgstr "Auto-remove"
 
-#: ../../qt4/settingsdialog.py:512
+#: ../../qt4/settingsdialog.py:495
 msgid "Older than:"
 msgstr "Older than:"
 
-#: ../../qt4/settingsdialog.py:527
+#: ../../qt4/settingsdialog.py:510
 msgid "If free space is less than:"
 msgstr "If free space is less than:"
 
-#: ../../qt4/settingsdialog.py:540
+#: ../../qt4/settingsdialog.py:523
 msgid "If free inodes is less than:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:563
+#: ../../qt4/settingsdialog.py:546
 msgid "Run in background on remote Host."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:566
+#: ../../qt4/settingsdialog.py:549
 msgid "Keep all snapshots for the last"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:570 ../../qt4/settingsdialog.py:576
+#: ../../qt4/settingsdialog.py:553 ../../qt4/settingsdialog.py:559
 msgid "day(s)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:572
+#: ../../qt4/settingsdialog.py:555
 msgid "Keep one snapshot per day for the last"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:578
+#: ../../qt4/settingsdialog.py:561
 msgid "Keep one snapshot per week for the last"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:582
+#: ../../qt4/settingsdialog.py:565
 msgid "weeks(s)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:584
+#: ../../qt4/settingsdialog.py:567
 msgid "Keep one snapshot per month for the last"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:588
+#: ../../qt4/settingsdialog.py:571
 msgid "month(s)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:590
+#: ../../qt4/settingsdialog.py:573
 msgid "Keep one snapshot per year for all years"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:597
+#: ../../qt4/settingsdialog.py:580
 msgid "Don't remove named snapshots"
 msgstr "Don't remove named snapshots"
 
-#: ../../qt4/settingsdialog.py:609
+#: ../../qt4/settingsdialog.py:592
 msgid "Options"
 msgstr "Options"
 
-#: ../../qt4/settingsdialog.py:614
+#: ../../qt4/settingsdialog.py:597
 msgid "Enable notifications"
 msgstr "Enable notifications"
 
-#: ../../qt4/settingsdialog.py:617
+#: ../../qt4/settingsdialog.py:600
 msgid "Disable snapshots when on battery"
 msgstr "Disable snapshots when on battery"
 
-#: ../../qt4/settingsdialog.py:620
+#: ../../qt4/settingsdialog.py:603
 msgid "Power status not available from system"
 msgstr "Power status not available from system"
 
-#: ../../qt4/settingsdialog.py:623
+#: ../../qt4/settingsdialog.py:606
 msgid "Run only one snapshot at a time"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:624
+#: ../../qt4/settingsdialog.py:607
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done.\n"
 "This is a global option. So it will effect all profiles for this user.\n"
 "But you need to activate this for all other users, too."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:630
+#: ../../qt4/settingsdialog.py:612
+msgid "Backup replaced files on restore"
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:613
 #, python-format
 msgid ""
 "Newer versions of files will be renamed with trailing '%(suffix)s' before "
@@ -1237,155 +1293,175 @@ msgid ""
 "If you don't need them anymore you can remove them with '%(cmd)s'"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:639
+#: ../../qt4/settingsdialog.py:622
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:642
+#: ../../qt4/settingsdialog.py:625
 msgid "Use checksum to detect changes"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:645
+#: ../../qt4/settingsdialog.py:628
 msgid "Full rsync mode. May be faster but:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:646
+#: ../../qt4/settingsdialog.py:629
 msgid ""
 "- snapshots are not read-only\n"
 "- destination file-system must support all Linux attributes (dates, rights, "
 "user, group ...)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:653
+#: ../../qt4/settingsdialog.py:636
 msgid "Take a new snapshot regardless of there were changes or not."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:656
+#: ../../qt4/settingsdialog.py:639
 msgid "Check for changes (don't take a new snapshot if nothing changed)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:663
+#: ../../qt4/settingsdialog.py:646
 msgid "Log Level:"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:668
+#: ../../qt4/settingsdialog.py:651
 msgid "None"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:670
+#: ../../qt4/settingsdialog.py:653
 msgid "Changes & Errors"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:681
-msgid "Expert Options"
-msgstr "Expert Options"
-
-#: ../../qt4/settingsdialog.py:686
+#: ../../qt4/settingsdialog.py:669
 msgid "Change these options only if you really know what you are doing !"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:690
+#: ../../qt4/settingsdialog.py:673
 msgid "Run 'nice':"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:696 ../../qt4/settingsdialog.py:708
+#: ../../qt4/settingsdialog.py:679 ../../qt4/settingsdialog.py:691
 msgid "as cron job"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:699 ../../qt4/settingsdialog.py:714
-#: ../../qt4/settingsdialog.py:728
+#: ../../qt4/settingsdialog.py:682 ../../qt4/settingsdialog.py:697
+#: ../../qt4/settingsdialog.py:711
 msgid "on remote host"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:702
+#: ../../qt4/settingsdialog.py:685
 msgid "Run 'ionice':"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:711
+#: ../../qt4/settingsdialog.py:694
 msgid "when taking a manual snapshot"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:718
+#: ../../qt4/settingsdialog.py:701
 msgid "Run 'rsync' with 'nocache':"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:724
+#: ../../qt4/settingsdialog.py:707
 msgid "on local machine"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:734
+#: ../../qt4/settingsdialog.py:714
+msgid "Redirect stdout to /dev/null in cronjobs."
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:720
+msgid "Redirect stderr to /dev/null in cronjobs."
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:729
 msgid "Limit rsync bandwidth usage: "
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:737
+#: ../../qt4/settingsdialog.py:732
 msgid " KB/sec"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:772
+#: ../../qt4/settingsdialog.py:767
 msgid "Preserve ACL"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:785
+#: ../../qt4/settingsdialog.py:780
 msgid "Preserve extended attributes (xattr)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:803
+#: ../../qt4/settingsdialog.py:798
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:815
-msgid "Copy links (dereference symbolic links)"
-msgstr ""
-
-#: ../../qt4/settingsdialog.py:834
+#: ../../qt4/settingsdialog.py:829
 msgid "Paste additional options to rsync"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:837
+#: ../../qt4/settingsdialog.py:832
 msgid ""
 "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:851
+#: ../../qt4/settingsdialog.py:842
+msgid "Add prefix to SSH commands"
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:845
+#, python-format
+msgid ""
+"Prefix to run before every command on remote host.\n"
+"Variables need to be escaped with \\$FOO.\n"
+"This doesn't touch rsync. So to add a prefix\n"
+"for rsync use \"%(cb_rsync_options)s\" with\n"
+"%(rsync_options_value)s\n"
+"\n"
+"%(default)s: %(def_value)s"
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:853 ../../qt4/settingsdialog.py:1651
+msgid "default"
+msgstr ""
+
+#: ../../qt4/settingsdialog.py:870
 msgid "Restore Config"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:866
+#: ../../qt4/settingsdialog.py:885
 msgid "New profile"
 msgstr "New profile"
 
-#: ../../qt4/settingsdialog.py:882
+#: ../../qt4/settingsdialog.py:901
 msgid "Rename profile"
 msgstr "Rename profile"
 
-#: ../../qt4/settingsdialog.py:896
+#: ../../qt4/settingsdialog.py:915
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "Are you sure you want to delete the profile \"%s\"?"
 
-#: ../../qt4/settingsdialog.py:1136
+#: ../../qt4/settingsdialog.py:1154
 msgid ""
 "Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
 "*/3 for periodic backups every 3 hours"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1479
+#: ../../qt4/settingsdialog.py:1450
 msgid "Exclude pattern"
 msgstr "Exclude pattern"
 
-#: ../../qt4/settingsdialog.py:1491
+#: ../../qt4/settingsdialog.py:1462
 msgid "Exclude file"
 msgstr "Exclude file"
 
-#: ../../qt4/settingsdialog.py:1495
+#: ../../qt4/settingsdialog.py:1466
 msgid "Exclude folder"
 msgstr "Exclude folder"
 
-#: ../../qt4/settingsdialog.py:1514
+#: ../../qt4/settingsdialog.py:1485
 msgid "Include file"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1522 ../../qt4/settingsdialog.py:1542
+#: ../../qt4/settingsdialog.py:1493 ../../qt4/settingsdialog.py:1513
 #, python-format
 msgid ""
 "\"%s\" is a symlink. The linked target will not be backed up until you "
@@ -1393,35 +1469,31 @@ msgid ""
 "Would you like to include the symlinks target instead?"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1534
+#: ../../qt4/settingsdialog.py:1505
 msgid "Include folder"
 msgstr "Include folder"
 
-#: ../../qt4/settingsdialog.py:1561
+#: ../../qt4/settingsdialog.py:1532
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr "Are you sure you want to change snapshots folder?"
 
-#: ../../qt4/settingsdialog.py:1673
+#: ../../qt4/settingsdialog.py:1648
 msgid "enabled"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1675
+#: ../../qt4/settingsdialog.py:1650
 msgid "disabled"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1676
-msgid "default"
-msgstr ""
-
-#: ../../qt4/settingsdialog.py:1700
+#: ../../qt4/settingsdialog.py:1675
 msgid "Restore Settings"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1717
+#: ../../qt4/settingsdialog.py:1692
 msgid " and add your user to group 'fuse'"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1721
+#: ../../qt4/settingsdialog.py:1696
 #, python-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore %(appName)s's "
@@ -1434,7 +1506,7 @@ msgid ""
 "Take a look at 'man backintime'."
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:1779 ../../qt4/settingsdialog.py:1841
+#: ../../qt4/settingsdialog.py:1754 ../../qt4/settingsdialog.py:1816
 msgid "No config found"
 msgstr ""
 
