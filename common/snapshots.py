@@ -378,15 +378,15 @@ class Snapshots:
             return ''
 
     def get_take_snapshot_log( self, mode = 0, profile_id = None, **kwargs ):
+        logFile = self.config.get_take_snapshot_log_file(profile_id)
         try:
-            with open( self.config.get_take_snapshot_log_file( profile_id ), 'rt' ) as f:
+            with open(logFile, 'rt') as f:
                 data = f.read()
             return self._filter_take_snapshot_log( data, mode, **kwargs )
         except Exception as e:
-            logger.debug('Failed to get take_snapshot log from %s: %s'
-                         %(self.get_take_snapshot_log_file(profile_id), str(e)),
-                         self)
-            return ''
+            msg = ('Failed to get take_snapshot log from %s:' %logFile, str(e))
+            logger.debug(' '.join(msg), self)
+            return '\n'.join(msg)
 
     def new_take_snapshot_log( self, date ):
         os.system( "rm \"%s\"" % self.config.get_take_snapshot_log_file() )
