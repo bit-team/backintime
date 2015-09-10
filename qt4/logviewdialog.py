@@ -34,6 +34,7 @@ class LogViewDialog( QDialog ):
 
         self.config = parent.config
         self.snapshots = parent.snapshots
+        self.main_window = parent
         self.current_profile = self.config.get_current_profile()
         self.snapshot_id = snapshot_id
         self.enable_update = False
@@ -104,10 +105,6 @@ class LogViewDialog( QDialog ):
         self.cb_decode = QCheckBox( _('decode paths'), self )
         QObject.connect( self.cb_decode, SIGNAL('stateChanged(int)'), self.on_cb_decode )
         self.main_layout.addWidget(self.cb_decode)
-        if self.config.get_snapshots_mode() == 'ssh_encfs':
-            self.cb_decode.show()
-        else:
-            self.cb_decode.hide()
 
         #buttons
         button_box = QDialogButtonBox(QDialogButtonBox.Close)
@@ -115,6 +112,7 @@ class LogViewDialog( QDialog ):
         QObject.connect(button_box, SIGNAL('rejected()'), self.close)
 
         self.update_snapshots()
+        self.update_cb_decode()
         self.update_profiles()
 
     def on_cb_decode(self):
@@ -127,6 +125,15 @@ class LogViewDialog( QDialog ):
         self.update_log()
 
     def current_profile_changed( self, index ):
+        if not self.enable_update:
+            return
+        profile_id = str(self.combo_profiles.itemData(index))
+        for idx in range(self.main_window.combo_profiles.count()):
+            if self.main_window.combo_profiles.itemData(idx) == profile_id:
+                self.main_window.combo_profiles.setCurrentIndex(idx)
+                self.main_window.on_profile_changed(idx)
+                break
+        self.update_cb_decode()
         self.update_log()
 
     def current_snapshot_changed(self, index):
@@ -163,6 +170,14 @@ class LogViewDialog( QDialog ):
             if snapshot == self.snapshot_id:
                 self.combo_snapshots.setCurrentIndex(self.combo_snapshots.count() - 1)
 
+    def update_cb_decode(self):
+        if self.config.get_snapshots_mode() == 'ssh_encfs':
+            self.cb_decode.show()
+        else:
+            self.cb_decode.hide()
+            if self.cb_decode.isChecked():
+                self.cb_decode.setChecked(False)
+
     def update_log( self ):
         if not self.enable_update:
             return
@@ -170,7 +185,9 @@ class LogViewDialog( QDialog ):
         mode = self.combo_filter.itemData( self.combo_filter.currentIndex() )
 
         if self.snapshot_id is None:
-            profile_id = str( self.combo_profiles.itemData( self.combo_profiles.currentIndex() ) )
-            self.txt_log_view.setPlainText(self.snapshots.get_take_snapshot_log(mode, profile_id, decode = self.decode) )
+            self.txt_log_view.setPlainText(self.snapshots.get_take_snapshot_log(mode, self.get_selected_profile(), decode = self.decode) )
         else:
             self.txt_log_view.setPlainText(self.snapshots.get_snapshot_log(self.snapshot_id, mode, decode = self.decode) )
+
+    def get_selected_profile(self):
+        return str(self.combo_profiles.itemData(self.combo_profiles.currentIndex()) )

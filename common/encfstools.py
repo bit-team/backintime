@@ -525,12 +525,14 @@ class Decode(object):
         self.re_all_except_arrow = re.compile(r'(.*?)((?: [-=]> )+)(.*)')
 
         #skip: [I] Take snapshot (rsync: sending incremental file list)
+        #      [I] Take snapshot (rsync: building file list ... done)
         #      [I] Take snapshot (rsync: sent 26569703 bytes  received 239616 bytes  85244.26 bytes/sec)
         #      [I] Take snapshot (rsync: total size is 9130263449  speedup is 340.56)
         #      [I] Take snapshot (rsync: rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1070) [sender=3.0.9])
         #      [I] Take snapshot (rsync: rsync warning: some files vanished before they could be transferred (code 24) at main.c(1070) [sender=3.0.9])
         pattern = []
         pattern.append(r'sending incremental file list')
+        pattern.append(r'building file list ... done')
         pattern.append(r'sent .*? received')
         pattern.append(r'total size is .*? speedup is')
         pattern.append(r'rsync error: some files/attrs were not transferred')
