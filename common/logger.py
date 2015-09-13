@@ -24,11 +24,16 @@ import tools
 import bcolors
 
 DEBUG = False
+APP_NAME = 'backintime'
 
 def openlog():
     name = os.getenv( 'LOGNAME', 'unknown' )
-    syslog.openlog( "backintime (%s)" % name )
+    syslog.openlog("%s (%s/1)" %(APP_NAME, name))
     atexit.register(closelog)
+
+def changeProfile(profile_id):
+    name = os.getenv( 'LOGNAME', 'unknown' )
+    syslog.openlog("%s (%s/%s)" %(APP_NAME, name, profile_id))
 
 def closelog():
     syslog.closelog()

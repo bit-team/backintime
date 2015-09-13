@@ -365,6 +365,7 @@ def start_app(app_name = 'backintime'):
 
     #parse args
     args = parser.parse_args()
+    logger.APP_NAME = app_name
     logger.openlog()
     logger.DEBUG = args.debug
     dargs = vars(args)

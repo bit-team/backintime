@@ -207,6 +207,7 @@ class ConfigFileWithProfiles( ConfigFile ):
             if i == profile_id:
                 self.current_profile_id = profile_id
                 logger.debug('change current profile: %s' %profile_id, self)
+                logger.changeProfile(profile_id)
                 return True
 
         return False
@@ -218,6 +219,7 @@ class ConfigFileWithProfiles( ConfigFile ):
             if self.get_profile_name( profile_id ) == name:
                 self.current_profile_id = profile_id
                 logger.debug('change current profile: %s' %name, self)
+                logger.changeProfile(profile_id)
                 return True
 
         return False
