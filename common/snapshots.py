@@ -531,7 +531,7 @@ class Snapshots:
     def _restore_path_info( self, key_path, path, file_info_dict, callback = None ):
         assert isinstance(key_path, bytes), 'key_path is not bytes type: %s' % key_path
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
-        if key_path not in file_info_dict:
+        if key_path not in file_info_dict or not os.path.exists(path):
             return
         info = file_info_dict[key_path]
 
