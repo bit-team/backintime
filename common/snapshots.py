@@ -466,7 +466,7 @@ class Snapshots:
             try:
                 uid = pwd.getpwnam(name.decode()).pw_uid
             except Exception as e:
-                logger.debug('Failed to get UID for %s: %s'
+                logger.error('Failed to get UID for %s: %s'
                              %(name, str(e)),
                              self)
                 pass
@@ -482,7 +482,7 @@ class Snapshots:
             try:
                 gid = grp.getgrnam(name.decode()).gr_gid
             except Exception as e:
-                logger.debug('Failed to get GID for %s: %s'
+                logger.error('Failed to get GID for %s: %s'
                              %(name, str(e)),
                              self)
                 pass
