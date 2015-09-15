@@ -209,7 +209,7 @@ class SSH(mount.MountControl):
                 except tools.Timeout:
                     pass
             else:
-                if not self.password is None:
+                if self.password:
                     logger.debug('Provide password through temp FIFO', self)
                     thread = password_ipc.TempPasswordThread(self.password)
                     env['ASKPASS_TEMP'] = thread.temp_file
@@ -228,7 +228,7 @@ class SSH(mount.MountControl):
                                  %(self.private_key_file, error),
                                  self)
 
-                if not self.password is None:
+                if self.password:
                     thread.stop()
 
             proc = subprocess.Popen(['ssh-add', '-l'],
