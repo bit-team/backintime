@@ -250,7 +250,7 @@ class EncFS_SSH(EncFS_mount):
 
         self.ssh = sshtools.SSH(*self.args, symlink = False, **self.split_kwargs('ssh'))
         self.rev_root = EncFS_mount(*self.args, symlink = False, **self.split_kwargs('encfs_reverse'))
-        EncFS_mount.__init__(self, *self.args, **self.split_kwargs('encfs'))
+        super(EncFS_SSH, self).__init__(*self.args, **self.split_kwargs('encfs'))
 
     def mount(self, *args, **kwargs):
         """call mount for sshfs, encfs --reverse and encfs
@@ -476,6 +476,10 @@ class Decode(object):
         if not self.remote_path[-1] == os.sep:
             self.remote_path += os.sep
 
+        #german translation changed from Snapshot to Schnappschuss.
+        #catch both variants otherwise old logs wouldn't get decoded.
+        _take_snapshot = _('Take snapshot').replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
+
         #precompile some regular expressions
         host, port, user, path, cipher = cfg.get_ssh_host_port_user_path_cipher()
         #replace: --exclude"<crypted_path>" or --include"<crypted_path>"
@@ -503,7 +507,7 @@ class Decode(object):
         pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
         pattern.append(r' file has vanished: ".*?mountpoint/')
         pattern.append(r' ')
-        self.re_info = re.compile(r'(^\[I\] %s \(rsync:(?:%s))(.*?)(\).*|".*)' % (_('Take snapshot'), '|'.join(pattern)) )
+        self.re_info = re.compile(r'(^\[I\] %s \(rsync:(?:%s))(.*?)(\).*|".*)' % (_take_snapshot, '|'.join(pattern)) )
 
         #search for: [E] Error: rsync readlink_stat("...mountpoint/<crypted_path>")
         #            [E] Error: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13)
@@ -537,7 +541,7 @@ class Decode(object):
         pattern.append(r'total size is .*? speedup is')
         pattern.append(r'rsync error: some files/attrs were not transferred')
         pattern.append(r'rsync warning: some files vanished before they could be transferred')
-        self.re_skip = re.compile(r'^\[I\] %s \(rsync: (%s)' % (_('Take snapshot'), '|'.join(pattern)) )
+        self.re_skip = re.compile(r'^\[I\] %s \(rsync: (%s)' % (_take_snapshot, '|'.join(pattern)) )
 
         self.string = string
         if string:
@@ -597,7 +601,7 @@ class Decode(object):
     def log(self, line):
         """decode paths in takesnapshot.log"""
         #rsync cmd
-        if line.startswith('[I] rsync'):
+        if line.startswith('[I] rsync') or line.startswith('[I] nocache rsync'):
             line = self.re_include_exclude.sub(self.replace, line)
             line = self.re_remote_path.sub(self.replace, line)
             line = self.re_link_dest.sub(self.replace, line)
