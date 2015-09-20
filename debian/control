@@ -1,15 +1,13 @@
 Source: backintime
 Maintainer: BIT Team <bit-team@lists.launchpad.net>
 Section: utils
-Priority: optional
+Priority: extra
 Build-Depends: debhelper (>= 7), python3
 X-Python3-Version: >= 3.3
 Standards-Version: 3.9.5
 Homepage: https://launchpad.net/backintime
 
 Package: backintime-common
-Section: utils
-Priority: optional
 Architecture: all
 Depends: rsync, cron-daemon, openssh-client, python3-keyring, python3-dbus, ${python3:Depends}, ${misc:Depends}
 Recommends: powermgmt-base, sshfs, encfs
@@ -19,8 +17,6 @@ Description: Simple backup system (common)
  This package contains non GUI files used by different GUI fontends.
 
 Package: backintime-qt4
-Priority: optional
-Section: utils
 Architecture: all
 Depends: x11-utils, libnotify-bin, python3-pyqt4, python3-dbus.mainloop.qt, policykit-1, backintime-common (>= ${source:Version}~), ${python3:Depends}, ${misc:Depends}
 Recommends: python3-secretstorage
@@ -31,7 +27,6 @@ Description: Simple backup system
  This is a Qt4 GUI frontend for backintime-common.
 
 Package: backintime-kde
-Priority: optional
 Section: oldlibs
 Architecture: all
 Depends: backintime-qt4, ${misc:Depends}
@@ -40,7 +35,6 @@ Description: Virtual package
  with backintime-qt4 from PPA. It can safely be removed.
 
 Package: backintime-kde4
-Priority: optional
 Section: oldlibs
 Architecture: all
 Depends: backintime-qt4, ${misc:Depends}
@@ -49,7 +43,6 @@ Description: Virtual package
  It can safely be removed.
 
 Package: backintime-gnome
-Priority: optional
 Section: oldlibs
 Architecture: all
 Depends: backintime-qt4, ${misc:Depends}
@@ -58,7 +51,6 @@ Description: Virtual package
  It can safely be removed.
 
 Package: backintime-notify
-Priority: optional
 Section: oldlibs
 Architecture: all
 Depends: backintime-qt4, ${misc:Depends}
