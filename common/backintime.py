@@ -131,7 +131,8 @@ def start_app(app_name = 'backintime'):
                                      description = '%(app)s - a simple backup tool for Linux.'
                                                    % {'app': config.Config.APP_NAME},
                                      epilog = "For backwards compatibility commands can also be used with trailing '--'. "
-                                              "Run '%(app_name)s <COMMAND> -h' for more information on the commands."
+                                              "All listed arguments will work with all commands. Some commands have extra arguments. "
+                                              "Run '%(app_name)s <COMMAND> -h' to see the extra arguments."
                                               % {'app_name': app_name})
     parser.add_argument('--version', '-v',
                         action = 'version',
@@ -145,6 +146,10 @@ def start_app(app_name = 'backintime'):
     #######################
     ### define commands ###
     #######################
+    epilog = "Run '%(app_name)s -h' to get help for additional arguments. " %{'app_name': app_name}
+    epilogCommon = epilog + 'Additional arguments: --config, --debug, --profile, --profile-id, --quiet'
+    epilogConfig = epilog + 'Additional arguments: --config, --debug'
+
     subparsers = parser.add_subparsers(help = 'Commands')
     command = 'backup'
     nargs = 0
@@ -152,7 +157,8 @@ def start_app(app_name = 'backintime'):
     description = 'Take a new snapshot. Ignore if the profile ' +\
                   'is not scheduled or if the machine runs on battery.'
     backupCP =             subparsers.add_parser(command,
-                                                 parents = [commonArgsParser, rsyncArgsParser],
+                                                 parents = [rsyncArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     backupCP.set_defaults(func = backup)
@@ -164,7 +170,8 @@ def start_app(app_name = 'backintime'):
                   'if the profile is scheduled and the machine ' +\
                   'is not on battery. This is use by cron jobs.'
     backupJobCP =          subparsers.add_parser(command,
-                                                 parents = [commonArgsParser, rsyncArgsParser],
+                                                 parents = [rsyncArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     backupJobCP.set_defaults(func = backupJob)
@@ -174,7 +181,8 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Show the path where snapshots are stored.'
     snapshotsPathCP =      subparsers.add_parser(command,
-                                                 parents = [commonArgsParser, snapshotPathParser],
+                                                 parents = [snapshotPathParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     snapshotsPathCP.set_defaults(func = snapshotsPath)
@@ -184,7 +192,7 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Show a list of snapshots IDs.'
     snapshotsListCP =      subparsers.add_parser(command,
-                                                 parents = [commonArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     snapshotsListCP.set_defaults(func = snapshotsList)
@@ -194,7 +202,8 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = "Show the path's to snapshots."
     snapshotsListPathCP =  subparsers.add_parser(command,
-                                                 parents = [commonArgsParser, snapshotPathParser],
+                                                 parents = [snapshotPathParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     snapshotsListPathCP.set_defaults(func = snapshotsListPath)
@@ -204,7 +213,7 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Show the ID of the last snapshot.'
     lastSnapshotCP =       subparsers.add_parser(command,
-                                                 parents = [commonArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     lastSnapshotCP.set_defaults(func = lastSnapshot)
@@ -214,7 +223,8 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Show the path of the last snapshot.'
     lastSnapshotsPathCP =  subparsers.add_parser(command,
-                                                 parents = [commonArgsParser, snapshotPathParser],
+                                                 parents = [snapshotPathParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     lastSnapshotsPathCP.set_defaults(func = lastSnapshotPath)
@@ -224,7 +234,7 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Unmount the profile.'
     unmountCP =            subparsers.add_parser(command,
-                                                 parents = [commonArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     unmountCP.set_defaults(func = unmount)
@@ -234,7 +244,7 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Show a benchmark of all ciphers for ssh transfer.'
     benchmarkCipherCP =    subparsers.add_parser(command,
-                                                 parents = [commonArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     benchmarkCipherCP.set_defaults(func = benchmarkCipher)
@@ -250,7 +260,7 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Control Password Cache for non-interactive cronjobs.'
     pwCacheCP =            subparsers.add_parser(command,
-                                                 parents = [configArgsParser, debugArgsParser],
+                                                 epilog = epilogConfig,
                                                  help = description,
                                                  description = description)
     pwCacheCP.set_defaults(func = pwCache)
@@ -265,7 +275,7 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = "Decode pathes with 'encfsctl decode'"
     decodeCP =             subparsers.add_parser(command,
-                                                 parents = [commonArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     decodeCP.set_defaults(func = decode)
@@ -281,7 +291,8 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Remove a snapshot.'
     removeCP =             subparsers.add_parser(command,
-                                                 parents = [commonArgsParser, removeArgsParser],
+                                                 parents = [removeArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     removeCP.set_defaults(func = remove)
@@ -291,7 +302,8 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = "Remove snapshots and don't ask for confirmation before. Be careful!"
     removeDoNotAskCP =     subparsers.add_parser(command,
-                                                 parents = [commonArgsParser, removeArgsParser],
+                                                 parents = [removeArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     removeDoNotAskCP.set_defaults(func = removeAndDoNotAskAgain)
@@ -301,7 +313,8 @@ def start_app(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Restore files.'
     restoreCP =            subparsers.add_parser(command,
-                                                 parents = [commonArgsParser, rsyncArgsParser],
+                                                 parents = [rsyncArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     restoreCP.set_defaults(func = restore)
@@ -343,7 +356,7 @@ def start_app(app_name = 'backintime'):
     command = 'check-config'
     description = 'Check the profiles configuration and install crontab entries.'
     checkConfigCP =        subparsers.add_parser(command,
-                                                 parents = [commonArgsParser],
+                                                 epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
     checkConfigCP.add_argument                  ('--no-crontab',
