@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-09-08 23:32+0200\n"
-"PO-Revision-Date: 2014-03-02 09:15+0000\n"
+"POT-Creation-Date: 2015-09-19 22:40+0200\n"
+"PO-Revision-Date: 2015-09-09 21:51+0000\n"
 "Last-Translator: vti <viacheslav.t@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-09-09 20:44+0000\n"
-"X-Generator: Launchpad (build 17706)\n"
+"X-Launchpad-Export-Date: 2015-09-20 00:40+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: ../../qt4/app.py:1263
 msgid "View the current disk content"
@@ -39,12 +39,12 @@ msgstr "Исключить каталог"
 msgid "Include folder"
 msgstr "Включить каталог"
 
-#: ../../common/configfile.py:257 ../../common/configfile.py:319
+#: ../../common/configfile.py:259 ../../common/configfile.py:321
 #, python-format
 msgid "Profile \"%s\" already exists !"
 msgstr "Профиль \"%s\" уже существует!"
 
-#: ../../common/configfile.py:288
+#: ../../common/configfile.py:290
 msgid "You can't remove the last profile !"
 msgstr "Невозможно удалить последний профиль!"
 
@@ -385,9 +385,8 @@ msgstr ""
 "encfs версии 1.7.2 и ранние имеют баг с опцией --reverse. Пожалуйста, "
 "обновите encfs."
 
-#: ../../common/encfstools.py:506 ../../common/encfstools.py:538
-#: ../../common/snapshots.py:1089 ../../common/snapshots.py:1324
-#: ../../qt4/app.py:78
+#: ../../common/encfstools.py:481 ../../common/snapshots.py:1089
+#: ../../common/snapshots.py:1324 ../../qt4/app.py:78
 msgid "Take snapshot"
 msgstr "Сделать резервную копию"
 
@@ -795,7 +794,7 @@ msgstr "Сообщить об ошибке"
 msgid "About"
 msgstr "О программе"
 
-#: ../../qt4/app.py:150 ../../qt4/app.py:207 ../../qt4/logviewdialog.py:63
+#: ../../qt4/app.py:150 ../../qt4/app.py:207 ../../qt4/logviewdialog.py:64
 #: ../../qt4/snapshotsdialog.py:95
 msgid "Snapshots"
 msgstr "Резервные копии"
@@ -846,10 +845,8 @@ msgstr "Ярлыки"
 #: ../../qt4/app.py:284
 msgid ""
 "This folder doesn't exist\n"
-"in the current snapshot !"
+"in the current selected snapshot!"
 msgstr ""
-"Эта папка не существует\n"
-"в данном снимке!"
 
 #: ../../qt4/app.py:348
 msgid "Add to Include"
@@ -1017,44 +1014,44 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:45
+#: ../../qt4/logviewdialog.py:46
 msgid "Last Log View"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:47
+#: ../../qt4/logviewdialog.py:48
 msgid "Snapshot Log View"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:55 ../../qt4/settingsdialog.py:59
+#: ../../qt4/logviewdialog.py:56 ../../qt4/settingsdialog.py:59
 #: ../../qt4/settingsdialog.py:269 ../../qt4/settingsdialog.py:1861
 msgid "Profile:"
 msgstr "Профиль:"
 
-#: ../../qt4/logviewdialog.py:77
+#: ../../qt4/logviewdialog.py:78
 msgid "Filter:"
 msgstr "Фильтр:"
 
-#: ../../qt4/logviewdialog.py:83 ../../qt4/settingsdialog.py:654
+#: ../../qt4/logviewdialog.py:84 ../../qt4/settingsdialog.py:654
 msgid "All"
 msgstr "Все"
 
-#: ../../qt4/logviewdialog.py:84 ../../qt4/settingsdialog.py:652
+#: ../../qt4/logviewdialog.py:85 ../../qt4/settingsdialog.py:652
 msgid "Errors"
 msgstr "Ошибки"
 
-#: ../../qt4/logviewdialog.py:89
+#: ../../qt4/logviewdialog.py:90
 msgid "Changes"
 msgstr "Изменения"
 
-#: ../../qt4/logviewdialog.py:92
+#: ../../qt4/logviewdialog.py:93
 msgid "Informations"
 msgstr "Оповещения"
 
-#: ../../qt4/logviewdialog.py:101
+#: ../../qt4/logviewdialog.py:102
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Ошибка, [I] Информация, [C] Изменение"
 
-#: ../../qt4/logviewdialog.py:104
+#: ../../qt4/logviewdialog.py:105
 msgid "decode paths"
 msgstr ""
 
@@ -1630,3 +1627,10 @@ msgstr ""
 #, python-format
 msgid "Exclude \"%s\" from future snapshots?"
 msgstr ""
+
+#~ msgid ""
+#~ "This folder doesn't exist\n"
+#~ "in the current snapshot !"
+#~ msgstr ""
+#~ "Эта папка не существует\n"
+#~ "в данном снимке!"
