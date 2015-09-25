@@ -29,10 +29,11 @@ _backintime()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     opts="--profile --profile-id --quiet --config --version --license       \
-          --help --debug"
+          --help --debug --checksum --no-crontab --keep-mount --delete      \
+          --local-backup --no-local-backup"
     actions="backup backup-job snapshots-path snapshots-list                \
-             snapshots-list-path last-snapshot umount benchmark-cipher      \
-             pw-cache decode remove restore check-config"
+             snapshots-list-path last-snapshot last-snapshot-path unmount    \
+             benchmark-cipher pw-cache decode remove restore check-config"
     pw_cache_commands="start stop restart reload status"
 
     #extract the current action
@@ -48,7 +49,6 @@ _backintime()
 
     case "${cur_action}" in
         restore)
-                opts="${opts} --delete --local-backup --no-local-backup --checksum"
                 if [[ ${cur} != -* ]]; then
                     #which positional argument is $cur?
                     case $[${COMP_CWORD}-${pos_action}] in
@@ -77,15 +77,6 @@ _backintime()
                     COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
                     return 0
                 fi
-                ;;
-        check-config)
-                opts="${opts} --no-crontab"
-                ;;
-        snapshots-path|snapshots-list-path|last-snapshot-path)
-                opts="${opts} --keep-mount"
-                ;;
-        backup|backup-job)
-                opts="${opts} --checksum"
                 ;;
     esac
 
