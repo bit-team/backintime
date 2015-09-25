@@ -37,6 +37,8 @@ RETURN_OK = 0
 RETURN_ERR = 1
 RETURN_NO_CFG = 2
 
+parsers = {}
+
 def take_snapshot_now_async( cfg ):
     cmd = ''
     if cfg.is_run_ionice_from_user_enabled():
@@ -74,6 +76,8 @@ def _umount(cfg):
         logger.error(str(ex))
 
 def start_app(app_name = 'backintime'):
+    global parsers
+
     #define debug
     debugArgsParser = argparse.ArgumentParser(add_help = False)
     debugArgsParser.add_argument('--debug',
@@ -134,6 +138,7 @@ def start_app(app_name = 'backintime'):
                                               "All listed arguments will work with all commands. Some commands have extra arguments. "
                                               "Run '%(app_name)s <COMMAND> -h' to see the extra arguments."
                                               % {'app_name': app_name})
+    parsers['main'] = parser
     parser.add_argument('--version', '-v',
                         action = 'version',
                         version = '%(prog)s ' + str(config.Config.VERSION),
@@ -150,7 +155,7 @@ def start_app(app_name = 'backintime'):
     epilogCommon = epilog + 'Additional arguments: --config, --debug, --profile, --profile-id, --quiet'
     epilogConfig = epilog + 'Additional arguments: --config, --debug'
 
-    subparsers = parser.add_subparsers(help = 'Commands')
+    subparsers = parser.add_subparsers(title = 'Commands', dest = 'command')
     command = 'backup'
     nargs = 0
     aliases = [(command, nargs), ('b', nargs)]
@@ -162,6 +167,7 @@ def start_app(app_name = 'backintime'):
                                                  help = description,
                                                  description = description)
     backupCP.set_defaults(func = backup)
+    parsers[command] = backupCP
 
     command = 'backup-job'
     nargs = 0
@@ -175,38 +181,53 @@ def start_app(app_name = 'backintime'):
                                                  help = description,
                                                  description = description)
     backupJobCP.set_defaults(func = backupJob)
+    parsers[command] = backupJobCP
 
-    command = 'snapshots-path'
-    nargs = 0
+    command = 'benchmark-cipher'
+    nargs = '?'
     aliases.append((command, nargs))
-    description = 'Show the path where snapshots are stored.'
-    snapshotsPathCP =      subparsers.add_parser(command,
-                                                 parents = [snapshotPathParser],
+    description = 'Show a benchmark of all ciphers for ssh transfer.'
+    benchmarkCipherCP =    subparsers.add_parser(command,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    snapshotsPathCP.set_defaults(func = snapshotsPath)
+    benchmarkCipherCP.set_defaults(func = benchmarkCipher)
+    parsers[command] = benchmarkCipherCP
+    benchmarkCipherCP.add_argument              ('FILE_SIZE',
+                                                 type = int,
+                                                 action = 'store',
+                                                 default = 40,
+                                                 nargs = '?',
+                                                 help = 'File size used to for benchmark.')
 
-    command = 'snapshots-list'
-    nargs = 0
-    aliases.append((command, nargs))
-    description = 'Show a list of snapshots IDs.'
-    snapshotsListCP =      subparsers.add_parser(command,
+    command = 'check-config'
+    description = 'Check the profiles configuration and install crontab entries.'
+    checkConfigCP =        subparsers.add_parser(command,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    snapshotsListCP.set_defaults(func = snapshotsList)
+    checkConfigCP.add_argument                  ('--no-crontab',
+                                                 action = 'store_true',
+                                                 help = 'Do not install crontab entries.')
+    checkConfigCP.set_defaults(func = checkConfig)
+    parsers[command] = checkConfigCP
 
-    command = 'snapshots-list-path'
-    nargs = 0
+    command = 'decode'
+    nargs = '*'
     aliases.append((command, nargs))
-    description = "Show the path's to snapshots."
-    snapshotsListPathCP =  subparsers.add_parser(command,
-                                                 parents = [snapshotPathParser],
+    description = "Decode pathes with 'encfsctl decode'"
+    decodeCP =             subparsers.add_parser(command,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    snapshotsListPathCP.set_defaults(func = snapshotsListPath)
+    decodeCP.set_defaults(func = decode)
+    parsers[command] = decodeCP
+    decodeCP.add_argument                       ('PATH',
+                                                 type = str,
+                                                 action = 'store',
+                                                 nargs = '*',
+                                                 help = 'Decode PATH. If no PATH is specified on command line ' +\
+                                                 'a list of filenames will be read from stdin.')
 
     command = 'last-snapshot'
     nargs = 0
@@ -217,6 +238,7 @@ def start_app(app_name = 'backintime'):
                                                  help = description,
                                                  description = description)
     lastSnapshotCP.set_defaults(func = lastSnapshot)
+    parsers[command] = lastSnapshotCP
 
     command = 'last-snapshot-path'
     nargs = 0
@@ -228,32 +250,7 @@ def start_app(app_name = 'backintime'):
                                                  help = description,
                                                  description = description)
     lastSnapshotsPathCP.set_defaults(func = lastSnapshotPath)
-
-    command = 'unmount'
-    nargs = 0
-    aliases.append((command, nargs))
-    description = 'Unmount the profile.'
-    unmountCP =            subparsers.add_parser(command,
-                                                 epilog = epilogCommon,
-                                                 help = description,
-                                                 description = description)
-    unmountCP.set_defaults(func = unmount)
-
-    command = 'benchmark-cipher'
-    nargs = '?'
-    aliases.append((command, nargs))
-    description = 'Show a benchmark of all ciphers for ssh transfer.'
-    benchmarkCipherCP =    subparsers.add_parser(command,
-                                                 epilog = epilogCommon,
-                                                 help = description,
-                                                 description = description)
-    benchmarkCipherCP.set_defaults(func = benchmarkCipher)
-    benchmarkCipherCP.add_argument              ('FILE_SIZE',
-                                                 type = int,
-                                                 action = 'store',
-                                                 default = 40,
-                                                 nargs = '?',
-                                                 help = 'File size used to for benchmark.')
+    parsers[command] = lastSnapshotsPathCP
 
     command = 'pw-cache'
     nargs = '*'
@@ -264,27 +261,12 @@ def start_app(app_name = 'backintime'):
                                                  help = description,
                                                  description = description)
     pwCacheCP.set_defaults(func = pwCache)
-    pwCacheCP.add_argument                      ('COMMAND',
+    parsers[command] = pwCacheCP
+    pwCacheCP.add_argument                      ('ACTION',
                                                  action = 'store',
                                                  choices = ['start', 'stop', 'restart', 'reload', 'status'],
                                                  nargs = '?',
                                                  help = 'Command to send to Password Cache daemon.')
-
-    command = 'decode'
-    nargs = '*'
-    aliases.append((command, nargs))
-    description = "Decode pathes with 'encfsctl decode'"
-    decodeCP =             subparsers.add_parser(command,
-                                                 epilog = epilogCommon,
-                                                 help = description,
-                                                 description = description)
-    decodeCP.set_defaults(func = decode)
-    decodeCP.add_argument                       ('PATH',
-                                                 type = str,
-                                                 action = 'store',
-                                                 nargs = '*',
-                                                 help = 'Decode PATH. If no PATH is specified on command line ' +\
-                                                 'a list of filenames will be read from stdin.')
 
     command = 'remove'
     nargs = '*'
@@ -296,6 +278,7 @@ def start_app(app_name = 'backintime'):
                                                  help = description,
                                                  description = description)
     removeCP.set_defaults(func = remove)
+    parsers[command] = removeCP
 
     command = 'remove-and-do-not-ask-again'
     nargs = '*'
@@ -307,6 +290,7 @@ def start_app(app_name = 'backintime'):
                                                  help = description,
                                                  description = description)
     removeDoNotAskCP.set_defaults(func = removeAndDoNotAskAgain)
+    parsers[command] = removeDoNotAskCP
 
     command = 'restore'
     nargs = '*'
@@ -318,6 +302,7 @@ def start_app(app_name = 'backintime'):
                                                  help = description,
                                                  description = description)
     restoreCP.set_defaults(func = restore)
+    parsers[command] = restoreCP
     backupGroup = restoreCP.add_mutually_exclusive_group()
     restoreCP.add_argument                      ('WHAT',
                                                  type = str,
@@ -353,16 +338,51 @@ def start_app(app_name = 'backintime'):
                                                  help = 'Temporary disable creation of backup files before changing local files. ' +\
                                                  'This can be switched of permanently in Settings, too.')
 
-    command = 'check-config'
-    description = 'Check the profiles configuration and install crontab entries.'
-    checkConfigCP =        subparsers.add_parser(command,
+    command = 'snapshots-list'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Show a list of snapshots IDs.'
+    snapshotsListCP =      subparsers.add_parser(command,
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
-    checkConfigCP.add_argument                  ('--no-crontab',
-                                                 action = 'store_true',
-                                                 help = 'Do not install crontab entries.')
-    checkConfigCP.set_defaults(func = checkConfig)
+    snapshotsListCP.set_defaults(func = snapshotsList)
+    parsers[command] = snapshotsListCP
+
+    command = 'snapshots-list-path'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = "Show the path's to snapshots."
+    snapshotsListPathCP =  subparsers.add_parser(command,
+                                                 parents = [snapshotPathParser],
+                                                 epilog = epilogCommon,
+                                                 help = description,
+                                                 description = description)
+    snapshotsListPathCP.set_defaults(func = snapshotsListPath)
+    parsers[command] = snapshotsListPathCP
+
+    command = 'snapshots-path'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Show the path where snapshots are stored.'
+    snapshotsPathCP =      subparsers.add_parser(command,
+                                                 parents = [snapshotPathParser],
+                                                 epilog = epilogCommon,
+                                                 help = description,
+                                                 description = description)
+    snapshotsPathCP.set_defaults(func = snapshotsPath)
+    parsers[command] = snapshotsPathCP
+
+    command = 'unmount'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Unmount the profile.'
+    unmountCP =            subparsers.add_parser(command,
+                                                 epilog = epilogCommon,
+                                                 help = description,
+                                                 description = description)
+    unmountCP.set_defaults(func = unmount)
+    parsers[command] = unmountCP
 
     #define aliases for all commands with trailing --
     group = parser.add_mutually_exclusive_group()
@@ -376,14 +396,14 @@ def start_app(app_name = 'backintime'):
                            action = PseudoAliasAction,
                            help = argparse.SUPPRESS)
 
-    #parse args
-    args = parser.parse_args()
+    #open log
     logger.APP_NAME = app_name
     logger.openlog()
-    logger.DEBUG = args.debug
-    dargs = vars(args)
-    logger.debug('Arguments: %s' %{arg:dargs[arg] for arg in dargs if dargs[arg]})
 
+    #parse args
+    args = arg_parse(None)
+
+    #warn about sudo
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
         logger.warning("It looks like you're using 'sudo' to start %(app)s. "
@@ -398,6 +418,42 @@ def start_app(app_name = 'backintime'):
         setQuiet(args)
         printHeader()
         return getConfig(args, False)
+
+def arg_parse(args):
+    #first parse the main parser
+    mainParser = parsers['main']
+    args, unknownArgs = mainParser.parse_known_args(args)
+
+    #second parse the command parser, otherwise we miss
+    #some arguments from command
+    if 'command' in args and args.command in parsers:
+        commandParser = parsers[args.command]
+        subArgs, unknownArgs = commandParser.parse_known_args(unknownArgs)
+        for key, value in vars(subArgs).items():
+            if value is not None:
+                setattr(args, key, value)
+
+    #if there are still arguments left, parse the main parser again
+    #this makes sure we won't miss an argument
+    if unknownArgs:
+        subArgs, unknownArgs = mainParser.parse_known_args(unknownArgs)
+        for key, value in vars(subArgs).items():
+            if value is not None:
+                setattr(args, key, value)
+
+    if 'debug' in args:
+        logger.DEBUG = args.debug
+
+    dargs = vars(args)
+    logger.debug('Arguments: %s | unknownArgs: %s'
+                 %({arg:dargs[arg] for arg in dargs if dargs[arg]},
+                   unknownArgs))
+
+    #report unknown arguments
+    #but not if we run aliasParser next because we will parse again in there
+    if unknownArgs and not ('func' in args and args.func is aliasParser):
+        mainParser.error('Unknown Argument(s): %s' % ', '.join(unknownArgs))
+    return args
 
 def printHeader():
     version = config.Config.VERSION
@@ -426,13 +482,12 @@ class PseudoAliasAction(argparse.Action):
         setattr(namespace, 'func', aliasParser)
         setattr(namespace, 'replace', replace)
         setattr(namespace, 'alias', alias)
-        setattr(namespace, 'parser', parser)
 
 def aliasParser(args):
     logger.info("Run command '%(alias)s' instead of argument '%(replace)s' due to backwards compatibility."
                 % {'alias': args.alias, 'replace': args.replace})
     argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
-    newArgs = args.parser.parse_args(argv)
+    newArgs = arg_parse(argv)
     if 'func' in dir(newArgs):
         newArgs.func(newArgs)
 
@@ -567,9 +622,9 @@ def pwCache(args):
     cfg = getConfig(args)
     ret = RETURN_OK
     daemon = password.Password_Cache(cfg)
-    if args.COMMAND and args.COMMAND != 'status':
-        getattr(daemon, args.COMMAND)()
-    elif args.COMMAND == 'status':
+    if args.ACTION and args.ACTION != 'status':
+        getattr(daemon, args.ACTION)()
+    elif args.ACTION == 'status':
         print('%(app)s Password Cache: ' % {'app': cfg.APP_NAME}, end=' ', file = force_stdout)
         if daemon.status():
             print(cli.bcolors.OKGREEN + 'running' + cli.bcolors.ENDC, file = force_stdout)
