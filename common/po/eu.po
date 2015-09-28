@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-09-19 22:40+0200\n"
-"PO-Revision-Date: 2015-09-09 21:50+0000\n"
-"Last-Translator: Back In Time Team <Unknown>\n"
+"PO-Revision-Date: 2015-09-25 22:57+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@irakasle.net>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-20 00:41+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-09-28 20:03+0000\n"
+"X-Generator: Launchpad (build 17754)\n"
 
 #: ../../common/configfile.py:259 ../../common/configfile.py:321
 #, python-format
@@ -226,7 +226,7 @@ msgstr "%s ez da karpeta bat !"
 
 #: ../../common/config.py:380
 msgid "Host/User/Profile-ID must not be empty!"
-msgstr ""
+msgstr "Ostalari/Erabiltzaile/Profila-ID ez da hutsik egon behar!"
 
 #: ../../common/config.py:388 ../../common/config.py:420
 #, python-format
@@ -243,6 +243,8 @@ msgid ""
 "Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
+"'%(path)s'-(r)en helburuko fitxategi-sistemaren formatua FAT da eta ez du "
+"esteka gogorrik onartzen. Erabili Linux jatorriko fitxategi-sistema bat."
 
 #: ../../common/config.py:405
 #, python-format
@@ -251,6 +253,9 @@ msgid ""
 "sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
 "'%(expertOptions)s'."
 msgstr ""
+"'%(path)s'-(r)en helburuko fitxategi-sistema SMB-ez muntatutako partekatzea "
+"da. Egiaztatu urruneko SMB zerbitzariak  esteka sinbolikoak onartzen dituela "
+"edo gaitu '%(copyLinks)s'  '%(expertOptions)s'-en."
 
 #: ../../common/config.py:408 ../../qt4/settingsdialog.py:810
 msgid "Copy links (dereference symbolic links)"
@@ -266,6 +271,9 @@ msgid ""
 "Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
+"'%(path)s'-(r)en helburuko fitxategi-sistema sshfs-ez muntatutako "
+"partekatzea da. sshfs-ek ez du esteka gogorrik onartzen. Erabili 'SSH' haren "
+"ordez."
 
 #: ../../common/config.py:1459
 msgid ""
@@ -279,7 +287,7 @@ msgstr ""
 
 #: ../../common/config.py:1463
 msgid "Failed to write new crontab."
-msgstr ""
+msgstr "Huts egin du crontab berria idazten."
 
 #: ../../common/config.py:1557
 #, python-format
@@ -788,7 +796,7 @@ msgstr "Laguntza"
 
 #: ../../qt4/app.py:121
 msgid "Config File Help"
-msgstr ""
+msgstr "Config fitxategiaren laguntza"
 
 #: ../../qt4/app.py:124
 msgid "Website"
@@ -870,6 +878,8 @@ msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot!"
 msgstr ""
+"Karpeta hau ez dago\n"
+"une honetan hautatutako irudian!"
 
 #: ../../qt4/app.py:348
 msgid "Add to Include"
@@ -1054,11 +1064,11 @@ msgstr "Lizentzia"
 
 #: ../../qt4/logviewdialog.py:46
 msgid "Last Log View"
-msgstr ""
+msgstr "Azken erregistroaren ikuspegia"
 
 #: ../../qt4/logviewdialog.py:48
 msgid "Snapshot Log View"
-msgstr ""
+msgstr "Irudiaren erregistro ikuspegia"
 
 #: ../../qt4/logviewdialog.py:56 ../../qt4/settingsdialog.py:59
 #: ../../qt4/settingsdialog.py:269 ../../qt4/settingsdialog.py:1861
@@ -1494,11 +1504,11 @@ msgstr "ordenagailuan bertan"
 
 #: ../../qt4/settingsdialog.py:714
 msgid "Redirect stdout to /dev/null in cronjobs."
-msgstr ""
+msgstr "Birzuzendu stdout /dev/null-era cronjob-etan."
 
 #: ../../qt4/settingsdialog.py:720
 msgid "Redirect stderr to /dev/null in cronjobs."
-msgstr ""
+msgstr "Birzuzendu stderr /dev/null-era cronjob-etan."
 
 #: ../../qt4/settingsdialog.py:729
 msgid "Limit rsync bandwidth usage: "
@@ -1735,10 +1745,3 @@ msgstr "ARGI IBILI: Honek ez dauka atzera bueltarik!"
 #, python-format
 msgid "Exclude \"%s\" from future snapshots?"
 msgstr "Baztertu \"%s\" hurrengo babeskopietan?"
-
-#~ msgid ""
-#~ "This folder doesn't exist\n"
-#~ "in the current snapshot !"
-#~ msgstr ""
-#~ "Karpeta hori ez dago\n"
-#~ "uneko babeskopian!"
