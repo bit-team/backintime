@@ -1447,14 +1447,8 @@ class Snapshots:
             pass
 
         #rename snapshot
-        self._execute(self.cmd_ssh('mv "%s" "%s"'
-                                   %(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']),
-                                     snapshot_path(use_mode = ['ssh', 'ssh_encfs']))
-                                   ))
+        os.rename(new_snapshot_path(), snapshot_path())
 
-        if not os.path.exists(snapshot_path()) and self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-            #give some time to for sshfs to update
-            time.sleep(2)
         if not os.path.exists( snapshot_path() ):
             logger.error("Can't rename %s to %s" % (new_snapshot_path(), snapshot_path()), self)
             self.set_take_snapshot_message( 1, _('Can\'t rename %(new_path)s to %(path)s') % { 'new_path' : new_snapshot_path(), 'path' : snapshot_path() } )
