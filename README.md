@@ -51,6 +51,7 @@ recomended:
 * sshfs
 * encfs
 
+
     cd common
     ./configure
     make
@@ -73,6 +74,7 @@ recomended:
 * python3-gnomekeyring
 * kompare or
 * meld
+
 
     cd qt4
     ./configure
