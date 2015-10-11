@@ -14,7 +14,7 @@ You only need to specify 3 things:
 * what folders to backup
 * backup frequency (manual, every hour, every day, every month)
 
-###Credits
+#####Credits
 
 * Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>: Spanish translation
 * Michael Wiedmann <mw@miwie.in-berlin.de>: German translation
@@ -28,7 +28,7 @@ You only need to specify 3 things:
 
 ##INSTALL
 
-###Debian/Ubuntu packages
+#####Debian/Ubuntu packages
 
     ./makedeb.sh
     sudo dpkg -i backintime-common-<version>.deb
@@ -36,7 +36,7 @@ You only need to specify 3 things:
 
 ###From sources
 
-####Common
+#####Common
 
 dependencies:
 * python3 (>= 3.3)
@@ -57,7 +57,7 @@ recomended:
     sudo make install
 
 
-####Qt4 GUI
+#####Qt4 GUI
 
 dependencies:
 * x11-utils
@@ -80,7 +80,7 @@ recomended:
     sudo make install
 
 
-###configure options
+##configure options
 
     first value is default:
     --fuse-group | --no-fuse-group (only COMMON)
@@ -93,7 +93,7 @@ recomended:
 
 ##Integrate with filemanager
 
-###Nautilus
+#####Nautilus
 
 You can make a simple Nautilus integration using nautilus-actions.
 * Run System => Preferences => Nautilus Actions Configuration.
