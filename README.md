@@ -2,7 +2,7 @@
 
 Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 
-1. ##About
+##About
 
 Back In Time is a simple backup tool for Linux, inspired by "flyback project".
 
@@ -14,7 +14,7 @@ You only need to specify 3 things:
 * what folders to backup
 * backup frequency (manual, every hour, every day, every month)
 
-1.1. ###Credits
+###Credits
 
 * Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>: Spanish translation
 * Michael Wiedmann <mw@miwie.in-berlin.de>: German translation
@@ -26,15 +26,15 @@ You only need to specify 3 things:
 * Vadim Peretokin <vperetokin@gmail.com>: Russian translation
 * translators from Launchpad (https://translations.launchpad.net/backintime/trunk/+pots/back-in-time)
 
-2. ##INSTALL
+##INSTALL
 
-2.1. ###Debian/Ubuntu packages
+###Debian/Ubuntu packages
 
     ./makedeb.sh
     sudo dpkg -i backintime-common-<version>.deb
     sudo dpkg -i backintime-qt4-<version>.deb
 
-2.2. ###From sources
+###From sources
 
 ####Common
 
@@ -80,7 +80,7 @@ recomended:
     sudo make install
 
 
-2.3. ###configure options
+###configure options
 
     first value is default:
     --fuse-group | --no-fuse-group (only COMMON)
@@ -91,9 +91,9 @@ recomended:
         Use either 'python3' or 'python' to start Python Version 3.x
 
 
-3. ##Integrate with filemanager
+##Integrate with filemanager
 
-3.1. ###Nautilus
+###Nautilus
 
 You can make a simple Nautilus integration using nautilus-actions.
 * Run System => Preferences => Nautilus Actions Configuration.
@@ -107,5 +107,5 @@ You can make a simple Nautilus integration using nautilus-actions.
         * Appears is selection contains: Both
 * Press OK and you will see the new actions called "Open with Back In Time" when you right-click an item
 
-Oct 2015
+<sub>Oct 2015</sub>
 
