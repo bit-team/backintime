@@ -38,48 +38,48 @@ You only need to specify 3 things:
 
 #####Common
 
-dependencies:
-* python3 (>= 3.3)
-* rsync
-* cron-daemon
-* openssh-client
-* python3-keyring
-* python3-dbus
+* dependencies
+    - python3 (>= 3.3)
+    - rsync
+    - cron-daemon
+    - openssh-client
+    - python3-keyring
+    - python3-dbus
 
-recomended:
-* powermgmt-base
-* sshfs
-* encfs
+* recomended
+    - powermgmt-base
+    - sshfs
+    - encfs
 
-
-    cd common
-    ./configure
-    make
-    sudo make install
+* Command
+        cd common
+        ./configure
+        make
+        sudo make install
 
 
 #####Qt4 GUI
 
-dependencies:
-* x11-utils
-* python3-pyqt4
-* libnotify-bin
-* policykit-1
-* python3-dbus.mainloop.qt
-* backintime-common
+* dependencies
+    - x11-utils
+    - python3-pyqt4
+    - libnotify-bin
+    - policykit-1
+    - python3-dbus.mainloop.qt
+    - backintime-common
 
-recomended:
-* python3-secretstorage or
-* python3-keyring-kwallet or
-* python3-gnomekeyring
-* kompare or
-* meld
+* recomended
+    - python3-secretstorage or
+    - python3-keyring-kwallet or
+    - python3-gnomekeyring
+    - kompare or
+    - meld
 
-
-    cd qt4
-    ./configure
-    make
-    sudo make install
+* Command
+        cd qt4
+        ./configure
+        make
+        sudo make install
 
 
 ##configure options
@@ -98,7 +98,7 @@ recomended:
 #####Nautilus
 
 You can make a simple Nautilus integration using nautilus-actions.
-* Run System => Preferences => Nautilus Actions Configuration.
+** Run System => Preferences => Nautilus Actions Configuration.
 * Add a new action
     * Menu Item & Action tab:
         * Label: Open with Back In Time
