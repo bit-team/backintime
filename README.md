@@ -52,6 +52,7 @@ You only need to specify 3 things:
     - encfs
 
 * Command
+
         cd common
         ./configure
         make
@@ -76,6 +77,7 @@ You only need to specify 3 things:
     - meld
 
 * Command
+
         cd qt4
         ./configure
         make
