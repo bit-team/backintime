@@ -16,15 +16,15 @@ You only need to specify 3 things:
 
 #####Credits
 
-* Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>: Spanish translation
-* Michael Wiedmann <mw@miwie.in-berlin.de>: German translation
-* Niklas Grahn <terra.unknown@yahoo.com>: Swedish translation
-* Vanja Cvelbar <cvelbar@gmail.com>: Slovenian translation
-* Michel Corps <mahikeulbody@gmail.com>: French translation
-* Tomáš Vadina <kyberdev@gmail.com>: Slovak translation
-* Paweł Hołuj <pholuj@gmail.com>: Polish translation
-* Vadim Peretokin <vperetokin@gmail.com>: Russian translation
-* translators from Launchpad (https://translations.launchpad.net/backintime/trunk/+pots/back-in-time)
+* Francisco Manuel García Claramonte: Spanish translation
+* Michael Wiedmann: German translation
+* Niklas Grahn: Swedish translation
+* Vanja Cvelbar: Slovenian translation
+* Michel Corps: French translation
+* Tomáš Vadina: Slovak translation
+* Paweł Hołuj: Polish translation
+* Vadim Peretokin: Russian translation
+* translators from [Launchpad](https://translations.launchpad.net/backintime/trunk/+pots/back-in-time)
 
 ##INSTALL
 
