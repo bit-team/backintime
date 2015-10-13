@@ -1030,7 +1030,7 @@ class MainWindow( QMainWindow ):
         self.open_man_page('backintime-config')
 
     def on_website( self ):
-        self.open_url('https://launchpad.net/backintime')
+        self.open_url('https://github.com/bit-team/backintime')
 
     def on_changelog( self ):
         def a_href(m):
@@ -1049,13 +1049,13 @@ class MainWindow( QMainWindow ):
         messagebox.show_info(self, _('Changelog'), msg)
 
     def on_faq( self ):
-        self.open_url('https://answers.launchpad.net/backintime/+faqs')
+        self.open_url('https://github.com/bit-team/backintime/wiki/FAQ')
 
     def on_ask_a_question( self ):
-        self.open_url('https://answers.launchpad.net/backintime')
+        self.open_url('https://github.com/bit-team/backintime/issues')
 
     def on_report_a_bug( self ):
-        self.open_url('https://bugs.launchpad.net/backintime')
+        self.open_url('https://github.com/bit-team/backintime/issues')
 
     def open_url( self, url ):
         return QDesktopServices.openUrl(QUrl(url))
@@ -1375,7 +1375,7 @@ class About(QDialog):
             version += ' Bazaar Revision %s' %rev_no
         name     = QLabel('<h1>' + self.config.APP_NAME + ' ' + version + '</h1>')
         name.setAlignment(Qt.AlignLeft | Qt.AlignTop)
-        homepage = QLabel(self.mkurl('<https://launchpad.net/backintime>'))
+        homepage = QLabel(self.mkurl('<https://github.com/bit-team/backintime>'))
         homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         homepage.setOpenExternalLinks(True)
         bit_copyright = QLabel(self.config.COPYRIGHT + '\n')

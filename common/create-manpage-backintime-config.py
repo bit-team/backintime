@@ -56,7 +56,7 @@ Run 'backintime check-config' to verify the configfile, create the snapshot fold
 FOOTER = '''.SH SEE ALSO
 backintime, backintime-qt4.
 .PP
-Back In Time also has a website: https://launchpad.net/backintime
+Back In Time also has a website: https://github.com/bit-team/backintime
 .SH AUTHOR
 This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).
 '''
