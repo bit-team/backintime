@@ -493,7 +493,7 @@ def aliasParser(args):
 
 def getConfig(args, check = True):
     cfg = config.Config(args.config)
-    logger.debug('config file: %s' % cfg._LOCAL_CONFIG_FOLDER)
+    logger.debug('config file: %s' % cfg._LOCAL_CONFIG_PATH)
     logger.debug('profiles: %s' % cfg.get_profiles())
     if 'profile_id' in args and args.profile_id:
         if not cfg.set_current_profile(args.profile_id):
