@@ -77,6 +77,7 @@ class EncFS_mount(mount.MountControl):
         """mount the service"""
         if self.password is None:
             self.password = self.config.get_password(self.parent, self.profile_id, self.mode)
+        logger.debug('Provide password through temp FIFO', self)
         thread = password_ipc.TempPasswordThread(self.password)
         env = self.get_env()
         env['ASKPASS_TEMP'] = thread.temp_file
