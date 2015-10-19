@@ -28,8 +28,8 @@ except ImportError:
     import getpass
     pwd = None
 
-import configfile
 import tools
+import configfile
 import logger
 import mount
 import sshtools
