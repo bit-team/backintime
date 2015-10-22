@@ -48,7 +48,7 @@ and a testing PPA (ppa:bit-team/testing)
 
 #####ArchLinux
 
-Back In time is available through AUR. You need to import a public key once
+Back In Time is available through AUR. You need to import a public key once
 before installing
 
     gpg --keyserver pgp.mit.edu --recv-keys 615F366D944B4826
