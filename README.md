@@ -28,11 +28,35 @@ You only need to specify 3 things:
 
 ##INSTALL
 
-#####Debian/Ubuntu packages
+Back In Time is included in many distributions and can be installed from their 
+repositories.
+
+#####Ubuntu PPA
+
+We provide a PPA (private package archive) with current stable version (ppa:bit-team/stable)
+and a testing PPA (ppa:bit-team/testing)
+
+    sudo add-apt-repository ppa:bit-team/stable
+    sudo apt-get update
+    sudo apt-get install backintime-qt4
+
+#####Debian/Ubuntu make packages
 
     ./makedeb.sh
     sudo dpkg -i backintime-common-<version>.deb
     sudo dpkg -i backintime-qt4-<version>.deb
+
+#####ArchLinux
+
+Back In time is available through AUR. You need to import a public key once
+before installing
+
+    gpg --keyserver pgp.mit.edu --recv-keys 615F366D944B4826
+    wget https://aur.archlinux.org/cgit/aur.git/snapshot/backintime.tar.gz
+    tar xvzf backintime.tar.gz
+    cd backintime
+    makepkg -src
+    sudo pacman -U backintime-<VERSION>.pkg.tar.xz
 
 ###From sources
 
