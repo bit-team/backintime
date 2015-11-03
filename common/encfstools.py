@@ -290,6 +290,7 @@ class EncFS_SSH(EncFS_mount):
         self.rev_root.mount(*args, **kwargs)
 
         logger.debug('Mount encfs', self)
+        kwargs['check'] = False
         ret = super(EncFS_SSH, self).mount(*args, **kwargs)
         self.config.ENCODE = Encode(self)
         return ret

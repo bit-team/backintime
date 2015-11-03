@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.1.9
+* speed up mounting of SSH+encrypted profiles
 * Fix bug: creat new encrypted profiles with encfs >= 1.8.0 failed (https://github.com/bit-team/backintime/issues/477)
 * Fix bug: AttributeError in common/tools.py if keyring is missing (https://github.com/bit-team/backintime/issues/473)
 * Fix bug: remote rename of 'new_snapshot' folder sometimes isn't recognized locally; rename local now (https://answers.launchpad.net/questions/271792)
