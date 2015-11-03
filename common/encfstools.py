@@ -20,6 +20,7 @@ import gettext
 import subprocess
 import re
 import shutil
+import tempfile
 from datetime import datetime
 from distutils.version import StrictVersion
 
@@ -137,7 +138,9 @@ class EncFS_mount(mount.MountControl):
     def get_env(self):
         """return environment with encfs configfile"""
         env = os.environ.copy()
-        env['ENCFS6_CONFIG'] = self.get_config_file()
+        cfg = self.get_config_file()
+        if os.path.isfile(cfg):
+            env['ENCFS6_CONFIG'] = cfg
         return env
 
     def get_config_file(self):
@@ -211,7 +214,10 @@ class EncFS_mount(mount.MountControl):
         """create a backup of encfs config file into local config folder
         so in cases of the config file get deleted or corrupt user can restore
         it from there"""
-        logger.debug('Backup encfs config', self)
+        cfg = self.get_config_file()
+        if not os.path.isfile(cfg):
+            logger.warning('No encfs config in %s. Skip backup of config file.' %cfg, self)
+            return
         backup_folder = self.config.get_encfsconfig_backup_folder(self.profile_id)
         tools.make_dirs(backup_folder)
         old_backups = tools.get_nonsnapshots_list_in_folder(backup_folder, True)
@@ -219,16 +225,16 @@ class EncFS_mount(mount.MountControl):
             last_backup = os.path.join(backup_folder, old_backups[-1])
 
             #don't create a new backup if config hasn't changed
-            if tools._get_md5sum_from_path(self.get_config_file()) == \
+            if tools._get_md5sum_from_path(cfg) == \
                tools._get_md5sum_from_path(last_backup):
                 logger.debug('Encfs config did not change. Skip backup', self)
                 return
 
-        new_backup_file = '.'.join((os.path.basename(self.get_config_file()), datetime.now().strftime('%Y%m%d%H%M') ))
+        new_backup_file = '.'.join((os.path.basename(cfg), datetime.now().strftime('%Y%m%d%H%M') ))
         new_backup = os.path.join(backup_folder, new_backup_file)
         logger.debug('Create backup of encfs config %s to %s'
-                     %(self.get_config_file(), new_backup), self)
-        shutil.copy2(self.get_config_file(), new_backup)
+                     %(cfg, new_backup), self)
+        shutil.copy2(cfg, new_backup)
 
 class EncFS_SSH(EncFS_mount):
     """Mount encrypted remote path with sshfs and encfs.
@@ -258,10 +264,33 @@ class EncFS_SSH(EncFS_mount):
            register 'encfsctl encode' in config.ENCODE"""
         logger.debug('Mount sshfs', self)
         self.ssh.mount(*args, **kwargs)
+        #mount fsroot with encfs --reverse first.
+        #If the config does not exist already this will make sure
+        #the new created config works with --reverse
+        if not os.path.isfile(self.get_config_file()):
+            #encfs >= 1.8.0 changed behavior when ENCFS6_CONFIG environ variable
+            #file does not exist. It will not create a new one anymore but just fail.
+            #As encfs would create the config in /.encfs6.xml (which will most likly fail)
+            #we need to mount a temp folder with reverse first and copy the config when done.
+            logger.debug('Mount temp folder with encfs --reverse to create a new encfs config', self)
+            with tempfile.TemporaryDirectory() as src:
+                tmp_kwargs = self.split_kwargs('encfs_reverse')
+                tmp_kwargs['path'] = src
+                tmp_kwargs['config_path'] = src
+                tmp_mount = EncFS_mount(*self.args, symlink = False, **tmp_kwargs)
+                tmp_mount.mount(*args, **kwargs)
+                tmp_mount.umount()
+                cfg = tmp_mount.get_config_file()
+                if os.path.isfile(cfg):
+                    logger.debug('Copy new encfs config %s to its original place %s' %(cfg, self.ssh.mountpoint), self)
+                    shutil.copy2(cfg, self.ssh.mountpoint)
+                else:
+                    logger.error('New encfs config %s not found' %cfg, self)
         logger.debug('Mount local filesystem root with encfs --reverse', self)
         self.rev_root.mount(*args, **kwargs)
+
         logger.debug('Mount encfs', self)
-        ret = EncFS_mount.mount(self, *args, **kwargs)
+        ret = super(EncFS_SSH, self).mount(*args, **kwargs)
         self.config.ENCODE = Encode(self)
         return ret
 
@@ -271,7 +300,7 @@ class EncFS_SSH(EncFS_mount):
         self.config.ENCODE.close()
         self.config.ENCODE = Bounce()
         logger.debug('Unmount encfs', self)
-        EncFS_mount.umount(self, *args, **kwargs)
+        super(EncFS_SSH, self).umount(*args, **kwargs)
         logger.debug('Unmount local filesystem root mount encfs --reverse', self)
         self.rev_root.umount(*args, **kwargs)
         logger.debug('Unmount sshfs', self)
@@ -281,7 +310,7 @@ class EncFS_SSH(EncFS_mount):
         """call pre_mount_check for sshfs, encfs --reverse and encfs"""
         if self.ssh.pre_mount_check(*args, **kwargs) and \
            self.rev_root.pre_mount_check(*args, **kwargs) and \
-           EncFS_mount.pre_mount_check(self, *args, **kwargs):
+           super(EncFS_SSH, self).pre_mount_check(*args, **kwargs):
                 return True
 
     def split_kwargs(self, mode):
