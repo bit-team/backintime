@@ -79,6 +79,7 @@ class MainWindow( QMainWindow ):
         QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 
         self.btn_update_snapshots = self.main_toolbar.addAction(icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'))
+        self.btn_update_snapshots.setShortcuts([Qt.Key_F5, QKeySequence(Qt.CTRL + Qt.Key_R)])
         QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
 
         self.btn_name_snapshot = self.main_toolbar.addAction(icon.SNAPSHOT_NAME, _('Snapshot Name'))
@@ -163,7 +164,7 @@ class MainWindow( QMainWindow ):
         self.files_view_toolbar.setFloatable( False )
 
         self.btn_folder_up = self.files_view_toolbar.addAction(icon.UP, _('Up'))
-        self.btn_folder_up.setShortcut(Qt.Key_Backspace)
+        self.btn_folder_up.setShortcuts([QKeySequence(Qt.ALT + Qt.Key_Left), Qt.Key_Backspace])
         QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
 
         self.edit_current_path = QLineEdit( self )
@@ -174,6 +175,7 @@ class MainWindow( QMainWindow ):
         self.show_hidden_files = self.config.get_bool_value( 'qt4.show_hidden_files', False )
 
         self.btn_show_hidden_files = self.files_view_toolbar.addAction(icon.SHOW_HIDDEN, _('Show hidden files'))
+        self.btn_show_hidden_files.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_H))
         self.btn_show_hidden_files.setCheckable( True )
         self.btn_show_hidden_files.setChecked( self.show_hidden_files )
         QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
