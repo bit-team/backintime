@@ -359,6 +359,8 @@ class Snapshots:
                     continue
                 elif mode == 3 and line[1] != 'I':
                     continue
+                elif mode == 4 and line[1] not in ('E', 'C'):
+                    continue
 
             if not decode is None:
                 line = decode.log(line)
@@ -936,7 +938,7 @@ class Snapshots:
                         'will not be able to make new snapshots!)', self)
             logger.warning('Backup not performed', self)
         elif not force and not self.config.is_backup_scheduled():
-            logger.info('Profile "%s" is not scheduled to run now.' 
+            logger.info('Profile "%s" is not scheduled to run now.'
                         %self.config.get_profile_name(), self)
         else:
             instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False, flock = True)
@@ -1757,7 +1759,7 @@ class Snapshots:
         if not len(snapshots_path_ssh):
             snapshots_path_ssh = './'
         cmd = self.cmd_ssh(['df', snapshots_path_ssh])
-        
+
         df = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
         output = df.communicate()[0]
         #Filesystem     1K-blocks      Used Available Use% Mounted on

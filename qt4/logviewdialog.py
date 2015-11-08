@@ -30,7 +30,7 @@ _=gettext.gettext
 class LogViewDialog( QDialog ):
     def __init__( self, parent, snapshot_id = None ):
         super(LogViewDialog, self).__init__(parent)
-        self.resize( 600, 500 )
+        self.resize( 800, 500 )
 
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -82,14 +82,10 @@ class LogViewDialog( QDialog ):
         QObject.connect( self.combo_filter, SIGNAL('currentIndexChanged(int)'), self.current_filter_changed )
 
         self.combo_filter.addItem( _('All'), 0 )
+        self.combo_filter.addItem(' + '.join((_('Errors'), _('Changes'))), 4)
+        self.combo_filter.setCurrentIndex( self.combo_filter.count() - 1 )
         self.combo_filter.addItem( _('Errors'), 1 )
-        set_active = True
-        if self.snapshot_id is None or self.snapshots.is_snapshot_failed( self.snapshot_id ):
-            self.combo_filter.setCurrentIndex( self.combo_filter.count() - 1 )
-            set_active = False
         self.combo_filter.addItem( _('Changes'), 2 )
-        if not self.snapshot_id is None and set_active:
-            self.combo_filter.setCurrentIndex( self.combo_filter.count() - 1 )
         self.combo_filter.addItem( _('Informations'), 3 )
 
         #text view
