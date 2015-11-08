@@ -34,7 +34,7 @@ ssh-agent python3 $APP_PATH/backintime.py "$@"
 
 detach="false"
 for arg in $@; do
-    if [ "x$arg" = "x--backup-job" ]; then
+    if [ "x$arg" = "x--backup-job" ] || [ "x$arg" = "xbackup-job" ]; then
         detach="true"
         break
     fi
@@ -45,4 +45,3 @@ if [ "$detach" = "true" ]; then
 else
     run "$@"
 fi
-
