@@ -614,7 +614,7 @@ class SettingsDialog( QDialog ):
                                                 'renamed with trailing \'%(suffix)s\' '
                                                 'before restoring.\n'
                                                 'If you don\'t need them anymore '
-                                                'you can remove them with \'%(cmd)s\'') 
+                                                'you can remove them with \'%(cmd)s\'')
                                                 %{'suffix': self.snapshots.backup_suffix(),
                                                 'cmd': 'find ./ -name "*%s" -delete' % self.snapshots.backup_suffix() })
         layout.addWidget( self.cb_backup_on_restore )
@@ -1447,11 +1447,14 @@ class SettingsDialog( QDialog ):
         self.add_exclude( pattern )
 
     def on_btn_exclude_add_clicked( self ):
-        ret_val = QInputDialog.getText(self, _('Exclude pattern'), str() )
-        if not ret_val[1]:
+        dlg = QInputDialog(self)
+        dlg.setInputMode(QInputDialog.TextInput)
+        dlg.setWindowTitle(_('Exclude pattern'))
+        dlg.setLabelText('')
+        dlg.resize(400, 0)
+        if not dlg.exec():
             return
-
-        pattern = ret_val[0].strip()
+        pattern = dlg.textValue().strip()
 
         if not pattern:
             return
