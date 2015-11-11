@@ -1002,7 +1002,7 @@ class MainWindow( QMainWindow ):
         self.update_time_line()
 
         #set correct last snapshot again
-        if last_snapshot in snapshot_ids:
+        if last_snapshot in snapshot_ids and len(self.snapshots.get_snapshots_list()):
             self.snapshots.create_last_snapshot_symlink(self.snapshots.get_snapshots_list()[0])
 
         #release inhibit suspend
@@ -1136,7 +1136,7 @@ class MainWindow( QMainWindow ):
         if not selected_file:
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
-        
+
         confirm, kwargs = self.confirm_restore(rel_path)
         if not confirm:
             return
@@ -1459,4 +1459,3 @@ if __name__ == '__main__':
 
     cfg.PLUGIN_MANAGER.on_app_exit()
     app_instance.exit_application()
-
