@@ -30,7 +30,6 @@ _=gettext.gettext
 class LogViewDialog( QDialog ):
     def __init__( self, parent, snapshot_id = None ):
         super(LogViewDialog, self).__init__(parent)
-        self.resize( 800, 500 )
 
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -39,6 +38,10 @@ class LogViewDialog( QDialog ):
         self.snapshot_id = snapshot_id
         self.enable_update = False
         self.decode = None
+
+        w = self.config.get_int_value('qt4.logview.width', 800)
+        h = self.config.get_int_value('qt4.logview.height', 500)
+        self.resize(w, h)
 
         import icon
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
@@ -187,3 +190,8 @@ class LogViewDialog( QDialog ):
 
     def get_selected_profile(self):
         return str(self.combo_profiles.itemData(self.combo_profiles.currentIndex()) )
+
+    def closeEvent(self, event):
+        self.config.set_int_value('qt4.logview.width', self.width())
+        self.config.set_int_value('qt4.logview.height', self.height())
+        event.accept()
