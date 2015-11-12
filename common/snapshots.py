@@ -1929,9 +1929,8 @@ class Snapshots:
     def delete_path(self, snapshot_id, path):
         def handle_error(fn, path, excinfo):
             dirname = os.path.dirname(path)
-            if not os.access(dirname, os.W_OK):
-                st = os.stat(dirname)
-                os.chmod(dirname, st.st_mode | stat.S_IWUSR)
+            st = os.stat(dirname)
+            os.chmod(dirname, st.st_mode | stat.S_IWUSR)
             st = os.stat(path)
             os.chmod(path, st.st_mode | stat.S_IWUSR)
             fn(path)
