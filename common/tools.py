@@ -69,7 +69,7 @@ def get_bzr_revno():
         with open(last_rev, 'r') as f:
             args = f.read().split(' ')
             if args:
-                return args[0]    
+                return args[0]
 
 def read_file( path, default_value = None ):
     ret_val = default_value
@@ -422,7 +422,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
             ssh_cipher_suffix = ''
         else:
             ssh_cipher_suffix = '-c %s' % ssh_cipher
-        # specifying key file here allows to override for potentially 
+        # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry
         ssh_private_key = "-o IdentityFile=%s" % config.get_ssh_private_key_file()
         cmd += ' --rsh="ssh -p %s %s %s"' % ( str(ssh_port), ssh_cipher_suffix, ssh_private_key)
@@ -1168,6 +1168,40 @@ class SetupUdev(object):
         if not self.isReady:
             return
         self.iface.clean()
+
+class PathHistory(object):
+    def __init__(self, path):
+        self.history = [path,]
+        self.index = 0
+
+    def append(self, path):
+        #append path after the current index
+        self.history = self.history[:self.index + 1] + [path,]
+        self.index = len(self.history) - 1
+
+    def previous(self):
+        if self.index == 0:
+            return self.history[0]
+        try:
+            path = self.history[self.index - 1]
+        except IndexError:
+            return self.history[self.index]
+        self.index -= 1
+        return path
+
+    def next(self):
+        if self.index == len(self.history) - 1:
+            return self.history[-1]
+        try:
+            path = self.history[self.index + 1]
+        except IndexError:
+            return self.history[self.index]
+        self.index += 1
+        return path
+
+    def reset(self, path):
+        self.history = [path,]
+        self.index = 0
 
 if keyring is None and keyring_warn:
     logger.warning('import keyring failed')

@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.1.9
+* Add Nautilus-like shortcuts for navigating in file browser (https://github.com/bit-team/backintime/issues/483)
 * speed up mounting of SSH+encrypted profiles
 * Fix bug: creat new encrypted profiles with encfs >= 1.8.0 failed (https://github.com/bit-team/backintime/issues/477)
 * Fix bug: AttributeError in common/tools.py if keyring is missing (https://github.com/bit-team/backintime/issues/473)
@@ -11,7 +12,7 @@ Version 1.1.8
 * Fix bug: unlock private SSH key run into 5sec timeout if password is empty
 * show current app name and profile ID in syslog (https://launchpad.net/bugs/906213)
 * Fix bug: BiT freeze when activate 'Decode path' in 'Snapshot Log View'
-* Show 'Profiles' dropdown only in 'Last Log Viewer', add 'Snapshots' dropdown in 'Snapshot Log Viewer' (https://launchpad.net/bugs/1478219) 
+* Show 'Profiles' dropdown only in 'Last Log Viewer', add 'Snapshots' dropdown in 'Snapshot Log Viewer' (https://launchpad.net/bugs/1478219)
 * Fix bug: empty grey window appears when starting the gui as root (https://launchpad.net/bugs/1493020)
 * do not restore permission if they are identical with current permissions
 * Fix bug: gnu_find_suffix_support doesn't set back to True (https://launchpad.net/bugs/1487781)
@@ -74,7 +75,7 @@ Version 1.1.4
 * Fix bug: restore permissions of lots of files made BackInTime unresposive (https://launchpad.net/bugs/1428423)
 * Fix bug: failed to restore file owner and group
 * cache uuid in config so it doesn't fail if the device isn't pluged in (https://launchpad.net/bugs/1426881)
-* add warning about wrong Python version in configure 
+* add warning about wrong Python version in configure
 * prevent snapshots from being removed with restore and delete; show warning if restore and delete filesystem root (https://answers.launchpad.net/questions/262837)
 * Fix bug: OSError in free_space; add alternate method to get free space
 * add bash-completion
@@ -275,7 +276,7 @@ Versoin 1.0.12
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/1073867
 
 Version 1.0.10
-* Add "Restore to ..." in replacement of copy (with or without drag & drop) because copy don't restore user/group/rights 
+* Add "Restore to ..." in replacement of copy (with or without drag & drop) because copy don't restore user/group/rights
 Version 1.0.8
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/723545
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/705237
@@ -422,7 +423,7 @@ Version 0.9.18
 * GNOME bugfix: fix a crush in files view for files with special characters (ex: "a%20b")
 * GNOME SettingsDialog bugfix: if snapshots path is a new created folder, snapshots navigation (files view) don't work
 * update doc
-* GNOME & KDE4 MainWindow: Rename "Places" list with "Snapshots" 
+* GNOME & KDE4 MainWindow: Rename "Places" list with "Snapshots"
 * GNOME SettingsDialog bugfix: modify something, then press cancel. If you reopen the dialog it show wrong values (the ones before cancel)
 * GNOME & KDE4: add root mode menu entries (use gksu for gnome and kdesudo for kde)
 * GNOME & KDE4: MainWindow - Files view: if the current directory don't exists in current snapshot display a message
@@ -449,7 +450,7 @@ Version 0.9.16
 * give more information for 'take snapshot' progress (to prove that is not blocked)
 * MainWindow: rename 'Timeline' column with 'Snapshots'
 * when it tries to take a snapshot if the snapshots directory don't exists
-  (it is on a removable drive that is not plugged) it will notify and wait maximum 30 seconds 
+  (it is on a removable drive that is not plugged) it will notify and wait maximum 30 seconds
   (for the drive to be plugged)
 * GNOME & KDE4: add notify if the snapshots directory don't exists
 * KDE4: rework MainWindow
@@ -513,10 +514,10 @@ Version 0.9
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 * make deb packages more debian friendly (thanks to Michael Wiedmann <mw@miwie.in-berlin.de>)
 * update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
-* bug fix: when you open snapshots dialog for the second time ( or more ) and you make a diff 
-  it will make the diff on the file for the first dialog ( all previous dialogs ) and then for 
+* bug fix: when you open snapshots dialog for the second time ( or more ) and you make a diff
+  it will make the diff on the file for the first dialog ( all previous dialogs ) and then for
   the current one
-* better separation between common and gnome specific files and 
+* better separation between common and gnome specific files and
   divide backintime package in backintime-common & backintime-gnome
   (this will allow me to write other GUI front-ends like KDE4 or KDE)
 * code cleanup
@@ -592,7 +593,7 @@ Version 0.7.2
 * capitalize month in timeline (bug in french translation)
 
 Version 0.7
-* fix cron segfault 
+* fix cron segfault
 * fix a crush when launched the very first time (not configured)
 * multi-lingual support
 * add French translation
@@ -616,4 +617,3 @@ Version 0.5.1
 
 Version 0.5
 * This is the first release.
-

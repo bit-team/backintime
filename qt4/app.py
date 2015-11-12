@@ -164,7 +164,7 @@ class MainWindow( QMainWindow ):
         self.files_view_toolbar.setFloatable( False )
 
         self.btn_folder_up = self.files_view_toolbar.addAction(icon.UP, _('Up'))
-        self.btn_folder_up.setShortcuts([QKeySequence(Qt.ALT + Qt.Key_Left), Qt.Key_Backspace])
+        self.btn_folder_up.setShortcuts([QKeySequence(Qt.ALT + Qt.Key_Up), Qt.Key_Backspace])
         QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
 
         self.edit_current_path = QLineEdit( self )
@@ -254,6 +254,14 @@ class MainWindow( QMainWindow ):
         self.menubar_help.addAction(self.btn_bug)
         self.menubar_help.addSeparator()
         self.menubar_help.addAction(self.btn_about)
+
+        #shortcuts without buttons
+        self.shortcut_previous_folder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Left), self)
+        QObject.connect(self.shortcut_previous_folder, SIGNAL('activated()'), self.on_btn_folder_history_previous_clicked)
+        self.shortcut_next_folder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Right), self)
+        QObject.connect(self.shortcut_next_folder, SIGNAL('activated()'), self.on_btn_folder_history_next_clicked)
+        self.shortcut_open_folder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Down), self)
+        QObject.connect(self.shortcut_open_folder, SIGNAL('activated()'), self.on_btn_open_current_item)
 
         #second spliter
         self.second_splitter = QSplitter( self )
@@ -372,6 +380,7 @@ class MainWindow( QMainWindow ):
         self.path = self.config.get_profile_str_value('qt4.last_path',
                             self.config.get_str_value('qt4.last_path', '/' ) )
         self.edit_current_path.setText( self.path )
+        self.path_history = tools.PathHistory(self.path)
 
         #restore size and position
         x = self.config.get_int_value( 'qt4.main_window.x', -1 )
@@ -562,6 +571,7 @@ class MainWindow( QMainWindow ):
             path = self.config.get_profile_str_value('qt4.last_path', self.path, profile_id)
             if not path == self.path:
                 self.path = path
+                self.path_history.reset(self.path)
                 self.edit_current_path.setText( self.path )
 
             self.update_profile()
@@ -734,6 +744,7 @@ class MainWindow( QMainWindow ):
             return
 
         self.path = path
+        self.path_history.append(path)
         self.update_files_view( 3 )
 
     def add_place( self, name, path, icon ):
@@ -1186,7 +1197,30 @@ class MainWindow( QMainWindow ):
             return
 
         self.path = path
+        self.path_history.append(self.path)
         self.update_files_view( 0 )
+
+    def on_btn_folder_history_previous_clicked(self):
+        path = self.path_history.previous()
+        full_path = self.snapshots.get_snapshot_path_to(self.snapshot_id, path)
+        if os.path.isdir(full_path):
+            if self.snapshots.can_open_path(self.snapshot_id, full_path):
+                self.path = path
+                self.update_files_view(0)
+
+    def on_btn_folder_history_next_clicked(self):
+        path = self.path_history.next()
+        full_path = self.snapshots.get_snapshot_path_to(self.snapshot_id, path)
+        if os.path.isdir(full_path):
+            if self.snapshots.can_open_path(self.snapshot_id, full_path):
+                self.path = path
+                self.update_files_view(0)
+
+    def on_btn_open_current_item(self):
+        path, idx = self.file_selected()
+        if not path:
+            return
+        self.open_path(path)
 
     def on_btn_add_include(self):
         selected_file = [f for f, idx in self.multi_file_selected()]
@@ -1224,7 +1258,9 @@ class MainWindow( QMainWindow ):
         rel_path = str( self.list_files_view_proxy_model.data( model_index ) )
         if not rel_path:
             return
+        self.open_path(rel_path)
 
+    def open_path(self, rel_path):
         rel_path = os.path.join( self.path, rel_path )
         full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, rel_path )
 
@@ -1232,6 +1268,7 @@ class MainWindow( QMainWindow ):
             if self.snapshots.can_open_path( self.snapshot_id, full_path ):
                 if os.path.isdir( full_path ):
                     self.path = rel_path
+                    self.path_history.append(rel_path)
                     self.update_files_view( 0 )
                 else:
                     self.run = QDesktopServices.openUrl(QUrl(full_path ))
@@ -1347,6 +1384,9 @@ class MainWindow( QMainWindow ):
         idx = self.list_files_view.currentIndex()
         idx = self.index_first_column(idx)
         selected_file = str( self.list_files_view_proxy_model.data( idx ) )
+        if selected_file == '/':
+            #nothing is selected
+            return(None, None)
         return(selected_file, idx)
 
     def multi_file_selected(self):
