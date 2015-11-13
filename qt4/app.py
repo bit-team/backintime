@@ -1010,6 +1010,7 @@ class MainWindow( QMainWindow ):
                                                          reason = 'deleting snapshots')
 
         [self.snapshots.remove_snapshot( snapshot_id ) for snapshot_id in snapshot_ids]
+        tools.update_cached_fs(self.config.get_snapshots_full_path())
         self.update_time_line()
 
         #set correct last snapshot again

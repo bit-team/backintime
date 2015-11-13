@@ -649,6 +649,14 @@ def syncfs():
     if check_command('sync'):
         return(_execute('sync') == 0)
 
+def update_cached_fs(dir):
+    """changes not made through sshfs on remote files will not be recognized
+    immediately because of the local cache. But writing a new file into that
+    folder will update local cache.
+    """
+    with tempfile.NamedTemporaryFile('w', dir = dir) as f:
+        f.write('foo')
+
 def isRoot():
     return os.geteuid() == 0
 
