@@ -263,6 +263,10 @@ class MainWindow( QMainWindow ):
         self.shortcut_open_folder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Down), self)
         QObject.connect(self.shortcut_open_folder, SIGNAL('activated()'), self.on_btn_open_current_item)
 
+        #mouse button navigation
+        self.mouseButtonEventFilter = ExtraMouseButtonEventFilter(self)
+        self.setMouseButtonNavigation()
+
         #second spliter
         self.second_splitter = QSplitter( self )
         self.second_splitter.setOrientation( Qt.Horizontal )
@@ -975,7 +979,9 @@ class MainWindow( QMainWindow ):
         self.time_line_update_snapshot_name( item )
 
     def on_btn_log_view_clicked ( self ):
+        self.removeMouseButtonNavigation()
         logviewdialog.LogViewDialog( self ).exec_()
+        self.setMouseButtonNavigation()
 
     def on_btn_snapshot_log_view_clicked ( self ):
         item = self.list_time_line.currentItem()
@@ -986,10 +992,12 @@ class MainWindow( QMainWindow ):
         if len( snapshot_id ) <= 1:
             return
 
+        self.removeMouseButtonNavigation()
         dlg = logviewdialog.LogViewDialog( self, snapshot_id )
         dlg.exec_()
         if snapshot_id != dlg.snapshot_id:
             self.time_line_set_current_snapshot(dlg.snapshot_id)
+        self.setMouseButtonNavigation()
 
     def on_btn_remove_snapshot_clicked ( self ):
         last_snapshot = self.snapshots.get_snapshots_list()[0]
@@ -1022,10 +1030,12 @@ class MainWindow( QMainWindow ):
             self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
     def on_btn_settings_clicked( self ):
+        self.removeMouseButtonNavigation()
         if QDialog.Accepted == settingsdialog.SettingsDialog( self ).exec_():
             profile_id = self.config.get_current_profile()
             self.remount(profile_id, profile_id)
             self.update_profiles()
+        self.setMouseButtonNavigation()
 
     def on_btn_shutdown_toggled(self, checked):
         self.shutdown.activate_shutdown = checked
@@ -1034,8 +1044,10 @@ class MainWindow( QMainWindow ):
         self.contextMenu.exec_(self.list_files_view.mapToGlobal(point) )
 
     def on_about( self ):
+        self.removeMouseButtonNavigation()
         dlg = About(self)
         dlg.exec_()
+        self.setMouseButtonNavigation()
 
     def on_help( self ):
         self.open_man_page('backintime')
@@ -1131,10 +1143,12 @@ class MainWindow( QMainWindow ):
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
 
+        self.removeMouseButtonNavigation()
         if delete:
             confirm, kwargs = self.confirm_delete_on_restore(rel_path, any([i == '/' for i in selected_file]) )
         else:
             confirm, kwargs = self.confirm_restore(rel_path)
+        self.setMouseButtonNavigation()
         if not confirm:
             return
 
@@ -1159,10 +1173,12 @@ class MainWindow( QMainWindow ):
         if len( self.snapshot_id ) <= 1:
             return
 
+        self.removeMouseButtonNavigation()
         if delete:
             confirm, kwargs = self.confirm_delete_on_restore((self.path,), self.path == '/')
         else:
             confirm, kwargs = self.confirm_restore((self.path,))
+        self.setMouseButtonNavigation()
         if not confirm:
             return
 
@@ -1184,10 +1200,12 @@ class MainWindow( QMainWindow ):
 
         rel_path = os.path.join( self.path, selected_file )
 
+        self.removeMouseButtonNavigation()
         dlg = snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path)
         if QDialog.Accepted == dlg.exec_():
             if dlg.snapshot_id != self.snapshot_id:
                 self.time_line_set_current_snapshot(dlg.snapshot_id)
+        self.setMouseButtonNavigation()
 
     def on_btn_folder_up_clicked( self ):
         if len( self.path ) <= 1:
@@ -1402,6 +1420,12 @@ class MainWindow( QMainWindow ):
             idx = idx.sibling(idx.row(), 0)
         return idx
 
+    def setMouseButtonNavigation(self):
+        self.qapp.installEventFilter(self.mouseButtonEventFilter)
+
+    def removeMouseButtonNavigation(self):
+        self.qapp.removeEventFilter(self.mouseButtonEventFilter)
+
 class About(QDialog):
     def __init__(self, parent = None):
         super(About, self).__init__(parent)
@@ -1468,6 +1492,25 @@ class About(QDialog):
             return '<a href="mailto:%(url)s">%(url)s</a>' % {'url': m.group(1)}
         else:
             return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(1)}
+
+class ExtraMouseButtonEventFilter(QObject):
+    '''globally catch mouse buttons 4 and 5 (mostly used as back and forward)
+    and assign it to browse in file history.
+    When updating to Qt5 use Qt.BackButton and Qt.ForwardButton instead.
+    '''
+    def __init__(self, main_window):
+        self.main_window = main_window
+        super(ExtraMouseButtonEventFilter, self).__init__()
+
+    def eventFilter(self, receiver, event):
+        if event.type() == QEvent.MouseButtonPress and event.button() in (Qt.XButton1, Qt.XButton2):
+            if event.button() == Qt.XButton1:
+                self.main_window.on_btn_folder_history_previous_clicked()
+            if event.button() == Qt.XButton2:
+                self.main_window.on_btn_folder_history_next_clicked()
+            return True
+        else:
+            return super(ExtraMouseButtonEventFilter, self).eventFilter(receiver, event)
 
 def debug_trace():
     '''Set a tracepoint in the Python debugger that works with Qt'''
