@@ -134,6 +134,8 @@ def main():
                 replace_default[m_default.group(1)] = m_default.group(2).replace('\\$', '\\\$')
                 continue
             if line.startswith('#?'):
+                if commentline and not ';' in commentline and not commentline.endswith('\\n'):
+                    commentline += ' '
                 commentline += line.lstrip('#?').rstrip('\n')
                 continue
             if line.startswith('#'):

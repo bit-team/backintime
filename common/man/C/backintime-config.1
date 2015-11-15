@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Sep 2015" "version 1.1.9" "USER COMMANDS"
+.TH backintime-config 1 "Nov 2015" "version 1.1.9" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -25,7 +25,7 @@ Type: int       Allowed Values: 0-99999
 .br
 Internal value used to prevent hash collisions on mountpoints. Do not change this.
 .PP
-Default: 0
+Default: 0 
 .RE
 
 .IP "\fIglobal.use_flock\fR" 6
@@ -50,7 +50,7 @@ Default: Main profile
 .RS
 Type: int       Allowed Values: 0-99999
 .br
-How many units to wait between new snapshots with anacron? Only validfor \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
+How many units to wait between new snapshots with anacron? Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
 .PP
 Default: 1
 .RE
@@ -87,7 +87,7 @@ Default: 1
 .RS
 Type: int       Allowed Values: 0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80
 .br
-Which schedule used for crontab. The crontab entry will be  generated with 'backintime check-config'.
+Which schedule used for crontab. The crontab entry will be generated with 'backintime check-config'.
 .br
  0 = Disabled
 .br
@@ -121,7 +121,7 @@ Which schedule used for crontab. The crontab entry will be  generated with 'back
 .br
 40 = every month
 .br
-80 = every year
+80 = every year 
 .PP
 Default: 0
 .RE
@@ -247,7 +247,7 @@ Default: true
 .RS
 Type: str       Allowed Values: comma separated int (8,12,18,23) or */3
 .br
-Custom hours for cronjob. Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 19
+Custom hours for cronjob. Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 19 
 .PP
 Default: 8,12,18,23
 .RE
@@ -747,7 +747,7 @@ Default: 'PATH=/opt/bin:/opt/sbin:\\$PATH'
 .RS
 Type: str       Allowed Values: absolute path to private key file
 .br
-Private key file used for password-less authentication on remote host.
+Private key file used for password-less authentication on remote host. 
 .PP
 Default: ~/.ssh/id_dsa
 .RE
