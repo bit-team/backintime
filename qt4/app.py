@@ -26,7 +26,8 @@ import datetime
 import gettext
 import re
 
-sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'common' )] + sys.path
+import qt4tools
+qt4tools.register_backintime_path('common')
 
 import backintime
 import tools
@@ -40,7 +41,6 @@ from exceptions import MountException
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-import qt4tools
 import settingsdialog
 import snapshotsdialog
 import logviewdialog

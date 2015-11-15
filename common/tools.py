@@ -48,18 +48,19 @@ POWER_ERROR = 255
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
 def get_share_path():
-    share = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                         os.pardir, os.pardir))
+    share = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
     if os.path.basename(share) == 'share':
         return share
     else:
         return '/usr/share'
 
-def get_backintime_path( path ):
-    return os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), path )
+def get_backintime_path(*path):
+    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
-def register_backintime_path( path ):
-    path = get_backintime_path( path )
+def register_backintime_path(*path):
+    '''find duplicate in qt4/qt4tools.py
+    '''
+    path = get_backintime_path(*path)
     if not path in sys.path:
         sys.path = [path] + sys.path
 

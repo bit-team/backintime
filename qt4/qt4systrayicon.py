@@ -26,13 +26,13 @@ _=gettext.gettext
 if not os.getenv( 'DISPLAY', '' ):
     os.putenv( 'DISPLAY', ':0.0' )
 
-sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'common' )] + sys.path
+import qt4tools
+qt4tools.register_backintime_path('common')
 
 import tools
 import logger
 import snapshots
 import progress
-import qt4tools
 
 from PyQt4.QtCore import QObject, SIGNAL, QTimer
 from PyQt4.QtGui import QSystemTrayIcon, QIcon, QMenu, QProgressBar, QWidget, QRegion

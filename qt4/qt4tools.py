@@ -20,10 +20,19 @@ import sys
 from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView, QTreeView, QDialog, QApplication, QStyleFactory
 from PyQt4.QtCore import QDir, SIGNAL
 
+def get_backintime_path(*path):
+    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
+
+def register_backintime_path(*path):
+    '''find duplicate in common/tools.py
+    '''
+    path = get_backintime_path(*path)
+    if not path in sys.path:
+        sys.path = [path] + sys.path
+
 def get_font_bold( font ):
     font.setWeight( QFont.Bold )
     return font
-
 
 def set_font_bold( widget ):
     widget.setFont( get_font_bold( widget.font() ) )

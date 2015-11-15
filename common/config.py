@@ -152,7 +152,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     def __init__( self, config_path = None ):
         configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
 
-        self._APP_PATH =  os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) )
+        self._APP_PATH = tools.get_backintime_path()
         self._DOC_PATH = os.path.join(tools.get_share_path(), 'doc', 'backintime-common')
         if os.path.exists( os.path.join( self._APP_PATH, 'LICENSE' ) ):
             self._DOC_PATH = self._APP_PATH
