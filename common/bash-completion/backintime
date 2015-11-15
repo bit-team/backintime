@@ -21,7 +21,7 @@ _bit_snapshots_list()
     backintime$(_bit_extr_opts) --quiet snapshots-list | awk '{print $2}'
 }
 
-_backintime() 
+_backintime()
 {
     local cur prev actions opts pw_cache_commands
     local cur_action='' pos_action=0 c=0
@@ -102,4 +102,3 @@ _backintime()
 }
 complete -F _backintime backintime
 complete -F _backintime backintime-qt4
-

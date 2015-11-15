@@ -38,9 +38,9 @@ If you want to run it as root you need to use 'pkexec backintime-qt4'.
 .SH OPTIONS
 .TP
 \-\-checksum
-Force to use checksum for checking if files have been changed. This is the same 
-as 'Use checksum to detect changes' in Options. But you can use this to 
-periodically run checksums from cronjobs. Only valid with \fIbackup\fR, 
+Force to use checksum for checking if files have been changed. This is the same
+as 'Use checksum to detect changes' in Options. But you can use this to
+periodically run checksums from cronjobs. Only valid with \fIbackup\fR,
 \fIbackup-job\fR and \fIrestore\fR.
 .TP
 \-\-config PATH
@@ -58,22 +58,22 @@ Only valid with \fIrestore\fR.
 Display a short help
 .TP
 \-\-keep\-mount
-Don't unmount on exit. Only valid with \fIsnapshots\-path\fR, \fIsnapshots\-list\-path\fR and 
+Don't unmount on exit. Only valid with \fIsnapshots\-path\fR, \fIsnapshots\-list\-path\fR and
 \fIlast\-snapshot\-path\fR.
 .TP
 \-\-license
 Show license
 .TP
 --local-backup
-Create backup files before changing local files. 
+Create backup files before changing local files.
 Only valid with \fIrestore\fR.
 .TP
 --no-crontab
-Do not install crontab entries. 
+Do not install crontab entries.
 Only valid with \fIcheck-config\fR.
 .TP
 --no-local-backup
-Temporary disable creation of backup files before changing local files. 
+Temporary disable creation of backup files before changing local files.
 Only valid with \fIrestore\fR.
 .TP
 \-\-profile NAME
@@ -91,7 +91,7 @@ Show version
 .SH COMMANDS
 .TP
 backup | \-b | \-\-backup
-Take a snapshot now (if needed) 
+Take a snapshot now (if needed)
 .TP
 backup\-job | \-\-backup\-job
 Take a snapshot (if needed) depending on schedule rules (used for cron jobs).
@@ -104,7 +104,7 @@ check-config
 Verify the profile in config, create snapshot path and crontab entries.
 .TP
 decode | \-\-decode [PATH]
-Decode encrypted PATH. If no PATH is given Back In Time will read paths from 
+Decode encrypted PATH. If no PATH is given Back In Time will read paths from
 standard input.
 .TP
 last\-snapshot | \-\-last\-snapshot
@@ -114,21 +114,21 @@ last\-snapshot\-path | \-\-last\-snapshot\-path
 Display the path to the last snapshot (if any)
 .TP
 pw\-cache | \-\-pw\-cache [start|stop|restart|reload|status]
-Control the Password Cache Daemon. If no argument is given the Password Cache 
+Control the Password Cache Daemon. If no argument is given the Password Cache
 will start in foreground.
 .TP
 remove[\-and\-do\-not\-ask\-again] | \-\-remove[\-and\-do\-not\-ask\-again] [SNAPSHOT_ID]
-Remove the snapshot. If SNAPSHOT_ID is missing it will be prompted. SNAPSHOT_ID 
-can be an index (starting with 0 for the last snapshot) or the exact SnapshotID 
-(19 caracters like '20130606-230501-984'). 
-\fIremove\-and\-do\-not\-ask\-again\fR will remove the snapshot immediately. 
+Remove the snapshot. If SNAPSHOT_ID is missing it will be prompted. SNAPSHOT_ID
+can be an index (starting with 0 for the last snapshot) or the exact SnapshotID
+(19 caracters like '20130606-230501-984').
+\fIremove\-and\-do\-not\-ask\-again\fR will remove the snapshot immediately.
 Be careful with this!
 .TP
 restore | \-\-restore [WHAT [WHERE [SNAPSHOT_ID]]]
-Restore file WHAT to path WHERE from snapshot SNAPSHOT_ID. If arguments are 
-missing they will be prompted. To restore to the original path WHERE can be an 
-empty string '' or just press Enter at the prompt. SNAPSHOT_ID can be an index 
-(starting with 0 for the last snapshot) or the exact SnapshotID 
+Restore file WHAT to path WHERE from snapshot SNAPSHOT_ID. If arguments are
+missing they will be prompted. To restore to the original path WHERE can be an
+empty string '' or just press Enter at the prompt. SNAPSHOT_ID can be an index
+(starting with 0 for the last snapshot) or the exact SnapshotID
 (19 caracters like '20130606-230501-984')
 .TP
 snapshots\-list | \-\-snapshots\-list

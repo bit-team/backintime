@@ -24,4 +24,3 @@ done
 
 cp ${TMP}/*.build ${TMP}/*.changes ${TMP}/*.dsc ${TMP}/*.tar.gz ${CURRENT}
 rm -rf ${TMP}
-

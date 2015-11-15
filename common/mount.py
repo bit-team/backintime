@@ -206,7 +206,7 @@ class MountControl(object):
                     self.pre_mount_check()
                 self._mount()
                 self.post_mount_check()
-                logger.info('mount %s on %s' 
+                logger.info('mount %s on %s'
                             %(self.log_command, self.mountpoint),
                             self)
                 self.write_umount_info()

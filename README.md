@@ -28,7 +28,7 @@ You only need to specify 3 things:
 
 ##INSTALL
 
-Back In Time is included in many distributions and can be installed from their 
+Back In Time is included in many distributions and can be installed from their
 repositories.
 
 #####Ubuntu PPA
@@ -136,4 +136,3 @@ You can make a simple Nautilus integration using nautilus-actions.
 * Press OK and you will see the new actions called "Open with Back In Time" when you right-click an item
 
 <sub>Oct 2015</sub>
-

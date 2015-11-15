@@ -92,11 +92,11 @@ class PluginManager:
                         try:
                             module = __import__( f[ : -3 ] )
                             module_dict = module.__dict__
-        
+
                             for key, value in list(module_dict.items()):
                                 if key.startswith( '__' ):
                                     continue
-        
+
                                 if type(value) is type:
                                     if issubclass( value, Plugin ):
                                         plugin = value()

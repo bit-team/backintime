@@ -337,7 +337,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             mode = self.get_snapshots_mode(profile_id)
         if self.SNAPSHOT_MODES[mode][0] == None:
             #no mount needed
-            #?Where to save snapshots in mode 'local'. This path must contain a 
+            #?Where to save snapshots in mode 'local'. This path must contain a
             #?folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute path
             return self.get_profile_str_value( 'snapshots.path', '', profile_id )
         else:
@@ -426,7 +426,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return True
 
     def get_snapshots_mode( self, profile_id = None ):
-        #?Use mode (or backend) for this snapshot. Look at 'man backintime' 
+        #?Use mode (or backend) for this snapshot. Look at 'man backintime'
         #?section 'Modes'.;local|local_encfs|ssh|ssh_encfs
         return self.get_profile_str_value( 'snapshots.mode', 'local', profile_id )
 
@@ -453,8 +453,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_int_value( 'global.hash_collision', value )
 
     def get_snapshots_path_ssh( self, profile_id = None ):
-        #?Snapshot path on remote host. If the path is relative (no leading '/') 
-        #?it will start from remote Users homedir. An empty path will be replaced 
+        #?Snapshot path on remote host. If the path is relative (no leading '/')
+        #?it will start from remote Users homedir. An empty path will be replaced
         #?with './'.;absolute or relative path
         return self.get_profile_str_value( 'snapshots.ssh.path', '', profile_id )
 
@@ -490,11 +490,11 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.ssh.port', value, profile_id )
 
     def get_ssh_cipher( self, profile_id = None ):
-        #?Cipher that is used for encrypting the SSH tunnel. Depending on the 
-        #?environment (network bandwidth, cpu and hdd performance) a different 
-        #?cipher might be faster.;default | aes192-cbc | aes256-cbc | aes128-ctr | 
-        #?aes192-ctr | aes256-ctr | arcfour | arcfour256 | arcfour128 | aes128-cbc | 
-        #?3des-cbc | blowfish-cbc | cast128-cbc
+        #?Cipher that is used for encrypting the SSH tunnel. Depending on the
+        #?environment (network bandwidth, cpu and hdd performance) a different
+        #?cipher might be faster.;default | aes192-cbc | aes256-cbc | aes128-ctr |
+        #? aes192-ctr | aes256-ctr | arcfour | arcfour256 | arcfour128 | aes128-cbc |
+        #? 3des-cbc | blowfish-cbc | cast128-cbc
         return self.get_profile_str_value( 'snapshots.ssh.cipher', 'default', profile_id )
 
     def set_ssh_cipher( self, value, profile_id = None ):
@@ -539,7 +539,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_str_value( 'snapshots.ssh.private_key_file', value, profile_id )
 
     def ssh_max_arg_length(self, profile_id = None):
-        #?Maximum argument length of commands run on remote host. This can be tested 
+        #?Maximum argument length of commands run on remote host. This can be tested
         #?with 'python3 /usr/share/backintime/common/sshMaxArg.py USER@HOST'.\n
         #?0 = unlimited;0, >700
         value = self.get_profile_int_value('snapshots.ssh.max_arg_length', 0, profile_id)
@@ -561,7 +561,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_password_save( self, profile_id = None, mode = None ):
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)
-        #?Save password to system keyring (gnome-keyring or kwallet). 
+        #?Save password to system keyring (gnome-keyring or kwallet).
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR
         return self.get_profile_bool_value( 'snapshots.%s.password.save' % mode, False, profile_id )
 
@@ -574,8 +574,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)
         default = not tools.check_home_encrypt()
-        #?Cache password in RAM so it can be read by cronjobs. 
-        #?Security issue: root might be able to read that password, too. 
+        #?Cache password in RAM so it can be read by cronjobs.
+        #?Security issue: root might be able to read that password, too.
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR;;true if home is not encrypted
         return self.get_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, default, profile_id )
 
@@ -690,11 +690,11 @@ class Config( configfile.ConfigFileWithProfiles ):
         include = []
 
         for i in range( 1, size + 1 ):
-            #?Include this file or folder. <I> must be a counter 
+            #?Include this file or folder. <I> must be a counter
             #?starting with 1;absolute path
             value = self.get_profile_str_value( "snapshots.include.%s.value" % i, '', profile_id )
             if value:
-                #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR 
+                #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR
                 #?is a folder (0) or a file (1).;0|1
                 t = self.get_profile_int_value( "snapshots.include.%s.type" % i, 0, profile_id )
                 include.append( ( value, t ) )
@@ -735,7 +735,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         exclude = []
         for i in range( 1, size + 1 ):
-            #?Exclude this file or folder. <I> must be a counter 
+            #?Exclude this file or folder. <I> must be a counter
             #?starting with 1;file, folder or pattern (relative or absolute)
             value = self.get_profile_str_value( "snapshots.exclude.%s.value" % i, '', profile_id )
             if value:
@@ -766,10 +766,10 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value('snapshots.exclude.bysize.enabled', value, profile_id)
 
     def exclude_by_size(self, profile_id = None):
-        #?Exclude files bigger than value in Mb. 
-        #?With 'Full rsync mode' disabled this will only affect new files 
-        #?because for rsync this is a transfer option, not an exclude option. 
-        #?So big files that has been backed up before will remain in snapshots 
+        #?Exclude files bigger than value in Mb.
+        #?With 'Full rsync mode' disabled this will only affect new files
+        #?because for rsync this is a transfer option, not an exclude option.
+        #?So big files that has been backed up before will remain in snapshots
         #?even if they had changed.
         return self.get_profile_int_value('snapshots.exclude.bysize.value', 500, profile_id)
 
@@ -781,7 +781,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.get_profile_str_value( 'snapshots.tag', str(random.randint(100, 999)), profile_id )
 
     def get_automatic_backup_mode( self, profile_id = None ):
-        #?Which schedule used for crontab. The crontab entry will be  
+        #?Which schedule used for crontab. The crontab entry will be
         #?generated with 'backintime check-config'.\n
         #? 0 = Disabled\n 1 = at every boot\n 2 = every 5 minute\n
         #? 4 = every 10 minute\n 7 = every 30 minute\n10 = every hour\n
@@ -796,7 +796,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.automatic_backup_mode', value, profile_id )
 
     def get_automatic_backup_time( self, profile_id = None ):
-        #?What time the cronjob should run? Only valid for 
+        #?What time the cronjob should run? Only valid for
         #?\fIprofile<N>.snapshots.automatic_backup_mode\fR >= 20;0-24
         return self.get_profile_int_value( 'snapshots.automatic_backup_time', 0, profile_id )
 
@@ -804,7 +804,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.automatic_backup_time', value, profile_id )
 
     def get_automatic_backup_day( self, profile_id = None ):
-        #?Which day of month the cronjob should run? Only valid for 
+        #?Which day of month the cronjob should run? Only valid for
         #?\fIprofile<N>.snapshots.automatic_backup_mode\fR >= 40;1-28
         return self.get_profile_int_value( 'snapshots.automatic_backup_day', 1, profile_id )
 
@@ -812,7 +812,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.automatic_backup_day', value, profile_id )
 
     def get_automatic_backup_weekday( self, profile_id = None ):
-        #?Which day of week the cronjob should run? Only valid for 
+        #?Which day of week the cronjob should run? Only valid for
         #?\fIprofile<N>.snapshots.automatic_backup_mode\fR = 30;1 = monday \- 7 = sunday
         return self.get_profile_int_value( 'snapshots.automatic_backup_weekday', 7, profile_id )
 
@@ -820,7 +820,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.automatic_backup_weekday', value, profile_id )
 
     def get_custom_backup_time( self, profile_id = None ):
-        #?Custom hours for cronjob. Only valid for 
+        #?Custom hours for cronjob. Only valid for
         #?\fIprofile<N>.snapshots.automatic_backup_mode\fR = 19
         #?;comma separated int (8,12,18,23) or */3;8,12,18,23
         return self.get_profile_str_value( 'snapshots.custom_backup_time', '8,12,18,23', profile_id )
@@ -891,7 +891,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.remove_old_snapshots.unit', unit, profile_id )
 
     def get_min_free_space( self, profile_id = None ):
-                #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR 
+                #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR
                 #?free space is reached.
         return (self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id ),
                 #?Keep at least value + unit free space.;1-99999
@@ -926,7 +926,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.get_profile_int_value('snapshots.min_free_inodes.value', 2, profile_id)
 
     def min_free_inodes_enabled(self, profile_id = None):
-        #?Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR 
+        #?Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR
         #?free inodes in % is reached.
         return self.get_profile_bool_value('snapshots.min_free_inodes.enabled', True, profile_id)
 
@@ -982,7 +982,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.backup_on_restore.enabled', value, profile_id )
 
     def is_run_nice_from_cron_enabled( self, profile_id = None ):
-        #?Run cronjobs with 'nice \-n 19'. This will give BackInTime the 
+        #?Run cronjobs with 'nice \-n 19'. This will give BackInTime the
         #?lowest CPU priority to not interupt any other working process.
         return self.get_profile_bool_value( 'snapshots.cron.nice', self.DEFAULT_RUN_NICE_FROM_CRON, profile_id )
 
@@ -990,7 +990,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.cron.nice', value, profile_id )
 
     def is_run_ionice_from_cron_enabled( self, profile_id = None ):
-        #?Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the 
+        #?Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the
         #?lowest IO bandwidth priority to not interupt any other working process.
         return self.get_profile_bool_value( 'snapshots.cron.ionice', self.DEFAULT_RUN_IONICE_FROM_CRON, profile_id )
 
@@ -998,8 +998,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.cron.ionice', value, profile_id )
 
     def is_run_ionice_from_user_enabled( self, profile_id = None ):
-        #?Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot. 
-        #?This will give BackInTime the lowest IO bandwidth priority to not 
+        #?Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot.
+        #?This will give BackInTime the lowest IO bandwidth priority to not
         #?interupt any other working process.
         return self.get_profile_bool_value( 'snapshots.user_backup.ionice', self.DEFAULT_RUN_IONICE_FROM_USER, profile_id )
 
@@ -1021,7 +1021,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value('snapshots.ssh.ionice', value, profile_id)
 
     def is_run_nocache_on_local_enabled( self, profile_id = None ):
-        #?Run rsync on local machine with 'nocache'. 
+        #?Run rsync on local machine with 'nocache'.
         #?This will prevent files from being cached in memory.
         return self.get_profile_bool_value( 'snapshots.local.nocache', self.DEFAULT_RUN_NOCACHE_ON_LOCAL, profile_id )
 
@@ -1029,7 +1029,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.local.nocache', value, profile_id )
 
     def is_run_nocache_on_remote_enabled(self, profile_id = None):
-        #?Run rsync on remote host with 'nocache'. 
+        #?Run rsync on remote host with 'nocache'.
         #?This will prevent files from being cached in memory.
         return self.get_profile_bool_value('snapshots.ssh.nocache', self.DEFAULT_RUN_NOCACHE_ON_REMOTE, profile_id)
 
@@ -1055,7 +1055,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value('snapshots.cron.redirect_stderr', value, profile_id)
 
     def bwlimit_enabled( self, profile_id = None ):
-        #?Limit rsync bandwidth usage over network. Use this with mode SSH. 
+        #?Limit rsync bandwidth usage over network. Use this with mode SSH.
         #?For mode Local you should rather use ionice.
         return self.get_profile_bool_value( 'snapshots.bwlimit.enabled', False, profile_id )
 
@@ -1077,7 +1077,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.no_on_battery', value, profile_id )
 
     def preserve_acl( self, profile_id = None ):
-        #?Preserve ACL. The  source  and  destination  systems must have 
+        #?Preserve ACL. The  source  and  destination  systems must have
         #?compatible ACL entries for this option to work properly.
         return self.get_profile_bool_value( 'snapshots.preserve_acl', False, profile_id )
 
@@ -1092,8 +1092,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.preserve_xattr', value, profile_id )
 
     def copy_unsafe_links( self, profile_id = None ):
-        #?This tells rsync to copy the referent of symbolic links that point 
-        #?outside the copied tree.  Absolute symlinks are also treated like 
+        #?This tells rsync to copy the referent of symbolic links that point
+        #?outside the copied tree.  Absolute symlinks are also treated like
         #?ordinary files.
         return self.get_profile_bool_value( 'snapshots.copy_unsafe_links', False, profile_id )
 
@@ -1101,7 +1101,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.copy_unsafe_links', value, profile_id )
 
     def copy_links( self, profile_id = None ):
-        #?When  symlinks  are  encountered, the item that they point to 
+        #?When  symlinks  are  encountered, the item that they point to
         #?(the reference) is copied, rather than the symlink.
         return self.get_profile_bool_value( 'snapshots.copy_links', False, profile_id )
 
@@ -1130,9 +1130,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value('snapshots.ssh.prefix.enabled', value, profile_id)
 
     def ssh_prefix(self, profile_id = None):
-        #?Prefix to run before every command on remote host. Variables need to be escaped with \\$FOO. 
-        #?This doesn't touch rsync. So to add a prefix for rsync use 
-        #?\fIprofile<N>.snapshots.rsync_options.value\fR with 
+        #?Prefix to run before every command on remote host. Variables need to be escaped with \\$FOO.
+        #?This doesn't touch rsync. So to add a prefix for rsync use
+        #?\fIprofile<N>.snapshots.rsync_options.value\fR with
         #?--rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"
         return self.get_profile_str_value('snapshots.ssh.prefix.value', self.DEFAULT_SSH_PREFIX, profile_id)
 
@@ -1152,7 +1152,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 return ''
 
     def continue_on_errors( self, profile_id = None ):
-        #?Continue on errors. This will keep incomplete snapshots rather than 
+        #?Continue on errors. This will keep incomplete snapshots rather than
         #?deleting and start over again.
         return self.get_profile_bool_value( 'snapshots.continue_on_errors', True, profile_id )
 
@@ -1174,8 +1174,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_int_value( 'snapshots.log_level', value, profile_id )
 
     def full_rsync( self, profile_id = None ):
-        #?Full rsync mode. May be faster but snapshots are not read-only 
-        #?anymore and destination file-system must support all linux 
+        #?Full rsync mode. May be faster but snapshots are not read-only
+        #?anymore and destination file-system must support all linux
         #?attributes (date, rights, user, group...)
         return self.get_profile_bool_value( 'snapshots.full_rsync', False, profile_id )
 
@@ -1183,7 +1183,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.full_rsync', value, profile_id )
 
     def take_snapshot_regardless_of_changes(self, profile_id = None):
-        #?Create a new snapshot regardless if there were changes or not. 
+        #?Create a new snapshot regardless if there were changes or not.
         #?Only valid with \fIprofile<N>.snapshots.full_rsync\fR = true
         return self.get_profile_bool_value('snapshots.full_rsync.take_snapshot_regardless_of_changes', False, profile_id)
 
@@ -1191,8 +1191,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value('snapshots.full_rsync.take_snapshot_regardless_of_changes', value, profile_id )
 
     def check_for_changes( self, profile_id = None ):
-        #?Perform a dry-run before taking snapshots. Don't take a new snapshot 
-        #?if nothing has changed. 
+        #?Perform a dry-run before taking snapshots. Don't take a new snapshot
+        #?if nothing has changed.
         #?Only valid with \fIprofile<N>.snapshots.full_rsync\fR = false
         return self.get_profile_bool_value( 'snapshots.check_for_changes', True, profile_id )
 
@@ -1200,9 +1200,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.check_for_changes', value, profile_id )
 
     def user_callback_no_logging(self, profile_id = None):
-        #?Do not catch std{out|err} from user-callback script. 
-        #?The script will only write to current TTY. 
-        #?Default is to catch std{out|err} and write it to 
+        #?Do not catch std{out|err} from user-callback script.
+        #?The script will only write to current TTY.
+        #?Default is to catch std{out|err} and write it to
         #?syslog and TTY again.
         return self.get_profile_bool_value('user_callback.no_logging', False, profile_id)
 
@@ -1222,7 +1222,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.gnu_find_suffix_support', value, profile_id )
 
     def get_take_snapshot_user_script( self, step, profile_id = None ):
-        #?Run this scrip on events defined by <STEP>.\nPossible events for 
+        #?Run this scrip on events defined by <STEP>.\nPossible events for
         #?<STEP>:\n  before\n  after\n  new_snapshot\n  error;absolute path
         return self.get_profile_str_value ( "snapshots.take_snapshot.%s.user.script" % step, '', profile_id )
 

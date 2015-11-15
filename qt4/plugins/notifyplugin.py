@@ -67,7 +67,7 @@ class NotifyPlugin( pluginmanager.Plugin ):
             cmd = "notify-send "
             if timeout > 0:
                 cmd = cmd + " -t %s" % (1000 * timeout)
-            
+
             title = "Back In Time (%s) : %s" % (self.user, profile_name)
             message = message.replace("\n", ' ')
             message = message.replace("\r", '')
@@ -76,4 +76,3 @@ class NotifyPlugin( pluginmanager.Plugin ):
             print(cmd)
             os.system(cmd)
         return
-

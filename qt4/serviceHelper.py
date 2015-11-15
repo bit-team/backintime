@@ -57,7 +57,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 # This file was modified by David D. Lowe in 2009.
-# To the extent possible under law, David D. Lowe has waived all 
+# To the extent possible under law, David D. Lowe has waived all
 # copyright and related or neighboring rights to his modifications to
 # this file under this license: http://creativecommons.org/publicdomain/zero/1.0/
 
@@ -85,7 +85,7 @@ class PermissionDeniedByPolicy(dbus.DBusException):
 class UdevRules(dbus.service.Object):
     def __init__(self, conn=None, object_path=None, bus_name=None):
         super(UdevRules, self).__init__(conn, object_path, bus_name)
-        
+
         # the following variables are used by _checkPolkitPrivilege
         self.polkit = None
         self.enforce_polkit = True
@@ -136,7 +136,7 @@ class UdevRules(dbus.service.Object):
                          sender_keyword='sender', connection_keyword='conn')
     def save(self, sender=None, conn=None):
         """Save rules to destiantion file after user authenticated as admin.
-        This will first check if there are any changes between 
+        This will first check if there are any changes between
         temporary added rules and current rules in destiantion file.
         Returns False if files are identical or no rules to be installed.
         """
@@ -227,7 +227,7 @@ class UdevRules(dbus.service.Object):
             # we don't need is_challenge return here, since we call with AllowUserInteraction
             (is_auth, _, details) = self.polkit.CheckAuthorization(
                     ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1),
-                    'start-time': dbus.UInt64(0, variant_level=1)}), 
+                    'start-time': dbus.UInt64(0, variant_level=1)}),
                     privilege, {'': ''}, dbus.UInt32(1), '', timeout=3000)
         except dbus.DBusException as e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':

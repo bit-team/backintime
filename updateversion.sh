@@ -57,4 +57,3 @@ update_man_page qt4/man/C/backintime-qt4.1
 update_xml qt4/docbook/en/index.docbook
 
 update_changelog debian/changelog
-

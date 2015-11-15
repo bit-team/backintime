@@ -45,7 +45,7 @@ class Qt4Plugin( pluginmanager.Plugin ):
         if not tools.check_x_server():
             return False
         return True
-    
+
     def is_gui( self ):
         return True
 
@@ -63,4 +63,3 @@ class Qt4Plugin( pluginmanager.Plugin ):
                 return
             except:
                 pass
-

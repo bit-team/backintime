@@ -169,4 +169,3 @@ class Qt4SysTrayIcon:
 
 if __name__ == '__main__':
     Qt4SysTrayIcon().run()
-

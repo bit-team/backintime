@@ -90,7 +90,7 @@ class SSH(mount.MountControl):
         self.ssh_options = ['-p', str(self.port)]
         self.ssh_options += ['-o', 'ServerAliveInterval=240']
 
-        # specifying key file here allows to override for potentially 
+        # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry
         self.ssh_options += ['-o', 'IdentityFile=%s' % self.private_key_file]
 
@@ -101,7 +101,7 @@ class SSH(mount.MountControl):
             logger.warning('Couldn\'t get fingerprint for private key %(path)s. '
                            'Most likely because the public key %(path)s.pub wasn\'t found. '
                            'Using fallback to private keys path instead. '
-                           'But this can make troubles with passphrase-less keys.' 
+                           'But this can make troubles with passphrase-less keys.'
                            %{'path': self.private_key_file},
                            self)
             self.private_key_fingerprint = self.private_key_file
@@ -262,7 +262,7 @@ class SSH(mount.MountControl):
                 raise MountException( _('%(user)s is not member of group \'fuse\'.\n '
                                         'Run \'sudo adduser %(user)s fuse\'. To apply '
                                         'changes logout and login again.\nLook at '
-                                        '\'man backintime\' for further instructions.') 
+                                        '\'man backintime\' for further instructions.')
                                         % {'user': user})
 
     def check_login(self):
@@ -295,7 +295,7 @@ class SSH(mount.MountControl):
             err = proc.communicate()[1]
             if proc.returncode:
                 logger.debug('Ciper %s is not supported' %self.config.SSH_CIPHERS[self.cipher], self)
-                raise MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')  
+                raise MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')
                                       % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
 
     def benchmark_cipher(self, size = '40'):
@@ -421,7 +421,7 @@ class SSH(mount.MountControl):
             logger.debug('Rsync command returnd error: %s' %err, self)
             os.remove(tmp_file)
             raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
-                                    '%(err)s\nLook at \'man backintime\' for further instructions') 
+                                    '%(err)s\nLook at \'man backintime\' for further instructions')
                                     % {'host' : self.host, 'command' : rsync, 'err' : err})
         os.remove(tmp_file)
 
@@ -439,7 +439,7 @@ class SSH(mount.MountControl):
         #create tmp_RANDOM dir and file a
         cmd  = 'test -e $tmp || mkdir $tmp; touch $tmp/a; '
         tail.append(cmd)
-        
+
         #try to create hardlink b from a
         cmd  = 'echo \"cp -aRl SOURCE DEST\"; cp -aRl $tmp/a $tmp/b >/dev/null; err_cp=$?; '
         cmd += 'test $err_cp -ne 0 && cleanup $err_cp; '

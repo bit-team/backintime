@@ -406,4 +406,3 @@ class SnapshotsDialog( QDialog ):
         if snapshot_id:
             self.snapshot_id = snapshot_id
         QDialog.accept( self )
-

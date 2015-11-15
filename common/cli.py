@@ -47,7 +47,7 @@ def remove(cfg, snapshot_ids = None, force = None):
         [print(snapshots_.get_snapshot_display_name(sid)) for sid in sids]
         if not 'yes' == input('(no/yes): '):
             return
-    
+
     [snapshots_.remove_snapshot(sid) for sid in sids]
 
 def checkConfig(cfg, crontab = True):

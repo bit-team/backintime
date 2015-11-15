@@ -57,4 +57,3 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
 
     def on_new_snapshot( self, snapshot_id, snapshot_path ):
         self.notify_script( self.config.get_take_snapshot_user_script_new_snapshot(), "%s \"%s\"" % ( snapshot_id, snapshot_path ) )
-
