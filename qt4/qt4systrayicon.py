@@ -164,7 +164,6 @@ class Qt4SysTrayIcon:
         cmd = ['backintime-qt4',]
         if not profileID == '1':
             cmd += ['--profile-id', profileID]
-        cmd += ['&',]
         proc = subprocess.Popen(cmd)
 
 if __name__ == '__main__':
