@@ -420,6 +420,12 @@ def start_app(app_name = 'backintime'):
         return getConfig(args, False)
 
 def arg_parse(args):
+    def join(args, subArgs):
+        for key, value in vars(subArgs).items():
+            #only add new values if it isn't set already of if there really IS a value
+            if getattr(args, key, None) is None or value:
+                setattr(args, key, value)
+
     #first parse the main parser
     mainParser = parsers['main']
     args, unknownArgs = mainParser.parse_known_args(args)
@@ -429,17 +435,13 @@ def arg_parse(args):
     if 'command' in args and args.command in parsers:
         commandParser = parsers[args.command]
         subArgs, unknownArgs = commandParser.parse_known_args(unknownArgs)
-        for key, value in vars(subArgs).items():
-            if value is not None:
-                setattr(args, key, value)
+        join(args, subArgs)
 
     #if there are still arguments left, parse the main parser again
     #this makes sure we won't miss an argument
     if unknownArgs:
         subArgs, unknownArgs = mainParser.parse_known_args(unknownArgs)
-        for key, value in vars(subArgs).items():
-            if value is not None:
-                setattr(args, key, value)
+        join(args, subArgs)
 
     if 'debug' in args:
         logger.DEBUG = args.debug

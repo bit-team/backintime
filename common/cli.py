@@ -40,6 +40,8 @@ def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
 
 def remove(cfg, snapshot_ids = None, force = None):
     snapshots_ = snapshots.Snapshots(cfg)
+    if not snapshot_ids:
+        snapshot_ids = (None,)
     sids = [selectSnapshot(snapshots_, sid, 'SnapshotID to remove') for sid in snapshot_ids]
 
     if not force:
