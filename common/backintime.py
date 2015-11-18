@@ -422,7 +422,7 @@ def start_app(app_name = 'backintime'):
 def arg_parse(args):
     def join(args, subArgs):
         for key, value in vars(subArgs).items():
-            #only add new values if it isn't set already of if there really IS a value
+            #only add new values if it isn't set already or if there really IS a value
             if getattr(args, key, None) is None or value:
                 setattr(args, key, value)
 
