@@ -467,14 +467,14 @@ class SettingsDialog( QDialog ):
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
         self.cb_exclude_files_by_size = QCheckBox(_('Exclude files bigger than: '), self)
-        self.cb_exclude_files_by_size.setToolTip(_('Exclude files bigger than value in Mb.\n' +\
+        self.cb_exclude_files_by_size.setToolTip(_('Exclude files bigger than value in %(prefix)s.\n' +\
         'With \'Full rsync mode\' disabled this will only affect new files\n' +\
         'because for rsync this is a transfer option, not an exclude option.\n' +\
         'So big files that has been backed up before will remain in snapshots\n' +\
-        'even if they had changed.'))
+        'even if they had changed.' %{'prefix': 'MiB'}))
         hlayout.addWidget(self.cb_exclude_files_by_size)
         self.sb_exclude_files_by_size = QSpinBox(self)
-        self.sb_exclude_files_by_size.setSuffix(' MB')
+        self.sb_exclude_files_by_size.setSuffix(' MiB')
         self.sb_exclude_files_by_size.setRange( 0, 100000000 )
         hlayout.addWidget(self.sb_exclude_files_by_size)
         hlayout.addStretch()

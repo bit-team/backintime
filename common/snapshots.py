@@ -1669,7 +1669,7 @@ class Snapshots:
 
             min_free_space = self.config.get_min_free_space_in_mb()
 
-            logger.info("Keep min free disk space: %s Mb"
+            logger.info("Keep min free disk space: %s MiB"
                         %min_free_space, self)
 
             snapshots = self.get_snapshots_list( False )
@@ -1695,7 +1695,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                logger.info("free disk space: %s Mb" %free_space, self)
+                logger.info("free disk space: %s MiB" %free_space, self)
                 self.remove_snapshot( snapshots[0] )
                 del snapshots[0]
 

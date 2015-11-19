@@ -104,7 +104,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 MONTH : _('Month(s)')
                 }
 
-    MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
+    MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'MiB', DISK_UNIT_GB : 'GiB' }
 
     DEFAULT_EXCLUDE = [ '.gvfs', '.cache/*', '.thumbnails*', '[Tt]rash*',       \
                         '*.backup*', '*~', '.dropbox*', '/proc/*', '/sys/*',    \
@@ -766,7 +766,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value('snapshots.exclude.bysize.enabled', value, profile_id)
 
     def exclude_by_size(self, profile_id = None):
-        #?Exclude files bigger than value in Mb.
+        #?Exclude files bigger than value in MiB.
         #?With 'Full rsync mode' disabled this will only affect new files
         #?because for rsync this is a transfer option, not an exclude option.
         #?So big files that has been backed up before will remain in snapshots

@@ -53,8 +53,8 @@ A new snapshot is created only if something changed since the last snapshot
 .PP
 A snapshot contains all the files from the selected folders (except for exclude
 patterns). In order to reduce disk space it use hard\-links (if possible)
-between snapshots for unchanged files. This way a file of 10Mb, unchanged for
-10 snapshots, will use only 10Mb on the disk.
+between snapshots for unchanged files. This way a file of 10MiB, unchanged for
+10 snapshots, will use only 10MiB on the disk.
 .PP
 When you restore a file 'A', if it already exists on the file system it will be
 renamed to 'A.backup.currentdate'.
