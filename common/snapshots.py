@@ -1194,8 +1194,14 @@ class Snapshots:
         find_suffix = self.config.find_suffix()
 
         if os.path.exists( new_snapshot_path() ):
-            self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (new_snapshot_path(), find_suffix) ) #Debian patch
-            self._execute( "rm -rf \"%s\"" % new_snapshot_path() )
+            logger.info("Remove leftover '%s' folder from last run" %new_snapshot_id)
+            self.set_take_snapshot_message(0, _("Remove leftover '%s' folder from last run") %new_snapshot_id)
+            self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
+                                       %(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
+                                       quote = True)) #Debian patch
+            self._execute(self.cmd_ssh("rm -rf \"%s\""
+                                       %os.path.join(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), 'backup') ))
+            self._execute("rm -rf \"%s\"" %new_snapshot_path())
 
             if os.path.exists( new_snapshot_path() ):
                 logger.error("Can't remove folder: %s" % new_snapshot_path(), self )
