@@ -1004,7 +1004,7 @@ class MainWindow( QMainWindow ):
 
     def on_btn_remove_snapshot_clicked ( self ):
         items = [item for item in self.get_list_time_line_selection(True) if len(self.time_line_get_snapshot_id(item)) > 1]
-        if not snapshot_ids:
+        if not items:
             return
 
         if QMessageBox.Yes != messagebox.warningYesNo( self, \
