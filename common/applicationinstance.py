@@ -18,6 +18,7 @@
 
 import os
 import fcntl
+import errno
 
 import logger
 
@@ -43,24 +44,14 @@ class ApplicationInstance:
         self.flockUnlock()
 
     def check( self, auto_exit = False ):
-        '''check if the current application is already running, returns True if this is the application instance
+        '''check if the current application is already running
+        returns True if this is the only application instance
         '''
         #check if the pidfile exists
         if not os.path.isfile( self.pid_file ):
             return True
 
-        #read the pid from the file
-        pid = 0
-        procname = ''
-        try:
-            with open( self.pid_file, 'rt' ) as f:
-                data = f.read()
-            data = data.split('\n', 1)
-            pid = int(data[0])
-            if len(data) > 1:
-                procname = data[1].strip('\n')
-        except OSError as e:
-            logger.warning('Failed to read PID and process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
+        pid, procname = self.readPidFile()
 
         #check if the process with specified by pid exists
         if 0 == pid:
@@ -68,11 +59,15 @@ class ApplicationInstance:
 
         try:
             os.kill( pid, 0 )	#this will raise an exception if the pid is not valid
-        except:
-            return True
+        except OSError as err:
+            if err.errno == errno.ESRCH:
+                #no such process
+                return True
+            else:
+                raise
 
         #check if the process has the same procname
-        if procname and not procname == self.readProcName(pid):
+        if procname and procname != self.readProcName(pid):
             return True
 
         if auto_exit:
@@ -132,6 +127,22 @@ class ApplicationInstance:
         except OSError as e:
             logger.warning('Failed to read process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
             return ''
+
+    def readPidFile(self):
+        '''read the pid and procname from the file'''
+        pid = 0
+        procname = ''
+        try:
+            with open( self.pid_file, 'rt' ) as f:
+                data = f.read()
+            data = data.split('\n', 1)
+            pid = int(data[0])
+            if len(data) > 1:
+                procname = data[1].strip('\n')
+        except OSError as e:
+            logger.warning('Failed to read PID and process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
+        return (pid, procname)
+
 
 if __name__ == '__main__':
     import time

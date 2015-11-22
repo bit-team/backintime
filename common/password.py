@@ -22,12 +22,14 @@ import signal
 import subprocess
 import gettext
 import re
+import errno
 
 import config
 import configfile
 import tools
 import password_ipc
 import logger
+from applicationinstance import ApplicationInstance
 from exceptions import Timeout
 
 _=gettext.gettext
@@ -47,6 +49,7 @@ class Daemon:
         self.stdout = stdout
         self.stderr = stderr
         self.pidfile = pidfile
+        self.appInstance = ApplicationInstance(pidfile, auto_exit = False, flock = False)
 
     def daemonize(self):
         """
@@ -91,39 +94,24 @@ class Daemon:
 
         # write pidfile
         logger.debug('write pidfile', self)
-        atexit.register(self.delpid)
+        atexit.register(self.appInstance.exit_application)
         signal.signal(signal.SIGTERM, self._cleanup_handler)
-        pid = str(os.getpid())
-        with open(self.pidfile, 'w+') as pidfile:
-            pidfile.write("%s\n" % pid)
-        os.chmod(self.pidfile, 0o600)
+        self.appInstance.start_application()
 
     def _cleanup_handler(self, signum, frame):
         self.fifo.delfifo()
-        self.delpid()
+        self.appInstance.exit_application()
         sys.exit(0)
-
-    def delpid(self):
-        logger.debug('clean-up pid file', self)
-        try:
-            os.remove(self.pidfile)
-        except:
-            pass
 
     def start(self):
         """
         Start the daemon
         """
         # Check for a pidfile to see if the daemon already runs
-        pid = self.read_pid()
-
-        if pid:
-            if tools.is_process_alive(pid):
-                message = "pidfile %s already exist. Daemon already running?\n"
-                logger.error(message % self.pidfile, self)
-                sys.exit(1)
-            else:
-                self.delpid()
+        if not self.appInstance.check():
+            message = "pidfile %s already exist. Daemon already running?\n"
+            logger.error(message % self.pidfile, self)
+            sys.exit(1)
 
         # Start the daemon
         self.daemonize()
@@ -134,7 +122,7 @@ class Daemon:
         Stop the daemon
         """
         # Get the pid from the pidfile
-        pid = self.read_pid()
+        pid, procname = self.appInstance.readPidFile()
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
@@ -143,13 +131,13 @@ class Daemon:
 
         # Try killing the daemon process
         try:
-            while 1:
+            while True:
                 os.kill(pid, signal.SIGTERM)
                 time.sleep(0.1)
         except OSError as err:
-            if err.errno == 3:
-                if os.path.exists(self.pidfile):
-                    os.remove(self.pidfile)
+            if err.errno == errno.ESRCH:
+                #no such process
+                self.appInstance.exit_application()
             else:
                 logger.error(str(err), self)
                 sys.exit(1)
@@ -166,7 +154,7 @@ class Daemon:
         send SIGHUP signal to process
         """
         # Get the pid from the pidfile
-        pid = self.read_pid()
+        pid, procname = self.appInstance.readPidFile()
 
         if not pid:
             message = "pidfile %s does not exist. Daemon not running?\n"
@@ -177,9 +165,9 @@ class Daemon:
         try:
             os.kill(pid, signal.SIGHUP)
         except OSError as err:
-            if err.errno == 3:
-                if os.path.exists(self.pidfile):
-                    os.remove(self.pidfile)
+            if err.errno == errno.ESRCH:
+                #no such process
+                self.appInstance.exit_application()
             else:
                 sys.stderr.write(str(err))
                 sys.exit(1)
@@ -188,28 +176,7 @@ class Daemon:
         """
         return status
         """
-        # Get the pid from the pidfile
-        pid = self.read_pid()
-
-        if not pid:
-            return False
-
-        #kill -0 can false report process alive because of still active threads
-        cmd = ['ps', 'ax', '-o', 'pid=', '-o', 'args=']
-        p = subprocess.Popen(cmd, stdout = subprocess.PIPE, universal_newlines = True)
-        output = p.communicate()[0]
-
-        c = re.compile(r'(\d+) (.*)')
-        for line in output.split('\n'):
-            res = c.findall(line)
-            if res:
-                pid_ = int(res[0][0])
-                name_ = res[0][1]
-                if pid_ == pid and name_.find('backintime.py --pw-cache') or name_.find('backintime.py pw-cache'):
-                    return True
-        if os.path.exists(self.pidfile):
-            os.remove(self.pidfile)
-        return False
+        return not self.appInstance.check()
 
     def run(self):
         """
@@ -217,14 +184,6 @@ class Daemon:
         daemonized by start() or restart().
         """
         pass
-
-    def read_pid(self):
-        """read PID from PID-file"""
-        try:
-            with open(self.pidfile, 'r') as pf:
-                return(int(pf.read().strip()))
-        except (IOError, ValueError, FileNotFoundError):
-            return(None)
 
 class Password_Cache(Daemon):
     """
