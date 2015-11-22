@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,36 +17,32 @@
 
 
 import os
-import os.path
-import sys
-import datetime
 import gettext
-import copy
+
+import tools
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-import config
-import tools
 import qt4tools
 
 
 _=gettext.gettext
 
 
-def restore( parent, snapshot_id, what, where = '' ):
+def restore( parent, snapshot_id, what, where = '', **kwargs ):
     if where is None:
         where = qt4tools.getExistingDirectory( parent, _('Restore to ...') )
         if not where:
             return
         where = parent.config.prepare_path( where )
 
-    RestoreDialog(parent, snapshot_id, what, where).exec_()
-
+    rd = RestoreDialog(parent, snapshot_id, what, where, **kwargs)
+    rd.exec()
 
 class RestoreDialog( QDialog ):
-    def __init__( self, parent, snapshot_id, what, where = '' ):
-        QDialog.__init__( self, parent )
+    def __init__( self, parent, snapshot_id, what, where = '', **kwargs ):
+        super(RestoreDialog, self).__init__(parent)
         self.resize( 600, 500 )
 
         self.config = parent.config
@@ -55,6 +51,7 @@ class RestoreDialog( QDialog ):
         self.snapshot_id = snapshot_id
         self.what = what
         self.where = where
+        self.kwargs = kwargs
         import icon
 
         self.log_file = self.config.get_restore_log_file()
@@ -67,27 +64,77 @@ class RestoreDialog( QDialog ):
         self.main_layout = QVBoxLayout(self)
 
         #text view
-        self.txt_log_view = QTextEdit( self )
-        self.txt_log_view.setReadOnly( True)
-        self.main_layout.addWidget( self.txt_log_view )
+        self.txt_log_view = QPlainTextEdit(self)
+        self.txt_log_view.setReadOnly(True)
+        self.txt_log_view.setLineWrapMode(QPlainTextEdit.NoWrap)
+        self.txt_log_view.setMaximumBlockCount(100000)
+        self.main_layout.addWidget(self.txt_log_view)
 
         #buttons
         button_box = QDialogButtonBox(QDialogButtonBox.Close)
+        showLog = button_box.addButton(_('Show full Log'), QDialogButtonBox.ActionRole)
         self.main_layout.addWidget(button_box)
         self.btn_close = button_box.button(QDialogButtonBox.Close)
-        QObject.connect(button_box, SIGNAL('rejected()'), self.close)
-
         self.btn_close.setEnabled(False)
+        button_box.rejected.connect(self.close)
+        showLog.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.log_file)))
 
-    def callback(self, line, *params ):
-        self.txt_log_view.append(line)
-        QApplication.processEvents()
-        with open(self.log_file, 'a') as log:
-            log.write(line + '\n')
+        #restore in separate thread
+        self.thread = RestoreThread(self)
+        self.thread.finished.connect(self.threadFinished)
 
-    def exec_(self):
+        #refresh log every 200ms
+        self.refreshTimer = QTimer(self)
+        self.refreshTimer.setInterval(200)
+        self.refreshTimer.setSingleShot(False)
+        self.refreshTimer.timeout.connect(self.refreshLog)
+
+    def refreshLog(self):
+        """get new log from thread
+        """
+        newLog = self.thread.buffer[:]
+        size = len(newLog)
+        if size:
+            self.thread.mutex.lock()
+            self.thread.buffer = self.thread.buffer[size:]
+            self.thread.mutex.unlock()
+            self.txt_log_view.appendPlainText(newLog.rstrip('\n'))
+
+    def exec(self):
+        #inhibit suspend/hibernate during restore
+        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId, reason = 'restoring')
         self.show()
-        QApplication.processEvents()
-        self.snapshots.restore( self.snapshot_id, self.what, self.callback, self.where )
+        self.refreshTimer.start()
+        self.thread.start()
+        super(RestoreDialog, self).exec()
+        self.refreshTimer.stop()
+        self.thread.wait()
+
+    def threadFinished(self):
         self.btn_close.setEnabled(True)
-        QDialog.exec_(self)
+        #release inhibit suspend
+        if self.config.inhibitCookie:
+            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+
+class RestoreThread(QThread):
+    """run restore in a separate Thread to prevent GUI freeze and speed up restore
+    """
+    def __init__(self, parent):
+        super(RestoreThread, self).__init__()
+        self.parent = parent
+        self.log = open(parent.log_file, 'wt')
+        self.mutex = QMutex()
+        self.buffer = ''
+
+    def run(self):
+        self.parent.snapshots.restore(self.parent.snapshot_id, self.parent.what, self.callback, self.parent.where, **self.parent.kwargs)
+        self.log.close()
+
+    def callback(self, line, *args):
+        """write into log file and provide thread save string for log window
+        """
+        line += '\n'
+        self.log.write(line)
+        self.mutex.lock()
+        self.buffer += line
+        self.mutex.unlock()

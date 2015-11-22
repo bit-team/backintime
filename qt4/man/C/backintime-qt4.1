@@ -1,97 +1,151 @@
-.TH backintime-qt4 1 "Oct 2013" "version 1.1.0~alpha03" "USER COMMANDS"
+.TH backintime-qt4 1 "July 2015" "version 1.1.9" "USER COMMANDS"
 .SH NAME
 backintime-qt4 \- a simple backup tool.
 .SH SYNOPSIS
 .B backintime-qt4
-[ \-\-profile <profile name> |
-\-\-profile\-id <profile id> ] 
-[ \-\-keep\-mount ] 
-[ \-\-quiet ] 
-[ \-\-config PATH ] 
-[ \-\-checksum ] 
-[ \-\-backup | \-\-backup\-job |
-\-\-snapshots\-path |
-\-\-snapshots\-list | \-\-snapshots\-list\-path |
-\-\-last\-snapshot | \-\-last\-snapshot\-path |
-\-\-unmount |
-\-\-benchmark-cipher [SIZE] |
-\-\-pw\-cache [start|stop|restart|reload|status] |
-\-\-decode [PATH] |
-\-\-restore [WHAT [WHERE [SNAPSHOT_ID]]] |
-\-\-help | \-\-version | \-\-license ]
+[\-\-checksum]
+[\-\-config PATH]
+[\-\-debug]
+[\-\-delete]
+[\-\-help | \-h]
+[\-\-keep\-mount]
+[\-\-license]
+[\-\-local\-backup]
+[\-\-no\-crontab]
+[\-\-no\-local\-backup]
+[\-\-profile NAME |
+\-\-profile\-id ID]
+[\-\-quiet]
+[\-\-version]
+
+{ backup | backup\-job |
+benchmark-cipher [FILE-SIZE] |
+check-config |
+decode [PATH] |
+last\-snapshot | last\-snapshot\-path |
+pw\-cache [start|stop|restart|reload|status] |
+remove[\-and\-do\-not\-ask\-again] [SNAPSHOT_ID] |
+restore [WHAT [WHERE [SNAPSHOT_ID]]] |
+snapshots\-list | snapshots\-list\-path |
+snapshots\-path |
+unmount }
+
 .SH DESCRIPTION
 Back In Time is a simple backup tool for Linux. This is the Qt4 version.
 For more information about Back In Time see backintime man page.
 .PP
-If you want to run it as root you need to use 'kdesudo'.
-.SH OPTIONS (use these before other actions)
-.TP
-\-\-profile <profile name>
-select profile by name
-.TP
-\-\-profile\-id <profile id>
-select profile by id
-.TP
-\-\-keep\-mount
-Don't unmount on exit. Only valid with \-\-snapshots\-list\-path and \-\-last\-snapshot\-path.
-.TP
-\-\-quiet
-suppress status messages on standard output.
-.TP
-\-\-config PATH
-read config from PATH.
+If you want to run it as root you need to use 'pkexec backintime-qt4'.
+.SH OPTIONS
 .TP
 \-\-checksum
-force to use checksum for checking if files have been changed. This is the same as 'Use checksum to detect changes' in Options. But you can use this to periodically run checksums from cronjobs.
-.SH ACTIONS
+Force to use checksum for checking if files have been changed. This is the same
+as 'Use checksum to detect changes' in Options. But you can use this to
+periodically run checksums from cronjobs. Only valid with \fIbackup\fR,
+\fIbackup-job\fR and \fIrestore\fR.
 .TP
-\-b, \-\-backup
-take a snapshot now (if needed) 
+\-\-config PATH
+Read config from PATH.
 .TP
-\-\-backup\-job
-take a snapshot (if needed) depending on schedule rules (used for cron jobs)
+--debug
+Show debug messages.
 .TP
-\-\-snapshots\-path
-display path where is saves the snapshots (if configured) 
-.TP
-\-\-snapshots\-list
-display the list of snapshot IDs (if any)
-.TP
-\-\-snapshots\-list\-path
-display the paths to snapshots (if any)
-.TP
-\-\-last\-snapshot
-display last snapshot ID (if any)
-.TP
-\-\-last\-snapshot\-path
-display the path to the last snapshot (if any)
-.TP
- \-\-unmount
-Unmount the profile.
-.TP
-\-\-benchmark-cipher [SIZE]
-Show a benchmark of all ciphers for ssh transfer.
-.TP
-\-\-pw\-cache [start|stop|restart|reload|status]
-Control the Password Cache Daemon. If no argument is given the Password Cache will start in foreground.
-.TP
-\-\-decode [PATH]
-decode encrypted PATH. If no PATH is given Backintime will read paths from standard input.
-.TP
-\-\-restore [WHAT [WHERE [SNAPSHOT_ID]]]
-Restore file WHAT to path WHERE from snapshot SNAPSHOT_ID. If arguments are missing they will be prompted. To restore to the original path WHERE can be an empty string '' or just press Enter at the prompt. SNAPSHOT_ID can be an index (starting with 0 for the last snapshot) or the exact SnapshotID (19 caracters like '20130606-230501-984')
+--delete
+Restore and delete newer files which are not in the snapshot.
+WARNING: deleting files in filesystem root could break your whole system!!!
+Only valid with \fIrestore\fR.
 .TP
 \-h, \-\-help
-display a short help
+Display a short help
 .TP
-\-v, \-\-version
-show version
+\-\-keep\-mount
+Don't unmount on exit. Only valid with \fIsnapshots\-path\fR, \fIsnapshots\-list\-path\fR and
+\fIlast\-snapshot\-path\fR.
 .TP
 \-\-license
-show license
+Show license
+.TP
+--local-backup
+Create backup files before changing local files.
+Only valid with \fIrestore\fR.
+.TP
+--no-crontab
+Do not install crontab entries.
+Only valid with \fIcheck-config\fR.
+.TP
+--no-local-backup
+Temporary disable creation of backup files before changing local files.
+Only valid with \fIrestore\fR.
+.TP
+\-\-profile NAME
+Select profile by name
+.TP
+\-\-profile\-id ID
+Select profile by id
+.TP
+\-\-quiet
+Suppress status messages on standard output.
+.TP
+\-v, \-\-version
+Show version
+
+.SH COMMANDS
+.TP
+backup | \-b | \-\-backup
+Take a snapshot now (if needed)
+.TP
+backup\-job | \-\-backup\-job
+Take a snapshot (if needed) depending on schedule rules (used for cron jobs).
+Back In Time will run in background for this.
+.TP
+benchmark-cipher | \-\-benchmark-cipher [FILE-SIZE]
+Show a benchmark of all ciphers for ssh transfer.
+.TP
+check-config
+Verify the profile in config, create snapshot path and crontab entries.
+.TP
+decode | \-\-decode [PATH]
+Decode encrypted PATH. If no PATH is given Back In Time will read paths from
+standard input.
+.TP
+last\-snapshot | \-\-last\-snapshot
+Display last snapshot ID (if any)
+.TP
+last\-snapshot\-path | \-\-last\-snapshot\-path
+Display the path to the last snapshot (if any)
+.TP
+pw\-cache | \-\-pw\-cache [start|stop|restart|reload|status]
+Control the Password Cache Daemon. If no argument is given the Password Cache
+will start in foreground.
+.TP
+remove[\-and\-do\-not\-ask\-again] | \-\-remove[\-and\-do\-not\-ask\-again] [SNAPSHOT_ID]
+Remove the snapshot. If SNAPSHOT_ID is missing it will be prompted. SNAPSHOT_ID
+can be an index (starting with 0 for the last snapshot) or the exact SnapshotID
+(19 caracters like '20130606-230501-984').
+\fIremove\-and\-do\-not\-ask\-again\fR will remove the snapshot immediately.
+Be careful with this!
+.TP
+restore | \-\-restore [WHAT [WHERE [SNAPSHOT_ID]]]
+Restore file WHAT to path WHERE from snapshot SNAPSHOT_ID. If arguments are
+missing they will be prompted. To restore to the original path WHERE can be an
+empty string '' or just press Enter at the prompt. SNAPSHOT_ID can be an index
+(starting with 0 for the last snapshot) or the exact SnapshotID
+(19 caracters like '20130606-230501-984')
+.TP
+snapshots\-list | \-\-snapshots\-list
+Display the list of snapshot IDs (if any)
+.TP
+snapshots\-list\-path | \-\-snapshots\-list\-path
+Display the paths to snapshots (if any)
+.TP
+snapshots\-path | \-\-snapshots\-path
+Display path where is saves the snapshots (if configured)
+.TP
+unmount | \-\-unmount
+Unmount the profile.
+
 .SH SEE ALSO
 backintime, backintime-config.
 .PP
-Back In Time also has a website: http://backintime.le\-web.org
+Back In Time also has a website: https://github.com/bit-team/backintime
 .SH AUTHOR
 This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).

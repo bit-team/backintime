@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 
 import sys
 import os
-import time
 import gettext
 import subprocess
 
@@ -27,17 +26,16 @@ _=gettext.gettext
 if not os.getenv( 'DISPLAY', '' ):
     os.putenv( 'DISPLAY', ':0.0' )
 
-sys.path = [os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), 'common' )] + sys.path
+import qt4tools
+qt4tools.register_backintime_path('common')
 
-import backintime
-import config
 import tools
 import logger
 import snapshots
 import progress
 
 from PyQt4.QtCore import QObject, SIGNAL, QTimer
-from PyQt4.QtGui import QApplication, QSystemTrayIcon, QIcon, QMenu, QProgressBar, QWidget, QRegion
+from PyQt4.QtGui import QSystemTrayIcon, QIcon, QMenu, QProgressBar, QWidget, QRegion
 
 
 class Qt4SysTrayIcon:
@@ -46,13 +44,11 @@ class Qt4SysTrayIcon:
         self.config = self.snapshots.config
 
         if len( sys.argv ) > 1:
-            try:
-                profile_id = int( sys.argv[1] )
-                self.config.set_current_profile( profile_id )
-            except:
-                pass
+            if not self.config.set_current_profile(sys.argv[1]):
+                logger.warning("Failed to change Profile_ID %s"
+                               %sys.argv[1], self)
 
-        self.qapp = QApplication(sys.argv)
+        self.qapp = qt4tools.create_qapplication(self.config.APP_NAME)
 
         import icon
         self.icon = icon
@@ -61,6 +57,10 @@ class Qt4SysTrayIcon:
         self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
         #self.status_icon.actionCollection().clear()
         self.contextMenu = QMenu()
+
+        self.menuProfileName = self.contextMenu.addAction(_('Profile: "%s"') % self.config.get_profile_name())
+        qt4tools.set_font_bold(self.menuProfileName)
+        self.contextMenu.addSeparator()
 
         self.menuStatusMessage = self.contextMenu.addAction(_('Done'))
         self.menuProgress = self.contextMenu.addAction('')
@@ -105,11 +105,11 @@ class Qt4SysTrayIcon:
         self.status_icon.show()
         self.timer.start( 500 )
 
-        logger.info( "[qt4systrayicon] begin loop" )
+        logger.info("[qt4systrayicon] begin loop", self)
 
         self.qapp.exec_()
-        
-        logger.info( "[qt4systrayicon] end loop" )
+
+        logger.info("[qt4systrayicon] end loop", self)
 
         self.prepare_exit()
 
@@ -122,7 +122,7 @@ class Qt4SysTrayIcon:
         message = self.snapshots.get_take_snapshot_message()
         if message is None and self.last_message is None:
             message = ( 0, _('Working...') )
-            
+
         if not message is None:
             if message != self.last_message:
                 self.last_message = message
@@ -141,13 +141,13 @@ class Qt4SysTrayIcon:
                 self.progressBar.setValue(percent)
                 self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
                 self.status_icon.setIcon(QIcon(self.pixmap))
-            
+
             self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)) )
             self.menuProgress.setVisible(True)
         else:
             self.status_icon.setIcon(self.icon.BIT_LOGO)
             self.menuProgress.setVisible(False)
-        
+
 
     def getMenuProgress(self, pg):
         d = (('sent',   _('Sent:')), \
@@ -158,10 +158,13 @@ class Qt4SysTrayIcon:
             if not value:
                 continue
             yield txt + ' ' + value
-    
+
     def onStartBIT(self):
-        proc = subprocess.Popen(['backintime-qt4', '&'])
+        profileID = self.config.get_current_profile()
+        cmd = ['backintime-qt4',]
+        if not profileID == '1':
+            cmd += ['--profile-id', profileID]
+        proc = subprocess.Popen(cmd)
 
 if __name__ == '__main__':
     Qt4SysTrayIcon().run()
-

@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ class NotifyPlugin( pluginmanager.Plugin ):
             cmd = "notify-send "
             if timeout > 0:
                 cmd = cmd + " -t %s" % (1000 * timeout)
-            
+
             title = "Back In Time (%s) : %s" % (self.user, profile_name)
             message = message.replace("\n", ' ')
             message = message.replace("\r", '')
@@ -76,4 +76,3 @@ class NotifyPlugin( pluginmanager.Plugin ):
             print(cmd)
             os.system(cmd)
         return
-

@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,11 +19,13 @@
 import os
 import sys
 import subprocess
-import hashlib
 import signal
 import re
 import dbus
-from datetime import datetime, timedelta
+import errno
+import gzip
+import tempfile
+from datetime import datetime
 from distutils.version import StrictVersion
 keyring = None
 keyring_warn = False
@@ -37,6 +39,7 @@ except:
 
 import configfile
 import logger
+from exceptions import Timeout, InvalidChar, PermissionDeniedByPolicy
 
 ON_AC = 0
 ON_BATTERY = 1
@@ -44,35 +47,56 @@ POWER_ERROR = 255
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
+def get_share_path():
+    share = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
+    if os.path.basename(share) == 'share':
+        return share
+    else:
+        return '/usr/share'
 
-def get_backintime_path( path ):
-    return os.path.join( os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) ), path )
+def get_backintime_path(*path):
+    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
-
-def register_backintime_path( path ):
-    path = get_backintime_path( path )
+def register_backintime_path(*path):
+    '''find duplicate in qt4/qt4tools.py
+    '''
+    path = get_backintime_path(*path)
     if not path in sys.path:
         sys.path = [path] + sys.path
 
+def get_bzr_revno():
+    last_rev = os.path.join(os.path.dirname(__file__), os.pardir, '.bzr', 'branch', 'last-revision')
+    if os.path.exists(last_rev):
+        with open(last_rev, 'r') as f:
+            args = f.read().split(' ')
+            if args:
+                return args[0]
 
 def read_file( path, default_value = None ):
-    ret_val = default_value 
+    ret_val = default_value
 
     try:
-        with open( path ) as file:
-            ret_val = file.read()
+        if os.path.exists(path):
+            with open( path ) as f:
+                ret_val = f.read()
+        elif os.path.exists(path + '.gz'):
+            with gzip.open(path + '.gz') as f:
+                ret_val = f.read().decode()
     except:
         pass
 
     return ret_val
 
-
 def read_file_lines( path, default_value = None ):
-    ret_val = default_value 
+    ret_val = default_value
 
     try:
-        with open( path ) as file:
-            ret_val = file.readlines()
+        if os.path.exists(path):
+            with open( path ) as f:
+                ret_val = f.readlines()
+        elif os.path.exists(path + '.gz'):
+            with gzip.open(path + '.gz') as f:
+                ret_val = [b.decode() for b in f.readlines()]
     except:
         pass
 
@@ -85,7 +109,7 @@ def read_command_output( cmd ):
     try:
         pipe = os.popen( cmd )
         ret_val = pipe.read().strip()
-        pipe.close() 
+        pipe.close()
     except:
         return ''
 
@@ -193,7 +217,7 @@ def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
     for item in biglist:
         if len( item ) != 15 and len( item ) != 19:
             list_.append( item )
-        else: 
+        else:
             if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
                 continue
             else:
@@ -213,12 +237,12 @@ def move_snapshots_folder( old_folder, new_folder ):
     if os.path.exists( new_folder ) == True:
         snapshots_already_there = get_snapshots_list_in_folder( new_folder )
     else:
-        make_dirs( new_folder )	
+        make_dirs( new_folder )
     print("To move: %s" % snapshots_to_move)
     print("Already there: %s" % snapshots_already_there)
     snapshots_expected = snapshots_to_move + snapshots_already_there
     print("Snapshots expected: %s" % snapshots_expected)
-    
+
     # Check if both folders are within the same os
     device_old = os.stat( old_folder ).st_dev
     device_new = os.stat( new_folder ).st_dev
@@ -229,14 +253,14 @@ def move_snapshots_folder( old_folder, new_folder ):
             _execute( cmd )
     else:
         # Use rsync
-        # Prepare hardlinks 
+        # Prepare hardlinks
         if snapshots_already_there:
             first_snapshot_path = os.path.join( new_folder, snapshots_to_move[ len( snapshots_to_move ) - 1 ] )
             snapshot_to_hardlink_path =  os.path.join( new_folder, snapshots_already_there[0] )
             _execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % snapshot_to_hardlink_path )
             cmd = "cp -al \"%s\" \"%s\"" % ( snapshot_to_hardlink_path, first_snapshot_path )
             _execute( cmd )
-    
+
         # Prepare excludes
         nonsnapshots = get_nonsnapshots_list_in_folder( old_folder )
         print("Nonsnapshots: %s" % nonsnapshots)
@@ -247,12 +271,12 @@ def move_snapshots_folder( old_folder, new_folder ):
                     break
             items.append( "--exclude=\"%s\"" % nonsnapshot )
         rsync_exclude = ' '.join( items )
-        
+
         # Move move move
         cmd = "rsync -aEAXHv --delete " + old_folder + " " + new_folder + " " + rsync_exclude
         _execute( cmd )
-        _execute ( "find \"%s\" \"%s\" -type d -exec chmod a-w {} \\;" % ( snapshots_to_hardlink_path, first_snapshot_path ) )
-        
+        _execute ( "find \"%s\" \"%s\" -type d -exec chmod a-w {} \\;" % ( snapshot_to_hardlink_path, first_snapshot_path ) )
+
     # Remove old ones
     snapshots_not_moved = []
     for snapshot in snapshots_to_move:
@@ -266,9 +290,9 @@ def move_snapshots_folder( old_folder, new_folder ):
                 _execute( cmd )
             else:
                 print("%s was already removed" %snapshot)
-        else: 
+        else:
             snapshots_not_moved.append( snapshot )
-                
+
     # Check snapshot list
     if snapshots_not_moved:
         print("Error! Not moved: %s\n" %snapshots_not_moved)
@@ -277,6 +301,7 @@ def move_snapshots_folder( old_folder, new_folder ):
     return True
 
 def _execute( cmd, callback = None, user_data = None ):
+    logger.debug("Call command \"%s\"" %cmd, traceDepth = 1)
     ret_val = 0
 
     if callback is None:
@@ -295,9 +320,13 @@ def _execute( cmd, callback = None, user_data = None ):
             ret_val = 0
 
     if ret_val != 0:
-        print("Command \"%s\" returns %s" % ( cmd, ret_val ))
+        logger.warning("Command \"%s\" returns %s"
+                       %(cmd, ret_val),
+                       traceDepth = 1)
     else:
-        print("Command \"%s\" returns %s" % ( cmd, ret_val ))
+        logger.debug("Command \"%s...\" returns %s"
+                     %(cmd[:min(16, len(cmd))], ret_val),
+                     traceDepth = 1)
 
     return ret_val
 
@@ -381,7 +410,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
         cmd = cmd + ' -pEgo'
 
     if 'progress2' in caps:
-        cmd += ' --info=progress2'
+        cmd += ' --info=progress2 --no-i-r'
 
     if config.rsync_options_enabled():
         cmd += ' ' + config.rsync_options()
@@ -394,7 +423,10 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
             ssh_cipher_suffix = ''
         else:
             ssh_cipher_suffix = '-c %s' % ssh_cipher
-        cmd = cmd + ' --rsh="ssh -p %s %s"' % ( str(ssh_port), ssh_cipher_suffix)
+        # specifying key file here allows to override for potentially
+        # conflicting .ssh/config key entry
+        ssh_private_key = "-o IdentityFile=%s" % config.get_ssh_private_key_file()
+        cmd += ' --rsh="ssh -p %s %s %s"' % ( str(ssh_port), ssh_cipher_suffix, ssh_private_key)
 
         if config.bwlimit_enabled():
             cmd = cmd + ' --bwlimit=%d' % config.bwlimit()
@@ -413,8 +445,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
 
     return cmd + ' '
 
-
-def temp_failure_retry(func, *args, **kwargs): 
+def temp_failure_retry(func, *args, **kwargs):
     while True:
         try:
             return func(*args, **kwargs)
@@ -424,31 +455,30 @@ def temp_failure_retry(func, *args, **kwargs):
             else:
                 raise
 
-
 def _get_md5sum_from_path(path):
-    '''return md5sum of path, af available system command md5sum()'''   
+    '''return md5sum of path, af available system command md5sum()'''
     if check_command("md5sum"):
         status,output = subprocess.getstatusoutput("md5sum '" + path + "'")
         if status == 0:
             md5sum = output.split(" ")[0]
             return md5sum
-    # md5sum unavailable or command failed; raise an exception ? a message ? use std lib ? 
+    # md5sum unavailable or command failed; raise an exception ? a message ? use std lib ?
     print("warning: md5sum() fail ! used (st_size, st_mttime) instead of md5sum.")
     obj  = os.stat(path)
-    unique_key = (obj.st_size, int(obj.st_mtime))    
+    unique_key = (obj.st_size, int(obj.st_mtime))
     return unique_key
-        
-def check_cron_pattern(str):
-    '''check if str look like '0,10,13,15,17,20,23' or '*/6' '''
-    if str.find(' ') >= 0:
+
+def check_cron_pattern(s):
+    '''check if s look like '0,10,13,15,17,20,23' or '*/6' '''
+    if s.find(' ') >= 0:
         return False
     try:
-        if str.startswith('*/'):
-            if int(str[2:]) <= 24:
+        if s.startswith('*/'):
+            if int(s[2:]) <= 24:
                 return True
             else:
                 return False
-        list_ = str.split(',')
+        list_ = s.split(',')
         for s in list_:
             if int(s) <= 24:
                 continue
@@ -458,18 +488,10 @@ def check_cron_pattern(str):
     except ValueError:
         return False
 
-def check_mountpoint(path):
-    '''return True if path is a mountpoint'''
-    try:
-        subprocess.check_call(['mountpoint', path], stdout=open(os.devnull, 'w'))
-    except subprocess.CalledProcessError:
-        return False
-    return True
-
 def check_home_encrypt():
     '''return True if users home is encrypted'''
     home = os.path.expanduser('~')
-    if not check_mountpoint(home):
+    if not os.path.ismount(home):
         return False
     if check_command('ecryptfs-verify'):
         try:
@@ -489,10 +511,10 @@ def check_home_encrypt():
                 return True
     return False
 
-def load_env(cfg):
+def load_env(f):
     env = os.environ.copy()
     env_file = configfile.ConfigFile()
-    env_file.load(cfg.get_cron_env_file(), maxsplit = 1)
+    env_file.load(f, maxsplit = 1)
     for key in env_file.get_keys():
         value = env_file.get_str_value(key)
         if not value:
@@ -501,7 +523,7 @@ def load_env(cfg):
             os.environ[key] = value
     del(env_file)
 
-def save_env(cfg):
+def save_env(f):
     """
     save environ variables to file that are needed by cron
     to connect to keyring. This will only work if the user is logged in.
@@ -513,8 +535,8 @@ def save_env(cfg):
               'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
               'KDE_FULL_SESSION'):
         set_env_key(env, env_file, i)
-    
-    env_file.save(cfg.get_cron_env_file())
+
+    env_file.save(f)
     del(env_file)
 
 def set_env_key(env, env_file, key):
@@ -552,18 +574,37 @@ def set_password(*args):
     return False
 
 def get_mountpoint(path):
-    '''return (DEVICE, MOUNTPOINT) for given PATH'''
-    if os.path.exists(path):
-        cmd = ['df', '-P', path]
-        p = subprocess.Popen(cmd, stdout = subprocess.PIPE, universal_newlines = True)
-        output = p.communicate()[0]
-        #search for: /dev/sdc1  880940  8   880932  1% /mnt/foo
-        c = re.compile(r'(/[^ \t]*)(?:[ \t]+[\d]+){4}%?[ \t]+(/.*)')
-        for line in output.split('\n'):
-            m = c.match(line)
-            if not m is None:
-                return (m.group(1), m.group(2))
-    return (None, None)
+    '''return MOUNTPOINT for given PATH'''
+    path = os.path.realpath(os.path.abspath(path))
+    while path != os.path.sep:
+        if os.path.ismount(path):
+            return path
+        path = os.path.abspath(os.path.join(path, os.pardir))
+    return path
+
+def get_mount_args(path):
+    '''return a tuple of mount arguments from /proc/mounts'''
+    mp = get_mountpoint(path)
+    with open('/etc/mtab', 'r') as mounts:
+        for line in mounts:
+            args = line.strip('\n').split(' ')
+            if len(args) >= 2 and args[1] == mp:
+                return args
+    return None
+
+def get_device(path):
+    '''return DEVICE for given PATH'''
+    args = get_mount_args(path)
+    if args:
+        return args[0]
+    return None
+
+def get_filesystem(path):
+    '''return FILESYSTEM for given PATH'''
+    args = get_mount_args(path)
+    if args and len(args) >= 3:
+        return args[2]
+    return None
 
 def get_uuid(dev):
     '''return uuid for given block device'''
@@ -572,26 +613,19 @@ def get_uuid(dev):
         for uuid in os.listdir(DISK_BY_UUID):
             if dev == os.path.realpath(os.path.join(DISK_BY_UUID, uuid)):
                 return uuid
+    c = re.compile(b'.*?ID_FS_UUID=(\S+)')
+    try:
+        udevadm = subprocess.check_output(['udevadm', 'info', '--name=%s' % dev])
+        for line in udevadm.split():
+            m = c.match(line)
+            if m:
+                return m.group(1).decode('UTF-8')
+    except:
+        pass
     return None
 
 def get_uuid_from_path(path):
-    return get_uuid(get_mountpoint(path)[0])
-
-def sudo_execute(cfg, cmd, msg = None, *args, **kwargs):
-    '''execute command with gksudo or kdesudo if user isn't root'''
-    if not isRoot():
-        sudo = {'gksudo':  ('-m "{msg}"', '-- {cmd}'),
-                'kdesudo': ('--comment "{msg}"', '-- {cmd}'),
-                'kdesu':   ('', '-c "{cmd}"') }
-        for i in sudo:
-            if check_command(i):
-                sudo_cmd = [i,]
-                if not msg is None and len(sudo[i][0]):
-                    sudo_cmd.append(sudo[i][0].replace('{msg}', msg))
-                sudo_cmd.append(sudo[i][1].replace('{cmd}', cmd))
-                cmd = ' '.join(sudo_cmd)
-                break
-    return _execute(cmd, *args, **kwargs)
+    return get_uuid(get_device(path))
 
 def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
     if len(new_line_indicator) >= size - 1:
@@ -616,6 +650,14 @@ def syncfs():
     if check_command('sync'):
         return(_execute('sync') == 0)
 
+def update_cached_fs(dir):
+    """changes not made through sshfs on remote files will not be recognized
+    immediately because of the local cache. But writing a new file into that
+    folder will update local cache.
+    """
+    with tempfile.NamedTemporaryFile('w', dir = dir) as f:
+        f.write('foo')
+
 def isRoot():
     return os.geteuid() == 0
 
@@ -638,30 +680,23 @@ def patternHasNotEncryptableWildcard(pattern):
 BIT_TIME_FORMAT = '%Y%m%d %H%M'
 ANACRON_TIME_FORMAT = '%Y%m%d'
 
-def readTimeStamp(file):
+def readTimeStamp(f):
     '''read date string from file and try to return datetime'''
-    if not os.path.exists(file):
+    if not os.path.exists(f):
         return
-    with open(file, 'r') as f:
+    with open(f, 'r') as f:
         s = f.read().strip('\n')
-    for format in (ANACRON_TIME_FORMAT, BIT_TIME_FORMAT):
+    for i in (ANACRON_TIME_FORMAT, BIT_TIME_FORMAT):
         try:
-            return datetime.strptime(s, format)
+            return datetime.strptime(s, i)
         except ValueError:
             pass
 
-def writeTimeStamp(file):
+def writeTimeStamp(f):
     '''write current date into file'''
-    make_dirs(os.path.dirname(file))
-    with open(file, 'w') as f:
+    make_dirs(os.path.dirname(f))
+    with open(f, 'w') as f:
         f.write(datetime.now().strftime(BIT_TIME_FORMAT))
-
-def olderThan(time, hours = 0, days = 0, weeks = 0):
-    '''return True if time is older than weeks, days and/or hours'''
-    assert isinstance(time, datetime), 'time is not datetime type: %s' % time
-
-    d = datetime.now() - timedelta(hours = hours, days = days, weeks = weeks)
-    return time < d
 
 INHIBIT_LOGGING_OUT = 1
 INHIBIT_USER_SWITCHING = 2
@@ -683,7 +718,7 @@ INHIBIT_DBUS = (
                 'interface':    'org.mate.SessionManager',
                 'arguments':    (0, 1, 2, 3)
                },
-               {'service':      'org.freedesktop.PowerManagement.Inhibit',
+               {'service':      'org.freedesktop.PowerManagement',
                 'objectPath':   '/org/freedesktop/PowerManagement/Inhibit',
                 'methodSet':    'Inhibit',
                 'methodUnSet':  'UnInhibit',
@@ -692,7 +727,7 @@ INHIBIT_DBUS = (
                } )
 
 def inhibitSuspend( app_id = sys.argv[0],
-                    toplevel_xid = None, 
+                    toplevel_xid = None,
                     reason = 'take snapshot',
                     flags = INHIBIT_SUSPENDING | INHIBIT_IDLE):
     '''Prevent machine to go to suspend or hibernate.
@@ -705,37 +740,111 @@ def inhibitSuspend( app_id = sys.argv[0],
 
     for dbus_props in INHIBIT_DBUS:
         try:
-            bus = dbus.SessionBus()
+            #connect directly to the socket instead of dbus.SessionBus because
+            #the dbus.SessionBus was initiated before we loaded the environ
+            #variables and might not work
+            if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
+                bus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
+            else:
+                bus = dbus.SessionBus()
             interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
-            cookie = proxy(*[ (app_id, toplevel_xid, reason, flags)[i] for i in dbus_props['arguments'] ])
+            cookie = proxy(*[ (app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments'] ])
             logger.info('Inhibit Suspend started. Reason: %s' % reason)
-            return cookie
-        except:
+            return (cookie, bus, dbus_props)
+        except dbus.exceptions.DBusException:
             pass
+    logger.warning('Inhibit Suspend failed.')
 
-def unInhibitSuspend(cookie):
+def unInhibitSuspend(cookie, bus, dbus_props):
     '''Release inhibit.
     '''
     assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
-    for dbus_props in INHIBIT_DBUS:
-        try:
-            bus = dbus.SessionBus()
-            interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
-            proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
-            ret = proxy(cookie)
-            logger.info('Release inhibit Suspend')
-            return ret
-        except:
-            pass
+    assert isinstance(bus, dbus.bus.BusConnection), 'bus is not dbus.bus.BusConnection type: %s' % bus
+    assert isinstance(dbus_props, dict), 'dbus_props is not dict type: %s' % dbus_props
+    try:
+        interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
+        proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
+        proxy(cookie)
+        logger.info('Release inhibit Suspend')
+        return None
+    except dbus.exceptions.DBusException:
+        logger.warning('Release inhibit Suspend failed.')
+        return (cookie, bus, dbus_props)
+
+def getSshKeyFingerprint(path):
+    '''return the hex fingerprint of a given ssh key
+    '''
+    if not os.path.exists(path):
+        return
+    cmd = ['ssh-keygen', '-l', '-f', path]
+    proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = open(os.devnull, 'w'))
+    output = proc.communicate()[0]
+    m = re.match(b'\d+\s+([a-zA-Z0-9:]+).*', output)
+    if m:
+        return m.group(1).decode('UTF-8')
+
+def readCrontab():
+    '''read a list of lines from users crontab
+    '''
+    cmd = ['crontab', '-l']
+    if not check_command(cmd[0]):
+        logger.debug('crontab not found.')
+        return []
+    else:
+        proc = subprocess.Popen(cmd,
+                                stdout = subprocess.PIPE,
+                                stderr = subprocess.PIPE,
+                                universal_newlines = True)
+        out, err = proc.communicate()
+        if proc.returncode or err:
+            logger.error('Failed to get crontab lines: %s, %s'
+                         %(proc.returncode, err))
+            return []
+        else:
+            crontab = [x.strip() for x in out.strip('\n').split('\n')]
+            logger.debug('Read %s lines from users crontab'
+                         %len(crontab))
+            return crontab
+
+def writeCrontab(lines):
+    '''write a list of lines to users crontab
+    '''
+    assert isinstance(lines, (list, tuple)), 'lines is not list or tuple type: %s' % lines
+    with tempfile.NamedTemporaryFile(mode = 'wt') as f:
+        f.write('\n'.join(lines))
+        f.write('\n')
+        f.flush()
+        cmd = ['crontab', f.name]
+        proc = subprocess.Popen(cmd,
+                                stdout = subprocess.DEVNULL,
+                                stderr = subprocess.PIPE,
+                                universal_newlines = True)
+        out, err = proc.communicate()
+    if proc.returncode or err:
+        logger.error('Failed to write lines to crontab: %s, %s'
+                     %(proc.returncode, err))
+        return False
+    else:
+        logger.debug('Wrote %s lines to users crontab'
+                     %len(lines))
+        return True
+
+def splitCommands(cmds, head = '', tail = '', maxLength = 0, additionalChars = 0):
+    while cmds:
+        s = head
+        while cmds and ((len(s + cmds[0] + tail) + additionalChars <= maxLength) or not maxLength):
+            s += cmds.pop(0)
+        s += tail
+        yield s
 
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
-    def __init__(self, dc = False, follow_symlink = False, list_equal_to = False): 
+    def __init__(self, dc = False, follow_symlink = False, list_equal_to = False):
         self.deep_check = dc
         self.follow_sym = follow_symlink
         self._uniq_dict = {}      # if not self._uniq_dict[size] -> size already checked with md5sum
-        self._size_inode = set()  # if (size,inode) in self._size_inode -> path is a hlink 
+        self._size_inode = set()  # if (size,inode) in self._size_inode -> path is a hlink
         self.list_equal_to = list_equal_to
         if list_equal_to:
             st = os.stat(list_equal_to)
@@ -744,56 +853,55 @@ class UniquenessSet:
             else:
                 self.reference = (st.st_size, int(st.st_mtime))
 
-    def check_for(self, input_path, verb = False):
+    def check_for(self, input_path):
         # follow symlinks ?
         path = input_path
         if self.follow_sym and os.path.islink(input_path):
             path = os.readlink(input_path)
 
         if self.list_equal_to:
-            return self.check_equal(path, verb)
+            return self.check_equal(path)
         else:
-            return self.check_unique(path, verb)
+            return self.check_unique(path)
 
-    def check_unique(self, path, verb):
+    def check_unique(self, path):
         '''store a unique key for path, return True if path is unique'''
         # check
         if self.deep_check:
             dum = os.stat(path)
             size,inode  = dum.st_size, dum.st_ino
             # is it a hlink ?
-            if (size, inode) in self._size_inode: 
-                if verb: print("[deep test] : skip, it's a duplicate (size, inode)")
-                return False   
+            if (size, inode) in self._size_inode:
+                logger.debug("[deep test] : skip, it's a duplicate (size, inode)", self)
+                return False
             self._size_inode.add( (size,inode) )
-            if size not in list(self._uniq_dict.keys()): 
+            if size not in list(self._uniq_dict.keys()):
                 # first item of that size
                 unique_key = size
-                if verb: print("[deep test] : store current size ?")
-            else: 
+                logger.debug("[deep test] : store current size ?", self)
+            else:
                 prev = self._uniq_dict[size]
                 if prev:
                     # store md5sum instead of previously stored size
-                    md5sum_prev = _get_md5sum_from_path(prev)     
+                    md5sum_prev = _get_md5sum_from_path(prev)
                     self._uniq_dict[size] = None
-                    self._uniq_dict[md5sum_prev] = prev      
-                    if verb: 
-                        print("[deep test] : size duplicate, remove the size, store prev md5sum")
-                unique_key = _get_md5sum_from_path(path) 
-                if verb: print("[deep test] : store current md5sum ?")
+                    self._uniq_dict[md5sum_prev] = prev
+                    logger.debug("[deep test] : size duplicate, remove the size, store prev md5sum", self)
+                unique_key = _get_md5sum_from_path(path)
+                logger.debug("[deep test] : store current md5sum ?", self)
         else:
             # store a tuple of (size, modification time)
             obj  = os.stat(path)
             unique_key = (obj.st_size, int(obj.st_mtime))
         # store if not already present, then return True
         if unique_key not in list(self._uniq_dict.keys()):
-            if verb: print(" >> ok, store !")             
+            logger.debug(" >> ok, store !", self)
             self._uniq_dict[unique_key] = path
-            return True    
-        if verb: print(" >> skip (it's a duplicate)")
+            return True
+        logger.debug(" >> skip (it's a duplicate)", self)
         return False
 
-    def check_equal(self, path, verb):
+    def check_equal(self, path):
         '''return True if path and reference are equal'''
         st = os.stat(path)
         if self.deep_check:
@@ -803,16 +911,13 @@ class UniquenessSet:
         else:
             return self.reference == (st.st_size, int(st.st_mtime))
 
-class Timeout(Exception):
-    pass
-
 class Alarm(object):
     """
     Timeout for FIFO. This does not work with threading.
     """
     def __init__(self, callback = None):
         self.callback = callback
-        
+
     def start(self, timeout):
         """
         start timer
@@ -822,7 +927,7 @@ class Alarm(object):
             signal.alarm(timeout)
         except ValueError:
             pass
-        
+
     def stop(self):
         """
         stop timer before it come to an end
@@ -831,7 +936,7 @@ class Alarm(object):
             signal.alarm(0)
         except:
             pass
-        
+
     def handler(self, signum, frame):
         """
         timeout occur.
@@ -929,11 +1034,11 @@ class ShutDown(object):
                                 'arguments':    ()
                                },
                     'z_freed': {'bus':          'systembus',
-                                'service':      'org.freedesktop.ConsoleKit',
-                                'objectPath':   '/org/freedesktop/ConsoleKit/Manager',
-                                'method':       'Stop',
-                                'interface':    'org.freedesktop.ConsoleKit.Manager',
-                                'arguments':    ()
+                                'service':      'org.freedesktop.login1',
+                                'objectPath':   '/org/freedesktop/login1',
+                                'method':       'PowerOff',
+                                'interface':    'org.freedesktop.login1.Manager',
+                                'arguments':    (True, )
                                }
                    }
 
@@ -951,7 +1056,10 @@ class ShutDown(object):
         return a callable dbus proxy and those arguments.
         """
         try:
-            sessionbus = dbus.SessionBus()
+            if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
+                sessionbus = dbus.bus.BusConnection(os.environ['DBUS_SESSION_BUS_ADDRESS'])
+            else:
+                sessionbus = dbus.SessionBus()
             systembus  = dbus.SystemBus()
         except:
             return( (None, None) )
@@ -1009,14 +1117,100 @@ class ShutDown(object):
         """
         if not check_command('unity'):
             return False
+        unity_version = read_command_output('unity --version')
+        m = re.match(r'unity ([\d\.]+)', unity_version)
+        return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and process_exists('unity-panel-service')
+
+class SetupUdev(object):
+    """Setup Udev rules for starting BackInTime when a drive get connected.
+    This is done by serviceHelper.py script (included in backintime-qt4)
+    running as root though DBus.
+    """
+    CONNECTION = 'net.launchpad.backintime.serviceHelper'
+    OBJECT = '/UdevRules'
+    INTERFACE = 'net.launchpad.backintime.serviceHelper.UdevRules'
+    MEMBERS = ('addRule', 'save', 'delete')
+    def __init__(self):
         try:
-            unity_version = read_command_output('unity --version')
-            unity_version = float(re.findall(r'\s\d+\.\d+', unity_version)[0] )
-            if unity_version > 6.999 and process_exists('unity-panel-service'):
-                return True
-        except:
-            pass
-        return False
+            bus = dbus.SystemBus()
+            conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
+            self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
+        except dbus.exceptions.DBusException as e:
+            if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
+                                      'org.freedesktop.DBus.Error.ServiceUnknown',
+                                      'org.freedesktop.DBus.Error.FileNotFound'):
+                conn = None
+            else:
+                raise
+        self.isReady = bool(conn)
+
+    def addRule(self, cmd, uuid):
+        """prepair rules in serviceHelper.py
+        """
+        if not self.isReady:
+            return
+        try:
+            return self.iface.addRule(cmd, uuid)
+        except dbus.exceptions.DBusException as e:
+            if e._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
+                raise InvalidChar(str(e))
+            else:
+                raise
+
+    def save(self):
+        """save rules with serviceHelper.py after authentication
+        If no rules where added before this will delete current rule.
+        """
+        if not self.isReady:
+            return
+        try:
+            return self.iface.save()
+        except dbus.exceptions.DBusException as e:
+            if e._dbus_error_name == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy':
+                raise PermissionDeniedByPolicy(str(e))
+            else:
+                raise
+
+    def clean(self):
+        """clean up remote cache
+        """
+        if not self.isReady:
+            return
+        self.iface.clean()
+
+class PathHistory(object):
+    def __init__(self, path):
+        self.history = [path,]
+        self.index = 0
+
+    def append(self, path):
+        #append path after the current index
+        self.history = self.history[:self.index + 1] + [path,]
+        self.index = len(self.history) - 1
+
+    def previous(self):
+        if self.index == 0:
+            return self.history[0]
+        try:
+            path = self.history[self.index - 1]
+        except IndexError:
+            return self.history[self.index]
+        self.index -= 1
+        return path
+
+    def next(self):
+        if self.index == len(self.history) - 1:
+            return self.history[-1]
+        try:
+            path = self.history[self.index + 1]
+        except IndexError:
+            return self.history[self.index]
+        self.index += 1
+        return path
+
+    def reset(self, path):
+        self.history = [path,]
+        self.index = 0
 
 if keyring is None and keyring_warn:
     logger.warning('import keyring failed')

@@ -3,8 +3,8 @@
 <!ENTITY legal SYSTEM "legal.xml">
 <!ENTITY appname "Back In Time">
 <!ENTITY app "<application>&appname;</application>">
-<!ENTITY appversion "1.1.0~alpha03">
-<!ENTITY manrevision "1.1.0~alpha03">
+<!ENTITY appversion "1.1.9">
+<!ENTITY manrevision "1.1.9">
 <!ENTITY date "Juliy 2010">
 ]>
 <!--
@@ -17,21 +17,21 @@
 -->
 <!-- =============Document Header ============================= -->
 <article id="index" lang="C">
-  <articleinfo> 
+  <articleinfo>
     <title>&app; Manual</title>
     <abstract role="description">
       <para>&app; is a simple backup tool for KDE4 desktop.</para>
-    </abstract>         
+    </abstract>
 
-    <copyright> 
-      <year>2008-2009</year> 
-      <holder>Oprea Dan, Bart de Koning, Richard Bailey</holder> 
-    </copyright> 
+    <copyright>
+      <year>2008-2009</year>
+      <holder>Oprea Dan, Bart de Koning, Richard Bailey</holder>
+    </copyright>
 
     <!-- An address can be added to the publisher information. -->
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="legal.xml"/>
-    <!-- The file legal.xml contains link to license for the documentation, 
-        and other legal stuff such as "NO WARRANTY" statement. 
+    <!-- The file legal.xml contains link to license for the documentation,
+        and other legal stuff such as "NO WARRANTY" statement.
         Please do not change any of this. -->
 
 <!-- According to GNU FDL, revision history is mandatory if you are -->
@@ -46,45 +46,45 @@
 <!-- For example, if the GNOME desktop release is V2.x, the first version of the manual that -->
 <!-- is written in that desktop timeframe is V2.0, the second version of the manual is V2.1, etc. -->
 <!-- When the desktop release version changes to V3.x, the revision number of the manual changes -->
-<!-- to V3.0, and so on. -->  
+<!-- to V3.0, and so on. -->
 
     <releaseinfo>This manual describes version &appversion; of Back In Time.
-    </releaseinfo> 
-    <legalnotice> 
-      <title>Feedback</title> 
+    </releaseinfo>
+    <legalnotice>
+      <title>Feedback</title>
       <para>To report a bug or make a suggestion regarding the &app; application or
-      this manual, send an email to:  
-      <ulink url="mailto:bit-team@lists.launchpad.net" type="mailto">bit-team@lists.launchpad.net</ulink>. 
+      this manual, send an email to:
+      <ulink url="mailto:bit-team@lists.launchpad.net" type="mailto">bit-team@lists.launchpad.net</ulink>.
       </para>
 <!-- Translators may also add here feedback address for translations -->
-    </legalnotice> 
-  </articleinfo> 
+    </legalnotice>
+  </articleinfo>
 
 <!-- ============= Document Body ============================= -->
 <!-- ============= Introduction ============================== -->
 <!-- Use the Introduction section to give a brief overview of what
      the application is and what it does. -->
-  <sect1 id="backintime-introduction"> 
-    <title>Introduction</title> 
-    <para>&app; is a simple backup tool for Linux (this is KDE4 version). The backup is done by taking snapshots of 
-	a specified set of folders.</para> 
+  <sect1 id="backintime-introduction">
+    <title>Introduction</title>
+    <para>&app; is a simple backup tool for Linux (this is KDE4 version). The backup is done by taking snapshots of
+	a specified set of folders.</para>
 	<para>All you have to do is:</para>
-    <itemizedlist> 
+    <itemizedlist>
       <listitem><para>configure where to save snapshots</para></listitem>
       <listitem><para>cofigure what folders to backup</para></listitem>
       <listitem><para>schedule automatic backup: disabled, every 5 minutes, every 10 minutes, every hour, every day, every week, every month</para></listitem>
-    </itemizedlist> 
-	<para>&app; acts as a "user mode" backup tool. This means that you can backup/restore only folders 
+    </itemizedlist>
+	<para>&app; acts as a "user mode" backup tool. This means that you can backup/restore only folders
 	you have write access to (actually you can backup read-only folders, but you can't restore them).</para>
-	<para>If you want to run it as root you need to use "su" (command line), "gksu" (Gnome) or "kdesudo" (KDE).</para>
+	<para>If you want to run it as root you need to use "sudo -i backintime" (command line) or "pkexec backintime-qt4" (GUI).</para>
 	<para>A new snapshot is created only if something changed since the last snapshot (if any).</para>
 	<para>A snapshot contains all the files from the selected folders (except for exclude patterns).
 	In order to reduce disk space it use hard-links (if possible) between snapshots for unchanged files.
-	This way a file of 10Mb, unchanged for 10 snapshots, will use only 10Mb on the disk.</para>
-	<para>When you restore a file 'A', if it already exists on the file system it will be renamed to 
+	This way a file of 10MiB, unchanged for 10 snapshots, will use only 10Mb on the disk.</para>
+	<para>When you restore a file 'A', if it already exists on the file system it will be renamed to
 	'A.backup.currentdate'.</para>
-	<para>This documentation is not maintained (at least for the moment), please use on-line documentation:
-    <ulink url="http://backintime.le-web.org/documentation/" type="http">http://backintime.le-web.org/documentation</ulink></para>
+	<para>This documentation is not maintained (at least for the moment), please use the man-page 'man backintime'
+        </para>
   </sect1>
 
 <!-- ============= About ================================== -->
@@ -93,13 +93,13 @@
       section is optional: primary place for this info is "About.." box of
       the program. However, if you do wish to include this info in the
       manual, this is the place to put it. Alternatively, you can put this information in the title page.-->
-  <sect1 id="backintime-about"> 
-    <title>About &app;</title> 
+  <sect1 id="backintime-about">
+    <title>About &app;</title>
     <para> &app; was written by Oprea Dan
       (<email>dan@le-web.org</email>), Bart de Koning (<email>bratdaking@gmail.com</email>),
 	  Richard Bailey (<email>rmjb@mail.com<email>). To find more information about
-      &app;, please visit the 
-      <ulink url="http://backintime.le-web.org" type="http">Back In Time Web
+      &app;, please visit the
+      <ulink url="https://github.com/bit-team/backintime" type="http">Back In Time Web
 	page</ulink>. </para>
     <para>
       To report a bug or make a suggestion regarding this application or
@@ -112,5 +112,5 @@
       Foundation. A copy of this license can be found in the file
       LICENSE included with the source code of this program. </para>
 
-  </sect1> 
+  </sect1>
 </article>

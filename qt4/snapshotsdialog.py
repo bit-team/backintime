@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,17 +17,12 @@
 
 
 import os
-import os.path
-import sys
-import datetime
 import gettext
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-import config
 import tools
-import qt4tools
 import restoredialog
 import messagebox
 
@@ -80,7 +75,7 @@ class DiffOptionsDialog( QDialog ):
             self.config.set_str_value( 'qt4.diff.cmd', diff_cmd )
             self.config.set_str_value( 'qt4.diff.params', diff_params )
             self.config.save()
-        
+
         QDialog.accept( self )
 
 
@@ -94,7 +89,7 @@ class SnapshotsDialog( QDialog ):
         import icon
 
         self.snapshot_id = snapshot_id
-        self.path = path 
+        self.path = path
 
         self.setWindowIcon(icon.SNAPSHOTS)
         self.setWindowTitle(_('Snapshots'))
@@ -226,9 +221,9 @@ class SnapshotsDialog( QDialog ):
             equal_to = self.snapshots.get_snapshot_path_to(equal_to_snapshot_id, self.path)
         else:
             equal_to = False
-        snapshots_filtered = self.snapshots.filter_for(self.snapshot_id, self.path, 
-                                self.snapshots_list, 
-                                self.cb_only_different_snapshots.isChecked(), 
+        snapshots_filtered = self.snapshots.filter_for(self.snapshot_id, self.path,
+                                self.snapshots_list,
+                                self.cb_only_different_snapshots.isChecked(),
                                 self.cb_only_different_snapshots_deep_check.isChecked(),
                                 equal_to)
         for snapshot_id in snapshots_filtered:
@@ -242,7 +237,7 @@ class SnapshotsDialog( QDialog ):
         for snapshot_id in snapshots_filtered:
             name = self.snapshots.get_snapshot_display_name(snapshot_id)
             self.combo_equal_to.addItem(name, snapshot_id)
-            
+
             if snapshot_id == self.snapshot_id:
                 self.combo_equal_to.setCurrentIndex(self.combo_equal_to.count() - 1)
             elif self.combo_equal_to.currentIndex() < 0:
@@ -341,14 +336,14 @@ class SnapshotsDialog( QDialog ):
 
         #check if the 2 paths are different
         if path1 == path2:
-            messagebox.error( self, _('You can\'t compare a snapshot to itself') )
+            messagebox.critical( self, _('You can\'t compare a snapshot to itself') )
             return
 
         diff_cmd = self.config.get_str_value( 'qt4.diff.cmd', DIFF_CMD )
         diff_params = self.config.get_str_value( 'qt4.diff.params', DIFF_PARAMS )
 
         if not tools.check_command( diff_cmd ):
-            messagebox.error( self, _('Command not found: %s') % diff_cmd )
+            messagebox.critical( self, _('Command not found: %s') % diff_cmd )
             return
 
         params = diff_params
@@ -385,7 +380,7 @@ class SnapshotsDialog( QDialog ):
 
             #release inhibit suspend
             if self.config.inhibitCookie:
-                tools.unInhibitSuspend(self.config.inhibitCookie)
+                self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
             msg = _('Exclude "%s" from future snapshots?' % self.path)
             if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
@@ -411,4 +406,3 @@ class SnapshotsDialog( QDialog ):
         if snapshot_id:
             self.snapshot_id = snapshot_id
         QDialog.accept( self )
-

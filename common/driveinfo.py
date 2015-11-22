@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import os.path
 import os
 import configfile
 import sys
@@ -53,13 +52,13 @@ class DriveInfo( configfile.ConfigFile ):
 
     def support_hardlinks( self ):
         return self.get_bool_value( 'hardlinks', False )
-        
+
     def support_permissions( self ):
         return self.get_bool_value( 'permissions', False )
-        
+
     def support_usergroup( self ):
         return self.get_bool_value( 'usergroup', False )
-        
+
     def _get_driveinfo_file_( self ):
         return os.path.join( self.path, 'driveinfo' )
 
@@ -176,4 +175,3 @@ class DriveInfo( configfile.ConfigFile ):
 
         os.system( "rm -rf \"%s\"" % tmp_path )
         return ret_val
-

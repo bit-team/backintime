@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -16,41 +16,38 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import os.path
 import os
 import datetime
 import gettext
 import socket
 import random
-import re
-import tempfile
-import stat
+import shlex
 try:
     import pwd
 except ImportError:
     import getpass
     pwd = None
 
-import configfile
 import tools
+import configfile
 import logger
 import mount
 import sshtools
 import encfstools
-##import dummytools
 import password
 import pluginmanager
+from exceptions import PermissionDeniedByPolicy, InvalidChar
 
 _=gettext.gettext
 
-gettext.bindtextdomain( 'backintime', '/usr/share/locale' )
+gettext.bindtextdomain('backintime', os.path.join(tools.get_share_path(), 'locale'))
 gettext.textdomain( 'backintime' )
 
 
 class Config( configfile.ConfigFileWithProfiles ):
     APP_NAME = 'Back In Time'
-    VERSION = '1.1.0~alpha03'
-    COPYRIGHT = 'Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
+    VERSION = '1.1.9'
+    COPYRIGHT = 'Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
     CONFIG_VERSION = 5
 
     NONE = 0
@@ -75,28 +72,28 @@ class Config( configfile.ConfigFileWithProfiles ):
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
 
-    AUTOMATIC_BACKUP_MODES = { 
-                NONE : _('Disabled'), 
-                AT_EVERY_BOOT : _('At every boot/reboot'), 
-                _5_MIN: _('Every 5 minutes'), 
-                _10_MIN: _('Every 10 minutes'), 
-                _30_MIN: _('Every 30 minutes'), 
-                _1_HOUR : _('Every hour'), 
-                _2_HOURS : _('Every 2 hours'), 
-                _4_HOURS : _('Every 4 hours'), 
-                _6_HOURS : _('Every 6 hours'), 
-                _12_HOURS : _('Every 12 hours'), 
-                CUSTOM_HOUR : _('Custom Hours'), 
-                DAY : _('Every Day'), 
+    AUTOMATIC_BACKUP_MODES = {
+                NONE : _('Disabled'),
+                AT_EVERY_BOOT : _('At every boot/reboot'),
+                _5_MIN: _('Every 5 minutes'),
+                _10_MIN: _('Every 10 minutes'),
+                _30_MIN: _('Every 30 minutes'),
+                _1_HOUR : _('Every hour'),
+                _2_HOURS : _('Every 2 hours'),
+                _4_HOURS : _('Every 4 hours'),
+                _6_HOURS : _('Every 6 hours'),
+                _12_HOURS : _('Every 12 hours'),
+                CUSTOM_HOUR : _('Custom Hours'),
+                DAY : _('Every Day'),
                 REPEATEDLY : _('Repeatedly (anacron)'),
                 UDEV : _('When drive get connected (udev)'),
-                WEEK : _('Every Week'), 
+                WEEK : _('Every Week'),
                 MONTH : _('Every Month')
                 }
 
-    REMOVE_OLD_BACKUP_UNITS = { 
-                DAY : _('Day(s)'), 
-                WEEK : _('Week(s)'), 
+    REMOVE_OLD_BACKUP_UNITS = {
+                DAY : _('Day(s)'),
+                WEEK : _('Week(s)'),
                 YEAR : _('Year(s)')
                 }
 
@@ -104,9 +101,10 @@ class Config( configfile.ConfigFileWithProfiles ):
                 HOUR : _('Hour(s)'),
                 DAY : _('Day(s)'),
                 WEEK : _('Week(s)'),
+                MONTH : _('Month(s)')
                 }
 
-    MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'Mb', DISK_UNIT_GB : 'Gb' }
+    MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'MiB', DISK_UNIT_GB : 'GiB' }
 
     DEFAULT_EXCLUDE = [ '.gvfs', '.cache/*', '.thumbnails*', '[Tt]rash*',       \
                         '*.backup*', '*~', '.dropbox*', '/proc/*', '/sys/*',    \
@@ -121,6 +119,9 @@ class Config( configfile.ConfigFileWithProfiles ):
     DEFAULT_RUN_IONICE_ON_REMOTE = False
     DEFAULT_RUN_NOCACHE_ON_LOCAL  = False
     DEFAULT_RUN_NOCACHE_ON_REMOTE = False
+    DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\$PATH'
+    DEFAULT_REDIRECT_STDOUT_IN_CRON = True
+    DEFAULT_REDIRECT_STDERR_IN_CRON = False
 
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
@@ -129,31 +130,30 @@ class Config( configfile.ConfigFileWithProfiles ):
                 'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False ),
                 'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False ),
                 'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption') )
-                ##'dummy'       : (dummytools.Dummy,        'Dummy',                'Dummy',                False )
                 }
-    
+
     SSH_CIPHERS =  {'default':    _('Default'),
-                    'aes128-ctr': _('AES128-CTR'), 
-                    'aes192-ctr': _('AES192-CTR'), 
-                    'aes256-ctr': _('AES256-CTR'), 
-                    'arcfour256': _('ARCFOUR256'), 
-                    'arcfour128': _('ARCFOUR128'), 
-                    'aes128-cbc': _('AES128-CBC'), 
-                    '3des-cbc':   _('3DES-CBC'), 
-                    'blowfish-cbc': _('Blowfish-CBC'), 
-                    'cast128-cbc': _('Cast128-CBC'), 
-                    'aes192-cbc': _('AES192-CBC'), 
-                    'aes256-cbc': _('AES256-CBC'), 
+                    'aes128-ctr': _('AES128-CTR'),
+                    'aes192-ctr': _('AES192-CTR'),
+                    'aes256-ctr': _('AES256-CTR'),
+                    'arcfour256': _('ARCFOUR256'),
+                    'arcfour128': _('ARCFOUR128'),
+                    'aes128-cbc': _('AES128-CBC'),
+                    '3des-cbc':   _('3DES-CBC'),
+                    'blowfish-cbc': _('Blowfish-CBC'),
+                    'cast128-cbc': _('Cast128-CBC'),
+                    'aes192-cbc': _('AES192-CBC'),
+                    'aes256-cbc': _('AES256-CBC'),
                     'arcfour':    _('ARCFOUR') }
-    
+
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__( self, config_path = None ):
         configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
 
-        self._APP_PATH =  os.path.dirname( os.path.abspath( os.path.dirname( __file__ ) ) )
-        self._DOC_PATH = '/usr/share/doc/backintime'
+        self._APP_PATH = tools.get_backintime_path()
+        self._DOC_PATH = os.path.join(tools.get_share_path(), 'doc', 'backintime-common')
         if os.path.exists( os.path.join( self._APP_PATH, 'LICENSE' ) ):
             self._DOC_PATH = self._APP_PATH
 
@@ -225,25 +225,25 @@ class Config( configfile.ConfigFileWithProfiles ):
                 self.remap_key( 'snapshots.min_free_space.value', 'profile1.snapshots.min_free_space.value' )
                 self.remap_key( 'snapshots.min_free_space.unit', 'profile1.snapshots.min_free_space.unit' )
                 self.remap_key( 'snapshots.dont_remove_named_snapshots', 'profile1.snapshots.dont_remove_named_snapshots' )
-                
+
             if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 4:
                 # version 4 uses as path backintime/machine/user/profile_id
                 # but must be able to read old paths
                 profiles = self.get_profiles()
                 self.set_bool_value( 'update.other_folders', True )
-                logger.info( "Update to config version 4: other snapshot locations" )
-                                        
+                logger.info("Update to config version 4: other snapshot locations", self)
+
                 for profile_id in profiles:
                     old_folder = self.get_snapshots_path( profile_id )
                     other_folder = os.path.join( old_folder, 'backintime' )
                     other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
                     self.set_str_value( other_folder_key, other_folder )
                     tag = str( random.randint(100, 999) )
-                    logger.info( "Random tag for profile %s: %s" %( profile_id, tag ) )
-                    self.set_profile_str_value( 'snapshots.tag', tag, profile_id ) 
+                    logger.info("Random tag for profile %s: %s" %(profile_id, tag), self)
+                    self.set_profile_str_value( 'snapshots.tag', tag, profile_id )
 
             if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 5:
-                logger.info( "Update to config version 5: other snapshot locations" )
+                logger.info("Update to config version 5: other snapshot locations", self)
                 profiles = self.get_profiles()
                 for profile_id in profiles:
                     #change include
@@ -263,15 +263,16 @@ class Config( configfile.ConfigFileWithProfiles ):
 
             self.set_int_value( 'config.version', self.CONFIG_VERSION )
             self.save()
-        
+
         self.current_hash_id = 'local'
         self.pw = None
         self.force_use_checksum = False
         self.xWindowId = None
         self.inhibitCookie = None
+        self.setupUdev = tools.SetupUdev()
 
     def save( self ):
-        configfile.ConfigFile.save( self, self._LOCAL_CONFIG_PATH )
+        super(Config, self).save(self._LOCAL_CONFIG_PATH)
 
     def check_config( self ):
         profiles = self.get_profiles()
@@ -281,6 +282,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         for profile_id in profiles:
             profile_name = self.get_profile_name( profile_id )
             snapshots_path = self.get_snapshots_path( profile_id )
+            logger.debug('Check profile %s' %profile_name, self)
 
             #check snapshots path
             if not snapshots_path:
@@ -304,7 +306,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 if path == snapshots_path:
                     self.notify_error( _('Profile: "%s"') % profile_name + '\n' + _('You can\'t include backup folder !') )
                     return False
-            
+
                 if len( path ) >= len( snapshots_path2 ):
                     if path[ : len( snapshots_path2 ) ] == snapshots_path2:
                         self.notify_error( _('Profile: "%s"') %  self.get_current_profile() + '\n' + _('You can\'t include a backup sub-folder !') )
@@ -335,7 +337,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             mode = self.get_snapshots_mode(profile_id)
         if self.SNAPSHOT_MODES[mode][0] == None:
             #no mount needed
-            #?Where to save snapshots in mode 'local'. This path must contain a 
+            #?Where to save snapshots in mode 'local'. This path must contain a
             #?folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute path
             return self.get_profile_str_value( 'snapshots.path', '', profile_id )
         else:
@@ -352,7 +354,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
         else:
             host, user, profile = self.get_host_user_profile( profile_id )
-            return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile ) 
+            return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile )
 
     def set_snapshots_path( self, value, profile_id = None, mode = None ):
         """Sets the snapshot path to value, initializes, and checks it"""
@@ -361,7 +363,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         if profile_id == None:
             profile_id = self.get_current_profile()
-            
+
         if mode is None:
             mode = self.get_snapshots_mode( profile_id )
 
@@ -370,44 +372,67 @@ class Config( configfile.ConfigFileWithProfiles ):
             return False
 
         #Initialize the snapshots folder
-        print("Check snapshot folder: %s" % value)
+        logger.debug("Check snapshot folder: %s" %value, self)
 
         host, user, profile = self.get_host_user_profile( profile_id )
 
-        full_path = os.path.join( value, 'backintime', host, user, profile ) 
+        if not all((host, user, profile)):
+            self.notify_error(_('Host/User/Profile-ID must not be empty!'))
+            return False
+
+        full_path = os.path.join( value, 'backintime', host, user, profile )
         if not os.path.isdir( full_path ):
-            print("Create folder: %s" % full_path)
+            logger.debug("Create folder: %s" %full_path, self)
             tools.make_dirs( full_path )
             if not os.path.isdir( full_path ):
                 self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % value ) )
                 return False
 
-            path1 = os.path.join( value, 'backintime' ) 
+            path1 = os.path.join( value, 'backintime' )
             os.system( "chmod a+rwx \"%s\"" % path1 )
 
-            path1 = os.path.join( value, 'backintime', host ) 
+            path1 = os.path.join( value, 'backintime', host )
             os.system( "chmod a+rwx \"%s\"" % path1 )
-        
+
+        #Test filesystem
+        fs = tools.get_filesystem(full_path)
+        if fs == 'vfat':
+            self.notify_error(_("Destination filesystem for '%(path)s' is formatted with FAT which doesn't support hard-links. "
+                                "Please use a native Linux filesystem.") %
+                              {'path': value})
+            return False
+        elif fs == 'cifs' and not self.copy_links():
+            self.notify_error(_("Destination filsystem for '%(path)s' is a SMB mounted share. Please make sure "
+                                "the remote SMB server supports symlinks or activate '%(copyLinks)s' in '%(expertOptions)s'.") %
+                              {'path': value,
+                               'copyLinks': _('Copy links (dereference symbolic links)'),
+                               'expertOptions': _('Expert Options')})
+        elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
+            self.notify_error(_("Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't support hard-links. "
+                                "Please use mode 'SSH' instead.") %
+                              {'path': value})
+            return False
+
         #Test write access for the folder
         check_path = os.path.join( full_path, 'check' )
         tools.make_dirs( check_path )
         if not os.path.isdir( check_path ):
             self.notify_error( _( 'Can\'t write to: %s\nAre you sure you have write access ?' % full_path ) )
             return False
-        
+
         os.rmdir( check_path )
         if self.SNAPSHOT_MODES[mode][0] is None:
             self.set_profile_str_value( 'snapshots.path', value, profile_id )
         return True
-        
+
     def get_snapshots_mode( self, profile_id = None ):
-        #?Use mode (or backend) for this snapshot. Look at 'man backintime' 
+        #?Use mode (or backend) for this snapshot. Look at 'man backintime'
         #?section 'Modes'.;local|local_encfs|ssh|ssh_encfs
         return self.get_profile_str_value( 'snapshots.mode', 'local', profile_id )
-        
+
     def set_snapshots_mode( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.mode', value, profile_id )
-        
+
     def get_snapshots_symlink(self, profile_id = None, tmp_mount = False):
         if profile_id is None:
             profile_id = self.current_profile_id
@@ -415,25 +440,24 @@ class Config( configfile.ConfigFileWithProfiles ):
         if tmp_mount:
             symlink = 'tmp_%s' % symlink
         return symlink
-        
+
     def set_current_hash_id(self, hash_id):
         self.current_hash_id = hash_id
-        
+
     def get_hash_collision(self):
         #?Internal value used to prevent hash collisions on mountpoints. Do not change this.
         return self.get_int_value( 'global.hash_collision', 0 )
-        
+
     def increment_hash_collision(self):
         value = self.get_hash_collision() + 1
         self.set_int_value( 'global.hash_collision', value )
-        
+
     def get_snapshots_path_ssh( self, profile_id = None ):
-        #?Snapshot path on remote host. If the path is relative (no leading '/') 
-        #?it will start from remote Users homedir. An empty path will be replaced 
-        #?with './'. This path must contain a folderstructure like 
-        #?'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute or relative path
+        #?Snapshot path on remote host. If the path is relative (no leading '/')
+        #?it will start from remote Users homedir. An empty path will be replaced
+        #?with './'.;absolute or relative path
         return self.get_profile_str_value( 'snapshots.ssh.path', '', profile_id )
-        
+
     def get_snapshots_full_path_ssh( self, profile_id = None, version = None ):
         '''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
         if version is None:
@@ -445,7 +469,7 @@ class Config( configfile.ConfigFileWithProfiles ):
             return os.path.join( path, 'backintime' )
         else:
             host, user, profile = self.get_host_user_profile( profile_id )
-            return os.path.join( path, 'backintime', host, user, profile ) 
+            return os.path.join( path, 'backintime', host, user, profile )
 
     def set_snapshots_path_ssh( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.ssh.path', value, profile_id )
@@ -466,11 +490,11 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.ssh.port', value, profile_id )
 
     def get_ssh_cipher( self, profile_id = None ):
-        #?Cipher that is used for encrypting the SSH tunnel. Depending on the 
-        #?environment (network bandwidth, cpu and hdd performance) a different 
-        #?cipher might be faster.;default | aes192-cbc | aes256-cbc | aes128-ctr | 
-        #?aes192-ctr | aes256-ctr | arcfour | arcfour256 | arcfour128 | aes128-cbc | 
-        #?3des-cbc | blowfish-cbc | cast128-cbc
+        #?Cipher that is used for encrypting the SSH tunnel. Depending on the
+        #?environment (network bandwidth, cpu and hdd performance) a different
+        #?cipher might be faster.;default | aes192-cbc | aes256-cbc | aes128-ctr |
+        #? aes192-ctr | aes256-ctr | arcfour | arcfour256 | arcfour128 | aes128-cbc |
+        #? 3des-cbc | blowfish-cbc | cast128-cbc
         return self.get_profile_str_value( 'snapshots.ssh.cipher', 'default', profile_id )
 
     def set_ssh_cipher( self, value, profile_id = None ):
@@ -482,7 +506,7 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_ssh_user( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.ssh.user', value, profile_id )
-        
+
     def get_ssh_host_port_user_path_cipher(self, profile_id = None ):
         host = self.get_ssh_host(profile_id)
         port = self.get_ssh_port(profile_id)
@@ -492,59 +516,52 @@ class Config( configfile.ConfigFileWithProfiles ):
         if not path:
             path = './'
         return (host, port, user, path, cipher)
-        
+
     def get_ssh_private_key_file(self, profile_id = None):
         ssh = self.get_ssh_private_key_folder()
         default = ''
-        for file in ['id_dsa', 'id_rsa', 'identity']:
-            private_key = os.path.join(ssh, file)
+        for f in ['id_dsa', 'id_rsa', 'identity']:
+            private_key = os.path.join(ssh, f)
             if os.path.isfile(private_key):
                 default = private_key
                 break
         #?Private key file used for password-less authentication on remote host.
         #?;absolute path to private key file;~/.ssh/id_dsa
-        file = self.get_profile_str_value( 'snapshots.ssh.private_key_file', default, profile_id )
-        if file:
-            return file
+        f = self.get_profile_str_value( 'snapshots.ssh.private_key_file', default, profile_id )
+        if f:
+            return f
         return default
 
     def get_ssh_private_key_folder(self):
         return os.path.join(os.path.expanduser('~'), '.ssh')
-    
+
     def set_ssh_private_key_file( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.ssh.private_key_file', value, profile_id )
-        
+
+    def ssh_max_arg_length(self, profile_id = None):
+        #?Maximum argument length of commands run on remote host. This can be tested
+        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py USER@HOST'.\n
+        #?0 = unlimited;0, >700
+        value = self.get_profile_int_value('snapshots.ssh.max_arg_length', 0, profile_id)
+        if value and value < 700:
+            raise ValueError('SSH max arg length %s is to low to run commands' % value)
+        return value
+
+    def set_ssh_max_arg_length(self, value, profile_id = None):
+        self.set_profile_int_value('snapshots.ssh.max_arg_length', value, profile_id)
+
     #ENCFS
     def get_local_encfs_path( self, profile_id = None ):
-        #?Where to save snapshots in mode 'local_encfs'. The encrypted path must contian 
-        #?a folderstructure like 'backintime/<HOST>/<USER>/<PROFILE_ID>';absolute path
+        #?Where to save snapshots in mode 'local_encfs'.;absolute path
         return self.get_profile_str_value( 'snapshots.local_encfs.path', '', profile_id )
-    
+
     def set_local_encfs_path( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.local_encfs.path', value, profile_id )
-
-##	def get_dummy_host( self, profile_id = None ):
-##		return self.get_profile_str_value( 'snapshots.dummy.host', '', profile_id )
-##
-##	def set_dummy_host( self, value, profile_id = None ):
-##		self.set_profile_str_value( 'snapshots.dummy.host', value, profile_id )
-##
-##	def get_dummy_port( self, profile_id = None ):
-##		return self.get_profile_int_value( 'snapshots.dummy.port', '22', profile_id )
-##
-##	def set_dummy_port( self, value, profile_id = None ):
-##		self.set_profile_int_value( 'snapshots.dummy.port', value, profile_id )
-##
-##	def get_dummy_user( self, profile_id = None ):
-##		return self.get_profile_str_value( 'snapshots.dummy.user', self.get_user(), profile_id )
-##
-##	def set_dummy_user( self, value, profile_id = None ):
-##		self.set_profile_str_value( 'snapshots.dummy.user', value, profile_id )
 
     def get_password_save( self, profile_id = None, mode = None ):
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)
-        #?Save password to system keyring (gnome-keyring or kwallet). 
+        #?Save password to system keyring (gnome-keyring or kwallet).
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR
         return self.get_profile_bool_value( 'snapshots.%s.password.save' % mode, False, profile_id )
 
@@ -557,8 +574,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)
         default = not tools.check_home_encrypt()
-        #?Cache password in RAM so it can be read by cronjobs. 
-        #?Security issue: root might be able to read that password, too. 
+        #?Cache password in RAM so it can be read by cronjobs.
+        #?Security issue: root might be able to read that password, too.
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR;;true if home is not encrypted
         return self.get_profile_bool_value( 'snapshots.%s.password.use_cache' % mode, default, profile_id )
 
@@ -584,7 +601,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         if mode is None:
             mode = self.get_snapshots_mode(profile_id)
         self.pw.set_password(password, profile_id, mode, pw_id)
-        
+
     def mode_need_password(self, mode, pw_id = 1):
         need_pw = self.SNAPSHOT_MODES[mode][pw_id + 1]
         if need_pw is False:
@@ -636,19 +653,17 @@ class Config( configfile.ConfigFileWithProfiles ):
         value = self.get_profile_str_value( 'snapshots.other_folders', '', profile_id )
         if not value:
             return []
-            
+
         paths = []
 
         for item in value.split(':'):
-            fields = item.split( '|' )
-
             path = os.path.expanduser( item )
             path = os.path.abspath( path )
 
             paths.append( ( path ) )
 
         return paths
-    
+
     def get_include_v4( self, profile_id = None ):
         #?!ignore this in manpage
         value = self.get_profile_str_value( 'snapshots.include_folders', '', profile_id )
@@ -662,18 +677,12 @@ class Config( configfile.ConfigFileWithProfiles ):
 
             path = os.path.expanduser( fields[0] )
             path = os.path.abspath( path )
-
-            if len( fields ) >= 2:
-                automatic_backup_mode = int( fields[1] )
-            else:
-                automatic_backup_mode = self.get_automatic_backup_mode()
-
             paths.append( path )
 
         return paths
 
     def get_include( self, profile_id = None ):
-        #?Quantity of include entrys.;1-99999;\-1
+        #?Quantity of include entries.;1-99999;\-1
         size = self.get_profile_int_value( 'snapshots.include.size', -1, profile_id )
         if size <= 0:
             return []
@@ -681,14 +690,14 @@ class Config( configfile.ConfigFileWithProfiles ):
         include = []
 
         for i in range( 1, size + 1 ):
-            #?Include this file or folder. <I> must be a counter 
+            #?Include this file or folder. <I> must be a counter
             #?starting with 1;absolute path
             value = self.get_profile_str_value( "snapshots.include.%s.value" % i, '', profile_id )
             if value:
-                #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR 
+                #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR
                 #?is a folder (0) or a file (1).;0|1
-                type = self.get_profile_int_value( "snapshots.include.%s.type" % i, 0, profile_id )
-                include.append( ( value, type ) )
+                t = self.get_profile_int_value( "snapshots.include.%s.type" % i, 0, profile_id )
+                include.append( ( value, t ) )
 
         return include
 
@@ -719,14 +728,14 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def get_exclude( self, profile_id = None ):
         '''Gets the exclude patterns'''
-        #?Quantity of exclude entrys.;1-99999;\-1
+        #?Quantity of exclude entries.;1-99999;\-1
         size = self.get_profile_int_value( 'snapshots.exclude.size', -1, profile_id )
         if size < 0:
             return self.DEFAULT_EXCLUDE
 
         exclude = []
         for i in range( 1, size + 1 ):
-            #?Exclude this file or folder. <I> must be a counter 
+            #?Exclude this file or folder. <I> must be a counter
             #?starting with 1;file, folder or pattern (relative or absolute)
             value = self.get_profile_str_value( "snapshots.exclude.%s.value" % i, '', profile_id )
             if value:
@@ -757,10 +766,10 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value('snapshots.exclude.bysize.enabled', value, profile_id)
 
     def exclude_by_size(self, profile_id = None):
-        #?Exclude files bigger than value in Mb. 
-        #?With 'Full rsync mode' disabled this will only affect new files 
-        #?because for rsync this is a transfer option, not an exclude option. 
-        #?So big files that has been backed up before will remain in snapshots 
+        #?Exclude files bigger than value in MiB.
+        #?With 'Full rsync mode' disabled this will only affect new files
+        #?because for rsync this is a transfer option, not an exclude option.
+        #?So big files that has been backed up before will remain in snapshots
         #?even if they had changed.
         return self.get_profile_int_value('snapshots.exclude.bysize.value', 500, profile_id)
 
@@ -772,10 +781,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.get_profile_str_value( 'snapshots.tag', str(random.randint(100, 999)), profile_id )
 
     def get_automatic_backup_mode( self, profile_id = None ):
-        #?Which shedule used for crontab. Note that the crontab entry is only 
-        #?generated during saving in settings dialog. If you don't run a GUI 
-        #?version of BackInTime you'll have to create the crontab entry on your 
-        #?own.\n 0 = Disabled\n 1 = at every boot\n 2 = every 5 minute\n
+        #?Which schedule used for crontab. The crontab entry will be
+        #?generated with 'backintime check-config'.\n
+        #? 0 = Disabled\n 1 = at every boot\n 2 = every 5 minute\n
         #? 4 = every 10 minute\n 7 = every 30 minute\n10 = every hour\n
         #?12 = every 2 hours\n14 = every 4 hours\n16 = every 6 hours\n
         #?18 = every 12 hours\n19 = custom defined hours\n20 = every day\n
@@ -788,7 +796,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.automatic_backup_mode', value, profile_id )
 
     def get_automatic_backup_time( self, profile_id = None ):
-        #?What time the cronjob should run? Only valid for 
+        #?What time the cronjob should run? Only valid for
         #?\fIprofile<N>.snapshots.automatic_backup_mode\fR >= 20;0-24
         return self.get_profile_int_value( 'snapshots.automatic_backup_time', 0, profile_id )
 
@@ -796,7 +804,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.automatic_backup_time', value, profile_id )
 
     def get_automatic_backup_day( self, profile_id = None ):
-        #?Which day of month the cronjob should run? Only valid for 
+        #?Which day of month the cronjob should run? Only valid for
         #?\fIprofile<N>.snapshots.automatic_backup_mode\fR >= 40;1-28
         return self.get_profile_int_value( 'snapshots.automatic_backup_day', 1, profile_id )
 
@@ -804,7 +812,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.automatic_backup_day', value, profile_id )
 
     def get_automatic_backup_weekday( self, profile_id = None ):
-        #?Which day of week the cronjob should run? Only valid for 
+        #?Which day of week the cronjob should run? Only valid for
         #?\fIprofile<N>.snapshots.automatic_backup_mode\fR = 30;1 = monday \- 7 = sunday
         return self.get_profile_int_value( 'snapshots.automatic_backup_weekday', 7, profile_id )
 
@@ -812,7 +820,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.automatic_backup_weekday', value, profile_id )
 
     def get_custom_backup_time( self, profile_id = None ):
-        #?Custom hours for cronjob. Only valid for 
+        #?Custom hours for cronjob. Only valid for
         #?\fIprofile<N>.snapshots.automatic_backup_mode\fR = 19
         #?;comma separated int (8,12,18,23) or */3;8,12,18,23
         return self.get_profile_str_value( 'snapshots.custom_backup_time', '8,12,18,23', profile_id )
@@ -829,39 +837,39 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value('snapshots.automatic_backup_anacron_period', value, profile_id)
 
     def get_automatic_backup_anacron_unit(self, profile_id = None):
-        #?Units to wait between new snapshots with anacron. 
-        #?10 = hours\n20 = days\n30 = weeks\n
+        #?Units to wait between new snapshots with anacron.\n
+        #?10 = hours\n20 = days\n30 = weeks\n40 = months\n
         #?Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27;
-        #?10|20|30;20
+        #?10|20|30|40;20
         return self.get_profile_int_value('snapshots.automatic_backup_anacron_unit', self.DAY, profile_id)
 
     def set_automatic_backup_anacron_unit(self, value, profile_id = None):
         self.set_profile_int_value('snapshots.automatic_backup_anacron_unit', value, profile_id)
 
     def get_remove_old_snapshots( self, profile_id = None ):
-                 #?Remove all snapshots older than value + unit
-        return ( self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id ),
-                 #?Snapshots older than this times units will be removed
-                 self.get_profile_int_value( 'snapshots.remove_old_snapshots.value', 10, profile_id ),
-                 #?20 = days\n30 = weeks\n80 = years;20|30|80;80
-                 self.get_profile_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR, profile_id ) )
-    
+                #?Remove all snapshots older than value + unit
+        return (self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id ),
+                #?Snapshots older than this times units will be removed
+                self.get_profile_int_value( 'snapshots.remove_old_snapshots.value', 10, profile_id ),
+                #?20 = days\n30 = weeks\n80 = years;20|30|80;80
+                self.get_profile_int_value( 'snapshots.remove_old_snapshots.unit', self.YEAR, profile_id ) )
+
     def keep_only_one_snapshot( self, profile_id = None ):
         #?NOT YET IMPLEMENTED. Remove all snapshots but one.
         return self.get_profile_bool_value( 'snapshots.keep_only_one_snapshot.enabled', False, profile_id )
-    
+
     def set_keep_only_one_snapshot( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.keep_only_one_snapshot.enabled', value, profile_id )
-    
+
     def is_remove_old_snapshots_enabled( self, profile_id = None ):
         return self.get_profile_bool_value( 'snapshots.remove_old_snapshots.enabled', True, profile_id )
-    
+
     def get_remove_old_snapshots_date( self, profile_id = None ):
         enabled, value, unit = self.get_remove_old_snapshots( profile_id )
         if not enabled:
             return datetime.date( 1, 1, 1 )
 
-        if unit == self.DAY: 
+        if unit == self.DAY:
             date = datetime.date.today()
             date = date - datetime.timedelta( days = value )
             return date
@@ -870,11 +878,11 @@ class Config( configfile.ConfigFileWithProfiles ):
             date = datetime.date.today()
             date = date - datetime.timedelta( days = date.weekday() + 7 * value )
             return date
-        
+
         if unit == self.YEAR:
             date = datetime.date.today()
             return date.replace( day = 1, year = date.year - value )
-        
+
         return datetime.date( 1, 1, 1 )
 
     def set_remove_old_snapshots( self, enabled, value, unit, profile_id = None ):
@@ -883,14 +891,14 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.remove_old_snapshots.unit', unit, profile_id )
 
     def get_min_free_space( self, profile_id = None ):
-                 #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR 
-                 #?free space is reached.
-        return ( self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id ),
-                 #?Keep at least value + unit free space.;1-99999
-                 self.get_profile_int_value( 'snapshots.min_free_space.value', 1, profile_id ),
-                 #?10 = MB\n20 = GB;10|20;20
-                 self.get_profile_int_value( 'snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id ) )
-    
+                #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR
+                #?free space is reached.
+        return (self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id ),
+                #?Keep at least value + unit free space.;1-99999
+                self.get_profile_int_value( 'snapshots.min_free_space.value', 1, profile_id ),
+                #?10 = MB\n20 = GB;10|20;20
+                self.get_profile_int_value( 'snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id ) )
+
     def is_min_free_space_enabled( self, profile_id = None ):
         return self.get_profile_bool_value( 'snapshots.min_free_space.enabled', True, profile_id )
 
@@ -918,7 +926,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.get_profile_int_value('snapshots.min_free_inodes.value', 2, profile_id)
 
     def min_free_inodes_enabled(self, profile_id = None):
-        #?Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR 
+        #?Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR
         #?free inodes in % is reached.
         return self.get_profile_bool_value('snapshots.min_free_inodes.enabled', True, profile_id)
 
@@ -932,18 +940,18 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_dont_remove_named_snapshots( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.dont_remove_named_snapshots', value, profile_id )
-    
+
     def get_smart_remove( self, profile_id = None ):
-                 #?Run smart_remove to clean up old snapshots after a new snapshot was created.
-        return ( self.get_profile_bool_value( 'snapshots.smart_remove', False, profile_id ),
-                 #?Keep all snapshots for X days.
-                 self.get_profile_int_value( 'snapshots.smart_remove.keep_all', 2, profile_id ),
-                 #?Keep one snapshot per day for X days.
-                 self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_day', 7, profile_id ),
-                 #?Keep one snapshot per week for X weeks.
-                 self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_week', 4, profile_id ),
-                 #?Keep one snapshot per month for X month.
-                 self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_month', 24, profile_id ) )
+                #?Run smart_remove to clean up old snapshots after a new snapshot was created.
+        return (self.get_profile_bool_value( 'snapshots.smart_remove', False, profile_id ),
+                #?Keep all snapshots for X days.
+                self.get_profile_int_value( 'snapshots.smart_remove.keep_all', 2, profile_id ),
+                #?Keep one snapshot per day for X days.
+                self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_day', 7, profile_id ),
+                #?Keep one snapshot per week for X weeks.
+                self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_week', 4, profile_id ),
+                #?Keep one snapshot per month for X month.
+                self.get_profile_int_value( 'snapshots.smart_remove.keep_one_per_month', 24, profile_id ) )
 
     def set_smart_remove( self, value, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.smart_remove', value, profile_id )
@@ -951,7 +959,14 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_day', keep_one_per_day, profile_id )
         self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_week', keep_one_per_week, profile_id )
         self.set_profile_int_value( 'snapshots.smart_remove.keep_one_per_month', keep_one_per_month, profile_id )
-    
+
+    def get_smart_remove_run_remote_in_background(self, profile_id = None):
+        #?If using mode SSH or SSH-encrypted, run smart_remove in background on remote machine
+        return self.get_profile_bool_value('snapshots.smart_remove.run_remote_in_background', False, profile_id)
+
+    def set_smart_remove_run_remote_in_background(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.smart_remove.run_remote_in_background', value, profile_id)
+
     def is_notify_enabled( self, profile_id = None ):
         #?Display notifications (errors, warnings) through libnotify.
         return self.get_profile_bool_value( 'snapshots.notify.enabled', True, profile_id )
@@ -967,30 +982,24 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.backup_on_restore.enabled', value, profile_id )
 
     def is_run_nice_from_cron_enabled( self, profile_id = None ):
-        #?Run cronjobs with 'nice \-n 19'. This will give BackInTime the 
-        #?lowest CPU priority to not interupt any other working process.\n
-        #?Note that the crontab entry is only generated during saving in 
-        #?settings dialog. If you don't run a GUI version of BackInTime 
-        #?you'll have to create the crontab entry on your own.
+        #?Run cronjobs with 'nice \-n 19'. This will give BackInTime the
+        #?lowest CPU priority to not interupt any other working process.
         return self.get_profile_bool_value( 'snapshots.cron.nice', self.DEFAULT_RUN_NICE_FROM_CRON, profile_id )
 
     def set_run_nice_from_cron_enabled( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.cron.nice', value, profile_id )
 
     def is_run_ionice_from_cron_enabled( self, profile_id = None ):
-        #?Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the 
-        #?lowest IO bandwidth priority to not interupt any other working process.\n
-        #?Note that the crontab entry is only generated during saving in 
-        #?settings dialog. If you don't run a GUI version of BackInTime 
-        #?you'll have to create the crontab entry on your own.
+        #?Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the
+        #?lowest IO bandwidth priority to not interupt any other working process.
         return self.get_profile_bool_value( 'snapshots.cron.ionice', self.DEFAULT_RUN_IONICE_FROM_CRON, profile_id )
 
     def set_run_ionice_from_cron_enabled( self, value, profile_id = None ):
         self.set_profile_bool_value( 'snapshots.cron.ionice', value, profile_id )
 
     def is_run_ionice_from_user_enabled( self, profile_id = None ):
-        #?Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot. 
-        #?This will give BackInTime the lowest IO bandwidth priority to not 
+        #?Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot.
+        #?This will give BackInTime the lowest IO bandwidth priority to not
         #?interupt any other working process.
         return self.get_profile_bool_value( 'snapshots.user_backup.ionice', self.DEFAULT_RUN_IONICE_FROM_USER, profile_id )
 
@@ -1012,7 +1021,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value('snapshots.ssh.ionice', value, profile_id)
 
     def is_run_nocache_on_local_enabled( self, profile_id = None ):
-        #?Run rsync on local machine with 'nocache'. 
+        #?Run rsync on local machine with 'nocache'.
         #?This will prevent files from being cached in memory.
         return self.get_profile_bool_value( 'snapshots.local.nocache', self.DEFAULT_RUN_NOCACHE_ON_LOCAL, profile_id )
 
@@ -1020,15 +1029,33 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.local.nocache', value, profile_id )
 
     def is_run_nocache_on_remote_enabled(self, profile_id = None):
-        #?Run rsync on remote host with 'nocache'. 
+        #?Run rsync on remote host with 'nocache'.
         #?This will prevent files from being cached in memory.
         return self.get_profile_bool_value('snapshots.ssh.nocache', self.DEFAULT_RUN_NOCACHE_ON_REMOTE, profile_id)
 
     def set_run_nocache_on_remote_enabled(self, value, profile_id = None):
         self.set_profile_bool_value('snapshots.ssh.nocache', value, profile_id)
 
+    def redirect_stdout_in_cron(self, profile_id = None):
+        #?redirect stdout to /dev/null in cronjobs
+        return self.get_profile_bool_value('snapshots.cron.redirect_stdout', self.DEFAULT_REDIRECT_STDOUT_IN_CRON, profile_id)
+
+    def redirect_stderr_in_cron(self, profile_id = None):
+        #?redirect stderr to /dev/null in cronjobs;;self.DEFAULT_REDIRECT_STDERR_IN_CRON
+        if self.is_configured(profile_id):
+            default = True
+        else:
+            default = self.DEFAULT_REDIRECT_STDERR_IN_CRON
+        return self.get_profile_bool_value('snapshots.cron.redirect_stderr', default, profile_id)
+
+    def set_redirect_stdout_in_cron(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.cron.redirect_stdout', value, profile_id)
+
+    def set_redirect_stderr_in_cron(self, value, profile_id = None):
+        self.set_profile_bool_value('snapshots.cron.redirect_stderr', value, profile_id)
+
     def bwlimit_enabled( self, profile_id = None ):
-        #?Limit rsync bandwidth usage over network. Use this with mode SSH. 
+        #?Limit rsync bandwidth usage over network. Use this with mode SSH.
         #?For mode Local you should rather use ionice.
         return self.get_profile_bool_value( 'snapshots.bwlimit.enabled', False, profile_id )
 
@@ -1050,7 +1077,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_bool_value( 'snapshots.no_on_battery', value, profile_id )
 
     def preserve_acl( self, profile_id = None ):
-        #?Preserve ACL. The  source  and  destination  systems must have 
+        #?Preserve ACL. The  source  and  destination  systems must have
         #?compatible ACL entries for this option to work properly.
         return self.get_profile_bool_value( 'snapshots.preserve_acl', False, profile_id )
 
@@ -1065,8 +1092,8 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.preserve_xattr', value, profile_id )
 
     def copy_unsafe_links( self, profile_id = None ):
-        #?This tells rsync to copy the referent of symbolic links that point 
-        #?outside the copied tree.  Absolute symlinks are also treated like 
+        #?This tells rsync to copy the referent of symbolic links that point
+        #?outside the copied tree.  Absolute symlinks are also treated like
         #?ordinary files.
         return self.get_profile_bool_value( 'snapshots.copy_unsafe_links', False, profile_id )
 
@@ -1074,7 +1101,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.copy_unsafe_links', value, profile_id )
 
     def copy_links( self, profile_id = None ):
-        #?When  symlinks  are  encountered, the item that they point to 
+        #?When  symlinks  are  encountered, the item that they point to
         #?(the reference) is copied, rather than the symlink.
         return self.get_profile_bool_value( 'snapshots.copy_links', False, profile_id )
 
@@ -1095,8 +1122,37 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_rsync_options( self, value, profile_id = None ):
         return self.set_profile_str_value( 'snapshots.rsync_options.value', value, profile_id )
 
+    def ssh_prefix_enabled(self, profile_id = None):
+        #?Add prefix to every command which run through SSH on remote host.
+        return self.get_profile_bool_value('snapshots.ssh.prefix.enabled', False, profile_id)
+
+    def set_ssh_prefix_enabled(self, value, profile_id = None):
+        return self.set_profile_bool_value('snapshots.ssh.prefix.enabled', value, profile_id)
+
+    def ssh_prefix(self, profile_id = None):
+        #?Prefix to run before every command on remote host. Variables need to be escaped with \\$FOO.
+        #?This doesn't touch rsync. So to add a prefix for rsync use
+        #?\fIprofile<N>.snapshots.rsync_options.value\fR with
+        #?--rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"
+        return self.get_profile_str_value('snapshots.ssh.prefix.value', self.DEFAULT_SSH_PREFIX, profile_id)
+
+    def set_ssh_prefix(self, value, profile_id = None):
+        return self.set_profile_str_value('snapshots.ssh.prefix.value', value, profile_id)
+
+    def ssh_prefix_cmd(self, profile_id = None, cmd_type = str):
+        if cmd_type == list:
+            if self.ssh_prefix_enabled(profile_id):
+                return shlex.split(self.ssh_prefix(profile_id))
+            else:
+                return []
+        if cmd_type == str:
+            if self.ssh_prefix_enabled(profile_id):
+                return self.ssh_prefix(profile_id).strip() + ' '
+            else:
+                return ''
+
     def continue_on_errors( self, profile_id = None ):
-        #?Continue on errors. This will keep incomplete snapshots rather than 
+        #?Continue on errors. This will keep incomplete snapshots rather than
         #?deleting and start over again.
         return self.get_profile_bool_value( 'snapshots.continue_on_errors', True, profile_id )
 
@@ -1118,21 +1174,39 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_int_value( 'snapshots.log_level', value, profile_id )
 
     def full_rsync( self, profile_id = None ):
-        #?Full rsync mode. May be faster but snapshots are not read-only 
-        #?anymore and destination file-system must support all linux 
+        #?Full rsync mode. May be faster but snapshots are not read-only
+        #?anymore and destination file-system must support all linux
         #?attributes (date, rights, user, group...)
         return self.get_profile_bool_value( 'snapshots.full_rsync', False, profile_id )
 
     def set_full_rsync( self, value, profile_id = None ):
         return self.set_profile_bool_value( 'snapshots.full_rsync', value, profile_id )
 
+    def take_snapshot_regardless_of_changes(self, profile_id = None):
+        #?Create a new snapshot regardless if there were changes or not.
+        #?Only valid with \fIprofile<N>.snapshots.full_rsync\fR = true
+        return self.get_profile_bool_value('snapshots.full_rsync.take_snapshot_regardless_of_changes', False, profile_id)
+
+    def set_take_snapshot_regardless_of_changes(self, value, profile_id = None):
+        return self.set_profile_bool_value('snapshots.full_rsync.take_snapshot_regardless_of_changes', value, profile_id )
+
     def check_for_changes( self, profile_id = None ):
-        #?Perform a dry-run before taking snapshots. Don't take a new snapshot 
+        #?Perform a dry-run before taking snapshots. Don't take a new snapshot
         #?if nothing has changed.
+        #?Only valid with \fIprofile<N>.snapshots.full_rsync\fR = false
         return self.get_profile_bool_value( 'snapshots.check_for_changes', True, profile_id )
 
     def set_check_for_changes( self, value, profile_id = None ):
         return self.set_profile_bool_value( 'snapshots.check_for_changes', value, profile_id )
+
+    def user_callback_no_logging(self, profile_id = None):
+        #?Do not catch std{out|err} from user-callback script.
+        #?The script will only write to current TTY.
+        #?Default is to catch std{out|err} and write it to
+        #?syslog and TTY again.
+        return self.get_profile_bool_value('user_callback.no_logging', False, profile_id)
+
+    ###########################################################################
 
     def gnu_find_suffix_support( self, profile_id = None ):
         #?Remote SSH host support GNU find suffix (find \-exec COMMAND {} +).
@@ -1148,7 +1222,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.set_profile_bool_value( 'snapshots.gnu_find_suffix_support', value, profile_id )
 
     def get_take_snapshot_user_script( self, step, profile_id = None ):
-        #?Run this scrip on events defined by <STEP>.\nPossible events for 
+        #?Run this scrip on events defined by <STEP>.\nPossible events for
         #?<STEP>:\n  before\n  after\n  new_snapshot\n  error;absolute path
         return self.get_profile_str_value ( "snapshots.take_snapshot.%s.user.script" % step, '', profile_id )
 
@@ -1178,6 +1252,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     def set_take_snapshot_user_script_error( self, path, profile_id = None ):
         self.set_take_snapshot_user_script( 'error', path, profile_id )
+
+    def use_global_flock(self):
+        #?Prevent multiple snapshots (from different profiles or users) to be run at the same time
+        return self.get_bool_value('global.use_flock', False)
+
+    def set_use_global_flock(self, value):
+        self.set_bool_value('global.use_flock', value)
 
     def get_app_path( self ):
         return self._APP_PATH
@@ -1232,9 +1313,9 @@ class Config( configfile.ConfigFileWithProfiles ):
     def anacrontab_files(self):
         '''list existing old anacrontab files'''
         dirname, basename = os.path.split(self.get_anacrontab())
-        for file in os.listdir(dirname):
-            if file.startswith(basename):
-                yield os.path.join(dirname, file) 
+        for f in os.listdir(dirname):
+            if f.startswith(basename):
+                yield os.path.join(dirname, f)
 
     def get_anacron_spool(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
@@ -1260,6 +1341,9 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_last_snapshot_symlink(self, profile_id = None):
         return os.path.join(self.get_snapshots_full_path(profile_id), 'last_snapshot')
 
+    def get_encfsconfig_backup_folder(self, profile_id = None):
+        return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.__get_file_id__( profile_id ))
+
     def get_license( self ):
         return tools.read_file( os.path.join( self.get_doc_path(), 'LICENSE' ), '' )
 
@@ -1269,6 +1353,14 @@ class Config( configfile.ConfigFileWithProfiles ):
     def get_authors( self ):
         return tools.read_file( os.path.join( self.get_doc_path(), 'AUTHORS' ), '' )
 
+    def get_changelog(self):
+        for i in ('CHANGES', 'changelog'):
+            f = os.path.join(self.get_doc_path(), i)
+            clog = tools.read_file(f, '')
+            if clog:
+                return clog
+        return ''
+
     def prepare_path( self, path ):
         if len( path ) > 1:
             if path[ -1 ] == os.sep:
@@ -1276,16 +1368,18 @@ class Config( configfile.ConfigFileWithProfiles ):
         return path
 
     def is_configured( self, profile_id = None ):
-        '''Checks if the program is configured''' 
+        '''Checks if the program is configured'''
         return bool(self.get_snapshots_path(profile_id) and self.get_include(profile_id))
-    
+
     def can_backup( self, profile_id = None ):
-        '''Checks if snapshots_path exists''' 
+        '''Checks if snapshots_path exists'''
         if not self.is_configured( profile_id ):
             return False
 
         if not os.path.isdir( self.get_snapshots_full_path( profile_id ) ):
-            print("%s does not exist" % self.get_snapshots_full_path( profile_id ))
+            logger.error("%s does not exist"
+                         %self.get_snapshots_full_path(profile_id),
+                         self)
             return False
 
         return True
@@ -1304,136 +1398,200 @@ class Config( configfile.ConfigFileWithProfiles ):
         if not last_time:
             return True
 
-        args = [0, ] * 3
-        wait = self.get_automatic_backup_anacron_period(profile_id)
+        value = self.get_automatic_backup_anacron_period(profile_id)
         unit = self.get_automatic_backup_anacron_unit(profile_id)
-        args[(self.HOUR, self.DAY, self.WEEK).index(unit)] = wait
 
-        return tools.olderThan(last_time, *args)
+        return self.olderThan(last_time, value, unit)
 
-    def setup_cron( self ):
-        system_entry_message = "#Back In Time system entry, this will be edited by the gui:"
-        
-        """We have to check if the system_entry_message is in use,
-        if not then the entries are most likely from Back In Time 0.9.26
-        or earlier."""
-        if os.system( "crontab -l | grep '%s' > /dev/null" % system_entry_message ) != 0:
-            """Then the system entry message has not yet been used in this crontab
-            therefore we assume all entries are system entries and clear them all.
-            This is the old behaviour"""
-            print("Clearing all Back In Time entries")
-            os.system( "crontab -l | grep -v backintime | crontab -" )
-        
-        print("Clearing system Back In Time entries")
-        os.system( "crontab -l | sed '/%s/{N;/backintime/d;}' | crontab -" % system_entry_message )
+    def olderThan(self, time, value, unit):
+        '''return True if time is older than months, weeks, days or hours'''
+        assert isinstance(time, datetime.datetime), 'time is not datetime.datetime type: %s' % time
 
-        for file in self.anacrontab_files():
-            print("Clearing anacrontab")
-            os.remove(file)
+        now = datetime.datetime.now()
 
-        empty = True
-        uuid_tmp_fd = None
-        profiles = self.get_profiles()
-        
+        if unit <= self.HOUR:
+            return time < now - datetime.timedelta(hours = value)
+        elif unit <= self.DAY:
+            return time.date() <= now.date() - datetime.timedelta(days = value)
+        elif unit <= self.WEEK:
+            return time.date() < now.date() \
+                                 - datetime.timedelta(days = now.date().weekday()) \
+                                 - datetime.timedelta(weeks = value - 1)
+        elif unit <= self.MONTH:
+            firstDay = now.date() - datetime.timedelta(days = now.date().day + 1)
+            for i in range(value - 1):
+                if firstDay.month == 1:
+                    firstDay = firstDay.replace(month = 12, year = firstDay.year - 1)
+                else:
+                    firstDay = firstDay.replace(month = firstDay.month - 1)
+            return time.date() < firstDay
+        else:
+            return True
+
+    SYSTEM_ENTRY_MESSAGE = "#Back In Time system entry, this will be edited by the gui:"
+
+    def setup_cron(self):
+        for f in self.anacrontab_files():
+            logger.debug("Clearing anacrontab %s"
+                         %f, self)
+            os.remove(f)
+        self.setupUdev.clean()
+
+        oldCrontab = tools.readCrontab()
+
+        strippedCrontab = self.removeOldCrontab(oldCrontab)
+        newCrontab = self. createNewCrontab(strippedCrontab)
+        if not isinstance(newCrontab, (list, tuple)):
+            return newCrontab
+
+        #save Udev rules
         try:
-            for profile_id in profiles:
-                profile_name = self.get_profile_name( profile_id )
-                print("Profile: %s" % profile_name)
-                backup_mode = self.get_automatic_backup_mode( profile_id )
-                print("Automatic backup: %s" % self.AUTOMATIC_BACKUP_MODES[ backup_mode ])
+            if self.setupUdev.isReady and self.setupUdev.save():
+                logger.debug('Udev rules added successfully', self)
+        except PermissionDeniedByPolicy as e:
+            logger.error(str(e), self)
+            self.notify_error(str(e))
+            return False
 
-                if self.NONE == backup_mode:
-                    continue
-
-                if not tools.check_command( 'crontab' ):
-                    self.notify_error( _( 'Can\'t find crontab.\nAre you sure cron is installed ?\nIf not you should disable all automatic backups.' ) )
-                    return False
-
-                cron_line = ''
-
-                hour = self.get_automatic_backup_time(profile_id) / 100;
-                minute = self.get_automatic_backup_time(profile_id) % 100;
-                day = self.get_automatic_backup_day(profile_id)
-                weekday = self.get_automatic_backup_weekday(profile_id)	
-
-                if self.AT_EVERY_BOOT == backup_mode:
-                    cron_line = 'echo "{msg}\n@reboot {cmd}"'
-                elif self._5_MIN == backup_mode:
-                    cron_line = 'echo "{msg}\n*/5 * * * * {cmd}"'
-                elif self._10_MIN == backup_mode:
-                    cron_line = 'echo "{msg}\n*/10 * * * * {cmd}"'
-                elif self._30_MIN == backup_mode:
-                    cron_line = 'echo "{msg}\n*/30 * * * * {cmd}"'
-                elif self._1_HOUR == backup_mode:
-                    cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
-                elif self._2_HOURS == backup_mode:
-                    cron_line = 'echo "{msg}\n0 */2 * * * {cmd}"'
-                elif self._4_HOURS == backup_mode:
-                    cron_line = 'echo "{msg}\n0 */4 * * * {cmd}"'
-                elif self._6_HOURS == backup_mode:
-                    cron_line = 'echo "{msg}\n0 */6 * * * {cmd}"'
-                elif self._12_HOURS == backup_mode:
-                    cron_line = 'echo "{msg}\n0 */12 * * * {cmd}"'
-                elif self.CUSTOM_HOUR == backup_mode:
-                    cron_line = 'echo "{msg}\n0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}"'
-                elif self.DAY == backup_mode:
-                    cron_line = "echo \"{msg}\n%s %s * * * {cmd}\"" % (minute, hour)
-                elif self.REPEATEDLY == backup_mode:
-                    if self.get_automatic_backup_anacron_unit(profile_id) <= self.DAY:
-                        cron_line = 'echo "{msg}\n*/15 * * * * {cmd}"'
-                    else:
-                        cron_line = 'echo "{msg}\n0 * * * * {cmd}"'
-                elif self.UDEV == backup_mode:
-                    mode = self.get_snapshots_mode(profile_id)
-                    if mode == 'local':
-                        dest_path = self.get_snapshots_full_path(profile_id)
-                    elif mode == 'local_encfs':
-                        dest_path = self.get_local_encfs_path(profile_id)
-                    else:
-                        self.notify_error( _('Schedule udev doesn\'t work with mode %s') % mode)
-                        return False
-                    uuid = tools.get_uuid_from_path(dest_path)
-                    if uuid is None:
-                        self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
-                        return False
-                    if uuid_tmp_fd is None:
-                        uuid_tmp_fd = tempfile.NamedTemporaryFile()
-                    self.prepair_udev(uuid_tmp_fd, uuid, profile_id)
-                elif self.WEEK == backup_mode:
-                    cron_line = "echo \"{msg}\n%s %s * * %s {cmd}\"" % (minute, hour, weekday)
-                elif self.MONTH == backup_mode:
-                    cron_line = "echo \"{msg}\n%s %s %s * * {cmd}\"" % (minute, hour, day)
-
-                cmd = self.cron_cmd(profile_id)
-
-                if cron_line:
-                    empty = False
-                    cron_line = cron_line.replace( '{cmd}', cmd )
-                    cron_line = cron_line.replace( '{msg}', system_entry_message )
-                    os.system( "( crontab -l; %s ) | crontab -" % cron_line )
-
-            if uuid_tmp_fd is None:
-                if not self.remove_udev():
-                    self.notify_error( _('Failed to remove udev rules') )
-            else:
-                uuid_tmp_fd.flush()
-                uuid_tmp_fd.seek(0)
-                if uuid_tmp_fd.read():
-                    if not self.setup_udev(uuid_tmp_fd):
-                        self.notify_error( _('Failed to create udev rules') )
-                        uuid_tmp_fd.close()
-                        return False
-                uuid_tmp_fd.close()
-        except:
-            raise
-        finally:
-            if empty:
-                # Leave one system_entry_message in to prevent deleting of manual
-                # entries if there is no automatic entry.
-                info_message = "#Please don't delete these two lines, or all custom backintime entries are going to be deleted next time you call the gui options!"
-                os.system( '(crontab -l; echo "%s"; echo "%s") | crontab -'
-                        % (system_entry_message, info_message) )
+        if not newCrontab == oldCrontab:
+            if not tools.check_command('crontab'):
+                logger.error('crontab not found.', self)
+                self.notify_error(_('Can\'t find crontab.\nAre you sure cron is installed ?\n'
+                                    'If not you should disable all automatic backups.'))
+                return False
+            if not tools.writeCrontab(newCrontab):
+                self.notify_error(_('Failed to write new crontab.'))
+                return False
+        else:
+            logger.debug("Crontab didn't change. Skip writing.")
         return True
+
+    def removeOldCrontab(self, crontab):
+        #We have to check if the self.SYSTEM_ENTRY_MESSAGE is in use,
+        #if not then the entries are most likely from Back In Time 0.9.26
+        #or earlier.
+        if not self.SYSTEM_ENTRY_MESSAGE in crontab:
+            #Then the system entry message has not yet been used in this crontab
+            #therefore we assume all entries are system entries and clear them all.
+            #This is the old behaviour
+            logger.debug("Clearing all Back In Time entries", self)
+            return [x for x in crontab if not 'backintime' in x]
+        else:
+            #clear all line peers which have a SYSTEM_ENTRY_MESSAGE followed by
+            #one backintime command line
+            logger.debug("Clearing system Back In Time entries", self)
+            delLines = []
+            for i, line in enumerate(crontab):
+                if self.SYSTEM_ENTRY_MESSAGE in line and \
+                    len(crontab) > i + 1 and        \
+                    'backintime' in crontab[i + 1]:
+                        delLines.extend((i, i + 1))
+            return [line for i, line in enumerate(crontab) if i not in delLines]
+
+    def createNewCrontab(self, oldCrontab):
+        newCrontab = oldCrontab[:]
+        for profile_id in self.get_profiles():
+            cronLine = self.cronLine(profile_id)
+            if not isinstance(cronLine, str):
+                return cronLine
+            if cronLine:
+                newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
+                newCrontab.append(cronLine.replace('{cmd}', self.cron_cmd(profile_id)))
+
+        if newCrontab == oldCrontab:
+            # Leave one self.SYSTEM_ENTRY_MESSAGE in to prevent deleting of manual
+            # entries if there is no automatic entry.
+            newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
+            newCrontab.append("#Please don't delete these two lines, or all custom backintime "
+                              "entries are going to be deleted next time you call the gui options!")
+        return newCrontab
+
+    def cronLine(self, profile_id):
+        cron_line = ''
+        profile_name = self.get_profile_name(profile_id)
+        backup_mode = self.get_automatic_backup_mode(profile_id)
+        logger.debug("Profile: %s | Automatic backup: %s"
+                     %(profile_name, self.AUTOMATIC_BACKUP_MODES[backup_mode]),
+                     self)
+
+        if self.NONE == backup_mode:
+            return cron_line
+
+        hour = self.get_automatic_backup_time(profile_id) // 100
+        minute = self.get_automatic_backup_time(profile_id) % 100
+        day = self.get_automatic_backup_day(profile_id)
+        weekday = self.get_automatic_backup_weekday(profile_id)
+
+        if self.AT_EVERY_BOOT == backup_mode:
+            cron_line = '@reboot {cmd}'
+        elif self._5_MIN == backup_mode:
+            cron_line = '*/5 * * * * {cmd}'
+        elif self._10_MIN == backup_mode:
+            cron_line = '*/10 * * * * {cmd}'
+        elif self._30_MIN == backup_mode:
+            cron_line = '*/30 * * * * {cmd}'
+        elif self._1_HOUR == backup_mode:
+            cron_line = '0 * * * * {cmd}'
+        elif self._2_HOURS == backup_mode:
+            cron_line = '0 */2 * * * {cmd}'
+        elif self._4_HOURS == backup_mode:
+            cron_line = '0 */4 * * * {cmd}'
+        elif self._6_HOURS == backup_mode:
+            cron_line = '0 */6 * * * {cmd}'
+        elif self._12_HOURS == backup_mode:
+            cron_line = '0 */12 * * * {cmd}'
+        elif self.CUSTOM_HOUR == backup_mode:
+            cron_line = '0 ' + self.get_custom_backup_time( profile_id ) + ' * * * {cmd}'
+        elif self.DAY == backup_mode:
+            cron_line = '%s %s * * * {cmd}' % (minute, hour)
+        elif self.REPEATEDLY == backup_mode:
+            if self.get_automatic_backup_anacron_unit(profile_id) <= self.DAY:
+                cron_line = '*/15 * * * * {cmd}'
+            else:
+                cron_line = '0 * * * * {cmd}'
+        elif self.UDEV == backup_mode:
+            if not self.setupUdev.isReady:
+                logger.error("Failed to install Udev rule for profile %s. "
+                             "DBus Service 'net.launchpad.backintime.serviceHelper' not available"
+                             %profile_id, self)
+                self.notify_error( _('Could not install Udev rule for profile %(profile_id)s. '
+                                     'DBus Service \'%(dbus_interface)s\' '
+                                     'wasn\'t available')
+                                    %{'profile_id': profile_id,
+                                      'dbus_interface': 'net.launchpad.backintime.serviceHelper'})
+            mode = self.get_snapshots_mode(profile_id)
+            if mode == 'local':
+                dest_path = self.get_snapshots_full_path(profile_id)
+            elif mode == 'local_encfs':
+                dest_path = self.get_local_encfs_path(profile_id)
+            else:
+                logger.error('Schedule udev doesn\'t work with mode %s' %mode, self)
+                self.notify_error( _('Schedule udev doesn\'t work with mode %s') % mode)
+                return False
+            uuid = tools.get_uuid_from_path(dest_path)
+            if uuid is None:
+                #try using cached uuid
+                #?Devices uuid used to automatically set up udev rule if the drive is not connected.
+                uuid = self.get_profile_str_value('snapshots.path.uuid', '', profile_id)
+                if not uuid:
+                    logger.error('Couldn\'t find UUID for "%s"' %dest_path, self)
+                    self.notify_error( _('Couldn\'t find UUID for "%s"') % dest_path)
+                    return False
+            else:
+                #cache uuid in config
+                self.set_profile_str_value('snapshots.path.uuid', uuid, profile_id)
+            try:
+                self.setupUdev.addRule(self.cron_cmd(profile_id), uuid)
+            except InvalidChar as e:
+                logger.error(str(e), self)
+                self.notify_error(str(e))
+                return False
+        elif self.WEEK == backup_mode:
+            cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)
+        elif self.MONTH == backup_mode:
+            cron_line = '%s %s %s * * {cmd}' %(minute, hour, day)
+
+        return cron_line
 
     def cron_cmd(self, profile_id):
         cmd = tools.which('backintime') + ' '
@@ -1441,36 +1599,21 @@ class Config( configfile.ConfigFileWithProfiles ):
             cmd += '--profile-id %s ' % profile_id
         if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:
             cmd += '--config %s ' % self._LOCAL_CONFIG_PATH
-        cmd += '--backup-job >/dev/null 2>&1'
+        if logger.DEBUG:
+            cmd += '--debug '
+        cmd += 'backup-job'
+        if self.redirect_stdout_in_cron(profile_id):
+            cmd += ' >/dev/null'
+        if self.redirect_stderr_in_cron(profile_id):
+            if self.redirect_stdout_in_cron(profile_id):
+                cmd += ' 2>&1'
+            else:
+                cmd += ' 2>/dev/null'
         if self.is_run_ionice_from_cron_enabled(profile_id) and tools.check_command('ionice'):
             cmd = tools.which('ionice') + ' -c2 -n7 ' + cmd
         if self.is_run_nice_from_cron_enabled( profile_id ) and tools.check_command('nice'):
             cmd = tools.which('nice') + ' -n 19 ' + cmd
         return cmd
-
-    def prepair_udev(self, tmp_fd, uuid, profile_id):
-        cmd = self.cron_cmd(profile_id)
-        cmd = "%s - '%s' -c '%s'" %(tools.which('su'), self.get_user(), cmd)
-        tmp_fd.write(bytes('ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, cmd), 'UTF-8'))
-        return True
-
-    def setup_udev(self, tmp_fd):
-        tmp_fd.flush()
-        path = self.get_udev_rules_path()
-        os.chmod(tmp_fd.name, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
-        try:
-            if os.path.exists(path) and tools._get_md5sum_from_path(tmp_fd.name) == tools._get_md5sum_from_path(path):
-                return True
-        except TypeError:
-            pass
-        cmd = 'cp "%s" "%s"' %(tmp_fd.name, path)
-        return tools.sudo_execute(self, cmd, _('Please provide your sudo password to install the udev rule.')) == 0
-
-    def remove_udev(self):
-        if not os.path.exists(self.get_udev_rules_path()):
-            return True
-        cmd = 'rm %s' % self.get_udev_rules_path()
-        return tools.sudo_execute(self, cmd, _('Please provide your sudo password to remove unused udev rules.')) == 0
 
 if __name__ == "__main__":
     config = Config()

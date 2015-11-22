@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -45,13 +45,14 @@ class Qt4Plugin( pluginmanager.Plugin ):
         if not tools.check_x_server():
             return False
         return True
-    
+
     def is_gui( self ):
         return True
 
     def on_process_begins( self ):
         try:
-            self.process = subprocess.Popen( [ sys.executable, '/usr/share/backintime/qt4/qt4systrayicon.py', self.snapshots.config.get_current_profile() ] )
+            path = os.path.join(tools.get_backintime_path('qt4'), 'qt4systrayicon.py')
+            self.process = subprocess.Popen( [ sys.executable, path, self.snapshots.config.get_current_profile() ] )
         except:
             pass
 
@@ -62,4 +63,3 @@ class Qt4Plugin( pluginmanager.Plugin ):
                 return
             except:
                 pass
-

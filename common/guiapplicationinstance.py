@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,15 +17,16 @@
 
 
 import os
-import os.path
-import time
 
+import logger
 
-#class used to handle one application instance mechanism
 class GUIApplicationInstance:
-
-    #specify the base for control files
+    '''class used to handle one application instance mechanism
+    '''
+    #TODO: check if we could subclass ApplicationInstance
     def __init__( self, base_control_file, raise_cmd = '' ):
+        '''specify the base for control files
+        '''
         self.pid_file = base_control_file + '.pid'
         self.raise_file = base_control_file + '.raise'
         self.raise_cmd = raise_cmd
@@ -39,8 +40,9 @@ class GUIApplicationInstance:
         self.check( raise_cmd )
         self.start_application()
 
-    #check if the current application is already running
     def check( self, raise_cmd ):
+        '''check if the current application is already running
+        '''
         #check if the pidfile exists
         if not os.path.isfile( self.pid_file ):
             return
@@ -49,14 +51,14 @@ class GUIApplicationInstance:
         pid = 0
         procname = ''
         try:
-            with open( self.pid_file, 'rt' ) as file:
-                data = file.read()
+            with open( self.pid_file, 'rt' ) as f:
+                data = f.read()
             data = data.split('\n', 1)
             pid = int(data[0])
             if len(data) > 1:
                 procname = data[1].strip('\n')
-        except:
-            pass
+        except OSError as e:
+            logger.warning('Failed to read PID and process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
 
         #check if the process with specified by pid exists
         if 0 == pid:
@@ -68,53 +70,61 @@ class GUIApplicationInstance:
             return
 
         #check if the process has the same procname
-        with open('/proc/%s/cmdline' % pid, 'r') as file:
-            if not procname == file.read().strip('\n'):
-                return
+        if procname and not procname == self.readProcName(pid):
+            return True
 
         #exit the application
         print("The application is already running ! (pid: %s)" % pid)
 
         #notify raise
         try:
-            with open( self.raise_file, 'wt' ) as file:
-                file.write( raise_cmd )
-        except:
-            pass
+            with open( self.raise_file, 'wt' ) as f:
+                f.write( raise_cmd )
+        except OSError as e:
+            logger.error('Failed to write raise file %s: [%s] %s' %(e.filename, e.errno, e.strerror))
 
         exit(0) #exit raise an exception so don't put it in a try/except block
 
-    #called when the single instance starts to save it's pid
     def start_application( self ):
+        '''called when the single instance starts to save it's pid
+        '''
         pid = str(os.getpid())
-        procname = ''
-        try:
-            with open('/proc/%s/cmdline' % pid, 'r') as file:
-                procname = file.read().strip('\n')
-        except:
-            pass
-        with open( self.pid_file, 'wt' ) as file:
-            file.write( pid + '\n' + procname )
+        procname = self.readProcName(pid)
 
-    #called when the single instance exit ( remove pid file )
+        try:
+            with open( self.pid_file, 'wt' ) as f:
+                f.write( pid + '\n' + procname )
+        except OSError as e:
+            logger.error('Failed to write PID file %s: [%s] %s' %(e.filename, e.errno, e.strerror))
+
     def exit_application( self ):
+        '''called when the single instance exit ( remove pid file )
+        '''
         try:
             os.remove( self.pid_file )
         except:
             pass
 
-    #check if the application must to be raised
-    #return None if no raise needed, or a string command to raise
     def raise_command( self ):
+        '''check if the application must to be raised
+           return None if no raise needed, or a string command to raise
+        '''
         ret_val = None
 
         try:
             if os.path.isfile( self.raise_file ):
-                with open( self.raise_file, 'rt' ) as file:
-                    ret_val = file.read()
+                with open( self.raise_file, 'rt' ) as f:
+                    ret_val = f.read()
                 os.remove( self.raise_file )
         except:
             pass
 
         return ret_val
 
+    def readProcName(self, pid):
+        try:
+            with open('/proc/%s/cmdline' % pid, 'r') as f:
+                return f.read().strip('\n')
+        except OSError as e:
+            logger.warning('Failed to read process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
+            return ''

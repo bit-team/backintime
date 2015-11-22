@@ -1,6 +1,5 @@
-#!/usr/bin/env python3
 #    Back In Time
-#    Copyright (C) 2012-2014 Germar Reitze
+#    Copyright (C) 2012-2015 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -29,7 +28,7 @@ with open(os.path.join(PATH, '../VERSION'), 'r') as f:
     VERSION = f.read().strip('\n')
 SORT = True #True = sort by alphabet; False = sort by line numbering
 c = re.compile(r'.*?self\.get((?:_profile)?)_(.*?)_value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
-c_default = re.compile(r'(^DEFAULT[\w]*)[\s]*= ([\w]*)')
+c_default = re.compile(r'(^DEFAULT[\w]*)[\s]*= (.*)')
 
 HEADER = '''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
 .SH NAME
@@ -39,10 +38,10 @@ config \- BackInTime configuration files.
 .br
 /etc/backintime/config
 .SH DESCRIPTION
-Back In Time was developed as pure GUI program and so most functions are only 
-useable with backintime-gnome or backintime-kde4. But it is possible to use 
+Back In Time was developed as pure GUI program and so most functions are only
+useable with backintime-qt4. But it is possible to use
 Back In Time e.g. on a headless server. You have to create the configuration file
-(~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime/examples/ for examples.
+(~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime\-common/examples/ for examples.
 .PP
 The configuration file has the following format:
 .br
@@ -50,22 +49,14 @@ keyword=arguments
 .PP
 Arguments don't need to be quoted. All characters are allowed except '='.
 .PP
-The given path (\\fIprofile<N>.snapshots.path\\fR, \\fIprofile<N>.snapshots.local_encfs.path\\fR 
-or \\fIprofile<N>.snapshots.ssh.path\\fR) must contain a folderstructure like 
-backintime/<HOST>/<USER>/<PROFILE_ID>. This has to be created manually.
-.PP
-Also the crontab entry for automatic backup shedules has to be created manually.
-.PP
-crontab example:
-.br
-0 */2 * * * nice \-n 19 ionice \-c2 \-n7 /usr/bin/backintime \-\-backup-job >/dev/null 2>&1
+Run 'backintime check-config' to verify the configfile, create the snapshot folder and crontab entries.
 .SH POSSIBLE KEYWORDS
 ''' % (strftime('%b %Y', gmtime()), VERSION)
 
 FOOTER = '''.SH SEE ALSO
 backintime, backintime-qt4.
 .PP
-Back In Time also has a website: http://backintime.le\-web.org
+Back In Time also has a website: https://github.com/bit-team/backintime
 .SH AUTHOR
 This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).
 '''
@@ -121,7 +112,7 @@ def main():
                                 LINE      : 180}
     dict['profiles'] = {TYPE      : 'str',
                         NAME      : 'profiles',
-                        VALUES    : 'int separated by colon (e.g. 1:3:4)', 
+                        VALUES    : 'int separated by colon (e.g. 1:3:4)',
                         DEFAULT   : '1',
                         COMMENT   : 'All active Profiles (<N> in profile<N>.snapshots...).',
                         REFERENCE : 'configfile.py',
@@ -140,9 +131,11 @@ def main():
             line = line.lstrip()
             m_default = c_default.match(line)
             if m_default:
-                replace_default[m_default.group(1)] = m_default.group(2)
+                replace_default[m_default.group(1)] = m_default.group(2).replace('\\$', '\\\$')
                 continue
             if line.startswith('#?'):
+                if commentline and not ';' in commentline and not commentline.endswith('\\n'):
+                    commentline += ' '
                 commentline += line.lstrip('#?').rstrip('\n')
                 continue
             if line.startswith('#'):
@@ -169,6 +162,9 @@ def main():
 
                     if default.startswith('self.') and default[5:] in replace_default:
                         default = replace_default[default[5:]]
+
+                    if isinstance(force_default, str) and force_default.startswith('self.') and force_default[5:] in replace_default:
+                        force_default = replace_default[force_default[5:]]
 
                     if type == 'bool':
                         default = default.lower()

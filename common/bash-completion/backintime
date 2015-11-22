@@ -1,0 +1,104 @@
+#extract profile and config arguments
+_bit_extr_opts()
+{
+    local c=0 last="" opts=""
+    while [[ $c -le ${COMP_CWORD} ]]; do
+        case "${last}" in
+            --profile|--profile-id|--config)
+                if [[ ${COMP_WORDS[$c]} != -* ]]; then
+                    opts="${opts} ${last} ${COMP_WORDS[$c]}"
+                fi ;;
+        esac
+        last=${COMP_WORDS[$c]}
+        c=$[$c+1]
+    done
+    echo "${opts}"
+}
+
+#return a list of all snapshots
+_bit_snapshots_list()
+{
+    backintime$(_bit_extr_opts) --quiet snapshots-list | awk '{print $2}'
+}
+
+_backintime()
+{
+    local cur prev actions opts pw_cache_commands
+    local cur_action='' pos_action=0 c=0
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--profile --profile-id --quiet --config --version --license       \
+          --help --debug --checksum --no-crontab --keep-mount --delete      \
+          --local-backup --no-local-backup"
+    actions="backup backup-job snapshots-path snapshots-list                \
+             snapshots-list-path last-snapshot last-snapshot-path unmount    \
+             benchmark-cipher pw-cache decode remove restore check-config"
+    pw_cache_commands="start stop restart reload status"
+
+    #extract the current action
+    while [[ $c -le $[${COMP_CWORD} - 1] ]]; do
+        case ${actions} in
+            *"${COMP_WORDS[$c]}"*)
+                    cur_action="${COMP_WORDS[$c]}"
+                    pos_action=${c}
+                    break ;;
+        esac
+        c=$[${c}+1]
+    done
+
+    case "${cur_action}" in
+        restore)
+                if [[ ${cur} != -* ]]; then
+                    #which positional argument is $cur?
+                    case $[${COMP_CWORD}-${pos_action}] in
+                        #first arg is a filename
+                        1) _filedir
+                             return 0
+                             ;;
+                        #second arg is a dirname
+                        2) _filedir -d
+                             return 0
+                             ;;
+                        #third arg is snapshot-id
+                        3)   COMPREPLY=( $(compgen -W "$(_bit_snapshots_list)" -- ${cur}) )
+                             return 0
+                             ;;
+                    esac
+                fi
+                ;;
+        remove|remove-and-do-not-ask-again)
+                if [[ ${cur} != -* ]]; then
+                    #snapshot-ids
+                    COMPREPLY=( $(compgen -W "$(_bit_snapshots_list)" -- ${cur}) )
+                    return 0
+                else
+                    #other args
+                    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+                    return 0
+                fi
+                ;;
+    esac
+
+    case "${prev}" in
+        --config|decode|restore)
+            if [[ ${cur} != -* ]]; then
+                _filedir
+                return 0
+            fi ;;
+        pw-cache)
+            if [[ ${cur} != -* ]]; then
+                COMPREPLY=( $(compgen -W "${pw_cache_commands}" -- ${cur}) )
+                return 0
+            fi ;;
+        *)
+            if [[ -z "${cur_action}" ]]; then
+                opts="${opts} ${actions}"
+            fi
+            COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+            return 0
+            ;;
+    esac
+}
+complete -F _backintime backintime
+complete -F _backintime backintime-qt4

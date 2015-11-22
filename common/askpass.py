@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-#    Copyright (C) 2012-2014 Germar Reitze
+#    Copyright (C) 2012-2015 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,7 +16,6 @@
 
 import os
 import sys
-import base64
 try:
     import gtk
 except:
@@ -33,7 +31,7 @@ if __name__ == '__main__':
     return password.
     """
     cfg = config.Config()
-    tools.load_env(cfg)
+    tools.load_env(cfg.get_cron_env_file())
 
     profile_id = os.getenv('ASKPASS_PROFILE_ID', '1')
     mode = os.getenv('ASKPASS_MODE', 'local')
@@ -44,9 +42,9 @@ if __name__ == '__main__':
         pw = password.Password(cfg)
         print(pw.get_password(None, profile_id, mode))
         sys.exit(0)
-    
+
     #temp mode
     fifo = password_ipc.FIFO(temp_file)
-    pw_base64 = fifo.read(5)
-    if pw_base64:
-        print(base64.decodebytes(pw_base64.encode()).decode())
+    pw = fifo.read(5)
+    if pw:
+        print(pw)

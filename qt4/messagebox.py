@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2014 Germar Reitze
+#    Copyright (C) 2012-2015 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -14,16 +14,17 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys
 import gettext
-from PyQt4.QtCore import QTimer, SIGNAL
-from PyQt4.QtGui import QApplication, QMessageBox, QInputDialog, QLineEdit
+from PyQt4.QtCore import QTimer, SIGNAL, Qt
+from PyQt4.QtGui import QApplication, QMessageBox, QInputDialog, QLineEdit,\
+    QDialog, QVBoxLayout, QLabel, QDialogButtonBox, QScrollArea
+import qt4tools
 
 _ = gettext.gettext
 
 def ask_password_dialog(parent, title, prompt, timeout = None):
     if parent is None:
-        qapp = QApplication(sys.argv)
+        qt4tools.create_qapplication()
 
     import icon
     dialog = QInputDialog()
@@ -49,8 +50,6 @@ def ask_password_dialog(parent, title, prompt, timeout = None):
         password = ''
     del(dialog)
 
-    if parent is None:
-        qapp.exit(0)
     return(password)
 
 def critical(parent, msg):
@@ -63,3 +62,40 @@ def warningYesNo(parent, msg):
     return QMessageBox.question(parent, _('Question'), msg,
                                 buttons = QMessageBox.Yes | QMessageBox.No,
                                 defaultButton = QMessageBox.No )
+
+def warningYesNoOptions(parent, msg, options = ()):
+    dlg = QDialog(parent)
+    dlg.setWindowTitle(_('Question'))
+    layout = QVBoxLayout()
+    dlg.setLayout(layout)
+    label = QLabel(msg)
+    layout.addWidget(label)
+
+    for opt in options:
+        layout.addWidget(opt['widget'])
+
+    buttonBox = QDialogButtonBox(QDialogButtonBox.Yes | QDialogButtonBox.No)
+    buttonBox.button(QDialogButtonBox.No).setDefault(True)
+    layout.addWidget(buttonBox)
+    dlg.connect(buttonBox, SIGNAL('accepted()'), dlg.accept)
+    dlg.connect(buttonBox, SIGNAL('rejected()'), dlg.reject)
+    ret = dlg.exec_()
+    return (ret, {opt['id']:opt['retFunc']() for opt in options})
+
+def show_info(parent, title, msg):
+    dlg = QDialog(parent)
+    dlg.setWindowTitle(title)
+    vlayout = QVBoxLayout(dlg)
+    label = QLabel(msg)
+    label.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
+    label.setOpenExternalLinks(True)
+
+    scroll_area = QScrollArea()
+    scroll_area.setWidget(label)
+
+    button_box = QDialogButtonBox(QDialogButtonBox.Ok)
+    dlg.connect(button_box, SIGNAL('accepted()'), dlg.accept)
+
+    vlayout.addWidget(scroll_area)
+    vlayout.addWidget(button_box)
+    return dlg.exec_()

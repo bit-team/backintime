@@ -1,6 +1,109 @@
 Back In Time
 
-Version 1.1.0~alpha03
+Version 1.1.9
+* Fix bug: failed to parse some arguments (https://github.com/bit-team/backintime/issues/492)
+* Fix bug: failed to start GUI if launched from systray icon
+* Fix bug: deleted snapshot is still listed in Timeline if using mode SSH (https://github.com/bit-team/backintime/issues/493)
+* Fix bug: PermissionError while deleting readonly files on sshfs mounted share (https://github.com/bit-team/backintime/issues/490)
+* Add Nautilus-like shortcuts for navigating in file browser (https://github.com/bit-team/backintime/issues/483)
+* speed up mounting of SSH+encrypted profiles
+* Fix bug: creat new encrypted profiles with encfs >= 1.8.0 failed (https://github.com/bit-team/backintime/issues/477)
+* Fix bug: AttributeError in common/tools.py if keyring is missing (https://github.com/bit-team/backintime/issues/473)
+* Fix bug: remote rename of 'new_snapshot' folder sometimes isn't recognized locally; rename local now (https://answers.launchpad.net/questions/271792)
+* Move source code and bug tracking to GitHub
+
+Version 1.1.8
+* Fix bug: unlock private SSH key run into 5sec timeout if password is empty
+* show current app name and profile ID in syslog (https://launchpad.net/bugs/906213)
+* Fix bug: BiT freeze when activate 'Decode path' in 'Snapshot Log View'
+* Show 'Profiles' dropdown only in 'Last Log Viewer', add 'Snapshots' dropdown in 'Snapshot Log Viewer' (https://launchpad.net/bugs/1478219)
+* Fix bug: empty grey window appears when starting the gui as root (https://launchpad.net/bugs/1493020)
+* do not restore permission if they are identical with current permissions
+* Fix bug: gnu_find_suffix_support doesn't set back to True (https://launchpad.net/bugs/1487781)
+* security issue: do not run user-callback in a shell
+* add option to not log user-callback output
+* Fix lintian warning dbus-policy-without-send-destination
+* apply timestamps-in-gzip.patch from Debian backintime/1.1.6-1 package
+* run multiple smart-remove jobs in one screen session (https://launchpad.net/bugs/1487781)
+* add error messages if PID file creation fail
+* Fix bug: dbus exception if dbus systembus is not running
+* Fix bug: depend on virtual package cron-daemon instead of cron for compatiblity with other cron implementations (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=776856)
+* Fix bug: wasn't able to start from alternate install dir (https://launchpad.net/bugs/478689)
+* Fix bug: wasn't able to start from source dir
+* Add Warning about unsupported filesystems
+* use native Python code to check mountpoint
+* Add expert option for stdout and stderr redirection in cronjobs (https://answers.launchpad.net/questions/270105)
+* Fix bug: 'Inhibit Suspend' fails with 'org.freedesktop.PowerManagement.Inhibit' (https://launchpad.net/bugs/1485242)
+* Fix bug: No mounting while selecting a secondary profile in the gui (https://launchpad.net/bugs/1481267)
+* remove shebang in common/askpass.py and common/create-manpage-backintime-config.py
+* Fix bug: fix for bug #1419466 broke crontab on Slackware (https://launchpad.net/bugs/1478576)
+* Fix bug: fix for bug #1431305 broke pw-cache on Ubuntu (https://launchpad.net/bugs/1431305)
+* Fix bash-complete
+* show 'man backintime' on Help; remove link to backintime.le-web.org (https://launchpad.net/bugs/1475995)
+* add --debug argument
+* Fix bug: Settings accepted empty strings for Host/User/Profile-ID (https://launchpad.net/bugs/1477733)
+* Fix bug: IndexError on 'check_remote_commands' due to too long args (https://launchpad.net/bugs/1471930)
+* add --local-backup, --no-local-backup and --delete option to restore on command-line (https://launchpad.net/bugs/1467239)
+* add 'backup on restore' option to confirm dialog
+* add check-config command for command-line
+* rewrite command-line argument parsing. Now using argparse
+* add expert option SSH command prefix
+* Fix bug: Makefile has no uninstall target (https://launchpad.net/bugs/1469152)
+
+Version 1.1.6
+* show Profile name in systrayicon menu
+* Fix bug: encrypted remote backup hangs on 'start encfsctl encode process' (https://launchpad.net/bugs/1455925)
+* make own Exceptions a childclass from BackInTimeException
+* Fix bug: missing profile<N>.name crashed GUI
+* Fix bug: Segmentation fault caused by two QApplication instances (https://launchpad.net/bugs/1463732)
+* remove consolekit from dependencies
+* Fix bug: no Changes [C] log entries with 'Check for changes' disabled (https://launchpad.net/bugs/1463367)
+* Fix bug: some changed options from Settingsdialog where not respected during automatic tests after hitting OK
+* Fix bug: python version check fails on python 3.3 (https://launchpad.net/bugs/1463686)
+* Specifying the SSH private key whenever ssh is called (https://launchpad.net/bugs/1433682)
+* add to in-/exclude directly from mainwindow (https://launchpad.net/bugs/1454856)
+* Fix bug: pw-cache didn't start on Mint KDE because of missing stdout and stderr (https://launchpad.net/bugs/1431305)
+* add option to run Smart Remove in background on remote host (https://launchpad.net/bugs/1457210)
+* Use current profile when starting GUI from Systray
+* Fix bug: failed to restore file names with white spaces using CLI (https://launchpad.net/bugs/1435602)
+* Fix bug: UnboundLocalError with 'last_snapshot' in _free_space (https://launchpad.net/bugs/1437623)
+
+Version 1.1.4
+* add option to keep new snapshot with 'full rsync mode' regardless of changes (https://launchpad.net/bugs/1434722)
+* Fix bug: wrong quote in 'Save config file'
+* Fix bug: Deleting the last snapshot does not update the last_snapshot symlink (https://launchpad.net/bugs/1434724)
+* remove base64 encoding for passwords as it doesn't add any security but broke the password process (https://launchpad.net/bugs/1431305)
+* add confirm dialog before restoring (https://launchpad.net/bugs/438079)
+* Fix bug: Wrong status text in the tray icon (https://launchpad.net/bugs/1429400)
+* add option to run only one snapshot at a time
+* Fix bug: restore permissions of lots of files made BackInTime unresposive (https://launchpad.net/bugs/1428423)
+* Fix bug: failed to restore file owner and group
+* cache uuid in config so it doesn't fail if the device isn't pluged in (https://launchpad.net/bugs/1426881)
+* add warning about wrong Python version in configure
+* prevent snapshots from being removed with restore and delete; show warning if restore and delete filesystem root (https://answers.launchpad.net/questions/262837)
+* Fix bug: OSError in free_space; add alternate method to get free space
+* add bash-completion
+* Fix bug: ugly theme while running as root on Gnome based DEs (https://launchpad.net/bugs/1418447)
+* Fix bug: filename with broken charset throwed UnicodeError exception (https://launchpad.net/bugs/1419694)
+* use 'crontab' instead of 'crontab -' to read from stdin (https://launchpad.net/bugs/1419466)
+
+Version 1.1.2
+* sort 'Backup folders' in main window
+* save in- and exclude sort order
+* use PolicyKit to install Udev rules
+* move compression from install to build in Makefiles
+* use pkexec to start backintime-qt4 as root
+
+Version 1.1.0
+* add tooltips for rsync options
+* make only one debian/control
+* multiselect files to restore (https://launchpad.net/bugs/1135886)
+* force run manual snapshots on battery (https://launchpad.net/bugs/861553)
+* backup encfs config to local config folder
+* apply 'install-docs-move.patch' from Debian package by Jonathan Wiltshire
+* add restore option to delete new files during restore (https://launchpad.net/bugs/1371951)
+* use flock to prevent two instances running at the same time
+* restore config dialog added (https://launchpad.net/bugs/480391)
 * inhibit suspend/hibernate while take_snapshot or restore
 * use more reliable code for get_user
 * implement anacrons functions inside BIT => more flexible schedules and no new timestamp if there was an error
@@ -43,7 +146,13 @@ Version 1.1.0~alpha03
 * add menubar (https://bugs.launchpad.net/backintime/+bug/528851)
 * port KDE4 GUI to pure Qt4 to replace both KDE4 and Gnome GUI
 
+Version 1.0.40
+* use fingerprint to check if ssh key was unlocked correctly (https://answers.launchpad.net/questions/256408)
+* add fallback method to get UUID (https://answers.launchpad.net/questions/254140)
+* Fix bug: 'Attempt to unlock mutex that was not locked'... this time for good
+
 Version 1.0.38
+* Fix bug: 'Attempt to unlock mutex that was not locked' in gnomeplugin (https://answers.launchpad.net/questions/255225)
 * compare os.path.realpath instead of os.stat to get devices UUID
 * Fix bug: housekeeping by gnome-session-daemon might delete backup and original data (https://bugs.launchpad.net/bugs/1374343)
 * Fix bug: Type Error in 'backintime --decode' (https://bugs.launchpad.net/bugs/1365072)
@@ -171,7 +280,7 @@ Versoin 1.0.12
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/1073867
 
 Version 1.0.10
-* Add "Restore to ..." in replacement of copy (with or without drag & drop) because copy don't restore user/group/rights 
+* Add "Restore to ..." in replacement of copy (with or without drag & drop) because copy don't restore user/group/rights
 Version 1.0.8
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/723545
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/705237
@@ -318,7 +427,7 @@ Version 0.9.18
 * GNOME bugfix: fix a crush in files view for files with special characters (ex: "a%20b")
 * GNOME SettingsDialog bugfix: if snapshots path is a new created folder, snapshots navigation (files view) don't work
 * update doc
-* GNOME & KDE4 MainWindow: Rename "Places" list with "Snapshots" 
+* GNOME & KDE4 MainWindow: Rename "Places" list with "Snapshots"
 * GNOME SettingsDialog bugfix: modify something, then press cancel. If you reopen the dialog it show wrong values (the ones before cancel)
 * GNOME & KDE4: add root mode menu entries (use gksu for gnome and kdesudo for kde)
 * GNOME & KDE4: MainWindow - Files view: if the current directory don't exists in current snapshot display a message
@@ -345,7 +454,7 @@ Version 0.9.16
 * give more information for 'take snapshot' progress (to prove that is not blocked)
 * MainWindow: rename 'Timeline' column with 'Snapshots'
 * when it tries to take a snapshot if the snapshots directory don't exists
-  (it is on a removable drive that is not plugged) it will notify and wait maximum 30 seconds 
+  (it is on a removable drive that is not plugged) it will notify and wait maximum 30 seconds
   (for the drive to be plugged)
 * GNOME & KDE4: add notify if the snapshots directory don't exists
 * KDE4: rework MainWindow
@@ -409,10 +518,10 @@ Version 0.9
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 * make deb packages more debian friendly (thanks to Michael Wiedmann <mw@miwie.in-berlin.de>)
 * update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
-* bug fix: when you open snapshots dialog for the second time ( or more ) and you make a diff 
-  it will make the diff on the file for the first dialog ( all previous dialogs ) and then for 
+* bug fix: when you open snapshots dialog for the second time ( or more ) and you make a diff
+  it will make the diff on the file for the first dialog ( all previous dialogs ) and then for
   the current one
-* better separation between common and gnome specific files and 
+* better separation between common and gnome specific files and
   divide backintime package in backintime-common & backintime-gnome
   (this will allow me to write other GUI front-ends like KDE4 or KDE)
 * code cleanup
@@ -488,7 +597,7 @@ Version 0.7.2
 * capitalize month in timeline (bug in french translation)
 
 Version 0.7
-* fix cron segfault 
+* fix cron segfault
 * fix a crush when launched the very first time (not configured)
 * multi-lingual support
 * add French translation
@@ -512,4 +621,3 @@ Version 0.5.1
 
 Version 0.5
 * This is the first release.
-

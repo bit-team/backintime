@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 #    Back In Time
-#    Copyright (C) 2012-2014 Germar Reitze
+#    Copyright (C) 2012-2015 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,8 +21,9 @@ import sys
 
 import tools
 import snapshots
+import bcolors
 
-def restore(cfg, snapshot_id = None, what = None, where = None):
+def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
     if what is None:
         what = input('File to restore: ')
     what = tools.prepare_path(os.path.abspath(os.path.expanduser(what)))
@@ -34,17 +36,102 @@ def restore(cfg, snapshot_id = None, what = None, where = None):
     snapshots_ = snapshots.Snapshots(cfg)
     snapshot_id = selectSnapshot(snapshots_, snapshot_id, 'SnapshotID to restore')
     print('')
-    RestoreDialog(cfg, snapshots_, snapshot_id, what, where).run()
+    RestoreDialog(cfg, snapshots_, snapshot_id, what, where, **kwargs).run()
 
-def remove(cfg, snapshot_id = None, force = None):
+def remove(cfg, snapshot_ids = None, force = None):
     snapshots_ = snapshots.Snapshots(cfg)
-    snapshot_id = selectSnapshot(snapshots_, snapshot_id, 'SnapshotID to remove')
+    if not snapshot_ids:
+        snapshot_ids = (None,)
+    sids = [selectSnapshot(snapshots_, sid, 'SnapshotID to remove') for sid in snapshot_ids]
+
     if not force:
-        print('Do you really want to remove this snapshot? %s' % snapshots_.get_snapshot_display_name(snapshot_id))
+        print('Do you really want to remove this snapshots?')
+        [print(snapshots_.get_snapshot_display_name(sid)) for sid in sids]
         if not 'yes' == input('(no/yes): '):
             return
 
-    snapshots_.remove_snapshot(snapshot_id)
+    [snapshots_.remove_snapshot(sid) for sid in sids]
+
+def checkConfig(cfg, crontab = True):
+    import mount
+    from exceptions import MountException
+    def announceTest():
+        print()
+        print(frame(test))
+
+    def failed():
+        print(test + ': ' + bcolors.FAIL + 'failed' + bcolors.ENDC)
+
+    def okay():
+        print(test + ': ' + bcolors.OKGREEN + 'done' + bcolors.ENDC)
+
+    def errorHandler(msg):
+        print(bcolors.WARNING + 'WARNING: ' + bcolors.ENDC + msg)
+
+    cfg.set_error_handler(errorHandler)
+    mode = cfg.get_snapshots_mode()
+
+    if cfg.SNAPSHOT_MODES[mode][0] is not None:
+        #pre_mount_check
+        test = 'Run mount tests'
+        announceTest()
+        mnt = mount.Mount(cfg = cfg, tmp_mount = True)
+        try:
+            mnt.pre_mount_check(mode = mode, first_run = True)
+        except MountException as ex:
+            failed()
+            print(str(ex))
+            return False
+        okay()
+
+        #okay, lets try to mount
+        test = 'Mount'
+        announceTest()
+        try:
+            hash_id = mnt.mount(mode = mode, check = False)
+        except MountException as ex:
+            failed()
+            print(str(ex))
+            return False
+        okay()
+
+    test = 'Check/prepair snapshot path'
+    announceTest()
+    snapshots_path = cfg.get_snapshots_path(mode = mode, tmp_mount = True)
+
+    if not cfg.set_snapshots_path( snapshots_path, mode = mode ):
+        failed()
+        return False
+    okay()
+
+    #umount
+    if not cfg.SNAPSHOT_MODES[mode][0] is None:
+        test = 'Unmount'
+        announceTest()
+        try:
+            mnt.umount(hash_id = hash_id)
+        except MountException as ex:
+            failed()
+            print(str(ex))
+            return False
+        okay()
+
+    test = 'Check config'
+    announceTest()
+    if not cfg.check_config():
+        failed()
+        return False
+    okay()
+
+    if crontab:
+        test = 'Install crontab'
+        announceTest()
+        if not cfg.setup_cron():
+            failed()
+            return False
+        okay()
+
+    return True
 
 def selectSnapshot(snapshots_, snapshot_id = None, msg = 'SnapshotID'):
     '''check if given snapshot is valid. If not print a list of all
@@ -83,8 +170,8 @@ def selectSnapshot(snapshots_, snapshot_id = None, msg = 'SnapshotID'):
     print('')
     while snapshot_id is None:
         try:
-            id = int(input(msg + ' ( 0 - %d ): ' % (len_snapshots - 1) ))
-            snapshot_id = snapshot_list[id]
+            sid = int(input(msg + ' ( 0 - %d ): ' % (len_snapshots - 1) ))
+            snapshot_id = snapshot_list[sid]
         except (ValueError, IndexError):
             print('Invalid Input')
             continue
@@ -100,23 +187,32 @@ def terminalSize():
             pass
     return [24, 80]
 
+def frame(msg, size = 32):
+    ret  = ' ┌' + '─' * size +       '┐\n'
+    ret += ' │' + msg.center(size) + '│\n'
+    ret += ' └' + '─' * size +       '┘'
+    return ret
+
 class RestoreDialog(object):
-    def __init__(self, cfg, snapshots_, snapshot_id, what, where):
+    def __init__(self, cfg, snapshots_, snapshot_id, what, where, **kwargs):
         self.config = cfg
         self.snapshots = snapshots_
         self.snapshot_id = snapshot_id
         self.what = what
         self.where = where
-        
+        self.kwargs = kwargs
+
         self.log_file = self.config.get_restore_log_file()
         if os.path.exists(self.log_file):
             os.remove(self.log_file)
 
     def callback(self, line, *params):
+        if not line:
+            return
         print(line)
         with open(self.log_file, 'a') as log:
             log.write(line + '\n')
 
     def run(self):
-        self.snapshots.restore(self.snapshot_id, self.what, self.callback, self.where)
+        self.snapshots.restore(self.snapshot_id, self.what, self.callback, self.where, **self.kwargs)
         print('\nLog saved to %s' % self.log_file)

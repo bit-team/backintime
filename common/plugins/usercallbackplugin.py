@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,13 +17,11 @@
 
 
 import os
-import os.path
 import pluginmanager
-import tools
 import logger
 import gettext
-from subprocess import Popen
-from subprocess import PIPE
+from subprocess import Popen, PIPE
+from exceptions import StopException
 
 _=gettext.gettext
 
@@ -39,23 +37,29 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
             return False
         return True
 
-    def notify_callback( self, args = '' ):
-        logger.info( "[UserCallbackPlugin.notify_callback] %s" % args )
+    def notify_callback(self, *args):
+        cmd = [self.callback, self.config.get_current_profile(), self.config.get_profile_name()]
+        cmd.extend([str(x) for x in args])
+        logger.debug('Call user-callback: %s' %' '.join(cmd), self)
+        if self.config.user_callback_no_logging():
+            stdout, stderr = None, None
+        else:
+            stdout, stderr = PIPE, PIPE
         try:
-            callback = Popen( "\"%s\" %s \"%s\" %s" % ( self.callback, self.config.get_current_profile(), self.config.get_profile_name(), args ),
-                                shell=True,
-                                stdout=PIPE,
-                                stderr=PIPE,
-                                universal_newlines = True )
+            callback = Popen(cmd,
+                             stdout = stdout,
+                             stderr = stderr,
+                             universal_newlines = True)
             output = callback.communicate()
             if output[0]:
-                logger.info( "[UserCallbackPlugin.notify_callback callback output] %s" % output[0] )
+                logger.info('user-callback returned \'%s\'' %output[0].strip('\n'), self)
             if output[1]:
-                logger.error( "[UserCallbackPlugin.notify_callback callback error] %s" % output[1] )
+                logger.error('user-callback returned \'%s\'' %output[1].strip('\n'), self)
             if callback.returncode != 0:
-                raise pluginmanager.StopException()
-        except OSError:
-            logger.error( "[UserCallbackPlugin.notify_callback] Exception when trying to run user callback" )
+                logger.warning('user-callback returncode: %s' %callback.returncode, self)
+                raise StopException()
+        except OSError as e:
+            logger.error("Exception when trying to run user callback: %s" % e.strerror, self)
 
     def on_process_begins( self ):
         self.notify_callback( '1' )
@@ -63,14 +67,14 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
     def on_process_ends( self ):
         self.notify_callback( '2' )
 
-    def on_error( self, code, message ):
-        if len( message ) <= 0:
-            self.notify_callback( "4 %s" % code )
+    def on_error(self, code, message):
+        if not message:
+            self.notify_callback('4', code)
         else:
-            self.notify_callback( "4 %s \"%s\"" % ( code, message ) )
+            self.notify_callback('4', code, message)
 
     def on_new_snapshot( self, snapshot_id, snapshot_path ):
-        self.notify_callback( "3 %s \"%s\"" % ( snapshot_id, snapshot_path ) )
+        self.notify_callback('3', snapshot_id, snapshot_path)
 
     def on_app_start(self):
         self.notify_callback('5')

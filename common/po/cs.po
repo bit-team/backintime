@@ -7,290 +7,331 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-09 22:34+0100\n"
-"PO-Revision-Date: 2013-12-23 12:16+0000\n"
-"Last-Translator: Petr Šimáček <petr.simacek@gmail.com>\n"
+"POT-Creation-Date: 2015-11-20 00:03+0100\n"
+"PO-Revision-Date: 2015-11-19 23:19+0000\n"
+"Last-Translator: Germar <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2014-09-30 20:28+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"X-Launchpad-Export-Date: 2015-11-19 23:32+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 
-#: ../../common/config.py:72
+#: ../../common/configfile.py:259 ../../common/configfile.py:321
+#, python-format
+msgid "Profile \"%s\" already exists !"
+msgstr "Profil %s už existuje!"
+
+#: ../../common/configfile.py:290
+msgid "You can't remove the last profile !"
+msgstr "Nelze odebrat poslední zbývající profil!"
+
+#: ../../common/config.py:76
 msgid "Disabled"
-msgstr "Zakázáno"
+msgstr "Vypnuto"
 
-#: ../../common/config.py:73
+#: ../../common/config.py:77
 msgid "At every boot/reboot"
 msgstr "Při každém startu/restartu"
 
-#: ../../common/config.py:74
+#: ../../common/config.py:78
 msgid "Every 5 minutes"
 msgstr "Každých 5 minut"
 
-#: ../../common/config.py:75
+#: ../../common/config.py:79
 msgid "Every 10 minutes"
 msgstr "Každých 10 minut"
 
-#: ../../common/config.py:76
+#: ../../common/config.py:80
 msgid "Every 30 minutes"
 msgstr "Každých 30 minut"
 
-#: ../../common/config.py:77
+#: ../../common/config.py:81
 msgid "Every hour"
 msgstr "Každou hodinu"
 
-#: ../../common/config.py:78
+#: ../../common/config.py:82
 msgid "Every 2 hours"
 msgstr "Každé 2 hodiny"
 
-#: ../../common/config.py:79
+#: ../../common/config.py:83
 msgid "Every 4 hours"
 msgstr "Každé 4 hodiny"
 
-#: ../../common/config.py:80
+#: ../../common/config.py:84
 msgid "Every 6 hours"
 msgstr "Každých 6 hodin"
 
-#: ../../common/config.py:81
+#: ../../common/config.py:85
 msgid "Every 12 hours"
 msgstr "Každých 12 hodin"
 
-#: ../../common/config.py:82
+#: ../../common/config.py:86
 msgid "Custom Hours"
-msgstr "Vlastní doba"
+msgstr "Vlastní interval"
 
-#: ../../common/config.py:83
+#: ../../common/config.py:87
 msgid "Every Day"
 msgstr "Každý den"
 
-#: ../../common/config.py:84
-msgid "Daily (anacron)"
-msgstr "Denně (anacron)"
+#: ../../common/config.py:88
+msgid "Repeatedly (anacron)"
+msgstr "Opakovaně (anacron)"
 
-#: ../../common/config.py:85
+#: ../../common/config.py:89
 msgid "When drive get connected (udev)"
-msgstr "Když se disk připojí (udev)"
+msgstr "Při připojení (flash)disku (udev)"
 
-#: ../../common/config.py:86
+#: ../../common/config.py:90
 msgid "Every Week"
 msgstr "Každý týden"
 
-#: ../../common/config.py:87
+#: ../../common/config.py:91
 msgid "Every Month"
 msgstr "Každý měsíc"
 
-#: ../../common/config.py:91
+#: ../../common/config.py:95 ../../common/config.py:102
 msgid "Day(s)"
 msgstr "Dnů"
 
-#: ../../common/config.py:92
+#: ../../common/config.py:96 ../../common/config.py:103
 msgid "Week(s)"
 msgstr "Týdnů"
 
-#: ../../common/config.py:93
+#: ../../common/config.py:97
 msgid "Year(s)"
-msgstr "Roků"
+msgstr "Let"
 
-#: ../../common/config.py:100
+#: ../../common/config.py:101
+msgid "Hour(s)"
+msgstr "Hodin"
+
+#: ../../common/config.py:104
+msgid "Month(s)"
+msgstr "Měsíců"
+
+#: ../../common/config.py:126 ../../qt4/settingsdialog.py:546
 msgid " EXPERIMENTAL!"
 msgstr " EXPERIMENTÁLNÍ!"
 
-#: ../../common/config.py:103
+#: ../../common/config.py:129
 msgid "Local"
 msgstr "Místní"
 
-#: ../../common/config.py:104
+#: ../../common/config.py:130
 msgid "SSH"
-msgstr "SSH"
+msgstr "Vzdálené (SSH)"
 
-#: ../../common/config.py:104 ../../common/config.py:106
-#: ../../gnome/settingsdialog.py:475 ../../kde4/settingsdialog.py:1325
+#: ../../common/config.py:130 ../../common/config.py:132
+#: ../../qt4/settingsdialog.py:1546
 msgid "SSH private key"
-msgstr "SSH soukromý klíč"
+msgstr "Soukromá část SSH klíče"
 
-#: ../../common/config.py:105
+#: ../../common/config.py:131
 msgid "Local encrypted"
-msgstr "Místně zašifrováno"
+msgstr "Místní šifrované"
 
-#: ../../common/config.py:105 ../../common/config.py:106
+#: ../../common/config.py:131 ../../common/config.py:132
 msgid "Encryption"
 msgstr "Šifrování"
 
-#: ../../common/config.py:106
+#: ../../common/config.py:132
 msgid "SSH encrypted"
-msgstr "SSH šifrováno"
+msgstr "Vzdálené (SSH) šifrované"
 
-#: ../../common/config.py:112
+#: ../../common/config.py:135
 msgid "Default"
 msgstr "Výchozí"
 
-#: ../../common/config.py:113
+#: ../../common/config.py:136
 msgid "AES128-CTR"
-msgstr "AES128-CTR"
+msgstr ""
 
-#: ../../common/config.py:114
+#: ../../common/config.py:137
 msgid "AES192-CTR"
-msgstr "AES192-CTR"
+msgstr ""
 
-#: ../../common/config.py:115
+#: ../../common/config.py:138
 msgid "AES256-CTR"
-msgstr "AES256-CTR"
+msgstr ""
 
-#: ../../common/config.py:116
+#: ../../common/config.py:139
 msgid "ARCFOUR256"
-msgstr "ARCFOUR256"
+msgstr ""
 
-#: ../../common/config.py:117
+#: ../../common/config.py:140
 msgid "ARCFOUR128"
-msgstr "ARCFOUR128"
+msgstr ""
 
-#: ../../common/config.py:118
+#: ../../common/config.py:141
 msgid "AES128-CBC"
-msgstr "AES128-CBC"
+msgstr ""
 
-#: ../../common/config.py:119
+#: ../../common/config.py:142
 msgid "3DES-CBC"
-msgstr "3DES-CBC"
+msgstr ""
 
-#: ../../common/config.py:120
+#: ../../common/config.py:143
 msgid "Blowfish-CBC"
-msgstr "Blowfish-CBC"
+msgstr ""
 
-#: ../../common/config.py:121
+#: ../../common/config.py:144
 msgid "Cast128-CBC"
-msgstr "Cast128-CBC"
+msgstr ""
 
-#: ../../common/config.py:122
+#: ../../common/config.py:145
 msgid "AES192-CBC"
-msgstr "AES192-CBC"
+msgstr ""
 
-#: ../../common/config.py:123
+#: ../../common/config.py:146
 msgid "AES256-CBC"
-msgstr "AES256-CBC"
+msgstr ""
 
-#: ../../common/config.py:124
+#: ../../common/config.py:147
 msgid "ARCFOUR"
-msgstr "ARCFOUR"
+msgstr ""
 
-#: ../../common/config.py:129
+#: ../../common/config.py:153
 msgid "Main profile"
-msgstr "Základní profil"
+msgstr "Hlavní profil"
 
-#: ../../common/config.py:256 ../../common/config.py:275
-#: ../../common/config.py:286 ../../common/config.py:291
+#: ../../common/config.py:289 ../../common/config.py:296
+#: ../../common/config.py:307 ../../common/config.py:312
+#: ../../qt4/qt4systrayicon.py:61
 #, python-format
 msgid "Profile: \"%s\""
-msgstr "Profil: \"%s\""
+msgstr "Profil: %s"
 
-#: ../../common/config.py:256
+#: ../../common/config.py:289
 msgid "Snapshots folder is not valid !"
-msgstr "Složka snímků není platná!"
+msgstr "Složka zachycených stavů není platná!"
 
-#: ../../common/config.py:275
+#: ../../common/config.py:296
 msgid "You must select at least one folder to backup !"
-msgstr "Vyberte nejméně jednu složku k zálohování!"
+msgstr "Vyberte alespoň jednu složku, která má být zálohovaná!"
 
-#: ../../common/config.py:286
+#: ../../common/config.py:307
 msgid "You can't include backup folder !"
-msgstr "Nemůžete vložit složku zálohy!"
+msgstr ""
+"Složku se zálohami nelze zahrnout mezi zálohované položky (zacyklení)!"
 
-#: ../../common/config.py:291
+#: ../../common/config.py:312
 msgid "You can't include a backup sub-folder !"
-msgstr "Nemůžete vložit podsložku zálohy!"
+msgstr ""
+"Podsložku složky se zálohami nelze zahrnout mezi zálohované položky "
+"(zacyklení)!"
 
-#: ../../common/config.py:361
+#: ../../common/config.py:371
 #, python-format
 msgid "%s is not a folder !"
 msgstr "%s není složka!"
 
-#: ../../common/config.py:376 ../../common/config.py:389
+#: ../../common/config.py:380
+msgid "Host/User/Profile-ID must not be empty!"
+msgstr ""
+"Kolonka Stroj/Uživatel/Identifikátor-profilu nemůže zůstat nevyplněná!"
+
+#: ../../common/config.py:388 ../../common/config.py:420
 #, python-format
 msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
-"Nelze zapisovat do: %s\n"
-"Máte nastavena práva zápisu?"
+"Nedaří se zapisovat do: %s\n"
+"Máte zde oprávnění k zápisu?"
 
-#: ../../common/config.py:1286
+#: ../../common/config.py:400
+#, python-format
+msgid ""
+"Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
+"support hard-links. Please use a native Linux filesystem."
+msgstr ""
+"Cílový souborový systém pro %(path)s je FAT, který nepodporuje pevné odkazy "
+"(hardlink). Použijte namísto něj nějaký přirozený Linuxový souborový systém."
+
+#: ../../common/config.py:405
+#, python-format
+msgid ""
+"Destination filsystem for '%(path)s' is a SMB mounted share. Please make "
+"sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
+"'%(expertOptions)s'."
+msgstr ""
+"Cílový souborový systém pro '%(path)s' je SMB sdílení. Ověřte, že SMB server "
+"podporuje symbolické odkazy (symlink), případně v '%(expertOptions)s' "
+"zapněte '%(copyLinks)s'"
+
+#: ../../common/config.py:408 ../../qt4/settingsdialog.py:810
+msgid "Copy links (dereference symbolic links)"
+msgstr "Kopírovat cíle odkazů (vyřadí symbolické odkazy)"
+
+#: ../../common/config.py:409 ../../qt4/settingsdialog.py:664
+msgid "Expert Options"
+msgstr "Pokročilé předvolby"
+
+#: ../../common/config.py:411
+#, python-format
+msgid ""
+"Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
+"support hard-links. Please use mode 'SSH' instead."
+msgstr ""
+"Cílový souborový systém pro '%(path)s je sshfs sdílení. sshfs nepodporuje "
+"pevné odkazy (hardlink). Použijte namísto toho přímo SSH režim."
+
+#: ../../common/config.py:1459
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
-"Nelze nalézt crontab.\n"
-"Máte určitě nainstalován cron?\n"
-"Pokud ne, automatické zálohování bude vypnuto."
+"Nelze nalézt soubor crontab.\n"
+"Máte určitě nainstalován plánovač cron ?\n"
+"V případě že ne, měli byste vypnout veškeré samočinné zálohování."
 
-#: ../../common/config.py:1338
+#: ../../common/config.py:1463
+msgid "Failed to write new crontab."
+msgstr "Nezdařilo se zapsat novou úlohu (crontab)."
+
+#: ../../common/config.py:1557
+#, python-format
+msgid ""
+"Could not install Udev rule for profile %(profile_id)s. DBus Service "
+"'%(dbus_interface)s' wasn't available"
+msgstr ""
+"Nelze nainstalovat Udev pravidlo pro profil %(profile_id)s. Služba DBus "
+"'%(dbus_interface)s' nebyla k dispozici"
+
+#: ../../common/config.py:1569
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
-msgstr "Plán udev nepracuje v režimu %s"
+msgstr "Plán, používající správce zařízení udev, nefunguje v režimu %s"
 
-#: ../../common/config.py:1342
+#: ../../common/config.py:1578
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
-msgstr "Nelze najít UUID pro \"% s\""
+msgstr "Nelze najít univerzálně jedinečný identifkátor (UUID) pro %s"
 
-#: ../../common/config.py:1379
-msgid "Failed to remove udev rules"
-msgstr "Nepodařilo se odstranit pravidla udev"
-
-#: ../../common/config.py:1385
-msgid "Failed to create udev rules"
-msgstr "Nepodařilo se vytvořit pravidla udev"
-
-#: ../../common/config.py:1420
-msgid ""
-"Can't find anacron.\n"
-"Are you sure anacron is installed ?\n"
-"If not you should disable daily anacron backups."
-msgstr ""
-"Nelze nalézt anacron.\n"
-"Je anacron opravdu nainstalovaný?\n"
-"Pokud ne, měli byste vypnout denní anacron zálohy."
-
-#: ../../common/config.py:1439
-msgid "Please provide your sudo password to install the udev rule."
-msgstr "Uveďte, prosím, své sudo heslo pro instalaci pravidla udev."
-
-#: ../../common/config.py:1445
-msgid "Please provide your sudo password to remove unused udev rules."
-msgstr "Uveďte, prosím, své sudo heslo pro odebrání pravidel udev."
-
-#: ../../common/configfile.py:253 ../../common/configfile.py:315
-#, python-format
-msgid "Profile \"%s\" already exists !"
-msgstr "Profil \"%s\" už existuje!"
-
-#: ../../common/configfile.py:284
-msgid "You can't remove the last profile !"
-msgstr "Nemůžete odebrat poslední profil!"
-
-#: ../../common/encfstools.py:95
+#: ../../common/encfstools.py:104
 #, python-format
 msgid ""
 "Can't mount '%(command)s':\n"
 "\n"
 "%(error)s"
 msgstr ""
-"Nelze připojit '%(command)s':\n"
+"Nelze připojit %(command)s:\n"
 "\n"
 "%(error)s"
 
-#: ../../common/encfstools.py:105
+#: ../../common/encfstools.py:114
 #, python-format
 msgid "Can't unmount encfs %s"
-msgstr "Nelze odpojit encfs %s"
+msgstr "Nelze odpojit souborový systém encfs %s"
 
-#: ../../common/encfstools.py:149
+#: ../../common/encfstools.py:166
 msgid "Config for encrypted folder not found."
-msgstr "Nastavení pro zašifrovanou složku nelze nalézt."
+msgstr "Nastavení pro šifrovanou složku nebylo nalezeno."
 
-#: ../../common/encfstools.py:153
+#: ../../common/encfstools.py:170
 msgid ""
 "\n"
 "Create a new encrypted folder?"
@@ -298,108 +339,114 @@ msgstr ""
 "\n"
 "Vytvořit novou šifrovanou složku?"
 
-#: ../../common/encfstools.py:154
+#: ../../common/encfstools.py:171
 msgid "Cancel"
-msgstr "Zrušit"
+msgstr "Storno"
 
-#: ../../common/encfstools.py:157
+#: ../../common/encfstools.py:174
 msgid "Please confirm password"
-msgstr "Potvrďte, prosím, heslo"
+msgstr "Potvrďte heslo"
 
-#: ../../common/encfstools.py:161
+#: ../../common/encfstools.py:178
 msgid "Password doesn't match"
-msgstr "Heslo se neshoduje"
+msgstr "Zadání hesla se neshodují"
 
-#: ../../common/encfstools.py:166
+#: ../../common/encfstools.py:185
 msgid "encfs not found. Please install e.g. 'apt-get install encfs'"
 msgstr ""
-"encfs nelze nalézt. Nainstalujte ho například  'apt-get install encfs'"
+"Podporu pro encfs nelze nalézt. Nainstalujte příslušný balíček, např.: apt-"
+"get install encfs"
 
-#: ../../common/encfstools.py:174 ../../common/sshtools.py:207
+#: ../../common/encfstools.py:196 ../../common/sshtools.py:262
 #, python-format
 msgid ""
 "%(user)s is not member of group 'fuse'.\n"
 " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
 "Look at 'man backintime' for further instructions."
 msgstr ""
-"%(user)s není členem skupiny 'fuse'.\n"
-" Spusťte 'sudo adduser %(user)s fuse'. Aby se změny projevily, je nutné se "
-"odhlásit a znovu přihlásit.\n"
-"Podívejte se na 'man backintime' pro další instrukce."
+"%(user)s není členem skupiny fuse.\n"
+" Spusťte příkaz: sudo adduser %(user)s fuse . Aby se změny projevily, bude "
+"nutné se odhlásit a znovu přihlásit.\n"
+"Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
 
-#: ../../common/encfstools.py:189
+#: ../../common/encfstools.py:211
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs"
 msgstr ""
-"encfs verze 1.7.2 a nižší mají chybu s možností - reverzní. Prosím, "
-"aktualizujte encfs"
+"Implementace encfs verze 1.7.2 a starší obsahují chybu ve volbě --reverse . "
+"Aktualizujte encfs"
 
-#: ../../common/encfstools.py:453 ../../common/encfstools.py:480
-#: ../../common/snapshots.py:982 ../../common/snapshots.py:1288
-#: ../../kde4/app.py:82 ../../gnome/mainwindow.glade:43
+#: ../../common/encfstools.py:512 ../../common/snapshots.py:1091
+#: ../../common/snapshots.py:1326 ../../qt4/app.py:78
 msgid "Take snapshot"
-msgstr "Vytvořit snímek"
+msgstr "Pořídit zachycený stav"
 
-#: ../../common/mount.py:195
+#: ../../common/mount.py:202
 #, python-format
 msgid ""
 "Hash collision occurred in hash_id %s. Incrementing global value "
 "hash_collision and try again."
 msgstr ""
-"Hash kolize nastala v hash_id%s. Zvyšte globální hodnotu hash_collision a "
+"Nastala kolize otisku v hash_id %s. Zvyšte celkovou hodnotu hash_collision a "
 "zkuste to znovu."
 
-#: ../../common/mount.py:246
+#: ../../common/mount.py:257
 #, python-format
 msgid "mountpoint %s not empty."
 msgstr "Přípojný bod %s není prázdný."
 
-#: ../../common/mount.py:286
+#: ../../common/mount.py:294
 msgid "Mountprocess lock timeout"
-msgstr "Proces připojování je uzamčen časovým limitem"
+msgstr "Vypršel časový limit zámku procesu připojování (mount)"
 
-#: ../../common/password.py:425
+#: ../../common/password.py:427
 #, python-format
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
-msgstr "Profil '%(profile)s': Vložte heslo pro %(mode)s: "
+msgstr "Profil %(profile)s: Zadejte heslo pro %(mode)s: "
 
-#: ../../common/snapshots.py:171 ../../gnome/app.py:1127
-#: ../../kde4/app.py:1014
+#: ../../common/snapshots.py:174 ../../qt4/app.py:206 ../../qt4/app.py:1322
 msgid "Now"
 msgstr "Nyní"
 
-#: ../../common/snapshots.py:182 ../../gnome/gnometools.py:37
+#: ../../common/snapshots.py:185
 msgid "WITH ERRORS !"
-msgstr "S CHYBAMI !"
+msgstr "S CHYBAMI!"
 
-#: ../../common/snapshots.py:282
+#: ../../common/snapshots.py:333
 msgid ""
 "### This log has been decoded with automatic search pattern\n"
 "### If some paths are not decoded you can manually decode them with:\n"
 msgstr ""
-"### Tento záznam byl dekódován pomocí automatického vyhledávání vzorem\n"
-"### Pokud některé cesty nejsou dekódovány můžete je ručně dekódovat s:\n"
+"### Tento záznam událostí byl dekódován pomocí automatického vyhledávacího "
+"vzorce\n"
+"### Pokud některá umísění nejsou dekódována, můžete je dekódovat ručně, "
+"pomocí:\n"
 
-#: ../../common/snapshots.py:465
+#: ../../common/snapshots.py:530
 msgid "FAILED"
-msgstr "NEPLATNÉ"
+msgstr "NEZDAŘILO SE"
 
-#: ../../common/snapshots.py:564
+#: ../../common/snapshots.py:664 ../../common/snapshots.py:708
 msgid "Restore permissions:"
-msgstr "Obnovit oprávnění:"
+msgstr "Obnovit přístupová práva:"
 
-#: ../../common/snapshots.py:739
+#: ../../common/snapshots.py:708 ../../qt4/app.py:380 ../../qt4/app.py:677
+#: ../../qt4/app.py:694 ../../qt4/qt4systrayicon.py:65
+msgid "Done"
+msgstr "Dokončeno"
+
+#: ../../common/snapshots.py:820
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
-"Back in Time má nový formát zálohy.\n"
+"Aplikace Back in Time nyní používá nový formát záloh.\n"
 "\n"
-"Staré zálohy budou převedeny do nového formátu. OK?"
+"Staré zálohy budou převedeny do nového formátu. Provést?"
 
-#: ../../common/snapshots.py:749
+#: ../../common/snapshots.py:828
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -411,20 +458,20 @@ msgid ""
 msgstr ""
 "%s profily nalezeny. \n"
 "\n"
-"Nový zálohovací formát podporuje ukládání různých uživatelů a profilů do "
-"stejného umístění. Chcete použít stejné umístění pro oba profily? \n"
+"Nový formát záloh podporuje ukládání různých uživatelů a profilů do stejného "
+"umístění. Chcete použít stejné umístění pro oba profily? \n"
 "\n"
-"(Program mezi nimi bude stále rozlišovat)"
+"(Aplikace mezi nimi bude stále schopen rozlišovat)"
 
-#: ../../common/snapshots.py:752
+#: ../../common/snapshots.py:831
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
-"Nenalezen žádný profil. Nejprve je nutné obnovit profily a poté restartovat "
-"Back in Time."
+"Nebyly nalezeny žádné profily. Nejprve bude třeba je aktualizovat - "
+"restartujte aplikaci Back in Time."
 
-#: ../../common/snapshots.py:803
+#: ../../common/snapshots.py:878
 #, python-format
 msgid ""
 "%(snapshots_left)s\n"
@@ -439,13 +486,13 @@ msgstr ""
 "%(snapshots_left)s\n"
 "profilu %(profile_id)s nejsou přesunuty do jejich nového umístění\n"
 "Chcete pokračovat?\n"
-"(Back In Time bude moci pokračovat v pořizování snapshotů, ale zbývající "
-"snímky nebudou brány v úvahu pro automatické odstranění)\n"
+"(Aplikace Back In Time bude moci pokračovat v pořizování zachycených stavů, "
+"ale ty nepřesunuté nebudou brány v úvahu pro samočinné odstraňování)\n"
 "\n"
-"Pokud Back In Time neobnoví dřívější nastavení pro tento profil, nesmí "
-"pokračovat v přijímání snapshotů"
+"Pokud pokračovat nechcete, aplikace obnoví dřívější nastavení pro tento "
+"profil, nicméně pak nebude moci pokračovat v pořizování zachycených stavů"
 
-#: ../../common/snapshots.py:812
+#: ../../common/snapshots.py:886
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -454,23 +501,24 @@ msgid ""
 "You can manually move the snapshots, \n"
 "if you are done restart Back In Time to proceed"
 msgstr ""
-"Nastavení profilu %s je obnoveno.\n"
-"Back In Time nemůže pokračovat ve vytváření nových snímků.\n"
+"Dřívější nastavení profilu %s jsou obnovena.\n"
+"Aplikace Back In Time ale nemůže pokračovat v pořizování nových zachycených "
+"stavů.\n"
 "\n"
-"Můžete ručně přesunout snímky, \n"
-"pokud máte hotovo, restartem programu můžete pokračovat."
+"Zachycené stavy ale stále můžete přesunut ručně. \n"
+"Až tak učiníte, restartujte aplikaci a bude možné pokračovat."
 
-#: ../../common/snapshots.py:825
+#: ../../common/snapshots.py:896
 msgid ""
 "Update was successful!\n"
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
-"Aktualizace byla úspěšná!\n"
+"Aktualizace proběhla úspěšně!\n"
 "\n"
-"Back In Time bude nadále pořizovat snímky podle plánu"
+"Aplikace Back In Time tak bude nadále pořizovat zachycené stavy dle plánu"
 
-#: ../../common/snapshots.py:830
+#: ../../common/snapshots.py:901
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -481,1062 +529,1240 @@ msgid ""
 "\n"
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
-"Opravdu chcete přesunout staré snímky?\n"
+"Opravdu nechcete staré zachycené stavy přesunout?\n"
 "\n"
 "\n"
-"Pokud ano, příště již tyto otázky neuvidíte, Back In Time bude opět "
-"pokračovat ve vytváření snímků, ale chytré odstranění už nemůže vzít v úvahu "
-"staré snímky!\n"
+"Pokud je přesunete, příště už tyto otázky neuvidíte, aplikace Back In Time "
+"bude opět pokračovat ve vytváření zachycených stavů, ale chytré odstranění "
+"už nebude moci staré zachycené stavy brát v úvahu!\n"
 "\n"
-"Pokud ne, Back in Time se při příštím spuštění opět dotáže."
+"Pokud staré zachycené stavy přesunout nechcete, aplikace se při příštím "
+"spuštění opět dotáže."
 
-#: ../../common/snapshots.py:839
+#: ../../common/snapshots.py:911
 msgid "Back In Time will continue taking snapshots again as scheduled"
-msgstr "Back in Time bude nadále pořizovat snímky podle plánu"
+msgstr "Back in Time bude opět pořizovat zachycené stavy dle plánu"
 
-#: ../../common/snapshots.py:841
+#: ../../common/snapshots.py:913
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
-"Back In Time stále nemůže pokračovat ve vytváření snímků.\n"
-"Po restartu aplikace uvidíte otázku znovu."
+"Aplikace Back In Time stále nemůže pokračovat ve vytváření zachycených "
+"stavů.\n"
+"Restartujte aplikaci pro opětovné zobrazení dotazu."
 
-#: ../../common/snapshots.py:913
+#: ../../common/snapshots.py:932
+msgid "Deferring backup while on battery"
+msgstr "Odložení zálohování po dobu provozu stroje na akumulátor"
+
+#: ../../common/snapshots.py:995
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Nelze nalézt složku se snímky.\n"
-"Pokud je umístěna na výměnném zařízení, připojte dané zařízení."
+"Nelze nalézt složku se zachycenými stavy.\n"
+"Pokud je umístěna na vyjímatelném zařízení, připojte jej."
 
-#: ../../common/snapshots.py:915
+#: ../../common/snapshots.py:997
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "Vyčkejte %s sekundu."
-msgstr[1] "Vyčkejte %s sekundy."
-msgstr[2] "Vyčkejte %s sekund."
+msgstr[0] "Čekání %s sekundu."
+msgstr[1] "Čekání %s sekundy."
+msgstr[2] "Čekání %s sekund."
 
-#: ../../common/snapshots.py:941
+#: ../../common/snapshots.py:1023
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr "Selhalo vytváření snímku %s !!!"
+msgstr "Pořízení zachyceného stavu %s se nezdařilo!!!"
 
-#: ../../common/snapshots.py:950
+#: ../../common/snapshots.py:1032
 msgid "Finalizing"
 msgstr "Dokončování"
 
-#: ../../common/snapshots.py:1088
+#: ../../common/snapshots.py:1161
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "Nelze vytvořit složku: %s"
 
-#: ../../common/snapshots.py:1107
+#: ../../common/snapshots.py:1177
 msgid "..."
-msgstr "..."
+msgstr "…"
 
-#: ../../common/snapshots.py:1134
+#: ../../common/snapshots.py:1202
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "Nelze odstranit složku: %s"
 
-#: ../../common/snapshots.py:1219
+#: ../../common/snapshots.py:1279
 #, python-format
 msgid "Compare with snapshot %s"
-msgstr "Porovnat se snímkem %s"
+msgstr "Porovnat se zachyceným stavem %s"
 
-#: ../../common/snapshots.py:1248
+#: ../../common/snapshots.py:1299
 msgid "Create hard-links"
-msgstr "Vytvořit absolutní odkazy"
+msgstr "Vytvořit pevné odkazy"
 
-#: ../../common/snapshots.py:1335
+#: ../../common/snapshots.py:1377
 msgid "Save config file ..."
-msgstr "Uložit konfigurační soubor"
+msgstr "Uložit soubor s nastaveními…"
 
-#: ../../common/snapshots.py:1341
+#: ../../common/snapshots.py:1383
 msgid "Save permission ..."
-msgstr "Uložit oprávnění"
+msgstr "Uložit přístupová práva…"
 
-#: ../../common/snapshots.py:1442
+#: ../../common/snapshots.py:1408
+msgid "Save permission over ssh failed. Retry normal method"
+msgstr ""
+"Uložení přístupových práv přes ssh se nezdařilo. Zkuste to s normální metodou"
+
+#: ../../common/snapshots.py:1456
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr "Nelze přejmenovat %(new_path)s na %(path)s"
 
-#: ../../common/snapshots.py:1562
-msgid "Remove old snapshots"
-msgstr "Odstranit staré snímky"
-
-#: ../../common/snapshots.py:1586 ../../kde4/settingsdialog.py:501
-#: ../../gnome/settingsdialog.glade:1660
+#: ../../common/snapshots.py:1630 ../../common/snapshots.py:1663
+#: ../../qt4/settingsdialog.py:537
 msgid "Smart remove"
 msgstr "Chytré odstranění"
 
-#: ../../common/snapshots.py:1591
-msgid "Try to keep min free space"
-msgstr "Snaž se zachovat minimální neobsazený prostor"
+#: ../../common/snapshots.py:1639
+msgid "Remove old snapshots"
+msgstr "Odstranit staré zachycené stavy"
 
-#: ../../common/snapshots.py:1621
+#: ../../common/snapshots.py:1668
+msgid "Try to keep min free space"
+msgstr "Snažit se zachovat neobsazený prostor alespoň"
+
+#: ../../common/snapshots.py:1705
 #, python-format
 msgid "Try to keep min %d%% free inodes"
-msgstr "Snažte se udržet minimálně %d%% volných inodů"
+msgstr ""
+"Snažit se zachovat alespoň %d%% z počtu souborů a složek, které lze na "
+"soubor. systému vytvořit (inode)"
 
-#: ../../common/sshtools.py:106
+#: ../../common/sshtools.py:128
 #, python-format
 msgid "Can't mount %s"
-msgstr "Nelze připojit %s"
+msgstr "%s se nedaří připojit"
 
-#: ../../common/sshtools.py:113
+#: ../../common/sshtools.py:135
 #, python-format
 msgid "Can't unmount sshfs %s"
-msgstr "Nelze odpojit sshfs %s"
+msgstr "Souborový systém sshfs %s se nedaří odpojit"
 
-#: ../../common/sshtools.py:187
-#, python-format
-msgid ""
-"Failed to unlock SSH private key:\n"
-"Error: %s"
-msgstr ""
-"Nepodařilo se odemknout SSH soukromý klíč:\n"
-"Chyba: %s"
-
-#: ../../common/sshtools.py:194
+#: ../../common/sshtools.py:240
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
-"Nelze odemknout ssh soukromý klíč. Chybné heslo nebo heslo není k dispozici "
-"pro cron."
+"Nelze odemknout soukromou část ssh klíče. Chybné heslo nebo heslo není k "
+"dispozici pro plánovač cron."
 
-#: ../../common/sshtools.py:199
+#: ../../common/sshtools.py:251
 msgid "sshfs not found. Please install e.g. 'apt-get install sshfs'"
 msgstr ""
-"sshfs nebyl nalezen. Prosím, nainstalujte např. \"apt-get install sshfs\""
+"Podpora pro souborový systém sshfs nebyla nalezena. Nainstalujte např.: apt-"
+"get install sshfs"
 
-#: ../../common/sshtools.py:217
+#: ../../common/sshtools.py:278
 #, python-format
 msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
 "backintime' for further instructions."
 msgstr ""
-"Bezheslová autentizace pro %(user)s@%(host)s selhala. Podívejte se na 'man "
-"backintime' pro další instrukce."
+"Ověření %(user)s@%(host)s bez hesla se nezdařilo. Další pokyny naleznete v "
+"manuálové stránce aplikace (man backintime)."
 
-#: ../../common/sshtools.py:229
+#: ../../common/sshtools.py:298
 #, python-format
 msgid ""
 "Cipher %(cipher)s failed for %(host)s:\n"
 "%(err)s"
 msgstr ""
-"Cipher %(cipher)s selhal pro %(host)s:\n"
+"Použití šifry %(cipher)s se na stroji %(host)s nezdařilo:\n"
 "%(err)s"
 
-#: ../../common/sshtools.py:254
+#: ../../common/sshtools.py:333
 #, python-format
 msgid "%s not found in ssh_known_hosts."
-msgstr "%s nebyl nalezen v ssh_known_hosts."
+msgstr "%s nebyl nalezen v souboru ssh_known_hosts."
 
-#: ../../common/sshtools.py:274
+#: ../../common/sshtools.py:361
 #, python-format
 msgid ""
 "Remote path exists but is not a directory:\n"
 " %s"
 msgstr ""
-"Vzdálená cesta existuje, ale není to adresář:\n"
+"Vzdálené umístění existuje, ale není to složka:\n"
 " %s"
 
-#: ../../common/sshtools.py:276
+#: ../../common/sshtools.py:363
 #, python-format
 msgid ""
 "Remote path is not writeable:\n"
 " %s"
 msgstr ""
-"Do vzdálené cesty nelze zapisovat:\n"
+"Do vzdáleného umístění nelze zapisovat:\n"
 " %s"
 
-#: ../../common/sshtools.py:278
+#: ../../common/sshtools.py:365
 #, python-format
 msgid ""
 "Remote path is not executable:\n"
 " %s"
 msgstr ""
-"Vzdálená cesta není spustitelná:\n"
+"Vzdálené umístění nemá nastaveno oprávnění ke spouštění (tj. nelze do něho "
+"vstoupit):\n"
 " %s"
 
-#: ../../common/sshtools.py:280
+#: ../../common/sshtools.py:367
 #, python-format
 msgid ""
 "Couldn't create remote path:\n"
 " %s"
 msgstr ""
-"Nelze vytvořit vzdálenou cestu:\n"
+"Vzdálené umístění nelze vytvořit:\n"
 " %s"
 
-#: ../../common/sshtools.py:302
+#: ../../common/sshtools.py:390
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
-msgstr "Ping %s selhal. Hostitel spadl a nebo je špatná adresa."
+msgstr ""
+"Zkouška nástrojem ping %s nedopadla úspěšně. Stroj je nedostupný a nebo je "
+"chybná adresa."
 
-#: ../../common/sshtools.py:325 ../../common/sshtools.py:383
+#: ../../common/sshtools.py:423 ../../common/sshtools.py:553
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
 "%(err)s\n"
 "Look at 'man backintime' for further instructions"
 msgstr ""
-"Vzdálený hostitel %(host)s nepodporuje '%(command)s':\n"
+"Vzdálený stroj %(host)s nepodporuje %(command)s:\n"
 "%(err)s\n"
-"Podívejte se na 'man backintime' pro další instrukce"
+"Další pokyny naleznete v manuálové stránce aplikace (man backintime)"
 
-#: ../../common/sshtools.py:387
+#: ../../common/sshtools.py:556
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
 "%(err)s\n"
 "Look at 'man backintime' for further instructions"
 msgstr ""
-"Zkontrolujte příkazy u hostitele %(host)s vrátil neznámou chybu:\n"
+"Kontrolní příkazy na stroji %(host)s vrátily neznámou chybu:\n"
 "%(err)s\n"
-"Podívejte se na 'man backintime' pro další instrukce"
+"Další pokyny naleznete v manuálové stránce aplikace (man backintime)"
 
-#: ../../common/sshtools.py:400
+#: ../../common/sshtools.py:571
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
-msgstr "Vzdálený hostitel %s nepodporuje hardlinky"
+msgstr "Na vzdáleném stroji %s nejsou podporovány pevné odkazy"
 
-#: ../../gnome/app.py:185 ../../gnome/app.py:594 ../../gnome/app.py:608
-#: ../../kde4/app.py:299 ../../kde4/app.py:570 ../../kde4/app.py:587
-msgid "Done"
-msgstr "Dokončeno"
+#: ../../qt4/app.py:81
+msgid "Refresh snapshots list"
+msgstr "Znovu načíst seznam zachycených stavů"
 
-#: ../../gnome/app.py:189 ../../kde4/app.py:143 ../../kde4/app.py:159
-#: ../../gnome/mainwindow.glade:225
+#: ../../qt4/app.py:85 ../../qt4/app.py:970
+msgid "Snapshot Name"
+msgstr "Nazvat zachycený stav"
+
+#: ../../qt4/app.py:88
+msgid "Remove Snapshot"
+msgstr "Odstranit zachycený stav"
+
+#: ../../qt4/app.py:91
+msgid "View Snapshot Log"
+msgstr "Zobrazit záznam událostí, týkajících se zachyceného stavu"
+
+#: ../../qt4/app.py:94
+msgid "View Last Log"
+msgstr "Zobrazit záznam nedávných událostí"
+
+#: ../../qt4/app.py:99 ../../qt4/settingsdialog.py:51
+msgid "Settings"
+msgstr "Nastavení"
+
+#: ../../qt4/app.py:104
+msgid "Shutdown"
+msgstr "Vypnout"
+
+#: ../../qt4/app.py:105
+msgid "Shutdown system after snapshot has finished."
+msgstr "Po dokončení pořízení zachyceného stavu vypnout stroj."
+
+#: ../../qt4/app.py:111
+msgid "Exit"
+msgstr "Ukončit"
+
+#: ../../qt4/app.py:120 ../../qt4/app.py:139 ../../qt4/app.py:246
 msgid "Help"
 msgstr "Nápověda"
 
-#: ../../gnome/app.py:191 ../../kde4/app.py:146
-#: ../../gnome/mainwindow.glade:223
-msgid "Website"
-msgstr "Webová stránka"
+#: ../../qt4/app.py:122
+msgid "Config File Help"
+msgstr "Nápověda k souboru s nastaveními"
 
-#: ../../gnome/app.py:192 ../../kde4/app.py:148
+#: ../../qt4/app.py:125
+msgid "Website"
+msgstr "Webové stránky projektu"
+
+#: ../../qt4/app.py:127 ../../qt4/app.py:1075
+msgid "Changelog"
+msgstr "Změny provedené v aplikaci"
+
+#: ../../qt4/app.py:129
 msgid "FAQ"
 msgstr "Často kladené dotazy (FAQ)"
 
-#: ../../gnome/app.py:193 ../../kde4/app.py:150
+#: ../../qt4/app.py:131
 msgid "Ask a question"
-msgstr "Položit otázku"
+msgstr "Položit dotaz"
 
-#: ../../gnome/app.py:194 ../../kde4/app.py:152
+#: ../../qt4/app.py:133
 msgid "Report a bug"
-msgstr "Nahlásit chybu"
+msgstr "Nahlásit chybu / podnět pro vylepšení"
 
-#: ../../gnome/app.py:196 ../../kde4/app.py:155
+#: ../../qt4/app.py:136 ../../qt4/app.py:1436
 msgid "About"
 msgstr "O aplikaci"
 
-#: ../../gnome/app.py:202 ../../gnome/app.py:887
-#: ../../gnome/restoredialog.py:84 ../../gnome/snapshotsdialog.py:83
-#: ../../gnome/snapshotsdialog.py:244 ../../kde4/app.py:206
-#: ../../kde4/app.py:216 ../../kde4/restoredialog.py:68
-#: ../../kde4/snapshotsdialog.py:111 ../../kde4/snapshotsdialog.py:117
-#: ../../gnome/mainwindow.glade:350 ../../gnome/mainwindow.glade:352
-#: ../../gnome/snapshotsdialog.glade:169 ../../gnome/snapshotsdialog.glade:171
+#: ../../qt4/app.py:151 ../../qt4/app.py:209 ../../qt4/logviewdialog.py:67
+#: ../../qt4/snapshotsdialog.py:95
+msgid "Snapshots"
+msgstr "Zachycené stavy"
+
+#: ../../qt4/app.py:166
+msgid "Up"
+msgstr "O úroveň výš"
+
+#: ../../qt4/app.py:177 ../../qt4/settingsdialog.py:1739
+msgid "Show hidden files"
+msgstr "Zobrazit skryté soubory"
+
+#: ../../qt4/app.py:187 ../../qt4/app.py:202 ../../qt4/app.py:236
+#: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1783
+#: ../../qt4/snapshotsdialog.py:133 ../../qt4/snapshotsdialog.py:138
 msgid "Restore"
 msgstr "Obnovit"
 
-#: ../../gnome/app.py:203 ../../gnome/app.py:888 ../../gnome/gnometools.py:67
-#: ../../gnome/snapshotsdialog.py:84 ../../gnome/snapshotsdialog.py:245
-#: ../../kde4/app.py:208 ../../kde4/restoredialog.py:42
-#: ../../kde4/snapshotsdialog.py:113
+#: ../../qt4/app.py:189 ../../qt4/restoredialog.py:35
+#: ../../qt4/snapshotsdialog.py:135
 msgid "Restore to ..."
-msgstr "Obnovit na ..."
+msgstr "Obnovit do…"
 
-#: ../../gnome/app.py:205 ../../gnome/app.py:896 ../../gnome/app.py:1146
-#: ../../kde4/app.py:1041
+#: ../../qt4/app.py:197
+msgid "Restore and delete new files"
+msgstr "Obnovit a smazat přitom nové soubory"
+
+#: ../../qt4/app.py:204
 #, python-format
-msgid "Restore '%s'"
-msgstr "Obnovit '%s'"
+msgid ""
+"Restore selected file or folder.\n"
+"If this button is grayed out this is most likely because \"%(now)s\" is "
+"selected in left hand snapshots list."
+msgstr ""
+"Obnovit označený soubor či složku.\n"
+"Pokud je toto tlačítko nedostupné (vyšedlé), je to nejspíš tím, že v seznamu "
+"zachycených stavů (vlevo) je označena položka %(now)s."
 
-#: ../../gnome/app.py:207 ../../gnome/app.py:897 ../../gnome/app.py:1147
-#: ../../kde4/app.py:1042
-#, python-format
-msgid "Restore '%s' to ..."
-msgstr "Obnovit '%s' na ..."
+#: ../../qt4/app.py:216
+msgid "Snapshot"
+msgstr "Zachycený stav"
 
-#: ../../gnome/app.py:226 ../../kde4/app.py:235
+#: ../../qt4/app.py:227
+msgid "View"
+msgstr "Zobrazit"
+
+#: ../../qt4/app.py:280
 msgid "Shortcuts"
-msgstr "Oblíbené"
+msgstr "Klávesové zkratky"
 
-#: ../../gnome/app.py:249
-msgid "Name"
-msgstr "Název"
+#: ../../qt4/app.py:298
+msgid ""
+"This folder doesn't exist\n"
+"in the current selected snapshot!"
+msgstr ""
+"Tato složka v aktuálně označeném\n"
+"zachyceném stavu neexistuje!"
 
-#: ../../gnome/app.py:260
-msgid "Size"
-msgstr "Velikost"
+#: ../../qt4/app.py:362
+msgid "Add to Include"
+msgstr "Přidat do zahrnutých"
 
-#: ../../gnome/app.py:267
-msgid "Date"
-msgstr "Datum"
+#: ../../qt4/app.py:363
+msgid "Add to Exclude"
+msgstr "Přidat do vynechaných"
 
-#: ../../gnome/app.py:286 ../../gnome/app.py:883
-#: ../../gnome/snapshotsdialog.py:116 ../../kde4/app.py:171
-#: ../../kde4/app.py:221 ../../kde4/snapshotsdialog.py:91
-#: ../../gnome/mainwindow.glade:366 ../../gnome/mainwindow.glade:368
-#: ../../gnome/snapshotsdialog.glade:8
-msgid "Snapshots"
-msgstr "Snímky"
+#: ../../qt4/app.py:419
+#, python-format
+msgid ""
+"%(appName)s is not configured. Would you like to restore a previous "
+"configuration?"
+msgstr ""
+"Aplikace %(appName)s není nastavena. Chcete obnovit její předchozí nastavení?"
 
-#: ../../gnome/app.py:348 ../../kde4/app.py:362
+#: ../../qt4/app.py:443
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
-"Složka se snímky nebyla nalezena.\n"
-"Pokud se nachází na výměnném médiu, připojte jej a stiskněte OK"
+"Složka se zachycenými stavy nebyla nalezena.\n"
+"Pokud se nachází na vyjímatelném médiu, připojte jej a stiskněte OK"
 
-#: ../../gnome/app.py:611 ../../kde4/app.py:590
-msgid "Done, no backup needed"
-msgstr "Dokončeno, záloha není potřeba"
-
-#: ../../gnome/app.py:619 ../../kde4/app.py:598
-msgid "Working:"
-msgstr "Zpracovává se:"
-
-#: ../../gnome/app.py:623 ../../kde4/app.py:602
-msgid "Error:"
-msgstr "Chyba:"
-
-#: ../../gnome/app.py:636 ../../kde4/app.py:649
-msgid "Global"
-msgstr "Globální"
-
-#: ../../gnome/app.py:637 ../../kde4/app.py:650
-msgid "Root"
-msgstr "Kořen"
-
-#: ../../gnome/app.py:638 ../../kde4/app.py:651
-msgid "Home"
-msgstr "Domovská složka"
-
-#: ../../gnome/app.py:662
-msgid "Bookmarks"
-msgstr "Záložky"
-
-#: ../../gnome/app.py:675 ../../kde4/app.py:662
-msgid "Backup folders"
-msgstr "Složky pro zálohu"
-
-#: ../../gnome/app.py:701 ../../kde4/app.py:734
-msgid "Today"
-msgstr "Dnes"
-
-#: ../../gnome/app.py:705 ../../kde4/app.py:738
-msgid "Yesterday"
-msgstr "Včera"
-
-#: ../../gnome/app.py:709 ../../kde4/app.py:742
-msgid "This week"
-msgstr "Tento týden"
-
-#: ../../gnome/app.py:713 ../../kde4/app.py:746
-msgid "Last week"
-msgstr "Minulý týden"
-
-#: ../../gnome/app.py:764 ../../kde4/app.py:398
+#: ../../qt4/app.py:475
 msgid ""
 "If you close this window Back In Time will not be able to shutdown your "
 "system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
-"Pokud zavřete toto okno Back In Time, nebudete moci vypnout váš systém, když "
-"byl snímek ukončen.\n"
+"Pokud toto okno zavřete, pak aplikace Back In Time nebude moci po dokončení "
+"pořízení zachyceného stavu vypnout počítač.\n"
 "Opravdu chcete okno zavřít?"
 
-#: ../../gnome/app.py:881 ../../gnome/snapshotsdialog.py:238
-msgid "Open"
-msgstr "Otevřít"
+#: ../../qt4/app.py:669 ../../qt4/app.py:705
+msgid "Working:"
+msgstr "Zpracovává se:"
 
-#: ../../gnome/app.py:1056 ../../kde4/app.py:90 ../../kde4/app.py:805
-#: ../../gnome/mainwindow.glade:73 ../../gnome/mainwindow.glade:75
-msgid "Snapshot Name"
-msgstr "Název snímku"
+#: ../../qt4/app.py:697
+msgid "Done, no backup needed"
+msgstr "Dokončeno, záloha není potřebná"
 
-#: ../../gnome/app.py:1075
+#: ../../qt4/app.py:709
+msgid "Error:"
+msgstr "Chyba:"
+
+#: ../../qt4/app.py:728 ../../qt4/qt4systrayicon.py:153
+msgid "Sent:"
+msgstr "Odesláno:"
+
+#: ../../qt4/app.py:729 ../../qt4/qt4systrayicon.py:154
+msgid "Speed:"
+msgstr "Rychlost:"
+
+#: ../../qt4/app.py:730 ../../qt4/qt4systrayicon.py:155
+msgid "ETA:"
+msgstr "Odhadovaný zbývající čas:"
+
+#: ../../qt4/app.py:779
+msgid "Global"
+msgstr "Celkové"
+
+#: ../../qt4/app.py:780
+msgid "Root"
+msgstr "Kořen"
+
+#: ../../qt4/app.py:781
+msgid "Home"
+msgstr "Domovská složka"
+
+#: ../../qt4/app.py:796
+msgid "Backup folders"
+msgstr "Složky pro zálohu"
+
+#: ../../qt4/app.py:876
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr ""
+"Toto NENÍ zachycený stav, ale pohled přímo do stávajících místních souborů"
+
+#: ../../qt4/app.py:886
+msgid "Today"
+msgstr "Dnes"
+
+#: ../../qt4/app.py:890
+msgid "Yesterday"
+msgstr "Včera"
+
+#: ../../qt4/app.py:894
+msgid "This week"
+msgstr "Tento týden"
+
+#: ../../qt4/app.py:898
+msgid "Last week"
+msgstr "Minulý týden"
+
+#: ../../qt4/app.py:930
+#, python-format
+msgid "Last check %s"
+msgstr "Minulá kontrola %s"
+
+#: ../../qt4/app.py:1011
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
-"<b>%s</b>"
+"%s"
 msgstr ""
-"Opravdu chcete odstranit snímek:\n"
-"<b>%s</b>"
+"Opravdu chcete odstranit zachycený stav:\n"
+"%s"
 
-#: ../../gnome/app.py:1123 ../../kde4/app.py:1010
+#: ../../qt4/app.py:1097
+#, python-format
+msgid ""
+"Backup local files before overwriting or\n"
+"removing with trailing '%(suffix)s'."
+msgstr ""
+"Místní soubory, které by jinak byly přepsány, zálohovat připojením "
+"%(suffix)s za název."
+
+#: ../../qt4/app.py:1103
+msgid ""
+"Are you sure you want to remove all newer files in your original folder?"
+msgstr "Opravdu chcete z původní složky odebrat veškeré novější soubory?"
+
+#: ../../qt4/app.py:1107
+msgid ""
+"WARNING: deleting files in filesystem root could break your whole system!!!"
+msgstr ""
+"VAROVÁNÍ: smazání souborů v kořeni souborového systému může vést k poškození "
+"celého operačního systému!!!"
+
+#: ../../qt4/app.py:1109
+msgid "Files to be restored:"
+msgstr "Soubory k obnovení:"
+
+#: ../../qt4/app.py:1124
+msgid "Do you really want to restore this files(s):"
+msgstr "Opravdu chcete obnovit tyto soubory? :"
+
+#: ../../qt4/app.py:1318
 #, python-format
 msgid "Snapshot: %s"
-msgstr "Snímek: %s"
+msgstr "Zachycený stav: %s"
 
-#: ../../gnome/app.py:1124 ../../kde4/app.py:1011
+#: ../../qt4/app.py:1319
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "Zobrazit snímek vytvořený %s"
+msgstr "Zobrazit zachycený stav vytvořený k %s"
 
-#: ../../gnome/app.py:1126 ../../kde4/app.py:1013
+#: ../../qt4/app.py:1321
 msgid "View the current disk content"
-msgstr "Zobrazit aktuální obsah disku"
+msgstr "Zobrazit stávající data"
 
-#: ../../gnome/logviewdialog.py:106 ../../gnome/settingsdialog.py:414
-#: ../../kde4/logviewdialog.py:83 ../../kde4/settingsdialog.py:590
-msgid "All"
-msgstr "Vše"
-
-#: ../../gnome/logviewdialog.py:107 ../../gnome/settingsdialog.py:412
-#: ../../kde4/logviewdialog.py:84 ../../kde4/settingsdialog.py:588
-msgid "Errors"
-msgstr "Chyby"
-
-#: ../../gnome/logviewdialog.py:112 ../../kde4/logviewdialog.py:89
-msgid "Changes"
-msgstr "Změny"
-
-#: ../../gnome/logviewdialog.py:115 ../../kde4/logviewdialog.py:92
-msgid "Informations"
-msgstr "Informace"
-
-#: ../../gnome/settingsdialog.py:235 ../../kde4/settingsdialog.py:387
-msgid "Include files and folders"
-msgstr "Zahrnout soubory a složky"
-
-#: ../../gnome/settingsdialog.py:264
-msgid "Exclude patterns, files or folders"
-msgstr "Vyloučit vzory, soubory nebo složky"
-
-#: ../../gnome/settingsdialog.py:411 ../../kde4/settingsdialog.py:587
-msgid "None"
-msgstr "Žádné"
-
-#: ../../gnome/settingsdialog.py:413 ../../kde4/settingsdialog.py:589
-msgid "Changes & Errors"
-msgstr "Změny & chyby"
-
-#: ../../gnome/settingsdialog.py:458
-msgid "Snapshots folder"
-msgstr "Složka snímků"
-
-#: ../../gnome/settingsdialog.py:466 ../../kde4/settingsdialog.py:1314
-msgid "Are you sure you want to change snapshots folder ?"
-msgstr "Opravdu změnit složku se snímky?"
-
-#: ../../gnome/settingsdialog.py:901 ../../kde4/settingsdialog.py:914
-msgid ""
-"Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
-"*/3 for periodic backups every 3 hours"
-msgstr ""
-"Vlastní nastavení času může být jen čárkou oddělený seznam hodin (například "
-"8,12,18,23) nebo */3 pro pravidelné zálohy každé 3 hodiny"
-
-#: ../../gnome/settingsdialog.py:1141 ../../kde4/settingsdialog.py:653
-msgid "New profile"
-msgstr "Nový profil"
-
-#: ../../gnome/settingsdialog.py:1155 ../../kde4/settingsdialog.py:669
-msgid "Rename profile"
-msgstr "Přejmenovat profil"
-
-#: ../../gnome/settingsdialog.py:1167 ../../kde4/settingsdialog.py:683
+#: ../../qt4/app.py:1360
 #, python-format
-msgid "Are you sure you want to delete the profile \"%s\" ?"
-msgstr "Opravdu chcete smazat profil \"%s\"?"
+msgid "Restore '%s'"
+msgstr "Obnovit %s"
 
-#: ../../gnome/settingsdialog.py:1173 ../../kde4/settingsdialog.py:1292
-msgid "Include folder"
-msgstr "Zahrnout složku"
-
-#: ../../gnome/settingsdialog.py:1193 ../../kde4/settingsdialog.py:1278
-msgid "Include file"
-msgstr "Zahrnout soubor"
-
-#: ../../gnome/settingsdialog.py:1235 ../../kde4/settingsdialog.py:1241
-msgid "Exclude pattern"
-msgstr "Vyloučit vzor"
-
-#: ../../gnome/settingsdialog.py:1240 ../../kde4/settingsdialog.py:1251
-msgid "Exclude patterns can't contain ':' char !"
-msgstr "Vyloučit vzory obsahující znak ':' !"
-
-#: ../../gnome/settingsdialog.py:1246 ../../kde4/settingsdialog.py:1257
-msgid "Exclude file"
-msgstr "Vynechat soubor"
-
-#: ../../gnome/settingsdialog.py:1257 ../../kde4/settingsdialog.py:1261
-msgid "Exclude folder"
-msgstr "Vyloučit složku"
-
-#: ../../gnome/snapshotsdialog.py:240
-msgid "Jump to"
-msgstr "Přejít na"
-
-#: ../../gnome/snapshotsdialog.py:248 ../../kde4/snapshotsdialog.py:164
-msgid "Diff"
-msgstr "Rozdíl"
-
-#: ../../gnome/snapshotsdialog.py:277 ../../kde4/snapshotsdialog.py:339
-msgid "You can't compare a snapshot to itself"
-msgstr "Nemůžete porovnat své snímky"
-
-#: ../../gnome/snapshotsdialog.py:284 ../../kde4/snapshotsdialog.py:346
+#: ../../qt4/app.py:1361
 #, python-format
-msgid "Command not found: %s"
-msgstr "Příkaz nenalezen: %s"
+msgid "Restore '%s' to ..."
+msgstr "Obnovit %s na…"
 
-#: ../../gnome/snapshotsdialog.py:307 ../../kde4/snapshotsdialog.py:367
+#: ../../qt4/app.py:1362
 #, python-format
-msgid ""
-"Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
-msgstr "Opravdu chcete vymazat \"%(file)s\" ve snímku \"%(snapshot_id)s?\n"
+msgid "Restore '%s' and delete new files"
+msgstr "Obnovit %s a smazat nové soubory"
 
-#: ../../gnome/snapshotsdialog.py:310 ../../kde4/snapshotsdialog.py:370
-#, python-format
-msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
-msgstr "Opravdu chcete vymazat \"%(file)s\" v %(count)d snímcích?\n"
+#: ../../qt4/app.py:1460 ../../qt4/app.py:1477
+msgid "Authors"
+msgstr "Autoři"
 
-#: ../../gnome/snapshotsdialog.py:312 ../../kde4/snapshotsdialog.py:372
-msgid "WARNING: This can not be revoked!"
-msgstr "UPOZORNĚNÍ: Tento nelze odvolat!"
+#: ../../qt4/app.py:1461 ../../qt4/app.py:1480
+msgid "Translations"
+msgstr "Překlady"
 
-#: ../../gnome/snapshotsdialog.py:317 ../../kde4/snapshotsdialog.py:377
-#, python-format
-msgid "Exclude \"%s\" from future snapshots?"
-msgstr "Vyloučit \"% s\" z budoucích snímků?"
+#: ../../qt4/app.py:1462 ../../qt4/app.py:1483
+msgid "License"
+msgstr "Licence"
 
-#: ../../kde4/app.py:86 ../../gnome/mainwindow.glade:58
-#: ../../gnome/mainwindow.glade:60
-msgid "Refresh snapshots list"
-msgstr "Obnovit seznam snímků"
+#: ../../qt4/logviewdialog.py:49
+msgid "Last Log View"
+msgstr "Zobrazení nedávných událostí"
 
-#: ../../kde4/app.py:94 ../../gnome/mainwindow.glade:88
-#: ../../gnome/mainwindow.glade:90
-msgid "Remove Snapshot"
-msgstr "Odstranit snímek"
+#: ../../qt4/logviewdialog.py:51
+msgid "Snapshot Log View"
+msgstr "Zobrazení událostí pořízení zachyceného stavu"
 
-#: ../../kde4/app.py:98 ../../gnome/mainwindow.glade:105
-msgid "View Snapshot Log"
-msgstr "Zobrazit protokol snímku"
-
-#: ../../kde4/app.py:102 ../../gnome/mainwindow.glade:121
-msgid "View Last Log"
-msgstr "Zobrazit poslední protokol"
-
-#: ../../kde4/app.py:108 ../../kde4/settingsdialog.py:69
-#: ../../gnome/mainwindow.glade:144 ../../gnome/mainwindow.glade:146
-#: ../../gnome/settingsdialog.glade:7
-msgid "Settings"
-msgstr "Nastavení"
-
-#: ../../kde4/app.py:124 ../../gnome/mainwindow.glade:169
-msgid "Shutdown system after snapshot has finished."
-msgstr "Vypnout systém po dokončení snímku."
-
-#: ../../kde4/app.py:131 ../../gnome/mainwindow.glade:184
-#: ../../gnome/mainwindow.glade:186
-msgid "Exit"
-msgstr "Ukončit"
-
-#: ../../kde4/app.py:186 ../../gnome/mainwindow.glade:289
-msgid "Up"
-msgstr "Nahoru"
-
-#: ../../kde4/app.py:199 ../../gnome/mainwindow.glade:325
-msgid "Show hidden files"
-msgstr "Ukázat skryté soubory"
-
-#: ../../kde4/app.py:244
-msgid ""
-"This folder doesn't exist\n"
-"in the current snapshot !"
-msgstr ""
-"Tato složka neexistuje\n"
-"v současném snímku !"
-
-#: ../../kde4/app.py:839
-#, python-format
-msgid ""
-"Are you sure you want to remove the snapshot:\n"
-"%s"
-msgstr ""
-"Opravdu chcete odstranit snímek:\n"
-"%s"
-
-#: ../../kde4/app.py:1140 ../../kde4/kde4systrayicon.py:117
-msgid "Working..."
-msgstr "Zpracovává se..."
-
-#: ../../kde4/logviewdialog.py:55
-msgid "Error Log View"
-msgstr "Zobrazit chybový záznam"
-
-#: ../../kde4/logviewdialog.py:65 ../../kde4/settingsdialog.py:79
-#: ../../kde4/settingsdialog.py:293 ../../gnome/logviewdialog.glade:73
-#: ../../gnome/settingsdialog.glade:72
+#: ../../qt4/logviewdialog.py:59 ../../qt4/settingsdialog.py:59
+#: ../../qt4/settingsdialog.py:269 ../../qt4/settingsdialog.py:1864
 msgid "Profile:"
 msgstr "Profil:"
 
-#: ../../kde4/logviewdialog.py:77 ../../gnome/logviewdialog.glade:110
+#: ../../qt4/logviewdialog.py:81
 msgid "Filter:"
 msgstr "Filtr:"
 
-#: ../../kde4/logviewdialog.py:100 ../../gnome/logviewdialog.glade:169
+#: ../../qt4/logviewdialog.py:87 ../../qt4/settingsdialog.py:654
+msgid "All"
+msgstr "Vše"
+
+#: ../../qt4/logviewdialog.py:88 ../../qt4/logviewdialog.py:90
+#: ../../qt4/settingsdialog.py:652
+msgid "Errors"
+msgstr "Chyby"
+
+#: ../../qt4/logviewdialog.py:88 ../../qt4/logviewdialog.py:91
+msgid "Changes"
+msgstr "Změny"
+
+#: ../../qt4/logviewdialog.py:92
+msgid "Informations"
+msgstr "Informace"
+
+#: ../../qt4/logviewdialog.py:101
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Chyby, [I] Informace, [C] Změny"
+msgstr "[E] Chyba, [I] Informace, [C] Změna"
 
-#: ../../kde4/logviewdialog.py:103 ../../gnome/logviewdialog.glade:195
+#: ../../qt4/logviewdialog.py:104
 msgid "decode paths"
-msgstr "dekódovat cesty"
+msgstr "dekódovat popisy umístění"
 
-#: ../../kde4/settingsdialog.py:88
+#: ../../qt4/messagebox.py:56
+msgid "Error"
+msgstr "Chyba"
+
+#: ../../qt4/messagebox.py:62 ../../qt4/messagebox.py:68
+msgid "Question"
+msgstr "Otázka"
+
+#: ../../qt4/qt4systrayicon.py:69
+msgid "Start BackInTime"
+msgstr "Spustit BackInTime"
+
+#: ../../qt4/qt4systrayicon.py:124
+msgid "Working..."
+msgstr "Zpracování…"
+
+#: ../../qt4/restoredialog.py:75
+msgid "Show full Log"
+msgstr "Zobrazit úplný záznam událostí"
+
+#: ../../qt4/settingsdialog.py:68
 msgid "Edit"
 msgstr "Upravit"
 
-#: ../../kde4/settingsdialog.py:106 ../../gnome/settingsdialog.glade:1207
+#: ../../qt4/settingsdialog.py:72 ../../qt4/settingsdialog.py:446
+msgid "Add"
+msgstr "Přidat"
+
+#: ../../qt4/settingsdialog.py:76 ../../qt4/settingsdialog.py:403
+#: ../../qt4/settingsdialog.py:462
+msgid "Remove"
+msgstr "Odebrat"
+
+#: ../../qt4/settingsdialog.py:91
 msgid "General"
 msgstr "Obecné"
 
-#: ../../kde4/settingsdialog.py:114 ../../gnome/settingsdialog.glade:199
+#: ../../qt4/settingsdialog.py:101 ../../qt4/settingsdialog.py:1866
 msgid "Mode:"
 msgstr "Režim:"
 
-#: ../../kde4/settingsdialog.py:127 ../../kde4/settingsdialog.py:1311
+#: ../../qt4/settingsdialog.py:114
+#, python-format
+msgid ""
+"<b>Warning:</b> %(app)s uses EncFS for encryption. A recent security audit "
+"revealed several possible attack vectors for this. Please take a look at 'A "
+"NOTE ON SECURITY' in 'man backintime'."
+msgstr ""
+"<b>Varování:</b> %(app)s šifruje pomocí EncFS. Nedávná bezpečnostní prověrka "
+"odhalila několik závažných nedostatků. Přečtěte si odstavec POZNÁMKA K "
+"ZABEZPEČENÍ v manuálové stránce backintime."
+
+#: ../../qt4/settingsdialog.py:124 ../../qt4/settingsdialog.py:1531
 msgid "Where to save snapshots"
-msgstr "Umístění k uložení snímků"
+msgstr "Kam ukládat zachycené stavy"
 
-#: ../../kde4/settingsdialog.py:146
+#: ../../qt4/settingsdialog.py:140
+msgid "Folder"
+msgstr "Složka"
+
+#: ../../qt4/settingsdialog.py:148
 msgid "SSH Settings"
-msgstr "SSH nastavení"
+msgstr "Nastavení SSH"
 
-#: ../../kde4/settingsdialog.py:158 ../../kde4/settingsdialog.py:283
-#: ../../gnome/settingsdialog.glade:323 ../../gnome/settingsdialog.glade:583
-#: ../../gnome/settingsdialog.glade:874
+#: ../../qt4/settingsdialog.py:160 ../../qt4/settingsdialog.py:257
 msgid "Host:"
-msgstr "Hostitel:"
+msgstr "Stroj:"
 
-#: ../../kde4/settingsdialog.py:163 ../../gnome/settingsdialog.glade:350
-#: ../../gnome/settingsdialog.glade:610
+#: ../../qt4/settingsdialog.py:165
 msgid "Port:"
 msgstr "Port:"
 
-#: ../../kde4/settingsdialog.py:168 ../../kde4/settingsdialog.py:288
-#: ../../gnome/settingsdialog.glade:377 ../../gnome/settingsdialog.glade:637
-#: ../../gnome/settingsdialog.glade:902
+#: ../../qt4/settingsdialog.py:170 ../../qt4/settingsdialog.py:263
 msgid "User:"
 msgstr "Uživatel:"
 
-#: ../../kde4/settingsdialog.py:173 ../../gnome/settingsdialog.glade:416
+#: ../../qt4/settingsdialog.py:175
 msgid "Path:"
-msgstr "Cesta:"
+msgstr "Umístění:"
 
-#: ../../kde4/settingsdialog.py:178 ../../gnome/settingsdialog.glade:459
+#: ../../qt4/settingsdialog.py:181
 msgid "Cipher:"
 msgstr "Šifra:"
 
-#: ../../kde4/settingsdialog.py:184
+#: ../../qt4/settingsdialog.py:187
 msgid "Private Key:"
-msgstr "Soukromý klíč:"
+msgstr "Soukromá část klíče:"
 
-#: ../../kde4/settingsdialog.py:228 ../../kde4/settingsdialog.py:237
-#: ../../kde4/settingsdialog.py:243 ../../gnome/settingsdialog.glade:703
-#: ../../gnome/settingsdialog.glade:743
+#: ../../qt4/settingsdialog.py:196
+msgid "Key File"
+msgstr "Soubor s klíčem"
+
+#: ../../qt4/settingsdialog.py:209 ../../qt4/settingsdialog.py:218
+#: ../../qt4/settingsdialog.py:224
 msgid "Password"
-msgstr "Heslo"
+msgstr "Heslo pro"
 
-#: ../../kde4/settingsdialog.py:249 ../../gnome/settingsdialog.glade:775
+#: ../../qt4/settingsdialog.py:230
 msgid "Save Password to Keyring"
 msgstr "Uložit heslo do klíčenky"
 
-#: ../../kde4/settingsdialog.py:252 ../../gnome/settingsdialog.glade:792
+#: ../../qt4/settingsdialog.py:233
 msgid "Cache Password for Cron (Security issue: root can read password)"
-msgstr "Cache heslo pro Cron (bezpečnost: root můžete přečíst heslo)"
+msgstr ""
+"Uložit heslo pro potřeby plánovače Cron (slabina v zabezpečení: správce "
+"systému si heslo může přečíst)"
 
-#: ../../kde4/settingsdialog.py:264 ../../gnome/settingsdialog.glade:968
+#: ../../qt4/settingsdialog.py:245
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: ../../kde4/settingsdialog.py:276 ../../gnome/settingsdialog.glade:848
-msgid "Auto Host / User / Profile Id"
-msgstr "Auto Hostitel / Uživatel / Profilové Id"
+#: ../../qt4/settingsdialog.py:275 ../../qt4/settingsdialog.py:1603
+msgid "Full snapshot path: "
+msgstr "Úplný popis umístění zachyceného stavu: "
 
-#: ../../kde4/settingsdialog.py:301
+#: ../../qt4/settingsdialog.py:282
 msgid "Schedule"
 msgstr "Plán"
 
-#: ../../kde4/settingsdialog.py:311 ../../gnome/settingsdialog.glade:1092
+#: ../../qt4/settingsdialog.py:292
 msgid "Day:"
 msgstr "Den:"
 
-#: ../../kde4/settingsdialog.py:322 ../../gnome/settingsdialog.glade:1079
+#: ../../qt4/settingsdialog.py:303
 msgid "Weekday:"
 msgstr "Pracovní den"
 
-#: ../../kde4/settingsdialog.py:333 ../../gnome/settingsdialog.glade:1066
+#: ../../qt4/settingsdialog.py:314
 msgid "Hour:"
-msgstr "Hodin:"
+msgstr "Hodina:"
 
-#: ../../kde4/settingsdialog.py:344 ../../gnome/settingsdialog.glade:1053
+#: ../../qt4/settingsdialog.py:325
 msgid "Hours:"
 msgstr "Hodiny:"
 
-#: ../../kde4/settingsdialog.py:353 ../../gnome/settingsdialog.glade:1014
+#: ../../qt4/settingsdialog.py:334
 msgid ""
-"Run Back In Time periodically with anacron. This is useful if the computer "
-"is not running regular."
+"Run Back In Time repeatedly. This is useful if the computer is not running "
+"regular."
 msgstr ""
-"Spustit Back In Time pravidelně s anacronem. To je užitečné v případě, že "
-"počítač není spouštěn pravidelně."
+"Spouštět aplikaci Back In Time opakovaně. Užitečné v případě, že počítač "
+"není zapínán pravidelně."
 
-#: ../../kde4/settingsdialog.py:357 ../../gnome/settingsdialog.glade:1040
-msgid "Frequency in days:"
-msgstr "Frekvence ve dnech"
+#: ../../qt4/settingsdialog.py:339
+msgid "Every:"
+msgstr "Každý:"
 
-#: ../../kde4/settingsdialog.py:368 ../../gnome/settingsdialog.glade:1026
+#: ../../qt4/settingsdialog.py:357
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X "
 "days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
-"Spusťte Back In Time jakmile se disk připojí ( jen jednou každých X dnů).\n"
-"Budete vyzváni k zadání hesla sudo."
+"Spouštět aplikaci Back In Time jakmile je disk připojen (jen jednou za "
+"každých X dnů).\n"
+"Budete vyzváni k zadání hesla k účtu s právy správy systému (pro sudo)."
 
-#: ../../kde4/settingsdialog.py:379 ../../gnome/settingsdialog.glade:1310
+#: ../../qt4/settingsdialog.py:370
 msgid "Include"
 msgstr "Zahrnout"
 
-#: ../../kde4/settingsdialog.py:403 ../../kde4/settingsdialog.py:445
-#: ../../gnome/settingsdialog.glade:1411
+#: ../../qt4/settingsdialog.py:376
+msgid "Include files and folders"
+msgstr "Zahrnout soubory a složky"
+
+#: ../../qt4/settingsdialog.py:395 ../../qt4/settingsdialog.py:450
 msgid "Add file"
 msgstr "Přidat soubor"
 
-#: ../../kde4/settingsdialog.py:408 ../../kde4/settingsdialog.py:450
-#: ../../gnome/settingsdialog.glade:1427
+#: ../../qt4/settingsdialog.py:399 ../../qt4/settingsdialog.py:454
 msgid "Add folder"
 msgstr "Přidat složku"
 
-#: ../../kde4/settingsdialog.py:418 ../../gnome/settingsdialog.glade:1474
+#: ../../qt4/settingsdialog.py:409
 msgid "Exclude"
-msgstr "Vyloučit"
+msgstr "Vynechat"
 
-#: ../../kde4/settingsdialog.py:421 ../../gnome/settingsdialog.glade:1328
+#: ../../qt4/settingsdialog.py:412
 msgid ""
 "<b>Warning:</b> Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with "
 "mode 'SSH encrypted'.\n"
 "Only separate asterisk are allowed ('foo/*', 'foo/**/bar')"
 msgstr ""
-"<b>Warning:</b> Divoké karty ('foo*', '[fF]oo', 'fo?') budou ignorovány v "
-"režimu 'SSH zašifrováno'.\n"
-"Pouze oddělené hvězdičkou jsou povoleny ('foo/*', 'foo/**/bar')"
+"<b>Varování:</b> Zástupná vyjádření („foo*“, „[fF]oo“ a „fo?“) budou v "
+"režimu „SSH zašifrováno“ přehlížena.\n"
+"V tomto případě je povoleno pouze oddělování hvězdičkami („foo/*“ a "
+"„foo/**/bar“)"
 
-#: ../../kde4/settingsdialog.py:430
+#: ../../qt4/settingsdialog.py:420
+msgid "Exclude patterns, files or folders"
+msgstr "Vynechat zástupně vyjádřené, soubory či složky"
+
+#: ../../qt4/settingsdialog.py:436
 msgid "Highly recommended:"
-msgstr "Důrazně doporučené:"
+msgstr "Důrazně doporučeno:"
 
-#: ../../kde4/settingsdialog.py:460 ../../gnome/settingsdialog.glade:1905
+#: ../../qt4/settingsdialog.py:458
+msgid "Add default"
+msgstr "Přidat výchozí"
+
+#: ../../qt4/settingsdialog.py:469
+msgid "Exclude files bigger than: "
+msgstr "Vynechat soubory větší než: "
+
+#: ../../qt4/settingsdialog.py:470
+#, python-format
+msgid ""
+"Exclude files bigger than value in %(prefix)s.\n"
+"With 'Full rsync mode' disabled this will only affect new files\n"
+"because for rsync this is a transfer option, not an exclude option.\n"
+"So big files that has been backed up before will remain in snapshots\n"
+"even if they had changed."
+msgstr ""
+"Vynechat soubory, které jsou větší, než zadaná hodnota v %(prefix)s.\n"
+"Pokud je Plný rsync režim zakázán, bude se toto týkat pouze nových\n"
+"souborů, protože pro nástroj rsync je toto volba přenosu, nikoli vynechání.\n"
+"Takže, velké soubory, které byly zazálohovány dříve, v zachycených stavech\n"
+"již zůstanou, i když byly změněny."
+
+#: ../../qt4/settingsdialog.py:488
 msgid "Auto-remove"
-msgstr "Automaticky odstranit"
+msgstr "Automatické odstranění"
 
-#: ../../kde4/settingsdialog.py:464 ../../gnome/settingsdialog.glade:1608
+#: ../../qt4/settingsdialog.py:495
 msgid "Older than:"
 msgstr "Starší než:"
 
-#: ../../kde4/settingsdialog.py:478 ../../gnome/settingsdialog.glade:1624
+#: ../../qt4/settingsdialog.py:510
 msgid "If free space is less than:"
-msgstr "Pokud je volné místo menší než:"
+msgstr "Pokud zbývá volného místa méně než:"
 
-#: ../../kde4/settingsdialog.py:490 ../../gnome/settingsdialog.glade:1642
+#: ../../qt4/settingsdialog.py:523
 msgid "If free inodes is less than:"
-msgstr "Pokud jsou volné inody menší než:"
+msgstr ""
+"Pokud z počtu souborů a složek, které lze na soubor. systému vytvořit "
+"(inode), zbývá méně než:"
 
-#: ../../kde4/settingsdialog.py:514 ../../gnome/settingsdialog.glade:1697
+#: ../../qt4/settingsdialog.py:546
+msgid "Run in background on remote Host."
+msgstr "Na protistraně spusit na pozadí."
+
+#: ../../qt4/settingsdialog.py:549
 msgid "Keep all snapshots for the last"
-msgstr "Ponechat všechny snímky za posledních"
+msgstr "Ponechat všechny zachycené stavy za minulých"
 
-#: ../../kde4/settingsdialog.py:517 ../../kde4/settingsdialog.py:522
-#: ../../gnome/settingsdialog.glade:1705 ../../gnome/settingsdialog.glade:1729
+#: ../../qt4/settingsdialog.py:553 ../../qt4/settingsdialog.py:559
 msgid "day(s)"
 msgstr "dnů"
 
-#: ../../kde4/settingsdialog.py:519 ../../gnome/settingsdialog.glade:1717
+#: ../../qt4/settingsdialog.py:555
 msgid "Keep one snapshot per day for the last"
-msgstr "Ponechat jeden snímek za den za posledních"
+msgstr "Ponechat jeden zachycený stav z dne za minulých"
 
-#: ../../kde4/settingsdialog.py:524 ../../gnome/settingsdialog.glade:1743
+#: ../../qt4/settingsdialog.py:561
 msgid "Keep one snapshot per week for the last"
-msgstr "Ponechat jeden snímek za týden za posledních"
+msgstr "Ponechat jeden zachycený stav z týdne za minulých"
 
-#: ../../kde4/settingsdialog.py:527
+#: ../../qt4/settingsdialog.py:565
 msgid "weeks(s)"
 msgstr "týdnů"
 
-#: ../../kde4/settingsdialog.py:529 ../../gnome/settingsdialog.glade:1769
+#: ../../qt4/settingsdialog.py:567
 msgid "Keep one snapshot per month for the last"
-msgstr "Ponechat jeden snímek za měsíc za posledních"
+msgstr "Ponechat jeden zachycený stav z měsíce za minulých"
 
-#: ../../kde4/settingsdialog.py:532 ../../gnome/settingsdialog.glade:1781
+#: ../../qt4/settingsdialog.py:571
 msgid "month(s)"
 msgstr "měsíců"
 
-#: ../../kde4/settingsdialog.py:534 ../../gnome/settingsdialog.glade:1795
+#: ../../qt4/settingsdialog.py:573
 msgid "Keep one snapshot per year for all years"
-msgstr "Ponechat jeden snímek za rok za všechny léta"
+msgstr "Ponechat jeden zachycený stav z roku za všechna léta"
 
-#: ../../kde4/settingsdialog.py:537 ../../gnome/settingsdialog.glade:1496
+#: ../../qt4/settingsdialog.py:580
 msgid "Don't remove named snapshots"
-msgstr "Neodstraňovat pojmenované snímky"
+msgstr "Neodstraňovat ty zachycené stavy, které uživatel nějak nazval"
 
-#: ../../kde4/settingsdialog.py:546 ../../gnome/settingsdialog.glade:2104
+#: ../../qt4/settingsdialog.py:592
 msgid "Options"
-msgstr "Možnosti"
+msgstr "Předvolby"
 
-#: ../../kde4/settingsdialog.py:549 ../../gnome/settingsdialog.glade:1920
+#: ../../qt4/settingsdialog.py:597
 msgid "Enable notifications"
-msgstr "Povolit oznamování"
+msgstr "Zapnout oznamování"
 
-#: ../../kde4/settingsdialog.py:552 ../../gnome/settingsdialog.glade:1937
+#: ../../qt4/settingsdialog.py:600
 msgid "Disable snapshots when on battery"
-msgstr "Vypnout snímky při napájení baterií"
+msgstr "Vypnout pořizování zachycených stavů při provozu na akumulátor"
 
-#: ../../kde4/settingsdialog.py:555
+#: ../../qt4/settingsdialog.py:603
 msgid "Power status not available from system"
-msgstr "Stav napájení není poskytován systémem"
+msgstr "Údaje o stavu napájení nejsou dispozici"
 
-#: ../../kde4/settingsdialog.py:558 ../../gnome/settingsdialog.glade:1955
-msgid "Backup files on restore"
-msgstr "Záložní soubory k obnovení"
+#: ../../qt4/settingsdialog.py:606
+msgid "Run only one snapshot at a time"
+msgstr "Pořizovat pouze jeden zachycený stav naráz"
 
-#: ../../kde4/settingsdialog.py:561 ../../gnome/settingsdialog.glade:1972
+#: ../../qt4/settingsdialog.py:607
+msgid ""
+"Other snapshots will be blocked until the current snapshot is done.\n"
+"This is a global option. So it will effect all profiles for this user.\n"
+"But you need to activate this for all other users, too."
+msgstr ""
+"Pořizování ostatních zachycených stavů bude blokováno do dokončení toho "
+"stávajícího.\n"
+"Toto je celková předvolba. Takže se týká všech profilů tohoto uživatele.\n"
+"Ale zapíná se pro každého uživatele zvlášť."
+
+#: ../../qt4/settingsdialog.py:612
+msgid "Backup replaced files on restore"
+msgstr "Zazálohovat soubory, které by byly při procesu obnovování nahrazeny"
+
+#: ../../qt4/settingsdialog.py:613
+#, python-format
+msgid ""
+"Newer versions of files will be renamed with trailing '%(suffix)s' before "
+"restoring.\n"
+"If you don't need them anymore you can remove them with '%(cmd)s'"
+msgstr ""
+"Novější verze souborů budou před zahájením obnovy přejmenovány přidáním "
+"předpony %(suffix)s.\n"
+"Až je už nebudete potřebovat, můžete je odstranit pomocí příkazu %(cmd)s"
+
+#: ../../qt4/settingsdialog.py:622
 msgid "Continue on errors (keep incomplete snapshots)"
-msgstr "Pokračovat při chybě (zachovat nekompletní snímky)"
+msgstr ""
+"Pokračovat i v případě výskytu chyb (zachovat neúplné zachycené stavy)"
 
-#: ../../kde4/settingsdialog.py:564 ../../gnome/settingsdialog.glade:1989
+#: ../../qt4/settingsdialog.py:625
 msgid "Use checksum to detect changes"
-msgstr "Použít kontrolní součet ke zjištění změn"
+msgstr "Změny zjišťovat pomocí kontrolního součtu (přesnější)"
 
-#: ../../kde4/settingsdialog.py:567 ../../gnome/settingsdialog.glade:2006
+#: ../../qt4/settingsdialog.py:628
 msgid "Full rsync mode. May be faster but:"
 msgstr "Úplný režim rsync. Může být rychlejší, ale:"
 
-#: ../../kde4/settingsdialog.py:568 ../../gnome/settingsdialog.glade:2032
+#: ../../qt4/settingsdialog.py:629
 msgid ""
-"- snapshots are no read-only\n"
-"- destination file-system must support all linux attributes (dates, rights, "
+"- snapshots are not read-only\n"
+"- destination file-system must support all Linux attributes (dates, rights, "
 "user, group ...)"
 msgstr ""
-"- snímky nejsou pouze pro čtení\n"
-"- cílový souborový systém musí podporovat všechny vlastnosti linux (data, "
-"oprávnění, uživatele, skupiny ...)"
+"- zachycené stavy nejsou pouze pro čtení\n"
+"- je třeba, aby cílový souborový systém podporoval všechny linuxové atributy "
+"(datumy, přístupová práva, uživatele, skupinu…)"
 
-#: ../../kde4/settingsdialog.py:575 ../../gnome/settingsdialog.glade:2045
+#: ../../qt4/settingsdialog.py:636
+msgid "Take a new snapshot regardless of there were changes or not."
+msgstr "Pořídit zachycený stav i v případě, že nedošlo k žádným změnám."
+
+#: ../../qt4/settingsdialog.py:639
 msgid "Check for changes (don't take a new snapshot if nothing changed)"
-msgstr "Kontrolovat změny (nevytvářet nové snímky, pokud se nic nezměnilo)"
+msgstr ""
+"Zjišťovat změny (nevytvářet nový zachycený stav, pokud se nic nezměnilo)"
 
-#: ../../kde4/settingsdialog.py:582
+#: ../../qt4/settingsdialog.py:646
 msgid "Log Level:"
-msgstr "Úroveň protokolování:"
+msgstr "Podrobnost zaznamenávání událostí (log):"
 
-#: ../../kde4/settingsdialog.py:597 ../../gnome/settingsdialog.glade:2366
-msgid "Expert Options"
-msgstr "Pokročilé možnosti"
+#: ../../qt4/settingsdialog.py:651
+msgid "None"
+msgstr "Žádné"
 
-#: ../../kde4/settingsdialog.py:600
+#: ../../qt4/settingsdialog.py:653
+msgid "Changes & Errors"
+msgstr "Změny a chyby"
+
+#: ../../qt4/settingsdialog.py:669
 msgid "Change these options only if you really know what you are doing !"
-msgstr "Tyto možnosti změňte v případě, že opravdu víte co děláte!"
+msgstr "Tyto předvolby měňte pouze v případě, že opravdu víte co děláte!"
 
-#: ../../kde4/settingsdialog.py:608 ../../gnome/settingsdialog.glade:2133
-msgid "Run 'nice' as cron job (default: enabled)"
-msgstr "Spustit 'nice' jako úlohu cron-u (standardně povoleno)"
+#: ../../qt4/settingsdialog.py:673
+msgid "Run 'nice':"
+msgstr "Spustit s nižší prioritou (nice):"
 
-#: ../../kde4/settingsdialog.py:611 ../../gnome/settingsdialog.glade:2150
-msgid "Run 'ionice' as cron job (default: enabled)"
-msgstr "Spustit 'ionice' jako úlohu cron-u (standardně povoleno)"
+#: ../../qt4/settingsdialog.py:679 ../../qt4/settingsdialog.py:691
+msgid "as cron job"
+msgstr "jako naplánovaná úloha (cron)"
 
-#: ../../kde4/settingsdialog.py:614 ../../gnome/settingsdialog.glade:2167
-msgid "Run 'ionice' when taking a manual snapshot (default: disabled)"
-msgstr "Spustit 'ionice' při ručním vytváření snímku (výchozí: zakázáno)"
+#: ../../qt4/settingsdialog.py:682 ../../qt4/settingsdialog.py:697
+#: ../../qt4/settingsdialog.py:711
+msgid "on remote host"
+msgstr "na vzdáleném stroji"
 
-#: ../../kde4/settingsdialog.py:617 ../../gnome/settingsdialog.glade:2184
-msgid "Run 'nice' on remote host (default: disabled)"
-msgstr "Spustit 'nice' u vzdáleného hostitele (výchozí: vypnuto)"
+#: ../../qt4/settingsdialog.py:685
+msgid "Run 'ionice':"
+msgstr "Spustit s nižší prioritou na vst./výst. (ionice):"
 
-#: ../../kde4/settingsdialog.py:620 ../../gnome/settingsdialog.glade:2201
-msgid "Run 'ionice' on remote host (default: disabled)"
-msgstr "Spustit 'ionice' u vzdáleného hostitele (výchozí: vypnuto)"
+#: ../../qt4/settingsdialog.py:694
+msgid "when taking a manual snapshot"
+msgstr "při ručně spuštěném pořízení zachyceného stavu"
 
-#: ../../kde4/settingsdialog.py:626 ../../gnome/settingsdialog.glade:2224
+#: ../../qt4/settingsdialog.py:701
+msgid "Run 'rsync' with 'nocache':"
+msgstr "Spustit nástroj rsync s parametrem nocache:"
+
+#: ../../qt4/settingsdialog.py:707
+msgid "on local machine"
+msgstr "na místním stroji"
+
+#: ../../qt4/settingsdialog.py:714
+msgid "Redirect stdout to /dev/null in cronjobs."
+msgstr ""
+"U naplánovaných úloh (cron) zahazovat výstup (stdout) (přesměrováním do "
+"/dev/null)."
+
+#: ../../qt4/settingsdialog.py:720
+msgid "Redirect stderr to /dev/null in cronjobs."
+msgstr ""
+"U naplánovaných úloh (cron) zahazovat chybový výstup (stderr) (přesměrováním "
+"do /dev/null)."
+
+#: ../../qt4/settingsdialog.py:729
 msgid "Limit rsync bandwidth usage: "
-msgstr "Omezit přenosy dat rsyncu: "
+msgstr "Omezit rychlost přenosu dat nástrojem rsync na: "
 
-#: ../../kde4/settingsdialog.py:629 ../../gnome/settingsdialog.glade:2259
+#: ../../qt4/settingsdialog.py:732
 msgid " KB/sec"
-msgstr " KB/sec"
+msgstr " KB/s"
 
-#: ../../kde4/settingsdialog.py:634 ../../gnome/settingsdialog.glade:2280
+#: ../../qt4/settingsdialog.py:767
 msgid "Preserve ACL"
-msgstr "Zachovat ACL"
+msgstr "Zachovat ACL seznamy"
 
-#: ../../kde4/settingsdialog.py:637 ../../gnome/settingsdialog.glade:2297
+#: ../../qt4/settingsdialog.py:780
 msgid "Preserve extended attributes (xattr)"
 msgstr "Zachovat rozšířené atributy (xattr)"
 
-#: ../../kde4/settingsdialog.py:640 ../../gnome/settingsdialog.glade:2314
+#: ../../qt4/settingsdialog.py:798
 msgid "Copy unsafe links (works only with absolute links)"
-msgstr "Kopírovat nejisté odkazy (pracuje pouze s absolutními odkazy)"
+msgstr "Kopírovat nejisté odkazy (funguje pouze s absolutními odkazy)"
 
-#: ../../kde4/settingsdialog.py:643 ../../gnome/settingsdialog.glade:2331
-msgid "Copy links (dereference symbolic links)"
-msgstr "Kopírovat odkazy (znefunkční symbolické odkazy)"
+#: ../../qt4/settingsdialog.py:829
+msgid "Paste additional options to rsync"
+msgstr "Zadejte další parametry pro nástroj rsync"
 
-#: ../../kde4/snapshotsdialog.py:46 ../../kde4/snapshotsdialog.py:173
-#: ../../gnome/snapshotsdialog.glade:385
+#: ../../qt4/settingsdialog.py:832
+msgid ""
+"Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
+msgstr ""
+"Je třeba, aby předvolby byly obklopeny uvozovkami, např. --exclude-"
+"from=\"/umisteni/vynechany_soubor\"."
+
+#: ../../qt4/settingsdialog.py:842
+msgid "Add prefix to SSH commands"
+msgstr "Přidat předponu k SSH příkazům"
+
+#: ../../qt4/settingsdialog.py:845
+#, python-format
+msgid ""
+"Prefix to run before every command on remote host.\n"
+"Variables need to be escaped with \\$FOO.\n"
+"This doesn't touch rsync. So to add a prefix\n"
+"for rsync use \"%(cb_rsync_options)s\" with\n"
+"%(rsync_options_value)s\n"
+"\n"
+"%(default)s: %(def_value)s"
+msgstr ""
+"Co spustit před provedením každého z příkazů na protistraně.\n"
+"Proměnné je třeba předeslat \\$PROMENÁ.\n"
+"Toto se netýká rsync. Proto pro přidání pro\n"
+"rsync použijte \"%(cb_rsync_options)s\" s\n"
+"%(rsync_options_value)s\n"
+"\n"
+"%(default)s: %(def_value)s"
+
+#: ../../qt4/settingsdialog.py:853 ../../qt4/settingsdialog.py:1654
+msgid "default"
+msgstr "výchozí"
+
+#: ../../qt4/settingsdialog.py:870
+msgid "Restore Config"
+msgstr "Obnovit nastavení"
+
+#: ../../qt4/settingsdialog.py:885
+msgid "New profile"
+msgstr "Nový profil"
+
+#: ../../qt4/settingsdialog.py:901
+msgid "Rename profile"
+msgstr "Přejmenovat profil"
+
+#: ../../qt4/settingsdialog.py:915
+#, python-format
+msgid "Are you sure you want to delete the profile \"%s\" ?"
+msgstr "Opravdu chcete smazat profil %s?"
+
+#: ../../qt4/settingsdialog.py:1154
+msgid ""
+"Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
+"*/3 for periodic backups every 3 hours"
+msgstr ""
+"Vlastní nastavení časů může být jen čárkou oddělovaný seznam hodin "
+"(například 8,12,18,23) nebo např. */3 pro pravidelné zálohy každé 3 hodiny"
+
+#: ../../qt4/settingsdialog.py:1452
+msgid "Exclude pattern"
+msgstr "Zástupné vyjádření vynechaného"
+
+#: ../../qt4/settingsdialog.py:1465
+msgid "Exclude file"
+msgstr "Vynechat soubor"
+
+#: ../../qt4/settingsdialog.py:1469
+msgid "Exclude folder"
+msgstr "Vynechat složku"
+
+#: ../../qt4/settingsdialog.py:1488
+msgid "Include file"
+msgstr "Zahrnout soubor"
+
+#: ../../qt4/settingsdialog.py:1496 ../../qt4/settingsdialog.py:1516
+#, python-format
+msgid ""
+"\"%s\" is a symlink. The linked target will not be backed up until you "
+"include it, too.\n"
+"Would you like to include the symlinks target instead?"
+msgstr ""
+"%s je symbolický odkaz. Odkazovaný cíl nebude zazálohován, pokud jeho "
+"umístění výslovně nezahrnete.\n"
+"Zahrnout tedy cíl symbolického odkazu namísto odkazu samotného?"
+
+#: ../../qt4/settingsdialog.py:1508
+msgid "Include folder"
+msgstr "Zahrnout složku"
+
+#: ../../qt4/settingsdialog.py:1535
+msgid "Are you sure you want to change snapshots folder ?"
+msgstr "Opravdu změnit složku se zachycenými stavy?"
+
+#: ../../qt4/settingsdialog.py:1651
+msgid "enabled"
+msgstr "zapnuto"
+
+#: ../../qt4/settingsdialog.py:1653
+msgid "disabled"
+msgstr "vypnuto"
+
+#: ../../qt4/settingsdialog.py:1678
+msgid "Restore Settings"
+msgstr "Obnovit nastavení"
+
+#: ../../qt4/settingsdialog.py:1695
+msgid " and add your user to group 'fuse'"
+msgstr " a přidat svůj uživatelský účet do skupiny fuse"
+
+#: ../../qt4/settingsdialog.py:1699
+#, python-format
+msgid ""
+"Please navigate to the snapshot from which you want to restore %(appName)s's "
+"configuration. The path may look like: \n"
+"%(samplePath)s\n"
+"\n"
+"If your snapshots are on a remote drive or if they are encrypted you need to "
+"manually mount them first. If you use Mode SSH you also may need to set up "
+"public key login to the remote host%(addFuse)s.\n"
+"Take a look at 'man backintime'."
+msgstr ""
+"Přejděte k zachycenému stavu, ze kterého chcete obnovit nastavení aplikace "
+"%(appName)s. Umístění může vypadat nějak takto: \n"
+"%(samplePath)s\n"
+"\n"
+"Pokud se zachycené stavy nacházejí na vzdáleném úložišti nebo jsou "
+"šifrované, bude třeba toto umístění nejprve ručně připojit. Pokud používáte "
+"SSH režim, je třeba též zajistit přihlašování veřejným klíčem ke vzdálenému "
+"stroji%(addFuse)s.\n"
+"Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
+
+#: ../../qt4/settingsdialog.py:1757 ../../qt4/settingsdialog.py:1819
+msgid "No config found"
+msgstr "Nebylo nalezeno žádné nastavení"
+
+#: ../../qt4/snapshotsdialog.py:48 ../../qt4/snapshotsdialog.py:171
 msgid "Diff Options"
-msgstr "Možnosti Diff"
+msgstr "Předvolby nástroje diff"
 
-#: ../../kde4/snapshotsdialog.py:56 ../../gnome/snapshotsdialog.glade:314
+#: ../../qt4/snapshotsdialog.py:55
 msgid "Command:"
 msgstr "Příkaz:"
 
-#: ../../kde4/snapshotsdialog.py:60 ../../gnome/snapshotsdialog.glade:322
+#: ../../qt4/snapshotsdialog.py:59
 msgid "Parameters:"
 msgstr "Parametry:"
 
-#: ../../kde4/snapshotsdialog.py:64 ../../gnome/snapshotsdialog.glade:334
+#: ../../qt4/snapshotsdialog.py:63
 msgid "Use %1 and %2 for path parameters"
-msgstr "Použijte %1 a %2 pro parametry cesty"
+msgstr "Jako parametry umístění použijte %1 a %2"
 
-#: ../../kde4/snapshotsdialog.py:123 ../../gnome/snapshotsdialog.glade:184
-#: ../../gnome/snapshotsdialog.glade:186
-msgid "Delete"
-msgstr "Vymazat"
-
-#: ../../kde4/snapshotsdialog.py:128 ../../gnome/snapshotsdialog.glade:199
-#: ../../gnome/snapshotsdialog.glade:201
-msgid "Select All"
-msgstr "Vybrat vše"
-
-#: ../../kde4/snapshotsdialog.py:132 ../../gnome/snapshotsdialog.glade:88
+#: ../../qt4/snapshotsdialog.py:105
 msgid "List only different snapshots"
-msgstr "Seznam pouze rozdílných snímků"
+msgstr "Vypsat pouze rozdílné zachycené stavy"
 
-#: ../../kde4/snapshotsdialog.py:139 ../../gnome/snapshotsdialog.glade:110
+#: ../../qt4/snapshotsdialog.py:112
 msgid "List only equal snapshots to: "
-msgstr "Seznam pouze stejných snímků na: "
+msgstr "Vypsat pouze zachycené stavy, odpovídající: "
 
-#: ../../kde4/snapshotsdialog.py:149 ../../gnome/snapshotsdialog.glade:146
+#: ../../qt4/snapshotsdialog.py:122
 msgid "Deep check (more accurate, but slow)"
 msgstr "Hloubková kontrola (přesnější, ale pomalejší)"
 
-#: ../../kde4/snapshotsdialog.py:174
+#: ../../qt4/snapshotsdialog.py:143
+msgid "Delete"
+msgstr "Smazat"
+
+#: ../../qt4/snapshotsdialog.py:147
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: ../../qt4/snapshotsdialog.py:161
+msgid "Diff"
+msgstr "Rozdíl"
+
+#: ../../qt4/snapshotsdialog.py:170
 msgid "Go To"
 msgstr "Přejít na"
 
-#: ../../gnome/logviewdialog.glade:9
-msgid "Log View"
-msgstr "Zobrazit protokol"
+#: ../../qt4/snapshotsdialog.py:339
+msgid "You can't compare a snapshot to itself"
+msgstr "Nelze porovnávat zachycený stav sám se sebou"
 
-#: ../../gnome/logviewdialog.glade:179
-msgid "scroll down automatic"
-msgstr "posunout dolů automaticky"
+#: ../../qt4/snapshotsdialog.py:346
+#, python-format
+msgid "Command not found: %s"
+msgstr "Příkaz nebyl nalezen: %s"
 
-#: ../../gnome/mainwindow.glade:7
-msgid "Back In Time"
-msgstr "Back In Time"
-
-#: ../../gnome/mainwindow.glade:45
-msgid "Backup Now"
-msgstr "Zálohovat nyní"
-
-#: ../../gnome/mainwindow.glade:171
-msgid "Shutdown"
-msgstr "Vypnout"
-
-#: ../../gnome/mainwindow.glade:287
-msgid "Parent folder"
-msgstr "Nadřazená složka"
-
-#: ../../gnome/mainwindow.glade:327
-msgid "Hidden files"
-msgstr "Skryté soubory"
-
-#: ../../gnome/mainwindow.glade:451
+#: ../../qt4/snapshotsdialog.py:367
+#, python-format
 msgid ""
-"<b>This folder doesn't exist\n"
-"in the current snapshot !</b>"
+"Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
 msgstr ""
-"<b>Tato složka neexistuje\n"
-"v aktuálním snímku!</b>"
+"Opravdu chcete vymazat %(file)s ze zachyceného stavu %(snapshot_id)s?\n"
 
-#: ../../gnome/settingsdialog.glade:287
-msgid "<b>Where to save snapshots</b>"
-msgstr "<b>Snímky ukládat do</b>"
+#: ../../qt4/snapshotsdialog.py:370
+#, python-format
+msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
+msgstr "Opravdu chcete vymazat %(file)s z %(count)d zachycených stavů?\n"
 
-#: ../../gnome/settingsdialog.glade:483
-msgid "Private key:"
-msgstr "Soukromý klíč:"
+#: ../../qt4/snapshotsdialog.py:372
+msgid "WARNING: This can not be revoked!"
+msgstr "VAROVÁNÍ: tuto operaci nelze vzít zpět!"
 
-#: ../../gnome/settingsdialog.glade:534
-msgid "Advanced SSH Settings"
-msgstr "Pokročilé SSH nastavení"
+#: ../../qt4/snapshotsdialog.py:385
+#, python-format
+msgid "Exclude \"%s\" from future snapshots?"
+msgstr "Vynechat %s z budoucích zachycených stavů?"
 
-#: ../../gnome/settingsdialog.glade:552
-msgid "<b>SSH Settings</b>"
-msgstr "<b>SSH Settings</b>"
-
-#: ../../gnome/settingsdialog.glade:815
-msgid "<b>Password</b>"
-msgstr "<b>Password</b>"
-
-#: ../../gnome/settingsdialog.glade:930
-msgid "Profile Id:"
-msgstr "ID profilu:"
-
-#: ../../gnome/settingsdialog.glade:1115
-msgid ""
-"hours seperate by comma ( e.g. 8,12,18,23) or */3 for periodic backups every "
-"3 hours (cron style)"
-msgstr ""
-"hodiny oddělené čárkou (například 8,12,18,23) nebo */3 pro pravidelné zálohy "
-"každé 3 hodiny (cron styl)"
-
-#: ../../gnome/settingsdialog.glade:1163
-msgid "<b>Schedule</b>"
-msgstr "<b>Plán</b>"
-
-#: ../../gnome/settingsdialog.glade:1363
-msgid "<b>Highly recommended:</b>"
-msgstr "<b>Důrazně doporučené:</b>"
-
-#: ../../gnome/settingsdialog.glade:1377
-msgid "label"
-msgstr "štítek"
-
-#: ../../gnome/settingsdialog.glade:1755
-msgid "week(s)"
-msgstr "týdnů"
-
-#: ../../gnome/settingsdialog.glade:2069
-msgid "Log level:"
-msgstr "Úroveň protokolování:"
-
-#: ../../gnome/settingsdialog.glade:2121
-msgid ""
-"<b>Change these options only if you really know what you are doing !</b>"
-msgstr "<b>Tato nastavení měňte pouze pokud víte co děláte!</b>"
-
-#: ../../gnome/snapshotsdialog.glade:263
-msgid "Diff with"
-msgstr "Diff s"
-
-#: ../../gnome/textinputdialog.glade:7
-msgid "Pattern"
-msgstr "Vzor"
-
-#: ../../gnome/textinputdialog.glade:70
-msgid "Text"
-msgstr "Text"
+#~ msgid ""
+#~ "Exclude files bigger than value in Mb.\n"
+#~ "With 'Full rsync mode' disabled this will only affect new files\n"
+#~ "because for rsync this is a transfer option, not an exclude option.\n"
+#~ "So big files that has been backed up before will remain in snapshots\n"
+#~ "even if they had changed."
+#~ msgstr ""
+#~ "Vynechat soubory, které jsou větší, než zadaná hodnota v MB.\n"
+#~ "Pokud je Plný rsync režim zakázán, bude se toto týkat pouze nových\n"
+#~ "souborů, protože pro nástroj rsync je toto volba přenosu, nikoli vynechání.\n"
+#~ "Takže, velké soubory, které byly zazálohovány dříve, v zachycených stavech\n"
+#~ "již zůstanou, i když byly změněny."

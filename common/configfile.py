@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,16 +15,12 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
-import os.path
-import os
 import gettext
-
+import logger
 
 _=gettext.gettext
 
-
-class ConfigFile:
+class ConfigFile(object):
     def __init__( self ):
         self.dict = {}
         self.error_handler = None
@@ -52,11 +48,11 @@ class ConfigFile:
 
     def save( self, filename ):
         try:
-            with open( filename, 'wt' ) as file:
+            with open( filename, 'wt' ) as f:
                 keys = list(self.dict.keys())
                 keys.sort()
                 for key in keys:
-                    file.write( "%s=%s\n" % ( key, self.dict[key] ) )
+                    f.write( "%s=%s\n" % ( key, self.dict[key] ) )
         except:
             pass
 
@@ -68,8 +64,8 @@ class ConfigFile:
         lines = []
 
         try:
-            with open( filename, 'rt' ) as file:
-                lines = file.readlines()
+            with open( filename, 'rt' ) as f:
+                lines = f.readlines()
         except:
             pass
 
@@ -203,11 +199,15 @@ class ConfigFileWithProfiles( ConfigFile ):
         return self.current_profile_id
 
     def set_current_profile( self, profile_id ):
+        if isinstance(profile_id, int):
+            profile_id = str(profile_id)
         profiles = self.get_profiles()
 
-        for id in profiles:
-            if id == profile_id:
+        for i in profiles:
+            if i == profile_id:
                 self.current_profile_id = profile_id
+                logger.debug('change current profile: %s' %profile_id, self)
+                logger.changeProfile(profile_id)
                 return True
 
         return False
@@ -218,6 +218,8 @@ class ConfigFileWithProfiles( ConfigFile ):
         for profile_id in profiles:
             if self.get_profile_name( profile_id ) == name:
                 self.current_profile_id = profile_id
+                logger.debug('change current profile: %s' %name, self)
+                logger.changeProfile(profile_id)
                 return True
 
         return False
@@ -225,8 +227,8 @@ class ConfigFileWithProfiles( ConfigFile ):
     def profile_exists( self, profile_id ):
         profiles = self.get_profiles()
 
-        for id in profiles:
-            if id == profile_id:
+        for i in profiles:
+            if i == profile_id:
                 return True
 
         return False
@@ -241,7 +243,13 @@ class ConfigFileWithProfiles( ConfigFile ):
         return False
 
     def get_profile_name( self, profile_id = None ):
-        return self.get_profile_str_value( 'name', self.default_profile_name, profile_id )
+        if profile_id is None:
+            profile_id = self.current_profile_id
+        if profile_id == '1':
+            default = self.default_profile_name
+        else:
+            default = 'Profile %s' % profile_id
+        return self.get_profile_str_value( 'name', default, profile_id )
 
     def add_profile( self, name ):
         profiles = self.get_profiles()

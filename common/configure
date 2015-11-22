@@ -1,8 +1,14 @@
 #!/bin/sh
 
+#clean up
 if [ -e Makefile ]; then
 	rm Makefile;
 fi
+
+#tmp files
+MAKEFILE="$(mktemp)"
+UNINSTALL_FILES="$(mktemp)"
+UNINSTALL_DIRS="$(mktemp)"
 
 #set default options
 PYTHON="--python3"
@@ -11,33 +17,115 @@ FUSE_GROUP="--fuse-group"
 USR_BIN_FILES="backintime backintime-askpass"
 FUSE_FILES="sshtools.py encfstools.py"
 
+usage () {
+echo "Usage:"
+echo "$0 [--python | --python3], [--fuse-group | --no-fuse-group]"
+echo ""
+echo "--python"
+echo "\tuse 'python' to start Python3"
+echo "--python3"
+echo "\tuse 'python3' to start Python3"
+echo "--fuse-group"
+echo "\tmake sure user is in group 'fuse' to be able to use fuse-based file-systems"
+echo "--no-fuse-group"
+echo "\tdo not check for 'fuse' group membership (if not necessary on destination platform)"
+}
+
+addInstallFiles () {
+file=$1
+dest=$2
+mode=$3
+if [ -z "$mode" ]; then
+  mode=644
+fi
+for i in $(ls $file); do
+  addInstallFile "$i" "$dest" "$mode"
+done
+}
+
+addInstallFile () {
+file=$1
+dest=$2
+mode=$3
+if [ -z "$mode" ]; then
+  mode=644
+fi
+printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
+addUninstallFile "$file" "$dest"
+}
+
+addInstallFileRename () {
+file=$1
+dest=$2
+mode=$3
+if [ -z "$mode" ]; then
+  mode=644
+fi
+printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
+addUninstallFileRename "$dest"
+}
+
+addUninstallFile () {
+file=$(basename "$1")
+dest=$2
+printf "\trm -f \$(DEST)$dest/$file\n" >> ${UNINSTALL_FILES}
+}
+
+addUninstallFileRename () {
+file=$1
+printf "\trm -f \$(DEST)$file\n" >> ${UNINSTALL_FILES}
+}
+
+addInstallDir () {
+dest=$1
+printf "\tinstall -d \$(DEST)$dest\n" >> ${MAKEFILE}
+addUninstallDir "$dest"
+}
+
+addUninstallDir () {
+dest=$1
+printf "\tif [ -d \$(DEST)$dest ]; then rmdir --ignore-fail-on-non-empty \$(DEST)$dest; fi\n" >> ${UNINSTALL_DIRS}
+}
+
+addComment () {
+printf "\t#install $1\n" >> ${MAKEFILE}
+printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
+printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
+}
+
+addNewline () {
+printf "\n" >> ${MAKEFILE}
+printf "\n" >> ${UNINSTALL_FILES}
+printf "\n" >> ${UNINSTALL_DIRS}
+}
+
 #get commandline arguments
 for arg in $*; do
 	case $arg in
 		--python | --python3) PYTHON=$arg;;
 		--fuse-group | --no-fuse-group) FUSE_GROUP=$arg;;
+		--help | -h | *) usage; exit 0;;
 	esac
 done
 
 #patch python command
-#use 'python' or 'python2' to start Python Version 2.x
+#use 'python' or 'python3' to start Python Version 3.x
 case $PYTHON in
-	--python)   sed -e "s/^python3\? /python /g" \
-			-e "s/^ssh-agent python3\? /ssh-agent python /g" \
-			-i $USR_BIN_FILES
-			;;
-	--python3)  sed -e "s/^python3\? /python3 /g" \
-			-e "s/^ssh-agent python3\? /ssh-agent python3 /g" \
-			-i $USR_BIN_FILES
-			;;
+	--python)   PYVERSION="" ;;
+	--python3)  PYVERSION="3";;
 esac
+sed -e "s/^python3\? /python${PYVERSION} /g" \
+    -e "s/^ssh-agent python3\? /ssh-agent python${PYVERSION} /g" \
+    -i $USR_BIN_FILES
 
 #patch check for 'fuse' group
 #Some distributions require user to be in group 'fuse' to use sshfs and encfs
 case $FUSE_GROUP in
-	--fuse-group)    sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = True/"  -i $FUSE_FILES;;
-	--no-fuse-group) sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = False/" -i $FUSE_FILES;;
+	--fuse-group)    CHECKFUSE="True" ;;
+	--no-fuse-group) CHECKFUSE="False";;
 esac
+sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = ${CHECKFUSE}/" \
+    -i $FUSE_FILES
 
 #check languages
 mos=""
@@ -48,29 +136,139 @@ for langfile in `ls po/*.po`; do
 	langs="$lang $langs"
 done
 
-#Start Makefile
-printf "LANGS=$langs\n\n" >> Makefile
+#start Makefile
+printf "LANGS=$langs\n\n" >> ${MAKEFILE}
 
-#add template
-cat Makefile.template >> Makefile
+printf "PREFIX=/usr\n" >> ${MAKEFILE}
+printf "DEST=\$(DESTDIR)\$(PREFIX)\n\n" >> ${MAKEFILE}
+
+printf "all:\tbuild\n\n" >> ${MAKEFILE}
+
+printf "build:\ttranslate compress\n\n" >> ${MAKEFILE}
+
+printf "clean:\n" >> ${MAKEFILE}
+printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
+printf "\trm -f man/C/*.gz\n" >> ${MAKEFILE}
+printf "\trm -f config-example-*.gz\n\n" >> ${MAKEFILE}
+
+#create install and uninstall target
+printf "install:\tinstall_translations\n" >> ${MAKEFILE}
+addComment "python"
+addUninstallDir          "/share/backintime/common/__pycache__"
+addUninstallFile "*.pyc" "/share/backintime/common/__pycache__"
+addInstallDir            "/share/backintime/common"
+addInstallFiles "*.py"   "/share/backintime/common"
+addNewline
+
+addComment "plugins"
+addUninstallDir                "/share/backintime/plugins/__pycache__"
+addUninstallFile "*.pyc"       "/share/backintime/plugins/__pycache__"
+addInstallDir                  "/share/backintime/plugins"
+addInstallFiles "plugins/*.py" "/share/backintime/plugins"
+addUninstallDir                "/share/backintime"
+addNewline
+
+addComment "documentation"
+addInstallDir                        "/share/doc/backintime-common"
+addInstallFile "../debian/copyright" "/share/doc/backintime-common"
+addInstallFile "../AUTHORS"          "/share/doc/backintime-common"
+addInstallFile "../LICENSE"          "/share/doc/backintime-common"
+addInstallFile "../README.md"        "/share/doc/backintime-common"
+addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-common"
+addInstallFile "../VERSION"          "/share/doc/backintime-common"
+addInstallFile "../CHANGES"          "/share/doc/backintime-common"
+addNewline
+
+addComment "config-examples"
+addInstallDir                            "/share/doc/backintime-common/examples"
+addInstallFile "config-example-local.gz" "/share/doc/backintime-common/examples"
+addInstallFile "config-example-ssh.gz"   "/share/doc/backintime-common/examples"
+addUninstallDir                          "/share/doc/backintime-common"
+addUninstallDir                          "/share/doc"
+addNewline
+
+addComment "man"
+addInstallDir                                  "/share/man/man1"
+addInstallFile "man/C/backintime.1.gz"         "/share/man/man1"
+addInstallFile "man/C/backintime-askpass.1.gz" "/share/man/man1"
+addInstallFile "man/C/backintime-config.1.gz"  "/share/man/man1"
+addUninstallDir                                "/share/man"
+addNewline
+
+addComment "application"
+addInstallDir                       "/bin"
+addInstallFile "backintime"         "/bin" "755"
+addInstallFile "backintime-askpass" "/bin" "755"
+addNewline
+
+addComment "autostart"
+addInstallDir                       "/../etc/xdg/autostart"
+addInstallFile "backintime.desktop" "/../etc/xdg/autostart"
+addUninstallDir                     "/../etc/xdg"
+addUninstallDir                     "/../etc"
+addNewline
+
+addComment "bash-completion"
+addInstallDir                       "/share/bash-completion/completions"
+addInstallFiles "bash-completion/*" "/share/bash-completion/completions"
+addUninstallDir                     "/share/bash-completion"
+addNewline
+
+#compress
+printf "compress:\n" >> ${MAKEFILE}
+printf "\t#man pages\n" >> ${MAKEFILE}
+printf "\tfor i in \$\$(ls -1 man/C/); do case \$\$i in *.gz|*~) continue;; *) gzip -n --best -c man/C/\$\$i > man/C/\$\${i}.gz;; esac; done\n\n" >> ${MAKEFILE}
+
+printf "\t#config-examples\n" >> ${MAKEFILE}
+printf "\tgzip -n --best -c config-example-local > config-example-local.gz\n" >> ${MAKEFILE}
+printf "\tgzip -n --best -c config-example-ssh > config-example-ssh.gz\n\n" >> ${MAKEFILE}
 
 #translate
-printf "translate: $mos\n\n" >> Makefile
+printf "translate:\t$mos\n\n" >> ${MAKEFILE}
 
 for lang in $langs; do
-	printf "po/$lang.mo: po/$lang.po\n" >> Makefile
-	printf "\tmsgfmt -o po/$lang.mo po/$lang.po\n\n" >> Makefile
+	printf "po/$lang.mo: po/$lang.po\n" >> ${MAKEFILE}
+	printf "\tmsgfmt -o po/$lang.mo po/$lang.po\n\n" >> ${MAKEFILE}
 done
 
 #common langs
-printf "install_translations:\n" >> Makefile
+printf "install_translations:\n" >> ${MAKEFILE}
+addComment "translations"
 for lang in $langs; do
-	printf "\tinstall -d \$(DEST)/share/locale/$lang/LC_MESSAGES\n" >> Makefile
-	printf "\tinstall --mode=644 po/$lang.mo \$(DEST)/share/locale/$lang/LC_MESSAGES/backintime.mo\n" >> Makefile
+	addInstallDir                      "/share/locale/$lang/LC_MESSAGES"
+	addInstallFileRename "po/$lang.mo" "/share/locale/$lang/LC_MESSAGES/backintime.mo"
+	addUninstallDir                    "/share/locale/$lang"
 done
-printf "\n" >> Makefile
+addUninstallDir "/share/locale"
+addUninstallDir "/share"
+addNewline
+
+#uninstall
+printf "uninstall:\tuninstall_files uninstall_dirs\n\n" >> ${MAKEFILE}
+printf "uninstall_files:\n" >> ${MAKEFILE}
+cat ${UNINSTALL_FILES} >> ${MAKEFILE}
+
+printf "uninstall_dirs:\n" >> ${MAKEFILE}
+cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
+
+#copy Makefile
+mv ${MAKEFILE} Makefile
+chmod 644 Makefile
+
+#clean up
+for i in "${UNINSTALL_FILES}" "${UNINSTALL_DIRS}"; do
+    if [ -e "$i" ]; then
+        rm "$i"
+    fi
+done
+
+#check python version
+if [ $(python${PYVERSION} --version 2>&1 | grep -c "^Python 3") -ne 1 ]; then
+    printf "Warning: Wrong Python version.\n"
+    printf "Please make sure Python 3.x is used by adding '--python' or '--python3'.\n"
+    exit 1
+fi
 
 printf "All OK. Now run:\n"
 printf "    make\n"
 printf "    sudo make install\n"
-

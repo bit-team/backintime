@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,18 +15,24 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
 import os
-import os.path
+import sys
+from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView, QTreeView, QDialog, QApplication, QStyleFactory
+from PyQt4.QtCore import QDir, SIGNAL
 
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
+def get_backintime_path(*path):
+    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
+def register_backintime_path(*path):
+    '''find duplicate in common/tools.py
+    '''
+    path = get_backintime_path(*path)
+    if not path in sys.path:
+        sys.path = [path] + sys.path
 
 def get_font_bold( font ):
     font.setWeight( QFont.Bold )
     return font
-
 
 def set_font_bold( widget ):
     widget.setFont( get_font_bold( widget.font() ) )
@@ -113,3 +119,23 @@ def hidden_files(parent):
         return parent.show_hidden_files
     except: pass
     return False
+
+def create_qapplication(app_name = 'Back In Time'):
+    global qapp
+    try:
+        return qapp
+    except NameError:
+        pass
+    qapp = QApplication(sys.argv + ['-title', app_name])
+    if os.geteuid() == 0 and                                   \
+        qapp.style().objectName().lower() == 'windows' and  \
+        'GTK+' in QStyleFactory.keys():
+            qapp.setStyle('GTK+')
+    return qapp
+
+class MyTreeView(QTreeView):
+    """subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
+    if the SLOT currentChanged is called"""
+    def currentChanged(self, *args):
+        self.emit(SIGNAL('myCurrentIndexChanged'), *args)
+        super(MyTreeView, self).currentChanged(*args)

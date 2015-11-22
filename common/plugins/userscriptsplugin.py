@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 
 
 import os
-import os.path
 import pluginmanager
 import tools
 import logger
@@ -38,7 +37,9 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
         if not path:
             return
 
-        logger.info( "[UserScriptsPlugin.notify_script] %s %s" % ( path, args ) )
+        logger.info("[UserScriptsPlugin.notify_script] %s %s"
+                    %(path, args),
+                    self)
         os.system( "sh \"%s\" %s" % ( self.callback, args ) )
 
     def on_process_begins( self ):
@@ -56,4 +57,3 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
 
     def on_new_snapshot( self, snapshot_id, snapshot_path ):
         self.notify_script( self.config.get_take_snapshot_user_script_new_snapshot(), "%s \"%s\"" % ( snapshot_id, snapshot_path ) )
-

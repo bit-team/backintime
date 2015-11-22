@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #    Back In Time
-#    Copyright (C) 2008-2014 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,11 +17,15 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-if [ -f askpass.py ]; then
-	APP_PATH="."
+#fixing gray window error
+#https://launchpad.net/bugs/1493020
+export QT_GRAPHICSSYSTEM="native"
+
+CUR_PATH="$(dirname $(readlink -m $0))"
+if [ -f "${CUR_PATH}/askpass.py" ]; then
+	APP_PATH=$CUR_PATH
 else
-	APP_PATH="/usr/share/backintime/common"
+	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/common")
 fi
 
 python3 $APP_PATH/askpass.py "$@"
-
