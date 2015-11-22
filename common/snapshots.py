@@ -1196,11 +1196,14 @@ class Snapshots:
         if os.path.exists( new_snapshot_path() ):
             logger.info("Remove leftover '%s' folder from last run" %new_snapshot_id)
             self.set_take_snapshot_message(0, _("Remove leftover '%s' folder from last run") %new_snapshot_id)
+            #first do the heavy lifting over ssh
             self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
                                        %(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
                                        quote = True)) #Debian patch
             self._execute(self.cmd_ssh("rm -rf \"%s\""
                                        %os.path.join(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), 'backup') ))
+            #then delete the new_snapshot folder through sshfs
+            #this will make sure os.path.exists will recognize the path is gone
             self._execute("rm -rf \"%s\"" %new_snapshot_path())
 
             if os.path.exists( new_snapshot_path() ):
