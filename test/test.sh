@@ -1,17 +1,17 @@
 #!/bin/bash
 # Back In Time
 # Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public Licensealong
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -26,7 +26,7 @@
 BACKINTIME_PATH="../common/backintime"
 CONFIG_PATH="config"
 TEST_PATH="/tmp/snapshots"
-SNAPSHOTS_PATH=$($BACKINTIME_PATH --quiet --config config --snapshots-path | awk '{print $2}')
+SNAPSHOTS_PATH=$($BACKINTIME_PATH --quiet --config config snapshots-path | awk '{print $2}')
 DATA_PATH="/tmp/test/files"
 REPORT_PATH="/tmp/test/reports"
 
@@ -75,7 +75,7 @@ test_fun ()            #  test [condition] [name] [success] [fail] [lineno]
 
   echo -e "${BWhite} TEST --> $3 ${Color_Off}"
 
-  if [ ! $1 ] 
+  if [ ! $1 ]
   then
     echo "Assertion failed:  \"$2\" for test : \"$3\""
     echo "File \"$0\", line $lineno"    # Give name of file and line number.
@@ -86,17 +86,17 @@ test_fun ()            #  test [condition] [name] [success] [fail] [lineno]
     echo -e "${On_Green} SUCCESS --> $4 ${Color_Off}"
 
     CSuccesses=`expr $CSuccesses + 1`
-  fi  
+  fi
 
   echo -e "${BWhite}================================================================================"
   echo -e "${Color_Off}"
-} 
+}
 #######################################################################
 
 
 # clean tmp
 echo "Clean testing directory"
-chmod -Rfv 777 $TEST_PATH >/dev/null && rm -rfv $TEST_PATH $DATA_PATH >/dev/null 
+chmod -Rfv 777 $TEST_PATH >/dev/null && rm -rfv $TEST_PATH $DATA_PATH >/dev/null
 
 echo "Create testing directory"
 mkdir -p $SNAPSHOTS_PATH && mkdir -p $REPORT_PATH
@@ -137,4 +137,3 @@ then
 else
     exit 1
 fi
-
