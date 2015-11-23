@@ -754,6 +754,9 @@ def inhibitSuspend( app_id = sys.argv[0],
             return (cookie, bus, dbus_props)
         except dbus.exceptions.DBusException:
             pass
+    if isRoot():
+        logger.debug("Inhibit Suspend failed because BIT was started as root.")
+        return
     logger.warning('Inhibit Suspend failed.')
 
 def unInhibitSuspend(cookie, bus, dbus_props):
