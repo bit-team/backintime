@@ -1,16 +1,16 @@
 # Back In Time
 # Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public Licensealong
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -64,7 +64,7 @@ class TestTools(unittest.TestCase):
 
     def test_load_env(self):
         ''' Test the function load_env '''
-        dict = {}
+        d = {}
         lines = []
         path_user = os.path.expanduser('~')
         path_cron_env = os.path.join(
@@ -78,11 +78,11 @@ class TestTools(unittest.TestCase):
         for line in lines:
             items = line.split('=', 1)
             if len(items) == 2:
-                dict[items[0]] = items[1][:-1]
+                d[items[0]] = items[1][:-1]
         cfg = config.Config(None)
         tools.load_env(cfg)
-        for key in dict.keys():
-            self.assertEquals(os.environ[key], dict[key])
+        for key in d.keys():
+            self.assertEquals(os.environ[key], d[key])
 
     def test_prepare_path(self):
         ''' Test the function load_env '''
