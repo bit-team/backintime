@@ -28,7 +28,7 @@ def register_backintime_path(*path):
     '''
     path = get_backintime_path(*path)
     if not path in sys.path:
-        sys.path = [path] + sys.path
+        sys.path.insert(0, path)
 
 def get_font_bold( font ):
     font.setWeight( QFont.Bold )

@@ -40,7 +40,7 @@ else:
 
 class DiffOptionsDialog( QDialog ):
     def __init__( self, parent ):
-        QDialog.__init__( self, parent )
+        super(DiffOptionsDialog, self).__init__(parent)
         self.config = parent.config
 
         import icon
@@ -76,12 +76,12 @@ class DiffOptionsDialog( QDialog ):
             self.config.set_str_value( 'qt4.diff.params', diff_params )
             self.config.save()
 
-        QDialog.accept( self )
+        super(DiffOptionsDialog, self).accept()
 
 
 class SnapshotsDialog( QDialog ):
     def __init__( self, parent, snapshot_id, path ):
-        QDialog.__init__( self, parent )
+        super(SnapshotsDialog, self).__init__(parent)
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.snapshots_list = parent.snapshots_list
@@ -405,4 +405,4 @@ class SnapshotsDialog( QDialog ):
         snapshot_id = self.get_list_snapshot_id()
         if snapshot_id:
             self.snapshot_id = snapshot_id
-        QDialog.accept( self )
+        super(SnapshotsDialog, self).accept()

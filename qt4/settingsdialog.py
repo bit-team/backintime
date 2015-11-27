@@ -1421,8 +1421,8 @@ class SettingsDialog( QDialog ):
         if not self.config.setup_cron():
             return False
 
-        self.config.save()
-        return True
+        return self.config.save()
+
 
     def on_btn_exclude_remove_clicked ( self ):
         for item in self.list_exclude.selectedItems():

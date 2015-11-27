@@ -53,8 +53,11 @@ class ConfigFile(object):
                 keys.sort()
                 for key in keys:
                     f.write( "%s=%s\n" % ( key, self.dict[key] ) )
-        except:
-            pass
+        except OSError as e:
+            logger.error('Failed to save config: %s' %str(e), self)
+            self.notify_error(_('Failed to save config: %s') %str(e))
+            return False
+        return True
 
     def load( self, filename, **kwargs ):
         self.dict = {}
@@ -66,13 +69,14 @@ class ConfigFile(object):
         try:
             with open( filename, 'rt' ) as f:
                 lines = f.readlines()
-        except:
-            pass
+        except OSError as e:
+            logger.error('Failed to load config: %s' %str(e), self)
+            self.notify_error(_('Failed to load config: %s') %str(e))
 
         for line in lines:
-            items = line.split( '=', maxsplit )
+            items = line.strip('\n').split( '=', maxsplit )
             if len( items ) == 2:
-                self.dict[ items[ 0 ] ] = items[ 1 ][ : -1 ]
+                self.dict[ items[ 0 ] ] = items[ 1 ]
 
     def remap_key( self, old_key, new_key ):
         if old_key != new_key:

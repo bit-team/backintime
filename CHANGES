@@ -1,6 +1,10 @@
 Back In Time
 
 Version 1.1.9
+* continue an unfinished new_snapshot if possible (https://github.com/bit-team/backintime/issues/400)
+* Fix bug: suppress warning about failed inhibit suspend if run as root (https://github.com/bit-team/backintime/issues/500)
+* Fix bug: UI blocked/greyed out while removing snapshot (https://github.com/bit-team/backintime/issues/487)
+* Fix bug: pw-cache failed on leftover PID file, using ApplicationInstance now (https://github.com/bit-team/backintime/issues/468)
 * Fix bug: failed to parse some arguments (https://github.com/bit-team/backintime/issues/492)
 * Fix bug: failed to start GUI if launched from systray icon
 * Fix bug: deleted snapshot is still listed in Timeline if using mode SSH (https://github.com/bit-team/backintime/issues/493)

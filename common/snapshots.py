@@ -46,6 +46,7 @@ _=gettext.gettext
 class Snapshots:
     SNAPSHOT_VERSION = 3
     GLOBAL_FLOCK = '/tmp/backintime.lock'
+    NEW_SNAPSHOT_ID = 'new_snapshot'
 
     def __init__( self, cfg = None ):
         self.config = cfg
@@ -391,8 +392,13 @@ class Snapshots:
             return '\n'.join(msg)
 
     def new_take_snapshot_log( self, date ):
-        os.system( "rm \"%s\"" % self.config.get_take_snapshot_log_file() )
-        self.append_to_take_snapshot_log( "========== Take snapshot (profile %s): %s ==========\n" % ( self.config.get_current_profile(), date.strftime( '%c' ) ), 1 )
+        saveToContinueFlag = SaveToContinueFlag(self.get_snapshot_path(self.NEW_SNAPSHOT_ID))
+        if saveToContinueFlag.exists():
+            msg = "Last snapshot didn't finish but can be continued.\n\n======== continue snapshot (profile %s): %s ========\n"
+        else:
+            os.system( "rm \"%s\"" % self.config.get_take_snapshot_log_file() )
+            msg = "========== Take snapshot (profile %s): %s ==========\n"
+        self.append_to_take_snapshot_log(msg %(self.config.get_current_profile(), date.strftime('%c')), 1)
 
     def append_to_take_snapshot_log( self, message, level ):
         if level > self.config.log_level():
@@ -1176,31 +1182,46 @@ class Snapshots:
     def _take_snapshot( self, snapshot_id, now, include_folders ): # ignore_folders, dict, force ):
         self.set_take_snapshot_message( 0, _('...') )
 
-        new_snapshot_id = 'new_snapshot'
-
         def snapshot_path(**kwargs):
-            return self.get_snapshot_path( snapshot_id, **kwargs )
+            return self.get_snapshot_path(snapshot_id, **kwargs)
 
         def new_snapshot_path(**kwargs):
-            return self.get_snapshot_path( new_snapshot_id, **kwargs )
+            return self.get_snapshot_path(self.NEW_SNAPSHOT_ID, **kwargs)
 
         def new_snapshot_path_to(**kwargs):
-            return self.get_snapshot_path_to( new_snapshot_id, **kwargs )
+            return self.get_snapshot_path_to(self.NEW_SNAPSHOT_ID, **kwargs)
 
         def prev_snapshot_path_to(**kwargs):
-            return self.get_snapshot_path_to( prev_snapshot_id, **kwargs )
+            return self.get_snapshot_path_to(prev_snapshot_id, **kwargs)
 
         #find
         find_suffix = self.config.find_suffix()
 
-        if os.path.exists( new_snapshot_path() ):
-            logger.info("Remove leftover '%s' folder from last run" %new_snapshot_id)
-            self.set_take_snapshot_message(0, _("Remove leftover '%s' folder from last run") %new_snapshot_id)
+        #save to continue
+        saveToContinueFlag = SaveToContinueFlag(new_snapshot_path())
+        if saveToContinueFlag.exists():
+            logger.info("Found leftover '%s' which can be continued." %self.NEW_SNAPSHOT_ID, self)
+            self.set_take_snapshot_message(0, _("Found leftover '%s' which can be continued.") %self.NEW_SNAPSHOT_ID)
+            #fix permissions
+            self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
+                                       %(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
+                                       quote = True))
+            for file in os.listdir(new_snapshot_path()):
+                file = os.path.join(new_snapshot_path(), file)
+                mode = os.stat(file).st_mode
+                os.chmod(file, mode | stat.S_IWUSR)
+
+        if os.path.exists(new_snapshot_path()) and not saveToContinueFlag.exists():
+            logger.info("Remove leftover '%s' folder from last run" %self.NEW_SNAPSHOT_ID)
+            self.set_take_snapshot_message(0, _("Remove leftover '%s' folder from last run") %self.NEW_SNAPSHOT_ID)
+            #first do the heavy lifting over ssh
             self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
                                        %(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
                                        quote = True)) #Debian patch
             self._execute(self.cmd_ssh("rm -rf \"%s\""
                                        %os.path.join(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), 'backup') ))
+            #then delete the new_snapshot folder through sshfs
+            #this will make sure os.path.exists will recognize the path is gone
             self._execute("rm -rf \"%s\"" %new_snapshot_path())
 
             if os.path.exists( new_snapshot_path() ):
@@ -1275,7 +1296,7 @@ class Snapshots:
         # It should delete the excluded folders then
         rsync_prefix = rsync_prefix + ' --delete --delete-excluded '
 
-        if snapshots:
+        if snapshots and not saveToContinueFlag.exists():
             prev_snapshot_id = snapshots[0]
 
             if not full_rsync:
@@ -1321,11 +1342,12 @@ class Snapshots:
                 self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
         else:
-            if not self._create_directory( new_snapshot_path_to() ):
+            if not saveToContinueFlag.exists() and not self._create_directory( new_snapshot_path_to() ):
                 return [ False, True ]
 
         #sync changed folders
         logger.info("Call rsync to take the snapshot", self)
+        saveToContinueFlag.set()
         cmd = rsync_prefix + ' -v ' + rsync_suffix
         cmd += self.rsync_remote_path( new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
 
@@ -1365,7 +1387,7 @@ class Snapshots:
                 return [ False, True ]
 
             has_errors = True
-            self._execute( "touch \"%s\"" % self.get_snapshot_failed_path( new_snapshot_id ) )
+            self._execute( "touch \"%s\"" % self.get_snapshot_failed_path(self.NEW_SNAPSHOT_ID) )
 
         if full_rsync:
             if not params[1] and not self.config.take_snapshot_regardless_of_changes():
@@ -1388,7 +1410,7 @@ class Snapshots:
             logger.info('Save permissions', self)
             self.set_take_snapshot_message( 0, _('Save permission ...') )
 
-            with bz2.BZ2File( self.get_snapshot_fileinfo_path( new_snapshot_id ), 'wb' ) as fileinfo:
+            with bz2.BZ2File(self.get_snapshot_fileinfo_path(self.NEW_SNAPSHOT_ID), 'wb') as fileinfo:
 
                 permission_done = False
                 if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
@@ -1419,7 +1441,7 @@ class Snapshots:
                         permission_done = True
 
                 if not permission_done:
-                    path_to_explore = self.get_snapshot_path_to( new_snapshot_id ).rstrip( '/' ).encode()
+                    path_to_explore = self.get_snapshot_path_to(self.NEW_SNAPSHOT_ID).rstrip('/').encode()
                     for path, dirs, files in os.walk( path_to_explore ):
                         dirs.extend( files )
                         for item in dirs:
@@ -1439,21 +1461,22 @@ class Snapshots:
         info_file.set_str_value( 'snapshot_user', user )
         info_file.set_int_value( 'snapshot_profile_id', profile_id )
         info_file.set_int_value( 'snapshot_tag', tag )
-        info_file.save( self.get_snapshot_info_path( new_snapshot_id ) )
+        info_file.save(self.get_snapshot_info_path(self.NEW_SNAPSHOT_ID))
         info_file = None
 
         #copy take snapshot log
         try:
             with open( self.config.get_take_snapshot_log_file(), 'rb' ) as logfile:
-                with bz2.BZ2File( self.get_snapshot_log_path( new_snapshot_id ), 'wb' ) as logfile_bz2:
+                with bz2.BZ2File(self.get_snapshot_log_path(self.NEW_SNAPSHOT_ID), 'wb') as logfile_bz2:
                     for line in logfile:
                         logfile_bz2.write(line)
         except Exception as e:
             logger.debug('Failed to write take_snapshot log %s into compressed file %s: %s'
-                         %(self.config.get_take_snapshot_log_file(), self.get_snapshot_log_path(new_snapshot_id), str(e)),
+                         %(self.config.get_take_snapshot_log_file(), self.get_snapshot_log_path(self.NEW_SNAPSHOT_ID), str(e)),
                          self)
             pass
 
+        saveToContinueFlag.unset()
         #rename snapshot
         os.rename(new_snapshot_path(), snapshot_path())
 
@@ -1991,6 +2014,21 @@ class Snapshots:
             fcntl.fcntl(self.flock_file, fcntl.LOCK_UN)
             self.flock_file.close()
         self.flock_file = None
+
+class SaveToContinueFlag(object):
+    def __init__(self, new_snapshot_path):
+        self.flag = os.path.join(new_snapshot_path, 'save_to_continue')
+
+    def set(self):
+        with open(self.flag, 'a') as f:
+            pass
+
+    def unset(self):
+        if os.path.exists(self.flag):
+            os.remove(self.flag)
+
+    def exists(self):
+        return os.path.exists(self.flag)
 
 if __name__ == "__main__":
     config = config.Config()

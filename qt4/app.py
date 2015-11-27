@@ -452,9 +452,12 @@ class MainWindow( QMainWindow ):
 
         self.update_snapshot_actions()
 
+        #signals
         QObject.connect( self.list_time_line, SIGNAL('itemSelectionChanged()'), self.on_list_time_line_current_item_changed )
         QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
         QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
+        #add signal for RemoveSnapshotThread class
+        QObject.connect(self, SIGNAL('refreshSnapshotList'), self.update_time_line)
 
         self.force_wait_lock_counter = 0
 
@@ -1000,34 +1003,20 @@ class MainWindow( QMainWindow ):
         self.setMouseButtonNavigation()
 
     def on_btn_remove_snapshot_clicked ( self ):
-        last_snapshot = self.snapshots.get_snapshots_list()[0]
-        snapshot_ids = [self.time_line_get_snapshot_id(item) \
-                        for item in self.get_list_time_line_selection(True) \
-                        if len(self.time_line_get_snapshot_id(item)) > 1]
-        if not snapshot_ids:
+        items = [item for item in self.get_list_time_line_selection(True) if len(self.time_line_get_snapshot_id(item)) > 1]
+        if not items:
             return
 
         if QMessageBox.Yes != messagebox.warningYesNo( self, \
-                            _('Are you sure you want to remove the snapshot:\n%s') % \
-                            '\n'.join([self.snapshots.get_snapshot_display_name( snapshot_id ) \
-                            for snapshot_id in snapshot_ids]) ):
+                              _('Are you sure you want to remove the snapshot:\n%s') \
+                                %'\n'.join([self.snapshots.get_snapshot_display_name(self.time_line_get_snapshot_id(item)) \
+                                            for item in items]) ):
             return
 
-        #inhibit suspend/hibernate during delete
-        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                         reason = 'deleting snapshots')
-
-        [self.snapshots.remove_snapshot( snapshot_id ) for snapshot_id in snapshot_ids]
-        tools.update_cached_fs(self.config.get_snapshots_full_path())
-        self.update_time_line()
-
-        #set correct last snapshot again
-        if last_snapshot in snapshot_ids and len(self.snapshots.get_snapshots_list()):
-            self.snapshots.create_last_snapshot_symlink(self.snapshots.get_snapshots_list()[0])
-
-        #release inhibit suspend
-        if self.config.inhibitCookie:
-            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+        for item in items:
+            item.setDisabled(True)
+        thread = RemoveSnapshotThread(self, items)
+        thread.start()
 
     def on_btn_settings_clicked( self ):
         self.removeMouseButtonNavigation()
@@ -1511,6 +1500,46 @@ class ExtraMouseButtonEventFilter(QObject):
             return True
         else:
             return super(ExtraMouseButtonEventFilter, self).eventFilter(receiver, event)
+
+class RemoveSnapshotThread(QThread):
+    '''remove snapshots in background thread so GUI will not freeze
+    '''
+    def __init__(self, parent, items):
+        self.parent = parent
+        self.config = parent.config
+        self.snapshots = parent.snapshots
+        self.items = [(parent.time_line_get_snapshot_id(item), item) for item in items]
+        super(RemoveSnapshotThread, self).__init__(parent)
+
+    def run(self):
+        last_snapshot = self.snapshots.get_snapshots_list()[0]
+        renew_last_snapshot = False
+        #inhibit suspend/hibernate during delete
+        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
+                                                         reason = 'deleting snapshots')
+
+        for sid, item in self.items:
+            self.snapshots.remove_snapshot(sid)
+            try:
+                item.setHidden(True)
+            except RuntimeError:
+                #item has been deleted
+                #probably because user pressed refresh
+                pass
+            if sid == last_snapshot:
+                renew_last_snapshot = True
+
+        tools.update_cached_fs(self.config.get_snapshots_full_path())
+        self.parent.emit(SIGNAL('refreshSnapshotList'))
+
+        #set correct last snapshot again
+        sids = self.snapshots.get_snapshots_list()
+        if renew_last_snapshot and len(sids):
+            self.snapshots.create_last_snapshot_symlink(sids[0])
+
+        #release inhibit suspend
+        if self.config.inhibitCookie:
+            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
 def debug_trace():
     '''Set a tracepoint in the Python debugger that works with Qt'''

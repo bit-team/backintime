@@ -56,11 +56,12 @@ class Mount(object):
                 cmd = ['backintime', 'pw-cache', action]
                 logger.debug('Call command: %s'
                              %' '.join(cmd), self)
-                try:
-                    subprocess.check_call(cmd, stdout=open(os.devnull, 'w'))
-                except subprocess.CalledProcessError as e:
+                proc = subprocess.Popen(cmd,
+                                        stdout = open(os.devnull, 'w'),
+                                        stderr = open(os.devnull, 'w'))
+                if proc.returncode:
                     logger.error('Failed to %s pw-cache: %s'
-                                 %(action, str(e)),
+                                 %(action, proc.returncode),
                                  self)
                     pass
 
