@@ -19,6 +19,8 @@ import unittest
 import subprocess
 import os
 import sys
+import _thread
+from time import sleep
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "common/"))
 
 from applicationinstance import ApplicationInstance
@@ -146,7 +148,33 @@ class TestApplicationInstance(unittest.TestCase):
         # Execute test
         self.assertTrue(self.inst.check())
 
-#TODO: add flock tests
+    def write_after_flock(self, pid_file,):
+        inst = ApplicationInstance(os.path.abspath(pid_file), False)
+        inst.flockExclusiv()
+        with open(self.temp_file, 'wt') as f:
+            f.write('foo')
+        inst.flockUnlock()
+
+    def test_thread_write_without_flock(self):
+        _thread.start_new_thread(self.write_after_flock, (self.file_name,))
+        #give the thread some time
+        sleep(0.01)
+        self.assertTrue(os.path.exists(self.temp_file))
+        with open(self.temp_file, 'rt') as f:
+            self.assertEqual(f.read(), 'foo')
+
+    def test_flock_exclusive(self):
+        self.inst.flockExclusiv()
+        _thread.start_new_thread(self.write_after_flock, (self.file_name,))
+        #give the thread some time
+        sleep(0.01)
+        self.assertFalse(os.path.exists(self.temp_file))
+        self.inst.flockUnlock()
+        #give the thread some time
+        sleep(0.01)
+        self.assertTrue(os.path.exists(self.temp_file))
+        with open(self.temp_file, 'rt') as f:
+            self.assertEqual(f.read(), 'foo')
 
 # Execute tests if this programm is call with python TestApplicationInstance.py
 if __name__ == '__main__':
