@@ -1,16 +1,16 @@
 # Back In Time
 # Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public Licensealong
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -35,22 +35,6 @@ class TestConfigFile(unittest.TestCase):
         self.assertTrue(os.path.exists(filename))
         os.remove(filename)
 
-    def test_save_None(self):
-        '''
-        The exception should be suppresed by the save function and no
-        file should named None should be created
-         '''
-        filename = None
-        cf = configfile.ConfigFile()
-        try:
-            cf.save(filename)
-        except:
-            self.fail(
-                "The exception should have been suppressed by the " +
-                "save function")
-            return
-        self.assertTrue(True)
-
     def test_load(self):
         '''
         ConfigFile should be able to load its content from a previously
@@ -73,18 +57,3 @@ class TestConfigFile(unittest.TestCase):
             self.assertTrue(cf.has_value(k))
 
         os.remove(config_filename)
-
-    def test_load_None(self):
-        '''
-        The load function should suppress the error if it is fed None as
-        the filename.
-        '''
-        config_filename = None
-        cf = configfile.ConfigFile()
-        try:
-            cf.load(config_filename)
-        except:
-            self.fail(
-                "The exception should have been suppressed by the " +
-                "load function")
-        self.assertEqual(len(cf.get_keys()), 0)
