@@ -79,8 +79,7 @@ class TestTools(unittest.TestCase):
             items = line.split('=', 1)
             if len(items) == 2:
                 d[items[0]] = items[1][:-1]
-        cfg = config.Config(None)
-        tools.load_env(cfg)
+        tools.load_env(path_cron_env)
         for key in d.keys():
             self.assertEquals(os.environ[key], d[key])
 
