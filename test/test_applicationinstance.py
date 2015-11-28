@@ -29,11 +29,24 @@ class TestApplicationInstance(unittest.TestCase):
         self.temp_file = 'temp.txt'
         self.file_name = "file_with_pid"
         self.inst = ApplicationInstance(os.path.abspath(self.file_name), False)
+        self.subproc = None
 
     def tearDown(self):
         for f in (self.temp_file, self.file_name):
             if os.path.exists(f):
                 os.remove(f)
+        if self.subproc:
+            self.subproc.kill()
+            self.subproc = None
+
+    def createProcess(self):
+        with open(self.temp_file, 'wt') as output:
+            self.subproc = subprocess.Popen("top", stdout=output)
+            return self.subproc.pid
+
+    def getProcName(self, pid):
+        with open('/proc/%s/cmdline' % pid, 'r') as file:
+            return file.read().strip('\n')
 
     def test_create_and_remove_pid_file(self):
         #create pid file
@@ -49,8 +62,7 @@ class TestApplicationInstance(unittest.TestCase):
 
         #get pid/procname of current process
         this_pid = os.getpid()
-        with open('/proc/%s/cmdline' % this_pid, 'r') as file:
-            this_procname = file.read().strip('\n')
+        this_procname = self.getProcName(this_pid)
 
         with open(self.file_name, 'rt') as file_with_pid:
             self.assertEqual(file_with_pid.read(), '%s\n%s' %(this_pid, this_procname))
@@ -60,99 +72,55 @@ class TestApplicationInstance(unittest.TestCase):
         Test the check function with an existing process with correct process
         name
         """
-        #              GIVE               #
-        # Creation of thread to get a pid
-        with open(self.temp_file, 'wt') as output:
-            subproc = subprocess.Popen("top", stdout=output)
-            pid = subproc.pid
-        # Get the process name
-        with open('/proc/%s/cmdline' % pid, 'r') as file:
-            procname = file.read().strip('\n')
+        pid = self.createProcess()
+        procname = self.getProcName(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
             file_with_pid.write(str(pid) + "\n")
             file_with_pid.write(procname)
 
-        #               WHEN             #
-        result = self.inst.check()
-
-        #               THEN             #
-        # Clean files and process
-        subproc.kill()
         # Execute test
-        self.assertFalse(result)
+        self.assertFalse(self.inst.check())
 
     def test_existing_process_with_wrong_procname(self):
         """
         Test the check function with an existing process with wrong process
         name
         """
-        #              GIVE               #
-        # Creation of thread to get a pid
-        with open(self.temp_file, 'wt') as output:
-            subproc = subprocess.Popen("top", stdout=output)
-            pid = subproc.pid
-        # Get the process name
-        with open('/proc/%s/cmdline' % pid, 'r') as file:
-            procname = file.read().strip('\n')
+        pid = self.createProcess()
+        procname = self.getProcName(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
             file_with_pid.write(str(pid) + "\n")
             file_with_pid.write(procname + "DELETE")
 
-        #               WHEN             #
-        result = self.inst.check()
-
-        #               THEN             #
-        # Clean files and process
-        subproc.kill()
-
         # Execute test
-        self.assertTrue(result)
+        self.assertTrue(self.inst.check())
 
     def test_existing_process_with_wrong_pid(self):
         """
         Test the check function with an existing process with wrong pid
         """
-        #              GIVE               #
-        # Creation of thread to get a pid
-        with open(self.temp_file, 'wt') as output:
-            subproc = subprocess.Popen("top", stdout=output)
-            pid = subproc.pid
-        # Get the process name
-        with open('/proc/%s/cmdline' % pid, 'r') as file:
-            procname = file.read().strip('\n')
+        pid = self.createProcess()
+        procname = self.getProcName(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
             file_with_pid.write("987654321\n")
             file_with_pid.write(procname)
 
-        #               WHEN             #
-        result = self.inst.check()
-
-        #               THEN             #
-        # Clean files and process
-        subproc.kill()
-
         # Execute test
-        self.assertTrue(result)
+        self.assertTrue(self.inst.check())
 
     def test_killing_existing_process(self):
         """
         Test the check function with an existing process with correct process
         name
         """
-        #              GIVE               #
-        # Creation of thread to get a pid
-        with open(self.temp_file, 'wt') as output:
-            subproc = subprocess.Popen("top", stdout=output)
-            pid = subproc.pid
-        # Get the process name
-        with open('/proc/%s/cmdline' % pid, 'r') as file:
-            procname = file.read().strip('\n')
+        pid = self.createProcess()
+        procname = self.getProcName(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -160,29 +128,23 @@ class TestApplicationInstance(unittest.TestCase):
             file_with_pid.write(procname)
 
         #kill process
-        subproc.kill()
+        self.subproc.kill()
+        self.subproc.wait()
+        self.subproc = None
 
-        #               WHEN             #
-        result = self.inst.check()
-
-        #               THEN             #
-        # Clean files
         # Execute test
-        self.assertTrue(result)
+        self.assertTrue(self.inst.check())
 
     def test_non_existing_process(self):
         """ Test the check function with a non existing process """
         #              GIVE               #
-        # create file with pid and process name
+        # create file with fake pid and process name
         with open(self.file_name, "wt") as file_with_pid:
             file_with_pid.write("987654321\n")
             file_with_pid.write("FAKE_PROCNAME")
 
-        #               WHEN             #
-        result = self.inst.check()
-
         # Execute test
-        self.assertTrue(result)
+        self.assertTrue(self.inst.check())
 
 #TODO: add flock tests
 
