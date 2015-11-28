@@ -15,6 +15,8 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+import os
+
 import gettext
 import logger
 
@@ -66,6 +68,8 @@ class ConfigFile(object):
     def append( self, filename, maxsplit = 1 ):
         lines = []
 
+        if not os.path.isfile(filename):
+            return
         try:
             with open( filename, 'rt' ) as f:
                 lines = f.readlines()
