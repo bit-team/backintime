@@ -1,4 +1,4 @@
-#    Copyright (C) 2014 Germar Reitze
+#    Copyright (C) 2015 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -80,6 +80,9 @@ class TestArgParser(unittest.TestCase):
         self.assertIn('profile_id', args)
         self.assertEqual(args.profile_id, 2)
 
+    def test_cmd_backup_profile_and_profile_id(self):
+        self.assertRaises(SystemExit, backintime.arg_parse, ['backup', '--profile', 'foo', '--profile-id', '2'])
+
     def test_cmd_backup_debug(self):
         args = backintime.arg_parse(['backup', '--debug'])
         self.assertIn('command', args)
@@ -87,10 +90,10 @@ class TestArgParser(unittest.TestCase):
         self.assertIn('debug', args)
         self.assertTrue(args.debug)
 
-    def test_debug_cmd_backup_profile(self):
-        for argv in (['--debug', 'backup', '--profile', 'foo'],
-                     ['backup', '--debug', '--profile', 'foo'],
-                     ['--profile', 'foo', '--debug', 'backup']):
+    def test_cmd_backup_multi_args(self):
+        for argv in (['--debug', 'backup', '--profile', 'foo', '--checksum'],
+                     ['backup', '--debug', '--checksum', '--profile', 'foo'],
+                     ['--checksum', '--profile', 'foo', '--debug', 'backup']):
             with self.subTest(argv = argv):
                 #workaround for py.test3 2.5.1 doesn't support subTest
                 msg = 'argv = %s' %argv
@@ -101,6 +104,8 @@ class TestArgParser(unittest.TestCase):
                 self.assertEqual(args.profile, 'foo', msg)
                 self.assertIn('debug', args, msg)
                 self.assertTrue(args.debug, msg)
+                self.assertIn('checksum', args, msg)
+                self.assertTrue(args.checksum, msg)
 
     ############################################################################
     ###                               Restore                                ###
@@ -123,18 +128,29 @@ class TestArgParser(unittest.TestCase):
         self.assertIn('SNAPSHOT_ID', args)
         self.assertEqual(args.SNAPSHOT_ID, '20151130-230501-984')
 
-    def test_debug_cmd_restore_what_where_snapshot_id(self):
-        args = backintime.arg_parse(['--debug', 'restore', '/home', '/tmp', '20151130-230501-984'])
-        self.assertIn('debug', args)
-        self.assertTrue(args.debug)
-        self.assertIn('command', args)
-        self.assertEqual(args.command, 'restore')
-        self.assertIn('WHAT', args)
-        self.assertEqual(args.WHAT, '/home')
-        self.assertIn('WHERE', args)
-        self.assertEqual(args.WHERE, '/tmp')
-        self.assertIn('SNAPSHOT_ID', args)
-        self.assertEqual(args.SNAPSHOT_ID, '20151130-230501-984')
+    def test_cmd_restore_what_where_snapshot_id_multi_args(self):
+        for argv in (['--debug', 'restore', '/home', '/tmp', '20151130-230501-984', '--checksum', '--profile-id', '2'],
+                     ['restore', '/home', '/tmp', '20151130-230501-984', '--debug', '--checksum', '--profile-id', '2'],
+                     ['--profile-id', '2', '--checksum', 'restore', '/home', '/tmp', '20151130-230501-984', '--debug'],
+                     ['--checksum', '--profile-id', '2', '--debug', 'restore', '/home', '/tmp', '20151130-230501-984']):
+            with self.subTest(argv = argv):
+                #workaround for py.test3 2.5.1 doesn't support subTest
+                msg = 'argv = %s' %argv
+                args = backintime.arg_parse(argv)
+                self.assertIn('debug', args, msg)
+                self.assertTrue(args.debug, msg)
+                self.assertIn('checksum', args, msg)
+                self.assertTrue(args.checksum, msg)
+                self.assertIn('profile_id', args, msg)
+                self.assertEqual(args.profile_id, 2, msg)
+                self.assertIn('command', args, msg)
+                self.assertEqual(args.command, 'restore', msg)
+                self.assertIn('WHAT', args, msg)
+                self.assertEqual(args.WHAT, '/home', msg)
+                self.assertIn('WHERE', args, msg)
+                self.assertEqual(args.WHERE, '/tmp', msg)
+                self.assertIn('SNAPSHOT_ID', args, msg)
+                self.assertEqual(args.SNAPSHOT_ID, '20151130-230501-984', msg)
 
     def test_cmd_restore_snapshot_id_index(self):
         args = backintime.arg_parse(['restore', '/home', '/tmp', '1'])
