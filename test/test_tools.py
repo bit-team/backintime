@@ -81,7 +81,10 @@ class TestTools(unittest.TestCase):
                 d[items[0]] = items[1][:-1]
         tools.load_env(path_cron_env)
         for key in d.keys():
-            self.assertEquals(os.environ[key], d[key])
+            with self.subTest(key = key):
+                #workaround for py.test3 2.5.1 doesn't support subTest
+                msg = 'key = %s' %key
+                self.assertEquals(os.environ[key], d[key], msg)
 
     def test_prepare_path(self):
         ''' Test the function load_env '''

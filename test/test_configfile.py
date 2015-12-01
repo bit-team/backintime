@@ -54,6 +54,9 @@ class TestConfigFile(unittest.TestCase):
 
         self.assertEqual(len(cf.get_keys()), len(original_cf.get_keys()))
         for k in original_cf.get_keys():
-            self.assertTrue(cf.has_value(k))
+            with self.subTest(k = k):
+                #workaround for py.test3 2.5.1 doesn't support subTest
+                msg = 'k = %s' %k
+                self.assertTrue(cf.has_value(k), msg)
 
         os.remove(config_filename)
