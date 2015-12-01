@@ -75,7 +75,7 @@ def _umount(cfg):
     except MountException as ex:
         logger.error(str(ex))
 
-def start_app(app_name = 'backintime'):
+def create_parsers(app_name = 'backintime'):
     global parsers
 
     #define debug
@@ -396,6 +396,8 @@ def start_app(app_name = 'backintime'):
                            action = PseudoAliasAction,
                            help = argparse.SUPPRESS)
 
+def start_app(app_name = 'backintime'):
+    create_parsers(app_name)
     #open log
     logger.APP_NAME = app_name
     logger.openlog()
@@ -430,9 +432,14 @@ def arg_parse(args):
     mainParser = parsers['main']
     args, unknownArgs = mainParser.parse_known_args(args)
 
+    #parse it again for unknown args
+    if unknownArgs:
+        subArgs, unknownArgs = mainParser.parse_known_args(unknownArgs)
+        join(args, subArgs)
+
     #second parse the command parser, otherwise we miss
     #some arguments from command
-    if 'command' in args and args.command in parsers:
+    if unknownArgs and 'command' in args and args.command in parsers:
         commandParser = parsers[args.command]
         subArgs, unknownArgs = commandParser.parse_known_args(unknownArgs)
         join(args, subArgs)
