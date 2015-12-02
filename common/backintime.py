@@ -428,26 +428,30 @@ def arg_parse(args):
             if getattr(args, key, None) is None or value:
                 setattr(args, key, value)
 
-    #first parse the main parser
+    #first parse the main parser without subparsers
+    #otherwise positional args in subparsers will be to greedy
     mainParser = parsers['main']
+    sub = []
+    for i in mainParser._actions:
+        if isinstance(i, argparse._SubParsersAction):
+            #remove subparsers
+            mainParser._remove_action(i)
+            sub.append(i)
     args, unknownArgs = mainParser.parse_known_args(args)
+    #readd subparsers again
+    if sub:
+        [mainParser._add_action(i) for i in sub]
 
     #parse it again for unknown args
     if unknownArgs:
         subArgs, unknownArgs = mainParser.parse_known_args(unknownArgs)
         join(args, subArgs)
 
-    #second parse the command parser, otherwise we miss
+    #finally parse only the command parser, otherwise we miss
     #some arguments from command
     if unknownArgs and 'command' in args and args.command in parsers:
         commandParser = parsers[args.command]
         subArgs, unknownArgs = commandParser.parse_known_args(unknownArgs)
-        join(args, subArgs)
-
-    #if there are still arguments left, parse the main parser again
-    #this makes sure we won't miss an argument
-    if unknownArgs:
-        subArgs, unknownArgs = mainParser.parse_known_args(unknownArgs)
         join(args, subArgs)
 
     if 'debug' in args:

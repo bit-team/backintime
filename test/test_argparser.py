@@ -183,7 +183,6 @@ class TestArgParser(unittest.TestCase):
             with self.subTest(argv = argv):
                 #workaround for py.test3 2.5.1 doesn't support subTest
                 msg = 'argv = %s' %argv
-                print(msg)
                 args = backintime.arg_parse(argv)
                 self.assertIn('debug', args, msg)
                 self.assertTrue(args.debug, msg)
