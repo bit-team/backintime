@@ -21,6 +21,7 @@ import itertools
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "common/"))
 import backintime
+import logger
 
 def shuffleArgs(*args):
     '''
@@ -39,6 +40,7 @@ def shuffleArgs(*args):
 class TestArgParser(unittest.TestCase):
     def setUp(self):
         backintime.create_parsers()
+        logger.DEBUG = False
 
     def tearDown(self):
         global parsers
@@ -57,6 +59,11 @@ class TestArgParser(unittest.TestCase):
         args = backintime.arg_parse(['--quiet',])
         self.assertIn('quiet', args)
         self.assertTrue(args.quiet)
+
+    def test_debug(self):
+        args = backintime.arg_parse(['--debug',])
+        self.assertIn('debug', args)
+        self.assertTrue(args.debug)
 
     def test_config_no_path(self):
         self.assertRaises(SystemExit, backintime.arg_parse, ['--config'])
@@ -101,15 +108,15 @@ class TestArgParser(unittest.TestCase):
     def test_cmd_backup_profile_and_profile_id(self):
         self.assertRaises(SystemExit, backintime.arg_parse, ['backup', '--profile', 'foo', '--profile-id', '2'])
 
-    def test_cmd_backup_debug(self):
-        args = backintime.arg_parse(['backup', '--debug'])
+    def test_cmd_backup_quiet(self):
+        args = backintime.arg_parse(['backup', '--quiet'])
         self.assertIn('command', args)
         self.assertEqual(args.command, 'backup')
-        self.assertIn('debug', args)
-        self.assertTrue(args.debug)
+        self.assertIn('quiet', args)
+        self.assertTrue(args.quiet)
 
     def test_cmd_backup_multi_args(self):
-        for argv in shuffleArgs('--debug', 'backup', ('--profile', 'foo'), '--checksum',
+        for argv in shuffleArgs('--quiet', 'backup', ('--profile', 'foo'), '--checksum',
                                 ('--config', 'bar')):
             with self.subTest(argv = argv):
                 #workaround for py.test3 2.5.1 doesn't support subTest
@@ -119,8 +126,8 @@ class TestArgParser(unittest.TestCase):
                 self.assertEqual(args.command, 'backup', msg)
                 self.assertIn('profile', args, msg)
                 self.assertEqual(args.profile, 'foo', msg)
-                self.assertIn('debug', args, msg)
-                self.assertTrue(args.debug, msg)
+                self.assertIn('quiet', args, msg)
+                self.assertTrue(args.quiet, msg)
                 self.assertIn('checksum', args, msg)
                 self.assertTrue(args.checksum, msg)
                 self.assertIn('config', args, msg)
@@ -148,15 +155,15 @@ class TestArgParser(unittest.TestCase):
         self.assertEqual(args.SNAPSHOT_ID, '20151130-230501-984')
 
     def test_cmd_restore_what_where_snapshot_id_multi_args(self):
-        for argv in shuffleArgs('--debug', ('restore', '/home', '/tmp', '20151130-230501-984'),
+        for argv in shuffleArgs('--quiet', ('restore', '/home', '/tmp', '20151130-230501-984'),
                                 '--checksum', ('--profile-id', '2'), '--local-backup',
                                 '--delete', ('--config', 'foo')):
             with self.subTest(argv = argv):
                 #workaround for py.test3 2.5.1 doesn't support subTest
                 msg = 'argv = %s' %argv
                 args = backintime.arg_parse(argv)
-                self.assertIn('debug', args, msg)
-                self.assertTrue(args.debug, msg)
+                self.assertIn('quiet', args, msg)
+                self.assertTrue(args.quiet, msg)
                 self.assertIn('checksum', args, msg)
                 self.assertTrue(args.checksum, msg)
                 self.assertIn('profile_id', args, msg)
@@ -177,15 +184,15 @@ class TestArgParser(unittest.TestCase):
                 self.assertEqual(args.config, 'foo', msg)
 
     def test_cmd_restore_multi_args(self):
-        for argv in shuffleArgs(('--profile-id', '2'), '--debug', 'restore', '--checksum',
+        for argv in shuffleArgs(('--profile-id', '2'), '--quiet', 'restore', '--checksum',
                                 '--local-backup',
                                 '--delete', ('--config', 'foo')):
             with self.subTest(argv = argv):
                 #workaround for py.test3 2.5.1 doesn't support subTest
                 msg = 'argv = %s' %argv
                 args = backintime.arg_parse(argv)
-                self.assertIn('debug', args, msg)
-                self.assertTrue(args.debug, msg)
+                self.assertIn('quiet', args, msg)
+                self.assertTrue(args.quiet, msg)
                 self.assertIn('checksum', args, msg)
                 self.assertTrue(args.checksum, msg)
                 self.assertIn('profile_id', args, msg)
