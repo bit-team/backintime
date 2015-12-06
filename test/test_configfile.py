@@ -60,3 +60,6 @@ class TestConfigFile(unittest.TestCase):
                 self.assertTrue(cf.has_value(k), msg)
 
         os.remove(config_filename)
+
+if __name__ == '__main__':
+    unittest.main()

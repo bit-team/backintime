@@ -228,3 +228,6 @@ class TestArgParser(unittest.TestCase):
 
     def test_cmd_restore_local_backup_and_no_local_backup(self):
         self.assertRaises(SystemExit, backintime.arg_parse, ('restore', '--local-backup', '--no-local-backup'))
+
+if __name__ == '__main__':
+    unittest.main()

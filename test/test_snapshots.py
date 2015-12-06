@@ -43,3 +43,6 @@ class TestSnapShots(unittest.TestCase):
         '''
         sp = snapshots.Snapshots(None)
         self.assertIsInstance(sp.config, configfile.ConfigFile)
+
+if __name__ == '__main__':
+    unittest.main()

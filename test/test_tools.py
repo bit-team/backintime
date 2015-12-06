@@ -31,21 +31,21 @@ class TestTools(unittest.TestCase):
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
-        self.assertNotEquals(tools.read_file(test_tools_file), None)
-        self.assertEquals(tools.read_file(non_existing_file), None)
+        self.assertNotEqual(tools.read_file(test_tools_file), None)
+        self.assertEqual(tools.read_file(non_existing_file), None)
 
     def test_read_file_lines(self):
         ''' Test the function read_file_lines '''
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
-        self.assertNotEquals(tools.read_file_lines(test_tools_file), None)
-        self.assertEquals(tools.read_file_lines(non_existing_file), None)
+        self.assertNotEqual(tools.read_file_lines(test_tools_file), None)
+        self.assertEqual(tools.read_file_lines(non_existing_file), None)
 
     def test_read_command_output(self):
         ''' Test the function read_command_output '''
         ret_val = tools.read_command_output("echo 'Test, read command output'")
-        self.assertEquals("Test, read command output", ret_val)
+        self.assertEqual("Test, read command output", ret_val)
 
     def test_check_command(self):
         ''' Test the function check_command '''
@@ -59,7 +59,7 @@ class TestTools(unittest.TestCase):
 
     def test_process_exists(self):
         ''' Test the function process_exists '''
-        self.assertTrue(tools.process_exists("init"))
+        self.assertTrue(tools.process_exists("init") or tools.process_exists("systemd"))
         self.assertFalse(tools.process_exists("notExistedProcess"))
 
     def test_load_env(self):
@@ -84,7 +84,7 @@ class TestTools(unittest.TestCase):
             with self.subTest(key = key):
                 #workaround for py.test3 2.5.1 doesn't support subTest
                 msg = 'key = %s' %key
-                self.assertEquals(os.environ[key], d[key], msg)
+                self.assertEqual(os.environ[key], d[key], msg)
 
     def test_prepare_path(self):
         ''' Test the function load_env '''
@@ -92,16 +92,16 @@ class TestTools(unittest.TestCase):
         path_without_slash_at_begin = "test/path"
         path_with_slash_at_end = "/test/path/"
         path_without_slash_at_end = "/test/path"
-        self.assertEquals(
+        self.assertEqual(
             tools.prepare_path(path_with_slash_at_begin),
             path_with_slash_at_begin)
-        self.assertEquals(
+        self.assertEqual(
             tools.prepare_path(path_without_slash_at_begin),
             path_with_slash_at_begin)
-        self.assertEquals(
+        self.assertEqual(
             tools.prepare_path(path_without_slash_at_end),
             path_without_slash_at_end)
-        self.assertEquals(
+        self.assertEqual(
             tools.prepare_path(path_with_slash_at_end),
             path_without_slash_at_end)
 
@@ -109,3 +109,6 @@ class TestTools(unittest.TestCase):
         ''' Test the function is_process_alive '''
         self.assertTrue(tools.is_process_alive(0))
         self.assertFalse(tools.is_process_alive(99999999999))
+
+if __name__ == '__main__':
+    unittest.main()
