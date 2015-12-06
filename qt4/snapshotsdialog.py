@@ -176,6 +176,7 @@ class SnapshotsDialog( QDialog ):
         QObject.connect(button_box, SIGNAL('accepted()'), self.accept)
         QObject.connect(button_box, SIGNAL('rejected()'), self.reject)
         QObject.connect(btn_diff_options, SIGNAL('clicked()'), self.on_btn_diff_options_clicked)
+        QObject.connect(self, SIGNAL('refreshSnapshots'), self.update_snapshots_and_combo_equal_to)
 
         #
         self.cb_only_different_snapshots_deep_check.setEnabled( False )
@@ -190,8 +191,7 @@ class SnapshotsDialog( QDialog ):
             self.cb_only_different_snapshots_deep_check.hide()
 
         #update list and combobox
-        self.update_snapshots()
-        self.update_combo_equal_to()
+        self.update_snapshots_and_combo_equal_to()
 
     def add_snapshot_( self, snapshot_id ):
         name = self.snapshots.get_snapshot_display_name( snapshot_id )
@@ -243,18 +243,27 @@ class SnapshotsDialog( QDialog ):
             elif self.combo_equal_to.currentIndex() < 0:
                 self.combo_equal_to.setCurrentIndex(0)
 
-    def get_list_snapshot_id( self, multiSelection = False):
-        if multiSelection:
-            items = self.list_snapshots.selectedItems()
-            list_ = []
-            for item in items:
-                list_.append(str( item.data( Qt.UserRole ) ))
-            return list_
+    def update_snapshots_and_combo_equal_to(self):
+        self.update_snapshots()
+        self.update_combo_equal_to()
 
-        item = self.list_snapshots.currentItem()
-        if item is None:
-            return ''
-        return str( item.data( Qt.UserRole ) )
+    def get_list_snapshot_id( self, multiSelection = False, items = False):
+        if multiSelection:
+            if items:
+                return self.list_snapshots.selectedItems()
+            else:
+                return [self.get_snapshot_id_from_item(i) for i in self.list_snapshots.selectedItems()]
+        else:
+            item = self.list_snapshots.currentItem()
+            if item is None:
+                return ''
+            if items:
+                return item
+            else:
+                return self.get_snapshot_id_from_item(item)
+
+    def get_snapshot_id_from_item(self, item):
+        return str(item.data(Qt.UserRole))
 
     def cb_only_different_snapshots_changed( self ):
         enabled = self.cb_only_different_snapshots.isChecked()
@@ -360,35 +369,28 @@ class SnapshotsDialog( QDialog ):
         self.update_snapshots()
 
     def on_btn_delete_clicked(self):
-        snapshot_ids = self.get_list_snapshot_id(True)
-        if not snapshot_ids:
+        items = self.get_list_snapshot_id(multiSelection = True, items = True)
+        if not items:
             return
-        elif len(snapshot_ids) == 1:
+        elif len(items) == 1:
             msg = _('Do you really want to delete "%(file)s" in snapshot "%(snapshot_id)s?\n') \
-                    % {'file' : self.path, 'snapshot_id' : snapshot_ids[0]}
+                    % {'file' : self.path, 'snapshot_id' : self.get_snapshot_id_from_item(item[0])}
         else:
             msg = _('Do you really want to delete "%(file)s" in %(count)d snapshots?\n') \
-                    % {'file' : self.path, 'count' : len(snapshot_ids)}
+                    % {'file' : self.path, 'count' : len(items)}
         msg += _('WARNING: This can not be revoked!')
         if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
-            #inhibit suspend/hibernate during delete
-            self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
-                                                             reason = 'deleting files')
+            for item in items:
+                item.setBackground(QBrush(Qt.lightGray))
 
-            for snapshot_id in snapshot_ids:
-                self.snapshots.delete_path(snapshot_id, self.path)
-
-            #release inhibit suspend
-            if self.config.inhibitCookie:
-                self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+            thread = RemoveFileThread(self, items)
+            thread.start()
 
             msg = _('Exclude "%s" from future snapshots?' % self.path)
             if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
                 exclude = self.config.get_exclude()
                 exclude.append(self.path)
                 self.config.set_exclude(exclude)
-            self.update_combo_equal_to()
-            self.update_snapshots()
 
     def on_btn_select_all_clicked(self):
         '''select all expect 'Now' '''
@@ -406,3 +408,33 @@ class SnapshotsDialog( QDialog ):
         if snapshot_id:
             self.snapshot_id = snapshot_id
         super(SnapshotsDialog, self).accept()
+
+class RemoveFileThread(QThread):
+    '''remove files in background thread so GUI will not freeze
+    '''
+    def __init__(self, parent, items):
+        self.parent = parent
+        self.config = parent.config
+        self.snapshots = parent.snapshots
+        self.items = [(parent.get_snapshot_id_from_item(item), item) for item in items]
+        super(RemoveFileThread, self).__init__(parent)
+
+    def run(self):
+        #inhibit suspend/hibernate during delete
+        self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
+                                                         reason = 'deleting files')
+
+        for sid, item in self.items:
+            self.snapshots.delete_path(sid, self.parent.path)
+            try:
+                item.setHidden(True)
+            except RuntimeError:
+                #item has been deleted
+                #probably because user refreshed treeview
+                pass
+
+        self.parent.emit(SIGNAL('refreshSnapshots'))
+
+        #release inhibit suspend
+        if self.config.inhibitCookie:
+            self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)

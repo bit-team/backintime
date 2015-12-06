@@ -272,7 +272,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.setupUdev = tools.SetupUdev()
 
     def save( self ):
-        super(Config, self).save(self._LOCAL_CONFIG_PATH)
+        return super(Config, self).save(self._LOCAL_CONFIG_PATH)
 
     def check_config( self ):
         profiles = self.get_profiles()
