@@ -1215,5 +1215,13 @@ class PathHistory(object):
         self.history = [path,]
         self.index = 0
 
-if keyring is None and keyring_warn:
+def __log_keyring_warning():
+    from time import sleep
+    sleep(0.1)
     logger.warning('import keyring failed')
+
+if keyring is None and keyring_warn:
+    #delay warning to give logger some time to import
+    import _thread
+    _thread.start_new_thread(__log_keyring_warning, ())
+    # logger.warning('import keyring failed')
