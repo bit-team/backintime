@@ -21,7 +21,7 @@ import os
 import sys
 import _thread
 from time import sleep
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "common/"))
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from applicationinstance import ApplicationInstance
 

@@ -80,6 +80,7 @@ before installing
         cd common
         ./configure
         make
+        make test
         sudo make install
 
 

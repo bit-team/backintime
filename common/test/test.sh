@@ -23,10 +23,11 @@
 
 
 # PATH VARS
-BACKINTIME_PATH="../common/backintime"
-CONFIG_PATH="config"
+TESTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+BACKINTIME_PATH="${TESTDIR}/../backintime"
+CONFIG_PATH="${TESTDIR}/config"
 TEST_PATH="/tmp/snapshots"
-SNAPSHOTS_PATH=$($BACKINTIME_PATH --quiet --config config snapshots-path | awk '{print $2}')
+SNAPSHOTS_PATH=$($BACKINTIME_PATH --quiet --config ${CONFIG_PATH} snapshots-path | awk '{print $2}')
 DATA_PATH="/tmp/test/files"
 REPORT_PATH="/tmp/test/reports"
 

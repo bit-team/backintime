@@ -19,7 +19,7 @@ import os
 import sys
 import tempfile
 import unittest
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'common/'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import configfile
 
