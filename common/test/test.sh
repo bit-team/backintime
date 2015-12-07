@@ -17,13 +17,10 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # test.sh
 
-#######################################################################
-# backintime must have been installed for running this script
-#######################################################################
-
 
 # PATH VARS
 TESTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export PATH="${TESTDIR}/..:${PATH}"
 BACKINTIME_PATH="${TESTDIR}/../backintime"
 CONFIG_PATH="${TESTDIR}/config"
 TEST_PATH="/tmp/snapshots"
