@@ -251,6 +251,24 @@ cat ${UNINSTALL_FILES} >> ${MAKEFILE}
 printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
+#test
+PYTEST=$(which py.test-3)
+printf "test:\tunittest integrationtest\n\n" >> ${MAKEFILE}
+for v in "" "-v"; do
+    printf "unittest${v}:\n" >> ${MAKEFILE}
+    if [ "x${PYTEST}" = "x" ]; then
+    	for i in $(ls -1 test/test_*.py); do
+    		printf "\tpython${PYVERSION} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
+    	done
+    else
+    	printf "\tpy.test-3 ${v}\n" >> ${MAKEFILE}
+    fi
+    printf "\n" >> ${MAKEFILE}
+done
+
+printf "integrationtest:\n" >> ${MAKEFILE}
+printf "\ttest/test.sh\n" >> ${MAKEFILE}
+
 #copy Makefile
 mv ${MAKEFILE} Makefile
 chmod 644 Makefile
