@@ -52,8 +52,9 @@ class Mount(object):
             if running and not pw_cache.check_version():
                 logger.debug('pw-cache is running but is an old version', self)
                 action = 'restart'
-            if not action is None:
-                cmd = ['backintime', 'pw-cache', action]
+            bit = tools.which('backintime')
+            if not action is None and len(bit):
+                cmd = [bit, 'pw-cache', action]
                 logger.debug('Call command: %s'
                              %' '.join(cmd), self)
                 proc = subprocess.Popen(cmd,
