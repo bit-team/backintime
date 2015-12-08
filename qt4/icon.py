@@ -60,7 +60,8 @@ SHOW_HIDDEN         = QIcon.fromTheme('list-add')
 RESTORE             = QIcon.fromTheme('edit-undo')
 RESTORE_TO          = QIcon.fromTheme('document-revert')
 SNAPSHOTS           = QIcon.fromTheme('file-manager',
-                      QIcon.fromTheme('view-list-details') )
+                      QIcon.fromTheme('view-list-details',
+                      QIcon.fromTheme('system-file-manager') ) )
 
 #Snapshot dialog
 DIFF_OPTIONS        = SETTINGS
