@@ -256,7 +256,7 @@ PYTEST=$(which py.test-3)
 printf "test:\tunittest integrationtest\n\n" >> ${MAKEFILE}
 for v in "" "-v"; do
     printf "unittest${v}:\n" >> ${MAKEFILE}
-    if [ "x${PYTEST}" = "x" ]; then
+    if [ -z "${PYTEST}" ]; then
     	for i in $(ls -1 test/test_*.py); do
     		printf "\tpython${PYVERSION} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
     	done
