@@ -70,6 +70,7 @@ class Snapshots:
 
         self.last_check_snapshot_runnig = datetime.datetime(1,1,1)
         self.flock_file = None
+        self.restore_permission_failed = False
 
     def get_snapshot_id( self, date ):
         profile_id = self.config.get_current_profile()
@@ -466,7 +467,7 @@ class Snapshots:
         self.uid_cache = {}
         self.gid_cache = {}
 
-    def get_uid( self, name ):
+    def get_uid(self, name, callback = None):
         if name in self.uid_cache:
             return self.uid_cache[name]
         else:
@@ -474,15 +475,16 @@ class Snapshots:
             try:
                 uid = pwd.getpwnam(name.decode()).pw_uid
             except Exception as e:
-                logger.error('Failed to get UID for %s: %s'
-                             %(name, str(e)),
-                             self)
-                pass
+                self.restore_permission_failed = True
+                msg = 'Failed to get UID for %s: %s' %(name.decode(), str(e))
+                logger.error(msg, self)
+                if callback:
+                    callback(msg)
 
             self.uid_cache[name] = uid
             return uid
 
-    def get_gid( self, name ):
+    def get_gid(self, name, callback = None):
         if name in self.gid_cache:
             return self.gid_cache[name]
         else:
@@ -490,10 +492,11 @@ class Snapshots:
             try:
                 gid = grp.getgrnam(name.decode()).gr_gid
             except Exception as e:
-                logger.error('Failed to get GID for %s: %s'
-                             %(name, str(e)),
-                             self)
-                pass
+                self.restore_permission_failed = True
+                msg = 'Failed to get GID for %s: %s' %(name.decode(), str(e))
+                logger.error(msg, self)
+                if callback:
+                    callback(msg)
 
             self.gid_cache[name] = gid
             return gid
@@ -534,6 +537,7 @@ class Snapshots:
         if not callback is None:
             if not ok:
                 msg = msg + " : " + _("FAILED")
+                self.restore_permission_failed = True
             callback( msg )
 
     def _restore_path_info( self, key_path, path, file_info_dict, callback = None ):
@@ -544,8 +548,8 @@ class Snapshots:
         info = file_info_dict[key_path]
 
         #restore uid/gid
-        uid = self.get_uid(info[1])
-        gid = self.get_gid(info[2])
+        uid = self.get_uid(info[1], callback)
+        gid = self.get_gid(info[2], callback)
 
         #current file stats
         st = os.stat(path)
@@ -668,6 +672,7 @@ class Snapshots:
         logger.info('Restore permissions', self)
         self.restore_callback( callback, True, ' ' )
         self.restore_callback( callback, True, _("Restore permissions:") )
+        self.restore_permission_failed = False
         file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
         if file_info_dict:
             all_dirs = [] #restore dir permissions after all files are done
@@ -711,7 +716,11 @@ class Snapshots:
                 self._restore_path_info( item_path, real_path, file_info_dict, callback )
 
             self.restore_callback( callback, True, '')
-            self.restore_callback( callback, True, _("Restore permissions:") + ' ' + _('Done') )
+            if self.restore_permission_failed:
+                status = _('FAILED')
+            else:
+                status = _('Done')
+            self.restore_callback( callback, True, _("Restore permissions:") + ' ' + status )
 
         instance.exit_application()
 
