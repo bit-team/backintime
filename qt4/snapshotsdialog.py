@@ -167,7 +167,9 @@ class SnapshotsDialog( QDialog ):
 
         #buttons
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        button_box.button(QDialogButtonBox.Ok).setText(_('Go To'))
+        self.btn_goto =   button_box.button(QDialogButtonBox.Ok)
+        self.btn_cancel = button_box.button(QDialogButtonBox.Cancel)
+        self.btn_goto.setText(_('Go To'))
         btn_diff_options = button_box.addButton(_('Diff Options'), QDialogButtonBox.HelpRole)
         btn_diff_options.setIcon(icon.DIFF_OPTIONS)
 
@@ -381,14 +383,19 @@ class SnapshotsDialog( QDialog ):
         msg += _('WARNING: This can not be revoked!')
         if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
             for item in items:
-                item.setBackground(QBrush(Qt.lightGray))
+                item.setFlags(Qt.NoItemFlags)
 
             thread = RemoveFileThread(self, items)
+            QObject.connect(thread, SIGNAL('started()'),  lambda: self.btn_goto.setDisabled(True))
+            QObject.connect(thread, SIGNAL('finished()'), lambda: self.btn_goto.setDisabled(False))
+            QObject.connect(thread, SIGNAL('started()'),  lambda: self.btn_delete.setDisabled(True))
+            QObject.connect(thread, SIGNAL('finished()'), lambda: self.btn_delete.setDisabled(False))
+            QObject.connect(self.btn_cancel, SIGNAL('clicked()'), thread.terminate)
             thread.start()
 
+            exclude = self.config.get_exclude()
             msg = _('Exclude "%s" from future snapshots?' % self.path)
-            if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
-                exclude = self.config.get_exclude()
+            if self.path not in exclude and QMessageBox.Yes == messagebox.warningYesNo(self, msg):
                 exclude.append(self.path)
                 self.config.set_exclude(exclude)
 
