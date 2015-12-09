@@ -756,49 +756,44 @@ class Snapshots:
 
         return list_
 
-    def get_snapshots_and_other_list( self, sort_reverse = True ):
-        '''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
+    def get_snapshots_and_other(self):
+        '''Yields snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
 
-        biglist = []
-        profile_id = self.config.get_current_profile()
-        snapshots_path = self.config.get_snapshots_full_path( profile_id )
+        snapshots_path = self.config.get_snapshots_full_path()
         snapshots_other_paths = self.config.get_other_folders_paths()
 
         try:
-            biglist = os.listdir( snapshots_path )
+            for item in  os.listdir(snapshots_path):
+                if len(item) != 15 and len(item) != 19:
+                    continue
+                if os.path.isdir(os.path.join(snapshots_path, item, 'backup')):
+                    yield item
         except Exception as e:
             logger.debug('Failed to get snapshots list: %s'
                          %str(e),
                          self)
             pass
 
-        list_ = []
-
-        for item in biglist:
-            if len( item ) != 15 and len( item ) != 19:
-                continue
-            if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
-                list_.append( item )
-
         if snapshots_other_paths:
             for folder in snapshots_other_paths:
-                folderlist = []
                 try:
-                    folderlist = os.listdir( folder )
+                    for item in os.listdir(folder):
+                        if len(item) != 15 and len(item) != 19:
+                            continue
+                        if os.path.isdir(os.path.join(folder, item, 'backup')):
+                            yield item
                 except Exception as e:
                     logger.debug('Failed to get folder list for %s: %s'
                                  %(folder, str(e)),
                                  self)
                     pass
 
-                for member in folderlist:
-                    if len( member ) != 15 and len( member ) != 19:
-                        continue
-                    if os.path.isdir( os.path.join( folder, member,  'backup' ) ):
-                        list_.append( member )
+    def get_snapshots_and_other_list( self, sort_reverse = True ):
+        '''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
 
-        list_.sort( reverse = sort_reverse )
-        return list_
+        biglist = list(self.get_snapshots_and_other())
+        biglist.sort(reverse = sort_reverse)
+        return biglist
 
     def remove_snapshot( self, snapshot_id, execute = True, quote = '\"'):
         if len( snapshot_id ) <= 1:
