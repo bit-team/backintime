@@ -374,7 +374,7 @@ class SnapshotsDialog( QDialog ):
             return
         elif len(items) == 1:
             msg = _('Do you really want to delete "%(file)s" in snapshot "%(snapshot_id)s?\n') \
-                    % {'file' : self.path, 'snapshot_id' : self.get_snapshot_id_from_item(item[0])}
+                    % {'file' : self.path, 'snapshot_id' : self.get_snapshot_id_from_item(items[0])}
         else:
             msg = _('Do you really want to delete "%(file)s" in %(count)d snapshots?\n') \
                     % {'file' : self.path, 'count' : len(items)}
