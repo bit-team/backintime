@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-28 21:42+0100\n"
+"POT-Creation-Date: 2015-12-09 23:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -356,24 +356,24 @@ msgid ""
 "update encfs"
 msgstr ""
 
-#: ../../common/encfstools.py:512 ../../common/snapshots.py:1097
-#: ../../common/snapshots.py:1354 ../../qt4/app.py:78
+#: ../../common/encfstools.py:512 ../../common/snapshots.py:1101
+#: ../../common/snapshots.py:1358 ../../qt4/app.py:78
 msgid "Take snapshot"
 msgstr ""
 
-#: ../../common/mount.py:203
+#: ../../common/mount.py:204
 #, python-format
 msgid ""
 "Hash collision occurred in hash_id %s. Incrementing global value "
 "hash_collision and try again."
 msgstr ""
 
-#: ../../common/mount.py:258
+#: ../../common/mount.py:259
 #, python-format
 msgid "mountpoint %s not empty."
 msgstr ""
 
-#: ../../common/mount.py:295
+#: ../../common/mount.py:296
 msgid "Mountprocess lock timeout"
 msgstr ""
 
@@ -382,41 +382,41 @@ msgstr ""
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
 msgstr ""
 
-#: ../../common/snapshots.py:175 ../../qt4/app.py:206 ../../qt4/app.py:1311
+#: ../../common/snapshots.py:176 ../../qt4/app.py:206 ../../qt4/app.py:1311
 msgid "Now"
 msgstr ""
 
-#: ../../common/snapshots.py:186
+#: ../../common/snapshots.py:187
 msgid "WITH ERRORS !"
 msgstr ""
 
-#: ../../common/snapshots.py:334
+#: ../../common/snapshots.py:335
 msgid ""
 "### This log has been decoded with automatic search pattern\n"
 "### If some paths are not decoded you can manually decode them with:\n"
 msgstr ""
 
-#: ../../common/snapshots.py:536
+#: ../../common/snapshots.py:539 ../../common/snapshots.py:720
 msgid "FAILED"
 msgstr ""
 
-#: ../../common/snapshots.py:670 ../../common/snapshots.py:714
+#: ../../common/snapshots.py:674 ../../common/snapshots.py:723
 msgid "Restore permissions:"
 msgstr ""
 
-#: ../../common/snapshots.py:714 ../../qt4/app.py:380 ../../qt4/app.py:680
+#: ../../common/snapshots.py:722 ../../qt4/app.py:380 ../../qt4/app.py:680
 #: ../../qt4/app.py:697 ../../qt4/qt4systrayicon.py:65
 msgid "Done"
 msgstr ""
 
-#: ../../common/snapshots.py:826
+#: ../../common/snapshots.py:830
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
 "Your old snapshots can be moved according to this new format. OK?"
 msgstr ""
 
-#: ../../common/snapshots.py:834
+#: ../../common/snapshots.py:838
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -427,13 +427,13 @@ msgid ""
 "(The program will still be able to discriminate between them)"
 msgstr ""
 
-#: ../../common/snapshots.py:837
+#: ../../common/snapshots.py:841
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
 msgstr ""
 
-#: ../../common/snapshots.py:884
+#: ../../common/snapshots.py:888
 #, python-format
 msgid ""
 "%(snapshots_left)s\n"
@@ -446,7 +446,7 @@ msgid ""
 "cannot continue taking snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:892
+#: ../../common/snapshots.py:896
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -456,14 +456,14 @@ msgid ""
 "if you are done restart Back In Time to proceed"
 msgstr ""
 
-#: ../../common/snapshots.py:902
+#: ../../common/snapshots.py:906
 msgid ""
 "Update was successful!\n"
 "\n"
 "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 
-#: ../../common/snapshots.py:907
+#: ../../common/snapshots.py:911
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -475,106 +475,106 @@ msgid ""
 "If you do not, you will be asked again next time you start Back In Time."
 msgstr ""
 
-#: ../../common/snapshots.py:917
+#: ../../common/snapshots.py:921
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 
-#: ../../common/snapshots.py:919
+#: ../../common/snapshots.py:923
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
 msgstr ""
 
-#: ../../common/snapshots.py:938
+#: ../../common/snapshots.py:942
 msgid "Deferring backup while on battery"
 msgstr ""
 
-#: ../../common/snapshots.py:1001
+#: ../../common/snapshots.py:1005
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
 
-#: ../../common/snapshots.py:1003
+#: ../../common/snapshots.py:1007
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../common/snapshots.py:1029
+#: ../../common/snapshots.py:1033
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr ""
 
-#: ../../common/snapshots.py:1038
+#: ../../common/snapshots.py:1042
 msgid "Finalizing"
 msgstr ""
 
-#: ../../common/snapshots.py:1167
+#: ../../common/snapshots.py:1171
 #, python-format
 msgid "Can't create folder: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1183
+#: ../../common/snapshots.py:1187
 msgid "..."
 msgstr ""
 
-#: ../../common/snapshots.py:1204
+#: ../../common/snapshots.py:1208
 #, python-format
 msgid "Found leftover '%s' which can be continued."
 msgstr ""
 
-#: ../../common/snapshots.py:1216
+#: ../../common/snapshots.py:1220
 #, python-format
 msgid "Remove leftover '%s' folder from last run"
 msgstr ""
 
-#: ../../common/snapshots.py:1229
+#: ../../common/snapshots.py:1233
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1306
+#: ../../common/snapshots.py:1310
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1326
+#: ../../common/snapshots.py:1330
 msgid "Create hard-links"
 msgstr ""
 
-#: ../../common/snapshots.py:1405
+#: ../../common/snapshots.py:1409
 msgid "Save config file ..."
 msgstr ""
 
-#: ../../common/snapshots.py:1411
+#: ../../common/snapshots.py:1415
 msgid "Save permission ..."
 msgstr ""
 
-#: ../../common/snapshots.py:1436
+#: ../../common/snapshots.py:1440
 msgid "Save permission over ssh failed. Retry normal method"
 msgstr ""
 
-#: ../../common/snapshots.py:1485
+#: ../../common/snapshots.py:1489
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr ""
 
-#: ../../common/snapshots.py:1659 ../../common/snapshots.py:1692
+#: ../../common/snapshots.py:1663 ../../common/snapshots.py:1696
 #: ../../qt4/settingsdialog.py:537
 msgid "Smart remove"
 msgstr ""
 
-#: ../../common/snapshots.py:1668
+#: ../../common/snapshots.py:1672
 msgid "Remove old snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:1697
+#: ../../common/snapshots.py:1701
 msgid "Try to keep min free space"
 msgstr ""
 
-#: ../../common/snapshots.py:1734
+#: ../../common/snapshots.py:1738
 #, python-format
 msgid "Try to keep min %d%% free inodes"
 msgstr ""
@@ -1514,7 +1514,7 @@ msgstr ""
 msgid "No config found"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:48 ../../qt4/snapshotsdialog.py:171
+#: ../../qt4/snapshotsdialog.py:48 ../../qt4/snapshotsdialog.py:173
 msgid "Diff Options"
 msgstr ""
 
@@ -1554,35 +1554,35 @@ msgstr ""
 msgid "Diff"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:170
+#: ../../qt4/snapshotsdialog.py:172
 msgid "Go To"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:339
+#: ../../qt4/snapshotsdialog.py:350
 msgid "You can't compare a snapshot to itself"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:346
+#: ../../qt4/snapshotsdialog.py:357
 #, python-format
 msgid "Command not found: %s"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:367
+#: ../../qt4/snapshotsdialog.py:378
 #, python-format
 msgid ""
 "Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:370
+#: ../../qt4/snapshotsdialog.py:381
 #, python-format
 msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:372
+#: ../../qt4/snapshotsdialog.py:383
 msgid "WARNING: This can not be revoked!"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:385
+#: ../../qt4/snapshotsdialog.py:397
 #, python-format
 msgid "Exclude \"%s\" from future snapshots?"
 msgstr ""
