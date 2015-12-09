@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 00:03+0100\n"
+"POT-Creation-Date: 2015-11-28 21:42+0100\n"
 "PO-Revision-Date: 2015-11-19 23:28+0000\n"
 "Last-Translator: Germar <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,19 +15,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-11-19 23:32+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-09 22:36+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: ../../common/config.py:307
 msgid "You can't include backup folder !"
 msgstr "Impossibile includere la cartella di backup !"
 
-#: ../../common/configfile.py:259 ../../common/configfile.py:321
+#: ../../common/configfile.py:60
+#, python-format
+msgid "Failed to save config: %s"
+msgstr ""
+
+#: ../../common/configfile.py:78
+#, python-format
+msgid "Failed to load config: %s"
+msgstr ""
+
+#: ../../common/configfile.py:267 ../../common/configfile.py:329
 #, python-format
 msgid "Profile \"%s\" already exists !"
 msgstr "Il profilo \"%s\" esiste già !"
 
-#: ../../common/configfile.py:290
+#: ../../common/configfile.py:298
 msgid "You can't remove the last profile !"
 msgstr "Non si può rimuovere l'ultimo profilo !"
 
@@ -365,12 +375,12 @@ msgstr ""
 "la versione di encfs 1.7.2 e precedenti ha un baco con l'opzione --reverse. "
 "Per favore aggiorna encfs"
 
-#: ../../common/encfstools.py:512 ../../common/snapshots.py:1091
-#: ../../common/snapshots.py:1326 ../../qt4/app.py:78
+#: ../../common/encfstools.py:512 ../../common/snapshots.py:1097
+#: ../../common/snapshots.py:1354 ../../qt4/app.py:78
 msgid "Take snapshot"
 msgstr "Prendi istantanea"
 
-#: ../../common/mount.py:202
+#: ../../common/mount.py:203
 #, python-format
 msgid ""
 "Hash collision occurred in hash_id %s. Incrementing global value "
@@ -379,29 +389,29 @@ msgstr ""
 "Collisione creata in hash_id %s. Incrementail valore globale hash_collision "
 "e prova di nuovo"
 
-#: ../../common/mount.py:257
+#: ../../common/mount.py:258
 #, python-format
 msgid "mountpoint %s not empty."
 msgstr "In punto di montaggio %s non è vuoto"
 
-#: ../../common/mount.py:294
+#: ../../common/mount.py:295
 msgid "Mountprocess lock timeout"
 msgstr "Timeout nell'acquisizione del lock durante il processo di mount"
 
-#: ../../common/password.py:427
+#: ../../common/password.py:386
 #, python-format
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
 msgstr "Profilo '%(profile)s': Inserisci la password per %(mode)s: "
 
-#: ../../common/snapshots.py:174 ../../qt4/app.py:206 ../../qt4/app.py:1322
+#: ../../common/snapshots.py:175 ../../qt4/app.py:206 ../../qt4/app.py:1311
 msgid "Now"
 msgstr "Adesso"
 
-#: ../../common/snapshots.py:185
+#: ../../common/snapshots.py:186
 msgid "WITH ERRORS !"
 msgstr "CON ERRORI !"
 
-#: ../../common/snapshots.py:333
+#: ../../common/snapshots.py:334
 msgid ""
 "### This log has been decoded with automatic search pattern\n"
 "### If some paths are not decoded you can manually decode them with:\n"
@@ -410,20 +420,20 @@ msgstr ""
 "### Se alcuni percorsi non sono decodificati, puoi decodificarli manualmente "
 "con:\n"
 
-#: ../../common/snapshots.py:530
+#: ../../common/snapshots.py:536
 msgid "FAILED"
 msgstr "Fallito"
 
-#: ../../common/snapshots.py:664 ../../common/snapshots.py:708
+#: ../../common/snapshots.py:670 ../../common/snapshots.py:714
 msgid "Restore permissions:"
 msgstr "Ripristina permessi:"
 
-#: ../../common/snapshots.py:708 ../../qt4/app.py:380 ../../qt4/app.py:677
-#: ../../qt4/app.py:694 ../../qt4/qt4systrayicon.py:65
+#: ../../common/snapshots.py:714 ../../qt4/app.py:380 ../../qt4/app.py:680
+#: ../../qt4/app.py:697 ../../qt4/qt4systrayicon.py:65
 msgid "Done"
 msgstr "Fatto"
 
-#: ../../common/snapshots.py:820
+#: ../../common/snapshots.py:826
 msgid ""
 "Back In Time changed its backup format.\n"
 "\n"
@@ -434,7 +444,7 @@ msgstr ""
 "Le vecchie istantanee possono essere spostate secondo  il nuovo formato. "
 "Continuare?"
 
-#: ../../common/snapshots.py:828
+#: ../../common/snapshots.py:834
 #, python-format
 msgid ""
 "%s profiles found. \n"
@@ -452,7 +462,7 @@ msgstr ""
 "\n"
 "(L'applicazione sarà comunque in grado di distinguerli)"
 
-#: ../../common/snapshots.py:831
+#: ../../common/snapshots.py:837
 msgid ""
 "No profiles are found. Will have to update to profiles first, please restart "
 "Back In Time"
@@ -460,7 +470,7 @@ msgstr ""
 "Nessun profilo trovato. È prima necessario aggiornare i profili, riavviare "
 "Back In Time"
 
-#: ../../common/snapshots.py:878
+#: ../../common/snapshots.py:884
 #, python-format
 msgid ""
 "%(snapshots_left)s\n"
@@ -482,7 +492,7 @@ msgstr ""
 "In caso contrario, Back In Time ripristinerà le impostazioni precedenti per "
 "questo profilo, tuttavia non può continuare a prendere istantanee"
 
-#: ../../common/snapshots.py:886
+#: ../../common/snapshots.py:892
 #, python-format
 msgid ""
 "Former settings of profile %s are restored.\n"
@@ -497,7 +507,7 @@ msgstr ""
 "È possibile spostare manualmente le istantanee, \n"
 "una volta terminato riavviare Back In Time per proseguire"
 
-#: ../../common/snapshots.py:896
+#: ../../common/snapshots.py:902
 msgid ""
 "Update was successful!\n"
 "\n"
@@ -507,7 +517,7 @@ msgstr ""
 "\n"
 "Back In Time continuerà a prendere istantanee come programmato"
 
-#: ../../common/snapshots.py:901
+#: ../../common/snapshots.py:907
 msgid ""
 "Are you sure you do not want to move your old snapshots?\n"
 "\n"
@@ -527,12 +537,12 @@ msgstr ""
 "\n"
 "Se no, questa domanda verrà mostrata nuovamente all'avvio di Back In Time."
 
-#: ../../common/snapshots.py:911
+#: ../../common/snapshots.py:917
 msgid "Back In Time will continue taking snapshots again as scheduled"
 msgstr ""
 "Back In Time will continuerà a prendere le istantanee come programmato"
 
-#: ../../common/snapshots.py:913
+#: ../../common/snapshots.py:919
 msgid ""
 "Back In Time still cannot continue taking new snapshots.\n"
 "Restart Back In Time to see the questions again"
@@ -540,11 +550,11 @@ msgstr ""
 "Back In Time non può continuare a prendere istantanee.\n"
 "Riavviare Back In Time per visualizzare nuovamente le domande"
 
-#: ../../common/snapshots.py:932
+#: ../../common/snapshots.py:938
 msgid "Deferring backup while on battery"
 msgstr "Posticipa il backup nel caso di funzionamento a batteria"
 
-#: ../../common/snapshots.py:995
+#: ../../common/snapshots.py:1001
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
@@ -552,77 +562,87 @@ msgstr ""
 "Impossibile trovare la cartella delle istantanee.\n"
 "Se si tratta di un disco rimovibile, collegarlo."
 
-#: ../../common/snapshots.py:997
+#: ../../common/snapshots.py:1003
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Aspetta %s secondo."
 msgstr[1] "Aspetta %s secondi."
 
-#: ../../common/snapshots.py:1023
+#: ../../common/snapshots.py:1029
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr "Creazione dell'istantanea %s fallita !"
 
-#: ../../common/snapshots.py:1032
+#: ../../common/snapshots.py:1038
 msgid "Finalizing"
 msgstr "Finalizzazione"
 
-#: ../../common/snapshots.py:1161
+#: ../../common/snapshots.py:1167
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "Impossibile creare la cartella: %s"
 
-#: ../../common/snapshots.py:1177
+#: ../../common/snapshots.py:1183
 msgid "..."
 msgstr "..."
 
-#: ../../common/snapshots.py:1202
+#: ../../common/snapshots.py:1204
+#, python-format
+msgid "Found leftover '%s' which can be continued."
+msgstr ""
+
+#: ../../common/snapshots.py:1216
+#, python-format
+msgid "Remove leftover '%s' folder from last run"
+msgstr ""
+
+#: ../../common/snapshots.py:1229
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "Impossibile eliminare la cartella: %s"
 
-#: ../../common/snapshots.py:1279
+#: ../../common/snapshots.py:1306
 #, python-format
 msgid "Compare with snapshot %s"
 msgstr "Confronta con l'istantanea %s"
 
-#: ../../common/snapshots.py:1299
+#: ../../common/snapshots.py:1326
 msgid "Create hard-links"
 msgstr "Crea hard-links"
 
-#: ../../common/snapshots.py:1377
+#: ../../common/snapshots.py:1405
 msgid "Save config file ..."
 msgstr "Salva il file di configurazione .."
 
-#: ../../common/snapshots.py:1383
+#: ../../common/snapshots.py:1411
 msgid "Save permission ..."
 msgstr "Salva permessi ..."
 
-#: ../../common/snapshots.py:1408
+#: ../../common/snapshots.py:1436
 msgid "Save permission over ssh failed. Retry normal method"
 msgstr ""
 "Il salvataggio dei permessi via SSH è fallito. Riprova il metodo normale"
 
-#: ../../common/snapshots.py:1456
+#: ../../common/snapshots.py:1485
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr "Non posso rinominare %(new_path)s in %(path)s"
 
-#: ../../common/snapshots.py:1630 ../../common/snapshots.py:1663
+#: ../../common/snapshots.py:1659 ../../common/snapshots.py:1692
 #: ../../qt4/settingsdialog.py:537
 msgid "Smart remove"
 msgstr "Rimozione intelligente"
 
-#: ../../common/snapshots.py:1639
+#: ../../common/snapshots.py:1668
 msgid "Remove old snapshots"
 msgstr "Rimuovi vecchie istantanee"
 
-#: ../../common/snapshots.py:1668
+#: ../../common/snapshots.py:1697
 msgid "Try to keep min free space"
 msgstr "Prova a tenere il minor spazio libero"
 
-#: ../../common/snapshots.py:1705
+#: ../../common/snapshots.py:1734
 #, python-format
 msgid "Try to keep min %d%% free inodes"
 msgstr "Prova a mantenere almeno il %d%% di inode liberi"
@@ -748,7 +768,7 @@ msgstr "L'host remoto %s non supporta gli hard link"
 msgid "Refresh snapshots list"
 msgstr "Aggiorna lista istantanee"
 
-#: ../../qt4/app.py:85 ../../qt4/app.py:970
+#: ../../qt4/app.py:85 ../../qt4/app.py:973
 msgid "Snapshot Name"
 msgstr "Nome istantanea"
 
@@ -792,7 +812,7 @@ msgstr "Guida al file di configurazione"
 msgid "Website"
 msgstr "Sito web"
 
-#: ../../qt4/app.py:127 ../../qt4/app.py:1075
+#: ../../qt4/app.py:127 ../../qt4/app.py:1064
 msgid "Changelog"
 msgstr "Registro dei cambiamenti"
 
@@ -808,7 +828,7 @@ msgstr "Poni una domanda"
 msgid "Report a bug"
 msgstr "Segnala un bug"
 
-#: ../../qt4/app.py:136 ../../qt4/app.py:1436
+#: ../../qt4/app.py:136 ../../qt4/app.py:1425
 msgid "About"
 msgstr "Informazioni"
 
@@ -894,7 +914,7 @@ msgstr ""
 "Impossibile trovare la cartella delle istantanee.\n"
 "Se si tratta di un disco rimovibile, collegarlo e premere OK"
 
-#: ../../qt4/app.py:475
+#: ../../qt4/app.py:478
 msgid ""
 "If you close this window Back In Time will not be able to shutdown your "
 "system when the snapshot has finished.\n"
@@ -904,68 +924,68 @@ msgstr ""
 "sistema al termine dell'istantanea.\n"
 "Vuoi veramente chiuderla?"
 
-#: ../../qt4/app.py:669 ../../qt4/app.py:705
+#: ../../qt4/app.py:672 ../../qt4/app.py:708
 msgid "Working:"
 msgstr "Lavoro in corso:"
 
-#: ../../qt4/app.py:697
+#: ../../qt4/app.py:700
 msgid "Done, no backup needed"
 msgstr "Fatto, nessun backup necessario"
 
-#: ../../qt4/app.py:709
+#: ../../qt4/app.py:712
 msgid "Error:"
 msgstr "Errore:"
 
-#: ../../qt4/app.py:728 ../../qt4/qt4systrayicon.py:153
+#: ../../qt4/app.py:731 ../../qt4/qt4systrayicon.py:153
 msgid "Sent:"
 msgstr "Inviati:"
 
-#: ../../qt4/app.py:729 ../../qt4/qt4systrayicon.py:154
+#: ../../qt4/app.py:732 ../../qt4/qt4systrayicon.py:154
 msgid "Speed:"
 msgstr "Velocità:"
 
-#: ../../qt4/app.py:730 ../../qt4/qt4systrayicon.py:155
+#: ../../qt4/app.py:733 ../../qt4/qt4systrayicon.py:155
 msgid "ETA:"
 msgstr "Tempo rimanente stimato:"
 
-#: ../../qt4/app.py:779
+#: ../../qt4/app.py:782
 msgid "Global"
 msgstr "Globale"
 
-#: ../../qt4/app.py:780
+#: ../../qt4/app.py:783
 msgid "Root"
 msgstr "Root"
 
-#: ../../qt4/app.py:781
+#: ../../qt4/app.py:784
 msgid "Home"
 msgstr "Home"
 
-#: ../../qt4/app.py:796
+#: ../../qt4/app.py:799
 msgid "Backup folders"
 msgstr "Cartelle di backup"
 
-#: ../../qt4/app.py:876
+#: ../../qt4/app.py:879
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Questa NON è un'istantanea, bensì una vista attiva dei tuoi file locali"
 
-#: ../../qt4/app.py:886
+#: ../../qt4/app.py:889
 msgid "Today"
 msgstr "Oggi"
 
-#: ../../qt4/app.py:890
+#: ../../qt4/app.py:893
 msgid "Yesterday"
 msgstr "Ieri"
 
-#: ../../qt4/app.py:894
+#: ../../qt4/app.py:897
 msgid "This week"
 msgstr "Questa settimana"
 
-#: ../../qt4/app.py:898
+#: ../../qt4/app.py:901
 msgid "Last week"
 msgstr "Scorsa settimana"
 
-#: ../../qt4/app.py:930
+#: ../../qt4/app.py:933
 #, python-format
 msgid "Last check %s"
 msgstr "Ultimo controllo %s"
@@ -979,7 +999,7 @@ msgstr ""
 "Sei sicuro di voler rimuovere l'istantanea:\n"
 "%s"
 
-#: ../../qt4/app.py:1097
+#: ../../qt4/app.py:1086
 #, python-format
 msgid ""
 "Backup local files before overwriting or\n"
@@ -988,66 +1008,66 @@ msgstr ""
 "Fai il backup dei file locali prima di sovrascriverli o\n"
 "di rimuoverli aggiungendo '%(suffix)s'."
 
-#: ../../qt4/app.py:1103
+#: ../../qt4/app.py:1092
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Sei sicuro di voler rimuovere tutti i file più nuovi nella tua cartella "
 "originale?"
 
-#: ../../qt4/app.py:1107
+#: ../../qt4/app.py:1096
 msgid ""
 "WARNING: deleting files in filesystem root could break your whole system!!!"
 msgstr ""
 "ATTENZIONE: cancellare i file nella radice del filesystem potrebbe "
 "danneggiare l'intero sistema!"
 
-#: ../../qt4/app.py:1109
+#: ../../qt4/app.py:1098
 msgid "Files to be restored:"
 msgstr "File da ripristinare:"
 
-#: ../../qt4/app.py:1124
+#: ../../qt4/app.py:1113
 msgid "Do you really want to restore this files(s):"
 msgstr "Vuoi veramente ripristinare il/i file seguente/i:"
 
-#: ../../qt4/app.py:1318
+#: ../../qt4/app.py:1307
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Istantanea: %s"
 
-#: ../../qt4/app.py:1319
+#: ../../qt4/app.py:1308
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "Visualizza l'istantanea fatta il %s"
 
-#: ../../qt4/app.py:1321
+#: ../../qt4/app.py:1310
 msgid "View the current disk content"
 msgstr "Visualizza il contenuto corrente del disco"
 
-#: ../../qt4/app.py:1360
+#: ../../qt4/app.py:1349
 #, python-format
 msgid "Restore '%s'"
 msgstr "Ripristina '%s'"
 
-#: ../../qt4/app.py:1361
+#: ../../qt4/app.py:1350
 #, python-format
 msgid "Restore '%s' to ..."
 msgstr "Riporta '%s' a..."
 
-#: ../../qt4/app.py:1362
+#: ../../qt4/app.py:1351
 #, python-format
 msgid "Restore '%s' and delete new files"
 msgstr "Ripristina '%s' e cancella i file nuovi"
 
-#: ../../qt4/app.py:1460 ../../qt4/app.py:1477
+#: ../../qt4/app.py:1449 ../../qt4/app.py:1466
 msgid "Authors"
 msgstr "Autori"
 
-#: ../../qt4/app.py:1461 ../../qt4/app.py:1480
+#: ../../qt4/app.py:1450 ../../qt4/app.py:1469
 msgid "Translations"
 msgstr "Traduzioni"
 
-#: ../../qt4/app.py:1462 ../../qt4/app.py:1483
+#: ../../qt4/app.py:1451 ../../qt4/app.py:1472
 msgid "License"
 msgstr "Licenza"
 
@@ -1736,17 +1756,3 @@ msgstr "ATTENZIONE: l'operazione è irreversibile"
 #, python-format
 msgid "Exclude \"%s\" from future snapshots?"
 msgstr "Escludi \"%s\" dalle istantanee future?"
-
-#~ msgid ""
-#~ "Exclude files bigger than value in Mb.\n"
-#~ "With 'Full rsync mode' disabled this will only affect new files\n"
-#~ "because for rsync this is a transfer option, not an exclude option.\n"
-#~ "So big files that has been backed up before will remain in snapshots\n"
-#~ "even if they had changed."
-#~ msgstr ""
-#~ "Escludi file più grandi del valore in Mb.\n"
-#~ "Se la modalità 'rsync completa' è disabilitata, verrà applicato solo\n"
-#~ "ai file nuovi, perché per rsync si tratta di un'opzione di \n"
-#~ "trasferimento, non di un'opzione di esclusione. Per questo motivo,\n"
-#~ "i file che erano stati copiati precedentemente continueranno a \n"
-#~ "rimanere nelle istantanee anche se sono cambiati."
