@@ -22,7 +22,7 @@ from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView,      \
                         QTreeView, QDialog, QApplication, QStyleFactory,       \
                         QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator, \
                         QColor
-from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal
+from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal, QModelIndex
 from datetime import datetime, date, timedelta
 from calendar import monthrange
 
@@ -144,9 +144,11 @@ def create_qapplication(app_name = 'Back In Time'):
 class MyTreeView(QTreeView):
     """subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
     if the SLOT currentChanged is called"""
-    def currentChanged(self, *args):
-        self.emit(SIGNAL('myCurrentIndexChanged'), *args)
-        super(MyTreeView, self).currentChanged(*args)
+    myCurrentIndexChanged = pyqtSignal(QModelIndex, QModelIndex)
+
+    def currentChanged(self, current, previous):
+        self.myCurrentIndexChanged.emit(current, previous)
+        super(MyTreeView, self).currentChanged(current, previous)
 
 class TimeLine(QTreeWidget):
     updateFilesView = pyqtSignal(int)

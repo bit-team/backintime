@@ -1773,9 +1773,7 @@ class RestoreConfigDialog(QDialog):
 
         self.scan = ScanFileSystem(self)
 
-        self.connect(self.treeView,
-                     SIGNAL('myCurrentIndexChanged'),
-                     self.indexChanged)
+        self.treeView.myCurrentIndexChanged.connect(self.indexChanged)
         self.connect(self.scan, SIGNAL('foundConfig'), self.scanFound)
         self.connect(self.scan, SIGNAL('finished()'), self.scanFinished)
 
