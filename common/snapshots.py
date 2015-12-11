@@ -90,6 +90,15 @@ class Snapshots:
 
         return ""
 
+    def is_snapshot_id(self, sid):
+        return len(sid) == 15 or len(sid) == 19
+
+    def get_snapshot_datetime(self, sid):
+        def split(s, e):
+            return int(sid[s:e])
+        if self.is_snapshot_id(sid):
+            return datetime.datetime(split(0, 4), split(4, 6), split(6, 8), split(9, 11), split(11, 13), split(13, 15))
+
     def get_snapshot_old_id( self, date ):
         if type( date ) is datetime.datetime:
             snapshot_id = date.strftime( '%Y%m%d-%H%M%S' )
@@ -747,7 +756,7 @@ class Snapshots:
         list_ = []
 
         for item in biglist:
-            if len( item ) != 15 and len( item ) != 19:
+            if not self.is_snapshot_id(item):
                 continue
             if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
                 list_.append( item )
@@ -764,7 +773,7 @@ class Snapshots:
 
         try:
             for item in  os.listdir(snapshots_path):
-                if len(item) != 15 and len(item) != 19:
+                if not self.is_snapshot_id(item):
                     continue
                 if os.path.isdir(os.path.join(snapshots_path, item, 'backup')):
                     yield item
@@ -778,7 +787,7 @@ class Snapshots:
             for folder in snapshots_other_paths:
                 try:
                     for item in os.listdir(folder):
-                        if len(item) != 15 and len(item) != 19:
+                        if not self.is_snapshot_id(item):
                             continue
                         if os.path.isdir(os.path.join(folder, item, 'backup')):
                             yield item

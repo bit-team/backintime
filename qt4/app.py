@@ -145,12 +145,9 @@ class MainWindow( QMainWindow ):
         self.main_splitter.setOrientation( Qt.Horizontal )
 
         #timeline
-        self.list_time_line = QTreeWidget( self )
-        self.list_time_line.setRootIsDecorated( False )
-        self.list_time_line.setEditTriggers( QAbstractItemView.NoEditTriggers )
-        self.list_time_line.setHeaderLabel( _('Snapshots') )
-        self.list_time_line.setSelectionMode(QAbstractItemView.ExtendedSelection)
-        self.main_splitter.addWidget( self.list_time_line )
+        self.list_time_line = qt4tools.TimeLine(self)
+        self.main_splitter.addWidget(self.list_time_line)
+        self.list_time_line.updateFilesView.connect(self.update_files_view)
 
         #right widget
         self.right_widget = QGroupBox( self )
@@ -456,8 +453,6 @@ class MainWindow( QMainWindow ):
         QObject.connect( self.list_time_line, SIGNAL('itemSelectionChanged()'), self.on_list_time_line_current_item_changed )
         QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
         QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
-        #add signal for RemoveSnapshotThread class
-        QObject.connect(self, SIGNAL('refreshSnapshotList'), self.update_time_line)
 
         self.force_wait_lock_counter = 0
 
@@ -855,91 +850,23 @@ class MainWindow( QMainWindow ):
         if snapshot_id:
             item.setText( 0, self.snapshots.get_snapshot_display_name( snapshot_id ) )
 
-    def add_time_line( self, snapshot_name, snapshot_id, tooltip = None):
-        item = QTreeWidgetItem()
-        item.setText( 0, snapshot_name )
-        item.setFont( 0, qt4tools.get_font_normal( item.font( 0 ) ) )
-        item.setData( 0, Qt.UserRole, snapshot_id )
-        if not tooltip is None:
-            item.setToolTip(0, tooltip)
-
-        if not snapshot_id:
-            item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
-            item.setFlags( Qt.ItemIsEnabled )
-            item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
-            item.setTextColor( 0, QColor( 60, 60, 60 ) )
-
-        self.list_time_line.addTopLevelItem( item )
-
-        return item
-
     def update_time_line( self, get_snapshots_list = True ):
         self.list_time_line.clear()
-        self.add_time_line( self.snapshots.get_snapshot_display_name( '/' ), '/',
-                            tooltip = _('This is NOT a snapshot but a live view of your local files') )
-
+        self.list_time_line.addRoot('/',
+                                    self.snapshots.get_snapshot_display_name('/'),
+                                    _('This is NOT a snapshot but a live view of your local files'))
         if get_snapshots_list:
-            self.snapshots_list = self.snapshots.get_snapshots_and_other_list()
-
-        groups = []
-        now = datetime.date.today()
-
-        #today
-        date = now
-        groups.append( ( _('Today'), self.snapshots.get_snapshot_id( date ), []) )
-
-        #yesterday
-        date = now - datetime.timedelta( days = 1 )
-        groups.append( ( _('Yesterday'), self.snapshots.get_snapshot_id( date ), []) )
-
-        #this week
-        date = now - datetime.timedelta( days = now.weekday() )
-        groups.append( ( _('This week'), self.snapshots.get_snapshot_id( date ), []) )
-
-        #last week
-        date = now - datetime.timedelta( days = now.weekday() + 7 )
-        groups.append( ( _('Last week'), self.snapshots.get_snapshot_id( date ), []) )
-
-        #fill groups
-        for snapshot_id in self.snapshots_list:
-            found = False
-
-            for group in groups:
-                if snapshot_id >= group[1]:
-                    group[2].append( snapshot_id )
-                    found = True
-                    break
-
-            if not found:
-                year = int( snapshot_id[ 0 : 4 ] )
-                month = int( snapshot_id[ 4 : 6 ] )
-                date = datetime.date( year, month, 1 )
-
-                group_name = ''
-                if year == now.year:
-                    group_name = date.strftime( '%B' ).capitalize()
-                else:
-                    group_name = date.strftime( '%B, %Y' ).capitalize()
-
-                groups.append( ( group_name, self.snapshots.get_snapshot_id( date ), [ snapshot_id ]) )
-
-        #fill time_line list
-        for group in groups:
-            if group[2]:
-                self.add_time_line( group[0], '' );
-                for snapshot_id in group[2]:
-                    list_item = self.add_time_line( self.snapshots.get_snapshot_display_name( snapshot_id ),
-                                                    snapshot_id,
-                                                    _('Last check %s') %
-                                                    self.snapshots.get_snapshot_last_check(snapshot_id) )
-                    if snapshot_id == self.snapshot_id:
-                        self.list_time_line.setCurrentItem( list_item )
-
-        if self.list_time_line.currentItem() is None:
-            self.list_time_line.setCurrentItem( self.list_time_line.topLevelItem( 0 ) )
-            if self.snapshot_id != '/':
-                self.snapshot_id = '/'
-                self.update_files_view( 2 )
+            self.snapshots_list = []
+            thread = FillTimeLineThread(self)
+            thread.addSnapshot.connect(self.list_time_line.addSnapshot)
+            thread.finished.connect(self.list_time_line.checkSelection)
+            thread.start()
+        else:
+            for sid in self.snapshots_list:
+                item = self.list_time_line.addSnapshot(sid,
+                                                       self.snapshots.get_snapshot_display_name(sid),
+                                                       _('Last check %s') %self.snapshots.get_snapshot_last_check(sid))
+            self.list_time_line.checkSelection()
 
     def time_line_set_current_snapshot(self, new_snapshot_id):
         for index in range(self.list_time_line.topLevelItemCount()):
@@ -1016,6 +943,7 @@ class MainWindow( QMainWindow ):
         for item in items:
             item.setDisabled(True)
         thread = RemoveSnapshotThread(self, items)
+        thread.refreshSnapshotList.connect(self.update_time_line)
         thread.start()
 
     def on_btn_settings_clicked( self ):
@@ -1287,6 +1215,7 @@ class MainWindow( QMainWindow ):
     def files_view_get_type( self, item ):
         return int( item.text( 4 ) )
 
+    @pyqtSlot(int)
     def update_files_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
         if 0 == changed_from or 3 == changed_from:
             selected_file = ''
@@ -1504,6 +1433,7 @@ class ExtraMouseButtonEventFilter(QObject):
 class RemoveSnapshotThread(QThread):
     '''remove snapshots in background thread so GUI will not freeze
     '''
+    refreshSnapshotList = pyqtSignal()
     def __init__(self, parent, items):
         self.parent = parent
         self.config = parent.config
@@ -1530,7 +1460,7 @@ class RemoveSnapshotThread(QThread):
                 renew_last_snapshot = True
 
         tools.update_cached_fs(self.config.get_snapshots_full_path())
-        self.parent.emit(SIGNAL('refreshSnapshotList'))
+        self.refreshSnapshotList.emit()
 
         #set correct last snapshot again
         sids = self.snapshots.get_snapshots_list()
@@ -1540,6 +1470,24 @@ class RemoveSnapshotThread(QThread):
         #release inhibit suspend
         if self.config.inhibitCookie:
             self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
+
+class FillTimeLineThread(QThread):
+    '''add snapshot IDs to timeline in background
+    '''
+    addSnapshot = pyqtSignal(str, str, str)
+    def __init__(self, parent):
+        self.parent = parent
+        self.snapshots = parent.snapshots
+        super(FillTimeLineThread, self).__init__(parent)
+
+    def run(self):
+        for sid in self.snapshots.get_snapshots_and_other():
+            self.addSnapshot.emit(sid,
+                                  self.snapshots.get_snapshot_display_name(sid),
+                                  _('Last check %s') %self.snapshots.get_snapshot_last_check(sid))
+            self.parent.snapshots_list.append(sid)
+
+        self.parent.snapshots_list.sort()
 
 def debug_trace():
     '''Set a tracepoint in the Python debugger that works with Qt'''

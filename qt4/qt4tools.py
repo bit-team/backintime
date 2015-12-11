@@ -17,8 +17,16 @@
 
 import os
 import sys
-from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView, QTreeView, QDialog, QApplication, QStyleFactory
-from PyQt4.QtCore import QDir, SIGNAL
+import gettext
+from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView,      \
+                        QTreeView, QDialog, QApplication, QStyleFactory,       \
+                        QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator, \
+                        QColor
+from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal
+from datetime import datetime, date, timedelta
+from calendar import monthrange
+
+_ = gettext.gettext
 
 def get_backintime_path(*path):
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
@@ -139,3 +147,116 @@ class MyTreeView(QTreeView):
     def currentChanged(self, *args):
         self.emit(SIGNAL('myCurrentIndexChanged'), *args)
         super(MyTreeView, self).currentChanged(*args)
+
+class TimeLine(QTreeWidget):
+    updateFilesView = pyqtSignal(int)
+
+    def __init__(self, parent):
+        super(TimeLine, self).__init__(parent)
+        self.setRootIsDecorated(False)
+        self.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.setHeaderLabels([_('Snapshots'),'foo'])
+        self.setSortingEnabled(True)
+        self.sortByColumn(1, Qt.DescendingOrder)
+        self.hideColumn(1)
+        self.header().setClickable(False)
+
+        self.parent = parent
+        self.snapshots = parent.snapshots
+        self._resetHeaderData()
+
+    def clear(self):
+        super(TimeLine, self).clear()
+        self._resetHeaderData()
+
+    def _resetHeaderData(self):
+        self.now = date.today()
+        #list of tuples with (text, startDate, endDate)
+        self.headerData = [ (#today
+                                _('Today'),
+                                datetime.combine(self.now, datetime.min.time()),
+                                datetime.combine(self.now, datetime.max.time())
+                            ),
+                            (#yesterday
+                                _('Yesterday'),
+                                datetime.combine(self.now - timedelta(days = 1), datetime.min.time()),
+                                datetime.combine(self.now - timedelta(days = 1), datetime.max.time())
+                            ),
+                            (#this week
+                                _('This week'),
+                                datetime.combine(self.now - timedelta(self.now.weekday()), datetime.min.time()),
+                                datetime.combine(self.now - timedelta(days = 2), datetime.max.time())
+                            ),
+                            (#last week
+                                _('Last week'),
+                                datetime.combine(self.now - timedelta(self.now.weekday() + 7), datetime.min.time()),
+                                datetime.combine(self.now - timedelta(self.now.weekday() + 1), datetime.max.time())
+                            )]
+
+    def addRoot(self, sid, sName, tooltip = None):
+        self.rootItem = self.addSnapshot(sid, sName, tooltip)
+        return self.rootItem
+
+    @pyqtSlot(str, str, str)
+    def addSnapshot(self, sid, sName, tooltip = None):
+        item = QTreeWidgetItem()
+        item.setText(0, sName)
+        item.setFont(0, get_font_normal(item.font(0)))
+        item.setData(0, Qt.UserRole, sid)
+        item.setText(1, str(self.snapshots.get_snapshot_datetime(sid)))
+        if not tooltip is None:
+            item.setToolTip(0, tooltip)
+
+        self.addTopLevelItem(item)
+
+        #select the snapshot that was selected before
+        if sid == self.parent.snapshot_id:
+            self.setCurrentItem(item)
+
+        if self.snapshots.is_snapshot_id(sid):
+            self.addHeader(sid)
+        return item
+
+    def addHeader(self, sid):
+        sidDatetime = self.snapshots.get_snapshot_datetime(sid)
+
+        for text, startDate, endDate in self.headerData:
+            if startDate <= sidDatetime <= endDate:
+                return self._createHeaderItem(text, endDate)
+
+        #any previous months
+        year = int(sid[0 : 4])
+        month = int(sid[4 : 6])
+        if year == self.now.year:
+            text = date(year, month, 1).strftime('%B').capitalize()
+        else:
+            text = date(year, month, 1).strftime('%B, %Y').capitalize()
+        startDate = datetime.combine(date(year, month, 1), datetime.min.time())
+        endDate   = datetime.combine(date(year, month, monthrange(year, month)[1]), datetime.max.time())
+        if self._createHeaderItem(text, endDate):
+            self.headerData.append((text, startDate, endDate))
+
+    def _createHeaderItem(self, text, endDate):
+        for index in range(self.topLevelItemCount()):
+            item = self.topLevelItem(index)
+            if item.data(0, Qt.UserRole) == endDate:
+                return False
+        item = QTreeWidgetItem()
+        item.setText(0, text)
+        item.setFont(0, get_font_bold(item.font(0)))
+        item.setFlags(Qt.NoItemFlags)
+        item.setBackgroundColor(0, QColor(196, 196, 196))
+        item.setTextColor(0, QColor(60, 60, 60))
+        item.setData(0, Qt.UserRole, endDate)
+        item.setText(1, str(endDate))
+        self.addTopLevelItem(item)
+        return True
+
+    @pyqtSlot()
+    def checkSelection(self):
+        if self.currentItem() is None:
+            self.setCurrentItem(self.rootItem)
+            if self.parent.snapshot_id != '/':
+                self.parent.snapshot_id = '/'
+                self.updateFilesView.emit(2)
