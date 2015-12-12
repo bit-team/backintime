@@ -112,11 +112,11 @@ class MainWindow( QMainWindow ):
         self.btn_quit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_W))
         QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
 
-        empty = QWidget()
+        empty = QWidget(self)
         empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.main_toolbar.addWidget(empty)
 
-        help_menu = QMenu()
+        help_menu = QMenu(self)
         self.btn_help = help_menu.addAction(icon.HELP, _('Help') )
         QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_help )
         self.btn_help_config = help_menu.addAction(icon.HELP, _('Config File Help'))
@@ -180,7 +180,7 @@ class MainWindow( QMainWindow ):
         self.files_view_toolbar.addSeparator()
 
         #restore menu
-        self.menu_restore = QMenu()
+        self.menu_restore = QMenu(self)
         self.btn_restore = self.menu_restore.addAction(icon.RESTORE, _('Restore') )
         QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
         self.btn_restore_to = self.menu_restore.addAction(icon.RESTORE_TO, _('Restore to ...') )
@@ -314,13 +314,13 @@ class MainWindow( QMainWindow ):
         self.list_files_view_header.setMovable( False )
         self.list_files_view_header.setSortIndicatorShown( True )
 
-        self.list_files_view_model = QFileSystemModel()
+        self.list_files_view_model = QFileSystemModel(self)
         self.list_files_view_model.setRootPath(QDir().rootPath())
         self.list_files_view_model.setReadOnly(True)
         self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries
                                             | QDir.NoDotAndDotDot | QDir.Hidden)
 
-        self.list_files_view_proxy_model = QSortFilterProxyModel()
+        self.list_files_view_proxy_model = QSortFilterProxyModel(self)
         self.list_files_view_proxy_model.setDynamicSortFilter(True)
         self.list_files_view_proxy_model.setSourceModel(self.list_files_view_model)
 
@@ -364,13 +364,13 @@ class MainWindow( QMainWindow ):
         self.contextMenu.addAction(self.btn_show_hidden_files)
 
         #ProgressBar
-        self.progressBar = QProgressBar()
+        self.progressBar = QProgressBar(self)
         self.progressBar.setMinimum(0)
         self.progressBar.setMaximum(100)
         self.progressBar.setValue(0)
         self.progressBar.setStyleSheet("text-align: left;")
         self.progressBar.setVisible(False)
-        self.status = QLabel()
+        self.status = QLabel(self)
 
         self.statusBar().addWidget(self.progressBar, 100)
         self.statusBar().addWidget(self.status, 100)
@@ -1374,7 +1374,7 @@ class About(QDialog):
         vlayout.addWidget(homepage)
         vlayout.addWidget(bit_copyright)
 
-        button_box_left  = QDialogButtonBox()
+        button_box_left  = QDialogButtonBox(self)
         btn_authors      = button_box_left.addButton(_('Authors'), QDialogButtonBox.ActionRole)
         btn_translations = button_box_left.addButton(_('Translations'), QDialogButtonBox.ActionRole)
         btn_license      = button_box_left.addButton(_('License'), QDialogButtonBox.ActionRole)
