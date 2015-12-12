@@ -30,6 +30,8 @@ class ApplicationInstance:
         '''specify the file used to save the application instance pid
         '''
         self.pid_file = pid_file
+        self.pid = 0
+        self.procname = ''
         self.flock_file = None
         if flock:
             self.flockExclusiv()
@@ -51,14 +53,14 @@ class ApplicationInstance:
         if not os.path.isfile( self.pid_file ):
             return True
 
-        pid, procname = self.readPidFile()
+        self.pid, self.procname = self.readPidFile()
 
         #check if the process with specified by pid exists
-        if 0 == pid:
+        if 0 == self.pid:
             return True
 
         try:
-            os.kill( pid, 0 )	#this will raise an exception if the pid is not valid
+            os.kill( self.pid, 0 )	#this will raise an exception if the pid is not valid
         except OSError as err:
             if err.errno == errno.ESRCH:
                 #no such process
@@ -67,7 +69,7 @@ class ApplicationInstance:
                 raise
 
         #check if the process has the same procname
-        if procname and procname != self.readProcName(pid):
+        if self.procname and self.procname != self.readProcName(self.pid):
             return True
 
         if auto_exit:
