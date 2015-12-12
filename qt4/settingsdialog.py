@@ -581,7 +581,7 @@ class SettingsDialog( QDialog ):
         layout.addWidget( self.cb_dont_remove_named_snapshots, 5, 0, 1, 3 )
 
         #
-        layout.addWidget( QWidget(), 6, 0 )
+        layout.addWidget( QWidget(self), 6, 0 )
         layout.setRowStretch( 6, 2 )
         scrollArea.setWidget(layoutWidget)
         scrollArea.setWidgetResizable(True)
@@ -1711,13 +1711,13 @@ class RestoreConfigDialog(QDialog):
 
         #treeView
         self.treeView = qt4tools.MyTreeView(self)
-        self.treeViewModel = QFileSystemModel()
+        self.treeViewModel = QFileSystemModel(self)
         self.treeViewModel.setRootPath(QDir().rootPath())
         self.treeViewModel.setReadOnly(True)
         self.treeViewModel.setFilter(QDir.AllDirs |
                                      QDir.NoDotAndDotDot | QDir.Hidden)
 
-        self.treeViewFilterProxy = QSortFilterProxyModel()
+        self.treeViewFilterProxy = QSortFilterProxyModel(self)
         self.treeViewFilterProxy.setDynamicSortFilter(True)
         self.treeViewFilterProxy.setSourceModel(self.treeViewModel)
 

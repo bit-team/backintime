@@ -129,7 +129,7 @@ class SnapshotsDialog( QDialog ):
         self.main_layout.addWidget( self.toolbar )
 
         #toolbar restore
-        menu_restore = QMenu()
+        menu_restore = QMenu(self)
         action = menu_restore.addAction(icon.RESTORE, _('Restore') )
         QObject.connect( action, SIGNAL('triggered()'), self.restore_this )
         action = menu_restore.addAction(icon.RESTORE_TO, _('Restore to ...') )
