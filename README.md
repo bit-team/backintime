@@ -26,6 +26,11 @@ You only need to specify 3 things:
 * Vadim Peretokin: Russian translation
 * translators from [Launchpad](https://translations.launchpad.net/backintime/trunk/+pots/back-in-time)
 
+##Download
+
+Please find the latest versions on
+https://launchpad.net/backintime/+download
+
 ##INSTALL
 
 Back In Time is included in many distributions and can be installed from their
@@ -118,5 +123,10 @@ before installing
 
     --python3 | --python (all)
         Use either 'python3' or 'python' to start Python Version 3.x
+
+##NewsFeed
+
+Back In Time has a RSS feed
+http://feeds.launchpad.net/backintime/announcements.atom
 
 <sub>Dec 2015</sub>
