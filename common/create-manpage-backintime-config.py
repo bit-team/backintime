@@ -61,7 +61,7 @@ Back In Time also has a website: https://github.com/bit-team/backintime
 This manual page was written by BIT Team(<bit\-team@lists.launchpad.net>).
 '''
 
-TYPE      = 'type'
+INSTANCE  = 'instance'
 NAME      = 'name'
 VALUES    = 'values'
 DEFAULT   = 'default'
@@ -69,12 +69,12 @@ COMMENT   = 'comment'
 REFERENCE = 'reference'
 LINE      = 'line'
 
-def output(type = '', name = '', values = '', default = '', comment = '', reference = '', line = 0):
+def output(instance = '', name = '', values = '', default = '', comment = '', reference = '', line = 0):
     if not default:
         default = "''"
     ret  = '.IP "\\fI%s\\fR" 6\n' % name
     ret += '.RS\n'
-    ret += 'Type: %-10sAllowed Values: %s\n' %(type, values)
+    ret += 'Type: %-10sAllowed Values: %s\n' %(instance, values)
     ret += '.br\n'
     ret += '%s\n' % comment
     ret += '.PP\n'
@@ -90,43 +90,43 @@ def select(a, b):
         return a
     return b
 
-def select_values(type, values):
+def select_values(instance, values):
     if values:
         return values
-    if type == 'bool':
+    if instance == 'bool':
         return 'true|false'
-    if type == 'str':
+    if instance == 'str':
         return 'text'
-    if type == 'int':
+    if instance == 'int':
         return '0-99999'
 
 def main():
     replace_default = {}
-    dict = {}
-    dict['profiles.version'] = {TYPE      : 'int',
-                                NAME      : 'profiles.version',
-                                VALUES    : '1',
-                                DEFAULT   : '1',
-                                COMMENT   : 'Internal version of profiles config.',
-                                REFERENCE : 'configfile.py',
-                                LINE      : 180}
-    dict['profiles'] = {TYPE      : 'str',
-                        NAME      : 'profiles',
-                        VALUES    : 'int separated by colon (e.g. 1:3:4)',
-                        DEFAULT   : '1',
-                        COMMENT   : 'All active Profiles (<N> in profile<N>.snapshots...).',
-                        REFERENCE : 'configfile.py',
-                        LINE      : 273}
-    dict['profile<N>.name'] = {TYPE      : 'str',
-                               NAME      : 'profile<N>.name',
-                               VALUES    : 'text',
-                               DEFAULT   : 'Main profile',
-                               COMMENT   : 'Name of this profile.',
-                               REFERENCE : 'configfile.py',
-                               LINE      : 246}
+    d = {}
+    d['profiles.version'] = {INSTANCE  : 'int',
+                             NAME      : 'profiles.version',
+                             VALUES    : '1',
+                             DEFAULT   : '1',
+                             COMMENT   : 'Internal version of profiles config.',
+                             REFERENCE : 'configfile.py',
+                             LINE      : 180}
+    d['profiles'] = {INSTANCE  : 'str',
+                     NAME      : 'profiles',
+                     VALUES    : 'int separated by colon (e.g. 1:3:4)',
+                     DEFAULT   : '1',
+                     COMMENT   : 'All active Profiles (<N> in profile<N>.snapshots...).',
+                     REFERENCE : 'configfile.py',
+                     LINE      : 273}
+    d['profile<N>.name'] = {INSTANCE  : 'str',
+                            NAME      : 'profile<N>.name',
+                            VALUES    : 'text',
+                            DEFAULT   : 'Main profile',
+                            COMMENT   : 'Name of this profile.',
+                            REFERENCE : 'configfile.py',
+                            LINE      : 246}
     with open(CONFIG, 'r') as f:
         commentline = ''
-        comment = values = force_var = force_default = type = name = var = default = None
+        comment = values = force_var = force_default = instance = name = var = default = None
         for counter, line in enumerate(f, 1):
             line = line.lstrip()
             m_default = c_default.match(line)
@@ -143,14 +143,14 @@ def main():
                 continue
             m = c.match(line)
             if not m is None:
-                profile, type, name, var, default = m.groups()
+                profile, instance, name, var, default = m.groups()
                 if profile == '_profile':
                     name = 'profile<N>.' + name
                 var = var.lstrip('% ')
                 key = re.sub(r'%[\S]', var, name).lower()
                 #Ignore commentlines with #?! and 'config.version'
-                if not commentline.startswith('!') and not name == 'config.version' and not key in dict:
-                    dict[key] = {}
+                if not commentline.startswith('!') and not name == 'config.version' and not key in d:
+                    d[key] = {}
                     commentline = commentline.split(';')
                     try:
                         comment       = commentline[0]
@@ -166,17 +166,17 @@ def main():
                     if isinstance(force_default, str) and force_default.startswith('self.') and force_default[5:] in replace_default:
                         force_default = replace_default[force_default[5:]]
 
-                    if type == 'bool':
+                    if instance == 'bool':
                         default = default.lower()
-                    dict[key][TYPE]      = type
-                    dict[key][NAME]      = re.sub(r'%[\S]', '<%s>' % select(force_var, var).upper(), name)
-                    dict[key][VALUES]    = select_values(type, values)
-                    dict[key][DEFAULT]   = select(force_default, default)
-                    dict[key][COMMENT]   = re.sub(r'\\n', '\n.br\n', comment)
-                    dict[key][REFERENCE] = 'config.py'
-                    dict[key][LINE]      = counter
+                    d[key][INSTANCE]  = instance
+                    d[key][NAME]      = re.sub(r'%[\S]', '<%s>' % select(force_var, var).upper(), name)
+                    d[key][VALUES]    = select_values(instance, values)
+                    d[key][DEFAULT]   = select(force_default, default)
+                    d[key][COMMENT]   = re.sub(r'\\n', '\n.br\n', comment)
+                    d[key][REFERENCE] = 'config.py'
+                    d[key][LINE]      = counter
 
-                comment = values = force_var = force_default = type = name = var = default = None
+                comment = values = force_var = force_default = instance = name = var = default = None
                 commentline = ''
 
     with open(MAN, 'w') as f:
@@ -184,8 +184,8 @@ def main():
         if SORT:
             s = lambda x: x
         else:
-            s = lambda x: dict[x][LINE]
-        f.write('\n'.join(output(**dict[key]) for key in sorted(dict, key = s)))
+            s = lambda x: d[x][LINE]
+        f.write('\n'.join(output(**d[key]) for key in sorted(d, key = s)))
         f.write(FOOTER)
 
 if __name__ == "__main__":
