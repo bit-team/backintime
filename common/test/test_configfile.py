@@ -104,7 +104,7 @@ class TestConfigFile(unittest.TestCase):
         self.assertEqual(cfg.dict, {'foo': '44'})
 
     ############################################################################
-    ###                               bool_value                              ###
+    ###                              bool_value                              ###
     ############################################################################
 
     def test_get_bool_value(self):
@@ -300,6 +300,8 @@ class TestConfigFile(unittest.TestCase):
         self.assertRaises(TypeError, cfg.set_list_value, 'aaa', 'non_existend_type:value', 'foo')
         self.assertRaises(TypeError, cfg.set_list_value, 'aaa', {'dict:value'}, 'foo')
         self.assertRaises(TypeError, cfg.set_list_value, 'aaa', 1, 'foo')
+
+#TODO: add remove_key(s) test and tests for ConfigFileWithProfiles
 
 if __name__ == '__main__':
     unittest.main()

@@ -119,21 +119,4 @@ before installing
     --python3 | --python (all)
         Use either 'python3' or 'python' to start Python Version 3.x
 
-
-##Integrate with filemanager
-
-#####Nautilus
-
-You can make a simple Nautilus integration using nautilus-actions.
-** Run System => Preferences => Nautilus Actions Configuration.
-* Add a new action
-    * Menu Item & Action tab:
-        * Label: Open with Back In Time
-        * Icon: gtk-save
-        * Path: backintime
-        * Parameters: %M
-    * Conditions Tab:
-        * Appears is selection contains: Both
-* Press OK and you will see the new actions called "Open with Back In Time" when you right-click an item
-
-<sub>Oct 2015</sub>
+<sub>Dec 2015</sub>
