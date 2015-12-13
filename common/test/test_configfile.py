@@ -301,7 +301,40 @@ class TestConfigFile(unittest.TestCase):
         self.assertRaises(TypeError, cfg.set_list_value, 'aaa', {'dict:value'}, 'foo')
         self.assertRaises(TypeError, cfg.set_list_value, 'aaa', 1, 'foo')
 
-#TODO: add remove_key(s) test and tests for ConfigFileWithProfiles
+    def test_remove_key(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'foo': 'true',
+                    'bar': '1',
+                    'baz': 'false',
+                    'bla': '0'}
+        cfg.remove_key('bla')
+        self.assertEqual(cfg.dict, {'foo': 'true',
+                                    'bar': '1',
+                                    'baz': 'false'})
+
+    def test_remove_keys_start_with(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'foo': 'true',
+                    'bar': '1',
+                    'baz': 'false',
+                    'bla': '0'}
+        cfg.remove_keys_starts_with('ba')
+        self.assertEqual(cfg.dict, {'foo': 'true',
+                                    'bla': '0'})
+
+    def test_remove_keys_start_with_not_matching_prefix(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'foo': 'true',
+                    'bar': '1',
+                    'baz': 'false',
+                    'bla': '0'}
+        cfg.remove_keys_starts_with('not_matching')
+        self.assertEqual(cfg.dict, {'foo': 'true',
+                                    'bar': '1',
+                                    'baz': 'false',
+                                    'bla': '0'})
+
+#TODO: add tests for ConfigFileWithProfiles
 
 if __name__ == '__main__':
     unittest.main()
