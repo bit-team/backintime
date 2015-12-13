@@ -343,6 +343,7 @@ def create_parsers(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Show a list of snapshots IDs.'
     snapshotsListCP =      subparsers.add_parser(command,
+                                                 parents = [snapshotPathParser],
                                                  epilog = epilogCommon,
                                                  help = description,
                                                  description = description)
@@ -551,6 +552,8 @@ def backupJob(args):
 def snapshotsPath(args):
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
+    if args.keep_mount:
+        _mount(cfg)
     print('SnapshotsPath: %s' % cfg.get_snapshots_full_path(), file=force_stdout)
     sys.exit(RETURN_OK)
 
@@ -565,7 +568,8 @@ def snapshotsList(args):
             print('SnapshotID: %s' % snapshot_id, file=force_stdout)
     else:
         logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
-    _umount(cfg)
+    if not args.keep_mount:
+        _umount(cfg)
     sys.exit(RETURN_OK)
 
 def snapshotsListPath(args):
