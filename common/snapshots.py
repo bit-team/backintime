@@ -1474,6 +1474,8 @@ class Snapshots:
         info_file.set_str_value( 'snapshot_user', user )
         info_file.set_int_value( 'snapshot_profile_id', profile_id )
         info_file.set_int_value( 'snapshot_tag', tag )
+        info_file.set_list_value('user', ('int:uid', 'str:name'), list(self.user_cache.items()))
+        info_file.set_list_value('group', ('int:uid', 'str:name'), list(self.group_cache.items()))
         info_file.save(self.get_snapshot_info_path(self.NEW_SNAPSHOT_ID))
         info_file = None
 
