@@ -56,7 +56,7 @@ class Qt4SysTrayIcon:
 
         self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
         #self.status_icon.actionCollection().clear()
-        self.contextMenu = QMenu(self)
+        self.contextMenu = QMenu()
 
         self.menuProfileName = self.contextMenu.addAction(_('Profile: "%s"') % self.config.get_profile_name())
         qt4tools.set_font_bold(self.menuProfileName)
@@ -71,7 +71,7 @@ class Qt4SysTrayIcon:
         self.status_icon.setContextMenu(self.contextMenu)
 
         self.pixmap = icon.BIT_LOGO.pixmap(24)
-        self.progressBar = QProgressBar(self)
+        self.progressBar = QProgressBar()
         self.progressBar.setMinimum(0)
         self.progressBar.setMaximum(100)
         self.progressBar.setValue(0)
@@ -83,7 +83,7 @@ class Qt4SysTrayIcon:
         self.popup = None
         self.last_message = None
 
-        self.timer = QTimer(self)
+        self.timer = QTimer()
         QObject.connect( self.timer, SIGNAL('timeout()'), self.update_info )
 
         self.ppid = os.getppid()
