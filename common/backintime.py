@@ -406,6 +406,10 @@ def start_app(app_name = 'backintime'):
     #parse args
     args = arg_parse(None)
 
+    #add source path to $PATH environ if running from source
+    if tools.running_from_source():
+        tools.add_source_to_path_environ()
+
     #warn about sudo
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')

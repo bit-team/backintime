@@ -64,6 +64,18 @@ def register_backintime_path(*path):
     if not path in sys.path:
         sys.path.insert(0, path)
 
+def running_from_source():
+    '''return True if BackInTime was started
+    from source folder (without installing)
+    '''
+    return os.path.isfile(get_backintime_path('common', 'backintime'))
+
+def add_source_to_path_environ():
+    source = get_backintime_path('common')
+    path = os.getenv('PATH')
+    if source not in path.split(':'):
+        os.environ['PATH'] = '%s:%s' %(source, path)
+
 def get_bzr_revno():
     last_rev = os.path.join(os.path.dirname(__file__), os.pardir, '.bzr', 'branch', 'last-revision')
     if os.path.exists(last_rev):
