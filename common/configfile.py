@@ -125,6 +125,91 @@ class ConfigFile(object):
         else:
             self.set_str_value( key, 'false' )
 
+    def get_list_value(self, key, type_key = 'str:value', default_value = []):
+        '''return a list of values
+
+        key:      used base-key
+        type_key: 'str:value'               => return str values from key.value
+                  'int:type'                => return int values from key.type
+                  'bool:enabled'            => return bool values from key.enabled
+                  ('str:value', 'int:type') => return tuple of values
+        default_value:    defualt value
+
+        size of list must be stored in key.size
+        '''
+        def get_value(key, tk):
+            t = ''
+            if isinstance(tk, str):
+                t, k = tk.split(':', maxsplit = 1)
+            if t in ('str', 'int', 'bool'):
+                func = getattr(self, 'get_%s_value' %t)
+                return func('%s.%s' %(key, k))
+            raise TypeError('Invalid type_key: %s' %tk)
+
+        size = self.get_int_value('%s.size' %key, -1)
+        if size <= 0:
+            return default_value
+
+        ret = []
+        for i in range(1, size + 1):
+            if isinstance(type_key, str):
+                ret.append(get_value('%s.%s' %(key, i), type_key))
+            elif isinstance(type_key, tuple):
+                items = []
+                for tk in type_key:
+                    items.append(get_value('%s.%s' %(key, i), tk))
+                ret.append(tuple(items))
+            else:
+                raise TypeError('Invalid type_key: %s' %type_key)
+        return ret
+
+    def set_list_value(self, key, type_key, value):
+        '''set a list of values
+
+        key:      used base-key
+        type_key: 'str:value'               => set str values from key.value
+                  'int:type'                => set int values from key.type
+                  'bool:enabled'            => set bool values from key.enabled
+                  ('str:value', 'int:type') => set tuple of values
+        value:    that should be stored
+
+        size of list will be stored in key.size
+        '''
+        def set_value(key, tk, v):
+            t = ''
+            if isinstance(tk, str):
+                t, k = tk.split(':', maxsplit = 1)
+            if t in ('str', 'int', 'bool'):
+                func = getattr(self, 'set_%s_value' %t)
+                return func('%s.%s' %(key, k), v)
+            raise TypeError('Invalid type_key: %s' %tk)
+
+        if not isinstance(value, (list, tuple)):
+            raise TypeError('value has wrong type: %s' %value)
+
+        old_size = self.get_int_value('%s.size' %key, -1)
+        self.set_int_value('%s.size' %key, len(value))
+
+        for i, v in enumerate(value, start = 1):
+            if isinstance(type_key, str):
+                set_value('%s.%s' %(key, i), type_key, v)
+            elif isinstance(type_key, tuple):
+                for iv, tk in enumerate(type_key):
+                    if len(v) > iv:
+                        set_value('%s.%s' %(key, i), tk, v[iv])
+                    else:
+                        self.remove_key('%s.%s.%s' %(key, i, tk.split(':')[1]))
+            else:
+                raise TypeError('Invalid type_key: %s' %type_key)
+
+        if len(value) < old_size:
+            for i in range(len(value) + 1, old_size + 1):
+                if isinstance(type_key, str):
+                    self.remove_key('%s.%s.%s' %(key, i, type_key.split(':')[1]))
+                elif isinstance(type_key, tuple):
+                    for tk in type_key:
+                        self.remove_key('%s.%s.%s' %(key, i, tk.split(':')[1]))
+
     def remove_key( self, key ):
         if key in self.dict:
             del self.dict[ key ]
@@ -363,3 +448,9 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def set_profile_bool_value( self, key, value, profile_id = None ):
         self.set_bool_value( self._get_profile_key_( key, profile_id ), value )
+
+    def get_profile_list_value(self, key, type_key = 'str:value', default_value = [], profile_id = None):
+        return self.get_list_value(self._get_profile_key_(key, profile_id), type_key, default_value)
+
+    def set_profile_list_value(self, key, type_key, value, profile_id = None):
+        self.set_list_value(self._get_profile_key_(key, profile_id), type_key, value)

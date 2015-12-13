@@ -681,42 +681,13 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         return paths
 
-    def get_include( self, profile_id = None ):
-        #?Quantity of include entries.;1-99999;\-1
-        size = self.get_profile_int_value( 'snapshots.include.size', -1, profile_id )
-        if size <= 0:
-            return []
+    def get_include(self, profile_id = None):
+        #?Include this file or folder. <I> must be a counter starting with 1;absolute path::
+        #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR is a folder (0) or a file (1).;0|1;0
+        return self.get_profile_list_value('snapshots.include', ('str:value', 'int:type'), [], profile_id)
 
-        include = []
-
-        for i in range( 1, size + 1 ):
-            #?Include this file or folder. <I> must be a counter
-            #?starting with 1;absolute path
-            value = self.get_profile_str_value( "snapshots.include.%s.value" % i, '', profile_id )
-            if value:
-                #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR
-                #?is a folder (0) or a file (1).;0|1
-                t = self.get_profile_int_value( "snapshots.include.%s.type" % i, 0, profile_id )
-                include.append( ( value, t ) )
-
-        return include
-
-    def set_include( self, list_, profile_id = None ):
-        old_size = self.get_profile_int_value( 'snapshots.include.size', 0, profile_id )
-
-        counter = 0
-        for value in list_:
-            if value[0]:
-                counter = counter + 1
-                self.set_profile_str_value( "snapshots.include.%s.value" % counter, value[0], profile_id )
-                self.set_profile_int_value( "snapshots.include.%s.type" % counter, value[1], profile_id )
-
-        self.set_profile_int_value( 'snapshots.include.size', counter, profile_id )
-
-        if counter < old_size:
-            for i in range( counter + 1, old_size + 1 ):
-                self.remove_profile_key( "snapshots.include.%s.value" % i, profile_id )
-                self.remove_profile_key( "snapshots.include.%s.type" % i, profile_id )
+    def set_include(self, values, profile_id = None):
+        self.set_profile_list_value('snapshots.include', ('str:value', 'int:type'), values, profile_id)
 
     def get_exclude_v4( self, profile_id = None ):
         '''Gets the exclude patterns: conf version 4'''
@@ -726,37 +697,14 @@ class Config( configfile.ConfigFileWithProfiles ):
             return []
         return value.split( ':' )
 
-    def get_exclude( self, profile_id = None ):
+    def get_exclude(self, profile_id = None):
         '''Gets the exclude patterns'''
-        #?Quantity of exclude entries.;1-99999;\-1
-        size = self.get_profile_int_value( 'snapshots.exclude.size', -1, profile_id )
-        if size < 0:
-            return self.DEFAULT_EXCLUDE
+        #?Exclude this file or folder. <I> must be a counter
+        #?starting with 1;file, folder or pattern (relative or absolute)
+        return self.get_profile_list_value('snapshots.exclude', 'str:value', self.DEFAULT_EXCLUDE, profile_id)
 
-        exclude = []
-        for i in range( 1, size + 1 ):
-            #?Exclude this file or folder. <I> must be a counter
-            #?starting with 1;file, folder or pattern (relative or absolute)
-            value = self.get_profile_str_value( "snapshots.exclude.%s.value" % i, '', profile_id )
-            if value:
-                exclude.append( value )
-
-        return exclude
-
-    def set_exclude( self, list_, profile_id = None ):
-        old_size = self.get_profile_int_value( 'snapshots.exclude.size', 0, profile_id )
-
-        counter = 0
-        for value in list_:
-            if value:
-                counter = counter + 1
-                self.set_profile_str_value( "snapshots.exclude.%s.value" % counter, value, profile_id )
-
-        self.set_profile_int_value( 'snapshots.exclude.size', counter, profile_id )
-
-        if counter < old_size:
-            for i in range( counter + 1, old_size + 1 ):
-                self.remove_profile_key( "snapshots.exclude.%s.value" % i, profile_id )
+    def set_exclude(self, values, profile_id = None):
+        self.set_profile_list_value('snapshots.exclude', 'str:value', values, profile_id)
 
     def exclude_by_size_enabled(self, profile_id = None):
         #?Enable exclude files by size.

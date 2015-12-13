@@ -27,7 +27,9 @@ MAN    = os.path.join(PATH, 'man/C/backintime-config.1')
 with open(os.path.join(PATH, '../VERSION'), 'r') as f:
     VERSION = f.read().strip('\n')
 SORT = True #True = sort by alphabet; False = sort by line numbering
-c = re.compile(r'.*?self\.get((?:_profile)?)_(.*?)_value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
+
+c_list = re.compile(r'.*?self\.get((?:_profile)?)_(list)_value ?\( ?[\'"](.*?)[\'"], ?((?:\(.*\)|[^,]*)), ?[\'"]?([^\'",\)]*)[\'"]?')
+c =      re.compile(r'.*?self\.get((?:_profile)?)_(.*?)_value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
 c_default = re.compile(r'(^DEFAULT[\w]*)[\s]*= (.*)')
 
 HEADER = '''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
@@ -100,6 +102,36 @@ def select_values(instance, values):
     if instance == 'int':
         return '0-99999'
 
+def process_line(d, key, profile, instance, name, var, default, commentline, values, force_var, force_default, replace_default, counter):
+    #Ignore commentlines with #?! and 'config.version'
+    comment = None
+    if not commentline.startswith('!') and not name == 'config.version' and not key in d:
+        d[key] = {}
+        commentline = commentline.split(';')
+        try:
+            comment       = commentline[0]
+            values        = commentline[1]
+            force_default = commentline[2]
+            force_var     = commentline[3]
+        except IndexError:
+            pass
+
+        if default.startswith('self.') and default[5:] in replace_default:
+            default = replace_default[default[5:]]
+
+        if isinstance(force_default, str) and force_default.startswith('self.') and force_default[5:] in replace_default:
+            force_default = replace_default[force_default[5:]]
+
+        if instance == 'bool':
+            default = default.lower()
+        d[key][INSTANCE]  = instance
+        d[key][NAME]      = re.sub(r'%[\S]', '<%s>' % select(force_var, var).upper(), name)
+        d[key][VALUES]    = select_values(instance, values)
+        d[key][DEFAULT]   = select(force_default, default)
+        d[key][COMMENT]   = re.sub(r'\\n', '\n.br\n', comment)
+        d[key][REFERENCE] = 'config.py'
+        d[key][LINE]      = counter
+
 def main():
     replace_default = {}
     d = {}
@@ -126,7 +158,7 @@ def main():
                             LINE      : 246}
     with open(CONFIG, 'r') as f:
         commentline = ''
-        comment = values = force_var = force_default = instance = name = var = default = None
+        values = force_var = force_default = instance = name = var = default = None
         for counter, line in enumerate(f, 1):
             line = line.lstrip()
             m_default = c_default.match(line)
@@ -141,42 +173,30 @@ def main():
             if line.startswith('#'):
                 commentline = ''
                 continue
-            m = c.match(line)
-            if not m is None:
+            # m = c_list_tuple.match(line)
+            # if not m:
+            m = c_list.match(line)
+            if not m:
+                m = c.match(line)
+            if m:
                 profile, instance, name, var, default = m.groups()
                 if profile == '_profile':
                     name = 'profile<N>.' + name
                 var = var.lstrip('% ')
-                key = re.sub(r'%[\S]', var, name).lower()
-                #Ignore commentlines with #?! and 'config.version'
-                if not commentline.startswith('!') and not name == 'config.version' and not key in d:
-                    d[key] = {}
-                    commentline = commentline.split(';')
-                    try:
-                        comment       = commentline[0]
-                        values        = commentline[1]
-                        force_default = commentline[2]
-                        force_var     = commentline[3]
-                    except IndexError:
-                        pass
+                if instance == 'list':
+                    type_key = [x.strip('"\'') for x in re.findall(r'["\'].*?["\']', var)]
+                    commentline_split = commentline.split('::')
+                    for i, tk in enumerate(type_key):
+                        t, k = tk.split(':', maxsplit = 1)
+                        process_line(d, key, profile, 'int', '%s.size' %name, var, '\-1', 'Quantity of %s.<I> entries.' %name, values, force_var, force_default, replace_default, counter)
+                        key = '%s.%s' %(name, k)
+                        key = key.lower()
+                        process_line(d, key, profile, t, '%s.<I>.%s' %(name, k), var, '', commentline_split[i], values, force_var, force_default, replace_default, counter)
+                else:
+                    key = re.sub(r'%[\S]', var, name).lower()
+                process_line(d, key, profile, instance, name, var, default, commentline, values, force_var, force_default, replace_default, counter)
 
-                    if default.startswith('self.') and default[5:] in replace_default:
-                        default = replace_default[default[5:]]
-
-                    if isinstance(force_default, str) and force_default.startswith('self.') and force_default[5:] in replace_default:
-                        force_default = replace_default[force_default[5:]]
-
-                    if instance == 'bool':
-                        default = default.lower()
-                    d[key][INSTANCE]  = instance
-                    d[key][NAME]      = re.sub(r'%[\S]', '<%s>' % select(force_var, var).upper(), name)
-                    d[key][VALUES]    = select_values(instance, values)
-                    d[key][DEFAULT]   = select(force_default, default)
-                    d[key][COMMENT]   = re.sub(r'\\n', '\n.br\n', comment)
-                    d[key][REFERENCE] = 'config.py'
-                    d[key][LINE]      = counter
-
-                comment = values = force_var = force_default = instance = name = var = default = None
+                values = force_var = force_default = instance = name = var = default = None
                 commentline = ''
 
     with open(MAN, 'w') as f:

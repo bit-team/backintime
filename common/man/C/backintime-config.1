@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Nov 2015" "version 1.1.9" "USER COMMANDS"
+.TH backintime-config 1 "Dec 2015" "version 1.1.9" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -290,9 +290,9 @@ Default: ''
 
 .IP "\fIprofile<N>.snapshots.exclude.size\fR" 6
 .RS
-Type: int       Allowed Values: 1-99999
+Type: int       Allowed Values: 0-99999
 .br
-Quantity of exclude entries.
+Quantity of profile<N>.snapshots.exclude.<I> entries.
 .PP
 Default: \-1
 .RE
@@ -344,9 +344,9 @@ Default: ''
 
 .IP "\fIprofile<N>.snapshots.include.size\fR" 6
 .RS
-Type: int       Allowed Values: 1-99999
+Type: int       Allowed Values: 0-99999
 .br
-Quantity of include entries.
+Quantity of profile<N>.snapshots.include.<I> entries.
 .PP
 Default: \-1
 .RE
