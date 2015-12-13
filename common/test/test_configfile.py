@@ -57,11 +57,81 @@ class TestConfigFile(unittest.TestCase):
                 #workaround for py.test3 2.5.1 doesn't support subTest
                 msg = 'k = %s' %k
                 self.assertTrue(cf.has_value(k), msg)
+                self.assertEqual(original_cf.get_str_value(k), cf.get_str_value(k))
 
         os.remove(config_filename)
 
+    def test_has_value(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'foo': 'bar'}
+        self.assertTrue(cfg.has_value('foo'))
+        self.assertFalse(cfg.has_value('non_existend_key'))
+
     ############################################################################
-    ###                           set_list_value                             ###
+    ###                               str_value                              ###
+    ############################################################################
+
+    def test_get_str_value(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'foo': 'bar'}
+        self.assertEqual(cfg.get_str_value('foo', 'default'), 'bar')
+
+    def test_get_str_value_default(self):
+        cfg = configfile.ConfigFile()
+        self.assertEqual(cfg.get_str_value('non_existend_key', 'default'), 'default')
+
+    def test_set_str_value(self):
+        cfg = configfile.ConfigFile()
+        cfg.set_str_value('foo', 'bar')
+        self.assertEqual(cfg.dict, {'foo': 'bar'})
+
+    ############################################################################
+    ###                               int_value                              ###
+    ############################################################################
+
+    def test_get_int_value(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'foo': '11'}
+        self.assertEqual(cfg.get_int_value('foo', 22), 11)
+
+    def test_get_int_value_default(self):
+        cfg = configfile.ConfigFile()
+        self.assertEqual(cfg.get_int_value('non_existend_key', 33), 33)
+
+    def test_set_int_value(self):
+        cfg = configfile.ConfigFile()
+        cfg.set_int_value('foo', 44)
+        self.assertEqual(cfg.dict, {'foo': '44'})
+
+    ############################################################################
+    ###                               bool_value                              ###
+    ############################################################################
+
+    def test_get_bool_value(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'foo': 'true',
+                    'bar': '1',
+                    'baz': 'false',
+                    'bla': '0'}
+        self.assertEqual(cfg.get_bool_value('foo', False), True)
+        self.assertEqual(cfg.get_bool_value('bar', False), True)
+        self.assertEqual(cfg.get_bool_value('baz', True), False)
+        self.assertEqual(cfg.get_bool_value('bla', True), False)
+
+    def test_get_bool_value_default(self):
+        cfg = configfile.ConfigFile()
+        self.assertEqual(cfg.get_bool_value('non_existend_key', False), False)
+        self.assertEqual(cfg.get_bool_value('non_existend_key', True), True)
+
+    def test_set_bool_value(self):
+        cfg = configfile.ConfigFile()
+        cfg.set_bool_value('foo', True)
+        cfg.set_bool_value('bar', False)
+        self.assertEqual(cfg.dict, {'foo': 'true',
+                                    'bar': 'false'})
+
+    ############################################################################
+    ###                           get_list_value                             ###
     ############################################################################
 
     def test_get_list_value_default(self):
