@@ -20,8 +20,7 @@ import sys
 import gettext
 from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView,      \
                         QTreeView, QDialog, QApplication, QStyleFactory,       \
-                        QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator, \
-                        QColor
+                        QTreeWidget, QTreeWidgetItem, QColor
 from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal, QModelIndex
 from datetime import datetime, date, timedelta
 from calendar import monthrange
@@ -169,8 +168,8 @@ class TimeLine(QTreeWidget):
         self._resetHeaderData()
 
     def clear(self):
-        super(TimeLine, self).clear()
         self._resetHeaderData()
+        return super(TimeLine, self).clear()
 
     def _resetHeaderData(self):
         self.now = date.today()
@@ -202,11 +201,10 @@ class TimeLine(QTreeWidget):
 
     @pyqtSlot(str, str, str)
     def addSnapshot(self, sid, sName, tooltip = None):
-        item = QTreeWidgetItem()
-        item.setText(0, sName)
-        item.setFont(0, get_font_normal(item.font(0)))
-        item.setData(0, Qt.UserRole, sid)
-        item.setText(1, str(self.snapshots.get_snapshot_datetime(sid)))
+        item = SnapshotItem()
+        item.setName(sName)
+        item.setSnapshotID(sid)
+        item.setSort(self.snapshots.get_snapshot_datetime(sid))
         if not tooltip is None:
             item.setToolTip(0, tooltip)
 
@@ -240,18 +238,12 @@ class TimeLine(QTreeWidget):
             self.headerData.append((text, startDate, endDate))
 
     def _createHeaderItem(self, text, endDate):
-        for index in range(self.topLevelItemCount()):
-            item = self.topLevelItem(index)
+        for item in self.iterHeaderItems():
             if item.data(0, Qt.UserRole) == endDate:
                 return False
-        item = QTreeWidgetItem()
-        item.setText(0, text)
-        item.setFont(0, get_font_bold(item.font(0)))
-        item.setFlags(Qt.NoItemFlags)
-        item.setBackgroundColor(0, QColor(196, 196, 196))
-        item.setTextColor(0, QColor(60, 60, 60))
-        item.setData(0, Qt.UserRole, endDate)
-        item.setText(1, str(endDate))
+        item = HeaderItem()
+        item.setName(text)
+        item.setSort(endDate)
         self.addTopLevelItem(item)
         return True
 
@@ -262,3 +254,49 @@ class TimeLine(QTreeWidget):
             if self.parent.snapshot_id != '/':
                 self.parent.snapshot_id = '/'
                 self.updateFilesView.emit(2)
+
+    def selectedSnapshotIDs(self):
+        return [i.snapshotID() for i in self.selectedItems()]
+
+    def currentSnapshotID(self):
+        return self.currentItem().snapshotID()
+
+    def iterItems(self):
+        for index in range(self.topLevelItemCount()):
+            yield self.topLevelItem(index)
+
+    def iterSnapshotItems(self):
+        for item in self.iterItems():
+            if isinstance(item, SnapshotItem):
+                yield item
+
+    def iterHeaderItems(self):
+        for item in self.iterItems():
+            if isinstance(item, HeaderItem):
+                yield item
+
+class SnapshotItem(QTreeWidgetItem):
+    def setName(self, name):
+        self.setText(0, name)
+        self.setFont(0, get_font_normal(self.font(0)))
+
+    def setSnapshotID(self, sid):
+        self.setData(0, Qt.UserRole, sid)
+
+    def setSort(self, date):
+        self.setText(1, str(date))
+
+    def snapshotID(self):
+        return str(self.data(0, Qt.UserRole))
+
+class HeaderItem(QTreeWidgetItem):
+    def setName(self, name):
+        self.setText(0, name)
+        self.setFont(0, get_font_bold(self.font(0)))
+        self.setBackgroundColor(0, QColor(196, 196, 196))
+        self.setTextColor(0, QColor(60, 60, 60))
+        self.setFlags(Qt.NoItemFlags)
+
+    def setSort(self, date):
+        self.setData(0, Qt.UserRole, date)
+        self.setText(1, str(date))

@@ -254,6 +254,7 @@ cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 #test
 PYTEST=$(which py.test-3)
 printf "test:\tunittest integrationtest\n\n" >> ${MAKEFILE}
+printf "test-v:\tunittest-v integrationtest\n\n" >> ${MAKEFILE}
 for v in "" "-v"; do
     printf "unittest${v}:\n" >> ${MAKEFILE}
     if [ -z "${PYTEST}" ]; then
