@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -68,6 +68,11 @@ class SettingsDialog( QDialog ):
         self.btn_edit_profile = QPushButton(icon.PROFILE_EDIT, _('Edit'), self )
         QObject.connect( self.btn_edit_profile, SIGNAL('clicked()'), self.edit_profile )
         layout.addWidget( self.btn_edit_profile )
+
+        # update to full system backup button
+        self.btn_modify_profile_for_full_system_backup = QPushButton(icon.ADD, _('Modify for Full System Backup'), self )
+        QObject.connect( self.btn_modify_profile_for_full_system_backup, SIGNAL('clicked()'), self.modify_profile_for_full_system_backup )
+        layout.addWidget( self.btn_modify_profile_for_full_system_backup )
 
         self.btn_add_profile = QPushButton(icon.ADD, _('Add'), self)
         QObject.connect( self.btn_add_profile, SIGNAL('clicked()'), self.add_profile )
@@ -880,6 +885,38 @@ class SettingsDialog( QDialog ):
         size = self.sizeHint()
         self.tabs_widget.setUsesScrollButtons(scrollButtonDefault)
         self.resize(size)
+
+    def modify_profile_for_full_system_backup( self ):
+        # verify to user that settings will change
+        message = ("Full system backup can only create a snapshot to be restored to the same physical disk(s) "
+            "with the same disk partitioning as from the source; restoring to new physical disks or the same disks "
+            "with different partitioning will yield a potentially broken and unusable system.\n\n"
+            "Full system backup will override some settings that may have been customized. Continue?")
+        if QMessageBox.No == messagebox.warningYesNo(self, message):
+            return
+
+        # configure for full system backup
+        # need full rsync
+        self.config.set_full_rsync(True)
+        # don't want to create a backup with any errors and give user false sense that backup was ok
+        self.config.set_continue_on_errors(False)
+        # make sure all files are backed up
+        self.config.set_exclude_by_size_enabled(False)
+        # when we restore the full system, don't want to keep old files (since we back up everything)
+        self.config.set_backup_on_restore(False)
+        # no need for checksum mode
+        self.config.set_use_checksum(False)
+        # must preserve ACLs and xattrs
+        self.config.set_preserve_acl(True)
+        self.config.set_preserve_xattr(True)
+        # don't want links
+        self.config.set_copy_links(False)
+        self.config.set_copy_unsafe_links(False)
+        # backup root
+        self.config.set_include( [ ("/", 0) ] )
+
+        # set UI
+        self.update_profiles()
 
     def add_profile( self ):
         ret_val =  QInputDialog.getText(self, _('New profile'), str() )
