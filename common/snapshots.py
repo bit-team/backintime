@@ -2045,6 +2045,211 @@ class SaveToContinueFlag(object):
     def exists(self):
         return os.path.exists(self.flag)
 
+class SID(object):
+    __cValidSID = re.compile(r'\d{6}-\d{6}(?:-\d{3})?')
+    def __init__(self, date, cfg):
+        self.config = cfg
+        self.profileID = cfg.get_current_profile()
+
+        if isinstance(date, datetime.datetime):
+            self.sid = '-'.join((date.strftime('%Y%m%d-%H%M%S'), self.config.get_tag(self.profileID)))
+            self.date = date
+        elif isinstance(date, datetime.date):
+            self.sid = '-'.join((date.strftime('%Y%m%d-000000'), self.config.get_tag(self.profileID)))
+            self.date = datetime.datetime.combine(date, datetime.datetime.min.time())
+        elif isinstance(date, str) and __cValidSID.match(date):
+            self.sid = date
+            self.date = datetime.datetime(*self.__split())
+        self.info = configfile.ConfigFile()
+        self.fileInfoDict = {}
+
+    def __repr__(self):
+        return self.sid
+
+    def __eq__(self, other):
+        return self.sid == other.sid and self.profileID == other.profileID
+
+    def __ne__(self, other):
+        return self.sid != other.sid or self.profileID != other.profileID
+
+    def __lt__(self, other):
+        return self.sid < other.sid
+
+    def __gt__(self, other):
+        return self.sid > other.sid
+
+    def __split(self):
+        '''split self.sid into a tuple of int's
+        with Year, Month, Day, Hour, Minute, Second
+        '''
+        def split(s, e):
+            return int(self.sid[s:e])
+        return (split(0, 4), split(4, 6), split(6, 8), split(9, 11), split(11, 13), split(13, 15))
+
+    def displayID(self):
+        return "%s-%s-%s %s:%s:%s" % self.__split()
+
+    def displayName(self):
+        ret = self.displayID()
+        name = self.name()
+
+        if name:
+            ret += ' - %s' %name
+
+        if self.failed():
+            ret += ' (%s)' %_('WITH ERRORS !')
+        return ret
+
+    def withoutTag(self):
+        return self.sid[0:15]
+
+    def path(self, *path, use_mode = []):
+        current_mode = self.config.get_snapshots_mode(self.profileID)
+        if 'ssh' in use_mode and current_mode == 'ssh':
+            return os.path.join(self.config.get_snapshots_full_path_ssh(self.profileID),
+                                self.sid, *path)
+        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
+            ret = os.path.join(self.config.get_snapshots_full_path_ssh(self.profileID),
+                               self.sid, *path)
+            return self.config.ENCODE.remote(ret)
+        ret = os.path.join(self.config.get_snapshots_full_path(self.profileID),
+                           self.sid, *path)
+        if os.path.exists(ret):
+            return ret
+        other_folders = self.config.get_other_folders_paths()
+        for folder in other_folders:
+            path_other = os.path.join(folder, self.sid, *path)
+            if os.path.exists(path_other):
+                return path_other
+        return ret
+
+    def exists(self):
+        return os.path.isdir(self.path())
+
+    def name(self):
+        nameFile = self.path('name')
+        if not os.path.isfile(nameFile):
+            return ''
+        try:
+            with open(nameFile, 'rt') as f:
+                return f.read()
+        except Exception as e:
+            logger.debug('Failed to get snapshot %s name: %s'
+                         %(self.sid, str(e)),
+                         self)
+
+    def setName(self, name):
+        nameFile = self.path('name')
+
+        self.makeWriteable()
+        try:
+            with open(nameFile, 'wt') as f:
+                f.write(name)
+        except Exception as e:
+            logger.debug('Failed to set snapshot %s name: %s'
+                         %(self.sid, str(e)),
+                         self)
+
+    def failed(self):
+        failedFile = self.path('failed')
+        return os.path.isfile(failedFile)
+
+    def setFailed(self):
+        failedFile = self.path('failed')
+
+        self.makeWriteable()
+        try:
+            with open(failedFile, 'wt') as f:
+                f.write('')
+        except Exception as e:
+            logger.debug('Failed to mark snapshot %s failed: %s'
+                         %(self.sid, str(e)),
+                         self)
+
+    def loadInfo(self):
+        self.info.load(self.path('info'))
+        return self.info
+
+    def saveInfo(self):
+        self.info.save(self.path('info'))
+
+    def fileInfo(self):
+        if self.fileInfoDict:
+            return self.fileInfoDict
+
+        infoFile = self.path('fileinfo.bz2')
+        if not os.path.isfile(infoFile):
+            return {}
+
+        try:
+            with bz2.BZ2File(infoFile, 'rb') as fileinfo:
+                for line in fileinfo:
+                    line = line.strip('\n')
+                    if not line:
+                        continue
+                    index = line.find(b'/')
+                    if index < 0:
+                        continue
+                    f = line[index:]
+                    if not f:
+                        continue
+                    info = line[:index].strip().split(b' ')
+                    if len(info) == 3:
+                        self.fileInfoDict[f] = (int(info[0]), info[1], info[2]) #perms, user, group
+            return self.fileInfoDict
+        except Exception as e:
+            logger.debug('Failed to load fileinfo.bz2 from snapshot %s: %s'
+                         %(self.sid, str(e)),
+                         self)
+            return {}
+
+    def setFileInfo(self):
+        #retrun bz2.BZ2File(self.path('fileinfo.bz2'), 'wb')
+        pass
+
+    def makeWriteable(self):
+        path = self.path()
+        rw = os.stat(path).st_mode | stat.S_IWUSR
+        return os.chmod(path, rw)
+
+class NewSnapshot(SID):
+    def __init__(self, cfg):
+        self.config = cfg
+        self.profileID = cfg.get_current_profile()
+
+        self.sid = 'new_snapshot'
+
+    def __lt__(self, other):
+        return True
+
+    def __gt__(self, other):
+        return False
+
+class RootSnapshot(SID):
+    def __init__(self, cfg):
+        self.config = cfg
+        self.profileID = cfg.get_current_profile()
+
+        self.sid = '/'
+
+    def __lt__(self, other):
+        return False
+
+    def __gt__(self, other):
+        return True
+
+    def displayID(self):
+        return _('Now')
+
+    def path(self, *path, use_mode = []):
+        current_mode = self.config.get_snapshots_mode(self.profileID)
+        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
+            if path:
+                path = self.config.ENCODE.remote(os.path.join(*path))
+            return os.path.join(self.config.ENCODE.chroot, path)
+        else:
+            return os.path.join(os.sep, *path)
+
 if __name__ == "__main__":
     config = config.Config()
     snapshots = Snapshots( config )
