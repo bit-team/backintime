@@ -810,9 +810,9 @@ class MainWindow( QMainWindow ):
         enabled = False
 
         if item is None:
-            item = self.get_list_time_line_selection()
+            item = self.list_time_line.currentItem()
         if not item is None:
-            if len( self.time_line_get_snapshot_id( item ) ) > 1:
+            if len(item.snapshotID()) > 1:
                 enabled = True
 
         #update remove/name snapshot buttons
@@ -820,19 +820,14 @@ class MainWindow( QMainWindow ):
         self.btn_remove_snapshot.setEnabled( enabled )
         self.btn_snapshot_log_view.setEnabled( enabled )
 
-    def get_list_time_line_selection( self, multiSelection = False):
-        if multiSelection:
-            return self.list_time_line.selectedItems()
-        return self.list_time_line.currentItem()
-
     def on_list_time_line_current_item_changed(self):
-        item = self.get_list_time_line_selection()
+        item = self.list_time_line.currentItem()
         self.update_snapshot_actions(item)
 
         if item is None:
             return
 
-        snapshot_id = self.time_line_get_snapshot_id( item )
+        snapshot_id = item.snapshotID()
         if not snapshot_id:
             return
 
@@ -842,11 +837,8 @@ class MainWindow( QMainWindow ):
         self.snapshot_id = snapshot_id
         self.update_files_view( 2 )
 
-    def time_line_get_snapshot_id( self, item ):
-        return str( item.data( 0, Qt.UserRole ) )
-
     def time_line_update_snapshot_name( self, item ):
-        snapshot_id = self.time_line_get_snapshot_id( item )
+        snapshot_id = item.snapshotID()
         if snapshot_id:
             item.setText( 0, self.snapshots.get_snapshot_display_name( snapshot_id ) )
 
@@ -869,10 +861,8 @@ class MainWindow( QMainWindow ):
             self.list_time_line.checkSelection()
 
     def time_line_set_current_snapshot(self, new_snapshot_id):
-        for index in range(self.list_time_line.topLevelItemCount()):
-            item = self.list_time_line.topLevelItem(index)
-            snapshot_id = self.time_line_get_snapshot_id(item)
-            if snapshot_id == new_snapshot_id:
+        for item in self.list_time_line.iterSnapshotItems():
+            if item.snapshotID() == new_snapshot_id:
                 self.snapshot_id = new_snapshot_id
                 self.list_time_line.setCurrentItem( item )
                 self.update_files_view( 2 )
@@ -891,7 +881,7 @@ class MainWindow( QMainWindow ):
         if item is None:
             return
 
-        snapshot_id = self.time_line_get_snapshot_id( item )
+        snapshot_id = item.snapshotID()
         if len( snapshot_id ) <= 1:
             return
 
@@ -918,7 +908,7 @@ class MainWindow( QMainWindow ):
         if item is None:
             return
 
-        snapshot_id = self.time_line_get_snapshot_id( item )
+        snapshot_id = item.snapshotID()
         if len( snapshot_id ) <= 1:
             return
 
@@ -930,13 +920,13 @@ class MainWindow( QMainWindow ):
         self.setMouseButtonNavigation()
 
     def on_btn_remove_snapshot_clicked ( self ):
-        items = [item for item in self.get_list_time_line_selection(True) if len(self.time_line_get_snapshot_id(item)) > 1]
+        items = [item for item in self.list_time_line.selectedItems() if len(item.snapshotID()) > 1]
         if not items:
             return
 
         if QMessageBox.Yes != messagebox.warningYesNo( self, \
                               _('Are you sure you want to remove the snapshot:\n%s') \
-                                %'\n'.join([self.snapshots.get_snapshot_display_name(self.time_line_get_snapshot_id(item)) \
+                                %'\n'.join([self.snapshots.get_snapshot_display_name(item.snapshotID()) \
                                             for item in items]) ):
             return
 
@@ -1435,10 +1425,9 @@ class RemoveSnapshotThread(QThread):
     '''
     refreshSnapshotList = pyqtSignal()
     def __init__(self, parent, items):
-        self.parent = parent
         self.config = parent.config
         self.snapshots = parent.snapshots
-        self.items = [(parent.time_line_get_snapshot_id(item), item) for item in items]
+        self.items = items
         super(RemoveSnapshotThread, self).__init__(parent)
 
     def run(self):
@@ -1448,15 +1437,15 @@ class RemoveSnapshotThread(QThread):
         self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
                                                          reason = 'deleting snapshots')
 
-        for sid, item in self.items:
-            self.snapshots.remove_snapshot(sid)
+        for item in self.items:
+            self.snapshots.remove_snapshot(item.snapshotID())
             try:
                 item.setHidden(True)
             except RuntimeError:
                 #item has been deleted
                 #probably because user pressed refresh
                 pass
-            if sid == last_snapshot:
+            if item.snapshotID() == last_snapshot:
                 renew_last_snapshot = True
 
         tools.update_cached_fs(self.config.get_snapshots_full_path())
