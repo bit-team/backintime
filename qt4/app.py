@@ -988,7 +988,7 @@ class MainWindow( QMainWindow ):
         self.open_url('https://github.com/bit-team/backintime/issues')
 
     def on_report_a_bug( self ):
-        self.open_url('https://github.com/bit-team/backintime/issues')
+        self.open_url('https://github.com/bit-team/backintime/issues/new')
 
     def open_url( self, url ):
         return QDesktopServices.openUrl(QUrl(url))
