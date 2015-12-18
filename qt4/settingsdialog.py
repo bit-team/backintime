@@ -888,7 +888,7 @@ class SettingsDialog( QDialog ):
 
     def modify_profile_for_full_system_backup( self ):
         # verify to user that settings will change
-        message = ("Full system backup can only create a snapshot to be restored to the same physical disk(s) "
+        message = _("Full system backup can only create a snapshot to be restored to the same physical disk(s) "
             "with the same disk partitioning as from the source; restoring to new physical disks or the same disks "
             "with different partitioning will yield a potentially broken and unusable system.\n\n"
             "Full system backup will override some settings that may have been customized. Continue?")
