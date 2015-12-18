@@ -72,6 +72,7 @@ class Snapshots:
         self.flock_file = None
         self.restore_permission_failed = False
 
+    #replace with SID
     def get_snapshot_id( self, date ):
         profile_id = self.config.get_current_profile()
         tag = self.config.get_tag( profile_id )
@@ -90,9 +91,11 @@ class Snapshots:
 
         return ""
 
+    #replace with SID
     def is_snapshot_id(self, sid):
         return len(sid) == 15 or len(sid) == 19
 
+    #replace with SID
     def get_snapshot_datetime(self, sid):
         def split(s, e):
             return int(sid[s:e])
@@ -114,6 +117,7 @@ class Snapshots:
 
         return ""
 
+    #replace with SID
     def get_snapshot_path( self, date, use_mode = [] ):
         profile_id = self.config.get_current_profile()
         current_mode = self.config.get_snapshots_mode()
@@ -140,18 +144,23 @@ class Snapshots:
                 return path_other
         return path
 
+    #replace with SID
     def get_snapshot_info_path( self, date ):
         return os.path.join( self.get_snapshot_path( date ), 'info' )
 
+    #replace with SID
     def get_snapshot_fileinfo_path( self, date ):
         return os.path.join( self.get_snapshot_path( date ), 'fileinfo.bz2' )
 
+    #replace with SID
     def get_snapshot_log_path( self, snapshot_id ):
         return os.path.join( self.get_snapshot_path( snapshot_id ), 'takesnapshot.log.bz2' )
 
+    #replace with SID
     def get_snapshot_failed_path( self, snapshot_id ):
         return os.path.join( self.get_snapshot_path( snapshot_id ), 'failed' )
 
+    #replace with SID
     def _get_snapshot_data_path( self, snapshot_id, use_mode = [] ):
         current_mode = self.config.get_snapshots_mode()
         if len( snapshot_id ) <= 1:
@@ -162,6 +171,7 @@ class Snapshots:
             return os.path.join( snapshot_path, self.config.ENCODE.path(path) )
         return os.path.join( snapshot_path, path )
 
+    #replace with SID
     def get_snapshot_path_to( self, snapshot_id, toPath = '/', use_mode = [] ):
         current_mode = self.config.get_snapshots_mode()
         snapshot_data_path = os.path.join( self._get_snapshot_data_path( snapshot_id, use_mode ) )
@@ -170,6 +180,7 @@ class Snapshots:
             return os.path.join( snapshot_data_path, enc_path )
         return os.path.join( snapshot_data_path, toPath[ 1 : ] )
 
+    #replace with SID
     def can_open_path( self, snapshot_id, full_path ):
         if not os.path.exists( full_path ):
             return False
@@ -180,11 +191,13 @@ class Snapshots:
         target = os.path.join( os.path.abspath( os.path.dirname( full_path ) ), target )
         return target.startswith( base_path )
 
+    #replace with SID
     def get_snapshot_display_id( self, snapshot_id ):
         if len( snapshot_id ) <= 1:
             return _('Now')
         return "%s-%s-%s %s:%s:%s" % ( snapshot_id[ 0 : 4 ], snapshot_id[ 4 : 6 ], snapshot_id[ 6 : 8 ], snapshot_id[ 9 : 11 ], snapshot_id[ 11 : 13 ], snapshot_id[ 13 : 15 ]  )
 
+    #replace with SID
     def get_snapshot_display_name( self, snapshot_id ):
         display_name = self.get_snapshot_display_id( snapshot_id )
         name = self.get_snapshot_name( snapshot_id )
@@ -197,6 +210,7 @@ class Snapshots:
 
         return display_name
 
+    #replace with SID
     def get_snapshot_name( self, snapshot_id ):
         name = ''
         if len( snapshot_id ) <= 1: #not a snapshot
@@ -219,6 +233,7 @@ class Snapshots:
 
         return name
 
+    #replace with SID
     def set_snapshot_name( self, snapshot_id, name ):
         if len( snapshot_id ) <= 1: #not a snapshot
             return
@@ -240,6 +255,7 @@ class Snapshots:
                          self)
             pass
 
+    #replace with SID
     def is_snapshot_failed( self, snapshot_id ):
         if len( snapshot_id ) <= 1: #not a snapshot
             return False
@@ -247,6 +263,7 @@ class Snapshots:
         path = self.get_snapshot_failed_path( snapshot_id )
         return os.path.isfile( path )
 
+    #replace with SID
     def get_snapshot_last_check(self, snapshot_id):
         """return date when snapshot has finished last time.
         this can be the end of creation of this snapshot or the last time when
@@ -257,6 +274,7 @@ class Snapshots:
             return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)) )
         return self.get_snapshot_display_id(snapshot_id)
 
+    #replace with SID
     def set_snapshot_last_check(self, snapshot_id):
         """set info files atime to current time to indicate this snapshot was
         checked against source without changes right now.
@@ -379,6 +397,7 @@ class Snapshots:
 
         return log
 
+    #replace with SID
     def get_snapshot_log( self, snapshot_id, mode = 0, profile_id = None , **kwargs ):
         try:
             with bz2.BZ2File( self.get_snapshot_log_path( snapshot_id ), 'r' ) as f:
@@ -427,6 +446,7 @@ class Snapshots:
         instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
         return not instance.check()
 
+    #replace with SID
     def load_fileinfo_dict( self, snapshot_id, version = None ):
         if version is None:
             info_file = configfile.ConfigFile()
@@ -1183,6 +1203,7 @@ class Snapshots:
 
         return True
 
+    #replace with SID
     def _save_path_info( self, fileinfo, path ):
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if path and os.path.exists(path):
@@ -2046,8 +2067,15 @@ class SaveToContinueFlag(object):
         return os.path.exists(self.flag)
 
 class SID(object):
+    '''snapshot ID object used to gather all information for a snapshot
+
+    date: str, datetime.date or datetime.datetime instance used for creating
+          this snapshot. str must be in snapshot ID format (e.g 20151218-173512-123)
+    cfg:  current config (config.Config instance)
+    '''
     __cValidSID = re.compile(r'\d{6}-\d{6}(?:-\d{3})?')
     def __init__(self, date, cfg):
+        assume isinstance(cfg, config.Config), "'cfg' has wrong type '%s'" %type(cfg)
         self.config = cfg
         self.profileID = cfg.get_current_profile()
 
@@ -2057,9 +2085,14 @@ class SID(object):
         elif isinstance(date, datetime.date):
             self.sid = '-'.join((date.strftime('%Y%m%d-000000'), self.config.get_tag(self.profileID)))
             self.date = datetime.datetime.combine(date, datetime.datetime.min.time())
-        elif isinstance(date, str) and __cValidSID.match(date):
-            self.sid = date
-            self.date = datetime.datetime(*self.__split())
+        elif isinstance(date, str):
+            if __cValidSID.match(date):
+                self.sid = date
+                self.date = datetime.datetime(*self.__split())
+            else:
+                raise ValueError("'date' must be in snapshot ID format (e.g 20151218-173512-123)")
+        else:
+            raise TypeError("'date' must be an instance of str, datetime.date or datetime.datetime")
         self.info = configfile.ConfigFile()
         self.fileInfoDict = {}
 
@@ -2087,9 +2120,14 @@ class SID(object):
         return (split(0, 4), split(4, 6), split(6, 8), split(9, 11), split(11, 13), split(13, 15))
 
     def displayID(self):
+        '''snapshot ID in a user-readable format:
+        YYYY-MM-DD HH:MM:SS
+        '''
         return "%s-%s-%s %s:%s:%s" % self.__split()
 
     def displayName(self):
+        '''combination of displayID, name and error indicator (if any)
+        '''
         ret = self.displayID()
         name = self.name()
 
@@ -2101,9 +2139,19 @@ class SID(object):
         return ret
 
     def withoutTag(self):
+        '''snapshot ID without tag
+        '''
         return self.sid[0:15]
 
     def path(self, *path, use_mode = []):
+        '''current path of this snapshot automatically altered for
+        remote/encrypted version of this path
+
+        path:     one or more folder/files to join at the end of the path
+        use_mode: list of modes that should alter this path. If the current
+                  mode is in this list, the path will automatically altered
+                  for the remote/encrypted version of this path.
+        '''
         current_mode = self.config.get_snapshots_mode(self.profileID)
         if 'ssh' in use_mode and current_mode == 'ssh':
             return os.path.join(self.config.get_snapshots_full_path_ssh(self.profileID),
@@ -2123,10 +2171,36 @@ class SID(object):
                 return path_other
         return ret
 
+    def pathBackup(self, *path, **kwargs):
+        '''"backup" folder inside snapshots path
+
+        take a look at path() for used arguments
+        '''
+        return self.path('backup', *path, **kwargs)
+
     def exists(self):
-        return os.path.isdir(self.path())
+        '''True if the snapshot folder and the "backup" folder inside exist
+        '''
+        return os.path.isdir(self.path()) and os.path.isdir(self.pathBackup())
+
+    def canOpenPath(self, path):
+        '''True if path is a file inside this snapshot
+
+        path: path from local filesystem (no snapshot path)
+        '''
+        fullPath = self.pathBackup(path)
+        if not os.path.exists(fullPath):
+            return False
+        if not os.path.islink(fullPath):
+            return True
+        basePath = self.pathBackup()
+        target = os.readlink(fullPath)
+        target = os.path.join(os.path.abspath(os.path.dirname(fullPath)), target)
+        return target.startswith(basePath)
 
     def name(self):
+        '''name of this snapshot
+        '''
         nameFile = self.path('name')
         if not os.path.isfile(nameFile):
             return ''
@@ -2139,6 +2213,10 @@ class SID(object):
                          self)
 
     def setName(self, name):
+        '''set the name of this snapshot
+
+        name: string with new snapshot name
+        '''
         nameFile = self.path('name')
 
         self.makeWriteable()
@@ -2150,11 +2228,33 @@ class SID(object):
                          %(self.sid, str(e)),
                          self)
 
+    def lastChecked(self):
+        '''date when snapshot has finished last time.
+        This can be the end of creation of this snapshot or the last time when
+        this snapshot was checked against source without changes.
+        '''
+        info = self.path('info')
+        if os.path.exists(info):
+            return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)) )
+        return self.displayID()
+
+    def setLastChecked(self):
+        '''set info files atime to current time to indicate this snapshot was
+        checked against source without changes right now.
+        '''
+        info = self.path('info')
+        if os.path.exists(info):
+            os.utime(info, None)
+
     def failed(self):
+        '''True if this snapshot has failed
+        '''
         failedFile = self.path('failed')
         return os.path.isfile(failedFile)
 
     def setFailed(self):
+        '''set snapshot has failed
+        '''
         failedFile = self.path('failed')
 
         self.makeWriteable()
@@ -2167,27 +2267,38 @@ class SID(object):
                          self)
 
     def loadInfo(self):
+        '''load "info" file into self.info which contains additional information
+        about this snapshot (using configfile.ConfigFile)
+        '''
         self.info.load(self.path('info'))
         return self.info
 
     def saveInfo(self):
+        '''save "info" file from self.info (using configfile.ConfigFile)
+        '''
         self.info.save(self.path('info'))
 
-    def fileInfo(self):
-        if self.fileInfoDict:
+    def fileInfo(self, force = False):
+        '''load "fileinfo.bz2" and provide it's content in self.fileInfoDict
+        as a dict of: "path: (permission, user, group)"
+
+        force: force to reload from "fileinfo.bz2" even if it was loaded already
+        '''
+        if self.fileInfoDict and not force:
             return self.fileInfoDict
 
+        self.fileInfoDict = {}
         infoFile = self.path('fileinfo.bz2')
         if not os.path.isfile(infoFile):
-            return {}
+            return self.fileInfoDict
 
         try:
             with bz2.BZ2File(infoFile, 'rb') as fileinfo:
                 for line in fileinfo:
-                    line = line.strip('\n')
+                    line = line.decode().strip('\n')
                     if not line:
                         continue
-                    index = line.find(b'/')
+                    index = line.find('/')
                     if index < 0:
                         continue
                     f = line[index:]
@@ -2196,18 +2307,53 @@ class SID(object):
                     info = line[:index].strip().split(b' ')
                     if len(info) == 3:
                         self.fileInfoDict[f] = (int(info[0]), info[1], info[2]) #perms, user, group
-            return self.fileInfoDict
         except Exception as e:
             logger.debug('Failed to load fileinfo.bz2 from snapshot %s: %s'
                          %(self.sid, str(e)),
                          self)
-            return {}
+        return self.fileInfoDict
 
     def setFileInfo(self):
-        #retrun bz2.BZ2File(self.path('fileinfo.bz2'), 'wb')
-        pass
+        '''store self.fileInfoDict in "fileinfo.bz2" as lines of:
+        permission user group path
+        '''
+        with bz2.BZ2File(self.path('fileinfo.bz2'), 'wb') as f:
+            for path, info in self.fileInfoDict.items():
+                assert isinstance(path, str), 'path is not str type: %s' % path
+                f.write(' '.join((info[0].encode('utf-8', 'replace'),
+                                  info[1].encode('utf-8', 'replace'),
+                                  info[2].encode('utf-8', 'replace'),
+                                  path.encode('utf-8', 'replace') )))
+
+    def log(self):
+        '''load log from "takesnapshot.log.bz2"
+        '''
+        logfile = self.path('takesnapshot.log.bz2')
+        try:
+            with bz2.BZ2File(logfile, 'r' ) as f:
+                return f.read().decode()
+        except Exception as e:
+            msg = ('Failed to get snapshot log from %s:' %logfile, str(e))
+            logger.debug(' '.join(msg), self)
+            return '\n'.join(msg)
+
+    def setLog(self, log):
+        '''write log to "takesnapshot.log.bz2"
+
+        log: full snapshot log
+        '''
+        logfile = self.path('takesnapshot.log.bz2')
+        try:
+            with bz2.BZ2File(logfile, 'w') as f:
+                f.write(log)
+        except Exception as e:
+            logger.error('Failed to write log into compressed file %s: %s'
+                         %(logfile, str(e)),
+                         self)
 
     def makeWriteable(self):
+        '''make the snapshot path writeable so we can change files inside
+        '''
         path = self.path()
         rw = os.stat(path).st_mode | stat.S_IWUSR
         return os.chmod(path, rw)
