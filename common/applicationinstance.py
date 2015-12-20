@@ -118,8 +118,12 @@ class ApplicationInstance:
         if self.flock_file:
             fcntl.fcntl(self.flock_file, fcntl.LOCK_UN)
             self.flock_file.close()
-            if os.path.exists(self.flock_file.name):
+            try:
                 os.remove(self.flock_file.name)
+            except:
+                #an other instance was faster
+                #race condition while using 'if os.path.exists(...)'
+                pass
         self.flock_file = None
 
     def readProcName(self, pid):
