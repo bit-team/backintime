@@ -838,18 +838,6 @@ class Snapshots:
         else:
             return((find, rm))
 
-    def copy_snapshot( self, snapshot_id, new_folder ):
-        '''Copies a known snapshot to a new location'''
-        current_path = self.get_snapshot_path( snapshot_id )
-        #need to implement hardlinking to existing folder -> cp newest snapshot folder, rsync -aEAXHv --delete to this folder
-        self._execute( "find \"%s\" -type d -exec chmod u+wx {} %s" % (current_path, self.config.find_suffix()) )
-        cmd = "cp -dRl \"%s\"* \"%s\"" % ( current_path, new_folder )
-        logger.info('%s is copied to folder %s'
-                    %(snapshot_id, new_folder),
-                    self)
-        self._execute( cmd )
-        self._execute( "find \"%s\" \"%s\" -type d -exec chmod u-w {} %s" % (current_path, new_folder, self.config.find_suffix() ) )
-
     def update_snapshots_location( self ):
         '''Updates to location: backintime/machine/user/profile_id'''
         if self.has_old_snapshots():
@@ -1154,44 +1142,6 @@ class Snapshots:
             if item == list_item:
                 return
         list_.append( item )
-
-    def _is_auto_backup_needed( self, now, last, mode ):
-        if self.config.NONE == mode:
-            return False
-
-        if now <= last:
-            return False
-
-        if now.year > last.year: #year changed
-            return True
-
-        if self.config.MONTH == mode: #month changed
-            return now.month > last.month
-
-        if self.config.WEEK == mode: #weekly
-            if now.date() <= last.date():
-                return False
-            return now.isoweekday() == 7 #Sunday
-
-        if now.date() > last.date(): #day changed
-            return True
-
-        if self.config.DAY == mode:
-            return False
-
-        if now.hour > last.hour: #hour changed
-            return True
-
-        if self.config.HOUR == mode:
-            return False
-
-        if self.config._10_MIN == mode: #every 10 minutes
-            return ( int( now.minute / 10 ) ) > ( int( last.minute / 10 ) )
-
-        if self.config._5_MIN == mode: #every 5 minutes
-            return ( int( now.minute / 5 ) ) > ( int( last.minute / 5 ) )
-
-        return False
 
     def _create_directory( self, folder ):
         tools.make_dirs( folder )
