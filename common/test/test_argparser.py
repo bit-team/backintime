@@ -39,16 +39,19 @@ def shuffleArgs(*args):
 
 class TestArgParser(unittest.TestCase):
     def setUp(self):
+        #import pdb; pdb.set_trace()
         backintime.create_parsers()
-        logger.DEBUG = False
+        logger.DEBUG = '-v' in sys.argv #False
 
     def tearDown(self):
         global parsers
         parsers = {}
 
     def test_invalid_arg(self):
-        self.assertRaises(SystemExit, backintime.arg_parse, ['not_existing_command'])
-        self.assertRaises(SystemExit, backintime.arg_parse, ['--not_existing_argument'])
+        with self.assertRaises(SystemExit):
+            backintime.arg_parse(['not_existing_command'])
+        with self.assertRaises(SystemExit):
+            backintime.arg_parse(['--not_existing_argument'])
 
     def test_config(self):
         args = backintime.arg_parse(['--config', '/tmp/config'])
@@ -66,7 +69,8 @@ class TestArgParser(unittest.TestCase):
         self.assertTrue(args.debug)
 
     def test_config_no_path(self):
-        self.assertRaises(SystemExit, backintime.arg_parse, ['--config'])
+        with self.assertRaises(SystemExit):
+            backintime.arg_parse(['--config'])
 
     ############################################################################
     ###                               Backup                                 ###
@@ -106,7 +110,8 @@ class TestArgParser(unittest.TestCase):
         self.assertEqual(args.profile_id, 2)
 
     def test_cmd_backup_profile_and_profile_id(self):
-        self.assertRaises(SystemExit, backintime.arg_parse, ['backup', '--profile', 'foo', '--profile-id', '2'])
+        with self.assertRaises(SystemExit):
+            backintime.arg_parse(['backup', '--profile', 'foo', '--profile-id', '2'])
 
     def test_cmd_backup_quiet(self):
         args = backintime.arg_parse(['backup', '--quiet'])
@@ -227,7 +232,8 @@ class TestArgParser(unittest.TestCase):
         self.assertEqual(args.WHAT, '/home/foo bar/baz')
 
     def test_cmd_restore_local_backup_and_no_local_backup(self):
-        self.assertRaises(SystemExit, backintime.arg_parse, ('restore', '--local-backup', '--no-local-backup'))
+        with self.assertRaises(SystemExit):
+            backintime.arg_parse(('restore', '--local-backup', '--no-local-backup'))
 
 if __name__ == '__main__':
     unittest.main()

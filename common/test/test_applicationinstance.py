@@ -24,10 +24,12 @@ from time import sleep
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from applicationinstance import ApplicationInstance
+import logger
 
 
 class TestApplicationInstance(unittest.TestCase):
     def setUp(self):
+        logger.DEBUG = '-v' in sys.argv
         self.temp_file = 'temp.txt'
         self.file_name = "file_with_pid"
         self.inst = ApplicationInstance(os.path.abspath(self.file_name), False)

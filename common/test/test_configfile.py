@@ -22,10 +22,14 @@ import unittest
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import configfile
+import logger
 
 
 class TestConfigFile(unittest.TestCase):
     '''Tests for the ConfigFile class in the configfile module'''
+    def setUp(self):
+        logger.DEBUG = '-v' in sys.argv
+
     def test_save(self):
         '''Saves the config file  in the tmp direcory '''
         filename = os.path.join(tempfile.gettempdir(), "test_save.cfg")
@@ -83,7 +87,7 @@ class TestConfigFile(unittest.TestCase):
     def test_set_str_value(self):
         cfg = configfile.ConfigFile()
         cfg.set_str_value('foo', 'bar')
-        self.assertEqual(cfg.dict, {'foo': 'bar'})
+        self.assertDictEqual(cfg.dict, {'foo': 'bar'})
 
     ############################################################################
     ###                               int_value                              ###
@@ -101,7 +105,7 @@ class TestConfigFile(unittest.TestCase):
     def test_set_int_value(self):
         cfg = configfile.ConfigFile()
         cfg.set_int_value('foo', 44)
-        self.assertEqual(cfg.dict, {'foo': '44'})
+        self.assertDictEqual(cfg.dict, {'foo': '44'})
 
     ############################################################################
     ###                              bool_value                              ###
@@ -127,8 +131,8 @@ class TestConfigFile(unittest.TestCase):
         cfg = configfile.ConfigFile()
         cfg.set_bool_value('foo', True)
         cfg.set_bool_value('bar', False)
-        self.assertEqual(cfg.dict, {'foo': 'true',
-                                    'bar': 'false'})
+        self.assertDictEqual(cfg.dict, {'foo': 'true',
+                                        'bar': 'false'})
 
     ############################################################################
     ###                           get_list_value                             ###
@@ -136,7 +140,7 @@ class TestConfigFile(unittest.TestCase):
 
     def test_get_list_value_default(self):
         cfg = configfile.ConfigFile()
-        self.assertEqual(cfg.get_list_value('test', 'str:value', ['asdf']), ['asdf'])
+        self.assertListEqual(cfg.get_list_value('test', 'str:value', ['asdf']), ['asdf'])
 
     def test_get_list_value_int(self):
         cfg = configfile.ConfigFile()
@@ -144,7 +148,7 @@ class TestConfigFile(unittest.TestCase):
                     'aaa.1.bla': '55',
                     'aaa.2.bla': '66',
                     'aaa.3.bla': '77'}
-        self.assertEqual(cfg.get_list_value('aaa', 'int:bla'), [55, 66, 77])
+        self.assertListEqual(cfg.get_list_value('aaa', 'int:bla'), [55, 66, 77])
 
     def test_get_list_value_str(self):
         cfg = configfile.ConfigFile()
@@ -152,14 +156,14 @@ class TestConfigFile(unittest.TestCase):
                     'bbb.1.value': 'foo',
                     'bbb.2.value': 'bar',
                     'bbb.3.value': 'baz'}
-        self.assertEqual(cfg.get_list_value('bbb', 'str:value'), ['foo', 'bar', 'baz'])
+        self.assertListEqual(cfg.get_list_value('bbb', 'str:value'), ['foo', 'bar', 'baz'])
 
     def test_get_list_value_bool(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'ccc.size': '2',
                     'ccc.1.foo': 'true',
                     'ccc.2.foo': 'false'}
-        self.assertEqual(cfg.get_list_value('ccc', 'bool:foo'), [True, False])
+        self.assertListEqual(cfg.get_list_value('ccc', 'bool:foo'), [True, False])
 
     def test_get_list_value_tuple(self):
         cfg = configfile.ConfigFile()
@@ -173,8 +177,8 @@ class TestConfigFile(unittest.TestCase):
                     'ddd.3.value': 'baz',
                     'ddd.3.type': '33',
                     'ddd.3.enabled': 'true'}
-        self.assertEqual(cfg.get_list_value('ddd', ('str:value', 'int:type', 'bool:enabled')),
-                         [('foo', 11, True), ('bar', 22, False), ('baz', 33, True)])
+        self.assertListEqual(cfg.get_list_value('ddd', ('str:value', 'int:type', 'bool:enabled')),
+                             [('foo', 11, True), ('bar', 22, False), ('baz', 33, True)])
 
     def test_get_list_value_tuple_missing_values(self):
         cfg = configfile.ConfigFile()
@@ -185,8 +189,8 @@ class TestConfigFile(unittest.TestCase):
                     'eee.2.enabled': 'false',
                     'eee.3.value': 'baz',
                     'eee.3.type': '33'}
-        self.assertEqual(cfg.get_list_value('eee', ('str:value', 'int:type', 'bool:enabled')),
-                         [('foo', 0, True), ('', 22, False), ('baz', 33, False)])
+        self.assertListEqual(cfg.get_list_value('eee', ('str:value', 'int:type', 'bool:enabled')),
+                             [('foo', 0, True), ('', 22, False), ('baz', 33, False)])
 
     def test_get_list_value_invalid_type(self):
         cfg = configfile.ConfigFile()
@@ -195,9 +199,12 @@ class TestConfigFile(unittest.TestCase):
                     'aaa.2.bla': '66',
                     'aaa.3.bla': '77'}
         # cfg.get_list_value('aaa', 'non_existend_type:value')
-        self.assertRaises(TypeError, cfg.get_list_value, 'aaa', 'non_existend_type:value')
-        self.assertRaises(TypeError, cfg.get_list_value, 'aaa', {'dict:value'})
-        self.assertRaises(TypeError, cfg.get_list_value, 'aaa', 1)
+        with self.assertRaises(TypeError):
+            cfg.get_list_value('aaa', 'non_existend_type:value')
+        with self.assertRaises(TypeError):
+            cfg.get_list_value('aaa', {'dict:value'})
+        with self.assertRaises(TypeError):
+            cfg.get_list_value('aaa', 1)
 
     ############################################################################
     ###                           set_list_value                             ###
@@ -206,52 +213,52 @@ class TestConfigFile(unittest.TestCase):
     def test_set_list_value_int(self):
         cfg = configfile.ConfigFile()
         cfg.set_list_value('aaa', 'int:bla', [55, 66, 77])
-        self.assertEqual(cfg.dict, {'aaa.size': '3',
-                                    'aaa.1.bla': '55',
-                                    'aaa.2.bla': '66',
-                                    'aaa.3.bla': '77'})
+        self.assertDictEqual(cfg.dict, {'aaa.size': '3',
+                                        'aaa.1.bla': '55',
+                                        'aaa.2.bla': '66',
+                                        'aaa.3.bla': '77'})
 
     def test_set_list_value_str(self):
         cfg = configfile.ConfigFile()
         cfg.set_list_value('bbb', 'str:value', ['foo', 'bar', 'baz'])
-        self.assertEqual(cfg.dict, {'bbb.size': '3',
-                                    'bbb.1.value': 'foo',
-                                    'bbb.2.value': 'bar',
-                                    'bbb.3.value': 'baz'})
+        self.assertDictEqual(cfg.dict, {'bbb.size': '3',
+                                        'bbb.1.value': 'foo',
+                                        'bbb.2.value': 'bar',
+                                        'bbb.3.value': 'baz'})
 
     def test_set_list_value_bool(self):
         cfg = configfile.ConfigFile()
         cfg.set_list_value('ccc', 'bool:foo', [True, False])
-        self.assertEqual(cfg.dict, {'ccc.size': '2',
-                                    'ccc.1.foo': 'true',
-                                    'ccc.2.foo': 'false'})
+        self.assertDictEqual(cfg.dict, {'ccc.size': '2',
+                                        'ccc.1.foo': 'true',
+                                        'ccc.2.foo': 'false'})
 
     def test_set_list_value_tuple(self):
         cfg = configfile.ConfigFile()
         cfg.set_list_value('ddd', ('str:value', 'int:type', 'bool:enabled'),
                            [('foo', 11, True), ('bar', 22, False), ('baz', 33, True)])
-        self.assertEqual(cfg.dict, {'ddd.size': '3',
-                                    'ddd.1.value': 'foo',
-                                    'ddd.1.type': '11',
-                                    'ddd.1.enabled': 'true',
-                                    'ddd.2.value': 'bar',
-                                    'ddd.2.type': '22',
-                                    'ddd.2.enabled': 'false',
-                                    'ddd.3.value': 'baz',
-                                    'ddd.3.type': '33',
-                                    'ddd.3.enabled': 'true'})
+        self.assertDictEqual(cfg.dict, {'ddd.size': '3',
+                                        'ddd.1.value': 'foo',
+                                        'ddd.1.type': '11',
+                                        'ddd.1.enabled': 'true',
+                                        'ddd.2.value': 'bar',
+                                        'ddd.2.type': '22',
+                                        'ddd.2.enabled': 'false',
+                                        'ddd.3.value': 'baz',
+                                        'ddd.3.type': '33',
+                                        'ddd.3.enabled': 'true'})
 
     def test_set_list_value_tuple_missing_values(self):
         cfg = configfile.ConfigFile()
         cfg.set_list_value('ddd', ('str:value', 'int:type', 'bool:enabled'),
                            [('foo', 11, True), ('bar', 22), ('baz',)])
-        self.assertEqual(cfg.dict, {'ddd.size': '3',
-                                    'ddd.1.value': 'foo',
-                                    'ddd.1.type': '11',
-                                    'ddd.1.enabled': 'true',
-                                    'ddd.2.value': 'bar',
-                                    'ddd.2.type': '22',
-                                    'ddd.3.value': 'baz'})
+        self.assertDictEqual(cfg.dict, {'ddd.size': '3',
+                                        'ddd.1.value': 'foo',
+                                        'ddd.1.type': '11',
+                                        'ddd.1.enabled': 'true',
+                                        'ddd.2.value': 'bar',
+                                        'ddd.2.type': '22',
+                                        'ddd.3.value': 'baz'})
 
     def test_set_list_value_remove_leftovers(self):
         cfg = configfile.ConfigFile()
@@ -262,12 +269,12 @@ class TestConfigFile(unittest.TestCase):
                     'eee.4.bla': '88',
                     'eee.5.bla': '99'}
         cfg.set_list_value('eee', 'int:bla', [55, 66, 77])
-        self.assertEqual(cfg.dict, {'eee.size': '3',
-                                    'eee.1.bla': '55',
-                                    'eee.2.bla': '66',
-                                    'eee.3.bla': '77'})
+        self.assertDictEqual(cfg.dict, {'eee.size': '3',
+                                        'eee.1.bla': '55',
+                                        'eee.2.bla': '66',
+                                        'eee.3.bla': '77'})
 
-    def test_set_list_value_remove_leftovers(self):
+    def test_set_list_value_remove_leftovers_tuple(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'fff.size': '5',
                     'fff.1.value': 'foo',
@@ -287,19 +294,26 @@ class TestConfigFile(unittest.TestCase):
                     'fff.5.enabled': 'true'}
         cfg.set_list_value('fff', ('str:value', 'int:type', 'bool:enabled'),
                            [('foo', 11, True), ('bar', 22), ('baz',)])
-        self.assertEqual(cfg.dict, {'fff.size': '3',
-                                    'fff.1.value': 'foo',
-                                    'fff.1.type': '11',
-                                    'fff.1.enabled': 'true',
-                                    'fff.2.value': 'bar',
-                                    'fff.2.type': '22',
-                                    'fff.3.value': 'baz'})
+        self.assertDictEqual(cfg.dict, {'fff.size': '3',
+                                        'fff.1.value': 'foo',
+                                        'fff.1.type': '11',
+                                        'fff.1.enabled': 'true',
+                                        'fff.2.value': 'bar',
+                                        'fff.2.type': '22',
+                                        'fff.3.value': 'baz'})
 
     def test_set_list_value_invalid_type(self):
         cfg = configfile.ConfigFile()
-        self.assertRaises(TypeError, cfg.set_list_value, 'aaa', 'non_existend_type:value', 'foo')
-        self.assertRaises(TypeError, cfg.set_list_value, 'aaa', {'dict:value'}, 'foo')
-        self.assertRaises(TypeError, cfg.set_list_value, 'aaa', 1, 'foo')
+        with self.assertRaises(TypeError):
+            cfg.set_list_value('aaa', 'non_existend_type:value', 'foo')
+        with self.assertRaises(TypeError):
+            cfg.set_list_value('aaa', {'dict:value'}, 'foo')
+        with self.assertRaises(TypeError):
+            cfg.set_list_value('aaa', 1, 'foo')
+
+    ############################################################################
+    ###                            remove keys                               ###
+    ############################################################################
 
     def test_remove_key(self):
         cfg = configfile.ConfigFile()
@@ -308,9 +322,9 @@ class TestConfigFile(unittest.TestCase):
                     'baz': 'false',
                     'bla': '0'}
         cfg.remove_key('bla')
-        self.assertEqual(cfg.dict, {'foo': 'true',
-                                    'bar': '1',
-                                    'baz': 'false'})
+        self.assertDictEqual(cfg.dict, {'foo': 'true',
+                                        'bar': '1',
+                                        'baz': 'false'})
 
     def test_remove_keys_start_with(self):
         cfg = configfile.ConfigFile()
@@ -319,8 +333,8 @@ class TestConfigFile(unittest.TestCase):
                     'baz': 'false',
                     'bla': '0'}
         cfg.remove_keys_starts_with('ba')
-        self.assertEqual(cfg.dict, {'foo': 'true',
-                                    'bla': '0'})
+        self.assertDictEqual(cfg.dict, {'foo': 'true',
+                                        'bla': '0'})
 
     def test_remove_keys_start_with_not_matching_prefix(self):
         cfg = configfile.ConfigFile()
@@ -329,10 +343,10 @@ class TestConfigFile(unittest.TestCase):
                     'baz': 'false',
                     'bla': '0'}
         cfg.remove_keys_starts_with('not_matching')
-        self.assertEqual(cfg.dict, {'foo': 'true',
-                                    'bar': '1',
-                                    'baz': 'false',
-                                    'bla': '0'})
+        self.assertDictEqual(cfg.dict, {'foo': 'true',
+                                        'bar': '1',
+                                        'baz': 'false',
+                                        'bla': '0'})
 
 #TODO: add tests for ConfigFileWithProfiles
 
