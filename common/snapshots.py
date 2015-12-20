@@ -496,7 +496,7 @@ class Snapshots:
         self.uid_cache = {}
         self.gid_cache = {}
 
-    def get_uid(self, name, callback = None):
+    def get_uid(self, name, callback = None, backup = None):
         if name in self.uid_cache:
             return self.uid_cache[name]
         else:
@@ -504,16 +504,23 @@ class Snapshots:
             try:
                 uid = pwd.getpwnam(name.decode()).pw_uid
             except Exception as e:
-                self.restore_permission_failed = True
-                msg = 'Failed to get UID for %s: %s' %(name.decode(), str(e))
-                logger.error(msg, self)
-                if callback:
-                    callback(msg)
+                if backup:
+                    uid = backup
+                    msg = "UID for '%s' is not available on this system. Using UID %s from snapshot." %(name.decode(), backup)
+                    logger.info(msg, self)
+                    if callback is not None:
+                        callback(msg)
+                else:
+                    self.restore_permission_failed = True
+                    msg = 'Failed to get UID for %s: %s' %(name.decode(), str(e))
+                    logger.error(msg, self)
+                    if callback:
+                        callback(msg)
 
             self.uid_cache[name] = uid
             return uid
 
-    def get_gid(self, name, callback = None):
+    def get_gid(self, name, callback = None, backup = None):
         if name in self.gid_cache:
             return self.gid_cache[name]
         else:
@@ -521,11 +528,18 @@ class Snapshots:
             try:
                 gid = grp.getgrnam(name.decode()).gr_gid
             except Exception as e:
-                self.restore_permission_failed = True
-                msg = 'Failed to get GID for %s: %s' %(name.decode(), str(e))
-                logger.error(msg, self)
-                if callback:
-                    callback(msg)
+                if backup is not None:
+                    gid = backup
+                    msg = "GID for '%s' is not available on this system. Using GID %s from snapshot." %(name.decode(), backup)
+                    logger.info(msg, self)
+                    if callback:
+                        callback(msg)
+                else:
+                    self.restore_permission_failed = True
+                    msg = 'Failed to get GID for %s: %s' %(name.decode(), str(e))
+                    logger.error(msg, self)
+                    if callback:
+                        callback(msg)
 
             self.gid_cache[name] = gid
             return gid
@@ -703,6 +717,13 @@ class Snapshots:
         self.restore_callback( callback, True, _("Restore permissions:") )
         self.restore_permission_failed = False
         file_info_dict = self.load_fileinfo_dict( snapshot_id, info_file.get_int_value( 'snapshot_version' ) )
+
+        #cache uids/gids
+        for uid, name in info_file.get_list_value('user', ('int:uid', 'str:name')):
+            self.get_uid(name.encode(), callback = callback, backup = uid)
+        for gid, name in info_file.get_list_value('group', ('int:gid', 'str:name')):
+            self.get_gid(name.encode(), callback = callback, backup = gid)
+
         if file_info_dict:
             all_dirs = [] #restore dir permissions after all files are done
             for path, src_delta in restored_paths:
@@ -1496,7 +1517,7 @@ class Snapshots:
         info_file.set_int_value( 'snapshot_profile_id', profile_id )
         info_file.set_int_value( 'snapshot_tag', tag )
         info_file.set_list_value('user', ('int:uid', 'str:name'), list(self.user_cache.items()))
-        info_file.set_list_value('group', ('int:uid', 'str:name'), list(self.group_cache.items()))
+        info_file.set_list_value('group', ('int:gid', 'str:name'), list(self.group_cache.items()))
         info_file.save(self.get_snapshot_info_path(self.NEW_SNAPSHOT_ID))
         info_file = None
 

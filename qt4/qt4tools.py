@@ -193,6 +193,11 @@ class TimeLine(QTreeWidget):
                                 _('Last week'),
                                 datetime.combine(self.now - timedelta(self.now.weekday() + 7), datetime.min.time()),
                                 datetime.combine(self.now - timedelta(self.now.weekday() + 1), datetime.max.time())
+                            ),
+                            (#the rest of current month. Otherwise this months header would be above today
+                                date(self.now.year, self.now.month, 1).strftime('%B').capitalize(),
+                                datetime.combine(self.now - timedelta(self.now.day), datetime.min.time()),
+                                datetime.combine(self.now - timedelta(self.now.weekday() + 8), datetime.max.time())
                             )]
 
     def addRoot(self, sid, sName, tooltip = None):

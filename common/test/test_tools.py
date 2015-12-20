@@ -19,12 +19,17 @@ import unittest
 import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 import tools
 import config
 import configfile
+import logger
+
 
 class TestTools(unittest.TestCase):
     ''' All funtions test here come from tools.py '''
+    def setUp(self):
+        logger.DEBUG = '-v' in sys.argv
 
     def test_read_file(self):
         ''' Test the function read_file '''
