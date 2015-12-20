@@ -2073,9 +2073,8 @@ class SID(object):
           this snapshot. str must be in snapshot ID format (e.g 20151218-173512-123)
     cfg:  current config (config.Config instance)
     '''
-    __cValidSID = re.compile(r'\d{6}-\d{6}(?:-\d{3})?')
+    __cValidSID = re.compile(r'^\d{8}-\d{6}(?:-\d{3})?$')
     def __init__(self, date, cfg):
-        assume isinstance(cfg, config.Config), "'cfg' has wrong type '%s'" %type(cfg)
         self.config = cfg
         self.profileID = cfg.get_current_profile()
 
@@ -2086,7 +2085,7 @@ class SID(object):
             self.sid = '-'.join((date.strftime('%Y%m%d-000000'), self.config.get_tag(self.profileID)))
             self.date = datetime.datetime.combine(date, datetime.datetime.min.time())
         elif isinstance(date, str):
-            if __cValidSID.match(date):
+            if self.__cValidSID.match(date):
                 self.sid = date
                 self.date = datetime.datetime(*self.__split())
             else:
@@ -2100,10 +2099,15 @@ class SID(object):
         return self.sid
 
     def __eq__(self, other):
-        return self.sid == other.sid and self.profileID == other.profileID
+        if isinstance(other, SID):
+            return self.sid == other.sid and self.profileID == other.profileID
+        elif isinstance(other, str):
+            return self.sid == other
+        else:
+            return False
 
     def __ne__(self, other):
-        return self.sid != other.sid or self.profileID != other.profileID
+        return not self.__eq__(other)
 
     def __lt__(self, other):
         return self.sid < other.sid
@@ -2123,7 +2127,7 @@ class SID(object):
         '''snapshot ID in a user-readable format:
         YYYY-MM-DD HH:MM:SS
         '''
-        return "%s-%s-%s %s:%s:%s" % self.__split()
+        return "{:04}-{:02}-{:02} {:02}:{:02}:{:02}".format(*self.__split())
 
     def displayName(self):
         '''combination of displayID, name and error indicator (if any)
@@ -2132,10 +2136,10 @@ class SID(object):
         name = self.name()
 
         if name:
-            ret += ' - %s' %name
+            ret += ' - {}'.format(name)
 
         if self.failed():
-            ret += ' (%s)' %_('WITH ERRORS !')
+            ret += ' ({})'.format(_('WITH ERRORS !'))
         return ret
 
     def withoutTag(self):
@@ -2152,6 +2156,7 @@ class SID(object):
                   mode is in this list, the path will automatically altered
                   for the remote/encrypted version of this path.
         '''
+        path = [i.strip(os.sep) for i in path]
         current_mode = self.config.get_snapshots_mode(self.profileID)
         if 'ssh' in use_mode and current_mode == 'ssh':
             return os.path.join(self.config.get_snapshots_full_path_ssh(self.profileID),
@@ -2177,6 +2182,19 @@ class SID(object):
         take a look at path() for used arguments
         '''
         return self.path('backup', *path, **kwargs)
+
+    def makeDirs(self, *path):
+        '''create snapshot directory
+
+        path: one or more folder/files to join at the end of the path
+        '''
+        if not os.path.isdir(self.config.get_snapshots_full_path(self.profileID)):
+            logger.error('Snapshots path {} doesn\'t exist. Unable to make dirs for snapshot ID {}'.format(
+                         self.config.get_snapshots_full_path(self.profileID), self.sid),
+                         self)
+            return False
+
+        return tools.make_dirs(self.pathBackup(*path))
 
     def exists(self):
         '''True if the snapshot folder and the "backup" folder inside exist
@@ -2208,8 +2226,8 @@ class SID(object):
             with open(nameFile, 'rt') as f:
                 return f.read()
         except Exception as e:
-            logger.debug('Failed to get snapshot %s name: %s'
-                         %(self.sid, str(e)),
+            logger.debug('Failed to get snapshot {} name: {}'.format(
+                         self.sid, str(e)),
                          self)
 
     def setName(self, name):
@@ -2224,8 +2242,8 @@ class SID(object):
             with open(nameFile, 'wt') as f:
                 f.write(name)
         except Exception as e:
-            logger.debug('Failed to set snapshot %s name: %s'
-                         %(self.sid, str(e)),
+            logger.debug('Failed to set snapshot {} name: {}'.format(
+                         self.sid, str(e)),
                          self)
 
     def lastChecked(self):
@@ -2262,8 +2280,8 @@ class SID(object):
             with open(failedFile, 'wt') as f:
                 f.write('')
         except Exception as e:
-            logger.debug('Failed to mark snapshot %s failed: %s'
-                         %(self.sid, str(e)),
+            logger.debug('Failed to mark snapshot {} failed: {}'.format(
+                         self.sid, str(e)),
                          self)
 
     def loadInfo(self):
@@ -2295,7 +2313,7 @@ class SID(object):
         try:
             with bz2.BZ2File(infoFile, 'rb') as fileinfo:
                 for line in fileinfo:
-                    line = line.decode().strip('\n')
+                    line = line.strip(b'\n').decode('utf-8')
                     if not line:
                         continue
                     index = line.find('/')
@@ -2304,36 +2322,40 @@ class SID(object):
                     f = line[index:]
                     if not f:
                         continue
-                    info = line[:index].strip().split(b' ')
+                    info = line[:index].strip().split(' ')
                     if len(info) == 3:
                         self.fileInfoDict[f] = (int(info[0]), info[1], info[2]) #perms, user, group
         except Exception as e:
-            logger.debug('Failed to load fileinfo.bz2 from snapshot %s: %s'
-                         %(self.sid, str(e)),
+            logger.debug('Failed to load fileinfo.bz2 from snapshot {}: {}'.format(
+                         self.sid, str(e)),
                          self)
         return self.fileInfoDict
 
-    def setFileInfo(self):
+    def saveFileInfo(self):
         '''store self.fileInfoDict in "fileinfo.bz2" as lines of:
         permission user group path
         '''
         with bz2.BZ2File(self.path('fileinfo.bz2'), 'wb') as f:
             for path, info in self.fileInfoDict.items():
-                assert isinstance(path, str), 'path is not str type: %s' % path
-                f.write(' '.join((info[0].encode('utf-8', 'replace'),
-                                  info[1].encode('utf-8', 'replace'),
-                                  info[2].encode('utf-8', 'replace'),
-                                  path.encode('utf-8', 'replace') )))
+                assert isinstance(path, str), 'path is not str type: {}'.format(path)
+                assert isinstance(info[1], str), 'user is not str type: {}'.format(info[1])
+                assert isinstance(info[2], str), 'group is not str type: {}'.format(info[2])
+                assert isinstance(info[0], int), 'permission is not int type: {}'.format(info[0])
+                f.write(b' '.join((str(info[0]).encode('utf-8', 'replace'),
+                                   info[1].encode('utf-8', 'replace'),
+                                   info[2].encode('utf-8', 'replace'),
+                                   path.encode('utf-8', 'replace') ))
+                                   + b'\n')
 
     def log(self):
         '''load log from "takesnapshot.log.bz2"
         '''
         logfile = self.path('takesnapshot.log.bz2')
         try:
-            with bz2.BZ2File(logfile, 'r' ) as f:
-                return f.read().decode()
+            with bz2.BZ2File(logfile, 'rb' ) as f:
+                return f.read().decode('utf-8')
         except Exception as e:
-            msg = ('Failed to get snapshot log from %s:' %logfile, str(e))
+            msg = ('Failed to get snapshot log from {}:'.format(logfile), str(e))
             logger.debug(' '.join(msg), self)
             return '\n'.join(msg)
 
@@ -2344,11 +2366,11 @@ class SID(object):
         '''
         logfile = self.path('takesnapshot.log.bz2')
         try:
-            with bz2.BZ2File(logfile, 'w') as f:
-                f.write(log)
+            with bz2.BZ2File(logfile, 'wb') as f:
+                f.write(log.encode('utf-8', 'replace'))
         except Exception as e:
-            logger.error('Failed to write log into compressed file %s: %s'
-                         %(logfile, str(e)),
+            logger.error('Failed to write log into compressed file {}: {}'.format(
+                         logfile, str(e)),
                          self)
 
     def makeWriteable(self):
@@ -2395,6 +2417,20 @@ class RootSnapshot(SID):
             return os.path.join(self.config.ENCODE.chroot, path)
         else:
             return os.path.join(os.sep, *path)
+
+def iterSnapshots(cfg, includeNewSnapshot = True):
+    for item in os.listdir(cfg.get_snapshots_full_path()):
+        if item == 'new_snapshot':
+            newSid = NewSnapshot(cfg)
+            if newSid.exists() and includeNewSnapshot:
+                yield newSid
+            continue
+        try:
+            sid = SID(item, cfg)
+            if sid.exists():
+                yield sid
+        except Exception as e:
+            logger.debug("'{}' is no snapshot ID: {}".format(item, str(e)))
 
 if __name__ == "__main__":
     config = config.Config()
