@@ -475,9 +475,9 @@ def arg_parse(args):
 
 def printHeader():
     version = config.Config.VERSION
-    rev_no = tools.get_bzr_revno()
-    if rev_no:
-        version += ' Bazaar Revision %s' %rev_no
+    ref, hashid = tools.get_git_ref_hash()
+    if ref:
+        version += " git branch '{}' hash '{}'".format(ref, hashid)
     print('')
     print('Back In Time')
     print('Version: ' + version)
