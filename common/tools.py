@@ -90,9 +90,9 @@ def get_git_ref_hash():
                 refPath = refPath[5:]
             if refPath:
                 refPath = os.path.join(gitPath, refPath)
+                ref = os.path.basename(refPath)
     except Exception as e:
         pass
-    ref = os.path.basename(refPath)
     if os.path.isfile(refPath):
         try:
             with open(refPath, 'rt') as f:
