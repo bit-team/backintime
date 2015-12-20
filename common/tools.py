@@ -152,14 +152,17 @@ def which(filename):
 def make_dirs( path ):
     path = path.rstrip( os.sep )
     if not path:
-        return
+        return False
 
-    if not os.path.isdir( path ):
+    if os.path.isdir(path):
+        return True
+    else:
         try:
             os.makedirs( path )
-        except:
-            pass
-
+        except Exception as e:
+            logger.error("Failed to make dirs '%s': %s"
+                         %(path, str(e)), self, 1)
+    return os.path.isdir(path)
 
 def process_exists( name ):
     output = read_command_output( "ps -o pid= -C %s" % name )
