@@ -2125,16 +2125,26 @@ class SID(object):
         elif isinstance(other, str):
             return self.sid == other
         else:
-            return False
+            return NotImplemented
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __lt__(self, other):
-        return self.sid < other.sid
+        if isinstance(other, SID):
+            return self.sid < other.sid
+        elif isinstance(other, str):
+            return self.sid < other
+        else:
+            return NotImplemented
 
     def __gt__(self, other):
-        return self.sid > other.sid
+        if isinstance(other, SID):
+            return self.sid > other.sid
+        elif isinstance(other, str):
+            return self.sid > other
+        else:
+            return NotImplemented
 
     def __split(self):
         '''split self.sid into a tuple of int's
@@ -2408,11 +2418,29 @@ class NewSnapshot(SID):
 
         self.sid = 'new_snapshot'
 
+        self.displayID = lambda: self.sid
+        self.displayName = lambda: self.sid
+        self.withoutTag = lambda: self.sid
+        self.name = lambda: self.sid
+        self.setName = NotImplemented
+
     def __lt__(self, other):
         return True
 
     def __gt__(self, other):
         return False
+
+    def saveToContinue(self):
+        return os.path.exists(self.path('save_to_continue'))
+
+    def setSaveToContinue(self):
+        with open(self.path('save_to_continue'), 'wt') as f:
+            pass
+
+    def unsetSaveToContinue(self):
+        flag = self.path('save_to_continue')
+        if os.path.exists(flag):
+            os.remove(flag)
 
 class RootSnapshot(SID):
     def __init__(self, cfg):
@@ -2429,6 +2457,9 @@ class RootSnapshot(SID):
 
     def displayID(self):
         return _('Now')
+
+    def displayName(self):
+        return self.displayID()
 
     def path(self, *path, use_mode = []):
         current_mode = self.config.get_snapshots_mode(self.profileID)

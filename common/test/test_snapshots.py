@@ -332,6 +332,35 @@ class TestSID(unittest.TestCase):
         except PermissionError:
             self.fail('writing to %s raised PermissionError unexpectedly!' %testFile)
 
+class TestNewSnapshot(unittest.TestCase):
+    def setUp(self):
+        logger.DEBUG = '-v' in sys.argv
+        self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
+        self.snapshotPath = self.cfg.get_snapshots_full_path()
+        os.makedirs(self.snapshotPath)
+
+    def tearDown(self):
+        shutil.rmtree(self.snapshotPath)
+
+    def test_create_new(self):
+        new = snapshots.NewSnapshot(self.cfg)
+        self.assertFalse(new.exists())
+
+        self.assertTrue(new.makeDirs())
+        self.assertTrue(new.exists())
+        self.assertTrue(os.path.isdir(os.path.join(self.snapshotPath, 'new_snapshot', 'backup')))
+
+    def test_saveToContinue(self):
+        new = snapshots.NewSnapshot(self.cfg)
+        self.assertTrue(new.makeDirs())
+        self.assertFalse(new.saveToContinue())
+
+        new.setSaveToContinue()
+        self.assertTrue(new.saveToContinue())
+
+        new.unsetSaveToContinue()
+        self.assertFalse(new.saveToContinue())
+
 class TestIterSnapshots(unittest.TestCase):
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
