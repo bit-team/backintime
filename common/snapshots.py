@@ -421,8 +421,7 @@ class Snapshots:
             return '\n'.join(msg)
 
     def new_take_snapshot_log( self, date ):
-        saveToContinueFlag = SaveToContinueFlag(self.get_snapshot_path(self.NEW_SNAPSHOT_ID))
-        if saveToContinueFlag.exists():
+        if NewSnapshot(self.config).saveToContinue():
             msg = "Last snapshot didn't finish but can be continued.\n\n======== continue snapshot (profile %s): %s ========\n"
         else:
             os.system( "rm \"%s\"" % self.config.get_take_snapshot_log_file() )
@@ -1033,7 +1032,6 @@ class Snapshots:
                 else:
                     self.config.set_current_hash_id(hash_id)
 
-                #include_folders, ignore_folders, dict = self._get_backup_folders( now, force )
                 include_folders = self.config.get_include()
 
                 if not include_folders:
@@ -1066,21 +1064,20 @@ class Snapshots:
                         self.config.PLUGIN_MANAGER.on_error( 3 ) #Can't find snapshots directory (is it on a removable drive ?)
                     else:
                         ret_error = False
-                        snapshot_id = self.get_snapshot_id( now )
-                        snapshot_path = self.get_snapshot_path( snapshot_id )
+                        snapshot_id = SID(now, self.config)
 
-                        if os.path.exists( snapshot_path ):
-                            logger.warning("Snapshot path \"%s\" already exists" %snapshot_path, self)
+                        if snapshot_id.exists():
+                            logger.warning("Snapshot path \"%s\" already exists" %snapshot_id.path(), self)
                             self.config.PLUGIN_MANAGER.on_error( 4, snapshot_id ) #This snapshots already exists
                         else:
                             ret_val, ret_error = self._take_snapshot( snapshot_id, now, include_folders )
 
                         if not ret_val:
-                            self._execute( "rm -rf \"%s\"" % snapshot_path )
+                            self._execute( "rm -rf \"%s\"" % snapshot_id.path() )
 
                             if ret_error:
                                 logger.error('Failed to take snapshot !!!', self)
-                                self.set_take_snapshot_message( 1, _('Failed to take snapshot %s !!!') % now.strftime( '%x %H:%M:%S' ) )
+                                self.set_take_snapshot_message( 1, _('Failed to take snapshot %s !!!') % snapshot_id.displayID() )
                                 time.sleep(2)
                             else:
                                 logger.warning("No new snapshot", self)
@@ -1095,7 +1092,7 @@ class Snapshots:
                     sleep = False
 
                     if ret_val:
-                        self.config.PLUGIN_MANAGER.on_new_snapshot( snapshot_id, snapshot_path ) #new snapshot
+                        self.config.PLUGIN_MANAGER.on_new_snapshot( snapshot_id, snapshot_id.path() ) #new snapshot
 
                     self.config.PLUGIN_MANAGER.on_process_ends() #take snapshot process end
 
@@ -1214,9 +1211,7 @@ class Snapshots:
         return False
 
     def _create_directory( self, folder ):
-        tools.make_dirs( folder )
-
-        if not os.path.exists( folder ):
+        if not tools.make_dirs(folder):
             logger.error("Can't create folder: %s" % folder, self)
             self.set_take_snapshot_message( 1, _('Can\'t create folder: %s') % folder )
             time.sleep(2) #max 1 backup / second
@@ -1237,51 +1232,38 @@ class Snapshots:
     def _take_snapshot( self, snapshot_id, now, include_folders ): # ignore_folders, dict, force ):
         self.set_take_snapshot_message( 0, _('...') )
 
-        def snapshot_path(**kwargs):
-            return self.get_snapshot_path(snapshot_id, **kwargs)
-
-        def new_snapshot_path(**kwargs):
-            return self.get_snapshot_path(self.NEW_SNAPSHOT_ID, **kwargs)
-
-        def new_snapshot_path_to(**kwargs):
-            return self.get_snapshot_path_to(self.NEW_SNAPSHOT_ID, **kwargs)
-
-        def prev_snapshot_path_to(**kwargs):
-            return self.get_snapshot_path_to(prev_snapshot_id, **kwargs)
+        new_snapshot = NewSnapshot(self.config)
 
         #find
         find_suffix = self.config.find_suffix()
 
-        #save to continue
-        saveToContinueFlag = SaveToContinueFlag(new_snapshot_path())
-        if saveToContinueFlag.exists():
-            logger.info("Found leftover '%s' which can be continued." %self.NEW_SNAPSHOT_ID, self)
-            self.set_take_snapshot_message(0, _("Found leftover '%s' which can be continued.") %self.NEW_SNAPSHOT_ID)
+        if new_snapshot.exist() and new_snapshot.saveToContinue():
+            logger.info("Found leftover '%s' which can be continued." %new_snapshot.displayID(), self)
+            self.set_take_snapshot_message(0, _("Found leftover '%s' which can be continued.") %new_snapshot.displayID())
             #fix permissions
             self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
-                                       %(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
+                                       %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
                                        quote = True))
-            for file in os.listdir(new_snapshot_path()):
-                file = os.path.join(new_snapshot_path(), file)
+            for file in os.listdir(new_snapshot.path()):
+                file = os.path.join(new_snapshot.path(), file)
                 mode = os.stat(file).st_mode
                 os.chmod(file, mode | stat.S_IWUSR)
-
-        if os.path.exists(new_snapshot_path()) and not saveToContinueFlag.exists():
-            logger.info("Remove leftover '%s' folder from last run" %self.NEW_SNAPSHOT_ID)
-            self.set_take_snapshot_message(0, _("Remove leftover '%s' folder from last run") %self.NEW_SNAPSHOT_ID)
+        elif new_snapshot.exists() and not new_snapshot.saveToContinue():
+            logger.info("Remove leftover '%s' folder from last run" %new_snapshot.displayID())
+            self.set_take_snapshot_message(0, _("Remove leftover '%s' folder from last run") %new_snapshot.displayID())
             #first do the heavy lifting over ssh
             self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
-                                       %(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
+                                       %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
                                        quote = True)) #Debian patch
             self._execute(self.cmd_ssh("rm -rf \"%s\""
-                                       %os.path.join(new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), 'backup') ))
+                                       %new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']) ))
             #then delete the new_snapshot folder through sshfs
             #this will make sure os.path.exists will recognize the path is gone
-            self._execute("rm -rf \"%s\"" %new_snapshot_path())
+            self._execute("rm -rf \"%s\"" %new_snapshot.path())
 
-            if os.path.exists( new_snapshot_path() ):
-                logger.error("Can't remove folder: %s" % new_snapshot_path(), self )
-                self.set_take_snapshot_message( 1, _('Can\'t remove folder: %s') % new_snapshot_path() )
+            if os.path.exists(new_snapshot.path()):
+                logger.error("Can't remove folder: %s" % new_snapshot.path(), self)
+                self.set_take_snapshot_message( 1, _('Can\'t remove folder: %s') % new_snapshot.path())
                 time.sleep(2) #max 1 backup / second
                 return [ False, True ]
 
@@ -1343,27 +1325,27 @@ class Snapshots:
         rsync_suffix += ' --exclude=\"*\" ' + encode.chroot + ' '
 
         prev_snapshot_id = ''
-        snapshots = self.get_snapshots_list()
+        snapshots = list(iterSnapshots(self.config))
+        snapshots.sort()
         if not snapshots:
-            snapshots = self.get_snapshots_and_other_list()
+            snapshots = self.get_snapshots_and_other_list() #TODO: do we still need this?
 
         # When there is no snapshots it takes the last snapshot from the other folders
         # It should delete the excluded folders then
         rsync_prefix = rsync_prefix + ' --delete --delete-excluded '
 
-        if snapshots and not saveToContinueFlag.exists():
+        if snapshots and not new_snapshot.saveToContinue():
             prev_snapshot_id = snapshots[0]
 
             if not full_rsync:
                 changed = True
                 if check_for_changes:
-                    prev_snapshot_name = self.get_snapshot_display_id( prev_snapshot_id )
-                    self.set_take_snapshot_message( 0, _('Compare with snapshot %s') % prev_snapshot_name )
+                    self.set_take_snapshot_message(0, _('Compare with snapshot %s') % prev_snapshot_id.displayID())
                     logger.info("Compare with old snapshot: %s" % prev_snapshot_id, self)
 
                     cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix
-                    cmd += self.rsync_remote_path( prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
-                    params = [ prev_snapshot_path_to(), False ]
+                    cmd += self.rsync_remote_path(prev_snapshot_id.pathBackup(use_mode = ['ssh', 'ssh_encfs']))
+                    params = [prev_snapshot_id.pathBackup(), False]
                     self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
                     self._execute( cmd, self._exec_rsync_compare_callback, params )
                     changed = params[1]
@@ -1374,7 +1356,7 @@ class Snapshots:
                         self.set_snapshot_last_check(prev_snapshot_id)
                         return [ False, False ]
 
-            if not self._create_directory( new_snapshot_path_to() ):
+            if not self._create_directory(new_snapshot.path()):
                 return [ False, True ]
 
             if not full_rsync:
@@ -1382,29 +1364,35 @@ class Snapshots:
                 logger.info("Create hard-links", self)
 
                 #make source snapshot folders rw to allow cp -al
-                self._execute( self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
+                self._execute(self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s'
+                                           %(prev_snapshot_id.pathBackup(use_mode = ['ssh', 'ssh_encfs']),
+                                             find_suffix), quote = True)) #Debian patch
 
                 #clone snapshot
-                cmd = self.cmd_ssh( "cp -aRl \"%s\"* \"%s\"" % ( prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']), new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) ) )
+                cmd = self.cmd_ssh("cp -aRl \"%s\"* \"%s\""
+                                   %(prev_snapshot_id.pathBackup(use_mode = ['ssh', 'ssh_encfs']),
+                                     new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs'])))
                 self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
                 cmd_ret_val = self._execute( cmd )
                 self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val, 3 )
 
                 #make source snapshot folders read-only
-                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod a-w \"{}\" %s' % (prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
+                self._execute(self.cmd_ssh('find \"%s\" -type d -exec chmod a-w \"{}\" %s'
+                                           %(prev_snapshot_id.pathBackup(use_mode = ['ssh', 'ssh_encfs']),
+                                             find_suffix), quote = True)) #Debian patch
 
                 #make snapshot items rw to allow xopy xattr
-                self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
+                self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
         else:
-            if not saveToContinueFlag.exists() and not self._create_directory( new_snapshot_path_to() ):
+            if not new_snapshot.saveToContinue() and not self._create_directory(new_snapshot.pathBackup()):
                 return [ False, True ]
 
         #sync changed folders
         logger.info("Call rsync to take the snapshot", self)
-        saveToContinueFlag.set()
+        new_snapshot.setSaveToContinue()
         cmd = rsync_prefix + ' -v ' + rsync_suffix
-        cmd += self.rsync_remote_path( new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) )
+        cmd += self.rsync_remote_path( new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']) )
 
         self.set_take_snapshot_message( 0, _('Take snapshot') )
 
@@ -1431,13 +1419,17 @@ class Snapshots:
         has_errors = False
         if params[0]:
             if not self.config.continue_on_errors():
-                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
-                self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
+                self._execute(self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s'
+                                           %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']),
+                                             find_suffix), quote = True)) #Debian patch
+                self._execute(self.cmd_ssh("rm -rf \"%s\""
+                                           %new_snapshot.path(use_mode = ['ssh', 'ssh_encfs'])))
 
                 if not full_rsync:
                     #fix previous snapshot: make read-only again
                     if prev_snapshot_id:
-                        self._execute( self.cmd_ssh("chmod -R a-w \"%s\"" % prev_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']) ) )
+                        self._execute(self.cmd_ssh("chmod -R a-w \"%s\""
+                                      %prev_snapshot_id.pathBackup(use_mode = ['ssh', 'ssh_encfs'])))
 
                 return [ False, True ]
 
@@ -1446,8 +1438,11 @@ class Snapshots:
 
         if full_rsync:
             if not params[1] and not self.config.take_snapshot_regardless_of_changes():
-                self._execute( self.cmd_ssh( 'find \"%s\" -type d -exec chmod u+wx \"{}\" %s' % (new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']), find_suffix), quote = True) ) #Debian patch
-                self._execute( self.cmd_ssh( "rm -rf \"%s\"" % new_snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
+                self._execute(self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s'
+                                           %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']),
+                                             find_suffix), quote = True)) #Debian patch
+                self._execute(self.cmd_ssh("rm -rf \"%s\""
+                                           %new_snapshot.path(use_mode = ['ssh', 'ssh_encfs'])))
 
                 logger.info("Nothing changed, no back needed", self)
                 self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
@@ -1458,7 +1453,7 @@ class Snapshots:
         #backup config file
         logger.info('Save config file', self)
         self.set_take_snapshot_message( 0, _('Save config file ...') )
-        self._execute( 'cp "%s" "%s"' % (self.config._LOCAL_CONFIG_PATH, new_snapshot_path_to() + '..') )
+        self._execute( 'cp "%s" "%s"' % (self.config._LOCAL_CONFIG_PATH, new_snapshot.pathBackup() + '..') )
 
         if not full_rsync or self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
             #save permissions for sync folders
@@ -1469,7 +1464,7 @@ class Snapshots:
 
                 permission_done = False
                 if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-                    path_to_explore_ssh = new_snapshot_path_to(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
+                    path_to_explore_ssh = new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
                     cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
 
                     if self.config.get_snapshots_mode() == 'ssh_encfs':
@@ -1496,7 +1491,7 @@ class Snapshots:
                         permission_done = True
 
                 if not permission_done:
-                    path_to_explore = self.get_snapshot_path_to(self.NEW_SNAPSHOT_ID).rstrip('/').encode()
+                    path_to_explore = new_snapshot.pathBackup().rstrip('/').encode()
                     for path, dirs, files in os.walk( path_to_explore ):
                         dirs.extend( files )
                         for item in dirs:
@@ -1508,44 +1503,42 @@ class Snapshots:
         machine = self.config.get_host()
         user = self.config.get_user()
         profile_id = self.config.get_current_profile()
-        tag = self.config.get_tag( profile_id )
-        info_file = configfile.ConfigFile()
-        info_file.set_int_value( 'snapshot_version', self.SNAPSHOT_VERSION )
-        info_file.set_str_value( 'snapshot_date', snapshot_id[0:15] )
-        info_file.set_str_value( 'snapshot_machine', machine )
-        info_file.set_str_value( 'snapshot_user', user )
-        info_file.set_int_value( 'snapshot_profile_id', profile_id )
-        info_file.set_int_value( 'snapshot_tag', tag )
-        info_file.set_list_value('user', ('int:uid', 'str:name'), list(self.user_cache.items()))
-        info_file.set_list_value('group', ('int:gid', 'str:name'), list(self.group_cache.items()))
-        info_file.save(self.get_snapshot_info_path(self.NEW_SNAPSHOT_ID))
-        info_file = None
+        new_snapshot.info.set_int_value('snapshot_version', self.SNAPSHOT_VERSION)
+        new_snapshot.info.set_str_value('snapshot_date', snapshot_id.withoutTag())
+        new_snapshot.info.set_str_value('snapshot_machine', machine)
+        new_snapshot.info.set_str_value('snapshot_user', user)
+        new_snapshot.info.set_int_value('snapshot_profile_id', profile_id)
+        new_snapshot.info.set_int_value('snapshot_tag', snapshot_id.tag())
+        new_snapshot.info.set_list_value('user', ('int:uid', 'str:name'), list(self.user_cache.items()))
+        new_snapshot.info.set_list_value('group', ('int:gid', 'str:name'), list(self.group_cache.items()))
+        new_snapshot.saveInfo()
 
         #copy take snapshot log
         try:
-            with open( self.config.get_take_snapshot_log_file(), 'rb' ) as logfile:
-                with bz2.BZ2File(self.get_snapshot_log_path(self.NEW_SNAPSHOT_ID), 'wb') as logfile_bz2:
-                    for line in logfile:
-                        logfile_bz2.write(line)
+            with open( self.config.get_take_snapshot_log_file(), 'rb') as logfile:
+                new_snapshot.setLog(logfile.read())
         except Exception as e:
             logger.debug('Failed to write take_snapshot log %s into compressed file %s: %s'
-                         %(self.config.get_take_snapshot_log_file(), self.get_snapshot_log_path(self.NEW_SNAPSHOT_ID), str(e)),
+                         %(self.config.get_take_snapshot_log_file(), new_snapshot.path(SID.LOG), str(e)),
                          self)
             pass
 
-        saveToContinueFlag.unset()
+        new_snapshot.unsetSaveToContinue()
         #rename snapshot
-        os.rename(new_snapshot_path(), snapshot_path())
+        os.rename(new_snapshot.path(), snapshot_id.path())
 
-        if not os.path.exists( snapshot_path() ):
-            logger.error("Can't rename %s to %s" % (new_snapshot_path(), snapshot_path()), self)
-            self.set_take_snapshot_message( 1, _('Can\'t rename %(new_path)s to %(path)s') % { 'new_path' : new_snapshot_path(), 'path' : snapshot_path() } )
+        if not snapshot_id.exists():
+            logger.error("Can't rename %s to %s" % (new_snapshot.path(), snapshot_id.path()), self)
+            self.set_take_snapshot_message( 1, _('Can\'t rename %(new_path)s to %(path)s')
+                                                 %{'new_path': new_snapshot.path(),
+                                                   'path': snapshot_id.path()})
             time.sleep(2) #max 1 backup / second
             return [ False, True ]
 
         if not full_rsync:
             #make new snapshot read-only
-            self._execute( self.cmd_ssh( "chmod -R a-w \"%s\"" % snapshot_path(use_mode = ['ssh', 'ssh_encfs']) ) )
+            self._execute(self.cmd_ssh("chmod -R a-w \"%s\""
+                                       %snapshot_id.path(use_mode = ['ssh', 'ssh_encfs'])))
 
         #create last_snapshot symlink
         self.create_last_snapshot_symlink(snapshot_id)
@@ -2072,21 +2065,6 @@ class Snapshots:
             self.flock_file.close()
         self.flock_file = None
 
-class SaveToContinueFlag(object):
-    def __init__(self, new_snapshot_path):
-        self.flag = os.path.join(new_snapshot_path, 'save_to_continue')
-
-    def set(self):
-        with open(self.flag, 'a') as f:
-            pass
-
-    def unset(self):
-        if os.path.exists(self.flag):
-            os.remove(self.flag)
-
-    def exists(self):
-        return os.path.exists(self.flag)
-
 class SID(object):
     '''snapshot ID object used to gather all information for a snapshot
 
@@ -2095,6 +2073,13 @@ class SID(object):
     cfg:  current config (config.Config instance)
     '''
     __cValidSID = re.compile(r'^\d{8}-\d{6}(?:-\d{3})?$')
+
+    INFO     = 'info'
+    NAME     = 'name'
+    FAILED   = 'failed'
+    FILEINFO = 'fileinfo.bz2'
+    LOG      = 'takesnapshot.log.bz2'
+
     def __init__(self, date, cfg):
         self.config = cfg
         self.profileID = cfg.get_current_profile()
@@ -2173,6 +2158,11 @@ class SID(object):
             ret += ' ({})'.format(_('WITH ERRORS !'))
         return ret
 
+    def tag(self):
+        '''snapshot ID's tag
+        '''
+        return self.sid[16:]
+
     def withoutTag(self):
         '''snapshot ID without tag
         '''
@@ -2250,7 +2240,7 @@ class SID(object):
     def name(self):
         '''name of this snapshot
         '''
-        nameFile = self.path('name')
+        nameFile = self.path(self.NAME)
         if not os.path.isfile(nameFile):
             return ''
         try:
@@ -2266,7 +2256,7 @@ class SID(object):
 
         name: string with new snapshot name
         '''
-        nameFile = self.path('name')
+        nameFile = self.path(self.NAME)
 
         self.makeWriteable()
         try:
@@ -2282,7 +2272,7 @@ class SID(object):
         This can be the end of creation of this snapshot or the last time when
         this snapshot was checked against source without changes.
         '''
-        info = self.path('info')
+        info = self.path(self.INFO)
         if os.path.exists(info):
             return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)) )
         return self.displayID()
@@ -2291,20 +2281,20 @@ class SID(object):
         '''set info files atime to current time to indicate this snapshot was
         checked against source without changes right now.
         '''
-        info = self.path('info')
+        info = self.path(self.INFO)
         if os.path.exists(info):
             os.utime(info, None)
 
     def failed(self):
         '''True if this snapshot has failed
         '''
-        failedFile = self.path('failed')
+        failedFile = self.path(self.FAILED)
         return os.path.isfile(failedFile)
 
     def setFailed(self):
         '''set snapshot has failed
         '''
-        failedFile = self.path('failed')
+        failedFile = self.path(self.FAILED)
 
         self.makeWriteable()
         try:
@@ -2319,13 +2309,13 @@ class SID(object):
         '''load "info" file into self.info which contains additional information
         about this snapshot (using configfile.ConfigFile)
         '''
-        self.info.load(self.path('info'))
+        self.info.load(self.path(self.INFO))
         return self.info
 
     def saveInfo(self):
         '''save "info" file from self.info (using configfile.ConfigFile)
         '''
-        self.info.save(self.path('info'))
+        self.info.save(self.path(self.INFO))
 
     def fileInfo(self, force = False):
         '''load "fileinfo.bz2" and provide it's content in self.fileInfoDict
@@ -2337,7 +2327,7 @@ class SID(object):
             return self.fileInfoDict
 
         self.fileInfoDict = {}
-        infoFile = self.path('fileinfo.bz2')
+        infoFile = self.path(self.FILEINFO)
         if not os.path.isfile(infoFile):
             return self.fileInfoDict
 
@@ -2366,7 +2356,7 @@ class SID(object):
         '''store self.fileInfoDict in "fileinfo.bz2" as lines of:
         permission user group path
         '''
-        with bz2.BZ2File(self.path('fileinfo.bz2'), 'wb') as f:
+        with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
             for path, info in self.fileInfoDict.items():
                 assert isinstance(path, str), 'path is not str type: {}'.format(path)
                 assert isinstance(info[1], str), 'user is not str type: {}'.format(info[1])
@@ -2381,7 +2371,7 @@ class SID(object):
     def log(self):
         '''load log from "takesnapshot.log.bz2"
         '''
-        logfile = self.path('takesnapshot.log.bz2')
+        logfile = self.path(self.LOG)
         try:
             with bz2.BZ2File(logfile, 'rb' ) as f:
                 return f.read().decode('utf-8')
@@ -2395,7 +2385,7 @@ class SID(object):
 
         log: full snapshot log
         '''
-        logfile = self.path('takesnapshot.log.bz2')
+        logfile = self.path(self.LOG)
         try:
             with bz2.BZ2File(logfile, 'wb') as f:
                 f.write(log.encode('utf-8', 'replace'))

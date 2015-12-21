@@ -131,7 +131,12 @@ class TestSID(unittest.TestCase):
     def test_withoutTag(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
 
-        self.assertEqual(sid.withoutTag(), r'20151219-010324')
+        self.assertEqual(sid.withoutTag(), '20151219-010324')
+
+    def test_tag(self):
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+
+        self.assertEqual(sid.tag(), '123')
 
     def test_path(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
