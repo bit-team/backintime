@@ -577,6 +577,7 @@ def set_env_key(env, env_file, key):
 
 def keyring_supported():
     if keyring is None:
+        logger.debug('No keyring due to import errror.')
         return False
     backends = []
     try: backends.append(keyring.backends.SecretService.Keyring)
@@ -591,8 +592,14 @@ def keyring_supported():
     except: pass
     try: backends.append(keyring.backend.KDEKWallet)
     except: pass
+    try:
+        displayName = keyring.get_keyring().__module__
+    except:
+        displayName = str(keyring.get_keyring())
     if backends:
+        logger.debug("Found appropriate keyring '{}'".format(displayName))
         return isinstance(keyring.get_keyring(), tuple(backends))
+    logger.debug("No appropriate keyring found. '{}' can't be used with BackInTime".format(displayName))
     return False
 
 def get_password(*args):
