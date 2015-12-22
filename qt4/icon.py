@@ -56,7 +56,8 @@ ABOUT               = QIcon.fromTheme('help-about')
 
 #Files toolbar
 UP                  = QIcon.fromTheme('go-up')
-SHOW_HIDDEN         = QIcon.fromTheme('list-add')
+SHOW_HIDDEN         = QIcon.fromTheme('show-hidden',
+                      QIcon.fromTheme('list-add'))
 RESTORE             = QIcon.fromTheme('edit-undo')
 RESTORE_TO          = QIcon.fromTheme('document-revert')
 SNAPSHOTS           = QIcon.fromTheme('file-manager',
@@ -74,7 +75,7 @@ RESTORE_DIALOG      = VIEW_SNAPSHOT_LOG
 #Settings dialog
 SETTINGS_DIALOG     = SETTINGS
 PROFILE_EDIT        = SNAPSHOT_NAME
-ADD                 = SHOW_HIDDEN
+ADD                 = QIcon.fromTheme('list-add')
 REMOVE              = QIcon.fromTheme('list-remove')
 FOLDER              = QIcon.fromTheme('folder')
 FILE                = VIEW_SNAPSHOT_LOG
