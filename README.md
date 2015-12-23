@@ -26,6 +26,11 @@ You only need to specify 3 things:
 * Vadim Peretokin: Russian translation
 * translators from [Launchpad](https://translations.launchpad.net/backintime/trunk/+pots/back-in-time)
 
+##Support
+
+Please ask questions and report bug on
+https://github.com/bit-team/backintime/issues
+
 ##Download
 
 Please find the latest versions on
@@ -48,8 +53,8 @@ and a testing PPA (ppa:bit-team/testing)
 #####Debian/Ubuntu make packages
 
     ./makedeb.sh
-    sudo dpkg -i backintime-common-<version>.deb
-    sudo dpkg -i backintime-qt4-<version>.deb
+    sudo dpkg -i ../backintime-common-<version>.deb
+    sudo dpkg -i ../backintime-qt4-<version>.deb
 
 #####ArchLinux
 
