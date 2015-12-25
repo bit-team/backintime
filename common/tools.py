@@ -21,7 +21,6 @@ import sys
 import subprocess
 import signal
 import re
-import dbus
 import errno
 import gzip
 import tempfile
@@ -36,6 +35,18 @@ except:
     keyring = None
     os.putenv('BIT_USE_KEYRING', 'false')
     keyring_warn = True
+
+# getting dbus imports to work in Travis CI is a huge pain
+# use conditional dbus import
+ON_TRAVIS = 'TRAVIS' in os.environ and os.environ['TRAVIS'] == 'true'
+try:
+    import dbus
+except ImportError:
+    if ON_TRAVIS:
+        #python-dbus doesn't work on Travis yet.
+        dbus = None
+    else:
+        raise
 
 import configfile
 import logger
@@ -1173,6 +1184,9 @@ class SetupUdev(object):
     INTERFACE = 'net.launchpad.backintime.serviceHelper.UdevRules'
     MEMBERS = ('addRule', 'save', 'delete')
     def __init__(self):
+        if dbus is None:
+            self.isReady = False
+            return
         try:
             bus = dbus.SystemBus()
             conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
