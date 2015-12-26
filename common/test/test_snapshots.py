@@ -54,6 +54,8 @@ class TestSID(unittest.TestCase):
         logger.DEBUG = '-v' in sys.argv
         self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
         self.snapshotPath = self.cfg.get_snapshots_full_path()
+        if os.path.exists(self.snapshotPath):
+            self.tearDown()
         os.makedirs(self.snapshotPath)
 
     def tearDown(self):
@@ -82,6 +84,17 @@ class TestSID(unittest.TestCase):
         with self.assertRaises(TypeError):
             snapshots.SID(123, self.cfg)
 
+    def test_equal_sid(self):
+        sid1a = snapshots.SID('20151219-010324-123', self.cfg)
+        sid1b = snapshots.SID('20151219-010324-123', self.cfg)
+        sid2  = snapshots.SID('20151219-020324-123', self.cfg)
+
+        self.assertIsNot(sid1a, sid1b)
+        self.assertTrue(sid1a == sid1b)
+        self.assertTrue(sid1a == '20151219-010324-123')
+        self.assertTrue(sid1a != sid2)
+        self.assertTrue(sid1a != '20151219-020324-123')
+
     def test_sort_sids(self):
         root = snapshots.RootSnapshot(self.cfg)
         new  = snapshots.NewSnapshot(self.cfg)
@@ -109,6 +122,11 @@ class TestSID(unittest.TestCase):
 
         sids3.sort(reverse = True)
         self.assertEqual(sids3, [sid4, sid3, sid2, sid1, new])
+
+    def test_split(self):
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+
+        self.assertTupleEqual(sid.split(), (2015, 12, 19, 1, 3, 24))
 
     def test_displayID(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -342,6 +360,8 @@ class TestNewSnapshot(unittest.TestCase):
         logger.DEBUG = '-v' in sys.argv
         self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
         self.snapshotPath = self.cfg.get_snapshots_full_path()
+        if os.path.exists(self.snapshotPath):
+            self.tearDown()
         os.makedirs(self.snapshotPath)
 
     def tearDown(self):
@@ -371,73 +391,91 @@ class TestIterSnapshots(unittest.TestCase):
         logger.DEBUG = '-v' in sys.argv
         self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
         self.snapshotPath = self.cfg.get_snapshots_full_path()
+        if os.path.exists(self.snapshotPath):
+            self.tearDown()
         os.makedirs(self.snapshotPath)
 
-    def tearDown(self):
-        shutil.rmtree(self.snapshotPath)
-
-    def test_list(self):
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123', 'backup'))
         os.makedirs(os.path.join(self.snapshotPath, '20151219-020324-123', 'backup'))
         os.makedirs(os.path.join(self.snapshotPath, '20151219-030324-123', 'backup'))
         os.makedirs(os.path.join(self.snapshotPath, '20151219-040324-123', 'backup'))
 
-        #four valid snapshots
-        l1 = list(snapshots.iterSnapshots(self.cfg))
-        l1.sort()
+    def tearDown(self):
+        shutil.rmtree(self.snapshotPath)
+
+    def test_list_valid(self):
+        l1 = snapshots.listSnapshots(self.cfg)
         self.assertListEqual(l1, ['20151219-010324-123',
                                   '20151219-020324-123',
                                   '20151219-030324-123',
                                   '20151219-040324-123'])
         self.assertIsInstance(l1[0], snapshots.SID)
 
-        #add new_snapshot
+    def test_list_new_snapshot(self):
         os.makedirs(os.path.join(self.snapshotPath, 'new_snapshot', 'backup'))
-        l2 = list(snapshots.iterSnapshots(self.cfg))
-        l2.sort()
+        l2 = snapshots.listSnapshots(self.cfg)
         self.assertListEqual(l2, ['new_snapshot',
                                   '20151219-010324-123',
                                   '20151219-020324-123',
                                   '20151219-030324-123',
                                   '20151219-040324-123'])
         self.assertIsInstance(l2[0], snapshots.NewSnapshot)
+        self.assertIsInstance(l2[-1], snapshots.SID)
 
+    def test_list_snapshot_without_backup(self):
         #new snapshot without backup folder should't be added
         os.makedirs(os.path.join(self.snapshotPath, '20151219-050324-123'))
-        l3 = list(snapshots.iterSnapshots(self.cfg))
-        l3.sort()
-        self.assertListEqual(l3, ['new_snapshot',
-                                  '20151219-010324-123',
+        l3 = snapshots.listSnapshots(self.cfg)
+        self.assertListEqual(l3, ['20151219-010324-123',
                                   '20151219-020324-123',
                                   '20151219-030324-123',
                                   '20151219-040324-123'])
 
+    def test_list_invalid_snapshot(self):
         #invalid snapshot shouldn't be added
         os.makedirs(os.path.join(self.snapshotPath, '20151219-000324-abc', 'backup'))
-        l4 = list(snapshots.iterSnapshots(self.cfg))
-        l4.sort()
-        self.assertListEqual(l4, ['new_snapshot',
-                                  '20151219-010324-123',
+        l4 = snapshots.listSnapshots(self.cfg)
+        self.assertListEqual(l4, ['20151219-010324-123',
                                   '20151219-020324-123',
                                   '20151219-030324-123',
                                   '20151219-040324-123'])
 
-        l5 = list(snapshots.iterSnapshots(self.cfg, includeNewSnapshot = False))
-        l5.sort()
+    def test_list_without_new_snapshot(self):
+        os.makedirs(os.path.join(self.snapshotPath, 'new_snapshot', 'backup'))
+        l5 = snapshots.listSnapshots(self.cfg, includeNewSnapshot = False)
         self.assertListEqual(l5, ['20151219-010324-123',
                                   '20151219-020324-123',
                                   '20151219-030324-123',
                                   '20151219-040324-123'])
 
+    def test_list_symlink_last_snapshot(self):
         os.symlink('./20151219-040324-123',
                    os.path.join(self.snapshotPath, 'last_snapshot'))
-        l6 = list(snapshots.iterSnapshots(self.cfg))
-        l6.sort()
-        self.assertListEqual(l6, ['new_snapshot',
-                                  '20151219-010324-123',
+        l6 = snapshots.listSnapshots(self.cfg)
+        self.assertListEqual(l6, ['20151219-010324-123',
                                   '20151219-020324-123',
                                   '20151219-030324-123',
                                   '20151219-040324-123'])
+
+    def test_list_reverse(self):
+        os.makedirs(os.path.join(self.snapshotPath, 'new_snapshot', 'backup'))
+        l7 = snapshots.listSnapshots(self.cfg, reverse = True)
+        self.assertListEqual(l7, ['20151219-040324-123',
+                                  '20151219-030324-123',
+                                  '20151219-020324-123',
+                                  '20151219-010324-123',
+                                  'new_snapshot'])
+        self.assertIsInstance(l7[0], snapshots.SID)
+        self.assertIsInstance(l7[-1], snapshots.NewSnapshot)
+
+    def test_iter_snapshots(self):
+        for i, sid in enumerate(snapshots.iterSnapshots(self.cfg)):
+            self.assertIn(sid, ['20151219-010324-123',
+                                '20151219-020324-123',
+                                '20151219-030324-123',
+                                '20151219-040324-123'])
+            self.assertIsInstance(sid, snapshots.SID)
+        self.assertEqual(i, 3)
 
 if __name__ == '__main__':
     unittest.main()

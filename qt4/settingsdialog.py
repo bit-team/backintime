@@ -1380,7 +1380,9 @@ class SettingsDialog( QDialog ):
 
         return ret_val
 
+    #TODO: remove deprecated
     def update_snapshots_location( self ):
+        logger.deprecated(self)
         '''Update snapshot location dialog'''
         self.config.set_question_handler( self.question_handler )
         self.config.set_error_handler( self.error_handler )

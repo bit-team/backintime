@@ -422,9 +422,6 @@ class MainWindow( QMainWindow ):
         if not config.is_configured():
             return
 
-        if self.snapshots.has_old_snapshots():
-            settingsdialog.SettingsDialog( self ).update_snapshots_location()
-
         profile_id = config.get_current_profile()
 
         #mount
