@@ -190,57 +190,16 @@ class Config( configfile.ConfigFileWithProfiles ):
 
         if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < self.CONFIG_VERSION:
 
-            if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 2:
-                #remap old items
-                self.remap_key( 'BASE_BACKUP_PATH', 'snapshots.path' )
-                self.remap_key( 'INCLUDE_FOLDERS', 'snapshots.include_folders' )
-                self.remap_key( 'EXCLUDE_PATTERNS', 'snapshots.exclude_patterns' )
-                self.remap_key( 'AUTOMATIC_BACKUP', 'snapshots.automatic_backup_mode' )
-                self.remap_key( 'REMOVE_OLD_BACKUPS', 'snapshots.remove_old_snapshots.enabled' )
-                self.remap_key( 'REMOVE_OLD_BACKUPS_VALUE', 'snapshots.remove_old_snapshots.value' )
-                self.remap_key( 'REMOVE_OLD_BACKUPS_UNIT', 'snapshots.remove_old_snapshots.unit' )
-                self.remap_key( 'MIN_FREE_SPACE', 'snapshots.min_free_space.enabled' )
-                self.remap_key( 'MIN_FREE_SPACE_VALUE', 'snapshots.min_free_space.value' )
-                self.remap_key( 'MIN_FREE_SPACE_UNIT', 'snapshots.min_free_space.unit' )
-                self.remap_key( 'DONT_REMOVE_NAMED_SNAPSHOTS', 'snapshots.dont_remove_named_snapshots' )
-                self.remap_key( 'DIFF_CMD', 'gnome.diff.cmd' )
-                self.remap_key( 'DIFF_CMD_PARAMS', 'gnome.diff.params' )
-                self.remap_key( 'LAST_PATH', 'gnome.last_path' )
-                self.remap_key( 'MAIN_WINDOW_X', 'gnome.main_window.x' )
-                self.remap_key( 'MAIN_WINDOW_Y', 'gnome.main_window.y' )
-                self.remap_key( 'MAIN_WINDOW_WIDTH', 'gnome.main_window.width' )
-                self.remap_key( 'MAIN_WINDOW_HEIGHT', 'gnome.main_window.height' )
-                self.remap_key( 'MAIN_WINDOW_HPANED1_POSITION', 'gnome.main_window.hpaned1' )
-                self.remap_key( 'MAIN_WINDOW_HPANED2_POSITION', 'gnome.main_window.hpaned2' )
-
-            if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 3:
-                self.remap_key( 'snapshots.path', 'profile1.snapshots.path' )
-                self.remap_key( 'snapshots.include_folders', 'profile1.snapshots.include_folders' )
-                self.remap_key( 'snapshots.exclude_patterns', 'profile1.snapshots.exclude_patterns' )
-                self.remap_key( 'snapshots.automatic_backup_mode', 'profile1.snapshots.automatic_backup_mode' )
-                self.remap_key( 'snapshots.remove_old_snapshots.enabled', 'profile1.snapshots.remove_old_snapshots.enabled' )
-                self.remap_key( 'snapshots.remove_old_snapshots.value', 'profile1.snapshots.remove_old_snapshots.value' )
-                self.remap_key( 'snapshots.remove_old_snapshots.unit', 'profile1.snapshots.remove_old_snapshots.unit' )
-                self.remap_key( 'snapshots.min_free_space.enabled', 'profile1.snapshots.min_free_space.enabled' )
-                self.remap_key( 'snapshots.min_free_space.value', 'profile1.snapshots.min_free_space.value' )
-                self.remap_key( 'snapshots.min_free_space.unit', 'profile1.snapshots.min_free_space.unit' )
-                self.remap_key( 'snapshots.dont_remove_named_snapshots', 'profile1.snapshots.dont_remove_named_snapshots' )
-
             if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 4:
-                # version 4 uses as path backintime/machine/user/profile_id
-                # but must be able to read old paths
-                profiles = self.get_profiles()
-                self.set_bool_value( 'update.other_folders', True )
-                logger.info("Update to config version 4: other snapshot locations", self)
-
-                for profile_id in profiles:
-                    old_folder = self.get_snapshots_path( profile_id )
-                    other_folder = os.path.join( old_folder, 'backintime' )
-                    other_folder_key = 'profile' + str( profile_id ) + '.snapshots.other_folders'
-                    self.set_str_value( other_folder_key, other_folder )
-                    tag = str( random.randint(100, 999) )
-                    logger.info("Random tag for profile %s: %s" %(profile_id, tag), self)
-                    self.set_profile_str_value( 'snapshots.tag', tag, profile_id )
+                #update from BackInTime version < 1.0 is deprecated
+                logger.error("config.version is < 4. This config was made with "\
+                             "BackInTime version < 1.0. This version ({}) "     \
+                             "doesn't support upgrading config from < 1.0 "     \
+                             "anymore. Please use BackInTime version <= 1.1.10 "\
+                             "to upgrade the config to a more recent version."
+                             %self.CONFIG_VERSION)
+                #TODO: add popup warning
+                sys.exit(2)
 
             if self.get_int_value( 'config.version', self.CONFIG_VERSION ) < 5:
                 logger.info("Update to config version 5: other snapshot locations", self)
@@ -345,16 +304,10 @@ class Config( configfile.ConfigFileWithProfiles ):
             symlink = self.get_snapshots_symlink(profile_id = profile_id, tmp_mount = tmp_mount)
             return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
 
-    def get_snapshots_full_path( self, profile_id = None, version = None ):
+    def get_snapshots_full_path( self, profile_id = None):
         '''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
-        if version is None:
-            version = self.get_int_value( 'config.version', self.CONFIG_VERSION )
-
-        if version < 4:
-            return os.path.join( self.get_snapshots_path( profile_id ), 'backintime' )
-        else:
-            host, user, profile = self.get_host_user_profile( profile_id )
-            return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile )
+        host, user, profile = self.get_host_user_profile( profile_id )
+        return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile )
 
     def set_snapshots_path( self, value, profile_id = None, mode = None ):
         """Sets the snapshot path to value, initializes, and checks it"""
@@ -458,18 +411,13 @@ class Config( configfile.ConfigFileWithProfiles ):
         #?with './'.;absolute or relative path
         return self.get_profile_str_value( 'snapshots.ssh.path', '', profile_id )
 
-    def get_snapshots_full_path_ssh( self, profile_id = None, version = None ):
+    def get_snapshots_full_path_ssh( self, profile_id = None):
         '''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
-        if version is None:
-            version = self.get_int_value( 'config.version', self.CONFIG_VERSION )
         path = self.get_snapshots_path_ssh( profile_id )
         if not path:
             path = './'
-        if version < 4:
-            return os.path.join( path, 'backintime' )
-        else:
-            host, user, profile = self.get_host_user_profile( profile_id )
-            return os.path.join( path, 'backintime', host, user, profile )
+        host, user, profile = self.get_host_user_profile( profile_id )
+        return os.path.join( path, 'backintime', host, user, profile )
 
     def set_snapshots_path_ssh( self, value, profile_id = None ):
         self.set_profile_str_value( 'snapshots.ssh.path', value, profile_id )
@@ -647,7 +595,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_str_value( 'snapshots.path.user', user, profile_id )
         self.set_profile_str_value( 'snapshots.path.profile', profile, profile_id )
 
+    #TODO: remove deprecated
     def get_other_folders_paths( self, profile_id = None ):
+        logger.deprecated(self)
         '''Returns the other snapshots folders paths as a list'''
         #?!ignore this in manpage
         value = self.get_profile_str_value( 'snapshots.other_folders', '', profile_id )
