@@ -1720,6 +1720,8 @@ class Snapshots:
                         %old_backup_id.withoutTag(), self)
 
             while True:
+                if len(snapshots) <= 1:
+                    break
                 if snapshots[0] >= old_backup_id:
                     break
 
