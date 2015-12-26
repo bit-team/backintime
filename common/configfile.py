@@ -23,32 +23,60 @@ import logger
 _=gettext.gettext
 
 class ConfigFile(object):
+    '''store options in a plain text file in form of:
+    key=value
+    '''
     def __init__( self ):
         self.dict = {}
         self.error_handler = None
         self.question_handler = None
 
     def set_error_handler( self, handler ):
+        '''register a function that should be called for notifying errors.
+
+        handler:    callable function
+        '''
         self.error_handler = handler
 
     def set_question_handler( self, handler ):
+        '''register a function that should be called for asking questions.
+
+        handler:    callable function
+        '''
         self.question_handler = handler
 
     def clear_handlers( self ):
+        '''reset error and question handlers.
+        '''
         self.error_handler = None
         self.question_handler = None
 
     def notify_error( self, message ):
+        '''call previously registered function to show an error.
+
+        message:    error message (str) that should be shown
+        '''
         if self.error_handler is None:
             return
         self.error_handler( message )
 
     def ask_question( self, message ):
+        '''call previously registered function to ask a question.
+
+        message:    question (str) that should be shown
+        '''
         if self.question_handler is None:
             return False
         return self.question_handler( message )
 
     def save( self, filename ):
+        '''save all options to file.
+
+        filename:   full path
+
+        tests:
+        test/test_configfile.TestConfigFile.test_save
+        '''
         try:
             with open( filename, 'wt' ) as f:
                 keys = list(self.dict.keys())
@@ -62,10 +90,22 @@ class ConfigFile(object):
         return True
 
     def load( self, filename, **kwargs ):
+        '''reset current options and load new options from file.
+
+        filename:   full path
+
+        tests:
+        test/test_configfile.TestConfigFile.test_load
+        '''
         self.dict = {}
         self.append( filename, **kwargs )
 
     def append( self, filename, maxsplit = 1 ):
+        '''load options from file and append them to current options.
+
+        filename:   full path
+        maxsplit:   split lines only n times on '='
+        '''
         lines = []
 
         if not os.path.isfile(filename):
@@ -90,27 +130,77 @@ class ConfigFile(object):
                 del self.dict[ old_key ]
 
     def has_value( self, key ):
+        '''True if key is set.
+
+        key:    string used as key
+
+        tests:
+        test/test_configfile.TestConfigFile.test_has_value
+        '''
         return key in self.dict
 
     def get_str_value( self, key, default_value = '' ):
+        '''return a 'str' instance of key's value.
+
+        key:            string used as key
+        default_value:  return this if key is not set
+
+        tests:
+        test/test_configfile.TestConfigFile.test_get_str_value
+        test/test_configfile.TestConfigFile.test_get_str_value_default
+        '''
         if key in self.dict:
             return self.dict[ key ]
         else:
             return default_value
 
     def set_str_value( self, key, value ):
+        '''set a string value for key.
+
+        key:    string used as key
+        value:  store this option
+
+        tests:
+        test/test_configfile.TestConfigFile.test_set_str_value
+        '''
         self.dict[ key ] = value
 
     def get_int_value( self, key, default_value = 0 ):
+        '''return a 'int' instance of key's value.
+
+        key:            string used as key
+        default_value:  return this if key is not set
+
+        tests:
+        test/test_configfile.TestConfigFile.test_get_int_value
+        test/test_configfile.TestConfigFile.test_get_int_value_default
+        '''
         try:
             return int( self.dict[ key ] )
         except:
             return default_value
 
     def set_int_value( self, key, value ):
+        '''set an integer value for key.
+
+        key:    string used as key
+        value:  store this option
+
+        tests:
+        test/test_configfile.TestConfigFile.test_set_int_value
+        '''
         self.set_str_value( key, str( value ) )
 
     def get_bool_value( self, key, default_value = False ):
+        '''return a 'bool' instance of key's value.
+
+        key:            string used as key
+        default_value:  return this if key is not set
+
+        tests:
+        test/test_configfile.TestConfigFile.test_get_bool_value
+        test/test_configfile.TestConfigFile.test_get_bool_value_default
+        '''
         try:
             val = self.dict[ key ]
             if "1" == val or "TRUE" == val.upper():
@@ -120,6 +210,14 @@ class ConfigFile(object):
             return default_value
 
     def set_bool_value( self, key, value ):
+        '''set a bool value for key.
+
+        key:    string used as key
+        value:  store this option
+
+        tests:
+        test/test_configfile.TestConfigFile.test_set_bool_value
+        '''
         if value:
             self.set_str_value( key, 'true' )
         else:
@@ -136,6 +234,15 @@ class ConfigFile(object):
         default_value:    defualt value
 
         size of list must be stored in key.size
+
+        tests:
+        test/test_configfile.TestConfigFile.test_get_list_value_default
+        test/test_configfile.TestConfigFile.test_get_list_value_int
+        test/test_configfile.TestConfigFile.test_get_list_value_str
+        test/test_configfile.TestConfigFile.test_get_list_value_bool
+        test/test_configfile.TestConfigFile.test_get_list_value_tuple
+        test/test_configfile.TestConfigFile.test_get_list_value_tuple_missing_values
+        test/test_configfile.TestConfigFile.test_get_list_value_invalid_type
         '''
         def get_value(key, tk):
             t = ''
@@ -174,6 +281,16 @@ class ConfigFile(object):
         value:    that should be stored
 
         size of list will be stored in key.size
+
+        tests:
+        test/test_configfile.TestConfigFile.test_set_list_value_int
+        test/test_configfile.TestConfigFile.test_set_list_value_str
+        test/test_configfile.TestConfigFile.test_set_list_value_bool
+        test/test_configfile.TestConfigFile.test_set_list_value_tuple
+        test/test_configfile.TestConfigFile.test_set_list_value_tuple_missing_values
+        test/test_configfile.TestConfigFile.test_set_list_value_remove_leftovers
+        test/test_configfile.TestConfigFile.test_set_list_value_remove_leftovers_tuple
+        test/test_configfile.TestConfigFile.test_set_list_value_invalid_type
         '''
         def set_value(key, tk, v):
             t = ''
@@ -211,10 +328,26 @@ class ConfigFile(object):
                         self.remove_key('%s.%s.%s' %(key, i, tk.split(':')[1]))
 
     def remove_key( self, key ):
+        '''remove key from options.
+
+        key:    string used as key
+
+        tests:
+        test/test_configfile.TestConfigFile.test_remove_key
+        '''
         if key in self.dict:
             del self.dict[ key ]
 
     def remove_keys_starts_with( self, prefix ):
+        '''remove key from options which start with given prefix.
+
+        key:    string used as key
+        prefix: pattern that matches keys that should be removed
+
+        tests:
+        test/test_configfile.TestConfigFile.test_remove_keys_start_with
+        test/test_configfile.TestConfigFile.test_remove_keys_start_with_not_matching_prefix
+        '''
         remove_keys = []
 
         for key in self.dict.keys():

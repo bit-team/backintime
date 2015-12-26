@@ -194,9 +194,19 @@ addNewline
 
 addComment "man"
 addInstallDir    "/share/man/man1"
-addInstallFile "man/C/backintime-qt4.1.gz" "/share/man/man1"
+addInstallFile   "man/C/backintime-qt4.1.gz" "/share/man/man1"
 addUninstallDir  "/share/man"
-addUninstallDir  "/share"
+addNewline
+
+addComment "icons"
+for f in "scalable" "48x48" "32x32" "24x24" "22x22" "16x16"; do
+    addInstallDir                                           "/share/icons/hicolor/${f}/actions"
+    addInstallFile  "icons/${f}/actions/show-hidden.svg"    "/share/icons/hicolor/${f}/actions"
+    addUninstallDir                                         "/share/icons/hicolor/${f}"
+done
+addUninstallDir                                             "/share/icons/hicolor"
+addUninstallDir                                             "/share/icons"
+addUninstallDir                                             "/share"
 addNewline
 
 #compress

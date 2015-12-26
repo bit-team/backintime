@@ -77,13 +77,30 @@ def add_source_to_path_environ():
     if source not in path.split(':'):
         os.environ['PATH'] = '%s:%s' %(source, path)
 
-def get_bzr_revno():
-    last_rev = os.path.join(os.path.dirname(__file__), os.pardir, '.bzr', 'branch', 'last-revision')
-    if os.path.exists(last_rev):
-        with open(last_rev, 'r') as f:
-            args = f.read().split(' ')
-            if args:
-                return args[0]
+def get_git_ref_hash():
+    ref, hashid = None, None
+    gitPath = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, '.git'))
+    headPath = os.path.join(gitPath, 'HEAD')
+    refPath = ''
+    if not os.path.isdir(gitPath):
+        return (ref, hashid)
+    try:
+        with open(headPath, 'rt') as f:
+            refPath = f.read().strip('\n')
+            if refPath.startswith('ref: '):
+                refPath = refPath[5:]
+            if refPath:
+                refPath = os.path.join(gitPath, refPath)
+                ref = os.path.basename(refPath)
+    except Exception as e:
+        pass
+    if os.path.isfile(refPath):
+        try:
+            with open(refPath, 'rt') as f:
+                hashid = f.read().strip('\n')
+        except:
+            pass
+    return (ref, hashid[:7])
 
 def read_file( path, default_value = None ):
     ret_val = default_value
@@ -561,6 +578,7 @@ def set_env_key(env, env_file, key):
 
 def keyring_supported():
     if keyring is None:
+        logger.debug('No keyring due to import errror.')
         return False
     backends = []
     try: backends.append(keyring.backends.SecretService.Keyring)
@@ -575,8 +593,14 @@ def keyring_supported():
     except: pass
     try: backends.append(keyring.backend.KDEKWallet)
     except: pass
+    try:
+        displayName = keyring.get_keyring().__module__
+    except:
+        displayName = str(keyring.get_keyring())
     if backends:
+        logger.debug("Found appropriate keyring '{}'".format(displayName))
         return isinstance(keyring.get_keyring(), tuple(backends))
+    logger.debug("No appropriate keyring found. '{}' can't be used with BackInTime".format(displayName))
     return False
 
 def get_password(*args):

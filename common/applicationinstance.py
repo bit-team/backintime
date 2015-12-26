@@ -24,6 +24,21 @@ import logger
 
 class ApplicationInstance:
     '''class used to handle one application instance mechanism
+
+    pid_file:   full path of file used to save pid and procname
+    auto_exit:  automatically call sys.exit if there is an other
+                instance running
+    flock:      use file-locks to make sure only one instance
+                is checking at the same time
+
+    tests:
+    test/test_applicationinstance.TestApplicationInstance.test_create_and_remove_pid_file
+    test/test_applicationinstance.TestApplicationInstance.test_write_pid_file
+    test/test_applicationinstance.TestApplicationInstance.test_existing_process_with_correct_procname
+    test/test_applicationinstance.TestApplicationInstance.test_existing_process_with_wrong_procname
+    test/test_applicationinstance.TestApplicationInstance.test_existing_process_with_wrong_pid
+    test/test_applicationinstance.TestApplicationInstance.test_killing_existing_process
+    test/test_applicationinstance.TestApplicationInstance.test_non_existing_process
     '''
 
     def __init__( self, pid_file, auto_exit = True, flock = False ):
@@ -48,6 +63,9 @@ class ApplicationInstance:
     def check( self, auto_exit = False ):
         '''check if the current application is already running
         returns True if this is the only application instance
+
+        auto_exit:  automatically call sys.exit if there is an other
+                    instance running
         '''
         #check if the pidfile exists
         if not os.path.isfile( self.pid_file ):
@@ -104,6 +122,10 @@ class ApplicationInstance:
     def flockExclusiv(self):
         '''create an exclusive lock to block a second instance while
         the first instance is starting.
+
+        tests:
+        test/test_applicationinstance.TestApplicationInstance.test_thread_write_without_flock
+        test/test_applicationinstance.TestApplicationInstance.test_flock_exclusive
         '''
         try:
             self.flock_file = open(self.pid_file + '.flock', 'w')
@@ -135,7 +157,10 @@ class ApplicationInstance:
             return ''
 
     def readPidFile(self):
-        '''read the pid and procname from the file'''
+        '''read the pid and procname from the file
+
+        pid: Process Indicator (int)
+        '''
         pid = 0
         procname = ''
         try:
