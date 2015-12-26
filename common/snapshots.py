@@ -1312,44 +1312,6 @@ class Snapshots:
                 time.sleep(2) #max 1 backup / second
                 return [ False, True ]
 
-        #create exclude patterns string
-        items = []
-        encode = self.config.ENCODE
-        for exclude in self.config.get_exclude():
-            exclude = encode.exclude(exclude)
-            if exclude is None:
-                continue
-            self._append_item_to_list( "--exclude=\"%s\"" % exclude, items )
-        rsync_exclude = ' '.join( items )
-
-        #create include patterns list
-        items = []
-        items2 = []
-        for include_folder in include_folders:
-            folder = include_folder[0]
-
-            if folder == "/":	# If / is selected as included folder it should be changed to ""
-                #folder = ""	# because an extra / is added below. Patch thanks to Martin Hoefling
-                self._append_item_to_list( "--include=\"/\"" , items2 )
-                self._append_item_to_list( "--include=\"/**\"" , items2 )
-                continue
-
-            folder = encode.include(folder)
-            if include_folder[1] == 0:
-                self._append_item_to_list( "--include=\"%s/**\"" % folder, items2 )
-            else:
-                self._append_item_to_list( "--include=\"%s\"" % folder, items2 )
-                folder = os.path.split( folder )[0]
-
-            while True:
-                self._append_item_to_list( "--include=\"%s/\"" % folder, items )
-                folder = os.path.split( folder )[0]
-                if len( folder) <= 1:
-                    break
-
-        rsync_include = ' '.join( items )
-        rsync_include2 = ' '.join( items2 )
-
         #check previous backup
         #should only contain the personal snapshots
         check_for_changes = self.config.check_for_changes()
@@ -1361,13 +1323,7 @@ class Snapshots:
         rsync_prefix = tools.get_rsync_prefix( self.config, not full_rsync )
         if self.config.exclude_by_size_enabled():
             rsync_prefix += ' --max-size=%sM' % self.config.exclude_by_size()
-        rsync_exclude_backup_directory = " --exclude=\"%s\" --exclude=\"%s\" --exclude=\"%s\" " % \
-                ( encode.exclude( self.config.get_snapshots_path() ), \
-                  encode.exclude( self.config._LOCAL_DATA_FOLDER ) ,  \
-                  encode.exclude( self.config._MOUNT_ROOT ) )
-        rsync_suffix = ' --chmod=Du+wx ' + rsync_exclude_backup_directory
-        rsync_suffix += rsync_include + ' ' + rsync_exclude + ' ' + rsync_include2
-        rsync_suffix += ' --exclude=\"*\" ' + encode.chroot + ' '
+        rsync_suffix = self.rsyncSuffix(include_folders)
 
         prev_sid = ''
         snapshots = listSnapshots(self.config, includeNewSnapshot = False)
@@ -2103,6 +2059,99 @@ class Snapshots:
             fcntl.fcntl(self.flock_file, fcntl.LOCK_UN)
             self.flock_file.close()
         self.flock_file = None
+
+    def rsyncSuffix(self, includeFolders = None, excludeFolders = None):
+        '''create suffixes for rsync
+
+        includeFolders: list of folders to include. list of tuples (item, int)
+                        Where int is 0 if item is a folder or
+                        1 if item is a file.
+        excludeFolders: list of folders to exclude
+
+        tests:
+        test/test_snapshots.TestSnapshots.test_rsyncSuffix
+        '''
+        #create exclude patterns string
+        rsync_exclude = self.rsyncExclude(excludeFolders)
+
+        #create include patterns list
+        rsync_include, rsync_include2 = self.rsyncInclude(includeFolders)
+
+        encode = self.config.ENCODE
+        ret  = ' --chmod=Du+wx '
+        ret += ' --exclude="{}" --exclude="{}" --exclude="{}" '.format(
+                              encode.exclude(self.config.get_snapshots_path()),
+                              encode.exclude(self.config._LOCAL_DATA_FOLDER) ,
+                              encode.exclude(self.config._MOUNT_ROOT) )
+        ret += ' '.join((rsync_include, rsync_exclude, rsync_include2))
+        ret += ' --exclude="*" '
+        ret += encode.chroot
+        ret += ' '
+        return ret
+
+    def rsyncExclude(self, excludeFolders = None):
+        '''format exclude list for rsync
+
+        excludeFolders: list of folders to exclude
+
+        tests:
+        test/test_snapshots.TestSnapshots.test_rsyncExclude_unique_items
+        test/test_snapshots.TestSnapshots.test_rsyncExclude_duplicate_items
+        '''
+        items = tools.OrderedSet()
+        encode = self.config.ENCODE
+        if excludeFolders is None:
+            excludeFolders = self.config.get_exclude()
+
+        for exclude in excludeFolders:
+            exclude = encode.exclude(exclude)
+            if exclude is None:
+                continue
+            items.add('--exclude="{}"'.format(exclude))
+        return ' '.join(items)
+
+    def rsyncInclude(self, includeFolders = None):
+        '''format include list for rsync. Returns a tuple of two include strings.
+        First string need to come before exclude, second after exclude.
+
+        includeFolders: list of folders to include. list of tuples (item, int)
+                        Where int is 0 if item is a folder or
+                        1 if item is a file.
+
+        tests:
+        test/test_snapshots.TestSnapshots.test_rsyncInclude_unique_items
+        test/test_snapshots.TestSnapshots.test_rsyncInclude_duplicate_items
+        test/test_snapshots.TestSnapshots.test_rsyncInclude_root
+        '''
+        items1 = tools.OrderedSet()
+        items2 = tools.OrderedSet()
+        encode = self.config.ENCODE
+        if includeFolders is None:
+            includeFolders = self.config.get_include()
+
+        for include_folder in includeFolders:
+            folder = include_folder[0]
+
+            if folder == "/":	# If / is selected as included folder it should be changed to ""
+                #folder = ""	# because an extra / is added below. Patch thanks to Martin Hoefling
+                items2.add('--include="/"')
+                items2.add('--include="/**"')
+                continue
+
+            folder = encode.include(folder)
+            if include_folder[1] == 0:
+                items2.add('--include="{}/**"'.format(folder))
+            else:
+                items2.add('--include="{}"'.format(folder))
+                folder = os.path.split( folder )[0]
+
+            while True:
+                if len( folder) <= 1:
+                    break
+                items1.add('--include="{}/"'.format(folder))
+                folder = os.path.split( folder )[0]
+
+        return (' '.join(items1), ' '.join(items2))
 
 class SID(object):
     '''snapshot ID object used to gather all information for a snapshot

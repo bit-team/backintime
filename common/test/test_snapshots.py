@@ -30,24 +30,69 @@ import snapshots
 import logger
 
 
-class TestSnapShots(unittest.TestCase):
+class TestSnapshots(unittest.TestCase):
+    def setUp(self):
+        logger.DEBUG = '-v' in sys.argv
+        self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
+        self.sn = snapshots.Snapshots(self.cfg)
+        self.snapshotPath = self.cfg.get_snapshots_full_path()
+        if os.path.exists(self.snapshotPath):
+            self.tearDown()
+        os.makedirs(self.snapshotPath)
 
-    def test_valid_config(self):
-        '''
-        Test if the config file use by the snapshots is correctly
-        initialized if the function is fed a valid ConfigFile object.
-        '''
-        cf = configfile.ConfigFile()
-        sp = snapshots.Snapshots(cf)
-        self.assertEqual(sp.config, cf)
+    def tearDown(self):
+        shutil.rmtree(self.snapshotPath)
 
-    def test_None_as_config(self):
-        '''
-        Test if the config file use by the snapshots is correctly
-        initialized if the function is fed None as the ConfigFile.
-        '''
-        sp = snapshots.Snapshots(None)
-        self.assertIsInstance(sp.config, configfile.ConfigFile)
+    def test_rsyncExclude_unique_items(self):
+        exclude = self.sn.rsyncExclude(['/foo', '*bar', '/baz/1'])
+        self.assertEqual(exclude, '--exclude="/foo" --exclude="*bar" --exclude="/baz/1"')
+
+    def test_rsyncExclude_duplicate_items(self):
+        exclude = self.sn.rsyncExclude(['/foo', '*bar', '/baz/1', '/foo', '/baz/1'])
+        self.assertEqual(exclude, '--exclude="/foo" --exclude="*bar" --exclude="/baz/1"')
+
+    def test_rsyncInclude_unique_items(self):
+        i1, i2 = self.sn.rsyncInclude([('/foo', 0),
+                                       ('/bar', 1),
+                                       ('/baz/1/2', 1)])
+        self.assertEqual(i1, '--include="/foo/" --include="/baz/1/" --include="/baz/"')
+        self.assertEqual(i2, '--include="/foo/**" --include="/bar" --include="/baz/1/2"')
+
+    def test_rsyncInclude_duplicate_items(self):
+        i1, i2 = self.sn.rsyncInclude([('/foo', 0),
+                                       ('/bar', 1),
+                                       ('/foo', 0),
+                                       ('/baz/1/2', 1),
+                                       ('/baz/1/2', 1)])
+        self.assertEqual(i1, '--include="/foo/" --include="/baz/1/" --include="/baz/"')
+        self.assertEqual(i2, '--include="/foo/**" --include="/bar" --include="/baz/1/2"')
+
+    def test_rsyncInclude_root(self):
+        i1, i2 = self.sn.rsyncInclude([('/', 0), ])
+        self.assertEqual(i1, '')
+        self.assertEqual(i2, '--include="/" --include="/**"')
+
+    def test_rsyncSuffix(self):
+        suffix = self.sn.rsyncSuffix(includeFolders = [('/foo', 0),
+                                                       ('/bar', 1),
+                                                       ('/baz/1/2', 1)],
+                                     excludeFolders = ['/foo/bar',
+                                                       '*blub',
+                                                       '/bar/2'])
+        self.assertRegex(suffix, r' --chmod=Du\+wx  ' +
+                                 r'--exclude="/tmp/snapshots" ' +
+                                 r'--exclude=".*?\.local/share/backintime" ' +
+                                 r'--exclude="\.local/share/backintime/mnt" ' +
+                                 r'--include="/foo/" '      +
+                                 r'--include="/baz/1/" '    +
+                                 r'--include="/baz/" '      +
+                                 r'--exclude="/foo/bar" '   +
+                                 r'--exclude="\*blub" '     +
+                                 r'--exclude="/bar/2" '     +
+                                 r'--include="/foo/\*\*" '  +
+                                 r'--include="/bar" '       +
+                                 r'--include="/baz/1/2" '   +
+                                 r'--exclude="\*" / ')
 
 class TestSID(unittest.TestCase):
     def setUp(self):
