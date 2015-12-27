@@ -2494,7 +2494,7 @@ class SID(object):
                                    + b'\n')
 
     #TODO: add arguments 'mode' and 'decode'
-    def log(self):
+    def log(self, mode = None, decode = None):
         '''load log from "takesnapshot.log.bz2"
 
         tests:

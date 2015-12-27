@@ -262,6 +262,18 @@ class TimeLine(QTreeWidget):
         if item:
             return item.snapshotID()
 
+    def setCurrentSnapshotID(self, sid):
+        for item in self.iterItems():
+            if item.snapshotID() == sid:
+                self.setCurrentItem(item)
+                break
+
+    def setCurrentItem(self, item, *args, **kwargs):
+        super(TimeLine, self).setCurrentItem(item, *args, **kwargs)
+        if self.parent.sid != item.snapshotID():
+            self.parent.sid = item.snapshotID()
+            self.updateFilesView.emit(2)
+
     def iterItems(self):
         for index in range(self.topLevelItemCount()):
             yield self.topLevelItem(index)
@@ -295,6 +307,10 @@ class SnapshotItem(TimeLineItem):
             self.setToolTip(0, _('This is NOT a snapshot but a live view of your local files'))
         else:
             self.setToolTip(0, _('Last check %s') %sid.lastChecked())
+
+    def updateText(self):
+        sid = self.snapshotID()
+        self.setText(0, sid.displayName())
 
 class HeaderItem(TimeLineItem):
     def __init__(self, name, sid):

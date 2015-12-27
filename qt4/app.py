@@ -832,12 +832,6 @@ class MainWindow( QMainWindow ):
         self.sid = sid
         self.update_files_view( 2 )
 
-    #TODO: move to TimeLine widget
-    def time_line_update_snapshot_name( self, item ):
-        sid = item.snapshotID()
-        if sid:
-            item.setText(0, sid.displayName())
-
     def update_time_line( self, get_snapshots_list = True ):
         self.list_time_line.clear()
         self.list_time_line.addRoot(snapshots.RootSnapshot(self.config))
@@ -851,15 +845,6 @@ class MainWindow( QMainWindow ):
             for sid in self.snapshots_list:
                 item = self.list_time_line.addSnapshot(sid)
             self.list_time_line.checkSelection()
-
-    #TODO: move to TimeLine widget
-    def time_line_set_current_snapshot(self, new_sid):
-        for item in self.list_time_line.iterSnapshotItems():
-            if item.snapshotID() == new_sid:
-                self.sid = new_sid
-                self.list_time_line.setCurrentItem( item )
-                self.update_files_view( 2 )
-                break
 
     def on_btn_take_snapshot_clicked( self ):
         backintime.take_snapshot_now_async( self.config )
@@ -880,16 +865,16 @@ class MainWindow( QMainWindow ):
 
         name = sid.name()
 
-        ret_val = QInputDialog.getText(self, _('Snapshot Name'), str() )
-        if not ret_val[1]:
+        new_name, accept = QInputDialog.getText(self, _('Snapshot Name'), '', text = name)
+        if not accept:
             return
 
-        new_name = ret_val[0].strip()
+        new_name = new_name.strip()
         if name == new_name:
             return
 
         sid.setName(new_name)
-        self.time_line_update_snapshot_name( item )
+        item.updateText()
 
     def on_btn_log_view_clicked ( self ):
         self.removeMouseButtonNavigation()
@@ -909,7 +894,7 @@ class MainWindow( QMainWindow ):
         dlg = logviewdialog.LogViewDialog( self, sid )
         dlg.exec_()
         if sid != dlg.sid:
-            self.time_line_set_current_snapshot(dlg.sid)
+            self.list_time_line.setCurrentSnapshotID(dlg.sid)
         self.setMouseButtonNavigation()
 
     def on_btn_remove_snapshot_clicked ( self ):
@@ -1104,7 +1089,7 @@ class MainWindow( QMainWindow ):
         dlg = snapshotsdialog.SnapshotsDialog( self, self.sid, rel_path)
         if QDialog.Accepted == dlg.exec_():
             if dlg.sid != self.sid:
-                self.time_line_set_current_snapshot(dlg.sid)
+                self.list_time_line.setCurrentSnapshotID(dlg.sid)
         self.setMouseButtonNavigation()
 
     def on_btn_folder_up_clicked( self ):
@@ -1243,7 +1228,7 @@ class MainWindow( QMainWindow ):
 
             self.files_view_toolbar.setEnabled( False )
             self.files_view_layout.setCurrentWidget( self.list_files_view )
-            #todo: find a signal for this
+            #TODO: find a signal for this
             self.on_dir_lister_completed()
         else:
             self.btn_restore_menu.setEnabled( False )
