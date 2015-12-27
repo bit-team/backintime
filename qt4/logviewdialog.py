@@ -21,21 +21,22 @@ import gettext
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
+import qt4tools
+import snapshots
 import encfstools
-
 
 _=gettext.gettext
 
 
 class LogViewDialog( QDialog ):
-    def __init__( self, parent, snapshot_id = None ):
+    def __init__( self, parent, sid = None ):
         super(LogViewDialog, self).__init__(parent)
 
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.main_window = parent
         self.current_profile = self.config.get_current_profile()
-        self.snapshot_id = snapshot_id
+        self.sid = sid
         self.enable_update = False
         self.decode = None
 
@@ -45,7 +46,7 @@ class LogViewDialog( QDialog ):
 
         import icon
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
-        if self.snapshot_id is None:
+        if self.sid is None:
             self.setWindowTitle(_('Last Log View'))
         else:
             self.setWindowTitle(_('Snapshot Log View'))
@@ -59,18 +60,18 @@ class LogViewDialog( QDialog ):
         self.lbl_profiles = QLabel( _('Profile:'), self )
         layout.addWidget( self.lbl_profiles )
 
-        self.combo_profiles = QComboBox( self )
+        self.combo_profiles = qt4tools.ProfileCombo( self )
         layout.addWidget( self.combo_profiles, 1 )
         QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.current_profile_changed )
 
         #snapshots
         self.lbl_snapshots = QLabel(_('Snapshots') + ':', self)
         layout.addWidget(self.lbl_snapshots)
-        self.combo_snapshots = QComboBox(self)
+        self.combo_snapshots = qt4tools.SnapshotCombo(self)
         layout.addWidget(self.combo_snapshots, 1)
         QObject.connect(self.combo_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_snapshot_changed)
 
-        if self.snapshot_id is None:
+        if self.sid is None:
             self.lbl_snapshots.hide()
             self.combo_snapshots.hide()
         else:
@@ -138,7 +139,7 @@ class LogViewDialog( QDialog ):
     def current_snapshot_changed(self, index):
         if not self.enable_update:
             return
-        self.snapshot_id = str(self.combo_snapshots.itemData(self.combo_snapshots.currentIndex()))
+        self.sid = self.combo_snapshots.itemData(self.combo_snapshots.currentIndex())
         self.update_log()
 
     def current_filter_changed( self, index ):
@@ -164,9 +165,9 @@ class LogViewDialog( QDialog ):
 
     def update_snapshots(self):
         self.combo_snapshots.clear()
-        for snapshot in self.snapshots.get_snapshots_list():
-            self.combo_snapshots.addItem(self.snapshots.get_snapshot_display_name(snapshot), snapshot)
-            if snapshot == self.snapshot_id:
+        for sid in snapshots.iterSnapshots(self.config):
+            self.combo_snapshots.addItem(sid.displayName(), sid)
+            if sid == self.sid:
                 self.combo_snapshots.setCurrentIndex(self.combo_snapshots.count() - 1)
 
     def update_cb_decode(self):
@@ -183,10 +184,10 @@ class LogViewDialog( QDialog ):
 
         mode = self.combo_filter.itemData( self.combo_filter.currentIndex() )
 
-        if self.snapshot_id is None:
+        if self.sid is None:
             self.txt_log_view.setPlainText(self.snapshots.get_take_snapshot_log(mode, self.get_selected_profile(), decode = self.decode) )
         else:
-            self.txt_log_view.setPlainText(self.snapshots.get_snapshot_log(self.snapshot_id, mode, decode = self.decode) )
+            self.txt_log_view.setPlainText(self.sid.log(mode, decode = self.decode))
 
     def get_selected_profile(self):
         return str(self.combo_profiles.itemData(self.combo_profiles.currentIndex()) )

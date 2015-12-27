@@ -20,7 +20,7 @@ import sys
 import gettext
 from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView,      \
                         QTreeView, QDialog, QApplication, QStyleFactory,       \
-                        QTreeWidget, QTreeWidgetItem, QColor
+                        QTreeWidget, QTreeWidgetItem, QColor, QComboBox
 from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal, QModelIndex
 from datetime import datetime, date, timedelta
 from calendar import monthrange
@@ -36,6 +36,9 @@ def register_backintime_path(*path):
     path = get_backintime_path(*path)
     if not path in sys.path:
         sys.path.insert(0, path)
+
+register_backintime_path('common')
+import snapshots
 
 def get_font_bold( font ):
     font.setWeight( QFont.Bold )
@@ -200,39 +203,32 @@ class TimeLine(QTreeWidget):
                                 datetime.combine(self.now - timedelta(self.now.weekday() + 8), datetime.max.time())
                             )]
 
-    def addRoot(self, sid, sName, tooltip = None):
-        self.rootItem = self.addSnapshot(sid, sName, tooltip)
+    def addRoot(self, sid):
+        self.rootItem = self.addSnapshot(sid)
         return self.rootItem
 
     @pyqtSlot(str, str, str)
-    def addSnapshot(self, sid, sName, tooltip = None):
-        item = SnapshotItem()
-        item.setName(sName)
-        item.setSnapshotID(sid)
-        item.setSort(self.snapshots.get_snapshot_datetime(sid))
-        if not tooltip is None:
-            item.setToolTip(0, tooltip)
+    def addSnapshot(self, sid):
+        item = SnapshotItem(sid)
 
         self.addTopLevelItem(item)
 
         #select the snapshot that was selected before
-        if sid == self.parent.snapshot_id:
+        if sid == self.parent.sid:
             self.setCurrentItem(item)
 
-        if self.snapshots.is_snapshot_id(sid):
+        if not sid.isRoot:
             self.addHeader(sid)
         return item
 
     def addHeader(self, sid):
-        sidDatetime = self.snapshots.get_snapshot_datetime(sid)
-
         for text, startDate, endDate in self.headerData:
-            if startDate <= sidDatetime <= endDate:
+            if startDate <= sid.date <= endDate:
                 return self._createHeaderItem(text, endDate)
 
         #any previous months
-        year = int(sid[0 : 4])
-        month = int(sid[4 : 6])
+        year = sid.date.year
+        month = sid.date.month
         if year == self.now.year:
             text = date(year, month, 1).strftime('%B').capitalize()
         else:
@@ -244,11 +240,9 @@ class TimeLine(QTreeWidget):
 
     def _createHeaderItem(self, text, endDate):
         for item in self.iterHeaderItems():
-            if item.data(0, Qt.UserRole) == endDate:
+            if item.snapshotID().date == endDate:
                 return False
-        item = HeaderItem()
-        item.setName(text)
-        item.setSort(endDate)
+        item = HeaderItem(text, snapshots.SID(endDate, self.parent.config))
         self.addTopLevelItem(item)
         return True
 
@@ -256,15 +250,17 @@ class TimeLine(QTreeWidget):
     def checkSelection(self):
         if self.currentItem() is None:
             self.setCurrentItem(self.rootItem)
-            if self.parent.snapshot_id != '/':
-                self.parent.snapshot_id = '/'
+            if not self.parent.sid.isRoot:
+                self.parent.sid = self.rootItem.snapshotID()
                 self.updateFilesView.emit(2)
 
     def selectedSnapshotIDs(self):
         return [i.snapshotID() for i in self.selectedItems()]
 
     def currentSnapshotID(self):
-        return self.currentItem().snapshotID()
+        item = self.currentItem()
+        if item:
+            return item.snapshotID()
 
     def iterItems(self):
         for index in range(self.topLevelItemCount()):
@@ -280,28 +276,41 @@ class TimeLine(QTreeWidget):
             if isinstance(item, HeaderItem):
                 yield item
 
-class SnapshotItem(QTreeWidgetItem):
-    def setName(self, name):
-        self.setText(0, name)
-        self.setFont(0, get_font_normal(self.font(0)))
-
-    def setSnapshotID(self, sid):
-        self.setData(0, Qt.UserRole, sid)
-
-    def setSort(self, date):
-        self.setText(1, str(date))
+class TimeLineItem(QTreeWidgetItem):
+    def __lt__(self, other):
+        return self.snapshotID() < other.snapshotID()
 
     def snapshotID(self):
-        return str(self.data(0, Qt.UserRole))
+        return self.data(0, Qt.UserRole)
 
-class HeaderItem(QTreeWidgetItem):
-    def setName(self, name):
+class SnapshotItem(TimeLineItem):
+    def __init__(self, sid):
+        super(SnapshotItem, self).__init__()
+        self.setText(0, sid.displayName())
+        self.setFont(0, get_font_normal(self.font(0)))
+
+        self.setData(0, Qt.UserRole, sid)
+
+        if sid.isRoot:
+            self.setToolTip(0, _('This is NOT a snapshot but a live view of your local files'))
+        else:
+            self.setToolTip(0, _('Last check %s') %sid.lastChecked())
+
+class HeaderItem(TimeLineItem):
+    def __init__(self, name, sid):
+        super(HeaderItem, self).__init__()
         self.setText(0, name)
         self.setFont(0, get_font_bold(self.font(0)))
         self.setBackgroundColor(0, QColor(196, 196, 196))
         self.setTextColor(0, QColor(60, 60, 60))
         self.setFlags(Qt.NoItemFlags)
 
-    def setSort(self, date):
-        self.setData(0, Qt.UserRole, date)
-        self.setText(1, str(date))
+        self.setData(0, Qt.UserRole, sid)
+
+#TODO: subclass QComboBox
+class SnapshotCombo(QComboBox):
+    pass
+
+#TODO: subclass QComboBox
+class ProfileCombo(QComboBox):
+    pass

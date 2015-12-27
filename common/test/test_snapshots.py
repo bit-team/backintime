@@ -163,10 +163,10 @@ class TestSID(unittest.TestCase):
         #new_snapshot should always be the last
         sids3 = [sid3, sid1, new, sid4, sid2]
         sids3.sort()
-        self.assertEqual(sids3, [new, sid1, sid2, sid3, sid4])
+        self.assertEqual(sids3, [sid1, sid2, sid3, sid4, new])
 
         sids3.sort(reverse = True)
-        self.assertEqual(sids3, [sid4, sid3, sid2, sid1, new])
+        self.assertEqual(sids3, [new, sid4, sid3, sid2, sid1])
 
     def test_split(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -379,6 +379,16 @@ class TestSID(unittest.TestCase):
 
         self.assertEqual(sid.log(), 'foo bar\nbaz')
 
+    def test_setLog_binary(self):
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
+        logFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'takesnapshot.log.bz2')
+
+        sid.setLog(b'foo bar\nbaz')
+        self.assertTrue(os.path.isfile(logFile))
+
+        self.assertEqual(sid.log(), 'foo bar\nbaz')
+
     def test_makeWriteable(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
@@ -450,20 +460,20 @@ class TestIterSnapshots(unittest.TestCase):
 
     def test_list_valid(self):
         l1 = snapshots.listSnapshots(self.cfg)
-        self.assertListEqual(l1, ['20151219-010324-123',
-                                  '20151219-020324-123',
+        self.assertListEqual(l1, ['20151219-040324-123',
                                   '20151219-030324-123',
-                                  '20151219-040324-123'])
+                                  '20151219-020324-123',
+                                  '20151219-010324-123'])
         self.assertIsInstance(l1[0], snapshots.SID)
 
     def test_list_new_snapshot(self):
         os.makedirs(os.path.join(self.snapshotPath, 'new_snapshot', 'backup'))
-        l2 = snapshots.listSnapshots(self.cfg)
+        l2 = snapshots.listSnapshots(self.cfg, includeNewSnapshot = True)
         self.assertListEqual(l2, ['new_snapshot',
-                                  '20151219-010324-123',
-                                  '20151219-020324-123',
+                                  '20151219-040324-123',
                                   '20151219-030324-123',
-                                  '20151219-040324-123'])
+                                  '20151219-020324-123',
+                                  '20151219-010324-123'])
         self.assertIsInstance(l2[0], snapshots.NewSnapshot)
         self.assertIsInstance(l2[-1], snapshots.SID)
 
@@ -471,56 +481,59 @@ class TestIterSnapshots(unittest.TestCase):
         #new snapshot without backup folder should't be added
         os.makedirs(os.path.join(self.snapshotPath, '20151219-050324-123'))
         l3 = snapshots.listSnapshots(self.cfg)
-        self.assertListEqual(l3, ['20151219-010324-123',
-                                  '20151219-020324-123',
+        self.assertListEqual(l3, ['20151219-040324-123',
                                   '20151219-030324-123',
-                                  '20151219-040324-123'])
+                                  '20151219-020324-123',
+                                  '20151219-010324-123'])
 
     def test_list_invalid_snapshot(self):
         #invalid snapshot shouldn't be added
         os.makedirs(os.path.join(self.snapshotPath, '20151219-000324-abc', 'backup'))
         l4 = snapshots.listSnapshots(self.cfg)
-        self.assertListEqual(l4, ['20151219-010324-123',
-                                  '20151219-020324-123',
+        self.assertListEqual(l4, ['20151219-040324-123',
                                   '20151219-030324-123',
-                                  '20151219-040324-123'])
+                                  '20151219-020324-123',
+                                  '20151219-010324-123'])
 
     def test_list_without_new_snapshot(self):
         os.makedirs(os.path.join(self.snapshotPath, 'new_snapshot', 'backup'))
         l5 = snapshots.listSnapshots(self.cfg, includeNewSnapshot = False)
-        self.assertListEqual(l5, ['20151219-010324-123',
-                                  '20151219-020324-123',
+        self.assertListEqual(l5, ['20151219-040324-123',
                                   '20151219-030324-123',
-                                  '20151219-040324-123'])
+                                  '20151219-020324-123',
+                                  '20151219-010324-123'])
 
     def test_list_symlink_last_snapshot(self):
         os.symlink('./20151219-040324-123',
                    os.path.join(self.snapshotPath, 'last_snapshot'))
         l6 = snapshots.listSnapshots(self.cfg)
-        self.assertListEqual(l6, ['20151219-010324-123',
-                                  '20151219-020324-123',
+        self.assertListEqual(l6, ['20151219-040324-123',
                                   '20151219-030324-123',
-                                  '20151219-040324-123'])
+                                  '20151219-020324-123',
+                                  '20151219-010324-123'])
 
-    def test_list_reverse(self):
+    def test_list_not_reverse(self):
         os.makedirs(os.path.join(self.snapshotPath, 'new_snapshot', 'backup'))
-        l7 = snapshots.listSnapshots(self.cfg, reverse = True)
-        self.assertListEqual(l7, ['20151219-040324-123',
-                                  '20151219-030324-123',
+        l7 = snapshots.listSnapshots(self.cfg, includeNewSnapshot = True, reverse = False)
+        self.assertListEqual(l7, ['20151219-010324-123',
                                   '20151219-020324-123',
-                                  '20151219-010324-123',
+                                  '20151219-030324-123',
+                                  '20151219-040324-123',
                                   'new_snapshot'])
         self.assertIsInstance(l7[0], snapshots.SID)
         self.assertIsInstance(l7[-1], snapshots.NewSnapshot)
 
     def test_iter_snapshots(self):
         for i, sid in enumerate(snapshots.iterSnapshots(self.cfg)):
-            self.assertIn(sid, ['20151219-010324-123',
-                                '20151219-020324-123',
+            self.assertIn(sid, ['20151219-040324-123',
                                 '20151219-030324-123',
-                                '20151219-040324-123'])
+                                '20151219-020324-123',
+                                '20151219-010324-123'])
             self.assertIsInstance(sid, snapshots.SID)
         self.assertEqual(i, 3)
+
+    def test_lastSnapshot(self):
+        self.assertEqual(snapshots.lastSnapshot(self.cfg), '20151219-040324-123')
 
 if __name__ == '__main__':
     unittest.main()

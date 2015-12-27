@@ -216,8 +216,9 @@ def on_battery():
     else:
         return False
 
-
+#TODO: remove deprecated
 def get_snapshots_list_in_folder( folder, sort_reverse = True ):
+    logger.deprecated()
     biglist = []
 
     try:
@@ -236,8 +237,9 @@ def get_snapshots_list_in_folder( folder, sort_reverse = True ):
     list_.sort( reverse = sort_reverse )
     return list_
 
-
+#TODO: remove deprecated
 def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
+    logger.deprecated()
     biglist = []
 
     try:
@@ -259,8 +261,9 @@ def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
     list_.sort( reverse = sort_reverse )
     return list_
 
-
+#TODO: remove deprecated
 def move_snapshots_folder( old_folder, new_folder ):
+    logger.deprecated()
     '''Moves all the snapshots from one folder to another'''
     print("\nMove snapshots from %s to %s" %( old_folder, new_folder ))
 

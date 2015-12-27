@@ -81,7 +81,7 @@ class DiffOptionsDialog( QDialog ):
 
 
 class SnapshotsDialog( QDialog ):
-    def __init__( self, parent, snapshot_id, path ):
+    def __init__( self, parent, sid, path ):
         super(SnapshotsDialog, self).__init__(parent)
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -89,7 +89,7 @@ class SnapshotsDialog( QDialog ):
         self.qapp = parent.qapp
         import icon
 
-        self.snapshot_id = snapshot_id
+        self.sid = sid
         self.path = path
 
         self.setWindowIcon(icon.SNAPSHOTS)
@@ -114,7 +114,7 @@ class SnapshotsDialog( QDialog ):
         QObject.connect(self.cb_only_equal_snapshots, SIGNAL('stateChanged(int)'), self.cb_only_equal_snapshots_changed)
         layout.addWidget(self.cb_only_equal_snapshots)
 
-        self.combo_equal_to = QComboBox(self)
+        self.combo_equal_to = qt4tools.SnapshotCombo(self)
         QObject.connect(self.combo_equal_to, SIGNAL('currentIndexChanged(int)'), self.on_combo_equal_to_changed)
         self.combo_equal_to.setEnabled(False)
         layout.addWidget(self.combo_equal_to)
@@ -162,7 +162,7 @@ class SnapshotsDialog( QDialog ):
         layout.addWidget( self.btn_diff )
         QObject.connect( self.btn_diff, SIGNAL('clicked()'), self.on_btn_diff_clicked )
 
-        self.combo_diff = QComboBox( self )
+        self.combo_diff = qt4tools.SnapshotCombo(self)
         layout.addWidget( self.combo_diff, 2 )
 
         #buttons
@@ -182,7 +182,7 @@ class SnapshotsDialog( QDialog ):
         #
         self.cb_only_different_snapshots_deep_check.setEnabled( False )
 
-        full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
+        full_path = self.sid.pathBackup(self.path)
         if os.path.islink( full_path ):
             self.cb_only_different_snapshots_deep_check.hide()
         elif os.path.isdir( full_path ):
@@ -194,15 +194,13 @@ class SnapshotsDialog( QDialog ):
         #update list and combobox
         self.update_snapshots_and_combo_equal_to()
 
-    def add_snapshot_( self, snapshot_id ):
-        name = self.snapshots.get_snapshot_display_name( snapshot_id )
-
-        self.list_snapshots.addSnapshot(snapshot_id, name)
+    def add_snapshot_(self, sid):
+        self.list_snapshots.addSnapshot(sid)
 
         #add to combo
-        self.combo_diff.addItem( name, snapshot_id )
+        self.combo_diff.addItem(sid.displayName())
 
-        if self.snapshot_id == snapshot_id:
+        if self.sid == sid:
             self.combo_diff.setCurrentIndex( self.combo_diff.count() - 1 )
         elif self.combo_diff.currentIndex() < 0:
             self.combo_diff.setCurrentIndex( 0 )
@@ -213,28 +211,28 @@ class SnapshotsDialog( QDialog ):
 
         combo_index = self.combo_equal_to.currentIndex()
         if self.cb_only_equal_snapshots.isChecked() and combo_index >= 0:
-            equal_to_snapshot_id = str(self.combo_equal_to.itemData(combo_index))
-            equal_to = self.snapshots.get_snapshot_path_to(equal_to_snapshot_id, self.path)
+            equal_to_sid = self.combo_equal_to.itemData(combo_index)
+            equal_to = equal_to_sid.pathBackup(self.path)
         else:
             equal_to = False
-        snapshots_filtered = self.snapshots.filter_for(self.snapshot_id, self.path,
+        snapshots_filtered = self.snapshots.filter_for(self.sid, self.path,
                                 self.snapshots_list,
                                 self.cb_only_different_snapshots.isChecked(),
                                 self.cb_only_different_snapshots_deep_check.isChecked(),
                                 equal_to)
-        for snapshot_id in snapshots_filtered:
-            self.add_snapshot_( snapshot_id )
+        for sid in snapshots_filtered:
+            self.add_snapshot_(sid)
 
         self.update_toolbar()
 
     def update_combo_equal_to(self):
         self.combo_equal_to.clear()
-        snapshots_filtered = self.snapshots.filter_for(self.snapshot_id, self.path, self.snapshots_list)
-        for snapshot_id in snapshots_filtered:
-            name = self.snapshots.get_snapshot_display_name(snapshot_id)
-            self.combo_equal_to.addItem(name, snapshot_id)
+        snapshots_filtered = self.snapshots.filter_for(self.sid, self.path, self.snapshots_list)
+        for sid in snapshots_filtered:
+            name = sid.displayName()
+            self.combo_equal_to.addItem(name, sid)
 
-            if snapshot_id == self.snapshot_id:
+            if sid == self.sid:
                 self.combo_equal_to.setCurrentIndex(self.combo_equal_to.count() - 1)
             elif self.combo_equal_to.currentIndex() < 0:
                 self.combo_equal_to.setCurrentIndex(0)
@@ -262,33 +260,33 @@ class SnapshotsDialog( QDialog ):
         self.update_snapshots()
 
     def update_toolbar( self ):
-        snapshot_ids = self.list_snapshots.selectedSnapshotIDs()
+        sids = self.list_snapshots.selectedSnapshotIDs()
 
-        if not snapshot_ids:
+        if not sids:
             enable_restore = False
             enable_delete = False
-        elif len(snapshot_ids) == 1:
-            enable_restore = len( snapshot_ids[0] ) > 1
-            enable_delete = len( snapshot_ids[0] ) > 1
+        elif len(sids) == 1:
+            enable_restore = not sids[0].isRoot
+            enable_delete  = not sids[0].isRoot
         else:
             enable_restore = False
             enable_delete = True
-            for snapshot_id in snapshot_ids:
-                if len(snapshot_id) <= 1:
+            for sid in sids:
+                if sid.isRoot:
                     enable_delete = False
 
         self.btn_restore.setEnabled(enable_restore)
         self.btn_delete.setEnabled(enable_delete)
 
     def restore_this( self ):
-        snapshot_id = self.list_snapshots.currentSnapshotID()
-        if len( snapshot_id ) > 1:
-            restoredialog.restore( self, snapshot_id, self.path )
+        sid = self.list_snapshots.currentSnapshotID()
+        if not sid.isRoot:
+            restoredialog.restore( self, sid, self.path )
 
     def restore_this_to( self ):
-        snapshot_id = self.list_snapshots.currentSnapshotID()
-        if len( snapshot_id ) > 1:
-            restoredialog.restore( self, snapshot_id, self.path, None )
+        sid = self.list_snapshots.currentSnapshotID()
+        if not sid.isRoot:
+            restoredialog.restore( self, sid, self.path, None )
 
     def on_list_snapshots_changed( self ):
         self.update_toolbar()
@@ -297,29 +295,29 @@ class SnapshotsDialog( QDialog ):
         if self.qapp.keyboardModifiers() and Qt.ControlModifier:
             return
 
-        snapshot_id = self.list_snapshots.currentSnapshotID()
-        if not snapshot_id:
+        sid = self.list_snapshots.currentSnapshotID()
+        if not sid:
             return
 
-        full_path = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
+        full_path = sid.pathBackup(self.path)
         if not os.path.exists( full_path ):
             return
 
         self.run = QDesktopServices.openUrl(QUrl(full_path ))
 
     def on_btn_diff_clicked( self ):
-        snapshot_id = self.list_snapshots.currentSnapshotID()
-        if not snapshot_id:
+        sid1 = self.list_snapshots.currentSnapshotID()
+        if not sid1:
             return
 
         combo_index = self.combo_diff.currentIndex()
         if combo_index < 0:
             return
 
-        snapshot2_id = str( self.combo_diff.itemData( combo_index ) )
+        sid2 = self.combo_diff.itemData(combo_index)
 
-        path1 = self.snapshots.get_snapshot_path_to( snapshot_id, self.path )
-        path2 = self.snapshots.get_snapshot_path_to( snapshot2_id, self.path )
+        path1 = sid1.pathBackup(self.path)
+        path2 = sid2.pathBackup(self.path)
 
         #check if the 2 paths are different
         if path1 == path2:
@@ -384,9 +382,9 @@ class SnapshotsDialog( QDialog ):
                 item.setSelected(True)
 
     def accept( self ):
-        snapshot_id = self.list_snapshots.currentSnapshotID()
-        if snapshot_id:
-            self.snapshot_id = snapshot_id
+        sid = self.list_snapshots.currentSnapshotID()
+        if sid:
+            self.sid = sid
         super(SnapshotsDialog, self).accept()
 
 class RemoveFileThread(QThread):

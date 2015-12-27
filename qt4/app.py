@@ -72,7 +72,7 @@ class MainWindow( QMainWindow ):
         #profiles
         self.first_update_all = True
         self.disable_profile_changed = False
-        self.combo_profiles = QComboBox( self )
+        self.combo_profiles = qt4tools.ProfileCombo(self)
         self.combo_profiles_action = self.main_toolbar.addWidget( self.combo_profiles )
 
         self.btn_take_snapshot = self.main_toolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
@@ -377,7 +377,7 @@ class MainWindow( QMainWindow ):
         self.status.setText( _('Done') )
 
         self.snapshots_list = []
-        self.snapshot_id = '/'
+        self.sid = snapshots.RootSnapshot(self.config)
         self.path = self.config.get_profile_str_value('qt4.last_path',
                             self.config.get_str_value('qt4.last_path', '/' ) )
         self.edit_current_path.setText( self.path )
@@ -681,7 +681,8 @@ class MainWindow( QMainWindow ):
 
             self.btn_take_snapshot.setEnabled( True )
 
-            snapshots_list = self.snapshots.get_snapshots_and_other_list()
+            #TODO: check if there is a more elegant way than always get a new snapshot list which is very expencive (time)
+            snapshots_list = snapshots.listSnapshots(self.config)
 
             if snapshots_list != self.snapshots_list:
                 self.snapshots_list = snapshots_list
@@ -809,7 +810,7 @@ class MainWindow( QMainWindow ):
         if item is None:
             item = self.list_time_line.currentItem()
         if not item is None:
-            if len(item.snapshotID()) > 1:
+            if not item.snapshotID().isRoot:
                 enabled = True
 
         #update remove/name snapshot buttons
@@ -824,26 +825,22 @@ class MainWindow( QMainWindow ):
         if item is None:
             return
 
-        snapshot_id = item.snapshotID()
-        if not snapshot_id:
+        sid = item.snapshotID()
+        if not sid or sid == self.sid:
             return
 
-        if snapshot_id == self.snapshot_id:
-            return
-
-        self.snapshot_id = snapshot_id
+        self.sid = sid
         self.update_files_view( 2 )
 
+    #TODO: move to TimeLine widget
     def time_line_update_snapshot_name( self, item ):
-        snapshot_id = item.snapshotID()
-        if snapshot_id:
-            item.setText( 0, self.snapshots.get_snapshot_display_name( snapshot_id ) )
+        sid = item.snapshotID()
+        if sid:
+            item.setText(0, sid.displayName())
 
     def update_time_line( self, get_snapshots_list = True ):
         self.list_time_line.clear()
-        self.list_time_line.addRoot('/',
-                                    self.snapshots.get_snapshot_display_name('/'),
-                                    _('This is NOT a snapshot but a live view of your local files'))
+        self.list_time_line.addRoot(snapshots.RootSnapshot(self.config))
         if get_snapshots_list:
             self.snapshots_list = []
             thread = FillTimeLineThread(self)
@@ -852,15 +849,14 @@ class MainWindow( QMainWindow ):
             thread.start()
         else:
             for sid in self.snapshots_list:
-                item = self.list_time_line.addSnapshot(sid,
-                                                       self.snapshots.get_snapshot_display_name(sid),
-                                                       _('Last check %s') %self.snapshots.get_snapshot_last_check(sid))
+                item = self.list_time_line.addSnapshot(sid)
             self.list_time_line.checkSelection()
 
-    def time_line_set_current_snapshot(self, new_snapshot_id):
+    #TODO: move to TimeLine widget
+    def time_line_set_current_snapshot(self, new_sid):
         for item in self.list_time_line.iterSnapshotItems():
-            if item.snapshotID() == new_snapshot_id:
-                self.snapshot_id = new_snapshot_id
+            if item.snapshotID() == new_sid:
+                self.sid = new_sid
                 self.list_time_line.setCurrentItem( item )
                 self.update_files_view( 2 )
                 break
@@ -878,11 +874,11 @@ class MainWindow( QMainWindow ):
         if item is None:
             return
 
-        snapshot_id = item.snapshotID()
-        if len( snapshot_id ) <= 1:
+        sid = item.snapshotID()
+        if sid.isRoot:
             return
 
-        name = self.snapshots.get_snapshot_name( snapshot_id )
+        name = sid.name()
 
         ret_val = QInputDialog.getText(self, _('Snapshot Name'), str() )
         if not ret_val[1]:
@@ -892,7 +888,7 @@ class MainWindow( QMainWindow ):
         if name == new_name:
             return
 
-        self.snapshots.set_snapshot_name( snapshot_id, new_name )
+        sid.setName(new_name)
         self.time_line_update_snapshot_name( item )
 
     def on_btn_log_view_clicked ( self ):
@@ -905,15 +901,15 @@ class MainWindow( QMainWindow ):
         if item is None:
             return
 
-        snapshot_id = item.snapshotID()
-        if len( snapshot_id ) <= 1:
+        sid = item.snapshotID()
+        if sid.isRoot:
             return
 
         self.removeMouseButtonNavigation()
-        dlg = logviewdialog.LogViewDialog( self, snapshot_id )
+        dlg = logviewdialog.LogViewDialog( self, sid )
         dlg.exec_()
-        if snapshot_id != dlg.snapshot_id:
-            self.time_line_set_current_snapshot(dlg.snapshot_id)
+        if sid != dlg.sid:
+            self.time_line_set_current_snapshot(dlg.sid)
         self.setMouseButtonNavigation()
 
     def on_btn_remove_snapshot_clicked ( self ):
@@ -1039,7 +1035,7 @@ class MainWindow( QMainWindow ):
         return (confirm, ret)
 
     def restore_this( self, delete = False ):
-        if len( self.snapshot_id ) <= 1:
+        if self.sid.isRoot:
             return
 
         selected_file = [f for f, idx in self.multi_file_selected()]
@@ -1056,10 +1052,10 @@ class MainWindow( QMainWindow ):
         if not confirm:
             return
 
-        restoredialog.restore(self, self.snapshot_id, rel_path, delete = delete, **kwargs)
+        restoredialog.restore(self, self.sid, rel_path, delete = delete, **kwargs)
 
     def restore_this_to( self ):
-        if len( self.snapshot_id ) <= 1:
+        if self.sid.isRoot:
             return
 
         selected_file = [f for f, idx in self.multi_file_selected()]
@@ -1071,10 +1067,10 @@ class MainWindow( QMainWindow ):
         if not confirm:
             return
 
-        restoredialog.restore(self, self.snapshot_id, rel_path, None, **kwargs)
+        restoredialog.restore(self, self.sid, rel_path, None, **kwargs)
 
     def restore_parent( self, delete = False ):
-        if len( self.snapshot_id ) <= 1:
+        if self.sid.isRoot:
             return
 
         self.removeMouseButtonNavigation()
@@ -1086,16 +1082,16 @@ class MainWindow( QMainWindow ):
         if not confirm:
             return
 
-        restoredialog.restore( self, self.snapshot_id, self.path, delete = delete, **kwargs)
+        restoredialog.restore( self, self.sid, self.path, delete = delete, **kwargs)
 
     def restore_parent_to( self ):
-        if len( self.snapshot_id ) <= 1:
+        if self.sid.isRoot:
             return
 
         if not self.confirm_restore((self.path,)):
             return
 
-        restoredialog.restore( self, self.snapshot_id, self.path, None )
+        restoredialog.restore( self, self.sid, self.path, None )
 
     def on_btn_snapshots_clicked( self ):
         selected_file, idx = self.file_selected()
@@ -1105,10 +1101,10 @@ class MainWindow( QMainWindow ):
         rel_path = os.path.join( self.path, selected_file )
 
         self.removeMouseButtonNavigation()
-        dlg = snapshotsdialog.SnapshotsDialog( self, self.snapshot_id, rel_path)
+        dlg = snapshotsdialog.SnapshotsDialog( self, self.sid, rel_path)
         if QDialog.Accepted == dlg.exec_():
-            if dlg.snapshot_id != self.snapshot_id:
-                self.time_line_set_current_snapshot(dlg.snapshot_id)
+            if dlg.sid != self.sid:
+                self.time_line_set_current_snapshot(dlg.sid)
         self.setMouseButtonNavigation()
 
     def on_btn_folder_up_clicked( self ):
@@ -1125,19 +1121,17 @@ class MainWindow( QMainWindow ):
 
     def on_btn_folder_history_previous_clicked(self):
         path = self.path_history.previous()
-        full_path = self.snapshots.get_snapshot_path_to(self.snapshot_id, path)
-        if os.path.isdir(full_path):
-            if self.snapshots.can_open_path(self.snapshot_id, full_path):
-                self.path = path
-                self.update_files_view(0)
+        full_path = self.sid.pathBackup(path)
+        if os.path.isdir(full_path) and self.sid.canOpenPath(full_path):
+            self.path = path
+            self.update_files_view(0)
 
     def on_btn_folder_history_next_clicked(self):
         path = self.path_history.next()
-        full_path = self.snapshots.get_snapshot_path_to(self.snapshot_id, path)
-        if os.path.isdir(full_path):
-            if self.snapshots.can_open_path(self.snapshot_id, full_path):
-                self.path = path
-                self.update_files_view(0)
+        full_path = self.sid.pathBackup(path)
+        if os.path.isdir(full_path) and self.sid.canOpenPath(full_path):
+            self.path = path
+            self.update_files_view(0)
 
     def on_btn_open_current_item(self):
         path, idx = self.file_selected()
@@ -1185,16 +1179,15 @@ class MainWindow( QMainWindow ):
 
     def open_path(self, rel_path):
         rel_path = os.path.join( self.path, rel_path )
-        full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, rel_path )
+        full_path = self.sid.pathBackup(rel_path)
 
-        if os.path.exists( full_path ):
-            if self.snapshots.can_open_path( self.snapshot_id, full_path ):
-                if os.path.isdir( full_path ):
-                    self.path = rel_path
-                    self.path_history.append(rel_path)
-                    self.update_files_view( 0 )
-                else:
-                    self.run = QDesktopServices.openUrl(QUrl(full_path ))
+        if os.path.exists(full_path) and self.sid.canOpenPath(full_path):
+            if os.path.isdir( full_path ):
+                self.path = rel_path
+                self.path_history.append(rel_path)
+                self.update_files_view( 0 )
+            else:
+                self.run = QDesktopServices.openUrl(QUrl(full_path ))
 
     def files_view_get_name( self, item ):
         return item.text( 0 )
@@ -1218,16 +1211,16 @@ class MainWindow( QMainWindow ):
 
         tooltip = ''
         text = ''
-        if len( self.snapshot_id ) > 1:
-            name = self.snapshots.get_snapshot_display_id( self.snapshot_id )
+        if self.sid.isRoot:
+            text = _('Now')
+            tooltip = _('View the current disk content')
+        else:
+            name = self.sid.displayName()
             text = _('Snapshot: %s') % name
             tooltip = _('View the snapshot made at %s') % name
-        else:
-            tooltip = _('View the current disk content')
-            text = _('Now')
 
-        self.right_widget.setTitle( _( text ) )
-        self.right_widget.setToolTip( _( tooltip ) )
+        self.right_widget.setTitle(text)
+        self.right_widget.setToolTip(tooltip)
 
         #try to keep old selected file
         if selected_file is None:
@@ -1236,7 +1229,7 @@ class MainWindow( QMainWindow ):
         self.selected_file = selected_file
 
         #update files view
-        full_path = self.snapshots.get_snapshot_path_to( self.snapshot_id, self.path )
+        full_path = self.sid.pathBackup(self.path)
 
         if os.path.isdir( full_path ):
             if self.show_hidden_files:
@@ -1273,7 +1266,7 @@ class MainWindow( QMainWindow ):
         has_files = (self.list_files_view_proxy_model.rowCount(self.list_files_view.rootIndex() ) > 0 )
 
         #update restore button state
-        enable = len(self.snapshot_id) > 1 and has_files
+        enable = not self.sid.isRoot and has_files
         self.btn_restore_menu.setEnabled(enable)
         self.menubar_restore.setEnabled(enable)
         self.btn_restore.setEnabled(enable)
@@ -1428,7 +1421,7 @@ class RemoveSnapshotThread(QThread):
         super(RemoveSnapshotThread, self).__init__(parent)
 
     def run(self):
-        last_snapshot = self.snapshots.get_snapshots_list()[0]
+        last_snapshot = snapshots.lastSnapshot(self.config)
         renew_last_snapshot = False
         #inhibit suspend/hibernate during delete
         self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
@@ -1449,9 +1442,8 @@ class RemoveSnapshotThread(QThread):
         self.refreshSnapshotList.emit()
 
         #set correct last snapshot again
-        sids = self.snapshots.get_snapshots_list()
-        if renew_last_snapshot and len(sids):
-            self.snapshots.create_last_snapshot_symlink(sids[0])
+        if renew_last_snapshot:
+            self.snapshots.create_last_snapshot_symlink(snapshots.lastSnapshot(self.config))
 
         #release inhibit suspend
         if self.config.inhibitCookie:
@@ -1460,17 +1452,15 @@ class RemoveSnapshotThread(QThread):
 class FillTimeLineThread(QThread):
     '''add snapshot IDs to timeline in background
     '''
-    addSnapshot = pyqtSignal(str, str, str)
+    addSnapshot = pyqtSignal(snapshots.SID)
     def __init__(self, parent):
         self.parent = parent
-        self.snapshots = parent.snapshots
+        self.config = parent.config
         super(FillTimeLineThread, self).__init__(parent)
 
     def run(self):
-        for sid in self.snapshots.get_snapshots_and_other():
-            self.addSnapshot.emit(sid,
-                                  self.snapshots.get_snapshot_display_name(sid),
-                                  _('Last check %s') %self.snapshots.get_snapshot_last_check(sid))
+        for sid in snapshots.iterSnapshots(self.config):
+            self.addSnapshot.emit(sid)
             self.parent.snapshots_list.append(sid)
 
         self.parent.snapshots_list.sort()

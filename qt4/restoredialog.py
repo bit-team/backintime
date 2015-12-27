@@ -30,25 +30,25 @@ import qt4tools
 _=gettext.gettext
 
 
-def restore( parent, snapshot_id, what, where = '', **kwargs ):
+def restore( parent, sid, what, where = '', **kwargs ):
     if where is None:
         where = qt4tools.getExistingDirectory( parent, _('Restore to ...') )
         if not where:
             return
         where = parent.config.prepare_path( where )
 
-    rd = RestoreDialog(parent, snapshot_id, what, where, **kwargs)
+    rd = RestoreDialog(parent, sid, what, where, **kwargs)
     rd.exec()
 
 class RestoreDialog( QDialog ):
-    def __init__( self, parent, snapshot_id, what, where = '', **kwargs ):
+    def __init__( self, parent, sid, what, where = '', **kwargs ):
         super(RestoreDialog, self).__init__(parent)
         self.resize( 600, 500 )
 
         self.config = parent.config
         self.current_profile = self.config.get_current_profile()
         self.snapshots = parent.snapshots
-        self.snapshot_id = snapshot_id
+        self.sid = sid
         self.what = what
         self.where = where
         self.kwargs = kwargs
@@ -127,7 +127,7 @@ class RestoreThread(QThread):
         self.buffer = ''
 
     def run(self):
-        self.parent.snapshots.restore(self.parent.snapshot_id, self.parent.what, self.callback, self.parent.where, **self.parent.kwargs)
+        self.parent.snapshots.restore(self.parent.sid, self.parent.what, self.callback, self.parent.where, **self.parent.kwargs)
         self.log.close()
 
     def callback(self, line, *args):

@@ -1721,7 +1721,7 @@ class RestoreConfigDialog(QDialog):
         samplePath = os.path.join( 'backintime',
                                     self.config.get_host(),
                                     self.config.get_user(), '1',
-                                    self.snapshots.get_snapshot_id(datetime.datetime.now())
+                                    snapshots.SID(datetime.datetime.now()).sid
                                     )
 
         #inform user to join group fuse if he hasn't already.
