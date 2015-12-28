@@ -46,7 +46,6 @@ _=gettext.gettext
 class Snapshots:
     SNAPSHOT_VERSION = 3
     GLOBAL_FLOCK = '/tmp/backintime.lock'
-    NEW_SNAPSHOT_ID = 'new_snapshot'
 
     def __init__( self, cfg = None ):
         self.config = cfg
@@ -71,237 +70,6 @@ class Snapshots:
         self.last_check_snapshot_runnig = datetime.datetime(1,1,1)
         self.flock_file = None
         self.restore_permission_failed = False
-
-    #replace with SID
-    def get_snapshot_id( self, date ):
-        logger.deprecated(self)
-        profile_id = self.config.get_current_profile()
-        tag = self.config.get_tag( profile_id )
-
-        if type( date ) is datetime.datetime:
-            snapshot_id = date.strftime( '%Y%m%d-%H%M%S' ) + '-' + tag
-            return snapshot_id
-
-        if type( date ) is datetime.date:
-            snapshot_id = date.strftime( '%Y%m%d-000000' ) + '-' + tag
-            return snapshot_id
-
-        if type( date ) is str:
-            snapshot_id = date
-            return snapshot_id
-
-        return ""
-
-    #replace with SID
-    def is_snapshot_id(self, sid):
-        logger.deprecated(self)
-        return len(sid) == 15 or len(sid) == 19
-
-    #replace with SID
-    def get_snapshot_datetime(self, sid):
-        logger.deprecated(self)
-        def split(s, e):
-            return int(sid[s:e])
-        if self.is_snapshot_id(sid):
-            return datetime.datetime(split(0, 4), split(4, 6), split(6, 8), split(9, 11), split(11, 13), split(13, 15))
-
-    #TODO: remove deprecated
-    def get_snapshot_old_id( self, date ):
-        logger.deprecated(self)
-        if type( date ) is datetime.datetime:
-            snapshot_id = date.strftime( '%Y%m%d-%H%M%S' )
-            return snapshot_id
-
-        if type( date ) is datetime.date:
-            snapshot_id = date.strftime( '%Y%m%d-000000' )
-            return snapshot_id
-
-        if type( date ) is str:
-            snapshot_id = date
-            return snapshot_id
-
-        return ""
-
-    #replace with SID
-    def get_snapshot_path( self, date, use_mode = [] ):
-        logger.deprecated(self)
-        profile_id = self.config.get_current_profile()
-        current_mode = self.config.get_snapshots_mode()
-        if 'ssh' in use_mode and current_mode == 'ssh':
-            path = os.path.join( self.config.get_snapshots_full_path_ssh( profile_id ), self.get_snapshot_id( date ) )
-            return path
-        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
-            path = os.path.join( self.config.get_snapshots_full_path_ssh( profile_id ), self.get_snapshot_id( date ) )
-            return self.config.ENCODE.remote(path)
-        path = os.path.join( self.config.get_snapshots_full_path( profile_id ), self.get_snapshot_id( date ) )
-        if os.path.exists( path ):
-            return path
-        other_folders = self.config.get_other_folders_paths()
-        for folder in other_folders:
-            path_other = os.path.join( folder, self.get_snapshot_id( date ) )
-            if os.path.exists( path_other ):
-                return path_other
-        if os.path.exists( path ):
-            return path
-        other_folders = self.config.get_other_folders_paths()
-        for folder in other_folders:
-            path_other = os.path.join( folder, self.get_snapshot_old_id( date ) )
-            if os.path.exists( path_other ):
-                return path_other
-        return path
-
-    #replace with SID
-    def get_snapshot_info_path( self, date ):
-        logger.deprecated(self)
-        return os.path.join( self.get_snapshot_path( date ), 'info' )
-
-    #replace with SID
-    def get_snapshot_fileinfo_path( self, date ):
-        logger.deprecated(self)
-        return os.path.join( self.get_snapshot_path( date ), 'fileinfo.bz2' )
-
-    #replace with SID
-    def get_snapshot_log_path( self, snapshot_id ):
-        logger.deprecated(self)
-        return os.path.join( self.get_snapshot_path( snapshot_id ), 'takesnapshot.log.bz2' )
-
-    #replace with SID
-    def get_snapshot_failed_path( self, snapshot_id ):
-        logger.deprecated(self)
-        return os.path.join( self.get_snapshot_path( snapshot_id ), 'failed' )
-
-    #replace with SID
-    def _get_snapshot_data_path( self, snapshot_id, use_mode = [] ):
-        logger.deprecated(self)
-        current_mode = self.config.get_snapshots_mode()
-        if len( snapshot_id ) <= 1:
-            return '/';
-        path = 'backup'
-        snapshot_path = self.get_snapshot_path( snapshot_id, use_mode )
-        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
-            return os.path.join( snapshot_path, self.config.ENCODE.path(path) )
-        return os.path.join( snapshot_path, path )
-
-    #replace with SID
-    def get_snapshot_path_to( self, snapshot_id, toPath = '/', use_mode = [] ):
-        logger.deprecated(self)
-        current_mode = self.config.get_snapshots_mode()
-        snapshot_data_path = os.path.join( self._get_snapshot_data_path( snapshot_id, use_mode ) )
-        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
-            enc_path = self.config.ENCODE.path( toPath[ 1 : ] )
-            return os.path.join( snapshot_data_path, enc_path )
-        return os.path.join( snapshot_data_path, toPath[ 1 : ] )
-
-    #replace with SID
-    def can_open_path( self, snapshot_id, full_path ):
-        logger.deprecated(self)
-        if not os.path.exists( full_path ):
-            return False
-        if not os.path.islink( full_path ):
-            return True
-        base_path = self.get_snapshot_path_to( snapshot_id )
-        target = os.readlink( full_path )
-        target = os.path.join( os.path.abspath( os.path.dirname( full_path ) ), target )
-        return target.startswith( base_path )
-
-    #replace with SID
-    def get_snapshot_display_id( self, snapshot_id ):
-        logger.deprecated(self)
-        if len( snapshot_id ) <= 1:
-            return _('Now')
-        return "%s-%s-%s %s:%s:%s" % ( snapshot_id[ 0 : 4 ], snapshot_id[ 4 : 6 ], snapshot_id[ 6 : 8 ], snapshot_id[ 9 : 11 ], snapshot_id[ 11 : 13 ], snapshot_id[ 13 : 15 ]  )
-
-    #replace with SID
-    def get_snapshot_display_name( self, snapshot_id ):
-        logger.deprecated(self)
-        display_name = self.get_snapshot_display_id( snapshot_id )
-        name = self.get_snapshot_name( snapshot_id )
-
-        if name:
-            display_name = display_name + ' - ' + name
-
-        if self.is_snapshot_failed( snapshot_id ):
-            display_name = display_name + " (%s)" % _("WITH ERRORS !")
-
-        return display_name
-
-    #replace with SID
-    def get_snapshot_name( self, snapshot_id ):
-        logger.deprecated(self)
-        name = ''
-        if len( snapshot_id ) <= 1: #not a snapshot
-            return name
-
-        path = self.get_snapshot_path( snapshot_id )
-        nameFile = os.path.join(path, 'name')
-        if not os.path.isdir( path ):
-            return name
-
-        if not os.path.exists(nameFile):
-            return name
-        try:
-            with open(nameFile, 'rt') as f:
-                name = f.read()
-        except Exception as e:
-            logger.debug('Failed to get snapshot %s name: %s'
-                         %(snapshot_id, str(e)),
-                         self)
-
-        return name
-
-    #replace with SID
-    def set_snapshot_name( self, snapshot_id, name ):
-        logger.deprecated(self)
-        if len( snapshot_id ) <= 1: #not a snapshot
-            return
-
-        path = self.get_snapshot_path( snapshot_id )
-        if not os.path.isdir( path ):
-            return
-
-        name_path = os.path.join( path, 'name' )
-
-        os.system( "chmod +w \"%s\"" % path )
-
-        try:
-            with open( name_path, 'wt' ) as f:
-                f.write( name )
-        except Exception as e:
-            logger.debug('Failed to set snapshot %s name: %s'
-                         %(snapshot_id, str(e)),
-                         self)
-            pass
-
-    #replace with SID
-    def is_snapshot_failed( self, snapshot_id ):
-        logger.deprecated(self)
-        if len( snapshot_id ) <= 1: #not a snapshot
-            return False
-
-        path = self.get_snapshot_failed_path( snapshot_id )
-        return os.path.isfile( path )
-
-    #replace with SID
-    def get_snapshot_last_check(self, snapshot_id):
-        logger.deprecated(self)
-        """return date when snapshot has finished last time.
-        this can be the end of creation of this snapshot or the last time when
-        this snapshot was checked against source without changes.
-        """
-        info = self.get_snapshot_info_path(snapshot_id)
-        if os.path.exists(info):
-            return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)) )
-        return self.get_snapshot_display_id(snapshot_id)
-
-    #replace with SID
-    def set_snapshot_last_check(self, snapshot_id):
-        logger.deprecated(self)
-        """set info files atime to current time to indicate this snapshot was
-        checked against source without changes right now.
-        """
-        info = self.get_snapshot_info_path(snapshot_id)
-        if os.path.exists(info):
-            os.utime(info, None)
 
     #TODO: make own class for takeSnapshotMessage
     def clear_take_snapshot_message( self ):
@@ -376,13 +144,6 @@ class Snapshots:
                          self)
             pass
 
-    #TODO: remove duplicate (is_busy)
-    def check_snapshot_alive(self):
-        logger.deprecated(self)
-        pid_file = self.config.get_take_snapshot_instance_file()
-        instance = applicationinstance.ApplicationInstance(pid_file, False)
-        return not instance.check()
-
     #TODO: make own class for takeSnapshotLog
     def _filter_take_snapshot_log( self, log, mode , decode = None):
         decode_msg = _('### This log has been decoded with automatic search pattern\n'\
@@ -424,19 +185,6 @@ class Snapshots:
 
         return log
 
-    #replace with SID
-    def get_snapshot_log( self, snapshot_id, mode = 0, profile_id = None , **kwargs ):
-        logger.deprecated(self)
-        try:
-            with bz2.BZ2File( self.get_snapshot_log_path( snapshot_id ), 'r' ) as f:
-                data = f.read().decode()
-            return self._filter_take_snapshot_log( data, mode, **kwargs )
-        except Exception as e:
-            logger.debug('Failed to get snapshot log from %s: %s'
-                         %(self.get_snapshot_log_path(snapshot_id), str(e)),
-                         self)
-            return ''
-
     #TODO: make own class for takeSnapshotLog
     def get_take_snapshot_log( self, mode = 0, profile_id = None, **kwargs ):
         logFile = self.config.get_take_snapshot_log_file(profile_id)
@@ -475,49 +223,6 @@ class Snapshots:
     def is_busy( self ):
         instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
         return not instance.check()
-
-    #replace with SID
-    def load_fileinfo_dict( self, snapshot_id, version = None ):
-        logger.deprecated(self)
-        if version is None:
-            info_file = configfile.ConfigFile()
-            info_file.load( self.get_snapshot_info_path( snapshot_id ) )
-            version = info_file.get_int_value( 'snapshot_version' )
-            info_file = None
-
-        file_info_dict = {}
-
-        if 0 == version:
-            return file_info_dict
-
-        fileinfo_path = self.get_snapshot_fileinfo_path( snapshot_id )
-        if not os.path.exists( fileinfo_path ):
-            return file_info_dict
-
-        with bz2.BZ2File( fileinfo_path, 'rb' ) as fileinfo:
-            for line in fileinfo:
-                if not line:
-                    break
-
-                line = line[ : -1 ]
-                if not line:
-                    continue
-
-                index = line.find( b'/' )
-                if index < 0:
-                    continue
-
-                f = line[ index: ]
-                if not f:
-                    continue
-
-                info = line[ : index ].strip()
-                info = info.split( b' ' )
-
-                if len( info ) == 3:
-                    file_info_dict[f] = (int(info[0]), info[1], info[2]) #perms, user, group
-
-        return file_info_dict
 
     #TODO: make own class UID/GID
     def clear_uid_gid_names_cache(self):
@@ -844,49 +549,6 @@ class Snapshots:
 
         return list_
 
-    #replace with listSnapshots
-    def get_snapshots_and_other(self):
-        logger.deprecated(self)
-        '''Yields snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
-
-        snapshots_path = self.config.get_snapshots_full_path()
-        snapshots_other_paths = self.config.get_other_folders_paths()
-
-        try:
-            for item in  os.listdir(snapshots_path):
-                if not self.is_snapshot_id(item):
-                    continue
-                if os.path.isdir(os.path.join(snapshots_path, item, 'backup')):
-                    yield item
-        except Exception as e:
-            logger.debug('Failed to get snapshots list: %s'
-                         %str(e),
-                         self)
-            pass
-
-        if snapshots_other_paths:
-            for folder in snapshots_other_paths:
-                try:
-                    for item in os.listdir(folder):
-                        if not self.is_snapshot_id(item):
-                            continue
-                        if os.path.isdir(os.path.join(folder, item, 'backup')):
-                            yield item
-                except Exception as e:
-                    logger.debug('Failed to get folder list for %s: %s'
-                                 %(folder, str(e)),
-                                 self)
-                    pass
-
-    #replace with listSnapshots
-    def get_snapshots_and_other_list( self, sort_reverse = True ):
-        logger.deprecated(self)
-        '''Returns a list with the snapshot_ids, and paths, of all snapshots in the snapshots_folder and the other_folders'''
-
-        biglist = list(self.get_snapshots_and_other())
-        biglist.sort(reverse = sort_reverse)
-        return biglist
-
     def remove_snapshot( self, sid, execute = True, quote = '\"'):
         if len( sid.sid ) <= 1:
             return
@@ -899,119 +561,6 @@ class Snapshots:
             self._execute(self.cmd_ssh(rm))
         else:
             return((find, rm))
-
-    #TODO: remove deprecated
-    def update_snapshots_location( self ):
-        logger.deprecated(self)
-        '''Updates to location: backintime/machine/user/profile_id'''
-        if self.has_old_snapshots():
-            logger.info('Snapshot location update flag detected', self)
-            logger.warning('Snapshot location needs update', self)
-            profiles = self.config.get_profiles()
-
-            answer_change = self.config.question_handler( _('Back In Time changed its backup format.\n\nYour old snapshots can be moved according to this new format. OK?') )
-            if answer_change == True:
-                logger.info('Update snapshot locations', self)
-
-                if len( profiles ) == 1:
-                    logger.info('Only 1 profile found', self)
-                    answer_same = True
-                elif len( profiles ) > 1:
-                    answer_same = self.config.question_handler( _('%s profiles found. \n\nThe new backup format supports storage of different users and profiles on the same location. Do you want the same location for both profiles? \n\n(The program will still be able to discriminate between them)') % len( profiles ) )
-                else:
-                    logger.warning('No profiles found!', self)
-                    self.config.notify_error( _( 'No profiles are found. Will have to update to profiles first, please restart Back In Time' ) )
-                    logger.info('Config version is %s'
-                                %str(self.get_int_value('config.version', 1)),
-                                self)
-
-                    if self.config.get_int_value( 'config.version', 1 ) > 1:
-                        self.config.set_int_value( 'config.version', 2 )
-                        logger.info('Config version set to 2', self)
-                        return False
-
-                # Moving old snapshots per profile_id
-                profile_id = profiles[0]
-                main_folder = self.config.get_snapshots_path( profile_id )
-                old_snapshots_paths=[]
-                counter = 0
-                success = []
-
-                for profile_id in profiles:
-                    old_snapshots_paths.append( self.config.get_snapshots_path( profile_id ) )
-                    old_folder = os.path.join( self.config.get_snapshots_path( profile_id ), 'backintime' )
-                    if profile_id != "1" and answer_same == True:
-                        self.config.set_snapshots_path( main_folder, profile_id )
-                        logger.info('Folder of profile %s is set to %s'
-                                    %(profile_id, main_folder),
-                                    self)
-                    else:
-                        self.config.set_snapshots_path( self.config.get_snapshots_path( profile_id ), profile_id )
-                        logger.info('Folder of profile %s is set to %s'
-                                    %(profile_id, main_folder),
-                                    self)
-                    new_folder = self.config.get_snapshots_full_path( profile_id )
-
-                    output = tools.move_snapshots_folder( old_folder, new_folder )
-
-                    snapshots_left = tools.get_snapshots_list_in_folder( old_folder )
-                    if output == True:
-                        success.append( True )
-                        if not snapshots_left:
-                            logger.info('Update was successful. Snapshots of profile %s are moved to their new location'
-                                        %profile_id, self)
-                        else:
-                            logger.warning('Not all snapshots are removed from the original folder!', self)
-                            logger.info('The following snapshots are still present: %s' %snapshots_left, self)
-                            logger.info('You could move them manually or leave them where they are now', self)
-                    else:
-                        logger.warning('%s: are not moved to their new location!' %snapshots_left, self)
-
-                        answer_unsuccessful = self.config.question_handler( _('%(snapshots_left)s\nof profile %(profile_id)s are not moved to their new location\nDo you want to proceed?\n(Back In Time will be able to continue taking snapshots, however the remaining snapshots will not be considered for automatic removal)\n\nIf not Back In Time will restore former settings for this profile, however cannot continue taking snapshots' %{ 'snapshots_left' : snapshots_left, 'profile_id' : profile_id } ) )
-                        if answer_unsuccessful == True:
-                            success.append( True )
-                        else:
-                            success.append( False )
-                            # restore
-                            logger.info('Restore former settings', self)
-                            self.config.set_snapshots_path( old_snapshots_paths[counter], profile_id )
-                            self.config.error_handler( _('Former settings of profile %s are restored.\nBack In Time cannot continue taking new snapshots.\n\nYou can manually move the snapshots, \nif you are done restart Back In Time to proceed' %profile_id ) )
-
-                    counter = counter + 1
-
-                overall_success = True
-                for item in success:
-                    if item == False:
-                        overall_success = False
-                if overall_success == True:
-                    logger.info('Back In Time will be able to make new snapshots again!', self)
-                    self.config.error_handler( _('Update was successful!\n\nBack In Time will continue taking snapshots again as scheduled' ) )
-
-            elif answer_change == False:
-                logger.info('Move refused by user', self)
-                logger.warning('Old snapshots are not taken into account by smart-remove', self)
-                answer_continue = self.config.question_handler( _('Are you sure you do not want to move your old snapshots?\n\n\nIf you do, you will not see these questions again next time, Back In Time will continue making snapshots again, but smart-remove cannot take your old snapshots into account any longer!\n\nIf you do not, you will be asked again next time you start Back In Time.') )
-                if answer_continue == True:
-                    for profile_id in profiles:
-                        old_folder = self.config.get_snapshots_path( profile_id )
-                        self.config.set_snapshots_path( old_folder, profile_id )
-                        logger.info('Folder of profile %s is set to %s'
-                                    %(profile_id, self.get_snapshots_path(profile_id)),
-                                    self)
-
-                    logger.info('Back In Time will be able to make new snapshots again!', self)
-                    self.config.error_handler( _('Back In Time will continue taking snapshots again as scheduled' ) )
-                else:
-                    self.config.error_handler( _( 'Back In Time still cannot continue taking new snapshots.\nRestart Back In Time to see the questions again' ) )
-            else:
-                return False
-
-    #TODO: remove deprecated
-    def has_old_snapshots( self ):
-        logger.deprecated(self)
-        ret = len( self.get_snapshots_list( False, None, 3 ) ) > 0
-        logger.debug('Found old snapshots: %s' %ret, self)
-        return ret
 
     def take_snapshot( self, force = False ):
         ret_val, ret_error = False, True
@@ -1196,14 +745,6 @@ class Snapshots:
                     params[1] = True
                     self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
-    #TODO: use tools.OrderedSet
-    def _append_item_to_list( self, item, list_ ):
-        logger.deprecated(self)
-        for list_item in list_:
-            if item == list_item:
-                return
-        list_.append( item )
-
     def _create_directory( self, folder ):
         if not tools.make_dirs(folder):
             logger.error("Can't create folder: %s" % folder, self)
@@ -1221,7 +762,7 @@ class Snapshots:
             mode = str(info.st_mode).encode('utf-8', 'replace')
             user = self.get_user_name(info.st_uid).encode('utf-8', 'replace')
             group = self.get_group_name(info.st_gid).encode('utf-8', 'replace')
-            fileinfo.write(b' '.join((mode, user, group, path)) + b'\n' )
+            fileinfo[path] = (mode, user, group)
 
     def _take_snapshot( self, sid, now, include_folders ): # ignore_folders, dict, force ):
         self.set_take_snapshot_message( 0, _('...') )
@@ -1299,7 +840,7 @@ class Snapshots:
                     if not changed:
                         logger.info("Nothing changed, no back needed", self)
                         self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
-                        self.set_snapshot_last_check(prev_sid)
+                        prev_sid.setLastChecked()
                         return [ False, False ]
 
             if not self._create_directory(new_snapshot.path()):
@@ -1380,7 +921,7 @@ class Snapshots:
                 return [ False, True ]
 
             has_errors = True
-            self._execute( "touch \"%s\"" % self.get_snapshot_failed_path(self.NEW_SNAPSHOT_ID) )
+            new_snapshot.setFailed()
 
         if full_rsync:
             if not params[1] and not self.config.take_snapshot_regardless_of_changes():
@@ -1392,7 +933,7 @@ class Snapshots:
 
                 logger.info("Nothing changed, no back needed", self)
                 self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
-                self.set_snapshot_last_check(prev_sid)
+                prev_sid.setLastChecked()
                 return [ False, False ]
 
 
@@ -1406,43 +947,43 @@ class Snapshots:
             logger.info('Save permissions', self)
             self.set_take_snapshot_message( 0, _('Save permission ...') )
 
-            with bz2.BZ2File(self.get_snapshot_fileinfo_path(self.NEW_SNAPSHOT_ID), 'wb') as fileinfo:
+            permission_done = False
+            if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
+                path_to_explore_ssh = new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
+                cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
 
-                permission_done = False
-                if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-                    path_to_explore_ssh = new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
-                    cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
+                if self.config.get_snapshots_mode() == 'ssh_encfs':
+                    decode = encfstools.Decode(self.config, False)
+                    path_to_explore_ssh = decode.remote(path_to_explore_ssh.encode())
+                else:
+                    decode = encfstools.Bounce()
+                head = len( path_to_explore_ssh )
 
-                    if self.config.get_snapshots_mode() == 'ssh_encfs':
-                        decode = encfstools.Decode(self.config, False)
-                        path_to_explore_ssh = decode.remote(path_to_explore_ssh.encode())
-                    else:
-                        decode = encfstools.Bounce()
-                    head = len( path_to_explore_ssh )
+                find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                        stderr = subprocess.PIPE)
 
-                    find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
-                                            stderr = subprocess.PIPE)
+                for line in find.stdout:
+                    if line:
+                        self._save_path_info(new_snapshot.fileInfoDict, decode.remote(line.rstrip(b'\n'))[head:])
 
-                    for line in find.stdout:
+                output = find.communicate()[0]
+                if find.returncode:
+                    self.set_take_snapshot_message(1, _('Save permission over ssh failed. Retry normal method'))
+                else:
+                    for line in output.split(b'\n'):
                         if line:
-                            self._save_path_info(fileinfo, decode.remote(line.rstrip(b'\n'))[head:])
+                            self._save_path_info(new_snapshot.fileInfoDict, decode.remote(line)[head:])
+                    permission_done = True
 
-                    output = find.communicate()[0]
-                    if find.returncode:
-                        self.set_take_snapshot_message(1, _('Save permission over ssh failed. Retry normal method'))
-                    else:
-                        for line in output.split(b'\n'):
-                            if line:
-                                self._save_path_info(fileinfo, decode.remote(line)[head:])
-                        permission_done = True
+            if not permission_done:
+                path_to_explore = new_snapshot.pathBackup().rstrip('/').encode()
+                for path, dirs, files in os.walk( path_to_explore ):
+                    dirs.extend( files )
+                    for item in dirs:
+                        item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
+                        self._save_path_info( new_snapshot.fileInfoDict, item_path )
 
-                if not permission_done:
-                    path_to_explore = new_snapshot.pathBackup().rstrip('/').encode()
-                    for path, dirs, files in os.walk( path_to_explore ):
-                        dirs.extend( files )
-                        for item in dirs:
-                            item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-                            self._save_path_info( fileinfo, item_path )
+            new_snapshot.saveFileInfo()
 
         #create info file
         logger.info("Create info file", self)
@@ -1959,7 +1500,7 @@ class Snapshots:
             os.chmod(path, st.st_mode | stat.S_IWUSR)
             fn(path)
 
-        full_path = self.get_snapshot_path_to(sid, path)
+        full_path = sid.pathBackup(path)
         dirname = os.path.dirname(full_path)
         dir_st = os.stat(dirname)
         os.chmod(dirname, dir_st.st_mode | stat.S_IWUSR)

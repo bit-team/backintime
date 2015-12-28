@@ -133,7 +133,6 @@ def read_file_lines( path, default_value = None ):
 
     return ret_val
 
-
 def read_command_output( cmd ):
     ret_val = ''
 
@@ -145,7 +144,6 @@ def read_command_output( cmd ):
         return ''
 
     return ret_val
-
 
 def check_command( cmd ):
     cmd = cmd.strip()
@@ -187,16 +185,13 @@ def process_exists( name ):
     output = read_command_output( "ps -o pid= -C %s" % name )
     return len( output ) > 0
 
-
 def check_x_server():
     return 0 == os.system( 'xdpyinfo >/dev/null 2>&1' )
-
 
 def prepare_path( path ):
     path = path.strip( "/" )
     path = os.sep + path
     return path
-
 
 def power_status_available():
     """Uses the on_ac_power command to detect if the the system is able
@@ -216,126 +211,6 @@ def on_battery():
         return subprocess.call ( 'on_ac_power' ) == ON_BATTERY
     else:
         return False
-
-#TODO: remove deprecated
-def get_snapshots_list_in_folder( folder, sort_reverse = True ):
-    logger.deprecated()
-    biglist = []
-
-    try:
-        biglist = os.listdir( folder )
-    except:
-        pass
-
-    list_ = []
-
-    for item in biglist:
-        if len( item ) != 15 and len( item ) != 19:
-            continue
-        if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
-            list_.append( item )
-
-    list_.sort( reverse = sort_reverse )
-    return list_
-
-#TODO: remove deprecated
-def get_nonsnapshots_list_in_folder( folder, sort_reverse = True ):
-    logger.deprecated()
-    biglist = []
-
-    try:
-        biglist = os.listdir( folder )
-    except:
-        pass
-
-    list_ = []
-
-    for item in biglist:
-        if len( item ) != 15 and len( item ) != 19:
-            list_.append( item )
-        else:
-            if os.path.isdir( os.path.join( folder, item, 'backup' ) ):
-                continue
-            else:
-                list_.append( item )
-
-    list_.sort( reverse = sort_reverse )
-    return list_
-
-#TODO: remove deprecated
-def move_snapshots_folder( old_folder, new_folder ):
-    logger.deprecated()
-    '''Moves all the snapshots from one folder to another'''
-    print("\nMove snapshots from %s to %s" %( old_folder, new_folder ))
-
-    # Fetch a list with snapshots for verification
-    snapshots_to_move = get_snapshots_list_in_folder( old_folder )
-    snapshots_already_there = []
-    if os.path.exists( new_folder ) == True:
-        snapshots_already_there = get_snapshots_list_in_folder( new_folder )
-    else:
-        make_dirs( new_folder )
-    print("To move: %s" % snapshots_to_move)
-    print("Already there: %s" % snapshots_already_there)
-    snapshots_expected = snapshots_to_move + snapshots_already_there
-    print("Snapshots expected: %s" % snapshots_expected)
-
-    # Check if both folders are within the same os
-    device_old = os.stat( old_folder ).st_dev
-    device_new = os.stat( new_folder ).st_dev
-    if device_old == device_new:
-        # Use move
-        for snapshot in snapshots_to_move:
-            cmd = "mv -f \"%s/%s\" \"%s\"" %( old_folder, snapshot, new_folder )
-            _execute( cmd )
-    else:
-        # Use rsync
-        # Prepare hardlinks
-        if snapshots_already_there:
-            first_snapshot_path = os.path.join( new_folder, snapshots_to_move[ len( snapshots_to_move ) - 1 ] )
-            snapshot_to_hardlink_path =  os.path.join( new_folder, snapshots_already_there[0] )
-            _execute( "find \"%s\" -type d -exec chmod u+wx {} \\;" % snapshot_to_hardlink_path )
-            cmd = "cp -al \"%s\" \"%s\"" % ( snapshot_to_hardlink_path, first_snapshot_path )
-            _execute( cmd )
-
-        # Prepare excludes
-        nonsnapshots = get_nonsnapshots_list_in_folder( old_folder )
-        print("Nonsnapshots: %s" % nonsnapshots)
-        items = []
-        for nonsnapshot in nonsnapshots:
-            for item in items:
-                if nonsnapshot == item:
-                    break
-            items.append( "--exclude=\"%s\"" % nonsnapshot )
-        rsync_exclude = ' '.join( items )
-
-        # Move move move
-        cmd = "rsync -aEAXHv --delete " + old_folder + " " + new_folder + " " + rsync_exclude
-        _execute( cmd )
-        _execute ( "find \"%s\" \"%s\" -type d -exec chmod a-w {} \\;" % ( snapshot_to_hardlink_path, first_snapshot_path ) )
-
-    # Remove old ones
-    snapshots_not_moved = []
-    for snapshot in snapshots_to_move:
-        if os.path.exists( os.path.join( new_folder, snapshot, "backup" ) ):
-            if os.path.exists( os.path.join( old_folder, snapshot) ):
-                print("Remove: %s" %snapshot)
-                path_to_remove = os.path.join( old_folder, snapshot )
-                cmd = "find \"%s\" -type d -exec chmod u+wx {} \\;" % path_to_remove #Debian patch
-                _execute( cmd )
-                cmd = "rm -rfv \"%s\"" % path_to_remove
-                _execute( cmd )
-            else:
-                print("%s was already removed" %snapshot)
-        else:
-            snapshots_not_moved.append( snapshot )
-
-    # Check snapshot list
-    if snapshots_not_moved:
-        print("Error! Not moved: %s\n" %snapshots_not_moved)
-        return False
-    print("Succes!\n")
-    return True
 
 def _execute( cmd, callback = None, user_data = None ):
     logger.debug("Call command \"%s\"" %cmd, traceDepth = 1)

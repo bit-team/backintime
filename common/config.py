@@ -595,25 +595,6 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_str_value( 'snapshots.path.user', user, profile_id )
         self.set_profile_str_value( 'snapshots.path.profile', profile, profile_id )
 
-    #TODO: remove deprecated
-    def get_other_folders_paths( self, profile_id = None ):
-        logger.deprecated(self)
-        '''Returns the other snapshots folders paths as a list'''
-        #?!ignore this in manpage
-        value = self.get_profile_str_value( 'snapshots.other_folders', '', profile_id )
-        if not value:
-            return []
-
-        paths = []
-
-        for item in value.split(':'):
-            path = os.path.expanduser( item )
-            path = os.path.abspath( path )
-
-            paths.append( ( path ) )
-
-        return paths
-
     def get_include_v4( self, profile_id = None ):
         #?!ignore this in manpage
         value = self.get_profile_str_value( 'snapshots.include_folders', '', profile_id )

@@ -582,62 +582,6 @@ class MainWindow( QMainWindow ):
         else:
             self.config.set_current_hash_id(hash_id)
 
-    def get_default_startup_folder_and_file( self ):
-        last_path = self.config.get_str_value( 'gnome.last_path', '' )
-        if last_path and os.path.isdir(last_path):
-            return ( last_path, None, False )
-        return ( '/', None, False )
-
-    def get_cmd_startup_folder_and_file( self, cmd ):
-        if cmd is None:
-            cmd = self.app_instance.raise_cmd
-
-        if not cmd:
-            return None
-
-        path = None
-        show_snapshots = False
-
-        for arg in cmd.split( '\n' ):
-            if not arg:
-                continue
-            if arg == '-s' or arg == '--snapshots':
-                show_snapshots = True
-                continue
-            if arg.startswith('-'):
-                continue
-            if path is None:
-                path = arg
-
-        if path is None:
-            return None
-
-        if not path:
-            return None
-
-        path = os.path.expanduser( path )
-        path = os.path.abspath( path )
-
-        if os.path.isdir( path ):
-            if not path:
-                show_snapshots = False
-
-            if show_snapshots:
-                return ( os.path.dirname( path ), path, True )
-            else:
-                return ( path, '', False )
-
-        if os.path.isfile( path ):
-            return ( os.path.dirname( path ), path, show_snapshots )
-
-        return None
-
-    def get_startup_folder_and_file( self, cmd = None ):
-        startup_folder = self.get_cmd_startup_folder_and_file( cmd )
-        if startup_folder is None:
-            return self.get_default_startup_folder_and_file()
-        return startup_folder
-
     def raise_application( self ):
         raise_cmd = self.app_instance.raise_command()
         if raise_cmd is None:
@@ -902,8 +846,7 @@ class MainWindow( QMainWindow ):
 
         if QMessageBox.Yes != messagebox.warningYesNo( self, \
                               _('Are you sure you want to remove the snapshot:\n%s') \
-                                %'\n'.join([self.snapshots.get_snapshot_display_name(item.snapshotID()) \
-                                            for item in items]) ):
+                                %'\n'.join([item.snapshotID().displayName() for item in items]) ):
             return
 
         for item in items:
@@ -1171,12 +1114,6 @@ class MainWindow( QMainWindow ):
                 self.update_files_view( 0 )
             else:
                 self.run = QDesktopServices.openUrl(QUrl(full_path ))
-
-    def files_view_get_name( self, item ):
-        return item.text( 0 )
-
-    def files_view_get_type( self, item ):
-        return int( item.text( 4 ) )
 
     @pyqtSlot(int)
     def update_files_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places

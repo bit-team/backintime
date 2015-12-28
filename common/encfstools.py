@@ -220,9 +220,10 @@ class EncFS_mount(mount.MountControl):
             return
         backup_folder = self.config.get_encfsconfig_backup_folder(self.profile_id)
         tools.make_dirs(backup_folder)
-        old_backups = tools.get_nonsnapshots_list_in_folder(backup_folder, True)
+        old_backups = os.listdir(backup_folder)
+        old_backups.sort(reverse = True)
         if len(old_backups):
-            last_backup = os.path.join(backup_folder, old_backups[-1])
+            last_backup = os.path.join(backup_folder, old_backups[0])
 
             #don't create a new backup if config hasn't changed
             if tools._get_md5sum_from_path(cfg) == \
