@@ -198,20 +198,18 @@ class SnapshotsDialog( QDialog ):
         self.list_snapshots.addSnapshot(sid)
 
         #add to combo
-        self.combo_diff.addItem(sid.displayName())
+        self.combo_diff.addSnapshotID(sid)
 
         if self.sid == sid:
-            self.combo_diff.setCurrentIndex( self.combo_diff.count() - 1 )
-        elif self.combo_diff.currentIndex() < 0:
-            self.combo_diff.setCurrentIndex( 0 )
+            self.combo_diff.setCurrentSnapshotID(sid)
+        self.combo_diff.checkSelection()
 
     def update_snapshots( self ):
         self.list_snapshots.clear()
         self.combo_diff.clear()
 
-        combo_index = self.combo_equal_to.currentIndex()
-        if self.cb_only_equal_snapshots.isChecked() and combo_index >= 0:
-            equal_to_sid = self.combo_equal_to.itemData(combo_index)
+        equal_to_sid = self.combo_equal_to.currentSnapshotID()
+        if self.cb_only_equal_snapshots.isChecked() and equal_to_sid:
             equal_to = equal_to_sid.pathBackup(self.path)
         else:
             equal_to = False
@@ -229,13 +227,12 @@ class SnapshotsDialog( QDialog ):
         self.combo_equal_to.clear()
         snapshots_filtered = self.snapshots.filter_for(self.sid, self.path, self.snapshots_list)
         for sid in snapshots_filtered:
-            name = sid.displayName()
-            self.combo_equal_to.addItem(name, sid)
+            self.combo_equal_to.addSnapshotID(sid)
 
             if sid == self.sid:
-                self.combo_equal_to.setCurrentIndex(self.combo_equal_to.count() - 1)
-            elif self.combo_equal_to.currentIndex() < 0:
-                self.combo_equal_to.setCurrentIndex(0)
+                self.combo_equal_to.setCurrentSnapshotID(sid)
+
+        self.combo_equal_to.checkSelection()
 
     def update_snapshots_and_combo_equal_to(self):
         self.update_snapshots()
@@ -307,14 +304,9 @@ class SnapshotsDialog( QDialog ):
 
     def on_btn_diff_clicked( self ):
         sid1 = self.list_snapshots.currentSnapshotID()
-        if not sid1:
+        sid2 = self.combo_diff.currentSnapshotID()
+        if not sid1 or not sid2:
             return
-
-        combo_index = self.combo_diff.currentIndex()
-        if combo_index < 0:
-            return
-
-        sid2 = self.combo_diff.itemData(combo_index)
 
         path1 = sid1.pathBackup(self.path)
         path2 = sid2.pathBackup(self.path)

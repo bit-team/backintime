@@ -323,9 +323,52 @@ class HeaderItem(TimeLineItem):
 
         self.setData(0, Qt.UserRole, sid)
 
+class SortedComboBox(QComboBox):
+    insertItem = NotImplemented
+
+    def __init__(self, parent = None):
+        super(SortedComboBox, self).__init__(parent)
+        self.sortOrder = Qt.AscendingOrder
+        self.sortRole = Qt.DisplayRole
+
+    def addItem(self, text, userData = None):
+        '''QComboBox doesn't support sorting
+        so this litle hack is used to insert
+        items in sorted order.
+        '''
+        if self.sortRole == Qt.UserRole:
+            sortObject = userData
+        else:
+            sortObject = text
+        l = [self.itemData(i, self.sortRole) for i in range(self.count())]
+        l.append(sortObject)
+        l.sort(reverse = self.sortOrder)
+        index = l.index(sortObject)
+        super(SortedComboBox, self).insertItem(index, text, userData)
+
+    def checkSelection(self):
+        if self.currentIndex() < 0:
+            self.setCurrentIndex(0)
+            
 #TODO: subclass QComboBox
-class SnapshotCombo(QComboBox):
-    pass
+class SnapshotCombo(SortedComboBox):
+    def __init__(self, parent = None):
+        super(SnapshotCombo, self).__init__(parent)
+        self.sortOrder = Qt.DescendingOrder
+        self.sortRole = Qt.UserRole
+
+    def addSnapshotID(self, sid):
+        assert isinstance(sid, snapshots.SID), 'sid is not snapshots.SID type: {}'.format(sid)
+        self.addItem(sid.displayName(), sid)
+
+    def currentSnapshotID(self):
+        return self.itemData(self.currentIndex())
+
+    def setCurrentSnapshotID(self, sid):
+        for i in range(self.count()):
+            if self.itemData(i) == sid:
+                self.setCurrentIndex(i)
+                break
 
 #TODO: subclass QComboBox
 class ProfileCombo(QComboBox):

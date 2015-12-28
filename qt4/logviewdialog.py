@@ -139,7 +139,7 @@ class LogViewDialog( QDialog ):
     def current_snapshot_changed(self, index):
         if not self.enable_update:
             return
-        self.sid = self.combo_snapshots.itemData(self.combo_snapshots.currentIndex())
+        self.sid = self.combo_snapshots.currentSnapshotID()
         self.update_log()
 
     def current_filter_changed( self, index ):
@@ -166,9 +166,9 @@ class LogViewDialog( QDialog ):
     def update_snapshots(self):
         self.combo_snapshots.clear()
         for sid in snapshots.iterSnapshots(self.config):
-            self.combo_snapshots.addItem(sid.displayName(), sid)
+            self.combo_snapshots.addSnapshotID(sid)
             if sid == self.sid:
-                self.combo_snapshots.setCurrentIndex(self.combo_snapshots.count() - 1)
+                self.combo_snapshots.setCurrentSnapshotID(sid)
 
     def update_cb_decode(self):
         if self.config.get_snapshots_mode() == 'ssh_encfs':
