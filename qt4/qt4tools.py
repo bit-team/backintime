@@ -324,6 +324,7 @@ class HeaderItem(TimeLineItem):
         self.setData(0, Qt.UserRole, sid)
 
 class SortedComboBox(QComboBox):
+    #prevent inserting items abroad from addItem because this would break sorting
     insertItem = NotImplemented
 
     def __init__(self, parent = None):
@@ -349,8 +350,7 @@ class SortedComboBox(QComboBox):
     def checkSelection(self):
         if self.currentIndex() < 0:
             self.setCurrentIndex(0)
-            
-#TODO: subclass QComboBox
+
 class SnapshotCombo(SortedComboBox):
     def __init__(self, parent = None):
         super(SnapshotCombo, self).__init__(parent)
