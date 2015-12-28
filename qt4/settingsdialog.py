@@ -60,7 +60,7 @@ class SettingsDialog( QDialog ):
 
         self.first_update_all = True
         self.disable_profile_changed = True
-        self.combo_profiles = QComboBox( self )
+        self.combo_profiles = qt4tools.ProfileCombo(self)
         layout.addWidget( self.combo_profiles, 1 )
         QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.current_profile_changed )
         self.disable_profile_changed = False
@@ -1011,7 +1011,7 @@ class SettingsDialog( QDialog ):
         if self.disable_profile_changed:
             return
 
-        profile_id = str( self.combo_profiles.itemData( index ) )
+        profile_id = self.combo_profiles.currentProfileID()
         if not profile_id:
             return
 
@@ -1035,9 +1035,9 @@ class SettingsDialog( QDialog ):
 
         profiles = self.config.get_profiles_sorted_by_name()
         for profile_id in profiles:
-            self.combo_profiles.addItem( self.config.get_profile_name( profile_id ), profile_id )
+            self.combo_profiles.addProfileID(profile_id)
             if profile_id == current_profile_id:
-                self.combo_profiles.setCurrentIndex( self.combo_profiles.count() - 1 )
+                self.combo_profiles.setCurrentProfileID(profile_id)
 
         self.disable_profile_changed = False
 

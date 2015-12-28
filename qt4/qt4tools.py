@@ -370,6 +370,19 @@ class SnapshotCombo(SortedComboBox):
                 self.setCurrentIndex(i)
                 break
 
-#TODO: subclass QComboBox
-class ProfileCombo(QComboBox):
-    pass
+class ProfileCombo(SortedComboBox):
+    def __init__(self, parent):
+        super(ProfileCombo, self).__init__(parent)
+        self.getName = parent.config.get_profile_name
+
+    def addProfileID(self, profileID):
+        self.addItem(self.getName(profileID), profileID)
+
+    def currentProfileID(self):
+        return self.itemData(self.currentIndex())
+
+    def setCurrentProfileID(self, profileID):
+        for i in range(self.count()):
+            if self.itemData(i) == profileID:
+                self.setCurrentIndex(i)
+                break

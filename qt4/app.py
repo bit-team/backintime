@@ -521,16 +521,14 @@ class MainWindow( QMainWindow ):
 
         self.combo_profiles.clear()
 
-        index = 0
         profiles = self.config.get_profiles_sorted_by_name()
 
         for profile_id in profiles:
+            self.combo_profiles.addProfileID(profile_id)
             if profile_id == self.config.get_current_profile():
-                index = self.combo_profiles.count()
-            self.combo_profiles.addItem( self.config.get_profile_name( profile_id ), profile_id )
+                self.combo_profiles.setCurrentProfileID(profile_id)
 
-        self.combo_profiles.setCurrentIndex( index )
-        self.combo_profiles_action.setVisible( len( profiles ) > 1 )
+        self.combo_profiles_action.setVisible(len(profiles) > 1)
 
         self.update_profile()
 
@@ -545,7 +543,7 @@ class MainWindow( QMainWindow ):
         if self.disable_profile_changed:
             return
 
-        profile_id = str( self.combo_profiles.itemData( index ) )
+        profile_id = self.combo_profiles.currentProfileID()
         if not profile_id:
             return
         old_profile_id = self.config.get_current_profile()

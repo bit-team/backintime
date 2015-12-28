@@ -127,12 +127,10 @@ class LogViewDialog( QDialog ):
     def current_profile_changed( self, index ):
         if not self.enable_update:
             return
-        profile_id = str(self.combo_profiles.itemData(index))
-        for idx in range(self.main_window.combo_profiles.count()):
-            if self.main_window.combo_profiles.itemData(idx) == profile_id:
-                self.main_window.combo_profiles.setCurrentIndex(idx)
-                self.main_window.on_profile_changed(idx)
-                break
+        profile_id = self.combo_profiles.currentProfileID()
+        self.main_window.combo_profiles.setCurrentProfileID(profile_id)
+        self.main_window.on_profile_changed(None)
+
         self.update_cb_decode()
         self.update_log()
 
@@ -152,9 +150,9 @@ class LogViewDialog( QDialog ):
 
         profiles = self.config.get_profiles_sorted_by_name()
         for profile_id in profiles:
-            self.combo_profiles.addItem( self.config.get_profile_name( profile_id ), profile_id )
+            self.combo_profiles.addProfileID(profile_id)
             if profile_id == current_profile_id:
-                self.combo_profiles.setCurrentIndex( self.combo_profiles.count() - 1 )
+                self.combo_profiles.setCurrentProfileID(profile_id)
 
         self.enable_update = True
         self.update_log()
@@ -185,12 +183,9 @@ class LogViewDialog( QDialog ):
         mode = self.combo_filter.itemData( self.combo_filter.currentIndex() )
 
         if self.sid is None:
-            self.txt_log_view.setPlainText(self.snapshots.get_take_snapshot_log(mode, self.get_selected_profile(), decode = self.decode) )
+            self.txt_log_view.setPlainText(self.snapshots.get_take_snapshot_log(mode, self.combo_profiles.currentProfileID(), decode = self.decode) )
         else:
             self.txt_log_view.setPlainText(self.sid.log(mode, decode = self.decode))
-
-    def get_selected_profile(self):
-        return str(self.combo_profiles.itemData(self.combo_profiles.currentIndex()) )
 
     def closeEvent(self, event):
         self.config.set_int_value('qt4.logview.width', self.width())
