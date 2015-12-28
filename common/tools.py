@@ -26,6 +26,7 @@ import errno
 import gzip
 import tempfile
 import collections
+import hashlib
 from datetime import datetime
 from distutils.version import StrictVersion
 keyring = None
@@ -493,16 +494,14 @@ def temp_failure_retry(func, *args, **kwargs):
 
 def _get_md5sum_from_path(path):
     '''return md5sum of path, af available system command md5sum()'''
-    if check_command("md5sum"):
-        status,output = subprocess.getstatusoutput("md5sum '" + path + "'")
-        if status == 0:
-            md5sum = output.split(" ")[0]
-            return md5sum
-    # md5sum unavailable or command failed; raise an exception ? a message ? use std lib ?
-    print("warning: md5sum() fail ! used (st_size, st_mttime) instead of md5sum.")
-    obj  = os.stat(path)
-    unique_key = (obj.st_size, int(obj.st_mtime))
-    return unique_key
+    md5 = hashlib.md5()
+    with open(path, 'rb') as f:
+        while True:
+            data = f.read(4096)
+            if not data:
+                break
+            md5.update(data)
+    return md5.digest()
 
 def check_cron_pattern(s):
     '''check if s look like '0,10,13,15,17,20,23' or '*/6' '''
@@ -921,7 +920,7 @@ class UniquenessSet:
                 logger.debug("[deep test] : skip, it's a duplicate (size, inode)", self)
                 return False
             self._size_inode.add( (size,inode) )
-            if size not in list(self._uniq_dict.keys()):
+            if size not in self._uniq_dict:
                 # first item of that size
                 unique_key = size
                 logger.debug("[deep test] : store current size ?", self)
@@ -940,7 +939,7 @@ class UniquenessSet:
             obj  = os.stat(path)
             unique_key = (obj.st_size, int(obj.st_mtime))
         # store if not already present, then return True
-        if unique_key not in list(self._uniq_dict.keys()):
+        if unique_key not in self._uniq_dict:
             logger.debug(" >> ok, store !", self)
             self._uniq_dict[unique_key] = path
             return True
