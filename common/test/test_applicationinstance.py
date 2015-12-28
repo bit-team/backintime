@@ -150,6 +150,11 @@ class TestApplicationInstance(unittest.TestCase):
         # Execute test
         self.assertTrue(self.inst.check())
 
+    def test_leftover_empty_lockfile(self):
+        with open(self.file_name, 'wt')as f:
+            pass
+        self.assertTrue(self.inst.check())
+
     def write_after_flock(self, pid_file,):
         inst = ApplicationInstance(os.path.abspath(pid_file), False)
         inst.flockExclusiv()
