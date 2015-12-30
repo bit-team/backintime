@@ -224,18 +224,34 @@ class Snapshots:
         instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
         return not instance.check()
 
-    #TODO: make own class UID/GID
     def clear_uid_gid_names_cache(self):
+        '''reset the cache for user and group names.
+        '''
         self.user_cache = {}
         self.group_cache = {}
 
-    #TODO: make own class UID/GID
     def clear_uid_gid_cache(self):
+        '''reset the cache for UIDs and GIDs.
+        '''
         self.uid_cache = {}
         self.gid_cache = {}
 
-    #TODO: make own class UID/GID
     def get_uid(self, name, callback = None, backup = None):
+        '''get the User identifier (UID) for the user in 'name'.
+        name->uid will be cached to speed up subsequent requests.
+
+        name:       username to search for (bytes instance)
+        callback:   callable which will handle a given message
+        backup:     UID wich will be used if the username is unknown
+                    on this machine (int instance)
+
+        tests:
+        test/test_snapshots.TestSnapshots.test_get_uid_valid
+        test/test_snapshots.TestSnapshots.test_get_uid_invalid
+        test/test_snapshots.TestSnapshots.test_get_uid_backup
+        '''
+        assert isinstance(name, bytes), 'name is not bytes type: %s' % name
+
         if name in self.uid_cache:
             return self.uid_cache[name]
         else:
@@ -259,8 +275,22 @@ class Snapshots:
             self.uid_cache[name] = uid
             return uid
 
-    #TODO: make own class UID/GID
     def get_gid(self, name, callback = None, backup = None):
+        '''get the Group identifier (GID) for the group in 'name'.
+        name->gid will be cached to speed up subsequent requests.
+
+        name:       groupname to search for (bytes instance)
+        callback:   callable which will handle a given message
+        backup:     GID wich will be used if the groupname is unknown
+                    on this machine (int instance)
+
+        tests:
+        test/test_snapshots.TestSnapshots.test_get_gid_valid
+        test/test_snapshots.TestSnapshots.test_get_gid_invalid
+        test/test_snapshots.TestSnapshots.test_get_gid_backup
+        '''
+        assert isinstance(name, bytes), 'name is not bytes type: %s' % name
+
         if name in self.gid_cache:
             return self.gid_cache[name]
         else:
@@ -284,8 +314,16 @@ class Snapshots:
             self.gid_cache[name] = gid
             return gid
 
-    #TODO: make own class UID/GID
     def get_user_name( self, uid ):
+        '''get the username for the given uid.
+        uid->name will be cached to speed up subsequent requests.
+
+        uid:    User identifier (UID) to search for (int instance)
+
+        tests:
+        test/test_snapshots.TestSnapshots.test_get_user_name_valid
+        test/test_snapshots.TestSnapshots.test_get_user_name_invalid
+        '''
         if uid in self.user_cache:
             return self.user_cache[uid]
         else:
@@ -296,13 +334,20 @@ class Snapshots:
                 logger.debug('Failed to get user name for UID %s: %s'
                              %(uid, str(e)),
                              self)
-                pass
 
             self.user_cache[uid] = name
             return name
 
-    #TODO: make own class UID/GID
     def get_group_name( self, gid ):
+        '''get the groupname for the given gid.
+        gid->name will be cached to speed up subsequent requests.
+
+        gid:    Group identifier (GID) to search for (int instance)
+
+        tests:
+        test/test_snapshots.TestSnapshots.test_get_group_name_valid
+        test/test_snapshots.TestSnapshots.test_get_group_name_invalid
+        '''
         if gid in self.group_cache:
             return self.group_cache[gid]
         else:
@@ -313,7 +358,6 @@ class Snapshots:
                 logger.debug('Failed to get group name for GID %s: %s'
                              %(gid, str(e)),
                              self)
-                pass
 
             self.group_cache[gid] = name
             return name

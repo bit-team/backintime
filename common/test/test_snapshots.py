@@ -21,6 +21,8 @@ import tempfile
 import unittest
 import shutil
 import stat
+import pwd
+import grp
 from datetime import date, datetime
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -43,6 +45,77 @@ class TestSnapshots(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.snapshotPath)
 
+    ############################################################################
+    ###                              get_uid                                 ###
+    ############################################################################
+    def test_get_uid_valid(self):
+        self.assertEqual(self.sn.get_uid(b'root'), 0)
+
+        currentUID = os.geteuid()
+        currentUser = pwd.getpwuid(currentUID).pw_name.encode()
+        self.assertEqual(self.sn.get_uid(currentUser), currentUID)
+
+    def test_get_uid_invalid(self):
+        self.assertEqual(self.sn.get_uid(b'nonExistingUser'), -1)
+
+    def test_get_uid_backup(self):
+        self.assertEqual(self.sn.get_uid(b'root', backup = 99999), 0)
+        self.assertEqual(self.sn.get_uid(b'nonExistingUser', backup = 99999), 99999)
+
+        currentUID = os.geteuid()
+        currentUser = pwd.getpwuid(currentUID).pw_name.encode()
+        self.assertEqual(self.sn.get_uid(currentUser,  backup = 99999), currentUID)
+
+    ############################################################################
+    ###                              get_gid                                 ###
+    ############################################################################
+    def test_get_gid_valid(self):
+        self.assertEqual(self.sn.get_gid(b'root'), 0)
+
+        currentGID = os.getegid()
+        currentGroup = grp.getgrgid(currentGID).gr_name.encode()
+        self.assertEqual(self.sn.get_gid(currentGroup), currentGID)
+
+    def test_get_gid_invalid(self):
+        self.assertEqual(self.sn.get_gid(b'nonExistingGroup'), -1)
+
+    def test_get_gid_backup(self):
+        self.assertEqual(self.sn.get_gid(b'root', backup = 99999), 0)
+        self.assertEqual(self.sn.get_gid(b'nonExistingGroup', backup = 99999), 99999)
+
+        currentGID = os.getegid()
+        currentGroup = grp.getgrgid(currentGID).gr_name.encode()
+        self.assertEqual(self.sn.get_gid(currentGroup,  backup = 99999), currentGID)
+
+    ############################################################################
+    ###                          get_user_name                               ###
+    ############################################################################
+    def test_get_user_name_valid(self):
+        self.assertEqual(self.sn.get_user_name(0), 'root')
+
+        currentUID = os.geteuid()
+        currentUser = pwd.getpwuid(currentUID).pw_name
+        self.assertEqual(self.sn.get_user_name(currentUID), currentUser)
+
+    def test_get_user_name_invalid(self):
+        self.assertEqual(self.sn.get_user_name(99999), '-')
+
+    ############################################################################
+    ###                         get_group_name                               ###
+    ############################################################################
+    def test_get_group_name_valid(self):
+        self.assertEqual(self.sn.get_group_name(0), 'root')
+
+        currentGID = os.getegid()
+        currentGroup = grp.getgrgid(currentGID).gr_name
+        self.assertEqual(self.sn.get_group_name(currentGID), currentGroup)
+
+    def test_get_group_name_invalid(self):
+        self.assertEqual(self.sn.get_group_name(99999), '-')
+
+    ############################################################################
+    ###                   rsync Ex-/Include and suffix                       ###
+    ############################################################################
     def test_rsyncExclude_unique_items(self):
         exclude = self.sn.rsyncExclude(['/foo', '*bar', '/baz/1'])
         self.assertEqual(exclude, '--exclude="/foo" --exclude="*bar" --exclude="/baz/1"')
