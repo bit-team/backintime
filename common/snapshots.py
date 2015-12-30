@@ -240,7 +240,7 @@ class Snapshots:
         '''get the User identifier (UID) for the user in 'name'.
         name->uid will be cached to speed up subsequent requests.
 
-        name:       username to search for (bytes instance)
+        name:       username to search for (bytes or str instance)
         callback:   callable which will handle a given message
         backup:     UID wich will be used if the username is unknown
                     on this machine (int instance)
@@ -250,24 +250,25 @@ class Snapshots:
         test/test_snapshots.TestSnapshots.test_get_uid_invalid
         test/test_snapshots.TestSnapshots.test_get_uid_backup
         '''
-        assert isinstance(name, bytes), 'name is not bytes type: %s' % name
+        if isinstance(name, bytes):
+            name = name.decode()
 
         if name in self.uid_cache:
             return self.uid_cache[name]
         else:
             uid = -1
             try:
-                uid = pwd.getpwnam(name.decode()).pw_uid
+                uid = pwd.getpwnam(name).pw_uid
             except Exception as e:
                 if backup:
                     uid = backup
-                    msg = "UID for '%s' is not available on this system. Using UID %s from snapshot." %(name.decode(), backup)
+                    msg = "UID for '%s' is not available on this system. Using UID %s from snapshot." %(name, backup)
                     logger.info(msg, self)
                     if callback is not None:
                         callback(msg)
                 else:
                     self.restore_permission_failed = True
-                    msg = 'Failed to get UID for %s: %s' %(name.decode(), str(e))
+                    msg = 'Failed to get UID for %s: %s' %(name, str(e))
                     logger.error(msg, self)
                     if callback:
                         callback(msg)
@@ -279,7 +280,7 @@ class Snapshots:
         '''get the Group identifier (GID) for the group in 'name'.
         name->gid will be cached to speed up subsequent requests.
 
-        name:       groupname to search for (bytes instance)
+        name:       groupname to search for (bytes or str instance)
         callback:   callable which will handle a given message
         backup:     GID wich will be used if the groupname is unknown
                     on this machine (int instance)
@@ -289,24 +290,25 @@ class Snapshots:
         test/test_snapshots.TestSnapshots.test_get_gid_invalid
         test/test_snapshots.TestSnapshots.test_get_gid_backup
         '''
-        assert isinstance(name, bytes), 'name is not bytes type: %s' % name
+        if isinstance(name, bytes):
+            name = name.decode()
 
         if name in self.gid_cache:
             return self.gid_cache[name]
         else:
             gid = -1
             try:
-                gid = grp.getgrnam(name.decode()).gr_gid
+                gid = grp.getgrnam(name).gr_gid
             except Exception as e:
                 if backup is not None:
                     gid = backup
-                    msg = "GID for '%s' is not available on this system. Using GID %s from snapshot." %(name.decode(), backup)
+                    msg = "GID for '%s' is not available on this system. Using GID %s from snapshot." %(name, backup)
                     logger.info(msg, self)
                     if callback:
                         callback(msg)
                 else:
                     self.restore_permission_failed = True
-                    msg = 'Failed to get GID for %s: %s' %(name.decode(), str(e))
+                    msg = 'Failed to get GID for %s: %s' %(name, str(e))
                     logger.error(msg, self)
                     if callback:
                         callback(msg)

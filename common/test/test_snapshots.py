@@ -49,43 +49,55 @@ class TestSnapshots(unittest.TestCase):
     ###                              get_uid                                 ###
     ############################################################################
     def test_get_uid_valid(self):
+        self.assertEqual(self.sn.get_uid('root'), 0)
         self.assertEqual(self.sn.get_uid(b'root'), 0)
 
         currentUID = os.geteuid()
-        currentUser = pwd.getpwuid(currentUID).pw_name.encode()
+        currentUser = pwd.getpwuid(currentUID).pw_name
         self.assertEqual(self.sn.get_uid(currentUser), currentUID)
+        self.assertEqual(self.sn.get_uid(currentUser.encode()), currentUID)
 
     def test_get_uid_invalid(self):
+        self.assertEqual(self.sn.get_uid('nonExistingUser'), -1)
         self.assertEqual(self.sn.get_uid(b'nonExistingUser'), -1)
 
     def test_get_uid_backup(self):
+        self.assertEqual(self.sn.get_uid('root', backup = 99999), 0)
         self.assertEqual(self.sn.get_uid(b'root', backup = 99999), 0)
+        self.assertEqual(self.sn.get_uid('nonExistingUser', backup = 99999), 99999)
         self.assertEqual(self.sn.get_uid(b'nonExistingUser', backup = 99999), 99999)
 
         currentUID = os.geteuid()
-        currentUser = pwd.getpwuid(currentUID).pw_name.encode()
+        currentUser = pwd.getpwuid(currentUID).pw_name
         self.assertEqual(self.sn.get_uid(currentUser,  backup = 99999), currentUID)
+        self.assertEqual(self.sn.get_uid(currentUser.encode(),  backup = 99999), currentUID)
 
     ############################################################################
     ###                              get_gid                                 ###
     ############################################################################
     def test_get_gid_valid(self):
+        self.assertEqual(self.sn.get_gid('root'), 0)
         self.assertEqual(self.sn.get_gid(b'root'), 0)
 
         currentGID = os.getegid()
-        currentGroup = grp.getgrgid(currentGID).gr_name.encode()
+        currentGroup = grp.getgrgid(currentGID).gr_name
         self.assertEqual(self.sn.get_gid(currentGroup), currentGID)
+        self.assertEqual(self.sn.get_gid(currentGroup.encode()), currentGID)
 
     def test_get_gid_invalid(self):
+        self.assertEqual(self.sn.get_gid('nonExistingGroup'), -1)
         self.assertEqual(self.sn.get_gid(b'nonExistingGroup'), -1)
 
     def test_get_gid_backup(self):
+        self.assertEqual(self.sn.get_gid('root', backup = 99999), 0)
         self.assertEqual(self.sn.get_gid(b'root', backup = 99999), 0)
+        self.assertEqual(self.sn.get_gid('nonExistingGroup', backup = 99999), 99999)
         self.assertEqual(self.sn.get_gid(b'nonExistingGroup', backup = 99999), 99999)
 
         currentGID = os.getegid()
-        currentGroup = grp.getgrgid(currentGID).gr_name.encode()
+        currentGroup = grp.getgrgid(currentGID).gr_name
         self.assertEqual(self.sn.get_gid(currentGroup,  backup = 99999), currentGID)
+        self.assertEqual(self.sn.get_gid(currentGroup.encode(),  backup = 99999), currentGID)
 
     ############################################################################
     ###                          get_user_name                               ###
