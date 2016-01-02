@@ -39,6 +39,7 @@ class ApplicationInstance:
     test/test_applicationinstance.TestApplicationInstance.test_existing_process_with_wrong_pid
     test/test_applicationinstance.TestApplicationInstance.test_killing_existing_process
     test/test_applicationinstance.TestApplicationInstance.test_non_existing_process
+    test/test_applicationinstance.TestApplicationInstance.test_leftover_empty_lockfile
     '''
 
     def __init__( self, pid_file, auto_exit = True, flock = False ):
