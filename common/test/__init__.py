@@ -15,5 +15,11 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+from test import test_applicationinstance
+from test import test_argparser
+from test import test_configfile
+from test import test_snapshots
+from test import test_tools
+
 if __name__ == '__main__':
     pass

@@ -2,6 +2,8 @@
 
 Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
 
+[![Build Status](https://travis-ci.org/bit-team/backintime.svg?branch=master)](https://travis-ci.org/bit-team/backintime)
+
 ##About
 
 Back In Time is a simple backup tool for Linux, inspired by "flyback project".

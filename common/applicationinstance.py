@@ -172,8 +172,10 @@ class ApplicationInstance:
                 procname = data[1].strip('\n')
         except OSError as e:
             logger.warning('Failed to read PID and process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
+        except ValueError as e:
+            logger.warning('Failed to extract PID and process name from %s: %s'
+                            %(self.pid_file, str(e)))
         return (pid, procname)
-
 
 if __name__ == '__main__':
     import time

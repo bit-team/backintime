@@ -30,8 +30,8 @@ import logger
 class TestApplicationInstance(unittest.TestCase):
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
-        self.temp_file = 'temp.txt'
-        self.file_name = "file_with_pid"
+        self.temp_file = '/tmp/temp.txt'
+        self.file_name = "/tmp/file_with_pid"
         self.inst = ApplicationInstance(os.path.abspath(self.file_name), False)
         self.subproc = None
 
@@ -148,6 +148,11 @@ class TestApplicationInstance(unittest.TestCase):
             file_with_pid.write("FAKE_PROCNAME")
 
         # Execute test
+        self.assertTrue(self.inst.check())
+
+    def test_leftover_empty_lockfile(self):
+        with open(self.file_name, 'wt')as f:
+            pass
         self.assertTrue(self.inst.check())
 
     def write_after_flock(self, pid_file,):
