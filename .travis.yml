@@ -19,6 +19,5 @@ script:
   - cd common && ./configure && make unittest-v
 
 after_success:
-  - cd common
-  - coverage combine
+  - coverage combine common
   - coveralls
