@@ -3,6 +3,7 @@
 Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
 
 [![Build Status](https://travis-ci.org/bit-team/backintime.svg?branch=master)](https://travis-ci.org/bit-team/backintime)
+[![Coverage Status](https://coveralls.io/repos/bit-team/backintime/badge.svg?branch=master&service=github)](https://coveralls.io/github/bit-team/backintime?branch=master)
 
 ##About
 
