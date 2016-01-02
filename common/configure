@@ -256,7 +256,7 @@ PYTEST=$(which py.test-3)
 COVERAGE=$(which coverage)
 #use 'coverage run' if available to pass informations to coveralls.io
 if [ -n ${COVERAGE} ]; then
-    CMD='coverage run'
+    CMD='coverage run -p'
 else
     CMD='python${PYVERSION}'
 fi

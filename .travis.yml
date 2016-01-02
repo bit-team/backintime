@@ -19,4 +19,5 @@ script:
   - cd common && ./configure && make unittest-v
 
 after_success:
+  coverage combine
   coveralls
