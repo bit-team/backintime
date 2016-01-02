@@ -253,13 +253,20 @@ cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
 #test
 PYTEST=$(which py.test-3)
+COVERAGE=$(which coverage)
+#use 'coverage run' if available to pass informations to coveralls.io
+if [ -n ${COVERAGE} ]; then
+    CMD='coverage run'
+else
+    CMD='python${PYVERSION}'
+fi
 printf "test:\tunittest integrationtest\n\n" >> ${MAKEFILE}
 printf "test-v:\tunittest-v integrationtest\n\n" >> ${MAKEFILE}
 for v in "" "-v"; do
     printf "unittest${v}:\n" >> ${MAKEFILE}
     if [ -z "${PYTEST}" ]; then
     	for i in $(ls -1 test/test_*.py); do
-    		printf "\tpython${PYVERSION} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
+    		printf "\t${CMD} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
     	done
     else
     	printf "\tpy.test-3 ${v}\n" >> ${MAKEFILE}
