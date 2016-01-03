@@ -302,14 +302,21 @@ class TestConfigFile(unittest.TestCase):
                                         'fff.2.type': '22',
                                         'fff.3.value': 'baz'})
 
-    def test_set_list_value_invalid_type(self):
+    def test_set_list_value_invalid_type_for_type_key(self):
         cfg = configfile.ConfigFile()
         with self.assertRaises(TypeError):
-            cfg.set_list_value('aaa', 'non_existend_type:value', 'foo')
+            cfg.set_list_value('aaa', 'non_existend_type:value', ['foo',])
         with self.assertRaises(TypeError):
-            cfg.set_list_value('aaa', {'dict:value'}, 'foo')
+            cfg.set_list_value('aaa', {'dict:value'}, ['foo',])
         with self.assertRaises(TypeError):
-            cfg.set_list_value('aaa', 1, 'foo')
+            cfg.set_list_value('aaa', 1, ['foo',])
+
+    def test_set_list_value_invalid_type_for_value(self):
+        cfg = configfile.ConfigFile()
+        with self.assertRaises(TypeError):
+            cfg.set_list_value('bbb', 'str:value', 'foo')
+        with self.assertRaises(TypeError):
+            cfg.set_list_value('bbb', 'str:value', {'foo': 'bar'})
 
     ############################################################################
     ###                            remove keys                               ###
