@@ -3,6 +3,9 @@
 
 language: python
 
+# ensures that we have UUID filesystem mounts for proper testing
+sudo: true
+
 python:
   - "3.4"
   - "3.5"

@@ -1,5 +1,5 @@
 # Back In Time
-# Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -91,6 +91,14 @@ class TestTools(unittest.TestCase):
         ''' Test the function is_process_alive '''
         self.assertTrue(tools.is_process_alive(0))
         self.assertFalse(tools.is_process_alive(99999999999))
+
+    def test_get_filesystem_mount_info(self):
+        ''' Basic sanity checks on returned structure '''
+        mounts = tools.get_filesystem_mount_info()
+        self.assertTrue(type(mounts) is dict)
+        self.assertTrue(len(mounts.items()) > 0)
+        self.assertTrue('/' in mounts)
+        self.assertTrue('original_uuid' in mounts.get('/'))
 
 class TestToolsEnviron(unittest.TestCase):
     def __init__(self, *args, **kwargs):
