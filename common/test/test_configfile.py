@@ -17,7 +17,7 @@
 
 import os
 import sys
-import tempfile
+from tempfile import NamedTemporaryFile
 import unittest
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -32,38 +32,55 @@ class TestConfigFile(unittest.TestCase):
 
     def test_save(self):
         '''Saves the config file  in the tmp direcory '''
-        filename = os.path.join(tempfile.gettempdir(), "test_save.cfg")
-        cf = configfile.ConfigFile()
-        cf.save(filename)
-        self.assertTrue(os.path.exists(filename))
-        os.remove(filename)
+        with NamedTemporaryFile() as cfgFile:
+            cf = configfile.ConfigFile()
+            self.assertTrue(cf.save(cfgFile.name))
+            self.assertTrue(os.path.exists(cfgFile.name))
+
+        self.assertFalse(cf.save('/foo'))
 
     def test_load(self):
         '''
         ConfigFile should be able to load its content from a previously
         saved ConfigFile object.
         '''
-        config_filename = os.path.join(
-            tempfile.gettempdir(),
-            "test_load.cfg")
-        original_cf = configfile.ConfigFile()
-        key = "config_key"
-        value = "config_value"
-        original_cf.set_str_value(key, value)
-        original_cf.save(config_filename)
+        with NamedTemporaryFile() as cfgFile:
+            original_cf = configfile.ConfigFile()
+            key = "config_key"
+            value = "config_value"
+            original_cf.set_str_value(key, value)
+            original_cf.save(cfgFile.name)
 
-        cf = configfile.ConfigFile()
-        cf.load(config_filename)
+            cf = configfile.ConfigFile()
+            cf.load(cfgFile.name)
 
-        self.assertEqual(len(cf.get_keys()), len(original_cf.get_keys()))
-        for k in original_cf.get_keys():
-            with self.subTest(k = k):
-                #workaround for py.test3 2.5.1 doesn't support subTest
-                msg = 'k = %s' %k
-                self.assertTrue(cf.has_value(k), msg)
-                self.assertEqual(original_cf.get_str_value(k), cf.get_str_value(k))
+            self.assertEqual(len(cf.get_keys()), len(original_cf.get_keys()))
+            for k in original_cf.get_keys():
+                with self.subTest(k = k):
+                    #workaround for py.test3 2.5.1 doesn't support subTest
+                    msg = 'k = %s' %k
+                    self.assertTrue(cf.has_value(k), msg)
+                    self.assertEqual(original_cf.get_str_value(k), cf.get_str_value(k))
 
-        os.remove(config_filename)
+    def test_remap_key(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'foo': '123',
+                    'bar': '456'}
+        #old key not in dict
+        cfg.remap_key('notExistedKey', 'baz')
+        self.assertEqual(cfg.get_str_value('foo'), '123')
+        self.assertEqual(cfg.get_str_value('bar'), '456')
+
+        #valid remap
+        cfg.remap_key('foo', 'baz')
+        self.assertEqual(cfg.get_str_value('foo'), '')
+        self.assertEqual(cfg.get_str_value('baz'), '123')
+        self.assertEqual(cfg.get_str_value('bar'), '456')
+
+        #do not overwrite existing keys
+        cfg.remap_key('baz', 'bar')
+        self.assertEqual(cfg.get_str_value('baz'), '')
+        self.assertEqual(cfg.get_str_value('bar'), '456')
 
     def test_has_value(self):
         cfg = configfile.ConfigFile()
@@ -355,7 +372,205 @@ class TestConfigFile(unittest.TestCase):
                                         'baz': 'false',
                                         'bla': '0'})
 
-#TODO: add tests for ConfigFileWithProfiles
+class TestConfigFileWithProfiles(unittest.TestCase):
+    def setUp(self):
+        logger.DEBUG = '-v' in sys.argv
+        self.cfg = configfile.ConfigFileWithProfiles('DefaultProfileName')
+        self.cfg.add_profile('foo')
+        self.cfg.add_profile('bar')
+        self.cfg.add_profile('baz')
+
+    def test_load(self):
+        '''
+        ConfigFile should be able to load its content from a previously
+        saved ConfigFile object.
+        '''
+        with NamedTemporaryFile() as cfgFile:
+            origCfg = configfile.ConfigFileWithProfiles()
+            origCfg.set_int_value('profiles.version', 1)
+            key = "config_key"
+            value = "config_value"
+            origCfg.set_profile_str_value(key, value)
+            origCfg.set_profile_str_value(key, value, profile_id = '2')
+            origCfg.save(cfgFile.name)
+
+            self.cfg.load(cfgFile.name)
+
+            self.assertEqual(len(self.cfg.get_keys()), len(origCfg.get_keys()))
+            for k in origCfg.get_keys():
+                with self.subTest(k = k):
+                    #workaround for py.test3 2.5.1 doesn't support subTest
+                    msg = 'k = %s' %k
+                    self.assertTrue(self.cfg.has_value(k), msg)
+                    self.assertEqual(origCfg.get_str_value(k), self.cfg.get_str_value(k))
+
+    def test_get_profiles(self):
+        emptyCfg = configfile.ConfigFileWithProfiles()
+        self.assertListEqual(emptyCfg.get_profiles(), ['1',])
+
+        self.assertListEqual(self.cfg.get_profiles(), ['1', '2', '3', '4'])
+
+        self.cfg.remove_profile('3')
+        self.assertListEqual(self.cfg.get_profiles(), ['1', '2', '4'])
+
+    def test_get_profiles_sorted_by_name(self):
+        self.assertListEqual(self.cfg.get_profiles_sorted_by_name(), ['3', '4', '1', '2'])
+
+    def test_current_profile(self):
+        self.assertEqual(self.cfg.get_current_profile(), '1')
+
+        self.assertTrue(self.cfg.set_current_profile(4))
+        self.assertEqual(self.cfg.get_current_profile(), '4')
+
+        self.assertTrue(self.cfg.set_current_profile('3'))
+        self.assertEqual(self.cfg.get_current_profile(), '3')
+
+        self.assertFalse(self.cfg.set_current_profile('9'))
+        self.assertEqual(self.cfg.get_current_profile(), '3')
+
+    def test_current_profile_by_name(self):
+        self.assertEqual(self.cfg.get_current_profile(), '1')
+
+        self.assertTrue(self.cfg.set_current_profile_by_name('bar'))
+        self.assertEqual(self.cfg.get_current_profile(), '3')
+
+        self.assertFalse(self.cfg.set_current_profile_by_name('NotExistingProfile'))
+        self.assertEqual(self.cfg.get_current_profile(), '3')
+
+    def test_profile_exists(self):
+        self.assertTrue(self.cfg.profile_exists('2'))
+        self.assertTrue(self.cfg.profile_exists(3))
+        self.assertFalse(self.cfg.profile_exists('9'))
+        self.assertFalse(self.cfg.profile_exists(10))
+
+    def test_profile_exists_by_name(self):
+        self.assertTrue(self.cfg.profile_exists_by_name('foo'))
+        self.assertFalse(self.cfg.profile_exists_by_name('NotExistingProfile'))
+
+    def test_get_profile_name(self):
+        self.assertEqual(self.cfg.get_profile_name('1'), 'DefaultProfileName')
+        self.assertEqual(self.cfg.get_profile_name('2'), 'foo')
+        self.assertEqual(self.cfg.get_profile_name(3), 'bar')
+
+        self.assertEqual(self.cfg.get_profile_name(), 'DefaultProfileName')
+        self.cfg.set_current_profile('3')
+        self.assertEqual(self.cfg.get_profile_name(), 'bar')
+
+        self.assertEqual(self.cfg.get_profile_name('4'), 'baz')
+        del self.cfg.dict['profile4.name']
+        self.assertEqual(self.cfg.get_profile_name('4'), 'Profile 4')
+
+    def test_add_profile(self):
+        #add already existing profile
+        self.assertIsNone(self.cfg.add_profile('foo'))
+
+        #new valid profile
+        self.assertEqual(self.cfg.add_profile('asdf'), '5')
+
+        #new valid profile fill an old profile ID
+        self.cfg.remove_profile('3')
+        self.assertEqual(self.cfg.add_profile('qwertz'), '3')
+
+    def test_remove_profile(self):
+        for profile in self.cfg.get_profiles():
+            self.cfg.set_profile_str_value('foo', 'bar', profile)
+
+        self.assertFalse(self.cfg.remove_profile('9'))
+
+        self.assertTrue(self.cfg.remove_profile('3'))
+        self.assertNotIn('3', self.cfg.get_profiles())
+        self.assertNotIn('profile3.foo', self.cfg.dict)
+
+        self.cfg.set_current_profile('4')
+        self.assertTrue(self.cfg.remove_profile())
+        self.assertNotIn('4', self.cfg.get_profiles())
+        self.assertNotIn('profile4.foo', self.cfg.dict)
+        self.assertEqual(self.cfg.get_current_profile(), '1')
+
+        self.assertTrue(self.cfg.remove_profile(2))
+        self.assertNotIn('2', self.cfg.get_profiles())
+        self.assertNotIn('profile2.foo', self.cfg.dict)
+
+        self.assertFalse(self.cfg.remove_profile())
+
+    def test_set_profile_name(self):
+        self.assertFalse(self.cfg.set_profile_name('foo', '3'))
+        self.assertEqual(self.cfg.get_profile_name('3'), 'bar')
+
+        self.assertTrue(self.cfg.set_profile_name('newName', '4'))
+        self.assertEqual(self.cfg.get_profile_name('4'), 'newName')
+
+        self.assertTrue(self.cfg.set_profile_name('otherName', 3))
+        self.assertEqual(self.cfg.get_profile_name('3'), 'otherName')
+
+        self.assertTrue(self.cfg.set_profile_name('thirdName'))
+        self.assertEqual(self.cfg.get_profile_name('1'), 'thirdName')
+
+    def test_get_profile_key(self):
+        self.assertEqual(self.cfg._get_profile_key_('foo'), 'profile1.foo')
+        self.assertEqual(self.cfg._get_profile_key_('foo', '2'), 'profile2.foo')
+        self.assertEqual(self.cfg._get_profile_key_('foo', 3), 'profile3.foo')
+
+    def test_remove_profile_key(self):
+        for profile in self.cfg.get_profiles():
+            self.cfg.set_profile_str_value('foo', 'bar', profile)
+
+        self.assertIn('profile1.foo', self.cfg.dict)
+        self.cfg.remove_profile_key('foo')
+        self.assertNotIn('profile1.foo', self.cfg.dict)
+
+        self.assertIn('profile3.foo', self.cfg.dict)
+        self.cfg.remove_profile_key('foo', '3')
+        self.assertNotIn('profile3.foo', self.cfg.dict)
+
+    def test_remove_profile_keys_starts_with(self):
+        for profile in self.cfg.get_profiles():
+            self.cfg.set_profile_str_value('foo', 'bar', profile)
+
+        self.assertIn('profile1.foo', self.cfg.dict)
+        self.cfg.remove_profile_keys_starts_with('f')
+        self.assertNotIn('profile1.foo', self.cfg.dict)
+
+        self.assertIn('profile3.foo', self.cfg.dict)
+        self.cfg.remove_profile_keys_starts_with('f', '3')
+        self.assertNotIn('profile3.foo', self.cfg.dict)
+
+    def test_has_profile_value(self):
+        for profile in self.cfg.get_profiles():
+            self.cfg.set_profile_str_value('foo', 'bar', profile)
+
+        self.assertTrue(self.cfg.has_profile_value('foo'))
+        self.assertFalse(self.cfg.has_profile_value('baz'))
+
+        self.assertTrue(self.cfg.has_profile_value('foo', '3'))
+        self.assertFalse(self.cfg.has_profile_value('baz', '3'))
+
+    def test_set_profile_value(self):
+        methods =  {'str':  ('foo', 'FOO'),
+                    'int':  ('bar', 123),
+                    'bool': ('baz', True)}
+
+        for profile in (None, '3'):
+            for t in methods:
+                with self.subTest(profile = profile, t = t):
+                    #workaround for py.test3 2.5.1 doesn't support subTest
+                    msg = 'profile = {}, t = {}'.format(profile, t)
+                    key, value = methods[t]
+                    setFunc = getattr(self.cfg, 'set_profile_{}_value'.format(t))
+                    getFunc = getattr(self.cfg, 'get_profile_{}_value'.format(t))
+                    setFunc(key, value, profile_id = profile)
+                    self.assertEqual(getFunc(key, profile_id = profile), value, msg)
+            with self.subTest(profile = profile):
+                #workaround for py.test3 2.5.1 doesn't support subTest
+                msg = 'profile = {}'.format(profile)
+                self.cfg.set_profile_list_value('bla',
+                                                'str:value',
+                                                ['ASDF', 'QWERTZ'],
+                                                profile_id = profile)
+                result = self.cfg.get_profile_list_value('bla',
+                                                         'str:value',
+                                                         profile_id = profile)
+                self.assertListEqual(result, ['ASDF', 'QWERTZ'], msg)
 
 if __name__ == '__main__':
     unittest.main()

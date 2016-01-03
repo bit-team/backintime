@@ -123,6 +123,14 @@ class ConfigFile(object):
                 self.dict[ items[ 0 ] ] = items[ 1 ]
 
     def remap_key( self, old_key, new_key ):
+        '''remap keys to a new key name.
+
+        old_key:    old key name
+        new_key:    new key name
+
+        tests:
+        test/test_configfile.TestConfigFile.test_remap_key
+        '''
         if old_key != new_key:
             if old_key in self.dict:
                 if new_key not in self.dict:
@@ -341,8 +349,7 @@ class ConfigFile(object):
     def remove_keys_starts_with( self, prefix ):
         '''remove key from options which start with given prefix.
 
-        key:    string used as key
-        prefix: pattern that matches keys that should be removed
+        prefix: prefix for keys (key starts with this string) that should be removed
 
         tests:
         test/test_configfile.TestConfigFile.test_remove_keys_start_with
@@ -368,11 +375,22 @@ class ConfigFileWithProfiles( ConfigFile ):
         self.current_profile_id = '1'
 
     def load( self, filename ):
+        '''reset current options and load new options from file.
+
+        filename:   full path
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_load
+        '''
         self.current_profile_id = '1'
-        ConfigFile.load( self, filename )
+        super(ConfigFileWithProfiles, self).load(filename)
 
     def append( self, filename ):
-        ConfigFile.append( self, filename )
+        '''load options from file and append them to current options.
+
+        filename:   full path
+        '''
+        super(ConfigFileWithProfiles, self).append(filename)
 
         found = False
         profiles = self.get_profiles()
@@ -400,9 +418,20 @@ class ConfigFileWithProfiles( ConfigFile ):
             self.set_int_value( 'profiles.version', 1 )
 
     def get_profiles( self ):
+        '''return a list of all available profile IDs. Profile IDs are strings!
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_get_profiles
+        '''
         return self.get_str_value( 'profiles', '1' ).split(':')
 
     def get_profiles_sorted_by_name( self ):
+        '''return a list of available profile IDs alphabetical sorted by their names.
+        Profile IDs are strings!
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_get_profiles_sorted_by_name
+        '''
         profiles_unsorted = self.get_profiles()
         if len( profiles_unsorted ) <= 1:
             return profiles_unsorted
@@ -422,9 +451,21 @@ class ConfigFileWithProfiles( ConfigFile ):
         return profiles_sorted
 
     def get_current_profile( self ):
+        '''return the currently selected profile ID. Profile IDs are strings!
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_current_profile
+        '''
         return self.current_profile_id
 
     def set_current_profile( self, profile_id ):
+        '''change the current profile.
+
+        profile_id: valid profile ID
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_current_profile
+        '''
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
         profiles = self.get_profiles()
@@ -439,6 +480,13 @@ class ConfigFileWithProfiles( ConfigFile ):
         return False
 
     def set_current_profile_by_name( self, name ):
+        '''change the current profile.
+
+        name:   valid profile name
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_current_profile_by_name
+        '''
         profiles = self.get_profiles()
 
         for profile_id in profiles:
@@ -451,15 +499,25 @@ class ConfigFileWithProfiles( ConfigFile ):
         return False
 
     def profile_exists( self, profile_id ):
-        profiles = self.get_profiles()
+        '''True if the profile exists.
 
-        for i in profiles:
-            if i == profile_id:
-                return True
+        profile_id: profile ID
 
-        return False
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_profile_exists
+        '''
+        if isinstance(profile_id, int):
+            profile_id = str(profile_id)
+        return profile_id in self.get_profiles()
 
     def profile_exists_by_name( self, name ):
+        '''True if the profile exists.
+
+        name:   profile name
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_profile_exists_by_name
+        '''
         profiles = self.get_profiles()
 
         for profile_id in profiles:
@@ -469,6 +527,15 @@ class ConfigFileWithProfiles( ConfigFile ):
         return False
 
     def get_profile_name( self, profile_id = None ):
+        '''return the name of the profile.
+
+        profile_id: valid profile ID
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_get_profile_name
+        '''
+        if isinstance(profile_id, int):
+            profile_id = str(profile_id)
         if profile_id is None:
             profile_id = self.current_profile_id
         if profile_id == '1':
@@ -478,6 +545,14 @@ class ConfigFileWithProfiles( ConfigFile ):
         return self.get_profile_str_value( 'name', default, profile_id )
 
     def add_profile( self, name ):
+        '''add a new profile if the name is not already in use.
+        Return the new profile ID.
+
+        name:   new profile name
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_add_profile
+        '''
         profiles = self.get_profiles()
 
         for profile_id in profiles:
@@ -489,10 +564,8 @@ class ConfigFileWithProfiles( ConfigFile ):
         while True:
             ok = True
 
-            for profile in profiles:
-                if profile == str(new_id):
-                    ok = False
-                    break
+            if str(new_id) in profiles:
+                ok = False
 
             if ok:
                 break
@@ -508,6 +581,15 @@ class ConfigFileWithProfiles( ConfigFile ):
         return new_id
 
     def remove_profile( self, profile_id = None ):
+        '''remove profile and all its keys and values.
+
+        profile_id: valid profile ID
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_remove_profile
+        '''
+        if isinstance(profile_id, int):
+            profile_id = str(profile_id)
         if profile_id == None:
             profile_id = self.current_profile_id
 
@@ -536,6 +618,15 @@ class ConfigFileWithProfiles( ConfigFile ):
         return True
 
     def set_profile_name( self, name, profile_id = None ):
+        '''change the name of the profile.
+        name:       new profile name
+        profile_id: valid profile ID
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_set_profile_name
+        '''
+        if isinstance(profile_id, int):
+            profile_id = str(profile_id)
         if profile_id == None:
             profile_id = self.current_profile_id
 
@@ -551,17 +642,52 @@ class ConfigFileWithProfiles( ConfigFile ):
         return True
 
     def _get_profile_key_( self, key, profile_id = None ):
+        '''return the prefix for keys with profile. e.g. 'profile1.key'
+
+        key:        key name
+        profile_id: valid profile ID
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_get_profile_key
+        '''
+        if isinstance(profile_id, int):
+            profile_id = str(profile_id)
         if profile_id is None:
             profile_id = self.current_profile_id
         return 'profile' + profile_id + '.' + key
 
     def remove_profile_key( self, key, profile_id = None ):
+        '''remove the key from profile.
+
+        key:        key name
+        profile_id: valid profile ID
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_remove_profile_key
+        '''
         self.remove_key( self._get_profile_key_( key, profile_id ) )
 
     def remove_profile_keys_starts_with( self, prefix, profile_id = None ):
+        '''remove the keys starting with prefix from profile.
+
+        prefix:     prefix for keys (key starts with this string) that
+                    should be removed
+        profile_id: valid profile ID
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_remove_profile_keys_starts_with
+        '''
         self.remove_keys_starts_with( self._get_profile_key_( prefix, profile_id ) )
 
     def has_profile_value( self, key, profile_id = None ):
+        '''True if key is set in profile.
+
+        key:        string used as key
+        profile_id: valid profile ID
+
+        tests:
+        test/test_configfile.TestConfigFileWithProfiles.test_has_profile_value
+        '''
         return self._get_profile_key_( key, profile_id ) in self.dict
 
     def get_profile_str_value( self, key, default_value = '', profile_id = None ):
