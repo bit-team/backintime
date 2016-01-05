@@ -46,7 +46,10 @@ IS_ROOT = os.geteuid() == 0
 class GenericSnapshotsTestCase(unittest.TestCase):
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
-        self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
+        self.cfgFile = os.path.abspath(os.path.join(__file__,
+                                                    os.pardir,
+                                                    'config'))
+        self.cfg = config.Config(self.cfgFile)
         self.snapshotPath = self.cfg.get_snapshots_full_path()
         if os.path.exists(self.snapshotPath):
             shutil.rmtree(self.snapshotPath)
@@ -167,7 +170,7 @@ class TestSnapshots(GenericSnapshotsTestCase):
                                      excludeFolders = ['/foo/bar',
                                                        '*blub',
                                                        '/bar/2'])
-        self.assertRegex(suffix, r' --chmod=Du\+wx  ' +
+        self.assertRegex(suffix, r'^ --chmod=Du\+wx  ' +
                                  r'--exclude="/tmp/snapshots" ' +
                                  r'--exclude=".*?\.local/share/backintime" ' +
                                  r'--exclude="\.local/share/backintime/mnt" ' +
@@ -180,7 +183,7 @@ class TestSnapshots(GenericSnapshotsTestCase):
                                  r'--include="/foo/\*\*" '  +
                                  r'--include="/bar" '       +
                                  r'--include="/baz/1/2" '   +
-                                 r'--exclude="\*" / ')
+                                 r'--exclude="\*" / $')
 
 class TestRestore(GenericSnapshotsTestCase):
     def setUp(self):
@@ -239,7 +242,8 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
         d = {b'foo': (self.modeFolder, CURRENTUSER, CURRENTGROUP),
              b'bar': (self.modeFile, CURRENTUSER, CURRENTGROUP)}
 
-        callback = lambda x: self.callback(self.fail, 'callback function was called unexpectedly')
+        callback = lambda x: self.callback(self.fail,
+                             'callback function was called unexpectedly')
         self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
         self.sn._restore_path_info(b'bar', b'/tmp/test/bar', d, callback)
 
@@ -259,7 +263,8 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
         d = {b'foo': (self.modeFolder, 'root', CURRENTGROUP),
              b'bar': (self.modeFile, 'root', CURRENTGROUP)}
 
-        callback = lambda x: self.callback(self.assertRegex, x, r'chown /tmp/test/(?:foo|bar) 0 : {} : \w+'.format(CURRENTGID))
+        callback = lambda x: self.callback(self.assertRegex, x,
+                             r'^chown /tmp/test/(?:foo|bar) 0 : {} : \w+$'.format(CURRENTGID))
 
         self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
         self.assertTrue(self.run)
@@ -286,7 +291,8 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
         d = {b'foo': (self.modeFolder, CURRENTUSER, newGroup),
              b'bar': (self.modeFile, CURRENTUSER, newGroup)}
 
-        callback = lambda x: self.callback(self.assertRegex, x, r'chgrp /tmp/test/(?:foo|bar) {}'.format(newGID))
+        callback = lambda x: self.callback(self.assertRegex, x,
+                             r'^chgrp /tmp/test/(?:foo|bar) {}$'.format(newGID))
 
         self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
         self.assertTrue(self.run)
@@ -312,7 +318,8 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
         d = {b'foo': (newModeFolder, CURRENTUSER, CURRENTGROUP),
              b'bar': (newModeFile, CURRENTUSER, CURRENTGROUP)}
 
-        callback = lambda x: self.callback(self.assertRegex, x, r'chmod /tmp/test/(?:foo|bar) \d+')
+        callback = lambda x: self.callback(self.assertRegex, x,
+                             r'^chmod /tmp/test/(?:foo|bar) \d+$')
         self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
         self.assertTrue(self.run)
         self.assertFalse(self.sn.restore_permission_failed)
@@ -465,12 +472,16 @@ class TestSID(GenericSnapshotsTestCase):
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
         self.assertFalse(sid.exists())
 
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123', 'backup'))
+        os.makedirs(os.path.join(self.snapshotPath,
+                                 '20151219-010324-123',
+                                 'backup'))
         self.assertTrue(sid.exists())
 
     def test_canOpenPath(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
-        backupPath = os.path.join(self.snapshotPath, '20151219-010324-123', 'backup')
+        backupPath = os.path.join(self.snapshotPath,
+                                  '20151219-010324-123',
+                                  'backup')
         os.makedirs(os.path.join(backupPath, 'foo'))
 
         #test existing file and non existing file
@@ -564,7 +575,9 @@ class TestSID(GenericSnapshotsTestCase):
     def test_fileInfo(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'fileinfo.bz2')
+        infoFile = os.path.join(self.snapshotPath,
+                                '20151219-010324-123',
+                                'fileinfo.bz2')
 
         sid1.fileInfoDict['/tmp'] = (123, 'foo', 'bar')
         sid1.fileInfoDict['/tmp/foo'] = (456, 'asdf', 'qwer')
@@ -595,7 +608,9 @@ class TestSID(GenericSnapshotsTestCase):
     def test_log(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        logFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'takesnapshot.log.bz2')
+        logFile = os.path.join(self.snapshotPath,
+                               '20151219-010324-123',
+                               'takesnapshot.log.bz2')
 
         #no log available
         self.assertRegex(sid.log(), r'Failed to get snapshot log from.*')
@@ -608,7 +623,9 @@ class TestSID(GenericSnapshotsTestCase):
     def test_setLog_binary(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        logFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'takesnapshot.log.bz2')
+        logFile = os.path.join(self.snapshotPath,
+                               '20151219-010324-123',
+                               'takesnapshot.log.bz2')
 
         sid.setLog(b'foo bar\nbaz')
         self.assertTrue(os.path.isfile(logFile))
@@ -634,7 +651,8 @@ class TestSID(GenericSnapshotsTestCase):
             with open(testFile, 'wt') as f:
                 f.write('foo')
         except PermissionError:
-            self.fail('writing to %s raised PermissionError unexpectedly!' %testFile)
+            msg = 'writing to {} raised PermissionError unexpectedly!'
+            self.fail(msg.format(testFile))
 
 class TestNewSnapshot(GenericSnapshotsTestCase):
     def test_create_new(self):
@@ -643,7 +661,9 @@ class TestNewSnapshot(GenericSnapshotsTestCase):
 
         self.assertTrue(new.makeDirs())
         self.assertTrue(new.exists())
-        self.assertTrue(os.path.isdir(os.path.join(self.snapshotPath, 'new_snapshot', 'backup')))
+        self.assertTrue(os.path.isdir(os.path.join(self.snapshotPath,
+                                                   'new_snapshot',
+                                                   'backup')))
 
     def test_saveToContinue(self):
         new = snapshots.NewSnapshot(self.cfg)
@@ -660,10 +680,11 @@ class TestIterSnapshots(GenericSnapshotsTestCase):
     def setUp(self):
         super(TestIterSnapshots, self).setUp()
 
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123', 'backup'))
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-020324-123', 'backup'))
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-030324-123', 'backup'))
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-040324-123', 'backup'))
+        for i in ('20151219-010324-123',
+                  '20151219-020324-123',
+                  '20151219-030324-123',
+                  '20151219-040324-123'):
+            os.makedirs(os.path.join(self.snapshotPath, i, 'backup'))
 
     def test_list_valid(self):
         l1 = snapshots.listSnapshots(self.cfg)
@@ -695,7 +716,9 @@ class TestIterSnapshots(GenericSnapshotsTestCase):
 
     def test_list_invalid_snapshot(self):
         #invalid snapshot shouldn't be added
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-000324-abc', 'backup'))
+        os.makedirs(os.path.join(self.snapshotPath,
+                                 '20151219-000324-abc',
+                                 'backup'))
         l4 = snapshots.listSnapshots(self.cfg)
         self.assertListEqual(l4, ['20151219-040324-123',
                                   '20151219-030324-123',
@@ -721,7 +744,9 @@ class TestIterSnapshots(GenericSnapshotsTestCase):
 
     def test_list_not_reverse(self):
         os.makedirs(os.path.join(self.snapshotPath, 'new_snapshot', 'backup'))
-        l7 = snapshots.listSnapshots(self.cfg, includeNewSnapshot = True, reverse = False)
+        l7 = snapshots.listSnapshots(self.cfg,
+                                     includeNewSnapshot = True,
+                                     reverse = False)
         self.assertListEqual(l7, ['20151219-010324-123',
                                   '20151219-020324-123',
                                   '20151219-030324-123',
@@ -740,7 +765,8 @@ class TestIterSnapshots(GenericSnapshotsTestCase):
         self.assertEqual(i, 3)
 
     def test_lastSnapshot(self):
-        self.assertEqual(snapshots.lastSnapshot(self.cfg), '20151219-040324-123')
+        self.assertEqual(snapshots.lastSnapshot(self.cfg),
+                         '20151219-040324-123')
 
 if __name__ == '__main__':
     unittest.main()
