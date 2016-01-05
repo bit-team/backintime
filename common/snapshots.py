@@ -365,6 +365,17 @@ class Snapshots:
             return name
 
     def restore_callback( self, callback, ok, msg ):
+        '''format messages thrown by restore depending on whether they where
+        successful or failed.
+
+        callback:   callable instance which will handle the message
+        ok:         bool which should be True if the logged action was successful
+                    or False if it failed
+        msg:        message that should be send to callback
+
+        tests:
+        test/test_snapshots.TestRestore.test_callback
+        '''
         if not callback is None:
             if not ok:
                 msg = msg + " : " + _("FAILED")
@@ -372,6 +383,26 @@ class Snapshots:
             callback( msg )
 
     def _restore_path_info( self, key_path, path, file_info_dict, callback = None ):
+        '''restore permissions (owner, group and mode). If permissions are
+        already identical with the new ones just skip. Otherwise try to
+        'chown' to new owner and new group. If that fails (most probably because
+        we are not running as root and normal user has no rights to change
+        ownership of files) try to at least 'chgrp' to the new group. Finally
+        'chmod' the new mode.
+
+        key_path:       original path during backup. Same as in file_info_dict.
+                        Must be bytes instance
+        path:           current path of file that should be changed. Must be
+                        bytes instance
+        file_info_dict: dict with key_path as key (bytes) and value of tuple
+                        (mode(int), username, groupname)
+
+        tests:
+        test/test_snapshots.TestRestorePathInfo.test_no_changes
+        test/test_snapshots.TestRestorePathInfo.test_change_owner_without_root
+        test/test_snapshots.TestRestorePathInfo.test_change_group
+        test/test_snapshots.TestRestorePathInfo.test_change_permissions
+        '''
         assert isinstance(key_path, bytes), 'key_path is not bytes type: %s' % key_path
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if key_path not in file_info_dict or not os.path.exists(path):

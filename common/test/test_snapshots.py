@@ -31,19 +31,34 @@ import configfile
 import snapshots
 import logger
 
+CURRENTUID = os.geteuid()
+CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
 
-class TestSnapshots(unittest.TestCase):
+CURRENTGID = os.getegid()
+CURRENTGROUP = grp.getgrgid(CURRENTGID).gr_name
+
+#all groups the current user is member in
+GROUPS = [i.gr_name for i in grp.getgrall() if CURRENTUSER in i.gr_mem]
+NO_GROUPS = not GROUPS
+
+IS_ROOT = os.geteuid() == 0
+
+class GenericSnapshotsTestCase(unittest.TestCase):
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
         self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
-        self.sn = snapshots.Snapshots(self.cfg)
         self.snapshotPath = self.cfg.get_snapshots_full_path()
         if os.path.exists(self.snapshotPath):
-            self.tearDown()
+            shutil.rmtree(self.snapshotPath)
         os.makedirs(self.snapshotPath)
 
     def tearDown(self):
         shutil.rmtree(self.snapshotPath)
+
+class TestSnapshots(GenericSnapshotsTestCase):
+    def setUp(self):
+        super(TestSnapshots, self).setUp()
+        self.sn = snapshots.Snapshots(self.cfg)
 
     ############################################################################
     ###                              get_uid                                 ###
@@ -52,10 +67,8 @@ class TestSnapshots(unittest.TestCase):
         self.assertEqual(self.sn.get_uid('root'), 0)
         self.assertEqual(self.sn.get_uid(b'root'), 0)
 
-        currentUID = os.geteuid()
-        currentUser = pwd.getpwuid(currentUID).pw_name
-        self.assertEqual(self.sn.get_uid(currentUser), currentUID)
-        self.assertEqual(self.sn.get_uid(currentUser.encode()), currentUID)
+        self.assertEqual(self.sn.get_uid(CURRENTUSER), CURRENTUID)
+        self.assertEqual(self.sn.get_uid(CURRENTUSER.encode()), CURRENTUID)
 
     def test_get_uid_invalid(self):
         self.assertEqual(self.sn.get_uid('nonExistingUser'), -1)
@@ -67,10 +80,8 @@ class TestSnapshots(unittest.TestCase):
         self.assertEqual(self.sn.get_uid('nonExistingUser', backup = 99999), 99999)
         self.assertEqual(self.sn.get_uid(b'nonExistingUser', backup = 99999), 99999)
 
-        currentUID = os.geteuid()
-        currentUser = pwd.getpwuid(currentUID).pw_name
-        self.assertEqual(self.sn.get_uid(currentUser,  backup = 99999), currentUID)
-        self.assertEqual(self.sn.get_uid(currentUser.encode(),  backup = 99999), currentUID)
+        self.assertEqual(self.sn.get_uid(CURRENTUSER,  backup = 99999), CURRENTUID)
+        self.assertEqual(self.sn.get_uid(CURRENTUSER.encode(),  backup = 99999), CURRENTUID)
 
     ############################################################################
     ###                              get_gid                                 ###
@@ -79,10 +90,8 @@ class TestSnapshots(unittest.TestCase):
         self.assertEqual(self.sn.get_gid('root'), 0)
         self.assertEqual(self.sn.get_gid(b'root'), 0)
 
-        currentGID = os.getegid()
-        currentGroup = grp.getgrgid(currentGID).gr_name
-        self.assertEqual(self.sn.get_gid(currentGroup), currentGID)
-        self.assertEqual(self.sn.get_gid(currentGroup.encode()), currentGID)
+        self.assertEqual(self.sn.get_gid(CURRENTGROUP), CURRENTGID)
+        self.assertEqual(self.sn.get_gid(CURRENTGROUP.encode()), CURRENTGID)
 
     def test_get_gid_invalid(self):
         self.assertEqual(self.sn.get_gid('nonExistingGroup'), -1)
@@ -94,10 +103,8 @@ class TestSnapshots(unittest.TestCase):
         self.assertEqual(self.sn.get_gid('nonExistingGroup', backup = 99999), 99999)
         self.assertEqual(self.sn.get_gid(b'nonExistingGroup', backup = 99999), 99999)
 
-        currentGID = os.getegid()
-        currentGroup = grp.getgrgid(currentGID).gr_name
-        self.assertEqual(self.sn.get_gid(currentGroup,  backup = 99999), currentGID)
-        self.assertEqual(self.sn.get_gid(currentGroup.encode(),  backup = 99999), currentGID)
+        self.assertEqual(self.sn.get_gid(CURRENTGROUP,  backup = 99999), CURRENTGID)
+        self.assertEqual(self.sn.get_gid(CURRENTGROUP.encode(),  backup = 99999), CURRENTGID)
 
     ############################################################################
     ###                          get_user_name                               ###
@@ -105,9 +112,7 @@ class TestSnapshots(unittest.TestCase):
     def test_get_user_name_valid(self):
         self.assertEqual(self.sn.get_user_name(0), 'root')
 
-        currentUID = os.geteuid()
-        currentUser = pwd.getpwuid(currentUID).pw_name
-        self.assertEqual(self.sn.get_user_name(currentUID), currentUser)
+        self.assertEqual(self.sn.get_user_name(CURRENTUID), CURRENTUSER)
 
     def test_get_user_name_invalid(self):
         self.assertEqual(self.sn.get_user_name(99999), '-')
@@ -118,9 +123,7 @@ class TestSnapshots(unittest.TestCase):
     def test_get_group_name_valid(self):
         self.assertEqual(self.sn.get_group_name(0), 'root')
 
-        currentGID = os.getegid()
-        currentGroup = grp.getgrgid(currentGID).gr_name
-        self.assertEqual(self.sn.get_group_name(currentGID), currentGroup)
+        self.assertEqual(self.sn.get_group_name(CURRENTGID), CURRENTGROUP)
 
     def test_get_group_name_invalid(self):
         self.assertEqual(self.sn.get_group_name(99999), '-')
@@ -179,18 +182,156 @@ class TestSnapshots(unittest.TestCase):
                                  r'--include="/baz/1/2" '   +
                                  r'--exclude="\*" / ')
 
-class TestSID(unittest.TestCase):
+class TestRestore(GenericSnapshotsTestCase):
     def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
-        self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
-        self.snapshotPath = self.cfg.get_snapshots_full_path()
-        if os.path.exists(self.snapshotPath):
-            self.tearDown()
-        os.makedirs(self.snapshotPath)
+        super(TestRestore, self).setUp()
+        self.sn = snapshots.Snapshots(self.cfg)
+        self.run = False
+
+    def callback(self, func, *args):
+        func(*args)
+        self.run = True
+
+    def test_callback(self):
+        msg = 'foo'
+        callback = lambda x: self.callback(self.assertEqual, x, msg)
+        self.sn.restore_callback(callback, True, msg)
+        self.assertTrue(self.run)
+        self.assertFalse(self.sn.restore_permission_failed)
+
+        self.run = False
+        callback = lambda x: self.callback(self.assertRegex, x, r'{} : \w+'.format(msg))
+        self.sn.restore_callback(callback, False, msg)
+        self.assertTrue(self.run)
+        self.assertTrue(self.sn.restore_permission_failed)
+
+class TestRestorePathInfo(GenericSnapshotsTestCase):
+    def setUp(self):
+        self.pathFolder = '/tmp/test/foo'
+        self.pathFile   = '/tmp/test/bar'
+        if os.path.exists(self.pathFolder):
+            shutil.rmtree(self.pathFolder)
+        if os.path.exists(self.pathFile):
+            os.remove(self.pathFile)
+        os.makedirs(self.pathFolder)
+        with open(self.pathFile, 'wt') as f:
+            pass
+
+        self.modeFolder = os.stat(self.pathFolder).st_mode
+        self.modeFile   = os.stat(self.pathFile).st_mode
+
+        super(TestRestorePathInfo, self).setUp()
+        self.sn = snapshots.Snapshots(self.cfg)
+        self.run = False
 
     def tearDown(self):
-        shutil.rmtree(self.snapshotPath)
+        super(TestRestorePathInfo, self).tearDown()
+        if os.path.exists(self.pathFolder):
+            shutil.rmtree(self.pathFolder)
+        if os.path.exists(self.pathFile):
+            os.remove(self.pathFile)
 
+    def callback(self, func, *args):
+        func(*args)
+        self.run = True
+
+    def test_no_changes(self):
+        d = {b'foo': (self.modeFolder, CURRENTUSER, CURRENTGROUP),
+             b'bar': (self.modeFile, CURRENTUSER, CURRENTGROUP)}
+
+        callback = lambda x: self.callback(self.fail, 'callback function was called unexpectedly')
+        self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
+        self.sn._restore_path_info(b'bar', b'/tmp/test/bar', d, callback)
+
+        s = os.stat(self.pathFolder)
+        self.assertEqual(s.st_mode, self.modeFolder)
+        self.assertEqual(s.st_uid, CURRENTUID)
+        self.assertEqual(s.st_gid, CURRENTGID)
+
+        s = os.stat(self.pathFile)
+        self.assertEqual(s.st_mode, self.modeFile)
+        self.assertEqual(s.st_uid, CURRENTUID)
+        self.assertEqual(s.st_gid, CURRENTGID)
+
+    #TODO: add fakeroot tests with https://github.com/yaybu/fakechroot
+    @unittest.skipIf(IS_ROOT, "We're running as root. So this test won't work.")
+    def test_change_owner_without_root(self):
+        d = {b'foo': (self.modeFolder, 'root', CURRENTGROUP),
+             b'bar': (self.modeFile, 'root', CURRENTGROUP)}
+
+        callback = lambda x: self.callback(self.assertRegex, x, r'chown /tmp/test/(?:foo|bar) 0 : {} : \w+'.format(CURRENTGID))
+
+        self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
+        self.assertTrue(self.run)
+        self.assertTrue(self.sn.restore_permission_failed)
+        self.run, self.sn.restore_permission_failed = False, False
+        self.sn._restore_path_info(b'bar', b'/tmp/test/bar', d, callback)
+        self.assertTrue(self.run)
+        self.assertTrue(self.sn.restore_permission_failed)
+
+        s = os.stat(self.pathFolder)
+        self.assertEqual(s.st_mode, self.modeFolder)
+        self.assertEqual(s.st_uid, CURRENTUID)
+        self.assertEqual(s.st_gid, CURRENTGID)
+
+        s = os.stat(self.pathFile)
+        self.assertEqual(s.st_mode, self.modeFile)
+        self.assertEqual(s.st_uid, CURRENTUID)
+        self.assertEqual(s.st_gid, CURRENTGID)
+
+    @unittest.skipIf(NO_GROUPS, "Current user is in no other group. So this test won't work.")
+    def test_change_group(self):
+        newGroup = GROUPS[0]
+        newGID = grp.getgrnam(newGroup).gr_gid
+        d = {b'foo': (self.modeFolder, CURRENTUSER, newGroup),
+             b'bar': (self.modeFile, CURRENTUSER, newGroup)}
+
+        callback = lambda x: self.callback(self.assertRegex, x, r'chgrp /tmp/test/(?:foo|bar) {}'.format(newGID))
+
+        self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
+        self.assertTrue(self.run)
+        self.assertFalse(self.sn.restore_permission_failed)
+        self.run = False
+        self.sn._restore_path_info(b'bar', b'/tmp/test/bar', d, callback)
+        self.assertTrue(self.run)
+        self.assertFalse(self.sn.restore_permission_failed)
+
+        s = os.stat(self.pathFolder)
+        self.assertEqual(s.st_mode, self.modeFolder)
+        self.assertEqual(s.st_uid, CURRENTUID)
+        self.assertEqual(s.st_gid, newGID)
+
+        s = os.stat(self.pathFile)
+        self.assertEqual(s.st_mode, self.modeFile)
+        self.assertEqual(s.st_uid, CURRENTUID)
+        self.assertEqual(s.st_gid, newGID)
+
+    def test_change_permissions(self):
+        newModeFolder = 16832 #rwx------
+        newModeFile   = 33152 #rw-------
+        d = {b'foo': (newModeFolder, CURRENTUSER, CURRENTGROUP),
+             b'bar': (newModeFile, CURRENTUSER, CURRENTGROUP)}
+
+        callback = lambda x: self.callback(self.assertRegex, x, r'chmod /tmp/test/(?:foo|bar) \d+')
+        self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
+        self.assertTrue(self.run)
+        self.assertFalse(self.sn.restore_permission_failed)
+        self.run = False
+        self.sn._restore_path_info(b'bar', b'/tmp/test/bar', d, callback)
+        self.assertTrue(self.run)
+        self.assertFalse(self.sn.restore_permission_failed)
+
+        s = os.stat(self.pathFolder)
+        self.assertEqual(s.st_mode, newModeFolder)
+        self.assertEqual(s.st_uid, CURRENTUID)
+        self.assertEqual(s.st_gid, CURRENTGID)
+
+        s = os.stat(self.pathFile)
+        self.assertEqual(s.st_mode, newModeFile)
+        self.assertEqual(s.st_uid, CURRENTUID)
+        self.assertEqual(s.st_gid, CURRENTGID)
+
+class TestSID(GenericSnapshotsTestCase):
     def test_new_object_with_valid_date(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         sid2 = snapshots.SID('20151219-010324', self.cfg)
@@ -495,18 +636,7 @@ class TestSID(unittest.TestCase):
         except PermissionError:
             self.fail('writing to %s raised PermissionError unexpectedly!' %testFile)
 
-class TestNewSnapshot(unittest.TestCase):
-    def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
-        self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
-        self.snapshotPath = self.cfg.get_snapshots_full_path()
-        if os.path.exists(self.snapshotPath):
-            self.tearDown()
-        os.makedirs(self.snapshotPath)
-
-    def tearDown(self):
-        shutil.rmtree(self.snapshotPath)
-
+class TestNewSnapshot(GenericSnapshotsTestCase):
     def test_create_new(self):
         new = snapshots.NewSnapshot(self.cfg)
         self.assertFalse(new.exists())
@@ -526,22 +656,14 @@ class TestNewSnapshot(unittest.TestCase):
         new.unsetSaveToContinue()
         self.assertFalse(new.saveToContinue())
 
-class TestIterSnapshots(unittest.TestCase):
+class TestIterSnapshots(GenericSnapshotsTestCase):
     def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
-        self.cfg = config.Config(os.path.abspath(os.path.join(__file__, os.pardir, 'config')))
-        self.snapshotPath = self.cfg.get_snapshots_full_path()
-        if os.path.exists(self.snapshotPath):
-            self.tearDown()
-        os.makedirs(self.snapshotPath)
+        super(TestIterSnapshots, self).setUp()
 
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123', 'backup'))
         os.makedirs(os.path.join(self.snapshotPath, '20151219-020324-123', 'backup'))
         os.makedirs(os.path.join(self.snapshotPath, '20151219-030324-123', 'backup'))
         os.makedirs(os.path.join(self.snapshotPath, '20151219-040324-123', 'backup'))
-
-    def tearDown(self):
-        shutil.rmtree(self.snapshotPath)
 
     def test_list_valid(self):
         l1 = snapshots.listSnapshots(self.cfg)
