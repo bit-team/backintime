@@ -1,5 +1,5 @@
 # Back In Time
-# Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ import unittest
 import subprocess
 import os
 import sys
-import _thread
+from threading import Thread
 from time import sleep
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -163,22 +163,24 @@ class TestApplicationInstance(unittest.TestCase):
         inst.flockUnlock()
 
     def test_thread_write_without_flock(self):
-        _thread.start_new_thread(self.write_after_flock, (self.file_name,))
-        #give the thread some time
-        sleep(0.01)
+        thread = Thread(target = self.write_after_flock, args = (self.file_name, ))
+        thread.start()
+        #wait for the thread to finish
+        thread.join()
         self.assertTrue(os.path.exists(self.temp_file))
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
     def test_flock_exclusive(self):
         self.inst.flockExclusiv()
-        _thread.start_new_thread(self.write_after_flock, (self.file_name,))
+        thread = Thread(target = self.write_after_flock, args = (self.file_name, ))
+        thread.start()
         #give the thread some time
         sleep(0.01)
         self.assertFalse(os.path.exists(self.temp_file))
         self.inst.flockUnlock()
-        #give the thread some time
-        sleep(0.01)
+        #wait for the thread to finish
+        thread.join()
         self.assertTrue(os.path.exists(self.temp_file))
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')

@@ -1,5 +1,5 @@
 # Back In Time
-# Copyright (C) 2008-2015 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 import unittest
 import os
 import sys
+from copy import deepcopy
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import tools
@@ -36,16 +37,16 @@ class TestTools(unittest.TestCase):
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
-        self.assertNotEqual(tools.read_file(test_tools_file), None)
-        self.assertEqual(tools.read_file(non_existing_file), None)
+        self.assertIsNotNone(tools.read_file(test_tools_file))
+        self.assertIsNone(tools.read_file(non_existing_file))
 
     def test_read_file_lines(self):
         ''' Test the function read_file_lines '''
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
-        self.assertNotEqual(tools.read_file_lines(test_tools_file), None)
-        self.assertEqual(tools.read_file_lines(non_existing_file), None)
+        self.assertIsNotNone(tools.read_file_lines(test_tools_file))
+        self.assertIsNone(tools.read_file_lines(non_existing_file))
 
     def test_read_command_output(self):
         ''' Test the function read_command_output '''
@@ -59,37 +60,13 @@ class TestTools(unittest.TestCase):
 
     def test_which(self):
         ''' Test the function which '''
-        assert tools.which("ls") is not None
-        assert tools.which("notExistedCommand") is None
+        self.assertRegex(tools.which("ls"), r'/.*/ls')
+        self.assertIsNone(tools.which("notExistedCommand"))
 
     def test_process_exists(self):
         ''' Test the function process_exists '''
         self.assertTrue(tools.process_exists("init") or tools.process_exists("systemd"))
         self.assertFalse(tools.process_exists("notExistedProcess"))
-
-    def test_load_env(self):
-        ''' Test the function load_env '''
-        d = {}
-        lines = []
-        path_user = os.path.expanduser('~')
-        path_cron_env = os.path.join(
-            path_user,
-            ".local/share/backintime/cron_env")
-        try:
-            with open(path_cron_env, 'rt') as file:
-                lines = file.readlines()
-        except:
-            pass
-        for line in lines:
-            items = line.split('=', 1)
-            if len(items) == 2:
-                d[items[0]] = items[1][:-1]
-        tools.load_env(path_cron_env)
-        for key in d.keys():
-            with self.subTest(key = key):
-                #workaround for py.test3 2.5.1 doesn't support subTest
-                msg = 'key = %s' %key
-                self.assertEqual(os.environ[key], d[key], msg)
 
     def test_prepare_path(self):
         ''' Test the function load_env '''
@@ -114,6 +91,73 @@ class TestTools(unittest.TestCase):
         ''' Test the function is_process_alive '''
         self.assertTrue(tools.is_process_alive(0))
         self.assertFalse(tools.is_process_alive(99999999999))
+
+class TestToolsEnviron(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        super(TestToolsEnviron, self).__init__(*args, **kwargs)
+        self.env = deepcopy(os.environ)
+
+    def setUp(self):
+        logger.DEBUG = '-v' in sys.argv
+        self.temp_file = '/tmp/temp.txt'
+        os.environ = deepcopy(self.env)
+
+    def tearDown(self):
+        if os.path.exists(self.temp_file):
+            os.remove(self.temp_file)
+        os.environ = deepcopy(self.env)
+
+    def test_load_env_without_previous_values(self):
+        test_env = configfile.ConfigFile()
+        test_env.set_str_value('FOO', 'bar')
+        test_env.set_str_value('ASDF', 'qwertz')
+        test_env.save(self.temp_file)
+
+        #make sure environ is clean
+        self.assertNotIn('FOO', os.environ)
+        self.assertNotIn('ASDF', os.environ)
+
+        tools.load_env(self.temp_file)
+        self.assertIn('FOO', os.environ)
+        self.assertIn('ASDF', os.environ)
+        self.assertEqual(os.environ['FOO'], 'bar')
+        self.assertEqual(os.environ['ASDF'], 'qwertz')
+
+    def test_load_env_do_not_overwrite_previous_values(self):
+        test_env = configfile.ConfigFile()
+        test_env.set_str_value('FOO', 'bar')
+        test_env.set_str_value('ASDF', 'qwertz')
+        test_env.save(self.temp_file)
+
+        #add some environ vars that should not get overwritten
+        os.environ['FOO'] = 'defaultFOO'
+        os.environ['ASDF'] = 'defaultASDF'
+
+        tools.load_env(self.temp_file)
+        self.assertIn('FOO', os.environ)
+        self.assertIn('ASDF', os.environ)
+        self.assertEqual(os.environ['FOO'], 'defaultFOO')
+        self.assertEqual(os.environ['ASDF'], 'defaultASDF')
+
+    def test_save_env(self):
+        keys = ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS', \
+                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID', \
+                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
+                'KDE_FULL_SESSION')
+        for i, k in enumerate(keys):
+            os.environ[k] = str(i)
+
+        tools.save_env(self.temp_file)
+
+        self.assertTrue(os.path.isfile(self.temp_file))
+
+        test_env = configfile.ConfigFile()
+        test_env.load(self.temp_file)
+        for i, k in enumerate(keys):
+            with self.subTest(i = i, k = k):
+                #workaround for py.test3 2.5.1 doesn't support subTest
+                msg = 'i = %s, k = %s' %(i, k)
+                self.assertEqual(test_env.get_str_value(k), str(i), msg)
 
 if __name__ == '__main__':
     unittest.main()
