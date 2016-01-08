@@ -114,8 +114,10 @@ class Mount(object):
             tools.umount()
 
     def pre_mount_check(self, mode = None, first_run = False, **kwargs):
-        """called by SettingsDialog.save_profile() to check
-           if settings are correct before saving"""
+        """
+        called by SettingsDialog.save_profile() to check
+        if settings are correct before saving
+        """
         if mode is None:
             mode = self.config.get_snapshots_mode(self.profile_id)
 
@@ -130,10 +132,12 @@ class Mount(object):
             return tools.pre_mount_check(first_run)
 
     def remount(self, new_profile_id, mode = None, hash_id = None, **kwargs):
-        """mode            <= new profile
-           kwargs          <= new profile
-           hash_id         <= old profile
-           self.profile_id <= old profile"""
+        """
+        mode            <= new profile
+        kwargs          <= new profile
+        hash_id         <= old profile
+        self.profile_id <= old profile
+        """
         if mode is None:
             mode = self.config.get_snapshots_mode(new_profile_id)
         if hash_id is None:
@@ -251,7 +255,9 @@ class MountControl(object):
             self.mountprocess_lock_release()
 
     def is_mounted(self):
-        """return True if path is is already mounted"""
+        """
+        return True if path is is already mounted
+        """
         if os.path.ismount(self.mountpoint):
             return True
         else:
@@ -285,7 +291,9 @@ class MountControl(object):
                 os.chmod(path, mode)
 
     def mountprocess_lock_acquire(self, timeout = 60):
-        """block while an other process is mounting or unmounting"""
+        """
+        block while an other process is mounting or unmounting
+        """
         lock_path = self.mount_root
         lock_suffix = '.lock'
         lock = os.path.join(lock_path, self.pid + lock_suffix)
@@ -311,7 +319,9 @@ class MountControl(object):
             os.remove(lock)
 
     def set_mount_lock(self):
-        """lock mount for this process"""
+        """
+        lock mount for this process
+        """
         if self.tmp_mount:
             lock_suffix = '.tmp.lock'
         else:
@@ -323,12 +333,16 @@ class MountControl(object):
             f.write(self.pid)
 
     def check_mount_lock(self):
-        """return True if mount is locked by other processes"""
+        """
+        return True if mount is locked by other processes
+        """
         lock_suffix = '.lock'
         return self.check_locks(self.lock_path, lock_suffix)
 
     def del_mount_lock(self):
-        """remove mount lock for this process"""
+        """
+        remove mount lock for this process
+        """
         if self.tmp_mount:
             lock_suffix = '.tmp.lock'
         else:
@@ -340,13 +354,17 @@ class MountControl(object):
             os.remove(lock)
 
     def check_process_alive(self, pid):
-        """check if process is still alive"""
+        """
+        check if process is still alive
+        """
         if os.path.exists(os.path.join('/proc', pid)):
             return True
         return False
 
     def check_locks(self, path, lock_suffix):
-        """return True if there are active locks"""
+        """
+        return True if there are active locks
+        """
         for f in os.listdir(path):
             if not f[-len(lock_suffix):] == lock_suffix:
                 continue
@@ -373,8 +391,10 @@ class MountControl(object):
         return False
 
     def setattr_kwargs(self, arg, default, store = True, **kwargs):
-        """if kwargs[arg] exist set self.<arg> to kwargs[arg]
-           else set self.<arg> to default which should be the value from config"""
+        """
+        if kwargs[arg] exist set self.<arg> to kwargs[arg]
+        else set self.<arg> to default which should be the value from config
+        """
         if arg in kwargs:
             value = kwargs[arg]
         else:
@@ -385,14 +405,18 @@ class MountControl(object):
             self.all_kwargs[arg] = value
 
     def write_umount_info(self):
-        """dump dictionary self.all_kwargs to umount_info file"""
+        """
+        dump dictionary self.all_kwargs to umount_info file
+        """
         data_string = json.dumps(self.all_kwargs)
         with open(self.umount_info, 'w') as f:
             f.write(data_string)
             f.close
 
     def read_umount_info(self, umount_info = None):
-        """load dictionary kwargs from umount_info file"""
+        """
+        load dictionary kwargs from umount_info file
+        """
         if umount_info is None:
             umount_info = self.umount_info
         with open(umount_info, 'r') as f:
@@ -401,9 +425,11 @@ class MountControl(object):
         return json.loads(data_string)
 
     def compare_umount_info(self, umount_info = None):
-        """just in case of hash collisions in <hash_id> we compare self.all_kwargs
-           with the old saved in umount_info file.
-           return True if both are identical"""
+        """
+        just in case of hash collisions in <hash_id> we compare self.all_kwargs
+        with the old saved in umount_info file.
+        return True if both are identical
+        """
         #run self.all_kwargs through json first
         current_kwargs = json.loads(json.dumps(self.all_kwargs))
         saved_kwargs = self.read_umount_info(umount_info)
@@ -417,7 +443,9 @@ class MountControl(object):
         return True
 
     def compare_remount(self, old_hash_id):
-        """return True if profiles are identiacal and we don't need to remount"""
+        """
+        return True if profiles are identiacal and we don't need to remount
+        """
         if old_hash_id == self.hash_id:
             return self.compare_umount_info(self.get_umount_info(old_hash_id))
         return False
@@ -451,7 +479,9 @@ class MountControl(object):
         os.remove(self.config.get_snapshots_path(profile_id = profile_id, mode = self.mode, tmp_mount = tmp_mount))
 
     def hash(self, s):
-        """return a hex crc32 hash of s"""
+        """
+        return a hex crc32 hash of s
+        """
         return('%X' % (crc32(s.encode()) & 0xFFFFFFFF))
 
     def get_hash_id_path(self, hash_id = None):

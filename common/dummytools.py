@@ -34,7 +34,8 @@ class Dummy(mount.MountControl):
     This class inherit from mount.MountControl. All methodes from MountControl can
     be used exactly like they were in this class.
     Methodes from MountControl also can be overriden in here if you need
-    something different."""
+    something different.
+    """
     def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
         self.config = cfg
         if self.config is None:
@@ -75,33 +76,45 @@ class Dummy(mount.MountControl):
         self.log_command = '%s: %s@%s' % (self.mode, self.user, self.host)
 
     def _mount(self):
-        """mount the service"""
+        """
+        mount the service
+        """
         #implement your mountprocess here
         pass
 
     def _umount(self):
-        """umount the service"""
+        """
+        umount the service
+        """
         #implement your unmountprocess here
         pass
 
     def pre_mount_check(self, first_run = False):
-        """check what ever conditions must be given for the mount to be done successful
-           raise MountException( _('Error discription') ) if service can not mount
-           return True if everything is okay
-           all pre|post_[u]mount_check can also be used to prepare things or clean up"""
+        """
+        check what ever conditions must be given for the mount to be done successful
+        raise MountException( _('Error discription') ) if service can not mount
+        return True if everything is okay
+        all pre|post_[u]mount_check can also be used to prepare things or clean up
+        """
         return True
 
     def post_mount_check(self):
-        """check if mount was successful
-           raise MountException( _('Error discription') ) if not"""
+        """
+        check if mount was successful
+        raise MountException( _('Error discription') ) if not
+        """
         return True
 
     def pre_umount_check(self):
-        """check if service is safe to umount
-           raise MountException( _('Error discription') ) if not"""
+        """
+        check if service is safe to umount
+        raise MountException( _('Error discription') ) if not
+        """
         return True
 
     def post_umount_check(self):
-        """check if umount successful
-           raise MountException( _('Error discription') ) if not"""
+        """
+        check if umount successful
+        raise MountException( _('Error discription') ) if not
+        """
         return True

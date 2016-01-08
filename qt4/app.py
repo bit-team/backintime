@@ -1312,10 +1312,11 @@ class About(QDialog):
             return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(1)}
 
 class ExtraMouseButtonEventFilter(QObject):
-    '''globally catch mouse buttons 4 and 5 (mostly used as back and forward)
+    """
+    globally catch mouse buttons 4 and 5 (mostly used as back and forward)
     and assign it to browse in file history.
     When updating to Qt5 use Qt.BackButton and Qt.ForwardButton instead.
-    '''
+    """
     def __init__(self, main_window):
         self.main_window = main_window
         super(ExtraMouseButtonEventFilter, self).__init__()
@@ -1331,8 +1332,9 @@ class ExtraMouseButtonEventFilter(QObject):
             return super(ExtraMouseButtonEventFilter, self).eventFilter(receiver, event)
 
 class RemoveSnapshotThread(QThread):
-    '''remove snapshots in background thread so GUI will not freeze
-    '''
+    """
+    remove snapshots in background thread so GUI will not freeze
+    """
     refreshSnapshotList = pyqtSignal()
     def __init__(self, parent, items):
         self.config = parent.config
@@ -1370,8 +1372,9 @@ class RemoveSnapshotThread(QThread):
             self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
 class FillTimeLineThread(QThread):
-    '''add snapshot IDs to timeline in background
-    '''
+    """
+    add snapshot IDs to timeline in background
+    """
     addSnapshot = pyqtSignal(snapshots.SID)
     def __init__(self, parent):
         self.parent = parent
@@ -1386,7 +1389,9 @@ class FillTimeLineThread(QThread):
         self.parent.snapshots_list.sort()
 
 def debug_trace():
-    '''Set a tracepoint in the Python debugger that works with Qt'''
+    """
+    Set a tracepoint in the Python debugger that works with Qt
+    """
     from pdb import set_trace
     pyqtRemoveInputHook()
     set_trace()

@@ -367,7 +367,9 @@ class SnapshotsDialog( QDialog ):
                 self.config.set_exclude(exclude)
 
     def on_btn_select_all_clicked(self):
-        '''select all expect 'Now' '''
+        """
+        select all expect 'Now'
+        """
         self.list_snapshots.clearSelection()
         for item in self.list_snapshots.iterSnapshotItems():
             if len(item.snapshotID()) > 1:
@@ -380,8 +382,9 @@ class SnapshotsDialog( QDialog ):
         super(SnapshotsDialog, self).accept()
 
 class RemoveFileThread(QThread):
-    '''remove files in background thread so GUI will not freeze
-    '''
+    """
+    remove files in background thread so GUI will not freeze
+    """
     def __init__(self, parent, items):
         self.parent = parent
         self.config = parent.config

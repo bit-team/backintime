@@ -108,7 +108,9 @@ class SSH(mount.MountControl):
         self.unlock_ssh_agent()
 
     def _mount(self):
-        """mount the service"""
+        """
+        mount the service
+        """
         sshfs = ['sshfs'] + self.ssh_options
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
@@ -128,17 +130,21 @@ class SSH(mount.MountControl):
             raise MountException( _('Can\'t mount %s') % ' '.join(sshfs))
 
     def _umount(self):
-        """umount the service"""
+        """
+        umount the service
+        """
         try:
             subprocess.check_call(['fusermount', '-u', self.mountpoint])
         except subprocess.CalledProcessError:
             raise MountException( _('Can\'t unmount sshfs %s') % self.mountpoint)
 
     def pre_mount_check(self, first_run = False):
-        """check what ever conditions must be given for the mount to be done successful
-           raise MountException( _('Error discription') ) if service can not mount
-           return True if everything is okay
-           all pre|post_[u]mount_check can also be used to prepare things or clean up"""
+        """
+        check what ever conditions must be given for the mount to be done successful
+        raise MountException( _('Error discription') ) if service can not mount
+        return True if everything is okay
+        all pre|post_[u]mount_check can also be used to prepare things or clean up
+        """
         self.check_ping_host()
         self.check_fuse()
         if first_run:
@@ -153,22 +159,30 @@ class SSH(mount.MountControl):
         return True
 
     def post_mount_check(self):
-        """check if mount was successful
-           raise MountException( _('Error discription') ) if not"""
+        """
+        check if mount was successful
+        raise MountException( _('Error discription') ) if not
+        """
         return True
 
     def pre_umount_check(self):
-        """check if service is safe to umount
-           raise MountException( _('Error discription') ) if not"""
+        """
+        check if service is safe to umount
+        raise MountException( _('Error discription') ) if not
+        """
         return True
 
     def post_umount_check(self):
-        """check if umount successful
-           raise MountException( _('Error discription') ) if not"""
+        """
+        check if umount successful
+        raise MountException( _('Error discription') ) if not
+        """
         return True
 
     def unlock_ssh_agent(self, force = False):
-        """using askpass.py to unlock private key in ssh-agent"""
+        """
+        using askpass.py to unlock private key in ssh-agent
+        """
         env = os.environ.copy()
         env['SSH_ASKPASS'] = 'backintime-askpass'
         env['ASKPASS_PROFILE_ID'] = self.profile_id
@@ -244,7 +258,9 @@ class SSH(mount.MountControl):
                          %self.private_key_file, self)
 
     def check_fuse(self):
-        """check if sshfs is installed and user is part of group fuse"""
+        """
+        check if sshfs is installed and user is part of group fuse
+        """
         logger.debug('Check fuse', self)
         if not tools.check_command('sshfs'):
             logger.debug('sshfs is missing', self)
@@ -266,7 +282,9 @@ class SSH(mount.MountControl):
                                         % {'user': user})
 
     def check_login(self):
-        """check passwordless authentication to host"""
+        """
+        check passwordless authentication to host
+        """
         logger.debug('Check login', self)
         ssh = ['ssh', '-o', 'PreferredAuthentications=publickey']
         ssh.extend(self.ssh_options + [self.user_host])
@@ -280,7 +298,9 @@ class SSH(mount.MountControl):
                                     'instructions.')  % {'user' : self.user, 'host' : self.host})
 
     def check_cipher(self):
-        """check if both host and localhost support cipher"""
+        """
+        check if both host and localhost support cipher
+        """
         if not self.cipher == 'default':
             logger.debug('Check cipher', self)
             ssh = ['ssh']
@@ -319,7 +339,9 @@ class SSH(mount.MountControl):
         os.remove(temp)
 
     def check_known_hosts(self):
-        """check ssh_known_hosts"""
+        """
+        check ssh_known_hosts
+        """
         logger.debug('Check known hosts file', self)
         for host in (self.host, '[%s]:%s' % (self.host, self.port)):
             proc = subprocess.Popen(['ssh-keygen', '-F', host],
@@ -333,8 +355,10 @@ class SSH(mount.MountControl):
         raise MountException( _('%s not found in ssh_known_hosts.') % self.host)
 
     def check_remote_folder(self):
-        """check if remote folder exists and is write- and executable.
-           Create folder if it doesn't exist."""
+        """
+        check if remote folder exists and is write- and executable.
+        Create folder if it doesn't exist.
+        """
         logger.debug('Check remote folder', self)
         cmd  = 'd=0;'
         cmd += 'test -e %s || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
@@ -370,7 +394,9 @@ class SSH(mount.MountControl):
             logger.info('Create remote folder %s' %self.path, self)
 
     def check_ping_host(self):
-        """connect to remote port and check if it is open"""
+        """
+        connect to remote port and check if it is open
+        """
         logger.debug('Check ping host', self)
         count = 0
         while count < 5:
@@ -390,10 +416,11 @@ class SSH(mount.MountControl):
             raise MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
 
     def check_remote_commands(self, retry = False):
-        """try all relevant commands for take_snapshot on remote host.
-           specialy embedded Linux devices using 'BusyBox' sometimes doesn't
-           support everything that is need to run backintime.
-           also check for hardlink-support on remote host.
+        """
+        try all relevant commands for take_snapshot on remote host.
+        specialy embedded Linux devices using 'BusyBox' sometimes doesn't
+        support everything that is need to run backintime.
+        also check for hardlink-support on remote host.
         """
         logger.debug('Check remote commands', self)
         def maxArg():

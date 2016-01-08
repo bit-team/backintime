@@ -276,10 +276,11 @@ class Config( configfile.ConfigFileWithProfiles ):
         return True
 
     def get_user( self ):
-        '''portable way to get username
+        """
+        portable way to get username
         cc by-sa 3.0      http://stackoverflow.com/a/19865396/1139841
         author: techtonik http://stackoverflow.com/users/239247/techtonik
-        '''
+        """
         if pwd:
             return pwd.getpwuid(os.geteuid()).pw_name
         else:
@@ -305,12 +306,16 @@ class Config( configfile.ConfigFileWithProfiles ):
             return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
 
     def get_snapshots_full_path( self, profile_id = None):
-        '''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
+        """
+        Returns the full path for the snapshots: .../backintime/machine/user/profile_id/
+        """
         host, user, profile = self.get_host_user_profile( profile_id )
         return os.path.join( self.get_snapshots_path( profile_id ), 'backintime', host, user, profile )
 
     def set_snapshots_path( self, value, profile_id = None, mode = None ):
-        """Sets the snapshot path to value, initializes, and checks it"""
+        """
+        Sets the snapshot path to value, initializes, and checks it
+        """
         if not value:
             return False
 
@@ -412,7 +417,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.get_profile_str_value( 'snapshots.ssh.path', '', profile_id )
 
     def get_snapshots_full_path_ssh( self, profile_id = None):
-        '''Returns the full path for the snapshots: .../backintime/machine/user/profile_id/'''
+        """
+        Returns the full path for the snapshots: .../backintime/machine/user/profile_id/
+        """
         path = self.get_snapshots_path_ssh( profile_id )
         if not path:
             path = './'
@@ -621,7 +628,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.set_profile_list_value('snapshots.include', ('str:value', 'int:type'), values, profile_id)
 
     def get_exclude_v4( self, profile_id = None ):
-        '''Gets the exclude patterns: conf version 4'''
+        """
+        Gets the exclude patterns: conf version 4
+        """
         #?!ignore this in manpage
         value = self.get_profile_str_value( 'snapshots.exclude_patterns', '.gvfs:.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id )
         if not value:
@@ -629,7 +638,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         return value.split( ':' )
 
     def get_exclude(self, profile_id = None):
-        '''Gets the exclude patterns'''
+        """
+        Gets the exclude patterns
+        """
         #?Exclude this file or folder. <I> must be a counter
         #?starting with 1;file, folder or pattern (relative or absolute)
         return self.get_profile_list_value('snapshots.exclude', 'str:value', self.DEFAULT_EXCLUDE, profile_id)
@@ -1186,11 +1197,15 @@ class Config( configfile.ConfigFileWithProfiles ):
         return os.path.join( self._LOCAL_DATA_FOLDER, "cron_env" )
 
     def get_anacrontab(self, suffix = ''):
-        '''Deprecated since 1.1. Just keep this to delete old anacrontab files'''
+        """
+        Deprecated since 1.1. Just keep this to delete old anacrontab files
+        """
         return os.path.join(self._LOCAL_CONFIG_FOLDER, 'anacrontab' + suffix)
 
     def anacrontab_files(self):
-        '''list existing old anacrontab files'''
+        """
+        list existing old anacrontab files
+        """
         dirname, basename = os.path.split(self.get_anacrontab())
         for f in os.listdir(dirname):
             if f.startswith(basename):
@@ -1247,11 +1262,15 @@ class Config( configfile.ConfigFileWithProfiles ):
         return path
 
     def is_configured( self, profile_id = None ):
-        '''Checks if the program is configured'''
+        """
+        Checks if the program is configured
+        """
         return bool(self.get_snapshots_path(profile_id) and self.get_include(profile_id))
 
     def can_backup( self, profile_id = None ):
-        '''Checks if snapshots_path exists'''
+        """
+        Checks if snapshots_path exists
+        """
         if not self.is_configured( profile_id ):
             return False
 
@@ -1264,7 +1283,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         return True
 
     def is_backup_scheduled(self, profile_id = None):
-        '''check if profile is supposed to be run this time'''
+        """
+        check if profile is supposed to be run this time
+        """
         if self.get_automatic_backup_mode(profile_id) not in (self.REPEATEDLY, self.UDEV):
             return True
 
@@ -1283,7 +1304,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.olderThan(last_time, value, unit)
 
     def olderThan(self, time, value, unit):
-        '''return True if time is older than months, weeks, days or hours'''
+        """
+        return True if time is older than months, weeks, days or hours
+        """
         assert isinstance(time, datetime.datetime), 'time is not datetime.datetime type: %s' % time
 
         now = datetime.datetime.now()

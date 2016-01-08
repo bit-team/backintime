@@ -90,7 +90,8 @@ class RestoreDialog( QDialog ):
         self.refreshTimer.timeout.connect(self.refreshLog)
 
     def refreshLog(self):
-        """get new log from thread
+        """
+        get new log from thread
         """
         newLog = self.thread.buffer[:]
         size = len(newLog)
@@ -117,7 +118,8 @@ class RestoreDialog( QDialog ):
             self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
 class RestoreThread(QThread):
-    """run restore in a separate Thread to prevent GUI freeze and speed up restore
+    """
+    run restore in a separate Thread to prevent GUI freeze and speed up restore
     """
     def __init__(self, parent):
         super(RestoreThread, self).__init__()
@@ -131,7 +133,8 @@ class RestoreThread(QThread):
         self.log.close()
 
     def callback(self, line, *args):
-        """write into log file and provide thread save string for log window
+        """
+        write into log file and provide thread save string for log window
         """
         line += '\n'
         self.log.write(line)

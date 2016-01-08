@@ -26,12 +26,16 @@ import logger
 
 
 class TestConfigFile(unittest.TestCase):
-    '''Tests for the ConfigFile class in the configfile module'''
+    """
+    Tests for the ConfigFile class in the configfile module
+    """
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
 
     def test_save(self):
-        '''Saves the config file  in the tmp direcory '''
+        """
+        Saves the config file  in the tmp direcory
+        """
         with NamedTemporaryFile() as cfgFile:
             cf = configfile.ConfigFile()
             self.assertTrue(cf.save(cfgFile.name))
@@ -40,10 +44,10 @@ class TestConfigFile(unittest.TestCase):
         self.assertFalse(cf.save('/foo'))
 
     def test_load(self):
-        '''
+        """
         ConfigFile should be able to load its content from a previously
         saved ConfigFile object.
-        '''
+        """
         with NamedTemporaryFile() as cfgFile:
             original_cf = configfile.ConfigFile()
             key = "config_key"
@@ -381,10 +385,10 @@ class TestConfigFileWithProfiles(unittest.TestCase):
         self.cfg.add_profile('baz')
 
     def test_load(self):
-        '''
+        """
         ConfigFile should be able to load its content from a previously
         saved ConfigFile object.
-        '''
+        """
         with NamedTemporaryFile() as cfgFile:
             origCfg = configfile.ConfigFileWithProfiles()
             origCfg.set_int_value('profiles.version', 1)

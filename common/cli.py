@@ -136,8 +136,10 @@ def checkConfig(cfg, crontab = True):
     return True
 
 def selectSnapshot(snapshots_list, snapshot_id = None, msg = 'SnapshotID'):
-    '''check if given snapshot is valid. If not print a list of all
-    snapshots and ask to choose one'''
+    """
+    check if given snapshot is valid. If not print a list of all
+    snapshots and ask to choose one
+    """
     len_snapshots = len(snapshot_list)
 
     if not snapshot_id is None:
@@ -180,7 +182,9 @@ def selectSnapshot(snapshots_list, snapshot_id = None, msg = 'SnapshotID'):
     return snapshot_id
 
 def terminalSize():
-    '''get terminal size'''
+    """
+    get terminal size
+    """
     for fd in (sys.stdin, sys.stdout, sys.stderr):
         try:
             import fcntl, termios, struct

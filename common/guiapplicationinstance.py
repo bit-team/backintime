@@ -22,11 +22,13 @@ import logger
 from applicationinstance import ApplicationInstance
 
 class GUIApplicationInstance(ApplicationInstance):
-    '''class used to handle one application instance mechanism
-    '''
+    """
+    class used to handle one application instance mechanism
+    """
     def __init__( self, base_control_file, raise_cmd = '' ):
-        '''specify the base for control files
-        '''
+        """
+        specify the base for control files
+        """
         self.raise_file = base_control_file + '.raise'
         self.raise_cmd = raise_cmd
 
@@ -40,8 +42,9 @@ class GUIApplicationInstance(ApplicationInstance):
         self.start_application()
 
     def check(self, raise_cmd):
-        '''check if the current application is already running
-        '''
+        """
+        check if the current application is already running
+        """
         ret = super(GUIApplicationInstance, self).check(False)
         if not ret:
             print("The application is already running! (pid: %s)" % self.pid)
@@ -57,9 +60,10 @@ class GUIApplicationInstance(ApplicationInstance):
             return ret
 
     def raise_command( self ):
-        '''check if the application must to be raised
+        """
+        check if the application must to be raised
            return None if no raise needed, or a string command to raise
-        '''
+        """
         ret_val = None
 
         try:

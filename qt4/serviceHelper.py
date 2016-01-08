@@ -102,7 +102,8 @@ class UdevRules(dbus.service.Object):
                          in_signature='ss', out_signature='',
                          sender_keyword='sender', connection_keyword='conn')
     def addRule(self, cmd, uuid, sender=None, conn=None):
-        """Receive command and uuid and create an Udev rule out of this.
+        """
+        Receive command and uuid and create an Udev rule out of this.
         This is done on the service side to prevent malicious code to
         run as root.
         """
@@ -135,7 +136,8 @@ class UdevRules(dbus.service.Object):
                          in_signature='', out_signature='b',
                          sender_keyword='sender', connection_keyword='conn')
     def save(self, sender=None, conn=None):
-        """Save rules to destiantion file after user authenticated as admin.
+        """
+        Save rules to destiantion file after user authenticated as admin.
         This will first check if there are any changes between
         temporary added rules and current rules in destiantion file.
         Returns False if files are identical or no rules to be installed.
@@ -165,7 +167,8 @@ class UdevRules(dbus.service.Object):
                          in_signature='', out_signature='',
                          sender_keyword='sender', connection_keyword='conn')
     def delete(self, sender=None, conn=None):
-        """Delete existing Udev rule
+        """
+        Delete existing Udev rule
         """
         info = SenderInfo(sender, conn)
         user = info.connectionUnixUser()
@@ -180,7 +183,8 @@ class UdevRules(dbus.service.Object):
                          in_signature='', out_signature='',
                          sender_keyword='sender', connection_keyword='conn')
     def clean(self, sender=None, conn=None):
-        """clean up previous cached rules
+        """
+        clean up previous cached rules
         """
         info = SenderInfo(sender, conn)
         self._clean(info.nameOwner())
@@ -198,7 +202,8 @@ class UdevRules(dbus.service.Object):
 
     def _checkPolkitPrivilege(self, sender, conn, privilege):
         # from jockey
-        '''Verify that sender has a given PolicyKit privilege.
+        """
+        Verify that sender has a given PolicyKit privilege.
 
         sender is the sender's (private) D-BUS name, such as ":1:42"
         (sender_keyword in @dbus.service.methods). conn is
@@ -207,7 +212,7 @@ class UdevRules(dbus.service.Object):
 
         This method returns if the caller is privileged, and otherwise throws a
         PermissionDeniedByPolicy exception.
-        '''
+        """
         if sender is None and conn is None:
             # called locally, not through D-BUS
             return

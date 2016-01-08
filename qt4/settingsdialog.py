@@ -1693,7 +1693,8 @@ class SettingsDialog( QDialog ):
             super(SettingsDialog, self).accept()
 
 class RestoreConfigDialog(QDialog):
-    """Show a dialog that will help to restore BITs configuration.
+    """
+    Show a dialog that will help to restore BITs configuration.
     User can select a config from previous snapshots.
     """
     def __init__(self, parent):
@@ -1821,19 +1822,22 @@ class RestoreConfigDialog(QDialog):
         self.resize(600, 700)
 
     def pathFromIndex(self, index):
-        """return a path string for a given treeView index
+        """
+        return a path string for a given treeView index
         """
         sourceIndex = self.treeViewFilterProxy.mapToSource(index)
         return str(self.treeViewModel.filePath(sourceIndex))
 
     def indexFromPath(self, path):
-        """return the index for path which can be used in treeView
+        """
+        return the index for path which can be used in treeView
         """
         indexSource = self.treeViewModel.index(path)
         return self.treeViewFilterProxy.mapFromSource(indexSource)
 
     def indexChanged(self, current, previous):
-        """called everytime a new item is choosen in treeView.
+        """
+        called everytime a new item is choosen in treeView.
         If there was a config found inside the selected folder, show
         available informations about the config.
         """
@@ -1852,7 +1856,8 @@ class RestoreConfigDialog(QDialog):
         self.restoreButton.setEnabled(bool(cfg))
 
     def searchConfig(self, path):
-        """try to find config in couple possible subfolders
+        """
+        try to find config in couple possible subfolders
         """
         snapshotPath = os.path.join('backintime',
                                     self.config.get_host(),
@@ -1872,7 +1877,8 @@ class RestoreConfigDialog(QDialog):
         return
 
     def expandAll(self, path):
-        """expand all folders from filesystem root to given path
+        """
+        expand all folders from filesystem root to given path
         """
         paths = [path, ]
         while len(path) > 1:
@@ -1883,7 +1889,8 @@ class RestoreConfigDialog(QDialog):
         [self.treeView.expand(self.indexFromPath(p)) for p in paths]
 
     def showProfile(self, cfg):
-        """show information about the profiles inside cfg
+        """
+        show information about the profiles inside cfg
         """
         child = self.gridProfiles.takeAt(0)
         while child:
@@ -1899,12 +1906,14 @@ class RestoreConfigDialog(QDialog):
         self.widgetProfiles.show()
 
     def scanFound(self, path):
-        """scan hit a config. Expand the snapshot folder.
+        """
+        scan hit a config. Expand the snapshot folder.
         """
         self.expandAll(os.path.dirname(path))
 
     def scanFinished(self):
-        """scan is done. Delete the wait indicator
+        """
+        scan is done. Delete the wait indicator
         """
         self.wait.deleteLater()
 
@@ -1918,7 +1927,8 @@ class RestoreConfigDialog(QDialog):
             self.treeViewFilterProxy.setFilterRegExp(r'^[^\.]')
 
     def accept(self):
-        """handle over the dict from the selected config. The dict contains
+        """
+        handle over the dict from the selected config. The dict contains
         all settings from the config.
         """
         if self.restoreConfig:
@@ -1926,7 +1936,8 @@ class RestoreConfigDialog(QDialog):
         super(RestoreConfigDialog, self).accept()
 
     def exec_(self):
-        """stop the scan thread if it is still running after dialog was closed.
+        """
+        stop the scan thread if it is still running after dialog was closed.
         """
         ret = super(RestoreConfigDialog, self).exec_()
         self.scan.stop()
@@ -1942,13 +1953,15 @@ class ScanFileSystem(QThread):
         self.stopper = False
 
     def stop(self):
-        """prepair stop and wait for finish.
+        """
+        prepair stop and wait for finish.
         """
         self.stopper = True
         return self.wait()
 
     def run(self):
-        """search in order of hopefully fastest way to find the snapshots.
+        """
+        search in order of hopefully fastest way to find the snapshots.
         1. /home/USER 2. /media 3. /mnt and at last filesystem root.
         Already searched paths will be excluded.
         """
@@ -1960,7 +1973,8 @@ class ScanFileSystem(QThread):
                 self.emit(SIGNAL('foundConfig'), path)
 
     def scanPath(self, path, excludes = ()):
-        """walk through all folders and try to find 'config' file.
+        """
+        walk through all folders and try to find 'config' file.
         If found make sure it is nested in backintime/FOO/BAR/1/2345/config and
         return its path.
         Exclude all paths from excludes and also all backintime/FOO/BAR/1/2345/backup
@@ -1981,7 +1995,9 @@ class ScanFileSystem(QThread):
                     yield root
 
 def debug_trace():
-    '''Set a tracepoint in the Python debugger that works with Qt'''
+    """
+    Set a tracepoint in the Python debugger that works with Qt
+    """
     from pdb import set_trace
     pyqtRemoveInputHook()
     set_trace()

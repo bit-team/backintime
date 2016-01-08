@@ -75,7 +75,9 @@ class EncFS_mount(mount.MountControl):
         self.log_command = '%s: %s' % (self.mode, self.path)
 
     def _mount(self):
-        """mount the service"""
+        """
+        mount the service
+        """
         if self.password is None:
             self.password = self.config.get_password(self.parent, self.profile_id, self.mode)
         logger.debug('Provide password through temp FIFO', self)
@@ -107,36 +109,48 @@ class EncFS_mount(mount.MountControl):
         thread.stop()
 
     def _umount(self):
-        """umount the service"""
+        """
+        umount the service
+        """
         try:
             subprocess.check_call(['fusermount', '-u', self.mountpoint])
         except subprocess.CalledProcessError:
             raise MountException( _('Can\'t unmount encfs %s') % self.mountpoint)
 
     def pre_mount_check(self, first_run = False):
-        """check what ever conditions must be given for the mount"""
+        """
+        check what ever conditions must be given for the mount
+        """
         self.check_fuse()
         if first_run:
             self.check_version()
         return True
 
     def post_mount_check(self):
-        """check if mount was successful
-           raise MountException( _('Error discription') ) if not"""
+        """
+        check if mount was successful
+        raise MountException( _('Error discription') ) if not
+        """
         return True
 
     def pre_umount_check(self):
-        """check if service is safe to umount
-           raise MountException( _('Error discription') ) if not"""
+        """
+        check if service is safe to umount
+        raise MountException( _('Error discription') ) if not
+        """
         return True
 
     def post_umount_check(self):
-        """check if umount successful
-           raise MountException( _('Error discription') ) if not"""
+        """
+        check if umount successful
+        raise MountException( _('Error discription') ) if not
+        """
         return True
 
     def get_env(self):
-        """return environment with encfs configfile"""
+        """
+        return environment with encfs configfile
+        """
         env = os.environ.copy()
         cfg = self.get_config_file()
         if os.path.isfile(cfg):
@@ -144,7 +158,9 @@ class EncFS_mount(mount.MountControl):
         return env
 
     def get_config_file(self):
-        """return encfs config file"""
+        """
+        return encfs config file
+        """
         f = '.encfs6.xml'
         if self.config_path is None:
             cfg = os.path.join(self.path, f)
@@ -153,8 +169,10 @@ class EncFS_mount(mount.MountControl):
         return cfg
 
     def is_configured(self):
-        """check if encfs config file exist. If not and if we are in settingsdialog
-           ask for password confirmation. _mount will then create a new config"""
+        """
+        check if encfs config file exist. If not and if we are in settingsdialog
+        ask for password confirmation. _mount will then create a new config
+        """
         cfg = self.get_config_file()
         if os.path.isfile(cfg):
             logger.debug('Found encfs config in %s'
@@ -178,7 +196,9 @@ class EncFS_mount(mount.MountControl):
                         raise MountException( _('Password doesn\'t match') )
 
     def check_fuse(self):
-        """check if encfs is installed and user is part of group fuse"""
+        """
+        check if encfs is installed and user is part of group fuse
+        """
         logger.debug('Check fuse', self)
         if not tools.check_command('encfs'):
             logger.debug('sshfs is missing', self)
@@ -196,8 +216,10 @@ class EncFS_mount(mount.MountControl):
                 raise MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
 
     def check_version(self):
-        """check encfs version.
-           1.7.2 had a bug with --reverse that will create corrupt files"""
+        """
+        check encfs version.
+        1.7.2 had a bug with --reverse that will create corrupt files
+        """
         logger.debug('Check version', self)
         if self.reverse:
             proc = subprocess.Popen(['encfs', '--version'],
@@ -211,9 +233,11 @@ class EncFS_mount(mount.MountControl):
                 raise MountException( _('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
 
     def backup_config(self):
-        """create a backup of encfs config file into local config folder
+        """
+        create a backup of encfs config file into local config folder
         so in cases of the config file get deleted or corrupt user can restore
-        it from there"""
+        it from there
+        """
         cfg = self.get_config_file()
         if not os.path.isfile(cfg):
             logger.warning('No encfs config in %s. Skip backup of config file.' %cfg, self)
@@ -238,9 +262,11 @@ class EncFS_mount(mount.MountControl):
         shutil.copy2(cfg, new_backup)
 
 class EncFS_SSH(EncFS_mount):
-    """Mount encrypted remote path with sshfs and encfs.
-       Mount / with encfs --reverse.
-       rsync will then sync the encrypted view on / to the remote path"""
+    """
+    Mount encrypted remote path with sshfs and encfs.
+    Mount / with encfs --reverse.
+    rsync will then sync the encrypted view on / to the remote path
+    """
     def __init__(self, cfg = None, profile_id = None, mode = None, parent = None,*args, **kwargs):
         self.config = cfg
         if self.config is None:
@@ -261,8 +287,10 @@ class EncFS_SSH(EncFS_mount):
         super(EncFS_SSH, self).__init__(*self.args, **self.split_kwargs('encfs'))
 
     def mount(self, *args, **kwargs):
-        """call mount for sshfs, encfs --reverse and encfs
-           register 'encfsctl encode' in config.ENCODE"""
+        """
+        call mount for sshfs, encfs --reverse and encfs
+        register 'encfsctl encode' in config.ENCODE
+        """
         logger.debug('Mount sshfs', self)
         self.ssh.mount(*args, **kwargs)
         #mount fsroot with encfs --reverse first.
@@ -297,8 +325,10 @@ class EncFS_SSH(EncFS_mount):
         return ret
 
     def umount(self, *args, **kwargs):
-        """close 'encfsctl encode' process and set config.ENCODE back to the dummy class.
-           call umount for encfs, encfs --reverse and sshfs"""
+        """
+        close 'encfsctl encode' process and set config.ENCODE back to the dummy class.
+        call umount for encfs, encfs --reverse and sshfs
+        """
         self.config.ENCODE.close()
         self.config.ENCODE = Bounce()
         logger.debug('Unmount encfs', self)
@@ -309,14 +339,18 @@ class EncFS_SSH(EncFS_mount):
         self.ssh.umount(*args, **kwargs)
 
     def pre_mount_check(self, *args, **kwargs):
-        """call pre_mount_check for sshfs, encfs --reverse and encfs"""
+        """
+        call pre_mount_check for sshfs, encfs --reverse and encfs
+        """
         if self.ssh.pre_mount_check(*args, **kwargs) and \
            self.rev_root.pre_mount_check(*args, **kwargs) and \
            super(EncFS_SSH, self).pre_mount_check(*args, **kwargs):
                 return True
 
     def split_kwargs(self, mode):
-        """split all given arguments for the desired mount class"""
+        """
+        split all given arguments for the desired mount class
+        """
         d = self.kwargs.copy()
         d['cfg']        = self.config
         d['profile_id'] = self.profile_id
@@ -362,8 +396,10 @@ class EncFS_SSH(EncFS_mount):
             return d
 
 class Encode(object):
-    """encode path with encfsctl.
-       ENCFS_SSH will replace config.ENCODE whit this"""
+    """
+    encode path with encfsctl.
+    ENCFS_SSH will replace config.ENCODE whit this
+    """
     def __init__(self, encfs):
         self.encfs = encfs
         self.password = self.encfs.password
@@ -382,7 +418,9 @@ class Encode(object):
         self.close()
 
     def start_process(self):
-        """start 'encfsctl encode' process in pipe mode."""
+        """
+        start 'encfsctl encode' process in pipe mode.
+        """
         thread = password_ipc.TempPasswordThread(self.password)
         env = self.encfs.get_env()
         env['ASKPASS_TEMP'] = thread.temp_file
@@ -400,7 +438,9 @@ class Encode(object):
         thread.stop()
 
     def path(self, path):
-        """write plain path to encfsctl stdin and read encrypted path from stdout"""
+        """
+        write plain path to encfsctl stdin and read encrypted path from stdout
+        """
         if not 'p' in vars(self):
             self.start_process()
         if not self.p.returncode is None:
@@ -416,10 +456,11 @@ class Encode(object):
         return ret
 
     def exclude(self, path):
-        """encrypt paths for snapshots.take_snapshot exclude list.
-           After encoding the path a wildcard would not match anymore
-           so all paths with wildcards are ignored. Only single and double asterisk
-           that will match a full file or folder name will work.
+        """
+        encrypt paths for snapshots.take_snapshot exclude list.
+        After encoding the path a wildcard would not match anymore
+        so all paths with wildcards are ignored. Only single and double asterisk
+        that will match a full file or folder name will work.
         """
         if tools.patternHasNotEncryptableWildcard(path):
             return None
@@ -458,23 +499,31 @@ class Encode(object):
         return enc
 
     def include(self, path):
-        """encrypt paths for snapshots.take_snapshot include list."""
+        """
+        encrypt paths for snapshots.take_snapshot include list.
+        """
         return os.path.join(os.sep, self.path(path))
 
     def remote(self, path):
-        """encode the path on remote host starting from backintime/host/user/..."""
+        """
+        encode the path on remote host starting from backintime/host/user/...
+        """
         enc_path = self.path( path[len(self.remote_path):] )
         return os.path.join(self.remote_path, enc_path)
 
     def close(self):
-        """stop encfsctl process"""
+        """
+        stop encfsctl process
+        """
         if 'p' in vars(self) and self.p.returncode is None:
             logger.debug('stop \'encfsctl encode\' process', self)
             self.p.communicate()
 
 class Bounce(object):
-    """Dummy class that will simply return all input.
-       This is the standard for config.ENCODE"""
+    """
+    Dummy class that will simply return all input.
+    This is the standard for config.ENCODE
+    """
     def __init__(self):
         self.chroot = os.sep
 
@@ -494,7 +543,9 @@ class Bounce(object):
         pass
 
 class Decode(object):
-    """decode path with encfsctl."""
+    """
+    decode path with encfsctl.
+    """
     def __init__(self, cfg, string = True):
         self.mode = cfg.get_snapshots_mode()
         if self.mode == 'local_encfs':
@@ -585,7 +636,9 @@ class Decode(object):
         self.close()
 
     def start_process(self):
-        """start 'encfsctl decode' process in pipe mode."""
+        """
+        start 'encfsctl decode' process in pipe mode.
+        """
         thread = password_ipc.TempPasswordThread(self.password)
         env = os.environ.copy()
         env['ASKPASS_TEMP'] = thread.temp_file
@@ -604,8 +657,10 @@ class Decode(object):
         thread.stop()
 
     def path(self, path):
-        """write crypted path to encfsctl stdin and read plain path from stdout
-           if stdout is empty (most likly because there was an error) return crypt path"""
+        """
+        write crypted path to encfsctl stdin and read plain path from stdout
+        if stdout is empty (most likly because there was an error) return crypt path
+        """
         if self.string:
             assert isinstance(path, str), 'path is not str type: %s' % path
         else:
@@ -624,14 +679,18 @@ class Decode(object):
         return path
 
     def list(self, list_):
-        """decode a list of paths"""
+        """
+        decode a list of paths
+        """
         output = []
         for path in list_:
             output.append(self.path(path))
         return output
 
     def log(self, line):
-        """decode paths in takesnapshot.log"""
+        """
+        decode paths in takesnapshot.log
+        """
         #rsync cmd
         if line.startswith('[I] rsync') or line.startswith('[I] nocache rsync'):
             line = self.re_include_exclude.sub(self.replace, line)
@@ -660,18 +719,24 @@ class Decode(object):
         return line
 
     def replace(self, m):
-        """return decoded string for re.sub"""
+        """
+        return decoded string for re.sub
+        """
         decrypt = self.re_all_except_asterisk.sub(self.path_m, m.group(2))
         if os.path.isabs(m.group(2)):
             decrypt = os.path.join(os.sep, decrypt)
         return m.group(1) + decrypt + m.group(3)
 
     def path_m(self, m):
-        """return decoded path of a match object"""
+        """
+        return decoded path of a match object
+        """
         return self.path(m.group(0))
 
     def path_with_arrow(self, path):
-        """rsync print symlinks like 'dest -> src'. This will decode both and also normal paths"""
+        """
+        rsync print symlinks like 'dest -> src'. This will decode both and also normal paths
+        """
         m = self.re_all_except_arrow.match(path)
         if not m is None:
             return self.path(m.group(1)) + m.group(2) + self.path(m.group(3))
@@ -679,7 +744,9 @@ class Decode(object):
             return self.path(path)
 
     def remote(self, path):
-        """decode the path on remote host starting from backintime/host/user/..."""
+        """
+        decode the path on remote host starting from backintime/host/user/...
+        """
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
 
         remote_path = self.remote_path.encode()
@@ -687,7 +754,9 @@ class Decode(object):
         return os.path.join(remote_path, dec_path)
 
     def close(self):
-        """stop encfsctl process"""
+        """
+        stop encfsctl process
+        """
         if 'p' in vars(self) and self.p.returncode is None:
             logger.debug('stop \'encfsctl decode\' process', self)
             self.p.communicate()

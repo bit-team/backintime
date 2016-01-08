@@ -71,16 +71,18 @@ def get_backintime_path(*path):
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
 def register_backintime_path(*path):
-    '''find duplicate in qt4/qt4tools.py
-    '''
+    """
+    find duplicate in qt4/qt4tools.py
+    """
     path = get_backintime_path(*path)
     if not path in sys.path:
         sys.path.insert(0, path)
 
 def running_from_source():
-    '''return True if BackInTime was started
+    """
+    return True if BackInTime was started
     from source folder (without installing)
-    '''
+    """
     return os.path.isfile(get_backintime_path('common', 'backintime'))
 
 def add_source_to_path_environ():
@@ -167,7 +169,9 @@ def check_command( cmd ):
     return not which(cmd) is None
 
 def which(filename):
-    """Checks if 'filename' is present in the system PATH."""
+    """
+    Checks if 'filename' is present in the system PATH.
+    """
     pathenv = os.getenv('PATH', '')
     path = pathenv.split(":")
     path.insert(0, os.getcwd())
@@ -205,8 +209,10 @@ def prepare_path( path ):
     return path
 
 def power_status_available():
-    """Uses the on_ac_power command to detect if the the system is able
-    to return the power status."""
+    """
+    Uses the on_ac_power command to detect if the the system is able
+    to return the power status.
+    """
     try:
         rt = subprocess.call( 'on_ac_power' )
         if rt == ON_AC or rt == ON_BATTERY:
@@ -217,7 +223,9 @@ def power_status_available():
 
 
 def on_battery():
-    """Checks if the system is on battery power."""
+    """
+    Checks if the system is on battery power.
+    """
     if power_status_available ():
         return subprocess.call ( 'on_ac_power' ) == ON_BATTERY
     else:
@@ -379,7 +387,9 @@ def temp_failure_retry(func, *args, **kwargs):
                 raise
 
 def _get_md5sum_from_path(path):
-    '''return md5sum of path, af available system command md5sum()'''
+    """
+    return md5sum of path, af available system command md5sum()
+    """
     md5 = hashlib.md5()
     with open(path, 'rb') as f:
         while True:
@@ -390,7 +400,9 @@ def _get_md5sum_from_path(path):
     return md5.digest()
 
 def check_cron_pattern(s):
-    '''check if s look like '0,10,13,15,17,20,23' or '*/6' '''
+    """
+    check if s look like '0,10,13,15,17,20,23' or '*/6'
+    """
     if s.find(' ') >= 0:
         return False
     try:
@@ -410,7 +422,9 @@ def check_cron_pattern(s):
         return False
 
 def check_home_encrypt():
-    '''return True if users home is encrypted'''
+    """
+    return True if users home is encrypted
+    """
     home = os.path.expanduser('~')
     if not os.path.ismount(home):
         return False
@@ -502,7 +516,9 @@ def set_password(*args):
     return False
 
 def get_mountpoint(path):
-    '''return MOUNTPOINT for given PATH'''
+    """
+    return MOUNTPOINT for given PATH
+    """
     path = os.path.realpath(os.path.abspath(path))
     while path != os.path.sep:
         if os.path.ismount(path):
@@ -511,7 +527,9 @@ def get_mountpoint(path):
     return path
 
 def get_mount_args(path):
-    '''return a tuple of mount arguments from /proc/mounts'''
+    """
+    return a tuple of mount arguments from /proc/mounts
+    """
     mp = get_mountpoint(path)
     with open('/etc/mtab', 'r') as mounts:
         for line in mounts:
@@ -521,21 +539,27 @@ def get_mount_args(path):
     return None
 
 def get_device(path):
-    '''return DEVICE for given PATH'''
+    """
+    return DEVICE for given PATH
+    """
     args = get_mount_args(path)
     if args:
         return args[0]
     return None
 
 def get_filesystem(path):
-    '''return FILESYSTEM for given PATH'''
+    """
+    return FILESYSTEM for given PATH
+    """
     args = get_mount_args(path)
     if args and len(args) >= 3:
         return args[2]
     return None
 
 def get_uuid(dev):
-    '''return uuid for given block device'''
+    """
+    return uuid for given block device
+    """
     if dev and os.path.exists(dev):
         dev = os.path.realpath(dev)
         for uuid in os.listdir(DISK_BY_UUID):
@@ -573,13 +597,15 @@ def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '
             yield(line)
 
 def syncfs():
-    """writes any data buffered in memory out to disk
+    """
+    writes any data buffered in memory out to disk
     """
     if check_command('sync'):
         return(_execute('sync') == 0)
 
 def update_cached_fs(dir):
-    """changes not made through sshfs on remote files will not be recognized
+    """
+    changes not made through sshfs on remote files will not be recognized
     immediately because of the local cache. But writing a new file into that
     folder will update local cache.
     """
@@ -596,9 +622,10 @@ re_wildcard = re.compile(r'(?:\[|\]|\?|\*)')
 re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
 
 def patternHasNotEncryptableWildcard(pattern):
-    '''return True if path has wildcards [ ] ? *
+    """
+    return True if path has wildcards [ ] ? *
     but return False for foo/*, foo/*/bar, */bar or **/bar
-    '''
+    """
     if not re_wildcard.search(pattern) is None:
         if re_separate_asterisk.search(pattern) is None:
             return False
@@ -609,7 +636,9 @@ BIT_TIME_FORMAT = '%Y%m%d %H%M'
 ANACRON_TIME_FORMAT = '%Y%m%d'
 
 def readTimeStamp(f):
-    '''read date string from file and try to return datetime'''
+    """
+    read date string from file and try to return datetime
+    """
     if not os.path.exists(f):
         return
     with open(f, 'r') as f:
@@ -621,7 +650,9 @@ def readTimeStamp(f):
             pass
 
 def writeTimeStamp(f):
-    '''write current date into file'''
+    """
+    write current date into file
+    """
     make_dirs(os.path.dirname(f))
     with open(f, 'w') as f:
         f.write(datetime.now().strftime(BIT_TIME_FORMAT))
@@ -658,9 +689,10 @@ def inhibitSuspend( app_id = sys.argv[0],
                     toplevel_xid = None,
                     reason = 'take snapshot',
                     flags = INHIBIT_SUSPENDING | INHIBIT_IDLE):
-    '''Prevent machine to go to suspend or hibernate.
+    """
+    Prevent machine to go to suspend or hibernate.
     Returns the inhibit cookie which is used to end the inhibitor.
-    '''
+    """
     if not app_id:
         app_id = 'backintime'
     if not toplevel_xid:
@@ -688,8 +720,9 @@ def inhibitSuspend( app_id = sys.argv[0],
     logger.warning('Inhibit Suspend failed.')
 
 def unInhibitSuspend(cookie, bus, dbus_props):
-    '''Release inhibit.
-    '''
+    """
+    Release inhibit.
+    """
     assert isinstance(cookie, int), 'cookie is not int type: %s' % cookie
     assert isinstance(bus, dbus.bus.BusConnection), 'bus is not dbus.bus.BusConnection type: %s' % bus
     assert isinstance(dbus_props, dict), 'dbus_props is not dict type: %s' % dbus_props
@@ -704,8 +737,9 @@ def unInhibitSuspend(cookie, bus, dbus_props):
         return (cookie, bus, dbus_props)
 
 def getSshKeyFingerprint(path):
-    '''return the hex fingerprint of a given ssh key
-    '''
+    """
+    return the hex fingerprint of a given ssh key
+    """
     if not os.path.exists(path):
         return
     cmd = ['ssh-keygen', '-l', '-f', path]
@@ -716,8 +750,9 @@ def getSshKeyFingerprint(path):
         return m.group(1).decode('UTF-8')
 
 def readCrontab():
-    '''read a list of lines from users crontab
-    '''
+    """
+    read a list of lines from users crontab
+    """
     cmd = ['crontab', '-l']
     if not check_command(cmd[0]):
         logger.debug('crontab not found.')
@@ -739,8 +774,9 @@ def readCrontab():
             return crontab
 
 def writeCrontab(lines):
-    '''write a list of lines to users crontab
-    '''
+    """
+    write a list of lines to users crontab
+    """
     assert isinstance(lines, (list, tuple)), 'lines is not list or tuple type: %s' % lines
     with tempfile.NamedTemporaryFile(mode = 'wt') as f:
         f.write('\n'.join(lines))
@@ -770,7 +806,9 @@ def splitCommands(cmds, head = '', tail = '', maxLength = 0, additionalChars = 0
         yield s
 
 class UniquenessSet:
-    '''a class to check for uniqueness of snapshots of the same [item]'''
+    """
+    a class to check for uniqueness of snapshots of the same [item]
+    """
     def __init__(self, dc = False, follow_symlink = False, list_equal_to = False):
         self.deep_check = dc
         self.follow_sym = follow_symlink
@@ -796,7 +834,9 @@ class UniquenessSet:
             return self.check_unique(path)
 
     def check_unique(self, path):
-        '''store a unique key for path, return True if path is unique'''
+        """
+        store a unique key for path, return True if path is unique
+        """
         # check
         if self.deep_check:
             dum = os.stat(path)
@@ -833,7 +873,9 @@ class UniquenessSet:
         return False
 
     def check_equal(self, path):
-        '''return True if path and reference are equal'''
+        """
+        return True if path and reference are equal
+        """
         st = os.stat(path)
         if self.deep_check:
             if self.reference[0] == st.st_size:
@@ -878,7 +920,8 @@ class Alarm(object):
             self.callback()
 
 class ShutDown(object):
-    """Shutdown the system after the current snapshot has finished.
+    """
+    Shutdown the system after the current snapshot has finished.
     This should work for KDE, Gnome, Unity, Cinnamon, XFCE, Mate and E17.
     """
     DBUS_SHUTDOWN ={'gnome':   {'bus':          'sessionbus',
@@ -983,7 +1026,8 @@ class ShutDown(object):
         self.started = False
 
     def _prepair(self):
-        """try to connect to the given dbus services. If successful it will
+        """
+        try to connect to the given dbus services. If successful it will
         return a callable dbus proxy and those arguments.
         """
         try:
@@ -1013,18 +1057,21 @@ class ShutDown(object):
         return( (None, None) )
 
     def can_shutdown(self):
-        """indicate if a valid dbus service is available to shutdown system.
+        """
+        indicate if a valid dbus service is available to shutdown system.
         """
         return(not self.proxy is None or self.is_root)
 
     def ask_before_quit(self):
-        """indicate if ShutDown is ready to fire and so the application
+        """
+        indicate if ShutDown is ready to fire and so the application
         shouldn't be closed.
         """
         return(self.activate_shutdown and not self.started)
 
     def shutdown(self):
-        """run 'shutdown -h now' if we are root or
+        """
+        run 'shutdown -h now' if we are root or
         call the dbus proxy to start the shutdown.
         """
         if not self.activate_shutdown:
@@ -1043,7 +1090,8 @@ class ShutDown(object):
             return(self.proxy(*self.args))
 
     def unity_7(self):
-        """Unity >= 7.0 doesn't shutdown automatically. It will
+        """
+        Unity >= 7.0 doesn't shutdown automatically. It will
         only show shutdown dialog and wait for user input.
         """
         if not check_command('unity'):
@@ -1053,7 +1101,8 @@ class ShutDown(object):
         return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and process_exists('unity-panel-service')
 
 class SetupUdev(object):
-    """Setup Udev rules for starting BackInTime when a drive get connected.
+    """
+    Setup Udev rules for starting BackInTime when a drive get connected.
     This is done by serviceHelper.py script (included in backintime-qt4)
     running as root though DBus.
     """
@@ -1079,7 +1128,8 @@ class SetupUdev(object):
         self.isReady = bool(conn)
 
     def addRule(self, cmd, uuid):
-        """prepair rules in serviceHelper.py
+        """
+        prepair rules in serviceHelper.py
         """
         if not self.isReady:
             return
@@ -1092,7 +1142,8 @@ class SetupUdev(object):
                 raise
 
     def save(self):
-        """save rules with serviceHelper.py after authentication
+        """
+        save rules with serviceHelper.py after authentication
         If no rules where added before this will delete current rule.
         """
         if not self.isReady:
@@ -1106,7 +1157,8 @@ class SetupUdev(object):
                 raise
 
     def clean(self):
-        """clean up remote cache
+        """
+        clean up remote cache
         """
         if not self.isReady:
             return
@@ -1147,9 +1199,10 @@ class PathHistory(object):
         self.index = 0
 
 class OrderedSet(collections.MutableSet):
-    '''OrderedSet from Python recipe
+    """
+    OrderedSet from Python recipe
     http://code.activestate.com/recipes/576694/
-    '''
+    """
     def __init__(self, iterable=None):
         self.end = end = []
         end += [None, end, end]         # sentinel node for doubly linked list

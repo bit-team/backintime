@@ -31,8 +31,9 @@ def get_backintime_path(*path):
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
 def register_backintime_path(*path):
-    '''find duplicate in common/tools.py
-    '''
+    """
+    find duplicate in common/tools.py
+    """
     path = get_backintime_path(*path)
     if not path in sys.path:
         sys.path.insert(0, path)
@@ -64,7 +65,8 @@ def equal_indent(*args):
             widget.setMinimumWidth(width)
 
 def getExistingDirectories(parent, *args, **kwargs):
-    """Workaround for selecting multiple directories
+    """
+    Workaround for selecting multiple directories
     adopted from http://www.qtcentre.org/threads/34226-QFileDialog-select-multiple-directories?p=158482#post158482
     This also give control about hidden folders
     """
@@ -82,7 +84,8 @@ def getExistingDirectories(parent, *args, **kwargs):
     return [str(), ]
 
 def getExistingDirectory(parent, *args, **kwargs):
-    """Workaround to give control about hidden folders
+    """
+    Workaround to give control about hidden folders
     """
     dlg = QFileDialog(parent, *args, **kwargs)
     dlg.setOption(dlg.DontUseNativeDialog, True)
@@ -96,7 +99,8 @@ def getExistingDirectory(parent, *args, **kwargs):
     return str()
 
 def getOpenFileNames(parent, *args, **kwargs):
-    """Workaround to give control about hidden files
+    """
+    Workaround to give control about hidden files
     """
     dlg = QFileDialog(parent, *args, **kwargs)
     dlg.setOption(dlg.DontUseNativeDialog, True)
@@ -109,7 +113,8 @@ def getOpenFileNames(parent, *args, **kwargs):
     return [str(), ]
 
 def getOpenFileName(parent, *args, **kwargs):
-    """Workaround to give control about hidden files
+    """
+    Workaround to give control about hidden files
     """
     dlg = QFileDialog(parent, *args, **kwargs)
     dlg.setOption(dlg.DontUseNativeDialog, True)
@@ -144,8 +149,10 @@ def create_qapplication(app_name = 'Back In Time'):
     return qapp
 
 class MyTreeView(QTreeView):
-    """subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
-    if the SLOT currentChanged is called"""
+    """
+    subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
+    if the SLOT currentChanged is called
+    """
     myCurrentIndexChanged = pyqtSignal(QModelIndex, QModelIndex)
 
     def currentChanged(self, current, previous):
@@ -333,10 +340,11 @@ class SortedComboBox(QComboBox):
         self.sortRole = Qt.DisplayRole
 
     def addItem(self, text, userData = None):
-        '''QComboBox doesn't support sorting
+        """
+        QComboBox doesn't support sorting
         so this litle hack is used to insert
         items in sorted order.
-        '''
+        """
         if self.sortRole == Qt.UserRole:
             sortObject = userData
         else:

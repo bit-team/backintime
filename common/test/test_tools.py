@@ -28,12 +28,16 @@ import logger
 
 
 class TestTools(unittest.TestCase):
-    ''' All funtions test here come from tools.py '''
+    """
+    All funtions test here come from tools.py
+    """
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
 
     def test_read_file(self):
-        ''' Test the function read_file '''
+        """
+        Test the function read_file
+        """
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
@@ -41,7 +45,9 @@ class TestTools(unittest.TestCase):
         self.assertIsNone(tools.read_file(non_existing_file))
 
     def test_read_file_lines(self):
-        ''' Test the function read_file_lines '''
+        """
+        Test the function read_file_lines
+        """
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
@@ -49,27 +55,37 @@ class TestTools(unittest.TestCase):
         self.assertIsNone(tools.read_file_lines(non_existing_file))
 
     def test_read_command_output(self):
-        ''' Test the function read_command_output '''
+        """
+        Test the function read_command_output
+        """
         ret_val = tools.read_command_output("echo 'Test, read command output'")
         self.assertEqual("Test, read command output", ret_val)
 
     def test_check_command(self):
-        ''' Test the function check_command '''
+        """
+        Test the function check_command
+        """
         self.assertFalse(tools.check_command("notExistedCommand"))
         self.assertTrue(tools.check_command("ls"))
 
     def test_which(self):
-        ''' Test the function which '''
+        """
+        Test the function which
+        """
         self.assertRegex(tools.which("ls"), r'/.*/ls')
         self.assertIsNone(tools.which("notExistedCommand"))
 
     def test_process_exists(self):
-        ''' Test the function process_exists '''
+        """
+        Test the function process_exists
+        """
         self.assertTrue(tools.process_exists("init") or tools.process_exists("systemd"))
         self.assertFalse(tools.process_exists("notExistedProcess"))
 
     def test_prepare_path(self):
-        ''' Test the function load_env '''
+        """
+        Test the function load_env
+        """
         path_with_slash_at_begin = "/test/path"
         path_without_slash_at_begin = "test/path"
         path_with_slash_at_end = "/test/path/"
@@ -88,7 +104,9 @@ class TestTools(unittest.TestCase):
             path_without_slash_at_end)
 
     def test_is_process_alive(self):
-        ''' Test the function is_process_alive '''
+        """
+        Test the function is_process_alive
+        """
         self.assertTrue(tools.is_process_alive(0))
         self.assertFalse(tools.is_process_alive(99999999999))
 

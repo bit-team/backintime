@@ -40,11 +40,12 @@ RETURN_NO_CFG = 2
 parsers = {}
 
 def take_snapshot_now_async( cfg ):
-    '''fork a new backintime process with 'backup' command which will
+    """
+    fork a new backintime process with 'backup' command which will
     take a new snapshot in background.
 
     cfg:    config.Config instance
-    '''
+    """
     cmd = ''
     if cfg.is_run_ionice_from_user_enabled():
         cmd += 'ionice -c2 -n7 '
@@ -60,21 +61,23 @@ def take_snapshot_now_async( cfg ):
     os.system( cmd )
 
 def take_snapshot( cfg, force = True ):
-    '''take a new snapshot.
+    """
+    take a new snapshot.
 
     cfg:    config.Config instance
     force:  take the snapshot even if it wouldn't need to or would be
             prevented (e.g. running on battery)
-    '''
+    """
     tools.load_env(cfg.get_cron_env_file())
     ret = snapshots.Snapshots( cfg ).take_snapshot( force )
     return ret
 
 def _mount(cfg):
-    '''mount external filesystems.
+    """
+    mount external filesystems.
 
     cfg:    config.Config instance
-    '''
+    """
     try:
         hash_id = mount.Mount(cfg = cfg).mount()
     except MountException as ex:
@@ -84,20 +87,22 @@ def _mount(cfg):
         cfg.set_current_hash_id(hash_id)
 
 def _umount(cfg):
-    '''unmount external filesystems.
+    """
+    unmount external filesystems.
 
     cfg:    config.Config instance
-    '''
+    """
     try:
         mount.Mount(cfg = cfg).umount(cfg.current_hash_id)
     except MountException as ex:
         logger.error(str(ex))
 
 def create_parsers(app_name = 'backintime'):
-    '''define parsers for commandline arguments.
+    """
+    define parsers for commandline arguments.
 
     app_name:   string representing the current application
-    '''
+    """
     global parsers
 
     #define debug
@@ -420,11 +425,12 @@ def create_parsers(app_name = 'backintime'):
                            help = argparse.SUPPRESS)
 
 def start_app(app_name = 'backintime'):
-    '''start the requested command or return config if there was no command
+    """
+    start the requested command or return config if there was no command
     in arguments.
 
     app_name:   string representing the current application
-    '''
+    """
     create_parsers(app_name)
     #open log
     logger.APP_NAME = app_name
@@ -454,21 +460,23 @@ def start_app(app_name = 'backintime'):
         return getConfig(args, False)
 
 def arg_parse(args):
-    '''parse arguments given on commandline.
+    """
+    parse arguments given on commandline.
 
     args:   argparse.ArgumentParser instance that should be enhanced or None
 
     tests:
     test/test_argparser.TestArgParser.*    (all of them)
-    '''
+    """
     def join(args, subArgs):
-        '''add new arguments to existing ArgumentParser.
+        """
+        add new arguments to existing ArgumentParser.
 
         args:       main argparse.ArgumentParser instance that should
                     get new arguments
         subArgs:    second argparse.ArgumentParser instance which have
                     new arguments that should be merged into args
-        '''
+        """
         for key, value in vars(subArgs).items():
             #only add new values if it isn't set already or if there really IS a value
             if getattr(args, key, None) is None or value:
@@ -515,8 +523,9 @@ def arg_parse(args):
     return args
 
 def printHeader():
-    '''print application name, version and legal notes.
-    '''
+    """
+    print application name, version and legal notes.
+    """
     version = config.Config.VERSION
     ref, hashid = tools.get_git_ref_hash()
     if ref:
@@ -531,16 +540,18 @@ def printHeader():
     print('')
 
 class PseudoAliasAction(argparse.Action):
-    '''translate '--COMMAND' into 'COMMAND' for backwards compatibility.
-    '''
+    """
+    translate '--COMMAND' into 'COMMAND' for backwards compatibility.
+    """
     def __call__(self, parser, namespace, values, option_string=None):
-        '''translate '--COMMAND' into 'COMMAND' for backwards compatibility.
+        """
+        translate '--COMMAND' into 'COMMAND' for backwards compatibility.
 
         parser:
         namespace:
         values:
         option_string:
-        '''
+        """
         #TODO: find a more elegant way to solve this
         dest = self.dest.replace('_', '-')
         if self.dest == 'b':
@@ -554,11 +565,12 @@ class PseudoAliasAction(argparse.Action):
         setattr(namespace, 'alias', alias)
 
 def aliasParser(args):
-    '''call commands which where given with leading -- for backwards
+    """
+    call commands which where given with leading -- for backwards
     compatibility.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     logger.info("Run command '%(alias)s' instead of argument '%(replace)s' due to backwards compatibility."
                 % {'alias': args.alias, 'replace': args.replace})
     argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
@@ -567,11 +579,12 @@ def aliasParser(args):
         newArgs.func(newArgs)
 
 def getConfig(args, check = True):
-    '''load config and change to profile selected on commandline.
+    """
+    load config and change to profile selected on commandline.
 
     args:   argparse.ArgumentParser instance
     check:  if there is no valid config call sys.exit
-    '''
+    """
     cfg = config.Config(args.config)
     logger.debug('config file: %s' % cfg._LOCAL_CONFIG_PATH)
     logger.debug('profiles: %s' % cfg.get_profiles())
@@ -591,20 +604,22 @@ def getConfig(args, check = True):
     return cfg
 
 def setQuiet(args):
-    '''redirect sys.stdout to /dev/null if --quiet was set on commandline.
+    """
+    redirect sys.stdout to /dev/null if --quiet was set on commandline.
     Return the original sys.stdout fileobject which can be used to print
     absolute necessary information.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     force_stdout = sys.stdout
     if args.quiet:
         sys.stdout = open(os.devnull, 'w')
     return force_stdout
 
 class printLicense(argparse.Action):
-    '''print custom license
-    '''
+    """
+    print custom license
+    """
     def __init__(self, *args, **kwargs):
         super(printLicense, self).__init__(*args, **kwargs)
 
@@ -614,12 +629,13 @@ class printLicense(argparse.Action):
         sys.exit(RETURN_OK)
 
 def backup(args, force = True):
-    '''command for taking a new snapshot.
+    """
+    command for taking a new snapshot.
 
     force:  take the snapshot even if it wouldn't need to or would be
     args:   argparse.ArgumentParser instance
             prevented (e.g. running on battery)
-    '''
+    """
     setQuiet(args)
     printHeader()
     cfg = getConfig(args)
@@ -627,17 +643,19 @@ def backup(args, force = True):
     sys.exit(int(not ret))
 
 def backupJob(args):
-    '''command for force taking a new snapshot.
+    """
+    command for force taking a new snapshot.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     backup(args, False)
 
 def snapshotsPath(args):
-    '''command for printing the full snapshot path of current profile.
+    """
+    command for printing the full snapshot path of current profile.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     if args.keep_mount:
@@ -646,10 +664,11 @@ def snapshotsPath(args):
     sys.exit(RETURN_OK)
 
 def snapshotsList(args):
-    '''command for printing a list of all snapshots in current profile.
+    """
+    command for printing a list of all snapshots in current profile.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
@@ -664,10 +683,11 @@ def snapshotsList(args):
     sys.exit(RETURN_OK)
 
 def snapshotsListPath(args):
-    '''command for printing a list of all snapshots pathes in current profile.
+    """
+    command for printing a list of all snapshots pathes in current profile.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
@@ -682,10 +702,11 @@ def snapshotsListPath(args):
     sys.exit(RETURN_OK)
 
 def lastSnapshot(args):
-    '''command for printing the very last snapshot in current profile.
+    """
+    command for printing the very last snapshot in current profile.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
@@ -698,11 +719,12 @@ def lastSnapshot(args):
     sys.exit(RETURN_OK)
 
 def lastSnapshotPath(args):
-    '''command for printing the path of the very last snapshot in
+    """
+    command for printing the path of the very last snapshot in
     current profile.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
@@ -716,10 +738,11 @@ def lastSnapshotPath(args):
     sys.exit(RETURN_OK)
 
 def unmount(args):
-    '''command for unmounting all filesystems.
+    """
+    command for unmounting all filesystems.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
@@ -727,11 +750,12 @@ def unmount(args):
     sys.exit(RETURN_OK)
 
 def benchmarkCipher(args):
-    '''command for transfering a file with scp to remote host with all
+    """
+    command for transfering a file with scp to remote host with all
     available ciphers and print its speed and time.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     setQuiet(args)
     printHeader()
     cfg = getConfig(args)
@@ -744,10 +768,11 @@ def benchmarkCipher(args):
         sys.exit(RETURN_ERR)
 
 def pwCache(args):
-    '''command for starting password cache daemon.
+    """
+    command for starting password cache daemon.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     force_stdout = setQuiet(args)
     printHeader()
     cfg = getConfig(args)
@@ -768,11 +793,12 @@ def pwCache(args):
     sys.exit(ret)
 
 def decode(args):
-    '''command for decoding pathes given pathes with 'encfsctl'.
+    """
+    command for decoding pathes given pathes with 'encfsctl'.
     Will listen on stdin if no path was given.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     if cfg.get_snapshots_mode() not in ('local_encfs', 'ssh_encfs'):
@@ -796,11 +822,12 @@ def decode(args):
     sys.exit(RETURN_OK)
 
 def remove(args, force = False):
-    '''command for removing snapshots.
+    """
+    command for removing snapshots.
 
     args:   argparse.ArgumentParser instance
     force:  don't ask before removing (BE CAREFUL!)
-    '''
+    """
     setQuiet(args)
     printHeader()
     cfg = getConfig(args)
@@ -810,18 +837,20 @@ def remove(args, force = False):
     sys.exit(RETURN_OK)
 
 def removeAndDoNotAskAgain(args):
-    '''command for removing snapshots without asking before remove
+    """
+    command for removing snapshots without asking before remove
     (BE CAREFUL!)
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     remove(args, True)
 
 def restore(args):
-    '''command for restoring files from snapshots.
+    """
+    command for restoring files from snapshots.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     setQuiet(args)
     printHeader()
     cfg = getConfig(args)
@@ -837,10 +866,11 @@ def restore(args):
     sys.exit(RETURN_OK)
 
 def checkConfig(args):
-    '''command for checking the config file.
+    """
+    command for checking the config file.
 
     args:   argparse.ArgumentParser instance
-    '''
+    """
     force_stdout = setQuiet(args)
     printHeader()
     cfg = getConfig(args)

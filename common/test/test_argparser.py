@@ -24,12 +24,12 @@ import backintime
 import logger
 
 def shuffleArgs(*args):
-    '''
+    """
     Return every possible combination of arguments. Those arguments which need
     to keep in line have to be inside a tuple.
 
     args:   two or more arguments (str)
-    '''
+    """
     for i in itertools.permutations(args):
         ret = []
         for j in i:
