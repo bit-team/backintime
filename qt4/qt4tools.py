@@ -298,7 +298,7 @@ class TimeLineItem(QTreeWidgetItem):
 class SnapshotItem(TimeLineItem):
     def __init__(self, sid):
         super(SnapshotItem, self).__init__()
-        self.setText(0, sid.displayName())
+        self.setText(0, sid.displayName)
         self.setFont(0, get_font_normal(self.font(0)))
 
         self.setData(0, Qt.UserRole, sid)
@@ -306,11 +306,11 @@ class SnapshotItem(TimeLineItem):
         if sid.isRoot:
             self.setToolTip(0, _('This is NOT a snapshot but a live view of your local files'))
         else:
-            self.setToolTip(0, _('Last check %s') %sid.lastChecked())
+            self.setToolTip(0, _('Last check %s') %sid.lastChecked)
 
     def updateText(self):
         sid = self.snapshotID()
-        self.setText(0, sid.displayName())
+        self.setText(0, sid.displayName)
 
 class HeaderItem(TimeLineItem):
     def __init__(self, name, sid):
@@ -359,7 +359,7 @@ class SnapshotCombo(SortedComboBox):
 
     def addSnapshotID(self, sid):
         assert isinstance(sid, snapshots.SID), 'sid is not snapshots.SID type: {}'.format(sid)
-        self.addItem(sid.displayName(), sid)
+        self.addItem(sid.displayName, sid)
 
     def currentSnapshotID(self):
         return self.itemData(self.currentIndex())

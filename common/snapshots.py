@@ -199,7 +199,7 @@ class Snapshots:
 
     #TODO: make own class for takeSnapshotLog
     def new_take_snapshot_log( self, date ):
-        if NewSnapshot(self.config).saveToContinue():
+        if NewSnapshot(self.config).saveToContinue:
             msg = "Last snapshot didn't finish but can be continued.\n\n======== continue snapshot (profile %s): %s ========\n"
         else:
             os.system( "rm \"%s\"" % self.config.get_take_snapshot_log_file() )
@@ -382,7 +382,7 @@ class Snapshots:
                 self.restore_permission_failed = True
             callback( msg )
 
-    def _restore_path_info( self, key_path, path, file_info_dict, callback = None ):
+    def _restore_path_info( self, key_path, path, fileInfoDict, callback = None ):
         '''restore permissions (owner, group and mode). If permissions are
         already identical with the new ones just skip. Otherwise try to
         'chown' to new owner and new group. If that fails (most probably because
@@ -390,11 +390,11 @@ class Snapshots:
         ownership of files) try to at least 'chgrp' to the new group. Finally
         'chmod' the new mode.
 
-        key_path:       original path during backup. Same as in file_info_dict.
+        key_path:       original path during backup. Same as in fileInfoDict.
                         Must be bytes instance
         path:           current path of file that should be changed. Must be
                         bytes instance
-        file_info_dict: dict with key_path as key (bytes) and value of tuple
+        fileInfoDict:   dict with key_path as key (bytes) and value of tuple
                         (mode(int), username, groupname)
 
         tests:
@@ -405,9 +405,9 @@ class Snapshots:
         '''
         assert isinstance(key_path, bytes), 'key_path is not bytes type: %s' % key_path
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
-        if key_path not in file_info_dict or not os.path.exists(path):
+        if key_path not in fileInfoDict or not os.path.exists(path):
             return
-        info = file_info_dict[key_path]
+        info = fileInfoDict[key_path]
 
         #restore uid/gid
         uid = self.get_uid(info[1], callback)
@@ -476,7 +476,7 @@ class Snapshots:
                     %(', '.join(paths), restore_to),
                     self)
 
-        sid.loadInfo()
+        info = sid.info
 
         cmd_suffix = tools.get_rsync_prefix( self.config, not full_rsync, use_modes = ['ssh'] )
         cmd_suffix += '-R -v '
@@ -534,15 +534,15 @@ class Snapshots:
         self.restore_callback( callback, True, ' ' )
         self.restore_callback( callback, True, _("Restore permissions:") )
         self.restore_permission_failed = False
-        file_info_dict = sid.FileInfo()
+        fileInfoDict = sid.fileInfo
 
         #cache uids/gids
-        for uid, name in sid.info.get_list_value('user', ('int:uid', 'str:name')):
+        for uid, name in info.get_list_value('user', ('int:uid', 'str:name')):
             self.get_uid(name.encode(), callback = callback, backup = uid)
-        for gid, name in sid.info.get_list_value('group', ('int:gid', 'str:name')):
+        for gid, name in info.get_list_value('group', ('int:gid', 'str:name')):
             self.get_gid(name.encode(), callback = callback, backup = gid)
 
-        if file_info_dict:
+        if fileInfoDict:
             all_dirs = [] #restore dir permissions after all files are done
             for path, src_delta in restored_paths:
                 #explore items
@@ -576,12 +576,12 @@ class Snapshots:
                         for item in files:
                             item_path = os.path.join( explore_path, item )[head:]
                             real_path = restore_to + item_path[src_delta:]
-                            self._restore_path_info( item_path, real_path, file_info_dict, callback )
+                            self._restore_path_info( item_path, real_path, fileInfoDict, callback )
 
             all_dirs.reverse()
             for item_path in all_dirs:
                 real_path = restore_to + item_path[src_delta:]
-                self._restore_path_info( item_path, real_path, file_info_dict, callback )
+                self._restore_path_info( item_path, real_path, fileInfoDict, callback )
 
             self.restore_callback( callback, True, '')
             if self.restore_permission_failed:
@@ -733,7 +733,7 @@ class Snapshots:
 
                             if ret_error:
                                 logger.error('Failed to take snapshot !!!', self)
-                                self.set_take_snapshot_message( 1, _('Failed to take snapshot %s !!!') % sid.displayID() )
+                                self.set_take_snapshot_message( 1, _('Failed to take snapshot %s !!!') % sid.displayID )
                                 time.sleep(2)
                             else:
                                 logger.warning("No new snapshot", self)
@@ -848,9 +848,9 @@ class Snapshots:
         find_suffix = self.config.find_suffix()
         encode = self.config.ENCODE
 
-        if new_snapshot.exists() and new_snapshot.saveToContinue():
-            logger.info("Found leftover '%s' which can be continued." %new_snapshot.displayID(), self)
-            self.set_take_snapshot_message(0, _("Found leftover '%s' which can be continued.") %new_snapshot.displayID())
+        if new_snapshot.exists() and new_snapshot.saveToContinue:
+            logger.info("Found leftover '%s' which can be continued." %new_snapshot.displayID, self)
+            self.set_take_snapshot_message(0, _("Found leftover '%s' which can be continued.") %new_snapshot.displayID)
             #fix permissions
             self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
                                        %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
@@ -859,9 +859,9 @@ class Snapshots:
                 file = os.path.join(new_snapshot.path(), file)
                 mode = os.stat(file).st_mode
                 os.chmod(file, mode | stat.S_IWUSR)
-        elif new_snapshot.exists() and not new_snapshot.saveToContinue():
-            logger.info("Remove leftover '%s' folder from last run" %new_snapshot.displayID())
-            self.set_take_snapshot_message(0, _("Remove leftover '%s' folder from last run") %new_snapshot.displayID())
+        elif new_snapshot.exists() and not new_snapshot.saveToContinue:
+            logger.info("Remove leftover '%s' folder from last run" %new_snapshot.displayID)
+            self.set_take_snapshot_message(0, _("Remove leftover '%s' folder from last run") %new_snapshot.displayID)
             #first do the heavy lifting over ssh
             self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
                                        %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
@@ -898,13 +898,13 @@ class Snapshots:
         # It should delete the excluded folders then
         rsync_prefix = rsync_prefix + ' --delete --delete-excluded '
 
-        if snapshots and not new_snapshot.saveToContinue():
+        if snapshots and not new_snapshot.saveToContinue:
             prev_sid = snapshots[0]
 
             if not full_rsync:
                 changed = True
                 if check_for_changes:
-                    self.set_take_snapshot_message(0, _('Compare with snapshot %s') % prev_sid.displayID())
+                    self.set_take_snapshot_message(0, _('Compare with snapshot %s') % prev_sid.displayID)
                     logger.info("Compare with old snapshot: %s" % prev_sid, self)
 
                     cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix
@@ -949,12 +949,12 @@ class Snapshots:
                 self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
         else:
-            if not new_snapshot.saveToContinue() and not self._create_directory(new_snapshot.pathBackup()):
+            if not new_snapshot.saveToContinue and not self._create_directory(new_snapshot.pathBackup()):
                 return [ False, True ]
 
         #sync changed folders
         logger.info("Call rsync to take the snapshot", self)
-        new_snapshot.setSaveToContinue()
+        new_snapshot.saveToContinue = True
         cmd = rsync_prefix + ' -v ' + rsync_suffix
         cmd += self.rsync_remote_path( new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']) )
 
@@ -998,7 +998,7 @@ class Snapshots:
                 return [ False, True ]
 
             has_errors = True
-            new_snapshot.setFailed()
+            new_snapshot.failed = True
 
         if full_rsync:
             if not params[1] and not self.config.take_snapshot_regardless_of_changes():
@@ -1025,6 +1025,7 @@ class Snapshots:
             self.set_take_snapshot_message( 0, _('Save permission ...') )
 
             permission_done = False
+            fileInfoDict = {}
             if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
                 path_to_explore_ssh = new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
                 cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
@@ -1041,7 +1042,7 @@ class Snapshots:
 
                 for line in find.stdout:
                     if line:
-                        self._save_path_info(new_snapshot.fileInfoDict, decode.remote(line.rstrip(b'\n'))[head:])
+                        self._save_path_info(fileInfoDict, decode.remote(line.rstrip(b'\n'))[head:])
 
                 output = find.communicate()[0]
                 if find.returncode:
@@ -1049,7 +1050,7 @@ class Snapshots:
                 else:
                     for line in output.split(b'\n'):
                         if line:
-                            self._save_path_info(new_snapshot.fileInfoDict, decode.remote(line)[head:])
+                            self._save_path_info(fileInfoDict, decode.remote(line)[head:])
                     permission_done = True
 
             if not permission_done:
@@ -1058,24 +1059,25 @@ class Snapshots:
                     dirs.extend( files )
                     for item in dirs:
                         item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-                        self._save_path_info( new_snapshot.fileInfoDict, item_path )
+                        self._save_path_info(fileInfoDict, item_path)
 
-            new_snapshot.saveFileInfo()
+            new_snapshot.fileInfo = fileInfoDict
 
         #create info file
         logger.info("Create info file", self)
         machine = self.config.get_host()
         user = self.config.get_user()
         profile_id = self.config.get_current_profile()
-        new_snapshot.info.set_int_value('snapshot_version', self.SNAPSHOT_VERSION)
-        new_snapshot.info.set_str_value('snapshot_date', sid.withoutTag())
-        new_snapshot.info.set_str_value('snapshot_machine', machine)
-        new_snapshot.info.set_str_value('snapshot_user', user)
-        new_snapshot.info.set_int_value('snapshot_profile_id', profile_id)
-        new_snapshot.info.set_int_value('snapshot_tag', sid.tag())
-        new_snapshot.info.set_list_value('user', ('int:uid', 'str:name'), list(self.user_cache.items()))
-        new_snapshot.info.set_list_value('group', ('int:gid', 'str:name'), list(self.group_cache.items()))
-        new_snapshot.saveInfo()
+        i = configfile.ConfigFile()
+        i.set_int_value('snapshot_version', self.SNAPSHOT_VERSION)
+        i.set_str_value('snapshot_date', sid.withoutTag)
+        i.set_str_value('snapshot_machine', machine)
+        i.set_str_value('snapshot_user', user)
+        i.set_int_value('snapshot_profile_id', profile_id)
+        i.set_int_value('snapshot_tag', sid.tag)
+        i.set_list_value('user', ('int:uid', 'str:name'), list(self.user_cache.items()))
+        i.set_list_value('group', ('int:gid', 'str:name'), list(self.group_cache.items()))
+        new_snapshot.info = i
 
         #copy take snapshot log
         try:
@@ -1087,7 +1089,7 @@ class Snapshots:
                          self)
             pass
 
-        new_snapshot.unsetSaveToContinue()
+        new_snapshot.saveToContinue = False
         #rename snapshot
         os.rename(new_snapshot.path(), sid.path())
 
@@ -1207,7 +1209,7 @@ class Snapshots:
                 continue
 
             if self.config.get_dont_remove_named_snapshots():
-                if sid.name():
+                if sid.name:
                     logger.debug("Keep snapshot: %s, it has a name" %sid, self)
                     continue
 
@@ -1283,7 +1285,7 @@ class Snapshots:
 
             old_backup_id = SID(self.config.get_remove_old_snapshots_date(), self.config)
             logger.info("Remove backups older than: %s"
-                        %old_backup_id.withoutTag(), self)
+                        %old_backup_id.withoutTag, self)
 
             while True:
                 if len(snapshots) <= 1:
@@ -1292,7 +1294,7 @@ class Snapshots:
                     break
 
                 if self.config.get_dont_remove_named_snapshots():
-                    if snapshots[0].name():
+                    if snapshots[0].name:
                         del snapshots[0]
                         continue
 
@@ -1333,7 +1335,7 @@ class Snapshots:
                     break
 
                 if self.config.get_dont_remove_named_snapshots():
-                    if snapshots[0].name():
+                    if snapshots[0].name:
                         del snapshots[0]
                         continue
 
@@ -1367,7 +1369,7 @@ class Snapshots:
                     break
 
                 if self.config.get_dont_remove_named_snapshots():
-                    if snapshots[0].name():
+                    if snapshots[0].name:
                         del snapshots[0]
                         continue
 
@@ -1762,8 +1764,6 @@ class SID(object):
                 raise ValueError("'date' must be in snapshot ID format (e.g 20151218-173512-123)")
         else:
             raise TypeError("'date' must be an instance of str, datetime.date or datetime.datetime")
-        self.info = configfile.ConfigFile()
-        self.fileInfoDict = {}
 
     def __repr__(self):
         return self.sid
@@ -1836,6 +1836,7 @@ class SID(object):
             return int(self.sid[s:e])
         return (split(0, 4), split(4, 6), split(6, 8), split(9, 11), split(11, 13), split(13, 15))
 
+    @property
     def displayID(self):
         '''snapshot ID in a user-readable format:
         YYYY-MM-DD HH:MM:SS
@@ -1845,22 +1846,24 @@ class SID(object):
         '''
         return "{:04}-{:02}-{:02} {:02}:{:02}:{:02}".format(*self.split())
 
+    @property
     def displayName(self):
         '''combination of displayID, name and error indicator (if any)
 
         tests:
         test/test_snapshots.TestSID.test_displayName
         '''
-        ret = self.displayID()
-        name = self.name()
+        ret = self.displayID
+        name = self.name
 
         if name:
             ret += ' - {}'.format(name)
 
-        if self.failed():
+        if self.failed:
             ret += ' ({})'.format(_('WITH ERRORS !'))
         return ret
 
+    @property
     def tag(self):
         '''snapshot ID's tag
 
@@ -1869,6 +1872,7 @@ class SID(object):
         '''
         return self.sid[16:]
 
+    @property
     def withoutTag(self):
         '''snapshot ID without tag
 
@@ -1950,6 +1954,7 @@ class SID(object):
         target = os.path.join(os.path.abspath(os.path.dirname(fullPath)), target)
         return target.startswith(basePath)
 
+    @property
     def name(self):
         '''name of this snapshot
 
@@ -1967,7 +1972,8 @@ class SID(object):
                          self.sid, str(e)),
                          self)
 
-    def setName(self, name):
+    @name.setter
+    def name(self, name):
         '''set the name of this snapshot
 
         name: string with new snapshot name
@@ -1986,6 +1992,7 @@ class SID(object):
                          self.sid, str(e)),
                          self)
 
+    @property
     def lastChecked(self):
         '''date when snapshot has finished last time.
         This can be the end of creation of this snapshot or the last time when
@@ -1997,8 +2004,9 @@ class SID(object):
         info = self.path(self.INFO)
         if os.path.exists(info):
             return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)) )
-        return self.displayID()
+        return self.displayID
 
+    #using @property.setter would be confusing here as there is no value to give
     def setLastChecked(self):
         '''set info files atime to current time to indicate this snapshot was
         checked against source without changes right now.
@@ -2010,6 +2018,7 @@ class SID(object):
         if os.path.exists(info):
             os.utime(info, None)
 
+    @property
     def failed(self):
         '''True if this snapshot has failed
 
@@ -2019,57 +2028,62 @@ class SID(object):
         failedFile = self.path(self.FAILED)
         return os.path.isfile(failedFile)
 
-    def setFailed(self):
+    @failed.setter
+    def failed(self, enable):
         '''set snapshot has failed
 
         tests:
         test/test_snapshots.TestSID.test_failed
         '''
         failedFile = self.path(self.FAILED)
+        if enable:
+            self.makeWriteable()
+            try:
+                with open(failedFile, 'wt') as f:
+                    f.write('')
+            except Exception as e:
+                logger.debug('Failed to mark snapshot {} failed: {}'.format(
+                             self.sid, str(e)),
+                             self)
+        elif os.path.exists(failedFile):
+            os.remove(failedFile)
 
-        self.makeWriteable()
-        try:
-            with open(failedFile, 'wt') as f:
-                f.write('')
-        except Exception as e:
-            logger.debug('Failed to mark snapshot {} failed: {}'.format(
-                         self.sid, str(e)),
-                         self)
-
-    def loadInfo(self):
-        '''load "info" file into self.info which contains additional information
+    @property
+    def info(self):
+        '''load "info" file which contains additional information
         about this snapshot (using configfile.ConfigFile)
 
         tests:
         test/test_snapshots.TestSID.test_info
         '''
-        self.info.load(self.path(self.INFO))
-        return self.info
+        i = configfile.ConfigFile()
+        i.load(self.path(self.INFO))
+        return i
 
-    def saveInfo(self):
-        '''save "info" file from self.info (using configfile.ConfigFile)
+    @info.setter
+    def info(self, i):
+        '''save "info" file (using configfile.ConfigFile)
+
+        i:  configfile.ConfigFile instance
 
         tests:
         test/test_snapshots.TestSID.test_info
         '''
-        self.info.save(self.path(self.INFO))
+        assert isinstance(i, configfile.ConfigFile), 'i is not configfile.ConfigFile type: {}'.format(i)
+        i.save(self.path(self.INFO))
 
-    def fileInfo(self, force = False):
-        '''load "fileinfo.bz2" and provide it's content in self.fileInfoDict
-        as a dict of: "path: (permission, user, group)"
-
-        force: force to reload from "fileinfo.bz2" even if it was loaded already
+    @property
+    def fileInfo(self):
+        '''load "fileinfo.bz2" and return it's content as a
+        dict of: {path: (permission, user, group)}
 
         tests:
         test/test_snapshots.TestSID.test_fileInfo
         '''
-        if self.fileInfoDict and not force:
-            return self.fileInfoDict
-
-        self.fileInfoDict = {}
+        d = {}
         infoFile = self.path(self.FILEINFO)
         if not os.path.isfile(infoFile):
-            return self.fileInfoDict
+            return d
 
         try:
             with bz2.BZ2File(infoFile, 'rb') as fileinfo:
@@ -2085,22 +2099,26 @@ class SID(object):
                         continue
                     info = line[:index].strip().split(' ')
                     if len(info) == 3:
-                        self.fileInfoDict[f] = (int(info[0]), info[1], info[2]) #perms, user, group
+                        d[f] = (int(info[0]), info[1], info[2]) #perms, user, group
         except Exception as e:
             logger.debug('Failed to load fileinfo.bz2 from snapshot {}: {}'.format(
                          self.sid, str(e)),
                          self)
-        return self.fileInfoDict
+        return d
 
-    def saveFileInfo(self):
-        '''store self.fileInfoDict in "fileinfo.bz2" as lines of:
+    @fileInfo.setter
+    def fileInfo(self, d):
+        '''store fileInfoDict in "fileinfo.bz2" as lines of:
         permission user group path
+
+        d:  dict of {path: (permission, user, group)}
 
         tests:
         test/test_snapshots.TestSID.test_fileInfo
         '''
+        assert isinstance(d, dict), 'd is not dict type: {}'.format(d)
         with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
-            for path, info in self.fileInfoDict.items():
+            for path, info in d.items():
                 assert isinstance(path, str), 'path is not str type: {}'.format(path)
                 assert isinstance(info[1], str), 'user is not str type: {}'.format(info[1])
                 assert isinstance(info[2], str), 'group is not str type: {}'.format(info[2])
@@ -2112,6 +2130,7 @@ class SID(object):
                                    + b'\n')
 
     #TODO: add arguments 'mode' and 'decode'
+    #TODO: use @property decorator
     def log(self, mode = None, decode = None):
         '''load log from "takesnapshot.log.bz2"
 
@@ -2157,7 +2176,24 @@ class SID(object):
         rw = os.stat(path).st_mode | stat.S_IWUSR
         return os.chmod(path, rw)
 
-class NewSnapshot(SID):
+class GenericNonSnapshot(SID):
+    @property
+    def displayID(self):
+        return self.name
+
+    @property
+    def displayName(self):
+        return self.name
+
+    @property
+    def tag(self):
+        return self.name
+
+    @property
+    def withoutTag(self):
+        return self.name
+
+class NewSnapshot(GenericNonSnapshot):
     '''snapshot ID object for 'new_snapshot' folder
 
     cfg:  current config (config.Config instance)
@@ -2165,22 +2201,17 @@ class NewSnapshot(SID):
     tests:
     test/test_snapshots.TestNewSnapshot.test_create_new
     '''
+
+    NEWSNAPSHOT    = 'new_snapshot'
+    SAVETOCONTINUE = 'save_to_continue'
+
     def __init__(self, cfg):
         self.config = cfg
         self.profileID = cfg.get_current_profile()
         self.isRoot = False
 
-        self.sid = 'new_snapshot'
+        self.sid = self.NEWSNAPSHOT
         self.date = datetime.datetime(1, 1, 1)
-
-        self.info = configfile.ConfigFile()
-        self.fileInfoDict = {}
-
-        self.displayID = lambda: self.sid
-        self.displayName = lambda: self.sid
-        self.withoutTag = lambda: self.sid
-        self.name = lambda: self.sid
-        self.setName = NotImplemented
 
         self.__le__ = self.__lt__
         self.__ge__ = self.__gt__
@@ -2191,34 +2222,34 @@ class NewSnapshot(SID):
     def __gt__(self, other):
         return True
 
+    @property
+    def name(self):
+        return self.sid
+
+    @property
     def saveToContinue(self):
         '''check if 'save_to_continue' flag is set
 
         tests:
         test/test_snapshots.TestNewSnapshot.test_saveToContinue
         '''
-        return os.path.exists(self.path('save_to_continue'))
+        return os.path.exists(self.path(self.SAVETOCONTINUE))
 
-    def setSaveToContinue(self):
+    @saveToContinue.setter
+    def saveToContinue(self, enable):
         '''set 'save_to_continue' flag
 
         tests:
         test/test_snapshots.TestNewSnapshot.test_saveToContinue
         '''
-        with open(self.path('save_to_continue'), 'wt') as f:
-            pass
-
-    def unsetSaveToContinue(self):
-        '''remove 'save_to_continue' flag
-
-        tests:
-        test/test_snapshots.TestNewSnapshot.test_saveToContinue
-        '''
-        flag = self.path('save_to_continue')
-        if os.path.exists(flag):
+        flag = self.path(self.SAVETOCONTINUE)
+        if enable:
+            with open(flag, 'wt') as f:
+                pass
+        elif os.path.exists(flag):
             os.remove(flag)
 
-class RootSnapshot(SID):
+class RootSnapshot(GenericNonSnapshot):
     def __init__(self, cfg):
         self.config = cfg
         self.profileID = cfg.get_current_profile()
@@ -2236,11 +2267,9 @@ class RootSnapshot(SID):
     def __gt__(self, other):
         return True
 
-    def displayID(self):
+    @property
+    def name(self):
         return _('Now')
-
-    def displayName(self):
-        return self.displayID()
 
     def path(self, *path, use_mode = []):
         current_mode = self.config.get_snapshots_mode(self.profileID)
@@ -2263,7 +2292,7 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
     test/test_snapshots.TestIterSnapshots.test_iter_snapshots
     '''
     for item in os.listdir(cfg.get_snapshots_full_path()):
-        if item == 'new_snapshot':
+        if item == NewSnapshot.NEWSNAPSHOT:
             newSid = NewSnapshot(cfg)
             if newSid.exists() and includeNewSnapshot:
                 yield newSid

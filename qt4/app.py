@@ -805,7 +805,7 @@ class MainWindow( QMainWindow ):
         if sid.isRoot:
             return
 
-        name = sid.name()
+        name = sid.name
 
         new_name, accept = QInputDialog.getText(self, _('Snapshot Name'), '', text = name)
         if not accept:
@@ -815,7 +815,7 @@ class MainWindow( QMainWindow ):
         if name == new_name:
             return
 
-        sid.setName(new_name)
+        sid.name = new_name
         item.updateText()
 
     def on_btn_log_view_clicked ( self ):
@@ -846,7 +846,7 @@ class MainWindow( QMainWindow ):
 
         if QMessageBox.Yes != messagebox.warningYesNo( self, \
                               _('Are you sure you want to remove the snapshot:\n%s') \
-                                %'\n'.join([item.snapshotID().displayName() for item in items]) ):
+                                %'\n'.join([item.snapshotID().displayName for item in items]) ):
             return
 
         for item in items:
@@ -1135,7 +1135,7 @@ class MainWindow( QMainWindow ):
             text = _('Now')
             tooltip = _('View the current disk content')
         else:
-            name = self.sid.displayName()
+            name = self.sid.displayName
             text = _('Snapshot: %s') % name
             tooltip = _('View the snapshot made at %s') % name
 

@@ -409,7 +409,7 @@ class TestSID(GenericSnapshotsTestCase):
     def test_displayID(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
 
-        self.assertEqual(sid.displayID(), '2015-12-19 01:03:24')
+        self.assertEqual(sid.displayID, '2015-12-19 01:03:24')
 
     def test_displayName(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -417,22 +417,22 @@ class TestSID(GenericSnapshotsTestCase):
         with open(sid.path('name'), 'wt') as f:
             f.write('foo')
 
-        self.assertEqual(sid.displayName(), '2015-12-19 01:03:24 - foo')
+        self.assertEqual(sid.displayName, '2015-12-19 01:03:24 - foo')
 
         with open(sid.path('failed'), 'wt') as f:
             pass
 
-        self.assertRegex(sid.displayName(), r'2015-12-19 01:03:24 - foo (.+?)')
+        self.assertRegex(sid.displayName, r'2015-12-19 01:03:24 - foo (.+?)')
 
     def test_withoutTag(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
 
-        self.assertEqual(sid.withoutTag(), '20151219-010324')
+        self.assertEqual(sid.withoutTag, '20151219-010324')
 
     def test_tag(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
 
-        self.assertEqual(sid.tag(), '123')
+        self.assertEqual(sid.tag, '123')
 
     def test_path(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -515,13 +515,13 @@ class TestSID(GenericSnapshotsTestCase):
     def test_name(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        self.assertEqual(sid.name(), '')
+        self.assertEqual(sid.name, '')
 
-        sid.setName('foo')
+        sid.name = 'foo'
         with open(sid.path('name'), 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
-        self.assertEqual(sid.name(), 'foo')
+        self.assertEqual(sid.name, 'foo')
 
     def test_lastChecked(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -529,48 +529,50 @@ class TestSID(GenericSnapshotsTestCase):
         infoFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'info')
 
         #no info file
-        self.assertEqual(sid.lastChecked(), '2015-12-19 01:03:24')
+        self.assertEqual(sid.lastChecked, '2015-12-19 01:03:24')
 
         #set time manually to 2015-12-19 02:03:24
         with open(infoFile, 'wt'):
             pass
         d = datetime(2015, 12, 19, 2, 3, 24)
         os.utime(infoFile, (d.timestamp(), d.timestamp()))
-        self.assertEqual(sid.lastChecked(), '2015-12-19 02:03:24')
+        self.assertEqual(sid.lastChecked, '2015-12-19 02:03:24')
 
         #setLastChecked and check if it matches current date
         sid.setLastChecked()
         now = datetime.now()
-        self.assertRegex(sid.lastChecked(), now.strftime(r'%Y-%m-%d %H:%M:\d{2}'))
+        self.assertRegex(sid.lastChecked, now.strftime(r'%Y-%m-%d %H:%M:\d{2}'))
 
     def test_failed(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
+        snapshotPath = os.path.join(self.snapshotPath, '20151219-010324-123')
+        failedPath   = os.path.join(snapshotPath, sid.FAILED)
+        os.makedirs(snapshotPath)
 
-        self.assertFalse(sid.failed())
-        sid.setFailed()
-        self.assertTrue(sid.failed())
+        self.assertFalse(os.path.exists(failedPath))
+        self.assertFalse(sid.failed)
+        sid.failed = True
+        self.assertTrue(os.path.exists(failedPath))
+        self.assertTrue(sid.failed)
 
     def test_info(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
         infoFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'info')
 
-        sid1.info.set_str_value('foo', 'bar')
-        sid1.saveInfo()
+        i1 = configfile.ConfigFile()
+        i1.set_str_value('foo', 'bar')
+        sid1.info = i1
 
         #test if file exist and has correct content
         self.assertTrue(os.path.isfile(infoFile))
         with open(infoFile, 'rt') as f:
             self.assertEqual(f.read(), 'foo=bar\n')
 
-        #new sid instance and test if default value is returned
+        #new sid instance and test if correct value is returned
         sid2 = snapshots.SID('20151219-010324-123', self.cfg)
-        self.assertEqual(sid2.info.get_str_value('foo', 'default'), 'default')
-
-        #load info and test if correct value is returned
-        sid2.loadInfo()
-        self.assertEqual(sid2.info.get_str_value('foo', 'default'), 'bar')
+        i2 = sid2.info
+        self.assertEqual(i2.get_str_value('foo', 'default'), 'bar')
 
     def test_fileInfo(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
@@ -579,31 +581,17 @@ class TestSID(GenericSnapshotsTestCase):
                                 '20151219-010324-123',
                                 'fileinfo.bz2')
 
-        sid1.fileInfoDict['/tmp'] = (123, 'foo', 'bar')
-        sid1.fileInfoDict['/tmp/foo'] = (456, 'asdf', 'qwer')
-        sid1.saveFileInfo()
+        d = {}
+        d['/tmp']     = (123, 'foo', 'bar')
+        d['/tmp/foo'] = (456, 'asdf', 'qwer')
+        sid1.fileInfo = d
 
         self.assertTrue(os.path.isfile(infoFile))
 
+        #load fileInfo in a new snapshot
         sid2 = snapshots.SID('20151219-010324-123', self.cfg)
-        self.assertDictEqual(sid2.fileInfoDict, {})
-
-        #load fileInfo
-        d = sid2.fileInfo()
-        self.assertDictEqual(d, {'/tmp':     (123, 'foo', 'bar'),
-                                 '/tmp/foo': (456, 'asdf', 'qwer')})
-
-        #reload again but without force it shouldn't overwrite local
-        sid2.fileInfoDict['/tmp/bar'] = (789, 'bla', 'blub')
-        d = sid2.fileInfo()
-        self.assertDictEqual(d, {'/tmp':     (123, 'foo', 'bar'),
-                                 '/tmp/foo': (456, 'asdf', 'qwer'),
-                                 '/tmp/bar': (789, 'bla', 'blub')})
-
-        #force reload
-        d = sid2.fileInfo(force = True)
-        self.assertDictEqual(d, {'/tmp':     (123, 'foo', 'bar'),
-                                 '/tmp/foo': (456, 'asdf', 'qwer')})
+        self.assertDictEqual(sid2.fileInfo, {'/tmp':     (123, 'foo', 'bar'),
+                                             '/tmp/foo': (456, 'asdf', 'qwer')})
 
     def test_log(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -662,19 +650,25 @@ class TestNewSnapshot(GenericSnapshotsTestCase):
         self.assertTrue(new.makeDirs())
         self.assertTrue(new.exists())
         self.assertTrue(os.path.isdir(os.path.join(self.snapshotPath,
-                                                   'new_snapshot',
+                                                   new.NEWSNAPSHOT,
                                                    'backup')))
 
     def test_saveToContinue(self):
         new = snapshots.NewSnapshot(self.cfg)
-        self.assertTrue(new.makeDirs())
-        self.assertFalse(new.saveToContinue())
+        snapshotPath = os.path.join(self.snapshotPath, new.NEWSNAPSHOT)
+        saveToContinuePath = os.path.join(snapshotPath, new.SAVETOCONTINUE)
+        os.makedirs(snapshotPath)
 
-        new.setSaveToContinue()
-        self.assertTrue(new.saveToContinue())
+        self.assertFalse(os.path.exists(saveToContinuePath))
+        self.assertFalse(new.saveToContinue)
 
-        new.unsetSaveToContinue()
-        self.assertFalse(new.saveToContinue())
+        new.saveToContinue = True
+        self.assertTrue(os.path.exists(saveToContinuePath))
+        self.assertTrue(new.saveToContinue)
+
+        new.saveToContinue = False
+        self.assertFalse(os.path.exists(saveToContinuePath))
+        self.assertFalse(new.saveToContinue)
 
 class TestIterSnapshots(GenericSnapshotsTestCase):
     def setUp(self):
