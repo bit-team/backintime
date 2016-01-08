@@ -555,6 +555,10 @@ class TestSID(GenericSnapshotsTestCase):
         self.assertTrue(os.path.exists(failedPath))
         self.assertTrue(sid.failed)
 
+        sid.failed = False
+        self.assertFalse(os.path.exists(failedPath))
+        self.assertFalse(sid.failed)
+
     def test_info(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
