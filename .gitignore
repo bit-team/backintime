@@ -27,7 +27,12 @@ debian/backintime-qt4
 *.mo
 
 # Makefile
-Makefile
+common/Makefile
+qt4/Makefile
 
 #coveralls.io status
 .coverage
+
+#sphinx doc build
+common/doc-dev/_build/doctrees
+common/doc-dev/_build/html
