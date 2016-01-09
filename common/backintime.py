@@ -41,7 +41,7 @@ parsers = {}
 
 def take_snapshot_now_async( cfg ):
     """
-    fork a new backintime process with 'backup' command which will
+    Fork a new backintime process with 'backup' command which will
     take a new snapshot in background.
 
     cfg:    config.Config instance
@@ -62,7 +62,7 @@ def take_snapshot_now_async( cfg ):
 
 def take_snapshot( cfg, force = True ):
     """
-    take a new snapshot.
+    Take a new snapshot.
 
     cfg:    config.Config instance
     force:  take the snapshot even if it wouldn't need to or would be
@@ -74,7 +74,7 @@ def take_snapshot( cfg, force = True ):
 
 def _mount(cfg):
     """
-    mount external filesystems.
+    Mount external filesystems.
 
     cfg:    config.Config instance
     """
@@ -88,7 +88,7 @@ def _mount(cfg):
 
 def _umount(cfg):
     """
-    unmount external filesystems.
+    Unmount external filesystems.
 
     cfg:    config.Config instance
     """
@@ -99,7 +99,7 @@ def _umount(cfg):
 
 def create_parsers(app_name = 'backintime'):
     """
-    define parsers for commandline arguments.
+    Define parsers for commandline arguments.
 
     app_name:   string representing the current application
     """
@@ -426,7 +426,7 @@ def create_parsers(app_name = 'backintime'):
 
 def start_app(app_name = 'backintime'):
     """
-    start the requested command or return config if there was no command
+    Start the requested command or return config if there was no command
     in arguments.
 
     app_name:   string representing the current application
@@ -461,16 +461,13 @@ def start_app(app_name = 'backintime'):
 
 def arg_parse(args):
     """
-    parse arguments given on commandline.
+    Parse arguments given on commandline.
 
     args:   argparse.ArgumentParser instance that should be enhanced or None
-
-    tests:
-    test/test_argparser.TestArgParser.*    (all of them)
     """
     def join(args, subArgs):
         """
-        add new arguments to existing ArgumentParser.
+        Add new arguments to existing ArgumentParser.
 
         args:       main argparse.ArgumentParser instance that should
                     get new arguments
@@ -524,7 +521,7 @@ def arg_parse(args):
 
 def printHeader():
     """
-    print application name, version and legal notes.
+    Print application name, version and legal notes.
     """
     version = config.Config.VERSION
     ref, hashid = tools.get_git_ref_hash()
@@ -541,11 +538,11 @@ def printHeader():
 
 class PseudoAliasAction(argparse.Action):
     """
-    translate '--COMMAND' into 'COMMAND' for backwards compatibility.
+    Translate '--COMMAND' into 'COMMAND' for backwards compatibility.
     """
     def __call__(self, parser, namespace, values, option_string=None):
         """
-        translate '--COMMAND' into 'COMMAND' for backwards compatibility.
+        Translate '--COMMAND' into 'COMMAND' for backwards compatibility.
 
         parser:
         namespace:
@@ -566,7 +563,7 @@ class PseudoAliasAction(argparse.Action):
 
 def aliasParser(args):
     """
-    call commands which where given with leading -- for backwards
+    Call commands which where given with leading -- for backwards
     compatibility.
 
     args:   argparse.ArgumentParser instance
@@ -580,7 +577,7 @@ def aliasParser(args):
 
 def getConfig(args, check = True):
     """
-    load config and change to profile selected on commandline.
+    Load config and change to profile selected on commandline.
 
     args:   argparse.ArgumentParser instance
     check:  if there is no valid config call sys.exit
@@ -605,7 +602,7 @@ def getConfig(args, check = True):
 
 def setQuiet(args):
     """
-    redirect sys.stdout to /dev/null if --quiet was set on commandline.
+    Redirect sys.stdout to /dev/null if --quiet was set on commandline.
     Return the original sys.stdout fileobject which can be used to print
     absolute necessary information.
 
@@ -618,7 +615,7 @@ def setQuiet(args):
 
 class printLicense(argparse.Action):
     """
-    print custom license
+    Print custom license
     """
     def __init__(self, *args, **kwargs):
         super(printLicense, self).__init__(*args, **kwargs)
@@ -630,7 +627,7 @@ class printLicense(argparse.Action):
 
 def backup(args, force = True):
     """
-    command for taking a new snapshot.
+    Command for taking a new snapshot.
 
     force:  take the snapshot even if it wouldn't need to or would be
     args:   argparse.ArgumentParser instance
@@ -644,7 +641,7 @@ def backup(args, force = True):
 
 def backupJob(args):
     """
-    command for force taking a new snapshot.
+    Command for force taking a new snapshot.
 
     args:   argparse.ArgumentParser instance
     """
@@ -652,7 +649,7 @@ def backupJob(args):
 
 def snapshotsPath(args):
     """
-    command for printing the full snapshot path of current profile.
+    Command for printing the full snapshot path of current profile.
 
     args:   argparse.ArgumentParser instance
     """
@@ -665,7 +662,7 @@ def snapshotsPath(args):
 
 def snapshotsList(args):
     """
-    command for printing a list of all snapshots in current profile.
+    Command for printing a list of all snapshots in current profile.
 
     args:   argparse.ArgumentParser instance
     """
@@ -684,7 +681,7 @@ def snapshotsList(args):
 
 def snapshotsListPath(args):
     """
-    command for printing a list of all snapshots pathes in current profile.
+    Command for printing a list of all snapshots pathes in current profile.
 
     args:   argparse.ArgumentParser instance
     """
@@ -703,7 +700,7 @@ def snapshotsListPath(args):
 
 def lastSnapshot(args):
     """
-    command for printing the very last snapshot in current profile.
+    Command for printing the very last snapshot in current profile.
 
     args:   argparse.ArgumentParser instance
     """
@@ -720,7 +717,7 @@ def lastSnapshot(args):
 
 def lastSnapshotPath(args):
     """
-    command for printing the path of the very last snapshot in
+    Command for printing the path of the very last snapshot in
     current profile.
 
     args:   argparse.ArgumentParser instance
@@ -739,7 +736,7 @@ def lastSnapshotPath(args):
 
 def unmount(args):
     """
-    command for unmounting all filesystems.
+    Command for unmounting all filesystems.
 
     args:   argparse.ArgumentParser instance
     """
@@ -751,7 +748,7 @@ def unmount(args):
 
 def benchmarkCipher(args):
     """
-    command for transfering a file with scp to remote host with all
+    Command for transfering a file with scp to remote host with all
     available ciphers and print its speed and time.
 
     args:   argparse.ArgumentParser instance
@@ -769,7 +766,7 @@ def benchmarkCipher(args):
 
 def pwCache(args):
     """
-    command for starting password cache daemon.
+    Command for starting password cache daemon.
 
     args:   argparse.ArgumentParser instance
     """
@@ -794,7 +791,7 @@ def pwCache(args):
 
 def decode(args):
     """
-    command for decoding pathes given pathes with 'encfsctl'.
+    Command for decoding pathes given pathes with 'encfsctl'.
     Will listen on stdin if no path was given.
 
     args:   argparse.ArgumentParser instance
@@ -823,7 +820,7 @@ def decode(args):
 
 def remove(args, force = False):
     """
-    command for removing snapshots.
+    Command for removing snapshots.
 
     args:   argparse.ArgumentParser instance
     force:  don't ask before removing (BE CAREFUL!)
@@ -838,7 +835,7 @@ def remove(args, force = False):
 
 def removeAndDoNotAskAgain(args):
     """
-    command for removing snapshots without asking before remove
+    Command for removing snapshots without asking before remove
     (BE CAREFUL!)
 
     args:   argparse.ArgumentParser instance
@@ -847,7 +844,7 @@ def removeAndDoNotAskAgain(args):
 
 def restore(args):
     """
-    command for restoring files from snapshots.
+    Command for restoring files from snapshots.
 
     args:   argparse.ArgumentParser instance
     """
@@ -867,7 +864,7 @@ def restore(args):
 
 def checkConfig(args):
     """
-    command for checking the config file.
+    Command for checking the config file.
 
     args:   argparse.ArgumentParser instance
     """

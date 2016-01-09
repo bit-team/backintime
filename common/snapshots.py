@@ -44,6 +44,12 @@ _=gettext.gettext
 
 
 class Snapshots:
+    """
+    Collection of take-snapshot and restore commands.
+
+    Args:
+        cfg (config.Config): current config
+    """
     SNAPSHOT_VERSION = 3
     GLOBAL_FLOCK = '/tmp/backintime.lock'
 
@@ -226,32 +232,31 @@ class Snapshots:
 
     def clear_uid_gid_names_cache(self):
         """
-        reset the cache for user and group names.
+        Reset the cache for user and group names.
         """
         self.user_cache = {}
         self.group_cache = {}
 
     def clear_uid_gid_cache(self):
         """
-        reset the cache for UIDs and GIDs.
+        Reset the cache for UIDs and GIDs.
         """
         self.uid_cache = {}
         self.gid_cache = {}
 
     def get_uid(self, name, callback = None, backup = None):
         """
-        get the User identifier (UID) for the user in 'name'.
+        Get the User identifier (UID) for the user in 'name'.
         name->uid will be cached to speed up subsequent requests.
 
-        name:       username to search for (bytes or str instance)
-        callback:   callable which will handle a given message
-        backup:     UID wich will be used if the username is unknown
-                    on this machine (int instance)
+        Args:
+            name (str, bytes):  username to search for
+            callback (method):  callable which will handle a given message
+            backup (int):       UID wich will be used if the username is unknown
+                                on this machine
 
-        tests:
-        test/test_snapshots.TestSnapshots.test_get_uid_valid
-        test/test_snapshots.TestSnapshots.test_get_uid_invalid
-        test/test_snapshots.TestSnapshots.test_get_uid_backup
+        Returns:
+            int:                UID of the user in name or -1 if not found
         """
         if isinstance(name, bytes):
             name = name.decode()
@@ -281,18 +286,17 @@ class Snapshots:
 
     def get_gid(self, name, callback = None, backup = None):
         """
-        get the Group identifier (GID) for the group in 'name'.
+        Get the Group identifier (GID) for the group in 'name'.
         name->gid will be cached to speed up subsequent requests.
 
-        name:       groupname to search for (bytes or str instance)
-        callback:   callable which will handle a given message
-        backup:     GID wich will be used if the groupname is unknown
-                    on this machine (int instance)
+        Args:
+            name (str, bytes):  groupname to search for
+            callback (method):  callable which will handle a given message
+            backup (int):       GID wich will be used if the groupname is unknown
+                                on this machine
 
-        tests:
-        test/test_snapshots.TestSnapshots.test_get_gid_valid
-        test/test_snapshots.TestSnapshots.test_get_gid_invalid
-        test/test_snapshots.TestSnapshots.test_get_gid_backup
+        Returns:
+            int:                GID of the group in name or -1 if not found
         """
         if isinstance(name, bytes):
             name = name.decode()
@@ -322,14 +326,14 @@ class Snapshots:
 
     def get_user_name( self, uid ):
         """
-        get the username for the given uid.
+        Get the username for the given uid.
         uid->name will be cached to speed up subsequent requests.
 
-        uid:    User identifier (UID) to search for (int instance)
+        Args:
+            uid (int):  User identifier (UID) to search for
 
-        tests:
-        test/test_snapshots.TestSnapshots.test_get_user_name_valid
-        test/test_snapshots.TestSnapshots.test_get_user_name_invalid
+        Returns:
+            str:        name of the user with UID uid or '-' if not found
         """
         if uid in self.user_cache:
             return self.user_cache[uid]
@@ -347,14 +351,14 @@ class Snapshots:
 
     def get_group_name( self, gid ):
         """
-        get the groupname for the given gid.
+        Get the groupname for the given gid.
         gid->name will be cached to speed up subsequent requests.
 
-        gid:    Group identifier (GID) to search for (int instance)
+        Args:
+            gid (int):  Group identifier (GID) to search for
 
-        tests:
-        test/test_snapshots.TestSnapshots.test_get_group_name_valid
-        test/test_snapshots.TestSnapshots.test_get_group_name_invalid
+        Returns:
+            str:        name of the Group with GID gid or '.' if not found
         """
         if gid in self.group_cache:
             return self.group_cache[gid]
@@ -372,16 +376,14 @@ class Snapshots:
 
     def restore_callback( self, callback, ok, msg ):
         """
-        format messages thrown by restore depending on whether they where
+        Format messages thrown by restore depending on whether they where
         successful or failed.
 
-        callback:   callable instance which will handle the message
-        ok:         bool which should be True if the logged action was successful
-                    or False if it failed
-        msg:        message that should be send to callback
-
-        tests:
-        test/test_snapshots.TestRestore.test_callback
+        Args:
+            callback (method):  callable instance which will handle the message
+            ok (bool):          True if the logged action was successful
+                                or False if it failed
+            msg (str):          message that should be send to callback
         """
         if not callback is None:
             if not ok:
@@ -391,25 +393,20 @@ class Snapshots:
 
     def _restore_path_info( self, key_path, path, fileInfoDict, callback = None ):
         """
-        restore permissions (owner, group and mode). If permissions are
+        Restore permissions (owner, group and mode). If permissions are
         already identical with the new ones just skip. Otherwise try to
         'chown' to new owner and new group. If that fails (most probably because
         we are not running as root and normal user has no rights to change
         ownership of files) try to at least 'chgrp' to the new group. Finally
         'chmod' the new mode.
 
-        key_path:       original path during backup. Same as in fileInfoDict.
-                        Must be bytes instance
-        path:           current path of file that should be changed. Must be
-                        bytes instance
-        fileInfoDict:   dict with key_path as key (bytes) and value of tuple
-                        (mode(int), username, groupname)
-
-        tests:
-        test/test_snapshots.TestRestorePathInfo.test_no_changes
-        test/test_snapshots.TestRestorePathInfo.test_change_owner_without_root
-        test/test_snapshots.TestRestorePathInfo.test_change_group
-        test/test_snapshots.TestRestorePathInfo.test_change_permissions
+        Args:
+            key_path (bytes):       original path during backup.
+                                    Same as in fileInfoDict.
+            path (bytes):           current path of file that should be changed.
+            fileInfoDict (dict):    dict with key_path as key (bytes) and
+                                    value of tuple
+                                    (mode(int), username(bytes), groupname(bytes))
         """
         assert isinstance(key_path, bytes), 'key_path is not bytes type: %s' % key_path
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
@@ -1619,7 +1616,7 @@ class Snapshots:
 
     def flockExclusive(self):
         """
-        block take_snapshots from other profiles or users
+        Block take_snapshots from other profiles or users
         and run them serialized
         """
         if self.config.use_global_flock():
@@ -1636,7 +1633,7 @@ class Snapshots:
 
     def flockRelease(self):
         """
-        release lock so other snapshots can continue
+        Release lock so other snapshots can continue
         """
         if self.flock_file:
             logger.debug('Release flock %s' %self.GLOBAL_FLOCK, self)
@@ -1646,15 +1643,16 @@ class Snapshots:
 
     def rsyncSuffix(self, includeFolders = None, excludeFolders = None):
         """
-        create suffixes for rsync
+        Create suffixes for rsync.
 
-        includeFolders: list of folders to include. list of tuples (item, int)
-                        Where int is 0 if item is a folder or
-                        1 if item is a file.
-        excludeFolders: list of folders to exclude
+        Args:
+            includeFolders (list):  folders to include. list of tuples (item, int)
+                                    Where int is 0 if item is a folder or
+                                    1 if item is a file.
+            excludeFolders (list):  list of folders to exclude
 
-        tests:
-        test/test_snapshots.TestSnapshots.test_rsyncSuffix
+        Returns:
+            str:                    rsync include and exclude options
         """
         #create exclude patterns string
         rsync_exclude = self.rsyncExclude(excludeFolders)
@@ -1676,13 +1674,13 @@ class Snapshots:
 
     def rsyncExclude(self, excludeFolders = None):
         """
-        format exclude list for rsync
+        Format exclude list for rsync
 
-        excludeFolders: list of folders to exclude
+        Args:
+            excludeFolders (list):  list of folders to exclude
 
-        tests:
-        test/test_snapshots.TestSnapshots.test_rsyncExclude_unique_items
-        test/test_snapshots.TestSnapshots.test_rsyncExclude_duplicate_items
+        Returns:
+            str:                    rsync exclude options
         """
         items = tools.OrderedSet()
         encode = self.config.ENCODE
@@ -1698,17 +1696,17 @@ class Snapshots:
 
     def rsyncInclude(self, includeFolders = None):
         """
-        format include list for rsync. Returns a tuple of two include strings.
+        Format include list for rsync. Returns a tuple of two include strings.
         First string need to come before exclude, second after exclude.
 
-        includeFolders: list of folders to include. list of tuples (item, int)
-                        Where int is 0 if item is a folder or
-                        1 if item is a file.
+        Args:
+            includeFolders (list):  folders to include. list of tuples (item, int)
+                                    Where int is 0 if item is a folder or
+                                    1 if item is a file.
 
-        tests:
-        test/test_snapshots.TestSnapshots.test_rsyncInclude_unique_items
-        test/test_snapshots.TestSnapshots.test_rsyncInclude_duplicate_items
-        test/test_snapshots.TestSnapshots.test_rsyncInclude_root
+        Returns:
+            tuple:                  two item tuple of
+                                    ('include1 opions', 'include2 options')
         """
         items1 = tools.OrderedSet()
         items2 = tools.OrderedSet()
@@ -1742,16 +1740,13 @@ class Snapshots:
 
 class SID(object):
     """
-    snapshot ID object used to gather all information for a snapshot
+    Snapshot ID object used to gather all information for a snapshot
 
-    date: str, datetime.date or datetime.datetime instance used for creating
-          this snapshot. str must be in snapshot ID format (e.g 20151218-173512-123)
-    cfg:  current config (config.Config instance)
-
-    tests:
-    test/test_snapshots.TestSID.test_new_object_with_valid_date
-    test/test_snapshots.TestSID.test_new_object_with_invalid_value
-    test/test_snapshots.TestSID.test_new_object_with_invalid_type
+    Args:
+        date (str, datetime.date or datetime.datetime):
+                                used for creating this snapshot. str must be in
+                                snapshot ID format (e.g 20151218-173512-123)
+        cfg (config.Config):    current config
     """
     __cValidSID = re.compile(r'^\d{8}-\d{6}(?:-\d{3})?$')
 
@@ -1786,12 +1781,13 @@ class SID(object):
 
     def __eq__(self, other):
         """
-        compare snapshots based on self.sid
+        Compare snapshots based on self.sid
 
-        other: an other SID or str instance
+        Args:
+            other (SID, str):     an other SID or str instance
 
-        tests:
-        test/test_snapshots.TestSID.test_equal_sid
+        Returns:
+            bool:                   True if other is equal
         """
         if isinstance(other, SID):
             return self.sid == other.sid and self.profileID == other.profileID
@@ -1805,12 +1801,13 @@ class SID(object):
 
     def __lt__(self, other):
         """
-        sort snapshots (alphabetical order) based on self.sid
+        Sort snapshots (alphabetical order) based on self.sid
 
-        other: an other SID or str instance
+        Args:
+            other (SID, str):     an other SID or str instance
 
-        tests:
-        test/test_snapshots.TestSID.test_sort_sids
+        Returns:
+            bool:                   True if other is lower
         """
         if isinstance(other, SID):
             return self.sid < other.sid
@@ -1845,11 +1842,11 @@ class SID(object):
 
     def split(self):
         """
-        split self.sid into a tuple of int's
+        Split self.sid into a tuple of int's
         with Year, Month, Day, Hour, Minute, Second
 
-        tests:
-        test/test_snapshots.TestSID.test_split
+        Returns:
+            tuple:  tuple of 6 int
         """
         def split(s, e):
             return int(self.sid[s:e])
@@ -1858,21 +1855,21 @@ class SID(object):
     @property
     def displayID(self):
         """
-        snapshot ID in a user-readable format:
+        Snapshot ID in a user-readable format:
         YYYY-MM-DD HH:MM:SS
 
-        tests:
-        test/test_snapshots.TestSID.test_displayID
+        Returns:
+            str:    formated sID
         """
         return "{:04}-{:02}-{:02} {:02}:{:02}:{:02}".format(*self.split())
 
     @property
     def displayName(self):
         """
-        combination of displayID, name and error indicator (if any)
+        Combination of displayID, name and error indicator (if any)
 
-        tests:
-        test/test_snapshots.TestSID.test_displayName
+        Returns:
+            str:    name
         """
         ret = self.displayID
         name = self.name
@@ -1887,35 +1884,38 @@ class SID(object):
     @property
     def tag(self):
         """
-        snapshot ID's tag
+        Snapshot ID's tag
 
-        tests:
-        test/test_snapshots.TestSID.test_tag
+        Returns:
+            str:    tag (last three digits)
         """
         return self.sid[16:]
 
     @property
     def withoutTag(self):
         """
-        snapshot ID without tag
+        Snapshot ID without tag
 
-        tests:
-        test/test_snapshots.TestSID.test_withoutTag
+        Returns:
+            str:    YYYYMMDD-HHMMSS
         """
         return self.sid[0:15]
 
     def path(self, *path, use_mode = []):
         """
-        current path of this snapshot automatically altered for
+        Current path of this snapshot automatically altered for
         remote/encrypted version of this path
 
-        path:     one or more folder/files to join at the end of the path
-        use_mode: list of modes that should alter this path. If the current
-                  mode is in this list, the path will automatically altered
-                  for the remote/encrypted version of this path.
+        Args:
+            *path (str):        one or more folder/files to join at the end of
+                                the path.
+            use_mode (list):    list of modes that should alter this path.
+                                If the current mode is in this list, the path
+                                will automatically altered for the
+                                remote/encrypted version of this path.
 
-        tests:
-        test/test_snapshots.TestSID.test_path
+        Returns:
+            str:                full snapshot path
         """
         path = [i.strip(os.sep) for i in path]
         current_mode = self.config.get_snapshots_mode(self.profileID)
@@ -1933,18 +1933,29 @@ class SID(object):
         """
         'backup' folder inside snapshots path
 
-        take a look at path() for used arguments
+        Args:
+            *path (str):        one or more folder/files to join at the end of
+                                the path.
+            use_mode (list):    list of modes that should alter this path.
+                                If the current mode is in this list, the path
+                                will automatically altered for the
+                                remote/encrypted version of this path.
+
+        Returns:
+            str:                full snapshot path
         """
         return self.path('backup', *path, **kwargs)
 
     def makeDirs(self, *path):
         """
-        create snapshot directory
+        Create snapshot directory
 
-        path: one or more folder/files to join at the end of the path
+        Args:
+            *path (str):    one or more folder/files to join at the end
+                            of the path
 
-        tests:
-        test/test_snapshots.TestSID.test_makeDirs
+        Returns:
+            bool:           True if successful
         """
         if not os.path.isdir(self.config.get_snapshots_full_path(self.profileID)):
             logger.error('Snapshots path {} doesn\'t exist. Unable to make dirs for snapshot ID {}'.format(
@@ -1958,8 +1969,8 @@ class SID(object):
         """
         True if the snapshot folder and the "backup" folder inside exist
 
-        tests:
-        test/test_snapshots.TestSID.test_exists
+        Returns:
+            bool:   True if exists
         """
         return os.path.isdir(self.path()) and os.path.isdir(self.pathBackup())
 
@@ -1967,10 +1978,11 @@ class SID(object):
         """
         True if path is a file inside this snapshot
 
-        path: path from local filesystem (no snapshot path)
+        Args:
+            path (str): path from local filesystem (no snapshot path)
 
-        tests:
-        test/test_snapshots.TestSID.test_canOpenPath
+        Returns:
+            bool:       True if file exists
         """
         fullPath = self.pathBackup(path)
         if not os.path.exists(fullPath):
@@ -1985,10 +1997,13 @@ class SID(object):
     @property
     def name(self):
         """
-        name of this snapshot
+        Name of this snapshot
 
-        tests:
-        test/test_snapshots.TestSID.test_name
+        Args:
+            name (str): new name of the snapshot
+
+        Returns:
+            str:        name of this snapshot
         """
         nameFile = self.path(self.NAME)
         if not os.path.isfile(nameFile):
@@ -2003,14 +2018,6 @@ class SID(object):
 
     @name.setter
     def name(self, name):
-        """
-        set the name of this snapshot
-
-        name: string with new snapshot name
-
-        tests:
-        test/test_snapshots.TestSID.test_name
-        """
         nameFile = self.path(self.NAME)
 
         self.makeWriteable()
@@ -2025,12 +2032,12 @@ class SID(object):
     @property
     def lastChecked(self):
         """
-        date when snapshot has finished last time.
+        Date when snapshot has finished last time.
         This can be the end of creation of this snapshot or the last time when
         this snapshot was checked against source without changes.
 
-        tests:
-        test/test_snapshots.TestSID.test_lastChecked
+        Returns:
+            str:    date and time of last check (YYYY-MM-DD HH:MM:SS)
         """
         info = self.path(self.INFO)
         if os.path.exists(info):
@@ -2040,11 +2047,8 @@ class SID(object):
     #using @property.setter would be confusing here as there is no value to give
     def setLastChecked(self):
         """
-        set info files atime to current time to indicate this snapshot was
+        Set info files atime to current time to indicate this snapshot was
         checked against source without changes right now.
-
-        tests:
-        test/test_snapshots.TestSID.test_lastChecked
         """
         info = self.path(self.INFO)
         if os.path.exists(info):
@@ -2053,22 +2057,19 @@ class SID(object):
     @property
     def failed(self):
         """
-        True if this snapshot has failed
+        This snapshot has failed
 
-        tests:
-        test/test_snapshots.TestSID.test_failed
+        Args:
+            enable (bool): set or remove flag
+
+        Returns:
+            bool:           True if flag is set
         """
         failedFile = self.path(self.FAILED)
         return os.path.isfile(failedFile)
 
     @failed.setter
     def failed(self, enable):
-        """
-        set snapshot has failed
-
-        tests:
-        test/test_snapshots.TestSID.test_failed
-        """
         failedFile = self.path(self.FAILED)
         if enable:
             self.makeWriteable()
@@ -2085,11 +2086,14 @@ class SID(object):
     @property
     def info(self):
         """
-        load "info" file which contains additional information
+        Load/save "info" file which contains additional information
         about this snapshot (using configfile.ConfigFile)
 
-        tests:
-        test/test_snapshots.TestSID.test_info
+        Args:
+            i (configfile.ConfigFile):  info that should be saved.
+
+        Returns:
+            configfile.ConfigFile:  snapshots information
         """
         i = configfile.ConfigFile()
         i.load(self.path(self.INFO))
@@ -2097,25 +2101,19 @@ class SID(object):
 
     @info.setter
     def info(self, i):
-        """
-        save "info" file (using configfile.ConfigFile)
-
-        i:  configfile.ConfigFile instance
-
-        tests:
-        test/test_snapshots.TestSID.test_info
-        """
         assert isinstance(i, configfile.ConfigFile), 'i is not configfile.ConfigFile type: {}'.format(i)
         i.save(self.path(self.INFO))
 
     @property
     def fileInfo(self):
         """
-        load "fileinfo.bz2" and return it's content as a
-        dict of: {path: (permission, user, group)}
+        Load/save "fileinfo.bz2"
 
-        tests:
-        test/test_snapshots.TestSID.test_fileInfo
+        Args:
+            d (dict):   dict of: {path: (permission, user, group)}
+
+        Returns:
+            dict:       dict of: {path: (permission, user, group)}
         """
         d = {}
         infoFile = self.path(self.FILEINFO)
@@ -2145,15 +2143,6 @@ class SID(object):
 
     @fileInfo.setter
     def fileInfo(self, d):
-        """
-        store fileInfoDict in "fileinfo.bz2" as lines of:
-        permission user group path
-
-        d:  dict of {path: (permission, user, group)}
-
-        tests:
-        test/test_snapshots.TestSID.test_fileInfo
-        """
         assert isinstance(d, dict), 'd is not dict type: {}'.format(d)
         with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
             for path, info in d.items():
@@ -2171,10 +2160,14 @@ class SID(object):
     #TODO: use @property decorator
     def log(self, mode = None, decode = None):
         """
-        load log from "takesnapshot.log.bz2"
+        Load log from "takesnapshot.log.bz2"
 
-        tests:
-        test/test_snapshots.TestSID.test_log
+        Args:
+            mode (str):     NotImplemented
+            decode (bool):  NotImplemented
+
+        Returns:
+            str:            log
         """
         logfile = self.path(self.LOG)
         try:
@@ -2187,13 +2180,10 @@ class SID(object):
 
     def setLog(self, log):
         """
-        write log to "takesnapshot.log.bz2"
+        Write log to "takesnapshot.log.bz2"
 
-        log: full snapshot log
-
-        tests:
-        test/test_snapshots.TestSID.test_log
-        test/test_snapshots.TestSID.test_setLog_binary
+        Args:
+            log: full snapshot log
         """
         if isinstance(log, str):
             log = log.encode('utf-8', 'replace')
@@ -2208,10 +2198,10 @@ class SID(object):
 
     def makeWriteable(self):
         """
-        make the snapshot path writeable so we can change files inside
+        Make the snapshot path writeable so we can change files inside
 
-        tests:
-        test/test_snapshots.TestSID.test_makeWriteable
+        Returns:
+            bool:   True if successful
         """
         path = self.path()
         rw = os.stat(path).st_mode | stat.S_IWUSR
@@ -2236,12 +2226,10 @@ class GenericNonSnapshot(SID):
 
 class NewSnapshot(GenericNonSnapshot):
     """
-    snapshot ID object for 'new_snapshot' folder
+    Snapshot ID object for 'new_snapshot' folder
 
-    cfg:  current config (config.Config instance)
-
-    tests:
-    test/test_snapshots.TestNewSnapshot.test_create_new
+    Args:
+        cfg (config.Config):    current config
     """
 
     NEWSNAPSHOT    = 'new_snapshot'
@@ -2266,26 +2254,29 @@ class NewSnapshot(GenericNonSnapshot):
 
     @property
     def name(self):
+        """
+        Name of this snapshot
+
+        Returns:
+            str:        name of this snapshot
+        """
         return self.sid
 
     @property
     def saveToContinue(self):
         """
-        check if 'save_to_continue' flag is set
+        Check if 'save_to_continue' flag is set
 
-        tests:
-        test/test_snapshots.TestNewSnapshot.test_saveToContinue
+        Args:
+            enable (bool): set or remove flag
+
+        Returns:
+            bool:           True if flag is set
         """
         return os.path.exists(self.path(self.SAVETOCONTINUE))
 
     @saveToContinue.setter
     def saveToContinue(self, enable):
-        """
-        set 'save_to_continue' flag
-
-        tests:
-        test/test_snapshots.TestNewSnapshot.test_saveToContinue
-        """
         flag = self.path(self.SAVETOCONTINUE)
         if enable:
             with open(flag, 'wt') as f:
@@ -2294,6 +2285,12 @@ class NewSnapshot(GenericNonSnapshot):
             os.remove(flag)
 
 class RootSnapshot(GenericNonSnapshot):
+    """
+    Snapshot ID for the filesystem root folder ('/')
+
+    Args:
+        cfg (config.Config):    current config
+    """
     def __init__(self, cfg):
         self.config = cfg
         self.profileID = cfg.get_current_profile()
@@ -2313,9 +2310,30 @@ class RootSnapshot(GenericNonSnapshot):
 
     @property
     def name(self):
+        """
+        Name of this snapshot
+
+        Returns:
+            str:        name of this snapshot
+        """
         return _('Now')
 
     def path(self, *path, use_mode = []):
+        """
+        Current path of this snapshot automatically altered for
+        remote/encrypted version of this path
+
+        Args:
+            *path (str):        one or more folder/files to join at the end of
+                                the path.
+            use_mode (list):    list of modes that should alter this path.
+                                If the current mode is in this list, the path
+                                will automatically altered for the
+                                remote/encrypted version of this path.
+
+        Returns:
+            str:                full snapshot path
+        """
         current_mode = self.config.get_snapshots_mode(self.profileID)
         if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
             if path:
@@ -2326,15 +2344,16 @@ class RootSnapshot(GenericNonSnapshot):
 
 def iterSnapshots(cfg, includeNewSnapshot = False):
     """
-    iterate over snapshots in current snapshot path. Use this in a 'for' loop
+    Iterate over snapshots in current snapshot path. Use this in a 'for' loop
     for faster processing than list object
 
-    cfg:                current config (config.Config instance)
-    includeNewSnapshot: include a NewSnapshot instance if 'new_snapshot' folder
-                        is available
+    Args:
+        cfg (config.Config):        current config
+        includeNewSnapshot (bool):  include a NewSnapshot instance if
+                                    'new_snapshot' folder is available.
 
-    tests:
-    test/test_snapshots.TestIterSnapshots.test_iter_snapshots
+    Yields:
+        SID:                        snapshot IDs
     """
     for item in os.listdir(cfg.get_snapshots_full_path()):
         if item == NewSnapshot.NEWSNAPSHOT:
@@ -2351,21 +2370,16 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
 
 def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):
     """
-    list of snapshots in current snapshot path.
+    List of snapshots in current snapshot path.
 
-    cfg:                current config (config.Config instance)
-    includeNewSnapshot: include a NewSnapshot instance if 'new_snapshot' folder
-                        is available
-    reverse:            sort reverse
+    Args:
+        cfg (config.Config):        current config (config.Config instance)
+        includeNewSnapshot (bool):  include a NewSnapshot instance if
+                                    'new_snapshot' folder is available
+        reverse (bool):             sort reverse
 
-    tests:
-    test/test_snapshots.TestIterSnapshots.test_list_valid
-    test/test_snapshots.TestIterSnapshots.test_list_new_snapshot
-    test/test_snapshots.TestIterSnapshots.test_list_snapshot_without_backup
-    test/test_snapshots.TestIterSnapshots.test_list_invalid_snapshot
-    test/test_snapshots.TestIterSnapshots.test_list_without_new_snapshot
-    test/test_snapshots.TestIterSnapshots.test_list_symlink_last_snapshot
-    test/test_snapshots.TestIterSnapshots.test_list_not_reverse
+    Returns:
+        list:                       list of SID objects
     """
     ret = list(iterSnapshots(cfg, includeNewSnapshot))
     ret.sort(reverse = reverse)
@@ -2373,12 +2387,13 @@ def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):
 
 def lastSnapshot(cfg):
     """
-    most recent snapshot.
+    Most recent snapshot.
 
-    cfg:    current config (config.Config instance)
+    Args:
+        cfg (config.Config):    current config (config.Config instance)
 
-    tests:
-    test/test_snapshots.TestIterSnapshots.test_lastSnapshot
+    Returns:
+        SID:                    most recent snapshot ID
     """
     sids = listSnapshots(cfg)
     if sids:

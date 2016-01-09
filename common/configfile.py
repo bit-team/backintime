@@ -24,8 +24,7 @@ _=gettext.gettext
 
 class ConfigFile(object):
     """
-    store options in a plain text file in form of:
-    key=value
+    Store options in a plain text file in form of: key=value
     """
     def __init__( self ):
         self.dict = {}
@@ -34,32 +33,33 @@ class ConfigFile(object):
 
     def set_error_handler( self, handler ):
         """
-        register a function that should be called for notifying errors.
+        Register a function that should be called for notifying errors.
 
-        handler:    callable function
+        handler (metod):    callable function
         """
         self.error_handler = handler
 
     def set_question_handler( self, handler ):
         """
-        register a function that should be called for asking questions.
+        Register a function that should be called for asking questions.
 
-        handler:    callable function
+        handler (metod):    callable function
         """
         self.question_handler = handler
 
     def clear_handlers( self ):
         """
-        reset error and question handlers.
+        Reset error and question handlers.
         """
         self.error_handler = None
         self.question_handler = None
 
     def notify_error( self, message ):
         """
-        call previously registered function to show an error.
+        Call previously registered function to show an error.
 
-        message:    error message (str) that should be shown
+        Args:
+            message (str):  error message that should be shown
         """
         if self.error_handler is None:
             return
@@ -67,9 +67,10 @@ class ConfigFile(object):
 
     def ask_question( self, message ):
         """
-        call previously registered function to ask a question.
+        Call previously registered function to ask a question.
 
-        message:    question (str) that should be shown
+        Args:
+            message (str):    question that should be shown
         """
         if self.question_handler is None:
             return False
@@ -77,12 +78,13 @@ class ConfigFile(object):
 
     def save( self, filename ):
         """
-        save all options to file.
+        Save all options to file.
 
-        filename:   full path
+        Args:
+            filename (str): full path
 
-        tests:
-        test/test_configfile.TestConfigFile.test_save
+        Returns:
+            bool:           True if successful
         """
         try:
             with open( filename, 'wt' ) as f:
@@ -98,22 +100,21 @@ class ConfigFile(object):
 
     def load( self, filename, **kwargs ):
         """
-        reset current options and load new options from file.
+        Reset current options and load new options from file.
 
-        filename:   full path
-
-        tests:
-        test/test_configfile.TestConfigFile.test_load
+        Args:
+            filename (str): full path
         """
         self.dict = {}
         self.append( filename, **kwargs )
 
     def append( self, filename, maxsplit = 1 ):
         """
-        load options from file and append them to current options.
+        Load options from file and append them to current options.
 
-        filename:   full path
-        maxsplit:   split lines only n times on '='
+        Args:
+            filename (str): full path
+            maxsplit (int): split lines only n times on '='
         """
         lines = []
 
@@ -133,13 +134,11 @@ class ConfigFile(object):
 
     def remap_key( self, old_key, new_key ):
         """
-        remap keys to a new key name.
+        Remap keys to a new key name.
 
-        old_key:    old key name
-        new_key:    new key name
-
-        tests:
-        test/test_configfile.TestConfigFile.test_remap_key
+        Args:
+            old_key (str):  old key name
+            new_key (str):  new key name
         """
         if old_key != new_key:
             if old_key in self.dict:
@@ -151,23 +150,25 @@ class ConfigFile(object):
         """
         True if key is set.
 
-        key:    string used as key
+        Args:
+            key (str):  string used as key
 
-        tests:
-        test/test_configfile.TestConfigFile.test_has_value
+        Returns:
+            bool:       True if the `key` is set
         """
         return key in self.dict
 
     def get_str_value( self, key, default_value = '' ):
         """
-        return a 'str' instance of key's value.
+        Return a 'str' instance of key's value.
 
-        key:            string used as key
-        default_value:  return this if key is not set
+        Args:
+            key (str):              string used as key
+            default_value (str):    return this if `key` is not set
 
-        tests:
-        test/test_configfile.TestConfigFile.test_get_str_value
-        test/test_configfile.TestConfigFile.test_get_str_value_default
+        Returns:
+            str:                    value of `key` or `default_value`
+                                    if `key` is not set.
         """
         if key in self.dict:
             return self.dict[ key ]
@@ -176,26 +177,25 @@ class ConfigFile(object):
 
     def set_str_value( self, key, value ):
         """
-        set a string value for key.
+        Set a string value for key.
 
-        key:    string used as key
-        value:  store this option
-
-        tests:
-        test/test_configfile.TestConfigFile.test_set_str_value
+        Args:
+            key (str):      string used as key
+            value (str):    store this value
         """
         self.dict[ key ] = value
 
     def get_int_value( self, key, default_value = 0 ):
         """
-        return a 'int' instance of key's value.
+        Return a 'int' instance of key's value.
 
-        key:            string used as key
-        default_value:  return this if key is not set
+        Args:
+            key (str):              string used as key
+            default_value (int):    return this if `key` is not set
 
-        tests:
-        test/test_configfile.TestConfigFile.test_get_int_value
-        test/test_configfile.TestConfigFile.test_get_int_value_default
+        Returns:
+            int:                    value of `key` or `default_value`
+                                    if `key` is not set.
         """
         try:
             return int( self.dict[ key ] )
@@ -204,26 +204,25 @@ class ConfigFile(object):
 
     def set_int_value( self, key, value ):
         """
-        set an integer value for key.
+        Set an integer value for key.
 
-        key:    string used as key
-        value:  store this option
-
-        tests:
-        test/test_configfile.TestConfigFile.test_set_int_value
+        Args:
+            key (str):      string used as key
+            value (int):    store this option
         """
         self.set_str_value( key, str( value ) )
 
     def get_bool_value( self, key, default_value = False ):
         """
-        return a 'bool' instance of key's value.
+        Return a 'bool' instance of key's value.
 
-        key:            string used as key
-        default_value:  return this if key is not set
+        Args:
+            key (str):              string used as key
+            default_value (bool):   return this if key is not set
 
-        tests:
-        test/test_configfile.TestConfigFile.test_get_bool_value
-        test/test_configfile.TestConfigFile.test_get_bool_value_default
+        Returns:
+            bool:                   value of 'key' or 'default_value'
+                                    if 'key' is not set.
         """
         try:
             val = self.dict[ key ]
@@ -235,13 +234,11 @@ class ConfigFile(object):
 
     def set_bool_value( self, key, value ):
         """
-        set a bool value for key.
+        Set a bool value for key.
 
-        key:    string used as key
-        value:  store this option
-
-        tests:
-        test/test_configfile.TestConfigFile.test_set_bool_value
+        Args:
+            key (str):      string used as key
+            value (bool):   store this option
         """
         if value:
             self.set_str_value( key, 'true' )
@@ -250,25 +247,24 @@ class ConfigFile(object):
 
     def get_list_value(self, key, type_key = 'str:value', default_value = []):
         """
-        return a list of values
+        Return a list of values
 
-        key:      used base-key
-        type_key: 'str:value'               => return str values from key.value
-                  'int:type'                => return int values from key.type
-                  'bool:enabled'            => return bool values from key.enabled
-                  ('str:value', 'int:type') => return tuple of values
-        default_value:    defualt value
+        Size of the list must be stored in key.size
 
-        size of list must be stored in key.size
+        Args:
+            key (str):              used base-key
+            type_key (str):         pattern of value-type:value-name
+                                    {
+                                    'str:value'               => return str values from key.value
+                                    'int:type'                => return int values from key.type
+                                    'bool:enabled'            => return bool values from key.enabled
+                                    ('str:value', 'int:type') => return tuple of values
+                                    }
+            default_value (list):   defualt value
 
-        tests:
-        test/test_configfile.TestConfigFile.test_get_list_value_default
-        test/test_configfile.TestConfigFile.test_get_list_value_int
-        test/test_configfile.TestConfigFile.test_get_list_value_str
-        test/test_configfile.TestConfigFile.test_get_list_value_bool
-        test/test_configfile.TestConfigFile.test_get_list_value_tuple
-        test/test_configfile.TestConfigFile.test_get_list_value_tuple_missing_values
-        test/test_configfile.TestConfigFile.test_get_list_value_invalid_type
+        Returns:
+            list:                   value of `key` or `default_value`
+                                    if `key` is not set.
         """
         def get_value(key, tk):
             t = ''
@@ -298,26 +294,20 @@ class ConfigFile(object):
 
     def set_list_value(self, key, type_key, value):
         """
-        set a list of values
+        Set a list of values.
 
-        key:      used base-key
-        type_key: 'str:value'               => set str values from key.value
-                  'int:type'                => set int values from key.type
-                  'bool:enabled'            => set bool values from key.enabled
-                  ('str:value', 'int:type') => set tuple of values
-        value:    that should be stored
+        Size of the list will be stored in key.size
 
-        size of list will be stored in key.size
-
-        tests:
-        test/test_configfile.TestConfigFile.test_set_list_value_int
-        test/test_configfile.TestConfigFile.test_set_list_value_str
-        test/test_configfile.TestConfigFile.test_set_list_value_bool
-        test/test_configfile.TestConfigFile.test_set_list_value_tuple
-        test/test_configfile.TestConfigFile.test_set_list_value_tuple_missing_values
-        test/test_configfile.TestConfigFile.test_set_list_value_remove_leftovers
-        test/test_configfile.TestConfigFile.test_set_list_value_remove_leftovers_tuple
-        test/test_configfile.TestConfigFile.test_set_list_value_invalid_type
+        Args:
+            key (str):      used base-key
+            type_key (str): pattern of value-type:value-name
+                            {
+                            'str:value'               => return str values from key.value
+                            'int:type'                => return int values from key.type
+                            'bool:enabled'            => return bool values from key.enabled
+                            ('str:value', 'int:type') => return tuple of values
+                            }
+            value (list):   that should be stored
         """
         def set_value(key, tk, v):
             t = ''
@@ -356,25 +346,21 @@ class ConfigFile(object):
 
     def remove_key( self, key ):
         """
-        remove key from options.
+        Remove key from options.
 
-        key:    string used as key
-
-        tests:
-        test/test_configfile.TestConfigFile.test_remove_key
+        Args:
+            key (str):    string used as key
         """
         if key in self.dict:
             del self.dict[ key ]
 
     def remove_keys_starts_with( self, prefix ):
         """
-        remove key from options which start with given prefix.
+        Remove key from options which start with given prefix.
 
-        prefix: prefix for keys (key starts with this string) that should be removed
-
-        tests:
-        test/test_configfile.TestConfigFile.test_remove_keys_start_with
-        test/test_configfile.TestConfigFile.test_remove_keys_start_with_not_matching_prefix
+        Args:
+            prefix (str):   prefix for keys (key starts with this string)
+                            that should be removed
         """
         remove_keys = []
 
@@ -389,6 +375,12 @@ class ConfigFile(object):
         return list(self.dict.keys())
 
 class ConfigFileWithProfiles( ConfigFile ):
+    """
+    Store options in profiles as 'profileX.key=value'
+
+    Args:
+        default_profile_name (str): default name of the first profile.
+    """
     def __init__( self, default_profile_name = '' ):
         ConfigFile.__init__( self )
 
@@ -397,21 +389,20 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def load( self, filename ):
         """
-        reset current options and load new options from file.
+        Reset current options and load new options from file.
 
-        filename:   full path
-
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_load
+        Args:
+            filename (str): full path
         """
         self.current_profile_id = '1'
         super(ConfigFileWithProfiles, self).load(filename)
 
     def append( self, filename ):
         """
-        load options from file and append them to current options.
+        Load options from file and append them to current options.
 
-        filename:   full path
+        Args:
+            filename (str): full path
         """
         super(ConfigFileWithProfiles, self).append(filename)
 
@@ -442,20 +433,20 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def get_profiles( self ):
         """
-        return a list of all available profile IDs. Profile IDs are strings!
+        List of all available profile IDs. Profile IDs are strings!
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_get_profiles
+        Returns:
+            list:   all available profile IDs as strings
         """
         return self.get_str_value( 'profiles', '1' ).split(':')
 
     def get_profiles_sorted_by_name( self ):
         """
-        return a list of available profile IDs alphabetical sorted by their names.
+        List of available profile IDs alphabetical sorted by their names.
         Profile IDs are strings!
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_get_profiles_sorted_by_name
+        Returns:
+            list:   all available profile IDs as strings
         """
         profiles_unsorted = self.get_profiles()
         if len( profiles_unsorted ) <= 1:
@@ -477,21 +468,22 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def get_current_profile( self ):
         """
-        return the currently selected profile ID. Profile IDs are strings!
+        Currently selected profile ID. Profile IDs are strings!
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_current_profile
+        Returns:
+            str:    profile ID
         """
         return self.current_profile_id
 
     def set_current_profile( self, profile_id ):
         """
-        change the current profile.
+        Change the current profile.
 
-        profile_id: valid profile ID
+        Args:
+            profile_id (str, int):  valid profile ID
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_current_profile
+        Returns:
+            bool:                   True if successful
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -508,12 +500,13 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def set_current_profile_by_name( self, name ):
         """
-        change the current profile.
+        Change the current profile.
 
-        name:   valid profile name
+        Args:
+            name (str): valid profile name
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_current_profile_by_name
+        Returns:
+            bool:       True if successful
         """
         profiles = self.get_profiles()
 
@@ -530,10 +523,11 @@ class ConfigFileWithProfiles( ConfigFile ):
         """
         True if the profile exists.
 
-        profile_id: profile ID
+        Args:
+            profile_id (str, int):  profile ID
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_profile_exists
+        Returns:
+            bool:                   True if `profile_id` exists.
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -543,10 +537,11 @@ class ConfigFileWithProfiles( ConfigFile ):
         """
         True if the profile exists.
 
-        name:   profile name
+        Args:
+            name (str): profile name
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_profile_exists_by_name
+        Returns:
+            bool:       True if `name` exists.
         """
         profiles = self.get_profiles()
 
@@ -558,12 +553,13 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def get_profile_name( self, profile_id = None ):
         """
-        return the name of the profile.
+        Name of the profile.
 
-        profile_id: valid profile ID
+        Args:
+            profile_id (str, int):  valid profile ID
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_get_profile_name
+        Returns:
+            str:                    name of profile
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -577,13 +573,13 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def add_profile( self, name ):
         """
-        add a new profile if the name is not already in use.
-        Return the new profile ID.
+        Add a new profile if the name is not already in use.
 
-        name:   new profile name
+        Args:
+            name (str): new profile name
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_add_profile
+        Returns:
+            str:        new profile ID
         """
         profiles = self.get_profiles()
 
@@ -614,12 +610,13 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def remove_profile( self, profile_id = None ):
         """
-        remove profile and all its keys and values.
+        Remove profile and all its keys and values.
 
-        profile_id: valid profile ID
+        Args:
+            profile_id (str, int):  valid profile ID
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_remove_profile
+        Returns:
+            bool:   True if successful
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -652,12 +649,14 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def set_profile_name( self, name, profile_id = None ):
         """
-        change the name of the profile.
-        name:       new profile name
-        profile_id: valid profile ID
+        Change the name of the profile.
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_set_profile_name
+        Args:
+            name (str):             new profile name
+            profile_id (str, int):  valid profile ID
+
+        Returns:
+            bool:                   True if successful.
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -677,13 +676,14 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def _get_profile_key_( self, key, profile_id = None ):
         """
-        return the prefix for keys with profile. e.g. 'profile1.key'
+        Prefix for keys with profile. e.g. 'profile1.key'
 
-        key:        key name
-        profile_id: valid profile ID
+        Args:
+            key (str):              key name
+            profile_id (str, int):  valid profile ID
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_get_profile_key
+        Returns:
+            str:                    key with prefix 'profile1.key'
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -693,26 +693,22 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def remove_profile_key( self, key, profile_id = None ):
         """
-        remove the key from profile.
+        Remove the key from profile.
 
-        key:        key name
-        profile_id: valid profile ID
-
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_remove_profile_key
+        Args:
+            key (str):              key name
+            profile_id (str, int):  valid profile ID
         """
         self.remove_key( self._get_profile_key_( key, profile_id ) )
 
     def remove_profile_keys_starts_with( self, prefix, profile_id = None ):
         """
-        remove the keys starting with prefix from profile.
+        Remove the keys starting with prefix from profile.
 
-        prefix:     prefix for keys (key starts with this string) that
-                    should be removed
-        profile_id: valid profile ID
-
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_remove_profile_keys_starts_with
+        Args:
+            prefix (str):           prefix for keys (key starts with this
+                                    string) that should be removed.
+            profile_id (str, int):  valid profile ID
         """
         self.remove_keys_starts_with( self._get_profile_key_( prefix, profile_id ) )
 
@@ -720,11 +716,12 @@ class ConfigFileWithProfiles( ConfigFile ):
         """
         True if key is set in profile.
 
-        key:        string used as key
-        profile_id: valid profile ID
+        Args:
+            key (str):              string used as key
+            profile_id (str, int):  valid profile ID
 
-        tests:
-        test/test_configfile.TestConfigFileWithProfiles.test_has_profile_value
+        Returns:
+            bool:                   True if `key` is set.
         """
         return self._get_profile_key_( key, profile_id ) in self.dict
 

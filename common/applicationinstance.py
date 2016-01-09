@@ -24,29 +24,17 @@ import logger
 
 class ApplicationInstance:
     """
-    class used to handle one application instance mechanism
+    Class used to handle one application instance mechanism.
 
-    pid_file:   full path of file used to save pid and procname
-    auto_exit:  automatically call sys.exit if there is an other
-                instance running
-    flock:      use file-locks to make sure only one instance
-                is checking at the same time
-
-    tests:
-    test/test_applicationinstance.TestApplicationInstance.test_create_and_remove_pid_file
-    test/test_applicationinstance.TestApplicationInstance.test_write_pid_file
-    test/test_applicationinstance.TestApplicationInstance.test_existing_process_with_correct_procname
-    test/test_applicationinstance.TestApplicationInstance.test_existing_process_with_wrong_procname
-    test/test_applicationinstance.TestApplicationInstance.test_existing_process_with_wrong_pid
-    test/test_applicationinstance.TestApplicationInstance.test_killing_existing_process
-    test/test_applicationinstance.TestApplicationInstance.test_non_existing_process
-    test/test_applicationinstance.TestApplicationInstance.test_leftover_empty_lockfile
+    Args:
+        pid_file (str):     full path of file used to save pid and procname
+        auto_exit (bool):   automatically call sys.exit if there is an other
+                            instance running
+        flock (bool):       use file-locks to make sure only one instance
+                            is checking at the same time
     """
 
     def __init__( self, pid_file, auto_exit = True, flock = False ):
-        """
-        specify the file used to save the application instance pid
-        """
         self.pid_file = pid_file
         self.pid = 0
         self.procname = ''
@@ -59,18 +47,18 @@ class ApplicationInstance:
                 self.start_application()
 
     def __del__(self):
-        """
-        unlock and clean up
-        """
         self.flockUnlock()
 
     def check( self, auto_exit = False ):
         """
-        check if the current application is already running
-        returns True if this is the only application instance
+        Check if the current application is already running
 
-        auto_exit:  automatically call sys.exit if there is an other
-                    instance running
+        Args:
+            auto_exit (bool):   automatically call sys.exit if there is an other
+                                instance running
+
+        Returns:
+            bool:               True if this is the only application instance
         """
         #check if the pidfile exists
         if not os.path.isfile( self.pid_file ):
@@ -104,7 +92,7 @@ class ApplicationInstance:
 
     def start_application( self ):
         """
-        called when the single instance starts to save it's pid
+        Called when the single instance starts to save it's pid
         """
         pid = str(os.getpid())
         procname = self.readProcName(pid)
@@ -119,7 +107,7 @@ class ApplicationInstance:
 
     def exit_application( self ):
         """
-        called when the single instance exit ( remove pid file )
+        Called when the single instance exit ( remove pid file )
         """
         try:
             os.remove( self.pid_file )
@@ -128,12 +116,8 @@ class ApplicationInstance:
 
     def flockExclusiv(self):
         """
-        create an exclusive lock to block a second instance while
+        Create an exclusive lock to block a second instance while
         the first instance is starting.
-
-        tests:
-        test/test_applicationinstance.TestApplicationInstance.test_thread_write_without_flock
-        test/test_applicationinstance.TestApplicationInstance.test_flock_exclusive
         """
         try:
             self.flock_file = open(self.pid_file + '.flock', 'w')
@@ -143,7 +127,7 @@ class ApplicationInstance:
 
     def flockUnlock(self):
         """
-        remove the exclusive lock. Second instance can now continue
+        Remove the exclusive lock. Second instance can now continue
         but should find it self to be obsolet.
         """
         if self.flock_file:
@@ -158,6 +142,15 @@ class ApplicationInstance:
         self.flock_file = None
 
     def readProcName(self, pid):
+        """
+        Read pocesses name from /proc/PID/cmdline
+
+        Args:
+            pid (int):  Process Indicator
+
+        Returns:
+            str:        name of process
+        """
         try:
             with open('/proc/%s/cmdline' % pid, 'r') as f:
                 return f.read().strip('\n')
@@ -167,9 +160,10 @@ class ApplicationInstance:
 
     def readPidFile(self):
         """
-        read the pid and procname from the file
+        Read the pid and procname from the file
 
-        pid: Process Indicator (int)
+        Returns:
+            tuple:  tuple of (pid(int), procname(str))
         """
         pid = 0
         procname = ''
