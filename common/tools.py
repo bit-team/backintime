@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -676,6 +676,15 @@ def get_uuid(dev):
 
 def get_uuid_from_path(path):
     return get_uuid(get_device(path))
+
+def get_filesystem_mount_info():
+    """
+    Returns a dict of mount point string -> dict of filesystem info for entire system.
+    """
+
+    # There may be multiple mount points inside of the root (/) mount, so iterate over mtab to find all non-special mounts.
+    with open('/etc/mtab', 'r') as mounts:
+        return {items[1]: {'original_uuid': get_uuid(items[0])} for items in [mount_line.strip('\n').split(' ')[:2] for mount_line in mounts] if get_uuid(items[0]) != None}
 
 def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
     if len(new_line_indicator) >= size - 1:
