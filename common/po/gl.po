@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-19 00:47+0100\n"
-"PO-Revision-Date: 2015-12-31 17:56+0000\n"
+"PO-Revision-Date: 2016-01-05 03:22+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <marcoslansgarza@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-05 01:40+0000\n"
-"X-Generator: Launchpad (build 17876)\n"
+"X-Launchpad-Export-Date: 2016-01-09 21:24+0000\n"
+"X-Generator: Launchpad (build 17881)\n"
 "Language: gl\n"
 
 #: ../../common/configfile.py:60
@@ -597,12 +597,12 @@ msgstr "..."
 #: ../../common/snapshots.py:1238
 #, python-format
 msgid "Found leftover '%s' which can be continued."
-msgstr ""
+msgstr "Atopáronse restos en «%s» desde os cales se pode continuar."
 
 #: ../../common/snapshots.py:1250
 #, python-format
 msgid "Remove leftover '%s' folder from last run"
-msgstr ""
+msgstr "Eliminar o cartafol  «%s» con restos da última execución"
 
 #: ../../common/snapshots.py:1263
 #, python-format
@@ -993,6 +993,8 @@ msgid ""
 "Backup local files before overwriting or\n"
 "removing with trailing '%(suffix)s'."
 msgstr ""
+"Copiar os ficheiros locais antes de sobrescribir ou\n"
+"retiralos engadíndolles un «%(suffix)s» final."
 
 #: ../../qt4/app.py:1010
 msgid ""
@@ -1567,6 +1569,13 @@ msgid ""
 "\n"
 "%(default)s: %(def_value)s"
 msgstr ""
+"Prefixo para executar antes de cada orde nun servidor remoto.\n"
+"As variábeis precisan un escape con  \\$FOO.\n"
+"Isto non afecta a rsync. Así para engadir un prefixo\n"
+"para rsync usar «%(cb_rsync_options)s» con\n"
+"%(rsync_options_value)s\n"
+"\n"
+"%(default)s: %(def_value)s"
 
 #: ../../qt4/settingsdialog.py:858 ../../qt4/settingsdialog.py:1691
 msgid "default"
@@ -1586,6 +1595,13 @@ msgid ""
 "Full system backup will override some settings that may have been "
 "customized. Continue?"
 msgstr ""
+"Facer unha copia de todo o sistema creará unha imaxe para restabelecer no "
+"mesmo disco(s) físico co mesmo particionado que a orixe; o restabelecemento "
+"nun novo disco físico ou no mesmo disco físico cun particionado distinto "
+"resultará nunha quebra potencial e nun sistema non usábel.\n"
+"\n"
+"A copia de seguranza do sistema completo sobrescribirá algúns axustes "
+"personalizados polo usuario. Continuamos?"
 
 #: ../../qt4/settingsdialog.py:922
 msgid "New profile"
