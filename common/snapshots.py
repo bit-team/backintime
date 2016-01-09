@@ -1,5 +1,5 @@
 #	Back In Time
-#	Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#	Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
 #
 #	This program is free software; you can redistribute it and/or modify
 #	it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 #	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+import json
 import os
 import stat
 import datetime
@@ -1084,6 +1085,7 @@ class Snapshots:
         i.set_int_value('snapshot_tag', sid.tag)
         i.set_list_value('user', ('int:uid', 'str:name'), list(self.user_cache.items()))
         i.set_list_value('group', ('int:gid', 'str:name'), list(self.group_cache.items()))
+        i.set_str_value('filesystem_mounts', json.dumps(tools.get_filesystem_mount_info()))
         new_snapshot.info = i
 
         #copy take snapshot log
