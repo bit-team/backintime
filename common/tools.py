@@ -40,8 +40,8 @@ except:
 
 # getting dbus imports to work in Travis CI is a huge pain
 # use conditional dbus import
-ON_TRAVIS = os.environ.get('TRAVIS', None).lower() == 'true'
-ON_RTD = os.environ.get('READTHEDOCS', None).lower() == 'true'
+ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
+ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 
 try:
     import dbus
