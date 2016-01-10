@@ -69,7 +69,7 @@ before installing
     tar xvzf backintime.tar.gz
     cd backintime
     makepkg -srci
-    
+
 ###From sources
 
 #####Common
@@ -136,4 +136,13 @@ before installing
 Back In Time has a RSS feed
 http://feeds.launchpad.net/backintime/announcements.atom
 
-<sub>Dec 2015</sub>
+##Contribute
+
+There is a dev-docu on http://backintime.rtfd.org/
+It's not complete yet but I'm working on it. If you'd like to contribute
+please add docstrings following the
+[Google style guide](http://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html)
+and add unittests for new methods in common. To run unittest locally you can
+run `cd common && ./configure && make unittest`
+
+<sub>Jan 2016</sub>
