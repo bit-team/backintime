@@ -40,11 +40,13 @@ except:
 
 # getting dbus imports to work in Travis CI is a huge pain
 # use conditional dbus import
-ON_TRAVIS = 'TRAVIS' in os.environ and os.environ['TRAVIS'] == 'true'
+ON_TRAVIS = os.environ.get('TRAVIS', None).lower() == 'true'
+ON_RTD = os.environ.get('READTHEDOCS', None).lower() == 'true'
+
 try:
     import dbus
 except ImportError:
-    if ON_TRAVIS:
+    if ON_TRAVIS or ON_RTD:
         #python-dbus doesn't work on Travis yet.
         dbus = None
     else:
