@@ -1277,6 +1277,6 @@ def __log_keyring_warning():
 
 if keyring is None and keyring_warn:
     #delay warning to give logger some time to import
-    import _thread
-    _thread.start_new_thread(__log_keyring_warning, ())
-    # logger.warning('import keyring failed')
+    from threading import Thread
+    thread = Thread(target = __log_keyring_warning, args = ())
+    thread.start()
