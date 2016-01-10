@@ -37,7 +37,7 @@ https://github.com/bit-team/backintime/issues
 ##Download
 
 Please find the latest versions on
-https://launchpad.net/backintime/+download
+https://github.com/bit-team/backintime/releases/latest
 
 ##INSTALL
 

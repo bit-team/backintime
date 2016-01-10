@@ -253,18 +253,21 @@ class ConfigFile(object):
 
         Args:
             key (str):              used base-key
-            type_key (str):         pattern of value-type:value-name
-                                    {
-                                    'str:value'               => return str values from key.value
-                                    'int:type'                => return int values from key.type
-                                    'bool:enabled'            => return bool values from key.enabled
-                                    ('str:value', 'int:type') => return tuple of values
-                                    }
+            type_key (str):         pattern of 'value-type:value-name'.
+                                    See examples below.
             default_value (list):   defualt value
 
         Returns:
             list:                   value of `key` or `default_value`
                                     if `key` is not set.
+
+        `type_key` pattern examples::
+
+            'str:value'               => return str values from key.value
+            'int:type'                => return int values from key.type
+            'bool:enabled'            => return bool values from key.enabled
+            ('str:value', 'int:type') => return tuple of values
+
         """
         def get_value(key, tk):
             t = ''
@@ -300,14 +303,16 @@ class ConfigFile(object):
 
         Args:
             key (str):      used base-key
-            type_key (str): pattern of value-type:value-name
-                            {
-                            'str:value'               => return str values from key.value
-                            'int:type'                => return int values from key.type
-                            'bool:enabled'            => return bool values from key.enabled
-                            ('str:value', 'int:type') => return tuple of values
-                            }
+            type_key (str): pattern of 'value-type:value-name'. See examples below.
             value (list):   that should be stored
+
+        `type_key` pattern examples::
+
+            'str:value'               => return str values from key.value
+            'int:type'                => return int values from key.type
+            'bool:enabled'            => return bool values from key.enabled
+            ('str:value', 'int:type') => return tuple of values
+
         """
         def set_value(key, tk, v):
             t = ''

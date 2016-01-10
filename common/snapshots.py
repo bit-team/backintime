@@ -1749,6 +1749,13 @@ class SID(object):
                                 used for creating this snapshot. str must be in
                                 snapshot ID format (e.g 20151218-173512-123)
         cfg (config.Config):    current config
+
+    Raises:
+        ValueError:             if `date` is `str` instance and doesn't match
+                                the snapshot ID format
+                                (20151218-173512-123 or 20151218-173512)
+        TypeError:              if `date` is not `str`, `datetime.date` or
+                                `datetime.datetime` type
     """
     __cValidSID = re.compile(r'^\d{8}-\d{6}(?:-\d{3})?$')
 
