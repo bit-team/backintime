@@ -68,9 +68,8 @@ before installing
     wget https://aur.archlinux.org/cgit/aur.git/snapshot/backintime.tar.gz
     tar xvzf backintime.tar.gz
     cd backintime
-    makepkg -src
-    sudo pacman -U backintime-<VERSION>.pkg.tar.xz
-
+    makepkg -srci
+    
 ###From sources
 
 #####Common
