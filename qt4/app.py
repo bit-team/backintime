@@ -1345,10 +1345,11 @@ class About(QDialog):
         logo     = QLabel('Icon')
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)) )
         version = self.config.VERSION
-        rev_no = tools.get_bzr_revno()
-        if rev_no:
-            version += ' Bazaar Revision %s' %rev_no
-        name     = QLabel('<h1>' + self.config.APP_NAME + ' ' + version + '</h1>')
+        ref, hashid = tools.get_git_ref_hash()
+        git_version = ''
+        if ref:
+            git_version = " git branch '{}' hash '{}'".format(ref, hashid)
+        name = QLabel('<h1>' + self.config.APP_NAME + ' ' + version + '</h1>' + git_version)
         name.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         homepage = QLabel(self.mkurl('<https://github.com/bit-team/backintime>'))
         homepage.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
