@@ -20,7 +20,6 @@ import subprocess
 import os
 import sys
 from threading import Thread
-from time import sleep
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from applicationinstance import ApplicationInstance
@@ -176,7 +175,7 @@ class TestApplicationInstance(unittest.TestCase):
         thread = Thread(target = self.write_after_flock, args = (self.file_name, ))
         thread.start()
         #give the thread some time
-        sleep(0.01)
+        thread.join(0.01)
         self.assertFalse(os.path.exists(self.temp_file))
         self.inst.flockUnlock()
         #wait for the thread to finish

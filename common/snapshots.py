@@ -247,7 +247,7 @@ class Snapshots:
 
     def get_uid(self, name, callback = None, backup = None):
         """
-        Get the User identifier (UID) for the user in 'name'.
+        Get the User identifier (UID) for the user in `name`.
         name->uid will be cached to speed up subsequent requests.
 
         Args:
@@ -287,7 +287,7 @@ class Snapshots:
 
     def get_gid(self, name, callback = None, backup = None):
         """
-        Get the Group identifier (GID) for the group in 'name'.
+        Get the Group identifier (GID) for the group in `name`.
         name->gid will be cached to speed up subsequent requests.
 
         Args:
@@ -1601,6 +1601,15 @@ class Snapshots:
         os.chmod(dirname, dir_st.st_mode)
 
     def create_last_snapshot_symlink(self, sid):
+        """
+        create symlink 'last_snapshot' to snapshot `sid`
+
+        Args:
+            sid (SID):  snapshot that should be linked.
+
+        Returns:
+            bool:       True if successful
+        """
         if sid is None:
             return
         symlink = self.config.get_last_snapshot_symlink()
@@ -1612,13 +1621,14 @@ class Snapshots:
                 return False
             logger.debug('Create symlink %s => %s' %(symlink, sid), self)
             os.symlink(sid.sid, symlink)
+            return True
         except Exception as e:
             logger.error('Failed to create symlink %s: %s' %(symlink, str(e)), self)
             return False
 
     def flockExclusive(self):
         """
-        Block take_snapshots from other profiles or users
+        Block `take_snapshots` from other profiles or users
         and run them serialized
         """
         if self.config.use_global_flock():

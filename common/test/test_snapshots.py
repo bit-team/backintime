@@ -24,6 +24,7 @@ import stat
 import pwd
 import grp
 from datetime import date, datetime
+from threading import Thread
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import config
@@ -130,6 +131,52 @@ class TestSnapshots(GenericSnapshotsTestCase):
 
     def test_get_group_name_invalid(self):
         self.assertEqual(self.sn.get_group_name(99999), '-')
+
+    ############################################################################
+    ###                                                                      ###
+    ############################################################################
+    def test_create_last_snapshot_symlink(self):
+        sid1 = snapshots.SID('20151219-010324-123', self.cfg)
+        sid1.makeDirs()
+        symlink = self.cfg.get_last_snapshot_symlink()
+        self.assertFalse(os.path.exists(symlink))
+
+        self.assertTrue(self.sn.create_last_snapshot_symlink(sid1))
+        self.assertTrue(os.path.islink(symlink))
+        self.assertEqual(os.path.realpath(symlink), sid1.path())
+
+        sid2 = snapshots.SID('20151219-020324-123', self.cfg)
+        sid2.makeDirs()
+        self.assertTrue(self.sn.create_last_snapshot_symlink(sid2))
+        self.assertTrue(os.path.islink(symlink))
+        self.assertEqual(os.path.realpath(symlink), sid2.path())
+
+    def flockSecondInstance(self):
+        cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
+        cfg = config.Config(cfgFile)
+        sn = snapshots.Snapshots(cfg)
+
+        cfg.set_use_global_flock(True)
+        sn.flockExclusive()
+        sn.flockRelease()
+
+    def test_flockExclusive(self):
+        RWUGO = 33206 #-rw-rw-rw
+        self.cfg.set_use_global_flock(True)
+        thread = Thread(target = self.flockSecondInstance, args = ())
+        self.sn.flockExclusive()
+
+        self.assertTrue(os.path.exists(self.sn.GLOBAL_FLOCK))
+        mode = os.stat(self.sn.GLOBAL_FLOCK).st_mode
+        self.assertEqual(mode, RWUGO)
+
+        thread.start()
+        thread.join(0.01)
+        self.assertTrue(thread.is_alive())
+
+        self.sn.flockRelease()
+        thread.join()
+        self.assertFalse(thread.is_alive())
 
     ############################################################################
     ###                   rsync Ex-/Include and suffix                       ###
