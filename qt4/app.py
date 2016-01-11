@@ -25,6 +25,7 @@ if not os.getenv( 'DISPLAY', '' ):
 import datetime
 import gettext
 import re
+import subprocess
 
 import qt4tools
 qt4tools.register_backintime_path('common')
@@ -994,7 +995,17 @@ class MainWindow( QMainWindow ):
         return QDesktopServices.openUrl(QUrl(url))
 
     def open_man_page(self, man_page):
-        os.system('x-terminal-emulator -e man %s' %man_page)
+        if not tools.check_command('man'):
+            messagebox.critical(self, "Couldn't find 'man' to show the help page. Please install 'man'")
+            return
+        env = os.environ
+        env['MANWIDTH'] = '80'
+        proc = subprocess.Popen(['man', man_page],
+                                stdout = subprocess.PIPE,
+                                universal_newlines = True,
+                                env = env)
+        out, err = proc.communicate()
+        messagebox.show_info(self, 'Manual Page {}'.format(man_page), out)
 
     def on_btn_show_hidden_files_toggled( self, checked ):
         self.show_hidden_files = checked
