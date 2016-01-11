@@ -8,30 +8,30 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-19 00:47+0100\n"
-"PO-Revision-Date: 2015-09-09 21:51+0000\n"
-"Last-Translator: Back In Time Team <Unknown>\n"
+"PO-Revision-Date: 2016-01-11 02:04+0000\n"
+"Last-Translator: Ronan Arraes Jardim Chagas <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-01-09 21:24+0000\n"
+"X-Launchpad-Export-Date: 2016-01-11 17:52+0000\n"
 "X-Generator: Launchpad (build 17881)\n"
 
 #: ../../common/configfile.py:60
 #, python-format
 msgid "Failed to save config: %s"
-msgstr ""
+msgstr "Falha ao salvar o arquivo de configuração: %s"
 
 #: ../../common/configfile.py:78
 #, python-format
 msgid "Failed to load config: %s"
-msgstr ""
+msgstr "Falha ao carregar o arquivo de configuração: %s"
 
 #: ../../common/configfile.py:352 ../../common/configfile.py:414
 #, python-format
 msgid "Profile \"%s\" already exists !"
-msgstr "Perfil \"%s\" já existe !"
+msgstr "O perfil \"%s\" já existe!"
 
 #: ../../common/configfile.py:383
 msgid "You can't remove the last profile !"
@@ -87,7 +87,7 @@ msgstr "A cada Dia"
 
 #: ../../common/config.py:88
 msgid "Repeatedly (anacron)"
-msgstr ""
+msgstr "Repetidamente (anacron)"
 
 #: ../../common/config.py:89
 msgid "When drive get connected (udev)"
@@ -115,11 +115,11 @@ msgstr "Ano(s)"
 
 #: ../../common/config.py:101
 msgid "Hour(s)"
-msgstr ""
+msgstr "Hora(s)"
 
 #: ../../common/config.py:104
 msgid "Month(s)"
-msgstr ""
+msgstr "Mês(es)"
 
 #: ../../common/config.py:126 ../../qt4/settingsdialog.py:551
 msgid " EXPERIMENTAL!"
@@ -131,7 +131,7 @@ msgstr "Local"
 
 #: ../../common/config.py:130
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: ../../common/config.py:130 ../../common/config.py:132
 #: ../../qt4/settingsdialog.py:1583
@@ -144,7 +144,7 @@ msgstr "Local ebcriptado"
 
 #: ../../common/config.py:131 ../../common/config.py:132
 msgid "Encryption"
-msgstr ""
+msgstr "Criptografia"
 
 #: ../../common/config.py:132
 msgid "SSH encrypted"
@@ -156,11 +156,11 @@ msgstr "Padrão"
 
 #: ../../common/config.py:136
 msgid "AES128-CTR"
-msgstr ""
+msgstr "AES128-CTR"
 
 #: ../../common/config.py:137
 msgid "AES192-CTR"
-msgstr ""
+msgstr "AES192-CTR"
 
 #: ../../common/config.py:138
 msgid "AES256-CTR"
@@ -236,7 +236,7 @@ msgstr "%s não é uma pasta !"
 
 #: ../../common/config.py:380
 msgid "Host/User/Profile-ID must not be empty!"
-msgstr ""
+msgstr "Host/Usuário/Perfil não podem estar vazios!"
 
 #: ../../common/config.py:388 ../../common/config.py:420
 #, python-format
@@ -253,6 +253,9 @@ msgid ""
 "Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
+"O sistema de arquivos de destino em '%(path)s' está formatado com FAT que "
+"não suporta hard-links. Por favor, utilize um sistema de arquivos nativo do "
+"Linux."
 
 #: ../../common/config.py:405
 #, python-format
@@ -261,6 +264,9 @@ msgid ""
 "sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
 "'%(expertOptions)s'."
 msgstr ""
+"O sistema de arquivos de destino em '%(path)s' é um compartilhamento SMB "
+"montado. Por favor, tenha certeza que o servidor SMB remoto suporta symlinks "
+"ou ative a opção '%(copyLinks)s' em '%(expertOptions)s'."
 
 #: ../../common/config.py:408 ../../qt4/settingsdialog.py:815
 msgid "Copy links (dereference symbolic links)"
@@ -276,6 +282,9 @@ msgid ""
 "Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
+"O sistema de arquivos de destino em '%(path)s' é um compartilhamento sshfs "
+"montado. O sshfs não suporta hard-links. Por favor, utilize o modo 'SSH' "
+"como alternativa."
 
 #: ../../common/config.py:1407
 msgid ""
@@ -289,7 +298,7 @@ msgstr ""
 
 #: ../../common/config.py:1411
 msgid "Failed to write new crontab."
-msgstr ""
+msgstr "Falha ao escrever um novo crontab."
 
 #: ../../common/config.py:1505
 #, python-format
@@ -297,6 +306,8 @@ msgid ""
 "Could not install Udev rule for profile %(profile_id)s. DBus Service "
 "'%(dbus_interface)s' wasn't available"
 msgstr ""
+"Não foi possível instalar a regra Udev para o perfil %(profile_id)s. O "
+"serviço DBus '%(dbus_interface)s' não está disponível"
 
 #: ../../common/config.py:1517
 #, python-format
@@ -338,19 +349,19 @@ msgstr ""
 
 #: ../../common/encfstools.py:171
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: ../../common/encfstools.py:174
 msgid "Please confirm password"
-msgstr ""
+msgstr "Por favor, confirme o password"
 
 #: ../../common/encfstools.py:178
 msgid "Password doesn't match"
-msgstr ""
+msgstr "Password não corresponde"
 
 #: ../../common/encfstools.py:185
 msgid "encfs not found. Please install e.g. 'apt-get install encfs'"
-msgstr ""
+msgstr "encfs não encontrado. Por favor, instale-o."
 
 #: ../../common/encfstools.py:196 ../../common/sshtools.py:262
 #, python-format
@@ -359,12 +370,18 @@ msgid ""
 " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
 "Look at 'man backintime' for further instructions."
 msgstr ""
+"%(user)s não é membro do grupo 'fuse'.\n"
+" Execute 'sudo adduser %(user)s fuse'. Para aplicar as alterações, execute "
+"um logout e logue novamente.\n"
+"Veja o manual em 'man backintime' para instruções adicionais."
 
 #: ../../common/encfstools.py:211
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs"
 msgstr ""
+"As versões até 1.7.2 do encfs possuem um bug com a opção --reverse. Por "
+"favor, atualize o encfs."
 
 #: ../../common/encfstools.py:512 ../../common/snapshots.py:1131
 #: ../../common/snapshots.py:1388 ../../qt4/app.py:78
@@ -377,11 +394,13 @@ msgid ""
 "Hash collision occurred in hash_id %s. Incrementing global value "
 "hash_collision and try again."
 msgstr ""
+"Colisão de hash ocorreu em hash_id %s. Incrementando o valor global "
+"hash_collision e tentando de novo."
 
 #: ../../common/mount.py:259
 #, python-format
 msgid "mountpoint %s not empty."
-msgstr ""
+msgstr "O ponto de montagem %s não está vazio."
 
 #: ../../common/mount.py:296
 msgid "Mountprocess lock timeout"
@@ -390,7 +409,7 @@ msgstr ""
 #: ../../common/password.py:386
 #, python-format
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
-msgstr ""
+msgstr "Perfil '%(profile)s': Digite o password para %(mode)s: "
 
 #: ../../common/snapshots.py:185 ../../qt4/app.py:203 ../../qt4/app.py:1230
 msgid "Now"
@@ -527,7 +546,7 @@ msgstr ""
 
 #: ../../common/snapshots.py:972
 msgid "Deferring backup while on battery"
-msgstr ""
+msgstr "Adiando o backup enquanto estiver na bateria"
 
 #: ../../common/snapshots.py:1035
 msgid ""
@@ -597,11 +616,13 @@ msgstr "Salvar permissão ..."
 #: ../../common/snapshots.py:1470
 msgid "Save permission over ssh failed. Retry normal method"
 msgstr ""
+"Gravação de permissão através de ssh falhou. Tentar novamente com o método "
+"normal"
 
 #: ../../common/snapshots.py:1521
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
-msgstr ""
+msgstr "Não foi possível renomear %(new_path)s para %(path)s"
 
 #: ../../common/snapshots.py:1695 ../../common/snapshots.py:1728
 #: ../../qt4/settingsdialog.py:542
@@ -619,27 +640,29 @@ msgstr "Tentar manter o mínimo espaço livre"
 #: ../../common/snapshots.py:1770
 #, python-format
 msgid "Try to keep min %d%% free inodes"
-msgstr ""
+msgstr "Tente manter no mínimo %d%% de inodes livres"
 
 #: ../../common/sshtools.py:128
 #, python-format
 msgid "Can't mount %s"
-msgstr ""
+msgstr "Não foi possível montar %s"
 
 #: ../../common/sshtools.py:135
 #, python-format
 msgid "Can't unmount sshfs %s"
-msgstr ""
+msgstr "Não foi possível desmontar o sshfs %s"
 
 #: ../../common/sshtools.py:240
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
+"Não foi possível destravar a chave privada ssh. O password está errado ou "
+"não está disponível para o cron."
 
 #: ../../common/sshtools.py:251
 msgid "sshfs not found. Please install e.g. 'apt-get install sshfs'"
-msgstr ""
+msgstr "sshfs não encontrado. Por favor, instale-o."
 
 #: ../../common/sshtools.py:278
 #, python-format
@@ -647,6 +670,8 @@ msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
 "backintime' for further instructions."
 msgstr ""
+"A autenticação sem password para %(user)s@%(host)s falhou. Veja 'man "
+"backintime' para instruções adicionais."
 
 #: ../../common/sshtools.py:298
 #, python-format
@@ -658,7 +683,7 @@ msgstr ""
 #: ../../common/sshtools.py:333
 #, python-format
 msgid "%s not found in ssh_known_hosts."
-msgstr ""
+msgstr "%s não encontrado em ssh_known_hosts."
 
 #: ../../common/sshtools.py:361
 #, python-format
@@ -666,6 +691,8 @@ msgid ""
 "Remote path exists but is not a directory:\n"
 " %s"
 msgstr ""
+"O caminho remoto existe mas não é um diretório:\n"
+" %s"
 
 #: ../../common/sshtools.py:363
 #, python-format
@@ -673,6 +700,8 @@ msgid ""
 "Remote path is not writeable:\n"
 " %s"
 msgstr ""
+"O caminho remoto não é gravável:\n"
+" %s"
 
 #: ../../common/sshtools.py:365
 #, python-format
@@ -680,6 +709,8 @@ msgid ""
 "Remote path is not executable:\n"
 " %s"
 msgstr ""
+"O caminho remoto não é executável:\n"
+" %s"
 
 #: ../../common/sshtools.py:367
 #, python-format
@@ -687,11 +718,13 @@ msgid ""
 "Couldn't create remote path:\n"
 " %s"
 msgstr ""
+"Não foi possível criar o caminho remoto:\n"
+" %s"
 
 #: ../../common/sshtools.py:390
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
-msgstr ""
+msgstr "Ping %s falhou. O host está inativo ou o endereço está errado."
 
 #: ../../common/sshtools.py:423 ../../common/sshtools.py:553
 #, python-format
@@ -700,6 +733,9 @@ msgid ""
 "%(err)s\n"
 "Look at 'man backintime' for further instructions"
 msgstr ""
+"O host remoto %(host)s não suporta '%(command)s':\n"
+"%(err)s\n"
+"Veja 'man backintime' para instruções adicionais."
 
 #: ../../common/sshtools.py:556
 #, python-format
@@ -708,11 +744,15 @@ msgid ""
 "%(err)s\n"
 "Look at 'man backintime' for further instructions"
 msgstr ""
+"Os comandos de verificação no host %(host)s retornaram um erro "
+"desconhecido:\n"
+"%(err)s\n"
+"Veja 'man backintime' para instruções adicionais."
 
 #: ../../common/sshtools.py:571
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
-msgstr ""
+msgstr "O host remoto %s não suporta hardlinks"
 
 #: ../../qt4/app.py:81
 msgid "Refresh snapshots list"
@@ -740,11 +780,11 @@ msgstr "Configurações"
 
 #: ../../qt4/app.py:104
 msgid "Shutdown"
-msgstr ""
+msgstr "Desligar"
 
 #: ../../qt4/app.py:105
 msgid "Shutdown system after snapshot has finished."
-msgstr ""
+msgstr "Desligar o sistema após a finalização do snapshot."
 
 #: ../../qt4/app.py:111
 msgid "Exit"
@@ -764,19 +804,19 @@ msgstr "Website"
 
 #: ../../qt4/app.py:127 ../../qt4/app.py:982
 msgid "Changelog"
-msgstr ""
+msgstr "Registro de alterações"
 
 #: ../../qt4/app.py:129
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ (perguntas mais freqüentes)"
 
 #: ../../qt4/app.py:131
 msgid "Ask a question"
-msgstr ""
+msgstr "Fazer uma pergunta"
 
 #: ../../qt4/app.py:133
 msgid "Report a bug"
-msgstr ""
+msgstr "Relatar um problema (bug)"
 
 #: ../../qt4/app.py:136 ../../qt4/app.py:1344
 msgid "About"
@@ -803,7 +843,7 @@ msgstr "Restaurar para ..."
 
 #: ../../qt4/app.py:194
 msgid "Restore and delete new files"
-msgstr ""
+msgstr "Restaurar e apagar novos arquivos"
 
 #: ../../qt4/app.py:201
 #, python-format
@@ -820,11 +860,11 @@ msgstr "Snapshots"
 
 #: ../../qt4/app.py:213
 msgid "Snapshot"
-msgstr ""
+msgstr "Snapshot"
 
 #: ../../qt4/app.py:224
 msgid "View"
-msgstr ""
+msgstr "Exibir"
 
 #: ../../qt4/app.py:277
 msgid "Shortcuts"
@@ -880,15 +920,15 @@ msgstr "Erro:"
 
 #: ../../qt4/app.py:726 ../../qt4/qt4systrayicon.py:153
 msgid "Sent:"
-msgstr ""
+msgstr "Enviado:"
 
 #: ../../qt4/app.py:727 ../../qt4/qt4systrayicon.py:154
 msgid "Speed:"
-msgstr ""
+msgstr "Velocidade:"
 
 #: ../../qt4/app.py:728 ../../qt4/qt4systrayicon.py:155
 msgid "ETA:"
-msgstr ""
+msgstr "ETA:"
 
 #: ../../qt4/app.py:777
 msgid "Global"
@@ -980,15 +1020,15 @@ msgstr ""
 
 #: ../../qt4/app.py:1368 ../../qt4/app.py:1385
 msgid "Authors"
-msgstr ""
+msgstr "Autores"
 
 #: ../../qt4/app.py:1369 ../../qt4/app.py:1388
 msgid "Translations"
-msgstr ""
+msgstr "Traduções"
 
 #: ../../qt4/app.py:1370 ../../qt4/app.py:1391
 msgid "License"
-msgstr ""
+msgstr "Licença"
 
 #: ../../qt4/logviewdialog.py:49
 msgid "Last Log View"
@@ -1034,11 +1074,11 @@ msgstr ""
 
 #: ../../qt4/messagebox.py:56
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: ../../qt4/messagebox.py:62 ../../qt4/messagebox.py:68
 msgid "Question"
-msgstr ""
+msgstr "Pergunta"
 
 #: ../../qt4/qt4systrayicon.py:69
 msgid "Start BackInTime"
@@ -1078,12 +1118,12 @@ msgstr ""
 
 #: ../../qt4/settingsdialog.py:77 ../../qt4/settingsdialog.py:451
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 #: ../../qt4/settingsdialog.py:81 ../../qt4/settingsdialog.py:408
 #: ../../qt4/settingsdialog.py:467
 msgid "Remove"
-msgstr ""
+msgstr "Excluir"
 
 #: ../../qt4/settingsdialog.py:96
 msgid "General"
@@ -1091,7 +1131,7 @@ msgstr "Geral"
 
 #: ../../qt4/settingsdialog.py:106 ../../qt4/settingsdialog.py:1901
 msgid "Mode:"
-msgstr ""
+msgstr "Modo:"
 
 #: ../../qt4/settingsdialog.py:119
 #, python-format
@@ -1107,7 +1147,7 @@ msgstr "Onde salvar os snapshots"
 
 #: ../../qt4/settingsdialog.py:145
 msgid "Folder"
-msgstr ""
+msgstr "Pasta"
 
 #: ../../qt4/settingsdialog.py:153
 msgid "SSH Settings"
@@ -1119,7 +1159,7 @@ msgstr "Host:"
 
 #: ../../qt4/settingsdialog.py:170
 msgid "Port:"
-msgstr ""
+msgstr "Porta:"
 
 #: ../../qt4/settingsdialog.py:175 ../../qt4/settingsdialog.py:268
 msgid "User:"
@@ -1127,7 +1167,7 @@ msgstr "Usuário:"
 
 #: ../../qt4/settingsdialog.py:180
 msgid "Path:"
-msgstr ""
+msgstr "Caminho:"
 
 #: ../../qt4/settingsdialog.py:186
 msgid "Cipher:"
@@ -1135,7 +1175,7 @@ msgstr ""
 
 #: ../../qt4/settingsdialog.py:192
 msgid "Private Key:"
-msgstr ""
+msgstr "Chave privada:"
 
 #: ../../qt4/settingsdialog.py:201
 msgid "Key File"
@@ -1144,7 +1184,7 @@ msgstr ""
 #: ../../qt4/settingsdialog.py:214 ../../qt4/settingsdialog.py:223
 #: ../../qt4/settingsdialog.py:229
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 #: ../../qt4/settingsdialog.py:235
 msgid "Save Password to Keyring"
@@ -1180,7 +1220,7 @@ msgstr "Hora:"
 
 #: ../../qt4/settingsdialog.py:330
 msgid "Hours:"
-msgstr ""
+msgstr "Horas:"
 
 #: ../../qt4/settingsdialog.py:339
 msgid ""
@@ -1436,7 +1476,7 @@ msgstr ""
 
 #: ../../qt4/settingsdialog.py:737
 msgid " KB/sec"
-msgstr ""
+msgstr " KB/sec"
 
 #: ../../qt4/settingsdialog.py:772
 msgid "Preserve ACL"
@@ -1477,7 +1517,7 @@ msgstr ""
 
 #: ../../qt4/settingsdialog.py:858 ../../qt4/settingsdialog.py:1691
 msgid "default"
-msgstr ""
+msgstr "padrão"
 
 #: ../../qt4/settingsdialog.py:875
 msgid "Restore Config"
@@ -1547,15 +1587,15 @@ msgstr "Deseja realmente mudar a pasta de snapshots ?"
 
 #: ../../qt4/settingsdialog.py:1688
 msgid "enabled"
-msgstr ""
+msgstr "ativado"
 
 #: ../../qt4/settingsdialog.py:1690
 msgid "disabled"
-msgstr ""
+msgstr "desativado"
 
 #: ../../qt4/settingsdialog.py:1715
 msgid "Restore Settings"
-msgstr ""
+msgstr "Restaurar Configurações"
 
 #: ../../qt4/settingsdialog.py:1732
 msgid " and add your user to group 'fuse'"
@@ -1608,11 +1648,11 @@ msgstr "Checagem profunda (mais preciso, mas lento)"
 
 #: ../../qt4/snapshotsdialog.py:144
 msgid "Delete"
-msgstr ""
+msgstr "Excluir"
 
 #: ../../qt4/snapshotsdialog.py:148
 msgid "Select All"
-msgstr ""
+msgstr "Selecionar Tudo"
 
 #: ../../qt4/snapshotsdialog.py:161
 msgid "Diff"
