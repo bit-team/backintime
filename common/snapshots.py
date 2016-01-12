@@ -1580,7 +1580,23 @@ class Snapshots:
             return '"%s"' % path
 
     def delete_path(self, sid, path):
+        """
+        Delete `path` and all files and folder inside in snapshot `sid`.
+
+        Args:
+            sid (SID):  snapshot ID in which `path` should be deleted
+            path (str): path to delete
+        """
         def handle_error(fn, path, excinfo):
+            """
+            Error handler for `delete_path`. This will fix permissions and try
+            again to remove the file.
+
+            Args:
+                fn (method):    callable which failed before
+                path (str):     file to delete
+                excinfo:        NotImplemented
+            """
             dirname = os.path.dirname(path)
             st = os.stat(dirname)
             os.chmod(dirname, st.st_mode | stat.S_IWUSR)
@@ -1602,7 +1618,7 @@ class Snapshots:
 
     def create_last_snapshot_symlink(self, sid):
         """
-        create symlink 'last_snapshot' to snapshot `sid`
+        Create symlink 'last_snapshot' to snapshot `sid`
 
         Args:
             sid (SID):  snapshot that should be linked.
@@ -2418,7 +2434,7 @@ def lastSnapshot(cfg):
     if sids:
         return sids[0]
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     config = config.Config()
     snapshots = Snapshots( config )
     snapshots.take_snapshot()

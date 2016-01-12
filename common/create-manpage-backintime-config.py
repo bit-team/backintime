@@ -208,5 +208,5 @@ def main():
         f.write('\n'.join(output(**d[key]) for key in sorted(d, key = s)))
         f.write(FOOTER)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

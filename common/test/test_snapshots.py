@@ -25,6 +25,7 @@ import pwd
 import grp
 from datetime import date, datetime
 from threading import Thread
+from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import config
@@ -51,13 +52,15 @@ class GenericSnapshotsTestCase(unittest.TestCase):
                                                     os.pardir,
                                                     'config'))
         self.cfg = config.Config(self.cfgFile)
+        #use a new TemporaryDirectory for snapshotPath to avoid
+        #side effects on leftovers
+        self.tmpDir = TemporaryDirectory()
+        self.cfg.dict['profile1.snapshots.path'] = self.tmpDir.name
         self.snapshotPath = self.cfg.get_snapshots_full_path()
-        if os.path.exists(self.snapshotPath):
-            shutil.rmtree(self.snapshotPath)
         os.makedirs(self.snapshotPath)
 
     def tearDown(self):
-        shutil.rmtree(self.snapshotPath)
+        self.tmpDir.cleanup()
 
 class TestSnapshots(GenericSnapshotsTestCase):
     def setUp(self):
@@ -218,7 +221,7 @@ class TestSnapshots(GenericSnapshotsTestCase):
                                                        '*blub',
                                                        '/bar/2'])
         self.assertRegex(suffix, r'^ --chmod=Du\+wx  ' +
-                                 r'--exclude="/tmp/snapshots" ' +
+                                 r'--exclude="/tmp/.*?" ' +
                                  r'--exclude=".*?\.local/share/backintime" ' +
                                  r'--exclude="\.local/share/backintime/mnt" ' +
                                  r'--include="/foo/" '      +
@@ -384,6 +387,49 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
         self.assertEqual(s.st_mode, newModeFile)
         self.assertEqual(s.st_uid, CURRENTUID)
         self.assertEqual(s.st_gid, CURRENTGID)
+
+class TestDelete(GenericSnapshotsTestCase):
+    def setUp(self):
+        super(TestDelete, self).setUp()
+        self.sn = snapshots.Snapshots(self.cfg)
+        self.sid = snapshots.SID('20151219-010324-123', self.cfg)
+
+        self.sid.makeDirs()
+        self.testDir = 'foo/bar'
+        self.testDirFullPath = self.sid.pathBackup(self.testDir)
+        self.testFile = 'foo/bar/baz'
+        self.testFileFullPath = self.sid.pathBackup(self.testFile)
+
+        self.sid.makeDirs(self.testDir)
+        with open(self.sid.pathBackup(self.testFile), 'wt') as f:
+            pass
+
+    def test_delete_file(self):
+        self.assertTrue(os.path.exists(self.testFileFullPath))
+        self.sn.delete_path(self.sid, self.testFile)
+        self.assertFalse(os.path.exists(self.testFileFullPath))
+
+    def test_delete_file_readonly(self):
+        os.chmod(self.testFileFullPath, stat.S_IRUSR)
+        self.sn.delete_path(self.sid, self.testFile)
+        self.assertFalse(os.path.exists(self.testFileFullPath))
+
+    def test_delete_dir(self):
+        self.assertTrue(os.path.exists(self.testDirFullPath))
+        self.sn.delete_path(self.sid, self.testDir)
+        self.assertFalse(os.path.exists(self.testDirFullPath))
+
+    def test_delete_dir_readonly(self):
+        os.chmod(self.testFileFullPath, stat.S_IRUSR)
+        os.chmod(self.testDirFullPath, stat.S_IRUSR | stat.S_IXUSR)
+        self.sn.delete_path(self.sid, self.testDir)
+        self.assertFalse(os.path.exists(self.testDirFullPath))
+
+    def test_delete_pardir_readonly(self):
+        os.chmod(self.testFileFullPath, stat.S_IRUSR)
+        os.chmod(self.testDirFullPath, stat.S_IRUSR | stat.S_IXUSR)
+        self.sn.delete_path(self.sid, 'foo')
+        self.assertFalse(os.path.exists(self.testDirFullPath))
 
 class TestSID(GenericSnapshotsTestCase):
     def test_new_object_with_valid_date(self):

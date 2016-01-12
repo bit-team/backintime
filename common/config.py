@@ -1517,6 +1517,6 @@ class Config( configfile.ConfigFileWithProfiles ):
             cmd = tools.which('nice') + ' -n 19 ' + cmd
         return cmd
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     config = Config()
     print("snapshots path = %s" % config.get_snapshots_full_path())
