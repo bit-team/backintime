@@ -110,13 +110,22 @@ class TestTools(unittest.TestCase):
         self.assertTrue(tools.is_process_alive(0))
         self.assertFalse(tools.is_process_alive(99999999999))
 
+    def test_power_status_available(self):
+        if tools.process_exists('upowerd'):
+            self.assertTrue(tools.power_status_available())
+        else:
+            self.assertFalse(tools.power_status_available())
+        self.assertIsInstance(tools.on_battery(), bool)
+
     def test_get_filesystem_mount_info(self):
-        ''' Basic sanity checks on returned structure '''
+        """
+        Basic sanity checks on returned structure
+        """
         mounts = tools.get_filesystem_mount_info()
-        self.assertTrue(type(mounts) is dict)
-        self.assertTrue(len(mounts.items()) > 0)
-        self.assertTrue('/' in mounts)
-        self.assertTrue('original_uuid' in mounts.get('/'))
+        self.assertIsInstance(mounts, dict)
+        self.assertGreater(len(mounts.items()), 0)
+        self.assertIn('/', mounts)
+        self.assertIn('original_uuid', mounts.get('/'))
 
 class TestToolsEnviron(unittest.TestCase):
     def __init__(self, *args, **kwargs):

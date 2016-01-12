@@ -212,26 +212,34 @@ def prepare_path( path ):
 
 def power_status_available():
     """
-    Uses the on_ac_power command to detect if the the system is able
-    to return the power status.
+    Check if org.freedesktop.UPower is available.
     """
-    try:
-        rt = subprocess.call( 'on_ac_power' )
-        if rt == ON_AC or rt == ON_BATTERY:
-            return True
-    except:
-        pass
+    if dbus:
+        try:
+            bus = dbus.SystemBus()
+            proxy = bus.get_object('org.freedesktop.UPower',
+                                   '/org/freedesktop/UPower')
+            return 'OnBattery' in proxy.GetAll('org.freedesktop.UPower',
+                            dbus_interface = 'org.freedesktop.DBus.Properties')
+        except dbus.exceptions.DBusException:
+            pass
     return False
-
 
 def on_battery():
     """
     Checks if the system is on battery power.
     """
-    if power_status_available ():
-        return subprocess.call ( 'on_ac_power' ) == ON_BATTERY
-    else:
-        return False
+    if dbus:
+        try:
+            bus = dbus.SystemBus()
+            proxy = bus.get_object('org.freedesktop.UPower',
+                                   '/org/freedesktop/UPower')
+            return bool(proxy.Get('org.freedesktop.UPower',
+                                  'OnBattery',
+                                  dbus_interface = 'org.freedesktop.DBus.Properties'))
+        except dbus.exceptions.DBusException:
+            pass
+    return False
 
 def _execute( cmd, callback = None, user_data = None ):
     logger.debug("Call command \"%s\"" %cmd, traceDepth = 1)

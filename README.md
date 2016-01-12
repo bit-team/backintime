@@ -83,7 +83,6 @@ before installing
     - python3-dbus
 
 * recomended
-    - powermgmt-base
     - sshfs
     - encfs
 
