@@ -26,6 +26,8 @@ import config
 import configfile
 import logger
 
+ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
+ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 
 class TestTools(unittest.TestCase):
     """
@@ -111,7 +113,7 @@ class TestTools(unittest.TestCase):
         self.assertFalse(tools.is_process_alive(99999999999))
 
     def test_power_status_available(self):
-        if tools.process_exists('upowerd'):
+        if tools.process_exists('upowerd') and not ON_TRAVIS:
             self.assertTrue(tools.power_status_available())
         else:
             self.assertFalse(tools.power_status_available())

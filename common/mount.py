@@ -266,17 +266,28 @@ class MountControl(object):
             return False
 
     def create_mountstructure(self):
-        """ folder structure in ~/.local/share/backintime/mnt/:
-        <pid>.lock              <= mountprocess lock that will prevent different
-                                   processes modifying mountpoints at one time
-        <hash_id>/              <= will be shared by all profiles with the same mount settings
-                  mountpoint/   <= real mountpoint
-                  umount        <= json file with all nessesary args for unmount
-                  locks/        <= for each process you have a <pid>.lock file
-        <profile id>_<pid>/     <= sym-link to the right path. return by config.get_snapshots_path
-                                   (can be ../mnt/<hash_id>/mount_point for ssh or
-                                   ../mnt/<hash_id>/<HOST>/<SHARE> for fusesmb ...)
-        tmp_<profile id>_<pid>/ <= sym-link for testing mountpoints in settingsdialog
+        """
+        folder structure in ~/.local/share/backintime/mnt/::
+
+            <pid>.lock              <=  mountprocess lock that will prevent
+                                        different processes modifying mountpoints
+                                        at one time
+            <hash_id>/              <=  will be shared by all profiles with the
+                                        same mount settings
+                      mountpoint/   <=  real mountpoint
+                      umount        <=  json file with all nessesary args
+                                        for unmount
+                      locks/        <=  for each process you have a
+                                        <pid>.lock file
+            <profile id>_<pid>/     <=  sym-link to the right path. return by
+                                        config.get_snapshots_path
+                                        (can be ../mnt/<hash_id>/mount_point
+                                        for ssh or
+                                        ../mnt/<hash_id>/<HOST>/<SHARE> for
+                                        fusesmb ...)
+            tmp_<profile id>_<pid>/ <=  sym-link for testing mountpoints in
+                                        settingsdialog
+        
         """
         self.mkdir(self.mount_root, 0o700)
         self.mkdir(self.hash_id_path, 0o700)
