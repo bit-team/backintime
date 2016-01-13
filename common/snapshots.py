@@ -601,39 +601,6 @@ class Snapshots:
     def backup_suffix(self):
         return '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 
-    #replace with listSnapshots
-    def get_snapshots_list( self, sort_reverse = True, profile_id = None, version = None ):
-        logger.deprecated(self)
-        """
-        Returns a list with the snapshot_ids of all snapshots in the snapshots folder
-        """
-        biglist = []
-
-        if profile_id is None:
-            profile_id = self.config.get_current_profile()
-
-        snapshots_path = self.config.get_snapshots_full_path( profile_id, version )
-
-        try:
-            biglist = os.listdir( snapshots_path )
-        except Exception as e:
-            logger.debug('Failed to get snapshots list: %s'
-                         %str(e),
-                         self)
-            pass
-
-        list_ = []
-
-        for item in biglist:
-            if not self.is_snapshot_id(item):
-                continue
-            if os.path.isdir( os.path.join( snapshots_path, item, 'backup' ) ):
-                list_.append( item )
-
-        list_.sort( reverse = sort_reverse )
-
-        return list_
-
     def remove_snapshot( self, sid, execute = True, quote = '\"'):
         if len( sid.sid ) <= 1:
             return
