@@ -1538,6 +1538,22 @@ class Snapshots:
             return cmd
 
     def rsync_remote_path(self, path, use_modes = ['ssh', 'ssh_encfs'] ):
+        """
+        Format the destination string for rsync depending on which profile is
+        used.
+
+        Args:
+            path (str):         destination path
+            use_modes (list):   list of modes in which the result should
+                                change to `user@host:path` instead of
+                                just `path`
+
+        Returns:
+            str:                quoted `path` like '"/foo"'
+                                or if the current mode is using ssh and
+                                current mode is in `use_modes` a combination
+                                of user, host and `path` like ''user@host:"/foo"''
+        """
         mode = self.config.get_snapshots_mode()
         if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
             user = self.config.get_ssh_user()

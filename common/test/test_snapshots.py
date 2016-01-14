@@ -138,6 +138,22 @@ class TestSnapshots(GenericSnapshotsTestCase):
     ############################################################################
     ###                                                                      ###
     ############################################################################
+    def test_rsync_remote_path(self):
+        self.assertEqual(self.sn.rsync_remote_path('/foo'),
+                         '"/foo"')
+        self.assertEqual(self.sn.rsync_remote_path('/foo', use_modes = ['local']),
+                         '"/foo"')
+
+        #set up SSH profile
+        self.cfg.set_snapshots_mode('ssh')
+        self.cfg.set_ssh_host('localhost')
+        self.cfg.set_ssh_user('foo')
+        self.assertEqual(self.sn.rsync_remote_path('/bar'),
+                         '\'foo@localhost:"/bar"\'')
+
+        self.assertEqual(self.sn.rsync_remote_path('/bar', use_modes = []),
+                         '"/bar"')
+
     def test_create_last_snapshot_symlink(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         sid1.makeDirs()
