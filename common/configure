@@ -252,13 +252,20 @@ printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
 #test
-PYTEST=$(which py.test-3)
+for i in "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
+    PYTEST=$(which $i)
+    if [ -n "${PYTEST}" ]; then
+        break
+    fi
+done
 COVERAGE=$(which coverage)
-#use 'coverage run' if available to pass informations to coveralls.io
-if [ -n ${COVERAGE} ]; then
-    CMD='coverage run -p'
+#use "coverage run" only on travis-ci.org and if it is available
+#this will pass informations to coveralls.io.
+#otherwise use "python", "python3" or if available "py.test-3"
+if [ "${TRAVIS}" = "True" ] && [ -n "${COVERAGE}" ]; then
+    CMD="coverage run -p"
 else
-    CMD='python${PYVERSION}'
+    CMD="python${PYVERSION}"
 fi
 printf "test:\tunittest integrationtest\n\n" >> ${MAKEFILE}
 printf "test-v:\tunittest-v integrationtest\n\n" >> ${MAKEFILE}
@@ -269,7 +276,7 @@ for v in "" "-v"; do
     		printf "\t${CMD} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
     	done
     else
-    	printf "\tpy.test-3 ${v}\n" >> ${MAKEFILE}
+    	printf "\t${PYTEST} ${v}\n" >> ${MAKEFILE}
     fi
     printf "\n" >> ${MAKEFILE}
 done
