@@ -100,7 +100,7 @@ printf "\n" >> ${UNINSTALL_DIRS}
 }
 
 onTravis () {
-[ "${TRAVIS}" = "True" ]
+[ "${TRAVIS}" = "true" ]
 }
 
 #get commandline arguments
