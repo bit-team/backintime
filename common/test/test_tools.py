@@ -18,7 +18,9 @@
 import unittest
 import os
 import sys
+import subprocess
 from copy import deepcopy
+from tempfile import NamedTemporaryFile
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import tools
@@ -81,7 +83,10 @@ class TestTools(unittest.TestCase):
         """
         Test the function process_exists
         """
-        self.assertTrue(tools.process_exists(os.path.basename(sys.executable)))
+        with NamedTemporaryFile() as output:
+            subproc = subprocess.Popen("top", stdout=output)
+            self.assertTrue(tools.process_exists("top"))
+            subproc.kill()
         self.assertFalse(tools.process_exists("notExistedProcess"))
 
     def test_prepare_path(self):
