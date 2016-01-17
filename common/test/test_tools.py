@@ -81,7 +81,7 @@ class TestTools(unittest.TestCase):
         """
         Test the function process_exists
         """
-        self.assertTrue(tools.process_exists("init") or tools.process_exists("systemd"))
+        self.assertTrue(tools.process_exists(os.path.basename(sys.executable)))
         self.assertFalse(tools.process_exists("notExistedProcess"))
 
     def test_prepare_path(self):
