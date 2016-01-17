@@ -179,6 +179,7 @@ class TestSnapshots(GenericSnapshotsTestCase):
         sn.flockExclusive()
         sn.flockRelease()
 
+    #TODO: deadlock if a regular backup process is running
     def test_flockExclusive(self):
         RWUGO = 33206 #-rw-rw-rw
         self.cfg.set_use_global_flock(True)

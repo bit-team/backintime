@@ -269,10 +269,14 @@ class ConfigFile(object):
             ('str:value', 'int:type') => return tuple of values
 
         """
-        def get_value(key, tk):
-            t = ''
+        def type_key_split(tk):
+            t, k = '', ''
             if isinstance(tk, str):
                 t, k = tk.split(':', maxsplit = 1)
+            return (t, k)
+
+        def get_value(key, tk):
+            t, k = type_key_split(tk)
             if t in ('str', 'int', 'bool'):
                 func = getattr(self, 'get_%s_value' %t)
                 return func('%s.%s' %(key, k))
@@ -285,8 +289,12 @@ class ConfigFile(object):
         ret = []
         for i in range(1, size + 1):
             if isinstance(type_key, str):
+                if not self.has_value('%s.%s.%s' %(key, i, type_key_split(type_key)[1])):
+                    continue
                 ret.append(get_value('%s.%s' %(key, i), type_key))
             elif isinstance(type_key, tuple):
+                if not self.has_value('%s.%s.%s' %(key, i, type_key_split(type_key[0])[1])):
+                    continue
                 items = []
                 for tk in type_key:
                     items.append(get_value('%s.%s' %(key, i), tk))

@@ -202,6 +202,10 @@ class TestConfigFile(unittest.TestCase):
                              [('foo', 11, True), ('bar', 22, False), ('baz', 33, True)])
 
     def test_get_list_value_tuple_missing_values(self):
+        """
+        Don't include missing values. Bug #521
+        https://github.com/bit-team/backintime/issues/521
+        """
         cfg = configfile.ConfigFile()
         cfg.dict = {'eee.size': '3',
                     'eee.1.value': 'foo',
@@ -211,21 +215,52 @@ class TestConfigFile(unittest.TestCase):
                     'eee.3.value': 'baz',
                     'eee.3.type': '33'}
         self.assertListEqual(cfg.get_list_value('eee', ('str:value', 'int:type', 'bool:enabled')),
-                             [('foo', 0, True), ('', 22, False), ('baz', 33, False)])
+                             [('foo', 0, True), ('baz', 33, False)])
 
     def test_get_list_value_invalid_type(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'aaa.size': '3',
-                    'aaa.1.bla': '55',
-                    'aaa.2.bla': '66',
-                    'aaa.3.bla': '77'}
-        # cfg.get_list_value('aaa', 'non_existend_type:value')
+                    'aaa.1.value': '55',
+                    'aaa.2.value': '66',
+                    'aaa.3.value': '77'}
         with self.assertRaises(TypeError):
             cfg.get_list_value('aaa', 'non_existend_type:value')
         with self.assertRaises(TypeError):
             cfg.get_list_value('aaa', {'dict:value'})
         with self.assertRaises(TypeError):
             cfg.get_list_value('aaa', 1)
+
+    def test_get_list_value_wrong_size(self):
+        """
+        Don't include empty values if size is wrong. Bug #521
+        https://github.com/bit-team/backintime/issues/521
+        """
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'bbb.size': '4',
+                    'bbb.1.value': 'foo',
+                    'bbb.2.value': 'bar',
+                    'bbb.3.value': 'baz'}
+        self.assertListEqual(cfg.get_list_value('bbb', 'str:value'), ['foo', 'bar', 'baz'])
+
+    def test_get_list_value_zero_count(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'ccc.size': '2',
+                    'ccc.0.value': 'foo',
+                    'ccc.1.value': 'bar',
+                    'ccc.2.value': 'baz'}
+        self.assertListEqual(cfg.get_list_value('ccc', 'str:value'), ['bar', 'baz'])
+
+    def test_get_list_value_missing_values(self):
+        """
+        Don't include missing values. Bug #521
+        https://github.com/bit-team/backintime/issues/521
+        """
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'ddd.size': '4',
+                    'ddd.1.value': 'foo',
+                    'ddd.2.value': 'bar',
+                    'ddd.4.value': 'baz'}
+        self.assertListEqual(cfg.get_list_value('ddd', 'str:value'), ['foo', 'bar', 'baz'])
 
     ############################################################################
     ###                           set_list_value                             ###
