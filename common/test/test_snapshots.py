@@ -25,7 +25,7 @@ import pwd
 import grp
 from datetime import date, datetime
 from threading import Thread
-from tempfile import TemporaryDirectory
+from tempfile import TemporaryDirectory, NamedTemporaryFile
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import config
@@ -44,6 +44,8 @@ GROUPS = [i.gr_name for i in grp.getgrall() if CURRENTUSER in i.gr_mem]
 NO_GROUPS = not GROUPS
 
 IS_ROOT = os.geteuid() == 0
+
+TMP_FLOCK = NamedTemporaryFile()
 
 class GenericSnapshotsTestCase(unittest.TestCase):
     def setUp(self):
@@ -66,6 +68,9 @@ class TestSnapshots(GenericSnapshotsTestCase):
     def setUp(self):
         super(TestSnapshots, self).setUp()
         self.sn = snapshots.Snapshots(self.cfg)
+        #use a tmp-file for flock because test_flockExclusive would deadlock
+        #otherwise if a regular snapshot is running in background
+        self.sn.GLOBAL_FLOCK = TMP_FLOCK.name
 
     ############################################################################
     ###                              get_uid                                 ###
@@ -174,12 +179,12 @@ class TestSnapshots(GenericSnapshotsTestCase):
         cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
         cfg = config.Config(cfgFile)
         sn = snapshots.Snapshots(cfg)
+        sn.GLOBAL_FLOCK = TMP_FLOCK.name
 
         cfg.set_use_global_flock(True)
         sn.flockExclusive()
         sn.flockRelease()
 
-    #TODO: deadlock if a regular backup process is running
     def test_flockExclusive(self):
         RWUGO = 33206 #-rw-rw-rw
         self.cfg.set_use_global_flock(True)
