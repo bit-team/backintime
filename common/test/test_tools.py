@@ -91,9 +91,11 @@ class TestTools(unittest.TestCase):
         """
         Test the function process_exists
         """
+        dummy = 'dummy_proc.sh'
+        dummyPath = os.path.join(os.path.dirname(__file__), dummy)
         with NamedTemporaryFile() as output:
-            subproc = subprocess.Popen("top", stdout=output)
-            self.assertTrue(tools.process_exists("top"))
+            subproc = subprocess.Popen(dummyPath, stdout=output)
+            self.assertTrue(tools.process_exists(dummy))
             subproc.kill()
         self.assertFalse(tools.process_exists("notExistedProcess"))
 

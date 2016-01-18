@@ -43,8 +43,10 @@ class TestApplicationInstance(unittest.TestCase):
             self.subproc = None
 
     def createProcess(self):
+        dummy = 'dummy_proc.sh'
+        dummyPath = os.path.join(os.path.dirname(__file__), dummy)
         with open(self.temp_file, 'wt') as output:
-            self.subproc = subprocess.Popen("top", stdout=output)
+            self.subproc = subprocess.Popen(dummyPath, stdout=output)
             return self.subproc.pid
 
     def getProcName(self, pid):
