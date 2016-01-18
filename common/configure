@@ -272,8 +272,8 @@ else
     CMD="python${PYVERSION}"
 fi
 
-printf "test:\tunittest integrationtest\n\n" >> ${MAKEFILE}
-printf "test-v:\tunittest-v integrationtest\n\n" >> ${MAKEFILE}
+printf "test:\tunittest\n\n" >> ${MAKEFILE}
+printf "test-v:\tunittest-v\n\n" >> ${MAKEFILE}
 for v in "" "-v"; do
     #provide unittests with and without verbosity -v
     printf "unittest${v}:\n" >> ${MAKEFILE}
