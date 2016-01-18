@@ -37,7 +37,7 @@ DISK_BY_UUID_AVAILABLE = os.path.exists(tools.DISK_BY_UUID)
 UDEVADM_HAS_UUID = subprocess.Popen(['udevadm', 'info', '-e'],
                                     stdout = subprocess.PIPE,
                                     stderr = subprocess.DEVNULL
-                                   ).communicate()[0].find(b'uuid') > 0
+                                   ).communicate()[0].find(b'ID_FS_UUID=') > 0
 
 class TestTools(unittest.TestCase):
     """
