@@ -577,7 +577,8 @@ def get_uuid(dev):
                 return uuid
     c = re.compile(b'.*?ID_FS_UUID=(\S+)')
     try:
-        udevadm = subprocess.check_output(['udevadm', 'info', '--name=%s' % dev])
+        udevadm = subprocess.check_output(['udevadm', 'info', '--name=%s' % dev],
+                                          stderr = subprocess.DEVNULL)
         for line in udevadm.split():
             m = c.match(line)
             if m:

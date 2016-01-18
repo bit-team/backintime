@@ -257,12 +257,12 @@ cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
 #test
 for i in "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
-    PYTEST=$(which $i)
+    PYTEST=$(which $i 2>/dev/null)
     if [ -n "${PYTEST}" ]; then
         break
     fi
 done
-COVERAGE=$(which coverage)
+COVERAGE=$(which coverage 2>/dev/null)
 #use "coverage run" only on travis-ci.org and if it is available
 #this will pass informations to coveralls.io.
 #otherwise use "python", "python3" or if available "py.test-3"
