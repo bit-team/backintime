@@ -31,6 +31,14 @@ import logger
 ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
 ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 
+#chroot jails used for building may have no UUID devices (because of tmpfs)
+#we need to skip tests that require UUIDs
+DISK_BY_UUID_AVAILABLE = os.path.exists(tools.DISK_BY_UUID)
+UDEVADM_HAS_UUID = subprocess.Popen(['udevadm', 'info', '-e'],
+                                    stdout = subprocess.PIPE,
+                                    stderr = subprocess.DEVNULL
+                                   ).communicate()[0].find(b'uuid') > 0
+
 class TestTools(unittest.TestCase):
     """
     All funtions test here come from tools.py
@@ -124,6 +132,8 @@ class TestTools(unittest.TestCase):
             self.assertFalse(tools.power_status_available())
         self.assertIsInstance(tools.on_battery(), bool)
 
+    @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
+                     'No UUIDs available on this system.')
     def test_get_filesystem_mount_info(self):
         """
         Basic sanity checks on returned structure
