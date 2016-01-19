@@ -198,9 +198,108 @@ def make_dirs( path ):
                          %(path, str(e)), self, 1)
     return os.path.isdir(path)
 
-def process_exists( name ):
-    output = read_command_output( "ps -o pid= -C %s" % name )
-    return len( output ) > 0
+def pids():
+    """
+    List all PIDs currently running on the system.
+
+    Returns:
+        list:   PIDs as int
+    """
+    return [int(x) for x in os.listdir('/proc') if x.isdigit()]
+
+def process_name(pid):
+    """
+    Get the name of the process with `pid`.
+
+    Args:
+        pid (int):  Process Indicator
+
+    Returns:
+        str:        name of the process
+    """
+    try:
+        with open('/proc/{}/stat'.format(pid), 'rt') as f:
+            data = f.read()
+    except OSError as e:
+        logger.warning('Failed to read process name from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
+        return ''
+    m = re.match(r'.*\((.+)\).*', data)
+    if m:
+        return m.group(1)
+
+def process_cmdline(pid):
+    """
+    Get the cmdline (command that spawnd this process) of the process with `pid`.
+
+    Args:
+        pid (int):  Process Indicator
+
+    Returns:
+        str:        cmdline of the process
+    """
+    try:
+        with open('/proc/{}/cmdline'.format(pid), 'rt') as f:
+            return f.read().strip('\n')
+    except OSError as e:
+        logger.warning('Failed to read process cmdline from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
+        return ''
+
+def pids_with_name(name):
+    """
+    Get all processes currently running with name `name`.
+
+    Args:
+        name (str): name of a process like 'python3' or 'backintime'
+
+    Returns:
+        list:       PIDs as int
+    """
+    return [x for x in pids() if process_name(x) == name]
+
+def process_exists(name):
+    """
+    Check if process `name` is currently running.
+
+    Args:
+        name (str): name of a process like 'python3' or 'backintime'
+
+    Returns:
+        bool:       True if there is a process running with `name`
+    """
+    return len(pids_with_name(name)) > 0
+
+def is_process_alive(pid):
+    """
+    Check if the process with PID `pid` is alive.
+
+    Args:
+        pid (int):  Process Indicator
+
+    Returns:
+        bool:       True if the process with PID `pid` is alive
+
+    Raises:
+        ValueError: If `pid` is 0 because 'kill(0, SIG)' would send SIG to all
+                    processes
+    """
+    if pid < 0:
+        return False
+    elif pid == 0:
+        raise ValueError('invalid PID 0')
+    else:
+        try:
+            os.kill(pid, 0)	#this will raise an exception if the pid is not valid
+        except OSError as err:
+            if err.errno == errno.ESRCH:
+                # ESRCH == No such process
+                return False
+            elif err.errno == errno.EPERM:
+                # EPERM clearly means there's a process to deny access to
+                return True
+            else:
+                raise
+        else:
+            return True
 
 def check_x_server():
     return 0 == os.system( 'xdpyinfo >/dev/null 2>&1' )
@@ -268,18 +367,7 @@ def _execute( cmd, callback = None, user_data = None ):
         logger.debug("Command \"%s...\" returns %s"
                      %(cmd[:min(16, len(cmd))], ret_val),
                      traceDepth = 1)
-
     return ret_val
-
-
-def is_process_alive( pid ):
-    try:
-        os.kill( pid, 0 )	#this will raise an exception if the pid is not valid
-    except:
-        return False
-
-    return True
-
 
 def get_rsync_caps():
     data = read_command_output( 'rsync --version' )

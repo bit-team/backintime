@@ -24,6 +24,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from applicationinstance import ApplicationInstance
 import logger
+import tools
 
 
 class TestApplicationInstance(unittest.TestCase):
@@ -38,20 +39,19 @@ class TestApplicationInstance(unittest.TestCase):
         for f in (self.temp_file, self.file_name):
             if os.path.exists(f):
                 os.remove(f)
-        if self.subproc:
-            self.subproc.kill()
-            self.subproc = None
+        self.killProcess()
 
     def createProcess(self):
         dummy = 'dummy_proc.sh'
         dummyPath = os.path.join(os.path.dirname(__file__), dummy)
-        with open(self.temp_file, 'wt') as output:
-            self.subproc = subprocess.Popen(dummyPath, stdout=output)
-            return self.subproc.pid
+        self.subproc = subprocess.Popen(dummyPath)
+        return self.subproc.pid
 
-    def getProcName(self, pid):
-        with open('/proc/%s/cmdline' % pid, 'r') as file:
-            return file.read().strip('\n')
+    def killProcess(self):
+        if self.subproc:
+            self.subproc.kill()
+            self.subproc.wait()
+            self.subproc = None
 
     def test_create_and_remove_pid_file(self):
         #create pid file
@@ -67,10 +67,10 @@ class TestApplicationInstance(unittest.TestCase):
 
         #get pid/procname of current process
         this_pid = os.getpid()
-        this_procname = self.getProcName(this_pid)
+        this_procname = tools.process_name(this_pid)
 
         with open(self.file_name, 'rt') as file_with_pid:
-            self.assertEqual(file_with_pid.read(), '%s\n%s' %(this_pid, this_procname))
+            self.assertEqual(file_with_pid.read(), '{}\n{}'.format(this_pid, this_procname))
 
     def test_existing_process_with_correct_procname(self):
         """
@@ -78,7 +78,23 @@ class TestApplicationInstance(unittest.TestCase):
         name
         """
         pid = self.createProcess()
-        procname = self.getProcName(pid)
+        procname = tools.process_name(pid)
+
+        # create file with pid and process name
+        with open(self.file_name, "wt") as file_with_pid:
+            file_with_pid.write(str(pid) + "\n")
+            file_with_pid.write(procname)
+
+        # Execute test
+        self.assertFalse(self.inst.check())
+
+    def test_existing_process_with_correct_proc_cmdline(self):
+        """
+        Test the check function with an existing process with correct process
+        cmdline (for backwards compatibility)
+        """
+        pid = self.createProcess()
+        procname = tools.process_cmdline(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -94,7 +110,7 @@ class TestApplicationInstance(unittest.TestCase):
         name
         """
         pid = self.createProcess()
-        procname = self.getProcName(pid)
+        procname = tools.process_name(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -109,7 +125,7 @@ class TestApplicationInstance(unittest.TestCase):
         Test the check function with an existing process with wrong pid
         """
         pid = self.createProcess()
-        procname = self.getProcName(pid)
+        procname = tools.process_name(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -125,17 +141,16 @@ class TestApplicationInstance(unittest.TestCase):
         name
         """
         pid = self.createProcess()
-        procname = self.getProcName(pid)
+        procname = tools.process_name(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
             file_with_pid.write(str(pid) + "\n")
             file_with_pid.write(procname)
 
-        #kill process
-        self.subproc.kill()
-        self.subproc.wait()
-        self.subproc = None
+        self.assertFalse(self.inst.check())
+
+        self.killProcess()
 
         # Execute test
         self.assertTrue(self.inst.check())

@@ -21,6 +21,7 @@ import fcntl
 import errno
 
 import logger
+import tools
 
 class ApplicationInstance:
     """
@@ -70,18 +71,15 @@ class ApplicationInstance:
         if 0 == self.pid:
             return True
 
-        try:
-            os.kill( self.pid, 0 )	#this will raise an exception if the pid is not valid
-        except OSError as err:
-            if err.errno == errno.ESRCH:
-                #no such process
-                return True
-            else:
-                raise
+        if not tools.is_process_alive(self.pid):
+            return True
 
         #check if the process has the same procname
-        if self.procname and self.procname != self.readProcName(self.pid):
-            return True
+        #check cmdline for backwards compatibility
+        if self.procname and                                    \
+           self.procname != tools.process_name(self.pid) and    \
+           self.procname != tools.process_cmdline(self.pid):
+                return True
 
         if auto_exit:
             #exit the application
@@ -94,12 +92,12 @@ class ApplicationInstance:
         """
         Called when the single instance starts to save it's pid
         """
-        pid = str(os.getpid())
-        procname = self.readProcName(pid)
+        pid = os.getpid()
+        procname = tools.process_name(pid)
 
         try:
             with open( self.pid_file, 'wt' ) as f:
-                f.write( pid + '\n' + procname )
+                f.write('{}\n{}'.format(pid, procname))
         except OSError as e:
             logger.error('Failed to write PID file %s: [%s] %s' %(e.filename, e.errno, e.strerror))
 
@@ -141,23 +139,6 @@ class ApplicationInstance:
                 pass
         self.flock_file = None
 
-    def readProcName(self, pid):
-        """
-        Read pocesses name from /proc/PID/cmdline
-
-        Args:
-            pid (int):  Process Indicator
-
-        Returns:
-            str:        name of process
-        """
-        try:
-            with open('/proc/%s/cmdline' % pid, 'r') as f:
-                return f.read().strip('\n')
-        except OSError as e:
-            logger.warning('Failed to read process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
-            return ''
-
     def readPidFile(self):
         """
         Read the pid and procname from the file
@@ -171,7 +152,8 @@ class ApplicationInstance:
             with open( self.pid_file, 'rt' ) as f:
                 data = f.read()
             data = data.split('\n', 1)
-            pid = int(data[0])
+            if data[0].isdigit():
+                pid = int(data[0])
             if len(data) > 1:
                 procname = data[1].strip('\n')
         except OSError as e:

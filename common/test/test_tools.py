@@ -45,6 +45,24 @@ class TestTools(unittest.TestCase):
     """
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
+        self.subproc = None
+
+    def tearDown(self):
+        self.killProcess()
+
+    def createProcess(self, *args):
+        dummy = 'dummy_proc.sh'
+        dummyPath = os.path.join(os.path.dirname(__file__), dummy)
+        cmd = [dummyPath]
+        cmd.extend(args)
+        self.subproc = subprocess.Popen(cmd)
+        return self.subproc.pid
+
+    def killProcess(self):
+        if self.subproc:
+            self.subproc.kill()
+            self.subproc.wait()
+            self.subproc = None
 
     def test_read_file(self):
         """
@@ -87,18 +105,6 @@ class TestTools(unittest.TestCase):
         self.assertRegex(tools.which("ls"), r'/.*/ls')
         self.assertIsNone(tools.which("notExistedCommand"))
 
-    def test_process_exists(self):
-        """
-        Test the function process_exists
-        """
-        dummy = 'dummy_proc.sh'
-        dummyPath = os.path.join(os.path.dirname(__file__), dummy)
-        with NamedTemporaryFile() as output:
-            subproc = subprocess.Popen(dummyPath, stdout=output)
-            self.assertTrue(tools.process_exists(dummy))
-            subproc.kill()
-        self.assertFalse(tools.process_exists("notExistedProcess"))
-
     def test_prepare_path(self):
         """
         Test the function load_env
@@ -120,12 +126,48 @@ class TestTools(unittest.TestCase):
             tools.prepare_path(path_with_slash_at_end),
             path_without_slash_at_end)
 
+    def test_pids(self):
+        pids = tools.pids()
+        self.assertGreater(len(pids), 0)
+        self.assertIn(os.getpid(), pids)
+
+    def test_process_name(self):
+        pid = self.createProcess()
+        self.assertEqual(tools.process_name(pid), 'dummy_proc.sh')
+
+    def test_process_cmdline(self):
+        pid = self.createProcess()
+        self.assertRegex(tools.process_cmdline(pid),
+                         r'.*/sh.*/common/test/dummy_proc\.sh')
+        self.killProcess()
+        pid = self.createProcess('foo', 'bar')
+        self.assertRegex(tools.process_cmdline(pid),
+                         r'.*/sh.*/common/test/dummy_proc\.sh.foo.bar')
+
+    def test_pids_with_name(self):
+        self.assertEqual(len(tools.pids_with_name('nonExistingProcess')), 0)
+        pid = self.createProcess()
+        pids = tools.pids_with_name('dummy_proc.sh')
+        self.assertGreaterEqual(len(pids), 1)
+        self.assertIn(pid, pids)
+
+    def test_process_exists(self):
+        self.assertFalse(tools.process_exists('nonExistingProcess'))
+        pid = self.createProcess()
+        self.assertTrue(tools.process_exists('dummy_proc.sh'))
+
     def test_is_process_alive(self):
         """
         Test the function is_process_alive
         """
-        self.assertTrue(tools.is_process_alive(0))
-        self.assertFalse(tools.is_process_alive(99999999999))
+        self.assertTrue(tools.is_process_alive(os.getpid()))
+        pid = self.createProcess()
+        self.assertTrue(tools.is_process_alive(pid))
+        self.killProcess()
+        self.assertFalse(tools.is_process_alive(pid))
+        self.assertFalse(tools.is_process_alive(999999))
+        with self.assertRaises(ValueError):
+            tools.is_process_alive(0)
 
     def test_power_status_available(self):
         if tools.process_exists('upowerd') and not ON_TRAVIS:
