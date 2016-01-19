@@ -160,6 +160,7 @@ class TestTools(unittest.TestCase):
         """
         Test the function is_process_alive
         """
+        #TODO: add test (in chroot) running proc as root and kill as non-root
         self.assertTrue(tools.is_process_alive(os.getpid()))
         pid = self.createProcess()
         self.assertTrue(tools.is_process_alive(pid))
@@ -168,6 +169,7 @@ class TestTools(unittest.TestCase):
         self.assertFalse(tools.is_process_alive(999999))
         with self.assertRaises(ValueError):
             tools.is_process_alive(0)
+        self.assertFalse(tools.is_process_alive(-1))
 
     def test_power_status_available(self):
         if tools.process_exists('upowerd') and not ON_TRAVIS:

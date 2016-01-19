@@ -104,6 +104,9 @@ class TestApplicationInstance(unittest.TestCase):
         # Execute test
         self.assertFalse(self.inst.check())
 
+    def test_no_pid_file(self):
+        self.assertTrue(self.inst.check())
+
     def test_existing_process_with_wrong_procname(self):
         """
         Test the check function with an existing process with wrong process
@@ -171,9 +174,10 @@ class TestApplicationInstance(unittest.TestCase):
             pass
         self.assertTrue(self.inst.check())
 
-    def write_after_flock(self, pid_file,):
-        inst = ApplicationInstance(os.path.abspath(pid_file), False)
-        inst.flockExclusiv()
+    def write_after_flock(self, pid_file):
+        inst = ApplicationInstance(os.path.abspath(pid_file),
+                                   auto_exit = False,
+                                   flock = True)
         with open(self.temp_file, 'wt') as f:
             f.write('foo')
         inst.flockUnlock()
@@ -200,6 +204,45 @@ class TestApplicationInstance(unittest.TestCase):
         self.assertTrue(os.path.exists(self.temp_file))
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
+
+    def test_auto_flock(self):
+        self.inst = ApplicationInstance(os.path.abspath(self.file_name),
+                                        auto_exit = False,
+                                        flock = True)
+        thread = Thread(target = self.write_after_flock, args = (self.file_name, ))
+        thread.start()
+        #give the thread some time
+        thread.join(0.01)
+        self.assertFalse(os.path.exists(self.temp_file))
+        self.inst.start_application()
+        #wait for the thread to finish
+        thread.join()
+        self.assertTrue(os.path.exists(self.temp_file))
+        with open(self.temp_file, 'rt') as f:
+            self.assertEqual(f.read(), 'foo')
+
+    def test_auto_exit_unique_process(self):
+        self.inst = ApplicationInstance(os.path.abspath(self.file_name),
+                                        auto_exit = True)
+
+        self.assertTrue(os.path.exists(self.file_name))
+        this_pid = os.getpid()
+        this_procname = tools.process_name(this_pid)
+        with open(self.file_name, 'rt') as file_with_pid:
+            self.assertEqual(file_with_pid.read(), '{}\n{}'.format(this_pid, this_procname))
+
+    def test_auto_exit_other_running_process(self):
+        pid = self.createProcess()
+        procname = tools.process_name(pid)
+
+        # create file with pid and process name
+        with open(self.file_name, "wt") as file_with_pid:
+            file_with_pid.write(str(pid) + "\n")
+            file_with_pid.write(procname)
+
+        with self.assertRaises(SystemExit):
+            self.inst = ApplicationInstance(os.path.abspath(self.file_name),
+                                            auto_exit = True)
 
 # Execute tests if this programm is call with python TestApplicationInstance.py
 if __name__ == '__main__':
