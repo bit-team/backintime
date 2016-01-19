@@ -584,8 +584,9 @@ def aliasParser(args):
         args (argparse.Namespace):
                         previously parsed arguments
     """
-    logger.info("Run command '%(alias)s' instead of argument '%(replace)s' due to backwards compatibility."
-                % {'alias': args.alias, 'replace': args.replace})
+    if not args.quiet:
+        logger.info("Run command '%(alias)s' instead of argument '%(replace)s' due to backwards compatibility."
+                    % {'alias': args.alias, 'replace': args.replace})
     argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
     newArgs = arg_parse(argv)
     if 'func' in dir(newArgs):
@@ -696,7 +697,11 @@ def snapshotsPath(args):
     cfg = getConfig(args)
     if args.keep_mount:
         _mount(cfg)
-    print('SnapshotsPath: %s' % cfg.get_snapshots_full_path(), file=force_stdout)
+    if args.quiet:
+        msg = '{}'
+    else:
+        msg = 'SnapshotsPath: {}'
+    print(msg.format(cfg.get_snapshots_full_path()), file=force_stdout)
     sys.exit(RETURN_OK)
 
 def snapshotsList(args):
@@ -713,9 +718,14 @@ def snapshotsList(args):
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
+
+    if args.quiet:
+        msg = '{}'
+    else:
+        msg = 'SnapshotID: {}'
     no_sids = True
     for sid in snapshots.iterSnapshots(cfg):
-        print('SnapshotID: %s' % sid, file=force_stdout)
+        print(msg.format(sid), file=force_stdout)
         no_sids = False
     if no_sids:
         logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
@@ -737,9 +747,14 @@ def snapshotsListPath(args):
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
     _mount(cfg)
+
+    if args.quiet:
+        msg = '{}'
+    else:
+        msg = 'SnapshotPath: {}'
     no_sids = True
     for sid in snapshots.iterSnapshots(cfg):
-        print('SnapshotPath: %s' % sid.path(), file=force_stdout)
+        print(msg.format(sid.path()), file=force_stdout)
         no_sids = False
     if no_sids:
         logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
@@ -763,7 +778,11 @@ def lastSnapshot(args):
     _mount(cfg)
     sid = snapshots.lastSnapshot(cfg)
     if sid:
-        print('SnapshotID: %s' % sid, file=force_stdout)
+        if args.quiet:
+            msg = '{}'
+        else:
+            msg = 'SnapshotID: {}'
+        print(msg.format(sid), file=force_stdout)
     else:
         logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
     _umount(cfg)
@@ -786,7 +805,11 @@ def lastSnapshotPath(args):
     _mount(cfg)
     sid = snapshots.lastSnapshot(cfg)
     if sid:
-        print('SnapshotPath: %s' % sid.path(), file=force_stdout)
+        if args.quiet:
+            msg = '{}'
+        else:
+            msg = 'SnapshotPath: {}'
+        print(msg.format(sid.path()), file=force_stdout)
     else:
         logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
     if not args.keep_mount:
