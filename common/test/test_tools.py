@@ -19,6 +19,7 @@ import unittest
 import os
 import sys
 import subprocess
+import random
 from copy import deepcopy
 from tempfile import NamedTemporaryFile
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -64,6 +65,43 @@ class TestTools(unittest.TestCase):
             self.subproc.wait()
             self.subproc = None
 
+    def test_get_share_path(self):
+        share = tools.get_share_path()
+        self.assertTrue(share.endswith('share'), 'share = {}'.format(share))
+
+    def test_get_backintime_path(self):
+        path = tools.get_backintime_path('common')
+        self.assertRegex(path, r'.*/backintime.*/common$')
+
+    def test_register_backintime_path(self):
+        path = tools.get_backintime_path('foo')
+        tools.register_backintime_path('foo')
+        self.assertIn(path, sys.path)
+        sys.path.remove(path)
+
+    def test_running_from_source(self):
+        self.assertTrue(tools.running_from_source())
+
+    def test_add_source_to_path_environ(self):
+        source = tools.get_backintime_path('common')
+        path = [x for x in os.getenv('PATH').split(':') if x != source]
+        os.environ['PATH'] = ':'.join(path)
+
+        tools.add_source_to_path_environ()
+        self.assertIn(source, os.environ['PATH'])
+
+    def test_get_git_ref_hash(self):
+        git = tools.get_backintime_path('.git')
+
+        ref, hashid = tools.get_git_ref_hash()
+        if os.path.exists(git):
+            self.assertIsInstance(ref, str)
+            self.assertIsInstance(hashid, str)
+            self.assertEqual(len(hashid), 7)
+        else:
+            self.assertIsNone(ref)
+            self.assertIsNone(hashid)
+
     def test_read_file(self):
         """
         Test the function read_file
@@ -71,7 +109,8 @@ class TestTools(unittest.TestCase):
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
-        self.assertIsNotNone(tools.read_file(test_tools_file))
+
+        self.assertIsInstance(tools.read_file(test_tools_file), str)
         self.assertIsNone(tools.read_file(non_existing_file))
 
     def test_read_file_lines(self):
@@ -81,7 +120,11 @@ class TestTools(unittest.TestCase):
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
-        self.assertIsNotNone(tools.read_file_lines(test_tools_file))
+
+        output = tools.read_file_lines(test_tools_file)
+        self.assertIsInstance(output, list)
+        self.assertGreaterEqual(len(output), 1)
+        self.assertIsInstance(output[0], str)
         self.assertIsNone(tools.read_file_lines(non_existing_file))
 
     def test_read_command_output(self):
@@ -95,36 +138,26 @@ class TestTools(unittest.TestCase):
         """
         Test the function check_command
         """
+        self.assertFalse(tools.check_command(''))
         self.assertFalse(tools.check_command("notExistedCommand"))
         self.assertTrue(tools.check_command("ls"))
+        self.assertTrue(tools.check_command('backintime'))
 
     def test_which(self):
         """
         Test the function which
         """
         self.assertRegex(tools.which("ls"), r'/.*/ls')
+        self.assertEqual(tools.which('backintime'),
+                         os.path.join(os.getcwd(), 'backintime'))
         self.assertIsNone(tools.which("notExistedCommand"))
 
-    def test_prepare_path(self):
-        """
-        Test the function load_env
-        """
-        path_with_slash_at_begin = "/test/path"
-        path_without_slash_at_begin = "test/path"
-        path_with_slash_at_end = "/test/path/"
-        path_without_slash_at_end = "/test/path"
-        self.assertEqual(
-            tools.prepare_path(path_with_slash_at_begin),
-            path_with_slash_at_begin)
-        self.assertEqual(
-            tools.prepare_path(path_without_slash_at_begin),
-            path_with_slash_at_begin)
-        self.assertEqual(
-            tools.prepare_path(path_without_slash_at_end),
-            path_without_slash_at_end)
-        self.assertEqual(
-            tools.prepare_path(path_with_slash_at_end),
-            path_without_slash_at_end)
+    def test_make_dirs(self):
+        self.assertFalse(tools.make_dirs('/'))
+        self.assertTrue(tools.make_dirs(os.getcwd()))
+        path = '/tmp/foobar{}'.format(random.randrange(100, 999))
+        self.assertTrue(tools.make_dirs(path))
+        os.rmdir(path)
 
     def test_pids(self):
         pids = tools.pids()
@@ -170,6 +203,30 @@ class TestTools(unittest.TestCase):
         with self.assertRaises(ValueError):
             tools.is_process_alive(0)
         self.assertFalse(tools.is_process_alive(-1))
+
+    def test_check_x_server(self):
+        try:
+            tools.check_x_server()
+        except Exception as e:
+            self.fail('tools.ckeck_x_server() raised exception {}'.format(str(e)))
+
+    def test_prepare_path(self):
+        path_with_slash_at_begin = "/test/path"
+        path_without_slash_at_begin = "test/path"
+        path_with_slash_at_end = "/test/path/"
+        path_without_slash_at_end = "/test/path"
+        self.assertEqual(
+            tools.prepare_path(path_with_slash_at_begin),
+            path_with_slash_at_begin)
+        self.assertEqual(
+            tools.prepare_path(path_without_slash_at_begin),
+            path_with_slash_at_begin)
+        self.assertEqual(
+            tools.prepare_path(path_without_slash_at_end),
+            path_without_slash_at_end)
+        self.assertEqual(
+            tools.prepare_path(path_with_slash_at_end),
+            path_without_slash_at_end)
 
     def test_power_status_available(self):
         if tools.process_exists('upowerd') and not ON_TRAVIS:

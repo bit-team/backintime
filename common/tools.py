@@ -63,6 +63,18 @@ POWER_ERROR = 255
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
 def get_share_path():
+    """
+    Get BackInTimes installation base path.
+
+    If running from source return default '/usr/share'
+
+    Returns:
+        str:    share path like::
+
+                    /usr/share
+                    /usr/local/share
+                    /opt/usr/share
+    """
     share = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
     if os.path.basename(share) == 'share':
         return share
@@ -70,11 +82,31 @@ def get_share_path():
         return '/usr/share'
 
 def get_backintime_path(*path):
+    """
+    Get path inside 'backintime' install folder.
+
+    Args:
+        *path (str):    paths that should be joind to 'backintime'
+
+    Returns:
+        str:            'backintime' child path like::
+
+                            /usr/share/backintime/common
+                            /usr/share/backintime/qt4
+    """
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
 def register_backintime_path(*path):
     """
-    Find duplicate in qt4/qt4tools.py
+    Add BackInTime path `path` to sys.path so subsequent imports can
+    discover them.
+
+    Args:
+        *path (str):    paths that should be joind to 'backintime'
+
+    Note:
+        Duplicate in qt4/qt4tools.py because modules in qt4 folder would need
+        this to actually import tools.
     """
     path = get_backintime_path(*path)
     if not path in sys.path:
@@ -82,18 +114,31 @@ def register_backintime_path(*path):
 
 def running_from_source():
     """
-    Return True if BackInTime was started
-    from source folder (without installing)
+    Check if BackInTime is running from source (without installing).
+
+    Returns:
+        bool:   True if BackInTime is running from source
     """
     return os.path.isfile(get_backintime_path('common', 'backintime'))
 
 def add_source_to_path_environ():
+    """
+    Add 'backintime/common' path to 'PATH' environ variable.
+    """
     source = get_backintime_path('common')
     path = os.getenv('PATH')
     if source not in path.split(':'):
         os.environ['PATH'] = '%s:%s' %(source, path)
 
 def get_git_ref_hash():
+    """
+    Get the current Git Branch and the last HashID (shot form) if running
+    from source.
+
+    Returns:
+        tuple:  two items of either str instance if running from source
+                or None
+    """
     ref, hashid = None, None
     gitPath = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, '.git'))
     headPath = os.path.join(gitPath, 'HEAD')
@@ -119,6 +164,19 @@ def get_git_ref_hash():
     return (ref, hashid[:7])
 
 def read_file( path, default_value = None ):
+    """
+    Read the file in `path` or its '.gz' compressed variant and return its
+    content or `default_value` if `path` does not exist.
+
+    Args:
+        path (str):             full path to file that should be read.
+                                '.gz' will be added automatically if the file
+                                is compressed
+        default_value (str):    default if `path` does not exist
+
+    Returns:
+        str:                    content of file in `path`
+    """
     ret_val = default_value
 
     try:
@@ -134,6 +192,19 @@ def read_file( path, default_value = None ):
     return ret_val
 
 def read_file_lines( path, default_value = None ):
+    """
+    Read the file in `path` or its '.gz' compressed variant and return its
+    content as a list of lines or `default_value` if `path` does not exist.
+
+    Args:
+        path (str):             full path to file that should be read.
+                                '.gz' will be added automatically if the file
+                                is compressed
+        default_value (list):   default if `path` does not exist
+
+    Returns:
+        list:                   content of file in `path` splitted by lines.
+    """
     ret_val = default_value
 
     try:
@@ -149,6 +220,16 @@ def read_file_lines( path, default_value = None ):
     return ret_val
 
 def read_command_output( cmd ):
+    """
+    Read stdout from command `cmd`.
+
+    Args:
+        cmd (str):  command that should be called
+
+    Returns:
+        str:        stdout from command `cmd` or '' if calling `cmd` raised an
+                    exception
+    """
     ret_val = ''
 
     try:
@@ -161,6 +242,15 @@ def read_command_output( cmd ):
     return ret_val
 
 def check_command( cmd ):
+    """
+    Check if command `cmd` is a file in 'PATH' environ.
+
+    Args:
+        cmd (str):  command
+
+    Returns:
+        bool:       True if command `cmd` is in 'PATH' environ
+    """
     cmd = cmd.strip()
 
     if not cmd:
@@ -170,20 +260,37 @@ def check_command( cmd ):
         return True
     return not which(cmd) is None
 
-def which(filename):
+def which(cmd):
     """
-    Checks if 'filename' is present in the system PATH.
+    Get the fullpath of executable command `cmd`. Works like
+    command-line 'which' command.
+
+    Args:
+        cmd (str):  command
+
+    Returns:
+        str:        fullpath of command `cmd` or None if command is
+                    not available
     """
     pathenv = os.getenv('PATH', '')
     path = pathenv.split(":")
     path.insert(0, os.getcwd())
     for directory in path:
-        fullpath = os.path.join(directory, filename)
+        fullpath = os.path.join(directory, cmd)
         if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
             return fullpath
     return None
 
 def make_dirs( path ):
+    """
+    Create directories `path` recursive and return success.
+
+    Args:
+        path (str): fullpath to directories that should be created
+
+    Returns:
+        bool:       True if successful
+    """
     path = path.rstrip( os.sep )
     if not path:
         return False
