@@ -91,15 +91,15 @@ class TestTools(unittest.TestCase):
         self.assertIn(source, os.environ['PATH'])
 
     def test_get_git_ref_hash(self):
-        git = tools.get_backintime_path('.git')
-
         ref, hashid = tools.get_git_ref_hash()
-        if os.path.exists(git):
-            self.assertIsInstance(ref, str)
-            self.assertIsInstance(hashid, str)
-            self.assertEqual(len(hashid), 7)
+        if isinstance(ref, str):
+            self.assertGreater(len(ref), 0)
         else:
             self.assertIsNone(ref)
+
+        if isinstance(hashid, str):
+            self.assertEqual(len(hashid), 7)
+        else:
             self.assertIsNone(hashid)
 
     def test_read_file(self):
