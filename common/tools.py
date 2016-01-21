@@ -158,10 +158,10 @@ def get_git_ref_hash():
     if os.path.isfile(refPath):
         try:
             with open(refPath, 'rt') as f:
-                hashid = f.read().strip('\n')
+                hashid = f.read().strip('\n')[:7]
         except:
             pass
-    return (ref, hashid[:7])
+    return (ref, hashid)
 
 def read_file( path, default_value = None ):
     """
