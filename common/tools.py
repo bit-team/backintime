@@ -184,8 +184,8 @@ def read_file( path, default_value = None ):
             with open( path ) as f:
                 ret_val = f.read()
         elif os.path.exists(path + '.gz'):
-            with gzip.open(path + '.gz') as f:
-                ret_val = f.read().decode()
+            with gzip.open(path + '.gz', 'rt') as f:
+                ret_val = f.read()
     except:
         pass
 
@@ -210,10 +210,10 @@ def read_file_lines( path, default_value = None ):
     try:
         if os.path.exists(path):
             with open( path ) as f:
-                ret_val = f.readlines()
+                ret_val = [x.rstrip('\n') for x in f.readlines()]
         elif os.path.exists(path + '.gz'):
-            with gzip.open(path + '.gz') as f:
-                ret_val = [b.decode() for b in f.readlines()]
+            with gzip.open(path + '.gz', 'rt') as f:
+                ret_val = [x.rstrip('\n') for x in f.readlines()]
     except:
         pass
 

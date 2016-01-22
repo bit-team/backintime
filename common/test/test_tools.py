@@ -20,6 +20,7 @@ import os
 import sys
 import subprocess
 import random
+import gzip
 from copy import deepcopy
 from tempfile import NamedTemporaryFile
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -113,6 +114,20 @@ class TestTools(unittest.TestCase):
         self.assertIsInstance(tools.read_file(test_tools_file), str)
         self.assertIsNone(tools.read_file(non_existing_file))
 
+        with NamedTemporaryFile('wt') as tmp:
+            tmp.write('foo\nbar')
+            tmp.flush()
+            self.assertIsInstance(tools.read_file(tmp.name), str)
+            self.assertEqual(tools.read_file(tmp.name), 'foo\nbar')
+
+        tmp_gz = NamedTemporaryFile().name
+        with gzip.open(tmp_gz + '.gz', 'wt') as f:
+            f.write('foo\nbar')
+            f.flush()
+        self.assertIsInstance(tools.read_file(tmp_gz), str)
+        self.assertEqual(tools.read_file(tmp_gz), 'foo\nbar')
+        os.remove(tmp_gz+ '.gz')
+
     def test_read_file_lines(self):
         """
         Test the function read_file_lines
@@ -126,6 +141,20 @@ class TestTools(unittest.TestCase):
         self.assertGreaterEqual(len(output), 1)
         self.assertIsInstance(output[0], str)
         self.assertIsNone(tools.read_file_lines(non_existing_file))
+
+        with NamedTemporaryFile('wt') as tmp:
+            tmp.write('foo\nbar')
+            tmp.flush()
+            self.assertIsInstance(tools.read_file_lines(tmp.name), list)
+            self.assertListEqual(tools.read_file_lines(tmp.name), ['foo', 'bar'])
+
+        tmp_gz = NamedTemporaryFile().name
+        with gzip.open(tmp_gz + '.gz', 'wt') as f:
+            f.write('foo\nbar')
+            f.flush()
+        self.assertIsInstance(tools.read_file_lines(tmp_gz), list)
+        self.assertEqual(tools.read_file_lines(tmp_gz), ['foo', 'bar'])
+        os.remove(tmp_gz+ '.gz')
 
     def test_read_command_output(self):
         """
