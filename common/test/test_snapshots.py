@@ -700,9 +700,9 @@ class TestSID(GenericSnapshotsTestCase):
                                 '20151219-010324-123',
                                 'fileinfo.bz2')
 
-        d = {}
-        d['/tmp']     = (123, 'foo', 'bar')
-        d['/tmp/foo'] = (456, 'asdf', 'qwer')
+        d = snapshots.FileInfoDict()
+        d[b'/tmp']     = (123, b'foo', b'bar')
+        d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
         sid1.fileInfo = d
 
         self.assertTrue(os.path.isfile(infoFile))

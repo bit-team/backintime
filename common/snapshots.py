@@ -811,7 +811,7 @@ class Snapshots:
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if path and os.path.exists(path):
             info = os.stat(path)
-            mode = str(info.st_mode).encode('utf-8', 'replace')
+            mode = info.st_mode
             user = self.get_user_name(info.st_uid).encode('utf-8', 'replace')
             group = self.get_group_name(info.st_gid).encode('utf-8', 'replace')
             fileinfo[path] = (mode, user, group)
@@ -1000,7 +1000,7 @@ class Snapshots:
             self.set_take_snapshot_message( 0, _('Save permission ...') )
 
             permission_done = False
-            fileInfoDict = {}
+            fileInfoDict = FileInfoDict()
             if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
                 path_to_explore_ssh = new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
                 cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
@@ -1749,6 +1749,19 @@ class Snapshots:
 
         return (' '.join(items1), ' '.join(items2))
 
+class FileInfoDict(dict):
+    """
+    A `dict` that maps a path (as `bytes`) to (`int`, `bytes`, `bytes`).
+    """
+    def __setitem__(self, key, value):
+        assert isinstance(key, bytes), "key '{}' is not bytes instance".format(key)
+        assert isinstance(value, tuple), "value '{}' is not tuple instance".format(value)
+        assert len(value) == 3, "value '{}' does not have 3 items".format(value)
+        assert isinstance(value[0], int), "first value '{}' is not int instance".format(value[0])
+        assert isinstance(value[1], bytes), "second value '{}' is not bytes instance".format(value[1])
+        assert isinstance(value[2], bytes), "third value '{}' is not bytes instance".format(value[2])
+        super(FileInfoDict, self).__setitem__(key, value)
+
 class SID(object):
     """
     Snapshot ID object used to gather all information for a snapshot
@@ -2161,17 +2174,13 @@ class SID(object):
 
     @fileInfo.setter
     def fileInfo(self, d):
-        assert isinstance(d, dict), 'd is not dict type: {}'.format(d)
+        assert isinstance(d, FileInfoDict), 'd is not FileInfoDict type: {}'.format(d)
         with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
             for path, info in d.items():
-                assert isinstance(path, str), 'path is not str type: {}'.format(path)
-                assert isinstance(info[1], str), 'user is not str type: {}'.format(info[1])
-                assert isinstance(info[2], str), 'group is not str type: {}'.format(info[2])
-                assert isinstance(info[0], int), 'permission is not int type: {}'.format(info[0])
                 f.write(b' '.join((str(info[0]).encode('utf-8', 'replace'),
-                                   info[1].encode('utf-8', 'replace'),
-                                   info[2].encode('utf-8', 'replace'),
-                                   path.encode('utf-8', 'replace') ))
+                                   info[1],
+                                   info[2],
+                                   path))
                                    + b'\n')
 
     #TODO: add arguments 'mode' and 'decode'
