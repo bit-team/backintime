@@ -311,8 +311,9 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
         self.run = True
 
     def test_no_changes(self):
-        d = {b'foo': (self.modeFolder, CURRENTUSER, CURRENTGROUP),
-             b'bar': (self.modeFile, CURRENTUSER, CURRENTGROUP)}
+        d = snapshots.FileInfoDict()
+        d[b'foo'] = (self.modeFolder, CURRENTUSER.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
+        d[b'bar'] = (self.modeFile, CURRENTUSER.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
 
         callback = lambda x: self.callback(self.fail,
                              'callback function was called unexpectedly')
@@ -332,8 +333,9 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
     #TODO: add fakeroot tests with https://github.com/yaybu/fakechroot
     @unittest.skipIf(IS_ROOT, "We're running as root. So this test won't work.")
     def test_change_owner_without_root(self):
-        d = {b'foo': (self.modeFolder, 'root', CURRENTGROUP),
-             b'bar': (self.modeFile, 'root', CURRENTGROUP)}
+        d = snapshots.FileInfoDict()
+        d[b'foo'] = (self.modeFolder, 'root'.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
+        d[b'bar'] = (self.modeFile, 'root'.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
 
         callback = lambda x: self.callback(self.assertRegex, x,
                              r'^chown /tmp/test/(?:foo|bar) 0 : {} : \w+$'.format(CURRENTGID))
@@ -360,8 +362,9 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
     def test_change_group(self):
         newGroup = GROUPS[0]
         newGID = grp.getgrnam(newGroup).gr_gid
-        d = {b'foo': (self.modeFolder, CURRENTUSER, newGroup),
-             b'bar': (self.modeFile, CURRENTUSER, newGroup)}
+        d = snapshots.FileInfoDict()
+        d[b'foo'] = (self.modeFolder, CURRENTUSER.encode('utf-8','replace'), newGroup.encode('utf-8','replace'))
+        d[b'bar'] = (self.modeFile, CURRENTUSER.encode('utf-8','replace'), newGroup.encode('utf-8','replace'))
 
         callback = lambda x: self.callback(self.assertRegex, x,
                              r'^chgrp /tmp/test/(?:foo|bar) {}$'.format(newGID))
@@ -387,8 +390,9 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
     def test_change_permissions(self):
         newModeFolder = 16832 #rwx------
         newModeFile   = 33152 #rw-------
-        d = {b'foo': (newModeFolder, CURRENTUSER, CURRENTGROUP),
-             b'bar': (newModeFile, CURRENTUSER, CURRENTGROUP)}
+        d = snapshots.FileInfoDict()
+        d[b'foo'] = (newModeFolder, CURRENTUSER.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
+        d[b'bar'] = (newModeFile, CURRENTUSER.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
 
         callback = lambda x: self.callback(self.assertRegex, x,
                              r'^chmod /tmp/test/(?:foo|bar) \d+$')
@@ -708,9 +712,8 @@ class TestSID(GenericSnapshotsTestCase):
         self.assertTrue(os.path.isfile(infoFile))
 
         #load fileInfo in a new snapshot
-        sid2 = snapshots.SID('20151219-010324-123', self.cfg)
-        self.assertDictEqual(sid2.fileInfo, {'/tmp':     (123, 'foo', 'bar'),
-                                             '/tmp/foo': (456, 'asdf', 'qwer')})
+        sid2 = snapshots.SID('20151219-010324-123', self.cfg)        
+        self.assertDictEqual(sid2.fileInfo, d)
 
     def test_log(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)

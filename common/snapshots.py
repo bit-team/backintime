@@ -405,12 +405,11 @@ class Snapshots:
             key_path (bytes):       original path during backup.
                                     Same as in fileInfoDict.
             path (bytes):           current path of file that should be changed.
-            fileInfoDict (dict):    dict with key_path as key (bytes) and
-                                    value of tuple
-                                    (mode(int), username(bytes), groupname(bytes))
+            fileInfoDict (FileInfoDict):    FileInfoDict
         """
         assert isinstance(key_path, bytes), 'key_path is not bytes type: %s' % key_path
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
+        assert isinstance(fileInfoDict, FileInfoDict), 'fileInfoDict is not FileInfoDict type: %s' % fileInfoDict
         if key_path not in fileInfoDict or not os.path.exists(path):
             return
         info = fileInfoDict[key_path]
@@ -2141,12 +2140,12 @@ class SID(object):
         Load/save "fileinfo.bz2"
 
         Args:
-            d (dict):   dict of: {path: (permission, user, group)}
+            d (FileInfoDict): dict of: {path: (permission, user, group)}
 
         Returns:
-            dict:       dict of: {path: (permission, user, group)}
+            FileInfoDict:     dict of: {path: (permission, user, group)}
         """
-        d = {}
+        d = FileInfoDict()
         infoFile = self.path(self.FILEINFO)
         if not os.path.isfile(infoFile):
             return d
@@ -2154,16 +2153,16 @@ class SID(object):
         try:
             with bz2.BZ2File(infoFile, 'rb') as fileinfo:
                 for line in fileinfo:
-                    line = line.strip(b'\n').decode('utf-8')
+                    line = line.strip(b'\n')
                     if not line:
                         continue
-                    index = line.find('/')
+                    index = line.find(b'/')
                     if index < 0:
                         continue
                     f = line[index:]
                     if not f:
                         continue
-                    info = line[:index].strip().split(' ')
+                    info = line[:index].strip().split(b' ')
                     if len(info) == 3:
                         d[f] = (int(info[0]), info[1], info[2]) #perms, user, group
         except Exception as e:
