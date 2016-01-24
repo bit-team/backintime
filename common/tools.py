@@ -56,10 +56,6 @@ import configfile
 import logger
 from exceptions import Timeout, InvalidChar, PermissionDeniedByPolicy
 
-ON_AC = 0
-ON_BATTERY = 1
-POWER_ERROR = 255
-
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
 def get_share_path():
@@ -409,16 +405,35 @@ def is_process_alive(pid):
             return True
 
 def check_x_server():
+    """
+    Check if there is a X11 server running on this system.
+
+    Returns:
+        bool:   True if X11 server is running
+    """
     return 0 == os.system( 'xdpyinfo >/dev/null 2>&1' )
 
 def prepare_path( path ):
+    """
+    Removes trailing slash '/' from `path`.
+
+    Args:
+        path (str): absolut path
+
+    Returns:
+        str:        path `path` without trailing but with leading slash
+    """
     path = path.strip( "/" )
     path = os.sep + path
     return path
 
 def power_status_available():
     """
-    Check if org.freedesktop.UPower is available.
+    Check if org.freedesktop.UPower is available so that tools.on_battery
+    would return the correct power status.
+
+    Returns:
+        bool:   True if tools.on_battery can report power status
     """
     if dbus:
         try:
@@ -434,6 +449,9 @@ def power_status_available():
 def on_battery():
     """
     Checks if the system is on battery power.
+
+    Returns:
+        bool:   True if system is running on battery
     """
     if dbus:
         try:
@@ -448,6 +466,19 @@ def on_battery():
     return False
 
 def _execute( cmd, callback = None, user_data = None ):
+    """
+    Execute command `cmd` returns its returncode. Returncode is
+    multiplied by 256. Commands stdout can be send to handler `callback`.
+
+    Args:
+        cmd (str):          command that should be executed
+        callback (method):  function that will be called with every new line
+                            on stdout. Need to handle two arguments.
+        user_data (str):    additional arg send to `callback`
+
+    Returns:
+        int:                returncode of command `cmd` multiplied by 256
+    """
     logger.debug("Call command \"%s\"" %cmd, traceDepth = 1)
     ret_val = 0
 
@@ -476,8 +507,19 @@ def _execute( cmd, callback = None, user_data = None ):
                      traceDepth = 1)
     return ret_val
 
-def get_rsync_caps():
-    data = read_command_output( 'rsync --version' )
+def get_rsync_caps(data = None):
+    """
+    Get capabilities of the installed rsync binary. This can be different from
+    version to version and also on build arguments used when building rsync.
+
+    Args:
+        data (str): 'rsync --version' output. This is just for unittests.
+
+    Returns:
+        list:       str's with rsyncs capabilities
+    """
+    if not data:
+        data = read_command_output( 'rsync --version' )
     caps = []
     #rsync >= 3.1 does provide --info=progress2
     m = re.match(r'rsync\s*version\s*(\d\.\d)', data)
@@ -507,11 +549,6 @@ def get_rsync_caps():
 
     caps.extend(all_caps.split( ", " ))
     return caps
-
-
-def use_rsync_fast( config ):
-    return not (config.preserve_acl() or config.preserve_xattr())
-
 
 def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] ):
     caps = get_rsync_caps()

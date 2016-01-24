@@ -1802,7 +1802,7 @@ class SID(object):
         Compare snapshots based on self.sid
 
         Args:
-            other (SID, str):     an other SID or str instance
+            other (SID, str):       an other SID or str instance
 
         Returns:
             bool:                   True if other is equal
@@ -1822,7 +1822,7 @@ class SID(object):
         Sort snapshots (alphabetical order) based on self.sid
 
         Args:
-            other (SID, str):     an other SID or str instance
+            other (SID, str):       an other SID or str instance
 
         Returns:
             bool:                   True if other is lower

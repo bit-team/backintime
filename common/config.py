@@ -195,7 +195,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 logger.error("config.version is < 4. This config was made with "\
                              "BackInTime version < 1.0. This version ({}) "     \
                              "doesn't support upgrading config from < 1.0 "     \
-                             "anymore. Please use BackInTime version <= 1.1.10 "\
+                             "anymore. Please use BackInTime version <= 1.1.12 "\
                              "to upgrade the config to a more recent version."
                              %self.CONFIG_VERSION)
                 #TODO: add popup warning
