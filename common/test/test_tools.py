@@ -41,6 +41,33 @@ UDEVADM_HAS_UUID = subprocess.Popen(['udevadm', 'info', '-e'],
                                     stderr = subprocess.DEVNULL
                                    ).communicate()[0].find(b'ID_FS_UUID=') > 0
 
+RSYNC_INSTALLED = tools.check_command('rsync')
+
+RSYNC_307_VERSION = """rsync  version 3.0.7  protocol version 30
+Copyright (C) 1996-2009 by Andrew Tridgell, Wayne Davison, and others.
+Web site: http://rsync.samba.org/
+Capabilities:
+    64-bit files, 64-bit inums, 32-bit timestamps, 64-bit long ints,
+    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,
+    append, ACLs, xattrs, iconv, symtimes
+
+rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
+are welcome to redistribute it under certain conditions.  See the GNU
+General Public Licence for details.
+"""
+RSYNC_310_VERSION = """rsync  version 3.1.0  protocol version 31
+Copyright (C) 1996-2013 by Andrew Tridgell, Wayne Davison, and others.
+Web site: http://rsync.samba.org/
+Capabilities:
+    64-bit files, 64-bit inums, 64-bit timestamps, 64-bit long ints,
+    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,
+    append, ACLs, xattrs, iconv, symtimes, prealloc
+
+rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
+are welcome to redistribute it under certain conditions.  See the GNU
+General Public Licence for details.
+"""
+
 class TestTools(unittest.TestCase):
     """
     All funtions test here come from tools.py
@@ -48,6 +75,7 @@ class TestTools(unittest.TestCase):
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
         self.subproc = None
+        self.run = False
 
     def tearDown(self):
         self.killProcess()
@@ -65,6 +93,10 @@ class TestTools(unittest.TestCase):
             self.subproc.kill()
             self.subproc.wait()
             self.subproc = None
+
+    def callback(self, func, *args):
+        func(*args)
+        self.run = True
 
     def test_get_share_path(self):
         share = tools.get_share_path()
@@ -263,6 +295,66 @@ class TestTools(unittest.TestCase):
         else:
             self.assertFalse(tools.power_status_available())
         self.assertIsInstance(tools.on_battery(), bool)
+
+    def test_execute(self):
+        self.assertEqual(tools._execute('true'), 0)
+        self.assertEqual(tools._execute('false'), 256)
+
+        callback = lambda x, y: self.callback(self.assertEqual, x, 'foo')
+        self.assertEqual(tools._execute('echo foo', callback), 0)
+        self.assertTrue(self.run, True)
+        self.run = False
+
+        callback = lambda x, y: self.callback(self.assertEqual, x, y)
+        self.assertEqual(tools._execute('echo foo', callback, 'foo'), 0)
+        self.assertTrue(self.run, True)
+        self.run = False
+
+        callback = lambda x, y: self.callback(self.fail,
+                                              'callback was called unexpectedly')
+        self.assertEqual(tools._execute('ls nonExistingFile', callback), 512)
+
+    def test_get_rsync_caps(self):
+        if RSYNC_INSTALLED:
+            caps = tools.get_rsync_caps()
+            self.assertIsInstance(caps, list)
+            self.assertGreaterEqual(len(caps), 1)
+
+        self.assertListEqual(tools.get_rsync_caps(data = RSYNC_307_VERSION),
+                             ['64-bit files',
+                              '64-bit inums',
+                              '32-bit timestamps',
+                              '64-bit long ints',
+                              'socketpairs',
+                              'hardlinks',
+                              'symlinks',
+                              'IPv6',
+                              'batchfiles',
+                              'inplace',
+                              'append',
+                              'ACLs',
+                              'xattrs',
+                              'iconv',
+                              'symtimes'])
+
+        self.assertListEqual(tools.get_rsync_caps(data = RSYNC_310_VERSION),
+                             ['progress2',
+                              '64-bit files',
+                              '64-bit inums',
+                              '64-bit timestamps',
+                              '64-bit long ints',
+                              'socketpairs',
+                              'hardlinks',
+                              'symlinks',
+                              'IPv6',
+                              'batchfiles',
+                              'inplace',
+                              'append',
+                              'ACLs',
+                              'xattrs',
+                              'iconv',
+                              'symtimes',
+                              'prealloc'])
 
     @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
                      'No UUIDs available on this system.')
