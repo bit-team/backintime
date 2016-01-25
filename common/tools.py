@@ -525,29 +525,15 @@ def get_rsync_caps(data = None):
     m = re.match(r'rsync\s*version\s*(\d\.\d)', data)
     if m and StrictVersion(m.group(1)) >= StrictVersion('3.1'):
         caps.append('progress2')
-    si = data.find( 'Capabilities:' )
-    if si < 0:
-        return caps
-    si = data.find( '\n', si )
-    if si < 0:
-        return caps
-    ei = data.find( '\n\n', si )
-    if ei < 0:
+
+    #all other capabilities are separated by ',' between
+    #'Capabilities:' and '\n\n'
+    m = re.match(r'.*Capabilities:(.+)\n\n.*', data, re.DOTALL)
+    if not m:
         return caps
 
-    data = data[ si + 1 : ei - 1 ]
-    data = data.split( '\n' )
-    all_caps = ''
-
-    for line in data:
-        line = line.strip()
-        if not line:
-            continue
-        if all_caps:
-            all_caps = all_caps + ' '
-        all_caps = all_caps + line
-
-    caps.extend(all_caps.split( ", " ))
+    for line in m.group(1).split('\n'):
+        caps.extend([i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
     return caps
 
 def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] ):

@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.1.13
+* Fix bug: last char of last element in tools.get_rsync_caps got cut off
 * Fix bug: TypeError in tools.get_git_ref_hash
 * Do not print 'SnapshotID' or 'SnapshotPath' if running 'snapshots-list' command (and other) with '--quiet'
 * Remove dependency 'ps'
