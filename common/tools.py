@@ -537,6 +537,22 @@ def get_rsync_caps(data = None):
     return caps
 
 def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] ):
+    """
+    Get rsync command and all args based on current profile in `config`.
+
+    Args:
+        config (config.Config): current config
+        no_perms (bool):        don't sync permissions (--no-p --no-g --no-o)
+                                if True. `config.preserve_acl() == True` or
+                                `config.preserve_xattr() == True` will overwrite
+                                this to False
+        use_modes (list):       if current mode is in this list add additional
+                                args for that mode
+
+    Returns:
+        str:                    rsync command with all args but without
+                                --include, --exclude, source and destination
+    """
     caps = get_rsync_caps()
     cmd = ''
     if config.is_run_nocache_on_local_enabled():
@@ -604,6 +620,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
 
     return cmd + ' '
 
+#TODO: check if we really need this
 def temp_failure_retry(func, *args, **kwargs):
     while True:
         try:
@@ -616,7 +633,13 @@ def temp_failure_retry(func, *args, **kwargs):
 
 def _get_md5sum_from_path(path):
     """
-    Return md5sum of path, af available system command md5sum()
+    Calculate md5sum for file in `path`.
+
+    Args:
+        path (str): full path to file
+
+    Returns:
+        str:        md5sum of file
     """
     md5 = hashlib.md5()
     with open(path, 'rb') as f:
@@ -625,23 +648,32 @@ def _get_md5sum_from_path(path):
             if not data:
                 break
             md5.update(data)
-    return md5.digest()
+    return md5.hexdigest()
 
 def check_cron_pattern(s):
     """
-    Check if s look like '0,10,13,15,17,20,23' or '*/6'
+    Check if `s` is a valid cron pattern.
+    Examples::
+
+        0,10,13,15,17,20,23
+        */6
+
+    Args:
+        s (str):    pattern to check
+
+    Returns:
+        bool:       True if `s` is a valid cron pattern
     """
     if s.find(' ') >= 0:
         return False
     try:
         if s.startswith('*/'):
-            if int(s[2:]) <= 24:
+            if s[2:].isdigit() and int(s[2:]) <= 24:
                 return True
             else:
                 return False
-        list_ = s.split(',')
-        for s in list_:
-            if int(s) <= 24:
+        for i in s.split(','):
+            if i.isdigit() and int(i) <= 24:
                 continue
             else:
                 return False
@@ -649,6 +681,7 @@ def check_cron_pattern(s):
     except ValueError:
         return False
 
+#TODO: check if this is still necessary
 def check_home_encrypt():
     """
     Return True if users home is encrypted
@@ -675,6 +708,13 @@ def check_home_encrypt():
     return False
 
 def load_env(f):
+    """
+    Load environ variables from file `f` into current environ.
+    Do not overwrite existing environ variables.
+
+    Args:
+        f (str):    full path to file with environ variables
+    """
     env = os.environ.copy()
     env_file = configfile.ConfigFile()
     env_file.load(f, maxsplit = 1)
@@ -690,21 +730,20 @@ def save_env(f):
     """
     Save environ variables to file that are needed by cron
     to connect to keyring. This will only work if the user is logged in.
+
+    Args:
+        f (str):    full path to file for environ variables
     """
     env = os.environ.copy()
     env_file = configfile.ConfigFile()
-    for i in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS', \
-              'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID', \
-              'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
-              'KDE_FULL_SESSION'):
-        set_env_key(env, env_file, i)
+    for key in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS', \
+                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID', \
+                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
+                'KDE_FULL_SESSION'):
+        if key in env:
+            env_file.set_str_value(key, env[key])
 
     env_file.save(f)
-    del(env_file)
-
-def set_env_key(env, env_file, key):
-    if key in env:
-        env_file.set_str_value(key, env[key])
 
 def keyring_supported():
     if keyring is None:
@@ -745,7 +784,14 @@ def set_password(*args):
 
 def get_mountpoint(path):
     """
-    Return MOUNTPOINT for given PATH
+    Get the mountpoint of `path`. If your HOME is on a separate partition
+    get_mountpoint('/home/user/foo') would return '/home'.
+
+    Args:
+        path (str): full path
+
+    Returns:
+        str:        mountpoint of the filesystem
     """
     path = os.path.realpath(os.path.abspath(path))
     while path != os.path.sep:
@@ -756,7 +802,18 @@ def get_mountpoint(path):
 
 def get_mount_args(path):
     """
-    Return a tuple of mount arguments from /proc/mounts
+    Get all /etc/mtab args for the filesystem of `path` as a list.
+    Example::
+
+        [DEVICE,      MOUNTPOINT, FILESYSTEM_TYPE, OPTIONS,    DUMP, PASS]
+        ['/dev/sda3', '/',        'ext4',          'defaults', '0',  '0']
+        ['/dev/sda1', '/boot',    'ext4',          'defaults', '0',  '0']
+
+    Args:
+        path (str): full path
+
+    Returns:
+        list:       mount args
     """
     mp = get_mountpoint(path)
     with open('/etc/mtab', 'r') as mounts:
@@ -768,7 +825,18 @@ def get_mount_args(path):
 
 def get_device(path):
     """
-    Return DEVICE for given PATH
+    Get the device for the filesystem of `path`.
+    Example::
+
+        /dev/sda1
+        /dev/mapper/vglinux
+        proc
+
+    Args:
+        path (str): full path
+
+    Returns:
+        str:        device
     """
     args = get_mount_args(path)
     if args:
@@ -777,7 +845,13 @@ def get_device(path):
 
 def get_filesystem(path):
     """
-    Return FILESYSTEM for given PATH
+    Get the filesystem type for the filesystem of `path`.
+
+    Args:
+        path (str): full path
+
+    Returns:
+        str:        filesystem
     """
     args = get_mount_args(path)
     if args and len(args) >= 3:
@@ -786,7 +860,13 @@ def get_filesystem(path):
 
 def get_uuid(dev):
     """
-    Return uuid for given block device
+    Get the UUID for the block device `dev`.
+
+    Args:
+        dev (str):  block device path
+
+    Returns:
+        str:        UUID
     """
     if dev and os.path.exists(dev):
         dev = os.path.realpath(dev)
@@ -806,16 +886,31 @@ def get_uuid(dev):
     return None
 
 def get_uuid_from_path(path):
+    """
+    Get the UUID for the for the filesystem of `path`.
+
+    Args:
+        path (str): full path
+
+    Returns:
+        str:        UUID
+    """
     return get_uuid(get_device(path))
 
 def get_filesystem_mount_info():
     """
-    Returns a dict of mount point string -> dict of filesystem info for entire system.
-    """
+    Get a dict of mount point string -> dict of filesystem info for
+    entire system.
 
-    # There may be multiple mount points inside of the root (/) mount, so iterate over mtab to find all non-special mounts.
+    Returns:
+        dict:   {MOUNTPOINT: {'original_uuid': UUID}}
+    """
+    # There may be multiple mount points inside of the root (/) mount, so
+    # iterate over mtab to find all non-special mounts.
     with open('/etc/mtab', 'r') as mounts:
-        return {items[1]: {'original_uuid': get_uuid(items[0])} for items in [mount_line.strip('\n').split(' ')[:2] for mount_line in mounts] if get_uuid(items[0]) != None}
+        return {items[1]: {'original_uuid': get_uuid(items[0])} for items in
+                [mount_line.strip('\n').split(' ')[:2] for mount_line in mounts]
+                if get_uuid(items[0]) != None}
 
 def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
     if len(new_line_indicator) >= size - 1:
@@ -836,24 +931,43 @@ def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '
 
 def syncfs():
     """
-    Writes any data buffered in memory out to disk
+    Sync any data buffered in memory to disk.
+
+    Returns:
+        bool:   True if successful
     """
     if check_command('sync'):
         return(_execute('sync') == 0)
 
 def update_cached_fs(dir):
     """
-    Changes not made through sshfs on remote files will not be recognized
-    immediately because of the local cache. But writing a new file into that
-    folder will update local cache.
+    Writes into a temporary file and remove that file again. Changes not made
+    through sshfs on remote files will not be recognized immediately because
+    of the local cache. But writing a new file into that folder will update
+    local cache.
+
+    Args:
+        dir (str):  full path to sshfs mounted folder
     """
     with tempfile.NamedTemporaryFile('w', dir = dir) as f:
         f.write('foo')
 
 def isRoot():
+    """
+    Check if we are root.
+
+    Returns:
+        bool:   True if we are root
+    """
     return os.geteuid() == 0
 
 def usingSudo():
+    """
+    Check if 'sudo' was used to start this process.
+
+    Returns:
+        bool:   True if process was started with sudo
+    """
     return isRoot() and os.getenv('HOME', '/root') != '/root'
 
 re_wildcard = re.compile(r'(?:\[|\]|\?|\*)')
@@ -861,8 +975,16 @@ re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[
 
 def patternHasNotEncryptableWildcard(pattern):
     """
-    Return True if path has wildcards [ ] ? *
+    Check if `pattern` has wildcards '[ ] ? *'.
     but return False for foo/*, foo/*/bar, */bar or **/bar
+
+    Args:
+        pattern (str):  path or pattern to check
+
+    Returns:
+        bool:           True if `pattern` has wildcards '[ ] ? *' but
+                        False if wildcard look like
+                        'foo/*', 'foo/*/bar', '*/bar' or '**/bar'
     """
     if not re_wildcard.search(pattern) is None:
         if re_separate_asterisk.search(pattern) is None:
@@ -875,7 +997,13 @@ ANACRON_TIME_FORMAT = '%Y%m%d'
 
 def readTimeStamp(f):
     """
-    Read date string from file and try to return datetime
+    Read date string from file `f` and try to return datetime.
+
+    Args:
+        f (str):            full path to timestamp file
+
+    Returns:
+        datetime.datetime:  date from timestamp file
     """
     if not os.path.exists(f):
         return
@@ -889,7 +1017,10 @@ def readTimeStamp(f):
 
 def writeTimeStamp(f):
     """
-    Write current date into file
+    Write current date and time into file `f`.
+
+    Args:
+        f (str):            full path to timestamp file
     """
     make_dirs(os.path.dirname(f))
     with open(f, 'w') as f:
