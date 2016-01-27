@@ -970,7 +970,8 @@ def usingSudo():
     """
     return isRoot() and os.getenv('HOME', '/root') != '/root'
 
-re_wildcard = re.compile(r'(?:\[|\]|\?|\*)')
+re_wildcard = re.compile(r'(?:\[|\]|\?)')
+re_asterisk = re.compile(r'\*')
 re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
 
 def patternHasNotEncryptableWildcard(pattern):
@@ -987,8 +988,9 @@ def patternHasNotEncryptableWildcard(pattern):
                         'foo/*', 'foo/*/bar', '*/bar' or '**/bar'
     """
     if not re_wildcard.search(pattern) is None:
-        if re_separate_asterisk.search(pattern) is None:
-            return False
+        return True
+
+    if not re_asterisk is None and not re_separate_asterisk.search(pattern) is None:
         return True
     return False
 
