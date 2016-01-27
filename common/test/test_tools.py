@@ -23,6 +23,7 @@ import random
 import gzip
 from copy import deepcopy
 from tempfile import NamedTemporaryFile
+from datetime import datetime
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import tools
@@ -356,6 +357,90 @@ class TestTools(unittest.TestCase):
                               'symtimes',
                               'prealloc'])
 
+    @unittest.skip('Not yet implemented')
+    def test_get_rsync_prefix(self):
+        pass
+
+    @unittest.skip('Not yet implemented')
+    def test_temp_failure_retry(self):
+        pass
+
+    def test_get_md5sum_from_path(self):
+        with NamedTemporaryFile() as f:
+            f.write(b'foo')
+            f.flush()
+
+            self.assertEqual(tools._get_md5sum_from_path(f.name),
+                             'acbd18db4cc2f85cedef654fccc4a4d8')
+
+    def test_check_cron_pattern(self):
+        self.assertTrue(tools.check_cron_pattern('0'))
+        self.assertTrue(tools.check_cron_pattern('0,10,13,15,17,20,23'))
+        self.assertTrue(tools.check_cron_pattern('*/6'))
+        self.assertFalse(tools.check_cron_pattern('a'))
+        self.assertFalse(tools.check_cron_pattern(' 1'))
+        self.assertFalse(tools.check_cron_pattern('0,10,13,1a,17,20,23'))
+        self.assertFalse(tools.check_cron_pattern('0,10,13, 15,17,20,23'))
+        self.assertFalse(tools.check_cron_pattern('*/6,8'))
+        self.assertFalse(tools.check_cron_pattern('*/6 a'))
+
+    @unittest.skip('Not yet implemented')
+    def test_check_home_encrypt(self):
+        pass
+
+    #load_env and save_env tests are in TestToolsEnviron below
+
+    @unittest.skip('Not yet implemented')
+    def test_keyring_supported(self):
+        pass
+
+    @unittest.skip('Not yet implemented')
+    def test_get_password(self):
+        pass
+
+    @unittest.skip('Not yet implemented')
+    def test_set_password(self):
+        pass
+
+    def test_get_mountpoint(self):
+        self.assertEqual(tools.get_mountpoint('/nonExistingFolder/foo/bar'), '/')
+        proc = os.path.join('/proc', str(os.getpid()), 'fd')
+        self.assertEqual(tools.get_mountpoint(proc), '/proc')
+
+    def test_get_mount_args(self):
+        rootArgs = tools.get_mount_args('/')
+        self.assertIsInstance(rootArgs, list)
+        self.assertGreaterEqual(len(rootArgs), 3)
+        self.assertEqual(rootArgs[1], '/')
+
+        procArgs = tools.get_mount_args('/proc')
+        self.assertGreaterEqual(len(procArgs), 3)
+        self.assertEqual(procArgs[0], 'proc')
+        self.assertEqual(procArgs[1], '/proc')
+        self.assertEqual(procArgs[2], 'proc')
+
+    def test_get_device(self):
+        self.assertEqual(tools.get_device('/proc'), 'proc')
+        self.assertRegex(tools.get_device('/sys'), r'sys.*')
+        self.assertRegex(tools.get_device('/nonExistingFolder/foo/bar'),
+                         r'/dev/.*')
+
+    def test_get_filesystem(self):
+        self.assertEqual(tools.get_filesystem('/proc'), 'proc')
+        self.assertRegex(tools.get_filesystem('/sys'), r'sys.*')
+        self.assertRegex(tools.get_filesystem('/nonExistingFolder/foo/bar').lower(),
+                         r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs)')
+
+    # tools.get_uuid() get called from tools.get_uuid_from_path.
+    # So we skip an extra unittest as it's hard to find a dev on all systems
+    @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
+                     'No UUIDs available on this system.')
+    def test_get_uuid_from_path(self):
+        uuid = tools.get_uuid_from_path('/nonExistingFolder/foo/bar')
+        self.assertIsInstance(uuid, str)
+        self.assertRegex(uuid.lower(), r'^[a-f0-9\-]+$')
+        self.assertEqual(len(uuid.replace('-', '')), 32)
+
     @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
                      'No UUIDs available on this system.')
     def test_get_filesystem_mount_info(self):
@@ -367,6 +452,94 @@ class TestTools(unittest.TestCase):
         self.assertGreater(len(mounts.items()), 0)
         self.assertIn('/', mounts)
         self.assertIn('original_uuid', mounts.get('/'))
+
+    @unittest.skip('Not yet implemented')
+    def test_wrap_line(self):
+        pass
+
+    def test_syncfs(self):
+        self.assertTrue(tools.syncfs())
+
+    def test_update_cached_fs(self):
+        try:
+            tools.update_cached_fs('/tmp')
+        except Exception as e:
+            self.fail('tools.update_cached_fs() raised exception {}'.format(str(e)))
+
+    def test_isRoot(self):
+        self.assertIsInstance(tools.isRoot(), bool)
+
+    def test_usingSudo(self):
+        self.assertIsInstance(tools.usingSudo(), bool)
+
+    def test_patternHasNotEncryptableWildcard(self):
+        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo'))
+        self.assertFalse(tools.patternHasNotEncryptableWildcard('/foo'))
+        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/*/bar'))
+        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/**/bar'))
+        self.assertFalse(tools.patternHasNotEncryptableWildcard('*/foo'))
+        self.assertFalse(tools.patternHasNotEncryptableWildcard('**/foo'))
+        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/*'))
+        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/**'))
+
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo?'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo[1-2]'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo*'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('*foo'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('**foo'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('*.foo'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo*bar'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo**bar'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo*/bar'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo**/bar'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo/*bar'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo/**bar'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo/*/bar*'))
+        self.assertTrue(tools.patternHasNotEncryptableWildcard('*foo/*/bar'))
+
+    def test_readTimeStamp(self):
+        with NamedTemporaryFile('wt') as f:
+            f.write('20160127 0124')
+            f.flush()
+            self.assertEqual(tools.readTimeStamp(f.name),
+                             datetime(2016, 1, 27, 1, 24))
+
+        with NamedTemporaryFile('wt') as f:
+            f.write('20160127')
+            f.flush()
+            self.assertEqual(tools.readTimeStamp(f.name),
+                             datetime(2016, 1, 27, 0, 0))
+
+    def test_writeTimeStamp(self):
+        with NamedTemporaryFile('rt') as f:
+            tools.writeTimeStamp(f.name)
+            s = f.read().strip('\n')
+            self.assertTrue(s.replace(' ', '').isdigit())
+            self.assertEqual(len(s), 13)
+
+    @unittest.skip('Not yet implemented')
+    def test_inhibitSuspend(self):
+        pass
+
+    @unittest.skip('Not yet implemented')
+    def test_unInhibitSuspend(self):
+        pass
+
+    @unittest.skip('Not yet implemented')
+    def test_getSshKeyFingerprint(self):
+        pass
+
+    @unittest.skip('Not yet implemented')
+    def test_readCrontab(self):
+        pass
+
+    @unittest.skip('Not yet implemented')
+    def test_writeCrontab(self):
+        pass
+
+    @unittest.skip('Not yet implemented')
+    def test_splitCommands(self):
+        pass
 
 class TestToolsEnviron(unittest.TestCase):
     def __init__(self, *args, **kwargs):
