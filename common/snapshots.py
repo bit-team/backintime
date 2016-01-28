@@ -725,7 +725,7 @@ class Snapshots:
 
                 #mount
                 try:
-                    hash_id = mount.Mount(cfg = self.config).mount()
+                    hash_id = mount.Mount(cfg = self.config, read_only = False).mount()
                 except MountException as ex:
                     logger.error(str(ex), self)
                     instance.exit_application()

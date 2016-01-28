@@ -1320,9 +1320,18 @@ class SettingsDialog( QDialog ):
         self.config.set_ssh_prefix_enabled(self.cb_ssh_prefix.isChecked() )
         self.config.set_ssh_prefix(self.txt_ssh_prefix.text() )
 
+        # TODO - consider a single API method to bridge the UI layer (settings dialog) and backend layer (config)
+        # when setting snapshots path rather than having to call the mount module from the UI layer
+        # 
+        # currently, setting snapshots path requires the path to be mounted. it seems that it might be nice,
+        # since the config object is more than a data structure, but has side-effect logic as well, to have the
+        # config.set_snapshots_path() method take care of everything it needs to perform its job
+        # (mounting and unmounting the fuse filesystem if necessary).
+        # https://en.wikipedia.org/wiki/Single_responsibility_principle
+
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
             #pre_mount_check
-            mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self)
+            mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self, read_only = False)
             try:
                 mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
             except MountException as ex:

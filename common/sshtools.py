@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2016 Germar Reitze
+#    Copyright (C) 2012-2016 Germar Reitze, Taylor Raack
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ class SSH(mount.MountControl):
 
     CHECK_FUSE_GROUP = False
 
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
+    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, read_only = True, **kwargs):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -55,6 +55,7 @@ class SSH(mount.MountControl):
         self.hash_id = hash_id
         self.parent = parent
         self.symlink = symlink
+        self.read_only = read_only
 
         #init MountControl
         super(SSH, self).__init__()
@@ -75,6 +76,7 @@ class SSH(mount.MountControl):
         self.setattr_kwargs('ionice', self.config.is_run_ionice_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('nocache', self.config.is_run_nocache_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('password', None, store = False, **kwargs)
+        self.setattr_kwargs('read_only', self.read_only, **kwargs)
 
         if not self.path:
             self.path = './'
@@ -115,6 +117,11 @@ class SSH(mount.MountControl):
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
         sshfs.extend(['-o', 'idmap=user'])
+
+        # use read only mount if requested
+        if self.read_only:
+            sshfs.extend(['-o', 'ro'])
+
         sshfs.extend([self.user_host_path, self.mountpoint])
         #bugfix: sshfs doesn't mount if locale in LC_ALL is not available on remote host
         #LANG or other envirnoment variable are no problem.

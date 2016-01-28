@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2016 Germar Reitze
+#    Copyright (C) 2012-2016 Germar Reitze, Taylor Raack
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ class EncFS_mount(mount.MountControl):
 
     CHECK_FUSE_GROUP = False
 
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
+    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, read_only = True, **kwargs):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -54,6 +54,7 @@ class EncFS_mount(mount.MountControl):
         self.hash_id = hash_id
         self.parent = parent
         self.symlink = symlink
+        self.read_only = read_only
 
         #init MountControl
         super(EncFS_mount, self).__init__()
@@ -68,6 +69,7 @@ class EncFS_mount(mount.MountControl):
         self.setattr_kwargs('password', None, store = False, **kwargs)
         self.setattr_kwargs('hash_id_1', None, **kwargs)
         self.setattr_kwargs('hash_id_2', None, **kwargs)
+        self.setattr_kwargs('read_only', self.read_only, **kwargs)
 
         self.set_default_args()
 
@@ -91,6 +93,8 @@ class EncFS_mount(mount.MountControl):
             encfs += ['--reverse']
         if not self.is_configured():
             encfs += ['--standard']
+        if self.read_only:
+            encfs += ['-o', 'ro']
         encfs += [self.path, self.mountpoint]
         logger.debug('Call mount command: %s'
                      %' '.join(encfs),
@@ -267,7 +271,7 @@ class EncFS_SSH(EncFS_mount):
     Mount / with encfs --reverse.
     rsync will then sync the encrypted view on / to the remote path
     """
-    def __init__(self, cfg = None, profile_id = None, mode = None, parent = None,*args, **kwargs):
+    def __init__(self, cfg = None, profile_id = None, mode = None, parent = None, read_only = True, *args, **kwargs):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -279,12 +283,13 @@ class EncFS_SSH(EncFS_mount):
             self.mode = self.config.get_snapshots_mode(self.profile_id)
 
         self.parent = parent
+        self.read_only = read_only
         self.args = args
         self.kwargs = kwargs
 
         self.ssh = sshtools.SSH(*self.args, symlink = False, **self.split_kwargs('ssh'))
         self.rev_root = EncFS_mount(*self.args, symlink = False, **self.split_kwargs('encfs_reverse'))
-        super(EncFS_SSH, self).__init__(*self.args, **self.split_kwargs('encfs'))
+        super(EncFS_SSH, self).__init__(*self.args, read_only = self.read_only, **self.split_kwargs('encfs'))
 
     def mount(self, *args, **kwargs):
         """

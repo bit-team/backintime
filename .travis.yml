@@ -6,14 +6,27 @@ language: python
 # ensures that we have UUID filesystem mounts for proper testing
 sudo: true
 
+addons:
+  # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
+  ssh_known_hosts: localhost
+
 python:
   - "3.4"
   - "3.5"
   - "3.5-dev" # 3.5 development branch
   - "nightly" # currently points to 3.6-dev
 
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y sshfs
+
 install:
   - pip install coveralls
+  # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
+  - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
+  - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+  # start ssh-agent so that we can add private keys
+  - eval `ssh-agent -s`
 
 script:
   # compile all files - ensure that syntax is correct
