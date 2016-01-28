@@ -77,7 +77,7 @@ def checkConfig(cfg, crontab = True):
         #pre_mount_check
         test = 'Run mount tests'
         announceTest()
-        mnt = mount.Mount(cfg = cfg, tmp_mount = True)
+        mnt = mount.Mount(cfg = cfg, tmp_mount = True, read_only = False)
         try:
             mnt.pre_mount_check(mode = mode, first_run = True)
         except MountException as ex:

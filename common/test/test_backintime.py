@@ -19,6 +19,7 @@ import os
 import re
 import subprocess
 import sys
+import unittest
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -66,9 +67,26 @@ under certain conditions; type `backintime --license' for details.
 
 
  ┌────────────────────────────────┐
+ │        Run mount tests         │
+ └────────────────────────────────┘
+Run mount tests: done
+
+ ┌────────────────────────────────┐
+ │             Mount              │
+ └────────────────────────────────┘
+INFO: mount local: /tmp/snapshots on .*
+Mount: done
+
+ ┌────────────────────────────────┐
  │  Check/prepair snapshot path   │
  └────────────────────────────────┘
 Check/prepair snapshot path: done
+
+ ┌────────────────────────────────┐
+ │            Unmount             │
+ └────────────────────────────────┘
+INFO: unmount local: /tmp/snapshots from .*
+Unmount: done
 
  ┌────────────────────────────────┐
  │          Check config          │
@@ -93,7 +111,20 @@ Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `backintime --license' for details.
 
-''', re.MULTILINE))
+INFO: Lock(
+INFO: Inhibit Suspend started. Reason: take snapshot)?
+INFO: mount local: /tmp/snapshots on .*
+INFO: Take a new snapshot. Profile: 1 Main profile
+INFO: Call rsync to take the snapshot
+INFO: Save config file
+INFO: Save permissions
+INFO: Create info file
+INFO: Remove backups older than: .*
+INFO: Keep min free disk space: 1024 MiB
+INFO: Keep min 2% free inodes
+INFO: unmount local: /tmp/snapshots from .*
+INFO: Unlock(
+INFO: Release inhibit Suspend)?''', re.MULTILINE))
 
         # get snapshot id
         subprocess.check_output(["./backintime","--config","test/config","snapshots-list"])
@@ -109,6 +140,7 @@ Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `backintime --license' for details.
 
+INFO: mount local: /tmp/snapshots on .*
 
 INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
         

@@ -770,7 +770,7 @@ class MountControl(object):
             if lock_pid == self.pid:
                 if is_tmp == self.tmp_mount:
                     continue
-            if tools.is_process_alive(lock_pid):
+            if tools.is_process_alive(int(lock_pid)):
                 return True
             else:
                 logger.debug('Remove old and invalid lock %s'

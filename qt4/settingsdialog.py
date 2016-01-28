@@ -1056,7 +1056,7 @@ class SettingsDialog( QDialog ):
         self.set_combo_value( self.combo_modes, self.config.get_snapshots_mode(), t = 'str' )
 
         #local
-        self.edit_snapshots_path.setText( self.config.get_snapshots_path( mode = 'local') )
+        self.edit_snapshots_path.setText( self.config.get_local_path() )
 
         #ssh
         self.txt_ssh_host.setText( self.config.get_ssh_host() )
@@ -1212,6 +1212,8 @@ class SettingsDialog( QDialog ):
                             }
 
         #snapshots path
+        self.config.set_local_path(self.edit_snapshots_path.text())
+
         self.config.set_host_user_profile(
                 self.txt_host.text(),
                 self.txt_user.text(),

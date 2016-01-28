@@ -85,6 +85,7 @@ before installing
 * recomended
     - sshfs
     - encfs
+    - bindfs
 
 * Command
 
@@ -125,7 +126,7 @@ before installing
     first value is default:
     --no-fuse-group | --fuse-group (only COMMON)
         Some distributions require user to be in group 'fuse' to use
-        sshfs and encfs. This toggles the check on or off.
+        sshfs, encfs, and bindfs. This toggles the check on or off.
 
     --python3 | --python (all)
         Use either 'python3' or 'python' to start Python Version 3.x
