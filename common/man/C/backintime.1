@@ -138,7 +138,7 @@ You should install at least packages called 'bash', 'coreutils' and 'rsync'.
 You will have to change users default shell from '/bin/sh' to '/opt/bin/bash'
 in '/etc/passwd'. To add '/opt/bin:/opt/sbin:' to the start of the PATH environment
 you can use 'Add prefix to SSH commands' in 'Expert Options'
-with 'PATH=/opt/bin:/opt/sbin:\\\$PATH'.
+with 'PATH=/opt/bin:/opt/sbin:\\$PATH'.
 .PP
 To check if it does work you can compare the output of '/bin/cp \-\-help'
 and '/opt/bin/cp \-\-help'. If 'ssh <user>@<host> cp \-\-help' called from
