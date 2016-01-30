@@ -298,7 +298,7 @@ def make_dirs( path ):
             os.makedirs( path )
         except Exception as e:
             logger.error("Failed to make dirs '%s': %s"
-                         %(path, str(e)), self, 1)
+                         %(path, str(e)), traceDepth = 1)
     return os.path.isdir(path)
 
 def pids():
