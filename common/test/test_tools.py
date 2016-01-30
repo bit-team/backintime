@@ -21,8 +21,9 @@ import sys
 import subprocess
 import random
 import gzip
+import stat
 from copy import deepcopy
-from tempfile import NamedTemporaryFile
+from tempfile import NamedTemporaryFile, TemporaryDirectory
 from datetime import datetime
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -220,6 +221,12 @@ class TestTools(unittest.TestCase):
         path = '/tmp/foobar{}'.format(random.randrange(100, 999))
         self.assertTrue(tools.make_dirs(path))
         os.rmdir(path)
+
+    def test_make_dirs_not_writeable(self):
+        with TemporaryDirectory() as d:
+            os.chmod(d, stat.S_IRUSR)
+            path = os.path.join(d, 'foobar{}'.format(random.randrange(100, 999)))
+            self.assertFalse(tools.make_dirs(path))
 
     def test_pids(self):
         pids = tools.pids()
