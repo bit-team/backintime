@@ -532,21 +532,67 @@ class TestTools(generic.TestCase):
     def test_unInhibitSuspend(self):
         pass
 
-    @unittest.skip('Not yet implemented')
+    @unittest.skipIf(not tools.check_command('ssh-keygen'),
+                     "'ssh-keygen' not found.")
     def test_getSshKeyFingerprint(self):
-        pass
+        self.assertIsNone(tools.getSshKeyFingerprint(os.path.abspath(__file__)))
 
-    @unittest.skip('Not yet implemented')
-    def test_readCrontab(self):
-        pass
+        with TemporaryDirectory() as d:
+            key = os.path.join(d, 'key')
+            cmd = ['ssh-keygen', '-q', '-N', '', '-f', key]
+            proc = subprocess.Popen(cmd)
+            proc.communicate()
 
-    @unittest.skip('Not yet implemented')
-    def test_writeCrontab(self):
-        pass
+            fingerprint = tools.getSshKeyFingerprint(key)
+            self.assertIsInstance(fingerprint, str)
+            self.assertRegex(fingerprint, r'^[a-fA-F0-9:]+$')
 
-    @unittest.skip('Not yet implemented')
+    @unittest.skipIf(not tools.check_command('crontab'),
+                     "'crontab' not found.")
+    def test_readWriteCrontab(self):
+        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        oldCrontab = tools.readCrontab()
+        self.assertIsInstance(oldCrontab, list)
+
+        testLine = '#BackInTime Unittest from {}. Test probably failed. You can remove this line.'.format(now)
+        self.assertTrue(tools.writeCrontab(oldCrontab + [testLine,]))
+
+        newCrontab = tools.readCrontab()
+        self.assertIn(testLine, newCrontab)
+        self.assertEqual(len(newCrontab), len(oldCrontab) + 1)
+
+        self.assertTrue(tools.writeCrontab(oldCrontab))
+        self.assertListEqual(oldCrontab, tools.readCrontab())
+
     def test_splitCommands(self):
-        pass
+        ret = list(tools.splitCommands(['echo foo;'],
+                                       head = 'echo start;',
+                                       tail = 'echo end',
+                                       maxLength = 40))
+        self.assertEqual(len(ret), 1)
+        self.assertEqual(ret[0], 'echo start;echo foo;echo end')
+
+        ret = list(tools.splitCommands(['echo foo;']*3,
+                                       head = 'echo start;',
+                                       tail = 'echo end',
+                                       maxLength = 40))
+        self.assertEqual(len(ret), 2)
+        self.assertEqual(ret[0], 'echo start;echo foo;echo foo;echo end')
+        self.assertEqual(ret[1], 'echo start;echo foo;echo end')
+
+        ret = list(tools.splitCommands(['echo foo;']*3,
+                                       head = 'echo start;',
+                                       tail = 'echo end',
+                                       maxLength = 0))
+        self.assertEqual(len(ret), 1)
+        self.assertEqual(ret[0], 'echo start;echo foo;echo foo;echo foo;echo end')
+
+        ret = list(tools.splitCommands(['echo foo;']*3,
+                                       head = 'echo start;',
+                                       tail = 'echo end',
+                                       maxLength = -10))
+        self.assertEqual(len(ret), 1)
+        self.assertEqual(ret[0], 'echo start;echo foo;echo foo;echo foo;echo end')
 
 class TestToolsEnviron(generic.TestCase):
     def __init__(self, *args, **kwargs):
