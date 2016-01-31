@@ -562,7 +562,8 @@ class TestTools(generic.TestCase):
         self.assertEqual(len(newCrontab), len(oldCrontab) + 1)
 
         self.assertTrue(tools.writeCrontab(oldCrontab))
-        self.assertListEqual(oldCrontab, tools.readCrontab())
+        if oldCrontab:
+            self.assertListEqual(oldCrontab, tools.readCrontab())
 
     def test_splitCommands(self):
         ret = list(tools.splitCommands(['echo foo;'],
