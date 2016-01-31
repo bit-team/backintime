@@ -1109,20 +1109,29 @@ def unInhibitSuspend(cookie, bus, dbus_props):
 
 def getSshKeyFingerprint(path):
     """
-    Return the hex fingerprint of a given ssh key
+    Get the hex fingerprint from a given ssh key.
+
+    Args:
+        path (str): full path to key file
+
+    Returns:
+        str:        hex fingerprint from key
     """
     if not os.path.exists(path):
         return
     cmd = ['ssh-keygen', '-l', '-f', path]
     proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = open(os.devnull, 'w'))
     output = proc.communicate()[0]
-    m = re.match(b'\d+\s+([a-zA-Z0-9:]+).*', output)
+    m = re.match(b'\d+\s+([a-fA-F0-9:]+).*', output)
     if m:
         return m.group(1).decode('UTF-8')
 
 def readCrontab():
     """
-    Read a list of lines from users crontab
+    Read users crontab.
+
+    Returns:
+        list:   crontab lines
     """
     cmd = ['crontab', '-l']
     if not check_command(cmd[0]):
@@ -1146,7 +1155,18 @@ def readCrontab():
 
 def writeCrontab(lines):
     """
-    Write a list of lines to users crontab
+    Write to users crontab.
+
+    Note:
+        This overwrite the whole crontab. So to keep the old crontab and only
+        add new entries you need to read it first with tools.readCrontab(),
+        append new entries to the list and write it back.
+
+    Args:
+        lines (list, tuple):    lines that should be written to crontab
+
+    Returns:
+        bool:                   True if successful
     """
     assert isinstance(lines, (list, tuple)), 'lines is not list or tuple type: %s' % lines
     with tempfile.NamedTemporaryFile(mode = 'wt') as f:
@@ -1168,10 +1188,27 @@ def writeCrontab(lines):
                      %len(lines))
         return True
 
-def splitCommands(cmds, head = '', tail = '', maxLength = 0, additionalChars = 0):
+def splitCommands(cmds, head = '', tail = '', maxLength = 0):
+    """
+    Split a list of commands `cmds` into multiple commands with each length
+    lower than `maxLength`.
+
+    Args:
+        cmds (list):            commands
+        head (str):             command that need to run first on every iteration
+                                of `cmds`
+        tail (str):             command that need to run after every iteration
+                                of `cmds`
+        maxLength (int):        maximum length a command could be.
+                                Don't split if <= 0
+
+    Yields:
+        str:                    new command with length < `maxLength` in form of
+                                'head cmds[0] cmds[n] tail'
+    """
     while cmds:
         s = head
-        while cmds and ((len(s + cmds[0] + tail) + additionalChars <= maxLength) or not maxLength):
+        while cmds and ((len(s + cmds[0] + tail) <= maxLength) or maxLength <= 0):
             s += cmds.pop(0)
         s += tail
         yield s

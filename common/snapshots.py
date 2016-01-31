@@ -1240,8 +1240,7 @@ class Snapshots:
             for cmd in tools.splitCommands(cmds,
                                            head = head,
                                            tail = tail,
-                                           maxLength = maxLength,
-                                           additionalChars = additionalChars):
+                                           maxLength = maxLength - additionalChars):
                 self._execute(self.cmd_ssh(cmd, quote = True))
         else:
             logger.info("[smart remove] remove snapshots: %s"

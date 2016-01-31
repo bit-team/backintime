@@ -528,8 +528,7 @@ class SSH(mount.MountControl):
         returncode = 0
         for cmd in tools.splitCommands(tail,
                                        head = head,
-                                       maxLength = maxLength,
-                                       additionalChars = additionalChars):
+                                       maxLength = maxLength - additionalChars):
             if cmd.endswith('; '):
                 cmd += 'echo ""'
             c = ssh[:]
