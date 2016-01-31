@@ -26,12 +26,12 @@ import grp
 from datetime import date, datetime
 from threading import Thread
 from tempfile import TemporaryDirectory, NamedTemporaryFile
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from test import generic
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config
 import configfile
 import snapshots
-import logger
 
 CURRENTUID = os.geteuid()
 CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
@@ -47,9 +47,9 @@ IS_ROOT = os.geteuid() == 0
 
 TMP_FLOCK = NamedTemporaryFile()
 
-class GenericSnapshotsTestCase(unittest.TestCase):
+class GenericSnapshotsTestCase(generic.TestCase):
     def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
+        super(GenericSnapshotsTestCase, self).setUp()
         self.cfgFile = os.path.abspath(os.path.join(__file__,
                                                     os.pardir,
                                                     'config'))
@@ -712,7 +712,7 @@ class TestSID(GenericSnapshotsTestCase):
         self.assertTrue(os.path.isfile(infoFile))
 
         #load fileInfo in a new snapshot
-        sid2 = snapshots.SID('20151219-010324-123', self.cfg)        
+        sid2 = snapshots.SID('20151219-010324-123', self.cfg)
         self.assertDictEqual(sid2.fileInfo, d)
 
     def test_log(self):

@@ -19,19 +19,15 @@ import os
 import sys
 from tempfile import NamedTemporaryFile
 import unittest
+from test import generic
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
 import configfile
-import logger
 
-
-class TestConfigFile(unittest.TestCase):
+class TestConfigFile(generic.TestCase):
     """
     Tests for the ConfigFile class in the configfile module
     """
-    def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
-
     def test_save(self):
         """
         Saves the config file  in the tmp direcory
@@ -411,9 +407,9 @@ class TestConfigFile(unittest.TestCase):
                                         'baz': 'false',
                                         'bla': '0'})
 
-class TestConfigFileWithProfiles(unittest.TestCase):
+class TestConfigFileWithProfiles(generic.TestCase):
     def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
+        super(TestConfigFileWithProfiles, self).setUp()
         self.cfg = configfile.ConfigFileWithProfiles('DefaultProfileName')
         self.cfg.add_profile('foo')
         self.cfg.add_profile('bar')

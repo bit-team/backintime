@@ -20,16 +20,15 @@ import subprocess
 import os
 import sys
 from threading import Thread
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from test import generic
 
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from applicationinstance import ApplicationInstance
-import logger
 import tools
 
-
-class TestApplicationInstance(unittest.TestCase):
+class TestApplicationInstance(generic.TestCase):
     def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
+        super(TestApplicationInstance, self).setUp()
         self.temp_file = '/tmp/temp.txt'
         self.file_name = "/tmp/file_with_pid"
         self.inst = ApplicationInstance(os.path.abspath(self.file_name), False)

@@ -18,10 +18,10 @@ import unittest
 import os
 import sys
 import itertools
+from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import backintime
-import logger
 
 def shuffleArgs(*args):
     """
@@ -39,11 +39,10 @@ def shuffleArgs(*args):
                 ret.append(j)
         yield ret
 
-class TestArgParser(unittest.TestCase):
+class TestArgParser(generic.TestCase):
     def setUp(self):
-        #import pdb; pdb.set_trace()
+        super(TestArgParser, self).setUp()
         backintime.create_parsers()
-        logger.DEBUG = '-v' in sys.argv #False
 
     def tearDown(self):
         global parsers

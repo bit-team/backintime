@@ -25,12 +25,12 @@ import stat
 from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 from datetime import datetime
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from test import generic
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
 import config
 import configfile
-import logger
 
 ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
 ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
@@ -70,12 +70,12 @@ are welcome to redistribute it under certain conditions.  See the GNU
 General Public Licence for details.
 """
 
-class TestTools(unittest.TestCase):
+class TestTools(generic.TestCase):
     """
     All funtions test here come from tools.py
     """
     def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
+        super(TestTools, self).setUp()
         self.subproc = None
         self.run = False
 
@@ -548,13 +548,13 @@ class TestTools(unittest.TestCase):
     def test_splitCommands(self):
         pass
 
-class TestToolsEnviron(unittest.TestCase):
+class TestToolsEnviron(generic.TestCase):
     def __init__(self, *args, **kwargs):
         super(TestToolsEnviron, self).__init__(*args, **kwargs)
         self.env = deepcopy(os.environ)
 
     def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
+        super(TestToolsEnviron, self).setUp()
         self.temp_file = '/tmp/temp.txt'
         os.environ = deepcopy(self.env)
 

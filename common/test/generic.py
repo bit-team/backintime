@@ -1,5 +1,5 @@
 # Back In Time
-# Copyright (C) 2015 Germar Reitze
+# Copyright (C) 2016 Germar Reitze
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,7 +15,18 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from test import *
+import os
+import sys
+import unittest
 
-if __name__ == '__main__':
-    pass
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import logger
+
+class TestCase(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        logger.APP_NAME = 'BIT_unittest'
+        logger.openlog()
+        super(TestCase, self).__init__(*args, **kwargs)
+
+    def setUp(self):
+        logger.DEBUG = '-v' in sys.argv

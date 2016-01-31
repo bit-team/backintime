@@ -22,10 +22,10 @@ import stat
 import sys
 import tempfile
 import unittest
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from test import generic
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config
-import logger
 
 @contextmanager
 def tempdir():
@@ -35,10 +35,10 @@ def tempdir():
     finally:
         shutil.rmtree(name)
 
-class TestConfig(unittest.TestCase):
+class TestConfig(generic.TestCase):
 
     def setUp(self):
-        logger.DEBUG = '-v' in sys.argv
+        super(TestConfig, self).setUp()
         self.config = config.Config()
 
     def test_set_snapshots_path_test_writes(self):
