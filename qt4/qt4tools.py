@@ -184,31 +184,36 @@ class TimeLine(QTreeWidget):
     def _resetHeaderData(self):
         self.now = date.today()
         #list of tuples with (text, startDate, endDate)
-        self.headerData = [ (#today
-                                _('Today'),
-                                datetime.combine(self.now, datetime.min.time()),
-                                datetime.combine(self.now, datetime.max.time())
-                            ),
-                            (#yesterday
-                                _('Yesterday'),
-                                datetime.combine(self.now - timedelta(days = 1), datetime.min.time()),
-                                datetime.combine(self.now - timedelta(days = 1), datetime.max.time())
-                            ),
-                            (#this week
-                                _('This week'),
-                                datetime.combine(self.now - timedelta(self.now.weekday()), datetime.min.time()),
-                                datetime.combine(self.now - timedelta(days = 2), datetime.max.time())
-                            ),
-                            (#last week
-                                _('Last week'),
-                                datetime.combine(self.now - timedelta(self.now.weekday() + 7), datetime.min.time()),
-                                datetime.combine(self.now - timedelta(self.now.weekday() + 1), datetime.max.time())
-                            ),
-                            (#the rest of current month. Otherwise this months header would be above today
-                                date(self.now.year, self.now.month, 1).strftime('%B').capitalize(),
-                                datetime.combine(self.now - timedelta(self.now.day), datetime.min.time()),
-                                datetime.combine(self.now - timedelta(self.now.weekday() + 8), datetime.max.time())
-                            )]
+        self.headerData = []
+        todayMin = datetime.combine(self.now, datetime.min.time())
+        todayMax = datetime.combine(self.now, datetime.max.time())
+        self.headerData.append((_('Today'), todayMin, todayMax))
+
+        yesterdayMin = datetime.combine(self.now - timedelta(days = 1), datetime.min.time())
+        yesterdayMax = datetime.combine(todayMin - timedelta(hours = 1), datetime.max.time())
+        self.headerData.append((_('Yesterday'), yesterdayMin, yesterdayMax))
+
+        thisWeekMin = datetime.combine(self.now - timedelta(self.now.weekday()), datetime.min.time())
+        thisWeekMax = datetime.combine(yesterdayMin - timedelta(hours = 1), datetime.max.time())
+        if thisWeekMin < thisWeekMax:
+            self.headerData.append((_('This week'), thisWeekMin, thisWeekMax))
+
+        lastWeekMin = datetime.combine(self.now - timedelta(self.now.weekday() + 7), datetime.min.time())
+        lastWeekMax = datetime.combine(self.headerData[-1][1] - timedelta(hours = 1), datetime.max.time())
+        self.headerData.append((_('Last week'), lastWeekMin, lastWeekMax))
+
+        #the rest of current month. Otherwise this months header would be above today
+        thisMonthMin = datetime.combine(self.now - timedelta(self.now.day - 1), datetime.min.time())
+        thisMonthMax = datetime.combine(lastWeekMin - timedelta(hours = 1), datetime.max.time())
+        if thisMonthMin < thisMonthMax:
+            self.headerData.append((thisMonthMin.strftime('%B').capitalize(),
+                                    thisMonthMin, thisMonthMax))
+
+        #the rest of last month
+        lastMonthMax = datetime.combine(self.headerData[-1][1] - timedelta(hours = 1), datetime.max.time())
+        lastMonthMin = datetime.combine(date(lastMonthMax.year, lastMonthMax.month, 1), datetime.min.time())
+        self.headerData.append((lastMonthMin.strftime('%B').capitalize(),
+                                lastMonthMin, lastMonthMax))
 
     def addRoot(self, sid):
         self.rootItem = self.addSnapshot(sid)
