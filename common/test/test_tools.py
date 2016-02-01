@@ -662,5 +662,122 @@ class TestToolsEnviron(generic.TestCase):
                 msg = 'i = %s, k = %s' %(i, k)
                 self.assertEqual(test_env.get_str_value(k), str(i), msg)
 
+class TestToolsUniquenessSet(generic.TestCase):
+    #TODO: add test for follow_symlink
+    def test_check_unique(self):
+        with TemporaryDirectory() as d:
+            for i in range(1, 5):
+                os.mkdir(os.path.join(d, str(i)))
+            t1 = os.path.join(d, '1', 'foo')
+            t2 = os.path.join(d, '2', 'foo')
+            t3 = os.path.join(d, '3', 'foo')
+            t4 = os.path.join(d, '4', 'foo')
+
+            for i in (t1, t2):
+                with open(i, 'wt') as f:
+                    f.write('bar')
+            for i in (t3, t4):
+                with open(i, 'wt') as f:
+                    f.write('42')
+
+            #same size and mtime
+            uniqueness = tools.UniquenessSet(dc = False,
+                                             follow_symlink = False,
+                                             list_equal_to = '')
+            self.assertTrue(uniqueness.check_for(t1))
+            self.assertFalse(uniqueness.check_for(t2))
+            self.assertTrue(uniqueness.check_for(t3))
+            self.assertFalse(uniqueness.check_for(t4))
+
+            os.utime(t1, times = (0, 0))
+            os.utime(t3, times = (0, 0))
+
+            #same size different mtime
+            uniqueness = tools.UniquenessSet(dc = False,
+                                             follow_symlink = False,
+                                             list_equal_to = '')
+            self.assertTrue(uniqueness.check_for(t1))
+            self.assertTrue(uniqueness.check_for(t2))
+            self.assertTrue(uniqueness.check_for(t3))
+            self.assertTrue(uniqueness.check_for(t4))
+
+            #same size different mtime use deep_check
+            uniqueness = tools.UniquenessSet(dc = True,
+                                             follow_symlink = False,
+                                             list_equal_to = '')
+            self.assertTrue(uniqueness.check_for(t1))
+            self.assertFalse(uniqueness.check_for(t2))
+            self.assertTrue(uniqueness.check_for(t3))
+            self.assertFalse(uniqueness.check_for(t4))
+
+    def test_check_unique_hardlinks(self):
+        with TemporaryDirectory() as d:
+            for i in range(1, 5):
+                os.mkdir(os.path.join(d, str(i)))
+            t1 = os.path.join(d, '1', 'foo')
+            t2 = os.path.join(d, '2', 'foo')
+            t3 = os.path.join(d, '3', 'foo')
+            t4 = os.path.join(d, '4', 'foo')
+
+            with open(t1, 'wt') as f:
+                f.write('bar')
+            os.link(t1, t2)
+            self.assertEqual(os.stat(t1).st_ino, os.stat(t2).st_ino)
+
+            with open(t3, 'wt') as f:
+                f.write('42')
+            os.link(t3, t4)
+            self.assertEqual(os.stat(t3).st_ino, os.stat(t4).st_ino)
+
+            uniqueness = tools.UniquenessSet(dc = True,
+                                             follow_symlink = False,
+                                             list_equal_to = '')
+            self.assertTrue(uniqueness.check_for(t1))
+            self.assertFalse(uniqueness.check_for(t2))
+            self.assertTrue(uniqueness.check_for(t3))
+            self.assertFalse(uniqueness.check_for(t4))
+
+    def test_check_equal(self):
+        with TemporaryDirectory() as d:
+            for i in range(1, 5):
+                os.mkdir(os.path.join(d, str(i)))
+            t1 = os.path.join(d, '1', 'foo')
+            t2 = os.path.join(d, '2', 'foo')
+            t3 = os.path.join(d, '3', 'foo')
+            t4 = os.path.join(d, '4', 'foo')
+
+            for i in (t1, t2):
+                with open(i, 'wt') as f:
+                    f.write('bar')
+            for i in (t3, t4):
+                with open(i, 'wt') as f:
+                    f.write('42')
+
+            #same size and mtime
+            uniqueness = tools.UniquenessSet(dc = False,
+                                             follow_symlink = False,
+                                             list_equal_to = t1)
+            self.assertTrue(uniqueness.check_for(t1))
+            self.assertTrue(uniqueness.check_for(t2))
+            self.assertFalse(uniqueness.check_for(t3))
+
+            os.utime(t1, times = (0, 0))
+
+            #same size different mtime
+            uniqueness = tools.UniquenessSet(dc = False,
+                                             follow_symlink = False,
+                                             list_equal_to = t1)
+            self.assertTrue(uniqueness.check_for(t1))
+            self.assertFalse(uniqueness.check_for(t2))
+            self.assertFalse(uniqueness.check_for(t3))
+
+            #same size different mtime use deep_check
+            uniqueness = tools.UniquenessSet(dc = True,
+                                             follow_symlink = False,
+                                             list_equal_to = t1)
+            self.assertTrue(uniqueness.check_for(t1))
+            self.assertTrue(uniqueness.check_for(t2))
+            self.assertFalse(uniqueness.check_for(t3))
+
 if __name__ == '__main__':
     unittest.main()
