@@ -625,6 +625,7 @@ class MainWindow( QMainWindow ):
             self.btn_take_snapshot.setEnabled( True )
 
             #TODO: check if there is a more elegant way than always get a new snapshot list which is very expencive (time)
+            tools.update_cached_fs(self.config.get_snapshots_full_path())
             snapshots_list = snapshots.listSnapshots(self.config)
 
             if snapshots_list != self.snapshots_list:
