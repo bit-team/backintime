@@ -1158,8 +1158,8 @@ def writeCrontab(lines):
     Write to users crontab.
 
     Note:
-        This overwrite the whole crontab. So to keep the old crontab and only
-        add new entries you need to read it first with tools.readCrontab(),
+        This will overwrite the whole crontab. So to keep the old crontab and
+        only add new entries you need to read it first with tools.readCrontab(),
         append new entries to the list and write it back.
 
     Args:
@@ -1215,9 +1215,19 @@ def splitCommands(cmds, head = '', tail = '', maxLength = 0):
 
 class UniquenessSet:
     """
-    A class to check for uniqueness of snapshots of the same [item]
+    Check for uniqueness or equality of files.
+
+    Args:
+        dc (bool):              if True use deep check which will compare files
+                                md5sums if they are of same size but no hardlinks
+                                (don't have the same inode). If False use files
+                                size and mtime
+        follow_symlink (bool):  if True check symlinks target instead of the link
+        list_equal_to (str):    full path to file. If not empty only return
+                                equal files to the given path instead of
+                                unique files.
     """
-    def __init__(self, dc = False, follow_symlink = False, list_equal_to = False):
+    def __init__(self, dc = False, follow_symlink = False, list_equal_to = ''):
         self.deep_check = dc
         self.follow_sym = follow_symlink
         self._uniq_dict = {}      # if not self._uniq_dict[size] -> size already checked with md5sum
@@ -1231,6 +1241,19 @@ class UniquenessSet:
                 self.reference = (st.st_size, int(st.st_mtime))
 
     def check_for(self, input_path):
+        """
+        Check file `input_path` for either uniqueness or equality
+        (depending on `list_equal_to` from constructor).
+
+        Args:
+            input_path (str):   full path to file
+
+        Returns:
+            bool:               True if file is unique and `list_equal_to` is
+                                empty.
+                                Or True if file is equal to file in
+                                `list_equal_to`
+        """
         # follow symlinks ?
         path = input_path
         if self.follow_sym and os.path.islink(input_path):
@@ -1243,7 +1266,13 @@ class UniquenessSet:
 
     def check_unique(self, path):
         """
-        Store a unique key for path, return True if path is unique
+        Check file `path` for uniqueness and store a unique key for `path`.
+
+        Args:
+            path (str): full path to file
+
+        Returns:
+            bool:       True if file is unique
         """
         # check
         if self.deep_check:
@@ -1282,7 +1311,13 @@ class UniquenessSet:
 
     def check_equal(self, path):
         """
-        Return True if path and reference are equal
+        Check if `path` is equal to the file in `list_equal_to` from constructor.
+
+        Args:
+            path (str): full path to file
+
+        Returns:
+            bool:       True if file is equal
         """
         st = os.stat(path)
         if self.deep_check:
