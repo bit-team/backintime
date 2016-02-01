@@ -47,24 +47,7 @@ IS_ROOT = os.geteuid() == 0
 
 TMP_FLOCK = NamedTemporaryFile()
 
-class GenericSnapshotsTestCase(generic.TestCase):
-    def setUp(self):
-        super(GenericSnapshotsTestCase, self).setUp()
-        self.cfgFile = os.path.abspath(os.path.join(__file__,
-                                                    os.pardir,
-                                                    'config'))
-        self.cfg = config.Config(self.cfgFile)
-        #use a new TemporaryDirectory for snapshotPath to avoid
-        #side effects on leftovers
-        self.tmpDir = TemporaryDirectory()
-        self.cfg.dict['profile1.snapshots.path'] = self.tmpDir.name
-        self.snapshotPath = self.cfg.get_snapshots_full_path()
-        os.makedirs(self.snapshotPath)
-
-    def tearDown(self):
-        self.tmpDir.cleanup()
-
-class TestSnapshots(GenericSnapshotsTestCase):
+class TestSnapshots(generic.SnapshotsTestCase):
     def setUp(self):
         super(TestSnapshots, self).setUp()
         self.sn = snapshots.Snapshots(self.cfg)
@@ -257,7 +240,7 @@ class TestSnapshots(GenericSnapshotsTestCase):
                                  r'--include="/baz/1/2" '   +
                                  r'--exclude="\*" / $')
 
-class TestRestore(GenericSnapshotsTestCase):
+class TestRestore(generic.SnapshotsTestCase):
     def setUp(self):
         super(TestRestore, self).setUp()
         self.sn = snapshots.Snapshots(self.cfg)
@@ -280,7 +263,7 @@ class TestRestore(GenericSnapshotsTestCase):
         self.assertTrue(self.run)
         self.assertTrue(self.sn.restore_permission_failed)
 
-class TestRestorePathInfo(GenericSnapshotsTestCase):
+class TestRestorePathInfo(generic.SnapshotsTestCase):
     def setUp(self):
         self.pathFolder = '/tmp/test/foo'
         self.pathFile   = '/tmp/test/bar'
@@ -414,7 +397,7 @@ class TestRestorePathInfo(GenericSnapshotsTestCase):
         self.assertEqual(s.st_uid, CURRENTUID)
         self.assertEqual(s.st_gid, CURRENTGID)
 
-class TestDelete(GenericSnapshotsTestCase):
+class TestDelete(generic.SnapshotsTestCase):
     def setUp(self):
         super(TestDelete, self).setUp()
         self.sn = snapshots.Snapshots(self.cfg)
@@ -457,7 +440,7 @@ class TestDelete(GenericSnapshotsTestCase):
         self.sn.delete_path(self.sid, 'foo')
         self.assertFalse(os.path.exists(self.testDirFullPath))
 
-class TestSID(GenericSnapshotsTestCase):
+class TestSID(generic.SnapshotsTestCase):
     def test_new_object_with_valid_date(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         sid2 = snapshots.SID('20151219-010324', self.cfg)
@@ -764,7 +747,7 @@ class TestSID(GenericSnapshotsTestCase):
             msg = 'writing to {} raised PermissionError unexpectedly!'
             self.fail(msg.format(testFile))
 
-class TestNewSnapshot(GenericSnapshotsTestCase):
+class TestNewSnapshot(generic.SnapshotsTestCase):
     def test_create_new(self):
         new = snapshots.NewSnapshot(self.cfg)
         self.assertFalse(new.exists())
@@ -792,7 +775,7 @@ class TestNewSnapshot(GenericSnapshotsTestCase):
         self.assertFalse(os.path.exists(saveToContinuePath))
         self.assertFalse(new.saveToContinue)
 
-class TestIterSnapshots(GenericSnapshotsTestCase):
+class TestIterSnapshots(generic.SnapshotsTestCase):
     def setUp(self):
         super(TestIterSnapshots, self).setUp()
 

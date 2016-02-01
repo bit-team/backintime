@@ -18,9 +18,11 @@
 import os
 import sys
 import unittest
+from tempfile import TemporaryDirectory
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import logger
+import config
 
 class TestCase(unittest.TestCase):
     def __init__(self, *args, **kwargs):
@@ -30,3 +32,20 @@ class TestCase(unittest.TestCase):
 
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
+
+class SnapshotsTestCase(TestCase):
+    def setUp(self):
+        super(SnapshotsTestCase, self).setUp()
+        self.cfgFile = os.path.abspath(os.path.join(__file__,
+                                                    os.pardir,
+                                                    'config'))
+        self.cfg = config.Config(self.cfgFile)
+        #use a new TemporaryDirectory for snapshotPath to avoid
+        #side effects on leftovers
+        self.tmpDir = TemporaryDirectory()
+        self.cfg.dict['profile1.snapshots.path'] = self.tmpDir.name
+        self.snapshotPath = self.cfg.get_snapshots_full_path()
+        os.makedirs(self.snapshotPath)
+
+    def tearDown(self):
+        self.tmpDir.cleanup()
