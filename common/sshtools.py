@@ -40,7 +40,7 @@ class SSH(mount.MountControl):
     rsync over ssh. Other commands run remote over ssh.
     """
 
-    CHECK_FUSE_GROUP = True
+    CHECK_FUSE_GROUP = False
 
     def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
         self.config = cfg

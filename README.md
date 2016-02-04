@@ -123,7 +123,7 @@ before installing
 ##configure options
 
     first value is default:
-    --fuse-group | --no-fuse-group (only COMMON)
+    --no-fuse-group | --fuse-group (only COMMON)
         Some distributions require user to be in group 'fuse' to use
         sshfs and encfs. This toggles the check on or off.
 

@@ -12,7 +12,7 @@ UNINSTALL_DIRS="$(mktemp)"
 
 #set default options
 PYTHON="--python3"
-FUSE_GROUP="--fuse-group"
+FUSE_GROUP="--no-fuse-group"
 
 USR_BIN_FILES="backintime backintime-askpass"
 FUSE_FILES="sshtools.py encfstools.py"
@@ -25,10 +25,10 @@ echo "--python"
 echo "\tuse 'python' to start Python3"
 echo "--python3"
 echo "\tuse 'python3' to start Python3"
-echo "--fuse-group"
-echo "\tmake sure user is in group 'fuse' to be able to use fuse-based file-systems"
 echo "--no-fuse-group"
 echo "\tdo not check for 'fuse' group membership (if not necessary on destination platform)"
+echo "--fuse-group"
+echo "\tmake sure user is in group 'fuse' to be able to use fuse-based file-systems"
 }
 
 addInstallFiles () {

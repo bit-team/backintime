@@ -39,7 +39,7 @@ class EncFS_mount(mount.MountControl):
     Mount encrypted paths with encfs.
     """
 
-    CHECK_FUSE_GROUP = True
+    CHECK_FUSE_GROUP = False
 
     def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
         self.config = cfg
