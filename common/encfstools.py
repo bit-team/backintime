@@ -678,6 +678,7 @@ class Decode(object):
             return ret
         return path
 
+    #TODO: rename this, 'list' is corrupting sphinx doc
     def list(self, list_):
         """
         decode a list of paths

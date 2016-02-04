@@ -94,15 +94,15 @@ def get_backintime_path(*path):
 
 def register_backintime_path(*path):
     """
-    Add BackInTime path `path` to sys.path so subsequent imports can
+    Add BackInTime path `path` to :py:data:`sys.path` so subsequent imports can
     discover them.
 
     Args:
         *path (str):    paths that should be joind to 'backintime'
 
     Note:
-        Duplicate in qt4/qt4tools.py because modules in qt4 folder would need
-        this to actually import tools.
+        Duplicate in :py:func:`qt4/qt4tools.py` because modules in qt4 folder
+        would need this to actually import :py:mod:`tools`.
     """
     path = get_backintime_path(*path)
     if not path in sys.path:
@@ -429,11 +429,11 @@ def prepare_path( path ):
 
 def power_status_available():
     """
-    Check if org.freedesktop.UPower is available so that tools.on_battery
-    would return the correct power status.
+    Check if org.freedesktop.UPower is available so that
+    :py:func:`tools.on_battery` would return the correct power status.
 
     Returns:
-        bool:   True if tools.on_battery can report power status
+        bool:   True if :py:func:`tools.on_battery` can report power status
     """
     if dbus:
         try:
@@ -467,7 +467,7 @@ def on_battery():
 
 def _execute( cmd, callback = None, user_data = None ):
     """
-    Execute command `cmd` returns its returncode. Returncode is
+    Execute command `cmd` and return its returncode. Returncode is
     multiplied by 256. Commands stdout can be send to handler `callback`.
 
     Args:
@@ -516,7 +516,7 @@ def get_rsync_caps(data = None):
         data (str): 'rsync --version' output. This is just for unittests.
 
     Returns:
-        list:       str's with rsyncs capabilities
+        list:       List of str with rsyncs capabilities
     """
     if not data:
         data = read_command_output( 'rsync --version' )
@@ -543,9 +543,10 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
     Args:
         config (config.Config): current config
         no_perms (bool):        don't sync permissions (--no-p --no-g --no-o)
-                                if True. `config.preserve_acl() == True` or
-                                `config.preserve_xattr() == True` will overwrite
-                                this to False
+                                if True.
+                                :py:func:`config.Config.preserve_acl` == True or
+                                :py:func:`config.Config.preserve_xattr` == True
+                                will overwrite this to False
         use_modes (list):       if current mode is in this list add additional
                                 args for that mode
 
@@ -976,16 +977,16 @@ re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[
 
 def patternHasNotEncryptableWildcard(pattern):
     """
-    Check if `pattern` has wildcards '[ ] ? *'.
-    but return False for foo/*, foo/*/bar, */bar or **/bar
+    Check if `pattern` has wildcards '[ ] ? \*'.
+    but return False for foo/\*, foo/\*/bar, \*/bar or \*\*/bar
 
     Args:
         pattern (str):  path or pattern to check
 
     Returns:
-        bool:           True if `pattern` has wildcards '[ ] ? *' but
+        bool:           True if `pattern` has wildcards '[ ] ? \*' but
                         False if wildcard look like
-                        'foo/*', 'foo/*/bar', '*/bar' or '**/bar'
+                        'foo/\*', 'foo/\*/bar', '\*/bar' or '\*\*/bar'
     """
     if not re_wildcard.search(pattern) is None:
         return True
@@ -1159,14 +1160,16 @@ def writeCrontab(lines):
 
     Note:
         This will overwrite the whole crontab. So to keep the old crontab and
-        only add new entries you need to read it first with tools.readCrontab(),
-        append new entries to the list and write it back.
+        only add new entries you need to read it first with
+        :py:func:`tools.readCrontab`, append new entries to the list and write
+        it back.
 
     Args:
-        lines (list, tuple):    lines that should be written to crontab
+        lines (:py:class:`list`, :py:class:`tuple`):
+                    lines that should be written to crontab
 
     Returns:
-        bool:                   True if successful
+        bool:       True if successful
     """
     assert isinstance(lines, (list, tuple)), 'lines is not list or tuple type: %s' % lines
     with tempfile.NamedTemporaryFile(mode = 'wt') as f:
@@ -1203,8 +1206,11 @@ def splitCommands(cmds, head = '', tail = '', maxLength = 0):
                                 Don't split if <= 0
 
     Yields:
-        str:                    new command with length < `maxLength` in form of
-                                'head cmds[0] cmds[n] tail'
+        str:                    new command with length < `maxLength`
+
+    Example::
+
+        head cmds[0] cmds[n] tail
     """
     while cmds:
         s = head

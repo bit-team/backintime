@@ -251,7 +251,8 @@ class Snapshots:
         name->uid will be cached to speed up subsequent requests.
 
         Args:
-            name (str, bytes):  username to search for
+            name (:py:class:`str`, :py:class:`bytes`):
+                                username to search for
             callback (method):  callable which will handle a given message
             backup (int):       UID wich will be used if the username is unknown
                                 on this machine
@@ -291,7 +292,8 @@ class Snapshots:
         name->gid will be cached to speed up subsequent requests.
 
         Args:
-            name (str, bytes):  groupname to search for
+            name (:py:class:`str`, :py:class:`bytes`):
+                                groupname to search for
             callback (method):  callable which will handle a given message
             backup (int):       GID wich will be used if the groupname is unknown
                                 on this machine
@@ -460,7 +462,41 @@ class Snapshots:
                 pass
             self.restore_callback( callback, ok, "chmod %s %04o" % ( path.decode(errors = 'ignore'), info[0] ) )
 
-    def restore( self, sid, paths, callback = None, restore_to = '', delete = False, backup = False, no_backup = False):
+    def restore(self,
+                sid,
+                paths,
+                callback = None,
+                restore_to = '',
+                delete = False,
+                backup = False,
+                no_backup = False):
+        """
+        Restore one or more files from snapshot `sid` to either original
+        or a different destination. Restore is done with rsync. If available
+        permissions will be restored from `fileinfo.bz2`.
+
+        Args:
+            sid (SID):                  snapshot from whom to restore
+            paths (:py:class:`list`, :py:class:`tuple` or :py:class:`str`):
+                                        single path (str) or multiple
+                                        paths (list, tuple) that should be
+                                        restored. For every path this will run
+                                        a new rsync process. Permissions will be
+                                        restored for all paths in one run
+            callback (method):          callable instance which will handle
+                                        messages
+            restore_to (str):           full path to restore to. If empty
+                                        restore to original destiantion
+            delete (bool):              delete newer files which are not in the
+                                        snapshot
+            backup (bool):              create backup files (\*.backup.YYYYMMDD)
+                                        before changing or deleting local files.
+                                        This will override
+                                        `config.is_backup_on_restore_enabled()`
+            no_backup(bool):            do not backup files before changing or
+                                        deleting local files. This will override
+                                        `config.is_backup_on_restore_enabled()`
+        """
         instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False, flock = True)
         if instance.check():
             instance.start_application()
@@ -598,9 +634,32 @@ class Snapshots:
         instance.exit_application()
 
     def backup_suffix(self):
+        """
+        Get suffix for backup files.
+
+        Returns:
+            str:    backup suffix in form of '.backup.YYYYMMDD'
+        """
         return '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 
     def remove_snapshot( self, sid, execute = True, quote = '\"'):
+        """
+        Fix permissions than remove snapshot `sid` or just return necessary
+        commands to remove if `execute` is False.
+
+        Args:
+            sid (SID):              snapshot to remove
+            execute (bool):         if True remove immediately else just return
+                                    the commands to remove the snapshot
+            quote (str):            use this string to quote names. Depending on
+                                    the way the command is called it need
+                                    different quotes
+
+        Returns:
+            tuple:                  two commands (str) for fixing permissions
+                                    and removing snapshot. Only if `execute` is
+                                    False
+        """
         if len( sid.sid ) <= 1:
             return
         path = sid.path( use_mode = ['ssh', 'ssh_encfs'])
@@ -614,6 +673,20 @@ class Snapshots:
             return((find, rm))
 
     def take_snapshot( self, force = False ):
+        """
+        Wrapper for :py:func:`_take_snapshot` which will prepair and clean up
+        things for the main :py:func:`_take_snapshot` method. This will check
+        that no other snapshots are running at the same time, there is nothing
+        prohibing a new snapshot (e.g. on battery) and the profile is configured
+        correctly. This will also mount and unmount remote destinations.
+
+        Args:
+            force (bool):   force taking a new snapshot even if the profile is
+                            not scheduled or the machine is running on battery
+
+        Returns:
+            bool:           True if successful created a new snapshot
+        """
         ret_val, ret_error = False, True
         sleep = True
 
@@ -756,6 +829,17 @@ class Snapshots:
         return ret_val
 
     def _filter_rsync_progress(self, line):
+        """
+        Filter rsync's stdout for progress informations and store them in
+        '~/.local/share/backintime/worker<N>.progress' file.
+
+        Args:
+            line (str): stdout line from rsync
+
+        Returns:
+            str:        `line` if it had no progress infos. None if `line` was a
+                        progress
+        """
         m = self.reRsyncProgress.match(line)
         if m:
             if m.group(5).strip():
@@ -772,6 +856,19 @@ class Snapshots:
         return line
 
     def _exec_rsync_callback( self, line, params ):
+        """
+        Parse rsync's stdout, send it to take_snapshot_message and
+        take_snapshot_log. Also check if there has been changes or errors in
+        current rsync.
+
+        Args:
+            line (str):     stdout line from rsync
+            params (list):  list of two bool '[error, changes]'. Using siteefect
+                            on changing list items will change original
+                            list, too. If rsync reported an error `params[0]`
+                            will be set to True. If rsync reported a changed
+                            file `params[1]` will be set to True
+        """
         if not line:
             return
 
@@ -790,23 +887,55 @@ class Snapshots:
                     self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
     def _exec_rsync_compare_callback( self, line, params ):
+        """
+        Parse rsync's stdout and send it to take_snapshot_log. Also check if
+        there has been changes current rsync. This is only used for
+        'rsync --dry-run' (without 'full rsync mode') to check if there where
+        changes.
+
+        Args:
+            line (str):     stdout line from rsync
+            params (list):  list of two bool '[error, changes]'. Using siteefect
+                            on changing list items will change original
+                            list, too. If rsync reported a changed file
+                            `params[1]` will be set to True
+        """
         if len(line) >= 13:
             if line.startswith( 'BACKINTIME: ' ):
                 if line[12] != '.':
                     params[1] = True
                     self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
-    def _create_directory( self, folder ):
-        if not tools.make_dirs(folder):
-            logger.error("Can't create folder: %s" % folder, self)
-            self.set_take_snapshot_message( 1, _('Can\'t create folder: %s') % folder )
+    def make_dirs(self, path):
+        """
+        Wrapper for :py:func:`tools.make_dirs()`. Create directories `path`
+        recursive and return success. If not successful send error-message to
+        log.
+
+        Args:
+            path (str): fullpath to directories that should be created
+
+        Returns:
+            bool:       True if successful
+        """
+        if not tools.make_dirs(path):
+            logger.error("Can't create folder: %s" % path, self)
+            self.set_take_snapshot_message(1, _('Can\'t create folder: %s') % path)
             time.sleep(2) #max 1 backup / second
             return False
-
         return True
 
-    #replace with SID
-    def _save_path_info( self, fileinfo, path ):
+    def _save_path_info(self, fileinfo, path):
+        """
+        Collect permission infos about `path` and store them into `fileinfo`.
+
+        Args:
+            fileinfo (FileInfoDict):
+                            dict of: {path: (permission, user, group)}
+                            Using sideefect on changing dict item will change
+                            original dict, too.
+            path (str):     full path to file or folder
+        """
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if path and os.path.exists(path):
             info = os.stat(path)
@@ -815,7 +944,28 @@ class Snapshots:
             group = self.get_group_name(info.st_gid).encode('utf-8', 'replace')
             fileinfo[path] = (mode, user, group)
 
-    def _take_snapshot( self, sid, now, include_folders ): # ignore_folders, dict, force ):
+    def _take_snapshot(self, sid, now, include_folders):
+        """
+        This is the main backup routine. It will take a new snapshot and store
+        permissions of included files and folders into `fileinfo.bz2`.
+
+        Args:
+            sid (SID):                  snapshot ID which the new snapshot
+                                        should get
+            now (datetime.datetime):    date and time when this snapshot was
+                                        started
+            include_folders (list):     folders to include. list of
+                                        tuples (item, int) where `int` is 0
+                                        if `item` is a folder or 1 if `item`
+                                        is a file
+
+        Returns:
+            list:                       list of two bool (`ret_val`, `ret_error`)
+                                        where `ret_val` is True if a new
+                                        snapshot has been created and
+                                        `ret_error` is True if there was an
+                                        error during taking the snapshot
+        """
         self.set_take_snapshot_message( 0, _('...') )
 
         new_snapshot = NewSnapshot(self.config)
@@ -894,7 +1044,7 @@ class Snapshots:
                         prev_sid.setLastChecked()
                         return [ False, False ]
 
-            if not self._create_directory(new_snapshot.path()):
+            if not self.make_dirs(new_snapshot.path()):
                 return [ False, True ]
 
             if not full_rsync:
@@ -923,7 +1073,7 @@ class Snapshots:
                 self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']) ) )
 
         else:
-            if not new_snapshot.saveToContinue and not self._create_directory(new_snapshot.pathBackup()):
+            if not new_snapshot.saveToContinue and not self.make_dirs(new_snapshot.pathBackup()):
                 return [ False, True ]
 
         #sync changed folders
@@ -1086,7 +1236,26 @@ class Snapshots:
 
         return [ True, has_errors ]
 
-    def _smart_remove_keep_all_( self, snapshots, keep_snapshots, min_date, max_date ):
+    def _smart_remove_keep_all_(self,
+                                snapshots,
+                                keep_snapshots,
+                                min_date,
+                                max_date):
+        """
+        Add all snapshots between `min_date` and `max_date` to `keep_snapshots`.
+
+        Args:
+            snapshots (list):           full list of :py:class:`SID` objects
+            keep_snapshots (list):      list of previous for keep selected
+                                        snapshots that should be extended
+            min_date (datetime.date):   minimum date for snapshots to keep
+            max_date (datetime.date):   maximum date for snapshots to keep
+
+        Returns:
+            list:                       extended list of snapshots that should
+                                        be keept
+        """
+        #TODO: remove keep_snapshots and just return snapshots selected in here
         min_id = SID(min_date)
         max_id = SID(max_date)
 
@@ -1099,7 +1268,27 @@ class Snapshots:
 
         return keep_snapshots
 
-    def _smart_remove_keep_first_( self, snapshots, keep_snapshots, min_date, max_date ):
+    def _smart_remove_keep_first_(self,
+                                  snapshots,
+                                  keep_snapshots,
+                                  min_date,
+                                  max_date):
+        """
+        Add only the first snapshot between `min_date` and `max_date` to
+        `keep_snapshots`.
+
+        Args:
+            snapshots (list):           full list of :py:class:`SID` objects
+            keep_snapshots (list):      list of previous for keep selected
+                                        snapshots that should be extended
+            min_date (datetime.date):   minimum date for snapshots to keep
+            max_date (datetime.date):   maximum date for snapshots to keep
+
+        Returns:
+            list:                       extended list of snapshots that should
+                                        be keept
+        """
+        #TODO: remove keep_snapshots and just return snapshots selected in here
         min_id = SID(min_date)
         max_id = SID(max_date)
 
@@ -1113,7 +1302,17 @@ class Snapshots:
 
         return keep_snapshots
 
-    def inc_month( self, date ):
+    def inc_month(self, date):
+        """
+        First day of next month of `date` with respect on new years. So if
+        `date` is December this will return 1st of January next year.
+
+        Args:
+            date (datetime.date):   old date that should be increased
+
+        Returns:
+            datetime.date:          1st day of next month
+        """
         y = date.year
         m = date.month + 1
         if m > 12:
@@ -1121,7 +1320,17 @@ class Snapshots:
             y = y + 1
         return datetime.date( y, m, 1 )
 
-    def dec_month( self, date ):
+    def dec_month(self, date):
+        """
+        First day of previous month of `date` with respect on previous years.
+        So if `date` is January this will return 1st of December previous year.
+
+        Args:
+            date (datetime.date):   old date that should be decreased
+
+        Returns:
+            datetime.date:          1st day of previous month
+        """
         y = date.year
         m = date.month - 1
         if m < 1:
@@ -1129,7 +1338,27 @@ class Snapshots:
             y = y - 1
         return datetime.date( y, m, 1 )
 
-    def smart_remove( self, now_full, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month ):
+    def smart_remove(self,
+                     now_full,
+                     keep_all,
+                     keep_one_per_day,
+                     keep_one_per_week,
+                     keep_one_per_month):
+        """
+        Remove old snapshots based on configurable intervals.
+
+        Args:
+            now_full (datetime.datetime):   date and time when take_snapshot was
+                                            started
+            keep_all (int):                 keep all snapshots for the
+                                            last `keep_all` days
+            keep_one_per_day (int):         keep one snapshot per day for the
+                                            last `keep_one_per_day` days
+            keep_one_per_week (int):        keep one snapshot per week for the
+                                            last `keep_one_per_week` weeks
+            keep_one_per_month (int):       keep one snapshot per month for the
+                                            last `keep_one_per_month` months
+        """
         snapshots = listSnapshots(self.config)
         logger.debug("Considered: %s" %snapshots, self)
         if len( snapshots ) <= 1:
@@ -1142,6 +1371,7 @@ class Snapshots:
         now = now_full.date()
 
         #keep the last snapshot
+        #TODO: use tools.OrderedSet for keep_snapshots and update it 'keep_snapshot |= self._smart_remove_keep_all_()'
         keep_snapshots = [ snapshots[0] ]
 
         #keep all for the last keep_all days
@@ -1249,7 +1479,21 @@ class Snapshots:
                 self.set_take_snapshot_message( 0, _('Smart remove') + ' %s/%s' %(i, len(del_snapshots)) )
                 self.remove_snapshot( sid )
 
-    def _free_space( self, now ):
+    def _free_space(self, now):
+        """
+        Remove old snapshots on based on different rules (only if enabled).
+        First rule is to remove snapshots older than X years. Next will call
+        :py:func:`smart_remove` to remove snapshots based on
+        configurable intervals. Third rule is to remove the oldest snapshot
+        until there is enough free space. Last rule will remove the oldest
+        snapshot until there are enough free inodes.
+
+        'last_snapshot' symlink will be fixed when done.
+
+        Args:
+            now (datetime.datetime):    date and time when take_snapshot was
+                                        started
+        """
         snapshots = listSnapshots(self.config, reverse = False)
         last_snapshot = snapshots[-1]
 
@@ -1358,6 +1602,14 @@ class Snapshots:
             self.create_last_snapshot_symlink(snapshots[-1])
 
     def _stat_free_space_local(self, path):
+        """
+        Get free space on filsystem containing `path` in MiB using
+        :py:func:`os.statvfs()`. Depending of remote SFTP server this might fail
+        on sshfs mounted shares.
+
+        Args:
+            path (str): full path
+        """
         try:
             info = os.statvfs(path)
             if info.f_blocks != info.f_bavail:
@@ -1370,6 +1622,10 @@ class Snapshots:
         logger.warning('Failed to stat snapshot path', self)
 
     def _stat_free_space_ssh(self):
+        """
+        Get free space on remote filsystem in MiB. This will call `df` on remote
+        host and parse its output.
+        """
         if self.config.get_snapshots_mode() not in ('ssh', 'ssh_encfs'):
             return None
 
@@ -1390,6 +1646,22 @@ class Snapshots:
         logger.warning('Failed to get free space on remote', self)
 
     def _execute( self, cmd, callback = None, user_data = None, filters = () ):
+        """
+        Execute command `cmd` and return its returncode. Returncode is
+        multiplied by 256. Commands stdout can be send to handler `callback`.
+
+        Args:
+            cmd (str):          command that should be executed
+            callback (method):  function that will be called with every new line
+                                on stdout. Need to handle two arguments.
+            user_data (str):    additional arg send to `callback`
+            filters (tuple):    tuple of methods that get called for each stdout
+                                line from command before the line is past to
+                                `callback`
+
+        Returns:
+            int:                returncode of command `cmd` multiplied by 256
+        """
         logger.debug("Call command \"%s\"" %cmd, self, 1)
         ret_val = 0
 
@@ -1424,8 +1696,36 @@ class Snapshots:
 
         return ret_val
 
-    def filter_for(self, base_sid, base_path, snapshots_list, list_diff_only  = False, flag_deep_check = False, list_equal_to = False):
-        "return a list of available snapshots (including 'now'), eventually filtered for uniqueness"
+    def filter_for(self,
+                   base_sid,
+                   base_path,
+                   snapshots_list,
+                   list_diff_only  = False,
+                   flag_deep_check = False,
+                   list_equal_to = ''):
+        """
+        Filter snapshots from `snapshots_list` based on whether `base_path`
+        file is included and optional if the snapshot is unique or equal to
+        `list_equal_to`.
+
+        Args:
+            base_sid (SID):         snapshot ID that contained the original
+                                    file `base_path`
+            base_path (str):        path to file on root filesystem.
+            snapshots_list (list):  List of :py:class:`SID` objects that should
+                                    be filtered
+            list_diff_only (bool):  if True only return unique snapshots. Which
+                                    means if a file is exactly the same in
+                                    different snapshots only the first snapshot
+                                    will be listed
+            flag_deep_check (bool): use md5sum to check uniqueness of files.
+                                    More acurate but slow
+            list_equal_to (str):    full path to file. If not empty only return
+                                    snapshots which have exactly the same file
+                                    as this file
+        Returns:
+            list:                   filtered list of :py:class:`SID` objects
+        """
         snapshots_filtered = []
 
         base_full_path = base_sid.pathBackup(base_path)
@@ -1482,6 +1782,21 @@ class Snapshots:
         return snapshots_filtered
 
     def cmd_ssh(self, cmd, quote = False, use_modes = ['ssh', 'ssh_encfs'] ):
+        """
+        Add ssh, nice and ionice command to `cmd` to run that command on
+        remote host.
+
+        Args:
+            cmd (str):          command
+            quote (bool):       wrap single tick (') quotemarks around `cmd`
+            use_modes (list):   list of modes in which the result should
+                                change to `ssh USER@HOST cmd` instead of
+                                just `cmd`
+
+        Returns:
+            str:                command with or without ssh prefix based on
+                                `use_modes` and current mode
+        """
         mode = self.config.get_snapshots_mode()
         if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
             (ssh_host, ssh_port, ssh_user, ssh_path, ssh_cipher) = self.config.get_ssh_host_port_user_path_cipher()
@@ -1570,8 +1885,8 @@ class Snapshots:
         """
         def handle_error(fn, path, excinfo):
             """
-            Error handler for `delete_path`. This will fix permissions and try
-            again to remove the file.
+            Error handler for :py:func:`delete_path`. This will fix permissions
+            and try again to remove the file.
 
             Args:
                 fn (method):    callable which failed before
@@ -1625,7 +1940,7 @@ class Snapshots:
 
     def flockExclusive(self):
         """
-        Block `take_snapshots` from other profiles or users
+        Block :py:func:`take_snapshots` from other profiles or users
         and run them serialized
         """
         if self.config.use_global_flock():
@@ -1656,8 +1971,8 @@ class Snapshots:
 
         Args:
             includeFolders (list):  folders to include. list of tuples (item, int)
-                                    Where int is 0 if item is a folder or
-                                    1 if item is a file.
+                                    Where `int` is 0 if `item` is a folder or
+                                    1 if `item` is a file
             excludeFolders (list):  list of folders to exclude
 
         Returns:
@@ -1710,8 +2025,8 @@ class Snapshots:
 
         Args:
             includeFolders (list):  folders to include. list of tuples (item, int)
-                                    Where int is 0 if item is a folder or
-                                    1 if item is a file.
+                                    Where `int` is 0 if `item` is a folder or
+                                    1 if `item` is a file
 
         Returns:
             tuple:                  two item tuple of
@@ -1765,7 +2080,7 @@ class SID(object):
     Snapshot ID object used to gather all information for a snapshot
 
     Args:
-        date (str, datetime.date or datetime.datetime):
+        date (:py:class:`str`, :py:class:`datetime.date` or :py:class:`datetime.datetime`):
                                 used for creating this snapshot. str must be in
                                 snapshot ID format (e.g 20151218-173512-123)
         cfg (config.Config):    current config
@@ -1813,10 +2128,11 @@ class SID(object):
         Compare snapshots based on self.sid
 
         Args:
-            other (SID, str):       an other SID or str instance
+            other (:py:class:`SID`, :py:class:`str`):
+                        an other :py:class:`SID` or str instance
 
         Returns:
-            bool:                   True if other is equal
+            bool:       True if other is equal
         """
         if isinstance(other, SID):
             return self.sid == other.sid and self.profileID == other.profileID
@@ -1833,10 +2149,11 @@ class SID(object):
         Sort snapshots (alphabetical order) based on self.sid
 
         Args:
-            other (SID, str):       an other SID or str instance
+            other (:py:class:`SID`, :py:class:`str`):
+                        an other :py:class:`SID` or str instance
 
         Returns:
-            bool:                   True if other is lower
+            bool:       True if other is lower
         """
         if isinstance(other, SID):
             return self.sid < other.sid
@@ -2404,7 +2721,7 @@ def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):
         reverse (bool):             sort reverse
 
     Returns:
-        list:                       list of SID objects
+        list:                       list of :py:class:`SID` objects
     """
     ret = list(iterSnapshots(cfg, includeNewSnapshot))
     ret.sort(reverse = reverse)

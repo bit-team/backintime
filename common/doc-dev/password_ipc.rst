@@ -5,3 +5,4 @@ password_ipc module
     :members:
     :undoc-members:
     :show-inheritance:
+    :private-members:

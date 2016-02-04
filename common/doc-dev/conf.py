@@ -34,8 +34,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.pardir)))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
 ]
 
@@ -102,6 +101,9 @@ pygments_style = 'sphinx'
 # If true, keep warnings as "system message" paragraphs in the built documents.
 #keep_warnings = False
 
+# -- Intersphinx options --------------------------------------------------
+
+intersphinx_mapping = {'python': ('https://docs.python.org/3.4', None)}
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -185,7 +187,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'BackInTimedoc'
+htmlhelp_basename = 'BackInTimeDoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
