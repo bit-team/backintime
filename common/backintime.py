@@ -19,6 +19,7 @@ import os
 import sys
 import gettext
 import argparse
+import atexit
 
 import config
 import logger
@@ -649,6 +650,8 @@ def setQuiet(args):
     if args.quiet:
         # do not replace with subprocess.DEVNULL - will not work
         sys.stdout = open(os.devnull, 'w')
+        atexit.register(sys.stdout.close)
+        atexit.register(force_stdout.close)
     return force_stdout
 
 class printLicense(argparse.Action):
