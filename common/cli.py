@@ -35,7 +35,7 @@ def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
 
     snapshots_list = snapshots.listSnapshots(cfg)
 
-    sid = selectSnapshot(snapshots_list, snapshot_id, 'SnapshotID to restore')
+    sid = selectSnapshot(snapshots_list, cfg, snapshot_id, 'SnapshotID to restore')
     print('')
     RestoreDialog(cfg, sid, what, where, **kwargs).run()
 
@@ -43,7 +43,7 @@ def remove(cfg, snapshot_ids = None, force = None):
     snapshots_list = snapshots.listSnapshots(cfg)
     if not snapshot_ids:
         snapshot_ids = (None,)
-    sids = [selectSnapshot(snapshots_list, sid, 'SnapshotID to remove') for sid in snapshot_ids]
+    sids = [selectSnapshot(snapshots_list, cfg, sid, 'SnapshotID to remove') for sid in snapshot_ids]
 
     if not force:
         print('Do you really want to remove this snapshots?')
@@ -135,24 +135,24 @@ def checkConfig(cfg, crontab = True):
 
     return True
 
-def selectSnapshot(snapshots_list, snapshot_id = None, msg = 'SnapshotID'):
+def selectSnapshot(snapshots_list, cfg, snapshot_id = None, msg = 'SnapshotID'):
     """
     check if given snapshot is valid. If not print a list of all
     snapshots and ask to choose one
     """
-    len_snapshots = len(snapshot_list)
+    len_snapshots = len(snapshots_list)
 
     if not snapshot_id is None:
         try:
-            sid = snapshots.SID(snapshot_id)
-            if sid in snapshot_list:
+            sid = snapshots.SID(snapshot_id, cfg)
+            if sid in snapshots_list:
                 return sid
             else:
                 print('SnapshotID %s not found.' % snapshot_id)
         except ValueError:
             try:
                 index = int(snapshot_id)
-                return snapshot_list[index]
+                return snapshots_list[index]
             except (ValueError, IndexError):
                 print('Invalid SnaphotID index: %s' % snapshot_id)
     snapshot_id = None
@@ -169,13 +169,13 @@ def selectSnapshot(snapshots_list, snapshot_id = None, msg = 'SnapshotID'):
             index = row + column * rows
             if index > len_snapshots - 1:
                 continue
-            line.append('{i:>4}: {s}'.format(i = index, s = snapshot_list[index]))
+            line.append('{i:>4}: {s}'.format(i = index, s = snapshots_list[index]))
         print(' '.join(line))
     print('')
     while snapshot_id is None:
         try:
             index = int(input(msg + ' ( 0 - %d ): ' % (len_snapshots - 1) ))
-            snapshot_id = snapshot_list[index]
+            snapshot_id = snapshots_list[index]
         except (ValueError, IndexError):
             print('Invalid Input')
             continue

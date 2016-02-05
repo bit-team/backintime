@@ -1105,6 +1105,9 @@ def inhibitSuspend( app_id = sys.argv[0],
     Prevent machine to go to suspend or hibernate.
     Returns the inhibit cookie which is used to end the inhibitor.
     """
+    if ON_TRAVIS:
+        # no suspend on travis (no dbus either)
+        return
     if not app_id:
         app_id = 'backintime'
     if not toplevel_xid:
