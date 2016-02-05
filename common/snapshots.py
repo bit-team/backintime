@@ -1604,7 +1604,7 @@ class Snapshots:
     def _stat_free_space_local(self, path):
         """
         Get free space on filsystem containing `path` in MiB using
-        :py:func:`os.statvfs()`. Depending of remote SFTP server this might fail
+        :py:func:`os.statvfs()`. Depending on remote SFTP server this might fail
         on sshfs mounted shares.
 
         Args:

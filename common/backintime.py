@@ -438,7 +438,10 @@ def start_app(app_name = 'backintime'):
     in arguments.
 
     Args:
-    app_name (str): string representing the current application
+        app_name (str): string representing the current application
+
+    Returns:
+        config.Config:  current config if no command was given in arguments
     """
     create_parsers(app_name)
     #open log
@@ -475,6 +478,9 @@ def arg_parse(args):
     Args:
         args (argparse.Namespace):  Namespace that should be enhanced
                                     or None
+
+    Returns:
+        argparser.Namespace:        new parsed Namespace
     """
     def join(args, subArgs):
         """
@@ -601,6 +607,9 @@ def getConfig(args, check = True):
                         previously parsed arguments
         check (bool):   if True check if config is valid
 
+    Returns:
+        config.Config:  current config with requested profile selected
+
     Raises:
         SystemExit:     1 if `profile` or `profile_id` is no valid profile
                         2 if `check` is True and config is not configured
@@ -625,13 +634,16 @@ def getConfig(args, check = True):
 
 def setQuiet(args):
     """
-    Redirect sys.stdout to /dev/null if --quiet was set on commandline.
-    Return the original sys.stdout fileobject which can be used to print
-    absolute necessary information.
+    Redirect :py:data:`sys.stdout` to `/dev/null` if `--quiet` was set on
+    commandline. Return the original :py:data:`sys.stdout` fileobject which can
+    be used to print absolute necessary information.
 
     Args:
         args (argparse.Namespace):
                         previously parsed arguments
+
+    Returns:
+        sys.stdout:     default sys.stdout
     """
     force_stdout = sys.stdout
     if args.quiet:

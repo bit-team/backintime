@@ -914,6 +914,20 @@ def get_filesystem_mount_info():
                 if get_uuid(items[0]) != None}
 
 def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
+    """
+    Wrap line `msg` into multiple lines with each shorter than `size`. Try to
+    break the line on `delimiters`. New lines will start with
+    `new_line_indicator`.
+
+    Args:
+        msg (str):                  string that should get wrapped
+        size (int):                 maximum lenght of returned strings
+        delimiters (str):           try to break `msg` on these characters
+        new_line_indicator (str):   start new lines with this string
+
+    Yields:
+        str:                        lines with max `size` lenght
+    """
     if len(new_line_indicator) >= size - 1:
         new_line_indicator = ''
     while msg:

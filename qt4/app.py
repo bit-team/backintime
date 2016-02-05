@@ -181,6 +181,8 @@ class MainWindow( QMainWindow ):
         self.files_view_toolbar.addSeparator()
 
         #restore menu
+        #TODO: add ToolTips
+        #http://www.linuxquestions.org/questions/linux-newbie-8/explain-how-restore-works-in-back-in-time-4175569056/#post5495364
         self.menu_restore = QMenu(self)
         self.btn_restore = self.menu_restore.addAction(icon.RESTORE, _('Restore') )
         QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
