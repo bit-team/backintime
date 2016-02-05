@@ -635,6 +635,7 @@ def setQuiet(args):
     """
     force_stdout = sys.stdout
     if args.quiet:
+        # do not replace with subprocess.DEVNULL - will not work
         sys.stdout = open(os.devnull, 'w')
     return force_stdout
 

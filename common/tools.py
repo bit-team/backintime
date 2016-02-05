@@ -693,8 +693,8 @@ def check_home_encrypt():
     if check_command('ecryptfs-verify'):
         try:
             subprocess.check_call(['ecryptfs-verify', '--home'],
-                                    stdout=open(os.devnull, 'w'),
-                                    stderr=open(os.devnull, 'w'))
+                                    stdout=subprocess.DEVNULL,
+                                    stderr=subprocess.DEVNULL)
         except subprocess.CalledProcessError:
             pass
         else:
@@ -1121,7 +1121,7 @@ def getSshKeyFingerprint(path):
     if not os.path.exists(path):
         return
     cmd = ['ssh-keygen', '-l', '-f', path]
-    proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = open(os.devnull, 'w'))
+    proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
     output = proc.communicate()[0]
     m = re.match(b'\d+\s+([a-fA-F0-9:]+).*', output)
     if m:

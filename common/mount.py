@@ -59,8 +59,8 @@ class Mount(object):
                 logger.debug('Call command: %s'
                              %' '.join(cmd), self)
                 proc = subprocess.Popen(cmd,
-                                        stdout = open(os.devnull, 'w'),
-                                        stderr = open(os.devnull, 'w'))
+                                        stdout = subprocess.DEVNULL,
+                                        stderr = subprocess.DEVNULL)
                 if proc.returncode:
                     logger.error('Failed to %s pw-cache: %s'
                                  %(action, proc.returncode),
