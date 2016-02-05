@@ -1137,7 +1137,7 @@ def getSshKeyFingerprint(path):
     cmd = ['ssh-keygen', '-l', '-f', path]
     proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
     output = proc.communicate()[0]
-    m = re.match(b'\d+\s+([a-fA-F0-9:]+).*', output)
+    m = re.match(b'\d+\s+(SHA256:\S+|[a-fA-F0-9:]+)\s.*', output)
     if m:
         return m.group(1).decode('UTF-8')
 

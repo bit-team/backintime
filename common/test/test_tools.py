@@ -545,7 +545,12 @@ class TestTools(generic.TestCase):
 
             fingerprint = tools.getSshKeyFingerprint(key)
             self.assertIsInstance(fingerprint, str)
-            self.assertRegex(fingerprint, r'^[a-fA-F0-9:]+$')
+            if fingerprint.startswith('SHA256'):
+                self.assertEqual(len(fingerprint), 50)
+                self.assertRegex(fingerprint, r'^SHA256:[a-zA-Z0-9/+]+$')
+            else:
+                self.assertEqual(len(fingerprint), 47)
+                self.assertRegex(fingerprint, r'^[a-fA-F0-9:]+$')
 
     @unittest.skipIf(not tools.check_command('crontab'),
                      "'crontab' not found.")
