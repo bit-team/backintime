@@ -30,6 +30,7 @@ import tools
 import qt4tools
 import mount
 import messagebox
+import snapshots
 from exceptions import MountException
 
 _=gettext.gettext
@@ -1723,7 +1724,7 @@ class RestoreConfigDialog(QDialog):
         samplePath = os.path.join( 'backintime',
                                     self.config.get_host(),
                                     self.config.get_user(), '1',
-                                    snapshots.SID(datetime.datetime.now()).sid
+                                    snapshots.SID(datetime.datetime.now(), self.config).sid
                                     )
 
         #inform user to join group fuse if he hasn't already.

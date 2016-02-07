@@ -1256,8 +1256,8 @@ class Snapshots:
                                         be keept
         """
         #TODO: remove keep_snapshots and just return snapshots selected in here
-        min_id = SID(min_date)
-        max_id = SID(max_date)
+        min_id = SID(min_date, self.config)
+        max_id = SID(max_date, self.config)
 
         logger.debug("Keep all >= %s and < %s" %(min_id, max_id), self)
 
@@ -1289,8 +1289,8 @@ class Snapshots:
                                         be keept
         """
         #TODO: remove keep_snapshots and just return snapshots selected in here
-        min_id = SID(min_date)
-        max_id = SID(max_date)
+        min_id = SID(min_date, self.config)
+        max_id = SID(max_date, self.config)
 
         logger.debug("Keep first >= %s and < %s" %(min_id, max_id), self)
 
