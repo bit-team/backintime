@@ -25,16 +25,16 @@ from datetime import datetime
 from distutils.version import StrictVersion
 
 import config
-import mount
 import password
 import password_ipc
 import tools
 import sshtools
 import logger
+from mount import MountControl
 from exceptions import MountException, EncodeValueError
 _=gettext.gettext
 
-class EncFS_mount(mount.MountControl):
+class EncFS_mount(MountControl):
     """
     Mount encrypted paths with encfs.
     """
@@ -128,27 +128,6 @@ class EncFS_mount(mount.MountControl):
         self.check_fuse()
         if first_run:
             self.check_version()
-        return True
-
-    def post_mount_check(self):
-        """
-        check if mount was successful
-        raise MountException( _('Error discription') ) if not
-        """
-        return True
-
-    def pre_umount_check(self):
-        """
-        check if service is safe to umount
-        raise MountException( _('Error discription') ) if not
-        """
-        return True
-
-    def post_umount_check(self):
-        """
-        check if umount successful
-        raise MountException( _('Error discription') ) if not
-        """
         return True
 
     def get_env(self):

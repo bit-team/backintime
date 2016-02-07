@@ -218,15 +218,26 @@ class TestTools(generic.TestCase):
     def test_make_dirs(self):
         self.assertFalse(tools.make_dirs('/'))
         self.assertTrue(tools.make_dirs(os.getcwd()))
-        path = '/tmp/foobar{}'.format(random.randrange(100, 999))
-        self.assertTrue(tools.make_dirs(path))
-        os.rmdir(path)
+        with TemporaryDirectory() as d:
+            path = os.path.join(d, 'foo', 'bar')
+            self.assertTrue(tools.make_dirs(path))
 
     def test_make_dirs_not_writeable(self):
         with TemporaryDirectory() as d:
             os.chmod(d, stat.S_IRUSR)
             path = os.path.join(d, 'foobar{}'.format(random.randrange(100, 999)))
             self.assertFalse(tools.make_dirs(path))
+
+    def test_mkdir(self):
+        self.assertFalse(tools.mkdir('/'))
+        with TemporaryDirectory() as d:
+            path = os.path.join(d, 'foo')
+            self.assertTrue(tools.mkdir(path))
+            for mode in (0o700, 0o644, 0o777):
+                msg = 'new path should have octal permissions {0:#o}'.format(mode)
+                path = os.path.join(d, '{0:#o}'.format(mode))
+                self.assertTrue(tools.mkdir(path, mode), msg)
+                self.assertEqual('{0:o}'.format(os.stat(path).st_mode & 0o777), '{0:o}'.format(mode), msg)
 
     def test_pids(self):
         pids = tools.pids()

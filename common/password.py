@@ -199,11 +199,12 @@ class Password_Cache(Daemon):
         if self.config is None:
             self.config = config.Config()
         pw_cache_path = self.config.get_password_cache_folder()
-        if not os.path.isdir(pw_cache_path):
-            os.mkdir(pw_cache_path, 0o700)
-        else:
-            os.chmod(pw_cache_path, 0o700)
-        Daemon.__init__(self, self.config.get_password_cache_pid(), *args, **kwargs)
+        if not tools.mkdir(pw_cache_path, 0o700):
+            msg = 'Failed to create secure Password_Cache folder'
+            logger.error(msg, self)
+            raise PermissionError(msg)
+        pid = self.config.get_password_cache_pid()
+        super(Password_Cache, self).__init__(pid, *args, **kwargs)
         self.db_keyring = {}
         self.db_usr = {}
         self.fifo = password_ipc.FIFO(self.config.get_password_cache_fifo())

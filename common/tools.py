@@ -301,6 +301,32 @@ def make_dirs( path ):
                          %(path, str(e)), traceDepth = 1)
     return os.path.isdir(path)
 
+def mkdir(path, mode = 0o755):
+    """
+    Create directory `path`.
+
+    Args:
+        path (str): full path to directory that should be created
+        mode (int): numeric permission mode
+
+    Returns:
+        bool:       True if successful
+    """
+    if os.path.isdir(path):
+        try:
+            os.chmod(path, mode)
+        except:
+            return False
+        return True
+    else:
+        os.mkdir(path, mode)
+        if mode & 0o002 == 0o002:
+            #make file world (other) writeable was requested
+            #debian and ubuntu won't set o+w with os.mkdir
+            #this will fix it
+            os.chmod(path, mode)
+    return os.path.isdir(path)
+
 def pids():
     """
     List all PIDs currently running on the system.

@@ -25,16 +25,16 @@ import socket
 from time import sleep
 
 import config
-import mount
 import logger
 import tools
 import password_ipc
+from mount import MountControl
 from exceptions import MountException
 import bcolors
 
 _=gettext.gettext
 
-class SSH(mount.MountControl):
+class SSH(MountControl):
     """
     Mount remote path with sshfs. The real take_snapshot process will use
     rsync over ssh. Other commands run remote over ssh.
@@ -163,27 +163,6 @@ class SSH(mount.MountControl):
         self.check_remote_folder()
         if first_run:
             self.check_remote_commands()
-        return True
-
-    def post_mount_check(self):
-        """
-        check if mount was successful
-        raise MountException( _('Error discription') ) if not
-        """
-        return True
-
-    def pre_umount_check(self):
-        """
-        check if service is safe to umount
-        raise MountException( _('Error discription') ) if not
-        """
-        return True
-
-    def post_umount_check(self):
-        """
-        check if umount successful
-        raise MountException( _('Error discription') ) if not
-        """
         return True
 
     def unlock_ssh_agent(self, force = False):
