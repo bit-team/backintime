@@ -39,33 +39,10 @@ class SSH(MountControl):
     Mount remote path with sshfs. The real take_snapshot process will use
     rsync over ssh. Other commands run remote over ssh.
     """
-
-    CHECK_FUSE_GROUP = False
-
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, read_only = True, **kwargs):
-        self.config = cfg
-        if self.config is None:
-            self.config = config.Config()
-
-        self.profile_id = profile_id
-        if self.profile_id is None:
-            self.profile_id = self.config.get_current_profile()
-
-        self.tmp_mount = tmp_mount
-        self.hash_id = hash_id
-        self.parent = parent
-        self.symlink = symlink
-        self.read_only = read_only
-
+    def __init__(self, *args, **kwargs):
         #init MountControl
-        super(SSH, self).__init__()
+        super(SSH, self).__init__(*args, **kwargs)
 
-        self.all_kwargs = {}
-
-        #First we need to map the settings.
-        self.setattr_kwargs('mode', self.config.get_snapshots_mode(self.profile_id), **kwargs)
-        self.setattr_kwargs('hash_collision', self.config.get_hash_collision(), **kwargs)
-        #start editing from here---------------------------------------------------------
         self.setattr_kwargs('user', self.config.get_ssh_user(self.profile_id), **kwargs)
         self.setattr_kwargs('host', self.config.get_ssh_host(self.profile_id), **kwargs)
         self.setattr_kwargs('port', self.config.get_ssh_port(self.profile_id), **kwargs)
@@ -76,13 +53,11 @@ class SSH(MountControl):
         self.setattr_kwargs('ionice', self.config.is_run_ionice_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('nocache', self.config.is_run_nocache_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('password', None, store = False, **kwargs)
-        self.setattr_kwargs('read_only', self.read_only, **kwargs)
+        
 
         if not self.path:
             self.path = './'
         self.set_default_args()
-
-        self.symlink_subfolder = None
 
         # config strings used in ssh-calls
         self.user_host_path = '%s@%s:%s' % (self.user, self.host, self.path)
@@ -96,6 +71,8 @@ class SSH(MountControl):
         # conflicting .ssh/config key entry
         self.ssh_options += ['-o', 'IdentityFile=%s' % self.private_key_file]
 
+        self.mountproc = 'sshfs'
+        self.symlink_subfolder = None
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
 
         self.private_key_fingerprint = tools.getSshKeyFingerprint(self.private_key_file)
@@ -113,7 +90,7 @@ class SSH(MountControl):
         """
         mount the service
         """
-        sshfs = ['sshfs'] + self.ssh_options
+        sshfs = [self.mountproc] + self.ssh_options
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
         sshfs.extend(['-o', 'idmap=user'])
@@ -135,15 +112,6 @@ class SSH(MountControl):
             subprocess.check_call(sshfs, env = env)
         except subprocess.CalledProcessError:
             raise MountException( _('Can\'t mount %s') % ' '.join(sshfs))
-
-    def _umount(self):
-        """
-        umount the service
-        """
-        try:
-            subprocess.check_call(['fusermount', '-u', self.mountpoint])
-        except subprocess.CalledProcessError:
-            raise MountException( _('Can\'t unmount sshfs %s') % self.mountpoint)
 
     def pre_mount_check(self, first_run = False):
         """
@@ -242,30 +210,6 @@ class SSH(MountControl):
         else:
             logger.debug('Private key %s is already unlocked in ssh agent'
                          %self.private_key_file, self)
-
-    def check_fuse(self):
-        """
-        check if sshfs is installed and user is part of group fuse
-        """
-        logger.debug('Check fuse', self)
-        if not tools.check_command('sshfs'):
-            logger.debug('sshfs is missing', self)
-            raise MountException( _('sshfs not found. Please install e.g. \'apt-get install sshfs\'') )
-        if self.CHECK_FUSE_GROUP:
-            user = self.config.get_user()
-            try:
-                fuse_grp_members = grp.getgrnam('fuse')[3]
-            except KeyError:
-                #group fuse doesn't exist. So most likely it isn't used by this distribution
-                logger.debug("Group fuse doesn't exist. Skip test", self)
-                return
-            if not user in fuse_grp_members:
-                logger.debug('User %s is not in group fuse' %user, self)
-                raise MountException( _('%(user)s is not member of group \'fuse\'.\n '
-                                        'Run \'sudo adduser %(user)s fuse\'. To apply '
-                                        'changes logout and login again.\nLook at '
-                                        '\'man backintime\' for further instructions.')
-                                        % {'user': user})
 
     def check_login(self):
         """

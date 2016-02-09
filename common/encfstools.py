@@ -38,43 +38,22 @@ class EncFS_mount(MountControl):
     """
     Mount encrypted paths with encfs.
     """
-
-    CHECK_FUSE_GROUP = False
-
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, read_only = True, **kwargs):
-        self.config = cfg
-        if self.config is None:
-            self.config = config.Config()
-
-        self.profile_id = profile_id
-        if self.profile_id is None:
-            self.profile_id = self.config.get_current_profile()
-
-        self.tmp_mount = tmp_mount
-        self.hash_id = hash_id
-        self.parent = parent
-        self.symlink = symlink
-        self.read_only = read_only
-
+    def __init__(self, *args, **kwargs):
         #init MountControl
-        super(EncFS_mount, self).__init__()
+        super(EncFS_mount, self).__init__(*args, **kwargs)
 
-        self.all_kwargs = {}
-
-        self.setattr_kwargs('mode', self.config.get_snapshots_mode(self.profile_id), **kwargs)
-        self.setattr_kwargs('hash_collision', self.config.get_hash_collision(), **kwargs)
         self.setattr_kwargs('path', self.config.get_local_encfs_path(self.profile_id), **kwargs)
         self.setattr_kwargs('reverse', False, **kwargs)
         self.setattr_kwargs('config_path', None, **kwargs)
         self.setattr_kwargs('password', None, store = False, **kwargs)
         self.setattr_kwargs('hash_id_1', None, **kwargs)
         self.setattr_kwargs('hash_id_2', None, **kwargs)
-        self.setattr_kwargs('read_only', self.read_only, **kwargs)
 
         self.set_default_args()
 
-        self.symlink_subfolder = None
+        self.mountproc = 'encfs'
         self.log_command = '%s: %s' % (self.mode, self.path)
+        self.symlink_subfolder = None
 
     def _mount(self):
         """
@@ -88,7 +67,7 @@ class EncFS_mount(MountControl):
         env['ASKPASS_TEMP'] = thread.temp_file
         thread.start()
 
-        encfs = ['encfs', '--extpass=backintime-askpass']
+        encfs = [self.mountproc, '--extpass=backintime-askpass']
         if self.reverse:
             encfs += ['--reverse']
         if not self.is_configured():
@@ -111,15 +90,6 @@ class EncFS_mount(MountControl):
                                     % {'command': ' '.join(encfs), 'error': output} )
 
         thread.stop()
-
-    def _umount(self):
-        """
-        umount the service
-        """
-        try:
-            subprocess.check_call(['fusermount', '-u', self.mountpoint])
-        except subprocess.CalledProcessError:
-            raise MountException( _('Can\'t unmount encfs %s') % self.mountpoint)
 
     def pre_mount_check(self, first_run = False):
         """
@@ -177,26 +147,6 @@ class EncFS_mount(MountControl):
                         return False
                     else:
                         raise MountException( _('Password doesn\'t match') )
-
-    def check_fuse(self):
-        """
-        check if encfs is installed and user is part of group fuse
-        """
-        logger.debug('Check fuse', self)
-        if not tools.check_command('encfs'):
-            logger.debug('sshfs is missing', self)
-            raise MountException( _('encfs not found. Please install e.g. \'apt-get install encfs\'') )
-        if self.CHECK_FUSE_GROUP:
-            user = self.config.get_user()
-            try:
-                fuse_grp_members = grp.getgrnam('fuse')[3]
-            except KeyError:
-                #group fuse doesn't exist. So most likely it isn't used by this distribution
-                logger.debug("Group fuse doesn't exist. Skip test", self)
-                return
-            if not user in fuse_grp_members:
-                logger.debug('User %s is not in group fuse' %user, self)
-                raise MountException( _('%(user)s is not member of group \'fuse\'.\n Run \'sudo adduser %(user)s fuse\'. To apply changes logout and login again.\nLook at \'man backintime\' for further instructions.') % {'user': user})
 
     def check_version(self):
         """

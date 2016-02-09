@@ -304,20 +304,70 @@ class MountControl(object):
     Subclasses should have it's own __init__ but must also call the
     inherited __init__.
 
-    You must overwrite methods:\n
-        :py:func:`MountControl._mount`\n
-        :py:func:`MountControl._umount`\n
+    You **must** overwrite methods:\n
+        :py:func:`MountControl._mount`
 
-    You can overwrite methods:\n
+    You **can** overwrite methods:\n
+        :py:func:`MountControl._umount`\n
         :py:func:`MountControl.pre_mount_check`\n
         :py:func:`MountControl.post_mount_check`\n
         :py:func:`MountControl.pre_umount_check`\n
-        :py:func:`MountControl.post_umount_check`\n
+        :py:func:`MountControl.post_umount_check`
+
+    These arguments **must** be defined in ``self`` namespace by
+    subclassing ``__init__`` method:\n
+        mountproc (str):        process used to mount\n
+        log_command (str):      shortened form of mount command used in logs\n
+        symlink_subfolder (str):mountpoint-subfolder which should be linked\n
+
+    Args:
+        cfg (config.Config):    current config
+        profile_id (str):       profile ID that should be used
+        hash_id (str):          ???
+        tmp_mount (bool):       if True mount to a temporary destination
+        parent (QWidget):       parent widget for QDialogs or ``None`` if there
+                                is no parent
+        symlink (bool):         if True set symlink to mountpoint
+        mode (str):             one of ``local``, ``local_encfs``, ``ssh`` or
+                                ``ssh_encfs``
+        hash_collision (int):   global value used to prevent hash collisions on
+                                mountpoints
+        read_only (bool):       if True mount source read-only
     """
-    def __init__(self, *args, **kwargs):
+
+    CHECK_FUSE_GROUP = False
+
+    def __init__(self,
+                 cfg = None,
+                 profile_id = None,
+                 hash_id = None,
+                 tmp_mount = False,
+                 parent = None,
+                 symlink = True,
+                 *args,
+                 **kwargs):
+        self.config = cfg
+        if self.config is None:
+            self.config = config.Config()
+
+        self.profile_id = profile_id
+        if self.profile_id is None:
+            self.profile_id = self.config.get_current_profile()
+
+        self.tmp_mount = tmp_mount
+        self.hash_id = hash_id
+        self.parent = parent
+        self.symlink = symlink
+
         self.local_host = self.config.get_host()
         self.local_user = self.config.get_user()
         self.pid = self.config.get_pid()
+
+        self.all_kwargs = {}
+
+        self.setattr_kwargs('mode', self.config.get_snapshots_mode(self.profile_id), **kwargs)
+        self.setattr_kwargs('hash_collision', self.config.get_hash_collision(), **kwargs)
+        self.setattr_kwargs('read_only', True, **kwargs)
 
     def set_default_args(self):
         """
@@ -443,10 +493,18 @@ class MountControl(object):
 
     def _umount(self):
         """
-        Backend umount method. This need to get overwritten in the backend which
-        subclasses :py:class:`MountControl`.
+        Unmount with ``fusermount -u`` for fuse based backends. This **can** be
+        overwritten by backends which subclasses :py:class:`MountControl`.
+
+        Raises:
+            exceptions.MountException:  if unmount failed
         """
-        raise NotImplementedError('_umount need to be overwritten in backend')
+        try:
+            subprocess.check_call(['fusermount', '-u', self.mountpoint])
+        except subprocess.CalledProcessError:
+            raise MountException( _('Can\'t unmount %(proc)s from %(mountpoint)s')
+                                  %{'proc': self.mountproc,
+                                    'mountpoint': self.mountpoint})
 
     def pre_mount_check(self, first_run = False):
         """
@@ -518,6 +576,37 @@ class MountControl(object):
             This can also be used to clean up after running :py:func:`_umount`
         """
         return True
+
+    def check_fuse(self):
+        """
+        Check if command in self.mountproc is installed and user is part of
+        group ``fuse``.
+
+        Raises:
+            exceptions.MountException:  if either command is not available or
+                                        user is not in group fuse
+        """
+        logger.debug('Check fuse', self)
+        if not tools.check_command(self.mountproc):
+            logger.debug('%s is missing' %self.mountproc, self)
+            raise MountException( _('%(proc)s not found. Please install e.g. %(install_command)s')
+                                  %{'proc': self.mountproc,
+                                    'install_command': "'apt-get install %s'" %self.mountproc})
+        if self.CHECK_FUSE_GROUP:
+            user = self.config.get_user()
+            try:
+                fuse_grp_members = grp.getgrnam('fuse')[3]
+            except KeyError:
+                #group fuse doesn't exist. So most likely it isn't used by this distribution
+                logger.debug("Group fuse doesn't exist. Skip test", self)
+                return
+            if not user in fuse_grp_members:
+                logger.debug('User %s is not in group fuse' %user, self)
+                raise MountException( _('%(user)s is not member of group \'fuse\'.\n '
+                                        'Run \'sudo adduser %(user)s fuse\'. To apply '
+                                        'changes logout and login again.\nLook at '
+                                        '\'man backintime\' for further instructions.')
+                                        % {'user': user})
 
     def is_mounted(self):
         """
