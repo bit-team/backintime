@@ -25,9 +25,8 @@ class Dummy(mount.MountControl):
     """
     This is a template for mounting services. For simple mount services
     all you need to do is:
-    - add your settings in gnome|kde/settingsdialog.py (search for the dummy examples)
-    - add settings in gnome/settingsdialog.glade (copy GtkFrame 'mode_dummy')
-    - add settings in common/config.py (search for the dummy examples)
+    - add your settings in qt4/settingsdialog.py
+    - add settings in common/config.p
     - modify a copy of this file
 
     Please use self.mountpoint as your local mountpoint.
@@ -36,22 +35,9 @@ class Dummy(mount.MountControl):
     Methodes from MountControl also can be overriden in here if you need
     something different.
     """
-    def __init__(self, cfg = None, profile_id = None, hash_id = None, tmp_mount = False, parent = None, symlink = True, **kwargs):
-        self.config = cfg
-        if self.config is None:
-            self.config = config.Config()
-
-        self.profile_id = profile_id
-        if self.profile_id is None:
-            self.profile_id = self.config.get_current_profile()
-
-        self.tmp_mount = tmp_mount
-        self.hash_id = hash_id
-        self.parent = parent
-        self.symlink = symlink
-
+    def __init__(self, *args, **kwargs):
         #init MountControl
-        super(Dummy, self).__init__()
+        super(Dummy, self).__init__(*args, **kwargs)
 
         self.all_kwargs = {}
 
@@ -59,9 +45,6 @@ class Dummy(mount.MountControl):
         #If <arg> is in kwargs (e.g. if this class is called with dummytools.Dummy(<arg> = <value>)
         #this will map self.<arg> to kwargs[<arg>]; else self.<arg> = <default> from config
         #e.g. self.setattr_kwargs(<arg>, <default>, **kwargs)
-        self.setattr_kwargs('mode', self.config.get_snapshots_mode(self.profile_id), **kwargs)
-        self.setattr_kwargs('hash_collision', self.config.get_hash_collision(), **kwargs)
-        #start editing from here---------------------------------------------------------
         self.setattr_kwargs('user', self.config.get_dummy_user(self.profile_id), **kwargs)
         self.setattr_kwargs('host', self.config.get_dummy_host(self.profile_id), **kwargs)
         self.setattr_kwargs('port', self.config.get_dummy_port(self.profile_id), **kwargs)
@@ -73,6 +56,7 @@ class Dummy(mount.MountControl):
         #a subfolder of self.mountpoint for the symlink
         self.symlink_subfolder = None
 
+        self.mountproc = 'dummy'
         self.log_command = '%s: %s@%s' % (self.mode, self.user, self.host)
 
     def _mount(self):
