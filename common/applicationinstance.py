@@ -59,7 +59,8 @@ class ApplicationInstance:
                                 instance running
 
         Returns:
-            bool:               True if this is the only application instance
+            bool:               ``True`` if this is the only application
+                                instance
         """
         #check if the pidfile exists
         if not os.path.isfile( self.pid_file ):

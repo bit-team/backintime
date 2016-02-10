@@ -84,7 +84,7 @@ class ConfigFile(object):
             filename (str): full path
 
         Returns:
-            bool:           True if successful
+            bool:           ``True`` if successful
         """
         try:
             with open( filename, 'wt' ) as f:
@@ -148,13 +148,13 @@ class ConfigFile(object):
 
     def has_value( self, key ):
         """
-        True if key is set.
+        ``True`` if key is set.
 
         Args:
             key (str):  string used as key
 
         Returns:
-            bool:       True if the `key` is set
+            bool:       ``True`` if the ``key`` is set
         """
         return key in self.dict
 
@@ -164,11 +164,11 @@ class ConfigFile(object):
 
         Args:
             key (str):              string used as key
-            default_value (str):    return this if `key` is not set
+            default_value (str):    return this if ``key`` is not set
 
         Returns:
-            str:                    value of `key` or `default_value`
-                                    if `key` is not set.
+            str:                    value of ``key`` or ``default_value``
+                                    if ``key`` is not set.
         """
         if key in self.dict:
             return self.dict[ key ]
@@ -191,11 +191,11 @@ class ConfigFile(object):
 
         Args:
             key (str):              string used as key
-            default_value (int):    return this if `key` is not set
+            default_value (int):    return this if ``key`` is not set
 
         Returns:
-            int:                    value of `key` or `default_value`
-                                    if `key` is not set.
+            int:                    value of ``key`` or ``default_value``
+                                    if ``key`` is not set.
         """
         try:
             return int( self.dict[ key ] )
@@ -258,10 +258,10 @@ class ConfigFile(object):
             default_value (list):   defualt value
 
         Returns:
-            list:                   value of `key` or `default_value`
-                                    if `key` is not set.
+            list:                   value of ``key`` or ``default_value``
+                                    if ``key`` is not set.
 
-        `type_key` pattern examples::
+        ``type_key`` pattern examples::
 
             'str:value'               => return str values from key.value
             'int:type'                => return int values from key.type
@@ -314,7 +314,7 @@ class ConfigFile(object):
             type_key (str): pattern of 'value-type:value-name'. See examples below.
             value (list):   that should be stored
 
-        `type_key` pattern examples::
+        ``type_key`` pattern examples::
 
             'str:value'               => return str values from key.value
             'int:type'                => return int values from key.type
@@ -496,7 +496,7 @@ class ConfigFileWithProfiles( ConfigFile ):
             profile_id (str, int):  valid profile ID
 
         Returns:
-            bool:                   True if successful
+            bool:                   ``True`` if successful
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -519,7 +519,7 @@ class ConfigFileWithProfiles( ConfigFile ):
             name (str): valid profile name
 
         Returns:
-            bool:       True if successful
+            bool:       ``True`` if successful
         """
         profiles = self.get_profiles()
 
@@ -534,13 +534,13 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def profile_exists( self, profile_id ):
         """
-        True if the profile exists.
+        ``True`` if the profile exists.
 
         Args:
             profile_id (str, int):  profile ID
 
         Returns:
-            bool:                   True if `profile_id` exists.
+            bool:                   ``True`` if ``profile_id`` exists.
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -548,13 +548,13 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def profile_exists_by_name( self, name ):
         """
-        True if the profile exists.
+        ``True`` if the profile exists.
 
         Args:
             name (str): profile name
 
         Returns:
-            bool:       True if `name` exists.
+            bool:       ``True`` if ``name`` exists.
         """
         profiles = self.get_profiles()
 
@@ -629,7 +629,7 @@ class ConfigFileWithProfiles( ConfigFile ):
             profile_id (str, int):  valid profile ID
 
         Returns:
-            bool:   True if successful
+            bool:   ``True`` if successful
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -669,7 +669,7 @@ class ConfigFileWithProfiles( ConfigFile ):
             profile_id (str, int):  valid profile ID
 
         Returns:
-            bool:                   True if successful.
+            bool:                   ``True`` if successful.
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
@@ -727,14 +727,14 @@ class ConfigFileWithProfiles( ConfigFile ):
 
     def has_profile_value( self, key, profile_id = None ):
         """
-        True if key is set in profile.
+        ``True`` if key is set in profile.
 
         Args:
             key (str):              string used as key
             profile_id (str, int):  valid profile ID
 
         Returns:
-            bool:                   True if `key` is set.
+            bool:                   ``True`` if ``key`` is set.
         """
         return self._get_profile_key_( key, profile_id ) in self.dict
 

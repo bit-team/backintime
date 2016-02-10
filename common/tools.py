@@ -94,8 +94,8 @@ def get_backintime_path(*path):
 
 def register_backintime_path(*path):
     """
-    Add BackInTime path `path` to :py:data:`sys.path` so subsequent imports can
-    discover them.
+    Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
+    can discover them.
 
     Args:
         *path (str):    paths that should be joind to 'backintime'
@@ -113,7 +113,7 @@ def running_from_source():
     Check if BackInTime is running from source (without installing).
 
     Returns:
-        bool:   True if BackInTime is running from source
+        bool:   ``True`` if BackInTime is running from source
     """
     return os.path.isfile(get_backintime_path('common', 'backintime'))
 
@@ -132,8 +132,8 @@ def get_git_ref_hash():
     from source.
 
     Returns:
-        tuple:  two items of either str instance if running from source
-                or None
+        tuple:  two items of either :py:class:`str` instance if running from
+                source or ``None``
     """
     ref, hashid = None, None
     gitPath = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, '.git'))
@@ -161,17 +161,17 @@ def get_git_ref_hash():
 
 def read_file( path, default_value = None ):
     """
-    Read the file in `path` or its '.gz' compressed variant and return its
-    content or `default_value` if `path` does not exist.
+    Read the file in ``path`` or its '.gz' compressed variant and return its
+    content or ``default_value`` if ``path`` does not exist.
 
     Args:
         path (str):             full path to file that should be read.
                                 '.gz' will be added automatically if the file
                                 is compressed
-        default_value (str):    default if `path` does not exist
+        default_value (str):    default if ``path`` does not exist
 
     Returns:
-        str:                    content of file in `path`
+        str:                    content of file in ``path``
     """
     ret_val = default_value
 
@@ -189,17 +189,17 @@ def read_file( path, default_value = None ):
 
 def read_file_lines( path, default_value = None ):
     """
-    Read the file in `path` or its '.gz' compressed variant and return its
-    content as a list of lines or `default_value` if `path` does not exist.
+    Read the file in ``path`` or its '.gz' compressed variant and return its
+    content as a list of lines or ``default_value`` if ``path`` does not exist.
 
     Args:
         path (str):             full path to file that should be read.
                                 '.gz' will be added automatically if the file
                                 is compressed
-        default_value (list):   default if `path` does not exist
+        default_value (list):   default if ``path`` does not exist
 
     Returns:
-        list:                   content of file in `path` splitted by lines.
+        list:                   content of file in ``path`` splitted by lines.
     """
     ret_val = default_value
 
@@ -217,14 +217,14 @@ def read_file_lines( path, default_value = None ):
 
 def read_command_output( cmd ):
     """
-    Read stdout from command `cmd`.
+    Read stdout from command ``cmd``.
 
     Args:
         cmd (str):  command that should be called
 
     Returns:
-        str:        stdout from command `cmd` or '' if calling `cmd` raised an
-                    exception
+        str:        stdout from command ``cmd`` or '' if calling ``cmd`` raised
+                    an exception
     """
     ret_val = ''
 
@@ -239,13 +239,13 @@ def read_command_output( cmd ):
 
 def check_command( cmd ):
     """
-    Check if command `cmd` is a file in 'PATH' environ.
+    Check if command ``cmd`` is a file in 'PATH' environ.
 
     Args:
         cmd (str):  command
 
     Returns:
-        bool:       True if command `cmd` is in 'PATH' environ
+        bool:       ``True`` if command ``cmd`` is in 'PATH' environ
     """
     cmd = cmd.strip()
 
@@ -258,14 +258,14 @@ def check_command( cmd ):
 
 def which(cmd):
     """
-    Get the fullpath of executable command `cmd`. Works like
+    Get the fullpath of executable command ``cmd``. Works like
     command-line 'which' command.
 
     Args:
         cmd (str):  command
 
     Returns:
-        str:        fullpath of command `cmd` or None if command is
+        str:        fullpath of command ``cmd`` or ``None`` if command is
                     not available
     """
     pathenv = os.getenv('PATH', '')
@@ -279,13 +279,13 @@ def which(cmd):
 
 def make_dirs( path ):
     """
-    Create directories `path` recursive and return success.
+    Create directories ``path`` recursive and return success.
 
     Args:
         path (str): fullpath to directories that should be created
 
     Returns:
-        bool:       True if successful
+        bool:       ``True`` if successful
     """
     path = path.rstrip( os.sep )
     if not path:
@@ -303,14 +303,14 @@ def make_dirs( path ):
 
 def mkdir(path, mode = 0o755):
     """
-    Create directory `path`.
+    Create directory ``path``.
 
     Args:
         path (str): full path to directory that should be created
         mode (int): numeric permission mode
 
     Returns:
-        bool:       True if successful
+        bool:       ``True`` if successful
     """
     if os.path.isdir(path):
         try:
@@ -338,7 +338,7 @@ def pids():
 
 def process_name(pid):
     """
-    Get the name of the process with `pid`.
+    Get the name of the process with ``pid``.
 
     Args:
         pid (int):  Process Indicator
@@ -358,7 +358,8 @@ def process_name(pid):
 
 def process_cmdline(pid):
     """
-    Get the cmdline (command that spawnd this process) of the process with `pid`.
+    Get the cmdline (command that spawnd this process) of the process with
+    ``pid``.
 
     Args:
         pid (int):  Process Indicator
@@ -375,7 +376,7 @@ def process_cmdline(pid):
 
 def pids_with_name(name):
     """
-    Get all processes currently running with name `name`.
+    Get all processes currently running with name ``name``.
 
     Args:
         name (str): name of a process like 'python3' or 'backintime'
@@ -387,28 +388,28 @@ def pids_with_name(name):
 
 def process_exists(name):
     """
-    Check if process `name` is currently running.
+    Check if process ``name`` is currently running.
 
     Args:
         name (str): name of a process like 'python3' or 'backintime'
 
     Returns:
-        bool:       True if there is a process running with `name`
+        bool:       ``True`` if there is a process running with ``name``
     """
     return len(pids_with_name(name)) > 0
 
 def is_process_alive(pid):
     """
-    Check if the process with PID `pid` is alive.
+    Check if the process with PID ``pid`` is alive.
 
     Args:
         pid (int):  Process Indicator
 
     Returns:
-        bool:       True if the process with PID `pid` is alive
+        bool:       ``True`` if the process with PID ``pid`` is alive
 
     Raises:
-        ValueError: If `pid` is 0 because 'kill(0, SIG)' would send SIG to all
+        ValueError: If ``pid`` is 0 because 'kill(0, SIG)' would send SIG to all
                     processes
     """
     if pid < 0:
@@ -435,19 +436,19 @@ def check_x_server():
     Check if there is a X11 server running on this system.
 
     Returns:
-        bool:   True if X11 server is running
+        bool:   ``True`` if X11 server is running
     """
     return 0 == os.system( 'xdpyinfo >/dev/null 2>&1' )
 
 def prepare_path( path ):
     """
-    Removes trailing slash '/' from `path`.
+    Removes trailing slash '/' from ``path``.
 
     Args:
         path (str): absolut path
 
     Returns:
-        str:        path `path` without trailing but with leading slash
+        str:        path ``path`` without trailing but with leading slash
     """
     path = path.strip( "/" )
     path = os.sep + path
@@ -459,7 +460,7 @@ def power_status_available():
     :py:func:`tools.on_battery` would return the correct power status.
 
     Returns:
-        bool:   True if :py:func:`tools.on_battery` can report power status
+        bool:   ``True`` if :py:func:`tools.on_battery` can report power status
     """
     if dbus:
         try:
@@ -477,7 +478,7 @@ def on_battery():
     Checks if the system is on battery power.
 
     Returns:
-        bool:   True if system is running on battery
+        bool:   ``True`` if system is running on battery
     """
     if dbus:
         try:
@@ -493,17 +494,17 @@ def on_battery():
 
 def _execute( cmd, callback = None, user_data = None ):
     """
-    Execute command `cmd` and return its returncode. Returncode is
-    multiplied by 256. Commands stdout can be send to handler `callback`.
+    Execute command ``cmd`` and return its returncode. Returncode is
+    multiplied by 256. Commands stdout can be send to handler ``callback``.
 
     Args:
         cmd (str):          command that should be executed
         callback (method):  function that will be called with every new line
                             on stdout. Need to handle two arguments.
-        user_data (str):    additional arg send to `callback`
+        user_data (str):    additional arg send to ``callback``
 
     Returns:
-        int:                returncode of command `cmd` multiplied by 256
+        int:                returncode of command ``cmd`` multiplied by 256
     """
     logger.debug("Call command \"%s\"" %cmd, traceDepth = 1)
     ret_val = 0
@@ -564,15 +565,15 @@ def get_rsync_caps(data = None):
 
 def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] ):
     """
-    Get rsync command and all args based on current profile in `config`.
+    Get rsync command and all args based on current profile in ``config``.
 
     Args:
         config (config.Config): current config
         no_perms (bool):        don't sync permissions (--no-p --no-g --no-o)
-                                if True.
-                                :py:func:`config.Config.preserve_acl` == True or
-                                :py:func:`config.Config.preserve_xattr` == True
-                                will overwrite this to False
+                                if ``True``.
+                                :py:func:`config.Config.preserve_acl` == ``True`` or
+                                :py:func:`config.Config.preserve_xattr` == ``True``
+                                will overwrite this to ``False``
         use_modes (list):       if current mode is in this list add additional
                                 args for that mode
 
@@ -660,7 +661,7 @@ def temp_failure_retry(func, *args, **kwargs):
 
 def _get_md5sum_from_path(path):
     """
-    Calculate md5sum for file in `path`.
+    Calculate md5sum for file in ``path``.
 
     Args:
         path (str): full path to file
@@ -679,7 +680,7 @@ def _get_md5sum_from_path(path):
 
 def check_cron_pattern(s):
     """
-    Check if `s` is a valid cron pattern.
+    Check if ``s`` is a valid cron pattern.
     Examples::
 
         0,10,13,15,17,20,23
@@ -689,7 +690,7 @@ def check_cron_pattern(s):
         s (str):    pattern to check
 
     Returns:
-        bool:       True if `s` is a valid cron pattern
+        bool:       ``True`` if ``s`` is a valid cron pattern
     """
     if s.find(' ') >= 0:
         return False
@@ -711,7 +712,7 @@ def check_cron_pattern(s):
 #TODO: check if this is still necessary
 def check_home_encrypt():
     """
-    Return True if users home is encrypted
+    Return ``True`` if users home is encrypted
     """
     home = os.path.expanduser('~')
     if not os.path.ismount(home):
@@ -736,7 +737,7 @@ def check_home_encrypt():
 
 def load_env(f):
     """
-    Load environ variables from file `f` into current environ.
+    Load environ variables from file ``f`` into current environ.
     Do not overwrite existing environ variables.
 
     Args:
@@ -811,7 +812,7 @@ def set_password(*args):
 
 def get_mountpoint(path):
     """
-    Get the mountpoint of `path`. If your HOME is on a separate partition
+    Get the mountpoint of ``path``. If your HOME is on a separate partition
     get_mountpoint('/home/user/foo') would return '/home'.
 
     Args:
@@ -829,7 +830,7 @@ def get_mountpoint(path):
 
 def get_mount_args(path):
     """
-    Get all /etc/mtab args for the filesystem of `path` as a list.
+    Get all /etc/mtab args for the filesystem of ``path`` as a list.
     Example::
 
         [DEVICE,      MOUNTPOINT, FILESYSTEM_TYPE, OPTIONS,    DUMP, PASS]
@@ -852,7 +853,7 @@ def get_mount_args(path):
 
 def get_device(path):
     """
-    Get the device for the filesystem of `path`.
+    Get the device for the filesystem of ``path``.
     Example::
 
         /dev/sda1
@@ -872,7 +873,7 @@ def get_device(path):
 
 def get_filesystem(path):
     """
-    Get the filesystem type for the filesystem of `path`.
+    Get the filesystem type for the filesystem of ``path``.
 
     Args:
         path (str): full path
@@ -887,7 +888,7 @@ def get_filesystem(path):
 
 def get_uuid(dev):
     """
-    Get the UUID for the block device `dev`.
+    Get the UUID for the block device ``dev``.
 
     Args:
         dev (str):  block device path
@@ -914,7 +915,7 @@ def get_uuid(dev):
 
 def get_uuid_from_path(path):
     """
-    Get the UUID for the for the filesystem of `path`.
+    Get the UUID for the for the filesystem of ``path``.
 
     Args:
         path (str): full path
@@ -941,18 +942,18 @@ def get_filesystem_mount_info():
 
 def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
     """
-    Wrap line `msg` into multiple lines with each shorter than `size`. Try to
-    break the line on `delimiters`. New lines will start with
-    `new_line_indicator`.
+    Wrap line ``msg`` into multiple lines with each shorter than ``size``. Try
+    to break the line on ``delimiters``. New lines will start with
+    ``new_line_indicator``.
 
     Args:
         msg (str):                  string that should get wrapped
         size (int):                 maximum lenght of returned strings
-        delimiters (str):           try to break `msg` on these characters
+        delimiters (str):           try to break ``msg`` on these characters
         new_line_indicator (str):   start new lines with this string
 
     Yields:
-        str:                        lines with max `size` lenght
+        str:                        lines with max ``size`` lenght
     """
     if len(new_line_indicator) >= size - 1:
         new_line_indicator = ''
@@ -975,7 +976,7 @@ def syncfs():
     Sync any data buffered in memory to disk.
 
     Returns:
-        bool:   True if successful
+        bool:   ``True`` if successful
     """
     if check_command('sync'):
         return(_execute('sync') == 0)
@@ -998,7 +999,7 @@ def isRoot():
     Check if we are root.
 
     Returns:
-        bool:   True if we are root
+        bool:   ``True`` if we are root
     """
     return os.geteuid() == 0
 
@@ -1007,7 +1008,7 @@ def usingSudo():
     Check if 'sudo' was used to start this process.
 
     Returns:
-        bool:   True if process was started with sudo
+        bool:   ``True`` if process was started with sudo
     """
     return isRoot() and os.getenv('HOME', '/root') != '/root'
 
@@ -1017,16 +1018,16 @@ re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[
 
 def patternHasNotEncryptableWildcard(pattern):
     """
-    Check if `pattern` has wildcards '[ ] ? \*'.
-    but return False for foo/\*, foo/\*/bar, \*/bar or \*\*/bar
+    Check if ``pattern`` has wildcards ``[ ] ? *``.
+    but return ``False`` for ``foo/*``, ``foo/*/bar``, ``*/bar`` or ``**/bar``
 
     Args:
         pattern (str):  path or pattern to check
 
     Returns:
-        bool:           True if `pattern` has wildcards '[ ] ? \*' but
-                        False if wildcard look like
-                        'foo/\*', 'foo/\*/bar', '\*/bar' or '\*\*/bar'
+        bool:           ``True`` if ``pattern`` has wildcards ``[ ] ? *`` but
+                        ``False`` if wildcard look like
+                        ``foo/*``, ``foo/*/bar``, ``*/bar`` or ``**/bar``
     """
     if not re_wildcard.search(pattern) is None:
         return True
@@ -1040,7 +1041,7 @@ ANACRON_TIME_FORMAT = '%Y%m%d'
 
 def readTimeStamp(f):
     """
-    Read date string from file `f` and try to return datetime.
+    Read date string from file ``f`` and try to return datetime.
 
     Args:
         f (str):            full path to timestamp file
@@ -1060,7 +1061,7 @@ def readTimeStamp(f):
 
 def writeTimeStamp(f):
     """
-    Write current date and time into file `f`.
+    Write current date and time into file ``f``.
 
     Args:
         f (str):            full path to timestamp file
@@ -1212,7 +1213,7 @@ def writeCrontab(lines):
                     lines that should be written to crontab
 
     Returns:
-        bool:       True if successful
+        bool:       ``True`` if successful
     """
     assert isinstance(lines, (list, tuple)), 'lines is not list or tuple type: %s' % lines
     with tempfile.NamedTemporaryFile(mode = 'wt') as f:
@@ -1236,20 +1237,20 @@ def writeCrontab(lines):
 
 def splitCommands(cmds, head = '', tail = '', maxLength = 0):
     """
-    Split a list of commands `cmds` into multiple commands with each length
-    lower than `maxLength`.
+    Split a list of commands ``cmds`` into multiple commands with each length
+    lower than ``maxLength``.
 
     Args:
         cmds (list):            commands
-        head (str):             command that need to run first on every iteration
-                                of `cmds`
+        head (str):             command that need to run first on every
+                                iteration of ``cmds``
         tail (str):             command that need to run after every iteration
-                                of `cmds`
+                                of ``cmds``
         maxLength (int):        maximum length a command could be.
                                 Don't split if <= 0
 
     Yields:
-        str:                    new command with length < `maxLength`
+        str:                    new command with length < ``maxLength``
 
     Example::
 
@@ -1267,11 +1268,12 @@ class UniquenessSet:
     Check for uniqueness or equality of files.
 
     Args:
-        dc (bool):              if True use deep check which will compare files
-                                md5sums if they are of same size but no hardlinks
-                                (don't have the same inode). If False use files
-                                size and mtime
-        follow_symlink (bool):  if True check symlinks target instead of the link
+        dc (bool):              if ``True`` use deep check which will compare
+                                files md5sums if they are of same size but no
+                                hardlinks (don't have the same inode).
+                                If ``False`` use files size and mtime
+        follow_symlink (bool):  if ``True`` check symlinks target instead of the
+                                link
         list_equal_to (str):    full path to file. If not empty only return
                                 equal files to the given path instead of
                                 unique files.
@@ -1291,17 +1293,17 @@ class UniquenessSet:
 
     def check_for(self, input_path):
         """
-        Check file `input_path` for either uniqueness or equality
-        (depending on `list_equal_to` from constructor).
+        Check file ``input_path`` for either uniqueness or equality
+        (depending on ``list_equal_to`` from constructor).
 
         Args:
             input_path (str):   full path to file
 
         Returns:
-            bool:               True if file is unique and `list_equal_to` is
-                                empty.
-                                Or True if file is equal to file in
-                                `list_equal_to`
+            bool:               ``True`` if file is unique and ``list_equal_to``
+                                is empty.
+                                Or ``True`` if file is equal to file in
+                                ``list_equal_to``
         """
         # follow symlinks ?
         path = input_path
@@ -1315,13 +1317,13 @@ class UniquenessSet:
 
     def check_unique(self, path):
         """
-        Check file `path` for uniqueness and store a unique key for `path`.
+        Check file ``path`` for uniqueness and store a unique key for ``path``.
 
         Args:
             path (str): full path to file
 
         Returns:
-            bool:       True if file is unique
+            bool:       ``True`` if file is unique
         """
         # check
         if self.deep_check:
@@ -1360,13 +1362,14 @@ class UniquenessSet:
 
     def check_equal(self, path):
         """
-        Check if `path` is equal to the file in `list_equal_to` from constructor.
+        Check if ``path`` is equal to the file in ``list_equal_to`` from
+        constructor.
 
         Args:
             path (str): full path to file
 
         Returns:
-            bool:       True if file is equal
+            bool:       ``True`` if file is equal
         """
         st = os.stat(path)
         if self.deep_check:

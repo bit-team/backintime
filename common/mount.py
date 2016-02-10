@@ -35,8 +35,9 @@ class Mount(object):
     and checks on the low-level :py:class:`MountControl` subclass backends for
     BackInTime.
 
-    If `cfg` is `None` this will load the default config. If `profile_id` is
-    `None` it will use `cfg.get_current_profile()`.
+    If ``cfg`` is ``None`` this will load the default config. If ``profile_id``
+    is ``None`` it will use
+    :py:func:`configfile.ConfigFileWithProfiles.get_current_profile`.
 
     If the current profile uses Password-Cache and the Password-Cache is not
     running this will try to start it.
@@ -44,9 +45,9 @@ class Mount(object):
     Args:
         cfg (config.Config):    current config
         profile_id (str):       profile ID that should be used
-        tmp_mount (bool):       if True mount to a temporary destination
-        parent (QWidget):       parent widget for QDialogs or `None` if there is
-                                no parent
+        tmp_mount (bool):       if ``True`` mount to a temporary destination
+        parent (QWidget):       parent widget for QDialogs or ``None`` if there
+                                is no parent
         read_only (bool):       mount source read-only
     """
     def __init__(self,
@@ -93,16 +94,16 @@ class Mount(object):
 
     def mount(self, mode = None, check = True, plugins = True, **kwargs):
         """
-        High-level `mount`. Check if the selected `mode` need to be mounted,
+        High-level `mount`. Check if the selected ``mode`` need to be mounted,
         select the low-level backend and mount it.
 
         Args:
             mode (str):     mode to use. One of 'local', 'ssh', 'local_encfs' or
                             'ssh_encfs'
-            check (bool):   if True run
+            check (bool):   if ``True`` run
                             :py:func:`MountControl.pre_mount_check` before
                             mounting
-            plugins (bool): if True run
+            plugins (bool): if ``True`` run
                             :py:func:`pluginmanager.PluginManager.do_mount`
                             before mount
             **kwargs:       keyword arguments paste to low-level
@@ -149,13 +150,13 @@ class Mount(object):
     def umount(self, hash_id = None, plugins = True):
         """
         High-level `unmount`. Unmount the low-level backend. This will read
-        unmount infos written next to the mountpoint identified by `hash_id`
+        unmount infos written next to the mountpoint identified by ``hash_id``
         and unmount it.
 
         Args:
             hash_id (bool): Hash ID used as mountpoint before that should get
                             unmounted
-            plugins (bool): if True run
+            plugins (bool): if ``True`` run
                             :py:func:`pluginmanager.PluginManager.do_unmount`
                             before unmount
 
@@ -193,7 +194,7 @@ class Mount(object):
         High-level check. Run :py:func:`MountControl.pre_mount_check` to check
         if all conditions for :py:func:`Mount.mount` are set.
 
-        Should be called with `first_run = True` to check if new settings are
+        Should be called with ``first_run = True`` to check if new settings are
         correct before saving them.
 
         Args:
@@ -206,7 +207,7 @@ class Mount(object):
                                 :py:class:`MountControl` subclass backend
 
         Returns:
-            bool:               True if all checks where okay
+            bool:               ``True`` if all checks where okay
 
         Raises:
             exceptions.MountException:
@@ -231,9 +232,9 @@ class Mount(object):
 
     def remount(self, new_profile_id, mode = None, hash_id = None, **kwargs):
         """
-        High-level `remount`. Unmount the old profile presented by `hash_id` and
-        mount new profile `new_profile_id` with mode `mode`. If old and new
-        mounts are the same just add new symlinks and keep the mount.
+        High-level `remount`. Unmount the old profile presented by ``hash_id``
+        and mount new profile ``new_profile_id`` with mode ``mode``. If old and
+        new mounts are the same just add new symlinks and keep the mount.
 
         Args map to profiles::
 
@@ -301,8 +302,8 @@ class MountControl(object):
     """
     This is the low-level mount API. This should be subclassed by backends.
 
-    Subclasses should have it's own __init__ but must also call the
-    inherited __init__.
+    Subclasses should have it's own ``__init__`` but **must** also call the
+    inherited ``__init__``.
 
     You **must** overwrite methods:\n
         :py:func:`MountControl._mount`
@@ -324,15 +325,15 @@ class MountControl(object):
         cfg (config.Config):    current config
         profile_id (str):       profile ID that should be used
         hash_id (str):          ???
-        tmp_mount (bool):       if True mount to a temporary destination
+        tmp_mount (bool):       if ``True`` mount to a temporary destination
         parent (QWidget):       parent widget for QDialogs or ``None`` if there
                                 is no parent
-        symlink (bool):         if True set symlink to mountpoint
+        symlink (bool):         if ``True`` set symlink to mountpoint
         mode (str):             one of ``local``, ``local_encfs``, ``ssh`` or
                                 ``ssh_encfs``
         hash_collision (int):   global value used to prevent hash collisions on
                                 mountpoints
-        read_only (bool):       if True mount source read-only
+        read_only (bool):       if ``True`` mount source read-only
     """
 
     CHECK_FUSE_GROUP = False
@@ -372,7 +373,7 @@ class MountControl(object):
     def set_default_args(self):
         """
         Set some arguments which are necessary for all backends.
-        `self.all_kwargs` need to be filled through `self.setattr_kwargs()`
+        ``self.all_kwargs`` need to be filled through :py:func:`setattr_kwargs`
         before calling this.
         """
         #self.destination should contain all arguments that are nessesary for
@@ -407,7 +408,7 @@ class MountControl(object):
         mount lock and symlink and release mountprocess lock.
 
         Args:
-            check (bool):   if True run :py:func:`pre_mount_check` before
+            check (bool):   if ``True`` run :py:func:`pre_mount_check` before
                             mounting
 
         Returns:
@@ -486,7 +487,7 @@ class MountControl(object):
 
     def _mount(self):
         """
-        Backend mount method. This need to get overwritten in the backend which
+        Backend mount method. This **must** be overwritten in the backend which
         subclasses :py:class:`MountControl`.
         """
         raise NotImplementedError('_mount need to be overwritten in backend')
@@ -509,11 +510,11 @@ class MountControl(object):
     def pre_mount_check(self, first_run = False):
         """
         Check what ever conditions must be given for the mount to be done
-        successful. This can be overwritten in backends which
+        successful. This **can** be overwritten in backends which
         subclasses :py:class:`MountControl`.
 
         Returns:
-            bool:       True if all checks where okay
+            bool:       ``True`` if all checks where okay
 
         Raises:
             exceptions.MountException:
@@ -527,11 +528,11 @@ class MountControl(object):
 
     def post_mount_check(self):
         """
-        Check if the mount was successful. This can be overwritten in backends
-        which subclasses :py:class:`MountControl`.
+        Check if the mount was successful. This **can** be overwritten in
+        backends which subclasses :py:class:`MountControl`.
 
         Returns:
-            bool:       True if all checks where okay
+            bool:       ``True`` if all checks where okay
 
         Raises:
             exceptions.MountException:
@@ -544,11 +545,11 @@ class MountControl(object):
 
     def pre_umount_check(self):
         """
-        Check if backend is safe to umount. This can be overwritten in backends
-        which subclasses :py:class:`MountControl`.
+        Check if backend is safe to umount. This **can** be overwritten in
+        backends which subclasses :py:class:`MountControl`.
 
         Returns:
-            bool:       True if all checks where okay
+            bool:       ``True`` if all checks where okay
 
         Raises:
             exceptions.MountException:
@@ -562,11 +563,11 @@ class MountControl(object):
 
     def post_umount_check(self):
         """
-        Check if unmount was successful. This can be overwritten in backends
+        Check if unmount was successful. This **can** be overwritten in backends
         which subclasses :py:class:`MountControl`.
 
         Returns:
-            bool:       True if all checks where okay
+            bool:       ``True`` if all checks where okay
 
         Raises:
             exceptions.MountException:
@@ -613,7 +614,7 @@ class MountControl(object):
         Check if the mountpoint is already mounted.
 
         Returns:
-            bool:   True if mountpoint is mounted
+            bool:   ``True`` if mountpoint is mounted
 
         Raises:
             exceptions.MountException:
@@ -636,20 +637,20 @@ class MountControl(object):
             |                              different processes modifying
             |                              mountpoints at one time
             |
-            |\ <hash_id>/              <=  `self.hash_id_path`
+            |\ <hash_id>/              <=  ``self.hash_id_path``
             |            \                 will be shared by all profiles with
             |            |                 the same mount settings
             |            |
-            |            |\ mountpoint/<=  `self.mountpoint`
+            |            |\ mountpoint/<=  ``self.mountpoint``
             |            |                 real mountpoint
             |            |
-            |            |\ umount     <=  `self.umount_info`
+            |            |\ umount     <=  ``self.umount_info``
             |            |                 json file with all nessesary args
             |            |                 for unmount
             |            |
-            |            \  locks/     <=  `self.lock_path`
+            |            \  locks/     <=  ``self.lock_path``
             |                              for each process you have a
-            |                              `<pid>.lock` file
+            |                              ``<pid>.lock`` file
             |
             |\ <profile id>_<pid>/     <=  sym-link to the right path. return by
             |                              config.get_snapshots_path
@@ -672,7 +673,7 @@ class MountControl(object):
         mounts at the same time.
 
         Args:
-            timeout (int):  wait `timeout` seconds before fail acquiring
+            timeout (int):  wait ``timeout`` seconds before fail acquiring
                             the lock
 
         Raises:
@@ -726,7 +727,7 @@ class MountControl(object):
         Check for locks on the current mountpoint.
 
         Returns:
-            bool:   True if there are any locks
+            bool:   ``True`` if there are any locks
         """
         lock_suffix = '.lock'
         return self.check_locks(self.lock_path, lock_suffix)
@@ -747,7 +748,7 @@ class MountControl(object):
 
     def check_locks(self, path, lock_suffix):
         """
-        Check if there are active locks ending with `lock_suffix` in `path`.
+        Check if there are active locks ending with ``lock_suffix`` in ``path``.
         If the process owning the lock doesn't exist anymore this will remove
         the lock.
 
@@ -756,7 +757,7 @@ class MountControl(object):
             lock_suffix (str):  last part of locks name
 
         Returns:
-            bool:               True if there are active locks in `path`
+            bool:               ``True`` if there are active locks in ``path``
         """
         for f in os.listdir(path):
             if not f[-len(lock_suffix):] == lock_suffix:
@@ -783,14 +784,14 @@ class MountControl(object):
 
     def setattr_kwargs(self, arg, default, store = True, **kwargs):
         """
-        Set attribute `arg` in local namespace (self.arg). Also collect all args
-        in `self.all_kwargs` which will be hashed later and used as mountpoint
-        name and also be written as unmount_info.
+        Set attribute ``arg`` in local namespace (self.arg). Also collect all
+        args in ``self.all_kwargs`` which will be hashed later and used as
+        mountpoint name and also be written as unmount_info.
 
         Args:
             arg (str):      argument name
-            default:        default value used if `arg` is not in `kwargs`
-            store (bool):   if True add `arg` to `self.all_kwargs`
+            default:        default value used if ``arg`` is not in ``kwargs``
+            store (bool):   if ``True`` add ``arg`` to ``self.all_kwargs``
             **kwargs:       arguments given on backend constructor
         """
         if arg in kwargs:
@@ -804,8 +805,8 @@ class MountControl(object):
 
     def write_umount_info(self):
         """
-        Write content of `self.all_kwargs` to file
-        `~/.local/share/backintime/mnt/<hash_id>/umount`.
+        Write content of ``self.all_kwargs`` to file
+        ``~/.local/share/backintime/mnt/<hash_id>/umount``.
         This will be used to unmount the filesystem later.
         """
         data_string = json.dumps(self.all_kwargs)
@@ -815,14 +816,14 @@ class MountControl(object):
 
     def read_umount_info(self, umount_info = None):
         """
-        Read keyword arguments from file `umount_info`.
+        Read keyword arguments from file ``umount_info``.
 
         Args:
-            umount_info (str):  full path to <hash_id>/umount file. If `None`
-                                current `<hash_id>/umount` file will be used
+            umount_info (str):  full path to <hash_id>/umount file. If ``None``
+                                current ``<hash_id>/umount`` file will be used
 
         Returns:
-            dict:               previously written `self.all_kwargs`
+            dict:               previously written ``self.all_kwargs``
         """
         if umount_info is None:
             umount_info = self.umount_info
@@ -833,7 +834,7 @@ class MountControl(object):
 
     def compare_umount_info(self, umount_info = None):
         """
-        Compare current `self.all_kwargs` with those from file `umount_info`.
+        Compare current ``self.all_kwargs`` with those from file ``umount_info``.
 
         This should prevent hash collisions of two different mounts.
 
@@ -841,8 +842,8 @@ class MountControl(object):
             umount_info (str):  full path to <hash_id>/umount file
 
         Returns:
-            bool:               True if `self.all_kwargs` and `kwargs` read from
-                                `umount_info` file are identiacal
+            bool:               ``True`` if ``self.all_kwargs`` and ``kwargs``
+                                read from ``umount_info`` file are identiacal
         """
         #run self.all_kwargs through json first
         current_kwargs = json.loads(json.dumps(self.all_kwargs))
@@ -858,7 +859,7 @@ class MountControl(object):
 
     def compare_remount(self, old_hash_id):
         """
-        Compare mount arguments between current and `old_hash_id`. If they are
+        Compare mount arguments between current and ``old_hash_id``. If they are
         identical we could reuse the mount and don't need to remount.
 
         Args:
@@ -874,16 +875,16 @@ class MountControl(object):
 
     def set_symlink(self, profile_id = None, hash_id = None, tmp_mount = None):
         """
-        If `self.symlink` is True set symlink
-        `~/.local/share/backintime/mnt/<profile id>_<pid>`. Target will be
+        If ``self.symlink`` is ``True`` set symlink
+        ``~/.local/share/backintime/mnt/<profile id>_<pid>``. Target will be
         either the mountpoint or a subfolder of the mountpoint if
-        `self.symlink_subfolder` is set.
+        ``self.symlink_subfolder`` is set.
 
         Args:
-            profile_id (str):   Profile ID that should be linked. If `None` use
-                                `self.profile_id`
+            profile_id (str):   Profile ID that should be linked. If ``None``
+                                use ``self.profile_id``
             hash_id (str):      Hash ID of mountpoint where this sysmlink should
-                                point to. If `None` use `self.hash_id`
+                                point to. If ``None`` use ``self.hash_id``
             tmp_mount (bool):   Set a temporary symlink just for testing new
                                 settings
         """
@@ -909,7 +910,7 @@ class MountControl(object):
 
     def remove_symlink(self, profile_id = None, tmp_mount = None):
         """
-        Remove symlink `~/.local/share/backintime/mnt/<profile id>_<pid>`
+        Remove symlink ``~/.local/share/backintime/mnt/<profile id>_<pid>``
 
         Args:
             profile_id (str):   Profile ID for the symlink
@@ -928,26 +929,26 @@ class MountControl(object):
 
     def hash(self, s):
         """
-        Create a CRC32 hash of string `s`.
+        Create a CRC32 hash of string ``s``.
 
         Args:
             s (str):    string that should be hashed
 
         Returns:
-            str:        hash of string `s`
+            str:        hash of string ``s``
         """
         return('%X' % (crc32(s.encode()) & 0xFFFFFFFF))
 
     def get_hash_id_path(self, hash_id = None):
         """
-        Get path `~/.local/share/backintime/mnt/<hash_id>`.
+        Get path ``~/.local/share/backintime/mnt/<hash_id>``.
 
         Args:
-            hash_id (str):  Unique identifier for a mountpoint. If `None` use
-                            `self.hash_id`
+            hash_id (str):  Unique identifier for a mountpoint. If ``None`` use
+                            ``self.hash_id``
 
         Returns:
-            str:            full path to `<hash_id>`
+            str:            full path to ``<hash_id>``
         """
         if hash_id is None:
             hash_id = self.hash_id
@@ -955,36 +956,36 @@ class MountControl(object):
 
     def get_mountpoint(self, hash_id = None):
         """
-        Get path `~/.local/share/backintime/mnt/<hash_id>/mountpoint`.
+        Get path ``~/.local/share/backintime/mnt/<hash_id>/mountpoint``.
 
         Args:
             hash_id (str):  Unique identifier for a mountpoint
 
         Returns:
-            str:            full path to `<hash_id>/mountpoint``
+            str:            full path to ``<hash_id>/mountpoint``
         """
         return os.path.join(self.get_hash_id_path(hash_id), 'mountpoint')
 
     def get_lock_path(self, hash_id = None):
         """
-        Get path `~/.local/share/backintime/mnt/<hash_id>/locks`.
+        Get path ``~/.local/share/backintime/mnt/<hash_id>/locks``.
 
         Args:
             hash_id (str):  Unique identifier for a mountpoint
 
         Returns:
-            str:            full path to `<hash_id>/locks``
+            str:            full path to ``<hash_id>/locks```
         """
         return os.path.join(self.get_hash_id_path(hash_id), 'locks')
 
     def get_umount_info(self, hash_id = None):
         """
-        Get path `~/.local/share/backintime/mnt/<hash_id>/umount`.
+        Get path ``~/.local/share/backintime/mnt/<hash_id>/umount``.
 
         Args:
             hash_id (str):  Unique identifier for a mountpoint
 
         Returns:
-            str:            full path to `<hash_id>/umount``
+            str:            full path to ``<hash_id>/umount```
         """
         return os.path.join(self.get_hash_id_path(hash_id), 'umount')

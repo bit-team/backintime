@@ -108,6 +108,10 @@ pygments_style = 'sphinx'
 
 intersphinx_mapping = {'python': ('https://docs.python.org/3.4', None)}
 
+# -- Napoleon include private members which have docstrings ---------------
+
+napoleon_include_private_with_doc = True
+
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for

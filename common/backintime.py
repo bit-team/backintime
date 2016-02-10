@@ -72,7 +72,7 @@ def take_snapshot( cfg, force = True ):
                                 or would be prevented (e.g. running on battery)
 
     Returns:
-        bool:                   True if successful
+        bool:                   ``True`` if successful
     """
     tools.load_env(cfg.get_cron_env_file())
     ret = snapshots.Snapshots( cfg ).take_snapshot( force )
@@ -478,7 +478,7 @@ def arg_parse(args):
 
     Args:
         args (argparse.Namespace):  Namespace that should be enhanced
-                                    or None
+                                    or ``None``
 
     Returns:
         argparser.Namespace:        new parsed Namespace
@@ -492,7 +492,7 @@ def arg_parse(args):
                         main Namespace that should get new arguments
             subArgs (argparse.Namespace):
                         second Namespace which have new arguments
-                        that should be merged into `args`
+                        that should be merged into ``args``
         """
         for key, value in vars(subArgs).items():
             #only add new values if it isn't set already or if there really IS a value
@@ -606,14 +606,14 @@ def getConfig(args, check = True):
     Args:
         args (argparse.Namespace):
                         previously parsed arguments
-        check (bool):   if True check if config is valid
+        check (bool):   if ``True`` check if config is valid
 
     Returns:
         config.Config:  current config with requested profile selected
 
     Raises:
-        SystemExit:     1 if `profile` or `profile_id` is no valid profile
-                        2 if `check` is True and config is not configured
+        SystemExit:     1 if ``profile`` or ``profile_id`` is no valid profile
+                        2 if ``check`` is ``True`` and config is not configured
     """
     cfg = config.Config(args.config)
     logger.debug('config file: %s' % cfg._LOCAL_CONFIG_PATH)
@@ -635,7 +635,7 @@ def getConfig(args, check = True):
 
 def setQuiet(args):
     """
-    Redirect :py:data:`sys.stdout` to `/dev/null` if `--quiet` was set on
+    Redirect :py:data:`sys.stdout` to ``/dev/null`` if ``--quiet`` was set on
     commandline. Return the original :py:data:`sys.stdout` fileobject which can
     be used to print absolute necessary information.
 
