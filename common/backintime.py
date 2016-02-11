@@ -740,7 +740,8 @@ def snapshotsList(args):
     else:
         msg = 'SnapshotID: {}'
     no_sids = True
-    for sid in snapshots.iterSnapshots(cfg):
+    #use snapshots.listSnapshots instead of iterSnapshots because of sorting
+    for sid in snapshots.listSnapshots(cfg, reverse = False):
         print(msg.format(sid), file=force_stdout)
         no_sids = False
     if no_sids:
@@ -769,7 +770,8 @@ def snapshotsListPath(args):
     else:
         msg = 'SnapshotPath: {}'
     no_sids = True
-    for sid in snapshots.iterSnapshots(cfg):
+    #use snapshots.listSnapshots instead of iterSnapshots because of sorting
+    for sid in snapshots.listSnapshots(cfg, reverse = False):
         print(msg.format(sid.path()), file=force_stdout)
         no_sids = False
     if no_sids:
