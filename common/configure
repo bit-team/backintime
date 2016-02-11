@@ -153,7 +153,8 @@ printf "build:\ttranslate compress\n\n" >> ${MAKEFILE}
 printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f man/C/*.gz\n" >> ${MAKEFILE}
-printf "\trm -f config-example-*.gz\n\n" >> ${MAKEFILE}
+printf "\trm -f config-example-*.gz\n" >> ${MAKEFILE}
+printf "\trm -rf doc-dev/_build/*\n\n" >> ${MAKEFILE}
 
 #create install and uninstall target
 printf "install:\tinstall_translations\n" >> ${MAKEFILE}
