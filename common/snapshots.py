@@ -987,7 +987,7 @@ class Snapshots:
                 os.chmod(file, mode | stat.S_IWUSR)
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
             logger.info("Remove leftover '%s' folder from last run" %new_snapshot.displayID)
-            self.set_take_snapshot_message(0, _("Remove leftover '%s' folder from last run") %new_snapshot.displayID)
+            self.set_take_snapshot_message(0, _("Removing leftover '%s' folder from last run") %new_snapshot.displayID)
             #first do the heavy lifting over ssh
             self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
                                        %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
@@ -1030,7 +1030,7 @@ class Snapshots:
             if not full_rsync:
                 changed = True
                 if check_for_changes:
-                    self.set_take_snapshot_message(0, _('Compare with snapshot %s') % prev_sid.displayID)
+                    self.set_take_snapshot_message(0, _('Comparing with snapshot %s') % prev_sid.displayID)
                     logger.info("Compare with old snapshot: %s" % prev_sid, self)
 
                     cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix
@@ -1084,7 +1084,7 @@ class Snapshots:
         cmd = rsync_prefix + ' -v ' + rsync_suffix
         cmd += self.rsync_remote_path( new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']) )
 
-        self.set_take_snapshot_message( 0, _('Take snapshot') )
+        self.set_take_snapshot_message( 0, _('Taking snapshot') )
 
         if full_rsync:
             if prev_sid:
@@ -1142,13 +1142,13 @@ class Snapshots:
 
         #backup config file
         logger.info('Save config file', self)
-        self.set_take_snapshot_message( 0, _('Save config file ...') )
+        self.set_take_snapshot_message( 0, _('Saving config file...') )
         self._execute( 'cp "%s" "%s"' % (self.config._LOCAL_CONFIG_PATH, new_snapshot.pathBackup() + '..') )
 
         if not full_rsync or self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
             #save permissions for sync folders
             logger.info('Save permissions', self)
-            self.set_take_snapshot_message( 0, _('Save permission ...') )
+            self.set_take_snapshot_message( 0, _('Saving permissions...') )
 
             permission_done = False
             fileInfoDict = FileInfoDict()
@@ -1503,7 +1503,7 @@ class Snapshots:
 
         #remove old backups
         if self.config.is_remove_old_snapshots_enabled():
-            self.set_take_snapshot_message( 0, _('Remove old snapshots') )
+            self.set_take_snapshot_message( 0, _('Removing old snapshots') )
 
             old_backup_id = SID(self.config.get_remove_old_snapshots_date(), self.config)
             logger.info("Remove backups older than: %s"
@@ -1531,7 +1531,7 @@ class Snapshots:
 
         #try to keep min free space
         if self.config.is_min_free_space_enabled():
-            self.set_take_snapshot_message( 0, _('Try to keep min free space') )
+            self.set_take_snapshot_message( 0, _('Trying to keep min free space') )
 
             min_free_space = self.config.get_min_free_space_in_mb()
 
@@ -1568,7 +1568,7 @@ class Snapshots:
         #try to keep free inodes
         if self.config.min_free_inodes_enabled():
             min_free_inodes = self.config.min_free_inodes()
-            self.set_take_snapshot_message( 0, _('Try to keep min %d%% free inodes') % min_free_inodes )
+            self.set_take_snapshot_message( 0, _('Trying to keep min %d%% free inodes') % min_free_inodes )
             logger.info("Keep min %d%% free inodes" %min_free_inodes, self)
 
             snapshots = listSnapshots(self.config, reverse = False)
