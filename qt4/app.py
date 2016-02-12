@@ -1062,14 +1062,14 @@ class MainWindow( QMainWindow ):
     def on_btn_folder_history_previous_clicked(self):
         path = self.path_history.previous()
         full_path = self.sid.pathBackup(path)
-        if os.path.isdir(full_path) and self.sid.canOpenPath(full_path):
+        if os.path.isdir(full_path) and self.sid.canOpenPath(path):
             self.path = path
             self.update_files_view(0)
 
     def on_btn_folder_history_next_clicked(self):
         path = self.path_history.next()
         full_path = self.sid.pathBackup(path)
-        if os.path.isdir(full_path) and self.sid.canOpenPath(full_path):
+        if os.path.isdir(full_path) and self.sid.canOpenPath(path):
             self.path = path
             self.update_files_view(0)
 
@@ -1121,7 +1121,7 @@ class MainWindow( QMainWindow ):
         rel_path = os.path.join( self.path, rel_path )
         full_path = self.sid.pathBackup(rel_path)
 
-        if os.path.exists(full_path) and self.sid.canOpenPath(full_path):
+        if os.path.exists(full_path) and self.sid.canOpenPath(rel_path):
             if os.path.isdir( full_path ):
                 self.path = rel_path
                 self.path_history.append(rel_path)
