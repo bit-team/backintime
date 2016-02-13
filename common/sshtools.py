@@ -53,7 +53,7 @@ class SSH(MountControl):
         self.setattr_kwargs('ionice', self.config.is_run_ionice_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('nocache', self.config.is_run_nocache_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('password', None, store = False, **kwargs)
-        
+
 
         if not self.path:
             self.path = './'
@@ -93,7 +93,8 @@ class SSH(MountControl):
         sshfs = [self.mountproc] + self.ssh_options
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
-        sshfs.extend(['-o', 'idmap=user'])
+        sshfs.extend(['-o', 'idmap=user',
+                      '-o', 'cache_dir_timeout=2'])
 
         # use read only mount if requested
         if self.read_only:

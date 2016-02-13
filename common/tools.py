@@ -981,19 +981,6 @@ def syncfs():
     if check_command('sync'):
         return(_execute('sync') == 0)
 
-def update_cached_fs(dir):
-    """
-    Writes into a temporary file and remove that file again. Changes not made
-    through sshfs on remote files will not be recognized immediately because
-    of the local cache. But writing a new file into that folder will update
-    local cache.
-
-    Args:
-        dir (str):  full path to sshfs mounted folder
-    """
-    with tempfile.NamedTemporaryFile('w', dir = dir) as f:
-        f.write('foo')
-
 def isRoot():
     """
     Check if we are root.

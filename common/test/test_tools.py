@@ -478,12 +478,6 @@ class TestTools(generic.TestCase):
     def test_syncfs(self):
         self.assertTrue(tools.syncfs())
 
-    def test_update_cached_fs(self):
-        try:
-            tools.update_cached_fs('/tmp')
-        except Exception as e:
-            self.fail('tools.update_cached_fs() raised exception {}'.format(str(e)))
-
     def test_isRoot(self):
         self.assertIsInstance(tools.isRoot(), bool)
 
