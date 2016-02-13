@@ -660,7 +660,7 @@ class Snapshots:
                                     and removing snapshot. Only if ``execute``
                                     is ``False``
         """
-        if len( sid.sid ) <= 1:
+        if isinstance(sid, RootSnapshot):
             return
         path = sid.path( use_mode = ['ssh', 'ssh_encfs'])
         find = 'find %(quote)s%(path)s%(quote)s -type d -exec chmod u+wx %(quote)s{}%(quote)s %(suffix)s' \

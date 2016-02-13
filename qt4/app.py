@@ -843,7 +843,7 @@ class MainWindow( QMainWindow ):
         self.setMouseButtonNavigation()
 
     def on_btn_remove_snapshot_clicked ( self ):
-        items = [item for item in self.list_time_line.selectedItems() if len(item.snapshotID()) > 1]
+        items = [item for item in self.list_time_line.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
         if not items:
             return
 

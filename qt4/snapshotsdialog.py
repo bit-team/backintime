@@ -26,6 +26,7 @@ import tools
 import restoredialog
 import messagebox
 import qt4tools
+import snapshots
 
 _=gettext.gettext
 
@@ -372,7 +373,7 @@ class SnapshotsDialog( QDialog ):
         """
         self.list_snapshots.clearSelection()
         for item in self.list_snapshots.iterSnapshotItems():
-            if len(item.snapshotID()) > 1:
+            if not isinstance(item.snapshotID(), snapshots.RootSnapshot):
                 item.setSelected(True)
 
     def accept( self ):
