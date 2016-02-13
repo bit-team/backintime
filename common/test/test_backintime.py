@@ -32,7 +32,7 @@ class TestBackInTime(generic.TestCase):
 
     def test_quiet_mode(self):
         self.assertEquals("", subprocess.getoutput("python3 backintime.py --quiet"))
-    
+
     # end to end test - from BIT initialization all the way through successful snapshot on a local mount
     # test one of the highest level interfaces a user could work with - the command line
     # ensures that argument parsing, functionality, and output all work as expected
@@ -53,7 +53,7 @@ class TestBackInTime(generic.TestCase):
 
         # remove restored directory
         subprocess.getoutput("rm -rf /tmp/restored")
-        
+
         # install proper destination filesystem structure and verify output
         output = subprocess.check_output(["./backintime","--config","test/config","check-config"])
 
@@ -98,8 +98,8 @@ Check config: done
  └────────────────────────────────┘
 Install crontab: done
 
-Config test/config profile 'Main profile' is fine.''', re.MULTILINE))
-        
+Config test/config profile '.+' is fine.''', re.MULTILINE))
+
         # execute backup and verify output
         # TODO - verify exit code is 0. using check_output() hangs, not sure why. tried shell=True which doesn't help
         output = subprocess.getoutput("./backintime --config test/config backup")
@@ -114,7 +114,7 @@ under certain conditions; type `backintime --license' for details.
 INFO: Lock(
 INFO: Inhibit Suspend started. Reason: take snapshot)?
 INFO: mount local: /tmp/snapshots on .*
-INFO: Take a new snapshot. Profile: 1 Main profile
+INFO: Take a new snapshot. Profile: 1 .+
 INFO: Call rsync to take the snapshot
 INFO: Save config file
 INFO: Save permissions
@@ -128,7 +128,7 @@ INFO: Release inhibit Suspend)?''', re.MULTILINE))
 
         # get snapshot id
         subprocess.check_output(["./backintime","--config","test/config","snapshots-list"])
-        
+
         # execute restore and verify output
         # TODO - verify exit code is 0. using check_output() hangs, not sure why. tried shell=True which doesn't help
         output = subprocess.getoutput("./backintime --config test/config restore /tmp/test/testfile /tmp/restored 0")
@@ -143,6 +143,6 @@ under certain conditions; type `backintime --license' for details.
 INFO: mount local: /tmp/snapshots on .*
 
 INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
-        
+
         # verify that files restored are the same as those backed up
         subprocess.check_output(["diff","-r","/tmp/test","/tmp/restored"])
