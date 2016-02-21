@@ -104,13 +104,19 @@ onTravis () {
 }
 
 #get commandline arguments
+unknown_args=""
 for arg in $*; do
 	case $arg in
 		--python | --python3) PYTHON=$arg;;
 		--fuse-group | --no-fuse-group) FUSE_GROUP=$arg;;
-		--help | -h | *) usage; exit 0;;
+		--help | -h) usage; exit 0;;
+		*) unknown_args="$unknown_args $arg";;
 	esac
 done
+
+if [ -n "$unknown_args" ]; then
+	echo "Unknown Arguments: $unknown_args"
+fi
 
 #patch python command
 #use 'python' or 'python3' to start Python Version 3.x
