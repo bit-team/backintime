@@ -22,7 +22,7 @@ from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView,      \
                         QTreeView, QDialog, QApplication, QStyleFactory,       \
                         QTreeWidget, QTreeWidgetItem, QColor, QComboBox
 from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal, QModelIndex,  \
-						 QTranslator, QLocale, QLibraryInfo
+                         QTranslator, QLocale, QLibraryInfo
 from datetime import datetime, date, timedelta
 from calendar import monthrange
 
