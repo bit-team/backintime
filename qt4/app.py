@@ -1422,6 +1422,8 @@ if __name__ == '__main__':
 
     logger.openlog()
     qapp = qt4tools.create_qapplication(cfg.APP_NAME)
+    translator = qt4tools.get_translator()
+    qapp.installTranslator(translator)
 
     main_window = MainWindow( cfg, app_instance, qapp )
 

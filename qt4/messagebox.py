@@ -24,7 +24,9 @@ _ = gettext.gettext
 
 def ask_password_dialog(parent, title, prompt, timeout = None):
     if parent is None:
-        qt4tools.create_qapplication()
+        app = qt4tools.create_qapplication()
+        translator = qt4tools.get_translator()
+        app.installTranslator(translator)
 
     import icon
     dialog = QInputDialog()

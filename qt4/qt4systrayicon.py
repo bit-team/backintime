@@ -49,6 +49,8 @@ class Qt4SysTrayIcon:
                                %sys.argv[1], self)
 
         self.qapp = qt4tools.create_qapplication(self.config.APP_NAME)
+        translator = qt4tools.get_translator()
+        self.qapp.installTranslator(translator)
 
         import icon
         self.icon = icon

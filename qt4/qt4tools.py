@@ -21,7 +21,8 @@ import gettext
 from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView,      \
                         QTreeView, QDialog, QApplication, QStyleFactory,       \
                         QTreeWidget, QTreeWidgetItem, QColor, QComboBox
-from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal, QModelIndex
+from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal, QModelIndex,  \
+						 QTranslator, QLocale, QLibraryInfo
 from datetime import datetime, date, timedelta
 from calendar import monthrange
 
@@ -147,6 +148,13 @@ def create_qapplication(app_name = 'Back In Time'):
         'GTK+' in QStyleFactory.keys():
             qapp.setStyle('GTK+')
     return qapp
+
+def get_translator():
+    translator = QTranslator()
+    locale = QLocale.system().name()
+    translator.load('qt_%s' % locale,
+        			QLibraryInfo.location(QLibraryInfo.TranslationsPath))
+    return translator
 
 class MyTreeView(QTreeView):
     """
