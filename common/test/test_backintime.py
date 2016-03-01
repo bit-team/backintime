@@ -55,11 +55,19 @@ class TestBackInTime(generic.TestCase):
         subprocess.getoutput("rm -rf /tmp/restored")
 
         # install proper destination filesystem structure and verify output
-        output = subprocess.check_output(["./backintime","--config","test/config","check-config"])
+        proc = subprocess.Popen(["./backintime","--config","test/config","check-config"],
+                                stdout = subprocess.PIPE,
+                                stderr = subprocess.PIPE)
+        output, error = proc.communicate()
+        msg = 'Returncode: {}\nstderr: {}\nstdout: {}'.format(proc.returncode,
+                                                              error.decode(),
+                                                              output.decode())
+        self.assertEqual(proc.returncode, 0, msg)
+        self.assertEqual(error, b'', msg)
 
         self.assertRegex(output.decode(), re.compile('''
 Back In Time
-Version: \d+.\d+.\d+ .*
+Version: \d+.\d+.\d+.*
 
 Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
@@ -105,7 +113,7 @@ Config test/config profile '.+' is fine.''', re.MULTILINE))
         output = subprocess.getoutput("./backintime --config test/config backup")
         self.assertRegex(output, re.compile('''
 Back In Time
-Version: \d+.\d+.\d+ .*
+Version: \d+.\d+.\d+.*
 
 Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
@@ -134,7 +142,7 @@ INFO: Release inhibit Suspend)?''', re.MULTILINE))
         output = subprocess.getoutput("./backintime --config test/config restore /tmp/test/testfile /tmp/restored 0")
         self.assertRegex(output, re.compile('''
 Back In Time
-Version: \d+.\d+.\d+ .*
+Version: \d+.\d+.\d+.*
 
 Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
