@@ -597,6 +597,8 @@ def keyring_supported():
     except: pass
     try: backends.append(keyring.backends.kwallet.Keyring)
     except: pass
+    try: backends.append(keyring.backends.kwallet.DBusKeyring)
+    except: pass
     try: backends.append(keyring.backend.SecretServiceKeyring)
     except: pass
     try: backends.append(keyring.backend.GnomeKeyring)
@@ -607,9 +609,9 @@ def keyring_supported():
         displayName = keyring.get_keyring().__module__
     except:
         displayName = str(keyring.get_keyring())
-    if backends:
+    if backends and isinstance(keyring.get_keyring(), tuple(backends)):
         logger.debug("Found appropriate keyring '{}'".format(displayName))
-        return isinstance(keyring.get_keyring(), tuple(backends))
+        return True
     logger.debug("No appropriate keyring found. '{}' can't be used with BackInTime".format(displayName))
     return False
 
