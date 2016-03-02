@@ -1126,7 +1126,7 @@ class MainWindow( QMainWindow ):
                 self.path_history.append(rel_path)
                 self.update_files_view( 0 )
             else:
-                self.run = QDesktopServices.openUrl(QUrl(full_path ))
+                self.run = QDesktopServices.openUrl(QUrl('file://' + full_path))
 
     @pyqtSlot(int)
     def update_files_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
