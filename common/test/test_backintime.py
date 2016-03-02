@@ -63,7 +63,6 @@ class TestBackInTime(generic.TestCase):
                                                               error.decode(),
                                                               output.decode())
         self.assertEqual(proc.returncode, 0, msg)
-        self.assertEqual(error, b'', msg)
 
         self.assertRegex(output.decode(), re.compile('''
 Back In Time
