@@ -1,6 +1,2 @@
 #!/bin/bash
-if [ $(which pkexec) ]; then
-        pkexec --disable-internal-agent "/usr/bin/backintime-qt4" "$@"
-else
-        /usr/bin/backintime-qt4 "$@"
-fi
+pkexec --disable-internal-agent "/usr/bin/backintime-qt4" "$@"
