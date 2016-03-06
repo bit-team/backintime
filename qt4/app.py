@@ -26,6 +26,7 @@ import datetime
 import gettext
 import re
 import subprocess
+from contextlib import contextmanager
 
 import qt4tools
 qt4tools.register_backintime_path('common')
@@ -822,9 +823,8 @@ class MainWindow( QMainWindow ):
         item.updateText()
 
     def on_btn_log_view_clicked ( self ):
-        self.removeMouseButtonNavigation()
-        logviewdialog.LogViewDialog( self ).exec_()
-        self.setMouseButtonNavigation()
+        with self.suspendMouseButtonNavigation():
+            logviewdialog.LogViewDialog( self ).exec_()
 
     def on_btn_snapshot_log_view_clicked ( self ):
         item = self.list_time_line.currentItem()
@@ -835,12 +835,11 @@ class MainWindow( QMainWindow ):
         if sid.isRoot:
             return
 
-        self.removeMouseButtonNavigation()
-        dlg = logviewdialog.LogViewDialog( self, sid )
-        dlg.exec_()
-        if sid != dlg.sid:
-            self.list_time_line.setCurrentSnapshotID(dlg.sid)
-        self.setMouseButtonNavigation()
+        with self.suspendMouseButtonNavigation():
+            dlg = logviewdialog.LogViewDialog( self, sid )
+            dlg.exec_()
+            if sid != dlg.sid:
+                self.list_time_line.setCurrentSnapshotID(dlg.sid)
 
     def on_btn_remove_snapshot_clicked ( self ):
         items = [item for item in self.list_time_line.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
@@ -859,12 +858,11 @@ class MainWindow( QMainWindow ):
         thread.start()
 
     def on_btn_settings_clicked( self ):
-        self.removeMouseButtonNavigation()
-        if QDialog.Accepted == settingsdialog.SettingsDialog( self ).exec_():
-            profile_id = self.config.get_current_profile()
-            self.remount(profile_id, profile_id)
-            self.update_profiles()
-        self.setMouseButtonNavigation()
+        with self.suspendMouseButtonNavigation():
+            if QDialog.Accepted == settingsdialog.SettingsDialog( self ).exec_():
+                profile_id = self.config.get_current_profile()
+                self.remount(profile_id, profile_id)
+                self.update_profiles()
 
     def on_btn_shutdown_toggled(self, checked):
         self.shutdown.activate_shutdown = checked
@@ -873,10 +871,9 @@ class MainWindow( QMainWindow ):
         self.contextMenu.exec_(self.list_files_view.mapToGlobal(point) )
 
     def on_about( self ):
-        self.removeMouseButtonNavigation()
-        dlg = About(self)
-        dlg.exec_()
-        self.setMouseButtonNavigation()
+        with self.suspendMouseButtonNavigation():
+            dlg = About(self)
+            dlg.exec_()
 
     def on_help( self ):
         self.open_man_page('backintime')
@@ -982,12 +979,11 @@ class MainWindow( QMainWindow ):
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
 
-        self.removeMouseButtonNavigation()
-        if delete:
-            confirm, kwargs = self.confirm_delete_on_restore(rel_path, any([i == '/' for i in selected_file]) )
-        else:
-            confirm, kwargs = self.confirm_restore(rel_path)
-        self.setMouseButtonNavigation()
+        with self.suspendMouseButtonNavigation():
+            if delete:
+                confirm, kwargs = self.confirm_delete_on_restore(rel_path, any([i == '/' for i in selected_file]) )
+            else:
+                confirm, kwargs = self.confirm_restore(rel_path)
         if not confirm:
             return
 
@@ -1012,12 +1008,11 @@ class MainWindow( QMainWindow ):
         if self.sid.isRoot:
             return
 
-        self.removeMouseButtonNavigation()
-        if delete:
-            confirm, kwargs = self.confirm_delete_on_restore((self.path,), self.path == '/')
-        else:
-            confirm, kwargs = self.confirm_restore((self.path,))
-        self.setMouseButtonNavigation()
+        with self.suspendMouseButtonNavigation():
+            if delete:
+                confirm, kwargs = self.confirm_delete_on_restore((self.path,), self.path == '/')
+            else:
+                confirm, kwargs = self.confirm_restore((self.path,))
         if not confirm:
             return
 
@@ -1039,12 +1034,11 @@ class MainWindow( QMainWindow ):
 
         rel_path = os.path.join( self.path, selected_file )
 
-        self.removeMouseButtonNavigation()
-        dlg = snapshotsdialog.SnapshotsDialog( self, self.sid, rel_path)
-        if QDialog.Accepted == dlg.exec_():
-            if dlg.sid != self.sid:
-                self.list_time_line.setCurrentSnapshotID(dlg.sid)
-        self.setMouseButtonNavigation()
+        with self.suspendMouseButtonNavigation():
+            dlg = snapshotsdialog.SnapshotsDialog( self, self.sid, rel_path)
+            if QDialog.Accepted == dlg.exec_():
+                if dlg.sid != self.sid:
+                    self.list_time_line.setCurrentSnapshotID(dlg.sid)
 
     def on_btn_folder_up_clicked( self ):
         if len( self.path ) <= 1:
@@ -1254,8 +1248,11 @@ class MainWindow( QMainWindow ):
     def setMouseButtonNavigation(self):
         self.qapp.installEventFilter(self.mouseButtonEventFilter)
 
-    def removeMouseButtonNavigation(self):
+    @contextmanager
+    def suspendMouseButtonNavigation(self):
         self.qapp.removeEventFilter(self.mouseButtonEventFilter)
+        yield
+        self.setMouseButtonNavigation()
 
 class About(QDialog):
     def __init__(self, parent = None):
