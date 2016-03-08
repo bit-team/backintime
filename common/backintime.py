@@ -40,7 +40,7 @@ RETURN_NO_CFG = 2
 
 parsers = {}
 
-def take_snapshot_now_async( cfg ):
+def take_snapshot_now_async(cfg, checksum = False):
     """
     Fork a new backintime process with 'backup' command which will
     take a new snapshot in background.
@@ -58,6 +58,8 @@ def take_snapshot_now_async( cfg ):
         cmd += '--config %s ' % cfg._LOCAL_CONFIG_PATH
     if logger.DEBUG:
         cmd += '--debug '
+    if checksum:
+        cmd += '--checksum '
     cmd += 'backup &'
 
     os.system( cmd )

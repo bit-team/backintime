@@ -80,6 +80,14 @@ class MainWindow( QMainWindow ):
         self.btn_take_snapshot = self.main_toolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
         QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 
+        take_snapshot_menu = QMenu()
+        action = take_snapshot_menu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
+        QObject.connect(action, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked)
+        self.btn_take_snapshot_checksum = take_snapshot_menu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'))
+        self.btn_take_snapshot_checksum.setToolTip(_('Use checksum to detect changes'))
+        QObject.connect(self.btn_take_snapshot_checksum, SIGNAL('triggered()'), self.on_btn_take_snapshot_checksum_clicked)
+        self.btn_take_snapshot.setMenu(take_snapshot_menu)
+
         self.btn_update_snapshots = self.main_toolbar.addAction(icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'))
         self.btn_update_snapshots.setShortcuts([Qt.Key_F5, QKeySequence(Qt.CTRL + Qt.Key_R)])
         QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
@@ -795,6 +803,10 @@ class MainWindow( QMainWindow ):
     def on_btn_take_snapshot_clicked( self ):
         backintime.take_snapshot_now_async( self.config )
         self.update_take_snapshot( True )
+
+    def on_btn_take_snapshot_checksum_clicked(self):
+        backintime.take_snapshot_now_async(self.config, checksum = True)
+        self.update_take_snapshot(True)
 
     def on_btn_update_snapshots_clicked( self ):
         self.update_time_line()
