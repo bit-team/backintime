@@ -376,6 +376,11 @@ def create_parsers(app_name = 'backintime'):
                                                  help = 'Temporary disable creation of backup files before changing local files. ' +\
                                                  'This can be switched of permanently in Settings, too.')
 
+    restoreCP.add_argument                      ('--only-new',
+                                                 action = 'store_true',
+                                                 help = 'Only restore files which does not exist or are newer than ' +\
+                                                        'those in destination. Using "rsync --update" option.')
+
     command = 'snapshots-list'
     nargs = 0
     aliases.append((command, nargs))
@@ -989,13 +994,17 @@ def restore(args):
     printHeader()
     cfg = getConfig(args)
     _mount(cfg)
+    if cfg.is_backup_on_restore_enabled() and not args.no_local_backup:
+        backup = True
+    else:
+        backup = args.local_backup
     cli.restore(cfg,
                 args.SNAPSHOT_ID,
                 args.WHAT,
                 args.WHERE,
                 delete = args.delete,
-                backup = args.local_backup,
-                no_backup = args.no_local_backup)
+                backup = backup,
+                only_new = args.only_new)
     _umount(cfg)
     sys.exit(RETURN_OK)
 

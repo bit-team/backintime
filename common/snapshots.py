@@ -468,8 +468,8 @@ class Snapshots:
                 callback = None,
                 restore_to = '',
                 delete = False,
-                backup = False,
-                no_backup = False):
+                backup = True,
+                only_new = False):
         """
         Restore one or more files from snapshot ``sid`` to either original
         or a different destination. Restore is done with rsync. If available
@@ -491,11 +491,9 @@ class Snapshots:
                                         snapshot
             backup (bool):              create backup files (\*.backup.YYYYMMDD)
                                         before changing or deleting local files.
-                                        This will override
-                                        :py:func:`config.Config.is_backup_on_restore_enabled`
-            no_backup(bool):            do not backup files before changing or
-                                        deleting local files. This will override
-                                        :py:func:`config.Config.is_backup_on_restore_enabled`
+            only_new (bool):            Only restore files which does not exist
+                                        or are newer than those in destination.
+                                        Using "rsync --update" option.
         """
         instance = applicationinstance.ApplicationInstance( self.config.get_restore_instance_file(), False, flock = True)
         if instance.check():
@@ -525,13 +523,15 @@ class Snapshots:
             # During the rsync operation, directories must be rwx by the current
             # user. Files should be r and x (if executable) by the current user.
             cmd_suffix += '--chmod=Du=rwx,Fu=rX,go= '
-        if backup or self.config.is_backup_on_restore_enabled() and not no_backup:
+        if backup:
             cmd_suffix += "--backup --suffix=%s " % self.backup_suffix()
         if delete:
             cmd_suffix += '--delete '
             cmd_suffix += '--filter="protect %s" ' % self.config.get_snapshots_path()
             cmd_suffix += '--filter="protect %s" ' % self.config._LOCAL_DATA_FOLDER
             cmd_suffix += '--filter="protect %s" ' % self.config._MOUNT_ROOT
+        if only_new:
+            cmd_suffix += '--update '
 
         restored_paths = []
         for path in paths:

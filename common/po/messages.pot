@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-12 03:33+0100\n"
+"POT-Creation-Date: 2016-03-14 02:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../../common/bindfstools.py:62 ../../common/sshtools.py:114
+#: ../../common/bindfstools.py:62 ../../common/sshtools.py:115
 #, python-format
 msgid "Can't mount %s"
 msgstr ""
@@ -213,7 +213,7 @@ msgstr ""
 
 #: ../../common/config.py:249 ../../common/config.py:256
 #: ../../common/config.py:267 ../../common/config.py:272
-#: ../../qt4/qt4systrayicon.py:61
+#: ../../qt4/qt4systrayicon.py:63
 #, python-format
 msgid "Profile: \"%s\""
 msgstr ""
@@ -344,8 +344,8 @@ msgid ""
 "update encfs"
 msgstr ""
 
-#: ../../common/encfstools.py:498 ../../common/snapshots.py:875
-#: ../../qt4/app.py:79
+#: ../../common/encfstools.py:498 ../../common/snapshots.py:877
+#: ../../qt4/app.py:80 ../../qt4/app.py:84
 msgid "Take snapshot"
 msgstr ""
 
@@ -394,184 +394,184 @@ msgid ""
 "### If some paths are not decoded you can manually decode them with:\n"
 msgstr ""
 
-#: ../../common/snapshots.py:393 ../../common/snapshots.py:629
+#: ../../common/snapshots.py:393 ../../common/snapshots.py:631
 msgid "FAILED"
 msgstr ""
 
-#: ../../common/snapshots.py:576 ../../common/snapshots.py:632
+#: ../../common/snapshots.py:578 ../../common/snapshots.py:634
 msgid "Restore permissions:"
 msgstr ""
 
-#: ../../common/snapshots.py:631 ../../qt4/app.py:380 ../../qt4/app.py:617
-#: ../../qt4/app.py:636 ../../qt4/qt4systrayicon.py:65
+#: ../../common/snapshots.py:633 ../../qt4/app.py:389 ../../qt4/app.py:626
+#: ../../qt4/app.py:644 ../../qt4/qt4systrayicon.py:67
 msgid "Done"
 msgstr ""
 
-#: ../../common/snapshots.py:699
+#: ../../common/snapshots.py:701
 msgid "Deferring backup while on battery"
 msgstr ""
 
-#: ../../common/snapshots.py:756
+#: ../../common/snapshots.py:758
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
 
-#: ../../common/snapshots.py:758
+#: ../../common/snapshots.py:760
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../../common/snapshots.py:783
+#: ../../common/snapshots.py:785
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr ""
 
-#: ../../common/snapshots.py:792
+#: ../../common/snapshots.py:794
 msgid "Finalizing"
 msgstr ""
 
-#: ../../common/snapshots.py:923
+#: ../../common/snapshots.py:925
 #, python-format
 msgid "Can't create folder: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:971
+#: ../../common/snapshots.py:973
 msgid "..."
 msgstr ""
 
-#: ../../common/snapshots.py:979
+#: ../../common/snapshots.py:981
 #, python-format
 msgid "Found leftover '%s' which can be continued."
 msgstr ""
 
-#: ../../common/snapshots.py:990
+#: ../../common/snapshots.py:992
 #, python-format
 msgid "Removing leftover '%s' folder from last run"
 msgstr ""
 
-#: ../../common/snapshots.py:1003
+#: ../../common/snapshots.py:1005
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1033
+#: ../../common/snapshots.py:1035
 #, python-format
 msgid "Comparing with snapshot %s"
 msgstr ""
 
-#: ../../common/snapshots.py:1053
+#: ../../common/snapshots.py:1055
 msgid "Create hard-links"
 msgstr ""
 
-#: ../../common/snapshots.py:1087
+#: ../../common/snapshots.py:1089
 msgid "Taking snapshot"
 msgstr ""
 
-#: ../../common/snapshots.py:1145
+#: ../../common/snapshots.py:1147
 msgid "Saving config file..."
 msgstr ""
 
-#: ../../common/snapshots.py:1151
+#: ../../common/snapshots.py:1153
 msgid "Saving permissions..."
 msgstr ""
 
-#: ../../common/snapshots.py:1175
+#: ../../common/snapshots.py:1177
 msgid "Save permission over ssh failed. Retry normal method"
 msgstr ""
 
-#: ../../common/snapshots.py:1225
+#: ../../common/snapshots.py:1227
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr ""
 
-#: ../../common/snapshots.py:1483 ../../common/snapshots.py:1529
+#: ../../common/snapshots.py:1485 ../../common/snapshots.py:1531
 #: ../../qt4/settingsdialog.py:543
 msgid "Smart remove"
 msgstr ""
 
-#: ../../common/snapshots.py:1506
+#: ../../common/snapshots.py:1508
 msgid "Removing old snapshots"
 msgstr ""
 
-#: ../../common/snapshots.py:1534
+#: ../../common/snapshots.py:1536
 msgid "Trying to keep min free space"
 msgstr ""
 
-#: ../../common/snapshots.py:1571
+#: ../../common/snapshots.py:1573
 #, python-format
 msgid "Trying to keep min %d%% free inodes"
 msgstr ""
 
-#: ../../common/snapshots.py:2235
+#: ../../common/snapshots.py:2237
 msgid "WITH ERRORS !"
 msgstr ""
 
-#: ../../common/snapshots.py:2669 ../../qt4/app.py:206 ../../qt4/app.py:1149
+#: ../../common/snapshots.py:2671 ../../qt4/app.py:215 ../../qt4/app.py:1152
 msgid "Now"
 msgstr ""
 
-#: ../../common/sshtools.py:208
+#: ../../common/sshtools.py:209
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
 
-#: ../../common/sshtools.py:226
+#: ../../common/sshtools.py:227
 #, python-format
 msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
 "backintime' for further instructions."
 msgstr ""
 
-#: ../../common/sshtools.py:248
+#: ../../common/sshtools.py:249
 #, python-format
 msgid ""
 "Cipher %(cipher)s failed for %(host)s:\n"
 "%(err)s"
 msgstr ""
 
-#: ../../common/sshtools.py:285
+#: ../../common/sshtools.py:286
 #, python-format
 msgid "%s not found in ssh_known_hosts."
 msgstr ""
 
-#: ../../common/sshtools.py:315
+#: ../../common/sshtools.py:316
 #, python-format
 msgid ""
 "Remote path exists but is not a directory:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:317
+#: ../../common/sshtools.py:318
 #, python-format
 msgid ""
 "Remote path is not writeable:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:319
+#: ../../common/sshtools.py:320
 #, python-format
 msgid ""
 "Remote path is not executable:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:321
+#: ../../common/sshtools.py:322
 #, python-format
 msgid ""
 "Couldn't create remote path:\n"
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:346
+#: ../../common/sshtools.py:347
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
 msgstr ""
 
-#: ../../common/sshtools.py:380 ../../common/sshtools.py:509
+#: ../../common/sshtools.py:381 ../../common/sshtools.py:510
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
@@ -579,7 +579,7 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:512
+#: ../../common/sshtools.py:513
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
@@ -587,103 +587,111 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:527
+#: ../../common/sshtools.py:528
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
 msgstr ""
 
-#: ../../qt4/app.py:82
+#: ../../qt4/app.py:86
+msgid "Take snapshot with checksums"
+msgstr ""
+
+#: ../../qt4/app.py:87 ../../qt4/settingsdialog.py:631
+msgid "Use checksum to detect changes"
+msgstr ""
+
+#: ../../qt4/app.py:91
 msgid "Refresh snapshots list"
 msgstr ""
 
-#: ../../qt4/app.py:86 ../../qt4/app.py:814
+#: ../../qt4/app.py:95 ../../qt4/app.py:826
 msgid "Snapshot Name"
 msgstr ""
 
-#: ../../qt4/app.py:89
+#: ../../qt4/app.py:98
 msgid "Remove Snapshot"
 msgstr ""
 
-#: ../../qt4/app.py:92
+#: ../../qt4/app.py:101
 msgid "View Snapshot Log"
 msgstr ""
 
-#: ../../qt4/app.py:95
+#: ../../qt4/app.py:104
 msgid "View Last Log"
 msgstr ""
 
-#: ../../qt4/app.py:100 ../../qt4/settingsdialog.py:52
+#: ../../qt4/app.py:109 ../../qt4/settingsdialog.py:52
 msgid "Settings"
 msgstr ""
 
-#: ../../qt4/app.py:105
+#: ../../qt4/app.py:114
 msgid "Shutdown"
 msgstr ""
 
-#: ../../qt4/app.py:106
+#: ../../qt4/app.py:115
 msgid "Shutdown system after snapshot has finished."
 msgstr ""
 
-#: ../../qt4/app.py:112
+#: ../../qt4/app.py:121
 msgid "Exit"
 msgstr ""
 
-#: ../../qt4/app.py:121 ../../qt4/app.py:140 ../../qt4/app.py:246
+#: ../../qt4/app.py:130 ../../qt4/app.py:149 ../../qt4/app.py:255
 msgid "Help"
 msgstr ""
 
-#: ../../qt4/app.py:123
+#: ../../qt4/app.py:132
 msgid "Config File Help"
 msgstr ""
 
-#: ../../qt4/app.py:126
+#: ../../qt4/app.py:135
 msgid "Website"
 msgstr ""
 
-#: ../../qt4/app.py:128 ../../qt4/app.py:905
+#: ../../qt4/app.py:137 ../../qt4/app.py:913
 msgid "Changelog"
 msgstr ""
 
-#: ../../qt4/app.py:130
+#: ../../qt4/app.py:139
 msgid "FAQ"
 msgstr ""
 
-#: ../../qt4/app.py:132
+#: ../../qt4/app.py:141
 msgid "Ask a question"
 msgstr ""
 
-#: ../../qt4/app.py:134
+#: ../../qt4/app.py:143
 msgid "Report a bug"
 msgstr ""
 
-#: ../../qt4/app.py:137 ../../qt4/app.py:1268
+#: ../../qt4/app.py:146 ../../qt4/app.py:1274
 msgid "About"
 msgstr ""
 
-#: ../../qt4/app.py:164
+#: ../../qt4/app.py:173
 msgid "Up"
 msgstr ""
 
-#: ../../qt4/app.py:175 ../../qt4/settingsdialog.py:1783
+#: ../../qt4/app.py:184 ../../qt4/settingsdialog.py:1783
 msgid "Show hidden files"
 msgstr ""
 
-#: ../../qt4/app.py:187 ../../qt4/app.py:202 ../../qt4/app.py:236
+#: ../../qt4/app.py:196 ../../qt4/app.py:211 ../../qt4/app.py:245
 #: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1825
-#: ../../qt4/snapshotsdialog.py:134 ../../qt4/snapshotsdialog.py:139
+#: ../../qt4/snapshotsdialog.py:135 ../../qt4/snapshotsdialog.py:140
 msgid "Restore"
 msgstr ""
 
-#: ../../qt4/app.py:189 ../../qt4/restoredialog.py:35
-#: ../../qt4/snapshotsdialog.py:136
+#: ../../qt4/app.py:198 ../../qt4/restoredialog.py:35
+#: ../../qt4/snapshotsdialog.py:137
 msgid "Restore to ..."
 msgstr ""
 
-#: ../../qt4/app.py:197
+#: ../../qt4/app.py:206
 msgid "Restore and delete new files"
 msgstr ""
 
-#: ../../qt4/app.py:204
+#: ../../qt4/app.py:213
 #, python-format
 msgid ""
 "Restore selected file or folder.\n"
@@ -691,167 +699,174 @@ msgid ""
 "selected in left hand snapshots list."
 msgstr ""
 
-#: ../../qt4/app.py:209 ../../qt4/logviewdialog.py:68
-#: ../../qt4/qt4tools.py:170 ../../qt4/snapshotsdialog.py:96
+#: ../../qt4/app.py:218 ../../qt4/logviewdialog.py:68
+#: ../../qt4/qt4tools.py:178 ../../qt4/snapshotsdialog.py:97
 msgid "Snapshots"
 msgstr ""
 
-#: ../../qt4/app.py:216
+#: ../../qt4/app.py:225
 msgid "Snapshot"
 msgstr ""
 
-#: ../../qt4/app.py:227
+#: ../../qt4/app.py:236
 msgid "View"
 msgstr ""
 
-#: ../../qt4/app.py:280
+#: ../../qt4/app.py:289
 msgid "Shortcuts"
 msgstr ""
 
-#: ../../qt4/app.py:298
+#: ../../qt4/app.py:307
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot!"
 msgstr ""
 
-#: ../../qt4/app.py:362
+#: ../../qt4/app.py:371
 msgid "Add to Include"
 msgstr ""
 
-#: ../../qt4/app.py:363
+#: ../../qt4/app.py:372
 msgid "Add to Exclude"
 msgstr ""
 
-#: ../../qt4/app.py:419
+#: ../../qt4/app.py:428
 #, python-format
 msgid ""
 "%(appName)s is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr ""
 
-#: ../../qt4/app.py:440
+#: ../../qt4/app.py:449
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
 
-#: ../../qt4/app.py:473
+#: ../../qt4/app.py:482
 msgid ""
 "If you close this window Back In Time will not be able to shutdown your "
 "system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
 
-#: ../../qt4/app.py:609 ../../qt4/app.py:647
+#: ../../qt4/app.py:618 ../../qt4/app.py:655
 msgid "Working:"
 msgstr ""
 
-#: ../../qt4/app.py:639
+#: ../../qt4/app.py:647
 msgid "Done, no backup needed"
 msgstr ""
 
-#: ../../qt4/app.py:651
+#: ../../qt4/app.py:659
 msgid "Error:"
 msgstr ""
 
-#: ../../qt4/app.py:670 ../../qt4/qt4systrayicon.py:153
+#: ../../qt4/app.py:678 ../../qt4/qt4systrayicon.py:155
 msgid "Sent:"
 msgstr ""
 
-#: ../../qt4/app.py:671 ../../qt4/qt4systrayicon.py:154
+#: ../../qt4/app.py:679 ../../qt4/qt4systrayicon.py:156
 msgid "Speed:"
 msgstr ""
 
-#: ../../qt4/app.py:672 ../../qt4/qt4systrayicon.py:155
+#: ../../qt4/app.py:680 ../../qt4/qt4systrayicon.py:157
 msgid "ETA:"
 msgstr ""
 
-#: ../../qt4/app.py:721
+#: ../../qt4/app.py:729
 msgid "Global"
 msgstr ""
 
-#: ../../qt4/app.py:722
+#: ../../qt4/app.py:730
 msgid "Root"
 msgstr ""
 
-#: ../../qt4/app.py:723
+#: ../../qt4/app.py:731
 msgid "Home"
 msgstr ""
 
-#: ../../qt4/app.py:738
+#: ../../qt4/app.py:746
 msgid "Backup folders"
 msgstr ""
 
-#: ../../qt4/app.py:852
+#: ../../qt4/app.py:862
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
 
-#: ../../qt4/app.py:937
+#: ../../qt4/app.py:945
 #, python-format
 msgid ""
 "Backup local files before overwriting or\n"
 "removing with trailing '%(suffix)s'."
 msgstr ""
 
-#: ../../qt4/app.py:943
+#: ../../qt4/app.py:951
+msgid ""
+"Only restore files which does not exist or\n"
+"are newer than those in destination.\n"
+"Using \"rsync --update\" option."
+msgstr ""
+
+#: ../../qt4/app.py:957
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 
-#: ../../qt4/app.py:947
+#: ../../qt4/app.py:961
 msgid ""
 "WARNING: deleting files in filesystem root could break your whole system!!!"
 msgstr ""
 
-#: ../../qt4/app.py:949
+#: ../../qt4/app.py:963
 msgid "Files to be restored:"
 msgstr ""
 
-#: ../../qt4/app.py:964
+#: ../../qt4/app.py:974
 msgid "Do you really want to restore this files(s):"
 msgstr ""
 
-#: ../../qt4/app.py:1150
+#: ../../qt4/app.py:1153
 msgid "View the current disk content"
 msgstr ""
 
-#: ../../qt4/app.py:1153
+#: ../../qt4/app.py:1156
 #, python-format
 msgid "Snapshot: %s"
 msgstr ""
 
-#: ../../qt4/app.py:1154
+#: ../../qt4/app.py:1157
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr ""
 
-#: ../../qt4/app.py:1192
+#: ../../qt4/app.py:1195
 #, python-format
 msgid "Restore '%s'"
 msgstr ""
 
-#: ../../qt4/app.py:1193
+#: ../../qt4/app.py:1196
 #, python-format
 msgid "Restore '%s' to ..."
 msgstr ""
 
-#: ../../qt4/app.py:1194
+#: ../../qt4/app.py:1197
 #, python-format
 msgid "Restore '%s' and delete new files"
 msgstr ""
 
-#: ../../qt4/app.py:1293 ../../qt4/app.py:1310
+#: ../../qt4/app.py:1299 ../../qt4/app.py:1316
 msgid "Authors"
 msgstr ""
 
-#: ../../qt4/app.py:1294 ../../qt4/app.py:1313
+#: ../../qt4/app.py:1300 ../../qt4/app.py:1319
 msgid "Translations"
 msgstr ""
 
-#: ../../qt4/app.py:1295 ../../qt4/app.py:1316
+#: ../../qt4/app.py:1301 ../../qt4/app.py:1322
 msgid "License"
 msgstr ""
 
@@ -897,43 +912,43 @@ msgstr ""
 msgid "decode paths"
 msgstr ""
 
-#: ../../qt4/messagebox.py:56
+#: ../../qt4/messagebox.py:58
 msgid "Error"
 msgstr ""
 
-#: ../../qt4/messagebox.py:62 ../../qt4/messagebox.py:68
+#: ../../qt4/messagebox.py:64 ../../qt4/messagebox.py:70
 msgid "Question"
 msgstr ""
 
-#: ../../qt4/qt4systrayicon.py:69
+#: ../../qt4/qt4systrayicon.py:71
 msgid "Start BackInTime"
 msgstr ""
 
-#: ../../qt4/qt4systrayicon.py:124
+#: ../../qt4/qt4systrayicon.py:126
 msgid "Working..."
 msgstr ""
 
-#: ../../qt4/qt4tools.py:190
+#: ../../qt4/qt4tools.py:198
 msgid "Today"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:194
+#: ../../qt4/qt4tools.py:202
 msgid "Yesterday"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:199
+#: ../../qt4/qt4tools.py:207
 msgid "This week"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:203
+#: ../../qt4/qt4tools.py:211
 msgid "Last week"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:319
+#: ../../qt4/qt4tools.py:327
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:321
+#: ../../qt4/qt4tools.py:329
 #, python-format
 msgid "Last check %s"
 msgstr ""
@@ -1225,10 +1240,6 @@ msgstr ""
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr ""
 
-#: ../../qt4/settingsdialog.py:631
-msgid "Use checksum to detect changes"
-msgstr ""
-
 #: ../../qt4/settingsdialog.py:634
 msgid "Full rsync mode. May be faster but:"
 msgstr ""
@@ -1449,75 +1460,75 @@ msgstr ""
 msgid "No config found"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:49 ../../qt4/snapshotsdialog.py:173
+#: ../../qt4/snapshotsdialog.py:50 ../../qt4/snapshotsdialog.py:174
 msgid "Diff Options"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:56
+#: ../../qt4/snapshotsdialog.py:57
 msgid "Command:"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:60
+#: ../../qt4/snapshotsdialog.py:61
 msgid "Parameters:"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:64
+#: ../../qt4/snapshotsdialog.py:65
 msgid "Use %1 and %2 for path parameters"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:106
+#: ../../qt4/snapshotsdialog.py:107
 msgid "List only different snapshots"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:113
+#: ../../qt4/snapshotsdialog.py:114
 msgid "List only equal snapshots to: "
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:123
+#: ../../qt4/snapshotsdialog.py:124
 msgid "Deep check (more accurate, but slow)"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:144
+#: ../../qt4/snapshotsdialog.py:145
 msgid "Delete"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:148
+#: ../../qt4/snapshotsdialog.py:149
 msgid "Select All"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:161
+#: ../../qt4/snapshotsdialog.py:162
 msgid "Diff"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:172
+#: ../../qt4/snapshotsdialog.py:173
 msgid "Go To"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:316
+#: ../../qt4/snapshotsdialog.py:317
 msgid "You can't compare a snapshot to itself"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:323
+#: ../../qt4/snapshotsdialog.py:324
 #, python-format
 msgid "Command not found: %s"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:344
+#: ../../qt4/snapshotsdialog.py:345
 #, python-format
 msgid ""
 "Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:347
+#: ../../qt4/snapshotsdialog.py:348
 #, python-format
 msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:349
+#: ../../qt4/snapshotsdialog.py:350
 msgid "WARNING: This can not be revoked!"
 msgstr ""
 
-#: ../../qt4/snapshotsdialog.py:364
+#: ../../qt4/snapshotsdialog.py:365
 #, python-format
 msgid "Exclude \"%s\" from future snapshots?"
 msgstr ""

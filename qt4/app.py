@@ -947,6 +947,12 @@ class MainWindow( QMainWindow ):
         cb.setChecked(self.config.is_backup_on_restore_enabled())
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'backup'}
 
+    def restore_only_new(self):
+        cb = QCheckBox(_('Only restore files which does not exist or\n'    +\
+                         'are newer than those in destination.\n' +\
+                         'Using "rsync --update" option.'))
+        return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'only_new'}
+
     def confirm_delete_on_restore(self, paths, warn_root = False):
         msg = _('Are you sure you want to remove all newer files in your '
                 'original folder?')
@@ -958,29 +964,21 @@ class MainWindow( QMainWindow ):
         msg += '\n'
         msg += '\n'.join(paths)
 
-        confirm, opt = messagebox.warningYesNoOptions(self, msg, (self.backup_on_restore(), ) )
-        ret = {'backup': False, 'no_backup': False}
-        if self.config.is_backup_on_restore_enabled():
-            if not opt['backup']:
-                ret['no_backup'] = True
-        else:
-            if opt['backup']:
-                ret['backup'] = True
-        return (confirm, ret)
+        confirm, opt = messagebox.warningYesNoOptions(self,
+                                                      msg,
+                                                      (self.backup_on_restore(),
+                                                       self.restore_only_new()))
+        return (confirm, opt)
 
     def confirm_restore(self, paths):
         msg = _('Do you really want to restore this files(s):')
         msg += '\n'
         msg += '\n'.join(paths)
-        confirm, opt = messagebox.warningYesNoOptions(self, msg, (self.backup_on_restore(), ) )
-        ret = {'backup': False, 'no_backup': False}
-        if self.config.is_backup_on_restore_enabled():
-            if not opt['backup']:
-                ret['no_backup'] = True
-        else:
-            if opt['backup']:
-                ret['backup'] = True
-        return (confirm, ret)
+        confirm, opt = messagebox.warningYesNoOptions(self,
+                                                      msg,
+                                                      (self.backup_on_restore(),
+                                                       self.restore_only_new()))
+        return (confirm, opt)
 
     def restore_this( self, delete = False ):
         if self.sid.isRoot:

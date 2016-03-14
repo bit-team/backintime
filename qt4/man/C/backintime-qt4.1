@@ -10,9 +10,10 @@ backintime-qt4 \- a simple backup tool.
 [\-\-help | \-h]
 [\-\-keep\-mount]
 [\-\-license]
-[\-\-local\-backup]
+[\-\-local\-backup |
+\-\-no\-local\-backup]
 [\-\-no\-crontab]
-[\-\-no\-local\-backup]
+[\-\-only\-new]
 [\-\-profile NAME |
 \-\-profile\-id ID]
 [\-\-quiet]
@@ -74,6 +75,11 @@ Only valid with \fIcheck-config\fR.
 .TP
 --no-local-backup
 Temporary disable creation of backup files before changing local files.
+Only valid with \fIrestore\fR.
+.TP
+--only-new
+Only restore files which does not exist or are newer than those in destination.
+Using "rsync --update" option.
 Only valid with \fIrestore\fR.
 .TP
 \-\-profile NAME
