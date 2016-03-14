@@ -508,13 +508,16 @@ def arg_parse(args):
 
     #first parse the main parser without subparsers
     #otherwise positional args in subparsers will be to greedy
+    #but only if -h or --help is not involved because otherwise
+    #help will not work for subcommands
     mainParser = parsers['main']
     sub = []
-    for i in mainParser._actions:
-        if isinstance(i, argparse._SubParsersAction):
-            #remove subparsers
-            mainParser._remove_action(i)
-            sub.append(i)
+    if '-h' not in sys.argv and '--help' not in sys.argv:
+        for i in mainParser._actions:
+            if isinstance(i, argparse._SubParsersAction):
+                #remove subparsers
+                mainParser._remove_action(i)
+                sub.append(i)
     args, unknownArgs = mainParser.parse_known_args(args)
     #readd subparsers again
     if sub:
