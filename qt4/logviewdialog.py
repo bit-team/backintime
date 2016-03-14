@@ -94,6 +94,7 @@ class LogViewDialog( QDialog ):
 
         #text view
         self.txt_log_view = QPlainTextEdit(self)
+        self.txt_log_view.setFont(QFont('Monospace'))
         self.txt_log_view.setReadOnly(True)
         self.txt_log_view.setLineWrapMode(QPlainTextEdit.NoWrap)
         self.main_layout.addWidget( self.txt_log_view )
