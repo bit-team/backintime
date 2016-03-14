@@ -30,9 +30,9 @@ _backintime()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     opts="--profile --profile-id --quiet --config --version --license       \
           --help --debug --checksum --no-crontab --keep-mount --delete      \
-          --local-backup --no-local-backup"
+          --local-backup --no-local-backup --only-new"
     actions="backup backup-job snapshots-path snapshots-list                \
-             snapshots-list-path last-snapshot last-snapshot-path unmount    \
+             snapshots-list-path last-snapshot last-snapshot-path unmount   \
              benchmark-cipher pw-cache decode remove restore check-config"
     pw_cache_commands="start stop restart reload status"
 
