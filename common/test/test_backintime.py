@@ -55,7 +55,10 @@ class TestBackInTime(generic.TestCase):
         subprocess.getoutput("rm -rf /tmp/restored")
 
         # install proper destination filesystem structure and verify output
-        proc = subprocess.Popen(["./backintime","--config","test/config","check-config"],
+        proc = subprocess.Popen(["./backintime",
+                                 "--config", "test/config",
+                                 "check-config",
+                                 "--no-crontab"], #do not overwrite users crontab
                                 stdout = subprocess.PIPE,
                                 stderr = subprocess.PIPE)
         output, error = proc.communicate()
@@ -99,11 +102,6 @@ Unmount: done
  │          Check config          │
  └────────────────────────────────┘
 Check config: done
-
- ┌────────────────────────────────┐
- │        Install crontab         │
- └────────────────────────────────┘
-Install crontab: done
 
 Config test/config profile '.+' is fine.''', re.MULTILINE))
 
