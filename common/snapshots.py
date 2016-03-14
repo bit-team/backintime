@@ -539,6 +539,8 @@ class Snapshots:
             src_path = path
             src_delta = 0
             src_base = sid.pathBackup(use_mode = ['ssh'])
+            if not src_base.endswith(os.sep):
+                src_base += os.sep
             cmd = cmd_suffix
             if restore_to:
                 items = os.path.split(src_path)
