@@ -57,6 +57,7 @@ class TestBackInTime(generic.TestCase):
         # install proper destination filesystem structure and verify output
         proc = subprocess.Popen(["./backintime",
                                  "--config", "test/config",
+                                 "--share-path", self.sharePath,
                                  "check-config",
                                  "--no-crontab"], #do not overwrite users crontab
                                 stdout = subprocess.PIPE,
@@ -106,9 +107,19 @@ Check config: done
 Config test/config profile '.+' is fine.''', re.MULTILINE))
 
         # execute backup and verify output
-        # TODO - verify exit code is 0. using check_output() hangs, not sure why. tried shell=True which doesn't help
-        output = subprocess.getoutput("./backintime --config test/config backup")
-        self.assertRegex(output, re.compile('''
+        proc = subprocess.Popen(["./backintime",
+                                 "--config", "test/config",
+                                 "--share-path", self.sharePath,
+                                 "backup"],
+                                stdout = subprocess.PIPE,
+                                stderr = subprocess.PIPE)
+        output, error = proc.communicate()
+        msg = 'Returncode: {}\nstderr: {}\nstdout: {}'.format(proc.returncode,
+                                                              error.decode(),
+                                                              output.decode())
+        self.assertEqual(proc.returncode, 0, msg)
+
+        self.assertRegex(output.decode(), re.compile('''
 Back In Time
 Version: \d+.\d+.\d+.*
 
@@ -135,9 +146,19 @@ INFO: Release inhibit Suspend)?''', re.MULTILINE))
         subprocess.check_output(["./backintime","--config","test/config","snapshots-list"])
 
         # execute restore and verify output
-        # TODO - verify exit code is 0. using check_output() hangs, not sure why. tried shell=True which doesn't help
-        output = subprocess.getoutput("./backintime --config test/config restore /tmp/test/testfile /tmp/restored 0")
-        self.assertRegex(output, re.compile('''
+        proc = subprocess.Popen(["./backintime",
+                                 "--config", "test/config",
+                                 "--share-path", self.sharePath,
+                                 "restore", "/tmp/test/testfile", "/tmp/restored", "0"],
+                                stdout = subprocess.PIPE,
+                                stderr = subprocess.PIPE)
+        output, error = proc.communicate()
+        msg = 'Returncode: {}\nstderr: {}\nstdout: {}'.format(proc.returncode,
+                                                              error.decode(),
+                                                              output.decode())
+        self.assertEqual(proc.returncode, 0, msg)
+
+        self.assertRegex(output.decode(), re.compile('''
 Back In Time
 Version: \d+.\d+.\d+.*
 
