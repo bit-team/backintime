@@ -30,7 +30,7 @@ _backintime()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     opts="--profile --profile-id --quiet --config --version --license       \
           --help --debug --checksum --no-crontab --keep-mount --delete      \
-          --local-backup --no-local-backup --only-new"
+          --local-backup --no-local-backup --only-new --share-path"
     actions="backup backup-job snapshots-path snapshots-list                \
              snapshots-list-path last-snapshot last-snapshot-path unmount   \
              benchmark-cipher pw-cache decode remove restore check-config"
@@ -81,7 +81,7 @@ _backintime()
     esac
 
     case "${prev}" in
-        --config|decode|restore)
+        --config|decode|restore|--share-path)
             if [[ ${cur} != -* ]]; then
                 _filedir
                 return 0

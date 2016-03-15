@@ -54,8 +54,10 @@ def take_snapshot_now_async(cfg, checksum = False):
     cmd += 'backintime '
     if '1' != cfg.get_current_profile():
         cmd += '--profile-id %s ' % cfg.get_current_profile()
-    if not cfg._LOCAL_CONFIG_PATH is cfg._DEFAULT_CONFIG_PATH:
+    if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
         cmd += '--config %s ' % cfg._LOCAL_CONFIG_PATH
+    if cfg._LOCAL_DATA_FOLDER is not cfg._DEFAULT_LOCAL_DATA_FOLDER:
+        cmd += '--share-path %s ' % cfg.DATA_FOLDER_ROOT
     if logger.DEBUG:
         cmd += '--debug '
     if checksum:
@@ -129,6 +131,12 @@ def create_parsers(app_name = 'backintime'):
                                  type = str,
                                  action = 'store',
                                  help = 'Read config from %(metavar)s.')
+
+    configArgsParser.add_argument('--share-path',
+                                 metavar = 'PATH',
+                                 type = str,
+                                 action = 'store',
+                                 help = 'Write runtime data (locks, messages, log and mountpoints) to %(metavar)s.')
 
     #define common arguments which are used for all commands
     commonArgsParser = argparse.ArgumentParser(add_help = False, parents = [configArgsParser, debugArgsParser])
@@ -625,8 +633,9 @@ def getConfig(args, check = True):
         SystemExit:     1 if ``profile`` or ``profile_id`` is no valid profile
                         2 if ``check`` is ``True`` and config is not configured
     """
-    cfg = config.Config(args.config)
+    cfg = config.Config(config_path = args.config, data_path = args.share_path)
     logger.debug('config file: %s' % cfg._LOCAL_CONFIG_PATH)
+    logger.debug('share path: %s' % cfg._LOCAL_DATA_FOLDER)
     logger.debug('profiles: %s' % cfg.get_profiles())
     if 'profile_id' in args and args.profile_id:
         if not cfg.set_current_profile(args.profile_id):

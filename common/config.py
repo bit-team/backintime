@@ -150,7 +150,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
-    def __init__( self, config_path = None ):
+    def __init__(self, config_path = None, data_path = None):
         configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
 
         self._APP_PATH = tools.get_backintime_path()
@@ -164,14 +164,22 @@ class Config( configfile.ConfigFileWithProfiles ):
         DATA_FOLDER = '.local/share'
         CONFIG_FOLDER = '.config'
         BIT_FOLDER = 'backintime'
-        self._LOCAL_DATA_FOLDER = os.path.join(HOME_FOLDER, DATA_FOLDER, BIT_FOLDER)
+        self._DEFAULT_LOCAL_DATA_FOLDER = os.path.join(HOME_FOLDER, DATA_FOLDER, BIT_FOLDER)
         self._LOCAL_CONFIG_FOLDER = os.path.join(HOME_FOLDER, CONFIG_FOLDER, BIT_FOLDER)
-
         self._MOUNT_ROOT = os.path.join(DATA_FOLDER, BIT_FOLDER, 'mnt')
-        self._LOCAL_MOUNT_ROOT = os.path.join(HOME_FOLDER, self._MOUNT_ROOT)
 
-        tools.make_dirs( self._LOCAL_CONFIG_FOLDER )
-        tools.make_dirs( self._LOCAL_DATA_FOLDER )
+        if data_path:
+            self.DATA_FOLDER_ROOT = data_path
+            self._LOCAL_DATA_FOLDER = os.path.join(data_path, DATA_FOLDER, BIT_FOLDER)
+            self._LOCAL_MOUNT_ROOT = os.path.join(data_path, self._MOUNT_ROOT)
+        else:
+            self.DATA_FOLDER_ROOT = HOME_FOLDER
+            self._LOCAL_DATA_FOLDER = self._DEFAULT_LOCAL_DATA_FOLDER
+            self._LOCAL_MOUNT_ROOT = os.path.join(HOME_FOLDER, self._MOUNT_ROOT)
+
+        tools.make_dirs(self._LOCAL_CONFIG_FOLDER)
+        tools.make_dirs(self._LOCAL_DATA_FOLDER)
+        tools.make_dirs(self._LOCAL_MOUNT_ROOT)
 
         self._DEFAULT_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
         if config_path is None:

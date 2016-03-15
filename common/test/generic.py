@@ -28,6 +28,8 @@ import mount
 
 class TestCase(unittest.TestCase):
     def __init__(self, *args, **kwargs):
+        self.cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
+        self.sharePath = '/tmp/bit'
         logger.APP_NAME = 'BIT_unittest'
         logger.openlog()
         super(TestCase, self).__init__(*args, **kwargs)
@@ -38,10 +40,7 @@ class TestCase(unittest.TestCase):
 class SnapshotsTestCase(TestCase):
     def setUp(self):
         super(SnapshotsTestCase, self).setUp()
-        self.cfgFile = os.path.abspath(os.path.join(__file__,
-                                                    os.pardir,
-                                                    'config'))
-        self.cfg = config.Config(self.cfgFile)
+        self.cfg = config.Config(self.cfgFile, self.sharePath)
         #use a new TemporaryDirectory for snapshotPath to avoid
         #side effects on leftovers
         self.tmpDir = TemporaryDirectory()

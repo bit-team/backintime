@@ -1,4 +1,4 @@
-.TH backintime-qt4 1 "July 2015" "version 1.1.13" "USER COMMANDS"
+.TH backintime-qt4 1 "March 2016" "version 1.1.13" "USER COMMANDS"
 .SH NAME
 backintime-qt4 \- a simple backup tool.
 .SH SYNOPSIS
@@ -17,6 +17,7 @@ backintime-qt4 \- a simple backup tool.
 [\-\-profile NAME |
 \-\-profile\-id ID]
 [\-\-quiet]
+[\-\-share\-path PATH]
 [\-\-version]
 
 { backup | backup\-job |
@@ -90,6 +91,9 @@ Select profile by id
 .TP
 \-\-quiet
 Suppress status messages on standard output.
+.TP
+\-\-share\-path PATH
+Write runtime data (locks, messages, log and mountpoints) to PATH.
 .TP
 \-v, \-\-version
 Show version
