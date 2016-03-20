@@ -32,6 +32,9 @@ class StopException(BackInTimeException):
 class Timeout(BackInTimeException):
     pass
 
+class LastSnapshotSymlink(BackInTimeException):
+    pass
+
 class InvalidChar(BackInTimeException):
     def __init__(self, msg):
         self.msg = msg

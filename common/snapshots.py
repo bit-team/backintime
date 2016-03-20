@@ -39,7 +39,7 @@ import encfstools
 import mount
 import progress
 import bcolors
-from exceptions import MountException
+from exceptions import MountException, LastSnapshotSymlink
 
 _=gettext.gettext
 
@@ -2125,6 +2125,8 @@ class SID(object):
             if self.__cValidSID.match(date):
                 self.sid = date
                 self.date = datetime.datetime(*self.split())
+            elif date == 'last_snapshot':
+                raise LastSnapshotSymlink()
             else:
                 raise ValueError("'date' must be in snapshot ID format (e.g 20151218-173512-123)")
         else:
@@ -2718,7 +2720,8 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
             if sid.exists():
                 yield sid
         except Exception as e:
-            logger.debug("'{}' is no snapshot ID: {}".format(item, str(e)))
+            if not isinstance(e, LastSnapshotSymlink):
+                logger.debug("'{}' is no snapshot ID: {}".format(item, str(e)))
 
 def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):
     """
