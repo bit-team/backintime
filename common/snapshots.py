@@ -1145,7 +1145,7 @@ class Snapshots:
         #backup config file
         logger.info('Save config file', self)
         self.set_take_snapshot_message( 0, _('Saving config file...') )
-        self._execute('cp "%s" "%s"' %(self.config._LOCAL_CONFIG_PATH, new_snapshot.path()))
+        self._execute('cp "%s" "%s"' %(self.config._LOCAL_CONFIG_PATH, new_snapshot.path('config')))
 
         if not full_rsync or self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
             #save permissions for sync folders
