@@ -80,13 +80,16 @@ class MainWindow( QMainWindow ):
         self.btn_take_snapshot = self.main_toolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
         QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 
-        take_snapshot_menu = QMenu()
+        take_snapshot_menu = qt4tools.Menu()
         action = take_snapshot_menu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
         QObject.connect(action, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked)
         self.btn_take_snapshot_checksum = take_snapshot_menu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'))
         self.btn_take_snapshot_checksum.setToolTip(_('Use checksum to detect changes'))
         QObject.connect(self.btn_take_snapshot_checksum, SIGNAL('triggered()'), self.on_btn_take_snapshot_checksum_clicked)
         self.btn_take_snapshot.setMenu(take_snapshot_menu)
+
+        for action in take_snapshot_menu.actions():
+            action.setIconVisibleInMenu(True)
 
         self.btn_update_snapshots = self.main_toolbar.addAction(icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'))
         self.btn_update_snapshots.setShortcuts([Qt.Key_F5, QKeySequence(Qt.CTRL + Qt.Key_R)])
@@ -150,6 +153,9 @@ class MainWindow( QMainWindow ):
         QObject.connect( action, SIGNAL('triggered()'), self.on_help )
         action.setMenu(help_menu)
 
+        for action in help_menu.actions():
+            action.setIconVisibleInMenu(True)
+
         #main splitter
         self.main_splitter = QSplitter( self )
         self.main_splitter.setOrientation( Qt.Horizontal )
@@ -190,24 +196,48 @@ class MainWindow( QMainWindow ):
         self.files_view_toolbar.addSeparator()
 
         #restore menu
-        #TODO: add ToolTips
-        #http://www.linuxquestions.org/questions/linux-newbie-8/explain-how-restore-works-in-back-in-time-4175569056/#post5495364
-        self.menu_restore = QMenu(self)
+        self.menu_restore = qt4tools.Menu(self)
         self.btn_restore = self.menu_restore.addAction(icon.RESTORE, _('Restore') )
+        self.btn_restore.setToolTip(_('Restore the selected files or folders '
+                                      'to the original destination.'))
         QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
         self.btn_restore_to = self.menu_restore.addAction(icon.RESTORE_TO, _('Restore to ...') )
+        self.btn_restore_to.setToolTip(_('Restore the selected files or '
+                                         'folders to a new destination.'))
         QObject.connect( self.btn_restore_to, SIGNAL('triggered()'), self.restore_this_to )
         self.menu_restore.addSeparator()
         self.menu_restore_parent = self.menu_restore.addAction(icon.RESTORE, '' )
+        self.menu_restore_parent.setToolTip(_('Restore the currently shown '
+                                              'folder and all its content to '
+                                              'the original destination.'))
         QObject.connect( self.menu_restore_parent, SIGNAL('triggered()'), self.restore_parent )
         self.menu_restore_parent_to = self.menu_restore.addAction(icon.RESTORE_TO, '' )
+        self.menu_restore_parent_to.setToolTip(_('Restore the currently shown '
+                                                 'folder and all its content '
+                                                 'to a new destination.'))
         QObject.connect( self.menu_restore_parent_to, SIGNAL('triggered()'), self.restore_parent_to )
         self.menu_restore.addSeparator()
         self.btn_restore_delete = self.menu_restore.addAction(icon.RESTORE, _('Restore and delete new files'))
+        self.btn_restore_delete.setToolTip(_('Restore selected files or folders '
+                                             'to the original destination and\n'
+                                             'delete files/folders in which are '
+                                             'not in the snapshot. This will also\n'
+                                             'delete files/folders which where '
+                                             'excluded during taking the snapshot!\n'
+                                             'Be extremely careful!!!'))
         QObject.connect(self.btn_restore_delete, SIGNAL('triggered()'), lambda: self.restore_this(True))
         self.menu_restore_parent_delete = self.menu_restore.addAction(icon.RESTORE, '')
+        self.menu_restore_parent_delete.setToolTip(_('Restore the currently shown folder '
+                                                     'and all its content to the original\n'
+                                                     'destination and delete files/folders '
+                                                     'in which are not in the snapshot. This\n'
+                                                     'will also delete files/folders which '
+                                                     'where excluded during taking the snapshot!\n'
+                                                     'Be extremely careful!!!'))
         QObject.connect(self.menu_restore_parent_delete, SIGNAL('triggered()'), lambda: self.restore_parent(True))
 
+        for action in self.menu_restore.actions():
+            action.setIconVisibleInMenu(True)
         self.btn_restore_menu = self.files_view_toolbar.addAction(icon.RESTORE, _('Restore'))
         self.btn_restore_menu.setMenu(self.menu_restore)
         self.btn_restore_menu.setToolTip( _('Restore selected file or folder.\n'

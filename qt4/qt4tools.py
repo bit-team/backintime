@@ -20,9 +20,10 @@ import sys
 import gettext
 from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView,      \
                         QTreeView, QDialog, QApplication, QStyleFactory,       \
-                        QTreeWidget, QTreeWidgetItem, QColor, QComboBox
+                        QTreeWidget, QTreeWidgetItem, QColor, QComboBox, QMenu,\
+                        QToolTip
 from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal, QModelIndex,  \
-                         QTranslator, QLocale, QLibraryInfo
+                         QTranslator, QLocale, QLibraryInfo, QEvent
 from datetime import datetime, date, timedelta
 from calendar import monthrange
 
@@ -407,3 +408,18 @@ class ProfileCombo(SortedComboBox):
             if self.itemData(i) == profileID:
                 self.setCurrentIndex(i)
                 break
+
+class Menu(QMenu):
+    """
+    Subclass QMenu to add ToolTips
+    """
+    def event(self, e):
+        action = self.activeAction()
+        if e.type() == QEvent.ToolTip and \
+            action                    and \
+            action.toolTip() != action.text():
+                QToolTip.showText(e.globalPos(),
+                                  self.activeAction().toolTip())
+        else:
+            QToolTip.hideText()
+        return super(Menu, self).event(e)
