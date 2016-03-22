@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-14 02:44+0100\n"
+"POT-Creation-Date: 2016-03-22 19:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -211,53 +211,53 @@ msgstr ""
 msgid "Main profile"
 msgstr ""
 
-#: ../../common/config.py:249 ../../common/config.py:256
-#: ../../common/config.py:267 ../../common/config.py:272
+#: ../../common/config.py:257 ../../common/config.py:264
+#: ../../common/config.py:275 ../../common/config.py:280
 #: ../../qt4/qt4systrayicon.py:63
 #, python-format
 msgid "Profile: \"%s\""
 msgstr ""
 
-#: ../../common/config.py:249
+#: ../../common/config.py:257
 msgid "Snapshots folder is not valid !"
 msgstr ""
 
-#: ../../common/config.py:256
+#: ../../common/config.py:264
 msgid "You must select at least one folder to backup !"
 msgstr ""
 
-#: ../../common/config.py:267
+#: ../../common/config.py:275
 msgid "You can't include backup folder !"
 msgstr ""
 
-#: ../../common/config.py:272
+#: ../../common/config.py:280
 msgid "You can't include a backup sub-folder !"
 msgstr ""
 
-#: ../../common/config.py:330
+#: ../../common/config.py:338
 #, python-format
 msgid "%s is not a folder !"
 msgstr ""
 
-#: ../../common/config.py:339
+#: ../../common/config.py:347
 msgid "Host/User/Profile-ID must not be empty!"
 msgstr ""
 
-#: ../../common/config.py:347 ../../common/config.py:379
+#: ../../common/config.py:355 ../../common/config.py:387
 #, python-format
 msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
 
-#: ../../common/config.py:359
+#: ../../common/config.py:367
 #, python-format
 msgid ""
 "Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
 
-#: ../../common/config.py:364
+#: ../../common/config.py:372
 #, python-format
 msgid ""
 "Destination filsystem for '%(path)s' is a SMB mounted share. Please make "
@@ -265,45 +265,45 @@ msgid ""
 "'%(expertOptions)s'."
 msgstr ""
 
-#: ../../common/config.py:367 ../../qt4/settingsdialog.py:816
+#: ../../common/config.py:375 ../../qt4/settingsdialog.py:816
 msgid "Copy links (dereference symbolic links)"
 msgstr ""
 
-#: ../../common/config.py:368 ../../qt4/settingsdialog.py:670
+#: ../../common/config.py:376 ../../qt4/settingsdialog.py:670
 msgid "Expert Options"
 msgstr ""
 
-#: ../../common/config.py:370
+#: ../../common/config.py:378
 #, python-format
 msgid ""
 "Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
 
-#: ../../common/config.py:1378
+#: ../../common/config.py:1386
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
 
-#: ../../common/config.py:1382
+#: ../../common/config.py:1390
 msgid "Failed to write new crontab."
 msgstr ""
 
-#: ../../common/config.py:1476
+#: ../../common/config.py:1484
 #, python-format
 msgid ""
 "Could not install Udev rule for profile %(profile_id)s. DBus Service "
 "'%(dbus_interface)s' wasn't available"
 msgstr ""
 
-#: ../../common/config.py:1488
+#: ../../common/config.py:1496
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr ""
 
-#: ../../common/config.py:1497
+#: ../../common/config.py:1505
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr ""
@@ -402,8 +402,8 @@ msgstr ""
 msgid "Restore permissions:"
 msgstr ""
 
-#: ../../common/snapshots.py:633 ../../qt4/app.py:389 ../../qt4/app.py:626
-#: ../../qt4/app.py:644 ../../qt4/qt4systrayicon.py:67
+#: ../../common/snapshots.py:633 ../../qt4/app.py:419 ../../qt4/app.py:656
+#: ../../qt4/app.py:674 ../../qt4/qt4systrayicon.py:67
 msgid "Done"
 msgstr ""
 
@@ -505,11 +505,11 @@ msgstr ""
 msgid "Trying to keep min %d%% free inodes"
 msgstr ""
 
-#: ../../common/snapshots.py:2237
+#: ../../common/snapshots.py:2239
 msgid "WITH ERRORS !"
 msgstr ""
 
-#: ../../common/snapshots.py:2671 ../../qt4/app.py:215 ../../qt4/app.py:1152
+#: ../../common/snapshots.py:2673 ../../qt4/app.py:245 ../../qt4/app.py:1182
 msgid "Now"
 msgstr ""
 
@@ -600,98 +600,134 @@ msgstr ""
 msgid "Use checksum to detect changes"
 msgstr ""
 
-#: ../../qt4/app.py:91
+#: ../../qt4/app.py:94
 msgid "Refresh snapshots list"
 msgstr ""
 
-#: ../../qt4/app.py:95 ../../qt4/app.py:826
+#: ../../qt4/app.py:98 ../../qt4/app.py:856
 msgid "Snapshot Name"
 msgstr ""
 
-#: ../../qt4/app.py:98
+#: ../../qt4/app.py:101
 msgid "Remove Snapshot"
 msgstr ""
 
-#: ../../qt4/app.py:101
+#: ../../qt4/app.py:104
 msgid "View Snapshot Log"
 msgstr ""
 
-#: ../../qt4/app.py:104
+#: ../../qt4/app.py:107
 msgid "View Last Log"
 msgstr ""
 
-#: ../../qt4/app.py:109 ../../qt4/settingsdialog.py:52
+#: ../../qt4/app.py:112 ../../qt4/settingsdialog.py:52
 msgid "Settings"
 msgstr ""
 
-#: ../../qt4/app.py:114
+#: ../../qt4/app.py:117
 msgid "Shutdown"
 msgstr ""
 
-#: ../../qt4/app.py:115
+#: ../../qt4/app.py:118
 msgid "Shutdown system after snapshot has finished."
 msgstr ""
 
-#: ../../qt4/app.py:121
+#: ../../qt4/app.py:124
 msgid "Exit"
 msgstr ""
 
-#: ../../qt4/app.py:130 ../../qt4/app.py:149 ../../qt4/app.py:255
+#: ../../qt4/app.py:133 ../../qt4/app.py:152 ../../qt4/app.py:285
 msgid "Help"
 msgstr ""
 
-#: ../../qt4/app.py:132
+#: ../../qt4/app.py:135
 msgid "Config File Help"
 msgstr ""
 
-#: ../../qt4/app.py:135
+#: ../../qt4/app.py:138
 msgid "Website"
 msgstr ""
 
-#: ../../qt4/app.py:137 ../../qt4/app.py:913
+#: ../../qt4/app.py:140 ../../qt4/app.py:943
 msgid "Changelog"
 msgstr ""
 
-#: ../../qt4/app.py:139
+#: ../../qt4/app.py:142
 msgid "FAQ"
 msgstr ""
 
-#: ../../qt4/app.py:141
+#: ../../qt4/app.py:144
 msgid "Ask a question"
 msgstr ""
 
-#: ../../qt4/app.py:143
+#: ../../qt4/app.py:146
 msgid "Report a bug"
 msgstr ""
 
-#: ../../qt4/app.py:146 ../../qt4/app.py:1274
+#: ../../qt4/app.py:149 ../../qt4/app.py:1304
 msgid "About"
 msgstr ""
 
-#: ../../qt4/app.py:173
+#: ../../qt4/app.py:179
 msgid "Up"
 msgstr ""
 
-#: ../../qt4/app.py:184 ../../qt4/settingsdialog.py:1783
+#: ../../qt4/app.py:190 ../../qt4/settingsdialog.py:1783
 msgid "Show hidden files"
 msgstr ""
 
-#: ../../qt4/app.py:196 ../../qt4/app.py:211 ../../qt4/app.py:245
+#: ../../qt4/app.py:200 ../../qt4/app.py:241 ../../qt4/app.py:275
 #: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1825
 #: ../../qt4/snapshotsdialog.py:135 ../../qt4/snapshotsdialog.py:140
 msgid "Restore"
 msgstr ""
 
-#: ../../qt4/app.py:198 ../../qt4/restoredialog.py:35
+#: ../../qt4/app.py:201
+msgid "Restore the selected files or folders to the original destination."
+msgstr ""
+
+#: ../../qt4/app.py:204 ../../qt4/restoredialog.py:35
 #: ../../qt4/snapshotsdialog.py:137
 msgid "Restore to ..."
 msgstr ""
 
-#: ../../qt4/app.py:206
+#: ../../qt4/app.py:205
+msgid "Restore the selected files or folders to a new destination."
+msgstr ""
+
+#: ../../qt4/app.py:210
+msgid ""
+"Restore the currently shown folder and all its content to the original "
+"destination."
+msgstr ""
+
+#: ../../qt4/app.py:215
+msgid ""
+"Restore the currently shown folder and all its content to a new destination."
+msgstr ""
+
+#: ../../qt4/app.py:220
 msgid "Restore and delete new files"
 msgstr ""
 
-#: ../../qt4/app.py:213
+#: ../../qt4/app.py:221
+msgid ""
+"Restore selected files or folders to the original destination and\n"
+"delete files/folders in which are not in the snapshot. This will also\n"
+"delete files/folders which where excluded during taking the snapshot!\n"
+"Be extremely careful!!!"
+msgstr ""
+
+#: ../../qt4/app.py:230
+msgid ""
+"Restore the currently shown folder and all its content to the original\n"
+"destination and delete files/folders in which are not in the snapshot. This\n"
+"will also delete files/folders which where excluded during taking the "
+"snapshot!\n"
+"Be extremely careful!!!"
+msgstr ""
+
+#: ../../qt4/app.py:243
 #, python-format
 msgid ""
 "Restore selected file or folder.\n"
@@ -699,174 +735,174 @@ msgid ""
 "selected in left hand snapshots list."
 msgstr ""
 
-#: ../../qt4/app.py:218 ../../qt4/logviewdialog.py:68
-#: ../../qt4/qt4tools.py:178 ../../qt4/snapshotsdialog.py:97
+#: ../../qt4/app.py:248 ../../qt4/logviewdialog.py:68
+#: ../../qt4/qt4tools.py:179 ../../qt4/snapshotsdialog.py:97
 msgid "Snapshots"
 msgstr ""
 
-#: ../../qt4/app.py:225
+#: ../../qt4/app.py:255
 msgid "Snapshot"
 msgstr ""
 
-#: ../../qt4/app.py:236
+#: ../../qt4/app.py:266
 msgid "View"
 msgstr ""
 
-#: ../../qt4/app.py:289
+#: ../../qt4/app.py:319
 msgid "Shortcuts"
 msgstr ""
 
-#: ../../qt4/app.py:307
+#: ../../qt4/app.py:337
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot!"
 msgstr ""
 
-#: ../../qt4/app.py:371
+#: ../../qt4/app.py:401
 msgid "Add to Include"
 msgstr ""
 
-#: ../../qt4/app.py:372
+#: ../../qt4/app.py:402
 msgid "Add to Exclude"
 msgstr ""
 
-#: ../../qt4/app.py:428
+#: ../../qt4/app.py:458
 #, python-format
 msgid ""
 "%(appName)s is not configured. Would you like to restore a previous "
 "configuration?"
 msgstr ""
 
-#: ../../qt4/app.py:449
+#: ../../qt4/app.py:479
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
 msgstr ""
 
-#: ../../qt4/app.py:482
+#: ../../qt4/app.py:512
 msgid ""
 "If you close this window Back In Time will not be able to shutdown your "
 "system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
 
-#: ../../qt4/app.py:618 ../../qt4/app.py:655
+#: ../../qt4/app.py:648 ../../qt4/app.py:685
 msgid "Working:"
 msgstr ""
 
-#: ../../qt4/app.py:647
+#: ../../qt4/app.py:677
 msgid "Done, no backup needed"
 msgstr ""
 
-#: ../../qt4/app.py:659
+#: ../../qt4/app.py:689
 msgid "Error:"
 msgstr ""
 
-#: ../../qt4/app.py:678 ../../qt4/qt4systrayicon.py:155
+#: ../../qt4/app.py:708 ../../qt4/qt4systrayicon.py:155
 msgid "Sent:"
 msgstr ""
 
-#: ../../qt4/app.py:679 ../../qt4/qt4systrayicon.py:156
+#: ../../qt4/app.py:709 ../../qt4/qt4systrayicon.py:156
 msgid "Speed:"
 msgstr ""
 
-#: ../../qt4/app.py:680 ../../qt4/qt4systrayicon.py:157
+#: ../../qt4/app.py:710 ../../qt4/qt4systrayicon.py:157
 msgid "ETA:"
 msgstr ""
 
-#: ../../qt4/app.py:729
+#: ../../qt4/app.py:759
 msgid "Global"
 msgstr ""
 
-#: ../../qt4/app.py:730
+#: ../../qt4/app.py:760
 msgid "Root"
 msgstr ""
 
-#: ../../qt4/app.py:731
+#: ../../qt4/app.py:761
 msgid "Home"
 msgstr ""
 
-#: ../../qt4/app.py:746
+#: ../../qt4/app.py:776
 msgid "Backup folders"
 msgstr ""
 
-#: ../../qt4/app.py:862
+#: ../../qt4/app.py:892
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
 "%s"
 msgstr ""
 
-#: ../../qt4/app.py:945
+#: ../../qt4/app.py:975
 #, python-format
 msgid ""
 "Backup local files before overwriting or\n"
 "removing with trailing '%(suffix)s'."
 msgstr ""
 
-#: ../../qt4/app.py:951
+#: ../../qt4/app.py:981
 msgid ""
 "Only restore files which does not exist or\n"
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
 
-#: ../../qt4/app.py:957
+#: ../../qt4/app.py:987
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 
-#: ../../qt4/app.py:961
+#: ../../qt4/app.py:991
 msgid ""
 "WARNING: deleting files in filesystem root could break your whole system!!!"
 msgstr ""
 
-#: ../../qt4/app.py:963
+#: ../../qt4/app.py:993
 msgid "Files to be restored:"
 msgstr ""
 
-#: ../../qt4/app.py:974
+#: ../../qt4/app.py:1004
 msgid "Do you really want to restore this files(s):"
 msgstr ""
 
-#: ../../qt4/app.py:1153
+#: ../../qt4/app.py:1183
 msgid "View the current disk content"
 msgstr ""
 
-#: ../../qt4/app.py:1156
+#: ../../qt4/app.py:1186
 #, python-format
 msgid "Snapshot: %s"
 msgstr ""
 
-#: ../../qt4/app.py:1157
+#: ../../qt4/app.py:1187
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr ""
 
-#: ../../qt4/app.py:1195
+#: ../../qt4/app.py:1225
 #, python-format
 msgid "Restore '%s'"
 msgstr ""
 
-#: ../../qt4/app.py:1196
+#: ../../qt4/app.py:1226
 #, python-format
 msgid "Restore '%s' to ..."
 msgstr ""
 
-#: ../../qt4/app.py:1197
+#: ../../qt4/app.py:1227
 #, python-format
 msgid "Restore '%s' and delete new files"
 msgstr ""
 
-#: ../../qt4/app.py:1299 ../../qt4/app.py:1316
+#: ../../qt4/app.py:1329 ../../qt4/app.py:1346
 msgid "Authors"
 msgstr ""
 
-#: ../../qt4/app.py:1300 ../../qt4/app.py:1319
+#: ../../qt4/app.py:1330 ../../qt4/app.py:1349
 msgid "Translations"
 msgstr ""
 
-#: ../../qt4/app.py:1301 ../../qt4/app.py:1322
+#: ../../qt4/app.py:1331 ../../qt4/app.py:1352
 msgid "License"
 msgstr ""
 
@@ -904,11 +940,11 @@ msgstr ""
 msgid "Informations"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:102
+#: ../../qt4/logviewdialog.py:103
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr ""
 
-#: ../../qt4/logviewdialog.py:105
+#: ../../qt4/logviewdialog.py:106
 msgid "decode paths"
 msgstr ""
 
@@ -928,27 +964,27 @@ msgstr ""
 msgid "Working..."
 msgstr ""
 
-#: ../../qt4/qt4tools.py:198
+#: ../../qt4/qt4tools.py:199
 msgid "Today"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:202
+#: ../../qt4/qt4tools.py:203
 msgid "Yesterday"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:207
+#: ../../qt4/qt4tools.py:208
 msgid "This week"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:211
+#: ../../qt4/qt4tools.py:212
 msgid "Last week"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:327
+#: ../../qt4/qt4tools.py:328
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 
-#: ../../qt4/qt4tools.py:329
+#: ../../qt4/qt4tools.py:330
 #, python-format
 msgid "Last check %s"
 msgstr ""
