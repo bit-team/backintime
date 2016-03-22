@@ -18,89 +18,101 @@ USR_BIN_FILES="backintime backintime-askpass"
 FUSE_FILES="mount.py"
 
 usage () {
-echo "Usage:"
-echo "$0 [--python | --python3], [--fuse-group | --no-fuse-group]"
-echo ""
-echo "--python"
-echo "\tuse 'python' to start Python3"
-echo "--python3"
-echo "\tuse 'python3' to start Python3"
-echo "--no-fuse-group"
-echo "\tdo not check for 'fuse' group membership (if not necessary on destination platform)"
-echo "--fuse-group"
-echo "\tmake sure user is in group 'fuse' to be able to use fuse-based file-systems"
+    echo "Usage:"
+    echo "$0 [--python | --python3], [--fuse-group | --no-fuse-group]"
+    echo ""
+    echo "--python"
+    echo "\tuse 'python' to start Python3"
+    echo "--python3"
+    echo "\tuse 'python3' to start Python3"
+    echo "--no-fuse-group"
+    echo "\tdo not check for 'fuse' group membership (if not necessary on destination platform)"
+    echo "--fuse-group"
+    echo "\tmake sure user is in group 'fuse' to be able to use fuse-based file-systems"
 }
 
 addInstallFiles () {
-file=$1
-dest=$2
-mode=$3
-if [ -z "$mode" ]; then
-  mode=644
-fi
-for i in $(ls $file); do
-  addInstallFile "$i" "$dest" "$mode"
-done
+    file=$1
+    dest=$2
+    mode=$3
+    if [ -z "$mode" ]; then
+        mode=644
+    fi
+    for i in $(ls $file); do
+        addInstallFile "$i" "$dest" "$mode"
+    done
 }
 
 addInstallFile () {
-file=$1
-dest=$2
-mode=$3
-if [ -z "$mode" ]; then
-  mode=644
-fi
-printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
-addUninstallFile "$file" "$dest"
+    file=$1
+    dest=$2
+    mode=$3
+    if [ -z "$mode" ]; then
+        mode=644
+    fi
+    printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
+    addUninstallFile "$file" "$dest"
+}
+
+addSymlink () {
+    dst=$1
+    src=$2
+    printf "\tln -s $dst \$(DEST)$src\n" >> ${MAKEFILE}
+    addUninstallFile "$src"
 }
 
 addInstallFileRename () {
-file=$1
-dest=$2
-mode=$3
-if [ -z "$mode" ]; then
-  mode=644
-fi
-printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
-addUninstallFileRename "$dest"
+    file=$1
+    dest=$2
+    mode=$3
+    if [ -z "$mode" ]; then
+        mode=644
+    fi
+    printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
+    addUninstallFileRename "$dest"
 }
 
 addUninstallFile () {
-file=$(basename "$1")
-dest=$2
-printf "\trm -f \$(DEST)$dest/$file\n" >> ${UNINSTALL_FILES}
+    if [ $# -eq 2 ]; then
+        file=$(basename "$1")
+        dest=$2
+        path="\$(DEST)$dest/$file"
+    else
+        path="\$(DEST)$1"
+    fi
+    printf "\trm -f $path\n" >> ${UNINSTALL_FILES}
 }
 
 addUninstallFileRename () {
-file=$1
-printf "\trm -f \$(DEST)$file\n" >> ${UNINSTALL_FILES}
+    file=$1
+    printf "\trm -f \$(DEST)$file\n" >> ${UNINSTALL_FILES}
 }
 
 addInstallDir () {
-dest=$1
-printf "\tinstall -d \$(DEST)$dest\n" >> ${MAKEFILE}
-addUninstallDir "$dest"
+    dest=$1
+    printf "\tinstall -d \$(DEST)$dest\n" >> ${MAKEFILE}
+    addUninstallDir "$dest"
 }
 
 addUninstallDir () {
-dest=$1
-printf "\tif [ -d \$(DEST)$dest ]; then rmdir --ignore-fail-on-non-empty \$(DEST)$dest; fi\n" >> ${UNINSTALL_DIRS}
+    dest=$1
+    printf "\tif [ -d \$(DEST)$dest ]; then rmdir --ignore-fail-on-non-empty \$(DEST)$dest; fi\n" >> ${UNINSTALL_DIRS}
 }
 
 addComment () {
-printf "\t#install $1\n" >> ${MAKEFILE}
-printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
-printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
+    printf "\t#install $1\n" >> ${MAKEFILE}
+    printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
+    printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
 }
 
 addNewline () {
-printf "\n" >> ${MAKEFILE}
-printf "\n" >> ${UNINSTALL_FILES}
-printf "\n" >> ${UNINSTALL_DIRS}
+    printf "\n" >> ${MAKEFILE}
+    printf "\n" >> ${UNINSTALL_FILES}
+    printf "\n" >> ${UNINSTALL_DIRS}
 }
 
 onTravis () {
-[ "${TRAVIS}" = "true" ]
+    [ "${TRAVIS}" = "true" ]
 }
 
 #get commandline arguments
@@ -222,6 +234,7 @@ addNewline
 addComment "bash-completion"
 addInstallDir                       "/share/bash-completion/completions"
 addInstallFiles "bash-completion/*" "/share/bash-completion/completions"
+addSymlink      "backintime"        "/share/bash-completion/completions/backintime-qt4"
 addUninstallDir                     "/share/bash-completion"
 addNewline
 

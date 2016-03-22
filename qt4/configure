@@ -17,81 +17,81 @@ USR_BIN_FILES="backintime-qt4"
 DBUS_SERVICE_FILES="net.launchpad.backintime.serviceHelper.service"
 
 usage () {
-echo "Usage:"
-echo "$0 [--python | --python3]"
-echo ""
-echo "--python"
-echo "\tuse 'python' to start Python3"
-echo "--python3"
-echo "\tuse 'python3' to start Python3"
+    echo "Usage:"
+    echo "$0 [--python | --python3]"
+    echo ""
+    echo "--python"
+    echo "\tuse 'python' to start Python3"
+    echo "--python3"
+    echo "\tuse 'python3' to start Python3"
 }
 
 addInstallFiles () {
-file=$1
-dest=$2
-mode=$3
-if [ -z "$mode" ]; then
-  mode=644
-fi
-for i in $(ls $file); do
-  addInstallFile "$i" "$dest" "$mode"
-done
+    file=$1
+    dest=$2
+    mode=$3
+    if [ -z "$mode" ]; then
+        mode=644
+    fi
+    for i in $(ls $file); do
+        addInstallFile "$i" "$dest" "$mode"
+    done
 }
 
 addInstallFile () {
-file=$1
-dest=$2
-mode=$3
-if [ -z "$mode" ]; then
-  mode=644
-fi
-printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
-addUninstallFile "$file" "$dest"
+    file=$1
+    dest=$2
+    mode=$3
+    if [ -z "$mode" ]; then
+        mode=644
+    fi
+    printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
+    addUninstallFile "$file" "$dest"
 }
 
 addInstallFileRename () {
-file=$1
-dest=$2
-mode=$3
-if [ -z "$mode" ]; then
-  mode=644
-fi
-printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
-addUninstallFileRename "$dest"
+    file=$1
+    dest=$2
+    mode=$3
+    if [ -z "$mode" ]; then
+          mode=644
+    fi
+    printf "\tinstall --mode=$mode $file \$(DEST)$dest\n" >> ${MAKEFILE}
+    addUninstallFileRename "$dest"
 }
 
 addUninstallFile () {
-file=$(basename "$1")
-dest=$2
-printf "\trm -f \$(DEST)$dest/$file\n" >> ${UNINSTALL_FILES}
+    file=$(basename "$1")
+    dest=$2
+    printf "\trm -f \$(DEST)$dest/$file\n" >> ${UNINSTALL_FILES}
 }
 
 addUninstallFileRename () {
-file=$1
-printf "\trm -f \$(DEST)$file\n" >> ${UNINSTALL_FILES}
+    file=$1
+    printf "\trm -f \$(DEST)$file\n" >> ${UNINSTALL_FILES}
 }
 
 addInstallDir () {
-dest=$1
-printf "\tinstall -d \$(DEST)$dest\n" >> ${MAKEFILE}
-addUninstallDir "$dest"
+    dest=$1
+    printf "\tinstall -d \$(DEST)$dest\n" >> ${MAKEFILE}
+    addUninstallDir "$dest"
 }
 
 addUninstallDir () {
-dest=$1
-printf "\tif [ -d \$(DEST)$dest ]; then rmdir --ignore-fail-on-non-empty \$(DEST)$dest; fi\n" >> ${UNINSTALL_DIRS}
+    dest=$1
+    printf "\tif [ -d \$(DEST)$dest ]; then rmdir --ignore-fail-on-non-empty \$(DEST)$dest; fi\n" >> ${UNINSTALL_DIRS}
 }
 
 addComment () {
-printf "\t#install $1\n" >> ${MAKEFILE}
-printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
-printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
+    printf "\t#install $1\n" >> ${MAKEFILE}
+    printf "\t#uninstall files $1\n" >> ${UNINSTALL_FILES}
+    printf "\t#uninstall directory $1\n" >> ${UNINSTALL_DIRS}
 }
 
 addNewline () {
-printf "\n" >> ${MAKEFILE}
-printf "\n" >> ${UNINSTALL_FILES}
-printf "\n" >> ${UNINSTALL_DIRS}
+    printf "\n" >> ${MAKEFILE}
+    printf "\n" >> ${UNINSTALL_FILES}
+    printf "\n" >> ${UNINSTALL_DIRS}
 }
 
 #get commandline arguments
