@@ -51,6 +51,7 @@ class Qt4SysTrayIcon:
         self.qapp = qt4tools.create_qapplication(self.config.APP_NAME)
         translator = qt4tools.get_translator()
         self.qapp.installTranslator(translator)
+        self.qapp.setQuitOnLastWindowClosed(False)
 
         import icon
         self.icon = icon
@@ -68,6 +69,8 @@ class Qt4SysTrayIcon:
         self.menuProgress = self.contextMenu.addAction('')
         self.menuProgress.setVisible(False)
         self.contextMenu.addSeparator()
+        self.openLog = self.contextMenu.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
+        QObject.connect(self.openLog, SIGNAL('triggered()'), self.onOpenLog)
         self.startBIT = self.contextMenu.addAction(icon.BIT_LOGO, _('Start BackInTime'))
         QObject.connect(self.startBIT, SIGNAL('triggered()'), self.onStartBIT)
         self.status_icon.setContextMenu(self.contextMenu)
@@ -167,6 +170,10 @@ class Qt4SysTrayIcon:
         if not profileID == '1':
             cmd += ['--profile-id', profileID]
         proc = subprocess.Popen(cmd)
+
+    def onOpenLog(self):
+        import logviewdialog
+        ret = logviewdialog.LogViewDialog(self, systray = True).exec_()
 
 if __name__ == '__main__':
     Qt4SysTrayIcon().run()

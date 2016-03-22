@@ -29,8 +29,12 @@ _=gettext.gettext
 
 
 class LogViewDialog( QDialog ):
-    def __init__( self, parent, sid = None ):
-        super(LogViewDialog, self).__init__(parent)
+    def __init__(self, parent, sid = None, systray = False):
+        if systray:
+            super(LogViewDialog, self).__init__()
+        else:
+            super(LogViewDialog, self).__init__(parent)
+
 
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -74,7 +78,7 @@ class LogViewDialog( QDialog ):
         if self.sid is None:
             self.lbl_snapshots.hide()
             self.combo_snapshots.hide()
-        else:
+        if self.sid or systray:
             self.lbl_profiles.hide()
             self.combo_profiles.hide()
 
@@ -163,11 +167,12 @@ class LogViewDialog( QDialog ):
             self.combo_profiles.setVisible( False )
 
     def update_snapshots(self):
-        self.combo_snapshots.clear()
-        for sid in snapshots.iterSnapshots(self.config):
-            self.combo_snapshots.addSnapshotID(sid)
-            if sid == self.sid:
-                self.combo_snapshots.setCurrentSnapshotID(sid)
+        if self.sid:
+            self.combo_snapshots.clear()
+            for sid in snapshots.iterSnapshots(self.config):
+                self.combo_snapshots.addSnapshotID(sid)
+                if sid == self.sid:
+                    self.combo_snapshots.setCurrentSnapshotID(sid)
 
     def update_cb_decode(self):
         if self.config.get_snapshots_mode() == 'ssh_encfs':
