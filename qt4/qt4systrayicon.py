@@ -33,6 +33,8 @@ import tools
 import logger
 import snapshots
 import progress
+import logviewdialog
+import encfstools
 
 from PyQt4.QtCore import QObject, SIGNAL, QTimer
 from PyQt4.QtGui import QSystemTrayIcon, QIcon, QMenu, QProgressBar, QWidget, QRegion
@@ -42,6 +44,7 @@ class Qt4SysTrayIcon:
     def __init__( self ):
         self.snapshots = snapshots.Snapshots()
         self.config = self.snapshots.config
+        self.decode = None
 
         if len( sys.argv ) > 1:
             if not self.config.set_current_profile(sys.argv[1]):
@@ -69,6 +72,12 @@ class Qt4SysTrayIcon:
         self.menuProgress = self.contextMenu.addAction('')
         self.menuProgress.setVisible(False)
         self.contextMenu.addSeparator()
+
+        self.btnDecode = self.contextMenu.addAction(icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
+        self.btnDecode.setCheckable(True)
+        self.btnDecode.setVisible(self.config.get_snapshots_mode() == 'ssh_encfs')
+        QObject.connect(self.btnDecode, SIGNAL('toggled(bool)'), self.onBtnDecode)
+
         self.openLog = self.contextMenu.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
         QObject.connect(self.openLog, SIGNAL('triggered()'), self.onOpenLog)
         self.startBIT = self.contextMenu.addAction(icon.BIT_LOGO, _('Start BackInTime'))
@@ -131,12 +140,14 @@ class Qt4SysTrayIcon:
         if not message is None:
             if message != self.last_message:
                 self.last_message = message
-                self.menuStatusMessage.setText('\n'.join(tools.wrap_line(self.last_message[1],\
+                if self.decode:
+                    message = (message[0], self.decode.log(message[1]))
+                self.menuStatusMessage.setText('\n'.join(tools.wrap_line(message[1],\
                                                                          size = 80,\
                                                                          delimiters = '',\
                                                                          new_line_indicator = '') \
                                                                         ))
-                self.status_icon.setToolTip( self.last_message[1] )
+                self.status_icon.setToolTip(message[1])
 
         pg = progress.ProgressFile(self.config)
         if pg.isFileReadable():
@@ -172,8 +183,18 @@ class Qt4SysTrayIcon:
         proc = subprocess.Popen(cmd)
 
     def onOpenLog(self):
-        import logviewdialog
-        ret = logviewdialog.LogViewDialog(self, systray = True).exec_()
+        dlg = logviewdialog.LogViewDialog(self, systray = True)
+        dlg.decode = self.decode
+        dlg.cb_decode.setChecked(self.btnDecode.isChecked())
+        dlg.exec_()
+
+    def onBtnDecode(self, checked):
+        if checked:
+            self.decode = encfstools.Decode(self.config)
+            self.last_message = None
+            self.update_info()
+        else:
+            self.decode = None
 
 if __name__ == '__main__':
     Qt4SysTrayIcon().run()

@@ -524,7 +524,7 @@ class Decode(object):
         pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
         pattern.append(r' file has vanished: ".*?mountpoint/')
         pattern.append(r' ')
-        self.re_info = re.compile(r'(^\[I\] %s \(rsync:(?:%s))(.*?)(\).*|".*)' % (_take_snapshot, '|'.join(pattern)) )
+        self.re_info = re.compile(r'(^(?:\[I\] )?%s \(rsync:(?:%s))(.*?)(\).*|".*)' % (_take_snapshot, '|'.join(pattern)) )
 
         #search for: [E] Error: rsync readlink_stat("...mountpoint/<crypted_path>")
         #            [E] Error: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13)
@@ -534,7 +534,7 @@ class Decode(object):
         pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
         pattern.append(r' rsync: recv_generator: failed to stat ".*?mountpoint/')
         pattern.append(r' rsync: .*?".*?mountpoint/')
-        self.re_error = re.compile(r'(^\[E\] Error:(?:%s))(.*?)(".*)' % '|'.join(pattern))
+        self.re_error = re.compile(r'(^(?:\[E\] )?Error:(?:%s))(.*?)(".*)' % '|'.join(pattern))
 
         #search for: [I] ssh USER@HOST cp -aRl "PATH<crypted_path>"* "PATH<crypted_path>"
         self.re_info_cp= re.compile(r'(^\[I\] .*? cp -aRl "%s/)(.*?)("\* "%s/)(.*?)(")' % (path, path) )
@@ -558,7 +558,7 @@ class Decode(object):
         pattern.append(r'total size is .*? speedup is')
         pattern.append(r'rsync error: some files/attrs were not transferred')
         pattern.append(r'rsync warning: some files vanished before they could be transferred')
-        self.re_skip = re.compile(r'^\[I\] %s \(rsync: (%s)' % (_take_snapshot, '|'.join(pattern)) )
+        self.re_skip = re.compile(r'^(?:\[I\] )?%s \(rsync: (%s)' % (_take_snapshot, '|'.join(pattern)) )
 
         self.string = string
         if string:
