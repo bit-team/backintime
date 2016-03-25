@@ -1332,7 +1332,7 @@ class SettingsDialog( QDialog ):
 
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
             #pre_mount_check
-            mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self, read_only = False)
+            mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self)
             try:
                 mnt.pre_mount_check(mode = mode, first_run = True, **mount_kwargs)
             except MountException as ex:

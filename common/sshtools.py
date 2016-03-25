@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2016 Germar Reitze, Taylor Raack
+#    Copyright (C) 2012-2016 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -54,7 +54,6 @@ class SSH(MountControl):
         self.setattr_kwargs('nocache', self.config.is_run_nocache_on_remote_enabled(self.profile_id), store = False, **kwargs)
         self.setattr_kwargs('password', None, store = False, **kwargs)
 
-
         if not self.path:
             self.path = './'
         self.set_default_args()
@@ -95,10 +94,6 @@ class SSH(MountControl):
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
         sshfs.extend(['-o', 'idmap=user',
                       '-o', 'cache_dir_timeout=2'])
-
-        # use read only mount if requested
-        if self.read_only:
-            sshfs.extend(['-o', 'ro'])
 
         sshfs.extend([self.user_host_path, self.mountpoint])
         #bugfix: sshfs doesn't mount if locale in LC_ALL is not available on remote host

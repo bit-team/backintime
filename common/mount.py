@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2016 Germar Reitze, Taylor Raack
+#    Copyright (C) 2012-2016 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -48,14 +48,12 @@ class Mount(object):
         tmp_mount (bool):       if ``True`` mount to a temporary destination
         parent (QWidget):       parent widget for QDialogs or ``None`` if there
                                 is no parent
-        read_only (bool):       mount source read-only
     """
     def __init__(self,
                  cfg = None,
                  profile_id = None,
                  tmp_mount = False,
-                 parent = None,
-                 read_only = True):
+                 parent = None):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -66,7 +64,6 @@ class Mount(object):
 
         self.tmp_mount = tmp_mount
         self.parent = parent
-        self.read_only = read_only
 
         if self.config.get_password_use_cache(self.profile_id):
             pw_cache = password.Password_Cache(self.config)
@@ -137,7 +134,6 @@ class Mount(object):
                                          tmp_mount = self.tmp_mount,
                                          mode = mode,
                                          parent = self.parent,
-                                         read_only = self.read_only,
                                          **kwargs)
                     return backend.mount(check = check)
                 except HashCollision as ex:
@@ -226,7 +222,6 @@ class Mount(object):
                                  tmp_mount = self.tmp_mount,
                                  mode = mode,
                                  parent = self.parent,
-                                 read_only = self.read_only,
                                  **kwargs)
             return backend.pre_mount_check(first_run)
 
@@ -285,7 +280,6 @@ class Mount(object):
                              tmp_mount = self.tmp_mount,
                              mode = mode,
                              parent = self.parent,
-                             read_only = self.read_only,
                              **kwargs)
         if backend.compare_remount(hash_id):
             #profiles uses the same settings. just swap the symlinks
@@ -368,7 +362,6 @@ class MountControl(object):
 
         self.setattr_kwargs('mode', self.config.get_snapshots_mode(self.profile_id), **kwargs)
         self.setattr_kwargs('hash_collision', self.config.get_hash_collision(), **kwargs)
-        self.setattr_kwargs('read_only', True, **kwargs)
 
     def set_default_args(self):
         """

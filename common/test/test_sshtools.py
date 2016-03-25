@@ -27,7 +27,7 @@ import logger
 import mount
 
 ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
-            
+
 class TestSSH(generic.TestCase):
     # running this test requires that user has public / private key pair created and ssh server running
 
@@ -42,38 +42,17 @@ class TestSSH(generic.TestCase):
 
     @unittest.skipIf(not ON_TRAVIS, 'Skip as this test requires a local ssh server, public and private keys installed')
     def test_can_mount_ssh_rw(self):
-        self.internal_test(read_only = False, implicit_read_only = False)
-
-    @unittest.skipIf(not ON_TRAVIS, 'Skip as this test requires a local ssh server, public and private keys installed')   
-    def test_can_mount_ssh_ro_implicitly(self):
-        self.internal_test(read_only = True, implicit_read_only = True)
-
-    @unittest.skipIf(not ON_TRAVIS, 'Skip as this test requires a local ssh server, public and private keys installed')
-    def test_can_mount_ssh_ro_explicitly(self):
-        self.internal_test(read_only = True, implicit_read_only = False)
- 
-    def internal_test(self, read_only, implicit_read_only):
         with tempfile.TemporaryDirectory() as dirpath:
             self.config.set_snapshots_path_ssh(dirpath)
 
-            if implicit_read_only:
-                mnt = mount.Mount(cfg = self.config, tmp_mount = True)
-            else:
-                mnt = mount.Mount(cfg = self.config, tmp_mount = True, read_only = read_only)
+            mnt = mount.Mount(cfg = self.config, tmp_mount = True)
             mnt.pre_mount_check(mode = 'ssh', first_run = True, **self.mount_kwargs)
 
             try:
                 hash_id = mnt.mount(mode = 'ssh', check = False, **self.mount_kwargs)
                 full_path = os.path.expanduser(os.path.join("~",".local","share","backintime","mnt",hash_id,"mountpoint","testfile"))
 
-                # warning - don't use os.access for checking writability
-                # https://github.com/bit-team/backintime/issues/490#issuecomment-156265196
-                if read_only:
-                    with self.assertRaisesRegex(OSError, "Read-only file system"):
-                        with open(full_path, 'wt') as f:
-                            f.write('foo')
-                else:
-                    with open(full_path, 'wt') as f:
-                        f.write('foo')
+                with open(full_path, 'wt') as f:
+                    f.write('foo')
             finally:
                 mnt.umount(hash_id = hash_id)
