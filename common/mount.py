@@ -327,7 +327,6 @@ class MountControl(object):
                                 ``ssh_encfs``
         hash_collision (int):   global value used to prevent hash collisions on
                                 mountpoints
-        read_only (bool):       if ``True`` mount source read-only
     """
 
     CHECK_FUSE_GROUP = False
