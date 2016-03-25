@@ -52,6 +52,8 @@ class TestSSH(generic.TestCase):
                 hash_id = mnt.mount(mode = 'ssh', check = False, **self.mount_kwargs)
                 full_path = os.path.expanduser(os.path.join("~",".local","share","backintime","mnt",hash_id,"mountpoint","testfile"))
 
+                # warning - don't use os.access for checking writability
+                # https://github.com/bit-team/backintime/issues/490#issuecomment-156265196
                 with open(full_path, 'wt') as f:
                     f.write('foo')
             finally:
