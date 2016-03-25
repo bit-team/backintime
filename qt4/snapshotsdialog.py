@@ -84,6 +84,7 @@ class DiffOptionsDialog( QDialog ):
 class SnapshotsDialog( QDialog ):
     def __init__( self, parent, sid, path ):
         super(SnapshotsDialog, self).__init__(parent)
+        self.parent = parent
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.snapshots_list = parent.snapshots_list
@@ -301,6 +302,11 @@ class SnapshotsDialog( QDialog ):
         if not os.path.exists( full_path ):
             return
 
+        # prevent backup data from being accidentaly overwritten
+        # by create a temporary local copy and only open that one
+        if not isinstance(self.sid, snapshots.RootSnapshot):
+            full_path = self.parent.tmp_copy(full_path, sid)
+
         self.run = QDesktopServices.openUrl(QUrl(full_path ))
 
     def on_btn_diff_clicked( self ):
@@ -323,6 +329,13 @@ class SnapshotsDialog( QDialog ):
         if not tools.check_command( diff_cmd ):
             messagebox.critical( self, _('Command not found: %s') % diff_cmd )
             return
+
+        # prevent backup data from being accidentaly overwritten
+        # by create a temporary local copy and only open that one
+        if not isinstance(sid1, snapshots.RootSnapshot):
+            path1 = self.parent.tmp_copy(path1, sid1)
+        if not isinstance(sid2, snapshots.RootSnapshot):
+            path2 = self.parent.tmp_copy(path2, sid2)
 
         params = diff_params
         params = params.replace( '%1', "\"%s\"" % path1 )

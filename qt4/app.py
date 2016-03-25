@@ -26,7 +26,9 @@ import datetime
 import gettext
 import re
 import subprocess
+import shutil
 from contextlib import contextmanager
+from tempfile import TemporaryDirectory
 
 import qt4tools
 qt4tools.register_backintime_path('common')
@@ -62,6 +64,7 @@ class MainWindow( QMainWindow ):
         self.qapp = qapp
         self.snapshots = snapshots.Snapshots( config )
         self.last_take_snapshot_message = None
+        self.tmp_dirs = []
 
         #window icon
         import icon
@@ -552,6 +555,10 @@ class MainWindow( QMainWindow ):
             messagebox.critical( self, str(ex) )
 
         self.config.save()
+
+        # cleanup temporary local copys of files which where opend in GUI
+        for d in self.tmp_dirs:
+            d.cleanup()
 
         event.accept()
 
@@ -1150,6 +1157,30 @@ class MainWindow( QMainWindow ):
             return
         self.open_path(rel_path)
 
+    def tmp_copy(self, full_path, sid = None):
+        """
+        Create a temporary local copy of the file ``full_path`` and add the
+        temp folder to ``self.tmp_dirs`` which will remove them on exit.
+
+        Args:
+            full_path (str):        path to original file
+            sid (snapshots.SID):    snapshot ID used as temp folder suffix
+
+        Returns:
+            str:                    temporary path to file
+        """
+        if sid:
+            sid = '_' + sid.sid
+        d = TemporaryDirectory(suffix = sid)
+        tmp_file = os.path.join(d.name, os.path.basename(full_path))
+
+        if os.path.isdir(full_path):
+            shutil.copytree(full_path, tmp_file)
+        else:
+            shutil.copy(full_path, d.name)
+        self.tmp_dirs.append(d)
+        return tmp_file
+
     def open_path(self, rel_path):
         rel_path = os.path.join( self.path, rel_path )
         full_path = self.sid.pathBackup(rel_path)
@@ -1160,6 +1191,11 @@ class MainWindow( QMainWindow ):
                 self.path_history.append(rel_path)
                 self.update_files_view( 0 )
             else:
+                # prevent backup data from being accidentaly overwritten
+                # by create a temporary local copy and only open that one
+                if not isinstance(self.sid, snapshots.RootSnapshot):
+                    full_path = self.tmp_copy(full_path, self.sid)
+
                 self.run = QDesktopServices.openUrl(QUrl('file://' + full_path))
 
     @pyqtSlot(int)
