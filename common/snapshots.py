@@ -1994,7 +1994,7 @@ class Snapshots:
         encode = self.config.ENCODE
         ret  = ' --chmod=Du+wx '
         ret += ' --exclude="{}" --exclude="{}" --exclude="{}" '.format(
-                              encode.exclude(self.config.get_local_snapshots_path()),
+                              encode.exclude(self.config.get_snapshots_path()),
                               encode.exclude(self.config._LOCAL_DATA_FOLDER) ,
                               encode.exclude(self.config._MOUNT_ROOT) )
         ret += ' '.join((rsync_include, rsync_exclude, rsync_include2))

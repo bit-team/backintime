@@ -32,7 +32,6 @@ import tools
 import configfile
 import logger
 import mount
-import bindfstools
 import sshtools
 import encfstools
 import password
@@ -127,7 +126,7 @@ class Config( configfile.ConfigFileWithProfiles ):
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
                 #mode           : (<mounttools>,            'ComboBox Text',        need_pw|lbl_pw_1,       need_2_pw|lbl_pw_2 ),
-                'local'         : (bindfstools.Local,       _('Local'),             False,                  False ),
+                'local'         : (None,                    _('Local'),             False,                  False ),
                 'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False ),
                 'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False ),
                 'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption') )
@@ -418,22 +417,6 @@ class Config( configfile.ConfigFileWithProfiles ):
     def increment_hash_collision(self):
         value = self.get_hash_collision() + 1
         self.set_int_value( 'global.hash_collision', value )
-
-    # local directory for snapshots
-    def get_local_snapshots_path( self, profile_id = None ):
-        if self.get_snapshots_mode(profile_id) == 'local':
-            return self.get_local_path(profile_id)
-        elif self.get_snapshots_mode(profile_id) == 'local_encfs':
-            return self.get_local_encfs_path(profile_id)
-        else:
-            return self.get_snapshots_path(profile_id)
-
-    # absolute path for 'local' mode
-    def get_local_path( self, profile_id = None ):
-        return self.get_profile_str_value( 'snapshots.path', '', profile_id )
-
-    def set_local_path( self, value, profile_id = None ):
-        self.set_profile_str_value( 'snapshots.path', value, profile_id )
 
     def get_snapshots_path_ssh( self, profile_id = None ):
         #?Snapshot path on remote host. If the path is relative (no leading '/')

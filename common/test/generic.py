@@ -16,7 +16,6 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-import subprocess
 import sys
 import unittest
 from tempfile import TemporaryDirectory
@@ -24,7 +23,6 @@ from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import logger
 import config
-import mount
 
 class TestCase(unittest.TestCase):
     def __init__(self, *args, **kwargs):
@@ -46,12 +44,7 @@ class SnapshotsTestCase(TestCase):
         self.tmpDir = TemporaryDirectory()
         self.cfg.dict['profile1.snapshots.path'] = self.tmpDir.name
         self.snapshotPath = self.cfg.get_snapshots_full_path()
-        subprocess.getoutput("chmod -R a+rwx " + self.snapshotPath + " && rm -rf " + self.snapshotPath)
-        self.mnt = mount.Mount(cfg = self.cfg, tmp_mount = True, parent = self, read_only = False)
-        self.mnt.pre_mount_check(mode = 'local', first_run = True)
-        self.hash_id = self.mnt.mount(mode = 'local', check = False)
         os.makedirs(self.snapshotPath)
 
     def tearDown(self):
-        self.mnt.umount(hash_id = self.hash_id)
         self.tmpDir.cleanup()

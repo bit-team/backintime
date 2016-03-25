@@ -9,7 +9,7 @@ Homepage: https://github.com/bit-team/backintime
 
 Package: backintime-common
 Architecture: all
-Depends: rsync, cron-daemon, openssh-client, python3-keyring, python3-dbus, bindfs, ${python3:Depends}, ${misc:Depends}
+Depends: rsync, cron-daemon, openssh-client, python3-keyring, python3-dbus, ${python3:Depends}, ${misc:Depends}
 Recommends: sshfs, encfs
 Conflicts: backintime
 Replaces: backintime

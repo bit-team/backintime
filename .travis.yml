@@ -18,7 +18,7 @@ python:
 
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y bindfs sshfs
+  - sudo apt-get install -y sshfs
 
 install:
   - pip install coveralls
