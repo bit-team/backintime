@@ -86,7 +86,7 @@ Check/prepair snapshot path: done
  └────────────────────────────────┘
 Check config: done
 
-Config test/config profile '.+' is fine.''', re.MULTILINE))
+Config test/config profile 'Main profile' is fine.''', re.MULTILINE))
 
         # execute backup and verify output
         proc = subprocess.Popen(["./backintime",
@@ -111,7 +111,7 @@ under certain conditions; type `backintime --license' for details.
 
 INFO: Lock(
 INFO: Inhibit Suspend started. Reason: take snapshot)?
-INFO: Take a new snapshot. Profile: 1 .+
+INFO: Take a new snapshot. Profile: 1 Main profile
 INFO: Call rsync to take the snapshot
 INFO: Save config file
 INFO: Save permissions

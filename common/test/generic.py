@@ -26,6 +26,7 @@ import config
 
 class TestCase(unittest.TestCase):
     def __init__(self, *args, **kwargs):
+        os.environ['LANGUAGE'] = 'en_US.UTF-8'
         self.cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
         self.sharePath = '/tmp/bit'
         logger.APP_NAME = 'BIT_unittest'
