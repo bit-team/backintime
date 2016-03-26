@@ -1004,9 +1004,10 @@ class Snapshots:
         # It should delete the excluded folders then
         rsync_prefix = rsync_prefix + ' --delete --delete-excluded '
 
-        if snapshots and not new_snapshot.saveToContinue:
+        if snapshots:
             prev_sid = snapshots[0]
-
+            
+        if snapshots and not new_snapshot.saveToContinue:
             if not full_rsync:
                 changed = True
                 if check_for_changes:
