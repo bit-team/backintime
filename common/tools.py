@@ -563,9 +563,10 @@ def get_rsync_caps(data = None):
         caps.extend([i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
     return caps
 
-def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] ):
+def get_rsync_prefix( config, no_perms = True, use_mode = ['ssh', 'ssh_encfs'] ):
     """
-    Get rsync command and all args based on current profile in ``config``.
+    Get rsync command and all args for creating a new snapshot. Args are
+    based on current profile in ``config``.
 
     Args:
         config (config.Config): current config
@@ -574,7 +575,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
                                 :py:func:`config.Config.preserve_acl` == ``True`` or
                                 :py:func:`config.Config.preserve_xattr` == ``True``
                                 will overwrite this to ``False``
-        use_modes (list):       if current mode is in this list add additional
+        use_mode (list):        if current mode is in this list add additional
                                 args for that mode
 
     Returns:
@@ -618,8 +619,24 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
     if config.rsync_options_enabled():
         cmd += ' ' + config.rsync_options()
 
+    cmd += get_rsync_ssh_args(config, use_mode)
+    return cmd + ' '
+
+def get_rsync_ssh_args(config, use_mode = ['ssh', 'ssh_encfs']):
+    """
+    Get SSH args for rsync based on current profile in ``config``.
+
+    Args:
+        config (config.Config): current config
+        use_mode (list):        if current mode is in this list add additional
+                                args for that mode
+
+    Returns:
+        str:                    SSH args for rsync
+    """
+    cmd = ''
     mode = config.get_snapshots_mode()
-    if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
+    if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
         ssh_port = config.get_ssh_port()
         ssh_cipher = config.get_ssh_cipher()
         if ssh_cipher == 'default':
@@ -632,7 +649,7 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
         cmd += ' --rsh="ssh -p %s %s %s"' % ( str(ssh_port), ssh_cipher_suffix, ssh_private_key)
 
         if config.bwlimit_enabled():
-            cmd = cmd + ' --bwlimit=%d' % config.bwlimit()
+            cmd += ' --bwlimit=%d' % config.bwlimit()
 
         if config.is_run_nice_on_remote_enabled()     \
           or config.is_run_ionice_on_remote_enabled() \
@@ -645,7 +662,23 @@ def get_rsync_prefix( config, no_perms = True, use_modes = ['ssh', 'ssh_encfs'] 
             if config.is_run_nocache_on_remote_enabled():
                 cmd += 'nocache '
             cmd += 'rsync"'
+    return cmd
 
+def get_rsync_remove(config, run_local = True):
+    """
+    Get rsync command and all args for removing snapshots with rsync.
+
+    Args:
+        config (config.Config): current config
+        run_local (bool):       if True and current mode is ``ssh``
+                                or ``ssh_encfs`` this will add SSH options
+
+    Returns:
+        str:                    rsync command with all args
+    """
+    cmd = 'rsync -a --delete'
+    if run_local:
+        cmd += get_rsync_ssh_args(config)
     return cmd + ' '
 
 #TODO: check if we really need this

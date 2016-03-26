@@ -29,6 +29,7 @@ import shutil
 import time
 import re
 import fcntl
+from tempfile import TemporaryDirectory
 
 import config
 import configfile
@@ -517,7 +518,7 @@ class Snapshots:
 
         info = sid.info
 
-        cmd_suffix = tools.get_rsync_prefix( self.config, not full_rsync, use_modes = ['ssh'] )
+        cmd_suffix = tools.get_rsync_prefix( self.config, not full_rsync, use_mode = ['ssh'] )
         cmd_suffix += '-R -v '
         if not full_rsync:
             # During the rsync operation, directories must be rwx by the current
@@ -554,7 +555,7 @@ class Snapshots:
                 else:
                     src_delta = len(items[0])
 
-            cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_modes = ['ssh'])
+            cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_mode = ['ssh'])
             cmd += ' "%s/"' % restore_to
             self.restore_callback( callback, True, cmd )
             self._execute( cmd, callback, filters = (self._filter_rsync_progress, ))
@@ -644,35 +645,20 @@ class Snapshots:
         """
         return '.backup.' + datetime.date.today().strftime( '%Y%m%d' )
 
-    def remove_snapshot( self, sid, execute = True, quote = '\"'):
+    def remove_snapshot(self, sid):
         """
-        Fix permissions than remove snapshot ``sid`` or just return necessary
-        commands to remove if ``execute`` is ``False``.
+        Remove snapshot ``sid``.
 
         Args:
             sid (SID):              snapshot to remove
-            execute (bool):         if ``True`` remove immediately else just
-                                    return the commands to remove the snapshot
-            quote (str):            use this string to quote names. Depending on
-                                    the way the command is called it need
-                                    different quotes
-
-        Returns:
-            tuple:                  two commands (str) for fixing permissions
-                                    and removing snapshot. Only if ``execute``
-                                    is ``False``
         """
         if isinstance(sid, RootSnapshot):
             return
-        path = sid.path( use_mode = ['ssh', 'ssh_encfs'])
-        find = 'find %(quote)s%(path)s%(quote)s -type d -exec chmod u+wx %(quote)s{}%(quote)s %(suffix)s' \
-               % {'path': path, 'quote': quote, 'suffix': self.config.find_suffix()}
-        rm = 'rm -rf %(quote)s%(path)s%(quote)s' % {'path': path, 'quote': quote}
-        if execute:
-            self._execute(self.cmd_ssh(find, quote = True))
-            self._execute(self.cmd_ssh(rm))
-        else:
-            return((find, rm))
+        rsync = tools.get_rsync_remove(self.config)
+        with TemporaryDirectory() as d:
+            rsync += '"{}/" {}'.format(d, self.rsync_remote_path(sid.path(use_mode = ['ssh', 'ssh_encfs'])))
+            self._execute(rsync)
+            os.rmdir(sid.path())
 
     def take_snapshot( self, force = False ):
         """
@@ -1446,27 +1432,28 @@ class Snapshots:
             additionalChars = len(self.config.ssh_prefix_cmd(cmd_type = str))
 
             head = 'screen -d -m bash -c "('
+            head += 'TMP=\$(mktemp -d); '
             if logger.DEBUG:
                 head += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" \\\"start\\\"; '
             head += 'flock -x 9; '
             if logger.DEBUG:
                 head += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" \\\"got exclusive flock\\\"; '
 
-            tail = ') 9>\\\"%s\\\""' %lckFile
+            tail = 'rmdir \$TMP) 9>\\\"%s\\\""' %lckFile
 
             cmds = []
             for sid in del_snapshots:
-                find, rm = self.remove_snapshot(sid, execute = False, quote = '\\\"')
+                remote = self.rsync_remote_path(sid.path(use_mode = ['ssh', 'ssh_encfs']), use_mode = [], quote = '\\\"')
+                rsync = tools.get_rsync_remove(self.config, run_local = False)
+                rsync += '\\\"\$TMP/\\\" {}; '.format(remote)
+
                 s = 'test -e \\\"%s\\\" && (' %sid.path(use_mode = ['ssh', 'ssh_encfs'])
                 if logger.DEBUG:
                     s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
                     s += '\\\"snapshot %s still exist\\\"; ' %sid
                     s += 'sleep 1; ' #add one second delay because otherwise you might not see serialized process with small snapshots
-                s += '%s; ' %find
-                if logger.DEBUG:
-                    s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
-                    s += '\\\"snapshot %s change permission done\\\"; ' %sid
-                s += '%s; ' %rm
+                s += rsync
+                s += 'rmdir \\\"%s\\\"; ' %sid.path(use_mode = ['ssh', 'ssh_encfs'])
                 if logger.DEBUG:
                     s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
                     s += '\\\"snapshot %s remove done\\\"' %sid
@@ -1787,7 +1774,7 @@ class Snapshots:
 
         return snapshots_filtered
 
-    def cmd_ssh(self, cmd, quote = False, use_modes = ['ssh', 'ssh_encfs'] ):
+    def cmd_ssh(self, cmd, quote = False, use_mode = ['ssh', 'ssh_encfs'] ):
         """
         Add ssh, nice and ionice command to ``cmd`` to run that command on
         remote host.
@@ -1795,16 +1782,16 @@ class Snapshots:
         Args:
             cmd (str):          command
             quote (bool):       wrap single tick (') quotemarks around ``cmd``
-            use_modes (list):   list of modes in which the result should
+            use_mode (list):    list of modes in which the result should
                                 change to ``ssh USER@HOST cmd`` instead of
                                 just ``cmd``
 
         Returns:
             str:                command with or without ssh prefix based on
-                                ``use_modes`` and current mode
+                                ``use_mode`` and current mode
         """
         mode = self.config.get_snapshots_mode()
-        if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
+        if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
             (ssh_host, ssh_port, ssh_user, ssh_path, ssh_cipher) = self.config.get_ssh_host_port_user_path_cipher()
             ssh_private_key = self.config.get_ssh_private_key_file()
 
@@ -1856,31 +1843,35 @@ class Snapshots:
         else:
             return cmd
 
-    def rsync_remote_path(self, path, use_modes = ['ssh', 'ssh_encfs'] ):
+    def rsync_remote_path(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = '"'):
         """
         Format the destination string for rsync depending on which profile is
         used.
 
         Args:
             path (str):         destination path
-            use_modes (list):   list of modes in which the result should
+            use_mode (list):    list of modes in which the result should
                                 change to ``user@host:path`` instead of
                                 just ``path``
+            quote (str):        use this to quote the path
 
         Returns:
             str:                quoted ``path`` like '"/foo"'
                                 or if the current mode is using ssh and
-                                current mode is in ``use_modes`` a combination
+                                current mode is in ``use_mode`` a combination
                                 of user, host and ``path``
                                 like ''user@host:"/foo"''
         """
         mode = self.config.get_snapshots_mode()
-        if mode in ['ssh', 'ssh_encfs'] and mode in use_modes:
+        if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
             user = self.config.get_ssh_user()
             host = self.config.get_ssh_host()
-            return '\'%s@%s:"%s"\'' % (user, host, path)
+            return '\'%(u)s@%(h)s:%(q)s%(p)s%(q)s\'' %{'u': user,
+                                                       'h': host,
+                                                       'q': quote,
+                                                       'p': path}
         else:
-            return '"%s"' % path
+            return '%(q)s%(p)s%(q)s' %{'q': quote, 'p': path}
 
     def delete_path(self, sid, path):
         """

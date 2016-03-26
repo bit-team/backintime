@@ -438,6 +438,8 @@ class SSH(MountControl):
             cmd += 'test $err_screen -ne 0 && cleanup $err_screen; '
             cmd += 'echo \"(flock -x 9) 9>smr.lock\"; bash -c \"(flock -x 9) 9>smr.lock\" >/dev/null; err_flock=$?; '
             cmd += 'test $err_flock -ne 0 && cleanup $err_flock; '
+            cmd += 'echo \"rmdir \$(mktemp -d)\"; TMP=$(mktemp -d); test -z "$TMP" && cleanup 1; rmdir $TMP >/dev/null; err_rmdir=$?; '
+            cmd += 'test $err_rmdir -ne 0 && cleanup $err_rmdir; '
             tail.append(cmd)
         #if we end up here, everything should be fine
         cmd = 'echo \"done\"'

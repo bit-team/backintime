@@ -129,8 +129,12 @@ class TestSnapshots(generic.SnapshotsTestCase):
     def test_rsync_remote_path(self):
         self.assertEqual(self.sn.rsync_remote_path('/foo'),
                          '"/foo"')
-        self.assertEqual(self.sn.rsync_remote_path('/foo', use_modes = ['local']),
+        self.assertEqual(self.sn.rsync_remote_path('/foo', quote = '\\\"'),
+                         '\\\"/foo\\\"')
+        self.assertEqual(self.sn.rsync_remote_path('/foo', use_mode = ['local']),
                          '"/foo"')
+        self.assertEqual(self.sn.rsync_remote_path('/foo', use_mode = ['local'], quote = '\\\"'),
+                         '\\\"/foo\\\"')
 
         #set up SSH profile
         self.cfg.set_snapshots_mode('ssh')
@@ -138,8 +142,10 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.cfg.set_ssh_user('foo')
         self.assertEqual(self.sn.rsync_remote_path('/bar'),
                          '\'foo@localhost:"/bar"\'')
+        self.assertEqual(self.sn.rsync_remote_path('/bar', quote = '\\\"'),
+                         '\'foo@localhost:\\\"/bar\\\"\'')
 
-        self.assertEqual(self.sn.rsync_remote_path('/bar', use_modes = []),
+        self.assertEqual(self.sn.rsync_remote_path('/bar', use_mode = []),
                          '"/bar"')
 
     def test_create_last_snapshot_symlink(self):
@@ -397,9 +403,9 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         self.assertEqual(s.st_uid, CURRENTUID)
         self.assertEqual(s.st_gid, CURRENTGID)
 
-class TestDelete(generic.SnapshotsTestCase):
+class TestDeletePath(generic.SnapshotsTestCase):
     def setUp(self):
-        super(TestDelete, self).setUp()
+        super(TestDeletePath, self).setUp()
         self.sn = snapshots.Snapshots(self.cfg)
         self.sid = snapshots.SID('20151219-010324-123', self.cfg)
 
@@ -439,6 +445,31 @@ class TestDelete(generic.SnapshotsTestCase):
         os.chmod(self.testDirFullPath, stat.S_IRUSR | stat.S_IXUSR)
         self.sn.delete_path(self.sid, 'foo')
         self.assertFalse(os.path.exists(self.testDirFullPath))
+
+class TestRemoveSnapshot(generic.SnapshotsTestCase):
+    #TODO: add test with SSH
+    def setUp(self):
+        super(TestRemoveSnapshot, self).setUp()
+        self.sn = snapshots.Snapshots(self.cfg)
+
+        self.sid = snapshots.SID('20140213-203837-123', self.cfg)
+        self.sid.makeDirs('foo')
+        with open(self.sid.pathBackup('foo/bar'), 'wt') as f:
+            pass
+
+    def test_remove_snapshot(self):
+        self.assertTrue(self.sid.exists())
+        self.sn.remove_snapshot(self.sid)
+        self.assertFalse(self.sid.exists())
+
+    def test_remove_snapshot_read_only(self):
+        for path in (self.sid.pathBackup(), self.sid.pathBackup('foo')):
+            os.chmod(path, stat.S_IRUSR | stat.S_IXUSR)
+        os.chmod(self.sid.pathBackup('foo/bar'), stat.S_IRUSR)
+
+        self.assertTrue(self.sid.exists())
+        self.sn.remove_snapshot(self.sid)
+        self.assertFalse(self.sid.exists())
 
 class TestSID(generic.SnapshotsTestCase):
     def test_new_object_with_valid_date(self):
