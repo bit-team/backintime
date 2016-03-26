@@ -764,7 +764,7 @@ class Snapshots:
                             ret_val, ret_error = self._take_snapshot( sid, now, include_folders )
 
                         if not ret_val:
-                            self._execute( "rm -rf \"%s\"" % sid.path() )
+                            self.remove_snapshot(sid)
 
                             if ret_error:
                                 logger.error('Failed to take snapshot !!!', self)
@@ -976,15 +976,7 @@ class Snapshots:
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
             logger.info("Remove leftover '%s' folder from last run" %new_snapshot.displayID)
             self.set_take_snapshot_message(0, _("Removing leftover '%s' folder from last run") %new_snapshot.displayID)
-            #first do the heavy lifting over ssh
-            self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
-                                       %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
-                                       quote = True)) #Debian patch
-            self._execute(self.cmd_ssh("rm -rf \"%s\""
-                                       %new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']) ))
-            #then delete the new_snapshot folder through sshfs
-            #this will make sure os.path.exists will recognize the path is gone
-            self._execute("rm -rf \"%s\"" %new_snapshot.path())
+            self.remove_snapshot(new_snapshot)
 
             if os.path.exists(new_snapshot.path()):
                 logger.error("Can't remove folder: %s" % new_snapshot.path(), self)
@@ -1097,11 +1089,7 @@ class Snapshots:
         has_errors = False
         if params[0]:
             if not self.config.continue_on_errors():
-                self._execute(self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s'
-                                           %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']),
-                                             find_suffix), quote = True)) #Debian patch
-                self._execute(self.cmd_ssh("rm -rf \"%s\""
-                                           %new_snapshot.path(use_mode = ['ssh', 'ssh_encfs'])))
+                self.remove_snapshot(new_snapshot)
 
                 if not full_rsync:
                     #fix previous snapshot: make read-only again
@@ -1116,12 +1104,7 @@ class Snapshots:
 
         if full_rsync:
             if not params[1] and not self.config.take_snapshot_regardless_of_changes():
-                self._execute(self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s'
-                                           %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']),
-                                             find_suffix), quote = True)) #Debian patch
-                self._execute(self.cmd_ssh("rm -rf \"%s\""
-                                           %new_snapshot.path(use_mode = ['ssh', 'ssh_encfs'])))
-
+                self.remove_snapshot(new_snapshot)
                 logger.info("Nothing changed, no back needed", self)
                 self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
                 prev_sid.setLastChecked()
