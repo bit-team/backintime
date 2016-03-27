@@ -631,19 +631,8 @@ class SettingsDialog( QDialog ):
         self.cb_use_checksum = QCheckBox( _( 'Use checksum to detect changes' ), self )
         layout.addWidget( self.cb_use_checksum )
 
-        self.cb_full_rsync = QCheckBox( _( 'Full rsync mode. May be faster but:' ), self )
-        label = QLabel( _('- snapshots are not read-only\n- destination file-system must support all Linux attributes (dates, rights, user, group ...)'), self)
-        label.setIndent(36)
-        label.setWordWrap(True)
-        QObject.connect( self.cb_full_rsync, SIGNAL('stateChanged(int)'), self.update_check_for_changes )
-        layout.addWidget( self.cb_full_rsync )
-        layout.addWidget( label )
-
         self.cb_take_snapshot_regardless_of_changes = QCheckBox(_('Take a new snapshot regardless of there were changes or not.'))
         layout.addWidget(self.cb_take_snapshot_regardless_of_changes)
-
-        self.cb_check_for_changes = QCheckBox( _( 'Check for changes (don\'t take a new snapshot if nothing changed)' ), self )
-        layout.addWidget( self.cb_check_for_changes )
 
         #log level
         hlayout = QHBoxLayout()
@@ -897,8 +886,6 @@ class SettingsDialog( QDialog ):
             return
 
         # configure for full system backup
-        # need full rsync
-        self.config.set_full_rsync(True)
         # don't want to create a backup with any errors and give user false sense that backup was ok
         self.config.set_continue_on_errors(False)
         # make sure all files are backed up
@@ -1020,11 +1007,6 @@ class SettingsDialog( QDialog ):
             self.save_profile()
             self.config.set_current_profile( profile_id )
             self.update_profile()
-
-    def update_check_for_changes(self):
-        enabled = not self.cb_full_rsync.isChecked()
-        self.cb_check_for_changes.setVisible(enabled)
-        self.cb_take_snapshot_regardless_of_changes.setVisible(not enabled)
 
     def update_profiles( self ):
         self.update_profile()
@@ -1155,10 +1137,7 @@ class SettingsDialog( QDialog ):
         self.cb_backup_on_restore.setChecked( self.config.is_backup_on_restore_enabled() )
         self.cb_continue_on_errors.setChecked( self.config.continue_on_errors() )
         self.cb_use_checksum.setChecked( self.config.use_checksum() )
-        self.cb_full_rsync.setChecked( self.config.full_rsync() )
-        self.update_check_for_changes()
         self.cb_take_snapshot_regardless_of_changes.setChecked(self.config.take_snapshot_regardless_of_changes())
-        self.cb_check_for_changes.setChecked( self.config.check_for_changes() )
         self.set_combo_value( self.combo_log_level, self.config.log_level() )
 
         #TAB: Expert Options
@@ -1295,9 +1274,7 @@ class SettingsDialog( QDialog ):
         self.config.set_backup_on_restore( self.cb_backup_on_restore.isChecked() )
         self.config.set_continue_on_errors( self.cb_continue_on_errors.isChecked() )
         self.config.set_use_checksum( self.cb_use_checksum.isChecked() )
-        self.config.set_full_rsync( self.cb_full_rsync.isChecked() )
         self.config.set_take_snapshot_regardless_of_changes(self.cb_take_snapshot_regardless_of_changes.isChecked())
-        self.config.set_check_for_changes( self.cb_check_for_changes.isChecked() )
         self.config.set_log_level( self.combo_log_level.itemData( self.combo_log_level.currentIndex() ) )
 
         #expert options
@@ -1323,7 +1300,7 @@ class SettingsDialog( QDialog ):
 
         # TODO - consider a single API method to bridge the UI layer (settings dialog) and backend layer (config)
         # when setting snapshots path rather than having to call the mount module from the UI layer
-        # 
+        #
         # currently, setting snapshots path requires the path to be mounted. it seems that it might be nice,
         # since the config object is more than a data structure, but has side-effect logic as well, to have the
         # config.set_snapshots_path() method take care of everything it needs to perform its job

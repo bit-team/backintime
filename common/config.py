@@ -1071,31 +1071,12 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_log_level( self, value, profile_id = None ):
         return self.set_profile_int_value( 'snapshots.log_level', value, profile_id )
 
-    def full_rsync( self, profile_id = None ):
-        #?Full rsync mode. May be faster but snapshots are not read-only
-        #?anymore and destination file-system must support all linux
-        #?attributes (date, rights, user, group...)
-        return self.get_profile_bool_value( 'snapshots.full_rsync', False, profile_id )
-
-    def set_full_rsync( self, value, profile_id = None ):
-        return self.set_profile_bool_value( 'snapshots.full_rsync', value, profile_id )
-
     def take_snapshot_regardless_of_changes(self, profile_id = None):
         #?Create a new snapshot regardless if there were changes or not.
-        #?Only valid with \fIprofile<N>.snapshots.full_rsync\fR = true
         return self.get_profile_bool_value('snapshots.full_rsync.take_snapshot_regardless_of_changes', False, profile_id)
 
     def set_take_snapshot_regardless_of_changes(self, value, profile_id = None):
         return self.set_profile_bool_value('snapshots.full_rsync.take_snapshot_regardless_of_changes', value, profile_id )
-
-    def check_for_changes( self, profile_id = None ):
-        #?Perform a dry-run before taking snapshots. Don't take a new snapshot
-        #?if nothing has changed.
-        #?Only valid with \fIprofile<N>.snapshots.full_rsync\fR = false
-        return self.get_profile_bool_value( 'snapshots.check_for_changes', True, profile_id )
-
-    def set_check_for_changes( self, value, profile_id = None ):
-        return self.set_profile_bool_value( 'snapshots.check_for_changes', value, profile_id )
 
     def user_callback_no_logging(self, profile_id = None):
         #?Do not catch std{out|err} from user-callback script.

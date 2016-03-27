@@ -509,21 +509,14 @@ class Snapshots:
         if not isinstance(paths, (list, tuple)):
             paths = (paths, )
 
-        #full rsync
-        full_rsync = self.config.full_rsync()
-
         logger.info("Restore: %s to: %s"
                     %(', '.join(paths), restore_to),
                     self)
 
         info = sid.info
 
-        cmd_suffix = tools.get_rsync_prefix( self.config, not full_rsync, use_mode = ['ssh'] )
+        cmd_suffix = tools.get_rsync_prefix( self.config, no_perms = False, use_mode = ['ssh'] )
         cmd_suffix += '-R -v '
-        if not full_rsync:
-            # During the rsync operation, directories must be rwx by the current
-            # user. Files should be r and x (if executable) by the current user.
-            cmd_suffix += '--chmod=Du=rwx,Fu=rX,go= '
         if backup:
             cmd_suffix += "--backup --suffix=%s " % self.backup_suffix()
         if delete:
@@ -568,10 +561,6 @@ class Snapshots:
                          %(self.config.get_take_snapshot_progress_file(), str(e)),
                          self)
             pass
-
-        if full_rsync and not self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-            instance.exit_application()
-            return
 
         #restore permissions
         logger.info('Restore permissions', self)
@@ -874,26 +863,6 @@ class Snapshots:
                     params[1] = True
                     self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
 
-    def _exec_rsync_compare_callback( self, line, params ):
-        """
-        Parse rsync's stdout and send it to take_snapshot_log. Also check if
-        there has been changes current rsync. This is only used for
-        'rsync --dry-run' (without 'full rsync mode') to check if there where
-        changes.
-
-        Args:
-            line (str):     stdout line from rsync
-            params (list):  list of two bool '[error, changes]'. Using siteefect
-                            on changing list items will change original
-                            list, too. If rsync reported a changed file
-                            ``params[1]`` will be set to ``True``
-        """
-        if len(line) >= 13:
-            if line.startswith( 'BACKINTIME: ' ):
-                if line[12] != '.':
-                    params[1] = True
-                    self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
-
     def make_dirs(self, path):
         """
         Wrapper for :py:func:`tools.make_dirs()`. Create directories ``path``
@@ -984,15 +953,8 @@ class Snapshots:
                 time.sleep(2) #max 1 backup / second
                 return [ False, True ]
 
-        #check previous backup
-        #should only contain the personal snapshots
-        check_for_changes = self.config.check_for_changes()
-
-        #full rsync
-        full_rsync = self.config.full_rsync()
-
         #rsync prefix & suffix
-        rsync_prefix = tools.get_rsync_prefix( self.config, not full_rsync )
+        rsync_prefix = tools.get_rsync_prefix( self.config, no_perms = False)
         if self.config.exclude_by_size_enabled():
             rsync_prefix += ' --max-size=%sM' % self.config.exclude_by_size()
         rsync_suffix = self.rsyncSuffix(include_folders)
@@ -1006,58 +968,9 @@ class Snapshots:
 
         if snapshots:
             prev_sid = snapshots[0]
-            
-        if snapshots and not new_snapshot.saveToContinue:
-            if not full_rsync:
-                changed = True
-                if check_for_changes:
-                    self.set_take_snapshot_message(0, _('Comparing with snapshot %s') % prev_sid.displayID)
-                    logger.info("Compare with old snapshot: %s" % prev_sid, self)
 
-                    cmd  = rsync_prefix + ' -i --dry-run --out-format="BACKINTIME: %i %n%L"' + rsync_suffix
-                    cmd += self.rsync_remote_path(prev_sid.pathBackup(use_mode = ['ssh', 'ssh_encfs']))
-                    params = [prev_sid.pathBackup(), False]
-                    self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
-                    self._execute( cmd, self._exec_rsync_compare_callback, params )
-                    changed = params[1]
-
-                    if not changed:
-                        logger.info("Nothing changed, no back needed", self)
-                        self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
-                        prev_sid.setLastChecked()
-                        return [ False, False ]
-
-            if not self.make_dirs(new_snapshot.path()):
-                return [ False, True ]
-
-            if not full_rsync:
-                self.set_take_snapshot_message( 0, _('Create hard-links') )
-                logger.info("Create hard-links", self)
-
-                #make source snapshot folders rw to allow cp -al
-                self._execute(self.cmd_ssh('find \"%s\" -type d -exec chmod u+wx \"{}\" %s'
-                                           %(prev_sid.pathBackup(use_mode = ['ssh', 'ssh_encfs']),
-                                             find_suffix), quote = True)) #Debian patch
-
-                #clone snapshot
-                cmd = self.cmd_ssh("cp -aRl \"%s\"* \"%s\""
-                                   %(prev_sid.pathBackup(use_mode = ['ssh', 'ssh_encfs']),
-                                     new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs'])))
-                self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
-                cmd_ret_val = self._execute( cmd )
-                self.append_to_take_snapshot_log( "[I] returns: %s" % cmd_ret_val, 3 )
-
-                #make source snapshot folders read-only
-                self._execute(self.cmd_ssh('find \"%s\" -type d -exec chmod a-w \"{}\" %s'
-                                           %(prev_sid.pathBackup(use_mode = ['ssh', 'ssh_encfs']),
-                                             find_suffix), quote = True)) #Debian patch
-
-                #make snapshot items rw to allow xopy xattr
-                self._execute( self.cmd_ssh( "chmod -R a+w \"%s\"" % new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']) ) )
-
-        else:
-            if not new_snapshot.saveToContinue and not self.make_dirs(new_snapshot.pathBackup()):
-                return [ False, True ]
+        if not new_snapshot.saveToContinue and not self.make_dirs(new_snapshot.pathBackup()):
+            return [ False, True ]
 
         #sync changed folders
         logger.info("Call rsync to take the snapshot", self)
@@ -1067,14 +980,12 @@ class Snapshots:
 
         self.set_take_snapshot_message( 0, _('Taking snapshot') )
 
-        if full_rsync:
-            if prev_sid:
-                link_dest = encode.path( os.path.join(prev_sid.sid, 'backup') )
-                link_dest = os.path.join('..', '..', link_dest)
-                cmd = cmd + " --link-dest=\"%s\"" % link_dest
+        if prev_sid:
+            link_dest = encode.path( os.path.join(prev_sid.sid, 'backup') )
+            link_dest = os.path.join('..', '..', link_dest)
+            cmd = cmd + " --link-dest=\"%s\"" % link_dest
 
-        if full_rsync or not check_for_changes:
-            cmd = cmd + ' -i --out-format="BACKINTIME: %i %n%L"'
+        cmd = cmd + ' -i --out-format="BACKINTIME: %i %n%L"'
 
         params = [False, False]
         self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
@@ -1091,25 +1002,17 @@ class Snapshots:
         if params[0]:
             if not self.config.continue_on_errors():
                 self.remove_snapshot(new_snapshot)
-
-                if not full_rsync:
-                    #fix previous snapshot: make read-only again
-                    if prev_sid:
-                        self._execute(self.cmd_ssh("chmod -R a-w \"%s\""
-                                      %prev_sid.pathBackup(use_mode = ['ssh', 'ssh_encfs'])))
-
                 return [ False, True ]
 
             has_errors = True
             new_snapshot.failed = True
 
-        if full_rsync:
-            if not params[1] and not self.config.take_snapshot_regardless_of_changes():
-                self.remove_snapshot(new_snapshot)
-                logger.info("Nothing changed, no back needed", self)
-                self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
-                prev_sid.setLastChecked()
-                return [ False, False ]
+        if not params[1] and not self.config.take_snapshot_regardless_of_changes():
+            self.remove_snapshot(new_snapshot)
+            logger.info("Nothing changed, no back needed", self)
+            self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
+            prev_sid.setLastChecked()
+            return [ False, False ]
 
 
         #backup config file
@@ -1117,49 +1020,48 @@ class Snapshots:
         self.set_take_snapshot_message( 0, _('Saving config file...') )
         self._execute('cp "%s" "%s"' %(self.config._LOCAL_CONFIG_PATH, new_snapshot.path('config')))
 
-        if not full_rsync or self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-            #save permissions for sync folders
-            logger.info('Save permissions', self)
-            self.set_take_snapshot_message( 0, _('Saving permissions...') )
+        #save permissions for sync folders
+        logger.info('Save permissions', self)
+        self.set_take_snapshot_message(0, _('Saving permissions...'))
 
-            permission_done = False
-            fileInfoDict = FileInfoDict()
-            if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-                path_to_explore_ssh = new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
-                cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
+        permission_done = False
+        fileInfoDict = FileInfoDict()
+        if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
+            path_to_explore_ssh = new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
+            cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
 
-                if self.config.get_snapshots_mode() == 'ssh_encfs':
-                    decode = encfstools.Decode(self.config, False)
-                    path_to_explore_ssh = decode.remote(path_to_explore_ssh.encode())
-                else:
-                    decode = encfstools.Bounce()
-                head = len( path_to_explore_ssh )
+            if self.config.get_snapshots_mode() == 'ssh_encfs':
+                decode = encfstools.Decode(self.config, False)
+                path_to_explore_ssh = decode.remote(path_to_explore_ssh.encode())
+            else:
+                decode = encfstools.Bounce()
+            head = len( path_to_explore_ssh )
 
-                find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
-                                        stderr = subprocess.PIPE)
+            find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                    stderr = subprocess.PIPE)
 
-                for line in find.stdout:
+            for line in find.stdout:
+                if line:
+                    self._save_path_info(fileInfoDict, decode.remote(line.rstrip(b'\n'))[head:])
+
+            output = find.communicate()[0]
+            if find.returncode:
+                self.set_take_snapshot_message(1, _('Save permission over ssh failed. Retry normal method'))
+            else:
+                for line in output.split(b'\n'):
                     if line:
-                        self._save_path_info(fileInfoDict, decode.remote(line.rstrip(b'\n'))[head:])
+                        self._save_path_info(fileInfoDict, decode.remote(line)[head:])
+                permission_done = True
 
-                output = find.communicate()[0]
-                if find.returncode:
-                    self.set_take_snapshot_message(1, _('Save permission over ssh failed. Retry normal method'))
-                else:
-                    for line in output.split(b'\n'):
-                        if line:
-                            self._save_path_info(fileInfoDict, decode.remote(line)[head:])
-                    permission_done = True
+        if not permission_done:
+            path_to_explore = new_snapshot.pathBackup().rstrip('/').encode()
+            for path, dirs, files in os.walk( path_to_explore ):
+                dirs.extend( files )
+                for item in dirs:
+                    item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
+                    self._save_path_info(fileInfoDict, item_path)
 
-            if not permission_done:
-                path_to_explore = new_snapshot.pathBackup().rstrip('/').encode()
-                for path, dirs, files in os.walk( path_to_explore ):
-                    dirs.extend( files )
-                    for item in dirs:
-                        item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-                        self._save_path_info(fileInfoDict, item_path)
-
-            new_snapshot.fileInfo = fileInfoDict
+        new_snapshot.fileInfo = fileInfoDict
 
         #create info file
         logger.info("Create info file", self)
@@ -1199,11 +1101,6 @@ class Snapshots:
                                                    'path': sid.path()})
             time.sleep(2) #max 1 backup / second
             return [ False, True ]
-
-        if not full_rsync:
-            #make new snapshot read-only
-            self._execute(self.cmd_ssh("chmod -R a-w \"%s\""
-                                       %sid.path(use_mode = ['ssh', 'ssh_encfs'])))
 
         #create last_snapshot symlink
         self.create_last_snapshot_symlink(sid)

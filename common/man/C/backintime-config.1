@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Dec 2015" "version 1.1.13" "USER COMMANDS"
+.TH backintime-config 1 "Mar 2016" "version 1.1.13" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -171,15 +171,6 @@ Bandwidth limit in KB/sec.
 Default: 3000
 .RE
 
-.IP "\fIprofile<N>.snapshots.check_for_changes\fR" 6
-.RS
-Type: bool      Allowed Values: true|false
-.br
-Perform a dry-run before taking snapshots. Don't take a new snapshot if nothing has changed. Only valid with \fIprofile<N>.snapshots.full_rsync\fR = false
-.PP
-Default: true
-.RE
-
 .IP "\fIprofile<N>.snapshots.continue_on_errors\fR" 6
 .RS
 Type: bool      Allowed Values: true|false
@@ -297,20 +288,11 @@ Quantity of profile<N>.snapshots.exclude.<I> entries.
 Default: \-1
 .RE
 
-.IP "\fIprofile<N>.snapshots.full_rsync\fR" 6
-.RS
-Type: bool      Allowed Values: true|false
-.br
-Full rsync mode. May be faster but snapshots are not read-only anymore and destination file-system must support all linux attributes (date, rights, user, group...)
-.PP
-Default: false
-.RE
-
 .IP "\fIprofile<N>.snapshots.full_rsync.take_snapshot_regardless_of_changes\fR" 6
 .RS
 Type: bool      Allowed Values: true|false
 .br
-Create a new snapshot regardless if there were changes or not. Only valid with \fIprofile<N>.snapshots.full_rsync\fR = true
+Create a new snapshot regardless if there were changes or not.
 .PP
 Default: false
 .RE

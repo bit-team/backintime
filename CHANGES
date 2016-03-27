@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.1.13
+* make full-rsync mode default, remove the other mode
 * Fix bug: a continued snapshot was not incremental (https://github.com/bit-team/backintime/issues/557)
 * use rsync to remove snapshots which will give a nice speedup (https://github.com/bit-team/backintime/issues/151)
 * open temporary local copy of files instead of original backup on double-click in GUI
