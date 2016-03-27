@@ -1827,6 +1827,8 @@ class Snapshots:
         symlink = self.config.get_last_snapshot_symlink()
         try:
             if os.path.islink(symlink):
+                if os.path.basename(os.path.realpath(symlink)) == sid.sid:
+                    return True
                 os.remove(symlink)
             if os.path.exists(symlink):
                 logger.error('Could not remove symlink %s' %symlink, self)
