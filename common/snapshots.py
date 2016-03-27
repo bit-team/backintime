@@ -117,7 +117,6 @@ class Snapshots:
             logger.debug('Failed extract message ID from %s: %s'
                          %(items[0], str(e)),
                          self)
-            pass
 
         del items[0]
         message = '\n'.join( items )
@@ -135,7 +134,6 @@ class Snapshots:
             logger.debug('Failed to set take_snapshot message to %s: %s'
                          %(self.config.get_take_snapshot_message_file(), str(e)),
                          self)
-            pass
 
         if 1 == type_id:
             self.append_to_take_snapshot_log( '[E] ' + message, 1 )
@@ -150,7 +148,6 @@ class Snapshots:
             logger.debug('Failed to send message to plugins: %s'
                          %str(e),
                          self)
-            pass
 
     #TODO: make own class for takeSnapshotLog
     def _filter_take_snapshot_log( self, log, mode , decode = None):
@@ -226,7 +223,6 @@ class Snapshots:
             logger.debug('Failed to add message to take_snapshot log %s: %s'
                          %(self.config.get_take_snapshot_log_file(), str(e)),
                          self)
-            pass
 
     def is_busy( self ):
         instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
@@ -560,7 +556,6 @@ class Snapshots:
             logger.debug('Failed to remove snapshot progress file %s: %s'
                          %(self.config.get_take_snapshot_progress_file(), str(e)),
                          self)
-            pass
 
         #restore permissions
         logger.info('Restore permissions', self)
@@ -882,6 +877,95 @@ class Snapshots:
             return False
         return True
 
+    def save_config_file(self, sid):
+        """
+        Backup the config file to the snapshot.
+
+        Args:
+            sid (SID):  snapshot in which the config should be stored
+        """
+        logger.info('Save config file', self)
+        self.set_take_snapshot_message( 0, _('Saving config file...') )
+        with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
+            with open(sid.path('config'), 'wb') as dst:
+                dst.write(src.read())
+
+    def save_snapshot_info(self, sid):
+        """
+        Save infos about the snapshot into the 'info' file.
+
+        Args:
+            sid (SID):  snapshot that should get an info file
+        """
+        logger.info("Create info file", self)
+        machine = self.config.get_host()
+        user = self.config.get_user()
+        profile_id = self.config.get_current_profile()
+        i = configfile.ConfigFile()
+        i.set_int_value('snapshot_version', self.SNAPSHOT_VERSION)
+        i.set_str_value('snapshot_date', sid.withoutTag)
+        i.set_str_value('snapshot_machine', machine)
+        i.set_str_value('snapshot_user', user)
+        i.set_int_value('snapshot_profile_id', profile_id)
+        i.set_int_value('snapshot_tag', sid.tag)
+        i.set_list_value('user', ('int:uid', 'str:name'), list(self.user_cache.items()))
+        i.set_list_value('group', ('int:gid', 'str:name'), list(self.group_cache.items()))
+        i.set_str_value('filesystem_mounts', json.dumps(tools.get_filesystem_mount_info()))
+        sid.info = i
+
+    def save_permissions(self, sid):
+        """
+        Save permissions (owner, group, read-, write- and executable)
+        for all files in Snapshot ``sid`` into snapshots fileInfoDict.
+
+        Args:
+            sid (SID):  snapshot that should be scanned
+        """
+        logger.info('Save permissions', self)
+        self.set_take_snapshot_message(0, _('Saving permissions...'))
+
+        permission_done = False
+        fileInfoDict = FileInfoDict()
+        #use a different method for ssh profiles which is a lot faster
+        if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
+            path_to_explore_ssh = sid.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
+            cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
+
+            if self.config.get_snapshots_mode() == 'ssh_encfs':
+                decode = encfstools.Decode(self.config, False)
+                path_to_explore_ssh = decode.remote(path_to_explore_ssh.encode())
+            else:
+                decode = encfstools.Bounce()
+            head = len( path_to_explore_ssh )
+
+            find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                    stderr = subprocess.PIPE)
+
+            for line in find.stdout:
+                if line:
+                    self._save_path_info(fileInfoDict, decode.remote(line.rstrip(b'\n'))[head:])
+
+            output = find.communicate()[0]
+            if find.returncode:
+                self.set_take_snapshot_message(1, _('Save permission over ssh failed. Retry normal method'))
+            else:
+                for line in output.split(b'\n'):
+                    if line:
+                        self._save_path_info(fileInfoDict, decode.remote(line)[head:])
+                permission_done = True
+
+        #normal method for non ssh profiles or if the method above failed
+        if not permission_done:
+            path_to_explore = sid.pathBackup().rstrip('/').encode()
+            head = len(path_to_explore)
+            for path, dirs, files in os.walk( path_to_explore ):
+                dirs.extend( files )
+                for item in dirs:
+                    item_path = os.path.join(path, item)[head:]
+                    self._save_path_info(fileInfoDict, item_path)
+
+        sid.fileInfo = fileInfoDict
+
     def _save_path_info(self, fileinfo, path):
         """
         Collect permission infos about ``path`` and store them into
@@ -959,7 +1043,7 @@ class Snapshots:
             rsync_prefix += ' --max-size=%sM' % self.config.exclude_by_size()
         rsync_suffix = self.rsyncSuffix(include_folders)
 
-        prev_sid = ''
+        prev_sid = None
         snapshots = listSnapshots(self.config)
 
         # When there is no snapshots it takes the last snapshot from the other folders
@@ -996,7 +1080,6 @@ class Snapshots:
             logger.debug('Failed to remove snapshot progress file %s: %s'
                          %(self.config.get_take_snapshot_progress_file(), str(e)),
                          self)
-            pass
 
         has_errors = False
         if params[0]:
@@ -1011,74 +1094,12 @@ class Snapshots:
             self.remove_snapshot(new_snapshot)
             logger.info("Nothing changed, no back needed", self)
             self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
-            prev_sid.setLastChecked()
+            if prev_sid:
+                prev_sid.setLastChecked()
             return [ False, False ]
 
-
-        #backup config file
-        logger.info('Save config file', self)
-        self.set_take_snapshot_message( 0, _('Saving config file...') )
-        self._execute('cp "%s" "%s"' %(self.config._LOCAL_CONFIG_PATH, new_snapshot.path('config')))
-
-        #save permissions for sync folders
-        logger.info('Save permissions', self)
-        self.set_take_snapshot_message(0, _('Saving permissions...'))
-
-        permission_done = False
-        fileInfoDict = FileInfoDict()
-        if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-            path_to_explore_ssh = new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
-            cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
-
-            if self.config.get_snapshots_mode() == 'ssh_encfs':
-                decode = encfstools.Decode(self.config, False)
-                path_to_explore_ssh = decode.remote(path_to_explore_ssh.encode())
-            else:
-                decode = encfstools.Bounce()
-            head = len( path_to_explore_ssh )
-
-            find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
-                                    stderr = subprocess.PIPE)
-
-            for line in find.stdout:
-                if line:
-                    self._save_path_info(fileInfoDict, decode.remote(line.rstrip(b'\n'))[head:])
-
-            output = find.communicate()[0]
-            if find.returncode:
-                self.set_take_snapshot_message(1, _('Save permission over ssh failed. Retry normal method'))
-            else:
-                for line in output.split(b'\n'):
-                    if line:
-                        self._save_path_info(fileInfoDict, decode.remote(line)[head:])
-                permission_done = True
-
-        if not permission_done:
-            path_to_explore = new_snapshot.pathBackup().rstrip('/').encode()
-            for path, dirs, files in os.walk( path_to_explore ):
-                dirs.extend( files )
-                for item in dirs:
-                    item_path = os.path.join( path, item )[ len( path_to_explore ) : ]
-                    self._save_path_info(fileInfoDict, item_path)
-
-        new_snapshot.fileInfo = fileInfoDict
-
-        #create info file
-        logger.info("Create info file", self)
-        machine = self.config.get_host()
-        user = self.config.get_user()
-        profile_id = self.config.get_current_profile()
-        i = configfile.ConfigFile()
-        i.set_int_value('snapshot_version', self.SNAPSHOT_VERSION)
-        i.set_str_value('snapshot_date', sid.withoutTag)
-        i.set_str_value('snapshot_machine', machine)
-        i.set_str_value('snapshot_user', user)
-        i.set_int_value('snapshot_profile_id', profile_id)
-        i.set_int_value('snapshot_tag', sid.tag)
-        i.set_list_value('user', ('int:uid', 'str:name'), list(self.user_cache.items()))
-        i.set_list_value('group', ('int:gid', 'str:name'), list(self.group_cache.items()))
-        i.set_str_value('filesystem_mounts', json.dumps(tools.get_filesystem_mount_info()))
-        new_snapshot.info = i
+        self.save_config_file(new_snapshot)
+        self.save_permissions(new_snapshot)
 
         #copy take snapshot log
         try:
@@ -1088,7 +1109,6 @@ class Snapshots:
             logger.debug('Failed to write take_snapshot log %s into compressed file %s: %s'
                          %(self.config.get_take_snapshot_log_file(), new_snapshot.path(SID.LOG), str(e)),
                          self)
-            pass
 
         new_snapshot.saveToContinue = False
         #rename snapshot
@@ -1101,6 +1121,8 @@ class Snapshots:
                                                    'path': sid.path()})
             time.sleep(2) #max 1 backup / second
             return [ False, True ]
+
+        self.save_snapshot_info(sid)
 
         #create last_snapshot symlink
         self.create_last_snapshot_symlink(sid)
@@ -1492,7 +1514,6 @@ class Snapshots:
             logger.debug('Failed to get free space for %s: %s'
                          %(path, str(e)),
                          self)
-            pass
         logger.warning('Failed to stat snapshot path', self)
 
     def _stat_free_space_ssh(self):
