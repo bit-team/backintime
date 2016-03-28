@@ -1331,7 +1331,9 @@ class Snapshots:
             additionalChars = len(self.config.ssh_prefix_cmd(cmd_type = str))
 
             head = 'screen -d -m bash -c "('
-            head += 'TMP=\$(mktemp -d); '
+            head += 'TMP=\$(mktemp -d); '                      #create temp dir used for delete files with rsync
+            head += 'test -z \\\"\$TMP\\\" && exit 1; '        #make sure $TMP dir was created
+            head += 'test -n \\\"\$(ls \$TMP)\\\" && exit 1; ' #make sure $TMP is empty
             if logger.DEBUG:
                 head += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" \\\"start\\\"; '
             head += 'flock -x 9; '
