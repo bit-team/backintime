@@ -223,7 +223,7 @@ class MainWindow( QMainWindow ):
         self.btn_restore_delete = self.menu_restore.addAction(icon.RESTORE, _('Restore and delete new files'))
         self.btn_restore_delete.setToolTip(_('Restore selected files or folders '
                                              'to the original destination and\n'
-                                             'delete files/folders in which are '
+                                             'delete files/folders which are '
                                              'not in the snapshot. This will also\n'
                                              'delete files/folders which where '
                                              'excluded during taking the snapshot!\n'
@@ -233,7 +233,7 @@ class MainWindow( QMainWindow ):
         self.menu_restore_parent_delete.setToolTip(_('Restore the currently shown folder '
                                                      'and all its content to the original\n'
                                                      'destination and delete files/folders '
-                                                     'in which are not in the snapshot. This\n'
+                                                     'which are not in the snapshot. This\n'
                                                      'will also delete files/folders which '
                                                      'where excluded during taking the snapshot!\n'
                                                      'Be extremely careful!!!'))
