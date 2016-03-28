@@ -1012,16 +1012,12 @@ class Snapshots:
         self.set_take_snapshot_message( 0, _('...') )
 
         new_snapshot = NewSnapshot(self.config)
-        find_suffix = self.config.find_suffix()
         encode = self.config.ENCODE
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
             logger.info("Found leftover '%s' which can be continued." %new_snapshot.displayID, self)
             self.set_take_snapshot_message(0, _("Found leftover '%s' which can be continued.") %new_snapshot.displayID)
             #fix permissions
-            self._execute(self.cmd_ssh("find \"%s\" -type d -exec chmod u+wx \"{}\" %s"
-                                       %(new_snapshot.path(use_mode = ['ssh', 'ssh_encfs']), find_suffix),
-                                       quote = True))
             for file in os.listdir(new_snapshot.path()):
                 file = os.path.join(new_snapshot.path(), file)
                 mode = os.stat(file).st_mode

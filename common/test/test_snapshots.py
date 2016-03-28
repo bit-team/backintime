@@ -261,6 +261,7 @@ snapshot_version=.+
 user.size=.+''', re.MULTILINE))
 
     def test_save_permissions(self):
+        #TODO: add test for save permissions over SSH
         infoFilePath = os.path.join(self.snapshotPath,
                                     '20151219-010324-123',
                                     'fileinfo.bz2')

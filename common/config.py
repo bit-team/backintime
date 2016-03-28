@@ -513,6 +513,11 @@ class Config( configfile.ConfigFileWithProfiles ):
     def set_ssh_max_arg_length(self, value, profile_id = None):
         self.set_profile_int_value('snapshots.ssh.max_arg_length', value, profile_id)
 
+    def ssh_check_commands(self, profile_id = None):
+        #?Check if all commands (used during take_snapshot) work like expected
+        #?on the remote host.
+        return self.get_profile_bool_value('snapshots.ssh.check_commands', True, profile_id)
+
     #ENCFS
     def get_local_encfs_path( self, profile_id = None ):
         #?Where to save snapshots in mode 'local_encfs'.;absolute path
@@ -1086,19 +1091,6 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.get_profile_bool_value('user_callback.no_logging', False, profile_id)
 
     ###########################################################################
-
-    def gnu_find_suffix_support( self, profile_id = None ):
-        #?Remote SSH host support GNU find suffix (find \-exec COMMAND {} +).
-        return self.get_profile_bool_value( 'snapshots.gnu_find_suffix_support', True, profile_id )
-
-    def find_suffix( self, profile_id = None ):
-        if self.gnu_find_suffix_support(profile_id):
-            return '+'
-        else:
-            return '\\;'
-
-    def set_gnu_find_suffix_support( self, value, profile_id = None ):
-        return self.set_profile_bool_value( 'snapshots.gnu_find_suffix_support', value, profile_id )
 
     def get_take_snapshot_user_script( self, step, profile_id = None ):
         #?Run this scrip on events defined by <STEP>.\nPossible events for

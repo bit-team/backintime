@@ -563,7 +563,10 @@ def get_rsync_caps(data = None):
         caps.extend([i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
     return caps
 
-def get_rsync_prefix( config, no_perms = True, use_mode = ['ssh', 'ssh_encfs'] ):
+def get_rsync_prefix(config,
+                     no_perms = True,
+                     use_mode = ['ssh', 'ssh_encfs'],
+                     progress = True):
     """
     Get rsync command and all args for creating a new snapshot. Args are
     based on current profile in ``config``.
@@ -577,6 +580,7 @@ def get_rsync_prefix( config, no_perms = True, use_mode = ['ssh', 'ssh_encfs'] )
                                 will overwrite this to ``False``
         use_mode (list):        if current mode is in this list add additional
                                 args for that mode
+        progress (bool):        add '--info=progress2' to show progress
 
     Returns:
         str:                    rsync command with all args but without
@@ -613,7 +617,7 @@ def get_rsync_prefix( config, no_perms = True, use_mode = ['ssh', 'ssh_encfs'] )
     else:
         cmd = cmd + ' -pEgo'
 
-    if 'progress2' in caps:
+    if progress and 'progress2' in caps:
         cmd += ' --info=progress2 --no-i-r'
 
     if config.rsync_options_enabled():

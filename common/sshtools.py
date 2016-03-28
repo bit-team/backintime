@@ -22,6 +22,7 @@ import string
 import random
 import tempfile
 import socket
+import re
 from time import sleep
 
 import config
@@ -348,6 +349,8 @@ class SSH(MountControl):
         support everything that is need to run backintime.
         also check for hardlink-support on remote host.
         """
+        if not self.config.ssh_check_commands():
+            return
         logger.debug('Check remote commands', self)
         def maxArg():
             if retry:
@@ -362,60 +365,55 @@ class SSH(MountControl):
             self.config.set_ssh_max_arg_length(mid, self.profile_id)
             return self.check_remote_commands(retry = True)
 
-        #check rsync
-        tmp_file = tempfile.mkstemp()[1]
-        rsync = tools.get_rsync_prefix( self.config ) + ' --dry-run --chmod=Du+wx %s ' % tmp_file
-        rsync += '"%s@%s:%s"' % (self.user, self.host, self.path)
-        logger.debug('Check rsync command: %s' %rsync, self)
+        remote_tmp_dir_1 = os.path.join(self.path, 'tmp_%s' % self.random_id())
+        remote_tmp_dir_2 = os.path.join(self.path, 'tmp_%s' % self.random_id())
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_file = os.path.join(tmp, 'a')
+            with open(tmp_file, 'wt') as f:
+                f.write('foo')
 
-        #use os.system for compatiblity with snapshots.py
-        err = os.system(rsync)
-        if err:
-            logger.debug('Rsync command returnd error: %s' %err, self)
-            os.remove(tmp_file)
-            raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
-                                    '%(err)s\nLook at \'man backintime\' for further instructions')
-                                    % {'host' : self.host, 'command' : rsync, 'err' : err})
-        os.remove(tmp_file)
+            #check rsync
+            rsync1 =  tools.get_rsync_prefix(self.config, no_perms = False, progress = False)
+            rsync1 += tmp_file
+            rsync1 += ' "%s@%s:%s/"' % (self.user, self.host, remote_tmp_dir_1)
+
+            #check remote rsync hard-link support
+            rsync2 =  tools.get_rsync_prefix(self.config, no_perms = False, progress = False)
+            rsync2 += '--link-dest="../%s" ' %os.path.basename(remote_tmp_dir_1)
+            rsync2 += tmp_file
+            rsync2 += ' "%s@%s:%s/"' % (self.user, self.host, remote_tmp_dir_2)
+
+            for cmd in (rsync1, rsync2):
+                logger.debug('Check rsync command: %s' %cmd, self)
+
+                #use os.system for compatiblity with snapshots.py
+                err = os.system(cmd)
+                if err:
+                    logger.debug('rsync command returned error: %s' %err, self)
+                    raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
+                                            '%(err)s\nLook at \'man backintime\' for further instructions')
+                                            % {'host' : self.host, 'command' : cmd, 'err' : err})
 
         #check cp chmod find and rm
-        remote_tmp_dir = os.path.join(self.path, 'tmp_%s' % self.random_id())
-        head  = 'tmp=%s ; ' % remote_tmp_dir
+        head  = 'tmp1=%s; tmp2=%s; ' %(remote_tmp_dir_1, remote_tmp_dir_2)
         #first define a function to clean up and exit
         head += 'cleanup(){ '
-        head += 'test -e $tmp/a && rm $tmp/a >/dev/null 2>&1; '
-        head += 'test -e $tmp/b && rm $tmp/b >/dev/null 2>&1; '
+        head += 'test -e $tmp1/a && rm $tmp1/a >/dev/null 2>&1; '
+        head += 'test -e $tmp2/a && rm $tmp2/a >/dev/null 2>&1; '
         head += 'test -e smr.lock && rm smr.lock >/dev/null 2>&1; '
-        head += 'test -e $tmp && rmdir $tmp >/dev/null 2>&1; '
+        head += 'test -e $tmp1 && rmdir $tmp1 >/dev/null 2>&1; '
+        head += 'test -e $tmp2 && rmdir $tmp2 >/dev/null 2>&1; '
+        head += 'test -n "$tmp3" && test -e $tmp3 && rmdir $tmp3 >/dev/null 2>&1; '
         head += 'exit $1; }; '
         tail = []
-        #create tmp_RANDOM dir and file a
-        cmd  = 'test -e $tmp || mkdir $tmp; touch $tmp/a; '
-        tail.append(cmd)
 
-        #try to create hardlink b from a
-        cmd  = 'echo \"cp -aRl SOURCE DEST\"; cp -aRl $tmp/a $tmp/b >/dev/null; err_cp=$?; '
-        cmd += 'test $err_cp -ne 0 && cleanup $err_cp; '
+        #list inodes
+        cmd  = 'ls -i $tmp1/a; ls -i $tmp2/a; '
         tail.append(cmd)
-        #list inodes of a and b
-        cmd  = 'ls -i $tmp/a; ls -i $tmp/b; '
-        tail.append(cmd)
-        #try to chmod
-        cmd  = 'echo \"chmod u+rw FILE\"; chmod u+rw $tmp/a >/dev/null; err_chmod=$?; '
-        cmd += 'test $err_chmod -ne 0 && cleanup $err_chmod; '
-        tail.append(cmd)
-        #try to find and chmod
-        cmd  = 'echo \"find PATH -type f -exec chmod u-wx \"{}\" \\;\"; '
-        cmd += 'find $tmp -type f -exec chmod u-wx \"{}\" \\; >/dev/null; err_find=$?; '
+        #try to find and print
+        cmd  = 'echo \"find PATH -print\"; '
+        cmd += 'find $tmp1 -print >/dev/null; err_find=$?; '
         cmd += 'test $err_find -ne 0 && cleanup $err_find; '
-        tail.append(cmd)
-        #try find suffix '+'
-        cmd  = 'find $tmp -type f -exec chmod u-wx \"{}\" + >/dev/null; err_gnu_find=$?; '
-        cmd += 'test $err_gnu_find -ne 0 && echo \"gnu_find not supported\"; '
-        tail.append(cmd)
-        #try to rm -rf
-        cmd  = 'echo \"rm -rf PATH\"; rm -rf $tmp >/dev/null; err_rm=$?; '
-        cmd += 'test $err_rm -ne 0 && cleanup $err_rm; '
         tail.append(cmd)
         #try nice -n 19
         if self.nice:
@@ -436,13 +434,15 @@ class SSH(MountControl):
         if self.config.get_smart_remove_run_remote_in_background(self.profile_id):
             cmd  = 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
             cmd += 'test $err_screen -ne 0 && cleanup $err_screen; '
-            cmd += 'echo \"(flock -x 9) 9>smr.lock\"; bash -c \"(flock -x 9) 9>smr.lock\" >/dev/null; err_flock=$?; '
+            tail.append(cmd)
+            cmd  = 'echo \"(flock -x 9) 9>smr.lock\"; bash -c \"(flock -x 9) 9>smr.lock\" >/dev/null; err_flock=$?; '
             cmd += 'test $err_flock -ne 0 && cleanup $err_flock; '
-            cmd += 'echo \"rmdir \$(mktemp -d)\"; TMP=$(mktemp -d); test -z "$TMP" && cleanup 1; rmdir $TMP >/dev/null; err_rmdir=$?; '
+            tail.append(cmd)
+            cmd  = 'echo \"rmdir \$(mktemp -d)\"; tmp3=$(mktemp -d); test -z "$tmp3" && cleanup 1; rmdir $tmp3 >/dev/null; err_rmdir=$?; '
             cmd += 'test $err_rmdir -ne 0 && cleanup $err_rmdir; '
             tail.append(cmd)
         #if we end up here, everything should be fine
-        cmd = 'echo \"done\"'
+        cmd = 'echo \"done\"; cleanup 0'
         tail.append(cmd)
 
         maxLength = self.config.ssh_max_arg_length(self.profile_id)
@@ -495,14 +495,8 @@ class SSH(MountControl):
         if not output_split:
             return maxArg()
 
-        gnu_find_suffix_support = True
-        for line in output_split:
-            if line.startswith('gnu_find not supported'):
-                gnu_find_suffix_support = False
-        self.config.set_gnu_find_suffix_support(gnu_find_suffix_support, self.profile_id)
-
         if returncode or not output_split[-1].startswith('done'):
-            for command in ('cp', 'chmod', 'find', 'rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
+            for command in ('find', 'rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
                 if output_split[-1].startswith(command):
                     raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                             '%(err)s\nLook at \'man backintime\' for further instructions')
@@ -511,19 +505,16 @@ class SSH(MountControl):
                                     '%(err)s\nLook at \'man backintime\' for further instructions')
                                     % {'host' : self.host, 'err' : err})
 
-        i = 1
-        inode1 = 'ABC'
-        inode2 = 'DEF'
-        for line in output_split:
-            if line.startswith('cp'):
-                try:
-                    inode1 = output_split[i].split(' ')[0]
-                    inode2 = output_split[i+1].split(' ')[0]
-                except IndexError:
-                    pass
-                if not inode1 == inode2:
-                    raise MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
-            i += 1
+        inodes = []
+        for tmp in (remote_tmp_dir_1, remote_tmp_dir_2):
+            for line in output_split:
+                m = re.match(r'^(\d+).*?%s' %tmp, line)
+                if m:
+                    inodes.append(m.group(1))
+
+        logger.debug('remote inodes: ' + ' | '.join(inodes), self)
+        if len(inodes) == 2 and inodes[0] != inodes[1]:
+            raise MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
 
     def random_id(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for x in range(size))

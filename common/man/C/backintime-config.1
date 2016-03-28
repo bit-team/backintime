@@ -297,15 +297,6 @@ Create a new snapshot regardless if there were changes or not.
 Default: false
 .RE
 
-.IP "\fIprofile<N>.snapshots.gnu_find_suffix_support\fR" 6
-.RS
-Type: bool      Allowed Values: true|false
-.br
-Remote SSH host support GNU find suffix (find \-exec COMMAND {} +).
-.PP
-Default: true
-.RE
-
 .IP "\fIprofile<N>.snapshots.include.<I>.type\fR" 6
 .RS
 Type: int       Allowed Values: 0|1
@@ -631,6 +622,15 @@ Type: bool      Allowed Values: true|false
 If using mode SSH or SSH-encrypted, run smart_remove in background on remote machine
 .PP
 Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.check_commands\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Check if all commands (used during take_snapshot) work like expected on the remote host.
+.PP
+Default: true
 .RE
 
 .IP "\fIprofile<N>.snapshots.ssh.cipher\fR" 6
