@@ -18,11 +18,14 @@
 import os
 import sys
 import unittest
-from tempfile import TemporaryDirectory
+from tempfile import TemporaryDirectory, NamedTemporaryFile
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import logger
 import config
+import snapshots
+
+TMP_FLOCK = NamedTemporaryFile()
 
 class TestCase(unittest.TestCase):
     def __init__(self, *args, **kwargs):
@@ -47,5 +50,25 @@ class SnapshotsTestCase(TestCase):
         self.snapshotPath = self.cfg.get_snapshots_full_path()
         os.makedirs(self.snapshotPath)
 
+        self.sn = snapshots.Snapshots(self.cfg)
+        #use a tmp-file for flock because test_flockExclusive would deadlock
+        #otherwise if a regular snapshot is running in background
+        self.sn.GLOBAL_FLOCK = TMP_FLOCK.name
+
     def tearDown(self):
         self.tmpDir.cleanup()
+
+class SnapshotsWithSidTestCase(SnapshotsTestCase):
+    def setUp(self):
+        super(SnapshotsWithSidTestCase, self).setUp()
+        self.sid = snapshots.SID('20151219-010324-123', self.cfg)
+
+        self.sid.makeDirs()
+        self.testDir = 'foo/bar'
+        self.testDirFullPath = self.sid.pathBackup(self.testDir)
+        self.testFile = 'foo/bar/baz'
+        self.testFileFullPath = self.sid.pathBackup(self.testFile)
+
+        self.sid.makeDirs(self.testDir)
+        with open(self.sid.pathBackup(self.testFile), 'wt') as f:
+            pass

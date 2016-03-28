@@ -23,6 +23,7 @@ import shutil
 import stat
 import pwd
 import grp
+import re
 from datetime import date, datetime
 from threading import Thread
 from tempfile import TemporaryDirectory, NamedTemporaryFile
@@ -32,6 +33,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config
 import configfile
 import snapshots
+import tools
 
 CURRENTUID = os.geteuid()
 CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
@@ -45,16 +47,7 @@ NO_GROUPS = not GROUPS
 
 IS_ROOT = os.geteuid() == 0
 
-TMP_FLOCK = NamedTemporaryFile()
-
 class TestSnapshots(generic.SnapshotsTestCase):
-    def setUp(self):
-        super(TestSnapshots, self).setUp()
-        self.sn = snapshots.Snapshots(self.cfg)
-        #use a tmp-file for flock because test_flockExclusive would deadlock
-        #otherwise if a regular snapshot is running in background
-        self.sn.GLOBAL_FLOCK = TMP_FLOCK.name
-
     ############################################################################
     ###                              get_uid                                 ###
     ############################################################################
@@ -124,7 +117,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.get_group_name(99999), '-')
 
     ############################################################################
-    ###                                                                      ###
+    ###                     take_snapshot helper scripts                     ###
     ############################################################################
     def test_rsync_remote_path(self):
         self.assertEqual(self.sn.rsync_remote_path('/foo'),
@@ -168,7 +161,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
         cfg = config.Config(cfgFile)
         sn = snapshots.Snapshots(cfg)
-        sn.GLOBAL_FLOCK = TMP_FLOCK.name
+        sn.GLOBAL_FLOCK = self.sn.GLOBAL_FLOCK
 
         cfg.set_use_global_flock(True)
         sn.flockExclusive()
@@ -246,10 +239,67 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                  r'--include="/baz/1/2" '   +
                                  r'--exclude="\*" / $')
 
+class TestSnapshotWithSID(generic.SnapshotsWithSidTestCase):
+    def test_save_config_file(self):
+        self.sn.save_config_file(self.sid)
+        self.assertTrue(os.path.isfile(self.sid.path('config')))
+        self.assertEqual(tools._get_md5sum_from_path(self.sid.path('config')),
+                         tools._get_md5sum_from_path(self.cfgFile))
+
+    def test_save_snapshot_info(self):
+        self.sn.save_snapshot_info(self.sid)
+        self.assertTrue(os.path.isfile(self.sid.path('info')))
+        with open(self.sid.path('info'), 'rt') as f:
+            self.assertRegex(f.read(), re.compile('''filesystem_mounts=.+
+group.size=.+
+snapshot_date=20151219-010324
+snapshot_machine=.+
+snapshot_profile_id=1
+snapshot_tag=123
+snapshot_user=.+
+snapshot_version=.+
+user.size=.+''', re.MULTILINE))
+
+    def test_save_permissions(self):
+        infoFilePath = os.path.join(self.snapshotPath,
+                                    '20151219-010324-123',
+                                    'fileinfo.bz2')
+
+        include = self.cfg.get_include()[0][0]
+        with TemporaryDirectory(dir = include) as tmp:
+            file_path = os.path.join(tmp, 'foo')
+            with open(file_path, 'wt') as f:
+                f.write('bar')
+                f.flush()
+
+            self.sid.makeDirs(tmp)
+            with open(self.sid.pathBackup(file_path), 'wt') as snapshot_f:
+                snapshot_f.write('bar')
+                snapshot_f.flush()
+
+            self.sn.save_permissions(self.sid)
+
+            fileInfo = self.sid.fileInfo
+            self.assertTrue(os.path.isfile(infoFilePath))
+            self.assertIn(include.encode(), fileInfo)
+            self.assertIn(tmp.encode(), fileInfo)
+            self.assertIn(file_path.encode(), fileInfo)
+
+    def test_save_path_info(self):
+        d = snapshots.FileInfoDict()
+        testDir  = self.testDirFullPath.encode()
+        testFile = self.testFileFullPath.encode()
+        self.sn._save_path_info(d, testDir)
+        self.sn._save_path_info(d, testFile)
+
+        self.assertIn(testDir, d)
+        self.assertIn(testFile, d)
+        self.assertTupleEqual(d[testDir],  (16893, CURRENTUSER.encode(), CURRENTGROUP.encode()))
+        self.assertTupleEqual(d[testFile], (33204, CURRENTUSER.encode(), CURRENTGROUP.encode()))
+
 class TestRestore(generic.SnapshotsTestCase):
     def setUp(self):
         super(TestRestore, self).setUp()
-        self.sn = snapshots.Snapshots(self.cfg)
         self.run = False
 
     def callback(self, func, *args):
@@ -285,7 +335,6 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         self.modeFile   = os.stat(self.pathFile).st_mode
 
         super(TestRestorePathInfo, self).setUp()
-        self.sn = snapshots.Snapshots(self.cfg)
         self.run = False
 
     def tearDown(self):
@@ -403,22 +452,7 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         self.assertEqual(s.st_uid, CURRENTUID)
         self.assertEqual(s.st_gid, CURRENTGID)
 
-class TestDeletePath(generic.SnapshotsTestCase):
-    def setUp(self):
-        super(TestDeletePath, self).setUp()
-        self.sn = snapshots.Snapshots(self.cfg)
-        self.sid = snapshots.SID('20151219-010324-123', self.cfg)
-
-        self.sid.makeDirs()
-        self.testDir = 'foo/bar'
-        self.testDirFullPath = self.sid.pathBackup(self.testDir)
-        self.testFile = 'foo/bar/baz'
-        self.testFileFullPath = self.sid.pathBackup(self.testFile)
-
-        self.sid.makeDirs(self.testDir)
-        with open(self.sid.pathBackup(self.testFile), 'wt') as f:
-            pass
-
+class TestDeletePath(generic.SnapshotsWithSidTestCase):
     def test_delete_file(self):
         self.assertTrue(os.path.exists(self.testFileFullPath))
         self.sn.delete_path(self.sid, self.testFile)
@@ -446,26 +480,17 @@ class TestDeletePath(generic.SnapshotsTestCase):
         self.sn.delete_path(self.sid, 'foo')
         self.assertFalse(os.path.exists(self.testDirFullPath))
 
-class TestRemoveSnapshot(generic.SnapshotsTestCase):
+class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
     #TODO: add test with SSH
-    def setUp(self):
-        super(TestRemoveSnapshot, self).setUp()
-        self.sn = snapshots.Snapshots(self.cfg)
-
-        self.sid = snapshots.SID('20140213-203837-123', self.cfg)
-        self.sid.makeDirs('foo')
-        with open(self.sid.pathBackup('foo/bar'), 'wt') as f:
-            pass
-
     def test_remove_snapshot(self):
         self.assertTrue(self.sid.exists())
         self.sn.remove_snapshot(self.sid)
         self.assertFalse(self.sid.exists())
 
     def test_remove_snapshot_read_only(self):
-        for path in (self.sid.pathBackup(), self.sid.pathBackup('foo')):
+        for path in (self.sid.pathBackup(), self.testDirFullPath):
             os.chmod(path, stat.S_IRUSR | stat.S_IXUSR)
-        os.chmod(self.sid.pathBackup('foo/bar'), stat.S_IRUSR)
+        os.chmod(self.testFileFullPath, stat.S_IRUSR)
 
         self.assertTrue(self.sid.exists())
         self.sn.remove_snapshot(self.sid)

@@ -976,7 +976,7 @@ class Snapshots:
                             dict of: {path: (permission, user, group)}
                             Using sideefect on changing dict item will change
                             original dict, too.
-            path (str):     full path to file or folder
+            path (bytes):   full path to file or folder
         """
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if path and os.path.exists(path):
