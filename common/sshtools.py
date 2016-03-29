@@ -105,10 +105,15 @@ class SSH(MountControl):
         logger.debug('Call mount command: %s'
                      %' '.join(sshfs),
                      self)
-        try:
-            subprocess.check_call(sshfs, env = env)
-        except subprocess.CalledProcessError:
-            raise MountException( _('Can\'t mount %s') % ' '.join(sshfs))
+        proc = subprocess.Popen(sshfs,
+                                env = env,
+                                stdout = subprocess.DEVNULL,
+                                stderr = subprocess.PIPE,
+                                universal_newlines = True)
+        err = proc.communicate()[1]
+        if proc.returncode:
+            raise MountException( _('Can\'t mount %s') % ' '.join(sshfs)
+                                  + '\n\n' + err)
 
     def pre_mount_check(self, first_run = False):
         """
@@ -217,12 +222,16 @@ class SSH(MountControl):
         ssh.extend(self.ssh_options + [self.user_host])
         ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
         ssh.extend(['echo', '"Hello"'])
-        try:
-            subprocess.check_call(ssh, stdout=subprocess.DEVNULL)
-        except subprocess.CalledProcessError:
+        proc = subprocess.Popen(ssh,
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.PIPE,
+                                universal_newlines = True)
+        err = proc.communicate()[1]
+        if proc.returncode:
             raise MountException( _('Password-less authentication for %(user)s@%(host)s '
                                     'failed. Look at \'man backintime\' for further '
-                                    'instructions.')  % {'user' : self.user, 'host' : self.host})
+                                    'instructions.')  % {'user' : self.user, 'host' : self.host}
+                                    + '\n\n' + err)
 
     def check_cipher(self):
         """
@@ -300,19 +309,20 @@ class SSH(MountControl):
         ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
         ssh.extend([cmd])
         logger.debug('Call command: %s' %' '.join(ssh), self)
-        try:
-            subprocess.check_call(ssh,
-                                  stdout=subprocess.DEVNULL)
-        except subprocess.CalledProcessError as ex:
-            logger.debug('Command returncode: %s' %ex.returncode, self)
-            if ex.returncode == 20:
+        proc = subprocess.Popen(ssh,
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.DEVNULL)
+        proc.communicate()
+        if proc.returncode:
+            logger.debug('Command returncode: %s' %proc.returncode, self)
+            if proc.returncode == 20:
                 #clean exit
                 pass
-            elif ex.returncode == 11:
+            elif proc.returncode == 11:
                 raise MountException( _('Remote path exists but is not a directory:\n %s') % self.path)
-            elif ex.returncode == 12:
+            elif proc.returncode == 12:
                 raise MountException( _('Remote path is not writeable:\n %s') % self.path)
-            elif ex.returncode == 13:
+            elif proc.returncode == 13:
                 raise MountException( _('Remote path is not executable:\n %s') % self.path)
             else:
                 raise MountException( _('Couldn\'t create remote path:\n %s') % self.path)

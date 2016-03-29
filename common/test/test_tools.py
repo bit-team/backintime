@@ -331,7 +331,7 @@ class TestTools(generic.TestCase):
 
         callback = lambda x, y: self.callback(self.fail,
                                               'callback was called unexpectedly')
-        self.assertEqual(tools._execute('ls nonExistingFile', callback), 512)
+        self.assertEqual(tools._execute('ls nonExistingFile 2>/dev/null' , callback), 512)
 
     def test_get_rsync_caps(self):
         if RSYNC_INSTALLED:
