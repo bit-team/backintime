@@ -224,8 +224,8 @@ class MainWindow( QMainWindow ):
         self.btn_restore_delete.setToolTip(_('Restore selected files or folders '
                                              'to the original destination and\n'
                                              'delete files/folders which are '
-                                             'not in the snapshot. This will also\n'
-                                             'delete files/folders which where '
+                                             'not in the snapshot.\n'
+                                             'This will delete files/folders which where '
                                              'excluded during taking the snapshot!\n'
                                              'Be extremely careful!!!'))
         QObject.connect(self.btn_restore_delete, SIGNAL('triggered()'), lambda: self.restore_this(True))
@@ -233,8 +233,8 @@ class MainWindow( QMainWindow ):
         self.menu_restore_parent_delete.setToolTip(_('Restore the currently shown folder '
                                                      'and all its content to the original\n'
                                                      'destination and delete files/folders '
-                                                     'which are not in the snapshot. This\n'
-                                                     'will also delete files/folders which '
+                                                     'which are not in the snapshot.\n'
+                                                     'This will delete files/folders which '
                                                      'where excluded during taking the snapshot!\n'
                                                      'Be extremely careful!!!'))
         QObject.connect(self.menu_restore_parent_delete, SIGNAL('triggered()'), lambda: self.restore_parent(True))
