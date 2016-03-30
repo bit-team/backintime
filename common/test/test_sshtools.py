@@ -28,6 +28,7 @@ import config
 import logger
 import mount
 import sshtools
+import tools
 from exceptions import MountException
 
 ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
@@ -67,125 +68,172 @@ class TestSSH(generic.TestCase):
         subprocess.Popen(['ssh-add', '-D'],
                          stdout = subprocess.DEVNULL,
                          stderr = subprocess.DEVNULL).communicate()
-        ssh1 = sshtools.SSH(cfg = self.config)
-        try:
-            ssh1.unlock_ssh_agent(force = True)
-        except MountException as e:
-            self.fail('unlock_ssh_agent failed unexpected with: %s' %str(e))
+        ssh = sshtools.SSH(cfg = self.config)
+        ssh.unlock_ssh_agent(force = True)
+
         out = subprocess.Popen(['ssh-add', '-l'],
                                stdout = subprocess.PIPE,
                                universal_newlines = True).communicate()[0]
-        self.assertIn(ssh1.private_key_fingerprint, out)
+        self.assertIn(ssh.private_key_fingerprint, out)
 
+    def test_unlock_ssh_agent_fail(self):
         subprocess.Popen(['ssh-add', '-D'],
                          stdout = subprocess.DEVNULL,
                          stderr = subprocess.DEVNULL).communicate()
-        ssh2 = sshtools.SSH(cfg = self.config)
-        ssh2.private_key_fingerprint = 'wrong fingerprint'
-        with self.assertRaises(MountException):
-            ssh2.unlock_ssh_agent(force = True)
+        ssh = sshtools.SSH(cfg = self.config)
+        ssh.private_key_fingerprint = 'wrong fingerprint'
+        with self.assertRaisesRegex(MountException, r"Could not unlock ssh private key\. Wrong password or password not available for cron\."):
+            ssh.unlock_ssh_agent(force = True)
 
     def test_check_login(self):
-        ssh1 = sshtools.SSH(cfg = self.config)
-        try:
-            ssh1.check_login()
-        except MountException as e:
-            self.fail('check_login failed unexpected with: %s' %str(e))
+        ssh = sshtools.SSH(cfg = self.config)
+        ssh.check_login()
 
+    def test_check_login_fail_wrong_user(self):
         self.config.set_ssh_user('non_existing_user')
-        ssh2 = sshtools.SSH(cfg = self.config)
-        with self.assertRaises(MountException):
-            ssh2.check_login()
+        ssh = sshtools.SSH(cfg = self.config)
+        with self.assertRaisesRegex(MountException, r"Password-less authentication for .+ failed.+"):
+            ssh.check_login()
 
-    @unittest.skip('Not yet implemented')
-    def test_check_cipher(self):
-        pass
+    def test_check_cipher_default(self):
+        ssh = sshtools.SSH(cfg = self.config, cipher = 'default')
+        ssh.check_cipher()
+
+    def test_check_cipher_specific(self):
+        ssh = sshtools.SSH(cfg = self.config, cipher = 'aes128-ctr')
+        ssh.check_cipher()
+
+    def test_check_cipher_fail(self):
+        # fix debug log
+        self.config.SSH_CIPHERS['non_existing_cipher'] = 'non_existing_cipher'
+        ssh = sshtools.SSH(cfg = self.config, cipher = 'non_existing_cipher')
+        with self.assertRaisesRegex(MountException, r"Cipher .+ failed for.+"):
+            ssh.check_cipher()
 
     @unittest.skip('Not yet implemented')
     def test_benchmark_cipher(self):
         pass
 
     def test_check_known_hosts(self):
-        ssh1 = sshtools.SSH(cfg = self.config)
-        try:
-            ssh1.check_known_hosts()
-        except MountException as e:
-            self.fail('check_known_hosts failed unexpected with: %s' %str(e))
+        ssh = sshtools.SSH(cfg = self.config)
+        ssh.check_known_hosts()
 
+    def test_check_known_hosts_fail(self):
         self.config.set_ssh_host('non_existing_host')
-        ssh2 = sshtools.SSH(cfg = self.config)
-        with self.assertRaises(MountException):
-            ssh2.check_known_hosts()
+        ssh = sshtools.SSH(cfg = self.config)
+        with self.assertRaisesRegex(MountException, r".+ not found in ssh_known_hosts\."):
+            ssh.check_known_hosts()
 
     def test_check_remote_folder(self):
         with TemporaryDirectory() as tmp:
             remotePath = os.path.join(tmp, 'foo')
             self.config.set_snapshots_path_ssh(remotePath)
-            ssh1 = sshtools.SSH(cfg = self.config)
+            ssh = sshtools.SSH(cfg = self.config)
             #create new directories
-            try:
-                ssh1.check_remote_folder()
-            except MountException as e:
-                self.fail('check_remote_folder failed unexpected with: %s' %str(e))
+            ssh.check_remote_folder()
             self.assertTrue(os.path.isdir(remotePath))
 
             #rerun check to test if it correctly recognize previous created folders
-            try:
-                ssh1.check_remote_folder()
-            except MountException as e:
-                self.fail('check_remote_folder second test failed unexpected with: %s' %str(e))
+            ssh.check_remote_folder()
 
             #make folder read-only
             os.chmod(remotePath, stat.S_IRUSR | stat.S_IXUSR)
-            with self.assertRaises(MountException):
-                ssh1.check_remote_folder()
+            with self.assertRaisesRegex(MountException, r"Remote path is not writeable.+"):
+                ssh.check_remote_folder()
 
             #make folder not executable
             os.chmod(remotePath, stat.S_IRUSR | stat.S_IWUSR)
-            with self.assertRaises(MountException):
-                ssh1.check_remote_folder()
+            with self.assertRaisesRegex(MountException, r"Remote path is not executable.+"):
+                ssh.check_remote_folder()
 
             #make it writeable again otherwise cleanup will fail
             os.chmod(remotePath, stat.S_IRWXU)
 
+    def test_check_remote_folder_fail_not_a_folder(self):
         with TemporaryDirectory() as tmp:
             remotePath = os.path.join(tmp, 'foo')
             with open(remotePath, 'wt') as f:
                 f.write('foo')
             self.config.set_snapshots_path_ssh(remotePath)
-            ssh2 = sshtools.SSH(cfg = self.config)
+            ssh = sshtools.SSH(cfg = self.config)
 
             #path already exist but is not a folder
-            with self.assertRaises(MountException):
-                ssh2.check_remote_folder()
+            with self.assertRaisesRegex(MountException, r"Remote path exists but is not a directory.+"):
+                ssh.check_remote_folder()
 
+    def test_check_remote_folder_fail_can_not_create(self):
         with TemporaryDirectory() as tmp:
             remotePath = os.path.join(tmp, 'foo')
             self.config.set_snapshots_path_ssh(remotePath)
-            ssh3 = sshtools.SSH(cfg = self.config)
+            ssh = sshtools.SSH(cfg = self.config)
 
             #can not create path
             os.chmod(tmp, stat.S_IRUSR | stat.S_IXUSR)
-            with self.assertRaises(MountException):
-                ssh2.check_remote_folder()
+            with self.assertRaisesRegex(MountException, r"Couldn't create remote path.+"):
+                ssh.check_remote_folder()
             #make it writeable again otherwise cleanup will fail
             os.chmod(tmp, stat.S_IRWXU)
 
     def test_check_ping_host(self):
-        ssh1 = sshtools.SSH(cfg = self.config)
-        try:
-            ssh1.check_ping_host()
-        except MountException as e:
-            self.fail('check_ping_host failed unexpected with: %s' %str(e))
+        ssh = sshtools.SSH(cfg = self.config)
+        ssh.check_ping_host()
 
+    def test_check_ping_host_fail(self):
         self.config.set_ssh_host('non_existing_host')
-        ssh2 = sshtools.SSH(cfg = self.config)
-        with self.assertRaises(MountException):
-            ssh2.check_ping_host()
+        ssh = sshtools.SSH(cfg = self.config)
+        with self.assertRaisesRegex(MountException, r'Ping .+ failed\. Host is down or wrong address\.'):
+            ssh.check_ping_host()
 
-    @unittest.skip('Not yet implemented')
     def test_check_remote_command(self):
-        pass
+        self.config.set_run_nice_on_remote_enabled(tools.check_command('nice'))
+        self.config.set_run_ionice_on_remote_enabled(tools.check_command('ionice'))
+        self.config.set_run_nocache_on_remote_enabled(tools.check_command('nocache'))
+        self.config.set_smart_remove_run_remote_in_background(tools.check_command('screen') and tools.check_command('flock'))
+        with TemporaryDirectory() as remotePath:
+            self.config.set_snapshots_path_ssh(remotePath)
+            ssh = sshtools.SSH(cfg = self.config)
+            ssh.check_remote_commands()
+
+    def test_check_remote_command_fail(self):
+        cmds = ['find']
+        if tools.check_command('nice'):
+            cmds.append('nice')
+            self.config.set_run_nice_on_remote_enabled(True)
+        if tools.check_command('ionice'):
+            cmds.append('ionice')
+            self.config.set_run_ionice_on_remote_enabled(True)
+        if tools.check_command('nocache'):
+            cmds.append('nocache')
+            self.config.set_run_nocache_on_remote_enabled(True)
+        if tools.check_command('screen') and tools.check_command('flock'):
+            cmds.extend(('screen', 'flock', 'rmdir', 'mktemp'))
+            self.config.set_smart_remove_run_remote_in_background(True)
+
+        # make one after an other command from 'cmds' fail by symlink them
+        # to /bin/false
+        self.config.set_ssh_prefix_enabled(True)
+        false = tools.which('false')
+        for cmd in cmds:
+            msg = 'current trap: %s' %cmd
+            with self.subTest(cmd = cmd):
+                with TemporaryDirectory() as remotePath:
+                    self.config.set_snapshots_path_ssh(remotePath)
+
+                    os.symlink(false, os.path.join(remotePath, cmd))
+                    self.config.set_ssh_prefix("export PATH=%s:$PATH; " %remotePath)
+                    ssh = sshtools.SSH(cfg = self.config)
+                    with self.assertRaisesRegex(MountException, r"Remote host .+ doesn't support '.*?%s.*'" %cmd, msg = msg):
+                        ssh.check_remote_commands()
+
+    def test_check_remote_command_hard_link_fail(self):
+        # let hard-link check fail by manipulate one of the files
+        with TemporaryDirectory() as remotePath:
+            self.config.set_snapshots_path_ssh(remotePath)
+            self.config.set_ssh_prefix_enabled(True)
+            self.config.set_ssh_prefix('TRAP=$(ls -1d %s/tmp_* | tail -n1)/a; rm $TRAP; echo bar > $TRAP; ' %remotePath)
+            ssh = sshtools.SSH(cfg = self.config)
+            with self.assertRaisesRegex(MountException, r"Remote host .+ doesn't support hardlinks"):
+                ssh.check_remote_commands()
 
     def test_random_id(self):
         ssh = sshtools.SSH(cfg = self.config)

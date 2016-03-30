@@ -18,7 +18,8 @@ python:
 
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y sshfs
+  # install screen and util-linux (provides flock) for test_sshtools
+  - sudo apt-get install -y sshfs screen util-linux
 
 install:
   - pip install coveralls
