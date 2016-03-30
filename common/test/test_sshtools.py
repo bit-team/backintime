@@ -101,6 +101,10 @@ class TestSSH(generic.TestCase):
     def test_check_cipher(self):
         pass
 
+    @unittest.skip('Not yet implemented')
+    def test_benchmark_cipher(self):
+        pass
+
     def test_check_known_hosts(self):
         ssh1 = sshtools.SSH(cfg = self.config)
         try:
@@ -137,7 +141,7 @@ class TestSSH(generic.TestCase):
                 ssh1.check_remote_folder()
 
             #make folder not executable
-            os.chmod(remotePath, stat.S_IRUSR)
+            os.chmod(remotePath, stat.S_IRUSR | stat.S_IWUSR)
             with self.assertRaises(MountException):
                 ssh1.check_remote_folder()
 

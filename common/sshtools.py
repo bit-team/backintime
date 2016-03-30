@@ -37,8 +37,56 @@ _=gettext.gettext
 
 class SSH(MountControl):
     """
-    Mount remote path with sshfs. The real take_snapshot process will use
-    rsync over ssh. Other commands run remote over ssh.
+    This is a backend for the mount API :py:class:`mount.MountControl`.
+    This will mount the remote path with ``sshfs``, prepair the remote path and
+    check that everything is set up correctly for `Back In Time` to run
+    snapshots through SSH.
+
+    This class will only mount the remote path. The real take_snapshot process
+    will use rsync over ssh. Other commands run remote over ssh.
+
+    Args:
+        cfg (config.Config):    current config
+                                (handled by inherited :py:class:`mount.MountControl`)
+        user (str):             User name on remote host
+        host (str):             Name or IP Address of remote host
+        port (int):             Port used by SSHd on remote host
+        path (str):             remote path where snapshots are stored. Can be
+                                either relative from remote users homedir or
+                                an absolute path
+        cipher (str):           Cipher used to encrypt the network transfer
+        private_key_file (str): Private key which is able to log on with
+                                Public/Private Key-Method on remote host
+        nice (bool):            use ``nice -n 19`` to run commands with
+                                low CPU priority on remote host
+        ionice (bool):          use ``ionice -c2 -n7`` to run commands with
+                                low IO priority on remote host
+        nocache (bool):         use ``nocache`` to deactivate RAM caching of
+                                files on remote host
+        password (str):         password to unlock the private key
+        profile_id (str):       profile ID that should be used
+                                (handled by inherited :py:class:`mount.MountControl`)
+        hash_id (str):          crc32 hash used to identify identical mountpoints
+                                (handled by inherited :py:class:`mount.MountControl`)
+        tmp_mount (bool):       if ``True`` mount to a temporary destination
+                                (handled by inherited :py:class:`mount.MountControl`)
+        parent (QWidget):       parent widget for QDialogs or ``None`` if there
+                                is no parent
+                                (handled by inherited :py:class:`mount.MountControl`)
+        symlink (bool):         if ``True`` set symlink to mountpoint
+                                (handled by inherited :py:class:`mount.MountControl`)
+        mode (str):             one of ``local``, ``local_encfs``, ``ssh`` or
+                                ``ssh_encfs``
+                                (handled by inherited :py:class:`mount.MountControl`)
+        hash_collision (int):   global value used to prevent hash collisions on
+                                mountpoints
+                                (handled by inherited :py:class:`mount.MountControl`)
+
+    Note:
+        All Arguments are optional. Default values will be fetched from
+        :py:class:`config.Config`. But after changing Settings we need to test
+        the new values **before** storing them into :py:class:`config.Config`.
+        This is why all values will be added as arguments.
     """
     def __init__(self, *args, **kwargs):
         #init MountControl
@@ -88,7 +136,10 @@ class SSH(MountControl):
 
     def _mount(self):
         """
-        mount the service
+        Backend mount method. This will call ``sshfs`` to mount the remote path.
+
+        Raises:
+            exceptions.MountException:  if mount wasn't successful
         """
         sshfs = [self.mountproc] + self.ssh_options
         if not self.cipher == 'default':
@@ -117,10 +168,20 @@ class SSH(MountControl):
 
     def pre_mount_check(self, first_run = False):
         """
-        check what ever conditions must be given for the mount to be done successful
-        raise MountException( _('Error discription') ) if service can not mount
-        return True if everything is okay
-        all pre|post_[u]mount_check can also be used to prepare things or clean up
+        Check that everything is prepaired and ready for successfully mount the
+        remote path. Default is to run a light version of checks which will
+        only make sure the remote host is online, ``sshfs`` is installed and
+        the remote folder is available.
+
+        After changing settings this should be run with ``first_run = True``
+        to run a full check with all tests.
+
+        Args:
+            first_run (bool):           run a full test with all checks
+
+        Raises:
+            exceptions.MountException:  if one test failed an we can not mount
+                                        the remote path
         """
         self.check_ping_host()
         self.check_fuse()
@@ -137,7 +198,17 @@ class SSH(MountControl):
 
     def unlock_ssh_agent(self, force = False):
         """
-        using askpass.py to unlock private key in ssh-agent
+        Unlock the private key in ``ssh-agent`` which will provide it for
+        all other commands. The password to unlock the key will be provided
+        by ``backintime-askpass``.
+
+        Args:
+            force (bool):               force to unlock the key by removing it
+                                        first and add it again to make sure,
+                                        the given values are correct
+
+        Raises:
+            exceptions.MountException:  if unlock failed
         """
         env = os.environ.copy()
         env['SSH_ASKPASS'] = 'backintime-askpass'
@@ -215,7 +286,10 @@ class SSH(MountControl):
 
     def check_login(self):
         """
-        check passwordless authentication to host
+        Try to login to remote host with public/private-key-method (passwordless).
+
+        Raises:
+            exceptions.MountException:  if login failed
         """
         logger.debug('Check login', self)
         ssh = ['ssh', '-o', 'PreferredAuthentications=publickey']
@@ -235,7 +309,11 @@ class SSH(MountControl):
 
     def check_cipher(self):
         """
-        check if both host and localhost support cipher
+        Try to login to remote host with the choosen cipher. This should make
+        sure both `localhost` and the remote host support the choosen cipher.
+
+        Raises:
+            exceptions.MountException:  if login with the cipher failed
         """
         if not self.cipher == 'default':
             logger.debug('Check cipher', self)
@@ -254,7 +332,13 @@ class SSH(MountControl):
                 raise MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')
                                       % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
 
-    def benchmark_cipher(self, size = '40'):
+    def benchmark_cipher(self, size = 40):
+        """
+        Rudimental benchmark to compare transfer speed of all available ciphers.
+
+        Args:
+            size (int):     size of the testfile in MiB
+        """
         temp = tempfile.mkstemp()[1]
         print('create random data file')
         subprocess.call(['dd', 'if=/dev/urandom', 'of=%s' % temp, 'bs=1M', 'count=%s' % size])
@@ -276,7 +360,11 @@ class SSH(MountControl):
 
     def check_known_hosts(self):
         """
-        check ssh_known_hosts
+        Check if the remote host is in current users ``known_hosts`` file.
+
+        Raises:
+            exceptions.MountException:  if the remote host wasn't found
+                                        in ``known_hosts`` file
         """
         logger.debug('Check known hosts file', self)
         for host in (self.host, '[%s]:%s' % (self.host, self.port)):
@@ -292,8 +380,13 @@ class SSH(MountControl):
 
     def check_remote_folder(self):
         """
-        check if remote folder exists and is write- and executable.
-        Create folder if it doesn't exist.
+        Check the remote path. If the remote path doesn't exist this will create
+        it. If it already exist this will check, that it is a folder and has
+        correct permissions.
+
+        Raises:
+            exceptions.MountException:  if remote path couldn't be created or
+                                        doesn't have correct permissions.
         """
         logger.debug('Check remote folder', self)
         cmd  = 'd=0;'
@@ -332,7 +425,16 @@ class SSH(MountControl):
 
     def check_ping_host(self):
         """
-        connect to remote port and check if it is open
+        Check if the remote host is online. Other than methods name may let suppose
+        this does not use Ping (``ICMP``) but try to open a connection to
+        the configured port on the remote host. In this way it will even work
+        on remote hosts which have ``ICMP`` disabled.
+
+        If connection failed it will retry five times before failing.
+
+        Raises:
+            exceptions.MountException:  if connection failed most probably
+                                        because remote host is offline
         """
         logger.debug('Check ping host', self)
         count = 0
@@ -354,10 +456,20 @@ class SSH(MountControl):
 
     def check_remote_commands(self, retry = False):
         """
-        try all relevant commands for take_snapshot on remote host.
-        specialy embedded Linux devices using 'BusyBox' sometimes doesn't
-        support everything that is need to run backintime.
-        also check for hardlink-support on remote host.
+        Try out all relevant commands used by `Back In Time` on the remote host
+        to make sure snapshots will be successful with the remote host.
+        This will also check that hard-links are supported on the remote host.
+
+        This check can be disabled with :py:func:`config.Config.ssh_check_commands`
+
+        Args:
+            retry (bool):               retry to run the commands if it failed
+                                        because the command string was to long
+
+        Raises:
+            exceptions.MountException:  if a command is not supported on
+                                        remote host or if hard-links are not
+                                        supported
         """
         if not self.config.ssh_check_commands():
             return
@@ -527,4 +639,14 @@ class SSH(MountControl):
             raise MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
 
     def random_id(self, size=6, chars=string.ascii_uppercase + string.digits):
+        """
+        Create a random string.
+
+        Args:
+            size (int):     length of the string
+            chars (str):    characters used as basis for the random string
+
+        Returns:
+            str:            random string with lenght ``size``
+        """
         return ''.join(random.choice(chars) for x in range(size))

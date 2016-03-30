@@ -318,7 +318,7 @@ class MountControl(object):
     Args:
         cfg (config.Config):    current config
         profile_id (str):       profile ID that should be used
-        hash_id (str):          ???
+        hash_id (str):          crc32 hash used to identify identical mountpoints
         tmp_mount (bool):       if ``True`` mount to a temporary destination
         parent (QWidget):       parent widget for QDialogs or ``None`` if there
                                 is no parent
