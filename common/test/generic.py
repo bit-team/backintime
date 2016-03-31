@@ -27,6 +27,9 @@ import snapshots
 
 TMP_FLOCK = NamedTemporaryFile()
 
+ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
+ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
+
 class TestCase(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         os.environ['LANGUAGE'] = 'en_US.UTF-8'
@@ -72,3 +75,22 @@ class SnapshotsWithSidTestCase(SnapshotsTestCase):
         self.sid.makeDirs(self.testDir)
         with open(self.sid.pathBackup(self.testFile), 'wt') as f:
             pass
+
+class SSHTestCase(TestCase):
+    # running this test requires that user has public / private key pair created and ssh server running
+
+    def setUp(self):
+        super(SSHTestCase, self).setUp()
+        logger.DEBUG = '-v' in sys.argv
+        self.cfg = config.Config(self.cfgFile, self.sharePath)
+        self.cfg.set_snapshots_mode('ssh')
+        self.cfg.set_ssh_host('localhost')
+        self.cfg.set_ssh_private_key_file(os.path.expanduser(os.path.join("~",".ssh","id_rsa")))
+        # use a TemporaryDirectory for remote snapshot path
+        self.tmpDir = TemporaryDirectory()
+        self.remotePath = os.path.join(self.tmpDir.name, 'foo')
+        self.cfg.set_snapshots_path_ssh(self.remotePath)
+        self.mount_kwargs = {}
+
+    def tearDown(self):
+        self.tmpDir.cleanup()

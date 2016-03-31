@@ -18,8 +18,8 @@ python:
 
 before_install:
   - sudo apt-get -qq update
-  # install screen and util-linux (provides flock) for test_sshtools
-  - sudo apt-get install -y sshfs screen util-linux
+  # install screen, nocache and util-linux (provides flock) for test_sshtools
+  - sudo apt-get install -y sshfs screen nocache util-linux
 
 install:
   - pip install coveralls

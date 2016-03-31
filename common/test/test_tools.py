@@ -32,9 +32,6 @@ import tools
 import config
 import configfile
 
-ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
-ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
-
 #chroot jails used for building may have no UUID devices (because of tmpfs)
 #we need to skip tests that require UUIDs
 DISK_BY_UUID_AVAILABLE = os.path.exists(tools.DISK_BY_UUID)
@@ -309,7 +306,7 @@ class TestTools(generic.TestCase):
             path_without_slash_at_end)
 
     def test_power_status_available(self):
-        if tools.process_exists('upowerd') and not ON_TRAVIS:
+        if tools.process_exists('upowerd') and not generic.ON_TRAVIS:
             self.assertTrue(tools.power_status_available())
         else:
             self.assertFalse(tools.power_status_available())
