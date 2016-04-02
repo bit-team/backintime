@@ -270,10 +270,13 @@ class TimeLine(QTreeWidget):
     @pyqtSlot()
     def checkSelection(self):
         if self.currentItem() is None:
-            self.setCurrentItem(self.rootItem)
-            if not self.parent.sid.isRoot:
-                self.parent.sid = self.rootItem.snapshotID()
-                self.updateFilesView.emit(2)
+            self.selectRootItem()
+
+    def selectRootItem(self):
+        self.setCurrentItem(self.rootItem)
+        if not self.parent.sid.isRoot:
+            self.parent.sid = self.rootItem.snapshotID()
+            self.updateFilesView.emit(2)
 
     def selectedSnapshotIDs(self):
         return [i.snapshotID() for i in self.selectedItems()]

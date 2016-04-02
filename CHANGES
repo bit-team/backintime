@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.1.13
+* Fix bug: 'inotify_add_watch failed: file or directory not found' after deleting snapshot
 * remove dependency for extended 'find' command on remote host
 * make full-rsync mode default, remove the other mode
 * Fix bug: a continued snapshot was not incremental (https://github.com/bit-team/backintime/issues/557)

@@ -902,6 +902,8 @@ class MainWindow( QMainWindow ):
 
         for item in items:
             item.setDisabled(True)
+            if item is self.list_time_line.currentItem():
+                self.list_time_line.selectRootItem()
         thread = RemoveSnapshotThread(self, items)
         thread.refreshSnapshotList.connect(self.update_time_line)
         thread.start()
@@ -1240,7 +1242,7 @@ class MainWindow( QMainWindow ):
             else:
                 self.list_files_view_proxy_model.setFilterRegExp(r'^[^\.]')
 
-            model_index = self.list_files_view_model.index(full_path)
+            model_index = self.list_files_view_model.setRootPath(full_path)
             proxy_model_index = self.list_files_view_proxy_model.mapFromSource(model_index)
             self.list_files_view.setRootIndex(proxy_model_index)
 
