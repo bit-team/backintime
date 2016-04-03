@@ -1890,6 +1890,10 @@ class Snapshots:
                               encode.exclude(self.config.get_snapshots_path()),
                               encode.exclude(self.config._LOCAL_DATA_FOLDER) ,
                               encode.exclude(self.config._MOUNT_ROOT) )
+        # TODO: fix bug #561:
+        # after rsync_exclude we need to explicite include files inside excluded
+        # folders, recursive exclude folder-content again and finally add the
+        # rest from rsync_include2
         ret += ' '.join((rsync_include, rsync_exclude, rsync_include2))
         ret += ' --exclude="*" '
         ret += encode.chroot

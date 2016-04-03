@@ -287,6 +287,10 @@ user.size=.+''', re.MULTILINE))
             self.assertIn(file_path.encode(), fileInfo)
 
     def test_save_path_info(self):
+        # force permissions because different distributions will have different umask
+        os.chmod(self.testDirFullPath, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH | stat.S_IXOTH)
+        os.chmod(self.testFileFullPath, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH)
+
         d = snapshots.FileInfoDict()
         testDir  = self.testDirFullPath.encode()
         testFile = self.testFileFullPath.encode()
