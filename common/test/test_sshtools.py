@@ -31,7 +31,7 @@ import sshtools
 import tools
 from exceptions import MountException
 
-@unittest.skipIf(not generic.ON_TRAVIS, 'Skip as this test requires a local ssh server, public and private keys installed')
+@unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
 class TestSSH(generic.SSHTestCase):
     # running this test requires that user has public / private key pair created and ssh server running
 

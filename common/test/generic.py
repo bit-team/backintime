@@ -24,8 +24,21 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import logger
 import config
 import snapshots
+import tools
 
 TMP_FLOCK = NamedTemporaryFile()
+PRIV_KEY_FILE = os.path.expanduser(os.path.join("~",".ssh","id_rsa"))
+
+if os.path.exists(PRIV_KEY_FILE):
+    with open(PRIV_KEY_FILE + '.pub', 'rb') as pub:
+        with open(os.path.expanduser(os.path.join("~",".ssh","authorized_keys")), 'rb') as auth:
+            KEY_IN_AUTH = pub.read() in auth.readlines()
+else:
+    KEY_IN_AUTH = False
+
+LOCAL_SSH = all((tools.process_exists('sshd'),
+                 os.path.isfile(PRIV_KEY_FILE),
+                 KEY_IN_AUTH))
 
 ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
 ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
@@ -85,7 +98,7 @@ class SSHTestCase(TestCase):
         self.cfg = config.Config(self.cfgFile, self.sharePath)
         self.cfg.set_snapshots_mode('ssh')
         self.cfg.set_ssh_host('localhost')
-        self.cfg.set_ssh_private_key_file(os.path.expanduser(os.path.join("~",".ssh","id_rsa")))
+        self.cfg.set_ssh_private_key_file(PRIV_KEY_FILE)
         # use a TemporaryDirectory for remote snapshot path
         self.tmpDir = TemporaryDirectory()
         self.remotePath = os.path.join(self.tmpDir.name, 'foo')
