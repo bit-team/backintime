@@ -1049,7 +1049,7 @@ class Snapshots:
         if snapshots:
             prev_sid = snapshots[0]
 
-        if not new_snapshot.saveToContinue and not self.make_dirs(new_snapshot.pathBackup()):
+        if not new_snapshot.saveToContinue and not new_snapshot.makeDirs():
             return [ False, True ]
 
         #sync changed folders

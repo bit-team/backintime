@@ -74,7 +74,6 @@ class TestTools(generic.TestCase):
     def setUp(self):
         super(TestTools, self).setUp()
         self.subproc = None
-        self.run = False
 
     def tearDown(self):
         self.killProcess()
@@ -92,10 +91,6 @@ class TestTools(generic.TestCase):
             self.subproc.kill()
             self.subproc.wait()
             self.subproc = None
-
-    def callback(self, func, *args):
-        func(*args)
-        self.run = True
 
     def test_get_share_path(self):
         share = tools.get_share_path()

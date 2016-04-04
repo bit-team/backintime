@@ -24,7 +24,7 @@ import stat
 import pwd
 import grp
 import re
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from threading import Thread
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 from test import generic
@@ -48,6 +48,13 @@ NO_GROUPS = not GROUPS
 IS_ROOT = os.geteuid() == 0
 
 class TestSnapshots(generic.SnapshotsTestCase):
+    def setUp(self):
+        super(TestSnapshots, self).setUp()
+
+        for file in (self.cfg.get_take_snapshot_log_file(), self.cfg.get_take_snapshot_message_file()):
+            if os.path.exists(file):
+                os.remove(file)
+
     ############################################################################
     ###                              get_uid                                 ###
     ############################################################################
@@ -239,6 +246,73 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                  r'--include="/baz/1/2" '   +
                                  r'--exclude="\*" / $')
 
+    ############################################################################
+    ###                            callback                                  ###
+    ############################################################################
+    def test_restore_callback(self):
+        msg = 'foo'
+        callback = lambda x: self.callback(self.assertEqual, x, msg)
+        self.sn.restore_callback(callback, True, msg)
+        self.assertTrue(self.run)
+        self.assertFalse(self.sn.restore_permission_failed)
+
+        self.run = False
+        callback = lambda x: self.callback(self.assertRegex, x, r'{} : \w+'.format(msg))
+        self.sn.restore_callback(callback, False, msg)
+        self.assertTrue(self.run)
+        self.assertTrue(self.sn.restore_permission_failed)
+
+    @unittest.skip('Not yet implemented')
+    def test_filter_rsync_progress(self):
+        pass
+
+    def test_exec_rsync_callback(self):
+        params = [False, False]
+
+        self.sn._exec_rsync_callback('foo', params)
+        self.assertListEqual([False, False], params)
+        with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
+            self.assertEqual('0\nTake snapshot (rsync: foo)', f.read())
+        with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
+            self.assertEqual('[I] Take snapshot (rsync: foo)\n', f.read())
+
+    def test_exec_rsync_callback_keep_params(self):
+        params = [True, True]
+
+        self.sn._exec_rsync_callback('foo', params)
+        self.assertListEqual([True, True], params)
+
+    def test_exec_rsync_callback_transfer(self):
+        params = [False, False]
+
+        self.sn._exec_rsync_callback('BACKINTIME: <f+++++++++ /foo/bar', params)
+        self.assertListEqual([False, True], params)
+        with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
+            self.assertEqual('0\nTake snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)', f.read())
+        with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
+            self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)\n[C] <f+++++++++ /foo/bar\n', f.read())
+
+    def test_exec_rsync_callback_dir(self):
+        params = [False, False]
+
+        self.sn._exec_rsync_callback('BACKINTIME: cd..t...... /foo/bar', params)
+        self.assertListEqual([False, False], params)
+        with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
+            self.assertEqual('0\nTake snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)', f.read())
+        with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
+            self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)\n', f.read())
+
+    def test_exec_rsync_callback_error(self):
+        params = [False, False]
+
+        self.sn._exec_rsync_callback('rsync: send_files failed to open "/foo/bar": Operation not permitted (1)', params)
+        self.assertListEqual([True, False], params)
+        with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
+            self.assertEqual('1\nError: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)', f.read())
+        with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
+            self.assertEqual('[I] Take snapshot (rsync: rsync: send_files failed to open "/foo/bar": Operation not permitted (1))\n' \
+                             '[E] Error: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)\n', f.read())
+
 class TestSnapshotWithSID(generic.SnapshotsWithSidTestCase):
     def test_save_config_file(self):
         self.sn.save_config_file(self.sid)
@@ -302,27 +376,121 @@ user.size=.+''', re.MULTILINE))
         self.assertTupleEqual(d[testDir],  (16893, CURRENTUSER.encode(), CURRENTGROUP.encode()))
         self.assertTupleEqual(d[testFile], (33204, CURRENTUSER.encode(), CURRENTGROUP.encode()))
 
-class TestRestore(generic.SnapshotsTestCase):
+class TestTakeSnapshot(generic.SnapshotsTestCase):
     def setUp(self):
-        super(TestRestore, self).setUp()
-        self.run = False
+        super(TestTakeSnapshot, self).setUp()
+        self.include = TemporaryDirectory()
+        os.makedirs(os.path.join(self.include.name, 'foo', 'bar'))
+        with open(os.path.join(self.include.name, 'foo', 'bar', 'baz'), 'wt') as f:
+            f.write('foo')
+        with open(os.path.join(self.include.name, 'test'), 'wt') as f:
+            f.write('bar')
 
-    def callback(self, func, *args):
-        func(*args)
-        self.run = True
+    def tearDown(self):
+        super(TestTakeSnapshot, self).tearDown()
+        self.include.cleanup()
 
-    def test_callback(self):
-        msg = 'foo'
-        callback = lambda x: self.callback(self.assertEqual, x, msg)
-        self.sn.restore_callback(callback, True, msg)
-        self.assertTrue(self.run)
-        self.assertFalse(self.sn.restore_permission_failed)
+    def test_take_snapshot(self):
+        now = datetime.today() - timedelta(minutes = 6)
+        sid1 = snapshots.SID(now, self.cfg)
 
-        self.run = False
-        callback = lambda x: self.callback(self.assertRegex, x, r'{} : \w+'.format(msg))
-        self.sn.restore_callback(callback, False, msg)
-        self.assertTrue(self.run)
-        self.assertTrue(self.sn.restore_permission_failed)
+        self.assertListEqual([True, False], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertTrue(sid1.exists())
+        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
+        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
+        for file in ('config', 'fileinfo.bz2', 'info', 'takesnapshot.log.bz2'):
+            self.assertTrue(os.path.exists(sid1.path(file)), msg = 'file = {}'.format(file))
+
+        # second _take_snapshot which should not create a new snapshot as nothing
+        # has changed
+        now = datetime.today() - timedelta(minutes = 4)
+        sid2 = snapshots.SID(now, self.cfg)
+
+        self.assertListEqual([False, False], self.sn._take_snapshot(sid2, now, [(self.include.name, 0),] ))
+        self.assertFalse(sid2.exists())
+
+        # third _take_snapshot
+        with open(os.path.join(self.include.name, 'lalala'), 'wt') as f:
+            f.write('asdf')
+
+        now = datetime.today() - timedelta(minutes = 2)
+        sid3 = snapshots.SID(now, self.cfg)
+
+        self.assertListEqual([True, False], self.sn._take_snapshot(sid3, now, [(self.include.name, 0),] ))
+        self.assertTrue(sid3.exists())
+        self.assertTrue(sid3.canOpenPath(os.path.join(self.include.name, 'lalala')))
+        inode1 = os.stat(sid1.pathBackup(os.path.join(self.include.name, 'test'))).st_ino
+        inode3 = os.stat(sid3.pathBackup(os.path.join(self.include.name, 'test'))).st_ino
+        self.assertEqual(inode1, inode3)
+
+        # fourth _take_snapshot with force create new snapshot even if nothing
+        # has changed
+        self.cfg.set_take_snapshot_regardless_of_changes(True)
+        now = datetime.today()
+        sid4 = snapshots.SID(now, self.cfg)
+
+        self.assertListEqual([True, False], self.sn._take_snapshot(sid4, now, [(self.include.name, 0),] ))
+        self.assertTrue(sid4.exists())
+        self.assertTrue(sid4.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
+        self.assertTrue(sid4.canOpenPath(os.path.join(self.include.name, 'test')))
+
+    def test_take_snapshot_error(self):
+        os.chmod(os.path.join(self.include.name, 'test'), 0o000)
+        now = datetime.today()
+        sid1 = snapshots.SID(now, self.cfg)
+
+        self.assertListEqual([True, True], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertTrue(sid1.exists())
+        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
+        self.assertFalse(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
+        for file in ('config', 'fileinfo.bz2', 'info', 'takesnapshot.log.bz2', 'failed'):
+            self.assertTrue(os.path.exists(sid1.path(file)), msg = 'file = {}'.format(file))
+
+    def test_take_snapshot_error_without_continue(self):
+        os.chmod(os.path.join(self.include.name, 'test'), 0o000)
+        self.cfg.set_continue_on_errors(False)
+        now = datetime.today()
+        sid1 = snapshots.SID(now, self.cfg)
+
+        self.assertListEqual([False, True], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertFalse(sid1.exists())
+
+    def test_take_snapshot_new_exists(self):
+        new_snapshot = snapshots.NewSnapshot(self.cfg)
+        new_snapshot.makeDirs()
+        with open(new_snapshot.path('leftover'), 'wt') as f:
+            f.write('foo')
+
+        now = datetime.today() - timedelta(minutes = 6)
+        sid1 = snapshots.SID(now, self.cfg)
+
+        self.assertListEqual([True, False], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertTrue(sid1.exists())
+        self.assertFalse(os.path.exists(sid1.path('leftover')))
+
+    def test_take_snapshot_new_exists_continue(self):
+        new_snapshot = snapshots.NewSnapshot(self.cfg)
+        new_snapshot.makeDirs()
+        with open(new_snapshot.path('leftover'), 'wt') as f:
+            f.write('foo')
+        new_snapshot.saveToContinue = True
+
+        now = datetime.today() - timedelta(minutes = 6)
+        sid1 = snapshots.SID(now, self.cfg)
+
+        self.assertListEqual([True, False], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertTrue(sid1.exists())
+        self.assertTrue(os.path.exists(sid1.path('leftover')))
+
+    def test_take_snapshot_fail_create_new_snapshot(self):
+        os.chmod(self.snapshotPath, 0o500)
+        now = datetime.today()
+        sid1 = snapshots.SID(now, self.cfg)
+
+        self.assertListEqual([False, True], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+
+        # fix permissions because cleanup would fial otherwise
+        os.chmod(self.snapshotPath, 0o700)
 
 class TestRestorePathInfo(generic.SnapshotsTestCase):
     def setUp(self):
@@ -340,7 +508,6 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         self.modeFile   = os.stat(self.pathFile).st_mode
 
         super(TestRestorePathInfo, self).setUp()
-        self.run = False
 
     def tearDown(self):
         super(TestRestorePathInfo, self).tearDown()
@@ -348,10 +515,6 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
             shutil.rmtree(self.pathFolder)
         if os.path.exists(self.pathFile):
             os.remove(self.pathFile)
-
-    def callback(self, func, *args):
-        func(*args)
-        self.run = True
 
     def test_no_changes(self):
         d = snapshots.FileInfoDict()

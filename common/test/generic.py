@@ -54,6 +54,11 @@ class TestCase(unittest.TestCase):
 
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
+        self.run = False
+
+    def callback(self, func, *args):
+        func(*args)
+        self.run = True
 
 class SnapshotsTestCase(TestCase):
     def setUp(self):
