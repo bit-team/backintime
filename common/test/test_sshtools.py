@@ -152,6 +152,16 @@ class TestSSH(generic.SSHTestCase):
         #make it writeable again otherwise cleanup will fail
         os.chmod(self.tmpDir.name, stat.S_IRWXU)
 
+    @unittest.skip('Bug #567 not yet fixed')
+    def test_check_remote_folder_with_spaces(self):
+        self.remotePath = os.path.join(self.tmpDir.name, 'foo bar')
+        self.cfg.set_snapshots_path_ssh(self.remotePath)
+
+        ssh = sshtools.SSH(cfg = self.cfg)
+        #create new directories
+        ssh.check_remote_folder()
+        self.assertTrue(os.path.isdir(self.remotePath))
+
     def test_check_ping_host(self):
         ssh = sshtools.SSH(cfg = self.cfg)
         ssh.check_ping_host()
@@ -167,10 +177,9 @@ class TestSSH(generic.SSHTestCase):
         self.cfg.set_run_ionice_on_remote_enabled(tools.check_command('ionice'))
         self.cfg.set_run_nocache_on_remote_enabled(tools.check_command('nocache'))
         self.cfg.set_smart_remove_run_remote_in_background(tools.check_command('screen') and tools.check_command('flock'))
-        with TemporaryDirectory() as self.remotePath:
-            self.cfg.set_snapshots_path_ssh(self.remotePath)
-            ssh = sshtools.SSH(cfg = self.cfg)
-            ssh.check_remote_commands()
+        os.mkdir(self.remotePath)
+        ssh = sshtools.SSH(cfg = self.cfg)
+        ssh.check_remote_commands()
 
     def test_check_remote_command_fail(self):
         cmds = ['find']
@@ -211,6 +220,14 @@ class TestSSH(generic.SSHTestCase):
         ssh = sshtools.SSH(cfg = self.cfg)
         with self.assertRaisesRegex(MountException, r"Remote host .+ doesn't support hardlinks"):
             ssh.check_remote_commands()
+
+    def test_check_remote_command_with_spaces(self):
+        self.cfg.set_smart_remove_run_remote_in_background(tools.check_command('screen') and tools.check_command('flock'))
+        self.remotePath = os.path.join(self.tmpDir.name, 'foo bar')
+        self.cfg.set_snapshots_path_ssh(self.remotePath)
+        os.mkdir(self.remotePath)
+        ssh = sshtools.SSH(cfg = self.cfg)
+        ssh.check_remote_commands()
 
     def test_random_id(self):
         ssh = sshtools.SSH(cfg = self.cfg)
