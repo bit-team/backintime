@@ -478,6 +478,7 @@ class Decode(object):
     decode path with encfsctl.
     """
     def __init__(self, cfg, string = True):
+        self.config = cfg
         self.mode = cfg.get_snapshots_mode()
         if self.mode == 'local_encfs':
             self.password = cfg.get_password(pw_id = 1)

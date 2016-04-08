@@ -1409,18 +1409,23 @@ class Alarm(object):
     """
     Timeout for FIFO. This does not work with threading.
     """
-    def __init__(self, callback = None):
+    def __init__(self, callback = None, overwrite = True):
         self.callback = callback
+        self.ticking = False
+        self.overwrite = overwrite
 
     def start(self, timeout):
         """
         Start timer
         """
+        if self.ticking and not self.overwrite:
+            return
         try:
             signal.signal(signal.SIGALRM, self.handler)
             signal.alarm(timeout)
         except ValueError:
             pass
+        self.ticking = True
 
     def stop(self):
         """
@@ -1428,6 +1433,7 @@ class Alarm(object):
         """
         try:
             signal.alarm(0)
+            self.ticking = False
         except:
             pass
 
@@ -1435,6 +1441,7 @@ class Alarm(object):
         """
         Timeout occur.
         """
+        self.ticking = False
         if self.callback is None:
             raise Timeout()
         else:

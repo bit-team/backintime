@@ -40,6 +40,7 @@ import encfstools
 import mount
 import progress
 import bcolors
+import snapshotlog
 from exceptions import MountException, LastSnapshotSymlink
 
 _=gettext.gettext
@@ -59,6 +60,7 @@ class Snapshots:
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
+        self.snapshotLog = snapshotlog.SnapshotLog(self.config)
 
         self.clear_uid_gid_cache()
         self.clear_uid_gid_names_cache()
@@ -136,9 +138,9 @@ class Snapshots:
                          self)
 
         if 1 == type_id:
-            self.append_to_take_snapshot_log( '[E] ' + message, 1 )
+            self.snapshotLog.append('[E] ' + message, 1)
         else:
-            self.append_to_take_snapshot_log( '[I] '  + message, 3 )
+            self.snapshotLog.append('[I] '  + message, 3)
 
         try:
             profile_id =self.config.get_current_profile()
@@ -147,81 +149,6 @@ class Snapshots:
         except Exception as e:
             logger.debug('Failed to send message to plugins: %s'
                          %str(e),
-                         self)
-
-    #TODO: make own class for takeSnapshotLog
-    def _filter_take_snapshot_log( self, log, mode , decode = None):
-        decode_msg = _('### This log has been decoded with automatic search pattern\n'\
-                       '### If some paths are not decoded you can manually decode '   \
-                       'them with:\n')
-        decode_msg += '### \'backintime --quiet'
-        profile_id = self.config.get_current_profile()
-        if int(profile_id) > 1:
-            decode_msg += ' --profile %s' % self.config.get_profile_name(profile_id)
-        decode_msg += ' --decode <path>\'\n\n'
-        if 0 == mode:
-            if not decode is None:
-                ret = decode_msg
-                for line in log.split('\n'):
-                    line = decode.log(line)
-                    ret += line + '\n'
-                return ret
-            return log
-
-        lines = log.split( '\n' )
-        log = ''
-        if not decode is None:
-            log = decode_msg
-
-        for line in lines:
-            if line.startswith( '[' ):
-                if mode == 1 and line[1] != 'E':
-                    continue
-                elif mode == 2 and line[1] != 'C':
-                    continue
-                elif mode == 3 and line[1] != 'I':
-                    continue
-                elif mode == 4 and line[1] not in ('E', 'C'):
-                    continue
-
-            if not decode is None:
-                line = decode.log(line)
-            log = log + line + '\n'
-
-        return log
-
-    #TODO: make own class for takeSnapshotLog
-    def get_take_snapshot_log( self, mode = 0, profile_id = None, **kwargs ):
-        logFile = self.config.get_take_snapshot_log_file(profile_id)
-        try:
-            with open(logFile, 'rt') as f:
-                data = f.read()
-            return self._filter_take_snapshot_log( data, mode, **kwargs )
-        except Exception as e:
-            msg = ('Failed to get take_snapshot log from %s:' %logFile, str(e))
-            logger.debug(' '.join(msg), self)
-            return '\n'.join(msg)
-
-    #TODO: make own class for takeSnapshotLog
-    def new_take_snapshot_log( self, date ):
-        if NewSnapshot(self.config).saveToContinue:
-            msg = "Last snapshot didn't finish but can be continued.\n\n======== continue snapshot (profile %s): %s ========\n"
-        else:
-            os.system( "rm \"%s\"" % self.config.get_take_snapshot_log_file() )
-            msg = "========== Take snapshot (profile %s): %s ==========\n"
-        self.append_to_take_snapshot_log(msg %(self.config.get_current_profile(), date.strftime('%c')), 1)
-
-    #TODO: make own class for takeSnapshotLog
-    def append_to_take_snapshot_log( self, message, level ):
-        if level > self.config.log_level():
-            return
-
-        try:
-            with open( self.config.get_take_snapshot_log_file(), 'at' ) as f:
-                f.write( message + '\n' )
-        except Exception as e:
-            logger.debug('Failed to add message to take_snapshot log %s: %s'
-                         %(self.config.get_take_snapshot_log_file(), str(e)),
                          self)
 
     def is_busy( self ):
@@ -716,7 +643,7 @@ class Snapshots:
                 else:
                     #take snapshot process begin
                     self.set_take_snapshot_message( 0, '...' )
-                    self.new_take_snapshot_log( now )
+                    self.snapshotLog.new(now)
                     profile_id = self.config.get_current_profile()
                     profile_name = self.config.get_profile_name()
                     logger.info("Take a new snapshot. Profile: %s %s"
@@ -856,7 +783,7 @@ class Snapshots:
             if line.startswith( 'BACKINTIME: ' ):
                 if line[12] != '.' and line[12:14] != 'cd':
                     params[1] = True
-                    self.append_to_take_snapshot_log( '[C] ' + line[ 12 : ], 2 )
+                    self.snapshotLog.append('[C] ' + line[12:], 2)
 
     def make_dirs(self, path):
         """
@@ -1068,7 +995,7 @@ class Snapshots:
         cmd = cmd + ' -i --out-format="BACKINTIME: %i %n%L"'
 
         params = [False, False]
-        self.append_to_take_snapshot_log( '[I] ' + cmd, 3 )
+        self.snapshotLog.append('[I] ' + cmd, 3)
         self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params, filters = (self._filter_rsync_progress, ))
         try:
             os.remove(self.config.get_take_snapshot_progress_file())
@@ -1088,8 +1015,8 @@ class Snapshots:
 
         if not params[1] and not self.config.take_snapshot_regardless_of_changes():
             self.remove_snapshot(new_snapshot)
-            logger.info("Nothing changed, no back needed", self)
-            self.append_to_take_snapshot_log( '[I] Nothing changed, no back needed', 3 )
+            logger.info("Nothing changed, no new snapshot necessary", self)
+            self.snapshotLog.append('[I] ' + _('Nothing changed, no new snapshot necessary'), 3)
             if prev_sid:
                 prev_sid.setLastChecked()
             return [ False, False ]
@@ -1097,9 +1024,10 @@ class Snapshots:
         self.save_config_file(new_snapshot)
         self.save_permissions(new_snapshot)
 
-        #copy take snapshot log
+        #copy snapshot log
         try:
-            with open( self.config.get_take_snapshot_log_file(), 'rb') as logfile:
+            self.snapshotLog.flush()
+            with open(self.snapshotLog.logFileName, 'rb') as logfile:
                 new_snapshot.setLog(logfile.read())
         except Exception as e:
             logger.debug('Failed to write take_snapshot log %s into compressed file %s: %s'
@@ -2407,27 +2335,34 @@ class SID(object):
                                    path))
                                    + b'\n')
 
-    #TODO: add arguments 'mode' and 'decode'
     #TODO: use @property decorator
     def log(self, mode = None, decode = None):
         """
         Load log from "takesnapshot.log.bz2"
 
         Args:
-            mode (str):     NotImplemented
-            decode (bool):  NotImplemented
+            mode (int):                 Mode used for filtering. Take a look at
+                                        :py:class:`snapshotlog.LogFilter`
+            decode (encfstools.Decode): instance used for decoding lines or ``None``
 
-        Returns:
-            str:            log
+        Yields:
+            str:                        filtered and decoded log lines
         """
-        logfile = self.path(self.LOG)
+        logFile = self.path(self.LOG)
+        logFilter = snapshotlog.LogFilter(mode, decode)
         try:
-            with bz2.BZ2File(logfile, 'rb' ) as f:
-                return f.read().decode('utf-8')
+            with bz2.BZ2File(logFile, 'rb' ) as f:
+                if logFilter.header:
+                    yield logFilter.header
+                for line in f.readlines():
+                    line = logFilter.filter(line.decode('utf-8').rstrip('\n'))
+                    if not line is None:
+                        yield line
         except Exception as e:
-            msg = ('Failed to get snapshot log from {}:'.format(logfile), str(e))
+            msg = ('Failed to get snapshot log from {}:'.format(logFile), str(e))
             logger.debug(' '.join(msg), self)
-            return '\n'.join(msg)
+            for line in msg:
+                yield line
 
     def setLog(self, log):
         """
@@ -2438,13 +2373,13 @@ class SID(object):
         """
         if isinstance(log, str):
             log = log.encode('utf-8', 'replace')
-        logfile = self.path(self.LOG)
+        logFile = self.path(self.LOG)
         try:
-            with bz2.BZ2File(logfile, 'wb') as f:
+            with bz2.BZ2File(logFile, 'wb') as f:
                 f.write(log)
         except Exception as e:
             logger.error('Failed to write log into compressed file {}: {}'.format(
-                         logfile, str(e)),
+                         logFile, str(e)),
                          self)
 
     def makeWriteable(self):

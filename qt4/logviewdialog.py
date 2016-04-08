@@ -24,6 +24,7 @@ from PyQt4.QtCore import *
 import qt4tools
 import snapshots
 import encfstools
+import snapshotlog
 
 _=gettext.gettext
 
@@ -189,9 +190,10 @@ class LogViewDialog( QDialog ):
         mode = self.combo_filter.itemData( self.combo_filter.currentIndex() )
 
         if self.sid is None:
-            self.txt_log_view.setPlainText(self.snapshots.get_take_snapshot_log(mode, self.combo_profiles.currentProfileID(), decode = self.decode) )
+            log = snapshotlog.SnapshotLog(self.config, self.combo_profiles.currentProfileID())
+            self.txt_log_view.setPlainText('\n'.join(log.get(mode = mode, decode = self.decode)))
         else:
-            self.txt_log_view.setPlainText(self.sid.log(mode, decode = self.decode))
+            self.txt_log_view.setPlainText('\n'.join(self.sid.log(mode, decode = self.decode)))
 
     def closeEvent(self, event):
         self.config.set_int_value('qt4.logview.width', self.width())

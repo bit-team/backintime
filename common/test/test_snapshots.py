@@ -34,6 +34,7 @@ import config
 import configfile
 import snapshots
 import tools
+from snapshotlog import LogFilter
 
 CURRENTUID = os.geteuid()
 CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
@@ -273,6 +274,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertListEqual([False, False], params)
         with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
             self.assertEqual('0\nTake snapshot (rsync: foo)', f.read())
+        self.sn.snapshotLog.flush()
         with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: foo)\n', f.read())
 
@@ -289,6 +291,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertListEqual([False, True], params)
         with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
             self.assertEqual('0\nTake snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)', f.read())
+        self.sn.snapshotLog.flush()
         with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)\n[C] <f+++++++++ /foo/bar\n', f.read())
 
@@ -299,6 +302,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertListEqual([False, False], params)
         with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
             self.assertEqual('0\nTake snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)', f.read())
+        self.sn.snapshotLog.flush()
         with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)\n', f.read())
 
@@ -309,6 +313,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertListEqual([True, False], params)
         with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
             self.assertEqual('1\nError: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)', f.read())
+        self.sn.snapshotLog.flush()
         with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: rsync: send_files failed to open "/foo/bar": Operation not permitted (1))\n' \
                              '[E] Error: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)\n', f.read())
@@ -930,12 +935,24 @@ class TestSID(generic.SnapshotsTestCase):
                                'takesnapshot.log.bz2')
 
         #no log available
-        self.assertRegex(sid.log(), r'Failed to get snapshot log from.*')
+        self.assertRegex('\n'.join(sid.log()), r'Failed to get snapshot log from.*')
 
         sid.setLog('foo bar\nbaz')
         self.assertTrue(os.path.isfile(logFile))
 
-        self.assertEqual(sid.log(), 'foo bar\nbaz')
+        self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
+
+    def test_log_filter(self):
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
+        logFile = os.path.join(self.snapshotPath,
+                               '20151219-010324-123',
+                               'takesnapshot.log.bz2')
+
+        sid.setLog('foo bar\n[I] 123\n[C] baz\n[E] bla')
+        self.assertTrue(os.path.isfile(logFile))
+
+        self.assertEqual('\n'.join(sid.log(mode = LogFilter.CHANGES)), 'foo bar\n[C] baz')
 
     def test_setLog_binary(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -947,7 +964,7 @@ class TestSID(generic.SnapshotsTestCase):
         sid.setLog(b'foo bar\nbaz')
         self.assertTrue(os.path.isfile(logFile))
 
-        self.assertEqual(sid.log(), 'foo bar\nbaz')
+        self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
 
     def test_makeWriteable(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
