@@ -82,6 +82,7 @@ class TestSnapshotLog(generic.SnapshotsTestCase):
 
     def tearDown(self):
         self.sharePathObj.cleanup()
+        super(TestSnapshotLog, self).tearDown()
 
     def test_new(self):
         log = snapshotlog.SnapshotLog(self.cfg)
