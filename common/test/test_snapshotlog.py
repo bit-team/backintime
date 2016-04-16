@@ -159,3 +159,39 @@ Last snapshot didn't finish but can be continued.
         log.flush()
         self.assertTrue(os.path.exists(self.logFile))
         self.assertEqual('\n'.join(log.get(mode = snapshotlog.LogFilter.CHANGES)), 'foo bar\n[C] baz')
+
+    def test_skipLines_show_all(self):
+        log = snapshotlog.SnapshotLog(self.cfg)
+
+        for i in range(10):
+            log.append(str(i), 1)
+        log.flush()
+
+        self.assertEqual('\n'.join(log.get(skipLines = 0)),
+                         '\n'.join([str(i) for i in range(10)]))
+
+    def test_skipLines(self):
+        log = snapshotlog.SnapshotLog(self.cfg)
+
+        for i in range(10):
+            log.append(str(i), 1)
+        log.flush()
+
+        self.assertEqual('\n'.join(log.get(skipLines = 4)),
+                         '\n'.join([str(i) for i in range(4, 10)]))
+
+    def test_skipLines_filtered(self):
+        log = snapshotlog.SnapshotLog(self.cfg)
+
+        log.append('foo bar', 1)
+        log.append('[I] 123', 1)
+        log.append('[C] baz', 1)
+        log.append('[E] bla', 1)
+        log.append('[C] 456', 1)
+        log.append('[C] 789', 1)
+        log.append('[E] qwe', 1)
+        log.append('[C] asd', 1)
+        log.flush()
+
+        self.assertEqual('\n'.join(log.get(mode = snapshotlog.LogFilter.CHANGES, skipLines = 2)),
+                         '[C] 456\n[C] 789\n[C] asd')

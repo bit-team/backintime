@@ -25,6 +25,7 @@ import qt4tools
 import snapshots
 import encfstools
 import snapshotlog
+import tools
 
 _=gettext.gettext
 
@@ -121,6 +122,14 @@ class LogViewDialog( QDialog ):
         self.update_cb_decode()
         self.update_profiles()
 
+        # watch for changes in log file
+        self.watcher = QFileSystemWatcher(self)
+        if self.sid is None:
+            # only watch if we show the last log
+            log = self.config.get_take_snapshot_log_file(self.combo_profiles.currentProfileID())
+            self.watcher.addPath(log)
+        self.watcher.fileChanged.connect(self.update_log)
+
     def on_cb_decode(self):
         if self.cb_decode.isChecked():
             self.decode = encfstools.Decode(self.config)
@@ -183,13 +192,28 @@ class LogViewDialog( QDialog ):
             if self.cb_decode.isChecked():
                 self.cb_decode.setChecked(False)
 
-    def update_log( self ):
+    def update_log(self, watchPath = None):
         if not self.enable_update:
             return
 
         mode = self.combo_filter.itemData( self.combo_filter.currentIndex() )
 
-        if self.sid is None:
+        if watchPath and self.sid is None:
+            # remove path from watch to prevent multiple updates at the same time
+            self.watcher.removePath(watchPath)
+            # append only new lines to txt_log_view
+            log = snapshotlog.SnapshotLog(self.config, self.combo_profiles.currentProfileID())
+            for line in log.get(mode = mode,
+                                decode = self.decode,
+                                skipLines = self.txt_log_view.document().lineCount() - 1):
+                self.txt_log_view.appendPlainText(line)
+
+            # re-add path to watch after 5sec delay
+            alarm = tools.Alarm(callback = lambda: self.watcher.addPath(watchPath),
+                                overwrite = False)
+            alarm.start(5)
+
+        elif self.sid is None:
             log = snapshotlog.SnapshotLog(self.config, self.combo_profiles.currentProfileID())
             self.txt_log_view.setPlainText('\n'.join(log.get(mode = mode, decode = self.decode)))
         else:

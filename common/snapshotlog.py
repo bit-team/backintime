@@ -120,7 +120,7 @@ class SnapshotLog(object):
         if self.logFile:
             self.logFile.close()
 
-    def get(self, mode = None, decode = None):
+    def get(self, mode = None, decode = None, skipLines = 0):
         """
         Read the log, filter and decode it and yield it's lines.
 
@@ -128,11 +128,15 @@ class SnapshotLog(object):
             mode (int):                 Mode used for filtering. Take a look at
                                         :py:class:`snapshotlog.LogFilter`
             decode (encfstools.Decode): instance used for decoding lines or ``None``
+            skipLines (int):            skip ``n`` lines before yielding lines.
+                                        This is used to append only new lines
+                                        to LogView
 
         Yields:
             str:                        filtered and decoded log lines
         """
         logFilter = LogFilter(mode, decode)
+        count = 0
         try:
             with open(self.logFileName, 'rt' ) as f:
                 if logFilter.header:
@@ -140,6 +144,9 @@ class SnapshotLog(object):
                 for line in f.readlines():
                     line = logFilter.filter(line.rstrip('\n'))
                     if not line is None:
+                        count += 1
+                        if count <= skipLines:
+                            continue
                         yield line
         except Exception as e:
             msg = ('Failed to get take_snapshot log from {}:'.format(self.logFile), str(e))
