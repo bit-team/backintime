@@ -182,13 +182,6 @@ class TestTools(generic.TestCase):
         self.assertEqual(tools.read_file_lines(tmp_gz), ['foo', 'bar'])
         os.remove(tmp_gz+ '.gz')
 
-    def test_read_command_output(self):
-        """
-        Test the function read_command_output
-        """
-        ret_val = tools.read_command_output("echo 'Test, read command output'")
-        self.assertEqual("Test, read command output", ret_val)
-
     def test_check_command(self):
         """
         Test the function check_command

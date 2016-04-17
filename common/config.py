@@ -187,11 +187,11 @@ class Config( configfile.ConfigFileWithProfiles ):
             self._LOCAL_CONFIG_PATH = config_path
         old_path = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
 
-        if os.path.exists( old_path ):
+        if os.path.exists(old_path):
             if os.path.exists( self._LOCAL_CONFIG_PATH ):
-                os.system( "rm \"%s\"" % old_path )
+                os.remove(old_path)
             else:
-                os.system( "mv \"%s\" \"%s\"" % ( old_path, self._LOCAL_CONFIG_PATH ) )
+                os.rename(old_path, self._LOCAL_CONFIG_PATH)
 
         self.load( self._GLOBAL_CONFIG_PATH )
         self.append( self._LOCAL_CONFIG_PATH )
@@ -355,10 +355,10 @@ class Config( configfile.ConfigFileWithProfiles ):
                 return False
 
             path1 = os.path.join( value, 'backintime' )
-            os.system( "chmod a+rwx \"%s\"" % path1 )
+            os.chmod(path1, 0o777)
 
             path1 = os.path.join( value, 'backintime', host )
-            os.system( "chmod a+rwx \"%s\"" % path1 )
+            os.chmod(path1, 0o777)
 
         #Test filesystem
         fs = tools.get_filesystem(full_path)

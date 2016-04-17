@@ -18,9 +18,7 @@
 
 import os
 import pluginmanager
-import gettext
-
-_=gettext.gettext
+import subprocess
 
 
 class NotifyPlugin( pluginmanager.Plugin ):
@@ -64,15 +62,16 @@ class NotifyPlugin( pluginmanager.Plugin ):
 
     def on_message( self, profile_id, profile_name, level, message, timeout ):
         if 1 == level:
-            cmd = "notify-send "
+            cmd = ['notify-send']
             if timeout > 0:
-                cmd = cmd + " -t %s" % (1000 * timeout)
+                cmd.extend(['-t', str(1000 * timeout)])
 
             title = "Back In Time (%s) : %s" % (self.user, profile_name)
             message = message.replace("\n", ' ')
             message = message.replace("\r", '')
 
-            cmd = cmd + " \"%s\" \"%s\"" % (title, message)
-            print(cmd)
-            os.system(cmd)
+            cmd.append(title)
+            cmd.append(message)
+            print(' '.join(cmd))
+            subprocess.Popen(cmd).communicate()
         return

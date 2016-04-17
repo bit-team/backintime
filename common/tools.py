@@ -216,28 +216,6 @@ def read_file_lines( path, default_value = None ):
 
     return ret_val
 
-def read_command_output( cmd ):
-    """
-    Read stdout from command ``cmd``.
-
-    Args:
-        cmd (str):  command that should be called
-
-    Returns:
-        str:        stdout from command ``cmd`` or '' if calling ``cmd`` raised
-                    an exception
-    """
-    ret_val = ''
-
-    try:
-        pipe = os.popen( cmd )
-        ret_val = pipe.read().strip()
-        pipe.close()
-    except:
-        return ''
-
-    return ret_val
-
 def check_command( cmd ):
     """
     Check if command ``cmd`` is a file in 'PATH' environ.
@@ -439,7 +417,11 @@ def check_x_server():
     Returns:
         bool:   ``True`` if X11 server is running
     """
-    return 0 == os.system( 'xdpyinfo >/dev/null 2>&1' )
+    proc = subprocess.Popen(['xdpyinfo'],
+                            stdout = subprocess.DEVNULL,
+                            stderr = subprocess.DEVNULL)
+    proc.communicate()
+    return proc.returncode == 0
 
 def prepare_path( path ):
     """
@@ -548,7 +530,10 @@ def get_rsync_caps(data = None):
         list:       List of str with rsyncs capabilities
     """
     if not data:
-        data = read_command_output( 'rsync --version' )
+        proc = subprocess.Popen(['rsync', '--version'],
+                                stdout = subprocess.PIPE,
+                                universal_newlines = True)
+        data = proc.communicate()[0]
     caps = []
     #rsync >= 3.1 does provide --info=progress2
     m = re.match(r'rsync\s*version\s*(\d\.\d)', data)
@@ -1626,7 +1611,10 @@ class ShutDown(object):
         """
         if not check_command('unity'):
             return False
-        unity_version = read_command_output('unity --version')
+        proc = subprocess.Popen(['unity', '--version'],
+                                stdout = subprocess.PIPE,
+                                universal_newlines = True)
+        unity_version = proc.communicate()[0]
         m = re.match(r'unity ([\d\.]+)', unity_version)
         return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and process_exists('unity-panel-service')
 
@@ -1816,7 +1804,7 @@ class Execute(object):
         ret_val = 0
         out, err = '', ''
 
-        #backwards compatibility with old os.system and os.pipe calls
+        #backwards compatibility with old os.system and os.popen calls
         if isinstance(self.cmd, str):
             if self.callback is None:
                 ret_val = os.system( self.cmd )

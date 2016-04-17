@@ -18,6 +18,8 @@
 
 import os
 import gettext
+import subprocess
+import shlex
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -338,11 +340,11 @@ class SnapshotsDialog( QDialog ):
             path2 = self.parent.tmp_copy(path2, sid2)
 
         params = diff_params
-        params = params.replace( '%1', "\"%s\"" % path1 )
-        params = params.replace( '%2', "\"%s\"" % path2 )
+        params = params.replace('%1', '"%s"' %path1)
+        params = params.replace('%2', '"%s"' %path2)
 
-        cmd = diff_cmd + ' ' + params + ' &'
-        os.system( cmd  )
+        cmd = diff_cmd + ' ' + params
+        subprocess.Popen(shlex.split(cmd))
 
     def on_btn_diff_options_clicked( self ):
         DiffOptionsDialog( self ).exec_()

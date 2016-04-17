@@ -21,7 +21,7 @@ import configfile
 import sys
 import tools
 
-
+#TODO: rewrite and finally USE this
 class DriveInfo( configfile.ConfigFile ):
     def __init__( self, path ):
         configfile.ConfigFile.__init__( self )
