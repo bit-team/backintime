@@ -300,24 +300,6 @@ class TestTools(generic.TestCase):
             self.assertFalse(tools.power_status_available())
         self.assertIsInstance(tools.on_battery(), bool)
 
-    def test_execute(self):
-        self.assertEqual(tools._execute('true'), 0)
-        self.assertEqual(tools._execute('false'), 256)
-
-        callback = lambda x, y: self.callback(self.assertEqual, x, 'foo')
-        self.assertEqual(tools._execute('echo foo', callback), 0)
-        self.assertTrue(self.run)
-        self.run = False
-
-        callback = lambda x, y: self.callback(self.assertEqual, x, y)
-        self.assertEqual(tools._execute('echo foo', callback, 'foo'), 0)
-        self.assertTrue(self.run)
-        self.run = False
-
-        callback = lambda x, y: self.callback(self.fail,
-                                              'callback was called unexpectedly')
-        self.assertEqual(tools._execute('ls nonExistingFile 2>/dev/null' , callback), 512)
-
     def test_get_rsync_caps(self):
         if RSYNC_INSTALLED:
             caps = tools.get_rsync_caps()

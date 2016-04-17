@@ -475,49 +475,6 @@ def on_battery():
             pass
     return False
 
-def _execute( cmd, callback = None, user_data = None ):
-    """
-    Execute command ``cmd`` and return its returncode. Returncode is
-    multiplied by 256. Commands stdout can be send to handler ``callback``.
-
-    Args:
-        cmd (str):          command that should be executed
-        callback (method):  function that will be called with every new line
-                            on stdout. Need to handle two arguments.
-        user_data (str):    additional arg send to ``callback``
-
-    Returns:
-        int:                returncode of command ``cmd`` multiplied by 256
-    """
-    logger.deprecated()
-    logger.debug("Call command \"%s\"" %cmd, traceDepth = 1)
-    ret_val = 0
-
-    if callback is None:
-        ret_val = os.system( cmd )
-    else:
-        pipe = os.popen( cmd, 'r' )
-
-        while True:
-            line = temp_failure_retry( pipe.readline )
-            if not line:
-                break
-            callback( line.strip(), user_data )
-
-        ret_val = pipe.close()
-        if ret_val is None:
-            ret_val = 0
-
-    if ret_val != 0:
-        logger.warning("Command \"%s\" returns %s"
-                       %(cmd, ret_val),
-                       traceDepth = 1)
-    else:
-        logger.debug("Command \"%s...\" returns %s"
-                     %(cmd[:min(16, len(cmd))], ret_val),
-                     traceDepth = 1)
-    return ret_val
-
 def get_rsync_caps(data = None):
     """
     Get capabilities of the installed rsync binary. This can be different from

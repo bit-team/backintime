@@ -1475,58 +1475,6 @@ class Snapshots:
                 return int(m.group(1)) / 1024
         logger.warning('Failed to get free space on remote', self)
 
-    def _execute( self, cmd, callback = None, user_data = None, filters = () ):
-        """
-        Execute command ``cmd`` and return its returncode. Returncode is
-        multiplied by 256. Commands stdout can be send to handler ``callback``.
-
-        Args:
-            cmd (str):          command that should be executed
-            callback (method):  function that will be called with every new line
-                                on stdout. Need to handle two arguments.
-            user_data (str):    additional arg send to ``callback``
-            filters (tuple):    tuple of methods that get called for each stdout
-                                line from command before the line is past to
-                                ``callback``
-
-        Returns:
-            int:                returncode of command ``cmd`` multiplied by 256
-        """
-        logger.deprecated(self)
-        logger.debug("Call command \"%s\"" %cmd, self, 1)
-        ret_val = 0
-
-        if callback is None:
-            ret_val = os.system( cmd )
-        else:
-            pipe = os.popen( cmd, 'r' )
-
-            while True:
-                line = tools.temp_failure_retry( pipe.readline )
-                if not line:
-                    break
-                line = line.strip()
-                for f in filters:
-                    line = f(line)
-                if not line:
-                    continue
-                callback(line , user_data )
-
-            ret_val = pipe.close()
-            if ret_val is None:
-                ret_val = 0
-
-        if ret_val != 0:
-            logger.warning("Command \"%s\" returns %s%s%s"
-                           %(cmd, bcolors.WARNING, ret_val, bcolors.ENDC),
-                           self, 1)
-        else:
-            logger.debug("Command \"%s...\" returns %s"
-                         %(cmd[:min(16, len(cmd))], ret_val),
-                         self, 1)
-
-        return ret_val
-
     def filter_for(self,
                    base_sid,
                    base_path,
