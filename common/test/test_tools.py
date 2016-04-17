@@ -313,12 +313,12 @@ class TestTools(generic.TestCase):
 
         callback = lambda x, y: self.callback(self.assertEqual, x, 'foo')
         self.assertEqual(tools._execute('echo foo', callback), 0)
-        self.assertTrue(self.run, True)
+        self.assertTrue(self.run)
         self.run = False
 
         callback = lambda x, y: self.callback(self.assertEqual, x, y)
         self.assertEqual(tools._execute('echo foo', callback, 'foo'), 0)
-        self.assertTrue(self.run, True)
+        self.assertTrue(self.run)
         self.run = False
 
         callback = lambda x, y: self.callback(self.fail,
@@ -780,6 +780,64 @@ class TestToolsUniquenessSet(generic.TestCase):
             self.assertTrue(uniqueness.check_for(t1))
             self.assertTrue(uniqueness.check_for(t2))
             self.assertFalse(uniqueness.check_for(t3))
+
+class TestToolsExecuteSubprocess(generic.TestCase):
+    # new method with subprocess
+    def test_returncode(self):
+        self.assertEqual(tools.Execute(['true']).run(), 0)
+        self.assertEqual(tools.Execute(['false']).run(), 1)
+
+    def test_callback(self):
+        c = lambda x, y: self.callback(self.assertEqual, x, 'foo')
+        tools.Execute(['echo', 'foo'], callback = c).run()
+        self.assertTrue(self.run)
+        self.run = False
+
+        # give extra user_data for callback
+        c = lambda x, y: self.callback(self.assertEqual, x, y)
+        tools.Execute(['echo', 'foo'], callback = c, user_data = 'foo').run()
+        self.assertTrue(self.run)
+        self.run = False
+
+        # no output
+        c = lambda x, y: self.callback(self.fail,
+                                       'callback was called unexpectedly')
+        tools.Execute(['true'], callback = c).run()
+        self.assertFalse(self.run)
+        self.run = False
+
+    def test_pausable(self):
+        proc = tools.Execute(['true'])
+        self.assertTrue(proc.pausable)
+
+class TestToolsExecuteOsSystem(generic.TestCase):
+    # old method with os.system
+    def test_returncode(self):
+        self.assertEqual(tools.Execute('true').run(), 0)
+        self.assertEqual(tools.Execute('false').run(), 256)
+
+    def test_callback(self):
+        c = lambda x, y: self.callback(self.assertEqual, x, 'foo')
+        tools.Execute('echo foo', callback = c).run()
+        self.assertTrue(self.run)
+        self.run = False
+
+        # give extra user_data for callback
+        c = lambda x, y: self.callback(self.assertEqual, x, y)
+        tools.Execute('echo foo', callback = c, user_data = 'foo').run()
+        self.assertTrue(self.run)
+        self.run = False
+
+        # no output
+        c = lambda x, y: self.callback(self.fail,
+                                       'callback was called unexpectedly')
+        tools.Execute('true', callback = c).run()
+        self.assertFalse(self.run)
+        self.run = False
+
+    def test_pausable(self):
+        proc = tools.Execute('true')
+        self.assertFalse(proc.pausable)
 
 if __name__ == '__main__':
     unittest.main()

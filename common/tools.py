@@ -54,6 +54,7 @@ except ImportError:
 
 import configfile
 import logger
+import bcolors
 from exceptions import Timeout, InvalidChar, PermissionDeniedByPolicy
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
@@ -506,6 +507,7 @@ def _execute( cmd, callback = None, user_data = None ):
     Returns:
         int:                returncode of command ``cmd`` multiplied by 256
     """
+    logger.deprecated()
     logger.debug("Call command \"%s\"" %cmd, traceDepth = 1)
     ret_val = 0
 
@@ -1018,7 +1020,7 @@ def syncfs():
         bool:   ``True`` if successful
     """
     if check_command('sync'):
-        return(_execute('sync') == 0)
+        return(Execute(['sync']).run() == 0)
 
 def isRoot():
     """
@@ -1786,6 +1788,115 @@ class OrderedSet(collections.MutableSet):
         if isinstance(other, OrderedSet):
             return len(self) == len(other) and list(self) == list(other)
         return set(self) == set(other)
+
+class Execute(object):
+    def __init__(self, cmd, callback = None, user_data = None, filters = (), parent = None):
+        self.cmd = cmd
+        self.callback = callback
+        self.user_data = user_data
+        self.filters = filters
+        self.currentProc = None
+        #we need to forward parent to have the correct class name in debug log
+        if parent:
+            self.parent = parent
+        else:
+            self.parent = self
+
+        if isinstance(self.cmd, list):
+            self.pausable = True
+            self.printable_cmd = ' '.join(self.cmd)
+            logger.debug("Call command \"%s\"" %self.printable_cmd, self.parent, 2)
+        else:
+            self.pausable = False
+            self.printable_cmd = self.cmd
+            logger.warning("Call command with old os.system method \"%s\"" %self.printable_cmd, self.parent, 2)
+        #logger.debug("Call command \"%s\"" %self.printable_cmd, self, 1)
+
+    def run(self):
+        ret_val = 0
+        out, err = '', ''
+
+        #backwards compatibility with old os.system and os.pipe calls
+        if isinstance(self.cmd, str):
+            if self.callback is None:
+                ret_val = os.system( self.cmd )
+            else:
+                pipe = os.popen( self.cmd, 'r' )
+
+                while True:
+                    line = temp_failure_retry( pipe.readline )
+                    if not line:
+                        break
+                    line = line.strip()
+                    for f in self.filters:
+                        line = f(line)
+                    if not line:
+                        continue
+                    self.callback(line , self.user_data )
+
+                ret_val = pipe.close()
+                if ret_val is None:
+                    ret_val = 0
+
+        #new and preferred method using subprocess.Popen
+        elif isinstance(self.cmd, (list, tuple)):
+            #register signals for pause, resume and kill
+            signal.signal(signal.SIGTSTP, self.pause)
+            signal.signal(signal.SIGCONT, self.resume)
+            signal.signal(signal.SIGHUP, self.kill)
+
+            self.currentProc = subprocess.Popen(self.cmd,
+                                                stdout = subprocess.PIPE,
+                                                stderr = subprocess.PIPE,
+                                                universal_newlines = True)
+            if self.callback:
+                for line in self.currentProc.stdout:
+                    line = line.rstrip('\n')
+                    logger.debug('read line: %s' %line, self.parent, 2) #TODO: remove this if done
+                    for f in self.filters:
+                        line = f(line)
+                    if not line:
+                        continue
+                    self.callback(line, self.user_data)
+
+            out, err = self.currentProc.communicate()
+            ret_val = self.currentProc.returncode
+
+            #reset signals to their defaulf
+            signal.signal(signal.SIGTSTP, signal.SIG_DFL)
+            signal.signal(signal.SIGCONT, signal.SIG_DFL)
+            signal.signal(signal.SIGHUP, signal.SIG_DFL)
+
+        if ret_val != 0 or err:
+            msg = 'Command "%s" returns %s%s%s' %(self.printable_cmd, bcolors.WARNING, ret_val, bcolors.ENDC)
+            if err:
+                msg += ': %s' %err.decode().strip('\n')
+            if out:
+                msg += ' | %s' %out.decode().strip('\n')
+            logger.warning(msg, self.parent, 2)
+        else:
+            msg = 'Command "%s..." returns %s' %(self.printable_cmd[:min(16, len(self.printable_cmd))], ret_val)
+            if out:
+                msg += ': %s' %out.decode().strip('\n')
+            logger.debug(msg, self.parent, 2)
+
+        return ret_val
+
+    def pause(self, signum, frame):
+        if self.pausable and self.currentProc:
+            logger.info('Pause process "%s"' %self.printable_cmd, self.parent, 2)
+            return self.currentProc.send_signal(signal.SIGSTOP)
+
+    def resume(self, signum, frame):
+        if self.pausable and self.currentProc:
+            logger.info('Resume process "%s"' %self.printable_cmd, self.parent, 2)
+            return self.currentProc.send_signal(signal.SIGCONT)
+
+    def kill(self, signum, frame):
+        if self.pausable and self.currentProc:
+            logger.info('Kill process "%s"' %self.printable_cmd, self.parent, 2)
+            return self.currentProc.kill()
+
 
 def __log_keyring_warning():
     from time import sleep

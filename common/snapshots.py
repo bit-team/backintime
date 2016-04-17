@@ -473,8 +473,12 @@ class Snapshots:
 
             cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_mode = ['ssh'])
             cmd += ' "%s/"' % restore_to
-            self.restore_callback( callback, True, cmd )
-            self._execute( cmd, callback, filters = (self._filter_rsync_progress, ))
+            proc = tools.Execute(cmd,
+                                 callback = callback,
+                                 filters = (self._filter_rsync_progress,),
+                                 parent = self)
+            self.restore_callback(callback, True, proc.printable_cmd)
+            proc.run()
             self.restore_callback(callback, True, ' ')
             restored_paths.append((path, src_delta))
         try:
@@ -568,7 +572,7 @@ class Snapshots:
         rsync = tools.get_rsync_remove(self.config)
         with TemporaryDirectory() as d:
             rsync += '"{}/" {}'.format(d, self.rsync_remote_path(sid.path(use_mode = ['ssh', 'ssh_encfs'])))
-            self._execute(rsync)
+            tools.Execute(rsync).run()
             os.rmdir(sid.path())
 
     def take_snapshot( self, force = False ):
@@ -995,8 +999,13 @@ class Snapshots:
         cmd = cmd + ' -i --out-format="BACKINTIME: %i %n%L"'
 
         params = [False, False]
-        self.snapshotLog.append('[I] ' + cmd, 3)
-        self._execute( cmd + ' 2>&1', self._exec_rsync_callback, params, filters = (self._filter_rsync_progress, ))
+        proc = tools.Execute(cmd + ' 2>&1',
+                             callback = self._exec_rsync_callback,
+                             user_data = params,
+                             filters = (self._filter_rsync_progress,),
+                             parent = self)
+        self.snapshotLog.append('[I] ' + proc.printable_cmd, 3)
+        proc.run()
         try:
             os.remove(self.config.get_take_snapshot_progress_file())
         except Exception as e:
@@ -1293,7 +1302,7 @@ class Snapshots:
                                            head = head,
                                            tail = tail,
                                            maxLength = maxLength - additionalChars):
-                self._execute(self.cmd_ssh(cmd, quote = True))
+                tools.Execute(self.cmd_ssh(cmd, quote = True)).run()
         else:
             logger.info("[smart remove] remove snapshots: %s"
                         %del_snapshots, self)
@@ -1483,6 +1492,7 @@ class Snapshots:
         Returns:
             int:                returncode of command ``cmd`` multiplied by 256
         """
+        logger.deprecated(self)
         logger.debug("Call command \"%s\"" %cmd, self, 1)
         ret_val = 0
 
