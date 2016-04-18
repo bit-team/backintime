@@ -20,6 +20,7 @@ import sys
 import gettext
 import argparse
 import atexit
+import subprocess
 
 import config
 import logger
@@ -48,23 +49,23 @@ def take_snapshot_now_async(cfg, checksum = False):
     Args:
         cfg (config.Config): config that should be used
     """
-    cmd = ''
+    cmd = []
     if cfg.is_run_ionice_from_user_enabled():
-        cmd += 'ionice -c2 -n7 '
-    cmd += 'backintime '
+        cmd.extend(('ionice', '-c2', '-n7'))
+    cmd.append('backintime')
     if '1' != cfg.get_current_profile():
-        cmd += '--profile-id %s ' % cfg.get_current_profile()
+        cmd.extend(('--profile-id', str(cfg.get_current_profile())))
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
-        cmd += '--config %s ' % cfg._LOCAL_CONFIG_PATH
+        cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
     if cfg._LOCAL_DATA_FOLDER is not cfg._DEFAULT_LOCAL_DATA_FOLDER:
-        cmd += '--share-path %s ' % cfg.DATA_FOLDER_ROOT
+        cmd.extend(('--share-path', cfg.DATA_FOLDER_ROOT))
     if logger.DEBUG:
-        cmd += '--debug '
+        cmd.append('--debug')
     if checksum:
-        cmd += '--checksum '
-    cmd += 'backup &'
+        cmd.append('--checksum')
+    cmd.append('backup')
 
-    os.system( cmd )
+    subprocess.Popen(cmd)
 
 def take_snapshot( cfg, force = True ):
     """
