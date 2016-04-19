@@ -535,11 +535,6 @@ class SSH(MountControl):
         #list inodes
         cmd  = 'ls -i $tmp1/a; ls -i $tmp2/a; '
         tail.append(cmd)
-        #try to find and print
-        cmd  = 'echo \"find PATH -print\"; '
-        cmd += 'find $tmp1 -print >/dev/null; err_find=$?; '
-        cmd += 'test $err_find -ne 0 && cleanup $err_find; '
-        tail.append(cmd)
         #try nice -n 19
         if self.nice:
             cmd  = 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
@@ -621,7 +616,7 @@ class SSH(MountControl):
             return maxArg()
 
         if returncode or not output_split[-1].startswith('done'):
-            for command in ('find', 'rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
+            for command in ('rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
                 if output_split[-1].startswith(command):
                     raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                             '%(err)s\nLook at \'man backintime\' for further instructions')

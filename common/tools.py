@@ -1756,17 +1756,29 @@ class Execute(object):
                             sending them to ``callback``
         parent (instance):  instance of the calling method used only to proper
                             format log messages
+        conv_str (bool):    convert output to :py:class:`str` if True or keep it
+                            as :py:class:`bytes` if False
+        join_stderr (bool): join stderr to stdout
 
     Note:
         Signals SIGTSTP and SIGCONT send to Python main process will be
         forwarded to the command. SIGHUP will kill the process.
     """
-    def __init__(self, cmd, callback = None, user_data = None, filters = (), parent = None):
+    def __init__(self,
+                 cmd,
+                 callback = None,
+                 user_data = None,
+                 filters = (),
+                 parent = None,
+                 conv_str = True,
+                 join_stderr = True):
         self.cmd = cmd
         self.callback = callback
         self.user_data = user_data
         self.filters = filters
         self.currentProc = None
+        self.conv_str = conv_str
+        self.join_stderr = join_stderr
         #we need to forward parent to have the correct class name in debug log
         if parent:
             self.parent = parent
@@ -1825,12 +1837,19 @@ class Execute(object):
                 #signal only work in qt main thread
                 pass
 
+            if self.join_stderr:
+                stderr = subprocess.STDOUT
+            else:
+                stderr = subprocess.DEVNULL
             self.currentProc = subprocess.Popen(self.cmd,
                                                 stdout = subprocess.PIPE,
-                                                stderr = subprocess.STDOUT)
+                                                stderr = stderr)
             if self.callback:
                 for line in self.currentProc.stdout:
-                    line = line.decode().rstrip('\n')
+                    if self.conv_str:
+                        line = line.decode().rstrip('\n')
+                    else:
+                        line = line.rstrip(b'\n')
                     for f in self.filters:
                         line = f(line)
                     if not line:

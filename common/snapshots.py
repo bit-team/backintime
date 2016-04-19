@@ -856,47 +856,30 @@ class Snapshots:
         logger.info('Save permissions', self)
         self.set_take_snapshot_message(0, _('Saving permissions...'))
 
-        permission_done = False
         fileInfoDict = FileInfoDict()
-        #use a different method for ssh profiles which is a lot faster
-        if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs']:
-            path_to_explore_ssh = sid.pathBackup(use_mode = ['ssh', 'ssh_encfs']).rstrip( '/' )
-            cmd = self.cmd_ssh(['find', path_to_explore_ssh, '-print'])
+        if self.config.get_snapshots_mode() == 'ssh_encfs':
+            decode = encfstools.Decode(self.config, False)
+        else:
+            decode = encfstools.Bounce()
 
-            if self.config.get_snapshots_mode() == 'ssh_encfs':
-                decode = encfstools.Decode(self.config, False)
-                path_to_explore_ssh = decode.remote(path_to_explore_ssh.encode())
-            else:
-                decode = encfstools.Bounce()
-            head = len( path_to_explore_ssh )
-
-            find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
-                                    stderr = subprocess.PIPE)
-
-            for line in find.stdout:
-                if line:
-                    self._save_path_info(fileInfoDict, decode.remote(line.rstrip(b'\n'))[head:])
-
-            output = find.communicate()[0]
-            if find.returncode:
-                self.set_take_snapshot_message(1, _('Save permission over ssh failed. Retry normal method'))
-            else:
-                for line in output.split(b'\n'):
-                    if line:
-                        self._save_path_info(fileInfoDict, decode.remote(line)[head:])
-                permission_done = True
-
-        #normal method for non ssh profiles or if the method above failed
-        if not permission_done:
-            path_to_explore = sid.pathBackup().rstrip('/').encode()
-            head = len(path_to_explore)
-            for path, dirs, files in os.walk( path_to_explore ):
-                dirs.extend( files )
-                for item in dirs:
-                    item_path = os.path.join(path, item)[head:]
-                    self._save_path_info(fileInfoDict, item_path)
+        rsync = ['rsync', '--dry-run', '-r', '--out-format=%n']
+        rsync.extend(tools.get_rsync_ssh_args(self.config))
+        rsync.append(self.rsync_remote_path(sid.pathBackup(use_mode = ['ssh', 'ssh_encfs'])) + os.sep)
+        with TemporaryDirectory() as d:
+            rsync.append(d + os.sep)
+            proc = tools.Execute(rsync,
+                                 callback = self._save_permission_callback,
+                                 user_data = (fileInfoDict, decode),
+                                 parent = self,
+                                 conv_str = False,
+                                 join_stderr = False)
+            proc.run()
 
         sid.fileInfo = fileInfoDict
+
+    def _save_permission_callback(self, line, user_data):
+        fileInfoDict, decode = user_data
+        self._save_path_info(fileInfoDict, b'/' + decode.path(line).rstrip(b'/'))
 
     def _save_path_info(self, fileinfo, path):
         """

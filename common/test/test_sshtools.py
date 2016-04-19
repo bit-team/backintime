@@ -182,7 +182,7 @@ class TestSSH(generic.SSHTestCase):
         ssh.check_remote_commands()
 
     def test_check_remote_command_fail(self):
-        cmds = ['find']
+        cmds = []
         if tools.check_command('nice'):
             cmds.append('nice')
             self.cfg.set_run_nice_on_remote_enabled(True)
