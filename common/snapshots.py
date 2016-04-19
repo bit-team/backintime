@@ -878,6 +878,14 @@ class Snapshots:
         sid.fileInfo = fileInfoDict
 
     def _save_permission_callback(self, line, user_data):
+        """
+        Rsync callback for :py:func:`Snapshots.save_permissions`.
+
+        Args:
+            line(bytes):        output from rsync command
+            user_data (tuple):  two item tuple of (:py:class:`FileInfoDict`,
+                                :py:class:`encfstools.Decode`)
+        """
         fileInfoDict, decode = user_data
         self._save_path_info(fileInfoDict, b'/' + decode.path(line).rstrip(b'/'))
 
