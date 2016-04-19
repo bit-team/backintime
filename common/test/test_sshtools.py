@@ -221,6 +221,7 @@ class TestSSH(generic.SSHTestCase):
         with self.assertRaisesRegex(MountException, r"Remote host .+ doesn't support hardlinks"):
             ssh.check_remote_commands()
 
+    @unittest.skip('Bug #567 not yet fixed')
     def test_check_remote_command_with_spaces(self):
         self.cfg.set_smart_remove_run_remote_in_background(tools.check_command('screen') and tools.check_command('flock'))
         self.remotePath = os.path.join(self.tmpDir.name, 'foo bar')

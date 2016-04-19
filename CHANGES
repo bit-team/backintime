@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.1.13
+* replace os.system calls with subprocess.Popen
 * automatically refresh log view if a snapshot is currently running
 * Fix bug: Snapshot Log View freeze on big log files (https://github.com/bit-team/backintime/issues/456)
 * Fix bug: 'inotify_add_watch failed: file or directory not found' after deleting snapshot

@@ -438,17 +438,17 @@ class Snapshots:
 
         info = sid.info
 
-        cmd_suffix = tools.get_rsync_prefix( self.config, no_perms = False, use_mode = ['ssh'] )
-        cmd_suffix += '-R -v '
+        cmd_prefix = tools.get_rsync_prefix(self.config, no_perms = False, use_mode = ['ssh'])
+        cmd_prefix.extend(('-R', '-v'))
         if backup:
-            cmd_suffix += "--backup --suffix=%s " % self.backup_suffix()
+            cmd_prefix.extend(('--backup', '--suffix=%s' %self.backup_suffix()))
         if delete:
-            cmd_suffix += '--delete '
-            cmd_suffix += '--filter="protect %s" ' % self.config.get_snapshots_path()
-            cmd_suffix += '--filter="protect %s" ' % self.config._LOCAL_DATA_FOLDER
-            cmd_suffix += '--filter="protect %s" ' % self.config._MOUNT_ROOT
+            cmd_prefix.append('--delete')
+            cmd_prefix.append('--filter="protect %s"' % self.config.get_snapshots_path())
+            cmd_prefix.append('--filter="protect %s"' % self.config._LOCAL_DATA_FOLDER)
+            cmd_prefix.append('--filter="protect %s"' % self.config._MOUNT_ROOT)
         if only_new:
-            cmd_suffix += '--update '
+            cmd_prefix.append('--update')
 
         restored_paths = []
         for path in paths:
@@ -458,7 +458,7 @@ class Snapshots:
             src_base = sid.pathBackup(use_mode = ['ssh'])
             if not src_base.endswith(os.sep):
                 src_base += os.sep
-            cmd = cmd_suffix
+            cmd = cmd_prefix[:]
             if restore_to:
                 items = os.path.split(src_path)
                 aux = items[0].lstrip(os.sep)
@@ -471,8 +471,8 @@ class Snapshots:
                 else:
                     src_delta = len(items[0])
 
-            cmd += self.rsync_remote_path('%s.%s' %(src_base, src_path), use_mode = ['ssh'])
-            cmd += ' "%s/"' % restore_to
+            cmd.append(self.rsync_remote_path('%s.%s' %(src_base, src_path), use_mode = ['ssh']))
+            cmd.append('%s/' %restore_to)
             proc = tools.Execute(cmd,
                                  callback = callback,
                                  filters = (self._filter_rsync_progress,),
@@ -571,7 +571,8 @@ class Snapshots:
             return
         rsync = tools.get_rsync_remove(self.config)
         with TemporaryDirectory() as d:
-            rsync += '"{}/" {}'.format(d, self.rsync_remote_path(sid.path(use_mode = ['ssh', 'ssh_encfs'])))
+            rsync.append(d + os.sep)
+            rsync.append(self.rsync_remote_path(sid.path(use_mode = ['ssh', 'ssh_encfs'])))
             tools.Execute(rsync).run()
             os.rmdir(sid.path())
 
@@ -964,48 +965,49 @@ class Snapshots:
                 time.sleep(2) #max 1 backup / second
                 return [ False, True ]
 
-        #rsync prefix & suffix
-        rsync_prefix = tools.get_rsync_prefix( self.config, no_perms = False)
-        if self.config.exclude_by_size_enabled():
-            rsync_prefix += ' --max-size=%sM' % self.config.exclude_by_size()
-        rsync_suffix = self.rsyncSuffix(include_folders)
+        if not new_snapshot.saveToContinue and not new_snapshot.makeDirs():
+            return [ False, True ]
 
         prev_sid = None
         snapshots = listSnapshots(self.config)
-
-        # When there is no snapshots it takes the last snapshot from the other folders
-        # It should delete the excluded folders then
-        rsync_prefix = rsync_prefix + ' --delete --delete-excluded '
-
         if snapshots:
             prev_sid = snapshots[0]
 
-        if not new_snapshot.saveToContinue and not new_snapshot.makeDirs():
-            return [ False, True ]
+        #rsync prefix & suffix
+        rsync_prefix = tools.get_rsync_prefix(self.config, no_perms = False)
+        if self.config.exclude_by_size_enabled():
+            rsync_prefix.append('--max-size=%sM' %self.config.exclude_by_size())
+        rsync_suffix = self.rsyncSuffix(include_folders)
+
+        # When there is no snapshots it takes the last snapshot from the other folders
+        # It should delete the excluded folders then
+        rsync_prefix.extend(('--delete', '--delete-excluded'))
+        rsync_prefix.append('-v')
+        rsync_prefix.extend(('-i', '--out-format=BACKINTIME: %i %n%L'))
+        if prev_sid:
+            link_dest = encode.path(os.path.join(prev_sid.sid, 'backup'))
+            link_dest = os.path.join(os.pardir, os.pardir, link_dest)
+            rsync_prefix.append('--link-dest=%s' %link_dest)
 
         #sync changed folders
         logger.info("Call rsync to take the snapshot", self)
         new_snapshot.saveToContinue = True
-        cmd = rsync_prefix + ' -v ' + rsync_suffix
-        cmd += self.rsync_remote_path( new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']) )
+        cmd = rsync_prefix + rsync_suffix
+        cmd.append(self.rsync_remote_path(new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs'])))
 
-        self.set_take_snapshot_message( 0, _('Taking snapshot') )
+        self.set_take_snapshot_message(0, _('Taking snapshot'))
 
-        if prev_sid:
-            link_dest = encode.path( os.path.join(prev_sid.sid, 'backup') )
-            link_dest = os.path.join('..', '..', link_dest)
-            cmd = cmd + " --link-dest=\"%s\"" % link_dest
-
-        cmd = cmd + ' -i --out-format="BACKINTIME: %i %n%L"'
-
+        #run rsync
         params = [False, False]
-        proc = tools.Execute(cmd + ' 2>&1',
+        proc = tools.Execute(cmd,
                              callback = self._exec_rsync_callback,
                              user_data = params,
                              filters = (self._filter_rsync_progress,),
                              parent = self)
         self.snapshotLog.append('[I] ' + proc.printable_cmd, 3)
         proc.run()
+
+        #cleanup
         try:
             os.remove(self.config.get_take_snapshot_progress_file())
         except Exception as e:
@@ -1013,6 +1015,7 @@ class Snapshots:
                          %(self.config.get_take_snapshot_progress_file(), str(e)),
                          self)
 
+        #handle errors
         has_errors = False
         if params[0]:
             if not self.config.continue_on_errors():
@@ -1251,6 +1254,7 @@ class Snapshots:
         if not del_snapshots:
             return
 
+        #TODO: move this to subprocess.Popen
         if self.config.get_snapshots_mode() in ['ssh', 'ssh_encfs'] and self.config.get_smart_remove_run_remote_in_background():
             logger.info('[smart remove] remove snapshots in background: %s'
                         %del_snapshots, self)
@@ -1282,8 +1286,8 @@ class Snapshots:
             cmds = []
             for sid in del_snapshots:
                 remote = self.rsync_remote_path(sid.path(use_mode = ['ssh', 'ssh_encfs']), use_mode = [], quote = '\\\"')
-                rsync = tools.get_rsync_remove(self.config, run_local = False)
-                rsync += '\\\"\$TMP/\\\" {}; '.format(remote)
+                rsync = ' '.join(tools.get_rsync_remove(self.config, run_local = False))
+                rsync += ' \\\"\$TMP/\\\" {}; '.format(remote)
 
                 s = 'test -e \\\"%s\\\" && (' %sid.path(use_mode = ['ssh', 'ssh_encfs'])
                 if logger.DEBUG:
@@ -1629,7 +1633,7 @@ class Snapshots:
         else:
             return cmd
 
-    def rsync_remote_path(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = '"'):
+    def rsync_remote_path(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = ''):
         """
         Format the destination string for rsync depending on which profile is
         used.
@@ -1652,10 +1656,10 @@ class Snapshots:
         if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
             user = self.config.get_ssh_user()
             host = self.config.get_ssh_host()
-            return '\'%(u)s@%(h)s:%(q)s%(p)s%(q)s\'' %{'u': user,
-                                                       'h': host,
-                                                       'q': quote,
-                                                       'p': path}
+            return '%(u)s@%(h)s:%(q)s%(p)s%(q)s' %{'u': user,
+                                                   'h': host,
+                                                   'q': quote,
+                                                   'p': path}
         else:
             return '%(q)s%(p)s%(q)s' %{'q': quote, 'p': path}
 
@@ -1762,7 +1766,7 @@ class Snapshots:
             excludeFolders (list):  list of folders to exclude
 
         Returns:
-            str:                    rsync include and exclude options
+            list:                   rsync include and exclude options
         """
         #create exclude patterns string
         rsync_exclude = self.rsyncExclude(excludeFolders)
@@ -1771,19 +1775,20 @@ class Snapshots:
         rsync_include, rsync_include2 = self.rsyncInclude(includeFolders)
 
         encode = self.config.ENCODE
-        ret  = ' --chmod=Du+wx '
-        ret += ' --exclude="{}" --exclude="{}" --exclude="{}" '.format(
-                              encode.exclude(self.config.get_snapshots_path()),
-                              encode.exclude(self.config._LOCAL_DATA_FOLDER) ,
-                              encode.exclude(self.config._MOUNT_ROOT) )
+        ret = ['--chmod=Du+wx']
+        ret.extend(['--exclude=' + i for i in (encode.exclude(self.config.get_snapshots_path()),
+                                               encode.exclude(self.config._LOCAL_DATA_FOLDER),
+                                               encode.exclude(self.config._MOUNT_ROOT)
+                                               )])
         # TODO: fix bug #561:
         # after rsync_exclude we need to explicite include files inside excluded
         # folders, recursive exclude folder-content again and finally add the
         # rest from rsync_include2
-        ret += ' '.join((rsync_include, rsync_exclude, rsync_include2))
-        ret += ' --exclude="*" '
-        ret += encode.chroot
-        ret += ' '
+        ret.extend(rsync_include)
+        ret.extend(rsync_exclude)
+        ret.extend(rsync_include2)
+        ret.append('--exclude=*')
+        ret.append(encode.chroot)
         return ret
 
     def rsyncExclude(self, excludeFolders = None):
@@ -1794,7 +1799,7 @@ class Snapshots:
             excludeFolders (list):  list of folders to exclude
 
         Returns:
-            str:                    rsync exclude options
+            OrderedSet:             rsync exclude options
         """
         items = tools.OrderedSet()
         encode = self.config.ENCODE
@@ -1805,8 +1810,8 @@ class Snapshots:
             exclude = encode.exclude(exclude)
             if exclude is None:
                 continue
-            items.add('--exclude="{}"'.format(exclude))
-        return ' '.join(items)
+            items.add('--exclude=' + exclude)
+        return items
 
     def rsyncInclude(self, includeFolders = None):
         """
@@ -1821,7 +1826,8 @@ class Snapshots:
 
         Returns:
             tuple:                  two item tuple of
-                                    ('include1 opions', 'include2 options')
+                                    ``(OrderedSet('include1 opions'),
+                                    OrderedSet('include2 options'))``
         """
         items1 = tools.OrderedSet()
         items2 = tools.OrderedSet()
@@ -1834,24 +1840,24 @@ class Snapshots:
 
             if folder == "/":	# If / is selected as included folder it should be changed to ""
                 #folder = ""	# because an extra / is added below. Patch thanks to Martin Hoefling
-                items2.add('--include="/"')
-                items2.add('--include="/**"')
+                items2.add('--include=/')
+                items2.add('--include=/**')
                 continue
 
             folder = encode.include(folder)
             if include_folder[1] == 0:
-                items2.add('--include="{}/**"'.format(folder))
+                items2.add('--include={}/**'.format(folder))
             else:
-                items2.add('--include="{}"'.format(folder))
+                items2.add('--include={}'.format(folder))
                 folder = os.path.split( folder )[0]
 
             while True:
                 if len( folder) <= 1:
                     break
-                items1.add('--include="{}/"'.format(folder))
+                items1.add('--include={}/'.format(folder))
                 folder = os.path.split( folder )[0]
 
-        return (' '.join(items1), ' '.join(items2))
+        return (items1, items2)
 
 class FileInfoDict(dict):
     """

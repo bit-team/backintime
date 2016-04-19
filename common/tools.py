@@ -19,6 +19,7 @@
 import os
 import sys
 import subprocess
+import shlex
 import signal
 import re
 import errno
@@ -527,48 +528,48 @@ def get_rsync_prefix(config,
         progress (bool):        add '--info=progress2' to show progress
 
     Returns:
-        str:                    rsync command with all args but without
+        list:                   rsync command with all args but without
                                 --include, --exclude, source and destination
     """
     caps = get_rsync_caps()
-    cmd = ''
+    cmd = []
     if config.is_run_nocache_on_local_enabled():
-        cmd += 'nocache '
-    cmd += 'rsync'
-    cmd += ' -rtDHh'
+        cmd.append('nocache')
+    cmd.append('rsync')
+    cmd.append('-rtDHh')
 
     if config.use_checksum() or config.force_use_checksum:
-        cmd = cmd + ' --checksum'
+        cmd.append('--checksum')
 
     if config.copy_unsafe_links():
-        cmd = cmd + ' --copy-unsafe-links'
+        cmd.append('--copy-unsafe-links')
 
     if config.copy_links():
-        cmd = cmd + ' --copy-links'
+        cmd.append('--copy-links')
     else:
-        cmd = cmd + ' --links'
+        cmd.append('--links')
 
     if config.preserve_acl() and "ACLs" in caps:
-        cmd = cmd + ' -A'
+        cmd.append('-A')
         no_perms = False
 
     if config.preserve_xattr() and "xattrs" in caps:
-        cmd = cmd + ' -X'
+        cmd.append('-X')
         no_perms = False
 
     if no_perms:
-        cmd = cmd + ' --no-p --no-g --no-o'
+        cmd.extend(('--no-p', '--no-g', '--no-o'))
     else:
-        cmd = cmd + ' -pEgo'
+        cmd.append('-pEgo')
 
     if progress and 'progress2' in caps:
-        cmd += ' --info=progress2 --no-i-r'
+        cmd.extend(('--info=progress2', '--no-i-r'))
 
     if config.rsync_options_enabled():
-        cmd += ' ' + config.rsync_options()
+        cmd.extend(shlex.split(config.rsync_options()))
 
-    cmd += get_rsync_ssh_args(config, use_mode)
-    return cmd + ' '
+    cmd.extend(get_rsync_ssh_args(config, use_mode))
+    return cmd
 
 def get_rsync_ssh_args(config, use_mode = ['ssh', 'ssh_encfs']):
     """
@@ -580,9 +581,9 @@ def get_rsync_ssh_args(config, use_mode = ['ssh', 'ssh_encfs']):
                                 args for that mode
 
     Returns:
-        str:                    SSH args for rsync
+        list:                   SSH args for rsync
     """
-    cmd = ''
+    cmd = []
     mode = config.get_snapshots_mode()
     if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
         ssh_port = config.get_ssh_port()
@@ -593,23 +594,24 @@ def get_rsync_ssh_args(config, use_mode = ['ssh', 'ssh_encfs']):
             ssh_cipher_suffix = '-c %s' % ssh_cipher
         # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry
-        ssh_private_key = "-o IdentityFile=%s" % config.get_ssh_private_key_file()
-        cmd += ' --rsh="ssh -p %s %s %s"' % ( str(ssh_port), ssh_cipher_suffix, ssh_private_key)
+        ssh_private_key = '-o IdentityFile=%s' %config.get_ssh_private_key_file()
+        cmd.append('--rsh=ssh -p %s %s %s' %(str(ssh_port), ssh_cipher_suffix, ssh_private_key))
 
         if config.bwlimit_enabled():
-            cmd += ' --bwlimit=%d' % config.bwlimit()
+            cmd.append('--bwlimit=%d' %config.bwlimit())
 
         if config.is_run_nice_on_remote_enabled()     \
           or config.is_run_ionice_on_remote_enabled() \
           or config.is_run_nocache_on_remote_enabled():
-            cmd += ' --rsync-path="'
+            rsync_path = '--rsync-path='
             if config.is_run_nice_on_remote_enabled():
-                cmd += 'nice -n 19 '
+                rsync_path += 'nice -n 19 '
             if config.is_run_ionice_on_remote_enabled():
-                cmd += 'ionice -c2 -n7 '
+                rsync_path += 'ionice -c2 -n7 '
             if config.is_run_nocache_on_remote_enabled():
-                cmd += 'nocache '
-            cmd += 'rsync"'
+                rsync_path += 'nocache '
+            rsync_path += 'rsync'
+            cmd.append(rsync_path)
     return cmd
 
 def get_rsync_remove(config, run_local = True):
@@ -622,12 +624,12 @@ def get_rsync_remove(config, run_local = True):
                                 or ``ssh_encfs`` this will add SSH options
 
     Returns:
-        str:                    rsync command with all args
+        list:                   rsync command with all args
     """
-    cmd = 'rsync -a --delete'
+    cmd = ['rsync', '-a', '--delete']
     if run_local:
-        cmd += get_rsync_ssh_args(config)
-    return cmd + ' '
+        cmd.extend(get_rsync_ssh_args(config))
+    return cmd
 
 #TODO: check if we really need this
 def temp_failure_retry(func, *args, **kwargs):
@@ -1735,6 +1737,30 @@ class OrderedSet(collections.MutableSet):
         return set(self) == set(other)
 
 class Execute(object):
+    """
+    Execute external commands and handle its output.
+
+    Args:
+
+        cmd (:py:class:`str` or :py:class:`list`):
+                            command with arguments that should be called.
+                            Depending on if this is :py:class:`str` or
+                            :py:class:`list` instance the command will be called
+                            by either :py:func:`os.system` (deprecated) or
+                            :py:class:`subprocess.Popen`
+        callback (method):  function which will handle output returned by
+                            command
+        user_data:          extra arguments which will be forwarded to
+                            ``callback`` function
+        filters (tuple):    Tuple of functions used to filter messages before
+                            sending them to ``callback``
+        parent (instance):  instance of the calling method used only to proper
+                            format log messages
+
+    Note:
+        Signals SIGTSTP and SIGCONT send to Python main process will be
+        forwarded to the command. SIGHUP will kill the process.
+    """
     def __init__(self, cmd, callback = None, user_data = None, filters = (), parent = None):
         self.cmd = cmd
         self.callback = callback
@@ -1750,16 +1776,21 @@ class Execute(object):
         if isinstance(self.cmd, list):
             self.pausable = True
             self.printable_cmd = ' '.join(self.cmd)
-            logger.debug("Call command \"%s\"" %self.printable_cmd, self.parent, 2)
+            logger.debug('Call command "%s"' %self.printable_cmd, self.parent, 2)
         else:
             self.pausable = False
             self.printable_cmd = self.cmd
-            logger.warning("Call command with old os.system method \"%s\"" %self.printable_cmd, self.parent, 2)
-        #logger.debug("Call command \"%s\"" %self.printable_cmd, self, 1)
+            logger.warning('Call command with old os.system method "%s"' %self.printable_cmd, self.parent, 2)
 
     def run(self):
+        """
+        Start the command.
+
+        Returns:
+            int:    returncode from command
+        """
         ret_val = 0
-        out, err = '', ''
+        out = ''
 
         #backwards compatibility with old os.system and os.popen calls
         if isinstance(self.cmd, str):
@@ -1785,37 +1816,41 @@ class Execute(object):
 
         #new and preferred method using subprocess.Popen
         elif isinstance(self.cmd, (list, tuple)):
-            #register signals for pause, resume and kill
-            signal.signal(signal.SIGTSTP, self.pause)
-            signal.signal(signal.SIGCONT, self.resume)
-            signal.signal(signal.SIGHUP, self.kill)
+            try:
+                #register signals for pause, resume and kill
+                signal.signal(signal.SIGTSTP, self.pause)
+                signal.signal(signal.SIGCONT, self.resume)
+                signal.signal(signal.SIGHUP, self.kill)
+            except ValueError:
+                #signal only work in qt main thread
+                pass
 
             self.currentProc = subprocess.Popen(self.cmd,
                                                 stdout = subprocess.PIPE,
-                                                stderr = subprocess.PIPE,
-                                                universal_newlines = True)
+                                                stderr = subprocess.STDOUT)
             if self.callback:
                 for line in self.currentProc.stdout:
-                    line = line.rstrip('\n')
-                    logger.debug('read line: %s' %line, self.parent, 2) #TODO: remove this if done
+                    line = line.decode().rstrip('\n')
                     for f in self.filters:
                         line = f(line)
                     if not line:
                         continue
                     self.callback(line, self.user_data)
 
-            out, err = self.currentProc.communicate()
+            out = self.currentProc.communicate()[0]
             ret_val = self.currentProc.returncode
 
-            #reset signals to their defaulf
-            signal.signal(signal.SIGTSTP, signal.SIG_DFL)
-            signal.signal(signal.SIGCONT, signal.SIG_DFL)
-            signal.signal(signal.SIGHUP, signal.SIG_DFL)
+            try:
+                #reset signals to their default
+                signal.signal(signal.SIGTSTP, signal.SIG_DFL)
+                signal.signal(signal.SIGCONT, signal.SIG_DFL)
+                signal.signal(signal.SIGHUP, signal.SIG_DFL)
+            except ValueError:
+                #signal only work in qt main thread
+                pass
 
-        if ret_val != 0 or err:
+        if ret_val != 0:
             msg = 'Command "%s" returns %s%s%s' %(self.printable_cmd, bcolors.WARNING, ret_val, bcolors.ENDC)
-            if err:
-                msg += ': %s' %err.decode().strip('\n')
             if out:
                 msg += ' | %s' %out.decode().strip('\n')
             logger.warning(msg, self.parent, 2)
@@ -1828,16 +1863,27 @@ class Execute(object):
         return ret_val
 
     def pause(self, signum, frame):
+        """
+        Slot which will send ``SIGSTOP`` to the command. Is connected to
+        signal ``SIGTSTP``.
+        """
         if self.pausable and self.currentProc:
             logger.info('Pause process "%s"' %self.printable_cmd, self.parent, 2)
             return self.currentProc.send_signal(signal.SIGSTOP)
 
     def resume(self, signum, frame):
+        """
+        Slot which will send ``SIGCONT`` to the command. Is connected to
+        signal ``SIGCONT``.
+        """
         if self.pausable and self.currentProc:
             logger.info('Resume process "%s"' %self.printable_cmd, self.parent, 2)
             return self.currentProc.send_signal(signal.SIGCONT)
 
     def kill(self, signum, frame):
+        """
+        Slot which will kill the command. Is connected to signal ``SIGHUP``.
+        """
         if self.pausable and self.currentProc:
             logger.info('Kill process "%s"' %self.printable_cmd, self.parent, 2)
             return self.currentProc.kill()

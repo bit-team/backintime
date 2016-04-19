@@ -129,11 +129,11 @@ class TestSnapshots(generic.SnapshotsTestCase):
     ############################################################################
     def test_rsync_remote_path(self):
         self.assertEqual(self.sn.rsync_remote_path('/foo'),
-                         '"/foo"')
+                         '/foo')
         self.assertEqual(self.sn.rsync_remote_path('/foo', quote = '\\\"'),
                          '\\\"/foo\\\"')
         self.assertEqual(self.sn.rsync_remote_path('/foo', use_mode = ['local']),
-                         '"/foo"')
+                         '/foo')
         self.assertEqual(self.sn.rsync_remote_path('/foo', use_mode = ['local'], quote = '\\\"'),
                          '\\\"/foo\\\"')
 
@@ -142,12 +142,12 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.cfg.set_ssh_host('localhost')
         self.cfg.set_ssh_user('foo')
         self.assertEqual(self.sn.rsync_remote_path('/bar'),
-                         '\'foo@localhost:"/bar"\'')
+                         'foo@localhost:/bar')
         self.assertEqual(self.sn.rsync_remote_path('/bar', quote = '\\\"'),
-                         '\'foo@localhost:\\\"/bar\\\"\'')
+                         'foo@localhost:\\\"/bar\\\"')
 
         self.assertEqual(self.sn.rsync_remote_path('/bar', use_mode = []),
-                         '"/bar"')
+                         '/bar')
 
     def test_create_last_snapshot_symlink(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
@@ -198,18 +198,26 @@ class TestSnapshots(generic.SnapshotsTestCase):
     ############################################################################
     def test_rsyncExclude_unique_items(self):
         exclude = self.sn.rsyncExclude(['/foo', '*bar', '/baz/1'])
-        self.assertEqual(exclude, '--exclude="/foo" --exclude="*bar" --exclude="/baz/1"')
+        self.assertListEqual(list(exclude), ['--exclude=/foo',
+                                             '--exclude=*bar',
+                                             '--exclude=/baz/1'])
 
     def test_rsyncExclude_duplicate_items(self):
         exclude = self.sn.rsyncExclude(['/foo', '*bar', '/baz/1', '/foo', '/baz/1'])
-        self.assertEqual(exclude, '--exclude="/foo" --exclude="*bar" --exclude="/baz/1"')
+        self.assertListEqual(list(exclude), ['--exclude=/foo',
+                                             '--exclude=*bar',
+                                             '--exclude=/baz/1'])
 
     def test_rsyncInclude_unique_items(self):
         i1, i2 = self.sn.rsyncInclude([('/foo', 0),
                                        ('/bar', 1),
                                        ('/baz/1/2', 1)])
-        self.assertEqual(i1, '--include="/foo/" --include="/baz/1/" --include="/baz/"')
-        self.assertEqual(i2, '--include="/foo/**" --include="/bar" --include="/baz/1/2"')
+        self.assertListEqual(list(i1), ['--include=/foo/',
+                                        '--include=/baz/1/',
+                                        '--include=/baz/'])
+        self.assertListEqual(list(i2), ['--include=/foo/**',
+                                        '--include=/bar',
+                                        '--include=/baz/1/2'])
 
     def test_rsyncInclude_duplicate_items(self):
         i1, i2 = self.sn.rsyncInclude([('/foo', 0),
@@ -217,13 +225,18 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                        ('/foo', 0),
                                        ('/baz/1/2', 1),
                                        ('/baz/1/2', 1)])
-        self.assertEqual(i1, '--include="/foo/" --include="/baz/1/" --include="/baz/"')
-        self.assertEqual(i2, '--include="/foo/**" --include="/bar" --include="/baz/1/2"')
+        self.assertListEqual(list(i1), ['--include=/foo/',
+                                        '--include=/baz/1/',
+                                        '--include=/baz/'])
+        self.assertListEqual(list(i2), ['--include=/foo/**',
+                                        '--include=/bar',
+                                        '--include=/baz/1/2'])
 
     def test_rsyncInclude_root(self):
         i1, i2 = self.sn.rsyncInclude([('/', 0), ])
-        self.assertEqual(i1, '')
-        self.assertEqual(i2, '--include="/" --include="/**"')
+        self.assertListEqual(list(i1), [])
+        self.assertListEqual(list(i2), ['--include=/',
+                                        '--include=/**'])
 
     def test_rsyncSuffix(self):
         suffix = self.sn.rsyncSuffix(includeFolders = [('/foo', 0),
@@ -232,20 +245,21 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                      excludeFolders = ['/foo/bar',
                                                        '*blub',
                                                        '/bar/2'])
-        self.assertRegex(suffix, r'^ --chmod=Du\+wx  ' +
-                                 r'--exclude="/tmp/.*?" ' +
-                                 r'--exclude=".*?\.local/share/backintime" ' +
-                                 r'--exclude="\.local/share/backintime/mnt" ' +
-                                 r'--include="/foo/" '      +
-                                 r'--include="/baz/1/" '    +
-                                 r'--include="/baz/" '      +
-                                 r'--exclude="/foo/bar" '   +
-                                 r'--exclude="\*blub" '     +
-                                 r'--exclude="/bar/2" '     +
-                                 r'--include="/foo/\*\*" '  +
-                                 r'--include="/bar" '       +
-                                 r'--include="/baz/1/2" '   +
-                                 r'--exclude="\*" / $')
+        self.assertIsInstance(suffix, list)
+        self.assertRegex(' '.join(suffix), r'^--chmod=Du\+wx '      +
+                                           r'--exclude=/tmp/.*? '   +
+                                           r'--exclude=.*?\.local/share/backintime '  +
+                                           r'--exclude=\.local/share/backintime/mnt ' +
+                                           r'--include=/foo/ '      +
+                                           r'--include=/baz/1/ '    +
+                                           r'--include=/baz/ '      +
+                                           r'--exclude=/foo/bar '   +
+                                           r'--exclude=\*blub '     +
+                                           r'--exclude=/bar/2 '     +
+                                           r'--include=/foo/\*\* '  +
+                                           r'--include=/bar '       +
+                                           r'--include=/baz/1/2 '   +
+                                           r'--exclude=\* /$')
 
     ############################################################################
     ###                            callback                                  ###

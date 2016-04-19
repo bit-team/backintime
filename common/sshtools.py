@@ -496,21 +496,24 @@ class SSH(MountControl):
 
             #check rsync
             rsync1 =  tools.get_rsync_prefix(self.config, no_perms = False, progress = False)
-            rsync1 += tmp_file
-            rsync1 += ' "%s@%s:%s/"' % (self.user, self.host, remote_tmp_dir_1)
+            rsync1.append(tmp_file)
+            rsync1.append('%s@%s:%s/' %(self.user, self.host, remote_tmp_dir_1))
 
             #check remote rsync hard-link support
             rsync2 =  tools.get_rsync_prefix(self.config, no_perms = False, progress = False)
-            rsync2 += '--link-dest="../%s" ' %os.path.basename(remote_tmp_dir_1)
-            rsync2 += tmp_file
-            rsync2 += ' "%s@%s:%s/"' % (self.user, self.host, remote_tmp_dir_2)
+            rsync2.append('--link-dest=../%s' %os.path.basename(remote_tmp_dir_1))
+            rsync2.append(tmp_file)
+            rsync2.append('%s@%s:%s/' %(self.user, self.host, remote_tmp_dir_2))
 
             for cmd in (rsync1, rsync2):
                 logger.debug('Check rsync command: %s' %cmd, self)
 
-                #use os.system for compatiblity with snapshots.py
-                err = os.system(cmd)
-                if err:
+                proc = subprocess.Popen(cmd,
+                                        stdout = subprocess.PIPE,
+                                        stderr = subprocess.PIPE,
+                                        universal_newlines = True)
+                out, err = proc.communicate()
+                if err or proc.returncode:
                     logger.debug('rsync command returned error: %s' %err, self)
                     raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                             '%(err)s\nLook at \'man backintime\' for further instructions')
