@@ -1435,6 +1435,9 @@ class Snapshots:
 
         Args:
             path (str): full path
+
+        Returns:
+            int         free space in MiB
         """
         try:
             info = os.statvfs(path)
@@ -1450,6 +1453,9 @@ class Snapshots:
         """
         Get free space on remote filsystem in MiB. This will call ``df`` on
         remote host and parse its output.
+
+        Returns:
+            int         free space in MiB
         """
         if self.config.get_snapshots_mode() not in ('ssh', 'ssh_encfs'):
             return None
@@ -1467,7 +1473,7 @@ class Snapshots:
         for line in output.split(b'\n'):
             m = re.match(b'^.*?\s+\d+\s+\d+\s+(\d+)\s+\d+%', line, re.M)
             if m:
-                return int(m.group(1)) / 1024
+                return int(int(m.group(1)) / 1024)
         logger.warning('Failed to get free space on remote', self)
 
     def filter_for(self,

@@ -193,6 +193,9 @@ class TestSnapshots(generic.SnapshotsTestCase):
         thread.join()
         self.assertFalse(thread.is_alive())
 
+    def test_stat_free_space_local(self):
+        self.assertIsInstance(self.sn._stat_free_space_local('/'), int)
+
     ############################################################################
     ###                   rsync Ex-/Include and suffix                       ###
     ############################################################################
@@ -331,6 +334,17 @@ class TestSnapshots(generic.SnapshotsTestCase):
         with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: rsync: send_files failed to open "/foo/bar": Operation not permitted (1))\n' \
                              '[E] Error: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)\n', f.read())
+
+    ############################################################################
+    ###                          smart remove                                ###
+    ############################################################################
+    def test_inc_month(self):
+        self.assertEqual(self.sn.inc_month(date(2016,  4, 21)), date(2016, 5, 1))
+        self.assertEqual(self.sn.inc_month(date(2016, 12, 24)), date(2017, 1, 1))
+
+    def test_dec_month(self):
+        self.assertEqual(self.sn.dec_month(date(2016, 4, 21)), date(2016,  3, 1))
+        self.assertEqual(self.sn.dec_month(date(2016, 1, 14)), date(2015, 12, 1))
 
 class TestSnapshotWithSID(generic.SnapshotsWithSidTestCase):
     def test_save_config_file(self):
@@ -682,6 +696,16 @@ class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
         self.assertTrue(self.sid.exists())
         self.sn.remove_snapshot(self.sid)
         self.assertFalse(self.sid.exists())
+
+@unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
+class TestSshSnapshots(generic.SSHTestCase):
+    def setUp(self):
+        super(TestSshSnapshots, self).setUp()
+        self.sn = snapshots.Snapshots(self.cfg)
+        os.mkdir(self.remotePath)
+
+    def test_stat_free_space_ssh(self):
+        self.assertIsInstance(self.sn._stat_free_space_ssh(), int)
 
 class TestSID(generic.SnapshotsTestCase):
     def test_new_object_with_valid_date(self):
