@@ -1030,6 +1030,19 @@ class TestNewSnapshot(generic.SnapshotsTestCase):
         self.assertFalse(os.path.exists(saveToContinuePath))
         self.assertFalse(new.saveToContinue)
 
+class TestRootSnapshot(generic.SnapshotsTestCase):
+    #TODO: add test with 'sid.path(use_mode=['ssh_encfs'])'
+    def test_create(self):
+        sid = snapshots.RootSnapshot(self.cfg)
+        self.assertTrue(sid.isRoot)
+        self.assertEqual(sid.sid, '/')
+        self.assertEqual(sid.name, 'Now')
+
+    def test_path(self):
+        sid = snapshots.RootSnapshot(self.cfg)
+        self.assertEqual(sid.path(), '/')
+        self.assertEqual(sid.path('foo', 'bar'), '/foo/bar')
+
 class TestIterSnapshots(generic.SnapshotsTestCase):
     def setUp(self):
         super(TestIterSnapshots, self).setUp()
