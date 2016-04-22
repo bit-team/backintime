@@ -1058,58 +1058,41 @@ class Snapshots:
 
     def _smart_remove_keep_all_(self,
                                 snapshots,
-                                keep_snapshots,
                                 min_date,
                                 max_date):
         """
-        Add all snapshots between ``min_date`` and ``max_date`` to
-        ``keep_snapshots``.
+        Return all snapshots between ``min_date`` and ``max_date``.
 
         Args:
             snapshots (list):           full list of :py:class:`SID` objects
-            keep_snapshots (list):      list of previous for keep selected
-                                        snapshots that should be extended
             min_date (datetime.date):   minimum date for snapshots to keep
             max_date (datetime.date):   maximum date for snapshots to keep
 
         Returns:
-            list:                       extended list of snapshots that should
-                                        be keept
+            set:                        set of snapshots that should be keept
         """
-        #TODO: remove keep_snapshots and just return snapshots selected in here
         min_id = SID(min_date, self.config)
         max_id = SID(max_date, self.config)
 
         logger.debug("Keep all >= %s and < %s" %(min_id, max_id), self)
 
-        for sid in snapshots:
-            if sid >= min_id and sid < max_id:
-                if sid not in keep_snapshots:
-                    keep_snapshots.append( sid )
-
-        return keep_snapshots
+        return set([sid for sid in snapshots if sid >= min_id and sid < max_id])
 
     def _smart_remove_keep_first_(self,
                                   snapshots,
-                                  keep_snapshots,
                                   min_date,
                                   max_date):
         """
-        Add only the first snapshot between ``min_date`` and ``max_date`` to
-        ``keep_snapshots``.
+        Return only the first snapshot between ``min_date`` and ``max_date``.
 
         Args:
             snapshots (list):           full list of :py:class:`SID` objects
-            keep_snapshots (list):      list of previous for keep selected
-                                        snapshots that should be extended
             min_date (datetime.date):   minimum date for snapshots to keep
             max_date (datetime.date):   maximum date for snapshots to keep
 
         Returns:
-            list:                       extended list of snapshots that should
-                                        be keept
+            set:                        set of snapshots that should be keept
         """
-        #TODO: remove keep_snapshots and just return snapshots selected in here
         min_id = SID(min_date, self.config)
         max_id = SID(max_date, self.config)
 
@@ -1117,11 +1100,8 @@ class Snapshots:
 
         for sid in snapshots:
             if sid >= min_id and sid < max_id:
-                if sid not in keep_snapshots:
-                    keep_snapshots.append( sid )
-                break
-
-        return keep_snapshots
+                return set([sid])
+        return set()
 
     def inc_month(self, date):
         """
@@ -1160,14 +1140,15 @@ class Snapshots:
             y = y - 1
         return datetime.date( y, m, 1 )
 
-    def smart_remove(self,
-                     now_full,
-                     keep_all,
-                     keep_one_per_day,
-                     keep_one_per_week,
-                     keep_one_per_month):
+    def _smart_remove_list(self,
+                          now_full,
+                          keep_all,
+                          keep_one_per_day,
+                          keep_one_per_week,
+                          keep_one_per_month):
         """
-        Remove old snapshots based on configurable intervals.
+        Get a list of old snapshots that should be removed based on configurable
+        intervals.
 
         Args:
             now_full (datetime.datetime):   date and time when take_snapshot was
@@ -1180,6 +1161,9 @@ class Snapshots:
                                             last ``keep_one_per_week`` weeks
             keep_one_per_month (int):       keep one snapshot per month for the
                                             last ``keep_one_per_month`` months
+
+        Returns:
+            list:                           snapshots that should be removed
         """
         snapshots = listSnapshots(self.config)
         logger.debug("Considered: %s" %snapshots, self)
@@ -1193,46 +1177,53 @@ class Snapshots:
         now = now_full.date()
 
         #keep the last snapshot
-        #TODO: use tools.OrderedSet for keep_snapshots and update it 'keep_snapshot |= self._smart_remove_keep_all_()'
-        keep_snapshots = [ snapshots[0] ]
+        keep = set([snapshots[0]])
 
         #keep all for the last keep_all days
         if keep_all > 0:
-            keep_snapshots = self._smart_remove_keep_all_( snapshots, keep_snapshots, now - datetime.timedelta( days=keep_all-1), now + datetime.timedelta(days=1) )
+            keep |= self._smart_remove_keep_all_(snapshots,
+                                                 now - datetime.timedelta(days=keep_all-1),
+                                                 now + datetime.timedelta(days=1))
 
-        #keep one per days for the last keep_one_per_day days
+        #keep one per day for the last keep_one_per_day days
         if keep_one_per_day > 0:
             d = now
             for i in range( 0, keep_one_per_day ):
-                keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d, d + datetime.timedelta(days=1) )
-                d = d - datetime.timedelta(days=1)
+                keep |= self._smart_remove_keep_first_(snapshots,
+                                                       d,
+                                                       d + datetime.timedelta(days=1))
+                d -= datetime.timedelta(days=1)
 
         #keep one per week for the last keep_one_per_week weeks
         if keep_one_per_week > 0:
             d = now - datetime.timedelta( days = now.weekday() + 1 )
             for i in range( 0, keep_one_per_week ):
-                keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d, d + datetime.timedelta(days=8) )
-                d = d - datetime.timedelta(days=7)
+                keep |= self._smart_remove_keep_first_(snapshots,
+                                                       d,
+                                                       d + datetime.timedelta(days=8))
+                d -= datetime.timedelta(days=7)
 
         #keep one per month for the last keep_one_per_month months
         if keep_one_per_month > 0:
             d1 = datetime.date( now.year, now.month, 1 )
             d2 = self.inc_month( d1 )
             for i in range( 0, keep_one_per_month ):
-                keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, d1, d2 )
+                keep |= self._smart_remove_keep_first_(snapshots, d1, d2 )
                 d2 = d1
                 d1 = self.dec_month(d1)
 
         #keep one per year for all years
         first_year = int(snapshots[-1].sid[ : 4])
         for i in range( first_year, now.year+1 ):
-            keep_snapshots = self._smart_remove_keep_first_( snapshots, keep_snapshots, datetime.date(i,1,1), datetime.date(i+1,1,1) )
+            keep |= self._smart_remove_keep_first_(snapshots,
+                                                   datetime.date(i,1,1),
+                                                   datetime.date(i+1,1,1))
 
-        logger.debug("Keep snapshots: %s" %keep_snapshots, self)
+        logger.debug("Keep snapshots: %s" %keep, self)
 
         del_snapshots = []
         for sid in snapshots:
-            if sid in keep_snapshots:
+            if sid in keep:
                 continue
 
             if self.config.get_dont_remove_named_snapshots():
@@ -1241,7 +1232,18 @@ class Snapshots:
                     continue
 
             del_snapshots.append(sid)
+        return del_snapshots
 
+    def smart_remove(self, del_snapshots):
+        """
+        Remove multiple snapshots either with
+        :py:func:`Snapshots.remove_snapshot` or in background on the remote host
+        if mode is `ssh` or `ssh_encfs` and smart-remove in background is
+        activated.
+
+        Args:
+            del_snapshots (list):
+        """
         if not del_snapshots:
             return
 
@@ -1349,7 +1351,12 @@ class Snapshots:
         smart_remove, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.get_smart_remove()
         if smart_remove:
             self.set_take_snapshot_message( 0, _('Smart remove') )
-            self.smart_remove( now, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month )
+            del_snapshots = self._smart_remove_list(now,
+                                                    keep_all,
+                                                    keep_one_per_day,
+                                                    keep_one_per_week,
+                                                    keep_one_per_month)
+            self.smart_remove(del_snapshots)
 
         #try to keep min free space
         if self.config.is_min_free_space_enabled():
