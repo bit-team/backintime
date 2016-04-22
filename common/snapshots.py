@@ -1984,6 +1984,9 @@ class SID(object):
         else:
             return NotImplemented
 
+    def __hash__(self):
+        return hash(self.sid + self.profileID)
+
     def split(self):
         """
         Split self.sid into a tuple of int's

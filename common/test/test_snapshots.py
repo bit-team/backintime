@@ -770,6 +770,22 @@ class TestSID(generic.SnapshotsTestCase):
         sids3.sort(reverse = True)
         self.assertEqual(sids3, [new, sid4, sid3, sid2, sid1])
 
+    def test_hash(self):
+        sid1a = snapshots.SID('20151219-010324-123', self.cfg)
+        sid1b = snapshots.SID('20151219-010324-123', self.cfg)
+        sid2  = snapshots.SID('20151219-020324-123', self.cfg)
+
+        self.assertEqual(sid1a.__hash__(), sid1b.__hash__())
+        self.assertNotEqual(sid1a.__hash__(), sid2.__hash__())
+
+        s = set()
+        s.add(sid1a)
+        self.assertEqual(len(s), 1)
+        s.add(sid2)
+        self.assertEqual(len(s), 2)
+        s.add(sid1b)
+        self.assertEqual(len(s), 2)
+
     def test_split(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
 
