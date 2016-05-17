@@ -1659,7 +1659,7 @@ class Snapshots:
         mode = self.config.get_snapshots_mode()
         if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
             user = self.config.get_ssh_user()
-            host = self.config.get_ssh_host()
+            host = tools.escapeIPv6Address(self.config.get_ssh_host())
             return '%(u)s@%(h)s:%(q)s%(p)s%(q)s' %{'u': user,
                                                    'h': host,
                                                    'q': quote,
