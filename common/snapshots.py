@@ -1242,7 +1242,7 @@ class Snapshots:
         activated.
 
         Args:
-            del_snapshots (list):
+            del_snapshots (list): list of :py:class:`SID` that should be removed
         """
         if not del_snapshots:
             return

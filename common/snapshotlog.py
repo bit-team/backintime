@@ -136,10 +136,10 @@ class SnapshotLog(object):
             str:                        filtered and decoded log lines
         """
         logFilter = LogFilter(mode, decode)
-        count = 0
+        count = logFilter.header.count('\n')
         try:
             with open(self.logFileName, 'rt' ) as f:
-                if logFilter.header:
+                if logFilter.header and not skipLines:
                     yield logFilter.header
                 for line in f.readlines():
                     line = logFilter.filter(line.rstrip('\n'))
