@@ -587,16 +587,16 @@ def get_rsync_ssh_args(config, use_mode = ['ssh', 'ssh_encfs']):
     cmd = []
     mode = config.get_snapshots_mode()
     if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
-        ssh_port = config.get_ssh_port()
+        ssh = ['--rsh=ssh']
+        ssh.append('-p %s' %config.get_ssh_port())
         ssh_cipher = config.get_ssh_cipher()
-        if ssh_cipher == 'default':
-            ssh_cipher_suffix = ''
-        else:
-            ssh_cipher_suffix = '-c %s' % ssh_cipher
+        if ssh_cipher != 'default':
+            ssh.append('-c %s' % ssh_cipher)
         # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry
-        ssh_private_key = '-o IdentityFile=%s' %config.get_ssh_private_key_file()
-        cmd.append('--rsh=ssh -p %s %s %s' %(str(ssh_port), ssh_cipher_suffix, ssh_private_key))
+        ssh.append('-o IdentityFile=%s' %config.get_ssh_private_key_file())
+        ssh.append('-o LogLevel=Error')
+        cmd.append(' '.join(ssh))
 
         if config.bwlimit_enabled():
             cmd.append('--bwlimit=%d' %config.bwlimit())

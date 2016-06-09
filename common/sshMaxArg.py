@@ -29,6 +29,7 @@ def test_ssh_max_arg(host, mid = 1048320):
     r = round(mid / 2)
     while r > 0:
         ssh = ['ssh', host]
+        ssh.extend(['-o', 'LogLevel=Error']) # disable SSH banner
         ssh.extend(['printf', random_id(mid)])
         try:
             proc = subprocess.Popen(ssh,

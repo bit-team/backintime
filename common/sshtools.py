@@ -113,7 +113,8 @@ class SSH(MountControl):
 
         # ssh_options contains port but can be extended to include cipher, customkeyfile, etc
         self.ssh_options = ['-p', str(self.port)]
-        self.ssh_options += ['-o', 'ServerAliveInterval=240']
+        self.ssh_options += ['-o', 'ServerAliveInterval=240'] # keep connection alive
+        self.ssh_options += ['-o', 'LogLevel=Error'] # disable ssh banner
 
         # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry

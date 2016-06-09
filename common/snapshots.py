@@ -1607,7 +1607,7 @@ class Snapshots:
                 if quote:
                     cmd = '\'%s\'' % cmd
 
-                return 'ssh -p %s -o ServerAliveInterval=240 %s %s %s@%s %s' \
+                return 'ssh -p %s -o ServerAliveInterval=240 -o LogLevel=Error %s %s %s@%s %s' \
                         % ( str(ssh_port), ssh_cipher_suffix, ssh_private_key,\
                         ssh_user, ssh_host, cmd )
 
@@ -1615,12 +1615,13 @@ class Snapshots:
                 cmd = list(cmd)
 
             if isinstance(cmd, list):
-                suffix = ['ssh', '-p', str(ssh_port)]
-                suffix += ['-o', 'ServerAliveInterval=240']
+                prefix = ['ssh', '-p', str(ssh_port)]
+                prefix += ['-o', 'ServerAliveInterval=240'] # keep connection alive
+                prefix += ['-o', 'LogLevel=Error'] # disable ssh banner
                 if not ssh_cipher == 'default':
-                    suffix += ['-c', ssh_cipher]
-                suffix += ['-o', 'IdentityFile=%s' % ssh_private_key]
-                suffix += ['%s@%s' % (ssh_user, ssh_host)]
+                    prefix += ['-c', ssh_cipher]
+                prefix += ['-o', 'IdentityFile=%s' % ssh_private_key]
+                prefix += ['%s@%s' % (ssh_user, ssh_host)]
 
                 if self.config.is_run_ionice_on_remote_enabled():
                     cmd = ['ionice', '-c2', '-n7'] + cmd
@@ -1632,7 +1633,7 @@ class Snapshots:
 
                 if quote:
                     cmd = ['\''] + cmd + ['\'']
-                return suffix + cmd
+                return prefix + cmd
 
         else:
             return cmd
