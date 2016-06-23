@@ -1607,9 +1607,6 @@ class ShutDown(object):
                                 universal_newlines = True)
         unity_version = proc.communicate()[0]
         m = re.match(r'unity ([\d\.]+)', unity_version)
-        if m:
-            logger.debug('Unity version: %s' % StrictVersion(m.group(1)))
-        logger.debug('Process unity-panel-service exists: %s' % process_exists('unity-panel-service'))
         return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and process_exists('unity-panel-service')
 
 class SetupUdev(object):
