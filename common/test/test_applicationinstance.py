@@ -41,8 +41,7 @@ class TestApplicationInstance(generic.TestCase):
         self.killProcess()
 
     def createProcess(self):
-        dummy = 'dummy_proc.sh'
-        dummyPath = os.path.join(os.path.dirname(__file__), dummy)
+        dummyPath = os.path.join(os.path.dirname(__file__), generic.DUMMY)
         self.subproc = subprocess.Popen(dummyPath)
         return self.subproc.pid
 

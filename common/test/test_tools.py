@@ -79,8 +79,7 @@ class TestTools(generic.TestCase):
         self.killProcess()
 
     def createProcess(self, *args):
-        dummy = 'dummy_proc.sh'
-        dummyPath = os.path.join(os.path.dirname(__file__), dummy)
+        dummyPath = os.path.join(os.path.dirname(__file__), generic.DUMMY)
         cmd = [dummyPath]
         cmd.extend(args)
         self.subproc = subprocess.Popen(cmd)
@@ -231,28 +230,28 @@ class TestTools(generic.TestCase):
 
     def test_process_name(self):
         pid = self.createProcess()
-        self.assertEqual(tools.process_name(pid), 'dummy_proc.sh')
+        self.assertEqual(tools.process_name(pid), generic.DUMMY[:15])
 
     def test_process_cmdline(self):
         pid = self.createProcess()
         self.assertRegex(tools.process_cmdline(pid),
-                         r'.*/sh.*/common/test/dummy_proc\.sh')
+                         r'.*/sh.*/common/test/dummy_test_process\.sh')
         self.killProcess()
         pid = self.createProcess('foo', 'bar')
         self.assertRegex(tools.process_cmdline(pid),
-                         r'.*/sh.*/common/test/dummy_proc\.sh.foo.bar')
+                         r'.*/sh.*/common/test/dummy_test_process\.sh.foo.bar')
 
     def test_pids_with_name(self):
         self.assertEqual(len(tools.pids_with_name('nonExistingProcess')), 0)
         pid = self.createProcess()
-        pids = tools.pids_with_name('dummy_proc.sh')
+        pids = tools.pids_with_name(generic.DUMMY)
         self.assertGreaterEqual(len(pids), 1)
         self.assertIn(pid, pids)
 
     def test_process_exists(self):
         self.assertFalse(tools.process_exists('nonExistingProcess'))
         pid = self.createProcess()
-        self.assertTrue(tools.process_exists('dummy_proc.sh'))
+        self.assertTrue(tools.process_exists(generic.DUMMY))
 
     def test_is_process_alive(self):
         """

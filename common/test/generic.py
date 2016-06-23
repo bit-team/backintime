@@ -28,10 +28,12 @@ import tools
 
 TMP_FLOCK = NamedTemporaryFile()
 PRIV_KEY_FILE = os.path.expanduser(os.path.join("~",".ssh","id_rsa"))
+AUTHORIZED_KEYS_FILE = os.path.expanduser(os.path.join("~",".ssh","authorized_keys"))
+DUMMY = 'dummy_test_process.sh'
 
-if os.path.exists(PRIV_KEY_FILE):
+if os.path.exists(PRIV_KEY_FILE + '.pub') and os.path.exists(AUTHORIZED_KEYS_FILE):
     with open(PRIV_KEY_FILE + '.pub', 'rb') as pub:
-        with open(os.path.expanduser(os.path.join("~",".ssh","authorized_keys")), 'rb') as auth:
+        with open(AUTHORIZED_KEYS_FILE, 'rb') as auth:
             KEY_IN_AUTH = pub.read() in auth.readlines()
 else:
     KEY_IN_AUTH = False

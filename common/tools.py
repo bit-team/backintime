@@ -365,7 +365,8 @@ def pids_with_name(name):
     Returns:
         list:       PIDs as int
     """
-    return [x for x in pids() if process_name(x) == name]
+    # /proc/###/stat stores just the first 16 chars of the process name
+    return [x for x in pids() if process_name(x) == name[:15]]
 
 def process_exists(name):
     """
@@ -1606,6 +1607,9 @@ class ShutDown(object):
                                 universal_newlines = True)
         unity_version = proc.communicate()[0]
         m = re.match(r'unity ([\d\.]+)', unity_version)
+        if m:
+            logger.debug('Unity version: %s' % StrictVersion(m.group(1)))
+        logger.debug('Process unity-panel-service exists: %s' % process_exists('unity-panel-service'))
         return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and process_exists('unity-panel-service')
 
 class SetupUdev(object):
