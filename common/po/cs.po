@@ -7,21 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-12 03:33+0100\n"
-"PO-Revision-Date: 2016-02-12 04:21+0000\n"
-"Last-Translator: Germar <Unknown>\n"
+"POT-Creation-Date: 2016-03-29 23:03+0200\n"
+"PO-Revision-Date: 2016-06-12 12:49+0000\n"
+"Last-Translator: Pavel Borecki <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-02-12 04:32+0000\n"
-"X-Generator: Launchpad (build 17923)\n"
-
-#: ../../common/bindfstools.py:62 ../../common/sshtools.py:114
-#, python-format
-msgid "Can't mount %s"
-msgstr "%s se nedaří připojit"
+"X-Launchpad-Export-Date: 2016-06-26 22:32+0000\n"
+"X-Generator: Launchpad (build 18111)\n"
 
 #: ../../common/configfile.py:97
 #, python-format
@@ -36,218 +31,218 @@ msgstr "Nastavení se nepodařilo načíst: %s"
 #: ../../common/configfile.py:601 ../../common/configfile.py:684
 #, python-format
 msgid "Profile \"%s\" already exists !"
-msgstr "Profil %s už existuje!"
+msgstr "Profil „%s“ už existuje!"
 
 #: ../../common/configfile.py:641
 msgid "You can't remove the last profile !"
 msgstr "Nelze odebrat poslední zbývající profil!"
 
-#: ../../common/config.py:77
+#: ../../common/config.py:76
 msgid "Disabled"
 msgstr "Vypnuto"
 
-#: ../../common/config.py:78
+#: ../../common/config.py:77
 msgid "At every boot/reboot"
-msgstr "Při každém startu/restartu"
+msgstr "Při každém startu/restartu počítače"
 
-#: ../../common/config.py:79
+#: ../../common/config.py:78
 msgid "Every 5 minutes"
 msgstr "Každých 5 minut"
 
-#: ../../common/config.py:80
+#: ../../common/config.py:79
 msgid "Every 10 minutes"
 msgstr "Každých 10 minut"
 
-#: ../../common/config.py:81
+#: ../../common/config.py:80
 msgid "Every 30 minutes"
 msgstr "Každých 30 minut"
 
-#: ../../common/config.py:82
+#: ../../common/config.py:81
 msgid "Every hour"
 msgstr "Každou hodinu"
 
-#: ../../common/config.py:83
+#: ../../common/config.py:82
 msgid "Every 2 hours"
 msgstr "Každé 2 hodiny"
 
-#: ../../common/config.py:84
+#: ../../common/config.py:83
 msgid "Every 4 hours"
 msgstr "Každé 4 hodiny"
 
-#: ../../common/config.py:85
+#: ../../common/config.py:84
 msgid "Every 6 hours"
 msgstr "Každých 6 hodin"
 
-#: ../../common/config.py:86
+#: ../../common/config.py:85
 msgid "Every 12 hours"
 msgstr "Každých 12 hodin"
 
-#: ../../common/config.py:87
+#: ../../common/config.py:86
 msgid "Custom Hours"
 msgstr "Vlastní interval"
 
-#: ../../common/config.py:88
+#: ../../common/config.py:87
 msgid "Every Day"
 msgstr "Každý den"
 
-#: ../../common/config.py:89
+#: ../../common/config.py:88
 msgid "Repeatedly (anacron)"
 msgstr "Opakovaně (anacron)"
 
-#: ../../common/config.py:90
+#: ../../common/config.py:89
 msgid "When drive get connected (udev)"
 msgstr "Při připojení (flash)disku (udev)"
 
-#: ../../common/config.py:91
+#: ../../common/config.py:90
 msgid "Every Week"
 msgstr "Každý týden"
 
-#: ../../common/config.py:92
+#: ../../common/config.py:91
 msgid "Every Month"
 msgstr "Každý měsíc"
 
-#: ../../common/config.py:96 ../../common/config.py:103
+#: ../../common/config.py:95 ../../common/config.py:102
 msgid "Day(s)"
 msgstr "Dnů"
 
-#: ../../common/config.py:97 ../../common/config.py:104
+#: ../../common/config.py:96 ../../common/config.py:103
 msgid "Week(s)"
 msgstr "Týdnů"
 
-#: ../../common/config.py:98
+#: ../../common/config.py:97
 msgid "Year(s)"
 msgstr "Let"
 
-#: ../../common/config.py:102
+#: ../../common/config.py:101
 msgid "Hour(s)"
 msgstr "Hodin"
 
-#: ../../common/config.py:105
+#: ../../common/config.py:104
 msgid "Month(s)"
 msgstr "Měsíců"
 
-#: ../../common/config.py:127 ../../qt4/settingsdialog.py:552
+#: ../../common/config.py:126 ../../qt4/settingsdialog.py:552
 msgid " EXPERIMENTAL!"
 msgstr " EXPERIMENTÁLNÍ!"
 
-#: ../../common/config.py:130
+#: ../../common/config.py:129
 msgid "Local"
-msgstr "Místní"
+msgstr "Na tomto počítači"
 
-#: ../../common/config.py:131
+#: ../../common/config.py:130
 msgid "SSH"
-msgstr "Vzdálené (SSH)"
+msgstr "Na jiném počítači (skrze SSH tunel)"
 
-#: ../../common/config.py:131 ../../common/config.py:133
-#: ../../qt4/settingsdialog.py:1589
+#: ../../common/config.py:130 ../../common/config.py:132
+#: ../../qt4/settingsdialog.py:1564
 msgid "SSH private key"
 msgstr "Soukromá část SSH klíče"
 
-#: ../../common/config.py:132
+#: ../../common/config.py:131
 msgid "Local encrypted"
-msgstr "Místní šifrované"
+msgstr "Na tomto počítači – v šifrované podobě"
 
-#: ../../common/config.py:132 ../../common/config.py:133
+#: ../../common/config.py:131 ../../common/config.py:132
 msgid "Encryption"
 msgstr "Šifrování"
 
-#: ../../common/config.py:133
+#: ../../common/config.py:132
 msgid "SSH encrypted"
-msgstr "Vzdálené (SSH) šifrované"
+msgstr "Na jiném stroji (skrze SSH tunel) – v šifrované podobě"
 
-#: ../../common/config.py:136
+#: ../../common/config.py:135
 msgid "Default"
 msgstr "Výchozí"
 
-#: ../../common/config.py:137
+#: ../../common/config.py:136
 msgid "AES128-CTR"
 msgstr ""
 
-#: ../../common/config.py:138
+#: ../../common/config.py:137
 msgid "AES192-CTR"
 msgstr ""
 
-#: ../../common/config.py:139
+#: ../../common/config.py:138
 msgid "AES256-CTR"
 msgstr ""
 
-#: ../../common/config.py:140
+#: ../../common/config.py:139
 msgid "ARCFOUR256"
 msgstr ""
 
-#: ../../common/config.py:141
+#: ../../common/config.py:140
 msgid "ARCFOUR128"
 msgstr ""
 
-#: ../../common/config.py:142
+#: ../../common/config.py:141
 msgid "AES128-CBC"
 msgstr ""
 
-#: ../../common/config.py:143
+#: ../../common/config.py:142
 msgid "3DES-CBC"
 msgstr ""
 
-#: ../../common/config.py:144
+#: ../../common/config.py:143
 msgid "Blowfish-CBC"
 msgstr ""
 
-#: ../../common/config.py:145
+#: ../../common/config.py:144
 msgid "Cast128-CBC"
 msgstr ""
 
-#: ../../common/config.py:146
+#: ../../common/config.py:145
 msgid "AES192-CBC"
 msgstr ""
 
-#: ../../common/config.py:147
+#: ../../common/config.py:146
 msgid "AES256-CBC"
 msgstr ""
 
-#: ../../common/config.py:148
+#: ../../common/config.py:147
 msgid "ARCFOUR"
 msgstr ""
 
-#: ../../common/config.py:154
+#: ../../common/config.py:153
 msgid "Main profile"
 msgstr "Hlavní profil"
 
-#: ../../common/config.py:249 ../../common/config.py:256
-#: ../../common/config.py:267 ../../common/config.py:272
-#: ../../qt4/qt4systrayicon.py:61
+#: ../../common/config.py:256 ../../common/config.py:263
+#: ../../common/config.py:274 ../../common/config.py:279
+#: ../../qt4/qt4systrayicon.py:67
 #, python-format
 msgid "Profile: \"%s\""
 msgstr "Profil: %s"
 
-#: ../../common/config.py:249
+#: ../../common/config.py:256
 msgid "Snapshots folder is not valid !"
 msgstr "Složka zachycených stavů není platná!"
 
-#: ../../common/config.py:256
+#: ../../common/config.py:263
 msgid "You must select at least one folder to backup !"
 msgstr "Vyberte alespoň jednu složku, která má být zálohovaná!"
 
-#: ../../common/config.py:267
+#: ../../common/config.py:274
 msgid "You can't include backup folder !"
 msgstr ""
 "Složku se zálohami nelze zahrnout mezi zálohované položky (zacyklení)!"
 
-#: ../../common/config.py:272
+#: ../../common/config.py:279
 msgid "You can't include a backup sub-folder !"
 msgstr ""
 "Podsložku složky se zálohami nelze zahrnout mezi zálohované položky "
 "(zacyklení)!"
 
-#: ../../common/config.py:330
+#: ../../common/config.py:337
 #, python-format
 msgid "%s is not a folder !"
 msgstr "%s není složka!"
 
-#: ../../common/config.py:339
+#: ../../common/config.py:346
 msgid "Host/User/Profile-ID must not be empty!"
 msgstr ""
 "Kolonka Stroj/Uživatel/Identifikátor-profilu nemůže zůstat nevyplněná!"
 
-#: ../../common/config.py:347 ../../common/config.py:379
+#: ../../common/config.py:354 ../../common/config.py:386
 #, python-format
 msgid ""
 "Can't write to: %s\n"
@@ -256,35 +251,35 @@ msgstr ""
 "Nedaří se zapisovat do: %s\n"
 "Máte zde oprávnění k zápisu?"
 
-#: ../../common/config.py:359
+#: ../../common/config.py:366
 #, python-format
 msgid ""
 "Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
-"Cílový souborový systém pro %(path)s je FAT, který nepodporuje pevné odkazy "
+"Cílový souborový systém pro „%(path)s“ je FAT a ten nepodporuje pevné odkazy "
 "(hardlink). Použijte namísto něj nějaký přirozený Linuxový souborový systém."
 
-#: ../../common/config.py:364
+#: ../../common/config.py:371
 #, python-format
 msgid ""
 "Destination filsystem for '%(path)s' is a SMB mounted share. Please make "
 "sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
 "'%(expertOptions)s'."
 msgstr ""
-"Cílový souborový systém pro '%(path)s' je SMB sdílení. Ověřte, že SMB server "
-"podporuje symbolické odkazy (symlink), případně v '%(expertOptions)s' "
-"zapněte '%(copyLinks)s'"
+"Cílový souborový systém pro „%(path)s“ je SMB síťové sdílení. Ověřte, že SMB "
+"server podporuje symbolické odkazy (symlink), případně v „%(expertOptions)s“ "
+"zapněte „%(copyLinks)s“"
 
-#: ../../common/config.py:367 ../../qt4/settingsdialog.py:816
+#: ../../common/config.py:374 ../../qt4/settingsdialog.py:805
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopírovat cíle odkazů (vyřadí symbolické odkazy)"
 
-#: ../../common/config.py:368 ../../qt4/settingsdialog.py:670
+#: ../../common/config.py:375 ../../qt4/settingsdialog.py:659
 msgid "Expert Options"
 msgstr "Pokročilé předvolby"
 
-#: ../../common/config.py:370
+#: ../../common/config.py:377
 #, python-format
 msgid ""
 "Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
@@ -293,55 +288,55 @@ msgstr ""
 "Cílový souborový systém pro '%(path)s je sshfs sdílení. sshfs nepodporuje "
 "pevné odkazy (hardlink). Použijte namísto toho přímo SSH režim."
 
-#: ../../common/config.py:1378
+#: ../../common/config.py:1342
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
-"Nelze nalézt soubor crontab.\n"
-"Máte určitě nainstalován plánovač cron ?\n"
-"V případě že ne, měli byste vypnout veškeré samočinné zálohování."
+"Nedaří se nalézt soubor s naplánovanými úlohami (crontab).\n"
+"Opravdu máte nainstalovaný plánovač cron?\n"
+"V případě že ne, měli byste vypnout veškeré automatizované zálohování."
 
-#: ../../common/config.py:1382
+#: ../../common/config.py:1346
 msgid "Failed to write new crontab."
 msgstr "Nezdařilo se zapsat novou úlohu (crontab)."
 
-#: ../../common/config.py:1476
+#: ../../common/config.py:1440
 #, python-format
 msgid ""
 "Could not install Udev rule for profile %(profile_id)s. DBus Service "
 "'%(dbus_interface)s' wasn't available"
 msgstr ""
-"Nelze nainstalovat Udev pravidlo pro profil %(profile_id)s. Služba DBus "
-"'%(dbus_interface)s' nebyla k dispozici"
+"Nepodařilo se nainstalovat Udev pravidlo pro profil %(profile_id)s, protože "
+"služba DBus '%(dbus_interface)s' nebyla k dispozici"
 
-#: ../../common/config.py:1488
+#: ../../common/config.py:1452
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr "Plán, používající správce zařízení udev, nefunguje v režimu %s"
 
-#: ../../common/config.py:1497
+#: ../../common/config.py:1461
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
-msgstr "Nelze najít univerzálně jedinečný identifkátor (UUID) pro %s"
+msgstr "Nedaří se najít univerzálně jedinečný identifkátor (UUID) pro „%s“"
 
-#: ../../common/encfstools.py:89
+#: ../../common/encfstools.py:87
 #, python-format
 msgid ""
 "Can't mount '%(command)s':\n"
 "\n"
 "%(error)s"
 msgstr ""
-"Nelze připojit %(command)s:\n"
+"Nedaří se připojit (mount) „%(command)s“:\n"
 "\n"
 "%(error)s"
 
-#: ../../common/encfstools.py:137
+#: ../../common/encfstools.py:135
 msgid "Config for encrypted folder not found."
 msgstr "Nastavení pro šifrovanou složku nebylo nalezeno."
 
-#: ../../common/encfstools.py:141
+#: ../../common/encfstools.py:139
 msgid ""
 "\n"
 "Create a new encrypted folder?"
@@ -349,51 +344,52 @@ msgstr ""
 "\n"
 "Vytvořit novou šifrovanou složku?"
 
-#: ../../common/encfstools.py:142
+#: ../../common/encfstools.py:140
 msgid "Cancel"
 msgstr "Storno"
 
-#: ../../common/encfstools.py:145
+#: ../../common/encfstools.py:143
 msgid "Please confirm password"
 msgstr "Potvrďte heslo"
 
-#: ../../common/encfstools.py:149
+#: ../../common/encfstools.py:147
 msgid "Password doesn't match"
 msgstr "Zadání hesla se neshodují"
 
-#: ../../common/encfstools.py:166
+#: ../../common/encfstools.py:164
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs"
 msgstr ""
-"Implementace encfs verze 1.7.2 a starší obsahují chybu ve volbě --reverse . "
-"Aktualizujte encfs"
+"Implementace encfs verze 1.7.2 a starší obsahují chybu v předvolbě --reverse "
+". Přejděte na novější verzi encfs"
 
-#: ../../common/encfstools.py:498 ../../common/snapshots.py:875
-#: ../../qt4/app.py:79
+#: ../../common/encfstools.py:495 ../../common/snapshots.py:847
+#: ../../qt4/app.py:83 ../../qt4/app.py:87
 msgid "Take snapshot"
 msgstr "Pořídit zachycený stav"
 
-#: ../../common/mount.py:431
+#: ../../common/mount.py:423
 #, python-format
 msgid ""
 "Hash collision occurred in hash_id %s. Incrementing global value "
 "hash_collision and try again."
 msgstr ""
-"Nastala kolize otisku v hash_id %s. Zvyšte celkovou hodnotu hash_collision a "
-"zkuste to znovu."
+"Vyskytly se dva stejné otisky v hash_id %s. Zvyšte celkovou hodnotu "
+"parametru hash_collision a zkuste to znovu."
 
-#: ../../common/mount.py:506
+#: ../../common/mount.py:498
 #, python-format
 msgid "Can't unmount %(proc)s from %(mountpoint)s"
-msgstr ""
+msgstr "Nedaří se odpojit (umount) %(proc)s z %(mountpoint)s"
 
-#: ../../common/mount.py:593
+#: ../../common/mount.py:585
 #, python-format
 msgid "%(proc)s not found. Please install e.g. %(install_command)s"
 msgstr ""
+"%(proc)s nebylo nalezeno. Nainstalujte např. pomocí %(install_command)s"
 
-#: ../../common/mount.py:606
+#: ../../common/mount.py:598
 #, python-format
 msgid ""
 "%(user)s is not member of group 'fuse'.\n"
@@ -405,56 +401,57 @@ msgstr ""
 "nutné se odhlásit a znovu přihlásit.\n"
 "Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
 
-#: ../../common/mount.py:627
+#: ../../common/mount.py:619
 #, python-format
 msgid "mountpoint %s not empty."
-msgstr "Přípojný bod %s není prázdný."
+msgstr ""
+"Přípojný bod (složka) %s není prázdný (obsahuje soubory a/nebo složky)."
 
-#: ../../common/mount.py:690
+#: ../../common/mount.py:682
 msgid "Mountprocess lock timeout"
-msgstr "Vypršel časový limit zámku procesu připojování (mount)"
+msgstr "Časový limit zámku procesu připojování (mount)"
 
 #: ../../common/password.py:387
 #, python-format
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
-msgstr "Profil %(profile)s: Zadejte heslo pro %(mode)s: "
+msgstr "Profil „%(profile)s“: Zadejte heslo pro %(mode)s: "
 
-#: ../../common/snapshots.py:156
+#: ../../common/snapshots.py:154
 msgid ""
 "### This log has been decoded with automatic search pattern\n"
 "### If some paths are not decoded you can manually decode them with:\n"
 msgstr ""
 "### Tento záznam událostí byl dekódován pomocí automatického vyhledávacího "
 "vzorce\n"
-"### Pokud některá umísění nejsou dekódována, můžete je dekódovat ručně, "
+"### Pokud některá umístění nejsou dekódována, můžete je dekódovat ručně, "
 "pomocí:\n"
 
-#: ../../common/snapshots.py:393 ../../common/snapshots.py:629
+#: ../../common/snapshots.py:390 ../../common/snapshots.py:616
 msgid "FAILED"
 msgstr "NEZDAŘILO SE"
 
-#: ../../common/snapshots.py:576 ../../common/snapshots.py:632
+#: ../../common/snapshots.py:563 ../../common/snapshots.py:619
 msgid "Restore permissions:"
 msgstr "Obnovit přístupová práva:"
 
-#: ../../common/snapshots.py:631 ../../qt4/app.py:380 ../../qt4/app.py:617
-#: ../../qt4/app.py:636 ../../qt4/qt4systrayicon.py:65
+#: ../../common/snapshots.py:618 ../../qt4/app.py:422 ../../qt4/app.py:663
+#: ../../qt4/app.py:681 ../../qt4/qt4systrayicon.py:71
 msgid "Done"
 msgstr "Dokončeno"
 
-#: ../../common/snapshots.py:699
+#: ../../common/snapshots.py:671
 msgid "Deferring backup while on battery"
 msgstr "Odložení zálohování po dobu provozu stroje na akumulátor"
 
-#: ../../common/snapshots.py:756
+#: ../../common/snapshots.py:728
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
 msgstr ""
-"Nelze nalézt složku se zachycenými stavy.\n"
-"Pokud je umístěna na vyjímatelném zařízení, připojte jej."
+"Nedaří se nalézt složku se zachycenými stavy.\n"
+"Pokud se nachází na vyjímatelném zařízení, připojte ho."
 
-#: ../../common/snapshots.py:758
+#: ../../common/snapshots.py:730
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
@@ -462,105 +459,101 @@ msgstr[0] "Čekání %s sekundu."
 msgstr[1] "Čekání %s sekundy."
 msgstr[2] "Čekání %s sekund."
 
-#: ../../common/snapshots.py:783
+#: ../../common/snapshots.py:755
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr "Pořízení zachyceného stavu %s se nezdařilo!!!"
 
-#: ../../common/snapshots.py:792
+#: ../../common/snapshots.py:764
 msgid "Finalizing"
 msgstr "Dokončování"
 
-#: ../../common/snapshots.py:923
+#: ../../common/snapshots.py:875
 #, python-format
 msgid "Can't create folder: %s"
-msgstr "Nelze vytvořit složku: %s"
+msgstr "Nedaří se vytvořit složku: %s"
 
-#: ../../common/snapshots.py:971
+#: ../../common/snapshots.py:888
+msgid "Saving config file..."
+msgstr "Ukládání souboru s nastaveními…"
+
+#: ../../common/snapshots.py:925
+msgid "Saving permissions..."
+msgstr "Ukládání přístupových práv…"
+
+#: ../../common/snapshots.py:950
+msgid "Save permission over ssh failed. Retry normal method"
+msgstr ""
+"Uložení přístupových práv přes ssh se nezdařilo. Zkuste to běžným způsobem"
+
+#: ../../common/snapshots.py:1012
 msgid "..."
 msgstr "…"
 
-#: ../../common/snapshots.py:979
+#: ../../common/snapshots.py:1019
 #, python-format
 msgid "Found leftover '%s' which can be continued."
-msgstr ""
+msgstr "Nalezen pozůstatek „%s“ ve kterém lze pokračovat."
 
-#: ../../common/snapshots.py:990
+#: ../../common/snapshots.py:1027
 #, python-format
 msgid "Removing leftover '%s' folder from last run"
-msgstr ""
+msgstr "Odebírání složky „%s“, zanechané minulým průchodem"
 
-#: ../../common/snapshots.py:1003
+#: ../../common/snapshots.py:1032
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "Nelze odstranit složku: %s"
 
-#: ../../common/snapshots.py:1033
-#, python-format
-msgid "Comparing with snapshot %s"
-msgstr "Porovnat se zachyceným stavem %s"
-
-#: ../../common/snapshots.py:1053
-msgid "Create hard-links"
-msgstr "Vytvořit pevné odkazy"
-
-#: ../../common/snapshots.py:1087
+#: ../../common/snapshots.py:1061
 msgid "Taking snapshot"
-msgstr "Pořídit zachycený stav"
+msgstr "Pořizení zachyceného stavu"
 
-#: ../../common/snapshots.py:1145
-msgid "Saving config file..."
-msgstr "Uložit soubor s nastaveními…"
-
-#: ../../common/snapshots.py:1151
-msgid "Saving permissions..."
-msgstr "Uložit přístupová práva…"
-
-#: ../../common/snapshots.py:1175
-msgid "Save permission over ssh failed. Retry normal method"
-msgstr ""
-"Uložení přístupových práv přes ssh se nezdařilo. Zkuste to s normální metodou"
-
-#: ../../common/snapshots.py:1225
+#: ../../common/snapshots.py:1115
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr "Nelze přejmenovat %(new_path)s na %(path)s"
 
-#: ../../common/snapshots.py:1483 ../../common/snapshots.py:1529
+#: ../../common/snapshots.py:1373 ../../common/snapshots.py:1419
 #: ../../qt4/settingsdialog.py:543
 msgid "Smart remove"
 msgstr "Chytré odstranění"
 
-#: ../../common/snapshots.py:1506
+#: ../../common/snapshots.py:1396
 msgid "Removing old snapshots"
-msgstr "Odstranit staré zachycené stavy"
+msgstr "Odstranění starých zachycených stavů"
 
-#: ../../common/snapshots.py:1534
+#: ../../common/snapshots.py:1424
 msgid "Trying to keep min free space"
 msgstr "Snažit se zachovat neobsazený prostor alespoň"
 
-#: ../../common/snapshots.py:1571
+#: ../../common/snapshots.py:1461
 #, python-format
 msgid "Trying to keep min %d%% free inodes"
-msgstr ""
+msgstr "Snažit se zachovat alespoň %d%% volných i-uzlů"
 
-#: ../../common/snapshots.py:2235
+#: ../../common/snapshots.py:2132
 msgid "WITH ERRORS !"
 msgstr "S CHYBAMI!"
 
-#: ../../common/snapshots.py:2669 ../../qt4/app.py:206 ../../qt4/app.py:1149
+#: ../../common/snapshots.py:2566 ../../qt4/app.py:248 ../../qt4/app.py:1218
 msgid "Now"
 msgstr "Nyní"
 
-#: ../../common/sshtools.py:208
+#: ../../common/sshtools.py:111
+#, python-format
+msgid "Can't mount %s"
+msgstr "%s se nedaří připojit (mount)"
+
+#: ../../common/sshtools.py:205
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
-"Nelze odemknout soukromou část ssh klíče. Chybné heslo nebo heslo není k "
-"dispozici pro plánovač cron."
+"Nedaří se odemknout soukromou část ssh klíče. Heslo je buď chybně zadané "
+"nebo není k dispozici plánovači cron."
 
-#: ../../common/sshtools.py:226
+#: ../../common/sshtools.py:223
 #, python-format
 msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
@@ -569,7 +562,7 @@ msgstr ""
 "Ověření %(user)s@%(host)s bez hesla se nezdařilo. Další pokyny naleznete v "
 "manuálové stránce aplikace (man backintime)."
 
-#: ../../common/sshtools.py:248
+#: ../../common/sshtools.py:245
 #, python-format
 msgid ""
 "Cipher %(cipher)s failed for %(host)s:\n"
@@ -578,21 +571,21 @@ msgstr ""
 "Použití šifry %(cipher)s se na stroji %(host)s nezdařilo:\n"
 "%(err)s"
 
-#: ../../common/sshtools.py:285
+#: ../../common/sshtools.py:282
 #, python-format
 msgid "%s not found in ssh_known_hosts."
 msgstr "%s nebyl nalezen v souboru ssh_known_hosts."
 
-#: ../../common/sshtools.py:315
+#: ../../common/sshtools.py:313
 #, python-format
 msgid ""
 "Remote path exists but is not a directory:\n"
 " %s"
 msgstr ""
-"Vzdálené umístění existuje, ale není to složka:\n"
+"Umístění na protistraně existuje, ale není to složka:\n"
 " %s"
 
-#: ../../common/sshtools.py:317
+#: ../../common/sshtools.py:315
 #, python-format
 msgid ""
 "Remote path is not writeable:\n"
@@ -601,7 +594,7 @@ msgstr ""
 "Do vzdáleného umístění nelze zapisovat:\n"
 " %s"
 
-#: ../../common/sshtools.py:319
+#: ../../common/sshtools.py:317
 #, python-format
 msgid ""
 "Remote path is not executable:\n"
@@ -611,7 +604,7 @@ msgstr ""
 "vstoupit):\n"
 " %s"
 
-#: ../../common/sshtools.py:321
+#: ../../common/sshtools.py:319
 #, python-format
 msgid ""
 "Couldn't create remote path:\n"
@@ -620,25 +613,25 @@ msgstr ""
 "Vzdálené umístění nelze vytvořit:\n"
 " %s"
 
-#: ../../common/sshtools.py:346
+#: ../../common/sshtools.py:344
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
 msgstr ""
-"Zkouška nástrojem ping %s nedopadla úspěšně. Stroj je nedostupný a nebo je "
-"chybná adresa."
+"Ověření dostupnosti stroje (ping) %s nebylo úspěšné. Stroj je buď vypnutý, "
+"nebo je zadaná nesprávná IP adresa."
 
-#: ../../common/sshtools.py:380 ../../common/sshtools.py:509
+#: ../../common/sshtools.py:394 ../../common/sshtools.py:502
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
 "%(err)s\n"
 "Look at 'man backintime' for further instructions"
 msgstr ""
-"Vzdálený stroj %(host)s nepodporuje %(command)s:\n"
+"Protější stroj %(host)s nepodporuje „%(command)s“:\n"
 "%(err)s\n"
 "Další pokyny naleznete v manuálové stránce aplikace (man backintime)"
 
-#: ../../common/sshtools.py:512
+#: ../../common/sshtools.py:505
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
@@ -649,103 +642,160 @@ msgstr ""
 "%(err)s\n"
 "Další pokyny naleznete v manuálové stránce aplikace (man backintime)"
 
-#: ../../common/sshtools.py:527
+#: ../../common/sshtools.py:518
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
 msgstr "Na vzdáleném stroji %s nejsou podporovány pevné odkazy"
 
-#: ../../qt4/app.py:82
+#: ../../qt4/app.py:89
+msgid "Take snapshot with checksums"
+msgstr "Pořídit zachycený stav a opatřit ho kontrolními součty"
+
+#: ../../qt4/app.py:90 ../../qt4/settingsdialog.py:631
+msgid "Use checksum to detect changes"
+msgstr "Změny zjišťovat pomocí kontrolního součtu (přesnější)"
+
+#: ../../qt4/app.py:97
 msgid "Refresh snapshots list"
 msgstr "Znovu načíst seznam zachycených stavů"
 
-#: ../../qt4/app.py:86 ../../qt4/app.py:814
+#: ../../qt4/app.py:101 ../../qt4/app.py:863
 msgid "Snapshot Name"
 msgstr "Nazvat zachycený stav"
 
-#: ../../qt4/app.py:89
+#: ../../qt4/app.py:104
 msgid "Remove Snapshot"
 msgstr "Odstranit zachycený stav"
 
-#: ../../qt4/app.py:92
+#: ../../qt4/app.py:107
 msgid "View Snapshot Log"
-msgstr "Zobrazit záznam událostí, týkajících se zachyceného stavu"
+msgstr "Zobrazit záznam událostí pořizování zachyceného stavu"
 
-#: ../../qt4/app.py:95
+#: ../../qt4/app.py:110 ../../qt4/qt4systrayicon.py:81
 msgid "View Last Log"
 msgstr "Zobrazit záznam nedávných událostí"
 
-#: ../../qt4/app.py:100 ../../qt4/settingsdialog.py:52
+#: ../../qt4/app.py:115 ../../qt4/settingsdialog.py:52
 msgid "Settings"
 msgstr "Nastavení"
 
-#: ../../qt4/app.py:105
+#: ../../qt4/app.py:120
 msgid "Shutdown"
-msgstr "Vypnout"
+msgstr "Vypnout počítač po dokončení"
 
-#: ../../qt4/app.py:106
+#: ../../qt4/app.py:121
 msgid "Shutdown system after snapshot has finished."
-msgstr "Po dokončení pořízení zachyceného stavu vypnout stroj."
+msgstr "Po pořízení zachyceného stavu vypnout počítač."
 
-#: ../../qt4/app.py:112
+#: ../../qt4/app.py:127
 msgid "Exit"
-msgstr "Ukončit"
+msgstr "Ukončit aplikaci"
 
-#: ../../qt4/app.py:121 ../../qt4/app.py:140 ../../qt4/app.py:246
+#: ../../qt4/app.py:136 ../../qt4/app.py:155 ../../qt4/app.py:288
 msgid "Help"
 msgstr "Nápověda"
 
-#: ../../qt4/app.py:123
+#: ../../qt4/app.py:138
 msgid "Config File Help"
 msgstr "Nápověda k souboru s nastaveními"
 
-#: ../../qt4/app.py:126
+#: ../../qt4/app.py:141
 msgid "Website"
 msgstr "Webové stránky projektu"
 
-#: ../../qt4/app.py:128 ../../qt4/app.py:905
+#: ../../qt4/app.py:143 ../../qt4/app.py:950
 msgid "Changelog"
-msgstr "Změny provedené v aplikaci"
+msgstr "Co je v aplikaci nového"
 
-#: ../../qt4/app.py:130
+#: ../../qt4/app.py:145
 msgid "FAQ"
 msgstr "Často kladené dotazy (FAQ)"
 
-#: ../../qt4/app.py:132
+#: ../../qt4/app.py:147
 msgid "Ask a question"
 msgstr "Položit dotaz"
 
-#: ../../qt4/app.py:134
+#: ../../qt4/app.py:149
 msgid "Report a bug"
-msgstr "Nahlásit chybu / podnět pro vylepšení"
+msgstr "Nahlásit chybu / dát podnět"
 
-#: ../../qt4/app.py:137 ../../qt4/app.py:1268
+#: ../../qt4/app.py:152 ../../qt4/app.py:1340
 msgid "About"
 msgstr "O aplikaci"
 
-#: ../../qt4/app.py:164
+#: ../../qt4/app.py:182
 msgid "Up"
-msgstr "O úroveň výš"
+msgstr "Přejít do nadřazené složky"
 
-#: ../../qt4/app.py:175 ../../qt4/settingsdialog.py:1783
+#: ../../qt4/app.py:193 ../../qt4/settingsdialog.py:1758
 msgid "Show hidden files"
-msgstr "Zobrazit skryté soubory"
+msgstr "Zobrazovat skryté soubory"
 
-#: ../../qt4/app.py:187 ../../qt4/app.py:202 ../../qt4/app.py:236
-#: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1825
-#: ../../qt4/snapshotsdialog.py:134 ../../qt4/snapshotsdialog.py:139
+#: ../../qt4/app.py:203 ../../qt4/app.py:244 ../../qt4/app.py:278
+#: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1800
+#: ../../qt4/snapshotsdialog.py:136 ../../qt4/snapshotsdialog.py:141
 msgid "Restore"
 msgstr "Obnovit"
 
-#: ../../qt4/app.py:189 ../../qt4/restoredialog.py:35
-#: ../../qt4/snapshotsdialog.py:136
+#: ../../qt4/app.py:204
+msgid "Restore the selected files or folders to the original destination."
+msgstr "Obnovit označené soubory či složky do jejich původních umístění."
+
+#: ../../qt4/app.py:207 ../../qt4/restoredialog.py:35
+#: ../../qt4/snapshotsdialog.py:138
 msgid "Restore to ..."
 msgstr "Obnovit do…"
 
-#: ../../qt4/app.py:197
+#: ../../qt4/app.py:208
+msgid "Restore the selected files or folders to a new destination."
+msgstr "Obnovit označené soubory či složky do nového umístění."
+
+#: ../../qt4/app.py:213
+msgid ""
+"Restore the currently shown folder and all its content to the original "
+"destination."
+msgstr ""
+"Obnovit právě zobrazenou složku a veškerý její obsah do původního umístění."
+
+#: ../../qt4/app.py:218
+msgid ""
+"Restore the currently shown folder and all its content to a new destination."
+msgstr ""
+"Obnovit právě zobrazenou složku a veškerý její obsah do nového umístění."
+
+#: ../../qt4/app.py:223
 msgid "Restore and delete new files"
 msgstr "Obnovit a smazat přitom nové soubory"
 
-#: ../../qt4/app.py:204
+#: ../../qt4/app.py:224
+msgid ""
+"Restore selected files or folders to the original destination and\n"
+"delete files/folders which are not in the snapshot.\n"
+"This will delete files/folders which where excluded during taking the "
+"snapshot!\n"
+"Be extremely careful!!!"
+msgstr ""
+"Obnovit označené soubory nebo složky do původního umístění a\n"
+"smazat soubory/složky, které nejsou obsažené v zachyceném stavu.\n"
+"Toto smaže soubor/složky, které byly vynechány během pořizování\n"
+"zachyceného stavu!\n"
+"Buďte velmi opatrní!!!"
+
+#: ../../qt4/app.py:233
+msgid ""
+"Restore the currently shown folder and all its content to the original\n"
+"destination and delete files/folders which are not in the snapshot.\n"
+"This will delete files/folders which where excluded during taking the "
+"snapshot!\n"
+"Be extremely careful!!!"
+msgstr ""
+"Obnovit nyní zobrazenou složku a veškerý její obsah do původního\n"
+"umístění a smazat soubory/složky, které nejsou obsažené\n"
+"v zachyceném stavu.\n"
+"Toto smaže soubor/složky, které byly vynechány během pořizování\n"
+"zachyceného stavu! Buďte velmi opatrní!!!"
+
+#: ../../qt4/app.py:246
 #, python-format
 msgid ""
 "Restore selected file or folder.\n"
@@ -754,26 +804,26 @@ msgid ""
 msgstr ""
 "Obnovit označený soubor či složku.\n"
 "Pokud je toto tlačítko nedostupné (vyšedlé), je to nejspíš tím, že v seznamu "
-"zachycených stavů (vlevo) je označena položka %(now)s."
+"zachycených stavů (vlevo) je označena položka „%(now)s“."
 
-#: ../../qt4/app.py:209 ../../qt4/logviewdialog.py:68
-#: ../../qt4/qt4tools.py:170 ../../qt4/snapshotsdialog.py:96
+#: ../../qt4/app.py:251 ../../qt4/logviewdialog.py:72
+#: ../../qt4/qt4tools.py:179 ../../qt4/snapshotsdialog.py:98
 msgid "Snapshots"
 msgstr "Zachycené stavy"
 
-#: ../../qt4/app.py:216
+#: ../../qt4/app.py:258
 msgid "Snapshot"
 msgstr "Zachycený stav"
 
-#: ../../qt4/app.py:227
+#: ../../qt4/app.py:269
 msgid "View"
 msgstr "Zobrazit"
 
-#: ../../qt4/app.py:280
+#: ../../qt4/app.py:322
 msgid "Shortcuts"
 msgstr "Klávesové zkratky"
 
-#: ../../qt4/app.py:298
+#: ../../qt4/app.py:340
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot!"
@@ -781,23 +831,22 @@ msgstr ""
 "Tato složka v aktuálně označeném\n"
 "zachyceném stavu neexistuje!"
 
-#: ../../qt4/app.py:362
+#: ../../qt4/app.py:404
 msgid "Add to Include"
 msgstr "Přidat do zahrnutých"
 
-#: ../../qt4/app.py:363
+#: ../../qt4/app.py:405
 msgid "Add to Exclude"
 msgstr "Přidat do vynechaných"
 
-#: ../../qt4/app.py:419
+#: ../../qt4/app.py:461
 #, python-format
 msgid ""
 "%(appName)s is not configured. Would you like to restore a previous "
 "configuration?"
-msgstr ""
-"Aplikace %(appName)s není nastavena. Chcete obnovit její předchozí nastavení?"
+msgstr "Aplikace %(appName)s postrádá nastavení. Chcete obnovit to dřívější?"
 
-#: ../../qt4/app.py:440
+#: ../../qt4/app.py:482
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
@@ -805,7 +854,7 @@ msgstr ""
 "Složka se zachycenými stavy nebyla nalezena.\n"
 "Pokud se nachází na vyjímatelném médiu, připojte jej a stiskněte OK"
 
-#: ../../qt4/app.py:473
+#: ../../qt4/app.py:515
 msgid ""
 "If you close this window Back In Time will not be able to shutdown your "
 "system when the snapshot has finished.\n"
@@ -815,47 +864,47 @@ msgstr ""
 "pořízení zachyceného stavu vypnout počítač.\n"
 "Opravdu chcete okno zavřít?"
 
-#: ../../qt4/app.py:609 ../../qt4/app.py:647
+#: ../../qt4/app.py:655 ../../qt4/app.py:692
 msgid "Working:"
 msgstr "Zpracovává se:"
 
-#: ../../qt4/app.py:639
+#: ../../qt4/app.py:684
 msgid "Done, no backup needed"
 msgstr "Dokončeno, záloha není potřebná"
 
-#: ../../qt4/app.py:651
+#: ../../qt4/app.py:696
 msgid "Error:"
 msgstr "Chyba:"
 
-#: ../../qt4/app.py:670 ../../qt4/qt4systrayicon.py:153
+#: ../../qt4/app.py:715 ../../qt4/qt4systrayicon.py:169
 msgid "Sent:"
 msgstr "Odesláno:"
 
-#: ../../qt4/app.py:671 ../../qt4/qt4systrayicon.py:154
+#: ../../qt4/app.py:716 ../../qt4/qt4systrayicon.py:170
 msgid "Speed:"
 msgstr "Rychlost:"
 
-#: ../../qt4/app.py:672 ../../qt4/qt4systrayicon.py:155
+#: ../../qt4/app.py:717 ../../qt4/qt4systrayicon.py:171
 msgid "ETA:"
 msgstr "Odhadovaný zbývající čas:"
 
-#: ../../qt4/app.py:721
+#: ../../qt4/app.py:766
 msgid "Global"
 msgstr "Celkové"
 
-#: ../../qt4/app.py:722
+#: ../../qt4/app.py:767
 msgid "Root"
 msgstr "Kořen"
 
-#: ../../qt4/app.py:723
+#: ../../qt4/app.py:768
 msgid "Home"
 msgstr "Domovská složka"
 
-#: ../../qt4/app.py:738
+#: ../../qt4/app.py:783
 msgid "Backup folders"
 msgstr "Složky pro zálohu"
 
-#: ../../qt4/app.py:852
+#: ../../qt4/app.py:899
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -864,7 +913,7 @@ msgstr ""
 "Opravdu chcete odstranit zachycený stav:\n"
 "%s"
 
-#: ../../qt4/app.py:937
+#: ../../qt4/app.py:982
 #, python-format
 msgid ""
 "Backup local files before overwriting or\n"
@@ -873,147 +922,156 @@ msgstr ""
 "Místní soubory, které by jinak byly přepsány, zálohovat připojením "
 "%(suffix)s za název."
 
-#: ../../qt4/app.py:943
+#: ../../qt4/app.py:988
+msgid ""
+"Only restore files which does not exist or\n"
+"are newer than those in destination.\n"
+"Using \"rsync --update\" option."
+msgstr ""
+"Obnovit pouze ty soubory, které neexistují\n"
+"nebo jsou novější než ty v cíli.\n"
+"Využití předvolby „rsync --update“."
+
+#: ../../qt4/app.py:994
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr "Opravdu chcete z původní složky odebrat veškeré novější soubory?"
 
-#: ../../qt4/app.py:947
+#: ../../qt4/app.py:998
 msgid ""
 "WARNING: deleting files in filesystem root could break your whole system!!!"
 msgstr ""
-"VAROVÁNÍ: smazání souborů v kořeni souborového systému může vést k poškození "
-"celého operačního systému!!!"
 
-#: ../../qt4/app.py:949
+#: ../../qt4/app.py:1000
 msgid "Files to be restored:"
 msgstr "Soubory k obnovení:"
 
-#: ../../qt4/app.py:964
+#: ../../qt4/app.py:1011
 msgid "Do you really want to restore this files(s):"
 msgstr "Opravdu chcete obnovit tyto soubory? :"
 
-#: ../../qt4/app.py:1150
+#: ../../qt4/app.py:1219
 msgid "View the current disk content"
 msgstr "Zobrazit stávající data"
 
-#: ../../qt4/app.py:1153
+#: ../../qt4/app.py:1222
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Zachycený stav: %s"
 
-#: ../../qt4/app.py:1154
+#: ../../qt4/app.py:1223
 #, python-format
 msgid "View the snapshot made at %s"
-msgstr "Zobrazit zachycený stav vytvořený k %s"
+msgstr "Zobrazit zachycený stav pořízený k %s"
 
-#: ../../qt4/app.py:1192
+#: ../../qt4/app.py:1261
 #, python-format
 msgid "Restore '%s'"
 msgstr "Obnovit %s"
 
-#: ../../qt4/app.py:1193
+#: ../../qt4/app.py:1262
 #, python-format
 msgid "Restore '%s' to ..."
 msgstr "Obnovit %s na…"
 
-#: ../../qt4/app.py:1194
+#: ../../qt4/app.py:1263
 #, python-format
 msgid "Restore '%s' and delete new files"
 msgstr "Obnovit %s a smazat nové soubory"
 
-#: ../../qt4/app.py:1293 ../../qt4/app.py:1310
+#: ../../qt4/app.py:1365 ../../qt4/app.py:1382
 msgid "Authors"
 msgstr "Autoři"
 
-#: ../../qt4/app.py:1294 ../../qt4/app.py:1313
+#: ../../qt4/app.py:1366 ../../qt4/app.py:1385
 msgid "Translations"
 msgstr "Překlady"
 
-#: ../../qt4/app.py:1295 ../../qt4/app.py:1316
+#: ../../qt4/app.py:1367 ../../qt4/app.py:1388
 msgid "License"
 msgstr "Licence"
 
-#: ../../qt4/logviewdialog.py:50
+#: ../../qt4/logviewdialog.py:54
 msgid "Last Log View"
 msgstr "Zobrazení nedávných událostí"
 
-#: ../../qt4/logviewdialog.py:52
+#: ../../qt4/logviewdialog.py:56
 msgid "Snapshot Log View"
 msgstr "Zobrazení událostí pořízení zachyceného stavu"
 
-#: ../../qt4/logviewdialog.py:60 ../../qt4/settingsdialog.py:60
-#: ../../qt4/settingsdialog.py:275 ../../qt4/settingsdialog.py:1912
+#: ../../qt4/logviewdialog.py:64 ../../qt4/settingsdialog.py:60
+#: ../../qt4/settingsdialog.py:275 ../../qt4/settingsdialog.py:1887
 msgid "Profile:"
 msgstr "Profil:"
 
-#: ../../qt4/logviewdialog.py:82
+#: ../../qt4/logviewdialog.py:86
 msgid "Filter:"
 msgstr "Filtr:"
 
-#: ../../qt4/logviewdialog.py:88 ../../qt4/settingsdialog.py:660
+#: ../../qt4/logviewdialog.py:92 ../../qt4/settingsdialog.py:649
 msgid "All"
 msgstr "Vše"
 
-#: ../../qt4/logviewdialog.py:89 ../../qt4/logviewdialog.py:91
-#: ../../qt4/settingsdialog.py:658
+#: ../../qt4/logviewdialog.py:93 ../../qt4/logviewdialog.py:95
+#: ../../qt4/settingsdialog.py:647
 msgid "Errors"
 msgstr "Chyby"
 
-#: ../../qt4/logviewdialog.py:89 ../../qt4/logviewdialog.py:92
+#: ../../qt4/logviewdialog.py:93 ../../qt4/logviewdialog.py:96
 msgid "Changes"
 msgstr "Změny"
 
-#: ../../qt4/logviewdialog.py:93
+#: ../../qt4/logviewdialog.py:97
 msgid "Informations"
 msgstr "Informace"
 
-#: ../../qt4/logviewdialog.py:102
+#: ../../qt4/logviewdialog.py:107
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Chyba, [I] Informace, [C] Změna"
 
-#: ../../qt4/logviewdialog.py:105
+#: ../../qt4/logviewdialog.py:110 ../../qt4/qt4systrayicon.py:76
 msgid "decode paths"
 msgstr "dekódovat popisy umístění"
 
-#: ../../qt4/messagebox.py:56
+#: ../../qt4/messagebox.py:58
 msgid "Error"
 msgstr "Chyba"
 
-#: ../../qt4/messagebox.py:62 ../../qt4/messagebox.py:68
+#: ../../qt4/messagebox.py:64 ../../qt4/messagebox.py:70
 msgid "Question"
-msgstr "Otázka"
+msgstr "Dotaz"
 
-#: ../../qt4/qt4systrayicon.py:69
+#: ../../qt4/qt4systrayicon.py:83
 msgid "Start BackInTime"
 msgstr "Spustit BackInTime"
 
-#: ../../qt4/qt4systrayicon.py:124
+#: ../../qt4/qt4systrayicon.py:138
 msgid "Working..."
 msgstr "Zpracování…"
 
-#: ../../qt4/qt4tools.py:190
+#: ../../qt4/qt4tools.py:199
 msgid "Today"
 msgstr "Dnes"
 
-#: ../../qt4/qt4tools.py:194
+#: ../../qt4/qt4tools.py:203
 msgid "Yesterday"
 msgstr "Včera"
 
-#: ../../qt4/qt4tools.py:199
+#: ../../qt4/qt4tools.py:208
 msgid "This week"
 msgstr "Tento týden"
 
-#: ../../qt4/qt4tools.py:203
+#: ../../qt4/qt4tools.py:212
 msgid "Last week"
 msgstr "Minulý týden"
 
-#: ../../qt4/qt4tools.py:319
+#: ../../qt4/qt4tools.py:328
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
-"Toto NENÍ zachycený stav, ale pohled přímo do stávajících místních souborů"
+"Toto NENÍ zachycený stav, ale pohled přímo do stávajících souborů na tomto "
+"počítači."
 
-#: ../../qt4/qt4tools.py:321
+#: ../../qt4/qt4tools.py:330
 #, python-format
 msgid "Last check %s"
 msgstr "Minulá kontrola %s"
@@ -1028,7 +1086,7 @@ msgstr "Upravit"
 
 #: ../../qt4/settingsdialog.py:74
 msgid "Modify for Full System Backup"
-msgstr ""
+msgstr "Upravit pro účely kompletní zálohy systému"
 
 #: ../../qt4/settingsdialog.py:78 ../../qt4/settingsdialog.py:452
 msgid "Add"
@@ -1043,9 +1101,9 @@ msgstr "Odebrat"
 msgid "General"
 msgstr "Obecné"
 
-#: ../../qt4/settingsdialog.py:107 ../../qt4/settingsdialog.py:1914
+#: ../../qt4/settingsdialog.py:107 ../../qt4/settingsdialog.py:1889
 msgid "Mode:"
-msgstr "Režim:"
+msgstr "Ukládání záloh:"
 
 #: ../../qt4/settingsdialog.py:120
 #, python-format
@@ -1058,7 +1116,7 @@ msgstr ""
 "odhalila několik závažných nedostatků. Přečtěte si odstavec POZNÁMKA K "
 "ZABEZPEČENÍ v manuálové stránce backintime."
 
-#: ../../qt4/settingsdialog.py:130 ../../qt4/settingsdialog.py:1574
+#: ../../qt4/settingsdialog.py:130 ../../qt4/settingsdialog.py:1549
 msgid "Where to save snapshots"
 msgstr "Kam ukládat zachycené stavy"
 
@@ -1117,7 +1175,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: ../../qt4/settingsdialog.py:281 ../../qt4/settingsdialog.py:1646
+#: ../../qt4/settingsdialog.py:281 ../../qt4/settingsdialog.py:1621
 msgid "Full snapshot path: "
 msgstr "Úplný popis umístění zachyceného stavu: "
 
@@ -1131,7 +1189,7 @@ msgstr "Den:"
 
 #: ../../qt4/settingsdialog.py:309
 msgid "Weekday:"
-msgstr "Pracovní den"
+msgstr "Den v týdnu:"
 
 #: ../../qt4/settingsdialog.py:320
 msgid "Hour:"
@@ -1159,9 +1217,11 @@ msgid ""
 "days).\n"
 "You will be prompted for your sudo password."
 msgstr ""
-"Spouštět aplikaci Back In Time jakmile je disk připojen (jen jednou za "
-"každých X dnů).\n"
-"Budete vyzváni k zadání hesla k účtu s právy správy systému (pro sudo)."
+"Spouštět aplikaci Back In Time na základě připojení určené jednotky datového "
+"úložiště k počítači (s tím, že četnost záloh se neřídí těmito "
+"odpo/připojeními, ale nastaveným intervalem mezi zálohami).\n"
+"Pro účely zapsání tohoto nastavení budete vyzváni k zadání hesla k "
+"uživatelskému účtu, který má práva pro správu systému (sudo)."
 
 #: ../../qt4/settingsdialog.py:376
 msgid "Include"
@@ -1240,8 +1300,8 @@ msgstr "Pokud zbývá volného místa méně než:"
 #: ../../qt4/settingsdialog.py:529
 msgid "If free inodes is less than:"
 msgstr ""
-"Pokud z počtu souborů a složek, které lze na soubor. systému vytvořit "
-"(inode), zbývá méně než:"
+"Pokud na souborovém systému už nelze vytvořit (inode) více souborů a složek "
+"než:"
 
 #: ../../qt4/settingsdialog.py:552
 msgid "Run in background on remote Host."
@@ -1334,126 +1394,103 @@ msgid "Continue on errors (keep incomplete snapshots)"
 msgstr ""
 "Pokračovat i v případě výskytu chyb (zachovat neúplné zachycené stavy)"
 
-#: ../../qt4/settingsdialog.py:631
-msgid "Use checksum to detect changes"
-msgstr "Změny zjišťovat pomocí kontrolního součtu (přesnější)"
-
 #: ../../qt4/settingsdialog.py:634
-msgid "Full rsync mode. May be faster but:"
-msgstr "Úplný režim rsync. Může být rychlejší, ale:"
-
-#: ../../qt4/settingsdialog.py:635
-msgid ""
-"- snapshots are not read-only\n"
-"- destination file-system must support all Linux attributes (dates, rights, "
-"user, group ...)"
-msgstr ""
-"- zachycené stavy nejsou pouze pro čtení\n"
-"- je třeba, aby cílový souborový systém podporoval všechny linuxové atributy "
-"(datumy, přístupová práva, uživatele, skupinu…)"
-
-#: ../../qt4/settingsdialog.py:642
 msgid "Take a new snapshot regardless of there were changes or not."
 msgstr "Pořídit zachycený stav i v případě, že nedošlo k žádným změnám."
 
-#: ../../qt4/settingsdialog.py:645
-msgid "Check for changes (don't take a new snapshot if nothing changed)"
-msgstr ""
-"Zjišťovat změny (nevytvářet nový zachycený stav, pokud se nic nezměnilo)"
-
-#: ../../qt4/settingsdialog.py:652
+#: ../../qt4/settingsdialog.py:641
 msgid "Log Level:"
 msgstr "Podrobnost zaznamenávání událostí (log):"
 
-#: ../../qt4/settingsdialog.py:657
+#: ../../qt4/settingsdialog.py:646
 msgid "None"
 msgstr "Žádné"
 
-#: ../../qt4/settingsdialog.py:659
+#: ../../qt4/settingsdialog.py:648
 msgid "Changes & Errors"
 msgstr "Změny a chyby"
 
-#: ../../qt4/settingsdialog.py:675
+#: ../../qt4/settingsdialog.py:664
 msgid "Change these options only if you really know what you are doing !"
 msgstr "Tyto předvolby měňte pouze v případě, že opravdu víte co děláte!"
 
-#: ../../qt4/settingsdialog.py:679
+#: ../../qt4/settingsdialog.py:668
 msgid "Run 'nice':"
 msgstr "Spustit s nižší prioritou (nice):"
 
-#: ../../qt4/settingsdialog.py:685 ../../qt4/settingsdialog.py:697
+#: ../../qt4/settingsdialog.py:674 ../../qt4/settingsdialog.py:686
 msgid "as cron job"
 msgstr "jako naplánovaná úloha (cron)"
 
-#: ../../qt4/settingsdialog.py:688 ../../qt4/settingsdialog.py:703
-#: ../../qt4/settingsdialog.py:717
+#: ../../qt4/settingsdialog.py:677 ../../qt4/settingsdialog.py:692
+#: ../../qt4/settingsdialog.py:706
 msgid "on remote host"
 msgstr "na vzdáleném stroji"
 
-#: ../../qt4/settingsdialog.py:691
+#: ../../qt4/settingsdialog.py:680
 msgid "Run 'ionice':"
 msgstr "Spustit s nižší prioritou na vst./výst. (ionice):"
 
-#: ../../qt4/settingsdialog.py:700
+#: ../../qt4/settingsdialog.py:689
 msgid "when taking a manual snapshot"
 msgstr "při ručně spuštěném pořízení zachyceného stavu"
 
-#: ../../qt4/settingsdialog.py:707
+#: ../../qt4/settingsdialog.py:696
 msgid "Run 'rsync' with 'nocache':"
 msgstr "Spustit nástroj rsync s parametrem nocache:"
 
-#: ../../qt4/settingsdialog.py:713
+#: ../../qt4/settingsdialog.py:702
 msgid "on local machine"
-msgstr "na místním stroji"
+msgstr "na tomto počítači"
 
-#: ../../qt4/settingsdialog.py:720
+#: ../../qt4/settingsdialog.py:709
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr ""
 "U naplánovaných úloh (cron) zahazovat výstup (stdout) (přesměrováním do "
 "/dev/null)."
 
-#: ../../qt4/settingsdialog.py:726
+#: ../../qt4/settingsdialog.py:715
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr ""
 "U naplánovaných úloh (cron) zahazovat chybový výstup (stderr) (přesměrováním "
 "do /dev/null)."
 
-#: ../../qt4/settingsdialog.py:735
+#: ../../qt4/settingsdialog.py:724
 msgid "Limit rsync bandwidth usage: "
 msgstr "Omezit rychlost přenosu dat nástrojem rsync na: "
 
-#: ../../qt4/settingsdialog.py:738
+#: ../../qt4/settingsdialog.py:727
 msgid " KB/sec"
 msgstr " KB/s"
 
-#: ../../qt4/settingsdialog.py:773
+#: ../../qt4/settingsdialog.py:762
 msgid "Preserve ACL"
 msgstr "Zachovat ACL seznamy"
 
-#: ../../qt4/settingsdialog.py:786
+#: ../../qt4/settingsdialog.py:775
 msgid "Preserve extended attributes (xattr)"
 msgstr "Zachovat rozšířené atributy (xattr)"
 
-#: ../../qt4/settingsdialog.py:804
+#: ../../qt4/settingsdialog.py:793
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Kopírovat nejisté odkazy (funguje pouze s absolutními odkazy)"
 
-#: ../../qt4/settingsdialog.py:835
+#: ../../qt4/settingsdialog.py:824
 msgid "Paste additional options to rsync"
 msgstr "Zadejte další parametry pro nástroj rsync"
 
-#: ../../qt4/settingsdialog.py:838
+#: ../../qt4/settingsdialog.py:827
 msgid ""
 "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
 "Je třeba, aby předvolby byly obklopeny uvozovkami, např. --exclude-"
 "from=\"/umisteni/vynechany_soubor\"."
 
-#: ../../qt4/settingsdialog.py:848
+#: ../../qt4/settingsdialog.py:837
 msgid "Add prefix to SSH commands"
-msgstr "Přidat předponu k SSH příkazům"
+msgstr "Přidávat k SSH příkazům předponu"
 
-#: ../../qt4/settingsdialog.py:851
+#: ../../qt4/settingsdialog.py:840
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1472,15 +1509,15 @@ msgstr ""
 "\n"
 "%(default)s: %(def_value)s"
 
-#: ../../qt4/settingsdialog.py:859 ../../qt4/settingsdialog.py:1697
+#: ../../qt4/settingsdialog.py:848 ../../qt4/settingsdialog.py:1672
 msgid "default"
 msgstr "výchozí"
 
-#: ../../qt4/settingsdialog.py:876
+#: ../../qt4/settingsdialog.py:865
 msgid "Restore Config"
 msgstr "Obnovit nastavení"
 
-#: ../../qt4/settingsdialog.py:892
+#: ../../qt4/settingsdialog.py:881
 msgid ""
 "Full system backup can only create a snapshot to be restored to the same "
 "physical disk(s) with the same disk partitioning as from the source; "
@@ -1490,21 +1527,30 @@ msgid ""
 "Full system backup will override some settings that may have been "
 "customized. Continue?"
 msgstr ""
+"Zachycený stav, pořízený pomocí funkce kompletní záloha systému, je s "
+"jistotou možné obnovit pouze na stejnou jednotku datového úložiště, ze které "
+"byl pořízena  a to ještě za předpokladu, že rozvržení oddílů na ní bude "
+"stejné, jaké je v zachyceném stavu. Pokus o obnovení na jednotku lišící se "
+"kapacitou a/nebo rozvržením oddílů může vyústit v rozbitý a tím nepoužitelný "
+"systém.\n"
+"\n"
+"Úprava profilu pro účely kompletní zálohy systému může vést ke změně "
+"některých nastavení, které jste v něm mohli udělat. Přesto pokračovat?"
 
-#: ../../qt4/settingsdialog.py:923
+#: ../../qt4/settingsdialog.py:910
 msgid "New profile"
 msgstr "Nový profil"
 
-#: ../../qt4/settingsdialog.py:939
+#: ../../qt4/settingsdialog.py:926
 msgid "Rename profile"
 msgstr "Přejmenovat profil"
 
-#: ../../qt4/settingsdialog.py:953
+#: ../../qt4/settingsdialog.py:940
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "Opravdu chcete smazat profil %s?"
 
-#: ../../qt4/settingsdialog.py:1192
+#: ../../qt4/settingsdialog.py:1171
 msgid ""
 "Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or "
 "*/3 for periodic backups every 3 hours"
@@ -1512,23 +1558,23 @@ msgstr ""
 "Vlastní nastavení časů může být jen čárkou oddělovaný seznam hodin "
 "(například 8,12,18,23) nebo např. */3 pro pravidelné zálohy každé 3 hodiny"
 
-#: ../../qt4/settingsdialog.py:1495
+#: ../../qt4/settingsdialog.py:1470
 msgid "Exclude pattern"
 msgstr "Zástupné vyjádření vynechaného"
 
-#: ../../qt4/settingsdialog.py:1508
+#: ../../qt4/settingsdialog.py:1483
 msgid "Exclude file"
 msgstr "Vynechat soubor"
 
-#: ../../qt4/settingsdialog.py:1512
+#: ../../qt4/settingsdialog.py:1487
 msgid "Exclude folder"
 msgstr "Vynechat složku"
 
-#: ../../qt4/settingsdialog.py:1531
+#: ../../qt4/settingsdialog.py:1506
 msgid "Include file"
 msgstr "Zahrnout soubor"
 
-#: ../../qt4/settingsdialog.py:1539 ../../qt4/settingsdialog.py:1559
+#: ../../qt4/settingsdialog.py:1514 ../../qt4/settingsdialog.py:1534
 #, python-format
 msgid ""
 "\"%s\" is a symlink. The linked target will not be backed up until you "
@@ -1539,31 +1585,31 @@ msgstr ""
 "umístění výslovně nezahrnete.\n"
 "Zahrnout tedy cíl symbolického odkazu namísto odkazu samotného?"
 
-#: ../../qt4/settingsdialog.py:1551
+#: ../../qt4/settingsdialog.py:1526
 msgid "Include folder"
 msgstr "Zahrnout složku"
 
-#: ../../qt4/settingsdialog.py:1578
+#: ../../qt4/settingsdialog.py:1553
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr "Opravdu změnit složku se zachycenými stavy?"
 
-#: ../../qt4/settingsdialog.py:1694
+#: ../../qt4/settingsdialog.py:1669
 msgid "enabled"
 msgstr "zapnuto"
 
-#: ../../qt4/settingsdialog.py:1696
+#: ../../qt4/settingsdialog.py:1671
 msgid "disabled"
 msgstr "vypnuto"
 
-#: ../../qt4/settingsdialog.py:1722
+#: ../../qt4/settingsdialog.py:1697
 msgid "Restore Settings"
 msgstr "Obnovit nastavení"
 
-#: ../../qt4/settingsdialog.py:1739
+#: ../../qt4/settingsdialog.py:1714
 msgid " and add your user to group 'fuse'"
 msgstr " a přidat svůj uživatelský účet do skupiny fuse"
 
-#: ../../qt4/settingsdialog.py:1743
+#: ../../qt4/settingsdialog.py:1718
 #, python-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore %(appName)s's "
@@ -1585,227 +1631,80 @@ msgstr ""
 "stroji%(addFuse)s.\n"
 "Další pokyny naleznete v manuálové stránce aplikace (man backintime)."
 
-#: ../../qt4/settingsdialog.py:1801 ../../qt4/settingsdialog.py:1864
+#: ../../qt4/settingsdialog.py:1776 ../../qt4/settingsdialog.py:1839
 msgid "No config found"
 msgstr "Nebylo nalezeno žádné nastavení"
 
-#: ../../qt4/snapshotsdialog.py:49 ../../qt4/snapshotsdialog.py:173
+#: ../../qt4/snapshotsdialog.py:50 ../../qt4/snapshotsdialog.py:175
 msgid "Diff Options"
-msgstr "Předvolby nástroje diff"
+msgstr "Předvolby nástroje pro porovnávání (diff)"
 
-#: ../../qt4/snapshotsdialog.py:56
+#: ../../qt4/snapshotsdialog.py:57
 msgid "Command:"
 msgstr "Příkaz:"
 
-#: ../../qt4/snapshotsdialog.py:60
+#: ../../qt4/snapshotsdialog.py:61
 msgid "Parameters:"
 msgstr "Parametry:"
 
-#: ../../qt4/snapshotsdialog.py:64
+#: ../../qt4/snapshotsdialog.py:65
 msgid "Use %1 and %2 for path parameters"
 msgstr "Jako parametry umístění použijte %1 a %2"
 
-#: ../../qt4/snapshotsdialog.py:106
+#: ../../qt4/snapshotsdialog.py:108
 msgid "List only different snapshots"
 msgstr "Vypsat pouze rozdílné zachycené stavy"
 
-#: ../../qt4/snapshotsdialog.py:113
+#: ../../qt4/snapshotsdialog.py:115
 msgid "List only equal snapshots to: "
 msgstr "Vypsat pouze zachycené stavy, odpovídající: "
 
-#: ../../qt4/snapshotsdialog.py:123
+#: ../../qt4/snapshotsdialog.py:125
 msgid "Deep check (more accurate, but slow)"
 msgstr "Hloubková kontrola (přesnější, ale pomalejší)"
 
-#: ../../qt4/snapshotsdialog.py:144
+#: ../../qt4/snapshotsdialog.py:146
 msgid "Delete"
 msgstr "Smazat"
 
-#: ../../qt4/snapshotsdialog.py:148
+#: ../../qt4/snapshotsdialog.py:150
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: ../../qt4/snapshotsdialog.py:161
+#: ../../qt4/snapshotsdialog.py:163
 msgid "Diff"
 msgstr "Rozdíl"
 
-#: ../../qt4/snapshotsdialog.py:172
+#: ../../qt4/snapshotsdialog.py:174
 msgid "Go To"
 msgstr "Přejít na"
 
-#: ../../qt4/snapshotsdialog.py:316
+#: ../../qt4/snapshotsdialog.py:323
 msgid "You can't compare a snapshot to itself"
 msgstr "Nelze porovnávat zachycený stav sám se sebou"
 
-#: ../../qt4/snapshotsdialog.py:323
+#: ../../qt4/snapshotsdialog.py:330
 #, python-format
 msgid "Command not found: %s"
 msgstr "Příkaz nebyl nalezen: %s"
 
-#: ../../qt4/snapshotsdialog.py:344
+#: ../../qt4/snapshotsdialog.py:358
 #, python-format
 msgid ""
 "Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
 msgstr ""
 "Opravdu chcete vymazat %(file)s ze zachyceného stavu %(snapshot_id)s?\n"
 
-#: ../../qt4/snapshotsdialog.py:347
+#: ../../qt4/snapshotsdialog.py:361
 #, python-format
 msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
 msgstr "Opravdu chcete vymazat %(file)s z %(count)d zachycených stavů?\n"
 
-#: ../../qt4/snapshotsdialog.py:349
+#: ../../qt4/snapshotsdialog.py:363
 msgid "WARNING: This can not be revoked!"
 msgstr "VAROVÁNÍ: tuto operaci nelze vzít zpět!"
 
-#: ../../qt4/snapshotsdialog.py:364
+#: ../../qt4/snapshotsdialog.py:378
 #, python-format
 msgid "Exclude \"%s\" from future snapshots?"
 msgstr "Vynechat %s z budoucích zachycených stavů?"
-
-#~ msgid "Remove old snapshots"
-#~ msgstr "Odstranit staré zachycené stavy"
-
-#, python-format
-#~ msgid "Can't unmount encfs %s"
-#~ msgstr "Nelze odpojit souborový systém encfs %s"
-
-#~ msgid "encfs not found. Please install e.g. 'apt-get install encfs'"
-#~ msgstr ""
-#~ "Podporu pro encfs nelze nalézt. Nainstalujte příslušný balíček, např.: apt-"
-#~ "get install encfs"
-
-#, python-format
-#~ msgid ""
-#~ "%(snapshots_left)s\n"
-#~ "of profile %(profile_id)s are not moved to their new location\n"
-#~ "Do you want to proceed?\n"
-#~ "(Back In Time will be able to continue taking snapshots, however the "
-#~ "remaining snapshots will not be considered for automatic removal)\n"
-#~ "\n"
-#~ "If not Back In Time will restore former settings for this profile, however "
-#~ "cannot continue taking snapshots"
-#~ msgstr ""
-#~ "%(snapshots_left)s\n"
-#~ "profilu %(profile_id)s nejsou přesunuty do jejich nového umístění\n"
-#~ "Chcete pokračovat?\n"
-#~ "(Aplikace Back In Time bude moci pokračovat v pořizování zachycených stavů, "
-#~ "ale ty nepřesunuté nebudou brány v úvahu pro samočinné odstraňování)\n"
-#~ "\n"
-#~ "Pokud pokračovat nechcete, aplikace obnoví dřívější nastavení pro tento "
-#~ "profil, nicméně pak nebude moci pokračovat v pořizování zachycených stavů"
-
-#, python-format
-#~ msgid ""
-#~ "Former settings of profile %s are restored.\n"
-#~ "Back In Time cannot continue taking new snapshots.\n"
-#~ "\n"
-#~ "You can manually move the snapshots, \n"
-#~ "if you are done restart Back In Time to proceed"
-#~ msgstr ""
-#~ "Dřívější nastavení profilu %s jsou obnovena.\n"
-#~ "Aplikace Back In Time ale nemůže pokračovat v pořizování nových zachycených "
-#~ "stavů.\n"
-#~ "\n"
-#~ "Zachycené stavy ale stále můžete přesunut ručně. \n"
-#~ "Až tak učiníte, restartujte aplikaci a bude možné pokračovat."
-
-#~ msgid ""
-#~ "No profiles are found. Will have to update to profiles first, please restart "
-#~ "Back In Time"
-#~ msgstr ""
-#~ "Nebyly nalezeny žádné profily. Nejprve bude třeba je aktualizovat - "
-#~ "restartujte aplikaci Back in Time."
-
-#~ msgid ""
-#~ "Update was successful!\n"
-#~ "\n"
-#~ "Back In Time will continue taking snapshots again as scheduled"
-#~ msgstr ""
-#~ "Aktualizace proběhla úspěšně!\n"
-#~ "\n"
-#~ "Aplikace Back In Time tak bude nadále pořizovat zachycené stavy dle plánu"
-
-#~ msgid "Save config file ..."
-#~ msgstr "Uložit soubor s nastaveními…"
-
-#~ msgid "sshfs not found. Please install e.g. 'apt-get install sshfs'"
-#~ msgstr ""
-#~ "Podpora pro souborový systém sshfs nebyla nalezena. Nainstalujte např.: apt-"
-#~ "get install sshfs"
-
-#~ msgid ""
-#~ "Back In Time changed its backup format.\n"
-#~ "\n"
-#~ "Your old snapshots can be moved according to this new format. OK?"
-#~ msgstr ""
-#~ "Aplikace Back in Time nyní používá nový formát záloh.\n"
-#~ "\n"
-#~ "Staré zálohy budou převedeny do nového formátu. Provést?"
-
-#~ msgid ""
-#~ "Back In Time still cannot continue taking new snapshots.\n"
-#~ "Restart Back In Time to see the questions again"
-#~ msgstr ""
-#~ "Aplikace Back In Time stále nemůže pokračovat ve vytváření zachycených "
-#~ "stavů.\n"
-#~ "Restartujte aplikaci pro opětovné zobrazení dotazu."
-
-#, python-format
-#~ msgid "Compare with snapshot %s"
-#~ msgstr "Porovnat se zachyceným stavem %s"
-
-#, python-format
-#~ msgid ""
-#~ "%s profiles found. \n"
-#~ "\n"
-#~ "The new backup format supports storage of different users and profiles on "
-#~ "the same location. Do you want the same location for both profiles? \n"
-#~ "\n"
-#~ "(The program will still be able to discriminate between them)"
-#~ msgstr ""
-#~ "%s profily nalezeny. \n"
-#~ "\n"
-#~ "Nový formát záloh podporuje ukládání různých uživatelů a profilů do stejného "
-#~ "umístění. Chcete použít stejné umístění pro oba profily? \n"
-#~ "\n"
-#~ "(Aplikace mezi nimi bude stále schopen rozlišovat)"
-
-#~ msgid ""
-#~ "Are you sure you do not want to move your old snapshots?\n"
-#~ "\n"
-#~ "\n"
-#~ "If you do, you will not see these questions again next time, Back In Time "
-#~ "will continue making snapshots again, but smart-remove cannot take your old "
-#~ "snapshots into account any longer!\n"
-#~ "\n"
-#~ "If you do not, you will be asked again next time you start Back In Time."
-#~ msgstr ""
-#~ "Opravdu nechcete staré zachycené stavy přesunout?\n"
-#~ "\n"
-#~ "\n"
-#~ "Pokud je přesunete, příště už tyto otázky neuvidíte, aplikace Back In Time "
-#~ "bude opět pokračovat ve vytváření zachycených stavů, ale chytré odstranění "
-#~ "už nebude moci staré zachycené stavy brát v úvahu!\n"
-#~ "\n"
-#~ "Pokud staré zachycené stavy přesunout nechcete, aplikace se při příštím "
-#~ "spuštění opět dotáže."
-
-#~ msgid "Back In Time will continue taking snapshots again as scheduled"
-#~ msgstr "Back in Time bude opět pořizovat zachycené stavy dle plánu"
-
-#~ msgid "Save permission ..."
-#~ msgstr "Uložit přístupová práva…"
-
-#~ msgid "Try to keep min free space"
-#~ msgstr "Snažit se zachovat neobsazený prostor alespoň"
-
-#, python-format
-#~ msgid "Try to keep min %d%% free inodes"
-#~ msgstr ""
-#~ "Snažit se zachovat alespoň %d%% z počtu souborů a složek, které lze na "
-#~ "soubor. systému vytvořit (inode)"
-
-#, python-format
-#~ msgid "Can't unmount sshfs %s"
-#~ msgstr "Souborový systém sshfs %s se nedaří odpojit"
