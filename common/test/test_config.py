@@ -15,38 +15,26 @@
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from contextlib import contextmanager
 import os
-import shutil
 import stat
 import sys
-import tempfile
-import unittest
 from test import generic
+from tempfile import TemporaryDirectory
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config
 
-@contextmanager
-def tempdir():
-    name = tempfile.mkdtemp()
-    try:
-        yield name
-    finally:
-        shutil.rmtree(name)
-
 class TestConfig(generic.TestCase):
-
     def setUp(self):
         super(TestConfig, self).setUp()
-        self.config = config.Config()
+        self.cfg = config.Config()
 
     def test_set_snapshots_path_test_writes(self):
-        with tempdir() as dirpath:
-            self.assertTrue(self.config.set_snapshots_path(dirpath))
+        with TemporaryDirectory() as dirpath:
+            self.assertTrue(self.cfg.set_snapshots_path(dirpath))
 
     def test_set_snapshots_path_fails_on_ro(self):
-        with tempdir() as dirpath:
+        with TemporaryDirectory() as dirpath:
             # set directory to read only
             os.chmod(dirpath, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-            self.assertFalse(self.config.set_snapshots_path(dirpath))
+            self.assertFalse(self.cfg.set_snapshots_path(dirpath))
