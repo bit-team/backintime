@@ -494,7 +494,7 @@ class SSH(MountControl):
             logger.warning('Looks like the command was to long for remote SSHd. We will test max arg length now and retry.',
                            self)
             import sshMaxArg
-            mid = sshMaxArg.test_ssh_max_arg(self.user_host)
+            mid = sshMaxArg.test_ssh_max_arg(self.config)
             sshMaxArg.reportResult(self.host, mid)
             self.config.set_ssh_max_arg_length(mid, self.profile_id)
             return self.check_remote_commands(retry = True)

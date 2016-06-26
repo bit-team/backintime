@@ -25,12 +25,13 @@ import argparse
 def random_id(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
-def test_ssh_max_arg(host, mid = 1048320):
+def test_ssh_max_arg(config, mid = 1048320):
     r = round(mid / 2)
     while r > 0:
-        ssh = ['ssh', host]
-        ssh.extend(['-o', 'LogLevel=Error']) # disable SSH banner
-        ssh.extend(['printf', random_id(mid)])
+        ssh = config.ssh_command(cmd = ['printf', random_id(mid)],
+                                 nice = False,
+                                 ionice = False,
+                                 prefix = False)
         try:
             proc = subprocess.Popen(ssh,
                                     stdout = subprocess.PIPE,
@@ -64,16 +65,13 @@ def reportResult(host, mid):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Check maximal argument length on SSH connection',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('HOST',
-                        type = str,
-                        nargs = '?',
-                        default = 'localhost',
-                        help = 'Remote host or user@host')
     parser.add_argument('MID',
                         type = int,
                         nargs = '?',
                         default = 1048320,
                         help = 'Start checking with MID arg length')
     args = parser.parse_args()
-    mid = test_ssh_max_arg(args.HOST, args.MID)
+    import config
+    cfg = config.Config()
+    mid = test_ssh_max_arg(cfg, args.MID)
     reportResult(args.HOST, mid)

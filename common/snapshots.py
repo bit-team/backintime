@@ -1257,7 +1257,7 @@ class Snapshots:
             if not maxLength:
                 import sshMaxArg
                 user_host = '%s@%s' %(self.config.get_ssh_user(), self.config.get_ssh_host())
-                maxLength = sshMaxArg.test_ssh_max_arg(user_host)
+                maxLength = sshMaxArg.test_ssh_max_arg(self.config)
                 self.config.set_ssh_max_arg_length(maxLength)
                 self.config.save()
                 sshMaxArg.reportResult(user_host, maxLength)
