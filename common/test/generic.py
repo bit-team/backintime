@@ -62,10 +62,14 @@ class TestCase(unittest.TestCase):
         func(*args)
         self.run = True
 
-class SnapshotsTestCase(TestCase):
+class TestCaseCfg(TestCase):
+    def setUp(self):
+        super(TestCaseCfg, self).setUp()
+        self.cfg = config.Config(self.cfgFile, self.sharePath)
+
+class SnapshotsTestCase(TestCaseCfg):
     def setUp(self):
         super(SnapshotsTestCase, self).setUp()
-        self.cfg = config.Config(self.cfgFile, self.sharePath)
         #use a new TemporaryDirectory for snapshotPath to avoid
         #side effects on leftovers
         self.tmpDir = TemporaryDirectory()
@@ -96,13 +100,12 @@ class SnapshotsWithSidTestCase(SnapshotsTestCase):
         with open(self.sid.pathBackup(self.testFile), 'wt') as f:
             pass
 
-class SSHTestCase(TestCase):
+class SSHTestCase(TestCaseCfg):
     # running this test requires that user has public / private key pair created and ssh server running
 
     def setUp(self):
         super(SSHTestCase, self).setUp()
         logger.DEBUG = '-v' in sys.argv
-        self.cfg = config.Config(self.cfgFile, self.sharePath)
         self.cfg.set_snapshots_mode('ssh')
         self.cfg.set_ssh_host('localhost')
         self.cfg.set_ssh_private_key_file(PRIV_KEY_FILE)

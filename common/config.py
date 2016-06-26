@@ -518,6 +518,90 @@ class Config( configfile.ConfigFileWithProfiles ):
         #?on the remote host.
         return self.get_profile_bool_value('snapshots.ssh.check_commands', True, profile_id)
 
+    def ssh_default_args(self, profile_id = None):
+        """
+        Default arguments used for ``ssh`` and ``sshfs`` commands.
+
+        Returns:
+            list:   arguments for ssh
+        """
+        # keep connection alive
+        args  = ['-o', 'ServerAliveInterval=240']
+        # disable ssh banner
+        args += ['-o', 'LogLevel=Error']
+        # specifying key file here allows to override for potentially
+        # conflicting .ssh/config key entry
+        args += ['-o', 'IdentityFile={}'.format(self.get_ssh_private_key_file(profile_id))]
+        return args
+
+    def ssh_command(self,
+                    cmd = None,
+                    custom_args = None,
+                    port = True,
+                    cipher = True,
+                    user_host = True,
+                    ionice = True,
+                    nice = True,
+                    quote = False,
+                    prefix = True,
+                    profile_id = None):
+        """
+        Return SSH command with all arguments.
+
+        Args:
+            cmd (list):         command that should run on remote host
+            custom_args (list): additional arguments paste to the command
+            port (bool):        use port from config
+            cipher (bool):      use cipher from config
+            user_host (bool):   use user@host from config
+            ionice (bool):      use ionice if configured
+            nice (bool):        use nice if configured
+            quote (bool):       quote remote command
+            prefix (bool):      use prefix from config before remote command
+            profile_id (str):   profile ID that should  be used in config
+
+        Returns:
+            list:               ssh command with choosen arguments
+        """
+        assert cmd is None or isinstance(cmd, list), "cmd '{}' is not list instance".format(cmd)
+        assert custom_args is None or isinstance(custom_args, list), "custom_args '{}' is not list instance".format(custom_args)
+        ssh  = ['ssh']
+        ssh += self.ssh_default_args(profile_id)
+        # remote port
+        if port:
+            ssh += ['-p', str(self.get_ssh_port(profile_id))]
+        # cipher used to transfer data
+        c = self.get_ssh_cipher(profile_id)
+        if cipher and c != 'default':
+            ssh += ['-o', 'Ciphers={}'.format(c)]
+        # custom arguments
+        if custom_args:
+            ssh += custom_args
+        # user@host
+        if user_host:
+            ssh.append('{}@{}'.format(self.get_ssh_user(profile_id),
+                                      self.get_ssh_host(profile_id)))
+        # quote the command running on remote host
+        if quote and cmd:
+            ssh.append("'")
+        # run 'ionice' on remote host
+        if ionice and self.is_run_ionice_on_remote_enabled(profile_id) and cmd:
+            ssh += ['ionice', '-c2', '-n7']
+        # run 'nice' on remote host
+        if nice and self.is_run_nice_on_remote_enabled(profile_id) and cmd:
+            ssh += ['nice', '-n 19']
+        # run prefix on remote host
+        if prefix and cmd and self.ssh_prefix_enabled(profile_id):
+            ssh += self.ssh_prefix_cmd(profile_id, cmd_type = list)
+        # add the command
+        if cmd:
+            ssh += cmd
+        # close quote
+        if quote and cmd:
+            ssh.append("'")
+
+        return ssh
+
     #ENCFS
     def get_local_encfs_path( self, profile_id = None ):
         #?Where to save snapshots in mode 'local_encfs'.;absolute path

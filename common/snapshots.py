@@ -1590,6 +1590,7 @@ class Snapshots:
             ssh_private_key = self.config.get_ssh_private_key_file()
 
             if isinstance(cmd, str):
+                #TODO: remove obsolete str command
                 if ssh_cipher == 'default':
                     ssh_cipher_suffix = ''
                 else:
@@ -1615,25 +1616,7 @@ class Snapshots:
                 cmd = list(cmd)
 
             if isinstance(cmd, list):
-                prefix = ['ssh', '-p', str(ssh_port)]
-                prefix += ['-o', 'ServerAliveInterval=240'] # keep connection alive
-                prefix += ['-o', 'LogLevel=Error'] # disable ssh banner
-                if not ssh_cipher == 'default':
-                    prefix += ['-c', ssh_cipher]
-                prefix += ['-o', 'IdentityFile=%s' % ssh_private_key]
-                prefix += ['%s@%s' % (ssh_user, ssh_host)]
-
-                if self.config.is_run_ionice_on_remote_enabled():
-                    cmd = ['ionice', '-c2', '-n7'] + cmd
-
-                if self.config.is_run_nice_on_remote_enabled():
-                    cmd = ['nice', '-n 19'] + cmd
-
-                cmd = self.config.ssh_prefix_cmd(cmd_type = list) + cmd
-
-                if quote:
-                    cmd = ['\''] + cmd + ['\'']
-                return prefix + cmd
+                return self.config.ssh_command(cmd)
 
         else:
             return cmd

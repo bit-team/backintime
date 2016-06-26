@@ -111,15 +111,6 @@ class SSH(MountControl):
         self.user_host_path = '%s@%s:%s' % (self.user, tools.escapeIPv6Address(self.host), self.path)
         self.user_host = '%s@%s' % (self.user, self.host)
 
-        # ssh_options contains port but can be extended to include cipher, customkeyfile, etc
-        self.ssh_options = ['-p', str(self.port)]
-        self.ssh_options += ['-o', 'ServerAliveInterval=240'] # keep connection alive
-        self.ssh_options += ['-o', 'LogLevel=Error'] # disable ssh banner
-
-        # specifying key file here allows to override for potentially
-        # conflicting .ssh/config key entry
-        self.ssh_options += ['-o', 'IdentityFile=%s' % self.private_key_file]
-
         self.mountproc = 'sshfs'
         self.symlink_subfolder = None
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
@@ -142,7 +133,9 @@ class SSH(MountControl):
         Raises:
             exceptions.MountException:  if mount wasn't successful
         """
-        sshfs = [self.mountproc] + self.ssh_options
+        sshfs  = [self.mountproc]
+        sshfs += self.config.ssh_default_args(self.profile_id)
+        sshfs += ['-p', str(self.port)]
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
         sshfs.extend(['-o', 'idmap=user',
@@ -293,10 +286,16 @@ class SSH(MountControl):
             exceptions.MountException:  if login failed
         """
         logger.debug('Check login', self)
-        ssh = ['ssh', '-o', 'PreferredAuthentications=publickey']
-        ssh.extend(self.ssh_options + [self.user_host])
-        ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
-        ssh.extend(['echo', '"Hello"'])
+        ssh = self.config.ssh_command(cmd = ['echo', '"Hello"'],
+                                      custom_args = ['-o', 'PreferredAuthentications=publickey',
+                                                     '-p', str(self.port),
+                                                     self.user_host],
+                                      port = False,
+                                      cipher = False,
+                                      user_host = False,
+                                      nice = False,
+                                      ionice = False,
+                                      profile_id = self.profile_id)
         proc = subprocess.Popen(ssh,
                                 stdout=subprocess.DEVNULL,
                                 stderr=subprocess.PIPE,
@@ -318,11 +317,15 @@ class SSH(MountControl):
         """
         if not self.cipher == 'default':
             logger.debug('Check cipher', self)
-            ssh = ['ssh']
-            ssh.extend(['-o', 'Ciphers=%s' % self.cipher])
-            ssh.extend(self.ssh_options + [self.user_host])
-            ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
-            ssh.extend(['echo', '"Hello"'])
+            ssh = self.config.ssh_command(cmd = ['echo', '"Hello"'],
+                                          custom_args = ['-o', 'Ciphers=%s' % self.cipher,
+                                                         self.user_host],
+                                          port = False,
+                                          cipher = False,
+                                          user_host = False,
+                                          nice = False,
+                                          ionice = False,
+                                          profile_id = self.profile_id)
             proc = subprocess.Popen(ssh,
                                     stdout=subprocess.DEVNULL,
                                     stderr=subprocess.PIPE,
@@ -352,10 +355,14 @@ class SSH(MountControl):
             for i in range(2):
                 # scp uses -P instead of -p for port
                 subprocess.call(['scp', '-P', str(self.port), '-c', cipher, temp, self.user_host_path])
-        ssh = ['ssh']
-        ssh.extend(self.ssh_options + [self.user_host])
-        ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
-        ssh.extend(['rm', os.path.join(self.path, os.path.basename(temp)) ])
+        ssh = self.config.ssh_command(cmd = ['rm', os.path.join(self.path, os.path.basename(temp))],
+                                      custom_args = ['-p', str(self.port), self.user_host],
+                                      port = False,
+                                      cipher = False,
+                                      user_host = False,
+                                      nice = False,
+                                      ionice = False,
+                                      profile_id = self.profile_id)
         subprocess.call(ssh)
         os.remove(temp)
 
@@ -398,10 +405,14 @@ class SSH(MountControl):
         cmd += 'test -w %s || exit 12;' % self.path #path is not writeable
         cmd += 'test -x %s || exit 13;' % self.path #path is not executable
         cmd += 'exit 20'                             #everything is fine
-        ssh = ['ssh']
-        ssh.extend(self.ssh_options + [self.user_host])
-        ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
-        ssh.extend([cmd])
+        ssh = self.config.ssh_command(cmd = [cmd],
+                                      custom_args = ['-p', str(self.port), self.user_host],
+                                      port = False,
+                                      cipher = False,
+                                      user_host = False,
+                                      nice = False,
+                                      ionice = False,
+                                      profile_id = self.profile_id)
         logger.debug('Call command: %s' %' '.join(ssh), self)
         proc = subprocess.Popen(ssh,
                                 stdout=subprocess.DEVNULL,
@@ -573,9 +584,6 @@ class SSH(MountControl):
         maxLength = self.config.ssh_max_arg_length(self.profile_id)
         additionalChars = len('echo ""') + len(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = str))
 
-        ssh = ['ssh']
-        ssh.extend(self.ssh_options + [self.user_host])
-        ssh.extend(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = list))
         output = ''
         err = ''
         returncode = 0
@@ -584,8 +592,14 @@ class SSH(MountControl):
                                        maxLength = maxLength - additionalChars):
             if cmd.endswith('; '):
                 cmd += 'echo ""'
-            c = ssh[:]
-            c.extend([cmd])
+            c = self.config.ssh_command(cmd = [cmd],
+                                        custom_args = ['-p', str(self.port), self.user_host],
+                                        port = False,
+                                        cipher = False,
+                                        user_host = False,
+                                        nice = False,
+                                        ionice = False,
+                                        profile_id = self.profile_id)
             try:
                 logger.debug('Call command: %s' %' '.join(c), self)
                 proc = subprocess.Popen(c,
