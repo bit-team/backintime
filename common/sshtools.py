@@ -319,6 +319,7 @@ class SSH(MountControl):
             logger.debug('Check cipher', self)
             ssh = self.config.ssh_command(cmd = ['echo', '"Hello"'],
                                           custom_args = ['-o', 'Ciphers=%s' % self.cipher,
+                                                         '-p', str(self.port),
                                                          self.user_host],
                                           port = False,
                                           cipher = False,
