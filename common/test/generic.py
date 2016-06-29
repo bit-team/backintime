@@ -117,3 +117,39 @@ class SSHTestCase(TestCaseCfg):
 
     def tearDown(self):
         self.tmpDir.cleanup()
+
+class SSHSnapshotTestCase(SSHTestCase):
+    def setUp(self):
+        super(SSHSnapshotTestCase, self).setUp()
+        self.snapshotPath = self.cfg.get_snapshots_full_path_ssh()
+        os.makedirs(self.snapshotPath)
+
+        self.sn = snapshots.Snapshots(self.cfg)
+        #use a tmp-file for flock because test_flockExclusive would deadlock
+        #otherwise if a regular snapshot is running in background
+        self.sn.GLOBAL_FLOCK = TMP_FLOCK.name
+
+class SSHSnapshotsWithSidTestCase(SSHSnapshotTestCase):
+    def setUp(self):
+        super(SSHSnapshotsWithSidTestCase, self).setUp()
+        self.sid = snapshots.SID('20151219-010324-123', self.cfg)
+
+        self.remoteSIDBackupPath = os.path.join(self.snapshotPath, self.sid.sid, 'backup')
+        os.makedirs(self.remoteSIDBackupPath)
+        self.testDir = 'foo/bar'
+        self.testDirFullPath = os.path.join(self.remoteSIDBackupPath, self.testDir)
+        self.testFile = 'foo/bar/baz'
+        self.testFileFullPath = os.path.join(self.remoteSIDBackupPath, self.testFile)
+
+        os.makedirs(self.testDirFullPath)
+        with open(self.testFileFullPath, 'wt') as f:
+            pass
+
+def create_test_files(path):
+    os.makedirs(os.path.join(path, 'foo', 'bar'))
+    with open(os.path.join(path, 'foo', 'bar', 'baz'), 'wt') as f:
+        f.write('foo')
+    with open(os.path.join(path, 'test'), 'wt') as f:
+        f.write('bar')
+    with open(os.path.join(path, 'file with spaces'), 'wt') as f:
+        f.write('asdf')

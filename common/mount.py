@@ -452,10 +452,10 @@ class MountControl(object):
         self.mountprocess_lock_acquire()
         try:
             if not os.path.isdir(self.hash_id_path):
-                logger.info('Mountpoint %s does not exist.' % self.hash_id_path, self)
+                logger.info('Mountpoint %s does not exist.' % self.mountpoint, self)
             else:
                 if not self.is_mounted():
-                    logger.info('Mountpoint %s is not mounted' % self.hash_id_path, self)
+                    logger.info('Mountpoint %s is not mounted' % self.mountpoint, self)
                 else:
                     if self.check_mount_lock():
                         logger.info('Mountpoint %s still in use. Keep mounted' % self.mountpoint, self)
