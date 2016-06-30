@@ -1621,7 +1621,7 @@ class Snapshots:
         else:
             return cmd
 
-    def rsync_remote_path(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = ''):
+    def rsync_remote_path(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = '"'):
         """
         Format the destination string for rsync depending on which profile is
         used.
@@ -1649,7 +1649,7 @@ class Snapshots:
                                                    'q': quote,
                                                    'p': path}
         else:
-            return '%(q)s%(p)s%(q)s' %{'q': quote, 'p': path}
+            return path
 
     def delete_path(self, sid, path):
         """

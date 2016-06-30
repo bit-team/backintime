@@ -128,6 +128,3 @@ class TestRestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestore):
         mount.Mount(cfg = self.cfg).umount(self.cfg.current_hash_id)
         hash_id = mount.Mount(cfg = self.cfg).mount()
 
-    @unittest.skip('Bug #595 not yet fixed')
-    def test_restore_file_with_spaces(self):
-        pass

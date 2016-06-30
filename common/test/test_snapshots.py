@@ -130,18 +130,18 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.rsync_remote_path('/foo'),
                          '/foo')
         self.assertEqual(self.sn.rsync_remote_path('/foo', quote = '\\\"'),
-                         '\\\"/foo\\\"')
+                         '/foo')
         self.assertEqual(self.sn.rsync_remote_path('/foo', use_mode = ['local']),
                          '/foo')
         self.assertEqual(self.sn.rsync_remote_path('/foo', use_mode = ['local'], quote = '\\\"'),
-                         '\\\"/foo\\\"')
+                         '/foo')
 
         #set up SSH profile
         self.cfg.set_snapshots_mode('ssh')
         self.cfg.set_ssh_host('localhost')
         self.cfg.set_ssh_user('foo')
         self.assertEqual(self.sn.rsync_remote_path('/bar'),
-                         'foo@localhost:/bar')
+                         'foo@localhost:"/bar"')
         self.assertEqual(self.sn.rsync_remote_path('/bar', quote = '\\\"'),
                          'foo@localhost:\\\"/bar\\\"')
 
