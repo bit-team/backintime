@@ -52,6 +52,7 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         self.assertTrue(sid1.exists())
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
+        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'file with spaces')))
         for f in ('config',
                   'fileinfo.bz2',
                   'info',
