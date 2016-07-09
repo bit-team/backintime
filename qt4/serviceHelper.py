@@ -125,7 +125,7 @@ class UdevRules(dbus.service.Object):
         #create su command
         sucmd = "%s - '%s' -c '%s'" %(self.su, user, cmd)
         #create Udev rule
-        rule = 'ACTION=="add", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, sucmd)
+        rule = 'ACTION=="add|change", ENV{ID_FS_UUID}=="%s", RUN+="%s"\n' %(uuid, sucmd)
 
         #store rule
         if not owner in self.tmpDict:
