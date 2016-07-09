@@ -20,6 +20,7 @@ import sys
 import os
 import gettext
 import subprocess
+import signal
 
 _=gettext.gettext
 
@@ -71,6 +72,19 @@ class Qt4SysTrayIcon:
         self.menuStatusMessage = self.contextMenu.addAction(_('Done'))
         self.menuProgress = self.contextMenu.addAction('')
         self.menuProgress.setVisible(False)
+        self.contextMenu.addSeparator()
+
+        self.btnPause = self.contextMenu.addAction(icon.PAUSE, _('Pause snapshot process'))
+        action = lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP)
+        self.btnPause.triggered.connect(action)
+
+        self.btnResume = self.contextMenu.addAction(icon.RESUME, _('Resume snapshot process'))
+        action = lambda: os.kill(self.snapshots.pid(), signal.SIGCONT)
+        self.btnResume.triggered.connect(action)
+        self.btnResume.setVisible(False)
+
+        self.btnStop = self.contextMenu.addAction(icon.STOP, _('Stop snapshot process'))
+        self.btnStop.triggered.connect(self.onBtnStop)
         self.contextMenu.addSeparator()
 
         self.btnDecode = self.contextMenu.addAction(icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
@@ -132,6 +146,10 @@ class Qt4SysTrayIcon:
             self.prepare_exit()
             self.qapp.exit(0)
             return
+
+        paused = tools.process_paused(self.snapshots.pid())
+        self.btnPause.setVisible(not paused)
+        self.btnResume.setVisible(paused)
 
         message = self.snapshots.get_take_snapshot_message()
         if message is None and self.last_message is None:
@@ -195,6 +213,13 @@ class Qt4SysTrayIcon:
             self.update_info()
         else:
             self.decode = None
+
+    def onBtnStop(self):
+        os.kill(self.snapshots.pid(), signal.SIGKILL)
+        self.btnStop.setEnabled(False)
+        self.btnPause.setEnabled(False)
+        self.btnResume.setEnabled(False)
+        self.snapshots.set_take_snapshot_message(0, 'Snapshot terminated')
 
 if __name__ == '__main__':
     Qt4SysTrayIcon().run()
