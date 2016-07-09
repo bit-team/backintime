@@ -27,6 +27,9 @@ BIT_LOGO_INFO       = QIcon.fromTheme('document-save-as')
 
 #Main toolbar
 TAKE_SNAPSHOT       = BIT_LOGO
+PAUSE               = QIcon.fromTheme('media-playback-pause')
+RESUME              = QIcon.fromTheme('media-playback-start')
+STOP                = QIcon.fromTheme('media-playback-stop')
 REFRESH_SNAPSHOT    = QIcon.fromTheme('view-refresh')
 SNAPSHOT_NAME       = QIcon.fromTheme('stock_edit',
                       QIcon.fromTheme('gtk-edit',

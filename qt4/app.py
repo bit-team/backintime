@@ -27,6 +27,7 @@ import gettext
 import re
 import subprocess
 import shutil
+import signal
 from contextlib import contextmanager
 from tempfile import TemporaryDirectory
 
@@ -80,6 +81,7 @@ class MainWindow( QMainWindow ):
         self.combo_profiles = qt4tools.ProfileCombo(self)
         self.combo_profiles_action = self.main_toolbar.addWidget( self.combo_profiles )
 
+        # take_snapshot button
         self.btn_take_snapshot = self.main_toolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
         QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
 
@@ -94,6 +96,24 @@ class MainWindow( QMainWindow ):
         for action in take_snapshot_menu.actions():
             action.setIconVisibleInMenu(True)
 
+        #pause snapshot button
+        self.btn_pause_take_snapshot = self.main_toolbar.addAction(icon.PAUSE, _('Pause snapshot process'))
+        action = lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP)
+        self.btn_pause_take_snapshot.triggered.connect(action)
+        self.btn_pause_take_snapshot.setVisible(False)
+
+        #resume snapshot button
+        self.btn_resume_take_snapshot = self.main_toolbar.addAction(icon.RESUME, _('Resume snapshot process'))
+        action = lambda: os.kill(self.snapshots.pid(), signal.SIGCONT)
+        self.btn_resume_take_snapshot.triggered.connect(action)
+        self.btn_resume_take_snapshot.setVisible(False)
+
+        #stop snapshot button
+        self.btn_stop_take_snapshot = self.main_toolbar.addAction(icon.STOP, _('Stop snapshot process'))
+        self.btn_stop_take_snapshot.triggered.connect(self.on_btn_stop_take_snapshot_clicked)
+        self.btn_stop_take_snapshot.setVisible(False)
+
+        # update snapshots button
         self.btn_update_snapshots = self.main_toolbar.addAction(icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'))
         self.btn_update_snapshots.setShortcuts([Qt.Key_F5, QKeySequence(Qt.CTRL + Qt.Key_R)])
         QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
@@ -646,6 +666,9 @@ class MainWindow( QMainWindow ):
         busy = self.snapshots.is_busy()
         if busy:
             self.force_wait_lock_counter = 0
+            paused = tools.process_paused(self.snapshots.pid())
+        else:
+            paused = False
 
         if self.force_wait_lock_counter > 0:
             self.force_wait_lock_counter = self.force_wait_lock_counter - 1
@@ -667,10 +690,25 @@ class MainWindow( QMainWindow ):
         if fake_busy:
             if self.btn_take_snapshot.isEnabled():
                 self.btn_take_snapshot.setEnabled( False )
+
+            if not self.btn_stop_take_snapshot.isVisible():
+                for btn in (self.btn_pause_take_snapshot,
+                            self.btn_resume_take_snapshot,
+                            self.btn_stop_take_snapshot):
+                    btn.setEnabled(True)
+            self.btn_take_snapshot.setVisible(False)
+            self.btn_pause_take_snapshot.setVisible(not paused)
+            self.btn_resume_take_snapshot.setVisible(paused)
+            self.btn_stop_take_snapshot.setVisible(True)
         elif not self.btn_take_snapshot.isEnabled():
             force_update = True
 
             self.btn_take_snapshot.setEnabled( True )
+            self.btn_take_snapshot.setVisible(True)
+            for btn in (self.btn_pause_take_snapshot,
+                        self.btn_resume_take_snapshot,
+                        self.btn_stop_take_snapshot):
+                btn.setVisible(False)
 
             #TODO: check if there is a more elegant way than always get a new snapshot list which is very expencive (time)
             snapshots_list = snapshots.listSnapshots(self.config)
@@ -844,6 +882,13 @@ class MainWindow( QMainWindow ):
     def on_btn_take_snapshot_checksum_clicked(self):
         backintime.take_snapshot_now_async(self.config, checksum = True)
         self.update_take_snapshot(True)
+
+    def on_btn_stop_take_snapshot_clicked(self):
+        os.kill(self.snapshots.pid(), signal.SIGKILL)
+        self.btn_stop_take_snapshot.setEnabled(False)
+        self.btn_pause_take_snapshot.setEnabled(False)
+        self.btn_resume_take_snapshot.setEnabled(False)
+        self.snapshots.set_take_snapshot_message(0, 'Snapshot terminated')
 
     def on_btn_update_snapshots_clicked( self ):
         self.update_time_line()

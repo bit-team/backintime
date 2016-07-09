@@ -155,6 +155,10 @@ class Snapshots:
         instance = applicationinstance.ApplicationInstance( self.config.get_take_snapshot_instance_file(), False )
         return not instance.check()
 
+    def pid(self):
+        instance = applicationinstance.ApplicationInstance(self.config.get_take_snapshot_instance_file(), False)
+        return instance.readPidFile()[0]
+
     def clear_uid_gid_names_cache(self):
         """
         Reset the cache for user and group names.
