@@ -22,10 +22,12 @@ import subprocess
 import random
 import gzip
 import stat
+import signal
 from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 from datetime import datetime
 from test import generic
+from time import sleep
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
@@ -227,6 +229,21 @@ class TestTools(generic.TestCase):
         pids = tools.pids()
         self.assertGreater(len(pids), 0)
         self.assertIn(os.getpid(), pids)
+
+    def test_process_stat(self):
+        pid = self.createProcess()
+        stat = tools.process_stat(pid)
+        self.assertRegex(stat, r'{} \({}\) \w .*'.format(pid, generic.DUMMY[:15]))
+
+    def test_process_paused(self):
+        pid = self.createProcess()
+        self.assertFalse(tools.process_paused(pid))
+        self.subproc.send_signal(signal.SIGSTOP)
+        sleep(0.01)
+        self.assertTrue(tools.process_paused(pid))
+        self.subproc.send_signal(signal.SIGCONT)
+        sleep(0.01)
+        self.assertFalse(tools.process_paused(pid))
 
     def test_process_name(self):
         pid = self.createProcess()

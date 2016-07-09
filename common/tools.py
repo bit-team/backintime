@@ -317,6 +317,36 @@ def pids():
     """
     return [int(x) for x in os.listdir('/proc') if x.isdigit()]
 
+def process_stat(pid):
+    """
+    Get the stat's of the process with ``pid``.
+
+    Args:
+        pid (int):  Process Indicator
+
+    Returns:
+        str:        stat from /proc/PID/stat
+    """
+    try:
+        with open('/proc/{}/stat'.format(pid), 'rt') as f:
+            return f.read()
+    except OSError as e:
+        logger.warning('Failed to read process stat from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
+        return ''
+
+def process_paused(pid):
+    """
+    Check if process ``pid`` is paused (got signal SIGSTOP).
+
+    Args:
+        pid (int):  Process Indicator
+
+    Returns:
+        bool:       True if process is paused
+    """
+    m = re.match(r'\d+ \(.+\) T', process_stat(pid))
+    return bool(m)
+
 def process_name(pid):
     """
     Get the name of the process with ``pid``.
@@ -327,13 +357,7 @@ def process_name(pid):
     Returns:
         str:        name of the process
     """
-    try:
-        with open('/proc/{}/stat'.format(pid), 'rt') as f:
-            data = f.read()
-    except OSError as e:
-        logger.warning('Failed to read process name from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
-        return ''
-    m = re.match(r'.*\((.+)\).*', data)
+    m = re.match(r'.*\((.+)\).*', process_stat(pid))
     if m:
         return m.group(1)
 
