@@ -33,7 +33,7 @@ import config
 import configfile
 import snapshots
 import tools
-from snapshotlog import LogFilter
+from snapshotlog import LogFilter, SnapshotLog
 
 CURRENTUID = os.geteuid()
 CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
@@ -1045,6 +1045,23 @@ class TestNewSnapshot(generic.SnapshotsTestCase):
         new.saveToContinue = False
         self.assertFalse(os.path.exists(saveToContinuePath))
         self.assertFalse(new.saveToContinue)
+
+    def test_hasChanges(self):
+        now = datetime(2016, 7, 10, 16, 24, 17)
+
+        new = snapshots.NewSnapshot(self.cfg)
+        new.makeDirs()
+
+        self.assertFalse(new.hasChanges)
+        log = SnapshotLog(self.cfg)
+        log.new(now)
+        log.append('[I] foo', log.ALL)
+        log.append('[E] bar', log.ALL)
+        log.flush()
+        self.assertFalse(new.hasChanges)
+        log.append('[C] baz', log.ALL)
+        log.flush()
+        self.assertTrue(new.hasChanges)
 
 class TestRootSnapshot(generic.SnapshotsTestCase):
     #TODO: add test with 'sid.path(use_mode=['ssh_encfs'])'

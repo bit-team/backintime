@@ -940,6 +940,7 @@ class Snapshots:
 
         new_snapshot = NewSnapshot(self.config)
         encode = self.config.ENCODE
+        params = [False, False]
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
             logger.info("Found leftover '%s' which can be continued." %new_snapshot.displayID, self)
@@ -949,6 +950,8 @@ class Snapshots:
                 file = os.path.join(new_snapshot.path(), file)
                 mode = os.stat(file).st_mode
                 os.chmod(file, mode | stat.S_IWUSR)
+            # search previous log for changes and set params
+            params[1] = new_snapshot.hasChanges
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
             logger.info("Remove leftover '%s' folder from last run" %new_snapshot.displayID)
             self.set_take_snapshot_message(0, _("Removing leftover '%s' folder from last run") %new_snapshot.displayID)
@@ -993,7 +996,6 @@ class Snapshots:
         self.set_take_snapshot_message(0, _('Taking snapshot'))
 
         #run rsync
-        params = [False, False]
         proc = tools.Execute(cmd,
                              callback = self._exec_rsync_callback,
                              user_data = params,
@@ -2428,6 +2430,21 @@ class NewSnapshot(GenericNonSnapshot):
                 pass
         elif os.path.exists(flag):
             os.remove(flag)
+
+    @property
+    def hasChanges(self):
+        """
+        Check if there where changes in previous sessions.
+
+        Returns:
+            bool:   ``True`` if there where changes
+        """
+        log = snapshotlog.SnapshotLog(self.config, self.profileID)
+        c = re.compile(r'^\[C\] ')
+        for line in log.get(mode = snapshotlog.LogFilter.CHANGES):
+            if c.match(line):
+                return True
+        return False
 
 class RootSnapshot(GenericNonSnapshot):
     """
