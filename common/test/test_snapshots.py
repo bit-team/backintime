@@ -1052,9 +1052,9 @@ class TestNewSnapshot(generic.SnapshotsTestCase):
         new = snapshots.NewSnapshot(self.cfg)
         new.makeDirs()
 
-        self.assertFalse(new.hasChanges)
         log = SnapshotLog(self.cfg)
         log.new(now)
+        self.assertFalse(new.hasChanges)
         log.append('[I] foo', log.ALL)
         log.append('[E] bar', log.ALL)
         log.flush()
