@@ -399,13 +399,13 @@ class SSH(MountControl):
         """
         logger.debug('Check remote folder', self)
         cmd  = 'd=0;'
-        cmd += 'test -e %s || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
-        cmd += 'test $d -eq 1 && mkdir %s; err=$?;' % self.path #create path, get errorcode from mkdir
-        cmd += 'test $d -eq 1 && exit $err;'                    #return errorcode from mkdir
-        cmd += 'test -d %s || exit 11;' % self.path #path is no directory
-        cmd += 'test -w %s || exit 12;' % self.path #path is not writeable
-        cmd += 'test -x %s || exit 13;' % self.path #path is not executable
-        cmd += 'exit 20'                             #everything is fine
+        cmd += 'test -e "%s" || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
+        cmd += 'test $d -eq 1 && mkdir "%s"; err=$?;' % self.path #create path, get errorcode from mkdir
+        cmd += 'test $d -eq 1 && exit $err;'                      #return errorcode from mkdir
+        cmd += 'test -d "%s" || exit 11;' % self.path #path is no directory
+        cmd += 'test -w "%s" || exit 12;' % self.path #path is not writeable
+        cmd += 'test -x "%s" || exit 13;' % self.path #path is not executable
+        cmd += 'exit 20'                              #everything is fine
         ssh = self.config.ssh_command(cmd = [cmd],
                                       custom_args = ['-p', str(self.port), self.user_host],
                                       port = False,
@@ -510,7 +510,7 @@ class SSH(MountControl):
             #check rsync
             rsync1 =  tools.get_rsync_prefix(self.config, no_perms = False, progress = False)
             rsync1.append(tmp_file)
-            rsync1.append('%s@%s:%s/' %(self.user,
+            rsync1.append('%s@%s:"%s"/' %(self.user,
                                         tools.escapeIPv6Address(self.host),
                                         remote_tmp_dir_1))
 
@@ -518,7 +518,7 @@ class SSH(MountControl):
             rsync2 =  tools.get_rsync_prefix(self.config, no_perms = False, progress = False)
             rsync2.append('--link-dest=../%s' %os.path.basename(remote_tmp_dir_1))
             rsync2.append(tmp_file)
-            rsync2.append('%s@%s:%s/' %(self.user,
+            rsync2.append('%s@%s:"%s"/' %(self.user,
                                         tools.escapeIPv6Address(self.host),
                                         remote_tmp_dir_2))
 
@@ -537,20 +537,20 @@ class SSH(MountControl):
                                             % {'host' : self.host, 'command' : cmd, 'err' : err})
 
         #check cp chmod find and rm
-        head  = 'tmp1=%s; tmp2=%s; ' %(remote_tmp_dir_1, remote_tmp_dir_2)
+        head  = 'tmp1="%s"; tmp2="%s"; ' %(remote_tmp_dir_1, remote_tmp_dir_2)
         #first define a function to clean up and exit
         head += 'cleanup(){ '
-        head += 'test -e $tmp1/a && rm $tmp1/a >/dev/null 2>&1; '
-        head += 'test -e $tmp2/a && rm $tmp2/a >/dev/null 2>&1; '
+        head += 'test -e "$tmp1/a" && rm "$tmp1/a" >/dev/null 2>&1; '
+        head += 'test -e "$tmp2/a" && rm "$tmp2/a" >/dev/null 2>&1; '
         head += 'test -e smr.lock && rm smr.lock >/dev/null 2>&1; '
-        head += 'test -e $tmp1 && rmdir $tmp1 >/dev/null 2>&1; '
-        head += 'test -e $tmp2 && rmdir $tmp2 >/dev/null 2>&1; '
-        head += 'test -n "$tmp3" && test -e $tmp3 && rmdir $tmp3 >/dev/null 2>&1; '
+        head += 'test -e "$tmp1" && rmdir "$tmp1" >/dev/null 2>&1; '
+        head += 'test -e "$tmp2" && rmdir "$tmp2" >/dev/null 2>&1; '
+        head += 'test -n "$tmp3" && test -e "$tmp3" && rmdir "$tmp3" >/dev/null 2>&1; '
         head += 'exit $1; }; '
         tail = []
 
         #list inodes
-        cmd  = 'ls -i $tmp1/a; ls -i $tmp2/a; '
+        cmd  = 'ls -i "$tmp1/a"; ls -i "$tmp2/a"; '
         tail.append(cmd)
         #try nice -n 19
         if self.nice:
