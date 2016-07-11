@@ -681,7 +681,14 @@ class Snapshots:
                             logger.warning("Snapshot path \"%s\" already exists" %sid.path(), self)
                             self.config.PLUGIN_MANAGER.on_error( 4, sid ) #This snapshots already exists
                         else:
-                            ret_val, ret_error = self._take_snapshot( sid, now, include_folders )
+                            try:
+                                ret_val, ret_error = self._take_snapshot( sid, now, include_folders )
+                            except:
+                                new = NewSnapshot(self.config)
+                                if new.exists():
+                                    new.saveToContinue = False
+                                    new.failed = True
+                                raise
 
                         if not ret_val:
                             self.remove_snapshot(sid)
@@ -949,7 +956,10 @@ class Snapshots:
             for file in os.listdir(new_snapshot.path()):
                 file = os.path.join(new_snapshot.path(), file)
                 mode = os.stat(file).st_mode
-                os.chmod(file, mode | stat.S_IWUSR)
+                try:
+                    os.chmod(file, mode | stat.S_IWUSR)
+                except PermissionError:
+                    pass
             # search previous log for changes and set params
             params[1] = new_snapshot.hasChanges
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
