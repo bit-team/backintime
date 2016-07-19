@@ -27,27 +27,27 @@ import config
 class TestConfig(generic.TestCaseCfg):
     def test_set_snapshots_path_test_writes(self):
         with TemporaryDirectory() as dirpath:
-            self.assertTrue(self.cfg.set_snapshots_path(dirpath))
+            self.assertTrue(self.cfg.setSnapshotsPath(dirpath))
 
     def test_set_snapshots_path_fails_on_ro(self):
         with TemporaryDirectory() as dirpath:
             # set directory to read only
             os.chmod(dirpath, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-            self.assertFalse(self.cfg.set_snapshots_path(dirpath))
+            self.assertFalse(self.cfg.setSnapshotsPath(dirpath))
 
 class TestSshCommand(generic.SSHTestCase):
     def test_full_command(self):
-        cmd = self.cfg.ssh_command(cmd = ['echo', 'foo'])
+        cmd = self.cfg.sshCommand(cmd = ['echo', 'foo'])
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
-                                   '{}@localhost'.format(self.cfg.get_user()),
+                                   '{}@localhost'.format(self.cfg.user()),
                                    'echo', 'foo'])
 
     def test_custom_args(self):
-        cmd = self.cfg.ssh_command(cmd = ['echo', 'foo'],
+        cmd = self.cfg.sshCommand(cmd = ['echo', 'foo'],
                                    custom_args = ['-o', 'PreferredAuthentications=publickey'])
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
@@ -55,107 +55,106 @@ class TestSshCommand(generic.SSHTestCase):
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
                                    '-o', 'PreferredAuthentications=publickey',
-                                   '{}@localhost'.format(self.cfg.get_user()),
+                                   '{}@localhost'.format(self.cfg.user()),
                                    'echo', 'foo'])
 
     def test_cipher(self):
-        self.cfg.set_ssh_cipher('aes256-cbc')
-        cmd = self.cfg.ssh_command(cmd = ['echo', 'foo'])
+        self.cfg.setSshCipher('aes256-cbc')
+        cmd = self.cfg.sshCommand(cmd = ['echo', 'foo'])
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
                                    '-o', 'Ciphers=aes256-cbc',
-                                   '{}@localhost'.format(self.cfg.get_user()),
+                                   '{}@localhost'.format(self.cfg.user()),
                                    'echo', 'foo'])
 
         # disable cipher
-        cmd = self.cfg.ssh_command(cmd = ['echo', 'foo'], cipher = False)
+        cmd = self.cfg.sshCommand(cmd = ['echo', 'foo'], cipher = False)
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
-                                   '{}@localhost'.format(self.cfg.get_user()),
+                                   '{}@localhost'.format(self.cfg.user()),
                                    'echo', 'foo'])
 
     def test_without_command(self):
-        cmd = self.cfg.ssh_command()
+        cmd = self.cfg.sshCommand()
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
-                                   '{}@localhost'.format(self.cfg.get_user())])
+                                   '{}@localhost'.format(self.cfg.user())])
 
     def test_nice(self):
-        self.cfg.set_run_nice_on_remote_enabled(True)
-        self.cfg.set_run_ionice_on_remote_enabled(True)
-        cmd = self.cfg.ssh_command(cmd = ['echo', 'foo'])
+        self.cfg.setNiceOnRemote(True)
+        self.cfg.setIoniceOnRemote(True)
+        cmd = self.cfg.sshCommand(cmd = ['echo', 'foo'])
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
-                                   '{}@localhost'.format(self.cfg.get_user()),
+                                   '{}@localhost'.format(self.cfg.user()),
                                    'ionice', '-c2', '-n7',
                                    'nice', '-n 19',
                                    'echo', 'foo'])
 
         # without cmd no io-/nice
-        cmd = self.cfg.ssh_command()
+        cmd = self.cfg.sshCommand()
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
-                                   '{}@localhost'.format(self.cfg.get_user())])
+                                   '{}@localhost'.format(self.cfg.user())])
 
     def test_quote(self):
-        cmd = self.cfg.ssh_command(cmd = ['echo', 'foo'], quote = True)
+        cmd = self.cfg.sshCommand(cmd = ['echo', 'foo'], quote = True)
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
-                                   '{}@localhost'.format(self.cfg.get_user()),
+                                   '{}@localhost'.format(self.cfg.user()),
                                    "'", 'echo', 'foo', "'"])
 
         # without cmd no quotes
-        cmd = self.cfg.ssh_command(quote = True)
+        cmd = self.cfg.sshCommand(quote = True)
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
-                                   '{}@localhost'.format(self.cfg.get_user())])
+                                   '{}@localhost'.format(self.cfg.user())])
 
     def test_prefix(self):
-        self.cfg.set_ssh_prefix_enabled(True)
-        self.cfg.set_ssh_prefix('echo bar')
-        cmd = self.cfg.ssh_command(cmd = ['echo', 'foo'])
+        self.cfg.setSshPrefix(True, 'echo bar')
+        cmd = self.cfg.sshCommand(cmd = ['echo', 'foo'])
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
-                                   '{}@localhost'.format(self.cfg.get_user()),
+                                   '{}@localhost'.format(self.cfg.user()),
                                    'echo', 'bar',
                                    'echo', 'foo'])
 
         # disable prefix
-        cmd = self.cfg.ssh_command(cmd = ['echo', 'foo'], prefix = False)
+        cmd = self.cfg.sshCommand(cmd = ['echo', 'foo'], prefix = False)
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',
                                    '-o', 'IdentityFile={}'.format(generic.PRIV_KEY_FILE),
                                    '-p', '22',
-                                   '{}@localhost'.format(self.cfg.get_user()),
+                                   '{}@localhost'.format(self.cfg.user()),
                                    'echo', 'foo'])
 
     def test_disable_args(self):
-        cmd = self.cfg.ssh_command(port = False, user_host = False)
+        cmd = self.cfg.sshCommand(port = False, user_host = False)
         self.assertListEqual(cmd, ['ssh',
                                    '-o', 'ServerAliveInterval=240',
                                    '-o', 'LogLevel=Error',

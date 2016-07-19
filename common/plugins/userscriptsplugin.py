@@ -33,27 +33,27 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
         self.config = snapshots.config
         return True
 
-    def notify_script( self, path, args = '' ):
+    def script(self, path, args = ''):
         if not path:
             return
 
-        logger.info("[UserScriptsPlugin.notify_script] %s %s"
+        logger.info("[UserScriptsPlugin.script] %s %s"
                     %(path, args),
                     self)
         os.system( "sh \"%s\" %s" % ( self.callback, args ) )
 
-    def on_process_begins( self ):
-        self.notify_script( self.config.get_take_snapshot_user_script_before() )
+    def processBegin(self):
+        self.script(self.config.takeSnapshotUserScriptBefore())
 
-    def on_process_ends( self ):
-        self.notify_script( self.config.get_take_snapshot_user_script_after() )
+    def processEnd(self):
+        self.script(self.config.takeSnapshotUserScriptAfter())
 
-    def on_error( self, code, message ):
+    def error(self, code, message):
         code = str( code )
         if message:
             code = code + " \"" + message + "\""
 
-        self.notify_script( self.config.get_take_snapshot_user_script_error(), code )
+        self.script(self.config.takeSnapshotUserScriptError(), code)
 
-    def on_new_snapshot( self, snapshot_id, snapshot_path ):
-        self.notify_script( self.config.get_take_snapshot_user_script_new_snapshot(), "%s \"%s\"" % ( snapshot_id, snapshot_path ) )
+    def newSnapshot(self, snapshot_id, snapshot_path):
+        self.script(self.config.takeSnapshotUserScriptNewSnapshot(), "%s \"%s\"" % (snapshot_id, snapshot_path))

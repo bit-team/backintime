@@ -41,7 +41,7 @@ RETURN_NO_CFG = 2
 
 parsers = {}
 
-def take_snapshot_now_async(cfg, checksum = False):
+def takeSnapshotAsync(cfg, checksum = False):
     """
     Fork a new backintime process with 'backup' command which will
     take a new snapshot in background.
@@ -50,11 +50,11 @@ def take_snapshot_now_async(cfg, checksum = False):
         cfg (config.Config): config that should be used
     """
     cmd = []
-    if cfg.is_run_ionice_from_user_enabled():
+    if cfg.ioniceOnUser():
         cmd.extend(('ionice', '-c2', '-n7'))
     cmd.append('backintime')
-    if '1' != cfg.get_current_profile():
-        cmd.extend(('--profile-id', str(cfg.get_current_profile())))
+    if '1' != cfg.currentProfile():
+        cmd.extend(('--profile-id', str(cfg.currentProfile())))
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
         cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
     if cfg._LOCAL_DATA_FOLDER is not cfg._DEFAULT_LOCAL_DATA_FOLDER:
@@ -67,7 +67,7 @@ def take_snapshot_now_async(cfg, checksum = False):
 
     subprocess.Popen(cmd)
 
-def take_snapshot( cfg, force = True ):
+def takeSnapshot( cfg, force = True ):
     """
     Take a new snapshot.
 
@@ -79,8 +79,8 @@ def take_snapshot( cfg, force = True ):
     Returns:
         bool:                   ``True`` if successful
     """
-    tools.load_env(cfg.get_cron_env_file())
-    ret = snapshots.Snapshots( cfg ).take_snapshot( force )
+    tools.envLoad(cfg.cronEnvFile())
+    ret = snapshots.Snapshots( cfg ).backup( force )
     return ret
 
 def _mount(cfg):
@@ -96,7 +96,7 @@ def _mount(cfg):
         logger.error(str(ex))
         sys.exit(RETURN_ERR)
     else:
-        cfg.set_current_hash_id(hash_id)
+        cfg.setCurrentHashId(hash_id)
 
 def _umount(cfg):
     """
@@ -110,7 +110,7 @@ def _umount(cfg):
     except MountException as ex:
         logger.error(str(ex))
 
-def create_parsers(app_name = 'backintime'):
+def createParsers(app_name = 'backintime'):
     """
     Define parsers for commandline arguments.
 
@@ -449,7 +449,7 @@ def create_parsers(app_name = 'backintime'):
                            action = PseudoAliasAction,
                            help = argparse.SUPPRESS)
 
-def start_app(app_name = 'backintime'):
+def startApp(app_name = 'backintime'):
     """
     Start the requested command or return config if there was no command
     in arguments.
@@ -460,17 +460,17 @@ def start_app(app_name = 'backintime'):
     Returns:
         config.Config:  current config if no command was given in arguments
     """
-    create_parsers(app_name)
+    createParsers(app_name)
     #open log
     logger.APP_NAME = app_name
     logger.openlog()
 
     #parse args
-    args = arg_parse(None)
+    args = argParse(None)
 
     #add source path to $PATH environ if running from source
-    if tools.running_from_source():
-        tools.add_source_to_path_environ()
+    if tools.runningFromSource():
+        tools.addSourceToPathEnviron()
 
     #warn about sudo
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
@@ -488,7 +488,7 @@ def start_app(app_name = 'backintime'):
         printHeader()
         return getConfig(args, False)
 
-def arg_parse(args):
+def argParse(args):
     """
     Parse arguments given on commandline.
 
@@ -563,7 +563,7 @@ def printHeader():
     Print application name, version and legal notes.
     """
     version = config.Config.VERSION
-    ref, hashid = tools.get_git_ref_hash()
+    ref, hashid = tools.gitRevisionAndHash()
     if ref:
         version += " git branch '{}' hash '{}'".format(ref, hashid)
     print('')
@@ -614,7 +614,7 @@ def aliasParser(args):
         logger.info("Run command '%(alias)s' instead of argument '%(replace)s' due to backwards compatibility."
                     % {'alias': args.alias, 'replace': args.replace})
     argv = [w.replace(args.replace, args.alias) for w in sys.argv[1:]]
-    newArgs = arg_parse(argv)
+    newArgs = argParse(argv)
     if 'func' in dir(newArgs):
         newArgs.func(newArgs)
 
@@ -637,20 +637,20 @@ def getConfig(args, check = True):
     cfg = config.Config(config_path = args.config, data_path = args.share_path)
     logger.debug('config file: %s' % cfg._LOCAL_CONFIG_PATH)
     logger.debug('share path: %s' % cfg._LOCAL_DATA_FOLDER)
-    logger.debug('profiles: %s' % cfg.get_profiles())
+    logger.debug('profiles: %s' % cfg.profiles())
     if 'profile_id' in args and args.profile_id:
-        if not cfg.set_current_profile(args.profile_id):
+        if not cfg.setCurrentProfile(args.profile_id):
             logger.error('Profile-ID not found: %s' % args.profile_id)
             sys.exit(RETURN_ERR)
     if 'profile' in args and args.profile:
-        if not cfg.set_current_profile_by_name(args.profile):
+        if not cfg.setCurrentProfileByName(args.profile):
             logger.error('Profile not found: %s' % args.profile)
             sys.exit(RETURN_ERR)
-    if check and not cfg.is_configured():
+    if check and not cfg.isConfigured():
         logger.error('%(app)s is not configured!' %{'app': cfg.APP_NAME})
         sys.exit(RETURN_NO_CFG)
     if 'checksum' in args:
-        cfg.force_use_checksum = args.checksum
+        cfg.forceUseChecksum = args.checksum
     return cfg
 
 def setQuiet(args):
@@ -683,7 +683,7 @@ class printLicense(argparse.Action):
 
     def __call__(self, *args, **kwargs):
         cfg = config.Config()
-        print(cfg.get_license())
+        print(cfg.license())
         sys.exit(RETURN_OK)
 
 def backup(args, force = True):
@@ -702,7 +702,7 @@ def backup(args, force = True):
     setQuiet(args)
     printHeader()
     cfg = getConfig(args)
-    ret = take_snapshot(cfg, force)
+    ret = takeSnapshot(cfg, force)
     sys.exit(int(not ret))
 
 def backupJob(args):
@@ -737,7 +737,7 @@ def snapshotsPath(args):
         msg = '{}'
     else:
         msg = 'SnapshotsPath: {}'
-    print(msg.format(cfg.get_snapshots_full_path()), file=force_stdout)
+    print(msg.format(cfg.snapshotsFullPath()), file=force_stdout)
     sys.exit(RETURN_OK)
 
 def snapshotsList(args):
@@ -765,7 +765,7 @@ def snapshotsList(args):
         print(msg.format(sid), file=force_stdout)
         no_sids = False
     if no_sids:
-        logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
+        logger.error("There are no snapshots in '%s'" % cfg.profileName())
     if not args.keep_mount:
         _umount(cfg)
     sys.exit(RETURN_OK)
@@ -795,7 +795,7 @@ def snapshotsListPath(args):
         print(msg.format(sid.path()), file=force_stdout)
         no_sids = False
     if no_sids:
-        logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
+        logger.error("There are no snapshots in '%s'" % cfg.profileName())
     if not args.keep_mount:
         _umount(cfg)
     sys.exit(RETURN_OK)
@@ -822,7 +822,7 @@ def lastSnapshot(args):
             msg = 'SnapshotID: {}'
         print(msg.format(sid), file=force_stdout)
     else:
-        logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
+        logger.error("There are no snapshots in '%s'" % cfg.profileName())
     _umount(cfg)
     sys.exit(RETURN_OK)
 
@@ -849,7 +849,7 @@ def lastSnapshotPath(args):
             msg = 'SnapshotPath: {}'
         print(msg.format(sid.path()), file=force_stdout)
     else:
-        logger.error("There are no snapshots in '%s'" % cfg.get_profile_name())
+        logger.error("There are no snapshots in '%s'" % cfg.profileName())
     if not args.keep_mount:
         _umount(cfg)
     sys.exit(RETURN_OK)
@@ -886,12 +886,12 @@ def benchmarkCipher(args):
     setQuiet(args)
     printHeader()
     cfg = getConfig(args)
-    if cfg.get_snapshots_mode() in ('ssh', 'ssh_encfs'):
+    if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
         ssh = sshtools.SSH(cfg)
-        ssh.benchmark_cipher(args.FILE_SIZE)
+        ssh.benchmarkCipher(args.FILE_SIZE)
         sys.exit(RETURN_OK)
     else:
-        logger.error("SSH is not configured for profile '%s'!" % cfg.get_profile_name())
+        logger.error("SSH is not configured for profile '%s'!" % cfg.profileName())
         sys.exit(RETURN_ERR)
 
 def pwCache(args):
@@ -938,8 +938,8 @@ def decode(args):
     """
     force_stdout = setQuiet(args)
     cfg = getConfig(args)
-    if cfg.get_snapshots_mode() not in ('local_encfs', 'ssh_encfs'):
-        logger.error("Profile '%s' is not encrypted." % cfg.get_profile_name())
+    if cfg.snapshotsMode() not in ('local_encfs', 'ssh_encfs'):
+        logger.error("Profile '%s' is not encrypted." % cfg.profileName())
         sys.exit(RETURN_ERR)
     _mount(cfg)
     d = encfstools.Decode(cfg)
@@ -1007,7 +1007,7 @@ def restore(args):
     printHeader()
     cfg = getConfig(args)
     _mount(cfg)
-    if cfg.is_backup_on_restore_enabled() and not args.no_local_backup:
+    if cfg.backupOnRestore() and not args.no_local_backup:
         backup = True
     else:
         backup = args.local_backup
@@ -1038,15 +1038,15 @@ def checkConfig(args):
     if cli.checkConfig(cfg, crontab = not args.no_crontab):
         print("\nConfig %(cfg)s profile '%(profile)s' is fine."
               % {'cfg': cfg._LOCAL_CONFIG_PATH,
-                 'profile': cfg.get_profile_name()},
+                 'profile': cfg.profileName()},
               file = force_stdout)
         sys.exit(RETURN_OK)
     else:
         print("\nConfig %(cfg)s profile '%(profile)s' has errors."
               % {'cfg': cfg._LOCAL_CONFIG_PATH,
-                 'profile': cfg.get_profile_name()},
+                 'profile': cfg.profileName()},
               file = force_stdout)
         sys.exit(RETURN_ERR)
 
 if __name__ == '__main__':
-    start_app()
+    startApp()

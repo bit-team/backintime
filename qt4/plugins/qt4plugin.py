@@ -42,21 +42,21 @@ class Qt4Plugin( pluginmanager.Plugin ):
     def init( self, snapshots ):
         self.snapshots = snapshots
 
-        if not tools.check_x_server():
+        if not tools.checkXServer():
             return False
         return True
 
-    def is_gui( self ):
+    def isGui(self):
         return True
 
-    def on_process_begins( self ):
+    def processBegin(self):
         try:
-            path = os.path.join(tools.get_backintime_path('qt4'), 'qt4systrayicon.py')
-            self.process = subprocess.Popen( [ sys.executable, path, self.snapshots.config.get_current_profile() ] )
+            path = os.path.join(tools.backintimePath('qt4'), 'qt4systrayicon.py')
+            self.process = subprocess.Popen( [ sys.executable, path, self.snapshots.config.currentProfile() ] )
         except:
             pass
 
-    def on_process_ends( self ):
+    def processEnd(self):
         if not self.process is None:
             try:
                 #self.process.terminate()

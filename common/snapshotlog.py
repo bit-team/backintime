@@ -62,8 +62,8 @@ class LogFilter(object):
             self.header = _('### This log has been decoded with automatic search pattern\n'\
                             '### If some paths are not decoded you can manually decode them with:\n')
             self.header +=  '### \'backintime --quiet '
-            if int(decode.config.get_current_profile()) > 1:
-                self.header +=  '--profile "%s" ' %decode.config.get_profile_name()
+            if int(decode.config.currentProfile()) > 1:
+                self.header +=  '--profile "%s" ' %decode.config.profileName()
             self.header +=  '--decode <path>\'\n\n'
         else:
             self.header = ''
@@ -109,9 +109,9 @@ class SnapshotLog(object):
         if profile:
             self.profile = profile
         else:
-            self.profile = cfg.get_current_profile()
-        self.logLevel = cfg.log_level()
-        self.logFileName = cfg.get_take_snapshot_log_file(self.profile)
+            self.profile = cfg.currentProfile()
+        self.logLevel = cfg.logLevel()
+        self.logFileName = cfg.takeSnapshotLogFile(self.profile)
         self.logFile = None
 
         self.timer = tools.Alarm(self.flush, overwrite = False)
@@ -182,7 +182,7 @@ class SnapshotLog(object):
             msg (str):      message line that should be added to the log
             level (int):    verbosity level of current line. msg will only be
                             added to log if level is lower than configured
-                            log level :py:func:`config.Config.log_level`.
+                            log level :py:func:`config.Config.logLevel`.
                             Posible Values:
                             :py:data:`SnapshotLog.ERRORS`,
                             :py:data:`SnapshotLog.CHANGES_AND_ERRORS` or

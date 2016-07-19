@@ -53,19 +53,19 @@ class TestApplicationInstance(generic.TestCase):
 
     def test_create_and_remove_pid_file(self):
         #create pid file
-        self.inst.start_application()
+        self.inst.startApplication()
         self.assertTrue(os.path.isfile(self.file_name))
 
         #remove pid file
-        self.inst.exit_application()
+        self.inst.exitApplication()
         self.assertFalse(os.path.isfile(self.file_name))
 
     def test_write_pid_file(self):
-        self.inst.start_application()
+        self.inst.startApplication()
 
         #get pid/procname of current process
         this_pid = os.getpid()
-        this_procname = tools.process_name(this_pid)
+        this_procname = tools.processName(this_pid)
 
         with open(self.file_name, 'rt') as file_with_pid:
             self.assertEqual(file_with_pid.read(), '{}\n{}'.format(this_pid, this_procname))
@@ -76,7 +76,7 @@ class TestApplicationInstance(generic.TestCase):
         name
         """
         pid = self.createProcess()
-        procname = tools.process_name(pid)
+        procname = tools.processName(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -92,7 +92,7 @@ class TestApplicationInstance(generic.TestCase):
         cmdline (for backwards compatibility)
         """
         pid = self.createProcess()
-        procname = tools.process_cmdline(pid)
+        procname = tools.processCmdline(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -111,7 +111,7 @@ class TestApplicationInstance(generic.TestCase):
         name
         """
         pid = self.createProcess()
-        procname = tools.process_name(pid)
+        procname = tools.processName(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -126,7 +126,7 @@ class TestApplicationInstance(generic.TestCase):
         Test the check function with an existing process with wrong pid
         """
         pid = self.createProcess()
-        procname = tools.process_name(pid)
+        procname = tools.processName(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -142,7 +142,7 @@ class TestApplicationInstance(generic.TestCase):
         name
         """
         pid = self.createProcess()
-        procname = tools.process_name(pid)
+        procname = tools.processName(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -174,7 +174,7 @@ class TestApplicationInstance(generic.TestCase):
 
     def write_after_flock(self, pid_file):
         inst = ApplicationInstance(os.path.abspath(pid_file),
-                                   auto_exit = False,
+                                   autoExit = False,
                                    flock = True)
         with open(self.temp_file, 'wt') as f:
             f.write('foo')
@@ -205,33 +205,33 @@ class TestApplicationInstance(generic.TestCase):
 
     def test_auto_flock(self):
         self.inst = ApplicationInstance(os.path.abspath(self.file_name),
-                                        auto_exit = False,
+                                        autoExit = False,
                                         flock = True)
         thread = Thread(target = self.write_after_flock, args = (self.file_name, ))
         thread.start()
         #give the thread some time
         thread.join(0.01)
         self.assertFalse(os.path.exists(self.temp_file))
-        self.inst.start_application()
+        self.inst.startApplication()
         #wait for the thread to finish
         thread.join()
         self.assertTrue(os.path.exists(self.temp_file))
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
-    def test_auto_exit_unique_process(self):
+    def test_autoExit_unique_process(self):
         self.inst = ApplicationInstance(os.path.abspath(self.file_name),
-                                        auto_exit = True)
+                                        autoExit = True)
 
         self.assertTrue(os.path.exists(self.file_name))
         this_pid = os.getpid()
-        this_procname = tools.process_name(this_pid)
+        this_procname = tools.processName(this_pid)
         with open(self.file_name, 'rt') as file_with_pid:
             self.assertEqual(file_with_pid.read(), '{}\n{}'.format(this_pid, this_procname))
 
-    def test_auto_exit_other_running_process(self):
+    def test_autoExit_other_running_process(self):
         pid = self.createProcess()
-        procname = tools.process_name(pid)
+        procname = tools.processName(pid)
 
         # create file with pid and process name
         with open(self.file_name, "wt") as file_with_pid:
@@ -240,7 +240,7 @@ class TestApplicationInstance(generic.TestCase):
 
         with self.assertRaises(SystemExit):
             self.inst = ApplicationInstance(os.path.abspath(self.file_name),
-                                            auto_exit = True)
+                                            autoExit = True)
 
 # Execute tests if this programm is call with python TestApplicationInstance.py
 if __name__ == '__main__':

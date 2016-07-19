@@ -45,22 +45,22 @@ class NotifyPlugin( pluginmanager.Plugin ):
     def init( self, snapshots ):
         return True
 
-    def is_gui( self ):
+    def isGui(self):
         return True
 
-    def on_process_begins( self ):
+    def processBegin(self):
         pass
 
-    def on_process_ends( self ):
+    def processEnd(self):
         pass
 
-    def on_error( self, code, message ):
+    def error(self, code, message):
         return
 
-    def on_new_snapshot( self, snapshot_id, snapshot_path ):
+    def newSnapshot(self, snapshot_id, snapshot_path):
         return
 
-    def on_message( self, profile_id, profile_name, level, message, timeout ):
+    def message(self, profile_id, profile_name, level, message, timeout):
         if 1 == level:
             cmd = ['notify-send']
             if timeout > 0:

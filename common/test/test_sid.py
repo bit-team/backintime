@@ -271,7 +271,7 @@ class TestSID(generic.SnapshotsTestCase):
         infoFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'info')
 
         i1 = configfile.ConfigFile()
-        i1.set_str_value('foo', 'bar')
+        i1.setStrValue('foo', 'bar')
         sid1.info = i1
 
         #test if file exist and has correct content
@@ -282,7 +282,7 @@ class TestSID(generic.SnapshotsTestCase):
         #new sid instance and test if correct value is returned
         sid2 = snapshots.SID('20151219-010324-123', self.cfg)
         i2 = sid2.info
-        self.assertEqual(i2.get_str_value('foo', 'default'), 'bar')
+        self.assertEqual(i2.strValue('foo', 'default'), 'bar')
 
     def test_fileInfo(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)

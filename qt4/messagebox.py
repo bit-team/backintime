@@ -22,10 +22,10 @@ import qt4tools
 
 _ = gettext.gettext
 
-def ask_password_dialog(parent, title, prompt, timeout = None):
+def askPasswordDialog(parent, title, prompt, timeout = None):
     if parent is None:
-        app = qt4tools.create_qapplication()
-        translator = qt4tools.get_translator()
+        app = qt4tools.createQApplication()
+        translator = qt4tools.translator()
         app.installTranslator(translator)
 
     import icon
@@ -84,7 +84,7 @@ def warningYesNoOptions(parent, msg, options = ()):
     ret = dlg.exec_()
     return (ret, {opt['id']:opt['retFunc']() for opt in options})
 
-def show_info(parent, title, msg):
+def showInfo(parent, title, msg):
     dlg = QDialog(parent)
     dlg.setWindowTitle(title)
     vlayout = QVBoxLayout(dlg)
@@ -95,9 +95,9 @@ def show_info(parent, title, msg):
     scroll_area = QScrollArea()
     scroll_area.setWidget(label)
 
-    button_box = QDialogButtonBox(QDialogButtonBox.Ok)
-    dlg.connect(button_box, SIGNAL('accepted()'), dlg.accept)
+    buttonBox = QDialogButtonBox(QDialogButtonBox.Ok)
+    dlg.connect(buttonBox, SIGNAL('accepted()'), dlg.accept)
 
     vlayout.addWidget(scroll_area)
-    vlayout.addWidget(button_box)
+    vlayout.addWidget(buttonBox)
     return dlg.exec_()

@@ -40,14 +40,13 @@ class LogViewDialog( QDialog ):
 
         self.config = parent.config
         self.snapshots = parent.snapshots
-        self.main_window = parent
-        self.current_profile = self.config.get_current_profile()
+        self.mainWindow = parent
         self.sid = sid
-        self.enable_update = False
+        self.enableUpdate = False
         self.decode = None
 
-        w = self.config.get_int_value('qt4.logview.width', 800)
-        h = self.config.get_int_value('qt4.logview.height', 500)
+        w = self.config.intValue('qt4.logview.width', 800)
+        h = self.config.intValue('qt4.logview.height', 500)
         self.resize(w, h)
 
         import icon
@@ -57,156 +56,156 @@ class LogViewDialog( QDialog ):
         else:
             self.setWindowTitle(_('Snapshot Log View'))
 
-        self.main_layout = QVBoxLayout(self)
+        self.mainLayout = QVBoxLayout(self)
 
         layout = QHBoxLayout()
-        self.main_layout.addLayout( layout )
+        self.mainLayout.addLayout( layout )
 
         #profiles
-        self.lbl_profiles = QLabel( _('Profile:'), self )
-        layout.addWidget( self.lbl_profiles )
+        self.lblProfile = QLabel(_('Profile:'), self)
+        layout.addWidget(self.lblProfile)
 
-        self.combo_profiles = qt4tools.ProfileCombo( self )
-        layout.addWidget( self.combo_profiles, 1 )
-        QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.current_profile_changed )
+        self.comboProfiles = qt4tools.ProfileCombo( self )
+        layout.addWidget( self.comboProfiles, 1 )
+        QObject.connect(self.comboProfiles, SIGNAL('currentIndexChanged(int)'), self.profileChanged)
 
         #snapshots
-        self.lbl_snapshots = QLabel(_('Snapshots') + ':', self)
-        layout.addWidget(self.lbl_snapshots)
-        self.combo_snapshots = qt4tools.SnapshotCombo(self)
-        layout.addWidget(self.combo_snapshots, 1)
-        QObject.connect(self.combo_snapshots, SIGNAL('currentIndexChanged(int)'), self.current_snapshot_changed)
+        self.lblSnapshots = QLabel(_('Snapshots') + ':', self)
+        layout.addWidget(self.lblSnapshots)
+        self.comboSnapshots = qt4tools.SnapshotCombo(self)
+        layout.addWidget(self.comboSnapshots, 1)
+        QObject.connect(self.comboSnapshots, SIGNAL('currentIndexChanged(int)'), self.comboSnapshotsChanged)
 
         if self.sid is None:
-            self.lbl_snapshots.hide()
-            self.combo_snapshots.hide()
+            self.lblSnapshots.hide()
+            self.comboSnapshots.hide()
         if self.sid or systray:
-            self.lbl_profiles.hide()
-            self.combo_profiles.hide()
+            self.lblProfile.hide()
+            self.comboProfiles.hide()
 
         #filter
         layout.addWidget( QLabel(_('Filter:')) )
 
-        self.combo_filter = QComboBox( self )
-        layout.addWidget( self.combo_filter, 1 )
-        QObject.connect( self.combo_filter, SIGNAL('currentIndexChanged(int)'), self.current_filter_changed )
+        self.comboFilter = QComboBox(self)
+        layout.addWidget(self.comboFilter, 1)
+        QObject.connect(self.comboFilter, SIGNAL('currentIndexChanged(int)'), self.comboFilterChanged)
 
-        self.combo_filter.addItem( _('All'), 0 )
-        self.combo_filter.addItem(' + '.join((_('Errors'), _('Changes'))), 4)
-        self.combo_filter.setCurrentIndex( self.combo_filter.count() - 1 )
-        self.combo_filter.addItem( _('Errors'), 1 )
-        self.combo_filter.addItem( _('Changes'), 2 )
-        self.combo_filter.addItem( _('Informations'), 3 )
+        self.comboFilter.addItem(_('All'), 0)
+        self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), 4)
+        self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
+        self.comboFilter.addItem(_('Errors'), 1)
+        self.comboFilter.addItem(_('Changes'), 2)
+        self.comboFilter.addItem(_('Informations'), 3)
 
         #text view
-        self.txt_log_view = QPlainTextEdit(self)
-        self.txt_log_view.setFont(QFont('Monospace'))
-        self.txt_log_view.setReadOnly(True)
-        self.txt_log_view.setLineWrapMode(QPlainTextEdit.NoWrap)
-        self.main_layout.addWidget( self.txt_log_view )
+        self.txtLogView = QPlainTextEdit(self)
+        self.txtLogView.setFont(QFont('Monospace'))
+        self.txtLogView.setReadOnly(True)
+        self.txtLogView.setLineWrapMode(QPlainTextEdit.NoWrap)
+        self.mainLayout.addWidget( self.txtLogView )
 
         #
-        self.main_layout.addWidget( QLabel(_('[E] Error, [I] Information, [C] Change')) )
+        self.mainLayout.addWidget( QLabel(_('[E] Error, [I] Information, [C] Change')) )
 
         #decode path
-        self.cb_decode = QCheckBox( _('decode paths'), self )
-        QObject.connect( self.cb_decode, SIGNAL('stateChanged(int)'), self.on_cb_decode )
-        self.main_layout.addWidget(self.cb_decode)
+        self.cbDecode = QCheckBox(_('decode paths'), self)
+        QObject.connect(self.cbDecode, SIGNAL('stateChanged(int)'), self.cbDecodeChanged)
+        self.mainLayout.addWidget(self.cbDecode)
 
         #buttons
-        button_box = QDialogButtonBox(QDialogButtonBox.Close)
-        self.main_layout.addWidget(button_box)
-        QObject.connect(button_box, SIGNAL('rejected()'), self.close)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
+        self.mainLayout.addWidget(buttonBox)
+        QObject.connect(buttonBox, SIGNAL('rejected()'), self.close)
 
-        self.update_snapshots()
-        self.update_cb_decode()
-        self.update_profiles()
+        self.updateSnapshots()
+        self.updateDecode()
+        self.updateProfiles()
 
         # watch for changes in log file
         self.watcher = QFileSystemWatcher(self)
         if self.sid is None:
             # only watch if we show the last log
-            log = self.config.get_take_snapshot_log_file(self.combo_profiles.currentProfileID())
+            log = self.config.takeSnapshotLogFile(self.comboProfiles.currentProfileID())
             self.watcher.addPath(log)
-        self.watcher.fileChanged.connect(self.update_log)
+        self.watcher.fileChanged.connect(self.updateLog)
 
-    def on_cb_decode(self):
-        if self.cb_decode.isChecked():
+    def cbDecodeChanged(self):
+        if self.cbDecode.isChecked():
             self.decode = encfstools.Decode(self.config)
         else:
             if not self.decode is None:
                 self.decode.close()
             self.decode = None
-        self.update_log()
+        self.updateLog()
 
-    def current_profile_changed( self, index ):
-        if not self.enable_update:
+    def profileChanged(self, index):
+        if not self.enableUpdate:
             return
-        profile_id = self.combo_profiles.currentProfileID()
-        self.main_window.combo_profiles.setCurrentProfileID(profile_id)
-        self.main_window.on_profile_changed(None)
+        profile_id = self.comboProfiles.currentProfileID()
+        self.mainWindow.comboProfiles.setCurrentProfileID(profile_id)
+        self.mainWindow.comboProfileChanged(None)
 
-        self.update_cb_decode()
-        self.update_log()
+        self.updateDecode()
+        self.updateLog()
 
-    def current_snapshot_changed(self, index):
-        if not self.enable_update:
+    def comboSnapshotsChanged(self, index):
+        if not self.enableUpdate:
             return
-        self.sid = self.combo_snapshots.currentSnapshotID()
-        self.update_log()
+        self.sid = self.comboSnapshots.currentSnapshotID()
+        self.updateLog()
 
-    def current_filter_changed( self, index ):
-        self.update_log()
+    def comboFilterChanged(self, index):
+        self.updateLog()
 
-    def update_profiles( self ):
-        current_profile_id = self.config.get_current_profile()
+    def updateProfiles(self):
+        current_profile_id = self.config.currentProfile()
 
-        self.combo_profiles.clear()
+        self.comboProfiles.clear()
 
-        profiles = self.config.get_profiles_sorted_by_name()
+        profiles = self.config.profilesSortedByName()
         for profile_id in profiles:
-            self.combo_profiles.addProfileID(profile_id)
+            self.comboProfiles.addProfileID(profile_id)
             if profile_id == current_profile_id:
-                self.combo_profiles.setCurrentProfileID(profile_id)
+                self.comboProfiles.setCurrentProfileID(profile_id)
 
-        self.enable_update = True
-        self.update_log()
+        self.enableUpdate = True
+        self.updateLog()
 
         if len( profiles ) <= 1:
-            self.lbl_profiles.setVisible( False )
-            self.combo_profiles.setVisible( False )
+            self.lblProfile.setVisible(False)
+            self.comboProfiles.setVisible( False )
 
-    def update_snapshots(self):
+    def updateSnapshots(self):
         if self.sid:
-            self.combo_snapshots.clear()
+            self.comboSnapshots.clear()
             for sid in snapshots.iterSnapshots(self.config):
-                self.combo_snapshots.addSnapshotID(sid)
+                self.comboSnapshots.addSnapshotID(sid)
                 if sid == self.sid:
-                    self.combo_snapshots.setCurrentSnapshotID(sid)
+                    self.comboSnapshots.setCurrentSnapshotID(sid)
 
-    def update_cb_decode(self):
-        if self.config.get_snapshots_mode() == 'ssh_encfs':
-            self.cb_decode.show()
+    def updateDecode(self):
+        if self.config.snapshotsMode() == 'ssh_encfs':
+            self.cbDecode.show()
         else:
-            self.cb_decode.hide()
-            if self.cb_decode.isChecked():
-                self.cb_decode.setChecked(False)
+            self.cbDecode.hide()
+            if self.cbDecode.isChecked():
+                self.cbDecode.setChecked(False)
 
-    def update_log(self, watchPath = None):
-        if not self.enable_update:
+    def updateLog(self, watchPath = None):
+        if not self.enableUpdate:
             return
 
-        mode = self.combo_filter.itemData( self.combo_filter.currentIndex() )
+        mode = self.comboFilter.itemData(self.comboFilter.currentIndex())
 
         if watchPath and self.sid is None:
             # remove path from watch to prevent multiple updates at the same time
             self.watcher.removePath(watchPath)
-            # append only new lines to txt_log_view
-            log = snapshotlog.SnapshotLog(self.config, self.combo_profiles.currentProfileID())
+            # append only new lines to txtLogView
+            log = snapshotlog.SnapshotLog(self.config, self.comboProfiles.currentProfileID())
             for line in log.get(mode = mode,
                                 decode = self.decode,
-                                skipLines = self.txt_log_view.document().lineCount() - 1):
-                self.txt_log_view.appendPlainText(line)
+                                skipLines = self.txtLogView.document().lineCount() - 1):
+                self.txtLogView.appendPlainText(line)
 
             # re-add path to watch after 5sec delay
             alarm = tools.Alarm(callback = lambda: self.watcher.addPath(watchPath),
@@ -214,12 +213,12 @@ class LogViewDialog( QDialog ):
             alarm.start(5)
 
         elif self.sid is None:
-            log = snapshotlog.SnapshotLog(self.config, self.combo_profiles.currentProfileID())
-            self.txt_log_view.setPlainText('\n'.join(log.get(mode = mode, decode = self.decode)))
+            log = snapshotlog.SnapshotLog(self.config, self.comboProfiles.currentProfileID())
+            self.txtLogView.setPlainText('\n'.join(log.get(mode = mode, decode = self.decode)))
         else:
-            self.txt_log_view.setPlainText('\n'.join(self.sid.log(mode, decode = self.decode)))
+            self.txtLogView.setPlainText('\n'.join(self.sid.log(mode, decode = self.decode)))
 
     def closeEvent(self, event):
-        self.config.set_int_value('qt4.logview.width', self.width())
-        self.config.set_int_value('qt4.logview.height', self.height())
+        self.config.setIntValue('qt4.logview.width', self.width())
+        self.config.setIntValue('qt4.logview.height', self.height())
         event.accept()

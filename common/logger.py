@@ -42,28 +42,28 @@ def error(msg , parent = None, traceDepth = 0):
     if DEBUG:
         msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
     print('%sERROR%s: %s' %(bcolors.FAIL, bcolors.ENDC, msg), file=sys.stderr)
-    for line in tools.wrap_line(msg):
+    for line in tools.wrapLine(msg):
         syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + line )
 
 def warning(msg , parent = None, traceDepth = 0):
     if DEBUG:
         msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
     print('%sWARNING%s: %s' %(bcolors.WARNING, bcolors.ENDC, msg), file=sys.stderr)
-    for line in tools.wrap_line(msg):
+    for line in tools.wrapLine(msg):
         syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + line )
 
 def info(msg , parent = None, traceDepth = 0):
     if DEBUG:
         msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
     print('%sINFO%s: %s' %(bcolors.OKGREEN, bcolors.ENDC, msg), file=sys.stdout)
-    for line in tools.wrap_line(msg):
+    for line in tools.wrapLine(msg):
         syslog.syslog( syslog.LOG_INFO, 'INFO: ' + line )
 
 def debug(msg, parent = None, traceDepth = 0):
     if DEBUG:
         msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
         print('%sDEBUG%s: %s' %(bcolors.OKBLUE, bcolors.ENDC, msg), file = sys.stdout)
-        for line in tools.wrap_line(msg):
+        for line in tools.wrapLine(msg):
             syslog.syslog(syslog.LOG_DEBUG, 'DEBUG: %s' %line)
 
 def deprecated(parent = None):

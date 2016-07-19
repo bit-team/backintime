@@ -61,7 +61,7 @@ from exceptions import Timeout, InvalidChar, PermissionDeniedByPolicy
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
-def get_share_path():
+def sharePath():
     """
     Get BackInTimes installation base path.
 
@@ -80,7 +80,7 @@ def get_share_path():
     else:
         return '/usr/share'
 
-def get_backintime_path(*path):
+def backintimePath(*path):
     """
     Get path inside 'backintime' install folder.
 
@@ -95,7 +95,7 @@ def get_backintime_path(*path):
     """
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
-def register_backintime_path(*path):
+def registerBackintimePath(*path):
     """
     Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
     can discover them.
@@ -107,29 +107,29 @@ def register_backintime_path(*path):
         Duplicate in :py:func:`qt4/qt4tools.py` because modules in qt4 folder
         would need this to actually import :py:mod:`tools`.
     """
-    path = get_backintime_path(*path)
+    path = backintimePath(*path)
     if not path in sys.path:
         sys.path.insert(0, path)
 
-def running_from_source():
+def runningFromSource():
     """
     Check if BackInTime is running from source (without installing).
 
     Returns:
         bool:   ``True`` if BackInTime is running from source
     """
-    return os.path.isfile(get_backintime_path('common', 'backintime'))
+    return os.path.isfile(backintimePath('common', 'backintime'))
 
-def add_source_to_path_environ():
+def addSourceToPathEnviron():
     """
     Add 'backintime/common' path to 'PATH' environ variable.
     """
-    source = get_backintime_path('common')
+    source = backintimePath('common')
     path = os.getenv('PATH')
     if source not in path.split(':'):
         os.environ['PATH'] = '%s:%s' %(source, path)
 
-def get_git_ref_hash():
+def gitRevisionAndHash():
     """
     Get the current Git Branch and the last HashID (shot form) if running
     from source.
@@ -162,21 +162,21 @@ def get_git_ref_hash():
             pass
     return (ref, hashid)
 
-def read_file( path, default_value = None ):
+def readFile(path, default = None):
     """
     Read the file in ``path`` or its '.gz' compressed variant and return its
-    content or ``default_value`` if ``path`` does not exist.
+    content or ``default`` if ``path`` does not exist.
 
     Args:
         path (str):             full path to file that should be read.
                                 '.gz' will be added automatically if the file
                                 is compressed
-        default_value (str):    default if ``path`` does not exist
+        default (str):          default if ``path`` does not exist
 
     Returns:
         str:                    content of file in ``path``
     """
-    ret_val = default_value
+    ret_val = default
 
     try:
         if os.path.exists(path):
@@ -190,21 +190,21 @@ def read_file( path, default_value = None ):
 
     return ret_val
 
-def read_file_lines( path, default_value = None ):
+def readFileLines(path, default = None):
     """
     Read the file in ``path`` or its '.gz' compressed variant and return its
-    content as a list of lines or ``default_value`` if ``path`` does not exist.
+    content as a list of lines or ``default`` if ``path`` does not exist.
 
     Args:
         path (str):             full path to file that should be read.
                                 '.gz' will be added automatically if the file
                                 is compressed
-        default_value (list):   default if ``path`` does not exist
+        default (list):         default if ``path`` does not exist
 
     Returns:
         list:                   content of file in ``path`` splitted by lines.
     """
-    ret_val = default_value
+    ret_val = default
 
     try:
         if os.path.exists(path):
@@ -218,7 +218,7 @@ def read_file_lines( path, default_value = None ):
 
     return ret_val
 
-def check_command( cmd ):
+def checkCommand(cmd):
     """
     Check if command ``cmd`` is a file in 'PATH' environ.
 
@@ -258,7 +258,7 @@ def which(cmd):
             return fullpath
     return None
 
-def make_dirs( path ):
+def makeDirs(path):
     """
     Create directories ``path`` recursive and return success.
 
@@ -317,7 +317,7 @@ def pids():
     """
     return [int(x) for x in os.listdir('/proc') if x.isdigit()]
 
-def process_stat(pid):
+def processStat(pid):
     """
     Get the stat's of the process with ``pid``.
 
@@ -334,7 +334,7 @@ def process_stat(pid):
         logger.warning('Failed to read process stat from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
         return ''
 
-def process_paused(pid):
+def processPaused(pid):
     """
     Check if process ``pid`` is paused (got signal SIGSTOP).
 
@@ -344,10 +344,10 @@ def process_paused(pid):
     Returns:
         bool:       True if process is paused
     """
-    m = re.match(r'\d+ \(.+\) T', process_stat(pid))
+    m = re.match(r'\d+ \(.+\) T', processStat(pid))
     return bool(m)
 
-def process_name(pid):
+def processName(pid):
     """
     Get the name of the process with ``pid``.
 
@@ -357,11 +357,11 @@ def process_name(pid):
     Returns:
         str:        name of the process
     """
-    m = re.match(r'.*\((.+)\).*', process_stat(pid))
+    m = re.match(r'.*\((.+)\).*', processStat(pid))
     if m:
         return m.group(1)
 
-def process_cmdline(pid):
+def processCmdline(pid):
     """
     Get the cmdline (command that spawnd this process) of the process with
     ``pid``.
@@ -379,7 +379,7 @@ def process_cmdline(pid):
         logger.warning('Failed to read process cmdline from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
         return ''
 
-def pids_with_name(name):
+def pidsWithName(name):
     """
     Get all processes currently running with name ``name``.
 
@@ -390,9 +390,9 @@ def pids_with_name(name):
         list:       PIDs as int
     """
     # /proc/###/stat stores just the first 16 chars of the process name
-    return [x for x in pids() if process_name(x) == name[:15]]
+    return [x for x in pids() if processName(x) == name[:15]]
 
-def process_exists(name):
+def processExists(name):
     """
     Check if process ``name`` is currently running.
 
@@ -402,9 +402,9 @@ def process_exists(name):
     Returns:
         bool:       ``True`` if there is a process running with ``name``
     """
-    return len(pids_with_name(name)) > 0
+    return len(pidsWithName(name)) > 0
 
-def is_process_alive(pid):
+def processAlive(pid):
     """
     Check if the process with PID ``pid`` is alive.
 
@@ -437,7 +437,7 @@ def is_process_alive(pid):
         else:
             return True
 
-def check_x_server():
+def checkXServer():
     """
     Check if there is a X11 server running on this system.
 
@@ -450,7 +450,7 @@ def check_x_server():
     proc.communicate()
     return proc.returncode == 0
 
-def prepare_path( path ):
+def preparePath(path):
     """
     Removes trailing slash '/' from ``path``.
 
@@ -464,13 +464,13 @@ def prepare_path( path ):
     path = os.sep + path
     return path
 
-def power_status_available():
+def powerStatusAvailable():
     """
     Check if org.freedesktop.UPower is available so that
-    :py:func:`tools.on_battery` would return the correct power status.
+    :py:func:`tools.onBattery` would return the correct power status.
 
     Returns:
-        bool:   ``True`` if :py:func:`tools.on_battery` can report power status
+        bool:   ``True`` if :py:func:`tools.onBattery` can report power status
     """
     if dbus:
         try:
@@ -483,7 +483,7 @@ def power_status_available():
             pass
     return False
 
-def on_battery():
+def onBattery():
     """
     Checks if the system is on battery power.
 
@@ -502,7 +502,7 @@ def on_battery():
             pass
     return False
 
-def get_rsync_caps(data = None):
+def rsyncCaps(data = None):
     """
     Get capabilities of the installed rsync binary. This can be different from
     version to version and also on build arguments used when building rsync.
@@ -534,10 +534,10 @@ def get_rsync_caps(data = None):
         caps.extend([i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
     return caps
 
-def get_rsync_prefix(config,
-                     no_perms = True,
-                     use_mode = ['ssh', 'ssh_encfs'],
-                     progress = True):
+def rsyncPrefix(config,
+                no_perms = True,
+                use_mode = ['ssh', 'ssh_encfs'],
+                progress = True):
     """
     Get rsync command and all args for creating a new snapshot. Args are
     based on current profile in ``config``.
@@ -546,8 +546,8 @@ def get_rsync_prefix(config,
         config (config.Config): current config
         no_perms (bool):        don't sync permissions (--no-p --no-g --no-o)
                                 if ``True``.
-                                :py:func:`config.Config.preserve_acl` == ``True`` or
-                                :py:func:`config.Config.preserve_xattr` == ``True``
+                                :py:func:`config.Config.preserveAcl` == ``True`` or
+                                :py:func:`config.Config.preserveXattr` == ``True``
                                 will overwrite this to ``False``
         use_mode (list):        if current mode is in this list add additional
                                 args for that mode
@@ -557,29 +557,29 @@ def get_rsync_prefix(config,
         list:                   rsync command with all args but without
                                 --include, --exclude, source and destination
     """
-    caps = get_rsync_caps()
+    caps = rsyncCaps()
     cmd = []
-    if config.is_run_nocache_on_local_enabled():
+    if config.nocacheOnLocal():
         cmd.append('nocache')
     cmd.append('rsync')
     cmd.append('-rtDHh')
 
-    if config.use_checksum() or config.force_use_checksum:
+    if config.useChecksum() or config.forceUseChecksum:
         cmd.append('--checksum')
 
-    if config.copy_unsafe_links():
+    if config.copyUnsafeLinks():
         cmd.append('--copy-unsafe-links')
 
-    if config.copy_links():
+    if config.copyLinks():
         cmd.append('--copy-links')
     else:
         cmd.append('--links')
 
-    if config.preserve_acl() and "ACLs" in caps:
+    if config.preserveAcl() and "ACLs" in caps:
         cmd.append('-A')
         no_perms = False
 
-    if config.preserve_xattr() and "xattrs" in caps:
+    if config.preserveXattr() and "xattrs" in caps:
         cmd.append('-X')
         no_perms = False
 
@@ -591,13 +591,13 @@ def get_rsync_prefix(config,
     if progress and 'progress2' in caps:
         cmd.extend(('--info=progress2', '--no-i-r'))
 
-    if config.rsync_options_enabled():
-        cmd.extend(shlex.split(config.rsync_options()))
+    if config.rsyncOptionsEnabled():
+        cmd.extend(shlex.split(config.rsyncOptions()))
 
-    cmd.extend(get_rsync_ssh_args(config, use_mode))
+    cmd.extend(rsyncSshArgs(config, use_mode))
     return cmd
 
-def get_rsync_ssh_args(config, use_mode = ['ssh', 'ssh_encfs']):
+def rsyncSshArgs(config, use_mode = ['ssh', 'ssh_encfs']):
     """
     Get SSH args for rsync based on current profile in ``config``.
 
@@ -610,31 +610,31 @@ def get_rsync_ssh_args(config, use_mode = ['ssh', 'ssh_encfs']):
         list:                   SSH args for rsync
     """
     cmd = []
-    mode = config.get_snapshots_mode()
+    mode = config.snapshotsMode()
     if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
-        ssh = config.ssh_command(user_host = False,
+        ssh = config.sshCommand(user_host = False,
                                  ionice = False,
                                  nice = False)
         cmd.append('--rsh=' + ' '.join(ssh))
 
-        if config.bwlimit_enabled():
+        if config.bwlimitEnabled():
             cmd.append('--bwlimit=%d' %config.bwlimit())
 
-        if config.is_run_nice_on_remote_enabled()     \
-          or config.is_run_ionice_on_remote_enabled() \
-          or config.is_run_nocache_on_remote_enabled():
+        if config.niceOnRemote()     \
+          or config.ioniceOnRemote() \
+          or config.nocacheOnRemote():
             rsync_path = '--rsync-path='
-            if config.is_run_nice_on_remote_enabled():
+            if config.niceOnRemote():
                 rsync_path += 'nice -n 19 '
-            if config.is_run_ionice_on_remote_enabled():
+            if config.ioniceOnRemote():
                 rsync_path += 'ionice -c2 -n7 '
-            if config.is_run_nocache_on_remote_enabled():
+            if config.nocacheOnRemote():
                 rsync_path += 'nocache '
             rsync_path += 'rsync'
             cmd.append(rsync_path)
     return cmd
 
-def get_rsync_remove(config, run_local = True):
+def rsyncRemove(config, run_local = True):
     """
     Get rsync command and all args for removing snapshots with rsync.
 
@@ -648,11 +648,11 @@ def get_rsync_remove(config, run_local = True):
     """
     cmd = ['rsync', '-a', '--delete']
     if run_local:
-        cmd.extend(get_rsync_ssh_args(config))
+        cmd.extend(rsyncSshArgs(config))
     return cmd
 
 #TODO: check if we really need this
-def temp_failure_retry(func, *args, **kwargs):
+def tempFailureRetry(func, *args, **kwargs):
     while True:
         try:
             return func(*args, **kwargs)
@@ -662,7 +662,7 @@ def temp_failure_retry(func, *args, **kwargs):
             else:
                 raise
 
-def _get_md5sum_from_path(path):
+def md5sum(path):
     """
     Calculate md5sum for file in ``path``.
 
@@ -681,7 +681,7 @@ def _get_md5sum_from_path(path):
             md5.update(data)
     return md5.hexdigest()
 
-def check_cron_pattern(s):
+def checkCronPattern(s):
     """
     Check if ``s`` is a valid cron pattern.
     Examples::
@@ -713,14 +713,14 @@ def check_cron_pattern(s):
         return False
 
 #TODO: check if this is still necessary
-def check_home_encrypt():
+def checkHomeEncrypt():
     """
     Return ``True`` if users home is encrypted
     """
     home = os.path.expanduser('~')
     if not os.path.ismount(home):
         return False
-    if check_command('ecryptfs-verify'):
+    if checkCommand('ecryptfs-verify'):
         try:
             subprocess.check_call(['ecryptfs-verify', '--home'],
                                     stdout=subprocess.DEVNULL,
@@ -729,7 +729,7 @@ def check_home_encrypt():
             pass
         else:
             return True
-    if check_command('encfs'):
+    if checkCommand('encfs'):
         proc = subprocess.Popen(['mount'], stdout=subprocess.PIPE, universal_newlines = True)
         mount = proc.communicate()[0]
         r = re.compile('^encfs on %s type fuse' % home)
@@ -738,7 +738,7 @@ def check_home_encrypt():
                 return True
     return False
 
-def load_env(f):
+def envLoad(f):
     """
     Load environ variables from file ``f`` into current environ.
     Do not overwrite existing environ variables.
@@ -749,15 +749,15 @@ def load_env(f):
     env = os.environ.copy()
     env_file = configfile.ConfigFile()
     env_file.load(f, maxsplit = 1)
-    for key in env_file.get_keys():
-        value = env_file.get_str_value(key)
+    for key in env_file.keys():
+        value = env_file.strValue(key)
         if not value:
             continue
         if not key in list(env.keys()):
             os.environ[key] = value
     del(env_file)
 
-def save_env(f):
+def envSave(f):
     """
     Save environ variables to file that are needed by cron
     to connect to keyring. This will only work if the user is logged in.
@@ -772,11 +772,11 @@ def save_env(f):
                 'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
                 'KDE_FULL_SESSION'):
         if key in env:
-            env_file.set_str_value(key, env[key])
+            env_file.setStrValue(key, env[key])
 
     env_file.save(f)
 
-def keyring_supported():
+def keyringSupported():
     if keyring is None:
         logger.debug('No keyring due to import errror.')
         return False
@@ -805,20 +805,20 @@ def keyring_supported():
     logger.debug("No appropriate keyring found. '{}' can't be used with BackInTime".format(displayName))
     return False
 
-def get_password(*args):
+def password(*args):
     if not keyring is None:
         return keyring.get_password(*args)
     return None
 
-def set_password(*args):
+def setPassword(*args):
     if not keyring is None:
         return keyring.set_password(*args)
     return False
 
-def get_mountpoint(path):
+def mountpoint(path):
     """
     Get the mountpoint of ``path``. If your HOME is on a separate partition
-    get_mountpoint('/home/user/foo') would return '/home'.
+    mountpoint('/home/user/foo') would return '/home'.
 
     Args:
         path (str): full path
@@ -833,7 +833,7 @@ def get_mountpoint(path):
         path = os.path.abspath(os.path.join(path, os.pardir))
     return path
 
-def get_mount_args(path):
+def mountArgs(path):
     """
     Get all /etc/mtab args for the filesystem of ``path`` as a list.
     Example::
@@ -848,7 +848,7 @@ def get_mount_args(path):
     Returns:
         list:       mount args
     """
-    mp = get_mountpoint(path)
+    mp = mountpoint(path)
     with open('/etc/mtab', 'r') as mounts:
         for line in mounts:
             args = line.strip('\n').split(' ')
@@ -856,7 +856,7 @@ def get_mount_args(path):
                 return args
     return None
 
-def get_device(path):
+def device(path):
     """
     Get the device for the filesystem of ``path``.
     Example::
@@ -871,12 +871,12 @@ def get_device(path):
     Returns:
         str:        device
     """
-    args = get_mount_args(path)
+    args = mountArgs(path)
     if args:
         return args[0]
     return None
 
-def get_filesystem(path):
+def filesystem(path):
     """
     Get the filesystem type for the filesystem of ``path``.
 
@@ -886,12 +886,12 @@ def get_filesystem(path):
     Returns:
         str:        filesystem
     """
-    args = get_mount_args(path)
+    args = mountArgs(path)
     if args and len(args) >= 3:
         return args[2]
     return None
 
-def get_uuid(dev):
+def uuidFromDev(dev):
     """
     Get the UUID for the block device ``dev``.
 
@@ -918,7 +918,7 @@ def get_uuid(dev):
         pass
     return None
 
-def get_uuid_from_path(path):
+def uuidFromPath(path):
     """
     Get the UUID for the for the filesystem of ``path``.
 
@@ -928,9 +928,9 @@ def get_uuid_from_path(path):
     Returns:
         str:        UUID
     """
-    return get_uuid(get_device(path))
+    return uuidFromDev(device(path))
 
-def get_filesystem_mount_info():
+def filesystemMountInfo():
     """
     Get a dict of mount point string -> dict of filesystem info for
     entire system.
@@ -941,11 +941,11 @@ def get_filesystem_mount_info():
     # There may be multiple mount points inside of the root (/) mount, so
     # iterate over mtab to find all non-special mounts.
     with open('/etc/mtab', 'r') as mounts:
-        return {items[1]: {'original_uuid': get_uuid(items[0])} for items in
+        return {items[1]: {'original_uuid': uuidFromDev(items[0])} for items in
                 [mount_line.strip('\n').split(' ')[:2] for mount_line in mounts]
-                if get_uuid(items[0]) != None}
+                if uuidFromDev(items[0]) != None}
 
-def wrap_line(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
+def wrapLine(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: '):
     """
     Wrap line ``msg`` into multiple lines with each shorter than ``size``. Try
     to break the line on ``delimiters``. New lines will start with
@@ -983,7 +983,7 @@ def syncfs():
     Returns:
         bool:   ``True`` if successful
     """
-    if check_command('sync'):
+    if checkCommand('sync'):
         return(Execute(['sync']).run() == 0)
 
 def isRoot():
@@ -1058,7 +1058,7 @@ def writeTimeStamp(f):
     Args:
         f (str):            full path to timestamp file
     """
-    make_dirs(os.path.dirname(f))
+    makeDirs(os.path.dirname(f))
     with open(f, 'w') as f:
         f.write(datetime.now().strftime(BIT_TIME_FORMAT))
 
@@ -1144,7 +1144,7 @@ def unInhibitSuspend(cookie, bus, dbus_props):
         logger.warning('Release inhibit Suspend failed.')
         return (cookie, bus, dbus_props)
 
-def getSshKeyFingerprint(path):
+def sshKeyFingerprint(path):
     """
     Get the hex fingerprint from a given ssh key.
 
@@ -1171,7 +1171,7 @@ def readCrontab():
         list:   crontab lines
     """
     cmd = ['crontab', '-l']
-    if not check_command(cmd[0]):
+    if not checkCommand(cmd[0]):
         logger.debug('crontab not found.')
         return []
     else:
@@ -1285,6 +1285,18 @@ def escapeIPv6Address(address):
     else:
         return address
 
+def camelCase(s):
+    """
+    Remove underlines and make every first char uppercase.
+
+    Args:
+        s (str):    string separated by underlines (foo_bar)
+
+    Returns:
+        str:        string without underlines but uppercase chars (FooBar)
+    """
+    return ''.join([x.capitalize() for x in s.split('_')])
+
 class UniquenessSet:
     """
     Check for uniqueness or equality of files.
@@ -1309,11 +1321,11 @@ class UniquenessSet:
         if list_equal_to:
             st = os.stat(list_equal_to)
             if self.deep_check:
-                self.reference = (st.st_size, _get_md5sum_from_path(list_equal_to))
+                self.reference = (st.st_size, md5sum(list_equal_to))
             else:
                 self.reference = (st.st_size, int(st.st_mtime))
 
-    def check_for(self, input_path):
+    def check(self, input_path):
         """
         Check file ``input_path`` for either uniqueness or equality
         (depending on ``list_equal_to`` from constructor).
@@ -1333,11 +1345,11 @@ class UniquenessSet:
             path = os.readlink(input_path)
 
         if self.list_equal_to:
-            return self.check_equal(path)
+            return self.checkEqual(path)
         else:
-            return self.check_unique(path)
+            return self.checkUnique(path)
 
-    def check_unique(self, path):
+    def checkUnique(self, path):
         """
         Check file ``path`` for uniqueness and store a unique key for ``path``.
 
@@ -1364,11 +1376,11 @@ class UniquenessSet:
                 prev = self._uniq_dict[size]
                 if prev:
                     # store md5sum instead of previously stored size
-                    md5sum_prev = _get_md5sum_from_path(prev)
+                    md5sum_prev = md5sum(prev)
                     self._uniq_dict[size] = None
                     self._uniq_dict[md5sum_prev] = prev
                     logger.debug("[deep test] : size duplicate, remove the size, store prev md5sum", self)
-                unique_key = _get_md5sum_from_path(path)
+                unique_key = md5sum(path)
                 logger.debug("[deep test] : store current md5sum ?", self)
         else:
             # store a tuple of (size, modification time)
@@ -1382,7 +1394,7 @@ class UniquenessSet:
         logger.debug(" >> skip (it's a duplicate)", self)
         return False
 
-    def check_equal(self, path):
+    def checkEqual(self, path):
         """
         Check if ``path`` is equal to the file in ``list_equal_to`` from
         constructor.
@@ -1396,7 +1408,7 @@ class UniquenessSet:
         st = os.stat(path)
         if self.deep_check:
             if self.reference[0] == st.st_size:
-                return self.reference[1] == _get_md5sum_from_path(path)
+                return self.reference[1] == md5sum(path)
             return False
         else:
             return self.reference == (st.st_size, int(st.st_mtime))
@@ -1565,7 +1577,7 @@ class ShutDown(object):
         des = list(self.DBUS_SHUTDOWN.keys())
         des.sort()
         for de in des:
-            if de == 'gnome' and self.unity_7():
+            if de == 'gnome' and self.unity7():
                 continue
             dbus_props = self.DBUS_SHUTDOWN[de]
             try:
@@ -1580,13 +1592,13 @@ class ShutDown(object):
                 continue
         return( (None, None) )
 
-    def can_shutdown(self):
+    def canShutdown(self):
         """
         Indicate if a valid dbus service is available to shutdown system.
         """
         return(not self.proxy is None or self.is_root)
 
-    def ask_before_quit(self):
+    def askBeforeQuit(self):
         """
         Indicate if ShutDown is ready to fire and so the application
         shouldn't be closed.
@@ -1613,19 +1625,19 @@ class ShutDown(object):
             self.started = True
             return(self.proxy(*self.args))
 
-    def unity_7(self):
+    def unity7(self):
         """
         Unity >= 7.0 doesn't shutdown automatically. It will
         only show shutdown dialog and wait for user input.
         """
-        if not check_command('unity'):
+        if not checkCommand('unity'):
             return False
         proc = subprocess.Popen(['unity', '--version'],
                                 stdout = subprocess.PIPE,
                                 universal_newlines = True)
         unity_version = proc.communicate()[0]
         m = re.match(r'unity ([\d\.]+)', unity_version)
-        return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and process_exists('unity-panel-service')
+        return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and processExists('unity-panel-service')
 
 class SetupUdev(object):
     """
@@ -1862,7 +1874,7 @@ class Execute(object):
                 pipe = os.popen( self.cmd, 'r' )
 
                 while True:
-                    line = temp_failure_retry( pipe.readline )
+                    line = tempFailureRetry( pipe.readline )
                     if not line:
                         break
                     line = line.strip()
@@ -1958,7 +1970,7 @@ class Execute(object):
             return self.currentProc.kill()
 
 
-def __log_keyring_warning():
+def __logKeyringWarning():
     from time import sleep
     sleep(0.1)
     logger.warning('import keyring failed')
@@ -1966,5 +1978,5 @@ def __log_keyring_warning():
 if keyring is None and keyring_warn:
     #delay warning to give logger some time to import
     from threading import Thread
-    thread = Thread(target = __log_keyring_warning, args = ())
+    thread = Thread(target = __logKeyringWarning, args = ())
     thread.start()

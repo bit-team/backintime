@@ -32,7 +32,7 @@ from contextlib import contextmanager
 from tempfile import TemporaryDirectory
 
 import qt4tools
-qt4tools.register_backintime_path('common')
+qt4tools.registerBackintimePath('common')
 
 import backintime
 import tools
@@ -57,376 +57,373 @@ _=gettext.gettext
 
 
 class MainWindow( QMainWindow ):
-    def __init__( self, config, app_instance, qapp ):
+    def __init__(self, config, appInstance, qapp):
         QMainWindow.__init__( self )
 
         self.config = config
-        self.app_instance = app_instance
+        self.appInstance = appInstance
         self.qapp = qapp
         self.snapshots = snapshots.Snapshots( config )
-        self.last_take_snapshot_message = None
-        self.tmp_dirs = []
+        self.lastTakeSnapshotMessage = None
+        self.tmpDirs = []
 
         #window icon
         import icon
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         #main toolbar
-        self.main_toolbar = self.addToolBar('main')
-        self.main_toolbar.setFloatable( False )
+        self.mainToolbar = self.addToolBar('main')
+        self.mainToolbar.setFloatable(False)
 
         #profiles
-        self.first_update_all = True
-        self.disable_profile_changed = False
-        self.combo_profiles = qt4tools.ProfileCombo(self)
-        self.combo_profiles_action = self.main_toolbar.addWidget( self.combo_profiles )
+        self.firstUpdateAll = True
+        self.disableProfileChanged = False
+        self.comboProfiles = qt4tools.ProfileCombo(self)
+        self.comboProfilesAction = self.mainToolbar.addWidget(self.comboProfiles)
 
         # take_snapshot button
-        self.btn_take_snapshot = self.main_toolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
-        QObject.connect( self.btn_take_snapshot, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked )
+        self.btnTakeSnapshot = self.mainToolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
+        QObject.connect(self.btnTakeSnapshot, SIGNAL('triggered()'), self.btnTakeSnapshotClicked)
 
-        take_snapshot_menu = qt4tools.Menu()
-        action = take_snapshot_menu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
-        QObject.connect(action, SIGNAL('triggered()'), self.on_btn_take_snapshot_clicked)
-        self.btn_take_snapshot_checksum = take_snapshot_menu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'))
-        self.btn_take_snapshot_checksum.setToolTip(_('Use checksum to detect changes'))
-        QObject.connect(self.btn_take_snapshot_checksum, SIGNAL('triggered()'), self.on_btn_take_snapshot_checksum_clicked)
-        self.btn_take_snapshot.setMenu(take_snapshot_menu)
+        takeSnapshotMenu = qt4tools.Menu()
+        action = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
+        QObject.connect(action, SIGNAL('triggered()'), self.btnTakeSnapshotClicked)
+        self.btnTakeSnapshotChecksum = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'))
+        self.btnTakeSnapshotChecksum.setToolTip(_('Use checksum to detect changes'))
+        QObject.connect(self.btnTakeSnapshotChecksum, SIGNAL('triggered()'), self.btnTakeSnapshotChecksumClicked)
+        self.btnTakeSnapshot.setMenu(takeSnapshotMenu)
 
-        for action in take_snapshot_menu.actions():
+        for action in takeSnapshotMenu.actions():
             action.setIconVisibleInMenu(True)
 
         #pause snapshot button
-        self.btn_pause_take_snapshot = self.main_toolbar.addAction(icon.PAUSE, _('Pause snapshot process'))
+        self.btnPauseTakeSnapshot = self.mainToolbar.addAction(icon.PAUSE, _('Pause snapshot process'))
         action = lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP)
-        self.btn_pause_take_snapshot.triggered.connect(action)
-        self.btn_pause_take_snapshot.setVisible(False)
+        self.btnPauseTakeSnapshot.triggered.connect(action)
+        self.btnPauseTakeSnapshot.setVisible(False)
 
         #resume snapshot button
-        self.btn_resume_take_snapshot = self.main_toolbar.addAction(icon.RESUME, _('Resume snapshot process'))
+        self.btnResumeTakeSnapshot = self.mainToolbar.addAction(icon.RESUME, _('Resume snapshot process'))
         action = lambda: os.kill(self.snapshots.pid(), signal.SIGCONT)
-        self.btn_resume_take_snapshot.triggered.connect(action)
-        self.btn_resume_take_snapshot.setVisible(False)
+        self.btnResumeTakeSnapshot.triggered.connect(action)
+        self.btnResumeTakeSnapshot.setVisible(False)
 
         #stop snapshot button
-        self.btn_stop_take_snapshot = self.main_toolbar.addAction(icon.STOP, _('Stop snapshot process'))
-        self.btn_stop_take_snapshot.triggered.connect(self.on_btn_stop_take_snapshot_clicked)
-        self.btn_stop_take_snapshot.setVisible(False)
+        self.btnStopTakeSnapshot = self.mainToolbar.addAction(icon.STOP, _('Stop snapshot process'))
+        self.btnStopTakeSnapshot.triggered.connect(self.btnStopTakeSnapshotClicked)
+        self.btnStopTakeSnapshot.setVisible(False)
 
         # update snapshots button
-        self.btn_update_snapshots = self.main_toolbar.addAction(icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'))
-        self.btn_update_snapshots.setShortcuts([Qt.Key_F5, QKeySequence(Qt.CTRL + Qt.Key_R)])
-        QObject.connect( self.btn_update_snapshots, SIGNAL('triggered()'), self.on_btn_update_snapshots_clicked )
+        self.btnUpdateSnapshots = self.mainToolbar.addAction(icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'))
+        self.btnUpdateSnapshots.setShortcuts([Qt.Key_F5, QKeySequence(Qt.CTRL + Qt.Key_R)])
+        QObject.connect(self.btnUpdateSnapshots, SIGNAL('triggered()'), self.btnUpdateSnapshotsClicked)
 
-        self.btn_name_snapshot = self.main_toolbar.addAction(icon.SNAPSHOT_NAME, _('Snapshot Name'))
-        QObject.connect( self.btn_name_snapshot, SIGNAL('triggered()'), self.on_btn_name_snapshot_clicked )
+        self.btnNameSnapshot = self.mainToolbar.addAction(icon.SNAPSHOT_NAME, _('Snapshot Name'))
+        QObject.connect(self.btnNameSnapshot, SIGNAL('triggered()'), self.btnNameSnapshotClicked)
 
-        self.btn_remove_snapshot = self.main_toolbar.addAction(icon.REMOVE_SNAPSHOT, _('Remove Snapshot'))
-        QObject.connect( self.btn_remove_snapshot, SIGNAL('triggered()'), self.on_btn_remove_snapshot_clicked )
+        self.btnRemoveSnapshot = self.mainToolbar.addAction(icon.REMOVE_SNAPSHOT, _('Remove Snapshot'))
+        QObject.connect(self.btnRemoveSnapshot, SIGNAL('triggered()'), self.btnRemoveSnapshotClicked)
 
-        self.btn_snapshot_log_view = self.main_toolbar.addAction(icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'))
-        QObject.connect( self.btn_snapshot_log_view, SIGNAL('triggered()'), self.on_btn_snapshot_log_view_clicked )
+        self.btnSnapshotLogView = self.mainToolbar.addAction(icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'))
+        QObject.connect(self.btnSnapshotLogView, SIGNAL('triggered()'), self.btnSnapshotLogViewClicked)
 
-        self.btn_log_view = self.main_toolbar.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
-        QObject.connect( self.btn_log_view, SIGNAL('triggered()'), self.on_btn_log_view_clicked )
+        self.btnLastLogView = self.mainToolbar.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
+        QObject.connect(self.btnLastLogView, SIGNAL('triggered()'), self.btnLastLogViewClicked)
 
-        self.main_toolbar.addSeparator()
+        self.mainToolbar.addSeparator()
 
-        self.btn_settings = self.main_toolbar.addAction(icon.SETTINGS, _('Settings'))
-        QObject.connect( self.btn_settings, SIGNAL('triggered()'), self.on_btn_settings_clicked )
+        self.btnSettings = self.mainToolbar.addAction(icon.SETTINGS, _('Settings'))
+        QObject.connect(self.btnSettings, SIGNAL('triggered()'), self.btnSettingsClicked)
 
-        self.main_toolbar.addSeparator()
+        self.mainToolbar.addSeparator()
 
-        self.btn_shutdown = self.main_toolbar.addAction(icon.SHUTDOWN, _('Shutdown'))
-        self.btn_shutdown.setToolTip(_('Shutdown system after snapshot has finished.'))
-        self.btn_shutdown.setCheckable(True)
+        self.btnShutdown = self.mainToolbar.addAction(icon.SHUTDOWN, _('Shutdown'))
+        self.btnShutdown.setToolTip(_('Shutdown system after snapshot has finished.'))
+        self.btnShutdown.setCheckable(True)
         self.shutdown = tools.ShutDown()
-        self.btn_shutdown.setEnabled(self.shutdown.can_shutdown())
-        QObject.connect( self.btn_shutdown, SIGNAL('toggled(bool)'), self.on_btn_shutdown_toggled )
+        self.btnShutdown.setEnabled(self.shutdown.canShutdown())
+        QObject.connect(self.btnShutdown, SIGNAL('toggled(bool)'), self.btnShutdownToggled)
 
-        self.btn_quit = self.main_toolbar.addAction(icon.EXIT, _('Exit'))
-        self.btn_quit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_W))
-        QObject.connect( self.btn_quit, SIGNAL('triggered()'), self.close )
+        self.btnQuit = self.mainToolbar.addAction(icon.EXIT, _('Exit'))
+        self.btnQuit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_W))
+        QObject.connect(self.btnQuit, SIGNAL('triggered()'), self.close)
 
         empty = QWidget(self)
         empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        self.main_toolbar.addWidget(empty)
+        self.mainToolbar.addWidget(empty)
 
-        help_menu = QMenu(self)
-        self.btn_help = help_menu.addAction(icon.HELP, _('Help') )
-        QObject.connect( self.btn_help, SIGNAL('triggered()'), self.on_help )
-        self.btn_help_config = help_menu.addAction(icon.HELP, _('Config File Help'))
-        QObject.connect(self.btn_help_config, SIGNAL('triggered()'), self.on_help_config)
-        help_menu.addSeparator()
-        self.btn_website = help_menu.addAction(icon.WEBSITE, _('Website') )
-        QObject.connect( self.btn_website, SIGNAL('triggered()'), self.on_website)
-        self.btn_changelog = help_menu.addAction(icon.CHANGELOG, _('Changelog') )
-        QObject.connect( self.btn_changelog, SIGNAL('triggered()'), self.on_changelog)
-        self.btn_faq = help_menu.addAction(icon.FAQ, _('FAQ') )
-        QObject.connect( self.btn_faq, SIGNAL('triggered()'), self.on_faq)
-        self.btn_question = help_menu.addAction(icon.QUESTION, _('Ask a question') )
-        QObject.connect( self.btn_question, SIGNAL('triggered()'), self.on_ask_a_question)
-        self.btn_bug = help_menu.addAction(icon.BUG, _('Report a bug') )
-        QObject.connect( self.btn_bug, SIGNAL('triggered()'), self.on_report_a_bug)
-        help_menu.addSeparator()
-        self.btn_about = help_menu.addAction(icon.ABOUT, _('About') )
-        QObject.connect( self.btn_about, SIGNAL('triggered()'), self.on_about)
+        menuHelp = QMenu(self)
+        self.btnHelp = menuHelp.addAction(icon.HELP, _('Help') )
+        QObject.connect(self.btnHelp, SIGNAL('triggered()'), self.btnHelpClicked)
+        self.btnHelpConfig = menuHelp.addAction(icon.HELP, _('Config File Help'))
+        QObject.connect(self.btnHelpConfig, SIGNAL('triggered()'), self.btnHelpConfigClicked)
+        menuHelp.addSeparator()
+        self.btnWebsite = menuHelp.addAction(icon.WEBSITE, _('Website') )
+        QObject.connect( self.btnWebsite, SIGNAL('triggered()'), self.btnWebsiteClicked)
+        self.btnChangelog = menuHelp.addAction(icon.CHANGELOG, _('Changelog') )
+        QObject.connect( self.btnChangelog, SIGNAL('triggered()'), self.btnChangelogClicked)
+        self.btnFaq = menuHelp.addAction(icon.FAQ, _('FAQ') )
+        QObject.connect( self.btnFaq, SIGNAL('triggered()'), self.btnFaqClicked)
+        self.btnAskQuestion = menuHelp.addAction(icon.QUESTION, _('Ask a question') )
+        QObject.connect( self.btnAskQuestion, SIGNAL('triggered()'), self.btnAskQuestionClicked)
+        self.btnReportBug = menuHelp.addAction(icon.BUG, _('Report a bug') )
+        QObject.connect( self.btnReportBug, SIGNAL('triggered()'), self.btnReportBugClicked)
+        menuHelp.addSeparator()
+        self.btnAbout = menuHelp.addAction(icon.ABOUT, _('About') )
+        QObject.connect( self.btnAbout, SIGNAL('triggered()'), self.btnAboutClicked)
 
-        action = self.main_toolbar.addAction(icon.HELP, _('Help') )
-        QObject.connect( action, SIGNAL('triggered()'), self.on_help )
-        action.setMenu(help_menu)
+        action = self.mainToolbar.addAction(icon.HELP, _('Help') )
+        QObject.connect(action, SIGNAL('triggered()'), self.btnHelpClicked)
+        action.setMenu(menuHelp)
 
-        for action in help_menu.actions():
+        for action in menuHelp.actions():
             action.setIconVisibleInMenu(True)
 
         #main splitter
-        self.main_splitter = QSplitter( self )
-        self.main_splitter.setOrientation( Qt.Horizontal )
+        self.mainSplitter = QSplitter(self)
+        self.mainSplitter.setOrientation(Qt.Horizontal)
 
         #timeline
-        self.list_time_line = qt4tools.TimeLine(self)
-        self.main_splitter.addWidget(self.list_time_line)
-        self.list_time_line.updateFilesView.connect(self.update_files_view)
+        self.timeLine = qt4tools.TimeLine(self)
+        self.mainSplitter.addWidget(self.timeLine)
+        self.timeLine.updateFilesView.connect(self.updateFilesView)
 
         #right widget
-        self.right_widget = QGroupBox( self )
-        self.main_splitter.addWidget( self.right_widget )
-        right_layout = QVBoxLayout( self.right_widget )
-        left, top, right, bottom = right_layout.getContentsMargins()
-        right_layout.setContentsMargins( 0, 0, right, 0 )
+        self.filesWidget = QGroupBox(self)
+        self.mainSplitter.addWidget(self.filesWidget)
+        filesLayout = QVBoxLayout(self.filesWidget)
+        left, top, right, bottom = filesLayout.getContentsMargins()
+        filesLayout.setContentsMargins(0, 0, right, 0)
 
         #files toolbar
-        self.files_view_toolbar = QToolBar( self )
-        self.files_view_toolbar.setFloatable( False )
+        self.filesViewToolbar = QToolBar(self)
+        self.filesViewToolbar.setFloatable(False)
 
-        self.btn_folder_up = self.files_view_toolbar.addAction(icon.UP, _('Up'))
-        self.btn_folder_up.setShortcuts([QKeySequence(Qt.ALT + Qt.Key_Up), Qt.Key_Backspace])
-        QObject.connect( self.btn_folder_up, SIGNAL('triggered()'), self.on_btn_folder_up_clicked )
+        self.btnFolderUp = self.filesViewToolbar.addAction(icon.UP, _('Up'))
+        self.btnFolderUp.setShortcuts([QKeySequence(Qt.ALT + Qt.Key_Up), Qt.Key_Backspace])
+        QObject.connect(self.btnFolderUp, SIGNAL('triggered()'), self.btnFolderUpClicked)
 
-        self.edit_current_path = QLineEdit( self )
-        self.edit_current_path.setReadOnly( True )
-        self.files_view_toolbar.addWidget( self.edit_current_path )
+        self.editCurrentPath = QLineEdit(self)
+        self.editCurrentPath.setReadOnly(True)
+        self.filesViewToolbar.addWidget(self.editCurrentPath)
 
         #show hidden files
-        self.show_hidden_files = self.config.get_bool_value( 'qt4.show_hidden_files', False )
+        self.showHiddenFiles = self.config.boolValue('qt4.show_hidden_files', False)
+        self.btnShowHiddenFiles = self.filesViewToolbar.addAction(icon.SHOW_HIDDEN, _('Show hidden files'))
+        self.btnShowHiddenFiles.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_H))
+        self.btnShowHiddenFiles.setCheckable(True)
+        self.btnShowHiddenFiles.setChecked(self.showHiddenFiles)
+        QObject.connect(self.btnShowHiddenFiles, SIGNAL('toggled(bool)'), self.btnShowHiddenFilesToggled)
 
-        self.btn_show_hidden_files = self.files_view_toolbar.addAction(icon.SHOW_HIDDEN, _('Show hidden files'))
-        self.btn_show_hidden_files.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_H))
-        self.btn_show_hidden_files.setCheckable( True )
-        self.btn_show_hidden_files.setChecked( self.show_hidden_files )
-        QObject.connect( self.btn_show_hidden_files, SIGNAL('toggled(bool)'), self.on_btn_show_hidden_files_toggled )
-
-        self.files_view_toolbar.addSeparator()
+        self.filesViewToolbar.addSeparator()
 
         #restore menu
-        self.menu_restore = qt4tools.Menu(self)
-        self.btn_restore = self.menu_restore.addAction(icon.RESTORE, _('Restore') )
-        self.btn_restore.setToolTip(_('Restore the selected files or folders '
-                                      'to the original destination.'))
-        QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
-        self.btn_restore_to = self.menu_restore.addAction(icon.RESTORE_TO, _('Restore to ...') )
-        self.btn_restore_to.setToolTip(_('Restore the selected files or '
-                                         'folders to a new destination.'))
-        QObject.connect( self.btn_restore_to, SIGNAL('triggered()'), self.restore_this_to )
-        self.menu_restore.addSeparator()
-        self.menu_restore_parent = self.menu_restore.addAction(icon.RESTORE, '' )
-        self.menu_restore_parent.setToolTip(_('Restore the currently shown '
-                                              'folder and all its content to '
-                                              'the original destination.'))
-        QObject.connect( self.menu_restore_parent, SIGNAL('triggered()'), self.restore_parent )
-        self.menu_restore_parent_to = self.menu_restore.addAction(icon.RESTORE_TO, '' )
-        self.menu_restore_parent_to.setToolTip(_('Restore the currently shown '
-                                                 'folder and all its content '
-                                                 'to a new destination.'))
-        QObject.connect( self.menu_restore_parent_to, SIGNAL('triggered()'), self.restore_parent_to )
-        self.menu_restore.addSeparator()
-        self.btn_restore_delete = self.menu_restore.addAction(icon.RESTORE, _('Restore and delete new files'))
-        self.btn_restore_delete.setToolTip(_('Restore selected files or folders '
-                                             'to the original destination and\n'
-                                             'delete files/folders which are '
-                                             'not in the snapshot.\n'
-                                             'This will delete files/folders which where '
-                                             'excluded during taking the snapshot!\n'
-                                             'Be extremely careful!!!'))
-        QObject.connect(self.btn_restore_delete, SIGNAL('triggered()'), lambda: self.restore_this(True))
-        self.menu_restore_parent_delete = self.menu_restore.addAction(icon.RESTORE, '')
-        self.menu_restore_parent_delete.setToolTip(_('Restore the currently shown folder '
-                                                     'and all its content to the original\n'
-                                                     'destination and delete files/folders '
-                                                     'which are not in the snapshot.\n'
-                                                     'This will delete files/folders which '
-                                                     'where excluded during taking the snapshot!\n'
-                                                     'Be extremely careful!!!'))
-        QObject.connect(self.menu_restore_parent_delete, SIGNAL('triggered()'), lambda: self.restore_parent(True))
+        self.menuRestore = qt4tools.Menu(self)
+        self.btnRestore = self.menuRestore.addAction(icon.RESTORE, _('Restore') )
+        self.btnRestore.setToolTip(_('Restore the selected files or folders '
+                                     'to the original destination.'))
+        QObject.connect(self.btnRestore, SIGNAL('triggered()'), self.restoreThis)
+        self.btnRestoreTo = self.menuRestore.addAction(icon.RESTORE_TO, _('Restore to ...') )
+        self.btnRestoreTo.setToolTip(_('Restore the selected files or '
+                                       'folders to a new destination.'))
+        QObject.connect(self.btnRestoreTo, SIGNAL('triggered()'), self.restoreThisTo)
+        self.menuRestore.addSeparator()
+        self.btnRestoreParent = self.menuRestore.addAction(icon.RESTORE, '' )
+        self.btnRestoreParent.setToolTip(_('Restore the currently shown '
+                                           'folder and all its content to '
+                                           'the original destination.'))
+        QObject.connect(self.btnRestoreParent, SIGNAL('triggered()'), self.restoreParent)
+        self.btnRestoreParentTo = self.menuRestore.addAction(icon.RESTORE_TO, '' )
+        self.btnRestoreParentTo.setToolTip(_('Restore the currently shown '
+                                             'folder and all its content '
+                                             'to a new destination.'))
+        QObject.connect(self.btnRestoreParentTo, SIGNAL('triggered()'), self.restoreParentTo)
+        self.menuRestore.addSeparator()
+        self.btnRestoreDelete = self.menuRestore.addAction(icon.RESTORE, _('Restore and delete new files'))
+        self.btnRestoreDelete.setToolTip(_('Restore selected files or folders '
+                                           'to the original destination and\n'
+                                           'delete files/folders which are '
+                                           'not in the snapshot.\n'
+                                           'This will delete files/folders which where '
+                                           'excluded during taking the snapshot!\n'
+                                           'Be extremely careful!!!'))
+        QObject.connect(self.btnRestoreDelete, SIGNAL('triggered()'), lambda: self.restoreThis(True))
+        self.btnRestoreParentDelete = self.menuRestore.addAction(icon.RESTORE, '')
+        self.btnRestoreParentDelete.setToolTip(_('Restore the currently shown folder '
+                                                 'and all its content to the original\n'
+                                                 'destination and delete files/folders '
+                                                 'which are not in the snapshot.\n'
+                                                 'This will delete files/folders which '
+                                                 'where excluded during taking the snapshot!\n'
+                                                 'Be extremely careful!!!'))
+        QObject.connect(self.btnRestoreParentDelete, SIGNAL('triggered()'), lambda: self.restoreParent(True))
 
-        for action in self.menu_restore.actions():
+        for action in self.menuRestore.actions():
             action.setIconVisibleInMenu(True)
-        self.btn_restore_menu = self.files_view_toolbar.addAction(icon.RESTORE, _('Restore'))
-        self.btn_restore_menu.setMenu(self.menu_restore)
-        self.btn_restore_menu.setToolTip( _('Restore selected file or folder.\n'
-                                            'If this button is grayed out this is most likely '
-                                            'because "%(now)s" is selected in left hand snapshots list.') % {'now': _('Now')} )
-        QObject.connect( self.btn_restore_menu, SIGNAL('triggered()'), self.restore_this )
+        self.btnRestoreMenu = self.filesViewToolbar.addAction(icon.RESTORE, _('Restore'))
+        self.btnRestoreMenu.setMenu(self.menuRestore)
+        self.btnRestoreMenu.setToolTip( _('Restore selected file or folder.\n'
+                                          'If this button is grayed out this is most likely '
+                                          'because "%(now)s" is selected in left hand snapshots list.') % {'now': _('Now')} )
+        QObject.connect(self.btnRestoreMenu, SIGNAL('triggered()'), self.restoreThis)
 
-        self.btn_snapshots = self.files_view_toolbar.addAction(icon.SNAPSHOTS, _('Snapshots'))
-        QObject.connect( self.btn_snapshots, SIGNAL('triggered()'), self.on_btn_snapshots_clicked )
+        self.btnSnapshots = self.filesViewToolbar.addAction(icon.SNAPSHOTS, _('Snapshots'))
+        QObject.connect(self.btnSnapshots, SIGNAL('triggered()'), self.btnSnapshotsClicked)
 
-        right_layout.addWidget( self.files_view_toolbar )
+        filesLayout.addWidget(self.filesViewToolbar)
 
         #menubar
-        self.menubar = self.menuBar()
-        self.menubar_snapshot = self.menubar.addMenu(_('Snapshot'))
-        self.menubar_snapshot.addAction(self.btn_take_snapshot)
-        self.menubar_snapshot.addAction(self.btn_update_snapshots)
-        self.menubar_snapshot.addAction(self.btn_name_snapshot)
-        self.menubar_snapshot.addAction(self.btn_remove_snapshot)
-        self.menubar_snapshot.addSeparator()
-        self.menubar_snapshot.addAction(self.btn_settings)
-        self.menubar_snapshot.addSeparator()
-        self.menubar_snapshot.addAction(self.btn_shutdown)
-        self.menubar_snapshot.addAction(self.btn_quit)
+        self.menuSnapshot = self.menuBar().addMenu(_('Snapshot'))
+        self.menuSnapshot.addAction(self.btnTakeSnapshot)
+        self.menuSnapshot.addAction(self.btnUpdateSnapshots)
+        self.menuSnapshot.addAction(self.btnNameSnapshot)
+        self.menuSnapshot.addAction(self.btnRemoveSnapshot)
+        self.menuSnapshot.addSeparator()
+        self.menuSnapshot.addAction(self.btnSettings)
+        self.menuSnapshot.addSeparator()
+        self.menuSnapshot.addAction(self.btnShutdown)
+        self.menuSnapshot.addAction(self.btnQuit)
 
-        self.menubar_view = self.menubar.addMenu(_('View'))
-        self.menubar_view.addAction(self.btn_folder_up)
-        self.menubar_view.addAction(self.btn_show_hidden_files)
-        self.menubar_view.addSeparator()
-        self.menubar_view.addAction(self.btn_snapshot_log_view)
-        self.menubar_view.addAction(self.btn_log_view)
-        self.menubar_view.addSeparator()
-        self.menubar_view.addAction(self.btn_snapshots)
+        self.menuView = self.menuBar().addMenu(_('View'))
+        self.menuView.addAction(self.btnFolderUp)
+        self.menuView.addAction(self.btnShowHiddenFiles)
+        self.menuView.addSeparator()
+        self.menuView.addAction(self.btnSnapshotLogView)
+        self.menuView.addAction(self.btnLastLogView)
+        self.menuView.addSeparator()
+        self.menuView.addAction(self.btnSnapshots)
 
-        self.menubar_restore = self.menubar.addMenu(_('Restore'))
-        self.menubar_restore.addAction(self.btn_restore)
-        self.menubar_restore.addAction(self.btn_restore_to)
-        self.menubar_restore.addSeparator()
-        self.menubar_restore.addAction(self.menu_restore_parent)
-        self.menubar_restore.addAction(self.menu_restore_parent_to)
-        self.menubar_restore.addSeparator()
-        self.menubar_restore.addAction(self.btn_restore_delete)
-        self.menubar_restore.addAction(self.menu_restore_parent_delete)
+        self.menuRestore = self.menuBar().addMenu(_('Restore'))
+        self.menuRestore.addAction(self.btnRestore)
+        self.menuRestore.addAction(self.btnRestoreTo)
+        self.menuRestore.addSeparator()
+        self.menuRestore.addAction(self.btnRestoreParent)
+        self.menuRestore.addAction(self.btnRestoreParentTo)
+        self.menuRestore.addSeparator()
+        self.menuRestore.addAction(self.btnRestoreDelete)
+        self.menuRestore.addAction(self.btnRestoreParentDelete)
 
-        self.menubar_help = self.menubar.addMenu(_('Help'))
-        self.menubar_help.addAction(self.btn_help)
-        self.menubar_help.addAction(self.btn_help_config)
-        self.menubar_help.addSeparator()
-        self.menubar_help.addAction(self.btn_website)
-        self.menubar_help.addAction(self.btn_changelog)
-        self.menubar_help.addAction(self.btn_faq)
-        self.menubar_help.addAction(self.btn_question)
-        self.menubar_help.addAction(self.btn_bug)
-        self.menubar_help.addSeparator()
-        self.menubar_help.addAction(self.btn_about)
+        self.menuHelp = self.menuBar().addMenu(_('Help'))
+        self.menuHelp.addAction(self.btnHelp)
+        self.menuHelp.addAction(self.btnHelpConfig)
+        self.menuHelp.addSeparator()
+        self.menuHelp.addAction(self.btnWebsite)
+        self.menuHelp.addAction(self.btnChangelog)
+        self.menuHelp.addAction(self.btnFaq)
+        self.menuHelp.addAction(self.btnAskQuestion)
+        self.menuHelp.addAction(self.btnReportBug)
+        self.menuHelp.addSeparator()
+        self.menuHelp.addAction(self.btnAbout)
 
         #shortcuts without buttons
-        self.shortcut_previous_folder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Left), self)
-        QObject.connect(self.shortcut_previous_folder, SIGNAL('activated()'), self.on_btn_folder_history_previous_clicked)
-        self.shortcut_next_folder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Right), self)
-        QObject.connect(self.shortcut_next_folder, SIGNAL('activated()'), self.on_btn_folder_history_next_clicked)
-        self.shortcut_open_folder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Down), self)
-        QObject.connect(self.shortcut_open_folder, SIGNAL('activated()'), self.on_btn_open_current_item)
+        self.shortcutPreviousFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Left), self)
+        QObject.connect(self.shortcutPreviousFolder, SIGNAL('activated()'), self.btnFolderHistoryPreviousClicked)
+        self.shortcutNextFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Right), self)
+        QObject.connect(self.shortcutNextFolder, SIGNAL('activated()'), self.btnFolderHistoryNextClicked)
+        self.shortcutOpenFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Down), self)
+        QObject.connect(self.shortcutOpenFolder, SIGNAL('activated()'), self.btnOpenCurrentItemClicked)
 
         #mouse button navigation
         self.mouseButtonEventFilter = ExtraMouseButtonEventFilter(self)
         self.setMouseButtonNavigation()
 
         #second spliter
-        self.second_splitter = QSplitter( self )
-        self.second_splitter.setOrientation( Qt.Horizontal )
-        self.second_splitter.setContentsMargins(0, 0, 0, 0)
-        right_layout.addWidget( self.second_splitter )
+        self.secondSplitter = QSplitter(self)
+        self.secondSplitter.setOrientation(Qt.Horizontal)
+        self.secondSplitter.setContentsMargins(0, 0, 0, 0)
+        filesLayout.addWidget(self.secondSplitter)
 
         #places
-        self.list_places = QTreeWidget( self )
-        self.list_places.setRootIsDecorated( False )
-        self.list_places.setEditTriggers( QAbstractItemView.NoEditTriggers )
-        self.list_places.setHeaderLabel( _('Shortcuts') )
-        self.list_places.header().setClickable(True)
-        self.list_places.header().setSortIndicatorShown(True)
-        self.list_places.header().setSectionHidden(1, True)
-        self.list_places.header().setSortIndicator(int(self.config.get_profile_int_value('qt4.places.SortColumn', 1)),
-                                                   int(self.config.get_profile_int_value('qt4.places.SortOrder', Qt.AscendingOrder)))
-        self.list_places_sort_loop = {self.config.get_current_profile(): False}
-        self.second_splitter.addWidget( self.list_places )
-        QObject.connect(self.list_places.header(),
+        self.places = QTreeWidget(self)
+        self.places.setRootIsDecorated(False)
+        self.places.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.places.setHeaderLabel(_('Shortcuts'))
+        self.places.header().setClickable(True)
+        self.places.header().setSortIndicatorShown(True)
+        self.places.header().setSectionHidden(1, True)
+        self.places.header().setSortIndicator(int(self.config.profileIntValue('qt4.places.SortColumn', 1)),
+                                                   int(self.config.profileIntValue('qt4.places.SortOrder', Qt.AscendingOrder)))
+        self.placesSortLoop = {self.config.currentProfile(): False}
+        self.secondSplitter.addWidget(self.places)
+        QObject.connect(self.places.header(),
                         SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.sort_places)
+                        self.sortPlaces)
 
         #files view stacked layout
         widget = QWidget( self )
-        self.files_view_layout = QStackedLayout( widget )
-        self.second_splitter.addWidget( widget )
+        self.stackFilesView = QStackedLayout(widget)
+        self.secondSplitter.addWidget(widget)
 
         #folder don't exist label
-        self.lbl_folder_dont_exists = QLabel( _('This folder doesn\'t exist\nin the current selected snapshot!'), self )
-        qt4tools.set_font_bold( self.lbl_folder_dont_exists )
-        self.lbl_folder_dont_exists.setFrameShadow( QFrame.Sunken )
-        self.lbl_folder_dont_exists.setFrameShape( QFrame.Panel )
-        self.lbl_folder_dont_exists.setAlignment( Qt.AlignHCenter | Qt.AlignVCenter )
-        self.files_view_layout.addWidget( self.lbl_folder_dont_exists )
+        self.lblFolderDontExists = QLabel(_('This folder doesn\'t exist\nin the current selected snapshot!'), self)
+        qt4tools.setFontBold(self.lblFolderDontExists)
+        self.lblFolderDontExists.setFrameShadow(QFrame.Sunken)
+        self.lblFolderDontExists.setFrameShape(QFrame.Panel)
+        self.lblFolderDontExists.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.stackFilesView.addWidget(self.lblFolderDontExists)
 
         #list files view
-        self.list_files_view = QTreeView( self )
-        self.files_view_layout.addWidget( self.list_files_view )
-        self.list_files_view.setRootIsDecorated( False )
-        self.list_files_view.setAlternatingRowColors( True )
-        self.list_files_view.setEditTriggers( QAbstractItemView.NoEditTriggers )
-        self.list_files_view.setItemsExpandable( False )
-        self.list_files_view.setDragEnabled( False )
-        self.list_files_view.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.filesView = QTreeView(self)
+        self.stackFilesView.addWidget(self.filesView)
+        self.filesView.setRootIsDecorated(False)
+        self.filesView.setAlternatingRowColors(True)
+        self.filesView.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.filesView.setItemsExpandable(False)
+        self.filesView.setDragEnabled(False)
+        self.filesView.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
-        self.list_files_view_header = self.list_files_view.header()
-        self.list_files_view_header.setClickable( True )
-        self.list_files_view_header.setMovable( False )
-        self.list_files_view_header.setSortIndicatorShown( True )
+        self.filesView.header().setClickable(True)
+        self.filesView.header().setMovable(False)
+        self.filesView.header().setSortIndicatorShown(True)
 
-        self.list_files_view_model = QFileSystemModel(self)
-        self.list_files_view_model.setRootPath(QDir().rootPath())
-        self.list_files_view_model.setReadOnly(True)
-        self.list_files_view_model.setFilter(QDir.AllDirs | QDir.AllEntries
+        self.filesViewModel = QFileSystemModel(self)
+        self.filesViewModel.setRootPath(QDir().rootPath())
+        self.filesViewModel.setReadOnly(True)
+        self.filesViewModel.setFilter(QDir.AllDirs | QDir.AllEntries
                                             | QDir.NoDotAndDotDot | QDir.Hidden)
 
-        self.list_files_view_proxy_model = QSortFilterProxyModel(self)
-        self.list_files_view_proxy_model.setDynamicSortFilter(True)
-        self.list_files_view_proxy_model.setSourceModel(self.list_files_view_model)
+        self.filesViewProxyModel = QSortFilterProxyModel(self)
+        self.filesViewProxyModel.setDynamicSortFilter(True)
+        self.filesViewProxyModel.setSourceModel(self.filesViewModel)
 
-        self.list_files_view.setModel(self.list_files_view_proxy_model)
+        self.filesView.setModel(self.filesViewProxyModel)
 
-        self.list_files_view_delegate = QStyledItemDelegate( self )
-        self.list_files_view.setItemDelegate( self.list_files_view_delegate )
+        self.filesViewDelegate = QStyledItemDelegate(self)
+        self.filesView.setItemDelegate(self.filesViewDelegate)
 
-        sort_column = self.config.get_int_value( 'qt4.main_window.files_view.sort.column', 0 )
-        sort_order = self.config.get_bool_value( 'qt4.main_window.files_view.sort.ascending', True )
-        if sort_order:
-            sort_order = Qt.AscendingOrder
+        sortColumn = self.config.intValue('qt4.main_window.files_view.sort.column', 0)
+        sortOrder = self.config.boolValue('qt4.main_window.files_view.sort.ascending', True)
+        if sortOrder:
+            sortOrder = Qt.AscendingOrder
         else:
-            sort_order = Qt.DescendingOrder
+            sortOrder = Qt.DescendingOrder
 
-        self.list_files_view_header.setSortIndicator( sort_column, sort_order )
-        self.list_files_view_model.sort(self.list_files_view_header.sortIndicatorSection(),
-                                        self.list_files_view_header.sortIndicatorOrder() )
-        QObject.connect(self.list_files_view_header,
+        self.filesView.header().setSortIndicator(sortColumn, sortOrder)
+        self.filesViewModel.sort(self.filesView.header().sortIndicatorSection(),
+                                 self.filesView.header().sortIndicatorOrder() )
+        QObject.connect(self.filesView.header(),
                         SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.list_files_view_model.sort )
+                        self.filesViewModel.sort )
 
-        self.files_view_layout.setCurrentWidget( self.list_files_view )
+        self.stackFilesView.setCurrentWidget(self.filesView)
 
         #
-        self.setCentralWidget( self.main_splitter )
+        self.setCentralWidget(self.mainSplitter)
 
         #context menu
-        self.list_files_view.setContextMenuPolicy(Qt.CustomContextMenu)
-        QObject.connect(self.list_files_view, SIGNAL('customContextMenuRequested(const QPoint&)'), self.on_context_menu)
+        self.filesView.setContextMenuPolicy(Qt.CustomContextMenu)
+        QObject.connect(self.filesView, SIGNAL('customContextMenuRequested(const QPoint&)'), self.contextMenuClicked)
         self.contextMenu = QMenu(self)
-        self.contextMenu.addAction(self.btn_restore)
-        self.contextMenu.addAction(self.btn_restore_to)
-        self.contextMenu.addAction(self.btn_snapshots)
+        self.contextMenu.addAction(self.btnRestore)
+        self.contextMenu.addAction(self.btnRestoreTo)
+        self.contextMenu.addAction(self.btnSnapshots)
         self.contextMenu.addSeparator()
-        self.btn_add_include = self.contextMenu.addAction(icon.ADD, _('Add to Include'))
-        self.btn_add_exclude = self.contextMenu.addAction(icon.ADD, _('Add to Exclude'))
-        QObject.connect(self.btn_add_include, SIGNAL('triggered()'), self.on_btn_add_include)
-        QObject.connect(self.btn_add_exclude, SIGNAL('triggered()'), self.on_btn_add_exclude)
+        self.btnAddInclude = self.contextMenu.addAction(icon.ADD, _('Add to Include'))
+        self.btnAddExclude = self.contextMenu.addAction(icon.ADD, _('Add to Exclude'))
+        QObject.connect(self.btnAddInclude, SIGNAL('triggered()'), self.btnAddIncludeClicked)
+        QObject.connect(self.btnAddExclude, SIGNAL('triggered()'), self.btnAddExcludeClicked)
         self.contextMenu.addSeparator()
-        self.contextMenu.addAction(self.btn_show_hidden_files)
+        self.contextMenu.addAction(self.btnShowHiddenFiles)
 
         #ProgressBar
         self.progressBar = QProgressBar(self)
@@ -441,53 +438,53 @@ class MainWindow( QMainWindow ):
         self.statusBar().addWidget(self.status, 100)
         self.status.setText( _('Done') )
 
-        self.snapshots_list = []
+        self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
-        self.path = self.config.get_profile_str_value('qt4.last_path',
-                            self.config.get_str_value('qt4.last_path', '/' ) )
-        self.edit_current_path.setText( self.path )
+        self.path = self.config.profileStrValue('qt4.last_path',
+                            self.config.strValue('qt4.last_path', '/' ) )
+        self.editCurrentPath.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
         #restore size and position
-        x = self.config.get_int_value( 'qt4.main_window.x', -1 )
-        y = self.config.get_int_value( 'qt4.main_window.y', -1 )
+        x = self.config.intValue( 'qt4.main_window.x', -1 )
+        y = self.config.intValue( 'qt4.main_window.y', -1 )
         if x >= 0 and y >= 0:
             self.move( x, y )
 
-        w = self.config.get_int_value( 'qt4.main_window.width', 800 )
-        h = self.config.get_int_value( 'qt4.main_window.height', 500 )
+        w = self.config.intValue( 'qt4.main_window.width', 800 )
+        h = self.config.intValue( 'qt4.main_window.height', 500 )
         self.resize( w, h )
 
-        main_splitter_left_w = self.config.get_int_value( 'qt4.main_window.main_splitter_left_w', 150 )
-        main_splitter_right_w = self.config.get_int_value( 'qt4.main_window.main_splitter_right_w', 450 )
-        sizes = [ main_splitter_left_w, main_splitter_right_w ]
-        self.main_splitter.setSizes( sizes )
+        mainSplitterLeftWidth = self.config.intValue('qt4.main_window.main_splitter_left_w', 150)
+        mainSplitterRightWidth = self.config.intValue('qt4.main_window.main_splitter_right_w', 450)
+        sizes = [ mainSplitterLeftWidth, mainSplitterRightWidth ]
+        self.mainSplitter.setSizes(sizes)
 
-        second_splitter_left_w = self.config.get_int_value( 'qt4.main_window.second_splitter_left_w', 150 )
-        second_splitter_right_w = self.config.get_int_value( 'qt4.main_window.second_splitter_right_w', 300 )
-        sizes = [ second_splitter_left_w, second_splitter_right_w ]
-        self.second_splitter.setSizes( sizes )
+        secondSplitterLeftWidth = self.config.intValue('qt4.main_window.second_splitter_left_w', 150)
+        secondSplitterRightWidth = self.config.intValue('qt4.main_window.second_splitter_right_w', 300)
+        sizes = [ secondSplitterLeftWidth, secondSplitterRightWidth ]
+        self.secondSplitter.setSizes(sizes)
 
-        files_view_name_width = self.config.get_int_value( 'qt4.main_window.files_view.name_width', -1 )
-        files_view_size_width = self.config.get_int_value( 'qt4.main_window.files_view.size_width', -1 )
-        files_view_date_width = self.config.get_int_value( 'qt4.main_window.files_view.date_width', -1 )
-        if files_view_name_width > 0 and files_view_size_width > 0 and files_view_date_width > 0:
-            self.list_files_view_header.resizeSection( 0, files_view_name_width )
-            self.list_files_view_header.resizeSection( 1, files_view_size_width )
-            self.list_files_view_header.resizeSection( 2, files_view_date_width )
+        filesViewColumnNameWidth = self.config.intValue('qt4.main_window.files_view.name_width', -1)
+        filesViewColumnSizeWidth = self.config.intValue('qt4.main_window.files_view.size_width', -1)
+        filesViewColumnDateWidth = self.config.intValue('qt4.main_window.files_view.date_width', -1)
+        if filesViewColumnNameWidth > 0 and filesViewColumnSizeWidth > 0 and filesViewColumnDateWidth > 0:
+            self.filesView.header().resizeSection(0, filesViewColumnNameWidth)
+            self.filesView.header().resizeSection(1, filesViewColumnSizeWidth)
+            self.filesView.header().resizeSection(2, filesViewColumnDateWidth)
 
         #force settingdialog if it is not configured
-        if not config.is_configured():
+        if not config.isConfigured():
             message = _('%(appName)s is not configured. Would you like '
                         'to restore a previous configuration?' % {'appName': self.config.APP_NAME})
             if QMessageBox.Yes == messagebox.warningYesNo(self, message):
                 settingsdialog.RestoreConfigDialog(self).exec_()
             settingsdialog.SettingsDialog( self ).exec_()
 
-        if not config.is_configured():
+        if not config.isConfigured():
             return
 
-        profile_id = config.get_current_profile()
+        profile_id = config.currentProfile()
 
         #mount
         try:
@@ -496,76 +493,76 @@ class MainWindow( QMainWindow ):
         except MountException as ex:
             messagebox.critical( self, str(ex) )
         else:
-            self.config.set_current_hash_id(hash_id)
+            self.config.setCurrentHashId(hash_id)
 
-        if not cfg.can_backup( profile_id ):
+        if not cfg.canBackup( profile_id ):
             messagebox.critical( self, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK') )
 
-        QObject.connect(self.list_files_view_proxy_model, SIGNAL('layoutChanged()'), self.on_dir_lister_completed)
+        QObject.connect(self.filesViewProxyModel, SIGNAL('layoutChanged()'), self.dirListerCompleted)
 
         #populate lists
-        self.update_profiles()
-        QObject.connect( self.combo_profiles, SIGNAL('currentIndexChanged(int)'), self.on_profile_changed )
+        self.updateProfiles()
+        QObject.connect(self.comboProfiles, SIGNAL('currentIndexChanged(int)'), self.comboProfileChanged)
 
-        self.list_files_view.setFocus()
+        self.filesView.setFocus()
 
-        self.update_snapshot_actions()
+        self.updateSnapshotActions()
 
         #signals
-        QObject.connect( self.list_time_line, SIGNAL('itemSelectionChanged()'), self.on_list_time_line_current_item_changed )
-        QObject.connect( self.list_places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.on_list_places_current_item_changed )
-        QObject.connect( self.list_files_view, SIGNAL('activated(const QModelIndex&)'), self.on_list_files_view_item_activated )
+        QObject.connect(self.timeLine, SIGNAL('itemSelectionChanged()'), self.timeLineChanged)
+        QObject.connect(self.places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.placesChanged)
+        QObject.connect(self.filesView, SIGNAL('activated(const QModelIndex&)'), self.filesViewItemActivated)
 
-        self.force_wait_lock_counter = 0
+        self.forceWaitLockCounter = 0
 
-        self.timer_raise_application = QTimer( self )
-        self.timer_raise_application.setInterval( 1000 )
-        self.timer_raise_application.setSingleShot( False )
-        QObject.connect( self.timer_raise_application, SIGNAL('timeout()'), self.raise_application )
-        self.timer_raise_application.start()
+        self.timerRaiseApplication = QTimer(self)
+        self.timerRaiseApplication.setInterval(1000)
+        self.timerRaiseApplication.setSingleShot(False)
+        QObject.connect(self.timerRaiseApplication, SIGNAL('timeout()'), self.raiseApplication)
+        self.timerRaiseApplication.start()
 
-        self.timer_update_take_snapshot = QTimer( self )
-        self.timer_update_take_snapshot.setInterval( 1000 )
-        self.timer_update_take_snapshot.setSingleShot( False )
-        QObject.connect( self.timer_update_take_snapshot, SIGNAL('timeout()'), self.update_take_snapshot )
-        self.timer_update_take_snapshot.start()
+        self.timerUpdateTakeSnapshot = QTimer(self)
+        self.timerUpdateTakeSnapshot.setInterval(1000)
+        self.timerUpdateTakeSnapshot.setSingleShot(False)
+        QObject.connect(self.timerUpdateTakeSnapshot, SIGNAL('timeout()'), self.updateTakeSnapshot)
+        self.timerUpdateTakeSnapshot.start()
 
     def closeEvent( self, event ):
-        if self.shutdown.ask_before_quit():
+        if self.shutdown.askBeforeQuit():
             if QMessageBox.Yes != messagebox.warningYesNo(self, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you really want to close?') ):
                 return event.ignore()
 
-        self.config.set_str_value( 'qt4.last_path', self.path )
-        self.config.set_profile_str_value('qt4.last_path', self.path)
+        self.config.setStrValue( 'qt4.last_path', self.path )
+        self.config.setProfileStrValue('qt4.last_path', self.path)
 
-        self.config.set_profile_int_value('qt4.places.SortColumn',
-                                          self.list_places.header().sortIndicatorSection())
-        self.config.set_profile_int_value('qt4.places.SortOrder',
-                                          self.list_places.header().sortIndicatorOrder())
+        self.config.setProfileIntValue('qt4.places.SortColumn',
+                                          self.places.header().sortIndicatorSection())
+        self.config.setProfileIntValue('qt4.places.SortOrder',
+                                          self.places.header().sortIndicatorOrder())
 
-        self.config.set_int_value( 'qt4.main_window.x', self.x() )
-        self.config.set_int_value( 'qt4.main_window.y', self.y() )
-        self.config.set_int_value( 'qt4.main_window.width', self.width() )
-        self.config.set_int_value( 'qt4.main_window.height', self.height() )
+        self.config.setIntValue( 'qt4.main_window.x', self.x() )
+        self.config.setIntValue( 'qt4.main_window.y', self.y() )
+        self.config.setIntValue( 'qt4.main_window.width', self.width() )
+        self.config.setIntValue( 'qt4.main_window.height', self.height() )
 
-        sizes = self.main_splitter.sizes()
-        self.config.set_int_value( 'qt4.main_window.main_splitter_left_w', sizes[0] )
-        self.config.set_int_value( 'qt4.main_window.main_splitter_right_w', sizes[1] )
+        sizes = self.mainSplitter.sizes()
+        self.config.setIntValue( 'qt4.main_window.main_splitter_left_w', sizes[0] )
+        self.config.setIntValue( 'qt4.main_window.main_splitter_right_w', sizes[1] )
 
-        sizes = self.second_splitter.sizes()
-        self.config.set_int_value( 'qt4.main_window.second_splitter_left_w', sizes[0] )
-        self.config.set_int_value( 'qt4.main_window.second_splitter_right_w', sizes[1] )
+        sizes = self.secondSplitter.sizes()
+        self.config.setIntValue( 'qt4.main_window.second_splitter_left_w', sizes[0] )
+        self.config.setIntValue( 'qt4.main_window.second_splitter_right_w', sizes[1] )
 
-        self.config.set_int_value( 'qt4.main_window.files_view.name_width', self.list_files_view_header.sectionSize( 0 ) )
-        self.config.set_int_value( 'qt4.main_window.files_view.size_width', self.list_files_view_header.sectionSize( 1 ) )
-        self.config.set_int_value( 'qt4.main_window.files_view.date_width', self.list_files_view_header.sectionSize( 2 ) )
+        self.config.setIntValue('qt4.main_window.files_view.name_width', self.filesView.header().sectionSize(0))
+        self.config.setIntValue('qt4.main_window.files_view.size_width', self.filesView.header().sectionSize(1))
+        self.config.setIntValue('qt4.main_window.files_view.date_width', self.filesView.header().sectionSize(2))
 
-        self.config.set_bool_value( 'qt4.show_hidden_files', self.show_hidden_files )
+        self.config.setBoolValue('qt4.show_hidden_files', self.showHiddenFiles)
 
-        self.config.set_int_value( 'qt4.main_window.files_view.sort.column', self.list_files_view_header.sortIndicatorSection() )
-        self.config.set_bool_value( 'qt4.main_window.files_view.sort.ascending', self.list_files_view_header.sortIndicatorOrder() == Qt.AscendingOrder )
+        self.config.setIntValue('qt4.main_window.files_view.sort.column', self.filesView.header().sortIndicatorSection())
+        self.config.setBoolValue('qt4.main_window.files_view.sort.ascending', self.filesView.header().sortIndicatorOrder() == Qt.AscendingOrder)
 
-        self.list_files_view_model.deleteLater()
+        self.filesViewModel.deleteLater()
 
         #umount
         try:
@@ -577,70 +574,70 @@ class MainWindow( QMainWindow ):
         self.config.save()
 
         # cleanup temporary local copys of files which where opend in GUI
-        for d in self.tmp_dirs:
+        for d in self.tmpDirs:
             d.cleanup()
 
         event.accept()
 
-    def update_profiles( self ):
-        if self.disable_profile_changed:
+    def updateProfiles( self ):
+        if self.disableProfileChanged:
             return
 
-        self.disable_profile_changed = True
+        self.disableProfileChanged = True
 
-        self.combo_profiles.clear()
+        self.comboProfiles.clear()
 
-        profiles = self.config.get_profiles_sorted_by_name()
+        profiles = self.config.profilesSortedByName()
 
         for profile_id in profiles:
-            self.combo_profiles.addProfileID(profile_id)
-            if profile_id == self.config.get_current_profile():
-                self.combo_profiles.setCurrentProfileID(profile_id)
+            self.comboProfiles.addProfileID(profile_id)
+            if profile_id == self.config.currentProfile():
+                self.comboProfiles.setCurrentProfileID(profile_id)
 
-        self.combo_profiles_action.setVisible(len(profiles) > 1)
+        self.comboProfilesAction.setVisible(len(profiles) > 1)
 
-        self.update_profile()
+        self.updateProfile()
 
-        self.disable_profile_changed = False
+        self.disableProfileChanged = False
 
-    def update_profile( self ):
-        self.update_time_line()
-        self.update_places()
-        self.update_files_view( 0 )
+    def updateProfile(self):
+        self.updateTimeLine()
+        self.updatePlaces()
+        self.updateFilesView(0)
 
-    def on_profile_changed( self, index ):
-        if self.disable_profile_changed:
+    def comboProfileChanged(self, index):
+        if self.disableProfileChanged:
             return
 
-        profile_id = self.combo_profiles.currentProfileID()
+        profile_id = self.comboProfiles.currentProfileID()
         if not profile_id:
             return
-        old_profile_id = self.config.get_current_profile()
+        old_profile_id = self.config.currentProfile()
         if profile_id != old_profile_id:
-            self.config.PLUGIN_MANAGER.do_unmount()
+            self.config.PLUGIN_MANAGER.unmount()
             self.remount(profile_id, old_profile_id)
-            self.config.set_current_profile( profile_id )
-            self.config.PLUGIN_MANAGER.load_plugins(cfg = self.config, force = True)
-            self.config.PLUGIN_MANAGER.do_mount()
+            self.config.setCurrentProfile( profile_id )
+            self.config.PLUGIN_MANAGER.load(cfg = self.config, force = True)
+            self.config.PLUGIN_MANAGER.mount()
 
-            self.config.set_profile_int_value('qt4.places.SortColumn',
-                                              self.list_places.header().sortIndicatorSection(),
+            self.config.setProfileIntValue('qt4.places.SortColumn',
+                                              self.places.header().sortIndicatorSection(),
                                               old_profile_id)
-            self.config.set_profile_int_value('qt4.places.SortOrder',
-                                              self.list_places.header().sortIndicatorOrder(),
+            self.config.setProfileIntValue('qt4.places.SortOrder',
+                                              self.places.header().sortIndicatorOrder(),
                                               old_profile_id)
-            self.list_places_sort_loop[old_profile_id] = False
-            self.list_places.header().setSortIndicator(int(self.config.get_profile_int_value('qt4.places.SortColumn', 1, profile_id)),
-                                                       int(self.config.get_profile_int_value('qt4.places.SortOrder', Qt.AscendingOrder, profile_id)))
+            self.placesSortLoop[old_profile_id] = False
+            self.places.header().setSortIndicator(int(self.config.profileIntValue('qt4.places.SortColumn', 1, profile_id)),
+                                                       int(self.config.profileIntValue('qt4.places.SortOrder', Qt.AscendingOrder, profile_id)))
 
-            self.config.set_profile_str_value('qt4.last_path', self.path, old_profile_id)
-            path = self.config.get_profile_str_value('qt4.last_path', self.path, profile_id)
+            self.config.setProfileStrValue('qt4.last_path', self.path, old_profile_id)
+            path = self.config.profileStrValue('qt4.last_path', self.path, profile_id)
             if not path == self.path:
                 self.path = path
                 self.path_history.reset(self.path)
-                self.edit_current_path.setText( self.path )
+                self.editCurrentPath.setText(self.path)
 
-            self.update_profile()
+            self.updateProfile()
 
     def remount( self, new_profile_id, old_profile_id):
         try:
@@ -649,105 +646,105 @@ class MainWindow( QMainWindow ):
         except MountException as ex:
             messagebox.critical( self, str(ex) )
         else:
-            self.config.set_current_hash_id(hash_id)
+            self.config.setCurrentHashId(hash_id)
 
-    def raise_application( self ):
-        raise_cmd = self.app_instance.raise_command()
-        if raise_cmd is None:
+    def raiseApplication(self):
+        raiseCmd = self.appInstance.raiseCommand()
+        if raiseCmd is None:
             return
 
-        logger.debug("Raise cmd: %s" %raise_cmd, self)
+        logger.debug("Raise cmd: %s" %raiseCmd, self)
         self.qapp.alert( self )
 
-    def update_take_snapshot( self, force_wait_lock = False ):
+    def updateTakeSnapshot(self, force_wait_lock = False):
         if force_wait_lock:
-            self.force_wait_lock_counter = 10
+            self.forceWaitLockCounter = 10
 
-        busy = self.snapshots.is_busy()
+        busy = self.snapshots.busy()
         if busy:
-            self.force_wait_lock_counter = 0
-            paused = tools.process_paused(self.snapshots.pid())
+            self.forceWaitLockCounter = 0
+            paused = tools.processPaused(self.snapshots.pid())
         else:
             paused = False
 
-        if self.force_wait_lock_counter > 0:
-            self.force_wait_lock_counter = self.force_wait_lock_counter - 1
+        if self.forceWaitLockCounter > 0:
+            self.forceWaitLockCounter = self.forceWaitLockCounter - 1
 
-        fake_busy = busy or self.force_wait_lock_counter > 0
+        fake_busy = busy or self.forceWaitLockCounter > 0
 
         message = _('Working:')
-        take_snapshot_message = self.snapshots.get_take_snapshot_message()
+        takeSnapshotMessage = self.snapshots.takeSnapshotMessage()
         if fake_busy:
-            if take_snapshot_message is None:
-                take_snapshot_message = ( 0, '...' )
-        elif take_snapshot_message is None:
-            take_snapshot_message = self.last_take_snapshot_message
-            if take_snapshot_message is None:
-                take_snapshot_message = ( 0, _('Done') )
+            if takeSnapshotMessage is None:
+                takeSnapshotMessage = ( 0, '...' )
+        elif takeSnapshotMessage is None:
+            takeSnapshotMessage = self.lastTakeSnapshotMessage
+            if takeSnapshotMessage is None:
+                takeSnapshotMessage = ( 0, _('Done') )
 
         force_update = False
 
         if fake_busy:
-            if self.btn_take_snapshot.isEnabled():
-                self.btn_take_snapshot.setEnabled( False )
+            if self.btnTakeSnapshot.isEnabled():
+                self.btnTakeSnapshot.setEnabled(False)
 
-            if not self.btn_stop_take_snapshot.isVisible():
-                for btn in (self.btn_pause_take_snapshot,
-                            self.btn_resume_take_snapshot,
-                            self.btn_stop_take_snapshot):
+            if not self.btnStopTakeSnapshot.isVisible():
+                for btn in (self.btnPauseTakeSnapshot,
+                            self.btnResumeTakeSnapshot,
+                            self.btnStopTakeSnapshot):
                     btn.setEnabled(True)
-            self.btn_take_snapshot.setVisible(False)
-            self.btn_pause_take_snapshot.setVisible(not paused)
-            self.btn_resume_take_snapshot.setVisible(paused)
-            self.btn_stop_take_snapshot.setVisible(True)
-        elif not self.btn_take_snapshot.isEnabled():
+            self.btnTakeSnapshot.setVisible(False)
+            self.btnPauseTakeSnapshot.setVisible(not paused)
+            self.btnResumeTakeSnapshot.setVisible(paused)
+            self.btnStopTakeSnapshot.setVisible(True)
+        elif not self.btnTakeSnapshot.isEnabled():
             force_update = True
 
-            self.btn_take_snapshot.setEnabled( True )
-            self.btn_take_snapshot.setVisible(True)
-            for btn in (self.btn_pause_take_snapshot,
-                        self.btn_resume_take_snapshot,
-                        self.btn_stop_take_snapshot):
+            self.btnTakeSnapshot.setEnabled(True)
+            self.btnTakeSnapshot.setVisible(True)
+            for btn in (self.btnPauseTakeSnapshot,
+                        self.btnResumeTakeSnapshot,
+                        self.btnStopTakeSnapshot):
                 btn.setVisible(False)
 
             #TODO: check if there is a more elegant way than always get a new snapshot list which is very expencive (time)
-            snapshots_list = snapshots.listSnapshots(self.config)
+            snapshotsList = snapshots.listSnapshots(self.config)
 
-            if snapshots_list != self.snapshots_list:
-                self.snapshots_list = snapshots_list
-                self.update_time_line( False )
-                take_snapshot_message = ( 0, _('Done') )
+            if snapshotsList != self.snapshotsList:
+                self.snapshotsList = snapshotsList
+                self.updateTimeLine(False)
+                takeSnapshotMessage = ( 0, _('Done') )
             else:
-                if take_snapshot_message[0] == 0:
-                    take_snapshot_message = ( 0, _('Done, no backup needed') )
+                if takeSnapshotMessage[0] == 0:
+                    takeSnapshotMessage = ( 0, _('Done, no backup needed') )
 
             self.shutdown.shutdown()
 
-        if take_snapshot_message != self.last_take_snapshot_message or force_update:
-            self.last_take_snapshot_message = take_snapshot_message
+        if takeSnapshotMessage != self.lastTakeSnapshotMessage or force_update:
+            self.lastTakeSnapshotMessage = takeSnapshotMessage
 
             if fake_busy:
-                message = _('Working:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
-            elif take_snapshot_message[0] == 0:
-                message = self.last_take_snapshot_message[1].replace( '\n', ' ' )
+                message = _('Working:') + ' ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+            elif takeSnapshotMessage[0] == 0:
+                message = self.lastTakeSnapshotMessage[1].replace('\n', ' ')
             else:
-                message = _('Error:') + ' ' + self.last_take_snapshot_message[1].replace( '\n', ' ' )
+                message = _('Error:') + ' ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
 
             self.status.setText(message)
 
         pg = progress.ProgressFile(self.config)
-        if pg.isFileReadable():
+        if pg.fileReadable():
             self.progressBar.setVisible(True)
             self.status.setVisible(False)
             pg.load()
-            self.progressBar.setValue(pg.get_int_value('percent') )
+            self.progressBar.setValue(pg.intValue('percent') )
             self.progressBar.setFormat(' | '.join(self.getProgressBarFormat(pg, self.status.text())) )
         else:
             self.progressBar.setVisible(False)
             self.status.setVisible(True)
 
         #if not fake_busy:
-        #	self.last_take_snapshot_message = None
+        #	self.lastTakeSnapshotMessage = None
 
     def getProgressBarFormat(self, pg, message):
         d = (('sent',   _('Sent:')), \
@@ -755,13 +752,13 @@ class MainWindow( QMainWindow ):
              ('eta',    _('ETA:')) )
         yield ' %p%'
         for key, txt in d:
-            value = pg.get_str_value(key, '')
+            value = pg.strValue(key, '')
             if not value:
                 continue
             yield txt + ' ' + value
         yield message
 
-    def on_list_places_current_item_changed( self, item, previous ):
+    def placesChanged(self, item, previous):
         if item is None:
             return
 
@@ -774,9 +771,9 @@ class MainWindow( QMainWindow ):
 
         self.path = path
         self.path_history.append(path)
-        self.update_files_view( 3 )
+        self.updateFilesView(3)
 
-    def add_place( self, name, path, icon ):
+    def addPlace(self, name, path, icon):
         item = QTreeWidgetItem()
 
         item.setText( 0, name )
@@ -787,26 +784,26 @@ class MainWindow( QMainWindow ):
         item.setData( 0, Qt.UserRole, path )
 
         if not path:
-            item.setFont( 0, qt4tools.get_font_bold( item.font( 0 ) ) )
+            item.setFont( 0, qt4tools.fontBold( item.font( 0 ) ) )
             item.setFlags( Qt.ItemIsEnabled )
             item.setBackgroundColor( 0, QColor( 196, 196, 196 ) )
             item.setTextColor( 0, QColor( 60, 60, 60 ))
 
-        self.list_places.addTopLevelItem( item )
+        self.places.addTopLevelItem(item)
 
         if path == self.path:
-            self.list_places.setCurrentItem( item )
+            self.places.setCurrentItem(item)
 
         return item
 
-    def update_places( self ):
-        self.list_places.clear()
-        self.add_place( _('Global'), '', '' )
-        self.add_place( _('Root'), '/', 'computer' )
-        self.add_place( _('Home'), os.path.expanduser( '~' ), 'user-home' )
+    def updatePlaces(self):
+        self.places.clear()
+        self.addPlace(_('Global'), '', '')
+        self.addPlace(_('Root'), '/', 'computer')
+        self.addPlace(_('Home'), os.path.expanduser('~'), 'user-home')
 
         #add backup folders
-        include_folders = self.config.get_include()
+        include_folders = self.config.include()
         if include_folders:
             folders = []
             for item in include_folders:
@@ -814,42 +811,42 @@ class MainWindow( QMainWindow ):
                     folders.append( item[0] )
 
             if folders:
-                sortColumn = self.list_places.header().sortIndicatorSection()
-                sortOrder  = self.list_places.header().sortIndicatorOrder()
+                sortColumn = self.places.header().sortIndicatorSection()
+                sortOrder  = self.places.header().sortIndicatorOrder()
                 if not sortColumn:
                     folders.sort(key = lambda v: (v.upper(), v[0].islower()), reverse = sortOrder)
-                self.add_place( _('Backup folders'), '', '' )
+                self.addPlace(_('Backup folders'), '', '')
                 for folder in folders:
-                    self.add_place( folder, folder, 'document-save' )
+                    self.addPlace(folder, folder, 'document-save')
 
-    def sort_places(self, newColumn, newOrder, force = False):
-        profile_id = self.config.get_current_profile()
+    def sortPlaces(self, newColumn, newOrder, force = False):
+        profile_id = self.config.currentProfile()
         if newColumn == 0 and newOrder == Qt.AscendingOrder:
-            if profile_id in self.list_places_sort_loop and self.list_places_sort_loop[profile_id]:
+            if profile_id in self.placesSortLoop and self.placesSortLoop[profile_id]:
                 newColumn, newOrder = 1, Qt.AscendingOrder
-                self.list_places.header().setSortIndicator(newColumn, newOrder)
-                self.list_places_sort_loop[profile_id] = False
+                self.places.header().setSortIndicator(newColumn, newOrder)
+                self.placesSortLoop[profile_id] = False
             else:
-                self.list_places_sort_loop[profile_id] = True
-        self.update_places()
+                self.placesSortLoop[profile_id] = True
+        self.updatePlaces()
 
-    def update_snapshot_actions( self, item = None ):
+    def updateSnapshotActions(self, item = None):
         enabled = False
 
         if item is None:
-            item = self.list_time_line.currentItem()
+            item = self.timeLine.currentItem()
         if not item is None:
             if not item.snapshotID().isRoot:
                 enabled = True
 
         #update remove/name snapshot buttons
-        self.btn_name_snapshot.setEnabled( enabled )
-        self.btn_remove_snapshot.setEnabled( enabled )
-        self.btn_snapshot_log_view.setEnabled( enabled )
+        self.btnNameSnapshot.setEnabled(enabled)
+        self.btnRemoveSnapshot.setEnabled(enabled)
+        self.btnSnapshotLogView.setEnabled(enabled)
 
-    def on_list_time_line_current_item_changed(self):
-        item = self.list_time_line.currentItem()
-        self.update_snapshot_actions(item)
+    def timeLineChanged(self):
+        item = self.timeLine.currentItem()
+        self.updateSnapshotActions(item)
 
         if item is None:
             return
@@ -859,43 +856,43 @@ class MainWindow( QMainWindow ):
             return
 
         self.sid = sid
-        self.update_files_view( 2 )
+        self.updateFilesView(2)
 
-    def update_time_line( self, get_snapshots_list = True ):
-        self.list_time_line.clear()
-        self.list_time_line.addRoot(snapshots.RootSnapshot(self.config))
-        if get_snapshots_list:
-            self.snapshots_list = []
+    def updateTimeLine(self, refreshSnapshotsList = True):
+        self.timeLine.clear()
+        self.timeLine.addRoot(snapshots.RootSnapshot(self.config))
+        if refreshSnapshotsList:
+            self.snapshotsList = []
             thread = FillTimeLineThread(self)
-            thread.addSnapshot.connect(self.list_time_line.addSnapshot)
-            thread.finished.connect(self.list_time_line.checkSelection)
+            thread.addSnapshot.connect(self.timeLine.addSnapshot)
+            thread.finished.connect(self.timeLine.checkSelection)
             thread.start()
         else:
-            for sid in self.snapshots_list:
-                item = self.list_time_line.addSnapshot(sid)
-            self.list_time_line.checkSelection()
+            for sid in self.snapshotsList:
+                item = self.timeLine.addSnapshot(sid)
+            self.timeLine.checkSelection()
 
-    def on_btn_take_snapshot_clicked( self ):
-        backintime.take_snapshot_now_async( self.config )
-        self.update_take_snapshot( True )
+    def btnTakeSnapshotClicked(self):
+        backintime.takeSnapshotAsync( self.config )
+        self.updateTakeSnapshot(True)
 
-    def on_btn_take_snapshot_checksum_clicked(self):
-        backintime.take_snapshot_now_async(self.config, checksum = True)
-        self.update_take_snapshot(True)
+    def btnTakeSnapshotChecksumClicked(self):
+        backintime.takeSnapshotAsync(self.config, checksum = True)
+        self.updateTakeSnapshot(True)
 
-    def on_btn_stop_take_snapshot_clicked(self):
+    def btnStopTakeSnapshotClicked(self):
         os.kill(self.snapshots.pid(), signal.SIGKILL)
-        self.btn_stop_take_snapshot.setEnabled(False)
-        self.btn_pause_take_snapshot.setEnabled(False)
-        self.btn_resume_take_snapshot.setEnabled(False)
-        self.snapshots.set_take_snapshot_message(0, 'Snapshot terminated')
+        self.btnStopTakeSnapshot.setEnabled(False)
+        self.btnPauseTakeSnapshot.setEnabled(False)
+        self.btnResumeTakeSnapshot.setEnabled(False)
+        self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
 
-    def on_btn_update_snapshots_clicked( self ):
-        self.update_time_line()
-        self.update_files_view( 2 )
+    def btnUpdateSnapshotsClicked(self):
+        self.updateTimeLine()
+        self.updateFilesView(2)
 
-    def on_btn_name_snapshot_clicked( self ):
-        item = self.list_time_line.currentItem()
+    def btnNameSnapshotClicked(self):
+        item = self.timeLine.currentItem()
         if item is None:
             return
 
@@ -916,12 +913,12 @@ class MainWindow( QMainWindow ):
         sid.name = new_name
         item.updateText()
 
-    def on_btn_log_view_clicked ( self ):
+    def btnLastLogViewClicked (self):
         with self.suspendMouseButtonNavigation():
             logviewdialog.LogViewDialog( self ).exec_()
 
-    def on_btn_snapshot_log_view_clicked ( self ):
-        item = self.list_time_line.currentItem()
+    def btnSnapshotLogViewClicked (self):
+        item = self.timeLine.currentItem()
         if item is None:
             return
 
@@ -933,10 +930,10 @@ class MainWindow( QMainWindow ):
             dlg = logviewdialog.LogViewDialog( self, sid )
             dlg.exec_()
             if sid != dlg.sid:
-                self.list_time_line.setCurrentSnapshotID(dlg.sid)
+                self.timeLine.setCurrentSnapshotID(dlg.sid)
 
-    def on_btn_remove_snapshot_clicked ( self ):
-        items = [item for item in self.list_time_line.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
+    def btnRemoveSnapshotClicked (self):
+        items = [item for item in self.timeLine.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
         if not items:
             return
 
@@ -947,69 +944,69 @@ class MainWindow( QMainWindow ):
 
         for item in items:
             item.setDisabled(True)
-            if item is self.list_time_line.currentItem():
-                self.list_time_line.selectRootItem()
+            if item is self.timeLine.currentItem():
+                self.timeLine.selectRootItem()
         thread = RemoveSnapshotThread(self, items)
-        thread.refreshSnapshotList.connect(self.update_time_line)
+        thread.refreshSnapshotList.connect(self.updateTimeLine)
         thread.start()
 
-    def on_btn_settings_clicked( self ):
+    def btnSettingsClicked(self):
         with self.suspendMouseButtonNavigation():
             if QDialog.Accepted == settingsdialog.SettingsDialog( self ).exec_():
-                profile_id = self.config.get_current_profile()
+                profile_id = self.config.currentProfile()
                 self.remount(profile_id, profile_id)
-                self.update_profiles()
+                self.updateProfiles()
 
-    def on_btn_shutdown_toggled(self, checked):
+    def btnShutdownToggled(self, checked):
         self.shutdown.activate_shutdown = checked
 
-    def on_context_menu(self, point):
-        self.contextMenu.exec_(self.list_files_view.mapToGlobal(point) )
+    def contextMenuClicked(self, point):
+        self.contextMenu.exec_(self.filesView.mapToGlobal(point) )
 
-    def on_about( self ):
+    def btnAboutClicked(self):
         with self.suspendMouseButtonNavigation():
             dlg = About(self)
             dlg.exec_()
 
-    def on_help( self ):
-        self.open_man_page('backintime')
+    def btnHelpClicked(self):
+        self.openManPage('backintime')
 
-    def on_help_config(self):
-        self.open_man_page('backintime-config')
+    def btnHelpConfigClicked(self):
+        self.openManPage('backintime-config')
 
-    def on_website( self ):
-        self.open_url('https://github.com/bit-team/backintime')
+    def btnWebsiteClicked(self):
+        self.openUrl('https://github.com/bit-team/backintime')
 
-    def on_changelog( self ):
-        def a_href(m):
+    def btnChangelogClicked(self):
+        def aHref(m):
             if m.group(0).count('@'):
                 return '<a href="mailto:%(url)s">%(url)s</a>' % {'url': m.group(0)}
             else:
                 return '<a href="%(url)s">%(url)s</a>' % {'url': m.group(0)}
 
-        def a_href_lp(m):
+        def aHref_lp(m):
             return '<a href="https://bugs.launchpad.net/backintime/+bug/%(id)s">%(txt)s</a>' % {'txt': m.group(0), 'id': m.group(1)}
 
-        msg = self.config.get_changelog()
-        msg = re.sub(r'https?://[^) \n]*', a_href, msg)
-        msg = re.sub(r'(?:LP:|bug) ?#?(\d+)', a_href_lp, msg)
+        msg = self.config.changelog()
+        msg = re.sub(r'https?://[^) \n]*', aHref, msg)
+        msg = re.sub(r'(?:LP:|bug) ?#?(\d+)', aHref_lp, msg)
         msg = re.sub(r'\n', '<br>', msg)
-        messagebox.show_info(self, _('Changelog'), msg)
+        messagebox.showInfo(self, _('Changelog'), msg)
 
-    def on_faq( self ):
-        self.open_url('https://github.com/bit-team/backintime/wiki/FAQ')
+    def btnFaqClicked(self):
+        self.openUrl('https://github.com/bit-team/backintime/wiki/FAQ')
 
-    def on_ask_a_question( self ):
-        self.open_url('https://github.com/bit-team/backintime/issues')
+    def btnAskQuestionClicked(self):
+        self.openUrl('https://github.com/bit-team/backintime/issues')
 
-    def on_report_a_bug( self ):
-        self.open_url('https://github.com/bit-team/backintime/issues/new')
+    def btnReportBugClicked(self):
+        self.openUrl('https://github.com/bit-team/backintime/issues/new')
 
-    def open_url( self, url ):
+    def openUrl(self, url):
         return QDesktopServices.openUrl(QUrl(url))
 
-    def open_man_page(self, man_page):
-        if not tools.check_command('man'):
+    def openManPage(self, man_page):
+        if not tools.checkCommand('man'):
             messagebox.critical(self, "Couldn't find 'man' to show the help page. Please install 'man'")
             return
         env = os.environ
@@ -1019,25 +1016,25 @@ class MainWindow( QMainWindow ):
                                 universal_newlines = True,
                                 env = env)
         out, err = proc.communicate()
-        messagebox.show_info(self, 'Manual Page {}'.format(man_page), out)
+        messagebox.showInfo(self, 'Manual Page {}'.format(man_page), out)
 
-    def on_btn_show_hidden_files_toggled( self, checked ):
-        self.show_hidden_files = checked
-        self.update_files_view( 1 )
+    def btnShowHiddenFilesToggled(self, checked):
+        self.showHiddenFiles = checked
+        self.updateFilesView(1)
 
-    def backup_on_restore(self):
+    def backupOnRestore(self):
         cb = QCheckBox(_("Backup local files before overwriting or\nremoving with trailing '%(suffix)s'.")
-                       % {'suffix': self.snapshots.backup_suffix()} )
-        cb.setChecked(self.config.is_backup_on_restore_enabled())
+                       % {'suffix': self.snapshots.backupSuffix()} )
+        cb.setChecked(self.config.backupOnRestore())
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'backup'}
 
-    def restore_only_new(self):
+    def restoreOnlyNew(self):
         cb = QCheckBox(_('Only restore files which does not exist or\n'    +\
                          'are newer than those in destination.\n' +\
                          'Using "rsync --update" option.'))
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'only_new'}
 
-    def confirm_delete_on_restore(self, paths, warn_root = False):
+    def confirmDeleteOnRestore(self, paths, warn_root = False):
         msg = _('Are you sure you want to remove all newer files in your '
                 'original folder?')
         if warn_root:
@@ -1050,79 +1047,79 @@ class MainWindow( QMainWindow ):
 
         confirm, opt = messagebox.warningYesNoOptions(self,
                                                       msg,
-                                                      (self.backup_on_restore(),
-                                                       self.restore_only_new()))
+                                                      (self.backupOnRestore(),
+                                                       self.restoreOnlyNew()))
         return (confirm, opt)
 
-    def confirm_restore(self, paths):
+    def confirmRestore(self, paths):
         msg = _('Do you really want to restore this files(s):')
         msg += '\n'
         msg += '\n'.join(paths)
         confirm, opt = messagebox.warningYesNoOptions(self,
                                                       msg,
-                                                      (self.backup_on_restore(),
-                                                       self.restore_only_new()))
+                                                      (self.backupOnRestore(),
+                                                       self.restoreOnlyNew()))
         return (confirm, opt)
 
-    def restore_this( self, delete = False ):
+    def restoreThis(self, delete = False):
         if self.sid.isRoot:
             return
 
-        selected_file = [f for f, idx in self.multi_file_selected()]
+        selected_file = [f for f, idx in self.multiFileSelected()]
         if not selected_file:
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
 
         with self.suspendMouseButtonNavigation():
             if delete:
-                confirm, kwargs = self.confirm_delete_on_restore(rel_path, any([i == '/' for i in selected_file]) )
+                confirm, kwargs = self.confirmDeleteOnRestore(rel_path, any([i == '/' for i in selected_file]) )
             else:
-                confirm, kwargs = self.confirm_restore(rel_path)
+                confirm, kwargs = self.confirmRestore(rel_path)
         if not confirm:
             return
 
         restoredialog.restore(self, self.sid, rel_path, delete = delete, **kwargs)
 
-    def restore_this_to( self ):
+    def restoreThisTo(self):
         if self.sid.isRoot:
             return
 
-        selected_file = [f for f, idx in self.multi_file_selected()]
+        selected_file = [f for f, idx in self.multiFileSelected()]
         if not selected_file:
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
 
-        confirm, kwargs = self.confirm_restore(rel_path)
+        confirm, kwargs = self.confirmRestore(rel_path)
         if not confirm:
             return
 
         restoredialog.restore(self, self.sid, rel_path, None, **kwargs)
 
-    def restore_parent( self, delete = False ):
+    def restoreParent(self, delete = False):
         if self.sid.isRoot:
             return
 
         with self.suspendMouseButtonNavigation():
             if delete:
-                confirm, kwargs = self.confirm_delete_on_restore((self.path,), self.path == '/')
+                confirm, kwargs = self.confirmDeleteOnRestore((self.path,), self.path == '/')
             else:
-                confirm, kwargs = self.confirm_restore((self.path,))
+                confirm, kwargs = self.confirmRestore((self.path,))
         if not confirm:
             return
 
         restoredialog.restore( self, self.sid, self.path, delete = delete, **kwargs)
 
-    def restore_parent_to( self ):
+    def restoreParentTo(self):
         if self.sid.isRoot:
             return
 
-        if not self.confirm_restore((self.path,)):
+        if not self.confirmRestore((self.path,)):
             return
 
         restoredialog.restore( self, self.sid, self.path, None )
 
-    def on_btn_snapshots_clicked( self ):
-        selected_file, idx = self.file_selected()
+    def btnSnapshotsClicked(self):
+        selected_file, idx = self.fileSelected()
         if not selected_file:
             return
 
@@ -1132,9 +1129,9 @@ class MainWindow( QMainWindow ):
             dlg = snapshotsdialog.SnapshotsDialog( self, self.sid, rel_path)
             if QDialog.Accepted == dlg.exec_():
                 if dlg.sid != self.sid:
-                    self.list_time_line.setCurrentSnapshotID(dlg.sid)
+                    self.timeLine.setCurrentSnapshotID(dlg.sid)
 
-    def on_btn_folder_up_clicked( self ):
+    def btnFolderUpClicked(self):
         if len( self.path ) <= 1:
             return
 
@@ -1144,70 +1141,70 @@ class MainWindow( QMainWindow ):
 
         self.path = path
         self.path_history.append(self.path)
-        self.update_files_view( 0 )
+        self.updateFilesView(0)
 
-    def on_btn_folder_history_previous_clicked(self):
+    def btnFolderHistoryPreviousClicked(self):
         path = self.path_history.previous()
         full_path = self.sid.pathBackup(path)
         if os.path.isdir(full_path) and self.sid.canOpenPath(path):
             self.path = path
-            self.update_files_view(0)
+            self.updateFilesView(0)
 
-    def on_btn_folder_history_next_clicked(self):
+    def btnFolderHistoryNextClicked(self):
         path = self.path_history.next()
         full_path = self.sid.pathBackup(path)
         if os.path.isdir(full_path) and self.sid.canOpenPath(path):
             self.path = path
-            self.update_files_view(0)
+            self.updateFilesView(0)
 
-    def on_btn_open_current_item(self):
-        path, idx = self.file_selected()
+    def btnOpenCurrentItemClicked(self):
+        path, idx = self.fileSelected()
         if not path:
             return
-        self.open_path(path)
+        self.openPath(path)
 
-    def on_btn_add_include(self):
-        selected_file = [f for f, idx in self.multi_file_selected()]
+    def btnAddIncludeClicked(self):
+        selected_file = [f for f, idx in self.multiFileSelected()]
         if not selected_file:
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
-        include = self.config.get_include()
-        update_places = False
+        include = self.config.include()
+        updatePlaces = False
         for item in rel_path:
             if os.path.isdir(item):
                 include.append((item, 0))
-                update_places = True
+                updatePlaces = True
             else:
                 include.append((item, 1))
-        self.config.set_include(include)
-        if update_places:
-            self.update_places()
+        self.config.setInclude(include)
+        if updatePlaces:
+            self.updatePlaces()
 
-    def on_btn_add_exclude(self):
-        selected_file = [f for f, idx in self.multi_file_selected()]
+    def btnAddExcludeClicked(self):
+        selected_file = [f for f, idx in self.multiFileSelected()]
         if not selected_file:
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
-        exclude = self.config.get_exclude()
+        exclude = self.config.exclude()
         exclude.extend(rel_path)
-        self.config.set_exclude(exclude)
+        self.config.setExclude(exclude)
 
-    def on_list_files_view_item_activated( self, model_index ):
+    def filesViewItemActivated(self, model_index):
         if self.qapp.keyboardModifiers() and Qt.ControlModifier:
             return
 
         if model_index is None:
             return
 
-        rel_path = str( self.list_files_view_proxy_model.data( model_index ) )
+        rel_path = str(self.filesViewProxyModel.data(model_index))
         if not rel_path:
             return
-        self.open_path(rel_path)
+        self.openPath(rel_path)
 
-    def tmp_copy(self, full_path, sid = None):
+    def tmpCopy(self, full_path, sid = None):
         """
         Create a temporary local copy of the file ``full_path`` and add the
-        temp folder to ``self.tmp_dirs`` which will remove them on exit.
+        temp folder to ``self.tmpDirs`` which will remove them on exit.
 
         Args:
             full_path (str):        path to original file
@@ -1225,10 +1222,10 @@ class MainWindow( QMainWindow ):
             shutil.copytree(full_path, tmp_file)
         else:
             shutil.copy(full_path, d.name)
-        self.tmp_dirs.append(d)
+        self.tmpDirs.append(d)
         return tmp_file
 
-    def open_path(self, rel_path):
+    def openPath(self, rel_path):
         rel_path = os.path.join( self.path, rel_path )
         full_path = self.sid.pathBackup(rel_path)
 
@@ -1236,27 +1233,27 @@ class MainWindow( QMainWindow ):
             if os.path.isdir( full_path ):
                 self.path = rel_path
                 self.path_history.append(rel_path)
-                self.update_files_view( 0 )
+                self.updateFilesView(0)
             else:
                 # prevent backup data from being accidentaly overwritten
                 # by create a temporary local copy and only open that one
                 if not isinstance(self.sid, snapshots.RootSnapshot):
-                    full_path = self.tmp_copy(full_path, self.sid)
+                    full_path = self.tmpCopy(full_path, self.sid)
 
                 self.run = QDesktopServices.openUrl(QUrl('file://' + full_path))
 
     @pyqtSlot(int)
-    def update_files_view( self, changed_from, selected_file = None, show_snapshots = False ): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
+    def updateFilesView(self, changed_from, selected_file = None, show_snapshots = False): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
         if 0 == changed_from or 3 == changed_from:
             selected_file = ''
 
         if 0 == changed_from:
             #update places
-            self.list_places.setCurrentItem( None )
-            for place_index in range( self.list_places.topLevelItemCount() ):
-                item = self.list_places.topLevelItem( place_index )
+            self.places.setCurrentItem(None)
+            for place_index in range(self.places.topLevelItemCount()):
+                item = self.places.topLevelItem(place_index)
                 if self.path == str( item.data( 0, Qt.UserRole ) ):
-                    self.list_places.setCurrentItem( item )
+                    self.places.setCurrentItem(item)
                     break
 
         tooltip = ''
@@ -1269,12 +1266,12 @@ class MainWindow( QMainWindow ):
             text = _('Snapshot: %s') % name
             tooltip = _('View the snapshot made at %s') % name
 
-        self.right_widget.setTitle(text)
-        self.right_widget.setToolTip(tooltip)
+        self.filesWidget.setTitle(text)
+        self.filesWidget.setToolTip(tooltip)
 
         #try to keep old selected file
         if selected_file is None:
-            selected_file, idx = self.file_selected()
+            selected_file, idx = self.fileSelected()
 
         self.selected_file = selected_file
 
@@ -1282,88 +1279,88 @@ class MainWindow( QMainWindow ):
         full_path = self.sid.pathBackup(self.path)
 
         if os.path.isdir( full_path ):
-            if self.show_hidden_files:
-                self.list_files_view_proxy_model.setFilterRegExp(r'')
+            if self.showHiddenFiles:
+                self.filesViewProxyModel.setFilterRegExp(r'')
             else:
-                self.list_files_view_proxy_model.setFilterRegExp(r'^[^\.]')
+                self.filesViewProxyModel.setFilterRegExp(r'^[^\.]')
 
-            model_index = self.list_files_view_model.setRootPath(full_path)
-            proxy_model_index = self.list_files_view_proxy_model.mapFromSource(model_index)
-            self.list_files_view.setRootIndex(proxy_model_index)
+            model_index = self.filesViewModel.setRootPath(full_path)
+            proxy_model_index = self.filesViewProxyModel.mapFromSource(model_index)
+            self.filesView.setRootIndex(proxy_model_index)
 
-            self.files_view_toolbar.setEnabled( False )
-            self.files_view_layout.setCurrentWidget( self.list_files_view )
+            self.filesViewToolbar.setEnabled(False)
+            self.stackFilesView.setCurrentWidget(self.filesView)
             #TODO: find a signal for this
-            self.on_dir_lister_completed()
+            self.dirListerCompleted()
         else:
-            self.btn_restore_menu.setEnabled( False )
-            self.menubar_restore.setEnabled(False)
-            self.btn_restore.setEnabled(False)
-            self.btn_restore_to.setEnabled(False)
-            self.btn_snapshots.setEnabled( False )
-            self.files_view_layout.setCurrentWidget( self.lbl_folder_dont_exists )
+            self.btnRestoreMenu.setEnabled(False)
+            self.menuRestore.setEnabled(False)
+            self.btnRestore.setEnabled(False)
+            self.btnRestoreTo.setEnabled(False)
+            self.btnSnapshots.setEnabled(False)
+            self.stackFilesView.setCurrentWidget(self.lblFolderDontExists)
 
         #show current path
-        self.edit_current_path.setText( self.path )
-        self.menu_restore_parent.setText( _("Restore '%s'") % self.path )
-        self.menu_restore_parent_to.setText( _("Restore '%s' to ...") % self.path )
-        self.menu_restore_parent_delete.setText( _("Restore '%s' and delete new files") % self.path )
+        self.editCurrentPath.setText(self.path)
+        self.btnRestoreParent.setText(_("Restore '%s'") % self.path)
+        self.btnRestoreParentTo.setText(_("Restore '%s' to ...") % self.path)
+        self.btnRestoreParentDelete.setText(_("Restore '%s' and delete new files") % self.path)
 
         #update folder_up button state
-        self.btn_folder_up.setEnabled( len( self.path ) > 1 )
+        self.btnFolderUp.setEnabled(len(self.path) > 1)
 
-    def on_dir_lister_completed( self ):
-        has_files = (self.list_files_view_proxy_model.rowCount(self.list_files_view.rootIndex() ) > 0 )
+    def dirListerCompleted(self):
+        has_files = (self.filesViewProxyModel.rowCount(self.filesView.rootIndex() ) > 0 )
 
         #update restore button state
         enable = not self.sid.isRoot and has_files
-        self.btn_restore_menu.setEnabled(enable)
-        self.menubar_restore.setEnabled(enable)
-        self.btn_restore.setEnabled(enable)
-        self.btn_restore_to.setEnabled(enable)
+        self.btnRestoreMenu.setEnabled(enable)
+        self.menuRestore.setEnabled(enable)
+        self.btnRestore.setEnabled(enable)
+        self.btnRestoreTo.setEnabled(enable)
 
         #update snapshots button state
-        self.btn_snapshots.setEnabled( has_files )
+        self.btnSnapshots.setEnabled(has_files)
 
         #enable files toolbar
-        self.files_view_toolbar.setEnabled( True )
+        self.filesViewToolbar.setEnabled(True)
 
         #select selected_file
         found = False
 
         if self.selected_file:
-            index = self.list_files_view.indexAt(QPoint(0,0))
+            index = self.filesView.indexAt(QPoint(0,0))
             if not index.isValid():
                 return
             while index.isValid():
-                file_name = (str( self.list_files_view_proxy_model.data(index) ))
+                file_name = (str(self.filesViewProxyModel.data(index)))
                 if file_name == self.selected_file:
-                    self.list_files_view.setCurrentIndex(index)
+                    self.filesView.setCurrentIndex(index)
                     found = True
                     break
-                index = self.list_files_view.indexBelow(index)
+                index = self.filesView.indexBelow(index)
             self.selected_file = ''
 
         if not found and has_files:
-            self.list_files_view.setCurrentIndex( self.list_files_view_proxy_model.index( 0, 0 ) )
+            self.filesView.setCurrentIndex(self.filesViewProxyModel.index(0, 0))
 
-    def file_selected(self):
-        idx = self.list_files_view.currentIndex()
-        idx = self.index_first_column(idx)
-        selected_file = str( self.list_files_view_proxy_model.data( idx ) )
+    def fileSelected(self):
+        idx = self.filesView.currentIndex()
+        idx = self.indexFirstColumn(idx)
+        selected_file = str(self.filesViewProxyModel.data(idx))
         if selected_file == '/':
             #nothing is selected
             return(None, None)
         return(selected_file, idx)
 
-    def multi_file_selected(self):
-        for idx in self.list_files_view.selectedIndexes():
+    def multiFileSelected(self):
+        for idx in self.filesView.selectedIndexes():
             if idx.column() > 0:
                 continue
-            selected_file = str(self.list_files_view_proxy_model.data(idx))
+            selected_file = str(self.filesViewProxyModel.data(idx))
             yield (selected_file, idx)
 
-    def index_first_column(self, idx):
+    def indexFirstColumn(self, idx):
         if idx.column() > 0:
             idx = idx.sibling(idx.row(), 0)
         return idx
@@ -1388,7 +1385,7 @@ class About(QDialog):
         logo     = QLabel('Icon')
         logo.setPixmap(icon.BIT_LOGO.pixmap(QSize(48, 48)) )
         version = self.config.VERSION
-        ref, hashid = tools.get_git_ref_hash()
+        ref, hashid = tools.gitRevisionAndHash()
         git_version = ''
         if ref:
             git_version = " git branch '{}' hash '{}'".format(ref, hashid)
@@ -1408,38 +1405,38 @@ class About(QDialog):
         vlayout.addWidget(homepage)
         vlayout.addWidget(bit_copyright)
 
-        button_box_left  = QDialogButtonBox(self)
-        btn_authors      = button_box_left.addButton(_('Authors'), QDialogButtonBox.ActionRole)
-        btn_translations = button_box_left.addButton(_('Translations'), QDialogButtonBox.ActionRole)
-        btn_license      = button_box_left.addButton(_('License'), QDialogButtonBox.ActionRole)
+        buttonBoxLeft  = QDialogButtonBox(self)
+        btn_authors      = buttonBoxLeft.addButton(_('Authors'), QDialogButtonBox.ActionRole)
+        btn_translations = buttonBoxLeft.addButton(_('Translations'), QDialogButtonBox.ActionRole)
+        btn_license      = buttonBoxLeft.addButton(_('License'), QDialogButtonBox.ActionRole)
 
-        button_box_right = QDialogButtonBox(QDialogButtonBox.Ok)
+        buttonBoxRight = QDialogButtonBox(QDialogButtonBox.Ok)
 
         hlayout = QHBoxLayout()
-        hlayout.addWidget(button_box_left)
-        hlayout.addWidget(button_box_right)
+        hlayout.addWidget(buttonBoxLeft)
+        hlayout.addWidget(buttonBoxRight)
         vlayout.addLayout(hlayout)
 
         QObject.connect(btn_authors, SIGNAL('clicked()'), self.authors)
         QObject.connect(btn_translations, SIGNAL('clicked()'), self.translations)
         QObject.connect(btn_license, SIGNAL('clicked()'), self.license)
-        QObject.connect(button_box_right, SIGNAL('accepted()'), self.accept)
+        QObject.connect(buttonBoxRight, SIGNAL('accepted()'), self.accept)
 
     def authors(self):
-        return messagebox.show_info(self, _('Authors'), self.mkurl(self.config.get_authors()) )
+        return messagebox.showInfo(self, _('Authors'), self.mkurl(self.config.authors()) )
 
     def translations(self):
-        return messagebox.show_info(self, _('Translations'), self.mkurl(self.config.get_translations()) )
+        return messagebox.showInfo(self, _('Translations'), self.mkurl(self.config.translations()) )
 
     def license(self):
-        return messagebox.show_info(self, _('License'), self.config.get_license())
+        return messagebox.showInfo(self, _('License'), self.config.license())
 
     def mkurl(self, msg):
-        msg = re.sub(r'<(.*?)>', self.a_href, msg)
+        msg = re.sub(r'<(.*?)>', self.aHref, msg)
         msg = re.sub(r'\n', '<br>', msg)
         return msg
 
-    def a_href(self, m):
+    def aHref(self, m):
         if m.group(1).count('@'):
             return '<a href="mailto:%(url)s">%(url)s</a>' % {'url': m.group(1)}
         else:
@@ -1451,16 +1448,16 @@ class ExtraMouseButtonEventFilter(QObject):
     and assign it to browse in file history.
     When updating to Qt5 use Qt.BackButton and Qt.ForwardButton instead.
     """
-    def __init__(self, main_window):
-        self.main_window = main_window
+    def __init__(self, mainWindow):
+        self.mainWindow = mainWindow
         super(ExtraMouseButtonEventFilter, self).__init__()
 
     def eventFilter(self, receiver, event):
         if event.type() == QEvent.MouseButtonPress and event.button() in (Qt.XButton1, Qt.XButton2):
             if event.button() == Qt.XButton1:
-                self.main_window.on_btn_folder_history_previous_clicked()
+                self.mainWindow.btnFolderHistoryPreviousClicked()
             if event.button() == Qt.XButton2:
-                self.main_window.on_btn_folder_history_next_clicked()
+                self.mainWindow.btnFolderHistoryNextClicked()
             return True
         else:
             return super(ExtraMouseButtonEventFilter, self).eventFilter(receiver, event)
@@ -1484,7 +1481,7 @@ class RemoveSnapshotThread(QThread):
                                                          reason = 'deleting snapshots')
 
         for item in self.items:
-            self.snapshots.remove_snapshot(item.snapshotID())
+            self.snapshots.remove(item.snapshotID())
             try:
                 item.setHidden(True)
             except RuntimeError:
@@ -1498,7 +1495,7 @@ class RemoveSnapshotThread(QThread):
 
         #set correct last snapshot again
         if renew_last_snapshot:
-            self.snapshots.create_last_snapshot_symlink(snapshots.lastSnapshot(self.config))
+            self.snapshots.createLastSnapshotSymlink(snapshots.lastSnapshot(self.config))
 
         #release inhibit suspend
         if self.config.inhibitCookie:
@@ -1517,11 +1514,11 @@ class FillTimeLineThread(QThread):
     def run(self):
         for sid in snapshots.iterSnapshots(self.config):
             self.addSnapshot.emit(sid)
-            self.parent.snapshots_list.append(sid)
+            self.parent.snapshotsList.append(sid)
 
-        self.parent.snapshots_list.sort()
+        self.parent.snapshotsList.sort()
 
-def debug_trace():
+def debugTrace():
     """
     Set a tracepoint in the Python debugger that works with Qt
     """
@@ -1530,29 +1527,29 @@ def debug_trace():
     set_trace()
 
 if __name__ == '__main__':
-    cfg = backintime.start_app( 'backintime-qt4' )
+    cfg = backintime.startApp( 'backintime-qt4' )
 
-    raise_cmd = ''
+    raiseCmd = ''
     if len( sys.argv ) > 1:
-        raise_cmd = '\n'.join( sys.argv[ 1 : ] )
+        raiseCmd = '\n'.join( sys.argv[ 1 : ] )
 
-    app_instance = guiapplicationinstance.GUIApplicationInstance( cfg.get_app_instance_file(), raise_cmd )
-    cfg.PLUGIN_MANAGER.load_plugins(cfg = cfg)
-    cfg.PLUGIN_MANAGER.on_app_start()
+    appInstance = guiapplicationinstance.GUIApplicationInstance(cfg.appInstanceFile(), raiseCmd)
+    cfg.PLUGIN_MANAGER.load(cfg = cfg)
+    cfg.PLUGIN_MANAGER.appStart()
 
     logger.openlog()
-    qapp = qt4tools.create_qapplication(cfg.APP_NAME)
-    translator = qt4tools.get_translator()
+    qapp = qt4tools.createQApplication(cfg.APP_NAME)
+    translator = qt4tools.translator()
     qapp.installTranslator(translator)
 
-    main_window = MainWindow( cfg, app_instance, qapp )
+    mainWindow = MainWindow(cfg, appInstance, qapp)
 
-    if cfg.is_configured():
-        cfg.xWindowId = main_window.winId()
-        main_window.show()
+    if cfg.isConfigured():
+        cfg.xWindowId = mainWindow.winId()
+        mainWindow.show()
         qapp.exec_()
 
     logger.closelog()
 
-    cfg.PLUGIN_MANAGER.on_app_exit()
-    app_instance.exit_application()
+    cfg.PLUGIN_MANAGER.appExit()
+    appInstance.exitApplication()

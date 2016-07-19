@@ -42,7 +42,7 @@ UDEVADM_HAS_UUID = subprocess.Popen(['udevadm', 'info', '-e'],
                                     stderr = subprocess.DEVNULL
                                    ).communicate()[0].find(b'ID_FS_UUID=') > 0
 
-RSYNC_INSTALLED = tools.check_command('rsync')
+RSYNC_INSTALLED = tools.checkCommand('rsync')
 
 RSYNC_307_VERSION = """rsync  version 3.0.7  protocol version 30
 Copyright (C) 1996-2009 by Andrew Tridgell, Wayne Davison, and others.
@@ -93,33 +93,33 @@ class TestTools(generic.TestCase):
             self.subproc.wait()
             self.subproc = None
 
-    def test_get_share_path(self):
-        share = tools.get_share_path()
+    def test_sharePath(self):
+        share = tools.sharePath()
         self.assertTrue(share.endswith('share'), 'share = {}'.format(share))
 
-    def test_get_backintime_path(self):
-        path = tools.get_backintime_path('common')
+    def test_backintimePath(self):
+        path = tools.backintimePath('common')
         self.assertRegex(path, r'.*/backintime.*/common$')
 
-    def test_register_backintime_path(self):
-        path = tools.get_backintime_path('foo')
-        tools.register_backintime_path('foo')
+    def test_registerBackintimePath(self):
+        path = tools.backintimePath('foo')
+        tools.registerBackintimePath('foo')
         self.assertIn(path, sys.path)
         sys.path.remove(path)
 
-    def test_running_from_source(self):
-        self.assertTrue(tools.running_from_source())
+    def test_runningFromSource(self):
+        self.assertTrue(tools.runningFromSource())
 
-    def test_add_source_to_path_environ(self):
-        source = tools.get_backintime_path('common')
+    def test_addSourceToPathEnviron(self):
+        source = tools.backintimePath('common')
         path = [x for x in os.getenv('PATH').split(':') if x != source]
         os.environ['PATH'] = ':'.join(path)
 
-        tools.add_source_to_path_environ()
+        tools.addSourceToPathEnviron()
         self.assertIn(source, os.environ['PATH'])
 
-    def test_get_git_ref_hash(self):
-        ref, hashid = tools.get_git_ref_hash()
+    def test_gitRevisionAndHash(self):
+        ref, hashid = tools.gitRevisionAndHash()
         if isinstance(ref, str):
             self.assertGreater(len(ref), 0)
         else:
@@ -130,67 +130,67 @@ class TestTools(generic.TestCase):
         else:
             self.assertIsNone(hashid)
 
-    def test_read_file(self):
+    def test_readFile(self):
         """
-        Test the function read_file
+        Test the function readFile
         """
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
 
-        self.assertIsInstance(tools.read_file(test_tools_file), str)
-        self.assertIsNone(tools.read_file(non_existing_file))
+        self.assertIsInstance(tools.readFile(test_tools_file), str)
+        self.assertIsNone(tools.readFile(non_existing_file))
 
         with NamedTemporaryFile('wt') as tmp:
             tmp.write('foo\nbar')
             tmp.flush()
-            self.assertIsInstance(tools.read_file(tmp.name), str)
-            self.assertEqual(tools.read_file(tmp.name), 'foo\nbar')
+            self.assertIsInstance(tools.readFile(tmp.name), str)
+            self.assertEqual(tools.readFile(tmp.name), 'foo\nbar')
 
         tmp_gz = NamedTemporaryFile().name
         with gzip.open(tmp_gz + '.gz', 'wt') as f:
             f.write('foo\nbar')
             f.flush()
-        self.assertIsInstance(tools.read_file(tmp_gz), str)
-        self.assertEqual(tools.read_file(tmp_gz), 'foo\nbar')
+        self.assertIsInstance(tools.readFile(tmp_gz), str)
+        self.assertEqual(tools.readFile(tmp_gz), 'foo\nbar')
         os.remove(tmp_gz+ '.gz')
 
-    def test_read_file_lines(self):
+    def test_readFileLines(self):
         """
-        Test the function read_file_lines
+        Test the function readFileLines
         """
         test_tools_file = os.path.abspath(__file__)
         test_directory = os.path.dirname(test_tools_file)
         non_existing_file = os.path.join(test_directory, "nonExistingFile")
 
-        output = tools.read_file_lines(test_tools_file)
+        output = tools.readFileLines(test_tools_file)
         self.assertIsInstance(output, list)
         self.assertGreaterEqual(len(output), 1)
         self.assertIsInstance(output[0], str)
-        self.assertIsNone(tools.read_file_lines(non_existing_file))
+        self.assertIsNone(tools.readFileLines(non_existing_file))
 
         with NamedTemporaryFile('wt') as tmp:
             tmp.write('foo\nbar')
             tmp.flush()
-            self.assertIsInstance(tools.read_file_lines(tmp.name), list)
-            self.assertListEqual(tools.read_file_lines(tmp.name), ['foo', 'bar'])
+            self.assertIsInstance(tools.readFileLines(tmp.name), list)
+            self.assertListEqual(tools.readFileLines(tmp.name), ['foo', 'bar'])
 
         tmp_gz = NamedTemporaryFile().name
         with gzip.open(tmp_gz + '.gz', 'wt') as f:
             f.write('foo\nbar')
             f.flush()
-        self.assertIsInstance(tools.read_file_lines(tmp_gz), list)
-        self.assertEqual(tools.read_file_lines(tmp_gz), ['foo', 'bar'])
+        self.assertIsInstance(tools.readFileLines(tmp_gz), list)
+        self.assertEqual(tools.readFileLines(tmp_gz), ['foo', 'bar'])
         os.remove(tmp_gz+ '.gz')
 
-    def test_check_command(self):
+    def test_checkCommand(self):
         """
-        Test the function check_command
+        Test the function checkCommand
         """
-        self.assertFalse(tools.check_command(''))
-        self.assertFalse(tools.check_command("notExistedCommand"))
-        self.assertTrue(tools.check_command("ls"))
-        self.assertTrue(tools.check_command('backintime'))
+        self.assertFalse(tools.checkCommand(''))
+        self.assertFalse(tools.checkCommand("notExistedCommand"))
+        self.assertTrue(tools.checkCommand("ls"))
+        self.assertTrue(tools.checkCommand('backintime'))
 
     def test_which(self):
         """
@@ -201,18 +201,18 @@ class TestTools(generic.TestCase):
                          os.path.join(os.getcwd(), 'backintime'))
         self.assertIsNone(tools.which("notExistedCommand"))
 
-    def test_make_dirs(self):
-        self.assertFalse(tools.make_dirs('/'))
-        self.assertTrue(tools.make_dirs(os.getcwd()))
+    def test_makeDirs(self):
+        self.assertFalse(tools.makeDirs('/'))
+        self.assertTrue(tools.makeDirs(os.getcwd()))
         with TemporaryDirectory() as d:
             path = os.path.join(d, 'foo', 'bar')
-            self.assertTrue(tools.make_dirs(path))
+            self.assertTrue(tools.makeDirs(path))
 
-    def test_make_dirs_not_writeable(self):
+    def test_makeDirs_not_writeable(self):
         with TemporaryDirectory() as d:
             os.chmod(d, stat.S_IRUSR)
             path = os.path.join(d, 'foobar{}'.format(random.randrange(100, 999)))
-            self.assertFalse(tools.make_dirs(path))
+            self.assertFalse(tools.makeDirs(path))
 
     def test_mkdir(self):
         self.assertFalse(tools.mkdir('/'))
@@ -230,99 +230,99 @@ class TestTools(generic.TestCase):
         self.assertGreater(len(pids), 0)
         self.assertIn(os.getpid(), pids)
 
-    def test_process_stat(self):
+    def test_processStat(self):
         pid = self.createProcess()
-        stat = tools.process_stat(pid)
+        stat = tools.processStat(pid)
         self.assertRegex(stat, r'{} \({}\) \w .*'.format(pid, generic.DUMMY[:15]))
 
-    def test_process_paused(self):
+    def test_processPaused(self):
         pid = self.createProcess()
-        self.assertFalse(tools.process_paused(pid))
+        self.assertFalse(tools.processPaused(pid))
         self.subproc.send_signal(signal.SIGSTOP)
         sleep(0.01)
-        self.assertTrue(tools.process_paused(pid))
+        self.assertTrue(tools.processPaused(pid))
         self.subproc.send_signal(signal.SIGCONT)
         sleep(0.01)
-        self.assertFalse(tools.process_paused(pid))
+        self.assertFalse(tools.processPaused(pid))
 
-    def test_process_name(self):
+    def test_processName(self):
         pid = self.createProcess()
-        self.assertEqual(tools.process_name(pid), generic.DUMMY[:15])
+        self.assertEqual(tools.processName(pid), generic.DUMMY[:15])
 
-    def test_process_cmdline(self):
+    def test_processCmdline(self):
         pid = self.createProcess()
-        self.assertRegex(tools.process_cmdline(pid),
+        self.assertRegex(tools.processCmdline(pid),
                          r'.*/sh.*/common/test/dummy_test_process\.sh')
         self.killProcess()
         pid = self.createProcess('foo', 'bar')
-        self.assertRegex(tools.process_cmdline(pid),
+        self.assertRegex(tools.processCmdline(pid),
                          r'.*/sh.*/common/test/dummy_test_process\.sh.foo.bar')
 
-    def test_pids_with_name(self):
-        self.assertEqual(len(tools.pids_with_name('nonExistingProcess')), 0)
+    def test_pidsWithName(self):
+        self.assertEqual(len(tools.pidsWithName('nonExistingProcess')), 0)
         pid = self.createProcess()
-        pids = tools.pids_with_name(generic.DUMMY)
+        pids = tools.pidsWithName(generic.DUMMY)
         self.assertGreaterEqual(len(pids), 1)
         self.assertIn(pid, pids)
 
-    def test_process_exists(self):
-        self.assertFalse(tools.process_exists('nonExistingProcess'))
+    def test_processExists(self):
+        self.assertFalse(tools.processExists('nonExistingProcess'))
         pid = self.createProcess()
-        self.assertTrue(tools.process_exists(generic.DUMMY))
+        self.assertTrue(tools.processExists(generic.DUMMY))
 
-    def test_is_process_alive(self):
+    def test_processAlive(self):
         """
-        Test the function is_process_alive
+        Test the function processAlive
         """
         #TODO: add test (in chroot) running proc as root and kill as non-root
-        self.assertTrue(tools.is_process_alive(os.getpid()))
+        self.assertTrue(tools.processAlive(os.getpid()))
         pid = self.createProcess()
-        self.assertTrue(tools.is_process_alive(pid))
+        self.assertTrue(tools.processAlive(pid))
         self.killProcess()
-        self.assertFalse(tools.is_process_alive(pid))
-        self.assertFalse(tools.is_process_alive(999999))
+        self.assertFalse(tools.processAlive(pid))
+        self.assertFalse(tools.processAlive(999999))
         with self.assertRaises(ValueError):
-            tools.is_process_alive(0)
-        self.assertFalse(tools.is_process_alive(-1))
+            tools.processAlive(0)
+        self.assertFalse(tools.processAlive(-1))
 
-    def test_check_x_server(self):
+    def test_checkXServer(self):
         try:
-            tools.check_x_server()
+            tools.checkXServer()
         except Exception as e:
             self.fail('tools.ckeck_x_server() raised exception {}'.format(str(e)))
 
-    def test_prepare_path(self):
+    def test_preparePath(self):
         path_with_slash_at_begin = "/test/path"
         path_without_slash_at_begin = "test/path"
         path_with_slash_at_end = "/test/path/"
         path_without_slash_at_end = "/test/path"
         self.assertEqual(
-            tools.prepare_path(path_with_slash_at_begin),
+            tools.preparePath(path_with_slash_at_begin),
             path_with_slash_at_begin)
         self.assertEqual(
-            tools.prepare_path(path_without_slash_at_begin),
+            tools.preparePath(path_without_slash_at_begin),
             path_with_slash_at_begin)
         self.assertEqual(
-            tools.prepare_path(path_without_slash_at_end),
+            tools.preparePath(path_without_slash_at_end),
             path_without_slash_at_end)
         self.assertEqual(
-            tools.prepare_path(path_with_slash_at_end),
+            tools.preparePath(path_with_slash_at_end),
             path_without_slash_at_end)
 
-    def test_power_status_available(self):
-        if tools.process_exists('upowerd') and not generic.ON_TRAVIS:
-            self.assertTrue(tools.power_status_available())
+    def test_powerStatusAvailable(self):
+        if tools.processExists('upowerd') and not generic.ON_TRAVIS:
+            self.assertTrue(tools.powerStatusAvailable())
         else:
-            self.assertFalse(tools.power_status_available())
-        self.assertIsInstance(tools.on_battery(), bool)
+            self.assertFalse(tools.powerStatusAvailable())
+        self.assertIsInstance(tools.onBattery(), bool)
 
-    def test_get_rsync_caps(self):
+    def test_rsyncCaps(self):
         if RSYNC_INSTALLED:
-            caps = tools.get_rsync_caps()
+            caps = tools.rsyncCaps()
             self.assertIsInstance(caps, list)
             self.assertGreaterEqual(len(caps), 1)
 
-        self.assertListEqual(tools.get_rsync_caps(data = RSYNC_307_VERSION),
+        self.assertListEqual(tools.rsyncCaps(data = RSYNC_307_VERSION),
                              ['64-bit files',
                               '64-bit inums',
                               '32-bit timestamps',
@@ -339,7 +339,7 @@ class TestTools(generic.TestCase):
                               'iconv',
                               'symtimes'])
 
-        self.assertListEqual(tools.get_rsync_caps(data = RSYNC_310_VERSION),
+        self.assertListEqual(tools.rsyncCaps(data = RSYNC_310_VERSION),
                              ['progress2',
                               '64-bit files',
                               '64-bit inums',
@@ -359,103 +359,103 @@ class TestTools(generic.TestCase):
                               'prealloc'])
 
     @unittest.skip('Not yet implemented')
-    def test_get_rsync_prefix(self):
+    def test_rsyncPrefix(self):
         pass
 
     @unittest.skip('Not yet implemented')
-    def test_temp_failure_retry(self):
+    def test_tempFailureRetry(self):
         pass
 
-    def test_get_md5sum_from_path(self):
+    def test_md5sum(self):
         with NamedTemporaryFile() as f:
             f.write(b'foo')
             f.flush()
 
-            self.assertEqual(tools._get_md5sum_from_path(f.name),
+            self.assertEqual(tools.md5sum(f.name),
                              'acbd18db4cc2f85cedef654fccc4a4d8')
 
-    def test_check_cron_pattern(self):
-        self.assertTrue(tools.check_cron_pattern('0'))
-        self.assertTrue(tools.check_cron_pattern('0,10,13,15,17,20,23'))
-        self.assertTrue(tools.check_cron_pattern('*/6'))
-        self.assertFalse(tools.check_cron_pattern('a'))
-        self.assertFalse(tools.check_cron_pattern(' 1'))
-        self.assertFalse(tools.check_cron_pattern('0,10,13,1a,17,20,23'))
-        self.assertFalse(tools.check_cron_pattern('0,10,13, 15,17,20,23'))
-        self.assertFalse(tools.check_cron_pattern('*/6,8'))
-        self.assertFalse(tools.check_cron_pattern('*/6 a'))
+    def test_checkCronPattern(self):
+        self.assertTrue(tools.checkCronPattern('0'))
+        self.assertTrue(tools.checkCronPattern('0,10,13,15,17,20,23'))
+        self.assertTrue(tools.checkCronPattern('*/6'))
+        self.assertFalse(tools.checkCronPattern('a'))
+        self.assertFalse(tools.checkCronPattern(' 1'))
+        self.assertFalse(tools.checkCronPattern('0,10,13,1a,17,20,23'))
+        self.assertFalse(tools.checkCronPattern('0,10,13, 15,17,20,23'))
+        self.assertFalse(tools.checkCronPattern('*/6,8'))
+        self.assertFalse(tools.checkCronPattern('*/6 a'))
 
     @unittest.skip('Not yet implemented')
-    def test_check_home_encrypt(self):
+    def test_checkHomeEncrypt(self):
         pass
 
-    #load_env and save_env tests are in TestToolsEnviron below
+    #envLoad and envSave tests are in TestToolsEnviron below
 
     @unittest.skip('Not yet implemented')
-    def test_keyring_supported(self):
-        pass
-
-    @unittest.skip('Not yet implemented')
-    def test_get_password(self):
+    def test_keyringSupported(self):
         pass
 
     @unittest.skip('Not yet implemented')
-    def test_set_password(self):
+    def test_password(self):
         pass
 
-    def test_get_mountpoint(self):
-        self.assertEqual(tools.get_mountpoint('/nonExistingFolder/foo/bar'), '/')
+    @unittest.skip('Not yet implemented')
+    def test_setPassword(self):
+        pass
+
+    def test_mountpoint(self):
+        self.assertEqual(tools.mountpoint('/nonExistingFolder/foo/bar'), '/')
         proc = os.path.join('/proc', str(os.getpid()), 'fd')
-        self.assertEqual(tools.get_mountpoint(proc), '/proc')
+        self.assertEqual(tools.mountpoint(proc), '/proc')
 
-    def test_get_mount_args(self):
-        rootArgs = tools.get_mount_args('/')
+    def test_mountArgs(self):
+        rootArgs = tools.mountArgs('/')
         self.assertIsInstance(rootArgs, list)
         self.assertGreaterEqual(len(rootArgs), 3)
         self.assertEqual(rootArgs[1], '/')
 
-        procArgs = tools.get_mount_args('/proc')
+        procArgs = tools.mountArgs('/proc')
         self.assertGreaterEqual(len(procArgs), 3)
         self.assertEqual(procArgs[0], 'proc')
         self.assertEqual(procArgs[1], '/proc')
         self.assertEqual(procArgs[2], 'proc')
 
-    def test_get_device(self):
-        self.assertEqual(tools.get_device('/proc'), 'proc')
-        self.assertRegex(tools.get_device('/sys'), r'sys.*')
-        self.assertRegex(tools.get_device('/nonExistingFolder/foo/bar'),
+    def test_device(self):
+        self.assertEqual(tools.device('/proc'), 'proc')
+        self.assertRegex(tools.device('/sys'), r'sys.*')
+        self.assertRegex(tools.device('/nonExistingFolder/foo/bar'),
                          r'/dev/.*')
 
-    def test_get_filesystem(self):
-        self.assertEqual(tools.get_filesystem('/proc'), 'proc')
-        self.assertRegex(tools.get_filesystem('/sys'), r'sys.*')
-        self.assertRegex(tools.get_filesystem('/nonExistingFolder/foo/bar').lower(),
+    def test_filesystem(self):
+        self.assertEqual(tools.filesystem('/proc'), 'proc')
+        self.assertRegex(tools.filesystem('/sys'), r'sys.*')
+        self.assertRegex(tools.filesystem('/nonExistingFolder/foo/bar').lower(),
                          r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs)')
 
-    # tools.get_uuid() get called from tools.get_uuid_from_path.
+    # tools.uuidFromDev() get called from tools.uuidFromPath.
     # So we skip an extra unittest as it's hard to find a dev on all systems
     @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
                      'No UUIDs available on this system.')
-    def test_get_uuid_from_path(self):
-        uuid = tools.get_uuid_from_path('/nonExistingFolder/foo/bar')
+    def test_uuidFromPath(self):
+        uuid = tools.uuidFromPath('/nonExistingFolder/foo/bar')
         self.assertIsInstance(uuid, str)
         self.assertRegex(uuid.lower(), r'^[a-f0-9\-]+$')
         self.assertEqual(len(uuid.replace('-', '')), 32)
 
     @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
                      'No UUIDs available on this system.')
-    def test_get_filesystem_mount_info(self):
+    def test_filesystemMountInfo(self):
         """
         Basic sanity checks on returned structure
         """
-        mounts = tools.get_filesystem_mount_info()
+        mounts = tools.filesystemMountInfo()
         self.assertIsInstance(mounts, dict)
         self.assertGreater(len(mounts.items()), 0)
         self.assertIn('/', mounts)
         self.assertIn('original_uuid', mounts.get('/'))
 
     @unittest.skip('Not yet implemented')
-    def test_wrap_line(self):
+    def test_wrapLine(self):
         pass
 
     def test_syncfs(self):
@@ -520,10 +520,10 @@ class TestTools(generic.TestCase):
     def test_unInhibitSuspend(self):
         pass
 
-    @unittest.skipIf(not tools.check_command('ssh-keygen'),
+    @unittest.skipIf(not tools.checkCommand('ssh-keygen'),
                      "'ssh-keygen' not found.")
-    def test_getSshKeyFingerprint(self):
-        self.assertIsNone(tools.getSshKeyFingerprint(os.path.abspath(__file__)))
+    def test_sshKeyFingerprint(self):
+        self.assertIsNone(tools.sshKeyFingerprint(os.path.abspath(__file__)))
 
         with TemporaryDirectory() as d:
             key = os.path.join(d, 'key')
@@ -531,7 +531,7 @@ class TestTools(generic.TestCase):
             proc = subprocess.Popen(cmd)
             proc.communicate()
 
-            fingerprint = tools.getSshKeyFingerprint(key)
+            fingerprint = tools.sshKeyFingerprint(key)
             self.assertIsInstance(fingerprint, str)
             if fingerprint.startswith('SHA256'):
                 self.assertEqual(len(fingerprint), 50)
@@ -540,7 +540,7 @@ class TestTools(generic.TestCase):
                 self.assertEqual(len(fingerprint), 47)
                 self.assertRegex(fingerprint, r'^[a-fA-F0-9:]+$')
 
-    @unittest.skipIf(not tools.check_command('crontab'),
+    @unittest.skipIf(not tools.checkCommand('crontab'),
                      "'crontab' not found.")
     def test_readWriteCrontab(self):
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -603,6 +603,12 @@ class TestTools(generic.TestCase):
         self.assertEqual(tools.escapeIPv6Address('192.168.1.1'), '192.168.1.1')
         self.assertEqual(tools.escapeIPv6Address('fd00'), 'fd00')
 
+    def test_camelCase(self):
+        self.assertEqual(tools.camelCase('foo'), 'Foo')
+        self.assertEqual(tools.camelCase('Foo'), 'Foo')
+        self.assertEqual(tools.camelCase('foo_bar'), 'FooBar')
+        self.assertEqual(tools.camelCase('foo_Bar'), 'FooBar')
+
 class TestToolsEnviron(generic.TestCase):
     def __init__(self, *args, **kwargs):
         super(TestToolsEnviron, self).__init__(*args, **kwargs)
@@ -618,39 +624,39 @@ class TestToolsEnviron(generic.TestCase):
             os.remove(self.temp_file)
         os.environ = deepcopy(self.env)
 
-    def test_load_env_without_previous_values(self):
+    def test_envLoad_without_previous_values(self):
         test_env = configfile.ConfigFile()
-        test_env.set_str_value('FOO', 'bar')
-        test_env.set_str_value('ASDF', 'qwertz')
+        test_env.setStrValue('FOO', 'bar')
+        test_env.setStrValue('ASDF', 'qwertz')
         test_env.save(self.temp_file)
 
         #make sure environ is clean
         self.assertNotIn('FOO', os.environ)
         self.assertNotIn('ASDF', os.environ)
 
-        tools.load_env(self.temp_file)
+        tools.envLoad(self.temp_file)
         self.assertIn('FOO', os.environ)
         self.assertIn('ASDF', os.environ)
         self.assertEqual(os.environ['FOO'], 'bar')
         self.assertEqual(os.environ['ASDF'], 'qwertz')
 
-    def test_load_env_do_not_overwrite_previous_values(self):
+    def test_envLoad_do_not_overwrite_previous_values(self):
         test_env = configfile.ConfigFile()
-        test_env.set_str_value('FOO', 'bar')
-        test_env.set_str_value('ASDF', 'qwertz')
+        test_env.setStrValue('FOO', 'bar')
+        test_env.setStrValue('ASDF', 'qwertz')
         test_env.save(self.temp_file)
 
         #add some environ vars that should not get overwritten
         os.environ['FOO'] = 'defaultFOO'
         os.environ['ASDF'] = 'defaultASDF'
 
-        tools.load_env(self.temp_file)
+        tools.envLoad(self.temp_file)
         self.assertIn('FOO', os.environ)
         self.assertIn('ASDF', os.environ)
         self.assertEqual(os.environ['FOO'], 'defaultFOO')
         self.assertEqual(os.environ['ASDF'], 'defaultASDF')
 
-    def test_save_env(self):
+    def test_envSave(self):
         keys = ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS', \
                 'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID', \
                 'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
@@ -658,7 +664,7 @@ class TestToolsEnviron(generic.TestCase):
         for i, k in enumerate(keys):
             os.environ[k] = str(i)
 
-        tools.save_env(self.temp_file)
+        tools.envSave(self.temp_file)
 
         self.assertTrue(os.path.isfile(self.temp_file))
 
@@ -668,11 +674,11 @@ class TestToolsEnviron(generic.TestCase):
             with self.subTest(i = i, k = k):
                 #workaround for py.test3 2.5.1 doesn't support subTest
                 msg = 'i = %s, k = %s' %(i, k)
-                self.assertEqual(test_env.get_str_value(k), str(i), msg)
+                self.assertEqual(test_env.strValue(k), str(i), msg)
 
 class TestToolsUniquenessSet(generic.TestCase):
     #TODO: add test for follow_symlink
-    def test_check_unique(self):
+    def test_checkUnique(self):
         with TemporaryDirectory() as d:
             for i in range(1, 5):
                 os.mkdir(os.path.join(d, str(i)))
@@ -692,10 +698,10 @@ class TestToolsUniquenessSet(generic.TestCase):
             uniqueness = tools.UniquenessSet(dc = False,
                                              follow_symlink = False,
                                              list_equal_to = '')
-            self.assertTrue(uniqueness.check_for(t1))
-            self.assertFalse(uniqueness.check_for(t2))
-            self.assertTrue(uniqueness.check_for(t3))
-            self.assertFalse(uniqueness.check_for(t4))
+            self.assertTrue(uniqueness.check(t1))
+            self.assertFalse(uniqueness.check(t2))
+            self.assertTrue(uniqueness.check(t3))
+            self.assertFalse(uniqueness.check(t4))
 
             os.utime(t1, times = (0, 0))
             os.utime(t3, times = (0, 0))
@@ -704,21 +710,21 @@ class TestToolsUniquenessSet(generic.TestCase):
             uniqueness = tools.UniquenessSet(dc = False,
                                              follow_symlink = False,
                                              list_equal_to = '')
-            self.assertTrue(uniqueness.check_for(t1))
-            self.assertTrue(uniqueness.check_for(t2))
-            self.assertTrue(uniqueness.check_for(t3))
-            self.assertTrue(uniqueness.check_for(t4))
+            self.assertTrue(uniqueness.check(t1))
+            self.assertTrue(uniqueness.check(t2))
+            self.assertTrue(uniqueness.check(t3))
+            self.assertTrue(uniqueness.check(t4))
 
             #same size different mtime use deep_check
             uniqueness = tools.UniquenessSet(dc = True,
                                              follow_symlink = False,
                                              list_equal_to = '')
-            self.assertTrue(uniqueness.check_for(t1))
-            self.assertFalse(uniqueness.check_for(t2))
-            self.assertTrue(uniqueness.check_for(t3))
-            self.assertFalse(uniqueness.check_for(t4))
+            self.assertTrue(uniqueness.check(t1))
+            self.assertFalse(uniqueness.check(t2))
+            self.assertTrue(uniqueness.check(t3))
+            self.assertFalse(uniqueness.check(t4))
 
-    def test_check_unique_hardlinks(self):
+    def test_checkUnique_hardlinks(self):
         with TemporaryDirectory() as d:
             for i in range(1, 5):
                 os.mkdir(os.path.join(d, str(i)))
@@ -740,12 +746,12 @@ class TestToolsUniquenessSet(generic.TestCase):
             uniqueness = tools.UniquenessSet(dc = True,
                                              follow_symlink = False,
                                              list_equal_to = '')
-            self.assertTrue(uniqueness.check_for(t1))
-            self.assertFalse(uniqueness.check_for(t2))
-            self.assertTrue(uniqueness.check_for(t3))
-            self.assertFalse(uniqueness.check_for(t4))
+            self.assertTrue(uniqueness.check(t1))
+            self.assertFalse(uniqueness.check(t2))
+            self.assertTrue(uniqueness.check(t3))
+            self.assertFalse(uniqueness.check(t4))
 
-    def test_check_equal(self):
+    def test_checkEqual(self):
         with TemporaryDirectory() as d:
             for i in range(1, 5):
                 os.mkdir(os.path.join(d, str(i)))
@@ -765,9 +771,9 @@ class TestToolsUniquenessSet(generic.TestCase):
             uniqueness = tools.UniquenessSet(dc = False,
                                              follow_symlink = False,
                                              list_equal_to = t1)
-            self.assertTrue(uniqueness.check_for(t1))
-            self.assertTrue(uniqueness.check_for(t2))
-            self.assertFalse(uniqueness.check_for(t3))
+            self.assertTrue(uniqueness.check(t1))
+            self.assertTrue(uniqueness.check(t2))
+            self.assertFalse(uniqueness.check(t3))
 
             os.utime(t1, times = (0, 0))
 
@@ -775,17 +781,17 @@ class TestToolsUniquenessSet(generic.TestCase):
             uniqueness = tools.UniquenessSet(dc = False,
                                              follow_symlink = False,
                                              list_equal_to = t1)
-            self.assertTrue(uniqueness.check_for(t1))
-            self.assertFalse(uniqueness.check_for(t2))
-            self.assertFalse(uniqueness.check_for(t3))
+            self.assertTrue(uniqueness.check(t1))
+            self.assertFalse(uniqueness.check(t2))
+            self.assertFalse(uniqueness.check(t3))
 
             #same size different mtime use deep_check
             uniqueness = tools.UniquenessSet(dc = True,
                                              follow_symlink = False,
                                              list_equal_to = t1)
-            self.assertTrue(uniqueness.check_for(t1))
-            self.assertTrue(uniqueness.check_for(t2))
-            self.assertFalse(uniqueness.check_for(t3))
+            self.assertTrue(uniqueness.check(t1))
+            self.assertTrue(uniqueness.check(t2))
+            self.assertFalse(uniqueness.check(t3))
 
 class TestToolsExecuteSubprocess(generic.TestCase):
     # new method with subprocess

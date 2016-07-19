@@ -29,35 +29,35 @@ from calendar import monthrange
 
 _ = gettext.gettext
 
-def get_backintime_path(*path):
+def backintimePath(*path):
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
-def register_backintime_path(*path):
+def registerBackintimePath(*path):
     """
     find duplicate in common/tools.py
     """
-    path = get_backintime_path(*path)
+    path = backintimePath(*path)
     if not path in sys.path:
         sys.path.insert(0, path)
 
-register_backintime_path('common')
+registerBackintimePath('common')
 import snapshots
 
-def get_font_bold( font ):
+def fontBold(font):
     font.setWeight( QFont.Bold )
     return font
 
-def set_font_bold( widget ):
-    widget.setFont( get_font_bold( widget.font() ) )
+def setFontBold(widget):
+    widget.setFont(fontBold( widget.font() ))
 
-def get_font_normal( font ):
+def fontNormal(font):
     font.setWeight( QFont.Normal )
     return font
 
-def set_font_normal( widget ):
-    widget.setFont( get_font_normal( widget.font() ) )
+def setFontNormal(widget):
+    widget.setFont(fontNormal( widget.font() ))
 
-def equal_indent(*args):
+def equalIndent(*args):
     width = 0
     for widget in args:
         widget.setMinimumWidth(0)
@@ -77,7 +77,7 @@ def getExistingDirectories(parent, *args, **kwargs):
     dlg.setOption(dlg.HideNameFilterDetails, True)
     dlg.setFileMode(dlg.Directory)
     dlg.setOption(dlg.ShowDirsOnly, True)
-    if hidden_files(parent):
+    if hiddenFiles(parent):
         dlg.setFilter(dlg.filter() | QDir.Hidden)
     dlg.findChildren(QListView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)
     dlg.findChildren(QTreeView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)
@@ -94,7 +94,7 @@ def getExistingDirectory(parent, *args, **kwargs):
     dlg.setOption(dlg.HideNameFilterDetails, True)
     dlg.setFileMode(dlg.Directory)
     dlg.setOption(dlg.ShowDirsOnly, True)
-    if hidden_files(parent):
+    if hiddenFiles(parent):
         dlg.setFilter(dlg.filter() | QDir.Hidden)
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()[0]
@@ -108,7 +108,7 @@ def getOpenFileNames(parent, *args, **kwargs):
     dlg.setOption(dlg.DontUseNativeDialog, True)
     dlg.setOption(dlg.HideNameFilterDetails, True)
     dlg.setFileMode(dlg.ExistingFiles)
-    if hidden_files(parent):
+    if hiddenFiles(parent):
         dlg.setFilter(dlg.filter() | QDir.Hidden)
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()
@@ -122,22 +122,22 @@ def getOpenFileName(parent, *args, **kwargs):
     dlg.setOption(dlg.DontUseNativeDialog, True)
     dlg.setOption(dlg.HideNameFilterDetails, True)
     dlg.setFileMode(dlg.ExistingFile)
-    if hidden_files(parent):
+    if hiddenFiles(parent):
         dlg.setFilter(dlg.filter() | QDir.Hidden)
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()[0]
     return str()
 
-def hidden_files(parent):
+def hiddenFiles(parent):
     try:
-        return parent.parent.show_hidden_files
+        return parent.parent.showHiddenFiles
     except: pass
     try:
-        return parent.show_hidden_files
+        return parent.showHiddenFiles
     except: pass
     return False
 
-def create_qapplication(app_name = 'Back In Time'):
+def createQApplication(app_name = 'Back In Time'):
     global qapp
     try:
         return qapp
@@ -150,7 +150,7 @@ def create_qapplication(app_name = 'Back In Time'):
             qapp.setStyle('GTK+')
     return qapp
 
-def get_translator():
+def translator():
     translator = QTranslator()
     locale = QLocale.system().name()
     translator.load('qt_%s' % locale,
@@ -323,7 +323,7 @@ class SnapshotItem(TimeLineItem):
     def __init__(self, sid):
         super(SnapshotItem, self).__init__()
         self.setText(0, sid.displayName)
-        self.setFont(0, get_font_normal(self.font(0)))
+        self.setFont(0, fontNormal(self.font(0)))
 
         self.setData(0, Qt.UserRole, sid)
 
@@ -340,7 +340,7 @@ class HeaderItem(TimeLineItem):
     def __init__(self, name, sid):
         super(HeaderItem, self).__init__()
         self.setText(0, name)
-        self.setFont(0, get_font_bold(self.font(0)))
+        self.setFont(0, fontBold(self.font(0)))
         self.setBackgroundColor(0, QColor(196, 196, 196))
         self.setTextColor(0, QColor(60, 60, 60))
         self.setFlags(Qt.NoItemFlags)
@@ -398,7 +398,7 @@ class SnapshotCombo(SortedComboBox):
 class ProfileCombo(SortedComboBox):
     def __init__(self, parent):
         super(ProfileCombo, self).__init__(parent)
-        self.getName = parent.config.get_profile_name
+        self.getName = parent.config.profileName
 
     def addProfileID(self, profileID):
         self.addItem(self.getName(profileID), profileID)

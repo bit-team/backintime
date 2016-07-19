@@ -32,16 +32,16 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
 
     def init( self, snapshots ):
         self.config = snapshots.config
-        self.callback = self.config.get_take_snapshot_user_callback()
+        self.callback = self.config.takeSnapshotUserCallback()
         if not os.path.exists( self.callback ):
             return False
         return True
 
-    def notify_callback(self, *args):
-        cmd = [self.callback, self.config.get_current_profile(), self.config.get_profile_name()]
+    def callback(self, *args):
+        cmd = [self.callback, self.config.currentProfile(), self.config.profileName()]
         cmd.extend([str(x) for x in args])
         logger.debug('Call user-callback: %s' %' '.join(cmd), self)
-        if self.config.user_callback_no_logging():
+        if self.config.userCallbackNoLogging():
             stdout, stderr = None, None
         else:
             stdout, stderr = PIPE, PIPE
@@ -61,29 +61,29 @@ class UserCallbackPlugin( pluginmanager.Plugin ):
         except OSError as e:
             logger.error("Exception when trying to run user callback: %s" % e.strerror, self)
 
-    def on_process_begins( self ):
-        self.notify_callback( '1' )
+    def processBegin(self):
+        self.callback('1')
 
-    def on_process_ends( self ):
-        self.notify_callback( '2' )
+    def processEnd(self):
+        self.callback('2')
 
-    def on_error(self, code, message):
+    def error(self, code, message):
         if not message:
-            self.notify_callback('4', code)
+            self.callback('4', code)
         else:
-            self.notify_callback('4', code, message)
+            self.callback('4', code, message)
 
-    def on_new_snapshot( self, snapshot_id, snapshot_path ):
-        self.notify_callback('3', snapshot_id, snapshot_path)
+    def newSnapshot(self, snapshot_id, snapshot_path):
+        self.callback('3', snapshot_id, snapshot_path)
 
-    def on_app_start(self):
-        self.notify_callback('5')
+    def appStart(self):
+        self.callback('5')
 
-    def on_app_exit(self):
-        self.notify_callback('6')
+    def appExit(self):
+        self.callback('6')
 
-    def do_mount(self):
-        self.notify_callback('7')
+    def mount(self):
+        self.callback('7')
 
-    def do_unmount(self):
-        self.notify_callback('8')
+    def unmount(self):
+        self.callback('8')

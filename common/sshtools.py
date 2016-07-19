@@ -42,7 +42,7 @@ class SSH(MountControl):
     check that everything is set up correctly for `Back In Time` to run
     snapshots through SSH.
 
-    This class will only mount the remote path. The real take_snapshot process
+    This class will only mount the remote path. The real takeSnapshot process
     will use rsync over ssh. Other commands run remote over ssh.
 
     Args:
@@ -92,20 +92,20 @@ class SSH(MountControl):
         #init MountControl
         super(SSH, self).__init__(*args, **kwargs)
 
-        self.setattr_kwargs('user', self.config.get_ssh_user(self.profile_id), **kwargs)
-        self.setattr_kwargs('host', self.config.get_ssh_host(self.profile_id), **kwargs)
-        self.setattr_kwargs('port', self.config.get_ssh_port(self.profile_id), **kwargs)
-        self.setattr_kwargs('path', self.config.get_snapshots_path_ssh(self.profile_id), **kwargs)
-        self.setattr_kwargs('cipher', self.config.get_ssh_cipher(self.profile_id), **kwargs)
-        self.setattr_kwargs('private_key_file', self.config.get_ssh_private_key_file(self.profile_id), **kwargs)
-        self.setattr_kwargs('nice', self.config.is_run_nice_on_remote_enabled(self.profile_id), store = False, **kwargs)
-        self.setattr_kwargs('ionice', self.config.is_run_ionice_on_remote_enabled(self.profile_id), store = False, **kwargs)
-        self.setattr_kwargs('nocache', self.config.is_run_nocache_on_remote_enabled(self.profile_id), store = False, **kwargs)
-        self.setattr_kwargs('password', None, store = False, **kwargs)
+        self.setattrKwargs('user', self.config.sshUser(self.profile_id), **kwargs)
+        self.setattrKwargs('host', self.config.sshHost(self.profile_id), **kwargs)
+        self.setattrKwargs('port', self.config.sshPort(self.profile_id), **kwargs)
+        self.setattrKwargs('path', self.config.sshSnapshotsPath(self.profile_id), **kwargs)
+        self.setattrKwargs('cipher', self.config.sshCipher(self.profile_id), **kwargs)
+        self.setattrKwargs('private_key_file', self.config.sshPrivateKeyFile(self.profile_id), **kwargs)
+        self.setattrKwargs('nice', self.config.niceOnRemote(self.profile_id), store = False, **kwargs)
+        self.setattrKwargs('ionice', self.config.ioniceOnRemote(self.profile_id), store = False, **kwargs)
+        self.setattrKwargs('nocache', self.config.nocacheOnRemote(self.profile_id), store = False, **kwargs)
+        self.setattrKwargs('password', None, store = False, **kwargs)
 
         if not self.path:
             self.path = './'
-        self.set_default_args()
+        self.setDefaultArgs()
 
         # config strings used in ssh-calls
         self.user_host_path = '%s@%s:%s' % (self.user, tools.escapeIPv6Address(self.host), self.path)
@@ -115,7 +115,7 @@ class SSH(MountControl):
         self.symlink_subfolder = None
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
 
-        self.private_key_fingerprint = tools.getSshKeyFingerprint(self.private_key_file)
+        self.private_key_fingerprint = tools.sshKeyFingerprint(self.private_key_file)
         if not self.private_key_fingerprint:
             logger.warning('Couldn\'t get fingerprint for private key %(path)s. '
                            'Most likely because the public key %(path)s.pub wasn\'t found. '
@@ -124,7 +124,7 @@ class SSH(MountControl):
                            %{'path': self.private_key_file},
                            self)
             self.private_key_fingerprint = self.private_key_file
-        self.unlock_ssh_agent()
+        self.unlockSshAgent()
 
     def _mount(self):
         """
@@ -134,14 +134,14 @@ class SSH(MountControl):
             exceptions.MountException:  if mount wasn't successful
         """
         sshfs  = [self.mountproc]
-        sshfs += self.config.ssh_default_args(self.profile_id)
+        sshfs += self.config.sshDefaultArgs(self.profile_id)
         sshfs += ['-p', str(self.port)]
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
         sshfs.extend(['-o', 'idmap=user',
                       '-o', 'cache_dir_timeout=2'])
 
-        sshfs.extend([self.user_host_path, self.mountpoint])
+        sshfs.extend([self.user_host_path, self.currentMountpoint])
         #bugfix: sshfs doesn't mount if locale in LC_ALL is not available on remote host
         #LANG or other envirnoment variable are no problem.
         env = os.environ.copy()
@@ -160,7 +160,7 @@ class SSH(MountControl):
             raise MountException( _('Can\'t mount %s') % ' '.join(sshfs)
                                   + '\n\n' + err)
 
-    def pre_mount_check(self, first_run = False):
+    def preMountCheck(self, first_run = False):
         """
         Check that everything is prepaired and ready for successfully mount the
         remote path. Default is to run a light version of checks which will
@@ -177,20 +177,20 @@ class SSH(MountControl):
             exceptions.MountException:  if one test failed an we can not mount
                                         the remote path
         """
-        self.check_ping_host()
-        self.check_fuse()
+        self.checkPingHost()
+        self.checkFuse()
         if first_run:
-            self.unlock_ssh_agent(force = True)
-            self.check_known_hosts()
-        self.check_login()
+            self.unlockSshAgent(force = True)
+            self.checkKnownHosts()
+        self.checkLogin()
         if first_run:
-            self.check_cipher()
-        self.check_remote_folder()
+            self.checkCipher()
+        self.checkRemoteFolder()
         if first_run:
-            self.check_remote_commands()
+            self.checkRemoteCommands()
         return True
 
-    def unlock_ssh_agent(self, force = False):
+    def unlockSshAgent(self, force = False):
         """
         Unlock the private key in ``ssh-agent`` which will provide it for
         all other commands. The password to unlock the key will be provided
@@ -225,12 +225,12 @@ class SSH(MountControl):
         output = proc.communicate()[0]
         if force or not output.find(self.private_key_fingerprint) >= 0:
             logger.debug('Add private key %s to ssh agent' % self.private_key_file, self)
-            password_available = any([self.config.get_password_save(self.profile_id),
-                                      self.config.get_password_use_cache(self.profile_id),
+            password_available = any([self.config.passwordSave(self.profile_id),
+                                      self.config.passwordUseCache(self.profile_id),
                                       not self.password is None
                                       ])
             logger.debug('Password available: %s' %password_available, self)
-            if not password_available and not tools.check_x_server():
+            if not password_available and not tools.checkXServer():
                 #we need to unlink stdin from ssh-add in order to make it
                 #use our own backintime-askpass.
                 #But because of this we can NOT use getpass inside backintime-askpass
@@ -278,7 +278,7 @@ class SSH(MountControl):
             logger.debug('Private key %s is already unlocked in ssh agent'
                          %self.private_key_file, self)
 
-    def check_login(self):
+    def checkLogin(self):
         """
         Try to login to remote host with public/private-key-method (passwordless).
 
@@ -286,7 +286,7 @@ class SSH(MountControl):
             exceptions.MountException:  if login failed
         """
         logger.debug('Check login', self)
-        ssh = self.config.ssh_command(cmd = ['echo', '"Hello"'],
+        ssh = self.config.sshCommand(cmd = ['echo', '"Hello"'],
                                       custom_args = ['-o', 'PreferredAuthentications=publickey',
                                                      '-p', str(self.port),
                                                      self.user_host],
@@ -307,7 +307,7 @@ class SSH(MountControl):
                                     'instructions.')  % {'user' : self.user, 'host' : self.host}
                                     + '\n\n' + err)
 
-    def check_cipher(self):
+    def checkCipher(self):
         """
         Try to login to remote host with the choosen cipher. This should make
         sure both `localhost` and the remote host support the choosen cipher.
@@ -317,7 +317,7 @@ class SSH(MountControl):
         """
         if not self.cipher == 'default':
             logger.debug('Check cipher', self)
-            ssh = self.config.ssh_command(cmd = ['echo', '"Hello"'],
+            ssh = self.config.sshCommand(cmd = ['echo', '"Hello"'],
                                           custom_args = ['-o', 'Ciphers=%s' % self.cipher,
                                                          '-p', str(self.port),
                                                          self.user_host],
@@ -337,7 +337,7 @@ class SSH(MountControl):
                 raise MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')
                                       % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
 
-    def benchmark_cipher(self, size = 40):
+    def benchmarkCipher(self, size = 40):
         """
         Rudimental benchmark to compare transfer speed of all available ciphers.
 
@@ -356,7 +356,7 @@ class SSH(MountControl):
             for i in range(2):
                 # scp uses -P instead of -p for port
                 subprocess.call(['scp', '-P', str(self.port), '-c', cipher, temp, self.user_host_path])
-        ssh = self.config.ssh_command(cmd = ['rm', os.path.join(self.path, os.path.basename(temp))],
+        ssh = self.config.sshCommand(cmd = ['rm', os.path.join(self.path, os.path.basename(temp))],
                                       custom_args = ['-p', str(self.port), self.user_host],
                                       port = False,
                                       cipher = False,
@@ -367,7 +367,7 @@ class SSH(MountControl):
         subprocess.call(ssh)
         os.remove(temp)
 
-    def check_known_hosts(self):
+    def checkKnownHosts(self):
         """
         Check if the remote host is in current users ``known_hosts`` file.
 
@@ -387,7 +387,7 @@ class SSH(MountControl):
         logger.debug('Host %s is not in known hosts file' %self.host, self)
         raise MountException( _('%s not found in ssh_known_hosts.') % self.host)
 
-    def check_remote_folder(self):
+    def checkRemoteFolder(self):
         """
         Check the remote path. If the remote path doesn't exist this will create
         it. If it already exist this will check, that it is a folder and has
@@ -406,7 +406,7 @@ class SSH(MountControl):
         cmd += 'test -w "%s" || exit 12;' % self.path #path is not writeable
         cmd += 'test -x "%s" || exit 13;' % self.path #path is not executable
         cmd += 'exit 20'                              #everything is fine
-        ssh = self.config.ssh_command(cmd = [cmd],
+        ssh = self.config.sshCommand(cmd = [cmd],
                                       custom_args = ['-p', str(self.port), self.user_host],
                                       port = False,
                                       cipher = False,
@@ -436,7 +436,7 @@ class SSH(MountControl):
             #returncode is 0
             logger.info('Create remote folder %s' %self.path, self)
 
-    def check_ping_host(self):
+    def checkPingHost(self):
         """
         Check if the remote host is online. Other than methods name may let suppose
         this does not use Ping (``ICMP``) but try to open a connection to
@@ -467,13 +467,13 @@ class SSH(MountControl):
             logger.debug('Failed pinging host %s' %self.host, self)
             raise MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
 
-    def check_remote_commands(self, retry = False):
+    def checkRemoteCommands(self, retry = False):
         """
         Try out all relevant commands used by `Back In Time` on the remote host
         to make sure snapshots will be successful with the remote host.
         This will also check that hard-links are supported on the remote host.
 
-        This check can be disabled with :py:func:`config.Config.ssh_check_commands`
+        This check can be disabled with :py:func:`config.Config.sshCheckCommands`
 
         Args:
             retry (bool):               retry to run the commands if it failed
@@ -484,7 +484,7 @@ class SSH(MountControl):
                                         remote host or if hard-links are not
                                         supported
         """
-        if not self.config.ssh_check_commands():
+        if not self.config.sshCheckCommands():
             return
         logger.debug('Check remote commands', self)
         def maxArg():
@@ -495,27 +495,27 @@ class SSH(MountControl):
             logger.warning('Looks like the command was to long for remote SSHd. We will test max arg length now and retry.',
                            self)
             import sshMaxArg
-            mid = sshMaxArg.test_ssh_max_arg(self.config)
+            mid = sshMaxArg.maxArgLength(self.config)
             sshMaxArg.reportResult(self.host, mid)
-            self.config.set_ssh_max_arg_length(mid, self.profile_id)
-            return self.check_remote_commands(retry = True)
+            self.config.setSshMaxArgLength(mid, self.profile_id)
+            return self.checkRemoteCommands(retry = True)
 
-        remote_tmp_dir_1 = os.path.join(self.path, 'tmp_%s' % self.random_id())
-        remote_tmp_dir_2 = os.path.join(self.path, 'tmp_%s' % self.random_id())
+        remote_tmp_dir_1 = os.path.join(self.path, 'tmp_%s' % self.randomId())
+        remote_tmp_dir_2 = os.path.join(self.path, 'tmp_%s' % self.randomId())
         with tempfile.TemporaryDirectory() as tmp:
             tmp_file = os.path.join(tmp, 'a')
             with open(tmp_file, 'wt') as f:
                 f.write('foo')
 
             #check rsync
-            rsync1 =  tools.get_rsync_prefix(self.config, no_perms = False, progress = False)
+            rsync1 =  tools.rsyncPrefix(self.config, no_perms = False, progress = False)
             rsync1.append(tmp_file)
             rsync1.append('%s@%s:"%s"/' %(self.user,
                                         tools.escapeIPv6Address(self.host),
                                         remote_tmp_dir_1))
 
             #check remote rsync hard-link support
-            rsync2 =  tools.get_rsync_prefix(self.config, no_perms = False, progress = False)
+            rsync2 =  tools.rsyncPrefix(self.config, no_perms = False, progress = False)
             rsync2.append('--link-dest=../%s' %os.path.basename(remote_tmp_dir_1))
             rsync2.append(tmp_file)
             rsync2.append('%s@%s:"%s"/' %(self.user,
@@ -568,7 +568,7 @@ class SSH(MountControl):
             cmd += 'test $err_nocache -ne 0 && cleanup $err_nocache; '
             tail.append(cmd)
         #try screen, bash and flock used by smart-remove running in background
-        if self.config.get_smart_remove_run_remote_in_background(self.profile_id):
+        if self.config.smartRemoveRunRemoteInBackground(self.profile_id):
             cmd  = 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
             cmd += 'test $err_screen -ne 0 && cleanup $err_screen; '
             tail.append(cmd)
@@ -582,8 +582,8 @@ class SSH(MountControl):
         cmd = 'echo \"done\"; cleanup 0'
         tail.append(cmd)
 
-        maxLength = self.config.ssh_max_arg_length(self.profile_id)
-        additionalChars = len('echo ""') + len(self.config.ssh_prefix_cmd(self.profile_id, cmd_type = str))
+        maxLength = self.config.sshMaxArgLength(self.profile_id)
+        additionalChars = len('echo ""') + len(self.config.sshPrefixCmd(self.profile_id, cmd_type = str))
 
         output = ''
         err = ''
@@ -593,7 +593,7 @@ class SSH(MountControl):
                                        maxLength = maxLength - additionalChars):
             if cmd.endswith('; '):
                 cmd += 'echo ""'
-            c = self.config.ssh_command(cmd = [cmd],
+            c = self.config.sshCommand(cmd = [cmd],
                                         custom_args = ['-p', str(self.port), self.user_host],
                                         port = False,
                                         cipher = False,
@@ -656,7 +656,7 @@ class SSH(MountControl):
         if len(inodes) == 2 and inodes[0] != inodes[1]:
             raise MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
 
-    def random_id(self, size=6, chars=string.ascii_uppercase + string.digits):
+    def randomId(self, size=6, chars=string.ascii_uppercase + string.digits):
         """
         Create a random string.
 

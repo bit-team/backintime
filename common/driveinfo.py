@@ -35,36 +35,36 @@ class DriveInfo( configfile.ConfigFile ):
             #there is nothing to do
             pass
         else:
-            if not self.has_value( 'hardlinks' ):
-                self.set_bool_value( 'hardlinks', self._check_hardlinks_() )
+            if not self.hasKey( 'hardlinks' ):
+                self.setBoolValue( 'hardlinks', self._check_hardlinks_() )
                 dirty = True
 
-            if not self.has_value( 'permissions' ):
-                self.set_bool_value( 'permissions', self._check_perms_() )
+            if not self.hasKey( 'permissions' ):
+                self.setBoolValue( 'permissions', self._check_perms_() )
                 dirty = True
 
-            if not self.has_value( 'usergroup' ):
-                self.set_bool_value( 'usergroup', self._check_usergroup_() )
+            if not self.hasKey( 'usergroup' ):
+                self.setBoolValue( 'usergroup', self._check_usergroup_() )
                 dirty = True
 
         if dirty:
             self.save( self._get_driveinfo_file_() )
 
     def support_hardlinks( self ):
-        return self.get_bool_value( 'hardlinks', False )
+        return self.boolValue( 'hardlinks', False )
 
     def support_permissions( self ):
-        return self.get_bool_value( 'permissions', False )
+        return self.boolValue( 'permissions', False )
 
     def support_usergroup( self ):
-        return self.get_bool_value( 'usergroup', False )
+        return self.boolValue( 'usergroup', False )
 
     def _get_driveinfo_file_( self ):
         return os.path.join( self.path, 'driveinfo' )
 
     def _check_hardlinks_( self ):
         tmp_path = os.path.join( self.path, 'driveinfo.tmp' )
-        tools.make_dirs( tmp_path )
+        tools.makeDirs( tmp_path )
         if not os.path.isdir( tmp_path ):
             return False
 
@@ -106,7 +106,7 @@ class DriveInfo( configfile.ConfigFile ):
 
     def _check_perms_( self ):
         tmp_path = os.path.join( self.path, 'driveinfo.tmp' )
-        tools.make_dirs( tmp_path )
+        tools.makeDirs( tmp_path )
         if not os.path.isdir( tmp_path ):
             return False
 
@@ -130,7 +130,7 @@ class DriveInfo( configfile.ConfigFile ):
 
     def _check_usergroup_( self ):
         tmp_path = os.path.join( self.path, 'driveinfo.tmp' )
-        tools.make_dirs( tmp_path )
+        tools.makeDirs( tmp_path )
         if not os.path.isdir( tmp_path ):
             return False
 

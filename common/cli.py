@@ -26,24 +26,24 @@ import bcolors
 def restore(cfg, snapshot_id = None, what = None, where = None, **kwargs):
     if what is None:
         what = input('File to restore: ')
-    what = tools.prepare_path(os.path.abspath(os.path.expanduser(what)))
+    what = tools.preparePath(os.path.abspath(os.path.expanduser(what)))
 
     if where is None:
         where = input('Restore to (empty for original path): ')
     if where:
-        where = tools.prepare_path(os.path.abspath(os.path.expanduser(where)))
+        where = tools.preparePath(os.path.abspath(os.path.expanduser(where)))
 
-    snapshots_list = snapshots.listSnapshots(cfg)
+    snapshotsList = snapshots.listSnapshots(cfg)
 
-    sid = selectSnapshot(snapshots_list, cfg, snapshot_id, 'SnapshotID to restore')
+    sid = selectSnapshot(snapshotsList, cfg, snapshot_id, 'SnapshotID to restore')
     print('')
     RestoreDialog(cfg, sid, what, where, **kwargs).run()
 
 def remove(cfg, snapshot_ids = None, force = None):
-    snapshots_list = snapshots.listSnapshots(cfg)
+    snapshotsList = snapshots.listSnapshots(cfg)
     if not snapshot_ids:
         snapshot_ids = (None,)
-    sids = [selectSnapshot(snapshots_list, cfg, sid, 'SnapshotID to remove') for sid in snapshot_ids]
+    sids = [selectSnapshot(snapshotsList, cfg, sid, 'SnapshotID to remove') for sid in snapshot_ids]
 
     if not force:
         print('Do you really want to remove this snapshots?')
@@ -52,7 +52,7 @@ def remove(cfg, snapshot_ids = None, force = None):
             return
 
     s = snapshots.Snapshots(cfg)
-    [s.remove_snapshot(sid) for sid in sids]
+    [s.remove(sid) for sid in sids]
 
 def checkConfig(cfg, crontab = True):
     import mount
@@ -70,16 +70,16 @@ def checkConfig(cfg, crontab = True):
     def errorHandler(msg):
         print(bcolors.WARNING + 'WARNING: ' + bcolors.ENDC + msg)
 
-    cfg.set_error_handler(errorHandler)
-    mode = cfg.get_snapshots_mode()
+    cfg.setErrorHandler(errorHandler)
+    mode = cfg.snapshotsMode()
 
     if cfg.SNAPSHOT_MODES[mode][0] is not None:
-        #pre_mount_check
+        #preMountCheck
         test = 'Run mount tests'
         announceTest()
         mnt = mount.Mount(cfg = cfg, tmp_mount = True)
         try:
-            mnt.pre_mount_check(mode = mode, first_run = True)
+            mnt.preMountCheck(mode = mode, first_run = True)
         except MountException as ex:
             failed()
             print(str(ex))
@@ -99,9 +99,9 @@ def checkConfig(cfg, crontab = True):
 
     test = 'Check/prepair snapshot path'
     announceTest()
-    snapshots_path = cfg.get_snapshots_path(mode = mode, tmp_mount = True)
+    snapshots_path = cfg.snapshotsPath(mode = mode, tmp_mount = True)
 
-    if not cfg.set_snapshots_path( snapshots_path, mode = mode ):
+    if not cfg.setSnapshotsPath( snapshots_path, mode = mode ):
         failed()
         return False
     okay()
@@ -120,7 +120,7 @@ def checkConfig(cfg, crontab = True):
 
     test = 'Check config'
     announceTest()
-    if not cfg.check_config():
+    if not cfg.checkConfig():
         failed()
         return False
     okay()
@@ -128,31 +128,31 @@ def checkConfig(cfg, crontab = True):
     if crontab:
         test = 'Install crontab'
         announceTest()
-        if not cfg.setup_cron():
+        if not cfg.setupCron():
             failed()
             return False
         okay()
 
     return True
 
-def selectSnapshot(snapshots_list, cfg, snapshot_id = None, msg = 'SnapshotID'):
+def selectSnapshot(snapshotsList, cfg, snapshot_id = None, msg = 'SnapshotID'):
     """
     check if given snapshot is valid. If not print a list of all
     snapshots and ask to choose one
     """
-    len_snapshots = len(snapshots_list)
+    len_snapshots = len(snapshotsList)
 
     if not snapshot_id is None:
         try:
             sid = snapshots.SID(snapshot_id, cfg)
-            if sid in snapshots_list:
+            if sid in snapshotsList:
                 return sid
             else:
                 print('SnapshotID %s not found.' % snapshot_id)
         except ValueError:
             try:
                 index = int(snapshot_id)
-                return snapshots_list[index]
+                return snapshotsList[index]
             except (ValueError, IndexError):
                 print('Invalid SnaphotID index: %s' % snapshot_id)
     snapshot_id = None
@@ -169,13 +169,13 @@ def selectSnapshot(snapshots_list, cfg, snapshot_id = None, msg = 'SnapshotID'):
             index = row + column * rows
             if index > len_snapshots - 1:
                 continue
-            line.append('{i:>4}: {s}'.format(i = index, s = snapshots_list[index]))
+            line.append('{i:>4}: {s}'.format(i = index, s = snapshotsList[index]))
         print(' '.join(line))
     print('')
     while snapshot_id is None:
         try:
             index = int(input(msg + ' ( 0 - %d ): ' % (len_snapshots - 1) ))
-            snapshot_id = snapshots_list[index]
+            snapshot_id = snapshotsList[index]
         except (ValueError, IndexError):
             print('Invalid Input')
             continue
@@ -207,18 +207,18 @@ class RestoreDialog(object):
         self.where = where
         self.kwargs = kwargs
 
-        self.log_file = self.config.get_restore_log_file()
-        if os.path.exists(self.log_file):
-            os.remove(self.log_file)
+        self.logFile = self.config.restoreLogFile()
+        if os.path.exists(self.logFile):
+            os.remove(self.logFile)
 
     def callback(self, line, *params):
         if not line:
             return
         print(line)
-        with open(self.log_file, 'a') as log:
+        with open(self.logFile, 'a') as log:
             log.write(line + '\n')
 
     def run(self):
         s = snapshots.Snapshots(self.config)
         s.restore(self.sid, self.what, self.callback, self.where, **self.kwargs)
-        print('\nLog saved to %s' % self.log_file)
+        print('\nLog saved to %s' % self.logFile)

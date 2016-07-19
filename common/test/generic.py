@@ -38,7 +38,7 @@ if os.path.exists(PRIV_KEY_FILE + '.pub') and os.path.exists(AUTHORIZED_KEYS_FIL
 else:
     KEY_IN_AUTH = False
 
-LOCAL_SSH = all((tools.process_exists('sshd'),
+LOCAL_SSH = all((tools.processExists('sshd'),
                  os.path.isfile(PRIV_KEY_FILE),
                  KEY_IN_AUTH))
 
@@ -74,7 +74,7 @@ class SnapshotsTestCase(TestCaseCfg):
         #side effects on leftovers
         self.tmpDir = TemporaryDirectory()
         self.cfg.dict['profile1.snapshots.path'] = self.tmpDir.name
-        self.snapshotPath = self.cfg.get_snapshots_full_path()
+        self.snapshotPath = self.cfg.snapshotsFullPath()
         os.makedirs(self.snapshotPath)
 
         self.sn = snapshots.Snapshots(self.cfg)
@@ -106,13 +106,13 @@ class SSHTestCase(TestCaseCfg):
     def setUp(self):
         super(SSHTestCase, self).setUp()
         logger.DEBUG = '-v' in sys.argv
-        self.cfg.set_snapshots_mode('ssh')
-        self.cfg.set_ssh_host('localhost')
-        self.cfg.set_ssh_private_key_file(PRIV_KEY_FILE)
+        self.cfg.setSnapshotsMode('ssh')
+        self.cfg.setSshHost('localhost')
+        self.cfg.setSshPrivateKeyFile(PRIV_KEY_FILE)
         # use a TemporaryDirectory for remote snapshot path
         self.tmpDir = TemporaryDirectory()
         self.remotePath = os.path.join(self.tmpDir.name, 'foo')
-        self.cfg.set_snapshots_path_ssh(self.remotePath)
+        self.cfg.setSshSnapshotsPath(self.remotePath)
         self.mount_kwargs = {}
 
     def tearDown(self):
@@ -121,7 +121,7 @@ class SSHTestCase(TestCaseCfg):
 class SSHSnapshotTestCase(SSHTestCase):
     def setUp(self):
         super(SSHSnapshotTestCase, self).setUp()
-        self.snapshotPath = self.cfg.get_snapshots_full_path_ssh()
+        self.snapshotPath = self.cfg.sshSnapshotsFullPath()
         os.makedirs(self.snapshotPath)
 
         self.sn = snapshots.Snapshots(self.cfg)

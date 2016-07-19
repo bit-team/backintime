@@ -22,13 +22,13 @@ import subprocess
 import socket
 import argparse
 
-def random_id(size=6, chars=string.ascii_uppercase + string.digits):
+def randomId(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
-def test_ssh_max_arg(config, mid = 1048320):
+def maxArgLength(config, mid = 1048320):
     r = round(mid / 2)
     while r > 0:
-        ssh = config.ssh_command(cmd = ['printf', random_id(mid)],
+        ssh = config.sshCommand(cmd = ['printf', randomId(mid)],
                                  nice = False,
                                  ionice = False,
                                  prefix = False)
@@ -73,5 +73,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     import config
     cfg = config.Config()
-    mid = test_ssh_max_arg(cfg, args.MID)
+    mid = maxArgLength(cfg, args.MID)
+    #TODO: fix host
     reportResult(args.HOST, mid)

@@ -32,10 +32,10 @@ import snapshots
 
 _=gettext.gettext
 
-if tools.check_command('meld'):
+if tools.checkCommand('meld'):
     DIFF_CMD = 'meld'
     DIFF_PARAMS = '%1 %2'
-elif tools.check_command('kompare'):
+elif tools.checkCommand('kompare'):
     DIFF_CMD = 'kompare'
     DIFF_PARAMS = '%1 %2'
 else:
@@ -51,33 +51,33 @@ class DiffOptionsDialog( QDialog ):
         self.setWindowIcon(icon.DIFF_OPTIONS)
         self.setWindowTitle( _( 'Diff Options' ) )
 
-        self.main_layout = QGridLayout(self)
+        self.mainLayout = QGridLayout(self)
 
-        self.diff_cmd = self.config.get_str_value( 'qt4.diff.cmd', DIFF_CMD )
-        self.diff_params = self.config.get_str_value( 'qt4.diff.params', DIFF_PARAMS )
+        self.diffCmd = self.config.strValue('qt4.diff.cmd', DIFF_CMD)
+        self.diffParams = self.config.strValue('qt4.diff.params', DIFF_PARAMS)
 
-        self.main_layout.addWidget( QLabel( _( 'Command:' ) ), 0, 0 )
-        self.edit_command = QLineEdit( self.diff_cmd, self )
-        self.main_layout.addWidget( self.edit_command, 0, 1 )
+        self.mainLayout.addWidget( QLabel( _( 'Command:' ) ), 0, 0 )
+        self.editCmd = QLineEdit(self.diffCmd, self)
+        self.mainLayout.addWidget(self.editCmd, 0, 1)
 
-        self.main_layout.addWidget( QLabel( _( 'Parameters:' ) ), 1, 0 )
-        self.edit_params = QLineEdit( self.diff_params, self )
-        self.main_layout.addWidget( self.edit_params, 1, 1 )
+        self.mainLayout.addWidget( QLabel( _( 'Parameters:' ) ), 1, 0 )
+        self.editParams = QLineEdit(self.diffParams, self)
+        self.mainLayout.addWidget(self.editParams, 1, 1)
 
-        self.main_layout.addWidget( QLabel( _( 'Use %1 and %2 for path parameters' ) ), 2, 1 )
+        self.mainLayout.addWidget( QLabel( _( 'Use %1 and %2 for path parameters' ) ), 2, 1 )
 
-        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        QObject.connect(button_box, SIGNAL('accepted()'), self.accept)
-        QObject.connect(button_box, SIGNAL('rejected()'), self.reject)
-        self.main_layout.addWidget(button_box, 3, 0, 3, 2)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        QObject.connect(buttonBox, SIGNAL('accepted()'), self.accept)
+        QObject.connect(buttonBox, SIGNAL('rejected()'), self.reject)
+        self.mainLayout.addWidget(buttonBox, 3, 0, 3, 2)
 
     def accept( self ):
-        diff_cmd = str( self.edit_command.text().toUtf8() )
-        diff_params = str( self.edit_params.text().toUtf8() )
+        diffCmd = str(self.editCmd.text().toUtf8())
+        diffParams = str(self.editParams.text().toUtf8())
 
-        if diff_cmd != self.diff_cmd or diff_params != self.diff_params:
-            self.config.set_str_value( 'qt4.diff.cmd', diff_cmd )
-            self.config.set_str_value( 'qt4.diff.params', diff_params )
+        if diffCmd != self.diffCmd or diffParams != self.diffParams:
+            self.config.setStrValue('qt4.diff.cmd', diffCmd)
+            self.config.setStrValue('qt4.diff.params', diffParams)
             self.config.save()
 
         super(DiffOptionsDialog, self).accept()
@@ -89,7 +89,7 @@ class SnapshotsDialog( QDialog ):
         self.parent = parent
         self.config = parent.config
         self.snapshots = parent.snapshots
-        self.snapshots_list = parent.snapshots_list
+        self.snapshotsList = parent.snapshotsList
         self.qapp = parent.qapp
         import icon
 
@@ -99,169 +99,169 @@ class SnapshotsDialog( QDialog ):
         self.setWindowIcon(icon.SNAPSHOTS)
         self.setWindowTitle(_('Snapshots'))
 
-        self.main_layout = QVBoxLayout(self)
+        self.mainLayout = QVBoxLayout(self)
 
         #path
-        self.edit_path = QLineEdit( self.path, self )
-        self.edit_path.setReadOnly( True )
-        self.main_layout.addWidget( self.edit_path )
+        self.editPath = QLineEdit(self.path, self)
+        self.editPath.setReadOnly(True)
+        self.mainLayout.addWidget(self.editPath)
 
         #list different snapshots only
-        self.cb_only_different_snapshots = QCheckBox( _( 'List only different snapshots' ), self )
-        self.main_layout.addWidget( self.cb_only_different_snapshots )
-        QObject.connect( self.cb_only_different_snapshots, SIGNAL('stateChanged(int)'), self.cb_only_different_snapshots_changed )
+        self.cbOnlyDifferentSnapshots = QCheckBox(_('List only different snapshots'), self)
+        self.mainLayout.addWidget(self.cbOnlyDifferentSnapshots)
+        QObject.connect(self.cbOnlyDifferentSnapshots, SIGNAL('stateChanged(int)'), self.cbOnlyDifferentSnapshotsChanged)
 
         #list equal snapshots only
         layout = QHBoxLayout()
-        self.main_layout.addLayout(layout)
-        self.cb_only_equal_snapshots = QCheckBox(_('List only equal snapshots to: '), self)
-        QObject.connect(self.cb_only_equal_snapshots, SIGNAL('stateChanged(int)'), self.cb_only_equal_snapshots_changed)
-        layout.addWidget(self.cb_only_equal_snapshots)
+        self.mainLayout.addLayout(layout)
+        self.cbOnlyEqualSnapshots = QCheckBox(_('List only equal snapshots to: '), self)
+        QObject.connect(self.cbOnlyEqualSnapshots, SIGNAL('stateChanged(int)'), self.cbOnlyEqualSnapshotsChanged)
+        layout.addWidget(self.cbOnlyEqualSnapshots)
 
-        self.combo_equal_to = qt4tools.SnapshotCombo(self)
-        QObject.connect(self.combo_equal_to, SIGNAL('currentIndexChanged(int)'), self.on_combo_equal_to_changed)
-        self.combo_equal_to.setEnabled(False)
-        layout.addWidget(self.combo_equal_to)
+        self.comboEqualTo = qt4tools.SnapshotCombo(self)
+        QObject.connect(self.comboEqualTo, SIGNAL('currentIndexChanged(int)'), self.comboEqualToChanged)
+        self.comboEqualTo.setEnabled(False)
+        layout.addWidget(self.comboEqualTo)
 
         #deep check
-        self.cb_only_different_snapshots_deep_check = QCheckBox( _( 'Deep check (more accurate, but slow)' ), self )
-        self.main_layout.addWidget( self.cb_only_different_snapshots_deep_check )
-        QObject.connect( self.cb_only_different_snapshots_deep_check, SIGNAL('stateChanged(int)'), self.cb_only_different_snapshots_deep_check_changed )
+        self.cbDeepCheck = QCheckBox(_('Deep check (more accurate, but slow)'), self)
+        self.mainLayout.addWidget(self.cbDeepCheck)
+        QObject.connect(self.cbDeepCheck, SIGNAL('stateChanged(int)'), self.cbDeepCheckChanged)
 
         #toolbar
         self.toolbar = QToolBar( self )
         self.toolbar.setFloatable( False )
-        self.main_layout.addWidget( self.toolbar )
+        self.mainLayout.addWidget( self.toolbar )
 
         #toolbar restore
-        menu_restore = QMenu(self)
-        action = menu_restore.addAction(icon.RESTORE, _('Restore') )
-        QObject.connect( action, SIGNAL('triggered()'), self.restore_this )
-        action = menu_restore.addAction(icon.RESTORE_TO, _('Restore to ...') )
-        QObject.connect( action, SIGNAL('triggered()'), self.restore_this_to )
+        menuRestore = QMenu(self)
+        action = menuRestore.addAction(icon.RESTORE, _('Restore') )
+        QObject.connect( action, SIGNAL('triggered()'), self.restoreThis )
+        action = menuRestore.addAction(icon.RESTORE_TO, _('Restore to ...') )
+        QObject.connect( action, SIGNAL('triggered()'), self.restoreThisTo )
 
-        self.btn_restore = self.toolbar.addAction(icon.RESTORE, _('Restore'))
-        self.btn_restore.setMenu(menu_restore)
-        QObject.connect( self.btn_restore, SIGNAL('triggered()'), self.restore_this )
+        self.btnRestore = self.toolbar.addAction(icon.RESTORE, _('Restore'))
+        self.btnRestore.setMenu(menuRestore)
+        QObject.connect( self.btnRestore, SIGNAL('triggered()'), self.restoreThis )
 
         #btn delete
-        self.btn_delete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete'))
-        QObject.connect(self.btn_delete, SIGNAL('triggered()'), self.on_btn_delete_clicked)
+        self.btnDelete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete'))
+        QObject.connect(self.btnDelete, SIGNAL('triggered()'), self.btnDeleteClicked)
 
         #btn select_all
-        self.btn_select_all = self.toolbar.addAction(icon.SELECT_ALL, _('Select All'))
-        QObject.connect(self.btn_select_all, SIGNAL('triggered()'), self.on_btn_select_all_clicked)
+        self.btnSelectAll = self.toolbar.addAction(icon.SELECT_ALL, _('Select All'))
+        QObject.connect(self.btnSelectAll, SIGNAL('triggered()'), self.btnSelectAllClicked)
 
         #snapshots list
-        self.list_snapshots = qt4tools.TimeLine(self)
-        self.main_layout.addWidget( self.list_snapshots )
-        QObject.connect( self.list_snapshots, SIGNAL('itemSelectionChanged()'), self.on_list_snapshots_changed )
-        QObject.connect( self.list_snapshots, SIGNAL('itemActivated(QTreeWidgetItem*, int)'), self.on_list_snapshots_executed )
+        self.timeLine = qt4tools.TimeLine(self)
+        self.mainLayout.addWidget(self.timeLine)
+        QObject.connect(self.timeLine, SIGNAL('itemSelectionChanged()'), self.timeLineChanged)
+        QObject.connect(self.timeLine, SIGNAL('itemActivated(QTreeWidgetItem*, int)'), self.timeLineExecute)
 
         #diff
         layout = QHBoxLayout()
-        self.main_layout.addLayout( layout )
+        self.mainLayout.addLayout( layout )
 
-        self.btn_diff = QPushButton( _('Diff'), self )
-        layout.addWidget( self.btn_diff )
-        QObject.connect( self.btn_diff, SIGNAL('clicked()'), self.on_btn_diff_clicked )
+        self.btnDiff = QPushButton(_('Diff'), self)
+        layout.addWidget(self.btnDiff)
+        QObject.connect(self.btnDiff, SIGNAL('clicked()'), self.btnDiffClicked)
 
-        self.combo_diff = qt4tools.SnapshotCombo(self)
-        layout.addWidget( self.combo_diff, 2 )
+        self.comboDiff = qt4tools.SnapshotCombo(self)
+        layout.addWidget(self.comboDiff, 2)
 
         #buttons
-        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        self.btn_goto =   button_box.button(QDialogButtonBox.Ok)
-        self.btn_cancel = button_box.button(QDialogButtonBox.Cancel)
-        self.btn_goto.setText(_('Go To'))
-        btn_diff_options = button_box.addButton(_('Diff Options'), QDialogButtonBox.HelpRole)
-        btn_diff_options.setIcon(icon.DIFF_OPTIONS)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.btnGoto =   buttonBox.button(QDialogButtonBox.Ok)
+        self.btnCancel = buttonBox.button(QDialogButtonBox.Cancel)
+        self.btnGoto.setText(_('Go To'))
+        btnDiffOptions = buttonBox.addButton(_('Diff Options'), QDialogButtonBox.HelpRole)
+        btnDiffOptions.setIcon(icon.DIFF_OPTIONS)
 
-        self.main_layout.addWidget(button_box)
+        self.mainLayout.addWidget(buttonBox)
 
-        QObject.connect(button_box, SIGNAL('accepted()'), self.accept)
-        QObject.connect(button_box, SIGNAL('rejected()'), self.reject)
-        QObject.connect(btn_diff_options, SIGNAL('clicked()'), self.on_btn_diff_options_clicked)
+        QObject.connect(buttonBox, SIGNAL('accepted()'), self.accept)
+        QObject.connect(buttonBox, SIGNAL('rejected()'), self.reject)
+        QObject.connect(btnDiffOptions, SIGNAL('clicked()'), self.btnDiffOptionsClicked)
 
         #
-        self.cb_only_different_snapshots_deep_check.setEnabled( False )
+        self.cbDeepCheck.setEnabled(False)
 
         full_path = self.sid.pathBackup(self.path)
         if os.path.islink( full_path ):
-            self.cb_only_different_snapshots_deep_check.hide()
+            self.cbDeepCheck.hide()
         elif os.path.isdir( full_path ):
-            self.cb_only_different_snapshots.hide()
-            self.cb_only_equal_snapshots.hide()
-            self.combo_equal_to.hide()
-            self.cb_only_different_snapshots_deep_check.hide()
+            self.cbOnlyDifferentSnapshots.hide()
+            self.cbOnlyEqualSnapshots.hide()
+            self.comboEqualTo.hide()
+            self.cbDeepCheck.hide()
 
         #update list and combobox
-        self.update_snapshots_and_combo_equal_to()
+        self.UpdateSnapshotsAndComboEqualTo()
 
-    def add_snapshot_(self, sid):
-        self.list_snapshots.addSnapshot(sid)
+    def addSnapshot(self, sid):
+        self.timeLine.addSnapshot(sid)
 
         #add to combo
-        self.combo_diff.addSnapshotID(sid)
+        self.comboDiff.addSnapshotID(sid)
 
         if self.sid == sid:
-            self.combo_diff.setCurrentSnapshotID(sid)
-        self.combo_diff.checkSelection()
+            self.comboDiff.setCurrentSnapshotID(sid)
+        self.comboDiff.checkSelection()
 
-    def update_snapshots( self ):
-        self.list_snapshots.clear()
-        self.combo_diff.clear()
+    def updateSnapshots(self):
+        self.timeLine.clear()
+        self.comboDiff.clear()
 
-        equal_to_sid = self.combo_equal_to.currentSnapshotID()
-        if self.cb_only_equal_snapshots.isChecked() and equal_to_sid:
+        equal_to_sid = self.comboEqualTo.currentSnapshotID()
+        if self.cbOnlyEqualSnapshots.isChecked() and equal_to_sid:
             equal_to = equal_to_sid.pathBackup(self.path)
         else:
             equal_to = False
-        snapshots_filtered = self.snapshots.filter_for(self.sid, self.path,
-                                self.snapshots_list,
-                                self.cb_only_different_snapshots.isChecked(),
-                                self.cb_only_different_snapshots_deep_check.isChecked(),
+        snapshotsFiltered = self.snapshots.filter(self.sid, self.path,
+                                self.snapshotsList,
+                                self.cbOnlyDifferentSnapshots.isChecked(),
+                                self.cbDeepCheck.isChecked(),
                                 equal_to)
-        for sid in snapshots_filtered:
-            self.add_snapshot_(sid)
+        for sid in snapshotsFiltered:
+            self.addSnapshot(sid)
 
-        self.update_toolbar()
+        self.updateToolbar()
 
-    def update_combo_equal_to(self):
-        self.combo_equal_to.clear()
-        snapshots_filtered = self.snapshots.filter_for(self.sid, self.path, self.snapshots_list)
-        for sid in snapshots_filtered:
-            self.combo_equal_to.addSnapshotID(sid)
+    def UpdateComboEqualTo(self):
+        self.comboEqualTo.clear()
+        snapshotsFiltered = self.snapshots.filter(self.sid, self.path, self.snapshotsList)
+        for sid in snapshotsFiltered:
+            self.comboEqualTo.addSnapshotID(sid)
 
             if sid == self.sid:
-                self.combo_equal_to.setCurrentSnapshotID(sid)
+                self.comboEqualTo.setCurrentSnapshotID(sid)
 
-        self.combo_equal_to.checkSelection()
+        self.comboEqualTo.checkSelection()
 
-    def update_snapshots_and_combo_equal_to(self):
-        self.update_snapshots()
-        self.update_combo_equal_to()
+    def UpdateSnapshotsAndComboEqualTo(self):
+        self.updateSnapshots()
+        self.UpdateComboEqualTo()
 
-    def cb_only_different_snapshots_changed( self ):
-        enabled = self.cb_only_different_snapshots.isChecked()
-        self.cb_only_equal_snapshots.setEnabled(not enabled)
-        self.cb_only_different_snapshots_deep_check.setEnabled( enabled )
+    def cbOnlyDifferentSnapshotsChanged(self):
+        enabled = self.cbOnlyDifferentSnapshots.isChecked()
+        self.cbOnlyEqualSnapshots.setEnabled(not enabled)
+        self.cbDeepCheck.setEnabled(enabled)
 
-        self.update_snapshots()
+        self.updateSnapshots()
 
-    def cb_only_equal_snapshots_changed( self ):
-        enabled = self.cb_only_equal_snapshots.isChecked()
-        self.combo_equal_to.setEnabled(enabled)
-        self.cb_only_different_snapshots.setEnabled(not enabled)
-        self.cb_only_different_snapshots_deep_check.setEnabled( enabled )
+    def cbOnlyEqualSnapshotsChanged(self):
+        enabled = self.cbOnlyEqualSnapshots.isChecked()
+        self.comboEqualTo.setEnabled(enabled)
+        self.cbOnlyDifferentSnapshots.setEnabled(not enabled)
+        self.cbDeepCheck.setEnabled(enabled)
 
-        self.update_snapshots()
+        self.updateSnapshots()
 
-    def cb_only_different_snapshots_deep_check_changed( self ):
-        self.update_snapshots()
+    def cbDeepCheckChanged(self):
+        self.updateSnapshots()
 
-    def update_toolbar( self ):
-        sids = self.list_snapshots.selectedSnapshotIDs()
+    def updateToolbar(self):
+        sids = self.timeLine.selectedSnapshotIDs()
 
         if not sids:
             enable_restore = False
@@ -276,27 +276,27 @@ class SnapshotsDialog( QDialog ):
                 if sid.isRoot:
                     enable_delete = False
 
-        self.btn_restore.setEnabled(enable_restore)
-        self.btn_delete.setEnabled(enable_delete)
+        self.btnRestore.setEnabled(enable_restore)
+        self.btnDelete.setEnabled(enable_delete)
 
-    def restore_this( self ):
-        sid = self.list_snapshots.currentSnapshotID()
+    def restoreThis( self ):
+        sid = self.timeLine.currentSnapshotID()
         if not sid.isRoot:
             restoredialog.restore( self, sid, self.path )
 
-    def restore_this_to( self ):
-        sid = self.list_snapshots.currentSnapshotID()
+    def restoreThisTo( self ):
+        sid = self.timeLine.currentSnapshotID()
         if not sid.isRoot:
             restoredialog.restore( self, sid, self.path, None )
 
-    def on_list_snapshots_changed( self ):
-        self.update_toolbar()
+    def timeLineChanged(self):
+        self.updateToolbar()
 
-    def on_list_snapshots_executed( self, item, column):
+    def timeLineExecute( self, item, column):
         if self.qapp.keyboardModifiers() and Qt.ControlModifier:
             return
 
-        sid = self.list_snapshots.currentSnapshotID()
+        sid = self.timeLine.currentSnapshotID()
         if not sid:
             return
 
@@ -307,13 +307,13 @@ class SnapshotsDialog( QDialog ):
         # prevent backup data from being accidentaly overwritten
         # by create a temporary local copy and only open that one
         if not isinstance(self.sid, snapshots.RootSnapshot):
-            full_path = self.parent.tmp_copy(full_path, sid)
+            full_path = self.parent.tmpCopy(full_path, sid)
 
         self.run = QDesktopServices.openUrl(QUrl(full_path ))
 
-    def on_btn_diff_clicked( self ):
-        sid1 = self.list_snapshots.currentSnapshotID()
-        sid2 = self.combo_diff.currentSnapshotID()
+    def btnDiffClicked(self):
+        sid1 = self.timeLine.currentSnapshotID()
+        sid2 = self.comboDiff.currentSnapshotID()
         if not sid1 or not sid2:
             return
 
@@ -325,35 +325,35 @@ class SnapshotsDialog( QDialog ):
             messagebox.critical( self, _('You can\'t compare a snapshot to itself') )
             return
 
-        diff_cmd = self.config.get_str_value( 'qt4.diff.cmd', DIFF_CMD )
-        diff_params = self.config.get_str_value( 'qt4.diff.params', DIFF_PARAMS )
+        diffCmd = self.config.strValue('qt4.diff.cmd', DIFF_CMD)
+        diffParams = self.config.strValue('qt4.diff.params', DIFF_PARAMS)
 
-        if not tools.check_command( diff_cmd ):
-            messagebox.critical( self, _('Command not found: %s') % diff_cmd )
+        if not tools.checkCommand(diffCmd):
+            messagebox.critical(self, _('Command not found: %s') % diffCmd)
             return
 
         # prevent backup data from being accidentaly overwritten
         # by create a temporary local copy and only open that one
         if not isinstance(sid1, snapshots.RootSnapshot):
-            path1 = self.parent.tmp_copy(path1, sid1)
+            path1 = self.parent.tmpCopy(path1, sid1)
         if not isinstance(sid2, snapshots.RootSnapshot):
-            path2 = self.parent.tmp_copy(path2, sid2)
+            path2 = self.parent.tmpCopy(path2, sid2)
 
-        params = diff_params
+        params = diffParams
         params = params.replace('%1', '"%s"' %path1)
         params = params.replace('%2', '"%s"' %path2)
 
-        cmd = diff_cmd + ' ' + params
+        cmd = diffCmd + ' ' + params
         subprocess.Popen(shlex.split(cmd))
 
-    def on_btn_diff_options_clicked( self ):
+    def btnDiffOptionsClicked(self):
         DiffOptionsDialog( self ).exec_()
 
-    def on_combo_equal_to_changed(self, index):
-        self.update_snapshots()
+    def comboEqualToChanged(self, index):
+        self.updateSnapshots()
 
-    def on_btn_delete_clicked(self):
-        items = self.list_snapshots.selectedItems()
+    def btnDeleteClicked(self):
+        items = self.timeLine.selectedItems()
         if not items:
             return
         elif len(items) == 1:
@@ -368,31 +368,31 @@ class SnapshotsDialog( QDialog ):
                 item.setFlags(Qt.NoItemFlags)
 
             thread = RemoveFileThread(self, items)
-            thread.started.connect(lambda: self.btn_goto.setDisabled(True))
-            thread.finished.connect(lambda: self.btn_goto.setDisabled(False))
-            thread.started.connect(lambda: self.btn_delete.setDisabled(True))
-            thread.finished.connect(lambda: self.btn_delete.setDisabled(False))
-            thread.finished.connect(self.update_snapshots_and_combo_equal_to)
-            self.btn_cancel.clicked.connect(thread.terminate)
+            thread.started.connect(lambda: self.btnGoto.setDisabled(True))
+            thread.finished.connect(lambda: self.btnGoto.setDisabled(False))
+            thread.started.connect(lambda: self.btnDelete.setDisabled(True))
+            thread.finished.connect(lambda: self.btnDelete.setDisabled(False))
+            thread.finished.connect(self.UpdateSnapshotsAndComboEqualTo)
+            self.btnCancel.clicked.connect(thread.terminate)
             thread.start()
 
-            exclude = self.config.get_exclude()
+            exclude = self.config.exclude()
             msg = _('Exclude "%s" from future snapshots?' % self.path)
             if self.path not in exclude and QMessageBox.Yes == messagebox.warningYesNo(self, msg):
                 exclude.append(self.path)
-                self.config.set_exclude(exclude)
+                self.config.setExclude(exclude)
 
-    def on_btn_select_all_clicked(self):
+    def btnSelectAllClicked(self):
         """
         select all expect 'Now'
         """
-        self.list_snapshots.clearSelection()
-        for item in self.list_snapshots.iterSnapshotItems():
+        self.timeLine.clearSelection()
+        for item in self.timeLine.iterSnapshotItems():
             if not isinstance(item.snapshotID(), snapshots.RootSnapshot):
                 item.setSelected(True)
 
     def accept( self ):
-        sid = self.list_snapshots.currentSnapshotID()
+        sid = self.timeLine.currentSnapshotID()
         if sid:
             self.sid = sid
         super(SnapshotsDialog, self).accept()
@@ -414,7 +414,7 @@ class RemoveFileThread(QThread):
                                                          reason = 'deleting files')
 
         for item in self.items:
-            self.snapshots.delete_path(item.snapshotID(), self.parent.path)
+            self.snapshots.deletePath(item.snapshotID(), self.parent.path)
             try:
                 item.setHidden(True)
             except RuntimeError:

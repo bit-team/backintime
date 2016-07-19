@@ -27,7 +27,7 @@ class ProgressFile(configfile.ConfigFile):
         self.config = cfg
         self.filename = filename
         if self.filename is None:
-            self.filename = self.config.get_take_snapshot_progress_file()
+            self.filename = self.config.takeSnapshotProgressFile()
 
     def save(self):
         return super(ProgressFile, self).save(self.filename)
@@ -35,5 +35,5 @@ class ProgressFile(configfile.ConfigFile):
     def load(self):
         return super(ProgressFile, self).load(self.filename)
 
-    def isFileReadable(self):
+    def fileReadable(self):
         return os.access(self.filename, os.R_OK)

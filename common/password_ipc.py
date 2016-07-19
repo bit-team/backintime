@@ -58,7 +58,7 @@ class FIFO(object):
         for input.
         """
         #sys.stdout.write('read fifo\n')
-        if not self.is_fifo():
+        if not self.isFifo():
             sys.exit(1)
         self.alarm.start(timeout)
         with open(self.fifo, 'r') as fifo:
@@ -72,14 +72,14 @@ class FIFO(object):
         for an other process that will read this.
         """
         #sys.stdout.write('write fifo\n')
-        if not self.is_fifo():
+        if not self.isFifo():
             sys.exit(1)
         self.alarm.start(timeout)
         with open(self.fifo, 'w') as fifo:
             fifo.write(string)
         self.alarm.stop()
 
-    def is_fifo(self):
+    def isFifo(self):
         """
         make sure file is still a FIFO and has correct permissions
         """

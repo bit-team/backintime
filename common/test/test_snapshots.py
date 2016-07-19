@@ -49,116 +49,116 @@ class TestSnapshots(generic.SnapshotsTestCase):
     def setUp(self):
         super(TestSnapshots, self).setUp()
 
-        for f in (self.cfg.get_take_snapshot_log_file(), self.cfg.get_take_snapshot_message_file()):
+        for f in (self.cfg.takeSnapshotLogFile(), self.cfg.takeSnapshotMessageFile()):
             if os.path.exists(f):
                 os.remove(f)
 
     ############################################################################
-    ###                              get_uid                                 ###
+    ###                              uid                                 ###
     ############################################################################
-    def test_get_uid_valid(self):
-        self.assertEqual(self.sn.get_uid('root'), 0)
-        self.assertEqual(self.sn.get_uid(b'root'), 0)
+    def test_uid_valid(self):
+        self.assertEqual(self.sn.uid('root'), 0)
+        self.assertEqual(self.sn.uid(b'root'), 0)
 
-        self.assertEqual(self.sn.get_uid(CURRENTUSER), CURRENTUID)
-        self.assertEqual(self.sn.get_uid(CURRENTUSER.encode()), CURRENTUID)
+        self.assertEqual(self.sn.uid(CURRENTUSER), CURRENTUID)
+        self.assertEqual(self.sn.uid(CURRENTUSER.encode()), CURRENTUID)
 
-    def test_get_uid_invalid(self):
-        self.assertEqual(self.sn.get_uid('nonExistingUser'), -1)
-        self.assertEqual(self.sn.get_uid(b'nonExistingUser'), -1)
+    def test_uid_invalid(self):
+        self.assertEqual(self.sn.uid('nonExistingUser'), -1)
+        self.assertEqual(self.sn.uid(b'nonExistingUser'), -1)
 
-    def test_get_uid_backup(self):
-        self.assertEqual(self.sn.get_uid('root', backup = 99999), 0)
-        self.assertEqual(self.sn.get_uid(b'root', backup = 99999), 0)
-        self.assertEqual(self.sn.get_uid('nonExistingUser', backup = 99999), 99999)
-        self.assertEqual(self.sn.get_uid(b'nonExistingUser', backup = 99999), 99999)
+    def test_uid_backup(self):
+        self.assertEqual(self.sn.uid('root', backup = 99999), 0)
+        self.assertEqual(self.sn.uid(b'root', backup = 99999), 0)
+        self.assertEqual(self.sn.uid('nonExistingUser', backup = 99999), 99999)
+        self.assertEqual(self.sn.uid(b'nonExistingUser', backup = 99999), 99999)
 
-        self.assertEqual(self.sn.get_uid(CURRENTUSER,  backup = 99999), CURRENTUID)
-        self.assertEqual(self.sn.get_uid(CURRENTUSER.encode(),  backup = 99999), CURRENTUID)
-
-    ############################################################################
-    ###                              get_gid                                 ###
-    ############################################################################
-    def test_get_gid_valid(self):
-        self.assertEqual(self.sn.get_gid('root'), 0)
-        self.assertEqual(self.sn.get_gid(b'root'), 0)
-
-        self.assertEqual(self.sn.get_gid(CURRENTGROUP), CURRENTGID)
-        self.assertEqual(self.sn.get_gid(CURRENTGROUP.encode()), CURRENTGID)
-
-    def test_get_gid_invalid(self):
-        self.assertEqual(self.sn.get_gid('nonExistingGroup'), -1)
-        self.assertEqual(self.sn.get_gid(b'nonExistingGroup'), -1)
-
-    def test_get_gid_backup(self):
-        self.assertEqual(self.sn.get_gid('root', backup = 99999), 0)
-        self.assertEqual(self.sn.get_gid(b'root', backup = 99999), 0)
-        self.assertEqual(self.sn.get_gid('nonExistingGroup', backup = 99999), 99999)
-        self.assertEqual(self.sn.get_gid(b'nonExistingGroup', backup = 99999), 99999)
-
-        self.assertEqual(self.sn.get_gid(CURRENTGROUP,  backup = 99999), CURRENTGID)
-        self.assertEqual(self.sn.get_gid(CURRENTGROUP.encode(),  backup = 99999), CURRENTGID)
+        self.assertEqual(self.sn.uid(CURRENTUSER,  backup = 99999), CURRENTUID)
+        self.assertEqual(self.sn.uid(CURRENTUSER.encode(),  backup = 99999), CURRENTUID)
 
     ############################################################################
-    ###                          get_user_name                               ###
+    ###                              gid                                 ###
     ############################################################################
-    def test_get_user_name_valid(self):
-        self.assertEqual(self.sn.get_user_name(0), 'root')
+    def test_gid_valid(self):
+        self.assertEqual(self.sn.gid('root'), 0)
+        self.assertEqual(self.sn.gid(b'root'), 0)
 
-        self.assertEqual(self.sn.get_user_name(CURRENTUID), CURRENTUSER)
+        self.assertEqual(self.sn.gid(CURRENTGROUP), CURRENTGID)
+        self.assertEqual(self.sn.gid(CURRENTGROUP.encode()), CURRENTGID)
 
-    def test_get_user_name_invalid(self):
-        self.assertEqual(self.sn.get_user_name(99999), '-')
+    def test_gid_invalid(self):
+        self.assertEqual(self.sn.gid('nonExistingGroup'), -1)
+        self.assertEqual(self.sn.gid(b'nonExistingGroup'), -1)
+
+    def test_gid_backup(self):
+        self.assertEqual(self.sn.gid('root', backup = 99999), 0)
+        self.assertEqual(self.sn.gid(b'root', backup = 99999), 0)
+        self.assertEqual(self.sn.gid('nonExistingGroup', backup = 99999), 99999)
+        self.assertEqual(self.sn.gid(b'nonExistingGroup', backup = 99999), 99999)
+
+        self.assertEqual(self.sn.gid(CURRENTGROUP,  backup = 99999), CURRENTGID)
+        self.assertEqual(self.sn.gid(CURRENTGROUP.encode(),  backup = 99999), CURRENTGID)
 
     ############################################################################
-    ###                         get_group_name                               ###
+    ###                          userName                               ###
     ############################################################################
-    def test_get_group_name_valid(self):
-        self.assertEqual(self.sn.get_group_name(0), 'root')
+    def test_userName_valid(self):
+        self.assertEqual(self.sn.userName(0), 'root')
 
-        self.assertEqual(self.sn.get_group_name(CURRENTGID), CURRENTGROUP)
+        self.assertEqual(self.sn.userName(CURRENTUID), CURRENTUSER)
 
-    def test_get_group_name_invalid(self):
-        self.assertEqual(self.sn.get_group_name(99999), '-')
+    def test_userName_invalid(self):
+        self.assertEqual(self.sn.userName(99999), '-')
 
     ############################################################################
-    ###                     take_snapshot helper scripts                     ###
+    ###                         groupName                               ###
     ############################################################################
-    def test_rsync_remote_path(self):
-        self.assertEqual(self.sn.rsync_remote_path('/foo'),
+    def test_groupName_valid(self):
+        self.assertEqual(self.sn.groupName(0), 'root')
+
+        self.assertEqual(self.sn.groupName(CURRENTGID), CURRENTGROUP)
+
+    def test_groupName_invalid(self):
+        self.assertEqual(self.sn.groupName(99999), '-')
+
+    ############################################################################
+    ###                     takeSnapshot helper scripts                     ###
+    ############################################################################
+    def test_rsyncRemotePath(self):
+        self.assertEqual(self.sn.rsyncRemotePath('/foo'),
                          '/foo')
-        self.assertEqual(self.sn.rsync_remote_path('/foo', quote = '\\\"'),
+        self.assertEqual(self.sn.rsyncRemotePath('/foo', quote = '\\\"'),
                          '/foo')
-        self.assertEqual(self.sn.rsync_remote_path('/foo', use_mode = ['local']),
+        self.assertEqual(self.sn.rsyncRemotePath('/foo', use_mode = ['local']),
                          '/foo')
-        self.assertEqual(self.sn.rsync_remote_path('/foo', use_mode = ['local'], quote = '\\\"'),
+        self.assertEqual(self.sn.rsyncRemotePath('/foo', use_mode = ['local'], quote = '\\\"'),
                          '/foo')
 
         #set up SSH profile
-        self.cfg.set_snapshots_mode('ssh')
-        self.cfg.set_ssh_host('localhost')
-        self.cfg.set_ssh_user('foo')
-        self.assertEqual(self.sn.rsync_remote_path('/bar'),
+        self.cfg.setSnapshotsMode('ssh')
+        self.cfg.setSshHost('localhost')
+        self.cfg.setSshUser('foo')
+        self.assertEqual(self.sn.rsyncRemotePath('/bar'),
                          'foo@localhost:"/bar"')
-        self.assertEqual(self.sn.rsync_remote_path('/bar', quote = '\\\"'),
+        self.assertEqual(self.sn.rsyncRemotePath('/bar', quote = '\\\"'),
                          'foo@localhost:\\\"/bar\\\"')
 
-        self.assertEqual(self.sn.rsync_remote_path('/bar', use_mode = []),
+        self.assertEqual(self.sn.rsyncRemotePath('/bar', use_mode = []),
                          '/bar')
 
-    def test_create_last_snapshot_symlink(self):
+    def test_createLastSnapshotSymlink(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         sid1.makeDirs()
-        symlink = self.cfg.get_last_snapshot_symlink()
+        symlink = self.cfg.lastSnapshotSymlink()
         self.assertFalse(os.path.exists(symlink))
 
-        self.assertTrue(self.sn.create_last_snapshot_symlink(sid1))
+        self.assertTrue(self.sn.createLastSnapshotSymlink(sid1))
         self.assertTrue(os.path.islink(symlink))
         self.assertEqual(os.path.realpath(symlink), sid1.path())
 
         sid2 = snapshots.SID('20151219-020324-123', self.cfg)
         sid2.makeDirs()
-        self.assertTrue(self.sn.create_last_snapshot_symlink(sid2))
+        self.assertTrue(self.sn.createLastSnapshotSymlink(sid2))
         self.assertTrue(os.path.islink(symlink))
         self.assertEqual(os.path.realpath(symlink), sid2.path())
 
@@ -168,13 +168,13 @@ class TestSnapshots(generic.SnapshotsTestCase):
         sn = snapshots.Snapshots(cfg)
         sn.GLOBAL_FLOCK = self.sn.GLOBAL_FLOCK
 
-        cfg.set_use_global_flock(True)
+        cfg.setGlobalFlock(True)
         sn.flockExclusive()
         sn.flockRelease()
 
     def test_flockExclusive(self):
         RWUGO = 33206 #-rw-rw-rw
-        self.cfg.set_use_global_flock(True)
+        self.cfg.setGlobalFlock(True)
         thread = Thread(target = self.flockSecondInstance, args = ())
         self.sn.flockExclusive()
 
@@ -190,8 +190,8 @@ class TestSnapshots(generic.SnapshotsTestCase):
         thread.join()
         self.assertFalse(thread.is_alive())
 
-    def test_stat_free_space_local(self):
-        self.assertIsInstance(self.sn._stat_free_space_local('/'), int)
+    def test_statFreeSpaceLocal(self):
+        self.assertIsInstance(self.sn.statFreeSpaceLocal('/'), int)
 
     ############################################################################
     ###                   rsync Ex-/Include and suffix                       ###
@@ -264,86 +264,86 @@ class TestSnapshots(generic.SnapshotsTestCase):
     ############################################################################
     ###                            callback                                  ###
     ############################################################################
-    def test_restore_callback(self):
+    def test_restoreCallback(self):
         msg = 'foo'
         callback = lambda x: self.callback(self.assertEqual, x, msg)
-        self.sn.restore_callback(callback, True, msg)
+        self.sn.restoreCallback(callback, True, msg)
         self.assertTrue(self.run)
-        self.assertFalse(self.sn.restore_permission_failed)
+        self.assertFalse(self.sn.restorePermissionFailed)
 
         self.run = False
         callback = lambda x: self.callback(self.assertRegex, x, r'{} : \w+'.format(msg))
-        self.sn.restore_callback(callback, False, msg)
+        self.sn.restoreCallback(callback, False, msg)
         self.assertTrue(self.run)
-        self.assertTrue(self.sn.restore_permission_failed)
+        self.assertTrue(self.sn.restorePermissionFailed)
 
     @unittest.skip('Not yet implemented')
-    def test_filter_rsync_progress(self):
+    def test_filterRsyncProgress(self):
         pass
 
-    def test_exec_rsync_callback(self):
+    def test_rsyncCallback(self):
         params = [False, False]
 
-        self.sn._exec_rsync_callback('foo', params)
+        self.sn.rsyncCallback('foo', params)
         self.assertListEqual([False, False], params)
-        with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
+        with open(self.cfg.takeSnapshotMessageFile(), 'rt') as f:
             self.assertEqual('0\nTake snapshot (rsync: foo)', f.read())
         self.sn.snapshotLog.flush()
-        with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
+        with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: foo)\n', f.read())
 
-    def test_exec_rsync_callback_keep_params(self):
+    def test_rsyncCallback_keep_params(self):
         params = [True, True]
 
-        self.sn._exec_rsync_callback('foo', params)
+        self.sn.rsyncCallback('foo', params)
         self.assertListEqual([True, True], params)
 
-    def test_exec_rsync_callback_transfer(self):
+    def test_rsyncCallback_transfer(self):
         params = [False, False]
 
-        self.sn._exec_rsync_callback('BACKINTIME: <f+++++++++ /foo/bar', params)
+        self.sn.rsyncCallback('BACKINTIME: <f+++++++++ /foo/bar', params)
         self.assertListEqual([False, True], params)
-        with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
+        with open(self.cfg.takeSnapshotMessageFile(), 'rt') as f:
             self.assertEqual('0\nTake snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)', f.read())
         self.sn.snapshotLog.flush()
-        with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
+        with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)\n[C] <f+++++++++ /foo/bar\n', f.read())
 
-    def test_exec_rsync_callback_dir(self):
+    def test_rsyncCallback_dir(self):
         params = [False, False]
 
-        self.sn._exec_rsync_callback('BACKINTIME: cd..t...... /foo/bar', params)
+        self.sn.rsyncCallback('BACKINTIME: cd..t...... /foo/bar', params)
         self.assertListEqual([False, False], params)
-        with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
+        with open(self.cfg.takeSnapshotMessageFile(), 'rt') as f:
             self.assertEqual('0\nTake snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)', f.read())
         self.sn.snapshotLog.flush()
-        with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
+        with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)\n', f.read())
 
-    def test_exec_rsync_callback_error(self):
+    def test_rsyncCallback_error(self):
         params = [False, False]
 
-        self.sn._exec_rsync_callback('rsync: send_files failed to open "/foo/bar": Operation not permitted (1)', params)
+        self.sn.rsyncCallback('rsync: send_files failed to open "/foo/bar": Operation not permitted (1)', params)
         self.assertListEqual([True, False], params)
-        with open(self.cfg.get_take_snapshot_message_file(), 'rt') as f:
+        with open(self.cfg.takeSnapshotMessageFile(), 'rt') as f:
             self.assertEqual('1\nError: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)', f.read())
         self.sn.snapshotLog.flush()
-        with open(self.cfg.get_take_snapshot_log_file(), 'rt') as f:
+        with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
             self.assertEqual('[I] Take snapshot (rsync: rsync: send_files failed to open "/foo/bar": Operation not permitted (1))\n' \
                              '[E] Error: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)\n', f.read())
 
     ############################################################################
     ###                          smart remove                                ###
     ############################################################################
-    def test_inc_month(self):
-        self.assertEqual(self.sn.inc_month(date(2016,  4, 21)), date(2016, 5, 1))
-        self.assertEqual(self.sn.inc_month(date(2016, 12, 24)), date(2017, 1, 1))
+    def test_incMonth(self):
+        self.assertEqual(self.sn.incMonth(date(2016,  4, 21)), date(2016, 5, 1))
+        self.assertEqual(self.sn.incMonth(date(2016, 12, 24)), date(2017, 1, 1))
 
-    def test_dec_month(self):
-        self.assertEqual(self.sn.dec_month(date(2016, 4, 21)), date(2016,  3, 1))
-        self.assertEqual(self.sn.dec_month(date(2016, 1, 14)), date(2015, 12, 1))
+    def test_decMonth(self):
+        self.assertEqual(self.sn.decMonth(date(2016, 4, 21)), date(2016,  3, 1))
+        self.assertEqual(self.sn.decMonth(date(2016, 1, 14)), date(2015, 12, 1))
 
-    def test_smart_remove_keep_all(self):
+    def test_smartRemove_keep_all(self):
         sid1 = snapshots.SID('20160424-215134-123', self.cfg)
         sid2 = snapshots.SID('20160422-030324-123', self.cfg)
         sid3 = snapshots.SID('20160422-020324-123', self.cfg)
@@ -352,17 +352,17 @@ class TestSnapshots(generic.SnapshotsTestCase):
         sid6 = snapshots.SID('20160410-134327-123', self.cfg)
         sids = [sid1, sid2, sid3, sid4, sid5, sid6]
 
-        keep = self.sn._smart_remove_keep_all_(sids,
+        keep = self.sn.smartRemoveKeepAll(sids,
                                                date(2016, 4, 20),
                                                date(2016, 4, 23))
         self.assertSetEqual(keep, set((sid2, sid3, sid4, sid5)))
 
-        keep = self.sn._smart_remove_keep_all_(sids,
+        keep = self.sn.smartRemoveKeepAll(sids,
                                                date(2016, 4, 11),
                                                date(2016, 4, 18))
         self.assertSetEqual(keep, set())
 
-    def test_smart_remove_keep_first(self):
+    def test_smartRemove_keep_first(self):
         sid1 = snapshots.SID('20160424-215134-123', self.cfg)
         sid2 = snapshots.SID('20160422-030324-123', self.cfg)
         sid3 = snapshots.SID('20160422-020324-123', self.cfg)
@@ -371,17 +371,17 @@ class TestSnapshots(generic.SnapshotsTestCase):
         sid6 = snapshots.SID('20160410-134327-123', self.cfg)
         sids = [sid1, sid2, sid3, sid4, sid5, sid6]
 
-        keep = self.sn._smart_remove_keep_first_(sids,
+        keep = self.sn.smartRemoveKeepFirst(sids,
                                                  date(2016, 4, 20),
                                                  date(2016, 4, 23))
         self.assertSetEqual(keep, set((sid2,)))
 
-        keep = self.sn._smart_remove_keep_first_(sids,
+        keep = self.sn.smartRemoveKeepFirst(sids,
                                                  date(2016, 4, 11),
                                                  date(2016, 4, 18))
         self.assertSetEqual(keep, set())
 
-    def test_smart_remove_list(self):
+    def test_smartRemoveList(self):
         sid1  = snapshots.SID('20160424-215134-123', self.cfg)
         sid2  = snapshots.SID('20160422-030324-123', self.cfg)
         sid3  = snapshots.SID('20160422-020324-123', self.cfg)
@@ -422,7 +422,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
             sid.makeDirs()
         now = datetime(2016, 4, 24, 21, 51, 34)
 
-        del_snapshots = self.sn._smart_remove_list(now,
+        del_snapshots = self.sn.smartRemoveList(now,
                                                    3, #keep_all
                                                    7, #keep_one_per_day
                                                    5, #keep_one_per_week
@@ -433,18 +433,18 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                              sid22, sid24, sid27, sid28, sid30])
 
     @unittest.skip('Not yet implemented')
-    def test_smart_remove(self):
+    def test_smartRemove(self):
         pass
 
 class TestSnapshotWithSID(generic.SnapshotsWithSidTestCase):
-    def test_save_config_file(self):
-        self.sn.save_config_file(self.sid)
+    def test_backupConfig(self):
+        self.sn.backupConfig(self.sid)
         self.assertTrue(os.path.isfile(self.sid.path('config')))
-        self.assertEqual(tools._get_md5sum_from_path(self.sid.path('config')),
-                         tools._get_md5sum_from_path(self.cfgFile))
+        self.assertEqual(tools.md5sum(self.sid.path('config')),
+                         tools.md5sum(self.cfgFile))
 
-    def test_save_snapshot_info(self):
-        self.sn.save_snapshot_info(self.sid)
+    def test_backupInfo(self):
+        self.sn.backupInfo(self.sid)
         self.assertTrue(os.path.isfile(self.sid.path('info')))
         with open(self.sid.path('info'), 'rt') as f:
             self.assertRegex(f.read(), re.compile('''filesystem_mounts=.+
@@ -457,13 +457,13 @@ snapshot_user=.+
 snapshot_version=.+
 user.size=.+''', re.MULTILINE))
 
-    def test_save_permissions(self):
+    def test_backupPermissions(self):
         #TODO: add test for save permissions over SSH (and one SSH-test for path with spaces)
         infoFilePath = os.path.join(self.snapshotPath,
                                     '20151219-010324-123',
                                     'fileinfo.bz2')
 
-        include = self.cfg.get_include()[0][0]
+        include = self.cfg.include()[0][0]
         with TemporaryDirectory(dir = include) as tmp:
             file_path = os.path.join(tmp, 'foo')
             with open(file_path, 'wt') as f:
@@ -475,7 +475,7 @@ user.size=.+''', re.MULTILINE))
                 snapshot_f.write('bar')
                 snapshot_f.flush()
 
-            self.sn.save_permissions(self.sid)
+            self.sn.backupPermissions(self.sid)
 
             fileInfo = self.sid.fileInfo
             self.assertTrue(os.path.isfile(infoFilePath))
@@ -483,7 +483,7 @@ user.size=.+''', re.MULTILINE))
             self.assertIn(tmp.encode(), fileInfo)
             self.assertIn(file_path.encode(), fileInfo)
 
-    def test_save_path_info(self):
+    def test_collectPermission(self):
         # force permissions because different distributions will have different umask
         os.chmod(self.testDirFullPath, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH | stat.S_IXOTH)
         os.chmod(self.testFileFullPath, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH)
@@ -491,8 +491,8 @@ user.size=.+''', re.MULTILINE))
         d = snapshots.FileInfoDict()
         testDir  = self.testDirFullPath.encode()
         testFile = self.testFileFullPath.encode()
-        self.sn._save_path_info(d, testDir)
-        self.sn._save_path_info(d, testFile)
+        self.sn.collectPermission(d, testDir)
+        self.sn.collectPermission(d, testFile)
 
         self.assertIn(testDir, d)
         self.assertIn(testFile, d)
@@ -530,8 +530,8 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
 
         callback = lambda x: self.callback(self.fail,
                              'callback function was called unexpectedly')
-        self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
-        self.sn._restore_path_info(b'bar', b'/tmp/test/bar', d, callback)
+        self.sn.restorePermission(b'foo', b'/tmp/test/foo', d, callback)
+        self.sn.restorePermission(b'bar', b'/tmp/test/bar', d, callback)
 
         s = os.stat(self.pathFolder)
         self.assertEqual(s.st_mode, self.modeFolder)
@@ -553,13 +553,13 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         callback = lambda x: self.callback(self.assertRegex, x,
                              r'^chown /tmp/test/(?:foo|bar) 0 : {} : \w+$'.format(CURRENTGID))
 
-        self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
+        self.sn.restorePermission(b'foo', b'/tmp/test/foo', d, callback)
         self.assertTrue(self.run)
-        self.assertTrue(self.sn.restore_permission_failed)
-        self.run, self.sn.restore_permission_failed = False, False
-        self.sn._restore_path_info(b'bar', b'/tmp/test/bar', d, callback)
+        self.assertTrue(self.sn.restorePermissionFailed)
+        self.run, self.sn.restorePermissionFailed = False, False
+        self.sn.restorePermission(b'bar', b'/tmp/test/bar', d, callback)
         self.assertTrue(self.run)
-        self.assertTrue(self.sn.restore_permission_failed)
+        self.assertTrue(self.sn.restorePermissionFailed)
 
         s = os.stat(self.pathFolder)
         self.assertEqual(s.st_mode, self.modeFolder)
@@ -582,13 +582,13 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         callback = lambda x: self.callback(self.assertRegex, x,
                              r'^chgrp /tmp/test/(?:foo|bar) {}$'.format(newGID))
 
-        self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
+        self.sn.restorePermission(b'foo', b'/tmp/test/foo', d, callback)
         self.assertTrue(self.run)
-        self.assertFalse(self.sn.restore_permission_failed)
+        self.assertFalse(self.sn.restorePermissionFailed)
         self.run = False
-        self.sn._restore_path_info(b'bar', b'/tmp/test/bar', d, callback)
+        self.sn.restorePermission(b'bar', b'/tmp/test/bar', d, callback)
         self.assertTrue(self.run)
-        self.assertFalse(self.sn.restore_permission_failed)
+        self.assertFalse(self.sn.restorePermissionFailed)
 
         s = os.stat(self.pathFolder)
         self.assertEqual(s.st_mode, self.modeFolder)
@@ -609,13 +609,13 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
 
         callback = lambda x: self.callback(self.assertRegex, x,
                              r'^chmod /tmp/test/(?:foo|bar) \d+$')
-        self.sn._restore_path_info(b'foo', b'/tmp/test/foo', d, callback)
+        self.sn.restorePermission(b'foo', b'/tmp/test/foo', d, callback)
         self.assertTrue(self.run)
-        self.assertFalse(self.sn.restore_permission_failed)
+        self.assertFalse(self.sn.restorePermissionFailed)
         self.run = False
-        self.sn._restore_path_info(b'bar', b'/tmp/test/bar', d, callback)
+        self.sn.restorePermission(b'bar', b'/tmp/test/bar', d, callback)
         self.assertTrue(self.run)
-        self.assertFalse(self.sn.restore_permission_failed)
+        self.assertFalse(self.sn.restorePermissionFailed)
 
         s = os.stat(self.pathFolder)
         self.assertEqual(s.st_mode, newModeFolder)
@@ -630,45 +630,45 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
 class TestDeletePath(generic.SnapshotsWithSidTestCase):
     def test_delete_file(self):
         self.assertTrue(os.path.exists(self.testFileFullPath))
-        self.sn.delete_path(self.sid, self.testFile)
+        self.sn.deletePath(self.sid, self.testFile)
         self.assertFalse(os.path.exists(self.testFileFullPath))
 
     def test_delete_file_readonly(self):
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
-        self.sn.delete_path(self.sid, self.testFile)
+        self.sn.deletePath(self.sid, self.testFile)
         self.assertFalse(os.path.exists(self.testFileFullPath))
 
     def test_delete_dir(self):
         self.assertTrue(os.path.exists(self.testDirFullPath))
-        self.sn.delete_path(self.sid, self.testDir)
+        self.sn.deletePath(self.sid, self.testDir)
         self.assertFalse(os.path.exists(self.testDirFullPath))
 
     def test_delete_dir_readonly(self):
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
         os.chmod(self.testDirFullPath, stat.S_IRUSR | stat.S_IXUSR)
-        self.sn.delete_path(self.sid, self.testDir)
+        self.sn.deletePath(self.sid, self.testDir)
         self.assertFalse(os.path.exists(self.testDirFullPath))
 
     def test_delete_pardir_readonly(self):
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
         os.chmod(self.testDirFullPath, stat.S_IRUSR | stat.S_IXUSR)
-        self.sn.delete_path(self.sid, 'foo')
+        self.sn.deletePath(self.sid, 'foo')
         self.assertFalse(os.path.exists(self.testDirFullPath))
 
 class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
     #TODO: add test with SSH
-    def test_remove_snapshot(self):
+    def test_remove(self):
         self.assertTrue(self.sid.exists())
-        self.sn.remove_snapshot(self.sid)
+        self.sn.remove(self.sid)
         self.assertFalse(self.sid.exists())
 
-    def test_remove_snapshot_read_only(self):
+    def test_remove_read_only(self):
         for path in (self.sid.pathBackup(), self.testDirFullPath):
             os.chmod(path, stat.S_IRUSR | stat.S_IXUSR)
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
 
         self.assertTrue(self.sid.exists())
-        self.sn.remove_snapshot(self.sid)
+        self.sn.remove(self.sid)
         self.assertFalse(self.sid.exists())
 
 @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
@@ -678,8 +678,8 @@ class TestSshSnapshots(generic.SSHTestCase):
         self.sn = snapshots.Snapshots(self.cfg)
         os.mkdir(self.remotePath)
 
-    def test_stat_free_space_ssh(self):
-        self.assertIsInstance(self.sn._stat_free_space_ssh(), int)
+    def test_statFreeSpaceSsh(self):
+        self.assertIsInstance(self.sn.statFreeSpaceSsh(), int)
 
 if __name__ == '__main__':
     unittest.main()

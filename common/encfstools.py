@@ -42,14 +42,14 @@ class EncFS_mount(MountControl):
         #init MountControl
         super(EncFS_mount, self).__init__(*args, **kwargs)
 
-        self.setattr_kwargs('path', self.config.get_local_encfs_path(self.profile_id), **kwargs)
-        self.setattr_kwargs('reverse', False, **kwargs)
-        self.setattr_kwargs('config_path', None, **kwargs)
-        self.setattr_kwargs('password', None, store = False, **kwargs)
-        self.setattr_kwargs('hash_id_1', None, **kwargs)
-        self.setattr_kwargs('hash_id_2', None, **kwargs)
+        self.setattrKwargs('path', self.config.localEncfsPath(self.profile_id), **kwargs)
+        self.setattrKwargs('reverse', False, **kwargs)
+        self.setattrKwargs('config_path', None, **kwargs)
+        self.setattrKwargs('password', None, store = False, **kwargs)
+        self.setattrKwargs('hash_id_1', None, **kwargs)
+        self.setattrKwargs('hash_id_2', None, **kwargs)
 
-        self.set_default_args()
+        self.setDefaultArgs()
 
         self.mountproc = 'encfs'
         self.log_command = '%s: %s' % (self.mode, self.path)
@@ -60,19 +60,19 @@ class EncFS_mount(MountControl):
         mount the service
         """
         if self.password is None:
-            self.password = self.config.get_password(self.parent, self.profile_id, self.mode)
+            self.password = self.config.password(self.parent, self.profile_id, self.mode)
         logger.debug('Provide password through temp FIFO', self)
         thread = password_ipc.TempPasswordThread(self.password)
-        env = self.get_env()
+        env = self.env()
         env['ASKPASS_TEMP'] = thread.temp_file
         thread.start()
 
         encfs = [self.mountproc, '--extpass=backintime-askpass']
         if self.reverse:
             encfs += ['--reverse']
-        if not self.is_configured():
+        if not self.isConfigured():
             encfs += ['--standard']
-        encfs += [self.path, self.mountpoint]
+        encfs += [self.path, self.currentMountpoint]
         logger.debug('Call mount command: %s'
                      %' '.join(encfs),
                      self)
@@ -82,33 +82,33 @@ class EncFS_mount(MountControl):
                                 stderr = subprocess.STDOUT,
                                 universal_newlines = True)
         output = proc.communicate()[0]
-        self.backup_config()
+        self.backupConfig()
         if proc.returncode:
             raise MountException( _('Can\'t mount \'%(command)s\':\n\n%(error)s') \
                                     % {'command': ' '.join(encfs), 'error': output} )
 
         thread.stop()
 
-    def pre_mount_check(self, first_run = False):
+    def preMountCheck(self, first_run = False):
         """
         check what ever conditions must be given for the mount
         """
-        self.check_fuse()
+        self.checkFuse()
         if first_run:
-            self.check_version()
+            self.checkVersion()
         return True
 
-    def get_env(self):
+    def env(self):
         """
         return environment with encfs configfile
         """
         env = os.environ.copy()
-        cfg = self.get_config_file()
+        cfg = self.configFile()
         if os.path.isfile(cfg):
             env['ENCFS6_CONFIG'] = cfg
         return env
 
-    def get_config_file(self):
+    def configFile(self):
         """
         return encfs config file
         """
@@ -119,12 +119,12 @@ class EncFS_mount(MountControl):
             cfg = os.path.join(self.config_path, f)
         return cfg
 
-    def is_configured(self):
+    def isConfigured(self):
         """
         check if encfs config file exist. If not and if we are in settingsdialog
         ask for password confirmation. _mount will then create a new config
         """
-        cfg = self.get_config_file()
+        cfg = self.configFile()
         if os.path.isfile(cfg):
             logger.debug('Found encfs config in %s'
                          %cfg, self)
@@ -136,17 +136,17 @@ class EncFS_mount(MountControl):
             if not self.tmp_mount:
                 raise MountException( msg )
             else:
-                if not self.config.ask_question( msg + _('\nCreate a new encrypted folder?')):
+                if not self.config.askQuestion( msg + _('\nCreate a new encrypted folder?')):
                     raise MountException( _('Cancel') )
                 else:
                     pw = password.Password(self.config)
-                    password_confirm = pw._get_password_from_user(self.parent, prompt = _('Please confirm password'))
+                    password_confirm = pw.passwordFromUser(self.parent, prompt = _('Please confirm password'))
                     if self.password == password_confirm:
                         return False
                     else:
                         raise MountException( _('Password doesn\'t match') )
 
-    def check_version(self):
+    def checkVersion(self):
         """
         check encfs version.
         1.7.2 had a bug with --reverse that will create corrupt files
@@ -163,26 +163,26 @@ class EncFS_mount(MountControl):
                 logger.debug('Wrong encfs version %s' %m.group(1), self)
                 raise MountException( _('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
 
-    def backup_config(self):
+    def backupConfig(self):
         """
         create a backup of encfs config file into local config folder
         so in cases of the config file get deleted or corrupt user can restore
         it from there
         """
-        cfg = self.get_config_file()
+        cfg = self.configFile()
         if not os.path.isfile(cfg):
             logger.warning('No encfs config in %s. Skip backup of config file.' %cfg, self)
             return
-        backup_folder = self.config.get_encfsconfig_backup_folder(self.profile_id)
-        tools.make_dirs(backup_folder)
+        backup_folder = self.config.encfsconfigBackupFolder(self.profile_id)
+        tools.makeDirs(backup_folder)
         old_backups = os.listdir(backup_folder)
         old_backups.sort(reverse = True)
         if len(old_backups):
             last_backup = os.path.join(backup_folder, old_backups[0])
 
             #don't create a new backup if config hasn't changed
-            if tools._get_md5sum_from_path(cfg) == \
-               tools._get_md5sum_from_path(last_backup):
+            if tools.md5sum(cfg) == \
+               tools.md5sum(last_backup):
                 logger.debug('Encfs config did not change. Skip backup', self)
                 return
 
@@ -204,18 +204,18 @@ class EncFS_SSH(EncFS_mount):
             self.config = config.Config()
         self.profile_id = profile_id
         if self.profile_id is None:
-            self.profile_id = self.config.get_current_profile()
+            self.profile_id = self.config.currentProfile()
         self.mode = mode
         if self.mode is None:
-            self.mode = self.config.get_snapshots_mode(self.profile_id)
+            self.mode = self.config.snapshotsMode(self.profile_id)
 
         self.parent = parent
         self.args = args
         self.kwargs = kwargs
 
-        self.ssh = sshtools.SSH(*self.args, symlink = False, **self.split_kwargs('ssh'))
-        self.rev_root = EncFS_mount(*self.args, symlink = False, **self.split_kwargs('encfs_reverse'))
-        super(EncFS_SSH, self).__init__(*self.args, **self.split_kwargs('encfs'))
+        self.ssh = sshtools.SSH(*self.args, symlink = False, **self.splitKwargs('ssh'))
+        self.rev_root = EncFS_mount(*self.args, symlink = False, **self.splitKwargs('encfs_reverse'))
+        super(EncFS_SSH, self).__init__(*self.args, **self.splitKwargs('encfs'))
 
     def mount(self, *args, **kwargs):
         """
@@ -227,23 +227,23 @@ class EncFS_SSH(EncFS_mount):
         #mount fsroot with encfs --reverse first.
         #If the config does not exist already this will make sure
         #the new created config works with --reverse
-        if not os.path.isfile(self.get_config_file()):
+        if not os.path.isfile(self.configFile()):
             #encfs >= 1.8.0 changed behavior when ENCFS6_CONFIG environ variable
             #file does not exist. It will not create a new one anymore but just fail.
             #As encfs would create the config in /.encfs6.xml (which will most likly fail)
             #we need to mount a temp folder with reverse first and copy the config when done.
             logger.debug('Mount temp folder with encfs --reverse to create a new encfs config', self)
             with tempfile.TemporaryDirectory() as src:
-                tmp_kwargs = self.split_kwargs('encfs_reverse')
+                tmp_kwargs = self.splitKwargs('encfs_reverse')
                 tmp_kwargs['path'] = src
                 tmp_kwargs['config_path'] = src
                 tmp_mount = EncFS_mount(*self.args, symlink = False, **tmp_kwargs)
                 tmp_mount.mount(*args, **kwargs)
                 tmp_mount.umount()
-                cfg = tmp_mount.get_config_file()
+                cfg = tmp_mount.configFile()
                 if os.path.isfile(cfg):
-                    logger.debug('Copy new encfs config %s to its original place %s' %(cfg, self.ssh.mountpoint), self)
-                    shutil.copy2(cfg, self.ssh.mountpoint)
+                    logger.debug('Copy new encfs config %s to its original place %s' %(cfg, self.ssh.currentMountpoint), self)
+                    shutil.copy2(cfg, self.ssh.currentMountpoint)
                 else:
                     logger.error('New encfs config %s not found' %cfg, self)
         logger.debug('Mount local filesystem root with encfs --reverse', self)
@@ -269,16 +269,16 @@ class EncFS_SSH(EncFS_mount):
         logger.debug('Unmount sshfs', self)
         self.ssh.umount(*args, **kwargs)
 
-    def pre_mount_check(self, *args, **kwargs):
+    def preMountCheck(self, *args, **kwargs):
         """
-        call pre_mount_check for sshfs, encfs --reverse and encfs
+        call preMountCheck for sshfs, encfs --reverse and encfs
         """
-        if self.ssh.pre_mount_check(*args, **kwargs) and \
-           self.rev_root.pre_mount_check(*args, **kwargs) and \
-           super(EncFS_SSH, self).pre_mount_check(*args, **kwargs):
+        if self.ssh.preMountCheck(*args, **kwargs) and \
+           self.rev_root.preMountCheck(*args, **kwargs) and \
+           super(EncFS_SSH, self).preMountCheck(*args, **kwargs):
                 return True
 
-    def split_kwargs(self, mode):
+    def splitKwargs(self, mode):
         """
         split all given arguments for the desired mount class
         """
@@ -295,7 +295,7 @@ class EncFS_SSH(EncFS_mount):
             if 'ssh_password' in d:
                 d['password'] = d.pop('ssh_password')
             else:
-                d['password'] = self.config.get_password(parent = self.parent, profile_id = self.profile_id, mode = self.mode)
+                d['password'] = self.config.password(parent = self.parent, profile_id = self.profile_id, mode = self.mode)
             if 'hash_id' in d:
                 d.pop('hash_id')
             if 'hash_id_2' in d:
@@ -303,23 +303,23 @@ class EncFS_SSH(EncFS_mount):
             return d
 
         elif mode == 'encfs':
-            d['path'] = self.ssh.mountpoint
+            d['path'] = self.ssh.currentMountpoint
             d['hash_id_1'] = self.rev_root.hash_id
             d['hash_id_2'] = self.ssh.hash_id
             if 'encfs_password' in d:
                 d['password'] = d.pop('encfs_password')
             else:
-                d['password'] = self.config.get_password(parent = self.parent, profile_id = self.profile_id, mode = self.mode, pw_id = 2)
+                d['password'] = self.config.password(parent = self.parent, profile_id = self.profile_id, mode = self.mode, pw_id = 2)
             return d
 
         elif mode == 'encfs_reverse':
             d['reverse'] = True
             d['path'] = '/'
-            d['config_path'] = self.ssh.mountpoint
+            d['config_path'] = self.ssh.currentMountpoint
             if 'encfs_password' in d:
                 d['password'] = d.pop('encfs_password')
             else:
-                d['password'] = self.config.get_password(parent = self.parent, profile_id = self.profile_id, mode = self.mode, pw_id = 2)
+                d['password'] = self.config.password(parent = self.parent, profile_id = self.profile_id, mode = self.mode, pw_id = 2)
             if 'hash_id' in d:
                 d.pop('hash_id')
             if 'hash_id_1' in d:
@@ -334,7 +334,7 @@ class Encode(object):
     def __init__(self, encfs):
         self.encfs = encfs
         self.password = self.encfs.password
-        self.chroot = self.encfs.rev_root.mountpoint
+        self.chroot = self.encfs.rev_root.currentMountpoint
         if not self.chroot[-1] == os.sep:
             self.chroot += os.sep
         self.remote_path = self.encfs.ssh.path
@@ -348,12 +348,12 @@ class Encode(object):
     def __del__(self):
         self.close()
 
-    def start_process(self):
+    def startProcess(self):
         """
         start 'encfsctl encode' process in pipe mode.
         """
         thread = password_ipc.TempPasswordThread(self.password)
-        env = self.encfs.get_env()
+        env = self.encfs.env()
         env['ASKPASS_TEMP'] = thread.temp_file
         thread.start()
 
@@ -373,11 +373,11 @@ class Encode(object):
         write plain path to encfsctl stdin and read encrypted path from stdout
         """
         if not 'p' in vars(self):
-            self.start_process()
+            self.startProcess()
         if not self.p.returncode is None:
             logger.warning('\'encfsctl encode\' process terminated. Restarting.', self)
             del self.p
-            self.start_process()
+            self.startProcess()
         self.p.stdin.write(path + '\n')
         ret = self.p.stdout.readline().strip('\n')
         if not len(ret) and len(path):
@@ -388,7 +388,7 @@ class Encode(object):
 
     def exclude(self, path):
         """
-        encrypt paths for snapshots.take_snapshot exclude list.
+        encrypt paths for snapshots.takeSnapshot exclude list.
         After encoding the path a wildcard would not match anymore
         so all paths with wildcards are ignored. Only single and double asterisk
         that will match a full file or folder name will work.
@@ -431,7 +431,7 @@ class Encode(object):
 
     def include(self, path):
         """
-        encrypt paths for snapshots.take_snapshot include list.
+        encrypt paths for snapshots.takeSnapshot include list.
         """
         return os.path.join(os.sep, self.path(path))
 
@@ -479,13 +479,13 @@ class Decode(object):
     """
     def __init__(self, cfg, string = True):
         self.config = cfg
-        self.mode = cfg.get_snapshots_mode()
+        self.mode = cfg.snapshotsMode()
         if self.mode == 'local_encfs':
-            self.password = cfg.get_password(pw_id = 1)
+            self.password = cfg.password(pw_id = 1)
         elif self.mode == 'ssh_encfs':
-            self.password = cfg.get_password(pw_id = 2)
+            self.password = cfg.password(pw_id = 2)
         self.encfs = cfg.SNAPSHOT_MODES[self.mode][0](cfg)
-        self.remote_path = cfg.get_snapshots_path_ssh()
+        self.remote_path = cfg.sshSnapshotsPath()
         if not self.remote_path:
             self.remote_path = './'
         if not self.remote_path[-1] == os.sep:
@@ -493,10 +493,10 @@ class Decode(object):
 
         #german translation changed from Snapshot to Schnappschuss.
         #catch both variants otherwise old logs wouldn't get decoded.
-        _take_snapshot = _('Take snapshot').replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
+        takeSnapshot = _('Take snapshot').replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
 
         #precompile some regular expressions
-        host, port, user, path, cipher = cfg.get_ssh_host_port_user_path_cipher()
+        host, port, user, path, cipher = cfg.sshHostUserPortPathCipher()
         #replace: --exclude"<crypted_path>" or --include"<crypted_path>"
         self.re_include_exclude = re.compile(r'(--(?:ex|in)clude=")(.*?)(")')
 
@@ -522,7 +522,7 @@ class Decode(object):
         pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
         pattern.append(r' file has vanished: ".*?mountpoint/')
         pattern.append(r' ')
-        self.re_info = re.compile(r'(^(?:\[I\] )?%s \(rsync:(?:%s))(.*?)(\).*|".*)' % (_take_snapshot, '|'.join(pattern)) )
+        self.re_info = re.compile(r'(^(?:\[I\] )?%s \(rsync:(?:%s))(.*?)(\).*|".*)' % (takeSnapshot, '|'.join(pattern)) )
 
         #search for: [E] Error: rsync readlink_stat("...mountpoint/<crypted_path>")
         #            [E] Error: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13)
@@ -556,7 +556,7 @@ class Decode(object):
         pattern.append(r'total size is .*? speedup is')
         pattern.append(r'rsync error: some files/attrs were not transferred')
         pattern.append(r'rsync warning: some files vanished before they could be transferred')
-        self.re_skip = re.compile(r'^(?:\[I\] )?%s \(rsync: (%s)' % (_take_snapshot, '|'.join(pattern)) )
+        self.re_skip = re.compile(r'^(?:\[I\] )?%s \(rsync: (%s)' % (takeSnapshot, '|'.join(pattern)) )
 
         self.string = string
         if string:
@@ -567,7 +567,7 @@ class Decode(object):
     def __del__(self):
         self.close()
 
-    def start_process(self):
+    def startProcess(self):
         """
         start 'encfsctl decode' process in pipe mode.
         """
@@ -598,11 +598,11 @@ class Decode(object):
         else:
             assert isinstance(path, bytes), 'path is not bytes type: %s' % path
         if not 'p' in vars(self):
-            self.start_process()
+            self.startProcess()
         if not self.p.returncode is None:
             logger.warning('\'encfsctl decode\' process terminated. Restarting.', self)
             del self.p
-            self.start_process()
+            self.startProcess()
         self.p.stdin.write(path + self.newline)
         ret = self.p.stdout.readline()
         ret = ret.strip(self.newline)
@@ -633,14 +633,14 @@ class Decode(object):
         #[C] Change lines
         m = self.re_change.match(line)
         if not m is None:
-            return m.group(1) + self.path_with_arrow(m.group(2))
+            return m.group(1) + self.pathWithArrow(m.group(2))
         #[I] Information lines
         m = self.re_skip.match(line)
         if not m is None:
             return line
         m = self.re_info.match(line)
         if not m is None:
-            return m.group(1) + self.path_with_arrow(m.group(2)) + m.group(3)
+            return m.group(1) + self.pathWithArrow(m.group(2)) + m.group(3)
         #[E] Error lines
         m = self.re_error.match(line)
         if not m is None:
@@ -655,18 +655,18 @@ class Decode(object):
         """
         return decoded string for re.sub
         """
-        decrypt = self.re_all_except_asterisk.sub(self.path_m, m.group(2))
+        decrypt = self.re_all_except_asterisk.sub(self.pathMatch, m.group(2))
         if os.path.isabs(m.group(2)):
             decrypt = os.path.join(os.sep, decrypt)
         return m.group(1) + decrypt + m.group(3)
 
-    def path_m(self, m):
+    def pathMatch(self, m):
         """
         return decoded path of a match object
         """
         return self.path(m.group(0))
 
-    def path_with_arrow(self, path):
+    def pathWithArrow(self, path):
         """
         rsync print symlinks like 'dest -> src'. This will decode both and also normal paths
         """

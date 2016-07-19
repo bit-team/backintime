@@ -44,11 +44,11 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
     def getInode(self, sid):
         return os.stat(sid.pathBackup(os.path.join(self.include.name, 'test'))).st_ino
 
-    def test_take_snapshot(self):
+    def test_takeSnapshot(self):
         now = datetime.today() - timedelta(minutes = 6)
         sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([True, False], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),] ))
         self.assertTrue(sid1.exists())
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
@@ -63,15 +63,15 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'save_to_continue'):
             self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
 
-        # second _take_snapshot which should not create a new snapshot as nothing
+        # second takeSnapshot which should not create a new snapshot as nothing
         # has changed
         now = datetime.today() - timedelta(minutes = 4)
         sid2 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([False, False], self.sn._take_snapshot(sid2, now, [(self.include.name, 0),] ))
+        self.assertListEqual([False, False], self.sn.takeSnapshot(sid2, now, [(self.include.name, 0),] ))
         self.assertFalse(sid2.exists())
 
-        # third _take_snapshot
+        # third takeSnapshot
         self.remount()
         with open(os.path.join(self.include.name, 'lalala'), 'wt') as f:
             f.write('asdf')
@@ -79,31 +79,31 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         now = datetime.today() - timedelta(minutes = 2)
         sid3 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([True, False], self.sn._take_snapshot(sid3, now, [(self.include.name, 0),] ))
+        self.assertListEqual([True, False], self.sn.takeSnapshot(sid3, now, [(self.include.name, 0),] ))
         self.assertTrue(sid3.exists())
         self.assertTrue(sid3.canOpenPath(os.path.join(self.include.name, 'lalala')))
         inode1 = self.getInode(sid1)
         inode3 = self.getInode(sid3)
         self.assertEqual(inode1, inode3)
 
-        # fourth _take_snapshot with force create new snapshot even if nothing
+        # fourth takeSnapshot with force create new snapshot even if nothing
         # has changed
-        self.cfg.set_take_snapshot_regardless_of_changes(True)
+        self.cfg.setTakeSnapshotRegardlessOfChanges(True)
         now = datetime.today()
         sid4 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([True, False], self.sn._take_snapshot(sid4, now, [(self.include.name, 0),] ))
+        self.assertListEqual([True, False], self.sn.takeSnapshot(sid4, now, [(self.include.name, 0),] ))
         self.assertTrue(sid4.exists())
         self.assertTrue(sid4.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
         self.assertTrue(sid4.canOpenPath(os.path.join(self.include.name, 'test')))
 
-    def test_take_snapshot_with_spaces_in_include(self):
+    def test_takeSnapshot_with_spaces_in_include(self):
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
         include = os.path.join(self.include.name, 'test path with spaces')
         generic.create_test_files(include)
 
-        self.assertListEqual([True, False], self.sn._take_snapshot(sid1, now, [(include, 0),] ))
+        self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(include, 0),] ))
         self.assertTrue(sid1.exists())
         self.assertTrue(sid1.canOpenPath(os.path.join(include, 'foo', 'bar', 'baz')))
         self.assertTrue(sid1.canOpenPath(os.path.join(include, 'test')))
@@ -117,12 +117,12 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'save_to_continue'):
             self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
 
-    def test_take_snapshot_exclude(self):
+    def test_takeSnapshot_exclude(self):
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
-        self.cfg.set_exclude(['bar/baz'])
+        self.cfg.setExclude(['bar/baz'])
 
-        self.assertListEqual([True, False], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),] ))
         self.assertTrue(sid1.exists())
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar')))
         self.assertFalse(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
@@ -137,14 +137,14 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'save_to_continue'):
             self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
 
-    def test_take_snapshot_with_spaces_in_exclude(self):
+    def test_takeSnapshot_with_spaces_in_exclude(self):
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
         exclude = os.path.join(self.include.name, 'test path with spaces')
         generic.create_test_files(exclude)
-        self.cfg.set_exclude([exclude])
+        self.cfg.setExclude([exclude])
 
-        self.assertListEqual([True, False], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),] ))
         self.assertTrue(sid1.exists())
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
@@ -159,12 +159,12 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'save_to_continue'):
             self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
 
-    def test_take_snapshot_error(self):
+    def test_takeSnapshot_error(self):
         os.chmod(os.path.join(self.include.name, 'test'), 0o000)
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([True, True], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertListEqual([True, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),] ))
         self.assertTrue(sid1.exists())
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
         self.assertFalse(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
@@ -175,16 +175,16 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'failed'):
             self.assertTrue(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
 
-    def test_take_snapshot_error_without_continue(self):
+    def test_takeSnapshot_error_without_continue(self):
         os.chmod(os.path.join(self.include.name, 'test'), 0o000)
-        self.cfg.set_continue_on_errors(False)
+        self.cfg.setContinueOnErrors(False)
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([False, True], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertListEqual([False, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),] ))
         self.assertFalse(sid1.exists())
 
-    def test_take_snapshot_new_exists(self):
+    def test_takeSnapshot_new_exists(self):
         new_snapshot = snapshots.NewSnapshot(self.cfg)
         new_snapshot.makeDirs()
         with open(new_snapshot.path('leftover'), 'wt') as f:
@@ -193,11 +193,11 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         now = datetime.today() - timedelta(minutes = 6)
         sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([True, False], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),] ))
         self.assertTrue(sid1.exists())
         self.assertFalse(os.path.exists(sid1.path('leftover')))
 
-    def test_take_snapshot_new_exists_continue(self):
+    def test_takeSnapshot_new_exists_continue(self):
         new_snapshot = snapshots.NewSnapshot(self.cfg)
         new_snapshot.makeDirs()
         with open(new_snapshot.path('leftover'), 'wt') as f:
@@ -207,16 +207,16 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         now = datetime.today() - timedelta(minutes = 6)
         sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([True, False], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),] ))
         self.assertTrue(sid1.exists())
         self.assertTrue(os.path.exists(sid1.path('leftover')))
 
-    def test_take_snapshot_fail_create_new_snapshot(self):
+    def test_takeSnapshot_fail_create_new_snapshot(self):
         os.chmod(self.snapshotPath, 0o500)
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([False, True], self.sn._take_snapshot(sid1, now, [(self.include.name, 0),] ))
+        self.assertListEqual([False, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),] ))
 
         # fix permissions because cleanup would fial otherwise
         os.chmod(self.snapshotPath, 0o700)
@@ -229,7 +229,7 @@ class TestTakeSnapshotSSH(generic.SSHSnapshotTestCase, TestTakeSnapshot):
         generic.create_test_files(self.include.name)
 
         #mount
-        self.cfg.set_current_hash_id(mount.Mount(cfg = self.cfg).mount())
+        self.cfg.setCurrentHashId(mount.Mount(cfg = self.cfg).mount())
 
     def tearDown(self):
         #unmount

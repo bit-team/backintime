@@ -25,23 +25,23 @@ class GUIApplicationInstance(ApplicationInstance):
     """
     class used to handle one application instance mechanism
     """
-    def __init__( self, base_control_file, raise_cmd = '' ):
+    def __init__(self, baseControlFile, raiseCmd = ''):
         """
         specify the base for control files
         """
-        self.raise_file = base_control_file + '.raise'
-        self.raise_cmd = raise_cmd
+        self.raiseFile = baseControlFile + '.raise'
+        self.raiseCmd = raiseCmd
 
-        super(GUIApplicationInstance, self).__init__(base_control_file + '.pid', False, False)
+        super(GUIApplicationInstance, self).__init__(baseControlFile + '.pid', False, False)
 
-        #remove raise_file is already exists
-        if os.path.exists(self.raise_file):
-            os.remove( self.raise_file )
+        #remove raiseFile is already exists
+        if os.path.exists(self.raiseFile):
+            os.remove(self.raiseFile)
 
-        self.check(raise_cmd)
-        self.start_application()
+        self.check(raiseCmd)
+        self.startApplication()
 
-    def check(self, raise_cmd):
+    def check(self, raiseCmd):
         """
         check if the current application is already running
         """
@@ -50,8 +50,8 @@ class GUIApplicationInstance(ApplicationInstance):
             print("The application is already running! (pid: %s)" % self.pid)
             #notify raise
             try:
-                with open( self.raise_file, 'wt' ) as f:
-                    f.write(raise_cmd)
+                with open(self.raiseFile, 'wt') as f:
+                    f.write(raiseCmd)
             except OSError as e:
                 logger.error('Failed to write raise file %s: [%s] %s' %(e.filename, e.errno, e.strerror))
 
@@ -59,7 +59,7 @@ class GUIApplicationInstance(ApplicationInstance):
         else:
             return ret
 
-    def raise_command( self ):
+    def raiseCommand(self):
         """
         check if the application must to be raised
            return None if no raise needed, or a string command to raise
@@ -67,10 +67,10 @@ class GUIApplicationInstance(ApplicationInstance):
         ret_val = None
 
         try:
-            if os.path.isfile( self.raise_file ):
-                with open( self.raise_file, 'rt' ) as f:
+            if os.path.isfile(self.raiseFile):
+                with open(self.raiseFile, 'rt') as f:
                     ret_val = f.read()
-                os.remove( self.raise_file )
+                os.remove(self.raiseFile)
         except:
             pass
 

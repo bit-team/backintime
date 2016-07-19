@@ -28,34 +28,34 @@ class ApplicationInstance:
     Class used to handle one application instance mechanism.
 
     Args:
-        pid_file (str):     full path of file used to save pid and procname
-        auto_exit (bool):   automatically call sys.exit if there is an other
+        pidFile (str):      full path of file used to save pid and procname
+        autoExit (bool):    automatically call sys.exit if there is an other
                             instance running
         flock (bool):       use file-locks to make sure only one instance
                             is checking at the same time
     """
 
-    def __init__( self, pid_file, auto_exit = True, flock = False ):
-        self.pid_file = pid_file
+    def __init__(self, pidFile, autoExit = True, flock = False):
+        self.pidFile = pidFile
         self.pid = 0
         self.procname = ''
-        self.flock_file = None
+        self.flock = None
         if flock:
             self.flockExclusiv()
 
-        if auto_exit:
+        if autoExit:
             if self.check( True ):
-                self.start_application()
+                self.startApplication()
 
     def __del__(self):
         self.flockUnlock()
 
-    def check( self, auto_exit = False ):
+    def check(self, autoExit = False):
         """
         Check if the current application is already running
 
         Args:
-            auto_exit (bool):   automatically call sys.exit if there is an other
+            autoExit (bool):   automatically call sys.exit if there is an other
                                 instance running
 
         Returns:
@@ -63,7 +63,7 @@ class ApplicationInstance:
                                 instance
         """
         #check if the pidfile exists
-        if not os.path.isfile( self.pid_file ):
+        if not os.path.isfile(self.pidFile):
             return True
 
         self.pid, self.procname = self.readPidFile()
@@ -72,44 +72,44 @@ class ApplicationInstance:
         if 0 == self.pid:
             return True
 
-        if not tools.is_process_alive(self.pid):
+        if not tools.processAlive(self.pid):
             return True
 
         #check if the process has the same procname
         #check cmdline for backwards compatibility
         if self.procname and                                    \
-           self.procname != tools.process_name(self.pid) and    \
-           self.procname != tools.process_cmdline(self.pid):
+           self.procname != tools.processName(self.pid) and    \
+           self.procname != tools.processCmdline(self.pid):
                 return True
 
-        if auto_exit:
+        if autoExit:
             #exit the application
             print("The application is already running !")
             exit(0) #exit raise an exception so don't put it in a try/except block
 
         return False
 
-    def start_application( self ):
+    def startApplication(self):
         """
         Called when the single instance starts to save it's pid
         """
         pid = os.getpid()
-        procname = tools.process_name(pid)
+        procname = tools.processName(pid)
 
         try:
-            with open( self.pid_file, 'wt' ) as f:
+            with open(self.pidFile, 'wt') as f:
                 f.write('{}\n{}'.format(pid, procname))
         except OSError as e:
             logger.error('Failed to write PID file %s: [%s] %s' %(e.filename, e.errno, e.strerror))
 
         self.flockUnlock()
 
-    def exit_application( self ):
+    def exitApplication(self):
         """
         Called when the single instance exit ( remove pid file )
         """
         try:
-            os.remove( self.pid_file )
+            os.remove(self.pidFile)
         except:
             pass
 
@@ -119,8 +119,8 @@ class ApplicationInstance:
         the first instance is starting.
         """
         try:
-            self.flock_file = open(self.pid_file + '.flock', 'w')
-            fcntl.flock(self.flock_file, fcntl.LOCK_EX)
+            self.flock = open(self.pidFile + '.flock', 'w')
+            fcntl.flock(self.flock, fcntl.LOCK_EX)
         except OSError as e:
             logger.error('Failed to write flock file %s: [%s] %s' %(e.filename, e.errno, e.strerror))
 
@@ -129,16 +129,16 @@ class ApplicationInstance:
         Remove the exclusive lock. Second instance can now continue
         but should find it self to be obsolet.
         """
-        if self.flock_file:
-            fcntl.fcntl(self.flock_file, fcntl.LOCK_UN)
-            self.flock_file.close()
+        if self.flock:
+            fcntl.fcntl(self.flock, fcntl.LOCK_UN)
+            self.flock.close()
             try:
-                os.remove(self.flock_file.name)
+                os.remove(self.flock.name)
             except:
                 #an other instance was faster
                 #race condition while using 'if os.path.exists(...)'
                 pass
-        self.flock_file = None
+        self.flock = None
 
     def readPidFile(self):
         """
@@ -150,7 +150,7 @@ class ApplicationInstance:
         pid = 0
         procname = ''
         try:
-            with open( self.pid_file, 'rt' ) as f:
+            with open(self.pidFile, 'rt') as f:
                 data = f.read()
             data = data.split('\n', 1)
             if data[0].isdigit():
@@ -161,14 +161,14 @@ class ApplicationInstance:
             logger.warning('Failed to read PID and process name from %s: [%s] %s' %(e.filename, e.errno, e.strerror))
         except ValueError as e:
             logger.warning('Failed to extract PID and process name from %s: %s'
-                            %(self.pid_file, str(e)))
+                            %(self.pidFile, str(e)))
         return (pid, procname)
 
 if __name__ == '__main__':
     import time
 
     #create application instance
-    app_instance = ApplicationInstance( '/tmp/myapp.pid' )
+    appInstance = ApplicationInstance( '/tmp/myapp.pid' )
 
     #do something here
     print("Start MyApp")
@@ -176,4 +176,4 @@ if __name__ == '__main__':
     print("End MyApp")
 
     #remove pid file
-    app_instance.exit_application()
+    appInstance.exitApplication()

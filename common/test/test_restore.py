@@ -115,7 +115,7 @@ class TestRestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestore):
         generic.create_test_files(os.path.join(self.remoteSIDBackupPath, self.include.name[1:]))
 
         #mount
-        self.cfg.set_current_hash_id(mount.Mount(cfg = self.cfg).mount())
+        self.cfg.setCurrentHashId(mount.Mount(cfg = self.cfg).mount())
 
     def tearDown(self):
         #unmount

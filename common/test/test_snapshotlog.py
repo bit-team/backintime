@@ -129,7 +129,7 @@ Last snapshot didn't finish but can be continued.
             self.assertEqual(f.read(), 'foo\n')
 
     def test_append_log_level(self):
-        self.cfg.set_log_level(2)
+        self.cfg.setLogLevel(2)
         log = snapshotlog.SnapshotLog(self.cfg)
 
         log.append('foo', 3)

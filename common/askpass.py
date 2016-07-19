@@ -31,7 +31,7 @@ if __name__ == '__main__':
     return password.
     """
     cfg = config.Config()
-    tools.load_env(cfg.get_cron_env_file())
+    tools.envLoad(cfg.cronEnvFile())
 
     profile_id = os.getenv('ASKPASS_PROFILE_ID', '1')
     mode = os.getenv('ASKPASS_MODE', 'local')
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     if temp_file is None:
         #normal mode, get password from module password
         pw = password.Password(cfg)
-        print(pw.get_password(None, profile_id, mode))
+        print(pw.password(None, profile_id, mode))
         sys.exit(0)
 
     #temp mode

@@ -35,7 +35,7 @@ def restore( parent, sid, what, where = '', **kwargs ):
         where = qt4tools.getExistingDirectory( parent, _('Restore to ...') )
         if not where:
             return
-        where = parent.config.prepare_path( where )
+        where = parent.config.preparePath(where)
 
     rd = RestoreDialog(parent, sid, what, where, **kwargs)
     rd.exec()
@@ -46,7 +46,6 @@ class RestoreDialog( QDialog ):
         self.resize( 600, 500 )
 
         self.config = parent.config
-        self.current_profile = self.config.get_current_profile()
         self.snapshots = parent.snapshots
         self.sid = sid
         self.what = what
@@ -54,30 +53,30 @@ class RestoreDialog( QDialog ):
         self.kwargs = kwargs
         import icon
 
-        self.log_file = self.config.get_restore_log_file()
-        if os.path.exists(self.log_file):
-            os.remove(self.log_file)
+        self.logFile = self.config.restoreLogFile()
+        if os.path.exists(self.logFile):
+            os.remove(self.logFile)
 
         self.setWindowIcon(icon.RESTORE_DIALOG)
         self.setWindowTitle( _( 'Restore' ) )
 
-        self.main_layout = QVBoxLayout(self)
+        self.mainLayout = QVBoxLayout(self)
 
         #text view
-        self.txt_log_view = QPlainTextEdit(self)
-        self.txt_log_view.setReadOnly(True)
-        self.txt_log_view.setLineWrapMode(QPlainTextEdit.NoWrap)
-        self.txt_log_view.setMaximumBlockCount(100000)
-        self.main_layout.addWidget(self.txt_log_view)
+        self.txtLogView = QPlainTextEdit(self)
+        self.txtLogView.setReadOnly(True)
+        self.txtLogView.setLineWrapMode(QPlainTextEdit.NoWrap)
+        self.txtLogView.setMaximumBlockCount(100000)
+        self.mainLayout.addWidget(self.txtLogView)
 
         #buttons
-        button_box = QDialogButtonBox(QDialogButtonBox.Close)
-        showLog = button_box.addButton(_('Show full Log'), QDialogButtonBox.ActionRole)
-        self.main_layout.addWidget(button_box)
-        self.btn_close = button_box.button(QDialogButtonBox.Close)
-        self.btn_close.setEnabled(False)
-        button_box.rejected.connect(self.close)
-        showLog.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.log_file)))
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
+        showLog = buttonBox.addButton(_('Show full Log'), QDialogButtonBox.ActionRole)
+        self.mainLayout.addWidget(buttonBox)
+        self.btnClose = buttonBox.button(QDialogButtonBox.Close)
+        self.btnClose.setEnabled(False)
+        buttonBox.rejected.connect(self.close)
+        showLog.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.logFile)))
 
         #restore in separate thread
         self.thread = RestoreThread(self)
@@ -99,7 +98,7 @@ class RestoreDialog( QDialog ):
             self.thread.mutex.lock()
             self.thread.buffer = self.thread.buffer[size:]
             self.thread.mutex.unlock()
-            self.txt_log_view.appendPlainText(newLog.rstrip('\n'))
+            self.txtLogView.appendPlainText(newLog.rstrip('\n'))
 
     def exec(self):
         #inhibit suspend/hibernate during restore
@@ -112,7 +111,7 @@ class RestoreDialog( QDialog ):
         self.thread.wait()
 
     def threadFinished(self):
-        self.btn_close.setEnabled(True)
+        self.btnClose.setEnabled(True)
         #release inhibit suspend
         if self.config.inhibitCookie:
             self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
@@ -124,7 +123,7 @@ class RestoreThread(QThread):
     def __init__(self, parent):
         super(RestoreThread, self).__init__()
         self.parent = parent
-        self.log = open(parent.log_file, 'wt')
+        self.log = open(parent.logFile, 'wt')
         self.mutex = QMutex()
         self.buffer = ''
 

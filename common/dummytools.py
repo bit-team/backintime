@@ -29,7 +29,7 @@ class Dummy(mount.MountControl):
     - add settings in common/config.p
     - modify a copy of this file
 
-    Please use self.mountpoint as your local mountpoint.
+    Please use self.currentMountpoint as your local mountpoint.
     This class inherit from mount.MountControl. All methodes from MountControl can
     be used exactly like they were in this class.
     Methodes from MountControl also can be overriden in here if you need
@@ -44,16 +44,16 @@ class Dummy(mount.MountControl):
         #First we need to map the settings.
         #If <arg> is in kwargs (e.g. if this class is called with dummytools.Dummy(<arg> = <value>)
         #this will map self.<arg> to kwargs[<arg>]; else self.<arg> = <default> from config
-        #e.g. self.setattr_kwargs(<arg>, <default>, **kwargs)
-        self.setattr_kwargs('user', self.config.get_dummy_user(self.profile_id), **kwargs)
-        self.setattr_kwargs('host', self.config.get_dummy_host(self.profile_id), **kwargs)
-        self.setattr_kwargs('port', self.config.get_dummy_port(self.profile_id), **kwargs)
-        self.setattr_kwargs('password', self.config.get_password(parent, self.profile_id), store = False, **kwargs)
+        #e.g. self.setattrKwargs(<arg>, <default>, **kwargs)
+        self.setattrKwargs('user', self.config.get_dummy_user(self.profile_id), **kwargs)
+        self.setattrKwargs('host', self.config.get_dummy_host(self.profile_id), **kwargs)
+        self.setattrKwargs('port', self.config.get_dummy_port(self.profile_id), **kwargs)
+        self.setattrKwargs('password', self.config.password(parent, self.profile_id), store = False, **kwargs)
 
-        self.set_default_args()
+        self.setDefaultArgs()
 
-        #if self.mountpoint is not the remote snapshot path you can specify
-        #a subfolder of self.mountpoint for the symlink
+        #if self.currentMountpoint is not the remote snapshot path you can specify
+        #a subfolder of self.currentMountpoint for the symlink
         self.symlink_subfolder = None
 
         self.mountproc = 'dummy'
@@ -73,7 +73,7 @@ class Dummy(mount.MountControl):
         #implement your unmountprocess here
         pass
 
-    def pre_mount_check(self, first_run = False):
+    def preMountCheck(self, first_run = False):
         """
         check what ever conditions must be given for the mount to be done successful
         raise MountException( _('Error discription') ) if service can not mount
@@ -82,21 +82,21 @@ class Dummy(mount.MountControl):
         """
         return True
 
-    def post_mount_check(self):
+    def postMountCheck(self):
         """
         check if mount was successful
         raise MountException( _('Error discription') ) if not
         """
         return True
 
-    def pre_umount_check(self):
+    def preUmountCheck(self):
         """
         check if service is safe to umount
         raise MountException( _('Error discription') ) if not
         """
         return True
 
-    def post_umount_check(self):
+    def postUmountCheck(self):
         """
         check if umount successful
         raise MountException( _('Error discription') ) if not

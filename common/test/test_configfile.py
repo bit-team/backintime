@@ -48,141 +48,141 @@ class TestConfigFile(generic.TestCase):
             original_cf = configfile.ConfigFile()
             key = "config_key"
             value = "config_value"
-            original_cf.set_str_value(key, value)
+            original_cf.setStrValue(key, value)
             original_cf.save(cfgFile.name)
 
             cf = configfile.ConfigFile()
             cf.load(cfgFile.name)
 
-            self.assertEqual(len(cf.get_keys()), len(original_cf.get_keys()))
-            for k in original_cf.get_keys():
+            self.assertEqual(len(cf.keys()), len(original_cf.keys()))
+            for k in original_cf.keys():
                 with self.subTest(k = k):
                     #workaround for py.test3 2.5.1 doesn't support subTest
                     msg = 'k = %s' %k
-                    self.assertTrue(cf.has_value(k), msg)
-                    self.assertEqual(original_cf.get_str_value(k), cf.get_str_value(k))
+                    self.assertTrue(cf.hasKey(k), msg)
+                    self.assertEqual(original_cf.strValue(k), cf.strValue(k))
 
-    def test_remap_key(self):
+    def test_remapKey(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'foo': '123',
                     'bar': '456'}
         #old key not in dict
-        cfg.remap_key('notExistedKey', 'baz')
-        self.assertEqual(cfg.get_str_value('foo'), '123')
-        self.assertEqual(cfg.get_str_value('bar'), '456')
+        cfg.remapKey('notExistedKey', 'baz')
+        self.assertEqual(cfg.strValue('foo'), '123')
+        self.assertEqual(cfg.strValue('bar'), '456')
 
         #valid remap
-        cfg.remap_key('foo', 'baz')
-        self.assertEqual(cfg.get_str_value('foo'), '')
-        self.assertEqual(cfg.get_str_value('baz'), '123')
-        self.assertEqual(cfg.get_str_value('bar'), '456')
+        cfg.remapKey('foo', 'baz')
+        self.assertEqual(cfg.strValue('foo'), '')
+        self.assertEqual(cfg.strValue('baz'), '123')
+        self.assertEqual(cfg.strValue('bar'), '456')
 
         #do not overwrite existing keys
-        cfg.remap_key('baz', 'bar')
-        self.assertEqual(cfg.get_str_value('baz'), '')
-        self.assertEqual(cfg.get_str_value('bar'), '456')
+        cfg.remapKey('baz', 'bar')
+        self.assertEqual(cfg.strValue('baz'), '')
+        self.assertEqual(cfg.strValue('bar'), '456')
 
-    def test_has_value(self):
+    def test_hasKey(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'foo': 'bar'}
-        self.assertTrue(cfg.has_value('foo'))
-        self.assertFalse(cfg.has_value('non_existend_key'))
+        self.assertTrue(cfg.hasKey('foo'))
+        self.assertFalse(cfg.hasKey('non_existend_key'))
 
     ############################################################################
     ###                               str_value                              ###
     ############################################################################
 
-    def test_get_str_value(self):
+    def test_strValue(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'foo': 'bar'}
-        self.assertEqual(cfg.get_str_value('foo', 'default'), 'bar')
+        self.assertEqual(cfg.strValue('foo', 'default'), 'bar')
 
-    def test_get_str_value_default(self):
+    def test_strValue_default(self):
         cfg = configfile.ConfigFile()
-        self.assertEqual(cfg.get_str_value('non_existend_key', 'default'), 'default')
+        self.assertEqual(cfg.strValue('non_existend_key', 'default'), 'default')
 
-    def test_set_str_value(self):
+    def test_setStrValue(self):
         cfg = configfile.ConfigFile()
-        cfg.set_str_value('foo', 'bar')
+        cfg.setStrValue('foo', 'bar')
         self.assertDictEqual(cfg.dict, {'foo': 'bar'})
 
     ############################################################################
     ###                               int_value                              ###
     ############################################################################
 
-    def test_get_int_value(self):
+    def test_intValue(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'foo': '11'}
-        self.assertEqual(cfg.get_int_value('foo', 22), 11)
+        self.assertEqual(cfg.intValue('foo', 22), 11)
 
-    def test_get_int_value_default(self):
+    def test_intValue_default(self):
         cfg = configfile.ConfigFile()
-        self.assertEqual(cfg.get_int_value('non_existend_key', 33), 33)
+        self.assertEqual(cfg.intValue('non_existend_key', 33), 33)
 
-    def test_set_int_value(self):
+    def test_setIntValue(self):
         cfg = configfile.ConfigFile()
-        cfg.set_int_value('foo', 44)
+        cfg.setIntValue('foo', 44)
         self.assertDictEqual(cfg.dict, {'foo': '44'})
 
     ############################################################################
     ###                              bool_value                              ###
     ############################################################################
 
-    def test_get_bool_value(self):
+    def test_boolValue(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'foo': 'true',
                     'bar': '1',
                     'baz': 'false',
                     'bla': '0'}
-        self.assertEqual(cfg.get_bool_value('foo', False), True)
-        self.assertEqual(cfg.get_bool_value('bar', False), True)
-        self.assertEqual(cfg.get_bool_value('baz', True), False)
-        self.assertEqual(cfg.get_bool_value('bla', True), False)
+        self.assertEqual(cfg.boolValue('foo', False), True)
+        self.assertEqual(cfg.boolValue('bar', False), True)
+        self.assertEqual(cfg.boolValue('baz', True), False)
+        self.assertEqual(cfg.boolValue('bla', True), False)
 
-    def test_get_bool_value_default(self):
+    def test_boolValue_default(self):
         cfg = configfile.ConfigFile()
-        self.assertEqual(cfg.get_bool_value('non_existend_key', False), False)
-        self.assertEqual(cfg.get_bool_value('non_existend_key', True), True)
+        self.assertEqual(cfg.boolValue('non_existend_key', False), False)
+        self.assertEqual(cfg.boolValue('non_existend_key', True), True)
 
-    def test_set_bool_value(self):
+    def test_setBoolValue(self):
         cfg = configfile.ConfigFile()
-        cfg.set_bool_value('foo', True)
-        cfg.set_bool_value('bar', False)
+        cfg.setBoolValue('foo', True)
+        cfg.setBoolValue('bar', False)
         self.assertDictEqual(cfg.dict, {'foo': 'true',
                                         'bar': 'false'})
 
     ############################################################################
-    ###                           get_list_value                             ###
+    ###                           listValue                             ###
     ############################################################################
 
-    def test_get_list_value_default(self):
+    def test_listValue_default(self):
         cfg = configfile.ConfigFile()
-        self.assertListEqual(cfg.get_list_value('test', 'str:value', ['asdf']), ['asdf'])
+        self.assertListEqual(cfg.listValue('test', 'str:value', ['asdf']), ['asdf'])
 
-    def test_get_list_value_int(self):
+    def test_listValue_int(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'aaa.size': '3',
                     'aaa.1.bla': '55',
                     'aaa.2.bla': '66',
                     'aaa.3.bla': '77'}
-        self.assertListEqual(cfg.get_list_value('aaa', 'int:bla'), [55, 66, 77])
+        self.assertListEqual(cfg.listValue('aaa', 'int:bla'), [55, 66, 77])
 
-    def test_get_list_value_str(self):
+    def test_listValue_str(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'bbb.size': '3',
                     'bbb.1.value': 'foo',
                     'bbb.2.value': 'bar',
                     'bbb.3.value': 'baz'}
-        self.assertListEqual(cfg.get_list_value('bbb', 'str:value'), ['foo', 'bar', 'baz'])
+        self.assertListEqual(cfg.listValue('bbb', 'str:value'), ['foo', 'bar', 'baz'])
 
-    def test_get_list_value_bool(self):
+    def test_listValue_bool(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'ccc.size': '2',
                     'ccc.1.foo': 'true',
                     'ccc.2.foo': 'false'}
-        self.assertListEqual(cfg.get_list_value('ccc', 'bool:foo'), [True, False])
+        self.assertListEqual(cfg.listValue('ccc', 'bool:foo'), [True, False])
 
-    def test_get_list_value_tuple(self):
+    def test_listValue_tuple(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'ddd.size': '3',
                     'ddd.1.value': 'foo',
@@ -194,10 +194,10 @@ class TestConfigFile(generic.TestCase):
                     'ddd.3.value': 'baz',
                     'ddd.3.type': '33',
                     'ddd.3.enabled': 'true'}
-        self.assertListEqual(cfg.get_list_value('ddd', ('str:value', 'int:type', 'bool:enabled')),
+        self.assertListEqual(cfg.listValue('ddd', ('str:value', 'int:type', 'bool:enabled')),
                              [('foo', 11, True), ('bar', 22, False), ('baz', 33, True)])
 
-    def test_get_list_value_tuple_missing_values(self):
+    def test_listValue_tuple_missing_values(self):
         """
         Don't include missing values. Bug #521
         https://github.com/bit-team/backintime/issues/521
@@ -210,23 +210,23 @@ class TestConfigFile(generic.TestCase):
                     'eee.2.enabled': 'false',
                     'eee.3.value': 'baz',
                     'eee.3.type': '33'}
-        self.assertListEqual(cfg.get_list_value('eee', ('str:value', 'int:type', 'bool:enabled')),
+        self.assertListEqual(cfg.listValue('eee', ('str:value', 'int:type', 'bool:enabled')),
                              [('foo', 0, True), ('baz', 33, False)])
 
-    def test_get_list_value_invalid_type(self):
+    def test_listValue_invalid_type(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'aaa.size': '3',
                     'aaa.1.value': '55',
                     'aaa.2.value': '66',
                     'aaa.3.value': '77'}
         with self.assertRaises(TypeError):
-            cfg.get_list_value('aaa', 'non_existend_type:value')
+            cfg.listValue('aaa', 'non_existend_type:value')
         with self.assertRaises(TypeError):
-            cfg.get_list_value('aaa', {'dict:value'})
+            cfg.listValue('aaa', {'dict:value'})
         with self.assertRaises(TypeError):
-            cfg.get_list_value('aaa', 1)
+            cfg.listValue('aaa', 1)
 
-    def test_get_list_value_wrong_size(self):
+    def test_listValue_wrong_size(self):
         """
         Don't include empty values if size is wrong. Bug #521
         https://github.com/bit-team/backintime/issues/521
@@ -236,17 +236,17 @@ class TestConfigFile(generic.TestCase):
                     'bbb.1.value': 'foo',
                     'bbb.2.value': 'bar',
                     'bbb.3.value': 'baz'}
-        self.assertListEqual(cfg.get_list_value('bbb', 'str:value'), ['foo', 'bar', 'baz'])
+        self.assertListEqual(cfg.listValue('bbb', 'str:value'), ['foo', 'bar', 'baz'])
 
-    def test_get_list_value_zero_count(self):
+    def test_listValue_zero_count(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'ccc.size': '2',
                     'ccc.0.value': 'foo',
                     'ccc.1.value': 'bar',
                     'ccc.2.value': 'baz'}
-        self.assertListEqual(cfg.get_list_value('ccc', 'str:value'), ['bar', 'baz'])
+        self.assertListEqual(cfg.listValue('ccc', 'str:value'), ['bar', 'baz'])
 
-    def test_get_list_value_missing_values(self):
+    def test_listValue_missing_values(self):
         """
         Don't include missing values. Bug #521
         https://github.com/bit-team/backintime/issues/521
@@ -256,38 +256,38 @@ class TestConfigFile(generic.TestCase):
                     'ddd.1.value': 'foo',
                     'ddd.2.value': 'bar',
                     'ddd.4.value': 'baz'}
-        self.assertListEqual(cfg.get_list_value('ddd', 'str:value'), ['foo', 'bar', 'baz'])
+        self.assertListEqual(cfg.listValue('ddd', 'str:value'), ['foo', 'bar', 'baz'])
 
     ############################################################################
-    ###                           set_list_value                             ###
+    ###                           setListValue                             ###
     ############################################################################
 
-    def test_set_list_value_int(self):
+    def test_setListValue_int(self):
         cfg = configfile.ConfigFile()
-        cfg.set_list_value('aaa', 'int:bla', [55, 66, 77])
+        cfg.setListValue('aaa', 'int:bla', [55, 66, 77])
         self.assertDictEqual(cfg.dict, {'aaa.size': '3',
                                         'aaa.1.bla': '55',
                                         'aaa.2.bla': '66',
                                         'aaa.3.bla': '77'})
 
-    def test_set_list_value_str(self):
+    def test_setListValue_str(self):
         cfg = configfile.ConfigFile()
-        cfg.set_list_value('bbb', 'str:value', ['foo', 'bar', 'baz'])
+        cfg.setListValue('bbb', 'str:value', ['foo', 'bar', 'baz'])
         self.assertDictEqual(cfg.dict, {'bbb.size': '3',
                                         'bbb.1.value': 'foo',
                                         'bbb.2.value': 'bar',
                                         'bbb.3.value': 'baz'})
 
-    def test_set_list_value_bool(self):
+    def test_setListValue_bool(self):
         cfg = configfile.ConfigFile()
-        cfg.set_list_value('ccc', 'bool:foo', [True, False])
+        cfg.setListValue('ccc', 'bool:foo', [True, False])
         self.assertDictEqual(cfg.dict, {'ccc.size': '2',
                                         'ccc.1.foo': 'true',
                                         'ccc.2.foo': 'false'})
 
-    def test_set_list_value_tuple(self):
+    def test_setListValue_tuple(self):
         cfg = configfile.ConfigFile()
-        cfg.set_list_value('ddd', ('str:value', 'int:type', 'bool:enabled'),
+        cfg.setListValue('ddd', ('str:value', 'int:type', 'bool:enabled'),
                            [('foo', 11, True), ('bar', 22, False), ('baz', 33, True)])
         self.assertDictEqual(cfg.dict, {'ddd.size': '3',
                                         'ddd.1.value': 'foo',
@@ -300,9 +300,9 @@ class TestConfigFile(generic.TestCase):
                                         'ddd.3.type': '33',
                                         'ddd.3.enabled': 'true'})
 
-    def test_set_list_value_tuple_missing_values(self):
+    def test_setListValue_tuple_missing_values(self):
         cfg = configfile.ConfigFile()
-        cfg.set_list_value('ddd', ('str:value', 'int:type', 'bool:enabled'),
+        cfg.setListValue('ddd', ('str:value', 'int:type', 'bool:enabled'),
                            [('foo', 11, True), ('bar', 22), ('baz',)])
         self.assertDictEqual(cfg.dict, {'ddd.size': '3',
                                         'ddd.1.value': 'foo',
@@ -312,7 +312,7 @@ class TestConfigFile(generic.TestCase):
                                         'ddd.2.type': '22',
                                         'ddd.3.value': 'baz'})
 
-    def test_set_list_value_remove_leftovers(self):
+    def test_setListValue_remove_leftovers(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'eee.size': '5',
                     'eee.1.bla': '55',
@@ -320,13 +320,13 @@ class TestConfigFile(generic.TestCase):
                     'eee.3.bla': '77',
                     'eee.4.bla': '88',
                     'eee.5.bla': '99'}
-        cfg.set_list_value('eee', 'int:bla', [55, 66, 77])
+        cfg.setListValue('eee', 'int:bla', [55, 66, 77])
         self.assertDictEqual(cfg.dict, {'eee.size': '3',
                                         'eee.1.bla': '55',
                                         'eee.2.bla': '66',
                                         'eee.3.bla': '77'})
 
-    def test_set_list_value_remove_leftovers_tuple(self):
+    def test_setListValue_remove_leftovers_tuple(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'fff.size': '5',
                     'fff.1.value': 'foo',
@@ -344,7 +344,7 @@ class TestConfigFile(generic.TestCase):
                     'fff.5.value': 'bam',
                     'fff.5.type': '55',
                     'fff.5.enabled': 'true'}
-        cfg.set_list_value('fff', ('str:value', 'int:type', 'bool:enabled'),
+        cfg.setListValue('fff', ('str:value', 'int:type', 'bool:enabled'),
                            [('foo', 11, True), ('bar', 22), ('baz',)])
         self.assertDictEqual(cfg.dict, {'fff.size': '3',
                                         'fff.1.value': 'foo',
@@ -354,21 +354,21 @@ class TestConfigFile(generic.TestCase):
                                         'fff.2.type': '22',
                                         'fff.3.value': 'baz'})
 
-    def test_set_list_value_invalid_type_for_type_key(self):
+    def test_setListValue_invalid_type_for_type_key(self):
         cfg = configfile.ConfigFile()
         with self.assertRaises(TypeError):
-            cfg.set_list_value('aaa', 'non_existend_type:value', ['foo',])
+            cfg.setListValue('aaa', 'non_existend_type:value', ['foo',])
         with self.assertRaises(TypeError):
-            cfg.set_list_value('aaa', {'dict:value'}, ['foo',])
+            cfg.setListValue('aaa', {'dict:value'}, ['foo',])
         with self.assertRaises(TypeError):
-            cfg.set_list_value('aaa', 1, ['foo',])
+            cfg.setListValue('aaa', 1, ['foo',])
 
-    def test_set_list_value_invalid_type_for_value(self):
+    def test_setListValue_invalid_type_for_value(self):
         cfg = configfile.ConfigFile()
         with self.assertRaises(TypeError):
-            cfg.set_list_value('bbb', 'str:value', 'foo')
+            cfg.setListValue('bbb', 'str:value', 'foo')
         with self.assertRaises(TypeError):
-            cfg.set_list_value('bbb', 'str:value', {'foo': 'bar'})
+            cfg.setListValue('bbb', 'str:value', {'foo': 'bar'})
 
     ############################################################################
     ###                            remove keys                               ###
@@ -380,7 +380,7 @@ class TestConfigFile(generic.TestCase):
                     'bar': '1',
                     'baz': 'false',
                     'bla': '0'}
-        cfg.remove_key('bla')
+        cfg.removeKey('bla')
         self.assertDictEqual(cfg.dict, {'foo': 'true',
                                         'bar': '1',
                                         'baz': 'false'})
@@ -391,7 +391,7 @@ class TestConfigFile(generic.TestCase):
                     'bar': '1',
                     'baz': 'false',
                     'bla': '0'}
-        cfg.remove_keys_starts_with('ba')
+        cfg.removeKeysStartsWith('ba')
         self.assertDictEqual(cfg.dict, {'foo': 'true',
                                         'bla': '0'})
 
@@ -401,7 +401,7 @@ class TestConfigFile(generic.TestCase):
                     'bar': '1',
                     'baz': 'false',
                     'bla': '0'}
-        cfg.remove_keys_starts_with('not_matching')
+        cfg.removeKeysStartsWith('not_matching')
         self.assertDictEqual(cfg.dict, {'foo': 'true',
                                         'bar': '1',
                                         'baz': 'false',
@@ -411,9 +411,9 @@ class TestConfigFileWithProfiles(generic.TestCase):
     def setUp(self):
         super(TestConfigFileWithProfiles, self).setUp()
         self.cfg = configfile.ConfigFileWithProfiles('DefaultProfileName')
-        self.cfg.add_profile('foo')
-        self.cfg.add_profile('bar')
-        self.cfg.add_profile('baz')
+        self.cfg.addProfile('foo')
+        self.cfg.addProfile('bar')
+        self.cfg.addProfile('baz')
 
     def test_load(self):
         """
@@ -422,163 +422,163 @@ class TestConfigFileWithProfiles(generic.TestCase):
         """
         with NamedTemporaryFile() as cfgFile:
             origCfg = configfile.ConfigFileWithProfiles()
-            origCfg.set_int_value('profiles.version', 1)
+            origCfg.setIntValue('profiles.version', 1)
             key = "config_key"
             value = "config_value"
-            origCfg.set_profile_str_value(key, value)
-            origCfg.set_profile_str_value(key, value, profile_id = '2')
+            origCfg.setProfileStrValue(key, value)
+            origCfg.setProfileStrValue(key, value, profile_id = '2')
             origCfg.save(cfgFile.name)
 
             self.cfg.load(cfgFile.name)
 
-            self.assertEqual(len(self.cfg.get_keys()), len(origCfg.get_keys()))
-            for k in origCfg.get_keys():
+            self.assertEqual(len(self.cfg.keys()), len(origCfg.keys()))
+            for k in origCfg.keys():
                 with self.subTest(k = k):
                     #workaround for py.test3 2.5.1 doesn't support subTest
                     msg = 'k = %s' %k
-                    self.assertTrue(self.cfg.has_value(k), msg)
-                    self.assertEqual(origCfg.get_str_value(k), self.cfg.get_str_value(k))
+                    self.assertTrue(self.cfg.hasKey(k), msg)
+                    self.assertEqual(origCfg.strValue(k), self.cfg.strValue(k))
 
-    def test_get_profiles(self):
+    def test_profiles(self):
         emptyCfg = configfile.ConfigFileWithProfiles()
-        self.assertListEqual(emptyCfg.get_profiles(), ['1',])
+        self.assertListEqual(emptyCfg.profiles(), ['1',])
 
-        self.assertListEqual(self.cfg.get_profiles(), ['1', '2', '3', '4'])
+        self.assertListEqual(self.cfg.profiles(), ['1', '2', '3', '4'])
 
-        self.cfg.remove_profile('3')
-        self.assertListEqual(self.cfg.get_profiles(), ['1', '2', '4'])
+        self.cfg.removeProfile('3')
+        self.assertListEqual(self.cfg.profiles(), ['1', '2', '4'])
 
-    def test_get_profiles_sorted_by_name(self):
-        self.assertListEqual(self.cfg.get_profiles_sorted_by_name(), ['3', '4', '1', '2'])
+    def test_profilesSortedByName(self):
+        self.assertListEqual(self.cfg.profilesSortedByName(), ['3', '4', '1', '2'])
 
     def test_current_profile(self):
-        self.assertEqual(self.cfg.get_current_profile(), '1')
+        self.assertEqual(self.cfg.currentProfile(), '1')
 
-        self.assertTrue(self.cfg.set_current_profile(4))
-        self.assertEqual(self.cfg.get_current_profile(), '4')
+        self.assertTrue(self.cfg.setCurrentProfile(4))
+        self.assertEqual(self.cfg.currentProfile(), '4')
 
-        self.assertTrue(self.cfg.set_current_profile('3'))
-        self.assertEqual(self.cfg.get_current_profile(), '3')
+        self.assertTrue(self.cfg.setCurrentProfile('3'))
+        self.assertEqual(self.cfg.currentProfile(), '3')
 
-        self.assertFalse(self.cfg.set_current_profile('9'))
-        self.assertEqual(self.cfg.get_current_profile(), '3')
+        self.assertFalse(self.cfg.setCurrentProfile('9'))
+        self.assertEqual(self.cfg.currentProfile(), '3')
 
     def test_current_profile_by_name(self):
-        self.assertEqual(self.cfg.get_current_profile(), '1')
+        self.assertEqual(self.cfg.currentProfile(), '1')
 
-        self.assertTrue(self.cfg.set_current_profile_by_name('bar'))
-        self.assertEqual(self.cfg.get_current_profile(), '3')
+        self.assertTrue(self.cfg.setCurrentProfileByName('bar'))
+        self.assertEqual(self.cfg.currentProfile(), '3')
 
-        self.assertFalse(self.cfg.set_current_profile_by_name('NotExistingProfile'))
-        self.assertEqual(self.cfg.get_current_profile(), '3')
+        self.assertFalse(self.cfg.setCurrentProfileByName('NotExistingProfile'))
+        self.assertEqual(self.cfg.currentProfile(), '3')
 
-    def test_profile_exists(self):
-        self.assertTrue(self.cfg.profile_exists('2'))
-        self.assertTrue(self.cfg.profile_exists(3))
-        self.assertFalse(self.cfg.profile_exists('9'))
-        self.assertFalse(self.cfg.profile_exists(10))
+    def test_profileExists(self):
+        self.assertTrue(self.cfg.profileExists('2'))
+        self.assertTrue(self.cfg.profileExists(3))
+        self.assertFalse(self.cfg.profileExists('9'))
+        self.assertFalse(self.cfg.profileExists(10))
 
-    def test_profile_exists_by_name(self):
-        self.assertTrue(self.cfg.profile_exists_by_name('foo'))
-        self.assertFalse(self.cfg.profile_exists_by_name('NotExistingProfile'))
+    def test_profileExistsByName(self):
+        self.assertTrue(self.cfg.profileExistsByName('foo'))
+        self.assertFalse(self.cfg.profileExistsByName('NotExistingProfile'))
 
-    def test_get_profile_name(self):
-        self.assertEqual(self.cfg.get_profile_name('1'), 'DefaultProfileName')
-        self.assertEqual(self.cfg.get_profile_name('2'), 'foo')
-        self.assertEqual(self.cfg.get_profile_name(3), 'bar')
+    def test_profileName(self):
+        self.assertEqual(self.cfg.profileName('1'), 'DefaultProfileName')
+        self.assertEqual(self.cfg.profileName('2'), 'foo')
+        self.assertEqual(self.cfg.profileName(3), 'bar')
 
-        self.assertEqual(self.cfg.get_profile_name(), 'DefaultProfileName')
-        self.cfg.set_current_profile('3')
-        self.assertEqual(self.cfg.get_profile_name(), 'bar')
+        self.assertEqual(self.cfg.profileName(), 'DefaultProfileName')
+        self.cfg.setCurrentProfile('3')
+        self.assertEqual(self.cfg.profileName(), 'bar')
 
-        self.assertEqual(self.cfg.get_profile_name('4'), 'baz')
+        self.assertEqual(self.cfg.profileName('4'), 'baz')
         del self.cfg.dict['profile4.name']
-        self.assertEqual(self.cfg.get_profile_name('4'), 'Profile 4')
+        self.assertEqual(self.cfg.profileName('4'), 'Profile 4')
 
-    def test_add_profile(self):
+    def test_addProfile(self):
         #add already existing profile
-        self.assertIsNone(self.cfg.add_profile('foo'))
+        self.assertIsNone(self.cfg.addProfile('foo'))
 
         #new valid profile
-        self.assertEqual(self.cfg.add_profile('asdf'), '5')
+        self.assertEqual(self.cfg.addProfile('asdf'), '5')
 
         #new valid profile fill an old profile ID
-        self.cfg.remove_profile('3')
-        self.assertEqual(self.cfg.add_profile('qwertz'), '3')
+        self.cfg.removeProfile('3')
+        self.assertEqual(self.cfg.addProfile('qwertz'), '3')
 
-    def test_remove_profile(self):
-        for profile in self.cfg.get_profiles():
-            self.cfg.set_profile_str_value('foo', 'bar', profile)
+    def test_removeProfile(self):
+        for profile in self.cfg.profiles():
+            self.cfg.setProfileStrValue('foo', 'bar', profile)
 
-        self.assertFalse(self.cfg.remove_profile('9'))
+        self.assertFalse(self.cfg.removeProfile('9'))
 
-        self.assertTrue(self.cfg.remove_profile('3'))
-        self.assertNotIn('3', self.cfg.get_profiles())
+        self.assertTrue(self.cfg.removeProfile('3'))
+        self.assertNotIn('3', self.cfg.profiles())
         self.assertNotIn('profile3.foo', self.cfg.dict)
 
-        self.cfg.set_current_profile('4')
-        self.assertTrue(self.cfg.remove_profile())
-        self.assertNotIn('4', self.cfg.get_profiles())
+        self.cfg.setCurrentProfile('4')
+        self.assertTrue(self.cfg.removeProfile())
+        self.assertNotIn('4', self.cfg.profiles())
         self.assertNotIn('profile4.foo', self.cfg.dict)
-        self.assertEqual(self.cfg.get_current_profile(), '1')
+        self.assertEqual(self.cfg.currentProfile(), '1')
 
-        self.assertTrue(self.cfg.remove_profile(2))
-        self.assertNotIn('2', self.cfg.get_profiles())
+        self.assertTrue(self.cfg.removeProfile(2))
+        self.assertNotIn('2', self.cfg.profiles())
         self.assertNotIn('profile2.foo', self.cfg.dict)
 
-        self.assertFalse(self.cfg.remove_profile())
+        self.assertFalse(self.cfg.removeProfile())
 
-    def test_set_profile_name(self):
-        self.assertFalse(self.cfg.set_profile_name('foo', '3'))
-        self.assertEqual(self.cfg.get_profile_name('3'), 'bar')
+    def test_setProfileName(self):
+        self.assertFalse(self.cfg.setProfileName('foo', '3'))
+        self.assertEqual(self.cfg.profileName('3'), 'bar')
 
-        self.assertTrue(self.cfg.set_profile_name('newName', '4'))
-        self.assertEqual(self.cfg.get_profile_name('4'), 'newName')
+        self.assertTrue(self.cfg.setProfileName('newName', '4'))
+        self.assertEqual(self.cfg.profileName('4'), 'newName')
 
-        self.assertTrue(self.cfg.set_profile_name('otherName', 3))
-        self.assertEqual(self.cfg.get_profile_name('3'), 'otherName')
+        self.assertTrue(self.cfg.setProfileName('otherName', 3))
+        self.assertEqual(self.cfg.profileName('3'), 'otherName')
 
-        self.assertTrue(self.cfg.set_profile_name('thirdName'))
-        self.assertEqual(self.cfg.get_profile_name('1'), 'thirdName')
+        self.assertTrue(self.cfg.setProfileName('thirdName'))
+        self.assertEqual(self.cfg.profileName('1'), 'thirdName')
 
     def test_get_profile_key(self):
-        self.assertEqual(self.cfg._get_profile_key_('foo'), 'profile1.foo')
-        self.assertEqual(self.cfg._get_profile_key_('foo', '2'), 'profile2.foo')
-        self.assertEqual(self.cfg._get_profile_key_('foo', 3), 'profile3.foo')
+        self.assertEqual(self.cfg.profileKey('foo'), 'profile1.foo')
+        self.assertEqual(self.cfg.profileKey('foo', '2'), 'profile2.foo')
+        self.assertEqual(self.cfg.profileKey('foo', 3), 'profile3.foo')
 
-    def test_remove_profile_key(self):
-        for profile in self.cfg.get_profiles():
-            self.cfg.set_profile_str_value('foo', 'bar', profile)
+    def test_removeProfileKey(self):
+        for profile in self.cfg.profiles():
+            self.cfg.setProfileStrValue('foo', 'bar', profile)
 
         self.assertIn('profile1.foo', self.cfg.dict)
-        self.cfg.remove_profile_key('foo')
+        self.cfg.removeProfileKey('foo')
         self.assertNotIn('profile1.foo', self.cfg.dict)
 
         self.assertIn('profile3.foo', self.cfg.dict)
-        self.cfg.remove_profile_key('foo', '3')
+        self.cfg.removeProfileKey('foo', '3')
         self.assertNotIn('profile3.foo', self.cfg.dict)
 
-    def test_remove_profile_keys_starts_with(self):
-        for profile in self.cfg.get_profiles():
-            self.cfg.set_profile_str_value('foo', 'bar', profile)
+    def test_removeProfileKeysStartsWith(self):
+        for profile in self.cfg.profiles():
+            self.cfg.setProfileStrValue('foo', 'bar', profile)
 
         self.assertIn('profile1.foo', self.cfg.dict)
-        self.cfg.remove_profile_keys_starts_with('f')
+        self.cfg.removeProfileKeysStartsWith('f')
         self.assertNotIn('profile1.foo', self.cfg.dict)
 
         self.assertIn('profile3.foo', self.cfg.dict)
-        self.cfg.remove_profile_keys_starts_with('f', '3')
+        self.cfg.removeProfileKeysStartsWith('f', '3')
         self.assertNotIn('profile3.foo', self.cfg.dict)
 
-    def test_has_profile_value(self):
-        for profile in self.cfg.get_profiles():
-            self.cfg.set_profile_str_value('foo', 'bar', profile)
+    def test_hasProfileKey(self):
+        for profile in self.cfg.profiles():
+            self.cfg.setProfileStrValue('foo', 'bar', profile)
 
-        self.assertTrue(self.cfg.has_profile_value('foo'))
-        self.assertFalse(self.cfg.has_profile_value('baz'))
+        self.assertTrue(self.cfg.hasProfileKey('foo'))
+        self.assertFalse(self.cfg.hasProfileKey('baz'))
 
-        self.assertTrue(self.cfg.has_profile_value('foo', '3'))
-        self.assertFalse(self.cfg.has_profile_value('baz', '3'))
+        self.assertTrue(self.cfg.hasProfileKey('foo', '3'))
+        self.assertFalse(self.cfg.hasProfileKey('baz', '3'))
 
     def test_set_profile_value(self):
         methods =  {'str':  ('foo', 'FOO'),
@@ -591,18 +591,18 @@ class TestConfigFileWithProfiles(generic.TestCase):
                     #workaround for py.test3 2.5.1 doesn't support subTest
                     msg = 'profile = {}, t = {}'.format(profile, t)
                     key, value = methods[t]
-                    setFunc = getattr(self.cfg, 'set_profile_{}_value'.format(t))
-                    getFunc = getattr(self.cfg, 'get_profile_{}_value'.format(t))
+                    setFunc = getattr(self.cfg, 'setProfile{}Value'.format(t.capitalize()))
+                    getFunc = getattr(self.cfg, 'profile{}Value'.format(t.capitalize()))
                     setFunc(key, value, profile_id = profile)
                     self.assertEqual(getFunc(key, profile_id = profile), value, msg)
             with self.subTest(profile = profile):
                 #workaround for py.test3 2.5.1 doesn't support subTest
                 msg = 'profile = {}'.format(profile)
-                self.cfg.set_profile_list_value('bla',
+                self.cfg.setProfileListValue('bla',
                                                 'str:value',
                                                 ['ASDF', 'QWERTZ'],
                                                 profile_id = profile)
-                result = self.cfg.get_profile_list_value('bla',
+                result = self.cfg.profileListValue('bla',
                                                          'str:value',
                                                          profile_id = profile)
                 self.assertListEqual(result, ['ASDF', 'QWERTZ'], msg)

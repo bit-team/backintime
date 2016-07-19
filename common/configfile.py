@@ -28,53 +28,53 @@ class ConfigFile(object):
     """
     def __init__( self ):
         self.dict = {}
-        self.error_handler = None
-        self.question_handler = None
+        self.errorHandler = None
+        self.questionHandler = None
 
-    def set_error_handler( self, handler ):
+    def setErrorHandler(self, handler):
         """
         Register a function that should be called for notifying errors.
 
         handler (metod):    callable function
         """
-        self.error_handler = handler
+        self.errorHandler = handler
 
-    def set_question_handler( self, handler ):
+    def setQuestionHandler(self, handler):
         """
         Register a function that should be called for asking questions.
 
         handler (metod):    callable function
         """
-        self.question_handler = handler
+        self.questionHandler = handler
 
-    def clear_handlers( self ):
+    def clearHandlers(self):
         """
         Reset error and question handlers.
         """
-        self.error_handler = None
-        self.question_handler = None
+        self.errorHandler = None
+        self.questionHandler = None
 
-    def notify_error( self, message ):
+    def notifyError(self, message):
         """
         Call previously registered function to show an error.
 
         Args:
             message (str):  error message that should be shown
         """
-        if self.error_handler is None:
+        if self.errorHandler is None:
             return
-        self.error_handler( message )
+        self.errorHandler(message)
 
-    def ask_question( self, message ):
+    def askQuestion(self, message):
         """
         Call previously registered function to ask a question.
 
         Args:
             message (str):    question that should be shown
         """
-        if self.question_handler is None:
+        if self.questionHandler is None:
             return False
-        return self.question_handler( message )
+        return self.questionHandler(message)
 
     def save( self, filename ):
         """
@@ -94,7 +94,7 @@ class ConfigFile(object):
                     f.write( "%s=%s\n" % ( key, self.dict[key] ) )
         except OSError as e:
             logger.error('Failed to save config: %s' %str(e), self)
-            self.notify_error(_('Failed to save config: %s') %str(e))
+            self.notifyError(_('Failed to save config: %s') %str(e))
             return False
         return True
 
@@ -125,14 +125,14 @@ class ConfigFile(object):
                 lines = f.readlines()
         except OSError as e:
             logger.error('Failed to load config: %s' %str(e), self)
-            self.notify_error(_('Failed to load config: %s') %str(e))
+            self.notifyError(_('Failed to load config: %s') %str(e))
 
         for line in lines:
             items = line.strip('\n').split( '=', maxsplit )
             if len( items ) == 2:
                 self.dict[ items[ 0 ] ] = items[ 1 ]
 
-    def remap_key( self, old_key, new_key ):
+    def remapKey(self, old_key, new_key):
         """
         Remap keys to a new key name.
 
@@ -146,7 +146,7 @@ class ConfigFile(object):
                     self.dict[ new_key ] = self.dict[ old_key ]
                 del self.dict[ old_key ]
 
-    def has_value( self, key ):
+    def hasKey(self, key):
         """
         ``True`` if key is set.
 
@@ -158,24 +158,24 @@ class ConfigFile(object):
         """
         return key in self.dict
 
-    def get_str_value( self, key, default_value = '' ):
+    def strValue(self, key, default = ''):
         """
         Return a 'str' instance of key's value.
 
         Args:
             key (str):              string used as key
-            default_value (str):    return this if ``key`` is not set
+            default (str):          return this if ``key`` is not set
 
         Returns:
-            str:                    value of ``key`` or ``default_value``
+            str:                    value of ``key`` or ``default``
                                     if ``key`` is not set.
         """
         if key in self.dict:
             return self.dict[ key ]
         else:
-            return default_value
+            return default
 
-    def set_str_value( self, key, value ):
+    def setStrValue(self, key, value):
         """
         Set a string value for key.
 
@@ -185,24 +185,24 @@ class ConfigFile(object):
         """
         self.dict[ key ] = value
 
-    def get_int_value( self, key, default_value = 0 ):
+    def intValue(self, key, default = 0):
         """
         Return a 'int' instance of key's value.
 
         Args:
             key (str):              string used as key
-            default_value (int):    return this if ``key`` is not set
+            default (int):          return this if ``key`` is not set
 
         Returns:
-            int:                    value of ``key`` or ``default_value``
+            int:                    value of ``key`` or ``default``
                                     if ``key`` is not set.
         """
         try:
             return int( self.dict[ key ] )
         except:
-            return default_value
+            return default
 
-    def set_int_value( self, key, value ):
+    def setIntValue(self, key, value):
         """
         Set an integer value for key.
 
@@ -210,18 +210,18 @@ class ConfigFile(object):
             key (str):      string used as key
             value (int):    store this option
         """
-        self.set_str_value( key, str( value ) )
+        self.setStrValue(key, str(value))
 
-    def get_bool_value( self, key, default_value = False ):
+    def boolValue(self, key, default = False):
         """
         Return a 'bool' instance of key's value.
 
         Args:
             key (str):              string used as key
-            default_value (bool):   return this if key is not set
+            default (bool):         return this if key is not set
 
         Returns:
-            bool:                   value of 'key' or 'default_value'
+            bool:                   value of 'key' or 'default'
                                     if 'key' is not set.
         """
         try:
@@ -230,9 +230,9 @@ class ConfigFile(object):
                 return True
             return False
         except:
-            return default_value
+            return default
 
-    def set_bool_value( self, key, value ):
+    def setBoolValue(self, key, value):
         """
         Set a bool value for key.
 
@@ -241,11 +241,11 @@ class ConfigFile(object):
             value (bool):   store this option
         """
         if value:
-            self.set_str_value( key, 'true' )
+            self.setStrValue(key, 'true')
         else:
-            self.set_str_value( key, 'false' )
+            self.setStrValue(key, 'false')
 
-    def get_list_value(self, key, type_key = 'str:value', default_value = []):
+    def listValue(self, key, type_key = 'str:value', default = []):
         """
         Return a list of values
 
@@ -255,10 +255,10 @@ class ConfigFile(object):
             key (str):              used base-key
             type_key (str):         pattern of 'value-type:value-name'.
                                     See examples below.
-            default_value (list):   defualt value
+            default (list):         defualt value
 
         Returns:
-            list:                   value of ``key`` or ``default_value``
+            list:                   value of ``key`` or ``default``
                                     if ``key`` is not set.
 
         ``type_key`` pattern examples::
@@ -269,41 +269,41 @@ class ConfigFile(object):
             ('str:value', 'int:type') => return tuple of values
 
         """
-        def type_key_split(tk):
+        def typeKeySplit(tk):
             t, k = '', ''
             if isinstance(tk, str):
                 t, k = tk.split(':', maxsplit = 1)
             return (t, k)
 
-        def get_value(key, tk):
-            t, k = type_key_split(tk)
+        def value(key, tk):
+            t, k = typeKeySplit(tk)
             if t in ('str', 'int', 'bool'):
-                func = getattr(self, 'get_%s_value' %t)
+                func = getattr(self, '%sValue' %t)
                 return func('%s.%s' %(key, k))
             raise TypeError('Invalid type_key: %s' %tk)
 
-        size = self.get_int_value('%s.size' %key, -1)
+        size = self.intValue('%s.size' %key, -1)
         if size <= 0:
-            return default_value
+            return default
 
         ret = []
         for i in range(1, size + 1):
             if isinstance(type_key, str):
-                if not self.has_value('%s.%s.%s' %(key, i, type_key_split(type_key)[1])):
+                if not self.hasKey('%s.%s.%s' %(key, i, typeKeySplit(type_key)[1])):
                     continue
-                ret.append(get_value('%s.%s' %(key, i), type_key))
+                ret.append(value('%s.%s' %(key, i), type_key))
             elif isinstance(type_key, tuple):
-                if not self.has_value('%s.%s.%s' %(key, i, type_key_split(type_key[0])[1])):
+                if not self.hasKey('%s.%s.%s' %(key, i, typeKeySplit(type_key[0])[1])):
                     continue
                 items = []
                 for tk in type_key:
-                    items.append(get_value('%s.%s' %(key, i), tk))
+                    items.append(value('%s.%s' %(key, i), tk))
                 ret.append(tuple(items))
             else:
                 raise TypeError('Invalid type_key: %s' %type_key)
         return ret
 
-    def set_list_value(self, key, type_key, value):
+    def setListValue(self, key, type_key, value):
         """
         Set a list of values.
 
@@ -322,42 +322,42 @@ class ConfigFile(object):
             ('str:value', 'int:type') => return tuple of values
 
         """
-        def set_value(key, tk, v):
+        def setValue(key, tk, v):
             t = ''
             if isinstance(tk, str):
                 t, k = tk.split(':', maxsplit = 1)
             if t in ('str', 'int', 'bool'):
-                func = getattr(self, 'set_%s_value' %t)
+                func = getattr(self, 'set%sValue' %t.capitalize())
                 return func('%s.%s' %(key, k), v)
             raise TypeError('Invalid type_key: %s' %tk)
 
         if not isinstance(value, (list, tuple)):
             raise TypeError('value has wrong type: %s' %value)
 
-        old_size = self.get_int_value('%s.size' %key, -1)
-        self.set_int_value('%s.size' %key, len(value))
+        old_size = self.intValue('%s.size' %key, -1)
+        self.setIntValue('%s.size' %key, len(value))
 
         for i, v in enumerate(value, start = 1):
             if isinstance(type_key, str):
-                set_value('%s.%s' %(key, i), type_key, v)
+                setValue('%s.%s' %(key, i), type_key, v)
             elif isinstance(type_key, tuple):
                 for iv, tk in enumerate(type_key):
                     if len(v) > iv:
-                        set_value('%s.%s' %(key, i), tk, v[iv])
+                        setValue('%s.%s' %(key, i), tk, v[iv])
                     else:
-                        self.remove_key('%s.%s.%s' %(key, i, tk.split(':')[1]))
+                        self.removeKey('%s.%s.%s' %(key, i, tk.split(':')[1]))
             else:
                 raise TypeError('Invalid type_key: %s' %type_key)
 
         if len(value) < old_size:
             for i in range(len(value) + 1, old_size + 1):
                 if isinstance(type_key, str):
-                    self.remove_key('%s.%s.%s' %(key, i, type_key.split(':')[1]))
+                    self.removeKey('%s.%s.%s' %(key, i, type_key.split(':')[1]))
                 elif isinstance(type_key, tuple):
                     for tk in type_key:
-                        self.remove_key('%s.%s.%s' %(key, i, tk.split(':')[1]))
+                        self.removeKey('%s.%s.%s' %(key, i, tk.split(':')[1]))
 
-    def remove_key( self, key ):
+    def removeKey(self, key):
         """
         Remove key from options.
 
@@ -367,7 +367,7 @@ class ConfigFile(object):
         if key in self.dict:
             del self.dict[ key ]
 
-    def remove_keys_starts_with( self, prefix ):
+    def removeKeysStartsWith(self, prefix):
         """
         Remove key from options which start with given prefix.
 
@@ -375,16 +375,16 @@ class ConfigFile(object):
             prefix (str):   prefix for keys (key starts with this string)
                             that should be removed
         """
-        remove_keys = []
+        removeKeys = []
 
         for key in self.dict.keys():
             if key.startswith( prefix ):
-                remove_keys.append( key )
+                removeKeys.append(key)
 
-        for key in remove_keys:
+        for key in removeKeys:
             del self.dict[ key ]
 
-    def get_keys(self):
+    def keys(self):
         return list(self.dict.keys())
 
 class ConfigFileWithProfiles( ConfigFile ):
@@ -420,7 +420,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         super(ConfigFileWithProfiles, self).append(filename)
 
         found = False
-        profiles = self.get_profiles()
+        profiles = self.profiles()
         for profile_id in profiles:
             if profile_id == self.current_profile_id:
                 found = True
@@ -429,7 +429,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         if not found and profiles:
             self.current_profile_id = profiles[0]
 
-        if self.get_int_value( 'profiles.version' ) <= 0:
+        if self.intValue('profiles.version') <= 0:
             rename_keys = []
 
             for key in self.dict.keys():
@@ -441,19 +441,19 @@ class ConfigFileWithProfiles( ConfigFile ):
                 self.dict[ new_key ] = self.dict[ old_key ]
                 del self.dict[ old_key ]
 
-        if self.get_int_value( 'profiles.version' ) != 1:
-            self.set_int_value( 'profiles.version', 1 )
+        if self.intValue('profiles.version') != 1:
+            self.setIntValue('profiles.version', 1)
 
-    def get_profiles( self ):
+    def profiles(self):
         """
         List of all available profile IDs. Profile IDs are strings!
 
         Returns:
             list:   all available profile IDs as strings
         """
-        return self.get_str_value( 'profiles', '1' ).split(':')
+        return self.strValue('profiles', '1').split(':')
 
-    def get_profiles_sorted_by_name( self ):
+    def profilesSortedByName(self):
         """
         List of available profile IDs alphabetical sorted by their names.
         Profile IDs are strings!
@@ -461,14 +461,14 @@ class ConfigFileWithProfiles( ConfigFile ):
         Returns:
             list:   all available profile IDs as strings
         """
-        profiles_unsorted = self.get_profiles()
+        profiles_unsorted = self.profiles()
         if len( profiles_unsorted ) <= 1:
             return profiles_unsorted
 
         profiles_dict = {}
 
         for profile_id in profiles_unsorted:
-            profiles_dict[ self.get_profile_name( profile_id ).upper() ] = profile_id
+            profiles_dict[ self.profileName(profile_id).upper() ] = profile_id
 
         keys = list(profiles_dict.keys())
         keys.sort()
@@ -479,7 +479,7 @@ class ConfigFileWithProfiles( ConfigFile ):
 
         return profiles_sorted
 
-    def get_current_profile( self ):
+    def currentProfile(self):
         """
         Currently selected profile ID. Profile IDs are strings!
 
@@ -488,7 +488,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         """
         return self.current_profile_id
 
-    def set_current_profile( self, profile_id ):
+    def setCurrentProfile(self, profile_id):
         """
         Change the current profile.
 
@@ -500,7 +500,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
-        profiles = self.get_profiles()
+        profiles = self.profiles()
 
         for i in profiles:
             if i == profile_id:
@@ -511,7 +511,7 @@ class ConfigFileWithProfiles( ConfigFile ):
 
         return False
 
-    def set_current_profile_by_name( self, name ):
+    def setCurrentProfileByName(self, name):
         """
         Change the current profile.
 
@@ -521,10 +521,10 @@ class ConfigFileWithProfiles( ConfigFile ):
         Returns:
             bool:       ``True`` if successful
         """
-        profiles = self.get_profiles()
+        profiles = self.profiles()
 
         for profile_id in profiles:
-            if self.get_profile_name( profile_id ) == name:
+            if self.profileName(profile_id) == name:
                 self.current_profile_id = profile_id
                 logger.debug('change current profile: %s' %name, self)
                 logger.changeProfile(profile_id)
@@ -532,7 +532,7 @@ class ConfigFileWithProfiles( ConfigFile ):
 
         return False
 
-    def profile_exists( self, profile_id ):
+    def profileExists(self, profile_id):
         """
         ``True`` if the profile exists.
 
@@ -544,9 +544,9 @@ class ConfigFileWithProfiles( ConfigFile ):
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
-        return profile_id in self.get_profiles()
+        return profile_id in self.profiles()
 
-    def profile_exists_by_name( self, name ):
+    def profileExistsByName(self, name):
         """
         ``True`` if the profile exists.
 
@@ -556,15 +556,15 @@ class ConfigFileWithProfiles( ConfigFile ):
         Returns:
             bool:       ``True`` if ``name`` exists.
         """
-        profiles = self.get_profiles()
+        profiles = self.profiles()
 
         for profile_id in profiles:
-            if self.get_profile_name( profile_id ) == name:
+            if self.profileName(profile_id) == name:
                 return True
 
         return False
 
-    def get_profile_name( self, profile_id = None ):
+    def profileName(self, profile_id = None):
         """
         Name of the profile.
 
@@ -582,9 +582,9 @@ class ConfigFileWithProfiles( ConfigFile ):
             default = self.default_profile_name
         else:
             default = 'Profile %s' % profile_id
-        return self.get_profile_str_value( 'name', default, profile_id )
+        return self.profileStrValue('name', default, profile_id)
 
-    def add_profile( self, name ):
+    def addProfile(self, name):
         """
         Add a new profile if the name is not already in use.
 
@@ -594,11 +594,11 @@ class ConfigFileWithProfiles( ConfigFile ):
         Returns:
             str:        new profile ID
         """
-        profiles = self.get_profiles()
+        profiles = self.profiles()
 
         for profile_id in profiles:
-            if self.get_profile_name( profile_id ) == name:
-                self.notify_error( _('Profile "%s" already exists !') % name )
+            if self.profileName(profile_id) == name:
+                self.notifyError(_('Profile "%s" already exists !') % name)
                 return None
 
         new_id = 1
@@ -616,12 +616,12 @@ class ConfigFileWithProfiles( ConfigFile ):
         new_id = str( new_id )
 
         profiles.append( new_id )
-        self.set_str_value( 'profiles', ':'.join(profiles) )
+        self.setStrValue('profiles', ':'.join(profiles))
 
-        self.set_profile_str_value( 'name', name, new_id )
+        self.setProfileStrValue('name', name, new_id)
         return new_id
 
-    def remove_profile( self, profile_id = None ):
+    def removeProfile(self, profile_id = None):
         """
         Remove profile and all its keys and values.
 
@@ -636,18 +636,18 @@ class ConfigFileWithProfiles( ConfigFile ):
         if profile_id == None:
             profile_id = self.current_profile_id
 
-        profiles = self.get_profiles()
+        profiles = self.profiles()
         if len( profiles ) <= 1:
-            self.notify_error( _('You can\'t remove the last profile !') )
+            self.notifyError(_('You can\'t remove the last profile !'))
             return False
 
         found = False
         index = 0
         for profile in profiles:
             if profile == profile_id:
-                self.remove_keys_starts_with( self._get_profile_key_( '', profile_id ) )
+                self.removeKeysStartsWith(self.profileKey('', profile_id))
                 del profiles[index]
-                self.set_str_value( 'profiles', ':'.join( profiles ) )
+                self.setStrValue('profiles', ':'.join(profiles))
                 found = True
                 break
             index = index + 1
@@ -660,7 +660,7 @@ class ConfigFileWithProfiles( ConfigFile ):
 
         return True
 
-    def set_profile_name( self, name, profile_id = None ):
+    def setProfileName(self, name, profile_id = None):
         """
         Change the name of the profile.
 
@@ -676,18 +676,18 @@ class ConfigFileWithProfiles( ConfigFile ):
         if profile_id == None:
             profile_id = self.current_profile_id
 
-        profiles = self.get_profiles()
+        profiles = self.profiles()
 
         for profile in profiles:
-            if self.get_profile_name( profile ) == name:
+            if self.profileName(profile) == name:
                 if profile[0] != profile_id:
-                    self.notify_error(  _('Profile "%s" already exists !') % name )
+                    self.notifyError( _('Profile "%s" already exists !') % name)
                     return False
 
-        self.set_profile_str_value( 'name', name, profile_id )
+        self.setProfileStrValue('name', name, profile_id)
         return True
 
-    def _get_profile_key_( self, key, profile_id = None ):
+    def profileKey(self, key, profile_id = None):
         """
         Prefix for keys with profile. e.g. 'profile1.key'
 
@@ -704,7 +704,7 @@ class ConfigFileWithProfiles( ConfigFile ):
             profile_id = self.current_profile_id
         return 'profile' + profile_id + '.' + key
 
-    def remove_profile_key( self, key, profile_id = None ):
+    def removeProfileKey(self, key, profile_id = None):
         """
         Remove the key from profile.
 
@@ -712,9 +712,9 @@ class ConfigFileWithProfiles( ConfigFile ):
             key (str):              key name
             profile_id (str, int):  valid profile ID
         """
-        self.remove_key( self._get_profile_key_( key, profile_id ) )
+        self.removeKey(self.profileKey(key, profile_id))
 
-    def remove_profile_keys_starts_with( self, prefix, profile_id = None ):
+    def removeProfileKeysStartsWith(self, prefix, profile_id = None):
         """
         Remove the keys starting with prefix from profile.
 
@@ -723,9 +723,9 @@ class ConfigFileWithProfiles( ConfigFile ):
                                     string) that should be removed.
             profile_id (str, int):  valid profile ID
         """
-        self.remove_keys_starts_with( self._get_profile_key_( prefix, profile_id ) )
+        self.removeKeysStartsWith(self.profileKey(prefix, profile_id))
 
-    def has_profile_value( self, key, profile_id = None ):
+    def hasProfileKey(self, key, profile_id = None):
         """
         ``True`` if key is set in profile.
 
@@ -736,28 +736,28 @@ class ConfigFileWithProfiles( ConfigFile ):
         Returns:
             bool:                   ``True`` if ``key`` is set.
         """
-        return self._get_profile_key_( key, profile_id ) in self.dict
+        return self.profileKey(key, profile_id) in self.dict
 
-    def get_profile_str_value( self, key, default_value = '', profile_id = None ):
-        return self.get_str_value( self._get_profile_key_( key, profile_id ), default_value )
+    def profileStrValue(self, key, default = '', profile_id = None):
+        return self.strValue(self.profileKey(key, profile_id), default)
 
-    def set_profile_str_value( self, key, value, profile_id = None ):
-        self.set_str_value( self._get_profile_key_( key, profile_id ), value )
+    def setProfileStrValue(self, key, value, profile_id = None):
+        self.setStrValue(self.profileKey(key, profile_id), value)
 
-    def get_profile_int_value( self, key, default_value = 0, profile_id = None ):
-        return self.get_int_value( self._get_profile_key_( key, profile_id ), default_value )
+    def profileIntValue(self, key, default = 0, profile_id = None):
+        return self.intValue(self.profileKey(key, profile_id), default)
 
-    def set_profile_int_value( self, key, value, profile_id = None ):
-        self.set_int_value( self._get_profile_key_( key, profile_id ), value )
+    def setProfileIntValue(self, key, value, profile_id = None):
+        self.setIntValue(self.profileKey(key, profile_id), value)
 
-    def get_profile_bool_value( self, key, default_value = False, profile_id = None ):
-        return self.get_bool_value( self._get_profile_key_( key, profile_id ), default_value )
+    def profileBoolValue(self, key, default = False, profile_id = None):
+        return self.boolValue(self.profileKey(key, profile_id), default)
 
-    def set_profile_bool_value( self, key, value, profile_id = None ):
-        self.set_bool_value( self._get_profile_key_( key, profile_id ), value )
+    def setProfileBoolValue(self, key, value, profile_id = None):
+        self.setBoolValue(self.profileKey(key, profile_id), value)
 
-    def get_profile_list_value(self, key, type_key = 'str:value', default_value = [], profile_id = None):
-        return self.get_list_value(self._get_profile_key_(key, profile_id), type_key, default_value)
+    def profileListValue(self, key, type_key = 'str:value', default = [], profile_id = None):
+        return self.listValue(self.profileKey(key, profile_id), type_key, default)
 
-    def set_profile_list_value(self, key, type_key, value, profile_id = None):
-        self.set_list_value(self._get_profile_key_(key, profile_id), type_key, value)
+    def setProfileListValue(self, key, type_key, value, profile_id = None):
+        self.setListValue(self.profileKey(key, profile_id), type_key, value)
