@@ -67,7 +67,7 @@ def takeSnapshotAsync(cfg, checksum = False):
 
     subprocess.Popen(cmd)
 
-def takeSnapshot( cfg, force = True ):
+def takeSnapshot(cfg, force = True):
     """
     Take a new snapshot.
 
@@ -80,7 +80,7 @@ def takeSnapshot( cfg, force = True ):
         bool:                   ``True`` if successful
     """
     tools.envLoad(cfg.cronEnvFile())
-    ret = snapshots.Snapshots( cfg ).backup( force )
+    ret = snapshots.Snapshots(cfg).backup(force)
     return ret
 
 def _mount(cfg):

@@ -44,7 +44,7 @@ class ApplicationInstance:
             self.flockExclusiv()
 
         if autoExit:
-            if self.check( True ):
+            if self.check(True):
                 self.startApplication()
 
     def __del__(self):
@@ -106,7 +106,7 @@ class ApplicationInstance:
 
     def exitApplication(self):
         """
-        Called when the single instance exit ( remove pid file )
+        Called when the single instance exit (remove pid file)
         """
         try:
             os.remove(self.pidFile)
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     import time
 
     #create application instance
-    appInstance = ApplicationInstance( '/tmp/myapp.pid' )
+    appInstance = ApplicationInstance('/tmp/myapp.pid')
 
     #do something here
     print("Start MyApp")

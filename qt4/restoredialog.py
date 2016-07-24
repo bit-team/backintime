@@ -30,9 +30,9 @@ import qt4tools
 _=gettext.gettext
 
 
-def restore( parent, sid, what, where = '', **kwargs ):
+def restore(parent, sid, what, where = '', **kwargs):
     if where is None:
-        where = qt4tools.getExistingDirectory( parent, _('Restore to ...') )
+        where = qt4tools.getExistingDirectory(parent, _('Restore to ...'))
         if not where:
             return
         where = parent.config.preparePath(where)
@@ -40,10 +40,10 @@ def restore( parent, sid, what, where = '', **kwargs ):
     rd = RestoreDialog(parent, sid, what, where, **kwargs)
     rd.exec()
 
-class RestoreDialog( QDialog ):
-    def __init__( self, parent, sid, what, where = '', **kwargs ):
+class RestoreDialog(QDialog):
+    def __init__(self, parent, sid, what, where = '', **kwargs):
         super(RestoreDialog, self).__init__(parent)
-        self.resize( 600, 500 )
+        self.resize(600, 500)
 
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -58,7 +58,7 @@ class RestoreDialog( QDialog ):
             os.remove(self.logFile)
 
         self.setWindowIcon(icon.RESTORE_DIALOG)
-        self.setWindowTitle( _( 'Restore' ) )
+        self.setWindowTitle(_('Restore'))
 
         self.mainLayout = QVBoxLayout(self)
 

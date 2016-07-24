@@ -70,7 +70,7 @@ class TestLogFilter(generic.TestCase):
         logFilter = snapshotlog.LogFilter(mode = snapshotlog.LogFilter.ERROR_AND_CHANGES)
         for line in (self.e, self.c, self.n, self.h):
             self.assertEqual(line, logFilter.filter(line))
-        for line in (self.i, ):
+        for line in (self.i,):
             self.assertIsNone(logFilter.filter(line))
 
 class TestSnapshotLog(generic.SnapshotsTestCase):

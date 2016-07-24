@@ -24,8 +24,8 @@ import signal
 
 _=gettext.gettext
 
-if not os.getenv( 'DISPLAY', '' ):
-    os.putenv( 'DISPLAY', ':0.0' )
+if not os.getenv('DISPLAY', ''):
+    os.putenv('DISPLAY', ':0.0')
 
 import qt4tools
 qt4tools.registerBackintimePath('common')
@@ -42,12 +42,12 @@ from PyQt4.QtGui import QSystemTrayIcon, QIcon, QMenu, QProgressBar, QWidget, QR
 
 
 class Qt4SysTrayIcon:
-    def __init__( self ):
+    def __init__(self):
         self.snapshots = snapshots.Snapshots()
         self.config = self.snapshots.config
         self.decode = None
 
-        if len( sys.argv ) > 1:
+        if len(sys.argv) > 1:
             if not self.config.setCurrentProfile(sys.argv[1]):
                 logger.warning("Failed to change Profile_ID %s"
                                %sys.argv[1], self)
@@ -129,9 +129,9 @@ class Qt4SysTrayIcon:
 
         self.qapp.processEvents()
 
-    def run( self ):
+    def run(self):
         self.status_icon.show()
-        self.timer.start( 500 )
+        self.timer.start(500)
 
         logger.info("[qt4systrayicon] begin loop", self)
 
@@ -142,7 +142,7 @@ class Qt4SysTrayIcon:
         self.prepairExit()
 
     def updateInfo(self):
-        if not tools.processAlive( self.ppid ):
+        if not tools.processAlive(self.ppid):
             self.prepairExit()
             self.qapp.exit(0)
             return
@@ -153,7 +153,7 @@ class Qt4SysTrayIcon:
 
         message = self.snapshots.takeSnapshotMessage()
         if message is None and self.last_message is None:
-            message = ( 0, _('Working...') )
+            message = (0, _('Working...'))
 
         if not message is None:
             if message != self.last_message:
@@ -164,7 +164,7 @@ class Qt4SysTrayIcon:
                                                                          size = 80,\
                                                                          delimiters = '',\
                                                                          new_line_indicator = '') \
-                                                                        ))
+                                                                       ))
                 self.status_icon.setToolTip(message[1])
 
         pg = progress.ProgressFile(self.config)
@@ -176,7 +176,7 @@ class Qt4SysTrayIcon:
                 self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
                 self.status_icon.setIcon(QIcon(self.pixmap))
 
-            self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)) )
+            self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)))
             self.menuProgress.setVisible(True)
         else:
             self.status_icon.setIcon(self.icon.BIT_LOGO)
@@ -186,7 +186,7 @@ class Qt4SysTrayIcon:
     def getMenuProgress(self, pg):
         d = (('sent',   _('Sent:')), \
              ('speed',  _('Speed:')),\
-             ('eta',    _('ETA:')) )
+             ('eta',    _('ETA:')))
         for key, txt in d:
             value = pg.strValue(key, '')
             if not value:

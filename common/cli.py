@@ -101,7 +101,7 @@ def checkConfig(cfg, crontab = True):
     announceTest()
     snapshots_path = cfg.snapshotsPath(mode = mode, tmp_mount = True)
 
-    if not cfg.setSnapshotsPath( snapshots_path, mode = mode ):
+    if not cfg.setSnapshotsPath(snapshots_path, mode = mode):
         failed()
         return False
     okay()
@@ -174,7 +174,7 @@ def selectSnapshot(snapshotsList, cfg, snapshot_id = None, msg = 'SnapshotID'):
     print('')
     while snapshot_id is None:
         try:
-            index = int(input(msg + ' ( 0 - %d ): ' % (len_snapshots - 1) ))
+            index = int(input(msg + ' (0 - %d): ' % (len_snapshots - 1)))
             snapshot_id = snapshotsList[index]
         except (ValueError, IndexError):
             print('Invalid Input')

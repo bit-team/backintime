@@ -58,12 +58,12 @@ def critical(parent, msg):
     return QMessageBox.critical(parent, _('Error'),
                                 msg,
                                 buttons = QMessageBox.Ok,
-                                defaultButton = QMessageBox.Ok )
+                                defaultButton = QMessageBox.Ok)
 
 def warningYesNo(parent, msg):
     return QMessageBox.question(parent, _('Question'), msg,
                                 buttons = QMessageBox.Yes | QMessageBox.No,
-                                defaultButton = QMessageBox.No )
+                                defaultButton = QMessageBox.No)
 
 def warningYesNoOptions(parent, msg, options = ()):
     dlg = QDialog(parent)

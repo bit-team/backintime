@@ -42,36 +42,36 @@ else:
     DIFF_CMD = 'false'
     DIFF_PARAMS = '%1 %2'
 
-class DiffOptionsDialog( QDialog ):
-    def __init__( self, parent ):
+class DiffOptionsDialog(QDialog):
+    def __init__(self, parent):
         super(DiffOptionsDialog, self).__init__(parent)
         self.config = parent.config
 
         import icon
         self.setWindowIcon(icon.DIFF_OPTIONS)
-        self.setWindowTitle( _( 'Diff Options' ) )
+        self.setWindowTitle(_('Diff Options'))
 
         self.mainLayout = QGridLayout(self)
 
         self.diffCmd = self.config.strValue('qt4.diff.cmd', DIFF_CMD)
         self.diffParams = self.config.strValue('qt4.diff.params', DIFF_PARAMS)
 
-        self.mainLayout.addWidget( QLabel( _( 'Command:' ) ), 0, 0 )
+        self.mainLayout.addWidget(QLabel(_('Command:')), 0, 0)
         self.editCmd = QLineEdit(self.diffCmd, self)
         self.mainLayout.addWidget(self.editCmd, 0, 1)
 
-        self.mainLayout.addWidget( QLabel( _( 'Parameters:' ) ), 1, 0 )
+        self.mainLayout.addWidget(QLabel(_('Parameters:')), 1, 0)
         self.editParams = QLineEdit(self.diffParams, self)
         self.mainLayout.addWidget(self.editParams, 1, 1)
 
-        self.mainLayout.addWidget( QLabel( _( 'Use %1 and %2 for path parameters' ) ), 2, 1 )
+        self.mainLayout.addWidget(QLabel(_('Use %1 and %2 for path parameters')), 2, 1)
 
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         QObject.connect(buttonBox, SIGNAL('accepted()'), self.accept)
         QObject.connect(buttonBox, SIGNAL('rejected()'), self.reject)
         self.mainLayout.addWidget(buttonBox, 3, 0, 3, 2)
 
-    def accept( self ):
+    def accept(self):
         diffCmd = str(self.editCmd.text().toUtf8())
         diffParams = str(self.editParams.text().toUtf8())
 
@@ -83,8 +83,8 @@ class DiffOptionsDialog( QDialog ):
         super(DiffOptionsDialog, self).accept()
 
 
-class SnapshotsDialog( QDialog ):
-    def __init__( self, parent, sid, path ):
+class SnapshotsDialog(QDialog):
+    def __init__(self, parent, sid, path):
         super(SnapshotsDialog, self).__init__(parent)
         self.parent = parent
         self.config = parent.config
@@ -129,20 +129,20 @@ class SnapshotsDialog( QDialog ):
         QObject.connect(self.cbDeepCheck, SIGNAL('stateChanged(int)'), self.cbDeepCheckChanged)
 
         #toolbar
-        self.toolbar = QToolBar( self )
-        self.toolbar.setFloatable( False )
-        self.mainLayout.addWidget( self.toolbar )
+        self.toolbar = QToolBar(self)
+        self.toolbar.setFloatable(False)
+        self.mainLayout.addWidget(self.toolbar)
 
         #toolbar restore
         menuRestore = QMenu(self)
-        action = menuRestore.addAction(icon.RESTORE, _('Restore') )
-        QObject.connect( action, SIGNAL('triggered()'), self.restoreThis )
-        action = menuRestore.addAction(icon.RESTORE_TO, _('Restore to ...') )
-        QObject.connect( action, SIGNAL('triggered()'), self.restoreThisTo )
+        action = menuRestore.addAction(icon.RESTORE, _('Restore'))
+        QObject.connect(action, SIGNAL('triggered()'), self.restoreThis)
+        action = menuRestore.addAction(icon.RESTORE_TO, _('Restore to ...'))
+        QObject.connect(action, SIGNAL('triggered()'), self.restoreThisTo)
 
         self.btnRestore = self.toolbar.addAction(icon.RESTORE, _('Restore'))
         self.btnRestore.setMenu(menuRestore)
-        QObject.connect( self.btnRestore, SIGNAL('triggered()'), self.restoreThis )
+        QObject.connect(self.btnRestore, SIGNAL('triggered()'), self.restoreThis)
 
         #btn delete
         self.btnDelete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete'))
@@ -160,7 +160,7 @@ class SnapshotsDialog( QDialog ):
 
         #diff
         layout = QHBoxLayout()
-        self.mainLayout.addLayout( layout )
+        self.mainLayout.addLayout(layout)
 
         self.btnDiff = QPushButton(_('Diff'), self)
         layout.addWidget(self.btnDiff)
@@ -187,9 +187,9 @@ class SnapshotsDialog( QDialog ):
         self.cbDeepCheck.setEnabled(False)
 
         full_path = self.sid.pathBackup(self.path)
-        if os.path.islink( full_path ):
+        if os.path.islink(full_path):
             self.cbDeepCheck.hide()
-        elif os.path.isdir( full_path ):
+        elif os.path.isdir(full_path):
             self.cbOnlyDifferentSnapshots.hide()
             self.cbOnlyEqualSnapshots.hide()
             self.comboEqualTo.hide()
@@ -279,20 +279,20 @@ class SnapshotsDialog( QDialog ):
         self.btnRestore.setEnabled(enable_restore)
         self.btnDelete.setEnabled(enable_delete)
 
-    def restoreThis( self ):
+    def restoreThis(self):
         sid = self.timeLine.currentSnapshotID()
         if not sid.isRoot:
-            restoredialog.restore( self, sid, self.path )
+            restoredialog.restore(self, sid, self.path)
 
-    def restoreThisTo( self ):
+    def restoreThisTo(self):
         sid = self.timeLine.currentSnapshotID()
         if not sid.isRoot:
-            restoredialog.restore( self, sid, self.path, None )
+            restoredialog.restore(self, sid, self.path, None)
 
     def timeLineChanged(self):
         self.updateToolbar()
 
-    def timeLineExecute( self, item, column):
+    def timeLineExecute(self, item, column):
         if self.qapp.keyboardModifiers() and Qt.ControlModifier:
             return
 
@@ -301,7 +301,7 @@ class SnapshotsDialog( QDialog ):
             return
 
         full_path = sid.pathBackup(self.path)
-        if not os.path.exists( full_path ):
+        if not os.path.exists(full_path):
             return
 
         # prevent backup data from being accidentaly overwritten
@@ -309,7 +309,7 @@ class SnapshotsDialog( QDialog ):
         if not isinstance(self.sid, snapshots.RootSnapshot):
             full_path = self.parent.tmpCopy(full_path, sid)
 
-        self.run = QDesktopServices.openUrl(QUrl(full_path ))
+        self.run = QDesktopServices.openUrl(QUrl(full_path))
 
     def btnDiffClicked(self):
         sid1 = self.timeLine.currentSnapshotID()
@@ -322,7 +322,7 @@ class SnapshotsDialog( QDialog ):
 
         #check if the 2 paths are different
         if path1 == path2:
-            messagebox.critical( self, _('You can\'t compare a snapshot to itself') )
+            messagebox.critical(self, _('You can\'t compare a snapshot to itself'))
             return
 
         diffCmd = self.config.strValue('qt4.diff.cmd', DIFF_CMD)
@@ -347,7 +347,7 @@ class SnapshotsDialog( QDialog ):
         subprocess.Popen(shlex.split(cmd))
 
     def btnDiffOptionsClicked(self):
-        DiffOptionsDialog( self ).exec_()
+        DiffOptionsDialog(self).exec_()
 
     def comboEqualToChanged(self, index):
         self.updateSnapshots()
@@ -391,7 +391,7 @@ class SnapshotsDialog( QDialog ):
             if not isinstance(item.snapshotID(), snapshots.RootSnapshot):
                 item.setSelected(True)
 
-    def accept( self ):
+    def accept(self):
         sid = self.timeLine.currentSnapshotID()
         if sid:
             self.sid = sid

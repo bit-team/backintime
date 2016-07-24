@@ -26,7 +26,7 @@ class ConfigFile(object):
     """
     Store options in a plain text file in form of: key=value
     """
-    def __init__( self ):
+    def __init__(self):
         self.dict = {}
         self.errorHandler = None
         self.questionHandler = None
@@ -76,7 +76,7 @@ class ConfigFile(object):
             return False
         return self.questionHandler(message)
 
-    def save( self, filename ):
+    def save(self, filename):
         """
         Save all options to file.
 
@@ -87,18 +87,18 @@ class ConfigFile(object):
             bool:           ``True`` if successful
         """
         try:
-            with open( filename, 'wt' ) as f:
+            with open(filename, 'wt') as f:
                 keys = list(self.dict.keys())
                 keys.sort()
                 for key in keys:
-                    f.write( "%s=%s\n" % ( key, self.dict[key] ) )
+                    f.write("%s=%s\n" % (key, self.dict[key]))
         except OSError as e:
             logger.error('Failed to save config: %s' %str(e), self)
             self.notifyError(_('Failed to save config: %s') %str(e))
             return False
         return True
 
-    def load( self, filename, **kwargs ):
+    def load(self, filename, **kwargs):
         """
         Reset current options and load new options from file.
 
@@ -106,9 +106,9 @@ class ConfigFile(object):
             filename (str): full path
         """
         self.dict = {}
-        self.append( filename, **kwargs )
+        self.append(filename, **kwargs)
 
-    def append( self, filename, maxsplit = 1 ):
+    def append(self, filename, maxsplit = 1):
         """
         Load options from file and append them to current options.
 
@@ -121,16 +121,16 @@ class ConfigFile(object):
         if not os.path.isfile(filename):
             return
         try:
-            with open( filename, 'rt' ) as f:
+            with open(filename, 'rt') as f:
                 lines = f.readlines()
         except OSError as e:
             logger.error('Failed to load config: %s' %str(e), self)
             self.notifyError(_('Failed to load config: %s') %str(e))
 
         for line in lines:
-            items = line.strip('\n').split( '=', maxsplit )
-            if len( items ) == 2:
-                self.dict[ items[ 0 ] ] = items[ 1 ]
+            items = line.strip('\n').split('=', maxsplit)
+            if len(items) == 2:
+                self.dict[items[ 0 ] ] = items[ 1]
 
     def remapKey(self, old_key, new_key):
         """
@@ -143,8 +143,8 @@ class ConfigFile(object):
         if old_key != new_key:
             if old_key in self.dict:
                 if new_key not in self.dict:
-                    self.dict[ new_key ] = self.dict[ old_key ]
-                del self.dict[ old_key ]
+                    self.dict[new_key ] = self.dict[ old_key]
+                del self.dict[old_key]
 
     def hasKey(self, key):
         """
@@ -171,7 +171,7 @@ class ConfigFile(object):
                                     if ``key`` is not set.
         """
         if key in self.dict:
-            return self.dict[ key ]
+            return self.dict[key]
         else:
             return default
 
@@ -183,7 +183,7 @@ class ConfigFile(object):
             key (str):      string used as key
             value (str):    store this value
         """
-        self.dict[ key ] = value
+        self.dict[key] = value
 
     def intValue(self, key, default = 0):
         """
@@ -198,7 +198,7 @@ class ConfigFile(object):
                                     if ``key`` is not set.
         """
         try:
-            return int( self.dict[ key ] )
+            return int(self.dict[key])
         except:
             return default
 
@@ -225,7 +225,7 @@ class ConfigFile(object):
                                     if 'key' is not set.
         """
         try:
-            val = self.dict[ key ]
+            val = self.dict[key]
             if "1" == val or "TRUE" == val.upper():
                 return True
             return False
@@ -365,7 +365,7 @@ class ConfigFile(object):
             key (str):    string used as key
         """
         if key in self.dict:
-            del self.dict[ key ]
+            del self.dict[key]
 
     def removeKeysStartsWith(self, prefix):
         """
@@ -378,29 +378,29 @@ class ConfigFile(object):
         removeKeys = []
 
         for key in self.dict.keys():
-            if key.startswith( prefix ):
+            if key.startswith(prefix):
                 removeKeys.append(key)
 
         for key in removeKeys:
-            del self.dict[ key ]
+            del self.dict[key]
 
     def keys(self):
         return list(self.dict.keys())
 
-class ConfigFileWithProfiles( ConfigFile ):
+class ConfigFileWithProfiles(ConfigFile):
     """
     Store options in profiles as 'profileX.key=value'
 
     Args:
         default_profile_name (str): default name of the first profile.
     """
-    def __init__( self, default_profile_name = '' ):
-        ConfigFile.__init__( self )
+    def __init__(self, default_profile_name = ''):
+        ConfigFile.__init__(self)
 
         self.default_profile_name = default_profile_name
         self.current_profile_id = '1'
 
-    def load( self, filename ):
+    def load(self, filename):
         """
         Reset current options and load new options from file.
 
@@ -410,7 +410,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         self.current_profile_id = '1'
         super(ConfigFileWithProfiles, self).load(filename)
 
-    def append( self, filename ):
+    def append(self, filename):
         """
         Load options from file and append them to current options.
 
@@ -433,13 +433,13 @@ class ConfigFileWithProfiles( ConfigFile ):
             rename_keys = []
 
             for key in self.dict.keys():
-                if key.startswith( 'profile.0.' ):
-                    rename_keys.append( key )
+                if key.startswith('profile.0.'):
+                    rename_keys.append(key)
 
             for old_key in rename_keys:
-                new_key = 'profile1.' + old_key[ 10 :  ]
-                self.dict[ new_key ] = self.dict[ old_key ]
-                del self.dict[ old_key ]
+                new_key = 'profile1.' + old_key[10 : ]
+                self.dict[new_key ] = self.dict[ old_key]
+                del self.dict[old_key]
 
         if self.intValue('profiles.version') != 1:
             self.setIntValue('profiles.version', 1)
@@ -462,20 +462,20 @@ class ConfigFileWithProfiles( ConfigFile ):
             list:   all available profile IDs as strings
         """
         profiles_unsorted = self.profiles()
-        if len( profiles_unsorted ) <= 1:
+        if len(profiles_unsorted) <= 1:
             return profiles_unsorted
 
         profiles_dict = {}
 
         for profile_id in profiles_unsorted:
-            profiles_dict[ self.profileName(profile_id).upper() ] = profile_id
+            profiles_dict[self.profileName(profile_id).upper()] = profile_id
 
         keys = list(profiles_dict.keys())
         keys.sort()
 
         profiles_sorted = []
         for key in keys:
-            profiles_sorted.append( profiles_dict[key] )
+            profiles_sorted.append(profiles_dict[key])
 
         return profiles_sorted
 
@@ -613,9 +613,9 @@ class ConfigFileWithProfiles( ConfigFile ):
 
             new_id = new_id + 1
 
-        new_id = str( new_id )
+        new_id = str(new_id)
 
-        profiles.append( new_id )
+        profiles.append(new_id)
         self.setStrValue('profiles', ':'.join(profiles))
 
         self.setProfileStrValue('name', name, new_id)
@@ -637,7 +637,7 @@ class ConfigFileWithProfiles( ConfigFile ):
             profile_id = self.current_profile_id
 
         profiles = self.profiles()
-        if len( profiles ) <= 1:
+        if len(profiles) <= 1:
             self.notifyError(_('You can\'t remove the last profile !'))
             return False
 
@@ -681,7 +681,7 @@ class ConfigFileWithProfiles( ConfigFile ):
         for profile in profiles:
             if self.profileName(profile) == name:
                 if profile[0] != profile_id:
-                    self.notifyError( _('Profile "%s" already exists !') % name)
+                    self.notifyError(_('Profile "%s" already exists !') % name)
                     return False
 
         self.setProfileStrValue('name', name, profile_id)

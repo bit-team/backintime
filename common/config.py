@@ -41,10 +41,10 @@ from exceptions import PermissionDeniedByPolicy, InvalidChar
 _=gettext.gettext
 
 gettext.bindtextdomain('backintime', os.path.join(tools.sharePath(), 'locale'))
-gettext.textdomain( 'backintime' )
+gettext.textdomain('backintime')
 
 
-class Config( configfile.ConfigFileWithProfiles ):
+class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
     VERSION = '1.2.0~alpha0'
     COPYRIGHT = 'Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
@@ -125,11 +125,11 @@ class Config( configfile.ConfigFileWithProfiles ):
 
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
-                #mode           : (<mounttools>,            'ComboBox Text',        need_pw|lbl_pw_1,       need_2_pw|lbl_pw_2 ),
-                'local'         : (None,                    _('Local'),             False,                  False ),
-                'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False ),
-                'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False ),
-                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption') )
+                #mode           : (<mounttools>,            'ComboBox Text',        need_pw|lbl_pw_1,       need_2_pw|lbl_pw_2),
+                'local'         : (None,                    _('Local'),             False,                  False),
+                'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False),
+                'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False),
+                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption'))
                 }
 
     SSH_CIPHERS =  {'default':    _('Default'),
@@ -150,16 +150,16 @@ class Config( configfile.ConfigFileWithProfiles ):
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__(self, config_path = None, data_path = None):
-        configfile.ConfigFileWithProfiles.__init__( self, _('Main profile') )
+        configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
 
         self._APP_PATH = tools.backintimePath()
         self._DOC_PATH = os.path.join(tools.sharePath(), 'doc', 'backintime-common')
-        if os.path.exists( os.path.join( self._APP_PATH, 'LICENSE' ) ):
+        if os.path.exists(os.path.join(self._APP_PATH, 'LICENSE')):
             self._DOC_PATH = self._APP_PATH
 
         self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 
-        HOME_FOLDER = os.path.expanduser( '~' )
+        HOME_FOLDER = os.path.expanduser('~')
         DATA_FOLDER = '.local/share'
         CONFIG_FOLDER = '.config'
         BIT_FOLDER = 'backintime'
@@ -180,21 +180,21 @@ class Config( configfile.ConfigFileWithProfiles ):
         tools.makeDirs(self._LOCAL_DATA_FOLDER)
         tools.makeDirs(self._LOCAL_MOUNT_ROOT)
 
-        self._DEFAULT_CONFIG_PATH = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config' )
+        self._DEFAULT_CONFIG_PATH = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config')
         if config_path is None:
             self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
         else:
             self._LOCAL_CONFIG_PATH = config_path
-        old_path = os.path.join( self._LOCAL_CONFIG_FOLDER, 'config2' )
+        old_path = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config2')
 
         if os.path.exists(old_path):
-            if os.path.exists( self._LOCAL_CONFIG_PATH ):
+            if os.path.exists(self._LOCAL_CONFIG_PATH):
                 os.remove(old_path)
             else:
                 os.rename(old_path, self._LOCAL_CONFIG_PATH)
 
-        self.load( self._GLOBAL_CONFIG_PATH )
-        self.append( self._LOCAL_CONFIG_PATH )
+        self.load(self._GLOBAL_CONFIG_PATH)
+        self.append(self._LOCAL_CONFIG_PATH)
 
         if self.intValue('config.version', self.CONFIG_VERSION) < self.CONFIG_VERSION:
 
@@ -217,7 +217,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                     old_values = self.includeV4(profile_id)
                     values = []
                     for value in old_values:
-                        values.append( ( value, 0 ) )
+                        values.append((value, 0))
                     self.setInclude(values, profile_id)
 
                     #change exclude
@@ -238,7 +238,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.inhibitCookie = None
         self.setupUdev = tools.SetupUdev()
 
-    def save( self ):
+    def save(self):
         return super(Config, self).save(self._LOCAL_CONFIG_PATH)
 
     def checkConfig(self):
@@ -274,12 +274,12 @@ class Config( configfile.ConfigFileWithProfiles ):
                     self.notifyError(_('Profile: "%s"') % profile_name + '\n' + _('You can\'t include backup folder !'))
                     return False
 
-                if len( path ) >= len( snapshots_path2 ):
-                    if path[ : len( snapshots_path2 ) ] == snapshots_path2:
+                if len(path) >= len(snapshots_path2):
+                    if path[: len(snapshots_path2)] == snapshots_path2:
                         self.notifyError(_('Profile: "%s"') %  self.currentProfile() + '\n' + _('You can\'t include a backup sub-folder !'))
                         return False
 
-            checked_profiles.append( ( profile_id, profile_name ) )
+            checked_profiles.append((profile_id, profile_name))
 
         return True
 
@@ -333,7 +333,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         if mode is None:
             mode = self.snapshotsMode(profile_id)
 
-        if not os.path.isdir( value ):
+        if not os.path.isdir(value):
             self.notifyError(_('%s is not a folder !') % value)
             return False
 
@@ -346,18 +346,18 @@ class Config( configfile.ConfigFileWithProfiles ):
             self.notifyError(_('Host/User/Profile-ID must not be empty!'))
             return False
 
-        full_path = os.path.join( value, 'backintime', host, user, profile )
-        if not os.path.isdir( full_path ):
+        full_path = os.path.join(value, 'backintime', host, user, profile)
+        if not os.path.isdir(full_path):
             logger.debug("Create folder: %s" %full_path, self)
-            tools.makeDirs( full_path )
-            if not os.path.isdir( full_path ):
+            tools.makeDirs(full_path)
+            if not os.path.isdir(full_path):
                 self.notifyError(_('Can\'t write to: %s\nAre you sure you have write access ?' % value))
                 return False
 
-            path1 = os.path.join( value, 'backintime' )
+            path1 = os.path.join(value, 'backintime')
             os.chmod(path1, 0o777)
 
-            path1 = os.path.join( value, 'backintime', host )
+            path1 = os.path.join(value, 'backintime', host)
             os.chmod(path1, 0o777)
 
         #Test filesystem
@@ -380,13 +380,13 @@ class Config( configfile.ConfigFileWithProfiles ):
             return False
 
         #Test write access for the folder
-        check_path = os.path.join( full_path, 'check' )
-        tools.makeDirs( check_path )
-        if not os.path.isdir( check_path ):
+        check_path = os.path.join(full_path, 'check')
+        tools.makeDirs(check_path)
+        if not os.path.isdir(check_path):
             self.notifyError(_('Can\'t write to: %s\nAre you sure you have write access ?' % full_path))
             return False
 
-        os.rmdir( check_path )
+        os.rmdir(check_path)
         if self.SNAPSHOT_MODES[mode][0] is None:
             self.setProfileStrValue('snapshots.path', value, profile_id)
         return True
@@ -432,7 +432,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         if not path:
             path = './'
         host, user, profile = self.hostUserProfile(profile_id)
-        return os.path.join( path, 'backintime', host, user, profile )
+        return os.path.join(path, 'backintime', host, user, profile)
 
     def setSshSnapshotsPath(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.ssh.path', value, profile_id)
@@ -679,7 +679,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         if profile is None:
             profile = self.currentProfile()
 
-        return ( host, user, profile )
+        return (host, user, profile)
 
     def hostUserProfile(self, profile_id = None):
         default_host, default_user, default_profile = self.hostUserProfileDefault(profile_id)
@@ -692,7 +692,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         #?Set Profile-ID for snapshot path;1-99999;current Profile-ID
         profile = self.profileStrValue('snapshots.path.profile', default_profile, profile_id)
 
-        return ( host, user, profile )
+        return (host, user, profile)
 
     def setHostUserProfile(self, host, user, profile, profile_id = None):
         self.setProfileStrValue('snapshots.path.host', host, profile_id)
@@ -708,11 +708,11 @@ class Config( configfile.ConfigFileWithProfiles ):
         paths = []
 
         for item in value.split(':'):
-            fields = item.split( '|' )
+            fields = item.split('|')
 
-            path = os.path.expanduser( fields[0] )
-            path = os.path.abspath( path )
-            paths.append( path )
+            path = os.path.expanduser(fields[0])
+            path = os.path.abspath(path)
+            paths.append(path)
 
         return paths
 
@@ -732,7 +732,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         value = self.profileStrValue('snapshots.exclude_patterns', '.gvfs:.cache*:[Cc]ache*:.thumbnails*:[Tt]rash*:*.backup*:*~', profile_id)
         if not value:
             return []
-        return value.split( ':' )
+        return value.split(':')
 
     def exclude(self, profile_id = None):
         """
@@ -837,7 +837,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 #?Snapshots older than this times units will be removed
                 self.profileIntValue('snapshots.remove_old_snapshots.value', 10, profile_id),
                 #?20 = days\n30 = weeks\n80 = years;20|30|80;80
-                self.profileIntValue('snapshots.remove_old_snapshots.unit', self.YEAR, profile_id) )
+                self.profileIntValue('snapshots.remove_old_snapshots.unit', self.YEAR, profile_id))
 
     def keepOnlyOneSnapshot(self, profile_id = None):
         #?NOT YET IMPLEMENTED. Remove all snapshots but one.
@@ -852,23 +852,23 @@ class Config( configfile.ConfigFileWithProfiles ):
     def removeOldSnapshotsDate(self, profile_id = None):
         enabled, value, unit = self.removeOldSnapshots(profile_id)
         if not enabled:
-            return datetime.date( 1, 1, 1 )
+            return datetime.date(1, 1, 1)
 
         if unit == self.DAY:
             date = datetime.date.today()
-            date = date - datetime.timedelta( days = value )
+            date = date - datetime.timedelta(days = value)
             return date
 
         if unit == self.WEEK:
             date = datetime.date.today()
-            date = date - datetime.timedelta( days = date.weekday() + 7 * value )
+            date = date - datetime.timedelta(days = date.weekday() + 7 * value)
             return date
 
         if unit == self.YEAR:
             date = datetime.date.today()
-            return date.replace( day = 1, year = date.year - value )
+            return date.replace(day = 1, year = date.year - value)
 
-        return datetime.date( 1, 1, 1 )
+        return datetime.date(1, 1, 1)
 
     def setRemoveOldSnapshots(self, enabled, value, unit, profile_id = None):
         self.setProfileBoolValue('snapshots.remove_old_snapshots.enabled', enabled, profile_id)
@@ -882,7 +882,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 #?Keep at least value + unit free space.;1-99999
                 self.profileIntValue('snapshots.min_free_space.value', 1, profile_id),
                 #?10 = MB\n20 = GB;10|20;20
-                self.profileIntValue('snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id) )
+                self.profileIntValue('snapshots.min_free_space.unit', self.DISK_UNIT_GB, profile_id))
 
     def minFreeSpaceEnabled(self, profile_id = None):
         return self.profileBoolValue('snapshots.min_free_space.enabled', True, profile_id)
@@ -936,7 +936,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 #?Keep one snapshot per week for X weeks.
                 self.profileIntValue('snapshots.smart_remove.keep_one_per_week', 4, profile_id),
                 #?Keep one snapshot per month for X month.
-                self.profileIntValue('snapshots.smart_remove.keep_one_per_month', 24, profile_id) )
+                self.profileIntValue('snapshots.smart_remove.keep_one_per_month', 24, profile_id))
 
     def setSmartRemove(self,
                        value,
@@ -1163,7 +1163,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self.profileBoolValue('snapshots.full_rsync.take_snapshot_regardless_of_changes', False, profile_id)
 
     def setTakeSnapshotRegardlessOfChanges(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.full_rsync.take_snapshot_regardless_of_changes', value, profile_id )
+        return self.setProfileBoolValue('snapshots.full_rsync.take_snapshot_regardless_of_changes', value, profile_id)
 
     def userCallbackNoLogging(self, profile_id = None):
         #?Do not catch std{out|err} from user-callback script.
@@ -1195,7 +1195,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         self.setTakeSnapshotUserScript('after', path, profile_id)
 
     def takeSnapshotUserScriptNewSnapshot(self, profile_id = None):
-        return self.takeSnapshotUserScript( 'new_snapshot', profile_id = None)
+        return self.takeSnapshotUserScript('new_snapshot', profile_id = None)
 
     def setTakeSnapshotUserScriptNewSnapshot(self, path, profile_id = None):
         self.setTakeSnapshotUserScript('new_snapshot', path, profile_id)
@@ -1220,7 +1220,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return self._DOC_PATH
 
     def appInstanceFile(self):
-        return os.path.join( self._LOCAL_DATA_FOLDER, 'app.lock' )
+        return os.path.join(self._LOCAL_DATA_FOLDER, 'app.lock')
 
     def fileId(self, profile_id = None):
         if profile_id is None:
@@ -1242,10 +1242,10 @@ class Config( configfile.ConfigFileWithProfiles ):
         return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.lock" % self.fileId(profile_id))
 
     def takeSnapshotUserCallback(self, profile_id = None):
-        return os.path.join( self._LOCAL_CONFIG_FOLDER, "user-callback" )
+        return os.path.join(self._LOCAL_CONFIG_FOLDER, "user-callback")
 
     def passwordCacheFolder(self):
-        return os.path.join( self._LOCAL_DATA_FOLDER, "password_cache" )
+        return os.path.join(self._LOCAL_DATA_FOLDER, "password_cache")
 
     def passwordCachePid(self):
         return os.path.join(self.passwordCacheFolder(), "PID")
@@ -1257,7 +1257,7 @@ class Config( configfile.ConfigFileWithProfiles ):
         return os.path.join(self.passwordCacheFolder(), "info")
 
     def cronEnvFile(self):
-        return os.path.join( self._LOCAL_DATA_FOLDER, "cron_env" )
+        return os.path.join(self._LOCAL_DATA_FOLDER, "cron_env")
 
     def anacrontab(self, suffix = ''):
         """
@@ -1319,9 +1319,9 @@ class Config( configfile.ConfigFileWithProfiles ):
         return ''
 
     def preparePath(self, path):
-        if len( path ) > 1:
-            if path[ -1 ] == os.sep:
-                path = path[ : -1 ]
+        if len(path) > 1:
+            if path[-1] == os.sep:
+                path = path[: -1]
         return path
 
     def isConfigured(self, profile_id = None):
@@ -1519,7 +1519,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 logger.error("Failed to install Udev rule for profile %s. "
                              "DBus Service 'net.launchpad.backintime.serviceHelper' not available"
                              %profile_id, self)
-                self.notifyError( _('Could not install Udev rule for profile %(profile_id)s. '
+                self.notifyError(_('Could not install Udev rule for profile %(profile_id)s. '
                                      'DBus Service \'%(dbus_interface)s\' '
                                      'wasn\'t available')
                                     %{'profile_id': profile_id,
@@ -1531,7 +1531,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 dest_path = self.localEncfsPath(profile_id)
             else:
                 logger.error('Schedule udev doesn\'t work with mode %s' %mode, self)
-                self.notifyError( _('Schedule udev doesn\'t work with mode %s') % mode)
+                self.notifyError(_('Schedule udev doesn\'t work with mode %s') % mode)
                 return False
             uuid = tools.uuidFromPath(dest_path)
             if uuid is None:
@@ -1540,7 +1540,7 @@ class Config( configfile.ConfigFileWithProfiles ):
                 uuid = self.profileStrValue('snapshots.path.uuid', '', profile_id)
                 if not uuid:
                     logger.error('Couldn\'t find UUID for "%s"' %dest_path, self)
-                    self.notifyError( _('Couldn\'t find UUID for "%s"') % dest_path)
+                    self.notifyError(_('Couldn\'t find UUID for "%s"') % dest_path)
                     return False
             else:
                 #cache uuid in config

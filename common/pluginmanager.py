@@ -20,17 +20,17 @@ import os
 import sys
 import tools
 
-tools.registerBackintimePath( 'common' )
-tools.registerBackintimePath( 'plugins' )
+tools.registerBackintimePath('common')
+tools.registerBackintimePath('plugins')
 
 import logger
 from exceptions import StopException
 
 class Plugin:
-    def __init__( self ):
+    def __init__(self):
         return
 
-    def init( self, snapshots ):
+    def init(self, snapshots):
         return True
 
     def isGui(self):
@@ -64,7 +64,7 @@ class Plugin:
         return
 
 class PluginManager:
-    def __init__( self ):
+    def __init__(self):
         self.plugins = []
         self.hasGuiPlugins = False
         self.loaded = False
@@ -90,23 +90,23 @@ class PluginManager:
                 for f in os.listdir(fullPath):
                     if f not in loadedPlugins and f.endswith('.py') and not f.startswith('__'):
                         try:
-                            module = __import__( f[ : -3 ] )
+                            module = __import__(f[: -3])
                             module_dict = module.__dict__
 
                             for key, value in list(module_dict.items()):
-                                if key.startswith( '__' ):
+                                if key.startswith('__'):
                                     continue
 
                                 if type(value) is type:
-                                    if issubclass( value, Plugin ):
+                                    if issubclass(value, Plugin):
                                         plugin = value()
-                                        if plugin.init( snapshots ):
+                                        if plugin.init(snapshots):
                                             logger.debug('Add plugin %s' %f, self)
                                             if plugin.isGui():
                                                 self.hasGuiPlugins = True
-                                                self.plugins.insert( 0, plugin )
+                                                self.plugins.insert(0, plugin)
                                             else:
-                                                self.plugins.append( plugin )
+                                                self.plugins.append(plugin)
                             loadedPlugins.append(f)
                         except BaseException as e:
                             logger.error('Failed to load plugin %s: %s' %(f, str(e)), self)
@@ -123,7 +123,7 @@ class PluginManager:
         return ret_val
 
     def processEnd(self):
-        for plugin in reversed( self.plugins ):
+        for plugin in reversed(self.plugins):
             try:
                 plugin.processEnd()
             except BaseException as e:
@@ -151,28 +151,28 @@ class PluginManager:
                 self.logError(plugin, e)
 
     def appStart(self):
-        for plugin in reversed( self.plugins ):
+        for plugin in reversed(self.plugins):
             try:
                 plugin.appStart()
             except BaseException as e:
                 self.logError(plugin, e)
 
     def appExit(self):
-        for plugin in reversed( self.plugins ):
+        for plugin in reversed(self.plugins):
             try:
                 plugin.appExit()
             except BaseException as e:
                 self.logError(plugin, e)
 
     def mount(self):
-        for plugin in reversed( self.plugins ):
+        for plugin in reversed(self.plugins):
             try:
                 plugin.mount()
             except BaseException as e:
                 self.logError(plugin, e)
 
     def unmount(self):
-        for plugin in reversed( self.plugins ):
+        for plugin in reversed(self.plugins):
             try:
                 plugin.unmount()
             except BaseException as e:

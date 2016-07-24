@@ -181,7 +181,7 @@ class TestApplicationInstance(generic.TestCase):
         inst.flockUnlock()
 
     def test_thread_write_without_flock(self):
-        thread = Thread(target = self.write_after_flock, args = (self.file_name, ))
+        thread = Thread(target = self.write_after_flock, args = (self.file_name,))
         thread.start()
         #wait for the thread to finish
         thread.join()
@@ -191,7 +191,7 @@ class TestApplicationInstance(generic.TestCase):
 
     def test_flock_exclusive(self):
         self.inst.flockExclusiv()
-        thread = Thread(target = self.write_after_flock, args = (self.file_name, ))
+        thread = Thread(target = self.write_after_flock, args = (self.file_name,))
         thread.start()
         #give the thread some time
         thread.join(0.01)
@@ -207,7 +207,7 @@ class TestApplicationInstance(generic.TestCase):
         self.inst = ApplicationInstance(os.path.abspath(self.file_name),
                                         autoExit = False,
                                         flock = True)
-        thread = Thread(target = self.write_after_flock, args = (self.file_name, ))
+        thread = Thread(target = self.write_after_flock, args = (self.file_name,))
         thread.start()
         #give the thread some time
         thread.join(0.01)

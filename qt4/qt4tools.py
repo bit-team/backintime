@@ -44,18 +44,18 @@ registerBackintimePath('common')
 import snapshots
 
 def fontBold(font):
-    font.setWeight( QFont.Bold )
+    font.setWeight(QFont.Bold)
     return font
 
 def setFontBold(widget):
-    widget.setFont(fontBold( widget.font() ))
+    widget.setFont(fontBold(widget.font()))
 
 def fontNormal(font):
-    font.setWeight( QFont.Normal )
+    font.setWeight(QFont.Normal)
     return font
 
 def setFontNormal(widget):
-    widget.setFont(fontNormal( widget.font() ))
+    widget.setFont(fontNormal(widget.font()))
 
 def equalIndent(*args):
     width = 0

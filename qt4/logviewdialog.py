@@ -30,7 +30,7 @@ import tools
 _=gettext.gettext
 
 
-class LogViewDialog( QDialog ):
+class LogViewDialog(QDialog):
     def __init__(self, parent, sid = None, systray = False):
         if systray:
             super(LogViewDialog, self).__init__()
@@ -59,14 +59,14 @@ class LogViewDialog( QDialog ):
         self.mainLayout = QVBoxLayout(self)
 
         layout = QHBoxLayout()
-        self.mainLayout.addLayout( layout )
+        self.mainLayout.addLayout(layout)
 
         #profiles
         self.lblProfile = QLabel(_('Profile:'), self)
         layout.addWidget(self.lblProfile)
 
-        self.comboProfiles = qt4tools.ProfileCombo( self )
-        layout.addWidget( self.comboProfiles, 1 )
+        self.comboProfiles = qt4tools.ProfileCombo(self)
+        layout.addWidget(self.comboProfiles, 1)
         QObject.connect(self.comboProfiles, SIGNAL('currentIndexChanged(int)'), self.profileChanged)
 
         #snapshots
@@ -84,7 +84,7 @@ class LogViewDialog( QDialog ):
             self.comboProfiles.hide()
 
         #filter
-        layout.addWidget( QLabel(_('Filter:')) )
+        layout.addWidget(QLabel(_('Filter:')))
 
         self.comboFilter = QComboBox(self)
         layout.addWidget(self.comboFilter, 1)
@@ -102,10 +102,10 @@ class LogViewDialog( QDialog ):
         self.txtLogView.setFont(QFont('Monospace'))
         self.txtLogView.setReadOnly(True)
         self.txtLogView.setLineWrapMode(QPlainTextEdit.NoWrap)
-        self.mainLayout.addWidget( self.txtLogView )
+        self.mainLayout.addWidget(self.txtLogView)
 
         #
-        self.mainLayout.addWidget( QLabel(_('[E] Error, [I] Information, [C] Change')) )
+        self.mainLayout.addWidget(QLabel(_('[E] Error, [I] Information, [C] Change')))
 
         #decode path
         self.cbDecode = QCheckBox(_('decode paths'), self)
@@ -171,9 +171,9 @@ class LogViewDialog( QDialog ):
         self.enableUpdate = True
         self.updateLog()
 
-        if len( profiles ) <= 1:
+        if len(profiles) <= 1:
             self.lblProfile.setVisible(False)
-            self.comboProfiles.setVisible( False )
+            self.comboProfiles.setVisible(False)
 
     def updateSnapshots(self):
         if self.sid:

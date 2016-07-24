@@ -21,8 +21,8 @@ import pluginmanager
 import subprocess
 
 
-class NotifyPlugin( pluginmanager.Plugin ):
-    def __init__( self ):
+class NotifyPlugin(pluginmanager.Plugin):
+    def __init__(self):
         self.user = ''
 
         try:
@@ -42,7 +42,7 @@ class NotifyPlugin( pluginmanager.Plugin ):
             except:
                 pass
 
-    def init( self, snapshots ):
+    def init(self, snapshots):
         return True
 
     def isGui(self):

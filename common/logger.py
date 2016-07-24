@@ -27,12 +27,12 @@ DEBUG = False
 APP_NAME = 'backintime'
 
 def openlog():
-    name = os.getenv( 'LOGNAME', 'unknown' )
+    name = os.getenv('LOGNAME', 'unknown')
     syslog.openlog("%s (%s/1)" %(APP_NAME, name))
     atexit.register(closelog)
 
 def changeProfile(profile_id):
-    name = os.getenv( 'LOGNAME', 'unknown' )
+    name = os.getenv('LOGNAME', 'unknown')
     syslog.openlog("%s (%s/%s)" %(APP_NAME, name, profile_id))
 
 def closelog():
@@ -43,21 +43,21 @@ def error(msg , parent = None, traceDepth = 0):
         msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
     print('%sERROR%s: %s' %(bcolors.FAIL, bcolors.ENDC, msg), file=sys.stderr)
     for line in tools.wrapLine(msg):
-        syslog.syslog( syslog.LOG_ERR, 'ERROR: ' + line )
+        syslog.syslog(syslog.LOG_ERR, 'ERROR: ' + line)
 
 def warning(msg , parent = None, traceDepth = 0):
     if DEBUG:
         msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
     print('%sWARNING%s: %s' %(bcolors.WARNING, bcolors.ENDC, msg), file=sys.stderr)
     for line in tools.wrapLine(msg):
-        syslog.syslog( syslog.LOG_WARNING, 'WARNING: ' + line )
+        syslog.syslog(syslog.LOG_WARNING, 'WARNING: ' + line)
 
 def info(msg , parent = None, traceDepth = 0):
     if DEBUG:
         msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
     print('%sINFO%s: %s' %(bcolors.OKGREEN, bcolors.ENDC, msg), file=sys.stdout)
     for line in tools.wrapLine(msg):
-        syslog.syslog( syslog.LOG_INFO, 'INFO: ' + line )
+        syslog.syslog(syslog.LOG_INFO, 'INFO: ' + line)
 
 def debug(msg, parent = None, traceDepth = 0):
     if DEBUG:

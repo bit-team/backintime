@@ -56,7 +56,7 @@ class Snapshots:
     SNAPSHOT_VERSION = 3
     GLOBAL_FLOCK = '/tmp/backintime.lock'
 
-    def __init__( self, cfg = None ):
+    def __init__(self, cfg = None):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -84,7 +84,7 @@ class Snapshots:
     #TODO: make own class for takeSnapshotMessage
     def clearTakeSnapshotMessage(self):
         files = (self.config.takeSnapshotMessageFile(), \
-                 self.config.takeSnapshotProgressFile() )
+                 self.config.takeSnapshotProgressFile())
         for f in files:
             if os.path.exists(f):
                 os.remove(f)
@@ -101,37 +101,37 @@ class Snapshots:
         if not os.path.exists(self.config.takeSnapshotMessageFile()):
             return None
         try:
-            with open(self.config.takeSnapshotMessageFile(), 'rt' ) as f:
-                items = f.read().split( '\n' )
+            with open(self.config.takeSnapshotMessageFile(), 'rt') as f:
+                items = f.read().split('\n')
         except Exception as e:
             logger.debug('Failed to get takeSnapshot message from %s: %s'
                          %(self.config.takeSnapshotMessageFile(), str(e)),
                          self)
             return None
 
-        if len( items ) < 2:
+        if len(items) < 2:
             return None
 
         mid = 0
         try:
-            mid = int( items[0] )
+            mid = int(items[0])
         except Exception as e:
             logger.debug('Failed extract message ID from %s: %s'
                          %(items[0], str(e)),
                          self)
 
         del items[0]
-        message = '\n'.join( items )
+        message = '\n'.join(items)
 
-        return( mid, message )
+        return(mid, message)
 
     #TODO: make own class for takeSnapshotMessage
     def setTakeSnapshotMessage(self, type_id, message, timeout = -1):
         data = str(type_id) + '\n' + message
 
         try:
-            with open( self.config.takeSnapshotMessageFile(), 'wt' ) as f:
-                f.write( data )
+            with open(self.config.takeSnapshotMessageFile(), 'wt') as f:
+                f.write(data)
         except Exception as e:
             logger.debug('Failed to set takeSnapshot message to %s: %s'
                          %(self.config.takeSnapshotMessageFile(), str(e)),
@@ -144,7 +144,7 @@ class Snapshots:
 
         try:
             profile_id =self.config.currentProfile()
-            profile_name = self.config.profileName( profile_id )
+            profile_name = self.config.profileName(profile_id)
             self.config.PLUGIN_MANAGER.message(profile_id, profile_name, type_id, message, timeout)
         except Exception as e:
             logger.debug('Failed to send message to plugins: %s'
@@ -152,7 +152,7 @@ class Snapshots:
                          self)
 
     def busy(self):
-        instance = applicationinstance.ApplicationInstance( self.config.takeSnapshotInstanceFile(), False )
+        instance = applicationinstance.ApplicationInstance(self.config.takeSnapshotInstanceFile(), False)
         return not instance.check()
 
     def pid(self):
@@ -320,7 +320,7 @@ class Snapshots:
             if not ok:
                 msg = msg + " : " + _("FAILED")
                 self.restorePermissionFailed = True
-            callback( msg )
+            callback(msg)
 
     def restorePermission(self, key_path, path, fileInfoDict, callback = None):
         """
@@ -365,7 +365,7 @@ class Snapshots:
             ok = False
             if uid != st.st_uid:
                 try:
-                    os.chown( path, uid, gid )
+                    os.chown(path, uid, gid)
                     ok = True
                 except:
                     pass
@@ -374,7 +374,7 @@ class Snapshots:
             #if restore uid/gid failed try to restore at least gid
             if not ok and gid != st.st_gid:
                 try:
-                    os.chown( path, -1, gid )
+                    os.chown(path, -1, gid)
                     ok = True
                 except:
                     pass
@@ -384,7 +384,7 @@ class Snapshots:
         ok = False
         if info[0] != st.st_mode:
             try:
-                os.chmod( path, info[0] )
+                os.chmod(path, info[0])
                 ok = True
             except:
                 pass
@@ -423,7 +423,7 @@ class Snapshots:
                                         or are newer than those in destination.
                                         Using "rsync --update" option.
         """
-        instance = applicationinstance.ApplicationInstance( self.config.restoreInstanceFile(), False, flock = True)
+        instance = applicationinstance.ApplicationInstance(self.config.restoreInstanceFile(), False, flock = True)
         if instance.check():
             instance.startApplication()
         else:
@@ -431,10 +431,10 @@ class Snapshots:
             return
 
         if restore_to.endswith('/'):
-            restore_to = restore_to[ : -1 ]
+            restore_to = restore_to[: -1]
 
         if not isinstance(paths, (list, tuple)):
-            paths = (paths, )
+            paths = (paths,)
 
         logger.info("Restore: %s to: %s"
                     %(', '.join(paths), restore_to),
@@ -509,8 +509,8 @@ class Snapshots:
             all_dirs = [] #restore dir permissions after all files are done
             for path, src_delta in restored_paths:
                 #explore items
-                snapshot_path_to = sid.pathBackup(path).rstrip( '/' )
-                root_snapshot_path_to = sid.pathBackup().rstrip( '/' )
+                snapshot_path_to = sid.pathBackup(path).rstrip('/')
+                root_snapshot_path_to = sid.pathBackup().rstrip('/')
                 #use bytes instead of string from here
                 if isinstance(path, str):
                     path = path.encode()
@@ -521,23 +521,23 @@ class Snapshots:
                     path_items = path.strip(b'/').split(b'/')
                     curr_path = b'/'
                     for path_item in path_items:
-                        curr_path = os.path.join( curr_path, path_item )
+                        curr_path = os.path.join(curr_path, path_item)
                         if curr_path not in all_dirs:
-                            all_dirs.append( curr_path )
+                            all_dirs.append(curr_path)
                 else:
                     if path not in all_dirs:
                         all_dirs.append(path)
 
-                if os.path.isdir( snapshot_path_to ) and not os.path.islink( snapshot_path_to ):
+                if os.path.isdir(snapshot_path_to) and not os.path.islink(snapshot_path_to):
                     head = len(root_snapshot_path_to.encode())
-                    for explore_path, dirs, files in os.walk( snapshot_path_to.encode() ):
+                    for explore_path, dirs, files in os.walk(snapshot_path_to.encode()):
                         for item in dirs:
-                            item_path = os.path.join( explore_path, item )[head:]
+                            item_path = os.path.join(explore_path, item)[head:]
                             if item_path not in all_dirs:
-                                all_dirs.append( item_path )
+                                all_dirs.append(item_path)
 
                         for item in files:
-                            item_path = os.path.join( explore_path, item )[head:]
+                            item_path = os.path.join(explore_path, item)[head:]
                             real_path = restore_to + item_path[src_delta:]
                             self.restorePermission(item_path, real_path, fileInfoDict, callback)
 
@@ -546,7 +546,7 @@ class Snapshots:
                 real_path = restore_to + item_path[src_delta:]
                 self.restorePermission(item_path, real_path, fileInfoDict, callback)
 
-            self.restoreCallback( callback, True, '')
+            self.restoreCallback(callback, True, '')
             if self.restorePermissionFailed:
                 status = _('FAILED')
             else:
@@ -611,8 +611,8 @@ class Snapshots:
             logger.info('Profile "%s" is not scheduled to run now.'
                         %self.config.profileName(), self)
         else:
-            instance = applicationinstance.ApplicationInstance( self.config.takeSnapshotInstanceFile(), False, flock = True)
-            restore_instance = applicationinstance.ApplicationInstance( self.config.restoreInstanceFile(), False )
+            instance = applicationinstance.ApplicationInstance(self.config.takeSnapshotInstanceFile(), False, flock = True)
+            restore_instance = applicationinstance.ApplicationInstance(self.config.restoreInstanceFile(), False)
             if not instance.check():
                 logger.warning('A backup is already running', self)
                 self.config.PLUGIN_MANAGER.error(2) #a backup is already running
@@ -658,19 +658,19 @@ class Snapshots:
                     logger.info("Take a new snapshot. Profile: %s %s"
                                 %(profile_id, profile_name), self)
 
-                    if not self.config.canBackup( profile_id ):
+                    if not self.config.canBackup(profile_id):
                         if self.config.PLUGIN_MANAGER.hasGuiPlugins and self.config.notify():
-                            self.setTakeSnapshotMessage( 1,
-                                    _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it.' ) +
+                            self.setTakeSnapshotMessage(1,
+                                    _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it.') +
                                     '\n' +
-                                    gettext.ngettext( 'Waiting %s second.', 'Waiting %s seconds.', 30 ) % 30,
-                                    30 )
-                        for counter in range( 30, 0, -1 ):
+                                    gettext.ngettext('Waiting %s second.', 'Waiting %s seconds.', 30) % 30,
+                                    30)
+                        for counter in range(30, 0, -1):
                             time.sleep(1)
                             if self.config.canBackup():
                                 break
 
-                    if not self.config.canBackup( profile_id ):
+                    if not self.config.canBackup(profile_id):
                         logger.warning('Can\'t find snapshots folder!', self)
                         self.config.PLUGIN_MANAGER.error(3) #Can't find snapshots directory (is it on a removable drive ?)
                     else:
@@ -761,10 +761,10 @@ class Snapshots:
                 return
             pg = progress.ProgressFile(self.config)
             pg.setIntValue('status', pg.RSYNC)
-            pg.setStrValue('sent', m.group(1) )
-            pg.setIntValue('percent', int(m.group(2)) )
-            pg.setStrValue('speed', m.group(3) )
-            pg.setStrValue('eta', m.group(4) )
+            pg.setStrValue('sent', m.group(1))
+            pg.setIntValue('percent', int(m.group(2)))
+            pg.setStrValue('speed', m.group(3))
+            pg.setStrValue('eta', m.group(4))
             pg.save()
             del(pg)
             return
@@ -789,14 +789,14 @@ class Snapshots:
 
         self.setTakeSnapshotMessage(0, _('Take snapshot') + " (rsync: %s)" % line)
 
-        if line.endswith( ')' ):
-            if line.startswith( 'rsync:' ):
-                if not line.startswith( 'rsync: chgrp ' ) and not line.startswith( 'rsync: chown ' ):
+        if line.endswith(')'):
+            if line.startswith('rsync:'):
+                if not line.startswith('rsync: chgrp ') and not line.startswith('rsync: chown '):
                     params[0] = True
                     self.setTakeSnapshotMessage(1, 'Error: ' + line)
 
         if len(line) >= 13:
-            if line.startswith( 'BACKINTIME: ' ):
+            if line.startswith('BACKINTIME: '):
                 if line[12] != '.' and line[12:14] != 'cd':
                     params[1] = True
                     self.snapshotLog.append('[C] ' + line[12:], 2)
@@ -969,12 +969,12 @@ class Snapshots:
 
             if os.path.exists(new_snapshot.path()):
                 logger.error("Can't remove folder: %s" % new_snapshot.path(), self)
-                self.setTakeSnapshotMessage( 1, _('Can\'t remove folder: %s') % new_snapshot.path())
+                self.setTakeSnapshotMessage(1, _('Can\'t remove folder: %s') % new_snapshot.path())
                 time.sleep(2) #max 1 backup / second
-                return [ False, True ]
+                return [False, True]
 
         if not new_snapshot.saveToContinue and not new_snapshot.makeDirs():
-            return [ False, True ]
+            return [False, True]
 
         prev_sid = None
         snapshots = listSnapshots(self.config)
@@ -1027,7 +1027,7 @@ class Snapshots:
         if params[0]:
             if not self.config.continueOnErrors():
                 self.remove(new_snapshot)
-                return [ False, True ]
+                return [False, True]
 
             has_errors = True
             new_snapshot.failed = True
@@ -1038,7 +1038,7 @@ class Snapshots:
             self.snapshotLog.append('[I] ' + _('Nothing changed, no new snapshot necessary'), 3)
             if prev_sid:
                 prev_sid.setLastChecked()
-            return [ False, False ]
+            return [False, False]
 
         self.backupConfig(new_snapshot)
         self.backupPermissions(new_snapshot)
@@ -1059,18 +1059,18 @@ class Snapshots:
 
         if not sid.exists():
             logger.error("Can't rename %s to %s" % (new_snapshot.path(), sid.path()), self)
-            self.setTakeSnapshotMessage( 1, _('Can\'t rename %(new_path)s to %(path)s')
+            self.setTakeSnapshotMessage(1, _('Can\'t rename %(new_path)s to %(path)s')
                                                  %{'new_path': new_snapshot.path(),
                                                    'path': sid.path()})
             time.sleep(2) #max 1 backup / second
-            return [ False, True ]
+            return [False, True]
 
         self.backupInfo(sid)
 
         #create last_snapshot symlink
         self.createLastSnapshotSymlink(sid)
 
-        return [ True, has_errors ]
+        return [True, has_errors]
 
     def smartRemoveKeepAll(self,
                            snapshots,
@@ -1135,7 +1135,7 @@ class Snapshots:
         if m > 12:
             m = 1
             y = y + 1
-        return datetime.date( y, m, 1 )
+        return datetime.date(y, m, 1)
 
     def decMonth(self, date):
         """
@@ -1154,7 +1154,7 @@ class Snapshots:
         if m < 1:
             m = 12
             y = y - 1
-        return datetime.date( y, m, 1 )
+        return datetime.date(y, m, 1)
 
     def smartRemoveList(self,
                         now_full,
@@ -1183,7 +1183,7 @@ class Snapshots:
         """
         snapshots = listSnapshots(self.config)
         logger.debug("Considered: %s" %snapshots, self)
-        if len( snapshots ) <= 1:
+        if len(snapshots) <= 1:
             logger.debug("There is only one snapshots, so keep it", self)
             return
 
@@ -1204,7 +1204,7 @@ class Snapshots:
         #keep one per day for the last keep_one_per_day days
         if keep_one_per_day > 0:
             d = now
-            for i in range( 0, keep_one_per_day ):
+            for i in range(0, keep_one_per_day):
                 keep |= self.smartRemoveKeepFirst(snapshots,
                                                        d,
                                                        d + datetime.timedelta(days=1))
@@ -1212,8 +1212,8 @@ class Snapshots:
 
         #keep one per week for the last keep_one_per_week weeks
         if keep_one_per_week > 0:
-            d = now - datetime.timedelta( days = now.weekday() + 1 )
-            for i in range( 0, keep_one_per_week ):
+            d = now - datetime.timedelta(days = now.weekday() + 1)
+            for i in range(0, keep_one_per_week):
                 keep |= self.smartRemoveKeepFirst(snapshots,
                                                        d,
                                                        d + datetime.timedelta(days=8))
@@ -1221,16 +1221,16 @@ class Snapshots:
 
         #keep one per month for the last keep_one_per_month months
         if keep_one_per_month > 0:
-            d1 = datetime.date( now.year, now.month, 1 )
+            d1 = datetime.date(now.year, now.month, 1)
             d2 = self.incMonth(d1)
-            for i in range( 0, keep_one_per_month ):
-                keep |= self.smartRemoveKeepFirst(snapshots, d1, d2 )
+            for i in range(0, keep_one_per_month):
+                keep |= self.smartRemoveKeepFirst(snapshots, d1, d2)
                 d2 = d1
                 d1 = self.decMonth(d1)
 
         #keep one per year for all years
         first_year = int(snapshots[-1].sid[ : 4])
-        for i in range( first_year, now.year+1 ):
+        for i in range(first_year, now.year+1):
             keep |= self.smartRemoveKeepFirst(snapshots,
                                                    datetime.date(i,1,1),
                                                    datetime.date(i+1,1,1))
@@ -1386,7 +1386,7 @@ class Snapshots:
             snapshots = listSnapshots(self.config, reverse = False)
 
             while True:
-                if len( snapshots ) <= 1:
+                if len(snapshots) <= 1:
                     break
 
                 free_space = self.statFreeSpaceLocal(self.config.snapshotsPath())
@@ -1419,11 +1419,11 @@ class Snapshots:
             snapshots = listSnapshots(self.config, reverse = False)
 
             while True:
-                if len( snapshots ) <= 1:
+                if len(snapshots) <= 1:
                     break
 
                 try:
-                    info = os.statvfs( self.config.snapshotsPath() )
+                    info = os.statvfs(self.config.snapshotsPath())
                     free_inodes = info.f_favail
                     max_inodes  = info.f_files
                 except Exception as e:
@@ -1465,7 +1465,7 @@ class Snapshots:
         try:
             info = os.statvfs(path)
             if info.f_blocks != info.f_bavail:
-                return info.f_frsize * info.f_bavail // ( 1024 * 1024 )
+                return info.f_frsize * info.f_bavail // (1024 * 1024)
         except Exception as e:
             logger.debug('Failed to get free space for %s: %s'
                          %(path, str(e)),
@@ -1532,35 +1532,35 @@ class Snapshots:
         snapshotsFiltered = []
 
         base_full_path = base_sid.pathBackup(base_path)
-        if not os.path.lexists( base_full_path ):
+        if not os.path.lexists(base_full_path):
             return []
 
         allSnapshotsList = [RootSnapshot(self.config)]
-        allSnapshotsList.extend( snapshotsList )
+        allSnapshotsList.extend(snapshotsList)
 
         #links
-        if os.path.islink( base_full_path ):
+        if os.path.islink(base_full_path):
             targets = []
 
             for sid in allSnapshotsList:
                 path = sid.pathBackup(base_path)
 
-                if os.path.lexists( path ) and os.path.islink( path ):
+                if os.path.lexists(path) and os.path.islink(path):
                     if list_diff_only:
-                        target = os.readlink( path )
+                        target = os.readlink(path)
                         if target in targets:
                             continue
-                        targets.append( target )
+                        targets.append(target)
                     snapshotsFiltered.append(sid)
 
             return snapshotsFiltered
 
         #directories
-        if os.path.isdir( base_full_path ):
+        if os.path.isdir(base_full_path):
             for sid in allSnapshotsList:
                 path = sid.pathBackup(base_path)
 
-                if os.path.exists( path ) and not os.path.islink( path ) and os.path.isdir( path ):
+                if os.path.exists(path) and not os.path.islink(path) and os.path.isdir(path):
                     snapshotsFiltered.append(sid)
 
             return snapshotsFiltered
@@ -1570,7 +1570,7 @@ class Snapshots:
             for sid in allSnapshotsList:
                 path = sid.pathBackup(base_path)
 
-                if os.path.exists( path ) and not os.path.islink( path ) and os.path.isfile( path ):
+                if os.path.exists(path) and not os.path.islink(path) and os.path.isfile(path):
                     snapshotsFiltered.append(sid)
 
             return snapshotsFiltered
@@ -1579,13 +1579,13 @@ class Snapshots:
         uniqueness = tools.UniquenessSet(flag_deep_check, follow_symlink = False, list_equal_to = list_equal_to)
         for sid in allSnapshotsList:
             path = sid.pathBackup(base_path)
-            if os.path.exists( path ) and not os.path.islink( path ) and os.path.isfile( path ) and uniqueness.check(path):
+            if os.path.exists(path) and not os.path.islink(path) and os.path.isfile(path) and uniqueness.check(path):
                 snapshotsFiltered.append(sid)
 
         return snapshotsFiltered
 
     #TODO: replaced by config.Config.sshCommand
-    def cmd_ssh(self, cmd, quote = False, use_mode = ['ssh', 'ssh_encfs'] ):
+    def cmd_ssh(self, cmd, quote = False, use_mode = ['ssh', 'ssh_encfs']):
         """
         Add ssh, nice and ionice command to ``cmd`` to run that command on
         remote host.
@@ -1627,8 +1627,8 @@ class Snapshots:
                     cmd = '\'%s\'' % cmd
 
                 return 'ssh -p %s -o ServerAliveInterval=240 -o LogLevel=Error %s %s %s@%s %s' \
-                        % ( str(ssh_port), ssh_cipher_suffix, ssh_private_key,\
-                        ssh_user, ssh_host, cmd )
+                        % (str(ssh_port), ssh_cipher_suffix, ssh_private_key,\
+                        ssh_user, ssh_host, cmd)
 
             if isinstance(cmd, tuple):
                 cmd = list(cmd)
@@ -1856,13 +1856,13 @@ class Snapshots:
                 items2.add('--include={}/**'.format(folder))
             else:
                 items2.add('--include={}'.format(folder))
-                folder = os.path.split( folder )[0]
+                folder = os.path.split(folder)[0]
 
             while True:
-                if len( folder) <= 1:
+                if len(folder) <= 1:
                     break
                 items1.add('--include={}/'.format(folder))
-                folder = os.path.split( folder )[0]
+                folder = os.path.split(folder)[0]
 
         return (items1, items2)
 
@@ -2198,7 +2198,7 @@ class SID(object):
         """
         info = self.path(self.INFO)
         if os.path.exists(info):
-            return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)) )
+            return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)))
         return self.displayID
 
     #using @property.setter would be confusing here as there is no value to give
@@ -2325,7 +2325,7 @@ class SID(object):
         logFile = self.path(self.LOG)
         logFilter = snapshotlog.LogFilter(mode, decode)
         try:
-            with bz2.BZ2File(logFile, 'rb' ) as f:
+            with bz2.BZ2File(logFile, 'rb') as f:
                 if logFilter.header:
                     yield logFilter.header
                 for line in f.readlines():
@@ -2577,5 +2577,5 @@ def lastSnapshot(cfg):
 
 if __name__ == '__main__':
     config = config.Config()
-    snapshots = Snapshots( config )
+    snapshots = Snapshots(config)
     snapshots.backup()

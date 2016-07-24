@@ -423,11 +423,11 @@ class TestSnapshots(generic.SnapshotsTestCase):
         now = datetime(2016, 4, 24, 21, 51, 34)
 
         del_snapshots = self.sn.smartRemoveList(now,
-                                                   3, #keep_all
-                                                   7, #keep_one_per_day
-                                                   5, #keep_one_per_week
-                                                   3  #keep_one_per_month
-                                                   )
+                                                3, #keep_all
+                                                7, #keep_one_per_day
+                                                5, #keep_one_per_week
+                                                3  #keep_one_per_month
+                                                )
         self.assertListEqual(del_snapshots, [sid6, sid9, sid12, sid13, sid14,
                                              sid15, sid16, sid18, sid19, sid21,
                                              sid22, sid24, sid27, sid28, sid30])

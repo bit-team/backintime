@@ -138,7 +138,7 @@ class SnapshotLog(object):
         logFilter = LogFilter(mode, decode)
         count = logFilter.header.count('\n')
         try:
-            with open(self.logFileName, 'rt' ) as f:
+            with open(self.logFileName, 'rt') as f:
                 if logFilter.header and not skipLines:
                     yield logFilter.header
                 for line in f.readlines():

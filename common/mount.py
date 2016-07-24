@@ -420,7 +420,7 @@ class MountControl(object):
                 if not self.compareUmountInfo():
                     #We probably have a hash collision
                     self.config.incrementHashCollision()
-                    raise HashCollision( _('Hash collision occurred in hash_id %s. Incrementing global value hash_collision and try again.') % self.hash_id)
+                    raise HashCollision(_('Hash collision occurred in hash_id %s. Incrementing global value hash_collision and try again.') % self.hash_id)
                 logger.info('Mountpoint %s is already mounted' %self.currentMountpoint, self)
             else:
                 if check:
@@ -495,7 +495,7 @@ class MountControl(object):
         try:
             subprocess.check_call(['fusermount', '-u', self.currentMountpoint])
         except subprocess.CalledProcessError:
-            raise MountException( _('Can\'t unmount %(proc)s from %(mountpoint)s')
+            raise MountException(_('Can\'t unmount %(proc)s from %(mountpoint)s')
                                   %{'proc': self.mountproc,
                                     'mountpoint': self.currentMountpoint})
 
@@ -582,7 +582,7 @@ class MountControl(object):
         logger.debug('Check fuse', self)
         if not tools.checkCommand(self.mountproc):
             logger.debug('%s is missing' %self.mountproc, self)
-            raise MountException( _('%(proc)s not found. Please install e.g. %(install_command)s')
+            raise MountException(_('%(proc)s not found. Please install e.g. %(install_command)s')
                                   %{'proc': self.mountproc,
                                     'install_command': "'apt-get install %s'" %self.mountproc})
         if self.CHECK_FUSE_GROUP:
@@ -595,7 +595,7 @@ class MountControl(object):
                 return
             if not user in fuse_grp_members:
                 logger.debug('User %s is not in group fuse' %user, self)
-                raise MountException( _('%(user)s is not member of group \'fuse\'.\n '
+                raise MountException(_('%(user)s is not member of group \'fuse\'.\n '
                                         'Run \'sudo adduser %(user)s fuse\'. To apply '
                                         'changes logout and login again.\nLook at '
                                         '\'man backintime\' for further instructions.')
@@ -616,7 +616,7 @@ class MountControl(object):
             return True
         else:
             if os.listdir(self.currentMountpoint):
-                raise MountException( _('mountpoint %s not empty.') % self.currentMountpoint)
+                raise MountException(_('mountpoint %s not empty.') % self.currentMountpoint)
             return False
 
     def createMountStructure(self):
@@ -679,7 +679,7 @@ class MountControl(object):
         while self.checkLocks(lock_path, lockSuffix):
             count += 1
             if count == timeout:
-                raise MountException( _('Mountprocess lock timeout') )
+                raise MountException(_('Mountprocess lock timeout'))
             sleep(1)
 
         logger.debug('Acquire mountprocess lock %s'

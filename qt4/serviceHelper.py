@@ -111,12 +111,12 @@ class UdevRules(dbus.service.Object):
         chars = re.findall(r'[^a-zA-Z0-9-/\.>& ]', cmd)
         if chars:
             raise InvalidChar("Parameter 'cmd' contains invalid character(s) %s"
-                              % '|'.join(set(chars)) )
+                              % '|'.join(set(chars)))
         #only allow relevant chars in uuid
         chars = re.findall(r'[^a-zA-Z0-9-]', uuid)
         if chars:
             raise InvalidChar("Parameter 'uuid' contains invalid character(s) %s"
-                              % '|'.join(set(chars)) )
+                              % '|'.join(set(chars)))
 
         info = SenderInfo(sender, conn)
         user = info.connectionUnixUser()

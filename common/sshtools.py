@@ -157,7 +157,7 @@ class SSH(MountControl):
                                 universal_newlines = True)
         err = proc.communicate()[1]
         if proc.returncode:
-            raise MountException( _('Can\'t mount %s') % ' '.join(sshfs)
+            raise MountException(_('Can\'t mount %s') % ' '.join(sshfs)
                                   + '\n\n' + err)
 
     def preMountCheck(self, first_run = False):
@@ -272,7 +272,7 @@ class SSH(MountControl):
             output = proc.communicate()[0]
             if not output.find(self.private_key_fingerprint) >= 0:
                 logger.debug('Was not able to unlock private key %s' %self.private_key_file, self)
-                raise MountException( _('Could not unlock ssh private key. Wrong password '
+                raise MountException(_('Could not unlock ssh private key. Wrong password '
                                         'or password not available for cron.'))
         else:
             logger.debug('Private key %s is already unlocked in ssh agent'
@@ -302,7 +302,7 @@ class SSH(MountControl):
                                 universal_newlines = True)
         err = proc.communicate()[1]
         if proc.returncode:
-            raise MountException( _('Password-less authentication for %(user)s@%(host)s '
+            raise MountException(_('Password-less authentication for %(user)s@%(host)s '
                                     'failed. Look at \'man backintime\' for further '
                                     'instructions.')  % {'user' : self.user, 'host' : self.host}
                                     + '\n\n' + err)
@@ -334,7 +334,7 @@ class SSH(MountControl):
             err = proc.communicate()[1]
             if proc.returncode:
                 logger.debug('Ciper %s is not supported' %self.config.SSH_CIPHERS[self.cipher], self)
-                raise MountException( _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')
+                raise MountException(_('Cipher %(cipher)s failed for %(host)s:\n%(err)s')
                                       % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
 
     def benchmarkCipher(self, size = 40):
@@ -385,7 +385,7 @@ class SSH(MountControl):
                 logger.debug('Host %s was found in known hosts file' % host, self)
                 return True
         logger.debug('Host %s is not in known hosts file' %self.host, self)
-        raise MountException( _('%s not found in ssh_known_hosts.') % self.host)
+        raise MountException(_('%s not found in ssh_known_hosts.') % self.host)
 
     def checkRemoteFolder(self):
         """
@@ -425,13 +425,13 @@ class SSH(MountControl):
                 #clean exit
                 pass
             elif proc.returncode == 11:
-                raise MountException( _('Remote path exists but is not a directory:\n %s') % self.path)
+                raise MountException(_('Remote path exists but is not a directory:\n %s') % self.path)
             elif proc.returncode == 12:
-                raise MountException( _('Remote path is not writeable:\n %s') % self.path)
+                raise MountException(_('Remote path is not writeable:\n %s') % self.path)
             elif proc.returncode == 13:
-                raise MountException( _('Remote path is not executable:\n %s') % self.path)
+                raise MountException(_('Remote path is not executable:\n %s') % self.path)
             else:
-                raise MountException( _('Couldn\'t create remote path:\n %s') % self.path)
+                raise MountException(_('Couldn\'t create remote path:\n %s') % self.path)
         else:
             #returncode is 0
             logger.info('Create remote folder %s' %self.path, self)
@@ -465,7 +465,7 @@ class SSH(MountControl):
             sleep(0.2)
         if result != 0:
             logger.debug('Failed pinging host %s' %self.host, self)
-            raise MountException( _('Ping %s failed. Host is down or wrong address.') % self.host)
+            raise MountException(_('Ping %s failed. Host is down or wrong address.') % self.host)
 
     def checkRemoteCommands(self, retry = False):
         """
@@ -532,7 +532,7 @@ class SSH(MountControl):
                 out, err = proc.communicate()
                 if err or proc.returncode:
                     logger.debug('rsync command returned error: %s' %err, self)
-                    raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
+                    raise MountException(_('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                             '%(err)s\nLook at \'man backintime\' for further instructions')
                                             % {'host' : self.host, 'command' : cmd, 'err' : err})
 
@@ -638,10 +638,10 @@ class SSH(MountControl):
         if returncode or not output_split[-1].startswith('done'):
             for command in ('rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
                 if output_split[-1].startswith(command):
-                    raise MountException( _('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
+                    raise MountException(_('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                             '%(err)s\nLook at \'man backintime\' for further instructions')
                                             % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
-            raise MountException( _('Check commands on host %(host)s returned unknown error:\n'
+            raise MountException(_('Check commands on host %(host)s returned unknown error:\n'
                                     '%(err)s\nLook at \'man backintime\' for further instructions')
                                     % {'host' : self.host, 'err' : err})
 
@@ -654,7 +654,7 @@ class SSH(MountControl):
 
         logger.debug('remote inodes: ' + ' | '.join(inodes), self)
         if len(inodes) == 2 and inodes[0] != inodes[1]:
-            raise MountException( _('Remote host %s doesn\'t support hardlinks') % self.host)
+            raise MountException(_('Remote host %s doesn\'t support hardlinks') % self.host)
 
     def randomId(self, size=6, chars=string.ascii_uppercase + string.digits):
         """

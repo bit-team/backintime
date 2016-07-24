@@ -25,11 +25,11 @@ import gettext
 _=gettext.gettext
 
 
-class UserScriptsPlugin( pluginmanager.Plugin ):
-    def __init__( self ):
+class UserScriptsPlugin(pluginmanager.Plugin):
+    def __init__(self):
         return
 
-    def init( self, snapshots ):
+    def init(self, snapshots):
         self.config = snapshots.config
         return True
 
@@ -40,7 +40,7 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
         logger.info("[UserScriptsPlugin.script] %s %s"
                     %(path, args),
                     self)
-        os.system( "sh \"%s\" %s" % ( self.callback, args ) )
+        os.system("sh \"%s\" %s" % (self.callback, args))
 
     def processBegin(self):
         self.script(self.config.takeSnapshotUserScriptBefore())
@@ -49,7 +49,7 @@ class UserScriptsPlugin( pluginmanager.Plugin ):
         self.script(self.config.takeSnapshotUserScriptAfter())
 
     def error(self, code, message):
-        code = str( code )
+        code = str(code)
         if message:
             code = code + " \"" + message + "\""
 

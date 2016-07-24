@@ -30,16 +30,16 @@ import subprocess
 _=gettext.gettext
 
 
-if not os.getenv( 'DISPLAY', '' ):
-    os.putenv( 'DISPLAY', ':0.0' )
+if not os.getenv('DISPLAY', ''):
+    os.putenv('DISPLAY', ':0.0')
 
 
-class Qt4Plugin( pluginmanager.Plugin ):
-    def __init__( self ):
+class Qt4Plugin(pluginmanager.Plugin):
+    def __init__(self):
         self.process = None
         self.snapshots = None
 
-    def init( self, snapshots ):
+    def init(self, snapshots):
         self.snapshots = snapshots
 
         if not tools.checkXServer():
@@ -52,7 +52,7 @@ class Qt4Plugin( pluginmanager.Plugin ):
     def processBegin(self):
         try:
             path = os.path.join(tools.backintimePath('qt4'), 'qt4systrayicon.py')
-            self.process = subprocess.Popen( [ sys.executable, path, self.snapshots.config.currentProfile() ] )
+            self.process = subprocess.Popen([sys.executable, path, self.snapshots.config.currentProfile()])
         except:
             pass
 

@@ -84,8 +84,8 @@ class EncFS_mount(MountControl):
         output = proc.communicate()[0]
         self.backupConfig()
         if proc.returncode:
-            raise MountException( _('Can\'t mount \'%(command)s\':\n\n%(error)s') \
-                                    % {'command': ' '.join(encfs), 'error': output} )
+            raise MountException(_('Can\'t mount \'%(command)s\':\n\n%(error)s') \
+                                    % {'command': ' '.join(encfs), 'error': output})
 
         thread.stop()
 
@@ -134,17 +134,17 @@ class EncFS_mount(MountControl):
                          %cfg, self)
             msg = _('Config for encrypted folder not found.')
             if not self.tmp_mount:
-                raise MountException( msg )
+                raise MountException(msg)
             else:
-                if not self.config.askQuestion( msg + _('\nCreate a new encrypted folder?')):
-                    raise MountException( _('Cancel') )
+                if not self.config.askQuestion(msg + _('\nCreate a new encrypted folder?')):
+                    raise MountException(_('Cancel'))
                 else:
                     pw = password.Password(self.config)
                     password_confirm = pw.passwordFromUser(self.parent, prompt = _('Please confirm password'))
                     if self.password == password_confirm:
                         return False
                     else:
-                        raise MountException( _('Password doesn\'t match') )
+                        raise MountException(_('Password doesn\'t match'))
 
     def checkVersion(self):
         """
@@ -161,7 +161,7 @@ class EncFS_mount(MountControl):
             m = re.search(r'(\d\.\d\.\d)', output)
             if m and StrictVersion(m.group(1)) <= StrictVersion('1.7.2'):
                 logger.debug('Wrong encfs version %s' %m.group(1), self)
-                raise MountException( _('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
+                raise MountException(_('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
 
     def backupConfig(self):
         """
@@ -186,7 +186,7 @@ class EncFS_mount(MountControl):
                 logger.debug('Encfs config did not change. Skip backup', self)
                 return
 
-        new_backup_file = '.'.join((os.path.basename(cfg), datetime.now().strftime('%Y%m%d%H%M') ))
+        new_backup_file = '.'.join((os.path.basename(cfg), datetime.now().strftime('%Y%m%d%H%M')))
         new_backup = os.path.join(backup_folder, new_backup_file)
         logger.debug('Create backup of encfs config %s to %s'
                      %(cfg, new_backup), self)
@@ -409,14 +409,14 @@ class Encode(object):
                 if m.group(1):
                     if not m.group(1).endswith(os.sep):
                         return None
-                    enc = os.path.join(enc, self.path(m.group(1)) )
-                enc = os.path.join(enc, m.group(2) )
+                    enc = os.path.join(enc, self.path(m.group(1)))
+                enc = os.path.join(enc, m.group(2))
                 if m.group(3):
                     if not m.group(3).startswith(os.sep):
                         return None
                     m1 = self.re_asterisk.search(m.group(3))
                     if m1 is None:
-                        enc = os.path.join(enc, self.path(m.group(3)) )
+                        enc = os.path.join(enc, self.path(m.group(3)))
                         break
                     else:
                         path_ = m.group(3)
@@ -439,7 +439,7 @@ class Encode(object):
         """
         encode the path on remote host starting from backintime/host/user/...
         """
-        enc_path = self.path( path[len(self.remote_path):] )
+        enc_path = self.path(path[len(self.remote_path):])
         return os.path.join(self.remote_path, enc_path)
 
     def close(self):
@@ -501,7 +501,7 @@ class Decode(object):
         self.re_include_exclude = re.compile(r'(--(?:ex|in)clude=")(.*?)(")')
 
         #replace: 'USER@HOST:"PATH<crypted_path>"'
-        self.re_remote_path =     re.compile(r'(\'%s@%s:"%s)(.*?)("\')' %(user, host, path) )
+        self.re_remote_path =     re.compile(r'(\'%s@%s:"%s)(.*?)("\')' %(user, host, path))
 
         #replace: --link-dest="../../<crypted_path>"
         self.re_link_dest =       re.compile(r'(--link-dest="\.\./\.\./)(.*?)(")')
@@ -522,7 +522,7 @@ class Decode(object):
         pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
         pattern.append(r' file has vanished: ".*?mountpoint/')
         pattern.append(r' ')
-        self.re_info = re.compile(r'(^(?:\[I\] )?%s \(rsync:(?:%s))(.*?)(\).*|".*)' % (takeSnapshot, '|'.join(pattern)) )
+        self.re_info = re.compile(r'(^(?:\[I\] )?%s \(rsync:(?:%s))(.*?)(\).*|".*)' % (takeSnapshot, '|'.join(pattern)))
 
         #search for: [E] Error: rsync readlink_stat("...mountpoint/<crypted_path>")
         #            [E] Error: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13)
@@ -535,7 +535,7 @@ class Decode(object):
         self.re_error = re.compile(r'(^(?:\[E\] )?Error:(?:%s))(.*?)(".*)' % '|'.join(pattern))
 
         #search for: [I] ssh USER@HOST cp -aRl "PATH<crypted_path>"* "PATH<crypted_path>"
-        self.re_info_cp= re.compile(r'(^\[I\] .*? cp -aRl "%s/)(.*?)("\* "%s/)(.*?)(")' % (path, path) )
+        self.re_info_cp= re.compile(r'(^\[I\] .*? cp -aRl "%s/)(.*?)("\* "%s/)(.*?)(")' % (path, path))
 
         #search for all chars except *
         self.re_all_except_asterisk = re.compile(r'[^\*]+')
@@ -556,7 +556,7 @@ class Decode(object):
         pattern.append(r'total size is .*? speedup is')
         pattern.append(r'rsync error: some files/attrs were not transferred')
         pattern.append(r'rsync warning: some files vanished before they could be transferred')
-        self.re_skip = re.compile(r'^(?:\[I\] )?%s \(rsync: (%s)' % (takeSnapshot, '|'.join(pattern)) )
+        self.re_skip = re.compile(r'^(?:\[I\] )?%s \(rsync: (%s)' % (takeSnapshot, '|'.join(pattern)))
 
         self.string = string
         if string:
@@ -683,7 +683,7 @@ class Decode(object):
         assert isinstance(path, bytes), 'path is not bytes type: %s' % path
 
         remote_path = self.remote_path.encode()
-        dec_path = self.path( path[len(remote_path):] )
+        dec_path = self.path(path[len(remote_path):])
         return os.path.join(remote_path, dec_path)
 
     def close(self):

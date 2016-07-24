@@ -34,27 +34,27 @@ REFRESH_SNAPSHOT    = QIcon.fromTheme('view-refresh')
 SNAPSHOT_NAME       = QIcon.fromTheme('stock_edit',
                       QIcon.fromTheme('gtk-edit',
                       QIcon.fromTheme('edit-rename',
-                      QIcon.fromTheme('accessories-text-editor') ) ) )
+                      QIcon.fromTheme('accessories-text-editor'))))
 REMOVE_SNAPSHOT     = QIcon.fromTheme('edit-delete')
 VIEW_SNAPSHOT_LOG   = QIcon.fromTheme('text-plain',
-                      QIcon.fromTheme('text-x-generic') )
+                      QIcon.fromTheme('text-x-generic'))
 VIEW_LAST_LOG       = QIcon.fromTheme('document-new')
 SETTINGS            = QIcon.fromTheme('gtk-preferences',
-                      QIcon.fromTheme('configure') )
+                      QIcon.fromTheme('configure'))
 SHUTDOWN            = QIcon.fromTheme('system-shutdown')
 EXIT                = QIcon.fromTheme('gtk-close',
-                      QIcon.fromTheme('application-exit') )
+                      QIcon.fromTheme('application-exit'))
 
 #Help menu
 HELP                = QIcon.fromTheme('help-contents')
 WEBSITE             = QIcon.fromTheme('go-home')
 CHANGELOG           = QIcon.fromTheme('format-justify-fill')
 FAQ                 = QIcon.fromTheme('help-faq',
-                      QIcon.fromTheme('help-hint') )
+                      QIcon.fromTheme('help-hint'))
 QUESTION            = QIcon.fromTheme('stock_dialog-question',
-                      QIcon.fromTheme('help-feedback') )
+                      QIcon.fromTheme('help-feedback'))
 BUG                 = QIcon.fromTheme('stock_dialog-error',
-                      QIcon.fromTheme('tools-report-bug') )
+                      QIcon.fromTheme('tools-report-bug'))
 ABOUT               = QIcon.fromTheme('help-about')
 
 #Files toolbar
@@ -65,7 +65,7 @@ RESTORE             = QIcon.fromTheme('edit-undo')
 RESTORE_TO          = QIcon.fromTheme('document-revert')
 SNAPSHOTS           = QIcon.fromTheme('file-manager',
                       QIcon.fromTheme('view-list-details',
-                      QIcon.fromTheme('system-file-manager') ) )
+                      QIcon.fromTheme('system-file-manager')))
 
 #Snapshot dialog
 DIFF_OPTIONS        = SETTINGS
@@ -85,4 +85,4 @@ FILE                = VIEW_SNAPSHOT_LOG
 EXCLUDE             = REMOVE_SNAPSHOT
 DEFAULT_EXCLUDE     = QIcon.fromTheme('emblem-important')
 INVALID_EXCLUDE     = QIcon.fromTheme('emblem-ohno',
-                      QIcon.fromTheme('face-surprise') )
+                      QIcon.fromTheme('face-surprise'))

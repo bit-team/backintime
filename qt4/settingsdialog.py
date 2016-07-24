@@ -36,8 +36,8 @@ from exceptions import MountException
 _=gettext.gettext
 
 
-class SettingsDialog( QDialog ):
-    def __init__( self, parent ):
+class SettingsDialog(QDialog):
+    def __init__(self, parent):
         super(SettingsDialog, self).__init__(parent)
 
         self.parent = parent
@@ -49,7 +49,7 @@ class SettingsDialog( QDialog ):
         self.icon = icon
 
         self.setWindowIcon(icon.SETTINGS_DIALOG)
-        self.setWindowTitle( _( 'Settings' ) )
+        self.setWindowTitle(_('Settings'))
 
         self.mainLayout = QVBoxLayout(self)
 
@@ -57,7 +57,7 @@ class SettingsDialog( QDialog ):
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
 
-        layout.addWidget( QLabel( _('Profile:'), self ) )
+        layout.addWidget(QLabel(_('Profile:'), self))
 
         self.firstUpdateAll = True
         self.disableProfileChanged = True
@@ -66,12 +66,12 @@ class SettingsDialog( QDialog ):
         QObject.connect(self.comboProfiles, SIGNAL('currentIndexChanged(int)'), self.profileChanged)
         self.disableProfileChanged = False
 
-        self.btnEditProfile = QPushButton(icon.PROFILE_EDIT, _('Edit'), self )
+        self.btnEditProfile = QPushButton(icon.PROFILE_EDIT, _('Edit'), self)
         QObject.connect(self.btnEditProfile, SIGNAL('clicked()'), self.editProfile)
         layout.addWidget(self.btnEditProfile)
 
         # update to full system backup button
-        self.btnModifyProfileForFullSystemBackup = QPushButton(icon.ADD, _('Modify for Full System Backup'), self )
+        self.btnModifyProfileForFullSystemBackup = QPushButton(icon.ADD, _('Modify for Full System Backup'), self)
         QObject.connect(self.btnModifyProfileForFullSystemBackup, SIGNAL('clicked()'), self.modifyProfileForFullSystemBackup)
         layout.addWidget(self.btnModifyProfileForFullSystemBackup)
 
@@ -102,7 +102,7 @@ class SettingsDialog( QDialog ):
         #select mode
         self.mode = None
         vlayout = QVBoxLayout()
-        layout.addLayout( vlayout )
+        layout.addLayout(vlayout)
 
         self.lblModes = QLabel(_('Mode:'), self)
 
@@ -120,7 +120,7 @@ class SettingsDialog( QDialog ):
         self.encfsWarning = QLabel(_("<b>Warning:</b> %(app)s uses EncFS for encryption. A recent security audit "
                                      "revealed several possible attack vectors for this. "
                                      "Please take a look at 'A NOTE ON SECURITY' in 'man backintime'.") \
-                                   % {'app': self.config.APP_NAME} )
+                                   % {'app': self.config.APP_NAME})
         self.encfsWarning.setWordWrap(True)
         layout.addWidget(self.encfsWarning)
 
@@ -133,7 +133,7 @@ class SettingsDialog( QDialog ):
         vlayout = QVBoxLayout(groupBox)
 
         hlayout = QHBoxLayout()
-        vlayout.addLayout( hlayout )
+        vlayout.addLayout(hlayout)
 
         self.editSnapshotsPath = QLineEdit(self)
         self.editSnapshotsPath.setReadOnly(True)
@@ -157,11 +157,11 @@ class SettingsDialog( QDialog ):
         vlayout = QVBoxLayout(groupBox)
 
         hlayout1 = QHBoxLayout()
-        vlayout.addLayout( hlayout1 )
+        vlayout.addLayout(hlayout1)
         hlayout2 = QHBoxLayout()
-        vlayout.addLayout( hlayout2 )
+        vlayout.addLayout(hlayout2)
         hlayout3 = QHBoxLayout()
-        vlayout.addLayout( hlayout3 )
+        vlayout.addLayout(hlayout3)
 
         self.lblSshHost = QLabel(_('Host:'), self)
         hlayout1.addWidget(self.lblSshHost)
@@ -252,13 +252,13 @@ class SettingsDialog( QDialog ):
         layout.addWidget(groupBox)
 
         hlayout = QHBoxLayout(groupBox)
-        hlayout.addSpacing( 12 )
+        hlayout.addSpacing(12)
 
         vlayout2 = QVBoxLayout()
-        hlayout.addLayout( vlayout2 )
+        hlayout.addLayout(vlayout2)
 
         hlayout2 = QHBoxLayout()
-        vlayout2.addLayout( hlayout2 )
+        vlayout2.addLayout(hlayout2)
 
         self.lblHost = QLabel(_('Host:'), self)
         hlayout2.addWidget(self.lblHost)
@@ -303,7 +303,7 @@ class SettingsDialog( QDialog ):
         self.comboScheduleDay = QComboBox(self)
         glayout.addWidget(self.comboScheduleDay, 1, 1)
 
-        for d in range( 1, 29 ):
+        for d in range(1, 29):
             self.comboScheduleDay.addItem(QIcon(), str(d), d)
 
         self.lblScheduleWeekday = QLabel(_('Weekday:'), self)
@@ -314,7 +314,7 @@ class SettingsDialog( QDialog ):
         self.comboScheduleWeekday = QComboBox(self)
         glayout.addWidget(self.comboScheduleWeekday, 2, 1)
 
-        for d in range( 1, 8 ):
+        for d in range(1, 8):
             self.comboScheduleWeekday.addItem(QIcon(), datetime.date(2011, 11, 6 + d).strftime("%A"), d)
 
         self.lblScheduleTime = QLabel(_('Hour:'), self)
@@ -325,7 +325,7 @@ class SettingsDialog( QDialog ):
         self.comboScheduleTime = QComboBox(self)
         glayout.addWidget(self.comboScheduleTime, 3, 1)
 
-        for t in range( 0, 2300, 100 ):
+        for t in range(0, 2300, 100):
             self.comboScheduleTime.addItem(QIcon(), datetime.time(t//100, t%100).strftime("%H:%M"), t)
 
         self.lblScheduleCronPatern = QLabel(_('Hours:'), self)
@@ -379,8 +379,8 @@ class SettingsDialog( QDialog ):
         self.listInclude = QTreeWidget(self)
         self.listInclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.listInclude.setRootIsDecorated(False)
-        self.listInclude.setHeaderLabels( [ _('Include files and folders'),
-                                            'Count' ] )
+        self.listInclude.setHeaderLabels([ _('Include files and folders'),
+                                            'Count' ])
 
         self.listInclude.header().setResizeMode(0, QHeaderView.Stretch)
         self.listInclude.header().setClickable(True)
@@ -389,7 +389,7 @@ class SettingsDialog( QDialog ):
         self.listIncludeSortLoop = False
         QObject.connect(self.listInclude.header(),
                         SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.includeCustomSortOrder )
+                        self.includeCustomSortOrder)
 
         layout.addWidget(self.listInclude)
         self.listIncludeCount = 0
@@ -421,8 +421,8 @@ class SettingsDialog( QDialog ):
         self.listExclude = QTreeWidget(self)
         self.listExclude.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.listExclude.setRootIsDecorated(False)
-        self.listExclude.setHeaderLabels( [ _('Exclude patterns, files or folders') ,
-                                            'Count' ] )
+        self.listExclude.setHeaderLabels([ _('Exclude patterns, files or folders') ,
+                                            'Count' ])
 
         self.listExclude.header().setResizeMode(0, QHeaderView.Stretch)
         self.listExclude.header().setClickable(True)
@@ -431,17 +431,17 @@ class SettingsDialog( QDialog ):
         self.listExcludeSortLoop = False
         QObject.connect(self.listExclude.header(),
                         SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.excludeCustomSortOrder )
+                        self.excludeCustomSortOrder)
 
         layout.addWidget(self.listExclude)
         self.listExcludeCount = 0
 
-        label = QLabel( _('Highly recommended:'), self )
+        label = QLabel(_('Highly recommended:'), self)
         qt4tools.setFontBold(label)
-        layout.addWidget( label )
-        label = QLabel( ', '.join(sorted(self.config.DEFAULT_EXCLUDE)), self )
+        layout.addWidget(label)
+        label = QLabel(', '.join(sorted(self.config.DEFAULT_EXCLUDE)), self)
         label.setWordWrap(True)
-        layout.addWidget( label )
+        layout.addWidget(label)
 
         buttonsLayout = QHBoxLayout()
         layout.addLayout(buttonsLayout)
@@ -523,7 +523,7 @@ class SettingsDialog( QDialog ):
         self.fillCombo(self.comboFreeSpaceUnit, self.config.MIN_FREE_SPACE_UNITS)
 
         #min free inodes
-        self.cbFreeInodes = QCheckBox( _('If free inodes is less than:'), self)
+        self.cbFreeInodes = QCheckBox(_('If free inodes is less than:'), self)
         layout.addWidget(self.cbFreeInodes, 2, 0)
 
         self.spbFreeInodes = QSpinBox(self)
@@ -534,58 +534,58 @@ class SettingsDialog( QDialog ):
 
         enabled = lambda state: self.spbFreeInodes.setEnabled(state)
         enabled(False)
-        QObject.connect( self.cbFreeInodes, SIGNAL('stateChanged(int)'), enabled)
+        QObject.connect(self.cbFreeInodes, SIGNAL('stateChanged(int)'), enabled)
 
         #smart remove
         self.cbSmartRemove = QCheckBox(_('Smart remove'), self)
         layout.addWidget(self.cbSmartRemove, 3, 0)
 
-        widget = QWidget( self )
-        widget.setContentsMargins( 25, 0, 0, 0 )
-        layout.addWidget( widget, 4, 0, 1, 3 )
+        widget = QWidget(self)
+        widget.setContentsMargins(25, 0, 0, 0)
+        layout.addWidget(widget, 4, 0, 1, 3)
 
-        smlayout = QGridLayout( widget )
+        smlayout = QGridLayout(widget)
 
         self.cbSmartRemoveRunRemoteInBackground = QCheckBox(_('Run in background on remote Host.') + _(' EXPERIMENTAL!'), self)
         smlayout.addWidget(self.cbSmartRemoveRunRemoteInBackground, 0, 0, 1, 3)
 
-        smlayout.addWidget( QLabel( _( 'Keep all snapshots for the last' ), self ), 1, 0 )
+        smlayout.addWidget(QLabel(_('Keep all snapshots for the last'), self), 1, 0)
         self.spbKeepAll = QSpinBox(self)
         self.spbKeepAll.setRange(1, 10000)
         smlayout.addWidget(self.spbKeepAll, 1, 1)
-        smlayout.addWidget( QLabel( _( 'day(s)' ), self ), 1, 2 )
+        smlayout.addWidget(QLabel(_('day(s)'), self), 1, 2)
 
-        smlayout.addWidget( QLabel( _( 'Keep one snapshot per day for the last' ), self ), 2, 0 )
+        smlayout.addWidget(QLabel(_('Keep one snapshot per day for the last'), self), 2, 0)
         self.spbKeepOnePerDay = QSpinBox(self)
         self.spbKeepOnePerDay.setRange(1, 10000)
         smlayout.addWidget(self.spbKeepOnePerDay, 2, 1)
-        smlayout.addWidget( QLabel( _( 'day(s)' ), self ), 2, 2 )
+        smlayout.addWidget(QLabel(_('day(s)'), self), 2, 2)
 
-        smlayout.addWidget( QLabel( _( 'Keep one snapshot per week for the last' ), self ), 3, 0 )
+        smlayout.addWidget(QLabel(_('Keep one snapshot per week for the last'), self), 3, 0)
         self.spbKeepOnePerWeek = QSpinBox(self)
         self.spbKeepOnePerWeek.setRange(1, 10000)
         smlayout.addWidget(self.spbKeepOnePerWeek, 3, 1)
-        smlayout.addWidget( QLabel( _( 'weeks(s)' ), self ), 3, 2 )
+        smlayout.addWidget(QLabel(_('weeks(s)'), self), 3, 2)
 
-        smlayout.addWidget( QLabel( _( 'Keep one snapshot per month for the last' ), self ), 4, 0 )
+        smlayout.addWidget(QLabel(_('Keep one snapshot per month for the last'), self), 4, 0)
         self.spbKeepOnePerMonth = QSpinBox(self)
         self.spbKeepOnePerMonth.setRange(1, 1000)
         smlayout.addWidget(self.spbKeepOnePerMonth, 4, 1)
-        smlayout.addWidget( QLabel( _( 'month(s)' ), self ), 4, 2 )
+        smlayout.addWidget(QLabel(_('month(s)'), self), 4, 2)
 
-        smlayout.addWidget( QLabel( _( 'Keep one snapshot per year for all years' ), self ), 5, 0, 1, 3 )
+        smlayout.addWidget(QLabel(_('Keep one snapshot per year for all years'), self), 5, 0, 1, 3)
 
         enabled = lambda state: [smlayout.itemAt(x).widget().setEnabled(state) for x in range(smlayout.count())]
         enabled(False)
-        QObject.connect( self.cbSmartRemove, SIGNAL('stateChanged(int)'), enabled)
+        QObject.connect(self.cbSmartRemove, SIGNAL('stateChanged(int)'), enabled)
 
         #don't remove named snapshots
         self.cbDontRemoveNamedSnapshots = QCheckBox(_("Don't remove named snapshots"), self)
         layout.addWidget(self.cbDontRemoveNamedSnapshots, 5, 0, 1, 3)
 
         #
-        layout.addWidget( QWidget(self), 6, 0 )
-        layout.setRowStretch( 6, 2 )
+        layout.addWidget(QWidget(self), 6, 0)
+        layout.setRowStretch(6, 2)
         scrollArea.setWidget(layoutWidget)
         scrollArea.setWidgetResizable(True)
 
@@ -613,7 +613,7 @@ class SettingsDialog( QDialog ):
         layout.addWidget(self.cbGlobalFlock)
 
         self.cbBackupOnRestore = QCheckBox(_('Backup replaced files on restore'), self)
-        self.cbBackupOnRestore.setToolTip( _('Newer versions of files will be '
+        self.cbBackupOnRestore.setToolTip(_('Newer versions of files will be '
                                              'renamed with trailing \'%(suffix)s\' '
                                              'before restoring.\n'
                                              'If you don\'t need them anymore '
@@ -633,9 +633,9 @@ class SettingsDialog( QDialog ):
 
         #log level
         hlayout = QHBoxLayout()
-        layout.addLayout( hlayout )
+        layout.addLayout(hlayout)
 
-        hlayout.addWidget( QLabel( _('Log Level:'), self ) )
+        hlayout.addWidget(QLabel(_('Log Level:'), self))
 
         self.comboLogLevel = QComboBox(self)
         hlayout.addWidget(self.comboLogLevel, 1)
@@ -658,9 +658,9 @@ class SettingsDialog( QDialog ):
         layoutWidget = QWidget(self)
         layout = QVBoxLayout(layoutWidget)
 
-        label = QLabel( _('Change these options only if you really know what you are doing !'), self )
+        label = QLabel(_('Change these options only if you really know what you are doing !'), self)
         qt4tools.setFontBold(label)
-        layout.addWidget( label )
+        layout.addWidget(label)
 
         label = QLabel(_("Run 'nice':"))
         layout.addWidget(label)
@@ -683,7 +683,7 @@ class SettingsDialog( QDialog ):
         self.cbIoniceOnCron = QCheckBox(_('as cron job') + self.printDefault(self.config.DEFAULT_RUN_IONICE_FROM_CRON), self)
         grid.addWidget(self.cbIoniceOnCron, 0, 1)
 
-        self.cbIoniceOnUser = QCheckBox(_('when taking a manual snapshot') + self.printDefault(self.config.DEFAULT_RUN_IONICE_FROM_USER), self )
+        self.cbIoniceOnUser = QCheckBox(_('when taking a manual snapshot') + self.printDefault(self.config.DEFAULT_RUN_IONICE_FROM_USER), self)
         grid.addWidget(self.cbIoniceOnUser, 1, 1)
 
         self.cbIoniceOnRemote = QCheckBox(_('on remote host') + self.printDefault(self.config.DEFAULT_RUN_IONICE_ON_REMOTE), self)
@@ -721,14 +721,14 @@ class SettingsDialog( QDialog ):
         self.cbBwlimit = QCheckBox(_('Limit rsync bandwidth usage: '), self)
         hlayout.addWidget(self.cbBwlimit)
         self.spbBwlimit = QSpinBox(self)
-        self.spbBwlimit.setSuffix( _(' KB/sec'))
+        self.spbBwlimit.setSuffix(_(' KB/sec'))
         self.spbBwlimit.setSingleStep(100)
         self.spbBwlimit.setRange(0, 1000000)
         hlayout.addWidget(self.spbBwlimit)
         hlayout.addStretch()
         enabled = lambda state: self.spbBwlimit.setEnabled(state)
         enabled(False)
-        QObject.connect( self.cbBwlimit, SIGNAL('stateChanged(int)'), enabled)
+        QObject.connect(self.cbBwlimit, SIGNAL('stateChanged(int)'), enabled)
         self.cbBwlimit.setToolTip(
                 'uses \'rsync --bwlimit=RATE\'\n'
                 'From \'man rsync\':\n'
@@ -818,7 +818,7 @@ class SettingsDialog( QDialog ):
         #additional rsync options
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
-        self.cbRsyncOptions = QCheckBox( _('Paste additional options to rsync'), self)
+        self.cbRsyncOptions = QCheckBox(_('Paste additional options to rsync'), self)
         hlayout.addWidget(self.cbRsyncOptions)
         self.txtRsyncOptions = QLineEdit(self)
         self.txtRsyncOptions.setToolTip(_('Options must be quoted e.g. --exclude-from="/path/to/my exclude file".'))
@@ -826,15 +826,15 @@ class SettingsDialog( QDialog ):
 
         enabled = lambda state: self.txtRsyncOptions.setEnabled(state)
         enabled(False)
-        QObject.connect( self.cbRsyncOptions, SIGNAL('stateChanged(int)'), enabled)
+        QObject.connect(self.cbRsyncOptions, SIGNAL('stateChanged(int)'), enabled)
 
         #ssh prefix
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
-        self.cbSshPrefix = QCheckBox( _('Add prefix to SSH commands'), self)
+        self.cbSshPrefix = QCheckBox(_('Add prefix to SSH commands'), self)
         hlayout.addWidget(self.cbSshPrefix)
         self.txtSshPrefix = QLineEdit(self)
-        self.txtSshPrefix.setToolTip( _('Prefix to run before every command on remote host.\n'
+        self.txtSshPrefix.setToolTip(_('Prefix to run before every command on remote host.\n'
                                         'Variables need to be escaped with \$FOO.\n'
                                         'This doesn\'t touch rsync. So to add a prefix\n'
                                         'for rsync use "%(cbRsyncOptions)s" with\n'
@@ -848,7 +848,7 @@ class SettingsDialog( QDialog ):
 
         enabled = lambda state: self.txtSshPrefix.setEnabled(state)
         enabled(False)
-        QObject.connect( self.cbSshPrefix, SIGNAL('stateChanged(int)'), enabled)
+        QObject.connect(self.cbSshPrefix, SIGNAL('stateChanged(int)'), enabled)
 
         qt4tools.equalIndent(self.cbRsyncOptions, self.cbSshPrefix)
 
@@ -898,13 +898,13 @@ class SettingsDialog( QDialog ):
         self.config.setCopyLinks(False)
         self.config.setCopyUnsafeLinks(False)
         # backup root
-        self.config.setInclude([ ("/", 0) ])
+        self.config.setInclude([("/", 0)])
 
         # set UI
         self.updateProfiles()
 
     def addProfile(self):
-        ret_val =  QInputDialog.getText(self, _('New profile'), str() )
+        ret_val =  QInputDialog.getText(self, _('New profile'), str())
         if not ret_val[1]:
             return
 
@@ -920,7 +920,7 @@ class SettingsDialog( QDialog ):
         self.updateProfiles()
 
     def editProfile(self):
-        ret_val =  QInputDialog.getText(self, _('Rename profile'), str() )
+        ret_val =  QInputDialog.getText(self, _('Rename profile'), str())
         if not ret_val[1]:
             return
 
@@ -1153,10 +1153,10 @@ class SettingsDialog( QDialog ):
         self.cbPreserveXattr.setChecked(self.config.preserveXattr())
         self.cbCopyUnsafeLinks.setChecked(self.config.copyUnsafeLinks())
         self.cbCopyLinks.setChecked(self.config.copyLinks())
-        self.cbRsyncOptions.setChecked(self.config.rsyncOptionsEnabled() )
-        self.txtRsyncOptions.setText(self.config.rsyncOptions() )
-        self.cbSshPrefix.setChecked(self.config.sshPrefixEnabled() )
-        self.txtSshPrefix.setText(self.config.sshPrefix() )
+        self.cbRsyncOptions.setChecked(self.config.rsyncOptionsEnabled())
+        self.txtRsyncOptions.setText(self.config.rsyncOptions())
+        self.cbSshPrefix.setChecked(self.config.sshPrefixEnabled())
+        self.txtSshPrefix.setText(self.config.sshPrefix())
 
         #update
         self.updateRemoveOlder()
@@ -1164,7 +1164,7 @@ class SettingsDialog( QDialog ):
 
     def saveProfile(self):
         if self.comboSchedule.itemData(self.comboSchedule.currentIndex()) == self.config.CUSTOM_HOUR:
-            if not tools.checkCronPattern(self.txtScheduleCronPatern.text() ):
+            if not tools.checkCronPattern(self.txtScheduleCronPatern.text()):
                 self.errorHandler(_('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours'))
                 return False
 
@@ -1191,7 +1191,7 @@ class SettingsDialog( QDialog ):
         self.config.setHostUserProfile(
                 self.txtHost.text(),
                 self.txtUser.text(),
-                self.txt_profile.text() )
+                self.txt_profile.text())
 
         #save ssh
         self.config.setSshHost(self.txtSshHost.text())
@@ -1214,7 +1214,7 @@ class SettingsDialog( QDialog ):
         include_list = []
         for index in range(self.listInclude.topLevelItemCount()):
             item = self.listInclude.topLevelItem(index)
-            include_list.append( ( item.text(0), item.data( 0, Qt.UserRole ) ) )
+            include_list.append((item.text(0), item.data(0, Qt.UserRole)))
 
         self.config.setInclude(include_list)
 
@@ -1228,7 +1228,7 @@ class SettingsDialog( QDialog ):
         exclude_list = []
         for index in range(self.listExclude.topLevelItemCount()):
             item = self.listExclude.topLevelItem(index)
-            exclude_list.append( item.text(0) )
+            exclude_list.append(item.text(0))
 
         self.config.setExclude(exclude_list)
         self.config.setExcludeBySize(self.cbExcludeBySize.isChecked(),
@@ -1241,27 +1241,27 @@ class SettingsDialog( QDialog ):
         self.config.setScheduleDay(self.comboScheduleDay.itemData(self.comboScheduleDay.currentIndex()))
         self.config.setCustomBackupTime(self.txtScheduleCronPatern.text())
         self.config.setScheduleRepeatedPeriod(self.spbScheduleRepeatedPeriod.value())
-        self.config.setScheduleRepeatedUnit(self.comboScheduleRepeatedUnit.itemData(self.comboScheduleRepeatedUnit.currentIndex() ))
+        self.config.setScheduleRepeatedUnit(self.comboScheduleRepeatedUnit.itemData(self.comboScheduleRepeatedUnit.currentIndex()))
 
         #auto-remove
         self.config.setRemoveOldSnapshots(
                         self.cbRemoveOlder.isChecked(),
                         self.spbRemoveOlder.value(),
-                        self.comboRemoveOlderUnit.itemData(self.comboRemoveOlderUnit.currentIndex()) )
+                        self.comboRemoveOlderUnit.itemData(self.comboRemoveOlderUnit.currentIndex()))
         self.config.setMinFreeSpace(
                         self.cbFreeSpace.isChecked(),
                         self.spbFreeSpace.value(),
-                        self.comboFreeSpaceUnit.itemData(self.comboFreeSpaceUnit.currentIndex()) )
+                        self.comboFreeSpaceUnit.itemData(self.comboFreeSpaceUnit.currentIndex()))
         self.config.setMinFreeInodes(
                         self.cbFreeInodes.isChecked(),
-                        self.spbFreeInodes.value() )
+                        self.spbFreeInodes.value())
         self.config.setDontRemoveNamedSnapshots(self.cbDontRemoveNamedSnapshots.isChecked())
         self.config.setSmartRemove(
                         self.cbSmartRemove.isChecked(),
                         self.spbKeepAll.value(),
                         self.spbKeepOnePerDay.value(),
                         self.spbKeepOnePerWeek.value(),
-                        self.spbKeepOnePerMonth.value() )
+                        self.spbKeepOnePerMonth.value())
         self.config.setSmartRemoveRunRemoteInBackground(self.cbSmartRemoveRunRemoteInBackground.isChecked())
 
         #options
@@ -1346,12 +1346,12 @@ class SettingsDialog( QDialog ):
         return True
 
     def errorHandler(self, message):
-        messagebox.critical( self, message )
+        messagebox.critical(self, message)
 
     def questionHandler(self, message):
-        return QMessageBox.Yes == messagebox.warningYesNo( self, message )
+        return QMessageBox.Yes == messagebox.warningYesNo(self, message)
 
-    def exec_( self ):
+    def exec_(self):
         self.config.setQuestionHandler(self.questionHandler)
         self.config.setErrorHandler(self.errorHandler)
         ret_val = super(SettingsDialog, self).exec_()
@@ -1382,11 +1382,11 @@ class SettingsDialog( QDialog ):
         else:
             item.setIcon(0, self.icon.FILE)
 
-        item.setText( 0, data[0] )
-        item.setData( 0, Qt.UserRole, data[1] )
+        item.setText(0, data[0])
+        item.setData(0, Qt.UserRole, data[1])
         self.listIncludeCount += 1
         item.setText(1, str(self.listIncludeCount).zfill(6))
-        item.setData(1, Qt.UserRole, self.listIncludeCount )
+        item.setData(1, Qt.UserRole, self.listIncludeCount)
         self.listInclude.addTopLevelItem(item)
 
         if self.listInclude.currentItem() is None:
@@ -1397,10 +1397,10 @@ class SettingsDialog( QDialog ):
     def addExclude(self, pattern):
         item = QTreeWidgetItem()
         item.setText(0, pattern)
-        item.setData(0, Qt.UserRole, pattern )
+        item.setData(0, Qt.UserRole, pattern)
         self.listExcludeCount += 1
         item.setText(1, str(self.listExcludeCount).zfill(6))
-        item.setData(1, Qt.UserRole, self.listExcludeCount )
+        item.setData(1, Qt.UserRole, self.listExcludeCount)
         self.formatExcludeItem(item)
         self.listExclude.addTopLevelItem(item)
 
@@ -1414,18 +1414,18 @@ class SettingsDialog( QDialog ):
         keys.sort()
 
         for key in keys:
-            combo.addItem( QIcon(), d[ key ], key )
+            combo.addItem(QIcon(), d[key], key)
 
     def setComboValue(self, combo, value, t = 'int'):
-        for i in range( combo.count() ):
-            if t == 'int' and value == combo.itemData( i ):
-                combo.setCurrentIndex( i )
+        for i in range(combo.count()):
+            if t == 'int' and value == combo.itemData(i):
+                combo.setCurrentIndex(i)
                 break
-            if t == 'str' and value == combo.itemData( i ):
-                combo.setCurrentIndex( i )
+            if t == 'str' and value == combo.itemData(i):
+                combo.setCurrentIndex(i)
                 break
 
-    def validate( self ):
+    def validate(self):
         if not self.saveProfile():
             return False
 
@@ -1506,8 +1506,8 @@ class SettingsDialog( QDialog ):
             if os.path.islink(path) \
               and not (self.cbCopyUnsafeLinks.isChecked() \
               or self.cbCopyLinks.isChecked()):
-                if self.questionHandler( \
-                  _('"%s" is a symlink. The linked target will not be backed up until you include it, too.\nWould you like to include the symlinks target instead?') % path ):
+                if self.questionHandler(\
+                  _('"%s" is a symlink. The linked target will not be backed up until you include it, too.\nWould you like to include the symlinks target instead?') % path):
                     path = os.path.realpath(path)
 
             path = self.config.preparePath(path)
@@ -1526,8 +1526,8 @@ class SettingsDialog( QDialog ):
             if os.path.islink(path) \
               and not (self.cbCopyUnsafeLinks.isChecked() \
               or self.cbCopyLinks.isChecked()):
-                if self.questionHandler( \
-                  _('"%s" is a symlink. The linked target will not be backed up until you include it, too.\nWould you like to include the symlinks target instead?') % path ):
+                if self.questionHandler(\
+                  _('"%s" is a symlink. The linked target will not be backed up until you include it, too.\nWould you like to include the symlinks target instead?') % path):
                     path = os.path.realpath(path)
 
             path = self.config.preparePath(path)
@@ -1543,7 +1543,7 @@ class SettingsDialog( QDialog ):
 
         path = str(qt4tools.getExistingDirectory(self,
                                                  _('Where to save snapshots'),
-                                                 self.editSnapshotsPath.text() ) )
+                                                 self.editSnapshotsPath.text()))
         if path:
             if old_path and old_path != path:
                 if not self.questionHandler(_('Are you sure you want to change snapshots folder ?')):
@@ -1671,7 +1671,7 @@ class SettingsDialog( QDialog ):
         RestoreConfigDialog(self).exec_()
         self.updateProfiles()
 
-    def accept( self ):
+    def accept(self):
         if self.validate():
             super(SettingsDialog, self).accept()
 
@@ -1690,15 +1690,15 @@ class RestoreConfigDialog(QDialog):
         import icon
         self.icon = icon
         self.setWindowIcon(icon.SETTINGS_DIALOG)
-        self.setWindowTitle(_( 'Restore Settings' ))
+        self.setWindowTitle(_('Restore Settings'))
 
         layout = QVBoxLayout(self)
         #show a hint on how the snapshot path will look like.
-        samplePath = os.path.join( 'backintime',
-                                    self.config.host(),
-                                    self.config.user(), '1',
-                                    snapshots.SID(datetime.datetime.now(), self.config).sid
-                                    )
+        samplePath = os.path.join('backintime',
+                                  self.config.host(),
+                                  self.config.user(), '1',
+                                  snapshots.SID(datetime.datetime.now(), self.config).sid
+                                  )
 
         #inform user to join group fuse if he hasn't already.
         #If there is no group fuse than it is most likly not nessesary.
@@ -1880,10 +1880,10 @@ class RestoreConfigDialog(QDialog):
             child.widget().deleteLater()
             child = self.gridProfiles.takeAt(0)
         for row, profileId in enumerate(cfg.profiles()):
-            for col, txt in enumerate( (_('Profile:') + ' ' + str(profileId),
+            for col, txt in enumerate((_('Profile:') + ' ' + str(profileId),
                                         cfg.profileName(profileId),
                                         _('Mode:') + ' ' + cfg.SNAPSHOT_MODES[cfg.snapshotsMode(profileId)][1]
-                                        ) ):
+                                        )):
                 self.gridProfiles.addWidget(QLabel(txt, self), row, col)
         self.gridProfiles.setColumnStretch(col, 1)
         self.widgetProfiles.show()

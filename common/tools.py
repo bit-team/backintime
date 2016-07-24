@@ -180,7 +180,7 @@ def readFile(path, default = None):
 
     try:
         if os.path.exists(path):
-            with open( path ) as f:
+            with open(path) as f:
                 ret_val = f.read()
         elif os.path.exists(path + '.gz'):
             with gzip.open(path + '.gz', 'rt') as f:
@@ -208,7 +208,7 @@ def readFileLines(path, default = None):
 
     try:
         if os.path.exists(path):
-            with open( path ) as f:
+            with open(path) as f:
                 ret_val = [x.rstrip('\n') for x in f.readlines()]
         elif os.path.exists(path + '.gz'):
             with gzip.open(path + '.gz', 'rt') as f:
@@ -233,7 +233,7 @@ def checkCommand(cmd):
     if not cmd:
         return False
 
-    if os.path.isfile( cmd ):
+    if os.path.isfile(cmd):
         return True
     return not which(cmd) is None
 
@@ -268,7 +268,7 @@ def makeDirs(path):
     Returns:
         bool:       ``True`` if successful
     """
-    path = path.rstrip( os.sep )
+    path = path.rstrip(os.sep)
     if not path:
         return False
 
@@ -276,7 +276,7 @@ def makeDirs(path):
         return True
     else:
         try:
-            os.makedirs( path )
+            os.makedirs(path)
         except Exception as e:
             logger.error("Failed to make dirs '%s': %s"
                          %(path, str(e)), traceDepth = 1)
@@ -460,7 +460,7 @@ def preparePath(path):
     Returns:
         str:        path ``path`` without trailing but with leading slash
     """
-    path = path.strip( "/" )
+    path = path.strip("/")
     path = os.sep + path
     return path
 
@@ -1088,9 +1088,9 @@ INHIBIT_DBUS = (
                 'methodUnSet':  'UnInhibit',
                 'interface':    'org.freedesktop.PowerManagement.Inhibit',
                 'arguments':    (0, 2)
-               } )
+               })
 
-def inhibitSuspend( app_id = sys.argv[0],
+def inhibitSuspend(app_id = sys.argv[0],
                     toplevel_xid = None,
                     reason = 'take snapshot',
                     flags = INHIBIT_SUSPENDING | INHIBIT_IDLE):
@@ -1117,7 +1117,7 @@ def inhibitSuspend( app_id = sys.argv[0],
                 bus = dbus.SessionBus()
             interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
-            cookie = proxy(*[ (app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments'] ])
+            cookie = proxy(*[(app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments']])
             logger.info('Inhibit Suspend started. Reason: %s' % reason)
             return (cookie, bus, dbus_props)
         except dbus.exceptions.DBusException:
@@ -1367,7 +1367,7 @@ class UniquenessSet:
             if (size, inode) in self._size_inode:
                 logger.debug("[deep test] : skip, it's a duplicate (size, inode)", self)
                 return False
-            self._size_inode.add( (size,inode) )
+            self._size_inode.add((size,inode))
             if size not in self._uniq_dict:
                 # first item of that size
                 unique_key = size
@@ -1548,7 +1548,7 @@ class ShutDown(object):
                                 'objectPath':   '/org/freedesktop/login1',
                                 'method':       'PowerOff',
                                 'interface':    'org.freedesktop.login1.Manager',
-                                'arguments':    (True, )
+                                'arguments':    (True,)
                                }
                    }
 
@@ -1573,7 +1573,7 @@ class ShutDown(object):
                 sessionbus = dbus.SessionBus()
             systembus  = dbus.SystemBus()
         except:
-            return( (None, None) )
+            return((None, None))
         des = list(self.DBUS_SHUTDOWN.keys())
         des.sort()
         for de in des:
@@ -1587,10 +1587,10 @@ class ShutDown(object):
                     bus = systembus
                 interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
                 proxy = interface.get_dbus_method(dbus_props['method'], dbus_props['interface'])
-                return( (proxy, dbus_props['arguments']) )
+                return((proxy, dbus_props['arguments']))
             except dbus.exceptions.DBusException:
                 continue
-        return( (None, None) )
+        return((None, None))
 
     def canShutdown(self):
         """
@@ -1869,12 +1869,12 @@ class Execute(object):
         #backwards compatibility with old os.system and os.popen calls
         if isinstance(self.cmd, str):
             if self.callback is None:
-                ret_val = os.system( self.cmd )
+                ret_val = os.system(self.cmd)
             else:
-                pipe = os.popen( self.cmd, 'r' )
+                pipe = os.popen(self.cmd, 'r')
 
                 while True:
-                    line = tempFailureRetry( pipe.readline )
+                    line = tempFailureRetry(pipe.readline)
                     if not line:
                         break
                     line = line.strip()
@@ -1882,7 +1882,7 @@ class Execute(object):
                         line = f(line)
                     if not line:
                         continue
-                    self.callback(line , self.user_data )
+                    self.callback(line , self.user_data)
 
                 ret_val = pipe.close()
                 if ret_val is None:

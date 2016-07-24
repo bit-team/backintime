@@ -26,14 +26,14 @@ from exceptions import StopException
 _=gettext.gettext
 
 
-class UserCallbackPlugin( pluginmanager.Plugin ):
-    def __init__( self ):
+class UserCallbackPlugin(pluginmanager.Plugin):
+    def __init__(self):
         return
 
-    def init( self, snapshots ):
+    def init(self, snapshots):
         self.config = snapshots.config
         self.callback = self.config.takeSnapshotUserCallback()
-        if not os.path.exists( self.callback ):
+        if not os.path.exists(self.callback):
             return False
         return True
 
