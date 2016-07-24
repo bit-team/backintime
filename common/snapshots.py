@@ -1315,7 +1315,10 @@ class Snapshots:
                                            head = head,
                                            tail = tail,
                                            maxLength = maxLength - additionalChars):
-                tools.Execute(self.cmd_ssh(cmd, quote = True)).run()
+                tools.Execute(self.config.sshCommand(cmd,
+                                                     quote = True,
+                                                     nice = False,
+                                                     ionice = False)).run()
         else:
             logger.info("[smart remove] remove snapshots: %s"
                         %del_snapshots, self)
@@ -1486,7 +1489,9 @@ class Snapshots:
         snapshots_path_ssh = self.config.sshSnapshotsPath()
         if not len(snapshots_path_ssh):
             snapshots_path_ssh = './'
-        cmd = self.cmd_ssh(['df', snapshots_path_ssh])
+        cmd = self.config.sshCommand(['df', snapshots_path_ssh],
+                                     nice = False,
+                                     ionice = False)
 
         df = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
         output = df.communicate()[0]
@@ -1583,61 +1588,6 @@ class Snapshots:
                 snapshotsFiltered.append(sid)
 
         return snapshotsFiltered
-
-    #TODO: replaced by config.Config.sshCommand
-    def cmd_ssh(self, cmd, quote = False, use_mode = ['ssh', 'ssh_encfs']):
-        """
-        Add ssh, nice and ionice command to ``cmd`` to run that command on
-        remote host.
-
-        Args:
-            cmd (str):          command
-            quote (bool):       wrap single tick (') quotemarks around ``cmd``
-            use_mode (list):    list of modes in which the result should
-                                change to ``ssh USER@HOST cmd`` instead of
-                                just ``cmd``
-
-        Returns:
-            str:                command with or without ssh prefix based on
-                                ``use_mode`` and current mode
-        """
-        logger.deprecated(self)
-        mode = self.config.snapshotsMode()
-        if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
-            (ssh_host, ssh_port, ssh_user, ssh_path, ssh_cipher) = self.config.sshHostUserPortPathCipher()
-            ssh_private_key = self.config.sshPrivateKeyFile()
-
-            if isinstance(cmd, str):
-                #TODO: remove obsolete str command
-                if ssh_cipher == 'default':
-                    ssh_cipher_suffix = ''
-                else:
-                    ssh_cipher_suffix = '-c %s' % ssh_cipher
-                ssh_private_key = "-o IdentityFile=%s" % ssh_private_key
-
-                if self.config.ioniceOnRemote():
-                    cmd = 'ionice -c2 -n7 ' + cmd
-
-                if self.config.niceOnRemote():
-                    cmd = 'nice -n 19 ' + cmd
-
-                cmd = self.config.sshPrefixCmd(cmd_type = str) + cmd
-
-                if quote:
-                    cmd = '\'%s\'' % cmd
-
-                return 'ssh -p %s -o ServerAliveInterval=240 -o LogLevel=Error %s %s %s@%s %s' \
-                        % (str(ssh_port), ssh_cipher_suffix, ssh_private_key,\
-                        ssh_user, ssh_host, cmd)
-
-            if isinstance(cmd, tuple):
-                cmd = list(cmd)
-
-            if isinstance(cmd, list):
-                return self.config.sshCommand(cmd)
-
-        else:
-            return cmd
 
     #TODO: move this to config.Config
     def rsyncRemotePath(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = '"'):
