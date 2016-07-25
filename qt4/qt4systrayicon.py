@@ -90,12 +90,12 @@ class Qt4SysTrayIcon:
         self.btnDecode = self.contextMenu.addAction(icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
         self.btnDecode.setCheckable(True)
         self.btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
-        QObject.connect(self.btnDecode, SIGNAL('toggled(bool)'), self.onBtnDecode)
+        self.btnDecode.toggled.connect(self.onBtnDecode)
 
         self.openLog = self.contextMenu.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
-        QObject.connect(self.openLog, SIGNAL('triggered()'), self.onOpenLog)
+        self.openLog.triggered.connect(self.onOpenLog)
         self.startBIT = self.contextMenu.addAction(icon.BIT_LOGO, _('Start BackInTime'))
-        QObject.connect(self.startBIT, SIGNAL('triggered()'), self.onStartBIT)
+        self.startBIT.triggered.connect(self.onStartBIT)
         self.status_icon.setContextMenu(self.contextMenu)
 
         self.pixmap = icon.BIT_LOGO.pixmap(24)
@@ -112,7 +112,7 @@ class Qt4SysTrayIcon:
         self.last_message = None
 
         self.timer = QTimer()
-        QObject.connect(self.timer, SIGNAL('timeout()'), self.updateInfo)
+        self.timer.timeout.connect(self.updateInfo)
 
         self.ppid = os.getppid()
 

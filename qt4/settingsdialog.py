@@ -63,24 +63,24 @@ class SettingsDialog(QDialog):
         self.disableProfileChanged = True
         self.comboProfiles = qt4tools.ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
-        QObject.connect(self.comboProfiles, SIGNAL('currentIndexChanged(int)'), self.profileChanged)
+        self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
         self.disableProfileChanged = False
 
         self.btnEditProfile = QPushButton(icon.PROFILE_EDIT, _('Edit'), self)
-        QObject.connect(self.btnEditProfile, SIGNAL('clicked()'), self.editProfile)
+        self.btnEditProfile.clicked.connect(self.editProfile)
         layout.addWidget(self.btnEditProfile)
 
         # update to full system backup button
         self.btnModifyProfileForFullSystemBackup = QPushButton(icon.ADD, _('Modify for Full System Backup'), self)
-        QObject.connect(self.btnModifyProfileForFullSystemBackup, SIGNAL('clicked()'), self.modifyProfileForFullSystemBackup)
+        self.btnModifyProfileForFullSystemBackup.clicked.connect(self.modifyProfileForFullSystemBackup)
         layout.addWidget(self.btnModifyProfileForFullSystemBackup)
 
         self.btnAddProfile = QPushButton(icon.ADD, _('Add'), self)
-        QObject.connect(self.btnAddProfile, SIGNAL('clicked()'), self.addProfile)
+        self.btnAddProfile.clicked.connect(self.addProfile)
         layout.addWidget(self.btnAddProfile)
 
         self.btnRemoveProfile = QPushButton(icon.REMOVE, _('Remove'), self)
-        QObject.connect(self.btnRemoveProfile, SIGNAL('clicked()'), self.removeProfile)
+        self.btnRemoveProfile.clicked.connect(self.removeProfile)
         layout.addWidget(self.btnRemoveProfile)
 
         #TABs
@@ -137,7 +137,7 @@ class SettingsDialog(QDialog):
 
         self.editSnapshotsPath = QLineEdit(self)
         self.editSnapshotsPath.setReadOnly(True)
-        QObject.connect(self.editSnapshotsPath, SIGNAL('textChanged(QString)'), self.fullPathChanged)
+        self.editSnapshotsPath.textChanged.connect(self.fullPathChanged)
         hlayout.addWidget(self.editSnapshotsPath)
 
         self.btnSnapshotsPath = QToolButton(self)
@@ -146,7 +146,7 @@ class SettingsDialog(QDialog):
         self.btnSnapshotsPath.setText(_('Folder'))
         self.btnSnapshotsPath.setMinimumSize(32,28)
         hlayout.addWidget(self.btnSnapshotsPath)
-        QObject.connect(self.btnSnapshotsPath, SIGNAL('clicked()'), self.btnSnapshotsPathClicked)
+        self.btnSnapshotsPath.clicked.connect(self.btnSnapshotsPathClicked)
 
         #SSH
         groupBox = QGroupBox(self)
@@ -181,7 +181,7 @@ class SettingsDialog(QDialog):
         self.lblSshPath = QLabel(_('Path:'), self)
         hlayout2.addWidget(self.lblSshPath)
         self.txtSshPath = QLineEdit(self)
-        QObject.connect(self.txtSshPath, SIGNAL('textChanged(QString)'), self.fullPathChanged)
+        self.txtSshPath.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txtSshPath)
 
         self.lblSshCipher = QLabel(_('Cipher:'), self)
@@ -202,7 +202,7 @@ class SettingsDialog(QDialog):
         self.btnSshPrivateKeyFile.setText(_('Key File'))
         self.btnSshPrivateKeyFile.setMinimumSize(32,28)
         hlayout3.addWidget(self.btnSshPrivateKeyFile)
-        QObject.connect(self.btnSshPrivateKeyFile, SIGNAL('clicked()'), self.btnSshPrivateKeyFileClicked)
+        self.btnSshPrivateKeyFile.clicked.connect(self.btnSshPrivateKeyFileClicked)
         qt4tools.equalIndent(self.lblSshHost, self.lblSshPath, self.lblSshCipher)
 
         #encfs
@@ -243,7 +243,7 @@ class SettingsDialog(QDialog):
         self.cbPasswordSave.setEnabled(self.keyringSupported)
 
         #mode change
-        QObject.connect(self.comboModes, SIGNAL('currentIndexChanged(int)'), self.comboModesChanged)
+        self.comboModes.currentIndexChanged.connect(self.comboModesChanged)
 
         #host, user, profile id
         groupBox = QGroupBox(self)
@@ -263,19 +263,19 @@ class SettingsDialog(QDialog):
         self.lblHost = QLabel(_('Host:'), self)
         hlayout2.addWidget(self.lblHost)
         self.txtHost = QLineEdit(self)
-        QObject.connect(self.txtHost, SIGNAL('textChanged(QString)'), self.fullPathChanged)
+        self.txtHost.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txtHost)
 
         self.lblUser = QLabel(_('User:'), self)
         hlayout2.addWidget(self.lblUser)
         self.txtUser = QLineEdit(self)
-        QObject.connect(self.txtUser, SIGNAL('textChanged(QString)'), self.fullPathChanged)
+        self.txtUser.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txtUser)
 
         self.lblProfile = QLabel(_('Profile:'), self)
         hlayout2.addWidget(self.lblProfile)
         self.txt_profile = QLineEdit(self)
-        QObject.connect(self.txt_profile, SIGNAL('textChanged(QString)'), self.fullPathChanged)
+        self.txt_profile.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txt_profile)
 
         self.lblFullPath = QLabel(_('Full snapshot path: '), self)
@@ -364,7 +364,7 @@ class SettingsDialog(QDialog):
         self.lblScheduleUdev.setWordWrap(True)
         glayout.addWidget(self.lblScheduleUdev, 6, 0, 1, 2)
 
-        QObject.connect(self.comboSchedule, SIGNAL('currentIndexChanged(int)'), self.ScheduleChanged)
+        self.comboSchedule.currentIndexChanged.connect(self.ScheduleChanged)
 
         #
         layout.addStretch()
@@ -387,9 +387,7 @@ class SettingsDialog(QDialog):
         self.listInclude.header().setSortIndicatorShown(True)
         self.listInclude.header().setSectionHidden(1, True)
         self.listIncludeSortLoop = False
-        QObject.connect(self.listInclude.header(),
-                        SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.includeCustomSortOrder)
+        self.listInclude.header().sortIndicatorChanged.connect(self.includeCustomSortOrder)
 
         layout.addWidget(self.listInclude)
         self.listIncludeCount = 0
@@ -399,15 +397,15 @@ class SettingsDialog(QDialog):
 
         self.btnIncludeFile = QPushButton(icon.ADD, _('Add file'), self)
         buttonsLayout.addWidget(self.btnIncludeFile)
-        QObject.connect(self.btnIncludeFile, SIGNAL('clicked()'), self.btnIncludeFileClicked)
+        self.btnIncludeFile.clicked.connect(self.btnIncludeFileClicked)
 
         self.btnIncludeAdd = QPushButton(icon.ADD, _('Add folder'), self)
         buttonsLayout.addWidget(self.btnIncludeAdd)
-        QObject.connect(self.btnIncludeAdd, SIGNAL('clicked()'), self.btnIncludeAddClicked)
+        self.btnIncludeAdd.clicked.connect(self.btnIncludeAddClicked)
 
         self.btnIncludeRemove = QPushButton(icon.REMOVE, _('Remove'), self)
         buttonsLayout.addWidget(self.btnIncludeRemove)
-        QObject.connect(self.btnIncludeRemove, SIGNAL('clicked()'), self.btnIncludeRemoveClicked)
+        self.btnIncludeRemove.clicked.connect(self.btnIncludeRemoveClicked)
 
         #TAB: Exclude
         tabWidget = QWidget(self)
@@ -429,9 +427,7 @@ class SettingsDialog(QDialog):
         self.listExclude.header().setSortIndicatorShown(True)
         self.listExclude.header().setSectionHidden(1, True)
         self.listExcludeSortLoop = False
-        QObject.connect(self.listExclude.header(),
-                        SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.excludeCustomSortOrder)
+        self.listExclude.header().sortIndicatorChanged.connect(self.excludeCustomSortOrder)
 
         layout.addWidget(self.listExclude)
         self.listExcludeCount = 0
@@ -448,23 +444,23 @@ class SettingsDialog(QDialog):
 
         self.btnExcludeAdd = QPushButton(icon.ADD, _('Add'), self)
         buttonsLayout.addWidget(self.btnExcludeAdd)
-        QObject.connect(self.btnExcludeAdd, SIGNAL('clicked()'), self.btnExcludeAddClicked)
+        self.btnExcludeAdd.clicked.connect(self.btnExcludeAddClicked)
 
         self.btnExcludeFile = QPushButton(icon.ADD, _('Add file'), self)
         buttonsLayout.addWidget(self.btnExcludeFile)
-        QObject.connect(self.btnExcludeFile, SIGNAL('clicked()'), self.btnExcludeFileClicked)
+        self.btnExcludeFile.clicked.connect(self.btnExcludeFileClicked)
 
         self.btnExcludeFolder = QPushButton(icon.ADD, _('Add folder'), self)
         buttonsLayout.addWidget(self.btnExcludeFolder)
-        QObject.connect(self.btnExcludeFolder, SIGNAL('clicked()'), self.btnExcludeFolderClicked)
+        self.btnExcludeFolder.clicked.connect(self.btnExcludeFolderClicked)
 
         self.btnExcludeDefault = QPushButton(icon.DEFAULT_EXCLUDE, _('Add default'), self)
         buttonsLayout.addWidget(self.btnExcludeDefault)
-        QObject.connect(self.btnExcludeDefault, SIGNAL('clicked()'), self.btnExcludeDefaultClicked)
+        self.btnExcludeDefault.clicked.connect(self.btnExcludeDefaultClicked)
 
         self.btnExcludeRemove = QPushButton(icon.REMOVE, _('Remove'), self)
         buttonsLayout.addWidget(self.btnExcludeRemove)
-        QObject.connect(self.btnExcludeRemove, SIGNAL('clicked()'), self.btnExcludeRemoveClicked)
+        self.btnExcludeRemove.clicked.connect(self.btnExcludeRemoveClicked)
 
         #exclude files by size
         hlayout = QHBoxLayout()
@@ -483,7 +479,7 @@ class SettingsDialog(QDialog):
         hlayout.addStretch()
         enabled = lambda state: self.spbExcludeBySize.setEnabled(state)
         enabled(False)
-        QObject.connect(self.cbExcludeBySize, SIGNAL('stateChanged(int)'), enabled)
+        self.cbExcludeBySize.stateChanged.connect(enabled)
 
         #TAB: Auto-remove
         scrollArea = QScrollArea(self)
@@ -497,7 +493,7 @@ class SettingsDialog(QDialog):
         #remove old snapshots
         self.cbRemoveOlder = QCheckBox(_('Older than:'), self)
         layout.addWidget(self.cbRemoveOlder, 0, 0)
-        QObject.connect(self.cbRemoveOlder, SIGNAL('stateChanged(int)'), self.updateRemoveOlder)
+        self.cbRemoveOlder.stateChanged.connect(self.updateRemoveOlder)
 
         self.spbRemoveOlder = QSpinBox(self)
         self.spbRemoveOlder.setRange(1, 1000)
@@ -512,7 +508,7 @@ class SettingsDialog(QDialog):
 
         self.cbFreeSpace = QCheckBox(_('If free space is less than:'), self)
         layout.addWidget(self.cbFreeSpace, 1, 0)
-        QObject.connect(self.cbFreeSpace, SIGNAL('stateChanged(int)'), self.updateFreeSpace)
+        self.cbFreeSpace.stateChanged.connect(self.updateFreeSpace)
 
         self.spbFreeSpace = QSpinBox(self)
         self.spbFreeSpace.setRange(1, 1000)
@@ -534,7 +530,7 @@ class SettingsDialog(QDialog):
 
         enabled = lambda state: self.spbFreeInodes.setEnabled(state)
         enabled(False)
-        QObject.connect(self.cbFreeInodes, SIGNAL('stateChanged(int)'), enabled)
+        self.cbFreeInodes.stateChanged.connect(enabled)
 
         #smart remove
         self.cbSmartRemove = QCheckBox(_('Smart remove'), self)
@@ -577,7 +573,7 @@ class SettingsDialog(QDialog):
 
         enabled = lambda state: [smlayout.itemAt(x).widget().setEnabled(state) for x in range(smlayout.count())]
         enabled(False)
-        QObject.connect(self.cbSmartRemove, SIGNAL('stateChanged(int)'), enabled)
+        self.cbSmartRemove.stateChanged.connect(enabled)
 
         #don't remove named snapshots
         self.cbDontRemoveNamedSnapshots = QCheckBox(_("Don't remove named snapshots"), self)
@@ -728,7 +724,7 @@ class SettingsDialog(QDialog):
         hlayout.addStretch()
         enabled = lambda state: self.spbBwlimit.setEnabled(state)
         enabled(False)
-        QObject.connect(self.cbBwlimit, SIGNAL('stateChanged(int)'), enabled)
+        self.cbBwlimit.stateChanged.connect(enabled)
         self.cbBwlimit.setToolTip(
                 'uses \'rsync --bwlimit=RATE\'\n'
                 'From \'man rsync\':\n'
@@ -826,7 +822,7 @@ class SettingsDialog(QDialog):
 
         enabled = lambda state: self.txtRsyncOptions.setEnabled(state)
         enabled(False)
-        QObject.connect(self.cbRsyncOptions, SIGNAL('stateChanged(int)'), enabled)
+        self.cbRsyncOptions.stateChanged.connect(enabled)
 
         #ssh prefix
         hlayout = QHBoxLayout()
@@ -848,7 +844,7 @@ class SettingsDialog(QDialog):
 
         enabled = lambda state: self.txtSshPrefix.setEnabled(state)
         enabled(False)
-        QObject.connect(self.cbSshPrefix, SIGNAL('stateChanged(int)'), enabled)
+        self.cbSshPrefix.stateChanged.connect(enabled)
 
         qt4tools.equalIndent(self.cbRsyncOptions, self.cbSshPrefix)
 
@@ -860,9 +856,9 @@ class SettingsDialog(QDialog):
         #buttons
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent = self)
         btnRestore = buttonBox.addButton(_('Restore Config'), QDialogButtonBox.ResetRole)
-        QObject.connect(buttonBox, SIGNAL('accepted()'), self.accept)
-        QObject.connect(buttonBox, SIGNAL('rejected()'), self.reject)
-        QObject.connect(btnRestore, SIGNAL('clicked()'), self.restoreConfig)
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
+        btnRestore.clicked.connect(self.restoreConfig)
         self.mainLayout.addWidget(buttonBox)
 
         self.updateProfiles()
@@ -1796,8 +1792,8 @@ class RestoreConfigDialog(QDialog):
         self.restoreButton = buttonBox.addButton(_('Restore'), QDialogButtonBox.AcceptRole)
         self.restoreButton.setEnabled(False)
         buttonBox.addButton(QDialogButtonBox.Cancel)
-        QObject.connect(buttonBox, SIGNAL('accepted()'), self.accept)
-        QObject.connect(buttonBox, SIGNAL('rejected()'), self.reject)
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
         layout.addWidget(buttonBox)
 
         self.scan.start()

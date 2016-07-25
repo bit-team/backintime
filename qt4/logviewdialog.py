@@ -67,14 +67,14 @@ class LogViewDialog(QDialog):
 
         self.comboProfiles = qt4tools.ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
-        QObject.connect(self.comboProfiles, SIGNAL('currentIndexChanged(int)'), self.profileChanged)
+        self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
 
         #snapshots
         self.lblSnapshots = QLabel(_('Snapshots') + ':', self)
         layout.addWidget(self.lblSnapshots)
         self.comboSnapshots = qt4tools.SnapshotCombo(self)
         layout.addWidget(self.comboSnapshots, 1)
-        QObject.connect(self.comboSnapshots, SIGNAL('currentIndexChanged(int)'), self.comboSnapshotsChanged)
+        self.comboSnapshots.currentIndexChanged.connect(self.comboSnapshotsChanged)
 
         if self.sid is None:
             self.lblSnapshots.hide()
@@ -88,7 +88,7 @@ class LogViewDialog(QDialog):
 
         self.comboFilter = QComboBox(self)
         layout.addWidget(self.comboFilter, 1)
-        QObject.connect(self.comboFilter, SIGNAL('currentIndexChanged(int)'), self.comboFilterChanged)
+        self.comboFilter.currentIndexChanged.connect(self.comboFilterChanged)
 
         self.comboFilter.addItem(_('All'), 0)
         self.comboFilter.addItem(' + '.join((_('Errors'), _('Changes'))), 4)
@@ -109,13 +109,13 @@ class LogViewDialog(QDialog):
 
         #decode path
         self.cbDecode = QCheckBox(_('decode paths'), self)
-        QObject.connect(self.cbDecode, SIGNAL('stateChanged(int)'), self.cbDecodeChanged)
+        self.cbDecode.stateChanged.connect(self.cbDecodeChanged)
         self.mainLayout.addWidget(self.cbDecode)
 
         #buttons
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
         self.mainLayout.addWidget(buttonBox)
-        QObject.connect(buttonBox, SIGNAL('rejected()'), self.close)
+        buttonBox.rejected.connect(self.close)
 
         self.updateSnapshots()
         self.updateDecode()

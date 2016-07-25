@@ -67,8 +67,8 @@ class DiffOptionsDialog(QDialog):
         self.mainLayout.addWidget(QLabel(_('Use %1 and %2 for path parameters')), 2, 1)
 
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        QObject.connect(buttonBox, SIGNAL('accepted()'), self.accept)
-        QObject.connect(buttonBox, SIGNAL('rejected()'), self.reject)
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
         self.mainLayout.addWidget(buttonBox, 3, 0, 3, 2)
 
     def accept(self):
@@ -109,24 +109,24 @@ class SnapshotsDialog(QDialog):
         #list different snapshots only
         self.cbOnlyDifferentSnapshots = QCheckBox(_('List only different snapshots'), self)
         self.mainLayout.addWidget(self.cbOnlyDifferentSnapshots)
-        QObject.connect(self.cbOnlyDifferentSnapshots, SIGNAL('stateChanged(int)'), self.cbOnlyDifferentSnapshotsChanged)
+        self.cbOnlyDifferentSnapshots.stateChanged.connect(self.cbOnlyDifferentSnapshotsChanged)
 
         #list equal snapshots only
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
         self.cbOnlyEqualSnapshots = QCheckBox(_('List only equal snapshots to: '), self)
-        QObject.connect(self.cbOnlyEqualSnapshots, SIGNAL('stateChanged(int)'), self.cbOnlyEqualSnapshotsChanged)
+        self.cbOnlyEqualSnapshots.stateChanged.connect(self.cbOnlyEqualSnapshotsChanged)
         layout.addWidget(self.cbOnlyEqualSnapshots)
 
         self.comboEqualTo = qt4tools.SnapshotCombo(self)
-        QObject.connect(self.comboEqualTo, SIGNAL('currentIndexChanged(int)'), self.comboEqualToChanged)
+        self.comboEqualTo.currentIndexChanged.connect(self.comboEqualToChanged)
         self.comboEqualTo.setEnabled(False)
         layout.addWidget(self.comboEqualTo)
 
         #deep check
         self.cbDeepCheck = QCheckBox(_('Deep check (more accurate, but slow)'), self)
         self.mainLayout.addWidget(self.cbDeepCheck)
-        QObject.connect(self.cbDeepCheck, SIGNAL('stateChanged(int)'), self.cbDeepCheckChanged)
+        self.cbDeepCheck.stateChanged.connect(self.cbDeepCheckChanged)
 
         #toolbar
         self.toolbar = QToolBar(self)
@@ -136,27 +136,27 @@ class SnapshotsDialog(QDialog):
         #toolbar restore
         menuRestore = QMenu(self)
         action = menuRestore.addAction(icon.RESTORE, _('Restore'))
-        QObject.connect(action, SIGNAL('triggered()'), self.restoreThis)
+        action.triggered.connect(self.restoreThis)
         action = menuRestore.addAction(icon.RESTORE_TO, _('Restore to ...'))
-        QObject.connect(action, SIGNAL('triggered()'), self.restoreThisTo)
+        action.triggered.connect(self.restoreThisTo)
 
         self.btnRestore = self.toolbar.addAction(icon.RESTORE, _('Restore'))
         self.btnRestore.setMenu(menuRestore)
-        QObject.connect(self.btnRestore, SIGNAL('triggered()'), self.restoreThis)
+        self.btnRestore.triggered.connect(self.restoreThis)
 
         #btn delete
         self.btnDelete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete'))
-        QObject.connect(self.btnDelete, SIGNAL('triggered()'), self.btnDeleteClicked)
+        self.btnDelete.triggered.connect(self.btnDeleteClicked)
 
         #btn select_all
         self.btnSelectAll = self.toolbar.addAction(icon.SELECT_ALL, _('Select All'))
-        QObject.connect(self.btnSelectAll, SIGNAL('triggered()'), self.btnSelectAllClicked)
+        self.btnSelectAll.triggered.connect(self.btnSelectAllClicked)
 
         #snapshots list
         self.timeLine = qt4tools.TimeLine(self)
         self.mainLayout.addWidget(self.timeLine)
-        QObject.connect(self.timeLine, SIGNAL('itemSelectionChanged()'), self.timeLineChanged)
-        QObject.connect(self.timeLine, SIGNAL('itemActivated(QTreeWidgetItem*, int)'), self.timeLineExecute)
+        self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
+        self.timeLine.itemActivated.connect(self.timeLineExecute)
 
         #diff
         layout = QHBoxLayout()
@@ -164,7 +164,7 @@ class SnapshotsDialog(QDialog):
 
         self.btnDiff = QPushButton(_('Diff'), self)
         layout.addWidget(self.btnDiff)
-        QObject.connect(self.btnDiff, SIGNAL('clicked()'), self.btnDiffClicked)
+        self.btnDiff.clicked.connect(self.btnDiffClicked)
 
         self.comboDiff = qt4tools.SnapshotCombo(self)
         layout.addWidget(self.comboDiff, 2)
@@ -179,9 +179,9 @@ class SnapshotsDialog(QDialog):
 
         self.mainLayout.addWidget(buttonBox)
 
-        QObject.connect(buttonBox, SIGNAL('accepted()'), self.accept)
-        QObject.connect(buttonBox, SIGNAL('rejected()'), self.reject)
-        QObject.connect(btnDiffOptions, SIGNAL('clicked()'), self.btnDiffOptionsClicked)
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
+        btnDiffOptions.clicked.connect(self.btnDiffOptionsClicked)
 
         #
         self.cbDeepCheck.setEnabled(False)

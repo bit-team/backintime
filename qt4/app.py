@@ -83,14 +83,14 @@ class MainWindow(QMainWindow):
 
         # take_snapshot button
         self.btnTakeSnapshot = self.mainToolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
-        QObject.connect(self.btnTakeSnapshot, SIGNAL('triggered()'), self.btnTakeSnapshotClicked)
+        self.btnTakeSnapshot.triggered.connect(self.btnTakeSnapshotClicked)
 
         takeSnapshotMenu = qt4tools.Menu()
         action = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
-        QObject.connect(action, SIGNAL('triggered()'), self.btnTakeSnapshotClicked)
+        action.triggered.connect(self.btnTakeSnapshotClicked)
         self.btnTakeSnapshotChecksum = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'))
         self.btnTakeSnapshotChecksum.setToolTip(_('Use checksum to detect changes'))
-        QObject.connect(self.btnTakeSnapshotChecksum, SIGNAL('triggered()'), self.btnTakeSnapshotChecksumClicked)
+        self.btnTakeSnapshotChecksum.triggered.connect(self.btnTakeSnapshotChecksumClicked)
         self.btnTakeSnapshot.setMenu(takeSnapshotMenu)
 
         for action in takeSnapshotMenu.actions():
@@ -116,24 +116,24 @@ class MainWindow(QMainWindow):
         # update snapshots button
         self.btnUpdateSnapshots = self.mainToolbar.addAction(icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'))
         self.btnUpdateSnapshots.setShortcuts([Qt.Key_F5, QKeySequence(Qt.CTRL + Qt.Key_R)])
-        QObject.connect(self.btnUpdateSnapshots, SIGNAL('triggered()'), self.btnUpdateSnapshotsClicked)
+        self.btnUpdateSnapshots.triggered.connect(self.btnUpdateSnapshotsClicked)
 
         self.btnNameSnapshot = self.mainToolbar.addAction(icon.SNAPSHOT_NAME, _('Snapshot Name'))
-        QObject.connect(self.btnNameSnapshot, SIGNAL('triggered()'), self.btnNameSnapshotClicked)
+        self.btnNameSnapshot.triggered.connect(self.btnNameSnapshotClicked)
 
         self.btnRemoveSnapshot = self.mainToolbar.addAction(icon.REMOVE_SNAPSHOT, _('Remove Snapshot'))
-        QObject.connect(self.btnRemoveSnapshot, SIGNAL('triggered()'), self.btnRemoveSnapshotClicked)
+        self.btnRemoveSnapshot.triggered.connect(self.btnRemoveSnapshotClicked)
 
         self.btnSnapshotLogView = self.mainToolbar.addAction(icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'))
-        QObject.connect(self.btnSnapshotLogView, SIGNAL('triggered()'), self.btnSnapshotLogViewClicked)
+        self.btnSnapshotLogView.triggered.connect(self.btnSnapshotLogViewClicked)
 
         self.btnLastLogView = self.mainToolbar.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
-        QObject.connect(self.btnLastLogView, SIGNAL('triggered()'), self.btnLastLogViewClicked)
+        self.btnLastLogView.triggered.connect(self.btnLastLogViewClicked)
 
         self.mainToolbar.addSeparator()
 
         self.btnSettings = self.mainToolbar.addAction(icon.SETTINGS, _('Settings'))
-        QObject.connect(self.btnSettings, SIGNAL('triggered()'), self.btnSettingsClicked)
+        self.btnSettings.triggered.connect(self.btnSettingsClicked)
 
         self.mainToolbar.addSeparator()
 
@@ -142,11 +142,11 @@ class MainWindow(QMainWindow):
         self.btnShutdown.setCheckable(True)
         self.shutdown = tools.ShutDown()
         self.btnShutdown.setEnabled(self.shutdown.canShutdown())
-        QObject.connect(self.btnShutdown, SIGNAL('toggled(bool)'), self.btnShutdownToggled)
+        self.btnShutdown.toggled.connect(self.btnShutdownToggled)
 
         self.btnQuit = self.mainToolbar.addAction(icon.EXIT, _('Exit'))
         self.btnQuit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_W))
-        QObject.connect(self.btnQuit, SIGNAL('triggered()'), self.close)
+        self.btnQuit.triggered.connect(self.close)
 
         empty = QWidget(self)
         empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
@@ -154,26 +154,26 @@ class MainWindow(QMainWindow):
 
         menuHelp = QMenu(self)
         self.btnHelp = menuHelp.addAction(icon.HELP, _('Help'))
-        QObject.connect(self.btnHelp, SIGNAL('triggered()'), self.btnHelpClicked)
+        self.btnHelp.triggered.connect(self.btnHelpClicked)
         self.btnHelpConfig = menuHelp.addAction(icon.HELP, _('Config File Help'))
-        QObject.connect(self.btnHelpConfig, SIGNAL('triggered()'), self.btnHelpConfigClicked)
+        self.btnHelpConfig.triggered.connect(self.btnHelpConfigClicked)
         menuHelp.addSeparator()
         self.btnWebsite = menuHelp.addAction(icon.WEBSITE, _('Website'))
-        QObject.connect(self.btnWebsite, SIGNAL('triggered()'), self.btnWebsiteClicked)
+        self.btnWebsite.triggered.connect(self.btnWebsiteClicked)
         self.btnChangelog = menuHelp.addAction(icon.CHANGELOG, _('Changelog'))
-        QObject.connect(self.btnChangelog, SIGNAL('triggered()'), self.btnChangelogClicked)
+        self.btnChangelog.triggered.connect(self.btnChangelogClicked)
         self.btnFaq = menuHelp.addAction(icon.FAQ, _('FAQ'))
-        QObject.connect(self.btnFaq, SIGNAL('triggered()'), self.btnFaqClicked)
+        self.btnFaq.triggered.connect(self.btnFaqClicked)
         self.btnAskQuestion = menuHelp.addAction(icon.QUESTION, _('Ask a question'))
-        QObject.connect(self.btnAskQuestion, SIGNAL('triggered()'), self.btnAskQuestionClicked)
+        self.btnAskQuestion.triggered.connect(self.btnAskQuestionClicked)
         self.btnReportBug = menuHelp.addAction(icon.BUG, _('Report a bug'))
-        QObject.connect(self.btnReportBug, SIGNAL('triggered()'), self.btnReportBugClicked)
+        self.btnReportBug.triggered.connect(self.btnReportBugClicked)
         menuHelp.addSeparator()
         self.btnAbout = menuHelp.addAction(icon.ABOUT, _('About'))
-        QObject.connect(self.btnAbout, SIGNAL('triggered()'), self.btnAboutClicked)
+        self.btnAbout.triggered.connect(self.btnAboutClicked)
 
         action = self.mainToolbar.addAction(icon.HELP, _('Help'))
-        QObject.connect(action, SIGNAL('triggered()'), self.btnHelpClicked)
+        action.triggered.connect(self.btnHelpClicked)
         action.setMenu(menuHelp)
 
         for action in menuHelp.actions():
@@ -201,7 +201,7 @@ class MainWindow(QMainWindow):
 
         self.btnFolderUp = self.filesViewToolbar.addAction(icon.UP, _('Up'))
         self.btnFolderUp.setShortcuts([QKeySequence(Qt.ALT + Qt.Key_Up), Qt.Key_Backspace])
-        QObject.connect(self.btnFolderUp, SIGNAL('triggered()'), self.btnFolderUpClicked)
+        self.btnFolderUp.triggered.connect(self.btnFolderUpClicked)
 
         self.editCurrentPath = QLineEdit(self)
         self.editCurrentPath.setReadOnly(True)
@@ -213,7 +213,7 @@ class MainWindow(QMainWindow):
         self.btnShowHiddenFiles.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_H))
         self.btnShowHiddenFiles.setCheckable(True)
         self.btnShowHiddenFiles.setChecked(self.showHiddenFiles)
-        QObject.connect(self.btnShowHiddenFiles, SIGNAL('toggled(bool)'), self.btnShowHiddenFilesToggled)
+        self.btnShowHiddenFiles.toggled.connect(self.btnShowHiddenFilesToggled)
 
         self.filesViewToolbar.addSeparator()
 
@@ -222,22 +222,22 @@ class MainWindow(QMainWindow):
         self.btnRestore = self.menuRestore.addAction(icon.RESTORE, _('Restore'))
         self.btnRestore.setToolTip(_('Restore the selected files or folders '
                                      'to the original destination.'))
-        QObject.connect(self.btnRestore, SIGNAL('triggered()'), self.restoreThis)
+        self.btnRestore.triggered.connect(self.restoreThis)
         self.btnRestoreTo = self.menuRestore.addAction(icon.RESTORE_TO, _('Restore to ...'))
         self.btnRestoreTo.setToolTip(_('Restore the selected files or '
                                        'folders to a new destination.'))
-        QObject.connect(self.btnRestoreTo, SIGNAL('triggered()'), self.restoreThisTo)
+        self.btnRestoreTo.triggered.connect(self.restoreThisTo)
         self.menuRestore.addSeparator()
         self.btnRestoreParent = self.menuRestore.addAction(icon.RESTORE, '')
         self.btnRestoreParent.setToolTip(_('Restore the currently shown '
                                            'folder and all its content to '
                                            'the original destination.'))
-        QObject.connect(self.btnRestoreParent, SIGNAL('triggered()'), self.restoreParent)
+        self.btnRestoreParent.triggered.connect(self.restoreParent)
         self.btnRestoreParentTo = self.menuRestore.addAction(icon.RESTORE_TO, '')
         self.btnRestoreParentTo.setToolTip(_('Restore the currently shown '
                                              'folder and all its content '
                                              'to a new destination.'))
-        QObject.connect(self.btnRestoreParentTo, SIGNAL('triggered()'), self.restoreParentTo)
+        self.btnRestoreParentTo.triggered.connect(self.restoreParentTo)
         self.menuRestore.addSeparator()
         self.btnRestoreDelete = self.menuRestore.addAction(icon.RESTORE, _('Restore and delete new files'))
         self.btnRestoreDelete.setToolTip(_('Restore selected files or folders '
@@ -247,7 +247,7 @@ class MainWindow(QMainWindow):
                                            'This will delete files/folders which where '
                                            'excluded during taking the snapshot!\n'
                                            'Be extremely careful!!!'))
-        QObject.connect(self.btnRestoreDelete, SIGNAL('triggered()'), lambda: self.restoreThis(True))
+        self.btnRestoreDelete.triggered.connect(lambda: self.restoreThis(True))
         self.btnRestoreParentDelete = self.menuRestore.addAction(icon.RESTORE, '')
         self.btnRestoreParentDelete.setToolTip(_('Restore the currently shown folder '
                                                  'and all its content to the original\n'
@@ -256,7 +256,7 @@ class MainWindow(QMainWindow):
                                                  'This will delete files/folders which '
                                                  'where excluded during taking the snapshot!\n'
                                                  'Be extremely careful!!!'))
-        QObject.connect(self.btnRestoreParentDelete, SIGNAL('triggered()'), lambda: self.restoreParent(True))
+        self.btnRestoreParentDelete.triggered.connect(lambda: self.restoreParent(True))
 
         for action in self.menuRestore.actions():
             action.setIconVisibleInMenu(True)
@@ -265,10 +265,10 @@ class MainWindow(QMainWindow):
         self.btnRestoreMenu.setToolTip(_('Restore selected file or folder.\n'
                                           'If this button is grayed out this is most likely '
                                           'because "%(now)s" is selected in left hand snapshots list.') % {'now': _('Now')})
-        QObject.connect(self.btnRestoreMenu, SIGNAL('triggered()'), self.restoreThis)
+        self.btnRestoreMenu.triggered.connect(self.restoreThis)
 
         self.btnSnapshots = self.filesViewToolbar.addAction(icon.SNAPSHOTS, _('Snapshots'))
-        QObject.connect(self.btnSnapshots, SIGNAL('triggered()'), self.btnSnapshotsClicked)
+        self.btnSnapshots.triggered.connect(self.btnSnapshotsClicked)
 
         filesLayout.addWidget(self.filesViewToolbar)
 
@@ -317,11 +317,11 @@ class MainWindow(QMainWindow):
 
         #shortcuts without buttons
         self.shortcutPreviousFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Left), self)
-        QObject.connect(self.shortcutPreviousFolder, SIGNAL('activated()'), self.btnFolderHistoryPreviousClicked)
+        self.shortcutPreviousFolder.activated.connect(self.btnFolderHistoryPreviousClicked)
         self.shortcutNextFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Right), self)
-        QObject.connect(self.shortcutNextFolder, SIGNAL('activated()'), self.btnFolderHistoryNextClicked)
+        self.shortcutNextFolder.activated.connect(self.btnFolderHistoryNextClicked)
         self.shortcutOpenFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Down), self)
-        QObject.connect(self.shortcutOpenFolder, SIGNAL('activated()'), self.btnOpenCurrentItemClicked)
+        self.shortcutOpenFolder.activated.connect(self.btnOpenCurrentItemClicked)
 
         #mouse button navigation
         self.mouseButtonEventFilter = ExtraMouseButtonEventFilter(self)
@@ -345,9 +345,7 @@ class MainWindow(QMainWindow):
                                                    int(self.config.profileIntValue('qt4.places.SortOrder', Qt.AscendingOrder)))
         self.placesSortLoop = {self.config.currentProfile(): False}
         self.secondSplitter.addWidget(self.places)
-        QObject.connect(self.places.header(),
-                        SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.sortPlaces)
+        self.places.header().sortIndicatorChanged.connect(self.sortPlaces)
 
         #files view stacked layout
         widget = QWidget(self)
@@ -401,9 +399,7 @@ class MainWindow(QMainWindow):
         self.filesView.header().setSortIndicator(sortColumn, sortOrder)
         self.filesViewModel.sort(self.filesView.header().sortIndicatorSection(),
                                  self.filesView.header().sortIndicatorOrder())
-        QObject.connect(self.filesView.header(),
-                        SIGNAL('sortIndicatorChanged(int,Qt::SortOrder)'),
-                        self.filesViewModel.sort)
+        self.filesView.header().sortIndicatorChanged.connect(self.filesViewModel.sort)
 
         self.stackFilesView.setCurrentWidget(self.filesView)
 
@@ -412,7 +408,7 @@ class MainWindow(QMainWindow):
 
         #context menu
         self.filesView.setContextMenuPolicy(Qt.CustomContextMenu)
-        QObject.connect(self.filesView, SIGNAL('customContextMenuRequested(const QPoint&)'), self.contextMenuClicked)
+        self.filesView.customContextMenuRequested.connect(self.contextMenuClicked)
         self.contextMenu = QMenu(self)
         self.contextMenu.addAction(self.btnRestore)
         self.contextMenu.addAction(self.btnRestoreTo)
@@ -420,8 +416,8 @@ class MainWindow(QMainWindow):
         self.contextMenu.addSeparator()
         self.btnAddInclude = self.contextMenu.addAction(icon.ADD, _('Add to Include'))
         self.btnAddExclude = self.contextMenu.addAction(icon.ADD, _('Add to Exclude'))
-        QObject.connect(self.btnAddInclude, SIGNAL('triggered()'), self.btnAddIncludeClicked)
-        QObject.connect(self.btnAddExclude, SIGNAL('triggered()'), self.btnAddExcludeClicked)
+        self.btnAddInclude.triggered.connect(self.btnAddIncludeClicked)
+        self.btnAddExclude.triggered.connect(self.btnAddExcludeClicked)
         self.contextMenu.addSeparator()
         self.contextMenu.addAction(self.btnShowHiddenFiles)
 
@@ -498,33 +494,33 @@ class MainWindow(QMainWindow):
         if not cfg.canBackup(profile_id):
             messagebox.critical(self, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK'))
 
-        QObject.connect(self.filesViewProxyModel, SIGNAL('layoutChanged()'), self.dirListerCompleted)
+        self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
 
         #populate lists
         self.updateProfiles()
-        QObject.connect(self.comboProfiles, SIGNAL('currentIndexChanged(int)'), self.comboProfileChanged)
+        self.comboProfiles.currentIndexChanged.connect(self.comboProfileChanged)
 
         self.filesView.setFocus()
 
         self.updateSnapshotActions()
 
         #signals
-        QObject.connect(self.timeLine, SIGNAL('itemSelectionChanged()'), self.timeLineChanged)
-        QObject.connect(self.places, SIGNAL('currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)'), self.placesChanged)
-        QObject.connect(self.filesView, SIGNAL('activated(const QModelIndex&)'), self.filesViewItemActivated)
+        self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
+        self.places.currentItemChanged.connect(self.placesChanged)
+        self.filesView.activated.connect(self.filesViewItemActivated)
 
         self.forceWaitLockCounter = 0
 
         self.timerRaiseApplication = QTimer(self)
         self.timerRaiseApplication.setInterval(1000)
         self.timerRaiseApplication.setSingleShot(False)
-        QObject.connect(self.timerRaiseApplication, SIGNAL('timeout()'), self.raiseApplication)
+        self.timerRaiseApplication.timeout.connect(self.raiseApplication)
         self.timerRaiseApplication.start()
 
         self.timerUpdateTakeSnapshot = QTimer(self)
         self.timerUpdateTakeSnapshot.setInterval(1000)
         self.timerUpdateTakeSnapshot.setSingleShot(False)
-        QObject.connect(self.timerUpdateTakeSnapshot, SIGNAL('timeout()'), self.updateTakeSnapshot)
+        self.timerUpdateTakeSnapshot.timeout.connect(self.updateTakeSnapshot)
         self.timerUpdateTakeSnapshot.start()
 
     def closeEvent(self, event):
@@ -1417,10 +1413,10 @@ class About(QDialog):
         hlayout.addWidget(buttonBoxRight)
         vlayout.addLayout(hlayout)
 
-        QObject.connect(btn_authors, SIGNAL('clicked()'), self.authors)
-        QObject.connect(btn_translations, SIGNAL('clicked()'), self.translations)
-        QObject.connect(btn_license, SIGNAL('clicked()'), self.license)
-        QObject.connect(buttonBoxRight, SIGNAL('accepted()'), self.accept)
+        btn_authors.clicked.connect(self.authors)
+        btn_translations.clicked.connect(self.translations)
+        btn_license.clicked.connect(self.license)
+        buttonBoxRight.accepted.connect(self.accept)
 
     def authors(self):
         return messagebox.showInfo(self, _('Authors'), self.mkurl(self.config.authors()))
