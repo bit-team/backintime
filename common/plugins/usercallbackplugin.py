@@ -32,13 +32,13 @@ class UserCallbackPlugin(pluginmanager.Plugin):
 
     def init(self, snapshots):
         self.config = snapshots.config
-        self.callback = self.config.takeSnapshotUserCallback()
-        if not os.path.exists(self.callback):
+        self.script = self.config.takeSnapshotUserCallback()
+        if not os.path.exists(self.script):
             return False
         return True
 
     def callback(self, *args):
-        cmd = [self.callback, self.config.currentProfile(), self.config.profileName()]
+        cmd = [self.script, self.config.currentProfile(), self.config.profileName()]
         cmd.extend([str(x) for x in args])
         logger.debug('Call user-callback: %s' %' '.join(cmd), self)
         if self.config.userCallbackNoLogging():
