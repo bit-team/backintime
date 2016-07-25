@@ -37,8 +37,9 @@ import progress
 import logviewdialog
 import encfstools
 
-from PyQt4.QtCore import QObject, SIGNAL, QTimer
-from PyQt4.QtGui import QSystemTrayIcon, QIcon, QMenu, QProgressBar, QWidget, QRegion
+from PyQt5.QtCore import QObject, QTimer
+from PyQt5.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget, QRegion
+from PyQt5.QtGui import QIcon
 
 
 class Qt4SysTrayIcon:

@@ -15,8 +15,8 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import gettext
-from PyQt4.QtCore import QTimer, SIGNAL, Qt
-from PyQt4.QtGui import QApplication, QMessageBox, QInputDialog, QLineEdit,\
+from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtWidgets import QApplication, QMessageBox, QInputDialog, QLineEdit,\
     QDialog, QVBoxLayout, QLabel, QDialogButtonBox, QScrollArea
 import qt4tools
 

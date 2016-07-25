@@ -95,10 +95,10 @@ before installing
 
 * dependencies
     - x11-utils
-    - python3-pyqt4
+    - python3-pyqt5
     - libnotify-bin
     - policykit-1
-    - python3-dbus.mainloop.qt
+    - python3-dbus.mainloop.pyqt5
     - backintime-common
 
 * recomended
