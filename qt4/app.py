@@ -68,13 +68,13 @@ class MainWindow(QMainWindow):
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
 
-        #window icon
-        import icon
-        self.qapp.setWindowIcon(icon.BIT_LOGO)
-
         #main toolbar
         self.mainToolbar = self.addToolBar('main')
         self.mainToolbar.setFloatable(False)
+
+        #window icon
+        import icon
+        self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         #profiles
         self.firstUpdateAll = True
