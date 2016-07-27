@@ -22,8 +22,9 @@ import gettext
 import copy
 import grp
 
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 
 import config
 import tools
@@ -382,8 +383,8 @@ class SettingsDialog(QDialog):
         self.listInclude.setHeaderLabels([ _('Include files and folders'),
                                             'Count' ])
 
-        self.listInclude.header().setResizeMode(0, QHeaderView.Stretch)
-        self.listInclude.header().setClickable(True)
+        self.listInclude.header().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.listInclude.header().setSectionsClickable(True)
         self.listInclude.header().setSortIndicatorShown(True)
         self.listInclude.header().setSectionHidden(1, True)
         self.listIncludeSortLoop = False
@@ -422,8 +423,8 @@ class SettingsDialog(QDialog):
         self.listExclude.setHeaderLabels([ _('Exclude patterns, files or folders') ,
                                             'Count' ])
 
-        self.listExclude.header().setResizeMode(0, QHeaderView.Stretch)
-        self.listExclude.header().setClickable(True)
+        self.listExclude.header().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.listExclude.header().setSectionsClickable(True)
         self.listExclude.header().setSortIndicatorShown(True)
         self.listExclude.header().setSectionHidden(1, True)
         self.listExcludeSortLoop = False
@@ -1745,11 +1746,11 @@ class RestoreConfigDialog(QDialog):
 
         #context menu
         self.treeView.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.connect(self.treeView, SIGNAL('customContextMenuRequested(const QPoint&)'), self.onContextMenu)
+        self.treeView.customContextMenuRequested.connect(self.onContextMenu)
         self.contextMenu = QMenu(self)
         self.btnShowHidden = self.contextMenu.addAction(icon.SHOW_HIDDEN, _('Show hidden files'))
         self.btnShowHidden.setCheckable(True)
-        self.connect(self.btnShowHidden, SIGNAL('toggled(bool)'), self.onBtnShowHidden)
+        self.btnShowHidden.toggled.connect(self.onBtnShowHidden)
 
         #colors
         self.colorRed = QPalette()
@@ -1785,8 +1786,8 @@ class RestoreConfigDialog(QDialog):
         self.scan = ScanFileSystem(self)
 
         self.treeView.myCurrentIndexChanged.connect(self.indexChanged)
-        self.connect(self.scan, SIGNAL('foundConfig'), self.scanFound)
-        self.connect(self.scan, SIGNAL('finished()'), self.scanFinished)
+        self.scan.foundConfig.connect(self.scanFound)
+        self.scan.finished.connect(self.scanFinished)
 
         buttonBox = QDialogButtonBox(self)
         self.restoreButton = buttonBox.addButton(_('Restore'), QDialogButtonBox.AcceptRole)
@@ -1927,6 +1928,8 @@ class ScanFileSystem(QThread):
     BACKUP = 'backup'
     BACKINTIME = 'backintime'
 
+    foundConfig = pyqtSignal(str)
+
     def __init__(self, parent):
         super(ScanFileSystem, self).__init__(parent)
         self.stopper = False
@@ -1949,7 +1952,7 @@ class ScanFileSystem(QThread):
             exclude = searchOrder[:]
             exclude.remove(scan)
             for path in self.scanPath(scan, exclude):
-                self.emit(SIGNAL('foundConfig'), path)
+                self.foundConfig.emit(path)
 
     def scanPath(self, path, excludes = ()):
         """

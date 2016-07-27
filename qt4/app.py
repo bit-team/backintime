@@ -43,8 +43,9 @@ import mount
 import progress
 from exceptions import MountException
 
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 
 import settingsdialog
 import snapshotsdialog
@@ -67,13 +68,13 @@ class MainWindow(QMainWindow):
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
 
-        #window icon
-        import icon
-        self.qapp.setWindowIcon(icon.BIT_LOGO)
-
         #main toolbar
         self.mainToolbar = self.addToolBar('main')
         self.mainToolbar.setFloatable(False)
+
+        #window icon
+        import icon
+        self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         #profiles
         self.firstUpdateAll = True
@@ -338,7 +339,7 @@ class MainWindow(QMainWindow):
         self.places.setRootIsDecorated(False)
         self.places.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.places.setHeaderLabel(_('Shortcuts'))
-        self.places.header().setClickable(True)
+        self.places.header().setSectionsClickable(True)
         self.places.header().setSortIndicatorShown(True)
         self.places.header().setSectionHidden(1, True)
         self.places.header().setSortIndicator(int(self.config.profileIntValue('qt4.places.SortColumn', 1)),
@@ -370,8 +371,8 @@ class MainWindow(QMainWindow):
         self.filesView.setDragEnabled(False)
         self.filesView.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
-        self.filesView.header().setClickable(True)
-        self.filesView.header().setMovable(False)
+        self.filesView.header().setSectionsClickable(True)
+        self.filesView.header().setSectionsMovable(False)
         self.filesView.header().setSortIndicatorShown(True)
 
         self.filesViewModel = QFileSystemModel(self)
@@ -782,8 +783,8 @@ class MainWindow(QMainWindow):
         if not path:
             item.setFont(0, qt4tools.fontBold(item.font(0)))
             item.setFlags(Qt.ItemIsEnabled)
-            item.setBackgroundColor(0, QColor(196, 196, 196))
-            item.setTextColor(0, QColor(60, 60, 60))
+            item.setBackground(0, QColor(196, 196, 196))
+            item.setForeground(0, QColor(60, 60, 60))
 
         self.places.addTopLevelItem(item)
 

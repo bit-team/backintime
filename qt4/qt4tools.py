@@ -18,13 +18,14 @@
 import os
 import sys
 import gettext
-from PyQt4.QtGui import QFont, QFileDialog, QListView, QAbstractItemView,      \
-                        QTreeView, QDialog, QApplication, QStyleFactory,       \
-                        QTreeWidget, QTreeWidgetItem, QColor, QComboBox, QMenu,\
-                        QToolTip
-from PyQt4.QtCore import QDir, SIGNAL, Qt, pyqtSlot, pyqtSignal, QModelIndex,  \
-                         QTranslator, QLocale, QLibraryInfo, QEvent
-from datetime import datetime, date, timedelta
+from PyQt5.QtGui import (QFont, QColor)
+from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
+                          QTranslator, QLocale, QLibraryInfo, QEvent)
+from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
+                             QTreeView, QDialog, QApplication, QStyleFactory,
+                             QTreeWidget, QTreeWidgetItem, QComboBox, QMenu,
+                             QToolTip)
+from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 
 _ = gettext.gettext
@@ -180,7 +181,7 @@ class TimeLine(QTreeWidget):
         self.setSortingEnabled(True)
         self.sortByColumn(1, Qt.DescendingOrder)
         self.hideColumn(1)
-        self.header().setClickable(False)
+        self.header().setSectionsClickable(False)
 
         self.parent = parent
         self.snapshots = parent.snapshots
@@ -341,8 +342,8 @@ class HeaderItem(TimeLineItem):
         super(HeaderItem, self).__init__()
         self.setText(0, name)
         self.setFont(0, fontBold(self.font(0)))
-        self.setBackgroundColor(0, QColor(196, 196, 196))
-        self.setTextColor(0, QColor(60, 60, 60))
+        self.setBackground(0, QColor(196, 196, 196))
+        self.setForeground(0, QColor(60, 60, 60))
         self.setFlags(Qt.NoItemFlags)
 
         self.setData(0, Qt.UserRole, sid)

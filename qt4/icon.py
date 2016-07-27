@@ -14,7 +14,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from PyQt4.QtGui import QIcon
+from PyQt5.QtGui import QIcon
 
 for theme in ('ubuntu-mono-dark', 'gnome', 'oxygen'):
     if not QIcon.fromTheme('document-save').isNull():
