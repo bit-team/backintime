@@ -33,7 +33,7 @@ def askPasswordDialog(parent, title, prompt, timeout = None):
 
     timer = QTimer()
     if not timeout is None:
-        dialog.connect(timer, SIGNAL("timeout()"), dialog.reject)
+        timer.timeout.connect(dialog.reject)
         timer.setInterval(timeout * 1000)
         timer.start()
 
@@ -79,8 +79,8 @@ def warningYesNoOptions(parent, msg, options = ()):
     buttonBox = QDialogButtonBox(QDialogButtonBox.Yes | QDialogButtonBox.No)
     buttonBox.button(QDialogButtonBox.No).setDefault(True)
     layout.addWidget(buttonBox)
-    dlg.connect(buttonBox, SIGNAL('accepted()'), dlg.accept)
-    dlg.connect(buttonBox, SIGNAL('rejected()'), dlg.reject)
+    buttonBox.accepted.connect(dlg.accept)
+    buttonBox.rejected.connect(dlg.reject)
     ret = dlg.exec_()
     return (ret, {opt['id']:opt['retFunc']() for opt in options})
 
@@ -96,7 +96,7 @@ def showInfo(parent, title, msg):
     scroll_area.setWidget(label)
 
     buttonBox = QDialogButtonBox(QDialogButtonBox.Ok)
-    dlg.connect(buttonBox, SIGNAL('accepted()'), dlg.accept)
+    buttonBox.accepted.connect(dlg.accept)
 
     vlayout.addWidget(scroll_area)
     vlayout.addWidget(buttonBox)
