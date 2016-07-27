@@ -28,8 +28,8 @@ with open(os.path.join(PATH, '../VERSION'), 'r') as f:
     VERSION = f.read().strip('\n')
 SORT = True #True = sort by alphabet; False = sort by line numbering
 
-c_list = re.compile(r'.*?self\.get((?:_profile)?)_(list)_value ?\( ?[\'"](.*?)[\'"], ?((?:\(.*\)|[^,]*)), ?[\'"]?([^\'",\)]*)[\'"]?')
-c =      re.compile(r'.*?self\.get((?:_profile)?)_(.*?)_value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
+c_list = re.compile(r'.*?self\.(?!set)((?:profile)?)(List)Value ?\( ?[\'"](.*?)[\'"], ?((?:\(.*\)|[^,]*)), ?[\'"]?([^\'",\)]*)[\'"]?')
+c =      re.compile(r'.*?self\.(?!set)((?:profile)?)(.*?)Value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
 c_default = re.compile(r'(^DEFAULT[\w]*)[\s]*= (.*)')
 
 HEADER = '''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
@@ -76,7 +76,7 @@ def output(instance = '', name = '', values = '', default = '', comment = '', re
         default = "''"
     ret  = '.IP "\\fI%s\\fR" 6\n' % name
     ret += '.RS\n'
-    ret += 'Type: %-10sAllowed Values: %s\n' %(instance, values)
+    ret += 'Type: %-10sAllowed Values: %s\n' %(instance.lower(), values)
     ret += '.br\n'
     ret += '%s\n' % comment
     ret += '.PP\n'
@@ -95,11 +95,11 @@ def select(a, b):
 def select_values(instance, values):
     if values:
         return values
-    if instance == 'bool':
+    if instance.lower() == 'bool':
         return 'true|false'
-    if instance == 'str':
+    if instance.lower() == 'str':
         return 'text'
-    if instance == 'int':
+    if instance.lower() == 'int':
         return '0-99999'
 
 def process_line(d, key, profile, instance, name, var, default, commentline, values, force_var, force_default, replace_default, counter):
@@ -122,7 +122,7 @@ def process_line(d, key, profile, instance, name, var, default, commentline, val
         if isinstance(force_default, str) and force_default.startswith('self.') and force_default[5:] in replace_default:
             force_default = replace_default[force_default[5:]]
 
-        if instance == 'bool':
+        if instance.lower() == 'bool':
             default = default.lower()
         d[key][INSTANCE]  = instance
         d[key][NAME]      = re.sub(r'%[\S]', '<%s>' % select(force_var, var).upper(), name)
@@ -180,10 +180,10 @@ def main():
                 m = c.match(line)
             if m:
                 profile, instance, name, var, default = m.groups()
-                if profile == '_profile':
+                if profile == 'profile':
                     name = 'profile<N>.' + name
                 var = var.lstrip('% ')
-                if instance == 'list':
+                if instance.lower() == 'list':
                     type_key = [x.strip('"\'') for x in re.findall(r'["\'].*?["\']', var)]
                     commentline_split = commentline.split('::')
                     for i, tk in enumerate(type_key):

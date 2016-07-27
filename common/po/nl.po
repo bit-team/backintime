@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-29 23:03+0200\n"
-"PO-Revision-Date: 2016-04-15 10:30+0000\n"
+"POT-Creation-Date: 2016-07-11 02:40+0200\n"
+"PO-Revision-Date: 2016-07-12 07:18+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-06-26 22:32+0000\n"
-"X-Generator: Launchpad (build 18111)\n"
+"X-Launchpad-Export-Date: 2016-07-27 21:12+0000\n"
+"X-Generator: Launchpad (build 18153)\n"
 
 #: ../../common/configfile.py:97
 #, python-format
@@ -208,7 +208,7 @@ msgstr "Hoofdprofiel"
 
 #: ../../common/config.py:256 ../../common/config.py:263
 #: ../../common/config.py:274 ../../common/config.py:279
-#: ../../qt4/qt4systrayicon.py:67
+#: ../../qt4/qt4systrayicon.py:68
 #, python-format
 msgid "Profile: \"%s\""
 msgstr "Profiel: \"%s\""
@@ -286,7 +286,7 @@ msgstr ""
 "geen harde links ondersteunt. Gebruik hiervoor in de plaats a.u.b. de 'SSH-"
 "modus'."
 
-#: ../../common/config.py:1342
+#: ../../common/config.py:1426
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
@@ -297,11 +297,11 @@ msgstr ""
 "Indien dit niet het geval is, dient u het maken van automatische "
 "reservekopieën uit te schakelen."
 
-#: ../../common/config.py:1346
+#: ../../common/config.py:1430
 msgid "Failed to write new crontab."
 msgstr "Kon geen nieuwe crontab schrijven."
 
-#: ../../common/config.py:1440
+#: ../../common/config.py:1524
 #, python-format
 msgid ""
 "Could not install Udev rule for profile %(profile_id)s. DBus Service "
@@ -310,12 +310,12 @@ msgstr ""
 "Kon udev-regel voor profiel %(profile_id)s niet installeren. DBus-dienst "
 "'%(dbus_interface)s' was niet beschikbaar"
 
-#: ../../common/config.py:1452
+#: ../../common/config.py:1536
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr "Planning udev werkt niet bij modus %s"
 
-#: ../../common/config.py:1461
+#: ../../common/config.py:1545
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr "Kon de unieke identificatiecode voor \"%s\" niet vinden"
@@ -363,8 +363,8 @@ msgstr ""
 "encfs-versie 1.7.2 en daarvoor hebben een fout met de optie --reverse. Werk "
 "encfs a.u.b. bij"
 
-#: ../../common/encfstools.py:495 ../../common/snapshots.py:847
-#: ../../qt4/app.py:83 ../../qt4/app.py:87
+#: ../../common/encfstools.py:496 ../../common/snapshots.py:790
+#: ../../qt4/app.py:85 ../../qt4/app.py:89
 msgid "Take snapshot"
 msgstr "Reservekopie maken"
 
@@ -413,7 +413,7 @@ msgstr "Time-out aankoppelprocesvergrendeling"
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
 msgstr "Profiel '%(profile)s': Voer wachtwoord in voor %(mode)s: "
 
-#: ../../common/snapshots.py:154
+#: ../../common/snapshotlog.py:62
 msgid ""
 "### This log has been decoded with automatic search pattern\n"
 "### If some paths are not decoded you can manually decode them with:\n"
@@ -422,24 +422,24 @@ msgstr ""
 "### Als sommige paden niet gedecodeerd zijn dan kunt u deze handmatig "
 "decoderen met:\n"
 
-#: ../../common/snapshots.py:390 ../../common/snapshots.py:616
+#: ../../common/snapshots.py:321 ../../common/snapshots.py:551
 msgid "FAILED"
 msgstr "MISLUKT"
 
-#: ../../common/snapshots.py:563 ../../common/snapshots.py:619
+#: ../../common/snapshots.py:498 ../../common/snapshots.py:554
 msgid "Restore permissions:"
 msgstr "Rechten herstellen:"
 
-#: ../../common/snapshots.py:618 ../../qt4/app.py:422 ../../qt4/app.py:663
-#: ../../qt4/app.py:681 ../../qt4/qt4systrayicon.py:71
+#: ../../common/snapshots.py:553 ../../qt4/app.py:442 ../../qt4/app.py:686
+#: ../../qt4/app.py:719 ../../qt4/qt4systrayicon.py:72
 msgid "Done"
 msgstr "Voltooid"
 
-#: ../../common/snapshots.py:671
+#: ../../common/snapshots.py:607
 msgid "Deferring backup while on battery"
 msgstr "Maken van reservekopieën uitstellen indien op accu"
 
-#: ../../common/snapshots.py:728
+#: ../../common/snapshots.py:664
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it."
@@ -447,99 +447,101 @@ msgstr ""
 "Kan reservekopiemap niet vinden.\n"
 "Als deze op een extern medium staat, gelieve dit aan te sluiten."
 
-#: ../../common/snapshots.py:730
+#: ../../common/snapshots.py:666
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
 msgstr[0] "Wacht %s seconde"
 msgstr[1] "Wacht %s seconden"
 
-#: ../../common/snapshots.py:755
+#: ../../common/snapshots.py:698
 #, python-format
 msgid "Failed to take snapshot %s !!!"
 msgstr "Kon reservekopie %s niet maken!!!"
 
-#: ../../common/snapshots.py:764
+#: ../../common/snapshots.py:707
 msgid "Finalizing"
 msgstr "Voltooien"
 
-#: ../../common/snapshots.py:875
+#: ../../common/snapshots.py:818
 #, python-format
 msgid "Can't create folder: %s"
 msgstr "Kan deze map niet aanmaken: %s"
 
-#: ../../common/snapshots.py:888
+#: ../../common/snapshots.py:831
 msgid "Saving config file..."
 msgstr "Configuratiebestand opslaan..."
 
-#: ../../common/snapshots.py:925
+#: ../../common/snapshots.py:868
 msgid "Saving permissions..."
 msgstr "Rechten opslaan..."
 
-#: ../../common/snapshots.py:950
-msgid "Save permission over ssh failed. Retry normal method"
-msgstr "Opslaan ssh-rechten mislukt. Probeer a.u.b. de normale methode"
-
-#: ../../common/snapshots.py:1012
+#: ../../common/snapshots.py:946
 msgid "..."
 msgstr "..."
 
-#: ../../common/snapshots.py:1019
+#: ../../common/snapshots.py:954
 #, python-format
 msgid "Found leftover '%s' which can be continued."
 msgstr "Restant '%s' gevonden waarmee u verder kunt gaan."
 
-#: ../../common/snapshots.py:1027
+#: ../../common/snapshots.py:967
 #, python-format
 msgid "Removing leftover '%s' folder from last run"
 msgstr "De van de laatste keer overgebleven map '%s' verwijderen"
 
-#: ../../common/snapshots.py:1032
+#: ../../common/snapshots.py:972
 #, python-format
 msgid "Can't remove folder: %s"
 msgstr "Kan deze map niet verwijderen: %s"
 
-#: ../../common/snapshots.py:1061
+#: ../../common/snapshots.py:1006
 msgid "Taking snapshot"
 msgstr "Reservekopie maken"
 
-#: ../../common/snapshots.py:1115
+#: ../../common/snapshots.py:1038
+msgid "Nothing changed, no new snapshot necessary"
+msgstr ""
+"Er is niets gewijzigd, dus hoeft er geen nieuwe reservekopie gemaakt te "
+"worden"
+
+#: ../../common/snapshots.py:1062
 #, python-format
 msgid "Can't rename %(new_path)s to %(path)s"
 msgstr "Kan %(new_path)s niet hernoemen naar %(path)s"
 
-#: ../../common/snapshots.py:1373 ../../common/snapshots.py:1419
+#: ../../common/snapshots.py:1323 ../../common/snapshots.py:1369
 #: ../../qt4/settingsdialog.py:543
 msgid "Smart remove"
 msgstr "Slim verwijderen"
 
-#: ../../common/snapshots.py:1396
+#: ../../common/snapshots.py:1346
 msgid "Removing old snapshots"
 msgstr "Oude reservekopieën verwijderen"
 
-#: ../../common/snapshots.py:1424
+#: ../../common/snapshots.py:1379
 msgid "Trying to keep min free space"
 msgstr "Probeer een minimum aan vrije ruimte te houden"
 
-#: ../../common/snapshots.py:1461
+#: ../../common/snapshots.py:1416
 #, python-format
 msgid "Trying to keep min %d%% free inodes"
 msgstr "Probeer een minimum van %d%% vrije inodes te houden"
 
-#: ../../common/snapshots.py:2132
+#: ../../common/snapshots.py:2035
 msgid "WITH ERRORS !"
 msgstr "MET FOUTEN!"
 
-#: ../../common/snapshots.py:2566 ../../qt4/app.py:248 ../../qt4/app.py:1218
+#: ../../common/snapshots.py:2491 ../../qt4/app.py:268 ../../qt4/app.py:1265
 msgid "Now"
 msgstr "Huidige schijfinhoud"
 
-#: ../../common/sshtools.py:111
+#: ../../common/sshtools.py:160
 #, python-format
 msgid "Can't mount %s"
 msgstr "Kan %s niet aankoppelen"
 
-#: ../../common/sshtools.py:205
+#: ../../common/sshtools.py:275
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -547,7 +549,7 @@ msgstr ""
 "Kon SSH-privésleutel niet ontgrendelen. Het wachtwoord is ongeldig of is "
 "niet beschikbaar voor cron."
 
-#: ../../common/sshtools.py:223
+#: ../../common/sshtools.py:305
 #, python-format
 msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
@@ -556,7 +558,7 @@ msgstr ""
 "Authenticatie aanmelden zonder wachtwoord voor %(user)s@%(host)s is mislukt. "
 "Bekijk de 'Back In Time-handleiding' voor verdere instructies."
 
-#: ../../common/sshtools.py:245
+#: ../../common/sshtools.py:337
 #, python-format
 msgid ""
 "Cipher %(cipher)s failed for %(host)s:\n"
@@ -565,12 +567,12 @@ msgstr ""
 "Codering %(cipher)s mislukt voor %(host)s:\n"
 "%(err)s"
 
-#: ../../common/sshtools.py:282
+#: ../../common/sshtools.py:388
 #, python-format
 msgid "%s not found in ssh_known_hosts."
 msgstr "%s is niet gevonden in de ssh_bekende_gastcomputers."
 
-#: ../../common/sshtools.py:313
+#: ../../common/sshtools.py:428
 #, python-format
 msgid ""
 "Remote path exists but is not a directory:\n"
@@ -579,7 +581,7 @@ msgstr ""
 "Pad op afstand bestaat maar is geen map:\n"
 " %s"
 
-#: ../../common/sshtools.py:315
+#: ../../common/sshtools.py:430
 #, python-format
 msgid ""
 "Remote path is not writeable:\n"
@@ -588,7 +590,7 @@ msgstr ""
 "Pad op afstand is niet beschrijfbaar:\n"
 " %s"
 
-#: ../../common/sshtools.py:317
+#: ../../common/sshtools.py:432
 #, python-format
 msgid ""
 "Remote path is not executable:\n"
@@ -597,7 +599,7 @@ msgstr ""
 "Pad op afstand is niet uitvoerbaar:\n"
 " %s"
 
-#: ../../common/sshtools.py:319
+#: ../../common/sshtools.py:434
 #, python-format
 msgid ""
 "Couldn't create remote path:\n"
@@ -606,14 +608,14 @@ msgstr ""
 "Kon geen pad op afstand aanmaken:\n"
 " %s"
 
-#: ../../common/sshtools.py:344
+#: ../../common/sshtools.py:468
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
 msgstr ""
 "Pingen van %s is mislukt. Gastcomputer is uitgeschakeld of er is een "
 "verkeerd adres gebruikt."
 
-#: ../../common/sshtools.py:394 ../../common/sshtools.py:502
+#: ../../common/sshtools.py:535 ../../common/sshtools.py:641
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
@@ -624,7 +626,7 @@ msgstr ""
 "%(err)s\n"
 "Bekijk de 'Back In Time-handleiding' voor verdere instructies"
 
-#: ../../common/sshtools.py:505
+#: ../../common/sshtools.py:644
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
@@ -636,116 +638,128 @@ msgstr ""
 "%(err)s\n"
 "Bekijk de 'Back In Time-handleiding' voor verdere instructies"
 
-#: ../../common/sshtools.py:518
+#: ../../common/sshtools.py:657
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
 msgstr "Gastcomputer op afstand %s ondersteunt geen harde links"
 
-#: ../../qt4/app.py:89
+#: ../../qt4/app.py:91
 msgid "Take snapshot with checksums"
 msgstr "Reservekopie maken met controlesom"
 
-#: ../../qt4/app.py:90 ../../qt4/settingsdialog.py:631
+#: ../../qt4/app.py:92 ../../qt4/settingsdialog.py:631
 msgid "Use checksum to detect changes"
 msgstr "Controlesom gebruiken om wijzigingen op te sporen"
 
-#: ../../qt4/app.py:97
+#: ../../qt4/app.py:100 ../../qt4/qt4systrayicon.py:77
+msgid "Pause snapshot process"
+msgstr "Maken van reservekopie pauzeren"
+
+#: ../../qt4/app.py:106 ../../qt4/qt4systrayicon.py:81
+msgid "Resume snapshot process"
+msgstr "Maken van reservekopie hervatten"
+
+#: ../../qt4/app.py:112 ../../qt4/qt4systrayicon.py:86
+msgid "Stop snapshot process"
+msgstr "Maken van reservekopie stoppen"
+
+#: ../../qt4/app.py:117
 msgid "Refresh snapshots list"
 msgstr "Reservekopielijst vernieuwen"
 
-#: ../../qt4/app.py:101 ../../qt4/app.py:863
+#: ../../qt4/app.py:121 ../../qt4/app.py:908
 msgid "Snapshot Name"
 msgstr "Naam reservekopie"
 
-#: ../../qt4/app.py:104
+#: ../../qt4/app.py:124
 msgid "Remove Snapshot"
 msgstr "Reservekopie verwijderen"
 
-#: ../../qt4/app.py:107
+#: ../../qt4/app.py:127
 msgid "View Snapshot Log"
 msgstr "Reservekopielogboek bekijken"
 
-#: ../../qt4/app.py:110 ../../qt4/qt4systrayicon.py:81
+#: ../../qt4/app.py:130 ../../qt4/qt4systrayicon.py:95
 msgid "View Last Log"
 msgstr "Laatste logboek bekijken"
 
-#: ../../qt4/app.py:115 ../../qt4/settingsdialog.py:52
+#: ../../qt4/app.py:135 ../../qt4/settingsdialog.py:52
 msgid "Settings"
 msgstr "Instellingen"
 
-#: ../../qt4/app.py:120
+#: ../../qt4/app.py:140
 msgid "Shutdown"
 msgstr "Uitschakelen"
 
-#: ../../qt4/app.py:121
+#: ../../qt4/app.py:141
 msgid "Shutdown system after snapshot has finished."
 msgstr "Computer uitschakelen wanneer de reservekopie voltooid is."
 
-#: ../../qt4/app.py:127
+#: ../../qt4/app.py:147
 msgid "Exit"
 msgstr "Afsluiten"
 
-#: ../../qt4/app.py:136 ../../qt4/app.py:155 ../../qt4/app.py:288
+#: ../../qt4/app.py:156 ../../qt4/app.py:175 ../../qt4/app.py:308
 msgid "Help"
 msgstr "Hulp"
 
-#: ../../qt4/app.py:138
+#: ../../qt4/app.py:158
 msgid "Config File Help"
 msgstr "Configuratiebestand-hulp"
 
-#: ../../qt4/app.py:141
+#: ../../qt4/app.py:161
 msgid "Website"
 msgstr "Website"
 
-#: ../../qt4/app.py:143 ../../qt4/app.py:950
+#: ../../qt4/app.py:163 ../../qt4/app.py:997
 msgid "Changelog"
 msgstr "Wijzigingslogboek"
 
-#: ../../qt4/app.py:145
+#: ../../qt4/app.py:165
 msgid "FAQ"
 msgstr "FAQ"
 
-#: ../../qt4/app.py:147
+#: ../../qt4/app.py:167
 msgid "Ask a question"
 msgstr "Een vraag stellen"
 
-#: ../../qt4/app.py:149
+#: ../../qt4/app.py:169
 msgid "Report a bug"
 msgstr "Een fout melden"
 
-#: ../../qt4/app.py:152 ../../qt4/app.py:1340
+#: ../../qt4/app.py:172 ../../qt4/app.py:1387
 msgid "About"
 msgstr "Info"
 
-#: ../../qt4/app.py:182
+#: ../../qt4/app.py:202
 msgid "Up"
 msgstr "Omhoog"
 
-#: ../../qt4/app.py:193 ../../qt4/settingsdialog.py:1758
+#: ../../qt4/app.py:213 ../../qt4/settingsdialog.py:1758
 msgid "Show hidden files"
 msgstr "Verborgen bestanden tonen"
 
-#: ../../qt4/app.py:203 ../../qt4/app.py:244 ../../qt4/app.py:278
+#: ../../qt4/app.py:223 ../../qt4/app.py:264 ../../qt4/app.py:298
 #: ../../qt4/restoredialog.py:62 ../../qt4/settingsdialog.py:1800
-#: ../../qt4/snapshotsdialog.py:136 ../../qt4/snapshotsdialog.py:141
+#: ../../qt4/snapshotsdialog.py:138 ../../qt4/snapshotsdialog.py:143
 msgid "Restore"
 msgstr "Herstellen"
 
-#: ../../qt4/app.py:204
+#: ../../qt4/app.py:224
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 "Herstel de geselecteerde bestanden of mappen naar het oorspronkelijke doel."
 
-#: ../../qt4/app.py:207 ../../qt4/restoredialog.py:35
-#: ../../qt4/snapshotsdialog.py:138
+#: ../../qt4/app.py:227 ../../qt4/restoredialog.py:35
+#: ../../qt4/snapshotsdialog.py:140
 msgid "Restore to ..."
 msgstr "Herstellen naar..."
 
-#: ../../qt4/app.py:208
+#: ../../qt4/app.py:228
 msgid "Restore the selected files or folders to a new destination."
 msgstr "Herstel de geselecteerde bestanden of mappen naar een nieuw doel."
 
-#: ../../qt4/app.py:213
+#: ../../qt4/app.py:233
 msgid ""
 "Restore the currently shown folder and all its content to the original "
 "destination."
@@ -753,17 +767,17 @@ msgstr ""
 "Herstel de momenteel getoonde map en al zijn inhoud naar het oorspronkelijke "
 "doel."
 
-#: ../../qt4/app.py:218
+#: ../../qt4/app.py:238
 msgid ""
 "Restore the currently shown folder and all its content to a new destination."
 msgstr ""
 "Herstel de momenteel getoonde map en al zijn inhoud naar een nieuw doel."
 
-#: ../../qt4/app.py:223
+#: ../../qt4/app.py:243
 msgid "Restore and delete new files"
 msgstr "Nieuwe bestanden herstellen en verwijderen"
 
-#: ../../qt4/app.py:224
+#: ../../qt4/app.py:244
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
@@ -778,7 +792,7 @@ msgstr ""
 "waren in de reservekopie!\n"
 "Wees hier uiterst voorzichtig mee!!!"
 
-#: ../../qt4/app.py:233
+#: ../../qt4/app.py:253
 msgid ""
 "Restore the currently shown folder and all its content to the original\n"
 "destination and delete files/folders which are not in the snapshot.\n"
@@ -794,7 +808,7 @@ msgstr ""
 "waren in de reservekopie!\n"
 "Wees hier uiterst voorzichtig mee!!!"
 
-#: ../../qt4/app.py:246
+#: ../../qt4/app.py:266
 #, python-format
 msgid ""
 "Restore selected file or folder.\n"
@@ -807,24 +821,24 @@ msgstr ""
 "Deze knop zal weer geactiveerd worden wanneer u op een reservekopie in deze "
 "reservekopielijst klikt."
 
-#: ../../qt4/app.py:251 ../../qt4/logviewdialog.py:72
-#: ../../qt4/qt4tools.py:179 ../../qt4/snapshotsdialog.py:98
+#: ../../qt4/app.py:271 ../../qt4/logviewdialog.py:74 ../../qt4/qt4tools.py:179
+#: ../../qt4/snapshotsdialog.py:100
 msgid "Snapshots"
 msgstr "Reservekopieën"
 
-#: ../../qt4/app.py:258
+#: ../../qt4/app.py:278
 msgid "Snapshot"
 msgstr "Reservekopie"
 
-#: ../../qt4/app.py:269
+#: ../../qt4/app.py:289
 msgid "View"
 msgstr "Beeld"
 
-#: ../../qt4/app.py:322
+#: ../../qt4/app.py:342
 msgid "Shortcuts"
 msgstr "Snelkoppelingen"
 
-#: ../../qt4/app.py:340
+#: ../../qt4/app.py:360
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot!"
@@ -832,15 +846,15 @@ msgstr ""
 "Deze map bestaat niet\n"
 "in de huidige geselecteerde reservekopie!"
 
-#: ../../qt4/app.py:404
+#: ../../qt4/app.py:424
 msgid "Add to Include"
 msgstr "Toevoegen om op te nemen"
 
-#: ../../qt4/app.py:405
+#: ../../qt4/app.py:425
 msgid "Add to Exclude"
 msgstr "Toevoegen om uit te sluiten"
 
-#: ../../qt4/app.py:461
+#: ../../qt4/app.py:481
 #, python-format
 msgid ""
 "%(appName)s is not configured. Would you like to restore a previous "
@@ -849,7 +863,7 @@ msgstr ""
 "%(appName)s is niet geconfigureerd. Wilt u een eerdere configuratie "
 "herstellen?"
 
-#: ../../qt4/app.py:482
+#: ../../qt4/app.py:502
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
@@ -858,7 +872,7 @@ msgstr ""
 "Als deze op een extern medium staat, gelieve dit aan te sluiten en op OK te "
 "drukken."
 
-#: ../../qt4/app.py:515
+#: ../../qt4/app.py:535
 msgid ""
 "If you close this window Back In Time will not be able to shutdown your "
 "system when the snapshot has finished.\n"
@@ -868,47 +882,47 @@ msgstr ""
 "schakelen wanneer de reservekopie voltooid is.\n"
 "Weet u zeker dat u het wilt sluiten?"
 
-#: ../../qt4/app.py:655 ../../qt4/app.py:692
+#: ../../qt4/app.py:678 ../../qt4/app.py:730
 msgid "Working:"
 msgstr "Bezig met:"
 
-#: ../../qt4/app.py:684
+#: ../../qt4/app.py:722
 msgid "Done, no backup needed"
 msgstr "Klaar, geen reservekopie nodig"
 
-#: ../../qt4/app.py:696
+#: ../../qt4/app.py:734
 msgid "Error:"
 msgstr "Fout:"
 
-#: ../../qt4/app.py:715 ../../qt4/qt4systrayicon.py:169
+#: ../../qt4/app.py:753 ../../qt4/qt4systrayicon.py:187
 msgid "Sent:"
 msgstr "Verzonden:"
 
-#: ../../qt4/app.py:716 ../../qt4/qt4systrayicon.py:170
+#: ../../qt4/app.py:754 ../../qt4/qt4systrayicon.py:188
 msgid "Speed:"
 msgstr "Snelheid:"
 
-#: ../../qt4/app.py:717 ../../qt4/qt4systrayicon.py:171
+#: ../../qt4/app.py:755 ../../qt4/qt4systrayicon.py:189
 msgid "ETA:"
 msgstr "Geschatte aankomsttijd:"
 
-#: ../../qt4/app.py:766
+#: ../../qt4/app.py:804
 msgid "Global"
 msgstr "Algemeen"
 
-#: ../../qt4/app.py:767
+#: ../../qt4/app.py:805
 msgid "Root"
 msgstr "Hoofdmap"
 
-#: ../../qt4/app.py:768
+#: ../../qt4/app.py:806
 msgid "Home"
 msgstr "Persoonlijke map"
 
-#: ../../qt4/app.py:783
+#: ../../qt4/app.py:821
 msgid "Backup folders"
 msgstr "Mappen om reservekopie van te maken"
 
-#: ../../qt4/app.py:899
+#: ../../qt4/app.py:944
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -917,7 +931,7 @@ msgstr ""
 "Weet u zeker dat u de volgende reservekopie wilt verwijderen?\n"
 "%s"
 
-#: ../../qt4/app.py:982
+#: ../../qt4/app.py:1029
 #, python-format
 msgid ""
 "Backup local files before overwriting or\n"
@@ -926,7 +940,7 @@ msgstr ""
 "Maak reservekopie van lokale bestanden voordat u ze overschrijft of\n"
 "verwijdert d.m.v. het plaatsen van '%(suffix)s' erachter."
 
-#: ../../qt4/app.py:988
+#: ../../qt4/app.py:1035
 msgid ""
 "Only restore files which does not exist or\n"
 "are newer than those in destination.\n"
@@ -936,109 +950,109 @@ msgstr ""
 "of die nieuwer zijn dan de doelbestanden\n"
 "bij gebruik van de optie \"rsync --update\"."
 
-#: ../../qt4/app.py:994
+#: ../../qt4/app.py:1041
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Weet u zeker dat u alle nieuwere bestanden in de oorspronkelijke map wilt "
 "verwijderen?"
 
-#: ../../qt4/app.py:998
+#: ../../qt4/app.py:1045
 msgid ""
 "WARNING: deleting files in filesystem root could break your whole system!!!"
 msgstr ""
 "WAARSCHUWING: het verwijderen van systeembestanden uit de hoofdmap kan uw "
 "hele systeem ruïneren!!!"
 
-#: ../../qt4/app.py:1000
+#: ../../qt4/app.py:1047
 msgid "Files to be restored:"
 msgstr "Bestanden om te herstellen:"
 
-#: ../../qt4/app.py:1011
+#: ../../qt4/app.py:1058
 msgid "Do you really want to restore this files(s):"
 msgstr ""
 "Weet u zeker dat u het volgende bestand of bestanden wilt herstellen:"
 
-#: ../../qt4/app.py:1219
+#: ../../qt4/app.py:1266
 msgid "View the current disk content"
 msgstr "Overzicht huidige schijfinhoud"
 
-#: ../../qt4/app.py:1222
+#: ../../qt4/app.py:1269
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Reservekopie: %s"
 
-#: ../../qt4/app.py:1223
+#: ../../qt4/app.py:1270
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "Reservekopie gemaakt op %s bekijken"
 
-#: ../../qt4/app.py:1261
+#: ../../qt4/app.py:1308
 #, python-format
 msgid "Restore '%s'"
 msgstr "'%s' herstellen"
 
-#: ../../qt4/app.py:1262
+#: ../../qt4/app.py:1309
 #, python-format
 msgid "Restore '%s' to ..."
 msgstr "'%s' herstellen naar..."
 
-#: ../../qt4/app.py:1263
+#: ../../qt4/app.py:1310
 #, python-format
 msgid "Restore '%s' and delete new files"
 msgstr "'%s' herstellen en nieuwe bestanden verwijderen"
 
-#: ../../qt4/app.py:1365 ../../qt4/app.py:1382
+#: ../../qt4/app.py:1412 ../../qt4/app.py:1429
 msgid "Authors"
 msgstr "Schrijvers"
 
-#: ../../qt4/app.py:1366 ../../qt4/app.py:1385
+#: ../../qt4/app.py:1413 ../../qt4/app.py:1432
 msgid "Translations"
 msgstr "Vertalingen"
 
-#: ../../qt4/app.py:1367 ../../qt4/app.py:1388
+#: ../../qt4/app.py:1414 ../../qt4/app.py:1435
 msgid "License"
 msgstr "Licentie"
 
-#: ../../qt4/logviewdialog.py:54
+#: ../../qt4/logviewdialog.py:56
 msgid "Last Log View"
 msgstr "Laatste logboekweergave"
 
-#: ../../qt4/logviewdialog.py:56
+#: ../../qt4/logviewdialog.py:58
 msgid "Snapshot Log View"
 msgstr "Reservekopielogboekweergave"
 
-#: ../../qt4/logviewdialog.py:64 ../../qt4/settingsdialog.py:60
+#: ../../qt4/logviewdialog.py:66 ../../qt4/settingsdialog.py:60
 #: ../../qt4/settingsdialog.py:275 ../../qt4/settingsdialog.py:1887
 msgid "Profile:"
 msgstr "Profiel:"
 
-#: ../../qt4/logviewdialog.py:86
+#: ../../qt4/logviewdialog.py:88
 msgid "Filter:"
 msgstr "Filter:"
 
-#: ../../qt4/logviewdialog.py:92 ../../qt4/settingsdialog.py:649
+#: ../../qt4/logviewdialog.py:94 ../../qt4/settingsdialog.py:649
 msgid "All"
 msgstr "Alles"
 
-#: ../../qt4/logviewdialog.py:93 ../../qt4/logviewdialog.py:95
+#: ../../qt4/logviewdialog.py:95 ../../qt4/logviewdialog.py:97
 #: ../../qt4/settingsdialog.py:647
 msgid "Errors"
 msgstr "Fouten"
 
-#: ../../qt4/logviewdialog.py:93 ../../qt4/logviewdialog.py:96
+#: ../../qt4/logviewdialog.py:95 ../../qt4/logviewdialog.py:98
 msgid "Changes"
 msgstr "Wijzigingen"
 
-#: ../../qt4/logviewdialog.py:97
+#: ../../qt4/logviewdialog.py:99
 msgid "Informations"
 msgstr "Informatie"
 
-#: ../../qt4/logviewdialog.py:107
+#: ../../qt4/logviewdialog.py:109
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Fout, [I] Informatie, [C] Wijziging"
 
-#: ../../qt4/logviewdialog.py:110 ../../qt4/qt4systrayicon.py:76
+#: ../../qt4/logviewdialog.py:112 ../../qt4/qt4systrayicon.py:90
 msgid "decode paths"
 msgstr "decodeerpaden"
 
@@ -1050,11 +1064,11 @@ msgstr "Fout"
 msgid "Question"
 msgstr "Vraag"
 
-#: ../../qt4/qt4systrayicon.py:83
+#: ../../qt4/qt4systrayicon.py:97
 msgid "Start BackInTime"
 msgstr "Back InTime starten"
 
-#: ../../qt4/qt4systrayicon.py:138
+#: ../../qt4/qt4systrayicon.py:156
 msgid "Working..."
 msgstr "Bezig met..."
 
@@ -1074,12 +1088,12 @@ msgstr "Deze week"
 msgid "Last week"
 msgstr "Afgelopen week"
 
-#: ../../qt4/qt4tools.py:328
+#: ../../qt4/qt4tools.py:331
 msgid "This is NOT a snapshot but a live view of your local files"
 msgstr ""
 "Dit is GEEN reservekopie maar een actuele weergave van uw lokale bestanden"
 
-#: ../../qt4/qt4tools.py:330
+#: ../../qt4/qt4tools.py:333
 #, python-format
 msgid "Last check %s"
 msgstr "Laatste controle %s"
@@ -1640,60 +1654,60 @@ msgstr ""
 msgid "No config found"
 msgstr "Geen configuratie gevonden"
 
-#: ../../qt4/snapshotsdialog.py:50 ../../qt4/snapshotsdialog.py:175
+#: ../../qt4/snapshotsdialog.py:52 ../../qt4/snapshotsdialog.py:177
 msgid "Diff Options"
 msgstr "Vergelijkopties"
 
-#: ../../qt4/snapshotsdialog.py:57
+#: ../../qt4/snapshotsdialog.py:59
 msgid "Command:"
 msgstr "Opdracht:"
 
-#: ../../qt4/snapshotsdialog.py:61
+#: ../../qt4/snapshotsdialog.py:63
 msgid "Parameters:"
 msgstr "Parameters:"
 
-#: ../../qt4/snapshotsdialog.py:65
+#: ../../qt4/snapshotsdialog.py:67
 msgid "Use %1 and %2 for path parameters"
 msgstr "%1 en %2 voor padparameters gebruiken"
 
-#: ../../qt4/snapshotsdialog.py:108
+#: ../../qt4/snapshotsdialog.py:110
 msgid "List only different snapshots"
 msgstr "Alleen reservekopieën tonen die verschillen"
 
-#: ../../qt4/snapshotsdialog.py:115
+#: ../../qt4/snapshotsdialog.py:117
 msgid "List only equal snapshots to: "
 msgstr "Alleen soorgelijke reservekopieën tonen als: "
 
-#: ../../qt4/snapshotsdialog.py:125
+#: ../../qt4/snapshotsdialog.py:127
 msgid "Deep check (more accurate, but slow)"
 msgstr "Diepe controle (nauwkeuriger, maar langzaam)"
 
-#: ../../qt4/snapshotsdialog.py:146
+#: ../../qt4/snapshotsdialog.py:148
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: ../../qt4/snapshotsdialog.py:150
+#: ../../qt4/snapshotsdialog.py:152
 msgid "Select All"
 msgstr "Alles selecteren"
 
-#: ../../qt4/snapshotsdialog.py:163
+#: ../../qt4/snapshotsdialog.py:165
 msgid "Diff"
 msgstr "Vergelijken met"
 
-#: ../../qt4/snapshotsdialog.py:174
+#: ../../qt4/snapshotsdialog.py:176
 msgid "Go To"
 msgstr "Gaan naar"
 
-#: ../../qt4/snapshotsdialog.py:323
+#: ../../qt4/snapshotsdialog.py:325
 msgid "You can't compare a snapshot to itself"
 msgstr "U kunt een reservekopie niet met zichzelf vergelijken"
 
-#: ../../qt4/snapshotsdialog.py:330
+#: ../../qt4/snapshotsdialog.py:332
 #, python-format
 msgid "Command not found: %s"
 msgstr "Opdracht niet gevonden: %s"
 
-#: ../../qt4/snapshotsdialog.py:358
+#: ../../qt4/snapshotsdialog.py:360
 #, python-format
 msgid ""
 "Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
@@ -1701,18 +1715,18 @@ msgstr ""
 "Weet u zeker dat u \"%(file)s\" uit reservekopie \"%(snapshot_id)s wilt "
 "verwijderen?\n"
 
-#: ../../qt4/snapshotsdialog.py:361
+#: ../../qt4/snapshotsdialog.py:363
 #, python-format
 msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
 msgstr ""
 "Weet u zeker dat u \"%(file)s\" uit %(count)d reservekopieën wilt "
 "verwijderen?\n"
 
-#: ../../qt4/snapshotsdialog.py:363
+#: ../../qt4/snapshotsdialog.py:365
 msgid "WARNING: This can not be revoked!"
 msgstr "WAARSCHUWING: Dit kan niet ongedaan worden gemaakt!"
 
-#: ../../qt4/snapshotsdialog.py:378
+#: ../../qt4/snapshotsdialog.py:380
 #, python-format
 msgid "Exclude \"%s\" from future snapshots?"
 msgstr "\"%s\" uitsluiten van toekomstige reservekopieën?"
