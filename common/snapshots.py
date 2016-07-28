@@ -614,10 +614,13 @@ class Snapshots:
             instance = applicationinstance.ApplicationInstance(self.config.takeSnapshotInstanceFile(), False, flock = True)
             restore_instance = applicationinstance.ApplicationInstance(self.config.restoreInstanceFile(), False)
             if not instance.check():
-                logger.warning('A backup is already running', self)
+                logger.warning('A backup is already running.  The pid of the \
+already running backup is in file %s.  Maybe delete it' % instance.pidFile , self )
                 self.config.PLUGIN_MANAGER.error(2) #a backup is already running
             elif not restore_instance.check():
-                logger.warning('Restore is still running. Stop backup until restore is done.', self)
+                logger.warning('Restore is still running. Stop backup until \
+restore is done. The pid of the already running restore is in %s.  Maybe delete it'\
+                               % restore_instance.pidFile, self)
             else:
                 if self.config.noSnapshotOnBattery () and not tools.powerStatusAvailable():
                     logger.warning('Backups disabled on battery but power status is not available', self)
