@@ -408,17 +408,15 @@ class TestTools(generic.TestCase):
         proc = os.path.join('/proc', str(os.getpid()), 'fd')
         self.assertEqual(tools.mountpoint(proc), '/proc')
 
-    def test_mountArgs(self):
-        rootArgs = tools.mountArgs('/')
-        self.assertIsInstance(rootArgs, list)
-        self.assertGreaterEqual(len(rootArgs), 3)
-        self.assertEqual(rootArgs[1], '/')
+    def test_get_df_output(self):
+        df_root = tools.get_df_output('/')
+        self.assertIsInstance(df_root, list)
+        self.assertGreaterEqual(len(df_root), 2)
 
-        procArgs = tools.mountArgs('/proc')
-        self.assertGreaterEqual(len(procArgs), 3)
-        self.assertEqual(procArgs[0], 'proc')
-        self.assertEqual(procArgs[1], '/proc')
-        self.assertEqual(procArgs[2], 'proc')
+        df_proc = tools.get_df_output('/proc')
+        self.assertGreaterEqual(len(df_root), 2)
+        self.assertEqual(df_proc[0], 'proc')
+        self.assertEqual(df_proc[1], 'proc')
 
     def test_device(self):
         self.assertEqual(tools.device('/proc'), 'proc')
