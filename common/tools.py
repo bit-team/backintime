@@ -833,28 +833,35 @@ def mountpoint(path):
         path = os.path.abspath(os.path.join(path, os.pardir))
     return path
 
-def mountArgs(path):
+def get_df_output(path):
     """
-    Get all /etc/mtab args for the filesystem of ``path`` as a list.
+    Get the specified ``column`` from the output of 'df' command for ``path``.
+
     Example::
 
-        [DEVICE,      MOUNTPOINT, FILESYSTEM_TYPE, OPTIONS,    DUMP, PASS]
-        ['/dev/sda3', '/',        'ext4',          'defaults', '0',  '0']
-        ['/dev/sda1', '/boot',    'ext4',          'defaults', '0',  '0']
+        [Filesystem,  Type       , 1K-blocks , Used   , Available, Use%, Mounted on]
+        ['udev'    ,  'devtmpfs' , '4021284' , '0'    , '4021284', '0%', '/dev'    ]
+        ['tmpfs'   ,  'tmpfs'    , '807932   , '20096', '787836' , '3%', '/run'    ]
 
     Args:
         path (str): full path
 
     Returns:
-        list:       mount args
+        list:        df command output
     """
-    mp = mountpoint(path)
-    with open('/etc/mtab', 'r') as mounts:
-        for line in mounts:
-            args = line.strip('\n').split(' ')
-            if len(args) >= 2 and args[1] == mp:
-                return args
-    return None
+    path = mountpoint(path)
+    proc = subprocess.Popen(['df', '-T', path], stdout=subprocess.PIPE, universal_newlines = True)
+    out, err = proc.communicate()
+    if proc.returncode or err:
+        logger.error('Failed to run "df -T" : %s, %s' % (proc.returncode, err))
+        return None
+
+    result = [l.strip().split() for l in out.splitlines()]
+    if len(result) < 2:
+        logger.error('Expected at least two lines from the command: ' + out)
+        return None
+
+    return result[1]  # skip the header and return the values
 
 def device(path):
     """
@@ -871,10 +878,11 @@ def device(path):
     Returns:
         str:        device
     """
-    args = mountArgs(path)
-    if args:
-        return args[0]
-    return None
+    df_output = get_df_output(path)
+    if df_output is None:
+        return None
+    else:
+        return df_output[0]
 
 def filesystem(path):
     """
@@ -886,10 +894,11 @@ def filesystem(path):
     Returns:
         str:        filesystem
     """
-    args = mountArgs(path)
-    if args and len(args) >= 3:
-        return args[2]
-    return None
+    df_output = get_df_output(path)
+    if df_output is None:
+        return None
+    else:
+        return df_output[1]
 
 def uuidFromDev(dev):
     """
