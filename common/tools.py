@@ -833,28 +833,28 @@ def mountpoint(path):
         path = os.path.abspath(os.path.join(path, os.pardir))
     return path
 
-def mountArgs(path):
+def get_df_output(column, path):
     """
-    Get all /etc/mtab args for the filesystem of ``path`` as a list.
-    Example::
-
-        [DEVICE,      MOUNTPOINT, FILESYSTEM_TYPE, OPTIONS,    DUMP, PASS]
-        ['/dev/sda3', '/',        'ext4',          'defaults', '0',  '0']
-        ['/dev/sda1', '/boot',    'ext4',          'defaults', '0',  '0']
+    Get the specified ``column`` from the output of 'df' command for ``path``.
 
     Args:
+        column (str): column name (see 'man df')
         path (str): full path
 
     Returns:
-        list:       mount args
+        str:        value of the specified ``column``
     """
-    mp = mountpoint(path)
-    with open('/etc/mtab', 'r') as mounts:
-        for line in mounts:
-            args = line.strip('\n').split(' ')
-            if len(args) >= 2 and args[1] == mp:
-                return args
-    return None
+    proc = subprocess.Popen(['df', '--output=' + column, path], stdout=subprocess.PIPE, universal_newlines = True)
+    out, err = proc.communicate()
+    if proc.returncode or err:
+        logger.error('Failed to get column "%s" from df : %s, %s' % (column, proc.returncode, err))
+        return None
+
+    result = [x.strip() for x in out.strip('\n').split('\n')]
+    if len(result) >= 2:
+        return result[1]
+    else:
+        return None
 
 def device(path):
     """
@@ -871,10 +871,7 @@ def device(path):
     Returns:
         str:        device
     """
-    args = mountArgs(path)
-    if args:
-        return args[0]
-    return None
+    return get_df_output('source', mountpoint(path))
 
 def filesystem(path):
     """
@@ -886,10 +883,7 @@ def filesystem(path):
     Returns:
         str:        filesystem
     """
-    args = mountArgs(path)
-    if args and len(args) >= 3:
-        return args[2]
-    return None
+    return get_df_output('fstype', mountpoint(path))
 
 def uuidFromDev(dev):
     """
