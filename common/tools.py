@@ -833,6 +833,21 @@ def mountpoint(path):
         path = os.path.abspath(os.path.join(path, os.pardir))
     return path
 
+def decodeOctalEscape(s):
+    """
+    Decode octal-escaped characters with it's ASCII dependance.
+    For example ``\040`` will be a space `` ``
+
+    Args:
+        s (str):    string with or without octal-escaped characters
+
+    Returns:
+        str:        human readable string
+    """
+    def repl(m):
+        return chr(int(m.group(1), 8))
+    return re.sub(r'\\(\d{3})', repl, s)
+
 def mountArgs(path):
     """
     Get all /etc/mtab args for the filesystem of ``path`` as a list.
@@ -852,8 +867,10 @@ def mountArgs(path):
     with open('/etc/mtab', 'r') as mounts:
         for line in mounts:
             args = line.strip('\n').split(' ')
-            if len(args) >= 2 and args[1] == mp:
-                return args
+            if len(args) >= 2:
+                    args[1] = decodeOctalEscape(args[1])
+                    if args[1] == mp:
+                        return args
     return None
 
 def device(path):

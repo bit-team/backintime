@@ -1545,6 +1545,7 @@ class SettingsDialog(QDialog):
             if old_path and old_path != path:
                 if not self.questionHandler(_('Are you sure you want to change snapshots folder ?')):
                     return
+                self.config.removeProfileKey('snapshots.path.uuid')
             self.editSnapshotsPath.setText(self.config.preparePath(path))
 
     def btnSshPrivateKeyFileClicked(self):
