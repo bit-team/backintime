@@ -836,7 +836,7 @@ def mountpoint(path):
 def decodeOctalEscape(s):
     """
     Decode octal-escaped characters with it's ASCII dependance.
-    For example ``\040`` will be a space `` ``
+    For example '\040' will be a space ' '
 
     Args:
         s (str):    string with or without octal-escaped characters
