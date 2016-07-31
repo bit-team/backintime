@@ -1318,8 +1318,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                            head = head,
                                            tail = tail,
                                            maxLength = maxLength - additionalChars):
-                tools.Execute(self.config.sshCommand(cmd,
-                                                     quote = True,
+                tools.Execute(self.config.sshCommand([cmd,],
+                                                     quote = False,
                                                      nice = False,
                                                      ionice = False)).run()
         else:
