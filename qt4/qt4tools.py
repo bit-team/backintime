@@ -229,7 +229,7 @@ class TimeLine(QTreeWidget):
         self.rootItem = self.addSnapshot(sid)
         return self.rootItem
 
-    @pyqtSlot(str, str, str)
+    @pyqtSlot(snapshots.SID)
     def addSnapshot(self, sid):
         item = SnapshotItem(sid)
 
