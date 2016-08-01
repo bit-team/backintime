@@ -912,7 +912,7 @@ class MainWindow(QMainWindow):
 
     def btnLastLogViewClicked (self):
         with self.suspendMouseButtonNavigation():
-            logviewdialog.LogViewDialog(self).exec_()
+            logviewdialog.LogViewDialog(self).show()
 
     def btnSnapshotLogViewClicked (self):
         item = self.timeLine.currentItem()
@@ -925,7 +925,7 @@ class MainWindow(QMainWindow):
 
         with self.suspendMouseButtonNavigation():
             dlg = logviewdialog.LogViewDialog(self, sid)
-            dlg.exec_()
+            dlg.show()
             if sid != dlg.sid:
                 self.timeLine.setCurrentSnapshotID(dlg.sid)
 
@@ -949,10 +949,7 @@ class MainWindow(QMainWindow):
 
     def btnSettingsClicked(self):
         with self.suspendMouseButtonNavigation():
-            if QDialog.Accepted == settingsdialog.SettingsDialog(self).exec_():
-                profile_id = self.config.currentProfile()
-                self.remount(profile_id, profile_id)
-                self.updateProfiles()
+            settingsdialog.SettingsDialog(self).show()
 
     def btnShutdownToggled(self, checked):
         self.shutdown.activate_shutdown = checked

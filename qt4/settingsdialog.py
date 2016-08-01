@@ -49,6 +49,9 @@ class SettingsDialog(QDialog):
         import icon
         self.icon = icon
 
+        self.config.setQuestionHandler(self.questionHandler)
+        self.config.setErrorHandler(self.errorHandler)
+
         self.setWindowIcon(icon.SETTINGS_DIALOG)
         self.setWindowTitle(_('Settings'))
 
@@ -870,6 +873,8 @@ class SettingsDialog(QDialog):
         self.tabs.setUsesScrollButtons(scrollButtonDefault)
         self.resize(size)
 
+        self.finished.connect(self.cleanup)
+
     def modifyProfileForFullSystemBackup(self):
         # verify to user that settings will change
         message = _("Full system backup can only create a snapshot to be restored to the same physical disk(s) "
@@ -1348,19 +1353,6 @@ class SettingsDialog(QDialog):
     def questionHandler(self, message):
         return QMessageBox.Yes == messagebox.warningYesNo(self, message)
 
-    def exec_(self):
-        self.config.setQuestionHandler(self.questionHandler)
-        self.config.setErrorHandler(self.errorHandler)
-        ret_val = super(SettingsDialog, self).exec_()
-        self.config.clearHandlers()
-
-        if ret_val != QDialog.Accepted:
-            self.config.dict = self.configDictCopy
-
-        self.config.setCurrentProfile(self.originalCurrentProfile)
-
-        return ret_val
-
     def updateRemoveOlder(self):
         enabled = self.cbRemoveOlder.isChecked()
         self.spbRemoveOlder.setEnabled(enabled)
@@ -1672,6 +1664,15 @@ class SettingsDialog(QDialog):
     def accept(self):
         if self.validate():
             super(SettingsDialog, self).accept()
+
+    def cleanup(self, result):
+        self.config.clearHandlers()
+        if not result:
+            self.config.dict = self.configDictCopy
+        self.config.setCurrentProfile(self.originalCurrentProfile)
+        if result:
+            self.parent.remount(self.originalCurrentProfile, self.originalCurrentProfile)
+            self.parent.updateProfiles()
 
 class RestoreConfigDialog(QDialog):
     """
