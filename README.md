@@ -10,8 +10,9 @@ Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 
 Back In Time is a simple backup tool for Linux, inspired by "flyback project".
 
-It provides a command line client 'backintime' and a Qt4 GUI 'backintime-qt4'
-both written in Python3.
+It provides a command line client 'backintime' and a Qt5 GUI 'backintime-qt4'
+both written in Python3 (even it is named 'backintime-qt4' it uses Qt5,
+I didn't want to change names again).
 
 You only need to specify 3 things:
 * where to save snapshots
@@ -91,7 +92,7 @@ before installing
         sudo make install
 
 
-#####Qt4 GUI
+#####Qt5 GUI
 
 * dependencies
     - x11-utils
