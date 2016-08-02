@@ -2483,7 +2483,10 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
     Yields:
         SID:                        snapshot IDs
     """
-    for item in os.listdir(cfg.snapshotsFullPath()):
+    path = cfg.snapshotsFullPath()
+    if not os.path.exists(path):
+        return None
+    for item in os.listdir(path):
         if item == NewSnapshot.NEWSNAPSHOT:
             newSid = NewSnapshot(cfg)
             if newSid.exists() and includeNewSnapshot:
