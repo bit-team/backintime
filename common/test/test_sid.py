@@ -513,5 +513,16 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(snapshots.lastSnapshot(self.cfg),
                          '20151219-040324-123')
 
+class TestIterSnapshotsNonexistingSnapshotPath(generic.TestCaseSnapshotPath):
+    def test_iterSnapshots(self):
+        for item in snapshots.iterSnapshots(self.cfg):
+            self.fail('got unexpected snapshot')
+
+    def test_listSnapshots(self):
+        self.assertEqual(snapshots.listSnapshots(self.cfg), [])
+
+    def test_lastSnapshots(self):
+        self.assertIsNone(snapshots.lastSnapshot(self.cfg))
+
 if __name__ == '__main__':
     unittest.main()

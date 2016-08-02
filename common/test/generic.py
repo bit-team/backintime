@@ -67,23 +67,26 @@ class TestCaseCfg(TestCase):
         super(TestCaseCfg, self).setUp()
         self.cfg = config.Config(self.cfgFile, self.sharePath)
 
-class SnapshotsTestCase(TestCaseCfg):
+class TestCaseSnapshotPath(TestCaseCfg):
     def setUp(self):
-        super(SnapshotsTestCase, self).setUp()
+        super(TestCaseSnapshotPath, self).setUp()
         #use a new TemporaryDirectory for snapshotPath to avoid
         #side effects on leftovers
         self.tmpDir = TemporaryDirectory()
         self.cfg.dict['profile1.snapshots.path'] = self.tmpDir.name
         self.snapshotPath = self.cfg.snapshotsFullPath()
-        os.makedirs(self.snapshotPath)
 
+    def tearDown(self):
+        self.tmpDir.cleanup()
+
+class SnapshotsTestCase(TestCaseSnapshotPath):
+    def setUp(self):
+        super(SnapshotsTestCase, self).setUp()
+        os.makedirs(self.snapshotPath)
         self.sn = snapshots.Snapshots(self.cfg)
         #use a tmp-file for flock because test_flockExclusive would deadlock
         #otherwise if a regular snapshot is running in background
         self.sn.GLOBAL_FLOCK = TMP_FLOCK.name
-
-    def tearDown(self):
-        self.tmpDir.cleanup()
 
 class SnapshotsWithSidTestCase(SnapshotsTestCase):
     def setUp(self):
