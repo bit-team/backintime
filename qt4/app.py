@@ -930,6 +930,14 @@ class MainWindow(QMainWindow):
                 self.timeLine.setCurrentSnapshotID(dlg.sid)
 
     def btnRemoveSnapshotClicked (self):
+        def hideItem(item):
+            try:
+                item.setHidden(True)
+            except RuntimeError:
+                #item has been deleted
+                #probably because user pressed refresh
+                pass
+
         items = [item for item in self.timeLine.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
         if not items:
             return
@@ -945,6 +953,7 @@ class MainWindow(QMainWindow):
                 self.timeLine.selectRootItem()
         thread = RemoveSnapshotThread(self, items)
         thread.refreshSnapshotList.connect(self.updateTimeLine)
+        thread.hideTimelineItem.connect(hideItem)
         thread.start()
 
     def btnSettingsClicked(self):
@@ -1461,6 +1470,7 @@ class RemoveSnapshotThread(QThread):
     remove snapshots in background thread so GUI will not freeze
     """
     refreshSnapshotList = pyqtSignal()
+    hideTimelineItem = pyqtSignal(qt4tools.SnapshotItem)
     def __init__(self, parent, items):
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -1474,15 +1484,10 @@ class RemoveSnapshotThread(QThread):
         self.config.inhibitCookie = tools.inhibitSuspend(toplevel_xid = self.config.xWindowId,
                                                          reason = 'deleting snapshots')
 
-        for item in self.items:
-            self.snapshots.remove(item.snapshotID())
-            try:
-                item.setHidden(True)
-            except RuntimeError:
-                #item has been deleted
-                #probably because user pressed refresh
-                pass
-            if item.snapshotID() == last_snapshot:
+        for item, sid in [(x, x.snapshotID()) for x in self.items]:
+            self.snapshots.remove(sid)
+            self.hideTimelineItem.emit(item)
+            if sid == last_snapshot:
                 renew_last_snapshot = True
 
         self.refreshSnapshotList.emit()
