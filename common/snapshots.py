@@ -1253,7 +1253,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             del_snapshots.append(sid)
         return del_snapshots
 
-    def smartRemove(self, del_snapshots):
+    def smartRemove(self, del_snapshots, log = None):
         """
         Remove multiple snapshots either with
         :py:func:`Snapshots.remove` or in background on the remote host
@@ -1261,10 +1261,14 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         activated.
 
         Args:
-            del_snapshots (list): list of :py:class:`SID` that should be removed
+            del_snapshots (list):   list of :py:class:`SID` that should be removed
+            log (method):           callable method that will handle progress log
         """
         if not del_snapshots:
             return
+
+        if not log:
+            log = lambda x: self.setTakeSnapshotMessage(0, x)
 
         if self.config.snapshotsMode() in ['ssh', 'ssh_encfs'] and self.config.smartRemoveRunRemoteInBackground():
             logger.info('[smart remove] remove snapshots in background: %s'
@@ -1325,7 +1329,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             logger.info("[smart remove] remove snapshots: %s"
                         %del_snapshots, self)
             for i, sid in enumerate(del_snapshots, 1):
-                self.setTakeSnapshotMessage(0, _('Smart remove') + ' %s/%s' %(i, len(del_snapshots)))
+                log(_('Smart remove') + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
     def freeSpace(self, now):
@@ -1369,8 +1373,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 del snapshots[0]
 
         #smart remove
-        smart_remove, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.smartRemove()
-        if smart_remove:
+        enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.smartRemove()
+        if enabled:
             self.setTakeSnapshotMessage(0, _('Smart remove'))
             del_snapshots = self.smartRemoveList(now,
                                                  keep_all,

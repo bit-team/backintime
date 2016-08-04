@@ -28,6 +28,7 @@ last\-snapshot | last\-snapshot\-path |
 pw\-cache [start|stop|restart|reload|status] |
 remove[\-and\-do\-not\-ask\-again] [SNAPSHOT_ID] |
 restore [WHAT [WHERE [SNAPSHOT_ID]]] |
+smart\-remove |
 snapshots\-list | snapshots\-list\-path |
 snapshots\-path |
 unmount }
@@ -140,6 +141,9 @@ missing they will be prompted. To restore to the original path WHERE can be an
 empty string '' or just press Enter at the prompt. SNAPSHOT_ID can be an index
 (starting with 0 for the last snapshot) or the exact SnapshotID
 (19 caracters like '20130606-230501-984')
+.TP
+smart\-remove | \-\-smart\-remove
+Remove snapshots based on the configured Smart-Remove pattern.
 .TP
 snapshots\-list | \-\-snapshots\-list
 Display the list of snapshot IDs (if any)

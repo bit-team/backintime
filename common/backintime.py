@@ -21,6 +21,7 @@ import gettext
 import argparse
 import atexit
 import subprocess
+from datetime import datetime
 
 import config
 import logger
@@ -389,6 +390,17 @@ def createParsers(app_name = 'backintime'):
                                                  action = 'store_true',
                                                  help = 'Only restore files which does not exist or are newer than ' +\
                                                         'those in destination. Using "rsync --update" option.')
+
+    command = 'smart-remove'
+    nargs = 0
+    aliases.append((command, nargs))
+    description = 'Remove snapshots based on "Smart Remove" pattern.'
+    smartRemoveCP =        subparsers.add_parser(command,
+                                                 epilog = epilogCommon,
+                                                 help = description,
+                                                 description = description)
+    smartRemoveCP.set_defaults(func = smartRemove)
+    parsers[command] = smartRemoveCP
 
     command = 'snapshots-list'
     nargs = 0
@@ -991,6 +1003,39 @@ def removeAndDoNotAskAgain(args):
         SystemExit:     0
     """
     remove(args, True)
+
+def smartRemove(args):
+    """
+    Command for running Smart-Remove from Terminal.
+
+    Args:
+        args (argparse.Namespace):
+                        previously parsed arguments
+
+    Raises:
+        SystemExit:     0 if okay
+                        2 if Smart-Remove is not configured
+    """
+    setQuiet(args)
+    printHeader()
+    cfg = getConfig(args)
+    sn = snapshots.Snapshots(cfg)
+
+    enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = cfg.smartRemove()
+    if enabled:
+        _mount(cfg)
+        del_snapshots = sn.smartRemoveList(datetime.today(),
+                                           keep_all,
+                                           keep_one_per_day,
+                                           keep_one_per_week,
+                                           keep_one_per_month)
+        logger.info('Smart Remove will remove {} snapshots'.format(len(del_snapshots)))
+        sn.smartRemove(del_snapshots, log = logger.info)
+        _umount(cfg)
+        sys.exit(RETURN_OK)
+    else:
+        logger.error('Smart Remove is not configured.')
+        sys.exit(RETURN_NO_CFG)
 
 def restore(args):
     """

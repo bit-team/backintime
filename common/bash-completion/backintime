@@ -33,7 +33,8 @@ _backintime()
           --local-backup --no-local-backup --only-new --share-path"
     actions="backup backup-job snapshots-path snapshots-list                \
              snapshots-list-path last-snapshot last-snapshot-path unmount   \
-             benchmark-cipher pw-cache decode remove restore check-config"
+             benchmark-cipher pw-cache decode remove restore check-config   \
+             smart-remove"
     pw_cache_commands="start stop restart reload status"
 
     #extract the current action
