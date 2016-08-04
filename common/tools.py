@@ -1885,6 +1885,7 @@ class Execute(object):
 
         #backwards compatibility with old os.system and os.popen calls
         if isinstance(self.cmd, str):
+            logger.deprecated(self)
             if self.callback is None:
                 ret_val = os.system(self.cmd)
             else:
@@ -1899,7 +1900,7 @@ class Execute(object):
                         line = f(line)
                     if not line:
                         continue
-                    self.callback(line , self.user_data)
+                    self.callback(line, self.user_data)
 
                 ret_val = pipe.close()
                 if ret_val is None:

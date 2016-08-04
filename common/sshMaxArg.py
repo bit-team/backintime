@@ -59,7 +59,7 @@ def reportTest(mid, msg):
     print('Check length %s:\t%s' % (mid, msg))
 
 def reportResult(host, mid):
-    print('Maximum SSH argument length between %s and %s is %s'
+    print('Maximum SSH argument length between "%s" and "%s" is %s'
           % (socket.gethostname(), host, mid))
 
 if __name__ == '__main__':
@@ -74,5 +74,4 @@ if __name__ == '__main__':
     import config
     cfg = config.Config()
     mid = maxArgLength(cfg, args.MID)
-    #TODO: fix host
-    reportResult(args.HOST, mid)
+    reportResult(cfg.sshHost(), mid)

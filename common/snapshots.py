@@ -1266,7 +1266,6 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if not del_snapshots:
             return
 
-        #TODO: move this to subprocess.Popen
         if self.config.snapshotsMode() in ['ssh', 'ssh_encfs'] and self.config.smartRemoveRunRemoteInBackground():
             logger.info('[smart remove] remove snapshots in background: %s'
                         %del_snapshots, self)
