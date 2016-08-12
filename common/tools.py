@@ -24,8 +24,10 @@ import re
 import errno
 import gzip
 import tempfile
+import atexit
 from datetime import datetime
 from distutils.version import StrictVersion
+from time import sleep
 keyring = None
 keyring_warn = False
 try:
@@ -50,6 +52,7 @@ except ImportError:
 
 import configfile
 import logger
+from applicationinstance import ApplicationInstance
 from exceptions import Timeout, InvalidChar, PermissionDeniedByPolicy
 
 ON_AC = 0
@@ -1269,6 +1272,177 @@ class PathHistory(object):
     def reset(self, path):
         self.history = [path,]
         self.index = 0
+
+class Daemon:
+    """
+    A generic daemon class.
+
+    Usage: subclass the Daemon class and override the run() method
+
+    Daemon Copyright by Sander Marechal
+    License CC BY-SA 3.0
+    http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
+    """
+    def __init__(self, pidfile = None, stdin='/dev/null', stdout='/dev/stdout', stderr='/dev/null'):
+        self.stdin = stdin
+        self.stdout = stdout
+        self.stderr = stderr
+        self.pidfile = pidfile
+        if pidfile:
+            self.appInstance = ApplicationInstance(pidfile, auto_exit = False, flock = False)
+
+    def daemonize(self):
+        """
+        do the UNIX double-fork magic, see Stevens' "Advanced
+        Programming in the UNIX Environment" for details (ISBN 0201563177)
+        http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
+        """
+        try:
+            pid = os.fork()
+            logger.debug('first fork pid: {}'.format(pid), self)
+            if pid > 0:
+                # exit first parent
+                sys.exit(0)
+        except OSError as e:
+            logger.error("fork #1 failed: %d (%s)" % (e.errno, str(e)), self)
+            sys.exit(1)
+
+        # decouple from parent environment
+        logger.debug('decouple from parent environment', self)
+        os.chdir("/")
+        os.setsid()
+        os.umask(0)
+
+        # do second fork
+        try:
+            pid = os.fork()
+            logger.debug('second fork pid: {}'.format(pid), self)
+            if pid > 0:
+                # exit from second parent
+                sys.exit(0)
+        except OSError as e:
+            logger.error("fork #2 failed: %d (%s)" % (e.errno, str(e)), self)
+            sys.exit(1)
+
+        # redirect standard file descriptors
+        logger.debug('redirect standard file descriptors', self)
+        try:
+            sys.stdout.flush()
+            sys.stderr.flush()
+            si = open(self.stdin, 'r')
+            so = open(self.stdout, 'w')
+            se = open(self.stderr, 'w')
+            os.dup2(si.fileno(), sys.stdin.fileno())
+            os.dup2(so.fileno(), sys.stdout.fileno())
+            os.dup2(se.fileno(), sys.stderr.fileno())
+        except Exception as e:
+            logger.debug(str(e), self)
+            raise
+
+        signal.signal(signal.SIGTERM, self.cleanupHandler)
+        if self.pidfile:
+            atexit.register(self.appInstance.exit_application)
+            # write pidfile
+            logger.debug('write pidfile', self)
+            self.appInstance.start_application()
+
+    def cleanupHandler(self, signum, frame):
+        if self.pidfile:
+            self.appInstance.exit_application()
+        sys.exit(0)
+
+    def start(self):
+        """
+        Start the daemon
+        """
+        # Check for a pidfile to see if the daemon already runs
+        if self.pidfile and not self.appInstance.check():
+            message = "pidfile %s already exist. Daemon already running?\n"
+            logger.error(message % self.pidfile, self)
+            sys.exit(1)
+
+        # Start the daemon
+        self.daemonize()
+        self.run()
+
+    def stop(self):
+        """
+        Stop the daemon
+        """
+        if not self.pidfile:
+            logger.debug("Unattended daemon can't be stopped. No PID file", self)
+            return
+
+        # Get the pid from the pidfile
+        pid, procname = self.appInstance.readPidFile()
+
+        if not pid:
+            message = "pidfile %s does not exist. Daemon not running?\n"
+            logger.error(message % self.pidfile, self)
+            return # not an error in a restart
+
+        # Try killing the daemon process
+        try:
+            while True:
+                os.kill(pid, signal.SIGTERM)
+                sleep(0.1)
+        except OSError as err:
+            if err.errno == errno.ESRCH:
+                #no such process
+                self.appInstance.exit_application()
+            else:
+                logger.error(str(err), self)
+                sys.exit(1)
+
+    def restart(self):
+        """
+        Restart the daemon
+        """
+        self.stop()
+        self.start()
+
+    def reload(self):
+        """
+        send SIGHUP signal to process
+        """
+        if not self.pidfile:
+            logger.debug("Unattended daemon can't be reloaded. No PID file", self)
+            return
+
+        # Get the pid from the pidfile
+        pid, procname = self.appInstance.readPidFile()
+
+        if not pid:
+            message = "pidfile %s does not exist. Daemon not running?\n"
+            logger.error(message % self.pidfile, self)
+            return
+
+        # Try killing the daemon process
+        try:
+            os.kill(pid, signal.SIGHUP)
+        except OSError as err:
+            if err.errno == errno.ESRCH:
+                #no such process
+                self.appInstance.exit_application()
+            else:
+                sys.stderr.write(str(err))
+                sys.exit(1)
+
+    def status(self):
+        """
+        return status
+        """
+        if not self.pidfile:
+            logger.debug("Unattended daemon can't be checked. No PID file", self)
+            return
+        return not self.appInstance.check()
+
+    def run(self):
+        """
+        You should override this method when you subclass Daemon. It will be called after the process has been
+        daemonized by start() or restart().
+        """
+        pass
 
 def __log_keyring_warning():
     from time import sleep

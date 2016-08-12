@@ -631,7 +631,7 @@ def backupJob(args):
 
     args:   argparse.ArgumentParser instance
     '''
-    backup(args, False)
+    cli.BackupJobDaemon(backup, args).start()
 
 def snapshotsPath(args):
     '''command for printing the full snapshot path of current profile.

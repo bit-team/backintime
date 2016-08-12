@@ -53,7 +53,7 @@ class Mount(object):
                 logger.debug('pw-cache is running but is an old version', self)
                 action = 'restart'
             bit = tools.which('backintime')
-            if not action is None and len(bit):
+            if not action is None and not bit is None and len(bit):
                 cmd = [bit, 'pw-cache', action]
                 logger.debug('Call command: %s'
                              %' '.join(cmd), self)

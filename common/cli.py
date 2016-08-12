@@ -216,3 +216,12 @@ class RestoreDialog(object):
     def run(self):
         self.snapshots.restore(self.snapshot_id, self.what, self.callback, self.where, **self.kwargs)
         print('\nLog saved to %s' % self.log_file)
+
+class BackupJobDaemon(tools.Daemon):
+    def __init__(self, func, args):
+        super(BackupJobDaemon, self).__init__()
+        self.func = func
+        self.args = args
+
+    def run(self):
+        self.func(self.args, False)

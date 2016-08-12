@@ -70,12 +70,14 @@ class ApplicationInstance:
         '''
         #check if the pidfile exists
         if not os.path.isfile( self.pid_file ):
+            logger.debug('No PID file', self)
             return True
 
         self.pid, self.procname = self.readPidFile()
 
         #check if the process with specified by pid exists
         if 0 == self.pid:
+            logger.debug('PID is 0', self)
             return True
 
         try:
@@ -83,12 +85,14 @@ class ApplicationInstance:
         except OSError as err:
             if err.errno == errno.ESRCH:
                 #no such process
+                logger.debug('No process with PID {}'.format(self.pid), self)
                 return True
             else:
                 raise
 
         #check if the process has the same procname
         if self.procname and self.procname != self.readProcName(self.pid):
+            logger.debug("Process name doesn't match {} | {}".format(self.procname, self.readProcName(self.pid)), self)
             return True
 
         if auto_exit:
