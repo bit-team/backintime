@@ -728,7 +728,7 @@ def backupJob(args):
     Raises:
         SystemExit:     0 if successful, 1 if not
     """
-    backup(args, False)
+    cli.BackupJobDaemon(backup, args).start()
 
 def snapshotsPath(args):
     """

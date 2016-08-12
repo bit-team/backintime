@@ -153,4 +153,4 @@ run `cd common && ./configure && make test`
 * Vadim Peretokin: Russian translation
 * translators from [Launchpad](https://translations.launchpad.net/backintime/trunk/+pots/back-in-time)
 
-<sub>March 2016</sub>
+<sub>August 2016</sub>
