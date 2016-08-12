@@ -758,20 +758,23 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             str:        ``line`` if it had no progress infos. ``None`` if
                         ``line`` was a progress
         """
-        m = self.reRsyncProgress.match(line)
-        if m:
-            if m.group(5).strip():
-                return
-            pg = progress.ProgressFile(self.config)
-            pg.setIntValue('status', pg.RSYNC)
-            pg.setStrValue('sent', m.group(1))
-            pg.setIntValue('percent', int(m.group(2)))
-            pg.setStrValue('speed', m.group(3))
-            pg.setStrValue('eta', m.group(4))
-            pg.save()
-            del(pg)
-            return
-        return line
+        ret = []
+        for l in line.split('\n'):
+            m = self.reRsyncProgress.match(l)
+            if m:
+                # if m.group(5).strip():
+                #     return
+                pg = progress.ProgressFile(self.config)
+                pg.setIntValue('status', pg.RSYNC)
+                pg.setStrValue('sent', m.group(1))
+                pg.setIntValue('percent', int(m.group(2)))
+                pg.setStrValue('speed', m.group(3))
+                #pg.setStrValue('eta', m.group(4))
+                pg.save()
+                del(pg)
+            else:
+                ret.append(l)
+        return '\n'.join(ret)
 
     def rsyncCallback(self, line, params):
         """

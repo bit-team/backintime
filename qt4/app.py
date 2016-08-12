@@ -427,7 +427,7 @@ class MainWindow(QMainWindow):
         self.progressBar.setMinimum(0)
         self.progressBar.setMaximum(100)
         self.progressBar.setValue(0)
-        self.progressBar.setStyleSheet("text-align: left;")
+        self.progressBar.setStyleSheet("QProgressBar {border: 0px solid gray; text-align: left;}")
         self.progressBar.setVisible(False)
         self.status = QLabel(self)
 
