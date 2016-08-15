@@ -184,7 +184,8 @@ class Config(configfile.ConfigFileWithProfiles):
         if config_path is None:
             self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
         else:
-            self._LOCAL_CONFIG_PATH = config_path
+            self._LOCAL_CONFIG_PATH = os.path.abspath(config_path)
+            self._LOCAL_CONFIG_FOLDER = os.path.dirname(self._LOCAL_CONFIG_PATH)
         old_path = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config2')
 
         if os.path.exists(old_path):

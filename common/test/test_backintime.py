@@ -86,7 +86,7 @@ Check/prepair snapshot path: done
  └────────────────────────────────┘
 Check config: done
 
-Config test/config profile 'Main profile' is fine.''', re.MULTILINE))
+Config .*test/config profile 'Main profile' is fine.''', re.MULTILINE))
 
         # execute backup and verify output
         proc = subprocess.Popen(["./backintime",
