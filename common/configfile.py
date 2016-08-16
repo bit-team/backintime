@@ -475,7 +475,7 @@ class ConfigFileWithProfiles(ConfigFile):
         profiles_sorted = collections.OrderedDict(sorted(profiles_dict.items()))
 
         # return the names as a list
-        return list(profiles_sorted.keys())
+        return list(profiles_sorted.values())
 
     def currentProfile(self):
         """
@@ -503,7 +503,9 @@ class ConfigFileWithProfiles(ConfigFile):
         for i in profiles:
             if i == profile_id:
                 self.current_profile_id = profile_id
-                logger.debug('change current profile: %s' %profile_id, self)
+                logger.debug('change current profile: %s=%s'
+                             % (profile_id, self.profileName(profile_id)),
+                             self)
                 logger.changeProfile(profile_id)
                 return True
 
