@@ -89,6 +89,15 @@ class ApplicationInstance:
 
         return False
 
+    def busy(self):
+        """
+        Check if one application with this instance is currently running.
+
+        Returns:
+            bool:       ``True`` if an other instance is currently running.
+        """
+        return not self.check()
+
     def startApplication(self):
         """
         Called when the single instance starts to save it's pid

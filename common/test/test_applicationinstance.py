@@ -85,6 +85,7 @@ class TestApplicationInstance(generic.TestCase):
 
         # Execute test
         self.assertFalse(self.inst.check())
+        self.assertTrue(self.inst.busy())
 
     def test_existing_process_with_correct_proc_cmdline(self):
         """

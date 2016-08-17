@@ -153,7 +153,7 @@ class Snapshots:
 
     def busy(self):
         instance = applicationinstance.ApplicationInstance(self.config.takeSnapshotInstanceFile(), False)
-        return not instance.check()
+        return instance.busy()
 
     def pid(self):
         instance = applicationinstance.ApplicationInstance(self.config.takeSnapshotInstanceFile(), False)

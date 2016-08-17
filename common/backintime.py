@@ -22,6 +22,7 @@ import argparse
 import atexit
 import subprocess
 from datetime import datetime
+from time import sleep
 
 import config
 import logger
@@ -33,6 +34,7 @@ import password
 import encfstools
 import cli
 from exceptions import MountException
+from applicationinstance import ApplicationInstance
 
 _=gettext.gettext
 
@@ -391,9 +393,18 @@ def createParsers(app_name = 'backintime'):
                                                  help = 'Only restore files which does not exist or are newer than ' +\
                                                         'those in destination. Using "rsync --update" option.')
 
+    command = 'shutdown'
+    nargs = 0
+    description = 'Shutdown the computer after the snapshot is done.'
+    shutdownCP =           subparsers.add_parser(command,
+                                                 epilog = epilogCommon,
+                                                 help = description,
+                                                 description = description)
+    shutdownCP.set_defaults(func = shutdown)
+    parsers[command] = shutdownCP
+
     command = 'smart-remove'
     nargs = 0
-    aliases.append((command, nargs))
     description = 'Remove snapshots based on "Smart Remove" pattern.'
     smartRemoveCP =        subparsers.add_parser(command,
                                                  epilog = epilogCommon,
@@ -702,7 +713,7 @@ class printLicense(argparse.Action):
 
 def backup(args, force = True):
     """
-    Command for taking a new snapshot.
+    Command for force taking a new snapshot.
 
     Args:
         args (argparse.Namespace):
@@ -721,16 +732,55 @@ def backup(args, force = True):
 
 def backupJob(args):
     """
-    Command for force taking a new snapshot.
+    Command for taking a new snapshot in background. Mainly used for cronjobs.
+    This will run the snapshot inside a daemon and detach from it. It will
+    return immediately back to commandline.
 
     Args:
         args (argparse.Namespace):
                         previously parsed arguments
 
     Raises:
-        SystemExit:     0 if successful, 1 if not
+        SystemExit:     0
     """
     cli.BackupJobDaemon(backup, args).start()
+
+def shutdown(args):
+    """
+    Command for shutting down the computer after the current snapshot has
+    finished.
+
+    Args:
+        args (argparse.Namespace):
+                        previously parsed arguments
+
+    Raises:
+        SystemExit:     0 if successful; 1 if it failed either because there is
+                        no active snapshot for this profile or shutdown is not
+                        supported.
+    """
+    setQuiet(args)
+    printHeader()
+    cfg = getConfig(args)
+
+    sd = tools.ShutDown()
+    if not sd.canShutdown():
+        logger.warning('Shutdown is not supported.')
+        sys.exit(RETURN_ERR)
+
+    instance = ApplicationInstance(cfg.takeSnapshotInstanceFile(), False)
+    if not instance.busy():
+        logger.info('There is no active snapshot for profile %s=%s. Skip shutdown.'
+                    %(cfg.currentProfile(), cfg.profileName()))
+        sys.exit(RETURN_ERR)
+
+    sd.activate_shutdown = True
+    while instance.busy():
+        logger.debug('Snapshot is still active. Wait for shutdown.')
+        sleep(5)
+    logger.info('Shutdown now.')
+    sd.shutdown()
+    sys.exit(RETURN_OK)
 
 def snapshotsPath(args):
     """
