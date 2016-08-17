@@ -16,6 +16,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
+import collections
 
 import gettext
 import logger
@@ -470,14 +471,11 @@ class ConfigFileWithProfiles(ConfigFile):
         for profile_id in profiles_unsorted:
             profiles_dict[self.profileName(profile_id).upper()] = profile_id
 
-        keys = list(profiles_dict.keys())
-        keys.sort()
+        # sort the dictionary by key (the profile name)
+        profiles_sorted = collections.OrderedDict(sorted(profiles_dict.items()))
 
-        profiles_sorted = []
-        for key in keys:
-            profiles_sorted.append(profiles_dict[key])
-
-        return profiles_sorted
+        # return the names as a list
+        return list(profiles_sorted.values())
 
     def currentProfile(self):
         """
@@ -505,7 +503,9 @@ class ConfigFileWithProfiles(ConfigFile):
         for i in profiles:
             if i == profile_id:
                 self.current_profile_id = profile_id
-                logger.debug('change current profile: %s' %profile_id, self)
+                logger.debug('change current profile: %s=%s'
+                             % (profile_id, self.profileName(profile_id)),
+                             self)
                 logger.changeProfile(profile_id)
                 return True
 

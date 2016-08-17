@@ -649,7 +649,9 @@ def getConfig(args, check = True):
     cfg = config.Config(config_path = args.config, data_path = args.share_path)
     logger.debug('config file: %s' % cfg._LOCAL_CONFIG_PATH)
     logger.debug('share path: %s' % cfg._LOCAL_DATA_FOLDER)
-    logger.debug('profiles: %s' % cfg.profiles())
+    logger.debug('profiles: %s' % ', '.join('%s=%s' % (x, cfg.profileName(x))
+                                                        for x in cfg.profiles()))
+
     if 'profile_id' in args and args.profile_id:
         if not cfg.setCurrentProfile(args.profile_id):
             logger.error('Profile-ID not found: %s' % args.profile_id)
