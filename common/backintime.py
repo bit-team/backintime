@@ -769,17 +769,24 @@ def shutdown(args):
         sys.exit(RETURN_ERR)
 
     instance = ApplicationInstance(cfg.takeSnapshotInstanceFile(), False)
+    profile = '='.join((cfg.currentProfile(), cfg.profileName()))
     if not instance.busy():
-        logger.info('There is no active snapshot for profile %s=%s. Skip shutdown.'
-                    %(cfg.currentProfile(), cfg.profileName()))
+        logger.info('There is no active snapshot for profile %s. Skip shutdown.'
+                    %profile)
         sys.exit(RETURN_ERR)
 
+    print('Shutdown is waiting for the snapshot in profile %s to end.\nPress CTRL+C to interrupt shutdown.\n'
+          %profile)
     sd.activate_shutdown = True
-    while instance.busy():
-        logger.debug('Snapshot is still active. Wait for shutdown.')
-        sleep(5)
-    logger.info('Shutdown now.')
-    sd.shutdown()
+    try:
+        while instance.busy():
+            logger.debug('Snapshot is still active. Wait for shutdown.')
+            sleep(5)
+    except KeyboardInterrupt:
+        print('Shutdown interrupted.')
+    else:
+        logger.info('Shutdown now.')
+        sd.shutdown()
     sys.exit(RETURN_OK)
 
 def snapshotsPath(args):
