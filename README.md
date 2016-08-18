@@ -61,6 +61,7 @@ Back In Time is available through AUR. You need to import a public key once
 before installing
 
     gpg --keyserver pgp.mit.edu --recv-keys 615F366D944B4826
+    # Fingerprint: 3E70 692E E3DB 8BDD A599  1C90 615F 366D 944B 4826
     wget https://aur.archlinux.org/cgit/aur.git/snapshot/backintime.tar.gz
     tar xvzf backintime.tar.gz
     cd backintime
