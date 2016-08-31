@@ -23,6 +23,8 @@ import random
 import tempfile
 import socket
 import re
+import atexit
+import signal
 from time import sleep
 
 import config
@@ -190,6 +192,36 @@ class SSH(MountControl):
             self.checkRemoteCommands()
         return True
 
+    def startSshAgent(self):
+        """
+        Start a new ``ssh-agent`` if it is not already running.
+
+        Raises:
+            exceptions.MountException:  if starting ``ssh-agent`` failed
+        """
+        SOCK = 'SSH_AUTH_SOCK'
+        PID  = 'SSH_AGENT_PID'
+        if os.getenv(SOCK, '') and os.getenv(PID, ''):
+            logger.debug('ssh-agent already running. Skip starting a new one.', self)
+            return
+        sa = subprocess.Popen([tools.which('ssh-agent')],
+                              stdout = subprocess.PIPE,
+                              stderr = subprocess.PIPE,
+                              universal_newlines = True)
+        out, err = sa.communicate()
+
+        if sa.returncode:
+            raise MountException('Failed to start ssh-agent: [{}] {}'.format(sa.returncode, err))
+
+        m = re.match(r'{}=([^;]+);.*{}=(\d+);'.format(SOCK, PID), out, re.DOTALL)
+        if m:
+            logger.debug('ssh-agent started successful: {}={} | {}={}'.format(SOCK, m.group(1), PID, m.group(2)), self)
+            os.environ[SOCK] = m.group(1)
+            os.environ[PID]  = m.group(2)
+            atexit.register(os.kill, int(m.group(2)), signal.SIGKILL)
+        else:
+            raise MountException('No matching output from ssh-agent: {} | {}'.format(out, err))
+
     def unlockSshAgent(self, force = False):
         """
         Unlock the private key in ``ssh-agent`` which will provide it for
@@ -204,6 +236,8 @@ class SSH(MountControl):
         Raises:
             exceptions.MountException:  if unlock failed
         """
+        self.startSshAgent()
+
         env = os.environ.copy()
         env['SSH_ASKPASS'] = 'backintime-askpass'
         env['ASKPASS_PROFILE_ID'] = self.profile_id
