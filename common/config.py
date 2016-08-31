@@ -245,8 +245,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def checkConfig(self):
         profiles = self.profiles()
 
-        checked_profiles = []
-
         for profile_id in profiles:
             profile_name = self.profileName(profile_id)
             snapshots_path = self.snapshotsPath(profile_id)
@@ -279,9 +277,6 @@ class Config(configfile.ConfigFileWithProfiles):
                     if path[: len(snapshots_path2)] == snapshots_path2:
                         self.notifyError(_('Profile: "%s"') %  self.currentProfile() + '\n' + _('You can\'t include a backup sub-folder !'))
                         return False
-
-            checked_profiles.append((profile_id, profile_name))
-
         return True
 
     def user(self):
