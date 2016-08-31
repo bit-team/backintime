@@ -204,7 +204,12 @@ class SSH(MountControl):
         if os.getenv(SOCK, '') and os.getenv(PID, ''):
             logger.debug('ssh-agent already running. Skip starting a new one.', self)
             return
-        sa = subprocess.Popen([tools.which('ssh-agent')],
+
+        sshAgent = tools.which('ssh-agent')
+        if not sshAgent:
+            raise MountException('ssh-agent not found. Please make sure it is installed.')
+
+        sa = subprocess.Popen([sshAgent],
                               stdout = subprocess.PIPE,
                               stderr = subprocess.PIPE,
                               universal_newlines = True)
