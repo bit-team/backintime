@@ -19,6 +19,7 @@ import os
 import sys
 import gettext
 import argparse
+import subprocess
 
 import config
 import logger
@@ -57,7 +58,15 @@ def take_snapshot_now_async( cfg ):
         cmd += '--debug '
     cmd += 'backup &'
 
-    os.system( cmd )
+    # child process need to start it's own ssh-agent because otherwise
+    # it would be lost without ssh-agent if parent will close
+    env = os.environ.copy()
+    for i in ('SSH_AUTH_SOCK', 'SSH_AGENT_PID'):
+        try:
+            del env[i]
+        except:
+            pass
+    subprocess.Popen(cmd, env = env)
 
 def take_snapshot( cfg, force = True ):
     '''take a new snapshot.

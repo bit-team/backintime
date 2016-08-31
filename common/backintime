@@ -24,8 +24,4 @@ else
 	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/common")
 fi
 
-#starting a new ssh-agent all the time is just a workaround for
-#https://bugs.launchpad.net/ubuntu/+source/openssh/+bug/841672
-#normally this should only be necessary if run as cronjob
-#and the user is not logged in
-ssh-agent python3 $APP_PATH/backintime.py "$@"
+python3 $APP_PATH/backintime.py "$@"

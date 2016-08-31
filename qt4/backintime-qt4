@@ -28,8 +28,4 @@ else
 	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/qt4")
 fi
 
-#if [ "x$SSH_AUTH_SOCK" = "x" ]; then
-#        eval "$(ssh-agent)"
-#fi
-
-ssh-agent python3 ${APP_PATH}/app.py "$@"
+python3 ${APP_PATH}/app.py "$@"
