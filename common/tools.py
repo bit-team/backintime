@@ -596,7 +596,7 @@ def rsyncPrefix(config,
     else:
         cmd.extend(('--perms',          # preserve permissions
                     '--executability',  # preserve executability
-                    '--ggroup',         # preserve group
+                    '--group',         # preserve group
                     '--owner'))         # preserve owner (super-user only)
 
     if progress and 'progress2' in caps:
