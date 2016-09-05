@@ -1351,6 +1351,10 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                         started
         """
         snapshots = listSnapshots(self.config, reverse = False)
+        if not snapshots:
+            logger.debug('No snapshots. Skip freeSpace', self)
+            return
+
         last_snapshot = snapshots[-1]
 
         #remove old backups

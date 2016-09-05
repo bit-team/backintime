@@ -68,7 +68,15 @@ def takeSnapshotAsync(cfg, checksum = False):
         cmd.append('--checksum')
     cmd.append('backup')
 
-    subprocess.Popen(cmd)
+    # child process need to start it's own ssh-agent because otherwise
+    # it would be lost without ssh-agent if parent will close
+    env = os.environ.copy()
+    for i in ('SSH_AUTH_SOCK', 'SSH_AGENT_PID'):
+        try:
+            del env[i]
+        except:
+            pass
+    subprocess.Popen(cmd, env = env)
 
 def takeSnapshot(cfg, force = True):
     """
