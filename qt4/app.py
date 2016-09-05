@@ -524,6 +524,8 @@ class MainWindow(QMainWindow):
         self.timerUpdateTakeSnapshot.timeout.connect(self.updateTakeSnapshot)
         self.timerUpdateTakeSnapshot.start()
 
+        SetupCron(self).start()
+
     def closeEvent(self, event):
         if self.shutdown.askBeforeQuit():
             if QMessageBox.Yes != messagebox.warningYesNo(self, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you really want to close?')):
@@ -1516,6 +1518,17 @@ class FillTimeLineThread(QThread):
             self.parent.snapshotsList.append(sid)
 
         self.parent.snapshotsList.sort()
+
+class SetupCron(QThread):
+    """
+    Check crontab entries on startup.
+    """
+    def __init__(self, parent):
+        self.config = parent.config
+        super(SetupCron, self).__init__(parent)
+
+    def run(self):
+        self.config.setupCron()
 
 def debugTrace():
     """
