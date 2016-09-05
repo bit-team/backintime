@@ -109,18 +109,13 @@ Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `backintime --license' for details.
 
-INFO: Lock(
-INFO: Inhibit Suspend started. Reason: take snapshot)?
+INFO: Lock
 INFO: Take a new snapshot. Profile: 1 Main profile
 INFO: Call rsync to take the snapshot
 INFO: Save config file
 INFO: Save permissions
 INFO: Create info file
-INFO: Remove backups older than: .*
-INFO: Keep min free disk space: 1024 MiB
-INFO: Keep min 2% free inodes
-INFO: Unlock(
-INFO: Release inhibit Suspend)?''', re.MULTILINE))
+INFO: Unlock''', re.MULTILINE))
 
         # get snapshot id
         subprocess.check_output(["./backintime","--config","test/config","snapshots-list"])
