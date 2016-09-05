@@ -565,7 +565,7 @@ def rsyncPrefix(config,
     if config.nocacheOnLocal():
         cmd.append('nocache')
     cmd.append('rsync')
-    cmd.extend(('--recursive ',     # recurse into directories
+    cmd.extend(('--recursive',     # recurse into directories
                 '--times',          # preserve modification times
                 '--devices',        # preserve device files (super-user only)
                 '--specials',       # preserve special files
