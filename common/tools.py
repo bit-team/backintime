@@ -565,7 +565,12 @@ def rsyncPrefix(config,
     if config.nocacheOnLocal():
         cmd.append('nocache')
     cmd.append('rsync')
-    cmd.append('-rtDHh')
+    cmd.extend(('--recursive',     # recurse into directories
+                '--times',          # preserve modification times
+                '--devices',        # preserve device files (super-user only)
+                '--specials',       # preserve special files
+                '--hard-links',     # preserve hard links
+                '--human-readable'))# numbers in a human-readable format
 
     if config.useChecksum() or config.forceUseChecksum:
         cmd.append('--checksum')
@@ -579,20 +584,24 @@ def rsyncPrefix(config,
         cmd.append('--links')
 
     if config.preserveAcl() and "ACLs" in caps:
-        cmd.append('-A')
+        cmd.append('--acls')  # preserve ACLs (implies --perms)
         no_perms = False
 
     if config.preserveXattr() and "xattrs" in caps:
-        cmd.append('-X')
+        cmd.append('--xattrs')  # preserve extended attributes
         no_perms = False
 
     if no_perms:
-        cmd.extend(('--no-p', '--no-g', '--no-o'))
+        cmd.extend(('--no-perms', '--no-group', '--no-owner'))
     else:
-        cmd.append('-pEgo')
+        cmd.extend(('--perms',          # preserve permissions
+                    '--executability',  # preserve executability
+                    '--group',         # preserve group
+                    '--owner'))         # preserve owner (super-user only)
 
     if progress and 'progress2' in caps:
-        cmd.extend(('--info=progress2', '--no-i-r'))
+        cmd.extend(('--info=progress2',
+                    '--no-inc-recursive'))
 
     if config.rsyncOptionsEnabled():
         cmd.extend(shlex.split(config.rsyncOptions()))
