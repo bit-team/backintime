@@ -1147,7 +1147,7 @@ def inhibitSuspend(app_id = sys.argv[0],
             interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
             cookie = proxy(*[(app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments']])
-            logger.info('Inhibit Suspend started. Reason: %s' % reason)
+            logger.debug('Inhibit Suspend started. Reason: {}'.format(reason))
             return (cookie, bus, dbus_props)
         except dbus.exceptions.DBusException:
             pass
@@ -1167,7 +1167,7 @@ def unInhibitSuspend(cookie, bus, dbus_props):
         interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
         proxy = interface.get_dbus_method(dbus_props['methodUnSet'], dbus_props['interface'])
         proxy(cookie)
-        logger.info('Release inhibit Suspend')
+        logger.debug('Release inhibit Suspend')
         return None
     except dbus.exceptions.DBusException:
         logger.warning('Release inhibit Suspend failed.')

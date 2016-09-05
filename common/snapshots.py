@@ -1361,14 +1361,13 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if self.config.removeOldSnapshotsEnabled():
             self.setTakeSnapshotMessage(0, _('Removing old snapshots'))
 
-            old_backup_id = SID(self.config.removeOldSnapshotsDate(), self.config)
-            logger.info("Remove backups older than: %s"
-                        %old_backup_id.withoutTag, self)
+            oldBackupId = SID(self.config.removeOldSnapshotsDate(), self.config)
+            logger.debug("Remove snapshots older than: {}".format(oldBackupId.withoutTag), self)
 
             while True:
                 if len(snapshots) <= 1:
                     break
-                if snapshots[0] >= old_backup_id:
+                if snapshots[0] >= oldBackupId:
                     break
 
                 if self.config.dontRemoveNamedSnapshots():
@@ -1376,6 +1375,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                         del snapshots[0]
                         continue
 
+                msg = 'Remove snapshot {} because it is older than {}'
+                logger.debug(msg.format(snapshots[0].withoutTag, oldBackupId.withoutTag), self)
                 self.remove(snapshots[0])
                 del snapshots[0]
 
@@ -1396,8 +1397,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
             minFreeSpace = self.config.minFreeSpaceMib()
 
-            logger.info("Keep min free disk space: %s MiB"
-                        %minFreeSpace, self)
+            logger.debug("Keep min free disk space: {} MiB".format(minFreeSpace), self)
 
             snapshots = listSnapshots(self.config, reverse = False)
 
@@ -1422,7 +1422,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                         del snapshots[0]
                         continue
 
-                logger.info("free disk space: %s MiB" %free_space, self)
+                msg = "free disk space: {} MiB. Remove snapshot {}"
+                logger.debug(msg.format(free_space, snapshots[0].withoutTag), self)
                 self.remove(snapshots[0])
                 del snapshots[0]
 
@@ -1430,7 +1431,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if self.config.minFreeInodesEnabled():
             minFreeInodes = self.config.minFreeInodes()
             self.setTakeSnapshotMessage(0, _('Trying to keep min %d%% free inodes') % minFreeInodes)
-            logger.info("Keep min %d%% free inodes" %minFreeInodes, self)
+            logger.debug("Keep min {}%% free inodes".format(minFreeInodes), self)
 
             snapshots = listSnapshots(self.config, reverse = False)
 
@@ -1456,8 +1457,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                         del snapshots[0]
                         continue
 
-                logger.info("free inodes: %.2f%%"
-                            %(100.0 / max_inodes * free_inodes),
+                logger.debug("free inodes: %.2f%%. Remove snapshot %s"
+                            %((100.0 / max_inodes * free_inodes), snapshots[0].withoutTag),
                             self)
                 self.remove(snapshots[0])
                 del snapshots[0]

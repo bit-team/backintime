@@ -134,11 +134,11 @@ class Qt4SysTrayIcon:
         self.status_icon.show()
         self.timer.start(500)
 
-        logger.info("[qt4systrayicon] begin loop", self)
+        logger.debug("begin loop", self)
 
         self.qapp.exec_()
 
-        logger.info("[qt4systrayicon] end loop", self)
+        logger.debug("end loop", self)
 
         self.prepairExit()
 
