@@ -78,6 +78,8 @@ class SettingsDialog(QDialog):
         self.btnModifyProfileForFullSystemBackup = QPushButton(icon.ADD, _('Modify for Full System Backup'), self)
         self.btnModifyProfileForFullSystemBackup.clicked.connect(self.modifyProfileForFullSystemBackup)
         layout.addWidget(self.btnModifyProfileForFullSystemBackup)
+        # hide 'full system backup button' until all dev regarding this is done
+        self.btnModifyProfileForFullSystemBackup.hide()
 
         self.btnAddProfile = QPushButton(icon.ADD, _('Add'), self)
         self.btnAddProfile.clicked.connect(self.addProfile)
