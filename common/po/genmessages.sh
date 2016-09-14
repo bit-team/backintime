@@ -1,2 +1,2 @@
 #!/bin/bash
-xgettext --output=- ../../common/*.py ../../qt4/*.py > messages.pot
+xgettext --output=- ../../common/*.py ../../qt/*.py > messages.pot
