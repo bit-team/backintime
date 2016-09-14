@@ -41,7 +41,7 @@ config \- BackInTime configuration files.
 /etc/backintime/config
 .SH DESCRIPTION
 Back In Time was developed as pure GUI program and so most functions are only
-useable with backintime-qt4. But it is possible to use
+useable with backintime-qt. But it is possible to use
 Back In Time e.g. on a headless server. You have to create the configuration file
 (~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime\-common/examples/ for examples.
 .PP
@@ -56,7 +56,7 @@ Run 'backintime check-config' to verify the configfile, create the snapshot fold
 ''' % (strftime('%b %Y', gmtime()), VERSION)
 
 FOOTER = '''.SH SEE ALSO
-backintime, backintime-qt4.
+backintime, backintime-qt.
 .PP
 Back In Time also has a website: https://github.com/bit-team/backintime
 .SH AUTHOR

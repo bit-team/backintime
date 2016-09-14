@@ -13,4 +13,4 @@ fi
 tar cfz backintime-$VER.tar.gz ${NEW}/AUTHORS ${NEW}/CHANGES ${NEW}/LICENSE    \
                                ${NEW}/TODO ${NEW}/README.md ${NEW}/TRANSLATIONS\
                                ${NEW}/VERSION ${NEW}/makedeb.sh ${NEW}/common  \
-                               ${NEW}/qt4 ${NEW}/debian
+                               ${NEW}/qt ${NEW}/debian

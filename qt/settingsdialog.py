@@ -28,7 +28,7 @@ from PyQt5.QtCore import *
 
 import config
 import tools
-import qt4tools
+import qttools
 import mount
 import messagebox
 import snapshots
@@ -65,7 +65,7 @@ class SettingsDialog(QDialog):
 
         self.firstUpdateAll = True
         self.disableProfileChanged = True
-        self.comboProfiles = qt4tools.ProfileCombo(self)
+        self.comboProfiles = qttools.ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
         self.disableProfileChanged = False
@@ -209,7 +209,7 @@ class SettingsDialog(QDialog):
         self.btnSshPrivateKeyFile.setMinimumSize(32,28)
         hlayout3.addWidget(self.btnSshPrivateKeyFile)
         self.btnSshPrivateKeyFile.clicked.connect(self.btnSshPrivateKeyFileClicked)
-        qt4tools.equalIndent(self.lblSshHost, self.lblSshPath, self.lblSshCipher)
+        qttools.equalIndent(self.lblSshHost, self.lblSshPath, self.lblSshCipher)
 
         #encfs
         self.modeLocalEncfs = self.modeLocal
@@ -439,7 +439,7 @@ class SettingsDialog(QDialog):
         self.listExcludeCount = 0
 
         label = QLabel(_('Highly recommended:'), self)
-        qt4tools.setFontBold(label)
+        qttools.setFontBold(label)
         layout.addWidget(label)
         label = QLabel(', '.join(sorted(self.config.DEFAULT_EXCLUDE)), self)
         label.setWordWrap(True)
@@ -661,7 +661,7 @@ class SettingsDialog(QDialog):
         layout = QVBoxLayout(layoutWidget)
 
         label = QLabel(_('Change these options only if you really know what you are doing !'), self)
-        qt4tools.setFontBold(label)
+        qttools.setFontBold(label)
         layout.addWidget(label)
 
         label = QLabel(_("Run 'nice':"))
@@ -852,7 +852,7 @@ class SettingsDialog(QDialog):
         enabled(False)
         self.cbSshPrefix.stateChanged.connect(enabled)
 
-        qt4tools.equalIndent(self.cbRsyncOptions, self.cbSshPrefix)
+        qttools.equalIndent(self.cbRsyncOptions, self.cbSshPrefix)
 
         #
         layout.addStretch()
@@ -1467,11 +1467,11 @@ class SettingsDialog(QDialog):
         self.addExclude_(pattern)
 
     def btnExcludeFileClicked(self):
-        for path in qt4tools.getOpenFileNames(self, _('Exclude file')):
+        for path in qttools.getOpenFileNames(self, _('Exclude file')):
             self.addExclude_(path)
 
     def btnExcludeFolderClicked(self):
-        for path in qt4tools.getExistingDirectories(self, _('Exclude folder')) :
+        for path in qttools.getExistingDirectories(self, _('Exclude folder')) :
             self.addExclude_(path)
 
     def btnExcludeDefaultClicked(self):
@@ -1490,7 +1490,7 @@ class SettingsDialog(QDialog):
             self.listInclude.setCurrentItem(self.listInclude.topLevelItem(0))
 
     def btnIncludeFileClicked(self):
-        for path in qt4tools.getOpenFileNames(self, _('Include file')):
+        for path in qttools.getOpenFileNames(self, _('Include file')):
             if not path:
                 continue
 
@@ -1510,7 +1510,7 @@ class SettingsDialog(QDialog):
             self.addInclude((path, 1))
 
     def btnIncludeAddClicked(self):
-        for path in qt4tools.getExistingDirectories(self, _('Include folder')):
+        for path in qttools.getExistingDirectories(self, _('Include folder')):
             if not path:
                 continue
 
@@ -1532,7 +1532,7 @@ class SettingsDialog(QDialog):
     def btnSnapshotsPathClicked(self):
         old_path = self.editSnapshotsPath.text()
 
-        path = str(qt4tools.getExistingDirectory(self,
+        path = str(qttools.getExistingDirectory(self,
                                                  _('Where to save snapshots'),
                                                  self.editSnapshotsPath.text()))
         if path:
@@ -1549,7 +1549,7 @@ class SettingsDialog(QDialog):
             start_dir = self.txtSshPrivateKeyFile.text()
         else:
             start_dir = self.config.sshPrivateKeyFolder()
-        f = qt4tools.getOpenFileName(self, _('SSH private key'), start_dir)
+        f = qttools.getOpenFileName(self, _('SSH private key'), start_dir)
         if f:
             self.txtSshPrivateKeyFile.setText(f)
 
@@ -1574,11 +1574,11 @@ class SettingsDialog(QDialog):
                 self.lblPassword2.setText(self.config.SNAPSHOT_MODES[active_mode][3] + ':')
                 self.lblPassword2.show()
                 self.txtPassword2.show()
-                qt4tools.equalIndent(self.lblPassword1, self.lblPassword2)
+                qttools.equalIndent(self.lblPassword1, self.lblPassword2)
             else:
                 self.lblPassword2.hide()
                 self.txtPassword2.hide()
-                qt4tools.equalIndent(self.lblPassword1)
+                qttools.equalIndent(self.lblPassword1)
         else:
             self.groupPassword1.hide()
 
@@ -1726,7 +1726,7 @@ class RestoreConfigDialog(QDialog):
         layout.addWidget(label)
 
         #treeView
-        self.treeView = qt4tools.MyTreeView(self)
+        self.treeView = qttools.MyTreeView(self)
         self.treeViewModel = QFileSystemModel(self)
         self.treeViewModel.setRootPath(QDir().rootPath())
         self.treeViewModel.setReadOnly(True)

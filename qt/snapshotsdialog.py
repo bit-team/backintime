@@ -28,7 +28,7 @@ from PyQt5.QtCore import *
 import tools
 import restoredialog
 import messagebox
-import qt4tools
+import qttools
 import snapshots
 
 _=gettext.gettext
@@ -119,7 +119,7 @@ class SnapshotsDialog(QDialog):
         self.cbOnlyEqualSnapshots.stateChanged.connect(self.cbOnlyEqualSnapshotsChanged)
         layout.addWidget(self.cbOnlyEqualSnapshots)
 
-        self.comboEqualTo = qt4tools.SnapshotCombo(self)
+        self.comboEqualTo = qttools.SnapshotCombo(self)
         self.comboEqualTo.currentIndexChanged.connect(self.comboEqualToChanged)
         self.comboEqualTo.setEnabled(False)
         layout.addWidget(self.comboEqualTo)
@@ -154,7 +154,7 @@ class SnapshotsDialog(QDialog):
         self.btnSelectAll.triggered.connect(self.btnSelectAllClicked)
 
         #snapshots list
-        self.timeLine = qt4tools.TimeLine(self)
+        self.timeLine = qttools.TimeLine(self)
         self.mainLayout.addWidget(self.timeLine)
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
         self.timeLine.itemActivated.connect(self.timeLineExecute)
@@ -167,7 +167,7 @@ class SnapshotsDialog(QDialog):
         layout.addWidget(self.btnDiff)
         self.btnDiff.clicked.connect(self.btnDiffClicked)
 
-        self.comboDiff = qt4tools.SnapshotCombo(self)
+        self.comboDiff = qttools.SnapshotCombo(self)
         layout.addWidget(self.comboDiff, 2)
 
         #buttons

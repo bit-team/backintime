@@ -25,7 +25,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
-import qt4tools
+import qttools
 
 
 _=gettext.gettext
@@ -33,7 +33,7 @@ _=gettext.gettext
 
 def restore(parent, sid, what, where = '', **kwargs):
     if where is None:
-        where = qt4tools.getExistingDirectory(parent, _('Restore to ...'))
+        where = qttools.getExistingDirectory(parent, _('Restore to ...'))
         if not where:
             return
         where = parent.config.preparePath(where)

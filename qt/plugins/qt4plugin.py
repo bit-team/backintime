@@ -34,7 +34,7 @@ if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
 
-class Qt4Plugin(pluginmanager.Plugin):
+class QtPlugin(pluginmanager.Plugin):
     def __init__(self):
         self.process = None
         self.snapshots = None
@@ -51,7 +51,7 @@ class Qt4Plugin(pluginmanager.Plugin):
 
     def processBegin(self):
         try:
-            path = os.path.join(tools.backintimePath('qt4'), 'qt4systrayicon.py')
+            path = os.path.join(tools.backintimePath('qt'), 'qtsystrayicon.py')
             self.process = subprocess.Popen([sys.executable, path, self.snapshots.config.currentProfile()])
         except:
             pass

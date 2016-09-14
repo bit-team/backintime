@@ -94,7 +94,7 @@ def backintimePath(*path):
         str:            'backintime' child path like::
 
                             /usr/share/backintime/common
-                            /usr/share/backintime/qt4
+                            /usr/share/backintime/qt
     """
     return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
 
@@ -107,7 +107,7 @@ def registerBackintimePath(*path):
         *path (str):    paths that should be joind to 'backintime'
 
     Note:
-        Duplicate in :py:func:`qt4/qt4tools.py` because modules in qt4 folder
+        Duplicate in :py:func:`qt/qttools.py` because modules in qt folder
         would need this to actually import :py:mod:`tools`.
     """
     path = backintimePath(*path)
@@ -1671,7 +1671,7 @@ class ShutDown(object):
 class SetupUdev(object):
     """
     Setup Udev rules for starting BackInTime when a drive get connected.
-    This is done by serviceHelper.py script (included in backintime-qt4)
+    This is done by serviceHelper.py script (included in backintime-qt)
     running as root though DBus.
     """
     CONNECTION = 'net.launchpad.backintime.serviceHelper'

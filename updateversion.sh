@@ -52,8 +52,8 @@ update_man_page common/man/C/backintime-config.1
 
 update_man_page common/man/C/backintime-askpass.1
 
-update_man_page qt4/man/C/backintime-qt4.1
+update_man_page qt/man/C/backintime-qt.1
 
-update_xml qt4/docbook/en/index.docbook
+update_xml qt/docbook/en/index.docbook
 
 update_changelog debian/changelog

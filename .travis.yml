@@ -34,7 +34,7 @@ install:
 
 script:
   # compile all files - ensure that syntax is correct
-  - python -m compileall common common/test common/plugins qt4 qt4/plugins
+  - python -m compileall common common/test common/plugins qt qt/plugins
   # run unit tests - ensure that functionality is correct
   - cd common && ./configure && make unittest-v
 

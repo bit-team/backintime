@@ -18,14 +18,14 @@ import gettext
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import QApplication, QMessageBox, QInputDialog, QLineEdit,\
     QDialog, QVBoxLayout, QLabel, QDialogButtonBox, QScrollArea
-import qt4tools
+import qttools
 
 _ = gettext.gettext
 
 def askPasswordDialog(parent, title, prompt, timeout = None):
     if parent is None:
-        app = qt4tools.createQApplication()
-        translator = qt4tools.translator()
+        app = qttools.createQApplication()
+        translator = qttools.translator()
         app.installTranslator(translator)
 
     import icon

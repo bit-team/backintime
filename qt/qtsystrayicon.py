@@ -27,8 +27,8 @@ _=gettext.gettext
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
-import qt4tools
-qt4tools.registerBackintimePath('common')
+import qttools
+qttools.registerBackintimePath('common')
 
 import tools
 import logger
@@ -42,7 +42,7 @@ from PyQt5.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt5.QtGui import QIcon, QRegion
 
 
-class Qt4SysTrayIcon:
+class QtSysTrayIcon:
     def __init__(self):
         self.snapshots = snapshots.Snapshots()
         self.config = self.snapshots.config
@@ -53,8 +53,8 @@ class Qt4SysTrayIcon:
                 logger.warning("Failed to change Profile_ID %s"
                                %sys.argv[1], self)
 
-        self.qapp = qt4tools.createQApplication(self.config.APP_NAME)
-        translator = qt4tools.translator()
+        self.qapp = qttools.createQApplication(self.config.APP_NAME)
+        translator = qttools.translator()
         self.qapp.installTranslator(translator)
         self.qapp.setQuitOnLastWindowClosed(False)
 
@@ -67,7 +67,7 @@ class Qt4SysTrayIcon:
         self.contextMenu = QMenu()
 
         self.menuProfileName = self.contextMenu.addAction(_('Profile: "%s"') % self.config.profileName())
-        qt4tools.setFontBold(self.menuProfileName)
+        qttools.setFontBold(self.menuProfileName)
         self.contextMenu.addSeparator()
 
         self.menuStatusMessage = self.contextMenu.addAction(_('Done'))
@@ -196,7 +196,7 @@ class Qt4SysTrayIcon:
 
     def onStartBIT(self):
         profileID = self.config.currentProfile()
-        cmd = ['backintime-qt4',]
+        cmd = ['backintime-qt',]
         if not profileID == '1':
             cmd += ['--profile-id', profileID]
         proc = subprocess.Popen(cmd)
@@ -223,4 +223,4 @@ class Qt4SysTrayIcon:
         self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
 
 if __name__ == '__main__':
-    Qt4SysTrayIcon().run()
+    QtSysTrayIcon().run()

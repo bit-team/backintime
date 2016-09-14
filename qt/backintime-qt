@@ -25,7 +25,7 @@ CUR_PATH="$(dirname $(readlink -m $0))"
 if [ -f "${CUR_PATH}/app.py" ]; then
 	APP_PATH=$CUR_PATH
 else
-	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/qt4")
+	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/qt")
 fi
 
 python3 ${APP_PATH}/app.py "$@"

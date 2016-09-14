@@ -16,44 +16,52 @@ Replaces: backintime
 Description: Simple backup system (common)
  This package contains non GUI files used by different GUI fontends.
 
-Package: backintime-qt4
+Package: backintime-qt
 Architecture: all
 Depends: x11-utils, libnotify-bin, python3-pyqt5, python3-dbus.mainloop.pyqt5, policykit-1, backintime-common (>= ${source:Version}~), ${python3:Depends}, ${misc:Depends}
 Recommends: python3-secretstorage
 Suggests: meld | kompare
-Conflicts: backintime-kde (<< ${source:Version}~), backintime-kde4 (<< ${source:Version}~), backintime-gnome (<< ${source:Version}~), backintime-notify (<< ${source:Version}~)
-Replaces: backintime-kde (<< ${source:Version}~), backintime-kde4 (<< ${source:Version}~), backintime-gnome (<< ${source:Version}~), backintime-notify (<< ${source:Version}~)
+Conflicts: backintime-qt4 (<< ${source:Version}~), backintime-kde (<< ${source:Version}~), backintime-kde4 (<< ${source:Version}~), backintime-gnome (<< ${source:Version}~), backintime-notify (<< ${source:Version}~)
+Replaces:  backintime-qt4 (<< ${source:Version}~), backintime-kde (<< ${source:Version}~), backintime-kde4 (<< ${source:Version}~), backintime-gnome (<< ${source:Version}~), backintime-notify (<< ${source:Version}~)
 Description: Simple backup system
- This is a Qt4 GUI frontend for backintime-common.
+ This is a Qt5 GUI frontend for backintime-common.
+
+ Package: backintime-qt4
+ Section: oldlibs
+ Architecture: all
+ Depends: backintime-qt, ${misc:Depends}
+ Description: Virtual package
+  This is a virtual package to replace backintime-qt4 from official repositories
+  with backintime-qt from PPA. It can safely be removed.
 
 Package: backintime-kde
 Section: oldlibs
 Architecture: all
-Depends: backintime-qt4, ${misc:Depends}
+Depends: backintime-qt, ${misc:Depends}
 Description: Virtual package
  This is a virtual package to replace backintime-kde from official repositories
- with backintime-qt4 from PPA. It can safely be removed.
+ with backintime-qt from PPA. It can safely be removed.
 
 Package: backintime-kde4
 Section: oldlibs
 Architecture: all
-Depends: backintime-qt4, ${misc:Depends}
+Depends: backintime-qt, ${misc:Depends}
 Description: Virtual package
- This is a virtual package to replace backintime-kde4 with backintime-qt4.
+ This is a virtual package to replace backintime-kde4 with backintime-qt.
  It can safely be removed.
 
 Package: backintime-gnome
 Section: oldlibs
 Architecture: all
-Depends: backintime-qt4, ${misc:Depends}
+Depends: backintime-qt, ${misc:Depends}
 Description: Virtual package
- This is a virtual package to replace backintime-gnome with backintime-qt4.
+ This is a virtual package to replace backintime-gnome with backintime-qt.
  It can safely be removed.
 
 Package: backintime-notify
 Section: oldlibs
 Architecture: all
-Depends: backintime-qt4, ${misc:Depends}
+Depends: backintime-qt, ${misc:Depends}
 Description: Virtual package
- This is a virtual package to replace backintime-notify with backintime-qt4.
+ This is a virtual package to replace backintime-notify with backintime-qt.
  It can safely be removed.

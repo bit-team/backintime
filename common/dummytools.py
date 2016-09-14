@@ -25,7 +25,7 @@ class Dummy(mount.MountControl):
     """
     This is a template for mounting services. For simple mount services
     all you need to do is:
-    - add your settings in qt4/settingsdialog.py
+    - add your settings in qt/settingsdialog.py
     - add settings in common/config.p
     - modify a copy of this file
 

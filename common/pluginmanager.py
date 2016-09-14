@@ -82,7 +82,7 @@ class PluginManager:
         self.hasGuiPlugins = False
 
         loadedPlugins = []
-        for path in ('plugins', 'common/plugins', 'qt4/plugins'):
+        for path in ('plugins', 'common/plugins', 'qt/plugins'):
             fullPath = tools.backintimePath(path)
             if os.path.isdir(fullPath):
                 logger.debug('Register plugin path %s' %fullPath, self)

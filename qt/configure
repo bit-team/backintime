@@ -13,7 +13,7 @@ UNINSTALL_DIRS="$(mktemp)"
 #set default options
 PYTHON="--python3"
 
-USR_BIN_FILES="backintime-qt4"
+USR_BIN_FILES="backintime-qt backintime-qt_polkit"
 DBUS_SERVICE_FILES="net.launchpad.backintime.serviceHelper.service"
 
 usage () {
@@ -135,10 +135,10 @@ printf "\trm -f man/C/*.gz\n\n" >> ${MAKEFILE}
 #create install and uninstall target
 printf "install:\n" >> ${MAKEFILE}
 addComment "python"
-addUninstallDir          "/share/backintime/qt4/__pycache__"
-addUninstallFile "*.pyc" "/share/backintime/qt4/__pycache__"
-addInstallDir            "/share/backintime/qt4"
-addInstallFiles "*.py"   "/share/backintime/qt4"
+addUninstallDir          "/share/backintime/qt/__pycache__"
+addUninstallFile "*.pyc" "/share/backintime/qt/__pycache__"
+addInstallDir            "/share/backintime/qt"
+addInstallFiles "*.py"   "/share/backintime/qt"
 addNewline
 
 addComment "plugin"
@@ -151,8 +151,8 @@ addNewline
 
 addComment "application"
 addInstallDir                           "/bin"
-addInstallFile "backintime-qt4"         "/bin" "755"
-addInstallFile "backintime-qt4_polkit"  "/bin" "755"
+addInstallFile "backintime-qt"         "/bin" "755"
+addInstallFile "backintime-qt_polkit"  "/bin" "755"
 addNewline
 
 addComment "dbus service"
@@ -175,14 +175,14 @@ addUninstallDir                                    "/share/polkit-1"
 addNewline
 
 addComment "documentation"
-addInstallDir                        "/share/doc/backintime-qt4"
-addInstallFile "../debian/copyright" "/share/doc/backintime-qt4"
-addInstallFile "../AUTHORS"          "/share/doc/backintime-qt4"
-addInstallFile "../LICENSE"          "/share/doc/backintime-qt4"
-addInstallFile "../README.md"        "/share/doc/backintime-qt4"
-addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-qt4"
-addInstallFile "../VERSION"          "/share/doc/backintime-qt4"
-addInstallFile "../CHANGES"          "/share/doc/backintime-qt4"
+addInstallDir                        "/share/doc/backintime-qt"
+addInstallFile "../debian/copyright" "/share/doc/backintime-qt"
+addInstallFile "../AUTHORS"          "/share/doc/backintime-qt"
+addInstallFile "../LICENSE"          "/share/doc/backintime-qt"
+addInstallFile "../README.md"        "/share/doc/backintime-qt"
+addInstallFile "../TRANSLATIONS"     "/share/doc/backintime-qt"
+addInstallFile "../VERSION"          "/share/doc/backintime-qt"
+addInstallFile "../CHANGES"          "/share/doc/backintime-qt"
 addNewline
 
 addComment ".desktop"
@@ -201,7 +201,7 @@ addNewline
 
 addComment "man"
 addInstallDir    "/share/man/man1"
-addInstallFile   "man/C/backintime-qt4.1.gz" "/share/man/man1"
+addInstallFile   "man/C/backintime-qt.1.gz" "/share/man/man1"
 addUninstallDir  "/share/man"
 addNewline
 

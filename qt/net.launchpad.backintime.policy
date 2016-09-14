@@ -8,7 +8,7 @@
   <vendor_url>https://github.com/bit-team/backintime</vendor_url>
   <icon_name>document-save</icon_name>
 
-  <action id="net.launchpad.backintime.qt4gui">
+  <action id="net.launchpad.backintime.qtgui">
     <message gettext-domain="backintime">Authentication is required to run Back In Time as root.</message>
     <description gettext-domain="backintime">Start Back In Time GUI as root.</description>
     <defaults>
@@ -16,7 +16,7 @@
       <allow_inactive>auth_admin</allow_inactive>
       <allow_active>auth_admin_keep</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/backintime-qt4</annotate>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/backintime-qt</annotate>
     <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
   </action>
 

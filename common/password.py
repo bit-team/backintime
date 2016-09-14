@@ -239,7 +239,7 @@ class Password(object):
         if prompt is None:
             prompt = _('Profile \'%(profile)s\': Enter password for %(mode)s: ') % {'profile': self.config.profileName(profile_id), 'mode': self.config.SNAPSHOT_MODES[mode][pw_id + 1]}
 
-        tools.registerBackintimePath('qt4')
+        tools.registerBackintimePath('qt')
 
         x_server = tools.checkXServer()
         import_successful = False

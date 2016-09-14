@@ -22,7 +22,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
-import qt4tools
+import qttools
 import snapshots
 import encfstools
 import snapshotlog
@@ -66,14 +66,14 @@ class LogViewDialog(QDialog):
         self.lblProfile = QLabel(_('Profile:'), self)
         layout.addWidget(self.lblProfile)
 
-        self.comboProfiles = qt4tools.ProfileCombo(self)
+        self.comboProfiles = qttools.ProfileCombo(self)
         layout.addWidget(self.comboProfiles, 1)
         self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
 
         #snapshots
         self.lblSnapshots = QLabel(_('Snapshots') + ':', self)
         layout.addWidget(self.lblSnapshots)
-        self.comboSnapshots = qt4tools.SnapshotCombo(self)
+        self.comboSnapshots = qttools.SnapshotCombo(self)
         layout.addWidget(self.comboSnapshots, 1)
         self.comboSnapshots.currentIndexChanged.connect(self.comboSnapshotsChanged)
 

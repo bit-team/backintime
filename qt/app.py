@@ -31,8 +31,8 @@ import signal
 from contextlib import contextmanager
 from tempfile import TemporaryDirectory
 
-import qt4tools
-qt4tools.registerBackintimePath('common')
+import qttools
+qttools.registerBackintimePath('common')
 
 import backintime
 import tools
@@ -79,14 +79,14 @@ class MainWindow(QMainWindow):
         #profiles
         self.firstUpdateAll = True
         self.disableProfileChanged = False
-        self.comboProfiles = qt4tools.ProfileCombo(self)
+        self.comboProfiles = qttools.ProfileCombo(self)
         self.comboProfilesAction = self.mainToolbar.addWidget(self.comboProfiles)
 
         # take_snapshot button
         self.btnTakeSnapshot = self.mainToolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
         self.btnTakeSnapshot.triggered.connect(self.btnTakeSnapshotClicked)
 
-        takeSnapshotMenu = qt4tools.Menu()
+        takeSnapshotMenu = qttools.Menu()
         action = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
         action.triggered.connect(self.btnTakeSnapshotClicked)
         self.btnTakeSnapshotChecksum = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'))
@@ -185,7 +185,7 @@ class MainWindow(QMainWindow):
         self.mainSplitter.setOrientation(Qt.Horizontal)
 
         #timeline
-        self.timeLine = qt4tools.TimeLine(self)
+        self.timeLine = qttools.TimeLine(self)
         self.mainSplitter.addWidget(self.timeLine)
         self.timeLine.updateFilesView.connect(self.updateFilesView)
 
@@ -219,7 +219,7 @@ class MainWindow(QMainWindow):
         self.filesViewToolbar.addSeparator()
 
         #restore menu
-        self.menuRestore = qt4tools.Menu(self)
+        self.menuRestore = qttools.Menu(self)
         self.btnRestore = self.menuRestore.addAction(icon.RESTORE, _('Restore'))
         self.btnRestore.setToolTip(_('Restore the selected files or folders '
                                      'to the original destination.'))
@@ -355,7 +355,7 @@ class MainWindow(QMainWindow):
 
         #folder don't exist label
         self.lblFolderDontExists = QLabel(_('This folder doesn\'t exist\nin the current selected snapshot!'), self)
-        qt4tools.setFontBold(self.lblFolderDontExists)
+        qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Sunken)
         self.lblFolderDontExists.setFrameShape(QFrame.Panel)
         self.lblFolderDontExists.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
@@ -783,7 +783,7 @@ class MainWindow(QMainWindow):
         item.setData(0, Qt.UserRole, path)
 
         if not path:
-            item.setFont(0, qt4tools.fontBold(item.font(0)))
+            item.setFont(0, qttools.fontBold(item.font(0)))
             item.setFlags(Qt.ItemIsEnabled)
             item.setBackground(0, QColor(196, 196, 196))
             item.setForeground(0, QColor(60, 60, 60))
@@ -1472,7 +1472,7 @@ class RemoveSnapshotThread(QThread):
     remove snapshots in background thread so GUI will not freeze
     """
     refreshSnapshotList = pyqtSignal()
-    hideTimelineItem = pyqtSignal(qt4tools.SnapshotItem)
+    hideTimelineItem = pyqtSignal(qttools.SnapshotItem)
     def __init__(self, parent, items):
         self.config = parent.config
         self.snapshots = parent.snapshots
@@ -1539,7 +1539,7 @@ def debugTrace():
     set_trace()
 
 if __name__ == '__main__':
-    cfg = backintime.startApp('backintime-qt4')
+    cfg = backintime.startApp('backintime-qt')
 
     raiseCmd = ''
     if len(sys.argv) > 1:
@@ -1550,8 +1550,8 @@ if __name__ == '__main__':
     cfg.PLUGIN_MANAGER.appStart()
 
     logger.openlog()
-    qapp = qt4tools.createQApplication(cfg.APP_NAME)
-    translator = qt4tools.translator()
+    qapp = qttools.createQApplication(cfg.APP_NAME)
+    translator = qttools.translator()
     qapp.installTranslator(translator)
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
