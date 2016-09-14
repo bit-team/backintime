@@ -75,7 +75,8 @@ Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `backintime --license' for details.
 
-
+(INFO: Update to config version \d+
+)?
  ┌────────────────────────────────┐
  │  Check/prepair snapshot path   │
  └────────────────────────────────┘

@@ -17,6 +17,7 @@
 
 import os
 import collections
+import re
 
 import gettext
 import logger
@@ -146,6 +147,22 @@ class ConfigFile(object):
                 if new_key not in self.dict:
                     self.dict[new_key ] = self.dict[ old_key]
                 del self.dict[old_key]
+
+    def remapKeyRegex(self, pattern, replace):
+        """
+        Remap keys to a new key name using :py:func:`re.sub`.
+
+        Args:
+            pattern (str):  part of key name that should be replaced
+            replace (:py:class:`str`, method):
+                            string or a callable function which will be used
+                            to replace all matches of ``pattern``.
+        """
+        c = re.compile(pattern)
+        for key in self.dict:
+            newKey = c.sub(replace, key)
+            if key != newKey:
+                self.remapKey(key, newKey)
 
     def hasKey(self, key):
         """
@@ -724,6 +741,18 @@ class ConfigFileWithProfiles(ConfigFile):
             profile_id (str, int):  valid profile ID
         """
         self.removeKeysStartsWith(self.profileKey(prefix, profile_id))
+
+    def remapProfileKey(self, oldKey, newKey, profileId = None):
+        """
+        Remap profile keys to a new key name.
+
+        Args:
+            oldKey (str):           old key name
+            newKey (str):           new key name
+            profileId (str, int):   valid profile ID
+        """
+        self.remapKey(self.profileKey(oldKey, profileId),
+                      self.profileKey(newKey, profileId))
 
     def hasProfileKey(self, key, profile_id = None):
         """

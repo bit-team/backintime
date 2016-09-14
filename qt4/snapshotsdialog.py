@@ -54,8 +54,8 @@ class DiffOptionsDialog(QDialog):
 
         self.mainLayout = QGridLayout(self)
 
-        self.diffCmd = self.config.strValue('qt4.diff.cmd', DIFF_CMD)
-        self.diffParams = self.config.strValue('qt4.diff.params', DIFF_PARAMS)
+        self.diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
+        self.diffParams = self.config.strValue('qt.diff.params', DIFF_PARAMS)
 
         self.mainLayout.addWidget(QLabel(_('Command:')), 0, 0)
         self.editCmd = QLineEdit(self.diffCmd, self)
@@ -77,8 +77,8 @@ class DiffOptionsDialog(QDialog):
         diffParams = str(self.editParams.text().toUtf8())
 
         if diffCmd != self.diffCmd or diffParams != self.diffParams:
-            self.config.setStrValue('qt4.diff.cmd', diffCmd)
-            self.config.setStrValue('qt4.diff.params', diffParams)
+            self.config.setStrValue('qt.diff.cmd', diffCmd)
+            self.config.setStrValue('qt.diff.params', diffParams)
             self.config.save()
 
         super(DiffOptionsDialog, self).accept()
@@ -326,8 +326,8 @@ class SnapshotsDialog(QDialog):
             messagebox.critical(self, _('You can\'t compare a snapshot to itself'))
             return
 
-        diffCmd = self.config.strValue('qt4.diff.cmd', DIFF_CMD)
-        diffParams = self.config.strValue('qt4.diff.params', DIFF_PARAMS)
+        diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
+        diffParams = self.config.strValue('qt.diff.params', DIFF_PARAMS)
 
         if not tools.checkCommand(diffCmd):
             messagebox.critical(self, _('Command not found: %s') % diffCmd)

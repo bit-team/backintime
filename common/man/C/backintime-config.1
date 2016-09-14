@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Jul 2016" "version 1.2.0~alpha0" "USER COMMANDS"
+.TH backintime-config 1 "Sep 2016" "version 1.2.0~alpha0" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -19,6 +19,15 @@ Arguments don't need to be quoted. All characters are allowed except '='.
 .PP
 Run 'backintime check-config' to verify the configfile, create the snapshot folder and crontab entries.
 .SH POSSIBLE KEYWORDS
+.IP "\fIconfig.version\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+Internal version of current config
+.PP
+Default: 42
+.RE
+
 .IP "\fIglobal.hash_collision\fR" 6
 .RS
 Type: int       Allowed Values: 0-99999
@@ -46,44 +55,25 @@ Name of this profile.
 Default: Main profile
 .RE
 
-.IP "\fIprofile<N>.snapshots.automatic_backup_anacron_period\fR" 6
+.IP "\fIprofile<N>.schedule.custom_time\fR" 6
 .RS
-Type: int       Allowed Values: 0-99999
+Type: str       Allowed Values: comma separated int (8,12,18,23) or */3
 .br
-How many units to wait between new snapshots with anacron? Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
+Custom hours for cronjob. Only valid for \fIprofile<N>.schedule.mode\fR = 19 
 .PP
-Default: 1
+Default: 8,12,18,23
 .RE
 
-.IP "\fIprofile<N>.snapshots.automatic_backup_anacron_unit\fR" 6
-.RS
-Type: int       Allowed Values: 10|20|30|40
-.br
-Units to wait between new snapshots with anacron.
-.br
-10 = hours
-.br
-20 = days
-.br
-30 = weeks
-.br
-40 = months
-.br
-Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
-.PP
-Default: 20
-.RE
-
-.IP "\fIprofile<N>.snapshots.automatic_backup_day\fR" 6
+.IP "\fIprofile<N>.schedule.day\fR" 6
 .RS
 Type: int       Allowed Values: 1-28
 .br
-Which day of month the cronjob should run? Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR >= 40
+Which day of month the cronjob should run? Only valid for \fIprofile<N>.schedule.mode\fR >= 40
 .PP
 Default: 1
 .RE
 
-.IP "\fIprofile<N>.snapshots.automatic_backup_mode\fR" 6
+.IP "\fIprofile<N>.schedule.mode\fR" 6
 .RS
 Type: int       Allowed Values: 0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80
 .br
@@ -126,20 +116,48 @@ Which schedule used for crontab. The crontab entry will be generated with 'backi
 Default: 0
 .RE
 
-.IP "\fIprofile<N>.snapshots.automatic_backup_time\fR" 6
+.IP "\fIprofile<N>.schedule.repeatedly.period\fR" 6
+.RS
+Type: int       Allowed Values: 0-99999
+.br
+How many units to wait between new snapshots with anacron? Only valid for \fIprofile<N>.schedule.mode\fR = 25|27
+.PP
+Default: 1
+.RE
+
+.IP "\fIprofile<N>.schedule.repeatedly.unit\fR" 6
+.RS
+Type: int       Allowed Values: 10|20|30|40
+.br
+Units to wait between new snapshots with anacron.
+.br
+10 = hours
+.br
+20 = days
+.br
+30 = weeks
+.br
+40 = months
+.br
+Only valid for \fIprofile<N>.schedule.mode\fR = 25|27
+.PP
+Default: 20
+.RE
+
+.IP "\fIprofile<N>.schedule.time\fR" 6
 .RS
 Type: int       Allowed Values: 0-24
 .br
-What time the cronjob should run? Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR >= 20
+What time the cronjob should run? Only valid for \fIprofile<N>.schedule.mode\fR >= 20
 .PP
 Default: 0
 .RE
 
-.IP "\fIprofile<N>.snapshots.automatic_backup_weekday\fR" 6
+.IP "\fIprofile<N>.schedule.weekday\fR" 6
 .RS
 Type: int       Allowed Values: 1 = monday \- 7 = sunday
 .br
-Which day of week the cronjob should run? Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 30
+Which day of week the cronjob should run? Only valid for \fIprofile<N>.schedule.mode\fR = 30
 .PP
 Default: 7
 .RE
@@ -234,15 +252,6 @@ redirect stdout to /dev/null in cronjobs
 Default: true
 .RE
 
-.IP "\fIprofile<N>.snapshots.custom_backup_time\fR" 6
-.RS
-Type: str       Allowed Values: comma separated int (8,12,18,23) or */3
-.br
-Custom hours for cronjob. Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 19 
-.PP
-Default: 8,12,18,23
-.RE
-
 .IP "\fIprofile<N>.snapshots.dont_remove_named_snapshots\fR" 6
 .RS
 Type: bool      Allowed Values: true|false
@@ -286,15 +295,6 @@ Type: int       Allowed Values: 0-99999
 Quantity of profile<N>.snapshots.exclude.<I> entries.
 .PP
 Default: \-1
-.RE
-
-.IP "\fIprofile<N>.snapshots.full_rsync.take_snapshot_regardless_of_changes\fR" 6
-.RS
-Type: bool      Allowed Values: true|false
-.br
-Create a new snapshot regardless if there were changes or not.
-.PP
-Default: false
 .RE
 
 .IP "\fIprofile<N>.snapshots.include.<I>.type\fR" 6
@@ -760,6 +760,15 @@ Possible events for <STEP>:
   error
 .PP
 Default: ''
+.RE
+
+.IP "\fIprofile<N>.snapshots.take_snapshot_regardless_of_changes\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Create a new snapshot regardless if there were changes or not.
+.PP
+Default: false
 .RE
 
 .IP "\fIprofile<N>.snapshots.use_checksum\fR" 6

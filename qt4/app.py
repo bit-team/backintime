@@ -209,7 +209,7 @@ class MainWindow(QMainWindow):
         self.filesViewToolbar.addWidget(self.editCurrentPath)
 
         #show hidden files
-        self.showHiddenFiles = self.config.boolValue('qt4.show_hidden_files', False)
+        self.showHiddenFiles = self.config.boolValue('qt.show_hidden_files', False)
         self.btnShowHiddenFiles = self.filesViewToolbar.addAction(icon.SHOW_HIDDEN, _('Show hidden files'))
         self.btnShowHiddenFiles.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_H))
         self.btnShowHiddenFiles.setCheckable(True)
@@ -342,8 +342,8 @@ class MainWindow(QMainWindow):
         self.places.header().setSectionsClickable(True)
         self.places.header().setSortIndicatorShown(True)
         self.places.header().setSectionHidden(1, True)
-        self.places.header().setSortIndicator(int(self.config.profileIntValue('qt4.places.SortColumn', 1)),
-                                                   int(self.config.profileIntValue('qt4.places.SortOrder', Qt.AscendingOrder)))
+        self.places.header().setSortIndicator(int(self.config.profileIntValue('qt.places.SortColumn', 1)),
+                                                   int(self.config.profileIntValue('qt.places.SortOrder', Qt.AscendingOrder)))
         self.placesSortLoop = {self.config.currentProfile(): False}
         self.secondSplitter.addWidget(self.places)
         self.places.header().sortIndicatorChanged.connect(self.sortPlaces)
@@ -390,8 +390,8 @@ class MainWindow(QMainWindow):
         self.filesViewDelegate = QStyledItemDelegate(self)
         self.filesView.setItemDelegate(self.filesViewDelegate)
 
-        sortColumn = self.config.intValue('qt4.main_window.files_view.sort.column', 0)
-        sortOrder = self.config.boolValue('qt4.main_window.files_view.sort.ascending', True)
+        sortColumn = self.config.intValue('qt.main_window.files_view.sort.column', 0)
+        sortOrder = self.config.boolValue('qt.main_window.files_view.sort.ascending', True)
         if sortOrder:
             sortOrder = Qt.AscendingOrder
         else:
@@ -437,34 +437,34 @@ class MainWindow(QMainWindow):
 
         self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
-        self.path = self.config.profileStrValue('qt4.last_path',
-                            self.config.strValue('qt4.last_path', '/'))
+        self.path = self.config.profileStrValue('qt.last_path',
+                            self.config.strValue('qt.last_path', '/'))
         self.editCurrentPath.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
         #restore size and position
-        x = self.config.intValue('qt4.main_window.x', -1)
-        y = self.config.intValue('qt4.main_window.y', -1)
+        x = self.config.intValue('qt.main_window.x', -1)
+        y = self.config.intValue('qt.main_window.y', -1)
         if x >= 0 and y >= 0:
             self.move(x, y)
 
-        w = self.config.intValue('qt4.main_window.width', 800)
-        h = self.config.intValue('qt4.main_window.height', 500)
+        w = self.config.intValue('qt.main_window.width', 800)
+        h = self.config.intValue('qt.main_window.height', 500)
         self.resize(w, h)
 
-        mainSplitterLeftWidth = self.config.intValue('qt4.main_window.main_splitter_left_w', 150)
-        mainSplitterRightWidth = self.config.intValue('qt4.main_window.main_splitter_right_w', 450)
+        mainSplitterLeftWidth = self.config.intValue('qt.main_window.main_splitter_left_w', 150)
+        mainSplitterRightWidth = self.config.intValue('qt.main_window.main_splitter_right_w', 450)
         sizes = [mainSplitterLeftWidth, mainSplitterRightWidth]
         self.mainSplitter.setSizes(sizes)
 
-        secondSplitterLeftWidth = self.config.intValue('qt4.main_window.second_splitter_left_w', 150)
-        secondSplitterRightWidth = self.config.intValue('qt4.main_window.second_splitter_right_w', 300)
+        secondSplitterLeftWidth = self.config.intValue('qt.main_window.second_splitter_left_w', 150)
+        secondSplitterRightWidth = self.config.intValue('qt.main_window.second_splitter_right_w', 300)
         sizes = [secondSplitterLeftWidth, secondSplitterRightWidth]
         self.secondSplitter.setSizes(sizes)
 
-        filesViewColumnNameWidth = self.config.intValue('qt4.main_window.files_view.name_width', -1)
-        filesViewColumnSizeWidth = self.config.intValue('qt4.main_window.files_view.size_width', -1)
-        filesViewColumnDateWidth = self.config.intValue('qt4.main_window.files_view.date_width', -1)
+        filesViewColumnNameWidth = self.config.intValue('qt.main_window.files_view.name_width', -1)
+        filesViewColumnSizeWidth = self.config.intValue('qt.main_window.files_view.size_width', -1)
+        filesViewColumnDateWidth = self.config.intValue('qt.main_window.files_view.date_width', -1)
         if filesViewColumnNameWidth > 0 and filesViewColumnSizeWidth > 0 and filesViewColumnDateWidth > 0:
             self.filesView.header().resizeSection(0, filesViewColumnNameWidth)
             self.filesView.header().resizeSection(1, filesViewColumnSizeWidth)
@@ -531,35 +531,35 @@ class MainWindow(QMainWindow):
             if QMessageBox.Yes != messagebox.warningYesNo(self, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you really want to close?')):
                 return event.ignore()
 
-        self.config.setStrValue('qt4.last_path', self.path)
-        self.config.setProfileStrValue('qt4.last_path', self.path)
+        self.config.setStrValue('qt.last_path', self.path)
+        self.config.setProfileStrValue('qt.last_path', self.path)
 
-        self.config.setProfileIntValue('qt4.places.SortColumn',
+        self.config.setProfileIntValue('qt.places.SortColumn',
                                           self.places.header().sortIndicatorSection())
-        self.config.setProfileIntValue('qt4.places.SortOrder',
+        self.config.setProfileIntValue('qt.places.SortOrder',
                                           self.places.header().sortIndicatorOrder())
 
-        self.config.setIntValue('qt4.main_window.x', self.x())
-        self.config.setIntValue('qt4.main_window.y', self.y())
-        self.config.setIntValue('qt4.main_window.width', self.width())
-        self.config.setIntValue('qt4.main_window.height', self.height())
+        self.config.setIntValue('qt.main_window.x', self.x())
+        self.config.setIntValue('qt.main_window.y', self.y())
+        self.config.setIntValue('qt.main_window.width', self.width())
+        self.config.setIntValue('qt.main_window.height', self.height())
 
         sizes = self.mainSplitter.sizes()
-        self.config.setIntValue('qt4.main_window.main_splitter_left_w', sizes[0])
-        self.config.setIntValue('qt4.main_window.main_splitter_right_w', sizes[1])
+        self.config.setIntValue('qt.main_window.main_splitter_left_w', sizes[0])
+        self.config.setIntValue('qt.main_window.main_splitter_right_w', sizes[1])
 
         sizes = self.secondSplitter.sizes()
-        self.config.setIntValue('qt4.main_window.second_splitter_left_w', sizes[0])
-        self.config.setIntValue('qt4.main_window.second_splitter_right_w', sizes[1])
+        self.config.setIntValue('qt.main_window.second_splitter_left_w', sizes[0])
+        self.config.setIntValue('qt.main_window.second_splitter_right_w', sizes[1])
 
-        self.config.setIntValue('qt4.main_window.files_view.name_width', self.filesView.header().sectionSize(0))
-        self.config.setIntValue('qt4.main_window.files_view.size_width', self.filesView.header().sectionSize(1))
-        self.config.setIntValue('qt4.main_window.files_view.date_width', self.filesView.header().sectionSize(2))
+        self.config.setIntValue('qt.main_window.files_view.name_width', self.filesView.header().sectionSize(0))
+        self.config.setIntValue('qt.main_window.files_view.size_width', self.filesView.header().sectionSize(1))
+        self.config.setIntValue('qt.main_window.files_view.date_width', self.filesView.header().sectionSize(2))
 
-        self.config.setBoolValue('qt4.show_hidden_files', self.showHiddenFiles)
+        self.config.setBoolValue('qt.show_hidden_files', self.showHiddenFiles)
 
-        self.config.setIntValue('qt4.main_window.files_view.sort.column', self.filesView.header().sortIndicatorSection())
-        self.config.setBoolValue('qt4.main_window.files_view.sort.ascending', self.filesView.header().sortIndicatorOrder() == Qt.AscendingOrder)
+        self.config.setIntValue('qt.main_window.files_view.sort.column', self.filesView.header().sortIndicatorSection())
+        self.config.setBoolValue('qt.main_window.files_view.sort.ascending', self.filesView.header().sortIndicatorOrder() == Qt.AscendingOrder)
 
         self.filesViewModel.deleteLater()
 
@@ -619,18 +619,18 @@ class MainWindow(QMainWindow):
             self.config.PLUGIN_MANAGER.load(cfg = self.config, force = True)
             self.config.PLUGIN_MANAGER.mount()
 
-            self.config.setProfileIntValue('qt4.places.SortColumn',
+            self.config.setProfileIntValue('qt.places.SortColumn',
                                               self.places.header().sortIndicatorSection(),
                                               old_profile_id)
-            self.config.setProfileIntValue('qt4.places.SortOrder',
+            self.config.setProfileIntValue('qt.places.SortOrder',
                                               self.places.header().sortIndicatorOrder(),
                                               old_profile_id)
             self.placesSortLoop[old_profile_id] = False
-            self.places.header().setSortIndicator(int(self.config.profileIntValue('qt4.places.SortColumn', 1, profile_id)),
-                                                       int(self.config.profileIntValue('qt4.places.SortOrder', Qt.AscendingOrder, profile_id)))
+            self.places.header().setSortIndicator(int(self.config.profileIntValue('qt.places.SortColumn', 1, profile_id)),
+                                                       int(self.config.profileIntValue('qt.places.SortOrder', Qt.AscendingOrder, profile_id)))
 
-            self.config.setProfileStrValue('qt4.last_path', self.path, old_profile_id)
-            path = self.config.profileStrValue('qt4.last_path', self.path, profile_id)
+            self.config.setProfileStrValue('qt.last_path', self.path, old_profile_id)
+            path = self.config.profileStrValue('qt.last_path', self.path, profile_id)
             if not path == self.path:
                 self.path = path
                 self.path_history.reset(self.path)

@@ -17,6 +17,7 @@
 
 
 import os
+import sys
 import datetime
 import gettext
 import socket
@@ -48,7 +49,7 @@ class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
     VERSION = '1.2.0~alpha0'
     COPYRIGHT = 'Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
-    CONFIG_VERSION = 5
+    CONFIG_VERSION = 6
 
     NONE = 0
     AT_EVERY_BOOT = 1
@@ -197,20 +198,24 @@ class Config(configfile.ConfigFileWithProfiles):
         self.load(self._GLOBAL_CONFIG_PATH)
         self.append(self._LOCAL_CONFIG_PATH)
 
-        if self.intValue('config.version', self.CONFIG_VERSION) < self.CONFIG_VERSION:
-
-            if self.intValue('config.version', self.CONFIG_VERSION) < 4:
+        #?Internal version of current config;;self.CONFIG_VERSION
+        currentConfigVersion = self.intValue('config.version', 5)
+        if currentConfigVersion < self.CONFIG_VERSION:
+            # config.version value wasn't stored since BiT version 0.9.99.22
+            # until version 1.2.0 because of a bug. So we can't really tell
+            # which version the config is. But most likely it is version > 4
+            if currentConfigVersion < 4:
                 #update from BackInTime version < 1.0 is deprecated
                 logger.error("config.version is < 4. This config was made with "\
                              "BackInTime version < 1.0. This version ({}) "     \
-                             "doesn't support upgrading config from < 1.0 "     \
-                             "anymore. Please use BackInTime version <= 1.1.12 "\
-                             "to upgrade the config to a more recent version."
-                             %self.CONFIG_VERSION)
+                             "doesn't support upgrading config from version "   \
+                             "< 1.0 anymore. Please use BackInTime version "    \
+                             "<= 1.1.12 to upgrade the config to a more recent "\
+                             "version.".format(self.VERSION))
                 #TODO: add popup warning
                 sys.exit(2)
 
-            if self.intValue('config.version', self.CONFIG_VERSION) < 5:
+            if currentConfigVersion < 5:
                 logger.info("Update to config version 5: other snapshot locations", self)
                 profiles = self.profiles()
                 for profile_id in profiles:
@@ -229,7 +234,42 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.removeProfileKey('snapshots.include_folders', profile_id)
                     self.removeProfileKey('snapshots.exclude_patterns', profile_id)
 
-            self.setIntValue('config.version', self.CONFIG_VERSION)
+            if currentConfigVersion < 6:
+                logger.info('Update to config version 6', self)
+                # remap some keys
+                for profile in self.profiles():
+                    # make a 'schedule' domain for everything relating schedules
+                    self.remapProfileKey('snapshots.automatic_backup_anacron_period',
+                                         'schedule.repeatedly.period',
+                                         profile)
+                    self.remapProfileKey('snapshots.automatic_backup_anacron_unit',
+                                         'schedule.repeatedly.unit',
+                                         profile)
+                    self.remapProfileKey('snapshots.automatic_backup_day',
+                                         'schedule.day',
+                                         profile)
+                    self.remapProfileKey('snapshots.automatic_backup_mode',
+                                         'schedule.mode',
+                                         profile)
+                    self.remapProfileKey('snapshots.automatic_backup_time',
+                                         'schedule.time',
+                                         profile)
+                    self.remapProfileKey('snapshots.automatic_backup_weekday',
+                                         'schedule.weekday',
+                                         profile)
+                    self.remapProfileKey('snapshots.custom_backup_time',
+                                         'schedule.custom_time',
+                                         profile)
+
+                    # we don't have 'full rsync mode' anymore
+                    self.remapProfileKey('snapshots.full_rsync.take_snapshot_regardless_of_changes',
+                                         'snapshots.take_snapshot_regardless_of_changes',
+                                         profile)
+                # remap 'qt4' keys
+                self.remapKeyRegex(r'qt4', 'qt')
+                # remove old gnome and kde keys
+                self.removeKeysStartsWith('gnome')
+                self.removeKeysStartsWith('kde')
             self.save()
 
         self.current_hash_id = 'local'
@@ -240,6 +280,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setupUdev = tools.SetupUdev()
 
     def save(self):
+        self.setIntValue('config.version', self.CONFIG_VERSION)
         return super(Config, self).save(self._LOCAL_CONFIG_PATH)
 
     def checkConfig(self):
@@ -771,61 +812,61 @@ class Config(configfile.ConfigFileWithProfiles):
         #?25 = daily anacron\n27 = when drive get connected\n30 = every week\n
         #?40 = every month\n80 = every year
         #?;0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80;0
-        return self.profileIntValue('snapshots.automatic_backup_mode', self.NONE, profile_id)
+        return self.profileIntValue('schedule.mode', self.NONE, profile_id)
 
     def setScheduleMode(self, value, profile_id = None):
-        self.setProfileIntValue('snapshots.automatic_backup_mode', value, profile_id)
+        self.setProfileIntValue('schedule.mode', value, profile_id)
 
     def scheduleTime(self, profile_id = None):
         #?What time the cronjob should run? Only valid for
-        #?\fIprofile<N>.snapshots.automatic_backup_mode\fR >= 20;0-24
-        return self.profileIntValue('snapshots.automatic_backup_time', 0, profile_id)
+        #?\fIprofile<N>.schedule.mode\fR >= 20;0-24
+        return self.profileIntValue('schedule.time', 0, profile_id)
 
     def setScheduleTime(self, value, profile_id = None):
-        self.setProfileIntValue('snapshots.automatic_backup_time', value, profile_id)
+        self.setProfileIntValue('schedule.time', value, profile_id)
 
     def scheduleDay(self, profile_id = None):
         #?Which day of month the cronjob should run? Only valid for
-        #?\fIprofile<N>.snapshots.automatic_backup_mode\fR >= 40;1-28
-        return self.profileIntValue('snapshots.automatic_backup_day', 1, profile_id)
+        #?\fIprofile<N>.schedule.mode\fR >= 40;1-28
+        return self.profileIntValue('schedule.day', 1, profile_id)
 
     def setScheduleDay(self, value, profile_id = None):
-        self.setProfileIntValue('snapshots.automatic_backup_day', value, profile_id)
+        self.setProfileIntValue('schedule.day', value, profile_id)
 
     def scheduleWeekday(self, profile_id = None):
         #?Which day of week the cronjob should run? Only valid for
-        #?\fIprofile<N>.snapshots.automatic_backup_mode\fR = 30;1 = monday \- 7 = sunday
-        return self.profileIntValue('snapshots.automatic_backup_weekday', 7, profile_id)
+        #?\fIprofile<N>.schedule.mode\fR = 30;1 = monday \- 7 = sunday
+        return self.profileIntValue('schedule.weekday', 7, profile_id)
 
     def setScheduleWeekdayD(self, value, profile_id = None):
-        self.setProfileIntValue('snapshots.automatic_backup_weekday', value, profile_id)
+        self.setProfileIntValue('schedule.weekday', value, profile_id)
 
     def customBackupTime(self, profile_id = None):
         #?Custom hours for cronjob. Only valid for
-        #?\fIprofile<N>.snapshots.automatic_backup_mode\fR = 19
+        #?\fIprofile<N>.schedule.mode\fR = 19
         #?;comma separated int (8,12,18,23) or */3;8,12,18,23
-        return self.profileStrValue('snapshots.custom_backup_time', '8,12,18,23', profile_id)
+        return self.profileStrValue('schedule.custom_time', '8,12,18,23', profile_id)
 
     def setCustomBackupTime(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.custom_backup_time', value, profile_id)
+        self.setProfileStrValue('schedule.custom_time', value, profile_id)
 
     def scheduleRepeatedPeriod(self, profile_id = None):
         #?How many units to wait between new snapshots with anacron? Only valid
-        #?for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27
-        return self.profileIntValue('snapshots.automatic_backup_anacron_period', 1, profile_id)
+        #?for \fIprofile<N>.schedule.mode\fR = 25|27
+        return self.profileIntValue('schedule.repeatedly.period', 1, profile_id)
 
     def setScheduleRepeatedPeriod(self, value, profile_id = None):
-        self.setProfileIntValue('snapshots.automatic_backup_anacron_period', value, profile_id)
+        self.setProfileIntValue('schedule.repeatedly.period', value, profile_id)
 
     def scheduleRepeatedUnit(self, profile_id = None):
         #?Units to wait between new snapshots with anacron.\n
         #?10 = hours\n20 = days\n30 = weeks\n40 = months\n
-        #?Only valid for \fIprofile<N>.snapshots.automatic_backup_mode\fR = 25|27;
+        #?Only valid for \fIprofile<N>.schedule.mode\fR = 25|27;
         #?10|20|30|40;20
-        return self.profileIntValue('snapshots.automatic_backup_anacron_unit', self.DAY, profile_id)
+        return self.profileIntValue('schedule.repeatedly.unit', self.DAY, profile_id)
 
     def setScheduleRepeatedUnit(self, value, profile_id = None):
-        self.setProfileIntValue('snapshots.automatic_backup_anacron_unit', value, profile_id)
+        self.setProfileIntValue('schedule.repeatedly.unit', value, profile_id)
 
     def removeOldSnapshots(self, profile_id = None):
                 #?Remove all snapshots older than value + unit
@@ -1156,10 +1197,10 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def takeSnapshotRegardlessOfChanges(self, profile_id = None):
         #?Create a new snapshot regardless if there were changes or not.
-        return self.profileBoolValue('snapshots.full_rsync.take_snapshot_regardless_of_changes', False, profile_id)
+        return self.profileBoolValue('snapshots.take_snapshot_regardless_of_changes', False, profile_id)
 
     def setTakeSnapshotRegardlessOfChanges(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.full_rsync.take_snapshot_regardless_of_changes', value, profile_id)
+        return self.setProfileBoolValue('snapshots.take_snapshot_regardless_of_changes', value, profile_id)
 
     def userCallbackNoLogging(self, profile_id = None):
         #?Do not catch std{out|err} from user-callback script.

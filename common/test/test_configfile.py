@@ -82,6 +82,22 @@ class TestConfigFile(generic.TestCase):
         self.assertEqual(cfg.strValue('baz'), '')
         self.assertEqual(cfg.strValue('bar'), '456')
 
+    def test_remapKeyRegex(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'asdf.foo.qwertz': '123',
+                    'foo.qwertz': '456',
+                    'asdf.foo': '789',
+                    'yxcv': 'jkl'}
+
+        cfg.remapKeyRegex('foo', 'bar')
+        self.assertEqual(cfg.strValue('asdf.bar.qwertz', '123'), '123')
+        self.assertEqual(cfg.strValue('bar.qwertz', '456'), '456')
+        self.assertEqual(cfg.strValue('asdf.bar', '789'), '789')
+        self.assertEqual(cfg.strValue('asdf.foo.qwertz', ''), '')
+        self.assertEqual(cfg.strValue('foo.qwertz', ''), '')
+        self.assertEqual(cfg.strValue('asdf.foo', ''), '')
+        self.assertEqual(cfg.strValue('yxcv', 'jkl'), 'jkl')
+
     def test_hasKey(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'foo': 'bar'}
@@ -569,6 +585,30 @@ class TestConfigFileWithProfiles(generic.TestCase):
         self.assertIn('profile3.foo', self.cfg.dict)
         self.cfg.removeProfileKeysStartsWith('f', '3')
         self.assertNotIn('profile3.foo', self.cfg.dict)
+
+    def test_remapProfileKey(self):
+        for profile in self.cfg.profiles():
+            self.cfg.setProfileStrValue('foo', '123', profile)
+            self.cfg.setProfileStrValue('bar', '456', profile)
+
+        # old key not in cfg
+        self.cfg.remapProfileKey('notExistedKey', 'baz', 1)
+        self.assertEqual(self.cfg.profileStrValue('foo', '', 1), '123')
+        self.assertEqual(self.cfg.profileStrValue('bar', '', 1), '456')
+
+
+        # valid remap
+        self.cfg.remapProfileKey('foo', 'baz', 1)
+        self.assertEqual(self.cfg.profileStrValue('foo', '', 1), '')
+        self.assertEqual(self.cfg.profileStrValue('baz', '', 1), '123')
+        self.assertEqual(self.cfg.profileStrValue('foo', '', 2), '123')
+        self.assertEqual(self.cfg.profileStrValue('foo', '', 3), '123')
+
+        # do not overwrite existing keys
+        self.cfg.remapProfileKey('foo', 'bar', 1)
+        self.assertEqual(self.cfg.profileStrValue('foo', '', 2), '123')
+        self.assertEqual(self.cfg.profileStrValue('baz', '', 2), '')
+        self.assertEqual(self.cfg.profileStrValue('bar', '', 2), '456')
 
     def test_hasProfileKey(self):
         for profile in self.cfg.profiles():

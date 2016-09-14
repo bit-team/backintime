@@ -30,7 +30,7 @@ SORT = True #True = sort by alphabet; False = sort by line numbering
 
 c_list = re.compile(r'.*?self\.(?!set)((?:profile)?)(List)Value ?\( ?[\'"](.*?)[\'"], ?((?:\(.*\)|[^,]*)), ?[\'"]?([^\'",\)]*)[\'"]?')
 c =      re.compile(r'.*?self\.(?!set)((?:profile)?)(.*?)Value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
-c_default = re.compile(r'(^DEFAULT[\w]*)[\s]*= (.*)')
+c_default = re.compile(r'(^DEFAULT[\w]*|CONFIG_VERSION)[\s]*= (.*)')
 
 HEADER = '''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
 .SH NAME
@@ -105,7 +105,7 @@ def select_values(instance, values):
 def process_line(d, key, profile, instance, name, var, default, commentline, values, force_var, force_default, replace_default, counter):
     #Ignore commentlines with #?! and 'config.version'
     comment = None
-    if not commentline.startswith('!') and not name == 'config.version' and not key in d:
+    if not commentline.startswith('!') and not key in d:
         d[key] = {}
         commentline = commentline.split(';')
         try:
@@ -141,21 +141,21 @@ def main():
                              DEFAULT   : '1',
                              COMMENT   : 'Internal version of profiles config.',
                              REFERENCE : 'configfile.py',
-                             LINE      : 180}
+                             LINE      : 419}
     d['profiles'] = {INSTANCE  : 'str',
                      NAME      : 'profiles',
                      VALUES    : 'int separated by colon (e.g. 1:3:4)',
                      DEFAULT   : '1',
                      COMMENT   : 'All active Profiles (<N> in profile<N>.snapshots...).',
                      REFERENCE : 'configfile.py',
-                     LINE      : 273}
+                     LINE      : 472}
     d['profile<N>.name'] = {INSTANCE  : 'str',
                             NAME      : 'profile<N>.name',
                             VALUES    : 'text',
                             DEFAULT   : 'Main profile',
                             COMMENT   : 'Name of this profile.',
                             REFERENCE : 'configfile.py',
-                            LINE      : 246}
+                            LINE      : 704}
     with open(CONFIG, 'r') as f:
         commentline = ''
         values = force_var = force_default = instance = name = var = default = None

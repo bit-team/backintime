@@ -46,8 +46,8 @@ class LogViewDialog(QDialog):
         self.enableUpdate = False
         self.decode = None
 
-        w = self.config.intValue('qt4.logview.width', 800)
-        h = self.config.intValue('qt4.logview.height', 500)
+        w = self.config.intValue('qt.logview.width', 800)
+        h = self.config.intValue('qt.logview.height', 500)
         self.resize(w, h)
 
         import icon
@@ -220,6 +220,6 @@ class LogViewDialog(QDialog):
             self.txtLogView.setPlainText('\n'.join(self.sid.log(mode, decode = self.decode)))
 
     def closeEvent(self, event):
-        self.config.setIntValue('qt4.logview.width', self.width())
-        self.config.setIntValue('qt4.logview.height', self.height())
+        self.config.setIntValue('qt.logview.width', self.width())
+        self.config.setIntValue('qt.logview.height', self.height())
         event.accept()

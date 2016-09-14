@@ -1085,8 +1085,8 @@ class SettingsDialog(QDialog):
         for include in self.config.include():
             self.addInclude(include)
 
-        includeSortColumn = int(self.config.profileIntValue('qt4.settingsdialog.include.SortColumn', 1))
-        includeSortOrder  = int(self.config.profileIntValue('qt4.settingsdialog.include.SortOrder', Qt.AscendingOrder))
+        includeSortColumn = int(self.config.profileIntValue('qt.settingsdialog.include.SortColumn', 1))
+        includeSortOrder  = int(self.config.profileIntValue('qt.settingsdialog.include.SortOrder', Qt.AscendingOrder))
         self.listInclude.sortItems(includeSortColumn, includeSortOrder)
 
         #TAB: Exclude
@@ -1097,8 +1097,8 @@ class SettingsDialog(QDialog):
         self.cbExcludeBySize.setChecked(self.config.excludeBySizeEnabled())
         self.spbExcludeBySize.setValue(self.config.excludeBySize())
 
-        excludeSortColumn = int(self.config.profileIntValue('qt4.settingsdialog.exclude.SortColumn', 1))
-        excludeSortOrder  = int(self.config.profileIntValue('qt4.settingsdialog.exclude.SortOrder', Qt.AscendingOrder))
+        excludeSortColumn = int(self.config.profileIntValue('qt.settingsdialog.exclude.SortColumn', 1))
+        excludeSortOrder  = int(self.config.profileIntValue('qt.settingsdialog.exclude.SortOrder', Qt.AscendingOrder))
         self.listExclude.sortItems(excludeSortColumn, excludeSortOrder)
 
         #TAB: Auto-remove
@@ -1209,9 +1209,9 @@ class SettingsDialog(QDialog):
         self.config.setLocalEncfsPath(self.editSnapshotsPath.text())
 
         #include list
-        self.config.setProfileIntValue('qt4.settingsdialog.include.SortColumn',
+        self.config.setProfileIntValue('qt.settingsdialog.include.SortColumn',
                                           self.listInclude.header().sortIndicatorSection())
-        self.config.setProfileIntValue('qt4.settingsdialog.include.SortOrder',
+        self.config.setProfileIntValue('qt.settingsdialog.include.SortOrder',
                                           self.listInclude.header().sortIndicatorOrder())
         self.listInclude.sortItems(1, Qt.AscendingOrder)
 
@@ -1223,9 +1223,9 @@ class SettingsDialog(QDialog):
         self.config.setInclude(include_list)
 
         #exclude patterns
-        self.config.setProfileIntValue('qt4.settingsdialog.exclude.SortColumn',
+        self.config.setProfileIntValue('qt.settingsdialog.exclude.SortColumn',
                                           self.listExclude.header().sortIndicatorSection())
-        self.config.setProfileIntValue('qt4.settingsdialog.exclude.SortOrder',
+        self.config.setProfileIntValue('qt.settingsdialog.exclude.SortOrder',
                                           self.listExclude.header().sortIndicatorOrder())
         self.listExclude.sortItems(1, Qt.AscendingOrder)
 
