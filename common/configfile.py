@@ -159,7 +159,7 @@ class ConfigFile(object):
                             to replace all matches of ``pattern``.
         """
         c = re.compile(pattern)
-        for key in self.dict:
+        for key in list(self.dict):
             newKey = c.sub(replace, key)
             if key != newKey:
                 self.remapKey(key, newKey)

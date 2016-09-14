@@ -82,7 +82,7 @@ class TestConfigFile(generic.TestCase):
         self.assertEqual(cfg.strValue('baz'), '')
         self.assertEqual(cfg.strValue('bar'), '456')
 
-    @unittest.skip('temporary disable failing test on python:nightly')
+    #@unittest.skip('temporary disable failing test on python:nightly')
     def test_remapKeyRegex(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'asdf.foo.qwertz': '123',
@@ -91,13 +91,13 @@ class TestConfigFile(generic.TestCase):
                     'yxcv': 'jkl'}
 
         cfg.remapKeyRegex('foo', 'bar')
-        self.assertEqual(cfg.strValue('asdf.bar.qwertz', '123'), '123')
-        self.assertEqual(cfg.strValue('bar.qwertz', '456'), '456')
-        self.assertEqual(cfg.strValue('asdf.bar', '789'), '789')
+        self.assertEqual(cfg.strValue('asdf.bar.qwertz', 'WrongValue'), '123')
+        self.assertEqual(cfg.strValue('bar.qwertz', 'WrongValue'), '456')
+        self.assertEqual(cfg.strValue('asdf.bar', 'WrongValue'), '789')
         self.assertEqual(cfg.strValue('asdf.foo.qwertz', ''), '')
         self.assertEqual(cfg.strValue('foo.qwertz', ''), '')
         self.assertEqual(cfg.strValue('asdf.foo', ''), '')
-        self.assertEqual(cfg.strValue('yxcv', 'jkl'), 'jkl')
+        self.assertEqual(cfg.strValue('yxcv', 'WrongValue'), 'jkl')
 
     def test_hasKey(self):
         cfg = configfile.ConfigFile()
