@@ -26,13 +26,13 @@ Replaces:  backintime-qt4 (<< ${source:Version}~), backintime-kde (<< ${source:V
 Description: Simple backup system
  This is a Qt5 GUI frontend for backintime-common.
 
- Package: backintime-qt4
- Section: oldlibs
- Architecture: all
- Depends: backintime-qt, ${misc:Depends}
- Description: Virtual package
-  This is a virtual package to replace backintime-qt4 from official repositories
-  with backintime-qt from PPA. It can safely be removed.
+Package: backintime-qt4
+Section: oldlibs
+Architecture: all
+Depends: backintime-qt, ${misc:Depends}
+Description: Virtual package
+ This is a virtual package to replace backintime-qt4 from official repositories
+ with backintime-qt from PPA. It can safely be removed.
 
 Package: backintime-kde
 Section: oldlibs
