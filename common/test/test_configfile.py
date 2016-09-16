@@ -82,7 +82,6 @@ class TestConfigFile(generic.TestCase):
         self.assertEqual(cfg.strValue('baz'), '')
         self.assertEqual(cfg.strValue('bar'), '456')
 
-    #@unittest.skip('temporary disable failing test on python:nightly')
     def test_remapKeyRegex(self):
         cfg = configfile.ConfigFile()
         cfg.dict = {'asdf.foo.qwertz': '123',
