@@ -272,7 +272,15 @@ class TestConfigFile(generic.TestCase):
                     'ddd.1.value': 'foo',
                     'ddd.2.value': 'bar',
                     'ddd.4.value': 'baz'}
-        self.assertListEqual(cfg.listValue('ddd', 'str:value'), ['foo', 'bar', 'baz'])
+        self.assertListEqual(cfg.listValue('ddd', 'str:value'),
+                             ['foo', 'bar', 'baz'])
+
+    def test_listValue_empty_list(self):
+        cfg = configfile.ConfigFile()
+        cfg.dict = {'eee.size': '0'}
+        self.assertListEqual(cfg.listValue('eee', 'str:value',
+                                           default = ['foo', 'bar']),
+                             [])
 
     ############################################################################
     ###                           setListValue                             ###

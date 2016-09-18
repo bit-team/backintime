@@ -301,7 +301,7 @@ class ConfigFile(object):
             raise TypeError('Invalid type_key: %s' %tk)
 
         size = self.intValue('%s.size' %key, -1)
-        if size <= 0:
+        if size < 0:
             return default
 
         ret = []
