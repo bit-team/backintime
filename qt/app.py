@@ -1039,6 +1039,12 @@ class MainWindow(QMainWindow):
                          'Using "rsync --update" option.'))
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'only_new'}
 
+    def listRestorePaths(self, paths):
+        fileList = QListWidget()
+        fileList.addItems(paths)
+        fileList.setSelectionMode(QAbstractItemView.NoSelection)
+        return {'widget': fileList, 'retFunc': None}
+
     def confirmDeleteOnRestore(self, paths, warn_root = False):
         msg = _('Are you sure you want to remove all newer files in your '
                 'original folder?')
@@ -1047,22 +1053,21 @@ class MainWindow(QMainWindow):
             msg += _('WARNING: deleting files in filesystem root could break your whole system!!!')
         msg += '\n\n'
         msg += _('Files to be restored:')
-        msg += '\n'
-        msg += '\n'.join(paths)
 
         confirm, opt = messagebox.warningYesNoOptions(self,
                                                       msg,
-                                                      (self.backupOnRestore(),
+                                                      (self.listRestorePaths(paths),
+                                                       self.backupOnRestore(),
                                                        self.restoreOnlyNew()))
         return (confirm, opt)
 
     def confirmRestore(self, paths):
         msg = _('Do you really want to restore this files(s):')
-        msg += '\n'
-        msg += '\n'.join(paths)
+
         confirm, opt = messagebox.warningYesNoOptions(self,
                                                       msg,
-                                                      (self.backupOnRestore(),
+                                                      (self.listRestorePaths(paths),
+                                                       self.backupOnRestore(),
                                                        self.restoreOnlyNew()))
         return (confirm, opt)
 

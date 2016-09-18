@@ -82,7 +82,7 @@ def warningYesNoOptions(parent, msg, options = ()):
     buttonBox.accepted.connect(dlg.accept)
     buttonBox.rejected.connect(dlg.reject)
     ret = dlg.exec_()
-    return (ret, {opt['id']:opt['retFunc']() for opt in options})
+    return (ret, {opt['id']:opt['retFunc']() for opt in options if opt['retFunc'] is not None})
 
 def showInfo(parent, title, msg):
     dlg = QDialog(parent)
