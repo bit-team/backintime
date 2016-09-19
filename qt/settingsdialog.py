@@ -32,6 +32,7 @@ import qttools
 import mount
 import messagebox
 import snapshots
+import sshtools
 from exceptions import MountException
 
 _=gettext.gettext
@@ -205,10 +206,20 @@ class SettingsDialog(QDialog):
         self.btnSshPrivateKeyFile = QToolButton(self)
         self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.btnSshPrivateKeyFile.setIcon(icon.FOLDER)
-        self.btnSshPrivateKeyFile.setText(_('Key File'))
+        self.btnSshPrivateKeyFile.setToolTip(_('Key File'))
         self.btnSshPrivateKeyFile.setMinimumSize(32,28)
         hlayout3.addWidget(self.btnSshPrivateKeyFile)
         self.btnSshPrivateKeyFile.clicked.connect(self.btnSshPrivateKeyFileClicked)
+
+        self.btnSshKeyGen = QToolButton(self)
+        self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.btnSshKeyGen.setIcon(icon.ADD)
+        self.btnSshKeyGen.setToolTip(_('Create a new SSH key without Password.'))
+        self.btnSshKeyGen.setMinimumSize(32,28)
+        hlayout3.addWidget(self.btnSshKeyGen)
+        self.btnSshKeyGen.clicked.connect(self.btnSshKeyGenClicked)
+        self.txtSshPrivateKeyFile.textChanged.connect(lambda x: self.btnSshKeyGen.setEnabled(not x))
+
         qttools.equalIndent(self.lblSshHost, self.lblSshPath, self.lblSshCipher)
 
         #encfs
@@ -1552,6 +1563,13 @@ class SettingsDialog(QDialog):
         f = qttools.getOpenFileName(self, _('SSH private key'), start_dir)
         if f:
             self.txtSshPrivateKeyFile.setText(f)
+
+    def btnSshKeyGenClicked(self):
+        key = os.path.join(self.config.sshPrivateKeyFolder(), 'id_rsa')
+        if sshtools.sshKeyGen(key):
+            self.txtSshPrivateKeyFile.setText(key)
+        else:
+            self.errorHandler(_('Failed to create new SSH key in %(path)s') %{'path': key})
 
     def comboModesChanged(self, *params):
         if not params:

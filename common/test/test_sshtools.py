@@ -229,3 +229,16 @@ class TestSSH(generic.SSHTestCase):
     def test_randomId(self):
         ssh = sshtools.SSH(cfg = self.cfg)
         self.assertRegex(ssh.randomId(size = 6), r'[A-Z0-9]{6}')
+
+class TestSshKeyGen(generic.TestCase):
+    def test_sshKeyGen(self):
+        with TemporaryDirectory() as tmp:
+            secKey = os.path.join(tmp, 'key')
+            pubKey = secKey + '.pub'
+            # create new key
+            self.assertTrue(sshtools.sshKeyGen(secKey))
+            self.assertTrue(os.path.isfile(secKey))
+            self.assertTrue(os.path.isfile(pubKey))
+
+            # do not overwrite existing keys
+            self.assertFalse(sshtools.sshKeyGen(secKey))

@@ -707,3 +707,19 @@ class SSH(MountControl):
             str:            random string with lenght ``size``
         """
         return ''.join(random.choice(chars) for x in range(size))
+
+def sshKeyGen(keyfile):
+    if os.path.exists(keyfile):
+        logger.warning('SSH keyfile "{}" already exist. Skip creating a new one'.format(keyfile))
+        return False
+    cmd = ['ssh-keygen', '-t', 'rsa', '-N', '', '-f', keyfile]
+    proc = subprocess.Popen(cmd,
+                            stdout = subprocess.DEVNULL,
+                            stderr = subprocess.PIPE,
+                            universal_newlines = True)
+    out, err = proc.communicate()
+    if proc.returncode:
+        logger.error('Failed to create a new ssh-key: {}'.format(err))
+    else:
+        logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
+    return not proc.returncode
