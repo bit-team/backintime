@@ -838,7 +838,7 @@ class Config(configfile.ConfigFileWithProfiles):
         #?\fIprofile<N>.schedule.mode\fR = 30;1 = monday \- 7 = sunday
         return self.profileIntValue('schedule.weekday', 7, profile_id)
 
-    def setScheduleWeekdayD(self, value, profile_id = None):
+    def setScheduleWeekday(self, value, profile_id = None):
         self.setProfileIntValue('schedule.weekday', value, profile_id)
 
     def customBackupTime(self, profile_id = None):

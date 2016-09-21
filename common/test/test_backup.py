@@ -1,0 +1,123 @@
+# Back In Time
+# Copyright (C) 2016 Germar Reitze
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public Licensealong
+# with this program; if not, write to the Free Software Foundation,Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+import os
+import sys
+import unittest
+from unittest.mock import patch
+from datetime import date, datetime
+from test import generic
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import snapshots
+from applicationinstance import ApplicationInstance
+from pluginmanager import PluginManager
+
+class TestBackup(generic.SnapshotsTestCase):
+    @patch('time.sleep') # speed up unittest
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_backup(self, takeSnapshot, sleep):
+        takeSnapshot.return_value = [True, False]
+        self.assertTrue(self.sn.backup())
+
+        self.assertEqual(takeSnapshot.call_count, 1)
+        self.assertIsInstance(takeSnapshot.call_args[0][0], snapshots.SID)
+        self.assertIsInstance(takeSnapshot.call_args[0][1], datetime)
+        self.assertIsInstance(takeSnapshot.call_args[0][2], list)
+
+    @patch('time.sleep') # speed up unittest
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_no_changes(self, takeSnapshot, sleep):
+        takeSnapshot.return_value = [False, False]
+        self.assertFalse(self.sn.backup())
+        self.assertTrue(takeSnapshot.called)
+
+        sid = takeSnapshot.call_args[0][0]
+        newSnapshot = snapshots.NewSnapshot(self.cfg)
+        self.assertFalse(newSnapshot.exists())
+        self.assertFalse(sid.exists())
+
+    @patch('time.sleep') # speed up unittest
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_with_errors(self, takeSnapshot, sleep):
+        takeSnapshot.return_value = [False, True]
+        self.assertFalse(self.sn.backup())
+        self.assertTrue(takeSnapshot.called)
+
+    @patch('time.sleep') # speed up unittest
+    @patch('tools.onBattery')
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_no_backup_on_battery(self, takeSnapshot, onBattery, sleep):
+        self.cfg.setNoSnapshotOnBattery(True)
+        takeSnapshot.return_value = [True, False]
+
+        # run on battery
+        onBattery.return_value = True
+        self.assertFalse(self.sn.backup(force = False))
+        self.assertFalse(takeSnapshot.called)
+
+        # force run
+        self.assertTrue(self.sn.backup(force = True))
+        self.assertTrue(takeSnapshot.called)
+        takeSnapshot.reset_mock()
+
+        # ignore Battery
+        self.cfg.setNoSnapshotOnBattery(False)
+        self.assertTrue(self.sn.backup(force = False))
+        self.assertTrue(takeSnapshot.called)
+
+    @patch('time.sleep') # speed up unittest
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_scheduled(self, takeSnapshot, sleep):
+        # first run should create a timestamp
+        takeSnapshot.return_value = [True, False]
+        self.assertTrue(self.sn.backup(force = False))
+        self.assertTrue(takeSnapshot.called)
+        self.assertTrue(os.path.exists(self.cfg.anacronSpoolFile()))
+        takeSnapshot.reset_mock()
+
+        # second run doesn't use an anacron-like schedule
+        self.assertTrue(self.sn.backup(force = False))
+        self.assertTrue(takeSnapshot.called)
+        takeSnapshot.reset_mock()
+
+        # third run uses anacron-like schedule so it should not run
+        self.cfg.setScheduleMode(self.cfg.REPEATEDLY)
+        self.assertFalse(self.sn.backup(force = False))
+        self.assertFalse(takeSnapshot.called)
+
+        # finally force
+        self.assertTrue(self.sn.backup(force = True))
+        self.assertTrue(takeSnapshot.called)
+
+    @patch('time.sleep') # speed up unittest
+    @patch.object(ApplicationInstance, 'check')
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_already_running(self, takeSnapshot, check, sleep):
+        check.return_value = False
+        takeSnapshot.return_value = [True, False]
+        self.assertFalse(self.sn.backup(force = False))
+        self.assertFalse(takeSnapshot.called)
+
+    @patch('time.sleep') # speed up unittest
+    @patch.object(PluginManager, 'processBegin')
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_plugin_prevented_backup(self, takeSnapshot, processBegin, sleep):
+        processBegin.return_value = False
+        takeSnapshot.return_value = [True, False]
+        self.assertFalse(self.sn.backup(force = False))
+        self.assertFalse(takeSnapshot.called)

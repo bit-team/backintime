@@ -1252,7 +1252,7 @@ class SettingsDialog(QDialog):
         #schedule
         self.config.setScheduleMode(self.comboSchedule.itemData(self.comboSchedule.currentIndex()))
         self.config.setScheduleTime(self.comboScheduleTime.itemData(self.comboScheduleTime.currentIndex()))
-        self.config.setScheduleWeekdayD(self.comboScheduleWeekday.itemData(self.comboScheduleWeekday.currentIndex()))
+        self.config.setScheduleWeekday(self.comboScheduleWeekday.itemData(self.comboScheduleWeekday.currentIndex()))
         self.config.setScheduleDay(self.comboScheduleDay.itemData(self.comboScheduleDay.currentIndex()))
         self.config.setCustomBackupTime(self.txtScheduleCronPatern.text())
         self.config.setScheduleRepeatedPeriod(self.spbScheduleRepeatedPeriod.value())

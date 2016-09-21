@@ -34,13 +34,13 @@ from tempfile import TemporaryDirectory
 import config
 import configfile
 import logger
-import applicationinstance
 import tools
 import encfstools
 import mount
 import progress
 import bcolors
 import snapshotlog
+from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 
 _=gettext.gettext
@@ -152,11 +152,11 @@ class Snapshots:
                          self)
 
     def busy(self):
-        instance = applicationinstance.ApplicationInstance(self.config.takeSnapshotInstanceFile(), False)
+        instance = ApplicationInstance(self.config.takeSnapshotInstanceFile(), False)
         return instance.busy()
 
     def pid(self):
-        instance = applicationinstance.ApplicationInstance(self.config.takeSnapshotInstanceFile(), False)
+        instance = ApplicationInstance(self.config.takeSnapshotInstanceFile(), False)
         return instance.readPidFile()[0]
 
     def clearNameCache(self):
@@ -423,7 +423,7 @@ class Snapshots:
                                         or are newer than those in destination.
                                         Using "rsync --update" option.
         """
-        instance = applicationinstance.ApplicationInstance(self.config.restoreInstanceFile(), False, flock = True)
+        instance = ApplicationInstance(self.config.restoreInstanceFile(), False, flock = True)
         if instance.check():
             instance.startApplication()
         else:
@@ -611,8 +611,8 @@ class Snapshots:
             logger.info('Profile "%s" is not scheduled to run now.'
                         %self.config.profileName(), self)
         else:
-            instance = applicationinstance.ApplicationInstance(self.config.takeSnapshotInstanceFile(), False, flock = True)
-            restore_instance = applicationinstance.ApplicationInstance(self.config.restoreInstanceFile(), False)
+            instance = ApplicationInstance(self.config.takeSnapshotInstanceFile(), False, flock = True)
+            restore_instance = ApplicationInstance(self.config.restoreInstanceFile(), False)
             if not instance.check():
                 logger.warning('A backup is already running.  The pid of the \
 already running backup is in file %s.  Maybe delete it' % instance.pidFile , self )
@@ -953,7 +953,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         new_snapshot = NewSnapshot(self.config)
         encode = self.config.ENCODE
-        params = [False, False]
+        params = [False, False] # [error, changes]
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
             logger.info("Found leftover '%s' which can be continued." %new_snapshot.displayID, self)
@@ -1030,6 +1030,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         #handle errors
         has_errors = False
+        # params[0] -> error
         if params[0]:
             if not self.config.continueOnErrors():
                 self.remove(new_snapshot)
@@ -1038,6 +1039,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             has_errors = True
             new_snapshot.failed = True
 
+        # params[1] -> changes
         if not params[1] and not self.config.takeSnapshotRegardlessOfChanges():
             self.remove(new_snapshot)
             logger.info("Nothing changed, no new snapshot necessary", self)
