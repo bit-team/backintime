@@ -17,12 +17,13 @@
 
 import os
 import sys
-import unittest
 import shutil
 import stat
 import pwd
 import grp
 import re
+import unittest
+from unittest.mock import patch
 from datetime import date, datetime
 from threading import Thread
 from tempfile import TemporaryDirectory
@@ -192,6 +193,14 @@ class TestSnapshots(generic.SnapshotsTestCase):
 
     def test_statFreeSpaceLocal(self):
         self.assertIsInstance(self.sn.statFreeSpaceLocal('/'), int)
+
+    @patch('time.sleep') # speed up unittest
+    def test_makeDirs(self, sleep):
+        self.assertFalse(self.sn.makeDirs('/'))
+        self.assertTrue(self.sn.makeDirs(os.getcwd()))
+        with TemporaryDirectory() as d:
+            path = os.path.join(d, 'foo', 'bar')
+            self.assertTrue(self.sn.makeDirs(path))
 
     ############################################################################
     ###                   rsync Ex-/Include and suffix                       ###

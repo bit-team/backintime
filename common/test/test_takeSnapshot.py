@@ -17,8 +17,9 @@
 
 import os
 import sys
-import unittest
 import stat
+import unittest
+from unittest.mock import patch
 from datetime import date, datetime, timedelta
 from tempfile import TemporaryDirectory
 from test import generic
@@ -44,7 +45,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
     def getInode(self, sid):
         return os.stat(sid.pathBackup(os.path.join(self.include.name, 'test'))).st_ino
 
-    def test_takeSnapshot(self):
+    @patch('time.sleep') # speed up unittest
+    def test_takeSnapshot(self, sleep):
         now = datetime.today() - timedelta(minutes = 6)
         sid1 = snapshots.SID(now, self.cfg)
 
@@ -97,7 +99,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         self.assertTrue(sid4.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
         self.assertTrue(sid4.canOpenPath(os.path.join(self.include.name, 'test')))
 
-    def test_takeSnapshot_with_spaces_in_include(self):
+    @patch('time.sleep') # speed up unittest
+    def test_takeSnapshot_with_spaces_in_include(self, sleep):
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
         include = os.path.join(self.include.name, 'test path with spaces')
@@ -117,7 +120,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'save_to_continue'):
             self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
 
-    def test_takeSnapshot_exclude(self):
+    @patch('time.sleep') # speed up unittest
+    def test_takeSnapshot_exclude(self, sleep):
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
         self.cfg.setExclude(['bar/baz'])
@@ -137,7 +141,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'save_to_continue'):
             self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
 
-    def test_takeSnapshot_with_spaces_in_exclude(self):
+    @patch('time.sleep') # speed up unittest
+    def test_takeSnapshot_with_spaces_in_exclude(self, sleep):
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
         exclude = os.path.join(self.include.name, 'test path with spaces')
@@ -159,7 +164,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'save_to_continue'):
             self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
 
-    def test_takeSnapshot_error(self):
+    @patch('time.sleep') # speed up unittest
+    def test_takeSnapshot_error(self, sleep):
         os.chmod(os.path.join(self.include.name, 'test'), 0o000)
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
@@ -175,7 +181,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'failed'):
             self.assertTrue(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
 
-    def test_takeSnapshot_error_without_continue(self):
+    @patch('time.sleep') # speed up unittest
+    def test_takeSnapshot_error_without_continue(self, sleep):
         os.chmod(os.path.join(self.include.name, 'test'), 0o000)
         self.cfg.setContinueOnErrors(False)
         now = datetime.today()
@@ -184,7 +191,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         self.assertListEqual([False, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
         self.assertFalse(sid1.exists())
 
-    def test_takeSnapshot_new_exists(self):
+    @patch('time.sleep') # speed up unittest
+    def test_takeSnapshot_new_exists(self, sleep):
         new_snapshot = snapshots.NewSnapshot(self.cfg)
         new_snapshot.makeDirs()
         with open(new_snapshot.path('leftover'), 'wt') as f:
@@ -197,7 +205,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         self.assertTrue(sid1.exists())
         self.assertFalse(os.path.exists(sid1.path('leftover')))
 
-    def test_takeSnapshot_new_exists_continue(self):
+    @patch('time.sleep') # speed up unittest
+    def test_takeSnapshot_new_exists_continue(self, sleep):
         new_snapshot = snapshots.NewSnapshot(self.cfg)
         new_snapshot.makeDirs()
         with open(new_snapshot.path('leftover'), 'wt') as f:
@@ -211,7 +220,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         self.assertTrue(sid1.exists())
         self.assertTrue(os.path.exists(sid1.path('leftover')))
 
-    def test_takeSnapshot_fail_create_new_snapshot(self):
+    @patch('time.sleep') # speed up unittest
+    def test_takeSnapshot_fail_create_new_snapshot(self, sleep):
         os.chmod(self.snapshotPath, 0o500)
         now = datetime.today()
         sid1 = snapshots.SID(now, self.cfg)
