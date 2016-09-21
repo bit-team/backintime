@@ -23,9 +23,12 @@ from datetime import date, datetime
 from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import config
 import snapshots
 from applicationinstance import ApplicationInstance
 from pluginmanager import PluginManager
+from mount import Mount
+from exceptions import MountException
 
 class TestBackup(generic.SnapshotsTestCase):
     @patch('time.sleep') # speed up unittest
@@ -56,7 +59,6 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_with_errors(self, takeSnapshot, sleep):
         takeSnapshot.return_value = [False, True]
         self.assertFalse(self.sn.backup())
-        self.assertTrue(takeSnapshot.called)
 
     @patch('time.sleep') # speed up unittest
     @patch('tools.onBattery')
@@ -110,7 +112,7 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_already_running(self, takeSnapshot, check, sleep):
         check.return_value = False
         takeSnapshot.return_value = [True, False]
-        self.assertFalse(self.sn.backup(force = False))
+        self.assertFalse(self.sn.backup())
         self.assertFalse(takeSnapshot.called)
 
     @patch('time.sleep') # speed up unittest
@@ -119,5 +121,52 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_plugin_prevented_backup(self, takeSnapshot, processBegin, sleep):
         processBegin.return_value = False
         takeSnapshot.return_value = [True, False]
-        self.assertFalse(self.sn.backup(force = False))
+        self.assertFalse(self.sn.backup())
         self.assertFalse(takeSnapshot.called)
+
+    @patch('time.sleep') # speed up unittest
+    @patch.object(config.Config, 'isConfigured')
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_not_configured(self, takeSnapshot, isConfigured, sleep):
+        isConfigured.return_value = False
+        takeSnapshot.return_value = [True, False]
+        self.assertFalse(self.sn.backup())
+        self.assertFalse(takeSnapshot.called)
+
+    @patch('time.sleep') # speed up unittest
+    @patch.object(Mount, 'mount')
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_mount_exception(self, takeSnapshot, mount, sleep):
+        mount.side_effect = MountException()
+        takeSnapshot.return_value = [True, False]
+        self.assertFalse(self.sn.backup())
+        self.assertFalse(takeSnapshot.called)
+
+    @patch('time.sleep') # speed up unittest
+    @patch.object(Mount, 'umount')
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_umount_exception(self, takeSnapshot, umount, sleep):
+        umount.side_effect = MountException()
+        takeSnapshot.return_value = [True, False]
+        self.assertTrue(self.sn.backup())
+
+    @patch('time.sleep') # speed up unittest
+    @patch.object(config.Config, 'canBackup')
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_cant_backup(self, takeSnapshot, canBackup, sleep):
+        canBackup.return_value = False
+        takeSnapshot.return_value = [True, False]
+        self.assertFalse(self.sn.backup())
+        self.assertFalse(takeSnapshot.called)
+
+    @patch('time.sleep') # speed up unittest
+    @patch('snapshots.Snapshots.takeSnapshot')
+    def test_takeSnapshot_exception_cleanup(self, takeSnapshot, sleep):
+        takeSnapshot.side_effect = Exception('Boom')
+        new = snapshots.NewSnapshot(self.cfg)
+        new.makeDirs()
+        self.assertTrue(new.exists())
+        with self.assertRaises(Exception):
+            self.sn.backup()
+        self.assertFalse(new.saveToContinue)
+        self.assertTrue(new.failed)

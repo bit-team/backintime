@@ -75,14 +75,8 @@ class TestLogFilter(generic.TestCase):
 
 class TestSnapshotLog(generic.SnapshotsTestCase):
     def setUp(self):
-        self.sharePathObj = TemporaryDirectory()
-        self.sharePath = self.sharePathObj.name
         super(TestSnapshotLog, self).setUp()
         self.logFile = os.path.join(self.cfg._LOCAL_DATA_FOLDER, 'takesnapshot_.log')
-
-    def tearDown(self):
-        self.sharePathObj.cleanup()
-        super(TestSnapshotLog, self).tearDown()
 
     def test_new(self):
         log = snapshotlog.SnapshotLog(self.cfg)

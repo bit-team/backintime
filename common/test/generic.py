@@ -49,7 +49,6 @@ class TestCase(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         os.environ['LANGUAGE'] = 'en_US.UTF-8'
         self.cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
-        self.sharePath = '/tmp/bit'
         logger.APP_NAME = 'BIT_unittest'
         logger.openlog()
         super(TestCase, self).__init__(*args, **kwargs)
@@ -57,6 +56,11 @@ class TestCase(unittest.TestCase):
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv
         self.run = False
+        self.sharePathObj = TemporaryDirectory()
+        self.sharePath = self.sharePathObj.name
+
+    def tearDown(self):
+        self.sharePathObj.cleanup()
 
     def callback(self, func, *args):
         func(*args)
@@ -77,6 +81,7 @@ class TestCaseSnapshotPath(TestCaseCfg):
         self.snapshotPath = self.cfg.snapshotsFullPath()
 
     def tearDown(self):
+        super(TestCaseSnapshotPath, self).tearDown()
         self.tmpDir.cleanup()
 
 class SnapshotsTestCase(TestCaseSnapshotPath):
