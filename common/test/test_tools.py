@@ -78,6 +78,7 @@ class TestTools(generic.TestCase):
         self.subproc = None
 
     def tearDown(self):
+        super(TestTools, self).tearDown()
         self.killProcess()
 
     def createProcess(self, *args):
@@ -626,6 +627,7 @@ class TestToolsEnviron(generic.TestCase):
         os.environ = deepcopy(self.env)
 
     def tearDown(self):
+        super(TestToolsEnviron, self).tearDown()
         if os.path.exists(self.temp_file):
             os.remove(self.temp_file)
         os.environ = deepcopy(self.env)

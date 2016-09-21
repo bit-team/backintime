@@ -124,6 +124,7 @@ class SSHTestCase(TestCaseCfg):
         self.mount_kwargs = {}
 
     def tearDown(self):
+        super(SSHTestCase, self).tearDown()
         self.tmpDir.cleanup()
 
 class SSHSnapshotTestCase(SSHTestCase):

@@ -45,6 +45,7 @@ class TestArgParser(generic.TestCase):
         backintime.createParsers()
 
     def tearDown(self):
+        super(TestArgParser, self).tearDown()
         global parsers
         parsers = {}
 

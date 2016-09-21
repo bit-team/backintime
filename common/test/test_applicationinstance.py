@@ -35,6 +35,7 @@ class TestApplicationInstance(generic.TestCase):
         self.subproc = None
 
     def tearDown(self):
+        super(TestApplicationInstance, self).tearDown()
         for f in (self.temp_file, self.file_name):
             if os.path.exists(f):
                 os.remove(f)
