@@ -47,13 +47,6 @@ NO_GROUPS = not GROUPS
 IS_ROOT = os.geteuid() == 0
 
 class TestSnapshots(generic.SnapshotsTestCase):
-    def setUp(self):
-        super(TestSnapshots, self).setUp()
-
-        for f in (self.cfg.takeSnapshotLogFile(), self.cfg.takeSnapshotMessageFile()):
-            if os.path.exists(f):
-                os.remove(f)
-
     ############################################################################
     ###                              uid                                 ###
     ############################################################################
