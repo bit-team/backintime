@@ -526,11 +526,17 @@ class Decode(object):
 
         #search for: [E] Error: rsync readlink_stat("...mountpoint/<crypted_path>")
         #            [E] Error: rsync: send_files failed to open "...mountpoint/<crypted_path>": Permission denied (13)
-        #            [E] Error: rsync: recv_generator: failed to stat "...mountpoint/<crypted_path>": File name too long (36)
+        #            [E] Error: rsync: recv_generator: failed to stat "<remote_path>/<crypted_path>": File name too long (36)
+        #            [E] Error: rsync: recv_generator: mkdir "<remote_path>/<crypted_path>": File name too long (36)
         pattern = []
         pattern.append(r' rsync: readlink_stat\(".*?mountpoint/')
         pattern.append(r' rsync: send_files failed to open ".*?mountpoint/')
-        pattern.append(r' rsync: recv_generator: failed to stat ".*?mountpoint/')
+        if self.remote_path == './':
+            pattern.append(r' rsync: recv_generator: failed to stat "/home/[^/]*/')
+            pattern.append(r' rsync: recv_generator: mkdir "/home/[^/]*/')
+        else:
+            pattern.append(r' rsync: recv_generator: failed to stat ".*?{}'.format(self.remote_path))
+            pattern.append(r' rsync: recv_generator: mkdir ".*?{}'.format(self.remote_path))
         pattern.append(r' rsync: .*?".*?mountpoint/')
         self.re_error = re.compile(r'(^(?:\[E\] )?Error:(?:%s))(.*?)(".*)' % '|'.join(pattern))
 
