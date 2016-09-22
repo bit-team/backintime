@@ -15,10 +15,11 @@
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import unittest
 import subprocess
 import os
 import sys
+import unittest
+from unittest.mock import patch
 from threading import Thread
 from test import generic
 
@@ -70,6 +71,11 @@ class TestApplicationInstance(generic.TestCase):
 
         with open(self.file_name, 'rt') as file_with_pid:
             self.assertEqual(file_with_pid.read(), '{}\n{}'.format(this_pid, this_procname))
+
+    @patch('builtins.open')
+    def test_write_pid_fail(self, mock_open):
+        mock_open.side_effect = OSError()
+        self.inst.startApplication()
 
     def test_existing_process_with_correct_procname(self):
         """
@@ -205,6 +211,11 @@ class TestApplicationInstance(generic.TestCase):
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
+    @patch('builtins.open')
+    def test_flock_exclusive_fail(self, mock_open):
+        mock_open.side_effect = OSError()
+        self.inst.flockExclusiv()
+
     def test_auto_flock(self):
         self.inst = ApplicationInstance(os.path.abspath(self.file_name),
                                         autoExit = False,
@@ -243,6 +254,21 @@ class TestApplicationInstance(generic.TestCase):
         with self.assertRaises(SystemExit):
             self.inst = ApplicationInstance(os.path.abspath(self.file_name),
                                             autoExit = True)
+
+    def test_readPidFile(self):
+        with open(self.file_name, "wt") as f:
+            f.write('123\nfoo')
+        self.assertEqual(self.inst.readPidFile(), (123, 'foo'))
+
+        # ValueError
+        with open(self.file_name, "wt") as f:
+            f.write('foo\nbar')
+        self.assertEqual(self.inst.readPidFile(), (0, 'bar'))
+
+    @patch('builtins.open')
+    def test_readPidFile_fail(self, mock_open):
+        mock_open.side_effect = OSError()
+        self.assertEqual(self.inst.readPidFile(), (0, ''))
 
 # Execute tests if this programm is call with python TestApplicationInstance.py
 if __name__ == '__main__':

@@ -15,7 +15,6 @@
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import unittest
 import os
 import sys
 import subprocess
@@ -23,6 +22,8 @@ import random
 import gzip
 import stat
 import signal
+import unittest
+from unittest.mock import patch
 from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 from datetime import datetime
@@ -236,6 +237,12 @@ class TestTools(generic.TestCase):
         stat = tools.processStat(pid)
         self.assertRegex(stat, r'{} \({}\) \w .*'.format(pid, generic.DUMMY[:15]))
 
+    @patch('builtins.open')
+    def test_processStat_exception(self, mock_open):
+        mock_open.side_effect = OSError()
+        pid = self.createProcess()
+        self.assertEqual(tools.processStat(pid), '')
+
     def test_processPaused(self):
         pid = self.createProcess()
         self.assertFalse(tools.processPaused(pid))
@@ -258,6 +265,12 @@ class TestTools(generic.TestCase):
         pid = self.createProcess('foo', 'bar')
         self.assertRegex(tools.processCmdline(pid),
                          r'.*/sh.*/common/test/dummy_test_process\.sh.foo.bar')
+
+    @patch('builtins.open')
+    def test_processCmdline_exception(self, mock_open):
+        mock_open.side_effect = OSError()
+        pid = self.createProcess()
+        self.assertEqual(tools.processCmdline(pid), '')
 
     def test_pidsWithName(self):
         self.assertEqual(len(tools.pidsWithName('nonExistingProcess')), 0)
