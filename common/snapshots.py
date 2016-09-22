@@ -448,9 +448,9 @@ class Snapshots:
             cmd_prefix.extend(('--backup', '--suffix=%s' %self.backupSuffix()))
         if delete:
             cmd_prefix.append('--delete')
-            cmd_prefix.append('--filter="protect %s"' % self.config.snapshotsPath())
-            cmd_prefix.append('--filter="protect %s"' % self.config._LOCAL_DATA_FOLDER)
-            cmd_prefix.append('--filter="protect %s"' % self.config._MOUNT_ROOT)
+            cmd_prefix.append('--filter=protect %s' % self.config.snapshotsPath())
+            cmd_prefix.append('--filter=protect %s' % self.config._LOCAL_DATA_FOLDER)
+            cmd_prefix.append('--filter=protect %s' % self.config._MOUNT_ROOT)
         if only_new:
             cmd_prefix.append('--update')
 

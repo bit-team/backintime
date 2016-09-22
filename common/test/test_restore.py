@@ -20,6 +20,7 @@ import sys
 import unittest
 import pwd
 import grp
+import stat
 from tempfile import TemporaryDirectory
 from test import generic
 
@@ -43,9 +44,6 @@ class TestRestore(generic.SnapshotsWithSidTestCase):
     def tearDown(self):
         super(TestRestore, self).tearDown()
         self.include.cleanup()
-
-    def remount(self):
-        pass
 
     def prepairFileInfo(self, restoreFile, mode = 33260):
         d = self.sid.fileInfo
@@ -94,18 +92,84 @@ class TestRestore(generic.SnapshotsWithSidTestCase):
     def test_restore_to_different_destination(self):
         restoreFile = os.path.join(self.include.name, 'test')
         self.prepairFileInfo(restoreFile)
-        dest = TemporaryDirectory()
-        # destRestoreFile = restoreFile
-        destRestoreFile = os.path.join(dest.name, 'test')
-        # self.remount()
-        #
-        # self.assertTrue(self.sid.canOpenPath(restoreFile))
-        # self.fail('include: {} | dest: {} | content: {}'.format(self.include.name, dest.name, os.listdir(self.include.name)))
-        self.sn.restore(self.sid, restoreFile, restore_to = dest.name)
-        self.assertTrue(os.path.isfile(destRestoreFile))
-        with open(destRestoreFile, 'rt') as f:
+        with TemporaryDirectory() as dest:
+            destRestoreFile = os.path.join(dest, 'test')
+            self.sn.restore(self.sid, restoreFile, restore_to = dest)
+            self.assertTrue(os.path.isfile(destRestoreFile))
+            with open(destRestoreFile, 'rt') as f:
+                self.assertEqual(f.read(), 'bar')
+            self.assertEqual(33260, os.stat(destRestoreFile).st_mode)
+
+    def test_restore_folder_to_different_destination(self):
+        restoreFolder = self.include.name
+        self.prepairFileInfo(restoreFolder)
+        self.prepairFileInfo(os.path.join(restoreFolder, 'test'))
+        self.prepairFileInfo(os.path.join(restoreFolder, 'file with spaces'))
+
+        with TemporaryDirectory() as dest:
+            destRestoreFile = os.path.join(dest, os.path.basename(restoreFolder), 'test')
+            self.sn.restore(self.sid, restoreFolder, restore_to = dest)
+            self.assertTrue(os.path.isfile(destRestoreFile))
+            with open(destRestoreFile, 'rt') as f:
+                self.assertEqual(f.read(), 'bar')
+            self.assertEqual(33260, os.stat(destRestoreFile).st_mode)
+
+    def test_delete(self):
+        restoreFolder = self.include.name
+        junkFolder = os.path.join(self.include.name, 'junk')
+        os.makedirs(junkFolder)
+        self.assertTrue(os.path.exists(junkFolder))
+        self.prepairFileInfo(restoreFolder)
+
+        self.sn.restore(self.sid, restoreFolder, delete = True)
+        self.assertTrue(os.path.isfile(os.path.join(restoreFolder, 'test')))
+        self.assertFalse(os.path.exists(junkFolder))
+
+    def test_backup(self):
+        restoreFile = os.path.join(self.include.name, 'test')
+        self.prepairFileInfo(restoreFile)
+        with open(restoreFile, 'wt') as f:
+            f.write('fooooooooooooooooooo')
+
+        self.sn.restore(self.sid, restoreFile, backup = True)
+        self.assertTrue(os.path.isfile(restoreFile))
+        with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'bar')
-        self.assertEqual(33260, os.stat(destRestoreFile).st_mode)
+        backupFile = restoreFile + self.sn.backupSuffix()
+        self.assertTrue(os.path.isfile(backupFile))
+        with open(backupFile, 'rt') as f:
+            self.assertEqual(f.read(), 'fooooooooooooooooooo')
+
+    def test_no_backup(self):
+        restoreFile = os.path.join(self.include.name, 'test')
+        self.prepairFileInfo(restoreFile)
+        with open(restoreFile, 'wt') as f:
+            f.write('fooooooooooooooooooo')
+
+        self.sn.restore(self.sid, restoreFile, backup = False)
+        self.assertTrue(os.path.isfile(restoreFile))
+        with open(restoreFile, 'rt') as f:
+            self.assertEqual(f.read(), 'bar')
+        backupFile = restoreFile + self.sn.backupSuffix()
+        self.assertFalse(os.path.isfile(backupFile))
+
+    def test_only_new(self):
+        restoreFile = os.path.join(self.include.name, 'test')
+        self.prepairFileInfo(restoreFile)
+        with open(restoreFile, 'wt') as f:
+            f.write('fooooooooooooooooooo')
+
+        # change mtime to be newer than the one in snapshot
+        st = os.stat(restoreFile)
+        atime = st[stat.ST_ATIME]
+        mtime = st[stat.ST_MTIME]
+        new_mtime = mtime + 3600
+        os.utime(restoreFile, (atime, new_mtime))
+
+        self.sn.restore(self.sid, restoreFile, only_new = True)
+        self.assertTrue(os.path.isfile(restoreFile))
+        with open(restoreFile, 'rt') as f:
+            self.assertEqual(f.read(), 'fooooooooooooooooooo')
 
 @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
 class TestRestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestore):
@@ -123,8 +187,3 @@ class TestRestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestore):
         super(TestRestoreSSH, self).tearDown()
 
         self.include.cleanup()
-
-    def remount(self):
-        mount.Mount(cfg = self.cfg).umount(self.cfg.current_hash_id)
-        hash_id = mount.Mount(cfg = self.cfg).mount()
-
