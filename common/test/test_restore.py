@@ -35,14 +35,14 @@ CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
 CURRENTGID = os.getegid()
 CURRENTGROUP = grp.getgrgid(CURRENTGID).gr_name
 
-class TestRestore(generic.SnapshotsWithSidTestCase):
+class RestoreTestCase(generic.SnapshotsWithSidTestCase):
     def setUp(self):
-        super(TestRestore, self).setUp()
+        super(RestoreTestCase, self).setUp()
         self.include = TemporaryDirectory()
         generic.create_test_files(self.sid.pathBackup(self.include.name))
 
     def tearDown(self):
-        super(TestRestore, self).tearDown()
+        super(RestoreTestCase, self).tearDown()
         self.include.cleanup()
 
     def prepairFileInfo(self, restoreFile, mode = 33260):
@@ -52,26 +52,7 @@ class TestRestore(generic.SnapshotsWithSidTestCase):
                                                      CURRENTGROUP.encode('utf-8', 'replace'))
         self.sid.fileInfo = d
 
-    def test_restore(self):
-        restoreFile = os.path.join(self.include.name, 'test')
-        self.prepairFileInfo(restoreFile)
-
-        self.sn.restore(self.sid, restoreFile)
-        self.assertTrue(os.path.isfile(restoreFile))
-        with open(restoreFile, 'rt') as f:
-            self.assertEqual(f.read(), 'bar')
-        self.assertEqual(33260, os.stat(restoreFile).st_mode)
-
-    def test_restore_file_with_spaces(self):
-        restoreFile = os.path.join(self.include.name, 'file with spaces')
-        self.prepairFileInfo(restoreFile)
-
-        self.sn.restore(self.sid, restoreFile)
-        self.assertTrue(os.path.isfile(restoreFile))
-        with open(restoreFile, 'rt') as f:
-            self.assertEqual(f.read(), 'asdf')
-        self.assertEqual(33260, os.stat(restoreFile).st_mode)
-
+class TestRestore(RestoreTestCase):
     def test_restore_multiple_files(self):
         restoreFile1 = os.path.join(self.include.name, 'test')
         self.prepairFileInfo(restoreFile1)
@@ -171,8 +152,32 @@ class TestRestore(generic.SnapshotsWithSidTestCase):
         with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'fooooooooooooooooooo')
 
+class TestRestoreLocal(RestoreTestCase):
+    """
+    Tests which should run on local and ssh profile
+    """
+    def test_restore(self):
+        restoreFile = os.path.join(self.include.name, 'test')
+        self.prepairFileInfo(restoreFile)
+
+        self.sn.restore(self.sid, restoreFile)
+        self.assertTrue(os.path.isfile(restoreFile))
+        with open(restoreFile, 'rt') as f:
+            self.assertEqual(f.read(), 'bar')
+        self.assertEqual(33260, os.stat(restoreFile).st_mode)
+
+    def test_restore_file_with_spaces(self):
+        restoreFile = os.path.join(self.include.name, 'file with spaces')
+        self.prepairFileInfo(restoreFile)
+
+        self.sn.restore(self.sid, restoreFile)
+        self.assertTrue(os.path.isfile(restoreFile))
+        with open(restoreFile, 'rt') as f:
+            self.assertEqual(f.read(), 'asdf')
+        self.assertEqual(33260, os.stat(restoreFile).st_mode)
+
 @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
-class TestRestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestore):
+class TestRestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestoreLocal):
     def setUp(self):
         super(TestRestoreSSH, self).setUp()
         self.include = TemporaryDirectory()
