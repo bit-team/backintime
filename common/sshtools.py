@@ -735,7 +735,7 @@ def sshKeyGen(keyfile):
         logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
     return not proc.returncode
 
-def sshCopyId(pubkey, user, host, askPass = 'backintime-askpass'): #port = '22', 
+def sshCopyId(pubkey, user, host, askPass = 'backintime-askpass'): #port = '22',
     """
     Copy SSH public key ``pubkey`` to remote ``host``.
 
@@ -767,7 +767,7 @@ def sshCopyId(pubkey, user, host, askPass = 'backintime-askpass'): #port = '22',
                             universal_newlines = True)
     out, err = proc.communicate()
     if proc.returncode:
-        logger.error('Failed to copy ssh-key "{}" to remote host "{}": [{}] {}'.format(pubkey, host, proc.returncode, err))
+        logger.error('Failed to copy ssh-key "{}" to "{}@{}": [{}] {}'.format(pubkey, user, host, proc.returncode, err))
     else:
-        logger.info('Successfully copied ssh-key "{}" to remote host "{}"'.format(pubkey, host))
+        logger.info('Successfully copied ssh-key "{}" to "{}@{}"'.format(pubkey, user, host))
     return not proc.returncode
