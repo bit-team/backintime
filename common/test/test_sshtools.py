@@ -20,6 +20,7 @@ import sys
 import subprocess
 import stat
 import shutil
+import getpass
 import unittest
 from tempfile import TemporaryDirectory
 from test import generic
@@ -244,7 +245,7 @@ class TestSshKey(generic.TestCaseCfg):
             # do not overwrite existing keys
             self.assertFalse(sshtools.sshKeyGen(secKey))
 
-    @unittest.skipIf(not generic.ON_TRAVIS, 'Using hard coded password for Travis-ci. Does not work outside Travis')
+    @unittest.skipIf(getpass.getuser() != 'germar', 'Password login does not work on Travis-ci.')
     def test_sshCopyId(self):
         with TemporaryDirectory() as tmp:
             secKey = os.path.join(tmp, 'key')
