@@ -264,7 +264,6 @@ class TestSshKey(generic.TestCase):
             try:
                 # test copy pubKey
                 self.assertTrue(sshtools.sshCopyId(pubKey, 'travis', 'localhost',
-                                                   port = '22',
                                                    askPass = 'test/mock_askpass'))
 
                 self.assertTrue(os.path.exists(authKeys))

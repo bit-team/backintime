@@ -735,7 +735,7 @@ def sshKeyGen(keyfile):
         logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
     return not proc.returncode
 
-def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass'):
+def sshCopyId(pubkey, user, host, askPass = 'backintime-askpass'): #port = '22', 
     """
     Copy SSH public key ``pubkey`` to remote ``host``.
 
@@ -757,7 +757,7 @@ def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass'):
     env['ASKPASS_MODE'] = 'USER'
     env['ASKPASS_PROMPT'] = _('Copy public ssh-key "%(pubkey)s" to remote host "%(host)s".\nPlease enter password for "%(user)s":')\
                             %{'pubkey': pubkey, 'host': host, 'user': user}
-    cmd = ['ssh-copy-id', '-i', pubkey, '-p', port, '{}@{}'.format(user,host)]
+    cmd = ['ssh-copy-id', '-i', pubkey, '{}@{}'.format(user,host)] #'-p', port,
     proc = subprocess.Popen(cmd, env = env,
                             stdout = subprocess.DEVNULL,
                             stderr = subprocess.PIPE,
