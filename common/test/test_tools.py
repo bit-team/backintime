@@ -540,26 +540,6 @@ class TestTools(generic.TestCase):
     def test_unInhibitSuspend(self):
         pass
 
-    @unittest.skipIf(not tools.checkCommand('ssh-keygen'),
-                     "'ssh-keygen' not found.")
-    def test_sshKeyFingerprint(self):
-        self.assertIsNone(tools.sshKeyFingerprint(os.path.abspath(__file__)))
-
-        with TemporaryDirectory() as d:
-            key = os.path.join(d, 'key')
-            cmd = ['ssh-keygen', '-q', '-N', '', '-f', key]
-            proc = subprocess.Popen(cmd)
-            proc.communicate()
-
-            fingerprint = tools.sshKeyFingerprint(key)
-            self.assertIsInstance(fingerprint, str)
-            if fingerprint.startswith('SHA256'):
-                self.assertEqual(len(fingerprint), 50)
-                self.assertRegex(fingerprint, r'^SHA256:[a-zA-Z0-9/+]+$')
-            else:
-                self.assertEqual(len(fingerprint), 47)
-                self.assertRegex(fingerprint, r'^[a-fA-F0-9:]+$')
-
     @unittest.skipIf(not tools.checkCommand('crontab'),
                      "'crontab' not found.")
     def test_readWriteCrontab(self):

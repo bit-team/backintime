@@ -274,3 +274,23 @@ class TestSshKey(generic.TestCaseCfg):
                 # restore original ~/.ssh/authorized_keys file without test pubKey
                 if os.path.exists(authKeysSic):
                     shutil.copyfile(authKeysSic, authKeys)
+
+    @unittest.skipIf(not tools.checkCommand('ssh-keygen'),
+                     "'ssh-keygen' not found.")
+    def test_sshKeyFingerprint(self):
+        self.assertIsNone(sshtools.sshKeyFingerprint(os.path.abspath(__file__)))
+
+        with TemporaryDirectory() as d:
+            key = os.path.join(d, 'key')
+            cmd = ['ssh-keygen', '-q', '-N', '', '-f', key]
+            proc = subprocess.Popen(cmd)
+            proc.communicate()
+
+            fingerprint = sshtools.sshKeyFingerprint(key)
+            self.assertIsInstance(fingerprint, str)
+            if fingerprint.startswith('SHA256'):
+                self.assertEqual(len(fingerprint), 50)
+                self.assertRegex(fingerprint, r'^SHA256:[a-zA-Z0-9/+]+$')
+            else:
+                self.assertEqual(len(fingerprint), 47)
+                self.assertRegex(fingerprint, r'^[a-fA-F0-9:]+$')

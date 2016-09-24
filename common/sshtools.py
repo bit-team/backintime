@@ -117,7 +117,7 @@ class SSH(MountControl):
         self.symlink_subfolder = None
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
 
-        self.private_key_fingerprint = tools.sshKeyFingerprint(self.private_key_file)
+        self.private_key_fingerprint = sshKeyFingerprint(self.private_key_file)
         if not self.private_key_fingerprint:
             logger.warning('Couldn\'t get fingerprint for private key %(path)s. '
                            'Most likely because the public key %(path)s.pub wasn\'t found. '
@@ -771,3 +771,22 @@ def sshCopyId(pubkey, user, host, askPass = 'backintime-askpass'): #port = '22',
     else:
         logger.info('Successfully copied ssh-key "{}" to "{}@{}"'.format(pubkey, user, host))
     return not proc.returncode
+
+def sshKeyFingerprint(path):
+    """
+    Get the hex fingerprint from a given ssh key.
+
+    Args:
+        path (str): full path to key file
+
+    Returns:
+        str:        hex fingerprint from key
+    """
+    if not os.path.exists(path):
+        return
+    cmd = ['ssh-keygen', '-l', '-f', path]
+    proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
+    output = proc.communicate()[0]
+    m = re.match(b'\d+\s+(SHA256:\S+|[a-fA-F0-9:]+)\s.*', output)
+    if m:
+        return m.group(1).decode('UTF-8')

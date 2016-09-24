@@ -1173,25 +1173,6 @@ def unInhibitSuspend(cookie, bus, dbus_props):
         logger.warning('Release inhibit Suspend failed.')
         return (cookie, bus, dbus_props)
 
-def sshKeyFingerprint(path):
-    """
-    Get the hex fingerprint from a given ssh key.
-
-    Args:
-        path (str): full path to key file
-
-    Returns:
-        str:        hex fingerprint from key
-    """
-    if not os.path.exists(path):
-        return
-    cmd = ['ssh-keygen', '-l', '-f', path]
-    proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
-    output = proc.communicate()[0]
-    m = re.match(b'\d+\s+(SHA256:\S+|[a-fA-F0-9:]+)\s.*', output)
-    if m:
-        return m.group(1).decode('UTF-8')
-
 def readCrontab():
     """
     Read users crontab.
