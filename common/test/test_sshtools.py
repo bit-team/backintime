@@ -268,7 +268,7 @@ class TestSshKey(generic.TestCase):
             try:
                 # test copy pubKey
                 mock_env.return_value = self.patched_env
-                self.assertTrue(sshtools.sshCopyId(pubKey, 'travis', 'localhost'))
+                self.assertTrue(sshtools.sshCopyId(pubKey, 'travis', 'localhost', '22'))
 
                 self.assertTrue(os.path.exists(authKeys))
                 with open(authKeys, 'rt') as f:
