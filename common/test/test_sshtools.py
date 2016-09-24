@@ -21,7 +21,6 @@ import subprocess
 import stat
 import shutil
 import unittest
-from unittest.mock import patch
 from tempfile import TemporaryDirectory
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -233,9 +232,6 @@ class TestSSH(generic.SSHTestCase):
         self.assertRegex(ssh.randomId(size = 6), r'[A-Z0-9]{6}')
 
 class TestSshKey(generic.TestCase):
-    patched_env = os.environ.copy()
-    patched_env['SSH_ASKPASS'] = 'echo travis'
-
     def test_sshKeyGen(self):
         with TemporaryDirectory() as tmp:
             secKey = os.path.join(tmp, 'key')
@@ -249,8 +245,7 @@ class TestSshKey(generic.TestCase):
             self.assertFalse(sshtools.sshKeyGen(secKey))
 
     @unittest.skipIf(not generic.ON_TRAVIS, 'Using hard coded password for Travis-ci. Does not work outside Travis')
-    @patch('os.environ.copy')
-    def test_sshCopyId(self, mock_env):
+    def test_sshCopyId(self):
         with TemporaryDirectory() as tmp:
             secKey = os.path.join(tmp, 'key')
             pubKey = secKey + '.pub'
@@ -258,6 +253,7 @@ class TestSshKey(generic.TestCase):
             authKeysSic = os.path.join(tmp, 'sic')
             if os.path.exists(authKeys):
                 shutil.copyfile(authKeys, authKeysSic)
+                os.remove(authKeys)
 
             # create new key
             sshtools.sshKeyGen(secKey)
@@ -267,8 +263,9 @@ class TestSshKey(generic.TestCase):
 
             try:
                 # test copy pubKey
-                mock_env.return_value = self.patched_env
-                self.assertTrue(sshtools.sshCopyId(pubKey, 'travis', 'localhost', '22'))
+                self.assertTrue(sshtools.sshCopyId(pubKey, 'travis', 'localhost',
+                                                   port = '22',
+                                                   askPass = 'test/mock_askpass'))
 
                 self.assertTrue(os.path.exists(authKeys))
                 with open(authKeys, 'rt') as f:

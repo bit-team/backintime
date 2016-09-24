@@ -735,7 +735,7 @@ def sshKeyGen(keyfile):
         logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
     return not proc.returncode
 
-def sshCopyId(pubkey, user, host, port = '22'):
+def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass'):
     """
     Copy SSH public key ``pubkey`` to remote ``host``.
 
@@ -744,6 +744,7 @@ def sshCopyId(pubkey, user, host, port = '22'):
         user (str):     remote user
         host (str):     remote host
         port (str):     ssh port on remote host
+        askPass (str):  program used to pipe password into ssh
 
     Returns:
         bool:           True if successful
@@ -752,7 +753,7 @@ def sshCopyId(pubkey, user, host, port = '22'):
         logger.warning('SSH public key "{}" does not exist. Skip copy to remote host'.format(pubkey))
         return False
     env = os.environ.copy()
-    env['SSH_ASKPASS'] = 'backintime-askpass'
+    env['SSH_ASKPASS'] = askPass
     env['ASKPASS_MODE'] = 'USER'
     env['ASKPASS_PROMPT'] = _('Copy public ssh-key "%(pubkey)s" to remote host "%(host)s".\nPlease enter password for "%(user)s":')\
                             %{'pubkey': pubkey, 'host': host, 'user': user}
