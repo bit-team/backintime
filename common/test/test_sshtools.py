@@ -231,7 +231,7 @@ class TestSSH(generic.SSHTestCase):
         ssh = sshtools.SSH(cfg = self.cfg)
         self.assertRegex(ssh.randomId(size = 6), r'[A-Z0-9]{6}')
 
-class TestSshKey(generic.TestCase):
+class TestSshKey(generic.TestCaseCfg):
     def test_sshKeyGen(self):
         with TemporaryDirectory() as tmp:
             secKey = os.path.join(tmp, 'key')
@@ -263,7 +263,7 @@ class TestSshKey(generic.TestCase):
 
             try:
                 # test copy pubKey
-                self.assertTrue(sshtools.sshCopyId(pubKey, 'travis', 'localhost',
+                self.assertTrue(sshtools.sshCopyId(pubKey, self.cfg.user(), 'localhost',
                                                    askPass = 'test/mock_askpass'))
 
                 self.assertTrue(os.path.exists(authKeys))
