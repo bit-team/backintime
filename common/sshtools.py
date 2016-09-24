@@ -709,6 +709,17 @@ class SSH(MountControl):
         return ''.join(random.choice(chars) for x in range(size))
 
 def sshKeyGen(keyfile):
+    """
+    Generate a new ssh-key pair (private and public key) in ``keyfile`` and
+    ``keyfile``.pub
+
+    Args:
+        keyfile (str):  path for private key file
+
+    Returns:
+        bool:           True if successful; False if ``keyfile`` already exist
+                        or if there was an error
+    """
     if os.path.exists(keyfile):
         logger.warning('SSH keyfile "{}" already exist. Skip creating a new one'.format(keyfile))
         return False
@@ -722,4 +733,40 @@ def sshKeyGen(keyfile):
         logger.error('Failed to create a new ssh-key: {}'.format(err))
     else:
         logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
+    return not proc.returncode
+
+def sshCopyId(pubkey, user, host, port = '22'):
+    """
+    Copy SSH public key ``pubkey`` to remote ``host``.
+
+    Args:
+        pubkey (str):   path to the public key file
+        user (str):     remote user
+        host (str):     remote host
+        port (str):     ssh port on remote host
+
+    Returns:
+        bool:           True if successful
+    """
+    if not os.path.exists(pubkey):
+        logger.warning('SSH public key "{}" does not exist. Skip copy to remote host'.format(pubkey))
+        return False
+    env = os.environ.copy()
+    env['SSH_ASKPASS'] = 'backintime-askpass'
+    env['ASKPASS_MODE'] = 'USER'
+    env['ASKPASS_PROMPT'] = _('Copy public ssh-key "%(pubkey)s" to remote host "%(host)s".\nPlease enter password for "%(user)s":')\
+                            %{'pubkey': pubkey, 'host': host, 'user': user}
+    cmd = ['ssh-copy-id', '-i', pubkey, '-p', port, '{}@{}'.format(user,host)]
+    proc = subprocess.Popen(cmd, env = env,
+                            stdout = subprocess.DEVNULL,
+                            stderr = subprocess.PIPE,
+                            preexec_fn = os.setsid, # cut of ssh from current
+                                                    # terminal to make it use
+                                                    # backintime-askpass
+                            universal_newlines = True)
+    out, err = proc.communicate()
+    if proc.returncode:
+        logger.error('Failed to copy ssh-key "{}" to remote host "{}": [{}] {}'.format(pubkey, host, proc.returncode, err))
+    else:
+        logger.info('Successfully copied ssh-key "{}" to remote host "{}"'.format(pubkey, host))
     return not proc.returncode
