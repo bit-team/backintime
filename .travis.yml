@@ -29,6 +29,8 @@ install:
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+  # set a password to test sshtools.sshCopyId
+  - echo "travis:travis" | sudo chpasswd 
   # start ssh-agent so that we can add private keys
   - eval `ssh-agent -s`
 
