@@ -294,3 +294,44 @@ class TestSshKey(generic.TestCaseCfg):
             else:
                 self.assertEqual(len(fingerprint), 47)
                 self.assertRegex(fingerprint, r'^[a-fA-F0-9:]+$')
+
+    @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
+    def test_sshHostKey(self):
+        fingerprint, keyHash, keyType = sshtools.sshHostKey('localhost')
+        if fingerprint.startswith('SHA256'):
+            self.assertEqual(len(fingerprint), 50)
+            self.assertRegex(fingerprint, r'^SHA256:[a-zA-Z0-9/+]+$')
+        else:
+            self.assertEqual(len(fingerprint), 47)
+            self.assertRegex(fingerprint, r'^[a-fA-F0-9:]+$')
+
+        self.assertIn(keyType, ('ECDSA', 'RSA'))
+
+        hostKey = '/etc/ssh/ssh_host_{}_key.pub'.format(keyType.lower())
+        self.assertTrue(os.path.exists(hostKey))
+        self.assertEqual(3, len(keyHash.split()))
+        try:
+            with open(hostKey, 'rt') as f:
+                pubKey = f.read().split()[1]
+            self.assertEqual(pubKey, keyHash.split()[2])
+        except (IOError, IndexError):
+            pass
+
+    def test_writeKnownHostFile(self):
+        KEY = '|1|abcdefghijklmnopqrstuvwxyz= ecdsa-sha2-nistp256 AAAAABCDEFGHIJKLMNOPQRSTUVWXYZ='
+        with TemporaryDirectory() as tmp:
+            knownHosts = os.path.expanduser('~/.ssh/known_hosts')
+            knownHostsSic = os.path.join(tmp, 'known_hosts')
+            if os.path.exists(knownHosts):
+                shutil.copyfile(knownHosts, knownHostsSic)
+
+            try:
+                sshtools.writeKnownHostsFile(KEY)
+
+                self.assertTrue(os.path.exists(knownHosts))
+                with open(knownHosts, 'rt') as f:
+                    self.assertIn(KEY, [x.strip() for x in f.readlines()])
+            finally:
+                # restore original known_hosts file
+                if os.path.exists(knownHostsSic):
+                    shutil.copyfile(knownHostsSic, knownHosts)
