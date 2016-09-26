@@ -298,7 +298,6 @@ class TestSshKey(generic.TestCaseCfg):
     @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
     def test_sshHostKey(self):
         fingerprint, keyHash, keyType = sshtools.sshHostKey('localhost')
-        self.fail(' | '.join((str(fingerprint), str(keyHash), str(keyType))))
         self.assertIsInstance(fingerprint, str)
         self.assertIsInstance(keyHash, str)
         self.assertIsInstance(keyType, str)
