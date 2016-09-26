@@ -575,7 +575,7 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
 
     @unittest.skipIf(NO_GROUPS, "Current user is in no other group. So this test won't work.")
     def test_change_group(self):
-        newGroup = GROUPS[0]
+        newGroup = [x for x in GROUPS if x != CURRENTGROUP][0]
         newGID = grp.getgrnam(newGroup).gr_gid
         d = snapshots.FileInfoDict()
         d[b'foo'] = (self.modeFolder, CURRENTUSER.encode('utf-8','replace'), newGroup.encode('utf-8','replace'))
