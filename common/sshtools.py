@@ -32,7 +32,7 @@ import logger
 import tools
 import password_ipc
 from mount import MountControl
-from exceptions import MountException
+from exceptions import MountException, NoPubKeyLogin, KnownHost
 import bcolors
 
 _=gettext.gettext
@@ -322,7 +322,7 @@ class SSH(MountControl):
         Try to login to remote host with public/private-key-method (passwordless).
 
         Raises:
-            exceptions.MountException:  if login failed
+            exceptions.NoPubKeyLogin:  if login failed
         """
         logger.debug('Check login', self)
         ssh = self.config.sshCommand(cmd = ['echo', '"Hello"'],
@@ -341,10 +341,10 @@ class SSH(MountControl):
                                 universal_newlines = True)
         err = proc.communicate()[1]
         if proc.returncode:
-            raise MountException(_('Password-less authentication for %(user)s@%(host)s '
-                                    'failed. Look at \'man backintime\' for further '
-                                    'instructions.')  % {'user' : self.user, 'host' : self.host}
-                                    + '\n\n' + err)
+            raise NoPubKeyLogin(_('Password-less authentication for %(user)s@%(host)s '
+                                  'failed. Look at \'man backintime\' for further '
+                                  'instructions.')  % {'user' : self.user, 'host' : self.host}
+                                  + '\n\n' + err)
 
     def checkCipher(self):
         """
@@ -411,8 +411,8 @@ class SSH(MountControl):
         Check if the remote host is in current users ``known_hosts`` file.
 
         Raises:
-            exceptions.MountException:  if the remote host wasn't found
-                                        in ``known_hosts`` file
+            exceptions.KnownHost:   if the remote host wasn't found
+                                    in ``known_hosts`` file
         """
         logger.debug('Check known hosts file', self)
         for host in (self.host, '[%s]:%s' % (self.host, self.port)):
@@ -424,7 +424,7 @@ class SSH(MountControl):
                 logger.debug('Host %s was found in known hosts file' % host, self)
                 return True
         logger.debug('Host %s is not in known hosts file' %self.host, self)
-        raise MountException(_('%s not found in ssh_known_hosts.') % self.host)
+        raise KnownHost(_('%s not found in ssh_known_hosts.') % self.host)
 
     def checkRemoteFolder(self):
         """
@@ -735,7 +735,7 @@ def sshKeyGen(keyfile):
         logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
     return not proc.returncode
 
-def sshCopyId(pubkey, user, host, askPass = 'backintime-askpass'): #port = '22',
+def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass'):
     """
     Copy SSH public key ``pubkey`` to remote ``host``.
 
@@ -757,7 +757,7 @@ def sshCopyId(pubkey, user, host, askPass = 'backintime-askpass'): #port = '22',
     env['ASKPASS_MODE'] = 'USER'
     env['ASKPASS_PROMPT'] = _('Copy public ssh-key "%(pubkey)s" to remote host "%(host)s".\nPlease enter password for "%(user)s":')\
                             %{'pubkey': pubkey, 'host': host, 'user': user}
-    cmd = ['ssh-copy-id', '-i', pubkey, '{}@{}'.format(user,host)] #'-p', port,
+    cmd = ['ssh-copy-id', '-i', pubkey, '-p', port, '{}@{}'.format(user,host)]
     proc = subprocess.Popen(cmd, env = env,
                             stdout = subprocess.DEVNULL,
                             stderr = subprocess.PIPE,
@@ -790,3 +790,53 @@ def sshKeyFingerprint(path):
     m = re.match(b'\d+\s+(SHA256:\S+|[a-fA-F0-9:]+)\s.*', output)
     if m:
         return m.group(1).decode('UTF-8')
+
+def sshHostKey(host, port = '22'):
+    """
+    Get the remote host key from ``host``.
+
+    Args:
+        host (str): host name or IP address
+        port (str): port number of remote ssh-server
+
+    Returns:
+        tuple:      three item tuple with (fingerprint, hashed host key, key type)
+    """
+    for t in ('ecdsa', 'rsa'):
+        cmd = ['ssh-keyscan', '-t', t, '-p', port, host]
+        proc = subprocess.Popen(cmd,
+                                stdout = subprocess.PIPE,
+                                stderr = subprocess.DEVNULL)
+        hostKey = proc.communicate()[0].strip()
+        if hostKey:
+            break
+    if hostKey:
+        logger.debug('Found {} key for host "{}"'.format(t.upper(), host))
+        with tempfile.NamedTemporaryFile() as f:
+            f.write(hostKey)
+            f.flush()
+
+            hostKeyFingerprint = sshKeyFingerprint(f.name)
+
+            cmd = ['ssh-keygen', '-H', '-f', f.name]
+            proc = subprocess.Popen(cmd,
+                                    stdout = subprocess.DEVNULL,
+                                    stderr = subprocess.DEVNULL)
+            proc.communicate()
+
+            with open(f.name, 'rt') as f2:
+                hostKeyHash = f2.read().strip()
+        return (hostKeyFingerprint, hostKeyHash, t.upper())
+    return (None, None, None)
+
+def writeKnownHostsFile(key):
+    """
+    Write host key ``key`` into `~/.ssh/known_hosts`.
+
+    Args:
+        key (str):  host key
+    """
+    knownHostFile = os.path.expanduser('~/.ssh/known_hosts')
+    with open(knownHostFile, 'at') as f:
+        logger.info('Write host key to {}'.format(knownHostFile))
+        f.write(key + '\n')

@@ -33,7 +33,8 @@ import mount
 import messagebox
 import snapshots
 import sshtools
-from exceptions import MountException
+import logger
+from exceptions import MountException, NoPubKeyLogin, KnownHost
 
 _=gettext.gettext
 
@@ -381,7 +382,7 @@ class SettingsDialog(QDialog):
         self.lblScheduleUdev.setWordWrap(True)
         glayout.addWidget(self.lblScheduleUdev, 6, 0, 1, 2)
 
-        self.comboSchedule.currentIndexChanged.connect(self.ScheduleChanged)
+        self.comboSchedule.currentIndexChanged.connect(self.scheduleChanged)
 
         #
         layout.addStretch()
@@ -1003,7 +1004,7 @@ class SettingsDialog(QDialog):
         else:
             self.lblScheduleUdev.hide()
 
-    def ScheduleChanged(self, index):
+    def scheduleChanged(self, index):
         backup_mode = self.comboSchedule.itemData(index)
         self.updateSchedule(backup_mode)
 
@@ -1214,6 +1215,16 @@ class SettingsDialog(QDialog):
         self.config.setSshUser(self.txtSshUser.text())
         self.config.setSshSnapshotsPath(self.txtSshPath.text())
         self.config.setSshCipher(self.comboSshCipher.itemData(self.comboSshCipher.currentIndex()))
+        if not self.txtSshPrivateKeyFile.text():
+            if self.questionHandler(_('You did not choose a private key file for SSH.\nWould you like to generate a new password-less public/private key pair?')):
+                self.btnSshKeyGenClicked()
+            if not self.txtSshPrivateKeyFile.text():
+                return False
+        if not os.path.isfile(self.txtSshPrivateKeyFile.text()):
+            self.errorHandler(_('Private key file "%(file)s" does not exist.')
+                              %{'file': self.txtSshPrivateKeyFile.text()})
+            self.txtSshPrivateKeyFile.setText('')
+            return False
         self.config.setSshPrivateKeyFile(self.txtSshPrivateKeyFile.text())
 
         #save local_encfs
@@ -1324,6 +1335,36 @@ class SettingsDialog(QDialog):
             mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self)
             try:
                 mnt.preMountCheck(mode = mode, first_run = True, **mount_kwargs)
+            except NoPubKeyLogin as ex:
+                logger.error(str(ex), self)
+                if self.questionHandler(_('Would you like to copy your public SSH key to the\nremote host to enable password-less login?')) \
+                    and sshtools.sshCopyId(self.config.sshPrivateKeyFile() + '.pub',
+                                           self.config.sshUser(),
+                                           self.config.sshHost(),
+                                           port = str(self.config.sshPort()),
+                                           askPass = tools.which('backintime-askpass')):
+                        return self.saveProfile()
+                else:
+                    return False
+            except KnownHost as ex:
+                logger.error(str(ex), self)
+                fingerprint, hashedKey, keyType = sshtools.sshHostKey(self.config.sshHost(),
+                                                                      str(self.config.sshPort()))
+                msg = _('The authenticity of host "%(host)s" can\'t be stablished.\n\n%(keytype)s key fingerprint is:')
+                msg = msg %{'host': self.config.sshHost(),
+                            'keytype': keyType}
+                options = []
+                lblFingerprint = QLabel(fingerprint + '\n')
+                lblFingerprint.setWordWrap(False)
+                lblFingerprint.setFont(QFont('Monospace'))
+                options.append({'widget': lblFingerprint, 'retFunc': None})
+                lblQuestion = QLabel(_('Please verify this fingerprint! Would you like to add it to your \'known_hosts\' file?'))
+                options.append({'widget': lblQuestion, 'retFunc': None})
+                if fingerprint and messagebox.warningYesNoOptions(self, msg, options)[0]:
+                    sshtools.writeKnownHostsFile(hashedKey)
+                    return self.saveProfile()
+                else:
+                    return False
             except MountException as ex:
                 self.errorHandler(str(ex))
                 return False
@@ -1438,7 +1479,6 @@ class SettingsDialog(QDialog):
             return False
 
         return self.config.save()
-
 
     def btnExcludeRemoveClicked(self):
         for item in self.listExclude.selectedItems():

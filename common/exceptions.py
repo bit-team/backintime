@@ -20,6 +20,12 @@ class BackInTimeException(Exception):
 class MountException(BackInTimeException):
     pass
 
+class NoPubKeyLogin(MountException):
+    pass
+
+class KnownHost(MountException):
+    pass
+    
 class HashCollision(BackInTimeException):
     pass
 
