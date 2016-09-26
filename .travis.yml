@@ -33,6 +33,10 @@ install:
   - eval `ssh-agent -s`
   - which ssh-keygen
   - which ssh-keyscan
+  - ssh-keyscan -t ecdsa -p 22 localhost > /tmp/key
+  - ssh-keygen -H -f /tmp/key
+  - cat /tmp/key
+  - cat /tmp/key.old
 
 script:
   # compile all files - ensure that syntax is correct

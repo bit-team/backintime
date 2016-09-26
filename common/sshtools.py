@@ -816,7 +816,7 @@ def sshHostKey(host, port = '22'):
         with tempfile.TemporaryDirectory() as tmp:
             keyFile = os.path.join(tmp, 'key')
             with open(keyFile, 'wb') as f:
-                f.write(hostKey)
+                f.write(hostKey + b'\n')
 
             hostKeyFingerprint = sshKeyFingerprint(keyFile)
 
