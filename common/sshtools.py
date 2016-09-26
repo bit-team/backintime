@@ -821,9 +821,9 @@ def sshHostKey(host, port = '22'):
             hostKeyFingerprint = sshKeyFingerprint(keyFile)
 
             cmd = ['ssh-keygen', '-H', '-f', keyFile]
-            proc = subprocess.Popen(cmd,
-                                    stdout = subprocess.DEVNULL,
-                                    stderr = subprocess.DEVNULL)
+            proc = subprocess.Popen(cmd)#,
+                                    #stdout = subprocess.DEVNULL,
+                                    #stderr = subprocess.DEVNULL)
             proc.communicate()
 
             with open(keyFile, 'rt') as f:
