@@ -812,20 +812,22 @@ def sshHostKey(host, port = '22'):
             break
     if hostKey:
         logger.debug('Found {} key for host "{}"'.format(t.upper(), host))
-        with tempfile.NamedTemporaryFile() as f:
-            f.write(hostKey)
-            f.flush()
+        logger.info('Host key: {}'.format(hostKey))
+        with tempfile.TemporaryDirectory() as tmp:
+            keyFile = os.path.join(tmp, 'key')
+            with open(keyFile, 'wb') as f:
+                f.write(hostKey)
 
-            hostKeyFingerprint = sshKeyFingerprint(f.name)
+            hostKeyFingerprint = sshKeyFingerprint(keyFile)
 
-            cmd = ['ssh-keygen', '-H', '-f', f.name]
+            cmd = ['ssh-keygen', '-H', '-f', keyFile]
             proc = subprocess.Popen(cmd,
                                     stdout = subprocess.DEVNULL,
                                     stderr = subprocess.DEVNULL)
             proc.communicate()
 
-            with open(f.name, 'rt') as f2:
-                hostKeyHash = f2.read().strip()
+            with open(keyFile, 'rt') as f:
+                hostKeyHash = f.read().strip()
         return (hostKeyFingerprint, hostKeyHash, t.upper())
     return (None, None, None)
 

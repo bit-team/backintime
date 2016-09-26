@@ -31,6 +31,8 @@ install:
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
   # start ssh-agent so that we can add private keys
   - eval `ssh-agent -s`
+  - which ssh-keygen
+  - which ssh-keyscan
 
 script:
   # compile all files - ensure that syntax is correct
