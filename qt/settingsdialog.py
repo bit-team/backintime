@@ -1350,6 +1350,9 @@ class SettingsDialog(QDialog):
                 logger.error(str(ex), self)
                 fingerprint, hashedKey, keyType = sshtools.sshHostKey(self.config.sshHost(),
                                                                       str(self.config.sshPort()))
+                if not fingerprint:
+                    self.errorHandler(str(ex))
+                    return False
                 msg = _('The authenticity of host "%(host)s" can\'t be stablished.\n\n%(keytype)s key fingerprint is:')
                 msg = msg %{'host': self.config.sshHost(),
                             'keytype': keyType}
@@ -1360,7 +1363,7 @@ class SettingsDialog(QDialog):
                 options.append({'widget': lblFingerprint, 'retFunc': None})
                 lblQuestion = QLabel(_('Please verify this fingerprint! Would you like to add it to your \'known_hosts\' file?'))
                 options.append({'widget': lblQuestion, 'retFunc': None})
-                if fingerprint and messagebox.warningYesNoOptions(self, msg, options)[0]:
+                if messagebox.warningYesNoOptions(self, msg, options)[0]:
                     sshtools.writeKnownHostsFile(hashedKey)
                     return self.saveProfile()
                 else:
