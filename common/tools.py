@@ -254,7 +254,9 @@ def which(cmd):
     """
     pathenv = os.getenv('PATH', '')
     path = pathenv.split(":")
-    path.insert(0, os.getcwd())
+    common = backintimePath('common')
+    if runningFromSource() and common not in path:
+        path.insert(0, common)
     for directory in path:
         fullpath = os.path.join(directory, cmd)
         if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
