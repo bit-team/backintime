@@ -837,7 +837,10 @@ def writeKnownHostsFile(key):
     Args:
         key (str):  host key
     """
-    knownHostFile = os.path.expanduser('~/.ssh/known_hosts')
+    sshDir = os.path.expanduser('~/.ssh')
+    knownHostFile = os.path.join(sshDir, 'known_hosts')
+    if not os.path.isdir(sshDir):
+        tools.mkdir(sshDir, 0o700)
     with open(knownHostFile, 'at') as f:
         logger.info('Write host key to {}'.format(knownHostFile))
         f.write(key + '\n')

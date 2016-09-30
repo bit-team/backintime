@@ -246,6 +246,7 @@ class TestSshKey(generic.TestCaseCfg):
             self.assertFalse(sshtools.sshKeyGen(secKey))
 
     @unittest.skipIf(getpass.getuser() != 'germar', 'Password login does not work on Travis-ci.')
+    @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
     def test_sshCopyId(self):
         with TemporaryDirectory() as tmp:
             secKey = os.path.join(tmp, 'key')
