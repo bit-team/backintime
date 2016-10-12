@@ -605,6 +605,9 @@ def rsyncPrefix(config,
         cmd.extend(('--info=progress2',
                     '--no-inc-recursive'))
 
+    if config.bwlimitEnabled():
+        cmd.append('--bwlimit=%d' %config.bwlimit())
+
     if config.rsyncOptionsEnabled():
         cmd.extend(shlex.split(config.rsyncOptions()))
 
@@ -630,9 +633,6 @@ def rsyncSshArgs(config, use_mode = ['ssh', 'ssh_encfs']):
                                  ionice = False,
                                  nice = False)
         cmd.append('--rsh=' + ' '.join(ssh))
-
-        if config.bwlimitEnabled():
-            cmd.append('--bwlimit=%d' %config.bwlimit())
 
         if config.niceOnRemote()     \
           or config.ioniceOnRemote() \

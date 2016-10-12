@@ -1652,8 +1652,6 @@ class SettingsDialog(QDialog):
         enabled = active_mode in ('ssh', 'ssh_encfs')
         self.cbNiceOnRemote.setEnabled(enabled)
         self.cbIoniceOnRemote.setEnabled(enabled)
-        self.cbBwlimit.setEnabled(enabled)
-        self.spbBwlimit.setEnabled(enabled and self.cbBwlimit.isChecked())
         self.cbNocacheOnRemote.setEnabled(enabled)
         self.cbSmartRemoveRunRemoteInBackground.setHidden(not enabled)
         self.cbSshPrefix.setHidden(not enabled)
