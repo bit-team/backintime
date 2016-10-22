@@ -866,6 +866,17 @@ class SettingsDialog(QDialog):
 
         qttools.equalIndent(self.cbRsyncOptions, self.cbSshPrefix)
 
+        self.cbSshCheckPing = QCheckBox(_('Check if remote host is online'))
+        self.cbSshCheckPing.setToolTip(_('Warning: if disabled and the remote host\n'
+                                         'is not available, this could lead to some\n'
+                                         'wired errors.'))
+        self.cbSshCheckCommands = QCheckBox(_('Check if remote host support all necessary commands'))
+        self.cbSshCheckCommands.setToolTip(_('Warning: if disabled and the remore host\n'
+                                             'does not support all necessary commands,\n'
+                                             'this could lead to some wired errors.'))
+        layout.addWidget(self.cbSshCheckPing)
+        layout.addWidget(self.cbSshCheckCommands)
+
         #
         layout.addStretch()
         scrollArea.setWidget(layoutWidget)
@@ -1173,6 +1184,8 @@ class SettingsDialog(QDialog):
         self.txtRsyncOptions.setText(self.config.rsyncOptions())
         self.cbSshPrefix.setChecked(self.config.sshPrefixEnabled())
         self.txtSshPrefix.setText(self.config.sshPrefix())
+        self.cbSshCheckPing.setChecked(self.config.sshCheckPingHost())
+        self.cbSshCheckCommands.setChecked(self.config.sshCheckCommands())
 
         #update
         self.updateRemoveOlder()
@@ -1320,6 +1333,8 @@ class SettingsDialog(QDialog):
                                     self.txtRsyncOptions.text())
         self.config.setSshPrefix(self.cbSshPrefix.isChecked(),
                                  self.txtSshPrefix.text())
+        self.config.setSshCheckPingHost(self.cbSshCheckPing.isChecked())
+        self.config.setSshCheckCommands(self.cbSshCheckCommands.isChecked())
 
         # TODO - consider a single API method to bridge the UI layer (settings dialog) and backend layer (config)
         # when setting snapshots path rather than having to call the mount module from the UI layer
@@ -1656,6 +1671,8 @@ class SettingsDialog(QDialog):
         self.cbSmartRemoveRunRemoteInBackground.setHidden(not enabled)
         self.cbSshPrefix.setHidden(not enabled)
         self.txtSshPrefix.setHidden(not enabled)
+        self.cbSshCheckPing.setHidden(not enabled)
+        self.cbSshCheckCommands.setHidden(not enabled)
 
         self.encfsWarning.setHidden(active_mode not in ('local_encfs', 'ssh_encfs'))
 

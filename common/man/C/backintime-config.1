@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Sep 2016" "version 1.2.0~alpha0" "USER COMMANDS"
+.TH backintime-config 1 "Oct 2016" "version 1.2.0~alpha0" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -25,7 +25,7 @@ Type: int       Allowed Values: 0-99999
 .br
 Internal version of current config
 .PP
-Default: 42
+Default: 6
 .RE
 
 .IP "\fIglobal.hash_collision\fR" 6
@@ -629,6 +629,15 @@ Default: false
 Type: bool      Allowed Values: true|false
 .br
 Check if all commands (used during takeSnapshot) work like expected on the remote host.
+.PP
+Default: true
+.RE
+
+.IP "\fIprofile<N>.snapshots.ssh.check_ping\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Check if the remote host is available before trying to mount.
 .PP
 Default: true
 .RE

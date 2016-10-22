@@ -455,6 +455,7 @@ class Config(configfile.ConfigFileWithProfiles):
         value = self.hashCollision() + 1
         self.setIntValue('global.hash_collision', value)
 
+    # SSH
     def sshSnapshotsPath(self, profile_id = None):
         #?Snapshot path on remote host. If the path is relative (no leading '/')
         #?it will start from remote Users homedir. An empty path will be replaced
@@ -554,6 +555,16 @@ class Config(configfile.ConfigFileWithProfiles):
         #?Check if all commands (used during takeSnapshot) work like expected
         #?on the remote host.
         return self.profileBoolValue('snapshots.ssh.check_commands', True, profile_id)
+
+    def setSshCheckCommands(self, value, profile_id = None):
+        self.setProfileBoolValue('snapshots.ssh.check_commands', value, profile_id)
+
+    def sshCheckPingHost(self, profile_id = None):
+        #?Check if the remote host is available before trying to mount.
+        return self.profileBoolValue('snapshots.ssh.check_ping', True, profile_id)
+
+    def setSshCheckPingHost(self, value, profile_id = None):
+        self.setProfileBoolValue('snapshots.ssh.check_ping', value, profile_id)
 
     def sshDefaultArgs(self, profile_id = None):
         """

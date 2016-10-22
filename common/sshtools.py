@@ -488,6 +488,8 @@ class SSH(MountControl):
             exceptions.MountException:  if connection failed most probably
                                         because remote host is offline
         """
+        if not self.config.sshCheckPingHost(self.profile_id):
+            return
         logger.debug('Check ping host', self)
         count = 0
         while count < 5:
