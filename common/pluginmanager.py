@@ -57,10 +57,10 @@ class Plugin:
     def appExit(self):
         return
 
-    def mount(self):
+    def mount(self, profileID = None):
         return
 
-    def unmount(self):
+    def unmount(self, profileID = None):
         return
 
 class PluginManager:
@@ -164,17 +164,17 @@ class PluginManager:
             except BaseException as e:
                 self.logError(plugin, e)
 
-    def mount(self):
+    def mount(self, profileID = None):
         for plugin in reversed(self.plugins):
             try:
-                plugin.mount()
+                plugin.mount(profileID)
             except BaseException as e:
                 self.logError(plugin, e)
 
-    def unmount(self):
+    def unmount(self, profileID = None):
         for plugin in reversed(self.plugins):
             try:
-                plugin.unmount()
+                plugin.unmount(profileID)
             except BaseException as e:
                 self.logError(plugin, e)
 

@@ -37,8 +37,11 @@ class UserCallbackPlugin(pluginmanager.Plugin):
             return False
         return True
 
-    def callback(self, *args):
-        cmd = [self.script, self.config.currentProfile(), self.config.profileName()]
+    def callback(self, *args, profileID = None):
+        if profileID is None:
+            profileID = self.config.currentProfile()
+        profileName = self.config.profileName(profileID)
+        cmd = [self.script, profileID, profileName]
         cmd.extend([str(x) for x in args])
         logger.debug('Call user-callback: %s' %' '.join(cmd), self)
         if self.config.userCallbackNoLogging():
@@ -82,8 +85,8 @@ class UserCallbackPlugin(pluginmanager.Plugin):
     def appExit(self):
         self.callback('6')
 
-    def mount(self):
-        self.callback('7')
+    def mount(self, profileID = None):
+        self.callback('7', profileID = profileID)
 
-    def unmount(self):
-        self.callback('8')
+    def unmount(self, profileID = None):
+        self.callback('8', profileID = profileID)

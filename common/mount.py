@@ -89,7 +89,7 @@ class Mount(object):
                                  self)
                     pass
 
-    def mount(self, mode = None, check = True, plugins = True, **kwargs):
+    def mount(self, mode = None, check = True, **kwargs):
         """
         High-level `mount`. Check if the selected ``mode`` need to be mounted,
         select the low-level backend and mount it.
@@ -100,9 +100,6 @@ class Mount(object):
             check (bool):   if ``True`` run
                             :py:func:`MountControl.preMountCheck` before
                             mounting
-            plugins (bool): if ``True`` run
-                            :py:func:`pluginmanager.PluginManager.mount`
-                            before mount
             **kwargs:       keyword arguments paste to low-level
                             :py:class:`MountControl` subclass backend
 
@@ -116,9 +113,8 @@ class Mount(object):
                             if Hash ID was used before but umount info wasn't
                             identical
         """
-        if plugins:
-            self.config.PLUGIN_MANAGER.load(cfg = self.config)
-            self.config.PLUGIN_MANAGER.mount()
+        self.config.PLUGIN_MANAGER.load(cfg = self.config)
+        self.config.PLUGIN_MANAGER.mount(self.profile_id)
         if mode is None:
             mode = self.config.snapshotsMode(self.profile_id)
 
@@ -143,7 +139,7 @@ class Mount(object):
                     continue
                 break
 
-    def umount(self, hash_id = None, plugins = True):
+    def umount(self, hash_id = None):
         """
         High-level `unmount`. Unmount the low-level backend. This will read
         unmount infos written next to the mountpoint identified by ``hash_id``
@@ -152,17 +148,13 @@ class Mount(object):
         Args:
             hash_id (bool): Hash ID used as mountpoint before that should get
                             unmounted
-            plugins (bool): if ``True`` run
-                            :py:func:`pluginmanager.PluginManager.unmount`
-                            before unmount
 
         Raises:
             exceptions.MountException:
                             if a check failed
         """
-        if plugins:
-            self.config.PLUGIN_MANAGER.load(cfg = self.config)
-            self.config.PLUGIN_MANAGER.unmount()
+        self.config.PLUGIN_MANAGER.load(cfg = self.config)
+        self.config.PLUGIN_MANAGER.unmount(self.profile_id)
         if hash_id is None:
             hash_id = self.config.current_hash_id
         if hash_id == 'local':
@@ -266,13 +258,13 @@ class Mount(object):
 
         if self.config.SNAPSHOT_MODES[mode][0] is None:
             #new profile don't need to mount.
-            self.umount(hash_id = hash_id, plugins = False)
+            self.umount(hash_id = hash_id)
             return 'local'
 
         if hash_id == 'local':
             #old profile don't need to umount.
             self.profile_id = new_profile_id
-            return self.mount(mode = mode, plugins = False, **kwargs)
+            return self.mount(mode = mode, **kwargs)
 
         mounttools = self.config.SNAPSHOT_MODES[mode][0]
         backend = mounttools(cfg = self.config,
@@ -288,9 +280,9 @@ class Mount(object):
             return hash_id
         else:
             #profiles are different. we need to umount and mount again
-            self.umount(hash_id = hash_id, plugins = False)
+            self.umount(hash_id = hash_id)
             self.profile_id = new_profile_id
-            return self.mount(mode = mode, plugins = False, **kwargs)
+            return self.mount(mode = mode, **kwargs)
 
 class MountControl(object):
     """

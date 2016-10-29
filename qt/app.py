@@ -613,11 +613,8 @@ class MainWindow(QMainWindow):
             return
         old_profile_id = self.config.currentProfile()
         if profile_id != old_profile_id:
-            self.config.PLUGIN_MANAGER.unmount()
             self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
-            self.config.PLUGIN_MANAGER.load(cfg = self.config, force = True)
-            self.config.PLUGIN_MANAGER.mount()
 
             self.config.setProfileIntValue('qt.places.SortColumn',
                                               self.places.header().sortIndicatorSection(),
