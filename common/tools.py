@@ -129,7 +129,7 @@ def addSourceToPathEnviron():
     """
     source = backintimePath('common')
     path = os.getenv('PATH')
-    if source not in path.split(':'):
+    if path and source not in path.split(':'):
         os.environ['PATH'] = '%s:%s' %(source, path)
 
 def gitRevisionAndHash():
