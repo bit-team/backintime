@@ -341,7 +341,7 @@ class TestSID(generic.SnapshotsTestCase):
 
         self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
 
-    def test_makewritable(self):
+    def test_makeWritable(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
         sidPath = os.path.join(self.snapshotPath, '20151219-010324-123')
@@ -353,7 +353,7 @@ class TestSID(generic.SnapshotsTestCase):
             with open(testFile, 'wt') as f:
                 f.write('foo')
 
-        sid.makewritable()
+        sid.makeWritable()
 
         self.assertEqual(os.stat(sidPath).st_mode & stat.S_IWUSR, stat.S_IWUSR)
         try:
