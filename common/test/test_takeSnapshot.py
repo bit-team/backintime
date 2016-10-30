@@ -11,7 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public Licensealong
+# You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
@@ -228,7 +228,7 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         self.assertListEqual([False, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
 
-        # fix permissions because cleanup would fial otherwise
+        # fix permissions because cleanup would fail otherwise
         os.chmod(self.snapshotPath, 0o700)
 
 @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')

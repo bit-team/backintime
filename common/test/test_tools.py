@@ -11,7 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public Licensealong
+# You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
@@ -55,7 +55,7 @@ Capabilities:
 
 rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
 are welcome to redistribute it under certain conditions.  See the GNU
-General Public Licence for details.
+General Public License for details.
 """
 RSYNC_310_VERSION = """rsync  version 3.1.0  protocol version 31
 Copyright (C) 1996-2013 by Andrew Tridgell, Wayne Davison, and others.
@@ -67,12 +67,12 @@ Capabilities:
 
 rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
 are welcome to redistribute it under certain conditions.  See the GNU
-General Public Licence for details.
+General Public License for details.
 """
 
 class TestTools(generic.TestCase):
     """
-    All funtions test here come from tools.py
+    All functions test here come from tools.py
     """
     def setUp(self):
         super(TestTools, self).setUp()
@@ -210,7 +210,7 @@ class TestTools(generic.TestCase):
             path = os.path.join(d, 'foo', 'bar')
             self.assertTrue(tools.makeDirs(path))
 
-    def test_makeDirs_not_writeable(self):
+    def test_makeDirs_not_writable(self):
         with TemporaryDirectory() as d:
             os.chmod(d, stat.S_IRUSR)
             path = os.path.join(d, 'foobar{}'.format(random.randrange(100, 999)))

@@ -37,7 +37,7 @@ class ConfigFile(object):
         """
         Register a function that should be called for notifying errors.
 
-        handler (metod):    callable function
+        handler (method):   callable function
         """
         self.errorHandler = handler
 
@@ -45,7 +45,7 @@ class ConfigFile(object):
         """
         Register a function that should be called for asking questions.
 
-        handler (metod):    callable function
+        handler (method):   callable function
         """
         self.questionHandler = handler
 
@@ -273,7 +273,7 @@ class ConfigFile(object):
             key (str):              used base-key
             type_key (str):         pattern of 'value-type:value-name'.
                                     See examples below.
-            default (list):         defualt value
+            default (list):         default value
 
         Returns:
             list:                   value of ``key`` or ``default``
@@ -473,7 +473,7 @@ class ConfigFileWithProfiles(ConfigFile):
 
     def profilesSortedByName(self):
         """
-        List of available profile IDs alphabetical sorted by their names.
+        List of available profile IDs alphabetically sorted by their names.
         Profile IDs are strings!
 
         Returns:

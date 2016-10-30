@@ -122,7 +122,7 @@ class SnapshotLog(object):
 
     def get(self, mode = None, decode = None, skipLines = 0):
         """
-        Read the log, filter and decode it and yield it's lines.
+        Read the log, filter and decode it and yield its lines.
 
         Args:
             mode (int):                 Mode used for filtering. Take a look at

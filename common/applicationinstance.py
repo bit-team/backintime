@@ -100,7 +100,7 @@ class ApplicationInstance:
 
     def startApplication(self):
         """
-        Called when the single instance starts to save it's pid
+        Called when the single instance starts to save its pid
         """
         pid = os.getpid()
         procname = tools.processName(pid)
@@ -136,7 +136,7 @@ class ApplicationInstance:
     def flockUnlock(self):
         """
         Remove the exclusive lock. Second instance can now continue
-        but should find it self to be obsolet.
+        but should find it self to be obsolete.
         """
         if self.flock:
             fcntl.fcntl(self.flock, fcntl.LOCK_UN)

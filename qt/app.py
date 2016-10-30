@@ -572,7 +572,7 @@ class MainWindow(QMainWindow):
 
         self.config.save()
 
-        # cleanup temporary local copys of files which where opend in GUI
+        # cleanup temporary local copies of files which were opened in GUI
         for d in self.tmpDirs:
             d.cleanup()
 
@@ -703,7 +703,7 @@ class MainWindow(QMainWindow):
                         self.btnStopTakeSnapshot):
                 btn.setVisible(False)
 
-            #TODO: check if there is a more elegant way than always get a new snapshot list which is very expencive (time)
+            #TODO: check if there is a more elegant way than always get a new snapshot list which is very expensive (time)
             snapshotsList = snapshots.listSnapshots(self.config)
 
             if snapshotsList != self.snapshotsList:
@@ -1242,7 +1242,7 @@ class MainWindow(QMainWindow):
                 self.path_history.append(rel_path)
                 self.updateFilesView(0)
             else:
-                # prevent backup data from being accidentaly overwritten
+                # prevent backup data from being accidentally overwritten
                 # by create a temporary local copy and only open that one
                 if not isinstance(self.sid, snapshots.RootSnapshot):
                     full_path = self.tmpCopy(full_path, self.sid)

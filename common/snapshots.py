@@ -2143,7 +2143,7 @@ class SID(object):
     def name(self, name):
         nameFile = self.path(self.NAME)
 
-        self.makeWriteable()
+        self.makewritable()
         try:
             with open(nameFile, 'wt') as f:
                 f.write(name)
@@ -2195,7 +2195,7 @@ class SID(object):
     def failed(self, enable):
         failedFile = self.path(self.FAILED)
         if enable:
-            self.makeWriteable()
+            self.makewritable()
             try:
                 with open(failedFile, 'wt') as f:
                     f.write('')
@@ -2322,9 +2322,9 @@ class SID(object):
                          logFile, str(e)),
                          self)
 
-    def makeWriteable(self):
+    def makewritable(self):
         """
-        Make the snapshot path writeable so we can change files inside
+        Make the snapshot path writable so we can change files inside
 
         Returns:
             bool:   ``True`` if successful

@@ -11,7 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public Licensealong
+# You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
@@ -123,7 +123,7 @@ class TestSSH(generic.SSHTestCase):
 
         #make folder read-only
         os.chmod(self.remotePath, stat.S_IRUSR | stat.S_IXUSR)
-        with self.assertRaisesRegex(MountException, r"Remote path is not writeable.+"):
+        with self.assertRaisesRegex(MountException, r"Remote path is not writable.+"):
             ssh.checkRemoteFolder()
 
         #make folder not executable
@@ -131,7 +131,7 @@ class TestSSH(generic.SSHTestCase):
         with self.assertRaisesRegex(MountException, r"Remote path is not executable.+"):
             ssh.checkRemoteFolder()
 
-        #make it writeable again otherwise cleanup will fail
+        #make it writable again otherwise cleanup will fail
         os.chmod(self.remotePath, stat.S_IRWXU)
 
     def test_checkRemoteFolder_fail_not_a_folder(self):
@@ -151,7 +151,7 @@ class TestSSH(generic.SSHTestCase):
         os.chmod(self.tmpDir.name, stat.S_IRUSR | stat.S_IXUSR)
         with self.assertRaisesRegex(MountException, r"Couldn't create remote path.+"):
             ssh.checkRemoteFolder()
-        #make it writeable again otherwise cleanup will fail
+        #make it writable again otherwise cleanup will fail
         os.chmod(self.tmpDir.name, stat.S_IRWXU)
 
     def test_checkRemoteFolder_with_spaces(self):
