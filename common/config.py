@@ -609,7 +609,7 @@ class Config(configfile.ConfigFileWithProfiles):
             profile_id (str):   profile ID that should  be used in config
 
         Returns:
-            list:               ssh command with choosen arguments
+            list:               ssh command with chosen arguments
         """
         assert cmd is None or isinstance(cmd, list), "cmd '{}' is not list instance".format(cmd)
         assert custom_args is None or isinstance(custom_args, list), "custom_args '{}' is not list instance".format(custom_args)
@@ -1022,7 +1022,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def niceOnCron(self, profile_id = None):
         #?Run cronjobs with 'nice \-n 19'. This will give BackInTime the
-        #?lowest CPU priority to not interupt any other working process.
+        #?lowest CPU priority to not interrupt any other working process.
         return self.profileBoolValue('snapshots.cron.nice', self.DEFAULT_RUN_NICE_FROM_CRON, profile_id)
 
     def setNiceOnCron(self, value, profile_id = None):
@@ -1030,7 +1030,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def ioniceOnCron(self, profile_id = None):
         #?Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the
-        #?lowest IO bandwidth priority to not interupt any other working process.
+        #?lowest IO bandwidth priority to not interrupt any other working process.
         return self.profileBoolValue('snapshots.cron.ionice', self.DEFAULT_RUN_IONICE_FROM_CRON, profile_id)
 
     def setIoniceOnCron(self, value, profile_id = None):
@@ -1039,7 +1039,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def ioniceOnUser(self, profile_id = None):
         #?Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot.
         #?This will give BackInTime the lowest IO bandwidth priority to not
-        #?interupt any other working process.
+        #?interrupt any other working process.
         return self.profileBoolValue('snapshots.user_backup.ionice', self.DEFAULT_RUN_IONICE_FROM_USER, profile_id)
 
     def setIoniceOnUser(self, value, profile_id = None):

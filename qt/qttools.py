@@ -360,7 +360,7 @@ class SortedComboBox(QComboBox):
     def addItem(self, text, userData = None):
         """
         QComboBox doesn't support sorting
-        so this litle hack is used to insert
+        so this little hack is used to insert
         items in sorted order.
         """
         if self.sortRole == Qt.UserRole:

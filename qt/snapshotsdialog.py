@@ -305,7 +305,7 @@ class SnapshotsDialog(QDialog):
         if not os.path.exists(full_path):
             return
 
-        # prevent backup data from being accidentaly overwritten
+        # prevent backup data from being accidentally overwritten
         # by create a temporary local copy and only open that one
         if not isinstance(self.sid, snapshots.RootSnapshot):
             full_path = self.parent.tmpCopy(full_path, sid)
@@ -333,7 +333,7 @@ class SnapshotsDialog(QDialog):
             messagebox.critical(self, _('Command not found: %s') % diffCmd)
             return
 
-        # prevent backup data from being accidentaly overwritten
+        # prevent backup data from being accidentally overwritten
         # by create a temporary local copy and only open that one
         if not isinstance(sid1, snapshots.RootSnapshot):
             path1 = self.parent.tmpCopy(path1, sid1)

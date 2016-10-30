@@ -442,7 +442,7 @@ class SSH(MountControl):
         cmd += 'test $d -eq 1 && mkdir "%s"; err=$?;' % self.path #create path, get errorcode from mkdir
         cmd += 'test $d -eq 1 && exit $err;'                      #return errorcode from mkdir
         cmd += 'test -d "%s" || exit 11;' % self.path #path is no directory
-        cmd += 'test -w "%s" || exit 12;' % self.path #path is not writeable
+        cmd += 'test -w "%s" || exit 12;' % self.path #path is not writable
         cmd += 'test -x "%s" || exit 13;' % self.path #path is not executable
         cmd += 'exit 20'                              #everything is fine
         ssh = self.config.sshCommand(cmd = [cmd],
@@ -466,7 +466,7 @@ class SSH(MountControl):
             elif proc.returncode == 11:
                 raise MountException(_('Remote path exists but is not a directory:\n %s') % self.path)
             elif proc.returncode == 12:
-                raise MountException(_('Remote path is not writeable:\n %s') % self.path)
+                raise MountException(_('Remote path is not writable:\n %s') % self.path)
             elif proc.returncode == 13:
                 raise MountException(_('Remote path is not executable:\n %s') % self.path)
             else:

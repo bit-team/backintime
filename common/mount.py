@@ -288,7 +288,7 @@ class MountControl(object):
     """
     This is the low-level mount API. This should be subclassed by backends.
 
-    Subclasses should have it's own ``__init__`` but **must** also call the
+    Subclasses should have its own ``__init__`` but **must** also call the
     inherited ``__init__``.
 
     You **must** overwrite methods:\n

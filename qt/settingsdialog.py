@@ -869,11 +869,11 @@ class SettingsDialog(QDialog):
         self.cbSshCheckPing = QCheckBox(_('Check if remote host is online'))
         self.cbSshCheckPing.setToolTip(_('Warning: if disabled and the remote host\n'
                                          'is not available, this could lead to some\n'
-                                         'wired errors.'))
+                                         'weird errors.'))
         self.cbSshCheckCommands = QCheckBox(_('Check if remote host support all necessary commands'))
-        self.cbSshCheckCommands.setToolTip(_('Warning: if disabled and the remore host\n'
+        self.cbSshCheckCommands.setToolTip(_('Warning: if disabled and the remote host\n'
                                              'does not support all necessary commands,\n'
-                                             'this could lead to some wired errors.'))
+                                             'this could lead to some weird errors.'))
         layout.addWidget(self.cbSshCheckPing)
         layout.addWidget(self.cbSshCheckCommands)
 
@@ -1194,7 +1194,7 @@ class SettingsDialog(QDialog):
     def saveProfile(self):
         if self.comboSchedule.itemData(self.comboSchedule.currentIndex()) == self.config.CUSTOM_HOUR:
             if not tools.checkCronPattern(self.txtScheduleCronPatern.text()):
-                self.errorHandler(_('Custom Hours can only be a comma seperate list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours'))
+                self.errorHandler(_('Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) or */3 for periodic backups every 3 hours'))
                 return False
 
         #mode
@@ -1368,7 +1368,7 @@ class SettingsDialog(QDialog):
                 if not fingerprint:
                     self.errorHandler(str(ex))
                     return False
-                msg = _('The authenticity of host "%(host)s" can\'t be stablished.\n\n%(keytype)s key fingerprint is:')
+                msg = _('The authenticity of host "%(host)s" can\'t be established.\n\n%(keytype)s key fingerprint is:')
                 msg = msg %{'host': self.config.sshHost(),
                             'keytype': keyType}
                 options = []

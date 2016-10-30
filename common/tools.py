@@ -307,7 +307,7 @@ def mkdir(path, mode = 0o755):
     else:
         os.mkdir(path, mode)
         if mode & 0o002 == 0o002:
-            #make file world (other) writeable was requested
+            #make file world (other) writable was requested
             #debian and ubuntu won't set o+w with os.mkdir
             #this will fix it
             os.chmod(path, mode)
@@ -849,7 +849,7 @@ def mountpoint(path):
 
 def decodeOctalEscape(s):
     """
-    Decode octal-escaped characters with it's ASCII dependance.
+    Decode octal-escaped characters with its ASCII dependance.
     For example '\040' will be a space ' '
 
     Args:

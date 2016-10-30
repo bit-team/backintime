@@ -68,7 +68,7 @@ def takeSnapshotAsync(cfg, checksum = False):
         cmd.append('--checksum')
     cmd.append('backup')
 
-    # child process need to start it's own ssh-agent because otherwise
+    # child process need to start its own ssh-agent because otherwise
     # it would be lost without ssh-agent if parent will close
     env = os.environ.copy()
     for i in ('SSH_AUTH_SOCK', 'SSH_AGENT_PID'):
@@ -273,7 +273,7 @@ def createParsers(app_name = 'backintime'):
     command = 'decode'
     nargs = '*'
     aliases.append((command, nargs))
-    description = "Decode pathes with 'encfsctl decode'"
+    description = "Decode paths with 'encfsctl decode'"
     decodeCP =             subparsers.add_parser(command,
                                                  epilog = epilogCommon,
                                                  help = description,
@@ -379,7 +379,7 @@ def createParsers(app_name = 'backintime'):
                                                  action = 'store',
                                                  nargs = '?',
                                                  help = 'Which SNAPSHOT_ID should be used. This can be a snapshot ID or ' +\
-                                                 'an integer starting with 0 for the last snapshot, 1 for the overlast, ... ' +\
+                                                 'an integer starting with 0 for the last snapshot, 1 for the second to last, ... ' +\
                                                  'the very first snapshot is -1')
 
     restoreCP.add_argument                      ('--delete',
@@ -559,7 +559,7 @@ def argParse(args):
                 mainParser._remove_action(i)
                 sub.append(i)
     args, unknownArgs = mainParser.parse_known_args(args)
-    #readd subparsers again
+    #read subparsers again
     if sub:
         [mainParser._add_action(i) for i in sub]
 
@@ -689,7 +689,7 @@ def getConfig(args, check = True):
 def setQuiet(args):
     """
     Redirect :py:data:`sys.stdout` to ``/dev/null`` if ``--quiet`` was set on
-    commandline. Return the original :py:data:`sys.stdout` fileobject which can
+    commandline. Return the original :py:data:`sys.stdout` file object which can
     be used to print absolute necessary information.
 
     Args:
@@ -952,7 +952,7 @@ def unmount(args):
 
 def benchmarkCipher(args):
     """
-    Command for transfering a file with scp to remote host with all
+    Command for transferring a file with scp to remote host with all
     available ciphers and print its speed and time.
 
     Args:
@@ -1005,7 +1005,7 @@ def pwCache(args):
 
 def decode(args):
     """
-    Command for decoding pathes given pathes with 'encfsctl'.
+    Command for decoding paths given paths with 'encfsctl'.
     Will listen on stdin if no path was given.
 
     Args:

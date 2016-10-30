@@ -11,7 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public Licensealong
+# You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
@@ -270,6 +270,6 @@ class TestApplicationInstance(generic.TestCase):
         mock_open.side_effect = OSError()
         self.assertEqual(self.inst.readPidFile(), (0, ''))
 
-# Execute tests if this programm is call with python TestApplicationInstance.py
+# Execute tests if this program is called with python TestApplicationInstance.py
 if __name__ == '__main__':
     unittest.main()

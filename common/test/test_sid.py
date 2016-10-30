@@ -11,7 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public Licensealong
+# You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
@@ -194,13 +194,13 @@ class TestSID(generic.SnapshotsTestCase):
         self.assertTrue(sid.canOpenPath('/foo'))
         self.assertFalse(sid.canOpenPath('/tmp'))
 
-        #test valid absolut symlink inside snapshot
+        #test valid absolute symlink inside snapshot
         os.symlink(os.path.join(backupPath, 'foo'),
                    os.path.join(backupPath, 'bar'))
         self.assertTrue(os.path.islink(os.path.join(backupPath, 'bar')))
         self.assertTrue(sid.canOpenPath('/bar'))
 
-        #test valid relativ symlink inside snapshot
+        #test valid relative symlink inside snapshot
         os.symlink('./foo',
                    os.path.join(backupPath, 'baz'))
         self.assertTrue(os.path.islink(os.path.join(backupPath, 'baz')))
@@ -341,19 +341,19 @@ class TestSID(generic.SnapshotsTestCase):
 
         self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
 
-    def test_makeWriteable(self):
+    def test_makewritable(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
         sidPath = os.path.join(self.snapshotPath, '20151219-010324-123')
         testFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'test')
 
-        #make only read and exploreable
+        #make only read and explorable
         os.chmod(sidPath, stat.S_IRUSR | stat.S_IXUSR)
         with self.assertRaises(PermissionError):
             with open(testFile, 'wt') as f:
                 f.write('foo')
 
-        sid.makeWriteable()
+        sid.makewritable()
 
         self.assertEqual(os.stat(sidPath).st_mode & stat.S_IWUSR, stat.S_IWUSR)
         try:
@@ -451,7 +451,7 @@ class TestIterSnapshots(generic.SnapshotsTestCase):
         self.assertIsInstance(l2[-1], snapshots.SID)
 
     def test_list_snapshot_without_backup(self):
-        #new snapshot without backup folder should't be added
+        #new snapshot without backup folder shouldn't be added
         os.makedirs(os.path.join(self.snapshotPath, '20151219-050324-123'))
         l3 = snapshots.listSnapshots(self.cfg)
         self.assertListEqual(l3, ['20151219-040324-123',
