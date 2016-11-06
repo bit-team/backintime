@@ -1154,8 +1154,8 @@ class Config(configfile.ConfigFileWithProfiles):
         return self.profileStrValue('snapshots.rsync_options.value', '', profile_id)
 
     def setRsyncOptions(self, enabled, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.rsync_options.enabled', enabled, profile_id)
-        return self.setProfileStrValue('snapshots.rsync_options.value', value, profile_id)
+        self.setProfileBoolValue('snapshots.rsync_options.enabled', enabled, profile_id)
+        self.setProfileStrValue('snapshots.rsync_options.value', value, profile_id)
 
     def sshPrefixEnabled(self, profile_id = None):
         #?Add prefix to every command which run through SSH on remote host.
