@@ -115,8 +115,6 @@ class QtSysTrayIcon:
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateInfo)
 
-        self.ppid = os.getppid()
-
     def prepairExit(self):
         self.timer.stop()
 
@@ -131,6 +129,8 @@ class QtSysTrayIcon:
         self.qapp.processEvents()
 
     def run(self):
+        if not self.snapshots.busy():
+            sys.exit()
         self.status_icon.show()
         self.timer.start(500)
 
@@ -143,7 +143,7 @@ class QtSysTrayIcon:
         self.prepairExit()
 
     def updateInfo(self):
-        if not tools.processAlive(self.ppid):
+        if not self.snapshots.busy():
             self.prepairExit()
             self.qapp.exit(0)
             return
