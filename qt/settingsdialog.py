@@ -1228,16 +1228,17 @@ class SettingsDialog(QDialog):
         self.config.setSshUser(self.txtSshUser.text())
         self.config.setSshSnapshotsPath(self.txtSshPath.text())
         self.config.setSshCipher(self.comboSshCipher.itemData(self.comboSshCipher.currentIndex()))
-        if not self.txtSshPrivateKeyFile.text():
-            if self.questionHandler(_('You did not choose a private key file for SSH.\nWould you like to generate a new password-less public/private key pair?')):
-                self.btnSshKeyGenClicked()
+        if mode in ('ssh', 'ssh_encfs'):
             if not self.txtSshPrivateKeyFile.text():
+                if self.questionHandler(_('You did not choose a private key file for SSH.\nWould you like to generate a new password-less public/private key pair?')):
+                    self.btnSshKeyGenClicked()
+                if not self.txtSshPrivateKeyFile.text():
+                    return False
+            if not os.path.isfile(self.txtSshPrivateKeyFile.text()):
+                self.errorHandler(_('Private key file "%(file)s" does not exist.')
+                                  %{'file': self.txtSshPrivateKeyFile.text()})
+                self.txtSshPrivateKeyFile.setText('')
                 return False
-        if not os.path.isfile(self.txtSshPrivateKeyFile.text()):
-            self.errorHandler(_('Private key file "%(file)s" does not exist.')
-                              %{'file': self.txtSshPrivateKeyFile.text()})
-            self.txtSshPrivateKeyFile.setText('')
-            return False
         self.config.setSshPrivateKeyFile(self.txtSshPrivateKeyFile.text())
 
         #save local_encfs
