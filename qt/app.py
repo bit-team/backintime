@@ -50,7 +50,7 @@ from PyQt5.QtCore import *
 import settingsdialog
 import snapshotsdialog
 import logviewdialog
-import restoredialog
+from restoredialog import RestoreDialog
 import messagebox
 
 
@@ -240,24 +240,6 @@ class MainWindow(QMainWindow):
                                              'to a new destination.'))
         self.btnRestoreParentTo.triggered.connect(self.restoreParentTo)
         self.menuRestore.addSeparator()
-        self.btnRestoreDelete = self.menuRestore.addAction(icon.RESTORE, _('Restore and delete new files'))
-        self.btnRestoreDelete.setToolTip(_('Restore selected files or folders '
-                                           'to the original destination and\n'
-                                           'delete files/folders which are '
-                                           'not in the snapshot.\n'
-                                           'This will delete files/folders which where '
-                                           'excluded during taking the snapshot!\n'
-                                           'Be extremely careful!!!'))
-        self.btnRestoreDelete.triggered.connect(lambda: self.restoreThis(True))
-        self.btnRestoreParentDelete = self.menuRestore.addAction(icon.RESTORE, '')
-        self.btnRestoreParentDelete.setToolTip(_('Restore the currently shown folder '
-                                                 'and all its content to the original\n'
-                                                 'destination and delete files/folders '
-                                                 'which are not in the snapshot.\n'
-                                                 'This will delete files/folders which '
-                                                 'where excluded during taking the snapshot!\n'
-                                                 'Be extremely careful!!!'))
-        self.btnRestoreParentDelete.triggered.connect(lambda: self.restoreParent(True))
 
         for action in self.menuRestore.actions():
             action.setIconVisibleInMenu(True)
@@ -300,9 +282,6 @@ class MainWindow(QMainWindow):
         self.menuRestore.addSeparator()
         self.menuRestore.addAction(self.btnRestoreParent)
         self.menuRestore.addAction(self.btnRestoreParentTo)
-        self.menuRestore.addSeparator()
-        self.menuRestore.addAction(self.btnRestoreDelete)
-        self.menuRestore.addAction(self.btnRestoreParentDelete)
 
         self.menuHelp = self.menuBar().addMenu(_('Help'))
         self.menuHelp.addAction(self.btnHelp)
@@ -1042,33 +1021,34 @@ class MainWindow(QMainWindow):
         fileList.setSelectionMode(QAbstractItemView.NoSelection)
         return {'widget': fileList, 'retFunc': None}
 
-    def confirmDeleteOnRestore(self, paths, warn_root = False):
-        msg = _('Are you sure you want to remove all newer files in your '
-                'original folder?')
-        if warn_root:
-            msg += '\n\n'
-            msg += _('WARNING: deleting files in filesystem root could break your whole system!!!')
-        msg += '\n\n'
-        msg += _('Files to be restored:')
+    def deleteOnRestore(self):
+        cb = QCheckBox(_('Remove newer files in original folder'))
+        return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
-        confirm, opt = messagebox.warningYesNoOptions(self,
-                                                      msg,
-                                                      (self.listRestorePaths(paths),
-                                                       self.backupOnRestore(),
-                                                       self.restoreOnlyNew()))
-        return (confirm, opt)
-
-    def confirmRestore(self, paths):
+    def confirmRestore(self, paths, warnRoot = False):
         msg = _('Do you really want to restore this files(s):')
 
         confirm, opt = messagebox.warningYesNoOptions(self,
                                                       msg,
                                                       (self.listRestorePaths(paths),
                                                        self.backupOnRestore(),
-                                                       self.restoreOnlyNew()))
+                                                       self.restoreOnlyNew(),
+                                                       self.deleteOnRestore()))
         return (confirm, opt)
 
-    def restoreThis(self, delete = False):
+    def confirmDelete(self, warnRoot = False, restoreTo = None):
+        if restoreTo:
+            msg = _("Are you sure you want to remove all newer files "
+                    "in '%(path)s'?") %{'path': restoreTo}
+        else:
+            msg = _('Are you sure you want to remove all newer files in your '
+                    'original folder?')
+        if warnRoot:
+            msg += '\n\n'
+            msg += _('WARNING: deleting files in filesystem root could break your whole system!!!')
+        return QMessageBox.Yes == messagebox.warningYesNo(self, msg)
+
+    def restoreThis(self):
         if self.sid.isRoot:
             return
 
@@ -1078,14 +1058,14 @@ class MainWindow(QMainWindow):
         rel_path = [os.path.join(self.path, x) for x in selected_file]
 
         with self.suspendMouseButtonNavigation():
-            if delete:
-                confirm, kwargs = self.confirmDeleteOnRestore(rel_path, any([i == '/' for i in selected_file]))
-            else:
-                confirm, kwargs = self.confirmRestore(rel_path)
-        if not confirm:
-            return
+            confirm, opt = self.confirmRestore(rel_path)
+            if not confirm:
+                return
+            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in selected_file):
+                return
 
-        restoredialog.restore(self, self.sid, rel_path, delete = delete, **kwargs)
+        rd = RestoreDialog(self, self.sid, rel_path, **opt)
+        rd.exec()
 
     def restoreThisTo(self):
         if self.sid.isRoot:
@@ -1096,34 +1076,51 @@ class MainWindow(QMainWindow):
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
 
-        confirm, kwargs = self.confirmRestore(rel_path)
-        if not confirm:
-            return
+        with self.suspendMouseButtonNavigation():
+            restoreTo = qttools.getExistingDirectory(self, _('Restore to ...'))
+            if not restoreTo:
+                return
+            restoreTo = self.config.preparePath(restoreTo)
+            confirm, opt = self.confirmRestore(rel_path)
+            if not confirm:
+                return
+            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in selected_file, restoreTo = restoreTo):
+                return
 
-        restoredialog.restore(self, self.sid, rel_path, None, **kwargs)
+        rd = RestoreDialog(self, self.sid, rel_path, restoreTo, **opt)
+        rd.exec()
 
-    def restoreParent(self, delete = False):
+    def restoreParent(self):
         if self.sid.isRoot:
             return
 
         with self.suspendMouseButtonNavigation():
-            if delete:
-                confirm, kwargs = self.confirmDeleteOnRestore((self.path,), self.path == '/')
-            else:
-                confirm, kwargs = self.confirmRestore((self.path,))
-        if not confirm:
-            return
+            confirm, opt = self.confirmRestore((self.path,))
+            if not confirm:
+                return
+            if opt['delete'] and not self.confirmDelete(warnRoot = self.path == '/'):
+                return
 
-        restoredialog.restore(self, self.sid, self.path, delete = delete, **kwargs)
+        rd = RestoreDialog(self, self.sid, self.path, **opt)
+        rd.exec()
 
     def restoreParentTo(self):
         if self.sid.isRoot:
             return
 
-        if not self.confirmRestore((self.path,)):
-            return
+        with self.suspendMouseButtonNavigation():
+            restoreTo = qttools.getExistingDirectory(self, _('Restore to ...'))
+            if not restoreTo:
+                return
+            restoreTo = self.config.preparePath(restoreTo)
+            confirm, opt = self.confirmRestore((self.path,))
+            if not confirm:
+                return
+            if opt['delete'] and not self.confirmDelete(warnRoot = self.path == '/', restoreTo = restoreTo):
+                return
 
-        restoredialog.restore(self, self.sid, self.path, None)
+        rd = RestoreDialog(self, self.sid, self.path, restoreTo, **opt)
+        rd.exec()
 
     def btnSnapshotsClicked(self):
         selected_file, idx = self.fileSelected()
@@ -1311,7 +1308,6 @@ class MainWindow(QMainWindow):
         self.editCurrentPath.setText(self.path)
         self.btnRestoreParent.setText(_("Restore '%s'") % self.path)
         self.btnRestoreParentTo.setText(_("Restore '%s' to ...") % self.path)
-        self.btnRestoreParentDelete.setText(_("Restore '%s' and delete new files") % self.path)
 
         #update folder_up button state
         self.btnFolderUp.setEnabled(len(self.path) > 1)

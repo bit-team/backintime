@@ -30,17 +30,6 @@ import qttools
 
 _=gettext.gettext
 
-
-def restore(parent, sid, what, where = '', **kwargs):
-    if where is None:
-        where = qttools.getExistingDirectory(parent, _('Restore to ...'))
-        if not where:
-            return
-        where = parent.config.preparePath(where)
-
-    rd = RestoreDialog(parent, sid, what, where, **kwargs)
-    rd.exec()
-
 class RestoreDialog(QDialog):
     def __init__(self, parent, sid, what, where = '', **kwargs):
         super(RestoreDialog, self).__init__(parent)
