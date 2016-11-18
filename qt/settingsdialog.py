@@ -627,13 +627,13 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.cbGlobalFlock)
 
         self.cbBackupOnRestore = QCheckBox(_('Backup replaced files on restore'), self)
-        self.cbBackupOnRestore.setToolTip(_('Newer versions of files will be '
-                                             'renamed with trailing \'%(suffix)s\' '
-                                             'before restoring.\n'
-                                             'If you don\'t need them anymore '
-                                             'you can remove them with \'%(cmd)s\'')
+        self.cbBackupOnRestore.setToolTip(_("Newer versions of files will be "
+                                            "renamed with trailing '%(suffix)s' "
+                                            "before restoring.\n"
+                                            "If you don't need them anymore "
+                                            "you can remove them with '%(cmd)s'")
                                              %{'suffix': self.snapshots.backupSuffix(),
-                                             'cmd': 'find ./ -name "*%s" -delete' % self.snapshots.backupSuffix() })
+                                               'cmd': 'find ./ -name "*%s" -delete' % self.snapshots.backupSuffix() })
         layout.addWidget(self.cbBackupOnRestore)
 
         self.cbContinueOnErrors = QCheckBox(_('Continue on errors (keep incomplete snapshots)'), self)
