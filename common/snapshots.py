@@ -370,6 +370,7 @@ class Snapshots:
                 except:
                     pass
                 self.restoreCallback(callback, ok, "chown %s %s : %s" % (path.decode(errors = 'ignore'), uid, gid))
+                st = os.stat(path)
 
             #if restore uid/gid failed try to restore at least gid
             if not ok and gid != st.st_gid:
@@ -379,6 +380,7 @@ class Snapshots:
                 except:
                     pass
                 self.restoreCallback(callback, ok, "chgrp %s %s" % (path.decode(errors = 'ignore'), gid))
+                st = os.stat(path)
 
         #restore perms
         ok = False
