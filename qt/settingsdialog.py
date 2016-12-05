@@ -21,6 +21,7 @@ import datetime
 import gettext
 import copy
 import grp
+import re
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -885,9 +886,11 @@ class SettingsDialog(QDialog):
         #buttons
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent = self)
         btnRestore = buttonBox.addButton(_('Restore Config'), QDialogButtonBox.ResetRole)
+        btnUserCallback = buttonBox.addButton(_('Edit user-callback'), QDialogButtonBox.ResetRole)
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
         btnRestore.clicked.connect(self.restoreConfig)
+        btnUserCallback.clicked.connect(self.editUserCallback)
         self.mainLayout.addWidget(buttonBox)
 
         self.updateProfiles()
@@ -1740,6 +1743,9 @@ class SettingsDialog(QDialog):
         RestoreConfigDialog(self).exec_()
         self.updateProfiles()
 
+    def editUserCallback(self, *args):
+        EditUserCallback(self).exec_()
+
     def accept(self):
         if self.validate():
             super(SettingsDialog, self).accept()
@@ -2056,6 +2062,51 @@ class ScanFileSystem(QThread):
                     if self.BACKUP in dirs:
                         del dirs[dirs.index(self.BACKUP)]
                     yield root
+
+class EditUserCallback(QDialog):
+    def __init__(self, parent):
+        super(EditUserCallback, self).__init__(parent)
+        self.config = parent.config
+        self.script = self.config.takeSnapshotUserCallback()
+
+        import icon
+        self.setWindowIcon(icon.SETTINGS_DIALOG)
+        self.setWindowTitle(self.script)
+        self.resize(800, 500)
+
+        layout = QVBoxLayout(self)
+        self.edit = QPlainTextEdit(self)
+        try:
+            with open(self.script, 'rt') as f:
+                self.edit.setPlainText(f.read())
+        except IOError:
+            pass
+        layout.addWidget(self.edit)
+
+        btnBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent = self)
+        btnBox.accepted.connect(self.accept)
+        btnBox.rejected.connect(self.reject)
+        layout.addWidget(btnBox)
+
+    def checkScript(self, script):
+        m = re.match(r'^#!(/[\w/-]+)\n', script)
+        if not m:
+            logger.error('user-callback script has no shebang (#!/bin/sh) line.')
+            self.config.errorHandler(_('user-callback script has no shebang (#!/bin/sh) line.'))
+            return False
+        if not tools.checkCommand(m.group(1)):
+            logger.error('Shebang in user-callback script is not executable.')
+            self.config.errorHandler(_('Shebang in user-callback script is not executable.'))
+            return False
+        return True
+
+    def accept(self):
+        if not self.checkScript(self.edit.toPlainText()):
+            return
+        with open(self.script, 'wt') as f:
+            f.write(self.edit.toPlainText())
+        os.chmod(self.script, 0o755)
+        super(EditUserCallback, self).accept()
 
 def debugTrace():
     """

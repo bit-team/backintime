@@ -1289,7 +1289,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def takeSnapshotInstanceFile(self, profile_id = None):
         return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.lock" % self.fileId(profile_id))
 
-    def takeSnapshotUserCallback(self, profile_id = None):
+    def takeSnapshotUserCallback(self):
         return os.path.join(self._LOCAL_CONFIG_FOLDER, "user-callback")
 
     def passwordCacheFolder(self):
