@@ -18,13 +18,13 @@
 import os
 import sys
 import gettext
-from PyQt5.QtGui import (QFont, QColor)
+from PyQt5.QtGui import (QFont, QColor, QKeySequence)
 from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
                           QTranslator, QLocale, QLibraryInfo, QEvent)
 from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
                              QTreeWidget, QTreeWidgetItem, QComboBox, QMenu,
-                             QToolTip)
+                             QToolTip, QAction)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 
@@ -67,21 +67,40 @@ def equalIndent(*args):
         for widget in args:
             widget.setMinimumWidth(width)
 
+class FileDialogShowHidden(QFileDialog):
+    def __init__(self, parent, *args, **kwargs):
+        super(FileDialogShowHidden, self).__init__(parent, *args, **kwargs)
+        self.setOption(self.DontUseNativeDialog, True)
+        self.setOption(self.HideNameFilterDetails, True)
+
+        showHiddenAction = QAction(self)
+        showHiddenAction.setShortcuts([QKeySequence(Qt.CTRL + Qt.Key_H),])
+        showHiddenAction.triggered.connect(self.toggleShowHidden)
+        self.addAction(showHiddenAction)
+
+        self.showHidden(hiddenFiles(parent))
+
+    def showHidden(self, enable):
+        if enable:
+            self.setFilter(self.filter() | QDir.Hidden)
+        elif int(self.filter() & QDir.Hidden):
+            self.setFilter(self.filter() ^ QDir.Hidden)
+
+    def toggleShowHidden(self):
+        self.showHidden(not int(self.filter() & QDir.Hidden))
+
 def getExistingDirectories(parent, *args, **kwargs):
     """
     Workaround for selecting multiple directories
     adopted from http://www.qtcentre.org/threads/34226-QFileDialog-select-multiple-directories?p=158482#post158482
     This also give control about hidden folders
     """
-    dlg = QFileDialog(parent, *args, **kwargs)
-    dlg.setOption(dlg.DontUseNativeDialog, True)
-    dlg.setOption(dlg.HideNameFilterDetails, True)
+    dlg = FileDialogShowHidden(parent, *args, **kwargs)
     dlg.setFileMode(dlg.Directory)
     dlg.setOption(dlg.ShowDirsOnly, True)
-    if hiddenFiles(parent):
-        dlg.setFilter(dlg.filter() | QDir.Hidden)
     dlg.findChildren(QListView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)
     dlg.findChildren(QTreeView)[0].setSelectionMode(QAbstractItemView.ExtendedSelection)
+
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()
     return [str(), ]
@@ -90,13 +109,10 @@ def getExistingDirectory(parent, *args, **kwargs):
     """
     Workaround to give control about hidden folders
     """
-    dlg = QFileDialog(parent, *args, **kwargs)
-    dlg.setOption(dlg.DontUseNativeDialog, True)
-    dlg.setOption(dlg.HideNameFilterDetails, True)
+    dlg = FileDialogShowHidden(parent, *args, **kwargs)
     dlg.setFileMode(dlg.Directory)
     dlg.setOption(dlg.ShowDirsOnly, True)
-    if hiddenFiles(parent):
-        dlg.setFilter(dlg.filter() | QDir.Hidden)
+
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()[0]
     return str()
@@ -105,12 +121,9 @@ def getOpenFileNames(parent, *args, **kwargs):
     """
     Workaround to give control about hidden files
     """
-    dlg = QFileDialog(parent, *args, **kwargs)
-    dlg.setOption(dlg.DontUseNativeDialog, True)
-    dlg.setOption(dlg.HideNameFilterDetails, True)
+    dlg = FileDialogShowHidden(parent, *args, **kwargs)
     dlg.setFileMode(dlg.ExistingFiles)
-    if hiddenFiles(parent):
-        dlg.setFilter(dlg.filter() | QDir.Hidden)
+
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()
     return [str(), ]
@@ -119,12 +132,9 @@ def getOpenFileName(parent, *args, **kwargs):
     """
     Workaround to give control about hidden files
     """
-    dlg = QFileDialog(parent, *args, **kwargs)
-    dlg.setOption(dlg.DontUseNativeDialog, True)
-    dlg.setOption(dlg.HideNameFilterDetails, True)
+    dlg = FileDialogShowHidden(parent, *args, **kwargs)
     dlg.setFileMode(dlg.ExistingFile)
-    if hiddenFiles(parent):
-        dlg.setFilter(dlg.filter() | QDir.Hidden)
+
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()[0]
     return str()
