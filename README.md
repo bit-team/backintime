@@ -20,9 +20,7 @@ You only need to specify 3 things:
 
 ##Documentation
 
-The documentation is currently under development.
-The one in http://backintime.le-web.org is outdated and will not be continued.
-The new documentation is available in http://backintime.rtfd.org/
+The documentation is currently under development in http://backintime.rtfd.org/
 
 ##Support
 
@@ -41,8 +39,8 @@ repositories.
 
 #####Ubuntu PPA
 
-We provide a PPA (private package archive) with current stable version (ppa:bit-team/stable)
-and a testing PPA (ppa:bit-team/testing)
+We provide a PPA (Private Package Archive) with current stable version
+(ppa:bit-team/stable) and a testing PPA (ppa:bit-team/testing)
 
     sudo add-apt-repository ppa:bit-team/stable
     sudo apt-get update
@@ -138,19 +136,7 @@ There is a dev-docu on http://backintime-dev.rtfd.org/
 It's not complete yet but I'm working on it. If you'd like to contribute
 please add docstrings following the
 [Google style guide](http://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html)
-and add unittests for new methods in common. To run unittest locally you can
+and add unit-tests for new methods in common. To run unit-test locally you can
 run `cd common && ./configure && make test`
 
-#####Credits
-
-* Francisco Manuel García Claramonte: Spanish translation
-* Michael Wiedmann: German translation
-* Niklas Grahn: Swedish translation
-* Vanja Cvelbar: Slovenian translation
-* Michel Corps: French translation
-* Tomáš Vadina: Slovak translation
-* Paweł Hołuj: Polish translation
-* Vadim Peretokin: Russian translation
-* translators from [Launchpad](https://translations.launchpad.net/backintime/trunk/+pots/back-in-time)
-
-<sub>August 2016</sub>
+<sub>December 2016</sub>
