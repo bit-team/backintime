@@ -1062,36 +1062,46 @@ def patternHasNotEncryptableWildcard(pattern):
 BIT_TIME_FORMAT = '%Y%m%d %H%M'
 ANACRON_TIME_FORMAT = '%Y%m%d'
 
-def readTimeStamp(f):
+def readTimeStamp(fname):
     """
-    Read date string from file ``f`` and try to return datetime.
+    Read date string from file ``fname`` and try to return datetime.
 
     Args:
-        f (str):            full path to timestamp file
+        fname (str):        full path to timestamp file
 
     Returns:
         datetime.datetime:  date from timestamp file
     """
-    if not os.path.exists(f):
+    if not os.path.exists(fname):
+        logger.debug("no timestamp in '%(file)s'" %
+                     {'file': fname})
         return
-    with open(f, 'r') as f:
+    with open(fname, 'r') as f:
         s = f.read().strip('\n')
     for i in (ANACRON_TIME_FORMAT, BIT_TIME_FORMAT):
         try:
-            return datetime.strptime(s, i)
+            stamp = datetime.strptime(s, i)
+            logger.debug("read timestamp '%(time)s' from file '%(file)s'" %
+                         {'time': stamp,
+                          'file': fname})
+            return stamp
         except ValueError:
             pass
 
-def writeTimeStamp(f):
+def writeTimeStamp(fname):
     """
-    Write current date and time into file ``f``.
+    Write current date and time into file ``fname``.
 
     Args:
-        f (str):            full path to timestamp file
+        fname (str):        full path to timestamp file
     """
-    makeDirs(os.path.dirname(f))
-    with open(f, 'w') as f:
-        f.write(datetime.now().strftime(BIT_TIME_FORMAT))
+    now = datetime.now().strftime(BIT_TIME_FORMAT)
+    logger.debug("write timestamp '%(time)s' into file '%(file)s'" %
+                 {'time': now,
+                  'file': fname})
+    makeDirs(os.path.dirname(fname))
+    with open(fname, 'w') as f:
+        f.write(now)
 
 INHIBIT_LOGGING_OUT = 1
 INHIBIT_USER_SWITCHING = 2

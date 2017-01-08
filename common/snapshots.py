@@ -739,9 +739,6 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if sleep:
             time.sleep(2) #max 1 backup / second
 
-        if not ret_error and not list(self.config.anacrontabFiles()):
-            tools.writeTimeStamp(self.config.anacronSpoolFile())
-
         #release inhibit suspend
         if self.config.inhibitCookie:
             self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
@@ -1076,6 +1073,9 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             return [False, True]
 
         self.backupInfo(sid)
+
+        if not has_errors and not list(self.config.anacrontabFiles()):
+            tools.writeTimeStamp(self.config.anacronSpoolFile())
 
         #create last_snapshot symlink
         self.createLastSnapshotSymlink(sid)
