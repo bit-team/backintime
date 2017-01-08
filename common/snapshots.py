@@ -580,7 +580,7 @@ class Snapshots:
             rsync.append(d + os.sep)
             rsync.append(self.rsyncRemotePath(sid.path(use_mode = ['ssh', 'ssh_encfs'])))
             tools.Execute(rsync).run()
-            os.rmdir(sid.path())
+            shutil.rmtree(sid.path())
 
     def backup(self, force = False):
         """
