@@ -25,6 +25,7 @@ from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config
 import snapshots
+import tools
 from applicationinstance import ApplicationInstance
 from pluginmanager import PluginManager
 from mount import Mount
@@ -85,14 +86,14 @@ class TestBackup(generic.SnapshotsTestCase):
     @patch('time.sleep') # speed up unittest
     @patch('snapshots.Snapshots.takeSnapshot')
     def test_scheduled(self, takeSnapshot, sleep):
-        # first run should create a timestamp
+        # first run without timestamp
         takeSnapshot.return_value = [True, False]
         self.assertTrue(self.sn.backup(force = False))
         self.assertTrue(takeSnapshot.called)
-        self.assertTrue(os.path.exists(self.cfg.anacronSpoolFile()))
         takeSnapshot.reset_mock()
 
         # second run doesn't use an anacron-like schedule
+        tools.writeTimeStamp(self.cfg.anacronSpoolFile())
         self.assertTrue(self.sn.backup(force = False))
         self.assertTrue(takeSnapshot.called)
         takeSnapshot.reset_mock()

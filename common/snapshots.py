@@ -1045,6 +1045,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             self.snapshotLog.append('[I] ' + _('Nothing changed, no new snapshot necessary'), 3)
             if prev_sid:
                 prev_sid.setLastChecked()
+            if not has_errors and not list(self.config.anacrontabFiles()):
+                tools.writeTimeStamp(self.config.anacronSpoolFile())
             return [False, False]
 
         self.backupConfig(new_snapshot)

@@ -55,6 +55,7 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'file with spaces')))
+        self.assertTrue(os.path.exists(self.cfg.anacronSpoolFile()))
         for f in ('config',
                   'fileinfo.bz2',
                   'info',
@@ -67,11 +68,13 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         # second takeSnapshot which should not create a new snapshot as nothing
         # has changed
+        os.remove(self.cfg.anacronSpoolFile())
         now = datetime.today() - timedelta(minutes = 4)
         sid2 = snapshots.SID(now, self.cfg)
 
         self.assertListEqual([False, False], self.sn.takeSnapshot(sid2, now, [(self.include.name, 0),]))
         self.assertFalse(sid2.exists())
+        self.assertTrue(os.path.exists(self.cfg.anacronSpoolFile()))
 
         # third takeSnapshot
         self.remount()
@@ -180,6 +183,7 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'takesnapshot.log.bz2',
                   'failed'):
             self.assertTrue(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
+        self.assertFalse(os.path.exists(self.cfg.anacronSpoolFile()))
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_error_without_continue(self, sleep):
