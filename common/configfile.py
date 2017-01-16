@@ -88,10 +88,16 @@ class ConfigFile(object):
         Returns:
             bool:           ``True`` if successful
         """
+        def numsort(key):
+            """
+            Sort int in keys in nummeric order instead of alphabetical by adding
+            leading zeros to int's
+            """
+            return re.sub(r'\d+', lambda m: m.group(0).zfill(6), key)
         try:
             with open(filename, 'wt') as f:
                 keys = list(self.dict.keys())
-                keys.sort()
+                keys.sort(key = numsort)
                 for key in keys:
                     f.write("%s=%s\n" % (key, self.dict[key]))
         except OSError as e:
