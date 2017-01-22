@@ -1,2 +1,9 @@
 #!/bin/sh
-pkexec --disable-internal-agent env QT_QPA_PLATFORM=wayland-egl XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR "/usr/bin/backintime-qt" "$@"
+
+if [ "x$XDG_SESSION_TYPE" = "xwayland" ]; then
+    PREFIX="env QT_QPA_PLATFORM=wayland-egl XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
+else
+    PREFIX=""
+fi
+
+pkexec --disable-internal-agent $PREFIX "/usr/bin/backintime-qt" "$@"
