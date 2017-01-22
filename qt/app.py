@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 #    Back In Time
 #    Copyright (C) 2008-2016 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #

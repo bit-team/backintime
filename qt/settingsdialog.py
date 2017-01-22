@@ -356,7 +356,7 @@ class SettingsDialog(QDialog):
         glayout.addWidget(self.txtScheduleCronPatern, 4, 1)
 
         #anacron
-        self.lblScheduleRepeated = QLabel(_('Run Back In Time repeatedly. This is useful if the computer is not running regular.'))
+        self.lblScheduleRepeated = QLabel(_('Run Back In Time repeatedly. This is useful if the computer is not running regularly.'))
         self.lblScheduleRepeated.setContentsMargins(5, 0, 0, 0)
         self.lblScheduleRepeated.setWordWrap(True)
         glayout.addWidget(self.lblScheduleRepeated, 5, 0, 1, 2)
