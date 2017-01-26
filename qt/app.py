@@ -1061,8 +1061,12 @@ files that the receiver requests to be transferred.""")
                         'Be extremely careful!!!'))
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
 
-    def confirmRestore(self, paths):
-        msg = _('Do you really want to restore this files(s):')
+    def confirmRestore(self, paths, restoreTo = None):
+        if restoreTo:
+            msg = _("Do you really want to restore this files(s)\ninto new folder '%(path)s':") \
+                    %{'path': restoreTo}
+        else:
+            msg = _('Do you really want to restore this files(s):')
 
         confirm, opt = messagebox.warningYesNoOptions(self,
                                                       msg,
@@ -1117,7 +1121,7 @@ files that the receiver requests to be transferred.""")
             if not restoreTo:
                 return
             restoreTo = self.config.preparePath(restoreTo)
-            confirm, opt = self.confirmRestore(rel_path)
+            confirm, opt = self.confirmRestore(rel_path, restoreTo)
             if not confirm:
                 return
             if opt['delete'] and not self.confirmDelete(warnRoot = '/' in selected_file, restoreTo = restoreTo):
@@ -1149,7 +1153,7 @@ files that the receiver requests to be transferred.""")
             if not restoreTo:
                 return
             restoreTo = self.config.preparePath(restoreTo)
-            confirm, opt = self.confirmRestore((self.path,))
+            confirm, opt = self.confirmRestore((self.path,), restoreTo)
             if not confirm:
                 return
             if opt['delete'] and not self.confirmDelete(warnRoot = self.path == '/', restoreTo = restoreTo):
