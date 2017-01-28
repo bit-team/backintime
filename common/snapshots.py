@@ -2409,10 +2409,16 @@ class NewSnapshot(GenericNonSnapshot):
     def saveToContinue(self, enable):
         flag = self.path(self.SAVETOCONTINUE)
         if enable:
-            with open(flag, 'wt') as f:
-                pass
+            try:
+                with open(flag, 'wt') as f:
+                    pass
+            except Exception as e:
+                logger.error("Failed to set 'save_to_continue' flag: %s" %str(e))
         elif os.path.exists(flag):
-            os.remove(flag)
+            try:
+                os.remove(flag)
+            except Exception as e:
+                logger.error("Failed to remove 'save_to_continue' flag: %s" %str(e))
 
     @property
     def hasChanges(self):
