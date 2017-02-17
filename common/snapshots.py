@@ -2262,22 +2262,25 @@ class SID(object):
                     info = line[:index].strip().split(b' ')
                     if len(info) == 3:
                         d[f] = (int(info[0]), info[1], info[2]) #perms, user, group
-        except Exception as e:
-            logger.debug('Failed to load fileinfo.bz2 from snapshot {}: {}'.format(
-                         self.sid, str(e)),
+        except (FileNotFoundError, PermissionError) as e:
+            logger.error('Failed to load {} from snapshot {}: {}'.format(
+                         self.FILEINFO, self.sid, str(e)),
                          self)
         return d
 
     @fileInfo.setter
     def fileInfo(self, d):
         assert isinstance(d, FileInfoDict), 'd is not FileInfoDict type: {}'.format(d)
-        with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
-            for path, info in d.items():
-                f.write(b' '.join((str(info[0]).encode('utf-8', 'replace'),
-                                   info[1],
-                                   info[2],
-                                   path))
-                                   + b'\n')
+        try:
+            with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
+                for path, info in d.items():
+                    f.write(b' '.join((str(info[0]).encode('utf-8', 'replace'),
+                                       info[1],
+                                       info[2],
+                                       path))
+                                       + b'\n')
+        except PermissionError as e:
+            logger.error('Failed to write {}: {}'.format(self.FILEINFO, str(e)))
 
     #TODO: use @property decorator
     def log(self, mode = None, decode = None):

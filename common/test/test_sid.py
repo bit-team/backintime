@@ -22,10 +22,12 @@ import stat
 import re
 from datetime import date, datetime
 from test import generic
+from unittest.mock import patch
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import configfile
 import snapshots
+import logger
 from snapshotlog import LogFilter, SnapshotLog
 
 class TestSID(generic.SnapshotsTestCase):
@@ -301,6 +303,41 @@ class TestSID(generic.SnapshotsTestCase):
         #load fileInfo in a new snapshot
         sid2 = snapshots.SID('20151219-010324-123', self.cfg)
         self.assertDictEqual(sid2.fileInfo, d)
+
+    @patch('logger.error')
+    def test_fileInfoErrorRead(self, mock_logger):
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
+        infoFile = sid.path(sid.FILEINFO)
+        # remove all permissions from file
+        with open(infoFile, 'wt') as f:
+            pass
+        os.chmod(infoFile, 0o000)
+
+        self.assertEqual(sid.fileInfo, {})
+        self.assertTrue(mock_logger.called)
+
+        # make file read/writeable again for deletion
+        os.chmod(infoFile, 0o600)
+
+    @patch('logger.error')
+    def test_fileInfoErrorWrite(self, mock_logger):
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
+        infoFile = sid.path(sid.FILEINFO)
+        # remove all permissions from file
+        with open(infoFile, 'wt') as f:
+            pass
+        os.chmod(infoFile, 0o000)
+
+        d = snapshots.FileInfoDict()
+        d[b'/tmp']     = (123, b'foo', b'bar')
+        d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
+        sid.fileInfo = d
+        self.assertTrue(mock_logger.called)
+
+        # make file read/writeable again for deletion
+        os.chmod(infoFile, 0o600)
 
     def test_log(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
