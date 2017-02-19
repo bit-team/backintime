@@ -83,7 +83,6 @@ before installing
     - openssh-client
     - python3-keyring
     - python3-dbus
-    - bindfs
 
 * recomended
     - sshfs
