@@ -950,7 +950,7 @@ class SettingsDialog(QDialog):
         self.updateProfiles()
 
     def editProfile(self):
-        ret_val =  QInputDialog.getText(self, _('Rename profile'), str())
+        ret_val =  QInputDialog.getText(self, _('Rename profile'), str(), text = self.config.profileName())
         if not ret_val[1]:
             return
 
@@ -961,7 +961,7 @@ class SettingsDialog(QDialog):
         if not self.config.setProfileName(name):
             return
 
-        self.updateProfiles()
+        self.updateProfiles(reloadSettings = False)
 
     def removeProfile(self):
         if self.questionHandler(_('Are you sure you want to delete the profile "%s" ?') % self.config.profileName()):
@@ -1035,8 +1035,9 @@ class SettingsDialog(QDialog):
             self.config.setCurrentProfile(profile_id)
             self.updateProfile()
 
-    def updateProfiles(self):
-        self.updateProfile()
+    def updateProfiles(self, reloadSettings = True):
+        if reloadSettings:
+            self.updateProfile()
         current_profile_id = self.config.currentProfile()
 
         self.disableProfileChanged = True
