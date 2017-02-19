@@ -18,6 +18,7 @@
 import os
 import sys
 import unittest
+from unittest.mock import patch
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -25,6 +26,9 @@ import logger
 import config
 import snapshots
 import tools
+
+# mock notifyplugin to suppress notifications
+tools.registerBackintimePath('qt', 'plugins')
 
 TMP_FLOCK = NamedTemporaryFile()
 PRIV_KEY_FILE = os.path.expanduser(os.path.join("~",".ssh","id_rsa"))
@@ -46,12 +50,17 @@ ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
 ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 
 class TestCase(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, methodName):
         os.environ['LANGUAGE'] = 'en_US.UTF-8'
         self.cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
         logger.APP_NAME = 'BIT_unittest'
         logger.openlog()
-        super(TestCase, self).__init__(*args, **kwargs)
+
+        # mock notifyplugin to suppress notifications
+        patcher = patch('notifyplugin.NotifyPlugin.message')
+        self.mockNotifyPlugin = patcher.start()
+
+        super(TestCase, self).__init__(methodName)
 
     def setUp(self):
         logger.DEBUG = '-v' in sys.argv

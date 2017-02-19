@@ -48,7 +48,52 @@ IS_ROOT = os.geteuid() == 0
 
 class TestSnapshots(generic.SnapshotsTestCase):
     ############################################################################
-    ###                              uid                                 ###
+    ###                       takeSnapshotMessage                            ###
+    ############################################################################
+    def test_setTakeSnapshotMessage_info(self):
+        self.sn.config.PLUGIN_MANAGER.load()
+        self.assertTrue(self.sn.config.PLUGIN_MANAGER.loaded)
+
+        self.sn.setTakeSnapshotMessage(0, 'first message')
+        self.sn.snapshotLog.flush()
+
+        # test NotifyPlugin
+        self.mockNotifyPlugin.assert_called_once_with(self.sn.config.currentProfile(),
+                                                      self.sn.config.profileName(),
+                                                      0,
+                                                      'first message',
+                                                      -1)
+        self.assertTrue(os.path.exists(self.sn.config.takeSnapshotMessageFile()))
+        # test message file
+        with open(self.sn.config.takeSnapshotMessageFile(), 'rt') as f:
+            message = f.read()
+        self.assertEqual(message, '0\nfirst message')
+        # test snapshot log
+        self.assertEqual('\n'.join(self.sn.snapshotLog.get()), '[I] first message')
+
+    def test_setTakeSnapshotMessage_error(self):
+        self.sn.config.PLUGIN_MANAGER.load()
+        self.assertTrue(self.sn.config.PLUGIN_MANAGER.loaded)
+
+        self.sn.setTakeSnapshotMessage(1, 'second message')
+        self.sn.snapshotLog.flush()
+
+        # test NotifyPlugin
+        self.mockNotifyPlugin.assert_called_once_with(self.sn.config.currentProfile(),
+                                                      self.sn.config.profileName(),
+                                                      1,
+                                                      'second message',
+                                                      -1)
+        # test message file
+        self.assertTrue(os.path.exists(self.sn.config.takeSnapshotMessageFile()))
+        with open(self.sn.config.takeSnapshotMessageFile(), 'rt') as f:
+            message = f.read()
+        self.assertEqual(message, '1\nsecond message')
+        # test snapshot log
+        self.assertEqual('\n'.join(self.sn.snapshotLog.get()), '[E] second message')
+
+    ############################################################################
+    ###                              uid                                     ###
     ############################################################################
     def test_uid_valid(self):
         self.assertEqual(self.sn.uid('root'), 0)
@@ -71,7 +116,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.uid(CURRENTUSER.encode(),  backup = 99999), CURRENTUID)
 
     ############################################################################
-    ###                              gid                                 ###
+    ###                              gid                                     ###
     ############################################################################
     def test_gid_valid(self):
         self.assertEqual(self.sn.gid('root'), 0)
@@ -94,7 +139,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.gid(CURRENTGROUP.encode(),  backup = 99999), CURRENTGID)
 
     ############################################################################
-    ###                          userName                               ###
+    ###                          userName                                    ###
     ############################################################################
     def test_userName_valid(self):
         self.assertEqual(self.sn.userName(0), 'root')
@@ -105,7 +150,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.userName(99999), '-')
 
     ############################################################################
-    ###                         groupName                               ###
+    ###                         groupName                                    ###
     ############################################################################
     def test_groupName_valid(self):
         self.assertEqual(self.sn.groupName(0), 'root')
@@ -116,7 +161,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.groupName(99999), '-')
 
     ############################################################################
-    ###                     takeSnapshot helper scripts                     ###
+    ###                     takeSnapshot helper scripts                      ###
     ############################################################################
     def test_rsyncRemotePath(self):
         self.assertEqual(self.sn.rsyncRemotePath('/foo'),
