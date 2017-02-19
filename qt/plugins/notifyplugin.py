@@ -42,23 +42,8 @@ class NotifyPlugin(pluginmanager.Plugin):
             except:
                 pass
 
-    def init(self, snapshots):
-        return True
-
     def isGui(self):
         return True
-
-    def processBegin(self):
-        pass
-
-    def processEnd(self):
-        pass
-
-    def error(self, code, message):
-        return
-
-    def newSnapshot(self, snapshot_id, snapshot_path):
-        return
 
     def message(self, profile_id, profile_name, level, message, timeout):
         if 1 == level:

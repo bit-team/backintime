@@ -55,11 +55,6 @@ class TestCase(unittest.TestCase):
         self.cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
         logger.APP_NAME = 'BIT_unittest'
         logger.openlog()
-
-        # mock notifyplugin to suppress notifications
-        patcher = patch('notifyplugin.NotifyPlugin.message')
-        self.mockNotifyPlugin = patcher.start()
-
         super(TestCase, self).__init__(methodName)
 
     def setUp(self):
@@ -79,6 +74,12 @@ class TestCaseCfg(TestCase):
     def setUp(self):
         super(TestCaseCfg, self).setUp()
         self.cfg = config.Config(self.cfgFile, self.sharePath)
+
+        # mock notifyplugin to suppress notifications
+        patcher = patch('notifyplugin.NotifyPlugin.message')
+        self.mockNotifyPlugin = patcher.start()
+
+        self.cfg.PLUGIN_MANAGER.load()
 
 class TestCaseSnapshotPath(TestCaseCfg):
     def setUp(self):

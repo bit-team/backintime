@@ -51,9 +51,6 @@ class TestSnapshots(generic.SnapshotsTestCase):
     ###                       takeSnapshotMessage                            ###
     ############################################################################
     def test_setTakeSnapshotMessage_info(self):
-        self.sn.config.PLUGIN_MANAGER.load()
-        self.assertTrue(self.sn.config.PLUGIN_MANAGER.loaded)
-
         self.sn.setTakeSnapshotMessage(0, 'first message')
         self.sn.snapshotLog.flush()
 
@@ -72,9 +69,6 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual('\n'.join(self.sn.snapshotLog.get()), '[I] first message')
 
     def test_setTakeSnapshotMessage_error(self):
-        self.sn.config.PLUGIN_MANAGER.load()
-        self.assertTrue(self.sn.config.PLUGIN_MANAGER.loaded)
-
         self.sn.setTakeSnapshotMessage(1, 'second message')
         self.sn.snapshotLog.flush()
 
