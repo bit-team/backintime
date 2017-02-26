@@ -168,6 +168,11 @@ def translator():
         			QLibraryInfo.location(QLibraryInfo.TranslationsPath))
     return translator
 
+def indexFirstColumn(idx):
+    if idx.column() > 0:
+        idx = idx.sibling(idx.row(), 0)
+    return idx
+
 class MyTreeView(QTreeView):
     """
     subclass QTreeView to emit a SIGNAL myCurrentIndexChanged

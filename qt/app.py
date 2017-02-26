@@ -1092,42 +1092,36 @@ files that the receiver requests to be transferred.""")
         if self.sid.isRoot:
             return
 
-        selected_file = [f for f, idx in self.multiFileSelected()]
-        if not selected_file:
-            return
-        rel_path = [os.path.join(self.path, x) for x in selected_file]
+        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
         with self.suspendMouseButtonNavigation():
-            confirm, opt = self.confirmRestore(rel_path)
+            confirm, opt = self.confirmRestore(paths)
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in selected_file):
+            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in paths):
                 return
 
-        rd = RestoreDialog(self, self.sid, rel_path, **opt)
+        rd = RestoreDialog(self, self.sid, paths, **opt)
         rd.exec()
 
     def restoreThisTo(self):
         if self.sid.isRoot:
             return
 
-        selected_file = [f for f, idx in self.multiFileSelected()]
-        if not selected_file:
-            return
-        rel_path = [os.path.join(self.path, x) for x in selected_file]
+        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
         with self.suspendMouseButtonNavigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to ...'))
             if not restoreTo:
                 return
             restoreTo = self.config.preparePath(restoreTo)
-            confirm, opt = self.confirmRestore(rel_path, restoreTo)
+            confirm, opt = self.confirmRestore(paths, restoreTo)
             if not confirm:
                 return
-            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in selected_file, restoreTo = restoreTo):
+            if opt['delete'] and not self.confirmDelete(warnRoot = '/' in paths, restoreTo = restoreTo):
                 return
 
-        rd = RestoreDialog(self, self.sid, rel_path, restoreTo, **opt)
+        rd = RestoreDialog(self, self.sid, paths, restoreTo, **opt)
         rd.exec()
 
     def restoreParent(self):
@@ -1163,14 +1157,9 @@ files that the receiver requests to be transferred.""")
         rd.exec()
 
     def btnSnapshotsClicked(self):
-        selected_file, idx = self.fileSelected()
-        if not selected_file:
-            return
-
-        rel_path = os.path.join(self.path, selected_file)
-
+        path, idx = self.fileSelected(fullPath = True)
         with self.suspendMouseButtonNavigation():
-            dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, rel_path)
+            dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
             if QDialog.Accepted == dlg.exec_():
                 if dlg.sid != self.sid:
                     self.timeLine.setCurrentSnapshotID(dlg.sid)
@@ -1208,13 +1197,10 @@ files that the receiver requests to be transferred.""")
         self.openPath(path)
 
     def btnAddIncludeClicked(self):
-        selected_file = [f for f, idx in self.multiFileSelected()]
-        if not selected_file:
-            return
-        rel_path = [os.path.join(self.path, x) for x in selected_file]
+        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
         include = self.config.include()
         updatePlaces = False
-        for item in rel_path:
+        for item in paths:
             if os.path.isdir(item):
                 include.append((item, 0))
                 updatePlaces = True
@@ -1225,12 +1211,9 @@ files that the receiver requests to be transferred.""")
             self.updatePlaces()
 
     def btnAddExcludeClicked(self):
-        selected_file = [f for f, idx in self.multiFileSelected()]
-        if not selected_file:
-            return
-        rel_path = [os.path.join(self.path, x) for x in selected_file]
+        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
         exclude = self.config.exclude()
-        exclude.extend(rel_path)
+        exclude.extend(paths)
         self.config.setExclude(exclude)
 
     def filesViewItemActivated(self, model_index):
@@ -1378,6 +1361,7 @@ files that the receiver requests to be transferred.""")
             while index.isValid():
                 file_name = (str(self.filesViewProxyModel.data(index)))
                 if file_name == self.selected_file:
+                    #TODO: doesn't work reliable
                     self.filesView.setCurrentIndex(index)
                     found = True
                     break
@@ -1387,26 +1371,37 @@ files that the receiver requests to be transferred.""")
         if not found and has_files:
             self.filesView.setCurrentIndex(self.filesViewProxyModel.index(0, 0))
 
-    def fileSelected(self):
-        idx = self.filesView.currentIndex()
-        idx = self.indexFirstColumn(idx)
+    def fileSelected(self, fullPath = False):
+        idx = qttools.indexFirstColumn(self.filesView.currentIndex())
         selected_file = str(self.filesViewProxyModel.data(idx))
         if selected_file == '/':
             #nothing is selected
-            return(None, None)
+            selected_file = ''
+            idx = self.filesViewProxyModel.mapFromSource(self.filesViewModel.index(self.path, 0))
+        if fullPath:
+            selected_file = os.path.join(self.path, selected_file)
         return(selected_file, idx)
 
-    def multiFileSelected(self):
+    def multiFileSelected(self, fullPath = False):
+        count = 0
         for idx in self.filesView.selectedIndexes():
             if idx.column() > 0:
                 continue
             selected_file = str(self.filesViewProxyModel.data(idx))
+            if selected_file == '/':
+                continue
+            count += 1
+            if fullPath:
+                selected_file = os.path.join(self.path, selected_file)
             yield (selected_file, idx)
-
-    def indexFirstColumn(self, idx):
-        if idx.column() > 0:
-            idx = idx.sibling(idx.row(), 0)
-        return idx
+        if not count:
+            #nothing is selected
+            idx = self.filesViewProxyModel.mapFromSource(self.filesViewModel.index(self.path, 0))
+            if fullPath:
+                selected_file = self.path
+            else:
+                selected_file = ''
+            yield (selected_file, idx)
 
     def setMouseButtonNavigation(self):
         self.qapp.installEventFilter(self.mouseButtonEventFilter)
