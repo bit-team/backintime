@@ -1057,6 +1057,7 @@ class MainWindow( QMainWindow ):
             return
 
         selected_file = [f for f, idx in self.multi_file_selected()]
+        logger.debug(selected_file, self)
         if not selected_file:
             return
         rel_path = [os.path.join(self.path, x) for x in selected_file]
@@ -1113,8 +1114,6 @@ class MainWindow( QMainWindow ):
 
     def on_btn_snapshots_clicked( self ):
         selected_file, idx = self.file_selected()
-        if not selected_file:
-            return
 
         rel_path = os.path.join( self.path, selected_file )
 
@@ -1324,14 +1323,24 @@ class MainWindow( QMainWindow ):
         selected_file = str( self.list_files_view_proxy_model.data( idx ) )
         if selected_file == '/':
             #nothing is selected
-            return(None, None)
+            selected_file = ''
+            idx = self.list_files_view_proxy_model.mapFromSource(self.list_files_view_model.index(self.path, 0))
         return(selected_file, idx)
 
     def multi_file_selected(self):
+        count = 0
         for idx in self.list_files_view.selectedIndexes():
             if idx.column() > 0:
                 continue
             selected_file = str(self.list_files_view_proxy_model.data(idx))
+            if selected_file == '/':
+                continue
+            count += 1
+            yield (selected_file, idx)
+        if not count:
+            #nothing is selected
+            idx = self.list_files_view_proxy_model.mapFromSource(self.list_files_view_model.index(self.path, 0))
+            selected_file = ''
             yield (selected_file, idx)
 
     def index_first_column(self, idx):
