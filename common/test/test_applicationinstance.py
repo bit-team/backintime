@@ -23,8 +23,8 @@ from threading import Thread
 from time import sleep
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from applicationinstance import ApplicationInstance
 import logger
+from applicationinstance import ApplicationInstance
 
 
 class TestApplicationInstance(unittest.TestCase):
