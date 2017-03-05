@@ -878,6 +878,10 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         else:
             decode = encfstools.Bounce()
 
+        # backup permissions of /
+        # bugfix for https://github.com/bit-team/backintime/issues/708
+        self.backupPermissionsCallback(b'/', (fileInfoDict, decode))
+
         rsync = ['rsync', '--dry-run', '-r', '--out-format=%n']
         rsync.extend(tools.rsyncSshArgs(self.config))
         rsync.append(self.rsyncRemotePath(sid.pathBackup(use_mode = ['ssh', 'ssh_encfs'])) + os.sep)
@@ -1841,6 +1845,13 @@ class FileInfoDict(dict):
     A :py:class:`dict` that maps a path (as :py:class:`bytes`) to a
     tuple (:py:class:`int`, :py:class:`bytes`, :py:class:`bytes`).
     """
+    def __init__(self):
+        # default permissions for /
+        # only used if fileinfo.bz2 does not contain a value for /
+        # when it was created with version <= 1.1.12
+        # bugfix for https://github.com/bit-team/backintime/issues/708
+        self[b'/'] = (16877, b'root', b'root')
+
     def __setitem__(self, key, value):
         assert isinstance(key, bytes), "key '{}' is not bytes instance".format(key)
         assert isinstance(value, tuple), "value '{}' is not tuple instance".format(value)

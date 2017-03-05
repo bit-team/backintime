@@ -314,7 +314,7 @@ class TestSID(generic.SnapshotsTestCase):
             pass
         os.chmod(infoFile, 0o000)
 
-        self.assertEqual(sid.fileInfo, {})
+        self.assertEqual(sid.fileInfo, snapshots.FileInfoDict())
         self.assertTrue(mock_logger.called)
 
         # make file read/writeable again for deletion
