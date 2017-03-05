@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASES="trusty vivid wily xenial"
+RELEASES="trusty xenial yakkety zesty"
 
 PKGNAME=backintime
 PKGVER=$(cat VERSION)
