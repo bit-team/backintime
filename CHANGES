@@ -1,5 +1,8 @@
 Back In Time
 
+Version 1.1.14
+* Fix critical bug: restore filesystem-root without 'Full rsync mode' with ACL and/or xargs activated broke whole system (https://github.com/bit-team/backintime/issues/708)
+
 Version 1.1.12.a
 * Fix bug: start 'Back In Time (root)' from dash doesn't show GUI (backport from dev tree)
 

@@ -439,6 +439,12 @@ class Snapshots:
         if 0 == version:
             return file_info_dict
 
+        # default value for /
+        # only used if fileinfo.bz2 does not have a value for /
+        # when it was created with version <= 1.1.12
+        # bugfix for https://github.com/bit-team/backintime/issues/708
+        file_info_dict[b'/'] = (16877, b'root', b'root')
+
         fileinfo_path = self.get_snapshot_fileinfo_path( snapshot_id )
         if not os.path.exists( fileinfo_path ):
             return file_info_dict
@@ -1411,6 +1417,10 @@ class Snapshots:
                     find = subprocess.Popen(cmd, stdout = subprocess.PIPE,
                                             stderr = subprocess.PIPE)
 
+                    # backup permission for /
+                    # bugfix for https://github.com/bit-team/backintime/issues/708
+                    self._save_path_info(fileinfo, b'/')
+
                     for line in find.stdout:
                         if line:
                             self._save_path_info(fileinfo, decode.remote(line.rstrip(b'\n'))[head:])
@@ -1425,6 +1435,10 @@ class Snapshots:
                         permission_done = True
 
                 if not permission_done:
+                    # backup permission for /
+                    # bugfix for https://github.com/bit-team/backintime/issues/708
+                    self._save_path_info(fileinfo, b'/')
+                    
                     path_to_explore = self.get_snapshot_path_to(self.NEW_SNAPSHOT_ID).rstrip('/').encode()
                     for path, dirs, files in os.walk( path_to_explore ):
                         dirs.extend( files )
