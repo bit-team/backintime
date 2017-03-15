@@ -1113,7 +1113,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
     def smartRemoveKeepFirst(self,
                              snapshots,
                              min_date,
-                             max_date):
+                             max_date,
+                             keep_healthy = False):
         """
         Return only the first snapshot between ``min_date`` and ``max_date``.
 
@@ -1121,6 +1122,11 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             snapshots (list):           full list of :py:class:`SID` objects
             min_date (datetime.date):   minimum date for snapshots to keep
             max_date (datetime.date):   maximum date for snapshots to keep
+            keep_healthy (bool):        return the first healthy snapshot (not
+                                        marked as failed) instead of the first
+                                        at all. If all snapshots failed this
+                                        will again return the very first
+                                        snapshot
 
         Returns:
             set:                        set of snapshots that should be keept
@@ -1131,8 +1137,19 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         logger.debug("Keep first >= %s and < %s" %(min_id, max_id), self)
 
         for sid in snapshots:
+            # try to keep the first healty snapshot
+            if keep_healthy and sid.failed:
+                logger.debug("Do not keep failed snapshot %s" %sid, self)
+                continue
             if sid >= min_id and sid < max_id:
                 return set([sid])
+        # if all snapshots failed return the first snapshot
+        # no matter if it has errors
+        if keep_healthy:
+            return self.smartRemoveKeepFirst(snapshots,
+                                             min_date,
+                                             max_date,
+                                             keep_healthy = False)
         return set()
 
     def incMonth(self, date):
@@ -1214,16 +1231,17 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         #keep all for the last keep_all days
         if keep_all > 0:
             keep |= self.smartRemoveKeepAll(snapshots,
-                                                 now - datetime.timedelta(days=keep_all-1),
-                                                 now + datetime.timedelta(days=1))
+                                            now - datetime.timedelta(days=keep_all-1),
+                                            now + datetime.timedelta(days=1))
 
         #keep one per day for the last keep_one_per_day days
         if keep_one_per_day > 0:
             d = now
             for i in range(0, keep_one_per_day):
                 keep |= self.smartRemoveKeepFirst(snapshots,
-                                                       d,
-                                                       d + datetime.timedelta(days=1))
+                                                  d,
+                                                  d + datetime.timedelta(days=1),
+                                                  keep_healthy = True)
                 d -= datetime.timedelta(days=1)
 
         #keep one per week for the last keep_one_per_week weeks
@@ -1231,8 +1249,9 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             d = now - datetime.timedelta(days = now.weekday() + 1)
             for i in range(0, keep_one_per_week):
                 keep |= self.smartRemoveKeepFirst(snapshots,
-                                                       d,
-                                                       d + datetime.timedelta(days=8))
+                                                  d,
+                                                  d + datetime.timedelta(days=8),
+                                                  keep_healthy = True)
                 d -= datetime.timedelta(days=7)
 
         #keep one per month for the last keep_one_per_month months
@@ -1240,7 +1259,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             d1 = datetime.date(now.year, now.month, 1)
             d2 = self.incMonth(d1)
             for i in range(0, keep_one_per_month):
-                keep |= self.smartRemoveKeepFirst(snapshots, d1, d2)
+                keep |= self.smartRemoveKeepFirst(snapshots, d1, d2,
+                                                  keep_healthy = True)
                 d2 = d1
                 d1 = self.decMonth(d1)
 
@@ -1248,8 +1268,9 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         first_year = int(snapshots[-1].sid[ : 4])
         for i in range(first_year, now.year+1):
             keep |= self.smartRemoveKeepFirst(snapshots,
-                                                   datetime.date(i,1,1),
-                                                   datetime.date(i+1,1,1))
+                                              datetime.date(i,1,1),
+                                              datetime.date(i+1,1,1),
+                                              keep_healthy = True)
 
         logger.debug("Keep snapshots: %s" %keep, self)
 

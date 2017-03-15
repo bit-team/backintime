@@ -413,14 +413,42 @@ class TestSnapshots(generic.SnapshotsTestCase):
         sids = [sid1, sid2, sid3, sid4, sid5, sid6]
 
         keep = self.sn.smartRemoveKeepFirst(sids,
-                                                 date(2016, 4, 20),
-                                                 date(2016, 4, 23))
+                                            date(2016, 4, 20),
+                                            date(2016, 4, 23))
         self.assertSetEqual(keep, set((sid2,)))
 
         keep = self.sn.smartRemoveKeepFirst(sids,
-                                                 date(2016, 4, 11),
-                                                 date(2016, 4, 18))
+                                            date(2016, 4, 11),
+                                            date(2016, 4, 18))
         self.assertSetEqual(keep, set())
+
+    def test_smartRemove_keep_first_no_errors(self):
+        sid1 = snapshots.SID('20160424-215134-123', self.cfg)
+        sid2 = snapshots.SID('20160422-030324-123', self.cfg)
+        sid2.makeDirs()
+        sid2.failed = True
+        sid3 = snapshots.SID('20160422-020324-123', self.cfg)
+        sid4 = snapshots.SID('20160422-010324-123', self.cfg)
+        sid5 = snapshots.SID('20160421-013218-123', self.cfg)
+        sid6 = snapshots.SID('20160410-134327-123', self.cfg)
+        sids = [sid1, sid2, sid3, sid4, sid5, sid6]
+
+        # keep the first healty snapshot
+        keep = self.sn.smartRemoveKeepFirst(sids,
+                                            date(2016, 4, 20),
+                                            date(2016, 4, 23),
+                                            keep_healthy = True)
+        self.assertSetEqual(keep, set((sid3,)))
+
+        # if all snapshots failed, keep the first at all
+        for sid in (sid3, sid4, sid5):
+            sid.makeDirs()
+            sid.failed = True
+        keep = self.sn.smartRemoveKeepFirst(sids,
+                                            date(2016, 4, 20),
+                                            date(2016, 4, 23),
+                                            keep_healthy = True)
+        self.assertSetEqual(keep, set((sid2,)))
 
     def test_smartRemoveList(self):
         sid1  = snapshots.SID('20160424-215134-123', self.cfg)
@@ -471,6 +499,19 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                                 )
         self.assertListEqual(del_snapshots, [sid6, sid9, sid12, sid13, sid14,
                                              sid15, sid16, sid18, sid19, sid21,
+                                             sid22, sid24, sid27, sid28, sid30])
+
+        # test failed snapshots
+        for sid in (sid5, sid8, sid11, sid12, sid20, sid21, sid22):
+            sid.failed = True
+        del_snapshots = self.sn.smartRemoveList(now,
+                                                3, #keep_all
+                                                7, #keep_one_per_day
+                                                5, #keep_one_per_week
+                                                3  #keep_one_per_month
+                                                )
+        self.assertListEqual(del_snapshots, [sid5, sid8, sid11, sid12, sid14,
+                                             sid15, sid16, sid18, sid19, sid20, sid21,
                                              sid22, sid24, sid27, sid28, sid30])
 
     @unittest.skip('Not yet implemented')
