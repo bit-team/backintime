@@ -56,11 +56,11 @@ class TestApplicationInstance(generic.TestCase):
     def test_create_and_remove_pid_file(self):
         #create pid file
         self.inst.startApplication()
-        self.assertTrue(os.path.isfile(self.file_name))
+        self.assertIsFile(self.file_name)
 
         #remove pid file
         self.inst.exitApplication()
-        self.assertFalse(os.path.isfile(self.file_name))
+        self.assertIsNoFile(self.file_name)
 
     def test_write_pid_file(self):
         self.inst.startApplication()
@@ -193,7 +193,7 @@ class TestApplicationInstance(generic.TestCase):
         thread.start()
         #wait for the thread to finish
         thread.join()
-        self.assertTrue(os.path.exists(self.temp_file))
+        self.assertExists(self.temp_file)
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
@@ -203,11 +203,11 @@ class TestApplicationInstance(generic.TestCase):
         thread.start()
         #give the thread some time
         thread.join(0.01)
-        self.assertFalse(os.path.exists(self.temp_file))
+        self.assertNotExists(self.temp_file)
         self.inst.flockUnlock()
         #wait for the thread to finish
         thread.join()
-        self.assertTrue(os.path.exists(self.temp_file))
+        self.assertExists(self.temp_file)
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
@@ -224,11 +224,11 @@ class TestApplicationInstance(generic.TestCase):
         thread.start()
         #give the thread some time
         thread.join(0.01)
-        self.assertFalse(os.path.exists(self.temp_file))
+        self.assertNotExists(self.temp_file)
         self.inst.startApplication()
         #wait for the thread to finish
         thread.join()
-        self.assertTrue(os.path.exists(self.temp_file))
+        self.assertExists(self.temp_file)
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
@@ -236,7 +236,7 @@ class TestApplicationInstance(generic.TestCase):
         self.inst = ApplicationInstance(os.path.abspath(self.file_name),
                                         autoExit = True)
 
-        self.assertTrue(os.path.exists(self.file_name))
+        self.assertExists(self.file_name)
         this_pid = os.getpid()
         this_procname = tools.processName(this_pid)
         with open(self.file_name, 'rt') as file_with_pid:

@@ -55,16 +55,16 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'file with spaces')))
-        self.assertTrue(os.path.exists(self.cfg.anacronSpoolFile()))
+        self.assertExists(self.cfg.anacronSpoolFile())
         for f in ('config',
                   'fileinfo.bz2',
                   'info',
                   'takesnapshot.log.bz2'):
-            self.assertTrue(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
+            self.assertExists(sid1.path(f))
 
         for f in ('failed',
                   'save_to_continue'):
-            self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
+            self.assertNotExists(sid1.path(f))
 
         # second takeSnapshot which should not create a new snapshot as nothing
         # has changed
@@ -74,7 +74,7 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         self.assertListEqual([False, False], self.sn.takeSnapshot(sid2, now, [(self.include.name, 0),]))
         self.assertFalse(sid2.exists())
-        self.assertTrue(os.path.exists(self.cfg.anacronSpoolFile()))
+        self.assertExists(self.cfg.anacronSpoolFile())
 
         # third takeSnapshot
         self.remount()
@@ -117,11 +117,11 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'fileinfo.bz2',
                   'info',
                   'takesnapshot.log.bz2'):
-            self.assertTrue(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
+            self.assertExists(sid1.path(f))
 
         for f in ('failed',
                   'save_to_continue'):
-            self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
+            self.assertNotExists(sid1.path(f))
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_exclude(self, sleep):
@@ -138,11 +138,11 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'fileinfo.bz2',
                   'info',
                   'takesnapshot.log.bz2'):
-            self.assertTrue(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
+            self.assertExists(sid1.path(f))
 
         for f in ('failed',
                   'save_to_continue'):
-            self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
+            self.assertNotExists(sid1.path(f))
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_with_spaces_in_exclude(self, sleep):
@@ -161,11 +161,11 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'fileinfo.bz2',
                   'info',
                   'takesnapshot.log.bz2'):
-            self.assertTrue(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
+            self.assertExists(sid1.path(f))
 
         for f in ('failed',
                   'save_to_continue'):
-            self.assertFalse(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
+            self.assertNotExists(sid1.path(f))
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_error(self, sleep):
@@ -182,8 +182,8 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
                   'info',
                   'takesnapshot.log.bz2',
                   'failed'):
-            self.assertTrue(os.path.exists(sid1.path(f)), msg = 'file = {}'.format(f))
-        self.assertFalse(os.path.exists(self.cfg.anacronSpoolFile()))
+            self.assertExists(sid1.path(f))
+        self.assertNotExists(self.cfg.anacronSpoolFile())
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_error_without_continue(self, sleep):
@@ -207,7 +207,7 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
         self.assertTrue(sid1.exists())
-        self.assertFalse(os.path.exists(sid1.path('leftover')))
+        self.assertNotExists(sid1.path('leftover'))
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_new_exists_continue(self, sleep):
@@ -222,7 +222,7 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
         self.assertTrue(sid1.exists())
-        self.assertTrue(os.path.exists(sid1.path('leftover')))
+        self.assertExists(sid1.path('leftover'))
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_fail_create_new_snapshot(self, sleep):

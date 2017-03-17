@@ -667,7 +667,7 @@ class TestToolsEnviron(generic.TestCase):
 
         tools.envSave(self.temp_file)
 
-        self.assertTrue(os.path.isfile(self.temp_file))
+        self.assertIsFile(self.temp_file)
 
         test_env = configfile.ConfigFile()
         test_env.load(self.temp_file)

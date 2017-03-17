@@ -86,7 +86,7 @@ class TestSnapshotLog(generic.SnapshotsTestCase):
 
         log.new(now)
         log.flush()
-        self.assertTrue(os.path.exists(self.logFile))
+        self.assertExists(self.logFile)
         with open(self.logFile, 'rt') as f:
             self.assertRegex(f.read(), re.compile(r'''========== Take snapshot \(profile .*\): .* ==========
 
@@ -103,7 +103,7 @@ class TestSnapshotLog(generic.SnapshotsTestCase):
 
         log.new(now)
         log.flush()
-        self.assertTrue(os.path.exists(self.logFile))
+        self.assertExists(self.logFile)
         with open(self.logFile, 'rt') as f:
             self.assertRegex(f.read(), re.compile(r'''foo
 bar
@@ -118,7 +118,7 @@ Last snapshot didn't finish but can be continued.
 
         log.append('foo', 1)
         log.flush()
-        self.assertTrue(os.path.exists(self.logFile))
+        self.assertExists(self.logFile)
         with open(self.logFile, 'rt') as f:
             self.assertEqual(f.read(), 'foo\n')
 
@@ -128,11 +128,11 @@ Last snapshot didn't finish but can be continued.
 
         log.append('foo', 3)
         log.flush()
-        self.assertFalse(os.path.exists(self.logFile))
+        self.assertNotExists(self.logFile)
 
         log.append('bar', 1)
         log.flush()
-        self.assertTrue(os.path.exists(self.logFile))
+        self.assertExists(self.logFile)
         with open(self.logFile, 'rt') as f:
             self.assertEqual(f.read(), 'bar\n')
 
@@ -141,7 +141,7 @@ Last snapshot didn't finish but can be continued.
 
         log.append('foo bar', 1)
         log.flush()
-        self.assertTrue(os.path.exists(self.logFile))
+        self.assertExists(self.logFile)
         self.assertEqual('\n'.join(log.get()), 'foo bar')
 
     def test_get_filter(self):
@@ -152,7 +152,7 @@ Last snapshot didn't finish but can be continued.
         log.append('[C] baz', 1)
         log.append('[E] bla', 1)
         log.flush()
-        self.assertTrue(os.path.exists(self.logFile))
+        self.assertExists(self.logFile)
         self.assertEqual('\n'.join(log.get(mode = snapshotlog.LogFilter.CHANGES)), 'foo bar\n[C] baz')
 
     def test_skipLines_show_all(self):

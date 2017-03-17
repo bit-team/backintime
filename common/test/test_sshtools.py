@@ -116,7 +116,7 @@ class TestSSH(generic.SSHTestCase):
         ssh = sshtools.SSH(cfg = self.cfg)
         #create new directories
         ssh.checkRemoteFolder()
-        self.assertTrue(os.path.isdir(self.remotePath))
+        self.assertIsDir(self.remotePath)
 
         #rerun check to test if it correctly recognize previous created folders
         ssh.checkRemoteFolder()
@@ -161,7 +161,7 @@ class TestSSH(generic.SSHTestCase):
         ssh = sshtools.SSH(cfg = self.cfg)
         #create new directories
         ssh.checkRemoteFolder()
-        self.assertTrue(os.path.isdir(self.remotePath))
+        self.assertIsDir(self.remotePath)
 
     def test_checkPingHost(self):
         ssh = sshtools.SSH(cfg = self.cfg)
@@ -239,8 +239,8 @@ class TestSshKey(generic.TestCaseCfg):
             pubKey = secKey + '.pub'
             # create new key
             self.assertTrue(sshtools.sshKeyGen(secKey))
-            self.assertTrue(os.path.isfile(secKey))
-            self.assertTrue(os.path.isfile(pubKey))
+            self.assertIsFile(secKey)
+            self.assertIsFile(pubKey)
 
             # do not overwrite existing keys
             self.assertFalse(sshtools.sshKeyGen(secKey))
@@ -259,7 +259,7 @@ class TestSshKey(generic.TestCaseCfg):
 
             # create new key
             sshtools.sshKeyGen(secKey)
-            self.assertTrue(os.path.isfile(pubKey))
+            self.assertIsFile(pubKey)
             with open(pubKey, 'rt') as f:
                 pubKeyValue = f.read()
 
@@ -268,7 +268,7 @@ class TestSshKey(generic.TestCaseCfg):
                 self.assertTrue(sshtools.sshCopyId(pubKey, self.cfg.user(), 'localhost',
                                                    askPass = 'test/mock_askpass'))
 
-                self.assertTrue(os.path.exists(authKeys))
+                self.assertExists(authKeys)
                 with open(authKeys, 'rt') as f:
                     self.assertIn(pubKeyValue, f.readlines())
             finally:
@@ -312,7 +312,7 @@ class TestSshKey(generic.TestCaseCfg):
         self.assertIn(keyType, ('ECDSA', 'RSA'))
 
         hostKey = '/etc/ssh/ssh_host_{}_key.pub'.format(keyType.lower())
-        self.assertTrue(os.path.exists(hostKey))
+        self.assertExists(hostKey)
         self.assertEqual(3, len(keyHash.split()))
         try:
             with open(hostKey, 'rt') as f:
@@ -332,7 +332,7 @@ class TestSshKey(generic.TestCaseCfg):
             try:
                 sshtools.writeKnownHostsFile(KEY)
 
-                self.assertTrue(os.path.exists(knownHosts))
+                self.assertExists(knownHosts)
                 with open(knownHosts, 'rt') as f:
                     self.assertIn(KEY, [x.strip() for x in f.readlines()])
             finally:

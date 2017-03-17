@@ -60,12 +60,12 @@ class TestRestore(RestoreTestCase):
         self.prepairFileInfo(restoreFile2)
 
         self.sn.restore(self.sid, (restoreFile1, restoreFile2))
-        self.assertTrue(os.path.isfile(restoreFile1))
+        self.assertIsFile(restoreFile1)
         with open(restoreFile1, 'rt') as f:
             self.assertEqual(f.read(), 'bar')
         self.assertEqual(33260, os.stat(restoreFile1).st_mode)
 
-        self.assertTrue(os.path.isfile(restoreFile2))
+        self.assertIsFile(restoreFile2)
         with open(restoreFile2, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
         self.assertEqual(33260, os.stat(restoreFile2).st_mode)
@@ -76,7 +76,7 @@ class TestRestore(RestoreTestCase):
         with TemporaryDirectory() as dest:
             destRestoreFile = os.path.join(dest, 'test')
             self.sn.restore(self.sid, restoreFile, restore_to = dest)
-            self.assertTrue(os.path.isfile(destRestoreFile))
+            self.assertIsFile(destRestoreFile)
             with open(destRestoreFile, 'rt') as f:
                 self.assertEqual(f.read(), 'bar')
             self.assertEqual(33260, os.stat(destRestoreFile).st_mode)
@@ -90,7 +90,7 @@ class TestRestore(RestoreTestCase):
         with TemporaryDirectory() as dest:
             destRestoreFile = os.path.join(dest, os.path.basename(restoreFolder), 'test')
             self.sn.restore(self.sid, restoreFolder, restore_to = dest)
-            self.assertTrue(os.path.isfile(destRestoreFile))
+            self.assertIsFile(destRestoreFile)
             with open(destRestoreFile, 'rt') as f:
                 self.assertEqual(f.read(), 'bar')
             self.assertEqual(33260, os.stat(destRestoreFile).st_mode)
@@ -99,12 +99,12 @@ class TestRestore(RestoreTestCase):
         restoreFolder = self.include.name
         junkFolder = os.path.join(self.include.name, 'junk')
         os.makedirs(junkFolder)
-        self.assertTrue(os.path.exists(junkFolder))
+        self.assertExists(junkFolder)
         self.prepairFileInfo(restoreFolder)
 
         self.sn.restore(self.sid, restoreFolder, delete = True)
-        self.assertTrue(os.path.isfile(os.path.join(restoreFolder, 'test')))
-        self.assertFalse(os.path.exists(junkFolder))
+        self.assertIsFile(restoreFolder, 'test')
+        self.assertNotExists(junkFolder)
 
     def test_backup(self):
         restoreFile = os.path.join(self.include.name, 'test')
@@ -113,11 +113,11 @@ class TestRestore(RestoreTestCase):
             f.write('fooooooooooooooooooo')
 
         self.sn.restore(self.sid, restoreFile, backup = True)
-        self.assertTrue(os.path.isfile(restoreFile))
+        self.assertIsFile(restoreFile)
         with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'bar')
         backupFile = restoreFile + self.sn.backupSuffix()
-        self.assertTrue(os.path.isfile(backupFile))
+        self.assertIsFile(backupFile)
         with open(backupFile, 'rt') as f:
             self.assertEqual(f.read(), 'fooooooooooooooooooo')
 
@@ -128,11 +128,11 @@ class TestRestore(RestoreTestCase):
             f.write('fooooooooooooooooooo')
 
         self.sn.restore(self.sid, restoreFile, backup = False)
-        self.assertTrue(os.path.isfile(restoreFile))
+        self.assertIsFile(restoreFile)
         with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'bar')
         backupFile = restoreFile + self.sn.backupSuffix()
-        self.assertFalse(os.path.isfile(backupFile))
+        self.assertIsNoFile(backupFile)
 
     def test_only_new(self):
         restoreFile = os.path.join(self.include.name, 'test')
@@ -148,7 +148,7 @@ class TestRestore(RestoreTestCase):
         os.utime(restoreFile, (atime, new_mtime))
 
         self.sn.restore(self.sid, restoreFile, only_new = True)
-        self.assertTrue(os.path.isfile(restoreFile))
+        self.assertIsFile(restoreFile)
         with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'fooooooooooooooooooo')
 
@@ -161,7 +161,7 @@ class TestRestoreLocal(RestoreTestCase):
         self.prepairFileInfo(restoreFile)
 
         self.sn.restore(self.sid, restoreFile)
-        self.assertTrue(os.path.isfile(restoreFile))
+        self.assertIsFile(restoreFile)
         with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'bar')
         self.assertEqual(33260, os.stat(restoreFile).st_mode)
@@ -171,7 +171,7 @@ class TestRestoreLocal(RestoreTestCase):
         self.prepairFileInfo(restoreFile)
 
         self.sn.restore(self.sid, restoreFile)
-        self.assertTrue(os.path.isfile(restoreFile))
+        self.assertIsFile(restoreFile)
         with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'asdf')
         self.assertEqual(33260, os.stat(restoreFile).st_mode)

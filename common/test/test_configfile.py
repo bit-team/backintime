@@ -35,7 +35,7 @@ class TestConfigFile(generic.TestCase):
         with NamedTemporaryFile() as cfgFile:
             cf = configfile.ConfigFile()
             self.assertTrue(cf.save(cfgFile.name))
-            self.assertTrue(os.path.exists(cfgFile.name))
+            self.assertExists(cfgFile.name)
 
         self.assertFalse(cf.save('/foo'))
 

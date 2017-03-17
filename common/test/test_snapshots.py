@@ -60,7 +60,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                                       0,
                                                       'first message',
                                                       -1)
-        self.assertTrue(os.path.exists(self.sn.config.takeSnapshotMessageFile()))
+        self.assertExists(self.sn.config.takeSnapshotMessageFile())
         # test message file
         with open(self.sn.config.takeSnapshotMessageFile(), 'rt') as f:
             message = f.read()
@@ -79,7 +79,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                                       'second message',
                                                       -1)
         # test message file
-        self.assertTrue(os.path.exists(self.sn.config.takeSnapshotMessageFile()))
+        self.assertExists(self.sn.config.takeSnapshotMessageFile())
         with open(self.sn.config.takeSnapshotMessageFile(), 'rt') as f:
             message = f.read()
         self.assertEqual(message, '1\nsecond message')
@@ -183,16 +183,16 @@ class TestSnapshots(generic.SnapshotsTestCase):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         sid1.makeDirs()
         symlink = self.cfg.lastSnapshotSymlink()
-        self.assertFalse(os.path.exists(symlink))
+        self.assertNotExists(symlink)
 
         self.assertTrue(self.sn.createLastSnapshotSymlink(sid1))
-        self.assertTrue(os.path.islink(symlink))
+        self.assertIsLink(symlink)
         self.assertEqual(os.path.realpath(symlink), sid1.path())
 
         sid2 = snapshots.SID('20151219-020324-123', self.cfg)
         sid2.makeDirs()
         self.assertTrue(self.sn.createLastSnapshotSymlink(sid2))
-        self.assertTrue(os.path.islink(symlink))
+        self.assertIsLink(symlink)
         self.assertEqual(os.path.realpath(symlink), sid2.path())
 
     def flockSecondInstance(self):
@@ -211,7 +211,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         thread = Thread(target = self.flockSecondInstance, args = ())
         self.sn.flockExclusive()
 
-        self.assertTrue(os.path.exists(self.sn.GLOBAL_FLOCK))
+        self.assertExists(self.sn.GLOBAL_FLOCK)
         mode = os.stat(self.sn.GLOBAL_FLOCK).st_mode
         self.assertEqual(mode, RWUGO)
 
@@ -521,13 +521,13 @@ class TestSnapshots(generic.SnapshotsTestCase):
 class TestSnapshotWithSID(generic.SnapshotsWithSidTestCase):
     def test_backupConfig(self):
         self.sn.backupConfig(self.sid)
-        self.assertTrue(os.path.isfile(self.sid.path('config')))
+        self.assertIsFile(self.sid.path('config'))
         self.assertEqual(tools.md5sum(self.sid.path('config')),
                          tools.md5sum(self.cfgFile))
 
     def test_backupInfo(self):
         self.sn.backupInfo(self.sid)
-        self.assertTrue(os.path.isfile(self.sid.path('info')))
+        self.assertIsFile(self.sid.path('info'))
         with open(self.sid.path('info'), 'rt') as f:
             self.assertRegex(f.read(), re.compile('''filesystem_mounts=.+
 group.size=.+
@@ -560,7 +560,7 @@ user.size=.+''', re.MULTILINE))
             self.sn.backupPermissions(self.sid)
 
             fileInfo = self.sid.fileInfo
-            self.assertTrue(os.path.isfile(infoFilePath))
+            self.assertIsFile(infoFilePath)
             self.assertIn(include.encode(), fileInfo)
             self.assertIn(tmp.encode(), fileInfo)
             self.assertIn(file_path.encode(), fileInfo)
@@ -711,31 +711,31 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
 
 class TestDeletePath(generic.SnapshotsWithSidTestCase):
     def test_delete_file(self):
-        self.assertTrue(os.path.exists(self.testFileFullPath))
+        self.assertExists(self.testFileFullPath)
         self.sn.deletePath(self.sid, self.testFile)
-        self.assertFalse(os.path.exists(self.testFileFullPath))
+        self.assertNotExists(self.testFileFullPath)
 
     def test_delete_file_readonly(self):
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
         self.sn.deletePath(self.sid, self.testFile)
-        self.assertFalse(os.path.exists(self.testFileFullPath))
+        self.assertNotExists(self.testFileFullPath)
 
     def test_delete_dir(self):
-        self.assertTrue(os.path.exists(self.testDirFullPath))
+        self.assertExists(self.testDirFullPath)
         self.sn.deletePath(self.sid, self.testDir)
-        self.assertFalse(os.path.exists(self.testDirFullPath))
+        self.assertNotExists(self.testDirFullPath)
 
     def test_delete_dir_readonly(self):
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
         os.chmod(self.testDirFullPath, stat.S_IRUSR | stat.S_IXUSR)
         self.sn.deletePath(self.sid, self.testDir)
-        self.assertFalse(os.path.exists(self.testDirFullPath))
+        self.assertNotExists(self.testDirFullPath)
 
     def test_delete_pardir_readonly(self):
         os.chmod(self.testFileFullPath, stat.S_IRUSR)
         os.chmod(self.testDirFullPath, stat.S_IRUSR | stat.S_IXUSR)
         self.sn.deletePath(self.sid, 'foo')
-        self.assertFalse(os.path.exists(self.testDirFullPath))
+        self.assertNotExists(self.testDirFullPath)
 
 class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
     #TODO: add test with SSH

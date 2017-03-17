@@ -70,6 +70,36 @@ class TestCase(unittest.TestCase):
         func(*args)
         self.run = True
 
+    def assertExists(self, *path):
+        full_path = os.path.join(*path)
+        if not os.path.exists(full_path):
+            self.fail('File does not exist: {}'.format(full_path))
+
+    def assertNotExists(self, *path):
+        full_path = os.path.join(*path)
+        if os.path.exists(full_path):
+            self.fail('File does unexpected exist: {}'.format(full_path))
+
+    def assertIsFile(self, *path):
+        full_path = os.path.join(*path)
+        if not os.path.isfile(full_path):
+            self.fail('Not a File: {}'.format(full_path))
+
+    def assertIsNoFile(self, *path):
+        full_path = os.path.join(*path)
+        if os.path.isfile(full_path):
+            self.fail('Unexpected File: {}'.format(full_path))
+
+    def assertIsDir(self, *path):
+        full_path = os.path.join(*path)
+        if not os.path.isdir(full_path):
+            self.fail('Not a directory: {}'.format(full_path))
+
+    def assertIsLink(self, *path):
+        full_path = os.path.join(*path)
+        if not os.path.islink(full_path):
+            self.fail('Not a symlink: {}'.format(full_path))
+
 class TestCaseCfg(TestCase):
     def setUp(self):
         super(TestCaseCfg, self).setUp()

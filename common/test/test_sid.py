@@ -199,25 +199,25 @@ class TestSID(generic.SnapshotsTestCase):
         #test valid absolute symlink inside snapshot
         os.symlink(os.path.join(backupPath, 'foo'),
                    os.path.join(backupPath, 'bar'))
-        self.assertTrue(os.path.islink(os.path.join(backupPath, 'bar')))
+        self.assertIsLink(backupPath, 'bar')
         self.assertTrue(sid.canOpenPath('/bar'))
 
         #test valid relative symlink inside snapshot
         os.symlink('./foo',
                    os.path.join(backupPath, 'baz'))
-        self.assertTrue(os.path.islink(os.path.join(backupPath, 'baz')))
+        self.assertIsLink(backupPath, 'baz')
         self.assertTrue(sid.canOpenPath('/baz'))
 
         #test invalid symlink
         os.symlink(os.path.join(backupPath, 'asdf'),
                    os.path.join(backupPath, 'qwer'))
-        self.assertTrue(os.path.islink(os.path.join(backupPath, 'qwer')))
+        self.assertIsLink(backupPath, 'qwer')
         self.assertFalse(sid.canOpenPath('/qwer'))
 
         #test valid symlink outside snapshot
         os.symlink('/tmp',
                    os.path.join(backupPath, 'bla'))
-        self.assertTrue(os.path.islink(os.path.join(backupPath, 'bla')))
+        self.assertIsLink(backupPath, 'bla')
         self.assertFalse(sid.canOpenPath('/bla'))
 
     def test_name(self):
@@ -257,14 +257,14 @@ class TestSID(generic.SnapshotsTestCase):
         failedPath   = os.path.join(snapshotPath, sid.FAILED)
         os.makedirs(snapshotPath)
 
-        self.assertFalse(os.path.exists(failedPath))
+        self.assertNotExists(failedPath)
         self.assertFalse(sid.failed)
         sid.failed = True
-        self.assertTrue(os.path.exists(failedPath))
+        self.assertExists(failedPath)
         self.assertTrue(sid.failed)
 
         sid.failed = False
-        self.assertFalse(os.path.exists(failedPath))
+        self.assertNotExists(failedPath)
         self.assertFalse(sid.failed)
 
     def test_info(self):
@@ -277,7 +277,7 @@ class TestSID(generic.SnapshotsTestCase):
         sid1.info = i1
 
         #test if file exist and has correct content
-        self.assertTrue(os.path.isfile(infoFile))
+        self.assertIsFile(infoFile)
         with open(infoFile, 'rt') as f:
             self.assertEqual(f.read(), 'foo=bar\n')
 
@@ -298,7 +298,7 @@ class TestSID(generic.SnapshotsTestCase):
         d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
         sid1.fileInfo = d
 
-        self.assertTrue(os.path.isfile(infoFile))
+        self.assertIsFile(infoFile)
 
         #load fileInfo in a new snapshot
         sid2 = snapshots.SID('20151219-010324-123', self.cfg)
@@ -350,7 +350,7 @@ class TestSID(generic.SnapshotsTestCase):
         self.assertRegex('\n'.join(sid.log()), r'Failed to get snapshot log from.*')
 
         sid.setLog('foo bar\nbaz')
-        self.assertTrue(os.path.isfile(logFile))
+        self.assertIsFile(logFile)
 
         self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
 
@@ -362,7 +362,7 @@ class TestSID(generic.SnapshotsTestCase):
                                'takesnapshot.log.bz2')
 
         sid.setLog('foo bar\n[I] 123\n[C] baz\n[E] bla')
-        self.assertTrue(os.path.isfile(logFile))
+        self.assertIsFile(logFile)
 
         self.assertEqual('\n'.join(sid.log(mode = LogFilter.CHANGES)), 'foo bar\n[C] baz')
 
@@ -374,7 +374,7 @@ class TestSID(generic.SnapshotsTestCase):
                                'takesnapshot.log.bz2')
 
         sid.setLog(b'foo bar\nbaz')
-        self.assertTrue(os.path.isfile(logFile))
+        self.assertIsFile(logFile)
 
         self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
 
@@ -417,15 +417,15 @@ class TestNewSnapshot(generic.SnapshotsTestCase):
         saveToContinuePath = os.path.join(snapshotPath, new.SAVETOCONTINUE)
         os.makedirs(snapshotPath)
 
-        self.assertFalse(os.path.exists(saveToContinuePath))
+        self.assertNotExists(saveToContinuePath)
         self.assertFalse(new.saveToContinue)
 
         new.saveToContinue = True
-        self.assertTrue(os.path.exists(saveToContinuePath))
+        self.assertExists(saveToContinuePath)
         self.assertTrue(new.saveToContinue)
 
         new.saveToContinue = False
-        self.assertFalse(os.path.exists(saveToContinuePath))
+        self.assertNotExists(saveToContinuePath)
         self.assertFalse(new.saveToContinue)
 
     def test_hasChanges(self):
