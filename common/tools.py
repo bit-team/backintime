@@ -896,6 +896,22 @@ def splitCommands(cmds, head = '', tail = '', maxLength = 0, additionalChars = 0
         s += tail
         yield s
 
+def fdDup(old, new_fd, mode = 'w'):
+    """
+    Duplicate file descriptor `old` to `new_fd` and closing the latter first.
+    Used to redirect stdin, stdout and stderr from daemonized threads.
+
+    Args:
+        old (str):                  Path to the old file (e.g. /dev/stdout)
+        new_fd (_io.TextIOWrapper): file object for the new file
+        mode (str):                 mode in which the old file should be opened
+    """
+    try:
+        fd = open(old, mode)
+        os.dup2(fd.fileno(), new_fd.fileno())
+    except OSError as e:
+        logger.debug('Failed to redirect {}: {}'.format(old, str(e)))
+
 class UniquenessSet:
     '''a class to check for uniqueness of snapshots of the same [item]'''
     def __init__(self, dc = False, follow_symlink = False, list_equal_to = False):
@@ -1326,18 +1342,12 @@ class Daemon:
 
         # redirect standard file descriptors
         logger.debug('redirect standard file descriptors', self)
-        try:
-            sys.stdout.flush()
-            sys.stderr.flush()
-            si = open(self.stdin, 'r')
-            so = open(self.stdout, 'w')
-            se = open(self.stderr, 'w')
-            os.dup2(si.fileno(), sys.stdin.fileno())
-            os.dup2(so.fileno(), sys.stdout.fileno())
-            os.dup2(se.fileno(), sys.stderr.fileno())
-        except Exception as e:
-            logger.debug(str(e), self)
-            raise
+
+        sys.stdout.flush()
+        sys.stderr.flush()
+        fdDup(self.stdin, sys.stdin, 'r')
+        fdDup(self.stdout, sys.stdout, 'w')
+        fdDup(self.stderr, sys.stderr, 'w')
 
         signal.signal(signal.SIGTERM, self.cleanupHandler)
         if self.pidfile:
