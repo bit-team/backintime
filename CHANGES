@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.2.0~alpha0
+* Fix bug: OSError when running backup-job from systemd (https://github.com/bit-team/backintime/issues/720)
 * Smart Remove try to keep healthy snapshots (https://github.com/bit-team/backintime/issues/703)
 * Fix critical bug: restore filesystem-root without 'Full rsync mode' with ACL and/or xargs activated broke whole system (https://github.com/bit-team/backintime/issues/708)
 * Fix bug: use current folder if no file is selected in files view (https://github.com/bit-team/backintime/issues/687, https://github.com/bit-team/backintime/issues/685)
