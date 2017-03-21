@@ -20,6 +20,7 @@ import stat
 import tools
 import threading
 import tempfile
+from contextlib import contextmanager
 
 import logger
 
@@ -110,6 +111,12 @@ class TempPasswordThread(threading.Thread):
         self.pw = string
         self.temp_file = os.path.join(tempfile.mkdtemp(), 'FIFO')
         self.fifo = FIFO(self.temp_file)
+
+    @contextmanager
+    def starter(self):
+        self.start()
+        yield
+        self.stop()
 
     def run(self):
         self.fifo.create()

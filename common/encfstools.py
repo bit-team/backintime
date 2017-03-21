@@ -65,29 +65,26 @@ class EncFS_mount(MountControl):
         thread = password_ipc.TempPasswordThread(self.password)
         env = self.env()
         env['ASKPASS_TEMP'] = thread.temp_file
-        thread.start()
+        with thread.starter():
+            encfs = [self.mountproc, '--extpass=backintime-askpass']
+            if self.reverse:
+                encfs += ['--reverse']
+            if not self.isConfigured():
+                encfs += ['--standard']
+            encfs += [self.path, self.currentMountpoint]
+            logger.debug('Call mount command: %s'
+                         %' '.join(encfs),
+                         self)
 
-        encfs = [self.mountproc, '--extpass=backintime-askpass']
-        if self.reverse:
-            encfs += ['--reverse']
-        if not self.isConfigured():
-            encfs += ['--standard']
-        encfs += [self.path, self.currentMountpoint]
-        logger.debug('Call mount command: %s'
-                     %' '.join(encfs),
-                     self)
-
-        proc = subprocess.Popen(encfs, env = env,
-                                stdout = subprocess.PIPE,
-                                stderr = subprocess.STDOUT,
-                                universal_newlines = True)
-        output = proc.communicate()[0]
-        self.backupConfig()
-        if proc.returncode:
-            raise MountException(_('Can\'t mount \'%(command)s\':\n\n%(error)s') \
-                                    % {'command': ' '.join(encfs), 'error': output})
-
-        thread.stop()
+            proc = subprocess.Popen(encfs, env = env,
+                                    stdout = subprocess.PIPE,
+                                    stderr = subprocess.STDOUT,
+                                    universal_newlines = True)
+            output = proc.communicate()[0]
+            self.backupConfig()
+            if proc.returncode:
+                raise MountException(_('Can\'t mount \'%(command)s\':\n\n%(error)s') \
+                                        % {'command': ' '.join(encfs), 'error': output})
 
     def preMountCheck(self, first_run = False):
         """
@@ -355,18 +352,16 @@ class Encode(object):
         thread = password_ipc.TempPasswordThread(self.password)
         env = self.encfs.env()
         env['ASKPASS_TEMP'] = thread.temp_file
-        thread.start()
-
-        logger.debug('start \'encfsctl encode\' process', self)
-        encfsctl = ['encfsctl', 'encode', '--extpass=backintime-askpass', '/']
-        logger.debug('Call command: %s'
-                     %' '.join(encfsctl),
-                     self)
-        self.p = subprocess.Popen(encfsctl, env = env, bufsize = 0,
-                                stdin=subprocess.PIPE,
-                                stdout=subprocess.PIPE,
-                                universal_newlines = True)
-        thread.stop()
+        with thread.starter():
+            logger.debug('start \'encfsctl encode\' process', self)
+            encfsctl = ['encfsctl', 'encode', '--extpass=backintime-askpass', '/']
+            logger.debug('Call command: %s'
+                         %' '.join(encfsctl),
+                         self)
+            self.p = subprocess.Popen(encfsctl, env = env, bufsize = 0,
+                                    stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE,
+                                    universal_newlines = True)
 
     def path(self, path):
         """
@@ -580,19 +575,17 @@ class Decode(object):
         thread = password_ipc.TempPasswordThread(self.password)
         env = os.environ.copy()
         env['ASKPASS_TEMP'] = thread.temp_file
-        thread.start()
-
-        logger.debug('start \'encfsctl decode\' process', self)
-        encfsctl = ['encfsctl', 'decode', '--extpass=backintime-askpass', self.encfs.path]
-        logger.debug('Call command: %s'
-                     %' '.join(encfsctl),
-                     self)
-        self.p = subprocess.Popen(encfsctl, env = env,
-                                  stdin=subprocess.PIPE,
-                                  stdout=subprocess.PIPE,
-                                  universal_newlines = self.string,   #return string (if True) or bytes
-                                  bufsize = 0)
-        thread.stop()
+        with thread.starter():
+            logger.debug('start \'encfsctl decode\' process', self)
+            encfsctl = ['encfsctl', 'decode', '--extpass=backintime-askpass', self.encfs.path]
+            logger.debug('Call command: %s'
+                         %' '.join(encfsctl),
+                         self)
+            self.p = subprocess.Popen(encfsctl, env = env,
+                                      stdin=subprocess.PIPE,
+                                      stdout=subprocess.PIPE,
+                                      universal_newlines = self.string,   #return string (if True) or bytes
+                                      bufsize = 0)
 
     def path(self, path):
         """
