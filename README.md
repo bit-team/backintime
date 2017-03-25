@@ -1,4 +1,4 @@
-#Back In Time
+# Back In Time
 
 Copyright (C) 2008-2017 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
 
@@ -8,7 +8,7 @@ Copyright (C) 2008-2017 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 [![Flattr this](https://button.flattr.com/flattr-badge-large.png)](https://flattr.com/submit/auto?fid=nw135z&url=https%3A%2F%2Fgithub.com%2Fbit-team%2Fbackintime)
 [![Donate PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=37PJBGSQL7DC2)
 
-##About
+## About
 
 Back In Time is a simple backup tool for Linux, inspired by "flyback project".
 
@@ -20,26 +20,26 @@ You only need to specify 3 things:
 * what folders to backup
 * backup frequency (manual, every hour, every day, every month)
 
-##Documentation
+## Documentation
 
 The documentation is currently under development in http://backintime.rtfd.org/
 
-##Support
+## Support
 
 Please ask questions and report bug on
 https://github.com/bit-team/backintime/issues
 
-##Download
+## Download
 
 Please find the latest versions on
 https://github.com/bit-team/backintime/releases/latest
 
-##INSTALL
+## INSTALL
 
 Back In Time is included in many distributions and can be installed from their
 repositories.
 
-#####Ubuntu PPA
+##### Ubuntu PPA
 
 We provide a PPA (Private Package Archive) with current stable version
 (ppa:bit-team/stable) and a testing PPA (ppa:bit-team/testing)
@@ -54,13 +54,13 @@ or
     sudo apt-get update
     sudo apt-get install backintime-qt
 
-#####Debian/Ubuntu make packages
+##### Debian/Ubuntu make packages
 
     ./makedeb.sh
     sudo dpkg -i ../backintime-common-<version>.deb
     sudo dpkg -i ../backintime-qt-<version>.deb
 
-#####ArchLinux
+##### ArchLinux
 
 Back In Time is available through AUR. You need to import a public key once
 before installing
@@ -72,9 +72,9 @@ before installing
     cd backintime
     makepkg -srci
 
-###From sources
+### From sources
 
-#####Common
+##### Common
 
 * dependencies
     - python3 (>= 3.3)
@@ -97,7 +97,7 @@ before installing
         sudo make install
 
 
-#####Qt5 GUI
+##### Qt5 GUI
 
 * dependencies
     - x11-utils
@@ -122,7 +122,7 @@ before installing
         sudo make install
 
 
-##configure options
+## configure options
 
     first value is default:
     --no-fuse-group | --fuse-group (only COMMON)
@@ -132,12 +132,12 @@ before installing
     --python3 | --python (all)
         Use either 'python3' or 'python' to start Python Version 3.x
 
-##NewsFeed
+## NewsFeed
 
 Back In Time has a RSS feed
 http://feeds.launchpad.net/backintime/announcements.atom
 
-##Contribute
+## Contribute
 
 There is a dev-docu on http://backintime-dev.rtfd.org/
 It's not complete yet but I'm working on it. If you'd like to contribute
