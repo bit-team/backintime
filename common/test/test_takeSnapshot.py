@@ -169,31 +169,31 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_error(self, sleep):
-        os.chmod(os.path.join(self.include.name, 'test'), 0o000)
-        now = datetime.today()
-        sid1 = snapshots.SID(now, self.cfg)
+        with generic.mockPermissions(os.path.join(self.include.name, 'test')):
+            now = datetime.today()
+            sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([True, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
-        self.assertTrue(sid1.exists())
-        self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
-        self.assertFalse(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
-        for f in ('config',
-                  'fileinfo.bz2',
-                  'info',
-                  'takesnapshot.log.bz2',
-                  'failed'):
-            self.assertExists(sid1.path(f))
-        self.assertNotExists(self.cfg.anacronSpoolFile())
+            self.assertListEqual([True, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
+            self.assertTrue(sid1.exists())
+            self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
+            self.assertFalse(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
+            for f in ('config',
+                      'fileinfo.bz2',
+                      'info',
+                      'takesnapshot.log.bz2',
+                      'failed'):
+                self.assertExists(sid1.path(f))
+            self.assertNotExists(self.cfg.anacronSpoolFile())
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_error_without_continue(self, sleep):
-        os.chmod(os.path.join(self.include.name, 'test'), 0o000)
-        self.cfg.setContinueOnErrors(False)
-        now = datetime.today()
-        sid1 = snapshots.SID(now, self.cfg)
+        with generic.mockPermissions(os.path.join(self.include.name, 'test')):
+            self.cfg.setContinueOnErrors(False)
+            now = datetime.today()
+            sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([False, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
-        self.assertFalse(sid1.exists())
+            self.assertListEqual([False, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
+            self.assertFalse(sid1.exists())
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_new_exists(self, sleep):
@@ -226,14 +226,11 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
     @patch('time.sleep') # speed up unittest
     def test_takeSnapshot_fail_create_new_snapshot(self, sleep):
-        os.chmod(self.snapshotPath, 0o500)
-        now = datetime.today()
-        sid1 = snapshots.SID(now, self.cfg)
+        with generic.mockPermissions(self.snapshotPath, 0o500):
+            now = datetime.today()
+            sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([False, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
-
-        # fix permissions because cleanup would fail otherwise
-        os.chmod(self.snapshotPath, 0o700)
+            self.assertListEqual([False, True], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
 
 @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
 class TestTakeSnapshotSSH(generic.SSHSnapshotTestCase, TestTakeSnapshot):
