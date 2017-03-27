@@ -32,8 +32,8 @@ class TestConfig(generic.TestCaseCfg):
     def test_set_snapshots_path_fails_on_ro(self):
         with TemporaryDirectory() as dirpath:
             # set directory to read only
-            with generic.mockPermissions(dirpath, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH):
-                self.assertFalse(self.cfg.setSnapshotsPath(dirpath))
+            os.chmod(dirpath, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+            self.assertFalse(self.cfg.setSnapshotsPath(dirpath))
 
 class TestSshCommand(generic.SSHTestCase):
     def test_full_command(self):
