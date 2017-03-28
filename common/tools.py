@@ -60,7 +60,7 @@ import configfile
 import logger
 import bcolors
 from applicationinstance import ApplicationInstance
-from exceptions import Timeout, InvalidChar, PermissionDeniedByPolicy
+from exceptions import Timeout, InvalidChar, InvalidCmd, PermissionDeniedByPolicy
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
@@ -1715,6 +1715,8 @@ class SetupUdev(object):
         except dbus.exceptions.DBusException as e:
             if e._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
                 raise InvalidChar(str(e))
+            elif e._dbus_error_name == 'net.launchpad.backintime.InvalidCmd':
+	        raise InvalidCmd(str(e))
             else:
                 raise
 

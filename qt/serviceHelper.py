@@ -79,6 +79,9 @@ UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
 class InvalidChar(dbus.DBusException):
     _dbus_error_name = 'net.launchpad.backintime.InvalidChar'
 
+class InvalidCmd(dbus.DBusException):
+    _dbus_error_name = 'net.launchpad.backintime.InvalidCmd'
+
 class PermissionDeniedByPolicy(dbus.DBusException):
     _dbus_error_name = 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'
 
@@ -93,10 +96,46 @@ class UdevRules(dbus.service.Object):
         self.tmpDict = {}
 
         #find su path
-        proc = Popen(['which', 'su'], stdout = PIPE)
-        self.su = proc.communicate()[0].strip().decode()
-        if proc.returncode or not self.su:
-            self.su = '/bin/su'
+        self.su = self._which('su', '/bin/su')
+        self.backintime = self._which('backintime', '/usr/bin/backintime')
+        self.nice = self._which('nice', '/usr/bin/nice')
+        self.ionice = self._which('ionice', '/usr/bin/ionice')
+
+    def _which(self, exe, fallback):
+        proc = Popen(['which', exe], stdout = PIPE)
+        ret = proc.communicate()[0].strip().decode()
+        if proc.returncode or not ret:
+            return fallback
+
+        return ret
+
+    def _validateCmd(self, cmd):
+
+        if cmd.find("&&") != -1:
+            raise InvalidCmd("Parameter 'cmd' contains '&&' concatenation")
+        # make sure it starts with an absolute path
+        elif not cmd.startswith(os.path.sep):
+            raise InvalidCmd("Parameter 'cmd' does not start with '/'")
+
+        parts = cmd.split()
+
+        # make sure only well known commands and switches are used
+        whitelist = (
+            (self.nice, ("-n")),
+            (self.ionice, ("-c", "-n")),
+        )
+
+        for c, switches in whitelist:
+            if parts and parts[0].startswith(c):
+                parts.pop(0)
+                for sw in switches:
+                    while parts and parts[0].startswith(sw):
+                        parts.pop(0)
+
+        if not parts:
+            raise InvalidCmd("Parameter 'cmd' does not contain the backintime command")
+        elif parts[0] != self.backintime:
+            raise InvalidCmd("Parameter 'cmd' contains non-whitelisted cmd/parameter (%s)" % parts[0])
 
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
                          in_signature='ss', out_signature='',
@@ -117,6 +156,8 @@ class UdevRules(dbus.service.Object):
         if chars:
             raise InvalidChar("Parameter 'uuid' contains invalid character(s) %s"
                               % '|'.join(set(chars)))
+
+        self._validateCmd(cmd)
 
         info = SenderInfo(sender, conn)
         user = info.connectionUnixUser()

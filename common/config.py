@@ -37,7 +37,7 @@ import sshtools
 import encfstools
 import password
 import pluginmanager
-from exceptions import PermissionDeniedByPolicy, InvalidChar
+from exceptions import PermissionDeniedByPolicy, InvalidChar, InvalidCmd
 
 _=gettext.gettext
 
@@ -637,7 +637,7 @@ class Config(configfile.ConfigFileWithProfiles):
             ssh += ['ionice', '-c2', '-n7']
         # run 'nice' on remote host
         if nice and self.niceOnRemote(profile_id) and cmd:
-            ssh += ['nice', '-n 19']
+            ssh += ['nice', '-n19']
         # run prefix on remote host
         if prefix and cmd and self.sshPrefixEnabled(profile_id):
             ssh += self.sshPrefixCmd(profile_id, cmd_type = list)
@@ -1021,7 +1021,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileBoolValue('snapshots.backup_on_restore.enabled', value, profile_id)
 
     def niceOnCron(self, profile_id = None):
-        #?Run cronjobs with 'nice \-n 19'. This will give BackInTime the
+        #?Run cronjobs with 'nice \-n19'. This will give BackInTime the
         #?lowest CPU priority to not interrupt any other working process.
         return self.profileBoolValue('snapshots.cron.nice', self.DEFAULT_RUN_NICE_FROM_CRON, profile_id)
 
@@ -1046,7 +1046,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileBoolValue('snapshots.user_backup.ionice', value, profile_id)
 
     def niceOnRemote(self, profile_id = None):
-        #?Run rsync and other commands on remote host with 'nice \-n 19'
+        #?Run rsync and other commands on remote host with 'nice \-n19'
         return self.profileBoolValue('snapshots.ssh.nice', self.DEFAULT_RUN_NICE_ON_REMOTE, profile_id)
 
     def setNiceOnRemote(self, value, profile_id = None):
@@ -1595,7 +1595,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.setProfileStrValue('snapshots.path.uuid', uuid, profile_id)
             try:
                 self.setupUdev.addRule(self.cronCmd(profile_id), uuid)
-            except InvalidChar as e:
+            except (InvalidChar, InvalidCmd) as e:
                 logger.error(str(e), self)
                 self.notifyError(str(e))
                 return False
@@ -1625,7 +1625,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if self.ioniceOnCron(profile_id) and tools.checkCommand('ionice'):
             cmd = tools.which('ionice') + ' -c2 -n7 ' + cmd
         if self.niceOnCron(profile_id) and tools.checkCommand('nice'):
-            cmd = tools.which('nice') + ' -n 19 ' + cmd
+            cmd = tools.which('nice') + ' -n19 ' + cmd
         return cmd
 
 if __name__ == '__main__':
