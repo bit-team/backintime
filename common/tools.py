@@ -2018,11 +2018,12 @@ class Daemon:
     License CC BY-SA 3.0
     http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
     """
-    def __init__(self, pidfile = None, stdin='/dev/null', stdout='/dev/stdout', stderr='/dev/null'):
+    def __init__(self, pidfile = None, stdin='/dev/null', stdout='/dev/stdout', stderr='/dev/null', umask = 0o022):
         self.stdin = stdin
         self.stdout = stdout
         self.stderr = stderr
         self.pidfile = pidfile
+	self.umask = umask
         if pidfile:
             self.appInstance = ApplicationInstance(pidfile, autoExit = False, flock = False)
 
@@ -2046,7 +2047,7 @@ class Daemon:
         logger.debug('decouple from parent environment', self)
         os.chdir("/")
         os.setsid()
-        os.umask(0)
+        os.umask(self.umask)
 
         # do second fork
         try:

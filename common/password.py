@@ -53,7 +53,7 @@ class Password_Cache(tools.Daemon):
             logger.error(msg, self)
             raise PermissionError(msg)
         pid = self.config.passwordCachePid()
-        super(Password_Cache, self).__init__(pid, *args, **kwargs)
+        super(Password_Cache, self).__init__(pid, umask = 0o077, *args, **kwargs)
         self.dbKeyring = {}
         self.dbUsr = {}
         self.fifo = password_ipc.FIFO(self.config.passwordCacheFifo())
