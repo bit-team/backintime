@@ -24,4 +24,4 @@ else
 	APP_PATH=$(readlink -m "${CUR_PATH}/../share/backintime/common")
 fi
 
-python3 $APP_PATH/backintime.py "$@"
+python3 -Es $APP_PATH/backintime.py "$@"
