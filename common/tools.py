@@ -2023,7 +2023,7 @@ class Daemon:
         self.stdout = stdout
         self.stderr = stderr
         self.pidfile = pidfile
-	self.umask = umask
+        self.umask = umask
         if pidfile:
             self.appInstance = ApplicationInstance(pidfile, autoExit = False, flock = False)
 
