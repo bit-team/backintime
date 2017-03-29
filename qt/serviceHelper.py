@@ -126,7 +126,7 @@ class UdevRules(dbus.service.Object):
         )
 
         for c, switches in whitelist:
-            if parts and parts[0].startswith(c):
+            if parts and parts[0] == c:
                 parts.pop(0)
                 for sw in switches:
                     while parts and parts[0].startswith(sw):
