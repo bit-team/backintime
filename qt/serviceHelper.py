@@ -105,6 +105,7 @@ class UdevRules(dbus.service.Object):
         self.ionice = self._which('ionice', '/usr/bin/ionice')
         self.max_rules = 100
         self.max_users = 20
+        self.max_cmd_len = 100
 
     def _which(self, exe, fallback):
         proc = Popen(['which', exe], stdout = PIPE)
@@ -142,7 +143,7 @@ class UdevRules(dbus.service.Object):
         elif parts[0] != self.backintime:
             raise InvalidCmd("Parameter 'cmd' contains non-whitelisted cmd/parameter (%s)" % parts[0])
 
-    def _checkLimits(self, owner):
+    def _checkLimits(self, owner, cmd):
 
         if len(self.tmpDict.get(owner, [])) >= self.max_rules:
             raise LimitExceeded("Maximum number of cached rules reached (%d)"
@@ -150,6 +151,9 @@ class UdevRules(dbus.service.Object):
         elif len(self.tmpDict) >= self.max_users:
             raise LimitExceeded("Maximum number of cached users reached (%d)"
                             % self.max_users)
+        elif len(cmd) > self.max_cmd_len:
+            raise LimitExceeded("Maximum length of command line reached (%d)"
+                            % self.max_cmd_len)
 
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
                          in_signature='ss', out_signature='',
@@ -177,7 +181,7 @@ class UdevRules(dbus.service.Object):
         user = info.connectionUnixUser()
         owner = info.nameOwner()
 
-        self._checkLimits(owner)
+        self._checkLimits(owner, cmd)
 
         #create su command
         sucmd = "%s - '%s' -c '%s'" %(self.su, user, cmd)
