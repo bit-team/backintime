@@ -37,7 +37,7 @@ import sshtools
 import encfstools
 import password
 import pluginmanager
-from exceptions import PermissionDeniedByPolicy, InvalidChar, InvalidCmd
+from exceptions import PermissionDeniedByPolicy, InvalidChar, InvalidCmd, LimitExceeded
 
 _=gettext.gettext
 
@@ -1595,7 +1595,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.setProfileStrValue('snapshots.path.uuid', uuid, profile_id)
             try:
                 self.setupUdev.addRule(self.cronCmd(profile_id), uuid)
-            except (InvalidChar, InvalidCmd) as e:
+            except (InvalidChar, InvalidCmd, LimitExceeded) as e:
                 logger.error(str(e), self)
                 self.notifyError(str(e))
                 return False

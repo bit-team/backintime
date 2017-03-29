@@ -82,6 +82,9 @@ class InvalidChar(dbus.DBusException):
 class InvalidCmd(dbus.DBusException):
     _dbus_error_name = 'net.launchpad.backintime.InvalidCmd'
 
+class LimitExceeded(dbus.DBusException):
+    _dbus_error_name = 'net.launchpad.backintime.LimitExceeded'
+
 class PermissionDeniedByPolicy(dbus.DBusException):
     _dbus_error_name = 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'
 
@@ -100,6 +103,8 @@ class UdevRules(dbus.service.Object):
         self.backintime = self._which('backintime', '/usr/bin/backintime')
         self.nice = self._which('nice', '/usr/bin/nice')
         self.ionice = self._which('ionice', '/usr/bin/ionice')
+        self.max_rules = 100
+        self.max_users = 20
 
     def _which(self, exe, fallback):
         proc = Popen(['which', exe], stdout = PIPE)
@@ -137,6 +142,15 @@ class UdevRules(dbus.service.Object):
         elif parts[0] != self.backintime:
             raise InvalidCmd("Parameter 'cmd' contains non-whitelisted cmd/parameter (%s)" % parts[0])
 
+    def _checkLimits(self, owner):
+
+        if len(self.tmpDict.get(owner, [])) >= self.max_rules:
+            raise LimitExceeded("Maximum number of cached rules reached (%d)"
+                            % self.max_rules)
+        elif len(self.tmpDict) >= self.max_users:
+            raise LimitExceeded("Maximum number of cached users reached (%d)"
+                            % self.max_users)
+
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
                          in_signature='ss', out_signature='',
                          sender_keyword='sender', connection_keyword='conn')
@@ -162,6 +176,8 @@ class UdevRules(dbus.service.Object):
         info = SenderInfo(sender, conn)
         user = info.connectionUnixUser()
         owner = info.nameOwner()
+
+        self._checkLimits(owner)
 
         #create su command
         sucmd = "%s - '%s' -c '%s'" %(self.su, user, cmd)

@@ -60,7 +60,7 @@ import configfile
 import logger
 import bcolors
 from applicationinstance import ApplicationInstance
-from exceptions import Timeout, InvalidChar, InvalidCmd, PermissionDeniedByPolicy
+from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
@@ -429,7 +429,7 @@ def processAlive(pid):
         raise ValueError('invalid PID 0')
     else:
         try:
-            os.kill(pid, 0)	#this will raise an exception if the pid is not valid
+            os.kill(pid, 0) #this will raise an exception if the pid is not valid
         except OSError as err:
             if err.errno == errno.ESRCH:
                 # ESRCH == No such process
@@ -1716,7 +1716,9 @@ class SetupUdev(object):
             if e._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
                 raise InvalidChar(str(e))
             elif e._dbus_error_name == 'net.launchpad.backintime.InvalidCmd':
-	        raise InvalidCmd(str(e))
+                raise InvalidCmd(str(e))
+            elif e._dbus_error_name == 'net.launchpad.backintime.LimitExceeded':
+                raise LimitExceeded(str(e))
             else:
                 raise
 
