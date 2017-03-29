@@ -66,7 +66,7 @@ def take_snapshot_now_async( cfg ):
             del env[i]
         except:
             pass
-    subprocess.Popen(cmd, env = env)
+    subprocess.Popen(cmd, env = env, shell = True)
 
 def take_snapshot( cfg, force = True ):
     '''take a new snapshot.
