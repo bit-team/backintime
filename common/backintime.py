@@ -46,19 +46,19 @@ def take_snapshot_now_async( cfg ):
 
     cfg:    config.Config instance
     '''
-    cmd = ''
+    cmd = []
     if cfg.is_run_ionice_from_user_enabled():
-        cmd += 'ionice -c2 -n7 '
-    cmd += 'backintime '
+        cmd.extend(('ionice', '-c2', '-n7'))
+    cmd.append('backintime')
     if '1' != cfg.get_current_profile():
-        cmd += '--profile-id %s ' % cfg.get_current_profile()
-    if not cfg._LOCAL_CONFIG_PATH is cfg._DEFAULT_CONFIG_PATH:
-        cmd += '--config %s ' % cfg._LOCAL_CONFIG_PATH
+        cmd.extend(('--profile-id', str(cfg.get_current_profile())))
+    if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
+        cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
     if logger.DEBUG:
-        cmd += '--debug '
-    cmd += 'backup &'
+        cmd.append('--debug')
+    cmd.append('backup')
 
-    # child process need to start it's own ssh-agent because otherwise
+    # child process need to start its own ssh-agent because otherwise
     # it would be lost without ssh-agent if parent will close
     env = os.environ.copy()
     for i in ('SSH_AUTH_SOCK', 'SSH_AGENT_PID'):
