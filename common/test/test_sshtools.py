@@ -122,17 +122,14 @@ class TestSSH(generic.SSHTestCase):
         ssh.checkRemoteFolder()
 
         #make folder read-only
-        os.chmod(self.remotePath, stat.S_IRUSR | stat.S_IXUSR)
-        with self.assertRaisesRegex(MountException, r"Remote path is not writable.+"):
-            ssh.checkRemoteFolder()
+        with generic.mockPermissions(self.remotePath, stat.S_IRUSR | stat.S_IXUSR):
+            with self.assertRaisesRegex(MountException, r"Remote path is not writable.+"):
+                ssh.checkRemoteFolder()
 
         #make folder not executable
-        os.chmod(self.remotePath, stat.S_IRUSR | stat.S_IWUSR)
-        with self.assertRaisesRegex(MountException, r"Remote path is not executable.+"):
-            ssh.checkRemoteFolder()
-
-        #make it writable again otherwise cleanup will fail
-        os.chmod(self.remotePath, stat.S_IRWXU)
+        with generic.mockPermissions(self.remotePath, stat.S_IRUSR | stat.S_IWUSR):
+            with self.assertRaisesRegex(MountException, r"Remote path is not executable.+"):
+                ssh.checkRemoteFolder()
 
     def test_checkRemoteFolder_fail_not_a_folder(self):
         with open(self.remotePath, 'wt') as f:
@@ -148,11 +145,9 @@ class TestSSH(generic.SSHTestCase):
         ssh = sshtools.SSH(cfg = self.cfg)
 
         #can not create path
-        os.chmod(self.tmpDir.name, stat.S_IRUSR | stat.S_IXUSR)
-        with self.assertRaisesRegex(MountException, r"Couldn't create remote path.+"):
-            ssh.checkRemoteFolder()
-        #make it writable again otherwise cleanup will fail
-        os.chmod(self.tmpDir.name, stat.S_IRWXU)
+        with generic.mockPermissions(self.tmpDir.name, stat.S_IRUSR | stat.S_IXUSR):
+            with self.assertRaisesRegex(MountException, r"Couldn't create remote path.+"):
+                ssh.checkRemoteFolder()
 
     def test_checkRemoteFolder_with_spaces(self):
         self.remotePath = os.path.join(self.tmpDir.name, 'foo bar')

@@ -312,13 +312,10 @@ class TestSID(generic.SnapshotsTestCase):
         # remove all permissions from file
         with open(infoFile, 'wt') as f:
             pass
-        os.chmod(infoFile, 0o000)
 
-        self.assertEqual(sid.fileInfo, snapshots.FileInfoDict())
-        self.assertTrue(mock_logger.called)
-
-        # make file read/writeable again for deletion
-        os.chmod(infoFile, 0o600)
+        with generic.mockPermissions(infoFile):
+            self.assertEqual(sid.fileInfo, snapshots.FileInfoDict())
+            self.assertTrue(mock_logger.called)
 
     @patch('logger.error')
     def test_fileInfoErrorWrite(self, mock_logger):
@@ -328,16 +325,13 @@ class TestSID(generic.SnapshotsTestCase):
         # remove all permissions from file
         with open(infoFile, 'wt') as f:
             pass
-        os.chmod(infoFile, 0o000)
 
-        d = snapshots.FileInfoDict()
-        d[b'/tmp']     = (123, b'foo', b'bar')
-        d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
-        sid.fileInfo = d
-        self.assertTrue(mock_logger.called)
-
-        # make file read/writeable again for deletion
-        os.chmod(infoFile, 0o600)
+        with generic.mockPermissions(infoFile):
+            d = snapshots.FileInfoDict()
+            d[b'/tmp']     = (123, b'foo', b'bar')
+            d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
+            sid.fileInfo = d
+            self.assertTrue(mock_logger.called)
 
     def test_log(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
@@ -380,9 +374,9 @@ class TestSID(generic.SnapshotsTestCase):
 
     def test_makeWritable(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        sidPath = os.path.join(self.snapshotPath, '20151219-010324-123')
-        testFile = os.path.join(self.snapshotPath, '20151219-010324-123', 'test')
+        sidPath = os.path.join(self.snapshotPath,   '20151219-010324-123')
+        os.makedirs(sidPath)
+        testFile = os.path.join(sidPath, 'test')
 
         #make only read and explorable
         os.chmod(sidPath, stat.S_IRUSR | stat.S_IXUSR)

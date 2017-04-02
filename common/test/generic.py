@@ -20,6 +20,7 @@ import sys
 import unittest
 from unittest.mock import patch
 from tempfile import TemporaryDirectory, NamedTemporaryFile
+from contextlib import contextmanager
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import logger
@@ -202,3 +203,11 @@ def create_test_files(path):
         f.write('bar')
     with open(os.path.join(path, 'file with spaces'), 'wt') as f:
         f.write('asdf')
+
+@contextmanager
+def mockPermissions(path, mode = 0o000):
+    st = os.stat(path)
+    os.chmod(path, mode)
+    yield
+    # fix permissions so it can be removed
+    os.chmod(path, st.st_mode)
