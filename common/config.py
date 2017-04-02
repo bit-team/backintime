@@ -35,6 +35,7 @@ import logger
 import mount
 import sshtools
 import encfstools
+import gocryptfstools
 import password
 import pluginmanager
 from exceptions import PermissionDeniedByPolicy, InvalidChar
@@ -130,7 +131,8 @@ class Config(configfile.ConfigFileWithProfiles):
                 'local'         : (None,                    _('Local'),             False,                  False),
                 'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False),
                 'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False),
-                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption'))
+                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption')),
+                'local_gocryptfs':(gocryptfstools.GoCryptFS_mount, _('Local encrypted') + ' (gocryptfs)', _('Encryption'), False)
                 }
 
     SSH_CIPHERS =  {'default':    _('Default'),
