@@ -216,18 +216,12 @@ class UdevRules(dbus.service.Object):
             # bus, and it does not make sense to restrict operations here
             return
 
-        info = SenderInfo(sender, conn)
-
-        # get peer PID
-        pid = info.connectionPid()
-
         # query PolicyKit
         self._initPolkit()
         try:
             # we don't need is_challenge return here, since we call with AllowUserInteraction
             (is_auth, _, details) = self.polkit.CheckAuthorization(
-                    ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1),
-                    'start-time': dbus.UInt64(0, variant_level=1)}),
+                    ('system-bus-name', {'name': dbus.String(sender, variant_level=1)}),
                     privilege, {'': ''}, dbus.UInt32(1), '', timeout=3000)
         except dbus.DBusException as e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
