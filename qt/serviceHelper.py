@@ -127,16 +127,19 @@ class UdevRules(dbus.service.Object):
 
         # make sure only well known commands and switches are used
         whitelist = (
-            (self.nice, ("-n")),
-            (self.ionice, ("-c", "-n")),
+            (self.nice, r'^-n'),
+            (self.ionice, r'(^-c|^-n)'),
         )
 
-        for c, switches in whitelist:
-            if parts and parts[0] == c:
-                parts.pop(0)
-                for sw in switches:
-                    while parts and parts[0].startswith(sw):
+        while parts:
+            for c, switches in whitelist:
+                if parts[0] == c:
+                    parts.pop(0)
+                    while parts and re.match(switches, parts[0]):
                         parts.pop(0)
+                    break
+            else:
+                break
 
         if not parts:
             raise InvalidCmd("Parameter 'cmd' does not contain the backintime command")
