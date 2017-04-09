@@ -60,7 +60,7 @@ import configfile
 import logger
 import bcolors
 from applicationinstance import ApplicationInstance
-from exceptions import Timeout, InvalidChar, PermissionDeniedByPolicy
+from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
@@ -429,7 +429,7 @@ def processAlive(pid):
         raise ValueError('invalid PID 0')
     else:
         try:
-            os.kill(pid, 0)	#this will raise an exception if the pid is not valid
+            os.kill(pid, 0) #this will raise an exception if the pid is not valid
         except OSError as err:
             if err.errno == errno.ESRCH:
                 # ESRCH == No such process
@@ -1715,6 +1715,10 @@ class SetupUdev(object):
         except dbus.exceptions.DBusException as e:
             if e._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
                 raise InvalidChar(str(e))
+            elif e._dbus_error_name == 'net.launchpad.backintime.InvalidCmd':
+                raise InvalidCmd(str(e))
+            elif e._dbus_error_name == 'net.launchpad.backintime.LimitExceeded':
+                raise LimitExceeded(str(e))
             else:
                 raise
 
@@ -2018,11 +2022,12 @@ class Daemon:
     License CC BY-SA 3.0
     http://www.jejik.com/articles/2007/02/a_simple_unix_linux_daemon_in_python/
     """
-    def __init__(self, pidfile = None, stdin='/dev/null', stdout='/dev/stdout', stderr='/dev/null'):
+    def __init__(self, pidfile = None, stdin='/dev/null', stdout='/dev/stdout', stderr='/dev/null', umask = 0o022):
         self.stdin = stdin
         self.stdout = stdout
         self.stderr = stderr
         self.pidfile = pidfile
+        self.umask = umask
         if pidfile:
             self.appInstance = ApplicationInstance(pidfile, autoExit = False, flock = False)
 
@@ -2046,7 +2051,7 @@ class Daemon:
         logger.debug('decouple from parent environment', self)
         os.chdir("/")
         os.setsid()
-        os.umask(0)
+        os.umask(self.umask)
 
         # do second fork
         try:

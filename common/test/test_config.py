@@ -100,7 +100,7 @@ class TestSshCommand(generic.SSHTestCase):
                                    '-p', '22',
                                    '{}@localhost'.format(self.cfg.user()),
                                    'ionice', '-c2', '-n7',
-                                   'nice', '-n 19',
+                                   'nice', '-n19',
                                    'echo', 'foo'])
 
         # without cmd no io-/nice

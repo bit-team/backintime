@@ -79,6 +79,12 @@ UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
 class InvalidChar(dbus.DBusException):
     _dbus_error_name = 'net.launchpad.backintime.InvalidChar'
 
+class InvalidCmd(dbus.DBusException):
+    _dbus_error_name = 'net.launchpad.backintime.InvalidCmd'
+
+class LimitExceeded(dbus.DBusException):
+    _dbus_error_name = 'net.launchpad.backintime.LimitExceeded'
+
 class PermissionDeniedByPolicy(dbus.DBusException):
     _dbus_error_name = 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'
 
@@ -93,10 +99,61 @@ class UdevRules(dbus.service.Object):
         self.tmpDict = {}
 
         #find su path
-        proc = Popen(['which', 'su'], stdout = PIPE)
-        self.su = proc.communicate()[0].strip().decode()
-        if proc.returncode or not self.su:
-            self.su = '/bin/su'
+        self.su = self._which('su', '/bin/su')
+        self.backintime = self._which('backintime', '/usr/bin/backintime')
+        self.nice = self._which('nice', '/usr/bin/nice')
+        self.ionice = self._which('ionice', '/usr/bin/ionice')
+        self.max_rules = 100
+        self.max_users = 20
+        self.max_cmd_len = 100
+
+    def _which(self, exe, fallback):
+        proc = Popen(['which', exe], stdout = PIPE)
+        ret = proc.communicate()[0].strip().decode()
+        if proc.returncode or not ret:
+            return fallback
+
+        return ret
+
+    def _validateCmd(self, cmd):
+
+        if cmd.find("&&") != -1:
+            raise InvalidCmd("Parameter 'cmd' contains '&&' concatenation")
+        # make sure it starts with an absolute path
+        elif not cmd.startswith(os.path.sep):
+            raise InvalidCmd("Parameter 'cmd' does not start with '/'")
+
+        parts = cmd.split()
+
+        # make sure only well known commands and switches are used
+        whitelist = (
+            (self.nice, ("-n")),
+            (self.ionice, ("-c", "-n")),
+        )
+
+        for c, switches in whitelist:
+            if parts and parts[0] == c:
+                parts.pop(0)
+                for sw in switches:
+                    while parts and parts[0].startswith(sw):
+                        parts.pop(0)
+
+        if not parts:
+            raise InvalidCmd("Parameter 'cmd' does not contain the backintime command")
+        elif parts[0] != self.backintime:
+            raise InvalidCmd("Parameter 'cmd' contains non-whitelisted cmd/parameter (%s)" % parts[0])
+
+    def _checkLimits(self, owner, cmd):
+
+        if len(self.tmpDict.get(owner, [])) >= self.max_rules:
+            raise LimitExceeded("Maximum number of cached rules reached (%d)"
+                            % self.max_rules)
+        elif len(self.tmpDict) >= self.max_users:
+            raise LimitExceeded("Maximum number of cached users reached (%d)"
+                            % self.max_users)
+        elif len(cmd) > self.max_cmd_len:
+            raise LimitExceeded("Maximum length of command line reached (%d)"
+                            % self.max_cmd_len)
 
     @dbus.service.method("net.launchpad.backintime.serviceHelper.UdevRules",
                          in_signature='ss', out_signature='',
@@ -118,9 +175,13 @@ class UdevRules(dbus.service.Object):
             raise InvalidChar("Parameter 'uuid' contains invalid character(s) %s"
                               % '|'.join(set(chars)))
 
+        self._validateCmd(cmd)
+
         info = SenderInfo(sender, conn)
         user = info.connectionUnixUser()
         owner = info.nameOwner()
+
+        self._checkLimits(owner, cmd)
 
         #create su command
         sucmd = "%s - '%s' -c '%s'" %(self.su, user, cmd)
@@ -221,18 +282,12 @@ class UdevRules(dbus.service.Object):
             # bus, and it does not make sense to restrict operations here
             return
 
-        info = SenderInfo(sender, conn)
-
-        # get peer PID
-        pid = info.connectionPid()
-
         # query PolicyKit
         self._initPolkit()
         try:
             # we don't need is_challenge return here, since we call with AllowUserInteraction
             (is_auth, _, details) = self.polkit.CheckAuthorization(
-                    ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1),
-                    'start-time': dbus.UInt64(0, variant_level=1)}),
+                    ('system-bus-name', {'name': dbus.String(sender, variant_level=1)}),
                     privilege, {'': ''}, dbus.UInt32(1), '', timeout=3000)
         except dbus.DBusException as e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':

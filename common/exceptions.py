@@ -25,7 +25,7 @@ class NoPubKeyLogin(MountException):
 
 class KnownHost(MountException):
     pass
-    
+
 class HashCollision(BackInTimeException):
     pass
 
@@ -42,6 +42,20 @@ class LastSnapshotSymlink(BackInTimeException):
     pass
 
 class InvalidChar(BackInTimeException):
+    def __init__(self, msg):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
+
+class InvalidCmd(BackInTimeException):
+    def __init__(self, msg):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
+
+class LimitExceeded(BackInTimeException):
     def __init__(self, msg):
         self.msg = msg
 
