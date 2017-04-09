@@ -1,12 +1,13 @@
 Back In Time
 
 Version 1.2.0~alpha0
+* Fix bug: polkit CheckAuthorization: race condition in privilege authorization (https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7572)
 * Fix bug: OSError when running backup-job from systemd (https://github.com/bit-team/backintime/issues/720)
 * Smart Remove try to keep healthy snapshots (https://github.com/bit-team/backintime/issues/703)
 * Fix critical bug: restore filesystem-root without 'Full rsync mode' with ACL and/or xargs activated broke whole system (https://github.com/bit-team/backintime/issues/708)
 * Fix bug: use current folder if no file is selected in files view (https://github.com/bit-team/backintime/issues/687, https://github.com/bit-team/backintime/issues/685)
 * Fix bug: don't reload profile after editing profile name (https://github.com/bit-team/backintime/issues/706)
-* Fix bug: Excption in FileInfo
+* Fix bug: Exception in FileInfo
 * ask for restore-to path before confirm (https://github.com/bit-team/backintime/issues/678)
 * fix 'Back in Time (root)' on wayland (https://github.com/bit-team/backintime/issues/640)
 * sort int values in config nummerical instead if alphabetical (https://github.com/bit-team/backintime/issues/175#issuecomment-272941811)
