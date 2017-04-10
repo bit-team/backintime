@@ -20,13 +20,15 @@ import sys
 import gettext
 from PyQt5.QtGui import (QFont, QColor, QKeySequence)
 from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
-                          QTranslator, QLocale, QLibraryInfo, QEvent)
+                          QTranslator, QLocale, QLibraryInfo, QEvent,
+                          QT_VERSION_STR)
 from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
                              QTreeWidget, QTreeWidgetItem, QComboBox, QMenu,
                              QToolTip, QAction)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
+from distutils.version import StrictVersion
 
 _ = gettext.gettext
 
@@ -154,6 +156,8 @@ def createQApplication(app_name = 'Back In Time'):
         return qapp
     except NameError:
         pass
+    if StrictVersion(QT_VERSION_STR) >= StrictVersion('5.6'):
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     qapp = QApplication(sys.argv + ['-title', app_name])
     if os.geteuid() == 0 and                                   \
         qapp.style().objectName().lower() == 'windows' and  \
