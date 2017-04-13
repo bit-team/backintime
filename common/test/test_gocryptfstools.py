@@ -19,8 +19,10 @@ import os
 import sys
 import logger
 import config
+import stat
 from gocryptfstools import GoCryptFS_mount
 from test import generic
+from exceptions import MountException
 from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -61,7 +63,6 @@ class TestGoCryptFS_mount(generic.TestCaseSnapshotPath):
 
     def test_init(self):
         self.mnt.init()
-        # self.fail(os.system("ls -la %s" %self.tmpDir.name))
         self.assertExists(self.tmpDir.name, 'gocryptfs.conf')
         self.assertExists(self.tmpDir.name, 'gocryptfs.diriv')
 
@@ -70,11 +71,22 @@ class TestGoCryptFS_mount(generic.TestCaseSnapshotPath):
         cipherTestFile = os.path.join(cipherDir, 'Ho0fMHPuBd6Lo8ExGfhEtw==')
 
         writeConfigFiles(cipherDir)
-        # writeConfigFiles('/tmp/keep')
         with TemporaryDirectory() as mntPoint:
-            # mntPoint = '/tmp/mnt'
             self.mnt.currentMountpoint = mntPoint
-            self.mnt._mount()
-            with open(os.path.join(mntPoint, 'test'), 'wt') as test:
-                test.write('foo')
-            self.assertExists(cipherTestFile)
+            try:
+                self.mnt._mount()
+                with open(os.path.join(mntPoint, 'test'), 'wt') as test:
+                    test.write('foo')
+                self.assertExists(cipherTestFile)
+            finally:
+                self.mnt._umount()
+
+    def test_mount_fail(self):
+        cipherDir = self.tmpDir.name
+
+        writeConfigFiles(cipherDir)
+        with TemporaryDirectory() as mntPoint:
+            self.mnt.currentMountpoint = mntPoint
+            with generic.mockPermissions(mntPoint, stat.S_IRUSR | stat.S_IXUSR):
+                with self.assertRaises(MountException):
+                    self.mnt._mount()
