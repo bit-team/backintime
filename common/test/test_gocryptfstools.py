@@ -21,7 +21,35 @@ import logger
 import config
 from gocryptfstools import GoCryptFS_mount
 from test import generic
+from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+CONF = """{
+        "Creator": "gocryptfs v1.1.1-22-g081015a",
+        "EncryptedKey": "+tYXhs56Ulb5nHnmUBdNVnjjXrn8uy1HvPEMBRpaxb4aOpUizlHP3smaerx8Uq20ReeUUYJjVn+W7RRh",
+        "ScryptObject": {
+                "Salt": "4xPz7gIVtWWQC/y1eJmG05+maaFztcGSdHvwRQ11jU0=",
+                "N": 65536,
+                "R": 8,
+                "P": 1,
+                "KeyLen": 32
+        },
+        "Version": 2,
+        "FeatureFlags": [
+                "GCMIV128",
+                "DirIV",
+                "EMENames",
+                "LongNames"
+        ]
+}"""
+
+DIRIV = "ABCDEFGHIJKLMNOP"
+
+def writeConfigFiles(path):
+    with open(os.path.join(path, 'gocryptfs.conf'), 'wt') as conf:
+        conf.write(CONF)
+    with open(os.path.join(path, 'gocryptfs.diriv'), 'wt') as diriv:
+        diriv.write(DIRIV)
 
 class TestGoCryptFS_mount(generic.TestCaseSnapshotPath):
     def setUp(self):
@@ -37,4 +65,16 @@ class TestGoCryptFS_mount(generic.TestCaseSnapshotPath):
         self.assertExists(self.tmpDir.name, 'gocryptfs.conf')
         self.assertExists(self.tmpDir.name, 'gocryptfs.diriv')
 
-    #def test_
+    def test_mount(self):
+        cipherDir = self.tmpDir.name
+        cipherTestFile = os.path.join(cipherDir, 'Ho0fMHPuBd6Lo8ExGfhEtw==')
+
+        writeConfigFiles(cipherDir)
+        # writeConfigFiles('/tmp/keep')
+        with TemporaryDirectory() as mntPoint:
+            # mntPoint = '/tmp/mnt'
+            self.mnt.currentMountpoint = mntPoint
+            self.mnt._mount()
+            with open(os.path.join(mntPoint, 'test'), 'wt') as test:
+                test.write('foo')
+            self.assertExists(cipherTestFile)
