@@ -228,6 +228,9 @@ class SettingsDialog(QDialog):
         self.modeLocalEncfs = self.modeLocal
         self.modeSshEncfs = self.modeSsh
 
+        # gocryptfs
+        self.modeLocalGocryptfs = self.modeLocal
+
         #password
         groupBox = QGroupBox(self)
         self.groupPassword1 = groupBox
@@ -1080,6 +1083,10 @@ class SettingsDialog(QDialog):
         if self.mode == 'local_encfs':
             self.editSnapshotsPath.setText(self.config.localEncfsPath())
 
+        # local_gocryptfs
+        if self.mode == 'local_gocryptfs':
+            self.editSnapshotsPath.setText(self.config.localGocryptfsPath())
+
         #password
         password_1 = self.config.password(mode = self.mode, pw_id = 1, only_from_keyring = True)
         password_2 = self.config.password(mode = self.mode, pw_id = 2, only_from_keyring = True)
@@ -1247,6 +1254,9 @@ class SettingsDialog(QDialog):
 
         #save local_encfs
         self.config.setLocalEncfsPath(self.editSnapshotsPath.text())
+
+        #save local_gocryptfs
+        self.config.setLocalGocryptfsPath(self.editSnapshotsPath.text())
 
         #include list
         self.config.setProfileIntValue('qt.settingsdialog.include.SortColumn',
