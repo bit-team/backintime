@@ -32,9 +32,10 @@ class GoCryptFS_mount(MountControl):
     def __init__(self, *args, **kwargs):
         super(GoCryptFS_mount, self).__init__(*args, **kwargs)
 
-        self.setattrKwargs('path', self.config.localEncfsPath(self.profile_id), **kwargs)
+        self.setattrKwargs('path', self.config.localGocryptfsPath(self.profile_id), **kwargs)
         self.setattrKwargs('reverse', False, **kwargs)
         self.setattrKwargs('password', None, store = False, **kwargs)
+        self.setattrKwargs('config_path', None, **kwargs)
 
         self.setDefaultArgs()
 
@@ -109,3 +110,26 @@ class GoCryptFS_mount(MountControl):
         if first_run:
             pass
         return True
+
+    def configFile(self):
+        """
+        return gocryptfs config file
+        """
+        f = 'gocryptfs.conf'
+        if self.config_path is None:
+            cfg = os.path.join(self.path, f)
+        else:
+            cfg = os.path.join(self.config_path, f)
+        return cfg
+
+    def isConfigured(self):
+        """
+        Check if `gocryptfs.conf` exists.
+        """
+        conf = self.configFile()
+        ret = os.path.exists(conf)
+        if ret:
+            logger.debug('Found gocryptfs config file in {}'.format(conf), self)
+        else:
+            logger.debug('No config in {}'.format(conf), self)
+        return ret

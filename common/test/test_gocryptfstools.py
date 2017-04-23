@@ -58,7 +58,7 @@ class TestGoCryptFS_mount(generic.TestCaseSnapshotPath):
         super(TestGoCryptFS_mount, self).setUp()
         logger.DEBUG = '-v' in sys.argv
         self.cfg.setSnapshotsMode('local_gocryptfs')
-        self.cfg.dict['profile1.snapshots.local_encfs.path'] = self.tmpDir.name
+        self.cfg.dict['profile1.snapshots.local_gocryptfs.path'] = self.tmpDir.name
         self.mnt = GoCryptFS_mount(cfg = self.cfg, tmp_mount = True, password = 'travis')
 
     def test_init(self):
@@ -90,3 +90,14 @@ class TestGoCryptFS_mount(generic.TestCaseSnapshotPath):
             with generic.mockPermissions(mntPoint, stat.S_IRUSR | stat.S_IXUSR):
                 with self.assertRaises(MountException):
                     self.mnt._mount()
+
+    def test_configFile(self):
+        self.assertEqual(self.mnt.configFile(),
+                         os.path.join(self.tmpDir.name, 'gocryptfs.conf'))
+        self.mnt.config_path = '/foo'
+        self.assertEqual(self.mnt.configFile(), '/foo/gocryptfs.conf')
+
+    def test_isConfigured(self):
+        self.assertFalse(self.mnt.isConfigured())
+        writeConfigFiles(self.tmpDir.name)
+        self.assertTrue(self.mnt.isConfigured())
