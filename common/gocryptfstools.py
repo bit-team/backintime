@@ -88,7 +88,7 @@ class GoCryptFS_mount(MountControl):
             gocryptfs = [self.mountproc, '-extpass', 'backintime-askpass']
             gocryptfs.append('-init')
             gocryptfs.append(self.path)
-            logger.debug('Call command: %s'
+            logger.debug('Call command to create gocryptfs config file: %s'
                          %' '.join(gocryptfs),
                          self)
 

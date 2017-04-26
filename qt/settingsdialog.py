@@ -1363,6 +1363,12 @@ class SettingsDialog(QDialog):
         if not self.config.SNAPSHOT_MODES[mode][0] is None:
             #preMountCheck
             mnt = mount.Mount(cfg = self.config, tmp_mount = True, parent = self)
+            if not mnt.isConfigured():
+                try:
+                    mnt.init()
+                except MountException as ex:
+                    self.errorHandler(str(ex))
+                    return False
             try:
                 mnt.preMountCheck(mode = mode, first_run = True, **mount_kwargs)
             except NoPubKeyLogin as ex:

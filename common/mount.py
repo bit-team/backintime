@@ -292,10 +292,12 @@ class MountControl(object):
     inherited ``__init__``.
 
     You **must** overwrite methods:\n
+        :py:func:`MountControl.isConfigured`\n
         :py:func:`MountControl._mount`
 
     You **can** overwrite methods:\n
         :py:func:`MountControl._umount`\n
+        :py:func:`MountControl.init`\n
         :py:func:`MountControl.preMountCheck`\n
         :py:func:`MountControl.postMountCheck`\n
         :py:func:`MountControl.preUmountCheck`\n
@@ -490,6 +492,27 @@ class MountControl(object):
             raise MountException(_('Can\'t unmount %(proc)s from %(mountpoint)s')
                                   %{'proc': self.mountproc,
                                     'mountpoint': self.currentMountpoint})
+
+    def init(self):
+        """
+        Create config files and do other things for the very first start.
+        This **should** be overwritten by backends which subclasses
+        :py:class:`MountControl`.
+
+        Raises:
+            exceptions.MountException:  if init failed
+        """
+        pass
+
+    def isConfigured(self):
+        """
+        Check if the service is already configured. This **must** be overwritten
+        in the backend which subclasses :py:class:`MountControl`.
+
+        Returns:
+            bool:   ``True`` if service is configured
+        """
+        return False
 
     def preMountCheck(self, first_run = False):
         """
