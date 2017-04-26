@@ -792,7 +792,7 @@ def envSave(f):
 
 def keyringSupported():
     if keyring is None:
-        logger.debug('No keyring due to import errror.')
+        logger.debug('No keyring due to import error.')
         return False
     backends = []
     try: backends.append(keyring.backends.SecretService.Keyring)
