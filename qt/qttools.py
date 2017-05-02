@@ -156,7 +156,8 @@ def createQApplication(app_name = 'Back In Time'):
         return qapp
     except NameError:
         pass
-    if StrictVersion(QT_VERSION_STR) >= StrictVersion('5.6'):
+    if StrictVersion(QT_VERSION_STR) >= StrictVersion('5.6') and \
+        hasattr(Qt, 'AA_EnableHighDpiScaling'):
         QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     qapp = QApplication(sys.argv + ['-title', app_name])
     if os.geteuid() == 0 and                                   \
