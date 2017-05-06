@@ -63,7 +63,7 @@ class TestArgParser(generic.TestCase):
     def test_quiet(self):
         args = backintime.argParse(['--quiet',])
         self.assertIn('quiet', args)
-        self.assertTrue(args.quiet)
+        self.assertFalse(args.quiet)
 
     def test_debug(self):
         args = backintime.argParse(['--debug',])
