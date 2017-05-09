@@ -1468,10 +1468,13 @@ class Config(configfile.ConfigFileWithProfiles):
 
         if not newCrontab == oldCrontab:
             if not tools.checkCommand('crontab'):
-                logger.error('crontab not found.', self)
-                self.notifyError(_('Can\'t find crontab.\nAre you sure cron is installed ?\n'
-                                    'If not you should disable all automatic backups.'))
-                return False
+                if self.scheduleMode() is self.NONE:
+                    return True
+                else:
+                    logger.error('crontab not found.', self)
+                    self.notifyError(_('Can\'t find crontab.\nAre you sure cron is installed ?\n'
+                                        'If not you should disable all automatic backups.'))
+                    return False
             if not tools.writeCrontab(newCrontab):
                 self.notifyError(_('Failed to write new crontab.'))
                 return False
