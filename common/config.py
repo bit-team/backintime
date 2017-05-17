@@ -107,11 +107,10 @@ class Config(configfile.ConfigFileWithProfiles):
 
     MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'MiB', DISK_UNIT_GB : 'GiB' }
 
-    DEFAULT_EXCLUDE = [ '.gvfs', '.cache/*', '.thumbnails*', '[Tt]rash*',       \
-                        '*.backup*', '*~', '.dropbox*', '/proc/*', '/sys/*',    \
-                        '/dev/*', '/run/*', '/etc/mtab',                        \
-                        '/var/cache/apt/archives/*.deb', 'lost+found/*',        \
-                        '/tmp/*', '/var/tmp/*', '/var/backups/*', '.Private' ]
+    DEFAULT_EXCLUDE = [ '.gvfs', '.cache/*', '.thumbnails*',
+    '.local/share/[Tt]rash*', '*.backup*', '*~', '.dropbox*', '/proc/*',
+    '/sys/*', '/dev/*', '/run/*', '/etc/mtab', '/var/cache/apt/archives/*.deb',
+    'lost+found/*', '/tmp/*', '/var/tmp/*', '/var/backups/*', '.Private' ]
 
     DEFAULT_RUN_NICE_FROM_CRON   = True
     DEFAULT_RUN_NICE_ON_REMOTE   = False
