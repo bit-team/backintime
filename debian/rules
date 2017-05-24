@@ -29,4 +29,4 @@ override_dh_python3:
 	dh_python3 /usr/share/backintime/
 
 %:
-	dh --with python3 $@
+	dh $@ --with python3
