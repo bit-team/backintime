@@ -1505,6 +1505,9 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def createNewCrontab(self, oldCrontab):
         newCrontab = oldCrontab[:]
+        if not tools.checkCommand('backintime'):
+            logger.error("Command 'backintime' not found", self)
+            return newCrontab
         for profile_id in self.profiles():
             cronLine = self.cronLine(profile_id)
             if not isinstance(cronLine, str):
@@ -1609,6 +1612,9 @@ class Config(configfile.ConfigFileWithProfiles):
         return cron_line
 
     def cronCmd(self, profile_id):
+        if not tools.checkCommand('backintime'):
+            logger.error("Command 'backintime' not found", self)
+            return
         cmd = tools.which('backintime') + ' '
         if profile_id != '1':
             cmd += '--profile-id %s ' % profile_id
