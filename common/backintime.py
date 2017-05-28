@@ -142,7 +142,8 @@ def createParsers(app_name = 'backintime'):
                                  metavar = 'PATH',
                                  type = str,
                                  action = 'store',
-                                 help = 'Read config from %(metavar)s.')
+                                 help = 'Read config from %(metavar)s. ' +
+                                        'Default = ~/.config/backintime/config')
 
     configArgsParser.add_argument('--share-path',
                                  metavar = 'PATH',
