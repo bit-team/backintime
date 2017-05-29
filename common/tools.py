@@ -1144,7 +1144,10 @@ def inhibitSuspend(app_id = sys.argv[0],
         return
     if not app_id:
         app_id = 'backintime'
-    if not toplevel_xid:
+    try:
+        if not toplevel_xid:
+            toplevel_xid = 0
+    except IndexError:
         toplevel_xid = 0
 
     for dbus_props in INHIBIT_DBUS:
