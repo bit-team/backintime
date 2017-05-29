@@ -1018,7 +1018,7 @@ class MainWindow(QMainWindow):
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'backup'}
 
     def restoreOnlyNew(self):
-        cb = QCheckBox(_('Only restore files which does not exist or\n'    +\
+        cb = QCheckBox(_('Only restore files which do not exist or\n'    +\
                          'are newer than those in destination.\n' +\
                          'Using "rsync --update" option.'))
         cb.setToolTip("""From 'man rsync':
