@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.1.21
+* backport bug fix: backintime root crontab doesn't run; missinng line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/781)
 
 Version 1.1.20
 * backport bug fix: polkit CheckAuthorization: race condition in privilege authorization (https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7572)

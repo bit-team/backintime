@@ -871,7 +871,7 @@ def writeCrontab(lines):
     assert isinstance(lines, (list, tuple)), 'lines is not list or tuple type: %s' % lines
     with tempfile.NamedTemporaryFile(mode = 'wt') as f:
         f.write('\n'.join(lines))
-        f.write('\n')
+        f.write('\n\n')
         f.flush()
         cmd = ['crontab', f.name]
         proc = subprocess.Popen(cmd,
