@@ -33,8 +33,8 @@ install:
   # start ssh-agent so that we can add private keys
   - eval `ssh-agent -s`
   # install latest gocryptfs
-  - GOCRYPTFS.TARBALL=$(curl -s https://api.github.com/repos/rfjakob/gocryptfs/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep -v ".asc$")
-  - wget $GOCRYPTFS.TARBALL -O gocryptfs.tar.gz
+  - export GOCRYPTFS_TARBALL=$(curl -s https://api.github.com/repos/rfjakob/gocryptfs/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep -v ".asc$")
+  - wget $GOCRYPTFS_TARBALL -O gocryptfs.tar.gz
   - mkdir -p ~/bin
   - tar xzf gocryptfs.tar.gz -C ~/bin
   - export PATH=$PATH:~/bin
