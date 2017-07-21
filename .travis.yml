@@ -37,7 +37,7 @@ install:
   - wget $GOCRYPTFS_TARBALL -O gocryptfs.tar.gz
   - mkdir -p ~/bin
   - tar xzf gocryptfs.tar.gz -C ~/bin
-  - export PATH=$PATH:~/bin
+  - export PATH=$(pwd)/common:$PATH:~/bin
 
 script:
   # compile all files - ensure that syntax is correct
