@@ -55,7 +55,7 @@ class GoCryptFS_mount(MountControl):
         env['ASKPASS_TEMP'] = thread.temp_file
 
         with thread.starter():
-            gocryptfs = [self.mountproc, '-extpass', 'backintime-askpass' '-quiet']
+            gocryptfs = [self.mountproc, '-extpass', 'backintime-askpass', '-quiet']
             if self.reverse:
                 gocryptfs += ['-reverse']
             gocryptfs += [self.path, self.currentMountpoint]
