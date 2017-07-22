@@ -191,6 +191,9 @@ class GeneralTab(QDialog):
         self.modeLocalEncfs = self.modeLocal
         self.modeSshEncfs = self.modeSsh
 
+        # gocryptfs
+        self.modeLocalGocryptfs = self.modeLocal
+
         # password
         groupBox = QGroupBox(self)
         self.groupPassword1 = groupBox
@@ -313,6 +316,10 @@ class GeneralTab(QDialog):
         if self.mode == 'local_encfs':
             self.editSnapshotsPath.setText(self.config.localEncfsPath())
 
+        # local_gocryptfs
+        if self.mode == 'local_gocryptfs':
+            self.editSnapshotsPath.setText(self.config.localGocryptfsPath())
+
         # password
         password_1 = self.config.password(
             mode=self.mode, pw_id=1, only_from_keyring=True)
@@ -412,6 +419,9 @@ class GeneralTab(QDialog):
         # save local_encfs
         self.config.setLocalEncfsPath(self.editSnapshotsPath.text())
 
+        # save local_gocryptfs
+        self.config.setLocalGocryptfsPath(self.editSnapshotsPath.text())
+
         # schedule
         success = self._wdg_schedule.store_values(self.config)
 
@@ -473,6 +483,12 @@ class GeneralTab(QDialog):
         """
         # preMountCheck
 
+        if not mnt.isConfigured(mode=self.config.snapshotsMode(), **mount_kwargs):
+            try:
+                mnt.init(mode = mode, **mount_kwargs)
+            except MountException as ex:
+                self.errorHandler(str(ex))
+                return False
         try:
             # This will run several checks depending on the snapshots mode
             # used. Exceptions are raised if something goes wrong. On mode
