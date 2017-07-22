@@ -32,12 +32,6 @@ install:
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
   # start ssh-agent so that we can add private keys
   - eval `ssh-agent -s`
-  # install latest gocryptfs
-  - export GOCRYPTFS_TARBALL=$(curl -s https://api.github.com/repos/rfjakob/gocryptfs/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep -v ".asc$")
-  - wget $GOCRYPTFS_TARBALL -O gocryptfs.tar.gz
-  - mkdir -p ~/bin
-  - tar xzf gocryptfs.tar.gz -C ~/bin
-  - export PATH=$(pwd)/common:$PATH:~/bin
 
 script:
   # compile all files - ensure that syntax is correct

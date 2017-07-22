@@ -68,8 +68,10 @@ class EncFS_mount(MountControl):
         with thread.starter():
             encfs = [self.mountproc, '--extpass=backintime-askpass']
             if self.reverse:
-                encfs.append('--reverse')
-            encfs.extend((self.path, self.currentMountpoint))
+                encfs += ['--reverse']
+            if not self.isConfigured():
+                encfs += ['--standard']
+            encfs += [self.path, self.currentMountpoint]
             logger.debug('Call mount command: %s'
                          %' '.join(encfs),
                          self)
@@ -83,37 +85,6 @@ class EncFS_mount(MountControl):
             if proc.returncode:
                 raise MountException(_('Can\'t mount \'%(command)s\':\n\n%(error)s') \
                                         % {'command': ' '.join(encfs), 'error': output})
-
-    def init(self):
-        """
-        init the cipher path
-        """
-        if self.password is None:
-            self.password = self.config.password(self.parent, self.profile_id, self.mode)
-        logger.debug('Provide password through temp FIFO', self)
-        thread = password_ipc.TempPasswordThread(self.password)
-        env = self.env()
-        env['ASKPASS_TEMP'] = thread.temp_file
-        with thread.starter():
-            encfs = [self.mountproc, '--extpass=backintime-askpass']
-            if self.reverse:
-                encfs.append('--reverse')
-            encfs.append('--standard')
-            encfs.extend((self.path, self.currentMountpoint))
-            logger.debug('Call command to create encfs config file: %s'
-                         %' '.join(encfs),
-                         self)
-
-            proc = subprocess.Popen(encfs, env = env,
-                                    stdout = subprocess.PIPE,
-                                    stderr = subprocess.STDOUT,
-                                    universal_newlines = True)
-            output = proc.communicate()[0]
-            self.backupConfig()
-            if proc.returncode:
-                raise MountException(_('Can\'t init encrypted path \'%(command)s\':\n\n%(error)s') \
-                                        % {'command': ' '.join(encfs), 'error': output})
-
 
     def preMountCheck(self, first_run = False):
         """
@@ -129,9 +100,9 @@ class EncFS_mount(MountControl):
         return environment with encfs configfile
         """
         env = os.environ.copy()
-        conf = self.configFile()
-        if os.path.isfile(conf):
-            env['ENCFS6_CONFIG'] = conf
+        cfg = self.configFile()
+        if os.path.isfile(cfg):
+            env['ENCFS6_CONFIG'] = cfg
         return env
 
     def configFile(self):
@@ -140,38 +111,37 @@ class EncFS_mount(MountControl):
         """
         f = '.encfs6.xml'
         if self.config_path is None:
-            conf = os.path.join(self.path, f)
+            cfg = os.path.join(self.path, f)
         else:
-            conf = os.path.join(self.config_path, f)
-        return conf
+            cfg = os.path.join(self.config_path, f)
+        return cfg
 
     def isConfigured(self):
         """
         check if encfs config file exist. If not and if we are in settingsdialog
         ask for password confirmation. _mount will then create a new config
         """
-        conf = self.configFile()
-        ret = os.path.exists(conf)
-        if ret:
+        cfg = self.configFile()
+        if os.path.isfile(cfg):
             logger.debug('Found encfs config in %s'
-                         %conf, self)
+                         %cfg, self)
+            return True
         else:
             logger.debug('No encfs config in %s'
-                         %conf, self)
-            # msg = _('Config for encrypted folder not found.')
-            # if not self.tmp_mount:
-            #     raise MountException(msg)
-            # else:
-            #     if not self.config.askQuestion(msg + _('\nCreate a new encrypted folder?')):
-            #         raise MountException(_('Cancel'))
-            #     else:
-            #         pw = password.Password(self.config)
-            #         password_confirm = pw.passwordFromUser(self.parent, prompt = _('Please confirm password'))
-            #         if self.password == password_confirm:
-            #             return False
-            #         else:
-            #             raise MountException(_('Password doesn\'t match'))
-        return ret
+                         %cfg, self)
+            msg = _('Config for encrypted folder not found.')
+            if not self.tmp_mount:
+                raise MountException(msg)
+            else:
+                if not self.config.askQuestion(msg + _('\nCreate a new encrypted folder?')):
+                    raise MountException(_('Cancel'))
+                else:
+                    pw = password.Password(self.config)
+                    password_confirm = pw.passwordFromUser(self.parent, prompt = _('Please confirm password'))
+                    if self.password == password_confirm:
+                        return False
+                    else:
+                        raise MountException(_('Password doesn\'t match'))
 
     def checkVersion(self):
         """
@@ -196,9 +166,9 @@ class EncFS_mount(MountControl):
         so in cases of the config file get deleted or corrupt user can restore
         it from there
         """
-        conf = self.configFile()
-        if not os.path.isfile(conf):
-            logger.warning('No encfs config in %s. Skip backup of config file.' %conf, self)
+        cfg = self.configFile()
+        if not os.path.isfile(cfg):
+            logger.warning('No encfs config in %s. Skip backup of config file.' %cfg, self)
             return
         backup_folder = self.config.encfsconfigBackupFolder(self.profile_id)
         tools.makeDirs(backup_folder)
@@ -208,16 +178,16 @@ class EncFS_mount(MountControl):
             last_backup = os.path.join(backup_folder, old_backups[0])
 
             #don't create a new backup if config hasn't changed
-            if tools.md5sum(conf) == \
+            if tools.md5sum(cfg) == \
                tools.md5sum(last_backup):
                 logger.debug('Encfs config did not change. Skip backup', self)
                 return
 
-        new_backup_file = '.'.join((os.path.basename(conf), datetime.now().strftime('%Y%m%d%H%M')))
+        new_backup_file = '.'.join((os.path.basename(cfg), datetime.now().strftime('%Y%m%d%H%M')))
         new_backup = os.path.join(backup_folder, new_backup_file)
         logger.debug('Create backup of encfs config %s to %s'
-                     %(conf, new_backup), self)
-        shutil.copy2(conf, new_backup)
+                     %(cfg, new_backup), self)
+        shutil.copy2(cfg, new_backup)
 
 class EncFS_SSH(EncFS_mount):
     """
@@ -267,12 +237,12 @@ class EncFS_SSH(EncFS_mount):
                 tmp_mount = EncFS_mount(*self.args, symlink = False, **tmp_kwargs)
                 tmp_mount.mount(*args, **kwargs)
                 tmp_mount.umount()
-                conf = tmp_mount.configFile()
-                if os.path.isfile(conf):
-                    logger.debug('Copy new encfs config %s to its original place %s' %(conf, self.ssh.currentMountpoint), self)
-                    shutil.copy2(conf, self.ssh.currentMountpoint)
+                cfg = tmp_mount.configFile()
+                if os.path.isfile(cfg):
+                    logger.debug('Copy new encfs config %s to its original place %s' %(cfg, self.ssh.currentMountpoint), self)
+                    shutil.copy2(cfg, self.ssh.currentMountpoint)
                 else:
-                    logger.error('New encfs config %s not found' %conf, self)
+                    logger.error('New encfs config %s not found' %cfg, self)
         logger.debug('Mount local filesystem root with encfs --reverse', self)
         self.rev_root.mount(*args, **kwargs)
 

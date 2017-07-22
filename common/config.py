@@ -35,7 +35,6 @@ import logger
 import mount
 import sshtools
 import encfstools
-import gocryptfstools
 import password
 import pluginmanager
 from exceptions import PermissionDeniedByPolicy, InvalidChar, InvalidCmd, LimitExceeded
@@ -126,12 +125,11 @@ class Config(configfile.ConfigFileWithProfiles):
 
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
-                #mode           : (<mounttools>,                    'ComboBox Text',                        need_pw|lbl_pw_1,       need_2_pw|lbl_pw_2),
-                'local'         : (None,                            _('Local'),                             False,                  False),
-                'ssh'           : (sshtools.SSH,                    _('SSH'),                               _('SSH private key'),   False),
-                'local_encfs'   : (encfstools.EncFS_mount,          _('Local encrypted') + ' (EncFS)',      _('Encryption'),        False),
-                'ssh_encfs'     : (encfstools.EncFS_SSH,            _('SSH encrypted'),                     _('SSH private key'),   _('Encryption')),
-                'local_gocryptfs':(gocryptfstools.GoCryptFS_mount,  _('Local encrypted') + ' (gocryptfs)',  _('Encryption'),        False)
+                #mode           : (<mounttools>,            'ComboBox Text',        need_pw|lbl_pw_1,       need_2_pw|lbl_pw_2),
+                'local'         : (None,                    _('Local'),             False,                  False),
+                'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False),
+                'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False),
+                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption'))
                 }
 
     SSH_CIPHERS =  {'default':    _('Default'),
@@ -658,14 +656,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def setLocalEncfsPath(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.local_encfs.path', value, profile_id)
-
-    # gocryptfs
-    def localGocryptfsPath(self, profile_id = None):
-        #?Where to save snapshots in mode 'local_gocryptfs'.;absolute path
-        return self.profileStrValue('snapshots.local_gocryptfs.path', '', profile_id)
-
-    def setLocalGocryptfsPath(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.local_gocryptfs.path', value, profile_id)
 
     def passwordSave(self, profile_id = None, mode = None):
         if mode is None:
