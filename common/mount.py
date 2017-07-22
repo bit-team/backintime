@@ -284,6 +284,66 @@ class Mount(object):
             self.profile_id = new_profile_id
             return self.mount(mode = mode, **kwargs)
 
+    def isConfigured(self, mode = None, **kwargs):
+        """
+        High-level check. Run :py:func:`MountControl.isConfigured` to check
+        if the backend is configured.
+
+        Args:
+            mode (str):         mode to use. One of 'local', 'ssh',
+                                'local_encfs' or 'ssh_encfs'
+            **kwargs:           keyword arguments paste to low-level
+                                :py:class:`MountControl` subclass backend
+
+        Returns:
+            bool:               ``True`` if backend is configured
+        """
+        if mode is None:
+            mode = self.config.snapshotsMode(self.profile_id)
+
+        if self.config.SNAPSHOT_MODES[mode][0] is None:
+            #mode doesn't need to mount
+            return True
+        else:
+            mounttools = self.config.SNAPSHOT_MODES[mode][0]
+            backend = mounttools(cfg = self.config,
+                                 profile_id = self.profile_id,
+                                 tmp_mount = self.tmp_mount,
+                                 mode = mode,
+                                 parent = self.parent,
+                                 **kwargs)
+            return backend.isConfigured()
+
+    def init(self, mode = None, **kwargs):
+        """
+        High-level init. Run :py:func:`MountControl.init` to initiade
+        the backend if not configured yet.
+
+        Args:
+            mode (str):         mode to use. One of 'local', 'ssh',
+                                'local_encfs' or 'ssh_encfs'
+            **kwargs:           keyword arguments paste to low-level
+                                :py:class:`MountControl` subclass backend
+
+        Raises:
+            exceptions.MountException:  if init failed
+        """
+        if mode is None:
+            mode = self.config.snapshotsMode(self.profile_id)
+
+        if self.config.SNAPSHOT_MODES[mode][0] is None:
+            #mode doesn't need to mount
+            return True
+        else:
+            mounttools = self.config.SNAPSHOT_MODES[mode][0]
+            backend = mounttools(cfg = self.config,
+                                 profile_id = self.profile_id,
+                                 tmp_mount = self.tmp_mount,
+                                 mode = mode,
+                                 parent = self.parent,
+                                 **kwargs)
+            return backend.init()
+
 class MountControl(object):
     """
     This is the low-level mount API. This should be subclassed by backends.
@@ -907,9 +967,11 @@ class MountControl(object):
             profile_id = self.profile_id
         if tmp_mount is None:
             tmp_mount = self.tmp_mount
-        os.remove(self.config.snapshotsPath(profile_id = profile_id,
-                                                 mode = self.mode,
-                                                 tmp_mount = tmp_mount))
+        symlink = self.config.snapshotsPath(profile_id = profile_id,
+                                            mode = self.mode,
+                                            tmp_mount = tmp_mount)
+        if os.path.exists(symlink):
+            os.remove(symlink)
 
     def hash(self, s):
         """
