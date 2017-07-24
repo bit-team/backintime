@@ -63,16 +63,15 @@ class GoCryptFS_mount(MountControl):
                          %' '.join(gocryptfs),
                          self)
 
-            proc = subprocess.Popen(gocryptfs, env = env)
-            # if stdout/err are piped into python gocryptfs v1.4 stays in
-            # foreground instead of forking away. So we can't redirect output
-            # for error messages.
-            proc.communicate()
+            proc = subprocess.Popen(gocryptfs, env = env,
+                                    stdout = subprocess.PIPE,
+                                    stderr = subprocess.STDOUT,
+                                    universal_newlines = True)
+            output = proc.communicate()[0]
             #### self.backupConfig()
             if proc.returncode:
                 raise MountException(_('Can\'t mount \'%(command)s\':\n\n%(error)s') \
-                                        % {'command': ' '.join(gocryptfs),
-                                           'error': 'Take a look into syslog for error messages.'})
+                                        % {'command': ' '.join(gocryptfs), 'error': output})
 
     def init(self):
         """
