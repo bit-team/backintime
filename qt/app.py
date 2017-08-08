@@ -403,16 +403,32 @@ class MainWindow(QMainWindow):
         self.contextMenu.addAction(self.btnShowHiddenFiles)
 
         #ProgressBar
+        layoutWidget = QWidget()
+        layout = QVBoxLayout(layoutWidget)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layoutWidget.setContentsMargins(0, 0, 0, 0)
+        layoutWidget.setLayout(layout)
         self.progressBar = QProgressBar(self)
         self.progressBar.setMinimum(0)
         self.progressBar.setMaximum(100)
         self.progressBar.setValue(0)
-        self.progressBar.setStyleSheet("QProgressBar {border: 0px solid gray; text-align: left;}")
+        self.progressBar.setTextVisible(False)
+        self.progressBar.setContentsMargins(0, 0, 0, 0)
+        self.progressBar.setFixedHeight(5)
         self.progressBar.setVisible(False)
-        self.status = QLabel(self)
 
-        self.statusBar().addWidget(self.progressBar, 100)
-        self.statusBar().addWidget(self.status, 100)
+        self.progressBarDummy = QWidget()
+        self.progressBarDummy.setContentsMargins(0, 0, 0, 0)
+        self.progressBarDummy.setFixedHeight(5)
+
+        self.status = QLabel(self)
+        self.status.setContentsMargins(0, 0, 0, 0)
+
+        layout.addWidget(self.status)
+        layout.addWidget(self.progressBar)
+        layout.addWidget(self.progressBarDummy)
+
+        self.statusBar().addWidget(layoutWidget, 100)
         self.status.setText(_('Done'))
 
         self.snapshotsList = []
@@ -711,13 +727,14 @@ class MainWindow(QMainWindow):
         pg = progress.ProgressFile(self.config)
         if pg.fileReadable():
             self.progressBar.setVisible(True)
-            self.status.setVisible(False)
+            self.progressBarDummy.setVisible(False)
             pg.load()
             self.progressBar.setValue(pg.intValue('percent'))
-            self.progressBar.setFormat(' | '.join(self.getProgressBarFormat(pg, self.status.text())))
+            message = ' | '.join(self.getProgressBarFormat(pg, message))
+            self.status.setText(message)
         else:
             self.progressBar.setVisible(False)
-            self.status.setVisible(True)
+            self.progressBarDummy.setVisible(True)
 
         #if not fake_busy:
         #	self.lastTakeSnapshotMessage = None
@@ -726,7 +743,7 @@ class MainWindow(QMainWindow):
         d = (('sent',   _('Sent:')), \
              ('speed',  _('Speed:')),\
              ('eta',    _('ETA:')))
-        yield ' %p%'
+        yield '{}%'.format(pg.intValue('percent'))
         for key, txt in d:
             value = pg.strValue(key, '')
             if not value:
