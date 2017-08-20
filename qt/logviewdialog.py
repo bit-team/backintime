@@ -27,6 +27,7 @@ import snapshots
 import encfstools
 import snapshotlog
 import tools
+import messagebox
 
 _=gettext.gettext
 
@@ -130,9 +131,13 @@ class LogViewDialog(QDialog):
             self.watcher.addPath(log)
         self.watcher.fileChanged.connect(self.updateLog)
 
+        self.txtLogView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.txtLogView.customContextMenuRequested.connect(self.contextMenuClicked)
+
     def cbDecodeChanged(self):
         if self.cbDecode.isChecked():
-            self.decode = encfstools.Decode(self.config)
+            if not self.decode:
+                self.decode = encfstools.Decode(self.config)
         else:
             if not self.decode is None:
                 self.decode.close()
@@ -157,6 +162,49 @@ class LogViewDialog(QDialog):
 
     def comboFilterChanged(self, index):
         self.updateLog()
+
+    def contextMenuClicked(self, point):
+        menu = QMenu()
+        clipboard = qttools.createQApplication().clipboard()
+        cursor = self.txtLogView.textCursor()
+
+        btnCopy = menu.addAction(_('Copy'))
+        btnCopy.triggered.connect(lambda: clipboard.setText(cursor.selectedText()))
+        btnCopy.setEnabled(cursor.hasSelection())
+
+        btnAddExclude = menu.addAction(_('Add to Exclude'))
+        btnAddExclude.triggered.connect(self.btnAddExcludeClicked)
+        btnAddExclude.setEnabled(cursor.hasSelection())
+
+        btnDecode = menu.addAction(_('Decode'))
+        btnDecode.triggered.connect(self.btnDecodeClicked)
+        btnDecode.setEnabled(cursor.hasSelection())
+        btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
+
+        menu.exec_(self.txtLogView.mapToGlobal(point))
+
+    def btnAddExcludeClicked(self):
+        exclude = self.config.exclude()
+        path = self.txtLogView.textCursor().selectedText().strip()
+        if not path or path in exclude:
+            return
+        edit = QLineEdit(self)
+        edit.setText(path)
+        edit.setMinimumWidth(600)
+        options = {'widget': edit, 'retFunc': edit.text, 'id': 'path'}
+        confirm, opt = messagebox.warningYesNoOptions(self, _("Do you want to exclude this?"), (options, ))
+        if not confirm:
+            return
+        exclude.append(opt['path'])
+        self.config.setExclude(exclude)
+
+    def btnDecodeClicked(self):
+        if not self.decode:
+            self.decode = encfstools.Decode(self.config)
+        cursor = self.txtLogView.textCursor()
+        selection = cursor.selectedText().strip()
+        plain = self.decode.path(selection)
+        cursor.insertText(plain)
 
     def updateProfiles(self):
         current_profile_id = self.config.currentProfile()
