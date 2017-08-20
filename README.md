@@ -22,7 +22,7 @@ You only need to specify 3 things:
 
 ## Documentation
 
-The documentation is currently under development in http://backintime.rtfd.org/
+The documentation is currently under development in https://backintime.readthedocs.org/
 
 ## Support
 
@@ -139,7 +139,7 @@ https://feeds.launchpad.net/backintime/announcements.atom
 
 ## Contribute
 
-There is a dev-docu on https://backintime-dev.rtfd.org/
+There is a dev-docu on https://backintime-dev.readthedocs.org
 It's not complete yet but I'm working on it. If you'd like to contribute
 please add docstrings following the
 [Google style guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html)
