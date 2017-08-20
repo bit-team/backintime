@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-01-22 22:32+0100\n"
-"PO-Revision-Date: 2017-06-23 07:29+0000\n"
-"Last-Translator: Jony <Unknown>\n"
+"PO-Revision-Date: 2017-07-14 09:22+0000\n"
+"Last-Translator: Jonatan Nyberg <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2017-06-28 21:24+0000\n"
-"X-Generator: Launchpad (build 18418)\n"
+"X-Launchpad-Export-Date: 2017-08-20 18:01+0000\n"
+"X-Generator: Launchpad (build 18446)\n"
 
 #: ../../common/configfile.py:105
 #, python-format
@@ -39,7 +39,7 @@ msgstr "Du kan inte ta bort den senaste profilen!"
 
 #: ../../common/config.py:77
 msgid "Disabled"
-msgstr "Avaktiverad"
+msgstr "Inaktiverad"
 
 #: ../../common/config.py:78
 msgid "At every boot/reboot"
@@ -292,7 +292,7 @@ msgid ""
 msgstr ""
 "Kan inte hitta crontab.\n"
 "Är du säker på att cron är installerad?\n"
-"Om inte så måste du avaktivera alla automatiska säkerhetskopior."
+"Om inte så måste du inaktivera alla automatiska säkerhetskopior."
 
 #: ../../common/config.py:1476
 msgid "Failed to write new crontab."
@@ -744,35 +744,35 @@ msgstr "Visa dolda filer"
 #: ../../qt/restoredialog.py:51 ../../qt/settingsdialog.py:1880
 #: ../../qt/snapshotsdialog.py:139 ../../qt/snapshotsdialog.py:144
 msgid "Restore"
-msgstr "Återställ"
+msgstr "Återskapa"
 
 #: ../../qt/app.py:225
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
-"Återställ valda filerna eller mapparna till den ursprungliga destinationen."
+"Återskapa valda filerna eller mapparna till den ursprungliga destinationen."
 
 #: ../../qt/app.py:228 ../../qt/app.py:1116 ../../qt/app.py:1148
 #: ../../qt/snapshotsdialog.py:141
 msgid "Restore to ..."
-msgstr "Återställ till..."
+msgstr "Återskapa till..."
 
 #: ../../qt/app.py:229
 msgid "Restore the selected files or folders to a new destination."
-msgstr "Återställ valda filerna eller mapparna till en ny destination."
+msgstr "Återskapa valda filerna eller mapparna till en ny destination."
 
 #: ../../qt/app.py:234
 msgid ""
 "Restore the currently shown folder and all its content to the original "
 "destination."
 msgstr ""
-"Återställ aktuella mappen och hela dess innehåll till den ursprungliga "
+"Återskapa aktuella mappen och hela dess innehåll till den ursprungliga "
 "destinationen."
 
 #: ../../qt/app.py:239
 msgid ""
 "Restore the currently shown folder and all its content to a new destination."
 msgstr ""
-"Återställ aktuella mappen och hela dess innehåll till en ny destination."
+"Återskapa aktuella mappen och hela dess innehåll till en ny destination."
 
 #: ../../qt/app.py:249
 #, python-format
@@ -781,7 +781,7 @@ msgid ""
 "If this button is grayed out this is most likely because \"%(now)s\" is "
 "selected in left hand snapshots list."
 msgstr ""
-"Återställ vald fil eller mapp.\n"
+"Återskapa vald fil eller mapp.\n"
 "Om denna knapp är gråtonad är det högst sannolikt för att \"%(now)s\" är "
 "vald i listan över ögonblicksbilder på vänstra sidan."
 
@@ -920,7 +920,7 @@ msgid ""
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
-"Återställ bara filer som inte existerar eller\n"
+"Återskapa bara filer som inte existerar eller\n"
 "är nyare än de i destinationen.\n"
 "Med alternativet \"rsync --update\"."
 
@@ -1285,7 +1285,7 @@ msgid ""
 "even if they had changed."
 msgstr ""
 "Exkludera filer större än värdet i %(prefix)s.\n"
-"Med \"Full rsync-läge\" avaktiverat påverkas endast nya filer\n"
+"Med \"Full rsync-läge\" inaktiverat påverkas endast nya filer\n"
 "eftersom detta är ett överföringsalternativ för rsync, inte ett "
 "exkluderingsalternativ.\n"
 "Så stora filer som har säkerhetskopierats tidigare kommer att behållas i "
@@ -1358,7 +1358,7 @@ msgstr "Aktivera aviseringar"
 
 #: ../../qt/settingsdialog.py:618
 msgid "Disable snapshots when on battery"
-msgstr "Avaktivera ögonblicksbilder vid batteridrift"
+msgstr "Inaktivera ögonblicksbilder vid batteridrift"
 
 #: ../../qt/settingsdialog.py:621
 msgid "Power status not available from system"
@@ -1513,7 +1513,7 @@ msgid ""
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
-"Varning: om den är avaktiverad och fjärrvärden\n"
+"Varning: om den är inaktiverad och fjärrvärden\n"
 "inte är tillgänglig, kan detta leda till några\n"
 "konstiga fel."
 
@@ -1527,7 +1527,7 @@ msgid ""
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
-"Varning: om avaktiverad och fjärrvärden\n"
+"Varning: om inaktiverad och fjärrvärden\n"
 "inte stöder alla nödvändiga kommandon,\n"
 "kan detta leda till några konstiga fel."
 
@@ -1664,7 +1664,7 @@ msgstr "aktiverad"
 
 #: ../../qt/settingsdialog.py:1739
 msgid "disabled"
-msgstr "avaktiverad"
+msgstr "inaktiverad"
 
 #: ../../qt/settingsdialog.py:1777
 msgid "Restore Settings"
