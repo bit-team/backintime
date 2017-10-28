@@ -1207,7 +1207,7 @@ class MainWindow( QMainWindow ):
                     self.path_history.append(rel_path)
                     self.update_files_view( 0 )
                 else:
-                    self.run = QDesktopServices.openUrl(QUrl(full_path ))
+                    self.run = QDesktopServices.openUrl(QUrl('file://' + full_path))
 
     def files_view_get_name( self, item ):
         return item.text( 0 )
