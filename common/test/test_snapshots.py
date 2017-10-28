@@ -758,7 +758,7 @@ class TestSshSnapshots(generic.SSHTestCase):
     def setUp(self):
         super(TestSshSnapshots, self).setUp()
         self.sn = snapshots.Snapshots(self.cfg)
-        os.mkdir(self.remotePath)
+        os.makedirs(self.remoteFullPath)
 
     def test_statFreeSpaceSsh(self):
         self.assertIsInstance(self.sn.statFreeSpaceSsh(), int)

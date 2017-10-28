@@ -161,6 +161,7 @@ class SSHTestCase(TestCaseCfg):
         # use a TemporaryDirectory for remote snapshot path
         self.tmpDir = TemporaryDirectory()
         self.remotePath = os.path.join(self.tmpDir.name, 'foo')
+        self.remoteFullPath = os.path.join(self.remotePath, 'backintime', *self.cfg.hostUserProfile())
         self.cfg.setSshSnapshotsPath(self.remotePath)
         self.mount_kwargs = {}
 
