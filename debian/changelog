@@ -1,3 +1,5 @@
-backintime (1.1.21) unstable; urgency=low
-  * prepair next version
- -- Germar Reitze <germar.reitze@gmail.com>  Tue, 20 Jun 2017 22:20:37 +0200
+backintime (1.1.22) unstable; urgency=low
+  * fix bug: stat free space for snapshot folder instead of backintime folder (https://github.com/bit-team/backintime/issues/733)
+  * backport bug fix: backintime root crontab doesn't run; missinng line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/781)
+  * backport bug fix: can't open files with spaces in name (https://github.com/bit-team/backintime/issues/552)
+ -- Germar Reitze <germar.reitze@gmail.com>  Sat, 28 Oct 2017 14:12:36 +0200
