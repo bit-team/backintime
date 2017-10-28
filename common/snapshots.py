@@ -1707,7 +1707,7 @@ class Snapshots:
                 if len( snapshots ) <= 1:
                     break
 
-                free_space = self._stat_free_space_local(self.config.get_snapshots_path())
+                free_space = self._stat_free_space_local(self.config.get_snapshots_full_path())
 
                 if free_space is None:
                     free_space = self._stat_free_space_ssh()
@@ -1784,7 +1784,7 @@ class Snapshots:
         if self.config.get_snapshots_mode() not in ('ssh', 'ssh_encfs'):
             return None
 
-        snapshots_path_ssh = self.config.get_snapshots_path_ssh()
+        snapshots_path_ssh = self.config.get_snapshots_full_path_ssh()
         if not len(snapshots_path_ssh):
             snapshots_path_ssh = './'
         cmd = self.cmd_ssh(['df', snapshots_path_ssh])
