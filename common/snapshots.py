@@ -1436,7 +1436,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 if len(snapshots) <= 1:
                     break
 
-                free_space = self.statFreeSpaceLocal(self.config.snapshotsPath())
+                free_space = self.statFreeSpaceLocal(self.config.snapshotsFullPath())
 
                 if free_space is None:
                     free_space = self.statFreeSpaceSsh()
@@ -1531,7 +1531,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if self.config.snapshotsMode() not in ('ssh', 'ssh_encfs'):
             return None
 
-        snapshots_path_ssh = self.config.sshSnapshotsPath()
+        snapshots_path_ssh = self.config.sshSnapshotsFullPath()
         if not len(snapshots_path_ssh):
             snapshots_path_ssh = './'
         cmd = self.config.sshCommand(['df', snapshots_path_ssh],
