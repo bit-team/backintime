@@ -20,6 +20,7 @@ import stat
 import sys
 from test import generic
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config
@@ -34,6 +35,12 @@ class TestConfig(generic.TestCaseCfg):
             # set directory to read only
             with generic.mockPermissions(dirpath, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH):
                 self.assertFalse(self.cfg.setSnapshotsPath(dirpath))
+
+    @patch('os.chmod')
+    def test_set_snapshots_path_permission_fail(self, mock_chmod):
+        mock_chmod.side_effect = PermissionError()
+        with TemporaryDirectory() as dirpath:
+            self.assertTrue(self.cfg.setSnapshotsPath(dirpath))
 
 class TestSshCommand(generic.SSHTestCase):
     def test_full_command(self):

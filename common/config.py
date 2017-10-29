@@ -390,11 +390,13 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(_('Can\'t write to: %s\nAre you sure you have write access ?' % value))
                 return False
 
-            path1 = os.path.join(value, 'backintime')
-            os.chmod(path1, 0o777)
-
-            path1 = os.path.join(value, 'backintime', host)
-            os.chmod(path1, 0o777)
+            for p in (os.path.join(value, 'backintime'),
+                      os.path.join(value, 'backintime', host)):
+                try:
+                    os.chmod(p, 0o777)
+                except PermissionError as e:
+                    msg = "Failed to change permissions world writeable for '{}': {}"
+                    logger.warning(msg.format(p, str(e)), self)
 
         #Test filesystem
         fs = tools.filesystem(full_path)
