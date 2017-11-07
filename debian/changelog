@@ -1,5 +1,3 @@
-backintime (1.1.22) unstable; urgency=low
-  * fix bug: stat free space for snapshot folder instead of backintime folder (https://github.com/bit-team/backintime/issues/733)
-  * backport bug fix: backintime root crontab doesn't run; missinng line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/781)
-  * backport bug fix: can't open files with spaces in name (https://github.com/bit-team/backintime/issues/552)
- -- Germar Reitze <germar.reitze@gmail.com>  Sat, 28 Oct 2017 14:12:36 +0200
+backintime (1.1.24) unstable; urgency=low
+  * fix critical bug: shell injection in notify-send (https://github.com/bit-team/backintime/issues/834)
+ -- Germar Reitze <germar.reitze@gmail.com>  Tue, 07 Nov 2017 21:34:43 +0100
