@@ -1,5 +1,8 @@
 Back In Time
 
+Version 1.1.24
+* fix critical bug: shell injection in notify-send (https://github.com/bit-team/backintime/issues/834)
+
 Version 1.1.22
 * fix bug: stat free space for snapshot folder instead of backintime folder (https://github.com/bit-team/backintime/issues/733)
 * backport bug fix: backintime root crontab doesn't run; missinng line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/781)
