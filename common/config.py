@@ -1221,40 +1221,6 @@ class Config(configfile.ConfigFileWithProfiles):
         #?syslog and TTY again.
         return self.profileBoolValue('user_callback.no_logging', False, profile_id)
 
-    ###########################################################################
-
-    def takeSnapshotUserScript(self, step, profile_id = None):
-        #?Run this scrip on events defined by <STEP>.\nPossible events for
-        #?<STEP>:\n  before\n  after\n  new_snapshot\n  error;absolute path
-        return self.profileStrValue ("snapshots.take_snapshot.%s.user.script" % step, '', profile_id)
-
-    def setTakeSnapshotUserScript(self, step, path, profile_id = None):
-        self.setProfileStrValue("snapshots.take_snapshot.%s.user.script" % step, path, profile_id)
-
-    def takeSnapshotUserScriptBefore(self, profile_id = None):
-        return self.takeSnapshotUserScript('before', profile_id)
-
-    def setTakeSnapshotUserScriptBefore(self, path, profile_id = None):
-        self.setTakeSnapshotUserScript('before', path, profile_id)
-
-    def takeSnapshotUserScriptAfter(self, profile_id = None):
-        return self.takeSnapshotUserScript('after', profile_id)
-
-    def setTakeSnapshotUserScriptAfter(self, path, profile_id = None):
-        self.setTakeSnapshotUserScript('after', path, profile_id)
-
-    def takeSnapshotUserScriptNewSnapshot(self, profile_id = None):
-        return self.takeSnapshotUserScript('new_snapshot', profile_id = None)
-
-    def setTakeSnapshotUserScriptNewSnapshot(self, path, profile_id = None):
-        self.setTakeSnapshotUserScript('new_snapshot', path, profile_id)
-
-    def takeSnapshotUserScriptError(self, profile_id = None):
-        return self.takeSnapshotUserScript('error', profile_id)
-
-    def setTakeSnapshotUserScriptError(self, path, profile_id = None):
-        self.setTakeSnapshotUserScript('error', path, profile_id)
-
     def globalFlock(self):
         #?Prevent multiple snapshots (from different profiles or users) to be run at the same time
         return self.boolValue('global.use_flock', False)

@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Oct 2016" "version 1.2.0~alpha0" "USER COMMANDS"
+.TH backintime-config 1 "Nov 2017" "version 1.2.0~alpha0" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -220,7 +220,7 @@ Default: false
 .RS
 Type: bool      Allowed Values: true|false
 .br
-Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the lowest IO bandwidth priority to not interupt any other working process.
+Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the lowest IO bandwidth priority to not interrupt any other working process.
 .PP
 Default: true
 .RE
@@ -229,7 +229,7 @@ Default: true
 .RS
 Type: bool      Allowed Values: true|false
 .br
-Run cronjobs with 'nice \-n 19'. This will give BackInTime the lowest CPU priority to not interupt any other working process.
+Run cronjobs with 'nice \-n19'. This will give BackInTime the lowest CPU priority to not interrupt any other working process.
 .PP
 Default: true
 .RE
@@ -684,7 +684,7 @@ Default: 0
 .RS
 Type: bool      Allowed Values: true|false
 .br
-Run rsync and other commands on remote host with 'nice \-n 19'
+Run rsync and other commands on remote host with 'nice \-n19'
 .PP
 Default: false
 .RE
@@ -752,25 +752,6 @@ Remote SSH user
 Default: local users name
 .RE
 
-.IP "\fIprofile<N>.snapshots.take_snapshot.<STEP>.user.script\fR" 6
-.RS
-Type: str       Allowed Values: absolute path
-.br
-Run this script on events defined by <STEP>.
-.br
-Possible events for <STEP>:
-.br
-  before
-.br
-  after
-.br
-  new_snapshot
-.br
-  error
-.PP
-Default: ''
-.RE
-
 .IP "\fIprofile<N>.snapshots.take_snapshot_regardless_of_changes\fR" 6
 .RS
 Type: bool      Allowed Values: true|false
@@ -793,7 +774,7 @@ Default: false
 .RS
 Type: bool      Allowed Values: true|false
 .br
-Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot. This will give BackInTime the lowest IO bandwidth priority to not interupt any other working process.
+Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot. This will give BackInTime the lowest IO bandwidth priority to not interrupt any other working process.
 .PP
 Default: false
 .RE
