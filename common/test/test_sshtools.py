@@ -23,6 +23,7 @@ import shutil
 import getpass
 import unittest
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -334,3 +335,42 @@ class TestSshKey(generic.TestCaseCfg):
                 # restore original known_hosts file
                 if os.path.exists(knownHostsSic):
                     shutil.copyfile(knownHostsSic, knownHosts)
+
+@unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
+class TestStartSshAgent(generic.SSHTestCase):
+    # running this test requires that user has public / private key pair created and ssh server running
+    SOCK = 'SSH_AUTH_SOCK'
+    PID =  'SSH_AGENT_PID'
+
+    def setUp(self):
+        super(TestStartSshAgent, self).setUp()
+        self.ssh = sshtools.SSH(cfg = self.cfg)
+        self.currentSock = os.environ.pop(self.SOCK, '')
+        self.currentPid  = os.environ.pop(self.PID, '')
+
+    def tearDown(self):
+        os.environ[self.SOCK] = self.currentSock
+        os.environ[self.PID]  = self.currentPid
+
+    def test_startSshAgent(self):
+        self.ssh.startSshAgent()
+        self.assertTrue(self.SOCK in os.environ)
+        self.assertTrue(self.PID  in os.environ)
+
+    @patch('tools.which')
+    def test_startSshAgentEqualSign(self, mockWhich):
+        mockWhich.return_value = ['echo', 'setenv SSH_AUTH_SOCK=/tmp/ssh-zWg8uTdgh1QJ/agent.9070;\n',
+                                  'setenv SSH_AGENT_PID=9071;\n'
+                                  'echo Agent pid 9071;']
+        self.ssh.startSshAgent()
+        self.assertTrue(self.SOCK in os.environ)
+        self.assertTrue(self.PID  in os.environ)
+
+    @patch('tools.which')
+    def test_startSshAgentSpace(self, mockWhich):
+        mockWhich.return_value = ['echo', 'setenv SSH_AUTH_SOCK /tmp/ssh-zWg8uTdgh1QJ/agent.9070;\n',
+                                  'setenv SSH_AGENT_PID 9071;\n'
+                                  'echo Agent pid 9071;']
+        self.ssh.startSshAgent()
+        self.assertTrue(self.SOCK in os.environ)
+        self.assertTrue(self.PID  in os.environ)
