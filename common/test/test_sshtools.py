@@ -386,3 +386,15 @@ class TestStartSshAgent(generic.SSHTestCase):
         self.ssh.startSshAgent()
         self.assertTrue(self.SOCK in os.environ)
         self.assertTrue(self.PID  in os.environ)
+
+    @patch('tools.which')
+    def test_startSshAgentError(self, mockWhich):
+        mockWhich.return_value = '/bin/false'
+        with self.assertRaises(MountException):
+            self.ssh.startSshAgent()
+
+    @patch('tools.which')
+    def test_startSshAgentMissing(self, mockWhich):
+        mockWhich.return_value = ''
+        with self.assertRaises(MountException):
+            self.ssh.startSshAgent()

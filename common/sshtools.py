@@ -207,10 +207,10 @@ class SSH(MountControl):
             return
 
         sshAgent = tools.which('ssh-agent')
-        if isinstance(sshAgent, str):
-            sshAgent = [sshAgent, ]
         if not sshAgent:
             raise MountException('ssh-agent not found. Please make sure it is installed.')
+        if isinstance(sshAgent, str):
+            sshAgent = [sshAgent, ]
 
         sa = subprocess.Popen(sshAgent,
                               stdout = subprocess.PIPE,
