@@ -358,7 +358,8 @@ class TestStartSshAgent(generic.SSHTestCase):
         self.assertTrue(self.PID  in os.environ)
 
     @patch('tools.which')
-    def test_startSshAgentEqualSign(self, mockWhich):
+    @patch('os.kill')
+    def test_startSshAgentEqualSign(self, mockKill, mockWhich):
         mockWhich.return_value = ['echo', 'setenv SSH_AUTH_SOCK=/tmp/ssh-zWg8uTdgh1QJ/agent.9070;\n',
                                   'setenv SSH_AGENT_PID=9071;\n'
                                   'echo Agent pid 9071;']
@@ -367,9 +368,20 @@ class TestStartSshAgent(generic.SSHTestCase):
         self.assertTrue(self.PID  in os.environ)
 
     @patch('tools.which')
-    def test_startSshAgentSpace(self, mockWhich):
+    @patch('os.kill')
+    def test_startSshAgentSpace(self, mockKill, mockWhich):
         mockWhich.return_value = ['echo', 'setenv SSH_AUTH_SOCK /tmp/ssh-zWg8uTdgh1QJ/agent.9070;\n',
                                   'setenv SSH_AGENT_PID 9071;\n'
+                                  'echo Agent pid 9071;']
+        self.ssh.startSshAgent()
+        self.assertTrue(self.SOCK in os.environ)
+        self.assertTrue(self.PID  in os.environ)
+
+    @patch('tools.which')
+    @patch('os.kill')
+    def test_startSshAgentExport(self, mockKill, mockWhich):
+        mockWhich.return_value = ['echo', 'SSH_AUTH_SOCK=/tmp/ssh-zWg8uTdgh1QJ/agent.9070; export SSH_AUTH_SOCK;\n',
+                                  'SSH_AGENT_PID=9071; export SSH_AGENT_PID;\n'
                                   'echo Agent pid 9071;']
         self.ssh.startSshAgent()
         self.assertTrue(self.SOCK in os.environ)
