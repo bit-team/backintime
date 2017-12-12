@@ -344,7 +344,7 @@ class SettingsDialog(QDialog):
         self.comboScheduleTime = QComboBox(self)
         glayout.addWidget(self.comboScheduleTime, 3, 1)
 
-        for t in range(0, 2300, 100):
+        for t in range(0, 2400, 100):
             self.comboScheduleTime.addItem(QIcon(), datetime.time(t//100, t%100).strftime("%H:%M"), t)
 
         self.lblScheduleCronPatern = QLabel(_('Hours:'), self)
