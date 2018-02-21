@@ -827,7 +827,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
     def backupConfig(self, sid):
         """
-        Backup the config file to the snapshot.
+        Backup the config file to the snapshot and to the backup root if backup
+        is encrypted.
 
         Args:
             sid (SID):  snapshot in which the config should be stored
@@ -835,8 +836,17 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         logger.info('Save config file', self)
         self.setTakeSnapshotMessage(0, _('Saving config file...'))
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
-            with open(sid.path('config'), 'wb') as dst:
-                dst.write(src.read())
+            with open(sid.path('config'), 'wb') as dst1:
+                dst1.write(src.read())
+            if self.config.snapshotsMode() == 'local_encfs':
+                src.seek(0)
+                with open(os.path.join(self.config.localEncfsPath(), 'config'), 'wb') as dst2:
+                    dst2.write(src.read())
+            elif self.config.snapshotsMode() == 'ssh_encfs':
+                cmd = tools.rsyncPrefix(self.config, no_perms = False)
+                cmd.append(self.config._LOCAL_CONFIG_PATH)
+                cmd.append(self.rsyncRemotePath(self.config.sshSnapshotsPath()))
+                tools.Execute(cmd, parent = self).run()
 
     def backupInfo(self, sid):
         """
