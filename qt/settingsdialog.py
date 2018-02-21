@@ -677,7 +677,7 @@ class SettingsDialog(QDialog):
         qttools.setFontBold(label)
         layout.addWidget(label)
 
-        label = QLabel(_("Run 'nice':"))
+        label = QLabel(_("Run 'rsync' with 'nice':"))
         layout.addWidget(label)
         grid = QGridLayout()
         grid.setColumnMinimumWidth(0, 20)
@@ -689,7 +689,7 @@ class SettingsDialog(QDialog):
         self.cbNiceOnRemote = QCheckBox(_('on remote host') + self.printDefault(self.config.DEFAULT_RUN_NICE_ON_REMOTE), self)
         grid.addWidget(self.cbNiceOnRemote, 1, 1)
 
-        label = QLabel(_("Run 'ionice':"))
+        label = QLabel(_("Run 'rsync' with 'ionice':"))
         layout.addWidget(label)
         grid = QGridLayout()
         grid.setColumnMinimumWidth(0, 20)
@@ -705,8 +705,10 @@ class SettingsDialog(QDialog):
         grid.addWidget(self.cbIoniceOnRemote, 2, 1)
 
         self.nocacheAvailable = tools.checkCommand('nocache')
-        label = QLabel(_("Run 'rsync' with 'nocache':"))
-        layout.addWidget(label)
+        txt = _("Run 'rsync' with 'nocache':")
+        if not self.nocacheAvailable:
+            txt += ' ' + _("(Please install 'nocache' to enable this option)")
+        layout.addWidget(QLabel(txt))
         grid = QGridLayout()
         grid.setColumnMinimumWidth(0, 20)
         layout.addLayout(grid)
