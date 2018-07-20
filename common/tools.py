@@ -660,7 +660,10 @@ def rsyncRemove(config, run_local = True):
     Returns:
         list:                   rsync command with all args
     """
-    cmd = ['rsync', '-a', '--delete']
+    # '--super' is needed as a workaround for rsync's bug #12806:
+    # https://bugzilla.samba.org/show_bug.cgi?id=12806
+    # The option can probably be dropped after that bug has been fixed.
+    cmd = ['rsync', '-a', '--delete', '--super']
     if run_local:
         cmd.extend(rsyncSshArgs(config))
     return cmd
