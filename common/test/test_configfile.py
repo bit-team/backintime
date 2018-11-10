@@ -37,7 +37,9 @@ class TestConfigFile(generic.TestCase):
             self.assertTrue(cf.save(cfgFile.name))
             self.assertExists(cfgFile.name)
 
-        self.assertFalse(cf.save('/foo'))
+        #test fail routine in ConfigFile.save
+        with NamedTemporaryFile() as fakeDir:
+            self.assertFalse(cf.save(os.path.join(fakeDir.name, 'foo')))
 
     def test_load(self):
         """
