@@ -18,6 +18,7 @@
 import os
 import sys
 import unittest
+import socket
 from unittest.mock import patch
 from tempfile import TemporaryDirectory, NamedTemporaryFile
 from contextlib import contextmanager
@@ -43,9 +44,18 @@ if os.path.exists(PRIV_KEY_FILE + '.pub') and os.path.exists(AUTHORIZED_KEYS_FIL
 else:
     KEY_IN_AUTH = False
 
+# check if port 22 on localhost is available
+# sshd should be there...
+try:
+    with socket.create_connection(('localhost', '22'), 2.0) as s:
+        sshdPortAvailable = not bool(s.connect_ex(s.getpeername()))
+except:
+    sshdPortAvailable = False
+
 LOCAL_SSH = all((tools.processExists('sshd'),
                  os.path.isfile(PRIV_KEY_FILE),
-                 KEY_IN_AUTH))
+                 KEY_IN_AUTH,
+                 sshdPortAvailable))
 
 ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
 ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
