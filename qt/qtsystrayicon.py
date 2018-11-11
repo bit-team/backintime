@@ -172,17 +172,18 @@ class QtSysTrayIcon:
         if pg.fileReadable():
             pg.load()
             percent = pg.intValue('percent')
-            if percent != self.progressBar.value():
-                self.progressBar.setValue(percent)
-                self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
-                self.status_icon.setIcon(QIcon(self.pixmap))
+            ## disable progressbar in icon until BiT has it's own icon
+            ## fixes bug #902
+            # if percent != self.progressBar.value():
+            #     self.progressBar.setValue(percent)
+            #     self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
+            #     self.status_icon.setIcon(QIcon(self.pixmap))
 
             self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)))
             self.menuProgress.setVisible(True)
         else:
-            self.status_icon.setIcon(self.icon.BIT_LOGO)
+            # self.status_icon.setIcon(self.icon.BIT_LOGO)
             self.menuProgress.setVisible(False)
-
 
     def getMenuProgress(self, pg):
         d = (('sent',   _('Sent:')), \
