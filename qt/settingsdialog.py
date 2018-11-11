@@ -1364,7 +1364,8 @@ class SettingsDialog(QDialog):
                                            self.config.sshUser(),
                                            self.config.sshHost(),
                                            port = str(self.config.sshPort()),
-                                           askPass = tools.which('backintime-askpass')):
+                                           askPass = tools.which('backintime-askpass'),
+                                           cipher = self.config.sshCipher()):
                         return self.saveProfile()
                 else:
                     return False

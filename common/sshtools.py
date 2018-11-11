@@ -333,7 +333,6 @@ class SSH(MountControl):
                                                      '-p', str(self.port),
                                                      self.user_host],
                                       port = False,
-                                      cipher = False,
                                       user_host = False,
                                       nice = False,
                                       ionice = False,
@@ -451,7 +450,6 @@ class SSH(MountControl):
         ssh = self.config.sshCommand(cmd = [cmd],
                                       custom_args = ['-p', str(self.port), self.user_host],
                                       port = False,
-                                      cipher = False,
                                       user_host = False,
                                       nice = False,
                                       ionice = False,
@@ -640,7 +638,6 @@ class SSH(MountControl):
             c = self.config.sshCommand(cmd = [cmd],
                                         custom_args = ['-p', str(self.port), self.user_host],
                                         port = False,
-                                        cipher = False,
                                         user_host = False,
                                         nice = False,
                                         ionice = False,
@@ -740,7 +737,7 @@ def sshKeyGen(keyfile):
         logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
     return not proc.returncode
 
-def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass'):
+def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass', cipher = None):
     """
     Copy SSH public key ``pubkey`` to remote ``host``.
 
@@ -750,6 +747,7 @@ def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass'):
         host (str):     remote host
         port (str):     ssh port on remote host
         askPass (str):  program used to pipe password into ssh
+        cipher (str):   cipher used for ssh
 
     Returns:
         bool:           True if successful
@@ -762,7 +760,11 @@ def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass'):
     env['ASKPASS_MODE'] = 'USER'
     env['ASKPASS_PROMPT'] = _('Copy public ssh-key "%(pubkey)s" to remote host "%(host)s".\nPlease enter password for "%(user)s":')\
                             %{'pubkey': pubkey, 'host': host, 'user': user}
-    cmd = ['ssh-copy-id', '-i', pubkey, '-p', port, '{}@{}'.format(user,host)]
+    cmd = ['ssh-copy-id', '-i', pubkey, '-p', port]
+    if cipher and cipher != 'default':
+        cmd.extend(['-o', 'Ciphers={}'.format(cipher)])
+    cmd.append('{}@{}'.format(user,host))
+    logger.debug('Call command "{}"'.format(' '.join(cmd)))
     proc = subprocess.Popen(cmd, env = env,
                             stdout = subprocess.DEVNULL,
                             stderr = subprocess.PIPE,
