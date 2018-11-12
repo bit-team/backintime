@@ -1601,6 +1601,7 @@ if __name__ == '__main__':
 
     logger.openlog()
     qapp = qttools.createQApplication(cfg.APP_NAME)
+    qapp.setApplicationName(cfg.APP_NAME)
     translator = qttools.translator()
     qapp.installTranslator(translator)
 
