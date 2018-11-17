@@ -159,7 +159,8 @@ def createQApplication(app_name = 'Back In Time'):
     if StrictVersion(QT_VERSION_STR) >= StrictVersion('5.6') and \
         hasattr(Qt, 'AA_EnableHighDpiScaling'):
         QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-    qapp = QApplication(sys.argv + ['-title', app_name])
+    qapp = QApplication(sys.argv)
+    qapp.setApplicationName(app_name)
     if os.geteuid() == 0 and                                   \
         qapp.style().objectName().lower() == 'windows' and  \
         'GTK+' in QStyleFactory.keys():
