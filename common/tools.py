@@ -449,11 +449,14 @@ def checkXServer():
     Returns:
         bool:   ``True`` if X11 server is running
     """
-    proc = subprocess.Popen(['xdpyinfo'],
-                            stdout = subprocess.DEVNULL,
-                            stderr = subprocess.DEVNULL)
-    proc.communicate()
-    return proc.returncode == 0
+    if which('xdpyinfo') is not None:
+        proc = subprocess.Popen(['xdpyinfo'],
+                                stdout = subprocess.DEVNULL,
+                                stderr = subprocess.DEVNULL)
+        proc.communicate()
+        return proc.returncode == 0
+    else:
+        return False
 
 def preparePath(path):
     """
