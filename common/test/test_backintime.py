@@ -77,14 +77,14 @@ under certain conditions; type `backintime --license' for details.
 
 (INFO: Update to config version \d+
 )?
- ┌────────────────────────────────┐
- │  Check/prepair snapshot path   │
- └────────────────────────────────┘
+ \+--------------------------------\+
+ |  Check/prepair snapshot path   |
+ \+--------------------------------\+
 Check/prepair snapshot path: done
 
- ┌────────────────────────────────┐
- │          Check config          │
- └────────────────────────────────┘
+ \+--------------------------------\+
+ |          Check config          |
+ \+--------------------------------\+
 Check config: done
 
 Config .*test/config profile 'Main profile' is fine.''', re.MULTILINE))

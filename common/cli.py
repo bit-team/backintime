@@ -194,9 +194,9 @@ def terminalSize():
     return [24, 80]
 
 def frame(msg, size = 32):
-    ret  = ' ┌' + '─' * size +       '┐\n'
-    ret += ' │' + msg.center(size) + '│\n'
-    ret += ' └' + '─' * size +       '┘'
+    ret  = ' +' + '-' * size +       '+\n'
+    ret += ' |' + msg.center(size) + '|\n'
+    ret += ' +' + '-' * size +       '+'
     return ret
 
 class RestoreDialog(object):
