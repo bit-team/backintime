@@ -937,9 +937,22 @@ def uuidFromDev(dev):
     """
     if dev and os.path.exists(dev):
         dev = os.path.realpath(dev)
-        for uuid in os.listdir(DISK_BY_UUID):
-            if dev == os.path.realpath(os.path.join(DISK_BY_UUID, uuid)):
-                return uuid
+        if os.path.exists(DISK_BY_UUID):
+            for uuid in os.listdir(DISK_BY_UUID):
+                if dev == os.path.realpath(os.path.join(DISK_BY_UUID, uuid)):
+                    return uuid
+        else:
+            c = re.compile(b'.*\sUUID="([^"]*)".*')
+            try:
+                # If device does not exist, blkid will exit with a non-zero code
+                blkid = subprocess.check_output(['blkid', dev],
+                                                stderr = subprocess.DEVNULL)
+                uuid = c.findall(blkid)
+                if uuid:
+                    return uuid[0].decode('UTF-8')
+            except:
+                pass
+
     c = re.compile(b'.*?ID_FS_UUID=(\S+)')
     try:
         udevadm = subprocess.check_output(['udevadm', 'info', '--name=%s' % dev],
