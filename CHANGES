@@ -1,6 +1,9 @@
 Back In Time
 
 Version 1.2.0~alpha0
+* Fix bug: Exit code is linked to the wrong status message (https://github.com/bit-team/backintime/issues/906)
+* minor changes to allow running BiT inside Docker (https://github.com/bit-team/backintime/pull/959)
+* Fix bug: AppName showed 'python3' instead of 'Back In Time' (https://github.com/bit-team/backintime/issues/950)
 * Fix bug: configured cipher is not used with all ssh-commands (https://github.com/bit-team/backintime/issues/934)
 * remove progressbar on systray icon until BiT has it's own icon (https://github.com/bit-team/backintime/issues/902)
 * Fix bug: 'make test' fails because local SSH server is running on non-standard port (https://github.com/bit-team/backintime/issues/945)

@@ -36,7 +36,7 @@ class TestBackup(generic.SnapshotsTestCase):
     @patch('snapshots.Snapshots.takeSnapshot')
     def test_backup(self, takeSnapshot, sleep):
         takeSnapshot.return_value = [True, False]
-        self.assertTrue(self.sn.backup())
+        self.assertFalse(self.sn.backup())
 
         self.assertEqual(takeSnapshot.call_count, 1)
         self.assertIsInstance(takeSnapshot.call_args[0][0], snapshots.SID)
@@ -59,7 +59,7 @@ class TestBackup(generic.SnapshotsTestCase):
     @patch('snapshots.Snapshots.takeSnapshot')
     def test_with_errors(self, takeSnapshot, sleep):
         takeSnapshot.return_value = [False, True]
-        self.assertFalse(self.sn.backup())
+        self.assertTrue(self.sn.backup())
 
     @patch('time.sleep') # speed up unittest
     @patch('tools.onBattery')
@@ -74,13 +74,13 @@ class TestBackup(generic.SnapshotsTestCase):
         self.assertFalse(takeSnapshot.called)
 
         # force run
-        self.assertTrue(self.sn.backup(force = True))
+        self.assertFalse(self.sn.backup(force = True))
         self.assertTrue(takeSnapshot.called)
         takeSnapshot.reset_mock()
 
         # ignore Battery
         self.cfg.setNoSnapshotOnBattery(False)
-        self.assertTrue(self.sn.backup(force = False))
+        self.assertFalse(self.sn.backup(force = False))
         self.assertTrue(takeSnapshot.called)
 
     @patch('time.sleep') # speed up unittest
@@ -88,13 +88,13 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_scheduled(self, takeSnapshot, sleep):
         # first run without timestamp
         takeSnapshot.return_value = [True, False]
-        self.assertTrue(self.sn.backup(force = False))
+        self.assertFalse(self.sn.backup(force = False))
         self.assertTrue(takeSnapshot.called)
         takeSnapshot.reset_mock()
 
         # second run doesn't use an anacron-like schedule
         tools.writeTimeStamp(self.cfg.anacronSpoolFile())
-        self.assertTrue(self.sn.backup(force = False))
+        self.assertFalse(self.sn.backup(force = False))
         self.assertTrue(takeSnapshot.called)
         takeSnapshot.reset_mock()
 
@@ -104,7 +104,7 @@ class TestBackup(generic.SnapshotsTestCase):
         self.assertFalse(takeSnapshot.called)
 
         # finally force
-        self.assertTrue(self.sn.backup(force = True))
+        self.assertFalse(self.sn.backup(force = True))
         self.assertTrue(takeSnapshot.called)
 
     @patch('time.sleep') # speed up unittest
@@ -113,7 +113,7 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_already_running(self, takeSnapshot, check, sleep):
         check.return_value = False
         takeSnapshot.return_value = [True, False]
-        self.assertFalse(self.sn.backup())
+        self.assertTrue(self.sn.backup())
         self.assertFalse(takeSnapshot.called)
 
     @patch('time.sleep') # speed up unittest
@@ -122,7 +122,7 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_plugin_prevented_backup(self, takeSnapshot, processBegin, sleep):
         processBegin.return_value = False
         takeSnapshot.return_value = [True, False]
-        self.assertFalse(self.sn.backup())
+        self.assertTrue(self.sn.backup())
         self.assertFalse(takeSnapshot.called)
 
     @patch('time.sleep') # speed up unittest
@@ -131,7 +131,7 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_not_configured(self, takeSnapshot, isConfigured, sleep):
         isConfigured.return_value = False
         takeSnapshot.return_value = [True, False]
-        self.assertFalse(self.sn.backup())
+        self.assertTrue(self.sn.backup())
         self.assertFalse(takeSnapshot.called)
 
     @patch('time.sleep') # speed up unittest
@@ -140,7 +140,7 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_mount_exception(self, takeSnapshot, mount, sleep):
         mount.side_effect = MountException()
         takeSnapshot.return_value = [True, False]
-        self.assertFalse(self.sn.backup())
+        self.assertTrue(self.sn.backup())
         self.assertFalse(takeSnapshot.called)
 
     @patch('time.sleep') # speed up unittest
@@ -149,7 +149,7 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_umount_exception(self, takeSnapshot, umount, sleep):
         umount.side_effect = MountException()
         takeSnapshot.return_value = [True, False]
-        self.assertTrue(self.sn.backup())
+        self.assertFalse(self.sn.backup())
 
     @patch('time.sleep') # speed up unittest
     @patch.object(config.Config, 'canBackup')
@@ -157,7 +157,7 @@ class TestBackup(generic.SnapshotsTestCase):
     def test_cant_backup(self, takeSnapshot, canBackup, sleep):
         canBackup.return_value = False
         takeSnapshot.return_value = [True, False]
-        self.assertFalse(self.sn.backup())
+        self.assertTrue(self.sn.backup())
         self.assertFalse(takeSnapshot.called)
 
     @patch('time.sleep') # speed up unittest

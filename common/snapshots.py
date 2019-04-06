@@ -595,7 +595,7 @@ class Snapshots:
                             not scheduled or the machine is running on battery
 
         Returns:
-            bool:           ``True`` if successful created a new snapshot
+            bool:           ``True`` if there was an error
         """
         ret_val, ret_error = False, True
         sleep = True
@@ -609,9 +609,11 @@ class Snapshots:
             self.setTakeSnapshotMessage(0, _('Deferring backup while on battery'))
             logger.info('Deferring backup while on battery', self)
             logger.warning('Backup not performed', self)
+            ret_error = False
         elif not force and not self.config.backupScheduled():
             logger.info('Profile "%s" is not scheduled to run now.'
                         %self.config.profileName(), self)
+            ret_error = False
         else:
             instance = ApplicationInstance(self.config.takeSnapshotInstanceFile(), False, flock = True)
             restore_instance = ApplicationInstance(self.config.restoreInstanceFile(), False)
@@ -644,7 +646,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     instance.exitApplication()
                     logger.info('Unlock', self)
                     time.sleep(2)
-                    return False
+                    return False, True
                 else:
                     self.config.setCurrentHashId(hash_id)
 
@@ -743,7 +745,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if self.config.inhibitCookie:
             self.config.inhibitCookie = tools.unInhibitSuspend(*self.config.inhibitCookie)
 
-        return ret_val
+        return ret_error
 
     def filterRsyncProgress(self, line):
         """

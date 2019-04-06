@@ -88,7 +88,7 @@ def takeSnapshot(cfg, force = True):
                                 or would be prevented (e.g. running on battery)
 
     Returns:
-        bool:                   ``True`` if successful
+        bool:                   ``True`` if there was an error
     """
     tools.envLoad(cfg.cronEnvFile())
     ret = snapshots.Snapshots(cfg).backup(force)
@@ -737,7 +737,7 @@ def backup(args, force = True):
     printHeader()
     cfg = getConfig(args)
     ret = takeSnapshot(cfg, force)
-    sys.exit(int(not ret))
+    sys.exit(int(ret))
 
 def backupJob(args):
     """
