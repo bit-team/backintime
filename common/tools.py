@@ -449,7 +449,7 @@ def checkXServer():
     Returns:
         bool:   ``True`` if X11 server is running
     """
-    if which('xdpyinfo') is not None:
+    if checkCommand('xdpyinfo'):
         proc = subprocess.Popen(['xdpyinfo'],
                                 stdout = subprocess.DEVNULL,
                                 stderr = subprocess.DEVNULL)
