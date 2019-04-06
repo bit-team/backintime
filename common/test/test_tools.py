@@ -444,13 +444,13 @@ class TestTools(generic.TestCase):
         self.assertEqual(tools.device('/proc'), 'proc')
         self.assertRegex(tools.device('/sys'), r'sys.*')
         self.assertRegex(tools.device('/nonExistingFolder/foo/bar'),
-                         r'/dev/.*')
+                         r'(:?/dev/.*|tmpfs)')
 
     def test_filesystem(self):
         self.assertEqual(tools.filesystem('/proc'), 'proc')
         self.assertRegex(tools.filesystem('/sys'), r'sys.*')
         self.assertRegex(tools.filesystem('/nonExistingFolder/foo/bar').lower(),
-                         r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs)')
+                         r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs|tmpfs)')
 
     # tools.uuidFromDev() get called from tools.uuidFromPath.
     # So we skip an extra unittest as it's hard to find a dev on all systems
