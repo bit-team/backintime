@@ -646,7 +646,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     instance.exitApplication()
                     logger.info('Unlock', self)
                     time.sleep(2)
-                    return False, True
+                    return True
                 else:
                     self.config.setCurrentHashId(hash_id)
 
