@@ -492,11 +492,13 @@ class SSH(MountControl):
         if not self.config.sshCheckPingHost(self.profile_id):
             return
         logger.debug('Check ping host', self)
+        versionString = 'SSH-2.0-backintime_{}\r\n'.format(self.config.VERSION).encode()
         count = 0
         while count < 5:
             try:
                 with socket.create_connection((self.host, self.port), 2.0) as s:
                     result = s.connect_ex(s.getpeername())
+                    s.sendall(versionString)
             except:
                 result = -1
             if result == 0:
