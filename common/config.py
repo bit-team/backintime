@@ -89,7 +89,8 @@ class Config(configfile.ConfigFileWithProfiles):
                 REPEATEDLY : _('Repeatedly (anacron)'),
                 UDEV : _('When drive get connected (udev)'),
                 WEEK : _('Every Week'),
-                MONTH : _('Every Month')
+                MONTH : _('Every Month'),
+                YEAR : _('Every Year')
                 }
 
     REMOVE_OLD_BACKUP_UNITS = {
@@ -1576,6 +1577,8 @@ class Config(configfile.ConfigFileWithProfiles):
             cron_line = '%s %s * * %s {cmd}' %(minute, hour, weekday)
         elif self.MONTH == backup_mode:
             cron_line = '%s %s %s * * {cmd}' %(minute, hour, day)
+        elif self.YEAR == backup_mode:
+            cron_line = '%s %s 1 1 * {cmd}' %(minute, hour)
 
         return cron_line
 
