@@ -543,7 +543,6 @@ def rsyncCaps(data = None):
     return caps
 
 def rsyncPrefix(config,
-                no_perms = True,
                 use_mode = ['ssh', 'ssh_encfs'],
                 progress = True):
     """
@@ -565,6 +564,7 @@ def rsyncPrefix(config,
         list:                   rsync command with all args but without
                                 --include, --exclude, source and destination
     """
+    no_perms = config.oldPerms()
     caps = rsyncCaps()
     cmd = []
     if config.nocacheOnLocal():
@@ -587,7 +587,7 @@ def rsyncPrefix(config,
         cmd.append('--copy-links')
     else:
         cmd.append('--links')
-
+    
     if config.preserveAcl() and "ACLs" in caps:
         cmd.append('--acls')  # preserve ACLs (implies --perms)
         no_perms = False
@@ -597,7 +597,7 @@ def rsyncPrefix(config,
         no_perms = False
 
     if no_perms:
-        cmd.extend(('--no-perms', '--no-group', '--no-owner'))
+            cmd.extend(('--no-perms', '--no-group', '--no-owner'))
     else:
         cmd.extend(('--perms',          # preserve permissions
                     '--executability',  # preserve executability

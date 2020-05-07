@@ -123,6 +123,7 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\$PATH'
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
+    DEFAULT_OLD_PERMS = False
 
     exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
@@ -1114,6 +1115,12 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def setNoSnapshotOnBattery(self, value, profile_id = None):
         self.setProfileBoolValue('snapshots.no_on_battery', value, profile_id)
+
+    def oldPerms(self, profile_id = None):
+        return self.profileBoolValue('snapshots.old_perms', self.DEFAULT_OLD_PERMS, profile_id)
+
+    def setOldPerms(self, value, profile_id = None):
+        return self.setProfileBoolValue('snapshots.old_perms', value, profile_id)
 
     def preserveAcl(self, profile_id = None):
         #?Preserve ACL. The  source  and  destination  systems must have

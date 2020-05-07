@@ -773,6 +773,15 @@ class SettingsDialog(QDialog):
                 'This may be fixed in a future version.'
                 )
 
+        self.cbOldPerms = QCheckBox(_('Use v1.1.x Permission Handling'), self)
+        self.cbOldPerms.setToolTip(
+                'Handle permissions the way previous versions (1.1.x) did,\n'
+                'i.e. call rsync with no-perms -no-group -no-owner.\n'
+                'Setting this option should increase compability with snapshots\n'
+                'taken by older versions of BackInTime.'
+                )
+        layout.addWidget(self.cbOldPerms)
+
         self.cbPreserveAcl = QCheckBox(_('Preserve ACL'), self)
         self.cbPreserveAcl.setToolTip(
                 'uses \'rsync -A\'\n'
@@ -1182,6 +1191,7 @@ class SettingsDialog(QDialog):
         self.cbRedirectStderrInCron.setChecked(self.config.redirectStderrInCron())
         self.cbBwlimit.setChecked(self.config.bwlimitEnabled())
         self.spbBwlimit.setValue(self.config.bwlimit())
+        self.cbOldPerms.setChecked(self.config.oldPerms())
         self.cbPreserveAcl.setChecked(self.config.preserveAcl())
         self.cbPreserveXattr.setChecked(self.config.preserveXattr())
         self.cbCopyUnsafeLinks.setChecked(self.config.copyUnsafeLinks())
@@ -1332,6 +1342,7 @@ class SettingsDialog(QDialog):
         self.config.setRedirectStderrInCron(self.cbRedirectStderrInCron.isChecked())
         self.config.setBwlimit(self.cbBwlimit.isChecked(),
                                self.spbBwlimit.value())
+        self.config.setOldPerms(self.cbOldPerms.isChecked())
         self.config.setPreserveAcl(self.cbPreserveAcl.isChecked())
         self.config.setPreserveXattr(self.cbPreserveXattr.isChecked())
         self.config.setCopyUnsafeLinks(self.cbCopyUnsafeLinks.isChecked())

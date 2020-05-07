@@ -1003,7 +1003,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             prev_sid = snapshots[0]
 
         #rsync prefix & suffix
-        rsync_prefix = tools.rsyncPrefix(self.config, no_perms = False)
+        rsync_prefix = tools.rsyncPrefix(self.config) #, no_perms = False)
         if self.config.excludeBySizeEnabled():
             rsync_prefix.append('--max-size=%sM' %self.config.excludeBySize())
         rsync_suffix = self.rsyncSuffix(include_folders)
