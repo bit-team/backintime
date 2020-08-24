@@ -360,6 +360,10 @@ msgstr ""
 msgid "Take snapshot"
 msgstr "Prendi istantanea"
 
+#: ../../qt/app.py:93 
+msgid "Take snapshot with checksums"
+msgstr "Prendi istantanea usando i checksums"
+
 #: ../../common/mount.py:415
 #, python-format
 msgid ""
@@ -637,10 +641,6 @@ msgstr "L'host remoto %s non supporta gli hard link"
 msgid ""
 "Copy public ssh-key \"%(pubkey)s\" to remote host \"%(host)s\".\n"
 "Please enter password for \"%(user)s\":"
-msgstr ""
-
-#: ../../qt/app.py:93
-msgid "Take snapshot with checksums"
 msgstr ""
 
 #: ../../qt/app.py:94 ../../qt/settingsdialog.py:643
@@ -1417,8 +1417,8 @@ msgid "Change these options only if you really know what you are doing !"
 msgstr "Cambiare questo opzioni solo se si sa cosa si sta facendo !"
 
 #: ../../qt/settingsdialog.py:680
-msgid "Run 'nice':"
-msgstr "Esegui 'nice':"
+msgid "Run 'rsync' with 'ionice':"
+msgstr "Esegui 'rsync' con 'ionice':"
 
 #: ../../qt/settingsdialog.py:686 ../../qt/settingsdialog.py:698
 msgid "as cron job"
@@ -1429,17 +1429,13 @@ msgstr "come cron job"
 msgid "on remote host"
 msgstr "sull'host remoto"
 
-#: ../../qt/settingsdialog.py:692
-msgid "Run 'ionice':"
-msgstr "Esegui 'ionice':"
-
-#: ../../qt/settingsdialog.py:701
-msgid "when taking a manual snapshot"
-msgstr "quando si prende un'istantanea manuale"
-
 #: ../../qt/settingsdialog.py:708
 msgid "Run 'rsync' with 'nocache':"
 msgstr "Esegui 'rsync' con 'nocache':"
+
+#: ../../qt/settingsdialog.py:710
+msgid "(Please install 'nocache' to enable this option)"
+msgstr "(Installare 'nocache' per abilitare questa opzione)"
 
 #: ../../qt/settingsdialog.py:714
 msgid "on local machine"
@@ -1472,7 +1468,7 @@ msgstr "Preserva attributi estesi (xattr)"
 #: ../../qt/settingsdialog.py:805
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
-"Copia collegamenti non verificati (funziona sono con collegamenti assoluti)"
+"Copia collegamenti non verificati (funziona solo con collegamenti assoluti)"
 
 #: ../../qt/settingsdialog.py:836
 msgid "Paste additional options to rsync"
