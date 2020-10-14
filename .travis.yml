@@ -27,6 +27,10 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
+jobs:
+  exclude:
+    - arch: ppc64le
+      python: 3.4
 
 install:
   - pip install coveralls
