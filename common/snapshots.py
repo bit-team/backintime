@@ -444,7 +444,7 @@ class Snapshots:
 
         info = sid.info
 
-        cmd_prefix = tools.rsyncPrefix(self.config, no_perms = False, use_mode = ['ssh'])
+        cmd_prefix = tools.rsyncPrefix(self.config, use_mode = ['ssh'])
         cmd_prefix.extend(('-R', '-v'))
         if backup:
             cmd_prefix.extend(('--backup', '--suffix=%s' %self.backupSuffix()))
@@ -845,7 +845,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 with open(os.path.join(self.config.localEncfsPath(), 'config'), 'wb') as dst2:
                     dst2.write(src.read())
             elif self.config.snapshotsMode() == 'ssh_encfs':
-                cmd = tools.rsyncPrefix(self.config, no_perms = False)
+                cmd = tools.rsyncPrefix(self.config)
                 cmd.append(self.config._LOCAL_CONFIG_PATH)
                 cmd.append(self.rsyncRemotePath(self.config.sshSnapshotsPath()))
                 tools.Execute(cmd, parent = self).run()
@@ -1003,7 +1003,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             prev_sid = snapshots[0]
 
         #rsync prefix & suffix
-        rsync_prefix = tools.rsyncPrefix(self.config, no_perms = False)
+        rsync_prefix = tools.rsyncPrefix(self.config)
         if self.config.excludeBySizeEnabled():
             rsync_prefix.append('--max-size=%sM' %self.config.excludeBySize())
         rsync_suffix = self.rsyncSuffix(include_folders)
