@@ -132,7 +132,7 @@ class TempPasswordThread(threading.Thread):
 
     def stop(self):
         self.join(5)
-        if self.isAlive():
+        if self.is_alive():
             #threading does not support signal.alarm
             self.read()
         try:
