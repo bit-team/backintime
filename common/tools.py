@@ -287,7 +287,7 @@ def makeDirs(path):
                          %(path, str(e)), traceDepth = 1)
     return os.path.isdir(path)
 
-def mkdir(path, mode = 0o755):
+def mkdir(path, mode = 0o755, enforce_permissions = True):
     """
     Create directory ``path``.
 
@@ -300,7 +300,8 @@ def mkdir(path, mode = 0o755):
     """
     if os.path.isdir(path):
         try:
-            os.chmod(path, mode)
+            if enforce_permissions:
+                os.chmod(path, mode)
         except:
             return False
         return True

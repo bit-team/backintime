@@ -648,7 +648,7 @@ class MountControl(object):
         """
         tools.mkdir(self.mount_root, 0o700)
         tools.mkdir(self.hash_id_path, 0o700)
-        tools.mkdir(self.currentMountpoint, 0o700)
+        tools.mkdir(self.currentMountpoint, 0o700, False)
         tools.mkdir(self.lock_path, 0o700)
 
     def mountProcessLockAcquire(self, timeout = 60):
