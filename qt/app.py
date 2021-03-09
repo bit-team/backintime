@@ -85,6 +85,7 @@ class MainWindow(QMainWindow):
 
         # take_snapshot button
         self.btnTakeSnapshot = self.mainToolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
+        self.btnTakeSnapshot.setShortcuts(QKeySequence(Qt.CTRL + Qt.Key_S))
         self.btnTakeSnapshot.triggered.connect(self.btnTakeSnapshotClicked)
 
         takeSnapshotMenu = qttools.Menu()
@@ -92,6 +93,7 @@ class MainWindow(QMainWindow):
         action.triggered.connect(self.btnTakeSnapshotClicked)
         self.btnTakeSnapshotChecksum = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'))
         self.btnTakeSnapshotChecksum.setToolTip(_('Use checksum to detect changes'))
+        self.btnTakeSnapshotChecksum.setShortcuts(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_S))
         self.btnTakeSnapshotChecksum.triggered.connect(self.btnTakeSnapshotChecksumClicked)
         self.btnTakeSnapshot.setMenu(takeSnapshotMenu)
 
@@ -121,9 +123,11 @@ class MainWindow(QMainWindow):
         self.btnUpdateSnapshots.triggered.connect(self.btnUpdateSnapshotsClicked)
 
         self.btnNameSnapshot = self.mainToolbar.addAction(icon.SNAPSHOT_NAME, _('Snapshot Name'))
+        self.btnNameSnapshot.setShortcuts([Qt.Key_F2])
         self.btnNameSnapshot.triggered.connect(self.btnNameSnapshotClicked)
 
         self.btnRemoveSnapshot = self.mainToolbar.addAction(icon.REMOVE_SNAPSHOT, _('Remove Snapshot'))
+        self.btnRemoveSnapshot.setShortcuts([Qt.Key_Delete])
         self.btnRemoveSnapshot.triggered.connect(self.btnRemoveSnapshotClicked)
 
         self.btnSnapshotLogView = self.mainToolbar.addAction(icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'))
@@ -135,6 +139,7 @@ class MainWindow(QMainWindow):
         self.mainToolbar.addSeparator()
 
         self.btnSettings = self.mainToolbar.addAction(icon.SETTINGS, _('Settings'))
+        self.btnSettings.setShortcuts(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_Comma))
         self.btnSettings.triggered.connect(self.btnSettingsClicked)
 
         self.mainToolbar.addSeparator()
@@ -156,6 +161,7 @@ class MainWindow(QMainWindow):
 
         menuHelp = QMenu(self)
         self.btnHelp = menuHelp.addAction(icon.HELP, _('Help'))
+        self.btnHelp.setShortcuts([Qt.Key_F1])
         self.btnHelp.triggered.connect(self.btnHelpClicked)
         self.btnHelpConfig = menuHelp.addAction(icon.HELP, _('Config File Help'))
         self.btnHelpConfig.triggered.connect(self.btnHelpConfigClicked)
@@ -257,7 +263,7 @@ class MainWindow(QMainWindow):
         filesLayout.addWidget(self.filesViewToolbar)
 
         #menubar
-        self.menuSnapshot = self.menuBar().addMenu(_('Snapshot'))
+        self.menuSnapshot = self.menuBar().addMenu(_('&Snapshot'))
         self.menuSnapshot.addAction(self.btnTakeSnapshot)
         self.menuSnapshot.addAction(self.btnUpdateSnapshots)
         self.menuSnapshot.addAction(self.btnNameSnapshot)
@@ -268,7 +274,7 @@ class MainWindow(QMainWindow):
         self.menuSnapshot.addAction(self.btnShutdown)
         self.menuSnapshot.addAction(self.btnQuit)
 
-        self.menuView = self.menuBar().addMenu(_('View'))
+        self.menuView = self.menuBar().addMenu(_('&View'))
         self.menuView.addAction(self.btnFolderUp)
         self.menuView.addAction(self.btnShowHiddenFiles)
         self.menuView.addSeparator()
@@ -277,14 +283,14 @@ class MainWindow(QMainWindow):
         self.menuView.addSeparator()
         self.menuView.addAction(self.btnSnapshots)
 
-        self.menuRestore = self.menuBar().addMenu(_('Restore'))
+        self.menuRestore = self.menuBar().addMenu(_('&Restore'))
         self.menuRestore.addAction(self.btnRestore)
         self.menuRestore.addAction(self.btnRestoreTo)
         self.menuRestore.addSeparator()
         self.menuRestore.addAction(self.btnRestoreParent)
         self.menuRestore.addAction(self.btnRestoreParentTo)
 
-        self.menuHelp = self.menuBar().addMenu(_('Help'))
+        self.menuHelp = self.menuBar().addMenu(_('&Help'))
         self.menuHelp.addAction(self.btnHelp)
         self.menuHelp.addAction(self.btnHelpConfig)
         self.menuHelp.addSeparator()

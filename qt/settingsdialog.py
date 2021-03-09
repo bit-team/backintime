@@ -103,7 +103,7 @@ class SettingsDialog(QDialog):
         #TAB: General
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.NoFrame)
-        self.tabs.addTab(scrollArea, _('General'))
+        self.tabs.addTab(scrollArea, _('&General'))
 
         layoutWidget = QWidget(self)
         layout = QVBoxLayout(layoutWidget)
@@ -392,7 +392,7 @@ class SettingsDialog(QDialog):
 
         #TAB: Include
         tabWidget = QWidget(self)
-        self.tabs.addTab(tabWidget, _('Include'))
+        self.tabs.addTab(tabWidget, _('&Include'))
         layout = QVBoxLayout(tabWidget)
 
         self.listInclude = QTreeWidget(self)
@@ -428,7 +428,7 @@ class SettingsDialog(QDialog):
 
         #TAB: Exclude
         tabWidget = QWidget(self)
-        self.tabs.addTab(tabWidget, _('Exclude'))
+        self.tabs.addTab(tabWidget, _('&Exclude'))
         layout = QVBoxLayout(tabWidget)
 
         self.lblSshEncfsExcludeWarning = QLabel(_('<b>Warning:</b> Wildcards (\'foo*\', \'[fF]oo\', \'fo?\') will be ignored with mode \'SSH encrypted\'.\nOnly separate asterisk are allowed (\'foo/*\', \'foo/**/bar\')'), self)
@@ -503,7 +503,7 @@ class SettingsDialog(QDialog):
         #TAB: Auto-remove
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.NoFrame)
-        self.tabs.addTab(scrollArea, _('Auto-remove'))
+        self.tabs.addTab(scrollArea, _('&Auto-remove'))
 
         layoutWidget = QWidget(self)
         layout = QGridLayout(layoutWidget)
@@ -607,7 +607,7 @@ class SettingsDialog(QDialog):
         #TAB: Options
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.NoFrame)
-        self.tabs.addTab(scrollArea, _('Options'))
+        self.tabs.addTab(scrollArea, _('&Options'))
 
         layoutWidget = QWidget(self)
         layout = QVBoxLayout(layoutWidget)
@@ -668,7 +668,7 @@ class SettingsDialog(QDialog):
         #TAB: Expert Options
         scrollArea = QScrollArea(self)
         scrollArea.setFrameStyle(QFrame.NoFrame)
-        self.tabs.addTab(scrollArea, _('Expert Options'))
+        self.tabs.addTab(scrollArea, _('E&xpert Options'))
 
         layoutWidget = QWidget(self)
         layout = QVBoxLayout(layoutWidget)
