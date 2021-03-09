@@ -151,8 +151,9 @@ class MainWindow(QMainWindow):
         self.btnShutdown.setEnabled(self.shutdown.canShutdown())
         self.btnShutdown.toggled.connect(self.btnShutdownToggled)
 
-        self.btnQuit = self.mainToolbar.addAction(icon.EXIT, _('Exit'))
-        self.btnQuit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_W))
+        self.menuSnapshot = self.menuBar().addMenu(_('&Snapshot'))
+        self.btnQuit = self.menuSnapshot.addAction(icon.EXIT, _('Exit'))
+        self.btnQuit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Q))
         self.btnQuit.triggered.connect(self.close)
 
         empty = QWidget(self)
@@ -262,8 +263,6 @@ class MainWindow(QMainWindow):
 
         filesLayout.addWidget(self.filesViewToolbar)
 
-        #menubar
-        self.menuSnapshot = self.menuBar().addMenu(_('&Snapshot'))
         self.menuSnapshot.addAction(self.btnTakeSnapshot)
         self.menuSnapshot.addAction(self.btnUpdateSnapshots)
         self.menuSnapshot.addAction(self.btnNameSnapshot)
