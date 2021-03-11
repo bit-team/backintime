@@ -529,9 +529,12 @@ def rsyncCaps(data = None):
         data = proc.communicate()[0]
     caps = []
     #rsync >= 3.1 does provide --info=progress2
-    m = re.match(r'rsync\s*version\s*(\d\.\d)', data)
-    if m and StrictVersion(m.group(1)) >= StrictVersion('3.1'):
-        caps.append('progress2')
+    matchers = [r'rsync\s*version\s*(\d\.\d)', r'rsync\s*version\s*v(\d\.\d.\d)']
+    for matcher in matchers:
+        m = re.match(matcher, data)
+        if m and StrictVersion(m.group(1)) >= StrictVersion('3.1'):
+            caps.append('progress2')
+            break
 
     #all other capabilities are separated by ',' between
     #'Capabilities:' and '\n\n'
