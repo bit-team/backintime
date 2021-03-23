@@ -1353,10 +1353,13 @@ class Config(configfile.ConfigFileWithProfiles):
         if not self.isConfigured(profile_id):
             return False
 
-        if not os.path.isdir(self.snapshotsFullPath(profile_id)):
-            logger.error("%s does not exist"
-                         %self.snapshotsFullPath(profile_id),
-                         self)
+        path = self.snapshotsFullPath(profile_id)
+
+        if not os.path.exists(path):
+            return False
+
+        if not os.path.isdir(path):
+            logger.error("%s is not a directory"%path, self)
             return False
 
         return True
