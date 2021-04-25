@@ -607,8 +607,11 @@ class MountControl(object):
         if os.path.ismount(self.currentMountpoint):
             return True
         else:
-            if os.listdir(self.currentMountpoint):
-                raise MountException(_('mountpoint %s not empty.') % self.currentMountpoint)
+            try:
+                if os.listdir(self.currentMountpoint):
+                    raise MountException(_('mountpoint %s not empty.') % self.currentMountpoint)
+            except FileNotFoundError:
+                pass
             return False
 
     def createMountStructure(self):
