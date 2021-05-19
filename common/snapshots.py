@@ -42,6 +42,7 @@ import bcolors
 import snapshotlog
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
+import humanfriendly
 
 _=gettext.gettext
 
@@ -2353,15 +2354,21 @@ class SID(object):
                     if size is None:
                         size = 0
                     if not line is None:
-                        if line.startswith("====") or line.strip() == "":
+                        if line.startswith("===="):
                             result.append(line)
+                        elif line.strip() == "":
+                            continue
                         else:
                             order.append((size, line))
-
                 if sort < 0:
                     order = sorted(order)
                 elif sort > 0:
                     order = sorted(order, reverse=True)
+                finalsize = 0
+                for i in order:
+                    finalsize = finalsize + i[0]
+                result.append("Snapshotsize: " + humanfriendly.format_size(finalsize))
+                result.append("")
                 for i in order:
                     result.append(i[1])
         except Exception as e:

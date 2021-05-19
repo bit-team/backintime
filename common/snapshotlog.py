@@ -22,6 +22,7 @@ import gettext
 import logger
 import snapshots
 import tools
+import humanfriendly
 
 _=gettext.gettext
 
@@ -80,7 +81,6 @@ class LogFilter(object):
             str:        decoded ``line`` or ``None`` if the line was filtered
             int:        size of the file in bytes, ``None`` if no size was found.
         """
-
         has_size = False
         original_line = str(line)
         size = 0
@@ -88,7 +88,6 @@ class LogFilter(object):
             has_size = True
             start = line.find("[", 3)+1
             end = line.find(" bytes]")
-            import humanfriendly
             size = int(line[start:end])
             size_hr = " ["+humanfriendly.format_size(size)+"]"
             line = line[0:start-2]
@@ -172,14 +171,22 @@ class SnapshotLog(object):
                         count += 1
                         if count <= skipLines:
                             continue
-                        if line.startswith("====") or line.strip() == "":
+                        if line.startswith("===="):
                             result.append(line)
+                        elif line.strip() == "":
+                            continue
                         else:
                             order.append((size, line))
                 if sort < 0:
                     order = sorted(order)
                 elif sort > 0:
                     order = sorted(order, reverse=True)
+                finalsize = 0
+                for i in order:
+                    finalsize = finalsize + i[0]
+
+                result.append("Snapshotsize: " + humanfriendly.format_size(finalsize))
+                result.append("")
                 for i in order:
                     result.append(i[1])
         except Exception as e:
