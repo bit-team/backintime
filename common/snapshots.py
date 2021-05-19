@@ -1012,7 +1012,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         # It should delete the excluded folders then
         rsync_prefix.extend(('--delete', '--delete-excluded'))
         rsync_prefix.append('-v')
-        rsync_prefix.extend(('-i', '--out-format=BACKINTIME: %i %n%L'))
+        rsync_prefix.extend(('-i', '--out-format=BACKINTIME: %i %n%L [%b bytes]'))
         if prev_sid:
             link_dest = encode.path(os.path.join(prev_sid.sid, 'backup'))
             link_dest = os.path.join(os.pardir, os.pardir, link_dest)

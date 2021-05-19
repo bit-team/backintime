@@ -79,15 +79,31 @@ class LogFilter(object):
         Returns:
             str:        decoded ``line`` or ``None`` if the line was filtered
         """
+
+        has_size = False
+        original_line = str(line)
+        if line.startswith("[C]") and line.endswith("bytes]"):
+            has_size = True
+            start = line.find("[", 3)+1
+            end = line.find(" bytes]")
+            import humanfriendly
+            size = " ["+humanfriendly.format_size(int(line[start:end]))+"]"
+            line = line[0:start-2]
+
         if not line:
             #keep empty lines
             return line
         if self.regex and not self.regex.match(line):
             return
         if self.decode:
-            return self.decode.log(line)
+            ret = self.decode.log(line)
+            if has_size:
+                ret = ret + size
+            return ret
         else:
-            return line
+            if has_size:
+                return line + size
+            return original_line
 
 class SnapshotLog(object):
     """
