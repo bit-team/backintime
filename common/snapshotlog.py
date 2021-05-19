@@ -172,8 +172,10 @@ class SnapshotLog(object):
                         count += 1
                         if count <= skipLines:
                             continue
-                        order.append((size, line))
-
+                        if line.startswith("====") or line.strip() == "":
+                            result.append(line)
+                        else:
+                            order.append((size, line))
                 if sort < 0:
                     order = sorted(order)
                 elif sort > 0:

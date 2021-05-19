@@ -2353,7 +2353,10 @@ class SID(object):
                     if size is None:
                         size = 0
                     if not line is None:
-                        order.append((size, line))
+                        if line.startswith("====") or line.strip() == "":
+                            result.append(line)
+                        else:
+                            order.append((size, line))
 
                 if sort < 0:
                     order = sorted(order)
