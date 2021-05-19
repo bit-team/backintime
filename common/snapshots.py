@@ -2327,7 +2327,7 @@ class SID(object):
             logger.error('Failed to write {}: {}'.format(self.FILEINFO, str(e)))
 
     #TODO: use @property decorator
-    def log(self, mode = None, decode = None):
+    def log(self, mode = None, decode = None, sort = 0):
         """
         Load log from "takesnapshot.log.bz2"
 
@@ -2335,25 +2335,39 @@ class SID(object):
             mode (int):                 Mode used for filtering. Take a look at
                                         :py:class:`snapshotlog.LogFilter`
             decode (encfstools.Decode): instance used for decoding lines or ``None``
-
+            sort (int):                 0 for no sorting, -1 for ascending filesizes,
+                                        1 for descending filesizes
         Yields:
             str:                        filtered and decoded log lines
         """
         logFile = self.path(self.LOG)
         logFilter = snapshotlog.LogFilter(mode, decode)
+        result = []
+        order = []
         try:
             with bz2.BZ2File(logFile, 'rb') as f:
                 if logFilter.header:
-                    yield logFilter.header
+                    result.append(logFilter.header)
                 for line in f.readlines():
-                    line = logFilter.filter(line.decode('utf-8').rstrip('\n'))
+                    line, size = logFilter.filter(line.decode('utf-8').rstrip('\n'))
+                    if size is None:
+                        size = 0
                     if not line is None:
-                        yield line
+                        order.append((size, line))
+
+                if sort < 0:
+                    order = sorted(order)
+                elif sort > 0:
+                    order = sorted(order, reverse=True)
+                for i in order:
+                    result.append(i[1])
         except Exception as e:
             msg = ('Failed to get snapshot log from {}:'.format(logFile), str(e))
             logger.debug(' '.join(msg), self)
             for line in msg:
-                yield line
+                result.append(line)
+        for i in result:
+            yield i
 
     def setLog(self, log):
         """

@@ -46,6 +46,7 @@ class LogViewDialog(QDialog):
         self.sid = sid
         self.enableUpdate = False
         self.decode = None
+        self.sort = 0
 
         w = self.config.intValue('qt.logview.width', 800)
         h = self.config.intValue('qt.logview.height', 500)
@@ -113,6 +114,10 @@ class LogViewDialog(QDialog):
         self.cbDecode = QCheckBox(_('decode paths'), self)
         self.cbDecode.stateChanged.connect(self.cbDecodeChanged)
         self.mainLayout.addWidget(self.cbDecode)
+        self.cbSort = QPushButton(_('sort filesize'), self)
+        self.cbSort.setText(_("Sort by Time"))
+        self.cbSort.clicked.connect(self.clickSorting)
+        self.mainLayout.addWidget(self.cbSort)
 
         #buttons
         buttonBox = QDialogButtonBox(QDialogButtonBox.Close)
@@ -240,6 +245,18 @@ class LogViewDialog(QDialog):
             if self.cbDecode.isChecked():
                 self.cbDecode.setChecked(False)
 
+    def clickSorting(self):
+        if self.sort == 0:
+            self.sort = -1
+            self.cbSort.setText(_("Sort by Size, Ascending"))
+        elif self.sort == -1:
+            self.sort = 1
+            self.cbSort.setText(_("Sort by Size, Descending"))
+        else:
+            self.sort = 0
+            self.cbSort.setText(_("Sort by Time"))
+        self.updateLog()
+
     def updateLog(self, watchPath = None):
         if not self.enableUpdate:
             return
@@ -263,9 +280,9 @@ class LogViewDialog(QDialog):
 
         elif self.sid is None:
             log = snapshotlog.SnapshotLog(self.config, self.comboProfiles.currentProfileID())
-            self.txtLogView.setPlainText('\n'.join(log.get(mode = mode, decode = self.decode)))
+            self.txtLogView.setPlainText('\n'.join(log.get(mode = mode, decode = self.decode, sort = self.sort)))
         else:
-            self.txtLogView.setPlainText('\n'.join(self.sid.log(mode, decode = self.decode)))
+            self.txtLogView.setPlainText('\n'.join(self.sid.log(mode, decode = self.decode, sort = self.sort)))
 
     def closeEvent(self, event):
         self.config.setIntValue('qt.logview.width', self.width())

@@ -78,32 +78,35 @@ class LogFilter(object):
 
         Returns:
             str:        decoded ``line`` or ``None`` if the line was filtered
+            int:        size of the file in bytes, ``None`` if no size was found.
         """
 
         has_size = False
         original_line = str(line)
+        size = 0
         if line.startswith("[C]") and line.endswith("bytes]"):
             has_size = True
             start = line.find("[", 3)+1
             end = line.find(" bytes]")
             import humanfriendly
-            size = " ["+humanfriendly.format_size(int(line[start:end]))+"]"
+            size = int(line[start:end])
+            size_hr = " ["+humanfriendly.format_size(size)+"]"
             line = line[0:start-2]
 
         if not line:
             #keep empty lines
-            return line
+            return line, None
         if self.regex and not self.regex.match(line):
-            return
+            return None, None
         if self.decode:
             ret = self.decode.log(line)
             if has_size:
-                ret = ret + size
-            return ret
+                ret = ret + size_hr
+            return ret, size
         else:
             if has_size:
-                return line + size
-            return original_line
+                return line + size_hr, size
+            return original_line, None
 
 class SnapshotLog(object):
     """
@@ -136,7 +139,7 @@ class SnapshotLog(object):
         if self.logFile:
             self.logFile.close()
 
-    def get(self, mode = None, decode = None, skipLines = 0):
+    def get(self, mode = None, decode = None, skipLines = 0, sort = 0):
         """
         Read the log, filter and decode it and yield its lines.
 
@@ -147,28 +150,43 @@ class SnapshotLog(object):
             skipLines (int):            skip ``n`` lines before yielding lines.
                                         This is used to append only new lines
                                         to LogView
+            sort (int):                 0 for no sorting, -1 for ascending filesizes,
+                                        1 for descending filesizes
 
         Yields:
             str:                        filtered and decoded log lines
         """
         logFilter = LogFilter(mode, decode)
         count = logFilter.header.count('\n')
+        result = []
+        order = []
         try:
             with open(self.logFileName, 'rt') as f:
                 if logFilter.header and not skipLines:
-                    yield logFilter.header
+                    result.append(logFilter.header)
                 for line in f.readlines():
-                    line = logFilter.filter(line.rstrip('\n'))
+                    line, size = logFilter.filter(line.rstrip('\n'))
+                    if size is None:
+                        size = 0
                     if not line is None:
                         count += 1
                         if count <= skipLines:
                             continue
-                        yield line
+                        order.append((size, line))
+
+                if sort < 0:
+                    order = sorted(order)
+                elif sort > 0:
+                    order = sorted(order, reverse=True)
+                for i in order:
+                    result.append(i[1])
         except Exception as e:
             msg = ('Failed to get take_snapshot log from {}:'.format(self.logFile), str(e))
             logger.debug(' '.join(msg), self)
             for line in msg:
-                yield line
+                result.append(line)
+        for i in result:
+            yield i
 
     def new(self, date):
         """
