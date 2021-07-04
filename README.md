@@ -1,6 +1,6 @@
 # Back In Time
 
-Copyright (C) 2008-2019 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
+Copyright (C) 2008-2021 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
 
 [![Build Status](https://travis-ci.org/bit-team/backintime.svg?branch=master)](https://travis-ci.org/bit-team/backintime)
 [![Coverage Status](https://coveralls.io/repos/github/bit-team/backintime/badge.svg?branch=master)](https://coveralls.io/github/bit-team/backintime?branch=master)
