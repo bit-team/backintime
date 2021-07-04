@@ -32,13 +32,13 @@ class NotifyPlugin(pluginmanager.Plugin):
 
         if not self.user:
             try:
-                user = os.environ['USER']
+                self.user = os.environ['USER']
             except:
                 pass
 
         if not self.user:
             try:
-                user = os.environ['LOGNAME']
+                self.user = os.environ['LOGNAME']
             except:
                 pass
 
