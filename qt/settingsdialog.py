@@ -1707,7 +1707,7 @@ class SettingsDialog(QDialog):
     def formatExcludeItem(self, item):
         if self.mode == 'ssh_encfs' and tools.patternHasNotEncryptableWildcard(item.text(0)):
             item.setIcon(0, self.icon.INVALID_EXCLUDE)
-            item.setBackground(0, QBrush(Qt.lightGray))
+            item.setBackground(0, QPalette().brush(QPalette.Active, QPalette.Link))
         elif item.text(0) in self.config.DEFAULT_EXCLUDE:
             item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
             item.setBackground(0, QBrush())
