@@ -1802,7 +1802,7 @@ class PathHistory(object):
         self.history = [path,]
         self.index = 0
 
-class OrderedSet(collections.MutableSet):
+class OrderedSet(collections.abc.MutableSet):
     """
     OrderedSet from Python recipe
     http://code.activestate.com/recipes/576694/
