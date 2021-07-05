@@ -25,7 +25,10 @@ import re
 import errno
 import gzip
 import tempfile
-import collections
+try:
+    from collections.abc import MutableSet
+except ImportError:
+    from collections import MutableSet
 import hashlib
 import ipaddress
 import atexit
@@ -1802,7 +1805,7 @@ class PathHistory(object):
         self.history = [path,]
         self.index = 0
 
-class OrderedSet(collections.MutableSet):
+class OrderedSet(MutableSet):
     """
     OrderedSet from Python recipe
     http://code.activestate.com/recipes/576694/
