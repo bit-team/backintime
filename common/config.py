@@ -1159,6 +1159,18 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileBoolValue('snapshots.rsync_options.enabled', enabled, profile_id)
         self.setProfileStrValue('snapshots.rsync_options.value', value, profile_id)
 
+    def timeRestrictionEnabled(self, profile_id = None):
+        #?Execution time restrictions in cron lines
+        return self.profileBoolValue('snapshots.time_restriction.enabled', False, profile_id)
+
+    def timeRestriction(self, profile_id = None):
+        #?Execution time restrictions. Options must be in cron hour format, e.g. 6-22
+        return self.profileStrValue('snapshots.time_restriction.value', '', profile_id)
+
+    def setTimeRestriction(self, enabled, value, profile_id = None):
+        self.setProfileBoolValue('snapshots.time_restriction.enabled', enabled, profile_id)
+        self.setProfileStrValue('snapshots.time_restriction.value', value, profile_id)
+
     def sshPrefixEnabled(self, profile_id = None):
         #?Add prefix to every command which run through SSH on remote host.
         return self.profileBoolValue('snapshots.ssh.prefix.enabled', False, profile_id)
@@ -1508,17 +1520,20 @@ class Config(configfile.ConfigFileWithProfiles):
         minute = self.scheduleTime(profile_id) % 100
         day = self.scheduleDay(profile_id)
         weekday = self.scheduleWeekday(profile_id)
+        cron_hour_value = '*'
+        if self.timeRestrictionEnabled(profile_id):
+            cron_hour_value = self.timeRestriction(profile_id)
 
         if self.AT_EVERY_BOOT == backup_mode:
             cron_line = '@reboot {cmd}'
         elif self._5_MIN == backup_mode:
-            cron_line = '*/5 * * * * {cmd}'
+            cron_line = '*/5 %s * * * {cmd}' % (cron_hour_value)
         elif self._10_MIN == backup_mode:
-            cron_line = '*/10 * * * * {cmd}'
+            cron_line = '*/10 %s * * * {cmd}' % (cron_hour_value)
         elif self._30_MIN == backup_mode:
-            cron_line = '*/30 * * * * {cmd}'
+            cron_line = '*/30 %s * * * {cmd}' % (cron_hour_value)
         elif self._1_HOUR == backup_mode:
-            cron_line = '0 * * * * {cmd}'
+            cron_line = '0 %s * * * {cmd}' % (cron_hour_value)
         elif self._2_HOURS == backup_mode:
             cron_line = '0 */2 * * * {cmd}'
         elif self._4_HOURS == backup_mode:
@@ -1533,9 +1548,9 @@ class Config(configfile.ConfigFileWithProfiles):
             cron_line = '%s %s * * * {cmd}' % (minute, hour)
         elif self.REPEATEDLY == backup_mode:
             if self.scheduleRepeatedUnit(profile_id) <= self.DAY:
-                cron_line = '*/15 * * * * {cmd}'
+                cron_line = '*/15 %s * * * {cmd}' % (cron_hour_value)
             else:
-                cron_line = '0 * * * * {cmd}'
+                cron_line = '0 %s * * * {cmd}' % (cron_hour_value)
         elif self.UDEV == backup_mode:
             if not self.setupUdev.isReady:
                 logger.error("Failed to install Udev rule for profile %s. "

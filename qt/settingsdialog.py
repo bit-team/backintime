@@ -845,6 +845,19 @@ class SettingsDialog(QDialog):
         enabled(False)
         self.cbRsyncOptions.stateChanged.connect(enabled)
 
+        # time restriction
+        hlayout = QHBoxLayout()
+        layout.addLayout(hlayout)
+        self.cbTimeRestriction = QCheckBox(_('Execution time restrictions'), self)
+        hlayout.addWidget(self.cbTimeRestriction)
+        self.txtTimeRestriction = QLineEdit(self)
+        self.txtTimeRestriction.setToolTip(_('Time restriction must be given in cron format for hours (e.g. 6-22).'))
+        hlayout.addWidget(self.txtTimeRestriction)
+
+        enabled = lambda state: self.txtTimeRestriction.setEnabled(state)
+        enabled(False)
+        self.cbTimeRestriction.stateChanged.connect(enabled)
+
         #ssh prefix
         hlayout = QHBoxLayout()
         layout.addLayout(hlayout)
@@ -1188,6 +1201,8 @@ class SettingsDialog(QDialog):
         self.cbCopyLinks.setChecked(self.config.copyLinks())
         self.cbRsyncOptions.setChecked(self.config.rsyncOptionsEnabled())
         self.txtRsyncOptions.setText(self.config.rsyncOptions())
+        self.cbTimeRestriction.setChecked(self.config.timeRestrictionEnabled())
+        self.txtTimeRestriction.setText(self.config.timeRestriction())
         self.cbSshPrefix.setChecked(self.config.sshPrefixEnabled())
         self.txtSshPrefix.setText(self.config.sshPrefix())
         self.cbSshCheckPing.setChecked(self.config.sshCheckPingHost())
@@ -1338,6 +1353,8 @@ class SettingsDialog(QDialog):
         self.config.setCopyLinks(self.cbCopyLinks.isChecked())
         self.config.setRsyncOptions(self.cbRsyncOptions.isChecked(),
                                     self.txtRsyncOptions.text())
+        self.config.setTimeRestriction(self.cbTimeRestriction.isChecked(),
+                                       self.txtTimeRestriction.text())
         self.config.setSshPrefix(self.cbSshPrefix.isChecked(),
                                  self.txtSshPrefix.text())
         self.config.setSshCheckPingHost(self.cbSshCheckPing.isChecked())
