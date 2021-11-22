@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-27 15:27+0200\n"
+"POT-Creation-Date: 2021-11-22 20:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,158 +101,162 @@ msgstr ""
 msgid "Every Month"
 msgstr ""
 
-#: ../../common/config.py:96 ../../common/config.py:103
-msgid "Day(s)"
+#: ../../common/config.py:93
+msgid "Every Year"
 msgstr ""
 
 #: ../../common/config.py:97 ../../common/config.py:104
+msgid "Day(s)"
+msgstr ""
+
+#: ../../common/config.py:98 ../../common/config.py:105
 msgid "Week(s)"
 msgstr ""
 
-#: ../../common/config.py:98
+#: ../../common/config.py:99
 msgid "Year(s)"
 msgstr ""
 
-#: ../../common/config.py:102
+#: ../../common/config.py:103
 msgid "Hour(s)"
 msgstr ""
 
-#: ../../common/config.py:105
+#: ../../common/config.py:106
 msgid "Month(s)"
 msgstr ""
 
-#: ../../common/config.py:126 ../../qt/settingsdialog.py:564
+#: ../../common/config.py:127 ../../qt/settingsdialog.py:564
 msgid " EXPERIMENTAL!"
 msgstr ""
 
-#: ../../common/config.py:129
+#: ../../common/config.py:130
 msgid "Local"
 msgstr ""
 
-#: ../../common/config.py:130
+#: ../../common/config.py:131
 msgid "SSH"
 msgstr ""
 
-#: ../../common/config.py:130 ../../common/config.py:132
-#: ../../qt/settingsdialog.py:1629
+#: ../../common/config.py:131 ../../common/config.py:133
+#: ../../qt/settingsdialog.py:1646
 msgid "SSH private key"
 msgstr ""
 
-#: ../../common/config.py:131
+#: ../../common/config.py:132
 msgid "Local encrypted"
 msgstr ""
 
-#: ../../common/config.py:131 ../../common/config.py:132
+#: ../../common/config.py:132 ../../common/config.py:133
 msgid "Encryption"
 msgstr ""
 
-#: ../../common/config.py:132
+#: ../../common/config.py:133
 msgid "SSH encrypted"
 msgstr ""
 
-#: ../../common/config.py:135
+#: ../../common/config.py:136
 msgid "Default"
 msgstr ""
 
-#: ../../common/config.py:136
+#: ../../common/config.py:137
 msgid "AES128-CTR"
 msgstr ""
 
-#: ../../common/config.py:137
+#: ../../common/config.py:138
 msgid "AES192-CTR"
 msgstr ""
 
-#: ../../common/config.py:138
+#: ../../common/config.py:139
 msgid "AES256-CTR"
 msgstr ""
 
-#: ../../common/config.py:139
+#: ../../common/config.py:140
 msgid "ARCFOUR256"
 msgstr ""
 
-#: ../../common/config.py:140
+#: ../../common/config.py:141
 msgid "ARCFOUR128"
 msgstr ""
 
-#: ../../common/config.py:141
+#: ../../common/config.py:142
 msgid "AES128-CBC"
 msgstr ""
 
-#: ../../common/config.py:142
+#: ../../common/config.py:143
 msgid "3DES-CBC"
 msgstr ""
 
-#: ../../common/config.py:143
+#: ../../common/config.py:144
 msgid "Blowfish-CBC"
 msgstr ""
 
-#: ../../common/config.py:144
+#: ../../common/config.py:145
 msgid "Cast128-CBC"
 msgstr ""
 
-#: ../../common/config.py:145
+#: ../../common/config.py:146
 msgid "AES192-CBC"
 msgstr ""
 
-#: ../../common/config.py:146
+#: ../../common/config.py:147
 msgid "AES256-CBC"
 msgstr ""
 
-#: ../../common/config.py:147
+#: ../../common/config.py:148
 msgid "ARCFOUR"
 msgstr ""
 
-#: ../../common/config.py:153
+#: ../../common/config.py:154
 msgid "Main profile"
 msgstr ""
 
-#: ../../common/config.py:295 ../../common/config.py:302
-#: ../../common/config.py:313 ../../common/config.py:318
+#: ../../common/config.py:296 ../../common/config.py:303
+#: ../../common/config.py:314 ../../common/config.py:319
 #: ../../qt/qtsystrayicon.py:69
 #, python-format
 msgid "Profile: \"%s\""
 msgstr ""
 
-#: ../../common/config.py:295
+#: ../../common/config.py:296
 msgid "Snapshots folder is not valid !"
 msgstr ""
 
-#: ../../common/config.py:302
+#: ../../common/config.py:303
 msgid "You must select at least one folder to backup !"
 msgstr ""
 
-#: ../../common/config.py:313
+#: ../../common/config.py:314
 msgid "You can't include backup folder !"
 msgstr ""
 
-#: ../../common/config.py:318
+#: ../../common/config.py:319
 msgid "You can't include a backup sub-folder !"
 msgstr ""
 
-#: ../../common/config.py:373
+#: ../../common/config.py:374
 #, python-format
 msgid "%s is not a folder !"
 msgstr ""
 
-#: ../../common/config.py:382
+#: ../../common/config.py:383
 msgid "Host/User/Profile-ID must not be empty!"
 msgstr ""
 
-#: ../../common/config.py:390 ../../common/config.py:424
+#: ../../common/config.py:391 ../../common/config.py:425
 #, python-format
 msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
 
-#: ../../common/config.py:404
+#: ../../common/config.py:405
 #, python-format
 msgid ""
 "Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
 
-#: ../../common/config.py:409
+#: ../../common/config.py:410
 #, python-format
 msgid ""
 "Destination filsystem for '%(path)s' is a SMB mounted share. Please make "
@@ -260,45 +264,45 @@ msgid ""
 "'%(expertOptions)s'."
 msgstr ""
 
-#: ../../common/config.py:412 ../../qt/settingsdialog.py:819
+#: ../../common/config.py:413 ../../qt/settingsdialog.py:819
 msgid "Copy links (dereference symbolic links)"
 msgstr ""
 
-#: ../../common/config.py:413 ../../qt/settingsdialog.py:671
+#: ../../common/config.py:414 ../../qt/settingsdialog.py:671
 msgid "Expert Options"
 msgstr ""
 
-#: ../../common/config.py:415
+#: ../../common/config.py:416
 #, python-format
 msgid ""
 "Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
 
-#: ../../common/config.py:1442
+#: ../../common/config.py:1455
 msgid ""
 "Can't find crontab.\n"
 "Are you sure cron is installed ?\n"
 "If not you should disable all automatic backups."
 msgstr ""
 
-#: ../../common/config.py:1446
+#: ../../common/config.py:1459
 msgid "Failed to write new crontab."
 msgstr ""
 
-#: ../../common/config.py:1543
+#: ../../common/config.py:1559
 #, python-format
 msgid ""
 "Could not install Udev rule for profile %(profile_id)s. DBus Service "
 "'%(dbus_interface)s' wasn't available"
 msgstr ""
 
-#: ../../common/config.py:1555
+#: ../../common/config.py:1571
 #, python-format
 msgid "Schedule udev doesn't work with mode %s"
 msgstr ""
 
-#: ../../common/config.py:1564
+#: ../../common/config.py:1580
 #, python-format
 msgid "Couldn't find UUID for \"%s\""
 msgstr ""
@@ -369,12 +373,12 @@ msgid ""
 "Look at 'man backintime' for further instructions."
 msgstr ""
 
-#: ../../common/mount.py:611
+#: ../../common/mount.py:612
 #, python-format
 msgid "mountpoint %s not empty."
 msgstr ""
 
-#: ../../common/mount.py:674
+#: ../../common/mount.py:677
 msgid "Mountprocess lock timeout"
 msgstr ""
 
@@ -557,12 +561,12 @@ msgid ""
 " %s"
 msgstr ""
 
-#: ../../common/sshtools.py:510
+#: ../../common/sshtools.py:512
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
 msgstr ""
 
-#: ../../common/sshtools.py:577 ../../common/sshtools.py:682
+#: ../../common/sshtools.py:579 ../../common/sshtools.py:684
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
@@ -570,7 +574,7 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:685
+#: ../../common/sshtools.py:687
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
@@ -578,12 +582,12 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:698
+#: ../../common/sshtools.py:700
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
 msgstr ""
 
-#: ../../common/sshtools.py:761
+#: ../../common/sshtools.py:763
 #, python-format
 msgid ""
 "Copy public ssh-key \"%(pubkey)s\" to remote host \"%(host)s\".\n"
@@ -682,12 +686,12 @@ msgstr ""
 msgid "Up"
 msgstr ""
 
-#: ../../qt/app.py:214 ../../qt/settingsdialog.py:1842
+#: ../../qt/app.py:214 ../../qt/settingsdialog.py:1859
 msgid "Show hidden files"
 msgstr ""
 
 #: ../../qt/app.py:224 ../../qt/app.py:247 ../../qt/app.py:280
-#: ../../qt/restoredialog.py:51 ../../qt/settingsdialog.py:1884
+#: ../../qt/restoredialog.py:51 ../../qt/settingsdialog.py:1901
 #: ../../qt/snapshotsdialog.py:139 ../../qt/snapshotsdialog.py:144
 msgid "Restore"
 msgstr ""
@@ -928,7 +932,7 @@ msgid "Snapshot Log View"
 msgstr ""
 
 #: ../../qt/logviewdialog.py:67 ../../qt/settingsdialog.py:67
-#: ../../qt/settingsdialog.py:294 ../../qt/settingsdialog.py:1971
+#: ../../qt/settingsdialog.py:294 ../../qt/settingsdialog.py:1988
 msgid "Profile:"
 msgstr ""
 
@@ -1039,7 +1043,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:116 ../../qt/settingsdialog.py:1973
+#: ../../qt/settingsdialog.py:116 ../../qt/settingsdialog.py:1990
 msgid "Mode:"
 msgstr ""
 
@@ -1051,7 +1055,7 @@ msgid ""
 "NOTE ON SECURITY' in 'man backintime'."
 msgstr ""
 
-#: ../../qt/settingsdialog.py:139 ../../qt/settingsdialog.py:1613
+#: ../../qt/settingsdialog.py:139 ../../qt/settingsdialog.py:1630
 msgid "Where to save snapshots"
 msgstr ""
 
@@ -1112,7 +1116,7 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:300 ../../qt/settingsdialog.py:1693
+#: ../../qt/settingsdialog.py:300 ../../qt/settingsdialog.py:1710
 msgid "Full snapshot path: "
 msgstr ""
 
@@ -1388,10 +1392,18 @@ msgid ""
 msgstr ""
 
 #: ../../qt/settingsdialog.py:851
-msgid "Add prefix to SSH commands"
+msgid "Execution time restrictions"
 msgstr ""
 
 #: ../../qt/settingsdialog.py:854
+msgid "Time restriction must be given in cron format for hours (e.g. 6-22)."
+msgstr ""
+
+#: ../../qt/settingsdialog.py:864
+msgid "Add prefix to SSH commands"
+msgstr ""
+
+#: ../../qt/settingsdialog.py:867
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1403,41 +1415,41 @@ msgid ""
 "%(default)s: %(def_value)s"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:862 ../../qt/settingsdialog.py:1744
+#: ../../qt/settingsdialog.py:875 ../../qt/settingsdialog.py:1761
 msgid "default"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:872
+#: ../../qt/settingsdialog.py:885
 msgid "Check if remote host is online"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:873
+#: ../../qt/settingsdialog.py:886
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
 
-#: ../../qt/settingsdialog.py:876
+#: ../../qt/settingsdialog.py:889
 msgid "Check if remote host support all necessary commands"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:877
+#: ../../qt/settingsdialog.py:890
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
 
-#: ../../qt/settingsdialog.py:890
+#: ../../qt/settingsdialog.py:903
 msgid "Restore Config"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:891
+#: ../../qt/settingsdialog.py:904
 msgid "Edit user-callback"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:910
+#: ../../qt/settingsdialog.py:923
 msgid ""
 "Full system backup can only create a snapshot to be restored to the same "
 "physical disk(s) with the same disk partitioning as from the source; "
@@ -1448,43 +1460,43 @@ msgid ""
 "customized. Continue?"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:939
+#: ../../qt/settingsdialog.py:952
 msgid "New profile"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:955
+#: ../../qt/settingsdialog.py:968
 msgid "Rename profile"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:969
+#: ../../qt/settingsdialog.py:982
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1203
+#: ../../qt/settingsdialog.py:1218
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1239
+#: ../../qt/settingsdialog.py:1254
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1244
+#: ../../qt/settingsdialog.py:1259
 #, python-format
 msgid "Private key file \"%(file)s\" does not exist."
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1362
+#: ../../qt/settingsdialog.py:1379
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1379
+#: ../../qt/settingsdialog.py:1396
 #, python-format
 msgid ""
 "The authenticity of host \"%(host)s\" can't be established.\n"
@@ -1492,29 +1504,29 @@ msgid ""
 "%(keytype)s key fingerprint is:"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1387
+#: ../../qt/settingsdialog.py:1404
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1534
+#: ../../qt/settingsdialog.py:1551
 msgid "Exclude pattern"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1547
+#: ../../qt/settingsdialog.py:1564
 msgid "Exclude file"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1551
+#: ../../qt/settingsdialog.py:1568
 msgid "Exclude folder"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1570
+#: ../../qt/settingsdialog.py:1587
 msgid "Include file"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1578 ../../qt/settingsdialog.py:1598
+#: ../../qt/settingsdialog.py:1595 ../../qt/settingsdialog.py:1615
 #, python-format
 msgid ""
 "\"%s\" is a symlink. The linked target will not be backed up until you "
@@ -1522,36 +1534,36 @@ msgid ""
 "Would you like to include the symlinks target instead?"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1590
+#: ../../qt/settingsdialog.py:1607
 msgid "Include folder"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1617
+#: ../../qt/settingsdialog.py:1634
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1638
+#: ../../qt/settingsdialog.py:1655
 #, python-format
 msgid "Failed to create new SSH key in %(path)s"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1741
+#: ../../qt/settingsdialog.py:1758
 msgid "enabled"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1743
+#: ../../qt/settingsdialog.py:1760
 msgid "disabled"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1781
+#: ../../qt/settingsdialog.py:1798
 msgid "Restore Settings"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1798
+#: ../../qt/settingsdialog.py:1815
 msgid " and add your user to group 'fuse'"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1802
+#: ../../qt/settingsdialog.py:1819
 #, python-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore %(appName)s's "
@@ -1564,15 +1576,15 @@ msgid ""
 "Take a look at 'man backintime'."
 msgstr ""
 
-#: ../../qt/settingsdialog.py:1860 ../../qt/settingsdialog.py:1923
+#: ../../qt/settingsdialog.py:1877 ../../qt/settingsdialog.py:1940
 msgid "No config found"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:2099
+#: ../../qt/settingsdialog.py:2116
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 
-#: ../../qt/settingsdialog.py:2103
+#: ../../qt/settingsdialog.py:2120
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 
