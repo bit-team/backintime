@@ -59,7 +59,7 @@ Default: Main profile
 .RS
 Type: str       Allowed Values: comma separated int (8,12,18,23) or */3
 .br
-Custom hours for cronjob. Only valid for \fIprofile<N>.schedule.mode\fR = 19 
+Custom hours for cronjob. Only valid for \fIprofile<N>.schedule.mode\fR = 19
 .PP
 Default: 8,12,18,23
 .RE
@@ -111,7 +111,7 @@ Which schedule used for crontab. The crontab entry will be generated with 'backi
 .br
 40 = every month
 .br
-80 = every year 
+80 = every year
 .PP
 Default: 0
 .RE
@@ -570,6 +570,24 @@ rsync options. Options must be quoted e.g. \-\-exclude-from="/path/to/my exclude
 Default: ''
 .RE
 
+.IP "\fIprofile<N>.snapshots.time_restriction.enabled\fR" 6
+.RS
+Type: bool      Allowed Values: true|false
+.br
+Use restriction values for hour-values of crontab
+.PP
+Default: false
+.RE
+
+.IP "\fIprofile<N>.snapshots.time_restriction.value\fR" 6
+.RS
+Type: str       Allowed Values: text
+.br
+Time restrictions for crontab. Time restriction must be given in cron format for hours (e.g. 6-22)
+.PP
+Default: ''
+.RE
+
 .IP "\fIprofile<N>.snapshots.smart_remove\fR" 6
 .RS
 Type: bool      Allowed Values: true|false
@@ -738,7 +756,7 @@ Default: 'PATH=/opt/bin:/opt/sbin:\\$PATH'
 .RS
 Type: str       Allowed Values: absolute path to private key file
 .br
-Private key file used for password-less authentication on remote host. 
+Private key file used for password-less authentication on remote host.
 .PP
 Default: ~/.ssh/id_dsa
 .RE
