@@ -15,7 +15,7 @@ both written in Python3.
 
 You only need to specify 3 things:
 * where to save snapshots
-* what folders to backup
+* what folders to back up
 * backup frequency (manual, every hour, every day, every month)
 
 ## Documentation
