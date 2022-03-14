@@ -2,15 +2,14 @@
 # https://docs.travis-ci.com/user/languages/python
 
 language: python
+os: linux
 arch :
  - amd64
  - ppc64le
 
 # ensures that we have UUID filesystem mounts for proper testing
 sudo: true
-dist:
- - bionic
- - focal
+dist: focal
 
 addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
@@ -20,8 +19,8 @@ python:
   - "3.6"
   - "3.9"
   - "3.10"
-  - "3.9-dev" # 3.5 development branch
-  - "nightly" # currently points to 3.6-dev
+  - "3.9-dev"
+  - "nightly"
 
 before_install:
   # disable mongodb as we don't need it and it sometimes temporary fails
@@ -30,10 +29,13 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
-# jobs:
-#   exclude:
-#     - arch: ppc64le
-#       python: 3.4
+jobs:
+  exclude:
+    - arch: ppc64le
+      python:
+        - "3.9"
+        - "3.9-dev"
+        - "nightly"
 
 install:
   - pip install coveralls

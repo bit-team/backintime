@@ -451,7 +451,7 @@ class TestTools(generic.TestCase):
         self.assertEqual(tools.filesystem('/proc'), 'proc')
         self.assertRegex(tools.filesystem('/sys'), r'sys.*')
         self.assertRegex(tools.filesystem('/nonExistingFolder/foo/bar').lower(),
-                         r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs|tmpfs)')
+                         r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs|tmpfs|shiftfs)')
 
     # tools.uuidFromDev() get called from tools.uuidFromPath.
     # So we skip an extra unittest as it's hard to find a dev on all systems
