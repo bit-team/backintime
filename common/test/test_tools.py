@@ -87,6 +87,7 @@ class TestTools(generic.TestCase):
         cmd = [dummyPath]
         cmd.extend(args)
         self.subproc = subprocess.Popen(cmd)
+        sleep(0.1)
         return self.subproc.pid
 
     def killProcess(self):
