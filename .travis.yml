@@ -32,10 +32,11 @@ before_install:
 jobs:
   exclude:
     - arch: ppc64le
-      python:
-        - "3.9"
-        - "3.9-dev"
-        - "nightly"
+      python: "3.9"
+    - arch: ppc64le
+      python: "3.9-dev"
+    - arch: ppc64le
+      python: "nightly"
 
 install:
   - pip install coveralls
