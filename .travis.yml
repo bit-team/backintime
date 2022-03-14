@@ -2,22 +2,23 @@
 # https://docs.travis-ci.com/user/languages/python
 
 language: python
-arch : 
+arch :
  - amd64
  - ppc64le
 
 # ensures that we have UUID filesystem mounts for proper testing
 sudo: true
-dist: trusty
+dist: bionic
 
 addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
   ssh_known_hosts: localhost
 
 python:
-  - "3.4"
-  - "3.5"
-  - "3.5-dev" # 3.5 development branch
+  - "3.6"
+  - "3.9"
+  - "3.10"
+  - "3.9-dev" # 3.5 development branch
   - "nightly" # currently points to 3.6-dev
 
 before_install:
