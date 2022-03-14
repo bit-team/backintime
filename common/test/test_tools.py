@@ -445,7 +445,7 @@ class TestTools(generic.TestCase):
         self.assertEqual(tools.device('/proc'), 'proc')
         self.assertRegex(tools.device('/sys'), r'sys.*')
         self.assertRegex(tools.device('/nonExistingFolder/foo/bar'),
-                         r'(:?/dev/.*|tmpfs)')
+                         r'(:?/dev/.*|tmpfs|instances/containers/travis.*)')
 
     def test_filesystem(self):
         self.assertEqual(tools.filesystem('/proc'), 'proc')

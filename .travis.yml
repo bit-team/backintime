@@ -8,7 +8,9 @@ arch :
 
 # ensures that we have UUID filesystem mounts for proper testing
 sudo: true
-dist: bionic
+dist:
+ - bionic
+ - focal
 
 addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
@@ -28,10 +30,10 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
-jobs:
-  exclude:
-    - arch: ppc64le
-      python: 3.4
+# jobs:
+#   exclude:
+#     - arch: ppc64le
+#       python: 3.4
 
 install:
   - pip install coveralls
