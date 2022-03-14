@@ -696,6 +696,12 @@ class TestToolsUniquenessSet(generic.TestCase):
                 with open(i, 'wt') as f:
                     f.write('42')
 
+            #fix timestamps because otherwise test will fail on slow machines
+            obj  = os.stat(t1)
+            os.utime(t2, times = (obj.st_atime, obj.st_mtime))
+            obj  = os.stat(t3)
+            os.utime(t4, times = (obj.st_atime, obj.st_mtime))
+
             #same size and mtime
             uniqueness = tools.UniquenessSet(dc = False,
                                              follow_symlink = False,
@@ -768,6 +774,12 @@ class TestToolsUniquenessSet(generic.TestCase):
             for i in (t3, t4):
                 with open(i, 'wt') as f:
                     f.write('42')
+
+            #fix timestamps because otherwise test will fail on slow machines
+            obj  = os.stat(t1)
+            os.utime(t2, times = (obj.st_atime, obj.st_mtime))
+            obj  = os.stat(t3)
+            os.utime(t4, times = (obj.st_atime, obj.st_mtime))
 
             #same size and mtime
             uniqueness = tools.UniquenessSet(dc = False,
