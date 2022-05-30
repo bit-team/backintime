@@ -554,17 +554,17 @@ class SSH(MountControl):
             #check rsync
             rsync1 =  tools.rsyncPrefix(self.config, no_perms = False, progress = False)
             rsync1.append(tmp_file)
-            rsync1.append('%s@%s:"%s"/' %(self.user,
-                                        tools.escapeIPv6Address(self.host),
-                                        remote_tmp_dir_1))
+            rsync1.append('%s@%s:%s/' %(self.user,
+                                      tools.escapeIPv6Address(self.host),
+                                      remote_tmp_dir_1))
 
             #check remote rsync hard-link support
             rsync2 =  tools.rsyncPrefix(self.config, no_perms = False, progress = False)
             rsync2.append('--link-dest=../%s' %os.path.basename(remote_tmp_dir_1))
             rsync2.append(tmp_file)
-            rsync2.append('%s@%s:"%s"/' %(self.user,
-                                        tools.escapeIPv6Address(self.host),
-                                        remote_tmp_dir_2))
+            rsync2.append('%s@%s:%s/' %(self.user,
+                                      tools.escapeIPv6Address(self.host),
+                                      remote_tmp_dir_2))
 
             for cmd in (rsync1, rsync2):
                 logger.debug('Check rsync command: %s' %cmd, self)

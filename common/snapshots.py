@@ -1647,7 +1647,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         return snapshotsFiltered
 
     #TODO: move this to config.Config
-    def rsyncRemotePath(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = '"'):
+    def rsyncRemotePath(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = ''):
         """
         Format the destination string for rsync depending on which profile is
         used.
