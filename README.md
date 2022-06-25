@@ -14,6 +14,7 @@ It provides a command line client 'backintime' and a Qt5 GUI 'backintime-qt'
 both written in Python3.
 
 You only need to specify 3 things:
+
 * where to save snapshots
 * what folders to back up
 * backup frequency (manual, every hour, every day, every month)
@@ -94,7 +95,6 @@ before installing
         make test
         sudo make install
 
-
 ##### Qt5 GUI
 
 * dependencies
@@ -118,7 +118,6 @@ before installing
         ./configure
         make
         sudo make install
-
 
 ## configure options
 
