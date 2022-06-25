@@ -137,6 +137,9 @@ https://feeds.launchpad.net/backintime/announcements.atom
 
 ## Contribute
 
+There is a mailing list for people who want to contribute to the development:
+https://mail.python.org/mailman3/lists/bit-dev.python.org/
+
 There is a dev-docu on https://backintime-dev.readthedocs.org
 It's not complete yet but I'm working on it. If you'd like to contribute
 please add docstrings following the
