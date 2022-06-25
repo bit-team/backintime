@@ -44,7 +44,7 @@ We provide a PPA (Private Package Archive) with current stable version
 
     sudo add-apt-repository ppa:bit-team/stable
     sudo apt-get update
-    sudo apt-get install backintime-qt4
+    sudo apt-get install backintime-qt
 
 or
 
