@@ -14,6 +14,7 @@ It provides a command line client 'backintime' and a Qt5 GUI 'backintime-qt'
 both written in Python3.
 
 You only need to specify 3 things:
+
 * where to save snapshots
 * what folders to back up
 * backup frequency (manual, every hour, every day, every month)
@@ -26,6 +27,59 @@ The documentation is currently under development in https://backintime.readthedo
 
 Please ask questions and report bug on
 https://github.com/bit-team/backintime/issues
+
+## Known Problems and Workarounds
+
+#### Development / Maintainment status
+
+The development of this project has been dormant for a while,
+but a small team has started to get things moving again.
+Stick with us, we all love Back In Time :)
+
+If you are interested in the development, have a look below under [`Contribute`](#Contribute).
+
+#### Broken version in Ubuntu 22.04 LTS
+
+If you use Python >= 3.10, you need Back In Time >= 1.3.2
+
+Unfortunately, Ubuntu 22.04 LTS currently (as of 2022-06-20) ships the older version 1.2.1 (and Python 3.10),
+which fails to start. In order to fix this, you can either
+
+* update by using the PPA, see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
+
+or
+
+* change in file /usr/share/backintime/common/tools.py
+    * in line 1805 the following
+    * class OrderedSet(collections.MutableSet)
+    * to
+    * class OrderedSet(collections.abc.MutableSet)
+    * This change should be overwritten with the next update (That's good).
+
+#### Incompatibility with rsync >= 3.2.4
+
+Back In Time is currently incompatible with rsync >= 3.2.4.
+
+If you use rsync >= 3.2.4, as a workaround,
+
+* add "--old-args" in "Expert Options / Additional options to rsync" and
+* Modify /usr/bin/backintime
+    * to include `export RSYNC_OLD_ARGS=1`.
+
+#### File permissions handling and therefore possible non-differential backups
+
+In version 1.2.0, the handling of file permissions changed.
+
+In versions <= 1.1.24 (until 2017) all file permissions were set to -rw-r--r-- in the backup target.
+
+In versions >= 1.2.0 (since 2019) rsync is executed with --perms option which tells rsync to preserve the source file
+permission.
+As a consequence backups can be larger and slower, especially the first backup after upgrading to a version >= 1.2.0.
+
+If you don't like the new behaviour, you can use "Expert Options" -> "Paste additional options to rsync" -> "--no-perms
+--no-group --no-owner".
+Note that the exact file permissions can still be found in the file fileinfo.bz2 and are also considered when restoring
+files.
 
 ## Download
 
@@ -44,7 +98,7 @@ We provide a PPA (Private Package Archive) with current stable version
 
     sudo add-apt-repository ppa:bit-team/stable
     sudo apt-get update
-    sudo apt-get install backintime-qt4
+    sudo apt-get install backintime-qt
 
 or
 
@@ -94,7 +148,6 @@ before installing
         make test
         sudo make install
 
-
 ##### Qt5 GUI
 
 * dependencies
@@ -119,7 +172,6 @@ before installing
         make
         sudo make install
 
-
 ## configure options
 
     first value is default:
@@ -136,6 +188,9 @@ Back In Time has a RSS feed
 https://feeds.launchpad.net/backintime/announcements.atom
 
 ## Contribute
+
+There is a mailing list for people who want to contribute to the development:
+https://mail.python.org/mailman3/lists/bit-dev.python.org/
 
 There is a dev-docu on https://backintime-dev.readthedocs.org
 It's not complete yet but I'm working on it. If you'd like to contribute
