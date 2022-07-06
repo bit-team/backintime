@@ -38,24 +38,6 @@ Stick with us, we all love Back In Time :)
 
 If you are interested in the development, have a look below under [`Contribute`](#Contribute).
 
-#### Broken version in Ubuntu 22.04 LTS
-
-If you use Python >= 3.10, you need Back In Time >= 1.3.2
-
-Unfortunately, Ubuntu 22.04 LTS currently (as of 2022-06-20) ships the older version 1.2.1 (and Python 3.10),
-which fails to start. In order to fix this, you can either
-
-* update by using the PPA, see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
-
-or
-
-* change in file /usr/share/backintime/common/tools.py
-    * in line 1805 the following
-    * class OrderedSet(collections.MutableSet)
-    * to
-    * class OrderedSet(collections.abc.MutableSet)
-    * This change should be overwritten with the next update (That's good).
-
 #### Incompatibility with rsync >= 3.2.4
 
 Back In Time is currently incompatible with rsync >= 3.2.4.
@@ -80,6 +62,14 @@ If you don't like the new behaviour, you can use "Expert Options" -> "Paste addi
 --no-group --no-owner".
 Note that the exact file permissions can still be found in the file fileinfo.bz2 and are also considered when restoring
 files.
+
+#### Python 3.10 compatibility and Ubuntu version
+
+backintime versions older than 1.3.2 do not start with Python >= 3.10.
+
+Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied [a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff) to make it work.
+
+If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
 
 ## Download
 
