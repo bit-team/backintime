@@ -65,6 +65,9 @@ class Plugin:
     def unmount(self, profileID = None):
         return
 
+    def postUnmount(self, profileID = None):
+        return
+
 class PluginManager:
     def __init__(self):
         self.plugins = []
@@ -177,6 +180,13 @@ class PluginManager:
         for plugin in reversed(self.plugins):
             try:
                 plugin.unmount(profileID)
+            except BaseException as e:
+                self.logError(plugin, e)
+
+    def postUnmount(self, profileID = None):
+        for plugin in reversed(self.plugins):
+            try:
+                plugin.postUnmount(profileID)
             except BaseException as e:
                 self.logError(plugin, e)
 

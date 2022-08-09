@@ -176,6 +176,7 @@ class Mount(object):
                                  parent = self.parent,
                                  **kwargs)
             backend.umount()
+        self.config.PLUGIN_MANAGER.postUnmount(self.profile_id)
 
     def preMountCheck(self, mode = None, first_run = False, **kwargs):
         """
