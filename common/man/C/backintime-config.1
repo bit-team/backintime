@@ -146,9 +146,11 @@ Default: 20
 
 .IP "\fIprofile<N>.schedule.time\fR" 6
 .RS
-Type: int       Allowed Values: 0-24
+Type: int       Allowed Values: 0-2400
 .br
-What time the cronjob should run? Only valid for \fIprofile<N>.schedule.mode\fR >= 20
+Position-coded number with the format "hhmm" to specify the hour and minute the cronjob should start (eg. 2015 means a quarter past 8 pm). Leading zeros can be omitted (eg. 30 = 0030).
+.br
+Only valid for \fIprofile<N>.schedule.mode\fR = 20 (daily), 30 (weekly), 40 (monthly) and 80 (yearly)
 .PP
 Default: 0
 .RE
