@@ -37,3 +37,10 @@ qt/Makefile
 #sphinx doc build
 common/doc-dev/_build/doctrees
 common/doc-dev/_build/html
+
+# PyCharm IDE project settings
+.idea
+
+# coverage result files (raw data and reports)
+# .coverage  # already ignored, see above
+**/htmlcov/**
