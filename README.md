@@ -42,11 +42,12 @@ If you are interested in the development, have a look below under [`Contribute`]
 
 Back In Time is currently incompatible with rsync >= 3.2.4.
 
-If you use rsync >= 3.2.4, as a workaround,
+If you use rsync >= 3.2.4, you can use one of two workarounds:
 
-* add "--old-args" in "Expert Options / Additional options to rsync" and
-* Modify /usr/bin/backintime
-    * to include `export RSYNC_OLD_ARGS=1`.
+1. add "--old-args" in "Expert Options / Additional options to rsync" **or**
+2. modify /usr/bin/backintime to include `export RSYNC_OLD_ARGS=1`.
+
+Note that Manjaro has included the `export RSYNC_OLD_ARGS=1` workaround in their official 1.3.2-2 version of the package.
 
 #### File permissions handling and therefore possible non-differential backups
 
