@@ -37,6 +37,11 @@ jobs:
       python: "3.9-dev"
     - arch: ppc64le
       python: "nightly"
+    # Disable Python "3.9-dev" and "nightly" testing for AMD64, too.
+    - arch: amd64
+      python: "3.9-dev"
+    - arch: amd64
+      python: "nightly"
 
 install:
   - pip install coveralls
