@@ -15,6 +15,12 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+# This main file is required to run all unit tests in the "test" folder
+# without specifying each test file name in the command line.
+# See also:
+# https://stackoverflow.com/a/43733357
+# https://docs.python.org/3/library/unittest.html#test-discovery
+
 from test import *
 
 if __name__ == '__main__':
