@@ -73,8 +73,8 @@ class DiffOptionsDialog(QDialog):
         self.mainLayout.addWidget(buttonBox, 3, 0, 3, 2)
 
     def accept(self):
-        diffCmd = str(self.editCmd.text().toUtf8())
-        diffParams = str(self.editParams.text().toUtf8())
+        diffCmd = self.editCmd.text()
+        diffParams = self.editParams.text()
 
         if diffCmd != self.diffCmd or diffParams != self.diffParams:
             self.config.setStrValue('qt.diff.cmd', diffCmd)
