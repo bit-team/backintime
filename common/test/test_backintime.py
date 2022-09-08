@@ -20,23 +20,30 @@ import re
 import subprocess
 import sys
 from test import generic
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-class TestBackInTime(generic.TestCase):
 
-# main tests for backintime
+class TestBackInTime(generic.TestCase):
+    """main tests for backintime"""
 
     def setUp(self):
         super(TestBackInTime, self).setUp()
 
     def test_quiet_mode(self):
-        self.assertEquals("", subprocess.getoutput("python3 backintime.py --quiet"))
+        output = subprocess.getoutput("python3 backintime.py --quiet")
+        self.assertEqual("", output)
 
-    # end to end test - from BIT initialization all the way through successful snapshot on a local mount
-    # test one of the highest level interfaces a user could work with - the command line
-    # ensures that argument parsing, functionality, and output all work as expected
-    # is NOT intended to replace individual method tests, which are incredibly useful as well
     def test_local_snapshot_is_successful(self):
+        """end to end test - from BIT initialization through snapshot
+
+        From BIT initialization all the way through successful snapshot on a
+        local mount. test one of the highest level interfaces a user could
+        work with - the command line ensures that argument parsing,
+        functionality, and output all work as expected is NOT intended to
+        replace individual method tests, which are incredibly useful as well
+        """
+
         # ensure that we see full diffs of assert output if there are any
         self.maxDiff = None
 
@@ -47,7 +54,8 @@ class TestBackInTime(generic.TestCase):
             f.write('some data')
 
         # create pristine snapshot directory
-        subprocess.getoutput("chmod -R a+rwx /tmp/snapshots && rm -rf /tmp/snapshots")
+        subprocess.getoutput(
+            "chmod -R a+rwx /tmp/snapshots && rm -rf /tmp/snapshots")
         os.mkdir('/tmp/snapshots')
 
         # remove restored directory
@@ -55,16 +63,20 @@ class TestBackInTime(generic.TestCase):
 
         # install proper destination filesystem structure and verify output
         proc = subprocess.Popen(["./backintime",
-                                 "--config", "test/config",
-                                 "--share-path", self.sharePath,
+                                 "--config",
+                                 "test/config",
+                                 "--share-path",
+                                 self.sharePath,
                                  "check-config",
-                                 "--no-crontab"], #do not overwrite users crontab
-                                stdout = subprocess.PIPE,
-                                stderr = subprocess.PIPE)
+                                 # do not overwrite users crontab
+                                 "--no-crontab"],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
+
         output, error = proc.communicate()
-        msg = 'Returncode: {}\nstderr: {}\nstdout: {}'.format(proc.returncode,
-                                                              error.decode(),
-                                                              output.decode())
+        msg = 'Returncode: {}\nstderr: {}\nstdout: {}' \
+              .format(proc.returncode, error.decode(), output.decode())
+
         self.assertEqual(proc.returncode, 0, msg)
 
         self.assertRegex(output.decode(), re.compile('''
@@ -94,12 +106,11 @@ Config .*test/config profile 'Main profile' is fine.''', re.MULTILINE))
                                  "--config", "test/config",
                                  "--share-path", self.sharePath,
                                  "backup"],
-                                stdout = subprocess.PIPE,
-                                stderr = subprocess.PIPE)
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
         output, error = proc.communicate()
-        msg = 'Returncode: {}\nstderr: {}\nstdout: {}'.format(proc.returncode,
-                                                              error.decode(),
-                                                              output.decode())
+        msg = 'Returncode: {}\nstderr: {}\nstdout: {}' \
+              .format(proc.returncode, error.decode(), output.decode())
         self.assertEqual(proc.returncode, 0, msg)
 
         self.assertRegex(output.decode(), re.compile('''
@@ -119,19 +130,26 @@ INFO: Create info file
 INFO: Unlock''', re.MULTILINE))
 
         # get snapshot id
-        subprocess.check_output(["./backintime","--config","test/config","snapshots-list"])
+        subprocess.check_output(["./backintime",
+                                 "--config",
+                                 "test/config",
+                                 "snapshots-list"])
 
         # execute restore and verify output
         proc = subprocess.Popen(["./backintime",
-                                 "--config", "test/config",
-                                 "--share-path", self.sharePath,
-                                 "restore", "/tmp/test/testfile", "/tmp/restored", "0"],
-                                stdout = subprocess.PIPE,
-                                stderr = subprocess.PIPE)
+                                 "--config",
+                                 "test/config",
+                                 "--share-path",
+                                 self.sharePath,
+                                 "restore",
+                                 "/tmp/test/testfile",
+                                 "/tmp/restored",
+                                 "0"],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
         output, error = proc.communicate()
-        msg = 'Returncode: {}\nstderr: {}\nstdout: {}'.format(proc.returncode,
-                                                              error.decode(),
-                                                              output.decode())
+        msg = 'Returncode: {}\nstderr: {}\nstdout: {}' \
+              .format(proc.returncode, error.decode(), output.decode())
         self.assertEqual(proc.returncode, 0, msg)
 
         self.assertRegex(output.decode(), re.compile('''
@@ -146,4 +164,7 @@ under certain conditions; type `backintime --license' for details.
 INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
 
         # verify that files restored are the same as those backed up
-        subprocess.check_output(["diff","-r","/tmp/test","/tmp/restored"])
+        subprocess.check_output(["diff",
+                                 "-r",
+                                 "/tmp/test",
+                                 "/tmp/restored"])

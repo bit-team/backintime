@@ -200,6 +200,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         #?Internal version of current config;;self.CONFIG_VERSION
         currentConfigVersion = self.intValue('config.version', 5)
+
         if currentConfigVersion < self.CONFIG_VERSION:
             # config.version value wasn't stored since BiT version 0.9.99.22
             # until version 1.2.0 because of a bug. So we can't really tell
