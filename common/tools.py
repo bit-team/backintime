@@ -1234,6 +1234,8 @@ def readCrontab():
             return []
         else:
             crontab = [x.strip() for x in out.strip('\n').split('\n')]
+            if crontab == ['']:  # Fixes issue #1181 (line count of empty crontab was 1 instead of 0)
+                crontab = []
             logger.debug('Read %s lines from users crontab'
                          %len(crontab))
             return crontab
