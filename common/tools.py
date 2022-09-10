@@ -33,7 +33,7 @@ import hashlib
 import ipaddress
 import atexit
 from datetime import datetime
-from distutils.version import StrictVersion
+from packaging.version import Version
 from time import sleep
 keyring = None
 keyring_warn = False
@@ -535,7 +535,7 @@ def rsyncCaps(data = None):
     matchers = [r'rsync\s*version\s*(\d\.\d)', r'rsync\s*version\s*v(\d\.\d.\d)']
     for matcher in matchers:
         m = re.match(matcher, data)
-        if m and StrictVersion(m.group(1)) >= StrictVersion('3.1'):
+        if m and Version(m.group(1)) >= Version('3.1'):
             caps.append('progress2')
             break
 
@@ -1703,7 +1703,8 @@ class ShutDown(object):
                                 universal_newlines = True)
         unity_version = proc.communicate()[0]
         m = re.match(r'unity ([\d\.]+)', unity_version)
-        return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and processExists('unity-panel-service')
+
+        return m and Version(m.group(1)) >= Version('7.0') and processExists('unity-panel-service')
 
 class SetupUdev(object):
     """
