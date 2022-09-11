@@ -79,7 +79,7 @@ class TestBackInTime(generic.TestCase):
 
         self.assertEqual(proc.returncode, 0, msg)
 
-        self.assertRegex(output.decode(), re.compile('''
+        self.assertRegex(output.decode(), re.compile(r'''
 Back In Time
 Version: \d+.\d+.\d+.*
 
@@ -113,7 +113,7 @@ Config .*test/config profile 'Main profile' is fine.''', re.MULTILINE))
               .format(proc.returncode, error.decode(), output.decode())
         self.assertEqual(proc.returncode, 0, msg)
 
-        self.assertRegex(output.decode(), re.compile('''
+        self.assertRegex(output.decode(), re.compile(r'''
 Back In Time
 Version: \d+.\d+.\d+.*
 
@@ -152,7 +152,7 @@ INFO: Unlock''', re.MULTILINE))
               .format(proc.returncode, error.decode(), output.decode())
         self.assertEqual(proc.returncode, 0, msg)
 
-        self.assertRegex(output.decode(), re.compile('''
+        self.assertRegex(output.decode(), re.compile(r'''
 Back In Time
 Version: \d+.\d+.\d+.*
 

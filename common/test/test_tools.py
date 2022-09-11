@@ -1,5 +1,6 @@
 # Back In Time
-# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
+# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+# Germar Reitze, Taylor Raack
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,13 +36,14 @@ import tools
 import config
 import configfile
 
-#chroot jails used for building may have no UUID devices (because of tmpfs)
-#we need to skip tests that require UUIDs
+# chroot jails used for building may have no UUID devices (because of tmpfs)
+# we need to skip tests that require UUIDs
 DISK_BY_UUID_AVAILABLE = os.path.exists(tools.DISK_BY_UUID)
-UDEVADM_HAS_UUID = subprocess.Popen(['udevadm', 'info', '-e'],
-                                    stdout = subprocess.PIPE,
-                                    stderr = subprocess.DEVNULL
-                                   ).communicate()[0].find(b'ID_FS_UUID=') > 0
+
+UDEVADM_HAS_UUID = subprocess.Popen(
+    ['udevadm', 'info', '-e'],
+    stdout=subprocess.PIPE,
+    stderr=subprocess.DEVNULL).communicate()[0].find(b'ID_FS_UUID=') > 0
 
 RSYNC_INSTALLED = tools.checkCommand('rsync')
 
@@ -57,6 +59,7 @@ rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
 are welcome to redistribute it under certain conditions.  See the GNU
 General Public License for details.
 """
+
 RSYNC_310_VERSION = """rsync  version 3.1.0  protocol version 31
 Copyright (C) 1996-2013 by Andrew Tridgell, Wayne Davison, and others.
 Web site: http://rsync.samba.org/
@@ -70,10 +73,12 @@ are welcome to redistribute it under certain conditions.  See the GNU
 General Public License for details.
 """
 
+
 class TestTools(generic.TestCase):
     """
     All functions test here come from tools.py
     """
+
     def setUp(self):
         super(TestTools, self).setUp()
         self.subproc = None
@@ -156,7 +161,7 @@ class TestTools(generic.TestCase):
             f.flush()
         self.assertIsInstance(tools.readFile(tmp_gz), str)
         self.assertEqual(tools.readFile(tmp_gz), 'foo\nbar')
-        os.remove(tmp_gz+ '.gz')
+        os.remove(tmp_gz + '.gz')
 
     def test_readFileLines(self):
         """
@@ -184,7 +189,7 @@ class TestTools(generic.TestCase):
             f.flush()
         self.assertIsInstance(tools.readFileLines(tmp_gz), list)
         self.assertEqual(tools.readFileLines(tmp_gz), ['foo', 'bar'])
-        os.remove(tmp_gz+ '.gz')
+        os.remove(tmp_gz + '.gz')
 
     def test_checkCommand(self):
         """
@@ -214,7 +219,8 @@ class TestTools(generic.TestCase):
     def test_makeDirs_not_writable(self):
         with TemporaryDirectory() as d:
             os.chmod(d, stat.S_IRUSR)
-            path = os.path.join(d, 'foobar{}'.format(random.randrange(100, 999)))
+            path = os.path.join(
+                d, 'foobar{}'.format(random.randrange(100, 999)))
             self.assertFalse(tools.makeDirs(path))
 
     def test_mkdir(self):
@@ -223,10 +229,13 @@ class TestTools(generic.TestCase):
             path = os.path.join(d, 'foo')
             self.assertTrue(tools.mkdir(path))
             for mode in (0o700, 0o644, 0o777):
-                msg = 'new path should have octal permissions {0:#o}'.format(mode)
+                msg = 'new path should have octal permissions {0:#o}' \
+                      .format(mode)
                 path = os.path.join(d, '{0:#o}'.format(mode))
                 self.assertTrue(tools.mkdir(path, mode), msg)
-                self.assertEqual('{0:o}'.format(os.stat(path).st_mode & 0o777), '{0:o}'.format(mode), msg)
+                self.assertEqual(
+                    '{0:o}'.format(os.stat(path).st_mode & 0o777),
+                    '{0:o}'.format(mode), msg)
 
     def test_pids(self):
         pids = tools.pids()
@@ -236,7 +245,8 @@ class TestTools(generic.TestCase):
     def test_processStat(self):
         pid = self.createProcess()
         stat = tools.processStat(pid)
-        self.assertRegex(stat, r'{} \({}\) \w .*'.format(pid, generic.DUMMY[:15]))
+        self.assertRegex(
+            stat, r'{} \({}\) \w .*'.format(pid, generic.DUMMY[:15]))
 
     @patch('builtins.open')
     def test_processStat_exception(self, mock_open):
@@ -282,14 +292,14 @@ class TestTools(generic.TestCase):
 
     def test_processExists(self):
         self.assertFalse(tools.processExists('nonExistingProcess'))
-        pid = self.createProcess()
+        self.createProcess()
         self.assertTrue(tools.processExists(generic.DUMMY))
 
     def test_processAlive(self):
         """
         Test the function processAlive
         """
-        #TODO: add test (in chroot) running proc as root and kill as non-root
+        # TODO: add test (in chroot) running proc as root and kill as non-root
         self.assertTrue(tools.processAlive(os.getpid()))
         pid = self.createProcess()
         self.assertTrue(tools.processAlive(pid))
@@ -304,7 +314,8 @@ class TestTools(generic.TestCase):
         try:
             tools.checkXServer()
         except Exception as e:
-            self.fail('tools.ckeck_x_server() raised exception {}'.format(str(e)))
+            self.fail(
+                'tools.ckeck_x_server() raised exception {}'.format(str(e)))
 
     def test_preparePath(self):
         path_with_slash_at_begin = "/test/path"
@@ -337,7 +348,7 @@ class TestTools(generic.TestCase):
             self.assertIsInstance(caps, list)
             self.assertGreaterEqual(len(caps), 1)
 
-        self.assertListEqual(tools.rsyncCaps(data = RSYNC_307_VERSION),
+        self.assertListEqual(tools.rsyncCaps(data=RSYNC_307_VERSION),
                              ['64-bit files',
                               '64-bit inums',
                               '32-bit timestamps',
@@ -354,7 +365,7 @@ class TestTools(generic.TestCase):
                               'iconv',
                               'symtimes'])
 
-        self.assertListEqual(tools.rsyncCaps(data = RSYNC_310_VERSION),
+        self.assertListEqual(tools.rsyncCaps(data=RSYNC_310_VERSION),
                              ['progress2',
                               '64-bit files',
                               '64-bit inums',
@@ -404,7 +415,7 @@ class TestTools(generic.TestCase):
     def test_checkHomeEncrypt(self):
         pass
 
-    #envLoad and envSave tests are in TestToolsEnviron below
+    # envLoad and envSave tests are in TestToolsEnviron below
 
     @unittest.skip('Not yet implemented')
     def test_keyringSupported(self):
@@ -426,8 +437,9 @@ class TestTools(generic.TestCase):
     def test_decodeOctalEscape(self):
         self.assertEqual(tools.decodeOctalEscape('/mnt/normalPath'),
                          '/mnt/normalPath')
-        self.assertEqual(tools.decodeOctalEscape('/mnt/path\\040with\\040space'),
-                         '/mnt/path with space')
+        self.assertEqual(
+            tools.decodeOctalEscape('/mnt/path\\040with\\040space'),
+            '/mnt/path with space')
 
     def test_mountArgs(self):
         rootArgs = tools.mountArgs('/')
@@ -450,8 +462,9 @@ class TestTools(generic.TestCase):
     def test_filesystem(self):
         self.assertEqual(tools.filesystem('/proc'), 'proc')
         self.assertRegex(tools.filesystem('/sys'), r'sys.*')
-        self.assertRegex(tools.filesystem('/nonExistingFolder/foo/bar').lower(),
-                         r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs|tmpfs|shiftfs)')
+        self.assertRegex(
+            tools.filesystem('/nonExistingFolder/foo/bar').lower(),
+            r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs|tmpfs|shiftfs)')
 
     # tools.uuidFromDev() get called from tools.uuidFromPath.
     # So we skip an extra unittest as it's hard to find a dev on all systems
@@ -548,8 +561,9 @@ class TestTools(generic.TestCase):
         oldCrontab = tools.readCrontab()
         self.assertIsInstance(oldCrontab, list)
 
-        testLine = '#BackInTime Unittest from {}. Test probably failed. You can remove this line.'.format(now)
-        self.assertTrue(tools.writeCrontab(oldCrontab + [testLine,]))
+        testLine = '#BackInTime Unittest from {}. Test probably failed. ' \
+                   'You can remove this line.'.format(now)
+        self.assertTrue(tools.writeCrontab(oldCrontab + [testLine, ]))
 
         newCrontab = tools.readCrontab()
         self.assertIn(testLine, newCrontab)
@@ -561,33 +575,36 @@ class TestTools(generic.TestCase):
 
     def test_splitCommands(self):
         ret = list(tools.splitCommands(['echo foo;'],
-                                       head = 'echo start;',
-                                       tail = 'echo end',
-                                       maxLength = 40))
+                                       head='echo start;',
+                                       tail='echo end',
+                                       maxLength=40))
         self.assertEqual(len(ret), 1)
         self.assertEqual(ret[0], 'echo start;echo foo;echo end')
 
         ret = list(tools.splitCommands(['echo foo;']*3,
-                                       head = 'echo start;',
-                                       tail = 'echo end',
-                                       maxLength = 40))
+                                       head='echo start;',
+                                       tail='echo end',
+                                       maxLength=40))
         self.assertEqual(len(ret), 2)
         self.assertEqual(ret[0], 'echo start;echo foo;echo foo;echo end')
         self.assertEqual(ret[1], 'echo start;echo foo;echo end')
 
         ret = list(tools.splitCommands(['echo foo;']*3,
-                                       head = 'echo start;',
-                                       tail = 'echo end',
-                                       maxLength = 0))
+                                       head='echo start;',
+                                       tail='echo end',
+                                       maxLength=0))
         self.assertEqual(len(ret), 1)
-        self.assertEqual(ret[0], 'echo start;echo foo;echo foo;echo foo;echo end')
+        self.assertEqual(ret[0],
+                         'echo start;echo foo;echo foo;echo foo;echo end')
 
-        ret = list(tools.splitCommands(['echo foo;']*3,
-                                       head = 'echo start;',
-                                       tail = 'echo end',
-                                       maxLength = -10))
+        ret = list(tools.splitCommands(['echo foo;'] * 3,
+                                       head='echo start;',
+                                       tail='echo end',
+                                       maxLength=-10))
         self.assertEqual(len(ret), 1)
-        self.assertEqual(ret[0], 'echo start;echo foo;echo foo;echo foo;echo end')
+        self.assertEqual(
+            ret[0],
+            'echo start;echo foo;echo foo;echo foo;echo end')
 
     def test_isIPv6Address(self):
         self.assertTrue(tools.isIPv6Address('fd00:0::5'))
@@ -598,8 +615,9 @@ class TestTools(generic.TestCase):
 
     def test_excapeIPv6Address(self):
         self.assertEqual(tools.escapeIPv6Address('fd00:0::5'), '[fd00:0::5]')
-        self.assertEqual(tools.escapeIPv6Address('2001:db8:0:8d3:0:8a2e:70:7344'),
-                         '[2001:db8:0:8d3:0:8a2e:70:7344]')
+        self.assertEqual(
+            tools.escapeIPv6Address('2001:db8:0:8d3:0:8a2e:70:7344'),
+            '[2001:db8:0:8d3:0:8a2e:70:7344]')
         self.assertEqual(tools.escapeIPv6Address('foo.bar'), 'foo.bar')
         self.assertEqual(tools.escapeIPv6Address('192.168.1.1'), '192.168.1.1')
         self.assertEqual(tools.escapeIPv6Address('fd00'), 'fd00')
@@ -610,7 +628,11 @@ class TestTools(generic.TestCase):
         self.assertEqual(tools.camelCase('foo_bar'), 'FooBar')
         self.assertEqual(tools.camelCase('foo_Bar'), 'FooBar')
 
+
 class TestToolsEnviron(generic.TestCase):
+    """???
+    """
+
     def __init__(self, *args, **kwargs):
         super(TestToolsEnviron, self).__init__(*args, **kwargs)
         self.env = deepcopy(os.environ)
@@ -632,7 +654,7 @@ class TestToolsEnviron(generic.TestCase):
         test_env.setStrValue('ASDF', 'qwertz')
         test_env.save(self.temp_file)
 
-        #make sure environ is clean
+        # make sure environ is clean
         self.assertNotIn('FOO', os.environ)
         self.assertNotIn('ASDF', os.environ)
 
@@ -648,7 +670,7 @@ class TestToolsEnviron(generic.TestCase):
         test_env.setStrValue('ASDF', 'qwertz')
         test_env.save(self.temp_file)
 
-        #add some environ vars that should not get overwritten
+        # add some environ vars that should not get overwritten
         os.environ['FOO'] = 'defaultFOO'
         os.environ['ASDF'] = 'defaultASDF'
 
@@ -659,10 +681,16 @@ class TestToolsEnviron(generic.TestCase):
         self.assertEqual(os.environ['ASDF'], 'defaultASDF')
 
     def test_envSave(self):
-        keys = ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS', \
-                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID', \
-                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID', \
-                'KDE_FULL_SESSION')
+        keys = (
+            'GNOME_KEYRING_CONTROL',
+            'DBUS_SESSION_BUS_ADDRESS',
+            'DBUS_SESSION_BUS_PID',
+            'DBUS_SESSION_BUS_WINDOWID',
+            'DISPLAY',
+            'XAUTHORITY',
+            'GNOME_DESKTOP_SESSION_ID',
+            'KDE_FULL_SESSION')
+
         for i, k in enumerate(keys):
             os.environ[k] = str(i)
 
@@ -673,13 +701,14 @@ class TestToolsEnviron(generic.TestCase):
         test_env = configfile.ConfigFile()
         test_env.load(self.temp_file)
         for i, k in enumerate(keys):
-            with self.subTest(i = i, k = k):
-                #workaround for py.test3 2.5.1 doesn't support subTest
-                msg = 'i = %s, k = %s' %(i, k)
+            with self.subTest(i=i, k=k):
+                # workaround for py.test3 2.5.1 doesn't support subTest
+                msg = 'i = %s, k = %s' % (i, k)
                 self.assertEqual(test_env.strValue(k), str(i), msg)
 
+
 class TestToolsUniquenessSet(generic.TestCase):
-    #TODO: add test for follow_symlink
+    # TODO: add test for follow_symlink
     def test_checkUnique(self):
         with TemporaryDirectory() as d:
             for i in range(1, 5):
@@ -696,37 +725,37 @@ class TestToolsUniquenessSet(generic.TestCase):
                 with open(i, 'wt') as f:
                     f.write('42')
 
-            #fix timestamps because otherwise test will fail on slow machines
-            obj  = os.stat(t1)
-            os.utime(t2, times = (obj.st_atime, obj.st_mtime))
-            obj  = os.stat(t3)
-            os.utime(t4, times = (obj.st_atime, obj.st_mtime))
+            # fix timestamps because otherwise test will fail on slow machines
+            obj = os.stat(t1)
+            os.utime(t2, times=(obj.st_atime, obj.st_mtime))
+            obj = os.stat(t3)
+            os.utime(t4, times=(obj.st_atime, obj.st_mtime))
 
-            #same size and mtime
-            uniqueness = tools.UniquenessSet(dc = False,
-                                             follow_symlink = False,
-                                             list_equal_to = '')
+            # same size and mtime
+            uniqueness = tools.UniquenessSet(dc=False,
+                                             follow_symlink=False,
+                                             list_equal_to='')
             self.assertTrue(uniqueness.check(t1))
             self.assertFalse(uniqueness.check(t2))
             self.assertTrue(uniqueness.check(t3))
             self.assertFalse(uniqueness.check(t4))
 
-            os.utime(t1, times = (0, 0))
-            os.utime(t3, times = (0, 0))
+            os.utime(t1, times=(0, 0))
+            os.utime(t3, times=(0, 0))
 
-            #same size different mtime
-            uniqueness = tools.UniquenessSet(dc = False,
-                                             follow_symlink = False,
-                                             list_equal_to = '')
+            # same size different mtime
+            uniqueness = tools.UniquenessSet(dc=False,
+                                             follow_symlink=False,
+                                             list_equal_to='')
             self.assertTrue(uniqueness.check(t1))
             self.assertTrue(uniqueness.check(t2))
             self.assertTrue(uniqueness.check(t3))
             self.assertTrue(uniqueness.check(t4))
 
-            #same size different mtime use deep_check
-            uniqueness = tools.UniquenessSet(dc = True,
-                                             follow_symlink = False,
-                                             list_equal_to = '')
+            # same size different mtime use deep_check
+            uniqueness = tools.UniquenessSet(dc=True,
+                                             follow_symlink=False,
+                                             list_equal_to='')
             self.assertTrue(uniqueness.check(t1))
             self.assertFalse(uniqueness.check(t2))
             self.assertTrue(uniqueness.check(t3))
@@ -751,9 +780,9 @@ class TestToolsUniquenessSet(generic.TestCase):
             os.link(t3, t4)
             self.assertEqual(os.stat(t3).st_ino, os.stat(t4).st_ino)
 
-            uniqueness = tools.UniquenessSet(dc = True,
-                                             follow_symlink = False,
-                                             list_equal_to = '')
+            uniqueness = tools.UniquenessSet(dc=True,
+                                             follow_symlink=False,
+                                             list_equal_to='')
             self.assertTrue(uniqueness.check(t1))
             self.assertFalse(uniqueness.check(t2))
             self.assertTrue(uniqueness.check(t3))
@@ -775,37 +804,38 @@ class TestToolsUniquenessSet(generic.TestCase):
                 with open(i, 'wt') as f:
                     f.write('42')
 
-            #fix timestamps because otherwise test will fail on slow machines
-            obj  = os.stat(t1)
-            os.utime(t2, times = (obj.st_atime, obj.st_mtime))
-            obj  = os.stat(t3)
-            os.utime(t4, times = (obj.st_atime, obj.st_mtime))
+            # fix timestamps because otherwise test will fail on slow machines
+            obj = os.stat(t1)
+            os.utime(t2, times=(obj.st_atime, obj.st_mtime))
+            obj = os.stat(t3)
+            os.utime(t4, times=(obj.st_atime, obj.st_mtime))
 
-            #same size and mtime
-            uniqueness = tools.UniquenessSet(dc = False,
-                                             follow_symlink = False,
-                                             list_equal_to = t1)
+            # same size and mtime
+            uniqueness = tools.UniquenessSet(dc=False,
+                                             follow_symlink=False,
+                                             list_equal_to=t1)
             self.assertTrue(uniqueness.check(t1))
             self.assertTrue(uniqueness.check(t2))
             self.assertFalse(uniqueness.check(t3))
 
-            os.utime(t1, times = (0, 0))
+            os.utime(t1, times=(0, 0))
 
-            #same size different mtime
-            uniqueness = tools.UniquenessSet(dc = False,
-                                             follow_symlink = False,
-                                             list_equal_to = t1)
+            # same size different mtime
+            uniqueness = tools.UniquenessSet(dc=False,
+                                             follow_symlink=False,
+                                             list_equal_to=t1)
             self.assertTrue(uniqueness.check(t1))
             self.assertFalse(uniqueness.check(t2))
             self.assertFalse(uniqueness.check(t3))
 
-            #same size different mtime use deep_check
-            uniqueness = tools.UniquenessSet(dc = True,
-                                             follow_symlink = False,
-                                             list_equal_to = t1)
+            # same size different mtime use deep_check
+            uniqueness = tools.UniquenessSet(dc=True,
+                                             follow_symlink=False,
+                                             list_equal_to=t1)
             self.assertTrue(uniqueness.check(t1))
             self.assertTrue(uniqueness.check(t2))
             self.assertFalse(uniqueness.check(t3))
+
 
 class TestToolsExecuteSubprocess(generic.TestCase):
     # new method with subprocess
@@ -815,26 +845,27 @@ class TestToolsExecuteSubprocess(generic.TestCase):
 
     def test_callback(self):
         c = lambda x, y: self.callback(self.assertEqual, x, 'foo')
-        tools.Execute(['echo', 'foo'], callback = c).run()
+        tools.Execute(['echo', 'foo'], callback=c).run()
         self.assertTrue(self.run)
         self.run = False
 
         # give extra user_data for callback
         c = lambda x, y: self.callback(self.assertEqual, x, y)
-        tools.Execute(['echo', 'foo'], callback = c, user_data = 'foo').run()
+        tools.Execute(['echo', 'foo'], callback=c, user_data='foo').run()
         self.assertTrue(self.run)
         self.run = False
 
         # no output
         c = lambda x, y: self.callback(self.fail,
                                        'callback was called unexpectedly')
-        tools.Execute(['true'], callback = c).run()
+        tools.Execute(['true'], callback=c).run()
         self.assertFalse(self.run)
         self.run = False
 
     def test_pausable(self):
         proc = tools.Execute(['true'])
         self.assertTrue(proc.pausable)
+
 
 class TestToolsExecuteOsSystem(generic.TestCase):
     # old method with os.system
@@ -844,26 +875,23 @@ class TestToolsExecuteOsSystem(generic.TestCase):
 
     def test_callback(self):
         c = lambda x, y: self.callback(self.assertEqual, x, 'foo')
-        tools.Execute('echo foo', callback = c).run()
+        tools.Execute('echo foo', callback=c).run()
         self.assertTrue(self.run)
         self.run = False
 
         # give extra user_data for callback
         c = lambda x, y: self.callback(self.assertEqual, x, y)
-        tools.Execute('echo foo', callback = c, user_data = 'foo').run()
+        tools.Execute('echo foo', callback=c, user_data='foo').run()
         self.assertTrue(self.run)
         self.run = False
 
         # no output
         c = lambda x, y: self.callback(self.fail,
                                        'callback was called unexpectedly')
-        tools.Execute('true', callback = c).run()
+        tools.Execute('true', callback=c).run()
         self.assertFalse(self.run)
         self.run = False
 
     def test_pausable(self):
         proc = tools.Execute('true')
         self.assertFalse(proc.pausable)
-
-if __name__ == '__main__':
-    unittest.main()
