@@ -10,14 +10,27 @@ Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 
 Back In Time is a simple backup tool for Linux, inspired by "flyback project".
 
-It provides a command line client 'backintime' and a Qt5 GUI 'backintime-qt'
+It provides a command line tool 'backintime' and a Qt5 GUI 'backintime-qt'
 both written in Python3.
 
 You only need to specify 3 things:
 
-* where to save snapshots
 * what folders to back up
+* where to save snapshots
 * backup frequency (manual, every hour, every day, every month)
+
+
+## Index
+
+* [Documentation](#documentation)
+* [Support](#support)
+* [Known Problems and Workarounds](#known-problems-and-workarounds)
+* [Download](#download)
+* [Installation](#installation)
+* [News Feed](#newsfeed)
+* [Contribute](#contribute)
+
+
 
 ## Documentation
 
@@ -77,10 +90,12 @@ If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see un
 Please find the latest versions on
 https://github.com/bit-team/backintime/releases/latest
 
-## INSTALL
+## Installation
 
 Back In Time is included in many distributions and can be installed from their
 repositories.
+
+### From distribution packages
 
 ##### Ubuntu PPA
 
@@ -117,7 +132,13 @@ before installing
 
 ### From sources
 
-##### Common
+To build and install from the source code do a `git clone https://github.com/bit-team/backintime.git`
+on your computer and install the required dependencies before `make`ing.
+
+The dependencies are described for Ubuntu here.
+If you use another Linux distribution please install the corresponding packages.
+
+##### Common (command line tool)
 
 * dependencies
     - python3 (>= 3.3)
@@ -126,6 +147,7 @@ before installing
     - openssh-client
     - python3-keyring
     - python3-dbus
+    - python3-packaging
 
 * recomended
     - sshfs
@@ -163,15 +185,21 @@ before installing
         make
         sudo make install
 
-## configure options
+#### configure options
 
-    first value is default:
+You can use these optional arguments to `./configure` for creating a Makefile:
+
     --no-fuse-group | --fuse-group (only COMMON)
         Some distributions require user to be in group 'fuse' to use
         sshfs and encfs. This toggles the check on or off.
 
     --python3 | --python (all)
         Use either 'python3' or 'python' to start Python Version 3.x
+
+Note: The first value is default.
+
+See also `common/configure --help?` and `qt/configure --help`
+
 
 ## NewsFeed
 
