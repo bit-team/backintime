@@ -615,7 +615,7 @@ class MountControl(object):
             return False
 
     def createMountStructure(self):
-        """
+        r"""
         Create folders that are necessary for mounting.
 
         Folder structure in ~/.local/share/backintime/mnt/ (self.mount_root)::
