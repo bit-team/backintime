@@ -620,34 +620,32 @@ class MountControl(object):
 
         Folder structure in ~/.local/share/backintime/mnt/ (self.mount_root)::
 
-            |\ <pid>.lock              <=  mountprocess lock that will prevent
-            |                              different processes modifying
-            |                              mountpoints at one time
-            |
-            |\ <hash_id>/              <=  ``self.hash_id_path``
-            |            \                 will be shared by all profiles with
-            |            |                 the same mount settings
-            |            |
-            |            |\ mountpoint/<=  ``self.currentMountpoint``
-            |            |                 real mountpoint
-            |            |
-            |            |\ umount     <=  ``self.umount_info``
-            |            |                 json file with all nessesary args
-            |            |                 for unmount
-            |            |
-            |            \  locks/     <=  ``self.lock_path``
-            |                              for each process you have a
-            |                              ``<pid>.lock`` file
-            |
-            |\ <profile id>_<pid>/     <=  sym-link to the right path. return by
-            |                              config.snapshotsPath
-            |                              (can be ../mnt/<hash_id>/mount_point
-            |                              for ssh or
-            |                              ../mnt/<hash_id>/<HOST>/<SHARE> for
-            |                              fusesmb ...)
-            |
-            \ tmp_<profile id>_<pid>/ <=  sym-link for testing mountpoints in
-                                          settingsdialog
+            .
+            ├── <pid>.lock              <=  mountprocess lock that will prevent
+            │                               different processes modifying
+            │                               mountpoints at one time
+            │
+            ├── <hash_id>/              <=  ``self.hash_id_path`` will be
+            │   │                           shared by all profiles with the
+            │   │                           same mount settings
+            │   │
+            │   ├── mountpoint/         <=  ``self.currentMountpoint`` real
+            │   │                           mountpoint
+            │   │
+            │   ├── umount              <=  ``self.umount_info`` json file with
+            │   │                           all nessesary args for unmount
+            │   │
+            │   └── locks/              <=  ``self.lock_path`` for each process
+            │                               you have a ``<pid>.lock`` file
+            │
+            ├── <profile id>_<pid>/     <=  sym-link to the right path. return
+            │                               by config.snapshotsPath (can be
+            │                               ../mnt/<hash_id>/mount_point for ssh
+            │                               or ../mnt/<hash_id>/<HOST>/<SHARE>
+            │                               for fusesmb ...)
+            │
+            └── tmp_<profile id>_<pid>/ <=  sym-link for testing mountpoints
+                                            in settingsdialog
         """
         tools.mkdir(self.mount_root, 0o700)
         tools.mkdir(self.hash_id_path, 0o700)
