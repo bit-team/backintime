@@ -23,6 +23,7 @@ import atexit
 import subprocess
 from datetime import datetime
 from time import sleep
+import json
 
 import config
 import logger
@@ -206,6 +207,10 @@ def createParsers(app_name = 'backintime'):
                         action = printLicense,
                         nargs = 0,
                         help = "show %(prog)s's license.")
+    parser.add_argument('--diagnostics',
+                        action = printDiagnostics,
+                        nargs = 0,
+                        help = "show helpful info for better support in case of issues (in JSON format)")
 
     #######################
     ### define commands ###
@@ -595,9 +600,10 @@ def printHeader():
     Print application name, version and legal notes.
     """
     version = config.Config.VERSION
-    ref, hashid = tools.gitRevisionAndHash()
-    if ref:
-        version += " git branch '{}' hash '{}'".format(ref, hashid)
+    # Git info is now only shown via --diagnostics
+    # ref, hashid = tools.gitRevisionAndHash()
+    # if ref:
+    #     version += " git branch '{}' hash '{}'".format(ref, hashid)
     print('')
     print('Back In Time')
     print('Version: ' + version)
@@ -718,6 +724,39 @@ class printLicense(argparse.Action):
     def __call__(self, *args, **kwargs):
         cfg = config.Config()
         print(cfg.license())
+        sys.exit(RETURN_OK)
+
+class printDiagnostics(argparse.Action):
+    """
+    Print information that is helpful for the support team
+    to narrow down problems and bugs.
+    The info is printed using the machine- and human-readable JSON format
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(printDiagnostics, self).__init__(*args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+        cfg = config.Config()
+
+        # TODO Refactor into a separate functions in a new diagnostics.py when more info is added
+        ref, hashid = tools.gitRevisionAndHash()
+        git_branch = "Unknown"
+        git_commit = "Unknown"
+        if ref:
+             git_branch = ref
+             git_commit = hashid
+
+        diagnostics = dict(
+            app_name=config.Config.APP_NAME,
+            app_version=config.Config.VERSION,
+            app_git_branch=git_branch,
+            app_git_commit=git_commit,
+            user_callback=cfg.takeSnapshotUserCallback()
+        )
+
+        print(json.dumps(diagnostics, indent=4))
+
         sys.exit(RETURN_OK)
 
 def backup(args, force = True):

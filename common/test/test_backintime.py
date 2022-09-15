@@ -20,6 +20,11 @@ import re
 import subprocess
 import sys
 from test import generic
+import json
+
+import config
+
+
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -168,3 +173,14 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
                                  "-r",
                                  "/tmp/test",
                                  "/tmp/restored"])
+
+    def test_diagnostics_arg(self):
+
+        # Workaround: Without this line the next "subprocess.getoutput()" call fails on TravisCI for unknown reasons!
+        subprocess.check_output(["./backintime", "--diagnostics"])
+
+        output = subprocess.getoutput("./backintime --diagnostics")
+
+        diagnostics = json.loads(output)
+        self.assertEqual(diagnostics["app_name"], config.Config.APP_NAME)
+        self.assertEqual(diagnostics["app_version"], config.Config.VERSION)
