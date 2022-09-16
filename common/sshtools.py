@@ -712,12 +712,14 @@ class SSH(MountControl):
                 _('Ping %s failed. Host is down or wrong address.')
                 % self.host)
 
-    def checkRemoteCommands(self, retry = False):
+    def checkRemoteCommands(self, retry=False):
         """
-        Try out all relevant commands used by `Back In Time` on the remote host
-        to make sure snapshots will be successful with the remote host.
+        Try out all relevant commands used by `Back In Time` on the remote
+        host to make sure snapshots will be successful with the remote host.
         This will also check that hard-links are supported on the remote host.
-        This check can be disabled with :py:func:`config.Config.sshCheckCommands`
+        This check can be disabled
+        with :py:func:`config.Config.sshCheckCommands`
+
         Args:
             retry (bool):               retry to run the commands if it failed
                                         because the command string was to long
@@ -726,37 +728,50 @@ class SSH(MountControl):
                                         remote host or if hard-links are not
                                         supported
         """
+
         if not self.config.sshCheckCommands():
             return
+
         logger.debug('Check remote commands', self)
+
         def maxArg():
             if retry:
-                raise MountException("Checking commands on remote host didn't return any output. "
-                                     "We already checked the maximum argument lenght but it seem like "
-                                     "there is an other problem")
-            logger.warning('Looks like the command was to long for remote SSHd. We will test max arg length now and retry.',
-                           self)
+                raise MountException(
+                    "Checking commands on remote host didn't return any "
+                    "output. We already checked the maximum argument lenght "
+                    "but it seem like there is an other problem")
+
+            logger.warning(
+                'Looks like the command was to long for remote SSHd. '
+                'We will test max arg length now and retry.',
+                self)
+
             import sshMaxArg
             mid = sshMaxArg.maxArgLength(self.config)
             sshMaxArg.reportResult(self.host, mid)
+
             self.config.setSshMaxArgLength(mid, self.profile_id)
-            return self.checkRemoteCommands(retry = True)
+
+            return self.checkRemoteCommands(retry=True)
 
         remote_tmp_dir_1 = os.path.join(self.path, 'tmp_%s' % self.randomId())
         remote_tmp_dir_2 = os.path.join(self.path, 'tmp_%s' % self.randomId())
+
         with tempfile.TemporaryDirectory() as tmp:
+
             tmp_file = os.path.join(tmp, 'a')
+
             with open(tmp_file, 'wt') as f:
                 f.write('foo')
 
-            #check rsync
+            # check rsync
             rsync1 =  tools.rsyncPrefix(self.config, no_perms = False, progress = False)
             rsync1.append(tmp_file)
             rsync1.append('%s@%s:"%s"/' %(self.user,
                                         tools.escapeIPv6Address(self.host),
                                         remote_tmp_dir_1))
 
-            #check remote rsync hard-link support
+            # check remote rsync hard-link support
             rsync2 =  tools.rsyncPrefix(self.config, no_perms = False, progress = False)
             rsync2.append('--link-dest=../%s' %os.path.basename(remote_tmp_dir_1))
             rsync2.append(tmp_file)
@@ -778,9 +793,10 @@ class SSH(MountControl):
                                             '%(err)s\nLook at \'man backintime\' for further instructions')
                                             % {'host' : self.host, 'command' : cmd, 'err' : err})
 
-        #check cp chmod find and rm
+        # check cp chmod find and rm
         head  = 'tmp1="%s"; tmp2="%s"; ' %(remote_tmp_dir_1, remote_tmp_dir_2)
-        #first define a function to clean up and exit
+
+        # first define a function to clean up and exit
         head += 'cleanup(){ '
         head += 'test -e "$tmp1/a" && rm "$tmp1/a" >/dev/null 2>&1; '
         head += 'test -e "$tmp2/a" && rm "$tmp2/a" >/dev/null 2>&1; '
@@ -791,25 +807,29 @@ class SSH(MountControl):
         head += 'exit $1; }; '
         tail = []
 
-        #list inodes
+        # list inodes
         cmd  = 'ls -i "$tmp1/a"; ls -i "$tmp2/a"; '
         tail.append(cmd)
-        #try nice -n 19
+
+        # try nice -n 19
         if self.nice:
             cmd  = 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
             tail.append(cmd)
-        #try ionice -c2 -n7
+
+        # try ionice -c2 -n7
         if self.ionice:
             cmd  = 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
             tail.append(cmd)
-        #try nocache
+
+        # try nocache
         if self.nocache:
             cmd  = 'echo \"nocache\"; nocache true >/dev/null; err_nocache=$?; '
             cmd += 'test $err_nocache -ne 0 && cleanup $err_nocache; '
             tail.append(cmd)
-        #try screen, bash and flock used by smart-remove running in background
+
+        # try screen, bash and flock used by smart-remove running in background
         if self.config.smartRemoveRunRemoteInBackground(self.profile_id):
             cmd  = 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
             cmd += 'test $err_screen -ne 0 && cleanup $err_screen; '
@@ -820,7 +840,8 @@ class SSH(MountControl):
             cmd  = 'echo \"rmdir \$(mktemp -d)\"; tmp3=$(mktemp -d); test -z "$tmp3" && cleanup 1; rmdir $tmp3 >/dev/null; err_rmdir=$?; '
             cmd += 'test $err_rmdir -ne 0 && cleanup $err_rmdir; '
             tail.append(cmd)
-        #if we end up here, everything should be fine
+
+        # if we end up here, everything should be fine
         cmd = 'echo \"done\"; cleanup 0'
         tail.append(cmd)
 
@@ -830,11 +851,13 @@ class SSH(MountControl):
         output = ''
         err = ''
         returncode = 0
+
         for cmd in tools.splitCommands(tail,
                                        head = head,
                                        maxLength = maxLength - additionalChars):
             if cmd.endswith('; '):
                 cmd += 'echo ""'
+
             c = self.config.sshCommand(cmd = [cmd],
                                         custom_args = ['-p', str(self.port), self.user_host],
                                         port = False,
@@ -842,6 +865,7 @@ class SSH(MountControl):
                                         nice = False,
                                         ionice = False,
                                         profile_id = self.profile_id)
+
             try:
                 logger.debug('Call command: %s' %' '.join(c), self)
                 proc = subprocess.Popen(c,
@@ -849,25 +873,30 @@ class SSH(MountControl):
                                         stderr=subprocess.PIPE,
                                         universal_newlines = True)
                 ret = proc.communicate()
+
             except OSError as e:
-                #Argument list too long
+                # Argument list too long
                 if e.errno == 7:
                     logger.debug('Argument list too log (Python exception)', self)
                     return maxArg()
                 else:
                     raise
+
             logger.debug('Command stdout: %s' %ret[0], self)
             logger.debug('Command stderr: %s' %ret[1], self)
             logger.debug('Command returncode: %s' %proc.returncode, self)
+
             output += ret[0].strip('\n') + '\n'
             err    += ret[1].strip('\n') + '\n'
             returncode += proc.returncode
+
             if proc.returncode:
                 break
 
         output_split = output.strip('\n').split('\n')
 
         while True:
+
             if output_split and not output_split[-1]:
                 output_split = output_split[:-1]
             else:
@@ -877,23 +906,30 @@ class SSH(MountControl):
             return maxArg()
 
         if returncode or not output_split[-1].startswith('done'):
+
             for command in ('rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
+
                 if output_split[-1].startswith(command):
                     raise MountException(_('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                             '%(err)s\nLook at \'man backintime\' for further instructions')
                                             % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
+
             raise MountException(_('Check commands on host %(host)s returned unknown error:\n'
                                     '%(err)s\nLook at \'man backintime\' for further instructions')
                                     % {'host' : self.host, 'err' : err})
 
         inodes = []
+
         for tmp in (remote_tmp_dir_1, remote_tmp_dir_2):
+
             for line in output_split:
+
                 m = re.match(r'^(\d+).*?%s' %tmp, line)
                 if m:
                     inodes.append(m.group(1))
 
         logger.debug('remote inodes: ' + ' | '.join(inodes), self)
+
         if len(inodes) == 2 and inodes[0] != inodes[1]:
             raise MountException(_('Remote host %s doesn\'t support hardlinks') % self.host)
 
