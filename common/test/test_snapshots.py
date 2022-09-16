@@ -318,9 +318,6 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertTrue(self.run)
         self.assertTrue(self.sn.restorePermissionFailed)
 
-    @unittest.skip('Not yet implemented')
-    def test_filterRsyncProgress(self):
-        pass
 
     def test_rsyncCallback(self):
         params = [False, False]
@@ -514,9 +511,6 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                              sid15, sid16, sid18, sid19, sid20, sid21,
                                              sid22, sid24, sid27, sid28, sid30])
 
-    @unittest.skip('Not yet implemented')
-    def test_smartRemove(self):
-        pass
 
 class TestSnapshotWithSID(generic.SnapshotsWithSidTestCase):
     def test_backupConfig(self):
