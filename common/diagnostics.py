@@ -25,6 +25,8 @@ def collect_diagnostics():
     """
     result = {}
 
+    USER_REPLACED = 'UsernameReplaced'
+
     # === BACK IN TIME ===
     distro_path = _determine_distro_package_folder()
 
@@ -35,9 +37,11 @@ def collect_diagnostics():
         'distribution-package': str(distro_path),
     }
 
+    # dev note: In the future, there will be more paths here.
     result['paths'] = {
         'common': str(pathlib.Path(config.__file__).parent),
     }
+
     # Git repo
     git_info = get_git_repository_info(distro_path)
 
@@ -163,6 +167,10 @@ def collect_diagnostics():
     if shell != SHELL_ERR_MSG:
         shell_version = _get_extern_versions([shell, '--version'])
         result['external']['shell-version'] = shell_version.split('\n')[0]
+
+    result = json.loads(
+        json.dumps(result).replace(pwd_struct.pw_name, USER_REPLACED)
+    )
 
     return result
 
