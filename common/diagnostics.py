@@ -225,7 +225,6 @@ def _get_extern_versions(cmd,
 
         # extract version string
         if pattern:
-            print(result)
             result = re.findall(pattern, result)[0]
 
     return result.strip()
@@ -256,7 +255,6 @@ def get_git_repository_info(path=None):
     result = {}
 
     # branch name
-    print((git_folder / 'HEAD').exists())
     with (git_folder / 'HEAD').open('r') as handle:
         val = handle.read()
 
