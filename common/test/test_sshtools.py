@@ -99,10 +99,6 @@ class TestSSH(generic.SSHTestCase):
         with self.assertRaisesRegex(MountException, r"Cipher .+ failed for.+"):
             ssh.checkCipher()
 
-    @unittest.skip('Not yet implemented')
-    def test_benchmarkCipher(self):
-        pass
-
     def test_checkKnownHosts(self):
         ssh = sshtools.SSH(cfg = self.cfg)
         ssh.checkKnownHosts()

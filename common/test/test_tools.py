@@ -384,14 +384,6 @@ class TestTools(generic.TestCase):
                               'symtimes',
                               'prealloc'])
 
-    @unittest.skip('Not yet implemented')
-    def test_rsyncPrefix(self):
-        pass
-
-    @unittest.skip('Not yet implemented')
-    def test_tempFailureRetry(self):
-        pass
-
     def test_md5sum(self):
         with NamedTemporaryFile() as f:
             f.write(b'foo')
@@ -411,23 +403,7 @@ class TestTools(generic.TestCase):
         self.assertFalse(tools.checkCronPattern('*/6,8'))
         self.assertFalse(tools.checkCronPattern('*/6 a'))
 
-    @unittest.skip('Not yet implemented')
-    def test_checkHomeEncrypt(self):
-        pass
-
     # envLoad and envSave tests are in TestToolsEnviron below
-
-    @unittest.skip('Not yet implemented')
-    def test_keyringSupported(self):
-        pass
-
-    @unittest.skip('Not yet implemented')
-    def test_password(self):
-        pass
-
-    @unittest.skip('Not yet implemented')
-    def test_setPassword(self):
-        pass
 
     def test_mountpoint(self):
         self.assertEqual(tools.mountpoint('/nonExistingFolder/foo/bar'), '/')
@@ -488,10 +464,6 @@ class TestTools(generic.TestCase):
         self.assertIn('/', mounts)
         self.assertIn('original_uuid', mounts.get('/'))
 
-    @unittest.skip('Not yet implemented')
-    def test_wrapLine(self):
-        pass
-
     def test_syncfs(self):
         self.assertTrue(tools.syncfs())
 
@@ -545,14 +517,6 @@ class TestTools(generic.TestCase):
             s = f.read().strip('\n')
             self.assertTrue(s.replace(' ', '').isdigit())
             self.assertEqual(len(s), 13)
-
-    @unittest.skip('Not yet implemented')
-    def test_inhibitSuspend(self):
-        pass
-
-    @unittest.skip('Not yet implemented')
-    def test_unInhibitSuspend(self):
-        pass
 
     @unittest.skipIf(not tools.checkCommand('crontab'),
                      "'crontab' not found.")
