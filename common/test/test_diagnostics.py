@@ -17,15 +17,32 @@ class Diagnostics(unittest.TestCase):
 
         result = diagnostics.collect_diagnostics()
 
-        minimal_keys = ['backintime', 'python', 'platform', 'system',
-                        'os-release', 'external']
+        # 1st level keys
+        self.assertEqual(
+            sorted(result.keys()),
+            ['backintime', 'external-programs', 'host-setup', 'python-setup']
+        )
 
+        # 2nd level "backintime"
+        minimal_keys = ['name', 'version', 'config-version',
+                        'started-from', 'running_as_root']
         for key in minimal_keys:
-            self.assertIn(key, result)
+            self.assertIn(key, result['backintime'], key)
 
-        self.assertIn('version', result['backintime'])
+        # 2nd level "host-setup"
+        minimal_keys = ['platform', 'system', 'display-system',
+                        'locale', 'PATH']
+        for key in minimal_keys:
+            self.assertIn(key, result['host-setup'], key)
 
-        self.assertIn('rsync', result['external'])
+        # 2nd level "python-setup"
+        self.assertIn('python', result['python-setup'], 'python')
+
+        # 2nd level "external-programs"
+        minimal_keys = ['rsync', 'shell']
+        for key in minimal_keys:
+            self.assertIn(key, result['external-programs'], key)
+
 
     def test_no_ressource_warning(self):
         """No ResourceWarning's.

@@ -3,8 +3,9 @@
 long doc
 
 """
-import pathlib
+import sys
 import os
+import pathlib
 import pwd
 import platform
 import locale
@@ -27,6 +28,8 @@ def collect_diagnostics():
 
     USER_REPLACED = 'UsernameReplaced'
 
+    pwd_struct = pwd.getpwuid(os.getuid())
+
     # === BACK IN TIME ===
     distro_path = _determine_distro_package_folder()
 
@@ -35,11 +38,8 @@ def collect_diagnostics():
         'version': config.Config.VERSION,
         'config-version': config.Config.CONFIG_VERSION,
         'distribution-package': str(distro_path),
-    }
-
-    # dev note: In the future, there will be more paths here.
-    result['paths'] = {
-        'common': str(pathlib.Path(config.__file__).parent),
+        'started-from': str(pathlib.Path(config.__file__).parent),
+        'running_as_root': pwd_struct.pw_name == 'root',
     }
 
     # Git repo
@@ -50,33 +50,14 @@ def collect_diagnostics():
         for key in git_info:
             result['backintime'][f'git-{key}'] = git_info[key]
 
-    # Root
-    pwd_struct = pwd.getpwuid(os.getuid())
-    result['running_as_root'] = pwd_struct.pw_name == 'root'
+    # == HOST setup ===
+    result['host-setup'] = {
+        # Kernel & Architecture
+        'platform': platform.platform(),
+        # OS Version (and maybe name)
+        'system': '{} {}'.format(platform.system(), platform.version()),
+    }
 
-    # === PYTHON ===
-    result['python'] = '{} {} {} {}'.format(
-        platform.python_version(),
-        ' '.join(platform.python_build()),
-        platform.python_implementation(),
-        platform.python_compiler()
-    )
-
-    # Python branch and revision if available
-    branch = platform.python_branch()
-    if branch:
-        result['python'] = '{} branch: {}'.format(result['python'], branch)
-    rev = platform.python_revision()
-    if rev:
-        result['python'] = '{} rev: {}'.format(result['python'], rev)
-
-    # === SYSTEM / PLATFORM ===
-
-    # Kernel & Architecture
-    result['platform'] = platform.platform()
-
-    # OS Version (and maybe name)
-    result['system'] = '{} {}'.format(platform.system(), platform.version())
 
     # content of /etc/os-release
     try:
@@ -96,19 +77,40 @@ def collect_diagnostics():
         else:
             osrelease = re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
 
-    result['os-release'] = osrelease
+    result['host-setup']['os-release'] = osrelease
 
     # Display system (X11 or Wayland)
     # This doesn't catch all edge cases.
     # For more detials see: https://unix.stackexchange.com/q/202891/136851
-    result['display-system'] = os.environ.get(
+    result['host-setup']['display-system'] = os.environ.get(
         'XDG_SESSION_TYPE', '($XDG_SESSION_TYPE not set)')
 
     # locale (system language etc)
-    result['locale'] = ', '.join(locale.getlocale())
+    result['host-setup']['locale'] = ', '.join(locale.getlocale())
 
-    # === PACKAGES ===
-    result['dependencies'] = {}
+    # PATH environment variable
+    result['host-setup']['PATH'] = os.environ.get('PATH', '($PATH unknown)')
+
+    # === PYTHON setup ===
+    python = '{} {} {} {}'.format(
+        platform.python_version(),
+        ' '.join(platform.python_build()),
+        platform.python_implementation(),
+        platform.python_compiler()
+    )
+
+    # Python branch and revision if available
+    branch = platform.python_branch()
+    if branch:
+        python = '{} branch: {}'.format(python, branch)
+    rev = platform.python_revision()
+    if rev:
+        python = '{} rev: {}'.format(python, rev)
+
+    result['python-setup'] = {
+        'python': python,
+        'sys.path': sys.path,
+    }
 
     # Qt
     try:
@@ -119,10 +121,10 @@ def collect_diagnostics():
         qt = 'PyQt {} / Qt {}'.format(PyQt5.QtCore.PYQT_VERSION_STR,
                                       PyQt5.QtCore.QT_VERSION_STR)
     finally:
-        result['dependencies']['qt'] = qt
+        result['python-setup']['qt'] = qt
 
     # === EXTERN TOOL ===
-    result['external'] = {}
+    result['external-programs'] = {}
 
     # rsync
     # rsync >= 3.2.6: -VV return a json
@@ -131,7 +133,7 @@ def collect_diagnostics():
     # rsync == 3.1.3 (Ubuntu 20 LTS) doesn't even know '-V'
 
     # This work when rsync understand -VV and return json or human readable
-    result['external']['rsync'] = _get_extern_versions(
+    result['external-programs']['rsync'] = _get_extern_versions(
         ['rsync', '-VV'],
         r'rsync  version (.*)  protocol version',
         try_json=True,
@@ -139,34 +141,34 @@ def collect_diagnostics():
     )
 
     # When -VV was unknown use -V and parse the human readable output
-    if not result['external']['rsync']:
+    if not result['external-programs']['rsync']:
         # try the old way
-        result['external']['rsync'] = _get_extern_versions(
+        result['external-programs']['rsync'] = _get_extern_versions(
             ['rsync', '--version'],
             r'rsync  version (.*)  protocol version'
         )
 
     # ssh
-    result['external']['ssh'] = _get_extern_versions(['ssh', '-V'])
+    result['external-programs']['ssh'] = _get_extern_versions(['ssh', '-V'])
 
     # sshfs
-    result['external']['sshfs'] \
+    result['external-programs']['sshfs'] \
         = _get_extern_versions(['sshfs', '-V'], r'SSHFS version (.*)\n')
 
     # EncFS
     # Using "[Vv]" in the pattern because encfs does translate its output.
     # e.g. In German it is "Version" in English "version".
-    result['external']['encfs'] \
+    result['external-programs']['encfs'] \
         = _get_extern_versions(['encfs'], r'Build: encfs [Vv]ersion (.*)\n')
 
     # Shell
     SHELL_ERR_MSG = '($SHELL not exists)'
     shell = os.environ.get('SHELL', SHELL_ERR_MSG)
-    result['external']['shell'] = shell
+    result['external-programs']['shell'] = shell
 
     if shell != SHELL_ERR_MSG:
         shell_version = _get_extern_versions([shell, '--version'])
-        result['external']['shell-version'] = shell_version.split('\n')[0]
+        result['external-programs']['shell-version'] = shell_version.split('\n')[0]
 
     result = json.loads(
         json.dumps(result).replace(pwd_struct.pw_name, USER_REPLACED)
