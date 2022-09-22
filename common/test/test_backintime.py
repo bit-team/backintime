@@ -187,6 +187,8 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
 
         # output = subprocess.getoutput("./backintime --diagnostics")
 
+        print(f'================ OUTPUT: "{output}" ==')
+
         diagnostics = json.loads(output)
 
 
