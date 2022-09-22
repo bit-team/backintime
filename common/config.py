@@ -211,10 +211,10 @@ class Config(configfile.ConfigFileWithProfiles):
         """
 
         # DEBUG
-        # print('=== DEBUG === :: config.Config.__init__(config_path='
-        #       f'{config_path}, data_path={data_path})')
-        # import inspect
-        # print(inspect.stack()[1])
+        print('=== DEBUG === :: config.Config.__init__(config_path='
+              f'{config_path}, data_path={data_path})')
+        import inspect
+        print(inspect.stack()[1])
 
         # Exception when an instance exists
         if __class__._instance:
@@ -336,6 +336,8 @@ class Config(configfile.ConfigFileWithProfiles):
                         'snapshots.exclude_patterns', profile_id)
 
             if currentConfigVersion < 6:
+                # DEBUG
+                print(self.dict)
                 logger.info('Update to config version 6', self)
 
                 # remap some keys
