@@ -210,6 +210,12 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         """
 
+        # DEBUG
+        print('=== DEBUG === :: config.Config.__init__(config_path='
+              f'{config_path}, data_path={data_path})')
+        # import inspect
+        # print(inspect.stack()[1])
+
         # Exception when an instance exists
         if __class__._instance:
             raise Exception(
@@ -1365,43 +1371,60 @@ class Config(configfile.ConfigFileWithProfiles):
                 return ''
 
     def continueOnErrors(self, profile_id = None):
-        #?Continue on errors. This will keep incomplete snapshots rather than
-        #?deleting and start over again.
-        return self.profileBoolValue('snapshots.continue_on_errors', True, profile_id)
+        # Continue on errors. This will keep incomplete snapshots rather than
+        # deleting and start over again.
+        return self.profileBoolValue(
+            'snapshots.continue_on_errors', True, profile_id)
 
     def setContinueOnErrors(self, value, profile_id=None):
-        return self.setProfileBoolValue('snapshots.continue_on_errors', value, profile_id)
+        return self.setProfileBoolValue(
+            'snapshots.continue_on_errors', value, profile_id)
 
     def useChecksum(self, profile_id=None):
-        #?Use checksum to detect changes rather than size + time.
-        return self.profileBoolValue('snapshots.use_checksum', False, profile_id)
+        # Use checksum to detect changes rather than size + time.
+        return self.profileBoolValue(
+            'snapshots.use_checksum', False, profile_id)
 
     def setUseChecksum(self, value, profile_id=None):
-        return self.setProfileBoolValue('snapshots.use_checksum', value, profile_id)
+        return self.setProfileBoolValue(
+            'snapshots.use_checksum', value, profile_id)
 
     def logLevel(self, profile_id=None):
-        #?Log level used during takeSnapshot.\n1 = Error\n2 = Changes\n3 = Info;1-3
-        return self.profileIntValue('snapshots.log_level', 3, profile_id)
+        # Log level used during takeSnapshot.
+        # \n1 = Error\n2 = Changes\n3 = Info;1-3
+        return self.profileIntValue(
+            'snapshots.log_level', 3, profile_id)
 
     def setLogLevel(self, value, profile_id=None):
-        return self.setProfileIntValue('snapshots.log_level', value, profile_id)
+        return self.setProfileIntValue(
+            'snapshots.log_level', value, profile_id)
 
     def takeSnapshotRegardlessOfChanges(self, profile_id=None):
         #?Create a new snapshot regardless if there were changes or not.
-        return self.profileBoolValue('snapshots.take_snapshot_regardless_of_changes', False, profile_id)
+        return self.profileBoolValue(
+            'snapshots.take_snapshot_regardless_of_changes',
+            False,
+            profile_id)
 
     def setTakeSnapshotRegardlessOfChanges(self, value, profile_id=None):
-        return self.setProfileBoolValue('snapshots.take_snapshot_regardless_of_changes', value, profile_id)
+        return self.setProfileBoolValue(
+            'snapshots.take_snapshot_regardless_of_changes',
+            value,
+            profile_id)
 
     def userCallbackNoLogging(self, profile_id=None):
-        #?Do not catch std{out|err} from user-callback script.
-        #?The script will only write to current TTY.
-        #?Default is to catch std{out|err} and write it to
-        #?syslog and TTY again.
+        """
+        Do not catch std{out|err} from user-callback script.
+        The script will only write to current TTY.
+        Default is to catch std{out|err} and write it to
+        syslog and TTY again.
+        """
         return self.profileBoolValue('user_callback.no_logging', False, profile_id)
 
     def globalFlock(self):
-        #?Prevent multiple snapshots (from different profiles or users) to be run at the same time
+        """Prevent multiple snapshots (from different profiles or users)
+        to be run at the same time
+        """
         return self.boolValue('global.use_flock', False)
 
     def setGlobalFlock(self, value):
@@ -1424,16 +1447,24 @@ class Config(configfile.ConfigFileWithProfiles):
         return profile_id
 
     def takeSnapshotLogFile(self, profile_id=None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "takesnapshot_%s.log" % self.fileId(profile_id))
+        return os.path.join(
+            self._LOCAL_DATA_FOLDER,
+            "takesnapshot_%s.log" % self.fileId(profile_id))
 
     def takeSnapshotMessageFile(self, profile_id=None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.message" % self.fileId(profile_id))
+        return os.path.join(
+            self._LOCAL_DATA_FOLDER,
+            "worker%s.message" % self.fileId(profile_id))
 
     def takeSnapshotProgressFile(self, profile_id=None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.progress" % self.fileId(profile_id))
+        return os.path.join(
+            self._LOCAL_DATA_FOLDER,
+            "worker%s.progress" % self.fileId(profile_id))
 
     def takeSnapshotInstanceFile(self, profile_id=None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.lock" % self.fileId(profile_id))
+        return os.path.join(
+            self._LOCAL_DATA_FOLDER,
+            "worker%s.lock" % self.fileId(profile_id))
 
     def takeSnapshotUserCallback(self):
         return os.path.join(self._LOCAL_CONFIG_FOLDER, "user-callback")

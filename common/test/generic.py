@@ -156,7 +156,16 @@ class TestCaseCfg(TestCase):
     """
 
     def setUp(self):
+        """
+        """
         super(TestCaseCfg, self).setUp()
+
+        # Testing this explicite instead of try-except because
+        # we doing unittesting here.
+        if config.Config._instance:
+            # Delete the config instance from the previous unittest
+            config.Config._instance = None
+
         self.cfg = config.Config(self.cfgFile, self.sharePath)
 
         # mock notifyplugin to suppress notifications
