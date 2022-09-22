@@ -19,8 +19,9 @@ import os
 import re
 import subprocess
 import sys
-from test import generic
+import syslog
 import json
+from test import generic
 
 import config
 
@@ -178,6 +179,7 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
     def test_diagnostics_arg(self):
         """
         """
+        #syslog.setlogmask(syslog.LOG_UPTO(syslog.LOG_WARNING))
 
         # # Workaround: Without this line the next "subprocess.getoutput()" call fails on TravisCI for unknown reasons!
         output = subprocess.check_output(['./backintime', '--diagnostics'])
@@ -194,3 +196,6 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
 
         self.assertEqual(diagnostics['app_name'], config.Config.APP_NAME)
         self.assertEqual(diagnostics['app_version'], config.Config.VERSION)
+
+
+        syslog.setlogmask(syslog.LOG_UPTO(0x10))
