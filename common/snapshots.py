@@ -43,7 +43,7 @@ import snapshotlog
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 
-_=gettext.gettext
+_ = gettext.gettext
 
 
 class Snapshots:
@@ -57,9 +57,16 @@ class Snapshots:
     GLOBAL_FLOCK = '/tmp/backintime.lock'
 
     def __init__(self, cfg = None):
-        self.config = cfg
-        if self.config is None:
-            self.config = config.Config()
+        """
+        """
+        # This raise an exception if not config is loaded
+        self.config = config.Config.instance()
+
+        # IMHO this class shouldn't be responsible to
+        # invoke loading a config file (buhtz)
+        # if self.config is None:
+        #    self.config = config.Config()
+
         self.snapshotLog = snapshotlog.SnapshotLog(self.config)
 
         self.clearIdCache()
@@ -2601,7 +2608,7 @@ def lastSnapshot(cfg):
     if sids:
         return sids[0]
 
-if __name__ == '__main__':
-    config = config.Config()
-    snapshots = Snapshots(config)
-    snapshots.backup()
+# if __name__ == '__main__':
+#     config = config.Config()
+#     snapshots = Snapshots(config)
+#     snapshots.backup()

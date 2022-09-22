@@ -37,7 +37,7 @@ import cli
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 
-_=gettext.gettext
+_ = gettext.gettext
 
 RETURN_OK = 0
 RETURN_ERR = 1
@@ -639,6 +639,7 @@ class PseudoAliasAction(argparse.Action):
         setattr(namespace, 'replace', replace)
         setattr(namespace, 'alias', alias)
 
+
 def aliasParser(args):
     """
     Call commands which where given with leading -- for backwards
@@ -656,14 +657,14 @@ def aliasParser(args):
     if 'func' in dir(newArgs):
         newArgs.func(newArgs)
 
-def getConfig(args, check = True):
+
+def getConfig(args, check=True):
     """
     Load config and change to profile selected on commandline.
 
     Args:
-        args (argparse.Namespace):
-                        previously parsed arguments
-        check (bool):   if ``True`` check if config is valid
+        args (argparse.Namespace): Previously parsed arguments
+        check (bool): Ff ``True`` check if config is valid
 
     Returns:
         config.Config:  current config with requested profile selected
@@ -672,26 +673,41 @@ def getConfig(args, check = True):
         SystemExit:     1 if ``profile`` or ``profile_id`` is no valid profile
                         2 if ``check`` is ``True`` and config is not configured
     """
-    cfg = config.Config(config_path = args.config, data_path = args.share_path)
+    cfg = config.Config(
+        config_path=args.config,
+        data_path=args.share_path
+    )
+
     logger.debug('config file: %s' % cfg._LOCAL_CONFIG_PATH)
     logger.debug('share path: %s' % cfg._LOCAL_DATA_FOLDER)
-    logger.debug('profiles: %s' % ', '.join('%s=%s' % (x, cfg.profileName(x))
-                                                        for x in cfg.profiles()))
+    logger.debug('profiles: %s' % ', '
+                 .join('%s=%s' % (x, cfg.profileName(x))
+                       for x in cfg.profiles()))
 
     if 'profile_id' in args and args.profile_id:
+
         if not cfg.setCurrentProfile(args.profile_id):
             logger.error('Profile-ID not found: %s' % args.profile_id)
+
             sys.exit(RETURN_ERR)
+
     if 'profile' in args and args.profile:
+
         if not cfg.setCurrentProfileByName(args.profile):
             logger.error('Profile not found: %s' % args.profile)
+
             sys.exit(RETURN_ERR)
+
     if check and not cfg.isConfigured():
         logger.error('%(app)s is not configured!' %{'app': cfg.APP_NAME})
+
         sys.exit(RETURN_NO_CFG)
+
     if 'checksum' in args:
         cfg.forceUseChecksum = args.checksum
+
     return cfg
+
 
 def setQuiet(args):
     """
@@ -737,15 +753,20 @@ class printDiagnostics(argparse.Action):
         super(printDiagnostics, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
+        """
+        """
+
         cfg = config.Config()
 
-        # TODO Refactor into a separate functions in a new diagnostics.py when more info is added
+        # TODO Refactor into a separate functions in a new diagnostics.py
+        # when more info is added
         ref, hashid = tools.gitRevisionAndHash()
         git_branch = "Unknown"
         git_commit = "Unknown"
+
         if ref:
-             git_branch = ref
-             git_commit = hashid
+            git_branch = ref
+            git_commit = hashid
 
         diagnostics = dict(
             app_name=config.Config.APP_NAME,

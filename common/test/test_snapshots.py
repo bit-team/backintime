@@ -40,17 +40,24 @@ CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
 CURRENTGID = os.getegid()
 CURRENTGROUP = grp.getgrgid(CURRENTGID).gr_name
 
-#all groups the current user is member in
+# all groups the current user is member in
 GROUPS = [i.gr_name for i in grp.getgrall() if CURRENTUSER in i.gr_mem]
 NO_GROUPS = not GROUPS
 
 IS_ROOT = os.geteuid() == 0
 
 class TestSnapshots(generic.SnapshotsTestCase):
+    """
+    Development note:
+        The mystic `self.sn` is created in the parent class and is an instance
+        of `Snapshot` class.
+    """
     ############################################################################
     ###                       takeSnapshotMessage                            ###
     ############################################################################
     def test_setTakeSnapshotMessage_info(self):
+        """
+        """
         self.sn.setTakeSnapshotMessage(0, 'first message')
         self.sn.snapshotLog.flush()
 
@@ -69,22 +76,33 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual('\n'.join(self.sn.snapshotLog.get()), '[I] first message')
 
     def test_setTakeSnapshotMessage_error(self):
+        """
+        """
         self.sn.setTakeSnapshotMessage(1, 'second message')
         self.sn.snapshotLog.flush()
 
         # test NotifyPlugin
-        self.mockNotifyPlugin.assert_called_once_with(self.sn.config.currentProfile(),
-                                                      self.sn.config.profileName(),
-                                                      1,
-                                                      'second message',
-                                                      -1)
+        self.mockNotifyPlugin.assert_called_once_with(
+            self.sn.config.currentProfile(),
+            self.sn.config.profileName(),
+            1,
+            'second message',
+            -1
+        )
+
         # test message file
         self.assertExists(self.sn.config.takeSnapshotMessageFile())
+
         with open(self.sn.config.takeSnapshotMessageFile(), 'rt') as f:
             message = f.read()
+
         self.assertEqual(message, '1\nsecond message')
+
         # test snapshot log
-        self.assertEqual('\n'.join(self.sn.snapshotLog.get()), '[E] second message')
+        self.assertEqual(
+            '\n'.join(self.sn.snapshotLog.get()),
+            '[E] second message'
+        )
 
     ############################################################################
     ###                              uid                                     ###
@@ -167,7 +185,7 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(self.sn.rsyncRemotePath('/foo', use_mode = ['local'], quote = '\\\"'),
                          '/foo')
 
-        #set up SSH profile
+        # set up SSH profile
         self.cfg.setSnapshotsMode('ssh')
         self.cfg.setSshHost('localhost')
         self.cfg.setSshUser('foo')
@@ -196,8 +214,12 @@ class TestSnapshots(generic.SnapshotsTestCase):
         self.assertEqual(os.path.realpath(symlink), sid2.path())
 
     def flockSecondInstance(self):
-        cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
-        cfg = config.Config(cfgFile)
+        """
+        """
+        # cfgFile = os.path.abspath(os.path.join(__file__, os.pardir, 'config'))
+        # cfg = config.Config(cfgFile)
+        cfg = config.Config.instance()
+
         sn = snapshots.Snapshots(cfg)
         sn.GLOBAL_FLOCK = self.sn.GLOBAL_FLOCK
 
@@ -206,14 +228,22 @@ class TestSnapshots(generic.SnapshotsTestCase):
         sn.flockRelease()
 
     def test_flockExclusive(self):
-        RWUGO = 33206 #-rw-rw-rw
+        """I do not know what is tested here.
+
+        buhtz: It seems obscure that the Thread does create a second
+        `config.Config` instance but from the same file. Two Threads accessing
+        the same file? Please someone need to investiage that further .
+        """
+        RWUGO = 33206  # -rw-rw-rw
+
         self.cfg.setGlobalFlock(True)
-        thread = Thread(target = self.flockSecondInstance, args = ())
+
+        thread = Thread(target=self.flockSecondInstance, args=())
         self.sn.flockExclusive()
 
         self.assertExists(self.sn.GLOBAL_FLOCK)
-        mode = os.stat(self.sn.GLOBAL_FLOCK).st_mode
-        self.assertEqual(mode, RWUGO)
+
+        self.assertEqual(os.stat(self.sn.GLOBAL_FLOCK).st_mode, RWUGO)
 
         thread.start()
         thread.join(0.01)
@@ -511,7 +541,6 @@ class TestSnapshots(generic.SnapshotsTestCase):
                                              sid15, sid16, sid18, sid19, sid20, sid21,
                                              sid22, sid24, sid27, sid28, sid30])
 
-
 class TestSnapshotWithSID(generic.SnapshotsWithSidTestCase):
     def test_backupConfig(self):
         self.sn.backupConfig(self.sid)
@@ -757,5 +786,5 @@ class TestSshSnapshots(generic.SSHTestCase):
     def test_statFreeSpaceSsh(self):
         self.assertIsInstance(self.sn.statFreeSpaceSsh(), int)
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()

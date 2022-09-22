@@ -1,5 +1,6 @@
 #    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+#    Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,6 +16,13 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+"""This module implements a generic configuration file and low level
+operations on keys and their values.
+
+Development info: That module will be replaced in the future by Pythons own
+``configparser`` module or an alternative.
+"""
+
 import os
 import collections
 import re
@@ -22,12 +30,14 @@ import re
 import gettext
 import logger
 
-_=gettext.gettext
+_ = gettext.gettext
+
 
 class ConfigFile(object):
     """
     Store options in a plain text file in form of: key=value
     """
+
     def __init__(self):
         self.dict = {}
         self.errorHandler = None
@@ -116,7 +126,7 @@ class ConfigFile(object):
         self.dict = {}
         self.append(filename, **kwargs)
 
-    def append(self, filename, maxsplit = 1):
+    def append(self, filename, maxsplit=1):
         """
         Load options from file and append them to current options.
 
@@ -182,7 +192,7 @@ class ConfigFile(object):
         """
         return key in self.dict
 
-    def strValue(self, key, default = ''):
+    def strValue(self, key, default=''):
         """
         Return a 'str' instance of key's value.
 
@@ -209,7 +219,7 @@ class ConfigFile(object):
         """
         self.dict[key] = value
 
-    def intValue(self, key, default = 0):
+    def intValue(self, key, default=0):
         """
         Return a 'int' instance of key's value.
 
@@ -236,7 +246,7 @@ class ConfigFile(object):
         """
         self.setStrValue(key, str(value))
 
-    def boolValue(self, key, default = False):
+    def boolValue(self, key, default=False):
         """
         Return a 'bool' instance of key's value.
 
@@ -269,7 +279,7 @@ class ConfigFile(object):
         else:
             self.setStrValue(key, 'false')
 
-    def listValue(self, key, type_key = 'str:value', default = []):
+    def listValue(self, key, type_key='str:value', default = []):
         """
         Return a list of values
 
@@ -411,14 +421,16 @@ class ConfigFile(object):
     def keys(self):
         return list(self.dict.keys())
 
+
 class ConfigFileWithProfiles(ConfigFile):
     """
-    Store options in profiles as 'profileX.key=value'
+    Store options in profiles as 'profileX.key=value'.
 
     Args:
         default_profile_name (str): default name of the first profile.
     """
-    def __init__(self, default_profile_name = ''):
+
+    def __init__(self, default_profile_name=''):
         ConfigFile.__init__(self)
 
         self.default_profile_name = default_profile_name
@@ -587,7 +599,7 @@ class ConfigFileWithProfiles(ConfigFile):
 
         return False
 
-    def profileName(self, profile_id = None):
+    def profileName(self, profile_id=None):
         """
         Name of the profile.
 
@@ -644,7 +656,7 @@ class ConfigFileWithProfiles(ConfigFile):
         self.setProfileStrValue('name', name, new_id)
         return new_id
 
-    def removeProfile(self, profile_id = None):
+    def removeProfile(self, profile_id=None):
         """
         Remove profile and all its keys and values.
 
@@ -683,7 +695,7 @@ class ConfigFileWithProfiles(ConfigFile):
 
         return True
 
-    def setProfileName(self, name, profile_id = None):
+    def setProfileName(self, name, profile_id=None):
         """
         Change the name of the profile.
 
@@ -710,7 +722,7 @@ class ConfigFileWithProfiles(ConfigFile):
         self.setProfileStrValue('name', name, profile_id)
         return True
 
-    def profileKey(self, key, profile_id = None):
+    def profileKey(self, key, profile_id=None):
         """
         Prefix for keys with profile. e.g. 'profile1.key'
 
@@ -727,7 +739,7 @@ class ConfigFileWithProfiles(ConfigFile):
             profile_id = self.current_profile_id
         return 'profile' + profile_id + '.' + key
 
-    def removeProfileKey(self, key, profile_id = None):
+    def removeProfileKey(self, key, profile_id=None):
         """
         Remove the key from profile.
 
@@ -737,7 +749,7 @@ class ConfigFileWithProfiles(ConfigFile):
         """
         self.removeKey(self.profileKey(key, profile_id))
 
-    def removeProfileKeysStartsWith(self, prefix, profile_id = None):
+    def removeProfileKeysStartsWith(self, prefix, profile_id=None):
         """
         Remove the keys starting with prefix from profile.
 
@@ -748,7 +760,7 @@ class ConfigFileWithProfiles(ConfigFile):
         """
         self.removeKeysStartsWith(self.profileKey(prefix, profile_id))
 
-    def remapProfileKey(self, oldKey, newKey, profileId = None):
+    def remapProfileKey(self, oldKey, newKey, profileId=None):
         """
         Remap profile keys to a new key name.
 
@@ -760,7 +772,7 @@ class ConfigFileWithProfiles(ConfigFile):
         self.remapKey(self.profileKey(oldKey, profileId),
                       self.profileKey(newKey, profileId))
 
-    def hasProfileKey(self, key, profile_id = None):
+    def hasProfileKey(self, key, profile_id=None):
         """
         ``True`` if key is set in profile.
 
@@ -773,26 +785,26 @@ class ConfigFileWithProfiles(ConfigFile):
         """
         return self.profileKey(key, profile_id) in self.dict
 
-    def profileStrValue(self, key, default = '', profile_id = None):
+    def profileStrValue(self, key, default='', profile_id=None):
         return self.strValue(self.profileKey(key, profile_id), default)
 
-    def setProfileStrValue(self, key, value, profile_id = None):
+    def setProfileStrValue(self, key, value, profile_id=None):
         self.setStrValue(self.profileKey(key, profile_id), value)
 
-    def profileIntValue(self, key, default = 0, profile_id = None):
+    def profileIntValue(self, key, default=0, profile_id=None):
         return self.intValue(self.profileKey(key, profile_id), default)
 
-    def setProfileIntValue(self, key, value, profile_id = None):
+    def setProfileIntValue(self, key, value, profile_id=None):
         self.setIntValue(self.profileKey(key, profile_id), value)
 
-    def profileBoolValue(self, key, default = False, profile_id = None):
+    def profileBoolValue(self, key, default=False, profile_id=None):
         return self.boolValue(self.profileKey(key, profile_id), default)
 
-    def setProfileBoolValue(self, key, value, profile_id = None):
+    def setProfileBoolValue(self, key, value, profile_id=None):
         self.setBoolValue(self.profileKey(key, profile_id), value)
 
-    def profileListValue(self, key, type_key = 'str:value', default = [], profile_id = None):
+    def profileListValue(self, key, type_key='str:value', default = [], profile_id = None):
         return self.listValue(self.profileKey(key, profile_id), type_key, default)
 
-    def setProfileListValue(self, key, type_key, value, profile_id = None):
+    def setProfileListValue(self, key, type_key, value, profile_id=None):
         self.setListValue(self.profileKey(key, profile_id), type_key, value)

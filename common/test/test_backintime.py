@@ -19,18 +19,42 @@ import os
 import re
 import subprocess
 import sys
-from test import generic
 import json
+import unittest
+from test import generic
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import config
 
 
+class TestBIT(unittest.TestCase):
+    """Back In Time unittests using Pythons pure unittest.
+    """
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+    def setUp(self):
+        config.Config()
+
+    def tearDown(self):
+        config.Config._instance = None
+
+    def test_argument_diagnostics(self):
+        """Command-line argument '--diagnostics'"""
+
+        output = subprocess.check_output(['./backintime', '--diagnostics'])
+
+        self.assertIsNotNone(output)
+        self.assertTrue(output)  # len greather then 0
+
+        # No exception because it is valid JSON output
+        json.loads(output)
+
+        # content is tested `test_diagnostics.py`
 
 
 class TestBackInTime(generic.TestCase):
-    """main tests for backintime"""
+    """Tests for backintime module using `generic` module in the back.
+    """
 
     def setUp(self):
         super(TestBackInTime, self).setUp()
@@ -174,13 +198,3 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
                                  "/tmp/test",
                                  "/tmp/restored"])
 
-    def test_diagnostics_arg(self):
-
-        # Workaround: Without this line the next "subprocess.getoutput()" call fails on TravisCI for unknown reasons!
-        subprocess.check_output(["./backintime", "--diagnostics"])
-
-        output = subprocess.getoutput("./backintime --diagnostics")
-
-        diagnostics = json.loads(output)
-        self.assertEqual(diagnostics["app_name"], config.Config.APP_NAME)
-        self.assertEqual(diagnostics["app_version"], config.Config.VERSION)

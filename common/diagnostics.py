@@ -12,7 +12,7 @@ import locale
 import subprocess
 import json
 import re
-import config  # config.Config.VERSION  Refactor after src-layout migration
+import config
 
 
 def collect_diagnostics():
@@ -30,17 +30,32 @@ def collect_diagnostics():
 
     pwd_struct = pwd.getpwuid(os.getuid())
 
+    cfg = config.Config.instance()
+
     # === BACK IN TIME ===
     distro_path = _determine_distro_package_folder()
 
     result['backintime'] = {
-        'name': config.Config.APP_NAME,
-        'version': config.Config.VERSION,
+        'name': cfg.APP_NAME,
+        'version': cfg.VERSION,
         'config-version': config.Config.CONFIG_VERSION,
         'distribution-package': str(distro_path),
         'started-from': str(pathlib.Path(config.__file__).parent),
         'running_as_root': pwd_struct.pw_name == 'root',
     }
+
+    # get different *PATH variables from config object
+    path_names = [
+        '_APP_PATH',
+        '_DOC_PATH',
+        '_LOCAL_DATA_FOLDER',
+        '_LOCAL_CONFIG_FOLDER',
+        '_LOCAL_MOUNT_ROOT',
+        '_MOUNT_ROOT',
+    ]
+
+    for pn in path_names:
+        result['backintime'][pn] = getattr(cfg, pn)
 
     # Git repo
     git_info = get_git_repository_info(distro_path)
