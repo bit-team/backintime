@@ -19,15 +19,56 @@ import os
 import stat
 import sys
 from tempfile import TemporaryDirectory
+import unittest
 from unittest.mock import patch
 from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config
 
+class TestConfig(unittest.TestCase):
+    """Regular tests for the `Config` class.
 
-class TestConfig(generic.TestCaseCfg):
+    Doing pre-setups via deriving from classes in `generic` should be avoided
+    here.
     """
+
+    def test_instance(self):
+        """
+        """
+
+        # The whole enviornment especially the unitttest need be setup that
+        # way that instances of `Config` used should be destroyed after each
+        # test.
+
+        # explicite check
+        self.assertIsNone(config.Config._instance)
+
+        # Because of that this should work without an Exception.
+        config.Config()
+
+        # again explicite check
+        self.assertIsNotNone(config.Config._instance)
+
+        # Now because have an instance this should raise an Exception because
+        # only one instance is allowed.
+        rex_pattern = r'.*still exists!.*Use.*to access it.*'
+        with self.assertRaisesRegex(Exception, rex_pattern):
+            config.Config()
+
+        # no exception
+        self.assertIsInstance(
+            config.Config.instance(),
+            config.Config
+        )
+
+
+class TestConfigSnapshots(generic.TestCaseCfg):
+    """More high level tests for the `Config` class using pre-setups via
+    deriving from classes in `generic` module.
+
+    Development note: It is not clear for me (buht) why this is related to the
+    `Config` class.
     """
 
     def test_set_snapshots_path_test_writes(self):
@@ -54,8 +95,12 @@ class TestConfig(generic.TestCaseCfg):
             self.assertTrue(self.cfg.setSnapshotsPath(dirpath))
 
 
+
 class TestSshCommand(generic.SSHTestCase):
-    """
+    """High level tests for the `Config` class and its SSH related methods.
+
+    Development note: It is obvious that this functionality should be
+    separated from the `Config` class.
     """
     def test_full_command(self):
         """
