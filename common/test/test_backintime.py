@@ -19,13 +19,8 @@ import os
 import re
 import subprocess
 import sys
-import syslog
 import json
 from test import generic
-
-import config
-
-
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -176,26 +171,15 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
                                  "/tmp/test",
                                  "/tmp/restored"])
 
-    def test_diagnostics_arg(self):
-        """
-        """
-        #syslog.setlogmask(syslog.LOG_UPTO(syslog.LOG_WARNING))
+    def test_argument_diagnostics(self):
+        """Command-line argument '--diagnostics'"""
 
-        # # Workaround: Without this line the next "subprocess.getoutput()" call fails on TravisCI for unknown reasons!
         output = subprocess.check_output(['./backintime', '--diagnostics'])
 
         self.assertIsNotNone(output)
         self.assertTrue(output)  # len greather then 0
 
-        # output = subprocess.getoutput("./backintime --diagnostics")
+        # No exception because it is valid JSON output
+        json.loads(output)
 
-        print(f'================ OUTPUT: "{output}" ==')
-
-        diagnostics = json.loads(output)
-
-
-        self.assertEqual(diagnostics['app_name'], config.Config.APP_NAME)
-        self.assertEqual(diagnostics['app_version'], config.Config.VERSION)
-
-
-        syslog.setlogmask(syslog.LOG_UPTO(0x10))
+        # content is tested `test_diagnostics.py`

@@ -14,6 +14,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+"""Modul docstring
+"""
+
 import os
 import subprocess
 import json
@@ -27,7 +30,8 @@ import tools
 import password
 from exceptions import MountException, HashCollision
 
-_=gettext.gettext
+_ = gettext.gettext
+
 
 class Mount(object):
     """
@@ -49,14 +53,18 @@ class Mount(object):
         parent (QWidget):       parent widget for QDialogs or ``None`` if there
                                 is no parent
     """
+
     def __init__(self,
-                 cfg = None,
-                 profile_id = None,
-                 tmp_mount = False,
-                 parent = None):
+                 cfg=None,
+                 profile_id=None,
+                 tmp_mount=False,
+                 parent=None):
+        """
+        """
         self.config = cfg
+
         if self.config is None:
-            self.config = config.Config()
+            self.config = config.Config.instance()
 
         self.profile_id = profile_id
         if self.profile_id is None:

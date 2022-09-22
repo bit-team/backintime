@@ -189,20 +189,36 @@ class EncFS_mount(MountControl):
                      %(cfg, new_backup), self)
         shutil.copy2(cfg, new_backup)
 
+
 class EncFS_SSH(EncFS_mount):
     """
     Mount encrypted remote path with sshfs and encfs.
     Mount / with encfs --reverse.
     rsync will then sync the encrypted view on / to the remote path
     """
-    def __init__(self, cfg = None, profile_id = None, mode = None, parent = None,*args, **kwargs):
+
+    def __init__(self,
+                 cfg=None,
+                 profile_id=None,
+                 mode=None,
+                 parent=None,
+                 *args,
+                 **kwargs):
+        """
+        """
+
         self.config = cfg
+
         if self.config is None:
-            self.config = config.Config()
+            self.config = config.Config.instance()
+
         self.profile_id = profile_id
+
         if self.profile_id is None:
             self.profile_id = self.config.currentProfile()
+
         self.mode = mode
+
         if self.mode is None:
             self.mode = self.config.snapshotsMode(self.profile_id)
 
@@ -210,9 +226,14 @@ class EncFS_SSH(EncFS_mount):
         self.args = args
         self.kwargs = kwargs
 
-        self.ssh = sshtools.SSH(*self.args, symlink = False, **self.splitKwargs('ssh'))
-        self.rev_root = EncFS_mount(*self.args, symlink = False, **self.splitKwargs('encfs_reverse'))
-        super(EncFS_SSH, self).__init__(*self.args, **self.splitKwargs('encfs'))
+        self.ssh = sshtools.SSH(
+            *self.args, symlink=False, **self.splitKwargs('ssh'))
+
+        self.rev_root = EncFS_mount(
+            *self.args, symlink=False, **self.splitKwargs('encfs_reverse'))
+
+        super(EncFS_SSH, self).__init__(
+            *self.args, **self.splitKwargs('encfs'))
 
     def mount(self, *args, **kwargs):
         """

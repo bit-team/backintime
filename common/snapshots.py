@@ -2608,7 +2608,7 @@ def lastSnapshot(cfg):
     if sids:
         return sids[0]
 
-if __name__ == '__main__':
-    config = config.Config()
-    snapshots = Snapshots(config)
-    snapshots.backup()
+# if __name__ == '__main__':
+#     config = config.Config()
+#     snapshots = Snapshots(config)
+#     snapshots.backup()

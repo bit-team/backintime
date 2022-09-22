@@ -194,6 +194,7 @@ class Config(configfile.ConfigFileWithProfiles):
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     _instance = None
+    _buhtz = []
 
     @classmethod
     def instance(cls):
@@ -212,13 +213,17 @@ class Config(configfile.ConfigFileWithProfiles):
         """
 
         # DEBUG
-        print('=== DEBUG === :: config.Config.__init__(config_path='
+
+        Config._buhtz.append('config.Config.__init__(config_path='
               f'{config_path}, data_path={data_path})')
         import inspect
-        print(inspect.stack()[1])
+        Config._buhtz.append(inspect.stack()[1])
 
         # Exception when an instance exists
         if __class__._instance:
+            for e in Config._buhtz:
+                print(e)
+                print('°'*70)
             raise Exception(
                 f'Instance of class "{self.__class__.__name__}" still exists!'
                 f' Use "{self.__class__.__name__}.instance()" to access it.')

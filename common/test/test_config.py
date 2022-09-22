@@ -24,7 +24,9 @@ from unittest.mock import patch
 from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 import config
+
 
 class TestConfig(unittest.TestCase):
     """Regular tests for the `Config` class.
@@ -96,7 +98,6 @@ class TestConfigSnapshots(generic.TestCaseCfg):
         mock_chmod.side_effect = PermissionError()
         with TemporaryDirectory() as dirpath:
             self.assertTrue(self.cfg.setSnapshotsPath(dirpath))
-
 
 
 class TestSshCommand(generic.SSHTestCase):

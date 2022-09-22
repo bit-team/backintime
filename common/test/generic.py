@@ -174,6 +174,11 @@ class TestCaseCfg(TestCase):
 
         self.cfg.PLUGIN_MANAGER.load()
 
+    def tearDown(self):
+        """
+        """
+        config.Config._instance = None
+
 
 class TestCaseSnapshotPath(TestCaseCfg):
     """Base class for snapshot test cases.
