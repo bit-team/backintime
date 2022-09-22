@@ -30,7 +30,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 
 class TestBackInTime(generic.TestCase):
-    """main tests for backintime"""
+    """Main tests for backintime module
+    """
 
     def setUp(self):
         super(TestBackInTime, self).setUp()
@@ -175,12 +176,18 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
                                  "/tmp/restored"])
 
     def test_diagnostics_arg(self):
+        """
+        """
 
-        # Workaround: Without this line the next "subprocess.getoutput()" call fails on TravisCI for unknown reasons!
-        subprocess.check_output(["./backintime", "--diagnostics"])
+        # # Workaround: Without this line the next "subprocess.getoutput()" call fails on TravisCI for unknown reasons!
+        output = subprocess.check_output(['./backintime', '--diagnostics'])
 
-        output = subprocess.getoutput("./backintime --diagnostics")
+        self.assertIsNotNone(output)
+        self.assertTrue(output)  # len greather then 0
+
+        # output = subprocess.getoutput("./backintime --diagnostics")
 
         diagnostics = json.loads(output)
-        self.assertEqual(diagnostics["app_name"], config.Config.APP_NAME)
-        self.assertEqual(diagnostics["app_version"], config.Config.VERSION)
+
+        self.assertEqual(diagnostics['app_name'], config.Config.APP_NAME)
+        self.assertEqual(diagnostics['app_version'], config.Config.VERSION)

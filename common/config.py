@@ -211,8 +211,8 @@ class Config(configfile.ConfigFileWithProfiles):
         """
 
         # DEBUG
-        print('=== DEBUG === :: config.Config.__init__(config_path='
-              f'{config_path}, data_path={data_path})')
+        # print('=== DEBUG === :: config.Config.__init__(config_path='
+        #       f'{config_path}, data_path={data_path})')
         # import inspect
         # print(inspect.stack()[1])
 
