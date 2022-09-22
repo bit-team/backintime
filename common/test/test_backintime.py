@@ -20,13 +20,40 @@ import re
 import subprocess
 import sys
 import json
+import unittest
 from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
+import config
+
+
+class TestBIT(unittest.TestCase):
+    """Back In Time unittests using Pythons pure unittest.
+    """
+
+    def setUp(self):
+        config.Config()
+
+    def tearDown(self):
+        config.Config._instance = None
+
+    def test_argument_diagnostics(self):
+        """Command-line argument '--diagnostics'"""
+
+        output = subprocess.check_output(['./backintime', '--diagnostics'])
+
+        self.assertIsNotNone(output)
+        self.assertTrue(output)  # len greather then 0
+
+        # No exception because it is valid JSON output
+        json.loads(output)
+
+        # content is tested `test_diagnostics.py`
+
 
 class TestBackInTime(generic.TestCase):
-    """Main tests for backintime module
+    """Tests for backintime module using `generic` module in the back.
     """
 
     def setUp(self):
@@ -171,15 +198,3 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
                                  "/tmp/test",
                                  "/tmp/restored"])
 
-    def test_argument_diagnostics(self):
-        """Command-line argument '--diagnostics'"""
-
-        output = subprocess.check_output(['./backintime', '--diagnostics'])
-
-        self.assertIsNotNone(output)
-        self.assertTrue(output)  # len greather then 0
-
-        # No exception because it is valid JSON output
-        json.loads(output)
-
-        # content is tested `test_diagnostics.py`

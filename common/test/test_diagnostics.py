@@ -6,11 +6,18 @@ import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 # This workaround will become obsolet when migrating to src-layout
 sys.path.append(str(pathlib.Path(__file__).parent))
 import diagnostics  # testing target
+import config
 
 
 class Diagnostics(unittest.TestCase):
     """
     """
+
+    def setUp(self):
+        config.Config()
+
+    def tearDown(self):
+        config.Config._instance = None
 
     def test_minimal(self):
         """Minimal set of elements."""

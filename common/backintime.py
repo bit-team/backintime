@@ -753,15 +753,20 @@ class printDiagnostics(argparse.Action):
         super(printDiagnostics, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
+        """
+        """
+
         cfg = config.Config()
 
-        # TODO Refactor into a separate functions in a new diagnostics.py when more info is added
+        # TODO Refactor into a separate functions in a new diagnostics.py
+        # when more info is added
         ref, hashid = tools.gitRevisionAndHash()
         git_branch = "Unknown"
         git_commit = "Unknown"
+
         if ref:
-             git_branch = ref
-             git_commit = hashid
+            git_branch = ref
+            git_commit = hashid
 
         diagnostics = dict(
             app_name=config.Config.APP_NAME,
