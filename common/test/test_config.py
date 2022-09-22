@@ -34,7 +34,10 @@ class TestConfig(unittest.TestCase):
     """
 
     def test_instance(self):
-        """
+        """Singleton behaviour of `Config` class.
+
+        Only one instance of `Config` is allowed. Otherwise Exceptions are
+        raised.
         """
 
         # The whole enviornment especially the unitttest need be setup that
