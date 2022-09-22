@@ -189,5 +189,6 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
 
         diagnostics = json.loads(output)
 
+
         self.assertEqual(diagnostics['app_name'], config.Config.APP_NAME)
         self.assertEqual(diagnostics['app_version'], config.Config.VERSION)
