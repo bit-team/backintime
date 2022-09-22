@@ -49,7 +49,9 @@ class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
     VERSION = '1.3.2'
     COPYRIGHT = 'Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
+
     CONFIG_VERSION = 6
+    """Latest or highest possible version of Backin Time's config file."""
 
     NONE = 0
     AT_EVERY_BOOT = 1
@@ -195,11 +197,16 @@ class Config(configfile.ConfigFileWithProfiles):
             else:
                 os.rename(old_path, self._LOCAL_CONFIG_PATH)
 
+        # Load global config file
         self.load(self._GLOBAL_CONFIG_PATH)
+
+        # Append local config file
         self.append(self._LOCAL_CONFIG_PATH)
 
-        #?Internal version of current config;;self.CONFIG_VERSION
-        currentConfigVersion = self.intValue('config.version', 5)
+        # Get the version of the config file
+        # or assume the highest config version if it isn't set.
+        currentConfigVersion \
+            = self.intValue('config.version', self.CONFIG_VERSION)
 
         if currentConfigVersion < self.CONFIG_VERSION:
             # config.version value wasn't stored since BiT version 0.9.99.22
