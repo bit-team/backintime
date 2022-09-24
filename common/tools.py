@@ -991,7 +991,7 @@ def _uuidFromDev_via_blkid_command(dev):
         # If device does not exist, blkid will exit with a non-zero code
         output = subprocess.check_output(['blkid', dev],
                                         stderr = subprocess.DEVNULL,
-                                        universial_newlines=True)
+                                        universal_newlines=True)
 
     except (subprocess.CalledProcessError, FileNotFoundError):
         return None
