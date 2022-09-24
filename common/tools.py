@@ -18,6 +18,7 @@
 
 import os
 import sys
+import pathlib
 import subprocess
 import shlex
 import signal
@@ -888,13 +889,18 @@ def mountArgs(path):
         list:       mount args
     """
     mp = mountpoint(path)
+    
     with open('/etc/mtab', 'r') as mounts:
+
         for line in mounts:
             args = line.strip('\n').split(' ')
+
             if len(args) >= 2:
-                    args[1] = decodeOctalEscape(args[1])
-                    if args[1] == mp:
-                        return args
+                args[1] = decodeOctalEscape(args[1])
+
+                if args[1] == mp:
+                    return args
+
     return None
 
 def device(path):
@@ -913,8 +919,10 @@ def device(path):
         str:        device
     """
     args = mountArgs(path)
+
     if args:
         return args[0]
+
     return None
 
 def filesystem(path):
@@ -932,45 +940,132 @@ def filesystem(path):
         return args[2]
     return None
 
+def _uuidFromDev_via_filesystem(dev):
+    """Get the UUID for the block device ``dev`` from ``/dev/disk/by-uuid`` in
+    the filesystem.
+
+    Args:
+        dev (pathlib.Path): The block device path (e.g. ``/dev/sda1``).
+
+    Returns:
+        str: The UUID or ``None`` if nothing found.
+    """
+
+
+    # /dev/disk/by-uuid
+    path_DISK_BY_UUID = pathlib.Path(DISK_BY_UUID)
+
+    if not path_DISK_BY_UUID.exists():
+        return None
+
+    # Each known uuid
+    for uuid_symlink in path_DISK_BY_UUID.glob('*'):
+
+        # Resolve the symlink (get it's target) to get the real device name
+        # and compare it with the device we are looking for
+        if dev == uuid_symlink.resolve():
+
+            # e.g. 'c7aca0a7-89ed-43f0-a4f9-c744dfe673e0'
+            return uuid_symlink.name
+
+    # Nothing found
+    return None
+
+def _uuidFromDev_via_blkid_command(dev):
+    """Get the UUID for the block device ``dev`` via the extern command
+    ``blkid``.
+
+    Hint:
+        On most systems the ``blkid`` command is available only for the
+        super-user (e.g. via ``sudo``).
+
+    Args:
+        dev (pathlib.Path): The block device path (e.g. ``/dev/sda1``).
+
+    Returns:
+        str: The UUID or ``None`` if nothing found.
+    """
+
+    # Call "blkid" command
+    try:
+        # If device does not exist, blkid will exit with a non-zero code
+        output = subprocess.check_output(['blkid', dev],
+                                        stderr = subprocess.DEVNULL,
+                                        universial_newlines=True)
+
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+    # Parse the commands output for a UUID
+    try:
+        return re.findall(r'.*\sUUID=\"([^\"]*)\".*', output)[0]
+    except IndexError:
+        # nothing found via the regex pattern
+        pass
+
+    return None
+
+def _uuidFromDev_via_udevadm_command(dev):
+    """Get the UUID for the block device ``dev`` via the extern command
+    ``udevadm``.
+
+    Args:
+        dev (pathlib.Path): The block device path (e.g. ``/dev/sda1``).
+
+    Returns:
+        str: The UUID or ``None`` if nothing found.
+    """
+    # Call "udevadm" command
+    try:
+        output = subprocess.check_output(['udevadm', 'info', f'--name={dev}'],
+                                        stderr = subprocess.DEVNULL,
+                                        universal_newlines=True)
+
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+    # Parse the commands output for a UUID
+    try:
+        return re.findall(r'.*?ID_FS_UUID=(\S+)', output)[0]
+    except IndexError:
+        # nothing found via the regex pattern
+        pass
+
+    return None
+
+
 def uuidFromDev(dev):
     """
     Get the UUID for the block device ``dev``.
 
     Args:
-        dev (str):  block device path
+        dev (str, pathlib.Path):  block device path
 
     Returns:
         str:        UUID
     """
-    if dev and os.path.exists(dev):
-        dev = os.path.realpath(dev)
-        if os.path.exists(DISK_BY_UUID):
-            for uuid in os.listdir(DISK_BY_UUID):
-                if dev == os.path.realpath(os.path.join(DISK_BY_UUID, uuid)):
-                    return uuid
-        else:
-            c = re.compile(b'.*\sUUID="([^"]*)".*')
-            try:
-                # If device does not exist, blkid will exit with a non-zero code
-                blkid = subprocess.check_output(['blkid', dev],
-                                                stderr = subprocess.DEVNULL)
-                uuid = c.findall(blkid)
-                if uuid:
-                    return uuid[0].decode('UTF-8')
-            except:
-                pass
 
-    c = re.compile(b'.*?ID_FS_UUID=(\S+)')
-    try:
-        udevadm = subprocess.check_output(['udevadm', 'info', '--name=%s' % dev],
-                                          stderr = subprocess.DEVNULL)
-        for line in udevadm.split():
-            m = c.match(line)
-            if m:
-                return m.group(1).decode('UTF-8')
-    except:
-        pass
-    return None
+    # handle Path objects only
+    if not isinstance(dev, pathlib.Path):
+        dev = pathlib.Path(dev)
+
+    if dev.exists():
+        dev = dev.resolve()  # when /dev/sda1 is a symlink
+
+        # Look at /dev/disk/by-uuid/
+        uuid = _uuidFromDev_via_filesystem(dev)
+        if uuid:
+            return uuid
+
+        # Try extern command "blkid"
+        uuid = _uuidFromDev_via_blkid_command(dev)
+        if uuid:
+            return uuid
+
+    # "dev" doesn't exist in the filesystem
+
+    # Try "udevadm" command at the end
+    return _uuidFromDev_via_udevadm_command(dev)
 
 def uuidFromPath(path):
     """

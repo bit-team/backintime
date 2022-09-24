@@ -20,16 +20,19 @@ import os
 import sys
 import subprocess
 import random
+import pathlib
 import gzip
 import stat
 import signal
 import unittest
 from unittest.mock import patch
+import uuid
 from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 from datetime import datetime
 from test import generic
 from time import sleep
+from pyfakefs.fake_filesystem_unittest import patchfs
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
@@ -442,15 +445,182 @@ class TestTools(generic.TestCase):
             tools.filesystem('/nonExistingFolder/foo/bar').lower(),
             r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs|tmpfs|shiftfs)')
 
-    # tools.uuidFromDev() get called from tools.uuidFromPath.
+    # tools.uuidFromDev() get called from tools.uuidFromPath because the
+    # latter is a synonym/surrogate for too.suuidFromDev()
     # So we skip an extra unittest as it's hard to find a dev on all systems
     @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
                      'No UUIDs available on this system.')
     def test_uuidFromPath(self):
+        """UUID related to a path.
+
+        by buhtz: I was wondering why this test passed because the path used
+        here doesn't exists! The function ``tools.uuidFromPath()`` does use
+        ``tools.device()`` function to determine the device (e.g. ``/sda1``)
+        related to the path. Not matter that the path itself doesn't exists
+        only the "mountpoint" is relevant. The mountpoint for the non-existing
+        path is ``/`` which of curse does exists.
+
+        In short: That test needs a refactoring.
+        """
+
         uuid = tools.uuidFromPath('/nonExistingFolder/foo/bar')
+
         self.assertIsInstance(uuid, str)
         self.assertRegex(uuid.lower(), r'^[a-f0-9\-]+$')
         self.assertEqual(len(uuid.replace('-', '')), 32)
+
+    @patchfs
+    def test_uuid_via_filesystem(self, fake_fs):
+        """Extract UUID from /dev filesystem.
+
+        That test using a faked filesystem via pyfakefs. 16 devices and
+        corrosponding uuids are generated."""
+
+        # dev-disk folder
+        path_dev = pathlib.Path('/dev')
+        fake_fs.create_dir(path_dev)
+        
+        # create disk-files from "sda1" to "sda4" to "sdd4"
+        dev_list = [path_dev / f'sd{letter}{number}' for letter in list('abcd') for number in range(1, 5)]
+
+        # dev-disk-by-uuid
+        path_by_uuid = pathlib.Path('/dev') / 'disk' / 'by-uuid'
+        fake_fs.create_dir(path_by_uuid)
+        
+        # uuids
+        uuid_list = [str(uuid.uuid4()) for _ in range(16)]
+
+        # connect device files with uuid symlinks
+        for idx in range(16):  # 16 devices
+            fake_fs.create_symlink(
+                # e.g. /dev/disk/by-uuid/c7aca0
+                file_path=path_by_uuid / uuid_list[idx],  
+                # e.g. /dev/sda1
+                link_target=path_dev / dev_list[idx]
+            )
+
+        # randomly select one of the dev-uuid pairs
+        check_idx = random.choice(range(16))
+
+        # TEST
+        self.assertEqual(
+            tools._uuidFromDev_via_filesystem(dev=dev_list[check_idx]),
+            uuid_list[check_idx]
+        )
+
+    @patch('subprocess.check_output')
+    def test_uuid_via_blkid(self, mock_check_output):
+        """Extract UUID from blkid output."""
+
+        one_uuid = 'c7aca0a7-89ed-43f0-a4f9-c744dfe673e0'
+        one_dev = '/dev/sda1'
+
+        output = f'{one_dev}: UUID="{one_uuid}" BLOCK_SIZE="4096" ' \
+                 'TYPE="ext4" PARTUUID="89ffeb8f-01"'
+
+        mock_check_output.return_value = output
+
+        self.assertEqual(
+            tools._uuidFromDev_via_blkid_command(dev=one_dev),
+            one_uuid
+        )
+
+    @patch('subprocess.check_output')
+    def test_uuid_via_udevadm(self, mock_check_output):
+        """Extract UUID from udevadm output."""
+
+        one_uuid = 'c7aca0a7-89ed-43f0-a4f9-c744dfe673e0'
+        one_dev = '/dev/sda1'
+
+        # output to mock with injected dev and uuid
+        output = 'P: /devices/pci0000:00/0000:00:1f.2/ata1/host0/target' \
+                 '0:0:0/0:0:0:0/block/sda/sda1\n' \
+                 f'N: {one_dev}\n' \
+                 'L: 0\n' \
+                 'S: disk/by-uuid/c7aca0a7-89ed-43f0-a4f9-c744dfe673e0\n' \
+                 'S: disk/by-id/ata-WDC_WD20EARS-00S8B1_WD-' \
+                 'WCAVY4333133-part1\n' \
+                 'S: disk/by-id/wwn-0x50014ee2049ff22c-part1\n' \
+                 'S: disk/by-path/pci-0000:00:1f.2-ata-1.0-part1\n' \
+                 'S: disk/by-partuuid/89ffeb8f-01\n' \
+                 'S: disk/by-path/pci-0000:00:1f.2-ata-1-part1\n' \
+                 'E: DEVPATH=/devices/pci0000:00/0000:00:1f.2/ata1/host0/' \
+                 'target0:0:0/0:0:0:0/block/sda/sda1\n' \
+                 'E: DEVNAME=/dev/sda1\n' \
+                 'E: DEVTYPE=partition\n' \
+                 'E: PARTN=1\n' \
+                 'E: MAJOR=8\n' \
+                 'E: MINOR=1\n' \
+                 'E: SUBSYSTEM=block\n' \
+                 'E: USEC_INITIALIZED=1997408\n' \
+                 'E: ID_ATA=1\n' \
+                 'E: ID_TYPE=disk\n' \
+                 'E: ID_BUS=ata\n' \
+                 'E: ID_MODEL=WDC_WD20EARS-00S8B1\n' \
+                 'E: ID_MODEL_ENC=WDC\x20WD20EARS-00S8B1' \
+                 '\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20' \
+                 '\x20\x20\x20\x20\x20\x20\x20\x20\n' \
+                 'E: ID_REVISION=80.00A80\n' \
+                 'E: ID_SERIAL=WDC_WD20EARS-00S8B1_WD-WCAVY4333133\n' \
+                 'E: ID_SERIAL_SHORT=WD-WCAVY4333133\n' \
+                 'E: ID_ATA_WRITE_CACHE=1\n' \
+                 'E: ID_ATA_WRITE_CACHE_ENABLED=1\n' \
+                 'E: ID_ATA_FEATURE_SET_HPA=1\n' \
+                 'E: ID_ATA_FEATURE_SET_HPA_ENABLED=1\n' \
+                 'E: ID_ATA_FEATURE_SET_PM=1\n' \
+                 'E: ID_ATA_FEATURE_SET_PM_ENABLED=1\n' \
+                 'E: ID_ATA_FEATURE_SET_SECURITY=1\n' \
+                 'E: ID_ATA_FEATURE_SET_SECURITY_ENABLED=0\n' \
+                 'E: ID_ATA_FEATURE_SET_SECURITY_ERASE_UNIT_MIN=416\n' \
+                 'E: ID_ATA_FEATURE_SET_SECURITY_ENHANCED_' \
+                 'ERASE_UNIT_MIN=416\n' \
+                 'E: ID_ATA_FEATURE_SET_SECURITY_FROZEN=1\n' \
+                 'E: ID_ATA_FEATURE_SET_SMART=1\n' \
+                 'E: ID_ATA_FEATURE_SET_SMART_ENABLED=1\n' \
+                 'E: ID_ATA_FEATURE_SET_AAM=1\n' \
+                 'E: ID_ATA_FEATURE_SET_AAM_ENABLED=1\n' \
+                 'E: ID_ATA_FEATURE_SET_AAM_VENDOR_RECOMMENDED_VALUE=128\n' \
+                 'E: ID_ATA_FEATURE_SET_AAM_CURRENT_VALUE=254\n' \
+                 'E: ID_ATA_FEATURE_SET_PUIS=1\n' \
+                 'E: ID_ATA_FEATURE_SET_PUIS_ENABLED=0\n' \
+                 'E: ID_ATA_DOWNLOAD_MICROCODE=1\n' \
+                 'E: ID_ATA_SATA=1\n' \
+                 'E: ID_ATA_SATA_SIGNAL_RATE_GEN2=1\n' \
+                 'E: ID_ATA_SATA_SIGNAL_RATE_GEN1=1\n' \
+                 'E: ID_WWN=0x50014ee2049ff22c\n' \
+                 'E: ID_WWN_WITH_EXTENSION=0x50014ee2049ff22c\n' \
+                 'E: ID_PATH=pci-0000:00:1f.2-ata-1.0\n' \
+                 'E: ID_PATH_TAG=pci-0000_00_1f_2-ata-1_0\n' \
+                 'E: ID_PATH_ATA_COMPAT=pci-0000:00:1f.2-ata-1\n' \
+                 'E: ID_PART_TABLE_UUID=89ffeb8f\n' \
+                 'E: ID_PART_TABLE_TYPE=dos\n' \
+                 'E: ID_FS_UUID=c7aca0a7-89ed-43f0-a4f9-c744dfe673e0\n' \
+                 'E: ID_FS_UUID_ENC=c7aca0a7-89ed-43f0-a4f9-c744dfe673e0\n' \
+                 'E: ID_FS_VERSION=1.0\n' \
+                 'E: ID_FS_TYPE=ext4\n' \
+                 'E: ID_FS_USAGE=filesystem\n' \
+                 'E: ID_PART_ENTRY_SCHEME=dos\n' \
+                 'E: ID_PART_ENTRY_UUID=89ffeb8f-01\n' \
+                 'E: ID_PART_ENTRY_TYPE=0x83\n' \
+                 'E: ID_PART_ENTRY_NUMBER=1\n' \
+                 'E: ID_PART_ENTRY_OFFSET=2048\n' \
+                 'E: ID_PART_ENTRY_SIZE=3907026944\n' \
+                 'E: ID_PART_ENTRY_DISK=8:0\n' \
+                 'E: DEVLINKS=/dev/disk/by-uuid/c7aca0a7-89ed-43f0-a4f9-' \
+                 'c744dfe673e0 /dev/disk/by-id/ata-WDC_WD20EARS-00S8B1_WD'\
+                 '-WCAVY4333133-part1 /dev/disk/by-id/wwn-' \
+                 '0x50014ee2049ff22c-part1 /dev/disk/by-path/pci-0000:00:' \
+                 '1f.2-ata-1.0-part1 /dev/disk/by-partuuid/89ffeb8f-01 ' \
+                 '/dev/disk/by-path/pci-0000:00:1f.2-ata-1-part1\n' \
+                 'E: TAGS=:systemd:\n' \
+                 'E: CURRENT_TAGS=:systemd:\n'
+
+        mock_check_output.return_value = output
+
+        self.assertEqual(
+            tools._uuidFromDev_via_udevadm_command(dev=one_dev),
+            one_uuid
+        )
 
     @unittest.skipIf(not DISK_BY_UUID_AVAILABLE and not UDEVADM_HAS_UUID,
                      'No UUIDs available on this system.')
