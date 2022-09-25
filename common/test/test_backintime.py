@@ -44,7 +44,7 @@ class TestBIT(unittest.TestCase):
         output = subprocess.check_output(['./backintime', '--diagnostics'])
 
         self.assertIsNotNone(output)
-        self.assertTrue(output)  # len greather then 0
+        self.assertTrue(output)  # len greather than 0
 
         # No exception because it is valid JSON output
         json.loads(output)
