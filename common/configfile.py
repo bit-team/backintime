@@ -19,8 +19,8 @@
 """This module implements a generic configuration file and low level
 operations on keys and their values.
 
-Development info: That module will be replaced in the future by Pythons own
-``configparser`` module or an alternative.
+Development info: This module will be replaced in the future by Python's
+ own ``configparser`` module, or some alternative.
 """
 
 import os
