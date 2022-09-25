@@ -14,7 +14,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-"""What is this modul about?
+"""
+Helper tool for piping passwords into ssh/sshfs and encfs.
+Options are read from environ variables.
 """
 
 import os
