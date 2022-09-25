@@ -664,7 +664,7 @@ def getConfig(args, check=True):
 
     Args:
         args (argparse.Namespace): Previously parsed arguments
-        check (bool): Ff ``True`` check if config is valid
+        check (bool): If ``True`` check if config is valid
 
     Returns:
         config.Config:  current config with requested profile selected
