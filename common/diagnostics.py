@@ -16,16 +16,18 @@ import config  # config.Config.VERSION  Refactor after src-layout migration
 
 
 def collect_diagnostics():
-    """Collect information's about environment and versions of tools and
+    """Collect information about environment and versions of tools and
     packages used by Back In Time.
 
-    The informatinos can be used e.g. for debugging and but reports.
+    The information can be used e.g. for debugging and bug reports.
 
     Returns:
        dict: A nested dictionary.
     """
     result = {}
 
+    # Replace home folder user names with this dummy name
+    # for privacy reasons
     USER_REPLACED = 'UsernameReplaced'
 
     pwd_struct = pwd.getpwuid(os.getuid())
@@ -33,13 +35,18 @@ def collect_diagnostics():
     # === BACK IN TIME ===
     distro_path = _determine_distro_package_folder()
 
+    # work-around: Instantiate to get the user-callback folder
+    # (should be singleton)
+    cfg = config.Config()
+
     result['backintime'] = {
         'name': config.Config.APP_NAME,
         'version': config.Config.VERSION,
         'config-version': config.Config.CONFIG_VERSION,
         'distribution-package': str(distro_path),
         'started-from': str(pathlib.Path(config.__file__).parent),
-        'running_as_root': pwd_struct.pw_name == 'root',
+        'running-as-root': pwd_struct.pw_name == 'root',
+        'user-callback': cfg.takeSnapshotUserCallback()
     }
 
     # Git repo
