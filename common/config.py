@@ -48,8 +48,8 @@ gettext.textdomain('backintime')
 class Config(configfile.ConfigFileWithProfiles):
     """Represent the configuration of Back In Time.
 
-    That class provides high level operations on the configuration and some
-    additional information's. It also does handle the cronfile.
+    This class provides high level operations on the configuration and some
+    additional information. It also handles the cronfile.
     """
 
     APP_NAME = 'Back In Time'
