@@ -72,8 +72,8 @@ class TestConfigSnapshots(generic.TestCaseCfg):
     """More high level tests for the `Config` class using pre-setups via
     deriving from classes in `generic` module.
 
-    Development note: It is not clear for me (buht) why this is related to the
-    `Config` class.
+    Development note: It is not clear for me (buhtz) why this is related
+     to the `Config` class.
     """
 
     def test_set_snapshots_path_test_writes(self):
