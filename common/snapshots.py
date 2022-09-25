@@ -59,7 +59,7 @@ class Snapshots:
     def __init__(self, cfg = None):
         """
         """
-        # This raise an exception if not config is loaded
+        # This raises an exception if no config is loaded
         self.config = config.Config.instance()
 
         # IMHO this class shouldn't be responsible to
