@@ -220,10 +220,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # Exception when an instance exists
         if __class__._instance:
-            # # DEBUG
-            # for e in Config._buhtz:
-            #     print(e)
-            #     print('°'*70)
             raise Exception(
                 f'Instance of class "{self.__class__.__name__}" still exists!'
                 f' Use "{self.__class__.__name__}.instance()" to access it.')
