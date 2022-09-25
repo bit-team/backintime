@@ -50,12 +50,11 @@ class NotifyPlugin(pluginmanager.Plugin):
             except:
                 pass
 
-        self.notify_interface = dbus.Interface(object=dbus.SessionBus().get_object("org.freedesktop.Notifications", "/org/freedesktop/Notifications"), dbus_interface="org.freedesktop.Notifications")
-
     def isGui(self):
         return True
 
     def message(self, profile_id, profile_name, level, message, timeout):
+        notify_interface = dbus.Interface(object=dbus.SessionBus().get_object("org.freedesktop.Notifications", "/org/freedesktop/Notifications"), dbus_interface="org.freedesktop.Notifications")
         if 1 == level:
             if timeout > 0:
                 timeout = 1000 * timeout
@@ -64,5 +63,5 @@ class NotifyPlugin(pluginmanager.Plugin):
             title = "Back In Time (%s) : %s" % (self.user, profile_name)
             message = message.replace("\n", ' ')
             message = message.replace("\r", '')
-            self.notify_interface.Notify("Back In Time", 0, "", title, message, [], {}, timeout)
+            notify_interface.Notify("Back In Time", 0, "", title, message, [], {}, timeout)
         return
