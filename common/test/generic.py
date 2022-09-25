@@ -160,8 +160,8 @@ class TestCaseCfg(TestCase):
         """
         super(TestCaseCfg, self).setUp()
 
-        # Testing this explicite instead of try-except because
-        # we doing unittesting here.
+        # Testing explicitly instead of try-except
+        # because we are doing unittesting here.
         if config.Config._instance:
             # Delete the config instance from the previous unittest
             config.Config._instance = None
