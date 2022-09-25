@@ -2608,6 +2608,8 @@ def lastSnapshot(cfg):
     if sids:
         return sids[0]
 
+
+# commented out when implementing config.Config as a singleton
 # if __name__ == '__main__':
 #     config = config.Config()
 #     snapshots = Snapshots(config)
