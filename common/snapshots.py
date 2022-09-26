@@ -425,7 +425,11 @@ class Snapshots:
                                         or are newer than those in destination.
                                         Using "rsync --update" option.
         """
-        instance = ApplicationInstance(self.config.restoreInstanceFile(), False, flock = True)
+        instance = ApplicationInstance(
+            pidFile=self.config.restoreInstanceFile(),
+            autoExit=False,
+            flock=True)
+
         if instance.check():
             instance.startApplication()
         else:
