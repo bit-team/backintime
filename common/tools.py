@@ -2157,9 +2157,12 @@ class Daemon:
 
     def daemonize(self):
         """
-        do the UNIX double-fork magic, see Stevens' "Advanced
-        Programming in the UNIX Environment" for details (ISBN 0201563177)
-        http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
+        "Converts" the current process into a daemon
+        (= process running in the background)
+        and sends a SIGTERM signal to the current process.
+        This is done via the UNIX double-fork magic, see Stevens'
+        "Advanced Programming in the UNIX Environment" for details (ISBN 0201563177)
+        and this explanation: https://stackoverflow.com/a/6011298
         """
         try:
             pid = os.fork()
@@ -2198,6 +2201,7 @@ class Daemon:
         fdDup(self.stderr, sys.stderr, 'w')
 
         signal.signal(signal.SIGTERM, self.cleanupHandler)
+
         if self.pidfile:
             atexit.register(self.appInstance.exitApplication)
             # write pidfile
