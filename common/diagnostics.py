@@ -42,7 +42,11 @@ def collect_diagnostics():
     result['backintime'] = {
         'name': config.Config.APP_NAME,
         'version': config.Config.VERSION,
-        'config-version': config.Config.CONFIG_VERSION,
+        'latest-config-version': config.Config.CONFIG_VERSION,
+        'local-config-file': cfg._LOCAL_CONFIG_PATH,
+        'local-config-file-found': os.path.exists(cfg._LOCAL_CONFIG_PATH),
+        'global-config-file': cfg._GLOBAL_CONFIG_PATH,
+        'global-config-file-found': os.path.exists(cfg._GLOBAL_CONFIG_PATH),
         'distribution-package': str(distro_path),
         'started-from': str(pathlib.Path(config.__file__).parent),
         'running-as-root': pwd_struct.pw_name == 'root',
