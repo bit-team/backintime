@@ -13,6 +13,8 @@ Contents:
 
     modules.rst
 
+    plugins/modules.rst
+
 Indices and tables
 ==================
 
