@@ -27,6 +27,39 @@ _=gettext.gettext
 
 
 class UserCallbackPlugin(pluginmanager.Plugin):
+    """ Executes a script file at different backup steps to customize behaviour
+
+    Back In Time allows to inform plugins (implemented in Python
+    files) about different steps ("events") in the backup process
+    via the :py:class:`pluginmanager.PluginManager`.
+
+    This plugin calls a user-defined script file ("user-callback")
+    that is located in this folder:
+
+        $XDG_CONFIG_HOME/backintime/user-callback
+        (by default $XDG_CONFIG_HOME is ~/.config)
+
+    The user-callback script is called with up to five
+    positional arguments:
+
+    1. The profile ID from the config file (1=Main Profile, ...)
+    2. The profile name (from the config file)
+    3. A numeric code to indicate the reason why Back In Time
+       calls the script (see the method implementation
+       for details about the numeric code)
+    4. Error code (only if argument 3 has the value "4")
+       or snapshot ID (only if argument 3 has the value "3")
+    5. Snapshot name (only if argument 3 has the value "3")
+
+    For more details and script examples see:
+    https://github.com/bit-team/user-callback
+
+    Notes:
+        The user-callback script file is normally implemented as
+        shell script but could theoretically be implemented in
+        any script language (declared via the hash bang "#!"
+        in the first line of the script file.
+    """
     def __init__(self):
         return
 
@@ -37,6 +70,7 @@ class UserCallbackPlugin(pluginmanager.Plugin):
             return False
         return True
 
+    # TODO 09/28/2022: This method should be private (__callback)
     def callback(self, *args, profileID = None):
         if profileID is None:
             profileID = self.config.currentProfile()
