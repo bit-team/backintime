@@ -34,6 +34,7 @@ import mount
 import password
 import encfstools
 import cli
+from diagnostics import collect_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 
@@ -737,23 +738,8 @@ class printDiagnostics(argparse.Action):
         super(printDiagnostics, self).__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
-        cfg = config.Config()
 
-        # TODO Refactor into a separate functions in a new diagnostics.py when more info is added
-        ref, hashid = tools.gitRevisionAndHash()
-        git_branch = "Unknown"
-        git_commit = "Unknown"
-        if ref:
-             git_branch = ref
-             git_commit = hashid
-
-        diagnostics = dict(
-            app_name=config.Config.APP_NAME,
-            app_version=config.Config.VERSION,
-            app_git_branch=git_branch,
-            app_git_commit=git_commit,
-            user_callback=cfg.takeSnapshotUserCallback()
-        )
+        diagnostics = collect_diagnostics()
 
         print(json.dumps(diagnostics, indent=4))
 

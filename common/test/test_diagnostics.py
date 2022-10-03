@@ -24,8 +24,8 @@ class Diagnostics(unittest.TestCase):
         )
 
         # 2nd level "backintime"
-        minimal_keys = ['name', 'version', 'config-version',
-                        'started-from', 'running_as_root']
+        minimal_keys = ['name', 'version', 'latest-config-version',
+                        'started-from', 'running-as-root']
         for key in minimal_keys:
             self.assertIn(key, result['backintime'], key)
 

@@ -176,11 +176,8 @@ INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
 
     def test_diagnostics_arg(self):
 
-        # Workaround: Without this line the next "subprocess.getoutput()" call fails on TravisCI for unknown reasons!
-        subprocess.check_output(["./backintime", "--diagnostics"])
-
         output = subprocess.getoutput("./backintime --diagnostics")
 
         diagnostics = json.loads(output)
-        self.assertEqual(diagnostics["app_name"], config.Config.APP_NAME)
-        self.assertEqual(diagnostics["app_version"], config.Config.VERSION)
+        self.assertEqual(diagnostics["backintime"]["name"],    config.Config.APP_NAME)
+        self.assertEqual(diagnostics["backintime"]["version"], config.Config.VERSION)
