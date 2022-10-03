@@ -32,14 +32,16 @@ except ImportError:
 import tools
 import configfile
 import logger
-import mount
 import sshtools
 import encfstools
 import password
 import pluginmanager
-from exceptions import PermissionDeniedByPolicy, InvalidChar, InvalidCmd, LimitExceeded
+from exceptions import PermissionDeniedByPolicy, \
+                       InvalidChar, \
+                       InvalidCmd, \
+                       LimitExceeded
 
-_=gettext.gettext
+_ = gettext.gettext
 
 gettext.bindtextdomain('backintime', os.path.join(tools.sharePath(), 'locale'))
 gettext.textdomain('backintime')
@@ -48,7 +50,8 @@ gettext.textdomain('backintime')
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
     VERSION = '1.3.2'
-    COPYRIGHT = 'Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze'
+    COPYRIGHT = 'Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, ' \
+                'Richard Bailey, Germar Reitze'
 
     CONFIG_VERSION = 6
     """Latest or highest possible version of Backin Time's config file."""
@@ -76,51 +79,54 @@ class Config(configfile.ConfigFileWithProfiles):
     DISK_UNIT_GB = 20
 
     SCHEDULE_MODES = {
-                NONE : _('Disabled'),
-                AT_EVERY_BOOT : _('At every boot/reboot'),
+                NONE: _('Disabled'),
+                AT_EVERY_BOOT: _('At every boot/reboot'),
                 _5_MIN: _('Every 5 minutes'),
                 _10_MIN: _('Every 10 minutes'),
                 _30_MIN: _('Every 30 minutes'),
-                _1_HOUR : _('Every hour'),
-                _2_HOURS : _('Every 2 hours'),
-                _4_HOURS : _('Every 4 hours'),
-                _6_HOURS : _('Every 6 hours'),
-                _12_HOURS : _('Every 12 hours'),
-                CUSTOM_HOUR : _('Custom Hours'),
-                DAY : _('Every Day'),
-                REPEATEDLY : _('Repeatedly (anacron)'),
-                UDEV : _('When drive get connected (udev)'),
-                WEEK : _('Every Week'),
-                MONTH : _('Every Month'),
-                YEAR : _('Every Year')
+                _1_HOUR: _('Every hour'),
+                _2_HOURS: _('Every 2 hours'),
+                _4_HOURS: _('Every 4 hours'),
+                _6_HOURS: _('Every 6 hours'),
+                _12_HOURS: _('Every 12 hours'),
+                CUSTOM_HOUR: _('Custom Hours'),
+                DAY: _('Every Day'),
+                REPEATEDLY: _('Repeatedly (anacron)'),
+                UDEV: _('When drive get connected (udev)'),
+                WEEK: _('Every Week'),
+                MONTH: _('Every Month'),
+                YEAR: _('Every Year')
                 }
 
     REMOVE_OLD_BACKUP_UNITS = {
-                DAY : _('Day(s)'),
-                WEEK : _('Week(s)'),
-                YEAR : _('Year(s)')
+                DAY: _('Day(s)'),
+                WEEK: _('Week(s)'),
+                YEAR: _('Year(s)')
                 }
 
     REPEATEDLY_UNITS = {
-                HOUR : _('Hour(s)'),
-                DAY : _('Day(s)'),
-                WEEK : _('Week(s)'),
-                MONTH : _('Month(s)')
+                HOUR: _('Hour(s)'),
+                DAY: _('Day(s)'),
+                WEEK: _('Week(s)'),
+                MONTH: _('Month(s)')
                 }
 
-    MIN_FREE_SPACE_UNITS = { DISK_UNIT_MB : 'MiB', DISK_UNIT_GB : 'GiB' }
+    MIN_FREE_SPACE_UNITS = {
+        DISK_UNIT_MB: 'MiB',
+        DISK_UNIT_GB : 'GiB'
+    }
 
     DEFAULT_EXCLUDE = [ '.gvfs', '.cache/*', '.thumbnails*',
     '.local/share/[Tt]rash*', '*.backup*', '*~', '.dropbox*', '/proc/*',
     '/sys/*', '/dev/*', '/run/*', '/etc/mtab', '/var/cache/apt/archives/*.deb',
     'lost+found/*', '/tmp/*', '/var/tmp/*', '/var/backups/*', '.Private' ]
 
-    DEFAULT_RUN_NICE_FROM_CRON   = True
-    DEFAULT_RUN_NICE_ON_REMOTE   = False
+    DEFAULT_RUN_NICE_FROM_CRON = True
+    DEFAULT_RUN_NICE_ON_REMOTE = False
     DEFAULT_RUN_IONICE_FROM_CRON = True
     DEFAULT_RUN_IONICE_FROM_USER = False
     DEFAULT_RUN_IONICE_ON_REMOTE = False
-    DEFAULT_RUN_NOCACHE_ON_LOCAL  = False
+    DEFAULT_RUN_NOCACHE_ON_LOCAL = False
     DEFAULT_RUN_NOCACHE_ON_REMOTE = False
     DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\$PATH'
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
@@ -135,7 +141,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption'))
                 }
 
-    SSH_CIPHERS =  {'default':    _('Default'),
+    SSH_CIPHERS =  {'default': _('Default'),
                     'aes128-ctr': _('AES128-CTR'),
                     'aes192-ctr': _('AES192-CTR'),
                     'aes256-ctr': _('AES256-CTR'),
@@ -147,12 +153,12 @@ class Config(configfile.ConfigFileWithProfiles):
                     'cast128-cbc': _('Cast128-CBC'),
                     'aes192-cbc': _('AES192-CBC'),
                     'aes256-cbc': _('AES256-CBC'),
-                    'arcfour':    _('ARCFOUR') }
+                    'arcfour': _('ARCFOUR') }
 
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
-    def __init__(self, config_path = None, data_path = None):
+    def __init__(self, config_path=None, data_path=None):
         configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
 
         self._APP_PATH = tools.backintimePath()
@@ -438,9 +444,14 @@ class Config(configfile.ConfigFileWithProfiles):
             self.setProfileStrValue('snapshots.path', value, profile_id)
         return True
 
-    def snapshotsMode(self, profile_id = None):
-        #?Use mode (or backend) for this snapshot. Look at 'man backintime'
-        #?section 'Modes'.;local|local_encfs|ssh|ssh_encfs
+    def snapshotsMode(self, profile_id=None):
+        """Use mode (or backend) for this snapshot.
+
+        Look at 'man backintime' section 'Modes'.
+
+        Returns:
+            str: Possible values are local|local_encfs|ssh|ssh_encfs.
+        """
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -1262,8 +1273,10 @@ class Config(configfile.ConfigFileWithProfiles):
     def takeSnapshotProgressFile(self, profile_id = None):
         return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.progress" % self.fileId(profile_id))
 
-    def takeSnapshotInstanceFile(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "worker%s.lock" % self.fileId(profile_id))
+    def takeSnapshotInstanceFile(self, profile_id=None):
+        return os.path.join(
+            self._LOCAL_DATA_FOLDER,
+            "worker%s.lock" % self.fileId(profile_id))
 
     def takeSnapshotUserCallback(self):
         return os.path.join(self._LOCAL_CONFIG_FOLDER, "user-callback")
@@ -1316,8 +1329,10 @@ class Config(configfile.ConfigFileWithProfiles):
     def restoreLogFile(self, profile_id = None):
         return os.path.join(self._LOCAL_DATA_FOLDER, "restore_%s.log" % self.fileId(profile_id))
 
-    def restoreInstanceFile(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "restore%s.lock" % self.fileId(profile_id))
+    def restoreInstanceFile(self, profile_id=None):
+        return os.path.join(
+            self._LOCAL_DATA_FOLDER,
+            "restore%s.lock" % self.fileId(profile_id))
 
     def lastSnapshotSymlink(self, profile_id = None):
         return os.path.join(self.snapshotsFullPath(profile_id), 'last_snapshot')
@@ -1614,6 +1629,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if self.niceOnCron(profile_id) and tools.checkCommand('nice'):
             cmd = tools.which('nice') + ' -n19 ' + cmd
         return cmd
+
 
 if __name__ == '__main__':
     config = Config()

@@ -169,7 +169,8 @@ def gitRevisionAndHash():
             pass
     return (ref, hashid)
 
-def readFile(path, default = None):
+
+def readFile(path, default=None):
     """
     Read the file in ``path`` or its '.gz' compressed variant and return its
     content or ``default`` if ``path`` does not exist.
@@ -187,15 +188,20 @@ def readFile(path, default = None):
 
     try:
         if os.path.exists(path):
+
             with open(path) as f:
                 ret_val = f.read()
+
         elif os.path.exists(path + '.gz'):
+
             with gzip.open(path + '.gz', 'rt') as f:
                 ret_val = f.read()
+
     except:
         pass
 
     return ret_val
+
 
 def readFileLines(path, default = None):
     """
@@ -318,6 +324,7 @@ def mkdir(path, mode = 0o755, enforce_permissions = True):
             os.chmod(path, mode)
     return os.path.isdir(path)
 
+
 def pids():
     """
     List all PIDs currently running on the system.
@@ -326,6 +333,7 @@ def pids():
         list:   PIDs as int
     """
     return [int(x) for x in os.listdir('/proc') if x.isdigit()]
+
 
 def processStat(pid):
     """
@@ -340,9 +348,12 @@ def processStat(pid):
     try:
         with open('/proc/{}/stat'.format(pid), 'rt') as f:
             return f.read()
+
     except OSError as e:
-        logger.warning('Failed to read process stat from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
+        logger.warning('Failed to read process stat from {}: [{}] {}'
+                       .format(e.filename, e.errno, e.strerror))
         return ''
+
 
 def processPaused(pid):
     """
@@ -355,7 +366,9 @@ def processPaused(pid):
         bool:       True if process is paused
     """
     m = re.match(r'\d+ \(.+\) T', processStat(pid))
+
     return bool(m)
+
 
 def processName(pid):
     """
@@ -368,8 +381,10 @@ def processName(pid):
         str:        name of the process
     """
     m = re.match(r'.*\((.+)\).*', processStat(pid))
+
     if m:
         return m.group(1)
+
 
 def processCmdline(pid):
     """
@@ -550,10 +565,11 @@ def rsyncCaps(data = None):
         caps.extend([i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
     return caps
 
+
 def rsyncPrefix(config,
-                no_perms = True,
-                use_mode = ['ssh', 'ssh_encfs'],
-                progress = True):
+                no_perms=True,
+                use_mode=['ssh', 'ssh_encfs'],
+                progress=True):
     """
     Get rsync command and all args for creating a new snapshot. Args are
     based on current profile in ``config``.
@@ -575,9 +591,12 @@ def rsyncPrefix(config,
     """
     caps = rsyncCaps()
     cmd = []
+
     if config.nocacheOnLocal():
         cmd.append('nocache')
+
     cmd.append('rsync')
+
     cmd.extend(('--recursive',     # recurse into directories
                 '--times',          # preserve modification times
                 '--devices',        # preserve device files (super-user only)
@@ -617,7 +636,7 @@ def rsyncPrefix(config,
                     '--no-inc-recursive'))
 
     if config.bwlimitEnabled():
-        cmd.append('--bwlimit=%d' %config.bwlimit())
+        cmd.append('--bwlimit=%d' % config.bwlimit())
 
     if config.rsyncOptionsEnabled():
         cmd.extend(shlex.split(config.rsyncOptions()))
@@ -625,39 +644,52 @@ def rsyncPrefix(config,
     cmd.extend(rsyncSshArgs(config, use_mode))
     return cmd
 
-def rsyncSshArgs(config, use_mode = ['ssh', 'ssh_encfs']):
+
+def rsyncSshArgs(config, use_mode=['ssh', 'ssh_encfs']):
     """
     Get SSH args for rsync based on current profile in ``config``.
 
     Args:
-        config (config.Config): current config
-        use_mode (list):        if current mode is in this list add additional
-                                args for that mode
+        config (config.Config): Current config instance.
+        use_mode (list):        If the profiles current mode is in this list
+                                add additional args.
 
     Returns:
-        list:                   SSH args for rsync
+        list:                   List of rsync args related to SSH.
     """
+
     cmd = []
+
     mode = config.snapshotsMode()
+
     if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
-        ssh = config.sshCommand(user_host = False,
-                                 ionice = False,
-                                 nice = False)
+        ssh = config.sshCommand(user_host=False,
+                                ionice=False,
+                                nice=False)
+
         cmd.append('--rsh=' + ' '.join(ssh))
 
-        if config.niceOnRemote()     \
-          or config.ioniceOnRemote() \
-          or config.nocacheOnRemote():
+        if config.niceOnRemote() \
+           or config.ioniceOnRemote() \
+           or config.nocacheOnRemote():
+
             rsync_path = '--rsync-path='
+
             if config.niceOnRemote():
                 rsync_path += 'nice -n 19 '
+
             if config.ioniceOnRemote():
                 rsync_path += 'ionice -c2 -n7 '
+
             if config.nocacheOnRemote():
                 rsync_path += 'nocache '
+
             rsync_path += 'rsync'
+
             cmd.append(rsync_path)
+
     return cmd
+
 
 def rsyncRemove(config, run_local = True):
     """
