@@ -15,7 +15,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-"""modul docstring
+"""
+This module holds the ApplicationInstance class, used to handle
+the one application instance mechanism 
 """
 
 import os
