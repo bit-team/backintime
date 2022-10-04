@@ -23,6 +23,7 @@ from datetime import date, datetime
 from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import backintime
 import config
 import snapshots
 import tools
@@ -42,6 +43,86 @@ class TestBackup(generic.SnapshotsTestCase):
         self.assertIsInstance(takeSnapshot.call_args[0][0], snapshots.SID)
         self.assertIsInstance(takeSnapshot.call_args[0][1], datetime)
         self.assertIsInstance(takeSnapshot.call_args[0][2], list)
+
+    @patch('time.sleep') # speed up unittest
+    @patch('subprocess.Popen')
+    def test_backup_async(self, Popen_mock, sleep):
+        """:py:func:`backintime.takeSnapshotAsync`:
+
+        Tests if the command for async execution is created as expected
+        but does not execute it.
+
+        Uses only default arguments.
+        """
+
+        # self.assertIs(self.sn.backup(), False)
+        self.assertIsNone (backintime.takeSnapshotAsync(self.cfg, checksum=False), None)
+
+        self.assertEqual(Popen_mock.call_count, 1)
+
+        # args_count = Popen_mock.call_args[0].count()
+        self.assertEqual(Popen_mock.call_args.args[0][0], "backintime")
+        self.assertEqual(Popen_mock.call_args.args[0][1], "--config")
+        self.assertEqual(Popen_mock.call_args.args[0][2], self.cfgFile)
+        self.assertEqual(Popen_mock.call_args.args[0][3], "--share-path")
+        self.assertEqual(Popen_mock.call_args.args[0][4], self.cfg.DATA_FOLDER_ROOT)
+        self.assertEqual(Popen_mock.call_args.args[0][5], "backup")
+
+    @patch('time.sleep') # speed up unittest
+    @patch('subprocess.Popen')
+    def test_backup_async_with_checksum(self, Popen_mock, sleep):
+        """:py:func:`backintime.takeSnapshotAsync`:
+
+        Tests if the command for async execution is created as expected
+        but does not execute it.
+
+        Uses ``checksum=True`` as non-default argument.
+        """
+
+        # self.assertIs(self.sn.backup(), False)
+        self.assertIsNone (backintime.takeSnapshotAsync(self.cfg, checksum=True), None)
+
+        self.assertEqual(Popen_mock.call_count, 1)
+
+        # args_count = Popen_mock.call_args[0].count()
+        self.assertEqual(Popen_mock.call_args.args[0][0], "backintime")
+        self.assertEqual(Popen_mock.call_args.args[0][1], "--config")
+        self.assertEqual(Popen_mock.call_args.args[0][2], self.cfgFile)
+        self.assertEqual(Popen_mock.call_args.args[0][3], "--share-path")
+        self.assertEqual(Popen_mock.call_args.args[0][4], self.cfg.DATA_FOLDER_ROOT)
+        self.assertEqual(Popen_mock.call_args.args[0][5], "--checksum")
+        self.assertEqual(Popen_mock.call_args.args[0][6], "backup")
+
+    @patch('time.sleep') # speed up unittest
+    @patch('subprocess.Popen')
+    def test_backup_async_profile_2(self, Popen_mock, sleep):
+        """:py:func:`backintime.takeSnapshotAsync`:
+
+        Tests if the command for async execution is created as expected
+        but does not execute it.
+
+        Uses a non-default profile (created for the test only).
+        """
+
+        # Create and use a (new) profile (not the default '1')
+        new_rofile_id = self.cfg.addProfile("Profile #2")
+        self.cfg.setCurrentProfile(new_rofile_id)
+
+        # self.assertIs(self.sn.backup(), False)
+        self.assertIsNone (backintime.takeSnapshotAsync(self.cfg, checksum=False), None)
+
+        self.assertEqual(Popen_mock.call_count, 1)
+
+        # args_count = Popen_mock.call_args[0].count()
+        self.assertEqual(Popen_mock.call_args.args[0][0], "backintime")
+        self.assertEqual(Popen_mock.call_args.args[0][1], "--profile-id")
+        self.assertEqual(Popen_mock.call_args.args[0][2], new_rofile_id)
+        self.assertEqual(Popen_mock.call_args.args[0][3], "--config")
+        self.assertEqual(Popen_mock.call_args.args[0][4], self.cfgFile)
+        self.assertEqual(Popen_mock.call_args.args[0][5], "--share-path")
+        self.assertEqual(Popen_mock.call_args.args[0][6], self.cfg.DATA_FOLDER_ROOT)
+        self.assertEqual(Popen_mock.call_args.args[0][7], "backup")
+
 
     @patch('time.sleep') # speed up unittest
     @patch('snapshots.Snapshots.takeSnapshot')
