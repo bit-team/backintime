@@ -62,9 +62,11 @@ class TestBackup(generic.SnapshotsTestCase):
         # The value will be reset in the setup() of the test.
         logger.DEBUG = False
 
-        self.assertIsNone (backintime.takeSnapshotAsync(self.cfg, checksum=False), None)
+        self.assertIsNone(backintime.takeSnapshotAsync(self.cfg, checksum=False))
 
         self.assertEqual(Popen_mock.call_count, 1)
+
+        print(Popen_mock.call_args.args[0])
 
         # args_count = Popen_mock.call_args[0].count()
         self.assertEqual(Popen_mock.call_args.args[0][0], "backintime")
@@ -90,9 +92,11 @@ class TestBackup(generic.SnapshotsTestCase):
         # The value will be reset in the setup() of the test.
         logger.DEBUG = False
 
-        self.assertIsNone (backintime.takeSnapshotAsync(self.cfg, checksum=True), None)
+        self.assertIsNone(backintime.takeSnapshotAsync(self.cfg, checksum=True))
 
         self.assertEqual(Popen_mock.call_count, 1)
+
+        print(Popen_mock.call_args.args[0])
 
         # args_count = Popen_mock.call_args[0].count()
         self.assertEqual(Popen_mock.call_args.args[0][0], "backintime")
@@ -123,9 +127,11 @@ class TestBackup(generic.SnapshotsTestCase):
         new_rofile_id = self.cfg.addProfile("Profile #2")
         self.cfg.setCurrentProfile(new_rofile_id)
 
-        self.assertIsNone (backintime.takeSnapshotAsync(self.cfg, checksum=False), None)
+        self.assertIsNone(backintime.takeSnapshotAsync(self.cfg, checksum=False))
 
         self.assertEqual(Popen_mock.call_count, 1)
+
+        print(Popen_mock.call_args.args[0])
 
         # args_count = Popen_mock.call_args[0].count()
         self.assertEqual(Popen_mock.call_args.args[0][0], "backintime")
