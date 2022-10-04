@@ -22,11 +22,13 @@ from unittest.mock import patch
 from datetime import date, datetime
 from test import generic
 
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import backintime
 import config
 import snapshots
 import tools
+import logger
 from applicationinstance import ApplicationInstance
 from pluginmanager import PluginManager
 from mount import Mount
@@ -55,7 +57,11 @@ class TestBackup(generic.SnapshotsTestCase):
         Uses only default arguments.
         """
 
-        # self.assertIs(self.sn.backup(), False)
+        # Deactivate debug mode (is True on TravisCI due to "make unittest-v")
+        # otherwise the OuT adds "--debug" to the cmd args (fails assertions)
+        # The value will be reset in the setup() of the test.
+        logger.DEBUG = False
+
         self.assertIsNone (backintime.takeSnapshotAsync(self.cfg, checksum=False), None)
 
         self.assertEqual(Popen_mock.call_count, 1)
@@ -79,7 +85,11 @@ class TestBackup(generic.SnapshotsTestCase):
         Uses ``checksum=True`` as non-default argument.
         """
 
-        # self.assertIs(self.sn.backup(), False)
+        # Deactivate debug mode (is True on TravisCI due to "make unittest-v")
+        # otherwise the OuT adds "--debug" to the cmd args (fails assertions)
+        # The value will be reset in the setup() of the test.
+        logger.DEBUG = False
+
         self.assertIsNone (backintime.takeSnapshotAsync(self.cfg, checksum=True), None)
 
         self.assertEqual(Popen_mock.call_count, 1)
@@ -104,11 +114,15 @@ class TestBackup(generic.SnapshotsTestCase):
         Uses a non-default profile (created for the test only).
         """
 
+        # Deactivate debug mode (is True on TravisCI due to "make unittest-v")
+        # otherwise the OuT adds "--debug" to the cmd args (fails assertions)
+        # The value will be reset in the setup() of the test.
+        logger.DEBUG = False
+
         # Create and use a (new) profile (not the default '1')
         new_rofile_id = self.cfg.addProfile("Profile #2")
         self.cfg.setCurrentProfile(new_rofile_id)
 
-        # self.assertIs(self.sn.backup(), False)
         self.assertIsNone (backintime.takeSnapshotAsync(self.cfg, checksum=False), None)
 
         self.assertEqual(Popen_mock.call_count, 1)
