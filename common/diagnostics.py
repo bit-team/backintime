@@ -5,7 +5,7 @@ long doc
 """
 import sys
 import os
-import pathlib
+from pathlib import Path
 import pwd
 import platform
 import locale
@@ -26,10 +26,6 @@ def collect_diagnostics():
     """
     result = {}
 
-    # Replace home folder user names with this dummy name
-    # for privacy reasons
-    USER_REPLACED = 'UsernameReplaced'
-
     pwd_struct = pwd.getpwuid(os.getuid())
 
     # === BACK IN TIME ===
@@ -44,11 +40,11 @@ def collect_diagnostics():
         'version': config.Config.VERSION,
         'latest-config-version': config.Config.CONFIG_VERSION,
         'local-config-file': cfg._LOCAL_CONFIG_PATH,
-        'local-config-file-found': os.path.exists(cfg._LOCAL_CONFIG_PATH),
+        'local-config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
         'global-config-file': cfg._GLOBAL_CONFIG_PATH,
-        'global-config-file-found': os.path.exists(cfg._GLOBAL_CONFIG_PATH),
+        'global-config-file-found': Path(cfg._GLOBAL_CONFIG_PATH).exists(),
         'distribution-package': str(distro_path),
-        'started-from': str(pathlib.Path(config.__file__).parent),
+        'started-from': str(Path(config.__file__).parent),
         'running-as-root': pwd_struct.pw_name == 'root',
         'user-callback': cfg.takeSnapshotUserCallback()
     }
@@ -67,28 +63,10 @@ def collect_diagnostics():
         'platform': platform.platform(),
         # OS Version (and maybe name)
         'system': '{} {}'.format(platform.system(), platform.version()),
+        # OS Release name (prettier)
+        'os-release': _get_os_release()
+
     }
-
-
-    # content of /etc/os-release
-    try:
-        osrelease = platform.freedesktop_os_release()  # since Python 3.10
-
-    except AttributeError:  # refactor: when we drop Python 3.9 support
-        # read and parse the os-release file ourself
-        fp = pathlib.Path('/etc') / 'os-release'
-
-        try:
-            with fp.open('r') as handle:
-                osrelease = handle.read()
-
-        except FileNotFoundError:
-            osrelease = '(os-release file not found)'
-
-        else:
-            osrelease = re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
-
-    result['host-setup']['os-release'] = osrelease
 
     # Display system (X11 or Wayland)
     # This doesn't catch all edge cases.
@@ -101,6 +79,10 @@ def collect_diagnostics():
 
     # PATH environment variable
     result['host-setup']['PATH'] = os.environ.get('PATH', '($PATH unknown)')
+
+    # RSYNC environment variables
+    for var in ['RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']:
+        result['host-setup'][var] = os.environ.get(var, '(not set)')
 
     # === PYTHON setup ===
     python = '{} {} {} {}'.format(
@@ -118,10 +100,21 @@ def collect_diagnostics():
     if rev:
         python = '{} rev: {}'.format(python, rev)
 
+    python_executable = Path(sys.executable)
+
+    # Python interpreter
     result['python-setup'] = {
         'python': python,
-        'sys.path': sys.path,
+        'python-executable': str(python_executable),
+        'python-executable-symlink': python_executable.is_symlink(),
     }
+
+    # Real interpreter path if it is used via a symlink
+    if result['python-setup']['python-executable-symlink']:
+        result['python-setup']['python-executable-resolved'] \
+            = str(python_executable.resolve())
+
+    result['python-setup']['sys.path'] = sys.path
 
     # Qt
     try:
@@ -179,11 +172,11 @@ def collect_diagnostics():
 
     if shell != SHELL_ERR_MSG:
         shell_version = _get_extern_versions([shell, '--version'])
-        result['external-programs']['shell-version'] = shell_version.split('\n')[0]
+        result['external-programs']['shell-version'] \
+            = shell_version.split('\n')[0]
 
-    result = json.loads(
-        json.dumps(result).replace(pwd_struct.pw_name, USER_REPLACED)
-    )
+    result = _replace_username_paths(result=result,
+                                     username=pwd_struct.pw_name)
 
     return result
 
@@ -257,8 +250,8 @@ def get_git_repository_info(path=None):
     Credits: https://stackoverflow.com/a/51224861/4865723
 
     Args:
-        path (pathlib.Path): Path with '.git' folder in (default is
-                             current working directory).
+        path (Path): Path with '.git' folder in (default is
+                     current working directory).
 
     Returns:
         (dict): Dict with keys "branch" and "hash" if it is a git repo,
@@ -266,7 +259,7 @@ def get_git_repository_info(path=None):
     """
 
     if not path:
-        path = pathlib.Path.cwd()
+        path = Path.cwd()
 
     git_folder = path / '.git'
 
@@ -296,6 +289,31 @@ def get_git_repository_info(path=None):
     return result
 
 
+def _get_os_release():
+    """Extract infos from os-release file.
+
+    Returns:
+        (str): OS name e.g. "Debian GNU/Linux 11 (bullseye)"
+    """
+
+    try:
+        # content of /etc/os-release
+        return platform.freedesktop_os_release()  # since Python 3.10
+    except AttributeError:  # refactor: when we drop Python 3.9 support
+        pass
+
+    # read and parse the os-release file ourself
+    fp = Path('/etc') / 'os-release'
+
+    try:
+        with fp.open('r') as handle:
+            osrelease = handle.read()
+    except FileNotFoundError:
+        return '(os-release file not found)'
+
+    return re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
+
+
 def _determine_distro_package_folder():
     """Return the projects root folder.
 
@@ -307,12 +325,39 @@ def _determine_distro_package_folder():
     """
 
     # "current" folder
-    path = pathlib.Path(__file__)
+    path = Path(__file__)
 
     # level of highest folder named "backintime"
     bit_idx = path.parts.index('backintime')
 
     # cut the path to that folder
-    path = pathlib.Path(*(path.parts[:bit_idx+1]))
+    path = Path(*(path.parts[:bit_idx+1]))
 
     return path
+
+
+def _replace_username_paths(result, username):
+    """User's homepath and the username is replaced because of security
+    reasons.
+
+    Args:
+        result (dict): Dict possibily containing the username and its home
+                       path.
+        username (str). The user login name to look for.
+
+    Returns:
+        (str): String with replacements.
+    """
+
+    # Replace home folder user names with this dummy name
+    # for privacy reasons
+    USER_REPLACED = 'UsernameReplaced'
+
+    # JSON to string
+    result = json.dumps(result)
+
+    result = result.replace(f'/home/{username}', f'/home/{USER_REPLACED}')
+    result = result.replace(f'~/{username}', f'~/{USER_REPLACED}')
+
+    # string to JSON
+    return json.loads(result)

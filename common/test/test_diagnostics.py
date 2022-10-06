@@ -30,8 +30,8 @@ class Diagnostics(unittest.TestCase):
             self.assertIn(key, result['backintime'], key)
 
         # 2nd level "host-setup"
-        minimal_keys = ['platform', 'system', 'display-system',
-                        'locale', 'PATH']
+        minimal_keys = ['platform', 'system', 'display-system', 'locale',
+                        'PATH', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']
         for key in minimal_keys:
             self.assertIn(key, result['host-setup'], key)
 
@@ -42,7 +42,6 @@ class Diagnostics(unittest.TestCase):
         minimal_keys = ['rsync', 'shell']
         for key in minimal_keys:
             self.assertIn(key, result['external-programs'], key)
-
 
     def test_no_ressource_warning(self):
         """No ResourceWarning's.
@@ -68,6 +67,27 @@ class Diagnostics(unittest.TestCase):
         self.assertEqual(
             diagnostics._get_extern_versions(['fooXbar']),
             '(no fooXbar)'
+        )
+
+    def test_replace_user_path(self):
+        """Replace users path."""
+
+        d = {
+            'foo': '/home/rsync',
+            'bar': '~/rsync'
+        }
+
+        self.assertEqual(
+            diagnostics._replace_username_paths(d, 'rsync'),
+            {
+                'foo': '/home/UsernameReplaced',
+                'bar': '~/UsernameReplaced'
+            }
+        )
+
+        self.assertEqual(
+            diagnostics._replace_username_paths(d, 'user'),
+            d
         )
 
 
