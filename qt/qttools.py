@@ -28,7 +28,7 @@ from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QToolTip, QAction)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
-from distutils.version import StrictVersion
+from packaging.version import Version
 
 _ = gettext.gettext
 
@@ -156,7 +156,7 @@ def createQApplication(app_name = 'Back In Time'):
         return qapp
     except NameError:
         pass
-    if StrictVersion(QT_VERSION_STR) >= StrictVersion('5.6') and \
+    if Version(QT_VERSION_STR) >= Version('5.6') and \
         hasattr(Qt, 'AA_EnableHighDpiScaling'):
         QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     qapp = QApplication(sys.argv)

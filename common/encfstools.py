@@ -22,7 +22,7 @@ import re
 import shutil
 import tempfile
 from datetime import datetime
-from distutils.version import StrictVersion
+from packaging.version import Version
 
 import config
 import password
@@ -32,7 +32,8 @@ import sshtools
 import logger
 from mount import MountControl
 from exceptions import MountException, EncodeValueError
-_=gettext.gettext
+
+_ = gettext.gettext
 
 class EncFS_mount(MountControl):
     """
@@ -156,7 +157,7 @@ class EncFS_mount(MountControl):
                                     universal_newlines = True)
             output = proc.communicate()[0]
             m = re.search(r'(\d\.\d\.\d)', output)
-            if m and StrictVersion(m.group(1)) <= StrictVersion('1.7.2'):
+            if m and Version(m.group(1)) <= Version('1.7.2'):
                 logger.debug('Wrong encfs version %s' %m.group(1), self)
                 raise MountException(_('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
 
