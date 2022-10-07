@@ -677,7 +677,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                     gettext.ngettext('Waiting %s second.', 'Waiting %s seconds.', 30) % 30,
                                     30)
                         for counter in range(30, 0, -1):
-                            logger.info("Cannot start snapshot yet: %s is not accessible. Waiting 1 more second."%path)
+                            logger.info("Cannot start snapshot yet: target directory not accessible. Waiting 1s.")
                             time.sleep(1)
                             if self.config.canBackup():
                                 break
