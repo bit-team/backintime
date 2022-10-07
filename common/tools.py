@@ -41,6 +41,7 @@ keyring_warn = False
 try:
     if os.getenv('BIT_USE_KEYRING', 'true') == 'true' and os.geteuid() != 0:
         import keyring
+        from keyring import backend
 except:
     keyring = None
     os.putenv('BIT_USE_KEYRING', 'false')
@@ -837,29 +838,62 @@ def keyringSupported():
     if keyring is None:
         logger.debug('No keyring due to import error.')
         return False
-    backends = []
-    try: backends.append(keyring.backends.SecretService.Keyring)
-    except: pass
-    try: backends.append(keyring.backends.Gnome.Keyring)
-    except: pass
-    try: backends.append(keyring.backends.kwallet.Keyring)
-    except: pass
-    try: backends.append(keyring.backends.kwallet.DBusKeyring)
-    except: pass
-    try: backends.append(keyring.backend.SecretServiceKeyring)
-    except: pass
-    try: backends.append(keyring.backend.GnomeKeyring)
-    except: pass
-    try: backends.append(keyring.backend.KDEKWallet)
-    except: pass
+
+    # Determine the currently active backend
     try:
+        # get_keyring() internally calls keyring.core.init_backend()
+        # which fixes non-available backends for the first call.
+        # See related issue #1321:
+        # https://github.com/bit-team/backintime/issues/1321
         displayName = keyring.get_keyring().__module__
     except:
         displayName = str(keyring.get_keyring())
-    if backends and isinstance(keyring.get_keyring(), tuple(backends)):
+
+    logger.debug("Available keyring backends:")
+    try:
+        for b in backend.get_all_keyring():
+            logger.debug(b)
+    except Exception as e:
+        logger.debug("Available backends cannot be listed: " + repr(e))
+
+    available_backends = []
+
+    # Create a list of installed backends that BiT supports (white-listed).
+    # This is done by trying to put the meta classes ("class definitions",
+    # NOT instances of the class itself!) of the supported backends
+    # into the "backends" list
+    try: available_backends.append(keyring.backends.SecretService.Keyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.SecretService.Keyring not found: " + repr(e))
+    try: available_backends.append(keyring.backends.Gnome.Keyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.Gnome.Keyring not found: " + repr(e))
+    try: available_backends.append(keyring.backends.kwallet.Keyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.kwallet.Keyring not found: " + repr(e))
+    try: available_backends.append(keyring.backends.kwallet.DBusKeyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.kwallet.DBusKeyring not found: " + repr(e))
+    try: available_backends.append(keyring.backend.SecretServiceKeyring)
+    except Exception as e: logger.debug("Metaclass keyring.backend.SecretServiceKeyring not found: " + repr(e))
+    try: available_backends.append(keyring.backend.GnomeKeyring)
+    except Exception as e: logger.debug("Metaclass keyring.backend.GnomeKeyring not found: " + repr(e))
+    try: available_backends.append(keyring.backend.KDEKWallet)
+    except Exception as e: logger.debug("Metaclass keyring.backend.KDEKWallet not found: " + repr(e))
+    # TODO (Oct. 7, 2022): Should the ChainerBackend also be supported?
+    #                    It could solve the problem of configuring the
+    #                    used backend since it iterates over all of them
+    #                    and seems to be the default backend now.
+    #                    On the other hand it could use a non-supported
+    #                    backend without a chance for BiT to notice this.
+    # See: https://github.com/jaraco/keyring/blob/977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/chainer.py#L11
+    # try: backends.append(keyring.backends.chainer.ChainerBackend)
+    # except Exception as e: logger.debug("Metaclass keyring.backend. not found:" + repr(e))
+
+    logger.debug("Available supported backends: " + repr(available_backends))
+
+    if available_backends and isinstance(keyring.get_keyring(), tuple(available_backends)):
         logger.debug("Found appropriate keyring '{}'".format(displayName))
         return True
+
     logger.debug("No appropriate keyring found. '{}' can't be used with BackInTime".format(displayName))
+    # TODO (Oct. 07, 2022): Write log output indicating possible solutions for this (eg. via a URL)
     return False
 
 def password(*args):
