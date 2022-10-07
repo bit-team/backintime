@@ -13,6 +13,7 @@ import subprocess
 import json
 import re
 import config  # config.Config.VERSION  Refactor after src-layout migration
+import tools
 
 
 def collect_diagnostics():
@@ -50,7 +51,8 @@ def collect_diagnostics():
         'distribution-package': str(distro_path),
         'started-from': str(pathlib.Path(config.__file__).parent),
         'running-as-root': pwd_struct.pw_name == 'root',
-        'user-callback': cfg.takeSnapshotUserCallback()
+        'user-callback': cfg.takeSnapshotUserCallback(),
+        'keyring-supported': tools.keyringSupported()
     }
 
     # Git repo

@@ -49,6 +49,9 @@ The development of this project has been dormant for a while,
 but a small team has started to get things moving again.
 Stick with us, we all love Back In Time :)
 
+We are currently trying to fix the major issues while not implementing
+new features to prepare a new stable release.
+
 If you are interested in the development, have a look below under [`Contribute`](#Contribute).
 
 #### Incompatibility with rsync >= 3.2.4
@@ -84,6 +87,42 @@ backintime versions older than 1.3.2 do not start with Python >= 3.10.
 Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied [a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff) to make it work.
 
 If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
+
+
+#### Non-working password safe / BiT forgets passwords (`keyring` backend issues)
+
+`Back in Time` does only support selected "known-good" backends
+to set and query passwords from a user-session password safe by
+using the [keyring](https://github.com/jaraco/keyring) library.
+
+This may require manual configuration via a configuration file until there is eg. a settings GUI for this.
+
+Symptoms are DEBUG log output (with the command line argument `--debug`) like:
+
+```
+DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends...' can't be used with BackInTime
+DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends.chainer' can't be used with BackInTime
+```
+
+To diagnose and solve this follow these steps in a terminal:
+
+```
+# Show default backend
+python3 -c "import keyring.util.platform_; print(keyring.get_keyring().__module__)"
+
+# List available backends:
+keyring --list-backends 
+
+# Find out the config file folder:
+python3 -c "import keyring.util.platform_; print(keyring.util.platform_.config_root())"
+
+# Create a config file named "keyringrc.cfg" in this folder with one of the available backends (listed above)
+[backend]
+default-keyring=keyring.backends.kwallet.DBusKeyring
+```
+
+See also issue [#1321](https://github.com/bit-team/backintime/issues/1321)
+
 
 ## Download
 
