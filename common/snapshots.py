@@ -676,11 +676,15 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                     '\n' +
                                     gettext.ngettext('Waiting %s second.', 'Waiting %s seconds.', 30) % 30,
                                     30)
-                        for counter in range(30, 0, -1):
-                            logger.info("Cannot start snapshot yet: target directory not accessible. Waiting 1s.")
+                        counter = 0
+                        for counter in range(0, 30):
+                            logger.debug("Cannot start snapshot yet: target directory not accessible. Waiting 1s.")
                             time.sleep(1)
                             if self.config.canBackup():
                                 break
+                        if counter != 0:
+                            logger.info("Waited %d seconds for target directory to be available", counter)
+
 
                     if not self.config.canBackup(profile_id):
                         logger.warning('Can\'t find snapshots folder!', self)
