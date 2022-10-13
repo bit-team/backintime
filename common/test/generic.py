@@ -39,7 +39,7 @@ import tools
 # mock notifyplugin to suppress notifications
 tools.registerBackintimePath('qt', 'plugins')
 
-TMP_FLOCK = NamedTemporaryFile()
+TMP_FLOCK = NamedTemporaryFile(prefix='backintime', suffix='.flock')
 PRIV_KEY_FILE = os.path.expanduser(
     os.path.join("~", ".ssh", "id_rsa"))
 AUTHORIZED_KEYS_FILE = os.path.expanduser(
@@ -74,25 +74,33 @@ ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 
 
 class TestCase(unittest.TestCase):
-    """Base class for Back In Time unittesting.
+    """Base class for Back In Time unit- and integration testing.
 
+    In summary folling is set via 'setUp()' and '__init__()':
+       - Initialize logging.
+       - Set path to config file (not open it).
+       - Set path the "backup source" directory.
     """
 
     def __init__(self, methodName):
-        """Initialize.
+        """Initialize logging and set the path of the config file.
+
+        The config file in the "test" folder is used.
 
         Args:
             methodName: Unkown.
         """
 
         # note by buhtz: This is not recommended. Unittest module handle
-        # that itself. The default locale is "C". Need further investigation.
+        # that itself. The default locale while unittesting is "C".
+        # Need further investigation.
         os.environ['LANGUAGE'] = 'en_US.UTF-8'
 
-        # config file path
+        # Path to config file (in "common/test/config")
         self.cfgFile = os.path.abspath(
             os.path.join(__file__, os.pardir, 'config'))
 
+        # Initialize logging
         logger.APP_NAME = 'BIT_unittest'
         logger.openlog()
 
@@ -102,13 +110,19 @@ class TestCase(unittest.TestCase):
         """
         """
         logger.DEBUG = '-v' in sys.argv
+
+        # ?
         self.run = False
+
+        # Not sure but this could be the "backup source" directory
         self.sharePathObj = TemporaryDirectory()
         self.sharePath = self.sharePathObj.name
 
     def tearDown(self):
         """
         """
+        # BUHTZ 10/09/2022: In my understanding it is not needed and would be
+        # done implicite when the test class is destroyed.
         self.sharePathObj.cleanup()
 
     def callback(self, func, *args):
@@ -152,7 +166,11 @@ class TestCase(unittest.TestCase):
 
 
 class TestCaseCfg(TestCase):
-    """Base class setting up config file.
+    """Testing base class opening the config file, creating the config
+    instance and starting the notify plugin.
+
+    The path to the config file was set by the inherited class
+    :py:class:`generic.TestCase`.
     """
 
     def setUp(self):
@@ -167,9 +185,9 @@ class TestCaseCfg(TestCase):
 
 
 class TestCaseSnapshotPath(TestCaseCfg):
-    """Base class for snapshot test cases.
+    """Testing base class for snapshot test cases.
 
-    It setup a temporary directory as snapshot paths for each test method.
+    It setup a temporary directory as the root for all snapshots.
     """
 
     def setUp(self):
@@ -177,10 +195,15 @@ class TestCaseSnapshotPath(TestCaseCfg):
         """
         super(TestCaseSnapshotPath, self).setUp()
 
-        # use a new TemporaryDirectory for snapshotPath to avoid
-        # side effects on leftovers
+        # The root of all snapshots. Like a "backup destination".
+        # e.g. '/tmp/tmpf3mdnt8l'
         self.tmpDir = TemporaryDirectory()
+
         self.cfg.dict['profile1.snapshots.path'] = self.tmpDir.name
+
+        # The full snapshot path combines the backup destination root
+        # directory with hostname, username and the profile (backupjob) ID.
+        # e.g. /tmp/tmpf3mdnt8l/backintime/test-host/test-user/1
         self.snapshotPath = self.cfg.snapshotsFullPath()
 
     def tearDown(self):
@@ -192,9 +215,9 @@ class TestCaseSnapshotPath(TestCaseCfg):
 
 
 class SnapshotsTestCase(TestCaseSnapshotPath):
-    """Base class for snapshot testing unittest classes.
+    """Testing base class for snapshot testing unittest classes.
 
-    Unclear why this need to be separated from `TestCaseSnapshotPath`.
+    Create the snapshot path and a :py:class:`Snapshot` instance of it.
     """
 
     def setUp(self):
@@ -202,6 +225,7 @@ class SnapshotsTestCase(TestCaseSnapshotPath):
         """
         super(SnapshotsTestCase, self).setUp()
 
+        # e.g. /tmp/tmpf3mdnt8l/backintime/test-host/test-user/1
         os.makedirs(self.snapshotPath)
         self.sn = snapshots.Snapshots(self.cfg)
 
@@ -211,7 +235,10 @@ class SnapshotsTestCase(TestCaseSnapshotPath):
 
 
 class SnapshotsWithSidTestCase(SnapshotsTestCase):
-    """
+    """Testing base class creating a concrete SID object.
+
+    Backup content (folder and file) is created in that snapshot like the
+    snapshot was taken in the past.
     """
 
     def setUp(self):
@@ -219,11 +246,19 @@ class SnapshotsWithSidTestCase(SnapshotsTestCase):
         """
         super(SnapshotsWithSidTestCase, self).setUp()
 
+        # A snapthos "data object"
         self.sid = snapshots.SID('20151219-010324-123', self.cfg)
 
+        # Create test files and folders
+        # e.g. /tmp/tmp9rstvbsx/backintime/test-host/test-user/1/
+        # 20151219-010324-123/backup/foo/bar
+        # 20151219-010324-123/backup/foo/bar/baz
+
         self.sid.makeDirs()
+
         self.testDir = 'foo/bar'
         self.testDirFullPath = self.sid.pathBackup(self.testDir)
+
         self.testFile = 'foo/bar/baz'
         self.testFileFullPath = self.sid.pathBackup(self.testFile)
 
@@ -251,6 +286,7 @@ class SSHTestCase(TestCaseCfg):
         self.cfg.setSshPrivateKeyFile(PRIV_KEY_FILE)
 
         # use a TemporaryDirectory for remote snapshot path
+        # self.tmpDir = TemporaryDirectory(prefix='bit_test_', suffix=' with blank')
         self.tmpDir = TemporaryDirectory()
         self.remotePath = os.path.join(self.tmpDir.name, 'foo')
         self.remoteFullPath = os.path.join(
@@ -266,7 +302,10 @@ class SSHTestCase(TestCaseCfg):
 
 
 class SSHSnapshotTestCase(SSHTestCase):
-    """
+    """Testing base class for test cases using a snapshot and SSH.
+
+    BUHTZ 2022-10-09: Seems exactly the same then `SnapshotsTestCase` except
+    the inheriting class.
     """
 
     def setUp(self):
@@ -285,7 +324,11 @@ class SSHSnapshotTestCase(SSHTestCase):
 
 
 class SSHSnapshotsWithSidTestCase(SSHSnapshotTestCase):
-    """
+    """Testing base class for test cases using an existing snapshot (SID)
+    and SSH.
+
+    BUHTZ 2022-10-09: Seems exactly the same then `SnapshotsWithSidTestCase`
+    except the inheriting class.
     """
 
     def setUp(self):
@@ -328,6 +371,7 @@ def create_test_files(path):
             └── test
 
     """
+    # DEBUG print(f'create test files: {path}')
     os.makedirs(os.path.join(path, 'foo', 'bar'))
 
     with open(os.path.join(path, 'foo', 'bar', 'baz'), 'wt') as f:

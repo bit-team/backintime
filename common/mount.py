@@ -115,14 +115,18 @@ class Mount(object):
         """
         self.config.PLUGIN_MANAGER.load(cfg = self.config)
         self.config.PLUGIN_MANAGER.mount(self.profile_id)
+
         if mode is None:
             mode = self.config.snapshotsMode(self.profile_id)
 
         if self.config.SNAPSHOT_MODES[mode][0] is None:
-            #mode doesn't need to mount
+            # mode doesn't need to mount
             return 'local'
+
         else:
-            while True:
+
+            while True:  # ???
+
                 try:
                     mounttools = self.config.SNAPSHOT_MODES[mode][0]
                     backend = mounttools(cfg = self.config,
@@ -131,12 +135,16 @@ class Mount(object):
                                          mode = mode,
                                          parent = self.parent,
                                          **kwargs)
+
                     return backend.mount(check = check)
+
                 except HashCollision as ex:
                     logger.warning(str(ex), self)
                     del backend
                     check = False
+
                     continue
+
                 break
 
     def umount(self, hash_id = None):

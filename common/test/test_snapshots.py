@@ -17,11 +17,14 @@
 
 import os
 import sys
+import pathlib
 import shutil
 import stat
 import pwd
 import grp
 import re
+import random
+import string
 import unittest
 from unittest.mock import patch
 from datetime import date, datetime
@@ -30,9 +33,11 @@ from tempfile import TemporaryDirectory
 from test import generic
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import logger
 import config
 import snapshots
 import tools
+import mount
 
 CURRENTUID = os.geteuid()
 CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
@@ -40,11 +45,12 @@ CURRENTUSER = pwd.getpwuid(CURRENTUID).pw_name
 CURRENTGID = os.getegid()
 CURRENTGROUP = grp.getgrgid(CURRENTGID).gr_name
 
-#all groups the current user is member in
+# all groups the current user is member in
 GROUPS = [i.gr_name for i in grp.getgrall() if CURRENTUSER in i.gr_mem]
 NO_GROUPS = not GROUPS
 
 IS_ROOT = os.geteuid() == 0
+
 
 class TestSnapshots(generic.SnapshotsTestCase):
     ############################################################################
@@ -575,6 +581,7 @@ user.size=.+''', re.MULTILINE))
         self.assertTupleEqual(d[testDir],  (16893, CURRENTUSER.encode(), CURRENTGROUP.encode()))
         self.assertTupleEqual(d[testFile], (33204, CURRENTUSER.encode(), CURRENTGROUP.encode()))
 
+
 class TestRestorePathInfo(generic.SnapshotsTestCase):
     def setUp(self):
         self.pathFolder = '/tmp/test/foo'
@@ -703,6 +710,7 @@ class TestRestorePathInfo(generic.SnapshotsTestCase):
         self.assertEqual(s.st_uid, CURRENTUID)
         self.assertEqual(s.st_gid, CURRENTGID)
 
+
 class TestDeletePath(generic.SnapshotsWithSidTestCase):
     def test_delete_file(self):
         self.assertExists(self.testFileFullPath)
@@ -731,9 +739,18 @@ class TestDeletePath(generic.SnapshotsWithSidTestCase):
         self.sn.deletePath(self.sid, 'foo')
         self.assertNotExists(self.testDirFullPath)
 
+
 class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
-    #TODO: add test with SSH
+    """Integration test about removing a snapshot.
+    """
+    # TODO: add test with SSH
+
     def test_remove(self):
+
+        print('\n' + 'T'*70)
+        print(self.sid)
+        print(self.__dict__)
+
         self.assertTrue(self.sid.exists())
         self.sn.remove(self.sid)
         self.assertFalse(self.sid.exists())
@@ -747,6 +764,7 @@ class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
         self.sn.remove(self.sid)
         self.assertFalse(self.sid.exists())
 
+
 @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
 class TestSshSnapshots(generic.SSHTestCase):
     def setUp(self):
@@ -757,5 +775,132 @@ class TestSshSnapshots(generic.SSHTestCase):
     def test_statFreeSpaceSsh(self):
         self.assertIsInstance(self.sn.statFreeSpaceSsh(), int)
 
-if __name__ == '__main__':
-    unittest.main()
+
+@unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
+class TestSshRemoveSnapshots(unittest.TestCase):
+    """
+    """
+
+    def setUp(self):
+        self._init_logging_and_config()
+
+    def _init_logging_and_config(self):
+        # Initialize logging
+        logger.APP_NAME = 'BIT_unittest'
+        logger.openlog()
+        logger.DEBUG = '-v' in sys.argv
+
+        # Path to config file (in "common/test/config")
+        self.cfgFile = pathlib.Path(__file__).parent / 'config'
+        self.cfgFile = str(self.cfgFile)  # WORKAROUND
+
+        # config instance
+        self.sharePath = TemporaryDirectory()
+        self.cfg = config.Config(self.cfgFile, self.sharePath.name)
+
+        # mock notifyplugin to suppress notifications
+        patcher = patch('notifyplugin.NotifyPlugin.message')
+        self.mockNotifyPlugin = patcher.start()
+
+        self.cfg.PLUGIN_MANAGER.load()
+
+    def _init_ssh_snapshot_profile(self,
+                                   path_prefix='BIT',
+                                   path_suffix=''):
+        # configure a SSH snapshot profile
+        self.cfg.setSnapshotsMode('ssh')
+        self.cfg.setSshHost('localhost')
+        self.cfg.setSshPrivateKeyFile(generic.PRIV_KEY_FILE)
+
+        # use a TemporaryDirectory for remote snapshot path
+        # e.g. /tmp/tmp_mzi0qqo/foo
+        self.tmpDir = TemporaryDirectory(prefix=path_prefix,
+                                         suffix=path_suffix)
+        self.remotePath = os.path.join(self.tmpDir.name, 'foo')
+
+        # set remote snapshot path to config
+        self.cfg.setSshSnapshotsPath(self.remotePath)
+
+        # Create a snapshot profile paths
+        # e.g. /tmp/tmp_mzi0qqo/foo/backintime/test-host/test-user/1
+        self.snapshotPath = self.cfg.sshSnapshotsFullPath()
+        os.makedirs(self.snapshotPath)
+
+        # use a tmp-file for flock because test_flockExclusive would deadlock
+        # otherwise if a regular snapshot is running in background
+        snapshots.Snapshots.GLOBAL_FLOCK = generic.TMP_FLOCK.name
+
+        # The snapshot instance
+        self.sn = snapshots.Snapshots(self.cfg)
+
+    def _init_concrete_snapshot(self, sid_name='20151219-010324-123'):
+        # +++ Create a concrete snapshot (SID)
+        self.sid = snapshots.SID(sid_name, self.cfg)
+
+        # e.g. /tmp/tmpq8cbewug/foo/backintime/test-host/test-user/1/
+        # 20151219-010324-123/
+        # backup
+        self.remoteSIDBackupPath \
+            = pathlib.Path(self.snapshotPath) / self.sid.sid / 'backup'
+
+        self.remoteSIDBackupPath.mkdir(parents=True)
+
+        # e.g. /tmp/tmp5eo0y_fh/foo/backintime/test-host/
+        # test-user/1/20151219-010324-123/backup
+        sid_path = pathlib.Path(self.remoteSIDBackupPath)
+        sid_path = sid_path / 'tmp' / self._rand_string(10)
+        sid_path = str(sid_path)
+
+        generic.create_test_files(sid_path)
+
+    def _rand_string(self, max_length=10, min_length=1):
+        """Create a string with random uppercase characters and digits and
+        a random length between `min_length` and `max_length`.
+
+        Args:
+            max_length (int): Max length of the string (default: 10).
+            min_length (int): Min string length (default: 1)
+
+        Returns:
+            (string): The created random string.
+        """
+        return ''.join(random.choices(
+            string.ascii_uppercase+string.digits,
+            k=random.randint(min_length, max_length)
+        ))
+
+    def test_remove(self):
+        """Remove concrete snapshot.
+
+        Here there is no blank in the path name.
+        """
+        self._generic_test_remove(path_suffix='')
+
+    def test_remove_with_blank(self):
+        """Remove concrete snapshot with blank in path name.
+        """
+        self._generic_test_remove(path_suffix=' with blank')
+
+    def _generic_test_remove(self, path_suffix):
+        """
+        """
+        # init
+        self._init_ssh_snapshot_profile(path_suffix=path_suffix)
+        self._init_concrete_snapshot()
+
+        # mount
+        mount_obj = mount.Mount(cfg=self.cfg)
+        hash_id = mount_obj.mount()
+        self.cfg.setCurrentHashId(hash_id)
+
+        # Does the snapshot exists?
+        self.assertTrue(self.sid.exists())
+
+        # Remove it
+        self.sn.remove(self.sid)
+
+        # Shouldn't exist anymore.
+        self.assertFalse(self.sid.exists())
+
+        #
+        mount_obj.umount(self.cfg.current_hash_id)

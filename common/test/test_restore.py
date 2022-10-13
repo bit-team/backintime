@@ -178,6 +178,10 @@ class TestRestoreLocal(RestoreTestCase):
 
 @unittest.skipIf(not generic.LOCAL_SSH, 'Skip as this test requires a local ssh server, public and private keys installed')
 class TestRestoreSSH(generic.SSHSnapshotsWithSidTestCase, TestRestoreLocal):
+    """BUHTZ 2022-10-09: Seems to me that testing restore via SSH isn't
+    implemented yet.
+    """
+
     def setUp(self):
         super(TestRestoreSSH, self).setUp()
         self.include = TemporaryDirectory()
