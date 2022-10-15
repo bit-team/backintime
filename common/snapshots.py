@@ -592,6 +592,9 @@ class Snapshots:
 
         Args:
             sid (SID):              snapshot to remove
+
+        Returns:
+            (bool): ``True`` if succedeed otherwise ``False``.
         """
 
         if isinstance(sid, RootSnapshot):
@@ -618,14 +621,18 @@ class Snapshots:
 
             #
             if rc != 0:
-                raise RuntimeError('Last rsync command failed. See previous '
-                                   'WARNING message.')
+                logger.error(
+                    f'Last rsync command failed with return code "{rc}". '
+                    'See previous WARNING message in the logs for details.')
+                return False
 
             # Delete the sid dir. BUT here isn't the remote path used but the
             # temporary mounted variant of it.
             # e.g. /home/user/.local/share/backintime/mnt/4_8030/backintime/ \
             # HOST/user/MyProfile/20221005-000003-880
             shutil.rmtree(sid.path())
+
+            return True
 
     def backup(self, force = False):
         """

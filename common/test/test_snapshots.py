@@ -897,7 +897,7 @@ class TestSshRemoveSnapshots(unittest.TestCase):
         self.assertTrue(self.sid.exists())
 
         # Remove it
-        self.sn.remove(self.sid)
+        self.assertTrue(self.sn.remove(self.sid))
 
         # Shouldn't exist anymore.
         self.assertFalse(self.sid.exists())
