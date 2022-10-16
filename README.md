@@ -141,6 +141,11 @@ repositories.
 We provide a PPA (Private Package Archive) with current stable version
 (ppa:bit-team/stable) and a testing PPA (ppa:bit-team/testing)
 
+**Important:** Until version 1.3.2 there was a bug that caused
+`backintime` failed to start if the package `backintime-qt` was not installed.
+As work-around also install `backintime-qt` because the missing
+Udev `serviceHelper` system D-Bus daemon is packaged there.
+
     sudo add-apt-repository ppa:bit-team/stable
     sudo apt-get update
     sudo apt-get install backintime-qt
@@ -159,15 +164,32 @@ or
 
 ##### ArchLinux
 
-Back In Time is available through AUR. You need to import a public key once
-before installing
+Back In Time is available through the AUR package [`backintime`](https://aur.archlinux.org/packages/backintime)
+that also includes the GUI (`backintime-qt`).
 
+**Important:** Until version 1.3.2 there was a bug that prevented the
+           successful **first-time** installation due to a unit test failure when
+           building with the PKGBUILD script (see [#1233](https://github.com/bit-team/backintime/issues/1233))
+           and required to edit the PKGBUILD file for a sucessful installation
+           (see description in [#921](https://github.com/bit-team/backintime/issues/921#issuecomment-1276888138)).
+
+    # You need to import a public key once before installing
     gpg --keyserver pgp.mit.edu --recv-keys 615F366D944B4826
     # Fingerprint: 3E70 692E E3DB 8BDD A599  1C90 615F 366D 944B 4826
+
     wget https://aur.archlinux.org/cgit/aur.git/snapshot/backintime.tar.gz
     tar xvzf backintime.tar.gz
     cd backintime
     makepkg -srci
+
+An alternative way of installation [clones the AUR package](https://averagelinuxuser.com/install-aur-manually-helpers/) which has the
+advantage to use `git pull` instead of downloading `backintime.tar.gz`
+to be prepared to build an updated version of the package:
+
+    git clone https://aur.archlinux.org/backintime.git
+    # Optional: Edit PKGBUILD to comment the `make test` line for the first-time installation of version 1.3.2 or less
+    cd backintime
+    makepkg -si
 
 ### From sources
 
