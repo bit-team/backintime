@@ -1619,7 +1619,6 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         # /tmp           127266564 115596412   5182296  96% /
         #                                      ^^^^^^^
         for line in output.split(b'\n'):
-            print(line)
             m = re.match(b'^.*?\s+\d+\s+\d+\s+(\d+)\s+\d+%', line, re.M)
 
             if m:

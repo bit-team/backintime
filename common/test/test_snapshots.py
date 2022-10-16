@@ -746,11 +746,6 @@ class TestRemoveSnapshot(generic.SnapshotsWithSidTestCase):
     # TODO: add test with SSH
 
     def test_remove(self):
-
-        print('\n' + 'T'*70)
-        print(self.sid)
-        print(self.__dict__)
-
         self.assertTrue(self.sid.exists())
         self.sn.remove(self.sid)
         self.assertFalse(self.sid.exists())

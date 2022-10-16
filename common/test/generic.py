@@ -371,7 +371,6 @@ def create_test_files(path):
             └── test
 
     """
-    # DEBUG print(f'create test files: {path}')
     os.makedirs(os.path.join(path, 'foo', 'bar'))
 
     with open(os.path.join(path, 'foo', 'bar', 'baz'), 'wt') as f:
