@@ -18,6 +18,7 @@
 import os
 import sys
 import gettext
+
 from PyQt5.QtGui import (QFont, QColor, QKeySequence)
 from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
                           QTranslator, QLocale, QLibraryInfo, QEvent,
@@ -29,6 +30,7 @@ from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from packaging.version import Version
+
 
 _ = gettext.gettext
 
@@ -45,6 +47,8 @@ def registerBackintimePath(*path):
 
 registerBackintimePath('common')
 import snapshots
+import tools
+import logger
 
 def fontBold(font):
     font.setWeight(QFont.Bold)
@@ -161,6 +165,17 @@ def createQApplication(app_name = 'Back In Time'):
         QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     qapp = QApplication(sys.argv)
     qapp.setApplicationName(app_name)
+    try:
+        if tools.isRoot():
+            logger.debug("Trying to set App ID for root user")
+            qapp.setDesktopFileName("backintime-qt-root")
+        else:
+            logger.debug("Trying to set App ID for non-privileged user")
+            qapp.setDesktopFileName("backintime-qt")
+    except Exception as e:
+        logger.warning("Could not set App ID (required for Wayland App icon and more)")
+        logger.warning("Reason: " + repr(e))
+    qapp.setDesktopFileName("backintime-qt")
     if os.geteuid() == 0 and                                   \
         qapp.style().objectName().lower() == 'windows' and  \
         'GTK+' in QStyleFactory.keys():
