@@ -66,7 +66,7 @@ class TestBackup(generic.SnapshotsTestCase):
 
         self.assertEqual(Popen_mock.call_count, 1)
 
-        print(Popen_mock.call_args.args[0])
+        print("all_args.args[0]: " + "|".join(Popen_mock.call_args.args[0]))
 
         # args_count = Popen_mock.call_args[0].count()
         self.assertEqual(Popen_mock.call_args.args[0][0], "backintime")
