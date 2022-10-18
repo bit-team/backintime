@@ -125,14 +125,17 @@ Version: \d+.\d+.\d+.*
 Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `backintime --license' for details.
+''', re.MULTILINE))
 
-INFO: Lock
+        # The log output completely goes to stderr
+        self.assertRegex(error.decode(), re.compile(r'''INFO: Lock
 INFO: Take a new snapshot. Profile: 1 Main profile
 INFO: Call rsync to take the snapshot
 INFO: Save config file
 INFO: Save permissions
 INFO: Create info file
-INFO: Unlock''', re.MULTILINE))
+INFO: Unlock
+''', re.MULTILINE))
 
         # get snapshot id
         subprocess.check_output(["./backintime",
@@ -165,8 +168,11 @@ Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type `backintime --license' for details.
 
+''', re.MULTILINE))
 
-INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''', re.MULTILINE))
+        # The log output completely goes to stderr
+        self.assertRegex(error.decode(), re.compile(r'''INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''',
+                                                     re.MULTILINE))
 
         # verify that files restored are the same as those backed up
         subprocess.check_output(["diff",
