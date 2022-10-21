@@ -1886,12 +1886,19 @@ class SetupUdev(object):
             conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
             self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
         except dbus.exceptions.DBusException as e:
-            if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
-                                      'org.freedesktop.DBus.Error.ServiceUnknown',
-                                      'org.freedesktop.DBus.Error.FileNotFound'):
-                conn = None
-            else:
-                raise
+            # Only DBusExceptions are  handled to do a "graceful recovery"
+            # by working without a serviceHelper D-Bus connection...
+            # All other exceptions are still raised causing BiT
+            # to stop during startup.
+            # if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
+            #                           'org.freedesktop.DBus.Error.ServiceUnknown',
+            #                           'org.freedesktop.DBus.Error.FileNotFound'):
+            logger.warning("Failed to connect to Udev serviceHelper daemon via D-Bus: " + e.get_dbus_name())
+            logger.warning("D-Bus message: " + e.get_dbus_message())
+            logger.warning("Udev-based profiles cannot be changed or checked due to Udev serviceHelper connection failure")
+            conn = None
+            # else:
+            #     raise
         self.isReady = bool(conn)
 
     def addRule(self, cmd, uuid):
