@@ -18,6 +18,7 @@
 
 import json
 import os
+import pathlib
 import stat
 import datetime
 import gettext
@@ -38,17 +39,20 @@ import tools
 import encfstools
 import mount
 import progress
-import bcolors
 import snapshotlog
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 
-_=gettext.gettext
+_ = gettext.gettext
 
 
 class Snapshots:
     """
     Collection of take-snapshot and restore commands.
+
+    BUHTZ 2022-10-09: In my understanding this the representation of a
+    snapshot in the "application layer". This seems to be the difference to
+    the class `SID` which represents a snapshot in the "data layer".
 
     Args:
         cfg (config.Config): current config
@@ -574,17 +578,61 @@ class Snapshots:
         """
         Remove snapshot ``sid``.
 
+        BUHTZ 2022-10-11: From my understanding rsync is used here to sync the
+        directory of a concret snapshot (``sid```) against an empty temporary
+        directory. In the consequence the sid directory is empty but not
+        deleted.
+        To delete that directory simple `rm` call (via `shutil` package) is
+        used to delete the directory. No need to do this via SSH because the
+        directory is temporary mounted.
+
+        It is not clear for me why it is done that way. Why not simply "rm"
+        the directory when it is mounted instead of using rsync in a previous
+        step?! But I won't change it yet.
+
         Args:
             sid (SID):              snapshot to remove
+
+        Returns:
+            (bool): ``True`` if succedeed otherwise ``False``.
         """
+
         if isinstance(sid, RootSnapshot):
             return
+
+        # build the rsync command and it's arguments
         rsync = tools.rsyncRemove(self.config)
+
+        # an empty temporary directory
+        # e.g. /tmp/tmp8g59onuz
         with TemporaryDirectory() as d:
+            # the temp dir
             rsync.append(d + os.sep)
-            rsync.append(self.rsyncRemotePath(sid.path(use_mode = ['ssh', 'ssh_encfs'])))
-            tools.Execute(rsync).run()
+
+            # the real remote path of a concrete snapshot (a "sid")
+            # e.g. user@myserver:"/MyBackup/.backintime/backintime/HOST/user/ \
+            # MyProfile/20221005-000003-880"
+            rsync.append(
+                self.rsyncRemotePath(sid.path(use_mode=['ssh', 'ssh_encfs'])))
+
+            # Syncing the empty tmp directory against the sid directory
+            # will clear the sid directory.
+            rc = tools.Execute(rsync).run()
+
+            #
+            if rc != 0:
+                logger.error(
+                    f'Last rsync command failed with return code "{rc}". '
+                    'See previous WARNING message in the logs for details.')
+                return False
+
+            # Delete the sid dir. BUT here isn't the remote path used but the
+            # temporary mounted variant of it.
+            # e.g. /home/user/.local/share/backintime/mnt/4_8030/backintime/ \
+            # HOST/user/MyProfile/20221005-000003-880
             shutil.rmtree(sid.path())
+
+            return True
 
     def backup(self, force = False):
         """
@@ -1553,21 +1601,29 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             return None
 
         snapshots_path_ssh = self.config.sshSnapshotsFullPath()
+
         if not len(snapshots_path_ssh):
             snapshots_path_ssh = './'
-        cmd = self.config.sshCommand(['df', snapshots_path_ssh],
-                                     nice = False,
-                                     ionice = False)
 
-        df = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+        cmd = self.config.sshCommand(['df', snapshots_path_ssh],
+                                     nice=False,
+                                     ionice=False)
+
+        df = subprocess.Popen(cmd,
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE)
+
         output = df.communicate()[0]
-        #Filesystem     1K-blocks      Used Available Use% Mounted on
-        #/tmp           127266564 115596412   5182296  96% /
-        #                                     ^^^^^^^
+
+        # Filesystem     1K-blocks      Used Available Use% Mounted on
+        # /tmp           127266564 115596412   5182296  96% /
+        #                                      ^^^^^^^
         for line in output.split(b'\n'):
             m = re.match(b'^.*?\s+\d+\s+\d+\s+(\d+)\s+\d+%', line, re.M)
+
             if m:
                 return int(int(m.group(1)) / 1024)
+
         logger.warning('Failed to get free space on remote', self)
 
     def filter(self,
@@ -1882,6 +1938,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         return (items1, items2)
 
+
 class FileInfoDict(dict):
     """
     A :py:class:`dict` that maps a path (as :py:class:`bytes`) to a
@@ -1903,9 +1960,12 @@ class FileInfoDict(dict):
         assert isinstance(value[2], bytes), "third value '{}' is not bytes instance".format(value[2])
         super(FileInfoDict, self).__setitem__(key, value)
 
+
 class SID(object):
     """
     Snapshot ID object used to gather all information for a snapshot
+
+    See :py:class:`Snapshots` to understand the difference.
 
     Args:
         date (:py:class:`str`, :py:class:`datetime.date` or :py:class:`datetime.datetime`):
@@ -2393,6 +2453,7 @@ class SID(object):
         rw = os.stat(path).st_mode | stat.S_IWUSR
         return os.chmod(path, rw)
 
+
 class GenericNonSnapshot(SID):
     @property
     def displayID(self):
@@ -2409,6 +2470,7 @@ class GenericNonSnapshot(SID):
     @property
     def withoutTag(self):
         return self.name
+
 
 class NewSnapshot(GenericNonSnapshot):
     """
@@ -2491,6 +2553,7 @@ class NewSnapshot(GenericNonSnapshot):
                 return True
         return False
 
+
 class RootSnapshot(GenericNonSnapshot):
     """
     Snapshot ID for the filesystem root folder ('/')
@@ -2549,6 +2612,7 @@ class RootSnapshot(GenericNonSnapshot):
         else:
             return os.path.join(os.sep, *path)
 
+
 def iterSnapshots(cfg, includeNewSnapshot = False):
     """
     Iterate over snapshots in current snapshot path. Use this in a 'for' loop
@@ -2579,6 +2643,7 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
             if not isinstance(e, LastSnapshotSymlink):
                 logger.debug("'{}' is no snapshot ID: {}".format(item, str(e)))
 
+
 def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):
     """
     List of snapshots in current snapshot path.
@@ -2596,6 +2661,7 @@ def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):
     ret.sort(reverse = reverse)
     return ret
 
+
 def lastSnapshot(cfg):
     """
     Most recent snapshot.
@@ -2609,6 +2675,7 @@ def lastSnapshot(cfg):
     sids = listSnapshots(cfg)
     if sids:
         return sids[0]
+
 
 if __name__ == '__main__':
     config = config.Config()
