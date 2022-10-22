@@ -937,11 +937,15 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         Args:
             sid (SID):  snapshot that should be scanned
+
+        Returns:
+            int: Return code of rsync.
         """
         logger.info('Save permissions', self)
         self.setTakeSnapshotMessage(0, _('Saving permissions...'))
 
         fileInfoDict = FileInfoDict()
+
         if self.config.snapshotsMode() == 'ssh_encfs':
             decode = encfstools.Decode(self.config, False)
         else:
@@ -953,18 +957,29 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         rsync = ['rsync', '--dry-run', '-r', '--out-format=%n']
         rsync.extend(tools.rsyncSshArgs(self.config))
-        rsync.append(self.rsyncRemotePath(sid.pathBackup(use_mode = ['ssh', 'ssh_encfs'])) + os.sep)
+        rsync.append(
+            self.rsyncRemotePath(
+                sid.pathBackup(
+                    use_mode=['ssh', 'ssh_encfs']
+                )
+            ) + os.sep
+        )
+
         with TemporaryDirectory() as d:
+
             rsync.append(d + os.sep)
+
             proc = tools.Execute(rsync,
-                                 callback = self.backupPermissionsCallback,
-                                 user_data = (fileInfoDict, decode),
-                                 parent = self,
-                                 conv_str = False,
-                                 join_stderr = False)
-            proc.run()
+                                 callback=self.backupPermissionsCallback,
+                                 user_data=(fileInfoDict, decode),
+                                 parent=self,
+                                 conv_str=False,
+                                 join_stderr=False)
+            rc = proc.run()
 
         sid.fileInfo = fileInfoDict
+
+        return rc
 
     def backupPermissionsCallback(self, line, user_data):
         """

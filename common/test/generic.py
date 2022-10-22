@@ -64,6 +64,8 @@ try:
 except ConnectionRefusedError:
     sshdPortAvailable = False
 
+SKIP_SSH_TEST_MESSAGE = 'Skip as this test requires a local ssh server, ' \
+                        'public and private keys installed'
 LOCAL_SSH = all((tools.processExists('sshd'),
                  os.path.isfile(PRIV_KEY_FILE),
                  KEY_IN_AUTH,
@@ -71,6 +73,7 @@ LOCAL_SSH = all((tools.processExists('sshd'),
 
 ON_TRAVIS = os.environ.get('TRAVIS', 'None').lower() == 'true'
 ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
+
 
 
 class TestCase(unittest.TestCase):
