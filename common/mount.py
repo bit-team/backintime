@@ -883,22 +883,29 @@ class MountControl(object):
         """
         if not self.symlink:
             return
+
         if profile_id is None:
             profile_id = self.profile_id
+
         if hash_id is None:
             hash_id = self.hash_id
+
         if tmp_mount is None:
             tmp_mount = self.tmp_mount
-        dst = self.config.snapshotsPath(profile_id = profile_id,
-                                             mode = self.mode,
-                                             tmp_mount = tmp_mount)
+
+        dst = self.config.snapshotsPath(profile_id=profile_id,
+                                        mode=self.mode,
+                                        tmp_mount=tmp_mount)
         mountpoint = self.mountpoint(hash_id)
+
         if self.symlink_subfolder is None:
             src = mountpoint
         else:
             src = os.path.join(mountpoint, self.symlink_subfolder)
+
         if os.path.exists(dst):
             os.remove(dst)
+
         os.symlink(src, dst)
 
     def removeSymlink(self, profile_id = None, tmp_mount = None):
