@@ -2,9 +2,9 @@
 
 Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
 
-[![Build Status](https://travis-ci.org/bit-team/backintime.svg?branch=master)](https://travis-ci.org/bit-team/backintime)
+[![Build Status](https://app.travis-ci.com/bit-team/backintime.svg?branch=master)](https://app.travis-ci.com/bit-team/backintime)
 [![Coverage Status](https://coveralls.io/repos/github/bit-team/backintime/badge.svg?branch=master)](https://coveralls.io/github/bit-team/backintime?branch=master)
-[![Documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](http://backintime.readthedocs.org/projects/backintime-dev/en/latest/?badge=latest)
+[![Source code documentation status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](http://backintime.readthedocs.org/projects/backintime-dev/en/latest/?badge=latest)
 
 ## About
 
@@ -22,7 +22,7 @@ You only need to specify 3 things:
 
 ## Index
 
-* [Documentation](#documentation)
+* [Documentation & FAQs](#documentation--faqs)
 * [Support](#support)
 * [Known Problems and Workarounds](#known-problems-and-workarounds)
 * [Download](#download)
@@ -32,9 +32,15 @@ You only need to specify 3 things:
 
 
 
-## Documentation
+## Documentation & FAQs
 
-The documentation is currently under development in https://backintime.readthedocs.org/
+The (not totally up-to-date) end user documentation is published here: https://backintime.readthedocs.org/
+
+A wiki with FAQs is published here: https://github.com/bit-team/backintime/wiki
+
+The source code documentation for developers is published here: https://backintime.readthedocs.io/projects/backintime-dev/en/latest/
+
+
 
 ## Support
 
@@ -43,7 +49,7 @@ https://github.com/bit-team/backintime/issues
 
 ## Known Problems and Workarounds
 
-#### Development / Maintainment status
+#### Development / Maintenance status
 
 The development of this project has been dormant for a while,
 but a small team has started to get things moving again.
@@ -95,9 +101,9 @@ If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see un
 to set and query passwords from a user-session password safe by
 using the [keyring](https://github.com/jaraco/keyring) library.
 
-This may require manual configuration via a configuration file until there is eg. a settings GUI for this.
+Enabling a supported keyring requires manual configuration of a configuration file until there is e.g. a settings GUI for this.
 
-Symptoms are DEBUG log output (with the command line argument `--debug`) like:
+Symptoms are DEBUG log output (with the command line argument `--debug`) of keyring problems can be recognized by output like:
 
 ```
 DEBUG: [common/tools.py:829 keyringSupported] No appropriate keyring found. 'keyring.backends...' can't be used with BackInTime
@@ -170,7 +176,7 @@ that also includes the GUI (`backintime-qt`).
 **Important:** Until version 1.3.2 there was a bug that prevented the
            successful **first-time** installation due to a unit test failure when
            building with the PKGBUILD script (see [#1233](https://github.com/bit-team/backintime/issues/1233))
-           and required to edit the PKGBUILD file for a sucessful installation
+           and required to edit the PKGBUILD file for a successful installation
            (see description in [#921](https://github.com/bit-team/backintime/issues/921#issuecomment-1276888138)).
 
     # You need to import a public key once before installing
@@ -210,7 +216,7 @@ If you use another Linux distribution please install the corresponding packages.
     - python3-dbus
     - python3-packaging
 
-* recomended
+* recommended
     - sshfs
     - encfs
 
@@ -232,7 +238,7 @@ If you use another Linux distribution please install the corresponding packages.
     - python3-dbus.mainloop.pyqt5
     - backintime-common
 
-* recomended
+* recommended
     - python3-secretstorage or
     - python3-keyring-kwallet or
     - python3-gnomekeyring
@@ -264,19 +270,19 @@ See also `common/configure --help?` and `qt/configure --help`
 
 ## NewsFeed
 
-Back In Time has a RSS feed
+Back In Time has an RSS feed
 https://feeds.launchpad.net/backintime/announcements.atom
 
 ## Contribute
 
-There is a mailing list for people who want to contribute to the development:
+There is a mailing list for development topics:
 https://mail.python.org/mailman3/lists/bit-dev.python.org/
 
-There is a dev-docu on https://backintime-dev.readthedocs.org
+There is a developer documentation on https://backintime-dev.readthedocs.org
 It's not complete yet but I'm working on it. If you'd like to contribute
 please add docstrings following the
 [Google style guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html)
 and add unit-tests for new methods in common. To run unit-test locally you can
 run `cd common && ./configure && make && make test`
 
-<sub>December 2016</sub>
+<sub>October 2022</sub>
