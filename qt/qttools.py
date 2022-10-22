@@ -175,7 +175,6 @@ def createQApplication(app_name = 'Back In Time'):
     except Exception as e:
         logger.warning("Could not set App ID (required for Wayland App icon and more)")
         logger.warning("Reason: " + repr(e))
-    qapp.setDesktopFileName("backintime-qt")
     if os.geteuid() == 0 and                                   \
         qapp.style().objectName().lower() == 'windows' and  \
         'GTK+' in QStyleFactory.keys():
