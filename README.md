@@ -130,6 +130,20 @@ default-keyring=keyring.backends.kwallet.DBusKeyring
 See also issue [#1321](https://github.com/bit-team/backintime/issues/1321)
 
 
+#### Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+
+In newer Ubuntu-based distros you may get this warning if you manually install *Back In Time*
+as described in the [Installation](#installation) section here.
+
+The reason is that public keys of signed packages shall be stored in a new folder now
+(for details see https://itsfoss.com/apt-key-deprecated/).
+
+You can currently ignore this warning until we have found a reliable way
+to support all Ubuntu distros (older and newer ones).
+
+This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1338).
+
+
 ## Download
 
 Please find the latest versions on
@@ -152,6 +166,7 @@ We provide a PPA (Private Package Archive) with current stable version
 As work-around also install `backintime-qt` because the missing
 Udev `serviceHelper` system D-Bus daemon is packaged there.
 
+    # You can ignore "Warning: apt-key is deprecated..." for now (see issue #1338)
     sudo add-apt-repository ppa:bit-team/stable
     sudo apt-get update
     sudo apt-get install backintime-qt
