@@ -26,7 +26,7 @@ You only need to specify 3 things:
 * [Support](#support)
 * [Known Problems and Workarounds](#known-problems-and-workarounds)
 * [Download](#download)
-* [Installation](#installation)
+* [Installation and Dependencies](#installation)
 * [News Feed](#newsfeed)
 * [Contribute](#contribute)
 
@@ -214,16 +214,26 @@ to be prepared to build an updated version of the package:
 
 ### From sources
 
-To build and install from the source code do a `git clone https://github.com/bit-team/backintime.git`
-on your computer and install the required dependencies before `make`ing.
+To build and install from the source code
+- do a `git clone https://github.com/bit-team/backintime.git` on your computer
+- install the required build and run-time dependencies
+- then build and install with `make` as described below.
 
 The dependencies are described for Ubuntu here.
 If you use another Linux distribution please install the corresponding packages.
 
 ##### Common (command line tool)
 
-* dependencies
-    - python3 (>= 3.3)
+* Build dependencies
+
+  To build and install Back In Time from the source code these (Ubuntu) packages must be installed (together with the run-time dependencies):
+  - build-essential
+  - gzip
+  - gettext
+  - python3-pyfakefs (since Ubuntu 22.04) or via `python3 -m pip pyfakefs` - required for a unit test
+
+* runtime-dependencies
+    - python3 (>= 3.6)
     - rsync
     - cron-daemon
     - openssh-client
@@ -235,7 +245,7 @@ If you use another Linux distribution please install the corresponding packages.
     - sshfs
     - encfs
 
-* Command
+* Commands to build and install
 
         cd common
         ./configure
@@ -245,29 +255,32 @@ If you use another Linux distribution please install the corresponding packages.
 
 ##### Qt5 GUI
 
-* dependencies
+* build dependencies
+  
+  See above...
+
+* runtime-dependencies
     - x11-utils
     - python3-pyqt5
     - libnotify-bin
     - policykit-1
     - python3-dbus.mainloop.pyqt5
-    - backintime-common
+    - backintime-common (installed with `sudo make install`after building it)
 
 * recommended
     - python3-secretstorage or
     - python3-keyring-kwallet or
     - python3-gnomekeyring
-    - kompare or
-    - meld
+    - kompare *or* meld
 
-* Command
+* Commands to build and install
 
         cd qt
         ./configure
         make
         sudo make install
 
-#### configure options
+#### `configure` options
 
 You can use these optional arguments to `./configure` for creating a Makefile:
 
@@ -280,7 +293,7 @@ You can use these optional arguments to `./configure` for creating a Makefile:
 
 Note: The first value is default.
 
-See also `common/configure --help?` and `qt/configure --help`
+See also `common/configure --help` and `qt/configure --help`
 
 
 ## NewsFeed
