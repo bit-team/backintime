@@ -262,9 +262,10 @@ If you use another Linux distribution please install the corresponding packages.
 * runtime-dependencies
     - x11-utils
     - python3-pyqt5
+    - python3-dbus.mainloop.pyqt5
+    - qtwayland5 (if Wayland is used as display server instead of X11)
     - libnotify-bin
     - policykit-1
-    - python3-dbus.mainloop.pyqt5
     - backintime-common (installed with `sudo make install`after building it)
 
 * recommended
