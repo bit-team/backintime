@@ -138,7 +138,7 @@ def collect_diagnostics():
     # rsync <= (somewhere near) 3.1.3: -VV doesn't exists
     # rsync == 3.1.3 (Ubuntu 20 LTS) doesn't even know '-V'
 
-    # This work when rsync understand -VV and return json or human readable
+    # This works when rsync understands -VV and returns json or human readable
     result['external-programs']['rsync'] = _get_extern_versions(
         ['rsync', '-VV'],
         r'rsync  version (.*)  protocol version',
@@ -189,15 +189,19 @@ def _get_extern_versions(cmd,
                          error_pattern=None):
     """Get the version of an external tools using ``subprocess.Popen()``.
 
-    Args:
-        cmd (list): Commandline arguments that will be passed to `Popen()`.
-        pattern (str): A regex pattern to extract the version string from the
-                       commands output.
-        try_json (bool): Interpet the output as json first (default: False).
-        error_pattern (str): Regex pattern to identify a message in the output
-                             that indicates an error.
+     Args:
+         cmd (list): Commandline arguments that will be passed to `Popen()`.
+         pattern (str): A regex pattern to extract the version string from the
+                        commands output.
+         try_json (bool): Interpret the output as json first (default: False).
+                          If it could be parsed the result is a dict
+         error_pattern (str): Regex pattern to identify a message in the output
+                              that indicates an error.
 
-    """
+     Returns:
+         Version information as string (or dict if was JSON and parsed successfully).
+         `None` if the error_pattern did match (to indicate an error)
+     """
 
     try:
         # as context manager to prevent ResourceWarning's
@@ -219,7 +223,7 @@ def _get_extern_versions(cmd,
             if match:
                 return None
 
-        # some tools use "stderr" for version infos
+        # some tools use "stderr" for version info
         if not std_output:
             result = error_output
         else:
@@ -236,14 +240,13 @@ def _get_extern_versions(cmd,
                 pass
 
             else:
-                # No regex parsing because it was json
-                pattern = None
+                return result  # as JSON
 
         # extract version string
         if pattern:
             result = re.findall(pattern, result)[0]
 
-    return result.strip()
+    return result.strip()  # as string
 
 
 def get_git_repository_info(path=None):
