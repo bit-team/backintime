@@ -768,7 +768,7 @@ class SSH(MountControl):
             rsync1 =  tools.rsyncPrefix(
                 self.config, no_perms=False, progress=False)
             rsync1.append(tmp_file)
-            rsync1.append('%s@%s:"%s"/' % (
+            rsync1.append('%s@%s:%s/' % (
                 self.user,
                 tools.escapeIPv6Address(self.host),
                 remote_tmp_dir_1))
@@ -779,7 +779,7 @@ class SSH(MountControl):
             rsync2.append(
                 '--link-dest=../%s' % os.path.basename(remote_tmp_dir_1))
             rsync2.append(tmp_file)
-            rsync2.append('%s@%s:"%s"/' % (
+            rsync2.append('%s@%s:%s/' % (
                 self.user,
                 tools.escapeIPv6Address(self.host),
                 remote_tmp_dir_2))
@@ -794,7 +794,7 @@ class SSH(MountControl):
                 out, err = proc.communicate()
 
                 if err or proc.returncode:
-                    logger.debug('rsync command returned error: %s' %err, self)
+                    logger.debug('rsync command returned error: %s' % err, self)
 
                     raise MountException(_('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
                                             '%(err)s\nLook at \'man backintime\' for further instructions')

@@ -452,49 +452,62 @@ class Snapshots:
 
         info = sid.info
 
-        cmd_prefix = tools.rsyncPrefix(self.config, no_perms = False, use_mode = ['ssh'])
+        cmd_prefix = tools.rsyncPrefix(self.config, no_perms=False, use_mode=['ssh'])
         cmd_prefix.extend(('-R', '-v'))
+
         if backup:
-            cmd_prefix.extend(('--backup', '--suffix=%s' %self.backupSuffix()))
+            cmd_prefix.extend(('--backup', '--suffix=%s' % self.backupSuffix()))
+
         if delete:
             cmd_prefix.append('--delete')
             cmd_prefix.append('--filter=protect %s' % self.config.snapshotsPath())
             cmd_prefix.append('--filter=protect %s' % self.config._LOCAL_DATA_FOLDER)
             cmd_prefix.append('--filter=protect %s' % self.config._MOUNT_ROOT)
+
         if only_new:
             cmd_prefix.append('--update')
 
         restored_paths = []
+
         for path in paths:
             tools.makeDirs(os.path.dirname(path))
             src_path = path
             src_delta = 0
             src_base = sid.pathBackup(use_mode = ['ssh'])
+
             if not src_base.endswith(os.sep):
                 src_base += os.sep
+
             cmd = cmd_prefix[:]
+
             if restore_to:
                 items = os.path.split(src_path)
                 aux = items[0].lstrip(os.sep)
-                #bugfix: restore system root ended in <src_base>//.<src_path>
+
+                # bugfix: restore system root ended in <src_base>//.<src_path>
                 if aux:
                     src_base = os.path.join(src_base, aux) + '/'
+
                 src_path = '/' + items[1]
+
                 if items[0] == '/':
                     src_delta = 0
                 else:
                     src_delta = len(items[0])
 
-            cmd.append(self.rsyncRemotePath('%s.%s' %(src_base, src_path), use_mode = ['ssh']))
-            cmd.append('%s/' %restore_to)
+            cmd.append(self.rsyncRemotePath('%s.%s' % (src_base, src_path), use_mode=['ssh'], quote=''))
+            cmd.append('%s/' % restore_to)
+
             proc = tools.Execute(cmd,
-                                 callback = callback,
-                                 filters = (self.filterRsyncProgress,),
-                                 parent = self)
+                                 callback=callback,
+                                 filters=(self.filterRsyncProgress,),
+                                 parent=self)
+
             self.restoreCallback(callback, True, proc.printable_cmd)
             proc.run()
             self.restoreCallback(callback, True, ' ')
             restored_paths.append((path, src_delta))
+
         try:
             os.remove(self.config.takeSnapshotProgressFile())
         except Exception as e:
@@ -613,7 +626,12 @@ class Snapshots:
             # e.g. user@myserver:"/MyBackup/.backintime/backintime/HOST/user/ \
             # MyProfile/20221005-000003-880"
             rsync.append(
-                self.rsyncRemotePath(sid.path(use_mode=['ssh', 'ssh_encfs'])))
+                self.rsyncRemotePath(
+                    sid.path(use_mode=['ssh', 'ssh_encfs']),
+                    # No quoting because of new argument protection of rsync.
+                    quote=''
+                )
+            )
 
             # Syncing the empty tmp directory against the sid directory
             # will clear the sid directory.
@@ -894,18 +912,45 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         """
         logger.info('Save config file', self)
         self.setTakeSnapshotMessage(0, _('Saving config file...'))
+
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
+
             with open(sid.path('config'), 'wb') as dst1:
                 dst1.write(src.read())
+
             if self.config.snapshotsMode() == 'local_encfs':
                 src.seek(0)
-                with open(os.path.join(self.config.localEncfsPath(), 'config'), 'wb') as dst2:
+
+                dst2_path = os.path.join(
+                        self.config.localEncfsPath(),
+                        'config'
+                )
+                with open(dst2_path, 'wb') as dst2:
                     dst2.write(src.read())
+
             elif self.config.snapshotsMode() == 'ssh_encfs':
-                cmd = tools.rsyncPrefix(self.config, no_perms = False)
+                cmd = tools.rsyncPrefix(self.config, no_perms=False)
                 cmd.append(self.config._LOCAL_CONFIG_PATH)
-                cmd.append(self.rsyncRemotePath(self.config.sshSnapshotsPath()))
-                tools.Execute(cmd, parent = self).run()
+                remote_path = self.rsyncRemotePath(
+                        self.config.sshSnapshotsPath(),
+                        # no quoting becausse of rsyncs modern argument
+                        # protection (argument -s)
+                        quote=''
+                )
+                cmd.append(remote_path)
+
+                proc = tools.Execute(cmd, parent=self)
+                rc = proc.run()
+
+                # WORKAROUND
+                # tools.Execute only create warnings if 'cmd' fails.
+                # But we need a real ERROR here.
+                if rc != 0:
+                    logger.error(
+                        f'Backup the config in "{self.config.snapshotsMode()}"'
+                        f' mode failed! The return code was {rc} and the'
+                        f' command was {cmd}. Also see the previous '
+                        'WARNING message for a more details.', parent=self) 
 
     def backupInfo(self, sid):
         """
@@ -955,13 +1000,14 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         # bugfix for https://github.com/bit-team/backintime/issues/708
         self.backupPermissionsCallback(b'/', (fileInfoDict, decode))
 
-        rsync = ['rsync', '--dry-run', '-r', '--out-format=%n']
+        rsync = ['rsync', '--dry-run', '-s', '-r', '--out-format=%n']
         rsync.extend(tools.rsyncSshArgs(self.config))
         rsync.append(
             self.rsyncRemotePath(
-                sid.pathBackup(
+                path=sid.pathBackup(
                     use_mode=['ssh', 'ssh_encfs']
-                )
+                ),
+                quote=''
             ) + os.sep
         )
 
@@ -1045,7 +1091,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
             logger.info("Found leftover '%s' which can be continued." %new_snapshot.displayID, self)
             self.setTakeSnapshotMessage(0, _("Found leftover '%s' which can be continued.") %new_snapshot.displayID)
-            #fix permissions
+            # fix permissions
             for file in os.listdir(new_snapshot.path()):
                 file = os.path.join(new_snapshot.path(), file)
                 mode = os.stat(file).st_mode
@@ -1074,7 +1120,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if snapshots:
             prev_sid = snapshots[0]
 
-        #rsync prefix & suffix
+        # rsync prefix & suffix
         rsync_prefix = tools.rsyncPrefix(self.config, no_perms = False)
         if self.config.excludeBySizeEnabled():
             rsync_prefix.append('--max-size=%sM' %self.config.excludeBySize())
@@ -1090,15 +1136,17 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             link_dest = os.path.join(os.pardir, os.pardir, link_dest)
             rsync_prefix.append('--link-dest=%s' %link_dest)
 
-        #sync changed folders
+        # sync changed folders
         logger.info("Call rsync to take the snapshot", self)
         new_snapshot.saveToContinue = True
         cmd = rsync_prefix + rsync_suffix
-        cmd.append(self.rsyncRemotePath(new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs'])))
+
+        # No quoting (quote='') because of new argument protection of rsync.
+        cmd.append(self.rsyncRemotePath(new_snapshot.pathBackup(use_mode = ['ssh', 'ssh_encfs']), quote=''))
 
         self.setTakeSnapshotMessage(0, _('Taking snapshot'))
 
-        #run rsync
+        # run rsync
         proc = tools.Execute(cmd,
                              callback = self.rsyncCallback,
                              user_data = params,
@@ -1107,7 +1155,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         self.snapshotLog.append('[I] ' + proc.printable_cmd, 3)
         proc.run()
 
-        #cleanup
+        # cleanup
         try:
             os.remove(self.config.takeSnapshotProgressFile())
         except Exception as e:
@@ -1115,8 +1163,9 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                          %(self.config.takeSnapshotProgressFile(), str(e)),
                          self)
 
-        #handle errors
+        # handle errors
         has_errors = False
+
         # params[0] -> error
         if params[0]:
             if not self.config.continueOnErrors():
@@ -1140,7 +1189,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         self.backupConfig(new_snapshot)
         self.backupPermissions(new_snapshot)
 
-        #copy snapshot log
+        # copy snapshot log
         try:
             self.snapshotLog.flush()
             with open(self.snapshotLog.logFileName, 'rb') as logfile:
@@ -1726,7 +1775,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         return snapshotsFiltered
 
-    #TODO: move this to config.Config
+    #TODO: move this to config.Config -> Don't!
     def rsyncRemotePath(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = '"'):
         """
         Format the destination string for rsync depending on which profile is
@@ -1747,13 +1796,15 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                 like ''user@host:"/foo"''
         """
         mode = self.config.snapshotsMode()
+
         if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
             user = self.config.sshUser()
             host = tools.escapeIPv6Address(self.config.sshHost())
-            return '%(u)s@%(h)s:%(q)s%(p)s%(q)s' %{'u': user,
-                                                   'h': host,
-                                                   'q': quote,
-                                                   'p': path}
+
+            return '%(u)s@%(h)s:%(q)s%(p)s%(q)s' % {'u': user,
+                                                    'h': host,
+                                                    'q': quote,
+                                                    'p': path}
         else:
             return path
 
@@ -2012,17 +2063,22 @@ class SID(object):
         if isinstance(date, datetime.datetime):
             self.sid = '-'.join((date.strftime('%Y%m%d-%H%M%S'), self.config.tag(self.profileID)))
             self.date = date
+
         elif isinstance(date, datetime.date):
             self.sid = '-'.join((date.strftime('%Y%m%d-000000'), self.config.tag(self.profileID)))
             self.date = datetime.datetime.combine(date, datetime.datetime.min.time())
+
         elif isinstance(date, str):
             if self.__cValidSID.match(date):
                 self.sid = date
                 self.date = datetime.datetime(*self.split())
+
             elif date == 'last_snapshot':
                 raise LastSnapshotSymlink()
+
             else:
                 raise ValueError("'date' must be in snapshot ID format (e.g 20151218-173512-123)")
+
         else:
             raise TypeError("'date' must be an instance of str, datetime.date or datetime.datetime")
 
@@ -2042,8 +2098,10 @@ class SID(object):
         """
         if isinstance(other, SID):
             return self.sid == other.sid and self.profileID == other.profileID
+
         elif isinstance(other, str):
             return self.sid == other
+
         else:
             return NotImplemented
 
@@ -2063,32 +2121,40 @@ class SID(object):
         """
         if isinstance(other, SID):
             return self.sid < other.sid
+
         elif isinstance(other, str) and self.__cValidSID.match(other):
             return self.sid < other
+
         else:
             return NotImplemented
 
     def __le__(self, other):
         if isinstance(other, SID):
             return self.sid <= other.sid
+
         elif isinstance(other, str) and self.__cValidSID.match(other):
             return self.sid <= other
+
         else:
             return NotImplemented
 
     def __gt__(self, other):
         if isinstance(other, SID):
             return self.sid > other.sid
+
         elif isinstance(other, str) and self.__cValidSID.match(other):
             return self.sid > other
+
         else:
             return NotImplemented
 
     def __ge__(self, other):
         if isinstance(other, SID):
             return self.sid >= other.sid
+
         elif isinstance(other, str) and self.__cValidSID.match(other):
             return self.sid >= other
+
         else:
             return NotImplemented
 
@@ -2105,6 +2171,7 @@ class SID(object):
         """
         def split(s, e):
             return int(self.sid[s:e])
+
         return (split(0, 4), split(4, 6), split(6, 8), split(9, 11), split(11, 13), split(13, 15))
 
     @property
@@ -2174,13 +2241,16 @@ class SID(object):
         """
         path = [i.strip(os.sep) for i in path]
         current_mode = self.config.snapshotsMode(self.profileID)
+
         if 'ssh' in use_mode and current_mode == 'ssh':
             return os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
                                 self.sid, *path)
+
         if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
             ret = os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
                                self.sid, *path)
             return self.config.ENCODE.remote(ret)
+
         return os.path.join(self.config.snapshotsFullPath(self.profileID),
                             self.sid, *path)
 

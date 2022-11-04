@@ -598,12 +598,22 @@ def rsyncPrefix(config,
 
     cmd.append('rsync')
 
-    cmd.extend(('--recursive',     # recurse into directories
-                '--times',          # preserve modification times
-                '--devices',        # preserve device files (super-user only)
-                '--specials',       # preserve special files
-                '--hard-links',     # preserve hard links
-                '--human-readable'))# numbers in a human-readable format
+    cmd.extend((
+        # recurse into directories
+        '--recursive',
+        # preserve modification times
+        '--times',
+        # preserve device files (super-user only)
+        '--devices',
+        # preserve special files
+        '--specials',
+        # preserve hard links
+        '--hard-links',
+        # numbers in a human-readable format
+        '--human-readable',
+        # use "new" argument protection
+        '-s'
+    ))
 
     if config.useChecksum() or config.forceUseChecksum:
         cmd.append('--checksum')
@@ -704,7 +714,7 @@ def rsyncRemove(config, run_local = True):
     Returns:
         list:                   rsync command with all args
     """
-    cmd = ['rsync', '-a', '--delete']
+    cmd = ['rsync', '-a', '--delete', '-s']
     if run_local:
         cmd.extend(rsyncSshArgs(config))
     return cmd

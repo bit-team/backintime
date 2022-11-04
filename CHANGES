@@ -6,6 +6,7 @@ Version 1.3.3-dev (development of upcoming release)
 * GUI change: Define accelerator keys for menu bar and tabs, as well as toolbar shortcuts (#1104)
 * Desktop integration: Update .desktop file to mark Back In Time as a single main window program (#1258)
 * Improvement: Write all log output to stderr; do not pollute stdout with INFO and WARNING messages anymore (#1337)
+* Bugfix: Incompatibility with rsync 3.2.4 or later because of rsync's "new argument protection" (#1247). Deactivate "--old-args" rsync argument earlier recommaned to users as a workaround.
 * Bugfix: AttributeError in "Diff Options" dialog (#898)
 * Bugfix: Settings GUI: "Save password to Keyring" was disabled due to "no appropriate keyring found" (#1321)
 * Bugfix: Back in Time did not start with D-Bus error
