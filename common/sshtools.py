@@ -846,7 +846,7 @@ class SSH(MountControl):
             cmd += 'test $err_flock -ne 0 && cleanup $err_flock; '
             tail.append(cmd)
 
-            cmd  = 'echo \"rmdir \$(mktemp -d)\"; tmp3=$(mktemp -d); test -z "$tmp3" && cleanup 1; rmdir $tmp3 >/dev/null; err_rmdir=$?; '
+            cmd  = 'echo \"rmdir \\$(mktemp -d)\"; tmp3=$(mktemp -d); test -z "$tmp3" && cleanup 1; rmdir $tmp3 >/dev/null; err_rmdir=$?; '
             cmd += 'test $err_rmdir -ne 0 && cleanup $err_rmdir; '
             tail.append(cmd)
 
