@@ -77,7 +77,14 @@ def collect_diagnostics():
         'XDG_SESSION_TYPE', '($XDG_SESSION_TYPE not set)')
 
     # locale (system language etc)
-    result['host-setup']['locale'] = ', '.join(locale.getlocale())
+    #
+    # Implementation note: With env var "LC_ALL=C" getlocale() will return (None, None).
+    # This throws an error in "join()":
+    #   TypeError: sequence item 0: expected str instance, NoneType found
+    my_locale = locale.getlocale()
+    if all(x is None for x in my_locale):
+        my_locale = ["(Unknown)"]
+    result['host-setup']['locale'] = ', '.join(my_locale)
 
     # PATH environment variable
     result['host-setup']['PATH'] = os.environ.get('PATH', '($PATH unknown)')
