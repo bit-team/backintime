@@ -140,7 +140,8 @@ under certain conditions; type `backintime --license' for details.
         for line in error.decode().split("\n"):
             if (not line.startswith("WARNING: Failed to connect to Udev serviceHelper")
                     and not line.startswith("WARNING: D-Bus message:")
-                    and not line.startswith("WARNING: Udev-based profiles cannot be changed or checked")):
+                    and not line.startswith("WARNING: Udev-based profiles cannot be changed or checked")
+                    and not line.startswith("WARNING: Inhibit Suspend failed")):
                 log_output.append(line)
         filtered_log_output = "\n".join(log_output)
         self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
