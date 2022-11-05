@@ -765,7 +765,7 @@ class SSH(MountControl):
                 f.write('foo')
 
             # check rsync
-            rsync1 =  tools.rsyncPrefix(
+            rsync1 = tools.rsyncPrefix(
                 self.config, no_perms=False, progress=False)
             rsync1.append(tmp_file)
             rsync1.append('%s@%s:"%s"/' % (
@@ -774,7 +774,7 @@ class SSH(MountControl):
                 remote_tmp_dir_1))
 
             # check remote rsync hard-link support
-            rsync2 =  tools.rsyncPrefix(
+            rsync2 = tools.rsyncPrefix(
                 self.config, no_perms=False, progress=False)
             rsync2.append(
                 '--link-dest=../%s' % os.path.basename(remote_tmp_dir_1))
@@ -785,7 +785,7 @@ class SSH(MountControl):
                 remote_tmp_dir_2))
 
             for cmd in (rsync1, rsync2):
-                logger.debug('Check rsync command: %s' %cmd, self)
+                logger.debug('Check rsync command: %s' % cmd, self)
 
                 proc = subprocess.Popen(cmd,
                                         stdout=subprocess.PIPE,
@@ -794,14 +794,20 @@ class SSH(MountControl):
                 out, err = proc.communicate()
 
                 if err or proc.returncode:
-                    logger.debug('rsync command returned error: %s' %err, self)
+                    logger.debug(
+                        'rsync command returned error: %s' % err, self)
 
-                    raise MountException(_('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
-                                            '%(err)s\nLook at \'man backintime\' for further instructions')
-                                            % {'host' : self.host, 'command' : cmd, 'err' : err})
+                    raise MountException(_(
+                        'Remote host %(host)s doesn\'t support'
+                        ' \'%(command)s\':\n'
+                        '%(err)s\nLook at \'man backintime\' for further '
+                        'instructions') % {
+                            'host': self.host,
+                            'command': cmd,
+                            'err': err})
 
         # check cp chmod find and rm
-        head  = 'tmp1="%s"; tmp2="%s"; ' %(remote_tmp_dir_1, remote_tmp_dir_2)
+        head = 'tmp1="%s"; tmp2="%s"; ' % (remote_tmp_dir_1, remote_tmp_dir_2)
 
         # first define a function to clean up and exit
         head += 'cleanup(){ '
@@ -815,38 +821,38 @@ class SSH(MountControl):
         tail = []
 
         # list inodes
-        cmd  = 'ls -i "$tmp1/a"; ls -i "$tmp2/a"; '
+        cmd = 'ls -i "$tmp1/a"; ls -i "$tmp2/a"; '
         tail.append(cmd)
 
         # try nice -n 19
         if self.nice:
-            cmd  = 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
+            cmd = 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
             tail.append(cmd)
 
         # try ionice -c2 -n7
         if self.ionice:
-            cmd  = 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
+            cmd = 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
             tail.append(cmd)
 
         # try nocache
         if self.nocache:
-            cmd  = 'echo \"nocache\"; nocache true >/dev/null; err_nocache=$?; '
+            cmd = 'echo \"nocache\"; nocache true >/dev/null; err_nocache=$?; '
             cmd += 'test $err_nocache -ne 0 && cleanup $err_nocache; '
             tail.append(cmd)
 
         # try screen, bash and flock used by smart-remove running in background
         if self.config.smartRemoveRunRemoteInBackground(self.profile_id):
-            cmd  = 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
+            cmd = 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
             cmd += 'test $err_screen -ne 0 && cleanup $err_screen; '
             tail.append(cmd)
 
-            cmd  = 'echo \"(flock -x 9) 9>smr.lock\"; bash -c \"(flock -x 9) 9>smr.lock\" >/dev/null; err_flock=$?; '
+            cmd = 'echo \"(flock -x 9) 9>smr.lock\"; bash -c \"(flock -x 9) 9>smr.lock\" >/dev/null; err_flock=$?; '
             cmd += 'test $err_flock -ne 0 && cleanup $err_flock; '
             tail.append(cmd)
 
-            cmd  = 'echo \"rmdir \\$(mktemp -d)\"; tmp3=$(mktemp -d); test -z "$tmp3" && cleanup 1; rmdir $tmp3 >/dev/null; err_rmdir=$?; '
+            cmd = 'echo \"rmdir \\$(mktemp -d)\"; tmp3=$(mktemp -d); test -z "$tmp3" && cleanup 1; rmdir $tmp3 >/dev/null; err_rmdir=$?; '
             cmd += 'test $err_rmdir -ne 0 && cleanup $err_rmdir; '
             tail.append(cmd)
 
@@ -856,7 +862,7 @@ class SSH(MountControl):
 
         maxLength = self.config.sshMaxArgLength(self.profile_id)
         additionalChars = len('echo ""') \
-            + len(self.config.sshPrefixCmd(self.profile_id, cmd_type = str))
+            + len(self.config.sshPrefixCmd(self.profile_id, cmd_type=str))
 
         output = ''
         err = ''
@@ -878,11 +884,11 @@ class SSH(MountControl):
                 profile_id=self.profile_id)
 
             try:
-                logger.debug('Call command: %s' %' '.join(c), self)
+                logger.debug('Call command: %s' % ' '.join(c), self)
                 proc = subprocess.Popen(c,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
-                                        universal_newlines = True)
+                                        universal_newlines=True)
                 ret = proc.communicate()
 
             except OSError as e:
@@ -941,8 +947,7 @@ class SSH(MountControl):
             raise MountException(
                 _('Check commands on host %(host)s returned unknown error:\n'
                   '%(err)s\nLook at \'man backintime\' for further '
-                  'instructions')
-                  % {'host': self.host, 'err': err})
+                  'instructions') % {'host': self.host, 'err': err})
 
         inodes = []
 
@@ -950,7 +955,7 @@ class SSH(MountControl):
 
             for line in output_split:
 
-                m = re.match(r'^(\d+).*?%s' %tmp, line)
+                m = re.match(r'^(\d+).*?%s' % tmp, line)
                 if m:
                     inodes.append(m.group(1))
 
@@ -959,7 +964,6 @@ class SSH(MountControl):
         if len(inodes) == 2 and inodes[0] != inodes[1]:
             raise MountException(
                 _('Remote host %s doesn\'t support hardlinks') % self.host)
-
 
     def randomId(self, size=6, chars=string.ascii_uppercase + string.digits):
         """
@@ -1095,10 +1099,10 @@ def sshKeyFingerprint(path):
         cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     output = proc.communicate()[0]
 
-    m = re.match(b'\d+\s+(SHA256:\S+|[a-fA-F0-9:]+)\s.*', output)
-
+    m = re.match(r'\d+\s+(SHA256:\S+|[a-fA-F0-9:]+)\s.*',
+                 output.decode())
     if m:
-        return m.group(1).decode('UTF-8')
+        return m.group(1)
 
 
 def sshHostKey(host, port='22'):
