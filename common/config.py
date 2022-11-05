@@ -128,7 +128,7 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_RUN_IONICE_ON_REMOTE = False
     DEFAULT_RUN_NOCACHE_ON_LOCAL = False
     DEFAULT_RUN_NOCACHE_ON_REMOTE = False
-    DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\$PATH'
+    DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\\$PATH'
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
 

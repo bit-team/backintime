@@ -423,7 +423,7 @@ class Snapshots:
                                         restore to original destiantion
             delete (bool):              delete newer files which are not in the
                                         snapshot
-            backup (bool):              create backup files (\*.backup.YYYYMMDD)
+            backup (bool):              create backup files (*.backup.YYYYMMDD)
                                         before changing or deleting local files.
             only_new (bool):            Only restore files which does not exist
                                         or are newer than those in destination.
@@ -1454,22 +1454,25 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             additionalChars = len(self.config.sshPrefixCmd(cmd_type = str))
 
             head = 'screen -d -m bash -c "('
-            head += 'TMP=\$(mktemp -d); '                      #create temp dir used for delete files with rsync
-            head += 'test -z \\\"\$TMP\\\" && exit 1; '        #make sure $TMP dir was created
-            head += 'test -n \\\"\$(ls \$TMP)\\\" && exit 1; ' #make sure $TMP is empty
+            # create temp dir used for delete files with rsync
+            head += 'TMP=\\$(mktemp -d); '
+            # make sure $TMP dir was created
+            head += 'test -z \\\"\\$TMP\\\" && exit 1; '
+            # make sure $TMP is empty
+            head += 'test -n \\\"\\$(ls \\$TMP)\\\" && exit 1; '
             if logger.DEBUG:
                 head += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" \\\"start\\\"; '
             head += 'flock -x 9; '
             if logger.DEBUG:
                 head += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" \\\"got exclusive flock\\\"; '
 
-            tail = 'rmdir \$TMP) 9>\\\"%s\\\""' %lckFile
+            tail = 'rmdir \\$TMP) 9>\\\"%s\\\""' %lckFile
 
             cmds = []
             for sid in del_snapshots:
                 remote = self.rsyncRemotePath(sid.path(use_mode = ['ssh', 'ssh_encfs']), use_mode = [], quote = '\\\"')
                 rsync = ' '.join(tools.rsyncRemove(self.config, run_local = False))
-                rsync += ' \\\"\$TMP/\\\" {}; '.format(remote)
+                rsync += ' \\\"\\$TMP/\\\" {}; '.format(remote)
 
                 s = 'test -e \\\"%s\\\" && (' %sid.path(use_mode = ['ssh', 'ssh_encfs'])
                 if logger.DEBUG:
@@ -1683,7 +1686,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         # /tmp           127266564 115596412   5182296  96% /
         #                                      ^^^^^^^
         for line in output.split(b'\n'):
-            m = re.match(b'^.*?\s+\d+\s+\d+\s+(\d+)\s+\d+%', line, re.M)
+            m = re.match(r'^.*?\s+\d+\s+\d+\s+(\d+)\s+\d+%', line.decode(), re.M)
 
             if m:
                 return int(int(m.group(1)) / 1024)
