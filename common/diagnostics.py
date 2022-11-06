@@ -30,7 +30,6 @@ def collect_diagnostics():
     pwd_struct = pwd.getpwuid(os.getuid())
 
     # === BACK IN TIME ===
-    distro_path = _determine_distro_package_folder()
 
     # work-around: Instantiate to get the user-callback folder
     # (should be singleton)
@@ -44,7 +43,7 @@ def collect_diagnostics():
         'local-config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
         'global-config-file': cfg._GLOBAL_CONFIG_PATH,
         'global-config-file-found': Path(cfg._GLOBAL_CONFIG_PATH).exists(),
-        'distribution-package': str(distro_path),
+        # 'distribution-package': str(distro_path),
         'started-from': str(Path(config.__file__).parent),
         'running-as-root': pwd_struct.pw_name == 'root',
         'user-callback': cfg.takeSnapshotUserCallback(),
@@ -52,9 +51,12 @@ def collect_diagnostics():
     }
 
     # Git repo
-    git_info = get_git_repository_info(distro_path)
+    bit_root_path = Path(tools.backintimePath(""))
+    git_info = get_git_repository_info(bit_root_path)
 
     if git_info:
+
+        result['backintime']['git-project-root'] = str(bit_root_path)
 
         for key in git_info:
             result['backintime'][f'git-{key}'] = git_info[key]
@@ -325,27 +327,6 @@ def _get_os_release():
 
     return re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
 
-
-def _determine_distro_package_folder():
-    """Return the projects root folder.
-
-    In Python terms it is the "Distribution Package" not the "Modules
-    Package".
-
-    Development info: The function become obslet when migrating the project
-    to the "src" layout.
-    """
-
-    # "current" folder
-    path = Path(__file__)
-
-    # level of highest folder named "backintime"
-    bit_idx = path.parts.index('backintime')
-
-    # cut the path to that folder
-    path = Path(*(path.parts[:bit_idx+1]))
-
-    return path
 
 
 def _replace_username_paths(result, username):
