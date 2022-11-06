@@ -98,20 +98,7 @@ class Diagnostics_FakeFS(pyfakefs_ut.TestCase):
     def setUp(self):
         self.setUpPyfakefs(allow_root_user=False)
 
-    def test_distro_package_folder(self):
-        """Determin the folder of the project.
-        """
 
-        # real path
-        path = pathlib.Path(diagnostics.__file__)
-
-        # replicate that path in the fake fileystem
-        path.mkdir(parents=True)
-        path.touch()
-
-        result = diagnostics._determine_distro_package_folder()
-
-        self.assertEqual(result, path.parent.parent)
 
     def test_git_repo_info(self):
         """
