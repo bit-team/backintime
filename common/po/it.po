@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-08-20 20:43+0200\n"
-"PO-Revision-Date: 2017-01-23 04:37+0000\n"
-"Last-Translator: Germar <Unknown>\n"
+"PO-Revision-Date: 2020-12-08 17:12+0000\n"
+"Last-Translator: albano <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2019-04-14 16:16+0000\n"
-"X-Generator: Launchpad (build 18920)\n"
+"X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
+"X-Generator: Launchpad (build 83f7123b02a2b50a64bc29e7e35197179a885279)\n"
 
 #: ../../common/config.py:313
 msgid "You can't include backup folder !"
@@ -244,8 +244,8 @@ msgid ""
 "Can't write to: %s\n"
 "Are you sure you have write access ?"
 msgstr ""
-"Impossibile accedere a: %s\n"
-"Verificare di avere i permessi in scrittura?"
+"Impossibile scrivere a: %s\n"
+"Sei sicuro di avere i permessi in scrittura?"
 
 #: ../../common/config.py:402
 #, python-format
@@ -254,7 +254,7 @@ msgid ""
 "support hard-links. Please use a native Linux filesystem."
 msgstr ""
 "Il filesystem di destinazione per '%(path)s' è formattato con FAT che non "
-"supporta hard-link. Per favore usa un filesystem Linux nativo."
+"supporta hard-link. Si prega di usare un filesystem Linux nativo."
 
 #: ../../common/config.py:407
 #, python-format
@@ -263,6 +263,9 @@ msgid ""
 "sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
 "'%(expertOptions)s'."
 msgstr ""
+"Il filesystem di destinazione per '%(path)s' è una condivisione montata su "
+"SMB. Per favore assicurati che il server SMB remoto supporta i collegamenti "
+"simbolici o attivarli  '%(copyLinks)s' in'%(expertOptions)s'."
 
 #: ../../common/config.py:410 ../../qt/settingsdialog.py:817
 msgid "Copy links (dereference symbolic links)"
@@ -278,6 +281,9 @@ msgid ""
 "Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
 "support hard-links. Please use mode 'SSH' instead."
 msgstr ""
+"Il filesystem di destinazione per '%(path) s è una condivisione montata su "
+"sshfs. sshfs nonsupporta i collegamenti reali. Utilizza invece la modalità "
+"'SSH'."
 
 #: ../../common/config.py:1474
 msgid ""
@@ -286,12 +292,12 @@ msgid ""
 "If not you should disable all automatic backups."
 msgstr ""
 "Impossibile trovare la crontab.\n"
-"Verificare che cron sia installato ?\n"
+"Sei sicuro che cron sia installato ?\n"
 "Se non lo è, disattivare tutti i backup automatici."
 
 #: ../../common/config.py:1478
 msgid "Failed to write new crontab."
-msgstr "Scrittura del nuovo crontab fallita"
+msgstr "Impossibile scrivere nuovi crontab"
 
 #: ../../common/config.py:1575
 #, python-format
@@ -299,8 +305,9 @@ msgid ""
 "Could not install Udev rule for profile %(profile_id)s. DBus Service "
 "'%(dbus_interface)s' wasn't available"
 msgstr ""
-"Non è stato possibile installare la regola udev per il profilo "
-"%(profile_id)s. Il servizio DBus '%(dbus_interface)s' non era disponibile"
+"Impossibile installare la regola di Udev per il profilo %(profile_id)s. "
+"Servizio DBus %(profile_id)s. Il servizio DBus '%(dbus_interface)s' non era "
+"disponibile"
 
 #: ../../common/config.py:1587
 #, python-format
@@ -325,7 +332,7 @@ msgstr ""
 
 #: ../../common/encfstools.py:132
 msgid "Config for encrypted folder not found."
-msgstr "Configurazione  per cartella cifrata non trovata"
+msgstr "Configurazione per cartella cifrata non trovata"
 
 #: ../../common/encfstools.py:136
 msgid ""
@@ -333,11 +340,11 @@ msgid ""
 "Create a new encrypted folder?"
 msgstr ""
 "\n"
-"Creo una nuova cartella cifrata?"
+"Creare una nuova cartella cifrata?"
 
 #: ../../common/encfstools.py:137
 msgid "Cancel"
-msgstr "Annulla"
+msgstr "Cancella"
 
 #: ../../common/encfstools.py:140
 msgid "Please confirm password"
@@ -345,14 +352,14 @@ msgstr "Per favore conferma la password"
 
 #: ../../common/encfstools.py:144
 msgid "Password doesn't match"
-msgstr "La password non combacia"
+msgstr "La password non corrisponde"
 
 #: ../../common/encfstools.py:161
 msgid ""
 "encfs version 1.7.2 and before has a bug with option --reverse. Please "
 "update encfs"
 msgstr ""
-"la versione di encfs 1.7.2 e precedenti ha un baco con l'opzione --reverse. "
+"la versione di encfs 1.7.2 e precedenti ha un bug con l'opzione --reverse. "
 "Per favore aggiorna encfs"
 
 #: ../../common/encfstools.py:491 ../../common/snapshots.py:795
@@ -372,12 +379,13 @@ msgstr ""
 #: ../../common/mount.py:490
 #, python-format
 msgid "Can't unmount %(proc)s from %(mountpoint)s"
-msgstr ""
+msgstr "Impossibile smontare %(proc)s da %(mountpoint)s"
 
 #: ../../common/mount.py:577
 #, python-format
 msgid "%(proc)s not found. Please install e.g. %(install_command)s"
 msgstr ""
+"%(proc)s non trovato. Si prega di installare, ad es. %(install_command)s"
 
 #: ../../common/mount.py:590
 #, python-format
@@ -386,7 +394,10 @@ msgid ""
 " Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
 "Look at 'man backintime' for further instructions."
 msgstr ""
-"%(user)s non è un membro del gruppo'fuse'.\n"
+"Esegui 'sudo adduser %(user)s fuse'. Per applicare le modifiche, "
+"disconnettersi e accedere di nuovo.\n"
+"Guarda 'manuale di backintime' per ulteriori istruzioni.%(user)s non è un "
+"membro del gruppo'fuse'.\n"
 "Esegui 'sudo adduser %(user)s fuse'. Per applicare le modifiche, fai logout "
 "e di nuovo login.\n"
 "Guarda 'man backintime' per ulteriori istruzioni."
@@ -398,7 +409,7 @@ msgstr "In punto di montaggio %s non è vuoto"
 
 #: ../../common/mount.py:674
 msgid "Mountprocess lock timeout"
-msgstr "Timeout nell'acquisizione del lock durante il processo di mount"
+msgstr "Timeout blocco processo di montaggio"
 
 #: ../../common/password.py:240
 #, python-format
@@ -410,13 +421,13 @@ msgid ""
 "### This log has been decoded with automatic search pattern\n"
 "### If some paths are not decoded you can manually decode them with:\n"
 msgstr ""
-"### Questo log è stato decodificato con un pattern di ricerca automatico\n"
+"### Questo log è stato decodificato con un percorso di ricerca automatico\n"
 "### Se alcuni percorsi non sono decodificati, puoi decodificarli manualmente "
 "con:\n"
 
 #: ../../common/snapshots.py:321 ../../common/snapshots.py:553
 msgid "FAILED"
-msgstr "Fallito"
+msgstr "FALLITO"
 
 #: ../../common/snapshots.py:500 ../../common/snapshots.py:556
 msgid "Restore permissions:"
@@ -437,7 +448,7 @@ msgid ""
 "If it is on a removable drive please plug it."
 msgstr ""
 "Impossibile trovare la cartella delle istantanee.\n"
-"Se si tratta di un disco rimovibile, collegarlo."
+"Se si tratta di un disco rimovibile si prega di collegarlo."
 
 #: ../../common/snapshots.py:671
 #, python-format
@@ -449,7 +460,7 @@ msgstr[1] "Aspetta %s secondi."
 #: ../../common/snapshots.py:703
 #, python-format
 msgid "Failed to take snapshot %s !!!"
-msgstr "Creazione dell'istantanea %s fallita !"
+msgstr "Creazione dell'istantanea %s fallita !!!"
 
 #: ../../common/snapshots.py:712
 msgid "Finalizing"
@@ -475,12 +486,12 @@ msgstr "..."
 #: ../../common/snapshots.py:963
 #, python-format
 msgid "Found leftover '%s' which can be continued."
-msgstr ""
+msgstr "Trovato rimanenze '%s' che possono essere continuate."
 
 #: ../../common/snapshots.py:976
 #, python-format
 msgid "Removing leftover '%s' folder from last run"
-msgstr ""
+msgstr "Rimozione della cartella '%s' rimanente dall'ultima esecuzione"
 
 #: ../../common/snapshots.py:981
 #, python-format
@@ -493,7 +504,7 @@ msgstr "Prendi istantanea"
 
 #: ../../common/snapshots.py:1049
 msgid "Nothing changed, no new snapshot necessary"
-msgstr ""
+msgstr "Nulla è cambiato, nessuna nuova istantanea necessaria"
 
 #: ../../common/snapshots.py:1075
 #, python-format
@@ -545,7 +556,7 @@ msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
 "backintime' for further instructions."
 msgstr ""
-"Autenticazione senza password per %(user)s@%(host)s fallita. Guarda 'man "
+"Autenticazione senza password per %(user)s@%(host)s fallita. Guarda il 'man "
 "backintime' per ulteriori istruzioni."
 
 #: ../../common/sshtools.py:377
@@ -613,7 +624,7 @@ msgid ""
 msgstr ""
 "L'host remoto %(host)s non supporta '%(command)s':\n"
 "%(err)s\n"
-"Guarda 'man backintime' per ulteriori istruzioni"
+"Guarda il 'man backintime' per ulteriori istruzioni"
 
 #: ../../common/sshtools.py:686
 #, python-format
@@ -625,7 +636,7 @@ msgstr ""
 "Il controllo dei comandi sull'host %(host)s ha restituito un errore "
 "sconosciuto:\n"
 "%(err)s\n"
-"Guarda 'man backintime' per ulteriori istruzioni"
+"Guarda il 'man backintime' per ulteriori istruzioni"
 
 #: ../../common/sshtools.py:699
 #, python-format
@@ -638,6 +649,8 @@ msgid ""
 "Copy public ssh-key \"%(pubkey)s\" to remote host \"%(host)s\".\n"
 "Please enter password for \"%(user)s\":"
 msgstr ""
+"Copia public ssh-key \"%(pubkey)s\" su host remoto \"%(host)s\".\n"
+"Inserisci la password per \"%(user)s\":"
 
 #: ../../qt/app.py:93
 msgid "Take snapshot with checksums"
@@ -649,15 +662,15 @@ msgstr "Usa il checksum per scoprire i cambiamenti"
 
 #: ../../qt/app.py:102 ../../qt/qtsystrayicon.py:78
 msgid "Pause snapshot process"
-msgstr ""
+msgstr "Metti in pausa il processo di istantanea"
 
 #: ../../qt/app.py:108 ../../qt/qtsystrayicon.py:82
 msgid "Resume snapshot process"
-msgstr ""
+msgstr "Resume snapshot process"
 
 #: ../../qt/app.py:114 ../../qt/qtsystrayicon.py:87
 msgid "Stop snapshot process"
-msgstr ""
+msgstr "Interrompere il processo di snapshot"
 
 #: ../../qt/app.py:119
 msgid "Refresh snapshots list"
@@ -717,7 +730,7 @@ msgstr "Domande frequenti"
 
 #: ../../qt/app.py:169
 msgid "Ask a question"
-msgstr "Poni una domanda"
+msgstr "Fai una domanda"
 
 #: ../../qt/app.py:171
 msgid "Report a bug"
@@ -744,6 +757,7 @@ msgstr "Ripristina"
 #: ../../qt/app.py:225
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
+"Ripristina i file o le cartelle selezionati nella destinazione originale"
 
 #: ../../qt/app.py:228 ../../qt/app.py:1131 ../../qt/app.py:1163
 #: ../../qt/snapshotsdialog.py:141
@@ -753,17 +767,22 @@ msgstr "Ripristina a..."
 #: ../../qt/app.py:229
 msgid "Restore the selected files or folders to a new destination."
 msgstr ""
+"Ripristina i file o le cartelle selezionati in una nuova destinazione."
 
 #: ../../qt/app.py:234
 msgid ""
 "Restore the currently shown folder and all its content to the original "
 "destination."
 msgstr ""
+"Ripristina la cartella attualmente mostrata e tutto il suo contenuto "
+"nell'originaledestinazione."
 
 #: ../../qt/app.py:239
 msgid ""
 "Restore the currently shown folder and all its content to a new destination."
 msgstr ""
+"Ripristina la cartella attualmente mostrata e tutto il suo contenuto in una "
+"nuova destinazione."
 
 #: ../../qt/app.py:249
 #, python-format
@@ -911,10 +930,13 @@ msgid ""
 "are newer than those in destination.\n"
 "Using \"rsync --update\" option."
 msgstr ""
+"Ripristina solo i file che non esistono o\n"
+"sono più recenti di quelli di destinazione.\n"
+"Utilizzo dell'opzione \"rsync --update\"."
 
 #: ../../qt/app.py:1071
 msgid "Remove newer files in original folder"
-msgstr ""
+msgstr "Rimuovi i file più recenti nella cartella originale"
 
 #: ../../qt/app.py:1072
 msgid ""
@@ -924,6 +946,10 @@ msgid ""
 "snapshot!\n"
 "Be extremely careful!!!"
 msgstr ""
+"Ripristina i file o le cartelle selezionati nella destinazione originale e\n"
+"elimina i file / le cartelle che non sono nello snapshot.\n"
+"Questo cancellerà i file / le cartelle che sono stati esclusi durante "
+"l'acquisizione dell' Istantanea!"
 
 #: ../../qt/app.py:1083
 #, python-format
@@ -931,6 +957,8 @@ msgid ""
 "Do you really want to restore this files(s)\n"
 "into new folder '%(path)s':"
 msgstr ""
+"Vuoi veramente ripristinare questi file\n"
+"nella nuova cartella '%(path)s':"
 
 #: ../../qt/app.py:1086
 msgid "Do you really want to restore this files(s):"
@@ -940,6 +968,7 @@ msgstr "Vuoi veramente ripristinare il/i file seguente/i:"
 #, python-format
 msgid "Are you sure you want to remove all newer files in '%(path)s'?"
 msgstr ""
+"Sei sicuro di voler rimuovere tutti i file più recenti in '%(path)s'?"
 
 #: ../../qt/app.py:1101
 msgid ""
@@ -993,11 +1022,11 @@ msgstr "Licenza"
 
 #: ../../qt/logviewdialog.py:57
 msgid "Last Log View"
-msgstr ""
+msgstr "Ultima Vista Registro"
 
 #: ../../qt/logviewdialog.py:59
 msgid "Snapshot Log View"
-msgstr ""
+msgstr "Vista registro istantanea"
 
 #: ../../qt/logviewdialog.py:67 ../../qt/settingsdialog.py:67
 #: ../../qt/settingsdialog.py:294 ../../qt/settingsdialog.py:1968
@@ -1035,15 +1064,15 @@ msgstr "decodifica i percorsi"
 
 #: ../../qt/logviewdialog.py:171
 msgid "Copy"
-msgstr ""
+msgstr "Copia"
 
 #: ../../qt/logviewdialog.py:179
 msgid "Decode"
-msgstr ""
+msgstr "Decodifica"
 
 #: ../../qt/logviewdialog.py:195
 msgid "Do you want to exclude this?"
-msgstr ""
+msgstr "Vuoi escluderlo?"
 
 #: ../../qt/messagebox.py:58
 msgid "Error"
@@ -1097,7 +1126,7 @@ msgstr "Modifica"
 
 #: ../../qt/settingsdialog.py:81
 msgid "Modify for Full System Backup"
-msgstr ""
+msgstr "Modifica per il backup del sistema completo"
 
 #: ../../qt/settingsdialog.py:87 ../../qt/settingsdialog.py:464
 msgid "Add"
@@ -1170,7 +1199,7 @@ msgstr "File chiave"
 
 #: ../../qt/settingsdialog.py:219
 msgid "Create a new SSH key without Password."
-msgstr ""
+msgstr "Crea una nuova chiave SSH senza password."
 
 #: ../../qt/settingsdialog.py:234 ../../qt/settingsdialog.py:243
 #: ../../qt/settingsdialog.py:249
@@ -1441,10 +1470,6 @@ msgstr "quando si prende un'istantanea manuale"
 msgid "Run 'rsync' with 'nocache':"
 msgstr "Esegui 'rsync' con 'nocache':"
 
-#: ../../qt/settingsdialog.py:710
-msgid "(Please install 'nocache' to enable this option)"
-msgstr "(Installare 'nocache' per abilitare questa opzione)"
-
 #: ../../qt/settingsdialog.py:714
 msgid "on local machine"
 msgstr "sulla macchina locale"
@@ -1504,6 +1529,13 @@ msgid ""
 "\n"
 "%(default)s: %(def_value)s"
 msgstr ""
+"Prefisso da eseguire prima di ogni comando sull'host remoto.\n"
+"Le variabili devono essere salvate con \\$FOO.\n"
+"Questo non tocca rsync. Quindi per aggiungere un prefisso\n"
+"per rsync usa \"%(cbRsyncOptions)s\" con\n"
+"%(rsync_options_value)s\n"
+"\n"
+"%(default) s: %(def_value)s"
 
 #: ../../qt/settingsdialog.py:860 ../../qt/settingsdialog.py:1741
 msgid "default"
@@ -1511,7 +1543,7 @@ msgstr "default"
 
 #: ../../qt/settingsdialog.py:870
 msgid "Check if remote host is online"
-msgstr ""
+msgstr "Controlla se l'host remoto è online"
 
 #: ../../qt/settingsdialog.py:871
 msgid ""
@@ -1519,10 +1551,13 @@ msgid ""
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
+"Attenzione: se disabilitato e l'host remoto\n"
+"non è disponibile, questo potrebbe portare ad alcuni\n"
+"Errori strani."
 
 #: ../../qt/settingsdialog.py:874
 msgid "Check if remote host support all necessary commands"
-msgstr ""
+msgstr "Controlla se l'host remoto supporta tutti i comandi necessari"
 
 #: ../../qt/settingsdialog.py:875
 msgid ""
@@ -1530,6 +1565,9 @@ msgid ""
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
+"Attenzione: se disabilitato e l'host remoto\n"
+"non supporta tutti i comandi necessari,\n"
+"questo potrebbe portare ad alcuni strani errori."
 
 #: ../../qt/settingsdialog.py:888
 msgid "Restore Config"
@@ -1537,7 +1575,7 @@ msgstr "Ripristina la configurazione"
 
 #: ../../qt/settingsdialog.py:889
 msgid "Edit user-callback"
-msgstr ""
+msgstr "Modifica callback utente"
 
 #: ../../qt/settingsdialog.py:908
 msgid ""
@@ -1549,6 +1587,14 @@ msgid ""
 "Full system backup will override some settings that may have been "
 "customized. Continue?"
 msgstr ""
+"Il backup del sistema completo può solo creare un'istantanea da ripristinare "
+"sullo stessodisco (i) fisico (i) con lo stesso partizionamento del disco "
+"come dalla sorgente;Ripristino su nuovi dischi fisici o sugli stessi dischi "
+"con diversiil partizionamento produrrà un sistema potenzialmente rotto e "
+"inutilizzabile \n"
+"\n"
+"Il backup del sistema completo sovrascriverà alcune impostazioni che "
+"potrebbero essere statepersonalizzate. Continuare?"
 
 #: ../../qt/settingsdialog.py:937
 msgid "New profile"
@@ -1576,17 +1622,22 @@ msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
+"Non hai scelto un file di chiave privata per SSH.\n"
+"Vorresti generare una nuova coppia di chiavi pubblica / privata senza "
+"password?"
 
 #: ../../qt/settingsdialog.py:1242
 #, python-format
 msgid "Private key file \"%(file)s\" does not exist."
-msgstr ""
+msgstr "Il file chiave privata \"%(file)s\" non esiste."
 
 #: ../../qt/settingsdialog.py:1360
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
 msgstr ""
+"Vuoi copiare la tua chiave SSH pubblica su\n"
+"host remoto per abilitare il login senza password?"
 
 #: ../../qt/settingsdialog.py:1376
 #, python-format
@@ -1595,12 +1646,17 @@ msgid ""
 "\n"
 "%(keytype)s key fingerprint is:"
 msgstr ""
+"L'autenticità dell'host \"%(host)s\" non può essere stabilita.\n"
+"\n"
+"%(keytype)s La chiave per impronta digitale è:"
 
 #: ../../qt/settingsdialog.py:1384
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
+"Si prega di verificare questa impronta digitale! Ti piacerebbe aggiungerlo "
+"al tuoFile 'known_hosts'?"
 
 #: ../../qt/settingsdialog.py:1531
 msgid "Exclude pattern"
@@ -1640,7 +1696,7 @@ msgstr "Cambiare veramente la cartella delle istantanee?"
 #: ../../qt/settingsdialog.py:1635
 #, python-format
 msgid "Failed to create new SSH key in %(path)s"
-msgstr ""
+msgstr "Impossibile creare una nuova chiave SSH in %(path)s"
 
 #: ../../qt/settingsdialog.py:1738
 msgid "enabled"
@@ -1685,11 +1741,11 @@ msgstr "Configurazione non trovata"
 
 #: ../../qt/settingsdialog.py:2096
 msgid "user-callback script has no shebang (#!/bin/sh) line."
-msgstr ""
+msgstr "lo script di callback utente non ha una linea shebang (#!/bin/sh)."
 
 #: ../../qt/settingsdialog.py:2100
 msgid "Shebang in user-callback script is not executable."
-msgstr ""
+msgstr "Shebang nello script di callback dell'utente non è eseguibile."
 
 #: ../../qt/snapshotsdialog.py:53 ../../qt/snapshotsdialog.py:178
 msgid "Diff Options"

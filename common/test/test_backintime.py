@@ -129,8 +129,22 @@ This is free software, and you are welcome to redistribute it
 under certain conditions; type `backintime --license' for details.
 ''', re.MULTILINE))
 
-        # The log output completely goes to stderr
-        self.assertRegex(error.decode(), re.compile(r'''INFO: Lock
+        # The log output completely goes to stderr.
+        # Note: DBus warnings at the begin and end are already ignored by the regex
+        #       but if the BiT serviceHelper.py DBus daemon is not installed
+        #       at all the warnings also occur in the middle of below expected
+        #       INFO log lines so they are removed by filtering here.
+        # TODO If filtering output rows should become a common testing pattern
+        #      this code should be refactored into a function for reusability.
+        log_output = []
+        for line in error.decode().split("\n"):
+            if (not line.startswith("WARNING: Failed to connect to Udev serviceHelper")
+                    and not line.startswith("WARNING: D-Bus message:")
+                    and not line.startswith("WARNING: Udev-based profiles cannot be changed or checked")
+                    and not line.startswith("WARNING: Inhibit Suspend failed")):
+                log_output.append(line)
+        filtered_log_output = "\n".join(log_output)
+        self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
 INFO: Take a new snapshot. Profile: 1 Main profile
 INFO: Call rsync to take the snapshot
 INFO: Save config file

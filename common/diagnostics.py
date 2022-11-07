@@ -30,7 +30,6 @@ def collect_diagnostics():
     pwd_struct = pwd.getpwuid(os.getuid())
 
     # === BACK IN TIME ===
-    distro_path = _determine_distro_package_folder()
 
     # work-around: Instantiate to get the user-callback folder
     # (should be singleton)
@@ -44,7 +43,7 @@ def collect_diagnostics():
         'local-config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
         'global-config-file': cfg._GLOBAL_CONFIG_PATH,
         'global-config-file-found': Path(cfg._GLOBAL_CONFIG_PATH).exists(),
-        'distribution-package': str(distro_path),
+        # 'distribution-package': str(distro_path),
         'started-from': str(Path(config.__file__).parent),
         'running-as-root': pwd_struct.pw_name == 'root',
         'user-callback': cfg.takeSnapshotUserCallback(),
@@ -52,9 +51,12 @@ def collect_diagnostics():
     }
 
     # Git repo
-    git_info = get_git_repository_info(distro_path)
+    bit_root_path = Path(tools.backintimePath(""))
+    git_info = get_git_repository_info(bit_root_path)
 
     if git_info:
+
+        result['backintime']['git-project-root'] = str(bit_root_path)
 
         for key in git_info:
             result['backintime'][f'git-{key}'] = git_info[key]
@@ -77,7 +79,14 @@ def collect_diagnostics():
         'XDG_SESSION_TYPE', '($XDG_SESSION_TYPE not set)')
 
     # locale (system language etc)
-    result['host-setup']['locale'] = ', '.join(locale.getlocale())
+    #
+    # Implementation note: With env var "LC_ALL=C" getlocale() will return (None, None).
+    # This throws an error in "join()":
+    #   TypeError: sequence item 0: expected str instance, NoneType found
+    my_locale = locale.getlocale()
+    if all(x is None for x in my_locale):
+        my_locale = ["(Unknown)"]
+    result['host-setup']['locale'] = ', '.join(my_locale)
 
     # PATH environment variable
     result['host-setup']['PATH'] = os.environ.get('PATH', '($PATH unknown)')
@@ -138,7 +147,7 @@ def collect_diagnostics():
     # rsync <= (somewhere near) 3.1.3: -VV doesn't exists
     # rsync == 3.1.3 (Ubuntu 20 LTS) doesn't even know '-V'
 
-    # This work when rsync understand -VV and return json or human readable
+    # This works when rsync understands -VV and returns json or human readable
     result['external-programs']['rsync'] = _get_extern_versions(
         ['rsync', '-VV'],
         r'rsync  version (.*)  protocol version',
@@ -189,15 +198,19 @@ def _get_extern_versions(cmd,
                          error_pattern=None):
     """Get the version of an external tools using ``subprocess.Popen()``.
 
-    Args:
-        cmd (list): Commandline arguments that will be passed to `Popen()`.
-        pattern (str): A regex pattern to extract the version string from the
-                       commands output.
-        try_json (bool): Interpet the output as json first (default: False).
-        error_pattern (str): Regex pattern to identify a message in the output
-                             that indicates an error.
+     Args:
+         cmd (list): Commandline arguments that will be passed to `Popen()`.
+         pattern (str): A regex pattern to extract the version string from the
+                        commands output.
+         try_json (bool): Interpret the output as json first (default: False).
+                          If it could be parsed the result is a dict
+         error_pattern (str): Regex pattern to identify a message in the output
+                              that indicates an error.
 
-    """
+     Returns:
+         Version information as string (or dict if was JSON and parsed successfully).
+         `None` if the error_pattern did match (to indicate an error)
+     """
 
     try:
         # as context manager to prevent ResourceWarning's
@@ -219,7 +232,7 @@ def _get_extern_versions(cmd,
             if match:
                 return None
 
-        # some tools use "stderr" for version infos
+        # some tools use "stderr" for version info
         if not std_output:
             result = error_output
         else:
@@ -236,14 +249,13 @@ def _get_extern_versions(cmd,
                 pass
 
             else:
-                # No regex parsing because it was json
-                pattern = None
+                return result  # as JSON
 
         # extract version string
         if pattern:
             result = re.findall(pattern, result)[0]
 
-    return result.strip()
+    return result.strip()  # as string
 
 
 def get_git_repository_info(path=None):
@@ -315,27 +327,6 @@ def _get_os_release():
 
     return re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
 
-
-def _determine_distro_package_folder():
-    """Return the projects root folder.
-
-    In Python terms it is the "Distribution Package" not the "Modules
-    Package".
-
-    Development info: The function become obslet when migrating the project
-    to the "src" layout.
-    """
-
-    # "current" folder
-    path = Path(__file__)
-
-    # level of highest folder named "backintime"
-    bit_idx = path.parts.index('backintime')
-
-    # cut the path to that folder
-    path = Path(*(path.parts[:bit_idx+1]))
-
-    return path
 
 
 def _replace_username_paths(result, username):

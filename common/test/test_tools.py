@@ -110,7 +110,7 @@ class TestTools(generic.TestCase):
 
     def test_backintimePath(self):
         path = tools.backintimePath('common')
-        self.assertRegex(path, r'.*/backintime.*/common$')
+        self.assertIn(path, __file__)
 
     def test_registerBackintimePath(self):
         path = tools.backintimePath('foo')

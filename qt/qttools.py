@@ -179,6 +179,14 @@ def createQApplication(app_name = 'Back In Time'):
         qapp.style().objectName().lower() == 'windows' and  \
         'GTK+' in QStyleFactory.keys():
             qapp.setStyle('GTK+')
+
+    try:
+        # The platform name indicates eg. wayland vs. X11, see also:
+        # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
+        logger.debug(f"QT QPA platform plugin: {qapp.platformName()}")
+    except Exception as e:
+        logger.debug(f"QT QPA platform plugin unknown: {repr(e)}")
+
     return qapp
 
 def translator():

@@ -93,7 +93,7 @@ def backintimePath(*path):
     Get path inside 'backintime' install folder.
 
     Args:
-        *path (str):    paths that should be joind to 'backintime'
+        *path (str):    paths that should be joined to 'backintime'
 
     Returns:
         str:            'backintime' child path like::
