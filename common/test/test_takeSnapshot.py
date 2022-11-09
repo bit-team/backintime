@@ -50,7 +50,20 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
         now = datetime.today() - timedelta(minutes = 6)
         sid1 = snapshots.SID(now, self.cfg)
 
-        self.assertListEqual([True, False], self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),]))
+        # Note: 'self.sn' is of type 'Snapshots'
+        # First boolean: Snapshot succeeded
+        # Second boolean: Error occured
+        self.assertListEqual(
+                [True, False],  # Snapshot without error
+                self.sn.takeSnapshot(
+                    sid=sid1,
+                    now=now,
+                    include_folders=[
+                        (self.include.name, 0),  # '0' means it is a file
+                    ]
+                )
+        )
+
         self.assertTrue(sid1.exists())
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'foo', 'bar', 'baz')))
         self.assertTrue(sid1.canOpenPath(os.path.join(self.include.name, 'test')))
