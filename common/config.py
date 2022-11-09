@@ -1,5 +1,6 @@
 #    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+#    Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,6 +16,18 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+"""Configuration logic.
+
+That modul and its `Config` handling the appliation logic round about the
+configuration of Back In Time. The handling of the configuruation file itself
+is separated in the module :py:module:`configfile`.
+
+Development notes:
+    Some of the methods do have code comments starting with `#? ` instead of
+    `# `. That special comments are used as text in the manpage
+    `backintime-config`. The script `create-manpage-backintime-config.py` do
+    parse this module for that.
+"""
 
 import os
 import sys
@@ -445,13 +458,8 @@ class Config(configfile.ConfigFileWithProfiles):
         return True
 
     def snapshotsMode(self, profile_id=None):
-        """Use mode (or backend) for this snapshot.
-
-        Look at 'man backintime' section 'Modes'.
-
-        Returns:
-            str: Possible values are local|local_encfs|ssh|ssh_encfs.
-        """
+        #? Use mode (or backend) for this snapshot. Look at 'man backintime'
+        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
