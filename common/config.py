@@ -18,15 +18,15 @@
 
 """Configuration logic.
 
-That modul and its `Config` handling the appliation logic round about the
-configuration of Back In Time. The handling of the configuruation file itself
+This module and its `Config` class contain the appliation logic handling the
+configuration of Back In Time. The handling of the configuration file itself
 is separated in the module :py:module:`configfile`.
 
 Development notes:
-    Some of the methods do have code comments starting with `#? ` instead of
-    `# `. That special comments are used as text in the manpage
-    `backintime-config`. The script `create-manpage-backintime-config.py` do
-    parse this module for that.
+    Some of the methods have code comments starting with `#? ` instead of
+    `# `. These special comments are used to generate the manpage
+    `backintime-config`. The script `create-manpage-backintime-config.py`
+    parses this module for that.
 """
 
 import os
