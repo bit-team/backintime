@@ -23,8 +23,8 @@ The file `common/config.py` is parsed for variable names, default values and
 other informations. The founder of that script @Germar gave a detailed
 description about that script in #1354.
 
-The script reads every line and try to analysis them:
-  - The search for `DEFAULT` and put them into a `dict` for later replacing
+The script reads every line and tries to analyse it:
+  - It searches for `DEFAULT` and puts those into a `dict` for later replacing
     the variable with the value.
   - If that didn't match it will look for lines starting with `#?` which is
     basically my own description for the manpage-entry.
@@ -32,11 +32,11 @@ The script reads every line and try to analysis them:
     processing of the current config option is done. That will reset
     `commentline`.
   - If a line starts with `#` it will be skipped.
-  - Next the script searches for lines which ``retur`` the config value (like
+  - Next the script searches for lines which ``return`` the config value (like
     `snapshots.ssh.port`. There it will extract the
     key/name (`snapshots.ssh.port`), the default value (`22`),
     the instance (`Int`) and if it is a profile or general value.
-  - If the line contain a `List` value like `snapshots.include` it will
+  - If the line contains a `List` value like `snapshots.include` it will
     process all values for the list like `snapshots.include.<I>.value` and
     `snapshots.include.<I>.type`.  Also it will add the size like
     `snapshots.include.size`.
