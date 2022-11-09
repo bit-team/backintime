@@ -253,7 +253,7 @@ def main():
 
                 continue
 
-            # Usual comments ignored
+            # Simple comments are ignored
             if line.startswith('#'):
                 commentline = ''
                 continue
