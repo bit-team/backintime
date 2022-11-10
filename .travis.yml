@@ -32,10 +32,13 @@ jobs:
   exclude:
     - arch: ppc64le
       python: "3.6"
+    - arch: ppc64le
       python: "3.10"
+    - arch: ppc64le
       python: "3.11"
     - arch: amd64
       python: "3.9"
+    - arch: amd64
       python: "3.11"
 
 install:
