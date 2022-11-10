@@ -858,8 +858,12 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileIntValue('schedule.mode', value, profile_id)
 
     def scheduleTime(self, profile_id = None):
-        #?What time the cronjob should run? Only valid for
-        #?\fIprofile<N>.schedule.mode\fR >= 20;0-24
+        #?Position-coded number with the format "hhmm" to specify the hour
+        #?and minute the cronjob should start (eg. 2015 means a quarter
+        #?past 8pm). Leading zeros can be omitted (eg. 30 = 0030).
+        #?Only valid for
+        #?\fIprofile<N>.schedule.mode\fR = 20 (daily), 30 (weekly),
+        #?40 (monthly) and 80 (yearly);0-2400
         return self.profileIntValue('schedule.time', 0, profile_id)
 
     def setScheduleTime(self, value, profile_id = None):
