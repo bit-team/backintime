@@ -1,5 +1,6 @@
 #    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+#    Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,6 +16,18 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+"""Configuration logic.
+
+This module and its `Config` class contain the appliation logic handling the
+configuration of Back In Time. The handling of the configuration file itself
+is separated in the module :py:module:`configfile`.
+
+Development notes:
+    Some of the methods have code comments starting with `#? ` instead of
+    `# `. These special comments are used to generate the manpage
+    `backintime-config`. The script `create-manpage-backintime-config.py`
+    parses this module for that.
+"""
 
 import os
 import sys
@@ -445,13 +458,8 @@ class Config(configfile.ConfigFileWithProfiles):
         return True
 
     def snapshotsMode(self, profile_id=None):
-        """Use mode (or backend) for this snapshot.
-
-        Look at 'man backintime' section 'Modes'.
-
-        Returns:
-            str: Possible values are local|local_encfs|ssh|ssh_encfs.
-        """
+        #? Use mode (or backend) for this snapshot. Look at 'man backintime'
+        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -850,8 +858,12 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileIntValue('schedule.mode', value, profile_id)
 
     def scheduleTime(self, profile_id = None):
-        #?What time the cronjob should run? Only valid for
-        #?\fIprofile<N>.schedule.mode\fR >= 20;0-24
+        #?Position-coded number with the format "hhmm" to specify the hour
+        #?and minute the cronjob should start (eg. 2015 means a quarter
+        #?past 8pm). Leading zeros can be omitted (eg. 30 = 0030).
+        #?Only valid for
+        #?\fIprofile<N>.schedule.mode\fR = 20 (daily), 30 (weekly),
+        #?40 (monthly) and 80 (yearly);0-2400
         return self.profileIntValue('schedule.time', 0, profile_id)
 
     def setScheduleTime(self, value, profile_id = None):
