@@ -30,7 +30,7 @@ import argparse
 _INITIAL_SSH_COMMAND_SIZE = 400000
 
 
-def prope_max_ssh_command_size(config,
+def probe_max_ssh_command_size(config,
                                ssh_command_size=_INITIAL_SSH_COMMAND_SIZE,
                                size_offset=_INITIAL_SSH_COMMAND_SIZE):
     """Determin the maximum length of an argument via SSH.
@@ -80,13 +80,13 @@ def prope_max_ssh_command_size(config,
         if err.errno != 7:
             raise err
 
-        reportTest(
+        report_test(
             ssh_command_size,
             f'Python exception: "{err.strerror}". Decrease '
             f'by {size_offset:,} and try again.')
 
         # reducy by "r" and try again
-        return prope_max_ssh_command_size(
+        return probe_max_ssh_command_size(
             config,
             ssh_command_size - size_offset,
             size_offset)
@@ -97,7 +97,7 @@ def prope_max_ssh_command_size(config,
 
             # no increases possible anymore
             if size_offset == 0:
-                reportTest(ssh_command_size,
+                report_test(ssh_command_size,
                            'Found correct length. Adding '
                            f'length of "{ssh[-2]}" to it.')
 
@@ -105,24 +105,24 @@ def prope_max_ssh_command_size(config,
                 return ssh_command_size + len(ssh[-2])  # length of "printf"
 
             # there is room to increase the length
-            reportTest(ssh_command_size,
+            report_test(ssh_command_size,
                        f'Can be longer. Increase by {size_offset:,} '
                        'and try again.')
 
             # increae by "r" and try again
-            return prope_max_ssh_command_size(
+            return probe_max_ssh_command_size(
                 config,
                 ssh_command_size + size_offset,
                 size_offset)
 
         # command string was to long
         elif 'Argument list too long' in err:
-            reportTest(ssh_command_size,
+            report_test(ssh_command_size,
                        f'stderr: "{err.strip()}". Decrease '
                        f'by {size_offset:,} and try again.')
 
             # reduce by "r" and try again
-            return prope_max_ssh_command_size(
+            return probe_max_ssh_command_size(
                 config,
                 ssh_command_size - size_offset,
                 size_offset)
@@ -132,11 +132,11 @@ def prope_max_ssh_command_size(config,
                     f'mid={ssh_command_size:,}\nr={size_offset:,}')
 
 
-def reportTest(mid, msg):
-    print(f'Tried length {mid:,}... {msg}')
+def report_test(ssh_command_size, msg):
+    print(f'Tried length {ssh_command_size:,}... {msg}')
 
 
-def reportResult(host, mid):
+def report_result(host, mid):
     print(f'Maximum SSH argument length between "{socket.gethostname()}" '
           f'and "{host}" is {mid:,}.')
 
@@ -146,17 +146,17 @@ if __name__ == '__main__':
         description='Check maximal argument length on SSH connection',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('MID',
+    parser.add_argument('SSH_COMMAND_SIZE',
                         type=int,
                         nargs='?',
                         default=_INITIAL_SSH_COMMAND_SIZE,
-                        help='Start checking with MID arg length')
+                        help='Start checking with SSH_COMMAND_SIZE arg length')
 
     args = parser.parse_args()
 
     import config
     cfg = config.Config()
 
-    mid = prope_max_ssh_command_size(cfg, args.MID)
+    ssh_command_size = probe_max_ssh_command_size(cfg, args.MID)
 
-    reportResult(cfg.sshHost(), mid)
+    report_result(cfg.sshHost(), ssh_command_size)

@@ -950,7 +950,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                         f'Backup the config in "{self.config.snapshotsMode()}"'
                         f' mode failed! The return code was {rc} and the'
                         f' command was {cmd}. Also see the previous '
-                        'WARNING message for a more details.', parent=self) 
+                        'WARNING message for a more details.', parent=self)
 
     def backupInfo(self, sid):
         """
@@ -1453,10 +1453,10 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 import sshMaxArg
                 user_host = '%s@%s' % (self.config.sshUser(),
                                        self.config.sshHost())
-                maxLength = sshMaxArg.prope_max_ssh_command_size(self.config)
+                maxLength = sshMaxArg.probe_max_ssh_command_size(self.config)
                 self.config.setSshMaxArgLength(maxLength)
                 self.config.save()
-                sshMaxArg.reportResult(user_host, maxLength)
+                sshMaxArg.report_result(user_host, maxLength)
 
             additionalChars = len(self.config.sshPrefixCmd(cmd_type = str))
 
