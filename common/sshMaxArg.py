@@ -34,22 +34,23 @@ _INITIAL_SSH_COMMAND_SIZE = 1048320
 def probe_max_ssh_command_size(config,
                                ssh_command_size=_INITIAL_SSH_COMMAND_SIZE,
                                size_offset=_INITIAL_SSH_COMMAND_SIZE):
-    """Determin the maximum length of an argument via SSH.
+    """Determine the maximum length of SSH commands for the current config
 
-    Try a an SSH command with length ``ssh_command_size``. The command is
-    decreased by ``size_offset`` if it was to long or increased if it worked.
-    The function calls itself in a recursition until it finds the maximum
+    Try a SSH command with length ``ssh_command_size``. The command is
+    decreased by ``size_offset`` if it was too long or increased if it worked.
+    The function calls itself in recursively until it finds the maximum
     possible length. The offset ``size_offset`` is bisect in each try.
 
     Args:
         config (config.Config): Back In Time config instance including the
-                                details about the current SSH snapshto profile.
+                                details about the current SSH snapshot profile.
+                                The current profile must use the SSH mode.
         ssh_command_size (int): Initial length used for the test argument.
         size_offset (int): Offset for increase or decrease
                            ``ssh_command_size``.
 
     Returns:
-        (int): The maximum possible length.
+        (int): The maximum possible SSH command length
 
     Raises:
         Exception: If there are unhandled cases or the recurse ends in an
@@ -86,43 +87,43 @@ def probe_max_ssh_command_size(config,
             f'Python exception: "{err.strerror}". Decrease '
             f'by {size_offset:,} and try again.')
 
-        # reducy by "r" and try again
+        # test again with new ssh_command_size
         return probe_max_ssh_command_size(
             config,
             ssh_command_size - size_offset,
             size_offset)
 
     else:
-        # Successfull SSH command
+        # Successful SSH command
         if out == command_string:
 
             # no increases possible anymore
             if size_offset == 0:
                 report_test(ssh_command_size,
-                           'Found correct length. Adding '
-                           f'length of "{ssh[-2]}" to it.')
+                            'Found correct length. Adding '
+                            f'length of "{ssh[-2]}" to it.')
 
                 # the final command size
                 return ssh_command_size + len(ssh[-2])  # length of "printf"
 
             # there is room to increase the length
             report_test(ssh_command_size,
-                       f'Can be longer. Increase by {size_offset:,} '
-                       'and try again.')
+                        f'Can be longer. Increase by {size_offset:,} '
+                        'and try again.')
 
-            # increae by "r" and try again
+            # increase by "size_offset" and try again
             return probe_max_ssh_command_size(
                 config,
                 ssh_command_size + size_offset,
                 size_offset)
 
-        # command string was to long
+        # command string was too long
         elif 'Argument list too long' in err:
             report_test(ssh_command_size,
-                       f'stderr: "{err.strip()}". Decrease '
-                       f'by {size_offset:,} and try again.')
+                        f'stderr: "{err.strip()}". Decrease '
+                        f'by {size_offset:,} and try again.')
 
-            # reduce by "r" and try again
+            # reduce by "size_offset" and try again
             return probe_max_ssh_command_size(
                 config,
                 ssh_command_size - size_offset,
@@ -130,34 +131,39 @@ def probe_max_ssh_command_size(config,
 
     raise Exception('Unhandled case.\n'
                     f'{ssh[:-1]}\nout="{out}"\nerr="{err}"\n'
-                    f'mid={ssh_command_size:,}\nr={size_offset:,}')
+                    f'ssh_command_size={ssh_command_size:,}\nsize_offset={size_offset:,}')
 
 
 def report_test(ssh_command_size, msg):
     print(f'Tried length {ssh_command_size:,}... {msg}')
 
 
-def report_result(host, mid):
-    print(f'Maximum SSH argument length between "{socket.gethostname()}" '
-          f'and "{host}" is {mid:,}.')
+def report_result(host, max_ssh_cmd_size):
+    print(f'Maximum SSH command length between "{socket.gethostname()}" '
+          f'and "{host}" is {max_ssh_cmd_size:,}.')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Check maximal argument length on SSH connection',
+        description='Check the maximal ssh command size for all ssh profiles in the configurations',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('SSH_COMMAND_SIZE',
                         type=int,
                         nargs='?',
                         default=_INITIAL_SSH_COMMAND_SIZE,
-                        help='Start checking with SSH_COMMAND_SIZE arg length')
+                        help='Start checking with SSH_COMMAND_SIZE as length')
 
     args = parser.parse_args()
 
     import config
     cfg = config.Config()
+    profiles = cfg.profiles()  # list of profile IDs
 
-    ssh_command_size = probe_max_ssh_command_size(cfg, args.SSH_COMMAND_SIZE)
-
-    report_result(cfg.sshHost(), ssh_command_size)
+    # loop over all profiles in the configuration
+    for profile_ID in profiles:
+        cfg.setCurrentProfile(profile_ID)
+        print(f"Profile {profile_ID} - {cfg.profileName()}: Mode = {cfg.snapshotsMode()}")
+        if cfg.snapshotsMode() == "ssh":
+            ssh_command_size = probe_max_ssh_command_size(cfg, args.SSH_COMMAND_SIZE)
+            report_result(cfg.sshHost(), ssh_command_size)
