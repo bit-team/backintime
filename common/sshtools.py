@@ -747,7 +747,7 @@ class SSH(MountControl):
                 self)
 
             import sshMaxArg
-            mid = sshMaxArg.maxArgLength(self.config)
+            mid = sshMaxArg.prope_max_ssh_command_size(self.config)
             sshMaxArg.reportResult(self.host, mid)
 
             self.config.setSshMaxArgLength(mid, self.profile_id)

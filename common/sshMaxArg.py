@@ -26,40 +26,44 @@ import subprocess
 import socket
 import argparse
 
+# original was 1048320, must be divisable by 8
+_INITIAL_SSH_COMMAND_SIZE = 400000
 
-_MID_INITIAL = 400000  # original was 1048320, must be divisable by 8
 
-
-def maxArgLength(config, mid=_MID_INITIAL, r=_MID_INITIAL):
+def prope_max_ssh_command_size(config,
+                               ssh_command_size=_INITIAL_SSH_COMMAND_SIZE,
+                               size_offset=_INITIAL_SSH_COMMAND_SIZE):
     """Determin the maximum length of an argument via SSH.
 
-    Try a an SSH command with length ``mid``. The command is decreased by ``r``
-    if it was to long or increased by ``r`` if it worked. The function calls
-    itself in a recursition until it finds the maximum possible length.
+    Try a an SSH command with length ``ssh_command_size``. The command is
+    decreased by ``size_offset`` if it was to long or increased if it worked.
+    The function calls itself in a recursition until it finds the maximum
+    possible length. The offset ``size_offset`` is bisect in each try.
 
     Args:
         config (config.Config): Back In Time config instance including the
                                 details about the current SSH snapshto profile.
-        mid (int): Initial length used for the test argument.
-        r (int): Offset for increase or decrease ``mid``.
+        ssh_command_size (int): Initial length used for the test argument.
+        size_offset (int): Offset for increase or decrease
+                           ``ssh_command_size``.
 
     Returns:
         (int): The maximum possible length.
 
     Raises:
-        Exception: If there are unhandled cases.
+        Exception: If there are unhandled cases or the recurse ends in an
+                   undefined state.
         OSError: If there are unhandled cases.
     """
-    r = round(r / 2)
+    size_offset = round(size_offset / 2)
 
     # random string of desired length
-    mid_string = ''.join(
-        random.choices(string.ascii_uppercase+string.digits, k=mid)
-    )
+    command_string = ''.join(random.choices(
+        string.ascii_uppercase+string.digits, k=ssh_command_size))
 
     # use that string in a printf statement via SSH
     ssh = config.sshCommand(
-        cmd=['printf', mid_string],
+        cmd=['printf', command_string],
         nice=False,
         ionice=False,
         prefix=False)
@@ -71,49 +75,61 @@ def maxArgLength(config, mid=_MID_INITIAL, r=_MID_INITIAL):
                                 universal_newlines=True)
         out, err = proc.communicate()
 
-    except OSError as e:
+    except OSError as err:
         # Only handle "Argument to long error" (E2BIG)
-        if e.errno != 7:
-            raise e
+        if err.errno != 7:
+            raise err
 
         reportTest(
-            mid,
-            f'Python exception: "{e.strerror}". Decrease '
-            f'by {r:,} and try again.')
+            ssh_command_size,
+            f'Python exception: "{err.strerror}". Decrease '
+            f'by {size_offset:,} and try again.')
 
         # reducy by "r" and try again
-        return maxArgLength(config, mid - r, r)
+        return prope_max_ssh_command_size(
+            config,
+            ssh_command_size - size_offset,
+            size_offset)
 
     else:
         # Successfull SSH command
-        if out == mid_string:
+        if out == command_string:
 
             # no increases possible anymore
-            if r == 0:
-                reportTest(mid, 'Found correct length. Adding '
-                                f'length of "{ssh[-2]}" to it.')
+            if size_offset == 0:
+                reportTest(ssh_command_size,
+                           'Found correct length. Adding '
+                           f'length of "{ssh[-2]}" to it.')
 
-                return mid + len(ssh[-2])  # must be length of "printf"
+                # the final command size
+                return ssh_command_size + len(ssh[-2])  # length of "printf"
 
             # there is room to increase the length
-            reportTest(
-                mid, f'Can be longer. Increase by {r:,} and try again.')
+            reportTest(ssh_command_size,
+                       f'Can be longer. Increase by {size_offset:,} '
+                       'and try again.')
 
             # increae by "r" and try again
-            return maxArgLength(config, mid + r, r)
+            return prope_max_ssh_command_size(
+                config,
+                ssh_command_size + size_offset,
+                size_offset)
 
         # command string was to long
         elif 'Argument list too long' in err:
-            reportTest(
-                mid,
-                f'stderr: "{err.strip()}". Decrease by {r:,} and try again.')
+            reportTest(ssh_command_size,
+                       f'stderr: "{err.strip()}". Decrease '
+                       f'by {size_offset:,} and try again.')
 
             # reduce by "r" and try again
-            return maxArgLength(config, mid - r, r)
+            return prope_max_ssh_command_size(
+                config,
+                ssh_command_size - size_offset,
+                size_offset)
 
     raise Exception('Unhandled case.\n'
-                    f'{ssh[:-1]}\nout="{out}"\n'
-                    f'err="{err}"\nmid={mid:,}\nr={r:,}')
+                    f'{ssh[:-1]}\nout="{out}"\nerr="{err}"\n'
+                    f'mid={ssh_command_size:,}\nr={size_offset:,}')
 
 
 def reportTest(mid, msg):
@@ -133,7 +149,7 @@ if __name__ == '__main__':
     parser.add_argument('MID',
                         type=int,
                         nargs='?',
-                        default=_MID_INITIAL,
+                        default=_INITIAL_SSH_COMMAND_SIZE,
                         help='Start checking with MID arg length')
 
     args = parser.parse_args()
@@ -141,6 +157,6 @@ if __name__ == '__main__':
     import config
     cfg = config.Config()
 
-    mid = maxArgLength(cfg, args.MID)
+    mid = prope_max_ssh_command_size(cfg, args.MID)
 
     reportResult(cfg.sshHost(), mid)
