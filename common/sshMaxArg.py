@@ -17,7 +17,8 @@
 
 """This module determines the maximum possible length of an SSH command.
 
-It can also be called as a stand alone script.
+It can also can run as a stand alone script. The solution is based on
+https://www.theeggeadventure.com/wikimedia/index.php/Ssh_argument_length
 """
 
 import random
@@ -26,8 +27,8 @@ import subprocess
 import socket
 import argparse
 
-# original was 1048320, must be divisable by 8
-_INITIAL_SSH_COMMAND_SIZE = 400000
+# must be divisable by 8
+_INITIAL_SSH_COMMAND_SIZE = 1048320
 
 
 def probe_max_ssh_command_size(config,
@@ -157,6 +158,6 @@ if __name__ == '__main__':
     import config
     cfg = config.Config()
 
-    ssh_command_size = probe_max_ssh_command_size(cfg, args.MID)
+    ssh_command_size = probe_max_ssh_command_size(cfg, args.SSH_COMMAND_SIZE)
 
     report_result(cfg.sshHost(), ssh_command_size)
