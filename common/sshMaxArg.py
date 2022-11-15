@@ -38,7 +38,7 @@ def probe_max_ssh_command_size(config,
 
     Try a SSH command with length ``ssh_command_size``. The command is
     decreased by ``size_offset`` if it was too long or increased if it worked.
-    The function calls itself in recursively until it finds the maximum
+    The function calls itself recursively until it finds the maximum
     possible length. The offset ``size_offset`` is bisect in each try.
 
     Args:
