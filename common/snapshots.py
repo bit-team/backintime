@@ -950,7 +950,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                         f'Backup the config in "{self.config.snapshotsMode()}"'
                         f' mode failed! The return code was {rc} and the'
                         f' command was {cmd}. Also see the previous '
-                        'WARNING message for a more details.', parent=self) 
+                        'WARNING message for a more details.', parent=self)
 
     def backupInfo(self, sid):
         """
@@ -1439,17 +1439,24 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         if self.config.snapshotsMode() in ['ssh', 'ssh_encfs'] and self.config.smartRemoveRunRemoteInBackground():
             logger.info('[smart remove] remove snapshots in background: %s'
-                        %del_snapshots, self)
-            lckFile = os.path.normpath(os.path.join(del_snapshots[0].path(use_mode = ['ssh', 'ssh_encfs']), os.pardir, 'smartremove.lck'))
+                        % del_snapshots, self)
+            lckFile = os.path.normpath(
+                os.path.join(
+                    del_snapshots[0].path(use_mode=['ssh', 'ssh_encfs']),
+                    os.pardir,
+                    'smartremove.lck'
+                )
+            )
 
             maxLength = self.config.sshMaxArgLength()
             if not maxLength:
                 import sshMaxArg
-                user_host = '%s@%s' %(self.config.sshUser(), self.config.sshHost())
-                maxLength = sshMaxArg.maxArgLength(self.config)
+                user_host = '%s@%s' % (self.config.sshUser(),
+                                       self.config.sshHost())
+                maxLength = sshMaxArg.probe_max_ssh_command_size(self.config)
                 self.config.setSshMaxArgLength(maxLength)
                 self.config.save()
-                sshMaxArg.reportResult(user_host, maxLength)
+                sshMaxArg.report_result(user_host, maxLength)
 
             additionalChars = len(self.config.sshPrefixCmd(cmd_type = str))
 
@@ -1469,21 +1476,26 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             tail = 'rmdir \\$TMP) 9>\\\"%s\\\""' %lckFile
 
             cmds = []
+
             for sid in del_snapshots:
                 remote = self.rsyncRemotePath(sid.path(use_mode = ['ssh', 'ssh_encfs']), use_mode = [], quote = '\\\"')
                 rsync = ' '.join(tools.rsyncRemove(self.config, run_local = False))
                 rsync += ' \\\"\\$TMP/\\\" {}; '.format(remote)
 
                 s = 'test -e \\\"%s\\\" && (' %sid.path(use_mode = ['ssh', 'ssh_encfs'])
+
                 if logger.DEBUG:
                     s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
                     s += '\\\"snapshot %s still exist\\\"; ' %sid
                     s += 'sleep 1; ' #add one second delay because otherwise you might not see serialized process with small snapshots
+
                 s += rsync
                 s += 'rmdir \\\"%s\\\"; ' %sid.path(use_mode = ['ssh', 'ssh_encfs'])
+
                 if logger.DEBUG:
                     s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
                     s += '\\\"snapshot %s remove done\\\"' %sid
+
                 s += '); '
                 cmds.append(s)
 
@@ -1498,6 +1510,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         else:
             logger.info("[smart remove] remove snapshots: %s"
                         %del_snapshots, self)
+
             for i, sid in enumerate(del_snapshots, 1):
                 log(_('Smart remove') + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)

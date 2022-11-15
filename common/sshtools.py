@@ -747,10 +747,10 @@ class SSH(MountControl):
                 self)
 
             import sshMaxArg
-            mid = sshMaxArg.maxArgLength(self.config)
-            sshMaxArg.reportResult(self.host, mid)
+            max_arg_size = sshMaxArg.probe_max_ssh_command_size(self.config)
+            sshMaxArg.report_result(self.host, max_arg_size)
 
-            self.config.setSshMaxArgLength(mid, self.profile_id)
+            self.config.setSshMaxArgLength(max_arg_size, self.profile_id)
 
             return self.checkRemoteCommands(retry=True)
 
