@@ -569,8 +569,9 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
 
     def sshMaxArgLength(self, profile_id = None):
-        #?Maximum argument length of commands run on remote host. This can be tested
-        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py USER@HOST'.\n
+        #?Maximum command length of commands run on remote host. This can be tested
+        #?for all ssh profiles in the configuration
+        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py [initial_ssh_cmd_length]'.\n
         #?0 = unlimited;0, >700
         value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
         if value and value < 700:
