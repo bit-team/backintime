@@ -144,6 +144,22 @@ to support all Ubuntu distros (older and newer ones).
 This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1338).
 
 
+
+#### Tray icon or other icons not shown correctly
+
+This effect can be caused by missing installations of Qt5-supported
+themes and icons. Back In Time may activate the wrong theme in this
+case leading to some missing icons. A fix for the next release is in preparation.
+
+As clean solution please check your Linux settings (Appearance, Styles, Icons)
+and install all themes and icons packages for your preferred style via
+your package manager.
+
+See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
+and [#1364](https://github.com/bit-team/backintime/issues/1364).
+
+
+
 ## Download
 
 Please find the latest versions on
