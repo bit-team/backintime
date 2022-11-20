@@ -239,7 +239,7 @@ def createParsers(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Take a new snapshot in background only '      +\
                   'if the profile is scheduled and the machine ' +\
-                  'is not on battery. This is use by cron jobs.'
+                  'is not on battery. This is used by cron jobs.'
     backupJobCP =          subparsers.add_parser(command,
                                                  parents = [rsyncArgsParser],
                                                  epilog = epilogCommon,

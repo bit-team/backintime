@@ -245,7 +245,7 @@ class SettingsDialog(QDialog):
         self.btnSshPrivateKeyFile = QToolButton(self)
         self.btnSshPrivateKeyFile.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.btnSshPrivateKeyFile.setIcon(icon.FOLDER)
-        self.btnSshPrivateKeyFile.setToolTip(_('Key File'))
+        self.btnSshPrivateKeyFile.setToolTip(_('Choose an existing private key file (normally named "id_rsa")'))
         self.btnSshPrivateKeyFile.setMinimumSize(32, 28)
         hlayout3.addWidget(self.btnSshPrivateKeyFile)
         self.btnSshPrivateKeyFile.clicked \
@@ -255,10 +255,11 @@ class SettingsDialog(QDialog):
         self.btnSshKeyGen.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.btnSshKeyGen.setIcon(icon.ADD)
         self.btnSshKeyGen.setToolTip(
-            _('Create a new SSH key without Password.'))
+            _('Create a new SSH key without password (not allowed if a private key file is already selected)'))
         self.btnSshKeyGen.setMinimumSize(32, 28)
         hlayout3.addWidget(self.btnSshKeyGen)
         self.btnSshKeyGen.clicked.connect(self.btnSshKeyGenClicked)
+        # Disable SSH key generation button if a key file is already set
         self.txtSshPrivateKeyFile.textChanged \
             .connect(lambda x: self.btnSshKeyGen.setEnabled(not x))
 
