@@ -201,9 +201,9 @@ class UdevRules(dbus.service.Object):
                          sender_keyword='sender', connection_keyword='conn')
     def save(self, sender=None, conn=None):
         """
-        Save rules to destiantion file after user authenticated as admin.
+        Save rules to destination file after user authenticated as admin.
         This will first check if there are any changes between
-        temporary added rules and current rules in destiantion file.
+        temporary added rules and current rules in destination file.
         Returns False if files are identical or no rules to be installed.
         """
         info = SenderInfo(sender, conn)
