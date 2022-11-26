@@ -49,7 +49,7 @@ https://github.com/bit-team/backintime/issues
 
 ## Known Problems and Workarounds
 
-#### Development / Maintenance status
+### Development / Maintenance status
 
 The development of this project has been dormant for a while,
 but a small team has started to get things moving again.
@@ -58,20 +58,17 @@ Stick with us, we all love Back In Time :)
 We are currently trying to fix the major issues while not implementing
 new features to prepare a new stable release.
 
-If you are interested in the development, have a look below under [`Contribute`](#Contribute).
+If you are interested in the development, please see the [_Contribute_](#contribute) section.
 
-#### Incompatibility with rsync >= 3.2.4
+### Incompatibility with rsync >= 3.2.4
 
-Back In Time is currently incompatible with rsync >= 3.2.4.
+The latest release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible with `rsync >= 3.2.4` ([#1247](https://github.com/bit-team/backintime/issues/1247)). The problem is [fixed](https://github.com/bit-team/backintime/pull/1351) in the current master branch of that repo and will be released with the next release (`1.3.3`) of _Back In Time_.
 
-If you use rsync >= 3.2.4, you can use one of two workarounds:
+If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a workaround. Add `--old-args` in [_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options).
 
-1. add "--old-args" in "Expert Options / Additional options to rsync" **or**
-2. modify /usr/bin/backintime to include `export RSYNC_OLD_ARGS=1`.
+Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with environment variable `RSYNC_OLD_ARGS` in there distro-specific packages for _Back In Time_. In that case you may not see any problems.
 
-Note that Manjaro has included the `export RSYNC_OLD_ARGS=1` workaround in their official 1.3.2-2 version of the package.
-
-#### File permissions handling and therefore possible non-differential backups
+### File permissions handling and therefore possible non-differential backups
 
 In version 1.2.0, the handling of file permissions changed.
 
@@ -86,7 +83,7 @@ If you don't like the new behaviour, you can use "Expert Options" -> "Paste addi
 Note that the exact file permissions can still be found in the file fileinfo.bz2 and are also considered when restoring
 files.
 
-#### Python 3.10 compatibility and Ubuntu version
+### Python 3.10 compatibility and Ubuntu version
 
 backintime versions older than 1.3.2 do not start with Python >= 3.10.
 
@@ -95,7 +92,7 @@ Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied [a
 If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
 
 
-#### Non-working password safe / BiT forgets passwords (`keyring` backend issues)
+### Non-working password safe / BiT forgets passwords (`keyring` backend issues)
 
 `Back in Time` does only support selected "known-good" backends
 to set and query passwords from a user-session password safe by
@@ -129,8 +126,7 @@ default-keyring=keyring.backends.kwallet.DBusKeyring
 
 See also issue [#1321](https://github.com/bit-team/backintime/issues/1321)
 
-
-#### Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+### Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
 
 In newer Ubuntu-based distros you may get this warning if you manually install *Back In Time*
 as described in the [Installation](#installation) section here.
@@ -143,9 +139,7 @@ to support all Ubuntu distros (older and newer ones).
 
 This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1338).
 
-
-
-#### Tray icon or other icons not shown correctly
+### Tray icon or other icons not shown correctly
 
 This effect can be caused by missing installations of Qt5-supported
 themes and icons. Back In Time may activate the wrong theme in this
@@ -157,7 +151,6 @@ your package manager.
 
 See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
 and [#1364](https://github.com/bit-team/backintime/issues/1364).
-
 
 
 ## Download
@@ -172,7 +165,7 @@ repositories.
 
 ### From distribution packages
 
-##### Ubuntu PPA
+#### Ubuntu PPA
 
 We provide a PPA (Private Package Archive) with current stable version
 (ppa:bit-team/stable) and a testing PPA (ppa:bit-team/testing)
@@ -193,13 +186,13 @@ or
     sudo apt-get update
     sudo apt-get install backintime-qt
 
-##### Debian/Ubuntu make packages
+#### Debian/Ubuntu make packages
 
     ./makedeb.sh
     sudo dpkg -i ../backintime-common-<version>.deb
     sudo dpkg -i ../backintime-qt-<version>.deb
 
-##### ArchLinux
+#### ArchLinux
 
 Back In Time is available through the AUR package [`backintime`](https://aur.archlinux.org/packages/backintime)
 that also includes the GUI (`backintime-qt`).
@@ -238,7 +231,7 @@ To build and install from the source code
 The dependencies are described for Ubuntu here.
 If you use another Linux distribution please install the corresponding packages.
 
-##### Common (command line tool)
+#### Common (command line tool)
 
 * Build dependencies
 
@@ -269,7 +262,7 @@ If you use another Linux distribution please install the corresponding packages.
         make test
         sudo make install
 
-##### Qt5 GUI
+#### Qt5 GUI
 
 * build dependencies
   
@@ -330,4 +323,4 @@ please add docstrings following the
 and add unit-tests for new methods in common. To run unit-test locally you can
 run `cd common && ./configure && make && make test`
 
-<sub>October 2022</sub>
+<sub>November 2022</sub>
