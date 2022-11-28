@@ -1,28 +1,26 @@
-Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
-
 [![Build Status](https://app.travis-ci.com/bit-team/backintime.svg?branch=master)](https://app.travis-ci.com/bit-team/backintime)
 [![Coverage Status](https://coveralls.io/repos/github/bit-team/backintime/badge.svg?branch=master)](https://coveralls.io/github/bit-team/backintime?branch=master)
 [![Source code documentation status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](http://backintime.readthedocs.org/projects/backintime-dev/en/latest/?badge=latest)
 
 # Back In Time
-
+<sub>Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack<sub>
+ 
 It is an easy to use backup tool for Linux heavily using [`rsync`](https://rsync.samba.org/) in the back. It was inspired by [FlyBack](https://en.wikipedia.org/wiki/FlyBack).
 It provides a command line tool `backintime` and a Qt5 GUI `backintime-qt` both written in Python3.
 
 You only need to specify 3 things:
 
-* what folders to back up
-* where to save snapshots
-* backup frequency (manual, every hour, every day, every month)
+* What folders to back up.
+* Where to save snapshots.
+* The backup frequency (manual, every hour, every day, every month).
 
 ## Maintenance status
 
-The development of this project has been dormant for a while,
-but a small team has started in summer 2022 to get things moving again.
-Stick with us, we all ♥️ _Back In Time_. 😁
+The development of this project has been dormant for a while. But a small team has started
+in summer 2022 to get things moving again. Stick with us, we all ♥️ _Back In Time_. 😁
 
 We are currently trying to fix the [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
-while not implementing new features to prepare a new stable release. The next release is planed in early 2023. If you are interested in the development, please see the [Contribute](#contribute) section.
+while not implementing new features to prepare a new stable release. The next release is planned in early 2023. If you are interested in the development, please see the [Contribute](#contribute) section.
 
 ## Index
 
@@ -35,7 +33,7 @@ while not implementing new features to prepare a new stable release. The next re
 
 ## Documentation & FAQs
 
- * [End user documentation](https://backintime.readthedocs.org/) (Tnot totally up-to-date)
+ * [End user documentation](https://backintime.readthedocs.org/) (not totally up-to-date)
  * [Wiki including a FAQs](https://github.com/bit-team/backintime/wiki)
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
 
@@ -63,23 +61,23 @@ In versions <= 1.1.24 (until 2017) all file permissions were set to `-rw-r--r--`
 In versions >= 1.2.0 (since 2019) `rsync` is executed with `--perms` option which tells `rsync` to
 preserve the source file permission.
 
-As a consequence backups can be larger and slower, especially the first backup after upgrading to a version >= 1.2.0.
+Therefore backups can be larger and slower, especially the first backup after upgrading to a version >= 1.2.0.
 
-If you don't like the new behaviour, you can use _Expert Options_ -> _Paste additional options to rsync_
+If you don't like the new behavior, you can use _Expert Options_ -> _Paste additional options to rsync_
 to add `--no-perms --no-group --no-owner` to it.
 Note that the exact file permissions can still be found in `fileinfo.bz2` and are also considered when restoring
 files.
 
 ### Python 3.10 compatibility and Ubuntu version
 
-Back In Time versions older than 1.3.2 do not start with Python >= 3.10.
+_Back In Time_ versions older than 1.3.2 do not start with Python >= 3.10.
 Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
 [a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff)
 to make it work. If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
 
 ### Non-working password safe and BiT forgets passwords (keyring backend issues)
 
-Back in Time does only support selected "known-good" backends
+_Back in Time_ does only support selected "known-good" backends
 to set and query passwords from a user-session password safe by
 using the [`keyring`](https://github.com/jaraco/keyring) library.
 
@@ -126,11 +124,11 @@ This issue is tracked in [#1338](https://github.com/bit-team/backintime/issues/1
 
 ### Tray icon or other icons not shown correctly
 
-This effect can be caused by missing installations of Qt5-supported
-themes and icons. _Back In Time_ may activate the wrong theme in this
+Missing installations of Qt5-supported themes and icons can cause this effect.
+_Back In Time_ may activate the wrong theme in this
 case leading to some missing icons. A fix for the next release is in preparation.
 
-As clean solution please check your Linux settings (Appearance, Styles, Icons)
+As clean solution, please check your Linux settings (Appearance, Styles, Icons)
 and install all themes and icons packages for your preferred style via
 your package manager.
 
@@ -143,7 +141,7 @@ Please find the latest versions in the [release section](https://github.com/bit-
 
 ## Installation
 
-_Back In Time_ is included in many distributions and can be installed from their repositories.
+_Back In Time_ is included in many distributions. Use their repositories to install it.
 
 ### From distribution packages
 
@@ -205,20 +203,20 @@ to be prepared to build an updated version of the package:
 
 ### From sources
 
-The dependencies are based on Ubuntu. Please open an Issue if something is missing.
-If you use another GNU/Linux distribution please install the corresponding packages.
+The dependencies based on Ubuntu. Please [open an Issue](https://github.com/bit-team/backintime/issues/new/choose)
+if something is missing. If you use another GNU/Linux distribution, please install the corresponding packages.
 
 #### Common (command line tool)
 
 * Build dependencies
 
-  To build and install _Back In Time_ from the source code these packages must be installed (together with the run-time dependencies):
+  To build and install _Back In Time_ from the source code install these packages (together with the run-time dependencies):
   - `build-essential`
   - `gzip`
   - `gettext`
   - `python3-pyfakefs` (since Ubuntu 22.04) or via `python3 -m pip pyfakefs` - required for a unit test
 
-* runtime-dependencies
+* Runtime dependencies
     - `python3` (>= 3.6)
     - `rsync`
     - `cron-daemon`
@@ -227,12 +225,11 @@ If you use another GNU/Linux distribution please install the corresponding packa
     - `python3-dbus`
     - `python3-packaging`
 
-* recommended
+* Recommended
     - `sshfs`
     - `encfs`
 
 * Commands to build and install
-
         cd common
         ./configure
         make
@@ -241,11 +238,11 @@ If you use another GNU/Linux distribution please install the corresponding packa
 
 #### Qt5 GUI
 
-* build dependencies
+* Build dependencies
   
   See above...
 
-* runtime-dependencies
+* Runtime dependencies
     - `x11-utils`
     - `python3-pyqt5`
     - `python3-dbus.mainloop.pyqt5`
@@ -254,7 +251,7 @@ If you use another GNU/Linux distribution please install the corresponding packa
     - `policykit-1`
     - `backintime-common` (installed with `sudo make install` after building it)
 
-* recommended
+* Recommended
     - For SSH key storage **one** of these packages
       - `python3-secretstorage`
       - `python3-keyring-kwallet`
@@ -272,34 +269,24 @@ If you use another GNU/Linux distribution please install the corresponding packa
 
 #### Options for `configure`
 
-You can use these optional arguments to `./configure` for creating a Makefile:
-
-    --no-fuse-group | --fuse-group (only COMMON)
-        Some distributions require user to be in group 'fuse' to use
-        sshfs and encfs. This toggles the check on or off.
-
-    --python3 | --python (all)
-        Use either 'python3' or 'python' to start Python Version 3.x
-
-Note: The first value is default.
-
-See also `common/configure --help` and `qt/configure --help`
+You can use these optional arguments to `./configure` for creating a Makefile.
+See `common/configure --help` and `qt/configure --help` for details.
 
 ## Contribute
-### Ressources
- - Mailinglist [bit-dev](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
+### Resources
+ - Mailing list [bit-dev](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
  - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
  - [Translations](https://translations.launchpad.net/backintime) are done on a separate plattform
 ### Guidelines & Rules
-The maintining team will welcome all types of contributions. No contribution will be rejected
+The maintaining team will welcome all types of contributions. No contribution will be rejected
 just because it doesn't fit to our quality standards, guidelines or rules. Every contribution
 is reviewed and if needed will be improved together with the maintainers.
 
-If you can and know how it will improve the process and lower the burden of maintaing if the
+If you can and know how it will improve the process and lower the burden of maintain if the
 following points will be taken into account:
  - Follow [PEP8](https://peps.python.org/pep-0008/) as a minimal Style Guide for Python Code
  - Follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) for docstrings
- - Be carefull when using automatic formatters like `black` and please mention the use of it when opening a Pull Request.
+ - Be careful when using automatic formatters like `black` and please mention the use of it when opening a Pull Request.
  - Run unittests before you open a Pull Request. You can run them via `make`-system with `cd common && ./configure && make && make test` or you can use `pytest`.
  - Try to create new unittests if appropriated. Use Pythons regular `unittest` instead of `pytest`.
 
