@@ -52,7 +52,7 @@ Please feel free to ask questions and report bugs in form of [Issues](https://gi
 
 The latest release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible with `rsync >= 3.2.4` ([#1247](https://github.com/bit-team/backintime/issues/1247)). The problem is [fixed](https://github.com/bit-team/backintime/pull/1351) in the current master branch of that repo and will be released with the next release (`1.3.3`) of _Back In Time_.
 
-If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a workaround. Add `--old-args` in [_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options). Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with environment variable `RSYNC_OLD_ARGS` in there distro-specific packages for _Back In Time_. In that case you may not see any problems.
+If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a workaround. Add `--old-args` in [_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options). Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for _Back In Time_. In that case you may not see any problems.
 
 ### File permissions handling and therefore possible non-differential backups
 
@@ -203,7 +203,7 @@ to be prepared to build an updated version of the package:
 
 ### From sources
 
-The dependencies based on Ubuntu. Please [open an Issue](https://github.com/bit-team/backintime/issues/new/choose)
+The dependencies are based on Ubuntu. Please [open an Issue](https://github.com/bit-team/backintime/issues/new/choose)
 if something is missing. If you use another GNU/Linux distribution, please install the corresponding packages.
 
 #### Common (command line tool)
@@ -269,21 +269,20 @@ if something is missing. If you use another GNU/Linux distribution, please insta
 
 #### Options for `configure`
 
-You can use these optional arguments to `./configure` for creating a Makefile.
+You can use optional arguments to `./configure` for creating a Makefile.
 See `common/configure --help` and `qt/configure --help` for details.
 
 ## Contribute
 ### Resources
- - Mailing list [bit-dev](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
+ - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
  - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
  - [Translations](https://translations.launchpad.net/backintime) are done on a separate plattform
 ### Guidelines & Rules
-The maintaining team will welcome all types of contributions. No contribution will be rejected
+The maintenance team will welcome all types of contributions. No contribution will be rejected
 just because it doesn't fit to our quality standards, guidelines or rules. Every contribution
 is reviewed and if needed will be improved together with the maintainers.
 
-If you can and know how it will improve the process and lower the burden of maintain if the
-following points will be taken into account:
+Please take the following best practices into account if possible (to reduce the work load of the maintainers):
  - Follow [PEP8](https://peps.python.org/pep-0008/) as a minimal Style Guide for Python Code
  - Follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) for docstrings
  - Be careful when using automatic formatters like `black` and please mention the use of it when opening a Pull Request.
