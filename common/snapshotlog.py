@@ -193,11 +193,19 @@ class SnapshotLog(object):
         if not self.logFile:
             self.logFile = open(self.logFileName, 'at')
         self.logFile.write(msg + '\n')
-        self.timer.start(5)
+        self.timer.start(5)  # flush the log output buffer after 5 seconds
 
     def flush(self):
         """
-        Force write log to file.
+        Write the in-memory buffer of the log output into the log file.
         """
         if self.logFile:
-            self.logFile.flush()
+            try:
+                # TODO flush() does not necessarily write the file’s data to disk.
+                #      Use flush() followed by os.fsync() to ensure this behavior.
+                #      https://docs.python.org/2/library/stdtypes.html#file.flush
+                self.logFile.flush()
+            except RuntimeError as e:
+                # Fixes #1003 (RTE reentrant call inside io.BufferedWriter)
+                # This RTE will not be logged since this would be another reentrant call
+                pass

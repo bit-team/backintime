@@ -1650,22 +1650,52 @@ class UniquenessSet:
         else:
             return self.reference == (st.st_size, int(st.st_mtime))
 
+
 class Alarm(object):
     """
-    Timeout for FIFO. This does not work with threading.
+    Establish a callback function that is called after a timeout.
+
+    The implementation uses a SIGALRM signal so
+    do not call code in the callback that does not support multi-threading
+    (reentrance) or you may cause non-deterministic "random" RTEs.
     """
     def __init__(self, callback = None, overwrite = True):
+        """
+        Create a new alarm instance
+
+        Args:
+            callback: Function to call when the timer ran down
+                      (ensure calling only reentrant code).
+                      Use ``None`` toi throws a ``Timeout`` exception instead.
+            overwrite: Is it allowed to (re)start the timer
+                       even though the current timer is still running
+                       ("ticking"):
+                       ``True`` cancels the current timer (if active)
+                                and restarts with the new timout.
+                       ``False` silently ignores the start request
+                                if the current timer is still "ticking"
+        """
         self.callback = callback
         self.ticking = False
         self.overwrite = overwrite
 
     def start(self, timeout):
         """
-        Start timer
+        Start the timer (which calls the handler function
+        when the timer ran down).
+
+        The start is silently ignored if the current timer is still
+        ticking and the the attribute ``overwrite`` is ``False``.
+
+        Args:
+            timeout: timer count down in seconds
         """
         if self.ticking and not self.overwrite:
             return
         try:
+            # Warning: This code may cause non-deterministic RTEs
+            #          if the handler function calls code that does
+            #          not support reentrance (see e.g. issue #1003).
             signal.signal(signal.SIGALRM, self.handler)
             signal.alarm(timeout)
         except ValueError:
@@ -1674,7 +1704,7 @@ class Alarm(object):
 
     def stop(self):
         """
-        Stop timer before it come to an end
+        Stop timer before it comes to an end
         """
         try:
             signal.alarm(0)
@@ -1684,7 +1714,11 @@ class Alarm(object):
 
     def handler(self, signum, frame):
         """
-        Timeout occur.
+        This method is called after the timer ran down to zero
+        and calls the callback function of the alarm instance.
+
+        Raises:
+            Timeout: If no callback function was set for the alarm instance
         """
         self.ticking = False
         if self.callback is None:
