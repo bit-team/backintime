@@ -24,22 +24,18 @@ while not implementing new features to prepare a new stable release. The next re
 
 ## Index
 
-* [Documentation & FAQs](#documentation--faqs)
-* [Support](#support)
+* [Documentation & FAQs & Support](#documentation--faqs--support)
 * [Known Problems and Workarounds](#known-problems-and-workarounds)
 * [Download](#download)
 * [Installation and Dependencies](#installation)
 * [Contribute](#contribute)
 
-## Documentation & FAQs
+## Documentation & FAQs & Support
 
  * [End user documentation](https://backintime.readthedocs.org/) (not totally up-to-date)
  * [Wiki including a FAQs](https://github.com/bit-team/backintime/wiki)
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
-
-## Support
-
-Please feel free to ask questions and report bugs in form of [Issues](https://github.com/bit-team/backintime/issues)
+ * Use [Issues](https://github.com/bit-team/backintime/issues) to ask questions and report bugs.
 
 ## Known Problems and Workarounds
  - [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
@@ -284,9 +280,10 @@ is reviewed and if needed will be improved together with the maintainers.
 
 Please take the following best practices into account if possible (to reduce the work load of the maintainers):
  - Follow [PEP8](https://peps.python.org/pep-0008/) as a minimal Style Guide for Python Code
- - Follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) for docstrings
+ - Follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) for
+   docstrings (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
  - Be careful when using automatic formatters like `black` and please mention the use of it when opening a Pull Request.
  - Run unittests before you open a Pull Request. You can run them via `make`-system with `cd common && ./configure && make && make test` or you can use `pytest`.
  - Try to create new unittests if appropriated. Use Pythons regular `unittest` instead of `pytest`.
 
-<sub>November 2022</sub>
+<sub>🎄 December 2022</sub>
