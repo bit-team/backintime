@@ -4,9 +4,7 @@ This file describes briefly how to
 - write docstrings
 - known issues with documentation generation
 
-
-1. Background
-=============
+# Background
 
 The documentation is generated automatically from the docstrings
 in the python source code files using the tool
@@ -35,8 +33,7 @@ https://google.github.io/styleguide/pyguide.html
 
 
 
-2. Why to use Sphinx to generate the documentation?
-==================================================
+# Why to use Sphinx to generate the documentation?
 
 Sphinx has eg. the advantage to
 
@@ -50,8 +47,7 @@ Sphinx has eg. the advantage to
 
 
 
-3. How to build and view the documentation
-==========================================
+# How to build and view the documentation
 
 Open a terminal in the "doc-dev" folder and call
 
@@ -60,8 +56,7 @@ Open a terminal in the "doc-dev" folder and call
 
 
 
-4. How to add new modules to the documentation
-==============================================
+# How to add new modules to the documentation
 
 There are two scenarios here:
 
@@ -97,8 +92,7 @@ b) The new module files are in a folder that already contains other modules cont
 
 
 
-5. How to write docstrings for Back In Time
-===========================================
+# How to write docstrings for Back In Time
 
 "Back In Time" uses the Google style for docstrings:
 
@@ -108,8 +102,7 @@ Please stick to this convention
 
 
 
-5.1 Commonly used rst markups in the docstring
-==============================================
+# Commonly used rst markups in the docstring
 
 Despite using the Google docstring style rst markups can and should still
 be used to format text and cross-reference code.
@@ -144,7 +137,7 @@ be used to format text and cross-reference code.
 
 
 
-6. Known issues with documentation generation
+# Known issues with documentation generation
 
 - Sphinx' "make html" does not recreate the html file of a sub class if only
   the parent class docstring was changed.
