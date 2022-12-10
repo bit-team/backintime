@@ -123,6 +123,24 @@ lines, or all custom backintime entries are going to be deleted next time you
 call the gui options!`` which will prevent *Back In Time* to remove user defined
 schedules.
 
+## Known Errors and Warnings
+## WARNING: A backup is already running
+_Back In Time_ uses signal files like `worker.lock` to avoid starting the same backup twice.
+Normally it is deleted as soon as the backup finishes. In some case something went wrong
+so that _Back In Time_ was forcefully stopped without having the chance to delete
+this signal file.
+
+Since _Back In Time_ does only start a new backup job (for the same profile) if the signal
+file does not exist, such a file need to be deleted first. But before this is done manually,
+it must be ensured that _Back In Time_ really is not running anymore. It can be ensured via 
+
+```bash
+ps aux | grep -i backintime
+```
+
+If the output shows a running instance of _Back In Time_ it must be waited until it finishes
+or killed via `kill <process id>`.
+
 ## Error Handling
 
 ### What happens if I hibernate the computer while a backup is running?
