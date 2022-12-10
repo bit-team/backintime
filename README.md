@@ -33,7 +33,7 @@ while not implementing new features to prepare a new stable release. The next re
 ## Documentation & FAQs & Support
 
  * [End user documentation](https://backintime.readthedocs.org/) (not totally up-to-date)
- * [Wiki including a FAQs](https://github.com/bit-team/backintime/wiki)
+ * [FAQ - Frequently Asked Questions](FAQ.md)
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
  * Use [Issues](https://github.com/bit-team/backintime/issues) to ask questions and report bugs.
 
