@@ -7,6 +7,8 @@
   * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
   * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
   * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
+- [Known Errors and Warnings](#known-errors-and-warnings)
+  * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
 - [Error Handling](#error-handling)
   * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
   * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
@@ -290,7 +292,7 @@ install ``Entware-ng``. QNAPs QTS is based on Linux but some of its packages
 have limited functionalities. And so does some of the necessary ones for
 *BackInTime*.
 
-Please follow []this install instruction](https://github.com/Entware-ng/Entware-ng/wiki/Install-on-QNAP-NAS)
+Please follow [this install instruction](https://github.com/Entware-ng/Entware-ng/wiki/Install-on-QNAP-NAS)
 to install ``Entware-ng`` on your QNAP NAS.
 
 Because there is no web interface yet for ``Entware-ng``, you must configure it
