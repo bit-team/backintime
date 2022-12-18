@@ -435,15 +435,16 @@ class TestTools(generic.TestCase):
     def test_device(self):
         self.assertEqual(tools.device('/proc'), 'proc')
         self.assertRegex(tools.device('/sys'), r'sys.*')
-        self.assertRegex(tools.device('/nonExistingFolder/foo/bar'),
-                         r'(:?/dev/.*|tmpfs|instances/containers/travis.*)')
+        self.assertRegex(
+            tools.device('/nonExistingFolder/foo/bar'),
+            r'(:?/dev/.*|tmpfs|overlay|instances/containers/travis.*)')
 
     def test_filesystem(self):
         self.assertEqual(tools.filesystem('/proc'), 'proc')
         self.assertRegex(tools.filesystem('/sys'), r'sys.*')
         self.assertRegex(
             tools.filesystem('/nonExistingFolder/foo/bar').lower(),
-            r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs|tmpfs|shiftfs)')
+            r'(:?ext[2-4]|xfs|zfs|jfs|raiserfs|btrfs|tmpfs|overlay|shiftfs)')
 
     # tools.uuidFromDev() get called from tools.uuidFromPath because the
     # latter is a synonym/surrogate for too.suuidFromDev()
@@ -479,14 +480,17 @@ class TestTools(generic.TestCase):
         # dev-disk folder
         path_dev = pathlib.Path('/dev')
         fake_fs.create_dir(path_dev)
-        
+
         # create disk-files from "sda1" to "sda4" to "sdd4"
-        dev_list = [path_dev / f'sd{letter}{number}' for letter in list('abcd') for number in range(1, 5)]
+        dev_list = [
+            path_dev / f'sd{letter}{number}'
+            for letter in list('abcd')
+            for number in range(1, 5)]
 
         # dev-disk-by-uuid
         path_by_uuid = pathlib.Path('/dev') / 'disk' / 'by-uuid'
         fake_fs.create_dir(path_by_uuid)
-        
+
         # uuids
         uuid_list = [str(uuid.uuid4()) for _ in range(16)]
 
@@ -494,7 +498,7 @@ class TestTools(generic.TestCase):
         for idx in range(16):  # 16 devices
             fake_fs.create_symlink(
                 # e.g. /dev/disk/by-uuid/c7aca0
-                file_path=path_by_uuid / uuid_list[idx],  
+                file_path=path_by_uuid / uuid_list[idx],
                 # e.g. /dev/sda1
                 link_target=path_dev / dev_list[idx]
             )
