@@ -62,7 +62,7 @@ gettext.textdomain('backintime')
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
-    VERSION = '1.3.3-dev'
+    VERSION = '1.3.3'
     COPYRIGHT = 'Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, ' \
                 'Richard Bailey, Germar Reitze'
 
