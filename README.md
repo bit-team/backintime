@@ -278,7 +278,9 @@ The maintenance team will welcome all types of contributions. No contribution wi
 just because it doesn't fit to our quality standards, guidelines or rules. Every contribution
 is reviewed and if needed will be improved together with the maintainers.
 
+
 Please take the following best practices into account if possible (to reduce the work load of the maintainers):
+ - Use `dev` as target branch when opening Pull Requests.
  - Follow [PEP8](https://peps.python.org/pep-0008/) as a minimal Style Guide for Python Code
  - Follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) for
    docstrings (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
@@ -286,4 +288,4 @@ Please take the following best practices into account if possible (to reduce the
  - Run unittests before you open a Pull Request. You can run them via `make`-system with `cd common && ./configure && make && make test` or you can use `pytest`.
  - Try to create new unittests if appropriated. Use Pythons regular `unittest` instead of `pytest`.
 
-<sub>🎄 December 2022</sub>
+<sub>❆ January 2023</sub>
