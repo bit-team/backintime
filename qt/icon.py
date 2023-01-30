@@ -15,17 +15,41 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 from PyQt5.QtGui import QIcon
+import logger
 
-# TODO setThemeName() only for available themes -> QStyleFactory.keys()
-#      since this code may activate a theme that is only partially installed
-#      (or not at all in case of the last theme in the list: oxygen)
-#      See issues #1364 and #1306
-for theme in ('ubuntu-mono-dark', 'gnome', 'oxygen'):
+logger.debug("Checking if the current theme contains the BiT icon...")
+
+# If the current theme does not even contain the "document-save" icon
+# try to use another well-known working theme (if it is installed):
+for theme in ('ubuntu-mono-dark', 'gnome', 'breeze', 'breeze dark', 'hicolor', 'adwaita', 'adwaita-dark', 'yaru', 'oxygen'):
+    # Check if the current theme does provide the BiT "logo" icon
+    # (otherwise the theme is not fully/correctly installed)
+    # and use this theme then for all icons
+    # Note: "hicolor" does currently (2022) use different icon names
+    #       (not fully compliant to the freedesktop.org spec)
+    #       and is not recommended as main theme (it is meant as fallback only).
     if not QIcon.fromTheme('document-save').isNull():
+        logger.debug(f"Found an installed theme: {QIcon.themeName()}")
         break
+    # try next theme (activate it)...
     QIcon.setThemeName(theme)
+    logger.debug(f"Probing theme: {theme} (activated as {QIcon.themeName()})")
 
-#BackInTime Logo
+if QIcon.fromTheme('document-save').isNull():
+    logger.error("No supported theme installed (missing icons). "
+                 "Please consult the project web site for instructions "
+                 "how to fix this!")
+
+# Dev note: Please prefer choosing icons from the freedesktop.org spec
+#           to improve the chance that the icon is available and
+#           each installed theme:
+# https://specifications.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+#
+# If there is chance that an icon may not always be available use
+# the second argument of QIcon.fromTheme() to provide a fallback
+# icon from the freedesktop.org spec.
+
+# BackInTime Logo
 BIT_LOGO            = QIcon.fromTheme('document-save')
 BIT_LOGO_INFO       = QIcon.fromTheme('document-save-as')
 
@@ -42,7 +66,7 @@ SNAPSHOT_NAME       = QIcon.fromTheme('stock_edit',
 REMOVE_SNAPSHOT     = QIcon.fromTheme('edit-delete')
 VIEW_SNAPSHOT_LOG   = QIcon.fromTheme('text-plain',
                       QIcon.fromTheme('text-x-generic'))
-VIEW_LAST_LOG       = QIcon.fromTheme('document-new')
+VIEW_LAST_LOG       = QIcon.fromTheme('document-open-recent')  # 'document-open-recent')  # ('document-new')
 SETTINGS            = QIcon.fromTheme('gtk-preferences',
                       QIcon.fromTheme('configure'))
 SHUTDOWN            = QIcon.fromTheme('system-shutdown')
@@ -63,8 +87,9 @@ ABOUT               = QIcon.fromTheme('help-about')
 
 #Files toolbar
 UP                  = QIcon.fromTheme('go-up')
-SHOW_HIDDEN         = QIcon.fromTheme('show-hidden',
-                      QIcon.fromTheme('list-add'))
+SHOW_HIDDEN         = QIcon.fromTheme('view-hidden',  # currently only in Breeze (see #1159)
+                      QIcon.fromTheme('show-hidden',  # icon installed with BiT!
+                      QIcon.fromTheme('list-add')))
 RESTORE             = QIcon.fromTheme('edit-undo')
 RESTORE_TO          = QIcon.fromTheme('document-revert')
 SNAPSHOTS           = QIcon.fromTheme('file-manager',

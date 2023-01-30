@@ -115,7 +115,7 @@ class QtSysTrayIcon:
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateInfo)
 
-    def prepairExit(self):
+    def prepareExit(self):
         self.timer.stop()
 
         if not self.status_icon is None:
@@ -140,11 +140,13 @@ class QtSysTrayIcon:
 
         logger.debug("end loop", self)
 
-        self.prepairExit()
+        self.prepareExit()
 
     def updateInfo(self):
+
+        # Exit this systray icon "app" when the snapshots is taken
         if not self.snapshots.busy():
-            self.prepairExit()
+            self.prepareExit()
             self.qapp.exit(0)
             return
 

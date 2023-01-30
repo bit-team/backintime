@@ -15,6 +15,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+# Jan 23, 2023: This file was named "qt4plugin.py" until now
+#               and renamed to better indicate the purpose
+#               (and qt4 is no longer valid - we are using qt5 now for long).
+#               The old class name "QtPlugin" was also renamed to:
+#                   SysTrayIconPlugin
 
 import sys
 import os
@@ -34,7 +39,7 @@ if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
 
-class QtPlugin(pluginmanager.Plugin):
+class SysTrayIconPlugin(pluginmanager.Plugin):
     def __init__(self):
         self.process = None
         self.snapshots = None
@@ -42,8 +47,10 @@ class QtPlugin(pluginmanager.Plugin):
     def init(self, snapshots):
         self.snapshots = snapshots
 
-        if not tools.checkXServer():
-            return False
+        # Why can a systray icon only be shown on X11 (not wayland)?
+        # Qt5 can handle wayland now!
+        # if not tools.checkXServer():
+        #     return False
         return True
 
     def isGui(self):
@@ -59,7 +66,10 @@ class QtPlugin(pluginmanager.Plugin):
     def processEnd(self):
         if not self.process is None:
             try:
-                #self.process.terminate()
+                # The "qtsystrayicon.py" app does terminate itself
+                # once the snapshot has been taken so there is no need
+                # to do anything here to stop it or clean-up anything.
+                # self.process.terminate()
                 return
             except:
                 pass
