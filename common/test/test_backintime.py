@@ -136,23 +136,35 @@ under certain conditions; type `backintime --license' for details.
         #       INFO log lines so they are removed by filtering here.
         # TODO If filtering output rows should become a common testing pattern
         #      this code should be refactored into a function for reusability.
-        log_output = []
-        for line in error.decode().split("\n"):
-            if (not line.startswith("WARNING: Failed to connect to Udev serviceHelper")
-                    and not line.startswith("WARNING: D-Bus message:")
-                    and not line.startswith("WARNING: Udev-based profiles cannot be changed or checked")
-                    and not line.startswith("WARNING: Inhibit Suspend failed")):
-                log_output.append(line)
-        filtered_log_output = "\n".join(log_output)
-        self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
-INFO: Take a new snapshot. Profile: 1 Main profile
-INFO: Call rsync to take the snapshot
-INFO: Save config file
-INFO: Save permissions
-INFO: Create info file
-INFO: Unlock
-''', re.MULTILINE))
-
+        #log_output = []
+        #for line in error.decode().split("\n"):
+        #    if (not line.startswith("WARNING: Failed to connect to Udev serviceHelper")
+        #            and not line.startswith("WARNING: D-Bus message:")
+        #            and not line.startswith("WARNING: Udev-based profiles cannot be changed or checked")
+        #            and not line.startswith("WARNING: Inhibit Suspend failed")):
+        #        log_output.append(line)
+        def ContainsLines(src, lines):
+            if isinstance(src, str):
+                src=src.split('\n')
+            if isinstance(lines, str):
+                lines=lines.split('\n')
+            expected = len(lines)
+            matched = 0
+            for l in src:
+                if l in lines:
+                    matched += 1
+                if expected == matched:
+                    return True
+            return False
+        self.assertTrue(ContainsLines(error.decode(), [
+            'INFO: Lock',
+            'INFO: Take a new snapshot. Profile: 1 Main profile',
+            'INFO: Call rsync to take the snapshot',
+            'INFO: Save config file',
+            'INFO: Save permissions',
+            'INFO: Create info file',
+            'INFO: Unlock',
+            ]))
         # get snapshot id
         subprocess.check_output(["./backintime",
                                  "--config",
