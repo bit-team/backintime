@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation,Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
 import os
 import re
 import subprocess
@@ -25,14 +24,10 @@ import json
 
 import config
 
-
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 
 class TestBackInTime(generic.TestCase):
-    """main tests for backintime"""
-
     def setUp(self):
         super(TestBackInTime, self).setUp()
 
@@ -42,13 +37,20 @@ class TestBackInTime(generic.TestCase):
         self.assertEqual("", output)
 
     def test_local_snapshot_is_successful(self):
-        """end to end test - from BIT initialization through snapshot
+        """From BIT initialization through snapshot
 
         From BIT initialization all the way through successful snapshot on a
         local mount. test one of the highest level interfaces a user could
         work with - the command line ensures that argument parsing,
         functionality, and output all work as expected is NOT intended to
-        replace individual method tests, which are incredibly useful as well
+        replace individual method tests, which are incredibly useful as well.
+
+        Development notes (by Buhtz):
+        Multiple tests do compare return codes and output on stdout. The
+        intention might be an integration tests. But the asserts not qualified
+        to answer the important questions and observe the intended behaviour.
+        Heavy refactoring is needed. But because of the "level" of that tests
+        it won't happen in the near future.
         """
 
         # ensure that we see full diffs of assert output if there are any
@@ -57,6 +59,7 @@ class TestBackInTime(generic.TestCase):
         # create pristine source directory with single file
         subprocess.getoutput("chmod -R a+rwx /tmp/test && rm -rf /tmp/test")
         os.mkdir('/tmp/test')
+
         with open('/tmp/test/testfile', 'w') as f:
             f.write('some data')
 
@@ -129,21 +132,30 @@ This is free software, and you are welcome to redistribute it
 under certain conditions; type `backintime --license' for details.
 ''', re.MULTILINE))
 
+        # Workaround until refactoring was done (Buhtz, Feb.'23)
         # The log output completely goes to stderr.
-        # Note: DBus warnings at the begin and end are already ignored by the regex
-        #       but if the BiT serviceHelper.py DBus daemon is not installed
-        #       at all the warnings also occur in the middle of below expected
-        #       INFO log lines so they are removed by filtering here.
+        # Note: DBus warnings at the begin and end are already ignored by the
+        #       regex but if the BiT serviceHelper.py DBus daemon is not
+        #       installed at all the warnings also occur in the middle of below
+        #       expected INFO log lines so they are removed by filtering here.
         # TODO If filtering output rows should become a common testing pattern
-        #      this code should be refactored into a function for reusability.
-        log_output = []
-        for line in error.decode().split("\n"):
-            if (not line.startswith("WARNING: Failed to connect to Udev serviceHelper")
-                    and not line.startswith("WARNING: D-Bus message:")
-                    and not line.startswith("WARNING: Udev-based profiles cannot be changed or checked")
-                    and not line.startswith("WARNING: Inhibit Suspend failed")):
-                log_output.append(line)
-        filtered_log_output = "\n".join(log_output)
+        #      this code should be refactored into a function for re-usability.
+
+        # checked via str.startswith()
+        line_beginnings_to_exclude = [
+            "WARNING: Failed to connect to Udev serviceHelper",
+            "WARNING: D-Bus message:",
+            "WARNING: Udev-based profiles cannot be changed or checked",
+            "WARNING: Inhibit Suspend failed",
+        ]
+
+        filtered_log_output = filter(
+            lambda line: not any([
+                line.startswith(ex) for ex in line_beginnings_to_exclude]),
+            error.decode().split('\n')
+        )
+        filtered_log_output = '\n'.join(filtered_log_output)
+
         self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
 INFO: Take a new snapshot. Profile: 1 Main profile
 INFO: Call rsync to take the snapshot
@@ -187,8 +199,13 @@ under certain conditions; type `backintime --license' for details.
 ''', re.MULTILINE))
 
         # The log output completely goes to stderr
-        self.assertRegex(error.decode(), re.compile(r'''INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''',
-                                                     re.MULTILINE))
+        self.assertRegex(
+            error.decode(),
+            re.compile(
+                r'''INFO: Restore: /tmp/test/testfile to: /tmp/restored.*''',
+                re.MULTILINE
+            )
+        )
 
         # verify that files restored are the same as those backed up
         subprocess.check_output(["diff",
@@ -197,14 +214,16 @@ under certain conditions; type `backintime --license' for details.
                                  "/tmp/restored"])
 
     def test_diagnostics_arg(self):
-
         # "output" from stdout may currently be polluted with logging output
         # lines from INFO and DEBUG log output.
         # Logging output of WARNING and ERROR is already written to stderr
-        # so `check_output` does work here (returns only stdout without stderr).
+        # so `check_output` does work here (returns only stdout without
+        # stderr).
         output = subprocess.check_output(["./backintime", "--diagnostics"])
         # output = subprocess.getoutput("./backintime --diagnostics")
 
         diagnostics = json.loads(output)
-        self.assertEqual(diagnostics["backintime"]["name"],    config.Config.APP_NAME)
-        self.assertEqual(diagnostics["backintime"]["version"], config.Config.VERSION)
+        self.assertEqual(diagnostics["backintime"]["name"],
+                         config.Config.APP_NAME)
+        self.assertEqual(diagnostics["backintime"]["version"],
+                         config.Config.VERSION)
