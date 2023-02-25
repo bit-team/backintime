@@ -138,10 +138,8 @@ under certain conditions; type `backintime --license' for details.
         #       regex but if the BiT serviceHelper.py DBus daemon is not
         #       installed at all the warnings also occur in the middle of below
         #       expected INFO log lines so they are removed by filtering here.
-        # TODO If filtering output rows should become a common testing pattern
-        #      this code should be refactored into a function for re-usability.
+        #       The same goes with Gtk warnings.
 
-        # checked via str.startswith()
         line_beginnings_to_exclude = [
             "WARNING: Failed to connect to Udev serviceHelper",
             "WARNING: D-Bus message:",
@@ -149,11 +147,24 @@ under certain conditions; type `backintime --license' for details.
             "WARNING: Inhibit Suspend failed",
         ]
 
+        line_contains_to_exclude = [
+            "Gtk-WARNING"
+        ]
+
+        # remove lines via startswith()
         filtered_log_output = filter(
             lambda line: not any([
                 line.startswith(ex) for ex in line_beginnings_to_exclude]),
             error.decode().split('\n')
         )
+
+        # remove lines via __contains__()
+        filtered_log_output = filter(
+            lambda line: not any([
+                ex in line for ex in line_contains_to_exclude]),
+            filtered_log_output
+        )
+
         filtered_log_output = '\n'.join(filtered_log_output)
 
         self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
