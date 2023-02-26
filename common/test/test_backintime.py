@@ -167,7 +167,7 @@ under certain conditions; type `backintime --license' for details.
 
         # remove empty lines
         filtered_log_output = filter(
-            lambda line: line != '\n',
+            lambda line: line,
             filtered_log_output
         )
 
@@ -179,8 +179,7 @@ INFO: Call rsync to take the snapshot
 INFO: Save config file
 INFO: Save permissions
 INFO: Create info file
-INFO: Unlock
-''', re.MULTILINE))
+INFO: Unlock''', re.MULTILINE))
 
         # get snapshot id
         subprocess.check_output(["./backintime",
