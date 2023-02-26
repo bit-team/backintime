@@ -165,6 +165,12 @@ under certain conditions; type `backintime --license' for details.
             filtered_log_output
         )
 
+        # remove empty lines
+        filtered_log_output = filter(
+            lambda line: line != '\n',
+            filtered_log_output
+        )
+
         filtered_log_output = '\n'.join(filtered_log_output)
 
         self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
