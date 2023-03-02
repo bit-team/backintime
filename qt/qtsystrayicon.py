@@ -226,4 +226,11 @@ class QtSysTrayIcon:
         self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
 
 if __name__ == '__main__':
+
+    if "--debug" in sys.argv:  # HACK: Minimal arg parsing to enable debug-level logging
+        logger.DEBUG = True
+
+    logger.debug("Sub process tries to show systray icon...")
+    logger.debug(f"qtsystrayicon.py call args: {str(sys.argv)}")
+
     QtSysTrayIcon().run()

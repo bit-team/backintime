@@ -654,10 +654,10 @@ class Snapshots:
 
     def backup(self, force = False):
         """
-        Wrapper for :py:func:`takeSnapshot` which will prepair and clean up
+        Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method. This will check
         that no other snapshots are running at the same time, there is nothing
-        prohibing a new snapshot (e.g. on battery) and the profile is configured
+        prohibiting a new snapshot (e.g. on battery) and the profile is configured
         correctly. This will also mount and unmount remote destinations.
 
         Args:

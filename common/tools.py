@@ -470,6 +470,12 @@ def checkXServer():
     Returns:
         bool:   ``True`` if X11 server is running
     """
+    # Note: Return values of xdpyinfo <> 0 are not clearly documented.
+    #       xdpyinfo does indeed return 1 if it prints
+    #           xdypinfo: unable to open display "..."
+    #       This seems to be undocumented (at least not in the man pages)
+    #       and the source is not obvious here:
+    #       https://cgit.freedesktop.org/xorg/app/xdpyinfo/tree/xdpyinfo.c
     if checkCommand('xdpyinfo'):
         proc = subprocess.Popen(['xdpyinfo'],
                                 stdout = subprocess.DEVNULL,
