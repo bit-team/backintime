@@ -272,7 +272,7 @@ See `common/configure --help` and `qt/configure --help` for details.
 ### Resources
  - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
  - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
- - [Translations](https://translations.launchpad.net/backintime) are done on a separate plattform
+ - [Translations](https://translations.launchpad.net/backintime) are done on a separate platform
 ### Guidelines & Rules
 The maintenance team will welcome all types of contributions. No contribution will be rejected
 just because it doesn't fit to our quality standards, guidelines or rules. Every contribution

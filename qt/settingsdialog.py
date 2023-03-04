@@ -2086,7 +2086,7 @@ class RestoreConfigDialog(QDialog):
         )
 
         # inform user to join group fuse if he hasn't already.
-        # If there is no group fuse than it is most likly not nessesary.
+        # If there is no group fuse than it is most likely not necessary.
         addFuse = ''
 
         try:
@@ -2216,9 +2216,9 @@ class RestoreConfigDialog(QDialog):
 
     def indexChanged(self, current, previous):
         """
-        called everytime a new item is choosen in treeView.
+        called every time a new item is chosen in treeView.
         If there was a config found inside the selected folder, show
-        available informations about the config.
+        available information about the config.
         """
         cfg = self.searchConfig(self.pathFromIndex(current))
         if cfg:
@@ -2348,7 +2348,7 @@ class ScanFileSystem(QThread):
 
     def stop(self):
         """
-        prepair stop and wait for finish.
+        prepare stop and wait for finish.
         """
         self.stopper = True
         return self.wait()

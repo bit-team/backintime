@@ -368,7 +368,7 @@ class MountControl(object):
         ``self.all_kwargs`` need to be filled through :py:func:`setattrKwargs`
         before calling this.
         """
-        #self.destination should contain all arguments that are nessesary for
+        #self.destination should contain all arguments that are necessary for
         #mount.
         args = list(self.all_kwargs.keys())
         self.destination = '%s:' % self.all_kwargs['mode']
@@ -395,7 +395,7 @@ class MountControl(object):
 
     def mount(self, check = True):
         """
-        Low-level `mount`. Set mountprocess lock and prepair mount, run checks
+        Low-level `mount`. Set mountprocess lock and prepare mount, run checks
         and than call :py:func:`_mount` for the subclassed backend. Finally set
         mount lock and symlink and release mountprocess lock.
 
@@ -641,7 +641,7 @@ class MountControl(object):
             │   │                           mountpoint
             │   │
             │   ├── umount              <=  ``self.umount_info`` json file with
-            │   │                           all nessesary args for unmount
+            │   │                           all necessary args for unmount
             │   │
             │   └── locks/              <=  ``self.lock_path`` for each process
             │                               you have a ``<pid>.lock`` file

@@ -61,7 +61,7 @@ Back In Time now try to find your Snapshots under the new host- and username
 underneath the ``/path/to/backintime/`` path.
 
 The *Auto Host/User/Profile ID* option is gone in version 1.1.0 and above.
-It was totaly confusing and didn't add any good.
+It was totally confusing and didn't add any good.
 
 You have three options to fix this:
 
@@ -231,7 +231,7 @@ your system after a disaster/on a new machine.
    ```
 
 1. Make some *housecleaning* in ``~/.apt-backup/package.list``.
-   For example you don't want to install the old kernal again.
+   For example you don't want to install the old kernel again.
    So run
 
    ```bash
@@ -750,7 +750,7 @@ of **snapshot0**.
 
 ``fileA`` is still untouched, ``fileB`` is still available in two different
 versions and ``fileC`` is gone for good. The blocks on your hdd that stored the
-data for inode 2 and 3 can now get overriden.
+data for inode 2 and 3 can now get overridden.
 
 I hope this will shed a light on the "magic" behind BIT. If it's even more
 confusing don't hesitate to ask ;)

@@ -97,9 +97,9 @@ under certain conditions; type `backintime --license' for details.
 (INFO: Update to config version \d+
 )?
  \+--------------------------------\+
- |  Check/prepair snapshot path   |
+ |  Check/prepare snapshot path   |
  \+--------------------------------\+
-Check/prepair snapshot path: done
+Check/prepare snapshot path: done
 
  \+--------------------------------\+
  |          Check config          |
