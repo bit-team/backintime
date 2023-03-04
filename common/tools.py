@@ -1666,7 +1666,7 @@ class Alarm(object):
         Args:
             callback: Function to call when the timer ran down
                       (ensure calling only reentrant code).
-                      Use ``None`` to throws a ``Timeout`` exception instead.
+                      Use ``None`` to throw a ``Timeout`` exception instead.
             overwrite: Is it allowed to (re)start the timer
                        even though the current timer is still running
                        ("ticking"):
