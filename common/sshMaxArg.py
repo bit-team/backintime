@@ -27,7 +27,7 @@ import subprocess
 import socket
 import argparse
 
-# must be divisable by 8
+# must be divisible by 8
 _INITIAL_SSH_COMMAND_SIZE = 1048320
 
 

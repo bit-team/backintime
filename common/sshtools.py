@@ -38,7 +38,7 @@ _ = gettext.gettext
 class SSH(MountControl):
     """
     This is a backend for the mount API :py:class:`mount.MountControl`.
-    This will mount the remote path with ``sshfs``, prepair the remote path and
+    This will mount the remote path with ``sshfs``, prepare the remote path and
     check that everything is set up correctly for `Back In Time` to run
     snapshots through SSH.
 
@@ -182,7 +182,7 @@ class SSH(MountControl):
 
         # bugfix: sshfs doesn't mount if locale in LC_ALL is not available on
         # remote host
-        # LANG or other envirnoment variable are no problem.
+        # LANG or other environment variable are no problem.
         env = os.environ.copy()
 
         if 'LC_ALL' in list(env.keys()):
@@ -206,7 +206,7 @@ class SSH(MountControl):
 
     def preMountCheck(self, first_run=False):
         """
-        Check that everything is prepaired and ready for successfully mount the
+        Check that everything is prepared and ready for successfully mount the
         remote path. Default is to run a light version of checks which will
         only make sure the remote host is online, ``sshfs`` is installed and
         the remote folder is available.
@@ -451,8 +451,8 @@ class SSH(MountControl):
 
     def checkCipher(self):
         """
-        Try to login to remote host with the choosen cipher. This should make
-        sure both `localhost` and the remote host support the choosen cipher.
+        Try to login to remote host with the chosen cipher. This should make
+        sure both `localhost` and the remote host support the chosen cipher.
 
         Raises:
             exceptions.MountException:  if login with the cipher failed
@@ -738,7 +738,7 @@ class SSH(MountControl):
             if retry:
                 raise MountException(
                     "Checking commands on remote host didn't return any "
-                    "output. We already checked the maximum argument lenght "
+                    "output. We already checked the maximum argument length "
                     "but it seem like there is an other problem")
 
             logger.warning(
@@ -973,7 +973,7 @@ class SSH(MountControl):
             chars (str):    characters used as basis for the random string
 
         Returns:
-            str:            random string with lenght ``size``
+            str:            random string with length ``size``
         """
 
         return ''.join(random.choice(chars) for x in range(size))

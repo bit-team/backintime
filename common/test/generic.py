@@ -17,7 +17,7 @@
 
 """This module offers some helpers and tools for unittesting.
 
-Most of the conent are `unittest.TestCase` derived classed doing basic setup
+Most of the content are `unittest.TestCase` derived classed doing basic setup
 for the testing environment. They are dealing with snapshot path's, SSH,
 config files and things like set.
 """
@@ -79,7 +79,7 @@ ON_RTD = os.environ.get('READTHEDOCS', 'None').lower() == 'true'
 class TestCase(unittest.TestCase):
     """Base class for Back In Time unit- and integration testing.
 
-    In summary folling is set via 'setUp()' and '__init__()':
+    In summary following is set via 'setUp()' and '__init__()':
        - Initialize logging.
        - Set path to config file (not open it).
        - Set path the "backup source" directory.
@@ -91,7 +91,7 @@ class TestCase(unittest.TestCase):
         The config file in the "test" folder is used.
 
         Args:
-            methodName: Unkown.
+            methodName: Unknown.
         """
 
         # note by buhtz: This is not recommended. Unittest module handle
@@ -125,7 +125,7 @@ class TestCase(unittest.TestCase):
         """
         """
         # BUHTZ 10/09/2022: In my understanding it is not needed and would be
-        # done implicite when the test class is destroyed.
+        # done implicitly when the test class is destroyed.
         self.sharePathObj.cleanup()
 
     def callback(self, func, *args):

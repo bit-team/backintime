@@ -186,7 +186,7 @@ class Snapshots:
             name (:py:class:`str`, :py:class:`bytes`):
                                 username to search for
             callback (method):  callable which will handle a given message
-            backup (int):       UID wich will be used if the username is unknown
+            backup (int):       UID which will be used if the username is unknown
                                 on this machine
 
         Returns:
@@ -227,7 +227,7 @@ class Snapshots:
             name (:py:class:`str`, :py:class:`bytes`):
                                 groupname to search for
             callback (method):  callable which will handle a given message
-            backup (int):       GID wich will be used if the groupname is unknown
+            backup (int):       GID which will be used if the groupname is unknown
                                 on this machine
 
         Returns:
@@ -420,7 +420,7 @@ class Snapshots:
             callback (method):          callable instance which will handle
                                         messages
             restore_to (str):           full path to restore to. If empty
-                                        restore to original destiantion
+                                        restore to original destination
             delete (bool):              delete newer files which are not in the
                                         snapshot
             backup (bool):              create backup files (*.backup.YYYYMMDD)
@@ -654,7 +654,7 @@ class Snapshots:
 
     def backup(self, force = False):
         """
-        Wrapper for :py:func:`takeSnapshot` which will prepair and clean up
+        Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method. This will check
         that no other snapshots are running at the same time, there is nothing
         prohibing a new snapshot (e.g. on battery) and the profile is configured
@@ -824,7 +824,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
     def filterRsyncProgress(self, line):
         """
-        Filter rsync's stdout for progress informations and store them in
+        Filter rsync's stdout for progress information and store them in
         '~/.local/share/backintime/worker<N>.progress' file.
 
         Args:
@@ -1234,7 +1234,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             max_date (datetime.date):   maximum date for snapshots to keep
 
         Returns:
-            set:                        set of snapshots that should be keept
+            set:                        set of snapshots that should be kept
         """
         min_id = SID(min_date, self.config)
         max_id = SID(max_date, self.config)
@@ -1262,7 +1262,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                         snapshot
 
         Returns:
-            set:                        set of snapshots that should be keept
+            set:                        set of snapshots that should be kept
         """
         min_id = SID(min_date, self.config)
         max_id = SID(max_date, self.config)
@@ -1649,7 +1649,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
     def statFreeSpaceLocal(self, path):
         """
-        Get free space on filsystem containing ``path`` in MiB using
+        Get free space on filesystem containing ``path`` in MiB using
         :py:func:`os.statvfs()`. Depending on remote SFTP server this might fail
         on sshfs mounted shares.
 
@@ -1671,7 +1671,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
     def statFreeSpaceSsh(self):
         """
-        Get free space on remote filsystem in MiB. This will call ``df`` on
+        Get free space on remote filesystem in MiB. This will call ``df`` on
         remote host and parse its output.
 
         Returns:
@@ -1729,7 +1729,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                     different snapshots only the first snapshot
                                     will be listed
             flag_deep_check (bool): use md5sum to check uniqueness of files.
-                                    More acurate but slow
+                                    More accurate but slow
             list_equal_to (str):    full path to file. If not empty only return
                                     snapshots which have exactly the same file
                                     as this file
@@ -1942,7 +1942,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                                encode.exclude(self.config._MOUNT_ROOT)
                                                )])
         # TODO: fix bug #561:
-        # after rsync_exclude we need to explicite include files inside excluded
+        # after rsync_exclude we need to explicitly include files inside excluded
         # folders, recursive exclude folder-content again and finally add the
         # rest from rsync_include2
         ret.extend(rsync_include)
@@ -2197,7 +2197,7 @@ class SID(object):
         YYYY-MM-DD HH:MM:SS
 
         Returns:
-            str:    formated sID
+            str:    formatted sID
         """
         return "{:04}-{:02}-{:02} {:02}:{:02}:{:02}".format(*self.split())
 

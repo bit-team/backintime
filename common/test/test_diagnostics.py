@@ -55,7 +55,7 @@ class Diagnostics(unittest.TestCase):
 
             # We expect NO ResourceWarnings. But Python doesn't offer
             # assertNoWarns().
-            # This will raise an AssertionError bcause no ResourceWarning's
+            # This will raise an AssertionError because no ResourceWarning's
             # are raised.
             with self.assertWarns(ResourceWarning):
 

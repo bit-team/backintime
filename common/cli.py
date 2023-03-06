@@ -97,7 +97,7 @@ def checkConfig(cfg, crontab = True):
             return False
         okay()
 
-    test = 'Check/prepair snapshot path'
+    test = 'Check/prepare snapshot path'
     announceTest()
     snapshots_path = cfg.snapshotsPath(mode = mode, tmp_mount = True)
 

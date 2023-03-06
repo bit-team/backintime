@@ -74,7 +74,7 @@ def collect_diagnostics():
 
     # Display system (X11 or Wayland)
     # This doesn't catch all edge cases.
-    # For more detials see: https://unix.stackexchange.com/q/202891/136851
+    # For more details see: https://unix.stackexchange.com/q/202891/136851
     result['host-setup']['display-system'] = os.environ.get(
         'XDG_SESSION_TYPE', '($XDG_SESSION_TYPE not set)')
 
@@ -334,7 +334,7 @@ def _replace_username_paths(result, username):
     reasons.
 
     Args:
-        result (dict): Dict possibily containing the username and its home
+        result (dict): Dict possibly containing the username and its home
                        path.
         username (str). The user login name to look for.
 

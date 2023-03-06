@@ -217,7 +217,7 @@ def readFileLines(path, default = None):
         default (list):         default if ``path`` does not exist
 
     Returns:
-        list:                   content of file in ``path`` splitted by lines.
+        list:                   content of file in ``path`` split by lines.
     """
     ret_val = default
 
@@ -485,7 +485,7 @@ def preparePath(path):
     Removes trailing slash '/' from ``path``.
 
     Args:
-        path (str): absolut path
+        path (str): absolute path
 
     Returns:
         str:        path ``path`` without trailing but with leading slash
@@ -947,7 +947,7 @@ def mountpoint(path):
 
 def decodeOctalEscape(s):
     """
-    Decode octal-escaped characters with its ASCII dependance.
+    Decode octal-escaped characters with its ASCII dependence.
     For example '\040' will be a space ' '
 
     Args:
@@ -1189,12 +1189,12 @@ def wrapLine(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: ')
 
     Args:
         msg (str):                  string that should get wrapped
-        size (int):                 maximum lenght of returned strings
+        size (int):                 maximum length of returned strings
         delimiters (str):           try to break ``msg`` on these characters
         new_line_indicator (str):   start new lines with this string
 
     Yields:
-        str:                        lines with max ``size`` lenght
+        str:                        lines with max ``size`` length
     """
     if len(new_line_indicator) >= size - 1:
         new_line_indicator = ''
@@ -1677,12 +1677,12 @@ class Alarm(object):
         Args:
             callback: Function to call when the timer ran down
                       (ensure calling only reentrant code).
-                      Use ``None`` toi throws a ``Timeout`` exception instead.
+                      Use ``None`` to throw a ``Timeout`` exception instead.
             overwrite: Is it allowed to (re)start the timer
                        even though the current timer is still running
                        ("ticking"):
                        ``True`` cancels the current timer (if active)
-                                and restarts with the new timout.
+                                and restarts with the new timeout.
                        ``False` silently ignores the start request
                                 if the current timer is still "ticking"
         """
@@ -1784,7 +1784,7 @@ class ShutDown(object):
                                 'arguments':    (True,)
                                     #arg        True    allow saving
                                     #           False   don't allow saving
-                                    #1nd arg (only with Logout)
+                                    #1st arg (only with Logout)
                                     #           True    show dialog
                                     #           False   don't show dialog
                                     #2nd arg (only with Logout)
@@ -1958,7 +1958,7 @@ class SetupUdev(object):
 
     def addRule(self, cmd, uuid):
         """
-        Prepair rules in serviceHelper.py
+        Prepare rules in serviceHelper.py
         """
         if not self.isReady:
             return
