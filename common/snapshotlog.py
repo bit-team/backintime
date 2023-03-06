@@ -96,7 +96,7 @@ class SnapshotLog(object):
 
     Args:
         cfg (config.Config):    current config
-        profile (int):          profile that should be used to indentify the log
+        profile (int):          profile that should be used to identify the log
     """
 
     NONE                = 0
@@ -183,7 +183,7 @@ class SnapshotLog(object):
             level (int):    verbosity level of current line. msg will only be
                             added to log if level is lower than configured
                             log level :py:func:`config.Config.logLevel`.
-                            Posible Values:
+                            Possible Values:
                             :py:data:`SnapshotLog.ERRORS`,
                             :py:data:`SnapshotLog.CHANGES_AND_ERRORS` or
                             :py:data:`SnapshotLog.ALL`

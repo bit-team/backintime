@@ -90,7 +90,7 @@ class ConfigFile(object):
         """
         def numsort(key):
             """
-            Sort int in keys in nummeric order instead of alphabetical by adding
+            Sort int in keys in numeric order instead of alphabetical by adding
             leading zeros to int's
             """
             return re.sub(r'\d+', lambda m: m.group(0).zfill(6), key)
@@ -187,7 +187,7 @@ class ConfigFile(object):
         Return a 'str' instance of key's value.
 
         Args:
-            key (str): Key identifing the value in the config file.
+            key (str): Key identifying the value in the config file.
             default (str): Default value if ``key`` is not present.
 
         Returns:

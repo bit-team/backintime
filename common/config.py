@@ -18,7 +18,7 @@
 
 """Configuration logic.
 
-This module and its `Config` class contain the appliation logic handling the
+This module and its `Config` class contain the application logic handling the
 configuration of Back In Time. The handling of the configuration file itself
 is separated in the module :py:module:`configfile`.
 
@@ -434,7 +434,7 @@ class Config(configfile.ConfigFileWithProfiles):
                               {'path': value})
             return False
         elif fs == 'cifs' and not self.copyLinks():
-            self.notifyError(_("Destination filsystem for '%(path)s' is a SMB mounted share. Please make sure "
+            self.notifyError(_("Destination filesystem for '%(path)s' is a SMB mounted share. Please make sure "
                                 "the remote SMB server supports symlinks or activate '%(copyLinks)s' in '%(expertOptions)s'.") %
                               {'path': value,
                                'copyLinks': _('Copy links (dereference symbolic links)'),

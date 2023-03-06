@@ -877,7 +877,7 @@ def snapshotsList(args):
 
 def snapshotsListPath(args):
     """
-    Command for printing a list of all snapshots pathes in current profile.
+    Command for printing a list of all snapshots paths in current profile.
 
     Args:
         args (argparse.Namespace):

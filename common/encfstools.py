@@ -228,7 +228,7 @@ class EncFS_SSH(EncFS_mount):
         if not os.path.isfile(self.configFile()):
             #encfs >= 1.8.0 changed behavior when ENCFS6_CONFIG environ variable
             #file does not exist. It will not create a new one anymore but just fail.
-            #As encfs would create the config in /.encfs6.xml (which will most likly fail)
+            #As encfs would create the config in /.encfs6.xml (which will most likely fail)
             #we need to mount a temp folder with reverse first and copy the config when done.
             logger.debug('Mount temp folder with encfs --reverse to create a new encfs config', self)
             with tempfile.TemporaryDirectory() as src:
@@ -590,8 +590,8 @@ class Decode(object):
 
     def path(self, path):
         """
-        write crypted path to encfsctl stdin and read plain path from stdout
-        if stdout is empty (most likly because there was an error) return crypt path
+        write encrypted path to encfsctl stdin and read plain path from stdout
+        if stdout is empty (most likely because there was an error) return crypt path
         """
         if self.string:
             assert isinstance(path, str), 'path is not str type: %s' % path

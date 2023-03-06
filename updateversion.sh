@@ -72,7 +72,7 @@ update_changelog () {
   # The following awk code extracts the changelog
   # starting from the "Version" headline of $VERSION
   # until the next "Version" headline
-  # and create a new file with all the lines inbetween.
+  # and create a new file with all the lines in between.
   cat CHANGES | awk 'BEGIN {ins=0} /^Version '$VERSION'/ && (ins == 0) {ins=1; next} /^Version [0-9.]+/ && (ins == 1) {exit 0} (ins == 1) {print "  "$0}' >> $1
   if [ $(cat $1 | wc -l) -eq 1 ]; then
       echo "  * TODO prepare next version" >> $1
