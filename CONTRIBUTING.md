@@ -36,7 +36,7 @@ Please take the following best practices into account if possible (to reduce
  
 ## Licensing of contributed material
 Keep in mind as you contribute, that code, docs and other material submitted
-to the project are considered licensed under the same terms (see [[LICENSE]])
+to the project are considered licensed under the same terms (see (LICNENSE)[LICENSE])
 as the rest of the work.
 
 ## Further reading

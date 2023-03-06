@@ -277,4 +277,4 @@ if something is missing. If you use another GNU/Linux distribution, please insta
 You can use optional arguments to `./configure` for creating a Makefile.
 See `common/configure --help` and `qt/configure --help` for details.
 
-<sub>❆ January 2023</sub>
+<sub>March 2023</sub>
