@@ -3,10 +3,16 @@
 [![Source code documentation status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](http://backintime.readthedocs.org/projects/backintime-dev/en/latest/?badge=latest)
 
 # Back In Time
-<sub>Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack<sub>
+  * [ ] <sub>Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack<sub>
  
-It is an easy to use backup tool for Linux heavily using [`rsync`](https://rsync.samba.org/) in the back. It was inspired by [FlyBack](https://en.wikipedia.org/wiki/FlyBack).
-It provides a command line tool `backintime` and a Qt5 GUI `backintime-qt` both written in Python3.
+It is an easy-to-use backup tool for files and folders.
+It runs on GNU Linux and provides a command line tool `backintime` and a
+Qt5 GUI `backintime-qt` both written in Python3. It uses 
+[`rsync`](https://rsync.samba.org/) to take manual or scheduled snapshots and
+stores them locally or remotely through SSH. Each snapshot is its own folder
+with copies of the original files, but unchanged files are hard-linked between
+snapshots to save space.
+It was inspired by [FlyBack](https://en.wikipedia.org/wiki/FlyBack).
 
 You only need to specify 3 things:
 
@@ -20,7 +26,8 @@ The development of this project has been dormant for a while. But a small team h
 in summer 2022 to get things moving again. Stick with us, we all ♥️ _Back In Time_. 😁
 
 We are currently trying to fix the [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
-while not implementing new features to prepare a new stable release. The next release is planned in early 2023. If you are interested in the development, please see the [Contribute](#contribute) section.
+while not implementing new features. If you are interested in the development,
+please see the [[CONTRIBUTING.md]].
 
 ## Index
 
@@ -28,7 +35,6 @@ while not implementing new features to prepare a new stable release. The next re
 * [Known Problems and Workarounds](#known-problems-and-workarounds)
 * [Download](#download)
 * [Installation and Dependencies](#installation)
-* [Contribute](#contribute)
 
 ## Documentation & FAQs & Support
 
@@ -36,6 +42,8 @@ while not implementing new features to prepare a new stable release. The next re
  * [FAQ - Frequently Asked Questions](FAQ.md)
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
  * Use [Issues](https://github.com/bit-team/backintime/issues) to ask questions and report bugs.
+ * [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
+ * [[CONTRIBUTING.md]]
 
 ## Known Problems and Workarounds
  - [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
@@ -267,25 +275,3 @@ if something is missing. If you use another GNU/Linux distribution, please insta
 
 You can use optional arguments to `./configure` for creating a Makefile.
 See `common/configure --help` and `qt/configure --help` for details.
-
-## Contribute
-### Resources
- - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
- - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
- - [Translations](https://translations.launchpad.net/backintime) are done on a separate platform
-### Guidelines & Rules
-The maintenance team will welcome all types of contributions. No contribution will be rejected
-just because it doesn't fit to our quality standards, guidelines or rules. Every contribution
-is reviewed and if needed will be improved together with the maintainers.
-
-
-Please take the following best practices into account if possible (to reduce the work load of the maintainers):
- - Use `dev` as target branch when opening Pull Requests.
- - Follow [PEP8](https://peps.python.org/pep-0008/) as a minimal Style Guide for Python Code
- - Follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) for
-   docstrings (see our own [HOWTO about doc generation](common/doc-dev/1_doc_maintenance_howto.md)).
- - Be careful when using automatic formatters like `black` and please mention the use of it when opening a Pull Request.
- - Run unittests before you open a Pull Request. You can run them via `make`-system with `cd common && ./configure && make && make test` or you can use `pytest`.
- - Try to create new unittests if appropriated. Use Pythons regular `unittest` instead of `pytest`.
-
-<sub>❆ January 2023</sub>
