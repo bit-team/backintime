@@ -3,7 +3,8 @@
 [![Source code documentation status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](http://backintime.readthedocs.org/projects/backintime-dev/en/latest/?badge=latest)
 
 # Back In Time
-  * [ ] <sub>Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack<sub>
+<sub>Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+Germar Reitze, Taylor Raack<sub>
  
 It is an easy-to-use backup tool for files and folders.
 It runs on GNU Linux and provides a command line tool `backintime` and a
@@ -275,3 +276,5 @@ if something is missing. If you use another GNU/Linux distribution, please insta
 
 You can use optional arguments to `./configure` for creating a Makefile.
 See `common/configure --help` and `qt/configure --help` for details.
+
+<sub>❆ January 2023</sub>
