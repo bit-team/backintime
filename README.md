@@ -28,7 +28,7 @@ in summer 2022 to get things moving again. Stick with us, we all ♥️ _Back In
 
 We are currently trying to fix the [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
 while not implementing new features. If you are interested in the development,
-please see the [[CONTRIBUTING.md]].
+please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Index
 
@@ -44,7 +44,7 @@ please see the [[CONTRIBUTING.md]].
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
  * Use [Issues](https://github.com/bit-team/backintime/issues) to ask questions and report bugs.
  * [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
- * [[CONTRIBUTING.md]]
+ * [CONTRIBUTING](CONTRIBUTING.md)
 
 ## Known Problems and Workarounds
  - [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
