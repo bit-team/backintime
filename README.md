@@ -32,10 +32,9 @@ please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Index
 
-* [Documentation & FAQs & Support](#documentation--faqs--support)
-* [Known Problems and Workarounds](#known-problems-and-workarounds)
-* [Download](#download)
-* [Installation and Dependencies](#installation)
+- [Documentation, FAQs, Support](#documentation--faqs--support)
+- [Installation](#installation)
+- [Known Problems and Workarounds](#known-problems-and-workarounds)
 
 ## Documentation, FAQs, Support
 
@@ -46,13 +45,69 @@ please see the [CONTRIBUTING](CONTRIBUTING.md) file.
  * [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
  * [CONTRIBUTING](CONTRIBUTING.md)
 
+## Installation
+
+_Back In Time_ is included in many distributions. Use their repositories to
+install it. If you want to contribute or using the latest development version
+of _Back In Time_ please see [Build & Install in our
+`CONTRIBUTING.md`](CONTRIBUTING.md#build--install). There you will also find the
+dependencies.
+
+If your GNU/Linux distribution don't offer an official package for _Back In
+Time_ please open an issue there and let us know about it. Until then you can
+use the following alternative options.
+
+### Alternative installation options
+
+**PPA for Ubuntu and Debian-based distributions**
+
+There is a PPA (Private Package Archive) with current stable version
+(`ppa:bit-team/stable`) and a testing PPA (`ppa:bit-team/testing`).
+
+    # You can ignore "Warning: apt-key is deprecated..." for now (see issue #1338)
+    sudo add-apt-repository ppa:bit-team/stable
+    sudo apt-get update
+    sudo apt-get install backintime-qt
+
+or
+
+    sudo add-apt-repository ppa:bit-team/testing
+    sudo apt-get update
+    sudo apt-get install backintime-qt
+
+**ArchLinux**
+
+There is an AUR package
+[`backintime`](https://aur.archlinux.org/packages/backintime) that also
+includes the GUI (`backintime-qt`).
+
+    # You need to import a public key once before installing
+    gpg --keyserver pgp.mit.edu --recv-keys 615F366D944B4826
+    # Fingerprint: 3E70 692E E3DB 8BDD A599  1C90 615F 366D 944B 4826
+
+    wget https://aur.archlinux.org/cgit/aur.git/snapshot/backintime.tar.gz
+    tar xvzf backintime.tar.gz
+    cd backintime
+    makepkg -srci
+
+An alternative way of installation [clones the AUR
+package](https://averagelinuxuser.com/install-aur-manually-helpers/) which has
+the advantage to use `git pull` instead of downloading `backintime.tar.gz`
+to be prepared to build an updated version of the package:
+
+    git clone https://aur.archlinux.org/backintime.git
+    # Optional: Edit PKGBUILD to comment the `make test` line for the first-time installation of version 1.3.2 or less
+    cd backintime
+    makepkg -si
+
 ## Known Problems and Workarounds
- - [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
  - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
- - [Python 3.10 compatibility and Ubuntu version](#python-310-compatibility-and-ubuntu-version)
  - [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
  - [Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).](#warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
  - [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
+ - [Problems in versions older then the last stable release](#problems-in-versions-older-then-the-last-stable-release)
+   - [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
+   - [Python 3.10 compatibility and Ubuntu version](#python-310-compatibility-and-ubuntu-version)
 
 ### File permissions handling and therefore possible non-differential backups
 
@@ -141,60 +196,5 @@ _Back In Time_ versions older than 1.3.2 do not start with Python >= 3.10.
 Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
 [a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff)
 to make it work. If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
-
-## Installation
-
-_Back In Time_ is included in many distributions. Use their repositories to
-install it. If you want to contribute or using the latest development version
-of _Back In Time_ please see [Build & Install in our
-`CONTRIBUTING.md`](CONTRIBUTING.md#Build___Install). There you will also find the
-dependencies.
-
-If your GNU/Linux distribution don't offer an official package for _Back In
-Time_ please open an issue there and let us know about it. Until then you can
-use the following alternative options.
-
-### Alternative installation options
-
-**PPA for Ubuntu and Debian-based distributions**
-
-There is a PPA (Private Package Archive) with current stable version
-(`ppa:bit-team/stable`) and a testing PPA (`ppa:bit-team/testing`).
-
-    # You can ignore "Warning: apt-key is deprecated..." for now (see issue #1338)
-    sudo add-apt-repository ppa:bit-team/stable
-    sudo apt-get update
-    sudo apt-get install backintime-qt
-
-or
-
-    sudo add-apt-repository ppa:bit-team/testing
-    sudo apt-get update
-    sudo apt-get install backintime-qt
-
-**ArchLinux**
-
-There is an AUR package
-[`backintime`](https://aur.archlinux.org/packages/backintime) that also
-includes the GUI (`backintime-qt`).
-
-    # You need to import a public key once before installing
-    gpg --keyserver pgp.mit.edu --recv-keys 615F366D944B4826
-    # Fingerprint: 3E70 692E E3DB 8BDD A599  1C90 615F 366D 944B 4826
-
-    wget https://aur.archlinux.org/cgit/aur.git/snapshot/backintime.tar.gz
-    tar xvzf backintime.tar.gz
-    cd backintime
-    makepkg -srci
-
-An alternative way of installation [clones the AUR
-package](https://averagelinuxuser.com/install-aur-manually-helpers/) which has
-the advantage to use `git pull` instead of downloading `backintime.tar.gz`
-to be prepared to build an updated version of the package:
-
-    git clone https://aur.archlinux.org/backintime.git
-    # Optional: Edit PKGBUILD to comment the `make test` line for the first-time installation of version 1.3.2 or less
-    cd backintime
-    makepkg -si
 
 <sub>March 2023</sub>
