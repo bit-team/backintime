@@ -32,13 +32,13 @@ Please take the following best practices into account if possible (to reduce
 
 <!-- TOC start -->
 - [Resources](#resources)
-- [Licensing of contributed material](#licensing-of-contributed-material)
 - [Build & Install](#build-install)
   * [Dependencies](#dependencies)
   * [Build and install via `make` system
     (recommended)](#build-and-install-via-make-system-recommended)
   * [Build own `deb` file](#build-own-deb-file)
 - [Further reading](#further-reading)
+- [Licensing of contributed material](#licensing-of-contributed-material)
 <!-- TOC end -->
 
 ## Resources
@@ -48,11 +48,6 @@ Please take the following best practices into account if possible (to reduce
  - [Translations](https://translations.launchpad.net/backintime) are done on a separate platform
  - [HowTo maintain _Back In Time_](common/doc-dev/1_doc_maintenance_howto.md)
  
-## Licensing of contributed material
-Keep in mind as you contribute, that code, docs and other material submitted
-to the project are considered licensed under the same terms (see
-[LICENSE](LICENSE)) as the rest of the work.
-
 ## Build & Install
 
 This section describes how to build and install _Back In Time_ in preparation
@@ -137,9 +132,13 @@ See `common/configure --help` and `qt/configure --help` for details.
   - `sudo dpkg -i ../backintime-common-<version>.deb`
   - `sudo dpkg -i ../backintime-qt-<version>.deb`
 
-
 ## Further reading
 - https://www.contribution-guide.org
 - https://mozillascience.github.io/working-open-workshop/contributing
+
+## Licensing of contributed material
+Keep in mind as you contribute, that code, docs and other material submitted
+to the project are considered licensed under the same terms (see
+[LICENSE](LICENSE)) as the rest of the work.
 
 <sub>March 2023</sub>
