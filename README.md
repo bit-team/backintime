@@ -37,7 +37,7 @@ please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 * [Download](#download)
 * [Installation and Dependencies](#installation)
 
-## Documentation & FAQs & Support
+## Documentation, FAQs, Support
 
  * [End user documentation](https://backintime.readthedocs.org/) (not totally up-to-date)
  * [FAQ - Frequently Asked Questions](FAQ.md)
@@ -53,11 +53,6 @@ please see the [CONTRIBUTING](CONTRIBUTING.md) file.
  - [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
  - [Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).](#warning-apt-key-is-deprecated-manage-keyring-files-in-trustedgpgd-instead-see-apt-key8)
  - [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
-### Incompatibility with rsync 3.2.4 or newer
-
-The latest release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible with `rsync >= 3.2.4` ([#1247](https://github.com/bit-team/backintime/issues/1247)). The problem is [fixed](https://github.com/bit-team/backintime/pull/1351) in the current master branch of that repo and will be released with the next release (`1.3.3`) of _Back In Time_.
-
-If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a workaround. Add `--old-args` in [_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options). Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for _Back In Time_. In that case you may not see any problems.
 
 ### File permissions handling and therefore possible non-differential backups
 
@@ -72,13 +67,6 @@ If you don't like the new behavior, you can use _Expert Options_ -> _Paste addit
 to add `--no-perms --no-group --no-owner` to it.
 Note that the exact file permissions can still be found in `fileinfo.bz2` and are also considered when restoring
 files.
-
-### Python 3.10 compatibility and Ubuntu version
-
-_Back In Time_ versions older than 1.3.2 do not start with Python >= 3.10.
-Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
-[a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff)
-to make it work. If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
 
 ### Non-working password safe and BiT forgets passwords (keyring backend issues)
 
@@ -139,6 +127,20 @@ your package manager.
 
 See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
 and [#1364](https://github.com/bit-team/backintime/issues/1364).
+
+### Problems in versions older then the last stable release
+#### Incompatibility with rsync 3.2.4 or newer
+
+The latest release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible with `rsync >= 3.2.4` ([#1247](https://github.com/bit-team/backintime/issues/1247)). The problem is [fixed](https://github.com/bit-team/backintime/pull/1351) in the current master branch of that repo and will be released with the next release (`1.3.3`) of _Back In Time_.
+
+If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a workaround. Add `--old-args` in [_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options). Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for _Back In Time_. In that case you may not see any problems.
+
+### Python 3.10 compatibility and Ubuntu version
+
+_Back In Time_ versions older than 1.3.2 do not start with Python >= 3.10.
+Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
+[a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff)
+to make it work. If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
 
 ## Installation
 
