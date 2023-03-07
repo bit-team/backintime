@@ -28,6 +28,19 @@ Please take the following best practices into account if possible (to reduce
    instead of `pytest`. If you know the difference please try follow the
    _Classical (aka Detroit) school_ instead of _London (aka mockist) school_.
 
+## Index
+
+<!-- TOC start -->
+- [Resources](#resources)
+- [Licensing of contributed material](#licensing-of-contributed-material)
+- [Build & Install](#build-install)
+  * [Dependencies](#dependencies)
+  * [Build and install via `make` system
+    (recommended)](#build-and-install-via-make-system-recommended)
+  * [Build own `deb` file](#build-own-deb-file)
+- [Further reading](#further-reading)
+<!-- TOC end -->
+
 ## Resources
 
  - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
