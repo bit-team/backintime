@@ -96,7 +96,7 @@ replaced with PyPi packages.
   - `gettext`
   - `python3-pyfakefs`
 
-#### Build and install via `make` system (recommended)
+### Build and install via `make` system (recommended)
 
 Remember that _Back In Time_ do consists of two packages, which must be buiild
 and installed separately accordingly.
@@ -116,7 +116,7 @@ and installed separately accordingly.
 You can use optional arguments to `./configure` for creating a Makefile.
 See `common/configure --help` and `qt/configure --help` for details.
 
-#### Build own `deb` file
+### Build own `deb` file
 
 1. Run `./makedeb.sh` in the repositories root directory.
 2. Two `deb` files are build and places in the repositories parent directory.
