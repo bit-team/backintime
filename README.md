@@ -140,25 +140,24 @@ your package manager.
 See issues [#1306](https://github.com/bit-team/backintime/issues/1306)
 and [#1364](https://github.com/bit-team/backintime/issues/1364).
 
-## Download
-
-Please find the latest versions in the [release section](https://github.com/bit-team/backintime/releases/latest).
-
 ## Installation
 
-_Back In Time_ is included in many distributions. Use their repositories to install it.
+_Back In Time_ is included in many distributions. Use their repositories to
+install it. If you want to contribute or using the latest development version
+of _Back In Time_ please see the [Build & Install in our
+`CONTRIBUTING.md`](CONTRIBUTING.md#Build___Install). There you will find the
+dependencies.
 
-### From distribution packages
+If your GNU Linux distribution don't offer an official package for _Back In
+Time_ please open an issue there and let us know about it. Until then you can
+use the following alternative options.
 
-#### Ubuntu PPA
+### Alternative installation options
 
-We provide a PPA (Private Package Archive) with current stable version
-(ppa:bit-team/stable) and a testing PPA (ppa:bit-team/testing)
+* PPA for Ubuntu and Debian-based distributions
 
-**Important:** Until version 1.3.2 there was a bug that caused
-`backintime` failed to start if the package `backintime-qt` was not installed.
-As work-around also install `backintime-qt` because the missing
-Udev `serviceHelper` system D-Bus daemon is packaged there.
+There is a PPA (Private Package Archive) with current stable version
+(`ppa:bit-team/stable`) and a testing PPA (`ppa:bit-team/testing`).
 
     # You can ignore "Warning: apt-key is deprecated..." for now (see issue #1338)
     sudo add-apt-repository ppa:bit-team/stable
@@ -171,22 +170,11 @@ or
     sudo apt-get update
     sudo apt-get install backintime-qt
 
-#### Debian/Ubuntu make packages
+* ArchLinux
 
-    ./makedeb.sh
-    sudo dpkg -i ../backintime-common-<version>.deb
-    sudo dpkg -i ../backintime-qt-<version>.deb
-
-#### ArchLinux
-
-_Back In Time_ is available through the AUR package [`backintime`](https://aur.archlinux.org/packages/backintime)
-that also includes the GUI (`backintime-qt`).
-
-**Important:** Until version 1.3.2 there was a bug that prevented the
-           successful **first-time** installation due to a unit test failure when
-           building with the PKGBUILD script (see [#1233](https://github.com/bit-team/backintime/issues/1233))
-           and required to edit the PKGBUILD file for a successful installation
-           (see description in [#921](https://github.com/bit-team/backintime/issues/921#issuecomment-1276888138)).
+There is an AUR package
+[`backintime`](https://aur.archlinux.org/packages/backintime) that also
+includes the GUI (`backintime-qt`).
 
     # You need to import a public key once before installing
     gpg --keyserver pgp.mit.edu --recv-keys 615F366D944B4826
@@ -197,84 +185,14 @@ that also includes the GUI (`backintime-qt`).
     cd backintime
     makepkg -srci
 
-An alternative way of installation [clones the AUR package](https://averagelinuxuser.com/install-aur-manually-helpers/) which has the
-advantage to use `git pull` instead of downloading `backintime.tar.gz`
+An alternative way of installation [clones the AUR
+package](https://averagelinuxuser.com/install-aur-manually-helpers/) which has
+the advantage to use `git pull` instead of downloading `backintime.tar.gz`
 to be prepared to build an updated version of the package:
 
     git clone https://aur.archlinux.org/backintime.git
     # Optional: Edit PKGBUILD to comment the `make test` line for the first-time installation of version 1.3.2 or less
     cd backintime
     makepkg -si
-
-### From sources
-
-The dependencies are based on Ubuntu. Please [open an Issue](https://github.com/bit-team/backintime/issues/new/choose)
-if something is missing. If you use another GNU/Linux distribution, please install the corresponding packages.
-
-#### Common (command line tool)
-
-* Build dependencies
-
-  To build and install _Back In Time_ from the source code install these packages (together with the run-time dependencies):
-  - `build-essential`
-  - `gzip`
-  - `gettext`
-  - `python3-pyfakefs` (since Ubuntu 22.04) or via `python3 -m pip pyfakefs` - required for a unit test
-
-* Runtime dependencies
-    - `python3` (>= 3.6)
-    - `rsync`
-    - `cron-daemon`
-    - `openssh-client`
-    - `python3-keyring`
-    - `python3-dbus`
-    - `python3-packaging`
-
-* Recommended
-    - `sshfs`
-    - `encfs`
-
-* Commands to build and install
-        cd common
-        ./configure
-        make
-        make test
-        sudo make install
-
-#### Qt5 GUI
-
-* Build dependencies
-  
-  See above...
-
-* Runtime dependencies
-    - `x11-utils`
-    - `python3-pyqt5`
-    - `python3-dbus.mainloop.pyqt5`
-    - `qtwayland5` (if Wayland is used as display server instead of X11)
-    - `libnotify-bin`
-    - `policykit-1`
-    - `backintime-common` (installed with `sudo make install` after building it)
-
-* Recommended
-    - For SSH key storage **one** of these packages
-      - `python3-secretstorage`
-      - `python3-keyring-kwallet`
-      - `python3-gnomekeyring`
-    - For diff-like comparing files between backup snapshots **one** of these packages
-      - `kompare`
-      - `meld`
-
-* Commands to build and install
-
-        cd qt
-        ./configure
-        make
-        sudo make install
-
-#### Options for `configure`
-
-You can use optional arguments to `./configure` for creating a Makefile.
-See `common/configure --help` and `qt/configure --help` for details.
 
 <sub>March 2023</sub>
