@@ -32,7 +32,7 @@ please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Index
 
-- [Documentation, FAQs, Support](#documentation--faqs--support)
+- [Documentation, FAQs, Support](#documentation-faqs-support)
 - [Installation](#installation)
 - [Known Problems and Workarounds](#known-problems-and-workarounds)
 
