@@ -39,8 +39,6 @@ Keep in mind as you contribute, that code, docs and other material submitted
 to the project are considered licensed under the same terms (see
 [LICENSE](LICENSE)) as the rest of the work.
 
-# =====================
-
 ## Build & Install
 
 This section describes how to build and install _Back In Time_ in preparation

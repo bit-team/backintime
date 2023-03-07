@@ -144,17 +144,17 @@ and [#1364](https://github.com/bit-team/backintime/issues/1364).
 
 _Back In Time_ is included in many distributions. Use their repositories to
 install it. If you want to contribute or using the latest development version
-of _Back In Time_ please see the [Build & Install in our
-`CONTRIBUTING.md`](CONTRIBUTING.md#Build___Install). There you will find the
+of _Back In Time_ please see [Build & Install in our
+`CONTRIBUTING.md`](CONTRIBUTING.md#Build___Install). There you will also find the
 dependencies.
 
-If your GNU Linux distribution don't offer an official package for _Back In
+If your GNU/Linux distribution don't offer an official package for _Back In
 Time_ please open an issue there and let us know about it. Until then you can
 use the following alternative options.
 
 ### Alternative installation options
 
-* PPA for Ubuntu and Debian-based distributions
+**PPA for Ubuntu and Debian-based distributions**
 
 There is a PPA (Private Package Archive) with current stable version
 (`ppa:bit-team/stable`) and a testing PPA (`ppa:bit-team/testing`).
@@ -170,7 +170,7 @@ or
     sudo apt-get update
     sudo apt-get install backintime-qt
 
-* ArchLinux
+**ArchLinux**
 
 There is an AUR package
 [`backintime`](https://aur.archlinux.org/packages/backintime) that also
