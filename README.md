@@ -28,13 +28,14 @@ in summer 2022 to get things moving again. Stick with us, we all ♥️ _Back In
 
 We are currently trying to fix the [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
 while not implementing new features. If you are interested in the development,
-please see the [CONTRIBUTING](CONTRIBUTING.md) file.
+please see [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Index
 
 - [Documentation, FAQs, Support](#documentation-faqs-support)
 - [Installation](#installation)
 - [Known Problems and Workarounds](#known-problems-and-workarounds)
+- [CONTRIBUTING](CONTRIBUTING.md)
 
 ## Documentation, FAQs, Support
 
@@ -43,7 +44,6 @@ please see the [CONTRIBUTING](CONTRIBUTING.md) file.
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
  * Use [Issues](https://github.com/bit-team/backintime/issues) to ask questions and report bugs.
  * [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
- * [CONTRIBUTING](CONTRIBUTING.md)
 
 ## Installation
 
@@ -186,11 +186,11 @@ and [#1364](https://github.com/bit-team/backintime/issues/1364).
 ### Problems in versions older then the last stable release
 #### Incompatibility with rsync 3.2.4 or newer
 
-The latest release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible with `rsync >= 3.2.4` ([#1247](https://github.com/bit-team/backintime/issues/1247)). The problem is [fixed](https://github.com/bit-team/backintime/pull/1351) in the current master branch of that repo and will be released with the next release (`1.3.3`) of _Back In Time_.
+The release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible with `rsync >= 3.2.4` ([#1247](https://github.com/bit-team/backintime/issues/1247)). The problem is [fixed](https://github.com/bit-team/backintime/pull/1351) in the current master branch of that repo and will be released with the next release (`1.3.3`) of _Back In Time_.
 
 If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a workaround. Add `--old-args` in [_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options). Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for _Back In Time_. In that case you may not see any problems.
 
-### Python 3.10 compatibility and Ubuntu version
+#### Python 3.10 compatibility and Ubuntu version
 
 _Back In Time_ versions older than 1.3.2 do not start with Python >= 3.10.
 Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied

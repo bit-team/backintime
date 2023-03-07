@@ -1,6 +1,6 @@
 # How to contribute to _Back In Time_
 
-**Thanks for taking the time to contribute!**
+😊 **Thanks for taking the time to contribute!**
 
 The maintenance team will welcome all types of contributions. No contribution
 will be rejected just because it doesn't fit to our quality standards,
