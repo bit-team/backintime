@@ -33,6 +33,7 @@ Please take the following best practices into account if possible (to reduce
  - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
  - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
  - [Translations](https://translations.launchpad.net/backintime) are done on a separate platform
+ - [HowTo maintain _Back In Time_](common/doc-dev/1_doc_maintenance_howto.md)
  
 ## Licensing of contributed material
 Keep in mind as you contribute, that code, docs and other material submitted
