@@ -1,8 +1,27 @@
 This file describes briefly how to
-- build and view the source code "API" documentation of Back In Time "common" (CLI)
+- build and view the source code "API" documentation of _Back In Time_
+  "common" (CLI)
 - add new modules to the documentation
 - write docstrings
 - known issues with documentation generation
+
+# Index
+
+<!-- TOC start -->
+- [Background](#background)
+- [Why to use Sphinx to generate the
+  documentation?](#why-to-use-sphinx-to-generate-the-documentation)
+- [How to build and view the
+  documentation](#how-to-build-and-view-the-documentation)
+- [How to add new modules to the
+  documentation](#how-to-add-new-modules-to-the-documentation)
+- [How to write docstrings for Back In
+  Time](#how-to-write-docstrings-for-back-in-time)
+- [Commonly used rst markups in the
+  docstring](#commonly-used-rst-markups-in-the-docstring)
+- [Known issues with documentation
+  generation](#known-issues-with-documentation-generation)
+<!-- TOC end -->
 
 # Background
 
@@ -30,8 +49,6 @@ https://docutils.sourceforge.io/docs/user/rst/quickref.html
 
 For a description of the Google coding style for python see:
 https://google.github.io/styleguide/pyguide.html
-
-
 
 # Why to use Sphinx to generate the documentation?
 
@@ -145,3 +162,5 @@ be used to format text and cross-reference code.
   Impact: Inherited documentation in the sub class is not up to date
 
   Work around: Use "make clean" before "make html"
+
+<sub>March 2023</sub>
