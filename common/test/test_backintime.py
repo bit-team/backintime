@@ -145,10 +145,12 @@ under certain conditions; type `backintime --license' for details.
             "WARNING: D-Bus message:",
             "WARNING: Udev-based profiles cannot be changed or checked",
             "WARNING: Inhibit Suspend failed",
+            "Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway"
         ]
 
         line_contains_to_exclude = [
-            "Gtk-WARNING"
+            "Gtk-WARNING",
+            "qt.qpa.plugin: Could not find the Qt platform plugin"
         ]
 
         # remove lines via startswith()
