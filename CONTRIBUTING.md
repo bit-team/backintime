@@ -32,7 +32,7 @@ Please take the following best practices into account if possible (to reduce
 
 <!-- TOC start -->
 - [Resources](#resources)
-- [Build & Install](#build-install)
+- [Build & Install](#build--install)
   * [Dependencies](#dependencies)
   * [Build and install via `make` system
     (recommended)](#build-and-install-via-make-system-recommended)
@@ -45,9 +45,9 @@ Please take the following best practices into account if possible (to reduce
 
  - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
  - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
- - [Translations](https://translations.launchpad.net/backintime) are done on a separate platform
- - [HowTo maintain _Back In Time_](common/doc-dev/1_doc_maintenance_howto.md)
- 
+ - [Translations](https://translate.codeberg.org/projects/backintime/common/) are done on a separate platform
+ - [HowTo's and maintenance documents](common/doc-dev/README.md)
+
 ## Build & Install
 
 This section describes how to build and install _Back In Time_ in preparation
