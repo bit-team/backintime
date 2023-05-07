@@ -129,10 +129,28 @@ class Config(configfile.ConfigFileWithProfiles):
         DISK_UNIT_GB : 'GiB'
     }
 
-    DEFAULT_EXCLUDE = [ '.gvfs', '.cache/*', '.thumbnails*',
-    '.local/share/[Tt]rash*', '*.backup*', '*~', '.dropbox*', '/proc/*',
-    '/sys/*', '/dev/*', '/run/*', '/etc/mtab', '/var/cache/apt/archives/*.deb',
-    'lost+found/*', '/tmp/*', '/var/tmp/*', '/var/backups/*', '.Private' ]
+    # Used when new snapshot profile is created.
+    DEFAULT_EXCLUDE = [
+        '.gvfs',
+        '.cache/*',
+        '.thumbnails*',
+        '.local/share/[Tt]rash*',
+        '*.backup*',
+        '*~',
+        '.dropbox*',
+        '/proc/*',
+        '/sys/*',
+        '/dev/*',
+        '/run/*',
+        '/etc/mtab',
+        '/var/cache/apt/archives/*.deb',
+        'lost+found/*',
+        '/tmp/*',
+        '/var/tmp/*',
+        '/var/backups/*',
+        '.Private',
+        'swapfile',
+    ]
 
     DEFAULT_RUN_NICE_FROM_CRON = True
     DEFAULT_RUN_NICE_ON_REMOTE = False
