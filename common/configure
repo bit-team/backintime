@@ -297,7 +297,7 @@ fi
 
 printf "test:\tunittest\n\n" >> ${MAKEFILE}
 printf "test-v:\tunittest-v\n\n" >> ${MAKEFILE}
-for v in "" "-v"; do
+for v in "" "-vvv"; do
     #provide unittests with and without verbosity -v
     printf "unittest${v}:\n" >> ${MAKEFILE}
     if onTravis || [ -z "${PYTEST}" ]; then
