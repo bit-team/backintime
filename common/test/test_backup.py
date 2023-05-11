@@ -47,7 +47,7 @@ class TestBackup(generic.SnapshotsTestCase):
         self.assertIsInstance(takeSnapshot.call_args[0][2], list)
 
     @patch('time.sleep') # speed up unittest
-    @patch('subprocess.Popen')
+    @patch('subprocess.Popen', autospec=True)
     def test_backup_async(self, Popen_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
@@ -79,7 +79,7 @@ class TestBackup(generic.SnapshotsTestCase):
         self.assertEqual(Popen_mock.call_args.args[0][5], "backup")
 
     @patch('time.sleep') # speed up unittest
-    @patch('subprocess.Popen')
+    @patch('subprocess.Popen', autospec=True)
     def test_backup_async_with_checksum(self, Popen_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
@@ -110,7 +110,7 @@ class TestBackup(generic.SnapshotsTestCase):
         self.assertEqual(Popen_mock.call_args.args[0][6], "backup")
 
     @patch('time.sleep') # speed up unittest
-    @patch('subprocess.Popen')
+    @patch('subprocess.Popen', autospec=True)
     def test_backup_async_profile_2(self, Popen_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
