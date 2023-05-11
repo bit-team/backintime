@@ -29,7 +29,7 @@ before_install:
   - sudo rm -f /etc/apt/sources.list.d/mongodb.list
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
-  - sudo apt-get install -y sshfs screen util-linux
+  - sudo apt-get install -y sshfs screen util-linux python3-pytest
 jobs:
   exclude:
     - arch: ppc64le
@@ -44,7 +44,7 @@ jobs:
       python: "3.11"
 
 install:
-  - pip install coveralls pyfakefs pytest
+  - pip install coveralls pyfakefs
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys

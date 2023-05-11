@@ -67,6 +67,7 @@ class TestBackup(generic.SnapshotsTestCase):
         self.assertEqual(Popen_mock.call_count, 1)
 
         print("call_args: {}".format(Popen_mock.call_args))
+        print("call_args.__dict__: {}".format(Popen_mock.call_args.__dict__))
         print("call_args.args[0]: " + "|".join(Popen_mock.call_args.args[0]))
 
         # args_count = Popen_mock.call_args[0].count()
