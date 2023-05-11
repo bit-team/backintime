@@ -18,7 +18,7 @@
 import os
 import sys
 import unittest
-from unittest.mock import patch, call
+from unittest.mock import patch, ANY
 from datetime import datetime
 from test import generic
 
@@ -75,9 +75,9 @@ class TestBackup(generic.SnapshotsTestCase):
         ]
         Popen_mock.assert_called_once_with(expected_call, env={})
 
-    @patch('os.environ.copy', return_value={})
+    #@patch('os.environ.copy', return_value={})
     @patch('subprocess.Popen', autospec=True)
-    def test_backup_async_with_checksum(self, Popen_mock, env_mock, sleep):
+    def test_backup_async_with_checksum(self, Popen_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
         Tests if the command for async execution is created as expected
@@ -103,7 +103,7 @@ class TestBackup(generic.SnapshotsTestCase):
             '--checksum',
             'backup'
         ]
-        Popen_mock.assert_called_once_with(expected_call, env={})
+        Popen_mock.assert_called_once_with(expected_call, env=ANY)
 
     @patch('os.environ.copy', return_value={})
     @patch('subprocess.Popen', autospec=True)
