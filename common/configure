@@ -290,7 +290,8 @@ COVERAGE=$(which coverage 2>/dev/null)
 #this will pass information to coveralls.io.
 #otherwise use "python", "python3" or if available "py.test-3"
 if onTravis && [ -n "${COVERAGE}" ]; then
-    CMD="coverage run -p"
+    #CMD="coverage run -p"
+    CMD="python${PYVERSION}"
 else
     CMD="python${PYVERSION}"
 fi
