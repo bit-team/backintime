@@ -46,8 +46,9 @@ class TestBackup(generic.SnapshotsTestCase):
         self.assertIsInstance(takeSnapshot.call_args[0][1], datetime)
         self.assertIsInstance(takeSnapshot.call_args[0][2], list)
 
+    @patch('os.environ.copy', return_value={})
     @patch('subprocess.Popen', autospec=True)
-    def test_backup_async(self, Popen_mock, sleep):
+    def test_backup_async(self, Popen_mock, env_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
         Tests if the command for async execution is created as expected
@@ -72,11 +73,11 @@ class TestBackup(generic.SnapshotsTestCase):
             self.cfg.DATA_FOLDER_ROOT,
             'backup'
         ]
-        Popen_mock.assert_called_once_with(
-            expected_call, env=os.environ.copy())
+        Popen_mock.assert_called_once_with(expected_call, env={})
 
+    @patch('os.environ.copy', return_value={})
     @patch('subprocess.Popen', autospec=True)
-    def test_backup_async_with_checksum(self, Popen_mock, sleep):
+    def test_backup_async_with_checksum(self, Popen_mock, env_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
         Tests if the command for async execution is created as expected
@@ -102,11 +103,11 @@ class TestBackup(generic.SnapshotsTestCase):
             '--checksum',
             'backup'
         ]
-        Popen_mock.assert_called_once_with(
-            expected_call, env=os.environ.copy())
+        Popen_mock.assert_called_once_with(expected_call, env={})
 
+    @patch('os.environ.copy', return_value={})
     @patch('subprocess.Popen', autospec=True)
-    def test_backup_async_profile_2(self, Popen_mock, sleep):
+    def test_backup_async_profile_2(self, Popen_mock, env_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
         Tests if the command for async execution is created as expected
@@ -139,7 +140,7 @@ class TestBackup(generic.SnapshotsTestCase):
         ]
 
         Popen_mock.assert_called_once_with(
-            expected_call, env=os.environ.copy())
+            expected_call, env={})
 
     @patch('snapshots.Snapshots.takeSnapshot')
     def test_no_changes(self, takeSnapshot, sleep):
