@@ -72,7 +72,8 @@ class TestBackup(generic.SnapshotsTestCase):
             self.cfg.DATA_FOLDER_ROOT,
             'backup'
         ]
-        Popen_mock.assert_called_once_with(expected_call, env=os.environ)
+        Popen_mock.assert_called_once_with(
+            expected_call, env=os.environ.copy())
 
     @patch('subprocess.Popen', autospec=True)
     def test_backup_async_with_checksum(self, Popen_mock, sleep):
@@ -102,7 +103,7 @@ class TestBackup(generic.SnapshotsTestCase):
             'backup'
         ]
         Popen_mock.assert_called_once_with(
-            expected_call, env=os.environ)
+            expected_call, env=os.environ.copy())
 
     @patch('subprocess.Popen', autospec=True)
     def test_backup_async_profile_2(self, Popen_mock, sleep):
@@ -138,7 +139,7 @@ class TestBackup(generic.SnapshotsTestCase):
         ]
 
         Popen_mock.assert_called_once_with(
-            expected_call, env=os.environ)
+            expected_call, env=os.environ.copy())
 
     @patch('snapshots.Snapshots.takeSnapshot')
     def test_no_changes(self, takeSnapshot, sleep):
