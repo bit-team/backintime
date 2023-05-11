@@ -21,8 +21,7 @@ python:
   - "3.8"
   - "3.9"
   - "3.10"
-  - "3.9-dev"
-  - "nightly"
+  - "3.11"
 
 before_install:
   # disable mongodb as we don't need it and it sometimes temporary fails
@@ -34,16 +33,15 @@ before_install:
 jobs:
   exclude:
     - arch: ppc64le
+      python: "3.6"
+    - arch: ppc64le
+      python: "3.10"
+    - arch: ppc64le
+      python: "3.11"
+    - arch: amd64
       python: "3.9"
-    - arch: ppc64le
-      python: "3.9-dev"
-    - arch: ppc64le
-      python: "nightly"
-    # Disable Python "3.9-dev" and "nightly" testing for AMD64, too.
     - arch: amd64
-      python: "3.9-dev"
-    - arch: amd64
-      python: "nightly"
+      python: "3.11"
 
 install:
   - pip install coveralls pyfakefs

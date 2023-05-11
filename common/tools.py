@@ -41,6 +41,8 @@ keyring_warn = False
 try:
     if os.getenv('BIT_USE_KEYRING', 'true') == 'true' and os.geteuid() != 0:
         import keyring
+        from keyring import backend
+        import keyring.util.platform_
 except:
     keyring = None
     os.putenv('BIT_USE_KEYRING', 'false')
@@ -92,7 +94,7 @@ def backintimePath(*path):
     Get path inside 'backintime' install folder.
 
     Args:
-        *path (str):    paths that should be joind to 'backintime'
+        *path (str):    paths that should be joined to 'backintime'
 
     Returns:
         str:            'backintime' child path like::
@@ -215,7 +217,7 @@ def readFileLines(path, default = None):
         default (list):         default if ``path`` does not exist
 
     Returns:
-        list:                   content of file in ``path`` splitted by lines.
+        list:                   content of file in ``path`` split by lines.
     """
     ret_val = default
 
@@ -483,7 +485,7 @@ def preparePath(path):
     Removes trailing slash '/' from ``path``.
 
     Args:
-        path (str): absolut path
+        path (str): absolute path
 
     Returns:
         str:        path ``path`` without trailing but with leading slash
@@ -597,12 +599,22 @@ def rsyncPrefix(config,
 
     cmd.append('rsync')
 
-    cmd.extend(('--recursive',     # recurse into directories
-                '--times',          # preserve modification times
-                '--devices',        # preserve device files (super-user only)
-                '--specials',       # preserve special files
-                '--hard-links',     # preserve hard links
-                '--human-readable'))# numbers in a human-readable format
+    cmd.extend((
+        # recurse into directories
+        '--recursive',
+        # preserve modification times
+        '--times',
+        # preserve device files (super-user only)
+        '--devices',
+        # preserve special files
+        '--specials',
+        # preserve hard links
+        '--hard-links',
+        # numbers in a human-readable format
+        '--human-readable',
+        # use "new" argument protection
+        '-s'
+    ))
 
     if config.useChecksum() or config.forceUseChecksum:
         cmd.append('--checksum')
@@ -703,7 +715,7 @@ def rsyncRemove(config, run_local = True):
     Returns:
         list:                   rsync command with all args
     """
-    cmd = ['rsync', '-a', '--delete']
+    cmd = ['rsync', '-a', '--delete', '-s']
     if run_local:
         cmd.extend(rsyncSshArgs(config))
     return cmd
@@ -837,29 +849,72 @@ def keyringSupported():
     if keyring is None:
         logger.debug('No keyring due to import error.')
         return False
-    backends = []
-    try: backends.append(keyring.backends.SecretService.Keyring)
-    except: pass
-    try: backends.append(keyring.backends.Gnome.Keyring)
-    except: pass
-    try: backends.append(keyring.backends.kwallet.Keyring)
-    except: pass
-    try: backends.append(keyring.backends.kwallet.DBusKeyring)
-    except: pass
-    try: backends.append(keyring.backend.SecretServiceKeyring)
-    except: pass
-    try: backends.append(keyring.backend.GnomeKeyring)
-    except: pass
-    try: backends.append(keyring.backend.KDEKWallet)
-    except: pass
+
+    keyring_config_file_folder = "Unkown"
     try:
+        keyring_config_file_folder = keyring.util.platform_.config_root()
+    except:
+        pass
+
+    logger.debug(f"Keyring config file folder: {keyring_config_file_folder}")
+
+    # Determine the currently active backend
+    try:
+        # get_keyring() internally calls keyring.core.init_backend()
+        # which fixes non-available backends for the first call.
+        # See related issue #1321:
+        # https://github.com/bit-team/backintime/issues/1321
+        # The module name is used instead of the class name
+        # to show only the keyring name (not the technical name)
         displayName = keyring.get_keyring().__module__
     except:
-        displayName = str(keyring.get_keyring())
-    if backends and isinstance(keyring.get_keyring(), tuple(backends)):
+        displayName = str(keyring.get_keyring())  # technical class name!
+
+    logger.debug("Available keyring backends:")
+    try:
+        for b in backend.get_all_keyring():
+            logger.debug(b)
+    except Exception as e:
+        logger.debug("Available backends cannot be listed: " + repr(e))
+
+    available_backends = []
+
+    # Create a list of installed backends that BiT supports (white-listed).
+    # This is done by trying to put the meta classes ("class definitions",
+    # NOT instances of the class itself!) of the supported backends
+    # into the "backends" list
+    try: available_backends.append(keyring.backends.SecretService.Keyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.SecretService.Keyring not found: " + repr(e))
+    try: available_backends.append(keyring.backends.Gnome.Keyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.Gnome.Keyring not found: " + repr(e))
+    try: available_backends.append(keyring.backends.kwallet.Keyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.kwallet.Keyring not found: " + repr(e))
+    try: available_backends.append(keyring.backends.kwallet.DBusKeyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.kwallet.DBusKeyring not found: " + repr(e))
+    try: available_backends.append(keyring.backend.SecretServiceKeyring)
+    except Exception as e: logger.debug("Metaclass keyring.backend.SecretServiceKeyring not found: " + repr(e))
+    try: available_backends.append(keyring.backend.GnomeKeyring)
+    except Exception as e: logger.debug("Metaclass keyring.backend.GnomeKeyring not found: " + repr(e))
+    try: available_backends.append(keyring.backend.KDEKWallet)
+    except Exception as e: logger.debug("Metaclass keyring.backend.KDEKWallet not found: " + repr(e))
+    # See issue #1410: ChainerBackend is now supported
+    #                  to solve the problem of configuring the
+    #                  used backend since it iterates over all of them
+    #                  and is to be the default backend now.
+    #                  Please read the issue details to understand the
+    #                  unwanted side-effects the chainer could bring with it.
+    # See also: https://github.com/jaraco/keyring/blob/977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/chainer.py#L11
+    try: available_backends.append(keyring.backends.chainer.ChainerBackend)
+    except Exception as e: logger.debug("Metaclass keyring.backends.chainer.ChainerBackend not found:" + repr(e))
+
+    logger.debug("Available supported backends: " + repr(available_backends))
+
+    if available_backends and isinstance(keyring.get_keyring(), tuple(available_backends)):
         logger.debug("Found appropriate keyring '{}'".format(displayName))
         return True
+
     logger.debug("No appropriate keyring found. '{}' can't be used with BackInTime".format(displayName))
+    logger.debug("See https://github.com/bit-team/backintime on how to fix this by creating a keyring config file.")
     return False
 
 def password(*args):
@@ -892,7 +947,7 @@ def mountpoint(path):
 
 def decodeOctalEscape(s):
     """
-    Decode octal-escaped characters with its ASCII dependance.
+    Decode octal-escaped characters with its ASCII dependence.
     For example '\040' will be a space ' '
 
     Args:
@@ -1134,12 +1189,12 @@ def wrapLine(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: ')
 
     Args:
         msg (str):                  string that should get wrapped
-        size (int):                 maximum lenght of returned strings
+        size (int):                 maximum length of returned strings
         delimiters (str):           try to break ``msg`` on these characters
         new_line_indicator (str):   start new lines with this string
 
     Yields:
-        str:                        lines with max ``size`` lenght
+        str:                        lines with max ``size`` length
     """
     if len(new_line_indicator) >= size - 1:
         new_line_indicator = ''
@@ -1606,22 +1661,52 @@ class UniquenessSet:
         else:
             return self.reference == (st.st_size, int(st.st_mtime))
 
+
 class Alarm(object):
     """
-    Timeout for FIFO. This does not work with threading.
+    Establish a callback function that is called after a timeout.
+
+    The implementation uses a SIGALRM signal so
+    do not call code in the callback that does not support multi-threading
+    (reentrance) or you may cause non-deterministic "random" RTEs.
     """
     def __init__(self, callback = None, overwrite = True):
+        """
+        Create a new alarm instance
+
+        Args:
+            callback: Function to call when the timer ran down
+                      (ensure calling only reentrant code).
+                      Use ``None`` to throw a ``Timeout`` exception instead.
+            overwrite: Is it allowed to (re)start the timer
+                       even though the current timer is still running
+                       ("ticking"):
+                       ``True`` cancels the current timer (if active)
+                                and restarts with the new timeout.
+                       ``False` silently ignores the start request
+                                if the current timer is still "ticking"
+        """
         self.callback = callback
         self.ticking = False
         self.overwrite = overwrite
 
     def start(self, timeout):
         """
-        Start timer
+        Start the timer (which calls the handler function
+        when the timer ran down).
+
+        The start is silently ignored if the current timer is still
+        ticking and the the attribute ``overwrite`` is ``False``.
+
+        Args:
+            timeout: timer count down in seconds
         """
         if self.ticking and not self.overwrite:
             return
         try:
+            # Warning: This code may cause non-deterministic RTEs
+            #          if the handler function calls code that does
+            #          not support reentrance (see e.g. issue #1003).
             signal.signal(signal.SIGALRM, self.handler)
             signal.alarm(timeout)
         except ValueError:
@@ -1630,7 +1715,7 @@ class Alarm(object):
 
     def stop(self):
         """
-        Stop timer before it come to an end
+        Stop timer before it comes to an end
         """
         try:
             signal.alarm(0)
@@ -1640,7 +1725,11 @@ class Alarm(object):
 
     def handler(self, signum, frame):
         """
-        Timeout occur.
+        This method is called after the timer ran down to zero
+        and calls the callback function of the alarm instance.
+
+        Raises:
+            Timeout: If no callback function was set for the alarm instance
         """
         self.ticking = False
         if self.callback is None:
@@ -1695,7 +1784,7 @@ class ShutDown(object):
                                 'arguments':    (True,)
                                     #arg        True    allow saving
                                     #           False   don't allow saving
-                                    #1nd arg (only with Logout)
+                                    #1st arg (only with Logout)
                                     #           True    show dialog
                                     #           False   don't show dialog
                                     #2nd arg (only with Logout)
@@ -1852,17 +1941,24 @@ class SetupUdev(object):
             conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
             self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
         except dbus.exceptions.DBusException as e:
-            if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
-                                      'org.freedesktop.DBus.Error.ServiceUnknown',
-                                      'org.freedesktop.DBus.Error.FileNotFound'):
-                conn = None
-            else:
-                raise
+            # Only DBusExceptions are  handled to do a "graceful recovery"
+            # by working without a serviceHelper D-Bus connection...
+            # All other exceptions are still raised causing BiT
+            # to stop during startup.
+            # if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
+            #                           'org.freedesktop.DBus.Error.ServiceUnknown',
+            #                           'org.freedesktop.DBus.Error.FileNotFound'):
+            logger.warning("Failed to connect to Udev serviceHelper daemon via D-Bus: " + e.get_dbus_name())
+            logger.warning("D-Bus message: " + e.get_dbus_message())
+            logger.warning("Udev-based profiles cannot be changed or checked due to Udev serviceHelper connection failure")
+            conn = None
+            # else:
+            #     raise
         self.isReady = bool(conn)
 
     def addRule(self, cmd, uuid):
         """
-        Prepair rules in serviceHelper.py
+        Prepare rules in serviceHelper.py
         """
         if not self.isReady:
             return

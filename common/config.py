@@ -1,5 +1,6 @@
 #    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+#    Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,6 +16,18 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+"""Configuration logic.
+
+This module and its `Config` class contain the application logic handling the
+configuration of Back In Time. The handling of the configuration file itself
+is separated in the module :py:module:`configfile`.
+
+Development notes:
+    Some of the methods have code comments starting with `#? ` instead of
+    `# `. These special comments are used to generate the manpage
+    `backintime-config`. The script `create-manpage-backintime-config.py`
+    parses this module for that.
+"""
 
 import os
 import sys
@@ -49,7 +62,7 @@ gettext.textdomain('backintime')
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = 'Back In Time'
-    VERSION = '1.3.2'
+    VERSION = '1.3.4-dev'
     COPYRIGHT = 'Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, ' \
                 'Richard Bailey, Germar Reitze'
 
@@ -128,7 +141,7 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_RUN_IONICE_ON_REMOTE = False
     DEFAULT_RUN_NOCACHE_ON_LOCAL = False
     DEFAULT_RUN_NOCACHE_ON_REMOTE = False
-    DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\$PATH'
+    DEFAULT_SSH_PREFIX = 'PATH=/opt/bin:/opt/sbin:\\$PATH'
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
 
@@ -421,7 +434,7 @@ class Config(configfile.ConfigFileWithProfiles):
                               {'path': value})
             return False
         elif fs == 'cifs' and not self.copyLinks():
-            self.notifyError(_("Destination filsystem for '%(path)s' is a SMB mounted share. Please make sure "
+            self.notifyError(_("Destination filesystem for '%(path)s' is a SMB mounted share. Please make sure "
                                 "the remote SMB server supports symlinks or activate '%(copyLinks)s' in '%(expertOptions)s'.") %
                               {'path': value,
                                'copyLinks': _('Copy links (dereference symbolic links)'),
@@ -445,13 +458,8 @@ class Config(configfile.ConfigFileWithProfiles):
         return True
 
     def snapshotsMode(self, profile_id=None):
-        """Use mode (or backend) for this snapshot.
-
-        Look at 'man backintime' section 'Modes'.
-
-        Returns:
-            str: Possible values are local|local_encfs|ssh|ssh_encfs.
-        """
+        #? Use mode (or backend) for this snapshot. Look at 'man backintime'
+        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -561,8 +569,9 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
 
     def sshMaxArgLength(self, profile_id = None):
-        #?Maximum argument length of commands run on remote host. This can be tested
-        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py USER@HOST'.\n
+        #?Maximum command length of commands run on remote host. This can be tested
+        #?for all ssh profiles in the configuration
+        #?with 'python3 /usr/share/backintime/common/sshMaxArg.py [initial_ssh_cmd_length]'.\n
         #?0 = unlimited;0, >700
         value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
         if value and value < 700:
@@ -850,8 +859,12 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileIntValue('schedule.mode', value, profile_id)
 
     def scheduleTime(self, profile_id = None):
-        #?What time the cronjob should run? Only valid for
-        #?\fIprofile<N>.schedule.mode\fR >= 20;0-24
+        #?Position-coded number with the format "hhmm" to specify the hour
+        #?and minute the cronjob should start (eg. 2015 means a quarter
+        #?past 8pm). Leading zeros can be omitted (eg. 30 = 0030).
+        #?Only valid for
+        #?\fIprofile<N>.schedule.mode\fR = 20 (daily), 30 (weekly),
+        #?40 (monthly) and 80 (yearly);0-2400
         return self.profileIntValue('schedule.time', 0, profile_id)
 
     def setScheduleTime(self, value, profile_id = None):
@@ -1172,7 +1185,19 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def rsyncOptions(self, profile_id = None):
         #?rsync options. Options must be quoted e.g. \-\-exclude-from="/path/to/my exclude file"
-        return self.profileStrValue('snapshots.rsync_options.value', '', profile_id)
+        val = self.profileStrValue('snapshots.rsync_options.value', '', profile_id)
+
+        if '--old-args' in val:
+            logger.warning(
+                'Found rsync flag "--old-args". That flag will be removed '
+                'from the options because it does conflict with '
+                'the flag "-s" (also known as "--secluded-args" or '
+                '"--protected-args") which is used by Back In Time to force '
+                'the "new form of argument protection" in rsync.'
+            )
+            val = val.replace('--old-args', '')
+
+        return val
 
     def setRsyncOptions(self, enabled, value, profile_id = None):
         self.setProfileBoolValue('snapshots.rsync_options.enabled', enabled, profile_id)
@@ -1376,10 +1401,14 @@ class Config(configfile.ConfigFileWithProfiles):
         if not self.isConfigured(profile_id):
             return False
 
-        if not os.path.isdir(self.snapshotsFullPath(profile_id)):
-            logger.error("%s does not exist"
-                         %self.snapshotsFullPath(profile_id),
-                         self)
+        path = self.snapshotsFullPath(profile_id)
+
+        if not os.path.exists(path):
+            return False
+
+        if not os.path.isdir(path):
+            # path exists, but is no dir: something's very wrong.
+            logger.error("%s is not a directory"%path, self)
             return False
 
         return True

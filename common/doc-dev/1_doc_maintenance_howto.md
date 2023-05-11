@@ -1,12 +1,29 @@
 This file describes briefly how to
-- build and view the source code "API" documentation of Back In Time "common" (CLI)
+- build and view the source code "API" documentation of _Back In Time_
+  "common" (CLI)
 - add new modules to the documentation
 - write docstrings
 - known issues with documentation generation
 
+# Index
 
-1. Background
-=============
+<!-- TOC start -->
+- [Background](#background)
+- [Why to use Sphinx to generate the
+  documentation?](#why-to-use-sphinx-to-generate-the-documentation)
+- [How to build and view the
+  documentation](#how-to-build-and-view-the-documentation)
+- [How to add new modules to the
+  documentation](#how-to-add-new-modules-to-the-documentation)
+- [How to write docstrings for Back In
+  Time](#how-to-write-docstrings-for-back-in-time)
+- [Commonly used rst markups in the
+  docstring](#commonly-used-rst-markups-in-the-docstring)
+- [Known issues with documentation
+  generation](#known-issues-with-documentation-generation)
+<!-- TOC end -->
+
+# Background
 
 The documentation is generated automatically from the docstrings
 in the python source code files using the tool
@@ -33,10 +50,7 @@ https://docutils.sourceforge.io/docs/user/rst/quickref.html
 For a description of the Google coding style for python see:
 https://google.github.io/styleguide/pyguide.html
 
-
-
-2. Why to use Sphinx to generate the documentation?
-==================================================
+# Why to use Sphinx to generate the documentation?
 
 Sphinx has eg. the advantage to
 
@@ -50,8 +64,7 @@ Sphinx has eg. the advantage to
 
 
 
-3. How to build and view the documentation
-==========================================
+# How to build and view the documentation
 
 Open a terminal in the "doc-dev" folder and call
 
@@ -60,8 +73,7 @@ Open a terminal in the "doc-dev" folder and call
 
 
 
-4. How to add new modules to the documentation
-==============================================
+# How to add new modules to the documentation
 
 There are two scenarios here:
 
@@ -97,8 +109,7 @@ b) The new module files are in a folder that already contains other modules cont
 
 
 
-5. How to write docstrings for Back In Time
-===========================================
+# How to write docstrings for Back In Time
 
 "Back In Time" uses the Google style for docstrings:
 
@@ -108,8 +119,7 @@ Please stick to this convention
 
 
 
-5.1 Commonly used rst markups in the docstring
-==============================================
+# Commonly used rst markups in the docstring
 
 Despite using the Google docstring style rst markups can and should still
 be used to format text and cross-reference code.
@@ -144,7 +154,7 @@ be used to format text and cross-reference code.
 
 
 
-6. Known issues with documentation generation
+# Known issues with documentation generation
 
 - Sphinx' "make html" does not recreate the html file of a sub class if only
   the parent class docstring was changed.
@@ -152,3 +162,5 @@ be used to format text and cross-reference code.
   Impact: Inherited documentation in the sub class is not up to date
 
   Work around: Use "make clean" before "make html"
+
+<sub>March 2023</sub>

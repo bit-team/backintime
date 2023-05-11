@@ -11,6 +11,6 @@ else
     cp -aR ${CURRENT} ${NEW}
 fi
 tar cfz backintime-$VER.tar.gz ${NEW}/AUTHORS ${NEW}/CHANGES ${NEW}/LICENSE    \
-                               ${NEW}/TODO ${NEW}/README.md ${NEW}/TRANSLATIONS\
+                               ${NEW}/README.md ${NEW}/TRANSLATIONS\
                                ${NEW}/VERSION ${NEW}/makedeb.sh ${NEW}/common  \
                                ${NEW}/qt ${NEW}/debian

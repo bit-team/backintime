@@ -23,8 +23,8 @@ import atexit
 import tools
 import bcolors
 
-DEBUG = False
-APP_NAME = 'backintime'
+DEBUG = False            # Set to "True" when passing "--debug" as cmd arg
+APP_NAME = 'backintime'  # TODO Duplicated code (see Config.APP_NAME)
 
 def openlog():
     name = os.getenv('LOGNAME', 'unknown')
@@ -55,14 +55,16 @@ def warning(msg , parent = None, traceDepth = 0):
 def info(msg , parent = None, traceDepth = 0):
     if DEBUG:
         msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
-    print('%sINFO%s: %s' %(bcolors.OKGREEN, bcolors.ENDC, msg), file=sys.stdout)
+    print('%sINFO%s: %s' %(bcolors.OKGREEN, bcolors.ENDC, msg), file=sys.stderr)
     for line in tools.wrapLine(msg):
         syslog.syslog(syslog.LOG_INFO, 'INFO: ' + line)
 
 def debug(msg, parent = None, traceDepth = 0):
     if DEBUG:
         msg = '%s %s' %(_debugHeader(parent, traceDepth), msg)
-        print('%sDEBUG%s: %s' %(bcolors.OKBLUE, bcolors.ENDC, msg), file = sys.stdout)
+        # Why does this code differ from eg. "error()"
+        # (where the following lines are NOT part of the "if")?
+        print('%sDEBUG%s: %s' %(bcolors.OKBLUE, bcolors.ENDC, msg), file=sys.stderr)
         for line in tools.wrapLine(msg):
             syslog.syslog(syslog.LOG_DEBUG, 'DEBUG: %s' %line)
 

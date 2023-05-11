@@ -30,8 +30,8 @@ class Diagnostics(unittest.TestCase):
             self.assertIn(key, result['backintime'], key)
 
         # 2nd level "host-setup"
-        minimal_keys = ['platform', 'system', 'display-system',
-                        'locale', 'PATH']
+        minimal_keys = ['platform', 'system', 'display-system', 'locale',
+                        'PATH', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']
         for key in minimal_keys:
             self.assertIn(key, result['host-setup'], key)
 
@@ -42,7 +42,6 @@ class Diagnostics(unittest.TestCase):
         minimal_keys = ['rsync', 'shell']
         for key in minimal_keys:
             self.assertIn(key, result['external-programs'], key)
-
 
     def test_no_ressource_warning(self):
         """No ResourceWarning's.
@@ -56,7 +55,7 @@ class Diagnostics(unittest.TestCase):
 
             # We expect NO ResourceWarnings. But Python doesn't offer
             # assertNoWarns().
-            # This will raise an AssertionError bcause no ResourceWarning's
+            # This will raise an AssertionError because no ResourceWarning's
             # are raised.
             with self.assertWarns(ResourceWarning):
 
@@ -70,6 +69,27 @@ class Diagnostics(unittest.TestCase):
             '(no fooXbar)'
         )
 
+    def test_replace_user_path(self):
+        """Replace users path."""
+
+        d = {
+            'foo': '/home/rsync',
+            'bar': '~/rsync'
+        }
+
+        self.assertEqual(
+            diagnostics._replace_username_paths(d, 'rsync'),
+            {
+                'foo': '/home/UsernameReplaced',
+                'bar': '~/UsernameReplaced'
+            }
+        )
+
+        self.assertEqual(
+            diagnostics._replace_username_paths(d, 'user'),
+            d
+        )
+
 
 class Diagnostics_FakeFS(pyfakefs_ut.TestCase):
     """Tests using a fake filesystem.
@@ -78,20 +98,7 @@ class Diagnostics_FakeFS(pyfakefs_ut.TestCase):
     def setUp(self):
         self.setUpPyfakefs(allow_root_user=False)
 
-    def test_distro_package_folder(self):
-        """Determin the folder of the project.
-        """
 
-        # real path
-        path = pathlib.Path(diagnostics.__file__)
-
-        # replicate that path in the fake fileystem
-        path.mkdir(parents=True)
-        path.touch()
-
-        result = diagnostics._determine_distro_package_folder()
-
-        self.assertEqual(result, path.parent.parent)
 
     def test_git_repo_info(self):
         """

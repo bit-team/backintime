@@ -44,12 +44,14 @@ class TestSSH(generic.SSHTestCase):
 
         try:
             hash_id = mnt.mount(mode = 'ssh', check = False, **self.mount_kwargs)
-            full_path = os.path.join(self.sharePath,".local","share","backintime","mnt",hash_id,"mountpoint","testfile")
+            full_path = os.path.join(
+                    self.sharePath, ".local", "share", "backintime", "mnt", hash_id, "mountpoint", "testfile")
 
             # warning - don't use os.access for checking writability
             # https://github.com/bit-team/backintime/issues/490#issuecomment-156265196
             with open(full_path, 'wt') as f:
                 f.write('foo')
+
         finally:
             mnt.umount(hash_id = hash_id)
 

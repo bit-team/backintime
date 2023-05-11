@@ -5,7 +5,7 @@ long doc
 """
 import sys
 import os
-import pathlib
+from pathlib import Path
 import pwd
 import platform
 import locale
@@ -13,6 +13,7 @@ import subprocess
 import json
 import re
 import config  # config.Config.VERSION  Refactor after src-layout migration
+import tools
 
 
 def collect_diagnostics():
@@ -26,14 +27,9 @@ def collect_diagnostics():
     """
     result = {}
 
-    # Replace home folder user names with this dummy name
-    # for privacy reasons
-    USER_REPLACED = 'UsernameReplaced'
-
     pwd_struct = pwd.getpwuid(os.getuid())
 
     # === BACK IN TIME ===
-    distro_path = _determine_distro_package_folder()
 
     # work-around: Instantiate to get the user-callback folder
     # (should be singleton)
@@ -44,19 +40,23 @@ def collect_diagnostics():
         'version': config.Config.VERSION,
         'latest-config-version': config.Config.CONFIG_VERSION,
         'local-config-file': cfg._LOCAL_CONFIG_PATH,
-        'local-config-file-found': os.path.exists(cfg._LOCAL_CONFIG_PATH),
+        'local-config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
         'global-config-file': cfg._GLOBAL_CONFIG_PATH,
-        'global-config-file-found': os.path.exists(cfg._GLOBAL_CONFIG_PATH),
-        'distribution-package': str(distro_path),
-        'started-from': str(pathlib.Path(config.__file__).parent),
+        'global-config-file-found': Path(cfg._GLOBAL_CONFIG_PATH).exists(),
+        # 'distribution-package': str(distro_path),
+        'started-from': str(Path(config.__file__).parent),
         'running-as-root': pwd_struct.pw_name == 'root',
-        'user-callback': cfg.takeSnapshotUserCallback()
+        'user-callback': cfg.takeSnapshotUserCallback(),
+        'keyring-supported': tools.keyringSupported()
     }
 
     # Git repo
-    git_info = get_git_repository_info(distro_path)
+    bit_root_path = Path(tools.backintimePath(""))
+    git_info = get_git_repository_info(bit_root_path)
 
     if git_info:
+
+        result['backintime']['git-project-root'] = str(bit_root_path)
 
         for key in git_info:
             result['backintime'][f'git-{key}'] = git_info[key]
@@ -67,40 +67,33 @@ def collect_diagnostics():
         'platform': platform.platform(),
         # OS Version (and maybe name)
         'system': '{} {}'.format(platform.system(), platform.version()),
+        # OS Release name (prettier)
+        'os-release': _get_os_release()
+
     }
-
-
-    # content of /etc/os-release
-    try:
-        osrelease = platform.freedesktop_os_release()  # since Python 3.10
-
-    except AttributeError:  # refactor: when we drop Python 3.9 support
-        # read and parse the os-release file ourself
-        fp = pathlib.Path('/etc') / 'os-release'
-
-        try:
-            with fp.open('r') as handle:
-                osrelease = handle.read()
-
-        except FileNotFoundError:
-            osrelease = '(os-release file not found)'
-
-        else:
-            osrelease = re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
-
-    result['host-setup']['os-release'] = osrelease
 
     # Display system (X11 or Wayland)
     # This doesn't catch all edge cases.
-    # For more detials see: https://unix.stackexchange.com/q/202891/136851
+    # For more details see: https://unix.stackexchange.com/q/202891/136851
     result['host-setup']['display-system'] = os.environ.get(
         'XDG_SESSION_TYPE', '($XDG_SESSION_TYPE not set)')
 
     # locale (system language etc)
-    result['host-setup']['locale'] = ', '.join(locale.getlocale())
+    #
+    # Implementation note: With env var "LC_ALL=C" getlocale() will return (None, None).
+    # This throws an error in "join()":
+    #   TypeError: sequence item 0: expected str instance, NoneType found
+    my_locale = locale.getlocale()
+    if all(x is None for x in my_locale):
+        my_locale = ["(Unknown)"]
+    result['host-setup']['locale'] = ', '.join(my_locale)
 
     # PATH environment variable
     result['host-setup']['PATH'] = os.environ.get('PATH', '($PATH unknown)')
+
+    # RSYNC environment variables
+    for var in ['RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']:
+        result['host-setup'][var] = os.environ.get(var, '(not set)')
 
     # === PYTHON setup ===
     python = '{} {} {} {}'.format(
@@ -118,10 +111,21 @@ def collect_diagnostics():
     if rev:
         python = '{} rev: {}'.format(python, rev)
 
+    python_executable = Path(sys.executable)
+
+    # Python interpreter
     result['python-setup'] = {
         'python': python,
-        'sys.path': sys.path,
+        'python-executable': str(python_executable),
+        'python-executable-symlink': python_executable.is_symlink(),
     }
+
+    # Real interpreter path if it is used via a symlink
+    if result['python-setup']['python-executable-symlink']:
+        result['python-setup']['python-executable-resolved'] \
+            = str(python_executable.resolve())
+
+    result['python-setup']['sys.path'] = sys.path
 
     # Qt
     try:
@@ -143,7 +147,7 @@ def collect_diagnostics():
     # rsync <= (somewhere near) 3.1.3: -VV doesn't exists
     # rsync == 3.1.3 (Ubuntu 20 LTS) doesn't even know '-V'
 
-    # This work when rsync understand -VV and return json or human readable
+    # This works when rsync understands -VV and returns json or human readable
     result['external-programs']['rsync'] = _get_extern_versions(
         ['rsync', '-VV'],
         r'rsync  version (.*)  protocol version',
@@ -179,11 +183,11 @@ def collect_diagnostics():
 
     if shell != SHELL_ERR_MSG:
         shell_version = _get_extern_versions([shell, '--version'])
-        result['external-programs']['shell-version'] = shell_version.split('\n')[0]
+        result['external-programs']['shell-version'] \
+            = shell_version.split('\n')[0]
 
-    result = json.loads(
-        json.dumps(result).replace(pwd_struct.pw_name, USER_REPLACED)
-    )
+    result = _replace_username_paths(result=result,
+                                     username=pwd_struct.pw_name)
 
     return result
 
@@ -194,15 +198,19 @@ def _get_extern_versions(cmd,
                          error_pattern=None):
     """Get the version of an external tools using ``subprocess.Popen()``.
 
-    Args:
-        cmd (list): Commandline arguments that will be passed to `Popen()`.
-        pattern (str): A regex pattern to extract the version string from the
-                       commands output.
-        try_json (bool): Interpet the output as json first (default: False).
-        error_pattern (str): Regex pattern to identify a message in the output
-                             that indicates an error.
+     Args:
+         cmd (list): Commandline arguments that will be passed to `Popen()`.
+         pattern (str): A regex pattern to extract the version string from the
+                        commands output.
+         try_json (bool): Interpret the output as json first (default: False).
+                          If it could be parsed the result is a dict
+         error_pattern (str): Regex pattern to identify a message in the output
+                              that indicates an error.
 
-    """
+     Returns:
+         Version information as string (or dict if was JSON and parsed successfully).
+         `None` if the error_pattern did match (to indicate an error)
+     """
 
     try:
         # as context manager to prevent ResourceWarning's
@@ -224,7 +232,7 @@ def _get_extern_versions(cmd,
             if match:
                 return None
 
-        # some tools use "stderr" for version infos
+        # some tools use "stderr" for version info
         if not std_output:
             result = error_output
         else:
@@ -241,14 +249,13 @@ def _get_extern_versions(cmd,
                 pass
 
             else:
-                # No regex parsing because it was json
-                pattern = None
+                return result  # as JSON
 
         # extract version string
         if pattern:
             result = re.findall(pattern, result)[0]
 
-    return result.strip()
+    return result.strip()  # as string
 
 
 def get_git_repository_info(path=None):
@@ -257,8 +264,8 @@ def get_git_repository_info(path=None):
     Credits: https://stackoverflow.com/a/51224861/4865723
 
     Args:
-        path (pathlib.Path): Path with '.git' folder in (default is
-                             current working directory).
+        path (Path): Path with '.git' folder in (default is
+                     current working directory).
 
     Returns:
         (dict): Dict with keys "branch" and "hash" if it is a git repo,
@@ -266,7 +273,7 @@ def get_git_repository_info(path=None):
     """
 
     if not path:
-        path = pathlib.Path.cwd()
+        path = Path.cwd()
 
     git_folder = path / '.git'
 
@@ -296,23 +303,54 @@ def get_git_repository_info(path=None):
     return result
 
 
-def _determine_distro_package_folder():
-    """Return the projects root folder.
+def _get_os_release():
+    """Extract infos from os-release file.
 
-    In Python terms it is the "Distribution Package" not the "Modules
-    Package".
-
-    Development info: The function become obslet when migrating the project
-    to the "src" layout.
+    Returns:
+        (str): OS name e.g. "Debian GNU/Linux 11 (bullseye)"
     """
 
-    # "current" folder
-    path = pathlib.Path(__file__)
+    try:
+        # content of /etc/os-release
+        return platform.freedesktop_os_release()  # since Python 3.10
+    except AttributeError:  # refactor: when we drop Python 3.9 support
+        pass
 
-    # level of highest folder named "backintime"
-    bit_idx = path.parts.index('backintime')
+    # read and parse the os-release file ourself
+    fp = Path('/etc') / 'os-release'
 
-    # cut the path to that folder
-    path = pathlib.Path(*(path.parts[:bit_idx+1]))
+    try:
+        with fp.open('r') as handle:
+            osrelease = handle.read()
+    except FileNotFoundError:
+        return '(os-release file not found)'
 
-    return path
+    return re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
+
+
+
+def _replace_username_paths(result, username):
+    """User's homepath and the username is replaced because of security
+    reasons.
+
+    Args:
+        result (dict): Dict possibly containing the username and its home
+                       path.
+        username (str). The user login name to look for.
+
+    Returns:
+        (str): String with replacements.
+    """
+
+    # Replace home folder user names with this dummy name
+    # for privacy reasons
+    USER_REPLACED = 'UsernameReplaced'
+
+    # JSON to string
+    result = json.dumps(result)
+
+    result = result.replace(f'/home/{username}', f'/home/{USER_REPLACED}')
+    result = result.replace(f'~/{username}', f'~/{USER_REPLACED}')
+
+    # string to JSON
+    return json.loads(result)

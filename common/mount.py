@@ -115,14 +115,18 @@ class Mount(object):
         """
         self.config.PLUGIN_MANAGER.load(cfg = self.config)
         self.config.PLUGIN_MANAGER.mount(self.profile_id)
+
         if mode is None:
             mode = self.config.snapshotsMode(self.profile_id)
 
         if self.config.SNAPSHOT_MODES[mode][0] is None:
-            #mode doesn't need to mount
+            # mode doesn't need to mount
             return 'local'
+
         else:
-            while True:
+
+            while True:  # ???
+
                 try:
                     mounttools = self.config.SNAPSHOT_MODES[mode][0]
                     backend = mounttools(cfg = self.config,
@@ -131,12 +135,16 @@ class Mount(object):
                                          mode = mode,
                                          parent = self.parent,
                                          **kwargs)
+
                     return backend.mount(check = check)
+
                 except HashCollision as ex:
                     logger.warning(str(ex), self)
                     del backend
                     check = False
+
                     continue
+
                 break
 
     def umount(self, hash_id = None):
@@ -360,7 +368,7 @@ class MountControl(object):
         ``self.all_kwargs`` need to be filled through :py:func:`setattrKwargs`
         before calling this.
         """
-        #self.destination should contain all arguments that are nessesary for
+        #self.destination should contain all arguments that are necessary for
         #mount.
         args = list(self.all_kwargs.keys())
         self.destination = '%s:' % self.all_kwargs['mode']
@@ -387,7 +395,7 @@ class MountControl(object):
 
     def mount(self, check = True):
         """
-        Low-level `mount`. Set mountprocess lock and prepair mount, run checks
+        Low-level `mount`. Set mountprocess lock and prepare mount, run checks
         and than call :py:func:`_mount` for the subclassed backend. Finally set
         mount lock and symlink and release mountprocess lock.
 
@@ -633,7 +641,7 @@ class MountControl(object):
             │   │                           mountpoint
             │   │
             │   ├── umount              <=  ``self.umount_info`` json file with
-            │   │                           all nessesary args for unmount
+            │   │                           all necessary args for unmount
             │   │
             │   └── locks/              <=  ``self.lock_path`` for each process
             │                               you have a ``<pid>.lock`` file
@@ -875,22 +883,29 @@ class MountControl(object):
         """
         if not self.symlink:
             return
+
         if profile_id is None:
             profile_id = self.profile_id
+
         if hash_id is None:
             hash_id = self.hash_id
+
         if tmp_mount is None:
             tmp_mount = self.tmp_mount
-        dst = self.config.snapshotsPath(profile_id = profile_id,
-                                             mode = self.mode,
-                                             tmp_mount = tmp_mount)
+
+        dst = self.config.snapshotsPath(profile_id=profile_id,
+                                        mode=self.mode,
+                                        tmp_mount=tmp_mount)
         mountpoint = self.mountpoint(hash_id)
+
         if self.symlink_subfolder is None:
             src = mountpoint
         else:
             src = os.path.join(mountpoint, self.symlink_subfolder)
+
         if os.path.exists(dst):
             os.remove(dst)
+
         os.symlink(src, dst)
 
     def removeSymlink(self, profile_id = None, tmp_mount = None):

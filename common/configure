@@ -28,7 +28,7 @@ usage () {
     echo "--no-fuse-group"
     echo "\tdo not check for 'fuse' group membership (if not necessary on destination platform)"
     echo "--fuse-group"
-    echo "\tmake sure user is in group 'fuse' to be able to use fuse-based file-systems"
+    echo "\tmake sure user is in the group 'fuse' to be able to use fuse-based file-systems"
 }
 
 addInstallFiles () {
@@ -287,7 +287,7 @@ for i in "pytest" "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
 done
 COVERAGE=$(which coverage 2>/dev/null)
 #use "coverage run" only on travis-ci.org and if it is available
-#this will pass informations to coveralls.io.
+#this will pass information to coveralls.io.
 #otherwise use "python", "python3" or if available "py.test-3"
 if onTravis && [ -n "${COVERAGE}" ]; then
     CMD="coverage run -p"
