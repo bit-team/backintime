@@ -149,7 +149,7 @@ class Config(configfile.ConfigFileWithProfiles):
         '/var/tmp/*',
         '/var/backups/*',
         '.Private',
-        'swapfile',
+        '/swapfile',
     ]
 
     DEFAULT_RUN_NICE_FROM_CRON = True
