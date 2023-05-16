@@ -190,15 +190,6 @@ addInstallDir               "/share/applications"
 addInstallFiles "*.desktop" "/share/applications"
 addNewline
 
-addComment "docbook"
-addInstallDir                          "/share/doc/qt/HTML/en/backintime"
-addInstallFiles "docbook/en/*.docbook" "/share/doc/qt/HTML/en/backintime"
-addUninstallDir                        "/share/doc/qt/HTML/en"
-addUninstallDir                        "/share/doc/qt/HTML"
-addUninstallDir                        "/share/doc/qt"
-addUninstallDir                        "/share/doc"
-addNewline
-
 addComment "man"
 addInstallDir    "/share/man/man1"
 addInstallFile   "man/C/backintime-qt.1.gz" "/share/man/man1"
