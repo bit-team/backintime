@@ -1,4 +1,5 @@
 # Translation and localization (l10n) of Back In Time using Weblate
+<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues) or contact the [maintenace team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/) if this text is difficult to understand or not helpful.</sub>
 
 ## Index
 
