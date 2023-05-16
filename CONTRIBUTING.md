@@ -64,7 +64,7 @@ replaced with PyPi packages.
 
 * Runtime dependencies
 
-  - `python3` (>= 3.6)
+  - `python3` (>= 3.8)
   - `rsync`
   - `cron-daemon`
   - `openssh-client`

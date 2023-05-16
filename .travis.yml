@@ -16,7 +16,7 @@ addons:
   ssh_known_hosts: localhost
 
 python:
-  - "3.6"
+  - "3.8"
   - "3.9"
   - "3.10"
   - "3.11"
@@ -30,16 +30,8 @@ before_install:
   - sudo apt-get install -y sshfs screen util-linux
 jobs:
   exclude:
-    - arch: ppc64le
-      python: "3.6"
-    - arch: ppc64le
-      python: "3.10"
-    - arch: ppc64le
-      python: "3.11"
-    - arch: amd64
-      python: "3.9"
-    - arch: amd64
-      python: "3.11"
+    -  python: "3.9"
+    -  python: "3.10"
 
 install:
   - pip install coveralls pyfakefs
