@@ -54,13 +54,6 @@ update_omf () {
       -i $1
 }
 
-update_xml () {
-  echo "Update '$1'"
-  sed -e "s/^<!ENTITY appversion .*>$/<!ENTITY appversion \"$VERSION\">/" \
-      -e "s/^<!ENTITY manrevision .*>$/<!ENTITY manrevision \"$VERSION\">/" \
-      -i $1
-}
-
 # Extract all changelog lines of the specified version from the CHANGES file
 # into the file given by the first argument ($1).
 # This does only work if you strictly use the correct version headlines
@@ -89,7 +82,5 @@ update_man_page common/man/C/backintime-config.1
 update_man_page common/man/C/backintime-askpass.1
 
 update_man_page qt/man/C/backintime-qt.1
-
-update_xml qt/docbook/en/index.docbook
 
 update_changelog debian/changelog
