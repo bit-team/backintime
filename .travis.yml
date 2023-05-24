@@ -16,10 +16,7 @@ addons:
   ssh_known_hosts: localhost
 
 python:
-  - "3.8"
-  - "3.9"
-  - "3.10"
-  - "3.11"
+  - "3.12
 
 before_install:
   # disable mongodb as we don't need it and it sometimes temporary fails
