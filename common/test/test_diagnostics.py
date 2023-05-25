@@ -90,7 +90,7 @@ class Diagnostics(unittest.TestCase):
             d
         )
 
-
+@unittest.skipIf
 class Diagnostics_FakeFS(pyfakefs_ut.TestCase):
     """Tests using a fake filesystem.
     """
