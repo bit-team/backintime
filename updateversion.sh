@@ -37,9 +37,9 @@
 VERSION=`cat VERSION`
 echo VERSION: $VERSION
 
-# MAINTAINER="Germar Reitze <germar.reitze@gmail.com>"
+MAINTAINER="Germar Reitze <germar.reitze@gmail.com>"
 # MAINTAINER="BIT Team <dan@le-web.org>"
-MAINTAINER="BIT Team <bit-dev@python.org>"
+# MAINTAINER="BIT Team <bit-dev@python.org>"
 
 update_sphinx_config () {
   echo "Update '$1'"
