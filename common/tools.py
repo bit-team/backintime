@@ -1600,6 +1600,7 @@ class UniquenessSet:
     def checkUnique(self, path):
         """
         Check file ``path`` for uniqueness and store a unique key for ``path``.
+        Look into `random`.
 
         Args:
             path (str): full path to file
