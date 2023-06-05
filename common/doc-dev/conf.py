@@ -108,7 +108,10 @@ pygments_style = 'sphinx'
 
 # -- Intersphinx options --------------------------------------------------
 
-intersphinx_mapping = {'python': ('https://docs.python.org/3.4', None)}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', 'objects.inv'),
+}
+
 
 # -- Napoleon include private members which have docstrings ---------------
 
