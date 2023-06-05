@@ -17,17 +17,10 @@
 
 
 import os
-import pluginmanager
 import subprocess
+import dbus
+import pluginmanager
 
-try:
-    import dbus
-except ImportError:
-    if ON_TRAVIS or ON_RTD:
-        #python-dbus doesn't work on Travis yet.
-        dbus = None
-    else:
-        raise
 
 class NotifyPlugin(pluginmanager.Plugin):
     def __init__(self):
