@@ -109,7 +109,8 @@ pygments_style = 'sphinx'
 # -- Intersphinx options --------------------------------------------------
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3', 'objects.inv'),
+    'python': ('https://docs.python.org/3.4', None),
+    #'python': ('https://docs.python.org/3', 'objects.inv'),
 }
 
 
