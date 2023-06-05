@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Nov 2017" "version 1.2.0" "USER COMMANDS"
+.TH backintime-config 1 "May 2023" "version 1.3.4-dev" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -7,7 +7,7 @@ config \- BackInTime configuration files.
 /etc/backintime/config
 .SH DESCRIPTION
 Back In Time was developed as pure GUI program and so most functions are only
-useable with backintime-qt. But it is possible to use
+usable with backintime-qt. But it is possible to use
 Back In Time e.g. on a headless server. You have to create the configuration file
 (~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime\-common/examples/ for examples.
 .PP
@@ -23,7 +23,7 @@ Run 'backintime check-config' to verify the configfile, create the snapshot fold
 .RS
 Type: int       Allowed Values: 0-99999
 .br
-Internal version of current config
+
 .PP
 Default: 6
 .RE
@@ -146,9 +146,9 @@ Default: 20
 
 .IP "\fIprofile<N>.schedule.time\fR" 6
 .RS
-Type: int       Allowed Values: 0-24
+Type: int       Allowed Values: 0-2400
 .br
-What time the cronjob should run? Only valid for \fIprofile<N>.schedule.mode\fR >= 20
+Position-coded number with the format "hhmm" to specify the hour and minute the cronjob should start (eg. 2015 means a quarter past 8pm). Leading zeros can be omitted (eg. 30 = 0030). Only valid for \fIprofile<N>.schedule.mode\fR = 20 (daily), 30 (weekly), 40 (monthly) and 80 (yearly)
 .PP
 Default: 0
 .RE
@@ -417,7 +417,7 @@ Default: 1
 .RS
 Type: str       Allowed Values: local|local_encfs|ssh|ssh_encfs
 .br
-Use mode (or backend) for this snapshot. Look at 'man backintime' section 'Modes'.
+ Use mode (or backend) for this snapshot. Look at 'man backintime'  section 'Modes'.
 .PP
 Default: local
 .RE
@@ -673,7 +673,7 @@ Default: false
 .RS
 Type: int       Allowed Values: 0, >700
 .br
-Maximum argument length of commands run on remote host. This can be tested with 'python3 /usr/share/backintime/common/sshMaxArg.py USER@HOST'.
+Maximum command length of commands run on remote host. This can be tested for all ssh profiles in the configuration with 'python3 /usr/share/backintime/common/sshMaxArg.py [initial_ssh_cmd_length]'.
 .br
 0 = unlimited
 .PP

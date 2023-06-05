@@ -1,13 +1,63 @@
 Back In Time
 
-Version 1.3.0
+Version 1.3.4-dev (development of upcoming release)
+* Project: Renamed branch "master" to "main" and started "gitflow" branching model.
+* Fix bug: Add support for ChainerBackend class as keyring which iterates over all supported keyring backends (#1410)
+* Fix bug: Unit test fails on some machines due to warning "Ignoring XDG_SESSION_TYPE=wayland on Gnome..." (#1429)
+* Fix bug: Generation of config-manpage caused an error with Debian's Lintian (#1398).
+* Breaking change: Minimal Python version 3.8 required (#1358).
+* Feature: Exclude /swapfile by default (#1053)
+* Documentation: Removed outdated docbook (#1345).
+
+Version 1.3.3 (2023-01-04)
+* New feature: Command line argument "--diagnostics" to show helpful info for better issue support (#1100)
+* GUI change: Remove Exit button from the toolbar (#172)
+* GUI change: Define accelerator keys for menu bar and tabs, as well as toolbar shortcuts (#1104)
+* Desktop integration: Update .desktop file to mark Back In Time as a single main window program (#1258)
+* Improvement: Write all log output to stderr; do not pollute stdout with INFO and WARNING messages anymore (#1337)
+* Bugfix: RTE "reentrant call inside io.BufferedWriter" in logFile.flush() during backup (#1003)
+* Bugfix: Incompatibility with rsync 3.2.4 or later because of rsync's "new argument protection" (#1247). Deactivate "--old-args" rsync argument earlier recommaned to users as a workaround.
+* Bugfix: DeprecationWarnings about invalid escape sequences.
+* Bugfix: AttributeError in "Diff Options" dialog (#898)
+* Bugfix: Settings GUI: "Save password to Keyring" was disabled due to "no appropriate keyring found" (#1321)
+* Bugfix: Back in Time did not start with D-Bus error
+          "dbus.exceptions.DBusException: org.freedesktop.DBus.Error.NameHasNoOwner:
+           Could not get owner of name 'net.launchpad.backintime.serviceHelper': no such name"
+           (fixes client-side part of #921 - system D-Bus part of the Udev serviceHelper is still under investigation).
+* Bugfix: Avoid logging errors while waiting for a target drive to be mounted (#1142, #1143, #1328)
+* Bugfix: [Arch Linux] AUR pkg "backintime-git": Build tests fails and installation is aborted (#1233, fixed with #921)
+* Bugfix: Wrong systray icon showing in Wayland (#1244)
+* Documentation update: Correct description of profile<N>.schedule.time in backintime-config manpage (#1270)
+* Translation update: Brazilian Portuguese (#1267)
+* Translation update: Italian (#1110, #1123)
+* Translation update: French (#1077)
+* Testing: Fix a test fail when dealing with an empty crontab (#1181)
+* Testing: Fix a test fail when dealing with an empty config file (#1305)
+* Testing: Skip "test_quiet_mode" (does not work reliably)
+* Testing: Improve "test_diagnostics_arg" (introduced with #1100) to no longer fail
+           when JSON output was mixed with logging output (part of #921, fixes #1233)
+* Testing: Numerous fixes and extensions to testing (#1115, #1213, #1279, #1280, #1281, #1285, #1288, #1290, #1293, #1309, #1334)
+
+Version 1.3.2 (2022-03-12)
+* Fix bug: Tests no longer work with Python 3.10 (https://github.com/bit-team/backintime/issues/1175)
+
+Version 1.3.1 (2021-07-05)
+* bump version, forgot to push branch to Github before releasing
+
+Version 1.3.0 (2021-07-04)
+* Merge PR: Fix FileNotFoundError exception in mount.mounted, Thanks tatokis (https://github.com/bit-team/backintime/pull/1157)
+* Merge PR: qt/plugins/notifyplugin: Fix setting self.user, not local variable, Thanks Zocker1999NET (https://github.com/bit-team/backintime/pull/1155)
+* Merge PR: Use Link Color instead of lightGray as not to break theming, Thanks newhinton (https://github.com/bit-team/backintime/pull/1153)
+* Merge PR: Match old and new rsync version format, Thanks TheTimeWalker (https://github.com/bit-team/backintime/pull/1139)
+* Merge PR: 'TempPasswordThread' object has no attribute 'isAlive', Thanks FMeinicke (https://github.com/bit-team/backintime/pull/1135)
+* Merge PR: Keep permissions of an existing mountpoint from being overridden, Thanks bentolor (https://github.com/bit-team/backintime/pull/1058)
 * Fix bug: YEAR missing in config (https://github.com/bit-team/backintime/issues/1023)
 * Fix bug: SSH module didn't send identification string while checking if remote host is avilable (https://github.com/bit-team/backintime/issues/1030)
 
-Version 1.2.1
+Version 1.2.1 (2019-08-25)
 * Fix bug: TypeError in backintime.py if mount failed while running a snapshot (https://github.com/bit-team/backintime/issues/1005)
 
-Version 1.2.0
+Version 1.2.0 (2019-04-27)
 * Fix bug: Exit code is linked to the wrong status message (https://github.com/bit-team/backintime/issues/906)
 * minor changes to allow running BiT inside Docker (https://github.com/bit-team/backintime/pull/959)
 * Fix bug: AppName showed 'python3' instead of 'Back In Time' (https://github.com/bit-team/backintime/issues/950)
@@ -113,11 +163,36 @@ Version 1.2.0
 * rewrite huge parts of snapshots.py
 * remove backwards compatibility to version < 1.0
 
-Version 1.1.12
+Version 1.1.24 (2017-11-07)
+* fix critical bug: CVE-2017-16667: shell injection in notify-send (https://github.com/bit-team/backintime/issues/834)
+
+Version 1.1.22 (2017-10-28)
+* fix bug: stat free space for snapshot folder instead of backintime folder (https://github.com/bit-team/backintime/issues/552733)
+* backport bug fix: backintime root crontab doesn't run; missinng line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/552781)
+* backport bug fix: can't open files with spaces in name (https://github.com/bit-team/backintime/issues/552552)
+
+Version 1.1.20 (2017-04-09)
+* backport bug fix: CVE-2017-7572: polkit CheckAuthorization: race condition in privilege authorization
+
+Version 1.1.18 (2017-03-29)
+* Fix bug: manual snapshots from GUI didn't work (https://github.com/bit-team/backintime/issues/728)
+
+Version 1.1.16 (2017-03-28)
+* backport bug fix: start a new ssh-agent instance only if necessary (https://github.com/bit-team/backintime/issues/722)
+* Fix bug: OSError when running backup-job from systemd (https://github.com/bit-team/backintime/issues/720)
+
+Version 1.1.14 (2017-03-05)
+* backport bug fix: udev schedule not working (https://github.com/bit-team/backintime/issues/605)
+* backport bug fix: Keyring doesn't work with KDE Plasma5 (https://github.com/bit-team/backintime/issues/545)
+* backport bug fix: nameError in tools.make_dirs (https://github.com/bit-team/backintime/issues/622)
+* backport bug fix: use current folder if no file is selected in files view
+* Fix critical bug: restore filesystem-root without 'Full rsync mode' with ACL and/or xargs activated broke whole system (https://github.com/bit-team/backintime/issues/708)
+
+Version 1.1.12 (2016-01-11)
 * Fix bug: remove x-terminal-emulator dependency (https://github.com/bit-team/backintime/issues/515)
 * Fix bug: AttributeError in About Dialog (https://github.com/bit-team/backintime/issues/515)
 
-Version 1.1.10
+Version 1.1.10 (2016-01-09)
 * Fix bug: failed to remove empty lock file (https://github.com/bit-team/backintime/issues/505)
 * Add Icon 'show-hidden' (https://github.com/bit-team/backintime/issues/507)
 * Add Modify for Full System Backup button to settings page, to change some profile settings
@@ -144,7 +219,7 @@ Version 1.1.10
 * Fix bug: remote rename of 'new_snapshot' folder sometimes isn't recognized locally; rename local now (https://answers.launchpad.net/questions/271792)
 * Move source code and bug tracking to GitHub
 
-Version 1.1.8
+Version 1.1.8 (2015-09-28)
 * Fix bug: unlock private SSH key run into 5sec timeout if password is empty
 * show current app name and profile ID in syslog (https://launchpad.net/bugs/906213)
 * Fix bug: BiT freeze when activate 'Decode path' in 'Snapshot Log View'
@@ -182,7 +257,7 @@ Version 1.1.8
 * add expert option SSH command prefix
 * Fix bug: Makefile has no uninstall target (https://launchpad.net/bugs/1469152)
 
-Version 1.1.6
+Version 1.1.6 (2015-06-27)
 * show Profile name in systrayicon menu
 * Fix bug: encrypted remote backup hangs on 'start encfsctl encode process' (https://launchpad.net/bugs/1455925)
 * make own Exceptions a childclass from BackInTimeException
@@ -200,7 +275,7 @@ Version 1.1.6
 * Fix bug: failed to restore file names with white spaces using CLI (https://launchpad.net/bugs/1435602)
 * Fix bug: UnboundLocalError with 'last_snapshot' in _free_space (https://launchpad.net/bugs/1437623)
 
-Version 1.1.4
+Version 1.1.4 (2015-03-22)
 * add option to keep new snapshot with 'full rsync mode' regardless of changes (https://launchpad.net/bugs/1434722)
 * Fix bug: wrong quote in 'Save config file'
 * Fix bug: Deleting the last snapshot does not update the last_snapshot symlink (https://launchpad.net/bugs/1434724)
@@ -219,14 +294,14 @@ Version 1.1.4
 * Fix bug: filename with broken charset throwed UnicodeError exception (https://launchpad.net/bugs/1419694)
 * use 'crontab' instead of 'crontab -' to read from stdin (https://launchpad.net/bugs/1419466)
 
-Version 1.1.2
+Version 1.1.2 (2015-02-04)
 * sort 'Backup folders' in main window
 * save in- and exclude sort order
 * use PolicyKit to install Udev rules
 * move compression from install to build in Makefiles
 * use pkexec to start backintime-qt4 as root
 
-Version 1.1.0
+Version 1.1.0 (2015-01-15)
 * add tooltips for rsync options
 * make only one debian/control
 * multiselect files to restore (https://launchpad.net/bugs/1135886)
@@ -278,19 +353,19 @@ Version 1.1.0
 * add menubar (https://bugs.launchpad.net/backintime/+bug/528851)
 * port KDE4 GUI to pure Qt4 to replace both KDE4 and Gnome GUI
 
-Version 1.0.40
+Version 1.0.40 (2014-11-02)
 * use fingerprint to check if ssh key was unlocked correctly (https://answers.launchpad.net/questions/256408)
 * add fallback method to get UUID (https://answers.launchpad.net/questions/254140)
 * Fix bug: 'Attempt to unlock mutex that was not locked'... this time for good
 
-Version 1.0.38
+Version 1.0.38 (2014-10-01)
 * Fix bug: 'Attempt to unlock mutex that was not locked' in gnomeplugin (https://answers.launchpad.net/questions/255225)
 * compare os.path.realpath instead of os.stat to get devices UUID
 * Fix bug: housekeeping by gnome-session-daemon might delete backup and original data (https://bugs.launchpad.net/bugs/1374343)
 * Fix bug: Type Error in 'backintime --decode' (https://bugs.launchpad.net/bugs/1365072)
 * Fix bug: take_snapshot didn't wait for snapshot folder come available if notifications are disabled (https://bugs.launchpad.net/bugs/1332979)
 
-Version 1.0.36
+Version 1.0.36 (2014-08-06)
 * remove UbuntuOne from exclude (https://bugs.launchpad.net/bugs/1340131)
 * Gray out 'Add Profile' if 'Main Profile' isn't configured yet (https://bugs.launchpad.net/bugs/1335545)
 * Don't check for fuse group-membership if group doesn't exist
@@ -301,14 +376,14 @@ Version 1.0.36
 * Fix bug: unhandled exception in create_last_snapshot_symlink() (https://bugs.launchpad.net/bugs/1269991)
 * disable keyring for root
 
-Version 1.0.34
+Version 1.0.34 (2013-12-21)
 * sync/flush all disks before shutdown (https://bugs.launchpad.net/bugs/1261031)
 * Fix bug: BIT running as root shutdown after snapshot, regardless of option checked (https://bugs.launchpad.net/bugs/1261022)
 
-Version 1.0.32
+Version 1.0.32 (2013-12-13)
 * Fix bug: cron scheduled snapshots won't start with 1.0.30
 
-Version 1.0.30
+Version 1.0.30 (2013-12-12)
 * scheduled and manual snapshots use --config
 * make configure scripts portable (https://bugs.launchpad.net/backintime/+bug/377429)
 * Fix bug: udev rule doesn't finish (https://bugs.launchpad.net/backintime/+bug/1249466)
@@ -322,7 +397,7 @@ Version 1.0.30
 * wrap long lines for syslog
 * Fix bug: 'gksu backintime-gnome' failed with dbus.exceptions.DBusException
 
-Version 1.0.28
+Version 1.0.28 (2013-10-19)
 * remove config on 'apt-get purge'
 * add more options for configure scripts; update README
 * add udev schedule (run BIT as soon as the drive is connected)
@@ -338,7 +413,7 @@ Version 1.0.28
 * multi selection for include and exclude list (https://bugs.launchpad.net/backintime/+bug/660753)
 * Fix bug: ValueError while reading pw-cache PID (https://answers.launchpad.net/backintime/+question/235407)
 
-Version 1.0.26
+Version 1.0.26 (2013-09-07)
 * add feature: keep min free inodes
 * roll back commit 836.1.5 (check free-space on ssh remote host): statvfs DOES work over sshfs. But not with quite outdated sshd
 * add daily anacron schedule
@@ -360,7 +435,7 @@ Version 1.0.26
 * add 'SSH encrypted': mount / with encfs reverse and sync encrypted with rsync. EXPERIMENTEL!
 * add 'Local encrypted': mount encfs
 
-Version 1.0.24
+Version 1.0.24 (2013-05-08)
 * hide check_for_canges if full_rsync_mode is checked
 * DEFAULT_EXCLUDE system folders with /foo/* so at least the folder itself will backup
 * DEFAULT_EXCLUDE /run; exclude MOUNT_ROOT with higher priority and not with DEFAULT_EXCLUDE anymore
@@ -376,7 +451,7 @@ Version 1.0.24
 * switch to 'find -exec cmd {} +' (https://bugs.launchpad.net/backintime/+bug/1157639)
 * change all indent tabs to 4 spaces
 
-Version 1.0.22
+Version 1.0.22 (2013-03-26)
 * check free-space on ssh remote host (statvfs didn't work over sshfs)
 * Add Password storage mode ssh
 * Add "Full rsync mode" (can be faster but ...)
@@ -384,23 +459,23 @@ Version 1.0.22
 * Fix bug: host not found in known_hosts if port != 22 (https://bugs.launchpad.net/backintime/+bug/1130356)
 * Fix bug: sshtools.py used not POSIX conform conditionals
 
-Version 1.0.20
+Version 1.0.20 (2012-12-15)
 * Fix bug: restore remote path with spaces using mode ssh returned error
 
-Version 1.0.18
+Version 1.0.18 (2012-11-17)
 * Fix packages: man & translations
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/1077446
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/1078979
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/1079479
 * Map multiple arguments for gettext so they can be rearranged by translators
 
-Version 1.0.16
+Version 1.0.16 (2012-11-15)
 * Fix a package dependecy problem ... this time for good (https://bugs.launchpad.net/backintime/+bug/1077446)
 
-Version 1.0.14
+Version 1.0.14 (2012-11-09)
 * Fix a package dependecy problem
 
-Versoin 1.0.12
+Versoin 1.0.12 (2012-11-08)
 * Add links to: website, documentation, report a bug, answers, faq
 * Use libnotify for gnome/kde4 notifications instead of gnome specific libraries
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/1059247
@@ -411,31 +486,32 @@ Versoin 1.0.12
 * Fix bug: glade (xml) files did not translate
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/1073867
 
-Version 1.0.10
+Version 1.0.10 (2012-03-06)
 * Add "Restore to ..." in replacement of copy (with or without drag & drop) because copy don't restore user/group/rights
-Version 1.0.8
+
+Version 1.0.8 (2011-06-18)
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/723545
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/705237
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/696663
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/671946
 
-Version 1.0.6
+Version 1.0.6 (2011-01-02)
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/676223
 * Smart remove: configurable options (https://bugs.launchpad.net/backintime/+bug/406765)
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/672705
 
-Version 1.0.4
+Version 1.0.4 (2010-10-28)
 * SettingsDialog: show highly recommended excludes
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/664783
 * Option to use checksum to detect changes (https://bugs.launchpad.net/backintime/+bug/666964)
 * Option to select log verbosity (https://bugs.launchpad.net/backintime/+bug/664423)
 * Gnome: use gloobus-preview if installed
 
-Version 1.0.2
+Version 1.0.2 (2010-10-16)
 * reduce log file (no more duplicate "Compare with..." lines)
 * declare backintime-kde4 packages as a replacement of backintime-kde
 
-Version 1.0
+Version 1.0 (2010-10-16)
 * add '.dropbox*' to default exclude patterns (https://bugs.launchpad.net/backintime/+bug/628172)
 * add option to take a snapshot at every boot (https://bugs.launchpad.net/backintime/+bug/621810)
 * fix xattr
@@ -499,7 +575,7 @@ Version 1.0
 * Used a more standard crontab syntax (LP: #409783)
 * Stop the "Over zealous removal of crontab entries" (LP: #451811)
 
-Version 0.9.26
+Version 0.9.26 (2009-05-19)
 * update translations from Launchpad
 * Fix a bug in smart-remove algorithm (https://bugs.launchpad.net/backintime/+bug/376104)
 * Fix bug: https://bugs.launchpad.net/backintime/+bug/374477
@@ -512,7 +588,7 @@ Version 0.9.26
 * you can include a backup parent directory (backup directory will auto-exclude itself)
 * fix some small bugs
 
-Version 0.9.24
+Version 0.9.24 (2009-05-07)
 * update translations
 * KDE4: fix python string <=> QString problems
 * KDE4 FilesView/SnapshotsDialog: ctrl-click just select (don't execute)
@@ -526,10 +602,10 @@ Version 0.9.24
   (you need run 'backintime-gnome' for GNOME version and
   'backintime-kde4' for KDE4 version)
 
-Version 0.9.22.1
+Version 0.9.22.1 (2009-04-27)
 * fix French translation
 
-Version 0.9.22
+Version 0.9.22 (2009-04-24)
 * update translations from Launchpad
 * KDE4: fix some translation problems
 * remove --safe-links for save/restore (this means copy symlinks as symlinks)
@@ -547,11 +623,11 @@ Version 0.9.22
   $XDG_CONFIG_HOME (default: $HOME/.config) to save settings
 * new install system: use more common steps (./configure; make; sudo make install)
 
-Version 0.9.20
+Version 0.9.20 (2009-04-06)
 * smart remove: fix an important bug and make it more verbose in syslog
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 
-Version 0.9.18
+Version 0.9.18 (2009-04-02)
 * update translations from Launchpad
 * update Slovak translation (Tomáš Vadina <kyberdev@gmail.com>)
 * update French translation (Michel Corps <mahikeulbody@gmail.com>)
@@ -571,10 +647,10 @@ Version 0.9.18
 * GNOME & KDE4: rework settings dialog
 * SettingDialog: add an option to enable/disable notifications
 
-Version 0.9.16.1
+Version 0.9.16.1 (2009-03-16)
 * fix a bug/crush for French version
 
-Version 0.9.16
+Version 0.9.16 (2009-03-13)
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 * add Slovak translation (Tomáš Vadina <kyberdev@gmail.com>)
 * update Swedish translation (Niklas Grahn <terra.unknown@yahoo.com>)
@@ -591,7 +667,7 @@ Version 0.9.16
 * GNOME & KDE4: add notify if the snapshots directory don't exists
 * KDE4: rework MainWindow
 
-Version 0.9.14
+Version 0.9.14 (2009-03-05)
 * update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 * update Swedish translation (Niklas Grahn <terra.unknown@yahoo.com>)
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
@@ -600,18 +676,18 @@ Version 0.9.14
 * GNOME & KDE4: rework SettingsDialog
 * GNOME & KDE4: add "smart" remove
 
-Version 0.9.12
+Version 0.9.12 (2009-02-28)
 * bug fix: now if you include ".abc" folder and exclude ".*", ".abc" will be saved in the snapshot
 * KDE4: add help
 * add Slovenian translation (Vanja Cvelbar <cvelbar@gmail.com>)
 * bug fix (GNOME): bookmarks with special characters
 
-Version 0.9.10
+Version 0.9.10 (2009-02-24)
 * add Swedish translation (Niklas Grahn <terra.unknown@yahoo.com>)
 * KDE4: drop and drop from backintime files view to any file manager
 * bug fix: fix a segfault when running from cron
 
-Version 0.9.8
+Version 0.9.8 (2009-02-20)
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 * bug fix: unable to restore files that contains space char in their name
 * unsafe links are ignored (that means that a link to a file/directory outside of include directories are ignored)
@@ -620,7 +696,7 @@ Version 0.9.8
 * cron 5/10 minutes: replace mutiple lines with a single crontab line using divide (*/5 or */10)
 * cron: when called from cron redirect output (stdout & stderr) to /dev/null
 
-Version 0.9.6
+Version 0.9.6 (2009-02-09)
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 * update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 * GNOME: update docbook
@@ -628,13 +704,13 @@ Version 0.9.6
 * GNOME & KDE4: add update snapshots button
 * GNOME: handle special folders icons (home, desktop)
 
-Version 0.9.4
+Version 0.9.4 (2009-01-30)
 * update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 * gnome: better handling of 'take snapshot' status icon
 * KDE4 (>= 4.1): first version (not finished)
 * update man
 
-Version 0.9.2
+Version 0.9.2 (2009-01-16)
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 * update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 * bug fix: if you add "/a" in include directories and "/a/b" in exclude patterns, "/a/b*" items
@@ -646,7 +722,7 @@ Version 0.9.2
   (the items was included but not showed because hidden & backup files was never displayed
   in files view in previous versions)
 
-Version 0.9
+Version 0.9 (2009-01-09)
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 * make deb packages more debian friendly (thanks to Michael Wiedmann <mw@miwie.in-berlin.de>)
 * update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
@@ -658,26 +734,26 @@ Version 0.9
   (this will allow me to write other GUI front-ends like KDE4 or KDE)
 * code cleanup
 
-Version 0.8.20
+Version 0.8.20 (2008-12-22)
 * bug fix: sorting files/directories by name is now case insensitive
 * getmessages.sh: ignore "gtk-" items (this are gtk stock item ids and should not be changed)
 
-Version 0.8.18
+Version 0.8.18 (2008-12-17)
 * update man/docbook
 * add sort columns in MainWindow/FileView (by name, by size or by date) and SnapshotsDialog (by date)
 * fix German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 
-Version 0.8.16
+Version 0.8.16 (2008-12-11)
 * add Drag & Drop from MainWindow:FileView/SnapshotsDialog to Nautilus
 * update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 
-Version 0.8.14
+Version 0.8.14 (2008-12-07)
 * add more command line parameters ( --version, --snapshots, --help )
 * fix a crush for getting info on dead symbolic links
 * when taking a new backup based on the previous one don't copy the previous extra info (ex: name)
 * copy unsafe links when taking a snapshot
 
-Version 0.8.12
+Version 0.8.12 (2008-12-01)
 * add German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 * add SnapshotNameDialog
 * add Name/Remove snapshot in main toolbar
@@ -685,29 +761,29 @@ Version 0.8.12
 * toolbars: show icons only
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 
-Version 0.8.10
+Version 0.8.10 (2008-11-22)
 * SnapshotsDialog: add right-click popup-menu and a toolbar with copy & restore buttons
 * use a more robust backup lock file
 * log using syslog
 * fix a small bug in copy to clipboard
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 
-Version 0.8.8
+Version 0.8.8 (2008-11-19)
 * SnapshotsDialog: add diff
 * update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 
-Version 0.8.6
+Version 0.8.6 (2008-11-17)
 * fix change backup path crush
 * add SnapshotsDialog
 
-Version 0.8.2
+Version 0.8.2 (2008-11-14)
 * add right-click menu in files list: open (using gnome-open), copy (you can paste in Nautilus), restore (for snapshots only)
 * add Copy toolbar button for files list
 
-Version 0.8.1
+Version 0.8.1 (2008-11-10)
 * add every 5/10 minutes automatic backup
 
-Version 0.8
+Version 0.8 (2008-11-07)
 * don't show backup files (*~)
 * add backup files to default exclude patterns (*~)
 * makedeb.sh: make a single package with all languages included
@@ -719,37 +795,37 @@ Version 0.8
 * when the application start, if it is already runnig pass its command line to the first instance (this allow a basic integration with file-managers - see README)
 * bug fix: when the application was started a second time it raise the first application's window but not always focused
 
-Version 0.7.4
+Version 0.7.4 (2008-11-03)
 * if there is already a GUI instance running raise it
 * add Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 
-Version 0.7.2
+Version 0.7.2 (2008-10-28)
 * better integration with gnome icons (use mime-types)
 * remember last path
 * capitalize month in timeline (bug in french translation)
 
-Version 0.7
+Version 0.7 (2008-10-22)
 * fix cron segfault
 * fix a crush when launched the very first time (not configured)
 * multi-lingual support
 * add French translation
 
-Version 0.6.4
+Version 0.6.4 (2008-10-20)
 * remove About & Settings dialogs from the pager
 * allow only one instance of the application
 
-Version 0.6.2
+Version 0.6.2 (2008-10-16)
 * remember window position & size
 
-Version 0.6
+Version 0.6 (2008-10-13)
 * when it make a snapshot it display an icon in systray area
 * the background color for group items in timeline and places reflect more
   the system color scheme
 * during restore only restore button is grayed ( even if everything is blocked )
 
-Version 0.5.1
+Version 0.5.1 (2008-10-10)
 * add size & date columns in files view
 * changed some texts
 
-Version 0.5
+Version 0.5 (2008-10-03)
 * This is the first release.

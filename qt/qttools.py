@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2019 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,17 +18,19 @@
 import os
 import sys
 import gettext
-from PyQt5.QtGui import (QFont, QColor, QKeySequence)
+
+from PyQt5.QtGui import (QFont, QColor, QKeySequence, QIcon)
 from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
                           QTranslator, QLocale, QLibraryInfo, QEvent,
                           QT_VERSION_STR)
 from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
                              QTreeWidget, QTreeWidgetItem, QComboBox, QMenu,
-                             QToolTip, QAction)
+                             QToolTip, QAction, QSystemTrayIcon)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
-from distutils.version import StrictVersion
+from packaging.version import Version
+
 
 _ = gettext.gettext
 
@@ -45,6 +47,8 @@ def registerBackintimePath(*path):
 
 registerBackintimePath('common')
 import snapshots
+import tools
+import logger
 
 def fontBold(font):
     font.setWeight(QFont.Bold)
@@ -153,18 +157,57 @@ def hiddenFiles(parent):
 def createQApplication(app_name = 'Back In Time'):
     global qapp
     try:
-        return qapp
+        return qapp  # "singleton pattern": Reuse already instantiated qapp
     except NameError:
         pass
-    if StrictVersion(QT_VERSION_STR) >= StrictVersion('5.6') and \
+    if Version(QT_VERSION_STR) >= Version('5.6') and \
         hasattr(Qt, 'AA_EnableHighDpiScaling'):
         QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+
     qapp = QApplication(sys.argv)
+
+    qt_platform_name = ""
+    try:
+        # The platform name indicates eg. wayland vs. X11, see also:
+        # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
+        # For more details see our X11/Wayland/Qt5 documentation the doc-dev folder
+        qt_platform_name = qapp.platformName()
+        logger.debug(f"QT QPA platform plugin: {qt_platform_name}")
+        logger.debug(f"QT_QPA_PLATFORMTHEME={os.environ.get('QT_QPA_PLATFORMTHEME') or '<not set>'}")
+        # styles and themes determine the look & feel of the GUI
+        logger.debug(f"QT_STYLE_OVERRIDE={os.environ.get('QT_STYLE_OVERRIDE') or '<not set>'}")
+        logger.debug(f"QT active style: {qapp.style().objectName()}")
+        logger.debug(f"QT fallback style: {QIcon.fallbackThemeName()}")
+        logger.debug(f"QT supported styles: {QStyleFactory.keys()}")
+        logger.debug(f"themeSearchPaths: {str(QIcon.themeSearchPaths())}")
+        logger.debug(f"fallbackSearchPaths: {str(QIcon.fallbackSearchPaths())}")
+        # The Back In Time system tray icon can only be shown if the desktop environment supports this
+        logger.debug(f"Is SystemTray available: {str(QSystemTrayIcon.isSystemTrayAvailable())}")
+    except Exception as e:
+        logger.debug(f"Error reading QT QPA platform plugin or style: {repr(e)}")
+
     qapp.setApplicationName(app_name)
+
+    try:
+        if tools.isRoot():
+            qapp.setApplicationName(app_name + " (root)")
+            logger.debug("Trying to set App ID for root user")
+            qapp.setDesktopFileName("backintime-qt-root")
+        else:
+            logger.debug("Trying to set App ID for non-privileged user")
+            qapp.setDesktopFileName("backintime-qt")
+    except Exception as e:
+        logger.warning("Could not set App ID (required for Wayland App icon and more)")
+        logger.warning("Reason: " + repr(e))
     if os.geteuid() == 0 and                                   \
         qapp.style().objectName().lower() == 'windows' and  \
         'GTK+' in QStyleFactory.keys():
             qapp.setStyle('GTK+')
+
+    # With "--debug" arg show the QT QPA platform name in the main window's title
+    if logger.DEBUG:
+        qapp.setApplicationName(f"{qapp.applicationName()} [{qt_platform_name}]")
+
     return qapp
 
 def translator():

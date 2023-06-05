@@ -1,5 +1,5 @@
 # Back In Time
-# Copyright (C) 2008-2019 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

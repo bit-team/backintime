@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2019 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -73,8 +73,8 @@ class DiffOptionsDialog(QDialog):
         self.mainLayout.addWidget(buttonBox, 3, 0, 3, 2)
 
     def accept(self):
-        diffCmd = str(self.editCmd.text().toUtf8())
-        diffParams = str(self.editParams.text().toUtf8())
+        diffCmd = self.editCmd.text()
+        diffParams = self.editParams.text()
 
         if diffCmd != self.diffCmd or diffParams != self.diffParams:
             self.config.setStrValue('qt.diff.cmd', diffCmd)

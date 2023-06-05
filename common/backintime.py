@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2019 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ import atexit
 import subprocess
 from datetime import datetime
 from time import sleep
+import json
 
 import config
 import logger
@@ -33,6 +34,7 @@ import mount
 import password
 import encfstools
 import cli
+from diagnostics import collect_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 
@@ -206,6 +208,10 @@ def createParsers(app_name = 'backintime'):
                         action = printLicense,
                         nargs = 0,
                         help = "show %(prog)s's license.")
+    parser.add_argument('--diagnostics',
+                        action = printDiagnostics,
+                        nargs = 0,
+                        help = "show helpful info for better support in case of issues (in JSON format)")
 
     #######################
     ### define commands ###
@@ -233,7 +239,7 @@ def createParsers(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Take a new snapshot in background only '      +\
                   'if the profile is scheduled and the machine ' +\
-                  'is not on battery. This is use by cron jobs.'
+                  'is not on battery. This is used by cron jobs.'
     backupJobCP =          subparsers.add_parser(command,
                                                  parents = [rsyncArgsParser],
                                                  epilog = epilogCommon,
@@ -595,9 +601,10 @@ def printHeader():
     Print application name, version and legal notes.
     """
     version = config.Config.VERSION
-    ref, hashid = tools.gitRevisionAndHash()
-    if ref:
-        version += " git branch '{}' hash '{}'".format(ref, hashid)
+    # Git info is now only shown via --diagnostics
+    # ref, hashid = tools.gitRevisionAndHash()
+    # if ref:
+    #     version += " git branch '{}' hash '{}'".format(ref, hashid)
     print('')
     print('Back In Time')
     print('Version: ' + version)
@@ -718,6 +725,24 @@ class printLicense(argparse.Action):
     def __call__(self, *args, **kwargs):
         cfg = config.Config()
         print(cfg.license())
+        sys.exit(RETURN_OK)
+
+class printDiagnostics(argparse.Action):
+    """
+    Print information that is helpful for the support team
+    to narrow down problems and bugs.
+    The info is printed using the machine- and human-readable JSON format
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(printDiagnostics, self).__init__(*args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+
+        diagnostics = collect_diagnostics()
+
+        print(json.dumps(diagnostics, indent=4))
+
         sys.exit(RETURN_OK)
 
 def backup(args, force = True):
@@ -852,7 +877,7 @@ def snapshotsList(args):
 
 def snapshotsListPath(args):
     """
-    Command for printing a list of all snapshots pathes in current profile.
+    Command for printing a list of all snapshots paths in current profile.
 
     Args:
         args (argparse.Namespace):

@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2019 Germar Reitze
+#    Copyright (C) 2012-2022 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ class Dummy(mount.MountControl):
     Please use self.currentMountpoint as your local mountpoint.
     This class inherit from mount.MountControl. All methodes from MountControl can
     be used exactly like they were in this class.
-    Methodes from MountControl also can be overriden in here if you need
+    Methodes from MountControl also can be overridden in here if you need
     something different.
     """
     def __init__(self, *args, **kwargs):

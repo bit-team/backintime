@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2019 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ import re
 import gettext
 import logger
 
-_=gettext.gettext
+_ = gettext.gettext
 
 class ConfigFile(object):
     """
@@ -90,7 +90,7 @@ class ConfigFile(object):
         """
         def numsort(key):
             """
-            Sort int in keys in nummeric order instead of alphabetical by adding
+            Sort int in keys in numeric order instead of alphabetical by adding
             leading zeros to int's
             """
             return re.sub(r'\d+', lambda m: m.group(0).zfill(6), key)
@@ -182,17 +182,16 @@ class ConfigFile(object):
         """
         return key in self.dict
 
-    def strValue(self, key, default = ''):
+    def strValue(self, key, default=''):
         """
         Return a 'str' instance of key's value.
 
         Args:
-            key (str):              string used as key
-            default (str):          return this if ``key`` is not set
+            key (str): Key identifying the value in the config file.
+            default (str): Default value if ``key`` is not present.
 
         Returns:
-            str:                    value of ``key`` or ``default``
-                                    if ``key`` is not set.
+            str: Value of ``key`` or ``default``.
         """
         if key in self.dict:
             return self.dict[key]
@@ -710,21 +709,23 @@ class ConfigFileWithProfiles(ConfigFile):
         self.setProfileStrValue('name', name, profile_id)
         return True
 
-    def profileKey(self, key, profile_id = None):
+    def profileKey(self, key, profile_id=None):
         """
         Prefix for keys with profile. e.g. 'profile1.key'
 
         Args:
-            key (str):              key name
-            profile_id (str, int):  valid profile ID
+            key (str): Key identifier.
+            profile_id (str, int): Valid profile ID.
 
         Returns:
-            str:                    key with prefix 'profile1.key'
+            str: Key with prefix 'profile1.key'
         """
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
+
         if profile_id is None:
             profile_id = self.current_profile_id
+
         return 'profile' + profile_id + '.' + key
 
     def removeProfileKey(self, key, profile_id = None):
@@ -773,7 +774,12 @@ class ConfigFileWithProfiles(ConfigFile):
         """
         return self.profileKey(key, profile_id) in self.dict
 
-    def profileStrValue(self, key, default = '', profile_id = None):
+    def profileStrValue(self, key, default='', profile_id=None):
+        """Return the value of ``key`` related to ``profile_id``.
+
+        Returns:
+           str: The value.
+        """
         return self.strValue(self.profileKey(key, profile_id), default)
 
     def setProfileStrValue(self, key, value, profile_id = None):

@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2019 Germar Reitze, Taylor Raack
+#    Copyright (C) 2012-2022 Germar Reitze, Taylor Raack
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-import grp
 import subprocess
 import gettext
 import string
@@ -26,8 +25,6 @@ import re
 import atexit
 import signal
 from time import sleep
-
-import config
 import logger
 import tools
 import password_ipc
@@ -35,12 +32,13 @@ from mount import MountControl
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import bcolors
 
-_=gettext.gettext
+_ = gettext.gettext
+
 
 class SSH(MountControl):
     """
     This is a backend for the mount API :py:class:`mount.MountControl`.
-    This will mount the remote path with ``sshfs``, prepair the remote path and
+    This will mount the remote path with ``sshfs``, prepare the remote path and
     check that everything is set up correctly for `Back In Time` to run
     snapshots through SSH.
 
@@ -49,7 +47,8 @@ class SSH(MountControl):
 
     Args:
         cfg (config.Config):    current config
-                                (handled by inherited :py:class:`mount.MountControl`)
+                                (handled by inherited
+                                :py:class:`mount.MountControl`)
         user (str):             User name on remote host
         host (str):             Name or IP Address of remote host
         port (int):             Port used by SSHd on remote host
@@ -67,22 +66,27 @@ class SSH(MountControl):
                                 files on remote host
         password (str):         password to unlock the private key
         profile_id (str):       profile ID that should be used
-                                (handled by inherited :py:class:`mount.MountControl`)
-        hash_id (str):          crc32 hash used to identify identical mountpoints
-                                (handled by inherited :py:class:`mount.MountControl`)
+                                (handled by inherited
+                                :py:class:`mount.MountControl`)
+        hash_id (str):          crc32 hash used to identify
+                                identical mountpoints
+                                (handled by inherited
+                                :py:class:`mount.MountControl`)
         tmp_mount (bool):       if ``True`` mount to a temporary destination
-                                (handled by inherited :py:class:`mount.MountControl`)
+                                (handled by inherited
+                                :py:class:`mount.MountControl`)
         parent (QWidget):       parent widget for QDialogs or ``None`` if there
-                                is no parent
-                                (handled by inherited :py:class:`mount.MountControl`)
+                                is no parent (handled by
+                                inherited :py:class:`mount.MountControl`)
         symlink (bool):         if ``True`` set symlink to mountpoint
-                                (handled by inherited :py:class:`mount.MountControl`)
+                                (handled by
+                                inherited :py:class:`mount.MountControl`)
         mode (str):             one of ``local``, ``local_encfs``, ``ssh`` or
-                                ``ssh_encfs``
-                                (handled by inherited :py:class:`mount.MountControl`)
-        hash_collision (int):   global value used to prevent hash collisions on
-                                mountpoints
-                                (handled by inherited :py:class:`mount.MountControl`)
+                                ``ssh_encfs`` (handled by inherited
+                                :py:class:`mount.MountControl`)
+        hash_collision (int):   global value used to prevent hash collisions
+                                on mountpoints (handled by inherited
+                                :py:class:`mount.MountControl`)
 
     Note:
         All Arguments are optional. Default values will be fetched from
@@ -90,27 +94,48 @@ class SSH(MountControl):
         the new values **before** storing them into :py:class:`config.Config`.
         This is why all values will be added as arguments.
     """
+
     def __init__(self, *args, **kwargs):
-        #init MountControl
+
+        # init MountControl
         super(SSH, self).__init__(*args, **kwargs)
 
-        self.setattrKwargs('user', self.config.sshUser(self.profile_id), **kwargs)
-        self.setattrKwargs('host', self.config.sshHost(self.profile_id), **kwargs)
-        self.setattrKwargs('port', self.config.sshPort(self.profile_id), **kwargs)
-        self.setattrKwargs('path', self.config.sshSnapshotsPath(self.profile_id), **kwargs)
-        self.setattrKwargs('cipher', self.config.sshCipher(self.profile_id), **kwargs)
-        self.setattrKwargs('private_key_file', self.config.sshPrivateKeyFile(self.profile_id), **kwargs)
-        self.setattrKwargs('nice', self.config.niceOnRemote(self.profile_id), store = False, **kwargs)
-        self.setattrKwargs('ionice', self.config.ioniceOnRemote(self.profile_id), store = False, **kwargs)
-        self.setattrKwargs('nocache', self.config.nocacheOnRemote(self.profile_id), store = False, **kwargs)
-        self.setattrKwargs('password', None, store = False, **kwargs)
+        self.setattrKwargs(
+            'user', self.config.sshUser(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'host', self.config.sshHost(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'port', self.config.sshPort(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'path', self.config.sshSnapshotsPath(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'cipher', self.config.sshCipher(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'private_key_file',
+            self.config.sshPrivateKeyFile(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'nice',
+            self.config.niceOnRemote(self.profile_id), store=False, **kwargs)
+        self.setattrKwargs(
+            'ionice',
+            self.config.ioniceOnRemote(self.profile_id), store=False, **kwargs)
+        self.setattrKwargs(
+            'nocache',
+            self.config.nocacheOnRemote(self.profile_id),
+            store=False,
+            **kwargs)
+        self.setattrKwargs('password', None, store=False, **kwargs)
 
         if not self.path:
             self.path = './'
+
         self.setDefaultArgs()
 
         # config strings used in ssh-calls
-        self.user_host_path = '%s@%s:%s' % (self.user, tools.escapeIPv6Address(self.host), self.path)
+        self.user_host_path \
+            = '%s@%s:%s' % (self.user,
+                            tools.escapeIPv6Address(self.host),
+                            self.path)
         self.user_host = '%s@%s' % (self.user, self.host)
 
         self.mountproc = 'sshfs'
@@ -118,54 +143,70 @@ class SSH(MountControl):
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
 
         self.private_key_fingerprint = sshKeyFingerprint(self.private_key_file)
+
         if not self.private_key_fingerprint:
-            logger.warning('Couldn\'t get fingerprint for private key %(path)s. '
-                           'Most likely because the public key %(path)s.pub wasn\'t found. '
-                           'Using fallback to private keys path instead. '
-                           'But this can make troubles with passphrase-less keys.'
-                           %{'path': self.private_key_file},
+
+            logger.warning('Couldn\'t get fingerprint for private '
+                           'key %(path)s. '
+                           'Most likely because the public key %(path)s.pub '
+                           'wasn\'t found. Using fallback to private keys '
+                           'path instead. But this can make troubles with '
+                           'passphrase-less keys.'
+                           % {'path': self.private_key_file},
                            self)
             self.private_key_fingerprint = self.private_key_file
+
         self.unlockSshAgent()
 
     def _mount(self):
         """
-        Backend mount method. This will call ``sshfs`` to mount the remote path.
+        Backend mount method. This will call ``sshfs`` to mount the remote
+        path.
 
         Raises:
             exceptions.MountException:  if mount wasn't successful
         """
-        sshfs  = [self.mountproc]
+
+        sshfs = [self.mountproc]
         sshfs += self.config.sshDefaultArgs(self.profile_id)
         sshfs += ['-p', str(self.port)]
+
         if not self.cipher == 'default':
             sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
+
         sshfs.extend(['-o', 'idmap=user',
                       '-o', 'cache_dir_timeout=2',
                       '-o', 'cache_stat_timeout=2'])
 
         sshfs.extend([self.user_host_path, self.currentMountpoint])
-        #bugfix: sshfs doesn't mount if locale in LC_ALL is not available on remote host
-        #LANG or other envirnoment variable are no problem.
+
+        # bugfix: sshfs doesn't mount if locale in LC_ALL is not available on
+        # remote host
+        # LANG or other environment variable are no problem.
         env = os.environ.copy()
+
         if 'LC_ALL' in list(env.keys()):
             env['LC_ALL'] = 'C'
-        logger.debug('Call mount command: %s'
-                     %' '.join(sshfs),
-                     self)
-        proc = subprocess.Popen(sshfs,
-                                env = env,
-                                stdout = subprocess.DEVNULL,
-                                stderr = subprocess.PIPE,
-                                universal_newlines = True)
-        err = proc.communicate()[1]
-        if proc.returncode:
-            raise MountException(_('Can\'t mount %s') % ' '.join(sshfs)
-                                  + '\n\n' + err)
 
-    def preMountCheck(self, first_run = False):
+        logger.debug('Call mount command: %s'
+                     % ' '.join(sshfs),
+                     self)
+
+        proc = subprocess.Popen(sshfs,
+                                env=env,
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.PIPE,
+                                universal_newlines=True)
+
+        err = proc.communicate()[1]
+
+        if proc.returncode:
+            raise MountException(
+                _('Can\'t mount %s') % ' '.join(sshfs) + '\n\n' + err)
+
+    def preMountCheck(self, first_run=False):
         """
-        Check that everything is prepaired and ready for successfully mount the
+        Check that everything is prepared and ready for successfully mount the
         remote path. Default is to run a light version of checks which will
         only make sure the remote host is online, ``sshfs`` is installed and
         the remote folder is available.
@@ -180,17 +221,24 @@ class SSH(MountControl):
             exceptions.MountException:  if one test failed an we can not mount
                                         the remote path
         """
+
         self.checkPingHost()
         self.checkFuse()
+
         if first_run:
-            self.unlockSshAgent(force = True)
+            self.unlockSshAgent(force=True)
             self.checkKnownHosts()
+
         self.checkLogin()
+
         if first_run:
             self.checkCipher()
+
         self.checkRemoteFolder()
+
         if first_run:
             self.checkRemoteCommands()
+
         return True
 
     def startSshAgent(self):
@@ -200,37 +248,52 @@ class SSH(MountControl):
         Raises:
             exceptions.MountException:  if starting ``ssh-agent`` failed
         """
+
         SOCK = 'SSH_AUTH_SOCK'
-        PID  = 'SSH_AGENT_PID'
+        PID = 'SSH_AGENT_PID'
+
         if os.getenv(SOCK, '') and os.getenv(PID, ''):
-            logger.debug('ssh-agent already running. Skip starting a new one.', self)
+            logger.debug(
+                'ssh-agent already running. Skip starting a new one.', self)
             return
 
         sshAgent = tools.which('ssh-agent')
+
         if not sshAgent:
-            raise MountException('ssh-agent not found. Please make sure it is installed.')
+            raise MountException(
+                'ssh-agent not found. Please make sure it is installed.')
+
         if isinstance(sshAgent, str):
             sshAgent = [sshAgent, ]
 
         sa = subprocess.Popen(sshAgent,
-                              stdout = subprocess.PIPE,
-                              stderr = subprocess.PIPE,
-                              universal_newlines = True)
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE,
+                              universal_newlines=True)
         out, err = sa.communicate()
 
         if sa.returncode:
-            raise MountException('Failed to start ssh-agent: [{}] {}'.format(sa.returncode, err))
+            raise MountException(
+                'Failed to start ssh-agent: [{}] {}'
+                .format(sa.returncode, err))
 
-        m = re.match(r'.*{}(?:=|\s)([^;]+);.*{}(?:=|\s)(\d+);'.format(SOCK, PID), out, re.DOTALL | re.MULTILINE)
+        m = re.match(r'.*{}(?:=|\s)([^;]+);.*{}(?:=|\s)(\d+);'
+                     .format(SOCK, PID),
+                     out,
+                     re.DOTALL | re.MULTILINE)
         if m:
-            logger.debug('ssh-agent started successful: {}={} | {}={}'.format(SOCK, m.group(1), PID, m.group(2)), self)
+            logger.debug('ssh-agent started successful: {}={} | {}={}'
+                         .format(SOCK, m.group(1), PID, m.group(2)), self)
             os.environ[SOCK] = m.group(1)
-            os.environ[PID]  = m.group(2)
-            atexit.register(os.kill, int(m.group(2)), signal.SIGKILL)
-        else:
-            raise MountException('No matching output from ssh-agent: {} | {}'.format(out, err))
+            os.environ[PID] = m.group(2)
 
-    def unlockSshAgent(self, force = False):
+            atexit.register(os.kill, int(m.group(2)), signal.SIGKILL)
+
+        else:
+            raise MountException(
+                'No matching output from ssh-agent: {} | {}'.format(out, err))
+
+    def unlockSshAgent(self, force=False):
         """
         Unlock the private key in ``ssh-agent`` which will provide it for
         all other commands. The password to unlock the key will be provided
@@ -244,6 +307,7 @@ class SSH(MountControl):
         Raises:
             exceptions.MountException:  if unlock failed
         """
+
         self.startSshAgent()
 
         env = os.environ.copy()
@@ -252,40 +316,59 @@ class SSH(MountControl):
         env['ASKPASS_MODE'] = self.mode
 
         if force:
-            #remove private key first so we can check if the given password is valid
-            logger.debug('Remove private key %s from ssh agent' % self.private_key_file, self)
+            # remove private key first so we can check if the given
+            # password is valid
+            logger.debug(
+                'Remove private key %s from ssh agent' % self.private_key_file,
+                self)
+
             proc = subprocess.Popen(['ssh-add', '-d', self.private_key_file],
                                     stdin=subprocess.DEVNULL,
                                     stdout=subprocess.DEVNULL,
                                     stderr=subprocess.DEVNULL,
-                                    universal_newlines = True)
+                                    universal_newlines=True)
             proc.communicate()
 
         proc = subprocess.Popen(['ssh-add', '-l'],
-                                stdout = subprocess.PIPE,
-                                universal_newlines = True)
+                                stdout=subprocess.PIPE,
+                                universal_newlines=True)
+
         output = proc.communicate()[0]
+
         if force or not output.find(self.private_key_fingerprint) >= 0:
-            logger.debug('Add private key %s to ssh agent' % self.private_key_file, self)
-            password_available = any([self.config.passwordSave(self.profile_id),
-                                      self.config.passwordUseCache(self.profile_id),
-                                      not self.password is None
-                                      ])
-            logger.debug('Password available: %s' %password_available, self)
+
+            logger.debug(
+                'Add private key %s to ssh agent' % self.private_key_file,
+                self)
+
+            password_available = any([
+                self.config.passwordSave(self.profile_id),
+                self.config.passwordUseCache(self.profile_id),
+                not self.password is None
+            ])
+
+            logger.debug('Password available: %s' % password_available, self)
+
             if not password_available and not tools.checkXServer():
-                #we need to unlink stdin from ssh-add in order to make it
-                #use our own backintime-askpass.
-                #But because of this we can NOT use getpass inside backintime-askpass
-                #if password is not saved and there is no x-server.
-                #So, let's just keep ssh-add asking for the password in that case.
+                # we need to unlink stdin from ssh-add in order to make it
+                # use our own backintime-askpass.
+                # But because of this we can NOT use getpass inside
+                # backintime-askpass if password is not saved and there is no
+                # x-server.
+                # So, let's just keep ssh-add asking for the password in
+                # that case.
+
                 alarm = tools.Alarm()
                 alarm.start(10)
+
                 try:
                     proc = subprocess.call(['ssh-add', self.private_key_file])
                     alarm.stop()
                 except tools.Timeout:
                     pass
+
             else:
+
                 if self.password:
                     logger.debug('Provide password through temp FIFO', self)
                     thread = password_ipc.TempPasswordThread(self.password)
@@ -296,115 +379,179 @@ class SSH(MountControl):
                                         stdin=subprocess.PIPE,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
-                                        env = env,
-                                        preexec_fn = os.setsid,
-                                        universal_newlines = True)
+                                        env=env,
+                                        preexec_fn=os.setsid,
+                                        universal_newlines=True)
+
                 output, error = proc.communicate()
+
                 if proc.returncode:
                     logger.error('Failed to unlock SSH private key %s: %s'
-                                 %(self.private_key_file, error),
+                                 % (self.private_key_file, error),
                                  self)
 
                 if self.password:
                     thread.stop()
 
             proc = subprocess.Popen(['ssh-add', '-l'],
-                                    stdout = subprocess.PIPE,
-                                    universal_newlines = True)
+                                    stdout=subprocess.PIPE,
+                                    universal_newlines=True)
+
             output = proc.communicate()[0]
+
             if not output.find(self.private_key_fingerprint) >= 0:
-                logger.debug('Was not able to unlock private key %s' %self.private_key_file, self)
-                raise MountException(_('Could not unlock ssh private key. Wrong password '
-                                        'or password not available for cron.'))
+                logger.debug(
+                    'Was not able to unlock private key %s' %
+                    self.private_key_file, self)
+                raise MountException(
+                    _('Could not unlock ssh private key. Wrong password '
+                      'or password not available for cron.'))
+
         else:
             logger.debug('Private key %s is already unlocked in ssh agent'
-                         %self.private_key_file, self)
+                         % self.private_key_file, self)
 
     def checkLogin(self):
         """
-        Try to login to remote host with public/private-key-method (passwordless).
+        Try to login to remote host with public/private-key-method
+        (passwordless).
 
         Raises:
             exceptions.NoPubKeyLogin:  if login failed
         """
+
         logger.debug('Check login', self)
-        ssh = self.config.sshCommand(cmd = ['echo', '"Hello"'],
-                                      custom_args = ['-o', 'PreferredAuthentications=publickey',
-                                                     '-p', str(self.port),
-                                                     self.user_host],
-                                      port = False,
-                                      user_host = False,
-                                      nice = False,
-                                      ionice = False,
-                                      profile_id = self.profile_id)
+
+        ssh = self.config.sshCommand(cmd=['echo', '"Hello"'],
+                                     custom_args=[
+                                          '-o',
+                                          'PreferredAuthentications=publickey',
+                                          '-p',
+                                          str(self.port),
+                                          self.user_host
+                                     ],
+                                     port=False,
+                                     user_host=False,
+                                     nice=False,
+                                     ionice=False,
+                                     profile_id=self.profile_id)
         proc = subprocess.Popen(ssh,
                                 stdout=subprocess.DEVNULL,
                                 stderr=subprocess.PIPE,
-                                universal_newlines = True)
+                                universal_newlines=True)
+
         err = proc.communicate()[1]
+
         if proc.returncode:
-            raise NoPubKeyLogin(_('Password-less authentication for %(user)s@%(host)s '
-                                  'failed. Look at \'man backintime\' for further '
-                                  'instructions.')  % {'user' : self.user, 'host' : self.host}
-                                  + '\n\n' + err)
+            raise NoPubKeyLogin(
+                _('Password-less authentication for %(user)s@%(host)s '
+                  'failed. Look at \'man backintime\' for further '
+                  'instructions.') % {'user': self.user, 'host': self.host}
+                + '\n\n' + err)
 
     def checkCipher(self):
         """
-        Try to login to remote host with the choosen cipher. This should make
-        sure both `localhost` and the remote host support the choosen cipher.
+        Try to login to remote host with the chosen cipher. This should make
+        sure both `localhost` and the remote host support the chosen cipher.
 
         Raises:
             exceptions.MountException:  if login with the cipher failed
         """
+
         if not self.cipher == 'default':
+
             logger.debug('Check cipher', self)
-            ssh = self.config.sshCommand(cmd = ['echo', '"Hello"'],
-                                          custom_args = ['-o', 'Ciphers=%s' % self.cipher,
-                                                         '-p', str(self.port),
-                                                         self.user_host],
-                                          port = False,
-                                          cipher = False,
-                                          user_host = False,
-                                          nice = False,
-                                          ionice = False,
-                                          profile_id = self.profile_id)
+
+            ssh = self.config.sshCommand(cmd=['echo', '"Hello"'],
+                                         custom_args=[
+                                              '-o',
+                                              'Ciphers=%s' % self.cipher,
+                                              '-p',
+                                              str(self.port),
+                                              self.user_host
+                                         ],
+                                         port=False,
+                                         cipher=False,
+                                         user_host=False,
+                                         nice=False,
+                                         ionice=False,
+                                         profile_id=self.profile_id)
+
             proc = subprocess.Popen(ssh,
                                     stdout=subprocess.DEVNULL,
                                     stderr=subprocess.PIPE,
-                                    universal_newlines = True)
-            err = proc.communicate()[1]
-            if proc.returncode:
-                logger.debug('Ciper %s is not supported' %self.config.SSH_CIPHERS[self.cipher], self)
-                raise MountException(_('Cipher %(cipher)s failed for %(host)s:\n%(err)s')
-                                      % {'cipher' : self.config.SSH_CIPHERS[self.cipher], 'host' : self.host, 'err' : err})
+                                    universal_newlines=True)
 
-    def benchmarkCipher(self, size = 40):
+            err = proc.communicate()[1]
+
+            if proc.returncode:
+
+                logger.debug(
+                    'Ciper %s is not supported' %
+                    self.config.SSH_CIPHERS[self.cipher], self)
+
+                raise MountException(
+                    _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')
+                    % {
+                        'cipher': self.config.SSH_CIPHERS[self.cipher],
+                        'host': self.host,
+                        'err': err
+                      }
+                )
+
+    def benchmarkCipher(self, size=40):
         """
-        Rudimental benchmark to compare transfer speed of all available ciphers.
+        Rudimental benchmark to compare transfer speed of all available
+        ciphers.
 
         Args:
             size (int):     size of the testfile in MiB
         """
+
         temp = tempfile.mkstemp()[1]
+
         print('create random data file')
-        subprocess.call(['dd', 'if=/dev/urandom', 'of=%s' % temp, 'bs=1M', 'count=%s' % size])
+
+        subprocess.call([
+            'dd',
+            'if=/dev/urandom',
+            'of=%s' % temp,
+            'bs=1M',
+            'count=%s' % size
+        ])
+
         keys = list(self.config.SSH_CIPHERS.keys())
         keys.sort()
+
         for cipher in keys:
+
             if cipher == 'default':
                 continue
-            print('%s%s:%s' %(bcolors.BOLD, cipher, bcolors.ENDC))
+
+            print('%s%s:%s' % (bcolors.BOLD, cipher, bcolors.ENDC))
+
             for i in range(2):
                 # scp uses -P instead of -p for port
-                subprocess.call(['scp', '-P', str(self.port), '-c', cipher, temp, self.user_host_path])
-        ssh = self.config.sshCommand(cmd = ['rm', os.path.join(self.path, os.path.basename(temp))],
-                                      custom_args = ['-p', str(self.port), self.user_host],
-                                      port = False,
-                                      cipher = False,
-                                      user_host = False,
-                                      nice = False,
-                                      ionice = False,
-                                      profile_id = self.profile_id)
+                subprocess.call([
+                    'scp',
+                    '-P',
+                    str(self.port),
+                    '-c',
+                    cipher,
+                    temp,
+                    self.user_host_path
+                ])
+
+        ssh = self.config.sshCommand(
+            cmd=['rm', os.path.join(self.path, os.path.basename(temp))],
+            custom_args=['-p', str(self.port), self.user_host],
+            port=False,
+            cipher=False,
+            user_host=False,
+            nice=False,
+            ionice=False,
+            profile_id=self.profile_id)
+
         subprocess.call(ssh)
         os.remove(temp)
 
@@ -416,69 +563,107 @@ class SSH(MountControl):
             exceptions.KnownHost:   if the remote host wasn't found
                                     in ``known_hosts`` file
         """
+
         logger.debug('Check known hosts file', self)
+
         for host in (self.host, '[%s]:%s' % (self.host, self.port)):
+
             proc = subprocess.Popen(['ssh-keygen', '-F', host],
                                     stdout=subprocess.PIPE,
-                                    universal_newlines = True)
-            output = proc.communicate()[0] #subprocess.check_output doesn't exist in Python 2.6 (Debian squeeze default)
+                                    universal_newlines=True)
+
+            # subprocess.check_output doesn't exist
+            # in Python 2.6 (Debian squeeze default)
+            output = proc.communicate()[0]
+
             if output.find('Host %s found' % host) >= 0:
-                logger.debug('Host %s was found in known hosts file' % host, self)
+                logger.debug(
+                    'Host %s was found in known hosts file' % host, self)
                 return True
-        logger.debug('Host %s is not in known hosts file' %self.host, self)
+
+        logger.debug('Host %s is not in known hosts file' % self.host, self)
+
         raise KnownHost(_('%s not found in ssh_known_hosts.') % self.host)
 
     def checkRemoteFolder(self):
         """
-        Check the remote path. If the remote path doesn't exist this will create
-        it. If it already exist this will check, that it is a folder and has
-        correct permissions.
+        Check the remote path. If the remote path doesn't exist this will
+        create it. If it already exist this will check, that it is a folder
+        and has correct permissions.
 
         Raises:
             exceptions.MountException:  if remote path couldn't be created or
                                         doesn't have correct permissions.
         """
+
         logger.debug('Check remote folder', self)
-        cmd  = 'd=0;'
-        cmd += 'test -e "%s" || d=1;' % self.path                 #path doesn't exist. set d=1 to indicate
-        cmd += 'test $d -eq 1 && mkdir "%s"; err=$?;' % self.path #create path, get errorcode from mkdir
-        cmd += 'test $d -eq 1 && exit $err;'                      #return errorcode from mkdir
-        cmd += 'test -d "%s" || exit 11;' % self.path #path is no directory
-        cmd += 'test -w "%s" || exit 12;' % self.path #path is not writable
-        cmd += 'test -x "%s" || exit 13;' % self.path #path is not executable
-        cmd += 'exit 20'                              #everything is fine
-        ssh = self.config.sshCommand(cmd = [cmd],
-                                      custom_args = ['-p', str(self.port), self.user_host],
-                                      port = False,
-                                      user_host = False,
-                                      nice = False,
-                                      ionice = False,
-                                      profile_id = self.profile_id)
-        logger.debug('Call command: %s' %' '.join(ssh), self)
+
+        cmd = 'd=0;'
+        # path doesn't exist. set d=1 to indicate
+        cmd += 'test -e "%s" || d=1;' % self.path
+        # create path, get errorcode from mkdir
+        cmd += 'test $d -eq 1 && mkdir "%s"; err=$?;' % self.path
+        # return errorcode from mkdir
+        cmd += 'test $d -eq 1 && exit $err;'
+        # path is no directory
+        cmd += 'test -d "%s" || exit 11;' % self.path
+        # path is not writable
+        cmd += 'test -w "%s" || exit 12;' % self.path
+        # path is not executable
+        cmd += 'test -x "%s" || exit 13;' % self.path
+        # everything is fine
+        cmd += 'exit 20'
+
+        ssh = self.config.sshCommand(
+            cmd=[cmd],
+            custom_args=['-p', str(self.port), self.user_host],
+            port=False,
+            user_host=False,
+            nice=False,
+            ionice=False,
+            profile_id=self.profile_id)
+
+        logger.debug('Call command: %s' % ' '.join(ssh), self)
+
         proc = subprocess.Popen(ssh,
                                 stdout=subprocess.DEVNULL,
                                 stderr=subprocess.DEVNULL)
+
         proc.communicate()
+
         if proc.returncode:
-            logger.debug('Command returncode: %s' %proc.returncode, self)
+
+            logger.debug('Command returncode: %s' % proc.returncode, self)
+
             if proc.returncode == 20:
-                #clean exit
+                # clean exit
                 pass
+
             elif proc.returncode == 11:
-                raise MountException(_('Remote path exists but is not a directory:\n %s') % self.path)
+                raise MountException(
+                    _('Remote path exists but is not a directory:\n %s') %
+                    self.path)
+
             elif proc.returncode == 12:
-                raise MountException(_('Remote path is not writable:\n %s') % self.path)
+                raise MountException(
+                    _('Remote path is not writable:\n %s') % self.path)
+
             elif proc.returncode == 13:
-                raise MountException(_('Remote path is not executable:\n %s') % self.path)
+                raise MountException(
+                    _('Remote path is not executable:\n %s') % self.path)
+
             else:
-                raise MountException(_('Couldn\'t create remote path:\n %s') % self.path)
+                raise MountException(
+                    _('Couldn\'t create remote path:\n %s') % self.path)
         else:
-            #returncode is 0
-            logger.info('Create remote folder %s' %self.path, self)
+
+            # returncode is 0
+            logger.info('Create remote folder %s' % self.path, self)
 
     def checkPingHost(self):
         """
-        Check if the remote host is online. Other than methods name may let suppose
+        Check if the remote host is online. Other than methods name may let
+        suppose
         this does not use Ping (``ICMP``) but try to open a connection to
         the configured port on the remote host. In this way it will even work
         on remote hosts which have ``ICMP`` disabled.
@@ -489,100 +674,141 @@ class SSH(MountControl):
             exceptions.MountException:  if connection failed most probably
                                         because remote host is offline
         """
+
         if not self.config.sshCheckPingHost(self.profile_id):
             return
+
         logger.debug('Check ping host', self)
-        versionString = 'SSH-2.0-backintime_{}\r\n'.format(self.config.VERSION).encode()
+        versionString = 'SSH-2.0-backintime_{}\r\n'.format(
+            self.config.VERSION).encode()
+
         count = 0
+
         while count < 5:
+
             try:
-                with socket.create_connection((self.host, self.port), 2.0) as s:
+                with socket.create_connection(
+                        (self.host, self.port), 2.0) as s:
+
                     result = s.connect_ex(s.getpeername())
                     s.sendall(versionString)
+
             except:
                 result = -1
+
             if result == 0:
-                logger.debug('Host %s is available' %self.host, self)
+                logger.debug('Host %s is available' % self.host, self)
                 return
-            logger.debug('Could not ping host %s. Try again' %self.host, self)
+
+            logger.debug('Could not ping host %s. Try again' % self.host, self)
+
             count += 1
             sleep(0.2)
+
         if result != 0:
-            logger.debug('Failed pinging host %s' %self.host, self)
-            raise MountException(_('Ping %s failed. Host is down or wrong address.') % self.host)
+            logger.debug('Failed pinging host %s' % self.host, self)
 
-    def checkRemoteCommands(self, retry = False):
+            raise MountException(
+                _('Ping %s failed. Host is down or wrong address.')
+                % self.host)
+
+    def checkRemoteCommands(self, retry=False):
         """
-        Try out all relevant commands used by `Back In Time` on the remote host
-        to make sure snapshots will be successful with the remote host.
+        Try out all relevant commands used by `Back In Time` on the remote
+        host to make sure snapshots will be successful with the remote host.
         This will also check that hard-links are supported on the remote host.
-
-        This check can be disabled with :py:func:`config.Config.sshCheckCommands`
+        This check can be disabled
+        with :py:func:`config.Config.sshCheckCommands`
 
         Args:
             retry (bool):               retry to run the commands if it failed
                                         because the command string was to long
-
         Raises:
             exceptions.MountException:  if a command is not supported on
                                         remote host or if hard-links are not
                                         supported
         """
+
         if not self.config.sshCheckCommands():
             return
+
         logger.debug('Check remote commands', self)
+
         def maxArg():
             if retry:
-                raise MountException("Checking commands on remote host didn't return any output. "
-                                     "We already checked the maximum argument lenght but it seem like "
-                                     "there is an other problem")
-            logger.warning('Looks like the command was to long for remote SSHd. We will test max arg length now and retry.',
-                           self)
+                raise MountException(
+                    "Checking commands on remote host didn't return any "
+                    "output. We already checked the maximum argument length "
+                    "but it seem like there is an other problem")
+
+            logger.warning(
+                'Looks like the command was to long for remote SSHd. '
+                'We will test max arg length now and retry.',
+                self)
+
             import sshMaxArg
-            mid = sshMaxArg.maxArgLength(self.config)
-            sshMaxArg.reportResult(self.host, mid)
-            self.config.setSshMaxArgLength(mid, self.profile_id)
-            return self.checkRemoteCommands(retry = True)
+            max_arg_size = sshMaxArg.probe_max_ssh_command_size(self.config)
+            sshMaxArg.report_result(self.host, max_arg_size)
+
+            self.config.setSshMaxArgLength(max_arg_size, self.profile_id)
+
+            return self.checkRemoteCommands(retry=True)
 
         remote_tmp_dir_1 = os.path.join(self.path, 'tmp_%s' % self.randomId())
         remote_tmp_dir_2 = os.path.join(self.path, 'tmp_%s' % self.randomId())
+
         with tempfile.TemporaryDirectory() as tmp:
+
             tmp_file = os.path.join(tmp, 'a')
+
             with open(tmp_file, 'wt') as f:
                 f.write('foo')
 
-            #check rsync
-            rsync1 =  tools.rsyncPrefix(self.config, no_perms = False, progress = False)
+            # check rsync
+            rsync1 = tools.rsyncPrefix(
+                self.config, no_perms=False, progress=False)
             rsync1.append(tmp_file)
-            rsync1.append('%s@%s:"%s"/' %(self.user,
-                                        tools.escapeIPv6Address(self.host),
-                                        remote_tmp_dir_1))
+            rsync1.append('%s@%s:%s/' % (
+                self.user,
+                tools.escapeIPv6Address(self.host),
+                remote_tmp_dir_1))
 
-            #check remote rsync hard-link support
-            rsync2 =  tools.rsyncPrefix(self.config, no_perms = False, progress = False)
-            rsync2.append('--link-dest=../%s' %os.path.basename(remote_tmp_dir_1))
+            # check remote rsync hard-link support
+            rsync2 = tools.rsyncPrefix(
+                self.config, no_perms=False, progress=False)
+            rsync2.append(
+                '--link-dest=../%s' % os.path.basename(remote_tmp_dir_1))
             rsync2.append(tmp_file)
-            rsync2.append('%s@%s:"%s"/' %(self.user,
-                                        tools.escapeIPv6Address(self.host),
-                                        remote_tmp_dir_2))
+            rsync2.append('%s@%s:%s/' % (
+                self.user,
+                tools.escapeIPv6Address(self.host),
+                remote_tmp_dir_2))
 
             for cmd in (rsync1, rsync2):
-                logger.debug('Check rsync command: %s' %cmd, self)
+                logger.debug('Check rsync command: %s' % cmd, self)
 
                 proc = subprocess.Popen(cmd,
-                                        stdout = subprocess.PIPE,
-                                        stderr = subprocess.PIPE,
-                                        universal_newlines = True)
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE,
+                                        universal_newlines=True)
                 out, err = proc.communicate()
-                if err or proc.returncode:
-                    logger.debug('rsync command returned error: %s' %err, self)
-                    raise MountException(_('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
-                                            '%(err)s\nLook at \'man backintime\' for further instructions')
-                                            % {'host' : self.host, 'command' : cmd, 'err' : err})
 
-        #check cp chmod find and rm
-        head  = 'tmp1="%s"; tmp2="%s"; ' %(remote_tmp_dir_1, remote_tmp_dir_2)
-        #first define a function to clean up and exit
+                if err or proc.returncode:
+                    logger.debug('rsync command returned error: %s' % err, self)
+
+                    raise MountException(_(
+                        'Remote host %(host)s doesn\'t support'
+                        ' \'%(command)s\':\n'
+                        '%(err)s\nLook at \'man backintime\' for further '
+                        'instructions') % {
+                            'host': self.host,
+                            'command': cmd,
+                            'err': err})
+
+        # check cp chmod find and rm
+        head = 'tmp1="%s"; tmp2="%s"; ' % (remote_tmp_dir_1, remote_tmp_dir_2)
+
+        # first define a function to clean up and exit
         head += 'cleanup(){ '
         head += 'test -e "$tmp1/a" && rm "$tmp1/a" >/dev/null 2>&1; '
         head += 'test -e "$tmp2/a" && rm "$tmp2/a" >/dev/null 2>&1; '
@@ -593,85 +819,107 @@ class SSH(MountControl):
         head += 'exit $1; }; '
         tail = []
 
-        #list inodes
-        cmd  = 'ls -i "$tmp1/a"; ls -i "$tmp2/a"; '
+        # list inodes
+        cmd = 'ls -i "$tmp1/a"; ls -i "$tmp2/a"; '
         tail.append(cmd)
-        #try nice -n 19
+
+        # try nice -n 19
         if self.nice:
-            cmd  = 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
+            cmd = 'echo \"nice -n 19\"; nice -n 19 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
             tail.append(cmd)
-        #try ionice -c2 -n7
+
+        # try ionice -c2 -n7
         if self.ionice:
-            cmd  = 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
+            cmd = 'echo \"ionice -c2 -n7\"; ionice -c2 -n7 true >/dev/null; err_nice=$?; '
             cmd += 'test $err_nice -ne 0 && cleanup $err_nice; '
             tail.append(cmd)
-        #try nocache
+
+        # try nocache
         if self.nocache:
-            cmd  = 'echo \"nocache\"; nocache true >/dev/null; err_nocache=$?; '
+            cmd = 'echo \"nocache\"; nocache true >/dev/null; err_nocache=$?; '
             cmd += 'test $err_nocache -ne 0 && cleanup $err_nocache; '
             tail.append(cmd)
-        #try screen, bash and flock used by smart-remove running in background
+
+        # try screen, bash and flock used by smart-remove running in background
         if self.config.smartRemoveRunRemoteInBackground(self.profile_id):
-            cmd  = 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
+            cmd = 'echo \"screen -d -m bash -c ...\"; screen -d -m bash -c \"true\" >/dev/null; err_screen=$?; '
             cmd += 'test $err_screen -ne 0 && cleanup $err_screen; '
             tail.append(cmd)
-            cmd  = 'echo \"(flock -x 9) 9>smr.lock\"; bash -c \"(flock -x 9) 9>smr.lock\" >/dev/null; err_flock=$?; '
+
+            cmd = 'echo \"(flock -x 9) 9>smr.lock\"; bash -c \"(flock -x 9) 9>smr.lock\" >/dev/null; err_flock=$?; '
             cmd += 'test $err_flock -ne 0 && cleanup $err_flock; '
             tail.append(cmd)
-            cmd  = 'echo \"rmdir \$(mktemp -d)\"; tmp3=$(mktemp -d); test -z "$tmp3" && cleanup 1; rmdir $tmp3 >/dev/null; err_rmdir=$?; '
+
+            cmd = 'echo \"rmdir \\$(mktemp -d)\"; tmp3=$(mktemp -d); test -z "$tmp3" && cleanup 1; rmdir $tmp3 >/dev/null; err_rmdir=$?; '
             cmd += 'test $err_rmdir -ne 0 && cleanup $err_rmdir; '
             tail.append(cmd)
-        #if we end up here, everything should be fine
+
+        # if we end up here, everything should be fine
         cmd = 'echo \"done\"; cleanup 0'
         tail.append(cmd)
 
         maxLength = self.config.sshMaxArgLength(self.profile_id)
-        additionalChars = len('echo ""') + len(self.config.sshPrefixCmd(self.profile_id, cmd_type = str))
+        additionalChars = len('echo ""') \
+            + len(self.config.sshPrefixCmd(self.profile_id, cmd_type=str))
 
         output = ''
         err = ''
         returncode = 0
+
         for cmd in tools.splitCommands(tail,
-                                       head = head,
-                                       maxLength = maxLength - additionalChars):
+                                       head=head,
+                                       maxLength=maxLength-additionalChars):
             if cmd.endswith('; '):
                 cmd += 'echo ""'
-            c = self.config.sshCommand(cmd = [cmd],
-                                        custom_args = ['-p', str(self.port), self.user_host],
-                                        port = False,
-                                        user_host = False,
-                                        nice = False,
-                                        ionice = False,
-                                        profile_id = self.profile_id)
+
+            c = self.config.sshCommand(
+                cmd=[cmd],
+                custom_args=['-p', str(self.port), self.user_host],
+                port=False,
+                user_host=False,
+                nice=False,
+                ionice=False,
+                profile_id=self.profile_id)
+
             try:
-                logger.debug('Call command: %s' %' '.join(c), self)
+                logger.debug('Call command: %s' % ' '.join(c), self)
                 proc = subprocess.Popen(c,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
-                                        universal_newlines = True)
+                                        universal_newlines=True)
                 ret = proc.communicate()
+
             except OSError as e:
-                #Argument list too long
+
+                # Argument list too long
                 if e.errno == 7:
-                    logger.debug('Argument list too log (Python exception)', self)
+                    logger.debug(
+                        'Argument list too log (Python exception)', self)
+
                     return maxArg()
+
                 else:
                     raise
-            logger.debug('Command stdout: %s' %ret[0], self)
-            logger.debug('Command stderr: %s' %ret[1], self)
-            logger.debug('Command returncode: %s' %proc.returncode, self)
+
+            logger.debug('Command stdout: %s' % ret[0], self)
+            logger.debug('Command stderr: %s' % ret[1], self)
+            logger.debug('Command returncode: %s' % proc.returncode, self)
+
             output += ret[0].strip('\n') + '\n'
-            err    += ret[1].strip('\n') + '\n'
+            err += ret[1].strip('\n') + '\n'
             returncode += proc.returncode
+
             if proc.returncode:
                 break
 
         output_split = output.strip('\n').split('\n')
 
         while True:
+
             if output_split and not output_split[-1]:
                 output_split = output_split[:-1]
+
             else:
                 break
 
@@ -679,25 +927,42 @@ class SSH(MountControl):
             return maxArg()
 
         if returncode or not output_split[-1].startswith('done'):
-            for command in ('rm', 'nice', 'ionice', 'nocache', 'screen', '(flock'):
+
+            for command in ('rm', 'nice', 'ionice',
+                            'nocache', 'screen', '(flock'):
+
                 if output_split[-1].startswith(command):
-                    raise MountException(_('Remote host %(host)s doesn\'t support \'%(command)s\':\n'
-                                            '%(err)s\nLook at \'man backintime\' for further instructions')
-                                            % {'host' : self.host, 'command' : output_split[-1], 'err' : err})
-            raise MountException(_('Check commands on host %(host)s returned unknown error:\n'
-                                    '%(err)s\nLook at \'man backintime\' for further instructions')
-                                    % {'host' : self.host, 'err' : err})
+                    raise MountException(
+                        _('Remote host %(host)s doesn\'t support'
+                          ' \'%(command)s\':\n%(err)s\nLook at \'man '
+                          'backintime\' for further instructions')
+                        % {
+                            'host': self.host,
+                            'command': output_split[-1],
+                            'err': err
+                        }
+                    )
+
+            raise MountException(
+                _('Check commands on host %(host)s returned unknown error:\n'
+                  '%(err)s\nLook at \'man backintime\' for further '
+                  'instructions') % {'host': self.host, 'err': err})
 
         inodes = []
+
         for tmp in (remote_tmp_dir_1, remote_tmp_dir_2):
+
             for line in output_split:
-                m = re.match(r'^(\d+).*?%s' %tmp, line)
+
+                m = re.match(r'^(\d+).*?%s' % tmp, line)
                 if m:
                     inodes.append(m.group(1))
 
         logger.debug('remote inodes: ' + ' | '.join(inodes), self)
+
         if len(inodes) == 2 and inodes[0] != inodes[1]:
-            raise MountException(_('Remote host %s doesn\'t support hardlinks') % self.host)
+            raise MountException(
+                _('Remote host %s doesn\'t support hardlinks') % self.host)
 
     def randomId(self, size=6, chars=string.ascii_uppercase + string.digits):
         """
@@ -708,9 +973,11 @@ class SSH(MountControl):
             chars (str):    characters used as basis for the random string
 
         Returns:
-            str:            random string with lenght ``size``
+            str:            random string with length ``size``
         """
+
         return ''.join(random.choice(chars) for x in range(size))
+
 
 def sshKeyGen(keyfile):
     """
@@ -724,22 +991,33 @@ def sshKeyGen(keyfile):
         bool:           True if successful; False if ``keyfile`` already exist
                         or if there was an error
     """
+
     if os.path.exists(keyfile):
-        logger.warning('SSH keyfile "{}" already exist. Skip creating a new one'.format(keyfile))
+        logger.warning(
+            'SSH keyfile "{}" already exist. Skip creating a new one'
+            .format(keyfile))
+
         return False
+
     cmd = ['ssh-keygen', '-t', 'rsa', '-N', '', '-f', keyfile]
+
     proc = subprocess.Popen(cmd,
-                            stdout = subprocess.DEVNULL,
-                            stderr = subprocess.PIPE,
-                            universal_newlines = True)
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.PIPE,
+                            universal_newlines=True)
+
     out, err = proc.communicate()
+
     if proc.returncode:
         logger.error('Failed to create a new ssh-key: {}'.format(err))
     else:
         logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
+
     return not proc.returncode
 
-def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass', cipher = None):
+
+def sshCopyId(pubkey, user, host, port='22',
+              askPass='backintime-askpass', cipher=None):
     """
     Copy SSH public key ``pubkey`` to remote ``host``.
 
@@ -754,32 +1032,51 @@ def sshCopyId(pubkey, user, host, port = '22', askPass = 'backintime-askpass', c
     Returns:
         bool:           True if successful
     """
+
     if not os.path.exists(pubkey):
-        logger.warning('SSH public key "{}" does not exist. Skip copy to remote host'.format(pubkey))
+        logger.warning(
+            'SSH public key "{}" does not exist. Skip copy to remote host'
+            .format(pubkey))
+
         return False
+
     env = os.environ.copy()
     env['SSH_ASKPASS'] = askPass
     env['ASKPASS_MODE'] = 'USER'
-    env['ASKPASS_PROMPT'] = _('Copy public ssh-key "%(pubkey)s" to remote host "%(host)s".\nPlease enter password for "%(user)s":')\
-                            %{'pubkey': pubkey, 'host': host, 'user': user}
+    env['ASKPASS_PROMPT'] \
+        = _('Copy public ssh-key "%(pubkey)s" to remote host "%(host)s".\n'
+            'Please enter password for "%(user)s":') % {'pubkey': pubkey,
+                                                        'host': host,
+                                                        'user': user}
+
     cmd = ['ssh-copy-id', '-i', pubkey, '-p', port]
+
     if cipher and cipher != 'default':
         cmd.extend(['-o', 'Ciphers={}'.format(cipher)])
-    cmd.append('{}@{}'.format(user,host))
+
+    cmd.append('{}@{}'.format(user, host))
+
     logger.debug('Call command "{}"'.format(' '.join(cmd)))
-    proc = subprocess.Popen(cmd, env = env,
-                            stdout = subprocess.DEVNULL,
-                            stderr = subprocess.PIPE,
-                            preexec_fn = os.setsid, # cut of ssh from current
-                                                    # terminal to make it use
-                                                    # backintime-askpass
-                            universal_newlines = True)
+
+    proc = subprocess.Popen(cmd, env=env,
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.PIPE,
+                            preexec_fn=os.setsid,  # cut of ssh from current
+                                                   # terminal to make it use
+                                                   # backintime-askpass
+                            universal_newlines=True)
+
     out, err = proc.communicate()
+
     if proc.returncode:
-        logger.error('Failed to copy ssh-key "{}" to "{}@{}": [{}] {}'.format(pubkey, user, host, proc.returncode, err))
+        logger.error('Failed to copy ssh-key "{}" to "{}@{}": [{}] {}'
+                     .format(pubkey, user, host, proc.returncode, err))
     else:
-        logger.info('Successfully copied ssh-key "{}" to "{}@{}"'.format(pubkey, user, host))
+        logger.info('Successfully copied ssh-key "{}" to "{}@{}"'
+                    .format(pubkey, user, host))
+
     return not proc.returncode
+
 
 def sshKeyFingerprint(path):
     """
@@ -791,16 +1088,23 @@ def sshKeyFingerprint(path):
     Returns:
         str:        hex fingerprint from key
     """
+
     if not os.path.exists(path):
         return
-    cmd = ['ssh-keygen', '-l', '-f', path]
-    proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
-    output = proc.communicate()[0]
-    m = re.match(b'\d+\s+(SHA256:\S+|[a-fA-F0-9:]+)\s.*', output)
-    if m:
-        return m.group(1).decode('UTF-8')
 
-def sshHostKey(host, port = '22'):
+    cmd = ['ssh-keygen', '-l', '-f', path]
+
+    proc = subprocess.Popen(
+        cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    output = proc.communicate()[0]
+
+    m = re.match(r'\d+\s+(SHA256:\S+|[a-fA-F0-9:]+)\s.*',
+                 output.decode())
+    if m:
+        return m.group(1)
+
+
+def sshHostKey(host, port='22'):
     """
     Get the remote host key from ``host``.
 
@@ -809,35 +1113,48 @@ def sshHostKey(host, port = '22'):
         port (str): port number of remote ssh-server
 
     Returns:
-        tuple:      three item tuple with (fingerprint, hashed host key, key type)
+        tuple:      three item tuple with (fingerprint, hashed host key,
+                    key type)
     """
+
     for t in ('ecdsa', 'rsa'):
         cmd = ['ssh-keyscan', '-t', t, '-p', port, host]
         proc = subprocess.Popen(cmd,
-                                stdout = subprocess.PIPE,
-                                stderr = subprocess.DEVNULL)
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.DEVNULL)
+
         hostKey = proc.communicate()[0].strip()
+
         if hostKey:
             break
+
     if hostKey:
+
         logger.debug('Found {} key for host "{}"'.format(t.upper(), host))
+
         with tempfile.TemporaryDirectory() as tmp:
+
             keyFile = os.path.join(tmp, 'key')
+
             with open(keyFile, 'wb') as f:
                 f.write(hostKey + b'\n')
 
             hostKeyFingerprint = sshKeyFingerprint(keyFile)
 
             cmd = ['ssh-keygen', '-H', '-f', keyFile]
+
             proc = subprocess.Popen(cmd,
-                                    stdout = subprocess.DEVNULL,
-                                    stderr = subprocess.DEVNULL)
+                                    stdout=subprocess.DEVNULL,
+                                    stderr=subprocess.DEVNULL)
             proc.communicate()
 
             with open(keyFile, 'rt') as f:
                 hostKeyHash = f.read().strip()
+
         return (hostKeyFingerprint, hostKeyHash, t.upper())
+
     return (None, None, None)
+
 
 def writeKnownHostsFile(key):
     """
@@ -846,10 +1163,14 @@ def writeKnownHostsFile(key):
     Args:
         key (str):  host key
     """
+
     sshDir = os.path.expanduser('~/.ssh')
+
     knownHostFile = os.path.join(sshDir, 'known_hosts')
+
     if not os.path.isdir(sshDir):
         tools.mkdir(sshDir, 0o700)
+
     with open(knownHostFile, 'at') as f:
         logger.info('Write host key to {}'.format(knownHostFile))
         f.write(key + '\n')

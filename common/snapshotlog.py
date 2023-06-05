@@ -1,5 +1,5 @@
 # Back In Time
-# Copyright (C) 2016-2019 Germar Reitze
+# Copyright (C) 2016-2022 Germar Reitze
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -96,7 +96,7 @@ class SnapshotLog(object):
 
     Args:
         cfg (config.Config):    current config
-        profile (int):          profile that should be used to indentify the log
+        profile (int):          profile that should be used to identify the log
     """
 
     NONE                = 0
@@ -183,7 +183,7 @@ class SnapshotLog(object):
             level (int):    verbosity level of current line. msg will only be
                             added to log if level is lower than configured
                             log level :py:func:`config.Config.logLevel`.
-                            Posible Values:
+                            Possible Values:
                             :py:data:`SnapshotLog.ERRORS`,
                             :py:data:`SnapshotLog.CHANGES_AND_ERRORS` or
                             :py:data:`SnapshotLog.ALL`
@@ -193,11 +193,19 @@ class SnapshotLog(object):
         if not self.logFile:
             self.logFile = open(self.logFileName, 'at')
         self.logFile.write(msg + '\n')
-        self.timer.start(5)
+        self.timer.start(5)  # flush the log output buffer after 5 seconds
 
     def flush(self):
         """
-        Force write log to file.
+        Write the in-memory buffer of the log output into the log file.
         """
         if self.logFile:
-            self.logFile.flush()
+            try:
+                # TODO flush() does not necessarily write the file’s data to disk.
+                #      Use flush() followed by os.fsync() to ensure this behavior.
+                #      https://docs.python.org/2/library/stdtypes.html#file.flush
+                self.logFile.flush()
+            except RuntimeError as e:
+                # Fixes #1003 (RTE reentrant call inside io.BufferedWriter)
+                # This RTE will not be logged since this would be another reentrant call
+                pass
