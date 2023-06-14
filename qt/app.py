@@ -998,7 +998,7 @@ class MainWindow(QMainWindow):
         messagebox.showInfo(self, _('Changelog'), msg)
 
     def btnFaqClicked(self):
-        self.openUrl('https://github.com/bit-team/backintime/wiki/FAQ')
+        self.openUrl('https://github.com/bit-team/backintime/blob/-/FAQ.md')
 
     def btnAskQuestionClicked(self):
         self.openUrl('https://github.com/bit-team/backintime/issues')
