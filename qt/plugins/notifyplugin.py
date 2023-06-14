@@ -17,9 +17,8 @@
 
 
 import os
-import subprocess
-import dbus
 import pluginmanager
+import subprocess
 
 
 class NotifyPlugin(pluginmanager.Plugin):
@@ -47,20 +46,17 @@ class NotifyPlugin(pluginmanager.Plugin):
         return True
 
     def message(self, profile_id, profile_name, level, message, timeout):
-        try:
-            notify_interface = dbus.Interface(object=dbus.SessionBus().get_object("org.freedesktop.Notifications", "/org/freedesktop/Notifications"), dbus_interface="org.freedesktop.Notifications")
-        except dbus.exceptions.DBusException:
-            return
         if 1 == level:
+            cmd = ['notify-send']
             if timeout > 0:
-                timeout = 1000 * timeout
-            else:
-                timeout = -1 # let timeout default to notification server settings
+                cmd.extend(['-t', str(1000 * timeout)])
+
             title = "Back In Time (%s) : %s" % (self.user, profile_name)
             message = message.replace("\n", ' ')
             message = message.replace("\r", '')
-            try:
-                notify_interface.Notify("Back In Time", 0, "", title, message, [], {}, timeout)
-            except dbus.exceptions.DBusException:
-                pass
+
+            cmd.append(title)
+            cmd.append(message)
+            print(' '.join(cmd))
+            subprocess.Popen(cmd).communicate()
         return
