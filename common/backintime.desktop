@@ -4,5 +4,6 @@ Name=Backintime Password Cache
 Exec=/bin/sh -c "backintime pw-cache start 2>&1 >/dev/null"
 Comment=Cache passwords for non-interactive Backintime cronjobs
 Icon=gtk-save
+SingleMainWindow=true
 Terminal=false
 Type=Application

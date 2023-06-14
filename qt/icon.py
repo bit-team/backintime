@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2021 Germar Reitze
+#    Copyright (C) 2012-2022 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
 
 from PyQt5.QtGui import QIcon
 
+# TODO setThemeName() only for available themes -> QStyleFactory.keys()
+#      since this code may activate a theme that is only partially installed
+#      (or not at all in case of the last theme in the list: oxygen)
+#      See issues #1364 and #1306
 for theme in ('ubuntu-mono-dark', 'gnome', 'oxygen'):
     if not QIcon.fromTheme('document-save').isNull():
         break

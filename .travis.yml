@@ -2,20 +2,24 @@
 # https://docs.travis-ci.com/user/languages/python
 
 language: python
+os: linux
+arch :
+ - amd64
+ - ppc64le
 
 # ensures that we have UUID filesystem mounts for proper testing
 sudo: true
-dist: trusty
+dist: focal
 
 addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
   ssh_known_hosts: localhost
 
 python:
-  - "3.4"
-  - "3.5"
-  - "3.5-dev" # 3.5 development branch
-  - "nightly" # currently points to 3.6-dev
+  - "3.8"
+  - "3.9"
+  - "3.10"
+  - "3.11"
 
 before_install:
   # disable mongodb as we don't need it and it sometimes temporary fails
@@ -24,9 +28,13 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux
+jobs:
+  exclude:
+    -  python: "3.9"
+    -  python: "3.10"
 
 install:
-  - pip install coveralls
+  - pip install coveralls pyfakefs
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys

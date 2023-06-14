@@ -1,5 +1,5 @@
 # Back In Time
-# Copyright (C) 2016-2021 Taylor Raack, Germar Reitze
+# Copyright (C) 2016-2022 Taylor Raack, Germar Reitze
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,12 +44,14 @@ class TestSSH(generic.SSHTestCase):
 
         try:
             hash_id = mnt.mount(mode = 'ssh', check = False, **self.mount_kwargs)
-            full_path = os.path.join(self.sharePath,".local","share","backintime","mnt",hash_id,"mountpoint","testfile")
+            full_path = os.path.join(
+                    self.sharePath, ".local", "share", "backintime", "mnt", hash_id, "mountpoint", "testfile")
 
             # warning - don't use os.access for checking writability
             # https://github.com/bit-team/backintime/issues/490#issuecomment-156265196
             with open(full_path, 'wt') as f:
                 f.write('foo')
+
         finally:
             mnt.umount(hash_id = hash_id)
 
@@ -98,10 +100,6 @@ class TestSSH(generic.SSHTestCase):
         ssh = sshtools.SSH(cfg = self.cfg, cipher = 'non_existing_cipher')
         with self.assertRaisesRegex(MountException, r"Cipher .+ failed for.+"):
             ssh.checkCipher()
-
-    @unittest.skip('Not yet implemented')
-    def test_benchmarkCipher(self):
-        pass
 
     def test_checkKnownHosts(self):
         ssh = sshtools.SSH(cfg = self.cfg)

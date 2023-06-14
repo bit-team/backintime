@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #    Back In Time
-#    Copyright (C) 2012-2021 Germar Reitze
+#    Copyright (C) 2012-2022 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -97,7 +97,7 @@ def checkConfig(cfg, crontab = True):
             return False
         okay()
 
-    test = 'Check/prepair snapshot path'
+    test = 'Check/prepare snapshot path'
     announceTest()
     snapshots_path = cfg.snapshotsPath(mode = mode, tmp_mount = True)
 

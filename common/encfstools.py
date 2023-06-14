@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2021 Germar Reitze, Taylor Raack
+#    Copyright (C) 2012-2022 Germar Reitze, Taylor Raack
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ import re
 import shutil
 import tempfile
 from datetime import datetime
-from distutils.version import StrictVersion
+from packaging.version import Version
 
 import config
 import password
@@ -32,7 +32,8 @@ import sshtools
 import logger
 from mount import MountControl
 from exceptions import MountException, EncodeValueError
-_=gettext.gettext
+
+_ = gettext.gettext
 
 class EncFS_mount(MountControl):
     """
@@ -156,7 +157,7 @@ class EncFS_mount(MountControl):
                                     universal_newlines = True)
             output = proc.communicate()[0]
             m = re.search(r'(\d\.\d\.\d)', output)
-            if m and StrictVersion(m.group(1)) <= StrictVersion('1.7.2'):
+            if m and Version(m.group(1)) <= Version('1.7.2'):
                 logger.debug('Wrong encfs version %s' %m.group(1), self)
                 raise MountException(_('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
 
@@ -227,7 +228,7 @@ class EncFS_SSH(EncFS_mount):
         if not os.path.isfile(self.configFile()):
             #encfs >= 1.8.0 changed behavior when ENCFS6_CONFIG environ variable
             #file does not exist. It will not create a new one anymore but just fail.
-            #As encfs would create the config in /.encfs6.xml (which will most likly fail)
+            #As encfs would create the config in /.encfs6.xml (which will most likely fail)
             #we need to mount a temp folder with reverse first and copy the config when done.
             logger.debug('Mount temp folder with encfs --reverse to create a new encfs config', self)
             with tempfile.TemporaryDirectory() as src:
@@ -589,8 +590,8 @@ class Decode(object):
 
     def path(self, path):
         """
-        write crypted path to encfsctl stdin and read plain path from stdout
-        if stdout is empty (most likly because there was an error) return crypt path
+        write encrypted path to encfsctl stdin and read plain path from stdout
+        if stdout is empty (most likely because there was an error) return crypt path
         """
         if self.string:
             assert isinstance(path, str), 'path is not str type: %s' % path
