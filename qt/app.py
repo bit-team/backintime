@@ -983,7 +983,7 @@ class MainWindow(QMainWindow):
         if not items:
             return
 
-        question_msg = '{}:{}'.format(
+        question_msg = '{}:\n{}'.format(
             _('Are you sure you want to remove the snapshot'),
             '\n'.join([item.snapshotID().displayName for item in items]))
 

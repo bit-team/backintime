@@ -335,7 +335,7 @@ class SettingsDialog(QDialog):
         self.txtHost.textChanged.connect(self.fullPathChanged)
         hlayout2.addWidget(self.txtHost)
 
-        self.lblUser = QLabel(_('User') ':', self)
+        self.lblUser = QLabel(_('User') + ':', self)
         hlayout2.addWidget(self.lblUser)
         self.txtUser = QLineEdit(self)
         self.txtUser.textChanged.connect(self.fullPathChanged)

@@ -336,6 +336,7 @@ class SnapshotsDialog(QDialog):
         if not tools.checkCommand(diffCmd):
             messagebox.critical(
                 self, '{}: {}'.format(_('Command not found'), diffCmd)
+            )
             return
 
         # prevent backup data from being accidentally overwritten

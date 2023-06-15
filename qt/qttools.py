@@ -399,7 +399,7 @@ class SnapshotItem(TimeLineItem):
         else:
             self.setToolTip(
                 0,
-                _('Last check {time}').format(time=id.lastChecked))
+                _('Last check {time}').format(time=sid.lastChecked))
 
     def updateText(self):
         sid = self.snapshotID()
