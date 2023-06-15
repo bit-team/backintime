@@ -187,8 +187,8 @@ if __name__ == '__main__':
 
     print('Use one of the following argument keywords:\n'
           '  source  - Update the pot and po files with translatable '
-          'strings extracted from py files.\n'
+          'strings extracted from py files. (Prepare upload to Weblate)\n'
           '  weblate - Update the po files with translations from '
-          'external translation service Weblate.')
+          'external translation service Weblate. (Download from Weblate)')
 
     sys.exit(1)
