@@ -3,6 +3,10 @@ import sys
 from pathlib import Path
 from subprocess import run
 
+"""This helper script do manage transfering translations to and from the
+translation platform (currently Weblate).
+"""
+
 # In usual GNU gettext environments it would be "locale" (sometimes plurarl
 # "locales")
 LOCAL_DIR = Path('common') / 'po'
@@ -172,7 +176,6 @@ if __name__ == '__main__':
     if 'source' in sys.argv:
         # py_files = collect_py_files()
         update_po_template()
-        sys.exit()
         update_po_language_files()
         print('Please check the result via "git diff".')
         sys.exit()
@@ -183,9 +186,9 @@ if __name__ == '__main__':
         sys.exit()
 
     print('Use one of the following argument keywords:\n'
-            '  source  - Update the pot and po files with translatable '
-            'strings extracted from py files.\n'
-            '  weblate - Update the po files with translations from '
-            'external translation service Weblate.')
+          '  source  - Update the pot and po files with translatable '
+          'strings extracted from py files.\n'
+          '  weblate - Update the po files with translations from '
+          'external translation service Weblate.')
 
     sys.exit(1)

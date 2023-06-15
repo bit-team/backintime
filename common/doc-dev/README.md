@@ -5,4 +5,4 @@
 - [Localization and translation using Weblate](2_localization.md)
 <!-- TOC end -->
 
-<sub>May 2023</sub>
+<sub>June 2023</sub>
