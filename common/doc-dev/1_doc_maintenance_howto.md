@@ -1,3 +1,6 @@
+# Using Sphinx to write and build documentation
+<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues) or contact the [maintenace team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/) if this text is difficult to understand or not helpful.</sub>
+
 This file describes briefly how to
 - build and view the source code "API" documentation of _Back In Time_
   "common" (CLI)
@@ -5,7 +8,7 @@ This file describes briefly how to
 - write docstrings
 - known issues with documentation generation
 
-# Index
+## Index
 
 <!-- TOC start -->
 - [Background](#background)

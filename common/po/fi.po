@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-08-20 20:43+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2023-06-15 10:03+0200\n"
 "PO-Revision-Date: 2022-08-17 17:18+0000\n"
 "Last-Translator: Tommi Nieminen <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,521 +19,17 @@ msgstr ""
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 "X-Generator: Launchpad (build 83f7123b02a2b50a64bc29e7e35197179a885279)\n"
 
-#: ../../common/configfile.py:105
-#, python-format
-msgid "Failed to save config: %s"
-msgstr "Määrityksen tallentaminen epäonnistui: %s"
-
-#: ../../common/configfile.py:136
-#, python-format
-msgid "Failed to load config: %s"
-msgstr "Määrityksen lataaminen epäonnistui: %s"
-
-#: ../../common/configfile.py:624 ../../common/configfile.py:707
-#, python-format
-msgid "Profile \"%s\" already exists !"
-msgstr "Profiili ”%s” on jo olemassa!"
-
-#: ../../common/configfile.py:664
-msgid "You can't remove the last profile !"
-msgstr "Viimeistä profiilia ei voi poistaa!"
-
-#: ../../common/config.py:77
-msgid "Disabled"
-msgstr "Ei käytössä"
-
-#: ../../common/config.py:78
-msgid "At every boot/reboot"
-msgstr "Käynnistysten yhteydessä"
-
-#: ../../common/config.py:79
-msgid "Every 5 minutes"
-msgstr "5 minuutin välein"
-
-#: ../../common/config.py:80
-msgid "Every 10 minutes"
-msgstr "10 minuutin välein"
-
-#: ../../common/config.py:81
-msgid "Every 30 minutes"
-msgstr "30 minuutin välein"
-
-#: ../../common/config.py:82
-msgid "Every hour"
-msgstr "Tunnin välein"
-
-#: ../../common/config.py:83
-msgid "Every 2 hours"
-msgstr "2 tunnin välein"
-
-#: ../../common/config.py:84
-msgid "Every 4 hours"
-msgstr "4 tunnin välein"
-
-#: ../../common/config.py:85
-msgid "Every 6 hours"
-msgstr "6 tunnin välein"
-
-#: ../../common/config.py:86
-msgid "Every 12 hours"
-msgstr "12 tunnin välein"
-
-#: ../../common/config.py:87
-msgid "Custom Hours"
-msgstr "Mukautetut tunnit"
-
-#: ../../common/config.py:88
-msgid "Every Day"
-msgstr "Päivittäin"
-
-#: ../../common/config.py:89
-msgid "Repeatedly (anacron)"
-msgstr "Toistuva (anacron)"
-
-#: ../../common/config.py:90
-msgid "When drive get connected (udev)"
-msgstr "Asemaa kytkettäessä (udev)"
-
-#: ../../common/config.py:91
-msgid "Every Week"
-msgstr "Viikoittain"
-
-#: ../../common/config.py:92
-msgid "Every Month"
-msgstr "Kuukausittain"
-
-#: ../../common/config.py:96 ../../common/config.py:103
-msgid "Day(s)"
-msgstr "Päivä(ä)"
-
-#: ../../common/config.py:97 ../../common/config.py:104
-msgid "Week(s)"
-msgstr "Viikko(a)"
-
-#: ../../common/config.py:98
-msgid "Year(s)"
-msgstr "Vuosi(a)"
-
-#: ../../common/config.py:102
-msgid "Hour(s)"
-msgstr ""
-
-#: ../../common/config.py:105
-msgid "Month(s)"
-msgstr ""
-
-#: ../../common/config.py:126 ../../qt/settingsdialog.py:564
-msgid " EXPERIMENTAL!"
-msgstr " KOKEELLINEN!"
-
-#: ../../common/config.py:129
-msgid "Local"
-msgstr "Paikallinen"
-
-#: ../../common/config.py:130
-msgid "SSH"
-msgstr "SSH"
-
-#: ../../common/config.py:130 ../../common/config.py:132
-#: ../../qt/settingsdialog.py:1626
-msgid "SSH private key"
-msgstr "SSH – yksityinen avain"
-
-#: ../../common/config.py:131
-msgid "Local encrypted"
-msgstr "Paikallinen salattu"
-
-#: ../../common/config.py:131 ../../common/config.py:132
-msgid "Encryption"
-msgstr "Salaus"
-
-#: ../../common/config.py:132
-msgid "SSH encrypted"
-msgstr ""
-
-#: ../../common/config.py:135
-msgid "Default"
-msgstr "Oletus"
-
-#: ../../common/config.py:136
-msgid "AES128-CTR"
-msgstr "AES128-CTR"
-
-#: ../../common/config.py:137
-msgid "AES192-CTR"
-msgstr "AES192-CTR"
-
-#: ../../common/config.py:138
-msgid "AES256-CTR"
-msgstr ""
-
-#: ../../common/config.py:139
-msgid "ARCFOUR256"
-msgstr "ARCFOUR256"
-
-#: ../../common/config.py:140
-msgid "ARCFOUR128"
-msgstr "ARCFOUR128"
-
-#: ../../common/config.py:141
-msgid "AES128-CBC"
-msgstr "AES128-CBC"
-
-#: ../../common/config.py:142
-msgid "3DES-CBC"
-msgstr "3DES-CBC"
-
-#: ../../common/config.py:143
-msgid "Blowfish-CBC"
-msgstr "Blowfish-CBC"
-
-#: ../../common/config.py:144
-msgid "Cast128-CBC"
-msgstr "Cast128-CBC"
-
-#: ../../common/config.py:145
-msgid "AES192-CBC"
-msgstr "AES192-CBC"
-
-#: ../../common/config.py:146
-msgid "AES256-CBC"
-msgstr "AES256-CBC"
-
-#: ../../common/config.py:147
-msgid "ARCFOUR"
-msgstr "ARCFOUR"
-
-#: ../../common/config.py:153
-msgid "Main profile"
-msgstr "Pääprofiili"
-
-#: ../../common/config.py:295 ../../common/config.py:302
-#: ../../common/config.py:313 ../../common/config.py:318
-#: ../../qt/qtsystrayicon.py:69
-#, python-format
-msgid "Profile: \"%s\""
-msgstr "Profiili: ”%s”"
-
-#: ../../common/config.py:295
-msgid "Snapshots folder is not valid !"
-msgstr "Otoskansio ei ole kelvollinen!"
-
-#: ../../common/config.py:302
-msgid "You must select at least one folder to backup !"
-msgstr "Valitse varmuuskopioitavaksi vähintään yksi kansio!"
-
-#: ../../common/config.py:313
-msgid "You can't include backup folder !"
-msgstr "Itse varmuuskopiokansiota ei voi lisätä!"
-
-#: ../../common/config.py:318
-msgid "You can't include a backup sub-folder !"
-msgstr "Varmuuskopiokansion alikansiota ei voi ottaa mukaan!"
-
-#: ../../common/config.py:373
-#, python-format
-msgid "%s is not a folder !"
-msgstr "%s ei ole kansio!"
-
-#: ../../common/config.py:382
-msgid "Host/User/Profile-ID must not be empty!"
-msgstr "Kone/käyttäjätunnus/profiilin tunnus ei voi olla tyhjä!"
-
-#: ../../common/config.py:390 ../../common/config.py:422
-#, python-format
-msgid ""
-"Can't write to: %s\n"
-"Are you sure you have write access ?"
-msgstr ""
-"Tiedostoon ei voida kirjoittaa: %s\n"
-"Onko siihen varmasti kirjoitusoikeus?"
-
-#: ../../common/config.py:402
-#, python-format
-msgid ""
-"Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
-"support hard-links. Please use a native Linux filesystem."
-msgstr ""
-"Kansion ”%(path)s” kohdetiedostojärjestelmä on FAT, joka ei tue kovia "
-"linkkejä. Käytä Linuxin natiivia tiedostojärjestelmää."
-
-#: ../../common/config.py:407
-#, python-format
-msgid ""
-"Destination filsystem for '%(path)s' is a SMB mounted share. Please make "
-"sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
-"'%(expertOptions)s'."
-msgstr ""
-"Kansion ”%(path)s” kohdetiedostojärjestelmä on liitetty SMB-jako. Varmista, "
-"että SMB-etäpalvelin tukee symlinkkejä tai ota käyttöö ”%(copyLinks)s” "
-"kohdassa ”%(expertOptions)s”."
-
-#: ../../common/config.py:410 ../../qt/settingsdialog.py:817
-msgid "Copy links (dereference symbolic links)"
-msgstr "Kopioi linkit (ratkaise symboliset linkit)"
-
-#: ../../common/config.py:411 ../../qt/settingsdialog.py:671
-msgid "Expert Options"
-msgstr "Asiantuntija-asetukset"
-
-#: ../../common/config.py:413
-#, python-format
-msgid ""
-"Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
-"support hard-links. Please use mode 'SSH' instead."
-msgstr ""
-"Kansion ”%(path)s” kohdetiedostojärjestelmä on liitetty sshfs-jako. sshfs ei "
-"tue kovia linkkejä. Käytä tämän sijaan SSH-tilaa."
-
-#: ../../common/config.py:1474
-msgid ""
-"Can't find crontab.\n"
-"Are you sure cron is installed ?\n"
-"If not you should disable all automatic backups."
-msgstr ""
-"crontab-tiedostoa ei löydy.\n"
-"Varmista, että cron on asennettu.\n"
-"Ellei ole, poista automaattinen varmuuskopiointi käytöstä."
-
-#: ../../common/config.py:1478
-msgid "Failed to write new crontab."
-msgstr "Uuden crontabin kirjoittaminen epäonnistui."
-
-#: ../../common/config.py:1575
-#, python-format
-msgid ""
-"Could not install Udev rule for profile %(profile_id)s. DBus Service "
-"'%(dbus_interface)s' wasn't available"
-msgstr ""
-"Profiilille %(profile_id)s ei voitu asentaa udev-sääntöä. DBus-palvelu "
-"”%(dbus_interface)s” ei ole käytettävissä"
-
-#: ../../common/config.py:1587
-#, python-format
-msgid "Schedule udev doesn't work with mode %s"
-msgstr "Udev-aikataulu ei toimi %s-tilassa"
-
-#: ../../common/config.py:1596
-#, python-format
-msgid "Couldn't find UUID for \"%s\""
-msgstr "Kohteelle ”%s” ei löytynyt UUID:tä"
-
-#: ../../common/encfstools.py:86
-#, python-format
-msgid ""
-"Can't mount '%(command)s':\n"
-"\n"
-"%(error)s"
-msgstr ""
-"Ei voitu liittää: ”%(command)s”:\n"
-"\n"
-"%(error)s"
-
-#: ../../common/encfstools.py:132
-msgid "Config for encrypted folder not found."
-msgstr "Salatun kansion määritystä ei löytynyt."
-
-#: ../../common/encfstools.py:136
-msgid ""
-"\n"
-"Create a new encrypted folder?"
-msgstr ""
-"\n"
-"Luodaanko uusi salattu kansio?"
-
-#: ../../common/encfstools.py:137
-msgid "Cancel"
-msgstr "Peru"
-
-#: ../../common/encfstools.py:140
-msgid "Please confirm password"
-msgstr "Vahvista salasana"
-
-#: ../../common/encfstools.py:144
-msgid "Password doesn't match"
-msgstr "Salasanat eivät täsmää"
-
-#: ../../common/encfstools.py:161
-msgid ""
-"encfs version 1.7.2 and before has a bug with option --reverse. Please "
-"update encfs"
-msgstr ""
-"encfs 1.7.2:n ja vanhempien versioiden --reverse-valitsimessa on "
-"ohjelmavirhe. Päivitä encfs"
-
-#: ../../common/encfstools.py:491 ../../common/snapshots.py:795
-#: ../../qt/app.py:87 ../../qt/app.py:91
-msgid "Take snapshot"
-msgstr "Ota otos"
-
-#: ../../common/mount.py:415
-#, python-format
-msgid ""
-"Hash collision occurred in hash_id %s. Incrementing global value "
-"hash_collision and try again."
-msgstr ""
-"Sattui tiivisteristiriita tiivistetunnisteessa %s. Kasvata yleistä "
-"hash_collision-arvoa ja yritä uudelleen."
-
-#: ../../common/mount.py:490
-#, python-format
-msgid "Can't unmount %(proc)s from %(mountpoint)s"
-msgstr ""
-
-#: ../../common/mount.py:577
-#, python-format
-msgid "%(proc)s not found. Please install e.g. %(install_command)s"
-msgstr ""
-
-#: ../../common/mount.py:590
-#, python-format
-msgid ""
-"%(user)s is not member of group 'fuse'.\n"
-" Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
-"Look at 'man backintime' for further instructions."
-msgstr ""
-
-#: ../../common/mount.py:611
-#, python-format
-msgid "mountpoint %s not empty."
-msgstr "liitospiste %s ei ole tyhjä."
-
-#: ../../common/mount.py:674
-msgid "Mountprocess lock timeout"
-msgstr ""
-
-#: ../../common/password.py:240
+#: common/password.py:240
 #, python-format
 msgid "Profile '%(profile)s': Enter password for %(mode)s: "
 msgstr "Profiili ”%(profile)s”: Anna %(mode)s-salasana: "
 
-#: ../../common/snapshotlog.py:62
-msgid ""
-"### This log has been decoded with automatic search pattern\n"
-"### If some paths are not decoded you can manually decode them with:\n"
-msgstr ""
-"### Tämän lokin koodaus on purettu automaattisella hakukuviolla\n"
-"### Ellei joidenkin sijaintien koodausta ole purettu, ne voi purkaa "
-"komennolla:\n"
-
-#: ../../common/snapshots.py:321 ../../common/snapshots.py:553
-msgid "FAILED"
-msgstr "EPÄONNISTUI!"
-
-#: ../../common/snapshots.py:500 ../../common/snapshots.py:556
-msgid "Restore permissions:"
-msgstr "Palauta käyttöoikeudet:"
-
-#: ../../common/snapshots.py:555 ../../qt/app.py:432 ../../qt/app.py:675
-#: ../../qt/app.py:708 ../../qt/qtsystrayicon.py:73
-msgid "Done"
-msgstr "Valmis"
-
-#: ../../common/snapshots.py:609
-msgid "Deferring backup while on battery"
-msgstr "Viivästetään varmuuskopiointia akkukäytön ajan"
-
-#: ../../common/snapshots.py:669
-msgid ""
-"Can't find snapshots folder.\n"
-"If it is on a removable drive please plug it."
-msgstr ""
-"Otoskansiota ei löydy.\n"
-"Jos otoskansio sijaitsee ulkoisella asemalla, liitä asema tietokoneeseen."
-
-#: ../../common/snapshots.py:671
-#, python-format
-msgid "Waiting %s second."
-msgid_plural "Waiting %s seconds."
-msgstr[0] "Odotetaan %s sekunti."
-msgstr[1] "Odotetaan %s sekuntia."
-
-#: ../../common/snapshots.py:703
-#, python-format
-msgid "Failed to take snapshot %s !!!"
-msgstr "Otoksen %s luominen epäonnistui!!!"
-
-#: ../../common/snapshots.py:712
-msgid "Finalizing"
-msgstr "Viimeistellään"
-
-#: ../../common/snapshots.py:823
-#, python-format
-msgid "Can't create folder: %s"
-msgstr "Ei voitu luoda kansiota: %s"
-
-#: ../../common/snapshots.py:836
-msgid "Saving config file..."
-msgstr "Tallennetaan määritystiedostoa…"
-
-#: ../../common/snapshots.py:873
-msgid "Saving permissions..."
-msgstr "Tallennetaan käyttöoikeuksia…"
-
-#: ../../common/snapshots.py:955
-msgid "..."
-msgstr "…"
-
-#: ../../common/snapshots.py:963
-#, python-format
-msgid "Found leftover '%s' which can be continued."
-msgstr "Löytyi kesken jäänyt ”%s”, jota voi jatkaa."
-
-#: ../../common/snapshots.py:976
-#, python-format
-msgid "Removing leftover '%s' folder from last run"
-msgstr "Poistetaan viime suorituksessa kesken jäänyt kansio ”%s”."
-
-#: ../../common/snapshots.py:981
-#, python-format
-msgid "Can't remove folder: %s"
-msgstr "Ei voida poistaa kansiota: %s"
-
-#: ../../common/snapshots.py:1015
-msgid "Taking snapshot"
-msgstr "Otetaan otosta"
-
-#: ../../common/snapshots.py:1049
-msgid "Nothing changed, no new snapshot necessary"
-msgstr "Mikään ei ole muuttunut: uusi otos ei ole tarpeen"
-
-#: ../../common/snapshots.py:1075
-#, python-format
-msgid "Can't rename %(new_path)s to %(path)s"
-msgstr ""
-
-#: ../../common/snapshots.py:1366 ../../common/snapshots.py:1417
-#: ../../qt/settingsdialog.py:555
-msgid "Smart remove"
-msgstr "Älykäs poisto"
-
-#: ../../common/snapshots.py:1393
-msgid "Removing old snapshots"
-msgstr "Poistetaan vanhoja otoksia"
-
-#: ../../common/snapshots.py:1427
-msgid "Trying to keep min free space"
-msgstr "Yritetään pitää vapaa vähimmäistila"
-
-#: ../../common/snapshots.py:1464
-#, python-format
-msgid "Trying to keep min %d%% free inodes"
-msgstr "Yritetään pitää vähintään %d %% inodeja vapaana"
-
-#: ../../common/snapshots.py:2040
-msgid "WITH ERRORS !"
-msgstr "VIRHEITÄ!"
-
-#: ../../common/snapshots.py:2505 ../../qt/app.py:251 ../../qt/app.py:1306
-msgid "Now"
-msgstr "Nyt"
-
-#: ../../common/sshtools.py:163
+#: common/sshtools.py:205
 #, python-format
 msgid "Can't mount %s"
 msgstr "Ei voida liittää: %s"
 
-#: ../../common/sshtools.py:315
+#: common/sshtools.py:407
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -540,7 +37,7 @@ msgstr ""
 "Yksityisen SSH-avaimen lukitusta ei voida avata. Salasana on väärin tai ei "
 "käytettävissä cronia varten."
 
-#: ../../common/sshtools.py:345
+#: common/sshtools.py:447
 #, python-format
 msgid ""
 "Password-less authentication for %(user)s@%(host)s failed. Look at 'man "
@@ -549,19 +46,19 @@ msgstr ""
 "Salasanaton todennus %(user)s@%(host)s epäonnistui. Lisäohjeita: ”man "
 "backintime”"
 
-#: ../../common/sshtools.py:377
+#: common/sshtools.py:494
 #, python-format
 msgid ""
 "Cipher %(cipher)s failed for %(host)s:\n"
 "%(err)s"
 msgstr ""
 
-#: ../../common/sshtools.py:428
+#: common/sshtools.py:586
 #, python-format
 msgid "%s not found in ssh_known_hosts."
 msgstr "Konetta %s ei ole ssh_known_hosts-tiedostossa"
 
-#: ../../common/sshtools.py:468
+#: common/sshtools.py:644
 #, python-format
 msgid ""
 "Remote path exists but is not a directory:\n"
@@ -570,7 +67,7 @@ msgstr ""
 "Etäsijainti on olemassa muttei kansio\n"
 " %s"
 
-#: ../../common/sshtools.py:470
+#: common/sshtools.py:649
 #, python-format
 msgid ""
 "Remote path is not writable:\n"
@@ -579,7 +76,7 @@ msgstr ""
 "Etäsijaintiin ei voi kirjoittaa\n"
 " %s"
 
-#: ../../common/sshtools.py:472
+#: common/sshtools.py:653
 #, python-format
 msgid ""
 "Remote path is not executable:\n"
@@ -588,7 +85,7 @@ msgstr ""
 "Etäsijainti ei ole ohjelmatiedosto\n"
 " %s"
 
-#: ../../common/sshtools.py:474
+#: common/sshtools.py:657
 #, python-format
 msgid ""
 "Couldn't create remote path:\n"
@@ -597,12 +94,12 @@ msgstr ""
 "Etäsijaintia ei voitu luoda:\n"
 " %s"
 
-#: ../../common/sshtools.py:510
+#: common/sshtools.py:712
 #, python-format
 msgid "Ping %s failed. Host is down or wrong address."
 msgstr "”ping %s” epäonnistui. Kone ei ole käynnissä tai osoite on väärin."
 
-#: ../../common/sshtools.py:577 ../../common/sshtools.py:683
+#: common/sshtools.py:800 common/sshtools.py:936
 #, python-format
 msgid ""
 "Remote host %(host)s doesn't support '%(command)s':\n"
@@ -613,7 +110,7 @@ msgstr ""
 "%(err)s\n"
 "Lisätietoa: ”man backintime”"
 
-#: ../../common/sshtools.py:686
+#: common/sshtools.py:947
 #, python-format
 msgid ""
 "Check commands on host %(host)s returned unknown error:\n"
@@ -621,146 +118,825 @@ msgid ""
 "Look at 'man backintime' for further instructions"
 msgstr ""
 
-#: ../../common/sshtools.py:699
+#: common/sshtools.py:965
 #, python-format
 msgid "Remote host %s doesn't support hardlinks"
 msgstr "Etäkone %s ei tue kovia linkkejä"
 
-#: ../../common/sshtools.py:761
+#: common/sshtools.py:1047
 #, python-format
 msgid ""
 "Copy public ssh-key \"%(pubkey)s\" to remote host \"%(host)s\".\n"
 "Please enter password for \"%(user)s\":"
 msgstr ""
 
-#: ../../qt/app.py:93
-msgid "Take snapshot with checksums"
-msgstr "Ota otos tarkistussummin"
+#: common/mount.py:423
+#, python-format
+msgid ""
+"Hash collision occurred in hash_id %s. Incrementing global value "
+"hash_collision and try again."
+msgstr ""
+"Sattui tiivisteristiriita tiivistetunnisteessa %s. Kasvata yleistä "
+"hash_collision-arvoa ja yritä uudelleen."
 
-#: ../../qt/app.py:94 ../../qt/settingsdialog.py:643
-msgid "Use checksum to detect changes"
-msgstr "Havaitse muutokset tarkistussummista"
+#: common/mount.py:498
+#, python-format
+msgid "Can't unmount %(proc)s from %(mountpoint)s"
+msgstr ""
 
-#: ../../qt/app.py:102 ../../qt/qtsystrayicon.py:78
-msgid "Pause snapshot process"
-msgstr "Keskeytä otosprosessi"
+#: common/mount.py:585
+#, python-format
+msgid "%(proc)s not found. Please install e.g. %(install_command)s"
+msgstr ""
 
-#: ../../qt/app.py:108 ../../qt/qtsystrayicon.py:82
-msgid "Resume snapshot process"
-msgstr "Jatka otosprosessia"
+#: common/mount.py:598
+#, python-format
+msgid ""
+"%(user)s is not member of group 'fuse'.\n"
+" Run 'sudo adduser %(user)s fuse'. To apply changes logout and login again.\n"
+"Look at 'man backintime' for further instructions."
+msgstr ""
 
-#: ../../qt/app.py:114 ../../qt/qtsystrayicon.py:87
-msgid "Stop snapshot process"
-msgstr "Pysäytä otosprosessi"
+#: common/mount.py:620
+#, python-format
+msgid "mountpoint %s not empty."
+msgstr "liitospiste %s ei ole tyhjä."
 
-#: ../../qt/app.py:119
-msgid "Refresh snapshots list"
-msgstr "Virkistä otosluettelo"
+#: common/mount.py:683
+msgid "Mountprocess lock timeout"
+msgstr ""
 
-#: ../../qt/app.py:123 ../../qt/app.py:898
-msgid "Snapshot Name"
-msgstr "Otoksen nimi"
+#: common/snapshots.py:325 common/snapshots.py:574
+msgid "FAILED"
+msgstr "EPÄONNISTUI!"
 
-#: ../../qt/app.py:126
-msgid "Remove Snapshot"
-msgstr "Poista otos"
+#: common/snapshots.py:521 common/snapshots.py:577
+msgid "Restore permissions:"
+msgstr "Palauta käyttöoikeudet:"
 
-#: ../../qt/app.py:129
-msgid "View Snapshot Log"
-msgstr "Näytä otosloki"
+#: common/snapshots.py:576 qt/app.py:437 qt/app.py:680 qt/app.py:713
+#: qt/qtsystrayicon.py:73
+msgid "Done"
+msgstr "Valmis"
 
-#: ../../qt/app.py:132 ../../qt/qtsystrayicon.py:96
-msgid "View Last Log"
-msgstr "Näytä viimeisin loki"
+#: common/snapshots.py:679
+msgid "Deferring backup while on battery"
+msgstr "Viivästetään varmuuskopiointia akkukäytön ajan"
 
-#: ../../qt/app.py:137 ../../qt/settingsdialog.py:59
-msgid "Settings"
-msgstr "Asetukset"
+#: common/snapshots.py:741
+msgid ""
+"Can't find snapshots folder.\n"
+"If it is on a removable drive please plug it."
+msgstr ""
+"Otoskansiota ei löydy.\n"
+"Jos otoskansio sijaitsee ulkoisella asemalla, liitä asema tietokoneeseen."
 
-#: ../../qt/app.py:142
-msgid "Shutdown"
-msgstr "Sammuta"
+#: common/snapshots.py:743
+#, python-format
+msgid "Waiting %s second."
+msgid_plural "Waiting %s seconds."
+msgstr[0] "Odotetaan %s sekunti."
+msgstr[1] "Odotetaan %s sekuntia."
 
-#: ../../qt/app.py:143
-msgid "Shutdown system after snapshot has finished."
-msgstr "Sammuta järjestelmän otoksen valmistuttua."
+#: common/snapshots.py:780
+#, python-format
+msgid "Failed to take snapshot %s !!!"
+msgstr "Otoksen %s luominen epäonnistui!!!"
 
-#: ../../qt/app.py:149
-msgid "Exit"
-msgstr "Lopeta"
+#: common/snapshots.py:789
+msgid "Finalizing"
+msgstr "Viimeistellään"
 
-#: ../../qt/app.py:158 ../../qt/app.py:177 ../../qt/app.py:287
-msgid "Help"
-msgstr "Ohje"
+#: common/snapshots.py:872 common/encfstools.py:492 qt/app.py:87 qt/app.py:92
+msgid "Take snapshot"
+msgstr "Ota otos"
 
-#: ../../qt/app.py:160
-msgid "Config File Help"
-msgstr "Määritystiedoston ohje"
+#: common/snapshots.py:900
+#, python-format
+msgid "Can't create folder: %s"
+msgstr "Ei voitu luoda kansiota: %s"
 
-#: ../../qt/app.py:163
-msgid "Website"
-msgstr "Sivusto"
+#: common/snapshots.py:914
+msgid "Saving config file..."
+msgstr "Tallennetaan määritystiedostoa…"
 
-#: ../../qt/app.py:165 ../../qt/app.py:993
-msgid "Changelog"
-msgstr "Muutosloki"
+#: common/snapshots.py:990
+msgid "Saving permissions..."
+msgstr "Tallennetaan käyttöoikeuksia…"
 
-#: ../../qt/app.py:167
-msgid "FAQ"
-msgstr "UKK"
+#: common/snapshots.py:1085
+msgid "..."
+msgstr "…"
 
-#: ../../qt/app.py:169
-msgid "Ask a question"
-msgstr "Esitä kysymys"
+#: common/snapshots.py:1093
+#, python-format
+msgid "Found leftover '%s' which can be continued."
+msgstr "Löytyi kesken jäänyt ”%s”, jota voi jatkaa."
 
-#: ../../qt/app.py:171
-msgid "Report a bug"
-msgstr "Ilmoita ohjelmavirheestä"
+#: common/snapshots.py:1106
+#, python-format
+msgid "Removing leftover '%s' folder from last run"
+msgstr "Poistetaan viime suorituksessa kesken jäänyt kansio ”%s”."
 
-#: ../../qt/app.py:174 ../../qt/app.py:1439
-msgid "About"
-msgstr "Tietoa"
+#: common/snapshots.py:1111
+#, python-format
+msgid "Can't remove folder: %s"
+msgstr "Ei voida poistaa kansiota: %s"
 
-#: ../../qt/app.py:204
-msgid "Up"
-msgstr "Ylös"
+#: common/snapshots.py:1147
+msgid "Taking snapshot"
+msgstr "Otetaan otosta"
 
-#: ../../qt/app.py:214 ../../qt/settingsdialog.py:1839
-msgid "Show hidden files"
-msgstr "Näytä piilotiedostot"
+#: common/snapshots.py:1182
+msgid "Nothing changed, no new snapshot necessary"
+msgstr "Mikään ei ole muuttunut: uusi otos ei ole tarpeen"
 
-#: ../../qt/app.py:224 ../../qt/app.py:247 ../../qt/app.py:280
-#: ../../qt/restoredialog.py:51 ../../qt/settingsdialog.py:1881
-#: ../../qt/snapshotsdialog.py:139 ../../qt/snapshotsdialog.py:144
+#: common/snapshots.py:1208
+#, python-format
+msgid "Can't rename %(new_path)s to %(path)s"
+msgstr ""
+
+#: common/snapshots.py:1515 common/snapshots.py:1566 qt/settingsdialog.py:633
+msgid "Smart remove"
+msgstr "Älykäs poisto"
+
+#: common/snapshots.py:1542
+msgid "Removing old snapshots"
+msgstr "Poistetaan vanhoja otoksia"
+
+#: common/snapshots.py:1576
+msgid "Trying to keep min free space"
+msgstr "Yritetään pitää vapaa vähimmäistila"
+
+#: common/snapshots.py:1613
+#, python-format
+msgid "Trying to keep min %d%% free inodes"
+msgstr "Yritetään pitää vähintään %d %% inodeja vapaana"
+
+#: common/snapshots.py:2219
+msgid "WITH ERRORS !"
+msgstr "VIRHEITÄ!"
+
+#: common/snapshots.py:2690 qt/app.py:258 qt/app.py:1311
+msgid "Now"
+msgstr "Nyt"
+
+#: common/configfile.py:105
+#, python-format
+msgid "Failed to save config: %s"
+msgstr "Määrityksen tallentaminen epäonnistui: %s"
+
+#: common/configfile.py:136
+#, python-format
+msgid "Failed to load config: %s"
+msgstr "Määrityksen lataaminen epäonnistui: %s"
+
+#: common/configfile.py:623 common/configfile.py:706
+#, python-format
+msgid "Profile \"%s\" already exists !"
+msgstr "Profiili ”%s” on jo olemassa!"
+
+#: common/configfile.py:663
+msgid "You can't remove the last profile !"
+msgstr "Viimeistä profiilia ei voi poistaa!"
+
+#: common/encfstools.py:87
+#, python-format
+msgid ""
+"Can't mount '%(command)s':\n"
+"\n"
+"%(error)s"
+msgstr ""
+"Ei voitu liittää: ”%(command)s”:\n"
+"\n"
+"%(error)s"
+
+#: common/encfstools.py:133
+msgid "Config for encrypted folder not found."
+msgstr "Salatun kansion määritystä ei löytynyt."
+
+#: common/encfstools.py:137
+msgid ""
+"\n"
+"Create a new encrypted folder?"
+msgstr ""
+"\n"
+"Luodaanko uusi salattu kansio?"
+
+#: common/encfstools.py:138
+msgid "Cancel"
+msgstr "Peru"
+
+#: common/encfstools.py:141
+msgid "Please confirm password"
+msgstr "Vahvista salasana"
+
+#: common/encfstools.py:145
+msgid "Password doesn't match"
+msgstr "Salasanat eivät täsmää"
+
+#: common/encfstools.py:162
+msgid ""
+"encfs version 1.7.2 and before has a bug with option --reverse. Please "
+"update encfs"
+msgstr ""
+"encfs 1.7.2:n ja vanhempien versioiden --reverse-valitsimessa on "
+"ohjelmavirhe. Päivitä encfs"
+
+#: common/config.py:95
+msgid "Disabled"
+msgstr "Ei käytössä"
+
+#: common/config.py:96
+msgid "At every boot/reboot"
+msgstr "Käynnistysten yhteydessä"
+
+#: common/config.py:97
+msgid "Every 5 minutes"
+msgstr "5 minuutin välein"
+
+#: common/config.py:98
+msgid "Every 10 minutes"
+msgstr "10 minuutin välein"
+
+#: common/config.py:99
+msgid "Every 30 minutes"
+msgstr "30 minuutin välein"
+
+#: common/config.py:100
+msgid "Every hour"
+msgstr "Tunnin välein"
+
+#: common/config.py:101
+msgid "Every 2 hours"
+msgstr "2 tunnin välein"
+
+#: common/config.py:102
+msgid "Every 4 hours"
+msgstr "4 tunnin välein"
+
+#: common/config.py:103
+msgid "Every 6 hours"
+msgstr "6 tunnin välein"
+
+#: common/config.py:104
+msgid "Every 12 hours"
+msgstr "12 tunnin välein"
+
+#: common/config.py:105
+msgid "Custom Hours"
+msgstr "Mukautetut tunnit"
+
+#: common/config.py:106
+msgid "Every Day"
+msgstr "Päivittäin"
+
+#: common/config.py:107
+msgid "Repeatedly (anacron)"
+msgstr "Toistuva (anacron)"
+
+#: common/config.py:108
+msgid "When drive get connected (udev)"
+msgstr "Asemaa kytkettäessä (udev)"
+
+#: common/config.py:109
+msgid "Every Week"
+msgstr "Viikoittain"
+
+#: common/config.py:110
+msgid "Every Month"
+msgstr "Kuukausittain"
+
+#: common/config.py:111
+#, fuzzy
+msgid "Every Year"
+msgstr "Päivittäin"
+
+#: common/config.py:115 common/config.py:122
+msgid "Day(s)"
+msgstr "Päivä(ä)"
+
+#: common/config.py:116 common/config.py:123
+msgid "Week(s)"
+msgstr "Viikko(a)"
+
+#: common/config.py:117
+msgid "Year(s)"
+msgstr "Vuosi(a)"
+
+#: common/config.py:121
+msgid "Hour(s)"
+msgstr ""
+
+#: common/config.py:124
+msgid "Month(s)"
+msgstr ""
+
+#: common/config.py:166 qt/settingsdialog.py:643
+msgid " EXPERIMENTAL!"
+msgstr " KOKEELLINEN!"
+
+#: common/config.py:169
+msgid "Local"
+msgstr "Paikallinen"
+
+#: common/config.py:170
+msgid "SSH"
+msgstr "SSH"
+
+#: common/config.py:170 common/config.py:172 qt/settingsdialog.py:1909
+msgid "SSH private key"
+msgstr "SSH – yksityinen avain"
+
+#: common/config.py:171
+msgid "Local encrypted"
+msgstr "Paikallinen salattu"
+
+#: common/config.py:171 common/config.py:172
+msgid "Encryption"
+msgstr "Salaus"
+
+#: common/config.py:172
+msgid "SSH encrypted"
+msgstr ""
+
+#: common/config.py:175
+msgid "Default"
+msgstr "Oletus"
+
+#: common/config.py:176
+msgid "AES128-CTR"
+msgstr "AES128-CTR"
+
+#: common/config.py:177
+msgid "AES192-CTR"
+msgstr "AES192-CTR"
+
+#: common/config.py:178
+msgid "AES256-CTR"
+msgstr ""
+
+#: common/config.py:179
+msgid "ARCFOUR256"
+msgstr "ARCFOUR256"
+
+#: common/config.py:180
+msgid "ARCFOUR128"
+msgstr "ARCFOUR128"
+
+#: common/config.py:181
+msgid "AES128-CBC"
+msgstr "AES128-CBC"
+
+#: common/config.py:182
+msgid "3DES-CBC"
+msgstr "3DES-CBC"
+
+#: common/config.py:183
+msgid "Blowfish-CBC"
+msgstr "Blowfish-CBC"
+
+#: common/config.py:184
+msgid "Cast128-CBC"
+msgstr "Cast128-CBC"
+
+#: common/config.py:185
+msgid "AES192-CBC"
+msgstr "AES192-CBC"
+
+#: common/config.py:186
+msgid "AES256-CBC"
+msgstr "AES256-CBC"
+
+#: common/config.py:187
+msgid "ARCFOUR"
+msgstr "ARCFOUR"
+
+#: common/config.py:193
+msgid "Main profile"
+msgstr "Pääprofiili"
+
+#: common/config.py:341 common/config.py:348 common/config.py:359
+#: common/config.py:364 qt/qtsystrayicon.py:69
+#, python-format
+msgid "Profile: \"%s\""
+msgstr "Profiili: ”%s”"
+
+#: common/config.py:341
+msgid "Snapshots folder is not valid !"
+msgstr "Otoskansio ei ole kelvollinen!"
+
+#: common/config.py:348
+msgid "You must select at least one folder to backup !"
+msgstr "Valitse varmuuskopioitavaksi vähintään yksi kansio!"
+
+#: common/config.py:359
+msgid "You can't include backup folder !"
+msgstr "Itse varmuuskopiokansiota ei voi lisätä!"
+
+#: common/config.py:364
+msgid "You can't include a backup sub-folder !"
+msgstr "Varmuuskopiokansion alikansiota ei voi ottaa mukaan!"
+
+#: common/config.py:419
+#, python-format
+msgid "%s is not a folder !"
+msgstr "%s ei ole kansio!"
+
+#: common/config.py:428
+msgid "Host/User/Profile-ID must not be empty!"
+msgstr "Kone/käyttäjätunnus/profiilin tunnus ei voi olla tyhjä!"
+
+#: common/config.py:436 common/config.py:470
+#, python-format
+msgid ""
+"Can't write to: %s\n"
+"Are you sure you have write access ?"
+msgstr ""
+"Tiedostoon ei voida kirjoittaa: %s\n"
+"Onko siihen varmasti kirjoitusoikeus?"
+
+#: common/config.py:450
+#, python-format
+msgid ""
+"Destination filesystem for '%(path)s' is formatted with FAT which doesn't "
+"support hard-links. Please use a native Linux filesystem."
+msgstr ""
+"Kansion ”%(path)s” kohdetiedostojärjestelmä on FAT, joka ei tue kovia "
+"linkkejä. Käytä Linuxin natiivia tiedostojärjestelmää."
+
+#: common/config.py:455
+#, fuzzy, python-format
+msgid ""
+"Destination filesystem for '%(path)s' is a SMB mounted share. Please make "
+"sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
+"'%(expertOptions)s'."
+msgstr ""
+"Kansion ”%(path)s” kohdetiedostojärjestelmä on liitetty SMB-jako. Varmista, "
+"että SMB-etäpalvelin tukee symlinkkejä tai ota käyttöö ”%(copyLinks)s” "
+"kohdassa ”%(expertOptions)s”."
+
+#: common/config.py:458 qt/settingsdialog.py:949
+msgid "Copy links (dereference symbolic links)"
+msgstr "Kopioi linkit (ratkaise symboliset linkit)"
+
+#: common/config.py:459
+msgid "Expert Options"
+msgstr "Asiantuntija-asetukset"
+
+#: common/config.py:461
+#, python-format
+msgid ""
+"Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't "
+"support hard-links. Please use mode 'SSH' instead."
+msgstr ""
+"Kansion ”%(path)s” kohdetiedostojärjestelmä on liitetty sshfs-jako. sshfs ei "
+"tue kovia linkkejä. Käytä tämän sijaan SSH-tilaa."
+
+#: common/config.py:1513
+msgid ""
+"Can't find crontab.\n"
+"Are you sure cron is installed ?\n"
+"If not you should disable all automatic backups."
+msgstr ""
+"crontab-tiedostoa ei löydy.\n"
+"Varmista, että cron on asennettu.\n"
+"Ellei ole, poista automaattinen varmuuskopiointi käytöstä."
+
+#: common/config.py:1517
+msgid "Failed to write new crontab."
+msgstr "Uuden crontabin kirjoittaminen epäonnistui."
+
+#: common/config.py:1614
+#, python-format
+msgid ""
+"Could not install Udev rule for profile %(profile_id)s. DBus Service "
+"'%(dbus_interface)s' wasn't available"
+msgstr ""
+"Profiilille %(profile_id)s ei voitu asentaa udev-sääntöä. DBus-palvelu "
+"”%(dbus_interface)s” ei ole käytettävissä"
+
+#: common/config.py:1626
+#, python-format
+msgid "Schedule udev doesn't work with mode %s"
+msgstr "Udev-aikataulu ei toimi %s-tilassa"
+
+#: common/config.py:1635
+#, python-format
+msgid "Couldn't find UUID for \"%s\""
+msgstr "Kohteelle ”%s” ei löytynyt UUID:tä"
+
+#: common/snapshotlog.py:62
+msgid ""
+"### This log has been decoded with automatic search pattern\n"
+"### If some paths are not decoded you can manually decode them with:\n"
+msgstr ""
+"### Tämän lokin koodaus on purettu automaattisella hakukuviolla\n"
+"### Ellei joidenkin sijaintien koodausta ole purettu, ne voi purkaa "
+"komennolla:\n"
+
+#: qt/restoredialog.py:51 qt/snapshotsdialog.py:139 qt/snapshotsdialog.py:144
+#: qt/app.py:231 qt/app.py:254 qt/settingsdialog.py:2192
 msgid "Restore"
 msgstr "Palauta"
 
-#: ../../qt/app.py:225
-msgid "Restore the selected files or folders to the original destination."
-msgstr "Palauta valitut tiedostot tai kansiot alkuperäiseen paikkaansa."
+#: qt/restoredialog.py:64
+msgid "Show full Log"
+msgstr "Näytä täysi loki"
 
-#: ../../qt/app.py:228 ../../qt/app.py:1131 ../../qt/app.py:1163
-#: ../../qt/snapshotsdialog.py:141
+#: qt/logviewdialog.py:57
+msgid "Last Log View"
+msgstr "Viimeisin lokinäkymä"
+
+#: qt/logviewdialog.py:59
+msgid "Snapshot Log View"
+msgstr "Otoslokinäkymä"
+
+#: qt/logviewdialog.py:67 qt/settingsdialog.py:99 qt/settingsdialog.py:341
+#: qt/settingsdialog.py:2289
+msgid "Profile:"
+msgstr "Profiili:"
+
+#: qt/logviewdialog.py:75 qt/snapshotsdialog.py:101 qt/qttools.py:244
+#: qt/app.py:261
+msgid "Snapshots"
+msgstr "Otokset"
+
+#: qt/logviewdialog.py:89
+msgid "Filter:"
+msgstr "Suodatin:"
+
+#: qt/logviewdialog.py:95 qt/settingsdialog.py:760
+msgid "All"
+msgstr "Kaikki"
+
+#: qt/logviewdialog.py:96 qt/logviewdialog.py:98 qt/settingsdialog.py:758
+msgid "Errors"
+msgstr "Virheet"
+
+#: qt/logviewdialog.py:96 qt/logviewdialog.py:99
+msgid "Changes"
+msgstr "Muutokset"
+
+#: qt/logviewdialog.py:100
+msgid "Informations"
+msgstr "Tiedot"
+
+#: qt/logviewdialog.py:110
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Virhe, [I] Tietoa, [C] Muutokset"
+
+#: qt/logviewdialog.py:113 qt/qtsystrayicon.py:91
+msgid "decode paths"
+msgstr ""
+
+#: qt/logviewdialog.py:171
+msgid "Copy"
+msgstr "Kopioi"
+
+#: qt/logviewdialog.py:175 qt/app.py:404
+msgid "Add to Exclude"
+msgstr "Lisää pois jätettäviin"
+
+#: qt/logviewdialog.py:179
+msgid "Decode"
+msgstr "Pura koodaus"
+
+#: qt/logviewdialog.py:195
+msgid "Do you want to exclude this?"
+msgstr "Haluatko jättää tämän pois?"
+
+#: qt/snapshotsdialog.py:53 qt/snapshotsdialog.py:178
+msgid "Diff Options"
+msgstr "Diff-asetukset"
+
+#: qt/snapshotsdialog.py:60
+msgid "Command:"
+msgstr "Komento:"
+
+#: qt/snapshotsdialog.py:64
+msgid "Parameters:"
+msgstr "Parametrit:"
+
+#: qt/snapshotsdialog.py:68
+msgid "Use %1 and %2 for path parameters"
+msgstr "Käytä sijaintiparametreina %1 ja %2"
+
+#: qt/snapshotsdialog.py:111
+msgid "List only different snapshots"
+msgstr "Luettele vain eri otokset"
+
+#: qt/snapshotsdialog.py:118
+msgid "List only equal snapshots to: "
+msgstr "Luettele vain otokset, jotka ovat samoja kuin: "
+
+#: qt/snapshotsdialog.py:128
+msgid "Deep check (more accurate, but slow)"
+msgstr "Syvätarkistus (tarkempi, mutta hitaampi)"
+
+#: qt/snapshotsdialog.py:141 qt/app.py:235 qt/app.py:1136 qt/app.py:1168
 msgid "Restore to ..."
 msgstr "Palauta kohteeseen…"
 
-#: ../../qt/app.py:229
+#: qt/snapshotsdialog.py:149
+msgid "Delete"
+msgstr "Poista"
+
+#: qt/snapshotsdialog.py:153
+msgid "Select All"
+msgstr "Valitse kaikki"
+
+#: qt/snapshotsdialog.py:166
+msgid "Diff"
+msgstr "Erot"
+
+#: qt/snapshotsdialog.py:177
+msgid "Go To"
+msgstr "Siirry"
+
+#: qt/snapshotsdialog.py:326
+msgid "You can't compare a snapshot to itself"
+msgstr "Otosta ei voi verrata itseensä"
+
+#: qt/snapshotsdialog.py:333
+#, python-format
+msgid "Command not found: %s"
+msgstr "Komentoa ei löydy: %s"
+
+#: qt/snapshotsdialog.py:361
+#, python-format
+msgid ""
+"Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
+msgstr "Haluatko poistaa tiedoston ”%(file)s” otoksesta ”%(snapshot_id)s”?\n"
+
+#: qt/snapshotsdialog.py:364
+#, python-format
+msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
+msgstr "Haluatko varmasti poistaa tiedoston ”%(file)s” %(count)d otoksesta?\n"
+
+#: qt/snapshotsdialog.py:366
+msgid "WARNING: This can not be revoked!"
+msgstr "VAROITUS: Tätä ei voi kumota!"
+
+#: qt/snapshotsdialog.py:381
+#, python-format
+msgid "Exclude \"%s\" from future snapshots?"
+msgstr "Jätetäänkö ”%s” pois myöhemmistä otoksista?"
+
+#: qt/qttools.py:264
+msgid "Today"
+msgstr "Tänään"
+
+#: qt/qttools.py:268
+msgid "Yesterday"
+msgstr "Eilen"
+
+#: qt/qttools.py:273
+msgid "This week"
+msgstr "Tällä viikolla"
+
+#: qt/qttools.py:277
+msgid "Last week"
+msgstr "Viime viikolla"
+
+#: qt/qttools.py:396
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr "Tämä EI ole otos vaan elävä näkymä paikallisiin tiedostoihin"
+
+#: qt/qttools.py:398
+#, python-format
+msgid "Last check %s"
+msgstr "Viimeksi tarkistettu %s"
+
+#: qt/messagebox.py:58
+msgid "Error"
+msgstr "Virhe"
+
+#: qt/messagebox.py:64 qt/messagebox.py:70
+msgid "Question"
+msgstr "Kysymys"
+
+#: qt/app.py:94
+msgid "Take snapshot with checksums"
+msgstr "Ota otos tarkistussummin"
+
+#: qt/app.py:95 qt/settingsdialog.py:741
+msgid "Use checksum to detect changes"
+msgstr "Havaitse muutokset tarkistussummista"
+
+#: qt/app.py:104 qt/qtsystrayicon.py:78
+msgid "Pause snapshot process"
+msgstr "Keskeytä otosprosessi"
+
+#: qt/app.py:110 qt/qtsystrayicon.py:82
+msgid "Resume snapshot process"
+msgstr "Jatka otosprosessia"
+
+#: qt/app.py:116 qt/qtsystrayicon.py:87
+msgid "Stop snapshot process"
+msgstr "Pysäytä otosprosessi"
+
+#: qt/app.py:121
+msgid "Refresh snapshots list"
+msgstr "Virkistä otosluettelo"
+
+#: qt/app.py:125 qt/app.py:903
+msgid "Snapshot Name"
+msgstr "Otoksen nimi"
+
+#: qt/app.py:129
+msgid "Remove Snapshot"
+msgstr "Poista otos"
+
+#: qt/app.py:133
+msgid "View Snapshot Log"
+msgstr "Näytä otosloki"
+
+#: qt/app.py:136 qt/qtsystrayicon.py:96
+msgid "View Last Log"
+msgstr "Näytä viimeisin loki"
+
+#: qt/app.py:141 qt/settingsdialog.py:91
+msgid "Settings"
+msgstr "Asetukset"
+
+#: qt/app.py:147
+msgid "Shutdown"
+msgstr "Sammuta"
+
+#: qt/app.py:148
+msgid "Shutdown system after snapshot has finished."
+msgstr "Sammuta järjestelmän otoksen valmistuttua."
+
+#: qt/app.py:154
+#, fuzzy
+msgid "&Snapshot"
+msgstr "Otos"
+
+#: qt/app.py:155
+msgid "Exit"
+msgstr "Lopeta"
+
+#: qt/app.py:164 qt/app.py:184
+msgid "Help"
+msgstr "Ohje"
+
+#: qt/app.py:167
+msgid "Config File Help"
+msgstr "Määritystiedoston ohje"
+
+#: qt/app.py:170
+msgid "Website"
+msgstr "Sivusto"
+
+#: qt/app.py:172 qt/app.py:998
+msgid "Changelog"
+msgstr "Muutosloki"
+
+#: qt/app.py:174
+msgid "FAQ"
+msgstr "UKK"
+
+#: qt/app.py:176
+msgid "Ask a question"
+msgstr "Esitä kysymys"
+
+#: qt/app.py:178
+msgid "Report a bug"
+msgstr "Ilmoita ohjelmavirheestä"
+
+#: qt/app.py:181 qt/app.py:1444
+msgid "About"
+msgstr "Tietoa"
+
+#: qt/app.py:211
+msgid "Up"
+msgstr "Ylös"
+
+#: qt/app.py:221 qt/settingsdialog.py:2148
+msgid "Show hidden files"
+msgstr "Näytä piilotiedostot"
+
+#: qt/app.py:232
+msgid "Restore the selected files or folders to the original destination."
+msgstr "Palauta valitut tiedostot tai kansiot alkuperäiseen paikkaansa."
+
+#: qt/app.py:236
 msgid "Restore the selected files or folders to a new destination."
 msgstr "Palauta valitut tiedostot tai kansiot uuteen paikkaan."
 
-#: ../../qt/app.py:234
+#: qt/app.py:241
 msgid ""
 "Restore the currently shown folder and all its content to the original "
 "destination."
-msgstr ""
-"Palauta näytetty kansio kaikkine sisältöineen alkuperäiseen paikkaan."
+msgstr "Palauta näytetty kansio kaikkine sisältöineen alkuperäiseen paikkaan."
 
-#: ../../qt/app.py:239
+#: qt/app.py:246
 msgid ""
 "Restore the currently shown folder and all its content to a new destination."
 msgstr "Palauta näytetty kansio kaikkine sisältöineen uuteen paikkaan."
 
-#: ../../qt/app.py:249
+#: qt/app.py:256
 #, python-format
 msgid ""
 "Restore selected file or folder.\n"
@@ -771,24 +947,26 @@ msgstr ""
 "Jos painike on harmaana, ”%(now)s” on todennäköisimmin valittu "
 "otosluettelossa vasemmalla."
 
-#: ../../qt/app.py:254 ../../qt/logviewdialog.py:75 ../../qt/qttools.py:200
-#: ../../qt/snapshotsdialog.py:101
-msgid "Snapshots"
-msgstr "Otokset"
-
-#: ../../qt/app.py:260
-msgid "Snapshot"
-msgstr "Otos"
-
-#: ../../qt/app.py:271
-msgid "View"
+#: qt/app.py:276
+#, fuzzy
+msgid "&View"
 msgstr "Näkymä"
 
-#: ../../qt/app.py:321
+#: qt/app.py:285
+#, fuzzy
+msgid "&Restore"
+msgstr "Palauta"
+
+#: qt/app.py:292
+#, fuzzy
+msgid "&Help"
+msgstr "Ohje"
+
+#: qt/app.py:326
 msgid "Shortcuts"
 msgstr "Pikanäppäimet"
 
-#: ../../qt/app.py:337
+#: qt/app.py:342
 msgid ""
 "This folder doesn't exist\n"
 "in the current selected snapshot!"
@@ -796,23 +974,18 @@ msgstr ""
 "Tätä kansiota ei ole\n"
 "valitussa otoksessa!"
 
-#: ../../qt/app.py:398
+#: qt/app.py:403
 msgid "Add to Include"
 msgstr "Lisää mukaan otettaviin"
 
-#: ../../qt/app.py:399 ../../qt/logviewdialog.py:175
-msgid "Add to Exclude"
-msgstr "Lisää pois jätettäviin"
-
-#: ../../qt/app.py:471
+#: qt/app.py:476
 #, python-format
 msgid ""
 "%(appName)s is not configured. Would you like to restore a previous "
 "configuration?"
-msgstr ""
-"%(appName)s on määrittämättä. Haluatko palauttaa aiemman määrityksen?"
+msgstr "%(appName)s on määrittämättä. Haluatko palauttaa aiemman määrityksen?"
 
-#: ../../qt/app.py:492
+#: qt/app.py:497
 msgid ""
 "Can't find snapshots folder.\n"
 "If it is on a removable drive please plug it and then press OK"
@@ -820,7 +993,7 @@ msgstr ""
 "Otoskansiota ei löydy.\n"
 "Jos kansio on siirrettävällä asemalla, kytke se ja napsauta OK"
 
-#: ../../qt/app.py:527
+#: qt/app.py:532
 msgid ""
 "If you close this window Back In Time will not be able to shutdown your "
 "system when the snapshot has finished.\n"
@@ -830,47 +1003,47 @@ msgstr ""
 "valmistuttua.\n"
 "Haluatko varmasti sulkea?"
 
-#: ../../qt/app.py:667 ../../qt/app.py:719
+#: qt/app.py:672 qt/app.py:724
 msgid "Working:"
 msgstr "Käsitellään:"
 
-#: ../../qt/app.py:711
+#: qt/app.py:716
 msgid "Done, no backup needed"
 msgstr "Valmis, varmuuskopiota ei tarvittu"
 
-#: ../../qt/app.py:723
+#: qt/app.py:728
 msgid "Error:"
 msgstr "Virhe:"
 
-#: ../../qt/app.py:743 ../../qt/qtsystrayicon.py:188
+#: qt/app.py:748 qt/qtsystrayicon.py:189
 msgid "Sent:"
 msgstr "Lähetetty:"
 
-#: ../../qt/app.py:744 ../../qt/qtsystrayicon.py:189
+#: qt/app.py:749 qt/qtsystrayicon.py:190
 msgid "Speed:"
 msgstr ""
 
-#: ../../qt/app.py:745 ../../qt/qtsystrayicon.py:190
+#: qt/app.py:750 qt/qtsystrayicon.py:191
 msgid "ETA:"
 msgstr "Jäljellä:"
 
-#: ../../qt/app.py:794
+#: qt/app.py:799
 msgid "Global"
 msgstr "Yleisasetukset"
 
-#: ../../qt/app.py:795
+#: qt/app.py:800
 msgid "Root"
 msgstr "Juuri"
 
-#: ../../qt/app.py:796
+#: qt/app.py:801
 msgid "Home"
 msgstr "Koti"
 
-#: ../../qt/app.py:811
+#: qt/app.py:816
 msgid "Backup folders"
 msgstr "Varmuuskopiokansiot"
 
-#: ../../qt/app.py:942
+#: qt/app.py:947
 #, python-format
 msgid ""
 "Are you sure you want to remove the snapshot:\n"
@@ -879,7 +1052,7 @@ msgstr ""
 "Oletko varma että haluat poistaa otoksen:\n"
 "%s"
 
-#: ../../qt/app.py:1025
+#: qt/app.py:1030
 #, python-format
 msgid ""
 "Backup local files before overwriting or\n"
@@ -888,7 +1061,7 @@ msgstr ""
 "Varmuuskopioi paikalliset tiedostot ennen korvaamista\n"
 "tai poistamista ”%(suffix)s”-päätteelle."
 
-#: ../../qt/app.py:1028 ../../qt/settingsdialog.py:631
+#: qt/app.py:1033 qt/settingsdialog.py:726
 #, python-format
 msgid ""
 "Newer versions of files will be renamed with trailing '%(suffix)s' before "
@@ -899,7 +1072,7 @@ msgstr ""
 "palauttamista.\n"
 "Ellei niitä enää tarvita, ne voi poistaa komennolla \"%(cmd)s”"
 
-#: ../../qt/app.py:1038
+#: qt/app.py:1043
 msgid ""
 "Only restore files which do not exist or\n"
 "are newer than those in destination.\n"
@@ -909,11 +1082,11 @@ msgstr ""
 "ovat uudempia kuin kohteessa.\n"
 "Käytetään ”rsync --update” -asetusta."
 
-#: ../../qt/app.py:1071
+#: qt/app.py:1076
 msgid "Remove newer files in original folder"
 msgstr "Poista alkuperäiskansiosta uudemmat tiedostot"
 
-#: ../../qt/app.py:1072
+#: qt/app.py:1077
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
@@ -926,7 +1099,7 @@ msgstr ""
 "Tämä poistaa tiedostot ja kansiot, jotka jätettiin otoksesta pois!\n"
 "Ole hyvin varovainen!"
 
-#: ../../qt/app.py:1083
+#: qt/app.py:1088
 #, python-format
 msgid ""
 "Do you really want to restore this files(s)\n"
@@ -935,299 +1108,201 @@ msgstr ""
 "Haluatko varmasti palauttaa nämä tiedostot\n"
 "uuteen kansioon ”%(path)s”:"
 
-#: ../../qt/app.py:1086
+#: qt/app.py:1091
 msgid "Do you really want to restore this files(s):"
 msgstr "Haluatko varmasti palauttaa nämä tiedostot:"
 
-#: ../../qt/app.py:1098
+#: qt/app.py:1103
 #, python-format
 msgid "Are you sure you want to remove all newer files in '%(path)s'?"
 msgstr ""
 "Haluatko varmasti poistaa kansion ”%(path)s” kaikki uudemmat tiedostot?"
 
-#: ../../qt/app.py:1101
+#: qt/app.py:1106
 msgid ""
 "Are you sure you want to remove all newer files in your original folder?"
 msgstr ""
 "Haluatko varmasti poistaa alkuperäisen kansion kaikki uudemmat tiedostot?"
 
-#: ../../qt/app.py:1105
+#: qt/app.py:1110
 msgid ""
 "WARNING: deleting files in filesystem root could break your whole system!!!"
 msgstr ""
 "VAROITUS: tiedostojen poistaminen tiedostojärjestelmän juuresta voi rikkoa "
 "järjestlemän!!!"
 
-#: ../../qt/app.py:1307
+#: qt/app.py:1312
 msgid "View the current disk content"
 msgstr "Näytä levyn nykyinen sisältö"
 
-#: ../../qt/app.py:1310
+#: qt/app.py:1315
 #, python-format
 msgid "Snapshot: %s"
 msgstr "Otos: %s"
 
-#: ../../qt/app.py:1311
+#: qt/app.py:1316
 #, python-format
 msgid "View the snapshot made at %s"
 msgstr "Selaa %s tehtyä otosta"
 
-#: ../../qt/app.py:1349
+#: qt/app.py:1354
 #, python-format
 msgid "Restore '%s'"
 msgstr "Palauta ”%s”"
 
-#: ../../qt/app.py:1350
+#: qt/app.py:1355
 #, python-format
 msgid "Restore '%s' to ..."
 msgstr "Palauta ”%s” kohteeseen…"
 
-#: ../../qt/app.py:1464 ../../qt/app.py:1481
+#: qt/app.py:1469 qt/app.py:1486
 msgid "Authors"
 msgstr "Tekijät"
 
-#: ../../qt/app.py:1465 ../../qt/app.py:1484
+#: qt/app.py:1470 qt/app.py:1489
 msgid "Translations"
 msgstr "Käännökset"
 
-#: ../../qt/app.py:1466 ../../qt/app.py:1487
+#: qt/app.py:1471 qt/app.py:1492
 msgid "License"
 msgstr "Lisenssi"
 
-#: ../../qt/logviewdialog.py:57
-msgid "Last Log View"
-msgstr "Viimeisin lokinäkymä"
-
-#: ../../qt/logviewdialog.py:59
-msgid "Snapshot Log View"
-msgstr "Otoslokinäkymä"
-
-#: ../../qt/logviewdialog.py:67 ../../qt/settingsdialog.py:67
-#: ../../qt/settingsdialog.py:294 ../../qt/settingsdialog.py:1968
-msgid "Profile:"
-msgstr "Profiili:"
-
-#: ../../qt/logviewdialog.py:89
-msgid "Filter:"
-msgstr "Suodatin:"
-
-#: ../../qt/logviewdialog.py:95 ../../qt/settingsdialog.py:661
-msgid "All"
-msgstr "Kaikki"
-
-#: ../../qt/logviewdialog.py:96 ../../qt/logviewdialog.py:98
-#: ../../qt/settingsdialog.py:659
-msgid "Errors"
-msgstr "Virheet"
-
-#: ../../qt/logviewdialog.py:96 ../../qt/logviewdialog.py:99
-msgid "Changes"
-msgstr "Muutokset"
-
-#: ../../qt/logviewdialog.py:100
-msgid "Informations"
-msgstr "Tiedot"
-
-#: ../../qt/logviewdialog.py:110
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Virhe, [I] Tietoa, [C] Muutokset"
-
-#: ../../qt/logviewdialog.py:113 ../../qt/qtsystrayicon.py:91
-msgid "decode paths"
-msgstr ""
-
-#: ../../qt/logviewdialog.py:171
-msgid "Copy"
-msgstr "Kopioi"
-
-#: ../../qt/logviewdialog.py:179
-msgid "Decode"
-msgstr "Pura koodaus"
-
-#: ../../qt/logviewdialog.py:195
-msgid "Do you want to exclude this?"
-msgstr "Haluatko jättää tämän pois?"
-
-#: ../../qt/messagebox.py:58
-msgid "Error"
-msgstr "Virhe"
-
-#: ../../qt/messagebox.py:64 ../../qt/messagebox.py:70
-msgid "Question"
-msgstr "Kysymys"
-
-#: ../../qt/qtsystrayicon.py:98
-msgid "Start BackInTime"
-msgstr "Käynnistä BackInTime"
-
-#: ../../qt/qtsystrayicon.py:157
-msgid "Working..."
-msgstr "Käsitellään…"
-
-#: ../../qt/qttools.py:220
-msgid "Today"
-msgstr "Tänään"
-
-#: ../../qt/qttools.py:224
-msgid "Yesterday"
-msgstr "Eilen"
-
-#: ../../qt/qttools.py:229
-msgid "This week"
-msgstr "Tällä viikolla"
-
-#: ../../qt/qttools.py:233
-msgid "Last week"
-msgstr "Viime viikolla"
-
-#: ../../qt/qttools.py:352
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr "Tämä EI ole otos vaan elävä näkymä paikallisiin tiedostoihin"
-
-#: ../../qt/qttools.py:354
-#, python-format
-msgid "Last check %s"
-msgstr "Viimeksi tarkistettu %s"
-
-#: ../../qt/restoredialog.py:64
-msgid "Show full Log"
-msgstr "Näytä täysi loki"
-
-#: ../../qt/settingsdialog.py:76
+#: qt/settingsdialog.py:108
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: ../../qt/settingsdialog.py:81
+#: qt/settingsdialog.py:114
 msgid "Modify for Full System Backup"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:87 ../../qt/settingsdialog.py:464
+#: qt/settingsdialog.py:122 qt/settingsdialog.py:533
 msgid "Add"
 msgstr "Lisää"
 
-#: ../../qt/settingsdialog.py:91 ../../qt/settingsdialog.py:425
-#: ../../qt/settingsdialog.py:480
+#: qt/settingsdialog.py:126 qt/settingsdialog.py:490 qt/settingsdialog.py:551
 msgid "Remove"
 msgstr "Poista"
 
-#: ../../qt/settingsdialog.py:106
-msgid "General"
+#: qt/settingsdialog.py:141
+#, fuzzy
+msgid "&General"
 msgstr "Yleisasetukset"
 
-#: ../../qt/settingsdialog.py:116 ../../qt/settingsdialog.py:1970
+#: qt/settingsdialog.py:151 qt/settingsdialog.py:2291
 msgid "Mode:"
 msgstr "Tila:"
 
-#: ../../qt/settingsdialog.py:129
-#, python-format
+#: qt/settingsdialog.py:165
+#, fuzzy, python-format
 msgid ""
 "<b>Warning:</b> %(app)s uses EncFS for encryption. A recent security audit "
-"revealed several possible attack vectors for this. Please take a look at 'A "
-"NOTE ON SECURITY' in 'man backintime'."
+"revealed several possible attack vectors for this. Please take a look at \"A "
+"NOTE ON SECURITY\" in \"man backintime\"."
 msgstr ""
 "<b>Varoitus:</b> %(app)s käyttää salaukseen EncFS:ää. Tietoturvatarkistus "
 "paljasti siitä äskettäin haavoittuvuuksia. Ks. ”man backintime”, ”A NOTE ON "
 "SECURITY”."
 
-#: ../../qt/settingsdialog.py:139 ../../qt/settingsdialog.py:1610
+#: qt/settingsdialog.py:176 qt/settingsdialog.py:1885
 msgid "Where to save snapshots"
 msgstr "Mihin otokset tallennetaan"
 
-#: ../../qt/settingsdialog.py:155
+#: qt/settingsdialog.py:192
 msgid "Folder"
 msgstr "Kansio"
 
-#: ../../qt/settingsdialog.py:163
+#: qt/settingsdialog.py:200
 msgid "SSH Settings"
 msgstr "SSH-asetukset"
 
-#: ../../qt/settingsdialog.py:175 ../../qt/settingsdialog.py:282
+#: qt/settingsdialog.py:212 qt/settingsdialog.py:329
 msgid "Host:"
 msgstr "Konenimi:"
 
-#: ../../qt/settingsdialog.py:180
+#: qt/settingsdialog.py:217
 msgid "Port:"
 msgstr "Portti:"
 
-#: ../../qt/settingsdialog.py:185 ../../qt/settingsdialog.py:288
+#: qt/settingsdialog.py:222 qt/settingsdialog.py:335
 msgid "User:"
 msgstr "Käyttäjä:"
 
-#: ../../qt/settingsdialog.py:190
+#: qt/settingsdialog.py:227
 msgid "Path:"
 msgstr "Sijainti:"
 
-#: ../../qt/settingsdialog.py:196
+#: qt/settingsdialog.py:233
 msgid "Cipher:"
 msgstr "Salausmenetelmä:"
 
-#: ../../qt/settingsdialog.py:202
+#: qt/settingsdialog.py:239
 msgid "Private Key:"
 msgstr "Yksityinen avain:"
 
-#: ../../qt/settingsdialog.py:211
-msgid "Key File"
-msgstr "Avaintiedosto"
+#: qt/settingsdialog.py:248
+msgid "Choose an existing private key file (normally named \"id_rsa\")"
+msgstr ""
 
-#: ../../qt/settingsdialog.py:219
-msgid "Create a new SSH key without Password."
-msgstr "Luo uusi salasanaton SSH-avain."
+#: qt/settingsdialog.py:258
+msgid ""
+"Create a new SSH key without password (not allowed if a private key file is "
+"already selected)"
+msgstr ""
 
-#: ../../qt/settingsdialog.py:234 ../../qt/settingsdialog.py:243
-#: ../../qt/settingsdialog.py:249
+#: qt/settingsdialog.py:277 qt/settingsdialog.py:286 qt/settingsdialog.py:292
 msgid "Password"
 msgstr "Salasana"
 
-#: ../../qt/settingsdialog.py:255
+#: qt/settingsdialog.py:298
 msgid "Save Password to Keyring"
 msgstr "Tallenna salasana avainrenkaaseen"
 
-#: ../../qt/settingsdialog.py:258
+#: qt/settingsdialog.py:302
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Tallenna salasana välimuistiin cronia varten (tietoturvaongelma: root voi "
 "lukea salasanan)"
 
-#: ../../qt/settingsdialog.py:270
+#: qt/settingsdialog.py:317
 msgid "Advanced"
 msgstr "Lisäasetukset"
 
-#: ../../qt/settingsdialog.py:300 ../../qt/settingsdialog.py:1690
+#: qt/settingsdialog.py:347 qt/settingsdialog.py:1978
 msgid "Full snapshot path: "
 msgstr "Otoksen täydellinen sijainti: "
 
-#: ../../qt/settingsdialog.py:307
+#: qt/settingsdialog.py:354
 msgid "Schedule"
 msgstr "Aikataulu"
 
-#: ../../qt/settingsdialog.py:317
+#: qt/settingsdialog.py:364
 msgid "Day:"
 msgstr "Päivä:"
 
-#: ../../qt/settingsdialog.py:328
+#: qt/settingsdialog.py:375
 msgid "Weekday:"
 msgstr "Viikonpäivä:"
 
-#: ../../qt/settingsdialog.py:339
+#: qt/settingsdialog.py:390
 msgid "Hour:"
 msgstr "Tunti:"
 
-#: ../../qt/settingsdialog.py:350
+#: qt/settingsdialog.py:405
 msgid "Hours:"
 msgstr "Tunnit:"
 
-#: ../../qt/settingsdialog.py:359
+#: qt/settingsdialog.py:416
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
 "Suorita BackInTime toistuvasti. Tästä on apua, ellei kone ole aina käynnissä."
 
-#: ../../qt/settingsdialog.py:364
+#: qt/settingsdialog.py:423
 msgid "Every:"
 msgstr "Joka:"
 
-#: ../../qt/settingsdialog.py:382
+#: qt/settingsdialog.py:444
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X "
 "days).\n"
@@ -1236,50 +1311,52 @@ msgstr ""
 "Suorita BackInTime heti, kun asema on kytketty (vain kerran X päivässä).\n"
 "Sinulta kysytään sudo-salasanaa."
 
-#: ../../qt/settingsdialog.py:395
-msgid "Include"
+#: qt/settingsdialog.py:459
+#, fuzzy
+msgid "&Include"
 msgstr "Ota mukaan"
 
-#: ../../qt/settingsdialog.py:401
+#: qt/settingsdialog.py:466
 msgid "Include files and folders"
 msgstr "Ota mukaan tiedostoja ja kansioita"
 
-#: ../../qt/settingsdialog.py:417 ../../qt/settingsdialog.py:468
+#: qt/settingsdialog.py:482 qt/settingsdialog.py:537
 msgid "Add file"
 msgstr "Lisää tiedosto"
 
-#: ../../qt/settingsdialog.py:421 ../../qt/settingsdialog.py:472
+#: qt/settingsdialog.py:486 qt/settingsdialog.py:541
 msgid "Add folder"
 msgstr "Lisää kansio"
 
-#: ../../qt/settingsdialog.py:431
-msgid "Exclude"
+#: qt/settingsdialog.py:496
+#, fuzzy
+msgid "&Exclude"
 msgstr "Jätä pois"
 
-#: ../../qt/settingsdialog.py:434
+#: qt/settingsdialog.py:500
 msgid ""
 "<b>Warning:</b> Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with "
 "mode 'SSH encrypted'.\n"
 "Only separate asterisk are allowed ('foo/*', 'foo/**/bar')"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:441
+#: qt/settingsdialog.py:510
 msgid "Exclude patterns, files or folders"
 msgstr "Jätä pois kuvioita, tiedostoja ja kansioita"
 
-#: ../../qt/settingsdialog.py:454
+#: qt/settingsdialog.py:523
 msgid "Highly recommended:"
 msgstr "Erityisesti suositellaan:"
 
-#: ../../qt/settingsdialog.py:476
+#: qt/settingsdialog.py:546
 msgid "Add default"
 msgstr "Lisää oletukset"
 
-#: ../../qt/settingsdialog.py:487
+#: qt/settingsdialog.py:559
 msgid "Exclude files bigger than: "
 msgstr "Jätä pois tätä suuremmat tiedostot: "
 
-#: ../../qt/settingsdialog.py:488
+#: qt/settingsdialog.py:561
 #, python-format
 msgid ""
 "Exclude files bigger than value in %(prefix)s.\n"
@@ -1295,83 +1372,85 @@ msgstr ""
 "varmuuskopioitu aikaisemmin säilyvät otoksessa, vaikka ne\n"
 "muuttuisivat."
 
-#: ../../qt/settingsdialog.py:506
-msgid "Auto-remove"
+#: qt/settingsdialog.py:583
+#, fuzzy
+msgid "&Auto-remove"
 msgstr "Automaattinen poisto"
 
-#: ../../qt/settingsdialog.py:513
+#: qt/settingsdialog.py:589
 msgid "Older than:"
 msgstr "Vanhemmat kuin:"
 
-#: ../../qt/settingsdialog.py:528
+#: qt/settingsdialog.py:605
 msgid "If free space is less than:"
 msgstr "Kun vapaata tilaa on alle:"
 
-#: ../../qt/settingsdialog.py:541
+#: qt/settingsdialog.py:619
 msgid "If free inodes is less than:"
 msgstr "Kun vapaita inodeja on alle:"
 
-#: ../../qt/settingsdialog.py:564
+#: qt/settingsdialog.py:643
 msgid "Run in background on remote Host."
 msgstr "Suorita etäkoneessa taustalla."
 
-#: ../../qt/settingsdialog.py:567
+#: qt/settingsdialog.py:648
 msgid "Keep all snapshots for the last"
 msgstr "Säilytä kaikki otokset"
 
-#: ../../qt/settingsdialog.py:571 ../../qt/settingsdialog.py:577
+#: qt/settingsdialog.py:652 qt/settingsdialog.py:659
 msgid "day(s)"
 msgstr "viime päivältä"
 
-#: ../../qt/settingsdialog.py:573
+#: qt/settingsdialog.py:655
 msgid "Keep one snapshot per day for the last"
 msgstr "Säilytä yksi otos kultakin päivältä"
 
-#: ../../qt/settingsdialog.py:579
+#: qt/settingsdialog.py:662
 msgid "Keep one snapshot per week for the last"
 msgstr "Säilytä yksi otos kultakin viikolta"
 
-#: ../../qt/settingsdialog.py:583
+#: qt/settingsdialog.py:666
 msgid "weeks(s)"
 msgstr "viime viikolta"
 
-#: ../../qt/settingsdialog.py:585
+#: qt/settingsdialog.py:669
 msgid "Keep one snapshot per month for the last"
 msgstr "Säilytä yksi otos kultakin kuulta"
 
-#: ../../qt/settingsdialog.py:589
+#: qt/settingsdialog.py:673
 msgid "month(s)"
 msgstr "viime kuulta"
 
-#: ../../qt/settingsdialog.py:591
+#: qt/settingsdialog.py:676
 msgid "Keep one snapshot per year for all years"
 msgstr "Säilytä yksi otos kultakin vuodelta"
 
-#: ../../qt/settingsdialog.py:598
+#: qt/settingsdialog.py:685
 msgid "Don't remove named snapshots"
 msgstr "Älä poista nimettyjä otoksia"
 
-#: ../../qt/settingsdialog.py:610
-msgid "Options"
+#: qt/settingsdialog.py:697
+#, fuzzy
+msgid "&Options"
 msgstr "Valinnat"
 
-#: ../../qt/settingsdialog.py:615
+#: qt/settingsdialog.py:702
 msgid "Enable notifications"
 msgstr "Käytä ilmoituksia"
 
-#: ../../qt/settingsdialog.py:618
+#: qt/settingsdialog.py:706
 msgid "Disable snapshots when on battery"
 msgstr "Älä tee otoksia akkukäytössä"
 
-#: ../../qt/settingsdialog.py:621
+#: qt/settingsdialog.py:710
 msgid "Power status not available from system"
 msgstr "Järjestelmä ei tarjoa virranhallintatietoja"
 
-#: ../../qt/settingsdialog.py:624
+#: qt/settingsdialog.py:713
 msgid "Run only one snapshot at a time"
 msgstr "Tee vain yksi otos kerrallaan"
 
-#: ../../qt/settingsdialog.py:625
+#: qt/settingsdialog.py:715
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done.\n"
 "This is a global option. So it will effect all profiles for this user.\n"
@@ -1381,107 +1460,117 @@ msgstr ""
 "Tämä on yleisasetus, joten se vaikuttaa käyttäjän kaikkiin profiileihin.\n"
 "Muille käyttäjille asetus täytyy kuitenkin ottaa käyttön erikseen."
 
-#: ../../qt/settingsdialog.py:630
+#: qt/settingsdialog.py:724
 msgid "Backup replaced files on restore"
 msgstr "Varmuuskopioi palautettaessa korvatut tiedostot"
 
-#: ../../qt/settingsdialog.py:640
+#: qt/settingsdialog.py:737
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "Jatka virheistä huolimatta (säilytä keskeneräiset otokset)"
 
-#: ../../qt/settingsdialog.py:646
+#: qt/settingsdialog.py:745
 msgid "Take a new snapshot regardless of there were changes or not."
 msgstr "Tee uusi otos, vaikkei muutoksia olisi."
 
-#: ../../qt/settingsdialog.py:653
+#: qt/settingsdialog.py:752
 msgid "Log Level:"
 msgstr "Lokitaso:"
 
-#: ../../qt/settingsdialog.py:658
+#: qt/settingsdialog.py:757
 msgid "None"
 msgstr "Ei mitään"
 
-#: ../../qt/settingsdialog.py:660
+#: qt/settingsdialog.py:759
 msgid "Changes & Errors"
 msgstr "Muutokset ja virheet"
 
-#: ../../qt/settingsdialog.py:676
+#: qt/settingsdialog.py:770
+#, fuzzy
+msgid "E&xpert Options"
+msgstr "Asiantuntija-asetukset"
+
+#: qt/settingsdialog.py:776
 msgid "Change these options only if you really know what you are doing !"
 msgstr "Muuta näitä asetuksia vain, jos tiedät, mitä teet!"
 
-#: ../../qt/settingsdialog.py:680
-msgid "Run 'nice':"
-msgstr "Suorita ”nice”:"
+#: qt/settingsdialog.py:782
+#, fuzzy
+msgid "Run 'rsync' with 'nice':"
+msgstr "Suorita rsync nocachellä:"
 
-#: ../../qt/settingsdialog.py:686 ../../qt/settingsdialog.py:698
+#: qt/settingsdialog.py:789 qt/settingsdialog.py:805
 msgid "as cron job"
 msgstr "cron-töissä"
 
-#: ../../qt/settingsdialog.py:689 ../../qt/settingsdialog.py:704
-#: ../../qt/settingsdialog.py:718
+#: qt/settingsdialog.py:794 qt/settingsdialog.py:815 qt/settingsdialog.py:835
 msgid "on remote host"
 msgstr "etäkoneilla"
 
-#: ../../qt/settingsdialog.py:692
-msgid "Run 'ionice':"
-msgstr "Suorita ”ionice”"
+#: qt/settingsdialog.py:798
+#, fuzzy
+msgid "Run 'rsync' with 'ionice':"
+msgstr "Suorita rsync nocachellä:"
 
-#: ../../qt/settingsdialog.py:701
+#: qt/settingsdialog.py:810
 msgid "when taking a manual snapshot"
 msgstr "käyttäjän tehdessä itse otoksia"
 
-#: ../../qt/settingsdialog.py:708
+#: qt/settingsdialog.py:820
 msgid "Run 'rsync' with 'nocache':"
 msgstr "Suorita rsync nocachellä:"
 
-#: ../../qt/settingsdialog.py:714
+#: qt/settingsdialog.py:822
+msgid "(Please install 'nocache' to enable this option)"
+msgstr ""
+
+#: qt/settingsdialog.py:829
 msgid "on local machine"
 msgstr "paikallisella koneella"
 
-#: ../../qt/settingsdialog.py:721
+#: qt/settingsdialog.py:840
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Ohjaa cron-töiden vakiotulosvirta /dev/nulliin."
 
-#: ../../qt/settingsdialog.py:727
+#: qt/settingsdialog.py:849
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Ohjaa cron-töiden vakiovirhevirta /dev/nulliin."
 
-#: ../../qt/settingsdialog.py:736
+#: qt/settingsdialog.py:860
 msgid "Limit rsync bandwidth usage: "
 msgstr "Rajoita rsyncin kaistan käyttöä: "
 
-#: ../../qt/settingsdialog.py:739
+#: qt/settingsdialog.py:863
 msgid " KB/sec"
 msgstr " kt/s"
 
-#: ../../qt/settingsdialog.py:774
+#: qt/settingsdialog.py:901
 msgid "Preserve ACL"
 msgstr "Säilytä ACL:t"
 
-#: ../../qt/settingsdialog.py:787
+#: qt/settingsdialog.py:916
 msgid "Preserve extended attributes (xattr)"
 msgstr "Säilytä lisämääritteet (xattr)"
 
-#: ../../qt/settingsdialog.py:805
+#: qt/settingsdialog.py:936
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Kopioi turvattomat linkit (toimii vain absoluuttisille linkeille)"
 
-#: ../../qt/settingsdialog.py:836
+#: qt/settingsdialog.py:970
 msgid "Paste additional options to rsync"
 msgstr "Liitä lisävalinnat rsyncille"
 
-#: ../../qt/settingsdialog.py:839
+#: qt/settingsdialog.py:974
 msgid ""
 "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
-"Valitsinten arvot tulee merkitä lainausmerkkeihin, esim. --exclude-"
-"from=\"/oman/tiedoston/sijainti”."
+"Valitsinten arvot tulee merkitä lainausmerkkeihin, esim. --exclude-from=\"/"
+"oman/tiedoston/sijainti”."
 
-#: ../../qt/settingsdialog.py:849
+#: qt/settingsdialog.py:985
 msgid "Add prefix to SSH commands"
 msgstr "Lisää SSH-komentoihin etuliite"
 
-#: ../../qt/settingsdialog.py:852
+#: qt/settingsdialog.py:989
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1493,15 +1582,15 @@ msgid ""
 "%(default)s: %(def_value)s"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:860 ../../qt/settingsdialog.py:1741
+#: qt/settingsdialog.py:997 qt/settingsdialog.py:2033
 msgid "default"
 msgstr "oletus"
 
-#: ../../qt/settingsdialog.py:870
+#: qt/settingsdialog.py:1008
 msgid "Check if remote host is online"
 msgstr "Tarkista, onko etäkone verkossa"
 
-#: ../../qt/settingsdialog.py:871
+#: qt/settingsdialog.py:1010
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
@@ -1511,11 +1600,11 @@ msgstr ""
 "ole käytettävissä, voi johtaa outoihin\n"
 "virheisiin."
 
-#: ../../qt/settingsdialog.py:874
+#: qt/settingsdialog.py:1014
 msgid "Check if remote host support all necessary commands"
 msgstr "Tarkista, tukeeko etäkone kaikkia vaadittuja komentoja"
 
-#: ../../qt/settingsdialog.py:875
+#: qt/settingsdialog.py:1016
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
@@ -1525,15 +1614,15 @@ msgstr ""
 "kaikkia vaadittuja komentoja, voi johtaa\n"
 "outoihin virheisiin."
 
-#: ../../qt/settingsdialog.py:888
+#: qt/settingsdialog.py:1032
 msgid "Restore Config"
 msgstr "Palauta määritys"
 
-#: ../../qt/settingsdialog.py:889
+#: qt/settingsdialog.py:1034
 msgid "Edit user-callback"
 msgstr "Muokkaa käyttäjäkutsua"
 
-#: ../../qt/settingsdialog.py:908
+#: qt/settingsdialog.py:1054
 msgid ""
 "Full system backup can only create a snapshot to be restored to the same "
 "physical disk(s) with the same disk partitioning as from the source; "
@@ -1544,20 +1633,20 @@ msgid ""
 "customized. Continue?"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:937
+#: qt/settingsdialog.py:1089
 msgid "New profile"
 msgstr "Uusi profiili"
 
-#: ../../qt/settingsdialog.py:953
+#: qt/settingsdialog.py:1106
 msgid "Rename profile"
 msgstr "Muuta profiilin nimeä"
 
-#: ../../qt/settingsdialog.py:967
+#: qt/settingsdialog.py:1122
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "Haluatko varmasti poistaa profiilin ”%s”?"
 
-#: ../../qt/settingsdialog.py:1201
+#: qt/settingsdialog.py:1395
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
@@ -1565,7 +1654,7 @@ msgstr ""
 "Mukautettujen tuntien on oltava pilkuin erotettu tuntiluettelo (esim. "
 "8,12,18,23) tai */3 varmuuskopioille kolmen tunnin välein"
 
-#: ../../qt/settingsdialog.py:1237
+#: qt/settingsdialog.py:1437
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
@@ -1573,12 +1662,12 @@ msgstr ""
 "Et valinnut SSH:lle yksityistä avainta.\n"
 "Haluatko luoda uuden salasanattoman julkisen ja yksityisen avaimen parin?"
 
-#: ../../qt/settingsdialog.py:1242
+#: qt/settingsdialog.py:1448
 #, python-format
 msgid "Private key file \"%(file)s\" does not exist."
 msgstr "Yksityistä avaintiedostoa ”%(file)s” ei ole olemassa."
 
-#: ../../qt/settingsdialog.py:1360
+#: qt/settingsdialog.py:1600
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
@@ -1586,7 +1675,7 @@ msgstr ""
 "Haluatko kopioida julkisen SSH-avaimesi etäkoneelle\n"
 "salasanatonta kirjautumista varten?"
 
-#: ../../qt/settingsdialog.py:1376
+#: qt/settingsdialog.py:1628
 #, python-format
 msgid ""
 "The authenticity of host \"%(host)s\" can't be established.\n"
@@ -1597,30 +1686,30 @@ msgstr ""
 "\n"
 "%(keytype)s-avaimen sormenjälki on:"
 
-#: ../../qt/settingsdialog.py:1384
+#: qt/settingsdialog.py:1638
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
 "Tarkista tämä sormenjälki! Haluatko lisätä sen ”known_hosts”-tiedostoosi?"
 
-#: ../../qt/settingsdialog.py:1531
+#: qt/settingsdialog.py:1801
 msgid "Exclude pattern"
 msgstr "Jätä pois kuvio"
 
-#: ../../qt/settingsdialog.py:1544
+#: qt/settingsdialog.py:1814
 msgid "Exclude file"
 msgstr "Jätä pois tiedosto"
 
-#: ../../qt/settingsdialog.py:1548
+#: qt/settingsdialog.py:1818
 msgid "Exclude folder"
 msgstr "Jätä pois kansio"
 
-#: ../../qt/settingsdialog.py:1567
+#: qt/settingsdialog.py:1837
 msgid "Include file"
 msgstr "Ota mukaan tiedosto"
 
-#: ../../qt/settingsdialog.py:1575 ../../qt/settingsdialog.py:1595
+#: qt/settingsdialog.py:1845 qt/settingsdialog.py:1867
 #, python-format
 msgid ""
 "\"%s\" is a symlink. The linked target will not be backed up until you "
@@ -1631,36 +1720,36 @@ msgstr ""
 "erikseen mukaan.\n"
 "Haluatko ottaa mukaan symlinkkien kohteet?"
 
-#: ../../qt/settingsdialog.py:1587
+#: qt/settingsdialog.py:1859
 msgid "Include folder"
 msgstr "Ota mukaan kansio"
 
-#: ../../qt/settingsdialog.py:1614
+#: qt/settingsdialog.py:1893
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr "Haluatko varmasti muuttaa otoskansiota?"
 
-#: ../../qt/settingsdialog.py:1635
+#: qt/settingsdialog.py:1919
 #, python-format
 msgid "Failed to create new SSH key in %(path)s"
 msgstr "Ei voitu luoda uutta SSH-avainta kansioon %(path)s"
 
-#: ../../qt/settingsdialog.py:1738
+#: qt/settingsdialog.py:2028
 msgid "enabled"
 msgstr "käytössä"
 
-#: ../../qt/settingsdialog.py:1740
+#: qt/settingsdialog.py:2031
 msgid "disabled"
 msgstr "ei käytössä"
 
-#: ../../qt/settingsdialog.py:1778
+#: qt/settingsdialog.py:2076
 msgid "Restore Settings"
 msgstr "Palauta asetukset"
 
-#: ../../qt/settingsdialog.py:1795
+#: qt/settingsdialog.py:2097
 msgid " and add your user to group 'fuse'"
 msgstr " ja lisättävä käyttäjätunnuksesi ”fuse”-ryhmään"
 
-#: ../../qt/settingsdialog.py:1799
+#: qt/settingsdialog.py:2103
 #, python-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore %(appName)s's "
@@ -1681,88 +1770,34 @@ msgstr ""
 "etäkoneeseen%(addFuse)s.\n"
 "Katso lisätietoa: ”man backintime”."
 
-#: ../../qt/settingsdialog.py:1857 ../../qt/settingsdialog.py:1920
+#: qt/settingsdialog.py:2167 qt/settingsdialog.py:2232
 msgid "No config found"
 msgstr ""
 
-#: ../../qt/settingsdialog.py:2096
+#: qt/settingsdialog.py:2439
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr "käyttäjäkutsuskriptistä puuttuu #!-rivi."
 
-#: ../../qt/settingsdialog.py:2100
+#: qt/settingsdialog.py:2446
 msgid "Shebang in user-callback script is not executable."
 msgstr "Käyttäjäkutsuskriptin #!-rivi ei viittaa ohjelmatiedostoon."
 
-#: ../../qt/snapshotsdialog.py:53 ../../qt/snapshotsdialog.py:178
-msgid "Diff Options"
-msgstr "Diff-asetukset"
+#: qt/qtsystrayicon.py:98
+msgid "Start BackInTime"
+msgstr "Käynnistä BackInTime"
 
-#: ../../qt/snapshotsdialog.py:60
-msgid "Command:"
-msgstr "Komento:"
+#: qt/qtsystrayicon.py:157
+msgid "Working..."
+msgstr "Käsitellään…"
 
-#: ../../qt/snapshotsdialog.py:64
-msgid "Parameters:"
-msgstr "Parametrit:"
+#~ msgid "Key File"
+#~ msgstr "Avaintiedosto"
 
-#: ../../qt/snapshotsdialog.py:68
-msgid "Use %1 and %2 for path parameters"
-msgstr "Käytä sijaintiparametreina %1 ja %2"
+#~ msgid "Create a new SSH key without Password."
+#~ msgstr "Luo uusi salasanaton SSH-avain."
 
-#: ../../qt/snapshotsdialog.py:111
-msgid "List only different snapshots"
-msgstr "Luettele vain eri otokset"
+#~ msgid "Run 'nice':"
+#~ msgstr "Suorita ”nice”:"
 
-#: ../../qt/snapshotsdialog.py:118
-msgid "List only equal snapshots to: "
-msgstr "Luettele vain otokset, jotka ovat samoja kuin: "
-
-#: ../../qt/snapshotsdialog.py:128
-msgid "Deep check (more accurate, but slow)"
-msgstr "Syvätarkistus (tarkempi, mutta hitaampi)"
-
-#: ../../qt/snapshotsdialog.py:149
-msgid "Delete"
-msgstr "Poista"
-
-#: ../../qt/snapshotsdialog.py:153
-msgid "Select All"
-msgstr "Valitse kaikki"
-
-#: ../../qt/snapshotsdialog.py:166
-msgid "Diff"
-msgstr "Erot"
-
-#: ../../qt/snapshotsdialog.py:177
-msgid "Go To"
-msgstr "Siirry"
-
-#: ../../qt/snapshotsdialog.py:326
-msgid "You can't compare a snapshot to itself"
-msgstr "Otosta ei voi verrata itseensä"
-
-#: ../../qt/snapshotsdialog.py:333
-#, python-format
-msgid "Command not found: %s"
-msgstr "Komentoa ei löydy: %s"
-
-#: ../../qt/snapshotsdialog.py:361
-#, python-format
-msgid ""
-"Do you really want to delete \"%(file)s\" in snapshot \"%(snapshot_id)s?\n"
-msgstr "Haluatko poistaa tiedoston ”%(file)s” otoksesta ”%(snapshot_id)s”?\n"
-
-#: ../../qt/snapshotsdialog.py:364
-#, python-format
-msgid "Do you really want to delete \"%(file)s\" in %(count)d snapshots?\n"
-msgstr ""
-"Haluatko varmasti poistaa tiedoston ”%(file)s” %(count)d otoksesta?\n"
-
-#: ../../qt/snapshotsdialog.py:366
-msgid "WARNING: This can not be revoked!"
-msgstr "VAROITUS: Tätä ei voi kumota!"
-
-#: ../../qt/snapshotsdialog.py:381
-#, python-format
-msgid "Exclude \"%s\" from future snapshots?"
-msgstr "Jätetäänkö ”%s” pois myöhemmistä otoksista?"
+#~ msgid "Run 'ionice':"
+#~ msgstr "Suorita ”ionice”"
