@@ -67,7 +67,7 @@ class QtSysTrayIcon:
         self.contextMenu = QMenu()
 
         self.menuProfileName = self.contextMenu.addAction(
-            '{}: {}'.format(_('Profile'), self.config.profileName())
+            '{}: {}'.format(_('Profile'), self.config.profileName()))
         qttools.setFontBold(self.menuProfileName)
         self.contextMenu.addSeparator()
 
