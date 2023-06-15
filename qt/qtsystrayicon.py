@@ -66,7 +66,8 @@ class QtSysTrayIcon:
         #self.status_icon.actionCollection().clear()
         self.contextMenu = QMenu()
 
-        self.menuProfileName = self.contextMenu.addAction(_('Profile: "%s"') % self.config.profileName())
+        self.menuProfileName = self.contextMenu.addAction(
+            '{}: {}'.format(_('Profile'), self.config.profileName())
         qttools.setFontBold(self.menuProfileName)
         self.contextMenu.addSeparator()
 
@@ -186,13 +187,18 @@ class QtSysTrayIcon:
             self.menuProgress.setVisible(False)
 
     def getMenuProgress(self, pg):
-        d = (('sent',   _('Sent:')), \
-             ('speed',  _('Speed:')),\
-             ('eta',    _('ETA:')))
+        d = (
+            ('sent', _('Sent') + ':'),
+            ('speed', _('Speed') + ':'),
+            ('eta',    _('ETA') + ':')
+        )
+
         for key, txt in d:
             value = pg.strValue(key, '')
+
             if not value:
                 continue
+
             yield txt + ' ' + value
 
     def onStartBIT(self):

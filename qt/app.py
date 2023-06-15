@@ -228,13 +228,16 @@ class MainWindow(QMainWindow):
 
         #restore menu
         self.menuRestore = qttools.Menu(self)
-        self.btnRestore = self.menuRestore.addAction(icon.RESTORE, _('Restore'))
-        self.btnRestore.setToolTip(_('Restore the selected files or folders '
-                                     'to the original destination.'))
+        self.btnRestore = self.menuRestore.addAction(
+            icon.RESTORE, _('Restore'))
+        self.btnRestore.setToolTip(_(
+            'Restore the selected files or folders to the '
+            'original destination.'))
         self.btnRestore.triggered.connect(self.restoreThis)
-        self.btnRestoreTo = self.menuRestore.addAction(icon.RESTORE_TO, _('Restore to ...'))
-        self.btnRestoreTo.setToolTip(_('Restore the selected files or '
-                                       'folders to a new destination.'))
+        self.btnRestoreTo = self.menuRestore.addAction(
+            icon.RESTORE_TO, _('Restore to ...'))
+        self.btnRestoreTo.setToolTip(_(
+            'Restore the selected files or folders to a new destination.'))
         self.btnRestoreTo.triggered.connect(self.restoreThisTo)
         self.menuRestore.addSeparator()
         self.btnRestoreParent = self.menuRestore.addAction(icon.RESTORE, '')
@@ -242,7 +245,8 @@ class MainWindow(QMainWindow):
                                            'folder and all its content to '
                                            'the original destination.'))
         self.btnRestoreParent.triggered.connect(self.restoreParent)
-        self.btnRestoreParentTo = self.menuRestore.addAction(icon.RESTORE_TO, '')
+        self.btnRestoreParentTo = self.menuRestore.addAction(
+            icon.RESTORE_TO, '')
         self.btnRestoreParentTo.setToolTip(_('Restore the currently shown '
                                              'folder and all its content '
                                              'to a new destination.'))
@@ -251,14 +255,17 @@ class MainWindow(QMainWindow):
 
         for action in self.menuRestore.actions():
             action.setIconVisibleInMenu(True)
-        self.btnRestoreMenu = self.filesViewToolbar.addAction(icon.RESTORE, _('Restore'))
+        self.btnRestoreMenu = self.filesViewToolbar.addAction(
+            icon.RESTORE, _('Restore'))
         self.btnRestoreMenu.setMenu(self.menuRestore)
-        self.btnRestoreMenu.setToolTip(_('Restore selected file or folder.\n'
-                                          'If this button is grayed out this is most likely '
-                                          'because "%(now)s" is selected in left hand snapshots list.') % {'now': _('Now')})
+        self.btnRestoreMenu.setToolTip(_(
+            'Restore selected file or folder.\n'
+            'If this button is grayed out this is most likely because "{now}"'
+            ' is selected in left hand snapshots list.').format(now=_('Now')))
         self.btnRestoreMenu.triggered.connect(self.restoreThis)
 
-        self.btnSnapshots = self.filesViewToolbar.addAction(icon.SNAPSHOTS, _('Snapshots'))
+        self.btnSnapshots = self.filesViewToolbar.addAction(
+            icon.SNAPSHOTS, _('Snapshots'))
         self.btnSnapshots.triggered.connect(self.btnSnapshotsClicked)
 
         filesLayout.addWidget(self.filesViewToolbar)
@@ -327,8 +334,11 @@ class MainWindow(QMainWindow):
         self.places.header().setSectionsClickable(True)
         self.places.header().setSortIndicatorShown(True)
         self.places.header().setSectionHidden(1, True)
-        self.places.header().setSortIndicator(int(self.config.profileIntValue('qt.places.SortColumn', 1)),
-                                                   int(self.config.profileIntValue('qt.places.SortOrder', Qt.AscendingOrder)))
+        self.places.header().setSortIndicator(
+            int(self.config.profileIntValue('qt.places.SortColumn', 1)),
+            int(self.config.profileIntValue(
+                'qt.places.SortOrder', Qt.AscendingOrder))
+        )
         self.placesSortLoop = {self.config.currentProfile(): False}
         self.secondSplitter.addWidget(self.places)
         self.places.header().sortIndicatorChanged.connect(self.sortPlaces)
@@ -339,7 +349,9 @@ class MainWindow(QMainWindow):
         self.secondSplitter.addWidget(widget)
 
         #folder don't exist label
-        self.lblFolderDontExists = QLabel(_('This folder doesn\'t exist\nin the current selected snapshot!'), self)
+        self.lblFolderDontExists = QLabel(_("This folder doesn't exist\nin "
+                                            "the current selected snapshot!"),
+                                          self)
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Sunken)
         self.lblFolderDontExists.setFrameShape(QFrame.Panel)
@@ -453,19 +465,26 @@ class MainWindow(QMainWindow):
         h = self.config.intValue('qt.main_window.height', 500)
         self.resize(w, h)
 
-        mainSplitterLeftWidth = self.config.intValue('qt.main_window.main_splitter_left_w', 150)
-        mainSplitterRightWidth = self.config.intValue('qt.main_window.main_splitter_right_w', 450)
+        mainSplitterLeftWidth = self.config.intValue(
+            'qt.main_window.main_splitter_left_w', 150)
+        mainSplitterRightWidth = self.config.intValue(
+            'qt.main_window.main_splitter_right_w', 450)
         sizes = [mainSplitterLeftWidth, mainSplitterRightWidth]
         self.mainSplitter.setSizes(sizes)
 
-        secondSplitterLeftWidth = self.config.intValue('qt.main_window.second_splitter_left_w', 150)
-        secondSplitterRightWidth = self.config.intValue('qt.main_window.second_splitter_right_w', 300)
+        secondSplitterLeftWidth = self.config.intValue(
+            'qt.main_window.second_splitter_left_w', 150)
+        secondSplitterRightWidth = self.config.intValue(
+            'qt.main_window.second_splitter_right_w', 300)
         sizes = [secondSplitterLeftWidth, secondSplitterRightWidth]
         self.secondSplitter.setSizes(sizes)
 
-        filesViewColumnNameWidth = self.config.intValue('qt.main_window.files_view.name_width', -1)
-        filesViewColumnSizeWidth = self.config.intValue('qt.main_window.files_view.size_width', -1)
-        filesViewColumnDateWidth = self.config.intValue('qt.main_window.files_view.date_width', -1)
+        filesViewColumnNameWidth = self.config.intValue(
+            'qt.main_window.files_view.name_width', -1)
+        filesViewColumnSizeWidth = self.config.intValue(
+            'qt.main_window.files_view.size_width', -1)
+        filesViewColumnDateWidth = self.config.intValue(
+            'qt.main_window.files_view.date_width', -1)
         if filesViewColumnNameWidth > 0 and filesViewColumnSizeWidth > 0 and filesViewColumnDateWidth > 0:
             self.filesView.header().resizeSection(0, filesViewColumnNameWidth)
             self.filesView.header().resizeSection(1, filesViewColumnSizeWidth)
@@ -473,10 +492,14 @@ class MainWindow(QMainWindow):
 
         #force settingdialog if it is not configured
         if not config.isConfigured():
-            message = _('%(appName)s is not configured. Would you like '
-                        'to restore a previous configuration?' % {'appName': self.config.APP_NAME})
+            message = _(
+                '{appName} is not configured. Would you like '
+                'to restore a previous configuration?') \
+                .format(appName=self.config.APP_NAME)
+
             if QMessageBox.Yes == messagebox.warningYesNo(self, message):
                 settingsdialog.RestoreConfigDialog(self).exec_()
+
             settingsdialog.SettingsDialog(self).exec_()
 
         if not config.isConfigured():
@@ -484,7 +507,7 @@ class MainWindow(QMainWindow):
 
         profile_id = config.currentProfile()
 
-        #mount
+        # mount
         try:
             mnt = mount.Mount(cfg = self.config, profile_id = profile_id, parent = self)
             hash_id = mnt.mount()
@@ -494,7 +517,9 @@ class MainWindow(QMainWindow):
             self.config.setCurrentHashId(hash_id)
 
         if not config.canBackup(profile_id):
-            messagebox.critical(self, _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it and then press OK'))
+            messagebox.critical(self, _(
+                "Can't find snapshots folder.\nIf it is on a removable "
+                "drive please plug it and then press OK."))
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
 
@@ -529,16 +554,21 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         if self.shutdown.askBeforeQuit():
-            if QMessageBox.Yes != messagebox.warningYesNo(self, _('If you close this window Back In Time will not be able to shutdown your system when the snapshot has finished.\nDo you really want to close?')):
+            msg = _('If you close this window Back In Time will not be able '
+                    'to shutdown your system when the snapshot has finished.'
+                    '\nDo you really want to close?')
+            if QMessageBox.Yes != messagebox.warningYesNo(self, msg):
                 return event.ignore()
 
         self.config.setStrValue('qt.last_path', self.path)
         self.config.setProfileStrValue('qt.last_path', self.path)
 
-        self.config.setProfileIntValue('qt.places.SortColumn',
-                                          self.places.header().sortIndicatorSection())
-        self.config.setProfileIntValue('qt.places.SortOrder',
-                                          self.places.header().sortIndicatorOrder())
+        self.config.setProfileIntValue(
+            'qt.places.SortColumn',
+            self.places.header().sortIndicatorSection())
+        self.config.setProfileIntValue(
+            'qt.places.SortOrder',
+            self.places.header().sortIndicatorOrder())
 
         self.config.setIntValue('qt.main_window.x', self.x())
         self.config.setIntValue('qt.main_window.y', self.y())
@@ -721,11 +751,13 @@ class MainWindow(QMainWindow):
             self.lastTakeSnapshotMessage = takeSnapshotMessage
 
             if fake_busy:
-                message = _('Working:') + ' ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                message = _('Working') + ': ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+
             elif takeSnapshotMessage[0] == 0:
                 message = self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+
             else:
-                message = _('Error:') + ' ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+                message = _('Error') + ': ' + self.lastTakeSnapshotMessage[1].replace('\n', ' ')
 
             self.status.setText(message)
 
@@ -745,15 +777,21 @@ class MainWindow(QMainWindow):
         #	self.lastTakeSnapshotMessage = None
 
     def getProgressBarFormat(self, pg, message):
-        d = (('sent',   _('Sent:')), \
-             ('speed',  _('Speed:')),\
-             ('eta',    _('ETA:')))
+        d = (
+            ('sent', '{}:'.format(_('Sent'))),
+            ('speed', '{}:'.format(_('Speed'))),
+            ('eta', '{}:'.format(_('ETA')))
+        )
         yield '{}%'.format(pg.intValue('percent'))
+
         for key, txt in d:
             value = pg.strValue(key, '')
+
             if not value:
                 continue
+
             yield txt + ' ' + value
+
         yield message
 
     def placesChanged(self, item, previous):
@@ -939,19 +977,26 @@ class MainWindow(QMainWindow):
                 #probably because user pressed refresh
                 pass
 
+        # try to use filter(..)
         items = [item for item in self.timeLine.selectedItems() if not isinstance(item, snapshots.RootSnapshot)]
+
         if not items:
             return
 
-        if QMessageBox.Yes != messagebox.warningYesNo(self, \
-                              _('Are you sure you want to remove the snapshot:\n%s') \
-                                %'\n'.join([item.snapshotID().displayName for item in items])):
+        question_msg = '{}:{}'.format(
+            _('Are you sure you want to remove the snapshot'),
+            '\n'.join([item.snapshotID().displayName for item in items]))
+
+        if QMessageBox.Yes != messagebox.warningYesNo(self, question_msg):
             return
 
         for item in items:
+
             item.setDisabled(True)
+
             if item is self.timeLine.currentItem():
                 self.timeLine.selectRootItem()
+
         thread = RemoveSnapshotThread(self, items)
         thread.refreshSnapshotList.connect(self.updateTimeLine)
         thread.hideTimelineItem.connect(hideItem)
@@ -1027,21 +1072,29 @@ class MainWindow(QMainWindow):
         self.updateFilesView(1)
 
     def backupOnRestore(self):
-        cb = QCheckBox(_("Backup local files before overwriting or\nremoving with trailing '%(suffix)s'.")
-                       % {'suffix': self.snapshots.backupSuffix()})
+        cb = QCheckBox(_(
+            'Backup local files before overwriting or\nremoving with '
+            'trailing {suffix}.').format(
+                suffx=self.snapshots.backupSuffix()))
+
         cb.setChecked(self.config.backupOnRestore())
-        cb.setToolTip(_("Newer versions of files will be "
-                        "renamed with trailing '%(suffix)s' "
-                        "before restoring.\n"
-                        "If you don't need them anymore "
-                        "you can remove them with '%(cmd)s'")
-                         %{'suffix': self.snapshots.backupSuffix(),
-                           'cmd': 'find ./ -name "*%s" -delete' % self.snapshots.backupSuffix() })
-        return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'backup'}
+        cb.setToolTip(_(
+            "Newer versions of files will be renamed with trailing "
+            "{suffix} before restoring.\n"
+            "If you don't need them anymore you can remove them with {cmd}")
+            .format(suffix=self.snapshots.backupSuffix(),
+                    cmd='find ./ -name "*{suffix}" -delete'
+                        .format(suffx=self.snapshots.backupSuffix()))
+        )
+        return {
+            'widget': cb,
+            'retFunc': cb.isChecked,
+            'id': 'backup'
+        }
 
     def restoreOnlyNew(self):
-        cb = QCheckBox(_('Only restore files which do not exist or\n'    +\
-                         'are newer than those in destination.\n' +\
+        cb = QCheckBox(_('Only restore files which do not exist or\n'
+                         'are newer than those in destination.\n'
                          'Using "rsync --update" option.'))
         cb.setToolTip("""From 'man rsync':
 
@@ -1085,10 +1138,12 @@ files that the receiver requests to be transferred.""")
 
     def confirmRestore(self, paths, restoreTo = None):
         if restoreTo:
-            msg = _("Do you really want to restore this files(s)\ninto new folder '%(path)s':") \
-                    %{'path': restoreTo}
+            msg = '{}:'.format(
+                _('Do you really want to restore this files(s)\ninto '
+                  'new folder {path}').format(path=restoreTo))
         else:
-            msg = _('Do you really want to restore this files(s):')
+            msg = '{}:'.format(
+                _('Do you really want to restore this files(s)'))
 
         confirm, opt = messagebox.warningYesNoOptions(self,
                                                       msg,
@@ -1100,14 +1155,17 @@ files that the receiver requests to be transferred.""")
 
     def confirmDelete(self, warnRoot = False, restoreTo = None):
         if restoreTo:
-            msg = _("Are you sure you want to remove all newer files "
-                    "in '%(path)s'?") %{'path': restoreTo}
+            msg = _('Are you sure you want to remove all newer files '
+                    'in {path}?').format(path=restoreTo)
         else:
             msg = _('Are you sure you want to remove all newer files in your '
                     'original folder?')
         if warnRoot:
-            msg += '\n\n'
-            msg += _('WARNING: deleting files in filesystem root could break your whole system!!!')
+            msg = '{}\n\n{}'.format(
+                msg,
+                _('WARNING: deleting files in filesystem root could break '
+                  'your whole system!!!'))
+
         return QMessageBox.Yes == messagebox.warningYesNo(self, msg)
 
     def restoreThis(self):
@@ -1312,8 +1370,8 @@ files that the receiver requests to be transferred.""")
             tooltip = _('View the current disk content')
         else:
             name = self.sid.displayName
-            text = _('Snapshot: %s') % name
-            tooltip = _('View the snapshot made at %s') % name
+            text = '{}: {}'.format(_('Snapshot'), name)
+            tooltip = _('View the snapshot made at {name}').format(name=name)
 
         self.filesWidget.setTitle(text)
         self.filesWidget.setToolTip(tooltip)
@@ -1351,8 +1409,10 @@ files that the receiver requests to be transferred.""")
 
         #show current path
         self.editCurrentPath.setText(self.path)
-        self.btnRestoreParent.setText(_("Restore '%s'") % self.path)
-        self.btnRestoreParentTo.setText(_("Restore '%s' to ...") % self.path)
+        self.btnRestoreParent.setText(
+            _('Restore {path}').format(path=self.path))
+        self.btnRestoreParentTo.setText(
+            _('Restore {path} to ...').format(path=self.path))
 
         #update folder_up button state
         self.btnFolderUp.setEnabled(len(self.path) > 1)

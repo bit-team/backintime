@@ -109,6 +109,7 @@ def getExistingDirectories(parent, *args, **kwargs):
 
     if dlg.exec_() == QDialog.Accepted:
         return dlg.selectedFiles()
+
     return [str(), ]
 
 def getExistingDirectory(parent, *args, **kwargs):
@@ -393,9 +394,12 @@ class SnapshotItem(TimeLineItem):
         self.setData(0, Qt.UserRole, sid)
 
         if sid.isRoot:
-            self.setToolTip(0, _('This is NOT a snapshot but a live view of your local files'))
+            self.setToolTip(0, _('This is NOT a snapshot but a live '
+                                 'view of your local files'))
         else:
-            self.setToolTip(0, _('Last check %s') %sid.lastChecked)
+            self.setToolTip(
+                0,
+                _('Last check {time}').format(time=id.lastChecked))
 
     def updateText(self):
         sid = self.snapshotID()
