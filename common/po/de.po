@@ -7,16 +7,17 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-06-15 10:03+0200\n"
-"PO-Revision-Date: 2019-05-23 15:00+0000\n"
-"Last-Translator: Tobias Bannert <tobannert@gmail.com>\n"
-"Language-Team: German/Germany <de@li.org>\n"
+"PO-Revision-Date: 2023-06-15 08:45+0000\n"
+"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/backintime/"
+"common/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-"X-Generator: Launchpad (build 83f7123b02a2b50a64bc29e7e35197179a885279)\n"
 
 #: common/password.py:240
 #, python-format
@@ -423,9 +424,8 @@ msgid "Every Month"
 msgstr "Jeden Monat"
 
 #: common/config.py:111
-#, fuzzy
 msgid "Every Year"
-msgstr "Jeden Tag"
+msgstr "Jedes Jahr"
 
 #: common/config.py:115 common/config.py:122
 msgid "Day(s)"
@@ -582,7 +582,7 @@ msgstr ""
 "Dateisystem."
 
 #: common/config.py:455
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Destination filesystem for '%(path)s' is a SMB mounted share. Please make "
 "sure the remote SMB server supports symlinks or activate '%(copyLinks)s' in "
@@ -891,7 +891,6 @@ msgid "Shutdown system after snapshot has finished."
 msgstr "Rechner herunterfahren, nachdem der Schnappschuss erstellt wurde."
 
 #: qt/app.py:154
-#, fuzzy
 msgid "&Snapshot"
 msgstr "Schnappschuss"
 
@@ -975,17 +974,14 @@ msgstr ""
 "»%(now)s« in der linken Schnappschussliste aktiviert ist."
 
 #: qt/app.py:276
-#, fuzzy
 msgid "&View"
 msgstr "Ansicht"
 
 #: qt/app.py:285
-#, fuzzy
 msgid "&Restore"
 msgstr "Wiederherstellen"
 
 #: qt/app.py:292
-#, fuzzy
 msgid "&Help"
 msgstr "Hilfe"
 
@@ -1217,7 +1213,6 @@ msgid "Remove"
 msgstr "Entfernen"
 
 #: qt/settingsdialog.py:141
-#, fuzzy
 msgid "&General"
 msgstr "Allgemein"
 
@@ -1226,13 +1221,13 @@ msgid "Mode:"
 msgstr "Modus:"
 
 #: qt/settingsdialog.py:165
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<b>Warning:</b> %(app)s uses EncFS for encryption. A recent security audit "
 "revealed several possible attack vectors for this. Please take a look at \"A "
 "NOTE ON SECURITY\" in \"man backintime\"."
 msgstr ""
-"<b>ACHTUNG:</b> %(app)s nutzt EncFS zur Verschlüsselung. Eine "
+"<b>Warnung:</b> %(app)s nutzt EncFS zur Verschlüsselung. Eine "
 "Sicherheitsüberprüfung hat kürzlich mehrere mögliche Angriffsmethoden "
 "aufgedeckt. Weitere Informationen im Kapitel »A NOTE ON SECURITY« unter »man "
 "backintime«."
@@ -1276,12 +1271,16 @@ msgstr "Privater Schlüssel:"
 #: qt/settingsdialog.py:248
 msgid "Choose an existing private key file (normally named \"id_rsa\")"
 msgstr ""
+"Wählt eine existierenden private Schüsseldatei (normalerweise als \"id_rsa\" "
+"benannt)"
 
 #: qt/settingsdialog.py:258
 msgid ""
 "Create a new SSH key without password (not allowed if a private key file is "
 "already selected)"
 msgstr ""
+"Erzeugt einen neuen SSH Schlüssel ohne Passwort (nur wenn noch keine private "
+"Schlüsseldatei ausgewählt wurde)"
 
 #: qt/settingsdialog.py:277 qt/settingsdialog.py:286 qt/settingsdialog.py:292
 msgid "Password"
@@ -1348,7 +1347,6 @@ msgstr ""
 "Sie werden nach Ihrem sudo-Passwort gefragt werden."
 
 #: qt/settingsdialog.py:459
-#, fuzzy
 msgid "&Include"
 msgstr "Einbeziehen"
 
@@ -1365,7 +1363,6 @@ msgid "Add folder"
 msgstr "Ordner hinzufügen"
 
 #: qt/settingsdialog.py:496
-#, fuzzy
 msgid "&Exclude"
 msgstr "Ausschließen"
 
@@ -1413,7 +1410,6 @@ msgstr ""
 "wurden."
 
 #: qt/settingsdialog.py:583
-#, fuzzy
 msgid "&Auto-remove"
 msgstr "Automatisch entfernen"
 
@@ -1470,7 +1466,6 @@ msgid "Don't remove named snapshots"
 msgstr "Benannte Schnappschüsse nicht entfernen"
 
 #: qt/settingsdialog.py:697
-#, fuzzy
 msgid "&Options"
 msgstr "Optionen"
 
@@ -1527,7 +1522,6 @@ msgid "Changes & Errors"
 msgstr "Änderungen & Fehler"
 
 #: qt/settingsdialog.py:770
-#, fuzzy
 msgid "E&xpert Options"
 msgstr "Einstellungen für Experten"
 
@@ -1536,9 +1530,8 @@ msgid "Change these options only if you really know what you are doing !"
 msgstr "Ändern Sie diese Optionen nur, wenn Sie sich wirklich sicher sind!"
 
 #: qt/settingsdialog.py:782
-#, fuzzy
 msgid "Run 'rsync' with 'nice':"
-msgstr "»rsync« mit »nocache« starten:"
+msgstr "Starte »rsync« mit »nocache«:"
 
 #: qt/settingsdialog.py:789 qt/settingsdialog.py:805
 msgid "as cron job"
@@ -1549,9 +1542,8 @@ msgid "on remote host"
 msgstr "auf entfernten Rechnern"
 
 #: qt/settingsdialog.py:798
-#, fuzzy
 msgid "Run 'rsync' with 'ionice':"
-msgstr "»rsync« mit »nocache« starten:"
+msgstr "Starte »rsync« mit »nocache«:"
 
 #: qt/settingsdialog.py:810
 msgid "when taking a manual snapshot"
@@ -1563,7 +1555,7 @@ msgstr "»rsync« mit »nocache« starten:"
 
 #: qt/settingsdialog.py:822
 msgid "(Please install 'nocache' to enable this option)"
-msgstr ""
+msgstr "(Bitte 'nocache' installieren um diese Option freizuschalten)"
 
 #: qt/settingsdialog.py:829
 msgid "on local machine"
