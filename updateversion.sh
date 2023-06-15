@@ -5,6 +5,15 @@
 # by extracting the changes of this version from the
 # CHANGES file.
 #
+# Development notes (May '23, Buhtz):
+# Should be treated as a workaround that will get replaced in the future.
+# Handling of version numbers and other package metadata can be done very
+# elegant and centralized within the Python Packaging process (e.g. using
+# pyproject.toml and additional tools.
+# Handling of Debian (and PPA) related stuff will be separated from that
+# upstream repo because it is distro specific.
+
+# Outdated TODOs:
 # TODO Requires refactoring and adjustments to separate
 #      - the update of version numbers
 #      - from the preparation of a new DEBIAN package release
@@ -28,13 +37,15 @@
 VERSION=`cat VERSION`
 echo VERSION: $VERSION
 
-if [ "x$USER" = "xgermar" ]; then
-    # TODO Do we really need two different maintainers anymore?
-    MAINTAINER="Germar Reitze <germar.reitze@gmail.com>"
-else
-    # TODO Decide on a maintainer name and email address
-    MAINTAINER="BIT Team <dan@le-web.org>"
-fi
+MAINTAINER="Germar Reitze <germar.reitze@gmail.com>"
+# MAINTAINER="BIT Team <dan@le-web.org>"
+# MAINTAINER="BIT Team <bit-dev@python.org>"
+
+update_sphinx_config () {
+  echo "Update '$1'"
+  sed -e "s/^\(\s*\)version = '.*'$/\1version = '$VERSION'/" \
+      -i $1
+}
 
 update_config () {
   echo "Update '$1'"
@@ -51,13 +62,6 @@ update_man_page () {
 update_omf () {
   echo "Update '$1'"
   sed -e "s/^\([ \]*\)<version\([^0-9]*\)\([^\"]*\)\(.*\)$/\1<version\2$VERSION\4/" \
-      -i $1
-}
-
-update_xml () {
-  echo "Update '$1'"
-  sed -e "s/^<!ENTITY appversion .*>$/<!ENTITY appversion \"$VERSION\">/" \
-      -e "s/^<!ENTITY manrevision .*>$/<!ENTITY manrevision \"$VERSION\">/" \
       -i $1
 }
 
@@ -82,6 +86,8 @@ update_changelog () {
 
 update_config common/config.py
 
+update_sphinx_config common/doc-dev/conf.py
+
 update_man_page common/man/C/backintime.1
 
 update_man_page common/man/C/backintime-config.1
@@ -89,7 +95,5 @@ update_man_page common/man/C/backintime-config.1
 update_man_page common/man/C/backintime-askpass.1
 
 update_man_page qt/man/C/backintime-qt.1
-
-update_xml qt/docbook/en/index.docbook
 
 update_changelog debian/changelog

@@ -239,7 +239,7 @@ def main():
             # DEFAULT variable
             if m_default:
                 replace_default[m_default.group(1)] \
-                    = m_default.group(2).replace('\\$', '\\\$')
+                    = m_default.group(2)
                 continue
 
             # Comment intended to use for the manpage
@@ -257,9 +257,6 @@ def main():
             if line.startswith('#'):
                 commentline = ''
                 continue
-
-            # m = c_list_tuple.match(line)
-            # if not m:
 
             # e.g. "return self.profileListValue('snapshots.include', ('str:value', 'int:type'), [], profile_id)"
             # becomes
@@ -281,7 +278,9 @@ def main():
                 var = var.lstrip('% ')
 
                 if instance.lower() == 'list':
+
                     type_key = [x.strip('"\'') for x in re.findall(r'["\'].*?["\']', var)]
+
                     commentline_split = commentline.split('::')
 
                     for i, tk in enumerate(type_key):
