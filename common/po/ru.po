@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-06-19 10:01+0200\n"
+"POT-Creation-Date: 2023-06-19 15:51+0200\n"
 "PO-Revision-Date: 2023-06-15 09:23+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/"
@@ -26,27 +26,15 @@ msgstr ""
 msgid "Profile '{profile}': Enter password for {mode}: "
 msgstr "Профиль '%(profile)s': Введите пароль для %(mode)s: "
 
-#: common/sshtools.py:801
-#, python-format
-msgid ""
-"Remote host %(host)s doesn't support '%(command)s':\n"
-"%(err)s\n"
-"Look at 'man backintime' for further instructions"
-msgstr ""
-
-#: common/sshtools.py:1048
+#: common/sshtools.py:1049
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
 
-#: common/sshtools.py:1050
+#: common/sshtools.py:1051
 #, fuzzy, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Пожалуйста, подтвердите пароль"
-
-#: common/mount.py:706
-msgid "Mountprocess lock timeout"
-msgstr ""
 
 #: common/snapshots.py:325 common/snapshots.py:576
 msgid "FAILED"
@@ -153,7 +141,7 @@ msgstr "Стараться сохранять минимальное свобо�
 msgid "Trying to keep min {perc}% free inodes"
 msgstr "Стараться сохранять минимальное свободное место"
 
-#: common/snapshots.py:2730 qt/app.py:264 qt/app.py:1369
+#: common/snapshots.py:2731 qt/app.py:264 qt/app.py:1369
 msgid "Now"
 msgstr "Сейчас"
 
@@ -196,17 +184,9 @@ msgstr ""
 "\n"
 "Создать новую зашифрованную папку?"
 
-#: common/encfstools.py:150
-msgid "Cancel"
-msgstr "Отмена"
-
 #: common/encfstools.py:155
 msgid "Please confirm password"
 msgstr "Пожалуйста, подтвердите пароль"
-
-#: common/encfstools.py:159
-msgid "Password doesn't match"
-msgstr "Пароль не подходит"
 
 #: common/config.py:95
 msgid "Disabled"
@@ -216,11 +196,7 @@ msgstr "Отключено"
 msgid "At every boot/reboot"
 msgstr "При каждой загрузке системы"
 
-#: common/config.py:97
-msgid "Every 5 minutes"
-msgstr "Каждые 5 минут"
-
-#: common/config.py:98 common/config.py:99
+#: common/config.py:97 common/config.py:98 common/config.py:99
 #, fuzzy, python-brace-format
 msgid "Every {n} minutes"
 msgstr "Каждые 5 минут"
@@ -433,7 +409,7 @@ msgid "Couldn't find UUID for \"{path}\"'"
 msgstr "Не удалось найти UUID для \"%s\""
 
 #: qt/restoredialog.py:51 qt/snapshotsdialog.py:142 qt/snapshotsdialog.py:147
-#: qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2203
+#: qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2202
 msgid "Restore"
 msgstr "Восстановить"
 
@@ -450,7 +426,7 @@ msgid "Snapshot Log View"
 msgstr ""
 
 #: qt/logviewdialog.py:67 qt/settingsdialog.py:99 qt/settingsdialog.py:344
-#: qt/settingsdialog.py:2300 qt/qtsystrayicon.py:70
+#: qt/settingsdialog.py:2299 qt/qtsystrayicon.py:70
 #, fuzzy
 msgid "Profile"
 msgstr "Профиль:"
@@ -525,8 +501,9 @@ msgid "Use %1 and %2 for path parameters"
 msgstr "Использовать %1 и %2 для комманды"
 
 #: qt/snapshotsdialog.py:112
-msgid "List only different snapshots"
-msgstr "Показать только различающиеся снимки состояния"
+#, fuzzy
+msgid "Differing snapshots only"
+msgstr "Сделать резервную копию"
 
 #: qt/snapshotsdialog.py:120
 msgid "List only equal snapshots to: "
@@ -718,7 +695,7 @@ msgstr "О программе"
 msgid "Up"
 msgstr "Вверх"
 
-#: qt/app.py:221 qt/settingsdialog.py:2159
+#: qt/app.py:221 qt/settingsdialog.py:2158
 msgid "Show hidden files"
 msgstr "Показать скрытые файлы"
 
@@ -973,7 +950,7 @@ msgstr "Удалить"
 msgid "&General"
 msgstr "Общие"
 
-#: qt/settingsdialog.py:151 qt/settingsdialog.py:2302
+#: qt/settingsdialog.py:151 qt/settingsdialog.py:2301
 #, fuzzy
 msgid "Mode"
 msgstr "Режим:"
@@ -1519,27 +1496,27 @@ msgid " and add your user to group 'fuse'"
 msgstr " и добавить пользователя в группу 'fuse'"
 
 #: qt/settingsdialog.py:2114
-#, python-format
+#, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore %(appName)s's "
-"configuration. The path may look like: \n"
-"%(samplePath)s\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s "
+"configuration. The path may look like:\n"
+"{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
+"If your snapshots are on a remote drive or if they are ncrypted you need to "
 "manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host%(addFuse)s.\n"
+"public key login to the remote host{addFuse}.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 
-#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
+#: qt/settingsdialog.py:2177 qt/settingsdialog.py:2242
 msgid "No config found"
 msgstr "Не найдено конфигурации"
 
-#: qt/settingsdialog.py:2450
+#: qt/settingsdialog.py:2449
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 
-#: qt/settingsdialog.py:2457
+#: qt/settingsdialog.py:2456
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 
@@ -1550,6 +1527,18 @@ msgstr "Запустить BackInTime"
 #: qt/qtsystrayicon.py:158
 msgid "Working..."
 msgstr "Выполняется..."
+
+#~ msgid "Cancel"
+#~ msgstr "Отмена"
+
+#~ msgid "Password doesn't match"
+#~ msgstr "Пароль не подходит"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Каждые 5 минут"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Показать только различающиеся снимки состояния"
 
 #, python-format
 #~ msgid "Can't mount %s"
