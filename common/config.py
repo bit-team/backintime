@@ -94,7 +94,7 @@ class Config(configfile.ConfigFileWithProfiles):
     SCHEDULE_MODES = {
                 NONE: _('Disabled'),
                 AT_EVERY_BOOT: _('At every boot/reboot'),
-                _5_MIN: _('Every 5 minutes'),
+                _5_MIN: _('Every {n} minutes'),
                 _10_MIN: _('Every {n} minutes').format(n=10),
                 _30_MIN: _('Every {n} minutes').format(n=30),
                 _1_HOUR: _('Every hour'),

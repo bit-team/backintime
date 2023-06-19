@@ -797,14 +797,15 @@ class SSH(MountControl):
                 if err or proc.returncode:
                     logger.debug('rsync command returned error: %s' % err, self)
 
-                    raise MountException(_(
-                        'Remote host %(host)s doesn\'t support'
-                        ' \'%(command)s\':\n'
-                        '%(err)s\nLook at \'man backintime\' for further '
-                        'instructions') % {
-                            'host': self.host,
-                            'command': cmd,
-                            'err': err})
+                    raise MountException(
+                        "Remote host {host} doesn't support '{command}:\n"
+                        "{err}\n"
+                        "Look at 'man backintime' for further instructions."
+                        .format(
+                            host=self.host,
+                            command=cmd,
+                            err=err)
+                    )
 
         # check cp chmod find and rm
         head = 'tmp1="%s"; tmp2="%s"; ' % (remote_tmp_dir_1, remote_tmp_dir_2)

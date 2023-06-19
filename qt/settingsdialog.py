@@ -2110,19 +2110,18 @@ class RestoreConfigDialog(QDialog):
         except KeyError:
             pass
 
-        label = QLabel(
-            _('Please navigate to the snapshot from which you want '
-              'to restore %(appName)s\'s configuration. The path '
-              'may look like: \n%(samplePath)s\n\n'
-              'If your snapshots are on a remote drive or if they are '
-              'encrypted you need to manually mount them first. '
-              'If you use Mode SSH you also may need to set up public key '
-              'login to the remote host%(addFuse)s.\n'
-              'Take a look at \'man backintime\'.') % {
-                  'appName': self.config.APP_NAME,
-                  'samplePath': samplePath,
-                  'addFuse': addFuse
-              },
+        label = QLabel(_(
+            "Please navigate to the snapshot from which you want to restore "
+            "{appName}'s configuration. The path may look like:\n"
+            "{samplePath}\n\nIf your snapshots are on a remote drive or if "
+            "they are ncrypted you need to manually mount them first. "
+            "If you use Mode SSH you also may need to set up public key "
+            "login to the remote host{addFuse}.\n"
+            "Take a look at 'man backintime'.")
+            .format(
+                'appName': self.config.APP_NAME,
+                'samplePath': samplePath,
+                'addFuse': addFuse),
             self
         )
         label.setWordWrap(True)
