@@ -2119,9 +2119,9 @@ class RestoreConfigDialog(QDialog):
             "login to the remote host{addFuse}.\n"
             "Take a look at 'man backintime'.")
             .format(
-                'appName': self.config.APP_NAME,
-                'samplePath': samplePath,
-                'addFuse': addFuse),
+                appName=self.config.APP_NAME,
+                samplePath=samplePath,
+                addFuse=addFuse),
             self
         )
         label.setWordWrap(True)
