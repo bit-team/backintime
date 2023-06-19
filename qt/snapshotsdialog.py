@@ -109,7 +109,7 @@ class SnapshotsDialog(QDialog):
 
         #list different snapshots only
         self.cbOnlyDifferentSnapshots = QCheckBox(
-            _('List only different snapshots'), self)
+            _('Differing snapshots only'), self)
         self.mainLayout.addWidget(self.cbOnlyDifferentSnapshots)
         self.cbOnlyDifferentSnapshots.stateChanged.connect(self.cbOnlyDifferentSnapshotsChanged)
 

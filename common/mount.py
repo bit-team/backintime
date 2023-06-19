@@ -703,11 +703,10 @@ class MountControl(object):
         while self.checkLocks(lock_path, lockSuffix):
             count += 1
             if count == timeout:
-                raise MountException(_('Mountprocess lock timeout'))
+                raise MountException('Mountprocess lock timeout')
             sleep(1)
 
-        logger.debug('Acquire mountprocess lock %s'
-                     %lock, self)
+        logger.debug(f'Acquire mountprocess lock {lock}', self)
         with open(lock, 'w') as f:
             f.write(self.pid)
 
@@ -718,8 +717,7 @@ class MountControl(object):
         lock_path = self.mount_root
         lockSuffix = '.lock'
         lock = os.path.join(lock_path, self.pid + lockSuffix)
-        logger.debug('Release mountprocess lock %s'
-                     %lock, self)
+        logger.debug(f'Release mountprocess lock {lock}', self)
         if os.path.exists(lock):
             os.remove(lock)
 
