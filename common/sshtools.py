@@ -202,7 +202,7 @@ class SSH(MountControl):
 
         if proc.returncode:
             raise MountException(
-                _('Can\'t mount %s') % ' '.join(sshfs) + '\n\n' + err)
+                "Can't mount %s" % " ".join(sshfs) + "\n\n" + err)
 
     def preMountCheck(self, first_run=False):
         """
@@ -404,8 +404,8 @@ class SSH(MountControl):
                     'Was not able to unlock private key %s' %
                     self.private_key_file, self)
                 raise MountException(
-                    _('Could not unlock ssh private key. Wrong password '
-                      'or password not available for cron.'))
+                    'Could not unlock ssh private key. Wrong password '
+                    'or password not available for cron.')
 
         else:
             logger.debug('Private key %s is already unlocked in ssh agent'
@@ -444,9 +444,11 @@ class SSH(MountControl):
 
         if proc.returncode:
             raise NoPubKeyLogin(
-                _('Password-less authentication for %(user)s@%(host)s '
-                  'failed. Look at \'man backintime\' for further '
-                  'instructions.') % {'user': self.user, 'host': self.host}
+                'Password-less authentication for %(user)s@%(host)s '
+                'failed. Look at \'man backintime\' for further '
+                'instructions.' % {
+                    'user': self.user,
+                    'host': self.host}
                 + '\n\n' + err)
 
     def checkCipher(self):
@@ -491,7 +493,7 @@ class SSH(MountControl):
                     self.config.SSH_CIPHERS[self.cipher], self)
 
                 raise MountException(
-                    _('Cipher %(cipher)s failed for %(host)s:\n%(err)s')
+                    'Cipher %(cipher)s failed for %(host)s:\n%(err)s'
                     % {
                         'cipher': self.config.SSH_CIPHERS[self.cipher],
                         'host': self.host,
@@ -583,7 +585,7 @@ class SSH(MountControl):
 
         logger.debug('Host %s is not in known hosts file' % self.host, self)
 
-        raise KnownHost(_('%s not found in ssh_known_hosts.') % self.host)
+        raise KnownHost('%s not found in ssh_known_hosts.' % self.host)
 
     def checkRemoteFolder(self):
         """
@@ -641,20 +643,20 @@ class SSH(MountControl):
 
             elif proc.returncode == 11:
                 raise MountException(
-                    _('Remote path exists but is not a directory:\n %s') %
+                    'Remote path exists but is not a directory:\n %s' %
                     self.path)
 
             elif proc.returncode == 12:
                 raise MountException(
-                    _('Remote path is not writable:\n %s') % self.path)
+                    'Remote path is not writable:\n %s' % self.path)
 
             elif proc.returncode == 13:
                 raise MountException(
-                    _('Remote path is not executable:\n %s') % self.path)
+                    'Remote path is not executable:\n %s' % self.path)
 
             else:
                 raise MountException(
-                    _('Couldn\'t create remote path:\n %s') % self.path)
+                    'Couldn\'t create remote path:\n %s' % self.path)
         else:
 
             # returncode is 0
@@ -709,8 +711,7 @@ class SSH(MountControl):
             logger.debug('Failed pinging host %s' % self.host, self)
 
             raise MountException(
-                _('Ping %s failed. Host is down or wrong address.')
-                % self.host)
+                f'Ping {self.host} failed. Host is down or wrong address.')
 
     def checkRemoteCommands(self, retry=False):
         """
@@ -933,9 +934,9 @@ class SSH(MountControl):
 
                 if output_split[-1].startswith(command):
                     raise MountException(
-                        _('Remote host %(host)s doesn\'t support'
+                        'Remote host %(host)s doesn\'t support'
                           ' \'%(command)s\':\n%(err)s\nLook at \'man '
-                          'backintime\' for further instructions')
+                          'backintime\' for further instructions'
                         % {
                             'host': self.host,
                             'command': output_split[-1],
@@ -944,9 +945,9 @@ class SSH(MountControl):
                     )
 
             raise MountException(
-                _('Check commands on host %(host)s returned unknown error:\n'
-                  '%(err)s\nLook at \'man backintime\' for further '
-                  'instructions') % {'host': self.host, 'err': err})
+                'Check commands on host %(host)s returned unknown error:\n'
+                '%(err)s\nLook at \'man backintime\' for further '
+                'instructions' % {'host': self.host, 'err': err})
 
         inodes = []
 
@@ -962,7 +963,7 @@ class SSH(MountControl):
 
         if len(inodes) == 2 and inodes[0] != inodes[1]:
             raise MountException(
-                _('Remote host %s doesn\'t support hardlinks') % self.host)
+                f"Remote host {self.host} doesn't support hardlinks")
 
     def randomId(self, size=6, chars=string.ascii_uppercase + string.digits):
         """
@@ -1043,11 +1044,11 @@ def sshCopyId(pubkey, user, host, port='22',
     env = os.environ.copy()
     env['SSH_ASKPASS'] = askPass
     env['ASKPASS_MODE'] = 'USER'
-    env['ASKPASS_PROMPT'] \
-        = _('Copy public ssh-key "%(pubkey)s" to remote host "%(host)s".\n'
-            'Please enter password for "%(user)s":') % {'pubkey': pubkey,
-                                                        'host': host,
-                                                        'user': user}
+    env['ASKPASS_PROMPT'] = '{}\n{}:'.format(
+        _('Copy public ssh-key "{pubkey}" to remote host "{host}"').format(
+            pubkey=pubkey, host=host),
+        _('Please enter password for "{user}"').format(user=user)
+    )
 
     cmd = ['ssh-copy-id', '-i', pubkey, '-p', port]
 

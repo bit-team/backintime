@@ -17,13 +17,10 @@
 
 import os
 import re
-import gettext
 
 import logger
 import snapshots
 import tools
-
-_=gettext.gettext
 
 
 class LogFilter(object):
@@ -59,12 +56,17 @@ class LogFilter(object):
         self.decode = decode
 
         if decode:
-            self.header = _('### This log has been decoded with automatic search pattern\n'\
-                            '### If some paths are not decoded you can manually decode them with:\n')
-            self.header +=  '### \'backintime --quiet '
+            self.header = (
+                '### This log has been decoded with automatic search pattern\n'
+                '### If some paths are not decoded you can manually decode '
+                'them with:\n'
+                '### \'backintime --quiet '
+            )
+
             if int(decode.config.currentProfile()) > 1:
-                self.header +=  '--profile "%s" ' %decode.config.profileName()
+                self.header +=  '--profile "%s" ' % decode.config.profileName()
             self.header +=  '--decode <path>\'\n\n'
+
         else:
             self.header = ''
 
