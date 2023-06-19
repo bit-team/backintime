@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 0.8.8\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-06-19 10:01+0200\n"
+"POT-Creation-Date: 2023-06-19 15:51+0200\n"
 "PO-Revision-Date: 2023-06-15 09:23+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/"
@@ -25,18 +25,7 @@ msgstr ""
 msgid "Profile '{profile}': Enter password for {mode}: "
 msgstr "Profil '%(profile)s' : Entrez le mot de passe pour %(mode)s : "
 
-#: common/sshtools.py:801
-#, python-format
-msgid ""
-"Remote host %(host)s doesn't support '%(command)s':\n"
-"%(err)s\n"
-"Look at 'man backintime' for further instructions"
-msgstr ""
-"L'hôte distant %(host)s ne supporte pas la commande '%(command)s' :\n"
-"%(err)s\n"
-"Consultez 'man backintime' pour plus d'informations"
-
-#: common/sshtools.py:1048
+#: common/sshtools.py:1049
 #, fuzzy, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
@@ -44,14 +33,10 @@ msgstr ""
 "\".\n"
 "Veuillez entrer le mot de passe pour \"%(user)s\" :"
 
-#: common/sshtools.py:1050
+#: common/sshtools.py:1051
 #, fuzzy, python-brace-format
 msgid "Please enter password for \"{user}\""
 msgstr "Veuillez confirmer votre mot de passe"
-
-#: common/mount.py:706
-msgid "Mountprocess lock timeout"
-msgstr "Délai de montage dépassé"
 
 #: common/snapshots.py:325 common/snapshots.py:576
 msgid "FAILED"
@@ -158,7 +143,7 @@ msgstr "Essai de conservation d'un espace libre minimum"
 msgid "Trying to keep min {perc}% free inodes"
 msgstr "Essai de conservation d'un minimum de %d%% d'inodes libres"
 
-#: common/snapshots.py:2730 qt/app.py:264 qt/app.py:1369
+#: common/snapshots.py:2731 qt/app.py:264 qt/app.py:1369
 msgid "Now"
 msgstr "Maintenant"
 
@@ -201,17 +186,9 @@ msgstr ""
 "\n"
 "Créer un nouveau dossier chiffré ?"
 
-#: common/encfstools.py:150
-msgid "Cancel"
-msgstr "Annuler"
-
 #: common/encfstools.py:155
 msgid "Please confirm password"
 msgstr "Veuillez confirmer votre mot de passe"
-
-#: common/encfstools.py:159
-msgid "Password doesn't match"
-msgstr "Le mot de passe ne correspond pas"
 
 #: common/config.py:95
 msgid "Disabled"
@@ -221,11 +198,7 @@ msgstr "Désactivée"
 msgid "At every boot/reboot"
 msgstr "À chaque démarrage/re-démarrage"
 
-#: common/config.py:97
-msgid "Every 5 minutes"
-msgstr "Toutes les 5 minutes"
-
-#: common/config.py:98 common/config.py:99
+#: common/config.py:97 common/config.py:98 common/config.py:99
 #, fuzzy, python-brace-format
 msgid "Every {n} minutes"
 msgstr "Toutes les 5 minutes"
@@ -442,7 +415,7 @@ msgid "Couldn't find UUID for \"{path}\"'"
 msgstr "Impossible de trouver l'UUID pour \"%s\""
 
 #: qt/restoredialog.py:51 qt/snapshotsdialog.py:142 qt/snapshotsdialog.py:147
-#: qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2203
+#: qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2202
 msgid "Restore"
 msgstr "Restaurer"
 
@@ -459,7 +432,7 @@ msgid "Snapshot Log View"
 msgstr "Voir le journal des instantanés"
 
 #: qt/logviewdialog.py:67 qt/settingsdialog.py:99 qt/settingsdialog.py:344
-#: qt/settingsdialog.py:2300 qt/qtsystrayicon.py:70
+#: qt/settingsdialog.py:2299 qt/qtsystrayicon.py:70
 #, fuzzy
 msgid "Profile"
 msgstr "Profil :"
@@ -534,8 +507,9 @@ msgid "Use %1 and %2 for path parameters"
 msgstr "Utiliser %1 et %2 pour passer les chemins en paramètre"
 
 #: qt/snapshotsdialog.py:112
-msgid "List only different snapshots"
-msgstr "Lister uniquement les instantanés différents"
+#, fuzzy
+msgid "Differing snapshots only"
+msgstr "Prise de l'instantané"
 
 #: qt/snapshotsdialog.py:120
 msgid "List only equal snapshots to: "
@@ -734,7 +708,7 @@ msgstr "À propos"
 msgid "Up"
 msgstr "Dossier parent"
 
-#: qt/app.py:221 qt/settingsdialog.py:2159
+#: qt/app.py:221 qt/settingsdialog.py:2158
 msgid "Show hidden files"
 msgstr "Afficher les fichiers cachés"
 
@@ -1028,7 +1002,7 @@ msgstr "Supprimer"
 msgid "&General"
 msgstr "Général"
 
-#: qt/settingsdialog.py:151 qt/settingsdialog.py:2302
+#: qt/settingsdialog.py:151 qt/settingsdialog.py:2301
 #, fuzzy
 msgid "Mode"
 msgstr "Mode :"
@@ -1642,15 +1616,15 @@ msgid " and add your user to group 'fuse'"
 msgstr " et ajouter votre utilisateur au groupe 'fuse'"
 
 #: qt/settingsdialog.py:2114
-#, python-format
+#, fuzzy, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore %(appName)s's "
-"configuration. The path may look like: \n"
-"%(samplePath)s\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s "
+"configuration. The path may look like:\n"
+"{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
+"If your snapshots are on a remote drive or if they are ncrypted you need to "
 "manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host%(addFuse)s.\n"
+"public key login to the remote host{addFuse}.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 "Merci de naviguer dans l'instantané depuis lequel vous voulez restaurer la "
@@ -1663,15 +1637,15 @@ msgstr ""
 "%(addFuse)s.\n"
 "Consultez la documentation disponible via 'man backintime'."
 
-#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
+#: qt/settingsdialog.py:2177 qt/settingsdialog.py:2242
 msgid "No config found"
 msgstr "Aucune configuration trouvée"
 
-#: qt/settingsdialog.py:2450
+#: qt/settingsdialog.py:2449
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr "Le script de rappel (callback) n'a pas de shebang (#!/bin/sh)."
 
-#: qt/settingsdialog.py:2457
+#: qt/settingsdialog.py:2456
 msgid "Shebang in user-callback script is not executable."
 msgstr "Le shebang du script de rappel n'est pas exécutable."
 
@@ -1682,6 +1656,31 @@ msgstr "Démarrer BackinTime"
 #: qt/qtsystrayicon.py:158
 msgid "Working..."
 msgstr "Traitement en cours…"
+
+#, python-format
+#~ msgid ""
+#~ "Remote host %(host)s doesn't support '%(command)s':\n"
+#~ "%(err)s\n"
+#~ "Look at 'man backintime' for further instructions"
+#~ msgstr ""
+#~ "L'hôte distant %(host)s ne supporte pas la commande '%(command)s' :\n"
+#~ "%(err)s\n"
+#~ "Consultez 'man backintime' pour plus d'informations"
+
+#~ msgid "Mountprocess lock timeout"
+#~ msgstr "Délai de montage dépassé"
+
+#~ msgid "Cancel"
+#~ msgstr "Annuler"
+
+#~ msgid "Password doesn't match"
+#~ msgstr "Le mot de passe ne correspond pas"
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Toutes les 5 minutes"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Lister uniquement les instantanés différents"
 
 #, python-format
 #~ msgid "Can't mount %s"

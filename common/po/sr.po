@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-06-19 10:01+0200\n"
+"POT-Creation-Date: 2023-06-19 15:51+0200\n"
 "PO-Revision-Date: 2016-02-12 04:18+0000\n"
 "Last-Translator: Germar <Unknown>\n"
 "Language-Team: Serbian <sr@li.org>\n"
@@ -25,26 +25,14 @@ msgstr ""
 msgid "Profile '{profile}': Enter password for {mode}: "
 msgstr ""
 
-#: common/sshtools.py:801
-#, python-format
-msgid ""
-"Remote host %(host)s doesn't support '%(command)s':\n"
-"%(err)s\n"
-"Look at 'man backintime' for further instructions"
-msgstr ""
-
-#: common/sshtools.py:1048
+#: common/sshtools.py:1049
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
 
-#: common/sshtools.py:1050
+#: common/sshtools.py:1051
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr ""
-
-#: common/mount.py:706
-msgid "Mountprocess lock timeout"
 msgstr ""
 
 #: common/snapshots.py:325 common/snapshots.py:576
@@ -152,7 +140,7 @@ msgstr "Pokušaj da sačuvaš minimum slobodnog prostora"
 msgid "Trying to keep min {perc}% free inodes"
 msgstr "Pokušaj da sačuvaš minimum slobodnog prostora"
 
-#: common/snapshots.py:2730 qt/app.py:264 qt/app.py:1369
+#: common/snapshots.py:2731 qt/app.py:264 qt/app.py:1369
 msgid "Now"
 msgstr "Sada"
 
@@ -187,16 +175,8 @@ msgstr ""
 msgid "Create a new encrypted folder?"
 msgstr ""
 
-#: common/encfstools.py:150
-msgid "Cancel"
-msgstr ""
-
 #: common/encfstools.py:155
 msgid "Please confirm password"
-msgstr ""
-
-#: common/encfstools.py:159
-msgid "Password doesn't match"
 msgstr ""
 
 #: common/config.py:95
@@ -207,11 +187,7 @@ msgstr "Onemogućeno"
 msgid "At every boot/reboot"
 msgstr "Pri svakom pokretanju/ponovnom pokretanju sistema"
 
-#: common/config.py:97
-msgid "Every 5 minutes"
-msgstr "Svakih 5 minuta"
-
-#: common/config.py:98 common/config.py:99
+#: common/config.py:97 common/config.py:98 common/config.py:99
 #, fuzzy, python-brace-format
 msgid "Every {n} minutes"
 msgstr "Svakih 5 minuta"
@@ -418,7 +394,7 @@ msgid "Couldn't find UUID for \"{path}\"'"
 msgstr ""
 
 #: qt/restoredialog.py:51 qt/snapshotsdialog.py:142 qt/snapshotsdialog.py:147
-#: qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2203
+#: qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2202
 msgid "Restore"
 msgstr "Povrati"
 
@@ -435,7 +411,7 @@ msgid "Snapshot Log View"
 msgstr ""
 
 #: qt/logviewdialog.py:67 qt/settingsdialog.py:99 qt/settingsdialog.py:344
-#: qt/settingsdialog.py:2300 qt/qtsystrayicon.py:70
+#: qt/settingsdialog.py:2299 qt/qtsystrayicon.py:70
 #, fuzzy
 msgid "Profile"
 msgstr "Profil:"
@@ -510,8 +486,9 @@ msgid "Use %1 and %2 for path parameters"
 msgstr "Koristi  %1 i %2 kao parametre putanje"
 
 #: qt/snapshotsdialog.py:112
-msgid "List only different snapshots"
-msgstr "Izlistaj samo različite snimke"
+#, fuzzy
+msgid "Differing snapshots only"
+msgstr "Napravi snimak"
 
 #: qt/snapshotsdialog.py:120
 msgid "List only equal snapshots to: "
@@ -703,7 +680,7 @@ msgstr "O programu"
 msgid "Up"
 msgstr "Gore"
 
-#: qt/app.py:221 qt/settingsdialog.py:2159
+#: qt/app.py:221 qt/settingsdialog.py:2158
 msgid "Show hidden files"
 msgstr "Prikaži skrivene fajlove"
 
@@ -954,7 +931,7 @@ msgstr ""
 msgid "&General"
 msgstr "Opšte"
 
-#: qt/settingsdialog.py:151 qt/settingsdialog.py:2302
+#: qt/settingsdialog.py:151 qt/settingsdialog.py:2301
 msgid "Mode"
 msgstr ""
 
@@ -1491,27 +1468,27 @@ msgid " and add your user to group 'fuse'"
 msgstr ""
 
 #: qt/settingsdialog.py:2114
-#, python-format
+#, python-brace-format
 msgid ""
-"Please navigate to the snapshot from which you want to restore %(appName)s's "
-"configuration. The path may look like: \n"
-"%(samplePath)s\n"
+"Please navigate to the snapshot from which you want to restore {appName}'s "
+"configuration. The path may look like:\n"
+"{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are encrypted you need to "
+"If your snapshots are on a remote drive or if they are ncrypted you need to "
 "manually mount them first. If you use Mode SSH you also may need to set up "
-"public key login to the remote host%(addFuse)s.\n"
+"public key login to the remote host{addFuse}.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 
-#: qt/settingsdialog.py:2178 qt/settingsdialog.py:2243
+#: qt/settingsdialog.py:2177 qt/settingsdialog.py:2242
 msgid "No config found"
 msgstr ""
 
-#: qt/settingsdialog.py:2450
+#: qt/settingsdialog.py:2449
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 
-#: qt/settingsdialog.py:2457
+#: qt/settingsdialog.py:2456
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 
@@ -1522,6 +1499,12 @@ msgstr ""
 #: qt/qtsystrayicon.py:158
 msgid "Working..."
 msgstr "Radim..."
+
+#~ msgid "Every 5 minutes"
+#~ msgstr "Svakih 5 minuta"
+
+#~ msgid "List only different snapshots"
+#~ msgstr "Izlistaj samo različite snimke"
 
 #~ msgid "..."
 #~ msgstr "..."
