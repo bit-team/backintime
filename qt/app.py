@@ -1084,7 +1084,7 @@ class MainWindow(QMainWindow):
             "If you don't need them anymore you can remove them with {cmd}")
             .format(suffix=self.snapshots.backupSuffix(),
                     cmd='find ./ -name "*{suffix}" -delete'
-                        .format(suffx=self.snapshots.backupSuffix()))
+                        .format(suffix=self.snapshots.backupSuffix()))
         )
         return {
             'widget': cb,

@@ -594,9 +594,9 @@ class MountControl(object):
         logger.debug('Check fuse', self)
 
         if not tools.checkCommand(self.mountproc):
-            logger.debug('%s is missing' %self.mountproc, self)
+            logger.debug('%s is missing' % self.mountproc, self)
             raise MountException(
-                '{] not found. Please install e.g. {}'
+                '{}  not found. Please install e.g. {}'
                 .format(self.mountproc,
                         "'apt-get install %s'" % self.mountproc)
             )
