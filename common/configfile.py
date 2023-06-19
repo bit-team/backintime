@@ -101,8 +101,9 @@ class ConfigFile(object):
                 for key in keys:
                     f.write("%s=%s\n" % (key, self.dict[key]))
         except OSError as e:
-            logger.error('Failed to save config: %s' %str(e), self)
-            self.notifyError(_('Failed to save config: %s') %str(e))
+            logger.error('Failed to save config: %s' % str(e), self)
+            self.notifyError(
+                '{}: {}'.format(_('Failed to save config'), str(e)))
             return False
         return True
 
@@ -133,12 +134,13 @@ class ConfigFile(object):
                 lines = f.readlines()
         except OSError as e:
             logger.error('Failed to load config: %s' %str(e), self)
-            self.notifyError(_('Failed to load config: %s') %str(e))
+            self.notifyError(
+                '{}: {}'.format(_('Failed to load config'), str(e)))
 
         for line in lines:
             items = line.strip('\n').split('=', maxsplit)
             if len(items) == 2:
-                self.dict[items[ 0 ] ] = items[ 1]
+                self.dict[items[0]] = items[1]
 
     def remapKey(self, old_key, new_key):
         """
@@ -620,7 +622,8 @@ class ConfigFileWithProfiles(ConfigFile):
 
         for profile_id in profiles:
             if self.profileName(profile_id) == name:
-                self.notifyError(_('Profile "%s" already exists !') % name)
+                self.notifyError(_(
+                    'Profile "{name}" already exists!').format(name=name))
                 return None
 
         new_id = 1
@@ -660,7 +663,7 @@ class ConfigFileWithProfiles(ConfigFile):
 
         profiles = self.profiles()
         if len(profiles) <= 1:
-            self.notifyError(_('You can\'t remove the last profile !'))
+            self.notifyError(_("You can't remove the last profile!"))
             return False
 
         found = False
@@ -703,7 +706,8 @@ class ConfigFileWithProfiles(ConfigFile):
         for profile in profiles:
             if self.profileName(profile) == name:
                 if profile[0] != profile_id:
-                    self.notifyError(_('Profile "%s" already exists !') % name)
+                    self.notifyError(_(
+                        'Profile "{name}" already exists!').format(name=name))
                     return False
 
         self.setProfileStrValue('name', name, profile_id)

@@ -322,7 +322,7 @@ class Snapshots:
         """
         if not callback is None:
             if not ok:
-                msg = msg + " : " + _("FAILED")
+                msg = msg + ' : ' + _('FAILED')
                 self.restorePermissionFailed = True
             callback(msg)
 
@@ -518,7 +518,8 @@ class Snapshots:
         #restore permissions
         logger.info('Restore permissions', self)
         self.restoreCallback(callback, True, ' ')
-        self.restoreCallback(callback, True, _("Restore permissions:"))
+        self.restoreCallback(
+            callback, True, '{}:'.format(_('Restore permissions')))
         self.restorePermissionFailed = False
         fileInfoDict = sid.fileInfo
 
@@ -570,11 +571,18 @@ class Snapshots:
                 self.restorePermission(item_path, real_path, fileInfoDict, callback)
 
             self.restoreCallback(callback, True, '')
+
             if self.restorePermissionFailed:
                 status = _('FAILED')
+
             else:
                 status = _('Done')
-            self.restoreCallback(callback, True, _("Restore permissions:") + ' ' + status)
+
+            self.restoreCallback(
+                callback,
+                True,
+                '{}: {}'.format(_('Restore permissions'), status)
+            )
 
         instance.exitApplication()
 
@@ -869,7 +877,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         if not line:
             return
 
-        self.setTakeSnapshotMessage(0, _('Take snapshot') + " (rsync: %s)" % line)
+        self.setTakeSnapshotMessage(
+            0, _('Take snapshot') + " (rsync: %s)" % line)
 
         if line.endswith(')'):
             if line.startswith('rsync:'):
@@ -896,10 +905,16 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             bool:       ``True`` if successful
         """
         if not tools.makeDirs(path):
-            logger.error("Can't create folder: %s" % path, self)
-            self.setTakeSnapshotMessage(1, _('Can\'t create folder: %s') % path)
-            time.sleep(2) #max 1 backup / second
+            logger.error(f"Can't create folder: {path}", self)
+            self.setTakeSnapshotMessage(
+                1,
+                '{}: {}'.format(
+                    _("Can't create folder"),
+                    path)
+            )
+            time.sleep(2)  # max 1 backup / second
             return False
+
         return True
 
     def backupConfig(self, sid):
@@ -1082,15 +1097,19 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                         ``ret_error`` is ``True`` if there was
                                         an error during taking the snapshot
         """
-        self.setTakeSnapshotMessage(0, _('...'))
+        self.setTakeSnapshotMessage(0, '...')
 
         new_snapshot = NewSnapshot(self.config)
         encode = self.config.ENCODE
-        params = [False, False] # [error, changes]
+        params = [False, False]  # [error, changes]
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
             logger.info("Found leftover '%s' which can be continued." %new_snapshot.displayID, self)
-            self.setTakeSnapshotMessage(0, _("Found leftover '%s' which can be continued.") %new_snapshot.displayID)
+            self.setTakeSnapshotMessage(
+                0,
+                _('Found leftover {snapshot_id} which can be continued.')
+                .format(snapshot_id=new_snapshot.displayID)
+            )
             # fix permissions
             for file in os.listdir(new_snapshot.path()):
                 file = os.path.join(new_snapshot.path(), file)
@@ -1101,15 +1120,26 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     pass
             # search previous log for changes and set params
             params[1] = new_snapshot.hasChanges
+
         elif new_snapshot.exists() and not new_snapshot.saveToContinue:
-            logger.info("Remove leftover '%s' folder from last run" %new_snapshot.displayID)
-            self.setTakeSnapshotMessage(0, _("Removing leftover '%s' folder from last run") %new_snapshot.displayID)
+            logger.info('Remove leftover {} folder from last run'
+                        .format(new_snapshot.displayID))
+            self.setTakeSnapshotMessage(
+                0,
+                _('Removing leftover {snapshot_id} folder from last run')
+                .format(snapshot_id=new_snapshot.displayID)
+            )
             self.remove(new_snapshot)
 
             if os.path.exists(new_snapshot.path()):
                 logger.error("Can't remove folder: %s" % new_snapshot.path(), self)
-                self.setTakeSnapshotMessage(1, _('Can\'t remove folder: %s') % new_snapshot.path())
-                time.sleep(2) #max 1 backup / second
+                self.setTakeSnapshotMessage(
+                    1,
+                    '{}: {}'.format(
+                        _("Can't remove folder"),
+                        new_snapshot.path()))
+                time.sleep(2)  # max 1 backup / second
+
                 return [False, True]
 
         if not new_snapshot.saveToContinue and not new_snapshot.makeDirs():
@@ -1200,15 +1230,19 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                          self)
 
         new_snapshot.saveToContinue = False
-        #rename snapshot
+
+        # rename snapshot
         os.rename(new_snapshot.path(), sid.path())
 
         if not sid.exists():
             logger.error("Can't rename %s to %s" % (new_snapshot.path(), sid.path()), self)
-            self.setTakeSnapshotMessage(1, _('Can\'t rename %(new_path)s to %(path)s')
-                                                 %{'new_path': new_snapshot.path(),
-                                                   'path': sid.path()})
-            time.sleep(2) #max 1 backup / second
+            self.setTakeSnapshotMessage(
+                1,
+                _("Can't rename {new_path} to {path}")
+                .format(new_path=new_snapshot.path(), path=sid.path())
+            )
+            time.sleep(2)  # max 1 backup / second
+
             return [False, True]
 
         self.backupInfo(sid)
@@ -1610,8 +1644,13 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
         #try to keep free inodes
         if self.config.minFreeInodesEnabled():
             minFreeInodes = self.config.minFreeInodes()
-            self.setTakeSnapshotMessage(0, _('Trying to keep min %d%% free inodes') % minFreeInodes)
-            logger.debug("Keep min {}%% free inodes".format(minFreeInodes), self)
+            self.setTakeSnapshotMessage(
+                0,
+                _('Trying to keep min {perc}% free inodes').format(perc=minFreeInodes)
+            )
+            logger.debug(
+                "Keep min {perc}% free inodes".format(perc=minFreeInodes),
+                self)
 
             snapshots = listSnapshots(self.config, reverse = False)
 
@@ -1625,7 +1664,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     max_inodes  = info.f_files
                 except Exception as e:
                     logger.debug('Failed to get free inodes for snapshot path %s: %s'
-                                 %(self.config.snapshotsPath(), str(e)),
+                                 % (self.config.snapshotsPath(), str(e)),
                                  self)
                     break
 
@@ -2216,7 +2255,8 @@ class SID(object):
             ret += ' - {}'.format(name)
 
         if self.failed:
-            ret += ' ({})'.format(_('WITH ERRORS !'))
+            ret += ' ({})'.format('WITH ERRORS !')
+
         return ret
 
     @property

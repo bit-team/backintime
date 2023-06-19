@@ -31,7 +31,7 @@ import password_ipc
 import logger
 from exceptions import Timeout
 
-_=gettext.gettext
+_ = gettext.gettext
 
 
 class Password_Cache(tools.Daemon):
@@ -237,7 +237,13 @@ class Password(object):
         and user is logged in.
         """
         if prompt is None:
-            prompt = _('Profile \'%(profile)s\': Enter password for %(mode)s: ') % {'profile': self.config.profileName(profile_id), 'mode': self.config.SNAPSHOT_MODES[mode][pw_id + 1]}
+            """
+            Profile {name}: Enter password for {mode}
+            """
+            prompt = _("Profile '{profile}': Enter password for {mode}: ") \
+                .format(
+                    profile=self.config.profileName(profile_id),
+                    mode=self.config.SNAPSHOT_MODES[mode][pw_id+1])
 
         tools.registerBackintimePath('qt')
 
