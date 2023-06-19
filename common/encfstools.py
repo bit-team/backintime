@@ -147,7 +147,7 @@ class EncFS_mount(MountControl):
                 )
 
                 if not self.config.askQuestion(question):
-                    raise MountException(_('Cancel'))
+                    raise MountException('Cancel')
 
                 else:
                     pw = password.Password(self.config)
@@ -156,7 +156,7 @@ class EncFS_mount(MountControl):
                     if self.password == password_confirm:
                         return False
                     else:
-                        raise MountException(_("Password doesn't match"))
+                        raise MountException("Password doesn't match")
 
     def checkVersion(self):
         """

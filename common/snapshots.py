@@ -1646,7 +1646,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             minFreeInodes = self.config.minFreeInodes()
             self.setTakeSnapshotMessage(
                 0,
-                _('Trying to keep min {perc}% free inodes').format(perc=minFreeInodes)
+                _('Trying to keep min {perc}% free inodes')
+                .format(perc=minFreeInodes)
             )
             logger.debug(
                 "Keep min {perc}% free inodes".format(perc=minFreeInodes),
