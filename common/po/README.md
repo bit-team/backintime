@@ -3,4 +3,4 @@ Translation for Back In Time is done at https://translate.codeberg.org/engage/ba
 Please do NOT change files in this folder as they will get overwritten with files
 exported from translation platform.
 
-See [../doc-dev/2_localization.md] for details.
+See (../doc-dev/2_localization.md) for details.
