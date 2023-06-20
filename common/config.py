@@ -163,14 +163,30 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
 
-    exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
-                #mode           : (<mounttools>,            'ComboBox Text',        need_pw|lbl_pw_1,       need_2_pw|lbl_pw_2),
-                'local'         : (None,                    _('Local'),             False,                  False),
-                'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False),
-                'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False),
-                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption'))
-                }
+                # mode: (
+                #     <mounttools>,
+                #     'ComboBox Text',
+                #     need_pw|lbl_pw_1,
+                #     need_2_pw|lbl_pw_2
+                # ),
+                'local': (
+                    None, _('Local'), False, False),
+                'ssh': (
+                    sshtools.SSH, 'SSH', _('SSH private key'), False),
+                'local_encfs': (
+                    encfstools.EncFS_mount,
+                    '{} {}'.format(_('Local'), _('encrypted')),
+                    _('Encryption'),
+                    False
+                ),
+                'ssh_encfs': (
+                    encfstools.EncFS_SSH,
+                    _('SSH encrypted'),
+                    _('SSH private key'),
+                    _('Encryption')
+                )
+    }
 
     SSH_CIPHERS = {
         'default': _('Default'),

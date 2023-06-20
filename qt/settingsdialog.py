@@ -645,7 +645,10 @@ class SettingsDialog(QDialog):
         smlayout = QGridLayout(widget)
 
         self.cbSmartRemoveRunRemoteInBackground = QCheckBox(
-            _('Run in background on remote Host.') + _(' EXPERIMENTAL!'),
+            '{} {}!'.format(
+                _('Run in background on remote Host.'),
+                _('EXPERIMENTAL')
+            ),
             self)
         smlayout.addWidget(self.cbSmartRemoveRunRemoteInBackground, 0, 0, 1, 3)
 
