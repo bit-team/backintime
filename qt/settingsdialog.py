@@ -161,7 +161,7 @@ class SettingsDialog(QDialog):
         self.fillCombo(self.comboModes, store_modes)
 
         # encfs security warning
-        self.encfsWarning = QLabel('<b>{}:</b>{}'.format(
+        self.encfsWarning = QLabel('<b>{}:</b> {}'.format(
             _('Warning'),
             _('{app} uses EncFS for encryption. A recent security audit '
               'revealed several possible attack vectors for this. Please '
