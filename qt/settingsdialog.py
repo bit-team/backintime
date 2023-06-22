@@ -500,9 +500,16 @@ class SettingsDialog(QDialog):
         layout = QVBoxLayout(tabWidget)
 
         self.lblSshEncfsExcludeWarning = QLabel(
-            _('<b>Warning:</b> Wildcards (\'foo*\', \'[fF]oo\', \'fo?\') '
-              'will be ignored with mode \'SSH encrypted\'.\nOnly separate '
-              'asterisk are allowed (\'foo/*\', \'foo/**/bar\')'), self)
+            "<b>{}:</b> {}".format(
+                _("Warning"),
+                _(
+                    "Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored "
+                    "with mode 'SSH encrypted'.\nOnly separate asterisk "
+                    "are allowed ('foo/*', 'foo/**/bar')"
+                )
+            ),
+            self
+        )
         self.lblSshEncfsExcludeWarning.setWordWrap(True)
         layout.addWidget(self.lblSshEncfsExcludeWarning)
 
@@ -523,7 +530,7 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.listExclude)
         self.listExcludeCount = 0
 
-        label = QLabel(_('Highly recommended:'), self)
+        label = QLabel(_('Highly recommended') + ':', self)
         qttools.setFontBold(label)
         layout.addWidget(label)
         label = QLabel(', '.join(sorted(self.config.DEFAULT_EXCLUDE)), self)
