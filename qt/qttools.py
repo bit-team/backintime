@@ -16,6 +16,18 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+"""Some helper functions and additional classes in context of Qt.
+
+    - Helpers for Qt Fonts.
+    - Helpers about path manipulation.
+    - FiledialogShowHidden
+    - MyTreeView (used RestoreConfigDialog)
+    - TimeLine (might be the snapshot list in the left part of the GUI)
+        - TimeLineItem, SnapshotItem, HeaderItem
+    - SotedcomoBox, SnapshotComba, ProfilCombo
+    - Menu (tooltips in menus)
+
+"""
 import os
 import sys
 import gettext
