@@ -62,9 +62,9 @@ def registerBackintimePath(*path):
 
 
 registerBackintimePath('common')
-import snapshots  # nopep8: E402
-import tools  # nopep8: E402
-import logger  # nopep8: E402
+import snapshots  # noqa: E402
+import tools  # noqa: E402
+import logger  # noqa: E402
 
 
 def fontBold(font):
