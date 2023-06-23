@@ -8,28 +8,26 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-06-19 15:51+0200\n"
-"PO-Revision-Date: 2023-06-21 16:33+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
-"Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/"
-"backintime/common/nb_NO/>\n"
+"PO-Revision-Date: 2016-02-12 04:15+0000\n"
+"Last-Translator: Germar <Unknown>\n"
+"Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
+"X-Generator: Launchpad (build 83f7123b02a2b50a64bc29e7e35197179a885279)\n"
 
 #: common/password.py:243
 #, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Profil '{profile}' Skriv passord for {mode}: "
+msgstr ""
 
 #: common/sshtools.py:1049
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
-"Kopier offentlig ssh nøkkel \"{pubkey}\" til den andre  verten \"{host}\""
 
 #: common/sshtools.py:1051
 #, python-brace-format
@@ -38,11 +36,12 @@ msgstr ""
 
 #: common/snapshots.py:325 common/snapshots.py:576
 msgid "FAILED"
-msgstr "FEILET"
+msgstr ""
 
 #: common/snapshots.py:522 common/snapshots.py:584
+#, fuzzy
 msgid "Restore permissions"
-msgstr "Gjenopprett tillatelser"
+msgstr "Lagre rettighet ..."
 
 #: common/snapshots.py:579 qt/app.py:449 qt/app.py:710 qt/app.py:743
 #: qt/qtsystrayicon.py:74
@@ -51,7 +50,7 @@ msgstr "Ferdig"
 
 #: common/snapshots.py:687
 msgid "Deferring backup while on battery"
-msgstr "Batteridrift utsetter backup"
+msgstr ""
 
 #: common/snapshots.py:749
 msgid ""
@@ -82,16 +81,17 @@ msgid "Take snapshot"
 msgstr "Ta øyeblikksbilde"
 
 #: common/snapshots.py:912
+#, fuzzy
 msgid "Can't create folder"
-msgstr "Kan ikke opprette mappe"
+msgstr "Kan ikke opprette mappe: %s"
 
 #: common/snapshots.py:929
 msgid "Saving config file..."
-msgstr "Lagrer konfigurasjonsfil..."
+msgstr ""
 
 #: common/snapshots.py:1005
 msgid "Saving permissions..."
-msgstr "Lagrer tillatelser..."
+msgstr "Lagre rettighet ..."
 
 #: common/snapshots.py:1110
 #, python-brace-format
@@ -143,14 +143,12 @@ msgid "Now"
 msgstr "Nå"
 
 #: common/configfile.py:106
-#, fuzzy
 msgid "Failed to save config"
-msgstr "Kunne ikke lagre konfigurasjonsfil"
+msgstr ""
 
 #: common/configfile.py:138
-#, fuzzy
 msgid "Failed to load config"
-msgstr "Kunne ikke laste konfigurasjonsfil"
+msgstr ""
 
 #: common/configfile.py:626 common/configfile.py:710
 #, fuzzy, python-brace-format
@@ -168,9 +166,8 @@ msgid "Can't mount '{command}'"
 msgstr ""
 
 #: common/encfstools.py:138
-#, fuzzy
 msgid "Config for encrypted folder not found."
-msgstr "Konfigurasjon for kryptert mappe finnes ikke."
+msgstr ""
 
 #: common/encfstools.py:146
 msgid "Create a new encrypted folder?"
@@ -209,7 +206,7 @@ msgstr "Velg timer"
 
 #: common/config.py:106
 msgid "Every Day"
-msgstr "Hver Dag"
+msgstr ""
 
 #: common/config.py:107
 msgid "Repeatedly (anacron)"
@@ -228,8 +225,9 @@ msgid "Every Month"
 msgstr "Hver måned"
 
 #: common/config.py:111
+#, fuzzy
 msgid "Every Year"
-msgstr "Hvert år"
+msgstr "Hver time"
 
 #: common/config.py:115 common/config.py:122
 msgid "Day(s)"
@@ -245,11 +243,11 @@ msgstr "År"
 
 #: common/config.py:121
 msgid "Hour(s)"
-msgstr "Time(r)"
+msgstr ""
 
 #: common/config.py:124
 msgid "Month(s)"
-msgstr "Måned(er)"
+msgstr ""
 
 #: common/config.py:166 qt/settingsdialog.py:648
 msgid " EXPERIMENTAL!"

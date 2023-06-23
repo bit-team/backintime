@@ -8,17 +8,16 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-06-19 15:51+0200\n"
-"PO-Revision-Date: 2023-06-22 19:40+0000\n"
-"Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
-"Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/"
-"common/sv/>\n"
+"PO-Revision-Date: 2019-01-31 19:11+0000\n"
+"Last-Translator: Jonatan Nyberg <Unknown>\n"
+"Language-Team: Swedish <sv@li.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
+"X-Generator: Launchpad (build 83f7123b02a2b50a64bc29e7e35197179a885279)\n"
 
 #: common/password.py:243
 #, fuzzy, python-brace-format
@@ -26,9 +25,11 @@ msgid "Profile '{profile}': Enter password for {mode}: "
 msgstr "Profil \"%(profile)s\": Ange lösenord för %(mode)s: "
 
 #: common/sshtools.py:1049
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
-msgstr "Kopiera offentlig ssh-nyckel \"{pubkey}\" till fjärrvärd \"{host}\""
+msgstr ""
+"Kopiera offentlig ssh-nyckel \"%(pubkey)s\" till fjärrvärd \"%(host)s\".\n"
+"Ange lösenord för \"%(user)s\":"
 
 #: common/sshtools.py:1051
 #, fuzzy, python-brace-format
@@ -1564,9 +1565,9 @@ msgid "Are you sure you want to change snapshots folder ?"
 msgstr "Är du säker på att du vill ändra mappen för ögonblicksbilder?"
 
 #: qt/settingsdialog.py:1930
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Failed to create new SSH key in {path}"
-msgstr "Misslyckades med att skapa ny SSH-nyckel i {path}"
+msgstr "Misslyckades med att skapa ny SSH-nyckel i %(path)s"
 
 #: qt/settingsdialog.py:1989
 msgid "Full snapshot path: "

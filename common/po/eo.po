@@ -8,27 +8,26 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-06-19 15:51+0200\n"
-"PO-Revision-Date: 2023-06-23 15:23+0000\n"
-"Last-Translator: Gamefal <mikemzad2000@gmail.com>\n"
-"Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/"
-"common/eo/>\n"
+"PO-Revision-Date: 2012-04-14 10:04+0000\n"
+"Last-Translator: Michael Moroni <michaelmoroni@disroot.org>\n"
+"Language-Team: Esperanto <eo@li.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18.1\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
+"X-Generator: Launchpad (build 83f7123b02a2b50a64bc29e7e35197179a885279)\n"
 
 #: common/password.py:243
 #, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Profilo'{profile}': Enmeti pasvorton por {mode}: "
+msgstr ""
 
 #: common/sshtools.py:1049
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
-msgstr "Kopii publika ssh-ŝloliso \"{pubkey}\" al la fora gastiganto \"{host}\""
+msgstr ""
 
 #: common/sshtools.py:1051
 #, python-brace-format
@@ -37,7 +36,7 @@ msgstr ""
 
 #: common/snapshots.py:325 common/snapshots.py:576
 msgid "FAILED"
-msgstr "Malpravis"
+msgstr ""
 
 #: common/snapshots.py:522 common/snapshots.py:584
 msgid "Restore permissions"
@@ -62,8 +61,8 @@ msgstr ""
 #, python-format
 msgid "Waiting %s second."
 msgid_plural "Waiting %s seconds."
-msgstr[0] "Atendi %s sekundon."
-msgstr[1] "Atendi %s sekundojn."
+msgstr[0] ""
+msgstr[1] ""
 
 #: common/snapshots.py:788
 #, python-format
@@ -72,15 +71,16 @@ msgstr ""
 
 #: common/snapshots.py:797
 msgid "Finalizing"
-msgstr "Finanta"
+msgstr ""
 
 #: common/snapshots.py:881 common/encfstools.py:513 qt/app.py:87 qt/app.py:92
 msgid "Take snapshot"
 msgstr ""
 
 #: common/snapshots.py:912
+#, fuzzy
 msgid "Can't create folder"
-msgstr "Ne povas krei dosieron"
+msgstr "Ne povas forigi dosieron: %s"
 
 #: common/snapshots.py:929
 msgid "Saving config file..."
@@ -101,8 +101,9 @@ msgid "Removing leftover {snapshot_id} folder from last run"
 msgstr ""
 
 #: common/snapshots.py:1139
+#, fuzzy
 msgid "Can't remove folder"
-msgstr "Ne povas forigi dosieron"
+msgstr "Ne povas forigi dosieron: %s"
 
 #: common/snapshots.py:1177
 msgid "Taking snapshot"
@@ -115,7 +116,7 @@ msgstr ""
 #: common/snapshots.py:1241
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr "Ne povas renomi {new_path} al {path}"
+msgstr ""
 
 #: common/snapshots.py:1549 common/snapshots.py:1600 qt/settingsdialog.py:638
 msgid "Smart remove"
@@ -147,9 +148,9 @@ msgid "Failed to load config"
 msgstr ""
 
 #: common/configfile.py:626 common/configfile.py:710
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists!"
-msgstr "Profilo \"{name}\" jam ekzistas!"
+msgstr "Profilo \"%s\" jam ekzistas!"
 
 #: common/configfile.py:666
 #, fuzzy
@@ -167,11 +168,11 @@ msgstr ""
 
 #: common/encfstools.py:146
 msgid "Create a new encrypted folder?"
-msgstr "Krei novan kriptan dosieron?"
+msgstr ""
 
 #: common/encfstools.py:155
 msgid "Please confirm password"
-msgstr "Bonvolu konfirmi pasvorton"
+msgstr ""
 
 #: common/config.py:95
 msgid "Disabled"
@@ -182,19 +183,19 @@ msgid "At every boot/reboot"
 msgstr "Je ĉiu startigo/restartigo"
 
 #: common/config.py:97 common/config.py:98 common/config.py:99
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Every {n} minutes"
-msgstr "Je ĉiuj {n} minutoj"
+msgstr "Je ĉiuj 5 minutoj"
 
 #: common/config.py:100
 msgid "Every hour"
-msgstr "Ĉiu horon"
+msgstr ""
 
 #: common/config.py:101 common/config.py:102 common/config.py:103
 #: common/config.py:104
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Every {n} hours"
-msgstr "Ĉiu {n} horojn"
+msgstr "Ĉiumonate"
 
 #: common/config.py:105
 msgid "Custom Hours"
@@ -221,8 +222,9 @@ msgid "Every Month"
 msgstr "Ĉiumonate"
 
 #: common/config.py:111
+#, fuzzy
 msgid "Every Year"
-msgstr "Ĉiujare"
+msgstr "Ĉiutage"
 
 #: common/config.py:115 common/config.py:122
 msgid "Day(s)"
@@ -238,11 +240,11 @@ msgstr "Jaro(j)"
 
 #: common/config.py:121
 msgid "Hour(s)"
-msgstr "Horo(j)"
+msgstr ""
 
 #: common/config.py:124
 msgid "Month(s)"
-msgstr "Monato(j)"
+msgstr ""
 
 #: common/config.py:166 qt/settingsdialog.py:648
 msgid " EXPERIMENTAL!"
@@ -250,11 +252,11 @@ msgstr ""
 
 #: common/config.py:169
 msgid "Local"
-msgstr "Loka"
+msgstr ""
 
 #: common/config.py:170
 msgid "SSH"
-msgstr "SSH"
+msgstr ""
 
 #: common/config.py:170 common/config.py:172 qt/settingsdialog.py:1921
 msgid "SSH private key"
@@ -270,7 +272,7 @@ msgstr ""
 
 #: common/config.py:172
 msgid "SSH encrypted"
-msgstr "kripta SSH"
+msgstr ""
 
 #: common/config.py:176
 msgid "Default"
@@ -282,17 +284,18 @@ msgstr "Ĉefa profilo"
 
 #: common/config.py:345 common/config.py:357 common/config.py:374
 #: common/config.py:385
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "Profilo: \"{name}\""
+msgstr "Profilo: \"%s\""
 
 #: common/config.py:346
 msgid "Snapshots folder is not valid!"
 msgstr ""
 
 #: common/config.py:358
+#, fuzzy
 msgid "You must select at least one folder to backup!"
-msgstr "Vi devas elekti almenaŭ unu dosieron por sekurkopio!"
+msgstr "Vi devas almenaŭ elekti unu dosieron por sekurkopio!"
 
 #: common/config.py:375
 #, fuzzy
@@ -305,9 +308,9 @@ msgid "You can't include backup sub-folder!"
 msgstr "Vi ne povas inkluzivi sekurkopian dosieron!"
 
 #: common/config.py:445
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{path} is not a folder !"
-msgstr "{path} ne estas dosierujo!"
+msgstr "%s ne estas dosierujo!"
 
 #: common/config.py:454
 msgid "Host/User/Profile-ID must not be empty!"
@@ -319,8 +322,6 @@ msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"Ne povas skribi al: {path}\n"
-"Ĉu vi certas ke vi havas permeson por skribi?"
 
 #: common/config.py:481
 #, python-brace-format
@@ -343,7 +344,7 @@ msgstr ""
 
 #: common/config.py:495
 msgid "Expert Options"
-msgstr "Spertaj Agordoj"
+msgstr ""
 
 #: common/config.py:499
 #, python-brace-format
@@ -399,8 +400,9 @@ msgstr ""
 
 #: qt/logviewdialog.py:67 qt/settingsdialog.py:99 qt/settingsdialog.py:344
 #: qt/settingsdialog.py:2299 qt/qtsystrayicon.py:70
+#, fuzzy
 msgid "Profile"
-msgstr "Profilo"
+msgstr "Profilo:"
 
 #: qt/logviewdialog.py:75 qt/snapshotsdialog.py:101 qt/qttools.py:245
 #: qt/app.py:268
@@ -408,12 +410,13 @@ msgid "Snapshots"
 msgstr ""
 
 #: qt/logviewdialog.py:89
+#, fuzzy
 msgid "Filter"
-msgstr "Filtrilo"
+msgstr "Filtrilo:"
 
 #: qt/logviewdialog.py:95 qt/settingsdialog.py:766
 msgid "All"
-msgstr "Ĉiuj"
+msgstr ""
 
 #: qt/logviewdialog.py:96 qt/logviewdialog.py:98 qt/settingsdialog.py:763
 #: qt/settingsdialog.py:765
@@ -426,7 +429,7 @@ msgstr "Ŝanĝoj"
 
 #: qt/logviewdialog.py:100
 msgid "Informations"
-msgstr "Informoj"
+msgstr "informoj"
 
 #: qt/logviewdialog.py:110
 msgid "[E] Error, [I] Information, [C] Change"
@@ -457,12 +460,14 @@ msgid "Diff Options"
 msgstr ""
 
 #: qt/snapshotsdialog.py:60
+#, fuzzy
 msgid "Command"
-msgstr "Komando"
+msgstr "Komando:"
 
 #: qt/snapshotsdialog.py:64
+#, fuzzy
 msgid "Parameters"
-msgstr "Parametroj"
+msgstr "Parametroj:"
 
 #: qt/snapshotsdialog.py:68
 msgid "Use %1 and %2 for path parameters"
@@ -506,7 +511,7 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:338
 msgid "Command not found"
-msgstr "La komando ne estas trovita"
+msgstr ""
 
 #: qt/snapshotsdialog.py:369
 #, python-brace-format
@@ -520,11 +525,11 @@ msgstr ""
 
 #: qt/snapshotsdialog.py:379
 msgid "WARNING"
-msgstr "AVERTO"
+msgstr ""
 
 #: qt/snapshotsdialog.py:379
 msgid "This can not be revoked!"
-msgstr "Ĉi tio ne povas esti nuligita!"
+msgstr ""
 
 #: qt/snapshotsdialog.py:395
 #, python-brace-format
@@ -558,11 +563,11 @@ msgstr ""
 
 #: qt/messagebox.py:58 qt/app.py:760
 msgid "Error"
-msgstr "Eraro"
+msgstr ""
 
 #: qt/messagebox.py:64 qt/messagebox.py:70
 msgid "Question"
-msgstr "Demando"
+msgstr ""
 
 #: qt/app.py:94
 msgid "Take snapshot with checksums"
@@ -748,16 +753,17 @@ msgid "Done, no backup needed"
 msgstr ""
 
 #: qt/app.py:754
+#, fuzzy
 msgid "Working"
-msgstr "Laborante"
+msgstr "Laborante..."
 
 #: qt/app.py:781 qt/qtsystrayicon.py:191
 msgid "Sent"
-msgstr "Sendita"
+msgstr ""
 
 #: qt/app.py:782 qt/qtsystrayicon.py:192
 msgid "Speed"
-msgstr "Rapideco"
+msgstr ""
 
 #: qt/app.py:783 qt/qtsystrayicon.py:193
 msgid "ETA"
@@ -765,7 +771,7 @@ msgstr ""
 
 #: qt/app.py:837
 msgid "Global"
-msgstr "Tutmonda"
+msgstr ""
 
 #: qt/app.py:838
 msgid "Root"
@@ -827,12 +833,12 @@ msgstr ""
 
 #: qt/app.py:1146
 msgid "Do you really want to restore this files(s)"
-msgstr "Ĉu vi vere volas restaŭri ĉi tiu(j)n dosiero(j)n"
+msgstr ""
 
 #: qt/app.py:1158
 #, python-brace-format
 msgid "Are you sure you want to remove all newer files in {path}?"
-msgstr "Ĉu vi certas ke vi volas forigi ĉiujn pli novajn dosierojn en {path}?"
+msgstr ""
 
 #: qt/app.py:1161
 msgid ""
@@ -858,14 +864,14 @@ msgid "View the snapshot made at {name}"
 msgstr ""
 
 #: qt/app.py:1413
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Restore {path}"
-msgstr "Restaŭri {path}"
+msgstr "Restaŭri"
 
 #: qt/app.py:1415
 #, python-brace-format
 msgid "Restore {path} to ..."
-msgstr "Restaŭri {path} al..."
+msgstr ""
 
 #: qt/app.py:1529 qt/app.py:1546
 msgid "Authors"
@@ -902,11 +908,11 @@ msgstr "Ĝenerale"
 
 #: qt/settingsdialog.py:151 qt/settingsdialog.py:2301
 msgid "Mode"
-msgstr "Maniero"
+msgstr ""
 
 #: qt/settingsdialog.py:165
 msgid "Warning"
-msgstr "Averto"
+msgstr ""
 
 #: qt/settingsdialog.py:166
 #, python-brace-format
@@ -937,12 +943,13 @@ msgid "Port"
 msgstr ""
 
 #: qt/settingsdialog.py:223 qt/settingsdialog.py:338
+#, fuzzy
 msgid "User"
-msgstr "Uzanto"
+msgstr "Uzanto:"
 
 #: qt/settingsdialog.py:228
 msgid "Path"
-msgstr "Dosierindiko"
+msgstr ""
 
 #: qt/settingsdialog.py:234
 msgid "Cipher"
@@ -996,12 +1003,14 @@ msgid "Weekday"
 msgstr ""
 
 #: qt/settingsdialog.py:393
+#, fuzzy
 msgid "Hour"
-msgstr "Horo"
+msgstr "Horo:"
 
 #: qt/settingsdialog.py:408
+#, fuzzy
 msgid "Hours"
-msgstr "Horoj"
+msgstr "Horo:"
 
 #: qt/settingsdialog.py:419
 msgid ""
@@ -1454,7 +1463,7 @@ msgstr ""
 
 #: qt/qtsystrayicon.py:99
 msgid "Start BackInTime"
-msgstr "Komencu BackInTime"
+msgstr ""
 
 #: qt/qtsystrayicon.py:158
 msgid "Working..."
