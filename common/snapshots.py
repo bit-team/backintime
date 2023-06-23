@@ -785,7 +785,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
                             if ret_error:
                                 logger.error('Failed to take snapshot !!!', self)
-                                self.setTakeSnapshotMessage(1, _('Failed to take snapshot %s !!!') % sid.displayID)
+                                self.setTakeSnapshotMessage(1, _('Failed to take snapshot {snapshot_id} !!!').format(snapshot_id=sid.displayID))
                                 time.sleep(2)
                             else:
                                 logger.warning("No new snapshot", self)

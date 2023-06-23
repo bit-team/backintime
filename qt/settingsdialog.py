@@ -878,7 +878,7 @@ class SettingsDialog(QDialog):
             _('Limit rsync bandwidth usage') + ': ', self)
         hlayout.addWidget(self.cbBwlimit)
         self.spbBwlimit = QSpinBox(self)
-        self.spbBwlimit.setSuffix(_(' KB/sec'))
+        self.spbBwlimit.setSuffix(' ' + _('KB/sec'))
         self.spbBwlimit.setSingleStep(100)
         self.spbBwlimit.setRange(0, 1000000)
         hlayout.addWidget(self.spbBwlimit)
@@ -1463,8 +1463,8 @@ class SettingsDialog(QDialog):
 
             if not os.path.isfile(self.txtSshPrivateKeyFile.text()):
                 self.errorHandler(
-                    _('Private key file "%(file)s" does not exist.')
-                    % {'file': self.txtSshPrivateKeyFile.text()}
+                    _('Private key file "{file}" does not exist.')
+                    .format(file=self.txtSshPrivateKeyFile.text())
                 )
                 self.txtSshPrivateKeyFile.setText('')
 
@@ -1643,18 +1643,18 @@ class SettingsDialog(QDialog):
 
                     return False
 
-                msg = _('The authenticity of host "%(host)s" can\'t be '
-                        'established.\n\n%(keytype)s key fingerprint is:')
-                msg = msg % {'host': self.config.sshHost(),
-                             'keytype': keyType}
+                msg = _("The authenticity of host {host} can't be "
+                        "established.\n\n{keytype} key fingerprint is:") \
+                        .format(host='"{}"'.format(self.config.sshHost()),
+                                keytype=keyType)
                 options = []
                 lblFingerprint = QLabel(fingerprint + '\n')
                 lblFingerprint.setWordWrap(False)
                 lblFingerprint.setFont(QFont('Monospace'))
                 options.append({'widget': lblFingerprint, 'retFunc': None})
                 lblQuestion = QLabel(
-                    _('Please verify this fingerprint! Would you like to '
-                      'add it to your \'known_hosts\' file?')
+                    _("Please verify this fingerprint! Would you like to "
+                      "add it to your 'known_hosts' file?")
                 )
                 options.append({'widget': lblQuestion, 'retFunc': None})
 
@@ -1885,10 +1885,13 @@ class SettingsDialog(QDialog):
             if os.path.islink(path) \
                 and not (self.cbCopyUnsafeLinks.isChecked()
                          or self.cbCopyLinks.isChecked()):
-                if self.questionHandler(
-                    _('"%s" is a symlink. The linked target will not be '
-                      'backed up until you include it, too.\nWould you like '
-                      'to include the symlinks target instead?') % path):
+
+                question_msg = _(
+                    '"{path}" is a symlink. The linked target will not be '
+                    'backed up until you include it, too.\nWould you like '
+                    'to include the symlinks target instead?') \
+                    .format(path=path)
+                if self.questionHandler(question_msg):
                     path = os.path.realpath(path)
 
             path = self.config.preparePath(path)
