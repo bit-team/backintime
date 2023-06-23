@@ -96,7 +96,10 @@ class QtSysTrayIcon:
 
         self.openLog = self.contextMenu.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
         self.openLog.triggered.connect(self.onOpenLog)
-        self.startBIT = self.contextMenu.addAction(icon.BIT_LOGO, _('Start BackInTime'))
+        self.startBIT = self.contextMenu.addAction(
+            icon.BIT_LOGO,
+            _('Start {appname}').format(appname=self.config.APP_NAME)
+        )
         self.startBIT.triggered.connect(self.onStartBIT)
         self.status_icon.setContextMenu(self.contextMenu)
 
