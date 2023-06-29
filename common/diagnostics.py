@@ -1,8 +1,11 @@
-"""short doc
+"""Provides the ability to collect diagnostic information on Back In Time.
 
-long doc
-
+These are version numbers of the dependent tools, environment variables,
+paths, operating system and the like. This is used to enhance error reports
+and to enrich them with the necessary information as uncomplicated as possible.
 """
+
+from typing import Union
 import sys
 import os
 from pathlib import Path
@@ -16,8 +19,8 @@ import config  # config.Config.VERSION  Refactor after src-layout migration
 import tools
 
 
-def collect_diagnostics():
-    """Collect information about environment and versions of tools and
+def collect_diagnostics() -> dict:
+    """Collect information about environment, versions of tools and
     packages used by Back In Time.
 
     The information can be used e.g. for debugging and bug reports.
@@ -192,25 +195,26 @@ def collect_diagnostics():
     return result
 
 
-def _get_extern_versions(cmd,
-                         pattern=None,
-                         try_json=False,
-                         error_pattern=None):
+def _get_extern_versions(cmd: list,
+                         pattern: str = None,
+                         try_json: bool = False,
+                         error_pattern: str = None) -> Union[str, dict]:
     """Get the version of an external tools using ``subprocess.Popen()``.
 
-     Args:
-         cmd (list): Commandline arguments that will be passed to `Popen()`.
-         pattern (str): A regex pattern to extract the version string from the
-                        commands output.
-         try_json (bool): Interpret the output as json first (default: False).
-                          If it could be parsed the result is a dict
-         error_pattern (str): Regex pattern to identify a message in the output
-                              that indicates an error.
+    Args:
+        cmd: Commandline arguments that will be passed to `Popen()`.
+        pattern: A regex pattern to extract the version string from the
+            commands output.
+        try_json: Interpret the output as json first (default: False).
+            If it could be parsed the result is a dict
+        error_pattern: Regex pattern to identify a message in the output
+            that indicates an error.
 
-     Returns:
-         Version information as string (or dict if was JSON and parsed successfully).
-         `None` if the error_pattern did match (to indicate an error)
-     """
+    Returns:
+        Version information as string or dict. The latter is used if the
+        ``cmd`` requested offer its information in JSON format.
+        `None` if the error_pattern did match (to indicate an error).
+    """
 
     try:
         # as context manager to prevent ResourceWarning's
