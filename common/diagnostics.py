@@ -5,7 +5,6 @@ paths, operating system and the like. This is used to enhance error reports
 and to enrich them with the necessary information as uncomplicated as possible.
 """
 
-from typing import Union
 import sys
 import os
 from pathlib import Path
@@ -19,7 +18,7 @@ import config  # config.Config.VERSION  Refactor after src-layout migration
 import tools
 
 
-def collect_diagnostics() -> dict:
+def collect_diagnostics():
     """Collect information about environment, versions of tools and
     packages used by Back In Time.
 
@@ -83,7 +82,8 @@ def collect_diagnostics() -> dict:
 
     # locale (system language etc)
     #
-    # Implementation note: With env var "LC_ALL=C" getlocale() will return (None, None).
+    # Implementation note: With env var "LC_ALL=C" getlocale() will return
+    # (None, None).
     # This throws an error in "join()":
     #   TypeError: sequence item 0: expected str instance, NoneType found
     my_locale = locale.getlocale()
@@ -195,25 +195,28 @@ def collect_diagnostics() -> dict:
     return result
 
 
-def _get_extern_versions(cmd: list,
-                         pattern: str = None,
-                         try_json: bool = False,
-                         error_pattern: str = None) -> Union[str, dict]:
-    """Get the version of an external tools using ``subprocess.Popen()``.
+def _get_extern_versions(cmd,
+                         pattern=None,
+                         try_json=False,
+                         error_pattern=None):
+    """Get the version of an external tools using :class:`subprocess.Popen`.
 
     Args:
-        cmd: Commandline arguments that will be passed to `Popen()`.
-        pattern: A regex pattern to extract the version string from the
+        cmd (list[str]): Commandline arguments that will be passed
+            to ``Popen()``.
+        pattern (str) : A regex pattern to extract the version string from the
             commands output.
-        try_json: Interpret the output as json first (default: False).
+        try_json (bool): Interpret the output as json first
+            (default: ``False``).
             If it could be parsed the result is a dict
-        error_pattern: Regex pattern to identify a message in the output
+        error_pattern (str): Regex pattern to identify a message in the output
             that indicates an error.
 
     Returns:
-        Version information as string or dict. The latter is used if the
+        Version information as :obj:`str` or :obj:`dict`.
+        The latter is used if the
         ``cmd`` requested offer its information in JSON format.
-        `None` if the error_pattern did match (to indicate an error).
+        ``None`` if the error_pattern did match (to indicate an error).
     """
 
     try:
@@ -308,10 +311,10 @@ def get_git_repository_info(path=None):
 
 
 def _get_os_release():
-    """Extract infos from os-release file.
+    """Extract infos from the file ``/etc/os-release``.
 
     Returns:
-        (str): OS name e.g. "Debian GNU/Linux 11 (bullseye)"
+        Name of the operating system, e.g. "Debian GNU/Linux 11 (bullseye)".
     """
 
     try:
@@ -332,18 +335,18 @@ def _get_os_release():
     return re.findall('PRETTY_NAME=\"(.*)\"', osrelease)[0]
 
 
-
 def _replace_username_paths(result, username):
-    """User's homepath and the username is replaced because of security
-    reasons.
+    """User's real ``HOME`` path and login name are replaced with surrogtes.
+
+    This is because of security reasons.
 
     Args:
         result (dict): Dict possibly containing the username and its home
-                       path.
-        username (str). The user login name to look for.
+            path.
+        username (str): The user's real login name to look for.
 
     Returns:
-        (str): String with replacements.
+        A dictionary with replacements.
     """
 
     # Replace home folder user names with this dummy name
