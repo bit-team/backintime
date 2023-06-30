@@ -20,7 +20,7 @@
 
 This module and its `Config` class contain the application logic handling the
 configuration of Back In Time. The handling of the configuration file itself
-is separated in the module :py:module:`configfile`.
+is separated in the module :py:mod:`configfile`.
 
 Development notes:
     Some of the methods have code comments starting with `#? ` instead of
