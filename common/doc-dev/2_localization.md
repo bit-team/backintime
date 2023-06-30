@@ -30,7 +30,7 @@ That file **does not** describe how to use the [GNU gettext utilities](https://w
 2. Synchronize that _message template file_ with the existing translations (`common/po/*.po`).
 3. Commit and push the modifications into the development branch (e.g. `dev`).
 4. The Weblate plattform do pull that changes from our upstream repository into its own internal repository (manual triggerd by maintainers or automatically).
-5. Now the contributors can translate using our [Weblate "Back In Time" project](https://translate.codeberg.org/projects/backintime/).
+5. Now the contributors can translate using our [Weblate "Back In Time" project](https://translate.codeberg.org/projects/backintime/). There is also a [translation landing page](https://translate.codeberg.org/engage/backintime).
 6. The translations on Weblate (as `po` files) need to be committed (manual or automatically) into the Weblate repository.
 7. The `po` files with fresh translations are downloaded (via `git clone`) from the Weblate repository and copied into the BIT upstream repository.
 8. Check the modifications in upstream and commit them into development or feature branch.
