@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Back In Time 0.9.5\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-06-19 15:51+0200\n"
-"PO-Revision-Date: 2023-06-19 12:34+0000\n"
+"PO-Revision-Date: 2023-06-20 09:43+0000\n"
 "Last-Translator: buhtz <c.buhtz@posteo.jp>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/"
 "common/de/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: common/password.py:243
 #, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Profil »{profile}s«: Bitte Passwort für {mode} eingeben: "
+msgstr "Profil »{profile}«: Bitte Passwort für {mode} eingeben: "
 
 #: common/sshtools.py:1049
 #, python-brace-format
@@ -484,9 +484,8 @@ msgid "Use %1 and %2 for path parameters"
 msgstr "%1 und %2 als Pfadparameter verwenden"
 
 #: qt/snapshotsdialog.py:112
-#, fuzzy
 msgid "Differing snapshots only"
-msgstr "Schnappschuss wird erstellt"
+msgstr "Nur unterschiedliche Schnappschüsse"
 
 #: qt/snapshotsdialog.py:120
 msgid "List only equal snapshots to: "
@@ -1550,7 +1549,7 @@ msgid " and add your user to group 'fuse'"
 msgstr " und Ihren Benutzer zur Gruppe »fuse« hinzufügen"
 
 #: qt/settingsdialog.py:2114
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s "
 "configuration. The path may look like:\n"
@@ -1562,13 +1561,13 @@ msgid ""
 "Take a look at 'man backintime'."
 msgstr ""
 "Bitte ein Schnappschuss auswählen, von dem Sie die Einstellungen für "
-"%(appName)s wiederherstellen möchten. Der Pfad kann so aussehen: \n"
-"%(samplePath)s\n"
+"{appName} wiederherstellen möchten. Der Pfad kann so aussehen: \n"
+"{samplePath}\n"
 "\n"
 "Wenn sich der Schnappschuss auf einer externen Festplatte befindet, oder "
 "verschlüsselt ist, muss er vorher manuell eingehängt werden. Wenn Sie den "
 "SSH-Modus verwenden, müssen Sie außerdem die öffentliche Schlüsselanmeldung "
-"zum entfernten Rechner einrichten%(addFuse)s.\n"
+"zum entfernten Rechner einrichten{addFuse}.\n"
 "Weitere Informationen unter »man backintime«."
 
 #: qt/settingsdialog.py:2177 qt/settingsdialog.py:2242

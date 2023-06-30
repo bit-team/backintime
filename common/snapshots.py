@@ -120,7 +120,7 @@ class Snapshots:
         try:
             mid = int(items[0])
         except Exception as e:
-            logger.debug('Failed extract message ID from %s: %s'
+            logger.debug('Failed to extract message ID from %s: %s'
                          %(items[0], str(e)),
                          self)
 
@@ -746,7 +746,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                     if not self.config.canBackup(profile_id):
                         if self.config.PLUGIN_MANAGER.hasGuiPlugins and self.config.notify():
                             self.setTakeSnapshotMessage(1,
-                                    _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it.') +
+                                    _('Can\'t find snapshots folder.\nIf it is on a removable drive please plug it in.') +
                                     '\n' +
                                     gettext.ngettext('Waiting %s second.', 'Waiting %s seconds.', 30) % 30,
                                     30)
@@ -785,7 +785,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
                             if ret_error:
                                 logger.error('Failed to take snapshot !!!', self)
-                                self.setTakeSnapshotMessage(1, _('Failed to take snapshot %s !!!') % sid.displayID)
+                                self.setTakeSnapshotMessage(1, _('Failed to take snapshot {snapshot_id} !!!').format(snapshot_id=sid.displayID))
                                 time.sleep(2)
                             else:
                                 logger.warning("No new snapshot", self)
@@ -962,7 +962,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 # But we need a real ERROR here.
                 if rc != 0:
                     logger.error(
-                        f'Backup the config in "{self.config.snapshotsMode()}"'
+                        f'Backing up the config in "{self.config.snapshotsMode()}"'
                         f' mode failed! The return code was {rc} and the'
                         f' command was {cmd}. Also see the previous '
                         'WARNING message for a more details.', parent=self)
@@ -1657,8 +1657,8 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             minFreeInodes = self.config.minFreeInodes()
             self.setTakeSnapshotMessage(
                 0,
-                _('Trying to keep min {perc}% free inodes')
-                .format(perc=minFreeInodes)
+                _('Trying to keep min {perc} free inodes')
+                .format(perc=f'{minFreeInodes}%')
             )
             logger.debug(
                 "Keep min {perc}% free inodes".format(perc=minFreeInodes),
@@ -2684,12 +2684,12 @@ class NewSnapshot(GenericNonSnapshot):
                 with open(flag, 'wt') as f:
                     pass
             except Exception as e:
-                logger.error("Failed to set 'save_to_continue' flag: %s" %str(e))
+                logger.error("Failed to set 'save_to_continue' flag: %s" %str(e)) # should be "safe", throughout
         elif os.path.exists(flag):
             try:
                 os.remove(flag)
             except Exception as e:
-                logger.error("Failed to remove 'save_to_continue' flag: %s" %str(e))
+                logger.error("Failed to remove 'save_to_continue' flag: %s" %str(e)) # should be "safe", throughout
 
     @property
     def hasChanges(self):
@@ -2794,7 +2794,7 @@ def iterSnapshots(cfg, includeNewSnapshot = False):
                 yield sid
         except Exception as e:
             if not isinstance(e, LastSnapshotSymlink):
-                logger.debug("'{}' is no snapshot ID: {}".format(item, str(e)))
+                logger.debug("'{}' is not a snapshot ID: {}".format(item, str(e)))
 
 
 def listSnapshots(cfg, includeNewSnapshot = False, reverse = True):

@@ -45,7 +45,7 @@ Please take the following best practices into account if possible (to reduce
 
  - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/) for development related topics
  - [Source code documentation for developers](https://backintime-dev.readthedocs.org)
- - [Translations](https://translate.codeberg.org/projects/backintime/common/) are done on a separate platform
+ - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform
  - [HowTo's and maintenance documents](common/doc-dev/README.md)
 
 ## Build & Install

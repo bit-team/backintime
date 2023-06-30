@@ -161,7 +161,7 @@ class SettingsDialog(QDialog):
         self.fillCombo(self.comboModes, store_modes)
 
         # encfs security warning
-        self.encfsWarning = QLabel('<b>{}:</b>{}'.format(
+        self.encfsWarning = QLabel('<b>{}:</b> {}'.format(
             _('Warning'),
             _('{app} uses EncFS for encryption. A recent security audit '
               'revealed several possible attack vectors for this. Please '
@@ -500,9 +500,16 @@ class SettingsDialog(QDialog):
         layout = QVBoxLayout(tabWidget)
 
         self.lblSshEncfsExcludeWarning = QLabel(
-            _('<b>Warning:</b> Wildcards (\'foo*\', \'[fF]oo\', \'fo?\') '
-              'will be ignored with mode \'SSH encrypted\'.\nOnly separate '
-              'asterisk are allowed (\'foo/*\', \'foo/**/bar\')'), self)
+            "<b>{}:</b> {}".format(
+                _("Warning"),
+                _(
+                    "Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored "
+                    "with mode 'SSH encrypted'.\nOnly single or double "
+                    "asterisks kare allowed ('foo/*', 'foo/**/bar')"
+                )
+            ),
+            self
+        )
         self.lblSshEncfsExcludeWarning.setWordWrap(True)
         layout.addWidget(self.lblSshEncfsExcludeWarning)
 
@@ -523,7 +530,7 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.listExclude)
         self.listExcludeCount = 0
 
-        label = QLabel(_('Highly recommended:'), self)
+        label = QLabel(_('Highly recommended') + ':', self)
         qttools.setFontBold(label)
         layout.addWidget(label)
         label = QLabel(', '.join(sorted(self.config.DEFAULT_EXCLUDE)), self)
@@ -566,9 +573,9 @@ class SettingsDialog(QDialog):
               'new files\n'
               'because for rsync this is a transfer option, not an '
               'exclude option.\n'
-              'So big files that has been backed up before will remain '
+              'So big files that have been backed up before will remain '
               'in snapshots\n'
-              'even if they had changed.' % {'prefix': 'MiB'})
+              'even if they have changed.' % {'prefix': 'MiB'})
         )
         hlayout.addWidget(self.cbExcludeBySize)
         self.spbExcludeBySize = QSpinBox(self)
@@ -645,7 +652,10 @@ class SettingsDialog(QDialog):
         smlayout = QGridLayout(widget)
 
         self.cbSmartRemoveRunRemoteInBackground = QCheckBox(
-            _('Run in background on remote Host.') + _(' EXPERIMENTAL!'),
+            '{} {}!'.format(
+                _('Run in background on remote Host.'),
+                _('EXPERIMENTAL')
+            ),
             self)
         smlayout.addWidget(self.cbSmartRemoveRunRemoteInBackground, 0, 0, 1, 3)
 
@@ -719,7 +729,7 @@ class SettingsDialog(QDialog):
         self.cbGlobalFlock.setToolTip(
             _('Other snapshots will be blocked until the current snapshot '
               'is done.\n'
-              'This is a global option. So it will effect all profiles '
+              'This is a global option. So it will affect all profiles '
               'for this user.\n'
               'But you need to activate this for all other users, too.')
         )
@@ -747,7 +757,7 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.cbUseChecksum)
 
         self.cbTakeSnapshotRegardlessOfChanges = QCheckBox(
-            _('Take a new snapshot regardless of there were changes or not.'))
+            _('Take a new snapshot wethere there were changes or not.'))
         layout.addWidget(self.cbTakeSnapshotRegardlessOfChanges)
 
         # log level
@@ -780,7 +790,7 @@ class SettingsDialog(QDialog):
 
         label = QLabel(
             _('Change these options only if you really know what '
-              'you are doing !'),
+              'you are doing!'),
             self)
         qttools.setFontBold(label)
         layout.addWidget(label)
@@ -849,7 +859,7 @@ class SettingsDialog(QDialog):
             self)
         self.cbRedirectStdoutInCron.setToolTip(
             'cron will automatically send an email with attached output '
-            'of cronjobs if a MTA is installed.')
+            'of cronjobs if an MTA is installed.')
         layout.addWidget(self.cbRedirectStdoutInCron)
 
         self.cbRedirectStderrInCron = QCheckBox(
@@ -858,7 +868,7 @@ class SettingsDialog(QDialog):
             self)
         self.cbRedirectStderrInCron.setToolTip(
             'cron will automatically send an email with attached errors '
-            'of cronjobs if a MTA is installed.')
+            'of cronjobs if an MTA is installed.')
         layout.addWidget(self.cbRedirectStderrInCron)
 
         # bwlimit
@@ -868,7 +878,7 @@ class SettingsDialog(QDialog):
             _('Limit rsync bandwidth usage') + ': ', self)
         hlayout.addWidget(self.cbBwlimit)
         self.spbBwlimit = QSpinBox(self)
-        self.spbBwlimit.setSuffix(_(' KB/sec'))
+        self.spbBwlimit.setSuffix(' ' + _('KB/sec'))
         self.spbBwlimit.setSingleStep(100)
         self.spbBwlimit.setRange(0, 1000000)
         hlayout.addWidget(self.spbBwlimit)
@@ -1019,7 +1029,7 @@ class SettingsDialog(QDialog):
               'is not available, this could lead to some\n'
               'weird errors.'))
         self.cbSshCheckCommands = QCheckBox(
-            _('Check if remote host support all necessary commands'))
+            _('Check if remote host supports all necessary commands'))
         self.cbSshCheckCommands.setToolTip(
             _('Warning: if disabled and the remote host\n'
               'does not support all necessary commands,\n'
@@ -1453,8 +1463,8 @@ class SettingsDialog(QDialog):
 
             if not os.path.isfile(self.txtSshPrivateKeyFile.text()):
                 self.errorHandler(
-                    _('Private key file "%(file)s" does not exist.')
-                    % {'file': self.txtSshPrivateKeyFile.text()}
+                    _('Private key file "{file}" does not exist.')
+                    .format(file=self.txtSshPrivateKeyFile.text())
                 )
                 self.txtSshPrivateKeyFile.setText('')
 
@@ -1633,18 +1643,18 @@ class SettingsDialog(QDialog):
 
                     return False
 
-                msg = _('The authenticity of host "%(host)s" can\'t be '
-                        'established.\n\n%(keytype)s key fingerprint is:')
-                msg = msg % {'host': self.config.sshHost(),
-                             'keytype': keyType}
+                msg = _("The authenticity of host {host} can't be "
+                        "established.\n\n{keytype} key fingerprint is:") \
+                        .format(host='"{}"'.format(self.config.sshHost()),
+                                keytype=keyType)
                 options = []
                 lblFingerprint = QLabel(fingerprint + '\n')
                 lblFingerprint.setWordWrap(False)
                 lblFingerprint.setFont(QFont('Monospace'))
                 options.append({'widget': lblFingerprint, 'retFunc': None})
                 lblQuestion = QLabel(
-                    _('Please verify this fingerprint! Would you like to '
-                      'add it to your \'known_hosts\' file?')
+                    _("Please verify this fingerprint! Would you like to "
+                      "add it to your 'known_hosts' file?")
                 )
                 options.append({'widget': lblQuestion, 'retFunc': None})
 
@@ -1852,8 +1862,8 @@ class SettingsDialog(QDialog):
 
                 question_msg = _(
                     '"{path}" is a symlink. The linked target will not be '
-                      'backed up until you include it, too.\nWould you like '
-                      'to include the symlinks target instead?'
+                    'backed up until you include it, too.\nWould you like '
+                    'to include the symlink target instead?'
                 ).format(path=path)
 
                 if self.questionHandler(question_msg):
@@ -1875,10 +1885,13 @@ class SettingsDialog(QDialog):
             if os.path.islink(path) \
                 and not (self.cbCopyUnsafeLinks.isChecked()
                          or self.cbCopyLinks.isChecked()):
-                if self.questionHandler(
-                    _('"%s" is a symlink. The linked target will not be '
-                      'backed up until you include it, too.\nWould you like '
-                      'to include the symlinks target instead?') % path):
+
+                question_msg = _(
+                    '"{path}" is a symlink. The linked target will not be '
+                    'backed up until you include it, too.\nWould you like '
+                    'to include the symlink target instead?') \
+                    .format(path=path)
+                if self.questionHandler(question_msg):
                     path = os.path.realpath(path)
 
             path = self.config.preparePath(path)
@@ -2114,7 +2127,7 @@ class RestoreConfigDialog(QDialog):
             "Please navigate to the snapshot from which you want to restore "
             "{appName}'s configuration. The path may look like:\n"
             "{samplePath}\n\nIf your snapshots are on a remote drive or if "
-            "they are ncrypted you need to manually mount them first. "
+            "they are encrypted you need to manually mount them first. "
             "If you use Mode SSH you also may need to set up public key "
             "login to the remote host{addFuse}.\n"
             "Take a look at 'man backintime'.")
