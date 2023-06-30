@@ -9,9 +9,7 @@ arch :
 
 # ensures that we have UUID filesystem mounts for proper testing
 sudo: true
-dist:
- - jammy
- - focal
+dist: focal
 
 addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
