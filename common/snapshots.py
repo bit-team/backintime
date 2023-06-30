@@ -423,11 +423,11 @@ class Snapshots:
                                         restore to original destination
             delete (bool):              delete newer files which are not in the
                                         snapshot
-            backup (bool):              create backup files (*.backup.YYYYMMDD)
+            backup (bool):              create backup files (``*.backup.YYYYMMDD``)
                                         before changing or deleting local files.
             only_new (bool):            Only restore files which does not exist
                                         or are newer than those in destination.
-                                        Using "rsync --update" option.
+                                        Using ``rsync --update`` option.
         """
         instance = ApplicationInstance(
             pidFile=self.config.restoreInstanceFile(),
