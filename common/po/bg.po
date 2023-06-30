@@ -8,40 +8,41 @@ msgstr ""
 "Project-Id-Version: backintime\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2023-06-19 15:51+0200\n"
-"PO-Revision-Date: 2016-02-12 04:18+0000\n"
-"Last-Translator: PhobosK <phobosk@kbfx.net>\n"
-"Language-Team: Bulgarian <bg@li.org>\n"
+"PO-Revision-Date: 2023-06-21 16:33+0000\n"
+"Last-Translator: svetlisashkov <svetlisashkov@gmail.com>\n"
+"Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/"
+"common/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
-"X-Generator: Launchpad (build 83f7123b02a2b50a64bc29e7e35197179a885279)\n"
 
 #: common/password.py:243
 #, python-brace-format
 msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr ""
+msgstr "Профил '{profile}': Въведете парола за {mode}: "
 
 #: common/sshtools.py:1049
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
+"Копирай публичния ssh ключ \"{pubkey}\" в дистанционният хост \"{host}\""
 
 #: common/sshtools.py:1051
 #, python-brace-format
 msgid "Please enter password for \"{user}\""
-msgstr ""
+msgstr "Моля въведете паролата за \"{user}\""
 
 #: common/snapshots.py:325 common/snapshots.py:576
 msgid "FAILED"
-msgstr ""
+msgstr "Провал"
 
 #: common/snapshots.py:522 common/snapshots.py:584
-#, fuzzy
 msgid "Restore permissions"
-msgstr "Запазване на правата ..."
+msgstr "Възстановете разрешенията"
 
 #: common/snapshots.py:579 qt/app.py:449 qt/app.py:710 qt/app.py:743
 #: qt/qtsystrayicon.py:74
@@ -50,7 +51,7 @@ msgstr "Готово"
 
 #: common/snapshots.py:687
 msgid "Deferring backup while on battery"
-msgstr ""
+msgstr "Отлагане на архивирането, докато устройството работи на батерия"
 
 #: common/snapshots.py:749
 msgid ""
@@ -81,32 +82,30 @@ msgid "Take snapshot"
 msgstr "Създаване на моментен архив"
 
 #: common/snapshots.py:912
-#, fuzzy
 msgid "Can't create folder"
-msgstr "Папката не може да бъде създадена: %s"
+msgstr "Папката не може да бъде създадена"
 
 #: common/snapshots.py:929
 msgid "Saving config file..."
-msgstr "Запазване на конфигурационен файл ..."
+msgstr "Запазване на конфигурационен файл..."
 
 #: common/snapshots.py:1005
 msgid "Saving permissions..."
-msgstr "Запазване на правата ..."
+msgstr "Запазване на правата..."
 
 #: common/snapshots.py:1110
 #, python-brace-format
 msgid "Found leftover {snapshot_id} which can be continued."
-msgstr ""
+msgstr "Намерен е {snapshot_id}, който може да бъде продължен."
 
 #: common/snapshots.py:1129
 #, python-brace-format
 msgid "Removing leftover {snapshot_id} folder from last run"
-msgstr ""
+msgstr "Премахване на остатъчна {snapshot_id} папка от последния курс"
 
 #: common/snapshots.py:1139
-#, fuzzy
 msgid "Can't remove folder"
-msgstr "Папката не може да бъде премахната: %s"
+msgstr "Папката не може да бъде премахната"
 
 #: common/snapshots.py:1177
 msgid "Taking snapshot"
@@ -114,12 +113,12 @@ msgstr "Създаване на моментен архив"
 
 #: common/snapshots.py:1212
 msgid "Nothing changed, no new snapshot necessary"
-msgstr ""
+msgstr "Няма промени, не е нужен нов моментен архив"
 
 #: common/snapshots.py:1241
 #, python-brace-format
 msgid "Can't rename {new_path} to {path}"
-msgstr ""
+msgstr "{new_path} не може да бъде преименуван на {path}"
 
 #: common/snapshots.py:1549 common/snapshots.py:1600 qt/settingsdialog.py:638
 msgid "Smart remove"
@@ -134,7 +133,7 @@ msgid "Trying to keep min free space"
 msgstr "Опит за запазване на минимално свободно пространство"
 
 #: common/snapshots.py:1649
-#, fuzzy, python-format, python-brace-format
+#, python-brace-format, python-format
 msgid "Trying to keep min {perc}% free inodes"
 msgstr "Опит за запазване на минимално свободно пространство"
 
@@ -144,38 +143,37 @@ msgstr "Сега"
 
 #: common/configfile.py:106
 msgid "Failed to save config"
-msgstr ""
+msgstr "Запазването на конфигурацията се провали"
 
 #: common/configfile.py:138
 msgid "Failed to load config"
-msgstr ""
+msgstr "Зареждането на конфигурация се провали"
 
 #: common/configfile.py:626 common/configfile.py:710
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile \"{name}\" already exists!"
-msgstr "Профилът \"%s\" вече съществува!"
+msgstr "Профилът \"{name}\" вече съществува!"
 
 #: common/configfile.py:666
-#, fuzzy
 msgid "You can't remove the last profile!"
 msgstr "Не можете да премахнете последния профил!"
 
 #: common/encfstools.py:89
 #, python-brace-format
 msgid "Can't mount '{command}'"
-msgstr ""
+msgstr "Неуспех в монтирането '{command}'"
 
 #: common/encfstools.py:138
 msgid "Config for encrypted folder not found."
-msgstr ""
+msgstr "Конфигурацията за криптираната папка не е намерена."
 
 #: common/encfstools.py:146
 msgid "Create a new encrypted folder?"
-msgstr ""
+msgstr "Създаване на нова криптирана папка?"
 
 #: common/encfstools.py:155
 msgid "Please confirm password"
-msgstr ""
+msgstr "Моля потвърдете паролата"
 
 #: common/config.py:95
 msgid "Disabled"
@@ -186,23 +184,23 @@ msgid "At every boot/reboot"
 msgstr "При всяко зареждане/рестартиране"
 
 #: common/config.py:97 common/config.py:98 common/config.py:99
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} minutes"
-msgstr "На всеки 5 минути"
+msgstr "На всеки {n} минути"
 
 #: common/config.py:100
 msgid "Every hour"
-msgstr ""
+msgstr "На всеки час"
 
 #: common/config.py:101 common/config.py:102 common/config.py:103
 #: common/config.py:104
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every {n} hours"
-msgstr "Ежемесечно"
+msgstr "На всеки {n} часа"
 
 #: common/config.py:105
 msgid "Custom Hours"
-msgstr ""
+msgstr "Часове по предпочитание"
 
 #: common/config.py:106
 msgid "Every Day"
@@ -210,11 +208,11 @@ msgstr "Ежедневно"
 
 #: common/config.py:107
 msgid "Repeatedly (anacron)"
-msgstr ""
+msgstr "Многократно (anacron)"
 
 #: common/config.py:108
 msgid "When drive get connected (udev)"
-msgstr ""
+msgstr "Когато дискът се свърже (udev)"
 
 #: common/config.py:109
 msgid "Every Week"
@@ -225,9 +223,8 @@ msgid "Every Month"
 msgstr "Ежемесечно"
 
 #: common/config.py:111
-#, fuzzy
 msgid "Every Year"
-msgstr "Ежедневно"
+msgstr "Ежегодишно"
 
 #: common/config.py:115 common/config.py:122
 msgid "Day(s)"
@@ -243,43 +240,43 @@ msgstr "Години"
 
 #: common/config.py:121
 msgid "Hour(s)"
-msgstr ""
+msgstr "Часа"
 
 #: common/config.py:124
 msgid "Month(s)"
-msgstr ""
+msgstr "Месеци"
 
 #: common/config.py:166 qt/settingsdialog.py:648
 msgid " EXPERIMENTAL!"
-msgstr ""
+msgstr " ЕКСПЕРИМЕНТАЛНО!"
 
 #: common/config.py:169
 msgid "Local"
-msgstr ""
+msgstr "Местен"
 
 #: common/config.py:170
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #: common/config.py:170 common/config.py:172 qt/settingsdialog.py:1921
 msgid "SSH private key"
-msgstr ""
+msgstr "Частен SSH ключ"
 
 #: common/config.py:171
 msgid "Local encrypted"
-msgstr ""
+msgstr "Местно криптиране"
 
 #: common/config.py:171 common/config.py:172
 msgid "Encryption"
-msgstr ""
+msgstr "Криптиране"
 
 #: common/config.py:172
 msgid "SSH encrypted"
-msgstr ""
+msgstr "SSH криптиран"
 
 #: common/config.py:176
 msgid "Default"
-msgstr ""
+msgstr "По подразбиране"
 
 #: common/config.py:195
 msgid "Main profile"
@@ -287,19 +284,17 @@ msgstr "Основен профил"
 
 #: common/config.py:345 common/config.py:357 common/config.py:374
 #: common/config.py:385
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "Профил: \"%s\""
+msgstr "Профил: \"{name}\""
 
 #: common/config.py:346
-#, fuzzy
 msgid "Snapshots folder is not valid!"
 msgstr "Папката за моментни архиви не е валидна!"
 
 #: common/config.py:358
-#, fuzzy
 msgid "You must select at least one folder to backup!"
-msgstr "Трябва да изберете поне една папка за архивиране !"
+msgstr "Трябва да изберете поне една папка за архивиране!"
 
 #: common/config.py:375
 #, fuzzy
@@ -312,22 +307,22 @@ msgid "You can't include backup sub-folder!"
 msgstr "Не можете да включите подпапките в резервно копие !"
 
 #: common/config.py:445
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a folder !"
-msgstr "%s не е папка !"
+msgstr "{path} не е папка!"
 
 #: common/config.py:454
 msgid "Host/User/Profile-ID must not be empty!"
-msgstr ""
+msgstr "Хост/Потребител/Профил-ID не може да бъде празен"
 
 #: common/config.py:464 common/config.py:511
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Can't write to: {path}\n"
 "Are you sure you have write access?"
 msgstr ""
-"Не може да се записва в: %s\n"
-"Сигурни ли сте, че имате права за запис?"
+"Записването в {path} е невъзможно\n"
+"Сигурни ли сте, че имате достъп?"
 
 #: common/config.py:481
 #, python-brace-format
