@@ -145,7 +145,7 @@ class MainWindow(QMainWindow):
         self.mainToolbar.addSeparator()
 
         self.btnShutdown = self.mainToolbar.addAction(icon.SHUTDOWN, _('Shutdown'))
-        self.btnShutdown.setToolTip(_('Shutdown system after snapshot has finished.'))
+        self.btnShutdown.setToolTip(_('Shut down system after snapshot has finished.'))
         self.btnShutdown.setCheckable(True)
         self.shutdown = tools.ShutDown()
         self.btnShutdown.setEnabled(self.shutdown.canShutdown())
@@ -242,13 +242,13 @@ class MainWindow(QMainWindow):
         self.menuRestore.addSeparator()
         self.btnRestoreParent = self.menuRestore.addAction(icon.RESTORE, '')
         self.btnRestoreParent.setToolTip(_('Restore the currently shown '
-                                           'folder and all its content to '
+                                           'folder and all its contents to '
                                            'the original destination.'))
         self.btnRestoreParent.triggered.connect(self.restoreParent)
         self.btnRestoreParentTo = self.menuRestore.addAction(
             icon.RESTORE_TO, '')
         self.btnRestoreParentTo.setToolTip(_('Restore the currently shown '
-                                             'folder and all its content '
+                                             'folder and all its contents '
                                              'to a new destination.'))
         self.btnRestoreParentTo.triggered.connect(self.restoreParentTo)
         self.menuRestore.addSeparator()
@@ -519,7 +519,7 @@ class MainWindow(QMainWindow):
         if not config.canBackup(profile_id):
             messagebox.critical(self, _(
                 "Can't find snapshots folder.\nIf it is on a removable "
-                "drive please plug it and then press OK."))
+                "drive please plug it in and then press OK."))
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
 
@@ -555,7 +555,7 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event):
         if self.shutdown.askBeforeQuit():
             msg = _('If you close this window Back In Time will not be able '
-                    'to shutdown your system when the snapshot has finished.'
+                    'to shut down your system when the snapshot has finished.'
                     '\nDo you really want to close?')
             if QMessageBox.Yes != messagebox.warningYesNo(self, msg):
                 return event.ignore()
@@ -1073,8 +1073,8 @@ class MainWindow(QMainWindow):
 
     def backupOnRestore(self):
         cb = QCheckBox(_(
-            'Backup local files before overwriting or\nremoving with '
-            'trailing {suffix}.').format(
+            'Create backup copies with trailing {suffix} before\n'
+            'overwriting or removing local files.').format(
                 suffx=self.snapshots.backupSuffix()))
 
         cb.setChecked(self.config.backupOnRestore())
@@ -1131,7 +1131,7 @@ files that the receiver requests to be transferred.""")
                         'to the original destination and\n'
                         'delete files/folders which are '
                         'not in the snapshot.\n'
-                        'This will delete files/folders which where '
+                        'This will delete files/folders which were '
                         'excluded during taking the snapshot!\n'
                         'Be extremely careful!!!'))
         return {'widget': cb, 'retFunc': cb.isChecked, 'id': 'delete'}
@@ -1139,11 +1139,11 @@ files that the receiver requests to be transferred.""")
     def confirmRestore(self, paths, restoreTo = None):
         if restoreTo:
             msg = '{}:'.format(
-                _('Do you really want to restore this files(s)\ninto '
+                _('Do you really want to restore the files(s)\ninto '
                   'new folder {path}').format(path=restoreTo))
         else:
             msg = '{}:'.format(
-                _('Do you really want to restore this files(s)'))
+                _('Do you really want to restore the files(s)'))
 
         confirm, opt = messagebox.warningYesNoOptions(self,
                                                       msg,

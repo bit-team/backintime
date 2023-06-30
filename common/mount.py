@@ -425,7 +425,7 @@ class MountControl(object):
                     raise HashCollision(
                         f'Hash collision occurred in hash_id {self.hash_id}. '
                         'Incrementing global value hash_collision and '
-                        'try again.')
+                        'trying again.')
 
                 logger.info('Mountpoint {} is already mounted'
                             .format(self.currentMountpoint),

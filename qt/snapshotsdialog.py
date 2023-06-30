@@ -376,7 +376,7 @@ class SnapshotsDialog(QDialog):
                         file=self.path, count=len(items))
 
         msg = '{}\n{}: {}'.format(
-            msg, _('WARNING'), _('This can not be revoked!'))
+            msg, _('WARNING'), _('This cannot be revoked!'))
 
         if QMessageBox.Yes == messagebox.warningYesNo(self, msg):
             for item in items:

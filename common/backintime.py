@@ -225,7 +225,7 @@ def createParsers(app_name = 'backintime'):
     nargs = 0
     aliases = [(command, nargs), ('b', nargs)]
     description = 'Take a new snapshot. Ignore if the profile ' +\
-                  'is not scheduled or if the machine runs on battery.'
+                  'is not scheduled or if the machine is running on battery.'
     backupCP =             subparsers.add_parser(command,
                                                  parents = [rsyncArgsParser],
                                                  epilog = epilogCommon,
@@ -263,7 +263,7 @@ def createParsers(app_name = 'backintime'):
                                                  action = 'store',
                                                  default = 40,
                                                  nargs = '?',
-                                                 help = 'File size used to for benchmark.')
+                                                 help = 'File size used for benchmark.')
 
     command = 'check-config'
     description = 'Check the profiles configuration and install crontab entries.'
@@ -400,17 +400,17 @@ def createParsers(app_name = 'backintime'):
 
     backupGroup.add_argument                    ('--no-local-backup',
                                                  action = 'store_true',
-                                                 help = 'Temporary disable creation of backup files before changing local files. ' +\
-                                                 'This can be switched of permanently in Settings, too.')
+                                                 help = 'Temporarily disable creation of backup files before changing local files. ' +\
+                                                 'This can be switched off permanently in Settings, too.')
 
     restoreCP.add_argument                      ('--only-new',
                                                  action = 'store_true',
-                                                 help = 'Only restore files which does not exist or are newer than ' +\
+                                                 help = 'Only restore files which do not exist or are newer than ' +\
                                                         'those in destination. Using "rsync --update" option.')
 
     command = 'shutdown'
     nargs = 0
-    description = 'Shutdown the computer after the snapshot is done.'
+    description = 'Shut down the computer after the snapshot is done.'
     shutdownCP =           subparsers.add_parser(command,
                                                  epilog = epilogCommon,
                                                  help = description,
@@ -431,7 +431,7 @@ def createParsers(app_name = 'backintime'):
     command = 'snapshots-list'
     nargs = 0
     aliases.append((command, nargs))
-    description = 'Show a list of snapshots IDs.'
+    description = 'Show a list of snapshot IDs.'
     snapshotsListCP =      subparsers.add_parser(command,
                                                  parents = [snapshotPathParser],
                                                  epilog = epilogCommon,
@@ -443,7 +443,7 @@ def createParsers(app_name = 'backintime'):
     command = 'snapshots-list-path'
     nargs = 0
     aliases.append((command, nargs))
-    description = "Show the path's to snapshots."
+    description = "Show the paths to snapshots."
     snapshotsListPathCP =  subparsers.add_parser(command,
                                                  parents = [snapshotPathParser],
                                                  epilog = epilogCommon,
@@ -514,7 +514,7 @@ def startApp(app_name = 'backintime'):
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
         logger.warning("It looks like you're using 'sudo' to start %(app)s. "
-                       "This will cause some troubles. Please use either 'sudo -i %(app_name)s' "
+                       "This will cause some trouble. Please use either 'sudo -i %(app_name)s' "
                        "or 'pkexec %(app_name)s'."
                        %{'app_name': app_name, 'app': config.Config.APP_NAME})
 
