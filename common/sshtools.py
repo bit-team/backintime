@@ -740,7 +740,7 @@ class SSH(MountControl):
                 raise MountException(
                     "Checking commands on remote host didn't return any "
                     "output. We already checked the maximum argument length "
-                    "but it seem like there is an other problem")
+                    "but it seems like there is another problem")
 
             logger.warning(
                 'Looks like the command was to long for remote SSHd. '
@@ -897,7 +897,7 @@ class SSH(MountControl):
                 # Argument list too long
                 if e.errno == 7:
                     logger.debug(
-                        'Argument list too log (Python exception)', self)
+                        'Argument list too long (Python exception)', self)
 
                     return maxArg()
 
@@ -1013,7 +1013,7 @@ def sshKeyGen(keyfile):
     if proc.returncode:
         logger.error('Failed to create a new ssh-key: {}'.format(err))
     else:
-        logger.info('Successfully create new ssh-key "{}"'.format(keyfile))
+        logger.info('Successfully created new ssh-key "{}"'.format(keyfile))
 
     return not proc.returncode
 

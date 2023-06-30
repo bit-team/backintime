@@ -105,7 +105,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 CUSTOM_HOUR: _('Custom Hours'),
                 DAY: _('Every Day'),
                 REPEATEDLY: _('Repeatedly (anacron)'),
-                UDEV: _('When drive get connected (udev)'),
+                UDEV: _('When drive gets connected (udev)'),
                 WEEK: _('Every Week'),
                 MONTH: _('Every Month'),
                 YEAR: _('Every Year')
@@ -371,7 +371,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 self.notifyError(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        _('You must select at least one folder to backup!')
+                        _('You must select at least one folder to back up!')
                     )
                 )
 
@@ -486,7 +486,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 try:
                     os.chmod(p, 0o777)
                 except PermissionError as e:
-                    msg = "Failed to change permissions world writeable for '{}': {}"
+                    msg = "Failed to set permissions world-writable for '{}': {}"
                     logger.warning(msg.format(p, str(e)), self)
 
         # Test filesystem
@@ -503,7 +503,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         elif fs == 'cifs' and not self.copyLinks():
             self.notifyError(_(
-                'Destination filesystem for {path} is a SMB mounted share. '
+                'Destination filesystem for {path} is an SMB-mounted share. '
                 'Please make sure the remote SMB server supports symlinks or '
                 'activate {copyLinks} in {expertOptions}.')
                 .format(path=value,
@@ -512,7 +512,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
             self.notifyError(_(
-                "Destination filesystem for {path} is a sshfs mounted share."
+                "Destination filesystem for {path} is an sshfs-mounted share."
                 " sshfs doesn't support hard-links. "
                 "Please use mode 'SSH' instead.")
                 .format(path=value))
@@ -651,7 +651,7 @@ class Config(configfile.ConfigFileWithProfiles):
         #?0 = unlimited;0, >700
         value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
         if value and value < 700:
-            raise ValueError('SSH max arg length %s is to low to run commands' % value)
+            raise ValueError('SSH max arg length %s is too low to run commands' % value)
         return value
 
     def setSshMaxArgLength(self, value, profile_id = None):
@@ -1266,7 +1266,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if '--old-args' in val:
             logger.warning(
                 'Found rsync flag "--old-args". That flag will be removed '
-                'from the options because it does conflict with '
+                'from the options because it conflicts with '
                 'the flag "-s" (also known as "--secluded-args" or '
                 '"--protected-args") which is used by Back In Time to force '
                 'the "new form of argument protection" in rsync.'
@@ -1537,7 +1537,12 @@ class Config(configfile.ConfigFileWithProfiles):
         else:
             return True
 
-    SYSTEM_ENTRY_MESSAGE = "#Back In Time system entry, this will be edited by the gui:"
+    SYSTEM_ENTRY_MESSAGE \
+        = "#Back In Time system entry, this will be edited by the gui:"
+    """The string is used in crontab file to mark entries as owned by Back
+    In Time. **WARNING**: Don't modify that string in code because it is used
+    as match target while parsing the crontab file.
+    """
 
     def setupCron(self):
         for f in self.anacrontabFiles():
@@ -1626,7 +1631,7 @@ class Config(configfile.ConfigFileWithProfiles):
             # entries if there is no automatic entry.
             newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
             newCrontab.append("#Please don't delete these two lines, or all custom backintime "
-                              "entries are going to be deleted next time you call the gui options!")
+                              "entries will be deleted next time you call the gui options!")
         return newCrontab
 
     def cronLine(self, profile_id):

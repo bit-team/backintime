@@ -504,8 +504,8 @@ class SettingsDialog(QDialog):
                 _("Warning"),
                 _(
                     "Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored "
-                    "with mode 'SSH encrypted'.\nOnly separate asterisk "
-                    "are allowed ('foo/*', 'foo/**/bar')"
+                    "with mode 'SSH encrypted'.\nOnly single or double "
+                    "asterisks kare allowed ('foo/*', 'foo/**/bar')"
                 )
             ),
             self
@@ -573,9 +573,9 @@ class SettingsDialog(QDialog):
               'new files\n'
               'because for rsync this is a transfer option, not an '
               'exclude option.\n'
-              'So big files that has been backed up before will remain '
+              'So big files that have been backed up before will remain '
               'in snapshots\n'
-              'even if they had changed.' % {'prefix': 'MiB'})
+              'even if they have changed.' % {'prefix': 'MiB'})
         )
         hlayout.addWidget(self.cbExcludeBySize)
         self.spbExcludeBySize = QSpinBox(self)
@@ -729,7 +729,7 @@ class SettingsDialog(QDialog):
         self.cbGlobalFlock.setToolTip(
             _('Other snapshots will be blocked until the current snapshot '
               'is done.\n'
-              'This is a global option. So it will effect all profiles '
+              'This is a global option. So it will affect all profiles '
               'for this user.\n'
               'But you need to activate this for all other users, too.')
         )
@@ -757,7 +757,7 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.cbUseChecksum)
 
         self.cbTakeSnapshotRegardlessOfChanges = QCheckBox(
-            _('Take a new snapshot regardless of there were changes or not.'))
+            _('Take a new snapshot wethere there were changes or not.'))
         layout.addWidget(self.cbTakeSnapshotRegardlessOfChanges)
 
         # log level
@@ -790,7 +790,7 @@ class SettingsDialog(QDialog):
 
         label = QLabel(
             _('Change these options only if you really know what '
-              'you are doing !'),
+              'you are doing!'),
             self)
         qttools.setFontBold(label)
         layout.addWidget(label)
@@ -859,7 +859,7 @@ class SettingsDialog(QDialog):
             self)
         self.cbRedirectStdoutInCron.setToolTip(
             'cron will automatically send an email with attached output '
-            'of cronjobs if a MTA is installed.')
+            'of cronjobs if an MTA is installed.')
         layout.addWidget(self.cbRedirectStdoutInCron)
 
         self.cbRedirectStderrInCron = QCheckBox(
@@ -868,7 +868,7 @@ class SettingsDialog(QDialog):
             self)
         self.cbRedirectStderrInCron.setToolTip(
             'cron will automatically send an email with attached errors '
-            'of cronjobs if a MTA is installed.')
+            'of cronjobs if an MTA is installed.')
         layout.addWidget(self.cbRedirectStderrInCron)
 
         # bwlimit
@@ -1029,7 +1029,7 @@ class SettingsDialog(QDialog):
               'is not available, this could lead to some\n'
               'weird errors.'))
         self.cbSshCheckCommands = QCheckBox(
-            _('Check if remote host support all necessary commands'))
+            _('Check if remote host supports all necessary commands'))
         self.cbSshCheckCommands.setToolTip(
             _('Warning: if disabled and the remote host\n'
               'does not support all necessary commands,\n'
@@ -1862,8 +1862,8 @@ class SettingsDialog(QDialog):
 
                 question_msg = _(
                     '"{path}" is a symlink. The linked target will not be '
-                      'backed up until you include it, too.\nWould you like '
-                      'to include the symlinks target instead?'
+                    'backed up until you include it, too.\nWould you like '
+                    'to include the symlink target instead?'
                 ).format(path=path)
 
                 if self.questionHandler(question_msg):
@@ -1889,7 +1889,7 @@ class SettingsDialog(QDialog):
                 question_msg = _(
                     '"{path}" is a symlink. The linked target will not be '
                     'backed up until you include it, too.\nWould you like '
-                    'to include the symlinks target instead?') \
+                    'to include the symlink target instead?') \
                     .format(path=path)
                 if self.questionHandler(question_msg):
                     path = os.path.realpath(path)
@@ -2127,7 +2127,7 @@ class RestoreConfigDialog(QDialog):
             "Please navigate to the snapshot from which you want to restore "
             "{appName}'s configuration. The path may look like:\n"
             "{samplePath}\n\nIf your snapshots are on a remote drive or if "
-            "they are ncrypted you need to manually mount them first. "
+            "they are encrypted you need to manually mount them first. "
             "If you use Mode SSH you also may need to set up public key "
             "login to the remote host{addFuse}.\n"
             "Take a look at 'man backintime'.")

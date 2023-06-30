@@ -46,7 +46,7 @@ def remove(cfg, snapshot_ids = None, force = None):
     sids = [selectSnapshot(snapshotsList, cfg, sid, 'SnapshotID to remove') for sid in snapshot_ids]
 
     if not force:
-        print('Do you really want to remove this snapshots?')
+        print('Do you really want to remove these snapshots?')
         [print(sid.displayName) for sid in sids]
         if not 'yes' == input('(no/yes): '):
             return

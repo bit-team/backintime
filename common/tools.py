@@ -850,7 +850,7 @@ def keyringSupported():
         logger.debug('No keyring due to import error.')
         return False
 
-    keyring_config_file_folder = "Unkown"
+    keyring_config_file_folder = "Unknown"
     try:
         keyring_config_file_folder = keyring.util.platform_.config_root()
     except:
@@ -1418,7 +1418,7 @@ def readCrontab():
             crontab = [x.strip() for x in out.strip('\n').split('\n')]
             if crontab == ['']:  # Fixes issue #1181 (line count of empty crontab was 1 instead of 0)
                 crontab = []
-            logger.debug('Read %s lines from users crontab'
+            logger.debug('Read %s lines from user crontab'
                          %len(crontab))
             return crontab
 
@@ -1455,7 +1455,7 @@ def writeCrontab(lines):
                      %(proc.returncode, err))
         return False
     else:
-        logger.debug('Wrote %s lines to users crontab'
+        logger.debug('Wrote %s lines to user crontab'
                      %len(lines))
         return True
 
@@ -1613,13 +1613,13 @@ class UniquenessSet:
             size,inode  = dum.st_size, dum.st_ino
             # is it a hlink ?
             if (size, inode) in self._size_inode:
-                logger.debug("[deep test] : skip, it's a duplicate (size, inode)", self)
+                logger.debug("[deep test]: skip, it's a duplicate (size, inode)", self)
                 return False
             self._size_inode.add((size,inode))
             if size not in self._uniq_dict:
                 # first item of that size
                 unique_key = size
-                logger.debug("[deep test] : store current size ?", self)
+                logger.debug("[deep test]: store current size?", self)
             else:
                 prev = self._uniq_dict[size]
                 if prev:
@@ -1627,16 +1627,16 @@ class UniquenessSet:
                     md5sum_prev = md5sum(prev)
                     self._uniq_dict[size] = None
                     self._uniq_dict[md5sum_prev] = prev
-                    logger.debug("[deep test] : size duplicate, remove the size, store prev md5sum", self)
+                    logger.debug("[deep test]: size duplicate, remove the size, store prev md5sum", self)
                 unique_key = md5sum(path)
-                logger.debug("[deep test] : store current md5sum ?", self)
+                logger.debug("[deep test]: store current md5sum?", self)
         else:
             # store a tuple of (size, modification time)
             obj  = os.stat(path)
             unique_key = (obj.st_size, int(obj.st_mtime))
         # store if not already present, then return True
         if unique_key not in self._uniq_dict:
-            logger.debug(" >> ok, store !", self)
+            logger.debug(" >> ok, store!", self)
             self._uniq_dict[unique_key] = path
             return True
         logger.debug(" >> skip (it's a duplicate)", self)
@@ -2347,7 +2347,7 @@ class Daemon:
         """
         # Check for a pidfile to see if the daemon already runs
         if self.pidfile and not self.appInstance.check():
-            message = "pidfile %s already exist. Daemon already running?\n"
+            message = "pidfile %s already exists. Daemon already running?\n"
             logger.error(message % self.pidfile, self)
             sys.exit(1)
 
