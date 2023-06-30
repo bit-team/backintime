@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 20110902-common_po_common-is\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2023-06-19 15:51+0200\n"
+"POT-Creation-Date: 2023-06-30 22:00+0200\n"
 "PO-Revision-Date: 2023-06-20 17:51+0000\n"
 "Last-Translator: sveinki <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/"
@@ -22,20 +22,208 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 "X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/password.py:243
-#, python-brace-format
-msgid "Profile '{profile}': Enter password for {mode}: "
-msgstr "Snið '{profile}': Settu inn lykilorð fyrir {mode}: "
+#: common/config.py:95
+msgid "Disabled"
+msgstr "Óvirkt"
 
-#: common/sshtools.py:1049
+#: common/config.py:96
+msgid "At every boot/reboot"
+msgstr "Við hverja ræsingu/endurræsingu"
+
+#: common/config.py:97 common/config.py:98 common/config.py:99
 #, python-brace-format
-msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
+msgid "Every {n} minutes"
+msgstr "Á {n} mínútna fresti"
+
+#: common/config.py:100
+msgid "Every hour"
+msgstr "Á klukkustundar fresti"
+
+#: common/config.py:101 common/config.py:102 common/config.py:103
+#: common/config.py:104
+#, python-brace-format
+msgid "Every {n} hours"
+msgstr "Á {n} klukkustunda fresti"
+
+#: common/config.py:105
+msgid "Custom Hours"
+msgstr "Sérsniðnar klukkustundir"
+
+#: common/config.py:106
+msgid "Every Day"
+msgstr "Daglega"
+
+#: common/config.py:107
+msgid "Repeatedly (anacron)"
+msgstr "Endurtekið (anacron)"
+
+#: common/config.py:108
+#, fuzzy
+msgid "When drive gets connected (udev)"
+msgstr "Þegar drif er tengt (udev)"
+
+#: common/config.py:109
+msgid "Every Week"
+msgstr "Vikulega"
+
+#: common/config.py:110
+msgid "Every Month"
+msgstr "Mánaðarlega"
+
+#: common/config.py:111
+msgid "Every Year"
+msgstr "Árlega"
+
+#: common/config.py:115 common/config.py:122
+msgid "Day(s)"
+msgstr "dag(a)"
+
+#: common/config.py:116 common/config.py:123
+msgid "Week(s)"
+msgstr "viku(r)"
+
+#: common/config.py:117
+msgid "Year(s)"
+msgstr "ár"
+
+#: common/config.py:121
+msgid "Hour(s)"
+msgstr "klukkustund(ir)"
+
+#: common/config.py:124
+msgid "Month(s)"
+msgstr "mánuð(ir)"
+
+#: common/config.py:174 common/config.py:179
+msgid "Local"
+msgstr "Staðvært"
+
+#: common/config.py:176 common/config.py:186 qt/settingsdialog.py:1934
+msgid "SSH private key"
+msgstr "SSH einkalykill"
+
+#: common/config.py:179
+#, fuzzy
+msgid "encrypted"
+msgstr "SSH dulritað"
+
+#: common/config.py:180 common/config.py:187
+msgid "Encryption"
+msgstr "Dulritun"
+
+#: common/config.py:185
+msgid "SSH encrypted"
+msgstr "SSH dulritað"
+
+#: common/config.py:192
+msgid "Default"
+msgstr "Sjálfgefið"
+
+#: common/config.py:211
+msgid "Main profile"
+msgstr "Aðalsnið"
+
+#: common/config.py:361 common/config.py:373 common/config.py:390
+#: common/config.py:401
+#, python-brace-format
+msgid "Profile: \"{name}\""
+msgstr "Snið: \"{name}\""
+
+#: common/config.py:362
+msgid "Snapshots folder is not valid!"
+msgstr "Mappa fyrir skyndiafrit er ekki gild!"
+
+#: common/config.py:374
+#, fuzzy
+msgid "You must select at least one folder to back up!"
+msgstr "Þú verður að velja a.m.k. eina möppu til að öryggisafrita!"
+
+#: common/config.py:391
+msgid "You can't include backup folder!"
+msgstr "Þú mátt ekki hafa með möppuna sem öryggisafritin eiga að fara í!"
+
+#: common/config.py:403
+msgid "You can't include backup sub-folder!"
+msgstr "Þú mátt ekki hafa með undirmöppu öryggisafritamöppunnar!"
+
+#: common/config.py:461
+#, python-brace-format
+msgid "{path} is not a folder !"
+msgstr "{path} er ekki mappa!"
+
+#: common/config.py:470
+msgid "Host/User/Profile-ID must not be empty!"
 msgstr ""
 
-#: common/sshtools.py:1051
+#: common/config.py:480 common/config.py:527
 #, python-brace-format
-msgid "Please enter password for \"{user}\""
-msgstr "Settu inn lykilorð fyrir \"{user}\""
+msgid ""
+"Can't write to: {path}\n"
+"Are you sure you have write access?"
+msgstr ""
+"Get ekki skrifað í: {path}\n"
+"Ertu viss um að þú hafir skrifaðgang þarna ?"
+
+#: common/config.py:497
+#, python-brace-format
+msgid ""
+"Destination filesystem for {path} is formatted with FAT which doesn't "
+"support hard-links. Please use a native Linux filesystem."
+msgstr ""
+
+#: common/config.py:506
+#, python-brace-format
+msgid ""
+"Destination filesystem for {path} is an SMB-mounted share. Please make sure "
+"the remote SMB server supports symlinks or activate {copyLinks} in "
+"{expertOptions}."
+msgstr ""
+
+#: common/config.py:510 qt/settingsdialog.py:967
+msgid "Copy links (dereference symbolic links)"
+msgstr "Afrita tengla (afbyggja tákntengi - dereference symbolic links)"
+
+#: common/config.py:511
+msgid "Expert Options"
+msgstr "Ítarlegri valkostir"
+
+#: common/config.py:515
+#, python-brace-format
+msgid ""
+"Destination filesystem for {path} is an sshfs-mounted share. sshfs doesn't "
+"support hard-links. Please use mode 'SSH' instead."
+msgstr ""
+
+#: common/config.py:1580
+msgid ""
+"Can't find crontab.\n"
+"Are you sure cron is installed?\n"
+"If not you should disable all automatic backups."
+msgstr ""
+"Finn ekki crontab.\n"
+"Ertu viss um að cron sé uppsett?\n"
+"Ef ekki, ættirðu að gera alla sjálfvirka öryggisafritun óvirka."
+
+#: common/config.py:1586
+msgid "Failed to write new crontab."
+msgstr "Mistókst að skrifa nýtt crontab."
+
+#: common/config.py:1688
+#, python-brace-format
+msgid ""
+"Could not install Udev rule for profile {profile_id}. DBus Service "
+"'{dbus_interface}' wasn't available"
+msgstr ""
+
+#: common/config.py:1703
+#, python-brace-format
+msgid "Schedule udev doesn't work with mode {mode}"
+msgstr "Áætlað udev virkar ekki með hamnum {mode}"
+
+#: common/config.py:1715
+#, python-brace-format
+msgid "Couldn't find UUID for \"{path}\"'"
+msgstr "Gat ekki fundið UUID fyrir \"{path}\"'"
 
 #: common/snapshots.py:325 common/snapshots.py:576
 msgid "FAILED"
@@ -57,7 +245,7 @@ msgstr "Fresta afritun þegar rafhlöður eru í notkun"
 #: common/snapshots.py:749
 msgid ""
 "Can't find snapshots folder.\n"
-"If it is on a removable drive please plug it."
+"If it is on a removable drive please plug it in."
 msgstr ""
 
 #: common/snapshots.py:751
@@ -68,8 +256,8 @@ msgstr[0] "Bið %s sekúndu."
 msgstr[1] "Bið %s sekúndur."
 
 #: common/snapshots.py:788
-#, python-format
-msgid "Failed to take snapshot %s !!!"
+#, fuzzy, python-brace-format
+msgid "Failed to take snapshot {snapshot_id} !!!"
 msgstr "Mistókst að taka skyndiafritið %s !!!"
 
 #: common/snapshots.py:797
@@ -119,43 +307,26 @@ msgstr ""
 msgid "Can't rename {new_path} to {path}"
 msgstr "Gat ekki endurnefnt {new_path} sem {path}"
 
-#: common/snapshots.py:1549 common/snapshots.py:1600 qt/settingsdialog.py:638
+#: common/snapshots.py:1559 common/snapshots.py:1611 qt/settingsdialog.py:645
 msgid "Smart remove"
 msgstr "Snjöll fjarlæging"
 
-#: common/snapshots.py:1576
+#: common/snapshots.py:1586
 msgid "Removing old snapshots"
 msgstr "Fjarlægja gömul skyndiafrit"
 
-#: common/snapshots.py:1610
+#: common/snapshots.py:1621
 msgid "Trying to keep min free space"
 msgstr "Reyna að halda í lágmarksmagn af lausu plássi"
 
-#: common/snapshots.py:1649
-#, python-brace-format, python-format
-msgid "Trying to keep min {perc}% free inodes"
+#: common/snapshots.py:1660
+#, fuzzy, python-brace-format
+msgid "Trying to keep min {perc} free inodes"
 msgstr "Reyna að halda a.m.k. {perc}% af lausum i-hnútum (inodes)"
 
-#: common/snapshots.py:2731 qt/app.py:264 qt/app.py:1369
+#: common/snapshots.py:2742 qt/app.py:264 qt/app.py:1369
 msgid "Now"
 msgstr "Núna"
-
-#: common/configfile.py:106
-msgid "Failed to save config"
-msgstr "Mistókst að vista stillingaskrá"
-
-#: common/configfile.py:138
-msgid "Failed to load config"
-msgstr "Mistókst að hlaða inn stillingaskrá"
-
-#: common/configfile.py:626 common/configfile.py:710
-#, python-brace-format
-msgid "Profile \"{name}\" already exists!"
-msgstr "Sniðið \"{name}\" er þegar til staðar!"
-
-#: common/configfile.py:666
-msgid "You can't remove the last profile!"
-msgstr "Þú getur ekki fjarlægt síðasta snið!"
 
 #: common/encfstools.py:89
 #, python-brace-format
@@ -174,390 +345,37 @@ msgstr "Búa til nýja dulritaða möppu?"
 msgid "Please confirm password"
 msgstr "Staðfestu aðgangsorð"
 
-#: common/config.py:95
-msgid "Disabled"
-msgstr "Óvirkt"
-
-#: common/config.py:96
-msgid "At every boot/reboot"
-msgstr "Við hverja ræsingu/endurræsingu"
-
-#: common/config.py:97 common/config.py:98 common/config.py:99
+#: common/password.py:243
 #, python-brace-format
-msgid "Every {n} minutes"
-msgstr "Á {n} mínútna fresti"
+msgid "Profile '{profile}': Enter password for {mode}: "
+msgstr "Snið '{profile}': Settu inn lykilorð fyrir {mode}: "
 
-#: common/config.py:100
-msgid "Every hour"
-msgstr "Á klukkustundar fresti"
+#: common/configfile.py:111
+msgid "Failed to save config"
+msgstr "Mistókst að vista stillingaskrá"
 
-#: common/config.py:101 common/config.py:102 common/config.py:103
-#: common/config.py:104
+#: common/configfile.py:147
+msgid "Failed to load config"
+msgstr "Mistókst að hlaða inn stillingaskrá"
+
+#: common/configfile.py:697 common/configfile.py:796
 #, python-brace-format
-msgid "Every {n} hours"
-msgstr "Á {n} klukkustunda fresti"
+msgid "Profile \"{name}\" already exists!"
+msgstr "Sniðið \"{name}\" er þegar til staðar!"
 
-#: common/config.py:105
-msgid "Custom Hours"
-msgstr "Sérsniðnar klukkustundir"
+#: common/configfile.py:742
+msgid "You can't remove the last profile!"
+msgstr "Þú getur ekki fjarlægt síðasta snið!"
 
-#: common/config.py:106
-msgid "Every Day"
-msgstr "Daglega"
-
-#: common/config.py:107
-msgid "Repeatedly (anacron)"
-msgstr "Endurtekið (anacron)"
-
-#: common/config.py:108
-msgid "When drive get connected (udev)"
-msgstr "Þegar drif er tengt (udev)"
-
-#: common/config.py:109
-msgid "Every Week"
-msgstr "Vikulega"
-
-#: common/config.py:110
-msgid "Every Month"
-msgstr "Mánaðarlega"
-
-#: common/config.py:111
-msgid "Every Year"
-msgstr "Árlega"
-
-#: common/config.py:115 common/config.py:122
-msgid "Day(s)"
-msgstr "dag(a)"
-
-#: common/config.py:116 common/config.py:123
-msgid "Week(s)"
-msgstr "viku(r)"
-
-#: common/config.py:117
-msgid "Year(s)"
-msgstr "ár"
-
-#: common/config.py:121
-msgid "Hour(s)"
-msgstr "klukkustund(ir)"
-
-#: common/config.py:124
-msgid "Month(s)"
-msgstr "mánuð(ir)"
-
-#: common/config.py:166 qt/settingsdialog.py:648
-msgid " EXPERIMENTAL!"
-msgstr " Á tilraunastigi!"
-
-#: common/config.py:169
-msgid "Local"
-msgstr "Staðvært"
-
-#: common/config.py:170
-msgid "SSH"
-msgstr "SSH"
-
-#: common/config.py:170 common/config.py:172 qt/settingsdialog.py:1921
-msgid "SSH private key"
-msgstr "SSH einkalykill"
-
-#: common/config.py:171
-msgid "Local encrypted"
-msgstr "Staðvært dulritað"
-
-#: common/config.py:171 common/config.py:172
-msgid "Encryption"
-msgstr "Dulritun"
-
-#: common/config.py:172
-msgid "SSH encrypted"
-msgstr "SSH dulritað"
-
-#: common/config.py:176
-msgid "Default"
-msgstr "Sjálfgefið"
-
-#: common/config.py:195
-msgid "Main profile"
-msgstr "Aðalsnið"
-
-#: common/config.py:345 common/config.py:357 common/config.py:374
-#: common/config.py:385
+#: common/sshtools.py:1049
 #, python-brace-format
-msgid "Profile: \"{name}\""
-msgstr "Snið: \"{name}\""
-
-#: common/config.py:346
-msgid "Snapshots folder is not valid!"
-msgstr "Mappa fyrir skyndiafrit er ekki gild!"
-
-#: common/config.py:358
-msgid "You must select at least one folder to backup!"
-msgstr "Þú verður að velja a.m.k. eina möppu til að öryggisafrita!"
-
-#: common/config.py:375
-msgid "You can't include backup folder!"
-msgstr "Þú mátt ekki hafa með möppuna sem öryggisafritin eiga að fara í!"
-
-#: common/config.py:387
-msgid "You can't include backup sub-folder!"
-msgstr "Þú mátt ekki hafa með undirmöppu öryggisafritamöppunnar!"
-
-#: common/config.py:445
-#, python-brace-format
-msgid "{path} is not a folder !"
-msgstr "{path} er ekki mappa!"
-
-#: common/config.py:454
-msgid "Host/User/Profile-ID must not be empty!"
+msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\""
 msgstr ""
 
-#: common/config.py:464 common/config.py:511
+#: common/sshtools.py:1051
 #, python-brace-format
-msgid ""
-"Can't write to: {path}\n"
-"Are you sure you have write access?"
-msgstr ""
-"Get ekki skrifað í: {path}\n"
-"Ertu viss um að þú hafir skrifaðgang þarna ?"
-
-#: common/config.py:481
-#, python-brace-format
-msgid ""
-"Destination filesystem for {path} is formatted with FAT which doesn't "
-"support hard-links. Please use a native Linux filesystem."
-msgstr ""
-
-#: common/config.py:490
-#, python-brace-format
-msgid ""
-"Destination filesystem for {path} is a SMB mounted share. Please make sure "
-"the remote SMB server supports symlinks or activate {copyLinks} in "
-"{expertOptions}."
-msgstr ""
-
-#: common/config.py:494 qt/settingsdialog.py:957
-msgid "Copy links (dereference symbolic links)"
-msgstr "Afrita tengla (afbyggja tákntengi - dereference symbolic links)"
-
-#: common/config.py:495
-msgid "Expert Options"
-msgstr "Ítarlegri valkostir"
-
-#: common/config.py:499
-#, python-brace-format
-msgid ""
-"Destination filesystem for {path} is a sshfs mounted share. sshfs doesn't "
-"support hard-links. Please use mode 'SSH' instead."
-msgstr ""
-
-#: common/config.py:1559
-msgid ""
-"Can't find crontab.\n"
-"Are you sure cron is installed?\n"
-"If not you should disable all automatic backups."
-msgstr ""
-"Finn ekki crontab.\n"
-"Ertu viss um að cron sé uppsett?\n"
-"Ef ekki, ættirðu að gera alla sjálfvirka öryggisafritun óvirka."
-
-#: common/config.py:1565
-msgid "Failed to write new crontab."
-msgstr "Mistókst að skrifa nýtt crontab."
-
-#: common/config.py:1667
-#, python-brace-format
-msgid ""
-"Could not install Udev rule for profile {profile_id}. DBus Service "
-"'{dbus_interface}' wasn't available"
-msgstr ""
-
-#: common/config.py:1682
-#, python-brace-format
-msgid "Schedule udev doesn't work with mode {mode}"
-msgstr "Áætlað udev virkar ekki með hamnum {mode}"
-
-#: common/config.py:1694
-#, python-brace-format
-msgid "Couldn't find UUID for \"{path}\"'"
-msgstr "Gat ekki fundið UUID fyrir \"{path}\"'"
-
-#: qt/restoredialog.py:51 qt/snapshotsdialog.py:142 qt/snapshotsdialog.py:147
-#: qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2202
-msgid "Restore"
-msgstr "Endurheimta"
-
-#: qt/restoredialog.py:64
-msgid "Show full Log"
-msgstr "Birta fullan annál"
-
-#: qt/logviewdialog.py:57
-msgid "Last Log View"
-msgstr ""
-
-#: qt/logviewdialog.py:59
-msgid "Snapshot Log View"
-msgstr ""
-
-#: qt/logviewdialog.py:67 qt/settingsdialog.py:99 qt/settingsdialog.py:344
-#: qt/settingsdialog.py:2299 qt/qtsystrayicon.py:70
-msgid "Profile"
-msgstr "Snið"
-
-#: qt/logviewdialog.py:75 qt/snapshotsdialog.py:101 qt/qttools.py:245
-#: qt/app.py:268
-msgid "Snapshots"
-msgstr "Skyndiafrit"
-
-#: qt/logviewdialog.py:89
-msgid "Filter"
-msgstr "Sía"
-
-#: qt/logviewdialog.py:95 qt/settingsdialog.py:766
-msgid "All"
-msgstr "Allt"
-
-#: qt/logviewdialog.py:96 qt/logviewdialog.py:98 qt/settingsdialog.py:763
-#: qt/settingsdialog.py:765
-msgid "Errors"
-msgstr "Villur"
-
-#: qt/logviewdialog.py:96 qt/logviewdialog.py:99 qt/settingsdialog.py:765
-msgid "Changes"
-msgstr "Breytingar"
-
-#: qt/logviewdialog.py:100
-msgid "Informations"
-msgstr "Upplýsingar"
-
-#: qt/logviewdialog.py:110
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Villa, [I] Upplýsingar, [C] Breyta"
-
-#: qt/logviewdialog.py:113 qt/qtsystrayicon.py:92
-msgid "decode paths"
-msgstr "afkóða slóðir"
-
-#: qt/logviewdialog.py:171
-msgid "Copy"
-msgstr "Afrita"
-
-#: qt/logviewdialog.py:175 qt/app.py:416
-msgid "Add to Exclude"
-msgstr "Bæta við útilokun"
-
-#: qt/logviewdialog.py:179
-msgid "Decode"
-msgstr "Afkóða"
-
-#: qt/logviewdialog.py:201
-msgid "Do you want to exclude this?"
-msgstr ""
-
-#: qt/snapshotsdialog.py:53 qt/snapshotsdialog.py:181
-msgid "Diff Options"
-msgstr "Diff valkostir"
-
-#: qt/snapshotsdialog.py:60
-msgid "Command"
-msgstr "Skipun"
-
-#: qt/snapshotsdialog.py:64
-msgid "Parameters"
-msgstr "Færibreytur"
-
-#: qt/snapshotsdialog.py:68
-msgid "Use %1 and %2 for path parameters"
-msgstr ""
-
-#: qt/snapshotsdialog.py:112
-msgid "Differing snapshots only"
-msgstr "Taka skyndiafrit mismunar"
-
-#: qt/snapshotsdialog.py:120
-msgid "List only equal snapshots to: "
-msgstr ""
-
-#: qt/snapshotsdialog.py:131
-msgid "Deep check (more accurate, but slow)"
-msgstr "Ítarleg yfirferð (nákvæmari, en hægvirkt)"
-
-#: qt/snapshotsdialog.py:144 qt/app.py:238 qt/app.py:1194 qt/app.py:1226
-msgid "Restore to ..."
-msgstr "Endurheimta í ..."
-
-#: qt/snapshotsdialog.py:152
-msgid "Delete"
-msgstr "Eyða"
-
-#: qt/snapshotsdialog.py:156
-msgid "Select All"
-msgstr "Velja allt"
-
-#: qt/snapshotsdialog.py:169
-msgid "Diff"
-msgstr "Diff"
-
-#: qt/snapshotsdialog.py:180
-msgid "Go To"
-msgstr "Fara í"
-
-#: qt/snapshotsdialog.py:330
-msgid "You can't compare a snapshot to itself"
-msgstr "Þú getur ekki borið skyndiafrit saman við sjálft sig"
-
-#: qt/snapshotsdialog.py:338
-msgid "Command not found"
-msgstr "Skipun fannst ekki"
-
-#: qt/snapshotsdialog.py:369
-#, python-brace-format
-msgid "Do you really want to delete \"{file}\" in snapshot \"{snapshot_id}\"?"
-msgstr ""
-"Ertu viss um að þú viljir eyða \"{file}\" í skyndiafritinu \"{snapshot_id}\"?"
-
-#: qt/snapshotsdialog.py:374
-#, python-brace-format
-msgid "Do you really want to delete \"{file}\" in {count} snapshots?"
-msgstr "Ertu viss um að þú viljir eyða \"{file}\" í {count} skyndiafritum?"
-
-#: qt/snapshotsdialog.py:379
-msgid "WARNING"
-msgstr "AÐVÖRUN"
-
-#: qt/snapshotsdialog.py:379
-msgid "This can not be revoked!"
-msgstr "Þetta er ekki hægt að afturkalla!"
-
-#: qt/snapshotsdialog.py:395
-#, python-brace-format
-msgid "Exclude \"{path}\" from future snapshots?"
-msgstr "Útiloka \"{path}\" framvegis frá skyndiafritum?"
-
-#: qt/qttools.py:265
-msgid "Today"
-msgstr "Í dag"
-
-#: qt/qttools.py:269
-msgid "Yesterday"
-msgstr "Í gær"
-
-#: qt/qttools.py:274
-msgid "This week"
-msgstr "Í þessari viku"
-
-#: qt/qttools.py:278
-msgid "Last week"
-msgstr "Í síðustu viku"
-
-#: qt/qttools.py:397
-msgid "This is NOT a snapshot but a live view of your local files"
-msgstr ""
-
-#: qt/qttools.py:402
-#, python-brace-format
-msgid "Last check {time}"
-msgstr "Síðasta athugun {time}"
+msgid "Please enter password for \"{user}\""
+msgstr "Settu inn lykilorð fyrir \"{user}\""
 
 #: qt/messagebox.py:58 qt/app.py:760
 msgid "Error"
@@ -567,11 +385,20 @@ msgstr "Villa"
 msgid "Question"
 msgstr "Spurning"
 
+#: qt/restoredialog.py:51 qt/app.py:232 qt/app.py:259 qt/settingsdialog.py:2215
+#: qt/snapshotsdialog.py:142 qt/snapshotsdialog.py:147
+msgid "Restore"
+msgstr "Endurheimta"
+
+#: qt/restoredialog.py:64
+msgid "Show full Log"
+msgstr "Birta fullan annál"
+
 #: qt/app.py:94
 msgid "Take snapshot with checksums"
 msgstr ""
 
-#: qt/app.py:95 qt/settingsdialog.py:746
+#: qt/app.py:95 qt/settingsdialog.py:756
 msgid "Use checksum to detect changes"
 msgstr "Nota gátsummu til að skynja breytingar"
 
@@ -616,7 +443,8 @@ msgid "Shutdown"
 msgstr "Slökkva"
 
 #: qt/app.py:148
-msgid "Shutdown system after snapshot has finished."
+#, fuzzy
+msgid "Shut down system after snapshot has finished."
 msgstr "Slökkva á kerfi þegar skyndiafritun lýkur."
 
 #: qt/app.py:154
@@ -663,7 +491,7 @@ msgstr "Um forritið"
 msgid "Up"
 msgstr "Upp"
 
-#: qt/app.py:221 qt/settingsdialog.py:2158
+#: qt/app.py:221 qt/settingsdialog.py:2171
 msgid "Show hidden files"
 msgstr "Sýna faldar skrár"
 
@@ -671,19 +499,23 @@ msgstr "Sýna faldar skrár"
 msgid "Restore the selected files or folders to the original destination."
 msgstr ""
 
+#: qt/app.py:238 qt/app.py:1194 qt/app.py:1226 qt/snapshotsdialog.py:144
+msgid "Restore to ..."
+msgstr "Endurheimta í ..."
+
 #: qt/app.py:240
 msgid "Restore the selected files or folders to a new destination."
 msgstr ""
 
 #: qt/app.py:244
 msgid ""
-"Restore the currently shown folder and all its content to the original "
+"Restore the currently shown folder and all its contents to the original "
 "destination."
 msgstr ""
 
 #: qt/app.py:250
 msgid ""
-"Restore the currently shown folder and all its content to a new destination."
+"Restore the currently shown folder and all its contents to a new destination."
 msgstr ""
 
 #: qt/app.py:262
@@ -693,6 +525,11 @@ msgid ""
 "If this button is grayed out this is most likely because \"{now}\" is "
 "selected in left hand snapshots list."
 msgstr ""
+
+#: qt/app.py:268 qt/qttools.py:324 qt/logviewdialog.py:75
+#: qt/snapshotsdialog.py:101
+msgid "Snapshots"
+msgstr "Skyndiafrit"
 
 #: qt/app.py:283
 msgid "&View"
@@ -720,6 +557,10 @@ msgstr ""
 msgid "Add to Include"
 msgstr "Bæta við meðfylgjandi"
 
+#: qt/app.py:416 qt/logviewdialog.py:175
+msgid "Add to Exclude"
+msgstr "Bæta við útilokun"
+
 #: qt/app.py:496
 #, python-brace-format
 msgid ""
@@ -730,12 +571,12 @@ msgstr ""
 #: qt/app.py:521
 msgid ""
 "Can't find snapshots folder.\n"
-"If it is on a removable drive please plug it and then press OK."
+"If it is on a removable drive please plug it in and then press OK."
 msgstr ""
 
 #: qt/app.py:557
 msgid ""
-"If you close this window Back In Time will not be able to shutdown your "
+"If you close this window Back In Time will not be able to shut down your "
 "system when the snapshot has finished.\n"
 "Do you really want to close?"
 msgstr ""
@@ -752,15 +593,15 @@ msgstr "Búið, engin öryggisafritun nauðsynleg"
 msgid "Working"
 msgstr "Að vinna"
 
-#: qt/app.py:781 qt/qtsystrayicon.py:191
+#: qt/app.py:781 qt/qtsystrayicon.py:194
 msgid "Sent"
 msgstr "Sent"
 
-#: qt/app.py:782 qt/qtsystrayicon.py:192
+#: qt/app.py:782 qt/qtsystrayicon.py:195
 msgid "Speed"
 msgstr "Hraði"
 
-#: qt/app.py:783 qt/qtsystrayicon.py:193
+#: qt/app.py:783 qt/qtsystrayicon.py:196
 msgid "ETA"
 msgstr "Áætluð lok"
 
@@ -787,11 +628,11 @@ msgstr "Ertu viss um að þú viljir fjarlægja skyndiafritið"
 #: qt/app.py:1076
 #, python-brace-format
 msgid ""
-"Backup local files before overwriting or\n"
-"removing with trailing {suffix}."
+"Create backup copies with trailing {suffix} before\n"
+"overwriting or removing local files."
 msgstr ""
 
-#: qt/app.py:1082 qt/settingsdialog.py:731
+#: qt/app.py:1082 qt/settingsdialog.py:741
 #, python-brace-format
 msgid ""
 "Newer versions of files will be renamed with trailing {suffix} before "
@@ -814,22 +655,23 @@ msgstr "Fjarlægja nýjar skrár í upprunalegri möppu"
 msgid ""
 "Restore selected files or folders to the original destination and\n"
 "delete files/folders which are not in the snapshot.\n"
-"This will delete files/folders which where excluded during taking the "
+"This will delete files/folders which were excluded during taking the "
 "snapshot!\n"
 "Be extremely careful!!!"
 msgstr ""
 
 #: qt/app.py:1142
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
-"Do you really want to restore this files(s)\n"
+"Do you really want to restore the files(s)\n"
 "into new folder {path}"
 msgstr ""
 "Ertu viss um að þú viljir endurheimta þessa skrá/r\n"
 "í nýju möppuna {path}"
 
 #: qt/app.py:1146
-msgid "Do you really want to restore this files(s)"
+#, fuzzy
+msgid "Do you really want to restore the files(s)"
 msgstr "Ertu viss um að þú viljir endurheimta þessa skrá/r"
 
 #: qt/app.py:1158
@@ -882,6 +724,24 @@ msgstr "Þýðingar"
 msgid "License"
 msgstr "Notkunarleyfi"
 
+#: qt/qtsystrayicon.py:70 qt/settingsdialog.py:99 qt/settingsdialog.py:344
+#: qt/settingsdialog.py:2312 qt/logviewdialog.py:67
+msgid "Profile"
+msgstr "Snið"
+
+#: qt/qtsystrayicon.py:92 qt/logviewdialog.py:113
+msgid "decode paths"
+msgstr "afkóða slóðir"
+
+#: qt/qtsystrayicon.py:101
+#, fuzzy, python-brace-format
+msgid "Start {appname}"
+msgstr "Ræsa BackInTime"
+
+#: qt/qtsystrayicon.py:161
+msgid "Working..."
+msgstr "Í vinnslu..."
+
 #: qt/settingsdialog.py:108
 msgid "Edit"
 msgstr "Breyta"
@@ -890,11 +750,11 @@ msgstr "Breyta"
 msgid "Modify for Full System Backup"
 msgstr ""
 
-#: qt/settingsdialog.py:122 qt/settingsdialog.py:536
+#: qt/settingsdialog.py:122 qt/settingsdialog.py:543
 msgid "Add"
 msgstr "Bæta við"
 
-#: qt/settingsdialog.py:126 qt/settingsdialog.py:493 qt/settingsdialog.py:554
+#: qt/settingsdialog.py:126 qt/settingsdialog.py:493 qt/settingsdialog.py:561
 msgid "Remove"
 msgstr "Fjarlægja"
 
@@ -902,11 +762,11 @@ msgstr "Fjarlægja"
 msgid "&General"
 msgstr "&Almennt"
 
-#: qt/settingsdialog.py:151 qt/settingsdialog.py:2301
+#: qt/settingsdialog.py:151 qt/settingsdialog.py:2314
 msgid "Mode"
 msgstr "Hamur"
 
-#: qt/settingsdialog.py:165
+#: qt/settingsdialog.py:165 qt/settingsdialog.py:504
 msgid "Warning"
 msgstr "Aðvörun"
 
@@ -918,7 +778,7 @@ msgid ""
 "\" in \"man backintime\"."
 msgstr ""
 
-#: qt/settingsdialog.py:177 qt/settingsdialog.py:1897
+#: qt/settingsdialog.py:177 qt/settingsdialog.py:1910
 msgid "Where to save snapshots"
 msgstr "Hvar á að vista skyndiafrit"
 
@@ -1029,11 +889,11 @@ msgstr "Ta&ka með"
 msgid "Include files and folders"
 msgstr "Hafa með skrár og möppur"
 
-#: qt/settingsdialog.py:485 qt/settingsdialog.py:540
+#: qt/settingsdialog.py:485 qt/settingsdialog.py:547
 msgid "Add file"
 msgstr "Bæta við skrá"
 
-#: qt/settingsdialog.py:489 qt/settingsdialog.py:544
+#: qt/settingsdialog.py:489 qt/settingsdialog.py:551
 msgid "Add folder"
 msgstr "Bæta við möppu"
 
@@ -1041,217 +901,239 @@ msgstr "Bæta við möppu"
 msgid "&Exclude"
 msgstr "&Undanskilja"
 
-#: qt/settingsdialog.py:503
+#: qt/settingsdialog.py:506
 msgid ""
-"<b>Warning:</b> Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with "
-"mode 'SSH encrypted'.\n"
-"Only separate asterisk are allowed ('foo/*', 'foo/**/bar')"
+"Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored with mode 'SSH "
+"encrypted'.\n"
+"Only single or double asterisks kare allowed ('foo/*', 'foo/**/bar')"
 msgstr ""
 
-#: qt/settingsdialog.py:513
+#: qt/settingsdialog.py:520
 msgid "Exclude patterns, files or folders"
 msgstr "Undanskilja mynstur, skrár eða möppur"
 
-#: qt/settingsdialog.py:526
-msgid "Highly recommended:"
+#: qt/settingsdialog.py:533
+#, fuzzy
+msgid "Highly recommended"
 msgstr "Sérstaklega mælt með:"
 
-#: qt/settingsdialog.py:549
+#: qt/settingsdialog.py:556
 msgid "Add default"
 msgstr "Bæta við sjálfgefnu"
 
-#: qt/settingsdialog.py:562
+#: qt/settingsdialog.py:569
 msgid "Exclude files bigger than: "
 msgstr "Hunsa skrár stærri en: "
 
-#: qt/settingsdialog.py:564
+#: qt/settingsdialog.py:571
 #, python-format
 msgid ""
 "Exclude files bigger than value in %(prefix)s.\n"
 "With 'Full rsync mode' disabled this will only affect new files\n"
 "because for rsync this is a transfer option, not an exclude option.\n"
-"So big files that has been backed up before will remain in snapshots\n"
-"even if they had changed."
+"So big files that have been backed up before will remain in snapshots\n"
+"even if they have changed."
 msgstr ""
 
-#: qt/settingsdialog.py:586
+#: qt/settingsdialog.py:593
 msgid "&Auto-remove"
 msgstr "Sjálfvirk fj&arlæging"
 
-#: qt/settingsdialog.py:592
+#: qt/settingsdialog.py:599
 msgid "Older than"
 msgstr "Eldri en"
 
-#: qt/settingsdialog.py:609
+#: qt/settingsdialog.py:616
 msgid "If free space is less than"
 msgstr "Ef laust pláss er minna en"
 
-#: qt/settingsdialog.py:624
+#: qt/settingsdialog.py:631
 msgid "If free inodes is less than"
 msgstr "Ef lausir i-hnútar (inodes) eru færri en"
 
-#: qt/settingsdialog.py:648
+#: qt/settingsdialog.py:656
 msgid "Run in background on remote Host."
 msgstr "Keyra í bakgrunni á fjartengdri vél."
 
-#: qt/settingsdialog.py:653
+#: qt/settingsdialog.py:657
+#, fuzzy
+msgid "EXPERIMENTAL"
+msgstr " Á tilraunastigi!"
+
+#: qt/settingsdialog.py:663
 msgid "Keep all snapshots for the last"
 msgstr "Geyma öll skyndiafrit síðustu"
 
-#: qt/settingsdialog.py:657 qt/settingsdialog.py:664
+#: qt/settingsdialog.py:667 qt/settingsdialog.py:674
 msgid "day(s)"
 msgstr "dag(a)"
 
-#: qt/settingsdialog.py:660
+#: qt/settingsdialog.py:670
 msgid "Keep one snapshot per day for the last"
 msgstr "Geyma eitt skyndiafrit á dag síðustu"
 
-#: qt/settingsdialog.py:667
+#: qt/settingsdialog.py:677
 msgid "Keep one snapshot per week for the last"
 msgstr "Geyma eitt skyndiafrit á viku síðustu"
 
-#: qt/settingsdialog.py:671
+#: qt/settingsdialog.py:681
 msgid "weeks(s)"
 msgstr "viku(r)"
 
-#: qt/settingsdialog.py:674
+#: qt/settingsdialog.py:684
 msgid "Keep one snapshot per month for the last"
 msgstr "Geyma eitt skyndiafrit á mánuði síðustu"
 
-#: qt/settingsdialog.py:678
+#: qt/settingsdialog.py:688
 msgid "month(s)"
 msgstr "mánuði(r)"
 
-#: qt/settingsdialog.py:681
+#: qt/settingsdialog.py:691
 msgid "Keep one snapshot per year for all years"
 msgstr "Geyma eitt skyndiafrit á ári"
 
-#: qt/settingsdialog.py:690
+#: qt/settingsdialog.py:700
 msgid "Don't remove named snapshots"
 msgstr "Ekki fjarlægja nefnd skyndiafrit"
 
-#: qt/settingsdialog.py:702
+#: qt/settingsdialog.py:712
 msgid "&Options"
 msgstr "Valk&ostir"
 
-#: qt/settingsdialog.py:707
+#: qt/settingsdialog.py:717
 msgid "Enable notifications"
 msgstr "Virkja tilkynningar"
 
-#: qt/settingsdialog.py:711
+#: qt/settingsdialog.py:721
 msgid "Disable snapshots when on battery"
 msgstr "Koma í veg fyrir skyndiafritun þegar rafhlaða er í notkun"
 
-#: qt/settingsdialog.py:715
+#: qt/settingsdialog.py:725
 msgid "Power status not available from system"
 msgstr "Staða rafhlöðu er ekki tiltæk frá kerfinu"
 
-#: qt/settingsdialog.py:718
+#: qt/settingsdialog.py:728
 msgid "Run only one snapshot at a time"
 msgstr "Keyra aðeins eitt skyndiafrit í einu"
 
-#: qt/settingsdialog.py:720
+#: qt/settingsdialog.py:730
 msgid ""
 "Other snapshots will be blocked until the current snapshot is done.\n"
-"This is a global option. So it will effect all profiles for this user.\n"
+"This is a global option. So it will affect all profiles for this user.\n"
 "But you need to activate this for all other users, too."
 msgstr ""
 
-#: qt/settingsdialog.py:729
+#: qt/settingsdialog.py:739
 msgid "Backup replaced files on restore"
 msgstr "Öryggisafrit skipti út skrám við endurheimtingu"
 
-#: qt/settingsdialog.py:742
+#: qt/settingsdialog.py:752
 msgid "Continue on errors (keep incomplete snapshots)"
 msgstr "Halda áfram við villur (geyma ókláruð skyndiafrit)"
 
-#: qt/settingsdialog.py:750
-msgid "Take a new snapshot regardless of there were changes or not."
+#: qt/settingsdialog.py:760
+#, fuzzy
+msgid "Take a new snapshot wethere there were changes or not."
 msgstr "Taka skyndiafrit sama hvort nokkuð hafi breyst."
 
-#: qt/settingsdialog.py:757
+#: qt/settingsdialog.py:767
 msgid "Log Level"
 msgstr "Stig atvikaskráningar"
 
-#: qt/settingsdialog.py:762
+#: qt/settingsdialog.py:772
 msgid "None"
 msgstr "Ekkert"
 
-#: qt/settingsdialog.py:776
+#: qt/settingsdialog.py:773 qt/settingsdialog.py:775 qt/logviewdialog.py:96
+#: qt/logviewdialog.py:98
+msgid "Errors"
+msgstr "Villur"
+
+#: qt/settingsdialog.py:775 qt/logviewdialog.py:96 qt/logviewdialog.py:99
+msgid "Changes"
+msgstr "Breytingar"
+
+#: qt/settingsdialog.py:776 qt/logviewdialog.py:95
+msgid "All"
+msgstr "Allt"
+
+#: qt/settingsdialog.py:786
 msgid "E&xpert Options"
 msgstr "Ítarlegri valkostir"
 
-#: qt/settingsdialog.py:782
-msgid "Change these options only if you really know what you are doing !"
+#: qt/settingsdialog.py:792
+#, fuzzy
+msgid "Change these options only if you really know what you are doing!"
 msgstr "EKKI breyta þessum stillingum nema að þú vitir hvað þú ert að gera !"
 
-#: qt/settingsdialog.py:788 qt/settingsdialog.py:804 qt/settingsdialog.py:826
+#: qt/settingsdialog.py:798 qt/settingsdialog.py:814 qt/settingsdialog.py:836
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Keyra 'rsync' með '{cmd}':"
 
-#: qt/settingsdialog.py:795 qt/settingsdialog.py:811
+#: qt/settingsdialog.py:805 qt/settingsdialog.py:821
 msgid "as cron job"
 msgstr "sem cron-verk"
 
-#: qt/settingsdialog.py:800 qt/settingsdialog.py:821 qt/settingsdialog.py:842
+#: qt/settingsdialog.py:810 qt/settingsdialog.py:831 qt/settingsdialog.py:852
 msgid "on remote host"
 msgstr "á fjartengdri vél"
 
-#: qt/settingsdialog.py:816
+#: qt/settingsdialog.py:826
 msgid "when taking a manual snapshot"
 msgstr "við að taka handvirkt skyndiafrit"
 
-#: qt/settingsdialog.py:829
+#: qt/settingsdialog.py:839
 msgid "(Please install 'nocache' to enable this option)"
 msgstr ""
 
-#: qt/settingsdialog.py:836
+#: qt/settingsdialog.py:846
 msgid "on local machine"
 msgstr "á staðværri vél"
 
-#: qt/settingsdialog.py:847
+#: qt/settingsdialog.py:857
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Endurbeina stdout í /dev/null í cron-verkum."
 
-#: qt/settingsdialog.py:856
+#: qt/settingsdialog.py:866
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Endurbeina stderr í /dev/null í cron-verkum."
 
-#: qt/settingsdialog.py:868
+#: qt/settingsdialog.py:878
 msgid "Limit rsync bandwidth usage"
 msgstr "Takmarka notkun rsync á bandbreidd"
 
-#: qt/settingsdialog.py:871
-msgid " KB/sec"
+#: qt/settingsdialog.py:881
+#, fuzzy
+msgid "KB/sec"
 msgstr " KB/sek"
 
-#: qt/settingsdialog.py:909
+#: qt/settingsdialog.py:919
 msgid "Preserve ACL"
 msgstr "Varðveita ACL"
 
-#: qt/settingsdialog.py:924
+#: qt/settingsdialog.py:934
 msgid "Preserve extended attributes (xattr)"
 msgstr "Varðveita ítarleg eigindi (xattr)"
 
-#: qt/settingsdialog.py:944
+#: qt/settingsdialog.py:954
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Afrita ótrygga tengla (virkar aðeins með algilda tengla)"
 
-#: qt/settingsdialog.py:978
+#: qt/settingsdialog.py:988
 msgid "Paste additional options to rsync"
 msgstr "Líma viðbótarvalkosti inn í rsync"
 
-#: qt/settingsdialog.py:982
+#: qt/settingsdialog.py:992
 msgid ""
 "Options must be quoted e.g. --exclude-from=\"/path/to/my exclude file\"."
 msgstr ""
 
-#: qt/settingsdialog.py:993
+#: qt/settingsdialog.py:1003
 msgid "Add prefix to SSH commands"
 msgstr "Bæta forskeyti við SSH-skipanir"
 
-#: qt/settingsdialog.py:997
+#: qt/settingsdialog.py:1007
 #, python-format
 msgid ""
 "Prefix to run before every command on remote host.\n"
@@ -1263,41 +1145,42 @@ msgid ""
 "%(default)s: %(def_value)s"
 msgstr ""
 
-#: qt/settingsdialog.py:1005 qt/settingsdialog.py:2044
+#: qt/settingsdialog.py:1015 qt/settingsdialog.py:2057
 msgid "default"
 msgstr "sjálfgefið"
 
-#: qt/settingsdialog.py:1016
+#: qt/settingsdialog.py:1026
 msgid "Check if remote host is online"
 msgstr "Athuga hvort fjarlæg vél er á netinu"
 
-#: qt/settingsdialog.py:1018
+#: qt/settingsdialog.py:1028
 msgid ""
 "Warning: if disabled and the remote host\n"
 "is not available, this could lead to some\n"
 "weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1022
-msgid "Check if remote host support all necessary commands"
-msgstr ""
+#: qt/settingsdialog.py:1032
+#, fuzzy
+msgid "Check if remote host supports all necessary commands"
+msgstr "Athuga hvort fjarlæg vél er á netinu"
 
-#: qt/settingsdialog.py:1024
+#: qt/settingsdialog.py:1034
 msgid ""
 "Warning: if disabled and the remote host\n"
 "does not support all necessary commands,\n"
 "this could lead to some weird errors."
 msgstr ""
 
-#: qt/settingsdialog.py:1040
+#: qt/settingsdialog.py:1050
 msgid "Restore Config"
 msgstr "Endurheimta stillingaskrá"
 
-#: qt/settingsdialog.py:1042
+#: qt/settingsdialog.py:1052
 msgid "Edit user-callback"
 msgstr ""
 
-#: qt/settingsdialog.py:1062
+#: qt/settingsdialog.py:1072
 msgid ""
 "Full system backup can only create a snapshot to be restored to the same "
 "physical disk(s) with the same disk partitioning as from the source; "
@@ -1308,153 +1191,277 @@ msgid ""
 "customized. Continue?"
 msgstr ""
 
-#: qt/settingsdialog.py:1097
+#: qt/settingsdialog.py:1107
 msgid "New profile"
 msgstr "Nýtt snið"
 
-#: qt/settingsdialog.py:1114
+#: qt/settingsdialog.py:1124
 msgid "Rename profile"
 msgstr "Endurnefna snið"
 
-#: qt/settingsdialog.py:1130
+#: qt/settingsdialog.py:1140
 #, python-format
 msgid "Are you sure you want to delete the profile \"%s\" ?"
 msgstr "Ertu viss um að þú viljir eyða sniðinu \"%s\" ?"
 
-#: qt/settingsdialog.py:1403
+#: qt/settingsdialog.py:1413
 msgid ""
 "Custom Hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours"
 msgstr ""
 
-#: qt/settingsdialog.py:1445
+#: qt/settingsdialog.py:1455
 msgid ""
 "You did not choose a private key file for SSH.\n"
 "Would you like to generate a new password-less public/private key pair?"
 msgstr ""
 
-#: qt/settingsdialog.py:1456
-#, python-format
-msgid "Private key file \"%(file)s\" does not exist."
+#: qt/settingsdialog.py:1466
+#, fuzzy, python-brace-format
+msgid "Private key file \"{file}\" does not exist."
 msgstr "Einkalykilsskráin \"%(file)s\" er ekki til."
 
-#: qt/settingsdialog.py:1608
+#: qt/settingsdialog.py:1618
 msgid ""
 "Would you like to copy your public SSH key to the\n"
 "remote host to enable password-less login?"
 msgstr ""
 
-#: qt/settingsdialog.py:1636
-#, python-format
+#: qt/settingsdialog.py:1646
+#, python-brace-format
 msgid ""
-"The authenticity of host \"%(host)s\" can't be established.\n"
+"The authenticity of host {host} can't be established.\n"
 "\n"
-"%(keytype)s key fingerprint is:"
+"{keytype} key fingerprint is:"
 msgstr ""
 
-#: qt/settingsdialog.py:1646
+#: qt/settingsdialog.py:1656
 msgid ""
 "Please verify this fingerprint! Would you like to add it to your "
 "'known_hosts' file?"
 msgstr ""
 
-#: qt/settingsdialog.py:1809
+#: qt/settingsdialog.py:1819
 msgid "Exclude pattern"
 msgstr "Útilokunarmynstur"
 
-#: qt/settingsdialog.py:1822
+#: qt/settingsdialog.py:1832
 msgid "Exclude file"
 msgstr "Undanskilja skrá"
 
-#: qt/settingsdialog.py:1826
+#: qt/settingsdialog.py:1836
 msgid "Exclude folder"
 msgstr "Undanskilja möppu"
 
-#: qt/settingsdialog.py:1845
+#: qt/settingsdialog.py:1855
 msgid "Include file"
 msgstr "Hafa með skrá"
 
-#: qt/settingsdialog.py:1854
+#: qt/settingsdialog.py:1864 qt/settingsdialog.py:1890
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until you "
 "include it, too.\n"
-"Would you like to include the symlinks target instead?"
+"Would you like to include the symlink target instead?"
 msgstr ""
 
-#: qt/settingsdialog.py:1871
+#: qt/settingsdialog.py:1881
 msgid "Include folder"
 msgstr "Hafa með möppu"
 
-#: qt/settingsdialog.py:1879
-#, python-format
-msgid ""
-"\"%s\" is a symlink. The linked target will not be backed up until you "
-"include it, too.\n"
-"Would you like to include the symlinks target instead?"
-msgstr ""
-
-#: qt/settingsdialog.py:1905
+#: qt/settingsdialog.py:1918
 msgid "Are you sure you want to change snapshots folder ?"
 msgstr "Ertu viss um að þú viljir skipta um möppu undir skyndiafrit ?"
 
-#: qt/settingsdialog.py:1930
+#: qt/settingsdialog.py:1943
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}"
 msgstr "Mistókst að búa til nýjan SSH-lykil í {path}"
 
-#: qt/settingsdialog.py:1989
+#: qt/settingsdialog.py:2002
 msgid "Full snapshot path: "
 msgstr "Heildarslóð skyndiafrita: "
 
-#: qt/settingsdialog.py:2039
+#: qt/settingsdialog.py:2052
 msgid "enabled"
 msgstr "virkt"
 
-#: qt/settingsdialog.py:2042
+#: qt/settingsdialog.py:2055
 msgid "disabled"
 msgstr "óvirkt"
 
-#: qt/settingsdialog.py:2087
+#: qt/settingsdialog.py:2100
 msgid "Restore Settings"
 msgstr "Endurheimta stillingar"
 
-#: qt/settingsdialog.py:2108
+#: qt/settingsdialog.py:2121
 msgid " and add your user to group 'fuse'"
 msgstr " og bættu notandanum þínum í hópinn 'fuse'"
 
-#: qt/settingsdialog.py:2114
+#: qt/settingsdialog.py:2127
 #, python-brace-format
 msgid ""
 "Please navigate to the snapshot from which you want to restore {appName}'s "
 "configuration. The path may look like:\n"
 "{samplePath}\n"
 "\n"
-"If your snapshots are on a remote drive or if they are ncrypted you need to "
+"If your snapshots are on a remote drive or if they are encrypted you need to "
 "manually mount them first. If you use Mode SSH you also may need to set up "
 "public key login to the remote host{addFuse}.\n"
 "Take a look at 'man backintime'."
 msgstr ""
 
-#: qt/settingsdialog.py:2177 qt/settingsdialog.py:2242
+#: qt/settingsdialog.py:2190 qt/settingsdialog.py:2255
 msgid "No config found"
 msgstr "Engin stillingaskrá fannst"
 
-#: qt/settingsdialog.py:2449
+#: qt/settingsdialog.py:2462
 msgid "user-callback script has no shebang (#!/bin/sh) line."
 msgstr ""
 
-#: qt/settingsdialog.py:2456
+#: qt/settingsdialog.py:2469
 msgid "Shebang in user-callback script is not executable."
 msgstr ""
 
-#: qt/qtsystrayicon.py:99
-msgid "Start BackInTime"
-msgstr "Ræsa BackInTime"
+#: qt/qttools.py:347
+msgid "Today"
+msgstr "Í dag"
 
-#: qt/qtsystrayicon.py:158
-msgid "Working..."
-msgstr "Í vinnslu..."
+#: qt/qttools.py:354
+msgid "Yesterday"
+msgstr "Í gær"
+
+#: qt/qttools.py:363
+msgid "This week"
+msgstr "Í þessari viku"
+
+#: qt/qttools.py:370
+msgid "Last week"
+msgstr "Í síðustu viku"
+
+#: qt/qttools.py:516
+msgid "This is NOT a snapshot but a live view of your local files"
+msgstr ""
+
+#: qt/qttools.py:521
+#, python-brace-format
+msgid "Last check {time}"
+msgstr "Síðasta athugun {time}"
+
+#: qt/logviewdialog.py:57
+msgid "Last Log View"
+msgstr ""
+
+#: qt/logviewdialog.py:59
+msgid "Snapshot Log View"
+msgstr ""
+
+#: qt/logviewdialog.py:89
+msgid "Filter"
+msgstr "Sía"
+
+#: qt/logviewdialog.py:100
+msgid "Informations"
+msgstr "Upplýsingar"
+
+#: qt/logviewdialog.py:110
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Villa, [I] Upplýsingar, [C] Breyta"
+
+#: qt/logviewdialog.py:171
+msgid "Copy"
+msgstr "Afrita"
+
+#: qt/logviewdialog.py:179
+msgid "Decode"
+msgstr "Afkóða"
+
+#: qt/logviewdialog.py:201
+msgid "Do you want to exclude this?"
+msgstr ""
+
+#: qt/snapshotsdialog.py:53 qt/snapshotsdialog.py:181
+msgid "Diff Options"
+msgstr "Diff valkostir"
+
+#: qt/snapshotsdialog.py:60
+msgid "Command"
+msgstr "Skipun"
+
+#: qt/snapshotsdialog.py:64
+msgid "Parameters"
+msgstr "Færibreytur"
+
+#: qt/snapshotsdialog.py:68
+msgid "Use %1 and %2 for path parameters"
+msgstr ""
+
+#: qt/snapshotsdialog.py:112
+msgid "Differing snapshots only"
+msgstr "Taka skyndiafrit mismunar"
+
+#: qt/snapshotsdialog.py:120
+msgid "List only equal snapshots to: "
+msgstr ""
+
+#: qt/snapshotsdialog.py:131
+msgid "Deep check (more accurate, but slow)"
+msgstr "Ítarleg yfirferð (nákvæmari, en hægvirkt)"
+
+#: qt/snapshotsdialog.py:152
+msgid "Delete"
+msgstr "Eyða"
+
+#: qt/snapshotsdialog.py:156
+msgid "Select All"
+msgstr "Velja allt"
+
+#: qt/snapshotsdialog.py:169
+msgid "Diff"
+msgstr "Diff"
+
+#: qt/snapshotsdialog.py:180
+msgid "Go To"
+msgstr "Fara í"
+
+#: qt/snapshotsdialog.py:330
+msgid "You can't compare a snapshot to itself"
+msgstr "Þú getur ekki borið skyndiafrit saman við sjálft sig"
+
+#: qt/snapshotsdialog.py:338
+msgid "Command not found"
+msgstr "Skipun fannst ekki"
+
+#: qt/snapshotsdialog.py:369
+#, python-brace-format
+msgid "Do you really want to delete \"{file}\" in snapshot \"{snapshot_id}\"?"
+msgstr ""
+"Ertu viss um að þú viljir eyða \"{file}\" í skyndiafritinu \"{snapshot_id}\"?"
+
+#: qt/snapshotsdialog.py:374
+#, python-brace-format
+msgid "Do you really want to delete \"{file}\" in {count} snapshots?"
+msgstr "Ertu viss um að þú viljir eyða \"{file}\" í {count} skyndiafritum?"
+
+#: qt/snapshotsdialog.py:379
+msgid "WARNING"
+msgstr "AÐVÖRUN"
+
+#: qt/snapshotsdialog.py:379
+#, fuzzy
+msgid "This cannot be revoked!"
+msgstr "Þetta er ekki hægt að afturkalla!"
+
+#: qt/snapshotsdialog.py:395
+#, python-brace-format
+msgid "Exclude \"{path}\" from future snapshots?"
+msgstr "Útiloka \"{path}\" framvegis frá skyndiafritum?"
+
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Local encrypted"
+#~ msgstr "Staðvært dulritað"
 
 #~ msgid "Cancel"
 #~ msgstr "Hætta við"
