@@ -1382,10 +1382,10 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             list:                           snapshots that should be removed
         """
         snapshots = listSnapshots(self.config)
-        logger.debug('Considered: {snapshots}', self)
+        logger.debug(f'Considered: {snapshots}', self)
 
         if len(snapshots) <= 1:
-            logger.debug('There is only one snapshots, so keep it', self)
+            logger.debug('There is only one snapshot, so keep it', self)
             return []
 
         if now_full is None:
@@ -1446,7 +1446,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                               datetime.date(i+1, 1, 1),
                                               keep_healthy=True)
 
-        logger.debug('Keep snapshots: {keep}', self)
+        logger.debug(f'Keep snapshots: {keep}', self)
 
         del_snapshots = []
 
@@ -1457,7 +1457,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             if self.config.dontRemoveNamedSnapshots():
                 if sid.name:
                     logger.debug(
-                        'Keep snapshot: {sid}, because it has a name', self)
+                        f'Keep snapshot: {sid}, because it has a name', self)
                     continue
 
             del_snapshots.append(sid)
