@@ -1537,7 +1537,12 @@ class Config(configfile.ConfigFileWithProfiles):
         else:
             return True
 
-    SYSTEM_ENTRY_MESSAGE = "#Back In Time system entry, this will be edited by the gui:"
+    SYSTEM_ENTRY_MESSAGE \
+        = "#Back In Time system entry, this will be edited by the gui:"
+    """The string is used in crontab file to mark entries as owned by Back
+    In Time. **WARNING**: Don't modify that string in code because it is used
+    as match target while parsing the crontab file.
+    """
 
     def setupCron(self):
         for f in self.anacrontabFiles():
