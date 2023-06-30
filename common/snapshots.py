@@ -1382,76 +1382,86 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
             list:                           snapshots that should be removed
         """
         snapshots = listSnapshots(self.config)
-        logger.debug("Considered: %s" %snapshots, self)
+        logger.debug(f'Considered: {snapshots}', self)
+
         if len(snapshots) <= 1:
-            logger.debug("There is only one snapshot, so keep it", self)
-            return
+            logger.debug('There is only one snapshot, so keep it', self)
+            return []
 
         if now_full is None:
             now_full = datetime.datetime.today()
 
         now = now_full.date()
 
-        #keep the last snapshot
+        # keep the last snapshot
         keep = set([snapshots[0]])
 
-        #keep all for the last keep_all days
+        # keep all for the last keep_all days
         if keep_all > 0:
-            keep |= self.smartRemoveKeepAll(snapshots,
-                                            now - datetime.timedelta(days=keep_all-1),
-                                            now + datetime.timedelta(days=1))
+            keep |= self.smartRemoveKeepAll(
+                snapshots,
+                now - datetime.timedelta(days=keep_all-1),
+                now + datetime.timedelta(days=1))
 
-        #keep one per day for the last keep_one_per_day days
+        # keep one per day for the last keep_one_per_day days
         if keep_one_per_day > 0:
             d = now
             for i in range(0, keep_one_per_day):
-                keep |= self.smartRemoveKeepFirst(snapshots,
-                                                  d,
-                                                  d + datetime.timedelta(days=1),
-                                                  keep_healthy = True)
+                keep |= self.smartRemoveKeepFirst(
+                    snapshots,
+                    d,
+                    d + datetime.timedelta(days=1),
+                    keep_healthy=True)
                 d -= datetime.timedelta(days=1)
 
-        #keep one per week for the last keep_one_per_week weeks
+        # keep one per week for the last keep_one_per_week weeks
         if keep_one_per_week > 0:
-            d = now - datetime.timedelta(days = now.weekday() + 1)
+            d = now - datetime.timedelta(days=now.weekday() + 1)
+
             for i in range(0, keep_one_per_week):
-                keep |= self.smartRemoveKeepFirst(snapshots,
-                                                  d,
-                                                  d + datetime.timedelta(days=8),
-                                                  keep_healthy = True)
+                keep |= self.smartRemoveKeepFirst(
+                    snapshots,
+                    d,
+                    d + datetime.timedelta(days=8),
+                    keep_healthy=True)
                 d -= datetime.timedelta(days=7)
 
-        #keep one per month for the last keep_one_per_month months
+        # keep one per month for the last keep_one_per_month months
         if keep_one_per_month > 0:
             d1 = datetime.date(now.year, now.month, 1)
             d2 = self.incMonth(d1)
+
             for i in range(0, keep_one_per_month):
-                keep |= self.smartRemoveKeepFirst(snapshots, d1, d2,
-                                                  keep_healthy = True)
+                keep |= self.smartRemoveKeepFirst(
+                    snapshots, d1, d2, keep_healthy=True)
                 d2 = d1
                 d1 = self.decMonth(d1)
 
-        #keep one per year for all years
-        first_year = int(snapshots[-1].sid[ : 4])
+        # keep one per year for all years
+        first_year = int(snapshots[-1].sid[:4])
+
         for i in range(first_year, now.year+1):
             keep |= self.smartRemoveKeepFirst(snapshots,
-                                              datetime.date(i,1,1),
-                                              datetime.date(i+1,1,1),
-                                              keep_healthy = True)
+                                              datetime.date(i, 1, 1),
+                                              datetime.date(i+1, 1, 1),
+                                              keep_healthy=True)
 
-        logger.debug("Keep snapshots: %s" %keep, self)
+        logger.debug(f'Keep snapshots: {keep}', self)
 
         del_snapshots = []
+
         for sid in snapshots:
             if sid in keep:
                 continue
 
             if self.config.dontRemoveNamedSnapshots():
                 if sid.name:
-                    logger.debug("Keep snapshot: %s, it has a name" %sid, self)
+                    logger.debug(
+                        f'Keep snapshot: {sid}, because it has a name', self)
                     continue
 
             del_snapshots.append(sid)
+
         return del_snapshots
 
     def smartRemove(self, del_snapshots, log = None):
@@ -1594,8 +1604,9 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                 self.remove(snapshots[0])
                 del snapshots[0]
 
-        #smart remove
+        # smart remove
         enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.smartRemove()
+
         if enabled:
             self.setTakeSnapshotMessage(0, _('Smart remove'))
             del_snapshots = self.smartRemoveList(now,
@@ -1605,7 +1616,7 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
                                                  keep_one_per_month)
             self.smartRemove(del_snapshots)
 
-        #try to keep min free space
+        # try to keep min free space
         if self.config.minFreeSpaceEnabled():
             self.setTakeSnapshotMessage(0, _('Trying to keep min free space'))
 
