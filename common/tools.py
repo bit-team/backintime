@@ -125,24 +125,6 @@ def initiate_translation(language_code: str = None):
     translation.install()
 
 
-# Doesn't give valid values when using Gettext's class-based API
-# def get_current_used_language_code() -> str:
-#     # Example: /usr/share/locale/de/LC_MESSAGES/backintime.mo
-#     mo_file_path = gettext.find(
-#         domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
-
-#     mo_file_path = pathlib.Path(mo_file_path)
-
-#     # The third part from the right is the language code
-#     if mo_file_path.parts[-2:] == ('LC_MESSAGES', 'backintime.mo'):
-#         return mo_file_path.parts[-3]
-
-#     # Might happen if distro maintainers don't stick to our Makefile
-#     print(mo_file_path.parts)
-#     raise RuntimeError('Unexpected path to po-file. It is '
-#                        f'"{mo_file_path}". Please open a bug report.')
-
-
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
