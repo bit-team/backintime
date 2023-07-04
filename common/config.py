@@ -32,7 +32,6 @@ Development notes:
 import os
 import sys
 import datetime
-import gettext
 import socket
 import random
 import shlex
@@ -53,11 +52,6 @@ from exceptions import PermissionDeniedByPolicy, \
                        InvalidChar, \
                        InvalidCmd, \
                        LimitExceeded
-
-_ = gettext.gettext
-
-gettext.bindtextdomain('backintime', os.path.join(tools.sharePath(), 'locale'))
-gettext.textdomain('backintime')
 
 
 class Config(configfile.ConfigFileWithProfiles):
@@ -341,6 +335,8 @@ class Config(configfile.ConfigFileWithProfiles):
         self.xWindowId = None
         self.inhibitCookie = None
         self.setupUdev = tools.SetupUdev()
+
+        tools.initiate_translation()
 
     def save(self):
         self.setIntValue('config.version', self.CONFIG_VERSION)

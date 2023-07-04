@@ -1,5 +1,6 @@
 #    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+#    Germar Reitze, Taylor Raack
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -14,8 +15,6 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-
 import os
 import sys
 import pathlib
@@ -26,6 +25,7 @@ import re
 import errno
 import gzip
 import tempfile
+import gettext
 try:
     from collections.abc import MutableSet
 except ImportError:
@@ -70,11 +70,15 @@ from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, Permissi
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
-def sharePath():
-    """
-    Get BackInTimes installation base path.
+# |-----------------|
+# | Handling pathes |
+# |-----------------|
 
-    If running from source return default '/usr/share'
+
+def sharePath():
+    """Get path where Back In Time is installed.
+
+    If running from source return default ``/usr/share``.
 
     Returns:
         str:    share path like::
@@ -83,11 +87,65 @@ def sharePath():
                     /usr/local/share
                     /opt/usr/share
     """
-    share = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
+    share = os.path.abspath(
+        os.path.join(__file__, os.pardir, os.pardir, os.pardir)
+    )
+
     if os.path.basename(share) == 'share':
         return share
-    else:
-        return '/usr/share'
+
+    return '/usr/share'
+
+
+# |---------------------------------------------------|
+# | Internationalization (i18n) & localization (L10n) |
+# |---------------------------------------------------|
+_GETTEXT_DOMAIN = 'backintime'
+_GETTEXT_LOCALE_DIR = os.path.join(sharePath(), 'locale')
+
+
+def initiate_translation(language_code: str = None):
+    """Initiate Class-based API of GNU gettext.
+
+    Args:
+        language_code: Language code to use (based on ISO-639-1).
+
+    It installs the ``_()`` in the ``builtins`` namespace and eliminates the
+    need to ``import gettext`` and declare ``_()`` in each module. The systems
+    current local is used if no language code is provided.
+    """
+    # language_code = 'ja'  # DEBUG
+
+    translation = gettext.translation(
+        domain=_GETTEXT_DOMAIN,
+        localedir=_GETTEXT_LOCALE_DIR,
+        languages=[language_code, ] if language_code else None,
+        fallback=True
+    )
+    translation.install()
+
+
+# Doesn't give valid values when using Gettext's class-based API
+# def get_current_used_language_code() -> str:
+#     # Example: /usr/share/locale/de/LC_MESSAGES/backintime.mo
+#     mo_file_path = gettext.find(
+#         domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
+
+#     mo_file_path = pathlib.Path(mo_file_path)
+
+#     # The third part from the right is the language code
+#     if mo_file_path.parts[-2:] == ('LC_MESSAGES', 'backintime.mo'):
+#         return mo_file_path.parts[-3]
+
+#     # Might happen if distro maintainers don't stick to our Makefile
+#     print(mo_file_path.parts)
+#     raise RuntimeError('Unexpected path to po-file. It is '
+#                        f'"{mo_file_path}". Please open a bug report.')
+
+
+# |------------------------------------|
+# | Miscellaneous, not categorized yet |
+# |------------------------------------|
 
 def backintimePath(*path):
     """
