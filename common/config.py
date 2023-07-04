@@ -41,6 +41,14 @@ except ImportError:
     import getpass
     pwd = None
 
+# Workaround: Mostly relevant on TravisCI but not exclusivley.
+# While unittesting and without regular invocation of BIT the GNU gettext
+# class-based API isn't setup yet.
+try:
+    _('Foo')
+except NameError:
+    _ = lambda val: val
+
 import tools
 import configfile
 import logger
