@@ -201,7 +201,7 @@ def _get_qt_information():
 
     # Themes
     theme_info = {}
-    if 'DISPLAY' in os.environ:
+    if tools.checkXServer():
         qapp = PyQt5.QtWidgets.QApplication([])
         theme_info = {
             'Theme': PyQt5.QtGui.QIcon.themeName(),
