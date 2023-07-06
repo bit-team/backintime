@@ -58,29 +58,6 @@ import messagebox
 _=gettext.gettext
 
 
-def _toolbar_button(toolbar: QToolBar,
-                    icon: QIcon,
-                    label: str,
-                    handler: Callable = None,
-                    shortcut: Union[str, list] = None,
-                    tooltip: str = None,
-                    ) -> QAction:
-    action = toolbar.addAction(icon, label)
-
-    if handler:
-        action.triggered.connect(handler)
-
-    if isinstance(shortcut, str):
-        action.setShortcut(shortcut)
-    elif isinstance(shortcut, list):
-        action.setShortcuts(shortcut)
-
-    if tooltip:
-        action.setToolTip(tooltip)
-
-    return action
-
-
 class MainWindow(QMainWindow):
     def __init__(self, config, appInstance, qapp):
         QMainWindow.__init__(self)
@@ -105,7 +82,7 @@ class MainWindow(QMainWindow):
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         # main toolbar
-        toolbar = self._setup_toolbar()
+        toolbar = self._main_toolbar()
 
         self.firstUpdateAll = True
         self.disableProfileChanged = False
@@ -526,11 +503,113 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
+    def _setup_a_toolbar(self, toolbar, buttons):
 
-    def _setup_toolbar(self):
+        for attrname, icon, label, handler, keyshortcuts, tooltip in buttons:
 
-        # Import on module level not possible because of Qt restrictions.
-        # import icon
+            button = toolbar.addAction(icon, label)
+
+            if handler:
+                button.triggered.connect(handler)
+
+            if isinstance(shortcut, str):
+                button.setShortcut(shortcut)
+            elif isinstance(shortcut, list):
+                button.setShortcuts(shortcut)
+
+            if tooltip:
+                button.setToolTip(tooltip)
+
+            if attrname:
+                setattr(self, attrname, button)
+
+        return toolbar
+
+    def _main_toolbar(self):
+
+        buttons = (
+            # (
+            #     'Name of button attribute in "self"',
+            #     ICON, Label,
+            #     trigger_handler_function, keyboard_shortcuts,
+            #     tooltip
+            # ),
+            (
+                'btnTakeSnapshot',
+                icon.TAKE_SNAPSHOT, _('Take snapshot'),
+                self.btnTakeSnapshotClicked, 'Ctrl+S',
+                None
+            ),
+            (
+                'btnPauseTakeSnapshot',
+                icon.PAUSE, _('Pause snapshot process'),
+                lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
+                None
+            ),
+            (
+                'btnResumeTakeSnapshot',
+                icon.RESUME, _('Resume snapshot process'),
+                lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
+                None
+            ),
+            (
+                'btnStopTakeSnapshot',
+                icon.STOP, _('Stop snapshot process'),
+                self.btnStopTakeSnapshotClicked, None,
+                None
+            ),
+            (
+                'btnUpdateSnapshots',
+                icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'),
+                self.btnUpdateSnapshotsClicked, ['F5', 'Ctrl+R'],
+                None
+            ),
+            (
+                'btnNameSnapshot',
+                icon.SNAPSHOT_NAME, _('Snapshot Name'),
+                self.btnNameSnapshotClicked, 'F2',
+                None
+            ),
+            (
+                'btnRemoveSnapshot',
+                icon.REMOVE_SNAPSHOT, _('Remove Snapshot'),
+                self.btnRemoveSnapshotClicked, 'Delete',
+                None
+            ),
+            (
+                'btnSnapshotLogView',
+                icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'),
+                self.btnSnapshotLogViewClicked, None,
+                None
+            ),
+            (
+                'btnLastLogView',
+                icon.VIEW_LAST_LOG, _('View Last Log'),
+                self.btnLastLogViewClicked, None,
+                None
+            ),
+            # ---
+            (
+                'btnSettings',
+                icon.SETTINGS, _('Settings'),
+                self.btnSettingsClicked, 'Ctrl+Shift+,',
+                None
+            ),
+            # ---
+            (
+                'btnShutdown',
+                icon.SHUTDOWN, _('Shutdown'),
+                None, None,
+                _('Shut down system after snapshot has finished.')
+            ),
+            # <-->
+            (
+                None,
+                icon.HELP, _('Help'),
+                self.btnHelpClicked, None,
+                None
+            ),
+        )
 
         toolbar = self.addToolBar('main')
         toolbar.setFloatable(False)
@@ -539,102 +618,25 @@ class MainWindow(QMainWindow):
         self.comboProfiles = qttools.ProfileCombo(self)
         self.comboProfilesAction = toolbar.addWidget(self.comboProfiles)
 
-        # Button: take snapshot
-        self.btnTakeSnapshot = _toolbar_button(
-            toolbar,
-            icon.TAKE_SNAPSHOT, _('Take snapshot'),
-            self.btnTakeSnapshotClicked,
-            'Ctrl+S')
+        # more buttons/actions
+        toolbar = self._setup_a_toolbar(toolbar, buttons)
 
-        # Button: pause snapshot
-        self.btnPauseTakeSnapshot = _toolbar_button(
-            toolbar,
-            icon.PAUSE, _('Pause snapshot process'),
-            lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP))
-        self.btnPauseTakeSnapshot.setVisible(False)
-
-        # Button: resume snapshot
-        self.btnResumeTakeSnapshot = _toolbar_button(
-            toolbar,
-            icon.RESUME, _('Resume snapshot process'),
-            lambda: os.kill(self.snapshots.pid(), signal.SIGCONT))
-        self.btnResumeTakeSnapshot.setVisible(False)
-
-        # Button: stop snapshot
-        self.btnStopTakeSnapshot = _toolbar_button(
-            toolbar,
-            icon.STOP, _('Stop snapshot process'),
-            self.btnStopTakeSnapshotClicked)
-        self.btnStopTakeSnapshot.setVisible(False)
-
-        # Button: update snapshots
-        self.btnUpdateSnapshots = _toolbar_button(
-            toolbar,
-            icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'),
-            self.btnUpdateSnapshotsClicked,
-            ['F5', 'Ctrl+R'])
-
-        # Button: name snapshot
-        self.btnNameSnapshot = _toolbar_button(
-            toolbar,
-            icon.SNAPSHOT_NAME, _('Snapshot Name'),
-            self.btnNameSnapshotClicked,
-            'F2')
-
-        # Button: remove snapshot
-        self.btnRemoveSnapshot = _toolbar_button(
-            toolbar,
-            icon.REMOVE_SNAPSHOT, _('Remove Snapshot'),
-            self.btnRemoveSnapshotClicked,
-            'Delete')
-
-        # Button: snapshot logview
-        self.btnSnapshotLogView = _toolbar_button(
-            toolbar,
-            icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'),
-            self.btnSnapshotLogViewClicked)
-
-        # Button: snapshots last log
-        self.btnLastLogView = _toolbar_button(
-            toolbar,
-            icon.VIEW_LAST_LOG, _('View Last Log'),
-            self.btnLastLogViewClicked)
-
-        # ---
-        toolbar.addSeparator()
-
-        # Button: snapshot settings
-        self.btnSettings = _toolbar_button(
-            toolbar,
-            icon.SETTINGS, _('Settings'),
-            self.btnSettingsClicked,
-            'Ctrl+Shift+,')
-
-        # ---
-        toolbar.addSeparator()
-
-        # Button: shutdown
-        self.btnShutdown = _toolbar_button(
-            toolbar,
-            icon.SHUTDOWN, _('Shutdown'),
-            tooltip=_('Shut down system after snapshot has finished.'))
+        # fine tuning
         self.btnShutdown.toggled.connect(self.btnShutdownToggled)
         self.btnShutdown.setCheckable(True)
         self.btnShutdown.setEnabled(self.shutdown.canShutdown())
+        self.btnPauseTakeSnapshot.setVisible(False)
+        self.btnResumeTakeSnapshot.setVisible(False)
+        self.btnStopTakeSnapshot.setVisible(False)
 
-        # <--->
+        # separators and stretchers
+        toolbar.insertSeparator(toolbar.actions()[-3])
+        toolbar.insertSeparator(toolbar.actions()[-2])
         empty = QWidget(self)
         empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        toolbar.addWidget(empty)
-
-        # Button: Help
-        btnHelp = _toolbar_button(
-            toolbar,
-            icon.HELP, _('Help'),
-            self.btnHelpClicked)
+        toolbar.insertWidget(toolbar.actions()[-1], empty)
 
         return toolbar
-
 
     def closeEvent(self, event):
         if self.shutdown.askBeforeQuit():
