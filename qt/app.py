@@ -1,24 +1,24 @@
-# -*- coding: UTF-8 -*-
-#    Back In Time
-#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+# Back In Time
+# Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+# Germar Reitze
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License along
-#    with this program; if not, write to the Free Software Foundation, Inc.,
-#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 import os
 import sys
+# When dropping Python 3.8: "from collections.abc import Callable"
+from typing import Callable, Union
 
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
@@ -58,6 +58,29 @@ import messagebox
 _=gettext.gettext
 
 
+def _toolbar_button(toolbar: QToolBar,
+                    icon: QIcon,
+                    label: str,
+                    handler: Callable = None,
+                    shortcut: Union[str, list] = None,
+                    tooltip: str = None,
+                    ) -> QAction:
+    action = toolbar.addAction(icon, label)
+
+    if handler:
+        action.triggered.connect(handler)
+
+    if isinstance(shortcut, str):
+        action.setShortcut(shortcut)
+    elif isinstance(shortcut, list):
+        action.setShortcuts(shortcut)
+
+    if tooltip:
+        action.setToolTip(tooltip)
+
+    return action
+
+
 class MainWindow(QMainWindow):
     def __init__(self, config, appInstance, qapp):
         QMainWindow.__init__(self)
@@ -69,25 +92,25 @@ class MainWindow(QMainWindow):
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
 
-        #main toolbar
-        self.mainToolbar = self.addToolBar('main')
-        self.mainToolbar.setFloatable(False)
 
-        #window icon
+        # "Magic" object handling shutdown procedure in different desktop
+        # environments.
+        self.shutdown = tools.ShutDown()
+
+        # Import on module level not possible because of Qt restrictions.
         import icon
+        globals()['icon'] = icon
+
+        # window icon
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
-        #profiles
+        # main toolbar
+        toolbar = self._setup_toolbar()
+
         self.firstUpdateAll = True
         self.disableProfileChanged = False
-        self.comboProfiles = qttools.ProfileCombo(self)
-        self.comboProfilesAction = self.mainToolbar.addWidget(self.comboProfiles)
 
-        # take_snapshot button
-        self.btnTakeSnapshot = self.mainToolbar.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
-        self.btnTakeSnapshot.setShortcuts(QKeySequence(Qt.CTRL + Qt.Key_S))
-        self.btnTakeSnapshot.triggered.connect(self.btnTakeSnapshotClicked)
-
+        # Sub-Menu: Take snapshot
         takeSnapshotMenu = qttools.Menu()
         action = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
         action.triggered.connect(self.btnTakeSnapshotClicked)
@@ -100,66 +123,13 @@ class MainWindow(QMainWindow):
         for action in takeSnapshotMenu.actions():
             action.setIconVisibleInMenu(True)
 
-        #pause snapshot button
-        self.btnPauseTakeSnapshot = self.mainToolbar.addAction(icon.PAUSE, _('Pause snapshot process'))
-        action = lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP)
-        self.btnPauseTakeSnapshot.triggered.connect(action)
-        self.btnPauseTakeSnapshot.setVisible(False)
-
-        #resume snapshot button
-        self.btnResumeTakeSnapshot = self.mainToolbar.addAction(icon.RESUME, _('Resume snapshot process'))
-        action = lambda: os.kill(self.snapshots.pid(), signal.SIGCONT)
-        self.btnResumeTakeSnapshot.triggered.connect(action)
-        self.btnResumeTakeSnapshot.setVisible(False)
-
-        #stop snapshot button
-        self.btnStopTakeSnapshot = self.mainToolbar.addAction(icon.STOP, _('Stop snapshot process'))
-        self.btnStopTakeSnapshot.triggered.connect(self.btnStopTakeSnapshotClicked)
-        self.btnStopTakeSnapshot.setVisible(False)
-
-        # update snapshots button
-        self.btnUpdateSnapshots = self.mainToolbar.addAction(icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'))
-        self.btnUpdateSnapshots.setShortcuts([Qt.Key_F5, QKeySequence(Qt.CTRL + Qt.Key_R)])
-        self.btnUpdateSnapshots.triggered.connect(self.btnUpdateSnapshotsClicked)
-
-        self.btnNameSnapshot = self.mainToolbar.addAction(icon.SNAPSHOT_NAME, _('Snapshot Name'))
-        self.btnNameSnapshot.setShortcuts([Qt.Key_F2])
-        self.btnNameSnapshot.triggered.connect(self.btnNameSnapshotClicked)
-
-        self.btnRemoveSnapshot = self.mainToolbar.addAction(icon.REMOVE_SNAPSHOT, _('Remove Snapshot'))
-        self.btnRemoveSnapshot.setShortcuts([Qt.Key_Delete])
-        self.btnRemoveSnapshot.triggered.connect(self.btnRemoveSnapshotClicked)
-
-        self.btnSnapshotLogView = self.mainToolbar.addAction(icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'))
-        self.btnSnapshotLogView.triggered.connect(self.btnSnapshotLogViewClicked)
-
-        self.btnLastLogView = self.mainToolbar.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
-        self.btnLastLogView.triggered.connect(self.btnLastLogViewClicked)
-
-        self.mainToolbar.addSeparator()
-
-        self.btnSettings = self.mainToolbar.addAction(icon.SETTINGS, _('Settings'))
-        self.btnSettings.setShortcuts(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_Comma))
-        self.btnSettings.triggered.connect(self.btnSettingsClicked)
-
-        self.mainToolbar.addSeparator()
-
-        self.btnShutdown = self.mainToolbar.addAction(icon.SHUTDOWN, _('Shutdown'))
-        self.btnShutdown.setToolTip(_('Shut down system after snapshot has finished.'))
-        self.btnShutdown.setCheckable(True)
-        self.shutdown = tools.ShutDown()
-        self.btnShutdown.setEnabled(self.shutdown.canShutdown())
-        self.btnShutdown.toggled.connect(self.btnShutdownToggled)
-
+        # Menu: Snapshot
         self.menuSnapshot = self.menuBar().addMenu(_('&Snapshot'))
         self.btnQuit = self.menuSnapshot.addAction(icon.EXIT, _('Exit'))
         self.btnQuit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Q))
         self.btnQuit.triggered.connect(self.close)
 
-        empty = QWidget(self)
-        empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        self.mainToolbar.addWidget(empty)
-
+        # # Menu: Help
         menuHelp = QMenu(self)
         self.btnHelp = menuHelp.addAction(icon.HELP, _('Help'))
         self.btnHelp.setShortcuts([Qt.Key_F1])
@@ -181,30 +151,30 @@ class MainWindow(QMainWindow):
         self.btnAbout = menuHelp.addAction(icon.ABOUT, _('About'))
         self.btnAbout.triggered.connect(self.btnAboutClicked)
 
-        action = self.mainToolbar.addAction(icon.HELP, _('Help'))
-        action.triggered.connect(self.btnHelpClicked)
-        action.setMenu(menuHelp)
+        # action = self.mainToolbar.addAction(icon.HELP, _('Help'))
+        # action.triggered.connect(self.btnHelpClicked)
+        # action.setMenu(menuHelp)
 
         for action in menuHelp.actions():
             action.setIconVisibleInMenu(True)
 
-        #main splitter
+        # main splitter
         self.mainSplitter = QSplitter(self)
         self.mainSplitter.setOrientation(Qt.Horizontal)
 
-        #timeline
+        # timeline
         self.timeLine = qttools.TimeLine(self)
         self.mainSplitter.addWidget(self.timeLine)
         self.timeLine.updateFilesView.connect(self.updateFilesView)
 
-        #right widget
+        # right widget
         self.filesWidget = QGroupBox(self)
         self.mainSplitter.addWidget(self.filesWidget)
         filesLayout = QVBoxLayout(self.filesWidget)
         left, top, right, bottom = filesLayout.getContentsMargins()
         filesLayout.setContentsMargins(0, 0, right, 0)
 
-        #files toolbar
+        # Toolbar: files toolbar
         self.filesViewToolbar = QToolBar(self)
         self.filesViewToolbar.setFloatable(False)
 
@@ -216,7 +186,7 @@ class MainWindow(QMainWindow):
         self.editCurrentPath.setReadOnly(True)
         self.filesViewToolbar.addWidget(self.editCurrentPath)
 
-        #show hidden files
+        # show hidden files
         self.showHiddenFiles = self.config.boolValue('qt.show_hidden_files', False)
         self.btnShowHiddenFiles = self.filesViewToolbar.addAction(icon.SHOW_HIDDEN, _('Show hidden files'))
         self.btnShowHiddenFiles.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_H))
@@ -226,7 +196,7 @@ class MainWindow(QMainWindow):
 
         self.filesViewToolbar.addSeparator()
 
-        #restore menu
+        # FileView Toolbar Menu: Restore
         self.menuRestore = qttools.Menu(self)
         self.btnRestore = self.menuRestore.addAction(
             icon.RESTORE, _('Restore'))
@@ -270,6 +240,7 @@ class MainWindow(QMainWindow):
 
         filesLayout.addWidget(self.filesViewToolbar)
 
+        # ...Menu: Snapshot
         self.menuSnapshot.addAction(self.btnTakeSnapshot)
         self.menuSnapshot.addAction(self.btnUpdateSnapshots)
         self.menuSnapshot.addAction(self.btnNameSnapshot)
@@ -280,6 +251,7 @@ class MainWindow(QMainWindow):
         self.menuSnapshot.addAction(self.btnShutdown)
         self.menuSnapshot.addAction(self.btnQuit)
 
+        # Menu: View
         self.menuView = self.menuBar().addMenu(_('&View'))
         self.menuView.addAction(self.btnFolderUp)
         self.menuView.addAction(self.btnShowHiddenFiles)
@@ -289,6 +261,7 @@ class MainWindow(QMainWindow):
         self.menuView.addSeparator()
         self.menuView.addAction(self.btnSnapshots)
 
+        # Menu: Restore
         self.menuRestore = self.menuBar().addMenu(_('&Restore'))
         self.menuRestore.addAction(self.btnRestore)
         self.menuRestore.addAction(self.btnRestoreTo)
@@ -296,6 +269,7 @@ class MainWindow(QMainWindow):
         self.menuRestore.addAction(self.btnRestoreParent)
         self.menuRestore.addAction(self.btnRestoreParentTo)
 
+        # Menu: Help
         self.menuHelp = self.menuBar().addMenu(_('&Help'))
         self.menuHelp.addAction(self.btnHelp)
         self.menuHelp.addAction(self.btnHelpConfig)
@@ -308,7 +282,7 @@ class MainWindow(QMainWindow):
         self.menuHelp.addSeparator()
         self.menuHelp.addAction(self.btnAbout)
 
-        #shortcuts without buttons
+        # shortcuts without buttons
         self.shortcutPreviousFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Left), self)
         self.shortcutPreviousFolder.activated.connect(self.btnFolderHistoryPreviousClicked)
         self.shortcutNextFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Right), self)
@@ -316,17 +290,17 @@ class MainWindow(QMainWindow):
         self.shortcutOpenFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Down), self)
         self.shortcutOpenFolder.activated.connect(self.btnOpenCurrentItemClicked)
 
-        #mouse button navigation
+        # mouse button navigation
         self.mouseButtonEventFilter = ExtraMouseButtonEventFilter(self)
         self.setMouseButtonNavigation()
 
-        #second spliter
+        # second spliter
         self.secondSplitter = QSplitter(self)
         self.secondSplitter.setOrientation(Qt.Horizontal)
         self.secondSplitter.setContentsMargins(0, 0, 0, 0)
         filesLayout.addWidget(self.secondSplitter)
 
-        #places
+        # places
         self.places = QTreeWidget(self)
         self.places.setRootIsDecorated(False)
         self.places.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -343,12 +317,12 @@ class MainWindow(QMainWindow):
         self.secondSplitter.addWidget(self.places)
         self.places.header().sortIndicatorChanged.connect(self.sortPlaces)
 
-        #files view stacked layout
+        # files view stacked layout
         widget = QWidget(self)
         self.stackFilesView = QStackedLayout(widget)
         self.secondSplitter.addWidget(widget)
 
-        #folder don't exist label
+        # folder don't exist label
         self.lblFolderDontExists = QLabel(_("This folder doesn't exist\nin "
                                             "the current selected snapshot!"),
                                           self)
@@ -358,7 +332,7 @@ class MainWindow(QMainWindow):
         self.lblFolderDontExists.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.stackFilesView.addWidget(self.lblFolderDontExists)
 
-        #list files view
+        # list files view
         self.filesView = QTreeView(self)
         self.stackFilesView.addWidget(self.filesView)
         self.filesView.setRootIsDecorated(False)
@@ -404,7 +378,7 @@ class MainWindow(QMainWindow):
         #
         self.setCentralWidget(self.mainSplitter)
 
-        #context menu
+        # context menu
         self.filesView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.filesView.customContextMenuRequested.connect(self.contextMenuClicked)
         self.contextMenu = QMenu(self)
@@ -419,7 +393,7 @@ class MainWindow(QMainWindow):
         self.contextMenu.addSeparator()
         self.contextMenu.addAction(self.btnShowHiddenFiles)
 
-        #ProgressBar
+        # ProgressBar
         layoutWidget = QWidget()
         layout = QVBoxLayout(layoutWidget)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -455,7 +429,7 @@ class MainWindow(QMainWindow):
         self.editCurrentPath.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
-        #restore size and position
+        # restore size and position
         x = self.config.intValue('qt.main_window.x', -1)
         y = self.config.intValue('qt.main_window.y', -1)
         if x >= 0 and y >= 0:
@@ -490,7 +464,7 @@ class MainWindow(QMainWindow):
             self.filesView.header().resizeSection(1, filesViewColumnSizeWidth)
             self.filesView.header().resizeSection(2, filesViewColumnDateWidth)
 
-        #force settingdialog if it is not configured
+        # force settingdialog if it is not configured
         if not config.isConfigured():
             message = _(
                 '{appName} is not configured. Would you like '
@@ -523,7 +497,7 @@ class MainWindow(QMainWindow):
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
 
-        #populate lists
+        # populate lists
         self.updateProfiles()
         self.comboProfiles.currentIndexChanged.connect(self.comboProfileChanged)
 
@@ -531,7 +505,7 @@ class MainWindow(QMainWindow):
 
         self.updateSnapshotActions()
 
-        #signals
+        # signals
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
         self.places.currentItemChanged.connect(self.placesChanged)
         self.filesView.activated.connect(self.filesViewItemActivated)
@@ -551,6 +525,116 @@ class MainWindow(QMainWindow):
         self.timerUpdateTakeSnapshot.start()
 
         SetupCron(self).start()
+
+
+    def _setup_toolbar(self):
+
+        # Import on module level not possible because of Qt restrictions.
+        # import icon
+
+        toolbar = self.addToolBar('main')
+        toolbar.setFloatable(False)
+
+        # Drop-Down: Profiles
+        self.comboProfiles = qttools.ProfileCombo(self)
+        self.comboProfilesAction = toolbar.addWidget(self.comboProfiles)
+
+        # Button: take snapshot
+        self.btnTakeSnapshot = _toolbar_button(
+            toolbar,
+            icon.TAKE_SNAPSHOT, _('Take snapshot'),
+            self.btnTakeSnapshotClicked,
+            'Ctrl+S')
+
+        # Button: pause snapshot
+        self.btnPauseTakeSnapshot = _toolbar_button(
+            toolbar,
+            icon.PAUSE, _('Pause snapshot process'),
+            lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP))
+        self.btnPauseTakeSnapshot.setVisible(False)
+
+        # Button: resume snapshot
+        self.btnResumeTakeSnapshot = _toolbar_button(
+            toolbar,
+            icon.RESUME, _('Resume snapshot process'),
+            lambda: os.kill(self.snapshots.pid(), signal.SIGCONT))
+        self.btnResumeTakeSnapshot.setVisible(False)
+
+        # Button: stop snapshot
+        self.btnStopTakeSnapshot = _toolbar_button(
+            toolbar,
+            icon.STOP, _('Stop snapshot process'),
+            self.btnStopTakeSnapshotClicked)
+        self.btnStopTakeSnapshot.setVisible(False)
+
+        # Button: update snapshots
+        self.btnUpdateSnapshots = _toolbar_button(
+            toolbar,
+            icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'),
+            self.btnUpdateSnapshotsClicked,
+            ['F5', 'Ctrl+R'])
+
+        # Button: name snapshot
+        self.btnNameSnapshot = _toolbar_button(
+            toolbar,
+            icon.SNAPSHOT_NAME, _('Snapshot Name'),
+            self.btnNameSnapshotClicked,
+            'F2')
+
+        # Button: remove snapshot
+        self.btnRemoveSnapshot = _toolbar_button(
+            toolbar,
+            icon.REMOVE_SNAPSHOT, _('Remove Snapshot'),
+            self.btnRemoveSnapshotClicked,
+            'Delete')
+
+        # Button: snapshot logview
+        self.btnSnapshotLogView = _toolbar_button(
+            toolbar,
+            icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'),
+            self.btnSnapshotLogViewClicked)
+
+        # Button: snapshots last log
+        self.btnLastLogView = _toolbar_button(
+            toolbar,
+            icon.VIEW_LAST_LOG, _('View Last Log'),
+            self.btnLastLogViewClicked)
+
+        # ---
+        toolbar.addSeparator()
+
+        # Button: snapshot settings
+        self.btnSettings = _toolbar_button(
+            toolbar,
+            icon.SETTINGS, _('Settings'),
+            self.btnSettingsClicked,
+            'Ctrl+Shift+,')
+
+        # ---
+        toolbar.addSeparator()
+
+        # Button: shutdown
+        self.btnShutdown = _toolbar_button(
+            toolbar,
+            icon.SHUTDOWN, _('Shutdown'),
+            tooltip=_('Shut down system after snapshot has finished.'))
+        self.btnShutdown.toggled.connect(self.btnShutdownToggled)
+        self.btnShutdown.setCheckable(True)
+        self.btnShutdown.setEnabled(self.shutdown.canShutdown())
+
+        # <--->
+        empty = QWidget(self)
+        empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        toolbar.addWidget(empty)
+
+        # Button: Help
+        btnHelp = _toolbar_button(
+            toolbar,
+            icon.HELP, _('Help'),
+            self.btnHelpClicked)
+
+        return toolbar
+
 
     def closeEvent(self, event):
         if self.shutdown.askBeforeQuit():
