@@ -48,17 +48,22 @@
                 # dummytools.Dummy(<arg> = <value>) this will map self.<arg> to
                 # kwargs[<arg>]; else self.<arg> = <default> from config
                 # e.g. self.setattrKwargs(<arg>, <default>, **kwargs)
-                self.setattrKwargs('user', self.config.get_dummy_user(self.profile_id), **kwargs)
-                self.setattrKwargs('host', self.config.get_dummy_host(self.profile_id), **kwargs)
-                self.setattrKwargs('port', self.config.get_dummy_port(self.profile_id), **kwargs)
-                self.setattrKwargs('password',
-                                   self.config.password(self.parent, self.profile_id),
-                                   store = False, **kwargs)
+                self.setattrKwargs(
+                    'user', self.config.get_dummy_user(self.profile_id), **kwargs)
+                self.setattrKwargs(
+                    'host', self.config.get_dummy_host(self.profile_id), **kwargs)
+                self.setattrKwargs(
+                    'port', self.config.get_dummy_port(self.profile_id), **kwargs)
+                self.setattrKwargs(
+                    'password',
+                    self.config.password(self.parent, self.profile_id),
+                    store = False, **kwargs)
 
                 self.setDefaultArgs()
 
-                # If self.currentMountpoint is not the remote snapshot path you can specify
-                # a subfolder of self.currentMountpoint for the symlink
+                # If self.currentMountpoint is not the remote snapshot path
+                # you can specify a subfolder of self.currentMountpoint for
+                # the symlink
                 self.symlink_subfolder = None
 
                 self.mountproc = 'dummy'
@@ -79,7 +84,8 @@
                 # done successful.
                 # Raise MountException('Error description') if service can not mount
                 # return True if everything is okay
-                # all pre|post_[u]mount_check can also be used to prepare things or clean up
+                # all pre|post_[u]mount_check can also be used to prepare
+                # things or clean up
                 return True
 
             def postMountCheck(self):
