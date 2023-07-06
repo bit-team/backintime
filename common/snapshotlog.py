@@ -17,13 +17,10 @@
 
 import os
 import re
-import gettext
 
 import logger
 import snapshots
 import tools
-
-_=gettext.gettext
 
 
 class LogFilter(object):
@@ -59,12 +56,17 @@ class LogFilter(object):
         self.decode = decode
 
         if decode:
-            self.header = _('### This log has been decoded with automatic search pattern\n'\
-                            '### If some paths are not decoded you can manually decode them with:\n')
-            self.header +=  '### \'backintime --quiet '
+            self.header = (
+                '### This log has been decoded with automatic search pattern\n'
+                '### If some paths are not decoded you can manually decode '
+                'them with:\n'
+                '### \'backintime --quiet '
+            )
+
             if int(decode.config.currentProfile()) > 1:
-                self.header +=  '--profile "%s" ' %decode.config.profileName()
+                self.header +=  '--profile "%s" ' % decode.config.profileName()
             self.header +=  '--decode <path>\'\n\n'
+
         else:
             self.header = ''
 
@@ -96,7 +98,7 @@ class SnapshotLog(object):
 
     Args:
         cfg (config.Config):    current config
-        profile (int):          profile that should be used to indentify the log
+        profile (int):          profile that should be used to identify the log
     """
 
     NONE                = 0
@@ -183,7 +185,7 @@ class SnapshotLog(object):
             level (int):    verbosity level of current line. msg will only be
                             added to log if level is lower than configured
                             log level :py:func:`config.Config.logLevel`.
-                            Posible Values:
+                            Possible Values:
                             :py:data:`SnapshotLog.ERRORS`,
                             :py:data:`SnapshotLog.CHANGES_AND_ERRORS` or
                             :py:data:`SnapshotLog.ALL`

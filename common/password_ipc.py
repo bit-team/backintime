@@ -55,7 +55,7 @@ class FIFO(object):
 
     def read(self, timeout = 0):
         """
-        read from fifo untill timeout. If timeout is 0 it will wait forever
+        read from fifo until timeout. If timeout is 0 it will wait forever
         for input.
         """
         #sys.stdout.write('read fifo\n')
@@ -69,7 +69,7 @@ class FIFO(object):
 
     def write(self, string, timeout = 0):
         """
-        write to fifo untill timeout. If timeout is 0 it will wait forever
+        write to fifo until timeout. If timeout is 0 it will wait forever
         for an other process that will read this.
         """
         #sys.stdout.write('write fifo\n')

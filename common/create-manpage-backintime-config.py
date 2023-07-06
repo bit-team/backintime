@@ -20,7 +20,7 @@
 file.
 
 The file `common/config.py` is parsed for variable names, default values and
-other informations. The founder of that script @Germar gave a detailed
+other information. The founder of that script @Germar gave a detailed
 description about that script in #1354.
 
 The script reads every line and tries to analyse it:
@@ -42,7 +42,7 @@ The script reads every line and tries to analyse it:
     `snapshots.include.size`.
 
 In `process_line` it will replace some information with those I wrote manually
-in the `#?` description, seperated by `;` there is the comment,  value,
+in the `#?` description, separated by `;` there is the comment,  value,
 force_default and force_var. If there is no forced value it will chose the
 value based on the instance with `select_values`
 """
@@ -74,7 +74,7 @@ config \- BackInTime configuration files.
 /etc/backintime/config
 .SH DESCRIPTION
 Back In Time was developed as pure GUI program and so most functions are only
-useable with backintime-qt. But it is possible to use
+usable with backintime-qt. But it is possible to use
 Back In Time e.g. on a headless server. You have to create the configuration file
 (~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime\-common/examples/ for examples.
 .PP
@@ -239,7 +239,7 @@ def main():
             # DEFAULT variable
             if m_default:
                 replace_default[m_default.group(1)] \
-                    = m_default.group(2).replace('\\$', '\\\$')
+                    = m_default.group(2)
                 continue
 
             # Comment intended to use for the manpage
@@ -257,9 +257,6 @@ def main():
             if line.startswith('#'):
                 commentline = ''
                 continue
-
-            # m = c_list_tuple.match(line)
-            # if not m:
 
             # e.g. "return self.profileListValue('snapshots.include', ('str:value', 'int:type'), [], profile_id)"
             # becomes
@@ -281,7 +278,9 @@ def main():
                 var = var.lstrip('% ')
 
                 if instance.lower() == 'list':
+
                     type_key = [x.strip('"\'') for x in re.findall(r'["\'].*?["\']', var)]
+
                     commentline_split = commentline.split('::')
 
                     for i, tk in enumerate(type_key):

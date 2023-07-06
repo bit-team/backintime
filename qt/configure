@@ -190,15 +190,6 @@ addInstallDir               "/share/applications"
 addInstallFiles "*.desktop" "/share/applications"
 addNewline
 
-addComment "docbook"
-addInstallDir                          "/share/doc/qt/HTML/en/backintime"
-addInstallFiles "docbook/en/*.docbook" "/share/doc/qt/HTML/en/backintime"
-addUninstallDir                        "/share/doc/qt/HTML/en"
-addUninstallDir                        "/share/doc/qt/HTML"
-addUninstallDir                        "/share/doc/qt"
-addUninstallDir                        "/share/doc"
-addNewline
-
 addComment "man"
 addInstallDir    "/share/man/man1"
 addInstallFile   "man/C/backintime-qt.1.gz" "/share/man/man1"
@@ -240,10 +231,14 @@ for i in "${UNINSTALL_FILES}" "${UNINSTALL_DIRS}"; do
     fi
 done
 
-#check python version
-if [ $(python${PYVERSION} --version 2>&1 | grep -c "^Python 3") -ne 1 ]; then
-    printf "Wrong Python version.\n"
-    printf "Please make sure Python 3.x is used by adding '--python' or '--python3'.\n"
+# check python version
+PYTHON_VERSION_REQUIRED="3.8"
+PYTHON_VERSION_CURRENT=$(python${PYVERSION} --version | tr --delete 'Python ')
+
+# Credits: https://unix.stackexchange.com/a/285928/136851
+if [ "$(printf '%s\n' "$PYTHON_VERSION_REQUIRED" "$PYTHON_VERSION_CURRENT" | sort -V | head -n1)" != "$PYTHON_VERSION_REQUIRED" ]; then
+    printf "Error: Wrong Python version ${PYTHON_VERSION_CURRENT}. "
+    printf "But minimal version ${PYTHON_VERSION_REQUIRED} required.\n"
     exit 1
 fi
 

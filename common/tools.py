@@ -42,6 +42,7 @@ try:
     if os.getenv('BIT_USE_KEYRING', 'true') == 'true' and os.geteuid() != 0:
         import keyring
         from keyring import backend
+        import keyring.util.platform_
 except:
     keyring = None
     os.putenv('BIT_USE_KEYRING', 'false')
@@ -216,7 +217,7 @@ def readFileLines(path, default = None):
         default (list):         default if ``path`` does not exist
 
     Returns:
-        list:                   content of file in ``path`` splitted by lines.
+        list:                   content of file in ``path`` split by lines.
     """
     ret_val = default
 
@@ -484,7 +485,7 @@ def preparePath(path):
     Removes trailing slash '/' from ``path``.
 
     Args:
-        path (str): absolut path
+        path (str): absolute path
 
     Returns:
         str:        path ``path`` without trailing but with leading slash
@@ -849,15 +850,25 @@ def keyringSupported():
         logger.debug('No keyring due to import error.')
         return False
 
+    keyring_config_file_folder = "Unknown"
+    try:
+        keyring_config_file_folder = keyring.util.platform_.config_root()
+    except:
+        pass
+
+    logger.debug(f"Keyring config file folder: {keyring_config_file_folder}")
+
     # Determine the currently active backend
     try:
         # get_keyring() internally calls keyring.core.init_backend()
         # which fixes non-available backends for the first call.
         # See related issue #1321:
         # https://github.com/bit-team/backintime/issues/1321
+        # The module name is used instead of the class name
+        # to show only the keyring name (not the technical name)
         displayName = keyring.get_keyring().__module__
     except:
-        displayName = str(keyring.get_keyring())
+        displayName = str(keyring.get_keyring())  # technical class name!
 
     logger.debug("Available keyring backends:")
     try:
@@ -886,15 +897,15 @@ def keyringSupported():
     except Exception as e: logger.debug("Metaclass keyring.backend.GnomeKeyring not found: " + repr(e))
     try: available_backends.append(keyring.backend.KDEKWallet)
     except Exception as e: logger.debug("Metaclass keyring.backend.KDEKWallet not found: " + repr(e))
-    # TODO (Oct. 7, 2022): Should the ChainerBackend also be supported?
-    #                    It could solve the problem of configuring the
-    #                    used backend since it iterates over all of them
-    #                    and seems to be the default backend now.
-    #                    On the other hand it could use a non-supported
-    #                    backend without a chance for BiT to notice this.
-    # See: https://github.com/jaraco/keyring/blob/977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/chainer.py#L11
-    # try: backends.append(keyring.backends.chainer.ChainerBackend)
-    # except Exception as e: logger.debug("Metaclass keyring.backend. not found:" + repr(e))
+    # See issue #1410: ChainerBackend is now supported
+    #                  to solve the problem of configuring the
+    #                  used backend since it iterates over all of them
+    #                  and is to be the default backend now.
+    #                  Please read the issue details to understand the
+    #                  unwanted side-effects the chainer could bring with it.
+    # See also: https://github.com/jaraco/keyring/blob/977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/chainer.py#L11
+    try: available_backends.append(keyring.backends.chainer.ChainerBackend)
+    except Exception as e: logger.debug("Metaclass keyring.backends.chainer.ChainerBackend not found:" + repr(e))
 
     logger.debug("Available supported backends: " + repr(available_backends))
 
@@ -903,7 +914,7 @@ def keyringSupported():
         return True
 
     logger.debug("No appropriate keyring found. '{}' can't be used with BackInTime".format(displayName))
-    # TODO (Oct. 07, 2022): Write log output indicating possible solutions for this (eg. via a URL)
+    logger.debug("See https://github.com/bit-team/backintime on how to fix this by creating a keyring config file.")
     return False
 
 def password(*args):
@@ -936,7 +947,7 @@ def mountpoint(path):
 
 def decodeOctalEscape(s):
     """
-    Decode octal-escaped characters with its ASCII dependance.
+    Decode octal-escaped characters with its ASCII dependence.
     For example '\040' will be a space ' '
 
     Args:
@@ -1178,12 +1189,12 @@ def wrapLine(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: ')
 
     Args:
         msg (str):                  string that should get wrapped
-        size (int):                 maximum lenght of returned strings
+        size (int):                 maximum length of returned strings
         delimiters (str):           try to break ``msg`` on these characters
         new_line_indicator (str):   start new lines with this string
 
     Yields:
-        str:                        lines with max ``size`` lenght
+        str:                        lines with max ``size`` length
     """
     if len(new_line_indicator) >= size - 1:
         new_line_indicator = ''
@@ -1407,7 +1418,7 @@ def readCrontab():
             crontab = [x.strip() for x in out.strip('\n').split('\n')]
             if crontab == ['']:  # Fixes issue #1181 (line count of empty crontab was 1 instead of 0)
                 crontab = []
-            logger.debug('Read %s lines from users crontab'
+            logger.debug('Read %s lines from user crontab'
                          %len(crontab))
             return crontab
 
@@ -1444,7 +1455,7 @@ def writeCrontab(lines):
                      %(proc.returncode, err))
         return False
     else:
-        logger.debug('Wrote %s lines to users crontab'
+        logger.debug('Wrote %s lines to user crontab'
                      %len(lines))
         return True
 
@@ -1602,13 +1613,13 @@ class UniquenessSet:
             size,inode  = dum.st_size, dum.st_ino
             # is it a hlink ?
             if (size, inode) in self._size_inode:
-                logger.debug("[deep test] : skip, it's a duplicate (size, inode)", self)
+                logger.debug("[deep test]: skip, it's a duplicate (size, inode)", self)
                 return False
             self._size_inode.add((size,inode))
             if size not in self._uniq_dict:
                 # first item of that size
                 unique_key = size
-                logger.debug("[deep test] : store current size ?", self)
+                logger.debug("[deep test]: store current size?", self)
             else:
                 prev = self._uniq_dict[size]
                 if prev:
@@ -1616,16 +1627,16 @@ class UniquenessSet:
                     md5sum_prev = md5sum(prev)
                     self._uniq_dict[size] = None
                     self._uniq_dict[md5sum_prev] = prev
-                    logger.debug("[deep test] : size duplicate, remove the size, store prev md5sum", self)
+                    logger.debug("[deep test]: size duplicate, remove the size, store prev md5sum", self)
                 unique_key = md5sum(path)
-                logger.debug("[deep test] : store current md5sum ?", self)
+                logger.debug("[deep test]: store current md5sum?", self)
         else:
             # store a tuple of (size, modification time)
             obj  = os.stat(path)
             unique_key = (obj.st_size, int(obj.st_mtime))
         # store if not already present, then return True
         if unique_key not in self._uniq_dict:
-            logger.debug(" >> ok, store !", self)
+            logger.debug(" >> ok, store!", self)
             self._uniq_dict[unique_key] = path
             return True
         logger.debug(" >> skip (it's a duplicate)", self)
@@ -1666,12 +1677,12 @@ class Alarm(object):
         Args:
             callback: Function to call when the timer ran down
                       (ensure calling only reentrant code).
-                      Use ``None`` toi throws a ``Timeout`` exception instead.
+                      Use ``None`` to throw a ``Timeout`` exception instead.
             overwrite: Is it allowed to (re)start the timer
                        even though the current timer is still running
                        ("ticking"):
                        ``True`` cancels the current timer (if active)
-                                and restarts with the new timout.
+                                and restarts with the new timeout.
                        ``False` silently ignores the start request
                                 if the current timer is still "ticking"
         """
@@ -1773,7 +1784,7 @@ class ShutDown(object):
                                 'arguments':    (True,)
                                     #arg        True    allow saving
                                     #           False   don't allow saving
-                                    #1nd arg (only with Logout)
+                                    #1st arg (only with Logout)
                                     #           True    show dialog
                                     #           False   don't show dialog
                                     #2nd arg (only with Logout)
@@ -1947,7 +1958,7 @@ class SetupUdev(object):
 
     def addRule(self, cmd, uuid):
         """
-        Prepair rules in serviceHelper.py
+        Prepare rules in serviceHelper.py
         """
         if not self.isReady:
             return
@@ -2336,7 +2347,7 @@ class Daemon:
         """
         # Check for a pidfile to see if the daemon already runs
         if self.pidfile and not self.appInstance.check():
-            message = "pidfile %s already exist. Daemon already running?\n"
+            message = "pidfile %s already exists. Daemon already running?\n"
             logger.error(message % self.pidfile, self)
             sys.exit(1)
 

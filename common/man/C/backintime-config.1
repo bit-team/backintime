@@ -1,4 +1,4 @@
-.TH backintime-config 1 "Jan 2023" "version 1.3.4-dev" "USER COMMANDS"
+.TH backintime-config 1 "May 2023" "version 1.3.4-dev" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
@@ -7,7 +7,7 @@ config \- BackInTime configuration files.
 /etc/backintime/config
 .SH DESCRIPTION
 Back In Time was developed as pure GUI program and so most functions are only
-useable with backintime-qt. But it is possible to use
+usable with backintime-qt. But it is possible to use
 Back In Time e.g. on a headless server. You have to create the configuration file
 (~/.config/backintime/config) manually. Look inside /usr/share/doc/backintime\-common/examples/ for examples.
 .PP
@@ -673,7 +673,7 @@ Default: false
 .RS
 Type: int       Allowed Values: 0, >700
 .br
-Maximum argument length of commands run on remote host. This can be tested with 'python3 /usr/share/backintime/common/sshMaxArg.py USER@HOST'.
+Maximum command length of commands run on remote host. This can be tested for all ssh profiles in the configuration with 'python3 /usr/share/backintime/common/sshMaxArg.py [initial_ssh_cmd_length]'.
 .br
 0 = unlimited
 .PP
@@ -731,7 +731,7 @@ Type: str       Allowed Values: text
 .br
 Prefix to run before every command on remote host. Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to add a prefix for rsync use \fIprofile<N>.snapshots.rsync_options.value\fR with --rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"
 .PP
-Default: 'PATH=/opt/bin:/opt/sbin:\\\$PATH'
+Default: 'PATH=/opt/bin:/opt/sbin:\\$PATH'
 .RE
 
 .IP "\fIprofile<N>.snapshots.ssh.private_key_file\fR" 6

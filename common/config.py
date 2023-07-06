@@ -18,9 +18,9 @@
 
 """Configuration logic.
 
-This module and its `Config` class contain the appliation logic handling the
+This module and its `Config` class contain the application logic handling the
 configuration of Back In Time. The handling of the configuration file itself
-is separated in the module :py:module:`configfile`.
+is separated in the module :py:mod:`configfile`.
 
 Development notes:
     Some of the methods have code comments starting with `#? ` instead of
@@ -94,18 +94,18 @@ class Config(configfile.ConfigFileWithProfiles):
     SCHEDULE_MODES = {
                 NONE: _('Disabled'),
                 AT_EVERY_BOOT: _('At every boot/reboot'),
-                _5_MIN: _('Every 5 minutes'),
-                _10_MIN: _('Every 10 minutes'),
-                _30_MIN: _('Every 30 minutes'),
+                _5_MIN: _('Every {n} minutes').format(n=5),
+                _10_MIN: _('Every {n} minutes').format(n=10),
+                _30_MIN: _('Every {n} minutes').format(n=30),
                 _1_HOUR: _('Every hour'),
-                _2_HOURS: _('Every 2 hours'),
-                _4_HOURS: _('Every 4 hours'),
-                _6_HOURS: _('Every 6 hours'),
-                _12_HOURS: _('Every 12 hours'),
+                _2_HOURS: _('Every {n} hours').format(n=2),
+                _4_HOURS: _('Every {n} hours').format(n=4),
+                _6_HOURS: _('Every {n} hours').format(n=6),
+                _12_HOURS: _('Every {n} hours').format(n=12),
                 CUSTOM_HOUR: _('Custom Hours'),
                 DAY: _('Every Day'),
                 REPEATEDLY: _('Repeatedly (anacron)'),
-                UDEV: _('When drive get connected (udev)'),
+                UDEV: _('When drive gets connected (udev)'),
                 WEEK: _('Every Week'),
                 MONTH: _('Every Month'),
                 YEAR: _('Every Year')
@@ -129,10 +129,28 @@ class Config(configfile.ConfigFileWithProfiles):
         DISK_UNIT_GB : 'GiB'
     }
 
-    DEFAULT_EXCLUDE = [ '.gvfs', '.cache/*', '.thumbnails*',
-    '.local/share/[Tt]rash*', '*.backup*', '*~', '.dropbox*', '/proc/*',
-    '/sys/*', '/dev/*', '/run/*', '/etc/mtab', '/var/cache/apt/archives/*.deb',
-    'lost+found/*', '/tmp/*', '/var/tmp/*', '/var/backups/*', '.Private' ]
+    # Used when new snapshot profile is created.
+    DEFAULT_EXCLUDE = [
+        '.gvfs',
+        '.cache/*',
+        '.thumbnails*',
+        '.local/share/[Tt]rash*',
+        '*.backup*',
+        '*~',
+        '.dropbox*',
+        '/proc/*',
+        '/sys/*',
+        '/dev/*',
+        '/run/*',
+        '/etc/mtab',
+        '/var/cache/apt/archives/*.deb',
+        'lost+found/*',
+        '/tmp/*',
+        '/var/tmp/*',
+        '/var/backups/*',
+        '.Private',
+        '/swapfile',
+    ]
 
     DEFAULT_RUN_NICE_FROM_CRON = True
     DEFAULT_RUN_NICE_ON_REMOTE = False
@@ -145,28 +163,46 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_REDIRECT_STDOUT_IN_CRON = True
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
 
-    exp = _(' EXPERIMENTAL!')
     SNAPSHOT_MODES = {
-                #mode           : (<mounttools>,            'ComboBox Text',        need_pw|lbl_pw_1,       need_2_pw|lbl_pw_2),
-                'local'         : (None,                    _('Local'),             False,                  False),
-                'ssh'           : (sshtools.SSH,            _('SSH'),               _('SSH private key'),   False),
-                'local_encfs'   : (encfstools.EncFS_mount,  _('Local encrypted'),   _('Encryption'),        False),
-                'ssh_encfs'     : (encfstools.EncFS_SSH,    _('SSH encrypted'),     _('SSH private key'),   _('Encryption'))
-                }
+                # mode: (
+                #     <mounttools>,
+                #     'ComboBox Text',
+                #     need_pw|lbl_pw_1,
+                #     need_2_pw|lbl_pw_2
+                # ),
+                'local': (
+                    None, _('Local'), False, False),
+                'ssh': (
+                    sshtools.SSH, 'SSH', _('SSH private key'), False),
+                'local_encfs': (
+                    encfstools.EncFS_mount,
+                    '{} {}'.format(_('Local'), _('encrypted')),
+                    _('Encryption'),
+                    False
+                ),
+                'ssh_encfs': (
+                    encfstools.EncFS_SSH,
+                    _('SSH encrypted'),
+                    _('SSH private key'),
+                    _('Encryption')
+                )
+    }
 
-    SSH_CIPHERS =  {'default': _('Default'),
-                    'aes128-ctr': _('AES128-CTR'),
-                    'aes192-ctr': _('AES192-CTR'),
-                    'aes256-ctr': _('AES256-CTR'),
-                    'arcfour256': _('ARCFOUR256'),
-                    'arcfour128': _('ARCFOUR128'),
-                    'aes128-cbc': _('AES128-CBC'),
-                    '3des-cbc':   _('3DES-CBC'),
-                    'blowfish-cbc': _('Blowfish-CBC'),
-                    'cast128-cbc': _('Cast128-CBC'),
-                    'aes192-cbc': _('AES192-CBC'),
-                    'aes256-cbc': _('AES256-CBC'),
-                    'arcfour': _('ARCFOUR') }
+    SSH_CIPHERS = {
+        'default': _('Default'),
+        'aes128-ctr': 'AES128-CTR',
+        'aes192-ctr': 'AES192-CTR',
+        'aes256-ctr': 'AES256-CTR',
+        'arcfour256': 'ARCFOUR256',
+        'arcfour128': 'ARCFOUR128',
+        'aes128-cbc': 'AES128-CBC',
+        '3des-cbc': '3DES-CBC',
+        'blowfish-cbc': 'Blowfish-CBC',
+        'cast128-cbc': 'Cast128-CBC',
+        'aes192-cbc': 'AES192-CBC',
+        'aes256-cbc': 'AES256-CBC',
+        'arcfour': 'ARCFOUR'
+    }
 
     ENCODE = encfstools.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
@@ -320,14 +356,25 @@ class Config(configfile.ConfigFileWithProfiles):
 
             #check snapshots path
             if not snapshots_path:
-                self.notifyError(_('Profile: "%s"') % profile_name + '\n' + _('Snapshots folder is not valid !'))
+                self.notifyError(
+                    '{}\n{}'.format(
+                        _('Profile: "{name}"').format(name=profile_name),
+                        _('Snapshots folder is not valid!')
+                    )
+                )
                 return False
 
             #check include
             include_list = self.include(profile_id)
 
             if not include_list:
-                self.notifyError(_('Profile: "%s"') % profile_name + '\n' + _('You must select at least one folder to backup !'))
+                self.notifyError(
+                    '{}\n{}'.format(
+                        _('Profile: "{name}"').format(name=profile_name),
+                        _('You must select at least one folder to back up!')
+                    )
+                )
+
                 return False
 
             snapshots_path2 = snapshots_path + '/'
@@ -338,12 +385,25 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 path = item[0]
                 if path == snapshots_path:
-                    self.notifyError(_('Profile: "%s"') % profile_name + '\n' + _('You can\'t include backup folder !'))
+                    self.notifyError(
+                        '{}\n{}'.format(
+                            _('Profile: "{name}"').format(name=profile_name),
+                            _("You can't include backup folder!")
+                        )
+                    )
+
                     return False
 
                 if len(path) >= len(snapshots_path2):
                     if path[: len(snapshots_path2)] == snapshots_path2:
-                        self.notifyError(_('Profile: "%s"') %  self.currentProfile() + '\n' + _('You can\'t include a backup sub-folder !'))
+                        self.notifyError(
+                            '{}\n{}'.format(
+                                _('Profile: "{name}"').format(
+                                    name=self.currentProfile()),
+                                _("You can't include backup sub-folder!")
+                            )
+                        )
+
                         return False
         return True
 
@@ -398,11 +458,11 @@ class Config(configfile.ConfigFileWithProfiles):
             mode = self.snapshotsMode(profile_id)
 
         if not os.path.isdir(value):
-            self.notifyError(_('%s is not a folder !') % value)
+            self.notifyError(_('{path} is not a folder !').format(path=value))
             return False
 
         #Initialize the snapshots folder
-        logger.debug("Check snapshot folder: %s" %value, self)
+        logger.debug("Check snapshot folder: %s" % value, self)
 
         host, user, profile = self.hostUserProfile(profile_id)
 
@@ -412,10 +472,13 @@ class Config(configfile.ConfigFileWithProfiles):
 
         full_path = os.path.join(value, 'backintime', host, user, profile)
         if not os.path.isdir(full_path):
-            logger.debug("Create folder: %s" %full_path, self)
+            logger.debug("Create folder: %s" % full_path, self)
             tools.makeDirs(full_path)
+
             if not os.path.isdir(full_path):
-                self.notifyError(_('Can\'t write to: %s\nAre you sure you have write access ?' % value))
+                self.notifyError(_(
+                    "Can't write to: {path}\nAre you sure you have "
+                    "write access?").format(path=value))
                 return False
 
             for p in (os.path.join(value, 'backintime'),
@@ -423,33 +486,46 @@ class Config(configfile.ConfigFileWithProfiles):
                 try:
                     os.chmod(p, 0o777)
                 except PermissionError as e:
-                    msg = "Failed to change permissions world writeable for '{}': {}"
+                    msg = "Failed to set permissions world-writable for '{}': {}"
                     logger.warning(msg.format(p, str(e)), self)
 
-        #Test filesystem
+        # Test filesystem
         fs = tools.filesystem(full_path)
+
         if fs == 'vfat':
-            self.notifyError(_("Destination filesystem for '%(path)s' is formatted with FAT which doesn't support hard-links. "
-                                "Please use a native Linux filesystem.") %
-                              {'path': value})
+            self.notifyError(_(
+                "Destination filesystem for {path} is formatted with FAT "
+                "which doesn't support hard-links. "
+                "Please use a native Linux filesystem.")
+                .format(path=value))
+
             return False
+
         elif fs == 'cifs' and not self.copyLinks():
-            self.notifyError(_("Destination filsystem for '%(path)s' is a SMB mounted share. Please make sure "
-                                "the remote SMB server supports symlinks or activate '%(copyLinks)s' in '%(expertOptions)s'.") %
-                              {'path': value,
-                               'copyLinks': _('Copy links (dereference symbolic links)'),
-                               'expertOptions': _('Expert Options')})
+            self.notifyError(_(
+                'Destination filesystem for {path} is an SMB-mounted share. '
+                'Please make sure the remote SMB server supports symlinks or '
+                'activate {copyLinks} in {expertOptions}.')
+                .format(path=value,
+                        copyLinks=_('Copy links (dereference symbolic links)'),
+                        expertOptions=_('Expert Options')))
+
         elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
-            self.notifyError(_("Destination filesystem for '%(path)s is a sshfs mounted share. sshfs doesn't support hard-links. "
-                                "Please use mode 'SSH' instead.") %
-                              {'path': value})
+            self.notifyError(_(
+                "Destination filesystem for {path} is an sshfs-mounted share."
+                " sshfs doesn't support hard-links. "
+                "Please use mode 'SSH' instead.")
+                .format(path=value))
+
             return False
 
         #Test write access for the folder
         check_path = os.path.join(full_path, 'check')
         tools.makeDirs(check_path)
         if not os.path.isdir(check_path):
-            self.notifyError(_('Can\'t write to: %s\nAre you sure you have write access ?' % full_path))
+            self.notifyError(_(
+                "Can't write to: {path}\nAre you sure you have "
+                "write access?").format(path=full_path))
             return False
 
         os.rmdir(check_path)
@@ -575,7 +651,7 @@ class Config(configfile.ConfigFileWithProfiles):
         #?0 = unlimited;0, >700
         value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
         if value and value < 700:
-            raise ValueError('SSH max arg length %s is to low to run commands' % value)
+            raise ValueError('SSH max arg length %s is too low to run commands' % value)
         return value
 
     def setSshMaxArgLength(self, value, profile_id = None):
@@ -1190,7 +1266,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if '--old-args' in val:
             logger.warning(
                 'Found rsync flag "--old-args". That flag will be removed '
-                'from the options because it does conflict with '
+                'from the options because it conflicts with '
                 'the flag "-s" (also known as "--secluded-args" or '
                 '"--protected-args") which is used by Back In Time to force '
                 'the "new form of argument protection" in rsync.'
@@ -1461,7 +1537,12 @@ class Config(configfile.ConfigFileWithProfiles):
         else:
             return True
 
-    SYSTEM_ENTRY_MESSAGE = "#Back In Time system entry, this will be edited by the gui:"
+    SYSTEM_ENTRY_MESSAGE \
+        = "#Back In Time system entry, this will be edited by the gui:"
+    """The string is used in crontab file to mark entries as owned by Back
+    In Time. **WARNING**: Don't modify that string in code because it is used
+    as match target while parsing the crontab file.
+    """
 
     def setupCron(self):
         for f in self.anacrontabFiles():
@@ -1487,19 +1568,27 @@ class Config(configfile.ConfigFileWithProfiles):
             return False
 
         if not newCrontab == oldCrontab:
+
             if not tools.checkCommand('crontab'):
+
                 if self.scheduleMode() is self.NONE:
                     return True
+
                 else:
                     logger.error('crontab not found.', self)
-                    self.notifyError(_('Can\'t find crontab.\nAre you sure cron is installed ?\n'
-                                        'If not you should disable all automatic backups.'))
+                    self.notifyError(_(
+                        "Can't find crontab.\n"
+                        "Are you sure cron is installed?\n"
+                        "If not you should disable all automatic backups."))
                     return False
+
             if not tools.writeCrontab(newCrontab):
                 self.notifyError(_('Failed to write new crontab.'))
                 return False
+
         else:
             logger.debug("Crontab didn't change. Skip writing.")
+
         return True
 
     def removeOldCrontab(self, crontab):
@@ -1542,7 +1631,7 @@ class Config(configfile.ConfigFileWithProfiles):
             # entries if there is no automatic entry.
             newCrontab.append(self.SYSTEM_ENTRY_MESSAGE)
             newCrontab.append("#Please don't delete these two lines, or all custom backintime "
-                              "entries are going to be deleted next time you call the gui options!")
+                              "entries will be deleted next time you call the gui options!")
         return newCrontab
 
     def cronLine(self, profile_id):
@@ -1590,22 +1679,29 @@ class Config(configfile.ConfigFileWithProfiles):
                 cron_line = '0 * * * * {cmd}'
         elif self.UDEV == backup_mode:
             if not self.setupUdev.isReady:
-                logger.error("Failed to install Udev rule for profile %s. "
-                             "DBus Service 'net.launchpad.backintime.serviceHelper' not available"
-                             %profile_id, self)
-                self.notifyError(_('Could not install Udev rule for profile %(profile_id)s. '
-                                     'DBus Service \'%(dbus_interface)s\' '
-                                     'wasn\'t available')
-                                    %{'profile_id': profile_id,
-                                      'dbus_interface': 'net.launchpad.backintime.serviceHelper'})
+                logger.error(
+                    "Failed to install Udev rule for profile %s. DBus "
+                    "Service 'net.launchpad.backintime.serviceHelper' not "
+                    "available" % profile_id, self)
+
+                self.notifyError(_(
+                    "Could not install Udev rule for profile {profile_id}. "
+                    "DBus Service '{dbus_interface}' wasn't available")
+                    .format(profile_id=profile_id,
+                            dbus_interface='net.launchpad.backintime.'
+                                           'serviceHelper'))
+
             mode = self.snapshotsMode(profile_id)
             if mode == 'local':
                 dest_path = self.snapshotsFullPath(profile_id)
             elif mode == 'local_encfs':
                 dest_path = self.localEncfsPath(profile_id)
             else:
-                logger.error('Schedule udev doesn\'t work with mode %s' %mode, self)
-                self.notifyError(_('Schedule udev doesn\'t work with mode %s') % mode)
+                logger.error(
+                    'Schedule udev doesn\'t work with mode %s' % mode, self)
+                self.notifyError(_(
+                    "Schedule udev doesn't work with mode {mode}")
+                    .format(mode=mode))
                 return False
             uuid = tools.uuidFromPath(dest_path)
             if uuid is None:
@@ -1613,8 +1709,11 @@ class Config(configfile.ConfigFileWithProfiles):
                 #?Devices uuid used to automatically set up udev rule if the drive is not connected.
                 uuid = self.profileStrValue('snapshots.path.uuid', '', profile_id)
                 if not uuid:
-                    logger.error('Couldn\'t find UUID for "%s"' %dest_path, self)
-                    self.notifyError(_('Couldn\'t find UUID for "%s"') % dest_path)
+                    logger.error(
+                        'Couldn\'t find UUID for "%s"' % dest_path, self)
+                    self.notifyError(_(
+                        "Couldn't find UUID for \"{path}\"'")
+                        .format(path=dest_path))
                     return False
             else:
                 #cache uuid in config

@@ -27,7 +27,7 @@ import tools
 import password
 from exceptions import MountException, HashCollision
 
-_=gettext.gettext
+_ = gettext.gettext
 
 class Mount(object):
     """
@@ -368,7 +368,7 @@ class MountControl(object):
         ``self.all_kwargs`` need to be filled through :py:func:`setattrKwargs`
         before calling this.
         """
-        #self.destination should contain all arguments that are nessesary for
+        #self.destination should contain all arguments that are necessary for
         #mount.
         args = list(self.all_kwargs.keys())
         self.destination = '%s:' % self.all_kwargs['mode']
@@ -395,7 +395,7 @@ class MountControl(object):
 
     def mount(self, check = True):
         """
-        Low-level `mount`. Set mountprocess lock and prepair mount, run checks
+        Low-level `mount`. Set mountprocess lock and prepare mount, run checks
         and than call :py:func:`_mount` for the subclassed backend. Finally set
         mount lock and symlink and release mountprocess lock.
 
@@ -415,22 +415,33 @@ class MountControl(object):
         """
         self.createMountStructure()
         self.mountProcessLockAcquire()
+
         try:
             if self.mounted():
+
                 if not self.compareUmountInfo():
                     #We probably have a hash collision
                     self.config.incrementHashCollision()
-                    raise HashCollision(_('Hash collision occurred in hash_id %s. Incrementing global value hash_collision and try again.') % self.hash_id)
-                logger.info('Mountpoint %s is already mounted' %self.currentMountpoint, self)
+                    raise HashCollision(
+                        f'Hash collision occurred in hash_id {self.hash_id}. '
+                        'Incrementing global value hash_collision and '
+                        'trying again.')
+
+                logger.info('Mountpoint {} is already mounted'
+                            .format(self.currentMountpoint),
+                            self)
             else:
                 if check:
                     self.preMountCheck()
+
                 self._mount()
                 self.postMountCheck()
+
                 logger.info('mount %s on %s'
                             %(self.log_command, self.currentMountpoint),
                             self)
                 self.writeUmountInfo()
+
         except Exception:
             raise
         else:
@@ -494,10 +505,11 @@ class MountControl(object):
         """
         try:
             subprocess.check_call(['fusermount', '-u', self.currentMountpoint])
+
         except subprocess.CalledProcessError:
-            raise MountException(_('Can\'t unmount %(proc)s from %(mountpoint)s')
-                                  %{'proc': self.mountproc,
-                                    'mountpoint': self.currentMountpoint})
+            raise MountException(
+                "Can't unmount {} from {}"
+                .format(self.mountproc, self.currentMountpoint))
 
     def preMountCheck(self, first_run = False):
         """
@@ -580,26 +592,33 @@ class MountControl(object):
                                         user is not in group fuse
         """
         logger.debug('Check fuse', self)
+
         if not tools.checkCommand(self.mountproc):
-            logger.debug('%s is missing' %self.mountproc, self)
-            raise MountException(_('%(proc)s not found. Please install e.g. %(install_command)s')
-                                  %{'proc': self.mountproc,
-                                    'install_command': "'apt-get install %s'" %self.mountproc})
+            logger.debug('%s is missing' % self.mountproc, self)
+            raise MountException(
+                '{}  not found. Please install e.g. {}'
+                .format(self.mountproc,
+                        "'apt-get install %s'" % self.mountproc)
+            )
+
         if self.CHECK_FUSE_GROUP:
             user = self.config.user()
+
             try:
                 fuse_grp_members = grp.getgrnam('fuse')[3]
+
             except KeyError:
                 #group fuse doesn't exist. So most likely it isn't used by this distribution
                 logger.debug("Group fuse doesn't exist. Skip test", self)
                 return
+
             if not user in fuse_grp_members:
-                logger.debug('User %s is not in group fuse' %user, self)
-                raise MountException(_('%(user)s is not member of group \'fuse\'.\n '
-                                        'Run \'sudo adduser %(user)s fuse\'. To apply '
-                                        'changes logout and login again.\nLook at '
-                                        '\'man backintime\' for further instructions.')
-                                        % {'user': user})
+                logger.debug('User %s is not in group fuse' % user, self)
+                raise MountException(
+                    "{user} is not member of group 'fuse'. Run 'sudo adduser "
+                    "{user} fuse'. To apply changes logout and login again."
+                    "\nLook at 'man backintime' for further instructions."
+                    .format(user=user))
 
     def mounted(self):
         """
@@ -614,12 +633,16 @@ class MountControl(object):
         """
         if os.path.ismount(self.currentMountpoint):
             return True
+
         else:
             try:
                 if os.listdir(self.currentMountpoint):
-                    raise MountException(_('mountpoint %s not empty.') % self.currentMountpoint)
+                    raise MountException(
+                        'mountpoint %s not empty.' % self.currentMountpoint)
+
             except FileNotFoundError:
                 pass
+
             return False
 
     def createMountStructure(self):
@@ -641,7 +664,7 @@ class MountControl(object):
             │   │                           mountpoint
             │   │
             │   ├── umount              <=  ``self.umount_info`` json file with
-            │   │                           all nessesary args for unmount
+            │   │                           all necessary args for unmount
             │   │
             │   └── locks/              <=  ``self.lock_path`` for each process
             │                               you have a ``<pid>.lock`` file
@@ -680,11 +703,10 @@ class MountControl(object):
         while self.checkLocks(lock_path, lockSuffix):
             count += 1
             if count == timeout:
-                raise MountException(_('Mountprocess lock timeout'))
+                raise MountException('Mountprocess lock timeout')
             sleep(1)
 
-        logger.debug('Acquire mountprocess lock %s'
-                     %lock, self)
+        logger.debug(f'Acquire mountprocess lock {lock}', self)
         with open(lock, 'w') as f:
             f.write(self.pid)
 
@@ -695,8 +717,7 @@ class MountControl(object):
         lock_path = self.mount_root
         lockSuffix = '.lock'
         lock = os.path.join(lock_path, self.pid + lockSuffix)
-        logger.debug('Release mountprocess lock %s'
-                     %lock, self)
+        logger.debug(f'Release mountprocess lock {lock}', self)
         if os.path.exists(lock):
             os.remove(lock)
 
