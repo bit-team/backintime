@@ -200,9 +200,11 @@ class SSH(MountControl):
 
         err = proc.communicate()[1]
 
-        if proc.returncode:
-            raise MountException(
-                "Can't mount %s" % " ".join(sshfs) + "\n\n" + err)
+        if proc.returncode == 0:
+            return
+
+       raise MountException("Can't mount {}\n\n{}"
+                            .format(" ".join(sshfs), err))
 
     def preMountCheck(self, first_run=False):
         """
