@@ -1,8 +1,30 @@
+# Using Sphinx to write and build documentation
+<sub>Feel free to [open issues](https://github.com/bit-team/backintime/issues) or contact the [maintenace team on the mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org/) if this text is difficult to understand or not helpful.</sub>
+
 This file describes briefly how to
-- build and view the source code "API" documentation of Back In Time "common" (CLI)
+- build and view the source code "API" documentation of _Back In Time_
+  "common" (CLI)
 - add new modules to the documentation
 - write docstrings
 - known issues with documentation generation
+
+## Index
+
+<!-- TOC start -->
+- [Background](#background)
+- [Why to use Sphinx to generate the
+  documentation?](#why-to-use-sphinx-to-generate-the-documentation)
+- [How to build and view the
+  documentation](#how-to-build-and-view-the-documentation)
+- [How to add new modules to the
+  documentation](#how-to-add-new-modules-to-the-documentation)
+- [How to write docstrings for Back In
+  Time](#how-to-write-docstrings-for-back-in-time)
+- [Commonly used rst markups in the
+  docstring](#commonly-used-rst-markups-in-the-docstring)
+- [Known issues with documentation
+  generation](#known-issues-with-documentation-generation)
+<!-- TOC end -->
 
 # Background
 
@@ -30,8 +52,6 @@ https://docutils.sourceforge.io/docs/user/rst/quickref.html
 
 For a description of the Google coding style for python see:
 https://google.github.io/styleguide/pyguide.html
-
-
 
 # Why to use Sphinx to generate the documentation?
 
@@ -92,14 +112,13 @@ b) The new module files are in a folder that already contains other modules cont
 
 
 
-# How to write docstrings for Back In Time
+# How to write docstrings for _Back In Time_
 
-"Back In Time" uses the Google style for docstrings:
-
-    https://google.github.io/styleguide/pyguide.html
-
-Please stick to this convention
-
+_Back In Time_ uses the [Google style for
+docstrings](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings).
+Please stick to this convention. Look into documentation of
+[`sphinx.ext.napoleon` for an extended
+example](https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google).
 
 
 # Commonly used rst markups in the docstring
@@ -145,3 +164,5 @@ be used to format text and cross-reference code.
   Impact: Inherited documentation in the sub class is not up to date
 
   Work around: Use "make clean" before "make html"
+
+<sub>March 2023</sub>

@@ -1,14 +1,26 @@
 Back In Time
 
-Version 1.3.3-dev (development of upcoming release)
+Version 1.3.4-dev (development of upcoming release)
+* Project: Renamed branch "master" to "main" and started "gitflow" branching model.
 * Refactoring: Renamed qt4plugin.py to systrayiconplugin.py
-* Bugfix: Missing icon in SSH private key button (#1364)
-* Bugfix: Master issue for missing or empty systemtray icon (#1306)
-* Bugfix: Systray icon missing or empty (GUI and cron) (#1236)
-* Bugfix: Improve KDE plasma icon compatibility (#1159)
-* Dependency: The oxygen icons should be installed since they are used as fallback in case of missing icons
+* Fix bug: Missing icon in SSH private key button (#1364)
+* Fix bug: Master issue for missing or empty systemtray icon (#1306)
+* Fix bug: Systray icon missing or empty (GUI and cron) (#1236)
+* Fix bug: Improve KDE plasma icon compatibility (#1159)
+* Fix bug: Unit test fails on some machines due to warning "Ignoring XDG_SESSION_TYPE=wayland on Gnome..." (#1429)
+* Fix bug: Generation of config-manpage caused an error with Debian's Lintian (#1398).
+* Fix bug: Return empty list in smartRemove (#1392, Debian Bug Report 973760)
+* Breaking change: Minimal Python version 3.8 required (#1358).
+* Feature: Exclude /swapfile by default (#1053)
+* Documentation: Removed outdated docbook (#1345).
+* Build: Introduced .readthedocs.yaml as asked by ReadTheDocs.org (#1443).
+* Dependency: The oxygen icons should be installed since they are used as fallback in case of missing icons* Fix bug: Add support for ChainerBackend class as keyring which iterates over all supported keyring backends (#1410)
+* Translation: Strings to translate now easier to understand for translators (#1448, #1457, #1462).
+* Translation: Updated and completed "German" (#1454).
+* Translation: Remove language Canadian English, British English and Javanese (#1455).
+* Translation: Persian and Vietnamese added (#1460).
 
-Version 1.3.3 (Jan 3, 2023)
+Version 1.3.3 (2023-01-04)
 * New feature: Command line argument "--diagnostics" to show helpful info for better issue support (#1100)
 * GUI change: Remove Exit button from the toolbar (#172)
 * GUI change: Define accelerator keys for menu bar and tabs, as well as toolbar shortcuts (#1104)

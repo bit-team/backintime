@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASES="trusty xenial bionic focal impish jammy"
+RELEASES="bionic focal jammy kinetic"
 
 PKGNAME=backintime
 PKGVER=$(cat VERSION)

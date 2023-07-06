@@ -834,7 +834,7 @@ def _init_basic_config(data_dir_prefix='DATADIR', data_dir_suffix=''):
         - Loading the plugin manager.
 
     The "data" directory is a ``TemporaryDirectory()`` instance. It is alive
-    as long as the returned configuraton objects is alive because it is
+    as long as the returned configuration objects is alive because it is
     attached to it as a member.
     """
 
@@ -856,7 +856,7 @@ def _init_basic_config(data_dir_prefix='DATADIR', data_dir_suffix=''):
     # BUHTZ 2022-10-19 Because of unusual importing of "config.Config" we
     # can not use the variable name "config".
     # Fix this in the future when migrated to source layout.
-    # The "Config" class should be imported explicte or should be named
+    # The "Config" class should be imported explicate or should be named
     # with its full package path. e.g. "backintime.config.Config()".
 
     # config instance
@@ -991,7 +991,7 @@ def _init_concrete_snapshot(cfg, sid_name='20151219-010324-123'):
 
     # The source path should be reflected in the destination snapshot.
     # It means the folder structure (including the parent folders) of the
-    # backup source are mirroed into the backup destination.
+    # backup source are mirrored into the backup destination.
     # e.g. /tmp/tmpq8cbewug/foo/backintime/test-host/test-user/1/
     # 20151219-010324-123/backup/tmp/xyz
     sid_path = sid_path / cfg.include()[0][0][1:]
@@ -1012,7 +1012,7 @@ def _init_mounting(cfg):
         mount.Mount: The mount object.
 
     Development note (BUHTZ 2022-10-22): I didn't understand all details here.
-    But it seems to be neccessary.
+    But it seems to be necessary.
 
     Unmounting is not done automatically! It is recommended to use
     ``unittest.TestCase.addCleanup()`` for that::
@@ -1090,7 +1090,7 @@ class TestSshPermissions(unittest.TestCase):
         # source path in the fileInfo present?
         self.assertIn(str(source_path).encode(), fileInfo)
 
-        # expected fiel where the permissions are stored in
+        # expected field where the permissions are stored in
         # e.g. /tmp/BITa6ekd80lTEST/foo/backintime/test-host/test-user/1
         infoFilePath = pathlib.Path(cfg.snapshotsFullPath())
         # ...'/20151219-010324-123/fileinfo.bz2'

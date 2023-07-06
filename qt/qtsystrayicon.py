@@ -66,7 +66,8 @@ class QtSysTrayIcon:
         #self.status_icon.actionCollection().clear()
         self.contextMenu = QMenu()
 
-        self.menuProfileName = self.contextMenu.addAction(_('Profile: "%s"') % self.config.profileName())
+        self.menuProfileName = self.contextMenu.addAction(
+            '{}: {}'.format(_('Profile'), self.config.profileName()))
         qttools.setFontBold(self.menuProfileName)
         self.contextMenu.addSeparator()
 
@@ -95,7 +96,10 @@ class QtSysTrayIcon:
 
         self.openLog = self.contextMenu.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
         self.openLog.triggered.connect(self.onOpenLog)
-        self.startBIT = self.contextMenu.addAction(icon.BIT_LOGO, _('Start BackInTime'))
+        self.startBIT = self.contextMenu.addAction(
+            icon.BIT_LOGO,
+            _('Start {appname}').format(appname=self.config.APP_NAME)
+        )
         self.startBIT.triggered.connect(self.onStartBIT)
         self.status_icon.setContextMenu(self.contextMenu)
 
@@ -188,13 +192,18 @@ class QtSysTrayIcon:
             self.menuProgress.setVisible(False)
 
     def getMenuProgress(self, pg):
-        d = (('sent',   _('Sent:')), \
-             ('speed',  _('Speed:')),\
-             ('eta',    _('ETA:')))
+        d = (
+            ('sent', _('Sent') + ':'),
+            ('speed', _('Speed') + ':'),
+            ('eta',    _('ETA') + ':')
+        )
+
         for key, txt in d:
             value = pg.strValue(key, '')
+
             if not value:
                 continue
+
             yield txt + ' ' + value
 
     def onStartBIT(self):
