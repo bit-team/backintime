@@ -197,7 +197,7 @@ def _get_qt_information():
         import PyQt5.QtGui
         import PyQt5.QtWidgets
     except ImportError:
-        return '(Can not import PyQt5)'
+        return '(Cannot import PyQt5)'
 
     # Themes
     theme_info = {}
