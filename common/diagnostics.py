@@ -130,16 +130,7 @@ def collect_diagnostics():
 
     result['python-setup']['sys.path'] = sys.path
 
-    # Qt
-    try:
-        import PyQt5.QtCore
-    except ImportError:
-        qt = '(Can not import PyQt5)'
-    else:
-        qt = 'PyQt {} / Qt {}'.format(PyQt5.QtCore.PYQT_VERSION_STR,
-                                      PyQt5.QtCore.QT_VERSION_STR)
-    finally:
-        result['python-setup']['qt'] = qt
+    result['python-setup']['qt'] = _get_qt_information()
 
     # === EXTERN TOOL ===
     result['external-programs'] = {}
@@ -193,6 +184,38 @@ def collect_diagnostics():
                                      username=pwd_struct.pw_name)
 
     return result
+
+
+def _get_qt_information():
+    """Collect Version and Theme information from Qt.
+
+    If environment variable DISPLAY is set a temporary QApplication instances
+    is created.
+    """
+    try:
+        import PyQt5.QtCore
+        import PyQt5.QtGui
+        import PyQt5.QtWidgets
+    except ImportError:
+        return '(Can not import PyQt5)'
+
+    # Themes
+    theme_info = {}
+    if 'DISPLAY' in os.environ:
+        qapp = PyQt5.QtWidgets.QApplication([])
+        theme_info = {
+            'Theme': PyQt5.QtGui.QIcon.themeName(),
+            'Theme Search Paths': PyQt5.QtGui.QIcon.themeSearchPaths(),
+            'Fallback Theme': PyQt5.QtGui.QIcon.fallbackThemeName(),
+            'Fallback Search Paths': PyQt5.QtGui.QIcon.fallbackSearchPaths()
+        }
+        qapp.quit()
+
+    return {
+        'Version': 'PyQt {} / Qt {}'.format(PyQt5.QtCore.PYQT_VERSION_STR,
+                                            PyQt5.QtCore.QT_VERSION_STR),
+        **theme_info
+    }
 
 
 def _get_extern_versions(cmd,
