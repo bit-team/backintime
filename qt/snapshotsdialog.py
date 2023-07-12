@@ -17,7 +17,6 @@
 
 
 import os
-import gettext
 import subprocess
 import shlex
 
@@ -31,7 +30,6 @@ import messagebox
 import qttools
 import snapshots
 
-_=gettext.gettext
 
 if tools.checkCommand('meld'):
     DIFF_CMD = 'meld'

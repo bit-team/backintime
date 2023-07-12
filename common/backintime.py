@@ -17,7 +17,6 @@
 
 import os
 import sys
-import gettext
 import argparse
 import atexit
 import subprocess
@@ -25,10 +24,14 @@ from datetime import datetime
 from time import sleep
 import json
 
+import tools
+# Workaround for situations where startApp() is not invoked.
+# E.g. when using --diagnostics and other argparse.Action
+tools.initiate_translation()
+
 import config
 import logger
 import snapshots
-import tools
 import sshtools
 import mount
 import password
@@ -37,8 +40,6 @@ import cli
 from diagnostics import collect_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
-
-_=gettext.gettext
 
 RETURN_OK = 0
 RETURN_ERR = 1

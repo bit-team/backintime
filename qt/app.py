@@ -24,7 +24,6 @@ if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
 import datetime
-import gettext
 import re
 import subprocess
 import shutil
@@ -32,8 +31,15 @@ import signal
 from contextlib import contextmanager
 from tempfile import TemporaryDirectory
 
+# We need to import common/tools.py
+import qttools_path
+qttools_path.registerBackintimePath('common')
+
+# Workaround until the codebase is rectified/equalized.
+import tools
+tools.initiate_translation()
+
 import qttools
-qttools.registerBackintimePath('common')
 
 import backintime
 import tools
@@ -53,9 +59,6 @@ import snapshotsdialog
 import logviewdialog
 from restoredialog import RestoreDialog
 import messagebox
-
-
-_=gettext.gettext
 
 
 class MainWindow(QMainWindow):

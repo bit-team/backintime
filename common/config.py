@@ -32,7 +32,6 @@ Development notes:
 import os
 import sys
 import datetime
-import gettext
 import socket
 import random
 import shlex
@@ -41,6 +40,14 @@ try:
 except ImportError:
     import getpass
     pwd = None
+
+# Workaround: Mostly relevant on TravisCI but not exclusivley.
+# While unittesting and without regular invocation of BIT the GNU gettext
+# class-based API isn't setup yet.
+try:
+    _('Foo')
+except NameError:
+    _ = lambda val: val
 
 import tools
 import configfile
@@ -53,11 +60,6 @@ from exceptions import PermissionDeniedByPolicy, \
                        InvalidChar, \
                        InvalidCmd, \
                        LimitExceeded
-
-_ = gettext.gettext
-
-gettext.bindtextdomain('backintime', os.path.join(tools.sharePath(), 'locale'))
-gettext.textdomain('backintime')
 
 
 class Config(configfile.ConfigFileWithProfiles):
@@ -341,6 +343,8 @@ class Config(configfile.ConfigFileWithProfiles):
         self.xWindowId = None
         self.inhibitCookie = None
         self.setupUdev = tools.SetupUdev()
+
+        tools.initiate_translation()
 
     def save(self):
         self.setIntValue('config.version', self.CONFIG_VERSION)

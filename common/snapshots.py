@@ -43,8 +43,6 @@ import snapshotlog
 from applicationinstance import ApplicationInstance
 from exceptions import MountException, LastSnapshotSymlink
 
-_ = gettext.gettext
-
 
 class Snapshots:
     """

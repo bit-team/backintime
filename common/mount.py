@@ -17,7 +17,6 @@
 import os
 import subprocess
 import json
-import gettext
 from zlib import crc32
 from time import sleep
 
@@ -27,7 +26,6 @@ import tools
 import password
 from exceptions import MountException, HashCollision
 
-_ = gettext.gettext
 
 class Mount(object):
     """

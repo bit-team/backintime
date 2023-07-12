@@ -18,11 +18,8 @@
 
 import sys
 import os
-import gettext
 import subprocess
 import signal
-
-_=gettext.gettext
 
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')

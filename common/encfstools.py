@@ -16,7 +16,6 @@
 
 import os
 import grp
-import gettext
 import subprocess
 import re
 import shutil
@@ -33,7 +32,6 @@ import logger
 from mount import MountControl
 from exceptions import MountException, EncodeValueError
 
-_ = gettext.gettext
 
 class EncFS_mount(MountControl):
     """

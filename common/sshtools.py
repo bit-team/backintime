@@ -16,7 +16,6 @@
 
 import os
 import subprocess
-import gettext
 import string
 import random
 import tempfile
@@ -31,8 +30,6 @@ import password_ipc
 from mount import MountControl
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import bcolors
-
-_ = gettext.gettext
 
 
 class SSH(MountControl):

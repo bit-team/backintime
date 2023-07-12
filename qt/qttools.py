@@ -30,7 +30,6 @@
 """
 import os
 import sys
-import gettext
 
 from PyQt5.QtGui import (QFont, QColor, QKeySequence, QIcon)
 from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
@@ -44,23 +43,7 @@ from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from packaging.version import Version
 
-
-_ = gettext.gettext
-
-
-def backintimePath(*path):
-    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
-
-
-def registerBackintimePath(*path):
-    """Find duplicate in common/tools.py
-    """
-    path = backintimePath(*path)
-
-    if path not in sys.path:
-        sys.path.insert(0, path)
-
-
+from qttools_path import registerBackintimePath
 registerBackintimePath('common')
 import snapshots  # noqa: E402
 import tools  # noqa: E402
@@ -280,15 +263,23 @@ def createQApplication(app_name='Back In Time'):
     return qapp
 
 
-def translator():
-    """Creating an Qt related translator beside the primarily used GNU gettext
-    is needed because Qt need to translate its own default elements like
-    Yes/No-buttons.
+def translator(language_code: str = None) -> QTranslator:
+    """Creating an Qt related translator.
+
+    Args:
+        language_code: Language code to use (based on ISO-639-1).
+
+    This is done beside the primarily used GNU gettext because Qt need to
+    translate its own default elements like Yes/No-buttons. The systems
+    current local is used when no language code is provided.
     """
 
     translator = QTranslator()
-    locale = QLocale.system().name()
-    translator.load(f'qt_{locale}',
+
+    if not language_code:
+        language_code = QLocale.system().name()
+
+    translator.load(f'qt_{language_code}',
                     QLibraryInfo.location(QLibraryInfo.TranslationsPath))
 
     return translator

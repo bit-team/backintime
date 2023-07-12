@@ -20,7 +20,6 @@ import time
 import atexit
 import signal
 import subprocess
-import gettext
 import re
 import errno
 
@@ -30,8 +29,6 @@ import tools
 import password_ipc
 import logger
 from exceptions import Timeout
-
-_ = gettext.gettext
 
 
 class Password_Cache(tools.Daemon):
