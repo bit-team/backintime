@@ -13,7 +13,6 @@ common
    configfile
    diagnostics
    driveinfo
-   dummytools
    encfstools
    exceptions
    guiapplicationinstance

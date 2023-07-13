@@ -13,7 +13,97 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+"""The mount API.
 
+    The high-level mount API is :py:class:`Mount` and handles mount,
+    umount, remount and checks for *Back In Time*. The low-level mount API
+    is :py:class:`MountControl`. The latter can be used to create own
+    mounting serivces via subclassing it. See the following example.
+
+    Example:
+
+        See this template to create your own mounting service by inheriting
+        from :py:class:`MountControl`. All you need to do is:
+
+        - Add your settings in ``qt/settingsdialog.py``.
+        - Add settings in ``common/config.py``.
+        - Use the following template class ``MountDummy``, rename and modify
+          it to your needs.
+        - Please use ``self.currentMountpoint`` as your local mountpoint.
+        - Your class should inherit from :py:class:`mount.MountControl`.
+
+        As real usage example see the two classes :py:class:`sshtools.SSH` and
+        :py:class:`encfstools.EncFS_mount`.
+
+    This is the template: ::
+
+        class MountDummy(mount.MountControl):
+            def __init__(self, *args, **kwargs):
+                super(MountDummy, self).__init__(*args, **kwargs)
+
+                self.all_kwargs = {}
+
+                # First we need to map the settings.
+                # If <arg> is in kwargs (e.g. if this class is called with
+                # dummytools.Dummy(<arg> = <value>) this will map self.<arg> to
+                # kwargs[<arg>]; else self.<arg> = <default> from config
+                # e.g. self.setattrKwargs(<arg>, <default>, **kwargs)
+                self.setattrKwargs(
+                    'user', self.config.get_dummy_user(self.profile_id), **kwargs)
+                self.setattrKwargs(
+                    'host', self.config.get_dummy_host(self.profile_id), **kwargs)
+                self.setattrKwargs(
+                    'port', self.config.get_dummy_port(self.profile_id), **kwargs)
+                self.setattrKwargs(
+                    'password',
+                    self.config.password(self.parent, self.profile_id),
+                    store = False, **kwargs)
+
+                self.setDefaultArgs()
+
+                # If self.currentMountpoint is not the remote snapshot path
+                # you can specify a subfolder of self.currentMountpoint for
+                # the symlink
+                self.symlink_subfolder = None
+
+                self.mountproc = 'dummy'
+                self.log_command = '%s: %s@%s' % (self.mode, self.user, self.host)
+
+            def _mount(self):
+                # Mount the service
+                # Implement your mountprocess here.
+                pass
+
+            def _umount(self):
+                # Umount the service
+                # Implement your unmountprocess here.
+                pass
+
+            def preMountCheck(self, first_run = False):
+                # Check what ever conditions must be given for the mount to be
+                # done successful.
+                # Raise MountException('Error description') if service can not mount
+                # return True if everything is okay
+                # all pre|post_[u]mount_check can also be used to prepare
+                # things or clean up
+                return True
+
+            def postMountCheck(self):
+                # Check if mount was successful
+                # Raise MountException('Error description') if not
+                return True
+
+            def preUmountCheck(self):
+                # Check if service is safe to umount
+                # Raise MountException('Error description') if not
+                return True
+
+            def postUmountCheck(self):
+                # Check if umount successful
+                # Raise MountException('Error description') if not
+                return True
+
+"""
 import os
 import subprocess
 import json
@@ -291,27 +381,30 @@ class Mount(object):
             return self.mount(mode = mode, **kwargs)
 
 class MountControl(object):
-    """
-    This is the low-level mount API. This should be subclassed by backends.
+    """This is the low-level mount API. This should be subclassed by backends.
 
     Subclasses should have its own ``__init__`` but **must** also call the
-    inherited ``__init__``.
+    inherited ``__init__``. See module description (:py:mod:`mount`) for
+    a detailed example.
 
-    You **must** overwrite methods:\n
-        :py:func:`MountControl._mount`
+    You **must** overwrite methods:
 
-    You **can** overwrite methods:\n
-        :py:func:`MountControl._umount`\n
-        :py:func:`MountControl.preMountCheck`\n
-        :py:func:`MountControl.postMountCheck`\n
-        :py:func:`MountControl.preUmountCheck`\n
-        :py:func:`MountControl.postUmountCheck`
+    - :py:func:`MountControl._mount`
 
-    These arguments **must** be defined in ``self`` namespace by
-    subclassing ``__init__`` method:\n
-        mountproc (str):        process used to mount\n
-        log_command (str):      shortened form of mount command used in logs\n
-        symlink_subfolder (str):mountpoint-subfolder which should be linked\n
+    You **can** overwrite methods:
+
+    - :py:func:`MountControl._umount`
+    - :py:func:`MountControl.preMountCheck`
+    - :py:func:`MountControl.postMountCheck`
+    - :py:func:`MountControl.preUmountCheck`
+    - :py:func:`MountControl.postUmountCheck`
+
+    These arguments (all of type :py:obj:`str`) **must** be defined in
+    ``self`` namespace by subclassing ``__init__`` method:
+
+    - ``mountproc``: process used to mount
+    - ``log_command``: shortened form of mount command used in logs
+    - ``symlink_subfolder``: mountpoint-subfolder which should be linked
 
     Args:
         cfg (config.Config):    current config
@@ -647,7 +740,8 @@ class MountControl(object):
         """
         Create folders that are necessary for mounting.
 
-        Folder structure in ~/.local/share/backintime/mnt/ (self.mount_root)::
+        Folder structure in ``~/.local/share/backintime/mnt/``
+        (``self.mount_root``)::
 
             .
             ├── <pid>.lock              <=  mountprocess lock that will prevent
