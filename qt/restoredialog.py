@@ -17,18 +17,14 @@
 
 
 import os
-import gettext
-
-import tools
 
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
+import tools
 import qttools
 
-
-_=gettext.gettext
 
 class RestoreDialog(QDialog):
     def __init__(self, parent, sid, what, where = '', **kwargs):
