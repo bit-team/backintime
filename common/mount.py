@@ -673,7 +673,7 @@ class MountControl(object):
 
     def checkFuse(self):
         """
-        Check if command in self.mountproc is installed.
+        Check if command in ``self.mountproc`` is installed.
 
         Raises:
             exceptions.MountException: If either command is not available.
