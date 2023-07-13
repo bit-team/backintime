@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 from pathlib import Path
-from subprocess import run
+from subprocess import run, check_output
 
 """This helper script do manage transfering translations to and from the
 translation platform (currently Weblate).
@@ -17,36 +17,6 @@ PACKAGE_VERSION = Path('VERSION').read_text().strip()
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 
 
-# def collect_py_files() -> list[Path]:
-#     """Collecting all py-files to be used for extracting translatable strings.
-
-#     This is done here and not with shell wildcards because `xgettext` is not
-#     very verbose about which files it do scan. Having that list of files
-#     explicit gives more control about verbosity.
-#     """
-
-#     def func_exclude_tests(val: Path) -> bool:
-#         """Filter to exclude file paths related to unittests."""
-
-#         # Unittest folder
-#         if 'test' in val.parts or 'tests' in val.parts:
-#             return False
-
-#         # Unittest file
-#         if val.stem.startswith('test_'):
-#             return False
-
-#         return True
-
-#     result = []
-#     for path in [Path('common'), Path('qt')]:
-#         result.extend(list(
-#             filter(func_exclude_tests, path.glob('**/*.py'))
-#         ))
-
-#     return result
-
-
 def update_po_template():
     """The po template file is update via `xgettext`.
 
@@ -60,15 +30,23 @@ def update_po_template():
     print(f'Updating PO template file "{TEMPLATE_PO}" ...')
 
     # Recursive search of Python files excluding unittest files and folders
-    find_base = "`find {} -name '*.py' " \
-        "-not -name 'test_*' -not -path '*/test/*' -not -path '*/tests/*'`"
+    find_cmd = [
+        'find',
+        # folders to search in
+        'common', 'qt',
+        # look for py-files
+        '-name', '*.py',
+        # exclude files/folders related to unittests
+        '-not', '-name', 'test_*',
+        '-not', '-path', '*/test/*',
+        '-not', '-path', '*/tests/*'
+    ]
+    print(f'Execute: {find_cmd}')
 
-    find_common_py = find_base.format('common')
-    find_qt_py = find_base.format('qt')
+    py_files = check_output(find_cmd, text=True).split()
 
-    print('Scanning following files for translatable strings:')
-    run(f'ls -1 {find_common_py}', shell=True)
-    run(f'ls -1 {find_qt_py}', shell=True)
+    print('Scan following files for translatable strings:\n{}'
+          .format('\n'.join(py_files)))
 
     cmd = [
         'xgettext',
@@ -78,15 +56,11 @@ def update_po_template():
         f'--package-version="{PACKAGE_VERSION}"',
         f'--msgid-bugs-address={BUG_ADDRESS}',
         f'--output={TEMPLATE_PO}',
-        find_common_py,
-        find_qt_py
     ]
-
-    # Because we use shell=True
-    cmd = ' '.join(cmd)
+    cmd.extend(py_files)
 
     print(f'Execute "{cmd}"')
-    run(cmd, shell=True)
+    run(cmd, check=True)
 
 
 def update_po_language_files():
@@ -108,7 +82,7 @@ def update_po_language_files():
             f'{TEMPLATE_PO}'
         ]
 
-        run(cmd)
+        run(cmd, check=True)
 
 
 def check_existance():
@@ -131,19 +105,24 @@ def check_existance():
 
 
 def update_from_weblate():
-    """
-        git clone --no-checkout https://translate.codeberg.org/git/backintime/common
-        cd common
-        git checkout dev -- common/po/*.po
+    """Translations done on Weblate platform are integrated back into the
+    repository.
 
+    The Weblate translations live on https://translate.codeberg.org and has
+    its own internal git reposiotry. This repository is cloned and the
+    po-files copied into the current local (upstream) repository.
 
+    See comments in code about further details.
     """
+
     import shutil
     import tempfile
 
     tmp_dir = tempfile.mkdtemp()
 
-    # Clone weblate repo (but empty)
+    # "Clone" weblate repo into a temporary folder.
+    # The folder is kept (nearly) empty. No files are transfered except
+    # the hidden ".git" folder.
     cmd = [
         'git',
         'clone',
@@ -152,20 +131,23 @@ def update_from_weblate():
         tmp_dir
     ]
     print('Execute "{}".'.format(' '.join(cmd)))
-    run(cmd)
+    run(cmd, check=True)
 
-    # Checkout po files directly into our target repo
+    # Now checkout po-files from that temporary repository but redirect
+    # them into the current folder (which is our local upstream repo) instead
+    # of the temporary repositories folder.
     cmd = [
         'git',
+        # Use temporary/Weblate repo as checkout source
         '--git-dir', f'{tmp_dir}/.git',
-        #'--work-tree', '.',
         'checkout',
-        'dev',  # branch
+        # branch
+        'dev',
         '--',
         'common/po/*.po'
     ]
     print('Execute "{}".'.format(' '.join(cmd)))
-    run(cmd)
+    run(cmd, check=True)
 
     shutil.rmtree(tmp_dir, ignore_errors=True)
 
