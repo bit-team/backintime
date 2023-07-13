@@ -19,11 +19,7 @@
 import os
 import collections
 import re
-
-import gettext
 import logger
-
-_ = gettext.gettext
 
 
 class ConfigFile(object):

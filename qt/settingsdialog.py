@@ -19,7 +19,6 @@
 
 import os
 import datetime
-import gettext
 import copy
 import re
 
@@ -67,8 +66,6 @@ import snapshots
 import sshtools
 import logger
 from exceptions import MountException, NoPubKeyLogin, KnownHost
-
-_ = gettext.gettext
 
 
 class SettingsDialog(QDialog):
