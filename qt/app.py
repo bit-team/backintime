@@ -883,17 +883,19 @@ class MainWindow(QMainWindow):
             self.btnPauseTakeSnapshot.setVisible(not paused)
             self.btnResumeTakeSnapshot.setVisible(paused)
             self.btnStopTakeSnapshot.setVisible(True)
-        elif not self.btnTakeSnapshot.isEnabled():
+
+        elif not self.act_take_snapshot.isEnabled():
             force_update = True
 
-            self.btnTakeSnapshot.setEnabled(True)
-            self.btnTakeSnapshot.setVisible(True)
-            for btn in (self.btnPauseTakeSnapshot,
-                        self.btnResumeTakeSnapshot,
-                        self.btnStopTakeSnapshot):
+            self.act_take_snapshot.setEnabled(True)
+            self.act_take_snapshot.setVisible(True)
+            for action in (self.act_pause_take_snapshot,
+                           self.act_resume_take_snapshot,
+                           self.act_stop_take_snapshot):
                 btn.setVisible(False)
 
-            #TODO: check if there is a more elegant way than always get a new snapshot list which is very expensive (time)
+            # TODO: check if there is a more elegant way than always get a
+            # new snapshot list which is very expensive (time)
             snapshotsList = snapshots.listSnapshots(self.config)
 
             if snapshotsList != self.snapshotsList:
