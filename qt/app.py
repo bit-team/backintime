@@ -84,7 +84,7 @@ class MainWindow(QMainWindow):
         # window icon
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
-        # main toolbar
+        self._create_actions()
         toolbar = self._main_toolbar()
 
         self.firstUpdateAll = True
@@ -92,22 +92,17 @@ class MainWindow(QMainWindow):
 
         # Sub-Menu: Take snapshot
         takeSnapshotMenu = qttools.Menu()
-        action = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot'))
-        action.triggered.connect(self.btnTakeSnapshotClicked)
-        self.btnTakeSnapshotChecksum = takeSnapshotMenu.addAction(icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'))
-        self.btnTakeSnapshotChecksum.setToolTip(_('Use checksum to detect changes'))
-        self.btnTakeSnapshotChecksum.setShortcuts(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_S))
-        self.btnTakeSnapshotChecksum.triggered.connect(self.btnTakeSnapshotChecksumClicked)
-        self.btnTakeSnapshot.setMenu(takeSnapshotMenu)
+        takeSnapshotMenu.addAction(self.act_take_snapshot)
+        takeSnapshotMenu.addAction(self.act_take_snapshot_checksum)
 
         for action in takeSnapshotMenu.actions():
+            # What is this?
+            # Isn't this by default?
             action.setIconVisibleInMenu(True)
 
         # Menu: Snapshot
-        self.menuSnapshot = self.menuBar().addMenu(_('&Snapshot'))
-        self.btnQuit = self.menuSnapshot.addAction(icon.EXIT, _('Exit'))
-        self.btnQuit.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Q))
-        self.btnQuit.triggered.connect(self.close)
+        menuSnapshot = self.menuBar().addMenu(_('&Snapshot'))
+        menuSnapshot.addAction(self.act_quit)
 
         # # Menu: Help
         menuHelp = QMenu(self)
@@ -221,25 +216,25 @@ class MainWindow(QMainWindow):
         filesLayout.addWidget(self.filesViewToolbar)
 
         # ...Menu: Snapshot
-        self.menuSnapshot.addAction(self.btnTakeSnapshot)
-        self.menuSnapshot.addAction(self.btnUpdateSnapshots)
-        self.menuSnapshot.addAction(self.btnNameSnapshot)
-        self.menuSnapshot.addAction(self.btnRemoveSnapshot)
-        self.menuSnapshot.addSeparator()
-        self.menuSnapshot.addAction(self.btnSettings)
-        self.menuSnapshot.addSeparator()
-        self.menuSnapshot.addAction(self.btnShutdown)
-        self.menuSnapshot.addAction(self.btnQuit)
+        menuSnapshot.addAction(self.act_take_snapshot)
+        menuSnapshot.addAction(self.act_update_snapshots)
+        menuSnapshot.addAction(self.act_name_snapshot)
+        menuSnapshot.addAction(self.act_remove_snapshot)
+        menuSnapshot.addSeparator()
+        menuSnapshot.addAction(self.act_settings)
+        menuSnapshot.addSeparator()
+        menuSnapshot.addAction(self.act_shutdown)
+        menuSnapshot.addAction(self.act_quit)
 
         # Menu: View
-        self.menuView = self.menuBar().addMenu(_('&View'))
-        self.menuView.addAction(self.btnFolderUp)
-        self.menuView.addAction(self.btnShowHiddenFiles)
-        self.menuView.addSeparator()
-        self.menuView.addAction(self.btnSnapshotLogView)
-        self.menuView.addAction(self.btnLastLogView)
-        self.menuView.addSeparator()
-        self.menuView.addAction(self.btnSnapshots)
+        menuView = self.menuBar().addMenu(_('&View'))
+        menuView.addAction(self.btnFolderUp)
+        menuView.addAction(self.btnShowHiddenFiles)
+        menuView.addSeparator()
+        menuView.addAction(self.act_snapshot_logview)
+        menuView.addAction(self.act_last_logview)
+        menuView.addSeparator()
+        menuView.addAction(self.btnSnapshots)
 
         # Menu: Restore
         self.menuRestore = self.menuBar().addMenu(_('&Restore'))
@@ -506,113 +501,181 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
-    def _setup_a_toolbar(self, toolbar, buttons):
+    def _create_actions(self):
+        """Create all action objects used by this main window.
 
-        for attrname, icon, label, handler, keyshortcuts, tooltip in buttons:
+        All actions are stored as instance attributes to ``self`` and their
+        names begin with ``act_``. The actions can be added to GUI elements
+        (menu entries, buttons) in later steps.
 
-            button = toolbar.addAction(icon, label)
+        Note:
+            Shortcuts need be strings in a list even if it is only one entry.
+            It is done this way to spare one ``if...else`` statement deciding
+            between `QAction.setShortcuts()` and `QAction.setShortcut()`
+            (singular; without ``s`` at the end).
+        """
 
-            if handler:
-                button.triggered.connect(handler)
-
-            if isinstance(shortcut, str):
-                button.setShortcut(shortcut)
-            elif isinstance(shortcut, list):
-                button.setShortcuts(shortcut)
-
-            if tooltip:
-                button.setToolTip(tooltip)
-
-            if attrname:
-                setattr(self, attrname, button)
-
-        return toolbar
-
-    def _main_toolbar(self):
-
-        buttons = (
+        action_dict = (
             # (
-            #     'Name of button attribute in "self"',
-            #     ICON, Label,
-            #     trigger_handler_function, keyboard_shortcuts,
+            #     'Name of action attribute in "self"',
+            #     ICON,
+            #     Label text,
+            #     trigger_handler_function,
+            #     keyboard shortcuts (always of type list[str])
             #     tooltip
             # ),
             (
-                'btnTakeSnapshot',
-                icon.TAKE_SNAPSHOT, _('Take snapshot'),
-                self.btnTakeSnapshotClicked, 'Ctrl+S',
+                'act_take_snapshot',
+                icon.TAKE_SNAPSHOT,
+                _('Take snapshot'),
+                self.btnTakeSnapshotClicked,
+                ['Ctrl+S'],
                 None
             ),
             (
-                'btnPauseTakeSnapshot',
+                'act_take_snapshot_checksum',
+                icon.TAKE_SNAPSHOT,
+                _('Take snapshot with checksums'),
+                self.btnTakeSnapshotChecksumClicked,
+                ['Ctrl+Shift+S'],
+                _('Use checksum to detect changes')
+            ),
+            (
+                'act_pause_take_snapshot',
                 icon.PAUSE, _('Pause snapshot process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
                 None
             ),
             (
-                'btnResumeTakeSnapshot',
+                'act_resume_take_snapshot',
                 icon.RESUME, _('Resume snapshot process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
                 None
             ),
             (
-                'btnStopTakeSnapshot',
+                'act_stop_take_snapshot',
                 icon.STOP, _('Stop snapshot process'),
                 self.btnStopTakeSnapshotClicked, None,
                 None
             ),
             (
-                'btnUpdateSnapshots',
+                'act_update_snapshots',
                 icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'),
                 self.btnUpdateSnapshotsClicked, ['F5', 'Ctrl+R'],
                 None
             ),
             (
-                'btnNameSnapshot',
+                'act_name_snapshot',
                 icon.SNAPSHOT_NAME, _('Snapshot Name'),
-                self.btnNameSnapshotClicked, 'F2',
+                self.btnNameSnapshotClicked, ['F2'],
                 None
             ),
             (
-                'btnRemoveSnapshot',
+                'act_remove_snapshot',
                 icon.REMOVE_SNAPSHOT, _('Remove Snapshot'),
-                self.btnRemoveSnapshotClicked, 'Delete',
+                self.btnRemoveSnapshotClicked, ['Delete'],
                 None
             ),
             (
-                'btnSnapshotLogView',
+                'act_snapshot_logview',
                 icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'),
                 self.btnSnapshotLogViewClicked, None,
                 None
             ),
             (
-                'btnLastLogView',
+                'act_last_logview',
                 icon.VIEW_LAST_LOG, _('View Last Log'),
                 self.btnLastLogViewClicked, None,
                 None
             ),
-            # ---
             (
-                'btnSettings',
+                'act_settings',
                 icon.SETTINGS, _('Settings'),
-                self.btnSettingsClicked, 'Ctrl+Shift+,',
+                self.btnSettingsClicked, ['Ctrl+Shift+,'],
                 None
             ),
-            # ---
             (
-                'btnShutdown',
+                'act_shutdown',
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
                 _('Shut down system after snapshot has finished.')
             ),
-            # <-->
             (
-                None,
+                # "Mystic" because there is a second "Help" button somewhere
+                # else. Need to investigate this.
+                'act_mystic_help',
                 icon.HELP, _('Help'),
                 self.btnHelpClicked, None,
                 None
             ),
+            (
+                'act_quit',
+                icon.EXIT, _('Exit'),
+                self.close, ['Ctrl+Q'],
+                None
+            ),
+
         )
+
+        for attr, ico, txt, slot, keys, tip in action_dict:
+
+            # Create action (with icon)
+            action = QAction(ico, txt, self) if ico else \
+                QAction(txt, self)
+
+            # Connect handler function
+            if slot:
+                action.triggered.connect(slot)
+
+            # Workaround for lousy PyQt API.
+            # Even one shortcut should be treated as a list.
+            if isinstance(keys, str):
+                keys = [keys]
+
+            # Add one or multiple key shortcuts
+            if keys:
+                action.setShortcuts(keys)
+
+            # Tooltip
+            if tip:
+                action.setToolTip(tip)
+
+            # populate the action to "self"
+            setattr(self, attr, action)
+
+        # Fine tuning
+        self.act_shutdown.toggled.connect(self.btnShutdownToggled)
+        self.act_shutdown.setCheckable(True)
+        self.act_shutdown.setEnabled(self.shutdown.canShutdown())
+        self.act_pause_take_snapshot.setVisible(False)
+        self.act_resume_take_snapshot.setVisible(False)
+        self.act_stop_take_snapshot.setVisible(False)
+
+
+    # def _setup_a_toolbar(self, toolbar, buttons):
+
+    #     for attrname, icon, label, handler, keyshortcuts, tooltip in buttons:
+
+    #         button = toolbar.addAction(icon, label)
+
+    #         if handler:
+    #             button.triggered.connect(handler)
+
+    #         if isinstance(keyshortcuts, str):
+    #             button.setShortcut(keyshortcuts)
+    #         elif isinstance(keyshortcuts, list):
+    #             button.setShortcuts(keyshortcuts)
+
+    #         if tooltip:
+    #             button.setToolTip(tooltip)
+
+    #         if attrname:
+    #             setattr(self, attrname, button)
+
+    #     return toolbar
+
+    def _main_toolbar(self):
+        """Create the main toolbar and connect it to actions."""
 
         toolbar = self.addToolBar('main')
         toolbar.setFloatable(False)
@@ -621,23 +684,30 @@ class MainWindow(QMainWindow):
         self.comboProfiles = qttools.ProfileCombo(self)
         self.comboProfilesAction = toolbar.addWidget(self.comboProfiles)
 
-        # more buttons/actions
-        toolbar = self._setup_a_toolbar(toolbar, buttons)
+        actions_for_toolbar = [
+            self.act_take_snapshot,
+            self.act_pause_take_snapshot,
+            self.act_resume_take_snapshot,
+            self.act_stop_take_snapshot,
+            self.act_update_snapshots,
+            self.act_name_snapshot,
+            self.act_remove_snapshot,
+            self.act_snapshot_logview,
+            self.act_last_logview,
+            self.act_settings,
+            self.act_shutdown,
+            self.act_mystic_help,  # DEBUG !!!
+        ]
 
-        # fine tuning
-        self.btnShutdown.toggled.connect(self.btnShutdownToggled)
-        self.btnShutdown.setCheckable(True)
-        self.btnShutdown.setEnabled(self.shutdown.canShutdown())
-        self.btnPauseTakeSnapshot.setVisible(False)
-        self.btnResumeTakeSnapshot.setVisible(False)
-        self.btnStopTakeSnapshot.setVisible(False)
+        for act in actions_for_toolbar:
+            toolbar.addAction(act)
 
         # separators and stretchers
-        toolbar.insertSeparator(toolbar.actions()[-3])
-        toolbar.insertSeparator(toolbar.actions()[-2])
+        toolbar.insertSeparator(self.act_settings)
+        toolbar.insertSeparator(self.act_shutdown)
         empty = QWidget(self)
         empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        toolbar.insertWidget(toolbar.actions()[-1], empty)
+        toolbar.insertWidget(self.act_mystic_help, empty)
 
         return toolbar
 
@@ -960,14 +1030,15 @@ class MainWindow(QMainWindow):
 
         if item is None:
             item = self.timeLine.currentItem()
+
         if not item is None:
             if not item.snapshotID().isRoot:
                 enabled = True
 
-        #update remove/name snapshot buttons
-        self.btnNameSnapshot.setEnabled(enabled)
-        self.btnRemoveSnapshot.setEnabled(enabled)
-        self.btnSnapshotLogView.setEnabled(enabled)
+        # update remove/name snapshot buttons
+        self.act_name_snapshot.setEnabled(enabled)
+        self.act_remove_snapshot.setEnabled(enabled)
+        self.act_snapshot_logview.setEnabled(enabled)
 
     def timeLineChanged(self):
         item = self.timeLine.currentItem()
