@@ -16,8 +16,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import gettext
-
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -28,8 +26,6 @@ import encfstools
 import snapshotlog
 import tools
 import messagebox
-
-_=gettext.gettext
 
 
 class LogViewDialog(QDialog):
