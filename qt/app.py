@@ -160,22 +160,18 @@ class MainWindow(QMainWindow):
         # Toolbar: files toolbar
         self.filesViewToolbar = QToolBar(self)
         self.filesViewToolbar.setFloatable(False)
-
-        self.btnFolderUp = self.filesViewToolbar.addAction(icon.UP, _('Up'))
-        self.btnFolderUp.setShortcuts([QKeySequence(Qt.ALT + Qt.Key_Up), Qt.Key_Backspace])
-        self.btnFolderUp.triggered.connect(self.btnFolderUpClicked)
-
+        self.filesViewToolbar.addAction(self.act_folder_up)
         self.editCurrentPath = QLineEdit(self)
         self.editCurrentPath.setReadOnly(True)
         self.filesViewToolbar.addWidget(self.editCurrentPath)
 
         # show hidden files
         self.showHiddenFiles = self.config.boolValue('qt.show_hidden_files', False)
-        self.btnShowHiddenFiles = self.filesViewToolbar.addAction(icon.SHOW_HIDDEN, _('Show hidden files'))
-        self.btnShowHiddenFiles.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_H))
-        self.btnShowHiddenFiles.setCheckable(True)
-        self.btnShowHiddenFiles.setChecked(self.showHiddenFiles)
-        self.btnShowHiddenFiles.toggled.connect(self.btnShowHiddenFilesToggled)
+        self.filesViewToolbar.addAction(self.act_show_hidden)
+        self.act_show_hidden.setCheckable(True)
+        self.act_show_hidden.setChecked(self.showHiddenFiles)
+        self.act_show_hidden.toggled.connect(
+            self.btnShowHiddenFilesToggled)
 
         self.filesViewToolbar.addSeparator()
 
@@ -183,33 +179,13 @@ class MainWindow(QMainWindow):
         # self.menuRestore = qttools.Menu(self)
         self.menuRestore = QMenu(self)
         self.menuRestore.setToolTipsVisible(True)
-        self.btnRestore = self.menuRestore.addAction(
-            icon.RESTORE, _('Restore'))
-        self.btnRestore.setToolTip(_(
-            'Restore the selected files or folders to the '
-            'original destination.'))
-        self.btnRestore.triggered.connect(self.restoreThis)
-        self.btnRestoreTo = self.menuRestore.addAction(
-            icon.RESTORE_TO, _('Restore to ...'))
-        self.btnRestoreTo.setToolTip(_(
-            'Restore the selected files or folders to a new destination.'))
-        self.btnRestoreTo.triggered.connect(self.restoreThisTo)
+        self.menuRestore.addAction(self.act_restore)
+        self.menuRestore.addAction(self.act_restore_to)
         self.menuRestore.addSeparator()
-        self.btnRestoreParent = self.menuRestore.addAction(icon.RESTORE, '')
-        self.btnRestoreParent.setToolTip(_('Restore the currently shown '
-                                           'folder and all its contents to '
-                                           'the original destination.'))
-        self.btnRestoreParent.triggered.connect(self.restoreParent)
-        self.btnRestoreParentTo = self.menuRestore.addAction(
-            icon.RESTORE_TO, '')
-        self.btnRestoreParentTo.setToolTip(_('Restore the currently shown '
-                                             'folder and all its contents '
-                                             'to a new destination.'))
-        self.btnRestoreParentTo.triggered.connect(self.restoreParentTo)
+        self.menuRestore.addAction(self.act_restore_parent)
+        self.menuRestore.addAction(self.act_restore_parent_to)
         self.menuRestore.addSeparator()
 
-        for action in self.menuRestore.actions():
-            action.setIconVisibleInMenu(True)
         self.btnRestoreMenu = self.filesViewToolbar.addAction(
             icon.RESTORE, _('Restore'))
         self.btnRestoreMenu.setMenu(self.menuRestore)
@@ -238,8 +214,8 @@ class MainWindow(QMainWindow):
 
         # Menu: View
         menuView = self.menuBar().addMenu(_('&View'))
-        menuView.addAction(self.btnFolderUp)
-        menuView.addAction(self.btnShowHiddenFiles)
+        menuView.addAction(self.act_folder_up)
+        menuView.addAction(self.act_show_hidden)
         menuView.addSeparator()
         menuView.addAction(self.act_snapshot_logview)
         menuView.addAction(self.act_last_logview)
@@ -248,24 +224,24 @@ class MainWindow(QMainWindow):
 
         # Menu: Restore
         self.menuRestore = self.menuBar().addMenu(_('&Restore'))
-        self.menuRestore.addAction(self.btnRestore)
-        self.menuRestore.addAction(self.btnRestoreTo)
+        self.menuRestore.addAction(self.act_restore)
+        self.menuRestore.addAction(self.act_restore_to)
         self.menuRestore.addSeparator()
-        self.menuRestore.addAction(self.btnRestoreParent)
-        self.menuRestore.addAction(self.btnRestoreParentTo)
+        self.menuRestore.addAction(self.act_restore_parent)
+        self.menuRestore.addAction(self.act_restore_parent_to)
 
         # Menu: Help
-        self.menuHelp = self.menuBar().addMenu(_('&Help'))
-        self.menuHelp.addAction(self.btnHelp)
-        self.menuHelp.addAction(self.btnHelpConfig)
-        self.menuHelp.addSeparator()
-        self.menuHelp.addAction(self.btnWebsite)
-        self.menuHelp.addAction(self.btnChangelog)
-        self.menuHelp.addAction(self.btnFaq)
-        self.menuHelp.addAction(self.btnAskQuestion)
-        self.menuHelp.addAction(self.btnReportBug)
-        self.menuHelp.addSeparator()
-        self.menuHelp.addAction(self.btnAbout)
+        menuHelp = self.menuBar().addMenu(_('&Help'))
+        menuHelp.addAction(self.act_help_help)
+        menuHelp.addAction(self.act_help_configfile)
+        menuHelp.addSeparator()
+        menuHelp.addAction(self.act_help_website)
+        menuHelp.addAction(self.act_help_changelog)
+        menuHelp.addAction(self.act_help_faq)
+        menuHelp.addAction(self.act_help_question)
+        menuHelp.addAction(self.act_help_bugreport)
+        menuHelp.addSeparator()
+        menuHelp.addAction(self.act_help_about)
 
         # shortcuts without buttons
         self.shortcutPreviousFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Left), self)
@@ -367,8 +343,8 @@ class MainWindow(QMainWindow):
         self.filesView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.filesView.customContextMenuRequested.connect(self.contextMenuClicked)
         self.contextMenu = QMenu(self)
-        self.contextMenu.addAction(self.btnRestore)
-        self.contextMenu.addAction(self.btnRestoreTo)
+        self.contextMenu.addAction(self.act_restore)
+        self.contextMenu.addAction(self.act_restore_to)
         self.contextMenu.addAction(self.btnSnapshots)
         self.contextMenu.addSeparator()
         self.btnAddInclude = self.contextMenu.addAction(icon.ADD, _('Add to Include'))
@@ -376,7 +352,7 @@ class MainWindow(QMainWindow):
         self.btnAddInclude.triggered.connect(self.btnAddIncludeClicked)
         self.btnAddExclude.triggered.connect(self.btnAddExcludeClicked)
         self.contextMenu.addSeparator()
-        self.contextMenu.addAction(self.btnShowHiddenFiles)
+        self.contextMenu.addAction(self.act_show_hidden)
 
         # ProgressBar
         layoutWidget = QWidget()
@@ -630,17 +606,17 @@ class MainWindow(QMainWindow):
             (
                 'act_help_website',
                 icon.WEBSITE, _('Website'),
-                self.btnHelpWebsiteClicked, None, None,
+                self.btnWebsiteClicked, None, None,
             ),
             (
                 'act_help_changelog',
                 icon.CHANGELOG, _('Changelog'),
-                self.btnHelpChangelogClicked, None, None,
+                self.btnChangelogClicked, None, None,
             ),
             (
                 'act_help_faq',
                 icon.FAQ, _('FAQ'),
-                self.btnHelpFAQClicked, None, None,
+                self.btnFaqClicked, None, None,
             ),
             (
                 'act_help_question',
@@ -658,6 +634,43 @@ class MainWindow(QMainWindow):
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None,
             ),
+            (
+                'act_restore',
+                icon.RESTORE, _('Restore'),
+                self.restoreThis, None,
+                _('Restore the selected files or folders to the '
+                  'original destination.')
+            ),
+            (
+                'act_restore_to', icon.RESTORE_TO, _('Restore to …'),
+                self.restoreThisTo, None,
+                _('Restore the selected files or folders to a '
+                  'new destination.')
+            ),
+            (
+                'act_restore_parent', icon.RESTORE, 'RESTORE PARENT (DEBUG)',
+                self.restoreParent, None,
+                _('Restore the currently shown folder and all its contents '
+                  'to the original destination.')
+            ),
+            (
+                'act_restore_parent_to',
+                icon.RESTORE_TO, 'RESTORE PARENT TO (DEBUG)',
+                self.restoreParentTo, None,
+                _('Restore the currently shown folder and all its contents '
+                  'to a new destination.')
+            ),
+            (
+                'act_folder_up', icon.UP, _('Up'),
+                self.btnFolderUpClicked, ['Alt+Up', 'Backspace'], None
+            ),
+            (
+                'act_show_hidden', icon.SHOW_HIDDEN,
+                _('Show hidden files'),
+                None, ['Ctrl+H'], None
+            ),
+
+
         )
 
         for attr, ico, txt, slot, keys, tip in action_dict:
@@ -735,9 +748,6 @@ class MainWindow(QMainWindow):
         # separators and stretchers
         toolbar.insertSeparator(self.act_settings)
         toolbar.insertSeparator(self.act_shutdown)
-        empty = QWidget(self)
-        empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        toolbar.insertWidget(self.act_mystic_help, empty)
 
     def closeEvent(self, event):
         if self.shutdown.askBeforeQuit():
@@ -890,7 +900,7 @@ class MainWindow(QMainWindow):
         takeSnapshotMessage = self.snapshots.takeSnapshotMessage()
         if fake_busy:
             if takeSnapshotMessage is None:
-                takeSnapshotMessage = (0, '...')
+                takeSnapshotMessage = (0, '…')
         elif takeSnapshotMessage is None:
             takeSnapshotMessage = self.lastTakeSnapshotMessage
             if takeSnapshotMessage is None:
@@ -1381,7 +1391,7 @@ files that the receiver requests to be transferred.""")
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
         with self.suspendMouseButtonNavigation():
-            restoreTo = qttools.getExistingDirectory(self, _('Restore to ...'))
+            restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
             if not restoreTo:
                 return
             restoreTo = self.config.preparePath(restoreTo)
@@ -1413,7 +1423,7 @@ files that the receiver requests to be transferred.""")
             return
 
         with self.suspendMouseButtonNavigation():
-            restoreTo = qttools.getExistingDirectory(self, _('Restore to ...'))
+            restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
             if not restoreTo:
                 return
             restoreTo = self.config.preparePath(restoreTo)
@@ -1592,20 +1602,18 @@ files that the receiver requests to be transferred.""")
         else:
             self.btnRestoreMenu.setEnabled(False)
             self.menuRestore.setEnabled(False)
-            self.btnRestore.setEnabled(False)
-            self.btnRestoreTo.setEnabled(False)
+            self.act_restore.setEnabled(False)
+            self.act_restore_to.setEnabled(False)
             self.btnSnapshots.setEnabled(False)
             self.stackFilesView.setCurrentWidget(self.lblFolderDontExists)
 
-        #show current path
+        # show current path
         self.editCurrentPath.setText(self.path)
-        self.btnRestoreParent.setText(
-            _('Restore {path}').format(path=self.path))
-        self.btnRestoreParentTo.setText(
-            _('Restore {path} to ...').format(path=self.path))
+        self.act_restore_parent.setText(_(f'Restore {self.path}'))
+        self.act_restore_parent_to.setText(_(f'Restore {self.path} to …'))
 
-        #update folder_up button state
-        self.btnFolderUp.setEnabled(len(self.path) > 1)
+        # update folder_up button state
+        self.act_folder_up.setEnabled(len(self.path) > 1)
 
     def dirListerCompleted(self):
         has_files = (self.filesViewProxyModel.rowCount(self.filesView.rootIndex()) > 0)
@@ -1614,8 +1622,8 @@ files that the receiver requests to be transferred.""")
         enable = not self.sid.isRoot and has_files
         self.btnRestoreMenu.setEnabled(enable)
         self.menuRestore.setEnabled(enable)
-        self.btnRestore.setEnabled(enable)
-        self.btnRestoreTo.setEnabled(enable)
+        self.act_restore.setEnabled(enable)
+        self.act_restore_to.setEnabled(enable)
 
         #update snapshots button state
         self.btnSnapshots.setEnabled(has_files)
