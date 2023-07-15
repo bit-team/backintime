@@ -131,34 +131,17 @@ class MainWindow(QMainWindow):
 
         # # Menu: Help
         menuHelp = QMenu(self)
-        self.btnHelp = menuHelp.addAction(icon.HELP, _('Help'))
-        self.btnHelp.setShortcuts([Qt.Key_F1])
-        self.btnHelp.triggered.connect(self.btnHelpClicked)
-        self.btnHelpConfig = menuHelp.addAction(icon.HELP, _('Config File Help'))
-        self.btnHelpConfig.triggered.connect(self.btnHelpConfigClicked)
+        menuHelp.addAction(self.act_help_help)
+        menuHelp.addAction(self.act_help_configfile)
         menuHelp.addSeparator()
-        self.btnWebsite = menuHelp.addAction(icon.WEBSITE, _('Website'))
-        self.btnWebsite.triggered.connect(self.btnWebsiteClicked)
-        self.btnChangelog = menuHelp.addAction(icon.CHANGELOG, _('Changelog'))
-        self.btnChangelog.triggered.connect(self.btnChangelogClicked)
-        self.btnFaq = menuHelp.addAction(icon.FAQ, _('FAQ'))
-        self.btnFaq.triggered.connect(self.btnFaqClicked)
-        self.btnAskQuestion = menuHelp.addAction(icon.QUESTION, _('Ask a question'))
-        self.btnAskQuestion.triggered.connect(self.btnAskQuestionClicked)
-        self.btnReportBug = menuHelp.addAction(icon.BUG, _('Report a bug'))
-        self.btnReportBug.triggered.connect(self.btnReportBugClicked)
+        menuHelp.addAction(self.act_help_website)
+        menuHelp.addAction(self.act_help_changelog)
+        menuHelp.addAction(self.act_help_faq)
+        menuHelp.addAction(self.act_help_question)
+        menuHelp.addAction(self.act_help_bugreport)
         menuHelp.addSeparator()
-        self.btnAbout = menuHelp.addAction(icon.ABOUT, _('About'))
-        self.btnAbout.triggered.connect(self.btnAboutClicked)
+        menuHelp.addAction(self.act_help_about)
 
-        # action = self.mainToolbar.addAction(icon.HELP, _('Help'))
-        # action.triggered.connect(self.btnHelpClicked)
-        # action.setMenu(menuHelp)
-
-        for action in menuHelp.actions():
-            action.setIconVisibleInMenu(True)
-
-        # main splitter
         self.mainSplitter = QSplitter(self)
         self.mainSplitter.setOrientation(Qt.Horizontal)
 
@@ -628,20 +611,53 @@ class MainWindow(QMainWindow):
                 _('Shut down system after snapshot has finished.')
             ),
             (
-                # "Mystic" because there is a second "Help" button somewhere
-                # else. Need to investigate this.
-                'act_mystic_help',
-                icon.HELP, _('Help'),
-                self.btnHelpClicked, None,
-                None
-            ),
-            (
                 'act_quit',
                 icon.EXIT, _('Exit'),
                 self.close, ['Ctrl+Q'],
                 None
             ),
+            (
+                'act_help_help',
+                icon.HELP, _('Help'),
+                self.btnHelpClicked, ['F1'],
+                None,
+            ),
+            (
+                'act_help_configfile',
+                icon.HELP, _('Config File Help'),
+                self.btnHelpConfigClicked, None, None,
+            ),
+            (
+                'act_help_website',
+                icon.WEBSITE, _('Website'),
+                self.btnHelpWebsiteClicked, None, None,
+            ),
+            (
+                'act_help_changelog',
+                icon.CHANGELOG, _('Changelog'),
+                self.btnHelpChangelogClicked, None, None,
+            ),
+            (
+                'act_help_faq',
+                icon.FAQ, _('FAQ'),
+                self.btnHelpFAQClicked, None, None,
+            ),
+            (
+                'act_help_question',
+                icon.QUESTION, _('Ask a question'),
+                self.btnAskQuestionClicked, None, None,
+            ),
 
+            (
+                'act_help_bugreport',
+                icon.BUG, _('Report a bug'),
+                self.btnReportBugClicked, None, None,
+            ),
+            (
+                'act_help_about',
+                icon.ABOUT, _('About'),
+                self.btnAboutClicked, None, None,
+            ),
         )
 
         for attr, ico, txt, slot, keys, tip in action_dict:
@@ -700,7 +716,6 @@ class MainWindow(QMainWindow):
             self.act_last_logview,
             self.act_settings,
             self.act_shutdown,
-            self.act_mystic_help,  # DEBUG !!!
         ]
 
         for act in actions_for_toolbar:
