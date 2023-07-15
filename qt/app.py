@@ -125,19 +125,6 @@ class MainWindow(QMainWindow):
         self.firstUpdateAll = True
         self.disableProfileChanged = False
 
-        # Sub-Menu: Take snapshot
-        takeSnapshotMenu = QMenu(self)
-        takeSnapshotMenu.setToolTipsVisible(True)
-        takeSnapshotMenu.addAction(self.act_take_snapshot)
-        takeSnapshotMenu.addAction(self.act_take_snapshot_checksum)
-
-        # Fix it. See original:
-        # https://github.com/bit-team/backintime/blob/1003d360d758bce78c6cd528ea41df3734fec95b/qt/app.py#L94-L101
-        for action in takeSnapshotMenu.actions():
-            # What is this?
-            # Isn't this by default?
-            action.setIconVisibleInMenu(True)
-
         # Menu: Snapshot
         menuSnapshot = self.menuBar().addMenu(_('&Snapshot'))
         menuSnapshot.addAction(self.act_quit)
@@ -719,13 +706,14 @@ class MainWindow(QMainWindow):
         for act in actions_for_toolbar:
             toolbar.addAction(act)
 
-        # sub menu: take snapshot
+        # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
-        submenu_take_snapshot.setToolTipsVisible(True)
         submenu_take_snapshot.addAction(self.act_take_snapshot)
         submenu_take_snapshot.addAction(self.act_take_snapshot_checksum)
-        # get the toolbar buttons widget and add the menu to it
+        submenu_take_snapshot.setToolTipsVisible(True)
+        # get the toolbar buttons widget...
         button_take_snapshot = toolbar.widgetForAction(self.act_take_snapshot)
+        # ...and add the menu to it
         button_take_snapshot.setMenu(submenu_take_snapshot)
         button_take_snapshot.setPopupMode(QToolButton.MenuButtonPopup)
 
