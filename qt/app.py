@@ -17,8 +17,6 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 import os
 import sys
-# When dropping Python 3.8: "from collections.abc import Callable"
-from typing import Callable, Union
 
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
@@ -50,10 +48,47 @@ import mount
 import progress
 from exceptions import MountException
 
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-
+from PyQt5.QtGui import QKeySequence, QDesktopServices, QColor, QIcon
+from PyQt5.QtWidgets import (QWidget,
+                             QAction,
+                             QFrame,
+                             QMainWindow,
+                             QLabel,
+                             QLineEdit,
+                             QCheckBox,
+                             QListWidget,
+                             QTreeView,
+                             QTreeWidget,
+                             QTreeWidgetItem,
+                             QAbstractItemView,
+                             QStyledItemDelegate,
+                             QVBoxLayout,
+                             QHBoxLayout,
+                             QStackedLayout,
+                             QSplitter,
+                             QGroupBox,
+                             QMenu,
+                             QToolBar,
+                             QProgressBar,
+                             QMessageBox,
+                             QSizePolicy,
+                             QInputDialog,
+                             QDialog,
+                             QDialogButtonBox,
+                             QShortcut,
+                             QFileSystemModel,
+                             )
+from PyQt5.QtCore import (Qt,
+                          QObject,
+                          pyqtSlot,
+                          pyqtSignal,
+                          QTimer,
+                          QThread,
+                          QEvent,
+                          QSortFilterProxyModel,
+                          QDir,
+                          QSize,
+                          )
 import settingsdialog
 import snapshotsdialog
 import logviewdialog
@@ -72,7 +107,6 @@ class MainWindow(QMainWindow):
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
 
-
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
         self.shutdown = tools.ShutDown()
@@ -85,7 +119,7 @@ class MainWindow(QMainWindow):
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         self._create_actions()
-        toolbar = self._main_toolbar()
+        self._create_main_toolbar()
 
         self.firstUpdateAll = True
         self.disableProfileChanged = False
@@ -651,30 +685,7 @@ class MainWindow(QMainWindow):
         self.act_resume_take_snapshot.setVisible(False)
         self.act_stop_take_snapshot.setVisible(False)
 
-
-    # def _setup_a_toolbar(self, toolbar, buttons):
-
-    #     for attrname, icon, label, handler, keyshortcuts, tooltip in buttons:
-
-    #         button = toolbar.addAction(icon, label)
-
-    #         if handler:
-    #             button.triggered.connect(handler)
-
-    #         if isinstance(keyshortcuts, str):
-    #             button.setShortcut(keyshortcuts)
-    #         elif isinstance(keyshortcuts, list):
-    #             button.setShortcuts(keyshortcuts)
-
-    #         if tooltip:
-    #             button.setToolTip(tooltip)
-
-    #         if attrname:
-    #             setattr(self, attrname, button)
-
-    #     return toolbar
-
-    def _main_toolbar(self):
+    def _create_main_toolbar(self):
         """Create the main toolbar and connect it to actions."""
 
         toolbar = self.addToolBar('main')
@@ -708,8 +719,6 @@ class MainWindow(QMainWindow):
         empty = QWidget(self)
         empty.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         toolbar.insertWidget(self.act_mystic_help, empty)
-
-        return toolbar
 
     def closeEvent(self, event):
         if self.shutdown.askBeforeQuit():
