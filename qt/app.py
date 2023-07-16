@@ -134,15 +134,10 @@ class MainWindow(QMainWindow):
         self.timeLine.updateFilesView.connect(self.updateFilesView)
 
         # right widget
-        self.filesWidget = QGroupBox('W'*100, self)
+        self.filesWidget = QGroupBox(self)
         filesLayout = QVBoxLayout(self.filesWidget)
         left, top, right, bottom = filesLayout.getContentsMargins()
         filesLayout.setContentsMargins(0, 0, right, 0)
-        # DEBUG
-        # self.filesWidget.setSizePolicy(
-        #     QSizePolicy(QSizePolicy.Expanding,
-        #                 QSizePolicy.Expanding)
-        # )
 
         # main splitter
         self.mainSplitter = QSplitter(Qt.Horizontal, self)
@@ -1630,11 +1625,14 @@ files that the receiver requests to be transferred.""")
             tooltip = _('View the current disk content')
         else:
             name = self.sid.displayName
-            text = '{}: {}'.format(_('Snapshot'), name)
+            # buhtz (2023-07)3 blanks at the end of that string as a
+            # workaround to a visual issue where the last character was
+            # cutoff. Not sure if this is DE and/or theme related.
+            # Wasn't able to reproduc in an MWE. Remove after refactoring.
+            text = '{}: {}   '.format(_('Snapshot'), name)
             tooltip = _('View the snapshot made at {name}').format(name=name)
 
-        text = '{}{}'.format(text, '')  # 'W' * (35-len(text)))
-        self.filesWidget.setTitle(text)  # DEBUG
+        self.filesWidget.setTitle(text)
         self.filesWidget.setToolTip(tooltip)
 
         # try to keep old selected file
