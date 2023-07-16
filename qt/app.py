@@ -21,7 +21,6 @@ import sys
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
-import datetime
 import re
 import subprocess
 import shutil
@@ -105,8 +104,11 @@ class MainWindow(QMainWindow):
         self.appInstance = appInstance
         self.qapp = qapp
         self.snapshots = snapshots.Snapshots(config)
+
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
+        self.firstUpdateAll = True
+        self.disableProfileChanged = False
 
         # "Magic" object handling shutdown procedure in different desktop
         # environments.
@@ -119,143 +121,48 @@ class MainWindow(QMainWindow):
         # window icon
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
+        # shortcuts without buttons
+        self._create_shortcuts_without_actions()
+
         self._create_actions()
+        self._create_menubar()
         self._create_main_toolbar()
 
-        self.firstUpdateAll = True
-        self.disableProfileChanged = False
-
-        # Menu: Snapshot
-        menuSnapshot = self.menuBar().addMenu(_('&Snapshot'))
-        menuSnapshot.addAction(self.act_quit)
-
-        # # Menu: Help
-        menuHelp = QMenu(self)
-        menuHelp.addAction(self.act_help_help)
-        menuHelp.addAction(self.act_help_configfile)
-        menuHelp.addSeparator()
-        menuHelp.addAction(self.act_help_website)
-        menuHelp.addAction(self.act_help_changelog)
-        menuHelp.addAction(self.act_help_faq)
-        menuHelp.addAction(self.act_help_question)
-        menuHelp.addAction(self.act_help_bugreport)
-        menuHelp.addSeparator()
-        menuHelp.addAction(self.act_help_about)
-
-        self.mainSplitter = QSplitter(self)
-        self.mainSplitter.setOrientation(Qt.Horizontal)
-
-        # timeline
+        # timeline (left widget)
         self.timeLine = qttools.TimeLine(self)
-        self.mainSplitter.addWidget(self.timeLine)
         self.timeLine.updateFilesView.connect(self.updateFilesView)
 
         # right widget
         self.filesWidget = QGroupBox(self)
-        self.mainSplitter.addWidget(self.filesWidget)
         filesLayout = QVBoxLayout(self.filesWidget)
         left, top, right, bottom = filesLayout.getContentsMargins()
         filesLayout.setContentsMargins(0, 0, right, 0)
 
-        # Toolbar: files toolbar
-        self.filesViewToolbar = QToolBar(self)
-        self.filesViewToolbar.setFloatable(False)
-        self.filesViewToolbar.addAction(self.act_folder_up)
-        self.editCurrentPath = QLineEdit(self)
-        self.editCurrentPath.setReadOnly(True)
-        self.filesViewToolbar.addWidget(self.editCurrentPath)
+        # main splitter
+        self.mainSplitter = QSplitter(Qt.Horizontal, self)
+        self.mainSplitter.addWidget(self.timeLine)
+        self.mainSplitter.addWidget(self.filesWidget)
 
-        # show hidden files
-        self.showHiddenFiles = self.config.boolValue('qt.show_hidden_files', False)
-        self.filesViewToolbar.addAction(self.act_show_hidden)
-        self.act_show_hidden.setCheckable(True)
-        self.act_show_hidden.setChecked(self.showHiddenFiles)
-        self.act_show_hidden.toggled.connect(
-            self.btnShowHiddenFilesToggled)
+        # TODO (buhtz); Add this to the fileview toolbutton
+        # # FileView Toolbar Menu: Restore
+        # self.menuRestore = QMenu(self)
+        # self.menuRestore.setToolTipsVisible(True)
+        # self.menuRestore.addAction(self.act_restore)
+        # self.menuRestore.addAction(self.act_restore_to)
+        # self.menuRestore.addSeparator()
+        # self.menuRestore.addAction(self.act_restore_parent)
+        # self.menuRestore.addAction(self.act_restore_parent_to)
+        # self.menuRestore.addSeparator()
 
-        self.filesViewToolbar.addSeparator()
-
-        # FileView Toolbar Menu: Restore
-        # self.menuRestore = qttools.Menu(self)
-        self.menuRestore = QMenu(self)
-        self.menuRestore.setToolTipsVisible(True)
-        self.menuRestore.addAction(self.act_restore)
-        self.menuRestore.addAction(self.act_restore_to)
-        self.menuRestore.addSeparator()
-        self.menuRestore.addAction(self.act_restore_parent)
-        self.menuRestore.addAction(self.act_restore_parent_to)
-        self.menuRestore.addSeparator()
-
-        self.btnRestoreMenu = self.filesViewToolbar.addAction(
-            icon.RESTORE, _('Restore'))
-        self.btnRestoreMenu.setMenu(self.menuRestore)
-        self.btnRestoreMenu.setToolTip(_(
-            'Restore selected file or folder.\n'
-            'If this button is grayed out this is most likely because "{now}"'
-            ' is selected in left hand snapshots list.').format(now=_('Now')))
-        self.btnRestoreMenu.triggered.connect(self.restoreThis)
-
-        self.btnSnapshots = self.filesViewToolbar.addAction(
-            icon.SNAPSHOTS, _('Snapshots'))
-        self.btnSnapshots.triggered.connect(self.btnSnapshotsClicked)
-
-        filesLayout.addWidget(self.filesViewToolbar)
-
-        # ...Menu: Snapshot
-        menuSnapshot.addAction(self.act_take_snapshot)
-        menuSnapshot.addAction(self.act_update_snapshots)
-        menuSnapshot.addAction(self.act_name_snapshot)
-        menuSnapshot.addAction(self.act_remove_snapshot)
-        menuSnapshot.addSeparator()
-        menuSnapshot.addAction(self.act_settings)
-        menuSnapshot.addSeparator()
-        menuSnapshot.addAction(self.act_shutdown)
-        menuSnapshot.addAction(self.act_quit)
-
-        # Menu: View
-        menuView = self.menuBar().addMenu(_('&View'))
-        menuView.addAction(self.act_folder_up)
-        menuView.addAction(self.act_show_hidden)
-        menuView.addSeparator()
-        menuView.addAction(self.act_snapshot_logview)
-        menuView.addAction(self.act_last_logview)
-        menuView.addSeparator()
-        menuView.addAction(self.btnSnapshots)
-
-        # Menu: Restore
-        self.menuRestore = self.menuBar().addMenu(_('&Restore'))
-        self.menuRestore.addAction(self.act_restore)
-        self.menuRestore.addAction(self.act_restore_to)
-        self.menuRestore.addSeparator()
-        self.menuRestore.addAction(self.act_restore_parent)
-        self.menuRestore.addAction(self.act_restore_parent_to)
-
-        # Menu: Help
-        menuHelp = self.menuBar().addMenu(_('&Help'))
-        menuHelp.addAction(self.act_help_help)
-        menuHelp.addAction(self.act_help_configfile)
-        menuHelp.addSeparator()
-        menuHelp.addAction(self.act_help_website)
-        menuHelp.addAction(self.act_help_changelog)
-        menuHelp.addAction(self.act_help_faq)
-        menuHelp.addAction(self.act_help_question)
-        menuHelp.addAction(self.act_help_bugreport)
-        menuHelp.addSeparator()
-        menuHelp.addAction(self.act_help_about)
-
-        # shortcuts without buttons
-        self.shortcutPreviousFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Left), self)
-        self.shortcutPreviousFolder.activated.connect(self.btnFolderHistoryPreviousClicked)
-        self.shortcutNextFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Right), self)
-        self.shortcutNextFolder.activated.connect(self.btnFolderHistoryNextClicked)
-        self.shortcutOpenFolder = QShortcut(QKeySequence(Qt.ALT + Qt.Key_Down), self)
-        self.shortcutOpenFolder.activated.connect(self.btnOpenCurrentItemClicked)
+        # FilesView toolbar
+        self.toolbar_filesview = self._create_and_get_filesview_toolbar()
+        filesLayout.addWidget(self.toolbar_filesview)
 
         # mouse button navigation
         self.mouseButtonEventFilter = ExtraMouseButtonEventFilter(self)
         self.setMouseButtonNavigation()
 
-        # second spliter
+        # second spliter (for what?)
         self.secondSplitter = QSplitter(self)
         self.secondSplitter.setOrientation(Qt.Horizontal)
         self.secondSplitter.setContentsMargins(0, 0, 0, 0)
@@ -310,8 +217,8 @@ class MainWindow(QMainWindow):
         self.filesViewModel = QFileSystemModel(self)
         self.filesViewModel.setRootPath(QDir().rootPath())
         self.filesViewModel.setReadOnly(True)
-        self.filesViewModel.setFilter(QDir.AllDirs | QDir.AllEntries
-                                            | QDir.NoDotAndDotDot | QDir.Hidden)
+        self.filesViewModel.setFilter(
+            QDir.AllDirs | QDir.AllEntries | QDir.NoDotAndDotDot | QDir.Hidden)
 
         self.filesViewProxyModel = QSortFilterProxyModel(self)
         self.filesViewProxyModel.setDynamicSortFilter(True)
@@ -322,17 +229,18 @@ class MainWindow(QMainWindow):
         self.filesViewDelegate = QStyledItemDelegate(self)
         self.filesView.setItemDelegate(self.filesViewDelegate)
 
-        sortColumn = self.config.intValue('qt.main_window.files_view.sort.column', 0)
-        sortOrder = self.config.boolValue('qt.main_window.files_view.sort.ascending', True)
-        if sortOrder:
-            sortOrder = Qt.AscendingOrder
-        else:
-            sortOrder = Qt.DescendingOrder
+        sortColumn = self.config.intValue(
+            'qt.main_window.files_view.sort.column', 0)
+        sortOrder = self.config.boolValue(
+            'qt.main_window.files_view.sort.ascending', True)
+        sortOrder = Qt.AscendingOrder if sortOrder else Qt.DescendingOrder
 
         self.filesView.header().setSortIndicator(sortColumn, sortOrder)
-        self.filesViewModel.sort(self.filesView.header().sortIndicatorSection(),
-                                 self.filesView.header().sortIndicatorOrder())
-        self.filesView.header().sortIndicatorChanged.connect(self.filesViewModel.sort)
+        self.filesViewModel.sort(
+            self.filesView.header().sortIndicatorSection(),
+            self.filesView.header().sortIndicatorOrder())
+        self.filesView.header() \
+                      .sortIndicatorChanged.connect(self.filesViewModel.sort)
 
         self.stackFilesView.setCurrentWidget(self.filesView)
 
@@ -345,7 +253,7 @@ class MainWindow(QMainWindow):
         self.contextMenu = QMenu(self)
         self.contextMenu.addAction(self.act_restore)
         self.contextMenu.addAction(self.act_restore_to)
-        self.contextMenu.addAction(self.btnSnapshots)
+        self.contextMenu.addAction(self.act_snapshots_dialog)
         self.contextMenu.addSeparator()
         self.btnAddInclude = self.contextMenu.addAction(icon.ADD, _('Add to Include'))
         self.btnAddExclude = self.contextMenu.addAction(icon.ADD, _('Add to Exclude'))
@@ -385,9 +293,11 @@ class MainWindow(QMainWindow):
 
         self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
-        self.path = self.config.profileStrValue('qt.last_path',
-                            self.config.strValue('qt.last_path', '/'))
-        self.editCurrentPath.setText(self.path)
+        self.path = self.config.profileStrValue(
+            'qt.last_path',
+            self.config.strValue('qt.last_path', '/')
+        )
+        self.wdg_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
         # restore size and position
@@ -420,7 +330,10 @@ class MainWindow(QMainWindow):
             'qt.main_window.files_view.size_width', -1)
         filesViewColumnDateWidth = self.config.intValue(
             'qt.main_window.files_view.date_width', -1)
-        if filesViewColumnNameWidth > 0 and filesViewColumnSizeWidth > 0 and filesViewColumnDateWidth > 0:
+
+        if (filesViewColumnNameWidth > 0
+                and filesViewColumnSizeWidth > 0
+                and filesViewColumnDateWidth > 0):
             self.filesView.header().resizeSection(0, filesViewColumnNameWidth)
             self.filesView.header().resizeSection(1, filesViewColumnSizeWidth)
             self.filesView.header().resizeSection(2, filesViewColumnDateWidth)
@@ -444,10 +357,14 @@ class MainWindow(QMainWindow):
 
         # mount
         try:
-            mnt = mount.Mount(cfg = self.config, profile_id = profile_id, parent = self)
+            mnt = mount.Mount(cfg=self.config,
+                              profile_id=profile_id,
+                              parent=self)
             hash_id = mnt.mount()
+
         except MountException as ex:
             messagebox.critical(self, str(ex))
+
         else:
             self.config.setCurrentHashId(hash_id)
 
@@ -460,7 +377,8 @@ class MainWindow(QMainWindow):
 
         # populate lists
         self.updateProfiles()
-        self.comboProfiles.currentIndexChanged.connect(self.comboProfileChanged)
+        self.comboProfiles.currentIndexChanged \
+                          .connect(self.comboProfileChanged)
 
         self.filesView.setFocus()
 
@@ -486,6 +404,10 @@ class MainWindow(QMainWindow):
         self.timerUpdateTakeSnapshot.start()
 
         SetupCron(self).start()
+
+    @property
+    def showHiddenFiles(self):
+        return self.config.boolValue('qt.show_hidden_files', False)
 
     def _create_actions(self):
         """Create all action objects used by this main window.
@@ -669,8 +591,10 @@ class MainWindow(QMainWindow):
                 _('Show hidden files'),
                 None, ['Ctrl+H'], None
             ),
-
-
+            (
+                'act_snapshots_dialog', icon.SNAPSHOTS, _('Snapshots'),
+                self.btnSnapshotsClicked, None, None
+            ),
         )
 
         for attr, ico, txt, slot, keys, tip in action_dict:
@@ -706,6 +630,83 @@ class MainWindow(QMainWindow):
         self.act_pause_take_snapshot.setVisible(False)
         self.act_resume_take_snapshot.setVisible(False)
         self.act_stop_take_snapshot.setVisible(False)
+        self.act_show_hidden.toggled.connect(self.btnShowHiddenFilesToggled)
+        self.act_show_hidden.setCheckable(True)
+        self.act_show_hidden.setChecked(self.showHiddenFiles)
+
+    def _create_shortcuts_without_actions(self):
+        """Create shortcuts that are not related to a visual element in the
+        GUI.
+        """
+
+        shortcut_list = (
+            ('Alt+Left', self.btnFolderHistoryPreviousClicked),
+            ('Alt+Right', self.btnFolderHistoryNextClicked),
+            ('Alt+Down', self.btnOpenCurrentItemClicked),
+        )
+
+        for keys, slot in shortcut_list:
+            shortcut = QShortcut(keys, self)
+            shortcut.activated.connect(slot)
+
+    def _create_menubar(self):
+        """Create the menubar and connect it to actions."""
+
+        menu_dict = {
+            _('&Snapshot'): (
+                self.act_take_snapshot,
+                self.act_take_snapshot_checksum,
+                self.act_update_snapshots,
+                self.act_name_snapshot,
+                self.act_remove_snapshot,
+                self.act_settings,
+                self.act_shutdown,
+                self.act_quit,
+            ),
+            _('&View'): (
+                self.act_folder_up,
+                self.act_show_hidden,
+                self.act_snapshot_logview,
+                self.act_last_logview,
+                self.act_snapshots_dialog,
+            ),
+            _('&Restore'): (
+                self.act_restore,
+                self.act_restore_to,
+                # self.menuRestore.addSeparator()
+                self.act_restore_parent,
+                self.act_restore_parent_to,
+            ),
+            _('&Help'): (
+                self.act_help_help,
+                self.act_help_configfile,
+                self.act_help_website,
+                self.act_help_changelog,
+                self.act_help_faq,
+                self.act_help_question,
+                self.act_help_bugreport,
+                self.act_help_about,
+            )
+        }
+
+        for key in menu_dict:
+            menu = self.menuBar().addMenu(key)
+
+            for entry in menu_dict[key]:
+                menu.addAction(entry)
+
+        # fine tuning
+        snapshot = self.menuBar().actions()[0].menu()
+        snapshot.insertSeparator(self.act_settings)
+        snapshot.insertSeparator(self.act_shutdown)
+        view = self.menuBar().actions()[1].menu()
+        view.insertSeparator(self.act_snapshot_logview)
+        view.insertSeparator(self.act_snapshots_dialog)
+        restore = self.menuBar().actions()[2].menu()
+        restore.insertSeparator(self.act_restore_parent)
+        help = self.menuBar().actions()[-1].menu()
+        help.insertSeparator(self.act_help_website)
+        help.insertSeparator(self.act_help_about)
 
     def _create_main_toolbar(self):
         """Create the main toolbar and connect it to actions."""
@@ -748,6 +749,35 @@ class MainWindow(QMainWindow):
         # separators and stretchers
         toolbar.insertSeparator(self.act_settings)
         toolbar.insertSeparator(self.act_shutdown)
+
+    def _create_and_get_filesview_toolbar(self):
+        """Create the filesview toolbar object, connect it to actions and
+        return it for later use.
+
+        Returns:
+            The toolbar object."""
+
+        toolbar = QToolBar(self)
+        toolbar.setFloatable(False)
+
+        actions_for_toolbar = [
+            self.act_folder_up,
+            self.act_show_hidden,
+            self.act_restore,  # TODO(buhtz): Make it a dropdown.
+            self.act_snapshots_dialog,
+        ]
+
+        toolbar.addActions(actions_for_toolbar)
+
+        # LineEdit widget to display the current path
+        self.wdg_current_path = QLineEdit(self)
+        self.wdg_current_path.setReadOnly(True)
+        toolbar.insertWidget(self.act_show_hidden, self.wdg_current_path)
+
+        # Fine tuning
+        toolbar.insertSeparator(self.act_restore)
+
+        return toolbar
 
     def closeEvent(self, event):
         if self.shutdown.askBeforeQuit():
@@ -859,7 +889,7 @@ class MainWindow(QMainWindow):
             if not path == self.path:
                 self.path = path
                 self.path_history.reset(self.path)
-                self.editCurrentPath.setText(self.path)
+                self.wdg_current_path.setText(self.path)
 
             self.updateProfile()
 
@@ -1445,6 +1475,7 @@ files that the receiver requests to be transferred.""")
                     self.timeLine.setCurrentSnapshotID(dlg.sid)
 
     def btnFolderUpClicked(self):
+
         if len(self.path) <= 1:
             return
 
@@ -1595,7 +1626,7 @@ files that the receiver requests to be transferred.""")
             proxy_model_index = self.filesViewProxyModel.mapFromSource(model_index)
             self.filesView.setRootIndex(proxy_model_index)
 
-            self.filesViewToolbar.setEnabled(False)
+            self.toolbar_filesview.setEnabled(False)
             self.stackFilesView.setCurrentWidget(self.filesView)
             #TODO: find a signal for this
             self.dirListerCompleted()
@@ -1608,7 +1639,7 @@ files that the receiver requests to be transferred.""")
             self.stackFilesView.setCurrentWidget(self.lblFolderDontExists)
 
         # show current path
-        self.editCurrentPath.setText(self.path)
+        self.wdg_current_path.setText(self.path)
         self.act_restore_parent.setText(_(f'Restore {self.path}'))
         self.act_restore_parent_to.setText(_(f'Restore {self.path} to …'))
 
@@ -1618,20 +1649,22 @@ files that the receiver requests to be transferred.""")
     def dirListerCompleted(self):
         has_files = (self.filesViewProxyModel.rowCount(self.filesView.rootIndex()) > 0)
 
-        #update restore button state
+        # update restore button state
         enable = not self.sid.isRoot and has_files
-        self.btnRestoreMenu.setEnabled(enable)
-        self.menuRestore.setEnabled(enable)
+        # TODO(buhtz) self.btnRestoreMenu.setEnabled(enable)
+        # self.menuRestore.setEnabled(enable)
         self.act_restore.setEnabled(enable)
         self.act_restore_to.setEnabled(enable)
+        self.act_restore_parent.setEnabled(enable)
+        self.act_restore_parent_to.setEnabled(enable)
 
-        #update snapshots button state
-        self.btnSnapshots.setEnabled(has_files)
+        # update snapshots button state
+        self.act_snapshots_dialog.setEnabled(has_files)
 
-        #enable files toolbar
-        self.filesViewToolbar.setEnabled(True)
+        # enable files toolbar
+        self.toolbar_filesview.setEnabled(True)
 
-        #select selected_file
+        # select selected_file
         found = False
 
         if self.selected_file:
@@ -1641,7 +1674,7 @@ files that the receiver requests to be transferred.""")
             while index.isValid():
                 file_name = (str(self.filesViewProxyModel.data(index)))
                 if file_name == self.selected_file:
-                    #TODO: doesn't work reliable
+                    # TODO: doesn't work reliable
                     self.filesView.setCurrentIndex(index)
                     found = True
                     break
