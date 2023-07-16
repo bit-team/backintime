@@ -52,7 +52,7 @@ class TestTakeSnapshot(generic.SnapshotsTestCase):
 
         # Note: 'self.sn' is of type 'Snapshots'
         # First boolean: Snapshot succeeded
-        # Second boolean: Error occured
+        # Second boolean: Error occurred
         self.assertListEqual(
                 [True, False],  # Snapshot without error
                 self.sn.takeSnapshot(

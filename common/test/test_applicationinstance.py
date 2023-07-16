@@ -34,7 +34,7 @@ class TestApplicationInstance(generic.TestCase):
     """
 
     def setUp(self):
-        """Preparing unittests including the instanciation of an
+        """Preparing unittests including the instantiation of an
         ``ÀpplicationInstance``.
         """
         super(TestApplicationInstance, self).setUp()

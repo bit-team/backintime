@@ -14,12 +14,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import gettext
-
 import config
 import mount
 
-_=gettext.gettext
 
 class Dummy(mount.MountControl):
     """
@@ -32,7 +29,7 @@ class Dummy(mount.MountControl):
     Please use self.currentMountpoint as your local mountpoint.
     This class inherit from mount.MountControl. All methodes from MountControl can
     be used exactly like they were in this class.
-    Methodes from MountControl also can be overriden in here if you need
+    Methodes from MountControl also can be overridden in here if you need
     something different.
     """
     def __init__(self, *args, **kwargs):
@@ -75,8 +72,8 @@ class Dummy(mount.MountControl):
 
     def preMountCheck(self, first_run = False):
         """
-        check what ever conditions must be given for the mount to be done successful
-        raise MountException(_('Error discription')) if service can not mount
+        check what ever conditions must be given for the mount to be donesuccessful
+        raise MountException('Error description') if service can not mount
         return True if everything is okay
         all pre|post_[u]mount_check can also be used to prepare things or clean up
         """
@@ -85,20 +82,20 @@ class Dummy(mount.MountControl):
     def postMountCheck(self):
         """
         check if mount was successful
-        raise MountException(_('Error discription')) if not
+        raise MountException('Error description') if not
         """
         return True
 
     def preUmountCheck(self):
         """
         check if service is safe to umount
-        raise MountException(_('Error discription')) if not
+        raise MountException('Error description') if not
         """
         return True
 
     def postUmountCheck(self):
         """
         check if umount successful
-        raise MountException(_('Error discription')) if not
+        raise MountException('Error description') if not
         """
         return True

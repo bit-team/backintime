@@ -16,7 +16,6 @@
 
 import os
 import grp
-import gettext
 import subprocess
 import re
 import shutil
@@ -33,7 +32,6 @@ import logger
 from mount import MountControl
 from exceptions import MountException, EncodeValueError
 
-_ = gettext.gettext
 
 class EncFS_mount(MountControl):
     """
@@ -84,8 +82,11 @@ class EncFS_mount(MountControl):
             output = proc.communicate()[0]
             self.backupConfig()
             if proc.returncode:
-                raise MountException(_('Can\'t mount \'%(command)s\':\n\n%(error)s') \
-                                        % {'command': ' '.join(encfs), 'error': output})
+                raise MountException(
+                    '{}:\n\n{}'.format(
+                        _("Can't mount '{command}'")
+                        .format(command=' '.join(encfs)),
+                        output))
 
     def preMountCheck(self, first_run = False):
         """
@@ -123,26 +124,37 @@ class EncFS_mount(MountControl):
         ask for password confirmation. _mount will then create a new config
         """
         cfg = self.configFile()
+
         if os.path.isfile(cfg):
             logger.debug('Found encfs config in %s'
                          %cfg, self)
             return True
+
         else:
             logger.debug('No encfs config in %s'
                          %cfg, self)
             msg = _('Config for encrypted folder not found.')
+
             if not self.tmp_mount:
                 raise MountException(msg)
+
             else:
-                if not self.config.askQuestion(msg + _('\nCreate a new encrypted folder?')):
-                    raise MountException(_('Cancel'))
+                question = '{}\n{}'.format(
+                    msg,
+                    _('Create a new encrypted folder?')
+                )
+
+                if not self.config.askQuestion(question):
+                    raise MountException('Cancel')
+
                 else:
                     pw = password.Password(self.config)
-                    password_confirm = pw.passwordFromUser(self.parent, prompt = _('Please confirm password'))
+                    password_confirm = pw.passwordFromUser(
+                        self.parent, prompt=_('Please confirm password'))
                     if self.password == password_confirm:
                         return False
                     else:
-                        raise MountException(_('Password doesn\'t match'))
+                        raise MountException("Password doesn't match")
 
     def checkVersion(self):
         """
@@ -158,8 +170,10 @@ class EncFS_mount(MountControl):
             output = proc.communicate()[0]
             m = re.search(r'(\d\.\d\.\d)', output)
             if m and Version(m.group(1)) <= Version('1.7.2'):
-                logger.debug('Wrong encfs version %s' %m.group(1), self)
-                raise MountException(_('encfs version 1.7.2 and before has a bug with option --reverse. Please update encfs'))
+                logger.debug('Wrong encfs version %s' % m.group(1), self)
+                raise MountException(
+                    'encfs version 1.7.2 and before has a bug with '
+                    'option --reverse. Please update encfs')
 
     def backupConfig(self):
         """
@@ -228,7 +242,7 @@ class EncFS_SSH(EncFS_mount):
         if not os.path.isfile(self.configFile()):
             #encfs >= 1.8.0 changed behavior when ENCFS6_CONFIG environ variable
             #file does not exist. It will not create a new one anymore but just fail.
-            #As encfs would create the config in /.encfs6.xml (which will most likly fail)
+            #As encfs would create the config in /.encfs6.xml (which will most likely fail)
             #we need to mount a temp folder with reverse first and copy the config when done.
             logger.debug('Mount temp folder with encfs --reverse to create a new encfs config', self)
             with tempfile.TemporaryDirectory() as src:
@@ -476,20 +490,26 @@ class Decode(object):
     def __init__(self, cfg, string = True):
         self.config = cfg
         self.mode = cfg.snapshotsMode()
+
         if self.mode == 'local_encfs':
             self.password = cfg.password(pw_id = 1)
+
         elif self.mode == 'ssh_encfs':
             self.password = cfg.password(pw_id = 2)
+
         self.encfs = cfg.SNAPSHOT_MODES[self.mode][0](cfg)
         self.remote_path = cfg.sshSnapshotsPath()
+
         if not self.remote_path:
             self.remote_path = './'
+
         if not self.remote_path[-1] == os.sep:
             self.remote_path += os.sep
 
-        #german translation changed from Snapshot to Schnappschuss.
-        #catch both variants otherwise old logs wouldn't get decoded.
-        takeSnapshot = _('Take snapshot').replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
+        # german translation changed from Snapshot to Schnappschuss.
+        # catch both variants otherwise old logs wouldn't get decoded.
+        takeSnapshot = _('Take snapshot') \
+            .replace('Schnappschuss', '(?:Schnappschuss|Snapshot)')
 
         #precompile some regular expressions
         host, port, user, path, cipher = cfg.sshHostUserPortPathCipher()
@@ -590,8 +610,8 @@ class Decode(object):
 
     def path(self, path):
         """
-        write crypted path to encfsctl stdin and read plain path from stdout
-        if stdout is empty (most likly because there was an error) return crypt path
+        write encrypted path to encfsctl stdin and read plain path from stdout
+        if stdout is empty (most likely because there was an error) return crypt path
         """
         if self.string:
             assert isinstance(path, str), 'path is not str type: %s' % path
