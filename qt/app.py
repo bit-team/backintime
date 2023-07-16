@@ -417,181 +417,125 @@ class MainWindow(QMainWindow):
             (singular; without ``s`` at the end).
         """
 
-        action_dict = (
-            # (
-            #     'Name of action attribute in "self"',
-            #     ICON,
-            #     Label text,
+        action_dict = {
+            # 'Name of action attribute in "self"': (
+            #     ICON, Label text,
             #     trigger_handler_function,
-            #     keyboard shortcuts (always of type list[str])
+            #     keyboard shortcuts (type list[str])
             #     tooltip
-            # ),
-            (
-                'act_take_snapshot',
-                icon.TAKE_SNAPSHOT,
-                _('Take snapshot'),
-                self.btnTakeSnapshotClicked,
-                ['Ctrl+S'],
-                None
-            ),
-            (
-                'act_take_snapshot_checksum',
-                icon.TAKE_SNAPSHOT,
-                _('Take snapshot with checksums'),
-                self.btnTakeSnapshotChecksumClicked,
-                ['Ctrl+Shift+S'],
-                _('Use checksum to detect changes')
-            ),
-            (
-                'act_pause_take_snapshot',
+            #),
+            'act_take_snapshot': (
+                icon.TAKE_SNAPSHOT, _('Take snapshot'),
+                self.btnTakeSnapshotClicked, ['Ctrl+S'], None),
+
+            'act_take_snapshot_checksum': (
+                icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'),
+                self.btnTakeSnapshotChecksumClicked, ['Ctrl+Shift+S'],
+                _('Use checksum to detect changes')),
+
+            'act_pause_take_snapshot': (
                 icon.PAUSE, _('Pause snapshot process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
-                None
-            ),
-            (
-                'act_resume_take_snapshot',
+                None),
+
+            'act_resume_take_snapshot': (
                 icon.RESUME, _('Resume snapshot process'),
                 lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
-                None
-            ),
-            (
-                'act_stop_take_snapshot',
+                None),
+            'act_stop_take_snapshot': (
                 icon.STOP, _('Stop snapshot process'),
                 self.btnStopTakeSnapshotClicked, None,
-                None
-            ),
-            (
-                'act_update_snapshots',
+                None),
+            'act_update_snapshots': (
                 icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'),
                 self.btnUpdateSnapshotsClicked, ['F5', 'Ctrl+R'],
-                None
-            ),
-            (
-                'act_name_snapshot',
+                None),
+            'act_name_snapshot': (
                 icon.SNAPSHOT_NAME, _('Snapshot Name'),
                 self.btnNameSnapshotClicked, ['F2'],
-                None
-            ),
-            (
-                'act_remove_snapshot',
+                None),
+            'act_remove_snapshot': (
                 icon.REMOVE_SNAPSHOT, _('Remove Snapshot'),
                 self.btnRemoveSnapshotClicked, ['Delete'],
-                None
-            ),
-            (
-                'act_snapshot_logview',
+                None),
+            'act_snapshot_logview': (
                 icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'),
                 self.btnSnapshotLogViewClicked, None,
-                None
-            ),
-            (
-                'act_last_logview',
+                None),
+            'act_last_logview': (
                 icon.VIEW_LAST_LOG, _('View Last Log'),
                 self.btnLastLogViewClicked, None,
-                None
-            ),
-            (
-                'act_settings',
+                None),
+            'act_settings': (
                 icon.SETTINGS, _('Settings'),
                 self.btnSettingsClicked, ['Ctrl+Shift+,'],
-                None
-            ),
-            (
-                'act_shutdown',
+                None),
+            'act_shutdown': (
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
-                _('Shut down system after snapshot has finished.')
-            ),
-            (
-                'act_quit',
+                _('Shut down system after snapshot has finished.')),
+            'act_quit': (
                 icon.EXIT, _('Exit'),
                 self.close, ['Ctrl+Q'],
-                None
-            ),
-            (
-                'act_help_help',
+                None),
+            'act_help_help': (
                 icon.HELP, _('Help'),
                 self.btnHelpClicked, ['F1'],
-                None,
-            ),
-            (
-                'act_help_configfile',
+                None),
+            'act_help_configfile': (
                 icon.HELP, _('Config File Help'),
-                self.btnHelpConfigClicked, None, None,
-            ),
-            (
-                'act_help_website',
+                self.btnHelpConfigClicked, None, None),
+            'act_help_website': (
                 icon.WEBSITE, _('Website'),
-                self.btnWebsiteClicked, None, None,
-            ),
-            (
-                'act_help_changelog',
+                self.btnWebsiteClicked, None, None),
+            'act_help_changelog': (
                 icon.CHANGELOG, _('Changelog'),
-                self.btnChangelogClicked, None, None,
-            ),
-            (
-                'act_help_faq',
+                self.btnChangelogClicked, None, None),
+            'act_help_faq': (
                 icon.FAQ, _('FAQ'),
-                self.btnFaqClicked, None, None,
-            ),
-            (
-                'act_help_question',
+                self.btnFaqClicked, None, None),
+            'act_help_question': (
                 icon.QUESTION, _('Ask a question'),
-                self.btnAskQuestionClicked, None, None,
-            ),
-
-            (
-                'act_help_bugreport',
+                self.btnAskQuestionClicked, None, None),
+            'act_help_bugreport': (
                 icon.BUG, _('Report a bug'),
-                self.btnReportBugClicked, None, None,
-            ),
-            (
-                'act_help_about',
+                self.btnReportBugClicked, None, None),
+            'act_help_about': (
                 icon.ABOUT, _('About'),
-                self.btnAboutClicked, None, None,
-            ),
-            (
-                'act_restore',
+                self.btnAboutClicked, None, None),
+            'act_restore': (
                 icon.RESTORE, _('Restore'),
                 self.restoreThis, None,
                 _('Restore the selected files or folders to the '
-                  'original destination.')
-            ),
-            (
-                'act_restore_to', icon.RESTORE_TO, _('Restore to …'),
+                  'original destination.')),
+            'act_restore_to': (
+                icon.RESTORE_TO, _('Restore to …'),
                 self.restoreThisTo, None,
                 _('Restore the selected files or folders to a '
-                  'new destination.')
-            ),
-            (
-                'act_restore_parent', icon.RESTORE, 'RESTORE PARENT (DEBUG)',
+                  'new destination.')),
+            'act_restore_parent': (
+                icon.RESTORE, 'RESTORE PARENT (DEBUG)',
                 self.restoreParent, None,
                 _('Restore the currently shown folder and all its contents '
-                  'to the original destination.')
-            ),
-            (
-                'act_restore_parent_to',
+                  'to the original destination.')),
+            'act_restore_parent_to': (
                 icon.RESTORE_TO, 'RESTORE PARENT TO (DEBUG)',
                 self.restoreParentTo, None,
                 _('Restore the currently shown folder and all its contents '
-                  'to a new destination.')
-            ),
-            (
-                'act_folder_up', icon.UP, _('Up'),
-                self.btnFolderUpClicked, ['Alt+Up', 'Backspace'], None
-            ),
-            (
-                'act_show_hidden', icon.SHOW_HIDDEN,
-                _('Show hidden files'),
-                None, ['Ctrl+H'], None
-            ),
-            (
-                'act_snapshots_dialog', icon.SNAPSHOTS, _('Snapshots'),
-                self.btnSnapshotsClicked, None, None
-            ),
-        )
+                  'to a new destination.')),
+            'act_folder_up': (
+                icon.UP, _('Up'),
+                self.btnFolderUpClicked, ['Alt+Up', 'Backspace'], None),
+            'act_show_hidden': (
+                icon.SHOW_HIDDEN, _('Show hidden files'),
+                None, ['Ctrl+H'], None),
+            'act_snapshots_dialog': (
+                icon.SNAPSHOTS, _('Snapshots'),
+                self.btnSnapshotsClicked, None, None),
+        }
 
-        for attr, ico, txt, slot, keys, tip in action_dict:
+        for attr in action_dict:
+            ico, txt, slot, keys, tip = action_dict[attr]
 
             # Create action (with icon)
             action = QAction(ico, txt, self) if ico else \
@@ -601,12 +545,7 @@ class MainWindow(QMainWindow):
             if slot:
                 action.triggered.connect(slot)
 
-            # Workaround for lousy PyQt API.
-            # Even one shortcut should be treated as a list.
-            if isinstance(keys, str):
-                keys = [keys]
-
-            # Add one or multiple key shortcuts
+            # Add keyboardshortcuts
             if keys:
                 action.setShortcuts(keys)
 
