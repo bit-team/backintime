@@ -47,7 +47,7 @@ import mount
 import progress
 from exceptions import MountException
 
-from PyQt5.QtGui import QKeySequence, QDesktopServices, QColor, QIcon
+from PyQt5.QtGui import QDesktopServices, QColor, QIcon
 from PyQt5.QtWidgets import (QWidget,
                              QAction,
                              QFrame,
@@ -71,15 +71,16 @@ from PyQt5.QtWidgets import (QWidget,
                              QToolBar,
                              QProgressBar,
                              QMessageBox,
-                             QSizePolicy,
                              QInputDialog,
                              QDialog,
                              QDialogButtonBox,
                              QShortcut,
                              QFileSystemModel,
+                             QSizePolicy
                              )
 from PyQt5.QtCore import (Qt,
                           QObject,
+                          QPoint,
                           pyqtSlot,
                           pyqtSignal,
                           QTimer,
@@ -133,26 +134,20 @@ class MainWindow(QMainWindow):
         self.timeLine.updateFilesView.connect(self.updateFilesView)
 
         # right widget
-        self.filesWidget = QGroupBox(self)
+        self.filesWidget = QGroupBox('W'*100, self)
         filesLayout = QVBoxLayout(self.filesWidget)
         left, top, right, bottom = filesLayout.getContentsMargins()
         filesLayout.setContentsMargins(0, 0, right, 0)
+        # DEBUG
+        # self.filesWidget.setSizePolicy(
+        #     QSizePolicy(QSizePolicy.Expanding,
+        #                 QSizePolicy.Expanding)
+        # )
 
         # main splitter
         self.mainSplitter = QSplitter(Qt.Horizontal, self)
         self.mainSplitter.addWidget(self.timeLine)
         self.mainSplitter.addWidget(self.filesWidget)
-
-        # TODO (buhtz); Add this to the fileview toolbutton
-        # # FileView Toolbar Menu: Restore
-        # self.menuRestore = QMenu(self)
-        # self.menuRestore.setToolTipsVisible(True)
-        # self.menuRestore.addAction(self.act_restore)
-        # self.menuRestore.addAction(self.act_restore_to)
-        # self.menuRestore.addSeparator()
-        # self.menuRestore.addAction(self.act_restore_parent)
-        # self.menuRestore.addAction(self.act_restore_parent_to)
-        # self.menuRestore.addSeparator()
 
         # FilesView toolbar
         self.toolbar_filesview = self._create_and_get_filesview_toolbar()
@@ -162,7 +157,8 @@ class MainWindow(QMainWindow):
         self.mouseButtonEventFilter = ExtraMouseButtonEventFilter(self)
         self.setMouseButtonNavigation()
 
-        # second spliter (for what?)
+        # second splitter:
+        # part of files-layout
         self.secondSplitter = QSplitter(self)
         self.secondSplitter.setOrientation(Qt.Horizontal)
         self.secondSplitter.setContentsMargins(0, 0, 0, 0)
@@ -191,9 +187,9 @@ class MainWindow(QMainWindow):
         self.secondSplitter.addWidget(widget)
 
         # folder don't exist label
-        self.lblFolderDontExists = QLabel(_("This folder doesn't exist\nin "
-                                            "the current selected snapshot!"),
-                                          self)
+        self.lblFolderDontExists = QLabel(
+            _("This folder doesn't exist\nin the current selected snapshot!"),
+            self)
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Sunken)
         self.lblFolderDontExists.setFrameShape(QFrame.Panel)
@@ -249,14 +245,17 @@ class MainWindow(QMainWindow):
 
         # context menu
         self.filesView.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.filesView.customContextMenuRequested.connect(self.contextMenuClicked)
+        self.filesView.customContextMenuRequested \
+                      .connect(self.contextMenuClicked)
         self.contextMenu = QMenu(self)
         self.contextMenu.addAction(self.act_restore)
         self.contextMenu.addAction(self.act_restore_to)
         self.contextMenu.addAction(self.act_snapshots_dialog)
         self.contextMenu.addSeparator()
-        self.btnAddInclude = self.contextMenu.addAction(icon.ADD, _('Add to Include'))
-        self.btnAddExclude = self.contextMenu.addAction(icon.ADD, _('Add to Exclude'))
+        self.btnAddInclude = self.contextMenu.addAction(
+            icon.ADD, _('Add to Include'))
+        self.btnAddExclude = self.contextMenu.addAction(
+            icon.ADD, _('Add to Exclude'))
         self.btnAddInclude.triggered.connect(self.btnAddIncludeClicked)
         self.btnAddExclude.triggered.connect(self.btnAddExcludeClicked)
         self.contextMenu.addSeparator()
@@ -691,9 +690,13 @@ class MainWindow(QMainWindow):
 
         for key in menu_dict:
             menu = self.menuBar().addMenu(key)
+            menu.addActions(menu_dict[key])
 
-            for entry in menu_dict[key]:
-                menu.addAction(entry)
+        # The action of the restore menu. It is used by the menuBar and by the
+        # files toolbar.
+        # It is populated to "self" because it's state to be altered.
+        # See "self._enable_restore_ui_elements()" for details.
+        self.act_restore_menu = self.menuBar().actions()[2]
 
         # fine tuning
         snapshot = self.menuBar().actions()[0].menu()
@@ -702,11 +705,12 @@ class MainWindow(QMainWindow):
         view = self.menuBar().actions()[1].menu()
         view.insertSeparator(self.act_snapshot_logview)
         view.insertSeparator(self.act_snapshots_dialog)
-        restore = self.menuBar().actions()[2].menu()
-        restore.insertSeparator(self.act_restore_parent)
         help = self.menuBar().actions()[-1].menu()
         help.insertSeparator(self.act_help_website)
         help.insertSeparator(self.act_help_about)
+        restore = self.act_restore_menu.menu()
+        restore.insertSeparator(self.act_restore_parent)
+        restore.setToolTipsVisible(True)
 
     def _create_main_toolbar(self):
         """Create the main toolbar and connect it to actions."""
@@ -732,8 +736,7 @@ class MainWindow(QMainWindow):
             self.act_shutdown,
         ]
 
-        for act in actions_for_toolbar:
-            toolbar.addAction(act)
+        toolbar.addActions(actions_for_toolbar)
 
         # toolbar sub menu: take snapshot
         submenu_take_snapshot = QMenu(self)
@@ -763,7 +766,7 @@ class MainWindow(QMainWindow):
         actions_for_toolbar = [
             self.act_folder_up,
             self.act_show_hidden,
-            self.act_restore,  # TODO(buhtz): Make it a dropdown.
+            self.act_restore,
             self.act_snapshots_dialog,
         ]
 
@@ -773,6 +776,14 @@ class MainWindow(QMainWindow):
         self.wdg_current_path = QLineEdit(self)
         self.wdg_current_path.setReadOnly(True)
         toolbar.insertWidget(self.act_show_hidden, self.wdg_current_path)
+
+        # Restore sub menu
+        restore_sub_menu = self.act_restore_menu.menu()
+        # get the toolbar buttons widget...
+        button_restore = toolbar.widgetForAction(self.act_restore)
+        # ...and add the menu to it
+        button_restore.setMenu(restore_sub_menu)
+        button_restore.setPopupMode(QToolButton.MenuButtonPopup)
 
         # Fine tuning
         toolbar.insertSeparator(self.act_restore)
@@ -1305,7 +1316,7 @@ class MainWindow(QMainWindow):
         cb = QCheckBox(_(
             'Create backup copies with trailing {suffix} before\n'
             'overwriting or removing local files.').format(
-                suffx=self.snapshots.backupSuffix()))
+                suffix=self.snapshots.backupSuffix()))
 
         cb.setChecked(self.config.backupOnRestore())
         cb.setToolTip(_(
@@ -1468,9 +1479,12 @@ files that the receiver requests to be transferred.""")
 
     def btnSnapshotsClicked(self):
         path, idx = self.fileSelected(fullPath = True)
+
         with self.suspendMouseButtonNavigation():
             dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
+
             if QDialog.Accepted == dlg.exec_():
+
                 if dlg.sid != self.sid:
                     self.timeLine.setCurrentSnapshotID(dlg.sid)
 
@@ -1480,6 +1494,7 @@ files that the receiver requests to be transferred.""")
             return
 
         path = os.path.dirname(self.path)
+
         if self.path == path:
             return
 
@@ -1490,6 +1505,7 @@ files that the receiver requests to be transferred.""")
     def btnFolderHistoryPreviousClicked(self):
         path = self.path_history.previous()
         full_path = self.sid.pathBackup(path)
+
         if os.path.isdir(full_path) and self.sid.canOpenPath(path):
             self.path = path
             self.updateFilesView(0)
@@ -1497,27 +1513,34 @@ files that the receiver requests to be transferred.""")
     def btnFolderHistoryNextClicked(self):
         path = self.path_history.next()
         full_path = self.sid.pathBackup(path)
+
         if os.path.isdir(full_path) and self.sid.canOpenPath(path):
             self.path = path
             self.updateFilesView(0)
 
     def btnOpenCurrentItemClicked(self):
         path, idx = self.fileSelected()
+
         if not path:
             return
+
         self.openPath(path)
 
     def btnAddIncludeClicked(self):
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
         include = self.config.include()
         updatePlaces = False
+
         for item in paths:
+
             if os.path.isdir(item):
                 include.append((item, 0))
                 updatePlaces = True
             else:
                 include.append((item, 1))
+
         self.config.setInclude(include)
+
         if updatePlaces:
             self.updatePlaces()
 
@@ -1535,8 +1558,10 @@ files that the receiver requests to be transferred.""")
             return
 
         rel_path = str(self.filesViewProxyModel.data(model_index))
+
         if not rel_path:
             return
+
         self.openPath(rel_path)
 
     def tmpCopy(self, full_path, sid = None):
@@ -1553,6 +1578,7 @@ files that the receiver requests to be transferred.""")
         """
         if sid:
             sid = '_' + sid.sid
+
         d = TemporaryDirectory(suffix = sid)
         tmp_file = os.path.join(d.name, os.path.basename(full_path))
 
@@ -1560,7 +1586,9 @@ files that the receiver requests to be transferred.""")
             shutil.copytree(full_path, tmp_file)
         else:
             shutil.copy(full_path, d.name)
+
         self.tmpDirs.append(d)
+
         return tmp_file
 
     def openPath(self, rel_path):
@@ -1568,6 +1596,7 @@ files that the receiver requests to be transferred.""")
         full_path = self.sid.pathBackup(rel_path)
 
         if os.path.exists(full_path) and self.sid.canOpenPath(rel_path):
+
             if os.path.isdir(full_path):
                 self.path = rel_path
                 self.path_history.append(rel_path)
@@ -1586,7 +1615,7 @@ files that the receiver requests to be transferred.""")
             selected_file = ''
 
         if 0 == changed_from:
-            #update places
+            # update places
             self.places.setCurrentItem(None)
             for place_index in range(self.places.topLevelItemCount()):
                 item = self.places.topLevelItem(place_index)
@@ -1604,16 +1633,17 @@ files that the receiver requests to be transferred.""")
             text = '{}: {}'.format(_('Snapshot'), name)
             tooltip = _('View the snapshot made at {name}').format(name=name)
 
-        self.filesWidget.setTitle(text)
+        text = '{}{}'.format(text, '')  # 'W' * (35-len(text)))
+        self.filesWidget.setTitle(text)  # DEBUG
         self.filesWidget.setToolTip(tooltip)
 
-        #try to keep old selected file
+        # try to keep old selected file
         if selected_file is None:
             selected_file, idx = self.fileSelected()
 
         self.selected_file = selected_file
 
-        #update files view
+        # update files view
         full_path = self.sid.pathBackup(self.path)
 
         if os.path.isdir(full_path):
@@ -1628,13 +1658,11 @@ files that the receiver requests to be transferred.""")
 
             self.toolbar_filesview.setEnabled(False)
             self.stackFilesView.setCurrentWidget(self.filesView)
-            #TODO: find a signal for this
+
+            # TODO: find a signal for this
             self.dirListerCompleted()
         else:
-            self.btnRestoreMenu.setEnabled(False)
-            self.menuRestore.setEnabled(False)
-            self.act_restore.setEnabled(False)
-            self.act_restore_to.setEnabled(False)
+            self._enable_restore_ui_elements(False)
             self.btnSnapshots.setEnabled(False)
             self.stackFilesView.setCurrentWidget(self.lblFolderDontExists)
 
@@ -1646,17 +1674,28 @@ files that the receiver requests to be transferred.""")
         # update folder_up button state
         self.act_folder_up.setEnabled(len(self.path) > 1)
 
+    def _enable_restore_ui_elements(self, enable: bool):
+        """Enable or disable all buttons and menu entries related to the
+        restore feature.
+        """
+
+        # The whole sub-menu incl. its button/entry. The related UI elements
+        # are the "Restore" entry in the main-menu and the toolbar button in
+        # the files-view toolbar.
+        self.act_restore_menu.setEnabled(enable)
+
+        # This two entries do appear, independed from the sub-menu above, in
+        # the context menu of the files view.
+        self.act_restore.setEnabled(enable)
+        self.act_restore_to.setEnabled(enable)
+
     def dirListerCompleted(self):
         has_files = (self.filesViewProxyModel.rowCount(self.filesView.rootIndex()) > 0)
 
         # update restore button state
         enable = not self.sid.isRoot and has_files
         # TODO(buhtz) self.btnRestoreMenu.setEnabled(enable)
-        # self.menuRestore.setEnabled(enable)
-        self.act_restore.setEnabled(enable)
-        self.act_restore_to.setEnabled(enable)
-        self.act_restore_parent.setEnabled(enable)
-        self.act_restore_parent_to.setEnabled(enable)
+        self._enable_restore_ui_elements(enable)
 
         # update snapshots button state
         self.act_snapshots_dialog.setEnabled(has_files)
@@ -1669,16 +1708,21 @@ files that the receiver requests to be transferred.""")
 
         if self.selected_file:
             index = self.filesView.indexAt(QPoint(0,0))
+
             if not index.isValid():
                 return
+
             while index.isValid():
                 file_name = (str(self.filesViewProxyModel.data(index)))
+
                 if file_name == self.selected_file:
                     # TODO: doesn't work reliable
                     self.filesView.setCurrentIndex(index)
                     found = True
                     break
+
                 index = self.filesView.indexBelow(index)
+
             self.selected_file = ''
 
         if not found and has_files:
@@ -1687,12 +1731,14 @@ files that the receiver requests to be transferred.""")
     def fileSelected(self, fullPath = False):
         idx = qttools.indexFirstColumn(self.filesView.currentIndex())
         selected_file = str(self.filesViewProxyModel.data(idx))
+
         if selected_file == '/':
-            #nothing is selected
+            # nothing is selected
             selected_file = ''
             idx = self.filesViewProxyModel.mapFromSource(self.filesViewModel.index(self.path, 0))
         if fullPath:
             selected_file = os.path.join(self.path, selected_file)
+
         return(selected_file, idx)
 
     def multiFileSelected(self, fullPath = False):
@@ -1700,20 +1746,27 @@ files that the receiver requests to be transferred.""")
         for idx in self.filesView.selectedIndexes():
             if idx.column() > 0:
                 continue
+
             selected_file = str(self.filesViewProxyModel.data(idx))
+
             if selected_file == '/':
                 continue
+
             count += 1
+
             if fullPath:
                 selected_file = os.path.join(self.path, selected_file)
+
             yield (selected_file, idx)
+
         if not count:
-            #nothing is selected
+            # nothing is selected
             idx = self.filesViewProxyModel.mapFromSource(self.filesViewModel.index(self.path, 0))
             if fullPath:
                 selected_file = self.path
             else:
                 selected_file = ''
+
             yield (selected_file, idx)
 
     def setMouseButtonNavigation(self):
@@ -1724,6 +1777,7 @@ files that the receiver requests to be transferred.""")
         self.qapp.removeEventFilter(self.mouseButtonEventFilter)
         yield
         self.setMouseButtonNavigation()
+
 
 class About(QDialog):
     def __init__(self, parent = None):
