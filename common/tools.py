@@ -563,7 +563,7 @@ def is_Qt5_working(systray_required=False):
 
             logger.debug(f"Qt5 probing result: exit code {proc.returncode}")
 
-            if proc.returncode != 23:  # if some Qt5 parts are missing: Show details
+            if proc.returncode != 2:  # if some Qt5 parts are missing: Show details
                 logger.debug(f"Qt5 probing stdout: {std_output}")
                 logger.debug(f"Qt5 probing errout: {error_output}")
 
