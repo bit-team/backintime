@@ -23,7 +23,6 @@ from PyQt5.QtGui import QIcon
 for theme in ('ubuntu-mono-dark', 'gnome', 'oxygen'):
     if not QIcon.fromTheme('document-save').isNull():
         break
-    print(f'setThemeName({theme=})')
     QIcon.setThemeName(theme)
 
 #BackInTime Logo

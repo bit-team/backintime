@@ -411,10 +411,15 @@ class MainWindow(QMainWindow):
         (menu entries, buttons) in later steps.
 
         Note:
+            All actions used in the main window and its child widgets should
+            be created in this function.
+
+        Note:
             Shortcuts need be strings in a list even if it is only one entry.
             It is done this way to spare one ``if...else`` statement deciding
             between `QAction.setShortcuts()` and `QAction.setShortcut()`
             (singular; without ``s`` at the end).
+
         """
 
         action_dict = {
@@ -569,7 +574,7 @@ class MainWindow(QMainWindow):
 
     def _create_shortcuts_without_actions(self):
         """Create shortcuts that are not related to a visual element in the
-        GUI.
+        GUI and don't have an QAction instance because of that.
         """
 
         shortcut_list = (
@@ -606,7 +611,6 @@ class MainWindow(QMainWindow):
             _('&Restore'): (
                 self.act_restore,
                 self.act_restore_to,
-                # self.menuRestore.addSeparator()
                 self.act_restore_parent,
                 self.act_restore_parent_to,
             ),
@@ -632,7 +636,9 @@ class MainWindow(QMainWindow):
         # See "self._enable_restore_ui_elements()" for details.
         self.act_restore_menu = self.menuBar().actions()[2]
 
-        # fine tuning
+        # fine tuning.
+        # Attention: Take care of the actions() index here when modifying the
+        # main menu!
         snapshot = self.menuBar().actions()[0].menu()
         snapshot.insertSeparator(self.act_settings)
         snapshot.insertSeparator(self.act_shutdown)
@@ -1614,6 +1620,11 @@ files that the receiver requests to be transferred.""")
     def _enable_restore_ui_elements(self, enable: bool):
         """Enable or disable all buttons and menu entries related to the
         restore feature.
+
+        If a sepcific snapshot is selected in the timeline widget then all
+        restore UI elements are enabled. If "Now" (the first/root) is selected
+        in the timeline all UI elements related to restoring should be
+        disabled.
         """
 
         # The whole sub-menu incl. its button/entry. The related UI elements
