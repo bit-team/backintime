@@ -96,6 +96,7 @@ replaced with PyPi packages.
     packages
     - `kompare`
     - or `meld`
+  - Optional: Default icons
     - The `oxygen` icons should be offered as optional dependency
       since they are used as fallback in case of missing icons
       (mainly app and system-tray icons)
