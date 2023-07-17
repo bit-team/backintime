@@ -2,7 +2,7 @@ Back In Time
 
 Version 1.3.4-dev (development of upcoming release)
 * Project: Renamed branch "master" to "main" and started "gitflow" branching model.
-* Refactoring: Renamed qt4plugin.py to systrayiconplugin.py
+* Refactoring: Renamed qt4plugin.py to systrayiconplugin.py (we are using Qt5 for years now ;-)
 * Fix bug: Missing icon in SSH private key button (#1364)
 * Fix bug: Master issue for missing or empty system-tray icon (#1306)
 * Fix bug: System-tray icon missing or empty (GUI and cron) (#1236)
@@ -14,7 +14,8 @@ Version 1.3.4-dev (development of upcoming release)
 * Feature: Exclude /swapfile by default (#1053)
 * Documentation: Removed outdated docbook (#1345).
 * Build: Introduced .readthedocs.yaml as asked by ReadTheDocs.org (#1443).
-* Dependency: The oxygen icons should be installed since they are used as fallback in case of missing icons* Fix bug: Add support for ChainerBackend class as keyring which iterates over all supported keyring backends (#1410)
+* Dependency: The oxygen icons should be installed with the BiT Qt GUI since they are used as fallback in case of missing icons
+* Fix bug: Add support for ChainerBackend class as keyring which iterates over all supported keyring backends (#1410)
 * Translation: Strings to translate now easier to understand for translators (#1448, #1457, #1462).
 * Translation: Updated and completed "German" (#1454).
 * Translation: Remove language Canadian English, British English and Javanese (#1455).
