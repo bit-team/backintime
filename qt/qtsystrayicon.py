@@ -18,11 +18,8 @@
 
 import sys
 import os
-import gettext
 import subprocess
 import signal
-
-_=gettext.gettext
 
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...
