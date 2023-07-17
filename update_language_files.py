@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from subprocess import run, check_output
 
-"""This helper script do manage transfering translations to and from the
+"""This helper script do manage transferring translations to and from the
 translation platform (currently Weblate).
 """
 
@@ -20,14 +20,14 @@ BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 def update_po_template():
     """The po template file is update via `xgettext`.
 
-    All files with extension `*.py` are scanned for translateable strings.
+    All files with extension `*.py` are scanned for translatable strings.
     Unittest files and folders are excluded.
 
     xgettext is used instead of pygettext because the latter is deprecated
     since xgettext is able to handle Python files.
     """
 
-    print(f'Updating PO template file "{TEMPLATE_PO}" ...')
+    print(f'Updating PO template file "{TEMPLATE_PO}" …')
 
     # Recursive search of Python files excluding unittest files and folders
     find_cmd = [
@@ -41,7 +41,7 @@ def update_po_template():
         '-not', '-path', '*/test/*',
         '-not', '-path', '*/tests/*'
     ]
-    print(f'Execute: {find_cmd}')
+    print(f'Execute "{find_cmd}".')
 
     py_files = check_output(find_cmd, text=True).split()
 
@@ -59,7 +59,7 @@ def update_po_template():
     ]
     cmd.extend(py_files)
 
-    print(f'Execute "{cmd}"')
+    print(f'Execute "{cmd}".')
     run(cmd, check=True)
 
 
@@ -85,8 +85,8 @@ def update_po_language_files():
         run(cmd, check=True)
 
 
-def check_existance():
-    """Check for existance of essential files.
+def check_existence():
+    """Check for existence of essential files.
 
     Returns:
         Nothing if everything is fine.
@@ -109,7 +109,7 @@ def update_from_weblate():
     repository.
 
     The Weblate translations live on https://translate.codeberg.org and has
-    its own internal git reposiotry. This repository is cloned and the
+    its own internal git repository. This repository is cloned and the
     po-files copied into the current local (upstream) repository.
 
     See comments in code about further details.
@@ -154,7 +154,7 @@ def update_from_weblate():
 
 if __name__ == '__main__':
 
-    check_existance()
+    check_existence()
 
     if 'source' in sys.argv:
         # py_files = collect_py_files()
