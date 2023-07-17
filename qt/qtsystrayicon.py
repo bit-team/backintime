@@ -21,6 +21,10 @@ import os
 import subprocess
 import signal
 
+# TODO Is this really required? If the client is not configured for X11
+#      it may use Wayland or something else...
+#      Or is this just required when run as root (where GUIs are not
+#      configured normally)?
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
@@ -56,7 +60,7 @@ class QtSysTrayIcon:
         self.qapp.setQuitOnLastWindowClosed(False)
 
         import icon
-        self.icon = icon
+        self.icon = icon  # What does this code do? Make the import accessible?
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
@@ -116,7 +120,7 @@ class QtSysTrayIcon:
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateInfo)
 
-    def prepairExit(self):
+    def prepareExit(self):
         self.timer.stop()
 
         if not self.status_icon is None:
@@ -135,17 +139,19 @@ class QtSysTrayIcon:
         self.status_icon.show()
         self.timer.start(500)
 
-        logger.debug("begin loop", self)
+        # logger.debug("begin loop", self)
 
         self.qapp.exec_()
 
-        logger.debug("end loop", self)
+        # logger.debug("end loop", self)
 
-        self.prepairExit()
+        self.prepareExit()
 
     def updateInfo(self):
+
+        # Exit this systray icon "app" when the snapshots is taken
         if not self.snapshots.busy():
-            self.prepairExit()
+            self.prepareExit()
             self.qapp.exit(0)
             return
 
@@ -230,4 +236,11 @@ class QtSysTrayIcon:
         self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
 
 if __name__ == '__main__':
+
+    if "--debug" in sys.argv:  # HACK: Minimal arg parsing to enable debug-level logging
+        logger.DEBUG = True
+
+    logger.debug("Sub process tries to show systray icon...")
+    logger.debug(f"qtsystrayicon.py call args: {str(sys.argv)}")
+
     QtSysTrayIcon().run()

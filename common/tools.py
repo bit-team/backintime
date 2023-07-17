@@ -508,9 +508,17 @@ def checkXServer():
     """
     Check if there is a X11 server running on this system.
 
+    Use ``is_Qt5_working`` instead if you want to be sure that Qt5 is working.
+
     Returns:
         bool:   ``True`` if X11 server is running
     """
+    # Note: Return values of xdpyinfo <> 0 are not clearly documented.
+    #       xdpyinfo does indeed return 1 if it prints
+    #           xdypinfo: unable to open display "..."
+    #       This seems to be undocumented (at least not in the man pages)
+    #       and the source is not obvious here:
+    #       https://cgit.freedesktop.org/xorg/app/xdpyinfo/tree/xdpyinfo.c
     if checkCommand('xdpyinfo'):
         proc = subprocess.Popen(['xdpyinfo'],
                                 stdout = subprocess.DEVNULL,
@@ -519,6 +527,56 @@ def checkXServer():
         return proc.returncode == 0
     else:
         return False
+
+
+def is_Qt5_working(systray_required=False):
+    """
+    Check if the Qt5 GUI library is working (installed and configured)
+
+    This function is contained in BiT CLI (not BiT Qt) to allow Qt5
+    diagnostics output even if the BiT Qt GUI is not installed.
+    This function does NOT add a hard Qt5 dependency (just "probing")
+    so it is OK to be in BiT CLI.
+
+    Args:
+        systray_required: Set to ``True`` if the systray of the desktop
+        environment must be available too to consider Qt5 as "working"
+
+    Returns:
+        bool: ``True``  Qt5 can create a GUI
+              ``False`` Qt5 fails (or the systray is not available
+                        if ``systray_required`` is ``True``)
+    """
+
+    # Spawns a new process since it may crash with a SIGABRT and we
+    # don't want to crash BiT if this happens...
+
+    try:
+        path = os.path.join(backintimePath("common"), "qt5_probing.py")
+        cmd = [sys.executable, path]
+        with subprocess.Popen(cmd,
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE,
+                              universal_newlines=True) as proc:
+
+            std_output, error_output = proc.communicate()  # to get the exit code
+
+            logger.debug(f"Qt5 probing result: exit code {proc.returncode}")
+
+            if proc.returncode != 2:  # if some Qt5 parts are missing: Show details
+                logger.debug(f"Qt5 probing stdout: {std_output}")
+                logger.debug(f"Qt5 probing errout: {error_output}")
+
+            return proc.returncode == 2 or (proc.returncode == 1 and systray_required is False)
+
+    except FileNotFoundError:
+        logger.error(f"Qt5 probing script not found: {cmd[0]}")
+        raise
+
+    except Exception as e:
+        logger.error(f"Error: {repr(e)}")
+        raise
+
 
 def preparePath(path):
     """
