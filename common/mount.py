@@ -420,8 +420,6 @@ class MountControl(object):
                                 mountpoints
     """
 
-    CHECK_FUSE_GROUP = False
-
     def __init__(self,
                  cfg = None,
                  profile_id = None,
@@ -592,7 +590,7 @@ class MountControl(object):
         overwritten by backends which subclasses :py:class:`MountControl`.
 
         Raises:
-            exceptions.MountException:  if unmount failed
+            exceptions.MountException: If unmount failed.
         """
         try:
             subprocess.check_call(['fusermount', '-u', self.currentMountpoint])
@@ -675,41 +673,20 @@ class MountControl(object):
 
     def checkFuse(self):
         """
-        Check if command in self.mountproc is installed and user is part of
-        group ``fuse``.
+        Check if command in ``self.mountproc`` is installed.
 
         Raises:
-            exceptions.MountException:  if either command is not available or
-                                        user is not in group fuse
+            exceptions.MountException: If either command is not available.
         """
-        logger.debug('Check fuse', self)
 
         if not tools.checkCommand(self.mountproc):
             logger.debug('%s is missing' % self.mountproc, self)
+
             raise MountException(
-                '{}  not found. Please install e.g. {}'
+                '{} not found. Please install e.g. {}'
                 .format(self.mountproc,
                         "'apt-get install %s'" % self.mountproc)
             )
-
-        if self.CHECK_FUSE_GROUP:
-            user = self.config.user()
-
-            try:
-                fuse_grp_members = grp.getgrnam('fuse')[3]
-
-            except KeyError:
-                #group fuse doesn't exist. So most likely it isn't used by this distribution
-                logger.debug("Group fuse doesn't exist. Skip test", self)
-                return
-
-            if not user in fuse_grp_members:
-                logger.debug('User %s is not in group fuse' % user, self)
-                raise MountException(
-                    "{user} is not member of group 'fuse'. Run 'sudo adduser "
-                    "{user} fuse'. To apply changes logout and login again."
-                    "\nLook at 'man backintime' for further instructions."
-                    .format(user=user))
 
     def mounted(self):
         """
