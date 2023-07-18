@@ -20,7 +20,6 @@
 import os
 import datetime
 import copy
-import grp
 import re
 
 from PyQt5.QtGui import QIcon, QFont, QPalette, QBrush, QColor
@@ -2106,32 +2105,17 @@ class RestoreConfigDialog(QDialog):
             snapshots.SID(datetime.datetime.now(), self.config).sid
         )
 
-        # inform user to join group fuse if he hasn't already.
-        # If there is no group fuse than it is most likely not necessary.
-        addFuse = ''
-
-        try:
-            user = self.config.user()
-            fuse_grp_members = grp.getgrnam('fuse')[3]
-
-            if user not in fuse_grp_members:
-                addFuse = _(' and add your user to group \'fuse\'')
-
-        except KeyError:
-            pass
-
         label = QLabel(_(
             "Please navigate to the snapshot from which you want to restore "
             "{appName}'s configuration. The path may look like:\n"
             "{samplePath}\n\nIf your snapshots are on a remote drive or if "
             "they are encrypted you need to manually mount them first. "
             "If you use Mode SSH you also may need to set up public key "
-            "login to the remote host{addFuse}.\n"
+            "login to the remote host.\n"
             "Take a look at 'man backintime'.")
             .format(
                 appName=self.config.APP_NAME,
-                samplePath=samplePath,
-                addFuse=addFuse),
+                samplePath=samplePath),
             self
         )
         label.setWordWrap(True)
