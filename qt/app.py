@@ -76,7 +76,6 @@ from PyQt5.QtWidgets import (QWidget,
                              QDialogButtonBox,
                              QShortcut,
                              QFileSystemModel,
-                             QSizePolicy
                              )
 from PyQt5.QtCore import (Qt,
                           QObject,
@@ -94,6 +93,7 @@ import settingsdialog
 import snapshotsdialog
 import logviewdialog
 from restoredialog import RestoreDialog
+from languagedialog import LanguageDialog
 import messagebox
 
 
@@ -537,6 +537,9 @@ class MainWindow(QMainWindow):
             'act_snapshots_dialog': (
                 icon.SNAPSHOTS, _('Snapshots'),
                 self.btnSnapshotsClicked, None, None),
+            # 'act_select_language': (
+            #     None, _('Setup language'),
+            #     self.slot_setup_language, None, None),
         }
 
         for attr in action_dict:
@@ -581,6 +584,7 @@ class MainWindow(QMainWindow):
             ('Alt+Left', self.btnFolderHistoryPreviousClicked),
             ('Alt+Right', self.btnFolderHistoryNextClicked),
             ('Alt+Down', self.btnOpenCurrentItemClicked),
+            ('Alt+X', self.slot_setup_language),
         )
 
         for keys, slot in shortcut_list:
@@ -1725,6 +1729,14 @@ files that the receiver requests to be transferred.""")
         self.qapp.removeEventFilter(self.mouseButtonEventFilter)
         yield
         self.setMouseButtonNavigation()
+
+    # |-------|
+    # | Slots |
+    # |-------|
+    def slot_setup_language(self):
+        print('T'*100)
+        dlg = LanguageDialog()
+        dlg.exec()
 
 
 class About(QDialog):

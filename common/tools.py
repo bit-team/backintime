@@ -67,6 +67,7 @@ import logger
 import bcolors
 from applicationinstance import ApplicationInstance
 from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
+from languages import language_names
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
@@ -101,18 +102,22 @@ def sharePath():
 # | Internationalization (i18n) & localization (L10n) |
 # |---------------------------------------------------|
 _GETTEXT_DOMAIN = 'backintime'
-_GETTEXT_LOCALE_DIR = os.path.join(sharePath(), 'locale')
+_GETTEXT_LOCALE_DIR = pathlib.Path(sharePath()) / 'locale'
+CURRENT_LANGUAGE_CODE = None
 
 
 def initiate_translation(language_code: str = None):
     """Initiate Class-based API of GNU gettext.
 
-    Args:
-        language_code: Language code to use (based on ISO-639-1).
-
     It installs the ``_()`` in the ``builtins`` namespace and eliminates the
     need to ``import gettext`` and declare ``_()`` in each module. The systems
     current local is used if no language code is provided.
+
+    Args:
+        language_code: Language code to use (based on ISO-639-1).
+
+    Returns:
+        The current used language code.
     """
     # language_code = 'ja'  # DEBUG
 
@@ -123,6 +128,92 @@ def initiate_translation(language_code: str = None):
         fallback=True
     )
     translation.install()
+
+    # Not an ideal solution.
+    global _CURRENT_LANGUAGE_CODE
+
+    try:
+        # This variable "language" was set in the header the po-file
+        _CURRENT_LANGUAGE_CODE = translation.info()['language']
+    except KeyError:
+        # Workaround:
+        # BIT versions 1.3.3 or older don't have the "language" variable.
+
+        # Extract the language code from the full filepath of the currently
+        # used mo-file.
+        mo_file_path = pathlib.Path(gettext.find(
+            domain=_GETTEXT_DOMAIN,
+            localedir=_GETTEXT_LOCALE_DIR,
+            languages=[language_code, ] if language_code else None,
+        ))
+
+        # e.g /usr/share/locale/de/LC_MESSAGES/backintime.mo
+        #                       ^^
+        _CURRENT_LANGUAGE_CODE = mo_file_path.relative_to(
+            _GETTEXT_LOCALE_DIR).parts[0]
+
+    return _CURRENT_LANGUAGE_CODE
+
+
+def get_available_language_codes() -> list[str]:
+    """Return language codes available in the current installation.
+
+    The filesystem is searched for ``backintime.mo`` files and the language
+    code is extracted from the full path of that files.
+
+    Return:
+        List of language codes.
+    """
+
+    # full path of one mo-file
+    # e.g. /usr/share/locale/de/LC_MESSAGES/backintime.mo
+    po = gettext.find(domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
+    po = pathlib.Path(po)
+
+    # e.g. de/LC_MESSAGES/backintime.mo
+    po = po.relative_to(_GETTEXT_LOCALE_DIR)
+
+    # e.g. */LC_MESSAGES/backintime.mo
+    po = pathlib.Path('*') / pathlib.Path(*po.parts[1:])
+
+    pofiles = _GETTEXT_LOCALE_DIR.rglob(str(po))
+
+    return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in pofiles]
+
+
+def get_language_names() -> dict[tuple[str, str, str]]:
+    """Return a list with language names in three different flavours.
+
+    Language codes from `get_available_language_codes()` are combined with
+    `languages.language_names` to prepare the list.
+
+    Returns:
+        A dictionary indexed by language codes with 3-item tuples as
+        values. Each tuple contain the language name current locales language,
+        native language and in English; e.g. ``ja`` for ``de`` locale
+        ``('Japanisch', '日本語', 'Japanese')``.
+    """
+    result = {}
+    codes = ['en'] + get_available_language_codes()
+
+    for c in codes:
+        try:
+            lang = language_names[c]
+        except KeyError:
+            names = (None, None, c)
+        else:
+            names = (
+                # in currents locale language
+                lang[_CURRENT_LANGUAGE_CODE],
+                # native
+                lang['_native'],
+                # in English (source language)
+                lang['en']
+            )
+
+        result[c] = names
+
+    return result
 
 
 # |------------------------------------|
