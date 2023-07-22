@@ -3,6 +3,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
                              QWidget,
+                             QListView,
                              QScrollArea,
                              QGridLayout,
                              QVBoxLayout,
@@ -24,24 +25,23 @@ class LanguageDialog(QDialog):
         self.setWindowTitle(_('Language selection'))
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
-        scroll = QScrollArea(self)
-        # scroll.setWidgetResizable(True)
-        # scroll.setFrameStyle(QFrame.NoFrame)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        # scroll.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        scroll.setWidget(self._language_widget())
-        self._scroll = scroll
+        # scroll = QScrollArea(self)
+        # # scroll.setWidgetResizable(True)
+        # # scroll.setFrameStyle(QFrame.NoFrame)
+        # scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        # scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        # # scroll.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # self._scroll = scroll
 
-        # Fit the width of scrollarea to its content
-        self._scroll.setMinimumWidth(self._calculate_scroll_area_width())
+        # # Fit the width of scrollarea to its content
+        # self._scroll.setMinimumWidth(self._calculate_scroll_area_width())
 
         button = QDialogButtonBox(QDialogButtonBox.Apply, self)
-        # button.clicked.connect(self.slot_button)
         button.clicked.connect(self.accept)
+        # button.clicked.connect(self.slot_button)
 
         layout = QVBoxLayout(self)
-        layout.addWidget(scroll)
+        layout.addWidget(self._language_widget())
         layout.addWidget(button)
 
     def _calculate_scroll_area_width(self):
