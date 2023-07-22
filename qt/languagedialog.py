@@ -1,6 +1,7 @@
 import gettext
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QDialog,
+from PyQt5.QtWidgets import (QApplication,
+                             QDialog,
                              QWidget,
                              QScrollArea,
                              QGridLayout,
@@ -21,23 +22,54 @@ class LanguageDialog(QDialog):
         super().__init__()
 
         self.setWindowTitle(_('Language selection'))
+        self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
         scroll = QScrollArea(self)
         # scroll.setWidgetResizable(True)
         # scroll.setFrameStyle(QFrame.NoFrame)
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-        scroll.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # scroll.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         scroll.setWidget(self._language_widget())
+        self._scroll = scroll
 
-        button = QDialogButtonBox(QDialogButtonBox.Apply)
+        button = QDialogButtonBox(QDialogButtonBox.Apply, self)
         # button.clicked.connect(self.slot_button)
         button.clicked.connect(self.accept)
 
         layout = QVBoxLayout(self)
         layout.addWidget(scroll)
         layout.addWidget(button)
+
+    def _calculate_scroll_area_width(self):
+        """Credits:
+         - https://stackoverflow.com/a/9081579/4865723
+         - https://stackoverflow.com/a/76738806/4865723
+        """
+        widget_width =  self._scroll.widget().sizeHint().width()
+        scrollbar_width = self._scroll.verticalScrollBar().sizeHint().width()
+
+        return widget_width + scrollbar_width
+
+    def showEvent(self, e):
+        geo = self.frameGeometry()
+        print(f'rshow event {geo=}')
+
+        # Fit the width of scrollarea to its content
+        self._scroll.setMinimumWidth(self._calculate_scroll_area_width())
+
+        super().showEvent(e)
+
+        tl = qttools.center_to_screen(self)
+        self.move(tl)
+
+    def resizeEvent(self, e):
+        geo = self.frameGeometry()
+        print(f'resize event {geo=}')
+
+    def moveEvent(self, e):
+        geo = self.frameGeometry()
+        print(f'move event {geo=}')
 
     def _language_widget(self):
         """
@@ -47,12 +79,23 @@ class LanguageDialog(QDialog):
         wdg = QWidget(self)
         wdg.setLayout(grid)
 
-        # System default
+        # Entry: System default language
         r = QRadioButton(
             'System default | {}'.format(_('System default')), self)
         r.setToolTip('X')
         r.lang_code = None
         grid.addWidget(r, 1, 1)
+
+        # On low-resolution screens (XGA or less) reduce font size in radio
+        # buttons.
+        if QApplication.primaryScreen().size().width() <=  1024:
+
+            # 80% of regular font size.
+            # Qt do not support % values in CSS
+            css = 'QRadioButton{font-size: ' \
+                + str(int(r.font().pointSize() * 0.8)) \
+                + 'pt;}'
+            wdg.setStyleSheet(css)
 
         # Sort by language code but keep English on top
         langs = tools.get_language_names()
@@ -67,16 +110,24 @@ class LanguageDialog(QDialog):
         col = 1
         for idx, code in enumerate(sorted_codes, 2):
             names = langs[code]
+            print(f'{code=} {names=}')
 
-            if None in names[:2]:
-                label = names[2]
+            try:
+                label = names[0]
+            except TypeError:
+                # Happens when no name for the language codes is available.
+                # "names" is "None" in that case.
+                label = code
+                tooltip = f'Language code "{code}" unknown.'
             else:
-                native = f'{names[1]} | ' \
-                    if qttools.can_render(names[1], wdg) else ''
-                label = f'{native}{names[0]}'
+                # Native letters available in current font?
+                if qttools.can_render(names[1], wdg):
+                    label = f'{names[1]} ({label})'
+
+                tooltip = f'{names[2]} ({code})'
 
             r = QRadioButton(label, self)
-            r.setToolTip('{} ({})'.format(names[2], code))
+            r.setToolTip(tooltip)
             r.toggled.connect(self.slot_radio)
             r.lang_code = code
 
@@ -86,8 +137,6 @@ class LanguageDialog(QDialog):
                 col = col + 1
 
             grid.addWidget(r, row, col)
-
-        wdg.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         return wdg
 

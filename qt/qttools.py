@@ -33,12 +33,12 @@ import sys
 
 from PyQt5.QtGui import (QFont, QColor, QKeySequence, QIcon)
 from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
-                          QTranslator, QLocale, QLibraryInfo, QEvent,
+                          QTranslator, QLocale, QLibraryInfo,
                           QT_VERSION_STR)
 from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
-                             QTreeWidget, QTreeWidgetItem, QComboBox, QMenu,
-                             QToolTip, QAction, QSystemTrayIcon, QWidget)
+                             QTreeWidget, QTreeWidgetItem, QComboBox,
+                             QAction, QSystemTrayIcon, QWidget)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from packaging.version import Version
@@ -48,6 +48,26 @@ registerBackintimePath('common')
 import snapshots  # noqa: E402
 import tools  # noqa: E402
 import logger  # noqa: E402
+
+
+# def center_to_screen(widget: QWidget):
+#     """Move the widget (e.g. window or dialog) to the center of the screen.
+
+#     Args:
+#         widget: The widget to move. E.g. a window or dialog.
+
+#     The center of the available geometry, to be more precise, is used. This
+#     exclude desktop elements like taskbars. The geometry of
+#     `QApplication.primaryScreen()` is used for the calculation.
+
+#     Credits: https://pythonprogramminglanguage.com/pyqt5-center-window
+#     """
+#     geo = QApplication.primaryScreen().availableGeometry()
+#     rec = widget.frameGeometry()
+
+#     rec.moveCenter(geo.center())
+
+#     widget.move(rec.topLeft())
 
 
 def fontBold(font):

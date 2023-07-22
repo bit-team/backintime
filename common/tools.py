@@ -200,7 +200,7 @@ def get_language_names() -> dict[tuple[str, str, str]]:
         try:
             lang = language_names[c]
         except KeyError:
-            names = (None, None, c)
+            names = None
         else:
             names = (
                 # in currents locale language
