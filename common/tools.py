@@ -141,16 +141,22 @@ def initiate_translation(language_code: str = None):
 
         # Extract the language code from the full filepath of the currently
         # used mo-file.
-        mo_file_path = pathlib.Path(gettext.find(
+        mo_file_path = gettext.find(
             domain=_GETTEXT_DOMAIN,
             localedir=_GETTEXT_LOCALE_DIR,
             languages=[language_code, ] if language_code else None,
-        ))
+        )
 
-        # e.g /usr/share/locale/de/LC_MESSAGES/backintime.mo
-        #                       ^^
-        _CURRENT_LANGUAGE_CODE = mo_file_path.relative_to(
-            _GETTEXT_LOCALE_DIR).parts[0]
+        if mo_file_path:
+            mo_file_path = pathlib.Path(mo_file_path)
+            # e.g /usr/share/locale/de/LC_MESSAGES/backintime.mo
+            #                       ^^
+            _CURRENT_LANGUAGE_CODE = mo_file_path.relative_to(
+                _GETTEXT_LOCALE_DIR).parts[0]
+        else:
+            # Workaround: Happens when LC_ALL=C, which in BIT context men
+            # its source language in English.
+            _CURRENT_LANGUAGE_CODE = 'en'
 
     return _CURRENT_LANGUAGE_CODE
 
@@ -168,7 +174,13 @@ def get_available_language_codes() -> list[str]:
     # full path of one mo-file
     # e.g. /usr/share/locale/de/LC_MESSAGES/backintime.mo
     po = gettext.find(domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
-    po = pathlib.Path(po)
+
+    if po:
+        po = pathlib.Path(po)
+    else:
+        # Workaround. This happens if LC_ALL=C and BIT don't use an explicite
+        # language. Should be re-design.
+        po = _GETTEXT_LOCALE_DIR / 'xy' / 'LC_MESSAGES' / 'backintime.po'
 
     # e.g. de/LC_MESSAGES/backintime.mo
     po = po.relative_to(_GETTEXT_LOCALE_DIR)
@@ -177,6 +189,8 @@ def get_available_language_codes() -> list[str]:
     po = pathlib.Path('*') / pathlib.Path(*po.parts[1:])
 
     pofiles = _GETTEXT_LOCALE_DIR.rglob(str(po))
+
+
 
     return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in pofiles]
 

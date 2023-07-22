@@ -33,6 +33,9 @@ class LanguageDialog(QDialog):
         scroll.setWidget(self._language_widget())
         self._scroll = scroll
 
+        # Fit the width of scrollarea to its content
+        self._scroll.setMinimumWidth(self._calculate_scroll_area_width())
+
         button = QDialogButtonBox(QDialogButtonBox.Apply, self)
         # button.clicked.connect(self.slot_button)
         button.clicked.connect(self.accept)
@@ -46,30 +49,30 @@ class LanguageDialog(QDialog):
          - https://stackoverflow.com/a/9081579/4865723
          - https://stackoverflow.com/a/76738806/4865723
         """
-        widget_width =  self._scroll.widget().sizeHint().width()
+        widget_width = self._scroll.widget().sizeHint().width()
         scrollbar_width = self._scroll.verticalScrollBar().sizeHint().width()
 
         return widget_width + scrollbar_width
 
-    def showEvent(self, e):
-        geo = self.frameGeometry()
-        print(f'rshow event {geo=}')
+    # def showEvent(self, e):
+    #     geo = self.frameGeometry()
+    #     print(f'rshow event {geo=}')
 
-        # Fit the width of scrollarea to its content
-        self._scroll.setMinimumWidth(self._calculate_scroll_area_width())
+    #     # Fit the width of scrollarea to its content
+    #     self._scroll.setMinimumWidth(self._calculate_scroll_area_width())
 
-        super().showEvent(e)
+    #     super().showEvent(e)
 
-        tl = qttools.center_to_screen(self)
-        self.move(tl)
+    #     tl = qttools.center_to_screen(self)
+    #     self.move(tl)
 
-    def resizeEvent(self, e):
-        geo = self.frameGeometry()
-        print(f'resize event {geo=}')
+    # def resizeEvent(self, e):
+    #     geo = self.frameGeometry()
+    #     print(f'resize event {geo=}')
 
-    def moveEvent(self, e):
-        geo = self.frameGeometry()
-        print(f'move event {geo=}')
+    # def moveEvent(self, e):
+    #     geo = self.frameGeometry()
+    #     print(f'move event {geo=}')
 
     def _language_widget(self):
         """
