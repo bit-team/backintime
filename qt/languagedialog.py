@@ -1,18 +1,20 @@
 import gettext
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
                              QWidget,
                              QListView,
-                             QScrollArea,
+                             QListWidget,
+                             QListWidgetItem,
+                             # QScrollArea,
                              QGridLayout,
                              QVBoxLayout,
-                             QFrame,
+                             # QFrame,
                              QDialogButtonBox,
-                             QLabel,
-                             QPushButton,
+                             # QLabel,
+                             # QPushButton,
                              QRadioButton,
-                             QSizePolicy,
+                             # QSizePolicy,
                              )
 import tools
 import qttools
@@ -41,7 +43,9 @@ class LanguageDialog(QDialog):
         # button.clicked.connect(self.slot_button)
 
         layout = QVBoxLayout(self)
-        layout.addWidget(self._language_widget())
+        wdg = self._language_widget()
+        print(wdg)
+        layout.addWidget(wdg)
         layout.addWidget(button)
 
     def _calculate_scroll_area_width(self):
@@ -54,27 +58,75 @@ class LanguageDialog(QDialog):
 
         return widget_width + scrollbar_width
 
-    # def showEvent(self, e):
-    #     geo = self.frameGeometry()
-    #     print(f'rshow event {geo=}')
-
-    #     # Fit the width of scrollarea to its content
-    #     self._scroll.setMinimumWidth(self._calculate_scroll_area_width())
-
-    #     super().showEvent(e)
-
-    #     tl = qttools.center_to_screen(self)
-    #     self.move(tl)
-
-    # def resizeEvent(self, e):
-    #     geo = self.frameGeometry()
-    #     print(f'resize event {geo=}')
-
-    # def moveEvent(self, e):
-    #     geo = self.frameGeometry()
-    #     print(f'move event {geo=}')
-
     def _language_widget(self):
+        """
+        nativ | ownlocal -> tooltip: english (code)
+        """
+
+        # Sort by language code but keep English on top
+        langs = tools.get_language_names()
+        sorted_codes = sorted(langs.keys())
+        sorted_codes.remove('en')
+        sorted_codes = ['en'] + sorted_codes
+
+        # 3 columns
+        max_columns = 3
+
+        # Caluclate n per columns
+        per_col_n = len(sorted_codes) / max_columns
+        per_col_n = int(per_col_n) + 1
+
+        wdg = QListWidget(self)
+        wdg.setWrapping(True)
+        wdg.setResizeMode(QListView.Adjust)
+        # wdg.setFlow(QListView.TopToBottom)
+        wdg.setFlow(QListView.LeftToRight)
+
+        # Entry: System default language
+        item = QListWidgetItem(
+            'System default | {}'.format(_('System default')), wdg)
+        item.setToolTip('X')
+        item.lang_code = None
+
+        # # On low-resolution screens (XGA or less) reduce font size in radio
+        # # buttons.
+        # if QApplication.primaryScreen().size().width() <= 1024:
+
+        #     # 80% of regular font size.
+        #     # Qt do not support % values in CSS
+        #     css = 'QRadioButton{font-size: ' \
+        #         + str(int(r.font().pointSize() * 0.8)) \
+        #         + 'pt;}'
+        #     wdg.setStyleSheet(css)
+
+        # col = 1
+        for code in sorted_codes:
+            names = langs[code]
+            print(f'{code=} {names=}')  # DEBUG
+
+            try:
+                label = names[0]
+            except TypeError:
+                # Happens when no name for the language codes is available.
+                # "names" is "None" in that case.
+                label = code
+                tooltip = f'Language code "{code}" unknown.'
+            else:
+                # Native letters available in current font?
+                if qttools.can_render(names[1], wdg):
+                    label = f'{names[1]} ({label})'
+
+                tooltip = f'{names[2]} ({code})'
+
+            item = QListWidgetItem(label, wdg)
+            item.setToolTip(tooltip)
+            item.lang_code = code
+            # wdg.addItem(item)
+            # wdg.addItem(label)
+
+        return wdg
+
+    def _OLD_language_widget(self):
         """
         nativ | ownlocal -> tooltip: english (code)
         """
@@ -91,7 +143,7 @@ class LanguageDialog(QDialog):
 
         # On low-resolution screens (XGA or less) reduce font size in radio
         # buttons.
-        if QApplication.primaryScreen().size().width() <=  1024:
+        if QApplication.primaryScreen().size().width() <= 1024:
 
             # 80% of regular font size.
             # Qt do not support % values in CSS
