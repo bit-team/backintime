@@ -500,8 +500,7 @@ def startApp(app_name = 'backintime'):
         config.Config:  current config if no command was given in arguments
     """
     createParsers(app_name)
-    #open log
-    logger.APP_NAME = app_name
+
     logger.openlog()
 
     #parse args
@@ -674,6 +673,8 @@ def getConfig(args, check = True):
         SystemExit:     1 if ``profile`` or ``profile_id`` is no valid profile
                         2 if ``check`` is ``True`` and config is not configured
     """
+    print('X'*40)
+    print(args)
     cfg = config.Config(config_path = args.config, data_path = args.share_path)
     logger.debug('config file: %s' % cfg._LOCAL_CONFIG_PATH)
     logger.debug('share path: %s' % cfg._LOCAL_DATA_FOLDER)
