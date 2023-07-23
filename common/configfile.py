@@ -587,11 +587,10 @@ class ConfigFileWithProfiles(ConfigFile):
                 profile_name = self.profileName(profile_id)
 
                 self.current_profile_id = profile_id
+                logger.changeProfile(profile_id, profile_name)
                 logger.debug(
                     f'Change current profile: {profile_id}={profile_name}',
                     self)
-
-                logger.changeProfile(profile_id, profile_name)
 
                 return True
 
