@@ -473,7 +473,7 @@ class MainWindow(QMainWindow):
                 None),
             'act_settings': (
                 icon.SETTINGS, _('Manage profiles…'),
-                self.btnSettingsClicked, ['Ctrl+Shift+,'],
+                self.btnSettingsClicked, ['Ctrl+Shift+P'],
                 None),
             'act_shutdown': (
                 icon.SHUTDOWN, _('Shutdown'),
