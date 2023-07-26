@@ -429,13 +429,14 @@ class MainWindow(QMainWindow):
             #     tooltip
             #),
             'act_take_snapshot': (
-                icon.TAKE_SNAPSHOT, _('Take snapshot'),
-                self.btnTakeSnapshotClicked, ['Ctrl+S'], None),
+                icon.TAKE_SNAPSHOT, _('Take a snapshot'),
+                self.btnTakeSnapshotClicked, ['Ctrl+S'],
+                _('Use modification time & size for file change detection.')),
 
             'act_take_snapshot_checksum': (
-                icon.TAKE_SNAPSHOT, _('Take snapshot with checksums'),
+                icon.TAKE_SNAPSHOT, _('Take a snapshot (checksum mode)'),
                 self.btnTakeSnapshotChecksumClicked, ['Ctrl+Shift+S'],
-                _('Use checksum to detect changes')),
+                _('Use checksums for file change detection.')),
 
             'act_pause_take_snapshot': (
                 icon.PAUSE, _('Pause snapshot process'),
@@ -451,27 +452,27 @@ class MainWindow(QMainWindow):
                 self.btnStopTakeSnapshotClicked, None,
                 None),
             'act_update_snapshots': (
-                icon.REFRESH_SNAPSHOT, _('Refresh snapshots list'),
+                icon.REFRESH_SNAPSHOT, _('Refresh snapshot list'),
                 self.btnUpdateSnapshotsClicked, ['F5', 'Ctrl+R'],
                 None),
             'act_name_snapshot': (
-                icon.SNAPSHOT_NAME, _('Snapshot Name'),
+                icon.SNAPSHOT_NAME, _('Name snapshot'),
                 self.btnNameSnapshotClicked, ['F2'],
                 None),
             'act_remove_snapshot': (
-                icon.REMOVE_SNAPSHOT, _('Remove Snapshot'),
+                icon.REMOVE_SNAPSHOT, _('Remove snapshot'),
                 self.btnRemoveSnapshotClicked, ['Delete'],
                 None),
             'act_snapshot_logview': (
-                icon.VIEW_SNAPSHOT_LOG, _('View Snapshot Log'),
+                icon.VIEW_SNAPSHOT_LOG, _('View snapshot log'),
                 self.btnSnapshotLogViewClicked, None,
                 None),
             'act_last_logview': (
-                icon.VIEW_LAST_LOG, _('View Last Log'),
+                icon.VIEW_LAST_LOG, _('View last log'),
                 self.btnLastLogViewClicked, None,
                 None),
             'act_settings': (
-                icon.SETTINGS, _('Settings'),
+                icon.SETTINGS, _('Manage profiles…'),
                 self.btnSettingsClicked, ['Ctrl+Shift+,'],
                 None),
             'act_shutdown': (
@@ -487,7 +488,7 @@ class MainWindow(QMainWindow):
                 self.btnHelpClicked, ['F1'],
                 None),
             'act_help_configfile': (
-                icon.HELP, _('Config File Help'),
+                icon.HELP, _('Profiles config file'),
                 self.btnHelpConfigClicked, None, None),
             'act_help_website': (
                 icon.WEBSITE, _('Website'),
@@ -534,7 +535,7 @@ class MainWindow(QMainWindow):
                 icon.SHOW_HIDDEN, _('Show hidden files'),
                 None, ['Ctrl+H'], None),
             'act_snapshots_dialog': (
-                icon.SNAPSHOTS, _('Snapshots'),
+                icon.SNAPSHOTS, _('Compare snapshots…'),
                 self.btnSnapshotsClicked, None, None),
         }
 
@@ -590,22 +591,20 @@ class MainWindow(QMainWindow):
         """Create the menubar and connect it to actions."""
 
         menu_dict = {
-            _('&Snapshot'): (
-                self.act_take_snapshot,
-                self.act_take_snapshot_checksum,
-                self.act_update_snapshots,
-                self.act_name_snapshot,
-                self.act_remove_snapshot,
-                self.act_settings,
+            'Back In &Time': (
                 self.act_shutdown,
                 self.act_quit,
             ),
-            _('&View'): (
-                self.act_folder_up,
-                self.act_show_hidden,
+            _('&Backup'): (
+                self.act_take_snapshot,
+                self.act_take_snapshot_checksum,
+                self.act_settings,
+                self.act_snapshots_dialog,
+                self.act_name_snapshot,
+                self.act_remove_snapshot,
                 self.act_snapshot_logview,
                 self.act_last_logview,
-                self.act_snapshots_dialog,
+                self.act_update_snapshots,
             ),
             _('&Restore'): (
                 self.act_restore,
@@ -638,12 +637,9 @@ class MainWindow(QMainWindow):
         # fine tuning.
         # Attention: Take care of the actions() index here when modifying the
         # main menu!
-        snapshot = self.menuBar().actions()[0].menu()
-        snapshot.insertSeparator(self.act_settings)
-        snapshot.insertSeparator(self.act_shutdown)
-        view = self.menuBar().actions()[1].menu()
-        view.insertSeparator(self.act_snapshot_logview)
-        view.insertSeparator(self.act_snapshots_dialog)
+        backup = self.menuBar().actions()[1].menu()
+        backup.insertSeparator(self.act_settings)
+        backup.insertSeparator(self.act_snapshot_logview)
         help = self.menuBar().actions()[-1].menu()
         help.insertSeparator(self.act_help_website)
         help.insertSeparator(self.act_help_about)
