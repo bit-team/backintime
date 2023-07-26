@@ -291,7 +291,7 @@ class MainWindow(QMainWindow):
             'qt.last_path',
             self.config.strValue('qt.last_path', '/')
         )
-        self.wdg_current_path.setText(self.path)
+        self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
         # restore size and position
@@ -713,9 +713,9 @@ class MainWindow(QMainWindow):
         toolbar.addActions(actions_for_toolbar)
 
         # LineEdit widget to display the current path
-        self.wdg_current_path = QLineEdit(self)
-        self.wdg_current_path.setReadOnly(True)
-        toolbar.insertWidget(self.act_show_hidden, self.wdg_current_path)
+        self.widget_current_path = QLineEdit(self)
+        self.widget_current_path.setReadOnly(True)
+        toolbar.insertWidget(self.act_show_hidden, self.widget_current_path)
 
         # Restore sub menu
         restore_sub_menu = self.act_restore_menu.menu()
@@ -840,7 +840,7 @@ class MainWindow(QMainWindow):
             if not path == self.path:
                 self.path = path
                 self.path_history.reset(self.path)
-                self.wdg_current_path.setText(self.path)
+                self.widget_current_path.setText(self.path)
 
             self.updateProfile()
 
@@ -1610,7 +1610,7 @@ files that the receiver requests to be transferred.""")
             self.stackFilesView.setCurrentWidget(self.lblFolderDontExists)
 
         # show current path
-        self.wdg_current_path.setText(self.path)
+        self.widget_current_path.setText(self.path)
         self.act_restore_parent.setText(_(f'Restore {self.path}'))
         self.act_restore_parent_to.setText(_(f'Restore {self.path} to …'))
 
