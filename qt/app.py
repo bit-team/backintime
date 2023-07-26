@@ -415,11 +415,10 @@ class MainWindow(QMainWindow):
             be created in this function.
 
         Note:
-            Shortcuts need be strings in a list even if it is only one entry.
-            It is done this way to spare one ``if...else`` statement deciding
-            between `QAction.setShortcuts()` and `QAction.setShortcut()`
-            (singular; without ``s`` at the end).
-
+            Shortcuts need to be strings in a list even if it is only one
+            entry. It is done this way to spare one ``if...else`` statement
+            deciding between `QAction.setShortcuts()` and
+            `QAction.setShortcut()` (singular; without ``s`` at the end).
         """
 
         action_dict = {
