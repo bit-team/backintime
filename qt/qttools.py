@@ -605,21 +605,24 @@ class ProfileCombo(SortedComboBox):
                 break
 
 
-class Menu(QMenu):
-    """
-    Subclass QMenu to add ToolTips
-    """
+# Since Qt 5.1 not needed anymore.
+# Use menu.setToolTipsVisible(True).
+# See https://bugreports.qt.io/browse/QTBUG-13663
+# class Menu(QMenu):
+#     """
+#     Subclass QMenu to add ToolTips
+#     """
 
-    def event(self, e):
-        action = self.activeAction()
+#     def event(self, e):
+#         action = self.activeAction()
 
-        if (e.type() == QEvent.ToolTip
-                and action
-                and action.toolTip() != action.text()):
+#         if (e.type() == QEvent.ToolTip
+#                 and action
+#                 and action.toolTip() != action.text()):
 
-            QToolTip.showText(e.globalPos(), self.activeAction().toolTip())
+#             QToolTip.showText(e.globalPos(), self.activeAction().toolTip())
 
-        else:
-            QToolTip.hideText()
+#         else:
+#             QToolTip.hideText()
 
-        return super(Menu, self).event(e)
+#         return super(Menu, self).event(e)
