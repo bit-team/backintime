@@ -597,7 +597,7 @@ class MountControl(object):
 
         except subprocess.CalledProcessError:
             raise MountException(
-                "Can't unmount {} from {}"
+                _("Can't unmount {} from {}")
                 .format(self.mountproc, self.currentMountpoint))
 
     def preMountCheck(self, first_run = False):
@@ -683,7 +683,7 @@ class MountControl(object):
             logger.debug('%s is missing' % self.mountproc, self)
 
             raise MountException(
-                '{} not found. Please install e.g. {}'
+                _('{} not found. Please install e.g. {}')
                 .format(self.mountproc,
                         "'apt-get install %s'" % self.mountproc)
             )
@@ -705,8 +705,8 @@ class MountControl(object):
         else:
             try:
                 if os.listdir(self.currentMountpoint):
-                    raise MountException(
-                        'mountpoint %s not empty.' % self.currentMountpoint)
+                    raise MountException(_('mountpoint {} not empty.')
+                                         .format(self.currentMountpoint))
 
             except FileNotFoundError:
                 pass

@@ -649,7 +649,7 @@ class SettingsDialog(QDialog):
 
         self.cbSmartRemoveRunRemoteInBackground = QCheckBox(
             '{} {}!'.format(
-                _('Run in background on remote Host.'),
+                _('Run in background on remote host.'),
                 _('EXPERIMENTAL')
             ),
             self)
@@ -674,7 +674,7 @@ class SettingsDialog(QDialog):
         self.spbKeepOnePerWeek = QSpinBox(self)
         self.spbKeepOnePerWeek.setRange(1, 10000)
         smlayout.addWidget(self.spbKeepOnePerWeek, 3, 1)
-        smlayout.addWidget(QLabel(_('weeks(s)'), self), 3, 2)
+        smlayout.addWidget(QLabel(_('week(s)'), self), 3, 2)
 
         smlayout.addWidget(
             QLabel(_('Keep one snapshot per month for the last'), self), 4, 0)
@@ -753,7 +753,7 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.cbUseChecksum)
 
         self.cbTakeSnapshotRegardlessOfChanges = QCheckBox(
-            _('Take a new snapshot wethere there were changes or not.'))
+            _('Take a new snapshot whether there were changes or not.'))
         layout.addWidget(self.cbTakeSnapshotRegardlessOfChanges)
 
         # log level
@@ -985,8 +985,9 @@ class SettingsDialog(QDialog):
         hlayout.addWidget(self.cbRsyncOptions)
         self.txtRsyncOptions = QLineEdit(self)
         self.txtRsyncOptions.setToolTip(
-            _('Options must be quoted e.g. '
-              '--exclude-from="/path/to/my exclude file".'))
+            _('Options must be quoted e.g. {example}.')
+            .format(example='--exclude-from="/path/to/my exclude file"')
+        )
         hlayout.addWidget(self.txtRsyncOptions)
 
         enabled = lambda state: self.txtRsyncOptions.setEnabled(state)

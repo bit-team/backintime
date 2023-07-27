@@ -1566,7 +1566,7 @@ files that the receiver requests to be transferred.""")
         text = ''
         if self.sid.isRoot:
             text = _('Now')
-            tooltip = _('View the current disk content')
+            tooltip = _('View the current disk contents')
         else:
             name = self.sid.displayName
             # buhtz (2023-07)3 blanks at the end of that string as a
@@ -1574,7 +1574,8 @@ files that the receiver requests to be transferred.""")
             # cutoff. Not sure if this is DE and/or theme related.
             # Wasn't able to reproduc in an MWE. Remove after refactoring.
             text = '{}: {}   '.format(_('Snapshot'), name)
-            tooltip = _('View the snapshot made at {name}').format(name=name)
+            tooltip = _('View the snapshot made at {timestamp}') \
+                .format(timestamp=name)
 
         self.filesWidget.setTitle(text)
         self.filesWidget.setToolTip(tooltip)

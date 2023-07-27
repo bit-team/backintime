@@ -1714,10 +1714,9 @@ class Config(configfile.ConfigFileWithProfiles):
                 uuid = self.profileStrValue('snapshots.path.uuid', '', profile_id)
                 if not uuid:
                     logger.error(
-                        'Couldn\'t find UUID for "%s"' % dest_path, self)
-                    self.notifyError(_(
-                        "Couldn't find UUID for \"{path}\"'")
-                        .format(path=dest_path))
+                        "Couldn't find UUID for \"{dest_path}\"", self)
+                    self.notifyError(_("Couldn't find UUID for {path}")
+                                     .format(path=f'"{dest_path}"'))
                     return False
             else:
                 #cache uuid in config
