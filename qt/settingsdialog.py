@@ -501,7 +501,7 @@ class SettingsDialog(QDialog):
                 _(
                     "Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored "
                     "with mode 'SSH encrypted'.\nOnly single or double "
-                    "asterisks kare allowed ('foo/*', 'foo/**/bar')"
+                    "asterisks are allowed ('foo/*', 'foo/**/bar')"
                 )
             ),
             self
