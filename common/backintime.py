@@ -500,8 +500,7 @@ def startApp(app_name = 'backintime'):
         config.Config:  current config if no command was given in arguments
     """
     createParsers(app_name)
-    #open log
-    logger.APP_NAME = app_name
+
     logger.openlog()
 
     #parse args
