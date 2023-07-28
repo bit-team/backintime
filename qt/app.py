@@ -183,7 +183,7 @@ class MainWindow(QMainWindow):
 
         # folder don't exist label
         self.lblFolderDontExists = QLabel(
-            _("This folder doesn't exist\nin the current selected snapshot!"),
+            _("This folder doesn't exist\nin the current selected snapshot."),
             self)
         qttools.setFontBold(self.lblFolderDontExists)
         self.lblFolderDontExists.setFrameShadow(QFrame.Sunken)

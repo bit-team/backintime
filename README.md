@@ -1,6 +1,7 @@
 [![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
 [![Coverage Status](https://coveralls.io/repos/github/bit-team/backintime/badge.svg?branch=master)](https://coveralls.io/github/bit-team/backintime?branch=master)
 [![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
+[![Translation status](https://translate.codeberg.org/widgets/backintime/-/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 
 # Back In Time
 <sub>Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
@@ -197,4 +198,4 @@ Ubuntu 22.04 LTS ships with Python 3.10 and backintime 1.2.1, but has applied
 [a patch](https://bugs.launchpad.net/ubuntu/+source/backintime/+bug/1976164/+attachment/5593556/+files/backintime_1.2.1-3_1.2.1-3ubuntu0.1.diff)
 to make it work. If you want to update to backintime 1.3.2 in Ubuntu, you may use the PPA: see under [`INSTALL/Ubuntu PPA`](#Ubuntu-PPA).
 
-<sub>June 2023</sub>
+<sub>July 2023</sub>

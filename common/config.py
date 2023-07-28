@@ -392,7 +392,7 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.notifyError(
                         '{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _("You can't include backup folder!")
+                            _("Backup folder cannot be included.")
                         )
                     )
 
@@ -404,7 +404,7 @@ class Config(configfile.ConfigFileWithProfiles):
                             '{}\n{}'.format(
                                 _('Profile: "{name}"').format(
                                     name=self.currentProfile()),
-                                _("You can't include backup sub-folder!")
+                                _("You can't include backup sub-folder.")
                             )
                         )
 
@@ -462,16 +462,16 @@ class Config(configfile.ConfigFileWithProfiles):
             mode = self.snapshotsMode(profile_id)
 
         if not os.path.isdir(value):
-            self.notifyError(_('{path} is not a folder !').format(path=value))
+            self.notifyError(_('Invalid option. {path} is not a folder.').format(path=value))
             return False
 
-        #Initialize the snapshots folder
+        # Initialize the snapshots folder
         logger.debug("Check snapshot folder: %s" % value, self)
 
         host, user, profile = self.hostUserProfile(profile_id)
 
         if not all((host, user, profile)):
-            self.notifyError(_('Host/User/Profile-ID must not be empty!'))
+            self.notifyError(_('Host/User/Profile-ID must not be empty.'))
             return False
 
         full_path = os.path.join(value, 'backintime', host, user, profile)
