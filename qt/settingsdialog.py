@@ -359,18 +359,26 @@ class SettingsDialog(QDialog):
         self.comboSchedule = QComboBox(self)
         glayout.addWidget(self.comboSchedule, 0, 0, 1, 2)
 
+        # import gettext
         # Regular schedule modes for that combo box
         schedule_modes_dict = {
             config.Config.NONE: _('Disabled'),
             config.Config.AT_EVERY_BOOT: _('At every boot/reboot'),
-            config.Config._5_MIN: _('Every {n} minutes').format(n=5),
-            config.Config._10_MIN: _('Every {n} minutes').format(n=10),
-            config.Config._30_MIN: _('Every {n} minutes').format(n=30),
+            config.Config._5_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 5).format(n=5),
+            config.Config._10_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
+            config.Config._30_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
             config.Config._1_HOUR: _('Every hour'),
-            config.Config._2_HOURS: _('Every {n} hours').format(n=2),
-            config.Config._4_HOURS: _('Every {n} hours').format(n=4),
-            config.Config._6_HOURS: _('Every {n} hours').format(n=6),
-            config.Config._12_HOURS: _('Every {n} hours').format(n=12),
+            config.Config._2_HOURS: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 2).format(n=2),
+            config.Config._4_HOURS: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 4).format(n=4),
+            config.Config._6_HOURS: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 6).format(n=6),
+            config.Config._12_HOURS: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 12).format(n=12),
             config.Config.CUSTOM_HOUR: _('Custom Hours'),
             config.Config.DAY: _('Every Day'),
             config.Config.REPEATEDLY: _('Repeatedly (anacron)'),
