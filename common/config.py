@@ -95,26 +95,6 @@ class Config(configfile.ConfigFileWithProfiles):
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
 
-    # SCHEDULE_MODES = {
-    #             NONE: _('Disabled'),
-    #             AT_EVERY_BOOT: _('At every boot/reboot'),
-    #             _5_MIN: _('Every {n} minutes').format(n=5),
-    #             _10_MIN: _('Every {n} minutes').format(n=10),
-    #             _30_MIN: _('Every {n} minutes').format(n=30),
-    #             _1_HOUR: _('Every hour'),
-    #             _2_HOURS: _('Every {n} hours').format(n=2),
-    #             _4_HOURS: _('Every {n} hours').format(n=4),
-    #             _6_HOURS: _('Every {n} hours').format(n=6),
-    #             _12_HOURS: _('Every {n} hours').format(n=12),
-    #             CUSTOM_HOUR: _('Custom Hours'),
-    #             DAY: _('Every Day'),
-    #             REPEATEDLY: _('Repeatedly (anacron)'),
-    #             UDEV: _('When drive gets connected (udev)'),
-    #             WEEK: _('Every Week'),
-    #             MONTH: _('Every Month'),
-    #             YEAR: _('Every Year')
-    #             }
-
     REMOVE_OLD_BACKUP_UNITS = {
                 DAY: _('Day(s)'),
                 WEEK: _('Week(s)'),
