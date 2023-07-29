@@ -44,6 +44,8 @@ except ImportError:
 # Workaround: Mostly relevant on TravisCI but not exclusivley.
 # While unittesting and without regular invocation of BIT the GNU gettext
 # class-based API isn't setup yet.
+# The bigger problem with config.py is that it do use translatebale strings.
+# Strings like this do not belong into a config file or its context.
 try:
     _('Foo')
 except NameError:
@@ -93,25 +95,25 @@ class Config(configfile.ConfigFileWithProfiles):
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
 
-    SCHEDULE_MODES = {
-                NONE: _('Disabled'),
-                AT_EVERY_BOOT: _('At every boot/reboot'),
-                _5_MIN: _('Every {n} minutes').format(n=5),
-                _10_MIN: _('Every {n} minutes').format(n=10),
-                _30_MIN: _('Every {n} minutes').format(n=30),
-                _1_HOUR: _('Every hour'),
-                _2_HOURS: _('Every {n} hours').format(n=2),
-                _4_HOURS: _('Every {n} hours').format(n=4),
-                _6_HOURS: _('Every {n} hours').format(n=6),
-                _12_HOURS: _('Every {n} hours').format(n=12),
-                CUSTOM_HOUR: _('Custom Hours'),
-                DAY: _('Every Day'),
-                REPEATEDLY: _('Repeatedly (anacron)'),
-                UDEV: _('When drive gets connected (udev)'),
-                WEEK: _('Every Week'),
-                MONTH: _('Every Month'),
-                YEAR: _('Every Year')
-                }
+    # SCHEDULE_MODES = {
+    #             NONE: _('Disabled'),
+    #             AT_EVERY_BOOT: _('At every boot/reboot'),
+    #             _5_MIN: _('Every {n} minutes').format(n=5),
+    #             _10_MIN: _('Every {n} minutes').format(n=10),
+    #             _30_MIN: _('Every {n} minutes').format(n=30),
+    #             _1_HOUR: _('Every hour'),
+    #             _2_HOURS: _('Every {n} hours').format(n=2),
+    #             _4_HOURS: _('Every {n} hours').format(n=4),
+    #             _6_HOURS: _('Every {n} hours').format(n=6),
+    #             _12_HOURS: _('Every {n} hours').format(n=12),
+    #             CUSTOM_HOUR: _('Custom Hours'),
+    #             DAY: _('Every Day'),
+    #             REPEATEDLY: _('Repeatedly (anacron)'),
+    #             UDEV: _('When drive gets connected (udev)'),
+    #             WEEK: _('Every Week'),
+    #             MONTH: _('Every Month'),
+    #             YEAR: _('Every Year')
+    #             }
 
     REMOVE_OLD_BACKUP_UNITS = {
                 DAY: _('Day(s)'),
@@ -1642,9 +1644,10 @@ class Config(configfile.ConfigFileWithProfiles):
         cron_line = ''
         profile_name = self.profileName(profile_id)
         backup_mode = self.scheduleMode(profile_id)
-        logger.debug("Profile: %s | Automatic backup: %s"
-                     %(profile_name, self.SCHEDULE_MODES[backup_mode]),
-                     self)
+
+        logger.debug(
+            f"Profile: {profile_name} | Automatic backup: {backup_mode}",
+            self)
 
         if self.NONE == backup_mode:
             return cron_line
