@@ -1164,8 +1164,9 @@ class SettingsDialog(QDialog):
         self.updateProfiles(reloadSettings=False)
 
     def removeProfile(self):
-        question = _('Are you sure you want to delete the profile "%s" ?') \
-            % self.config.profileName()
+        question = _('Are you sure you want to delete '
+                     'the profile "{name}"?').format(
+                         name=self.config.profileName())
 
         if self.questionHandler(question):
             self.config.removeProfile()
@@ -1943,7 +1944,7 @@ class SettingsDialog(QDialog):
             if old_path and old_path != path:
 
                 question = _('Are you sure you want to change '
-                             'snapshots folder ?')
+                             'snapshots folder?')
                 if not self.questionHandler(question):
                     return
 
