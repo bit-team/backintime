@@ -474,6 +474,7 @@ class ConfigFileWithProfiles(ConfigFile):
 
         self.default_profile_name = default_profile_name
         self.current_profile_id = '1'
+        self.setCurrentProfile(self.current_profile_id)
 
     def load(self, filename):
         """
@@ -583,11 +584,13 @@ class ConfigFileWithProfiles(ConfigFile):
 
             if i == profile_id:
 
+                profile_name = self.profileName(profile_id)
+
                 self.current_profile_id = profile_id
-                logger.debug('change current profile: %s=%s'
-                             % (profile_id, self.profileName(profile_id)),
-                             self)
-                logger.changeProfile(profile_id)
+                logger.changeProfile(profile_id, profile_name)
+                logger.debug(
+                    f'Change current profile: {profile_id}={profile_name}',
+                    self)
 
                 return True
 
@@ -595,25 +598,20 @@ class ConfigFileWithProfiles(ConfigFile):
 
     def setCurrentProfileByName(self, name):
         """
-        Change the current profile.
+        Change the current profile by a givin name.
 
         Args:
             name (str): valid profile name
 
         Returns:
-            bool:       ``True`` if successful
+            bool: ``True`` if successful
         """
-        profiles = self.profiles()
 
-        for profile_id in profiles:
-
+        # Find the profile_id to this name...
+        for profile_id in self.profiles():
             if self.profileName(profile_id) == name:
-
-                self.current_profile_id = profile_id
-                logger.debug('change current profile: %s' % name, self)
-                logger.changeProfile(profile_id)
-
-                return True
+                # ...and set current profile by this id.
+                return self.setCurrentProfile(profile_id)
 
         return False
 
