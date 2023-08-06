@@ -492,11 +492,10 @@ class SSH(MountControl):
                     'Ciper %s is not supported' %
                     self.config.SSH_CIPHERS[self.cipher], self)
 
-                raise MountException('{}:\n{}'.format(
-                    _('Cipher {cipher} failed for {host}').format(
-                        cipher=self.config.SSH_CIPHERS[self.cipher],
-                        host=self.host),
-                    err))
+                msg = _('Cipher {cipher} failed for {host}').format(
+                    cipher=self.config.SSH_CIPHERS[self.cipher],
+                    host=self.host)
+                raise MountException(f'{msg}:\n{err}')
 
     def benchmarkCipher(self, size=40):
         """
@@ -934,24 +933,21 @@ class SSH(MountControl):
                             'nocache', 'screen', '(flock'):
 
                 if output_split[-1].startswith(command):
+                    command = f"'{output_split[-1]}':\n{err}"
+                    msg = _("Remote host {host} doesn't support {command}") \
+                        .format(host=self.host, command=command)
                     raise MountException('{}\n{}'.format(
-                        _("Remote host {host} doesn't support {command}")
-                        .format(
-                            host=self.host,
-                            command=f"'{output_split[-1]}':\n{err}"
-                        ),
+                        msg,
                         _("Look at 'man backintime' for further instructions")
                         )
                     )
 
-            raise MountException(
-                '{}:\n{}n{}'.format(
-                    _('Check commands on host {host} returned '
-                      'unknown error').format(host=self.host),
-                    err,
-                    _("Look at 'man backintime' for further instructions")
-                )
-            )
+            msg = _('Check commands on host {host} returned unknown error') \
+                .format(host=self.host)
+            raise MountException('{}:\n{}n{}'.format(
+                msg,
+                err,
+                _("Look at 'man backintime' for further instructions")))
 
         inodes = []
 
