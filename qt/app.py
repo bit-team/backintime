@@ -428,7 +428,7 @@ class MainWindow(QMainWindow):
             #     trigger_handler_function,
             #     keyboard shortcuts (type list[str])
             #     tooltip
-            #),
+            # ),
             'act_take_snapshot': (
                 icon.TAKE_SNAPSHOT, _('Take a snapshot'),
                 self.btnTakeSnapshotClicked, ['Ctrl+S'],
@@ -480,6 +480,10 @@ class MainWindow(QMainWindow):
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
                 _('Shut down system after snapshot has finished.')),
+            'act_setup_language': (
+                None, _('Setup language…'),
+                self.slot_setup_language, None,
+                None),
             'act_quit': (
                 icon.EXIT, _('Exit'),
                 self.close, ['Ctrl+Q'],
@@ -596,6 +600,7 @@ class MainWindow(QMainWindow):
 
         menu_dict = {
             'Back In &Time': (
+                self.act_setup_language,
                 self.act_shutdown,
                 self.act_quit,
             ),
@@ -1632,8 +1637,6 @@ files that the receiver requests to be transferred.""")
         # the files-view toolbar.
         self.act_restore_menu.setEnabled(enable)
 
-=======
-
     def _enable_restore_ui_elements(self, enable: bool):
         """Enable or disable all buttons and menu entries related to the
         restore feature.
@@ -1649,7 +1652,6 @@ files that the receiver requests to be transferred.""")
         # the files-view toolbar.
         self.act_restore_menu.setEnabled(enable)
 
->>>>>>> dev
         # This two entries do appear, independed from the sub-menu above, in
         # the context menu of the files view.
         self.act_restore.setEnabled(enable)
