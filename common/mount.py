@@ -597,10 +597,11 @@ class MountControl(object):
 
         except subprocess.CalledProcessError:
             raise MountException(
-                _("Can't unmount {} from {}")
-                .format(self.mountproc, self.currentMountpoint))
+                _("Can't unmount {mountprocess} from {mountpoint}")
+                .format(mountprocess=self.mountproc,
+                        mountpoint=self.currentMountpoint))
 
-    def preMountCheck(self, first_run = False):
+    def preMountCheck(self, first_run=False):
         """
         Check what ever conditions must be given for the mount to be done
         successful. This **can** be overwritten in backends which
@@ -680,13 +681,12 @@ class MountControl(object):
         """
 
         if not tools.checkCommand(self.mountproc):
-            logger.debug('%s is missing' % self.mountproc, self)
+            logger.debug(f'{self.mountproc} is missing', self)
 
             raise MountException(
                 _('{} not found. Please install e.g. {}')
                 .format(self.mountproc,
-                        "'apt-get install %s'" % self.mountproc)
-            )
+                        f"'apt-get install {self.mountproc}'"))
 
     def mounted(self):
         """
