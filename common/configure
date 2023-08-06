@@ -12,23 +12,17 @@ UNINSTALL_DIRS="$(mktemp)"
 
 #set default options
 PYTHON="--python3"
-FUSE_GROUP="--no-fuse-group"
 
 USR_BIN_FILES="backintime backintime-askpass"
-FUSE_FILES="mount.py"
 
 usage () {
     echo "Usage:"
-    echo "$0 [--python | --python3], [--fuse-group | --no-fuse-group]"
+    echo "$0 [--python | --python3]"
     echo ""
     echo "--python"
     echo "\tuse 'python' to start Python3"
     echo "--python3"
     echo "\tuse 'python3' to start Python3"
-    echo "--no-fuse-group"
-    echo "\tdo not check for 'fuse' group membership (if not necessary on destination platform)"
-    echo "--fuse-group"
-    echo "\tmake sure user is in the group 'fuse' to be able to use fuse-based file-systems"
 }
 
 addInstallFiles () {
@@ -120,7 +114,6 @@ unknown_args=""
 for arg in $*; do
     case $arg in
         --python | --python3) PYTHON=$arg;;
-        --fuse-group | --no-fuse-group) FUSE_GROUP=$arg;;
         --help | -h) usage; exit 0;;
         *) unknown_args="$unknown_args $arg";;
     esac
@@ -139,15 +132,6 @@ esac
 sed -e "s/^python3\? /python${PYVERSION} /g" \
     -e "s/^ssh-agent python3\? /ssh-agent python${PYVERSION} /g" \
     -i $USR_BIN_FILES
-
-#patch check for 'fuse' group
-#Some distributions require user to be in group 'fuse' to use sshfs and encfs
-case $FUSE_GROUP in
-    --fuse-group)    CHECKFUSE="True" ;;
-    --no-fuse-group) CHECKFUSE="False";;
-esac
-sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = ${CHECKFUSE}/" \
-    -i $FUSE_FILES
 
 #check languages
 mos=""

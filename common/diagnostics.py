@@ -201,7 +201,7 @@ def _get_qt_information():
 
     # Themes
     theme_info = {}
-    if tools.checkXServer():
+    if tools.checkXServer():  # TODO use tools.is_Qt5_working() when stable
         qapp = PyQt5.QtWidgets.QApplication([])
         theme_info = {
             'Theme': PyQt5.QtGui.QIcon.themeName(),
@@ -245,6 +245,7 @@ def _get_extern_versions(cmd,
     try:
         # as context manager to prevent ResourceWarning's
         with subprocess.Popen(cmd,
+                              env={'LC_ALL': 'C'},
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               universal_newlines=True) as proc:
@@ -257,16 +258,13 @@ def _get_extern_versions(cmd,
     else:
         # Check for errors
         if error_pattern:
-            match = re.findall(error_pattern, error_output)
+            match_result = re.findall(error_pattern, error_output)
 
-            if match:
+            if match_result:
                 return None
 
         # some tools use "stderr" for version info
-        if not std_output:
-            result = error_output
-        else:
-            result = std_output
+        result = std_output if std_output else error_output
 
         # Expect JSON string
         if try_json:
