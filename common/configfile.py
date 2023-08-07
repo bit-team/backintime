@@ -733,7 +733,7 @@ class ConfigFileWithProfiles(ConfigFile):
         profiles = self.profiles()
 
         if len(profiles) <= 1:
-            self.notifyError(_("You can't remove the last profile."))
+            self.notifyError(_("The last profile cannot be removed."))
 
             return False
 
