@@ -127,7 +127,7 @@ def initiate_translation(language_code: str = None):
         languages=[language_code, ] if language_code else None,
         fallback=True
     )
-    translation.install()
+    translation.install(names=['ngettext'])
 
     # Not an ideal solution.
     global _CURRENT_LANGUAGE_CODE
