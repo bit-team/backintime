@@ -9,6 +9,7 @@
   * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
 - [Known Errors and Warnings](#known-errors-and-warnings)
   * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
+  * [The application is already running!](#the-application-is-already-running-pid-1234567)
 - [Error Handling](#error-handling)
   * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
   * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
@@ -126,7 +127,7 @@ call the gui options!`` which will prevent *Back In Time* to remove user defined
 schedules.
 
 ## Known Errors and Warnings
-## WARNING: A backup is already running
+### WARNING: A backup is already running
 _Back In Time_ uses signal files like `worker.lock` to avoid starting the same backup twice.
 Normally it is deleted as soon as the backup finishes. In some case something went wrong
 so that _Back In Time_ was forcefully stopped without having the chance to delete
@@ -142,6 +143,13 @@ ps aux | grep -i backintime
 
 If the output shows a running instance of _Back In Time_ it must be waited until it finishes
 or killed via `kill <process id>`.
+
+### The application is already running! (pid: 1234567)
+This message occurs when _Back In Time_ did not finish regularly and wasn't able
+to delete its application lock file. Before deleting that file make sure
+no backintime process is running via `ps aux | grep -i backintime`. Otherwise
+kill the process. After that lock into the folder
+`~/.local/share/backintime` for the file `app.loc.pid` and delete it.
 
 ## Error Handling
 
