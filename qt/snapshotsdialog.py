@@ -48,7 +48,7 @@ class DiffOptionsDialog(QDialog):
 
         import icon
         self.setWindowIcon(icon.DIFF_OPTIONS)
-        self.setWindowTitle(_('Diff Options'))
+        self.setWindowTitle(_('Options about comparing snapshots'))
 
         self.mainLayout = QGridLayout(self)
 
@@ -139,7 +139,7 @@ class SnapshotsDialog(QDialog):
         menuRestore = QMenu(self)
         action = menuRestore.addAction(icon.RESTORE, _('Restore'))
         action.triggered.connect(self.restoreThis)
-        action = menuRestore.addAction(icon.RESTORE_TO, _('Restore to ...'))
+        action = menuRestore.addAction(icon.RESTORE_TO, _('Restore to …'))
         action.triggered.connect(self.restoreThisTo)
 
         self.btnRestore = self.toolbar.addAction(icon.RESTORE, _('Restore'))
@@ -164,7 +164,7 @@ class SnapshotsDialog(QDialog):
         layout = QHBoxLayout()
         self.mainLayout.addLayout(layout)
 
-        self.btnDiff = QPushButton(_('Diff'), self)
+        self.btnDiff = QPushButton(_('Compare'), self)
         layout.addWidget(self.btnDiff)
         self.btnDiff.clicked.connect(self.btnDiffClicked)
 
@@ -176,7 +176,7 @@ class SnapshotsDialog(QDialog):
         self.btnGoto =   buttonBox.button(QDialogButtonBox.Ok)
         self.btnCancel = buttonBox.button(QDialogButtonBox.Cancel)
         self.btnGoto.setText(_('Go To'))
-        btnDiffOptions = buttonBox.addButton(_('Diff Options'), QDialogButtonBox.HelpRole)
+        btnDiffOptions = buttonBox.addButton(_('Options'), QDialogButtonBox.HelpRole)
         btnDiffOptions.setIcon(icon.DIFF_OPTIONS)
 
         self.mainLayout.addWidget(buttonBox)
@@ -364,14 +364,15 @@ class SnapshotsDialog(QDialog):
             return
 
         elif len(items) == 1:
-            msg = _('Do you really want to delete "{file}" in snapshot '
-                    '"{snapshot_id}"?').format(
-                        file=self.path, snapshot_id=items[0].snapshotID())
+            msg = _('Do you really want to delete {file} in snapshot '
+                    '{snapshot_id}?').format(
+                        file=f'"{self.path}"',
+                        snapshot_id=f'"{items[0].snapshotID()}"')
 
         else:
-            msg = _('Do you really want to delete "{file}" in {count} '
+            msg = _('Do you really want to delete {file} in {count} '
                     'snapshots?').format(
-                        file=self.path, count=len(items))
+                        file=f'"{self.path}"', count=len(items))
 
         msg = '{}\n{}: {}'.format(
             msg, _('WARNING'), _('This cannot be revoked!'))
@@ -390,8 +391,8 @@ class SnapshotsDialog(QDialog):
             thread.start()
 
             exclude = self.config.exclude()
-            msg = _('Exclude "{path}" from future snapshots?').format(
-                path=self.path)
+            msg = _('Exclude {path} from future snapshots?').format(
+                path=f'"{self.path}"')
 
             if self.path not in exclude and QMessageBox.Yes == messagebox.warningYesNo(self, msg):
                 exclude.append(self.path)
