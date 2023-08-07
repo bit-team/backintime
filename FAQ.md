@@ -9,7 +9,7 @@
   * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
 - [Known Errors and Warnings](#known-errors-and-warnings)
   * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
-  * [The application is already running!](#the-application-is-already-running---pid--1234567-)
+  * [The application is already running!](#the-application-is-already-running-pid-1234567)
 - [Error Handling](#error-handling)
   * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
   * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
