@@ -529,10 +529,11 @@ class SettingsDialog(QDialog):
             "<b>{}:</b> {}".format(
                 _("Warning"),
                 _(
-                    "Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored "
+                    "Wildcards ({example1}) will be ignored "
                     "with mode 'SSH encrypted'.\nOnly single or double "
-                    "asterisks are allowed ('foo/*', 'foo/**/bar')"
-                )
+                    "asterisks are allowed ({example2})"
+                ).format(example1="'foo*', '[fF]oo', 'fo?'",
+                         example2="'foo/*', 'foo/**/bar'")
             ),
             self
         )
