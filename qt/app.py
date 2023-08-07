@@ -1755,20 +1755,7 @@ files that the receiver requests to be transferred.""")
     # | Slots |
     # |-------|
     def slot_setup_language(self):
-        print('T'*100)
         dlg = LanguageDialog()
-        # qttools.center_to_screen(dlg)
-        # geo = QApplication.primaryScreen().availableGeometry()
-
-        # rec = dlg.frameGeometry()
-
-        # print(f'{geo=}\n{rec=}')
-        # rec.moveCenter(geo.center())
-        # print(f'moved {rec=}')
-
-        # dlg.move(rec.topLeft())
-        # print(f'new geo {dlg.frameGeometry()}')
-
         dlg.exec()
 
 

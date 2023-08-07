@@ -68,31 +68,38 @@ class LanguageDialog(QDialog):
         r.lang_code = None
         grid.addWidget(r, 1, 1)
 
-        # On low-resolution screens (XGA or less) reduce font size in radio
-        # buttons.
-        if QApplication.primaryScreen().size().width() <=  1024:
-
-            # 80% of regular font size.
-            # Qt do not support % values in CSS
-            css = 'QRadioButton{font-size: ' \
-                + str(int(r.font().pointSize() * 0.8)) \
-                + 'pt;}'
-            wdg.setStyleSheet(css)
-
         # Sort by language code but keep English on top
         langs = tools.get_language_names()
         sorted_codes = sorted(langs.keys())
         sorted_codes.remove('en')
         sorted_codes = ['en'] + sorted_codes
 
-        # 3 columns
-        per_col_n = len(sorted_codes) / 3
+        # Number of columns used for radio buttons
+        number_of_columns = 3
+
+        # Low-resolution screens (XGA or less)
+        if QApplication.primaryScreen().size().width() <= 1024:
+            print(QApplication.primaryScreen().size().width())
+
+            # # Approach A: reduce font size in radio buttons
+            # # 80% of regular font size.
+            # # Qt do not support % values in CSS
+            # css = 'QRadioButton{font-size: ' \
+            #     + str(int(r.font().pointSize() * 0.8)) \
+            #     + 'pt;}'
+            # wdg.setStyleSheet(css)
+
+            # Approach B:
+            # Use one columns less
+            number_of_columns -= 1
+
+        # Calculate number of entries (rows) per column
+        per_col_n = len(sorted_codes) / number_of_columns
         per_col_n = int(per_col_n) + 1
 
         col = 1
         for idx, code in enumerate(sorted_codes, 2):
             names = langs[code]
-            print(f'{code=} {names=}')
 
             try:
                 label = names[0]

@@ -50,26 +50,6 @@ import tools  # noqa: E402
 import logger  # noqa: E402
 
 
-# def center_to_screen(widget: QWidget):
-#     """Move the widget (e.g. window or dialog) to the center of the screen.
-
-#     Args:
-#         widget: The widget to move. E.g. a window or dialog.
-
-#     The center of the available geometry, to be more precise, is used. This
-#     exclude desktop elements like taskbars. The geometry of
-#     `QApplication.primaryScreen()` is used for the calculation.
-
-#     Credits: https://pythonprogramminglanguage.com/pyqt5-center-window
-#     """
-#     geo = QApplication.primaryScreen().availableGeometry()
-#     rec = widget.frameGeometry()
-
-#     rec.moveCenter(geo.center())
-
-#     widget.move(rec.topLeft())
-
-
 def fontBold(font):
     font.setWeight(QFont.Bold)
     return font
@@ -101,8 +81,8 @@ def can_render(string: str, widget: QWidget) -> bool:
     fm = widget.fontMetrics()
 
     for c in string:
-        # print('{} (ord({})): {}'.format(c, ord(c), fm.inFontUcs4(ord(c))))
-        # fm.inFont() is not able to handle 2-byte characters
+        # Convert the unicode character to its integer representation
+        # becuase fm.inFont() is not able to handle 2-byte characters
         if not fm.inFontUcs4(ord(c)):
             return False
 
