@@ -373,7 +373,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 if path == snapshots_path:
                     self.notifyError(
                         '{}\n{}'.format(
-                            _('Profile: "{name}"').format(name=profile_name),
+                            _('Profile: {name}').format(name=f'"{profile_name}"'),
                             _("Backup folder cannot be included.")
                         )
                     )
@@ -384,9 +384,9 @@ class Config(configfile.ConfigFileWithProfiles):
                     if path[: len(snapshots_path2)] == snapshots_path2:
                         self.notifyError(
                             '{}\n{}'.format(
-                                _('Profile: "{name}"').format(
-                                    name=self.currentProfile()),
-                                _("You can't include backup sub-folder.")
+                                _('Profile: {name}').format(
+                                    name=f'"{self.currentProfile()}"'),
+                                _("Backup sub-folder cannot be included.")
                             )
                         )
 
