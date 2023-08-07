@@ -38,7 +38,7 @@ for theme in ('ubuntu-mono-dark', 'gnome', 'breeze', 'breeze dark', 'hicolor', '
 if QIcon.fromTheme('document-save').isNull():
     logger.error("No supported theme installed (missing icons). "
                  "Please consult the project web site for instructions "
-                 "how to fix this!")
+                 "how to fix this.")
 
 # Dev note: Please prefer choosing icons from the freedesktop.org spec
 #           to improve the chance that the icon is available and

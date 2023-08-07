@@ -93,7 +93,7 @@ class LogViewDialog(QDialog):
         self.comboFilter.setCurrentIndex(self.comboFilter.count() - 1)
         self.comboFilter.addItem(_('Errors'), 1)
         self.comboFilter.addItem(_('Changes'), 2)
-        self.comboFilter.addItem(_('Informations'), 3)
+        self.comboFilter.addItem(_('Information'), 3)
 
         #text view
         self.txtLogView = QPlainTextEdit(self)

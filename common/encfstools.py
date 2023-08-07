@@ -126,13 +126,11 @@ class EncFS_mount(MountControl):
         cfg = self.configFile()
 
         if os.path.isfile(cfg):
-            logger.debug('Found encfs config in %s'
-                         %cfg, self)
+            logger.debug(f'Found encfs config in {cfg}', self)
             return True
 
         else:
-            logger.debug('No encfs config in %s'
-                         %cfg, self)
+            logger.debug(f'No encfs config in {cfg}', self)
             msg = _('Config for encrypted folder not found.')
 
             if not self.tmp_mount:
@@ -145,7 +143,7 @@ class EncFS_mount(MountControl):
                 )
 
                 if not self.config.askQuestion(question):
-                    raise MountException('Cancel')
+                    raise MountException(_('Cancel'))
 
                 else:
                     pw = password.Password(self.config)
@@ -154,7 +152,7 @@ class EncFS_mount(MountControl):
                     if self.password == password_confirm:
                         return False
                     else:
-                        raise MountException("Password doesn't match")
+                        raise MountException(_("Password doesn't match"))
 
     def checkVersion(self):
         """
@@ -172,8 +170,8 @@ class EncFS_mount(MountControl):
             if m and Version(m.group(1)) <= Version('1.7.2'):
                 logger.debug('Wrong encfs version %s' % m.group(1), self)
                 raise MountException(
-                    'encfs version 1.7.2 and before has a bug with '
-                    'option --reverse. Please update encfs')
+                    _('encfs version 1.7.2 and before has a bug with '
+                      'option --reverse. Please update encfs'))
 
     def backupConfig(self):
         """
