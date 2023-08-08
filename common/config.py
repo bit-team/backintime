@@ -560,7 +560,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return self.strValue('global.language', '')
 
     def setLanguage(self, language: str):
-        self.setStrValue('globl.language', language)
+        self.setStrValue('global.language', language)
 
     # SSH
     def sshSnapshotsPath(self, profile_id = None):
