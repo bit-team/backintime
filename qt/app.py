@@ -862,6 +862,7 @@ class MainWindow(QMainWindow):
             self.forceWaitLockCounter = 10
 
         busy = self.snapshots.busy()
+
         if busy:
             self.forceWaitLockCounter = 0
             paused = tools.processPaused(self.snapshots.pid())
@@ -875,9 +876,11 @@ class MainWindow(QMainWindow):
 
         message = _('Working:')
         takeSnapshotMessage = self.snapshots.takeSnapshotMessage()
+
         if fake_busy:
             if takeSnapshotMessage is None:
                 takeSnapshotMessage = (0, '…')
+
         elif takeSnapshotMessage is None:
             takeSnapshotMessage = self.lastTakeSnapshotMessage
             if takeSnapshotMessage is None:
@@ -885,19 +888,19 @@ class MainWindow(QMainWindow):
 
         force_update = False
 
-        if fake_busy:
-            if self.btnTakeSnapshot.isEnabled():
-                self.btnTakeSnapshot.setEnabled(False)
+        if fake_busy:  # What is this?
+            if self.act_take_snapshot.isEnabled():
+                self.act_take_snapshot.setEnabled(False)
 
-            if not self.btnStopTakeSnapshot.isVisible():
-                for btn in (self.btnPauseTakeSnapshot,
-                            self.btnResumeTakeSnapshot,
-                            self.btnStopTakeSnapshot):
-                    btn.setEnabled(True)
-            self.btnTakeSnapshot.setVisible(False)
-            self.btnPauseTakeSnapshot.setVisible(not paused)
-            self.btnResumeTakeSnapshot.setVisible(paused)
-            self.btnStopTakeSnapshot.setVisible(True)
+            if not self.act_stop_take_snapshot.isVisible():
+                for action in (self.act_pause_take_snapshot,
+                            self.act_resume_take_snapshot,
+                            self.act_stop_take_snapshot):
+                    action.setEnabled(True)
+            self.act_take_snapshot.setVisible(False)
+            self.act_pause_take_snapshot.setVisible(not paused)
+            self.act_resume_take_snapshot.setVisible(paused)
+            self.act_stop_take_snapshot.setVisible(True)
 
         elif not self.act_take_snapshot.isEnabled():
             force_update = True
@@ -907,7 +910,7 @@ class MainWindow(QMainWindow):
             for action in (self.act_pause_take_snapshot,
                            self.act_resume_take_snapshot,
                            self.act_stop_take_snapshot):
-                btn.setVisible(False)
+                action.setVisible(False)
 
             # TODO: check if there is a more elegant way than always get a
             # new snapshot list which is very expensive (time)
@@ -1095,9 +1098,9 @@ class MainWindow(QMainWindow):
 
     def btnStopTakeSnapshotClicked(self):
         os.kill(self.snapshots.pid(), signal.SIGKILL)
-        self.btnStopTakeSnapshot.setEnabled(False)
-        self.btnPauseTakeSnapshot.setEnabled(False)
-        self.btnResumeTakeSnapshot.setEnabled(False)
+        self.act_stop_take_snapshot.setEnabled(False)
+        self.act_pause_take_snapshot.setEnabled(False)
+        self.act_resume_take_snapshot.setEnabled(False)
         self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
 
     def btnUpdateSnapshotsClicked(self):
@@ -1601,9 +1604,10 @@ files that the receiver requests to be transferred.""")
 
             # TODO: find a signal for this
             self.dirListerCompleted()
+
         else:
             self._enable_restore_ui_elements(False)
-            self.btnSnapshots.setEnabled(False)
+            self.act_snapshots_dialog.setEnabled(False)
             self.stackFilesView.setCurrentWidget(self.lblFolderDontExists)
 
         # show current path
