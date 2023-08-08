@@ -192,6 +192,9 @@ class Config(configfile.ConfigFileWithProfiles):
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__(self, config_path=None, data_path=None):
+        # Note: The main profiles name here is translated using the systems
+        # current locale because the language code in the config file wasn't
+        # read yet.
         configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
 
         self._APP_PATH = tools.backintimePath()
@@ -326,7 +329,10 @@ class Config(configfile.ConfigFileWithProfiles):
         self.inhibitCookie = None
         self.setupUdev = tools.SetupUdev()
 
-        tools.initiate_translation()
+        tools.initiate_translation(self.language())
+
+        # Workaround
+        self.default_profile_name = _('Main profile')
 
     def save(self):
         self.setIntValue('config.version', self.CONFIG_VERSION)
@@ -545,6 +551,16 @@ class Config(configfile.ConfigFileWithProfiles):
     def incrementHashCollision(self):
         value = self.hashCollision() + 1
         self.setIntValue('global.hash_collision', value)
+
+    def language(self) -> str:
+        #?Language code (ISO 639) used to translate the user interface.
+        #?If empty the operating systems current local is used. If 'en' the
+        #?translation is not active and the original English source strings
+        #?are used. It is the same if the value is unknown.
+        return self.strValue('global.language', '')
+
+    def setLanguage(self, language: str):
+        self.setStrValue('globl.language', language)
 
     # SSH
     def sshSnapshotsPath(self, profile_id = None):
