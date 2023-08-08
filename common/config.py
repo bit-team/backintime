@@ -44,6 +44,8 @@ except ImportError:
 # Workaround: Mostly relevant on TravisCI but not exclusivley.
 # While unittesting and without regular invocation of BIT the GNU gettext
 # class-based API isn't setup yet.
+# The bigger problem with config.py is that it do use translatebale strings.
+# Strings like this do not belong into a config file or its context.
 try:
     _('Foo')
 except NameError:
@@ -92,26 +94,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     DISK_UNIT_MB = 10
     DISK_UNIT_GB = 20
-
-    SCHEDULE_MODES = {
-                NONE: _('Disabled'),
-                AT_EVERY_BOOT: _('At every boot/reboot'),
-                _5_MIN: _('Every {n} minutes').format(n=5),
-                _10_MIN: _('Every {n} minutes').format(n=10),
-                _30_MIN: _('Every {n} minutes').format(n=30),
-                _1_HOUR: _('Every hour'),
-                _2_HOURS: _('Every {n} hours').format(n=2),
-                _4_HOURS: _('Every {n} hours').format(n=4),
-                _6_HOURS: _('Every {n} hours').format(n=6),
-                _12_HOURS: _('Every {n} hours').format(n=12),
-                CUSTOM_HOUR: _('Custom Hours'),
-                DAY: _('Every Day'),
-                REPEATEDLY: _('Repeatedly (anacron)'),
-                UDEV: _('When drive gets connected (udev)'),
-                WEEK: _('Every Week'),
-                MONTH: _('Every Month'),
-                YEAR: _('Every Year')
-                }
 
     REMOVE_OLD_BACKUP_UNITS = {
                 DAY: _('Day(s)'),
@@ -391,8 +373,8 @@ class Config(configfile.ConfigFileWithProfiles):
                 if path == snapshots_path:
                     self.notifyError(
                         '{}\n{}'.format(
-                            _('Profile: "{name}"').format(name=profile_name),
-                            _("You can't include backup folder!")
+                            _('Profile: {name}').format(name=f'"{profile_name}"'),
+                            _("Backup folder cannot be included.")
                         )
                     )
 
@@ -402,9 +384,9 @@ class Config(configfile.ConfigFileWithProfiles):
                     if path[: len(snapshots_path2)] == snapshots_path2:
                         self.notifyError(
                             '{}\n{}'.format(
-                                _('Profile: "{name}"').format(
-                                    name=self.currentProfile()),
-                                _("You can't include backup sub-folder!")
+                                _('Profile: {name}').format(
+                                    name=f'"{self.currentProfile()}"'),
+                                _("Backup sub-folder cannot be included.")
                             )
                         )
 
@@ -462,16 +444,16 @@ class Config(configfile.ConfigFileWithProfiles):
             mode = self.snapshotsMode(profile_id)
 
         if not os.path.isdir(value):
-            self.notifyError(_('{path} is not a folder !').format(path=value))
+            self.notifyError(_('Invalid option. {path} is not a folder.').format(path=value))
             return False
 
-        #Initialize the snapshots folder
+        # Initialize the snapshots folder
         logger.debug("Check snapshot folder: %s" % value, self)
 
         host, user, profile = self.hostUserProfile(profile_id)
 
         if not all((host, user, profile)):
-            self.notifyError(_('Host/User/Profile-ID must not be empty!'))
+            self.notifyError(_('Host/User/Profile-ID must not be empty.'))
             return False
 
         full_path = os.path.join(value, 'backintime', host, user, profile)
@@ -1642,9 +1624,10 @@ class Config(configfile.ConfigFileWithProfiles):
         cron_line = ''
         profile_name = self.profileName(profile_id)
         backup_mode = self.scheduleMode(profile_id)
-        logger.debug("Profile: %s | Automatic backup: %s"
-                     %(profile_name, self.SCHEDULE_MODES[backup_mode]),
-                     self)
+
+        logger.debug(
+            f"Profile: {profile_name} | Automatic backup: {backup_mode}",
+            self)
 
         if self.NONE == backup_mode:
             return cron_line
@@ -1714,10 +1697,9 @@ class Config(configfile.ConfigFileWithProfiles):
                 uuid = self.profileStrValue('snapshots.path.uuid', '', profile_id)
                 if not uuid:
                     logger.error(
-                        'Couldn\'t find UUID for "%s"' % dest_path, self)
-                    self.notifyError(_(
-                        "Couldn't find UUID for \"{path}\"'")
-                        .format(path=dest_path))
+                        "Couldn't find UUID for \"{dest_path}\"", self)
+                    self.notifyError(_("Couldn't find UUID for {path}")
+                                     .format(path=f'"{dest_path}"'))
                     return False
             else:
                 #cache uuid in config

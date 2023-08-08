@@ -358,7 +358,37 @@ class SettingsDialog(QDialog):
 
         self.comboSchedule = QComboBox(self)
         glayout.addWidget(self.comboSchedule, 0, 0, 1, 2)
-        self.fillCombo(self.comboSchedule, self.config.SCHEDULE_MODES)
+
+        # import gettext
+        # Regular schedule modes for that combo box
+        schedule_modes_dict = {
+            config.Config.NONE: _('Disabled'),
+            config.Config.AT_EVERY_BOOT: _('At every boot/reboot'),
+            config.Config._5_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 5).format(n=5),
+            config.Config._10_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 10).format(n=10),
+            config.Config._30_MIN: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 30).format(n=30),
+            config.Config._1_HOUR: _('Every hour'),
+            config.Config._2_HOURS: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 2).format(n=2),
+            config.Config._4_HOURS: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 4).format(n=4),
+            config.Config._6_HOURS: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 6).format(n=6),
+            config.Config._12_HOURS: ngettext(
+                'Every {n} minute', 'Every {n} minutes', 12).format(n=12),
+            config.Config.CUSTOM_HOUR: _('Custom Hours'),
+            config.Config.DAY: _('Every Day'),
+            config.Config.REPEATEDLY: _('Repeatedly (anacron)'),
+            config.Config.UDEV: _('When drive gets connected (udev)'),
+            config.Config.WEEK: _('Every Week'),
+            config.Config.MONTH: _('Every Month'),
+            config.Config.YEAR: _('Every Year')
+        }
+
+        self.fillCombo(self.comboSchedule, schedule_modes_dict)
 
         self.lblScheduleDay = QLabel(_('Day') + ':', self)
         self.lblScheduleDay.setContentsMargins(5, 0, 0, 0)
@@ -499,10 +529,11 @@ class SettingsDialog(QDialog):
             "<b>{}:</b> {}".format(
                 _("Warning"),
                 _(
-                    "Wildcards ('foo*', '[fF]oo', 'fo?') will be ignored "
+                    "Wildcards ({example1}) will be ignored "
                     "with mode 'SSH encrypted'.\nOnly single or double "
-                    "asterisks kare allowed ('foo/*', 'foo/**/bar')"
-                )
+                    "asterisks are allowed ({example2})"
+                ).format(example1="'foo*', '[fF]oo', 'fo?'",
+                         example2="'foo/*', 'foo/**/bar'")
             ),
             self
         )
@@ -649,7 +680,7 @@ class SettingsDialog(QDialog):
 
         self.cbSmartRemoveRunRemoteInBackground = QCheckBox(
             '{} {}!'.format(
-                _('Run in background on remote Host.'),
+                _('Run in background on remote host.'),
                 _('EXPERIMENTAL')
             ),
             self)
@@ -674,7 +705,7 @@ class SettingsDialog(QDialog):
         self.spbKeepOnePerWeek = QSpinBox(self)
         self.spbKeepOnePerWeek.setRange(1, 10000)
         smlayout.addWidget(self.spbKeepOnePerWeek, 3, 1)
-        smlayout.addWidget(QLabel(_('weeks(s)'), self), 3, 2)
+        smlayout.addWidget(QLabel(_('week(s)'), self), 3, 2)
 
         smlayout.addWidget(
             QLabel(_('Keep one snapshot per month for the last'), self), 4, 0)
@@ -753,7 +784,7 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.cbUseChecksum)
 
         self.cbTakeSnapshotRegardlessOfChanges = QCheckBox(
-            _('Take a new snapshot wethere there were changes or not.'))
+            _('Take a new snapshot whether there were changes or not.'))
         layout.addWidget(self.cbTakeSnapshotRegardlessOfChanges)
 
         # log level
@@ -985,8 +1016,9 @@ class SettingsDialog(QDialog):
         hlayout.addWidget(self.cbRsyncOptions)
         self.txtRsyncOptions = QLineEdit(self)
         self.txtRsyncOptions.setToolTip(
-            _('Options must be quoted e.g. '
-              '--exclude-from="/path/to/my exclude file".'))
+            _('Options must be quoted e.g. {example}.')
+            .format(example='--exclude-from="/path/to/my exclude file"')
+        )
         hlayout.addWidget(self.txtRsyncOptions)
 
         enabled = lambda state: self.txtRsyncOptions.setEnabled(state)
@@ -1133,8 +1165,9 @@ class SettingsDialog(QDialog):
         self.updateProfiles(reloadSettings=False)
 
     def removeProfile(self):
-        question = _('Are you sure you want to delete the profile "%s" ?') \
-            % self.config.profileName()
+        question = _('Are you sure you want to delete '
+                     'the profile "{name}"?').format(
+                         name=self.config.profileName())
 
         if self.questionHandler(question):
             self.config.removeProfile()
@@ -1912,7 +1945,7 @@ class SettingsDialog(QDialog):
             if old_path and old_path != path:
 
                 question = _('Are you sure you want to change '
-                             'snapshots folder ?')
+                             'snapshots folder?')
                 if not self.questionHandler(question):
                     return
 
