@@ -67,7 +67,7 @@ import logger
 import bcolors
 from applicationinstance import ApplicationInstance
 from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
-from languages import language_names
+import languages
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
@@ -120,7 +120,7 @@ def initiate_translation(language_code: str):
     if language_code:
         logger.debug(f'Language code "{language_code}".')
     else:
-        logger.debug(f'No language code. Use systems current locale.')
+        logger.debug('No language code. Use systems current locale.')
 
     translation = gettext.translation(
         domain=_GETTEXT_DOMAIN,
@@ -135,7 +135,8 @@ def get_available_language_codes() -> list[str]:
     """Return language codes available in the current installation.
 
     The filesystem is searched for ``backintime.mo`` files and the language
-    code is extracted from the full path of that files.
+    code is extracted from the full path of that files. Not the whole
+    filesystem but
 
     Return:
         List of language codes.
@@ -160,35 +161,45 @@ def get_available_language_codes() -> list[str]:
 
     pofiles = _GETTEXT_LOCALE_DIR.rglob(str(po))
 
-
-
     return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in pofiles]
 
 
-def get_language_names() -> dict[tuple[str, str, str]]:
+def get_language_names(language_code: str) -> dict[tuple[str, str, str]]:
     """Return a list with language names in three different flavours.
 
     Language codes from `get_available_language_codes()` are combined with
     `languages.language_names` to prepare the list.
 
+    Args:
+        language_code: Usually the current language used by Back In Time.
+
     Returns:
         A dictionary indexed by language codes with 3-item tuples as
-        values. Each tuple contain the language name current locales language,
-        native language and in English; e.g. ``ja`` for ``de`` locale
-        ``('Japanisch', '日本語', 'Japanese')``.
+        values. Each tuple contain three representations of the same language:
+        ``language_code`` (usually the current locales language),
+        the language itself (native) and in English (the source language);
+        e.g. ``ja`` (Japanese) for ``de`` (German) locale
+        is ``('Japanisch', '日本語', 'Japanese')``.
     """
     result = {}
     codes = ['en'] + get_available_language_codes()
 
     for c in codes:
+
         try:
-            lang = language_names[c]
+            # A dict with one specific language and how its name is
+            # represented in all other languages.
+            # e.g. "Japanese" in "de" is "Japanisch"
+            # e.g. "Deutsch" in "es" is "alemán"
+            lang = languages.names[c]
+
         except KeyError:
             names = None
+
         else:
             names = (
                 # in currents locale language
-                lang[_CURRENT_LANGUAGE_CODE],
+                lang[language_code],
                 # native
                 lang['_native'],
                 # in English (source language)

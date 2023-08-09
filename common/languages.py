@@ -2,7 +2,7 @@
 # https://babel.pocoo.org
 # https://github.com/python-babel/babel
 
-language_names = {
+names = {
    'ar': {   '_native': 'العربية',
               'ar': 'العربية',
               'bg': 'арабски',

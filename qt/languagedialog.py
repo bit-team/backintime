@@ -17,7 +17,7 @@ import qttools
 
 
 class LanguageDialog(QDialog):
-    def __init__(self):
+    def __init__(self, current_language_code: str):
         super().__init__()
 
         self.setWindowTitle(_('Language selection'))
@@ -28,7 +28,7 @@ class LanguageDialog(QDialog):
         # scroll.setFrameStyle(QFrame.NoFrame)
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setWidget(self._language_widget())
+        scroll.setWidget(self._language_widget(current_language_code))
         self._scroll = scroll
 
         # Fit the width of scrollarea to its content
@@ -53,7 +53,7 @@ class LanguageDialog(QDialog):
 
         return widget_width + scrollbar_width
 
-    def _language_widget(self):
+    def _language_widget(self, current_language_code: str):
         """
         nativ | ownlocal -> tooltip: english (code)
         """
@@ -69,7 +69,7 @@ class LanguageDialog(QDialog):
         grid.addWidget(r, 1, 1)
 
         # Sort by language code but keep English on top
-        langs = tools.get_language_names()
+        langs = tools.get_language_names(current_language_code)
         sorted_codes = sorted(langs.keys())
         sorted_codes.remove('en')
         sorted_codes = ['en'] + sorted_codes
