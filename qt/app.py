@@ -1752,7 +1752,7 @@ files that the receiver requests to be transferred.""")
     # | Slots |
     # |-------|
     def slot_setup_language(self):
-        dlg = LanguageDialog(self.config.language())
+        dlg = LanguageDialog(self.config.language_used)
         dlg.exec()
 
 

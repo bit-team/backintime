@@ -1,4 +1,4 @@
-import gettext
+import locale
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
@@ -6,10 +6,7 @@ from PyQt5.QtWidgets import (QApplication,
                              QScrollArea,
                              QGridLayout,
                              QVBoxLayout,
-                             QFrame,
                              QDialogButtonBox,
-                             QLabel,
-                             QPushButton,
                              QRadioButton,
                              )
 import tools
@@ -62,10 +59,15 @@ class LanguageDialog(QDialog):
         wdg.setLayout(grid)
 
         # Entry: System default language
-        r = QRadioButton(
-            'System default | {}'.format(_('System default')), self)
-        r.setToolTip('X')
+        label = 'System default'
+        translated_label = _(label)
+        if label != translated_label:
+            label = f'| {translated_label}'
+
+        r = QRadioButton(label, self)
+        r.setToolTip(_('Use operating systems language settings.'))
         r.lang_code = None
+        r.setChecked(True)
         grid.addWidget(r, 1, 1)
 
         # Sort by language code but keep English on top
@@ -119,6 +121,14 @@ class LanguageDialog(QDialog):
             r.setToolTip(tooltip)
             r.toggled.connect(self.slot_radio)
             r.lang_code = code
+
+            # Does this radio button reflect the current used language code?
+            if r.lang_code == current_language_code:
+                # Check this radio button only if its language code is NOT
+                # the current systems locale. Because that is represented
+                # by another (the first) radio button.
+                if not locale.getdefaultlocale()[0].startswith(r.lang_code):
+                    r.setChecked(True)
 
             row = idx - ((col - 1) * per_col_n)
             if row > per_col_n:

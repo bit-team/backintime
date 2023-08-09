@@ -105,11 +105,63 @@ _GETTEXT_DOMAIN = 'backintime'
 _GETTEXT_LOCALE_DIR = pathlib.Path(sharePath()) / 'locale'
 
 
+def _determine_current_used_language_code(
+        translation: gettext.NullTranslations,
+        language_code: str) -> str:
+    """Return the language code used by GNU gettext for real.
+
+    Args:
+        translation: The translation insta
+
+    The used language code can differ from the one in Back In Times config
+    file and from the current systems locale.
+
+    It is necessary because of situations where the language is not explicit
+    setup in Back In Time config file and GNU gettext do try to find and use a
+    language file for the current systems locale. But even this can fail and
+    the fallback (source language "en") is used or an alternative locale.
+    """
+
+    try:
+        # The field "language" is rooted in header of the po-file.
+        current_used_language_code = translation.info()['language']
+
+    except KeyError:
+        # Workaround:
+        # BIT versions 1.3.3 or older don't have the "language" field in the
+        # header of their po-files.
+
+        # The approach is to extract the language code from the full filepath
+        # of the currently used mo-file.
+
+        # Get the filepath of the used mo-file
+        mo_file_path = gettext.find(
+            domain=_GETTEXT_DOMAIN,
+            localedir=_GETTEXT_LOCALE_DIR,
+            languages=[language_code, ] if language_code else None,
+        )
+
+        # Extract the language code form that path
+        if mo_file_path:
+            mo_file_path = pathlib.Path(mo_file_path)
+            # e.g /usr/share/locale/de/LC_MESSAGES/backintime.mo
+            #                       ^^
+            current_used_language_code = mo_file_path.relative_to(
+                _GETTEXT_LOCALE_DIR).parts[0]
+
+        else:
+            # Workaround: Happens when LC_ALL=C, which in BIT context mean
+            # its source language in English.
+            current_used_language_code = 'en'
+
+    return current_used_language_code
+
+
 def initiate_translation(language_code: str):
     """Initiate Class-based API of GNU gettext.
 
     Args:
-        language_code: Language code to use (based on ISO-639-1).
+        language_code: Language code to use (based on ISO-639).
 
     It installs the ``_()`` (and ``ngettext()`` for plural forms)  in the
     ``builtins`` namespace and eliminates the need to ``import gettext``
@@ -129,6 +181,8 @@ def initiate_translation(language_code: str):
         fallback=True
     )
     translation.install(names=['ngettext'])
+
+    return _determine_current_used_language_code(translation, language_code)
 
 
 def get_available_language_codes() -> list[str]:

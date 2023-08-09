@@ -329,7 +329,13 @@ class Config(configfile.ConfigFileWithProfiles):
         self.inhibitCookie = None
         self.setupUdev = tools.SetupUdev()
 
-        tools.initiate_translation(self.language())
+        language_used = tools.initiate_translation(self.language())
+
+        # Development note (2023-08 by buhtz):
+        # Not the best location for a variable like this.
+        self.language_used = language_used
+        """ISO-639 language code of the used language. See
+        `tools._determine_current_used_language_code()` for details."""
 
         # Workaround
         self.default_profile_name = _('Main profile')
