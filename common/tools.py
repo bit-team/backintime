@@ -134,7 +134,6 @@ def initiate_translation(language_code: str):
     )
     translation.install(names=['ngettext'])
 
-<<<<<<< HEAD
     # Not an ideal solution.
     global _CURRENT_LANGUAGE_CODE
 
