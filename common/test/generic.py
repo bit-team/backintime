@@ -34,7 +34,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import logger
 import tools
 # Needed because backintime.startApp() is not invoked.
-tools.initiate_translation()
+tools.initiate_translation(None)
 import config
 import snapshots
 

@@ -148,7 +148,7 @@ or killed via `kill <process id>`.
 This message occurs when _Back In Time_ did not finish regularly and wasn't able
 to delete its application lock file. Before deleting that file make sure
 no backintime process is running via `ps aux | grep -i backintime`. Otherwise
-kill the process. After that lock into the folder
+kill the process. After that look into the folder
 `~/.local/share/backintime` for the file `app.loc.pid` and delete it.
 
 ## Error Handling

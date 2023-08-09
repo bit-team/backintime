@@ -106,20 +106,25 @@ _GETTEXT_LOCALE_DIR = pathlib.Path(sharePath()) / 'locale'
 CURRENT_LANGUAGE_CODE = None
 
 
-def initiate_translation(language_code: str = None):
+def initiate_translation(language_code: str):
     """Initiate Class-based API of GNU gettext.
-
-    It installs the ``_()`` in the ``builtins`` namespace and eliminates the
-    need to ``import gettext`` and declare ``_()`` in each module. The systems
-    current local is used if no language code is provided.
 
     Args:
         language_code: Language code to use (based on ISO-639-1).
 
     Returns:
         The current used language code.
+
+    It installs the ``_()`` (and ``ngettext()`` for plural forms)  in the
+    ``builtins`` namespace and eliminates the need to ``import gettext``
+    and declare ``_()`` in each module. The systems current local is used
+    if the language code is None.
     """
-    # language_code = 'ja'  # DEBUG
+
+    if language_code:
+        logger.debug(f'Language code "{language_code}".')
+    else:
+        logger.debug(f'No language code. Use systems current locale.')
 
     translation = gettext.translation(
         domain=_GETTEXT_DOMAIN,
@@ -129,6 +134,7 @@ def initiate_translation(language_code: str = None):
     )
     translation.install(names=['ngettext'])
 
+<<<<<<< HEAD
     # Not an ideal solution.
     global _CURRENT_LANGUAGE_CODE
 
@@ -228,6 +234,10 @@ def get_language_names() -> dict[tuple[str, str, str]]:
         result[c] = names
 
     return result
+=======
+    # logger.debug('Translate test: "{}" -> "{}"'
+    #              .format('Disabled', _('Disabled')))
+>>>>>>> dev
 
 
 # |------------------------------------|
