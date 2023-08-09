@@ -542,9 +542,6 @@ class MainWindow(QMainWindow):
             'act_snapshots_dialog': (
                 icon.SNAPSHOTS, _('Compare snapshots…'),
                 self.btnSnapshotsClicked, None, None),
-            # 'act_select_language': (
-            #     None, _('Setup language'),
-            #     self.slot_setup_language, None, None),
         }
 
         for attr in action_dict:
