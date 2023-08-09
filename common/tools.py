@@ -134,37 +134,6 @@ def initiate_translation(language_code: str):
     )
     translation.install(names=['ngettext'])
 
-    # Not an ideal solution.
-    global _CURRENT_LANGUAGE_CODE
-
-    try:
-        # This variable "language" was set in the header the po-file
-        _CURRENT_LANGUAGE_CODE = translation.info()['language']
-    except KeyError:
-        # Workaround:
-        # BIT versions 1.3.3 or older don't have the "language" variable.
-
-        # Extract the language code from the full filepath of the currently
-        # used mo-file.
-        mo_file_path = gettext.find(
-            domain=_GETTEXT_DOMAIN,
-            localedir=_GETTEXT_LOCALE_DIR,
-            languages=[language_code, ] if language_code else None,
-        )
-
-        if mo_file_path:
-            mo_file_path = pathlib.Path(mo_file_path)
-            # e.g /usr/share/locale/de/LC_MESSAGES/backintime.mo
-            #                       ^^
-            _CURRENT_LANGUAGE_CODE = mo_file_path.relative_to(
-                _GETTEXT_LOCALE_DIR).parts[0]
-        else:
-            # Workaround: Happens when LC_ALL=C, which in BIT context men
-            # its source language in English.
-            _CURRENT_LANGUAGE_CODE = 'en'
-
-    return _CURRENT_LANGUAGE_CODE
-
 
 def get_available_language_codes() -> list[str]:
     """Return language codes available in the current installation.
