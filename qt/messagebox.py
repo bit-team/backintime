@@ -20,10 +20,10 @@ from PyQt5.QtWidgets import QApplication, QMessageBox, QInputDialog, QLineEdit,\
 import qttools
 
 
-def askPasswordDialog(parent, title, prompt, timeout = None):
+def askPasswordDialog(parent, title, prompt, language_code, timeout):
     if parent is None:
         app = qttools.createQApplication()
-        translator = qttools.translator()
+        translator = qttools.initate_translator(language_code)
         app.installTranslator(translator)
 
     import icon

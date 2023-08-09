@@ -55,7 +55,7 @@ class QtSysTrayIcon:
                                %sys.argv[1], self)
 
         self.qapp = qttools.createQApplication(self.config.APP_NAME)
-        translator = qttools.translator()
+        translator = qttools.initiate_translator(self.config.language())
         self.qapp.installTranslator(translator)
         self.qapp.setQuitOnLastWindowClosed(False)
 

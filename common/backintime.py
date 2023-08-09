@@ -27,7 +27,7 @@ import json
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
-tools.initiate_translation()
+tools.initiate_translation(None)
 
 import config
 import logger

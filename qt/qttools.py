@@ -263,7 +263,7 @@ def createQApplication(app_name='Back In Time'):
     return qapp
 
 
-def translator(language_code: str = None) -> QTranslator:
+def initiate_translator(language_code: str) -> QTranslator:
     """Creating an Qt related translator.
 
     Args:
@@ -271,16 +271,27 @@ def translator(language_code: str = None) -> QTranslator:
 
     This is done beside the primarily used GNU gettext because Qt need to
     translate its own default elements like Yes/No-buttons. The systems
-    current local is used when no language code is provided.
+    current local is used when no language code is provided. Translation is
+    deactivated if language code is unknown.
     """
 
     translator = QTranslator()
 
-    if not language_code:
+    if language_code:
+        logger.debug(f'Language code "{language_code}".')
+    else:
+        logger.debug(f'No language code. Use systems current locale.')
         language_code = QLocale.system().name()
 
-    translator.load(f'qt_{language_code}',
-                    QLibraryInfo.location(QLibraryInfo.TranslationsPath))
+    rc = translator.load(
+        f'qt_{language_code}',
+        QLibraryInfo.location(QLibraryInfo.TranslationsPath))
+
+    if rc == False:
+        logger.warning(
+            'PyQt was not able to install a translator for language code '
+            f'"{language_code}". Deactivate translation and falling back to '
+            'the source language (English).')
 
     return translator
 

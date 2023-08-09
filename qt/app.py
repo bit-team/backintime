@@ -34,7 +34,7 @@ qttools_path.registerBackintimePath('common')
 
 # Workaround until the codebase is rectified/equalized.
 import tools
-tools.initiate_translation()
+tools.initiate_translation(None)
 
 import qttools
 
@@ -1900,7 +1900,7 @@ if __name__ == '__main__':
 
     logger.openlog()
     qapp = qttools.createQApplication(cfg.APP_NAME)
-    translator = qttools.translator()
+    translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)
 
     mainWindow = MainWindow(cfg, appInstance, qapp)

@@ -264,9 +264,13 @@ class Password(object):
                 password = ''
             return password
 
-        password = messagebox.askPasswordDialog(parent, self.config.APP_NAME,
-                    prompt = prompt,
-                    timeout = 300)
+        password = messagebox.askPasswordDialog(
+            parent=parent,
+            title=self.config.APP_NAME,
+            prompt=prompt,
+            language_code=self.config.language(),
+            timeout=300)
+
         return password
 
     def setPasswordDb(self, service_name, user_name, password):
