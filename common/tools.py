@@ -103,7 +103,6 @@ def sharePath():
 # |---------------------------------------------------|
 _GETTEXT_DOMAIN = 'backintime'
 _GETTEXT_LOCALE_DIR = pathlib.Path(sharePath()) / 'locale'
-CURRENT_LANGUAGE_CODE = None
 
 
 def initiate_translation(language_code: str):
@@ -111,9 +110,6 @@ def initiate_translation(language_code: str):
 
     Args:
         language_code: Language code to use (based on ISO-639-1).
-
-    Returns:
-        The current used language code.
 
     It installs the ``_()`` (and ``ngettext()`` for plural forms)  in the
     ``builtins`` namespace and eliminates the need to ``import gettext``
