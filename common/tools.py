@@ -233,10 +233,6 @@ def get_language_names() -> dict[tuple[str, str, str]]:
         result[c] = names
 
     return result
-=======
-    # logger.debug('Translate test: "{}" -> "{}"'
-    #              .format('Disabled', _('Disabled')))
->>>>>>> dev
 
 
 # |------------------------------------|
