@@ -68,15 +68,15 @@ def setFontNormal(widget):
     widget.setFont(fontNormal(widget.font()))
 
 
-def can_render(string: str, widget: QWidget) -> bool:
+def can_render(string, widget):
     """Check if the string can be rendered by the font used by the widget.
 
     Args:
-        string: The string to check.
-        widget: The widget which font is used.
+        string(str): The string to check.
+        widget(QWidget): The widget which font is used.
 
     Returns:
-        True if the widgets font contain all givin characters.
+        (bool) True if the widgets font contain all givin characters.
     """
     fm = widget.fontMetrics()
 

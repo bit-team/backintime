@@ -105,13 +105,12 @@ _GETTEXT_DOMAIN = 'backintime'
 _GETTEXT_LOCALE_DIR = pathlib.Path(sharePath()) / 'locale'
 
 
-def _determine_current_used_language_code(
-        translation: gettext.NullTranslations,
-        language_code: str) -> str:
+def _determine_current_used_language_code(translation, language_code):
     """Return the language code used by GNU gettext for real.
 
     Args:
-        translation: The translation insta
+        translation(gettext.NullTranslations): The translation installed.
+        language_code(str): Configured language code.
 
     The used language code can differ from the one in Back In Times config
     file and from the current systems locale.
@@ -157,11 +156,11 @@ def _determine_current_used_language_code(
     return current_used_language_code
 
 
-def initiate_translation(language_code: str):
+def initiate_translation(language_code):
     """Initiate Class-based API of GNU gettext.
 
     Args:
-        language_code: Language code to use (based on ISO-639).
+        language_code(str): Language code to use (based on ISO-639).
 
     It installs the ``_()`` (and ``ngettext()`` for plural forms)  in the
     ``builtins`` namespace and eliminates the need to ``import gettext``
@@ -185,7 +184,7 @@ def initiate_translation(language_code: str):
     return _determine_current_used_language_code(translation, language_code)
 
 
-def get_available_language_codes() -> list[str]:
+def get_available_language_codes():
     """Return language codes available in the current installation.
 
     The filesystem is searched for ``backintime.mo`` files and the language
@@ -218,14 +217,14 @@ def get_available_language_codes() -> list[str]:
     return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in pofiles]
 
 
-def get_language_names(language_code: str) -> dict[tuple[str, str, str]]:
+def get_language_names(language_code):
     """Return a list with language names in three different flavours.
 
     Language codes from `get_available_language_codes()` are combined with
     `languages.language_names` to prepare the list.
 
     Args:
-        language_code: Usually the current language used by Back In Time.
+        language_code (str): Usually the current language used by Back In Time.
 
     Returns:
         A dictionary indexed by language codes with 3-item tuples as
