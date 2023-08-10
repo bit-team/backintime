@@ -62,12 +62,11 @@ class LanguageDialog(QDialog):
         print(f'{r.lang_code=} {self.used_language_code=} {self.configured_language_code=}')
 
         # Does this radio button reflect the current used language code?
-        if r.lang_code == self.used_language_code:
-            # Check this radio button only if its language code is NOT
-            # the current systems locale. Because that is represented
-            # by another (the first) radio button.
-            if not locale.getdefaultlocale()[0].startswith(r.lang_code):
-                r.setChecked(True)
+        if r.lang_code == self.used_language_code and r.lang_code == self.configured_language_code:
+            # # Check this radio button only if its language code is NOT
+            # # the current systems locale.
+            # if not locale.getdefaultlocale()[0].startswith(r.lang_code):
+            r.setChecked(True)
 
         # "System default"
         elif self.configured_language_code == '' and r.lang_code == None:
