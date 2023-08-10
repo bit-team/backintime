@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import io
+import datetime
 import pprint
 from pathlib import Path
 from subprocess import run, check_output
@@ -186,7 +187,7 @@ def create_language_names_dict_in_file(language_codes: list) -> str:
 
         # Name of the language in all other foreign languages
         # e.g. Japanese, Japanisch, ...
-        for c in lang_codes:
+        for c in language_codes:
             result[code][c] = lang.get_display_name(c)
 
     # Convert dict to python code as a string
@@ -215,7 +216,12 @@ def update_language_names():
 
     # Some languages missing in the list of language names?
     from common import languages
-    missing_langs = set(langs) - set(languages.names)
+
+    try:
+        missing_langs = set(langs) - set(languages.names)
+    except AttributeError:
+        # Under circumstances the languages file is empty
+        missing_langs = ['foo']
 
     if missing_langs:
         print('Create new language name list because of missing '
