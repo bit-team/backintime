@@ -188,8 +188,7 @@ def get_available_language_codes():
     """Return language codes available in the current installation.
 
     The filesystem is searched for ``backintime.mo`` files and the language
-    code is extracted from the full path of that files. Not the whole
-    filesystem but
+    code is extracted from the full path of that files.
 
     Return:
         List of language codes.

@@ -1624,24 +1624,12 @@ files that the receiver requests to be transferred.""")
         # update folder_up button state
         self.act_folder_up.setEnabled(len(self.path) > 1)
 
-    def _enable_restore_ui_elements(self, enable: bool):
+    def _enable_restore_ui_elements(self, enable):
         """Enable or disable all buttons and menu entries related to the
         restore feature.
 
-        If a sepcific snapshot is selected in the timeline widget then all
-        restore UI elements are enabled. If "Now" (the first/root) is selected
-        in the timeline all UI elements related to restoring should be
-        disabled.
-        """
-
-        # The whole sub-menu incl. its button/entry. The related UI elements
-        # are the "Restore" entry in the main-menu and the toolbar button in
-        # the files-view toolbar.
-        self.act_restore_menu.setEnabled(enable)
-
-    def _enable_restore_ui_elements(self, enable: bool):
-        """Enable or disable all buttons and menu entries related to the
-        restore feature.
+        Args:
+            enable(bool): Enable or diasable.
 
         If a sepcific snapshot is selected in the timeline widget then all
         restore UI elements are enabled. If "Now" (the first/root) is selected
