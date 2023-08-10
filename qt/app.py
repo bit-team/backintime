@@ -1754,6 +1754,12 @@ files that the receiver requests to be transferred.""")
     def slot_setup_language(self):
         dlg = LanguageDialog(self.config.language_used)
         dlg.exec()
+        if dlg.result() == 1:
+            self.config.setLanguage(dlg.language_code)
+
+            # How to send notify message (systray bubble)?
+            # _('The language settings take effect after '
+            #   'restarting Back In Time.')
 
 
 class About(QDialog):
