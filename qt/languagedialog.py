@@ -15,10 +15,11 @@ import logger
 
 
 class LanguageDialog(QDialog):
-    def __init__(self, current_language_code: str):
+    def __init__(self, used_language_code: str, configured_language_code: str):
         super().__init__()
 
-        self.language_code = current_language_code
+        self.used_language_code = used_language_code
+        self.configured_language_code = configured_language_code
 
         self.setWindowTitle(_('Language selection'))
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
@@ -52,6 +53,29 @@ class LanguageDialog(QDialog):
 
         return widget_width + scrollbar_width
 
+    def _create_radio_button(self, lang_code, label, tooltip) -> QRadioButton:
+        r = QRadioButton(label, self)
+        r.setToolTip(tooltip)
+        r.toggled.connect(self.slot_radio)
+        r.lang_code = lang_code
+
+        print(f'{r.lang_code=} {self.used_language_code=} {self.configured_language_code=}')
+
+        # Does this radio button reflect the current used language code?
+        if r.lang_code == self.used_language_code:
+            # Check this radio button only if its language code is NOT
+            # the current systems locale. Because that is represented
+            # by another (the first) radio button.
+            if not locale.getdefaultlocale()[0].startswith(r.lang_code):
+                r.setChecked(True)
+
+        # "System default"
+        elif self.configured_language_code == '' and r.lang_code == None:
+            r.setChecked(True)
+
+        return r
+
+
     def _language_widget(self):
         grid = QGridLayout()
         widget = QWidget(self)
@@ -63,15 +87,13 @@ class LanguageDialog(QDialog):
         if label != translated_label:
             label = f'| {translated_label}'
 
-        r = QRadioButton(label, self)
-        r.setToolTip(_('Use operating systems language settings.'))
-        r.lang_code = None
-        r.setChecked(self.language_code == '')
-        r.toggled.connect(self.slot_radio)
+        tooltip = _('Use operating systems language.')
+        code = None
+        r = self._create_radio_button(code, label, tooltip)
         grid.addWidget(r, 1, 1)
 
         # Sort by language code but keep English on top
-        langs = tools.get_language_names(self.language_code)
+        langs = tools.get_language_names(self.used_language_code)
         sorted_codes = sorted(langs.keys())
         sorted_codes.remove('en')
         sorted_codes = ['en'] + sorted_codes
@@ -117,24 +139,16 @@ class LanguageDialog(QDialog):
 
                 tooltip = f'{names[2]} ({code})'
 
-            r = QRadioButton(label, self)
-            r.setToolTip(tooltip)
-            r.toggled.connect(self.slot_radio)
-            r.lang_code = code
+            # Create button
+            r = self._create_radio_button(code, label, tooltip)
 
-            # Does this radio button reflect the current used language code?
-            if r.lang_code == self.language_code:
-                # Check this radio button only if its language code is NOT
-                # the current systems locale. Because that is represented
-                # by another (the first) radio button.
-                if not locale.getdefaultlocale()[0].startswith(r.lang_code):
-                    r.setChecked(True)
-
+            # Calculate buttons location
             row = idx - ((col - 1) * per_col_n)
             if row > per_col_n:
                 row = 1
                 col = col + 1
 
+            # Add the button
             grid.addWidget(r, row, col)
 
         return widget
