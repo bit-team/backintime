@@ -52,6 +52,19 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
 
     return(password)
 
+def info(text, title=_('Information')):
+    """Show a modal information message box.
+
+    Args:
+        text(str): The information text central to the dialog.
+        title(str): Title of the message box dialog.
+
+    Returns:
+        Nothing.
+    """
+
+    QMessageBox.information(None, title, text)
+
 def critical(parent, msg):
     return QMessageBox.critical(parent, _('Error'),
                                 msg,
@@ -83,6 +96,8 @@ def warningYesNoOptions(parent, msg, options = ()):
     return (ret, {opt['id']:opt['retFunc']() for opt in options if opt['retFunc'] is not None})
 
 def showInfo(parent, title, msg):
+    """Show extended information dialog with framed and scrollable text area.
+    """
     dlg = QDialog(parent)
     dlg.setWindowTitle(title)
     vlayout = QVBoxLayout(dlg)

@@ -1748,12 +1748,12 @@ files that the receiver requests to be transferred.""")
 
         dlg.exec()
 
-        if dlg.result() == 1:
+        if dlg.result() == 1 and self.config.language != dlg.language_code:
+
             self.config.setLanguage(dlg.language_code)
 
-            # How to send notify message (systray bubble)?
-            # _('The language settings take effect after '
-            #   'restarting Back In Time.')
+            messagebox.info(_('The language settings take effect only after '
+                              'restarting Back In Time.'))
 
 
 class About(QDialog):
