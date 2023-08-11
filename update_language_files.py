@@ -233,11 +233,13 @@ if __name__ == '__main__':
 
     check_existence()
 
+    fin_msg = 'Please check the result via "git diff" before commiting.'
+
     # Scan python source files for translatable strings
     if 'source' in sys.argv:
         update_po_template()
         update_po_language_files()
-        print('Please check the result via "git diff".')
+        print(fin_msg)
         sys.exit()
 
     # Download translations (as po-files) from Weblate and integrate them
@@ -245,7 +247,7 @@ if __name__ == '__main__':
     if 'weblate' in sys.argv:
         update_from_weblate()
         update_language_names()
-        print('Please check the result via "git diff".')
+        print(fin_msg)
         sys.exit()
 
     print('Use one of the following argument keywords:\n'
