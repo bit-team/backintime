@@ -37,8 +37,6 @@ see [CONTRIBUTING](CONTRIBUTING.md) and have a look on
 those labeld as [good first](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
 and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
 
-[help wanted](issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
-
 ## Index
 
 - [Documentation, FAQs, Support](#documentation-faqs-support)
