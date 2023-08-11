@@ -59,8 +59,6 @@ class LanguageDialog(QDialog):
         r.toggled.connect(self.slot_radio)
         r.lang_code = lang_code
 
-        print(f'{r.lang_code=} {self.used_language_code=} {self.configured_language_code=}')
-
         # Does this radio button reflect the current used language code?
         if r.lang_code == self.used_language_code and r.lang_code == self.configured_language_code:
             # # Check this radio button only if its language code is NOT
@@ -102,8 +100,6 @@ class LanguageDialog(QDialog):
 
         # Low-resolution screens (XGA or less)
         if QApplication.primaryScreen().size().width() <= 1024:
-            print(QApplication.primaryScreen().size())  # DEBUG
-
             # # Approach A: reduce font size in radio buttons
             # # 80% of regular font size.
             # # Qt do not support % values in CSS
