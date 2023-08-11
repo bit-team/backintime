@@ -1754,7 +1754,8 @@ files that the receiver requests to be transferred.""")
             self.config.setLanguage(dlg.language_code)
 
             messagebox.info(_('The language settings take effect only after '
-                              'restarting Back In Time.'))
+                              'restarting Back In Time.'),
+                            widget_to_center_on=dlg)
 
 
 class About(QDialog):

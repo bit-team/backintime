@@ -149,5 +149,4 @@ class LanguageDialog(QDialog):
         btn = self.sender()
 
         if btn.isChecked():
-            logger.debug(f'{btn.lang_code=}', self)
             self.language_code = btn.lang_code
