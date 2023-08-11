@@ -1740,6 +1740,8 @@ files that the receiver requests to be transferred.""")
     # | Slots |
     # |-------|
     def slot_setup_language(self):
+        # self.config.PLUGIN_MANAGER.error('error')
+        # return
         dlg = LanguageDialog(
             used_language_code=self.config.language_used,
             configured_language_code=self.config.language())
