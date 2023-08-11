@@ -136,7 +136,8 @@ def collect_diagnostics():
     result['external-programs'] = {}
 
     # rsync
-    # rsync >= 3.2.6: -VV return a json
+    # rsync >= 3.2.7: -VV return a json
+    # rsync == 3.2.6: Not tested what -VV returns here.
     # rsync <= 3.2.5 and > (somewhere near) 3.1.3: -VV return the same as -V
     # rsync <= (somewhere near) 3.1.3: -VV doesn't exists
     # rsync == 3.1.3 (Ubuntu 20 LTS) doesn't even know '-V'
@@ -156,6 +157,14 @@ def collect_diagnostics():
             ['rsync', '--version'],
             r'rsync  version (.*)  protocol version'
         )
+    else:
+        # Rsync provided its informations in JSON format.
+        # Remove some irrelevant informatons.
+        for key in ['program', 'copyright', 'url', 'license', 'caveat']:
+            try:
+                del result['external-programs']['rsync'][key]
+            except KeyError:
+                pass
 
     # ssh
     result['external-programs']['ssh'] = _get_extern_versions(['ssh', '-V'])
