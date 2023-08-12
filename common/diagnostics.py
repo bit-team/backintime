@@ -149,8 +149,6 @@ def collect_diagnostics():
         try_json=True,
         error_pattern=r'unknown option'
     )
-    print(result['external-programs']['rsync'])
-    sys.exit()
 
     # When -VV was unknown use -V and parse the human readable output
     if not result['external-programs']['rsync']:
