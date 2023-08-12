@@ -149,6 +149,8 @@ def collect_diagnostics():
         try_json=True,
         error_pattern=r'unknown option'
     )
+    print(result['external-programs']['rsync'])
+    sys.exit()
 
     # When -VV was unknown use -V and parse the human readable output
     if not result['external-programs']['rsync']:
@@ -157,9 +159,9 @@ def collect_diagnostics():
             ['rsync', '--version'],
             r'rsync  version (.*)  protocol version'
         )
-    else:
-        # Rsync provided its informations in JSON format.
-        # Remove some irrelevant informatons.
+    elif isinstance(result['external-programs']['rsync'], dict):
+        # Rsync (>= 3.2.7)provided its information in JSON format.
+        # Remove some irrelevant informaton.
         for key in ['program', 'copyright', 'url', 'license', 'caveat']:
             try:
                 del result['external-programs']['rsync'][key]
