@@ -15,7 +15,7 @@ WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = Path('VERSION').read_text().strip()
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
-
+MSGID_COMPLETENESS = '__TRANSLATION_COMPLETENESS__'
 
 def update_po_template():
     """The po template file is update via `xgettext`.
@@ -151,6 +151,16 @@ def update_from_weblate():
 
     shutil.rmtree(tmp_dir, ignore_errors=True)
 
+
+def foobar():
+    import polib
+
+    new_entry = polib.POEntry(msgid=MSGID_COMPLETENESS, msgstr='16')
+    pof.append(new_entry)
+
+    entry = pof.find(st=MSGID_COMPLETENESS, by='msgid')
+    if entry:
+        pof.remove(entry)
 
 if __name__ == '__main__':
 
