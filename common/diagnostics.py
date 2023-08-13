@@ -137,8 +137,7 @@ def collect_diagnostics():
 
     # rsync
     # rsync >= 3.2.7: -VV return a json
-    # rsync == 3.2.6: Not tested what -VV returns here.
-    # rsync <= 3.2.5 and > (somewhere near) 3.1.3: -VV return the same as -V
+    # rsync <= 3.2.6 and > (somewhere near) 3.1.3: -VV return the same as -V
     # rsync <= (somewhere near) 3.1.3: -VV doesn't exists
     # rsync == 3.1.3 (Ubuntu 20 LTS) doesn't even know '-V'
 
