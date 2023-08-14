@@ -215,9 +215,10 @@ def create_completeness_dict():
 #         pof.save()
 
 
-def create_languages_file(names):
+def create_languages_file():
 
     # Convert language names dict to python code as a string
+    names = update_language_names()
     stream = io.StringIO()
     pprint.pprint(names, indent=2, stream=stream, sort_dicts=True)
     stream.seek(0)
@@ -287,7 +288,7 @@ def create_language_names_dict(language_codes: list) -> dict:
     return result
 
 
-def update_language_names():
+def update_language_names() -> dict:
     # Languages code based on the existing po-files
     langs = [po_path.stem for po_path in LOCAL_DIR.rglob('**/*.po')]
 
@@ -301,11 +302,10 @@ def update_language_names():
     if missing_langs:
         print('Create new language name list because of missing '
               f'languages: {missing_langs}')
-        names = create_language_names_dict_in_file(langs)
-    else:
-        names = languages.names
 
-    create_language_file(names)
+        return create_language_names_dict(langs)
+
+    return languages.names
 
 
 if __name__ == '__main__':
@@ -325,8 +325,7 @@ if __name__ == '__main__':
     # into the repository.
     if 'weblate' in sys.argv:
         update_from_weblate()
-        update_language_names()
-        update_completeness_values()
+        create_languages_file()
         print(fin_msg)
         sys.exit()
 
