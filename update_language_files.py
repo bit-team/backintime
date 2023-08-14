@@ -216,8 +216,9 @@ def create_languages_file():
 
     with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
 
-        handle.write('# Generated at {} with help of package "babel".\n'
-                        .format(datetime.datetime.now().strftime('%c') ))
+        handle.write('# Generated at {} with help of package "babel" '
+                     'and "polib".\n'.format(
+                         datetime.datetime.now().strftime('%c') ))
         handle.write('# https://babel.pocoo.org\n')
         handle.write('# https://github.com/python-babel/babel\n')
 
