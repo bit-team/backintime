@@ -69,7 +69,6 @@ class LanguageDialog(QDialog):
 
         return r
 
-
     def _language_widget(self):
         grid = QGridLayout()
         widget = QWidget(self)
@@ -125,9 +124,11 @@ class LanguageDialog(QDialog):
                 label = code
                 tooltip = f'Language code "{code}" unknown.'
             else:
-                # Native letters available in current font?
-                if qttools.can_render(names[1], widget):
-                    label = f'{names[1]} ({label})'
+                # Add language name in its native representation
+                # if Native letters available in current font
+                # but prevent duplications like e.g. "Deutsch\nDeutsch"
+                if label != names[1] and qttools.can_render(names[1], widget):
+                    label = f'{names[1]}\n{label}'
 
                 tooltip = f'{names[2]} ({code})'
 
