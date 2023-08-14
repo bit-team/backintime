@@ -195,28 +195,60 @@ def create_completeness_dict():
     return result
 
 
-def update_completeness_values():
+# def update_completeness_values():
 
+#     completeness = create_completeness_dict()
+#     completeness = json.dumps(json.dumps(completeness))
+
+#     # each po file in the repository
+#     for po_path in LOCAL_DIR.rglob('**/*.po'):
+#         pof = polib.pofile(po_path)
+
+#         new_entry = polib.POEntry(
+#             msgid=MSGID_COMPLETENESS,
+#             msgstr=completeness
+#         )
+
+#         pof.append(new_entry)
+#         pof.save()
+
+
+def create_languages_file(names):
+
+    # Convert language names dict to python code as a string
+    stream = io.StringIO()
+    pprint.pprint(names, indent=2, stream=stream, sort_dicts=True)
+    stream.seek(0)
+    names = stream.read()
+
+    # the same with completeness dict
     completeness = create_completeness_dict()
-    completeness = json.dumps(json.dumps(completeness))
-    print(f'{completeness=}')
+    stream = io.StringIO()
+    pprint.pprint(completeness, indent=2, stream=stream, sort_dicts=True)
+    stream.seek(0)
+    completeness = stream.read()
 
-    # each po file in the repository
-    for po_path in LOCAL_DIR.rglob('**/*.po'):
-        pof = polib.pofile(po_path)
+    with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
 
-        new_entry = polib.POEntry(
-            msgid=MSGID_COMPLETENESS,
-            msgstr=completeness
-        )
+        handle.write('# Generated at {} with help of package "babel".\n'
+                        .format(datetime.datetime.now().strftime('%c') ))
+        handle.write('# https://babel.pocoo.org\n')
+        handle.write('# https://github.com/python-babel/babel\n')
 
-        pof.append(new_entry)
-        pof.save()
+        handle.write('\nnames = {\n')
+        handle.write(names[1:])
+
+        handle.write('\n')
+
+        handle.write('\ncompleteness = {\n')
+        handle.write(completeness[1:])
+
+    print(f'Result written to {LANGUAGE_NAMES_PY}.')
 
 
-def create_language_names_dict_in_file(language_codes: list) -> str:
-    """Create a py-file containing a dict of language names in different
-    flavours. The dict is used in the LanguageDialog to display the name of
+def create_language_names_dict(language_codes: list) -> dict:
+    """Create dict of language names in different flavours.
+    The dict is used in the LanguageDialog to display the name of
     each language in the UI's current language and the language's own native
     representation.
     """
@@ -250,24 +282,7 @@ def create_language_names_dict_in_file(language_codes: list) -> str:
         for c in language_codes:
             result[code][c] = lang.get_display_name(c)
 
-    # Convert dict to python code as a string
-    stream = io.StringIO()
-    pprint.pprint(result, indent=2, stream=stream, sort_dicts=False)
-    stream.seek(0)
-    result = stream.read()
-
-    with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
-
-        handle.write('# Generated at {} with help of package "babel".\n'
-                        .format(datetime.datetime.now().strftime('%c') ))
-        handle.write('# https://babel.pocoo.org\n')
-        handle.write('# https://github.com/python-babel/babel\n')
-
-        handle.write('\nnames = {\n')
-
-        handle.write(result[1:])
-
-    print(f'Result written to {LANGUAGE_NAMES_PY}.')
+    return result
 
 
 def update_language_names():
@@ -286,7 +301,11 @@ def update_language_names():
     if missing_langs:
         print('Create new language name list because of missing '
               f'languages: {missing_langs}')
-        create_language_names_dict_in_file(langs)
+        names = create_language_names_dict_in_file(langs)
+    else:
+        import languages
+
+    create_language_file(languages.names)
 
 
 if __name__ == '__main__':
