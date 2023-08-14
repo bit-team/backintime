@@ -211,6 +211,7 @@ def update_completeness_values():
         )
 
         pof.append(new_entry)
+        pof.save()
 
 
 def create_language_names_dict_in_file(language_codes: list) -> str:
