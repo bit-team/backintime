@@ -293,8 +293,6 @@ if __name__ == '__main__':
 
     fin_msg = 'Please check the result via "git diff" before commiting.'
 
-    create_completeness_dict()
-    sys.exit()
     # Scan python source files for translatable strings
     if 'source' in sys.argv:
         update_po_template()
