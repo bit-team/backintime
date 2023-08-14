@@ -27,7 +27,6 @@ WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = Path('VERSION').read_text().strip()
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
-MSGID_COMPLETENESS = '__TRANSLATION_COMPLETENESS__'
 
 def update_po_template():
     """The po template file is update via `xgettext`.
@@ -182,11 +181,6 @@ def create_completeness_dict():
     for po_path in LOCAL_DIR.rglob('**/*.po'):
         pof = polib.pofile(po_path)
 
-        # If present remove "old" completeness value first
-        entry = pof.find(st=MSGID_COMPLETENESS, by='msgid')
-        if entry:
-            pof.remove(entry)
-
         result[po_path.stem] = pof.percent_translated()
 
         pof.save()
@@ -197,25 +191,14 @@ def create_completeness_dict():
     return result
 
 
-# def update_completeness_values():
-
-#     completeness = create_completeness_dict()
-#     completeness = json.dumps(json.dumps(completeness))
-
-#     # each po file in the repository
-#     for po_path in LOCAL_DIR.rglob('**/*.po'):
-#         pof = polib.pofile(po_path)
-
-#         new_entry = polib.POEntry(
-#             msgid=MSGID_COMPLETENESS,
-#             msgstr=completeness
-#         )
-
-#         pof.append(new_entry)
-#         pof.save()
-
-
 def create_languages_file():
+    """Create the languages.py file containing language names and the
+    completeness of their translation.
+
+    See the following functions for further details.
+    - ``update_language_names()``
+    - ``create_completeness_dict()``
+    """
 
     # Convert language names dict to python code as a string
     names = update_language_names()
