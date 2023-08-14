@@ -199,6 +199,7 @@ def update_completeness_values():
 
     completeness = create_completeness_dict()
     completeness = json.dumps(json.dumps(completeness))
+    print(f'{completeness=}')
 
     # each po file in the repository
     for po_path in LOCAL_DIR.rglob('**/*.po'):
