@@ -6,6 +6,8 @@ import json
 import pprint
 from pathlib import Path
 from subprocess import run, check_output
+from common import languages
+
 try:
     import polib
     print(f'polib version: {polib.__version__}')
@@ -290,8 +292,6 @@ def update_language_names():
     langs = [po_path.stem for po_path in LOCAL_DIR.rglob('**/*.po')]
 
     # Some languages missing in the list of language names?
-    from common import languages
-
     try:
         missing_langs = set(langs) - set(languages.names)
     except AttributeError:
@@ -303,9 +303,9 @@ def update_language_names():
               f'languages: {missing_langs}')
         names = create_language_names_dict_in_file(langs)
     else:
-        import languages
+        names = languages.names
 
-    create_language_file(languages.names)
+    create_language_file(names)
 
 
 if __name__ == '__main__':
