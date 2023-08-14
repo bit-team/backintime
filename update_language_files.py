@@ -2,9 +2,15 @@
 import sys
 import io
 import datetime
+import json
 import pprint
 from pathlib import Path
 from subprocess import run, check_output
+try:
+    import polib
+    print(f'polib version: {polib.__version__}')
+except ImportError:
+    raise ImportError('Can not import package "polib". Please install it.')
 
 """This helper script do manage transferring translations to and from the
 translation platform (currently Weblate).
@@ -68,7 +74,12 @@ def update_po_template():
 
 
 def update_po_language_files():
-    """
+    """The po files are updated with the source strings from the pot-file (the
+    template for each po-file).
+
+    The GNU gettext utility ``msgmerge`` is used for that.
+
+    The function `update_po_tempalte()` should be called before.
     """
 
     # Recursive all po-files
@@ -156,15 +167,49 @@ def update_from_weblate():
     shutil.rmtree(tmp_dir, ignore_errors=True)
 
 
-def foobar():
-    import polib
+def create_completeness_dict():
+    """Create a simple dictionary indexed by language code and value that
+    indicate the completeness of the translation in percent.
+    """
 
-    new_entry = polib.POEntry(msgid=MSGID_COMPLETENESS, msgstr='16')
-    pof.append(new_entry)
+    print('Calculate completeness for each language in percent...')
 
-    entry = pof.find(st=MSGID_COMPLETENESS, by='msgid')
-    if entry:
-        pof.remove(entry)
+    result = {}
+
+    # each po file in the repository
+    for po_path in LOCAL_DIR.rglob('**/*.po'):
+        pof = polib.pofile(po_path)
+
+        # If present remove "old" completeness value first
+        entry = pof.find(st=MSGID_COMPLETENESS, by='msgid')
+        if entry:
+            pof.remove(entry)
+
+        result[po_path.stem] = pof.percent_translated()
+
+        pof.save()
+
+    # info
+    print(json.dumps(result, indent=4))
+
+    return result
+
+
+def update_completeness_values():
+
+    completeness = create_completeness_dict()
+    completeness = json.dumps(json.dumps(completeness))
+
+    # each po file in the repository
+    for po_path in LOCAL_DIR.rglob('**/*.po'):
+        pof = polib.pofile(po_path)
+
+        new_entry = polib.POEntry(
+            msgid=MSGID_COMPLETENESS,
+            msgstr=completeness
+        )
+
+        pof.append(new_entry)
 
 
 def create_language_names_dict_in_file(language_codes: list) -> str:
@@ -174,6 +219,8 @@ def create_language_names_dict_in_file(language_codes: list) -> str:
     representation.
     """
 
+    # We keep this import local because it is a rare case that this function
+    # will be called. This happens only if a new language is added to BIT.
     try:
         import babel
     except ImportError:
@@ -246,6 +293,8 @@ if __name__ == '__main__':
 
     fin_msg = 'Please check the result via "git diff" before commiting.'
 
+    create_completeness_dict()
+    sys.exit()
     # Scan python source files for translatable strings
     if 'source' in sys.argv:
         update_po_template()
@@ -258,6 +307,7 @@ if __name__ == '__main__':
     if 'weblate' in sys.argv:
         update_from_weblate()
         update_language_names()
+        update_completeness_values()
         print(fin_msg)
         sys.exit()
 
