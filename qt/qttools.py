@@ -33,12 +33,12 @@ import sys
 
 from PyQt5.QtGui import (QFont, QColor, QKeySequence, QIcon)
 from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
-                          QTranslator, QLocale, QLibraryInfo, QEvent,
+                          QTranslator, QLocale, QLibraryInfo,
                           QT_VERSION_STR)
 from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
-                             QTreeWidget, QTreeWidgetItem, QComboBox, QMenu,
-                             QToolTip, QAction, QSystemTrayIcon)
+                             QTreeWidget, QTreeWidgetItem, QComboBox,
+                             QAction, QSystemTrayIcon, QWidget)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from packaging.version import Version
@@ -66,6 +66,27 @@ def fontNormal(font):
 
 def setFontNormal(widget):
     widget.setFont(fontNormal(widget.font()))
+
+
+def can_render(string, widget):
+    """Check if the string can be rendered by the font used by the widget.
+
+    Args:
+        string(str): The string to check.
+        widget(QWidget): The widget which font is used.
+
+    Returns:
+        (bool) True if the widgets font contain all givin characters.
+    """
+    fm = widget.fontMetrics()
+
+    for c in string:
+        # Convert the unicode character to its integer representation
+        # becuase fm.inFont() is not able to handle 2-byte characters
+        if not fm.inFontUcs4(ord(c)):
+            return False
+
+    return True
 
 
 def equalIndent(*args):
