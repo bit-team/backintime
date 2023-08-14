@@ -48,7 +48,8 @@ import progress
 from exceptions import MountException
 
 from PyQt5.QtGui import QDesktopServices, QColor, QIcon
-from PyQt5.QtWidgets import (QWidget,
+from PyQt5.QtWidgets import (QApplication,
+                             QWidget,
                              QAction,
                              QFrame,
                              QMainWindow,
@@ -76,7 +77,6 @@ from PyQt5.QtWidgets import (QWidget,
                              QDialogButtonBox,
                              QShortcut,
                              QFileSystemModel,
-                             QSizePolicy
                              )
 from PyQt5.QtCore import (Qt,
                           QObject,
@@ -94,6 +94,7 @@ import settingsdialog
 import snapshotsdialog
 import logviewdialog
 from restoredialog import RestoreDialog
+from languagedialog import LanguageDialog
 import messagebox
 
 
@@ -427,7 +428,7 @@ class MainWindow(QMainWindow):
             #     trigger_handler_function,
             #     keyboard shortcuts (type list[str])
             #     tooltip
-            #),
+            # ),
             'act_take_snapshot': (
                 icon.TAKE_SNAPSHOT, _('Take a snapshot'),
                 self.btnTakeSnapshotClicked, ['Ctrl+S'],
@@ -479,6 +480,10 @@ class MainWindow(QMainWindow):
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
                 _('Shut down system after snapshot has finished.')),
+            'act_setup_language': (
+                None, _('Setup language…'),
+                self.slot_setup_language, None,
+                None),
             'act_quit': (
                 icon.EXIT, _('Exit'),
                 self.close, ['Ctrl+Q'],
@@ -592,6 +597,7 @@ class MainWindow(QMainWindow):
 
         menu_dict = {
             'Back In &Time': (
+                self.act_setup_language,
                 self.act_shutdown,
                 self.act_quit,
             ),
@@ -1618,9 +1624,12 @@ files that the receiver requests to be transferred.""")
         # update folder_up button state
         self.act_folder_up.setEnabled(len(self.path) > 1)
 
-    def _enable_restore_ui_elements(self, enable: bool):
+    def _enable_restore_ui_elements(self, enable):
         """Enable or disable all buttons and menu entries related to the
         restore feature.
+
+        Args:
+            enable(bool): Enable or diasable.
 
         If a sepcific snapshot is selected in the timeline widget then all
         restore UI elements are enabled. If "Now" (the first/root) is selected
@@ -1726,6 +1735,27 @@ files that the receiver requests to be transferred.""")
         self.qapp.removeEventFilter(self.mouseButtonEventFilter)
         yield
         self.setMouseButtonNavigation()
+
+    # |-------|
+    # | Slots |
+    # |-------|
+    def slot_setup_language(self):
+        """Show a modal language settings dialog and modify the UI language
+        settings."""
+
+        dlg = LanguageDialog(
+            used_language_code=self.config.language_used,
+            configured_language_code=self.config.language())
+
+        dlg.exec()
+
+        if dlg.result() == 1 and self.config.language != dlg.language_code:
+
+            self.config.setLanguage(dlg.language_code)
+
+            messagebox.info(_('The language settings take effect only after '
+                              'restarting Back In Time.'),
+                            widget_to_center_on=dlg)
 
 
 class About(QDialog):
