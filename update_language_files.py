@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 import sys
+import io
+import datetime
+import pprint
 from pathlib import Path
 from subprocess import run, check_output
 
@@ -11,6 +14,7 @@ translation platform (currently Weblate).
 # "locales")
 LOCAL_DIR = Path('common') / 'po'
 TEMPLATE_PO = LOCAL_DIR / 'messages.pot'
+LANGUAGE_NAMES_PY = Path('common') / 'languages.py'
 WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = Path('VERSION').read_text().strip()
@@ -162,20 +166,99 @@ def foobar():
     if entry:
         pof.remove(entry)
 
+
+def create_language_names_dict_in_file(language_codes: list) -> str:
+    """Create a py-file containing a dict of language names in different
+    flavours. The dict is used in the LanguageDialog to display the name of
+    each language in the UI's current language and the language's own native
+    representation.
+    """
+
+    try:
+        import babel
+    except ImportError:
+        raise ImportError('Can not import package "babel". Please install it.')
+
+    # Source language (English) should be included
+    if not 'en' in language_codes:
+        language_codes.append('en')
+
+    # Don't use defaultdict because pprint can't handle it
+    result = {}
+
+    for code in language_codes:
+        print(f'Processing language code "{code}"...')
+
+        lang = babel.Locale.parse(code)
+        result[code] = {}
+
+        # Native name of the language
+        # e.g. 日本語
+        result[code]['_native'] = lang.get_display_name(code)
+
+        # Name of the language in all other foreign languages
+        # e.g. Japanese, Japanisch, ...
+        for c in language_codes:
+            result[code][c] = lang.get_display_name(c)
+
+    # Convert dict to python code as a string
+    stream = io.StringIO()
+    pprint.pprint(result, indent=2, stream=stream, sort_dicts=False)
+    stream.seek(0)
+    result = stream.read()
+
+    with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
+
+        handle.write('# Generated at {} with help of package "babel".\n'
+                        .format(datetime.datetime.now().strftime('%c') ))
+        handle.write('# https://babel.pocoo.org\n')
+        handle.write('# https://github.com/python-babel/babel\n')
+
+        handle.write('\nnames = {\n')
+
+        handle.write(result[1:])
+
+    print(f'Result written to {LANGUAGE_NAMES_PY}.')
+
+
+def update_language_names():
+    # Languages code based on the existing po-files
+    langs = [po_path.stem for po_path in LOCAL_DIR.rglob('**/*.po')]
+
+    # Some languages missing in the list of language names?
+    from common import languages
+
+    try:
+        missing_langs = set(langs) - set(languages.names)
+    except AttributeError:
+        # Under circumstances the languages file is empty
+        missing_langs = ['foo']
+
+    if missing_langs:
+        print('Create new language name list because of missing '
+              f'languages: {missing_langs}')
+        create_language_names_dict_in_file(langs)
+
+
 if __name__ == '__main__':
 
     check_existence()
 
+    fin_msg = 'Please check the result via "git diff" before commiting.'
+
+    # Scan python source files for translatable strings
     if 'source' in sys.argv:
-        # py_files = collect_py_files()
         update_po_template()
         update_po_language_files()
-        print('Please check the result via "git diff".')
+        print(fin_msg)
         sys.exit()
 
+    # Download translations (as po-files) from Weblate and integrate them
+    # into the repository.
     if 'weblate' in sys.argv:
         update_from_weblate()
-        print('Please check the result via "git diff".')
+        update_language_names()
+        print(fin_msg)
         sys.exit()
 
     print('Use one of the following argument keywords:\n'

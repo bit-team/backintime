@@ -52,6 +52,23 @@ def askPasswordDialog(parent, title, prompt, language_code, timeout):
 
     return(password)
 
+def info(text, title=_('Information'), widget_to_center_on=None):
+    """Show a modal information message box.
+
+    The message box is centered on the primary screen if
+    ``widget_to_center_on`` is not given.
+
+    Args:
+        text(str): The information text central to the dialog.
+        title(str): Title of the message box dialog.
+        widget_to_center_on(QWidget): Center the message box on that widget.
+
+    Returns:
+        Nothing.
+    """
+
+    QMessageBox.information(widget_to_center_on, title, text)
+
 def critical(parent, msg):
     return QMessageBox.critical(parent, _('Error'),
                                 msg,
@@ -83,6 +100,8 @@ def warningYesNoOptions(parent, msg, options = ()):
     return (ret, {opt['id']:opt['retFunc']() for opt in options if opt['retFunc'] is not None})
 
 def showInfo(parent, title, msg):
+    """Show extended information dialog with framed and scrollable text area.
+    """
     dlg = QDialog(parent)
     dlg.setWindowTitle(title)
     vlayout = QVBoxLayout(dlg)
