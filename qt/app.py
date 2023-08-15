@@ -94,7 +94,7 @@ import settingsdialog
 import snapshotsdialog
 import logviewdialog
 from restoredialog import RestoreDialog
-from languagedialog import LanguageDialog
+import languagedialog
 import messagebox
 
 
@@ -510,6 +510,9 @@ class MainWindow(QMainWindow):
             'act_help_bugreport': (
                 icon.BUG, _('Report a bug'),
                 self.btnReportBugClicked, None, None),
+            'act_help_translation': (
+                None, _('Translation'),
+                self.slot_help_translation, None, None),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self.btnAboutClicked, None, None),
@@ -626,6 +629,7 @@ class MainWindow(QMainWindow):
                 self.act_help_faq,
                 self.act_help_question,
                 self.act_help_bugreport,
+                self.act_help_translation,
                 self.act_help_about,
             )
         }
@@ -1743,7 +1747,7 @@ files that the receiver requests to be transferred.""")
         """Show a modal language settings dialog and modify the UI language
         settings."""
 
-        dlg = LanguageDialog(
+        dlg = languagedialog.LanguageDialog(
             used_language_code=self.config.language_used,
             configured_language_code=self.config.language())
 
@@ -1756,6 +1760,10 @@ files that the receiver requests to be transferred.""")
             messagebox.info(_('The language settings take effect only after '
                               'restarting Back In Time.'),
                             widget_to_center_on=dlg)
+
+    def slot_help_translation(self):
+        dlg = languagedialog.ApproachTranslatorDialog(self)
+        dlg.exec()
 
 
 class About(QDialog):

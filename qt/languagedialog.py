@@ -1,17 +1,17 @@
-import locale
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
                              QWidget,
+                             QTabWidget,
                              QScrollArea,
                              QGridLayout,
                              QVBoxLayout,
                              QDialogButtonBox,
                              QRadioButton,
+                             QLabel,
                              )
 import tools
 import qttools
-import logger
 import languages
 
 
@@ -61,11 +61,13 @@ class LanguageDialog(QDialog):
         r.lang_code = lang_code
 
         # Is it the current used AND configured language?
-        if r.lang_code == self.used_language_code and r.lang_code == self.configured_language_code:
+        if (r.lang_code == self.used_language_code
+                and r.lang_code == self.configured_language_code):
+
             r.setChecked(True)
 
         # "System default"
-        elif self.configured_language_code == '' and r.lang_code == None:
+        elif self.configured_language_code == '' and r.lang_code is None:
             r.setChecked(True)
 
         return r
@@ -134,7 +136,7 @@ class LanguageDialog(QDialog):
                     tooltip = '{}\n{}'.format(
                         tooltip,
                         _('Translated: {percent}').format(
-                            percent=f'{languages.completeness[code]}%')
+                            percent=f'{complete}%')
                     )
 
             # Create button
@@ -156,3 +158,80 @@ class LanguageDialog(QDialog):
 
         if btn.isChecked():
             self.language_code = btn.lang_code
+
+
+class ApproachTranslatorDialog(QDialog):
+    """
+    """
+    _TXT = (
+        'You have used Back In Time in the {lang} language a \n'
+        'few times by now.\n'
+        '\n'
+        'The translation of Back In Time into {lang} is \n'
+        'only {percent} complete.\n'
+        'Regardless of your level of technical expertise, you can \n'
+        'contribute to the translation and thus Back In Time itself.\n'
+        '\n'
+        'If you wish to contribute, please visit the {translation_url}.\n'
+        'For further assistance and questions, please visit \n'
+        'the {project_url}.\n'
+        '\n'
+        'We apologize for the interruption, and this message will not\n'
+        'be shown again.\n'
+        'This dialog is available at any time via the help menu.\n'
+        '\n'
+        'Your Back In Time Team.'
+    )
+    _URL_TRANSLATION = '<a href="https://translate.codeberg.org/' \
+        'engage/backintime>{}</a>'.format(_('translation platform'))
+    _URL_BIT_WEBSITE = '<a href="https://github.com/bit-team/backintime">' \
+        'Back In Time {}</a>'.format(_('website'))
+
+    @staticmethod
+    def _insert_variables_in_text(txt, translate):
+        variables = {
+            'lang': 'LANG',
+            'translation_url': ApproachTranslatorDialog._URL_TRANSLATION,
+            'project_url': ApproachTranslatorDialog._URL_BIT_WEBSITE,
+        }
+
+        WEIß NICHT WEITER HIER
+        if translate:
+            for key in variables.keys(),
+            variables = {k: _(v) for k in variables}
+
+        txt = txt.format(variables)
+
+        return txt
+
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.setWindowTitle(_('Your translation'))
+        self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
+
+        txt_english = ApproachTranslatorDialog._TXT
+        txt_native = _(txt_english)
+        # txt_native = 'XX{}'.format(_(txt_english))
+
+        if txt_native == txt_english:
+            txt_english = 'Hello.\n\n' + txt_english
+            main_widget = QLabel(txt_english, self)
+            main_widget.setOpenExternalLinks(True)
+        else:
+            native = QLabel(txt_native, self)
+            english = QLabel(txt_english, self)
+
+            native.setOpenExternalLinks(True)
+            english.setOpenExternalLinks(True)
+
+            main_widget = QTabWidget(self)
+            main_widget.addTab(native, _('Hello'))
+            main_widget.addTab(english, 'Hello')
+
+        button = QDialogButtonBox(QDialogButtonBox.Ok, self)
+        button.clicked.connect(self.accept)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(main_widget)
+        layout.addWidget(button)
