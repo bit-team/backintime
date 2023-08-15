@@ -12,6 +12,7 @@ from PyQt5.QtWidgets import (QApplication,
 import tools
 import qttools
 import logger
+import languages
 
 
 class LanguageDialog(QDialog):
@@ -96,15 +97,6 @@ class LanguageDialog(QDialog):
 
         # Low-resolution screens (XGA or less)
         if QApplication.primaryScreen().size().width() <= 1024:
-            # # Approach A: reduce font size in radio buttons
-            # # 80% of regular font size.
-            # # Qt do not support % values in CSS
-            # css = 'QRadioButton{font-size: ' \
-            #     + str(int(r.font().pointSize() * 0.8)) \
-            #     + 'pt;}'
-            # widget.setStyleSheet(css)
-
-            # Approach B:
             # Use one columns less
             number_of_columns -= 1
 
@@ -130,7 +122,20 @@ class LanguageDialog(QDialog):
                 if label != names[1] and qttools.can_render(names[1], widget):
                     label = f'{names[1]}\n{label}'
 
+                # Tooltip: Language code
                 tooltip = f'{names[2]} ({code})'
+
+                # Tooltip: completeness of translation
+                try:
+                    complete = languages.completeness[code]
+                except KeyError:
+                    pass
+                else:
+                    tooltip = '{}\n{}'.format(
+                        tooltip,
+                        _('Translated: {percent}').format(
+                            percent=f'{languages.completeness[code]}%')
+                    )
 
             # Create button
             r = self._create_radio_button(code, label, tooltip)
