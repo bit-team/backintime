@@ -2,9 +2,17 @@
 import sys
 import io
 import datetime
+import json
 import pprint
 from pathlib import Path
 from subprocess import run, check_output
+from common import languages
+
+try:
+    import polib
+    print(f'polib version: {polib.__version__}')
+except ImportError:
+    raise ImportError('Can not import package "polib". Please install it.')
 
 """This helper script do manage transferring translations to and from the
 translation platform (currently Weblate).
@@ -19,7 +27,6 @@ WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = Path('VERSION').read_text().strip()
 BUG_ADDRESS = 'https://github.com/bit-team/backintime'
-
 
 def update_po_template():
     """The po template file is update via `xgettext`.
@@ -68,7 +75,12 @@ def update_po_template():
 
 
 def update_po_language_files():
-    """
+    """The po files are updated with the source strings from the pot-file (the
+    template for each po-file).
+
+    The GNU gettext utility ``msgmerge`` is used for that.
+
+    The function `update_po_tempalte()` should be called before.
     """
 
     # Recursive all po-files
@@ -156,13 +168,80 @@ def update_from_weblate():
     shutil.rmtree(tmp_dir, ignore_errors=True)
 
 
-def create_language_names_dict_in_file(language_codes: list) -> str:
-    """Create a py-file containing a dict of language names in different
-    flavours. The dict is used in the LanguageDialog to display the name of
+def create_completeness_dict():
+    """Create a simple dictionary indexed by language code and value that
+    indicate the completeness of the translation in percent.
+    """
+
+    print('Calculate completeness for each language in percent...')
+
+    result = {}
+
+    # each po file in the repository
+    for po_path in LOCAL_DIR.rglob('**/*.po'):
+        pof = polib.pofile(po_path)
+
+        result[po_path.stem] = pof.percent_translated()
+
+        pof.save()
+
+    # info
+    print(json.dumps(result, indent=4))
+
+    return result
+
+
+def create_languages_file():
+    """Create the languages.py file containing language names and the
+    completeness of their translation.
+
+    See the following functions for further details.
+    - ``update_language_names()``
+    - ``create_completeness_dict()``
+    """
+
+    # Convert language names dict to python code as a string
+    names = update_language_names()
+    stream = io.StringIO()
+    pprint.pprint(names, indent=2, stream=stream, sort_dicts=True)
+    stream.seek(0)
+    names = stream.read()
+
+    # the same with completeness dict
+    completeness = create_completeness_dict()
+    stream = io.StringIO()
+    pprint.pprint(completeness, indent=2, stream=stream, sort_dicts=True)
+    stream.seek(0)
+    completeness = stream.read()
+
+    with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
+
+        handle.write('# Generated at {} with help of package "babel" '
+                     'and "polib".\n'.format(
+                         datetime.datetime.now().strftime('%c') ))
+        handle.write('# https://babel.pocoo.org\n')
+        handle.write('# https://github.com/python-babel/babel\n')
+
+        handle.write('\nnames = {\n')
+        handle.write(names[1:])
+
+        handle.write('\n')
+
+        handle.write('\ncompleteness = {\n')
+        handle.write(completeness[1:])
+
+    print(f'Result written to {LANGUAGE_NAMES_PY}.')
+
+
+def create_language_names_dict(language_codes: list) -> dict:
+    """Create dict of language names in different flavours.
+    The dict is used in the LanguageDialog to display the name of
     each language in the UI's current language and the language's own native
     representation.
     """
 
+    # We keep this import local because it is a rare case that this function
+    # will be called. This happens only if a new language is added to BIT.
     try:
         import babel
     except ImportError:
@@ -190,33 +269,14 @@ def create_language_names_dict_in_file(language_codes: list) -> str:
         for c in language_codes:
             result[code][c] = lang.get_display_name(c)
 
-    # Convert dict to python code as a string
-    stream = io.StringIO()
-    pprint.pprint(result, indent=2, stream=stream, sort_dicts=False)
-    stream.seek(0)
-    result = stream.read()
-
-    with LANGUAGE_NAMES_PY.open('w', encoding='utf8') as handle:
-
-        handle.write('# Generated at {} with help of package "babel".\n'
-                        .format(datetime.datetime.now().strftime('%c') ))
-        handle.write('# https://babel.pocoo.org\n')
-        handle.write('# https://github.com/python-babel/babel\n')
-
-        handle.write('\nnames = {\n')
-
-        handle.write(result[1:])
-
-    print(f'Result written to {LANGUAGE_NAMES_PY}.')
+    return result
 
 
-def update_language_names():
+def update_language_names() -> dict:
     # Languages code based on the existing po-files
     langs = [po_path.stem for po_path in LOCAL_DIR.rglob('**/*.po')]
 
     # Some languages missing in the list of language names?
-    from common import languages
-
     try:
         missing_langs = set(langs) - set(languages.names)
     except AttributeError:
@@ -226,7 +286,10 @@ def update_language_names():
     if missing_langs:
         print('Create new language name list because of missing '
               f'languages: {missing_langs}')
-        create_language_names_dict_in_file(langs)
+
+        return create_language_names_dict(langs)
+
+    return languages.names
 
 
 if __name__ == '__main__':
@@ -246,7 +309,7 @@ if __name__ == '__main__':
     # into the repository.
     if 'weblate' in sys.argv:
         update_from_weblate()
-        update_language_names()
+        create_languages_file()
         print(fin_msg)
         sys.exit()
 
