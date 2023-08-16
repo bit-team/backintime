@@ -48,8 +48,7 @@ import progress
 from exceptions import MountException
 
 from PyQt5.QtGui import QDesktopServices, QColor, QIcon
-from PyQt5.QtWidgets import (QApplication,
-                             QWidget,
+from PyQt5.QtWidgets import (QWidget,
                              QAction,
                              QFrame,
                              QMainWindow,
@@ -89,6 +88,7 @@ from PyQt5.QtCore import (Qt,
                           QSortFilterProxyModel,
                           QDir,
                           QSize,
+                          QUrl
                           )
 import settingsdialog
 import snapshotsdialog
