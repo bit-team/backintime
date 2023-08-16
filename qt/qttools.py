@@ -33,12 +33,12 @@ import sys
 
 from PyQt5.QtGui import (QFont, QColor, QKeySequence, QIcon)
 from PyQt5.QtCore import (QDir, Qt, pyqtSlot, pyqtSignal, QModelIndex,
-                          QTranslator, QLocale, QLibraryInfo, QEvent,
+                          QTranslator, QLocale, QLibraryInfo,
                           QT_VERSION_STR)
 from PyQt5.QtWidgets import (QFileDialog, QAbstractItemView, QListView,
                              QTreeView, QDialog, QApplication, QStyleFactory,
-                             QTreeWidget, QTreeWidgetItem, QComboBox, QMenu,
-                             QToolTip, QAction, QSystemTrayIcon)
+                             QTreeWidget, QTreeWidgetItem, QComboBox,
+                             QAction, QSystemTrayIcon, QWidget)
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from packaging.version import Version
@@ -66,6 +66,27 @@ def fontNormal(font):
 
 def setFontNormal(widget):
     widget.setFont(fontNormal(widget.font()))
+
+
+def can_render(string, widget):
+    """Check if the string can be rendered by the font used by the widget.
+
+    Args:
+        string(str): The string to check.
+        widget(QWidget): The widget which font is used.
+
+    Returns:
+        (bool) True if the widgets font contain all givin characters.
+    """
+    fm = widget.fontMetrics()
+
+    for c in string:
+        # Convert the unicode character to its integer representation
+        # becuase fm.inFont() is not able to handle 2-byte characters
+        if not fm.inFontUcs4(ord(c)):
+            return False
+
+    return True
 
 
 def equalIndent(*args):
@@ -263,7 +284,7 @@ def createQApplication(app_name='Back In Time'):
     return qapp
 
 
-def translator(language_code: str = None) -> QTranslator:
+def initiate_translator(language_code: str) -> QTranslator:
     """Creating an Qt related translator.
 
     Args:
@@ -271,16 +292,27 @@ def translator(language_code: str = None) -> QTranslator:
 
     This is done beside the primarily used GNU gettext because Qt need to
     translate its own default elements like Yes/No-buttons. The systems
-    current local is used when no language code is provided.
+    current local is used when no language code is provided. Translation is
+    deactivated if language code is unknown.
     """
 
     translator = QTranslator()
 
-    if not language_code:
+    if language_code:
+        logger.debug(f'Language code "{language_code}".')
+    else:
+        logger.debug(f'No language code. Use systems current locale.')
         language_code = QLocale.system().name()
 
-    translator.load(f'qt_{language_code}',
-                    QLibraryInfo.location(QLibraryInfo.TranslationsPath))
+    rc = translator.load(
+        f'qt_{language_code}',
+        QLibraryInfo.location(QLibraryInfo.TranslationsPath))
+
+    if rc == False:
+        logger.warning(
+            'PyQt was not able to install a translator for language code '
+            f'"{language_code}". Deactivate translation and falling back to '
+            'the source language (English).')
 
     return translator
 

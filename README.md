@@ -24,12 +24,19 @@ You only need to specify 3 things:
 
 ## Maintenance status
 
-The development of this project has been dormant for a while. But a small team has started
-in summer 2022 to get things moving again. Stick with us, we all ♥️ _Back In Time_. 😁
+A small team has started in summer 2022 to get things moving again after the
+development of this project has been dormant for a while.
+Stick with us, we all ♥️ _Back In Time_. 😁
 
-We are currently trying to fix the [major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
-while not implementing new features. If you are interested in the development,
-please see [CONTRIBUTING](CONTRIBUTING.md).
+We are currently focusing on fixing
+[major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
+instead of implementing new
+[features](https://github.com/bit-team/backintime/labels/Feature).
+If you are interested in the development, please
+see [CONTRIBUTING](CONTRIBUTING.md) and have a look on
+[open issues](https://github.com/bit-team/backintime/issues) especially
+those labeld as [good first](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
+and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
 
 ## Index
 
