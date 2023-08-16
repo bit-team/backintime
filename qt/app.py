@@ -48,8 +48,7 @@ import progress
 from exceptions import MountException
 
 from PyQt5.QtGui import QDesktopServices, QColor, QIcon
-from PyQt5.QtWidgets import (QApplication,
-                             QWidget,
+from PyQt5.QtWidgets import (QWidget,
                              QAction,
                              QFrame,
                              QMainWindow,
@@ -89,6 +88,7 @@ from PyQt5.QtCore import (Qt,
                           QSortFilterProxyModel,
                           QDir,
                           QSize,
+                          QUrl
                           )
 import settingsdialog
 import snapshotsdialog
@@ -239,7 +239,7 @@ class MainWindow(QMainWindow):
         #
         self.setCentralWidget(self.mainSplitter)
 
-        # context menu
+        # context menu for Files View
         self.filesView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.filesView.customContextMenuRequested \
                       .connect(self.contextMenuClicked)
@@ -1546,13 +1546,15 @@ files that the receiver requests to be transferred.""")
                 self.path = rel_path
                 self.path_history.append(rel_path)
                 self.updateFilesView(0)
+
             else:
                 # prevent backup data from being accidentally overwritten
                 # by create a temporary local copy and only open that one
                 if not isinstance(self.sid, snapshots.RootSnapshot):
                     full_path = self.tmpCopy(full_path, self.sid)
 
-                self.run = QDesktopServices.openUrl(QUrl('file://' + full_path))
+                file_url = QUrl('file://' + full_path)
+                self.run = QDesktopServices.openUrl(file_url)
 
     @pyqtSlot(int)
     def updateFilesView(self, changed_from, selected_file = None, show_snapshots = False): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
@@ -1686,18 +1688,30 @@ files that the receiver requests to be transferred.""")
         if not found and has_files:
             self.filesView.setCurrentIndex(self.filesViewProxyModel.index(0, 0))
 
-    def fileSelected(self, fullPath = False):
+    def fileSelected(self, fullPath=False):
+        """Return path and index of the currently in Files View highligted
+        (selected) file.
+
+        Args:
+            fullPath(bool): Resolve relative to a full path.
+
+        Returns:
+            (tuple): Path as a string and the index.
+        """
         idx = qttools.indexFirstColumn(self.filesView.currentIndex())
         selected_file = str(self.filesViewProxyModel.data(idx))
 
         if selected_file == '/':
             # nothing is selected
             selected_file = ''
-            idx = self.filesViewProxyModel.mapFromSource(self.filesViewModel.index(self.path, 0))
+            idx = self.filesViewProxyModel.mapFromSource(
+                self.filesViewModel.index(self.path, 0))
+
         if fullPath:
+            # resolve to full path
             selected_file = os.path.join(self.path, selected_file)
 
-        return(selected_file, idx)
+        return (selected_file, idx)
 
     def multiFileSelected(self, fullPath = False):
         count = 0
