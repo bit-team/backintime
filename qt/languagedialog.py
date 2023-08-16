@@ -1,4 +1,5 @@
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import (QApplication,
                              QDialog,
                              QWidget,
@@ -9,6 +10,7 @@ from PyQt5.QtWidgets import (QApplication,
                              QDialogButtonBox,
                              QRadioButton,
                              QLabel,
+                             QToolTip,
                              )
 import tools
 import qttools
@@ -163,44 +165,52 @@ class LanguageDialog(QDialog):
 class ApproachTranslatorDialog(QDialog):
     """
     """
-    _TXT = (
-        'You have used Back In Time in the {lang} language a \n'
-        'few times by now.\n'
-        '\n'
-        'The translation of Back In Time into {lang} is \n'
-        'only {percent} complete.\n'
-        'Regardless of your level of technical expertise, you can \n'
-        'contribute to the translation and thus Back In Time itself.\n'
-        '\n'
-        'If you wish to contribute, please visit the {translation_url}.\n'
-        'For further assistance and questions, please visit \n'
-        'the {project_url}.\n'
-        '\n'
-        'We apologize for the interruption, and this message will not\n'
-        'be shown again.\n'
-        'This dialog is available at any time via the help menu.\n'
-        '\n'
-        'Your Back In Time Team.'
-    )
-    _URL_TRANSLATION = '<a href="https://translate.codeberg.org/' \
-        'engage/backintime>{}</a>'.format(_('translation platform'))
-    _URL_BIT_WEBSITE = '<a href="https://github.com/bit-team/backintime">' \
-        'Back In Time {}</a>'.format(_('website'))
+    _URL_PLATFORM = 'https://translate.codeberg.org/engage/backintime'
+    _URL_PROJECT = 'https://github.com/bit-team/backintime'
 
     @staticmethod
-    def _insert_variables_in_text(txt, translate):
-        variables = {
+    def _complete_text(translate):
+
+        if not translate:
+            platform = 'translation platform'
+            website = 'Website'
+        else:
+            platform = _('translation platform')
+            website = _('Website')
+
+        placeholder_values = {
             'lang': 'LANG',
-            'translation_url': ApproachTranslatorDialog._URL_TRANSLATION,
-            'project_url': ApproachTranslatorDialog._URL_BIT_WEBSITE,
+            'percent': 'PERCENT%',
+            'translation_url': '<a href="{}">{}</a>'.format(
+                __class__._URL_PLATFORM, platform),
+            'project_url': '<a href="{}">{}</a>'.format(
+                __class__._URL_PROJECT, website)
         }
 
-        WEIß NICHT WEITER HIER
-        if translate:
-            for key in variables.keys(),
-            variables = {k: _(v) for k in variables}
+        txt = _(
+            'You have used Back In Time in the {lang}\n'
+            'language a few times by now.\n'
+            '\n'
+            'The translation of Back In Time into {lang} is \n'
+            'only {percent} complete. Regardless of your level of\n'
+            'technical expertise, you can contribute to the\n'
+            'translation and thus Back In Time itself.\n'
+            '\n'
+            'Please visit the {translation_url}. If you wish \n'
+            'to contribute. For further assistance and questions,\n'
+            'please visit the {project_url}.\n'
+            '\n'
+            'We apologize for the interruption, and this message\n'
+            'will not be shown again. This dialog is available at\n'
+            'any time via the help menu.\n'
+            '\n'
+            'Your Back In Time Team.'
+        )
 
-        txt = txt.format(variables)
+        # With newline characters Qt won't interprete the HTML <a> tags
+        txt = txt.replace('\n', '<br>')
+
+        txt = txt.format(**placeholder_values)
 
         return txt
 
@@ -210,20 +220,28 @@ class ApproachTranslatorDialog(QDialog):
         self.setWindowTitle(_('Your translation'))
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
-        txt_english = ApproachTranslatorDialog._TXT
-        txt_native = _(txt_english)
-        # txt_native = 'XX{}'.format(_(txt_english))
+        txt_english = ApproachTranslatorDialog._complete_text(False)
+        txt_native = ApproachTranslatorDialog._complete_text(True)
 
+        # Do we have a translation of the main text?
         if txt_native == txt_english:
-            txt_english = 'Hello.\n\n' + txt_english
+
+            # English only. Don't use tab widget
+            txt_english = 'Hello.<br><br>' + txt_english
             main_widget = QLabel(txt_english, self)
             main_widget.setOpenExternalLinks(True)
+            main_widget.linkHovered.connect(self.slot_link_hovered)
+
         else:
+
+            # Use tab widget to offer text in translation and source English.
             native = QLabel(txt_native, self)
             english = QLabel(txt_english, self)
 
             native.setOpenExternalLinks(True)
             english.setOpenExternalLinks(True)
+            native.linkHovered.connect(self.slot_link_hovered)
+            english.linkHovered.connect(self.slot_link_hovered)
 
             main_widget = QTabWidget(self)
             main_widget.addTab(native, _('Hello'))
@@ -235,3 +253,6 @@ class ApproachTranslatorDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.addWidget(main_widget)
         layout.addWidget(button)
+
+    def slot_link_hovered(self, url):
+        QToolTip.showText(QCursor.pos(), url.strip('https://'))
