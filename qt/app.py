@@ -34,7 +34,7 @@ qttools_path.registerBackintimePath('common')
 
 # Workaround until the codebase is rectified/equalized.
 import tools
-tools.initiate_translation()
+tools.initiate_translation(None)
 
 import qttools
 
@@ -76,7 +76,6 @@ from PyQt5.QtWidgets import (QWidget,
                              QDialogButtonBox,
                              QShortcut,
                              QFileSystemModel,
-                             QSizePolicy
                              )
 from PyQt5.QtCore import (Qt,
                           QObject,
@@ -89,11 +88,13 @@ from PyQt5.QtCore import (Qt,
                           QSortFilterProxyModel,
                           QDir,
                           QSize,
+                          QUrl
                           )
 import settingsdialog
 import snapshotsdialog
 import logviewdialog
 from restoredialog import RestoreDialog
+from languagedialog import LanguageDialog
 import messagebox
 
 
@@ -238,7 +239,7 @@ class MainWindow(QMainWindow):
         #
         self.setCentralWidget(self.mainSplitter)
 
-        # context menu
+        # context menu for Files View
         self.filesView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.filesView.customContextMenuRequested \
                       .connect(self.contextMenuClicked)
@@ -427,7 +428,7 @@ class MainWindow(QMainWindow):
             #     trigger_handler_function,
             #     keyboard shortcuts (type list[str])
             #     tooltip
-            #),
+            # ),
             'act_take_snapshot': (
                 icon.TAKE_SNAPSHOT, _('Take a snapshot'),
                 self.btnTakeSnapshotClicked, ['Ctrl+S'],
@@ -479,6 +480,10 @@ class MainWindow(QMainWindow):
                 icon.SHUTDOWN, _('Shutdown'),
                 None, None,
                 _('Shut down system after snapshot has finished.')),
+            'act_setup_language': (
+                None, _('Setup language…'),
+                self.slot_setup_language, None,
+                None),
             'act_quit': (
                 icon.EXIT, _('Exit'),
                 self.close, ['Ctrl+Q'],
@@ -592,6 +597,7 @@ class MainWindow(QMainWindow):
 
         menu_dict = {
             'Back In &Time': (
+                self.act_setup_language,
                 self.act_shutdown,
                 self.act_quit,
             ),
@@ -1540,13 +1546,15 @@ files that the receiver requests to be transferred.""")
                 self.path = rel_path
                 self.path_history.append(rel_path)
                 self.updateFilesView(0)
+
             else:
                 # prevent backup data from being accidentally overwritten
                 # by create a temporary local copy and only open that one
                 if not isinstance(self.sid, snapshots.RootSnapshot):
                     full_path = self.tmpCopy(full_path, self.sid)
 
-                self.run = QDesktopServices.openUrl(QUrl('file://' + full_path))
+                file_url = QUrl('file://' + full_path)
+                self.run = QDesktopServices.openUrl(file_url)
 
     @pyqtSlot(int)
     def updateFilesView(self, changed_from, selected_file = None, show_snapshots = False): #0 - files view change directory, 1 - files view, 2 - time_line, 3 - places
@@ -1618,9 +1626,12 @@ files that the receiver requests to be transferred.""")
         # update folder_up button state
         self.act_folder_up.setEnabled(len(self.path) > 1)
 
-    def _enable_restore_ui_elements(self, enable: bool):
+    def _enable_restore_ui_elements(self, enable):
         """Enable or disable all buttons and menu entries related to the
         restore feature.
+
+        Args:
+            enable(bool): Enable or diasable.
 
         If a sepcific snapshot is selected in the timeline widget then all
         restore UI elements are enabled. If "Now" (the first/root) is selected
@@ -1677,18 +1688,30 @@ files that the receiver requests to be transferred.""")
         if not found and has_files:
             self.filesView.setCurrentIndex(self.filesViewProxyModel.index(0, 0))
 
-    def fileSelected(self, fullPath = False):
+    def fileSelected(self, fullPath=False):
+        """Return path and index of the currently in Files View highligted
+        (selected) file.
+
+        Args:
+            fullPath(bool): Resolve relative to a full path.
+
+        Returns:
+            (tuple): Path as a string and the index.
+        """
         idx = qttools.indexFirstColumn(self.filesView.currentIndex())
         selected_file = str(self.filesViewProxyModel.data(idx))
 
         if selected_file == '/':
             # nothing is selected
             selected_file = ''
-            idx = self.filesViewProxyModel.mapFromSource(self.filesViewModel.index(self.path, 0))
+            idx = self.filesViewProxyModel.mapFromSource(
+                self.filesViewModel.index(self.path, 0))
+
         if fullPath:
+            # resolve to full path
             selected_file = os.path.join(self.path, selected_file)
 
-        return(selected_file, idx)
+        return (selected_file, idx)
 
     def multiFileSelected(self, fullPath = False):
         count = 0
@@ -1726,6 +1749,27 @@ files that the receiver requests to be transferred.""")
         self.qapp.removeEventFilter(self.mouseButtonEventFilter)
         yield
         self.setMouseButtonNavigation()
+
+    # |-------|
+    # | Slots |
+    # |-------|
+    def slot_setup_language(self):
+        """Show a modal language settings dialog and modify the UI language
+        settings."""
+
+        dlg = LanguageDialog(
+            used_language_code=self.config.language_used,
+            configured_language_code=self.config.language())
+
+        dlg.exec()
+
+        if dlg.result() == 1 and self.config.language != dlg.language_code:
+
+            self.config.setLanguage(dlg.language_code)
+
+            messagebox.info(_('The language settings take effect only after '
+                              'restarting Back In Time.'),
+                            widget_to_center_on=dlg)
 
 
 class About(QDialog):
@@ -1900,7 +1944,7 @@ if __name__ == '__main__':
 
     logger.openlog()
     qapp = qttools.createQApplication(cfg.APP_NAME)
-    translator = qttools.translator()
+    translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
