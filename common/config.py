@@ -47,7 +47,7 @@ except ImportError:
 # The bigger problem with config.py is that it do use translatebale strings.
 # Strings like this do not belong into a config file or its context.
 try:
-    _('Foo')
+    _('Cancel')
 except NameError:
     _ = lambda val: val
 

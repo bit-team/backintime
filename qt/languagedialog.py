@@ -207,9 +207,6 @@ class ApproachTranslatorDialog(QDialog):
             'Your Back In Time Team.'
         )
 
-        foo = 'Hello'
-        foot = _(foo)
-
         # With newline characters Qt won't interprete the HTML <a> tags
         txt = txt.replace('\n', '<br>')
 
