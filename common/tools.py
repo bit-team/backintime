@@ -2341,11 +2341,13 @@ class Execute(object):
                             by either :py:func:`os.system` (deprecated) or
                             :py:class:`subprocess.Popen`
         callback (method):  function which will handle output returned by
-                            command
+                            command (e.g. to extract errors)
         user_data:          extra arguments which will be forwarded to
-                            ``callback`` function
+                            ``callback`` function (e.g. a tuple - which is
+                            passed by reference in Python - to "return"
+                            results of the callback function as side effect).
         filters (tuple):    Tuple of functions used to filter messages before
-                            sending them to ``callback``
+                            sending them to the ``callback`` function
         parent (instance):  instance of the calling method used only to proper
                             format log messages
         conv_str (bool):    convert output to :py:class:`str` if True or keep it
@@ -2353,8 +2355,9 @@ class Execute(object):
         join_stderr (bool): join stderr to stdout
 
     Note:
-        Signals SIGTSTP and SIGCONT send to Python main process will be
-        forwarded to the command. SIGHUP will kill the process.
+        Signals SIGTSTP ("keyboard stop") and SIGCONT send to Python
+        main process will be forwarded to the command.
+        SIGHUP will kill the process.
     """
     def __init__(self,
                  cmd,
@@ -2371,7 +2374,7 @@ class Execute(object):
         self.currentProc = None
         self.conv_str = conv_str
         self.join_stderr = join_stderr
-        #we need to forward parent to have the correct class name in debug log
+        # we need to forward parent to have the correct class name in debug log
         if parent:
             self.parent = parent
         else:
@@ -2391,12 +2394,14 @@ class Execute(object):
         Start the command.
 
         Returns:
-            int:    returncode from command
+            int:    return code from the command
         """
         ret_val = 0
         out = ''
 
-        #backwards compatibility with old os.system and os.popen calls
+        # backwards compatibility with old os.system and os.popen calls
+        # TODO Is this still required as the minimal Python version is 3.10++ now?
+        # TODO Which Python versions are considered as "old" here?
         if isinstance(self.cmd, str):
             logger.deprecated(self)
             if self.callback is None:
@@ -2419,24 +2424,41 @@ class Execute(object):
                 if ret_val is None:
                     ret_val = 0
 
-        #new and preferred method using subprocess.Popen
+        # new and preferred method using subprocess.Popen
+        # TODO Which minimal Python version is required to be considered as "new"?
         elif isinstance(self.cmd, (list, tuple)):
             try:
-                #register signals for pause, resume and kill
+                # register signals for pause, resume and kill
+                # Forward these signals (sent to the "backintime" process
+                # normally) to the child process ("rsync" normally).
+                # Note: SIGSTOP (unblockable stop) cannot be forwarded because
+                # it cannot be caught in a signal handler!
                 signal.signal(signal.SIGTSTP, self.pause)
                 signal.signal(signal.SIGCONT, self.resume)
                 signal.signal(signal.SIGHUP, self.kill)
             except ValueError:
-                #signal only work in qt main thread
+                # signal only work in qt main thread
+                # TODO What does this imply?
                 pass
 
             if self.join_stderr:
                 stderr = subprocess.STDOUT
             else:
                 stderr = subprocess.DEVNULL
+
+            logger.debug(f"Starting command '{self.printable_cmd[:min(16, len(self.printable_cmd))]}...'")
+
             self.currentProc = subprocess.Popen(self.cmd,
                                                 stdout = subprocess.PIPE,
                                                 stderr = stderr)
+
+            # # TEST code for developers to simulate a killed rsync process
+            # if self.printable_cmd.startswith("rsync --recursive"):
+            #     self.currentProc.terminate()  # signal 15 (SIGTERM) like "killall" and "kill" do by default
+            #     # self.currentProc.send_signal(signal.SIGHUP)  # signal 1
+            #     # self.currentProc.kill()  # signal 9
+            #     logger.error("rsync killed for testing purposes during development")
+
             if self.callback:
                 for line in self.currentProc.stdout:
                     if self.conv_str:
@@ -2449,16 +2471,27 @@ class Execute(object):
                         continue
                     self.callback(line, self.user_data)
 
+            # We use communicate() instead of wait() to avoid a deadlock
+            # when stdout=PIPE and/or stderr=PIPE and the child process
+            # generates enough output to pipe that it blocks waiting for
+            # free buffer. See also:
+            # https://docs.python.org/3.10/library/subprocess.html#subprocess.Popen.wait
             out = self.currentProc.communicate()[0]
+            # TODO Why is "out" empty instead of containing all stdout?
+            #      Most probably because Popen was called with a PIPE as stdout
+            #      to directly process each stdout line by calling the callback...
+
             ret_val = self.currentProc.returncode
+            # TODO ret_val is sometimes 0 instead of e.g. 23 for rsync. Why?
 
             try:
-                #reset signals to their default
+                # reset signal handler to their default
                 signal.signal(signal.SIGTSTP, signal.SIG_DFL)
                 signal.signal(signal.SIGCONT, signal.SIG_DFL)
                 signal.signal(signal.SIGHUP, signal.SIG_DFL)
             except ValueError:
-                #signal only work in qt main thread
+                # signal only work in qt main thread
+                # TODO What does this imply?
                 pass
 
         if ret_val != 0:

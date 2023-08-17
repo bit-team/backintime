@@ -91,14 +91,19 @@ class Plugin:
 
                 Known error codes:
 
-                1. No or no valid configuration
+                1: No or no valid configuration
                    (check the configuration file)
-                2. A backup process is already running.
+                2: A backup process is already running.
                    Make sure that automatic and manual backups
                    do not run at once.
-                3. Snapshots directory not found
+                3: Snapshots directory not found
                    (eg. when a removable drive is not mounted)
-                4. The requested snapshot for "now" already exists
+                4: The requested snapshot for "now" already exists.
+                   ``message`` contains the SID (snapshot ID) then.
+                5: Error while taking a snapshot.
+                   ``message`` contains more information (as string).
+                6: New snapshot taken but with errors.
+                   ``message`` contains the SID (snapshot ID) then.
 
             message: The error message for the code
                 (mostly an empty string by default)
