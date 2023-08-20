@@ -580,9 +580,9 @@ class Config(configfile.ConfigFileWithProfiles):
     def decrement_manual_starts_countdown(self):
         """See :py:func:`manual_starts_countdown()` for details."""
         val = self.manual_starts_countdown()
-        self.setIntValue(
-            'internal.manual_starts_countdown',
-            val - 1 if val > 0 else val)
+
+        if val > -1:
+            self.setIntValue('internal.manual_starts_countdown', val - 1)
 
     # SSH
     def sshSnapshotsPath(self, profile_id = None):

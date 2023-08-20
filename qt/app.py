@@ -400,6 +400,11 @@ class MainWindow(QMainWindow):
 
         SetupCron(self).start()
 
+        if 0 == self.config.manual_starts_countdown():
+            self.slot_help_translation()
+
+        self.config.decrement_manual_starts_countdown()
+
     @property
     def showHiddenFiles(self):
         return self.config.boolValue('qt.show_hidden_files', False)
