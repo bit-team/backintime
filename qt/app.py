@@ -1762,7 +1762,9 @@ files that the receiver requests to be transferred.""")
                             widget_to_center_on=dlg)
 
     def slot_help_translation(self):
-        dlg = languagedialog.ApproachTranslatorDialog(self)
+        code = self.config.language_used
+        name, perc = tools.get_native_language_and_completeness(code)
+        dlg = languagedialog.ApproachTranslatorDialog(self, name, perc)
         dlg.exec()
 
 

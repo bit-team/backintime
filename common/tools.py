@@ -263,6 +263,23 @@ def get_language_names(language_code):
     return result
 
 
+def get_native_language_and_completeness(language_code):
+    """Return the language name in its native flavour and the completeness of
+    its translation in percent.
+
+    Args:
+        language_code(str): The language code.
+
+    Returns:
+        A two-entry tuple with language name as string and a percent as
+        integert.
+    """
+    name = languages.names[language_code][language_code]
+    completeness = languages.completeness[language_code]
+
+    return (name, completeness)
+
+
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
