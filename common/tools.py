@@ -198,6 +198,8 @@ def get_available_language_codes():
     # e.g. /usr/share/locale/de/LC_MESSAGES/backintime.mo
     po = gettext.find(domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
 
+    print(f'gettext.find() :: {po=}')
+
     if po:
         po = pathlib.Path(po)
     else:
@@ -205,13 +207,19 @@ def get_available_language_codes():
         # language. Should be re-design.
         po = _GETTEXT_LOCALE_DIR / 'xy' / 'LC_MESSAGES' / 'backintime.po'
 
+    print(f'as Path: {po=}')
+
     # e.g. de/LC_MESSAGES/backintime.mo
     po = po.relative_to(_GETTEXT_LOCALE_DIR)
 
     # e.g. */LC_MESSAGES/backintime.mo
     po = pathlib.Path('*') / pathlib.Path(*po.parts[1:])
 
+    print(f'rglob() ::\n\t{_GETTEXT_LOCALE_DIR=}\n\t{po=}')
+
     pofiles = _GETTEXT_LOCALE_DIR.rglob(str(po))
+
+    print(f'{pofiles=}')
 
     return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in pofiles]
 
