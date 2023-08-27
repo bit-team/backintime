@@ -196,32 +196,33 @@ def get_available_language_codes():
 
     # full path of one mo-file
     # e.g. /usr/share/locale/de/LC_MESSAGES/backintime.mo
-    po = gettext.find(domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
+    mo = gettext.find(domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
 
-    print(f'gettext.find() :: {po=}')
+    print(f'result of gettext.find() :: {mo=}')
 
-    if po:
-        po = pathlib.Path(po)
+    if mo:
+        mo = pathlib.Path(mo)
+        print(f'{mo=} from Path')
     else:
         # Workaround. This happens if LC_ALL=C and BIT don't use an explicite
         # language. Should be re-design.
-        po = _GETTEXT_LOCALE_DIR / 'xy' / 'LC_MESSAGES' / 'backintime.po'
-
-    print(f'as Path: {po=}')
+        mo = _GETTEXT_LOCALE_DIR / 'xy' / 'LC_MESSAGES' / 'backintime.mo'
+        print(f'{mo=} from "_GETTEXT_LOCALE_DIR / xy / LC_MESSAGES / backintime.mo"')
 
     # e.g. de/LC_MESSAGES/backintime.mo
-    po = po.relative_to(_GETTEXT_LOCALE_DIR)
+    mo = mo.relative_to(_GETTEXT_LOCALE_DIR)
 
     # e.g. */LC_MESSAGES/backintime.mo
-    po = pathlib.Path('*') / pathlib.Path(*po.parts[1:])
+    mo = pathlib.Path('*') / pathlib.Path(*mo.parts[1:])
 
-    print(f'rglob() ::\n\t{_GETTEXT_LOCALE_DIR=}\n\t{po=}')
+    print(f'rglob() ::\n\t{_GETTEXT_LOCALE_DIR=}\n\t{mo=}')
 
-    pofiles = _GETTEXT_LOCALE_DIR.rglob(str(po))
+    mofiles = _GETTEXT_LOCALE_DIR.rglob(str(mo))
 
-    print(f'{pofiles=}')
+    mofiles = list(mofiles)
+    print(f'{mofiles=}')
 
-    return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in pofiles]
+    return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in mofiles]
 
 
 def get_language_names(language_code):
