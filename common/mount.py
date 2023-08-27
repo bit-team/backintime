@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2017 Germar Reitze, Taylor Raack
+#    Copyright (C) 2012-2022 Germar Reitze, Taylor Raack
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -13,11 +13,100 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+"""The mount API.
 
+    The high-level mount API is :py:class:`Mount` and handles mount,
+    umount, remount and checks for *Back In Time*. The low-level mount API
+    is :py:class:`MountControl`. The latter can be used to create own
+    mounting serivces via subclassing it. See the following example.
+
+    Example:
+
+        See this template to create your own mounting service by inheriting
+        from :py:class:`MountControl`. All you need to do is:
+
+        - Add your settings in ``qt/settingsdialog.py``.
+        - Add settings in ``common/config.py``.
+        - Use the following template class ``MountDummy``, rename and modify
+          it to your needs.
+        - Please use ``self.currentMountpoint`` as your local mountpoint.
+        - Your class should inherit from :py:class:`mount.MountControl`.
+
+        As real usage example see the two classes :py:class:`sshtools.SSH` and
+        :py:class:`encfstools.EncFS_mount`.
+
+    This is the template: ::
+
+        class MountDummy(mount.MountControl):
+            def __init__(self, *args, **kwargs):
+                super(MountDummy, self).__init__(*args, **kwargs)
+
+                self.all_kwargs = {}
+
+                # First we need to map the settings.
+                # If <arg> is in kwargs (e.g. if this class is called with
+                # dummytools.Dummy(<arg> = <value>) this will map self.<arg> to
+                # kwargs[<arg>]; else self.<arg> = <default> from config
+                # e.g. self.setattrKwargs(<arg>, <default>, **kwargs)
+                self.setattrKwargs(
+                    'user', self.config.get_dummy_user(self.profile_id), **kwargs)
+                self.setattrKwargs(
+                    'host', self.config.get_dummy_host(self.profile_id), **kwargs)
+                self.setattrKwargs(
+                    'port', self.config.get_dummy_port(self.profile_id), **kwargs)
+                self.setattrKwargs(
+                    'password',
+                    self.config.password(self.parent, self.profile_id),
+                    store = False, **kwargs)
+
+                self.setDefaultArgs()
+
+                # If self.currentMountpoint is not the remote snapshot path
+                # you can specify a subfolder of self.currentMountpoint for
+                # the symlink
+                self.symlink_subfolder = None
+
+                self.mountproc = 'dummy'
+                self.log_command = '%s: %s@%s' % (self.mode, self.user, self.host)
+
+            def _mount(self):
+                # Mount the service
+                # Implement your mountprocess here.
+                pass
+
+            def _umount(self):
+                # Umount the service
+                # Implement your unmountprocess here.
+                pass
+
+            def preMountCheck(self, first_run = False):
+                # Check what ever conditions must be given for the mount to be
+                # done successful.
+                # Raise MountException('Error description') if service can not mount
+                # return True if everything is okay
+                # all pre|post_[u]mount_check can also be used to prepare
+                # things or clean up
+                return True
+
+            def postMountCheck(self):
+                # Check if mount was successful
+                # Raise MountException('Error description') if not
+                return True
+
+            def preUmountCheck(self):
+                # Check if service is safe to umount
+                # Raise MountException('Error description') if not
+                return True
+
+            def postUmountCheck(self):
+                # Check if umount successful
+                # Raise MountException('Error description') if not
+                return True
+
+"""
 import os
 import subprocess
 import json
-import gettext
 from zlib import crc32
 from time import sleep
 
@@ -27,7 +116,6 @@ import tools
 import password
 from exceptions import MountException, HashCollision
 
-_=gettext.gettext
 
 class Mount(object):
     """
@@ -115,14 +203,18 @@ class Mount(object):
         """
         self.config.PLUGIN_MANAGER.load(cfg = self.config)
         self.config.PLUGIN_MANAGER.mount(self.profile_id)
+
         if mode is None:
             mode = self.config.snapshotsMode(self.profile_id)
 
         if self.config.SNAPSHOT_MODES[mode][0] is None:
-            #mode doesn't need to mount
+            # mode doesn't need to mount
             return 'local'
+
         else:
-            while True:
+
+            while True:  # ???
+
                 try:
                     mounttools = self.config.SNAPSHOT_MODES[mode][0]
                     backend = mounttools(cfg = self.config,
@@ -131,12 +223,16 @@ class Mount(object):
                                          mode = mode,
                                          parent = self.parent,
                                          **kwargs)
+
                     return backend.mount(check = check)
+
                 except HashCollision as ex:
                     logger.warning(str(ex), self)
                     del backend
                     check = False
+
                     continue
+
                 break
 
     def umount(self, hash_id = None):
@@ -345,27 +441,30 @@ class Mount(object):
             return backend.init()
 
 class MountControl(object):
-    """
-    This is the low-level mount API. This should be subclassed by backends.
+    """This is the low-level mount API. This should be subclassed by backends.
 
     Subclasses should have its own ``__init__`` but **must** also call the
-    inherited ``__init__``.
+    inherited ``__init__``. See module description (:py:mod:`mount`) for
+    a detailed example.
 
-    You **must** overwrite methods:\n
-        :py:func:`MountControl._mount`
+    You **must** overwrite methods:
 
-    You **can** overwrite methods:\n
-        :py:func:`MountControl._umount`\n
-        :py:func:`MountControl.preMountCheck`\n
-        :py:func:`MountControl.postMountCheck`\n
-        :py:func:`MountControl.preUmountCheck`\n
-        :py:func:`MountControl.postUmountCheck`
+    - :py:func:`MountControl._mount`
 
-    These arguments **must** be defined in ``self`` namespace by
-    subclassing ``__init__`` method:\n
-        mountproc (str):        process used to mount\n
-        log_command (str):      shortened form of mount command used in logs\n
-        symlink_subfolder (str):mountpoint-subfolder which should be linked\n
+    You **can** overwrite methods:
+
+    - :py:func:`MountControl._umount`
+    - :py:func:`MountControl.preMountCheck`
+    - :py:func:`MountControl.postMountCheck`
+    - :py:func:`MountControl.preUmountCheck`
+    - :py:func:`MountControl.postUmountCheck`
+
+    These arguments (all of type :py:obj:`str`) **must** be defined in
+    ``self`` namespace by subclassing ``__init__`` method:
+
+    - ``mountproc``: process used to mount
+    - ``log_command``: shortened form of mount command used in logs
+    - ``symlink_subfolder``: mountpoint-subfolder which should be linked
 
     Args:
         cfg (config.Config):    current config
@@ -380,8 +479,6 @@ class MountControl(object):
         hash_collision (int):   global value used to prevent hash collisions on
                                 mountpoints
     """
-
-    CHECK_FUSE_GROUP = False
 
     def __init__(self,
                  cfg = None,
@@ -420,7 +517,7 @@ class MountControl(object):
         ``self.all_kwargs`` need to be filled through :py:func:`setattrKwargs`
         before calling this.
         """
-        #self.destination should contain all arguments that are nessesary for
+        #self.destination should contain all arguments that are necessary for
         #mount.
         args = list(self.all_kwargs.keys())
         self.destination = '%s:' % self.all_kwargs['mode']
@@ -447,7 +544,7 @@ class MountControl(object):
 
     def mount(self, check = True):
         """
-        Low-level `mount`. Set mountprocess lock and prepair mount, run checks
+        Low-level `mount`. Set mountprocess lock and prepare mount, run checks
         and than call :py:func:`_mount` for the subclassed backend. Finally set
         mount lock and symlink and release mountprocess lock.
 
@@ -467,22 +564,33 @@ class MountControl(object):
         """
         self.createMountStructure()
         self.mountProcessLockAcquire()
+
         try:
             if self.mounted():
+
                 if not self.compareUmountInfo():
                     #We probably have a hash collision
                     self.config.incrementHashCollision()
-                    raise HashCollision(_('Hash collision occurred in hash_id %s. Incrementing global value hash_collision and try again.') % self.hash_id)
-                logger.info('Mountpoint %s is already mounted' %self.currentMountpoint, self)
+                    raise HashCollision(
+                        f'Hash collision occurred in hash_id {self.hash_id}. '
+                        'Incrementing global value hash_collision and '
+                        'trying again.')
+
+                logger.info('Mountpoint {} is already mounted'
+                            .format(self.currentMountpoint),
+                            self)
             else:
                 if check:
                     self.preMountCheck()
+
                 self._mount()
                 self.postMountCheck()
+
                 logger.info('mount %s on %s'
                             %(self.log_command, self.currentMountpoint),
                             self)
                 self.writeUmountInfo()
+
         except Exception:
             raise
         else:
@@ -542,16 +650,18 @@ class MountControl(object):
         overwritten by backends which subclasses :py:class:`MountControl`.
 
         Raises:
-            exceptions.MountException:  if unmount failed
+            exceptions.MountException: If unmount failed.
         """
         try:
             subprocess.check_call(['fusermount', '-u', self.currentMountpoint])
-        except subprocess.CalledProcessError:
-            raise MountException(_('Can\'t unmount %(proc)s from %(mountpoint)s')
-                                  %{'proc': self.mountproc,
-                                    'mountpoint': self.currentMountpoint})
 
-    def preMountCheck(self, first_run = False):
+        except subprocess.CalledProcessError:
+            raise MountException(
+                _("Can't unmount {mountprocess} from {mountpoint}")
+                .format(mountprocess=self.mountproc,
+                        mountpoint=self.currentMountpoint))
+
+    def preMountCheck(self, first_run=False):
         """
         Check what ever conditions must be given for the mount to be done
         successful. This **can** be overwritten in backends which
@@ -624,34 +734,19 @@ class MountControl(object):
 
     def checkFuse(self):
         """
-        Check if command in self.mountproc is installed and user is part of
-        group ``fuse``.
+        Check if command in ``self.mountproc`` is installed.
 
         Raises:
-            exceptions.MountException:  if either command is not available or
-                                        user is not in group fuse
+            exceptions.MountException: If either command is not available.
         """
-        logger.debug('Check fuse', self)
+
         if not tools.checkCommand(self.mountproc):
-            logger.debug('%s is missing' %self.mountproc, self)
-            raise MountException(_('%(proc)s not found. Please install e.g. %(install_command)s')
-                                  %{'proc': self.mountproc,
-                                    'install_command': "'apt-get install %s'" %self.mountproc})
-        if self.CHECK_FUSE_GROUP:
-            user = self.config.user()
-            try:
-                fuse_grp_members = grp.getgrnam('fuse')[3]
-            except KeyError:
-                #group fuse doesn't exist. So most likely it isn't used by this distribution
-                logger.debug("Group fuse doesn't exist. Skip test", self)
-                return
-            if not user in fuse_grp_members:
-                logger.debug('User %s is not in group fuse' %user, self)
-                raise MountException(_('%(user)s is not member of group \'fuse\'.\n '
-                                        'Run \'sudo adduser %(user)s fuse\'. To apply '
-                                        'changes logout and login again.\nLook at '
-                                        '\'man backintime\' for further instructions.')
-                                        % {'user': user})
+            logger.debug(f'{self.mountproc} is missing', self)
+
+            raise MountException(
+                _('{} not found. Please install e.g. {}')
+                .format(self.mountproc,
+                        f"'apt-get install {self.mountproc}'"))
 
     def mounted(self):
         """
@@ -666,49 +761,55 @@ class MountControl(object):
         """
         if os.path.ismount(self.currentMountpoint):
             return True
+
         else:
-            if os.listdir(self.currentMountpoint):
-                raise MountException(_('mountpoint %s not empty.') % self.currentMountpoint)
+            try:
+                if os.listdir(self.currentMountpoint):
+                    raise MountException(_('mountpoint {} not empty.')
+                                         .format(self.currentMountpoint))
+
+            except FileNotFoundError:
+                pass
+
             return False
 
     def createMountStructure(self):
         """
         Create folders that are necessary for mounting.
 
-        Folder structure in ~/.local/share/backintime/mnt/ (self.mount_root)::
+        Folder structure in ``~/.local/share/backintime/mnt/``
+        (``self.mount_root``)::
 
-            |\ <pid>.lock              <=  mountprocess lock that will prevent
-            |                              different processes modifying
-            |                              mountpoints at one time
-            |
-            |\ <hash_id>/              <=  ``self.hash_id_path``
-            |            \                 will be shared by all profiles with
-            |            |                 the same mount settings
-            |            |
-            |            |\ mountpoint/<=  ``self.currentMountpoint``
-            |            |                 real mountpoint
-            |            |
-            |            |\ umount     <=  ``self.umount_info``
-            |            |                 json file with all nessesary args
-            |            |                 for unmount
-            |            |
-            |            \  locks/     <=  ``self.lock_path``
-            |                              for each process you have a
-            |                              ``<pid>.lock`` file
-            |
-            |\ <profile id>_<pid>/     <=  sym-link to the right path. return by
-            |                              config.snapshotsPath
-            |                              (can be ../mnt/<hash_id>/mount_point
-            |                              for ssh or
-            |                              ../mnt/<hash_id>/<HOST>/<SHARE> for
-            |                              fusesmb ...)
-            |
-            \ tmp_<profile id>_<pid>/ <=  sym-link for testing mountpoints in
-                                          settingsdialog
+            .
+            ├── <pid>.lock              <=  mountprocess lock that will prevent
+            │                               different processes modifying
+            │                               mountpoints at one time
+            │
+            ├── <hash_id>/              <=  ``self.hash_id_path`` will be
+            │   │                           shared by all profiles with the
+            │   │                           same mount settings
+            │   │
+            │   ├── mountpoint/         <=  ``self.currentMountpoint`` real
+            │   │                           mountpoint
+            │   │
+            │   ├── umount              <=  ``self.umount_info`` json file with
+            │   │                           all necessary args for unmount
+            │   │
+            │   └── locks/              <=  ``self.lock_path`` for each process
+            │                               you have a ``<pid>.lock`` file
+            │
+            ├── <profile id>_<pid>/     <=  sym-link to the right path. return
+            │                               by config.snapshotsPath (can be
+            │                               ../mnt/<hash_id>/mount_point for ssh
+            │                               or ../mnt/<hash_id>/<HOST>/<SHARE>
+            │                               for fusesmb ...)
+            │
+            └── tmp_<profile id>_<pid>/ <=  sym-link for testing mountpoints
+                                            in settingsdialog
         """
         tools.mkdir(self.mount_root, 0o700)
         tools.mkdir(self.hash_id_path, 0o700)
-        tools.mkdir(self.currentMountpoint, 0o700)
+        tools.mkdir(self.currentMountpoint, 0o700, False)
         tools.mkdir(self.lock_path, 0o700)
 
     def mountProcessLockAcquire(self, timeout = 60):
@@ -731,11 +832,10 @@ class MountControl(object):
         while self.checkLocks(lock_path, lockSuffix):
             count += 1
             if count == timeout:
-                raise MountException(_('Mountprocess lock timeout'))
+                raise MountException('Mountprocess lock timeout')
             sleep(1)
 
-        logger.debug('Acquire mountprocess lock %s'
-                     %lock, self)
+        logger.debug(f'Acquire mountprocess lock {lock}', self)
         with open(lock, 'w') as f:
             f.write(self.pid)
 
@@ -746,8 +846,7 @@ class MountControl(object):
         lock_path = self.mount_root
         lockSuffix = '.lock'
         lock = os.path.join(lock_path, self.pid + lockSuffix)
-        logger.debug('Release mountprocess lock %s'
-                     %lock, self)
+        logger.debug(f'Release mountprocess lock {lock}', self)
         if os.path.exists(lock):
             os.remove(lock)
 
@@ -934,22 +1033,29 @@ class MountControl(object):
         """
         if not self.symlink:
             return
+
         if profile_id is None:
             profile_id = self.profile_id
+
         if hash_id is None:
             hash_id = self.hash_id
+
         if tmp_mount is None:
             tmp_mount = self.tmp_mount
-        dst = self.config.snapshotsPath(profile_id = profile_id,
-                                             mode = self.mode,
-                                             tmp_mount = tmp_mount)
+
+        dst = self.config.snapshotsPath(profile_id=profile_id,
+                                        mode=self.mode,
+                                        tmp_mount=tmp_mount)
         mountpoint = self.mountpoint(hash_id)
+
         if self.symlink_subfolder is None:
             src = mountpoint
         else:
             src = os.path.join(mountpoint, self.symlink_subfolder)
+
         if os.path.exists(dst):
             os.remove(dst)
+
         os.symlink(src, dst)
 
     def removeSymlink(self, profile_id = None, tmp_mount = None):

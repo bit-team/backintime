@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2017 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -32,13 +32,13 @@ class NotifyPlugin(pluginmanager.Plugin):
 
         if not self.user:
             try:
-                user = os.environ['USER']
+                self.user = os.environ['USER']
             except:
                 pass
 
         if not self.user:
             try:
-                user = os.environ['LOGNAME']
+                self.user = os.environ['LOGNAME']
             except:
                 pass
 

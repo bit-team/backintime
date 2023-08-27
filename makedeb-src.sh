@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASES="trusty xenial bionic cosmic disco"
+RELEASES="bionic focal jammy kinetic"
 
 PKGNAME=backintime
 PKGVER=$(cat VERSION)
@@ -22,5 +22,5 @@ for release in ${RELEASES}; do
 	debuild -i -S
 done
 
-cp ${TMP}/*.build ${TMP}/*.changes ${TMP}/*.dsc ${TMP}/*.tar.gz ${CURRENT}
+cp ${TMP}/*.build ${TMP}/*.buildinfo ${TMP}/*.changes ${TMP}/*.dsc ${TMP}/*.tar.gz ${CURRENT}
 rm -rf ${TMP}

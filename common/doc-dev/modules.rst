@@ -11,8 +11,8 @@ common
    cli
    config
    configfile
+   diagnostics
    driveinfo
-   dummytools
    encfstools
    exceptions
    guiapplicationinstance

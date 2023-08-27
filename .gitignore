@@ -6,6 +6,8 @@ __pycache__/
 # editor backup
 *~
 *.sic
+*.swp
+\#*\#
 
 # packaging
 *.deb
@@ -24,16 +26,26 @@ debian/backintime-qt
 # compressed files
 *.gz
 
-# Translations
+# Compiled translations
 *.mo
 
 # Makefile
 common/Makefile
 qt/Makefile
 
-#coveralls.io status
+# coveralls.io status
 .coverage
 
-#sphinx doc build
+# coverage result files (raw data and reports)
+# .coverage  # already ignored, see above
+**/htmlcov/**
+
+# sphinx doc build
 common/doc-dev/_build/doctrees
 common/doc-dev/_build/html
+
+# PyCharm IDE project settings
+.idea
+
+# Linter configuration
+.flake8

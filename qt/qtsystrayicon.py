@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2017 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,19 +18,23 @@
 
 import sys
 import os
-import gettext
 import subprocess
 import signal
 
-_=gettext.gettext
-
+# TODO Is this really required? If the client is not configured for X11
+#      it may use Wayland or something else...
+#      Or is this just required when run as root (where GUIs are not
+#      configured normally)?
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
 import qttools
 qttools.registerBackintimePath('common')
 
+# Workaround until the codebase allows a single place to init all translations
 import tools
+tools.initiate_translation(None)
+
 import logger
 import snapshots
 import progress
@@ -54,19 +58,20 @@ class QtSysTrayIcon:
                                %sys.argv[1], self)
 
         self.qapp = qttools.createQApplication(self.config.APP_NAME)
-        translator = qttools.translator()
+        translator = qttools.initiate_translator(self.config.language())
         self.qapp.installTranslator(translator)
         self.qapp.setQuitOnLastWindowClosed(False)
 
         import icon
-        self.icon = icon
+        self.icon = icon  # What does this code do? Make the import accessible?
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
         #self.status_icon.actionCollection().clear()
         self.contextMenu = QMenu()
 
-        self.menuProfileName = self.contextMenu.addAction(_('Profile: "%s"') % self.config.profileName())
+        self.menuProfileName = self.contextMenu.addAction(
+            '{}: {}'.format(_('Profile'), self.config.profileName()))
         qttools.setFontBold(self.menuProfileName)
         self.contextMenu.addSeparator()
 
@@ -95,7 +100,10 @@ class QtSysTrayIcon:
 
         self.openLog = self.contextMenu.addAction(icon.VIEW_LAST_LOG, _('View Last Log'))
         self.openLog.triggered.connect(self.onOpenLog)
-        self.startBIT = self.contextMenu.addAction(icon.BIT_LOGO, _('Start BackInTime'))
+        self.startBIT = self.contextMenu.addAction(
+            icon.BIT_LOGO,
+            _('Start {appname}').format(appname=self.config.APP_NAME)
+        )
         self.startBIT.triggered.connect(self.onStartBIT)
         self.status_icon.setContextMenu(self.contextMenu)
 
@@ -115,7 +123,7 @@ class QtSysTrayIcon:
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateInfo)
 
-    def prepairExit(self):
+    def prepareExit(self):
         self.timer.stop()
 
         if not self.status_icon is None:
@@ -134,17 +142,19 @@ class QtSysTrayIcon:
         self.status_icon.show()
         self.timer.start(500)
 
-        logger.debug("begin loop", self)
+        # logger.debug("begin loop", self)
 
         self.qapp.exec_()
 
-        logger.debug("end loop", self)
+        # logger.debug("end loop", self)
 
-        self.prepairExit()
+        self.prepareExit()
 
     def updateInfo(self):
+
+        # Exit this systray icon "app" when the snapshots is taken
         if not self.snapshots.busy():
-            self.prepairExit()
+            self.prepareExit()
             self.qapp.exit(0)
             return
 
@@ -186,13 +196,18 @@ class QtSysTrayIcon:
             self.menuProgress.setVisible(False)
 
     def getMenuProgress(self, pg):
-        d = (('sent',   _('Sent:')), \
-             ('speed',  _('Speed:')),\
-             ('eta',    _('ETA:')))
+        d = (
+            ('sent', _('Sent') + ':'),
+            ('speed', _('Speed') + ':'),
+            ('eta',    _('ETA') + ':')
+        )
+
         for key, txt in d:
             value = pg.strValue(key, '')
+
             if not value:
                 continue
+
             yield txt + ' ' + value
 
     def onStartBIT(self):
@@ -224,4 +239,11 @@ class QtSysTrayIcon:
         self.snapshots.setTakeSnapshotMessage(0, 'Snapshot terminated')
 
 if __name__ == '__main__':
+
+    if "--debug" in sys.argv:  # HACK: Minimal arg parsing to enable debug-level logging
+        logger.DEBUG = True
+
+    logger.debug("Sub process tries to show systray icon...")
+    logger.debug(f"qtsystrayicon.py call args: {str(sys.argv)}")
+
     QtSysTrayIcon().run()

@@ -1,45 +1,4 @@
-backintime (1.2.0~alpha0) unstable; urgency=low
-  * Fix bug: sshMaxArg failed on none default ssh port (https://github.com/bit-team/backintime/issues/581)
-  * Fix bug: failed if remote host send SSH banner (https://github.com/bit-team/backintime/issues/581)
-  * Fix bug: incorrect handling of IPv6 addresses (https://github.com/bit-team/backintime/issues/577)
-  * use rsync to save permissions
-  * replace os.system calls with subprocess.Popen
-  * automatically refresh log view if a snapshot is currently running
-  * Fix bug: Snapshot Log View freeze on big log files (https://github.com/bit-team/backintime/issues/456)
-  * Fix bug: 'inotify_add_watch failed: file or directory not found' after deleting snapshot
-  * remove dependency for extended 'find' command on remote host
-  * make full-rsync mode default, remove the other mode
-  * Fix bug: a continued snapshot was not incremental (https://github.com/bit-team/backintime/issues/557)
-  * use rsync to remove snapshots which will give a nice speedup (https://github.com/bit-team/backintime/issues/151)
-  * open temporary local copy of files instead of original backup on double-click in GUI
-  * add option to decrypt paths in systray menu with mode ssh-encrypted
-  * open current log directly from systray icon during taking a snapshot
-  * add tool-tips to restore menu
-  * Fix bug: config backup in snapshot had wrong name if using --config option
-  * add --share-path option
-  * use Monospace font in logview
-  * add restore option --only-new
-  * add button 'Take snapshot with checksums'
-  * Fix bug: Can't open files with spaces in name (https://github.com/bit-team/backintime/issues/552)
-  * Fix bug: BIT-root won't start from .desktop file (https://github.com/bit-team/backintime/issues/549)
-  * Fix bug: Keyring doesn't work with KDE Plasma5 (https://github.com/bit-team/backintime/issues/545)
-  * Fix bug: Qt4 built-in phrases where not translated (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=816197)
-  * Fix bug: configure ingnore unknown args (https://github.com/bit-team/backintime/issues/547)
-  * Fix bug: snapshots-list on command-line was not sorted
-  * Fix bug: SHA256 ssh-key fingerprint was not detected
-  * change default configure option to --no-fuse-group as Ubuntu >= 12.04 don't need fuse group-membership anymore
-  * Fix bug: new snapshot did not show up after finished
-  * Fix bug: TimeLine headers were not correct
-  * Fix lintian warning: manpage-has-errors-from-man: bad argument name 'P'
-  * Fix bug: wildcards ? and [] wasn't recognized correctly
-  * Fix bug: last char of last element in tools.get_rsync_caps got cut off
-  * Fix bug: TypeError in tools.get_git_ref_hash
-  * Do not print 'SnapshotID' or 'SnapshotPath' if running 'snapshots-list' command (and other) with '--quiet'
-  * Remove dependency 'ps'
-  * Fix bug: don't include empty values in list (https://github.com/bit-team/backintime/issues/521)
-  * Fix bug: bash-completion doesn't work for backintime-qt4
-  * Fix bug: 'make unittest' incorrectly used 'coverage' by default (https://github.com/bit-team/backintime/issues/522)
-  * Fix bug: pm-utils is deprecated; Remove dependency (https://github.com/bit-team/backintime/issues/519)
-  * rewrite huge parts of snapshots.py
-  * remove backwards compatibility to version < 1.0
- -- Germar Reitze <germar.reitze@gmail.com>  Mon, 27 Jun 2016 00:23:24 +0200
+backintime (1.3.4-dev) unstable; urgency=low
+  Nothing yet.
+  
+ -- BIT Team <dan@le-web.org>  Mon, 16 Jan 2023 10:13:20 +0100

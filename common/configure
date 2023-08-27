@@ -2,7 +2,7 @@
 
 #clean up
 if [ -e Makefile ]; then
-	rm Makefile;
+    rm Makefile;
 fi
 
 #tmp files
@@ -12,23 +12,17 @@ UNINSTALL_DIRS="$(mktemp)"
 
 #set default options
 PYTHON="--python3"
-FUSE_GROUP="--no-fuse-group"
 
 USR_BIN_FILES="backintime backintime-askpass"
-FUSE_FILES="mount.py"
 
 usage () {
     echo "Usage:"
-    echo "$0 [--python | --python3], [--fuse-group | --no-fuse-group]"
+    echo "$0 [--python | --python3]"
     echo ""
     echo "--python"
     echo "\tuse 'python' to start Python3"
     echo "--python3"
     echo "\tuse 'python3' to start Python3"
-    echo "--no-fuse-group"
-    echo "\tdo not check for 'fuse' group membership (if not necessary on destination platform)"
-    echo "--fuse-group"
-    echo "\tmake sure user is in group 'fuse' to be able to use fuse-based file-systems"
 }
 
 addInstallFiles () {
@@ -118,44 +112,34 @@ onTravis () {
 #get commandline arguments
 unknown_args=""
 for arg in $*; do
-	case $arg in
-		--python | --python3) PYTHON=$arg;;
-		--fuse-group | --no-fuse-group) FUSE_GROUP=$arg;;
-		--help | -h) usage; exit 0;;
-		*) unknown_args="$unknown_args $arg";;
-	esac
+    case $arg in
+        --python | --python3) PYTHON=$arg;;
+        --help | -h) usage; exit 0;;
+        *) unknown_args="$unknown_args $arg";;
+    esac
 done
 
 if [ -n "$unknown_args" ]; then
-	echo "Unknown Arguments: $unknown_args"
+    echo "Unknown Arguments: $unknown_args"
 fi
 
 #patch python command
 #use 'python' or 'python3' to start Python Version 3.x
 case $PYTHON in
-	--python)   PYVERSION="" ;;
-	--python3)  PYVERSION="3";;
+    --python)   PYVERSION="" ;;
+    --python3)  PYVERSION="3";;
 esac
 sed -e "s/^python3\? /python${PYVERSION} /g" \
     -e "s/^ssh-agent python3\? /ssh-agent python${PYVERSION} /g" \
     -i $USR_BIN_FILES
 
-#patch check for 'fuse' group
-#Some distributions require user to be in group 'fuse' to use sshfs and encfs
-case $FUSE_GROUP in
-	--fuse-group)    CHECKFUSE="True" ;;
-	--no-fuse-group) CHECKFUSE="False";;
-esac
-sed -e "s/CHECK_FUSE_GROUP = \(True\|False\)/CHECK_FUSE_GROUP = ${CHECKFUSE}/" \
-    -i $FUSE_FILES
-
 #check languages
 mos=""
 langs=""
 for langfile in `ls po/*.po`; do
-	lang=`echo $langfile | cut -d/ -f2 | cut -d. -f1`
-	mos="po/$lang.mo $mos"
-	langs="$lang $langs"
+    lang=`echo $langfile | cut -d/ -f2 | cut -d. -f1`
+    mos="po/$lang.mo $mos"
+    langs="$lang $langs"
 done
 
 #start Makefile
@@ -172,7 +156,10 @@ printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f man/C/*.gz\n" >> ${MAKEFILE}
 printf "\trm -f config-example-*.gz\n" >> ${MAKEFILE}
-printf "\trm -rf doc-dev/_build/*\n\n" >> ${MAKEFILE}
+printf "\trm -rf doc-dev/_build/*\n" >> ${MAKEFILE}
+printf "\trm -f .coverage\n" >> ${MAKEFILE}
+printf "\trm -rf htmlcov\n" >> ${MAKEFILE}
+printf "\n" >> ${MAKEFILE}
 
 #create install and uninstall target
 printf "install:\tinstall_translations\n" >> ${MAKEFILE}
@@ -251,17 +238,17 @@ printf "\tgzip -n --best -c config-example-ssh > config-example-ssh.gz\n\n" >> $
 printf "translate:\t$mos\n\n" >> ${MAKEFILE}
 
 for lang in $langs; do
-	printf "po/$lang.mo: po/$lang.po\n" >> ${MAKEFILE}
-	printf "\tmsgfmt -o po/$lang.mo po/$lang.po\n\n" >> ${MAKEFILE}
+    printf "po/$lang.mo: po/$lang.po\n" >> ${MAKEFILE}
+    printf "\tmsgfmt -o po/$lang.mo po/$lang.po\n\n" >> ${MAKEFILE}
 done
 
 #common langs
 printf "install_translations:\n" >> ${MAKEFILE}
 addComment "translations"
 for lang in $langs; do
-	addInstallDir                      "/share/locale/$lang/LC_MESSAGES"
-	addInstallFileRename "po/$lang.mo" "/share/locale/$lang/LC_MESSAGES/backintime.mo"
-	addUninstallDir                    "/share/locale/$lang"
+    addInstallDir                      "/share/locale/$lang/LC_MESSAGES"
+    addInstallFileRename "po/$lang.mo" "/share/locale/$lang/LC_MESSAGES/backintime.mo"
+    addUninstallDir                    "/share/locale/$lang"
 done
 addUninstallDir "/share/locale"
 addUninstallDir "/share"
@@ -276,7 +263,7 @@ printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
 
 #test
-for i in "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
+for i in "pytest" "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
     PYTEST=$(which $i 2>/dev/null)
     if [ -n "${PYTEST}" ]; then
         break
@@ -284,7 +271,7 @@ for i in "py.test-3" "py.test-3.6" "py.test-3.5" "py.test-3.4"; do
 done
 COVERAGE=$(which coverage 2>/dev/null)
 #use "coverage run" only on travis-ci.org and if it is available
-#this will pass informations to coveralls.io.
+#this will pass information to coveralls.io.
 #otherwise use "python", "python3" or if available "py.test-3"
 if onTravis && [ -n "${COVERAGE}" ]; then
     CMD="coverage run -p"
@@ -300,9 +287,9 @@ for v in "" "-v"; do
     if onTravis || [ -z "${PYTEST}" ]; then
         #if running on travis-ci.org or if py.test-3 is not available
         #call every test/test_*.py with $CMD from above
-    	for i in $(ls -1 test/test_*.py); do
-    		printf "\t${CMD} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
-    	done
+        for i in $(ls -1 test/test_*.py); do
+            printf "\t${CMD} -m unittest ${v} -b $i\n" >> ${MAKEFILE}
+        done
     else
         #else just call py.test-3 which will find test/test_*.py by itself
         #py.test-3 has a nicer output so this is prefered over simple python3
@@ -310,6 +297,16 @@ for v in "" "-v"; do
     fi
     printf "\n" >> ${MAKEFILE}
 done
+
+# For details about the "coverage" package args see:
+# https://coverage.readthedocs.io/en/stable/cmd.html
+printf "coverage:\n" >> ${MAKEFILE}
+printf "\tpython3 -m coverage run --source=.,./plugins,../qt,../qt/plugins --omit */test/* -m unittest -b\n" >> ${MAKEFILE}
+printf "\tpython3 -m coverage report\n" >> ${MAKEFILE}
+printf "\t# To show an interactive HTML coverage report use:\n" >> ${MAKEFILE}
+printf "\t# python3 -m coverage html\n" >> ${MAKEFILE}
+printf "\t# firefox htmlcov/index.html\n" >> ${MAKEFILE}
+printf "\n" >> ${MAKEFILE}
 
 printf "integrationtest:\n" >> ${MAKEFILE}
 printf "\ttest/test.sh\n" >> ${MAKEFILE}
@@ -325,10 +322,14 @@ for i in "${UNINSTALL_FILES}" "${UNINSTALL_DIRS}"; do
     fi
 done
 
-#check python version
-if [ $(python${PYVERSION} --version 2>&1 | grep -c "^Python 3") -ne 1 ]; then
-    printf "Warning: Wrong Python version.\n"
-    printf "Please make sure Python 3.x is used by adding '--python' or '--python3'.\n"
+# check python version
+PYTHON_VERSION_REQUIRED="3.8"
+PYTHON_VERSION_CURRENT=$(python${PYVERSION} --version | tr --delete 'Python ')
+
+# Credits: https://unix.stackexchange.com/a/285928/136851
+if [ "$(printf '%s\n' "$PYTHON_VERSION_REQUIRED" "$PYTHON_VERSION_CURRENT" | sort -V | head -n1)" != "$PYTHON_VERSION_REQUIRED" ]; then
+    printf "Error: Wrong Python version ${PYTHON_VERSION_CURRENT}. "
+    printf "But minimal version ${PYTHON_VERSION_REQUIRED} required.\n"
     exit 1
 fi
 

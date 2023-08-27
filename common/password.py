@@ -1,4 +1,4 @@
-#    Copyright (C) 2012-2017 Germar Reitze
+#    Copyright (C) 2012-2022 Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@ import time
 import atexit
 import signal
 import subprocess
-import gettext
 import re
 import errno
 
@@ -30,8 +29,6 @@ import tools
 import password_ipc
 import logger
 from exceptions import Timeout
-
-_=gettext.gettext
 
 
 class Password_Cache(tools.Daemon):
@@ -237,7 +234,13 @@ class Password(object):
         and user is logged in.
         """
         if prompt is None:
-            prompt = _('Profile \'%(profile)s\': Enter password for %(mode)s: ') % {'profile': self.config.profileName(profile_id), 'mode': self.config.SNAPSHOT_MODES[mode][pw_id + 1]}
+            """
+            Profile {name}: Enter password for {mode}
+            """
+            prompt = _("Profile '{profile}': Enter password for {mode}: ") \
+                .format(
+                    profile=self.config.profileName(profile_id),
+                    mode=self.config.SNAPSHOT_MODES[mode][pw_id+1])
 
         tools.registerBackintimePath('qt')
 
@@ -261,9 +264,13 @@ class Password(object):
                 password = ''
             return password
 
-        password = messagebox.askPasswordDialog(parent, self.config.APP_NAME,
-                    prompt = prompt,
-                    timeout = 300)
+        password = messagebox.askPasswordDialog(
+            parent=parent,
+            title=self.config.APP_NAME,
+            prompt=prompt,
+            language_code=self.config.language(),
+            timeout=300)
+
         return password
 
     def setPasswordDb(self, service_name, user_name, password):

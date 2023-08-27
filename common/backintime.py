@@ -1,5 +1,5 @@
 #    Back In Time
-#    Copyright (C) 2008-2017 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,26 +17,29 @@
 
 import os
 import sys
-import gettext
 import argparse
 import atexit
 import subprocess
 from datetime import datetime
 from time import sleep
+import json
+
+import tools
+# Workaround for situations where startApp() is not invoked.
+# E.g. when using --diagnostics and other argparse.Action
+tools.initiate_translation(None)
 
 import config
 import logger
 import snapshots
-import tools
 import sshtools
 import mount
 import password
 import encfstools
 import cli
+from diagnostics import collect_diagnostics
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
-
-_=gettext.gettext
 
 RETURN_OK = 0
 RETURN_ERR = 1
@@ -88,7 +91,7 @@ def takeSnapshot(cfg, force = True):
                                 or would be prevented (e.g. running on battery)
 
     Returns:
-        bool:                   ``True`` if successful
+        bool:                   ``True`` if there was an error
     """
     tools.envLoad(cfg.cronEnvFile())
     ret = snapshots.Snapshots(cfg).backup(force)
@@ -206,6 +209,10 @@ def createParsers(app_name = 'backintime'):
                         action = printLicense,
                         nargs = 0,
                         help = "show %(prog)s's license.")
+    parser.add_argument('--diagnostics',
+                        action = printDiagnostics,
+                        nargs = 0,
+                        help = "show helpful info for better support in case of issues (in JSON format)")
 
     #######################
     ### define commands ###
@@ -219,7 +226,7 @@ def createParsers(app_name = 'backintime'):
     nargs = 0
     aliases = [(command, nargs), ('b', nargs)]
     description = 'Take a new snapshot. Ignore if the profile ' +\
-                  'is not scheduled or if the machine runs on battery.'
+                  'is not scheduled or if the machine is running on battery.'
     backupCP =             subparsers.add_parser(command,
                                                  parents = [rsyncArgsParser],
                                                  epilog = epilogCommon,
@@ -233,7 +240,7 @@ def createParsers(app_name = 'backintime'):
     aliases.append((command, nargs))
     description = 'Take a new snapshot in background only '      +\
                   'if the profile is scheduled and the machine ' +\
-                  'is not on battery. This is use by cron jobs.'
+                  'is not on battery. This is used by cron jobs.'
     backupJobCP =          subparsers.add_parser(command,
                                                  parents = [rsyncArgsParser],
                                                  epilog = epilogCommon,
@@ -257,7 +264,7 @@ def createParsers(app_name = 'backintime'):
                                                  action = 'store',
                                                  default = 40,
                                                  nargs = '?',
-                                                 help = 'File size used to for benchmark.')
+                                                 help = 'File size used for benchmark.')
 
     command = 'check-config'
     description = 'Check the profiles configuration and install crontab entries.'
@@ -394,17 +401,17 @@ def createParsers(app_name = 'backintime'):
 
     backupGroup.add_argument                    ('--no-local-backup',
                                                  action = 'store_true',
-                                                 help = 'Temporary disable creation of backup files before changing local files. ' +\
-                                                 'This can be switched of permanently in Settings, too.')
+                                                 help = 'Temporarily disable creation of backup files before changing local files. ' +\
+                                                 'This can be switched off permanently in Settings, too.')
 
     restoreCP.add_argument                      ('--only-new',
                                                  action = 'store_true',
-                                                 help = 'Only restore files which does not exist or are newer than ' +\
+                                                 help = 'Only restore files which do not exist or are newer than ' +\
                                                         'those in destination. Using "rsync --update" option.')
 
     command = 'shutdown'
     nargs = 0
-    description = 'Shutdown the computer after the snapshot is done.'
+    description = 'Shut down the computer after the snapshot is done.'
     shutdownCP =           subparsers.add_parser(command,
                                                  epilog = epilogCommon,
                                                  help = description,
@@ -425,7 +432,7 @@ def createParsers(app_name = 'backintime'):
     command = 'snapshots-list'
     nargs = 0
     aliases.append((command, nargs))
-    description = 'Show a list of snapshots IDs.'
+    description = 'Show a list of snapshot IDs.'
     snapshotsListCP =      subparsers.add_parser(command,
                                                  parents = [snapshotPathParser],
                                                  epilog = epilogCommon,
@@ -437,7 +444,7 @@ def createParsers(app_name = 'backintime'):
     command = 'snapshots-list-path'
     nargs = 0
     aliases.append((command, nargs))
-    description = "Show the path's to snapshots."
+    description = "Show the paths to snapshots."
     snapshotsListPathCP =  subparsers.add_parser(command,
                                                  parents = [snapshotPathParser],
                                                  epilog = epilogCommon,
@@ -493,8 +500,7 @@ def startApp(app_name = 'backintime'):
         config.Config:  current config if no command was given in arguments
     """
     createParsers(app_name)
-    #open log
-    logger.APP_NAME = app_name
+
     logger.openlog()
 
     #parse args
@@ -508,7 +514,7 @@ def startApp(app_name = 'backintime'):
     if tools.usingSudo() and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false':
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')
         logger.warning("It looks like you're using 'sudo' to start %(app)s. "
-                       "This will cause some troubles. Please use either 'sudo -i %(app_name)s' "
+                       "This will cause some trouble. Please use either 'sudo -i %(app_name)s' "
                        "or 'pkexec %(app_name)s'."
                        %{'app_name': app_name, 'app': config.Config.APP_NAME})
 
@@ -595,9 +601,10 @@ def printHeader():
     Print application name, version and legal notes.
     """
     version = config.Config.VERSION
-    ref, hashid = tools.gitRevisionAndHash()
-    if ref:
-        version += " git branch '{}' hash '{}'".format(ref, hashid)
+    # Git info is now only shown via --diagnostics
+    # ref, hashid = tools.gitRevisionAndHash()
+    # if ref:
+    #     version += " git branch '{}' hash '{}'".format(ref, hashid)
     print('')
     print('Back In Time')
     print('Version: ' + version)
@@ -720,6 +727,24 @@ class printLicense(argparse.Action):
         print(cfg.license())
         sys.exit(RETURN_OK)
 
+class printDiagnostics(argparse.Action):
+    """
+    Print information that is helpful for the support team
+    to narrow down problems and bugs.
+    The info is printed using the machine- and human-readable JSON format
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(printDiagnostics, self).__init__(*args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+
+        diagnostics = collect_diagnostics()
+
+        print(json.dumps(diagnostics, indent=4))
+
+        sys.exit(RETURN_OK)
+
 def backup(args, force = True):
     """
     Command for force taking a new snapshot.
@@ -737,7 +762,7 @@ def backup(args, force = True):
     printHeader()
     cfg = getConfig(args)
     ret = takeSnapshot(cfg, force)
-    sys.exit(int(not ret))
+    sys.exit(int(ret))
 
 def backupJob(args):
     """
@@ -852,7 +877,7 @@ def snapshotsList(args):
 
 def snapshotsListPath(args):
     """
-    Command for printing a list of all snapshots pathes in current profile.
+    Command for printing a list of all snapshots paths in current profile.
 
     Args:
         args (argparse.Namespace):

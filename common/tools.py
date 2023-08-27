@@ -1,5 +1,6 @@
 #    Back In Time
-#    Copyright (C) 2008-2017 Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze, Taylor Raack
+#    Copyright (C) 2008-2022 Oprea Dan, Bart de Koning, Richard Bailey,
+#    Germar Reitze, Taylor Raack
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -14,10 +15,9 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-
 import os
 import sys
+import pathlib
 import subprocess
 import shlex
 import signal
@@ -25,18 +25,24 @@ import re
 import errno
 import gzip
 import tempfile
-import collections
+import gettext
+try:
+    from collections.abc import MutableSet
+except ImportError:
+    from collections import MutableSet
 import hashlib
 import ipaddress
 import atexit
 from datetime import datetime
-from distutils.version import StrictVersion
+from packaging.version import Version
 from time import sleep
 keyring = None
 keyring_warn = False
 try:
     if os.getenv('BIT_USE_KEYRING', 'true') == 'true' and os.geteuid() != 0:
         import keyring
+        from keyring import backend
+        import keyring.util.platform_
 except:
     keyring = None
     os.putenv('BIT_USE_KEYRING', 'false')
@@ -61,14 +67,19 @@ import logger
 import bcolors
 from applicationinstance import ApplicationInstance
 from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
+import languages
 
 DISK_BY_UUID = '/dev/disk/by-uuid'
 
-def sharePath():
-    """
-    Get BackInTimes installation base path.
+# |-----------------|
+# | Handling pathes |
+# |-----------------|
 
-    If running from source return default '/usr/share'
+
+def sharePath():
+    """Get path where Back In Time is installed.
+
+    If running from source return default ``/usr/share``.
 
     Returns:
         str:    share path like::
@@ -77,18 +88,191 @@ def sharePath():
                     /usr/local/share
                     /opt/usr/share
     """
-    share = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
+    share = os.path.abspath(
+        os.path.join(__file__, os.pardir, os.pardir, os.pardir)
+    )
+
     if os.path.basename(share) == 'share':
         return share
+
+    return '/usr/share'
+
+
+# |---------------------------------------------------|
+# | Internationalization (i18n) & localization (L10n) |
+# |---------------------------------------------------|
+_GETTEXT_DOMAIN = 'backintime'
+_GETTEXT_LOCALE_DIR = pathlib.Path(sharePath()) / 'locale'
+
+
+def _determine_current_used_language_code(translation, language_code):
+    """Return the language code used by GNU gettext for real.
+
+    Args:
+        translation(gettext.NullTranslations): The translation installed.
+        language_code(str): Configured language code.
+
+    The used language code can differ from the one in Back In Times config
+    file and from the current systems locale.
+
+    It is necessary because of situations where the language is not explicit
+    setup in Back In Time config file and GNU gettext do try to find and use a
+    language file for the current systems locale. But even this can fail and
+    the fallback (source language "en") is used or an alternative locale.
+    """
+
+    try:
+        # The field "language" is rooted in header of the po-file.
+        current_used_language_code = translation.info()['language']
+
+    except KeyError:
+        # Workaround:
+        # BIT versions 1.3.3 or older don't have the "language" field in the
+        # header of their po-files.
+
+        # The approach is to extract the language code from the full filepath
+        # of the currently used mo-file.
+
+        # Get the filepath of the used mo-file
+        mo_file_path = gettext.find(
+            domain=_GETTEXT_DOMAIN,
+            localedir=_GETTEXT_LOCALE_DIR,
+            languages=[language_code, ] if language_code else None,
+        )
+
+        # Extract the language code form that path
+        if mo_file_path:
+            mo_file_path = pathlib.Path(mo_file_path)
+            # e.g /usr/share/locale/de/LC_MESSAGES/backintime.mo
+            #                       ^^
+            current_used_language_code = mo_file_path.relative_to(
+                _GETTEXT_LOCALE_DIR).parts[0]
+
+        else:
+            # Workaround: Happens when LC_ALL=C, which in BIT context mean
+            # its source language in English.
+            current_used_language_code = 'en'
+
+    return current_used_language_code
+
+
+def initiate_translation(language_code):
+    """Initiate Class-based API of GNU gettext.
+
+    Args:
+        language_code(str): Language code to use (based on ISO-639).
+
+    It installs the ``_()`` (and ``ngettext()`` for plural forms)  in the
+    ``builtins`` namespace and eliminates the need to ``import gettext``
+    and declare ``_()`` in each module. The systems current local is used
+    if the language code is None.
+    """
+
+    if language_code:
+        logger.debug(f'Language code "{language_code}".')
     else:
-        return '/usr/share'
+        logger.debug('No language code. Use systems current locale.')
+
+    translation = gettext.translation(
+        domain=_GETTEXT_DOMAIN,
+        localedir=_GETTEXT_LOCALE_DIR,
+        languages=[language_code, ] if language_code else None,
+        fallback=True
+    )
+    translation.install(names=['ngettext'])
+
+    return _determine_current_used_language_code(translation, language_code)
+
+
+def get_available_language_codes():
+    """Return language codes available in the current installation.
+
+    The filesystem is searched for ``backintime.mo`` files and the language
+    code is extracted from the full path of that files.
+
+    Return:
+        List of language codes.
+    """
+
+    # full path of one mo-file
+    # e.g. /usr/share/locale/de/LC_MESSAGES/backintime.mo
+    po = gettext.find(domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
+
+    if po:
+        po = pathlib.Path(po)
+    else:
+        # Workaround. This happens if LC_ALL=C and BIT don't use an explicite
+        # language. Should be re-design.
+        po = _GETTEXT_LOCALE_DIR / 'xy' / 'LC_MESSAGES' / 'backintime.po'
+
+    # e.g. de/LC_MESSAGES/backintime.mo
+    po = po.relative_to(_GETTEXT_LOCALE_DIR)
+
+    # e.g. */LC_MESSAGES/backintime.mo
+    po = pathlib.Path('*') / pathlib.Path(*po.parts[1:])
+
+    pofiles = _GETTEXT_LOCALE_DIR.rglob(str(po))
+
+    return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in pofiles]
+
+
+def get_language_names(language_code):
+    """Return a list with language names in three different flavours.
+
+    Language codes from `get_available_language_codes()` are combined with
+    `languages.language_names` to prepare the list.
+
+    Args:
+        language_code (str): Usually the current language used by Back In Time.
+
+    Returns:
+        A dictionary indexed by language codes with 3-item tuples as
+        values. Each tuple contain three representations of the same language:
+        ``language_code`` (usually the current locales language),
+        the language itself (native) and in English (the source language);
+        e.g. ``ja`` (Japanese) for ``de`` (German) locale
+        is ``('Japanisch', '日本語', 'Japanese')``.
+    """
+    result = {}
+    codes = ['en'] + get_available_language_codes()
+
+    for c in codes:
+
+        try:
+            # A dict with one specific language and how its name is
+            # represented in all other languages.
+            # e.g. "Japanese" in "de" is "Japanisch"
+            # e.g. "Deutsch" in "es" is "alemán"
+            lang = languages.names[c]
+
+        except KeyError:
+            names = None
+
+        else:
+            names = (
+                # in currents locale language
+                lang[language_code],
+                # native
+                lang['_native'],
+                # in English (source language)
+                lang['en']
+            )
+
+        result[c] = names
+
+    return result
+
+
+# |------------------------------------|
+# | Miscellaneous, not categorized yet |
+# |------------------------------------|
 
 def backintimePath(*path):
     """
     Get path inside 'backintime' install folder.
 
     Args:
-        *path (str):    paths that should be joind to 'backintime'
+        *path (str):    paths that should be joined to 'backintime'
 
     Returns:
         str:            'backintime' child path like::
@@ -165,7 +349,8 @@ def gitRevisionAndHash():
             pass
     return (ref, hashid)
 
-def readFile(path, default = None):
+
+def readFile(path, default=None):
     """
     Read the file in ``path`` or its '.gz' compressed variant and return its
     content or ``default`` if ``path`` does not exist.
@@ -183,15 +368,20 @@ def readFile(path, default = None):
 
     try:
         if os.path.exists(path):
+
             with open(path) as f:
                 ret_val = f.read()
+
         elif os.path.exists(path + '.gz'):
+
             with gzip.open(path + '.gz', 'rt') as f:
                 ret_val = f.read()
+
     except:
         pass
 
     return ret_val
+
 
 def readFileLines(path, default = None):
     """
@@ -205,7 +395,7 @@ def readFileLines(path, default = None):
         default (list):         default if ``path`` does not exist
 
     Returns:
-        list:                   content of file in ``path`` splitted by lines.
+        list:                   content of file in ``path`` split by lines.
     """
     ret_val = default
 
@@ -287,7 +477,7 @@ def makeDirs(path):
                          %(path, str(e)), traceDepth = 1)
     return os.path.isdir(path)
 
-def mkdir(path, mode = 0o755):
+def mkdir(path, mode = 0o755, enforce_permissions = True):
     """
     Create directory ``path``.
 
@@ -300,7 +490,8 @@ def mkdir(path, mode = 0o755):
     """
     if os.path.isdir(path):
         try:
-            os.chmod(path, mode)
+            if enforce_permissions:
+                os.chmod(path, mode)
         except:
             return False
         return True
@@ -313,6 +504,7 @@ def mkdir(path, mode = 0o755):
             os.chmod(path, mode)
     return os.path.isdir(path)
 
+
 def pids():
     """
     List all PIDs currently running on the system.
@@ -321,6 +513,7 @@ def pids():
         list:   PIDs as int
     """
     return [int(x) for x in os.listdir('/proc') if x.isdigit()]
+
 
 def processStat(pid):
     """
@@ -335,9 +528,12 @@ def processStat(pid):
     try:
         with open('/proc/{}/stat'.format(pid), 'rt') as f:
             return f.read()
+
     except OSError as e:
-        logger.warning('Failed to read process stat from {}: [{}] {}'.format(e.filename, e.errno, e.strerror))
+        logger.warning('Failed to read process stat from {}: [{}] {}'
+                       .format(e.filename, e.errno, e.strerror))
         return ''
+
 
 def processPaused(pid):
     """
@@ -350,7 +546,9 @@ def processPaused(pid):
         bool:       True if process is paused
     """
     m = re.match(r'\d+ \(.+\) T', processStat(pid))
+
     return bool(m)
+
 
 def processName(pid):
     """
@@ -363,8 +561,10 @@ def processName(pid):
         str:        name of the process
     """
     m = re.match(r'.*\((.+)\).*', processStat(pid))
+
     if m:
         return m.group(1)
+
 
 def processCmdline(pid):
     """
@@ -446,21 +646,82 @@ def checkXServer():
     """
     Check if there is a X11 server running on this system.
 
+    Use ``is_Qt5_working`` instead if you want to be sure that Qt5 is working.
+
     Returns:
         bool:   ``True`` if X11 server is running
     """
-    proc = subprocess.Popen(['xdpyinfo'],
-                            stdout = subprocess.DEVNULL,
-                            stderr = subprocess.DEVNULL)
-    proc.communicate()
-    return proc.returncode == 0
+    # Note: Return values of xdpyinfo <> 0 are not clearly documented.
+    #       xdpyinfo does indeed return 1 if it prints
+    #           xdypinfo: unable to open display "..."
+    #       This seems to be undocumented (at least not in the man pages)
+    #       and the source is not obvious here:
+    #       https://cgit.freedesktop.org/xorg/app/xdpyinfo/tree/xdpyinfo.c
+    if checkCommand('xdpyinfo'):
+        proc = subprocess.Popen(['xdpyinfo'],
+                                stdout = subprocess.DEVNULL,
+                                stderr = subprocess.DEVNULL)
+        proc.communicate()
+        return proc.returncode == 0
+    else:
+        return False
+
+
+def is_Qt5_working(systray_required=False):
+    """
+    Check if the Qt5 GUI library is working (installed and configured)
+
+    This function is contained in BiT CLI (not BiT Qt) to allow Qt5
+    diagnostics output even if the BiT Qt GUI is not installed.
+    This function does NOT add a hard Qt5 dependency (just "probing")
+    so it is OK to be in BiT CLI.
+
+    Args:
+        systray_required: Set to ``True`` if the systray of the desktop
+        environment must be available too to consider Qt5 as "working"
+
+    Returns:
+        bool: ``True``  Qt5 can create a GUI
+              ``False`` Qt5 fails (or the systray is not available
+                        if ``systray_required`` is ``True``)
+    """
+
+    # Spawns a new process since it may crash with a SIGABRT and we
+    # don't want to crash BiT if this happens...
+
+    try:
+        path = os.path.join(backintimePath("common"), "qt5_probing.py")
+        cmd = [sys.executable, path]
+        with subprocess.Popen(cmd,
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE,
+                              universal_newlines=True) as proc:
+
+            std_output, error_output = proc.communicate()  # to get the exit code
+
+            logger.debug(f"Qt5 probing result: exit code {proc.returncode}")
+
+            if proc.returncode != 2:  # if some Qt5 parts are missing: Show details
+                logger.debug(f"Qt5 probing stdout: {std_output}")
+                logger.debug(f"Qt5 probing errout: {error_output}")
+
+            return proc.returncode == 2 or (proc.returncode == 1 and systray_required is False)
+
+    except FileNotFoundError:
+        logger.error(f"Qt5 probing script not found: {cmd[0]}")
+        raise
+
+    except Exception as e:
+        logger.error(f"Error: {repr(e)}")
+        raise
+
 
 def preparePath(path):
     """
     Removes trailing slash '/' from ``path``.
 
     Args:
-        path (str): absolut path
+        path (str): absolute path
 
     Returns:
         str:        path ``path`` without trailing but with leading slash
@@ -525,9 +786,12 @@ def rsyncCaps(data = None):
         data = proc.communicate()[0]
     caps = []
     #rsync >= 3.1 does provide --info=progress2
-    m = re.match(r'rsync\s*version\s*(\d\.\d)', data)
-    if m and StrictVersion(m.group(1)) >= StrictVersion('3.1'):
-        caps.append('progress2')
+    matchers = [r'rsync\s*version\s*(\d\.\d)', r'rsync\s*version\s*v(\d\.\d.\d)']
+    for matcher in matchers:
+        m = re.match(matcher, data)
+        if m and Version(m.group(1)) >= Version('3.1'):
+            caps.append('progress2')
+            break
 
     #all other capabilities are separated by ',' between
     #'Capabilities:' and '\n\n'
@@ -539,10 +803,11 @@ def rsyncCaps(data = None):
         caps.extend([i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
     return caps
 
+
 def rsyncPrefix(config,
-                no_perms = True,
-                use_mode = ['ssh', 'ssh_encfs'],
-                progress = True):
+                no_perms=True,
+                use_mode=['ssh', 'ssh_encfs'],
+                progress=True):
     """
     Get rsync command and all args for creating a new snapshot. Args are
     based on current profile in ``config``.
@@ -564,15 +829,28 @@ def rsyncPrefix(config,
     """
     caps = rsyncCaps()
     cmd = []
+
     if config.nocacheOnLocal():
         cmd.append('nocache')
+
     cmd.append('rsync')
-    cmd.extend(('--recursive',     # recurse into directories
-                '--times',          # preserve modification times
-                '--devices',        # preserve device files (super-user only)
-                '--specials',       # preserve special files
-                '--hard-links',     # preserve hard links
-                '--human-readable'))# numbers in a human-readable format
+
+    cmd.extend((
+        # recurse into directories
+        '--recursive',
+        # preserve modification times
+        '--times',
+        # preserve device files (super-user only)
+        '--devices',
+        # preserve special files
+        '--specials',
+        # preserve hard links
+        '--hard-links',
+        # numbers in a human-readable format
+        '--human-readable',
+        # use "new" argument protection
+        '-s'
+    ))
 
     if config.useChecksum() or config.forceUseChecksum:
         cmd.append('--checksum')
@@ -606,7 +884,7 @@ def rsyncPrefix(config,
                     '--no-inc-recursive'))
 
     if config.bwlimitEnabled():
-        cmd.append('--bwlimit=%d' %config.bwlimit())
+        cmd.append('--bwlimit=%d' % config.bwlimit())
 
     if config.rsyncOptionsEnabled():
         cmd.extend(shlex.split(config.rsyncOptions()))
@@ -614,39 +892,52 @@ def rsyncPrefix(config,
     cmd.extend(rsyncSshArgs(config, use_mode))
     return cmd
 
-def rsyncSshArgs(config, use_mode = ['ssh', 'ssh_encfs']):
+
+def rsyncSshArgs(config, use_mode=['ssh', 'ssh_encfs']):
     """
     Get SSH args for rsync based on current profile in ``config``.
 
     Args:
-        config (config.Config): current config
-        use_mode (list):        if current mode is in this list add additional
-                                args for that mode
+        config (config.Config): Current config instance.
+        use_mode (list):        If the profiles current mode is in this list
+                                add additional args.
 
     Returns:
-        list:                   SSH args for rsync
+        list:                   List of rsync args related to SSH.
     """
+
     cmd = []
+
     mode = config.snapshotsMode()
+
     if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
-        ssh = config.sshCommand(user_host = False,
-                                 ionice = False,
-                                 nice = False)
+        ssh = config.sshCommand(user_host=False,
+                                ionice=False,
+                                nice=False)
+
         cmd.append('--rsh=' + ' '.join(ssh))
 
-        if config.niceOnRemote()     \
-          or config.ioniceOnRemote() \
-          or config.nocacheOnRemote():
+        if config.niceOnRemote() \
+           or config.ioniceOnRemote() \
+           or config.nocacheOnRemote():
+
             rsync_path = '--rsync-path='
+
             if config.niceOnRemote():
                 rsync_path += 'nice -n 19 '
+
             if config.ioniceOnRemote():
                 rsync_path += 'ionice -c2 -n7 '
+
             if config.nocacheOnRemote():
                 rsync_path += 'nocache '
+
             rsync_path += 'rsync'
+
             cmd.append(rsync_path)
+
     return cmd
+
 
 def rsyncRemove(config, run_local = True):
     """
@@ -660,7 +951,7 @@ def rsyncRemove(config, run_local = True):
     Returns:
         list:                   rsync command with all args
     """
-    cmd = ['rsync', '-a', '--delete']
+    cmd = ['rsync', '-a', '--delete', '-s']
     if run_local:
         cmd.extend(rsyncSshArgs(config))
     return cmd
@@ -794,29 +1085,72 @@ def keyringSupported():
     if keyring is None:
         logger.debug('No keyring due to import error.')
         return False
-    backends = []
-    try: backends.append(keyring.backends.SecretService.Keyring)
-    except: pass
-    try: backends.append(keyring.backends.Gnome.Keyring)
-    except: pass
-    try: backends.append(keyring.backends.kwallet.Keyring)
-    except: pass
-    try: backends.append(keyring.backends.kwallet.DBusKeyring)
-    except: pass
-    try: backends.append(keyring.backend.SecretServiceKeyring)
-    except: pass
-    try: backends.append(keyring.backend.GnomeKeyring)
-    except: pass
-    try: backends.append(keyring.backend.KDEKWallet)
-    except: pass
+
+    keyring_config_file_folder = "Unknown"
     try:
+        keyring_config_file_folder = keyring.util.platform_.config_root()
+    except:
+        pass
+
+    logger.debug(f"Keyring config file folder: {keyring_config_file_folder}")
+
+    # Determine the currently active backend
+    try:
+        # get_keyring() internally calls keyring.core.init_backend()
+        # which fixes non-available backends for the first call.
+        # See related issue #1321:
+        # https://github.com/bit-team/backintime/issues/1321
+        # The module name is used instead of the class name
+        # to show only the keyring name (not the technical name)
         displayName = keyring.get_keyring().__module__
     except:
-        displayName = str(keyring.get_keyring())
-    if backends and isinstance(keyring.get_keyring(), tuple(backends)):
+        displayName = str(keyring.get_keyring())  # technical class name!
+
+    logger.debug("Available keyring backends:")
+    try:
+        for b in backend.get_all_keyring():
+            logger.debug(b)
+    except Exception as e:
+        logger.debug("Available backends cannot be listed: " + repr(e))
+
+    available_backends = []
+
+    # Create a list of installed backends that BiT supports (white-listed).
+    # This is done by trying to put the meta classes ("class definitions",
+    # NOT instances of the class itself!) of the supported backends
+    # into the "backends" list
+    try: available_backends.append(keyring.backends.SecretService.Keyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.SecretService.Keyring not found: " + repr(e))
+    try: available_backends.append(keyring.backends.Gnome.Keyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.Gnome.Keyring not found: " + repr(e))
+    try: available_backends.append(keyring.backends.kwallet.Keyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.kwallet.Keyring not found: " + repr(e))
+    try: available_backends.append(keyring.backends.kwallet.DBusKeyring)
+    except Exception as e: logger.debug("Metaclass keyring.backends.kwallet.DBusKeyring not found: " + repr(e))
+    try: available_backends.append(keyring.backend.SecretServiceKeyring)
+    except Exception as e: logger.debug("Metaclass keyring.backend.SecretServiceKeyring not found: " + repr(e))
+    try: available_backends.append(keyring.backend.GnomeKeyring)
+    except Exception as e: logger.debug("Metaclass keyring.backend.GnomeKeyring not found: " + repr(e))
+    try: available_backends.append(keyring.backend.KDEKWallet)
+    except Exception as e: logger.debug("Metaclass keyring.backend.KDEKWallet not found: " + repr(e))
+    # See issue #1410: ChainerBackend is now supported
+    #                  to solve the problem of configuring the
+    #                  used backend since it iterates over all of them
+    #                  and is to be the default backend now.
+    #                  Please read the issue details to understand the
+    #                  unwanted side-effects the chainer could bring with it.
+    # See also: https://github.com/jaraco/keyring/blob/977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/chainer.py#L11
+    try: available_backends.append(keyring.backends.chainer.ChainerBackend)
+    except Exception as e: logger.debug("Metaclass keyring.backends.chainer.ChainerBackend not found:" + repr(e))
+
+    logger.debug("Available supported backends: " + repr(available_backends))
+
+    if available_backends and isinstance(keyring.get_keyring(), tuple(available_backends)):
         logger.debug("Found appropriate keyring '{}'".format(displayName))
         return True
+
     logger.debug("No appropriate keyring found. '{}' can't be used with BackInTime".format(displayName))
+    logger.debug("See https://github.com/bit-team/backintime on how to fix this by creating a keyring config file.")
     return False
 
 def password(*args):
@@ -849,7 +1183,7 @@ def mountpoint(path):
 
 def decodeOctalEscape(s):
     """
-    Decode octal-escaped characters with its ASCII dependance.
+    Decode octal-escaped characters with its ASCII dependence.
     For example '\040' will be a space ' '
 
     Args:
@@ -878,13 +1212,18 @@ def mountArgs(path):
         list:       mount args
     """
     mp = mountpoint(path)
+    
     with open('/etc/mtab', 'r') as mounts:
+
         for line in mounts:
             args = line.strip('\n').split(' ')
+
             if len(args) >= 2:
-                    args[1] = decodeOctalEscape(args[1])
-                    if args[1] == mp:
-                        return args
+                args[1] = decodeOctalEscape(args[1])
+
+                if args[1] == mp:
+                    return args
+
     return None
 
 def device(path):
@@ -903,8 +1242,10 @@ def device(path):
         str:        device
     """
     args = mountArgs(path)
+
     if args:
         return args[0]
+
     return None
 
 def filesystem(path):
@@ -922,32 +1263,132 @@ def filesystem(path):
         return args[2]
     return None
 
+def _uuidFromDev_via_filesystem(dev):
+    """Get the UUID for the block device ``dev`` from ``/dev/disk/by-uuid`` in
+    the filesystem.
+
+    Args:
+        dev (pathlib.Path): The block device path (e.g. ``/dev/sda1``).
+
+    Returns:
+        str: The UUID or ``None`` if nothing found.
+    """
+
+
+    # /dev/disk/by-uuid
+    path_DISK_BY_UUID = pathlib.Path(DISK_BY_UUID)
+
+    if not path_DISK_BY_UUID.exists():
+        return None
+
+    # Each known uuid
+    for uuid_symlink in path_DISK_BY_UUID.glob('*'):
+
+        # Resolve the symlink (get it's target) to get the real device name
+        # and compare it with the device we are looking for
+        if dev == uuid_symlink.resolve():
+
+            # e.g. 'c7aca0a7-89ed-43f0-a4f9-c744dfe673e0'
+            return uuid_symlink.name
+
+    # Nothing found
+    return None
+
+def _uuidFromDev_via_blkid_command(dev):
+    """Get the UUID for the block device ``dev`` via the extern command
+    ``blkid``.
+
+    Hint:
+        On most systems the ``blkid`` command is available only for the
+        super-user (e.g. via ``sudo``).
+
+    Args:
+        dev (pathlib.Path): The block device path (e.g. ``/dev/sda1``).
+
+    Returns:
+        str: The UUID or ``None`` if nothing found.
+    """
+
+    # Call "blkid" command
+    try:
+        # If device does not exist, blkid will exit with a non-zero code
+        output = subprocess.check_output(['blkid', dev],
+                                        stderr = subprocess.DEVNULL,
+                                        universal_newlines=True)
+
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+    # Parse the commands output for a UUID
+    try:
+        return re.findall(r'.*\sUUID=\"([^\"]*)\".*', output)[0]
+    except IndexError:
+        # nothing found via the regex pattern
+        pass
+
+    return None
+
+def _uuidFromDev_via_udevadm_command(dev):
+    """Get the UUID for the block device ``dev`` via the extern command
+    ``udevadm``.
+
+    Args:
+        dev (pathlib.Path): The block device path (e.g. ``/dev/sda1``).
+
+    Returns:
+        str: The UUID or ``None`` if nothing found.
+    """
+    # Call "udevadm" command
+    try:
+        output = subprocess.check_output(['udevadm', 'info', f'--name={dev}'],
+                                        stderr = subprocess.DEVNULL,
+                                        universal_newlines=True)
+
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+    # Parse the commands output for a UUID
+    try:
+        return re.findall(r'.*?ID_FS_UUID=(\S+)', output)[0]
+    except IndexError:
+        # nothing found via the regex pattern
+        pass
+
+    return None
+
+
 def uuidFromDev(dev):
     """
     Get the UUID for the block device ``dev``.
 
     Args:
-        dev (str):  block device path
+        dev (str, pathlib.Path):  block device path
 
     Returns:
         str:        UUID
     """
-    if dev and os.path.exists(dev):
-        dev = os.path.realpath(dev)
-        for uuid in os.listdir(DISK_BY_UUID):
-            if dev == os.path.realpath(os.path.join(DISK_BY_UUID, uuid)):
-                return uuid
-    c = re.compile(b'.*?ID_FS_UUID=(\S+)')
-    try:
-        udevadm = subprocess.check_output(['udevadm', 'info', '--name=%s' % dev],
-                                          stderr = subprocess.DEVNULL)
-        for line in udevadm.split():
-            m = c.match(line)
-            if m:
-                return m.group(1).decode('UTF-8')
-    except:
-        pass
-    return None
+
+    # handle Path objects only
+    if not isinstance(dev, pathlib.Path):
+        dev = pathlib.Path(dev)
+
+    if dev.exists():
+        dev = dev.resolve()  # when /dev/sda1 is a symlink
+
+        # Look at /dev/disk/by-uuid/
+        uuid = _uuidFromDev_via_filesystem(dev)
+        if uuid:
+            return uuid
+
+        # Try extern command "blkid"
+        uuid = _uuidFromDev_via_blkid_command(dev)
+        if uuid:
+            return uuid
+
+    # "dev" doesn't exist in the filesystem
+
+    # Try "udevadm" command at the end
+    return _uuidFromDev_via_udevadm_command(dev)
 
 def uuidFromPath(path):
     """
@@ -984,12 +1425,12 @@ def wrapLine(msg, size=950, delimiters='\t ', new_line_indicator = 'CONTINUE: ')
 
     Args:
         msg (str):                  string that should get wrapped
-        size (int):                 maximum lenght of returned strings
+        size (int):                 maximum length of returned strings
         delimiters (str):           try to break ``msg`` on these characters
         new_line_indicator (str):   start new lines with this string
 
     Yields:
-        str:                        lines with max ``size`` lenght
+        str:                        lines with max ``size`` length
     """
     if len(new_line_indicator) >= size - 1:
         new_line_indicator = ''
@@ -1211,7 +1652,9 @@ def readCrontab():
             return []
         else:
             crontab = [x.strip() for x in out.strip('\n').split('\n')]
-            logger.debug('Read %s lines from users crontab'
+            if crontab == ['']:  # Fixes issue #1181 (line count of empty crontab was 1 instead of 0)
+                crontab = []
+            logger.debug('Read %s lines from user crontab'
                          %len(crontab))
             return crontab
 
@@ -1248,7 +1691,7 @@ def writeCrontab(lines):
                      %(proc.returncode, err))
         return False
     else:
-        logger.debug('Wrote %s lines to users crontab'
+        logger.debug('Wrote %s lines to user crontab'
                      %len(lines))
         return True
 
@@ -1406,13 +1849,13 @@ class UniquenessSet:
             size,inode  = dum.st_size, dum.st_ino
             # is it a hlink ?
             if (size, inode) in self._size_inode:
-                logger.debug("[deep test] : skip, it's a duplicate (size, inode)", self)
+                logger.debug("[deep test]: skip, it's a duplicate (size, inode)", self)
                 return False
             self._size_inode.add((size,inode))
             if size not in self._uniq_dict:
                 # first item of that size
                 unique_key = size
-                logger.debug("[deep test] : store current size ?", self)
+                logger.debug("[deep test]: store current size?", self)
             else:
                 prev = self._uniq_dict[size]
                 if prev:
@@ -1420,16 +1863,16 @@ class UniquenessSet:
                     md5sum_prev = md5sum(prev)
                     self._uniq_dict[size] = None
                     self._uniq_dict[md5sum_prev] = prev
-                    logger.debug("[deep test] : size duplicate, remove the size, store prev md5sum", self)
+                    logger.debug("[deep test]: size duplicate, remove the size, store prev md5sum", self)
                 unique_key = md5sum(path)
-                logger.debug("[deep test] : store current md5sum ?", self)
+                logger.debug("[deep test]: store current md5sum?", self)
         else:
             # store a tuple of (size, modification time)
             obj  = os.stat(path)
             unique_key = (obj.st_size, int(obj.st_mtime))
         # store if not already present, then return True
         if unique_key not in self._uniq_dict:
-            logger.debug(" >> ok, store !", self)
+            logger.debug(" >> ok, store!", self)
             self._uniq_dict[unique_key] = path
             return True
         logger.debug(" >> skip (it's a duplicate)", self)
@@ -1454,22 +1897,52 @@ class UniquenessSet:
         else:
             return self.reference == (st.st_size, int(st.st_mtime))
 
+
 class Alarm(object):
     """
-    Timeout for FIFO. This does not work with threading.
+    Establish a callback function that is called after a timeout.
+
+    The implementation uses a SIGALRM signal so
+    do not call code in the callback that does not support multi-threading
+    (reentrance) or you may cause non-deterministic "random" RTEs.
     """
     def __init__(self, callback = None, overwrite = True):
+        """
+        Create a new alarm instance
+
+        Args:
+            callback: Function to call when the timer ran down
+                      (ensure calling only reentrant code).
+                      Use ``None`` to throw a ``Timeout`` exception instead.
+            overwrite: Is it allowed to (re)start the timer
+                       even though the current timer is still running
+                       ("ticking"):
+                       ``True`` cancels the current timer (if active)
+                                and restarts with the new timeout.
+                       ``False` silently ignores the start request
+                                if the current timer is still "ticking"
+        """
         self.callback = callback
         self.ticking = False
         self.overwrite = overwrite
 
     def start(self, timeout):
         """
-        Start timer
+        Start the timer (which calls the handler function
+        when the timer ran down).
+
+        The start is silently ignored if the current timer is still
+        ticking and the the attribute ``overwrite`` is ``False``.
+
+        Args:
+            timeout: timer count down in seconds
         """
         if self.ticking and not self.overwrite:
             return
         try:
+            # Warning: This code may cause non-deterministic RTEs
+            #          if the handler function calls code that does
+            #          not support reentrance (see e.g. issue #1003).
             signal.signal(signal.SIGALRM, self.handler)
             signal.alarm(timeout)
         except ValueError:
@@ -1478,7 +1951,7 @@ class Alarm(object):
 
     def stop(self):
         """
-        Stop timer before it come to an end
+        Stop timer before it comes to an end
         """
         try:
             signal.alarm(0)
@@ -1488,7 +1961,11 @@ class Alarm(object):
 
     def handler(self, signum, frame):
         """
-        Timeout occur.
+        This method is called after the timer ran down to zero
+        and calls the callback function of the alarm instance.
+
+        Raises:
+            Timeout: If no callback function was set for the alarm instance
         """
         self.ticking = False
         if self.callback is None:
@@ -1543,7 +2020,7 @@ class ShutDown(object):
                                 'arguments':    (True,)
                                     #arg        True    allow saving
                                     #           False   don't allow saving
-                                    #1nd arg (only with Logout)
+                                    #1st arg (only with Logout)
                                     #           True    show dialog
                                     #           False   don't show dialog
                                     #2nd arg (only with Logout)
@@ -1678,7 +2155,8 @@ class ShutDown(object):
                                 universal_newlines = True)
         unity_version = proc.communicate()[0]
         m = re.match(r'unity ([\d\.]+)', unity_version)
-        return m and StrictVersion(m.group(1)) >= StrictVersion('7.0') and processExists('unity-panel-service')
+
+        return m and Version(m.group(1)) >= Version('7.0') and processExists('unity-panel-service')
 
 class SetupUdev(object):
     """
@@ -1699,17 +2177,24 @@ class SetupUdev(object):
             conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
             self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
         except dbus.exceptions.DBusException as e:
-            if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
-                                      'org.freedesktop.DBus.Error.ServiceUnknown',
-                                      'org.freedesktop.DBus.Error.FileNotFound'):
-                conn = None
-            else:
-                raise
+            # Only DBusExceptions are  handled to do a "graceful recovery"
+            # by working without a serviceHelper D-Bus connection...
+            # All other exceptions are still raised causing BiT
+            # to stop during startup.
+            # if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
+            #                           'org.freedesktop.DBus.Error.ServiceUnknown',
+            #                           'org.freedesktop.DBus.Error.FileNotFound'):
+            logger.warning("Failed to connect to Udev serviceHelper daemon via D-Bus: " + e.get_dbus_name())
+            logger.warning("D-Bus message: " + e.get_dbus_message())
+            logger.warning("Udev-based profiles cannot be changed or checked due to Udev serviceHelper connection failure")
+            conn = None
+            # else:
+            #     raise
         self.isReady = bool(conn)
 
     def addRule(self, cmd, uuid):
         """
-        Prepair rules in serviceHelper.py
+        Prepare rules in serviceHelper.py
         """
         if not self.isReady:
             return
@@ -1782,7 +2267,7 @@ class PathHistory(object):
         self.history = [path,]
         self.index = 0
 
-class OrderedSet(collections.MutableSet):
+class OrderedSet(MutableSet):
     """
     OrderedSet from Python recipe
     http://code.activestate.com/recipes/576694/
@@ -1856,11 +2341,13 @@ class Execute(object):
                             by either :py:func:`os.system` (deprecated) or
                             :py:class:`subprocess.Popen`
         callback (method):  function which will handle output returned by
-                            command
+                            command (e.g. to extract errors)
         user_data:          extra arguments which will be forwarded to
-                            ``callback`` function
+                            ``callback`` function (e.g. a tuple - which is
+                            passed by reference in Python - to "return"
+                            results of the callback function as side effect).
         filters (tuple):    Tuple of functions used to filter messages before
-                            sending them to ``callback``
+                            sending them to the ``callback`` function
         parent (instance):  instance of the calling method used only to proper
                             format log messages
         conv_str (bool):    convert output to :py:class:`str` if True or keep it
@@ -1868,8 +2355,9 @@ class Execute(object):
         join_stderr (bool): join stderr to stdout
 
     Note:
-        Signals SIGTSTP and SIGCONT send to Python main process will be
-        forwarded to the command. SIGHUP will kill the process.
+        Signals SIGTSTP ("keyboard stop") and SIGCONT send to Python
+        main process will be forwarded to the command.
+        SIGHUP will kill the process.
     """
     def __init__(self,
                  cmd,
@@ -1886,7 +2374,7 @@ class Execute(object):
         self.currentProc = None
         self.conv_str = conv_str
         self.join_stderr = join_stderr
-        #we need to forward parent to have the correct class name in debug log
+        # we need to forward parent to have the correct class name in debug log
         if parent:
             self.parent = parent
         else:
@@ -1906,12 +2394,14 @@ class Execute(object):
         Start the command.
 
         Returns:
-            int:    returncode from command
+            int:    return code from the command
         """
         ret_val = 0
         out = ''
 
-        #backwards compatibility with old os.system and os.popen calls
+        # backwards compatibility with old os.system and os.popen calls
+        # TODO Is this still required as the minimal Python version is 3.10++ now?
+        # TODO Which Python versions are considered as "old" here?
         if isinstance(self.cmd, str):
             logger.deprecated(self)
             if self.callback is None:
@@ -1934,24 +2424,41 @@ class Execute(object):
                 if ret_val is None:
                     ret_val = 0
 
-        #new and preferred method using subprocess.Popen
+        # new and preferred method using subprocess.Popen
+        # TODO Which minimal Python version is required to be considered as "new"?
         elif isinstance(self.cmd, (list, tuple)):
             try:
-                #register signals for pause, resume and kill
+                # register signals for pause, resume and kill
+                # Forward these signals (sent to the "backintime" process
+                # normally) to the child process ("rsync" normally).
+                # Note: SIGSTOP (unblockable stop) cannot be forwarded because
+                # it cannot be caught in a signal handler!
                 signal.signal(signal.SIGTSTP, self.pause)
                 signal.signal(signal.SIGCONT, self.resume)
                 signal.signal(signal.SIGHUP, self.kill)
             except ValueError:
-                #signal only work in qt main thread
+                # signal only work in qt main thread
+                # TODO What does this imply?
                 pass
 
             if self.join_stderr:
                 stderr = subprocess.STDOUT
             else:
                 stderr = subprocess.DEVNULL
+
+            logger.debug(f"Starting command '{self.printable_cmd[:min(16, len(self.printable_cmd))]}...'")
+
             self.currentProc = subprocess.Popen(self.cmd,
                                                 stdout = subprocess.PIPE,
                                                 stderr = stderr)
+
+            # # TEST code for developers to simulate a killed rsync process
+            # if self.printable_cmd.startswith("rsync --recursive"):
+            #     self.currentProc.terminate()  # signal 15 (SIGTERM) like "killall" and "kill" do by default
+            #     # self.currentProc.send_signal(signal.SIGHUP)  # signal 1
+            #     # self.currentProc.kill()  # signal 9
+            #     logger.error("rsync killed for testing purposes during development")
+
             if self.callback:
                 for line in self.currentProc.stdout:
                     if self.conv_str:
@@ -1964,16 +2471,27 @@ class Execute(object):
                         continue
                     self.callback(line, self.user_data)
 
+            # We use communicate() instead of wait() to avoid a deadlock
+            # when stdout=PIPE and/or stderr=PIPE and the child process
+            # generates enough output to pipe that it blocks waiting for
+            # free buffer. See also:
+            # https://docs.python.org/3.10/library/subprocess.html#subprocess.Popen.wait
             out = self.currentProc.communicate()[0]
+            # TODO Why is "out" empty instead of containing all stdout?
+            #      Most probably because Popen was called with a PIPE as stdout
+            #      to directly process each stdout line by calling the callback...
+
             ret_val = self.currentProc.returncode
+            # TODO ret_val is sometimes 0 instead of e.g. 23 for rsync. Why?
 
             try:
-                #reset signals to their default
+                # reset signal handler to their default
                 signal.signal(signal.SIGTSTP, signal.SIG_DFL)
                 signal.signal(signal.SIGCONT, signal.SIG_DFL)
                 signal.signal(signal.SIGHUP, signal.SIG_DFL)
             except ValueError:
-                #signal only work in qt main thread
+                # signal only work in qt main thread
+                # TODO What does this imply?
                 pass
 
         if ret_val != 0:
@@ -2036,9 +2554,12 @@ class Daemon:
 
     def daemonize(self):
         """
-        do the UNIX double-fork magic, see Stevens' "Advanced
-        Programming in the UNIX Environment" for details (ISBN 0201563177)
-        http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
+        "Converts" the current process into a daemon
+        (= process running in the background)
+        and sends a SIGTERM signal to the current process.
+        This is done via the UNIX double-fork magic, see Stevens'
+        "Advanced Programming in the UNIX Environment" for details (ISBN 0201563177)
+        and this explanation: https://stackoverflow.com/a/6011298
         """
         try:
             pid = os.fork()
@@ -2077,6 +2598,7 @@ class Daemon:
         fdDup(self.stderr, sys.stderr, 'w')
 
         signal.signal(signal.SIGTERM, self.cleanupHandler)
+
         if self.pidfile:
             atexit.register(self.appInstance.exitApplication)
             # write pidfile
@@ -2094,7 +2616,7 @@ class Daemon:
         """
         # Check for a pidfile to see if the daemon already runs
         if self.pidfile and not self.appInstance.check():
-            message = "pidfile %s already exist. Daemon already running?\n"
+            message = "pidfile %s already exists. Daemon already running?\n"
             logger.error(message % self.pidfile, self)
             sys.exit(1)
 
