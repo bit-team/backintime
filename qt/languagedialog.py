@@ -43,7 +43,7 @@ class LanguageDialog(QDialog):
         buttonbox = QDialogButtonBox(
             QDialogButtonBox.Cancel | QDialogButtonBox.Apply, self)
 
-        # ApllyRole emits "clicked" instead of "accepted"
+        # ApplyRole emits "clicked" instead of "accepted"
         buttonbox.clicked.connect(self.accept)
         buttonbox.rejected.connect(self.reject)
 
