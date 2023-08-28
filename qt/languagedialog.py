@@ -211,8 +211,8 @@ class ApproachTranslatorDialog(QDialog):
 
         # Insert data in placeholder variables.
         result = result.format(
-            language=language,
-            perc=f'{percent} %',
+            language=f'<strong>{language}</strong>',
+            perc=f'<strong>{percent} %</strong>',
             translation_platform_url='<a href="{}">{}</a>'.format(
                 __class__._URL_PLATFORM,
                 _('translation platform')),

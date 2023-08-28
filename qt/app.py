@@ -401,7 +401,7 @@ class MainWindow(QMainWindow):
         SetupCron(self).start()
 
         if 0 == self.config.manual_starts_countdown():
-            self.slot_help_translation()
+            self._open_approach_translator_dialog(cutoff=97)
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
@@ -1748,6 +1748,16 @@ files that the receiver requests to be transferred.""")
         yield
         self.setMouseButtonNavigation()
 
+    def _open_approach_translator_dialog(self, cutoff=101):
+        code = self.config.language_used
+        name, perc = tools.get_native_language_and_completeness(code)
+
+        if perc > cutoff:
+            return
+
+        dlg = languagedialog.ApproachTranslatorDialog(self, name, perc)
+        dlg.exec()
+
     # |-------|
     # | Slots |
     # |-------|
@@ -1771,10 +1781,7 @@ files that the receiver requests to be transferred.""")
                             widget_to_center_on=dlg)
 
     def slot_help_translation(self):
-        code = self.config.language_used
-        name, perc = tools.get_native_language_and_completeness(code)
-        dlg = languagedialog.ApproachTranslatorDialog(self, name, perc)
-        dlg.exec()
+        self._open_approach_translator_dialog()
 
 
 class About(QDialog):
