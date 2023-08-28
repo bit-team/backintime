@@ -403,6 +403,9 @@ class MainWindow(QMainWindow):
         if 0 == self.config.manual_starts_countdown():
             self.slot_help_translation()
 
+        # BIT counts down how often the GUI was started. Until the end of that
+        # countdown a dialog with a text about contributing to translating
+        # BIT is prestented to the users.
         self.config.decrement_manual_starts_countdown()
 
     @property
@@ -1758,8 +1761,7 @@ files that the receiver requests to be transferred.""")
 
         dlg.exec()
 
-        print(f'{dlg.result()=}')
-
+        # Apply/OK pressed & the language value modified
         if dlg.result() == 1 and self.config.language != dlg.language_code:
 
             self.config.setLanguage(dlg.language_code)

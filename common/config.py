@@ -569,16 +569,21 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setStrValue('global.language', language if language else '')
 
     def manual_starts_countdown(self) -> int:
-        """Counting down how often the users startet the Back In Time GUI.
+        """Countdown value about how often the users startet the Back In Time
+        GUI.
 
         It is an internal variable not meant to be used or manipulated be the
         users. At the end of the countown the
         :py:class:`ApproachTranslatorDialog` is presented to the user.
+
         """
         return self.intValue('internal.manual_starts_countdown', 10)
 
     def decrement_manual_starts_countdown(self):
-        """See :py:func:`manual_starts_countdown()` for details."""
+        """Counts down to -1.
+
+        See :py:func:`manual_starts_countdown()` for details.
+        """
         val = self.manual_starts_countdown()
 
         if val > -1:

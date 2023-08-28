@@ -1,3 +1,4 @@
+import textwrap
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import (QApplication,
@@ -167,51 +168,61 @@ class LanguageDialog(QDialog):
 
 
 class ApproachTranslatorDialog(QDialog):
+    """Prestens a message to the users to motivate them contributing to the
+    translation of Back In Time.
     """
-    """
+
+    # ToDo (2023-08): Move to packages meta-data (pyproject.toml).
     _URL_PLATFORM = 'https://translate.codeberg.org/engage/backintime'
     _URL_PROJECT = 'https://github.com/bit-team/backintime'
 
     @staticmethod
     def _complete_text(language, percent):
 
+        # Note: The length of the variable names in that string are on
+        # purpose. It is relevant when wrapping the text.
         txt = _(
-            'Hello\n'
+            'Hello'
             '\n'
-            'You have used Back In Time in the {lang}\n'
-            'language a few times by now.\n'
+            'You have used Back In Time in the {language} '
+            'language a few times by now.'
             '\n'
-            'The translation of your installed version of Back In Time\n'
-            'into {lang} is {percent} complete. Regardless of your\n'
-            'level of technical expertise, you can contribute to the\n'
-            'translation and thus Back In Time itself.\n'
+            'The translation of your installed version of Back In Time '
+            'into {language} is {perc} complete. Regardless of your '
+            'level of technical expertise, you can contribute to the '
+            'translation and thus Back In Time itself.'
             '\n'
-            'Please visit the {translation_url}. If you wish \n'
-            'to contribute. For further assistance and questions,\n'
-            'please visit the {project_url}.\n'
+            'Please visit the {translation_platform_url}. If you wish '
+            'to contribute. For further assistance and questions, '
+            'please visit the {back_in_time_project_website}.'
             '\n'
-            'We apologize for the interruption, and this message\n'
-            'will not be shown again. This dialog is available at\n'
-            'any time via the help menu.\n'
+            'We apologize for the interruption, and this message '
+            'will not be shown again. This dialog is available at '
+            'any time via the help menu.'
             '\n'
             'Your Back In Time Team.'
         )
 
-        # With newline characters Qt won't interprete the HTML <a> tags
-        txt = txt.replace('\n', '<br>')
+        # Wrap the lines, insert <br> tag as linebreak and wrap paragraphs in
+        # <p> tags.
+        result = ''
+        for t in txt.split('\n'):
+            result += '<p>' + '<br>'.join(textwrap.wrap(t, width=60)) + '</p>'
 
-        txt = txt.format(
-            lang=language,
-            percent=f'{percent} %',
-            translation_url='<a href="{}">{}</a>'.format(
+        # Insert data in placeholder variables.
+        result = result.format(
+            language=language,
+            perc=f'{percent} %',
+            translation_platform_url='<a href="{}">{}</a>'.format(
                 __class__._URL_PLATFORM,
                 _('translation platform')),
-            project_url='<a href="{}">Back In Time {}</a>'.format(
+            back_in_time_project_website='<a href="{}">Back In Time {}</a>'.format(
                 __class__._URL_PROJECT,
                 _('Website'))
         )
 
-        return txt
+        return result
+
 
     def __init__(self, parent, language_name, completeness):
         """

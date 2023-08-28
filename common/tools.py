@@ -273,7 +273,7 @@ def get_native_language_and_completeness(language_code):
 
     Returns:
         A two-entry tuple with language name as string and a percent as
-        integert.
+        integer.
     """
     name = languages.names[language_code][language_code]
     completeness = languages.completeness[language_code]
