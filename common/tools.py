@@ -198,8 +198,6 @@ def get_available_language_codes():
     # e.g. /usr/share/locale/de/LC_MESSAGES/backintime.mo
     mo = gettext.find(domain=_GETTEXT_DOMAIN, localedir=_GETTEXT_LOCALE_DIR)
 
-    print(f'result of gettext.find() :: {mo=}')
-
     if mo:
         mo = pathlib.Path(mo)
         print(f'{mo=} from Path')
@@ -207,7 +205,6 @@ def get_available_language_codes():
         # Workaround. This happens if LC_ALL=C and BIT don't use an explicite
         # language. Should be re-design.
         mo = _GETTEXT_LOCALE_DIR / 'xy' / 'LC_MESSAGES' / 'backintime.mo'
-        print(f'{mo=} from "_GETTEXT_LOCALE_DIR / xy / LC_MESSAGES / backintime.mo"')
 
     # e.g. de/LC_MESSAGES/backintime.mo
     mo = mo.relative_to(_GETTEXT_LOCALE_DIR)
@@ -215,12 +212,7 @@ def get_available_language_codes():
     # e.g. */LC_MESSAGES/backintime.mo
     mo = pathlib.Path('*') / pathlib.Path(*mo.parts[1:])
 
-    print(f'rglob() ::\n\t{_GETTEXT_LOCALE_DIR=}\n\t{mo=}')
-
     mofiles = _GETTEXT_LOCALE_DIR.rglob(str(mo))
-
-    mofiles = list(mofiles)
-    print(f'{mofiles=}')
 
     return [p.relative_to(_GETTEXT_LOCALE_DIR).parts[0] for p in mofiles]
 

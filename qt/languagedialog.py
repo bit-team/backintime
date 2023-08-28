@@ -39,12 +39,16 @@ class LanguageDialog(QDialog):
         new_width = self._calculate_scroll_area_width()
         self._scroll.setMinimumWidth(new_width)
 
-        button = QDialogButtonBox(QDialogButtonBox.Apply, self)
-        button.clicked.connect(self.accept)
+        buttonbox = QDialogButtonBox(
+            QDialogButtonBox.Cancel | QDialogButtonBox.Apply, self)
+
+        # ApllyRole emit "clicked" instead of "accpted"
+        buttonbox.clicked.connect(self.accept)
+        buttonbox.rejected.connect(self.reject)
 
         layout = QVBoxLayout(self)
         layout.addWidget(scroll)
-        layout.addWidget(button)
+        layout.addWidget(buttonbox)
 
     def _calculate_scroll_area_width(self):
         """Credits:

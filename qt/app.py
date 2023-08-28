@@ -1758,6 +1758,8 @@ files that the receiver requests to be transferred.""")
 
         dlg.exec()
 
+        print(f'{dlg.result()=}')
+
         if dlg.result() == 1 and self.config.language != dlg.language_code:
 
             self.config.setLanguage(dlg.language_code)
