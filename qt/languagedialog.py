@@ -41,7 +41,7 @@ class LanguageDialog(QDialog):
         self._scroll.setMinimumWidth(new_width)
 
         buttonbox = QDialogButtonBox(
-            QDialogButtonBox.Cancel | QDialogButtonBox.OK, self)
+            QDialogButtonBox.Cancel | QDialogButtonBox.Ok, self)
 
         buttonbox.accepted.connect(self.accept)
         buttonbox.rejected.connect(self.reject)

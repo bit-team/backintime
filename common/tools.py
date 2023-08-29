@@ -200,7 +200,6 @@ def get_available_language_codes():
 
     if mo:
         mo = pathlib.Path(mo)
-        print(f'{mo=} from Path')
     else:
         # Workaround. This happens if LC_ALL=C and BIT don't use an explicite
         # language. Should be re-design.
