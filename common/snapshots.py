@@ -1253,16 +1253,16 @@ restore is done. The pid of the already running restore is in %s.  Maybe delete 
 
         if rsync_exit_code in rsync_non_error_exit_codes:
             self.setTakeSnapshotMessage(0,
-                                        rsync_exit_code_msg + _(": {msg}".format(
-                                            msg=rsync_non_error_exit_codes[rsync_exit_code])))
+                                        rsync_exit_code_msg + ": {msg}".format(
+                                            msg=rsync_non_error_exit_codes[rsync_exit_code]))
         elif rsync_exit_code > 0:  # indicates a rsync error
             params[0] = True  # HACK to fix #489 (params[0] and has_errors should be merged)
             self.setTakeSnapshotMessage(1,
-                                        rsync_exit_code_msg + _(": See 'man rsync' for more details"))
+                                        rsync_exit_code_msg + ": " + _("See 'man rsync' for more details"))
         elif rsync_exit_code < 0:  # indicates a rsync error caused by a signal
             params[0] = True  # HACK to fix #489 (params[0] and has_errors should be merged)
             self.setTakeSnapshotMessage(1,
-                                        rsync_exit_code_msg + _(": Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"))
+                                        rsync_exit_code_msg + ": " + _("Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"))
 
         # params[0] -> error?
         if params[0]:
